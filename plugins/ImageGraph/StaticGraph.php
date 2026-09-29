@@ -269,7 +269,7 @@ abstract class StaticGraph extends BaseFactory
         $abscissaSeries = $this->abscissaSeries;
         $formatMethodName = 'formatYAxis';
 
-        if (false === strpos($this->font, API::UNICODE_FONT)) {
+        if (!str_contains($this->font, API::UNICODE_FONT)) {
             $abscissaSeries = array_map([$this, 'fixWhitespaceNonUnifont'], $abscissaSeries);
             $formatMethodName = 'formatYAxisNonUnifont';
         }

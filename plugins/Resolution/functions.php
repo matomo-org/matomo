@@ -13,7 +13,7 @@ use Piwik\Piwik;
 
 function getConfigurationLabel($str)
 {
-    if (strpos($str, ';') === false) {
+    if (!str_contains($str, ';')) {
         return $str;
     }
     $values = explode(";", $str);

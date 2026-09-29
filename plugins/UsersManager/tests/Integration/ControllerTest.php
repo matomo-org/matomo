@@ -63,6 +63,7 @@ class ControllerTest extends IntegrationTestCase
     private $idSitesView;
     private $identity;
     private $superUserLogin;
+    private $tokenAccessLevel;
 
     public function setUp(): void
     {
@@ -87,6 +88,7 @@ class ControllerTest extends IntegrationTestCase
         $this->idSitesView = FakeAccess::$idSitesView;
         $this->identity = FakeAccess::$identity;
         $this->superUserLogin = FakeAccess::$superUserLogin;
+        $this->tokenAccessLevel = FakeAccess::$tokenAccessLevel;
 
         FakeAccess::$superUser = true;
         $this->userModel->deleteUser(self::CURRENT_USER_LOGIN);
@@ -120,6 +122,7 @@ class ControllerTest extends IntegrationTestCase
         FakeAccess::$idSitesView = $this->idSitesView;
         FakeAccess::$identity = $this->identity;
         FakeAccess::$superUserLogin = $this->superUserLogin;
+        FakeAccess::$tokenAccessLevel = $this->tokenAccessLevel;
     }
     public function createSiteWithUser()
     {
@@ -649,6 +652,161 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
     }
 
+    public function testAddNewTokenShouldStoreNullAccessLevelWhenDefaultOptionIsSubmitted()
+    {
+        $idSite = $this->createSiteWithUser();
+        $this->markPasswordAsVerifiedForAddToken();
+
+        $_GET = ['idSite' => $idSite];
+
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'default scope token',
+            'secure_only' => '1',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => '',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $this->controller->addNewToken();
+
+        $tokens = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $tokenMetadata = end($tokens);
+
+        $this->assertNotNull($tokenMetadata);
+        $this->assertNull($tokenMetadata['access_level']);
+        $this->assertSame(self::CURRENT_USER_LOGIN, $tokenMetadata['login']);
+        $this->assertSame('default scope token', $tokenMetadata['description']);
+    }
+
+    public function testAddNewTokenRefusesAnAccessLevelAboveTheScopeOfTheRequestsToken()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        FakeAccess::$tokenAccessLevel = 'view';
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'token above the scope of the request',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => 'admin',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $tokensBefore = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+
+        $response = $this->controller->addNewToken();
+
+        // Admin is a level this user may hold, so the refusal is about the request rather than the user.
+        $this->assertStringContainsString('invalid-access-level="true"', $response);
+
+        $tokensAfter = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $this->assertCount(count($tokensBefore), $tokensAfter);
+    }
+
+    public function testAddNewTokenRefusesTheInheritedAccessLevelForAScopedRequest()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        FakeAccess::$tokenAccessLevel = 'view';
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'token inheriting the user access',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => '',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $tokensBefore = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+
+        // An inherited access level is an unscoped token, which is more than a scoped request may issue.
+        $response = $this->controller->addNewToken();
+
+        $this->assertStringContainsString('invalid-access-level="true"', $response);
+
+        $tokensAfter = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $this->assertCount(count($tokensBefore), $tokensAfter);
+    }
+
+    public function testAddNewTokenOffersOnlyAccessLevelsWithinTheScopeOfTheRequestsToken()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        FakeAccess::$tokenAccessLevel = 'view';
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [];
+        $_REQUEST = $_GET;
+
+        $response = $this->controller->addNewToken();
+
+        // Offering what the request may not issue leaves the form to be refused on submission instead.
+        $this->assertStringContainsString('&quot;key&quot;:&quot;view&quot;', $response);
+        $this->assertStringNotContainsString('&quot;key&quot;:&quot;write&quot;', $response);
+        $this->assertStringNotContainsString('&quot;key&quot;:&quot;admin&quot;', $response);
+        // The inherited option issues an unscoped token, so it is not on offer either, and the level the
+        // request itself carries takes its place as the preselected one.
+        $this->assertStringNotContainsString('&quot;key&quot;:&quot;&quot;', $response);
+        $this->assertStringContainsString('selected-access-level="&quot;view&quot;"', $response);
+    }
+
+    public function testAddNewTokenOffersEveryAccessLevelTheUserHoldsForAnUnscopedRequest()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [];
+        $_REQUEST = $_GET;
+
+        $response = $this->controller->addNewToken();
+
+        $this->assertStringContainsString('&quot;key&quot;:&quot;&quot;', $response);
+        $this->assertStringContainsString('&quot;key&quot;:&quot;view&quot;', $response);
+        $this->assertStringContainsString('&quot;key&quot;:&quot;admin&quot;', $response);
+    }
+
+    public function testAddNewTokenStoresATokenAtTheScopeOfTheRequestsToken()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        FakeAccess::$tokenAccessLevel = 'view';
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'token at the scope of the request',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => 'view',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $this->controller->addNewToken();
+
+        $tokens = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $tokenMetadata = end($tokens);
+
+        $this->assertNotNull($tokenMetadata);
+        $this->assertSame('view', $tokenMetadata['access_level']);
+        $this->assertSame('token at the scope of the request', $tokenMetadata['description']);
+    }
+
     private function addSiteAnonymousCanView(): int
     {
         $this->userModel->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
@@ -733,6 +891,18 @@ class ControllerTest extends IntegrationTestCase
         } catch (NoWebsiteFoundException $e) {
             // expected
         }
+    }
+
+    private function markPasswordAsVerifiedForAddToken(): void
+    {
+        $params = ['module' => 'UsersManager', 'action' => 'addNewToken'];
+
+        // the password only counts as verified while a verification is pending, so the redirect has
+        // to be initiated first
+        $this->passwordVerify->setDisableRedirect();
+        $this->assertNull($this->passwordVerify->requirePasswordVerifiedRecently($params));
+        $this->passwordVerify->setPasswordVerifiedCorrectly();
+        $this->assertTrue($this->passwordVerify->requirePasswordVerifiedRecently($params));
     }
 
     private function setupPostStateWithPassword(string $password)

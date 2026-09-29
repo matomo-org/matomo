@@ -74,7 +74,7 @@ class Ecommerce extends \Piwik\Plugin
                 if (
                     $metric->getDbTableName() === 'log_conversion'
                     && $metricName !== 'nb_uniq_orders'
-                    && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0
+                    && str_starts_with($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX)
                     && $metric->getCategoryId() === $category
                 ) {
                     $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_orders', ComputedMetric::AGGREGATION_AVG);

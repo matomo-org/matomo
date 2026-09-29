@@ -2,8 +2,6 @@
     "TrackingSpamPrevention": {
         "BanIpNotificationMailSubject": "U dëbua një IP, për shkak prodhimi të shumë veprimeve.",
         "BlockCloudNoteInternetDisabled": "Ngaqë te formësimi juaj i Matomo-s interneti është i çaktivizuar, kjo veçori s’do të funksionojë.",
-        "SettingBlockCloudDescription": "Bllokon kërkesa ndjekjeje të ardhura nga shërbime Resh, të tillë si AWS, Azure, Digital Ocean, Google Cloud dhe Oracle, duke sjellë një listë intervalesh IP-sh të tyre. Aktivizimi i kësaj do të duhej të ishte pa rrezik, nëse ndiqni vetëm duke përdorur ndjekësin JavaScript, ngaqë kërkesat e tyre për ndjekje nuk e kanë origjinën te retë, hiq rastin kur përdoret një VPN që i kalon të dhënat përmes shërbimesh resh. Këto rregullime vlejnë për krejt sajtet tuaj.",
-        "SettingBlockCloudTitle": "Blloko kërkesa ndjekjeje nga Re",
         "SettingBlockHeadlessDescription": "Shfletuesit “headless” janë shfletues pa një ndërfaqe përdoruesi dhe kryesisht përdoren për automatizim. Nëse keni vetëm sajte ose aplikacione të rregullt, përdorimi i këtij rregullimi është pa zarar, në u aktivizoftë. Mund të bllokojë robotë dhe kërkesa spam shtesë, që ndryshe s’do të pikasen.",
         "SettingBlockHeadlessTitle": "Blloko shfletues nën mënyrën “headless”",
         "SettingExcludedCountriesDescription": "Mos ndiq vizitorë nga këto vende. Vizitorët jashtë zonës së synuar nga ju ka shumë gjasa të jenë robotë ose dërgues mesazhesh të padëshiruar, ose mund ta përdorni për të shmangur ligje privatësie në juridiksione të tjera.",

@@ -318,7 +318,7 @@ class Metrics
         );
 
         foreach ($lowerIsBetterPatterns as $pattern) {
-            if (strpos($column, $pattern) !== false) {
+            if (str_contains($column, $pattern)) {
                 return true;
             }
         }
@@ -358,7 +358,7 @@ class Metrics
         }
 
         foreach ($nameToUnit as $pattern => $type) {
-            if (strpos($column, $pattern) !== false) {
+            if (str_contains($column, $pattern)) {
                 return $type;
             }
         }

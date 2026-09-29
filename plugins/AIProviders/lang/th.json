@@ -1,5 +1,16 @@
 {
     "AIProviders": {
-        "DefaultBadge": "มาตรฐาน"
+        "AnthropicDefaultModelDescription": "ค่าเริ่มต้นโมเดล: claude-haiku-4-5",
+        "ApiKey": "API key",
+        "ApiKeyAlreadyConfiguredPlaceholder": "เพิ่มคีย์เพื่อแทนที่คีย์เดิม",
+        "ApiKeyPlaceholder": "ใส่ API Key ของคุณ",
+        "BedrockDescription": "เข้าถึงโมเดลผ่าน AWS Bedrock",
+        "BedrockEndpointPlaceholder": "ตัวอย่าง eu-central-1",
+        "BedrockEndpointTitle": "ภูมิภาค AWS",
+        "ClickTestConnectionToShowAvailableModels": "คลิกเพื่อทดสอบการเชื่อมต่อโมเดลที่ใช้งานได้",
+        "ConfigurationIntro": "ตั้งค่าผู้ให้บริการ AI และการตั้งค่าค่าเริ่มต้น AI ใน Matomo",
+        "CustomProviderDescription": "ใช้ OpenAI Endpoint ที่เข้ากันได้ของคุณ",
+        "DefaultBadge": "มาตรฐาน",
+        "DefaultCapabilityLevel": "ค่าเริ่มต้นของระดับขีดจำกัด"
     }
 }

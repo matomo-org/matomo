@@ -3,5 +3,6 @@
         vue-entry="CoreHome.Widget"
         containerid="{{ containerId|e('html_attr') }}"
         widgetized="{% if isWidgetized %}true{% else %}false{% endif %}"
+        children-own-their-header="{{ childrenOwnTheirHeader|default(false)|json_encode }}"
     ></div>
 </div>

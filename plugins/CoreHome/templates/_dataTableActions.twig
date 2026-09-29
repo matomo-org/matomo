@@ -1,32 +1,35 @@
-<div
-    vue-entry="CoreHome.DataTableActions"
-    show-footer="{{ properties.show_footer|json_encode }}"
-    show-footer-icons="{{ properties.show_footer_icons|json_encode }}"
-    footer-icons="{{ footerIcons|json_encode }}"
-    report-title="{{ properties.title|json_encode }}"
-    request-params="{{ (properties.request_parameters_to_modify|default({}))|merge(properties.export_parameters_to_modify|default({}))|json_encode }}"
-    api-method-to-request-data-table="{{ properties.apiMethodToRequestDataTable|json_encode }}"
-    max-filter-limit="{{ properties.max_export_filter_limit|json_encode }}"
-    show-export="{{ properties.show_export|json_encode }}"
-    show-export-as-image-icon="{{ properties.show_export_as_image_icon|json_encode }}"
-    show-annotations="{{ (isPluginLoaded('Annotations') and not properties.hide_annotations_view)|json_encode }}"
-    show-search="{{ properties.show_search|json_encode }}"
-    report-id="{{ properties.report_id|json_encode }}"
-    data-table-actions="{{ properties.datatable_actions|default([])|json_encode }}"
-    show-flatten-table="{{ properties.show_flatten_table|json_encode }}"
-    report-supports-flatten="{{ properties.report_supports_flatten|json_encode }}"
-    report-supports-percentage-values="{{ properties.report_supports_percentage_values|default(false)|json_encode }}"
-    export-supports-flatten="{{ properties.show_flatten_table_export|json_encode }}"
-    client-side-parameters="{{ clientSideParameters|json_encode }}"
-    has-multiple-dimensions="{{ hasMultipleDimensions|default(false)|json_encode }}"
-    is-data-table-empty="{{ isDataTableEmpty|json_encode }}"
-    show-totals-row="{{ properties.show_totals_row|default(false)|json_encode }}"
-    show-exclude-low-population="{{ properties.show_exclude_low_population|default(false)|json_encode }}"
-    show-pivot-by-subtable="{{ (properties.show_pivot_by_subtable|default(false) and not isComparing|default(false))|json_encode }}"
-    show-periods="{{ properties.show_periods|json_encode }}"
-    translations="{{ properties.translations|json_encode }}"
-    view-data-table="{{ clientSideParameters.viewDataTable|json_encode }}"
-    pivot-dimension-name="{{ properties.pivot_dimension_name|default(null)|json_encode }}"
-    selectable-periods="{{ properties.selectable_periods|default([])|json_encode }}"
-    placement="{{ placement|default('footer')|json_encode }}"
-></div>
+{# The report's actions are rendered once, by the menu its header hosts. This carries the config
+   that menu renders from, as data rather than as a second DataTableActions app: the header sits
+   outside `.dataTable`, so an ajax reload has to bring fresh values in with the replaced table.
+   dataTable.js reads it and publishes it - see _readReportActionsConfig().
+   `actionTranslations` is named as the header names it: `translations` there would shadow the
+   translate() helper inside the component. #}
+{% set reportActionsConfig = {
+    'showFooter': properties.show_footer,
+    'showFooterIcons': properties.show_footer_icons,
+    'footerIcons': footerIcons,
+    'viewDataTable': clientSideParameters.viewDataTable,
+    'clientSideParameters': clientSideParameters,
+    'isDataTableEmpty': isDataTableEmpty,
+    'showFlattenTable': properties.show_flatten_table,
+    'reportSupportsFlatten': properties.report_supports_flatten,
+    'reportSupportsPercentageValues': properties.report_supports_percentage_values|default(false),
+    'exportSupportsFlatten': properties.show_flatten_table_export,
+    'hasMultipleDimensions': hasMultipleDimensions|default(false),
+    'showTotalsRow': properties.show_totals_row|default(false),
+    'showExcludeLowPopulation': properties.show_exclude_low_population|default(false),
+    'showPivotBySubtable': (properties.show_pivot_by_subtable|default(false) and not isComparing|default(false)),
+    'dataTableActions': properties.datatable_actions|default([]),
+    'showExport': properties.show_export,
+    'showExportAsImageIcon': properties.show_export_as_image_icon,
+    'showAnnotations': (isPluginLoaded('Annotations') and not properties.hide_annotations_view),
+    'showPeriods': properties.show_periods|default(false),
+    'selectablePeriods': properties.selectable_periods|default([]),
+    'requestParams': (properties.request_parameters_to_modify|default({}))|merge(properties.export_parameters_to_modify|default({})),
+    'maxFilterLimit': properties.max_export_filter_limit,
+    'apiMethodToRequestDataTable': properties.apiMethodToRequestDataTable,
+    'pivotDimensionName': properties.pivot_dimension_name|default(null),
+    'showSearch': properties.show_search,
+    'actionTranslations': properties.translations|default({})
+} %}
+<div class="reportActionsConfig" data-report-actions="{{ reportActionsConfig|json_encode|e('html_attr') }}"></div>

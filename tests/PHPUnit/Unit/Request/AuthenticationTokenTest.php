@@ -9,9 +9,32 @@
 
 namespace Piwik\Tests\Unit\Request;
 
-use Piwik\Cache;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 
-class AuthenticationToken extends \PHPUnit\Framework\TestCase
+class StubUsersModel extends UsersModel
+{
+    public function __construct()
+    {
+    }
+
+    public function getTokenMetadataByTokenAuthWithSecurityState(
+        #[\SensitiveParameter]
+        ?string $tokenAuth,
+        bool $isTokenProvidedSecurely
+    ): ?array {
+        return null;
+    }
+}
+
+class AuthenticationTokenForTest extends \Piwik\Request\AuthenticationToken
+{
+    protected function getUsersModel(): UsersModel
+    {
+        return new StubUsersModel();
+    }
+}
+
+class AuthenticationTokenTest extends \PHPUnit\Framework\TestCase
 {
     public function tearDown(): void
     {
@@ -19,7 +42,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         $_GET = $_POST = [];
         unset($_SERVER['HTTP_AUTHORIZATION']);
         $this->setNestedApiInvocationCount(0);
-        Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
+        \Piwik\API\Request::setIsRootRequestApiRequest(null);
     }
 
     /**
@@ -31,7 +54,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         $_POST = $postParams;
         $_SERVER['HTTP_AUTHORIZATION'] = $authorizationHeader;
 
-        $token = new \Piwik\Request\AuthenticationToken();
+        $token = new AuthenticationTokenForTest();
         self::assertEquals($expectedToken, $token->getAuthToken($requestParams));
         self::assertEquals($isSecure, $token->wasTokenAuthProvidedSecurely());
         self::assertEquals($isSessionToken, $token->isSessionToken());
@@ -213,7 +236,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         $_POST = $postParams;
         $_SERVER['HTTP_AUTHORIZATION'] = $authorizationHeader;
 
-        $token = new \Piwik\Request\AuthenticationToken();
+        $token = new AuthenticationTokenForTest();
         $token->getAuthToken();
     }
 
@@ -272,7 +295,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         $_POST = $postParams;
         $_SERVER['HTTP_AUTHORIZATION'] = $authorizationHeader;
 
-        $token = new \Piwik\Request\AuthenticationToken();
+        $token = new AuthenticationTokenForTest();
         self::assertEquals($expectedToken, $token->getAuthToken());
         self::assertSame($expectedSessionToken, $token->isSessionToken());
     }
@@ -386,7 +409,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         if ($count > 0) {
             \Piwik\API\Request::setIsRootRequestApiRequest('API.getPiwikVersion');
         } else {
-            Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
+            \Piwik\API\Request::setIsRootRequestApiRequest(null);
         }
     }
 }

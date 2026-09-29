@@ -73,7 +73,6 @@
         "PluginUploadDisabled": "Il caricamento dei plugin è disabilitato nel file di configurazione. Per abilitare questa funzionalità, aggiorna la tua configurazione o contatta l'amministratore",
         "PluginVersionInfo": "%1$s da %2$s",
         "PluginWebsite": "Sito Plugin",
-        "PriceExclTax": "%1$s %2$s tasse escl.",
         "PriceFromPerPeriod": "Da %1$s / %2$s",
         "RemoveLicenseKey": "Rimuovi chiave di lcenza",
         "Reviews": "Recensioni",

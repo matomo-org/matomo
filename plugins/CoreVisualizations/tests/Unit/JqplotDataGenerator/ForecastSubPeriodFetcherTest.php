@@ -787,7 +787,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
                 return ($context['apiMethod'] ?? null) === 'VisitsSummary.get'
                     && ($context['idSite'] ?? null) === 99
                     && ($context['period'] ?? null) === 'day'
-                    && false !== strpos($context['message'] ?? '', 'archive boom');
+                    && str_contains($context['message'] ?? '', 'archive boom');
             }));
 
         $fetcher = $this->createFetcher(static function (): void {

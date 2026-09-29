@@ -12,6 +12,20 @@ describe("UserSettings", function () {
 
     var userSettingsUrl = "?module=UsersManager&action=userSettings";
     var userSecurityUrl = "?module=UsersManager&action=userSecurity";
+    var scopedTokenDescription = 'write scoped token';
+
+    async function stabilizeTokenTable() {
+        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+            $('table.listAuthTokens th').css('width', '14%'); // six data columns + actions
+        });
+        await page.waitForTimeout(100);
+    }
+
+    async function getTokenAccessLevels() {
+        return page.evaluate(() => $('table.listAuthTokens tbody tr').map(function () {
+            return $('td', this).eq(4).text().trim();
+        }).get());
+    }
 
     before(async function() {
         await page.webpage.setViewport({
@@ -23,10 +37,8 @@ describe("UserSettings", function () {
     it('should show user security page', async function () {
         await page.goto(userSecurityUrl);
         await page.waitForSelector('.listAuthTokens', { visible: true });
-        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
-        });
-        await page.waitForTimeout(100);
+        await stabilizeTokenTable();
+
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security');
     });
 
@@ -42,6 +54,7 @@ describe("UserSettings", function () {
         await page.click('#login_form_submit');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.addTokenForm');
+
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token');
     });
 
@@ -56,10 +69,12 @@ describe("UserSettings", function () {
         await page.click('[vue-entry="UsersManager.AddNewTokenSuccess"] .btn');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.listAuthTokens', { visible: true });
-        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
-        });
-        await page.waitForTimeout(100);
+        await stabilizeTokenTable();
+
+        // The first 'Inherit user access' entry is the fixture-supplied superuser token
+        // added by Fixture::createSuperUser(); the second is the token created in the previous test.
+        expect(await getTokenAccessLevels()).to.deep.equal(['Inherit user access', 'Inherit user access']);
+
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_new_token');
     });
 
@@ -72,6 +87,7 @@ describe("UserSettings", function () {
         await page.click('.addNewToken');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.addTokenForm');
+
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_no_password');
     });
 
@@ -90,20 +106,28 @@ describe("UserSettings", function () {
     });
 
     it('should create new token without expiration date', async function () {
-        await page.type('.addTokenForm input[id=description]', 'no expiration token');
+        await page.type('.addTokenForm input[id=description]', scopedTokenDescription);
+        await page.select('[name="access_level_ui"]', 'string:write');
         await page.click('.addTokenForm #has_expiration');
         await page.click('.addTokenForm .btn');
         await page.waitForNetworkIdle();
+
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_no_expiration_success');
     });
 
-    it('should show new token without expire date on security page', async function () {
+    it('should show new scoped token without expire date on security page', async function () {
         await page.goto(userSecurityUrl);
         await page.waitForSelector('.listAuthTokens', { visible: true });
-        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
-        });
-        await page.waitForTimeout(100);
+        await stabilizeTokenTable();
+
+        // The first 'Inherit user access' is the fixture-supplied superuser token; the second is
+        // the token from the earlier test; 'Write' is the scoped token created above.
+        expect(await getTokenAccessLevels()).to.deep.equal([
+            'Inherit user access',
+            'Inherit user access',
+            'Write',
+        ]);
+
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_new_token_no_expiration');
     });
 

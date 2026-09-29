@@ -108,6 +108,37 @@ describe("PrivacyManager", function () {
         await page.waitForNetworkIdle();
     }
 
+    // the requirements are listed in the order each setting asks for, not in the order the
+    // plugins holding them happen to be discovered in. The rows Matomo cannot enforce from
+    // the page stay at the end
+    const expectedComplianceOrder = [
+        'IP Anonymisation Enabled',
+        'IP Address Mask Length Configured',
+        'PII Data Filtering Enabled',
+        'User ID Tracking Disabled',
+        'Device Model Detection Disabled',
+        'Screen Resolution Detection Disabled',
+        'Major Browser and OS Versions',
+        'Visits Log and Visitor Profiles Disabled',
+        'Aggregated Real-time Reports Enabled',
+        'Segment Availability Restricted',
+        'Segmented Data Rounding Enabled',
+        'Referrer Anonymisation Enabled',
+        'Campaign Parameter Masking Enabled',
+        'Ecommerce Data Collection Restricted',
+        'Ecommerce Order ID Anonymisation Enabled',
+        'Raw Data Retention Configured',
+        'Third-Party Cookies Disabled',
+        'Opt-Out Configured',
+    ];
+
+    async function complianceSettingNames()
+    {
+        return await page.evaluate(() => Array.from(
+            document.querySelectorAll('table.dataTable.compliance tbody tr td:first-child')
+        ).map((cell) => cell.innerText.trim()));
+    }
+
     async function complianceScopeState()
     {
         return await page.evaluate(() => {
@@ -214,6 +245,10 @@ describe("PrivacyManager", function () {
         await page.evaluate((superUserPassword) => {
             $('.confirm-password-modal input[name=currentUserPassword]:visible')
                 .val(superUserPassword)
+                .change();
+            // settings that schedule data deletion also ask for the word to be typed out
+            $('.confirm-password-modal input[name=deleteConfirmation]:visible')
+                .val('delete')
                 .change();
         }, superUserPassword);
 
@@ -387,6 +422,38 @@ describe("PrivacyManager", function () {
         await captureAnonymizeLogData('anonymizelogdata_one_site_and_custom_date_confirmed');
     });
 
+    it('should ask for the deletion to be typed out when enabling raw data deletion', async function() {
+        await loadActionPage('privacySettings');
+        await page.waitForNetworkIdle();
+
+        await page.waitForSelector('#deleteLogSettingEnabled label', { visible: true });
+        await page.click('#deleteLogSettingEnabled label');
+        await page.waitForTimeout(250);
+        await (await page.jQuery('#deleteLogsAnchor input.btn[value=Save]')).click();
+        await page.waitForSelector('.modal-overlay');
+        await page.waitForTimeout(500);
+
+        await captureModal('delete_logs_type_delete_required');
+    });
+
+    it('should allow confirming once the deletion has been typed out', async function() {
+        await page.evaluate((password) => {
+            $('.confirm-password-modal.open input[name=deleteConfirmation]:visible')
+                .val('delete')
+                .change();
+            $('.confirm-password-modal.open input[name=currentUserPassword]:visible')
+                .val(password)
+                .change();
+        }, superUserPassword);
+        await page.waitForTimeout(250);
+
+        await captureModal('delete_logs_type_delete_given');
+
+        // leave the setting as it was found, the save is deliberately not gone through with
+        await (await page.jQuery('.confirm-password-modal.open .modal-no:visible')).click();
+        await page.waitForTimeout(300);
+    });
+
     it('should load GDPR tools page', async function() {
         await loadActionPage('gdprTools');
 
@@ -504,6 +571,8 @@ describe("PrivacyManager", function () {
         expect(state.scope).to.equal('all');
         expect(state.hasSiteSelector).to.equal(false);
         expect(state.notice).to.equal('You are currently configuring settings for all websites.');
+
+        expect(await complianceSettingNames()).to.deep.equal(expectedComplianceOrder);
 
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
     });
@@ -663,6 +732,8 @@ describe("PrivacyManager", function () {
       expect(state.scope).to.equal('site');
       expect(state.selectedSite).to.equal('Site 1');
       expect(state.notice).to.equal('You are currently configuring settings for Site 1 only.');
+
+      expect(await complianceSettingNames()).to.deep.equal(expectedComplianceOrder);
 
       expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_granular');
     });

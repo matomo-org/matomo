@@ -29,12 +29,12 @@ class TarteAuCitron extends ConsentManagerDetectionAbstract
     public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'tarteaucitron.js';
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 
     public function checkIsConnected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'tarteaucitron.user.matomoHost';
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 }

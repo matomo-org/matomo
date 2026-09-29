@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace\tests\Framework\Mock;
 
 use Matomo\Cache\Backend\NullCache;
 use Matomo\Cache\Lazy;
+use Piwik\Log\LoggerInterface;
 use Piwik\Log\NullLogger;
 
 class Client
@@ -20,13 +21,13 @@ class Client
      *                         requests it makes. Pass one backed by an ArrayCache to test behaviour
      *                         that depends on a response actually being cached.
      */
-    public static function build($service, ?Lazy $cache = null)
+    public static function build($service, ?Lazy $cache = null, ?LoggerInterface $logger = null)
     {
         $environment = new Environment();
         return new \Piwik\Plugins\Marketplace\Api\Client(
             $service,
             $cache ?: new Lazy(new NullCache()),
-            new NullLogger(),
+            $logger ?? new NullLogger(),
             $environment
         );
     }

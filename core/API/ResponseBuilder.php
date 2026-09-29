@@ -230,8 +230,8 @@ class ResponseBuilder
         $firstArray = null;
         $firstKey   = null;
         if (!empty($array)) {
-            $firstArray = reset($array);
-            $firstKey   = key($array);
+            $firstKey   = array_key_first($array);
+            $firstArray = $array[$firstKey];
         }
 
         $isAssoc = !empty($firstArray) && is_numeric($firstKey) && is_array($firstArray) && count(array_filter(array_keys($firstArray), 'is_string'));

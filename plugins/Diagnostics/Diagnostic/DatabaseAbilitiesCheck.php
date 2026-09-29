@@ -50,7 +50,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
 
         $databaseVersion = Db::fetchOne('SELECT VERSION();');
 
-        if (strpos(strtolower($databaseVersion), 'mariadb') !== false && Config\DatabaseConfig::getConfigValue('schema') !== 'Mariadb') {
+        if (str_contains(strtolower($databaseVersion), 'mariadb') && Config\DatabaseConfig::getConfigValue('schema') !== 'Mariadb') {
             $comment = $this->translator->translate('Diagnostics_MariaDbNotConfigured');
             $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_INFORMATIONAL, $comment));
         }

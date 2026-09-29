@@ -27,7 +27,7 @@ class FakeLogger extends AbstractLogger implements LoggerInterface
 
     public function log($level, $message, array $context = array()): void
     {
-        if (strpos($message, 'Running command') !== false) {
+        if (str_contains($message, 'Running command')) {
             return;
         }
 

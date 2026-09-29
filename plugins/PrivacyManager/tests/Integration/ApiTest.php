@@ -15,7 +15,9 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
+use Piwik\Settings\PolicyEnforcementState;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
@@ -486,6 +488,204 @@ class ApiTest extends IntegrationTestCase
         $this->expectExceptionMessage('Invalid enforcement value for the setting "PrivacyManager.IPAnonymisation"');
 
         $this->api->setCompliancePolicySettings($this->siteId, 'cnil_v1', ['PrivacyManager.IPAnonymisation' => 'banana']);
+    }
+
+    public function testSetCompliancePolicySettingsAnnouncesOnlyTheSettingsItChanged(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        // make the underlying setting non-compliant so enforcement is observable
+        $this->api->setAnonymizeIpSettings(false, 2, true);
+
+        $updates = $this->captureCompliancePolicySettingsUpdated();
+
+        $this->api->setCompliancePolicySettings(
+            $this->siteId,
+            'cnil_v1',
+            ['PrivacyManager.IPAnonymisation' => 1]
+        );
+
+        $this->assertCount(1, $updates);
+
+        $update = $updates[0];
+        $this->assertSame('cnil_v1', $update['policy']);
+        $this->assertSame($this->siteId, $update['idSite']);
+        $this->assertFalse($update['policyEnforced']);
+
+        $changes = $this->getChangesById($update);
+        $this->assertArrayHasKey('PrivacyManager.IPAnonymisation', $changes);
+        $this->assertSame([
+            'id' => 'PrivacyManager.IPAnonymisation',
+            'name' => IPAnonymisation::getTitle(),
+            'enforced' => true,
+            'previousEnforced' => false,
+            'status' => 'enforced',
+            'previousStatus' => 'non_compliant',
+        ], $changes['PrivacyManager.IPAnonymisation']);
+
+        // a setting the request never mentioned is left out
+        $this->assertArrayNotHasKey('PrivacyManager.DataRoundingEnabled', $changes);
+    }
+
+    public function testEnforceCompliancePolicySettingsAnnouncesASingleUpdateCoveringEverySetting(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        $updates = $this->captureCompliancePolicySettingsUpdated();
+
+        $payload = $this->api->enforceCompliancePolicySettings($this->siteId, 'cnil_v1');
+
+        $this->assertCount(1, $updates);
+
+        $update = $updates[0];
+        $this->assertSame('cnil_v1', $update['policy']);
+        $this->assertTrue($update['policyEnforced']);
+
+        $changes = $this->getChangesById($update);
+        foreach ($payload['settings'] as $setting) {
+            if ($setting['toggleable']) {
+                $this->assertArrayHasKey($setting['id'], $changes, "setting {$setting['id']} should be announced");
+                $this->assertTrue($changes[$setting['id']]['enforced']);
+            }
+        }
+    }
+
+    public function testSetCompliancePolicySettingsAnnouncesTheInstanceWideScopeAsNullIdSite(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        $updates = $this->captureCompliancePolicySettingsUpdated();
+
+        $this->api->setCompliancePolicySettings(
+            'all',
+            'cnil_v1',
+            ['PrivacyManager.IPAnonymisation' => 1]
+        );
+
+        $this->assertCount(1, $updates);
+        $this->assertNull($updates[0]['idSite']);
+    }
+
+    public function testSetCompliancePolicySettingsAnnouncesNothingWhenTheRequestRepeatsTheCurrentState(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        $this->api->setCompliancePolicySettings(
+            $this->siteId,
+            'cnil_v1',
+            ['PrivacyManager.IPAnonymisation' => 1]
+        );
+
+        $updates = $this->captureCompliancePolicySettingsUpdated();
+
+        $this->api->setCompliancePolicySettings(
+            $this->siteId,
+            'cnil_v1',
+            ['PrivacyManager.IPAnonymisation' => 1]
+        );
+
+        $this->assertCount(0, $updates);
+    }
+
+    public function testSetCompliancePolicySettingsWritesNothingWhenOneSettingCannotBeChanged(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        // pin one setting's instance wide enforcement state in the config, so it cannot be written
+        Config::getInstance()->PrivacyManager = [
+            'DataRoundingEnabled' . PolicyEnforcementState::SETTING_NAME_SUFFIX => 1,
+        ];
+
+        $updates = $this->captureCompliancePolicySettingsUpdated();
+
+        $thrown = null;
+
+        try {
+            $this->api->setCompliancePolicySettings('all', 'cnil_v1', [
+                'PrivacyManager.IPAnonymisation' => 1,
+                'PrivacyManager.DataRoundingEnabled' => 0,
+            ]);
+            $this->fail('A setting that cannot be written should be rejected');
+        } catch (Exception $e) {
+            $thrown = $e;
+        }
+
+        // the writable setting listed before the rejected one must not have been written: a change
+        // that went live while the request reported failure could never be announced afterwards,
+        // because a retry would find nothing left to change
+        $this->assertNull(IPAnonymisation::getStoredEnforcementState(null));
+        $this->assertCount(0, $updates);
+
+        // and it is refused upfront rather than part way through the write
+        $this->assertStringContainsString('PrivacyManager.DataRoundingEnabled', $thrown->getMessage());
+    }
+
+    public function testSetCompliancePolicySettingsSucceedsWhenAListenerFails(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        Piwik::addAction('PrivacyManager.compliancePolicySettingsUpdated', static function (): void {
+            throw new Exception('the audit trail is having a bad day');
+        });
+
+        // a broken listener must not report a save that already happened as failed, otherwise the
+        // caller retries, finds nothing left to change, and the change is never announced at all
+        $payload = $this->api->setCompliancePolicySettings(
+            $this->siteId,
+            'cnil_v1',
+            ['PrivacyManager.IPAnonymisation' => 1]
+        );
+
+        $settings = $this->getSettingsById($payload);
+        $this->assertTrue($settings['PrivacyManager.IPAnonymisation']['enforced']);
+        $this->assertTrue(IPAnonymisation::isEnforced($this->siteId));
+    }
+
+    public function testSetCompliancePolicySettingsAnnouncesNothingWhenTheRequestFails(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        $updates = $this->captureCompliancePolicySettingsUpdated();
+
+        try {
+            $this->api->setCompliancePolicySettings($this->siteId, 'cnil_v1', ['PrivacyManager.Egg' => 1]);
+            $this->fail('An unknown setting id should be rejected');
+        } catch (Exception $e) {
+            $this->assertStringContainsString('is unknown or cannot be toggled', $e->getMessage());
+        }
+
+        $this->assertCount(0, $updates);
+    }
+
+    /**
+     * @return \ArrayObject<int, array<string, mixed>>
+     */
+    private function captureCompliancePolicySettingsUpdated(): \ArrayObject
+    {
+        $updates = new \ArrayObject();
+
+        Piwik::addAction(
+            'PrivacyManager.compliancePolicySettingsUpdated',
+            static function (array $update) use ($updates): void {
+                $updates[] = $update;
+            }
+        );
+
+        return $updates;
+    }
+
+    /**
+     * @param array<string, mixed> $update
+     * @return array<string, array<string, mixed>>
+     */
+    private function getChangesById(array $update): array
+    {
+        $changes = [];
+        foreach ($update['changes'] as $change) {
+            $changes[$change['id']] = $change;
+        }
+
+        return $changes;
     }
 
     private function enableGranularComplianceFeature(): void

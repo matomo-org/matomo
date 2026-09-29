@@ -147,7 +147,7 @@ class Date
                 !is_string($dateString)
                 // strtotime returns the timestamp for April 1st for a date like 2011-04-01,today
                 // but we don't want this, as this is a date range and supposed to throw the exception
-                || strpos($dateString, ',') !== false
+                || str_contains($dateString, ',')
                 || ($dateString = strtotime($dateString)) === false
             )
         ) {

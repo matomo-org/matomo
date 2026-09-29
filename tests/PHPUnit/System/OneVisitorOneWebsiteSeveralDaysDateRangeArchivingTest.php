@@ -216,7 +216,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
     protected function printDebugWhenTestFails($table)
     {
         $data = Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'] . " ORDER BY idarchive ASC");
-        if (strpos($table, 'blob') !== false) {
+        if (str_contains($table, 'blob')) {
             $data = array_map(function ($r) {
                 unset($r['value']);
                 return $r;

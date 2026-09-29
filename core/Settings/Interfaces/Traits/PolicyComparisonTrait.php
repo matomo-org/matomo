@@ -339,6 +339,11 @@ trait PolicyComparisonTrait
         return static::getPolicySettingPluginName() . '.' . static::getPolicySettingShortName();
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return PolicyComparisonInterface::POLICY_ORDER_LAST;
+    }
+
     public static function isExternallyManagedByPolicyPage(): bool
     {
         return false;
