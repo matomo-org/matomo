@@ -19,7 +19,10 @@
     gap: @_selector-gap;
     padding: @_selector-paddingVertical @_selector-paddingHorizontal;
     background-color: @theme-color-background-contrast;
-    border: 1px solid @theme-color-border;
+    // The design's #E0E0E0. `@theme-color-border` is the warmer #CCCCCC today and is due to be
+    // given this value when `@theme-color-border-alternative` goes away, so this becomes a
+    // straight rename rather than a colour change.
+    border: 1px solid @theme-color-border-alternative;
     border-radius: 8px;
     font-size: 14px;
     line-height: 20px;
@@ -88,10 +91,32 @@
     display: block;
   }
 
+  // For a selector at the left of a wide row, where growing inwards would start the panel off it.
+  .mtm-selector__dropdown--anchorLeft {
+    left: 0;
+    right: auto;
+  }
+
+  // For a selector that can be rendered inside an overlay, which the default deliberately sits
+  // under. 1010 is what the series picker popover uses to clear a jQuery UI dialog.
+  .mtm-selector__dropdown--aboveOverlays {
+    z-index: 1010;
+  }
+
   // A control with nothing to choose from still shows what it is set to.
   &.disabled {
     opacity: 0.5;
     pointer-events: none;
+  }
+}
+
+// Fills the row it is placed in, for a layout that stacks the selector onto a line of its own.
+.mtm-selector--fullWidth {
+  display: flex;
+
+  .mtm-selector__trigger {
+    width: 100%;
+    justify-content: center;
   }
 }
 
