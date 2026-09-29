@@ -143,5 +143,30 @@ describe('EnrichedHeadline', () => {
     await wrapper.find('.enrichedHeadline__helpIcon').trigger('click');
 
     expect(panel().style.display).toBe('');
+
+    await wrapper.find('.enrichedHeadline__helpIcon').trigger('click');
+
+    expect(panel().style.display).toBe('none');
+  });
+
+  it('should hand the panel over and take it back as the host offers a container', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    const wrapper = createWrapper({ inlineHelp: '<p>What this report shows</p>' });
+
+    expect(wrapper.find('.enrichedHeadline > .enrichedHeadline__help').exists()).toBe(true);
+
+    // a report that gains documentation gets its row, and the panel moves into it
+    await wrapper.setProps({ helpContainer: container });
+
+    expect(wrapper.find('.enrichedHeadline > .enrichedHeadline__help').exists()).toBe(false);
+    expect(container.querySelector('.enrichedHeadline__help')).not.toBe(null);
+
+    // and back, for a related report whose row goes away with its documentation
+    await wrapper.setProps({ helpContainer: null });
+
+    expect(container.querySelector('.enrichedHeadline__help')).toBe(null);
+    expect(wrapper.find('.enrichedHeadline > .enrichedHeadline__help').exists()).toBe(true);
   });
 });

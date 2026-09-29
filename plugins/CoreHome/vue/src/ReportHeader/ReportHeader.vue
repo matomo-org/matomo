@@ -654,8 +654,6 @@ export default defineComponent({
     wrappedInlineHelp(): string {
       return this.inlineHelp ? `<p>${this.inlineHelp}</p>` : '';
     },
-    // Only help this component knows about can be hoisted into its own row. A report whose help
-    // EnrichedHeadline scrapes out of the title instead keeps it inline, as it did before.
     // `showTitle` is part of it because the headline that owns the panel renders only with one.
     hasHelpRow(): boolean {
       return this.showTitle && this.enriched && !!this.wrappedInlineHelp;
