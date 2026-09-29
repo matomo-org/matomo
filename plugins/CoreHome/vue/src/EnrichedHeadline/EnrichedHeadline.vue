@@ -50,27 +50,32 @@
         <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
     </span>
-    <div
-      class="inlineHelp"
-      v-show="showInlineHelp"
-    >
-      <div v-html="$sanitize(actualInlineHelp)"/>
-      <span class="helpDate"
-            v-if="reportGenerated!=''"
-            v-html="$sanitize(reportGenerated)"></span>
-      <a
-        v-if="helpUrl"
-        rel="noreferrer noopener"
-        target="_blank"
-        class="readMore"
-        :href="helpUrl"
-      >{{ translate('General_MoreDetails') }}</a>
-    </div>
+    <!-- A host that gives us somewhere to put the help takes it out of the headline, so a panel
+         this wide does not stretch whatever row the heading sits in. Without one it stays here,
+         which is what every caller outside ReportHeader still does. -->
+    <Teleport :to="helpContainer" :disabled="!helpContainer">
+      <div
+        class="inlineHelp"
+        v-show="showInlineHelp"
+      >
+        <div v-html="$sanitize(actualInlineHelp)"/>
+        <span class="helpDate"
+              v-if="reportGenerated!=''"
+              v-html="$sanitize(reportGenerated)"></span>
+        <a
+          v-if="helpUrl"
+          rel="noreferrer noopener"
+          target="_blank"
+          class="readMore"
+          :href="helpUrl"
+        >{{ translate('General_MoreDetails') }}</a>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, Component } from 'vue';
+import { defineComponent, Component, PropType } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
 import { translateOrDefault } from '../translate';
@@ -127,6 +132,10 @@ export default defineComponent({
     reportGenerated: String,
     featureName: String,
     inlineHelp: String,
+    helpContainer: {
+      type: [String, Object] as PropType<string|HTMLElement|null>,
+      default: null,
+    },
   },
   data(): EnrichedHeadlineData {
     return {

@@ -39,6 +39,12 @@
         line-height: 1 !important;
         display: inline-flex;
         align-items: center;
+        // An inline-flex box takes its baseline from its first flex item, which on a report with
+        // no help icon is `.ratingIcons` - and its baseline is the bottom edge of the 22px thumb
+        // images. That asks for more room above the baseline than the heading's own ascent, so
+        // the line box grew and the title dropped as the bar appeared on hover. Aligning to the
+        // top keeps the bar out of the baseline calculation.
+        vertical-align: top;
     }
 
     .ratingIcons {
