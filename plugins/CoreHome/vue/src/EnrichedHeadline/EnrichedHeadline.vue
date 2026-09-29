@@ -50,9 +50,9 @@
         <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
     </span>
-    <!-- A host that gives us somewhere to put the help takes it out of the headline, so a panel
-         this wide does not stretch whatever row the heading sits in. Without one it stays here,
-         which is what every caller outside ReportHeader still does. -->
+    <!-- A host offering somewhere to put the help gets it out of the headline, so a panel this
+         wide does not stretch the row the heading sits in. Every caller outside ReportHeader
+         offers nothing and keeps it here. -->
     <Teleport :to="helpContainer" :disabled="!helpContainer">
       <div
         class="inlineHelp"
