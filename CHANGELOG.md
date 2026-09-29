@@ -6,7 +6,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.14.1
 
+### New Features
+* Added contextual recommendations for Premium products based on how Matomo is being used.
+
 ### New APIs
+* The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its markup to it.
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
   transport, which follows redirects internally.
