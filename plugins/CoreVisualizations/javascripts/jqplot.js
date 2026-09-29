@@ -1685,6 +1685,13 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             updateLegendFooterStacking($legendFooter);
         });
 
+        // Again once the picker has drawn itself: the event above fires before its Vue app
+        // mounts, so the selector that carries the stacked layout is not in the DOM yet.
+        $(seriesPicker).bind('seriesPickerRendered', function () {
+            var $dataTable = $(plot.targetId).closest('.dataTable');
+            updateLegendFooterStacking(getOrCreateLegendFooter($dataTable));
+        });
+
         // handle seriesPicked event
         $(seriesPicker).bind('seriesPicked', function (e, columns, rows) {
             dataTable.changeSeries(columns, rows);
