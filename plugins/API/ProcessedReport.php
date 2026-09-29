@@ -196,12 +196,6 @@ class ProcessedReport
     }
 
     /**
-     * A request addressing a retired goal overview report by module, action and `idGoal=0` is matched
-     * against the report its unique id resolves to, so the metadata describes the figures the
-     * request's data holds. `Goals.get` reads `idGoal=0` as the ecommerce order goal, which report
-     * metadata advertises under its label, so on a site without ecommerce no report is found. The
-     * conversion distributions read it as all goals, whose report carries no `idGoal`.
-     *
      * @param string $apiModule
      * @param string $apiAction
      * @param mixed $apiParameters
@@ -233,6 +227,31 @@ class ProcessedReport
         }
 
         return $apiParameters;
+    }
+
+    /**
+     * @param int|string $idSite
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param mixed $apiParameters
+     * @ignore
+     */
+    public static function getReportNotFoundMessage($idSite, $apiModule, $apiAction, $apiParameters): string
+    {
+        $message = "Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports.";
+
+        $resolvedParameters = self::withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters);
+
+        if (
+            $resolvedParameters !== $apiParameters
+            && is_array($resolvedParameters)
+            && ($resolvedParameters['idGoal'] ?? null) === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+        ) {
+            $message .= ' idGoal=0 is the ecommerce order goal (idGoal=' . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+                . '), whose report is only available for a single website with ecommerce enabled.';
+        }
+
+        return $message . " \n";
     }
 
     /**
@@ -633,10 +652,13 @@ class ProcessedReport
             $showSubtableReports = true
         );
         if (empty($reportMetadata)) {
-            throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
+            throw new Exception(self::getReportNotFoundMessage($idSite, $apiModule, $apiAction, $apiParameters));
         }
 
         $reportMetadata = reset($reportMetadata);
+
+        // Goals.get does not read the HTTP string "0" as the ecommerce order goal, so request the resolved report
+        $apiParameters = self::withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters);
 
         // Generate Api call URL passing custom parameters
         $parameters = array_merge($apiParameters, array(
