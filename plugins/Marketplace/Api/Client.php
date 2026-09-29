@@ -535,6 +535,16 @@ class Client
 
         try {
             $result = $this->service->fetch($action, $params);
+
+            // a real list always holds a 'plugins' array, even when it is empty. Anything else -
+            // an empty body arriving as '', [] or {}, or JSON without a list - would replace the list
+            // with nothing until the next refresh
+            if ($isWarmedList && !is_array($result['plugins'] ?? null)) {
+                throw new Service\Exception(
+                    'There was an error reading the response from the Marketplace. Please try again later.',
+                    Service\Exception::HTTP_ERROR
+                );
+            }
         } catch (PhpException $e) {
             // not only Service\Exception: core/Http.php reports an unreachable Marketplace as a
             // plain \Exception
@@ -561,7 +571,9 @@ class Client
                 ['fetchedAt' => Date::getNowTimestamp(), 'response' => $result],
                 self::PLUGIN_LIST_CACHE_TIMEOUT_IN_SECONDS
             );
-        } else {
+        } elseif ('' !== $result) {
+            // an empty body answers nothing, so it is returned as before but not kept for the
+            // next request. [] stays cacheable: it is a real answer, eg no updates to offer
             $this->cache->save($cacheId, $result, self::CACHE_TIMEOUT_IN_SECONDS);
         }
 
