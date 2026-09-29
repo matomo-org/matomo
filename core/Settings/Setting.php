@@ -9,6 +9,7 @@
 
 namespace Piwik\Settings;
 
+use Piwik\Access;
 use Piwik\Piwik;
 use Piwik\Settings\Storage\Storage;
 use Exception;
@@ -32,6 +33,13 @@ class Setting
      * @var null|bool
      */
     protected $hasWritePermission = null;
+
+    /**
+     * Access scope the detected write permission belongs to, null when it was set explicitly
+     *
+     * @var string|null
+     */
+    private $hasWritePermissionScope = null;
 
     /**
      * @var Storage
@@ -168,6 +176,32 @@ class Setting
     public function setIsWritableByCurrentUser($isWritable)
     {
         $this->hasWritePermission = (bool) $isWritable;
+        $this->hasWritePermissionScope = null;
+    }
+
+    /**
+     * Returns the write permission set explicitly or detected for the current access, and runs
+     * `$detect` otherwise. A permission detected for another user, eg. inside
+     * {@link Access::doAsSuperUser()}, is detected again.
+     *
+     * @param callable(): bool $detect
+     * @internal
+     */
+    protected function getWritePermissionForCurrentAccess(callable $detect): bool
+    {
+        $scope = Access::getInstance()->getCacheScopeKey();
+
+        if (
+            isset($this->hasWritePermission)
+            && ($this->hasWritePermissionScope === null || $this->hasWritePermissionScope === $scope)
+        ) {
+            return $this->hasWritePermission;
+        }
+
+        $this->hasWritePermission = $detect();
+        $this->hasWritePermissionScope = $scope;
+
+        return $this->hasWritePermission;
     }
 
     /**

@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
 
+use Piwik\Access;
 use Piwik\Config;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemSetting;
@@ -54,6 +55,21 @@ class SystemSettingTest extends IntegrationTestCase
 
         $this->setAnonymousUser();
         $setting = $this->buildSetting('mysystem');
+
+        $setting->setValue(2);
+    }
+
+    public function testSetSettingValueShouldThrowExceptionIfTheSuperUserPermissionWasDetectedInsideDoAsSuperUser()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
+
+        $this->setUser();
+        $setting = $this->buildSetting('mysystem');
+
+        Access::doAsSuperUser(function () use ($setting) {
+            $this->assertTrue($setting->isWritableByCurrentUser());
+        });
 
         $setting->setValue(2);
     }
