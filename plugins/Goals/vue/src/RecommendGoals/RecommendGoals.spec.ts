@@ -87,10 +87,7 @@ describe('RecommendGoals AI availability', () => {
     mockMatomo.hasSuperUserAccess = false;
 
     expect(w.find('.recommendGoals-aiSwitch').exists()).toBe(false);
-    expect(w.find('.recommendGoals-chip--aiUnavailable').text())
-      .toBe('Goals_RecommendAiNotPermitted');
-    expect(w.find('.recommendGoals-chip--aiUnavailable').attributes('title'))
-      .toBe('Goals_RecommendAiNotPermittedHelp');
+    expect(w.find('.recommendGoals-chip--aiUnavailable').exists()).toBe(false);
     expect(w.find('.recommendGoals-aiProcessingLink').attributes('href'))
       .toBe('?idSite=1&module=AIProviders&action=aiProcessing');
   });
