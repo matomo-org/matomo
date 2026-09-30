@@ -118,6 +118,12 @@
     width: 100%;
     justify-content: center;
   }
+
+  // The right icon holds itself to the end of the control with an auto margin, which would eat
+  // the free space the centring needs and leave the label alone on the left.
+  .mtm-selector__rightIcon {
+    margin-left: 0;
+  }
 }
 
 .mtm-selector--iconOnly .mtm-selector__trigger {
