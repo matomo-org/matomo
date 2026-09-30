@@ -35,11 +35,16 @@ class Setting
     protected $hasWritePermission = null;
 
     /**
-     * Access scope the detected write permission belongs to, null when it was set explicitly
+     * Access scope the write permission belongs to
      *
      * @var string|null
      */
     private $hasWritePermissionScope = null;
+
+    /**
+     * @var bool
+     */
+    private $isWritePermissionExplicit = false;
 
     /**
      * @var Storage
@@ -171,18 +176,22 @@ class Setting
     /**
      * Set whether setting is writable or not. For example to hide setting from the UI set it to false.
      *
+     * The value applies to the current access. For another access, eg. inside {@link Access::doAsSuperUser()},
+     * it can only restrict what that access is allowed to write.
+     *
      * @param bool $isWritable
      */
     public function setIsWritableByCurrentUser($isWritable)
     {
         $this->hasWritePermission = (bool) $isWritable;
-        $this->hasWritePermissionScope = null;
+        $this->hasWritePermissionScope = Access::getInstance()->getCacheScopeKey();
+        $this->isWritePermissionExplicit = true;
     }
 
     /**
-     * Returns the write permission set explicitly or detected for the current access, and runs
-     * `$detect` otherwise. A permission detected for another user, eg. inside
-     * {@link Access::doAsSuperUser()}, is detected again.
+     * Returns the write permission set or detected for the current access, and runs `$detect`
+     * otherwise. A permission detected for another user, eg. inside {@link Access::doAsSuperUser()},
+     * is detected again, and one set for another user also needs `$detect` to allow it.
      *
      * @param callable(): bool $detect
      * @internal
@@ -196,6 +205,10 @@ class Setting
             && ($this->hasWritePermissionScope === null || $this->hasWritePermissionScope === $scope)
         ) {
             return $this->hasWritePermission;
+        }
+
+        if ($this->isWritePermissionExplicit) {
+            return $this->hasWritePermission && $detect();
         }
 
         $this->hasWritePermission = $detect();
