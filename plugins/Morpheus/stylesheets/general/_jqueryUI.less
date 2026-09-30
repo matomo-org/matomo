@@ -249,9 +249,9 @@ td.ui-datepicker-other-month.ui-state-hover {
   display: none;
 }
 
-// Counters the jQuery UI theme's `.ui-widget .ui-widget { font-size: 1em; }`, which matches when a
-// tooltip is appended inside another widget such as a popover dialog
-.ui-widget .ui-tooltip {
+// Same specificity as the jQuery UI theme's `.ui-widget .ui-widget { font-size: 1em; }`, which matches
+// when a tooltip is appended inside another widget such as a popover dialog, and wins by loading after it
+.ui-widget.ui-tooltip {
   font-size: 12px;
 }
 
