@@ -4,10 +4,14 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
-## Matomo 5.14.1
+## Matomo 5.14.2
 
 ### Breaking Changes
 * The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained the method `getPolicyOrder()`, which returns an order hint, lowest first, that decides where a compliance dashboard lists the setting, in the same way a menu item asks for its position. Plugins that implement the interface directly must implement it. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit a default implementation and are not affected. `PolicyManager::getAllControlledSettings()` now returns the settings in that order instead of in plugin discovery order, ordering settings that share a hint by their policy setting id. The trait's default, `PolicyComparisonInterface::POLICY_ORDER_LAST`, leaves a setting that does not ask for a position at the end of the list.
+
+## Matomo 5.14.1
+
+### Breaking Changes
 * A plugin with no cover image of its own now falls back to the same generic `uncategorised` cover as every other plugin. `Piwik\Plugins\Marketplace\Plugins::addPluginCoverImage()` used to give a paid plugin owned by `piwik` or `matomo-org` the Matomo-branded `matomo.png` cover instead, which the redesigned cards mark with a Matomo chip rather than a whole cover image. The Marketplace's own category stand-ins now count as no cover image as well, so a plugin the Marketplace categorised also takes the generic fallback.
 * The Marketplace's `PluginList` Vue component has been removed along with the plugin list it rendered. The redesigned page is built from the `PluginGrid`, `PluginSection`, `PluginCard`, `CategoryTabs`, `MarketplaceHero` and `SortMenu` components the plugin now exports instead. The translation keys `Marketplace_CreatedBy`, `Marketplace_Intro`, `Marketplace_IntroSuperUser`, `Marketplace_NoThemesFound`, `Marketplace_PriceFromPerPeriod`, `Marketplace_Show`, `Marketplace_Sort` and `Marketplace_SortByPopular` have been removed with the markup that used them. The `pluginType` hash parameter is no longer written and only `themes` and `plugins` are still read back, for the links CorePluginsAdmin makes; `#?pluginType=premium` no longer opens a filtered list and is silently ignored, landing the reader on the full catalogue instead.
 
