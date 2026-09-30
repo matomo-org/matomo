@@ -114,12 +114,12 @@ describe('EnrichedHeadline', () => {
     expect(wrapper.vm.actualFeatureName).toBe('Pages');
   });
 
-  it('should keep the bare `title` class on the heading for third-party code', () => {
-    // the ReportSorter plugin reads the report name from `.enrichedHeadline .title`; the class
-    // carries no styles of ours and exists only for that
+  it('should keep the report name readable from the bare `title` class', () => {
+    // the selector and the read the ReportSorter plugin makes:
+    // $(widget).find('.enrichedHeadline .title').first().text()
     const wrapper = createWrapper();
 
-    expect(wrapper.find('.enrichedHeadline > .enrichedHeadline__title.title').exists()).toBe(true);
+    expect(wrapper.find('.enrichedHeadline .title').text()).toBe('Pages');
   });
 
   it('should keep the help panel inside the headline when no container is given', async () => {
