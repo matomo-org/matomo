@@ -28,6 +28,11 @@ class ScreenResolutionDetectionDisabled extends CompliancePolicyEnforcedSetting
         return Piwik::translate('Resolution_ScreenResolutionDetectionDisabledRequirementNote');
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 30;
+    }
+
     public static function getPolicyRequirements(): array
     {
         return [
