@@ -190,7 +190,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `.enrichedHeadline__iconsBar`, `.ratingIcons` becomes `.enrichedHeadline__ratingIcons`, `.helpIcon`
   becomes `.enrichedHeadline__helpIcon` (its open state `.active` becomes
   `.enrichedHeadline__helpIcon--active`). `.title` is still written to the DOM alongside its new
-  name, carrying no styles, because third-party code reads the report name from
+  name, carrying no styles of Matomo's own, because third-party code reads the report name from
   `.enrichedHeadline .title`.
 * The help panel a headline opens is now the standalone `mtm-helpPanel` block
   (`plugins/Morpheus/stylesheets/ui/_help-panel.less`), with the elements `.mtm-helpPanel__readMore`
