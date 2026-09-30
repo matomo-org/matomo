@@ -135,6 +135,11 @@ describe("GoalsPages", function () {
   });
 
   it('should load the goals > management page correctly', async function () {
+    testEnvironment.overrideConfig('FeatureFlags', {
+      GoalRecommendations_feature: 'enabled',
+    });
+    testEnvironment.save();
+
     await page.goto("?" + generalParams + "&module=Goals&action=manage");
     await page.waitForNetworkIdle();
 

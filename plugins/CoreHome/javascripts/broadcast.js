@@ -525,7 +525,9 @@ var broadcast = {
             }
             if (/\[.*?]$/.test(key)) {
               key = key.replace(/\[.*?]$/, '');
-              result[key] = result[key] || [];
+              if (!Object.prototype.hasOwnProperty.call(result, key)) {
+                result[key] = [];
+              }
               result[key].push(value);
             } else {
               result[key] = value;

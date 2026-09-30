@@ -208,8 +208,25 @@ class Fixture extends \PHPUnit\Framework\Assert
         return self::getConfig()->database_tests['dbname'];
     }
 
+    /**
+     * Lets the HTTP test proxies under tests/PHPUnit/proxy/ serve requests on this
+     * instance. Keep the path in sync with that directory's includes.php.
+     */
+    private static function enableHttpTestProxies()
+    {
+        $tmpDir = PIWIK_INCLUDE_PATH . '/tmp';
+
+        if (!is_dir($tmpDir)) {
+            @mkdir($tmpDir, 0755, true);
+        }
+
+        @touch($tmpDir . '/http-test-proxies-enabled');
+    }
+
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        self::enableHttpTestProxies();
+
         // PHPUnit can execute data providers from non-selected tests during discovery.
         // Ensure no singleton/cache state leaks into fixture setup.
         self::clearInMemoryCaches();

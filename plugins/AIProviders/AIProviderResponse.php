@@ -11,6 +11,9 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\AIProviders;
 
+/**
+ * @phpstan-import-type WebSearchCitationArray from WebSearchUsage
+ */
 class AIProviderResponse
 {
     /**
@@ -57,13 +60,6 @@ class AIProviderResponse
     private $reasoningLevel;
 
     /**
-     * Whether provider-side web search was actually applied.
-     *
-     * @var bool
-     */
-    private $webSearchEnabled;
-
-    /**
      * Total provider request time in milliseconds, including retries.
      *
      * @var int|null
@@ -77,6 +73,29 @@ class AIProviderResponse
      */
     private $stopReason;
 
+    /**
+     * What the provider's web search actually did, or {@link WebSearchUsage::none()}
+     * when it did not run.
+     *
+     * @var WebSearchUsage
+     */
+    private $webSearch;
+
+    /**
+     * Legacy "web search was used" flag from the deprecated constructor parameter.
+     * Only ever true for a caller that predates {@link WebSearchUsage}.
+     *
+     * @var bool
+     */
+    private $legacyWebSearchEnabled;
+
+    /**
+     * @param bool $webSearchEnabled Deprecated since 5.14.0; pass a {@link WebSearchUsage} as
+     *                               $webSearch instead, which reports what the search actually
+     *                               did rather than a bare flag. Still honoured by
+     *                               {@link wasWebSearchUsed()} so callers and providers written
+     *                               against Matomo 5.13.0 keep working. Will be removed in Matomo 6.
+     */
     public function __construct(
         string $providerId,
         string $providerName,
@@ -87,7 +106,8 @@ class AIProviderResponse
         string $reasoningLevel = AIRequest::REASONING_NONE,
         bool $webSearchEnabled = false,
         ?int $executionTimeMs = null,
-        ?string $stopReason = null
+        ?string $stopReason = null,
+        ?WebSearchUsage $webSearch = null
     ) {
         $this->providerId = $providerId;
         $this->providerName = $providerName;
@@ -96,9 +116,10 @@ class AIProviderResponse
         $this->inputTokens = $inputTokens;
         $this->outputTokens = $outputTokens;
         $this->reasoningLevel = $reasoningLevel;
-        $this->webSearchEnabled = $webSearchEnabled;
         $this->executionTimeMs = $executionTimeMs;
         $this->stopReason = $stopReason;
+        $this->webSearch = $webSearch ?? WebSearchUsage::none();
+        $this->legacyWebSearchEnabled = $webSearchEnabled;
     }
 
     public function getText(): string
@@ -126,9 +147,57 @@ class AIProviderResponse
         return $this->reasoningLevel;
     }
 
+    /**
+     * Whether the provider's web search actually ran, which is not the same as
+     * whether it was requested: a model given the tool can decide the prompt
+     * needs no search.
+     */
+    public function wasWebSearchUsed(): bool
+    {
+        return $this->webSearch->wasUsed() || $this->legacyWebSearchEnabled;
+    }
+
+    /**
+     * @deprecated since 5.14.0, use {@link wasWebSearchUsed()} instead. The name reads as
+     *             request state, but this reports what the provider actually did, and
+     *             {@link AIRequest::isWebSearchEnabled()} keeps the request meaning.
+     *             Will be removed in Matomo 6.
+     */
     public function isWebSearchEnabled(): bool
     {
-        return $this->webSearchEnabled;
+        return $this->wasWebSearchUsed();
+    }
+
+    /**
+     * Web sources attached to this answer, deduplicated, cited ones first where
+     * the provider distinguishes them. Titles are untrusted model output; see
+     * {@link WebSearchUsage} for what is and is not guaranteed.
+     *
+     * @return list<WebSearchCitationArray>
+     */
+    public function getWebSearchCitations(): array
+    {
+        return $this->webSearch->getCitations();
+    }
+
+    /**
+     * Number of searches the provider ran (what per-search fees are billed on),
+     * or null when it did not run or reports no count.
+     */
+    public function getWebSearchRequestCount(): ?int
+    {
+        return $this->webSearch->getRequestCount();
+    }
+
+    /**
+     * Search queries the model issued, when the provider echoes them. Can be
+     * empty even when searches ran.
+     *
+     * @return list<string>
+     */
+    public function getWebSearchQueries(): array
+    {
+        return $this->webSearch->getQueries();
     }
 
     public function getExecutionTimeMs(): ?int
@@ -178,7 +247,12 @@ class AIProviderResponse
             'inputTokens' => $this->inputTokens,
             'outputTokens' => $this->outputTokens,
             'reasoningLevel' => $this->reasoningLevel,
-            'webSearchEnabled' => $this->webSearchEnabled,
+            'webSearchUsed' => $this->wasWebSearchUsed(),
+            // @deprecated since 5.14.0, use webSearchUsed instead.
+            'webSearchEnabled' => $this->wasWebSearchUsed(),
+            'webSearchRequestCount' => $this->webSearch->getRequestCount(),
+            'webSearchQueries' => $this->webSearch->getQueries(),
+            'webSearchCitations' => $this->webSearch->getCitations(),
             'executionTimeMs' => $this->executionTimeMs,
             'stopReason' => $this->stopReason,
         ];

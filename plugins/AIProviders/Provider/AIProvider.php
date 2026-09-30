@@ -25,6 +25,7 @@ use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
 use Piwik\Plugins\AIProviders\Exception\AIProviderException;
 use Piwik\Plugins\AIProviders\Exception\AIProviderServerException;
 use Piwik\Plugins\AIProviders\Model\Configuration;
+use Piwik\Plugins\AIProviders\WebSearchUsage;
 
 /**
  * @phpstan-import-type CanonicalMessageArray from CanonicalMessage
@@ -51,6 +52,37 @@ abstract class AIProvider
      * above Anthropic's 1024-token minimum so it is valid for every provider.
      */
     protected const DEFAULT_THINKING_BUDGET = 2048;
+
+    /**
+     * Default provider HTTP timeout for a single-shot completion, unless the
+     * request sets its own with {@link AIRequest::withTimeoutSeconds()}.
+     */
+    protected const COMPLETE_TIMEOUT_SECONDS = 30;
+
+    /**
+     * Default timeout for a grounded completion. Server-side search runs several
+     * fetches inside the one HTTP request, so these routinely take 30-90s where
+     * an ungrounded completion takes 2-5s.
+     *
+     * That outlasts the default read timeout of every common web server and
+     * proxy in front of PHP (nginx `fastcgi_read_timeout` and Apache `Timeout`
+     * are both 60s), which cut the connection whatever PHP is configured to
+     * allow. So grounded completions are meant for CLI commands and scheduled
+     * tasks, which have nothing in front of them. A caller running one inside a
+     * web request must either raise those limits itself or lower this with
+     * {@link AIRequest::withTimeoutSeconds()}, or the connection dies before the
+     * provider answers.
+     *
+     * PHP's own `max_execution_time` is the lesser worry: on non-Windows SAPIs
+     * it does not advance while a cURL transfer is waiting, so a long provider
+     * call alone rarely trips it.
+     *
+     * A retryable HTTP status (see {@link TRANSIENT_ERROR_STATUS_CODES}) can
+     * multiply both the wall time and the per-search fees, because each attempt
+     * runs its own searches. A transport-level timeout does not: it throws on
+     * the first attempt.
+     */
+    protected const WEB_SEARCH_COMPLETE_TIMEOUT_SECONDS = 120;
 
     /**
      * @var string
@@ -345,7 +377,8 @@ abstract class AIProvider
         string $text,
         ?int $inputTokens = null,
         ?int $outputTokens = null,
-        ?string $stopReason = null
+        ?string $stopReason = null,
+        ?WebSearchUsage $webSearch = null
     ): AIProviderResponse {
         return new AIProviderResponse(
             $this->getId(),
@@ -355,9 +388,13 @@ abstract class AIProvider
             $inputTokens,
             $outputTokens,
             $this->getReasoningLevelUsed($request),
+            // Deprecated slot, superseded by $webSearch below. Still consulted so a
+            // provider written against Matomo 5.13.0, whose only way to report a
+            // search was overriding isWebSearchUsed(), keeps being believed.
             $this->isWebSearchUsed($request),
             $this->lastRequestExecutionTimeMs,
-            $stopReason
+            $stopReason,
+            $webSearch
         );
     }
 
@@ -393,11 +430,81 @@ abstract class AIProvider
         return $this->wantsThinking($request) ? Configuration::CAPABILITY_THINKING : AIRequest::REASONING_NONE;
     }
 
+    /**
+     * Appends one fragment of answer text to the answer being assembled,
+     * inserting a single space only where a boundary needs one.
+     *
+     * Grounded answers arrive in pieces, and the two kinds of gap between them
+     * need opposite treatment:
+     *
+     * - Two *adjacent* text fragments are one sentence split at a citation
+     *   boundary, and each carries its own spacing, so nothing may be inserted.
+     *   Anthropic sends `"Matomo is "` then `"the leading option"`.
+     * - Fragments separated by something else, a tool-use block, a skipped
+     *   reasoning part or a separate output message, are separate sentences and
+     *   the provider does not pad them. Anthropic sends
+     *   `"I'll search for that."` then the search blocks then
+     *   `"Based on the search results, "`, which run together unjoined.
+     *
+     * A space rather than a newline, because a fragment boundary can fall inside
+     * a JSON string value, where a raw newline makes the response undecodable.
+     * Nothing is inserted when either side already carries boundary whitespace.
+     *
+     * @param bool $atBoundary Whether something other than answer text stood between the two.
+     */
+    protected function appendAnswerText(string $answer, string $fragment, bool $atBoundary): string
+    {
+        if ($answer === '' || $fragment === '') {
+            return $answer . $fragment;
+        }
+
+        $needsSpace = $atBoundary
+            && rtrim($answer) === $answer
+            && ltrim($fragment) === $fragment;
+
+        return $answer . ($needsSpace ? ' ' : '') . $fragment;
+    }
+
+    /**
+     * Whether the provider has a server-side web search tool that
+     * {@link complete()} can switch on. {@link AIProviderService::complete()}
+     * rejects a grounded request for a provider that returns false.
+     */
+    public function supportsWebSearch(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @deprecated since 5.14.0. Override {@link supportsWebSearch()} to declare the
+     *             capability and pass a {@link WebSearchUsage} to {@link buildResponse()},
+     *             which reports the searches, queries and citations a completion actually
+     *             produced instead of a bare flag. An override is still honoured by
+     *             {@link AIProviderResponse::wasWebSearchUsed()} for the transition.
+     *             Will be removed in Matomo 6.
+     */
     protected function isWebSearchUsed(AIRequest $request): bool
     {
-        // TODO: Implement provider-specific web search/tool configuration for
-        // OpenAI, Google, Anthropic, and managed providers separately.
         return false;
+    }
+
+    /**
+     * Whether this request runs grounded: the caller asked for search and this
+     * provider can do it.
+     */
+    protected function wantsWebSearch(AIRequest $request): bool
+    {
+        return $request->isWebSearchEnabled() && $this->supportsWebSearch();
+    }
+
+    /**
+     * The HTTP timeout for this completion: the request's own, else the default
+     * for grounded or ungrounded requests.
+     */
+    protected function completionTimeoutSeconds(AIRequest $request): int
+    {
+        return $request->getTimeoutSeconds()
+            ?? ($this->wantsWebSearch($request) ? static::WEB_SEARCH_COMPLETE_TIMEOUT_SECONDS : static::COMPLETE_TIMEOUT_SECONDS);
     }
 
     /**
@@ -437,7 +544,7 @@ abstract class AIProvider
             $payload['response_format'] = ['type' => 'json_object'];
         }
 
-        $response = $this->sendJsonRequest($endpointUrl, $headers, $payload);
+        $response = $this->sendJsonRequest($endpointUrl, $headers, $payload, $this->completionTimeoutSeconds($request));
 
         $text = $response['choices'][0]['message']['content'] ?? '';
         $finishReason = is_string($response['choices'][0]['finish_reason'] ?? null)
@@ -924,16 +1031,23 @@ abstract class AIProvider
     }
 
     /**
-     * Derives the OpenAI-compatible models-listing endpoint from a chat
-     * completions endpoint, e.g. `.../v1/chat/completions` or a bare `.../v1`
-     * base both become `.../v1/models` — the standard `GET {base}/models`
-     * probe used by the "test connection" flow.
+     * Derives a sibling OpenAI-compatible endpoint from a chat completions
+     * endpoint, e.g. `.../v1/chat/completions` or a bare `.../v1` base both
+     * become `.../v1/{$path}`.
      */
-    protected function openAiCompatibleModelsEndpoint(string $chatEndpointUrl): string
+    protected function openAiCompatibleEndpoint(string $chatEndpointUrl, string $path): string
     {
         $base = preg_replace('#/chat/completions/?$#', '', $chatEndpointUrl) ?? $chatEndpointUrl;
 
-        return rtrim($base, '/') . '/models';
+        return rtrim($base, '/') . '/' . $path;
+    }
+
+    /**
+     * The standard `GET {base}/models` probe used by the "test connection" flow.
+     */
+    protected function openAiCompatibleModelsEndpoint(string $chatEndpointUrl): string
+    {
+        return $this->openAiCompatibleEndpoint($chatEndpointUrl, 'models');
     }
 
     /**
@@ -949,8 +1063,12 @@ abstract class AIProvider
      * @param array<string, mixed> $payload
      * @return array<string, mixed>
      */
-    protected function sendJsonRequest(string $url, array $headers, array $payload, int $timeoutSeconds = 30): array
-    {
+    protected function sendJsonRequest(
+        string $url,
+        array $headers,
+        array $payload,
+        int $timeoutSeconds = self::COMPLETE_TIMEOUT_SECONDS
+    ): array {
         $requestBody = json_encode($payload);
 
         if (!is_string($requestBody)) {

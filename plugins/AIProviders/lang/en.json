@@ -16,7 +16,6 @@
         "DefaultCapabilityLevelHelp": "Choose the default capability Matomo may use. Individual features can override this.",
         "DefaultProvider": "Default provider",
         "DefaultProviderHelp": "Connect providers and pick a default for Matomo to use. Individual features may override this and choose their preferred connected provider.",
-        "DefaultsTitle": "Change provider settings and default values",
         "Disconnect": "Disconnect",
         "DisconnectSuccess": "AI provider disconnected.",
         "Disconnecting": "Disconnecting…",

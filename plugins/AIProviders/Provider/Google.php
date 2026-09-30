@@ -16,6 +16,9 @@ use Piwik\Plugins\AIProviders\AIConversationResponse;
 use Piwik\Plugins\AIProviders\AIProviderResponse;
 use Piwik\Plugins\AIProviders\AIRequest;
 use Piwik\Plugins\AIProviders\CanonicalMessage;
+use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
+use Piwik\Plugins\AIProviders\WebSearchUsage;
+use Piwik\UrlHelper;
 
 /**
  * @phpstan-import-type CanonicalMessageArray from CanonicalMessage
@@ -25,6 +28,29 @@ use Piwik\Plugins\AIProviders\CanonicalMessage;
 class Google extends AIProvider
 {
     private const DEFAULT_MODEL = 'gemini-3.1-flash-lite';
+
+    /**
+     * Grounding chunk URIs point at Google's redirect service rather than the
+     * publisher, so this host must never be reported as a citation domain.
+     */
+    private const GROUNDING_REDIRECT_HOST = 'vertexaisearch.cloud.google.com';
+
+    /**
+     * Final labels that make a dotted title a filename rather than a hostname.
+     * A shape check alone cannot tell `report.pdf` from `example.pdf`, and no
+     * hostname worth crediting ends in one of these.
+     *
+     * Deliberately a fixed list rather than a public suffix list: this only has
+     * to reject the handful of titles Google returns as filenames, and a wrong
+     * answer costs one bogus entry in a domain count. Extensions that are also
+     * real top-level domains (`zip`, `mov`) are left out, so a genuine domain is
+     * never discarded.
+     */
+    private const NON_HOSTNAME_SUFFIXES = [
+        'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv', 'rtf',
+        'html', 'htm', 'php', 'aspx', 'json', 'xml', 'gz',
+        'jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'mp3', 'mp4',
+    ];
 
     public function __construct()
     {
@@ -48,11 +74,18 @@ class Google extends AIProvider
 
     /**
      * Custom Google chat completion method.
+     *
+     * Grounding and JSON mode cannot be combined here, so the request is
+     * rejected rather than answered ungrounded; see
+     * {@link checkWebSearchIsUsable()}.
+     *
      * @see https://ai.google.dev/gemini-api/docs/text-generation
      * @param array<string, string> $configuration
      */
     public function complete(AIRequest $request, array $configuration): AIProviderResponse
     {
+        $this->checkWebSearchIsUsable($request);
+
         $model = $this->resolveModel($request);
 
         $payload = [
@@ -78,6 +111,13 @@ class Google extends AIProvider
             $payload['generationConfig']['responseMimeType'] = 'application/json';
         }
 
+        if ($this->wantsWebSearch($request)) {
+            // Google exposes no cap on how many searches grounding may run and no
+            // tool_choice: the model always decides. stdClass so this encodes as
+            // `{}`; an empty PHP array encodes as `[]`, which Google rejects.
+            $payload['tools'] = [['google_search' => new \stdClass()]];
+        }
+
         $systemPrompt = $this->getSystemPrompt($request);
         if ($systemPrompt !== null && $systemPrompt !== '') {
             $payload['systemInstruction'] = [
@@ -94,18 +134,183 @@ class Google extends AIProvider
             [
                 'x-goog-api-key' => $this->getApiKey($configuration),
             ],
-            $payload
+            $payload,
+            $this->completionTimeoutSeconds($request)
         );
 
-        $text = $response['candidates'][0]['content']['parts'][0]['text'] ?? '';
+        // Mapped through the same canonical vocabulary the conversation path uses,
+        // so `end_turn`/`max_tokens` mean the same thing whichever provider ran.
+        $finishReason = is_string($response['candidates'][0]['finishReason'] ?? null)
+            ? $response['candidates'][0]['finishReason']
+            : '';
+        $stopReason = $this->resolveStopReason([], $finishReason);
 
         return $this->buildResponse(
             $request,
             $model,
-            is_string($text) ? $text : '',
+            $this->concatenateTextParts($response['candidates'][0]['content']['parts'] ?? null),
             isset($response['usageMetadata']['promptTokenCount']) ? (int) $response['usageMetadata']['promptTokenCount'] : null,
-            isset($response['usageMetadata']['candidatesTokenCount']) ? (int) $response['usageMetadata']['candidatesTokenCount'] : null
+            isset($response['usageMetadata']['candidatesTokenCount']) ? (int) $response['usageMetadata']['candidatesTokenCount'] : null,
+            $stopReason !== '' ? $stopReason : null,
+            $this->parseWebSearchUsage($request, $response)
         );
+    }
+
+    public function supportsWebSearch(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Rejects the one grounded request Gemini cannot serve: with JSON mode on it
+     * accepts the search tool and then never searches, so the answer comes back
+     * ungrounded. Asking for JSON suppresses grounding both through
+     * `responseMimeType` and through the instruction {@link getSystemPrompt()}
+     * appends, so dropping either would not restore it.
+     *
+     * Thrown rather than degraded for the same reason
+     * {@link \Piwik\Plugins\AIProviders\AIProviderService::complete()} rejects a
+     * provider with no web search at all: a caller that asked for sources should
+     * not have to discover after paying that it never got any.
+     */
+    private function checkWebSearchIsUsable(AIRequest $request): void
+    {
+        if ($this->wantsWebSearch($request) && $request->isJsonResponse()) {
+            throw new AIProviderClientException(sprintf(
+                '%s cannot combine web search with JSON mode. Drop withJsonResponse() to keep the sources, '
+                . 'or withWebSearchEnabled() to keep the native JSON format.',
+                $this->getName()
+            ));
+        }
+    }
+
+    /**
+     * Assembles the answer from every text part in order: a grounded candidate
+     * returns several, so reading `parts[0]` truncated it. Parts flagged
+     * `thought` are the reasoning summary rather than the answer and are
+     * skipped, which is itself a boundary. Spacing across gaps is handled by
+     * {@link appendAnswerText()}.
+     *
+     * @param mixed $parts
+     */
+    private function concatenateTextParts($parts): string
+    {
+        if (!is_array($parts)) {
+            return '';
+        }
+
+        $answer = '';
+        $atBoundary = false;
+
+        foreach ($parts as $part) {
+            if (!is_array($part)) {
+                continue;
+            }
+
+            if (empty($part['thought']) && is_string($part['text'] ?? null)) {
+                // An empty part is neither text nor a boundary: leave a pending
+                // boundary pending, so the next real fragment still gets its space.
+                if ($part['text'] === '') {
+                    continue;
+                }
+
+                $answer = $this->appendAnswerText($answer, $part['text'], $atBoundary);
+                $atBoundary = false;
+                continue;
+            }
+
+            $atBoundary = true;
+        }
+
+        return $answer;
+    }
+
+    /**
+     * Reads `candidates[0].groundingMetadata`: the queries Google ran and one
+     * citation per grounding chunk. Google reports no search counter, so the
+     * count is derived from the number of queries.
+     *
+     * @param array<string, mixed> $response
+     */
+    private function parseWebSearchUsage(AIRequest $request, array $response): WebSearchUsage
+    {
+        if (!$this->wantsWebSearch($request)) {
+            return WebSearchUsage::none();
+        }
+
+        $metadata = $response['candidates'][0]['groundingMetadata'] ?? null;
+        if (!is_array($metadata)) {
+            return WebSearchUsage::fromProviderData([], 0, []);
+        }
+
+        $queries = [];
+        foreach ((is_array($metadata['webSearchQueries'] ?? null) ? $metadata['webSearchQueries'] : []) as $query) {
+            if (is_string($query)) {
+                $queries[] = $query;
+            }
+        }
+
+        $citations = [];
+        foreach ((is_array($metadata['groundingChunks'] ?? null) ? $metadata['groundingChunks'] : []) as $chunk) {
+            if (!is_array($chunk) || !is_array($chunk['web'] ?? null)) {
+                continue;
+            }
+
+            $citations[] = [
+                'url' => $chunk['web']['uri'] ?? null,
+                'title' => $chunk['web']['title'] ?? null,
+                'domain' => $this->groundingDomain($chunk['web']),
+            ];
+        }
+
+        // Google reports no search counter, so the count is the number of queries it
+        // ran. Normalised first so it cannot exceed what getWebSearchQueries() lists.
+        $queries = WebSearchUsage::normalizeQueries($queries);
+
+        return WebSearchUsage::fromProviderData($citations, count($queries), $queries);
+    }
+
+    /**
+     * Publisher host of a grounding chunk, or '' when nothing yields one, which
+     * a caller can see rather than mistake for a real value.
+     *
+     * `web.uri` is a redirect whose host is Google's own, and in practice no
+     * `web.domain` comes back: the publisher host arrives as the bare
+     * `web.title` ("matomo.org"), so the title is sniffed for a hostname shape.
+     *
+     * @param array<string, mixed> $web
+     */
+    private function groundingDomain(array $web): string
+    {
+        $domain = is_string($web['domain'] ?? null) ? trim($web['domain']) : '';
+        if ($domain !== '') {
+            return $domain;
+        }
+
+        $host = is_string($web['uri'] ?? null) ? (string) UrlHelper::getHostFromUrl($web['uri']) : '';
+        $redirectSuffix = '.' . self::GROUNDING_REDIRECT_HOST;
+        $isRedirect = $host === self::GROUNDING_REDIRECT_HOST
+            || substr($host, -strlen($redirectSuffix)) === $redirectSuffix;
+        if ($host !== '' && !$isRedirect) {
+            return $host;
+        }
+
+        // Requires an alphabetic final label, so a version ("1.2") is not
+        // mistaken for a hostname. Case and any `www.` are normalised by
+        // WebSearchUsage.
+        $title = is_string($web['title'] ?? null) ? trim($web['title']) : '';
+        $isHostname = preg_match(
+            '~^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$~i',
+            $title
+        ) === 1;
+
+        if (!$isHostname) {
+            return '';
+        }
+
+        $suffix = strtolower(substr($title, (int) strrpos($title, '.') + 1));
+
+        return in_array($suffix, self::NON_HOSTNAME_SUFFIXES, true) ? '' : $title;
     }
 
     /**
