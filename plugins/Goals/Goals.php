@@ -568,8 +568,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_RecommendAiNotActivatedHelp';
         $translationKeys[] = 'Goals_RecommendAiNotConfigured';
         $translationKeys[] = 'Goals_RecommendAiNotConfiguredHelp';
-        $translationKeys[] = 'Goals_RecommendAiNotPermitted';
-        $translationKeys[] = 'Goals_RecommendAiNotPermittedHelp';
         $translationKeys[] = 'Goals_RecommendGoals';
         $translationKeys[] = 'Goals_RecommendCreate';
         $translationKeys[] = 'Goals_RecommendCreateAll';
