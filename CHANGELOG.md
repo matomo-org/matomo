@@ -189,11 +189,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which is `@internal`: it
   must not be called while the widget list is being built, so it is named here to locate the change
   rather than to be called from a plugin.
-* `UsersManager.logoutUser` now records a per-user `ts_sessions_invalidated` timestamp on the `user`
-  table in addition to removing the session rows, and `Piwik\Session\SessionAuth` ignores any session
-  that started before it. Ending a user's sessions is therefore reliable even when a concurrent
-  request re-creates a session row that was just removed. Sessions opened afterwards are unaffected.
-  `Piwik\Session::destroyAllSessions()` records the same timestamp on every user for the same reason.
 
 ## Matomo 5.14.1
 
