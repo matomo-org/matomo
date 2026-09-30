@@ -268,8 +268,13 @@ PageRenderer.prototype.resizeViewportToFullPage = async function () {
         height: document.documentElement.scrollHeight,
     }));
 
-    await this.webpage.setViewport(JSON.parse(dims));
-    await this.waitForSparklinesToSettle();
+    const viewport = JSON.parse(dims);
+    const previous = this.webpage.viewport();
+    await this.webpage.setViewport(viewport);
+    // an unchanged size reloads nothing, and a page on a timer (the invite error redirect) can't spare the wait
+    if (!previous || previous.width !== viewport.width || previous.height !== viewport.height) {
+        await this.waitForSparklinesToSettle();
+    }
 };
 
 /**
