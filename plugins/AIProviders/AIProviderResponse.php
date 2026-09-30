@@ -81,6 +81,15 @@ class AIProviderResponse
      */
     private $webSearch;
 
+    /**
+     * Cost of the request in USD as billed by the provider, or null when the
+     * provider does not report one (token-billed providers leave pricing to the
+     * caller).
+     *
+     * @var float|null
+     */
+    private $cost;
+
     public function __construct(
         string $providerId,
         string $providerName,
@@ -91,7 +100,8 @@ class AIProviderResponse
         string $reasoningLevel = AIRequest::REASONING_NONE,
         ?int $executionTimeMs = null,
         ?string $stopReason = null,
-        ?WebSearchUsage $webSearch = null
+        ?WebSearchUsage $webSearch = null,
+        ?float $cost = null
     ) {
         $this->providerId = $providerId;
         $this->providerName = $providerName;
@@ -103,6 +113,7 @@ class AIProviderResponse
         $this->executionTimeMs = $executionTimeMs;
         $this->stopReason = $stopReason;
         $this->webSearch = $webSearch ?? WebSearchUsage::none();
+        $this->cost = $cost;
     }
 
     public function getText(): string
@@ -182,6 +193,11 @@ class AIProviderResponse
         return $this->stopReason;
     }
 
+    public function getCost(): ?float
+    {
+        return $this->cost;
+    }
+
     /**
      * Returns the response text decoded as a JSON array/object, or null when the
      * text is not valid JSON. Intended for requests made with
@@ -225,6 +241,7 @@ class AIProviderResponse
             'webSearchCitations' => $this->webSearch->getCitations(),
             'executionTimeMs' => $this->executionTimeMs,
             'stopReason' => $this->stopReason,
+            'cost' => $this->cost,
         ];
     }
 }
