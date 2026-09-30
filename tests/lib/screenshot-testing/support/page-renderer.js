@@ -21,6 +21,8 @@ const AJAX_IDLE_THRESHOLD = 750; // same as networkIdle event
 // indefinitely, never emitting requestfinished/requestfailed, which would otherwise hang
 // waitForNetworkIdle forever.
 const STALLED_REQUEST_THRESHOLD = 5000;
+const SPARKLINE_SETTLE_TIMEOUT = 10000;
+const SPARKLINE_FRAME_TIMEOUT = 1000;
 const VERBOSE = false;
 const PAGE_METHODS_TO_PROXY = [
     '$',
@@ -267,6 +269,40 @@ PageRenderer.prototype.resizeViewportToFullPage = async function () {
     }));
 
     await this.webpage.setViewport(JSON.parse(dims));
+    await this.waitForSparklinesToSettle();
+};
+
+/**
+ * Resizing to the full page widens the viewport whenever the page overflows it, and a sparkline card
+ * whose width changes re-requests its image behind a loading skeleton (see useSparklineSlotSize.ts),
+ * so a capture straight after the resize can catch the skeleton instead of the sparkline.
+ */
+PageRenderer.prototype.waitForSparklinesToSettle = async function () {
+    // ResizeObserver callbacks run after layout and before paint, so two frames on, every card the
+    // resize reached has already switched to its skeleton
+    const framesRan = await this._evaluateIgnoringNavigation((frameTimeout) => new Promise((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve(true)));
+        // rAF can stall on an idle headless page
+        setTimeout(() => resolve(false), frameTimeout);
+    }), SPARKLINE_FRAME_TIMEOUT);
+    if (framesRan === false) {
+        console.log('No animation frame within ' + SPARKLINE_FRAME_TIMEOUT + 'ms of resizing, so sparklines may not have started reloading yet');
+    }
+
+    try {
+        // a card in a hidden tab has no width to render a sparkline at, and a lazy image laid out above the
+        // page (a collapsed dashboard widget) never loads, so only cards with a box inside the page count
+        await this.webpage.waitForFunction(() => !Array.from(document.querySelectorAll('.sparklineLoadingSkeleton'))
+            .some((element) => {
+                const rect = element.getBoundingClientRect();
+                return rect.width > 0 && rect.bottom + window.scrollY > 0;
+            }), { timeout: SPARKLINE_SETTLE_TIMEOUT, polling: 100 });
+    } catch (e) {
+        if (!e || e.name !== 'TimeoutError') {
+            throw e;
+        }
+        console.log('Sparklines still loading after ' + SPARKLINE_SETTLE_TIMEOUT + 'ms on ' + this.webpage.url() + ', capturing anyway');
+    }
 };
 
 PageRenderer.prototype.screenshotSelector = async function (selector, shouldResizeViewport = true) {
@@ -414,13 +450,13 @@ PageRenderer.prototype.getActiveRequestCount = function () {
     return count;
 };
 
-// The settling evaluates in waitForNetworkIdle/waitForLazyImages may run while the page is still
+// The settling evaluates in waitForNetworkIdle/waitForLazyImages/waitForSparklinesToSettle may run while the page is still
 // navigating (e.g. a multi-step updater that self-submits through several pages). A navigation destroys
 // the execution context mid-evaluate and puppeteer throws "Execution context was destroyed". These
 // evaluates are best-effort, so treat that specific error as a no-op instead of failing the test.
-PageRenderer.prototype._evaluateIgnoringNavigation = async function (fn) {
+PageRenderer.prototype._evaluateIgnoringNavigation = async function (fn, ...args) {
     try {
-        return await this.webpage.evaluate(fn);
+        return await this.webpage.evaluate(fn, ...args);
     } catch (e) {
         if (e && /execution context/i.test(e.message || '')) {
             return undefined;
