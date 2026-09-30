@@ -152,7 +152,7 @@ describe('AllWebsitesDashboard', function () {
             await page.goto(dashboardUrl);
             await page.waitForNetworkIdle();
 
-            await page.hover('.kpiCardContainer .kpiCard:first-child .kpiCardValue');
+            await page.hover('.kpiCardContainer .kpiCard:first-child .kpiCard__value');
             await page.waitForSelector('.ui-tooltip', { visible: true });
 
            expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip');
@@ -176,8 +176,8 @@ describe('AllWebsitesDashboard', function () {
             await page.click('.move-period-next');
             await page.waitForNetworkIdle();
 
-            await page.waitForSelector('.kpiCardBadge');
-            await page.hover('.kpiCardBadge');
+            await page.waitForSelector('.kpiCard__badge');
+            await page.hover('.kpiCard__badge');
             await page.waitForSelector('.ui-tooltip', { visible: true });
 
             expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip_badge');

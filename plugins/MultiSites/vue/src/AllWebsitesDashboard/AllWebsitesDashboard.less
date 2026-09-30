@@ -44,7 +44,23 @@
     padding-right: 0;
   }
 
+  // Cap the page where five KPI cards stay comfortable and centre it beyond that. The widest card
+  // content is the longest title on one line ("AI Chatbots Requests", ~180px); a comfortable card is
+  // ~210px, so five of them plus gaps need ~1230px of band, ~1280px including the card padding. Past
+  // this, extra width only stretches the cards and the sites table into sparse rows.
+  .card {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
+  }
+
   [vue-entry="MultiSites.AllWebsitesDashboard"] {
+    // Establish a query container so the KPI band can respond to the card's own width rather than the
+    // viewport: the reporting menu can collapse and widen the card, and the band should use that width.
+    // The @container rules that use this live in AllWebsitesDashboard.containerQueries.css (less.php
+    // cannot compile @container).
+    container-name: awdDashboard;
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
   }
@@ -74,7 +90,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0 10px 20px 10px;
+    // no side margin, so the search field lines up with the card title and the KPIs
+    margin: 0 0 20px;
 
     .btn {
       margin-bottom: 8px;
@@ -122,112 +139,136 @@
   }
 
   .kpiCardContainer {
-    align-items: flex-start;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 0 20px;
-    overflow-x: auto;
+    align-items: start;
+    column-gap: ~"clamp(1rem, 3vw, 3rem)";
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: repeat(var(--kpi-columns, 5), minmax(0, 1fr));
+    margin: 0 0 2rem;
+    row-gap: 1.5rem;
 
     .kpiCard {
+      // Four shared rows — badge slot, title, value, evolution — via subgrid, so those lines stay
+      // aligned across every card in a row even when a title wraps onto two lines. Column 1 has no
+      // left padding (the container column-gap is the only gutter), so the first value lines up with
+      // the "All Websites" title and every first-in-row card lines up under it.
       display: grid;
-      flex-basis: 0;
-      flex-grow: 1;
-      margin: 20px 0;
-      padding: 0 3vw;
+      grid-row: span 4;
+      grid-template-rows: subgrid;
+      position: relative;
+      row-gap: 0.6rem;
     }
 
-    .kpiCardLoading {
+    .kpiCard--loading {
+      // a single full-width card while the KPIs load
+      grid-column: ~"1 / -1";
       text-align: center;
-
-      .kpiCardBadge {
-        visibility: hidden;
-      }
-
-      .matomo-loader {
-        top: -8px;
-      }
     }
 
-    .kpiCardDivider {
-      align-self: stretch;
-      background-image: url('plugins/MultiSites/images/kpi_divider.svg');
-      margin: 20px 0;
-      width: 1px;
+    .kpiCard--loading .matomo-loader {
+      top: -8px;
     }
 
-    .kpiCardDividerBadge {
-      // do not stretch divider into badge space
-      margin-bottom: 3rem;
+    .kpiCard__badgeSlot {
+      // Reserves the badge row at the top of every card, always, so a badge appearing on a refresh
+      // never shifts the values. The badge itself is taken out of the flow and floats over this slot.
+      min-height: 1.7rem;
     }
 
-    .kpiCardIcon {
+    .kpiCard__badge {
+      background-color: #ecf7fe;
+      border: 2px solid #0d94e3;
+      border-radius: 2px;
+      font-size: 0.9rem;
+      left: 0;
+      min-height: 1.5rem;
+      padding: 0 0.35rem;
+      position: absolute;
+      top: 0;
+    }
+
+    .kpiCard__title {
+      // titles align to the top of the row, so a wrapped two-line title does not drop the one-line
+      // titles below it; first baseline keeps the icon on the first line of the label
+      align-items: first baseline;
+      align-self: start;
+      color: #76838f;
+      column-gap: 0.35rem;
+      display: flex;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .kpiCard__icon {
       font-size: 0.9rem;
       position: relative;
       top: 1px;
     }
 
-    .kpiCardTitle {
-      color: #76838f;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-    }
-
-    .kpiCardValue {
-      font-size: 3rem;
+    .kpiCard__value {
+      font-size: 2.5rem;
       font-weight: bold;
-      padding: 0.25rem 0;
-    }
-
-    .kpiCardEvolution {
-      display: table;
-      color: #76838f;
-      font-size: 0.9rem;
-      line-height: 1rem;
-
-      &>span {
-        display: table-cell;
-      }
-    }
-
-    .kpiCardEvolutionIcon {
-      font-size: 0.7rem;
-    }
-
-    .kpiCardEvolutionTrend {
-      width: 1%;
-      font-size: 1rem;
+      line-height: 1.05;
       white-space: nowrap;
-      vertical-align: middle;
     }
 
-    .kpiTrendNegative {
-      color: red;
+    .kpiCard__trend {
+      font-size: 1rem;
+      font-weight: bold;
+      white-space: nowrap;
     }
 
-    .kpiTrendNeutral {
-      .kpiCardEvolutionIcon {
-        color: #ccc;
-      }
-    }
-
-    .kpiTrendPositive {
+    .kpiCard__trend--positive {
       color: green;
     }
 
-    .kpiCardBadge {
-      background-color: #ecf7fe;
-      border: 2px solid #0d94e3;
-      border-radius: 2px;
-      display: inline-block;
+    .kpiCard__trend--negative {
+      color: red;
+    }
+
+    .kpiCard__trend--neutral .kpiCard__trendIcon {
+      color: #ccc;
+    }
+
+    .kpiCard__trendIcon {
+      font-size: 0.7rem;
+    }
+
+    .kpiCard__evolution {
+      // The trend and the period label ("From previous day") are stacked as one group below the value.
+      // The gap before this group is the card row-gap, so the empty space reads as sitting before the
+      // trend, grouped with the period. No ellipsis: the label wraps, and subgrid keeps it aligned.
+      align-items: flex-start;
+      color: #76838f;
+      display: flex;
+      flex-direction: column;
       font-size: 0.9rem;
-      min-height: 1.5rem;
-      margin-top: 0.5rem;
-      padding: 0 0.35rem;
-      width: fit-content;
+      line-height: 1.2;
+      row-gap: 0.15rem;
     }
   }
 
+  // The number of columns follows the number of KPIs (a modifier class, not an inline style, so the
+  // responsive overrides further down can win). Each count reduces only when that many cards would
+  // get too narrow, and always to a balanced arrangement, never to a lonely trailing card.
+  .kpiCardContainer--cols1 {
+    --kpi-columns: 1;
+  }
+
+  .kpiCardContainer--cols3 {
+    --kpi-columns: 3;
+  }
+
+  .kpiCardContainer--cols4 {
+    --kpi-columns: 4;
+  }
+
+  .kpiCardContainer--cols5 {
+    --kpi-columns: 5;
+  }
+
   .sitesTableContainer {
+    // full-bleed: the table (and its header band) reach the card edges
     margin: 0 -20px;
     overflow-x: auto;
     width: calc(~"100% + 40px");
@@ -268,12 +309,14 @@
 
     td:first-child,
     th:first-child {
-      padding-left: calc(~"1rem + 20px");
+      // 20px cancels the container's -20px full-bleed margin, so the first column text lines up with
+      // the card title and the KPIs above, while the band still reaches the card edge
+      padding-left: 20px;
     }
 
     td:last-child,
     th:last-child {
-      padding-right: calc(~"1rem + 20px");
+      padding-right: 20px;
     }
 
     td.sitesTableLoading {
@@ -352,49 +395,9 @@
     }
   }
 
-  @media all and (max-width: 1500px) {
-    .kpiCardContainer {
-      flex-wrap: wrap;
-
-      .kpiCard {
-        flex-basis: calc(~'50% - 1px');
-        max-width: calc(~'50% - 1px');
-        padding: 0 7vw;
-      }
-
-      .kpiCardDivider {
-        &:nth-child(4),
-        &:nth-child(8) {
-          display: none;
-        }
-      }
-    }
-  }
-
-  @media all and (max-width: 600px) {
+  @media (max-width: 600px) {
     .dashboardHeader {
       margin-bottom: 12px;
-    }
-
-    .kpiCardContainer {
-      .kpiCard {
-        flex-basis: 100%;
-        max-width: 100%;
-        padding: 0!important;
-        justify-items: flex-start;
-
-        .kpiCardValue {
-          font-size: 2rem;
-        }
-      }
-
-      .kpiCardDivider {
-        display: block!important;
-        background-image: url('plugins/MultiSites/images/kpi_divider_horizontal.svg');
-        height: 1px;
-        width: 100%;
-        margin: 4px 0;
-      }
     }
 
     #periodString {

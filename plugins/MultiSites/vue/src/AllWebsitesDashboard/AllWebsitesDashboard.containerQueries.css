@@ -1,0 +1,53 @@
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/*
+ * The KPI band responds to the card's own width, not the viewport, so it does not drop a column just
+ * before the collapsing reporting menu hands the card more room.
+ *
+ * This lives in a plain .css file on purpose: Matomo compiles .less through less.php, which does not
+ * support @container, whereas .css files are injected into the merged stylesheet verbatim (see
+ * core/AssetManager/UIAssetMerger/StylesheetUIAssetMerger). The query container itself
+ * (container-name / container-type) is declared in AllWebsitesDashboard.less.
+ *
+ * Each width is the usable card width at which that many cards would get too narrow; the drop is
+ * always to a balanced arrangement, never a lonely trailing card. Selectors are written out in full
+ * (including the #multisitesAllWebsitesDashboard ancestor) to match the specificity of the base rules
+ * in AllWebsitesDashboard.less, and this file is registered after it so these overrides win.
+ */
+
+@container awdDashboard (max-width: 640px) {
+  /* 5 KPIs -> 3 + 2. With the trend stacked under the value, five cards stay comfortable down to ~750px. */
+  #multisitesAllWebsitesDashboard .kpiCardContainer--cols5 {
+    --kpi-columns: 3;
+  }
+}
+
+@container awdDashboard (max-width: 600px) {
+  /* a smaller value on narrow screens */
+  #multisitesAllWebsitesDashboard .kpiCardContainer .kpiCard__value {
+    font-size: 2rem;
+  }
+}
+
+@container awdDashboard (max-width: 520px) {
+  /* 4 KPIs -> 2 + 2 */
+  #multisitesAllWebsitesDashboard .kpiCardContainer--cols4 {
+    --kpi-columns: 2;
+  }
+}
+
+@container awdDashboard (max-width: 440px) {
+  /* smallest screens: five KPIs -> two per row, three -> a single column */
+  #multisitesAllWebsitesDashboard .kpiCardContainer--cols5 {
+    --kpi-columns: 2;
+  }
+
+  #multisitesAllWebsitesDashboard .kpiCardContainer--cols3 {
+    --kpi-columns: 1;
+  }
+}
