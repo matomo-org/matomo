@@ -52,10 +52,9 @@
         <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
     </span>
-    <!-- Nest element for the help panel. A host offering somewhere of its own takes the panel
-         out of here, so a panel this wide does not stretch the row the heading sits in; every
-         caller outside ReportHeader offers nothing and the panel stays. Empty either way until
-         the reader opens it, which is what `:empty` collapses. -->
+    <!-- A host offering somewhere of its own takes the panel out of here, so a panel this wide
+         does not stretch the row the heading sits in. Every caller outside ReportHeader offers
+         nothing and the panel stays. -->
     <div class="enrichedHeadline__help">
       <Teleport :to="helpContainer" :disabled="!helpContainer">
         <!-- `v-if`, not `v-show`: a panel merely hidden is still a child, and would keep both

@@ -38,9 +38,8 @@
     gap: 20px;
   }
 
-  // Nest element welcoming the `mtm-helpPanel` block, on a row of its own so the panel spans the
-  // card rather than sharing the header line with the actions. In the DOM from the moment the
-  // report has help, so it collapses until the reader opens the panel and gives it a child.
+  // In the DOM from the moment the report has help, so it has to collapse until the reader
+  // opens the panel and gives it a child, or it would claim the column gap for nothing.
   .reportHeader__help {
     &:empty {
       display: none;
