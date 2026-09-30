@@ -1,0 +1,38 @@
+# UI tests in the pinned environment, the same on Linux, Windows and macOS:
+#   docker compose -f tests/docker/ui/compose.yml run --rm ui [--update] [playwright test args]
+# The checkout is mounted, but Matomo's config and tmp/ are the container's own, so a local
+# Matomo setup is left alone. Screenshots are written into the checkout.
+# MATOMO_UI_PLATFORM=linux/amd64 renders like the x64 CI runners (emulated on Apple Silicon).
+name: matomo-ui-tests
+
+services:
+  db:
+    image: mysql:8.0
+    platform: ${MATOMO_UI_PLATFORM:-}
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ../../playwright/ci/my.cnf:/etc/mysql/conf.d/matomo.cnf:ro
+    tmpfs:
+      - /var/lib/mysql
+
+  ui:
+    build: .
+    image: matomo-ui-tests:local
+    platform: ${MATOMO_UI_PLATFORM:-}
+    # shares the database's network, so the CI config (MySQL on 127.0.0.1, Matomo on localhost) works unchanged
+    network_mode: service:db
+    depends_on: [db]
+    environment:
+      MATOMO_URL: http://localhost/
+      CI: ${CI:-}
+      PLAYWRIGHT_SNAPSHOT_SUFFIX: ${PLAYWRIGHT_SNAPSHOT_SUFFIX:-}
+    volumes:
+      - ../../..:/home/runner/work/matomo/matomo
+      - ../../playwright/ci/config.ini.php:/home/runner/work/matomo/matomo/config/config.ini.php:ro
+      - matomo-tmp:/home/runner/work/matomo/matomo/tmp
+      - playwright-node-modules:/home/runner/work/matomo/matomo/tests/playwright/node_modules
+
+volumes:
+  matomo-tmp:
+  playwright-node-modules:
