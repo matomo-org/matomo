@@ -56,13 +56,9 @@ class UserSetting extends Setting
      */
     public function isWritableByCurrentUser()
     {
-        if (isset($this->hasWritePermission)) {
-            return $this->hasWritePermission;
-        }
-
         // performance improvement, do not detect this in __construct otherwise likely rather "big" query to DB.
-        $this->hasWritePermission = Piwik::isUserHasSomeViewAccess();
-
-        return $this->hasWritePermission;
+        return $this->getWritePermissionForCurrentAccess(function () {
+            return Piwik::isUserHasSomeViewAccess();
+        });
     }
 }

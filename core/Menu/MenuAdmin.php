@@ -139,6 +139,8 @@ class MenuAdmin extends MenuAbstract
      */
     public function getMenu()
     {
+        $this->resetIfBuiltForAnotherScope();
+
         if (!$this->menu) {
             foreach ($this->getAllMenus() as $menu) {
                 $menu->configureAdminMenu($this);
