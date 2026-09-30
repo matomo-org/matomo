@@ -25,6 +25,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * New command `marketplace:warm-cache` refetches the plugin and theme lists shown in the Marketplace overview. With `--if-older-than=<seconds>` it only refetches when the lists are missing or at least that old. Matomo runs it in the background to refresh the lists at spread-out times rather than on the hour, so it does not normally need to be run by hand.
 
+### New config.ini.php settings
+* The new `[Goals]` section limits the automatic goal recommendations:
+  * `recommendation_max_crawl_pages` (default `50`) caps how many same-origin pages are fetched when a website is analysed for goal recommendations.
+  * `recommendation_ai_daily_scan_limit` (default `0`, no limit) caps how many AI-assisted goal recommendation scans can run per site and day, for example to limit AI provider usage in managed environments.
+
 ## Matomo 5.14.0
 
 ### Breaking Changes
