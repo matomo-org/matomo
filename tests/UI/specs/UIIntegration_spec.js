@@ -350,7 +350,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.click('.enrichedHeadline__helpIcon');
             await page.waitForTimeout(100);
             await page.evaluate(function () {
-                $('.enrichedHeadline__helpDate:visible').html('Report generated xx hours xx min ago');
+                $('.mtm-helpPanel__date:visible').html('Report generated xx hours xx min ago');
             });
             await page.mouse.move(-10, -10);
 

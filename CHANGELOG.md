@@ -189,16 +189,18 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   them by class has to follow: `.title` becomes `.enrichedHeadline__title`, `.iconsBar` becomes
   `.enrichedHeadline__iconsBar`, `.ratingIcons` becomes `.enrichedHeadline__ratingIcons`, `.helpIcon`
   becomes `.enrichedHeadline__helpIcon` (its open state `.active` becomes
-  `.enrichedHeadline__helpIcon--active`), and the help panel, its read-more link and its date become
-  `.enrichedHeadline__help`, `.enrichedHeadline__readMore` and `.enrichedHeadline__helpDate`. `.title`
-  is still written to the DOM alongside its new name, carrying no styles, because third-party code
-  reads the report name from `.enrichedHeadline .title`. The DataTable keeps its own separate
-  `.helpDate`.
-* The help panel is no longer a descendant of the headline on a report page. `ReportHeader` passes
-  `EnrichedHeadline` a `helpContainer` to render it into, so the panel spans the report card instead of
-  sharing the header line with the report actions and displacing them. Code reading the panel out of
-  `.enrichedHeadline` has to look at the report header instead. The panel keeps its appearance wherever
-  it is placed, its styles no longer being scoped to the headline.
+  `.enrichedHeadline__helpIcon--active`). `.title` is still written to the DOM alongside its new
+  name, carrying no styles, because third-party code reads the report name from
+  `.enrichedHeadline .title`.
+* The help panel a headline opens is now the standalone `mtm-helpPanel` block
+  (`plugins/Morpheus/stylesheets/ui/_help-panel.less`), with the elements `.mtm-helpPanel__readMore`
+  and `.mtm-helpPanel__date`, in place of the `.inlineHelp` markup scoped inside `.enrichedHeadline`.
+  Being a block it can be placed anywhere, and `ReportHeader` places it in a row of its own so it
+  spans the report card rather than sharing the header line with the report actions and displacing
+  them. The headline keeps it in `.enrichedHeadline__help`, a nest element, when no host asks for it.
+  The panel is now removed from the DOM while closed rather than hidden in place, so code looking for
+  it has to account for it being absent, and it no longer sits under `.enrichedHeadline` on a report
+  page. The DataTable's own `.helpDate` is untouched.
 * Passing help by writing a `<div class="inlineHelp">` into the `EnrichedHeadline` slot has been
   removed, along with the `.inlineHelp` rule that hid that node and the code that consumed it. Nothing
   in core or in any of the 128 Marketplace plugins used it. Use the `inline-help` attribute, which is
