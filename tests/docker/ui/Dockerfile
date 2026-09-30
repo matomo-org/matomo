@@ -27,7 +27,11 @@ COPY --from=node:24-bookworm-slim /usr/local/lib/node_modules /usr/local/lib/nod
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
     && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx \
     && npx -y playwright@${PLAYWRIGHT_VERSION} install --with-deps chromium \
-    && rm -rf /var/lib/apt/lists/* /root/.npm
+    && rm -rf /var/lib/apt/lists/* /root/.npm \
+    # Chromium's fallback fixed font is "Courier New", which fontconfig maps to Liberation Mono, while
+    # generic monospace is DejaVu Sans Mono: without Liberation Mono both end up the same
+    && rm -f /usr/share/fonts/truetype/liberation*/LiberationMono-* \
+    && fc-cache -f
 
 COPY php.ini /etc/php/${PHP_VERSION}/cli/conf.d/99-matomo-tests.ini
 COPY run.sh /usr/local/bin/matomo-ui-tests
