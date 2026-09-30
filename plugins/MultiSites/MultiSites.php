@@ -111,8 +111,8 @@ class MultiSites extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.less";
-        // Registered after the .less so its overrides win. It is a plain .css (not .less) because it
-        // uses @container, which less.php cannot compile; .css files are merged verbatim.
+        // A plain .css, not .less: it relies on @container (see the file's header). Registered after
+        // the .less so its container-query overrides win.
         $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.containerQueries.css";
     }
 }

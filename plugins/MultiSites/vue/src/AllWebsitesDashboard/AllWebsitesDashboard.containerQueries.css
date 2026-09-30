@@ -21,28 +21,24 @@
  */
 
 @container awdDashboard (max-width: 640px) {
-  /* 5 KPIs -> 3 + 2. With the trend stacked under the value, five cards stay comfortable down to ~750px. */
   #multisitesAllWebsitesDashboard .kpiCardContainer--cols5 {
     --kpi-columns: 3;
   }
 }
 
 @container awdDashboard (max-width: 600px) {
-  /* a smaller value on narrow screens */
   #multisitesAllWebsitesDashboard .kpiCardContainer .kpiCard__value {
     font-size: 2rem;
   }
 }
 
 @container awdDashboard (max-width: 520px) {
-  /* 4 KPIs -> 2 + 2 */
   #multisitesAllWebsitesDashboard .kpiCardContainer--cols4 {
     --kpi-columns: 2;
   }
 }
 
 @container awdDashboard (max-width: 440px) {
-  /* smallest screens: five KPIs -> two per row, three -> a single column */
   #multisitesAllWebsitesDashboard .kpiCardContainer--cols5 {
     --kpi-columns: 2;
   }

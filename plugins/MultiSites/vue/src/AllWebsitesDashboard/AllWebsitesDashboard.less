@@ -57,8 +57,7 @@
   [vue-entry="MultiSites.AllWebsitesDashboard"] {
     // Establish a query container so the KPI band can respond to the card's own width rather than the
     // viewport: the reporting menu can collapse and widen the card, and the band should use that width.
-    // The @container rules that use this live in AllWebsitesDashboard.containerQueries.css (less.php
-    // cannot compile @container).
+    // The @container rules that use it live in AllWebsitesDashboard.containerQueries.css.
     container-name: awdDashboard;
     container-type: inline-size;
     display: flex;
@@ -160,7 +159,6 @@
     }
 
     .kpiCard--loading {
-      // a single full-width card while the KPIs load
       grid-column: ~"1 / -1";
       text-align: center;
     }
