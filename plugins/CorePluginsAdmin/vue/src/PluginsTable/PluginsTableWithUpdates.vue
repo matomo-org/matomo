@@ -71,7 +71,7 @@
           </span>
         </td>
         <td class="name">
-          <a @click.prevent v-plugin-name="{pluginName:plugin.name}" class="plugin-details">
+          <a v-plugin-name="{pluginName:plugin.name}" class="plugin-details">
             {{ plugin.name }}
           </a>
         </td>

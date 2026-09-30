@@ -105,6 +105,21 @@ class Tasks extends \Piwik\Plugin\Tasks
                 'ignoreInScreenWriter' => true,
             ]);
         }
+
+        try {
+            // the consumer is read on the dashboard, by the promotions that need to know
+            // which premium products a license already covers. Those readers take it
+            // cached-only so a dashboard never waits on plugins.matomo.org, which only
+            // works while something keeps the entry filled.
+            $this->api->refreshConsumerCache();
+        } catch (\Throwable $e) {
+            // `\Throwable` and not `Exception`, for the reason given above: this must not
+            // fail the scheduled run, and Scheduler::executeTask() only catches an \Exception.
+            $this->logger->warning('Could not warm the Marketplace consumer: {message}', [
+                'message' => $e->getMessage(),
+                'ignoreInScreenWriter' => true,
+            ]);
+        }
     }
 
     public function sendNotificationIfUpdatesAvailable()
