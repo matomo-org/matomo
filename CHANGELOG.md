@@ -198,9 +198,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   Being a block it can be placed anywhere, and `ReportHeader` places it in a row of its own so it
   spans the report card rather than sharing the header line with the report actions and displacing
   them. The headline keeps it in `.enrichedHeadline__help`, a nest element, when no host asks for it.
+  Its parts are renamed with it: the panel's `.readMore` link becomes `.mtm-helpPanel__readMore` and
+  the headline's own `.helpDate` becomes `.mtm-helpPanel__date`. The DataTable's separate `.helpDate`,
+  which the report documentation emits, is untouched.
   The panel is now removed from the DOM while closed rather than hidden in place, so code looking for
   it has to account for it being absent, and it no longer sits under `.enrichedHeadline` on a report
-  page. The DataTable's own `.helpDate` is untouched.
+  page. Links inside the help text itself are no longer given the panel's underline and colour, only
+  the read-more link is: they take the usual link styling instead.
 * Passing help by writing a `<div class="inlineHelp">` into the `EnrichedHeadline` slot has been
   removed, along with the `.inlineHelp` rule that hid that node and the code that consumed it. Nothing
   in core or in any of the 128 Marketplace plugins used it. Use the `inline-help` attribute, which is

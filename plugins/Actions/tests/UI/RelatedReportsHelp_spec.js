@@ -46,8 +46,8 @@ describe("RelatedReportsHelp", function () {
     async function openInlineHelp() {
         // the icons bar is only shown on hover, so reveal it before clicking the info icon
         await page.hover('.enrichedHeadline');
-        await page.waitForSelector('.mtm-helpPanelIcon .icon-info', { visible: true });
-        await page.click('.mtm-helpPanelIcon .icon-info');
+        await page.waitForSelector('.enrichedHeadline__helpIcon .icon-info', { visible: true });
+        await page.click('.enrichedHeadline__helpIcon .icon-info');
         await page.waitForSelector('.mtm-helpPanel', { visible: true });
     }
 
