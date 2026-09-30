@@ -16,6 +16,11 @@ permissions:
   security-events: none
   statuses: none
 
+# a newer push to the same PR supersedes the build, so it is cancelled instead of failing to push
+concurrency:
+  group: buildvue-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -25,6 +30,7 @@ jobs:
         id: vars
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.event.pull_request.user.login }}
         run: |
           PR="${{ github.event.pull_request.number }}"
 
@@ -44,7 +50,8 @@ jobs:
             exit 0;
           fi
 
-          if [[ "$BASE" == "$GITHUB_REPOSITORY" ]]
+          # Dependabot PRs run new dependency code in vue:build, so they never get the push token
+          if [[ "$BASE" == "$GITHUB_REPOSITORY" && "$ACTOR" != "dependabot[bot]" ]]
           then
             echo "islocalbranch=1" >> "$GITHUB_OUTPUT"
           else
@@ -85,8 +92,6 @@ jobs:
           node-version: '24'
           cache: 'npm'
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
-      - run: npm install --ignore-scripts
-        if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
@@ -125,6 +130,9 @@ jobs:
         env:
           BRANCH_NAME: ${{ steps.vars.outputs.branch }}
           IS_LOCAL_BRANCH: ${{ steps.vars.outputs.islocalbranch }}
+        if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
+      # after the branch checkout: on the merge commit npm rewrites package-lock.json, which then blocks the checkout
+      - run: npm install --ignore-scripts
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Build Vue Modules
         run: php ./console vue:build
