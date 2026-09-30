@@ -1,0 +1,69 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// override: CoreAdminHome's `.admin section` puts default spacing on every section of an admin
+// page and outranks a lone class, so the tag is the narrowest selector that reaches it. The
+// section list owns the spacing between sections.
+section.pluginSection {
+  margin-top: 0;
+  padding-bottom: 0;
+  line-height: inherit;
+}
+
+.pluginSection__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: safe center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+  min-height: 32px;
+}
+
+.pluginSection__heading {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: normal;
+  color: @theme-color-text;
+}
+
+.pluginSection__seeAll {
+  display: inline-flex;
+  align-items: safe center;
+  gap: 4px;
+  flex: none;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: @theme-color-link;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}
+
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for this link-styled button to keep its
+// own background on click. Keyboard focus still shows through Morpheus's `:focus-visible`
+// outline, so nothing is lost by dropping the fill.
+button.pluginSection__seeAll:focus {
+  background: none;
+}
+
+// override: Morpheus's legacy `:focus { outline: thin dotted }` in general/_default.less fires on
+// a plain mouse click, so this button picked up a dotted ring the moment it was clicked. Only the
+// keyboard ring below it - `button:focus-visible` - is wanted, so the click case is turned off here.
+button.pluginSection__seeAll:focus:not(:focus-visible) {
+  outline: none;
+}

@@ -48,6 +48,7 @@ class AIProviderResponseTest extends TestCase
         $this->assertNull($response->getWebSearchRequestCount());
         $this->assertSame([], $response->getWebSearchCitations());
         $this->assertSame([], $response->getWebSearchQueries());
+        $this->assertNull($response->getCost());
     }
 
     public function testAResponseWithoutAWebSearchUsageReportsNoSearch(): void
@@ -77,6 +78,7 @@ class AIProviderResponseTest extends TestCase
             ],
             'executionTimeMs' => 5,
             'stopReason' => 'stop',
+            'cost' => 0.004,
         ], $this->groundedResponse()->toArray());
     }
 
@@ -96,7 +98,8 @@ class AIProviderResponseTest extends TestCase
                 [['url' => 'https://matomo.org/a', 'title' => 'Matomo']],
                 2,
                 ['best analytics']
-            )
+            ),
+            0.004
         );
     }
 }
