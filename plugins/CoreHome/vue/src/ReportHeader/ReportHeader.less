@@ -38,12 +38,13 @@
     gap: 20px;
   }
 
-  // Only a teleport target: it is in the DOM from the moment the report has help, long before
-  // the reader opens it. `contents` means it generates no box of its own, so the closed panel -
-  // which is `display: none` - leaves no flex item behind and claims none of the column gap.
-  // `:empty` cannot do this: the hidden panel is still a child node.
+  // Nest element welcoming the `mtm-helpPanel` block, on a row of its own so the panel spans the
+  // card rather than sharing the header line with the actions. In the DOM from the moment the
+  // report has help, so it collapses until the reader opens the panel and gives it a child.
   .reportHeader__help {
-    display: contents;
+    &:empty {
+      display: none;
+    }
   }
 
   .reportHeader__title {

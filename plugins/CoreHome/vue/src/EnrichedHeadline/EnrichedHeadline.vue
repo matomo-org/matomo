@@ -52,27 +52,29 @@
         <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
     </span>
-    <!-- A host offering somewhere to put the help gets it out of the headline, so a panel this
-         wide does not stretch the row the heading sits in. Every caller outside ReportHeader
-         offers nothing and keeps it here. -->
-    <Teleport :to="helpContainer" :disabled="!helpContainer">
-      <div
-        class="enrichedHeadline__help"
-        v-show="showInlineHelp"
-      >
-        <div v-html="$sanitize(actualInlineHelp)"/>
-        <span class="enrichedHeadline__helpDate"
-              v-if="reportGenerated!=''"
-              v-html="$sanitize(reportGenerated)"></span>
-        <a
-          v-if="helpUrl"
-          rel="noreferrer noopener"
-          target="_blank"
-          class="enrichedHeadline__readMore"
-          :href="helpUrl"
-        >{{ translate('General_MoreDetails') }}</a>
-      </div>
-    </Teleport>
+    <!-- Nest element for the help panel. A host offering somewhere of its own takes the panel
+         out of here, so a panel this wide does not stretch the row the heading sits in; every
+         caller outside ReportHeader offers nothing and the panel stays. Empty either way until
+         the reader opens it, which is what `:empty` collapses. -->
+    <div class="enrichedHeadline__help">
+      <Teleport :to="helpContainer" :disabled="!helpContainer">
+        <!-- `v-if`, not `v-show`: a panel merely hidden is still a child, and would keep both
+             nest elements from collapsing to nothing while it is closed. -->
+        <div v-if="showInlineHelp" class="mtm-helpPanel">
+          <div v-html="$sanitize(actualInlineHelp)"/>
+          <span class="mtm-helpPanel__date"
+                v-if="reportGenerated!=''"
+                v-html="$sanitize(reportGenerated)"></span>
+          <a
+            v-if="helpUrl"
+            rel="noreferrer noopener"
+            target="_blank"
+            class="mtm-helpPanel__readMore"
+            :href="helpUrl"
+          >{{ translate('General_MoreDetails') }}</a>
+        </div>
+      </Teleport>
+    </div>
   </div>
 </template>
 

@@ -1,0 +1,36 @@
+// The explanatory panel a help icon opens: what a report shows, when it was generated, and a
+// link on to the full guide. Positioning and spacing are intentionally NOT owned here — the
+// consumer places the panel in a nest element of its own.
+// Named with the `mtm-` prefix to avoid name conflicts.
+
+.mtm-helpPanel {
+  background: @theme-color-background-base;
+  font-size: 12px;
+  line-height: 1.1;
+  font-weight: normal;
+  border: 1px solid @theme-color-border-alternative;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+.mtm-helpPanel__readMore {
+  margin-top: 10px;
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: underline;
+  color: @theme-color-text;
+}
+
+.mtm-helpPanel__readMore:hover {
+  text-decoration: underline;
+  color: @theme-color-text;
+}
+
+.mtm-helpPanel__date {
+  color: @theme-color-text-light;
+  font-size: 11px;
+  font-style: italic;
+  padding: 4px;
+  text-align: right;
+  display: block;
+}
