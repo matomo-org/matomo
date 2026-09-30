@@ -1,9 +1,12 @@
+// A row of the title and whatever sits beside it. Laid out with flex rather than left inline,
+// because an inline icons bar takes part in the line box's baseline and so moves the title as it
+// appears on hover - which is the bug this fixes. Centring also puts the icons on the middle of
+// the text at any line height, where a baseline or a fixed offset only holds at one.
 .enrichedHeadline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
     min-height: 22px;
-
-    .enrichedHeadline__title {
-        display: inline-block;
-    }
 
     .enrichedHeadline__title--editable {
         cursor: pointer;
@@ -14,6 +17,8 @@
     // The spacing lives here and not on the panel, because it is about the heading directly
     // above rather than about the panel: a host placing it elsewhere spaces it its own way.
     .enrichedHeadline__help {
+        // a row to itself, below the title and the icons
+        flex: 0 0 100%;
         margin: 10px 0 10px 0;
 
         // empty while the panel is closed, and for good once a host has taken it
@@ -24,13 +29,8 @@
 
     .enrichedHeadline__iconsBar {
         line-height: 1 !important;
-        display: inline-flex;
+        display: flex;
         align-items: safe center;
-        // Keeps the bar out of the line box's baseline calculation. An inline-flex box takes its
-        // baseline from its first flex item, and on a report with no help icon that is the
-        // rating icons, whose own baseline is the bottom edge of the 22px thumb images - more
-        // room above the baseline than the heading's ascent, so the title dropped on hover.
-        vertical-align: top;
     }
 
     // No `display` or `vertical-align`: a flex item of the bar above, so both are ignored.
