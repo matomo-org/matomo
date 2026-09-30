@@ -630,7 +630,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $segmentDefinition = $segment ?: '';
-        $this->checkSegmentIsPreProcessed($segmentDefinition);
+        $this->checkSegmentIsPreProcessed($segmentDefinition, $idSite);
         $data = VisitsSummary\API::getInstance()
             ->get($idSite, $period, $date, $segmentDefinition)
             ->getFirstRow()->getArrayCopy();
@@ -683,14 +683,15 @@ class API extends \Piwik\Plugin\API
      * Throw an exception if the segment is not pre-processed.
      * We do not want to compute data for real-time segments to avoid performance issues.
      */
-    private function checkSegmentIsPreProcessed(string $segmentDefinition): void
+    private function checkSegmentIsPreProcessed(string $segmentDefinition, int $idSite): void
     {
         if (empty($segmentDefinition)) {
             return;
         }
 
         $normalizedDefinition = Common::unsanitizeInputValue($segmentDefinition);
-        $segment = $this->model->getSegmentByDefinition($normalizedDefinition);
+        $userLogin = Piwik::hasUserSuperUserAccess() ? null : Piwik::getCurrentUserLogin();
+        $segment = $this->model->getSegmentByDefinition($normalizedDefinition, $idSite, $userLogin);
 
         // Missing segments are allowed since we want data for "All Visits" too
         if (!$segment) {
