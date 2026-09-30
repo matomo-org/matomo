@@ -597,6 +597,18 @@ class AccessTest extends IntegrationTestCase
         new Site($otherIdSite);
     }
 
+    public function testCachedSitesOnlyIncludeSitesTheUserCanView()
+    {
+        [$idSite, $otherIdSite] = $this->setUpViewUserForOneOfTwoSites();
+
+        Access::doAsSuperUser(function () use ($idSite, $otherIdSite) {
+            Site::getSite($idSite);
+            Site::getSite($otherIdSite);
+        });
+
+        $this->assertSame([$idSite], array_keys(Site::getSites()));
+    }
+
     public function testDoAsSuperUserDiscardsTransientCacheEntriesSavedByTheCallback()
     {
         $this->setUpViewUserForOneOfTwoSites();

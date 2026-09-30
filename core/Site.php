@@ -493,13 +493,19 @@ class Site
     }
 
     /**
-     * Returns all websites pre-cached
+     * Returns all websites pre-cached that the current user can view
      *
      * @ignore
      */
     public static function getSites()
     {
-        return self::$infoSites;
+        if (Piwik::hasUserSuperUserAccess()) {
+            return self::$infoSites;
+        }
+
+        $idSites = Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+
+        return array_intersect_key(self::$infoSites, array_flip($idSites));
     }
 
     /**
