@@ -80,7 +80,6 @@
 <script lang="ts">
 import { defineComponent, Component, PropType } from 'vue';
 import Matomo from '../Matomo/Matomo';
-import Periods from '../Periods/Periods';
 import { translateOrDefault } from '../translate';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
@@ -116,9 +115,7 @@ export interface EnrichedHeadlineData {
  *    that wants it somewhere the heading's own row cannot stretch to
  *
  * <h2><EnrichedHeadline report-generated="generated time">Pages report</EnrichedHeadline></h2>
- * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which
- * activated by hover
- * -> the tooltip shows the value of the attribute
+ * -> reportGenerated specified via this attribute is shown at the foot of the help panel
  */
 export default defineComponent({
   props: {
@@ -161,29 +158,8 @@ export default defineComponent({
     },
   },
   mounted() {
-    const root = this.$refs.root as HTMLElement;
-
     if (!this.actualFeatureName) {
       this.actualFeatureName = this.readReportFeatureName();
-    }
-
-    if (Matomo.period && Matomo.currentDateString) {
-      const currentPeriod = Periods.parse(
-        Matomo.period as string,
-        Matomo.currentDateString as string,
-      );
-
-      if (this.reportGenerated
-        && currentPeriod.containsToday()
-      ) {
-        window.$(root.querySelector('.report-generated')!).tooltip({
-          track: true,
-          content: this.reportGenerated,
-          items: 'div',
-          show: false,
-          hide: false,
-        });
-      }
     }
   },
   methods: {

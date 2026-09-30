@@ -18,8 +18,9 @@
     // above rather than about the panel: a host placing it elsewhere spaces it its own way.
     .enrichedHeadline__help {
         // a row to itself, below the title and the icons
-        flex: 0 0 100%;
-        margin: 10px 0 10px 0;
+        flex: none;
+        width: 100%;
+        margin: 10px 0;
 
         // empty while the panel is closed, and for good once a host has taken it
         &:empty {
@@ -40,8 +41,6 @@
 
     .enrichedHeadline__helpIcon {
         cursor: pointer;
-        display: inline-block;
-        margin-bottom: -1px;
         margin-left: 8px;
         opacity: 0.4;
         font-size: 16px;
