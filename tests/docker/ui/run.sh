@@ -23,5 +23,8 @@ mkdir -p tmp/assets tmp/cache/tracker tmp/latest tmp/logs tmp/sessions tmp/templ
 PHP_CLI_SERVER_WORKERS=8 php -S 0.0.0.0:80 -t /home/runner/work/matomo/matomo > tmp/logs/php-server.log 2>&1 &
 until curl -sf -o /dev/null http://localhost/index.php; do sleep 1; done
 
+# the one-click update fixtures package the checkout (removing test and example plugins), CI only
+[ -n "${CI:-}" ] || args+=(--grep-invert 'OneClick')
+
 cd tests/playwright
 exec npx playwright test "${args[@]}"
