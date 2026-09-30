@@ -51,7 +51,6 @@ describe('EnrichedHeadline', () => {
 
     const wrapper = createWrapper();
 
-    // no help to show, so neither the icon that opens the panel nor the panel itself
     expect(wrapper.find('.enrichedHeadline__helpIcon').exists()).toBe(false);
     expect(wrapper.find('.mtm-helpPanel').exists()).toBe(false);
   });
@@ -167,7 +166,6 @@ describe('EnrichedHeadline', () => {
 
     await wrapper.find('.enrichedHeadline__helpIcon').trigger('click');
 
-    // the host's nest element is left empty, not holding a hidden panel
     expect(container.querySelector('.mtm-helpPanel')).toBe(null);
     expect(container.children.length).toBe(0);
   });
@@ -181,7 +179,6 @@ describe('EnrichedHeadline', () => {
 
     expect(wrapper.find('.enrichedHeadline__help > .mtm-helpPanel').exists()).toBe(true);
 
-    // a report that gains documentation gets its row, and the panel moves into it
     await wrapper.setProps({ helpContainer: container });
 
     expect(wrapper.find('.enrichedHeadline__help > .mtm-helpPanel').exists()).toBe(false);

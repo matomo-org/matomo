@@ -11,8 +11,8 @@
         color: inherit;
     }
 
-    // Nest element welcoming the `mtm-helpPanel` block. Carries the spacing off the heading,
-    // which a host hoisting the panel into a row of its own supplies for itself instead.
+    // The spacing lives here and not on the panel, because it is about the heading directly
+    // above rather than about the panel: a host placing it elsewhere spaces it its own way.
     .enrichedHeadline__help {
         margin: 10px 0 10px 0;
 
@@ -50,8 +50,7 @@
         text-decoration: none;
     }
 
-    // The open state reads like a hover, and sits after the rule above so the two settle by
-    // order rather than by chaining the modifier onto the element.
+    // Same specificity as the rule above, so it has to stay below it to win.
     .enrichedHeadline__helpIcon:hover,
     .enrichedHeadline__helpIcon--active {
         color: @theme-color-link !important;
