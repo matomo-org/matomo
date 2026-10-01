@@ -20,6 +20,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\EncryptionKeyRotationOutcomeUnknownException;
 use Piwik\Plugins\CoreAdminHome\EncryptionKeyRotator;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\FileBackedConfig;
 use Piwik\Settings\FieldConfig;
@@ -223,6 +224,68 @@ class EncryptionKeyRotatorTest extends IntegrationTestCase
         });
 
         $this->assertRotationFailsWithoutChangingAnything('config save failed');
+    }
+
+    public function testRotateKeepsTheNewKeyWhenACommitReportingAnErrorWasApplied()
+    {
+        Option::set('RotationTestPlugin.token', self::encrypt('token-secret', self::OLD_KEY));
+        $rotator = new class extends EncryptionKeyRotator {
+            protected function commit(\Zend_Db_Adapter_Abstract $db): void
+            {
+                $db->commit();
+                throw new \Exception('connection lost');
+            }
+        };
+
+        $this->assertSame(1, $rotator->rotate(self::PLUGIN_NAME, $this->getTarget()));
+
+        $newKey = $this->getConfiguredKey();
+        $this->assertNotSame(self::OLD_KEY, $newKey);
+        Option::clearCachedOption('RotationTestPlugin.token');
+        $this->assertSame('token-secret', self::decrypt(Option::get('RotationTestPlugin.token'), $newKey));
+    }
+
+    public function testRotateRestoresTheOldKeyWhenAFailedCommitWasNotApplied()
+    {
+        $rotator = new class extends EncryptionKeyRotator {
+            protected function commit(\Zend_Db_Adapter_Abstract $db): void
+            {
+                $db->rollBack();
+                throw new \Exception('commit failed');
+            }
+        };
+
+        $this->assertRotationFailsWithoutChangingAnything('commit failed', $rotator);
+    }
+
+    public function testRotateKeepsTheNewKeyWhenItCannotTellWhetherAFailedCommitWasApplied()
+    {
+        $tokenValue = self::encrypt('token-secret', self::OLD_KEY);
+        Option::set('RotationTestPlugin.token', $tokenValue);
+        $rotator = new class extends EncryptionKeyRotator {
+            protected function commit(\Zend_Db_Adapter_Abstract $db): void
+            {
+                $db->rollBack();
+                throw new \Exception('commit failed');
+            }
+
+            protected function fetchStoredCiphertext(array $value)
+            {
+                throw new \Exception('server gone away');
+            }
+        };
+
+        try {
+            $rotator->rotate(self::PLUGIN_NAME, $this->getTarget());
+            $this->fail('Expected the rotation to fail');
+        } catch (EncryptionKeyRotationOutcomeUnknownException $e) {
+            $this->assertStringContainsString("If the option 'RotationTestPlugin.token' still holds the value it had before the rotation", $e->getMessage());
+            $this->assertStringContainsString('Committing failed because: commit failed', $e->getMessage());
+        }
+
+        $this->assertNotSame(self::OLD_KEY, $this->getConfiguredKey());
+        Option::clearCachedOption('RotationTestPlugin.token');
+        $this->assertSame($tokenValue, Option::get('RotationTestPlugin.token'));
     }
 
     public function testRotateRestoresTheConfigFileWhenAConfigFileChangedListenerThrows()
@@ -567,7 +630,7 @@ class EncryptionKeyRotatorTest extends IntegrationTestCase
     /**
      * @return string The message of the exception the rotation failed with.
      */
-    private function assertRotationFailsWithoutChangingAnything(string $expectedMessage): string
+    private function assertRotationFailsWithoutChangingAnything(string $expectedMessage, ?EncryptionKeyRotator $rotator = null): string
     {
         $tokenValue = self::encrypt('token-secret', self::OLD_KEY);
         Option::set('RotationTestPlugin.token', $tokenValue);
@@ -575,7 +638,7 @@ class EncryptionKeyRotatorTest extends IntegrationTestCase
 
         $message = null;
         try {
-            (new EncryptionKeyRotator())->rotate(self::PLUGIN_NAME, $this->getTarget());
+            ($rotator ?? new EncryptionKeyRotator())->rotate(self::PLUGIN_NAME, $this->getTarget());
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }

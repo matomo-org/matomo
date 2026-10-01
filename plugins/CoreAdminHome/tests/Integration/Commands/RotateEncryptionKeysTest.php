@@ -335,6 +335,31 @@ class RotateEncryptionKeysTest extends ConsoleCommandTestCase
         $this->assertSame('key-a', Config::getInstance()->Annotations['encryption_key']);
     }
 
+    public function testStopsWhenTheLockWasTakenOverWhileRotating()
+    {
+        $otherRun = $this->makeLock();
+        $this->targets['Annotations']['encrypt'] = function (string $value, string $key) use ($otherRun): string {
+            // as if this run's lock expired and another run acquired it
+            $backend = StaticContainer::get(LockBackend::class);
+            $lockKey = 'CoreAdminHome.rotateEncryptionKeys';
+            $backend->deleteIfKeyHasValue($lockKey, $backend->get($lockKey));
+            $this->assertTrue($otherRun->acquireLock(''));
+
+            return EncryptionKeyRotatorTest::encrypt($value, $key);
+        };
+
+        try {
+            $code = $this->runCommand();
+        } finally {
+            $otherRun->unlock();
+        }
+
+        $this->assertEquals(1, $code);
+        $this->assertStringContainsString('The lock expired before rotating Contents', $this->applicationTester->getDisplay());
+        $this->assertNotSame('key-a', Config::getInstance()->Annotations['encryption_key']);
+        $this->assertSame('key-b', Config::getInstance()->Contents['encryption_key']);
+    }
+
     public function testReleasesTheLockAfterRotating()
     {
         $this->runCommand();

@@ -28,7 +28,8 @@ use Piwik\Settings\Storage\Factory as SettingsStorageFactory;
  *
  * The plugin describes where its encrypted values live and how to encrypt and decrypt them (see the
  * `CoreAdminHome.getEncryptionKeyRotationTargets` event). When the rotation fails with an error, nothing
- * changes, unless the old key cannot be written back to the config file. A process killed between saving the
+ * changes, unless the old key cannot be written back to the config file, or the commit fails and the database
+ * cannot be read to tell whether it was applied, in which case the new key is kept. A process killed between saving the
  * new key and committing the re-encrypted values leaves the values encrypted with the old key, which only the
  * local config file (config/config.ini.php by default) from before the rotation can decrypt.
  */
@@ -451,11 +452,94 @@ class EncryptionKeyRotator
             // read before saving: forceSave() can write the file and still throw from a Core.configFileChanged listener
             $configFileBeforeSave = $this->readConfigFile();
             $this->saveKey($target, $newKey);
-
-            $db->commit();
         } catch (\Throwable $e) {
             $this->rollBack($db, $target, $oldKey, $configFileBeforeSave, $e);
         }
+
+        try {
+            $this->commit($db);
+        } catch (\Throwable $e) {
+            $this->handleFailedCommit($db, $values, $target, $oldKey, $configFileBeforeSave, $e);
+        }
+    }
+
+    /**
+     * Separate so that tests can make the commit fail.
+     */
+    protected function commit(\Zend_Db_Adapter_Abstract $db): void
+    {
+        $db->commit();
+    }
+
+    /**
+     * A commit that throws can still have been applied, when only the server's acknowledgement was lost.
+     * Restoring the old key then would leave the values encrypted with a key that is stored nowhere, so this
+     * reads back what the database holds and keeps the key that matches it.
+     */
+    private function handleFailedCommit(
+        \Zend_Db_Adapter_Abstract $db,
+        array $values,
+        array $target,
+        #[\SensitiveParameter]
+        string $oldKey,
+        string $configFileBeforeSave,
+        \Throwable $failure
+    ): void {
+        if (empty($values)) {
+            $this->rollBack($db, $target, $oldKey, $configFileBeforeSave, $failure);
+        }
+
+        $value = $values[0];
+        try {
+            // a new connection, as the server ends the transaction of the one closed either way; the adapter
+            // forgets its credentials once connected, so it cannot reconnect itself
+            Db::destroyDatabaseObject();
+            Db::createDatabaseObject();
+            $stored = $this->fetchStoredCiphertext($value);
+        } catch (\Throwable $e) {
+            $stored = null;
+        }
+
+        if ($stored === $value['newCiphertext']) {
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'Committing the rotated encryption key reported an error, but the re-encrypted values were saved, so the new key was kept: {message}',
+                ['message' => $failure->getMessage()]
+            );
+            return;
+        }
+
+        if ($stored === $value['ciphertext']) {
+            $this->rollBack($db, $target, $oldKey, $configFileBeforeSave, $failure);
+        }
+
+        throw new EncryptionKeyRotationOutcomeUnknownException(
+            'Could not tell whether the re-encrypted values were saved, so the new key was kept in ' . $this->getConfigFilePath() . '. '
+            . "If the {$value['label']} still holds the value it had before the rotation, restore '{$target['configKey']}' "
+            . "in the [{$target['configSection']}] section from your backup. Committing failed because: " . $failure->getMessage(),
+            0,
+            $failure
+        );
+    }
+
+    /**
+     * Separate so that tests can make the read fail.
+     *
+     * @return string|null|false
+     */
+    protected function fetchStoredCiphertext(array $value)
+    {
+        $conditions = [];
+        $bind = [];
+        foreach ($value['where'] as $column => $columnValue) {
+            $conditions[] = "`$column` = ?";
+            $bind[] = $columnValue;
+        }
+
+        // a locking read waits for a transaction the server has not ended yet, instead of reading around it
+        return Db::fetchOne(
+            "SELECT `{$value['column']}` FROM `" . Common::prefixTable($value['table']) . '` WHERE ' . implode(' AND ', $conditions) . ' LOCK IN SHARE MODE',
+            $bind
+        );
     }
 
     private function rollBack(

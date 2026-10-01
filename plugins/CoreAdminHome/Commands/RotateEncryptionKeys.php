@@ -18,11 +18,12 @@ use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreAdminHome\EncryptionKeyRestoreFailedException;
+use Piwik\Plugins\CoreAdminHome\EncryptionKeyRotationOutcomeUnknownException;
 use Piwik\Plugins\CoreAdminHome\EncryptionKeyRotator;
 
 class RotateEncryptionKeys extends ConsoleCommand
 {
-    // far longer than a rotation takes, so the lock only outlives a run that was killed
+    // renewed before each plugin and far longer than one plugin's rotation takes, so it only outlives a run that was killed
     private const LOCK_TTL_IN_SECONDS = 3600;
 
     protected function configure()
@@ -49,7 +50,8 @@ class RotateEncryptionKeys extends ConsoleCommand
             . 'the local config file (config/config.ini.php by default). This command gives every activated plugin that supports it a new key, and '
             . 're-encrypts the values it declares with that key. If rotating a plugin\'s key fails with '
             . 'an error, its values and key are left unchanged, unless the command reports that the config file could '
-            . 'not be restored, in which case it stops without rotating the remaining plugins. A clean-up step failing after the key was rotated is logged as a warning and does not '
+            . 'not be restored, or that it could not tell whether the database saved the re-encrypted values, in which case it '
+            . 'stops without rotating the remaining plugins. A clean-up step failing after the key was rotated is logged as a warning and does not '
             . 'undo the rotation.
 
 ⚠  Back up the local config file before rotating. Once rotated, values can no longer be decrypted with the old keys. ⚠
@@ -114,18 +116,25 @@ Usage examples:
                 StaticContainer::get(GlobalSettingsProvider::class)->reload();
             }
 
-            return $this->rotateAll($targets, $dryRun);
+            return $this->rotateAll($targets, $dryRun, $lock);
         } finally {
             $lock->unlock();
         }
     }
 
-    private function rotateAll(array $targets, bool $dryRun): int
+    private function rotateAll(array $targets, bool $dryRun, Lock $lock): int
     {
         $rotator = new EncryptionKeyRotator();
         $hasFailed = false;
 
         foreach ($targets as $pluginName => $target) {
+            if (!$dryRun && !$lock->extendLock(self::LOCK_TTL_IN_SECONDS)) {
+                $this->getOutput()->writeln(
+                    "<error>The lock expired before rotating $pluginName, so another run may have started. Stopped without rotating the remaining plugins.</error>"
+                );
+                return self::FAILURE;
+            }
+
             try {
                 $count = $rotator->rotate($pluginName, $target, $dryRun);
             } catch (\Throwable $e) {
@@ -136,6 +145,10 @@ Usage examples:
                 }
                 if ($e instanceof EncryptionKeyRestoreFailedException) {
                     $this->getOutput()->writeln('<error>Stopped without rotating the remaining plugins, as the config file needs restoring first.</error>');
+                    break;
+                }
+                if ($e instanceof EncryptionKeyRotationOutcomeUnknownException) {
+                    $this->getOutput()->writeln('<error>Stopped without rotating the remaining plugins, as whether this rotation was saved needs checking first.</error>');
                     break;
                 }
                 continue;
