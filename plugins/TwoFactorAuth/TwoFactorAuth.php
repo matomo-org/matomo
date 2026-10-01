@@ -303,9 +303,18 @@ class TwoFactorAuth extends \Piwik\Plugin
         }
 
         $auth = StaticContainer::get('Piwik\Auth');
-        if (!$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
+        if (
+            !$auth->getLogin()
+            && method_exists($auth, 'getTokenAuth')
+            && $auth->getTokenAuth()
+            && $auth->getTokenAuth() === Access::getInstance()->getTokenAuth()
+        ) {
             // when authenticated by token only, we do not require 2fa
             // needed eg for rendering exported widgets authenticated by token
+            //
+            // the token must also be the one the current access was granted with. a session
+            // authenticating the request keeps its own token, so a token that does not match it did
+            // not authenticate anything and must not exempt the request from 2fa
             return false;
         }
 

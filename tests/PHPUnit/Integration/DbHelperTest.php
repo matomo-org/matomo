@@ -135,6 +135,11 @@ class DbHelperTest extends IntegrationTestCase
         self::assertSame('', DbHelper::getDefaultCollationForCharset('invalid'));
     }
 
+    public function testGetDefaultCollationForInvalidCharsetName(): void
+    {
+        self::assertSame('', DbHelper::getDefaultCollationForCharset("utf8mb4'"));
+    }
+
     private function assertDbExists($dbName)
     {
         $dbs = Db::fetchAll("SHOW DATABASES");

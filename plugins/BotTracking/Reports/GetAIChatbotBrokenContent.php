@@ -40,6 +40,18 @@ class GetAIChatbotBrokenContent extends Report
         $this->defaultSortColumn = Metrics::COLUMN_TOTAL_BROKEN_REQUESTS;
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function getMetricNamesToProcessReportTotals()
+    {
+        return [
+            Metrics::COLUMN_TOTAL_BROKEN_REQUESTS       => Metrics::COLUMN_TOTAL_BROKEN_REQUESTS,
+            Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS   => Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS,
+            Metrics::COLUMN_PAGE_NOT_FOUND_404_REQUESTS => Metrics::COLUMN_PAGE_NOT_FOUND_404_REQUESTS,
+        ];
+    }
+
     public function configureView(ViewDataTable $view): void
     {
         parent::configureView($view);

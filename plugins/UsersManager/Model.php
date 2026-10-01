@@ -311,7 +311,7 @@ class Model
                 // endless loop in case there is some bug somewhere
                 throw new \Exception('Failed to generate token');
             }
-        } while ($this->getUserByInviteToken($token));
+        } while ($this->inviteTokenExists($token));
 
         return $token;
     }
@@ -352,6 +352,8 @@ class Model
      * @param null|string  $dateExpired
      * @param bool  $isSystemToken
      * @param bool  $secureOnly     True if this token can only be used in a secure way (e.g. POST requests), default false
+     * @param null|string $expectedDateRegistered The registration date the account is expected to have. When given,
+     *                                            the token is only stored if the account still matches it.
      *
      * @return int                  Primary key of the new token auth
      * @throws \Piwik\Tracker\Db\DbException
@@ -364,7 +366,8 @@ class Model
         $dateCreated,
         $dateExpired = null,
         $isSystemToken = false,
-        bool $secureOnly = false
+        bool $secureOnly = false,
+        ?string $expectedDateRegistered = null
     ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');
@@ -382,15 +385,28 @@ class Model
 
         $isSystemToken = (int)$isSystemToken;
 
-        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo, secure_only) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        // the login comes from the user table, so a token is only ever stored for an existing account
+        $insertSql = "INSERT INTO " . $this->tokenTable
+            . ' (login, description, password, date_created, date_expired, system_token, hash_algo, secure_only)'
+            . ' SELECT login, ?, ?, ?, ?, ?, ?, ? FROM ' . $this->userTable . ' WHERE login = ?';
 
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
 
+        $bind = [$description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, (int) $secureOnly, $login];
+
+        // the caller can name the registration date the account is expected to have, so the token is
+        // stored for that account rather than for the login alone. with none given, nothing extra binds
+        if (null !== $expectedDateRegistered) {
+            $insertSql .= ' AND date_registered <=> ?';
+            $bind[] = $expectedDateRegistered;
+        }
+
         $db = $this->getDb();
-        $db->query(
-            $insertSql,
-            [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, (int) $secureOnly]
-        );
+        $result = $db->query($insertSql, $bind);
+
+        if ($db->rowCount($result) === 0) {
+            throw new \Exception('User ' . $login . ' does not exist');
+        }
 
         return $db->lastInsertId();
     }
@@ -622,10 +638,32 @@ class Model
         $token = $this->hashTokenAuth($tokenAuth);
         if (!empty($token)) {
             $db = $this->getDb();
-            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `invite_token` = ? or `invite_link_token` = ?", [$token ,$token]);
+            // A token is only redeemable while the account is still pending, so one left behind on an
+            // account that has since been accepted resolves to nothing.
+            $sql = "SELECT * FROM " . $this->userTable . "
+                    WHERE (`invite_token` = ? OR `invite_link_token` = ?)
+                      AND `invite_token` IS NOT NULL";
+            return $db->fetchRow($sql, [$token, $token]);
         }
 
         return null;
+    }
+
+    /**
+     * Whether any account holds the given invite token, pending or not.
+     *
+     * Token generation needs to stay globally unique, so this deliberately does not apply the pending
+     * filter that getUserByInviteToken() uses for redemption.
+     */
+    private function inviteTokenExists(
+        #[\SensitiveParameter]
+        string $token
+    ): bool {
+        $hashedToken = $this->hashTokenAuth($token);
+        $sql = "SELECT 1 FROM " . $this->userTable
+             . " WHERE `invite_token` = ? OR `invite_link_token` = ? LIMIT 1";
+
+        return (bool) $this->getDb()->fetchOne($sql, [$hashedToken, $hashedToken]);
     }
 
     /**
@@ -661,13 +699,19 @@ class Model
      * @param $hashedPassword
      * @param $email
      * @param $dateRegistered
+     * @param array $invitation Invitation to issue along with the account, as
+     *                          `['token' => ..., 'expiryInDays' => ..., 'invitedBy' => ...]`. It goes in
+     *                          with the insert, so an invited account carries its invitation from the
+     *                          moment it exists and no later write has to find the row again.
      */
     public function addUser(
         $userLogin,
         #[\SensitiveParameter]
         $hashedPassword,
         $email,
-        $dateRegistered
+        $dateRegistered,
+        #[\SensitiveParameter]
+        array $invitation = []
     ) {
         $user = array(
           'login'                => $userLogin,
@@ -680,8 +724,48 @@ class Model
           'invited_by'           => null,
         );
 
+        if (!empty($invitation)) {
+            $user['invite_token']      = $this->hashTokenAuth($invitation['token']);
+            $user['invite_expired_at'] = Date::now()->addDay($invitation['expiryInDays'])->getDatetime();
+            $user['invited_by']        = $invitation['invitedBy'];
+        }
+
         $db = $this->getDb();
         $db->insert($this->userTable, $user);
+
+        // the insert only succeeds for a login that was free, so anything still referencing it belongs
+        // to an earlier account. anonymous is recreated in place, so it keeps its rows
+        if (strtolower((string) $userLogin) !== 'anonymous') {
+            try {
+                $this->deleteUserAccess($userLogin);
+                $this->deleteAllTokensForUser($userLogin);
+            } catch (\Throwable $e) {
+                // the new account would inherit whatever is left, so it must not stay behind either
+                $db->query("DELETE FROM " . $this->userTable . " WHERE login = ?", $userLogin);
+
+                throw $e;
+            }
+        }
+
+        /**
+         * Triggered after a user has been created.
+         *
+         * This event should be used to clean up any data that is still related to the new user's login.
+         * The **ScheduledReports** plugin, for example, uses this event to remove the login's reports.
+         *
+         * Observers run before any initial site access has been granted, and while the lock that
+         * serialises user creation is held, so they should be quick.
+         *
+         * @param string $userLogin The login handle of the created user.
+         */
+        try {
+            Piwik::postEvent('UsersManager.createUser', array($userLogin));
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->error(
+                'Error while processing event UsersManager.createUser',
+                ['exception' => $e]
+            );
+        }
     }
 
     public function attachInviteToken(string $userLogin, string $token, int $expiryInDays): void
@@ -693,16 +777,49 @@ class Model
         ]);
     }
 
-    public function attachInviteLinkToken(string $userLogin, string $token, int $expiryInDays): void
-    {
-        $this->updateUserFields($userLogin, [
-            'invite_link_token' => $this->hashTokenAuth($token),
-            'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
+    /**
+     * Attaches a copy-and-paste invitation link to a pending user.
+     *
+     * @return bool Whether the link was attached to the invitation the caller read.
+     */
+    public function attachInviteLinkToken(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token,
+        string $expectedInviteToken,
+        int $expiryInDays
+    ): bool {
+        // The link is only attached while the account still carries the invitation the caller read.
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `invite_link_token` = ?,
+                 `invite_expired_at` = ?
+             WHERE `login` = ?
+               AND `invite_token` = ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $this->hashTokenAuth($token),
+            Date::now()->addDay($expiryInDays)->getDatetime(),
+            $userLogin,
+            $expectedInviteToken,
         ]);
+
+        return $query->rowCount() === 1;
     }
 
+    /**
+     * Rotates the invite token of a pending user without touching the expiry.
+     *
+     * Used by the password reset flow, which must not extend an invitation. Compare with
+     * reissueInviteTokenForPendingUser(), which renews the expiry because resending an invitation is
+     * meant to revive a lapsed one.
+     *
+     * @return bool Whether the token was replaced on the invitation the caller read.
+     */
     public function replaceInviteTokenForPendingUser(
         string $userLogin,
+        #[\SensitiveParameter]
         string $token,
         string $expectedInviteToken,
         string $expectedEmail
@@ -723,6 +840,193 @@ class Model
             $userLogin,
             $expectedInviteToken,
             $expectedEmail,
+            Date::now()->getDatetime(),
+        ]);
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Rotates the invite token of a pending user, renews the expiry and moves the address.
+     *
+     * Unlike replaceInviteTokenForPendingUser() this carries no expiry predicate, because resending an
+     * invitation is meant to revive one that has already lapsed. Pass the current address as $email to
+     * leave it where it is, and $hashedPassword when the same call is also setting a password.
+     *
+     * @return bool Whether the invitation the caller read was the one reissued.
+     */
+    public function reissueInviteTokenForPendingUser(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token,
+        string $expectedInviteToken,
+        string $expectedEmail,
+        string $email,
+        int $expiryInDays,
+        #[\SensitiveParameter]
+        ?string $hashedPassword = null
+    ): bool {
+        $set = [
+            '`invite_token` = ?',
+            '`invite_link_token` = NULL',
+            '`invite_expired_at` = ?',
+            '`email` = ?',
+        ];
+        $bind = [
+            $this->hashTokenAuth($token),
+            Date::now()->addDay($expiryInDays)->getDatetime(),
+            $email,
+        ];
+
+        // A password given alongside the address rides on the same statement as everything else.
+        // ts_password_modified is set explicitly here because updateUserFields() is not doing it for us.
+        if (!empty($hashedPassword)) {
+            $set[] = '`password` = ?';
+            $set[] = '`ts_password_modified` = ?';
+            $bind[] = $hashedPassword;
+            $bind[] = Date::now()->getDatetime();
+        }
+
+        // Rotating the token and moving the address are one statement, so an invitation can never be live
+        // for an address the account no longer has.
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET %s
+             WHERE `login` = ?
+               AND `invite_token` = ?
+               AND `email` = ?',
+            $this->userTable,
+            implode(', ', $set)
+        );
+        $query = $this->getDb()->query($sql, array_merge($bind, [
+            $userLogin,
+            $expectedInviteToken,
+            $expectedEmail,
+        ]));
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Updates a pending user's address and password while leaving their invitation alone.
+     *
+     * The write is pinned to the invitation the caller read, so it only lands while the account is still
+     * that same pending user. Only call it when there is something to write: a statement that changes no
+     * column reports no affected row, and is indistinguishable from one that matched nothing.
+     *
+     * @return bool Whether the pending account the caller read was the one updated.
+     */
+    public function updatePendingUser(
+        string $userLogin,
+        #[\SensitiveParameter]
+        ?string $hashedPassword,
+        string $email,
+        string $expectedInviteToken,
+        string $expectedEmail
+    ): bool {
+        $set = ['`email` = ?'];
+        $bind = [$email];
+
+        // ts_password_modified is set explicitly here because updateUserFields() is not doing it for us
+        if (!empty($hashedPassword)) {
+            $set[] = '`password` = ?';
+            $set[] = '`ts_password_modified` = ?';
+            $bind[] = $hashedPassword;
+            $bind[] = Date::now()->getDatetime();
+        }
+
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET %s
+             WHERE `login` = ?
+               AND `invite_token` = ?
+               AND `email` = ?',
+            $this->userTable,
+            implode(', ', $set)
+        );
+        $query = $this->getDb()->query($sql, array_merge($bind, [
+            $userLogin,
+            $expectedInviteToken,
+            $expectedEmail,
+        ]));
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Redeems a pending user's invitation and sets their password.
+     *
+     * @return bool Whether the invitation was still redeemable and has now been redeemed.
+     */
+    public function consumeInviteToken(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token,
+        #[\SensitiveParameter]
+        string $hashedPassword
+    ): bool {
+        $hashedToken = $this->hashTokenAuth($token);
+        $now = Date::now()->getDatetime();
+
+        // Redeem the invitation and set the password in one statement, so an account is activated at most
+        // once however many of its tokens are presented. ts_password_modified is set explicitly here
+        // because updateUserFields() is not doing it for us.
+        $sql = sprintf(
+            'UPDATE `%s`
+             SET `password` = ?,
+                 `ts_password_modified` = ?,
+                 `invite_token` = NULL,
+                 `invite_link_token` = NULL,
+                 `invite_accept_at` = ?,
+                 `invite_expired_at` = NULL
+             WHERE `login` = ?
+               AND (`invite_token` = ? OR `invite_link_token` = ?)
+               AND `invite_token` IS NOT NULL
+               AND `invite_expired_at` IS NOT NULL
+               AND `invite_expired_at` >= ?',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $hashedPassword,
+            $now,
+            $now,
+            $userLogin,
+            $hashedToken,
+            $hashedToken,
+            $now,
+        ]);
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Deletes the user row of a pending user who declined their invitation.
+     *
+     * The delete carries the invitation in its WHERE clause, so it only ever removes the pending account
+     * it was given. The expiry predicate is deliberately more lenient than the one in
+     * consumeInviteToken(), matching the check the decline page has always applied.
+     *
+     * @return bool Whether a row was removed.
+     */
+    public function deletePendingUserByInviteToken(
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $token
+    ): bool {
+        $hashedToken = $this->hashTokenAuth($token);
+
+        $sql = sprintf(
+            'DELETE FROM `%s`
+             WHERE `login` = ?
+               AND (`invite_token` = ? OR `invite_link_token` = ?)
+               AND `invite_token` IS NOT NULL
+               AND (`invite_expired_at` IS NULL OR `invite_expired_at` >= ?)',
+            $this->userTable
+        );
+        $query = $this->getDb()->query($sql, [
+            $userLogin,
+            $hashedToken,
+            $hashedToken,
             Date::now()->getDatetime(),
         ]);
 
@@ -815,18 +1119,26 @@ class Model
     {
         $db = $this->getDb();
 
-        $insertSql = "INSERT INTO " . Common::prefixTable("access") . ' (idsite, login, access) VALUES (?, ?, ?)';
+        // the login comes from the user table, so an access row is only ever stored for an existing account
+        $insertSql = "INSERT INTO " . Common::prefixTable("access") . ' (idsite, login, access)'
+            . ' SELECT ?, login, ? FROM ' . $this->userTable . ' WHERE login = ?';
         foreach ($idSites as $idsite) {
-            $db->query($insertSql, [$idsite, $userLogin, $access]);
+            $result = $db->query($insertSql, [$idsite, $access, $userLogin]);
+
+            if ($db->rowCount($result) === 0) {
+                throw new \Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+            }
         }
     }
 
     public function deleteUser($userLogin): void
     {
+        // keep the access deletion right after the user row: addUserAccess() and addTokenAuth() take the
+        // login from the user table, so nothing can be stored for it in between
         $this->deleteUserOnly($userLogin);
+        $this->deleteUserAccess($userLogin);
         PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
         $this->deleteUserOptions($userLogin);
-        $this->deleteUserAccess($userLogin);
     }
 
     /**
@@ -873,6 +1185,25 @@ class Model
         $db->query("DELETE FROM " . $this->userTable . " WHERE login = ?", $userLogin);
         $db->query("DELETE FROM " . $this->tokenTable . " WHERE login = ?", $userLogin);
 
+        $this->postUserDeletedEvent($userLogin);
+    }
+
+    /**
+     * Removes what a login leaves behind outside the user table: whatever plugins keep for it, its
+     * settings and its options.
+     *
+     * Callers that have already removed one specific account use this rather than deleteUser(), which
+     * resolves the account by login again and so would delete whoever holds that login by then.
+     */
+    public function cleanupDeletedUser(string $userLogin): void
+    {
+        $this->postUserDeletedEvent($userLogin);
+        PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
+        $this->deleteUserOptions($userLogin);
+    }
+
+    private function postUserDeletedEvent(string $userLogin): void
+    {
         /**
          * Triggered after a user has been deleted.
          *

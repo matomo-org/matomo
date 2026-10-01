@@ -1011,7 +1011,9 @@ class Plugin extends \Piwik\Plugin
 
     public function detectIsApiRequest(): void
     {
-        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest($request = null));
+        Request::setIsRootRequestApiRequest(
+            Request::isApiHttpRequest() ? Request::getMethodIfApiRequest($request = null) : null
+        );
     }
 
     /**

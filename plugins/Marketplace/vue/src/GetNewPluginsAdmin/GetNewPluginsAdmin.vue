@@ -32,6 +32,8 @@
             :src="`${plugin.screenshots[0]}?w=600`"
             style="width: 100%"
             alt=""
+            loading="lazy"
+            decoding="async"
           />
         </span>
       </div>

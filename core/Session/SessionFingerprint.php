@@ -39,6 +39,11 @@ class SessionFingerprint
     // used in case the global.ini.php becomes corrupt or doesn't update properly
     public const DEFAULT_IDLE_TIMEOUT = 3600;
 
+    /**
+     * How far the expiration must move before it is worth persisting, in seconds.
+     */
+    public const EXPIRATION_WRITE_THRESHOLD = 60;
+
     public const USER_NAME_SESSION_VAR_NAME = 'user.name';
     public const SESSION_INFO_SESSION_VAR_NAME = 'session.info';
     public const SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED = 'twofactorauth.verified';
@@ -183,13 +188,41 @@ class SessionFingerprint
 
     public function updateSessionExpirationTime()
     {
-        $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]['expiration'] = $this->getExpirationTimeFromNow();
+        $newExpiration = $this->getExpirationTimeFromNow();
+        $storedExpiration = $this->getExpirationTime();
+
+        // storing this on every request rewrites the whole session, which lets a request that
+        // started earlier overwrite a newer one. only skip while the expiration moves forward, so
+        // a shorter window is always stored right away.
+        if ($storedExpiration !== null) {
+            $moved = $newExpiration - $storedExpiration;
+
+            if ($moved >= 0 && $moved < $this->getExpirationWriteThreshold()) {
+                return;
+            }
+        }
+
+        $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]['expiration'] = $newExpiration;
+    }
+
+    /**
+     * Caps the threshold at a twentieth of the configured idle window, so a short timeout does not
+     * lose a noticeable part of it to a skipped write.
+     */
+    private function getExpirationWriteThreshold()
+    {
+        return min(self::EXPIRATION_WRITE_THRESHOLD, intdiv($this->getExpireDuration(), 20));
     }
 
     private function getExpirationTimeFromNow($time = null)
     {
         $time = $time ?: Date::now()->getTimestampUTC();
 
+        return $time + $this->getExpireDuration();
+    }
+
+    private function getExpireDuration()
+    {
         $general = Config::getInstance()->General;
 
         if (
@@ -209,6 +242,6 @@ class SessionFingerprint
             $expireDuration = $nonRememberedSessionExpireTime;
         }
 
-        return $time + $expireDuration;
+        return (int) $expireDuration;
     }
 }

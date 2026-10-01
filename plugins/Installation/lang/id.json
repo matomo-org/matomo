@@ -24,7 +24,7 @@
         "DefaultSettingsHelp": "Matomo hadir dengan pengaturan bawaan. Anda dapat menyesuaikannya sekarang atau melakukannya nanti di layar admin.",
         "DownloadSystemCheck": "Unduh pemeriksaan sistem",
         "Email": "Surel",
-        "EmailPrivacyNotice": "Alamat surel Anda hanya akan digunakan untuk mengirimi Anda buletin. Itu dibagikan dengan Mad Mimi untuk melakukannya, tetapi penyedia pihak ketiga dapat berubah. Kami tidak akan membagikan surel Anda dengan orang lain atau menggunakannya untuk tujuan lain. Anda dapat berhenti berlangganan kapan saja. %1$sKebijakan Privasi%2$s memiliki info yang lebih lengkap.",
+        "EmailPrivacyNotice": "Alamat surel Anda hanya akan digunakan untuk mengirimi Anda buletin. Kami tidak akan membagikan surel Anda dengan orang lain atau menggunakannya untuk tujuan lain. Anda dapat berhenti berlangganan kapan saja. %1$sKebijakan Privasi%2$s memiliki info yang lebih lengkap.",
         "ErrorExpired1": "Penginstalan Matomo Anda dimulai lebih dari 3 hari yang lalu, tetapi prosesnya belum selesai.",
         "ErrorExpired2": "Silakan ikuti langkah‑langkah berikut untuk melanjutkan penginstalan:",
         "ErrorExpired3": "Buka file %1$sconfig/config.ini.php%2$s di direktori instalasi Matomo Anda.",

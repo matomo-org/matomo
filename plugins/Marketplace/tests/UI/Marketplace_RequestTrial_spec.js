@@ -10,13 +10,17 @@
 describe('Marketplace_RequestTrial', function () {
   this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
-  const pluginsUrl = '?module=Marketplace&action=overview';
-  const requestTrialSelector = '.card-content .cta-container .btn.purchaseable';
+  // The overview's landing view cuts each section to a single row, and the mock's paid plugins
+  // sort well below it, so the trial CTA is only on screen once the catalogue is filtered.
+  const pluginsUrl = '?module=Marketplace&action=overview#?query=' + encodeURIComponent('Paid Plugin 1');
+  const requestTrialSelector = '.pluginCard__actions .btn.purchaseable';
 
   before(function () {
     testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
 
-    testEnvironment.consumer = 'validLicense';
+    // a valid license key whose account licenses no plugin, so PaidPlugin1 is trial eligible.
+    // 'validLicense' licenses PaidPlugin1 itself, which correctly suppresses the trial CTA.
+    testEnvironment.consumer = 'validLicenseNoPlugins';
     testEnvironment.idSitesViewAccess = [1];
     testEnvironment.mockMarketplaceApiService = 1;
     testEnvironment.save();
@@ -44,7 +48,11 @@ describe('Marketplace_RequestTrial', function () {
     await page.goto(pluginsUrl);
     await page.waitForNetworkIdle();
 
-    const cta = await page.$(requestTrialSelector, { visible: true });
+    // the catalogue is fetched and the grid rendered after load, so network idle alone can land
+    // before the card exists - page.$ does not wait, and would hand back null
+    await page.waitForSelector(requestTrialSelector, { visible: true });
+
+    const cta = await page.$(requestTrialSelector);
     const ctaText = await cta.getProperty('textContent');
 
     expect(ctaText).to.match(/Request Trial/i);

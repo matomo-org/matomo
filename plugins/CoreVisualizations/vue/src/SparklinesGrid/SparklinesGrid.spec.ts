@@ -13,6 +13,12 @@ import { flushPromises, mount } from '@vue/test-utils';
 // graph-params from the url) and NumberFormatter (NoComparison formats raw numeric values).
 jest.mock('CoreHome', () => ({
   Tooltips: {},
+  Matomo: {
+    helper: {
+      htmlEntities: (value: string) => value
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'),
+    },
+  },
   // ucfirst is mocked as an identity passthrough; its capitalization is covered by ucfirst.spec.
   ucfirst: (s?: string) => s ?? '',
   Sparkline: { template: '<img class="sparkline-stub" />' },

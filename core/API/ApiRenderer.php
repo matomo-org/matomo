@@ -52,6 +52,23 @@ abstract class ApiRenderer
         return Common::isPhpCliMode() && SettingsServer::isArchivePhpTriggered();
     }
 
+    /**
+     * The message of an exception is escaped for markup before it reaches a renderer, so serving it
+     * as plain text has to undo that, or the escapes end up in the output. Only undone once plain
+     * text is the content type in force, as a response that kept another one would carry the markup
+     * live, and for console output, which is no response at all.
+     */
+    protected function messageAsPlainText(string $message): string
+    {
+        $servedAsPlainText = 0 === stripos(Common::getSentHeader('Content-Type'), 'text/plain');
+
+        if (!$servedAsPlainText && PHP_SAPI !== 'cli') {
+            return $message;
+        }
+
+        return html_entity_decode($message, ENT_QUOTES, 'UTF-8');
+    }
+
     abstract public function sendHeader();
 
     public function renderSuccess($message)

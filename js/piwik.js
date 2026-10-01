@@ -2928,6 +2928,11 @@ if (typeof window.Matomo !== 'object') {
 
                 trackerInstallCheckNonce = getUrlParameter(windowAlias.location.href, 'tracker_install_check');
 
+                // Ignore the value if it isn't a valid nonce
+                if (!(/^[a-f0-9]{32}$/i).test(trackerInstallCheckNonce)) {
+                    trackerInstallCheckNonce = '';
+                }
+
                 return trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0;
             }
 
@@ -4236,7 +4241,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 if (wasJsTrackingCodeInstallCheckParamProvided()) {
-                    request += '&tracker_install_check=' + trackerInstallCheckNonce;
+                    request += '&tracker_install_check=' + encodeWrapper(trackerInstallCheckNonce);
                 }
 
                 if (isFunction(configCustomRequestContentProcessing)) {

@@ -9,7 +9,8 @@ import Tooltips from './Tooltips';
 
 // The directive only ever reads binding.value, so a minimal object is enough.
 // A custom `content` avoids the default transform's dependency on
-// window.vueSanitize, and `show: false` opens tooltips without the show delay.
+// window.vueSanitizeTooltip, and `show: false` opens tooltips without the show
+// delay.
 function makeBinding(value: Record<string, unknown> = {}) {
   return { value: { content: () => 'tooltip content', show: false, ...value } };
 }

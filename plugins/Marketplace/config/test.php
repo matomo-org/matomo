@@ -2,6 +2,7 @@
 
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\LicenseKey;
+use Piwik\Plugins\Marketplace\tests\Framework\Mock\BackgroundWarmer as MockBackgroundWarmer;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as MockConsumer;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\FixtureRepository;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as MockService;
@@ -35,6 +36,9 @@ return array(
         if ($consumerTest == 'validLicense') {
             $consumer = MockConsumer::buildValidLicense();
             $licenseKey->set('123456789');
+        } elseif ($consumerTest == 'validLicenseNoPlugins') {
+            $consumer = MockConsumer::buildValidLicenseWithoutPluginLicenses();
+            $licenseKey->set('123456789');
         } elseif ($consumerTest == 'exceededLicense') {
             $consumer = MockConsumer::buildExceededLicense();
             $licenseKey->set('1234567891');
@@ -61,6 +65,7 @@ return array(
 
         return $previous;
     }),
+    'Piwik\Plugins\Marketplace\BackgroundWarmer' => Piwik\DI::autowire(MockBackgroundWarmer::class),
     'Piwik\Plugins\Marketplace\Api\Client' => Piwik\DI::decorate(function ($previous) {
         /** @var \Piwik\Plugins\Marketplace\Api\Client $previous */
         $previous->clearAllCacheEntries();
@@ -99,14 +104,14 @@ return array(
                 $plugin['shop']['reviews']['embedUrl'] = '';
             }
 
-            // preg_replace patterns
+            // preg_replace patterns. No rule for the Marketplace's own /img/categories/ cover
+            // stand-ins: Plugins::addPluginCoverImage() replaces every one of them with the local
+            // uncategorised.png, whatever URL they arrive under, so a local copy is never reached.
             $from = [
                 '@^https?://.*?/([^/]*?)/images/([^/]*?)/(.*?)$@',
-                '@^https?://.*?/img/categories/(.*?)$@i',
             ];
             $to = [
                 'plugins/Marketplace/tests/resources/images/plugins/$1/images/$2/$3',
-                'plugins/Marketplace/tests/resources/images/categories/$1',
             ];
 
             if (!empty($plugin['coverImage'])) {
@@ -135,13 +140,84 @@ return array(
             return json_encode($content);
         }
 
+        // The Marketplace's unfiltered plugins list already carries every paid plugin the
+        // consumer's access token reveals; `purchase_type=paid` only narrows it. The fixtures are
+        // split the other way round, so join them back together here. The overview requests the
+        // unfiltered list alone - see `Api\Client::getWarmedOverviewLists()` - so without this no
+        // paid plugin reaches the page at all, and every license state renders the same.
+        function mergePaidPluginsIntoList($listContent, $paidContent)
+        {
+            $list = json_decode($listContent, true);
+            $paid = json_decode($paidContent, true);
+
+            $plugins = [];
+
+            foreach ($list['plugins'] ?? [] as $plugin) {
+                $plugins[$plugin['name']] = $plugin;
+            }
+
+            // the paid fixture's copy wins: it is the one carrying this consumer's license details
+            foreach ($paid['plugins'] ?? [] as $plugin) {
+                $plugins[$plugin['name']] = $plugin;
+            }
+
+            $list['plugins'] = array_values($plugins);
+
+            return json_encode($list);
+        }
+
         $isExceededUser = $c->get('test.vars.consumer') === 'exceededLicense';
         $isExpiredUser = $c->get('test.vars.consumer') === 'expiredLicense';
         $isValidUser = $c->get('test.vars.consumer') === 'validLicense';
+        $isValidUserWithoutLicenses = $c->get('test.vars.consumer') === 'validLicenseNoPlugins';
         $createAccountResponseCode = (int) $c->get('test.vars.createAccountResponseCode');
         $startFreeTrialSuccess = $c->get('test.vars.startFreeTrialSuccess');
 
-        $service->setOnDownloadCallback(function ($action, $params) use ($service, $isExceededUser, $isValidUser, $isExpiredUser, $startFreeTrialSuccess, $createAccountResponseCode) {
+        // which paid plugins fixture this consumer sees. The generic PaidPluginN info branch below
+        // answers out of the same one, so a card and its modal cannot disagree. PaidPlugin1 is the
+        // exception: it is served by its own info fixtures above, which can differ from this list.
+        $paidPluginsFixture = function () use (
+            $service,
+            $isExceededUser,
+            $isExpiredUser,
+            $isValidUser,
+            $isValidUserWithoutLicenses
+        ) {
+            if ($isExceededUser) {
+                return 'v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json';
+            }
+
+            if ($isExpiredUser) {
+                return 'v2.0_plugins-purchase_type-paid-access_token-consumer1_paid2_custom1.json';
+            }
+
+            // a license key is set, so the branch below would otherwise serve the list of a consumer
+            // licensing every paid plugin - which the Marketplace marks downloadable, and a
+            // downloadable plugin cannot be purchased, so no plugin would be trial eligible. This
+            // consumer holds no plugin license, so it sees the same rows an unlicensed one does.
+            // Matches the `plugins` response of MockConsumer::buildValidLicenseWithoutPluginLicenses().
+            if ($isValidUserWithoutLicenses) {
+                return 'v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json';
+            }
+
+            if ($service->hasAccessToken() || $isValidUser) {
+                return 'v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json';
+            }
+
+            return 'v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json';
+        };
+
+        $service->setOnDownloadCallback(function (
+            $action,
+            $params
+        ) use (
+            $service,
+            $isExceededUser,
+            $isValidUserWithoutLicenses,
+            $startFreeTrialSuccess,
+            $createAccountResponseCode,
+            $paidPluginsFixture
+        ) {
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
             } elseif ($action === 'consumer' && $service->getAccessToken() === 'valid') {
@@ -153,19 +229,13 @@ return array(
             } elseif ($action === 'consumer/validate' && $service->getAccessToken() === 'invalid') {
                 return $service->getFixtureContent('v2.0_consumer_validate-access_token-notexistingtoken.json');
             } elseif ($action === 'plugins' && empty($params['purchase_type']) && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins.json');
+                $content = mergePaidPluginsIntoList(
+                    $service->getFixtureContent('v2.0_plugins.json'),
+                    $service->getFixtureContent($paidPluginsFixture())
+                );
                 return updateUrlsInFixtureContent($content);
-            } elseif ($action === 'plugins' && $isExceededUser && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json');
-                return updateUrlsInFixtureContent($content);
-            } elseif ($action === 'plugins' && $isExpiredUser && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer1_paid2_custom1.json');
-                return updateUrlsInFixtureContent($content);
-            } elseif ($action === 'plugins' && ($service->hasAccessToken() || $isValidUser) && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json');
-                return updateUrlsInFixtureContent($content);
-            } elseif ($action === 'plugins' && !$service->hasAccessToken() && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
-                $content = $service->getFixtureContent('v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json');
+            } elseif ($action === 'plugins' && !empty($params['purchase_type']) && $params['purchase_type'] === PurchaseType::TYPE_PAID && empty($params['query'])) {
+                $content = $service->getFixtureContent($paidPluginsFixture());
                 return updateUrlsInFixtureContent($content);
             } elseif ($action === 'themes' && empty($params['purchase_type']) && empty($params['query'])) {
                 return $service->getFixtureContent('v2.0_themes.json');
@@ -178,12 +248,33 @@ return array(
             } elseif ($action === 'plugins/PaidPlugin1/info' && $service->hasAccessToken() && $isExceededUser) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json');
                 return updateUrlsInFixtureContent($content);
+            } elseif ($action === 'plugins/PaidPlugin1/info' && $isValidUserWithoutLicenses) {
+                // its own info fixtures are all licensed copies, so keep the modal agreeing with the
+                // card this consumer sees - see $paidPluginsFixture above
+                $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
+                return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && $service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json');
                 return updateUrlsInFixtureContent($content);
             } elseif ($action === 'plugins/PaidPlugin1/info' && !$service->hasAccessToken()) {
                 $content = $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
                 return updateUrlsInFixtureContent($content);
+            } elseif (preg_match('@^plugins/([^/]+)/info$@', $action, $matches)) {
+                // a list entry and an info response have the same shape, so serve the plugin
+                // straight out of the list fixture rather than duplicating it per plugin. This
+                // covers the bundles the list carries too, which the details modal needs for their
+                // shop variations: the cards get those from the list, but the modal asks for the
+                // plugin on its own and the card fields it falls back to hold no shop.
+                $content = json_decode($service->getFixtureContent($paidPluginsFixture()), true);
+
+                foreach ($content['plugins'] ?? [] as $plugin) {
+                    if ($plugin['name'] === $matches[1]) {
+                        return updateUrlsInFixtureContent(json_encode($plugin));
+                    }
+                }
+
+                // a plugin the list does not carry falls through to the no-response path below,
+                // the same as before this branch stopped being PaidPluginN only
             } elseif ($action === 'plugins/PaidPlugin1/freeTrial') {
                 // this endpoint should only be called with "$getExtendedInfo = true"
                 return [

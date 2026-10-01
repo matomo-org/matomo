@@ -91,6 +91,55 @@ class StorageTest extends IntegrationTestCase
         $this->assertSame($loaded, $this->loadValuesFromBackend());
     }
 
+    public function testUnsetValueShouldMakeGetValueReturnTheDefaultValueAgain()
+    {
+        $this->storage->setValue($this->settingName, false);
+        $this->assertFalse($this->storage->getValue($this->settingName, null, FieldConfig::TYPE_BOOL));
+
+        $this->storage->unsetValue($this->settingName);
+
+        $this->assertNull($this->storage->getValue($this->settingName, null, FieldConfig::TYPE_BOOL));
+    }
+
+    public function testUnsetValueShouldDistinguishARemovedValueFromANullValue()
+    {
+        // a null value is still found and cast to the requested type, a removed one is not
+        $this->storage->setValue($this->settingName, null);
+        $this->assertFalse($this->storage->getValue($this->settingName, null, FieldConfig::TYPE_BOOL));
+
+        $this->storage->unsetValue($this->settingName);
+        $this->assertNull($this->storage->getValue($this->settingName, null, FieldConfig::TYPE_BOOL));
+    }
+
+    public function testUnsetValueShouldNotRemoveItFromDatabaseBeforeSaving()
+    {
+        $loaded = $this->backend->load();
+        $this->storage->unsetValue($this->settingName);
+
+        $this->assertSame($loaded, $this->loadValuesFromBackend());
+    }
+
+    public function testSaveShouldRemoveAnUnsetValueFromDatabase()
+    {
+        $this->storage->setValue('mySecondName', 'keepMe');
+        $this->storage->save();
+
+        $this->storage->unsetValue($this->settingName);
+        $this->storage->save();
+
+        $this->assertEquals(array('mySecondName' => 'keepMe'), $this->loadValuesFromBackend());
+    }
+
+    public function testUnsetValueShouldBeHarmlessWhenNoValueWasStored()
+    {
+        $loaded = $this->loadValuesFromBackend();
+
+        $this->storage->unsetValue('UnkNownFielD');
+        $this->storage->save();
+
+        $this->assertSame($loaded, $this->loadValuesFromBackend());
+    }
+
     public function testSaveShouldPersistValueInDatabase()
     {
         $this->storage->setValue($this->settingName, 'myRandomVal');

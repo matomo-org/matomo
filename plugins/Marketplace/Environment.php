@@ -19,6 +19,7 @@ use Piwik\Version;
 class Environment
 {
     public const OPTION_MARKETPLACE_UNIQUE_ID = 'Marketplace.unique_id';
+    public const OPTION_WEB_PHP_VERSION = 'Marketplace.web_php_version';
 
     /**
      * @var ReleaseChannel
@@ -61,6 +62,33 @@ class Environment
     public function getPhpVersion()
     {
         return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
+    }
+
+    /**
+     * Returns the PHP version the web server runs, which is the one the Marketplace is asked to
+     * answer for.
+     *
+     * Plenty of hosts run cron under a different PHP build than the web server, and this version is
+     * part of every Marketplace cache key, so a scheduled task asking for its own version would warm
+     * entries no page ever reads. Do not use this to decide what this process can run: for that the
+     * version in hand is the only true answer, and {@link getPhpVersion()} gives it.
+     */
+    public function getWebPhpVersion(): string
+    {
+        $running = $this->getPhpVersion();
+
+        if (!Common::isPhpCliMode()) {
+            if (Option::get(self::OPTION_WEB_PHP_VERSION) !== $running) {
+                Option::set(self::OPTION_WEB_PHP_VERSION, $running);
+            }
+
+            return $running;
+        }
+
+        // before any page has recorded one there is nothing better than the version in hand
+        $webVersion = Option::get(self::OPTION_WEB_PHP_VERSION);
+
+        return !empty($webVersion) ? $webVersion : $running;
     }
 
     public function getPiwikVersion()

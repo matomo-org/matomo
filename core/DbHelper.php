@@ -250,6 +250,27 @@ class DbHelper
     }
 
     /**
+     * @internal
+     */
+    public static function isValidCharset(string $charset): bool
+    {
+        return self::isValidDatabaseEncodingName($charset);
+    }
+
+    /**
+     * @internal
+     */
+    public static function isValidCollation(string $collation): bool
+    {
+        return self::isValidDatabaseEncodingName($collation);
+    }
+
+    private static function isValidDatabaseEncodingName(string $name): bool
+    {
+        return preg_match('/^[a-zA-Z][a-zA-Z0-9_]{0,63}$/D', $name) === 1;
+    }
+
+    /**
      * Returns sql queries to convert all installed tables to utf8mb4
      *
      * @return array

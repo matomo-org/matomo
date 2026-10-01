@@ -12,11 +12,6 @@
 	<useSiteSpecificSettings>0</useSiteSpecificSettings>
 	<maskLengthOptions>
 		<row>
-			<key>1</key>
-			<value>1 byte(s) - e.g. 192.168.100.xxx</value>
-			<description />
-		</row>
-		<row>
 			<key>2</key>
 			<value>2 byte(s) - e.g. 192.168.xxx.xxx</value>
 			<description>Recommended</description>
@@ -45,8 +40,6 @@
 		</row>
 	</useAnonymizedIpForVisitEnrichmentOptions>
 	<referrerAnonymizationOptions>
-		<row key="">Don't anonymize the referrer</row>
-		<exclude_query>Remove query parameters from referrer URL</exclude_query>
 		<exclude_path>Keep only the domain of a referrer URL</exclude_path>
 		<exclude_all>Don't record the referrer URL but still detect the type of referrer</exclude_all>
 	</referrerAnonymizationOptions>
@@ -57,6 +50,10 @@
 			<compliancePolicyControlled>
 				<cnil_v1>
 					<requiredValue>2</requiredValue>
+					<effectiveValue>2</effectiveValue>
+					<constraintType>min</constraintType>
+					<scope>site</scope>
+					<policyTitle>CNIL Website Analytics Compliance</policyTitle>
 				</cnil_v1>
 			</compliancePolicyControlled>
 			<idSite>1</idSite>
@@ -65,6 +62,10 @@
 			<compliancePolicyControlled>
 				<cnil_v1>
 					<requiredValue>1</requiredValue>
+					<effectiveValue>1</effectiveValue>
+					<constraintType>exact</constraintType>
+					<scope>site</scope>
+					<policyTitle>CNIL Website Analytics Compliance</policyTitle>
 				</cnil_v1>
 			</compliancePolicyControlled>
 			<idSite>1</idSite>
@@ -73,6 +74,10 @@
 			<compliancePolicyControlled>
 				<cnil_v1>
 					<requiredValue>1</requiredValue>
+					<effectiveValue>1</effectiveValue>
+					<constraintType>exact</constraintType>
+					<scope>site</scope>
+					<policyTitle>CNIL Website Analytics Compliance</policyTitle>
 				</cnil_v1>
 			</compliancePolicyControlled>
 			<idSite>1</idSite>
@@ -81,6 +86,10 @@
 			<compliancePolicyControlled>
 				<cnil_v1>
 					<requiredValue>exclude_path</requiredValue>
+					<effectiveValue>exclude_path</effectiveValue>
+					<constraintType>min</constraintType>
+					<scope>site</scope>
+					<policyTitle>CNIL Website Analytics Compliance</policyTitle>
 				</cnil_v1>
 			</compliancePolicyControlled>
 			<idSite>1</idSite>

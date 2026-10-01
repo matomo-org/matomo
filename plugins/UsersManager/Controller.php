@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Option;
@@ -183,12 +184,14 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * Returns the enabled dates that users can select,
+     * Returns the dates that users can select,
      * in their User Settings page "Report date to load by default"
      *
+     * @param bool $includeDisabledPeriods whether to include dates whose period is disabled in
+     *                                     [General] enabled_periods_UI
      * @return array
      */
-    protected function getDefaultDates()
+    protected function getDefaultDates(bool $includeDisabledPeriods = false)
     {
         $dates = array(
             'today'      => $this->translator->translate('Intl_Today'),
@@ -219,9 +222,11 @@ class Controller extends ControllerAdmin
             throw new Exception("some metadata is missing in getDefaultDates()");
         }
 
-        $allowedPeriods = self::getEnabledPeriodsInUI();
-        $allowedDates = array_intersect($mappingDatesToPeriods, $allowedPeriods);
-        $dates = array_intersect_key($dates, $allowedDates);
+        if (!$includeDisabledPeriods) {
+            $allowedPeriods = self::getEnabledPeriodsInUI();
+            $allowedDates = array_intersect($mappingDatesToPeriods, $allowedPeriods);
+            $dates = array_intersect_key($dates, $allowedDates);
+        }
 
         /**
          * Triggered when the list of available dates is requested, for example for the
@@ -388,9 +393,20 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $idTokenAuth = Common::getRequestVar('idtokenauth', '', 'string');
+        $postRequest = \Piwik\Request::fromPost();
+        $postRequestHasData = count($postRequest->getParameters());
+
+        // after a password confirmation the action arrives as a GET, without a post body
+        $idTokenAuth = $postRequestHasData
+            ? $postRequest->getStringParameter('idtokenauth', '')
+            : \Piwik\Request::fromGet()->getStringParameter('idtokenauth', '');
 
         if (!empty($idTokenAuth)) {
+            // the forms only submit 'all' or a token id
+            if ($idTokenAuth !== 'all' && !ctype_digit($idTokenAuth)) {
+                throw new Exception('Invalid idtokenauth');
+            }
+
             $params = array(
                 'module' => 'UsersManager',
                 'action' => 'deleteToken',
@@ -419,7 +435,7 @@ class Controller extends ControllerAdmin
                     'all' => true,
                 ));
                 $email->safeSend();
-            } elseif (is_numeric($idTokenAuth)) {
+            } else {
                 $description = $this->userModel->getUserTokenDescriptionByIdTokenAuth($idTokenAuth, Piwik::getCurrentUserLogin());
                 $this->userModel->deleteToken($idTokenAuth, Piwik::getCurrentUserLogin());
 
@@ -617,14 +633,20 @@ class Controller extends ControllerAdmin
      */
     public function recordAnonymousUserSettings()
     {
-        $response = new ResponseBuilder(Common::getRequestVar('format'));
+        $response = new ResponseBuilder(\Piwik\Request::fromRequest()->getStringParameter('format'));
         try {
             Piwik::checkUserHasSuperUserAccess();
             $this->checkTokenInUrl();
 
-            $anonymousDefaultReport = Common::getRequestVar('anonymousDefaultReport');
-            $anonymousDefaultDate = Common::getRequestVar('anonymousDefaultDate');
             $userLogin = 'anonymous';
+            $request = \Piwik\Request::fromPost();
+            $anonymousDefaultReport = $this->getValidatedDefaultReport(
+                $request->getStringParameter('anonymousDefaultReport'),
+                $userLogin
+            );
+            $anonymousDefaultDate = $this->getValidatedDefaultDate(
+                $request->getStringParameter('anonymousDefaultDate')
+            );
             APIUsersManager::getInstance()->setUserPreference(
                 $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
@@ -649,16 +671,20 @@ class Controller extends ControllerAdmin
      */
     public function recordUserSettings()
     {
-        $response = new ResponseBuilder(Common::getRequestVar('format'));
+        $response = new ResponseBuilder(\Piwik\Request::fromRequest()->getStringParameter('format'));
         try {
             $this->checkTokenInUrl();
 
-            $themeMode = $this->getValidatedThemeMode(Common::getRequestVar('themeMode'));
-            $defaultReport = Common::getRequestVar('defaultReport');
-            $defaultDate = Common::getRequestVar('defaultDate');
-            $language = Common::getRequestVar('language');
-            $timeFormat = Common::getRequestVar('timeformat');
             $userLogin = Piwik::getCurrentUserLogin();
+            $request = \Piwik\Request::fromPost();
+            $themeMode = $this->getValidatedThemeMode($request->getStringParameter('themeMode'));
+            $defaultReport = $this->getValidatedDefaultReport(
+                $request->getStringParameter('defaultReport'),
+                $userLogin
+            );
+            $defaultDate = $this->getValidatedDefaultDate($request->getStringParameter('defaultDate'));
+            $language = $request->getStringParameter('language');
+            $timeFormat = $request->getStringParameter('timeformat');
 
             Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
@@ -717,6 +743,69 @@ class Controller extends ControllerAdmin
         return $themeMode;
     }
 
+    /**
+     * The forms pre-fill the stored date, which is not always one they offer: its period may be
+     * disabled in the UI, and [General] default_day accepts any lastN or previousN.
+     *
+     * @throws Exception if the date is neither a known default date nor a lastN/previousN range
+     */
+    private function getValidatedDefaultDate(string $defaultDate): string
+    {
+        if (
+            !array_key_exists($defaultDate, $this->getDefaultDates(true))
+            && !preg_match('/^(last|previous)[0-9]+$/', $defaultDate)
+        ) {
+            throw new Exception('Invalid default date');
+        }
+
+        return $defaultDate;
+    }
+
+    /**
+     * @param string $userLogin the user the report is stored for, which is not necessarily the current user
+     * @throws Exception if the report is neither a known screen nor a site the user may view
+     */
+    private function getValidatedDefaultReport(string $defaultReport, string $userLogin): string
+    {
+        if (in_array($defaultReport, ['MultiSites', Piwik::getLoginPluginName()], true)) {
+            return $defaultReport;
+        }
+
+        if (ctype_digit($defaultReport)) {
+            $idSite = (int) $defaultReport;
+
+            if ($this->isSiteViewableByUser($idSite, $userLogin)) {
+                // normalised, so '007' is not stored verbatim
+                return (string) $idSite;
+            }
+        }
+
+        throw new Exception('Invalid default report');
+    }
+
+    private function isSiteViewableByUser(int $idSite, string $userLogin): bool
+    {
+        if ($userLogin === Piwik::getCurrentUserLogin()) {
+            if (!Piwik::isUserHasViewAccess($idSite)) {
+                return false;
+            }
+
+            try {
+                // view access short-circuits for super users, so confirm the site still exists
+                new Site($idSite);
+            } catch (UnexpectedWebsiteFoundException $e) {
+                return false;
+            }
+
+            return true;
+        }
+
+        // a super user may record settings for another login, whose access has to be looked up directly
+        $idSites = array_column($this->userModel->getSitesAccessFromUser($userLogin), 'site');
+
+        return in_array($idSite, array_map('intval', $idSites), true);
+    }
+
 
     /**
      * Records settings from the "User Settings" page
@@ -759,7 +848,7 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change email with untrusted hostname!");
         }
 
-        $request = \Piwik\Request::fromRequest();
+        $request = \Piwik\Request::fromPost();
         $email = $request->getStringParameter('email');
         $passwordCurrent = $request->getStringParameter('passwordConfirmation', '');
 
@@ -782,7 +871,7 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        $request = \Piwik\Request::fromRequest();
+        $request = \Piwik\Request::fromPost();
         $newPassword = $request->getStringParameter('password', '');
         $passwordBis = $request->getStringParameter('passwordBis', '');
         $passwordCurrent = $request->getStringParameter('passwordConfirmation', '');

@@ -35,6 +35,10 @@ class PendingUsers extends Fixture
         $this->setUpWebsite();
         $this->setUpUser();
         $this->setUpTermsAndPrivacy();
+
+        // Lets the invite specs take one What's New baseline. Inert for every other test, which
+        // sees FakeChangesModel and reads nothing back.
+        WhatsNewChanges::recordPanelChanges();
     }
 
     public function tearDown(): void
@@ -45,7 +49,7 @@ class PendingUsers extends Fixture
     protected function setUpUser()
     {
         $model = new Model();
-        $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime, 1);
+        $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime);
         $model->attachInviteToken($this->pendingUser['login'], $this->token, 7);
     }
 

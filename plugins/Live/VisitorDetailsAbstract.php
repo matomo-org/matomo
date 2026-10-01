@@ -179,9 +179,13 @@ abstract class VisitorDetailsAbstract
      * ```
      * array (
      *          20,   // order id
-     *          'rendered html content'
+     *          'rendered content'
      * )
      * ```
+     *
+     * The content is combined with what every other plugin returns for the same action and shown
+     * in one tooltip as text, with line breaks turned into `<br>`. Markup in it is displayed
+     * rather than rendered.
      *
      * **Example:**
      *

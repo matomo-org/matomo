@@ -18,6 +18,14 @@ use Piwik\Plugin\Report;
 class DataTableGenericFilter
 {
     /**
+     * The generic filters that reduce the result to the requested page of rows instead of
+     * removing rows that do not match the request.
+     *
+     * @var string[]
+     */
+    private const ROW_LIMITING_FILTERS = array('Truncate', 'Limit');
+
+    /**
      * List of filter names not to run.
      *
      * @var string[]
@@ -35,6 +43,11 @@ class DataTableGenericFilter
     private $request;
 
     /**
+     * @var callable|null
+     */
+    private $callbackBeforeRowLimitingFilters;
+
+    /**
      * @param array $request
      * @param Report $report
      */
@@ -42,6 +55,24 @@ class DataTableGenericFilter
     {
         $this->request = $request;
         $this->report  = $report;
+    }
+
+    /**
+     * Sets a callback that is invoked with every filtered DataTable after the filters that remove
+     * and sort rows have been applied, but before the row limiting filters reduce the table to the
+     * requested page of rows.
+     *
+     * At that point the table contains every row matching the request, which makes it the place to
+     * compute values that have to take all matching rows into account.
+     *
+     * The callback is invoked exactly once per DataTable, even when all row limiting filters are
+     * disabled or skipped.
+     *
+     * @param callable|null $callback A callback that receives the DataTable being filtered.
+     */
+    public function setCallbackBeforeRowLimitingFilters(?callable $callback): void
+    {
+        $this->callbackBeforeRowLimitingFilters = $callback;
     }
 
     /**
@@ -158,11 +189,20 @@ class DataTableGenericFilter
         $genericFilters = $this->getGenericFiltersHavingDefaultValues();
 
         $filterApplied = false;
+        $rowLimitingFiltersReached = false;
         foreach ($genericFilters as $filterMeta) {
             $filterName = $filterMeta[0];
             $filterParams = $filterMeta[1];
             $filterParameters = array();
             $exceptionRaised = false;
+
+            if (
+                !$rowLimitingFiltersReached
+                && in_array($filterName, self::ROW_LIMITING_FILTERS, true)
+            ) {
+                $rowLimitingFiltersReached = true;
+                $this->invokeCallbackBeforeRowLimitingFilters($datatable);
+            }
 
             if (
                 in_array($filterName, $this->disabledFilters)
@@ -202,7 +242,18 @@ class DataTableGenericFilter
             }
         }
 
+        if (!$rowLimitingFiltersReached) {
+            $this->invokeCallbackBeforeRowLimitingFilters($datatable);
+        }
+
         return $filterApplied;
+    }
+
+    private function invokeCallbackBeforeRowLimitingFilters(DataTable $datatable): void
+    {
+        if (null !== $this->callbackBeforeRowLimitingFilters) {
+            call_user_func($this->callbackBeforeRowLimitingFilters, $datatable);
+        }
     }
 
     public function areProcessedMetricsNeededFor($metrics)

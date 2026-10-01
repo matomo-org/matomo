@@ -21,9 +21,9 @@ class Rss extends ApiRenderer
      */
     public function renderException($message, $exception)
     {
-        self::sendHeader('Content-Type: text/plain; charset=utf-8');
+        Common::sendHeader('Content-Type: text/plain; charset=utf-8', true);
 
-        return 'Error: ' . $message;
+        return 'Error: ' . $this->messageAsPlainText($message);
     }
 
     public function renderDataTable($dataTable)
@@ -50,8 +50,8 @@ class Rss extends ApiRenderer
         return $this->renderDataTable($array);
     }
 
-    public function sendHeader($type = "xml")
+    public function sendHeader()
     {
-        Common::sendHeader('Content-Type: text/' . $type . '; charset=utf-8');
+        Common::sendHeader('Content-Type: text/xml; charset=utf-8');
     }
 }

@@ -12,6 +12,8 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
+use Piwik\Common;
+use Piwik\Db;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
@@ -737,6 +739,46 @@ class AccessTest extends IntegrationTestCase
             ->will($this->returnValue($this->buildAdminAccessForSiteIds($idSites)));
 
         return $mock;
+    }
+
+    public function testGetRawSitesWithSomeViewAccessResolvesAccessOfAnExistingUser()
+    {
+        $idSite = Fixture::createWebsite('2014-01-01 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('stillThere', 'testpass', 'stillthere@example.org');
+        UsersManagerAPI::getInstance()->setUserAccess('stillThere', 'view', $idSite);
+
+        $this->assertEquals(
+            array(array('access' => 'view', 'idsite' => $idSite)),
+            $this->getAccess()->getRawSitesWithSomeViewAccess('stillThere')
+        );
+    }
+
+    public function testGetRawSitesWithSomeViewAccessIgnoresALoginThatHasNoUser()
+    {
+        $idSite = Fixture::createWebsite('2014-01-01 00:00:00');
+        $this->insertAccessRow('unknownLogin', $idSite, 'view');
+
+        $this->assertSame(array(), $this->getAccess()->getRawSitesWithSomeViewAccess('unknownLogin'));
+    }
+
+    public function testGetRawSitesWithSomeViewAccessResolvesAnonymousWithoutAUserRow()
+    {
+        $idSite = Fixture::createWebsite('2014-01-01 00:00:00');
+        Db::query('DELETE FROM ' . Common::prefixTable('user') . ' WHERE login = ?', array('anonymous'));
+        $this->insertAccessRow('anonymous', $idSite, 'view');
+
+        $this->assertEquals(
+            array(array('access' => 'view', 'idsite' => $idSite)),
+            $this->getAccess()->getRawSitesWithSomeViewAccess('anonymous')
+        );
+    }
+
+    private function insertAccessRow(string $login, int $idSite, string $access): void
+    {
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable('access') . ' (login, idsite, access) VALUES (?, ?, ?)',
+            array($login, $idSite, $access)
+        );
     }
 
     private function createAccessMockWithAuthenticatedUser($methodsToMock = array())

@@ -41,6 +41,13 @@ class SessionAuthTest extends IntegrationTestCase
         $this->testInstance = StaticContainer::get(SessionAuth::class);
     }
 
+    public function tearDown(): void
+    {
+        Date::$now = null;
+
+        parent::tearDown();
+    }
+
     public function testAuthenticateReturnsFailureIfNoSessionExists()
     {
         $this->initializeSession(Fixture::ADMIN_USER_LOGIN);
@@ -93,7 +100,8 @@ class SessionAuthTest extends IntegrationTestCase
         $user = $usersModel->getUser(self::TEST_OTHER_USER);
         unset($user['ts_password_modified']);
 
-        sleep(1);
+        // the expiration is only stored once it has moved on materially, so move past that
+        Date::$now = Date::now()->getTimestampUTC() + SessionFingerprint::EXPIRATION_WRITE_THRESHOLD;
 
         $sessionAuth = new SessionAuth(new MockUsersModel($user));
         $result = $sessionAuth->authenticate();

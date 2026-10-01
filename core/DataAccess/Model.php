@@ -718,14 +718,17 @@ class Model
     {
         $idSite = (int)$segment['enable_only_idsite'];
         $segmentHash = $segment['hash'] ?? '';
-        // Valid segment hashes are md5 strings - just confirm that it is so it's safe for SQL injection
-        if (!ctype_xdigit($segmentHash)) {
+        // Valid segment hashes are md5 strings - confirm that it is one, so it is safe for SQL injection and
+        // the name clause below can only match the done flag of this one segment
+        if (strlen($segmentHash) !== 32 || !ctype_xdigit($segmentHash)) {
             throw new Exception($segmentHash . ' expected to be an md5 hash');
         }
 
         $nameClause = 'name LIKE "done' . $segmentHash . '%"';
         $idSiteClause = '';
-        if ($idSite > 0) {
+        // Only 0 (or NULL) means the segment was enabled for all websites. Every other value is applied as
+        // a site restriction.
+        if ($idSite !== 0) {
             $idSiteClause = ' AND idsite = ' . $idSite;
         } elseif (! empty($segment['idsites_to_preserve'])) {
             // A segment for all sites was deleted, but there are segments for a single site with the same definition

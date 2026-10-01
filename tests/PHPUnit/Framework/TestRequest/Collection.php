@@ -54,6 +54,7 @@ class Collection
         'CorePluginsAdmin.getSystemSettings',
         'API.getPagesComparisonsDisabledFor',
         'BotTracking',
+        'AIProviders',
     );
 
     /**
@@ -355,6 +356,9 @@ class Collection
                 $this->apiNotToCall = array();
             }
         }
+
+        // unconditional so it also applies when a test sets apiToCall explicitly, e.g. to 'Goals'
+        $this->apiNotToCall[] = 'Goals.getSavedRecommendedGoals';
 
         if (!empty($this->testConfig->apiNotToCall)) {
             $this->apiNotToCall = array_merge($this->apiNotToCall, $this->testConfig->apiNotToCall);

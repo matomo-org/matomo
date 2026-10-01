@@ -253,6 +253,8 @@ class Dashboard
         $request['disable_generic_filters'] = 1;
 
         $responseBuilder = new ResponseBuilder('json', $request);
+        $responseBuilder->disableSendHeader();
+
         return json_decode($responseBuilder->getResponse($table, 'MultiSites', 'getAll'), true) ?: [];
     }
 

@@ -48,6 +48,7 @@
           @update:model-value="deleteOlderThan = $event; reloadDbStats()"
           :title="deleteOlderThanTitle"
           :inline-help="translate('PrivacyManager_LeastDaysInput', '1')"
+          :extra-metadata="retentionPolicyMetadata"
         >
         </Field>
       </div>
@@ -78,6 +79,7 @@ import {
   Form,
   Field,
   SaveButton,
+  compliancePolicyMetadata,
 } from 'CorePluginsAdmin';
 import ReportDeletionSettingsStore, {
   ReportDeletionSettings,
@@ -149,6 +151,9 @@ export default defineComponent({
     },
     enableDeleteReports(): boolean {
       return !!ReportDeletionSettingsStore.enableDeleteReports.value;
+    },
+    retentionPolicyMetadata(): Record<string, unknown>|undefined {
+      return compliancePolicyMetadata(this.deleteData.compliancePolicyControlled);
     },
   },
 });

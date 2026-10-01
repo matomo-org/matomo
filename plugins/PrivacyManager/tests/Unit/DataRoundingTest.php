@@ -25,6 +25,20 @@ use Piwik\Plugins\PrivacyManager\DataRounding;
  */
 class DataRoundingTest extends \PHPUnit\Framework\TestCase
 {
+    public function testRoundCountRoundsToNearestTenWithMinimumTenForNonZero(): void
+    {
+        $actual = array_map([DataRounding::class, 'roundCount'], [0, 1, 14, 15, 24, 25]);
+
+        $this->assertSame([0, 10, 10, 20, 20, 30], $actual);
+    }
+
+    public function testRoundCountLeavesNegativeAndNonNumericValuesUntouched(): void
+    {
+        $this->assertSame(0, DataRounding::roundCount(0));
+        $this->assertSame(-5, DataRounding::roundCount(-5));
+        $this->assertSame(0, DataRounding::roundCount('-'));
+    }
+
     public function testRoundCountMetricsUsesExpectedThresholds(): void
     {
         $table = new DataTable();
@@ -670,6 +684,15 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
     {
         $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
             'segment' => 'visitCount>=1',
+        ]]);
+
+        $this->assertSame([], $actual);
+    }
+
+    public function testExtractRequestedSiteIdsRequiresTheExactIdSiteParameterName(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idsite' => '3',
         ]]);
 
         $this->assertSame([], $actual);

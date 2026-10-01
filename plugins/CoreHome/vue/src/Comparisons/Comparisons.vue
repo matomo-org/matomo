@@ -10,7 +10,7 @@
     v-if="isComparing"
     ref="root"
     class="matomo-comparisons"
-    v-tooltips="{ duration: 200, delay: 200, content: transformTooltipContent }"
+    v-tooltips="{ duration: 200, delay: 200 }"
   >
     <h3>{{ translate('General_Comparisons') }}</h3>
     <div
@@ -121,20 +121,11 @@ export default defineComponent({
     const periodComparisons = computed(() => ComparisonsStoreInstance.getPeriodComparisons());
     const getSeriesColor = ComparisonsStoreInstance.getSeriesColor.bind(ComparisonsStoreInstance);
 
-    function transformTooltipContent(this: HTMLElement) {
-      const title = window.$(this).attr('title');
-      if (!title) {
-        return title;
-      }
-      return window.vueSanitize(title.replace(/\n/g, '<br />'));
-    }
-
     return {
       isComparing,
       segmentComparisons,
       periodComparisons,
       getSeriesColor,
-      transformTooltipContent,
     };
   },
   methods: {
@@ -234,7 +225,7 @@ export default defineComponent({
 
       const firstPeriodRow = visitsSummary.reportData.comparisons[segmentComp.index];
 
-      let tooltip = '<div class="comparison-card-tooltip">';
+      let tooltip = '';
 
       let visitsPercent = ((comparisonRow.nb_visits / firstRow.nb_visits) * 100)
         .toFixed(2);
@@ -256,7 +247,6 @@ export default defineComponent({
         ]);
       }
 
-      tooltip += '</div>';
       return tooltip;
     },
     htmlentities(str: string): string {

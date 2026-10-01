@@ -718,9 +718,14 @@ class Mysql implements SchemaInterface
      */
     public function getDefaultCollationForCharset(string $charset): string
     {
-        $result = $this->getDb()->fetchRow('SHOW CHARACTER SET WHERE `Charset` = ?', [$charset]);
+        if (!DbHelper::isValidCharset($charset)) {
+            return '';
+        }
 
-        return $result['Default collation'] ?? '';
+        $result = $this->getDb()->fetchRow('SHOW CHARACTER SET WHERE `Charset` = ?', [$charset]);
+        $collation = $result['Default collation'] ?? '';
+
+        return DbHelper::isValidCollation($collation) ? $collation : '';
     }
 
     public function getDefaultPort(): int

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreUpdater\tests\ReleaseChannel;
 
 use Piwik\Db;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
+use Piwik\Plugins\CoreUpdater\ReleaseChannel\Latest5XPreview;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Url;
 use Piwik\Version;
@@ -67,5 +68,18 @@ class ReleaseChannelTest extends IntegrationTestCase
     public function testDoesPreferStable()
     {
         $this->assertTrue($this->channel->doesPreferStable());
+    }
+
+    public function testLatest5XPreviewIsHiddenAndChecksForPreviewVersions()
+    {
+        $channel = new Latest5XPreview();
+
+        $this->assertSame('latest_5x_preview', $channel->getId());
+        $this->assertFalse($channel->isSelectableInSettings());
+        $this->assertFalse($channel->doesPreferStable());
+        $this->assertStringContainsString(
+            'release_channel=latest_5x_preview',
+            $channel->getUrlToCheckForLatestAvailableVersion()
+        );
     }
 }

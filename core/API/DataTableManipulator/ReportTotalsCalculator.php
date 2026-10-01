@@ -13,6 +13,7 @@ use Piwik\API\DataTableManipulator;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -92,19 +93,111 @@ class ReportTotalsCalculator extends DataTableManipulator
             return $dataTable;
         }
 
+        $totalRowUnformatted = null;
+        $totalRow = $this->makeTotalsRow($firstLevelTable, $totalRowUnformatted);
+
+        if (isset($totalRow)) {
+            $totals = $totalRow->getColumns();
+            unset($totals['label']);
+            $dataTable->setMetadata('totals', $totals);
+            if (isset($totalRowUnformatted)) {
+                unset($totalRowUnformatted['label']);
+                $dataTable->setMetadata('totalsUnformatted', $totalRowUnformatted);
+            }
+
+            if (1 === Common::getRequestVar('keep_totals_row', 0, 'integer', $this->request)) {
+                $totalLabel = Common::getRequestVar('keep_totals_row_label', Piwik::translate('General_Totals'), 'string', $this->request);
+
+                $totalRow->deleteMetadata(false);
+                $totalRow->setColumn('label', $totalLabel);
+                $dataTable->setTotalsRow($totalRow);
+            }
+        }
+
+        return $dataTable;
+    }
+
+    /**
+     * Replaces the totals row of a table that was reduced to the rows matching the table search of
+     * the request, so it totals those rows instead of every row of the report.
+     *
+     * Has to be called while the table still contains every matching row, ie. before the rows are
+     * limited to the requested page of results. The report totals are left untouched in the
+     * 'totals' and 'totalsUnformatted' metadata, so both values can be shown next to each other.
+     *
+     * @param DataTable $dataTable A table that only contains the rows matching the request.
+     */
+    public function calculateFilteredTotals(DataTable $dataTable): void
+    {
+        if (
+            empty($this->apiModule)
+            || empty($this->apiMethod)
+            || !$this->isTableSearchActive()
+            || !$dataTable->getRowsCount()
+            || !$dataTable->getTotalsRow()
+        ) {
+            return;
+        }
+
+        if (1 === Common::getRequestVar('compare', 0, 'integer', $this->request)) {
+            // the compared reports are requested without the table search, so a filtered total could
+            // only be compared against an unfiltered one
+            return;
+        }
+
+        try {
+            $unformatted = null;
+            $totalRow = $this->makeTotalsRow($dataTable, $unformatted, $rowsWerePostProcessed = true);
+        } catch (\Exception $e) {
+            // the report totals are kept when the filtered totals cannot be computed
+            return;
+        }
+
+        if (!isset($totalRow)) {
+            return;
+        }
+
+        $totalRow->deleteMetadata(false);
+        $totalRow->setColumn('label', Piwik::translate('General_FilteredTotal'));
+
+        $dataTable->setTotalsRow($totalRow);
+        $dataTable->setMetadata(DataTable::TOTALS_ROW_IS_FILTERED_METADATA_NAME, true);
+    }
+
+    /**
+     * Sums every row of the given table into a single row, computes its processed metrics and
+     * formats it.
+     *
+     * @param array|null $totalRowUnformatted Set to the total column values before they are formatted.
+     * @param bool $rowsWerePostProcessed Whether the rows already went through the part of the post
+     *                                    processing that computes and formats processed metrics.
+     */
+    private function makeTotalsRow(
+        DataTable $table,
+        ?array &$totalRowUnformatted,
+        bool $rowsWerePostProcessed = false
+    ): ?DataTable\Row {
         // keeping queued filters would not only add various metadata but also break the totals calculator for some reports
         // eg when needed metadata is missing to get site information (multisites.getall) etc
-        $clone = $firstLevelTable->getEmptyClone($keepFilters = false);
-        foreach ($firstLevelTable->getQueuedFilters() as $queuedFilter) {
+        $clone = $table->getEmptyClone($keepFilters = false);
+        foreach ($table->getQueuedFilters() as $queuedFilter) {
             if (is_array($queuedFilter) && 'ReplaceColumnNames' === $queuedFilter['className']) {
                 $clone->queueFilter($queuedFilter['className'], $queuedFilter['parameters']);
             }
         }
-        $tableMeta = $firstLevelTable->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+
+        if ($rowsWerePostProcessed) {
+            // getEmptyClone() copies the metadata of the source table, which then states that the
+            // processed metrics were already computed and formatted. The totals row still needs both.
+            $clone->deleteMetadata(DataTablePostProcessor::PROCESSED_METRICS_COMPUTED_FLAG);
+            $clone->deleteMetadata(Formatter::PROCESSED_METRICS_FORMATTED_FLAG);
+        }
+
+        $tableMeta = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
 
         /** @var DataTable\Row|null $totalRow */
         $totalRow = null;
-        foreach ($firstLevelTable->getRows() as $row) {
+        foreach ($table->getRows() as $row) {
             if (!isset($totalRow)) {
                 $columns = $row->getColumns();
                 $columns['label'] = DataTable::LABEL_TOTALS_ROW;
@@ -113,6 +206,19 @@ class ReportTotalsCalculator extends DataTableManipulator
                 $totalRow->sumRow($row, $copyMetadata = false, $tableMeta);
             }
         }
+
+        if (!isset($totalRow)) {
+            return null;
+        }
+
+        if ($rowsWerePostProcessed) {
+            // processed metrics are derived from the summed metrics and must never be summed themselves.
+            // they are already on the rows when a generic filter needed them, eg when sorting by one.
+            foreach (Report::getProcessedMetricsForTable($table, $this->report) as $processedMetricName => $processedMetric) {
+                $totalRow->deleteColumn($processedMetricName);
+            }
+        }
+
         $clone->addRow($totalRow);
 
         if (
@@ -152,25 +258,27 @@ class ReportTotalsCalculator extends DataTableManipulator
             $totalRow = $clone->getFirstRow();
         }
 
-        if (isset($totalRow)) {
-            $totals = $totalRow->getColumns();
-            unset($totals['label']);
-            $dataTable->setMetadata('totals', $totals);
-            if (isset($totalRowUnformatted)) {
-                unset($totalRowUnformatted['label']);
-                $dataTable->setMetadata('totalsUnformatted', $totalRowUnformatted);
-            }
+        return $totalRow;
+    }
 
-            if (1 === Common::getRequestVar('keep_totals_row', 0, 'integer', $this->request)) {
-                $totalLabel = Common::getRequestVar('keep_totals_row_label', Piwik::translate('General_Totals'), 'string', $this->request);
+    /**
+     * Returns whether the request searches the table for a pattern, ie. whether the rows the request
+     * results in are a subset of the rows of the report.
+     */
+    private function isTableSearchActive(): bool
+    {
+        $patterns = array(
+            Common::getRequestVar('filter_pattern', '', 'string', $this->request),
+            Common::getRequestVar('filter_pattern_recursive', '', 'string', $this->request),
+        );
 
-                $totalRow->deleteMetadata(false);
-                $totalRow->setColumn('label', $totalLabel);
-                $dataTable->setTotalsRow($totalRow);
+        foreach ($patterns as $pattern) {
+            if ('' !== $pattern) {
+                return true;
             }
         }
 
-        return $dataTable;
+        return false;
     }
 
     private function makeSureToWorkOnFirstLevelDataTable($table)

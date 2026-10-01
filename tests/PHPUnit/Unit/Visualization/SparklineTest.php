@@ -76,6 +76,37 @@ class SparklineTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Sparkline cards cap their own size client-side so a request never reaches the clamps above,
+     * which would squash the image. Read the client constants rather than restating them: the
+     * dangerous edit is raising one of those past what the server allows, and a test that only
+     * knows the PHP side cannot catch it.
+     */
+    public function testMaxDimensionsMatchTheValuesMirroredClientSide(): void
+    {
+        $source = $this->getSparklineSlotSizeSource();
+
+        // The image is requested at twice the size it is displayed at, for hi-DPI screens.
+        $this->assertSame(Sparkline::MAX_WIDTH, 2 * $this->readClientConstant($source, 'MAX_DISPLAY_WIDTH'));
+        $this->assertSame(Sparkline::MAX_HEIGHT, 2 * $this->readClientConstant($source, 'MAX_DISPLAY_HEIGHT'));
+    }
+
+    private function getSparklineSlotSizeSource(): string
+    {
+        $path = PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/vue/src/Sparklines/useSparklineSlotSize.ts';
+        $this->assertFileExists($path);
+
+        return (string) file_get_contents($path);
+    }
+
+    private function readClientConstant(string $source, string $name): int
+    {
+        $found = preg_match('/export const ' . $name . ' = (\\d+);/', $source, $matches);
+        $this->assertSame(1, $found, "$name is not declared in useSparklineSlotSize.ts");
+
+        return (int) $matches[1];
+    }
+
+    /**
      * @dataProvider getInvalidDimensions
      */
     public function testSetWidthIgnoresInvalidValues($invalidValue): void

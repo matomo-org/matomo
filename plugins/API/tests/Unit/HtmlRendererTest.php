@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\API\tests\Unit;
 
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer;
 use Piwik\Date;
 use Piwik\Plugins\API\Renderer\Html;
 use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
@@ -45,13 +46,20 @@ class HtmlRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('The error message', $response);
     }
 
-    public function testRenderExceptionShouldConvertNewLinesToBr()
+    public function testRenderExceptionShouldRespectNewlines()
     {
         $response = $this->builder->renderException("The\nerror\nmessage", new \Exception('The other message'));
 
-        $this->assertEquals('The<br />
-error<br />
-message', $response);
+        $this->assertEquals("The\nerror\nmessage", $response);
+    }
+
+    public function testRenderExceptionShouldServeTheMessageUnescaped()
+    {
+        $message = Renderer::formatValueXml('The value "5" is not allowed for segment a<b&c');
+
+        $response = $this->builder->renderException($message, new \Exception('The other message'));
+
+        $this->assertSame('The value "5" is not allowed for segment a<b&c', $response);
     }
 
     public function testRenderObjectShouldReturAnError()

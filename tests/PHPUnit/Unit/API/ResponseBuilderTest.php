@@ -11,7 +11,9 @@ namespace Piwik\Tests\Unit\API;
 
 use Exception;
 use Piwik\API\ResponseBuilder;
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Context;
 use Piwik\DataTable;
 use Piwik\Plugin\Manager;
 
@@ -23,6 +25,19 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         Manager::getInstance()->loadPlugins(array('API'));
+
+        // set explicitly, as the policy is asserted below and another test may have disabled it
+        Config::getInstance()->General['csp_enabled'] = 1;
+
+        Common::$headersSentInTests = [];
+    }
+
+    public function tearDown(): void
+    {
+        $_GET = [];
+        Common::$headersSentInTests = [];
+
+        parent::tearDown();
     }
 
     public function testGetResponseExceptionShouldFormatExceptionDependingOnFormatAndAddDebugHelp()
@@ -36,6 +51,95 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
  
  --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
 </result>', $response);
+    }
+
+    public function testGetResponseSendsDataResponseHeadersForAnApiHttpRequest()
+    {
+        $_GET = ['module' => 'API'];
+
+        (new ResponseBuilder('xml', array()))->getResponse(null);
+
+        $this->assertSame('nosniff', trim(Common::$headersSentInTests['X-Content-Type-Options'] ?? ''));
+        $this->assertArrayHasKey('Content-Security-Policy', Common::$headersSentInTests);
+    }
+
+    /**
+     * A programmatic API call overlays `module=API` onto the request parameters while it runs, which
+     * must not make the response of the page that issued it look like API output.
+     */
+    public function testGetResponseSendsNoDataResponseHeadersForACallMadeWhileRenderingAPage()
+    {
+        $_GET = ['module' => 'CoreHome', 'action' => 'index'];
+
+        $builder = new ResponseBuilder('xml', array());
+
+        Context::executeWithQueryParameters(['module' => 'API'], function () use ($builder) {
+            $builder->getResponse(null);
+        });
+
+        $this->assertArrayNotHasKey('X-Content-Type-Options', Common::$headersSentInTests);
+        $this->assertArrayNotHasKey('X-Frame-Options', Common::$headersSentInTests);
+        $this->assertArrayNotHasKey('Content-Security-Policy', Common::$headersSentInTests);
+    }
+
+    /**
+     * Whatever ends up in an output buffer during the request, such as a displayed PHP notice or a
+     * response an API method streamed itself, must not cost the response its headers.
+     */
+    public function testGetResponseStillSendsDataResponseHeadersWhenOutputWasAlreadyWritten()
+    {
+        $_GET = ['module' => 'API'];
+
+        ob_start();
+        echo 'output written before the response was built';
+
+        try {
+            (new ResponseBuilder('xml', array()))->getResponse(null);
+        } finally {
+            ob_end_clean();
+        }
+
+        $this->assertSame('nosniff', trim(Common::$headersSentInTests['X-Content-Type-Options'] ?? ''));
+        $this->assertArrayHasKey('Content-Security-Policy', Common::$headersSentInTests);
+        // no content type was sent for that output, so the renderer's own still has to be
+        $this->assertSame('text/xml; charset=utf-8', trim(Common::$headersSentInTests['Content-Type'] ?? ''));
+    }
+
+    /**
+     * An API method that streams its own response sends the content type for the body it wrote, so
+     * the renderer must not replace it with the one for the requested format.
+     */
+    public function testGetResponseKeepsAContentTypeAnApiMethodStreamedItsResponseWith()
+    {
+        $_GET = ['module' => 'API'];
+        Common::sendHeader('Content-Type: application/pdf');
+
+        ob_start();
+        echo 'the report the api method streamed';
+
+        try {
+            (new ResponseBuilder('xml', array()))->getResponse(null);
+        } finally {
+            ob_end_clean();
+        }
+
+        $this->assertSame('application/pdf', trim(Common::$headersSentInTests['Content-Type']));
+        // the data response headers are still sent for it
+        $this->assertSame('nosniff', trim(Common::$headersSentInTests['X-Content-Type-Options'] ?? ''));
+    }
+
+    /**
+     * A content type set for a response whose body is still to be rendered is not one an API method
+     * streamed, so the renderer of the requested format has to replace it.
+     */
+    public function testGetResponseReplacesAContentTypeSetBeforeTheBodyWasRendered()
+    {
+        $_GET = ['module' => 'API'];
+        Common::sendHeader('Content-Type: text/html; charset=utf-8');
+
+        (new ResponseBuilder('xml', array()))->getResponse(null);
+
+        $this->assertSame('text/xml; charset=utf-8', trim(Common::$headersSentInTests['Content-Type']));
     }
 
     public function testGetResponseShouldTreatAsSuccessIfNoValue()

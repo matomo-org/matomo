@@ -17,7 +17,7 @@
             rel="noreferrer noopener"
             target="_blank"
             :href="site.main_url"
-            :title="translate('General_GoTo', site.main_url)"
+            :title="translate('General_GoTo', htmlEntities(site.main_url))"
         >
           <span class="icon icon-outlink" /></a>
         <a
@@ -61,7 +61,10 @@
           rel="noreferrer noopener"
           target="_blank"
           :href="dashboardUrl"
-          :title="translate('General_GoTo', translate('Dashboard_DashboardOf', siteLabel))"
+          :title="translate(
+            'General_GoTo',
+            translate('Dashboard_DashboardOf', htmlEntities(siteLabel)),
+          )"
           v-if="!site.isGroup"
       >
         <img
@@ -187,6 +190,11 @@ export default defineComponent({
       const token_auth = MatomoUrl.urlParsed.value.token_auth as string;
 
       return token_auth ? `&token_auth=${token_auth}` : '';
+    },
+  },
+  methods: {
+    htmlEntities(value: string) {
+      return Matomo.helper.htmlEntities(value);
     },
   },
 });

@@ -36,6 +36,7 @@ return array(
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\DbOverSSLCheck'),
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\DbMaxPacket'),
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\ForceSSLCheck'),
+        Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\SessionSerializeHandlerCheck'),
     ),
     'diagnostics.informational' => array(
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\MatomoInformational'),

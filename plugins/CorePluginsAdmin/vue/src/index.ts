@@ -7,6 +7,14 @@
 
 export { default as expressions } from './expressions';
 export { default as AbortableEvent } from './FormField/AbortableEvent';
+export type {
+  CompliancePolicyControl,
+  CompliancePolicyControls,
+} from './FormField/compliancePolicy';
+export {
+  isFieldLockedByPolicies,
+  compliancePolicyMetadata,
+} from './FormField/compliancePolicy';
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
 export { default as Setting } from './PluginSettings/Setting';

@@ -4,42 +4,47 @@
 	<complianceConfigControlled>1</complianceConfigControlled>
 	<complianceRequirements>
 		<row>
-			<name>Device model detection disabled</name>
+			<name>Device Model Detection Disabled</name>
 			<value>non_compliant</value>
 			<notes>Device model detection and device model report must be disabled.</notes>
 		</row>
 		<row>
-			<name>Only Major versions</name>
+			<name>Major Browser and OS Versions</name>
 			<value>non_compliant</value>
 			<notes>Only Major OS and browser versions are stored.</notes>
 		</row>
 		<row>
-			<name>Ecommerce Restricted</name>
+			<name>Ecommerce Data Collection Restricted</name>
 			<value>non_compliant</value>
 			<notes>Non compliant because Ecommerce analytics is enabled unrestricted.</notes>
 		</row>
 		<row>
-			<name>Ecommerce - Order ID anonymisation</name>
+			<name>Ecommerce Order ID Anonymisation Enabled</name>
 			<value>non_compliant</value>
 			<notes>Order IDs must be anonymised.</notes>
 		</row>
 		<row>
-			<name>PII data filtered</name>
+			<name>PII Data Filtering Enabled</name>
 			<value>non_compliant</value>
 			<notes>Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list.</notes>
 		</row>
 		<row>
-			<name>Turn off Visits log and Visitor profiles</name>
+			<name>Aggregated Real-time Reports Enabled</name>
+			<value>non_compliant</value>
+			<notes>Aggregated real-time reports are required to be enabled.</notes>
+		</row>
+		<row>
+			<name>Visits Log and Visitor Profiles Disabled</name>
 			<value>non_compliant</value>
 			<notes>Visits log is required to be disabled.</notes>
 		</row>
 		<row>
-			<name>Campaign parameter values masked</name>
+			<name>Campaign Parameter Masking Enabled</name>
 			<value>non_compliant</value>
 			<notes>Campaign parameter values must be masked before they are stored.</notes>
 		</row>
 		<row>
-			<name>Segmented data rounding enabled</name>
+			<name>Segmented Data Rounding Enabled</name>
 			<value>non_compliant</value>
 			<notes>Segmented data for count based metrics (such as visits or pageviews) must be rounded to the nearest 10. Note: This rounding applies to reports, exports and API responses.</notes>
 		</row>
@@ -49,44 +54,44 @@
 			<notes>Anonymisation of Visitor's IP addresses must be enabled.</notes>
 		</row>
 		<row>
-			<name>IP Address Mask Length</name>
+			<name>IP Address Mask Length Configured</name>
 			<value>non_compliant</value>
 			<notes>Must be set to at least 2 byte(s), currently 0 byte(s).</notes>
 		</row>
 		<row>
-			<name>Referrer Anonymisation</name>
+			<name>Referrer Anonymisation Enabled</name>
 			<value>non_compliant</value>
 			<notes>Only the referrer host or referrer type may be collected.</notes>
 		</row>
 		<row>
-			<name>Data retention period</name>
+			<name>Raw Data Retention Configured</name>
 			<value>compliant</value>
 			<notes>Retention period is set to 180 days.</notes>
 		</row>
 		<row>
-			<name>Limit available segments</name>
+			<name>Segment Availability Restricted</name>
 			<value>non_compliant</value>
 			<notes>Limit the available segments to be compliant.</notes>
 		</row>
 		<row>
-			<name>Screen resolution detection disabled</name>
+			<name>Screen Resolution Detection Disabled</name>
 			<value>non_compliant</value>
 			<notes>Screen resolution detection and screen resolution report must be disabled.</notes>
 		</row>
 		<row>
-			<name>User ID disabled</name>
+			<name>User ID Tracking Disabled</name>
 			<value>non_compliant</value>
 			<notes>Collection of User ID while tracking must be disabled.</notes>
 		</row>
 		<row>
-			<name>Third-party cookies</name>
+			<name>Third-Party Cookies Disabled</name>
 			<value>compliant</value>
 			<notes>Third-party cookies must be disabled</notes>
 		</row>
 		<row>
-			<name>Opt out</name>
+			<name>Opt-Out Configured</name>
 			<value>unknown</value>
-			<notes>Opt out must be manually set up and configured. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;</notes>
+			<notes>A Matomo opt-out interface must be manually configured and made available to visitors. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;.&lt;br&gt;&lt;br&gt;This ensures visitors have a way to decline participation in audience measurement.</notes>
 		</row>
 	</complianceRequirements>
 </result>

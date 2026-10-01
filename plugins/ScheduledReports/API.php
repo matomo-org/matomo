@@ -564,6 +564,11 @@ class API extends \Piwik\Plugin\API
             $outputType = self::OUTPUT_DOWNLOAD;
         }
 
+        // checked upfront so no report is rendered for an output mode that will be refused anyway
+        if (self::isStreamingOutputType($outputType)) {
+            ReportRenderer::checkStreamingToBrowserIsAllowed();
+        }
+
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
@@ -843,6 +848,17 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Whether the given output mode streams the report to the browser. Mirrors the output modes
+     * handled by the switch in {@see generateReport()}, where any unknown mode means download.
+     *
+     * @param int|false $outputType
+     */
+    private static function isStreamingOutputType($outputType): bool
+    {
+        return !in_array($outputType, [self::OUTPUT_SAVE_ON_DISK, self::OUTPUT_RETURN]);
+    }
+
+    /**
      * Sends a scheduled report immediately. Generates the report, saves it to a temporary file,
      * dispatches it via the configured transport medium, and cleans up.
      *
@@ -872,44 +888,47 @@ class API extends \Piwik\Plugin\API
 
         Context::changeIdSite($report['idsite'], function () use ($report, $idReport, $date, $force) {
 
-            $language = \Piwik\Plugins\LanguagesManager\API::getInstance()->getLanguageForUser($report['login']);
-
-            // generate report
-            $this->enableSaveReportOnDisk = true;
-            try {
-                [$outputFilename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles] =
-                    $this->generateReport(
-                        $idReport,
-                        $date,
-                        $language,
-                        self::OUTPUT_SAVE_ON_DISK,
-                        $report['period_param'] ?? false
-                    );
-            } catch (NoAccessException $e) {
-                // This might occur if for some reason a report exists where the user does no longer have access to the
-                // configured site. Normally those reports should be automatically deleted.
-                Log::info("Skipping report as user does no longer have access to configured site");
-                return;
-            } catch (\Throwable $e) {
-                $this->enableSaveReportOnDisk = false;
-                throw new RetryableException($e->getMessage());
-            }
-
-            $this->enableSaveReportOnDisk = false;
-
-            if (!file_exists($outputFilename)) {
-                throw new Exception("The report file wasn't found in $outputFilename");
-            }
-
-            $contents = file_get_contents($outputFilename);
-
-            if (empty($contents)) {
-                Log::warning("Scheduled report file '%s' exists but is empty!", $outputFilename);
-            }
-
-            $reportType = $report['type'];
+            $outputFilename = null;
 
             try {
+                $language = \Piwik\Plugins\LanguagesManager\API::getInstance()->getLanguageForUser($report['login']);
+
+                // generate report
+                $this->enableSaveReportOnDisk = true;
+                try {
+                    [$outputFilename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles] =
+                        $this->generateReport(
+                            $idReport,
+                            $date,
+                            $language,
+                            self::OUTPUT_SAVE_ON_DISK,
+                            $report['period_param'] ?? false
+                        );
+                } catch (NoAccessException $e) {
+                    // This might occur if for some reason a report exists where the user does no longer have access to
+                    // the configured site. Normally those reports should be automatically deleted.
+                    Log::info("Skipping report as user does no longer have access to configured site");
+                    return;
+                } catch (\Throwable $e) {
+                    throw new RetryableException($e->getMessage());
+                } finally {
+                    // Always clear the flag, regardless of how we leave the block. This is a singleton, so a value
+                    // left behind here would stay set for the rest of the process and affect later requests.
+                    $this->enableSaveReportOnDisk = false;
+                }
+
+                if (!file_exists($outputFilename)) {
+                    throw new Exception("The report file wasn't found in $outputFilename");
+                }
+
+                $contents = file_get_contents($outputFilename);
+
+                if (empty($contents)) {
+                    Log::warning("Scheduled report file '%s' exists but is empty!", $outputFilename);
+                }
+
+                $reportType = $report['type'];
+
                 /**
                  * Triggered when sending scheduled reports.
                  *
@@ -954,7 +973,9 @@ class API extends \Piwik\Plugin\API
                 $now = Date::now()->getDatetime();
                 $this->getModel()->updateReport($report['idreport'], ['ts_last_sent' => $now]);
             } finally {
-                if (!Development::isEnabled()) {
+                // Always clean up the generated report file, even if something failed before we got to send it.
+                // Otherwise a partly-generated file could be left behind on disk.
+                if (null !== $outputFilename && !Development::isEnabled()) {
                     @chmod($outputFilename, 0600);
                     Filesystem::deleteFileIfExists($outputFilename);
                 }
@@ -1131,7 +1152,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param int|string|false|null $idSegment Normalized in place to `null` when empty.
+     * @param int|string|false|null $idSegment Normalized in place to `null` when empty, or to a strict integer for a
+     *                                          valid segment so the value that gets stored matches the value validated.
      */
     private static function validateIdSegment(&$idSegment): void
     {
@@ -1141,6 +1163,10 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Invalid segment identifier. Should be an integer.');
         } elseif (self::getSegment($idSegment) == null) {
             throw new Exception('Segment with id ' . $idSegment . ' does not exist or SegmentEditor is not activated.');
+        } else {
+            // Cast to a strict integer so the value written to the integer `idsegment` column is exactly the value we
+            // just validated, rather than relying on the database to coerce it.
+            $idSegment = (int) $idSegment;
         }
     }
 

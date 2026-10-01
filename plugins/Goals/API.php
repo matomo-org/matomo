@@ -15,6 +15,7 @@ use Piwik\Archive;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DbHelper;
 use Piwik\Metrics;
@@ -22,13 +23,18 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\Goals\FeatureFlags\GoalRecommendations;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalConversionRate;
 use Piwik\Plugins\Goals\Reports\GetMetrics;
+use Piwik\Plugins\Goals\Recommendations\GoalRecommendationService;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
+use Piwik\Validators\BaseValidator;
+use Piwik\Validators\CharacterLength;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
@@ -56,7 +62,7 @@ use Piwik\Validators\WhitelistedValue;
  * @method static \Piwik\Plugins\Goals\API getInstance()
  *
  * @phpstan-import-type GoalStoredRecord from Model
- * @phpstan-type GoalMatchAttribute 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'visit_total_actions'|'visit_total_pageviews'|'event_action'|'event_category'|'event_name'
+ * @phpstan-type GoalMatchAttribute 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'event_action'|'event_category'|'event_name'
  * @phpstan-type GoalPatternType ''|'regex'|'contains'|'exact'|'greater_than'
  * @phpstan-type GoalRecord array{
  *     idgoal: int|string,
@@ -117,20 +123,26 @@ class API extends \Piwik\Plugin\API
             $idSite = implode(',', $idSite);
         }
 
-        $cacheId = self::getCacheId($idSite);
         $cache = $this->getGoalsInfoStaticCache();
+
+        $idSite = Site::getIdSitesFromIdSitesString($idSite, false, true);
+
+        if (empty($idSite)) {
+            return [];
+        }
+
+        // Check access on every call, not only when the cache is populated. The cache is shared for
+        // the whole request and may already have been filled by a more privileged actor (for
+        // example a rebuild running under super user), so a cache hit must not skip the check.
+        Piwik::checkUserHasViewAccess($idSite);
+
+        // Key the cache on the resolved site ids rather than the raw input. "all" resolves to a
+        // different set of sites depending on the caller's access, so keying on the input string
+        // would let one caller read a cache entry another caller populated for a wider set of sites.
+        sort($idSite);
+        $cacheId = self::getCacheId(implode(',', $idSite));
+
         if (!$cache->contains($cacheId)) {
-            // note: the reason this is secure is because the above cache is a static cache and cleared after each request
-            // if we were to use a different cache that persists the result, this would not be secure because when a
-            // result is in the cache, it would just return the result
-            $idSite = Site::getIdSitesFromIdSitesString($idSite, false, true);
-
-            if (empty($idSite)) {
-                return [];
-            }
-
-            Piwik::checkUserHasViewAccess($idSite);
-
             $goals = $this->getModel()->getActiveGoals($idSite);
             $cleanedGoals = [];
             $indexByIdGoal = 1 === count($idSite);
@@ -163,6 +175,125 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Runs a fresh goal recommendation scan for a site, derived from its homepage and
+     * same-origin crawl, and persists the result so it can be retrieved again via
+     * {@link getSavedRecommendedGoals()} without re-running the scan.
+     *
+     * Rule-based suggestions are always produced. When `$useAi` is true (opt-in)
+     * and an AI provider is configured through the AIProviders plugin, AI is used
+     * for richer suggestions, falling back to the rule-based ones on any failure.
+     *
+     * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
+     *
+     * @param int $idSite The numeric ID of the website to analyse.
+     * @param bool $useAi Whether to use AI (opt-in). Rule-based suggestions are used when false.
+     * @return array Recommendation result with `mode` ("ai" or "deterministic"), a `goals` list of
+     *               Matomo-compatible goal suggestions, a `manualGoals` list of
+     *               non-URL `{name, howTo, category}` ideas the user must create manually, an optional
+     *               `aiError`, a `warnings` list explaining a thin result (site blocked the crawler,
+     *               pages rendered in the browser, scan stopped early, few trackable actions),
+     *               the `generatedAt` timestamp of the scan, `remainingAiScans`
+     *               (AI-assisted scans left today, or null when unlimited) and, in development
+     *               mode only, a `debug` payload describing the crawl and the scored candidates.
+     * @phpstan-return array{
+     *   mode: string, goals: array<int, array<string, mixed>>,
+     *   manualGoals: array<int, array{name: string, howTo: string, category: string}>,
+     *   warnings: array<int, array{type: string, severity: string, message: string}>,
+     *   aiError: ?string, generatedAt: ?int, remainingAiScans: ?int,
+     *   providerName: string, aiAvailability: string, privacyNote: string,
+     *   debug: ?array<string, mixed>
+     * }
+     */
+    public function runGoalRecommendationScan(int $idSite, bool $useAi = false): array
+    {
+        Piwik::checkUserHasWriteAccess($idSite);
+        $this->checkGoalRecommendationsEnabled();
+
+        return $this->getRecommendationService()->getRecommendations($idSite, $useAi, $this->getGoals($idSite));
+    }
+
+    /**
+     * Returns the goal recommendations saved by the last scan for a site.
+     *
+     * When no scan result is saved, an empty result with a null `generatedAt` is returned.
+     * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
+     *
+     * @param int $idSite The numeric ID of the website whose saved recommendations should be returned.
+     * @return array Saved recommendation result with `mode`, `goals`, `manualGoals`, `useAi`
+     *               (whether the saved scan used AI), the `generatedAt` timestamp, and
+     *               `remainingAiScans` (AI-assisted scans left today, or null when unlimited).
+     * @phpstan-return array{
+     *   mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>,
+     *   useAi: bool, generatedAt: ?int, remainingAiScans: ?int,
+     *   providerName: string, aiAvailability: string, privacyNote: string
+     * }
+     */
+    public function getSavedRecommendedGoals(int $idSite): array
+    {
+        Piwik::checkUserHasWriteAccess($idSite);
+        $this->checkGoalRecommendationsEnabled();
+
+        return $this->getRecommendationService()->getSavedRecommendations($idSite);
+    }
+
+    /**
+     * Dismisses the saved goal recommendations for a site so they are no longer shown.
+     * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
+     *
+     * @param int $idSite The numeric ID of the website whose recommendations should be dismissed.
+     * @return array Success response for API clients.
+     * @phpstan-return array{success: true}
+     */
+    public function dismissRecommendedGoals(int $idSite): array
+    {
+        Piwik::checkUserHasWriteAccess($idSite);
+        $this->checkGoalRecommendationsEnabled();
+
+        $this->getRecommendationService()->dismiss($idSite);
+
+        return ['success' => true];
+    }
+
+    /**
+     * Dismisses a single saved goal recommendation so it is no longer shown.
+     *
+     * The dismissal lasts until the next recommendation scan replaces the saved
+     * results. When no saved recommendation has the given identifier, nothing changes.
+     * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
+     *
+     * @param int $idSite The numeric ID of the website the recommendation belongs to.
+     * @param string $recommendationId The `id` of the recommended goal as returned by
+     *                                 {@link runGoalRecommendationScan()} or {@link getSavedRecommendedGoals()}.
+     * @return array Success response for API clients.
+     * @phpstan-return array{success: bool}
+     */
+    public function dismissRecommendedGoal(int $idSite, string $recommendationId): array
+    {
+        Piwik::checkUserHasWriteAccess($idSite);
+        $this->checkGoalRecommendationsEnabled();
+
+        $recommendationId = Common::unsanitizeInputValue($recommendationId);
+        $success = $this->getRecommendationService()->dismissRecommendation($idSite, $recommendationId);
+
+        return ['success' => $success];
+    }
+
+    private function getRecommendationService(): GoalRecommendationService
+    {
+        return StaticContainer::get(GoalRecommendationService::class);
+    }
+
+    /**
+     * @throws Exception when the GoalRecommendations feature flag is not enabled on this instance.
+     */
+    private function checkGoalRecommendationsEnabled(): void
+    {
+        if (!StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(GoalRecommendations::class)) {
+            throw new Exception('Goal recommendations are not enabled on this Matomo instance.');
+        }
+    }
+
+    /**
      * @phpstan-param GoalStoredRecord $goal
      * @phpstan-return GoalRecord
      */
@@ -187,11 +318,13 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The numeric ID of the website to configure the goal for.
      * @param string $name Goal name.
-     * @param string $matchAttribute Attribute used to match conversions.
+     * @param string $matchAttribute Attribute used to match conversions. One of `url`, `title`, `file`,
+     *                                `external_website`, `manually`, `visit_duration`, `event_action`,
+     *                                `event_category` or `event_name`.
      * @phpstan-param GoalMatchAttribute $matchAttribute
      * @param string $pattern Match pattern. Use a URL, title, filename, external website, or event value for string
-     *                        match attributes; use a numeric threshold for visit duration, actions, or pageview
-     *                        match attributes; this value is ignored for `manually`.
+     *                        match attributes; use a numeric threshold in minutes for `visit_duration`; this value is
+     *                        ignored for `manually`.
      * @param string $patternType Matching operator. Numeric match attributes only accept `greater_than`; string match
      *                            attributes accept `exact`, `contains`, or `regex`; use an empty string for `manually`.
      * @phpstan-param GoalPatternType $patternType
@@ -223,6 +356,7 @@ class API extends \Piwik\Plugin\API
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
+        $this->checkFieldLengths($name, $description, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -238,6 +372,8 @@ class API extends \Piwik\Plugin\API
             'deleted' => 0,
             'event_value_as_revenue' => (int)$useEventValueAsRevenue,
         );
+
+        $this->checkEventValueAsRevenue($goal);
 
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
 
@@ -255,14 +391,18 @@ class API extends \Piwik\Plugin\API
     /**
      * Updates an existing goal without reprocessing already recorded conversions.
      *
+     * Fails if the site has no such goal.
+     *
      * @param int $idSite The numeric ID of the website the goal belongs to.
      * @param int $idGoal Goal ID to update.
      * @param string $name Goal name.
-     * @param string $matchAttribute Attribute used to match conversions.
+     * @param string $matchAttribute Attribute used to match conversions. One of `url`, `title`, `file`,
+     *                                `external_website`, `manually`, `visit_duration`, `event_action`,
+     *                                `event_category` or `event_name`.
      * @phpstan-param GoalMatchAttribute $matchAttribute
      * @param string $pattern Match pattern. Use a URL, title, filename, external website, or event value for string
-     *                        match attributes; use a numeric threshold for visit duration, actions, or pageview
-     *                        match attributes; this value is ignored for `manually`.
+     *                        match attributes; use a numeric threshold in minutes for `visit_duration`; this value is
+     *                        ignored for `manually`.
      * @param string $patternType Matching operator. Numeric match attributes only accept `greater_than`; string match
      *                            attributes accept `exact`, `contains`, or `regex`; use an empty string for `manually`.
      * @phpstan-param GoalPatternType $patternType
@@ -289,11 +429,18 @@ class API extends \Piwik\Plugin\API
     ): void {
         Piwik::checkUserHasWriteAccess($idSite);
 
+        $idGoal = (int) $idGoal;
+
+        if (!$this->getModel()->doesGoalExist($idGoal, $idSite)) {
+            throw new Exception("There is no goal with id '$idGoal' for site with id '$idSite'.");
+        }
+
         $patternType = Common::unsanitizeInputValue($patternType);
 
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
+        $this->checkFieldLengths($name, $description, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -362,6 +509,18 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Ensures the given values still fit their columns, as the database would otherwise truncate them silently.
+     */
+    private function checkFieldLengths(string $name, string $description, string $pattern, string $matchAttribute): void
+    {
+        BaseValidator::check(Piwik::translate('Goals_GoalName'), Common::unsanitizeInputValue($name), [new CharacterLength(null, 50)]);
+        BaseValidator::check(Piwik::translate('General_Description'), Common::unsanitizeInputValue($description), [new CharacterLength(null, 255)]);
+        BaseValidator::check(Piwik::translate('Goals_Pattern'), Common::unsanitizeInputValue($pattern), [new CharacterLength(null, 255)]);
+        // unlike the fields above this one is no free text, so the stored value is what has to fit
+        BaseValidator::check('matchAttribute', $matchAttribute, [new CharacterLength(null, 20)]);
+    }
+
+    /**
      * @param string|null $patternType
      * @param string $matchAttribute
      * @phpstan-return GoalPatternType
@@ -410,6 +569,8 @@ class API extends \Piwik\Plugin\API
      * Soft deletes a given Goal.
      * Stats data in the archives will still be recorded, but not displayed.
      *
+     * Nothing is deleted if the site has no such goal.
+     *
      * @param int $idSite The numeric ID of the website to query.
      * @param int $idGoal The numeric ID of the goal to delete.
      *
@@ -418,6 +579,18 @@ class API extends \Piwik\Plugin\API
     public function deleteGoal(int $idSite, $idGoal)
     {
         Piwik::checkUserHasWriteAccess($idSite);
+
+        $idGoal = (int) $idGoal;
+
+        // the reserved ecommerce ids are no goals, so only ids of goals configured for the site
+        // may reach the conversion deletion below
+        if (
+            $idGoal === GoalManager::IDGOAL_ORDER
+            || $idGoal === GoalManager::IDGOAL_CART
+            || !$this->getModel()->doesGoalExist($idGoal, $idSite)
+        ) {
+            return;
+        }
 
         $this->getModel()->deleteGoal($idSite, $idGoal);
         $this->getModel()->deleteGoalConversions($idSite, $idGoal);

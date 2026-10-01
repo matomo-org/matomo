@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Live\tests\System;
 
 use Piwik\Date;
+use Piwik\Policy\CnilPolicy;
 use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Plugins\Live\API;
 use Piwik\Tests\Framework\Fixture;
@@ -51,6 +52,14 @@ class ApiCounterTest extends SystemTestCase
         $this->createSite();
     }
 
+    public function tearDown(): void
+    {
+        // restore super user access first, as some tests clear it and toggling the policy requires it
+        FakeAccess::$superUser = true;
+        CnilPolicy::setActiveStatus(null, false);
+        parent::tearDown();
+    }
+
     public function testGetCountersShouldFailIfUserHasNoPermission()
     {
         $this->expectException(\Exception::class);
@@ -76,6 +85,23 @@ class ApiCounterTest extends SystemTestCase
 
         $counters = $this->api->getCounters($this->idSite, 20);
         $this->assertEquals($this->buildCounter(24, 60, 20, 40), $counters);
+    }
+
+    public function testGetCountersRoundsCountsWhenDataRoundingIsEnforced()
+    {
+        // reuses the visits tracked by testGetCountersShouldOnlyReturnResultsOfLastMinutes
+        // (this class shares tracked data across tests, as the column tests below also rely on).
+
+        // CNIL mode forces the segmented-data rounding on, which must also round the real-time counters.
+        CnilPolicy::setActiveStatus(null, true);
+
+        // raw last 20 minutes is (24, 60, 20, 40); rounded to the nearest ten (min ten for non-zero)
+        $counters = $this->api->getCounters($this->idSite, 20);
+        $this->assertEquals($this->buildCounter(20, 60, 20, 40), $counters);
+
+        // raw last 5 minutes is (19, 32, 16, 16)
+        $counters = $this->api->getCounters($this->idSite, 5);
+        $this->assertEquals($this->buildCounter(20, 30, 20, 20), $counters);
     }
 
     /**

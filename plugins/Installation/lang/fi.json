@@ -19,7 +19,7 @@
         "DefaultSettings": "Oletusasetukset",
         "DefaultSettingsHelp": "Matomossa on omat oletusasetuksensa. Voit muuttaa asetuksia nyt tai myöhemmin hallintasivulta.",
         "Email": "Sähköposti",
-        "EmailPrivacyNotice": "Antamaasi osoitetta käytetään ainoastaan uutiskirjeen lähettämiseen. Tätä varten luovutamme osoitteen käyttämällemme sähköpostipalvelulle. Emme luovuta osoitetta kenellekään muulle tai käytä sitä mihinkään muuhun tarkoitukseen. Voit katkaista uutiskirjeen lähetyksen milloin tahansa. %1$sTietosuojaselosteessamme%2$s on lisää tietoa.",
+        "EmailPrivacyNotice": "Antamaasi osoitetta käytetään ainoastaan uutiskirjeen lähettämiseen. Emme luovuta osoitetta kenellekään muulle tai käytä sitä mihinkään muuhun tarkoitukseen. Voit katkaista uutiskirjeen lähetyksen milloin tahansa. %1$sTietosuojaselosteessamme%2$s on lisää tietoa.",
         "Extension": "laajennus",
         "Filesystem": "Tiedostojärjestelmä",
         "GetInvolved": "Jos pidät näkemästäsi, myös sinä voit %1$sosallistua%2$s.",

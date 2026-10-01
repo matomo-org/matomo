@@ -17,6 +17,7 @@ use Piwik\Container\ContainerDoesNotExistException;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\IRedirectException;
 use Piwik\Http\HttpCodeException;
+use Piwik\Http\SecurityHeaders;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Log\LoggerInterface;
@@ -96,13 +97,17 @@ class ExceptionHandler
                 self::logException($exception);
         }
 
-        Common::sendHeader('Content-Type: text/html; charset=utf-8');
-
+        // no content type here: only getErrorResponse() knows whether this response is an error
+        // page or API output, and both send their own
         try {
             echo self::getErrorResponse($exception);
         } catch (Exception $e) {
             // When there are failures while generating the HTML error response itself,
             // we simply print out the error message instead.
+            if ('' === Common::getSentHeader('Content-Type')) {
+                Common::sendHeader('Content-Type: text/html; charset=utf-8');
+            }
+
             echo $exception->getMessage();
         }
 
@@ -151,7 +156,11 @@ class ExceptionHandler
 
         $isHtmlMessage = method_exists($ex, 'isHtmlMessage') && $ex->isHtmlMessage();
 
-        if (!$isHtmlMessage && Request::isApiRequest($_GET)) {
+        if (!$isHtmlMessage && Request::isApiRequest(null)) {
+            // covers the API error responses the module and action gate of the response builder
+            // leaves out; an exception carrying an html message is served as an error page instead
+            SecurityHeaders::sendForDataResponse();
+
             $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $_GET + $_POST));
             $response = new ResponseBuilder($outputFormat);
             return $response->getResponseException($ex);

@@ -1,3 +1,5 @@
 # UI tests require ttf-mscorefonts-installer from contrib
-RUN echo "deb http://deb.debian.org/debian bookworm contrib non-free non-free-firmware" > /etc/apt/sources.list.d/contrib.list
+# Read the codename from the image instead of hardcoding it, so the contrib source
+# stays on the same Debian release the web image is built from
+RUN . /etc/os-release && echo "deb http://deb.debian.org/debian $VERSION_CODENAME contrib non-free non-free-firmware" > /etc/apt/sources.list.d/contrib.list
 RUN apt-get -qq update || true

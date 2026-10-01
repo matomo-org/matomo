@@ -13,6 +13,16 @@ class LimitSegments extends CompliancePolicyEnforcedSetting
         return Piwik::translate("SegmentEditor_LimitSegmentsSettingTitle");
     }
 
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('SegmentEditor_LimitSegmentsSettingWhatItDoes');
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('SegmentEditor_LimitSegmentsSettingImpact');
+    }
+
     public static function getPolicyRequirements(): array
     {
         return [

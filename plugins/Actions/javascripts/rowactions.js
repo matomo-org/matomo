@@ -10,24 +10,20 @@ $(function () {
 
         return isActionsModule(params) &&
             (action == 'getPageUrls' || action == 'getEntryPageUrls' || action == 'getExitPageUrls' || action == 'getPageUrlsFollowingSiteSearch');
-    };
+    }
 
     function isPageTitleReport(params) {
         var action = params.action;
 
         return isActionsModule(params) && (action == 'getPageTitles' || action == 'getPageTitlesFollowingSiteSearch');
-    };
+    }
 
     function getLinkForTransitionAndOverlayPopover(tr)
     {
         tr = getRealRowIfComparisonRow(tr);
 
-        var link = tr.find('> td:first > a').attr('href');
-        // replace all &, that are not part of a named character reference with a tailing semicolon, with a &amp;
-        // otherwise named character references without a tailing , (like &reg) would be replaced
-        link = link.replace(/&([a-z]+[^a-z;])/, '&amp;$1');
-        link = $('<textarea>').html(link).val(); // remove html entities
-        return link;
+        // the browser already decoded the entities when it parsed the href attribute
+        return tr.find('> td:first > a').attr('href');
     }
 
     if (window.DataTable_RowActions_Transitions) {
@@ -37,7 +33,7 @@ $(function () {
             },
             isAvailableOnRow: function (dataTableParams, tr) {
                 tr = getRealRowIfComparisonRow(tr);
-                return isPageUrlReport(dataTableParams) && tr.find('> td:first span.label').parent().is('a')
+                return isPageUrlReport(dataTableParams) && tr.find('> td:first span.label').parent().is('a');
             },
             trigger: function (tr, e, subTableLabel, originalRow) {
                 var overrideParams = $.extend({}, $(originalRow || tr).data('param-override'));
@@ -84,7 +80,7 @@ $(function () {
                 return {
                     link: getLinkForTransitionAndOverlayPopover(tr),
                     segment: null
-                }
+                };
             }
         });
     }

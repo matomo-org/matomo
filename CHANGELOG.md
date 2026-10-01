@@ -4,15 +4,115 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 5.14.1
+
+### Breaking Changes
+* A plugin with no cover image of its own now falls back to the same generic `uncategorised` cover as every other plugin. `Piwik\Plugins\Marketplace\Plugins::addPluginCoverImage()` used to give a paid plugin owned by `piwik` or `matomo-org` the Matomo-branded `matomo.png` cover instead, which the redesigned cards mark with a Matomo chip rather than a whole cover image. The Marketplace's own category stand-ins now count as no cover image as well, so a plugin the Marketplace categorised also takes the generic fallback.
+* The Marketplace's `PluginList` Vue component has been removed along with the plugin list it rendered. The redesigned page is built from the `PluginGrid`, `PluginSection`, `PluginCard`, `CategoryTabs`, `MarketplaceHero` and `SortMenu` components the plugin now exports instead. The translation keys `Marketplace_CreatedBy`, `Marketplace_Intro`, `Marketplace_IntroSuperUser`, `Marketplace_NoThemesFound`, `Marketplace_PriceFromPerPeriod`, `Marketplace_Show`, `Marketplace_Sort` and `Marketplace_SortByPopular` have been removed with the markup that used them. The `pluginType` hash parameter is no longer written and only `themes` and `plugins` are still read back, for the links CorePluginsAdmin makes; `#?pluginType=premium` no longer opens a filtered list and is silently ignored, landing the reader on the full catalogue instead.
+
+### New Features
+* Added contextual recommendations for Premium products based on how Matomo is being used.
+
+### New APIs
+* The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its markup to it.
+* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
+  now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
+  transport, which follows redirects internally.
+* `Piwik\Plugin\ThemeStyles` gained `$colorSuccess`, `$colorWarning`, `$colorDanger`, `$colorTextBrand`, `$colorBackgroundBrandTinyContrast`, `$colorBackgroundBrandLowContrast` and `$colorBorderBrand`, exposed to Less as `@theme-color-success`, `@theme-color-warning`, `@theme-color-danger`, `@theme-color-text-brand`, `@theme-color-background-brand-tinyContrast`, `@theme-color-background-brand-lowContrast` and `@theme-color-border-brand`.
+* A template extending `@Morpheus/admin.twig` can override the new `contentClass` block to put a class on the page's `#content` element. Core provides `admin--wide`, which widens the content area for admin pages that lay out in columns rather than in a single text measure.
+
+### New commands
+
+* New command `marketplace:warm-cache` refetches the plugin and theme lists shown in the Marketplace overview. With `--if-older-than=<seconds>` it only refetches when the lists are missing or at least that old. Matomo runs it in the background to refresh the lists at spread-out times rather than on the hour, so it does not normally need to be run by hand.
+
+### New config.ini.php settings
+* The new `[Goals]` section limits the automatic goal recommendations:
+  * `recommendation_max_crawl_pages` (default `50`) caps how many same-origin pages are fetched when a website is analysed for goal recommendations.
+  * `recommendation_ai_daily_scan_limit` (default `0`, no limit) caps how many AI-assisted goal recommendation scans can run per site and day, for example to limit AI provider usage in managed environments.
+
+## Matomo 5.14.0
+
+### Breaking Changes
+* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
+* Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
+  conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
+  export request. Previously the export returned the aggregated all-goals columns and every other
+  goal's columns as well. Integrations that reuse an export URL copied from the UI will receive a
+  narrower set of columns than before.
+* The `Referrers_distinctWebsitesUrls` metric is now listed among the metrics of the `Referrers.get` report, carries the label `Distinct website URLs`, and is declared as a numeric metric. It was already archived and already part of `Referrers.get`'s own output, so that call returns the same columns as before; what changes is the surfaces driven by the report's metric list. `API.getProcessedReport` for `Referrers.get` now returns the metric instead of stripping it, and scheduled and emailed reports include it -- a new row in the HTML rendering, a new column in the CSV and TSV ones -- so consumers parsing those exports by column position will see a changed header and column count. Wherever a rendering resolves metric labels, `Distinct website URLs` now appears in place of the raw column name. Being declared numeric also brings it under CNIL data rounding, so on installations with that setting enabled the count is rounded to the same scale as other counts.
+* The `UserCountry_distinctCountries` metric, returned by `UserCountry.getNumberOfDistinctCountries` and plotted by the distinct-countries sparkline widget on the Locations page, is now declared as a numeric metric and is therefore subject to CNIL data rounding. On installations with CNIL rounding enabled the returned count is rounded to the same scale as other counts instead of being passed through unrounded, so a value of `18` now reads as `20`. Installations without CNIL rounding are unaffected.
+* The `Marketplace.searchPlugins` controller action now returns only the fields the plugin cards render, and the `plugins` template variable the `Marketplace.GetNewPlugins` and `Marketplace.GetPremiumFeatures` widgets pass to their templates has been reduced the same way. The version history, shop details, screenshots, support links, authors, changelog and activity they used to carry are served per plugin by the new `Marketplace.getPluginDetails` action instead, which the plugin details modal requests when it opens. A template overriding either widget has to fetch anything beyond the card fields itself.
+* Tooltip content - the `title` of the hovered element, or the `data-tooltip` a report cell carries - may only use simple inline formatting (`b`, `br`, `em`, `i`, `small`, `span`, `strong`, `u`, without attributes). Content carrying anything else is displayed as text in full rather than rendered, so nothing is lost from it, but a `div`, an `img` or a `class` no longer has any effect. A report cell tooltip built from `<column>_tooltip` row metadata used to be inserted without a sanitizer and now shows markup as text. What a plugin returns from `Piwik\Plugins\Live\VisitorDetailsAbstract::renderActionTooltip()` for the `Live.renderActionTooltip` event is escaped where the entries are combined, so the visitor log's action tooltip shows that content as text even when it uses those tags; separate entries with a line break as before. Markup Matomo puts in a tooltip itself lost the classes it carried - `tooltip-action-*` in the visits log tooltip and `comparison-card-tooltip` in the comparison cards - since attributes are not kept; nothing in Matomo styled them, but a third-party theme might. Tooltips track the cursor and close as soon as it leaves their target, so their content was never interactive.
+
+### New APIs
+* `Piwik\Plugins\AIProviders` now implements provider-side web search, also called grounding, so an AI
+  feature can ask the provider to search the web before answering and then read the sources it used.
+  `Piwik\Plugins\AIProviders\AIRequest::withWebSearchEnabled()` is no longer advisory: Anthropic,
+  Google and OpenAI honour it, while AWS Bedrock and the custom provider reject a grounded request with
+  an `AIProviderClientException` rather than silently answering ungrounded. `AIProviderResponse` gained
+  `wasWebSearchUsed()`, `getWebSearchCitations()`, `getWebSearchRequestCount()` and
+  `getWebSearchQueries()`, backed by the new `Piwik\Plugins\AIProviders\WebSearchUsage`, which
+  normalises the three providers' incompatible grounding shapes; `AIProviderService::canUseWebSearch()`
+  and the new `supportsWebSearch` key of `getProviderStatusesForCaller()` let a feature check first.
+  Citation titles and queries are untrusted model output, length-capped but otherwise verbatim, so
+  escape them where they are rendered. Grounding is not a marginal cost: every provider charges per
+  search and bills the retrieved page content as input tokens on top. See `plugins/AIProviders/README.md`
+  for the per-provider caveats and the cost and timeout implications.
+* `AIRequest::withTimeoutSeconds()` overrides the provider HTTP timeout, which now defaults to 120s for
+  a grounded completion and stays at 30s otherwise. That outlasts the default read timeout of common
+  web servers and proxies, so grounded completions are intended for CLI commands and scheduled tasks.
+* `AIProviderResponse::getStopReason()` now reports a value for Google completions, which previously
+  always returned `null`. Google's `finishReason` is mapped onto the same vocabulary the conversation
+  API already uses (`STOP` becomes `end_turn`, `MAX_TOKENS` becomes `max_tokens`, `SAFETY` and
+  `RECITATION` become `guardrail_intervened`), so it matches AWS Bedrock and Anthropic. OpenAI keeps
+  reporting `stop` / `length` on both its grounded and ungrounded paths. A caller that treats an
+  unrecognised stop reason as a failure will start seeing Google values.
+* The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
+* Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
+  * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
+  * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
+* The new `CoreHome.tooltipContent` renders the `title` of the hovered element as the content of a jQuery UI tooltip, and `window.vueSanitizeTooltip()` does the same for a value at hand in plain JavaScript. Both keep only the simple inline formatting a tooltip may show and fall back to displaying the whole value as text, so a title that was not written for a tooltip loses nothing while nothing in it is rendered.
+
+### Deprecations
+* `Piwik\Plugins\AIProviders\AIProviderResponse::isWebSearchEnabled()` is deprecated in favour of
+  `wasWebSearchUsed()`, and the `webSearchEnabled` key of `AIProviderResponse::toArray()` in favour of
+  the new `webSearchUsed` key. The name reads as request state, but both report what the provider
+  actually did, while `AIRequest::isWebSearchEnabled()` keeps the request meaning. Both will be removed
+  in Matomo 6.
+* The `$webSearchEnabled` parameter of the `AIProviderResponse` constructor is deprecated. Pass a
+  `Piwik\Plugins\AIProviders\WebSearchUsage` as the new trailing `$webSearch` parameter instead, which
+  reports the searches, queries and citations a completion actually produced rather than a bare flag.
+  The parameter keeps its position and its meaning, so positional callers written against Matomo 5.13.0
+  keep working and a `true` still makes `wasWebSearchUsed()` report a search. It will be removed in
+  Matomo 6.
+* `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` is deprecated. It was a
+  placeholder whose base implementation always returned `false`, and no bundled provider overrode it,
+  but a third-party provider that did override it controlled `AIProviderResponse::isWebSearchEnabled()`.
+  Such a provider should now override `supportsWebSearch()` to declare the capability and pass a
+  `WebSearchUsage` to `buildResponse()`. An existing override is still honoured by
+  `wasWebSearchUsed()` for the transition, and will stop being consulted in Matomo 6.
+
+### HTTP API
+* A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its
+  dimensions when the request also restricts columns with `showColumns`. Flattening with
+  `flat=1&show_dimensions=1` adds one column per dimension, but their names only exist after
+  flattening, so a caller cannot include them in a `showColumns` allowlist and `ColumnDelete` would
+  drop them. Setting `keep_flattened_dimension_columns=1` re-adds them after flattening. It defaults
+  to `0`, so `showColumns` on its own behaves exactly as before.
+
 ## Matomo 5.13.0
 
 ### Breaking Changes
 * Site content detection (used by the tracking-code setup page and consent-manager detection) now fetches the site URL over the SSRF-safe request path. It refuses targets resolving to private, loopback or reserved IP addresses, and requires the curl extension instead of falling back to the `fopen` or `socket` transports. Installations tracking intranet sites on private addresses must allowlist their ranges via the new `[General] allowed_private_egress_ranges` setting. Refusals are logged at `WARN` level. A configured `[proxy] host` also makes these requests fail closed, as the proxy resolves the target itself and the validated IP cannot be pinned. Where the site host is reachable directly, add it to `[proxy] exclude` (exact hostnames, no wildcards).
+* A report or graph can now only be streamed to the browser by the top-level request. `ImageGraph.get` and `ScheduledReports.generateReport` throw when a streaming output mode comes from a nested API request, for example an `API.getBulkRequest` sub-request. Use `GRAPH_OUTPUT_PHP`/`GRAPH_OUTPUT_FILE` or `OUTPUT_RETURN` instead — `OUTPUT_SAVE_ON_DISK` is rewritten to `OUTPUT_DOWNLOAD` and still throws. The streaming methods of `Piwik\ReportRenderer` and `Piwik\ReportRenderer\Pdf` throw too, so a plugin's own renderer inherits the restriction (new: `ReportRenderer::checkStreamingToBrowserIsAllowed()` and `Piwik\API\Request::isCurrentApiRequestNestedInAnotherApiRequest()`).
+* `UsersManager.createAppSpecificTokenAuth` now only creates a token for the account the caller is acting as, with no exception for super users — including code inside `Piwik\Access::doAsSuperUser()`, console commands and scheduled tasks. To create a token for another account, send an unauthenticated request with that account's `passwordConfirmation`. The method also refuses to run as a nested API request.
+* `UsersManager.setUserAccess` now requires `passwordConfirmation` to grant the `admin` role, in either the string or the array form of `access`, on top of the existing check for granting the anonymous user `view` access. As before this applies only to session-authenticated requests, which includes any request sending `force_api_session=1`; plain `token_auth`, `Authorization: Bearer` and CLI calls are unaffected.
 
 ### New APIs
 * The sparklines visualization has been redesigned as a responsive card grid of metric tiles. Plugin-facing additions that come with it:
   * The new `Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config::$use_metric_labels_as_titles` property lets a sparklines view use its own metric translations as the card titles instead of the generic metric names. Intended for views that relabel shared columns with section-specific names, e.g. the Ecommerce Overview.
   * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.
+* Table visualizations gained a `show_percentage_values` request property (`Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\RequestConfig`). When enabled, eligible metric cells display the percentage of the report total and show the absolute value on hover instead of the other way around. It defaults to `false`, can be set by a plugin or passed as a query parameter, and is exposed to users as a setting in the report's configure menu. Whether that setting is offered is derived from the report itself into the read-only display property `report_supports_percentage_values`, which is true when at least one displayed column appears in both `report_ratio_columns` and the report totals.
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` accept a new optional `$validateEgressIp`
   parameter enabling an SSRF-safe request path (public-IP validation, redirect re-validation, IP pinning). Use it
   whenever the target URL derives from untrusted input, such as a site's configured URL. Requires curl.
@@ -22,6 +122,17 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `Http.sendHttpRequest` and `Http.sendHttpRequest.end` events pass a new `validateEgressIp` entry in their params
   array. A listener that resolves the request itself must either honour SSRF-safe semantics (public-IP-only target,
   re-validated redirects) or leave the request unhandled.
+* Evolution line graphs now draw a forecast for incomplete periods, on by default. `Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution\Config` gained `$show_forecast` (default `true`) and `$disable_forecast` (default `false`); turning either one off skips the forecast and the sub-period API requests it needs. A subclass that renders bars must set `$this->config->show_line_graph = false` in `beforeLoadDataTable()` before calling the parent, or it pays for a forecast the bar renderer cannot draw. Only the rendered graph changes, no API response.
+* The new `Piwik\Columns\Join::getAdditionalKeyColumns()` lets a dimension join require further columns to match on both tables, for a join column that is not unique on its own — `Piwik\Columns\Join\GoalNameJoin` uses it to scope its join to `idsite`. It returns an empty array by default, so existing joins are unaffected.
+* The new bundled `AIProviders` plugin holds the AI provider credentials and defaults that Matomo's AI features use, and lets a plugin add a provider of its own by extending `Piwik\Plugins\AIProviders\Provider\AIProvider`:
+  * `AIProviders.addAIProviders` registers providers on the `AIProvidersList` it receives. `AIProviders.filterAIProviders` can remove one or mark it restricted, so it still serves completions but is hidden from the admin UI. The first registration for a provider ID wins.
+  * `Piwik\Plugins\AIProviders\AIProviderService` runs a completion (`complete()`) or a multi-turn conversation (`converse()`).
+
+### New config.ini.php settings
+* The new `[AIProviders]` section configures the AI provider plugin from the config file:
+  * `defaultProvider` and `defaultCapabilityLevel` (`instant` or `thinking`) pin the instance-wide defaults. Pinning either one makes the plugin's settings page read-only and hides it from the admin menu.
+  * `<providerId>ApiKey`, `<providerId>EndpointUrl`, `<providerId>Model` and `<providerId>UseFipsEndpoint` pin per-provider credentials for `anthropic`, `google`, `openai`, `bedrock` and `custom-provider` (`EndpointUrl` applies to the last two, `UseFipsEndpoint` to `bedrock`). Each is also readable from the matching `MATOMO_AIPROVIDERS_<PROVIDER_ID>_*` environment variable. The config file wins over the environment variable, and both win over the UI.
+  * `providerSelectionAllowlist[]` exempts the named plugins from a pinned `defaultProvider`, letting them target a provider of their choice. It does nothing unless `defaultProvider` is set.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
@@ -29,6 +140,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
   authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
+* `API.getProcessedReport` for `Referrers.getAll` now returns `reportTotal` keyed by metric name instead of raw `Piwik\Metrics::INDEX_*` integers such as `2` and `3`. It was the only report leaking those keys.
+
+### HTTP Tracking API
+* `token_auth` and `token` are now part of the default `url_query_parameter_to_exclude_from_url`, so both are stripped from tracked page, site search, event, content, goal-conversion and referrer URLs; downloads and outlinks keep them. An installation that sets the option in its own `config.ini.php` replaces the default rather than extending it, and has to add the two names itself.
 
 ## Matomo 5.12.0
 

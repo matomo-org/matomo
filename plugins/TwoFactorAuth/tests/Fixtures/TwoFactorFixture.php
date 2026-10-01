@@ -11,6 +11,7 @@ namespace Piwik\Plugins\TwoFactorAuth\tests\Fixtures;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Plugins\Login\tests\Fixtures\WhatsNewChanges;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 use Piwik\Plugins\UsersManager\Model;
@@ -52,6 +53,10 @@ class TwoFactorFixture extends Fixture
         $this->setUpWebsite();
         $this->setUpUsers();
         $this->trackFirstVisit();
+
+        // Lets the 2FA spec assert against the What's New panel, since its login screens extend
+        // the same @Login/loginLayout.twig. Inert for every other test, which reads nothing back.
+        WhatsNewChanges::recordPanelChanges();
     }
 
     public function tearDown(): void

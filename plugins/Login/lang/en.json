@@ -94,6 +94,7 @@
         "SettingBruteForceWhitelistIp": "Never block these IPs from logging in",
         "SettingPasswordStrengthCheck": "Force strong passwords to be used",
         "SettingPasswordStrengthCheckHelp": "Forces users to create strong passwords by requiring them to meet a series of complex rules: %1$s",
+        "SignInIntro": "Welcome back to Matomo, your privacy-first analytics platform.",
         "SuspiciousLoginAttemptsInLastHourEmail1": "A suspiciously high number of login attempts was made on your Matomo account the last hour. Specifically %1$s login attempts from %2$s distinct IP addresses. Someone may be trying to break into your account.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Do the following:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Ensure your password is a secure, random password of at least 30 characters.",
