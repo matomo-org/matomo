@@ -46,6 +46,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The stylesheet `plugins/Login/stylesheets/variables.less` has been removed together with the variable it defined, `@login-section-background`. A plugin that registers this file in `getStylesheetFiles()` must drop that line, otherwise stylesheet merging fails with `The ui asset with 'href' = .../plugins/Login/stylesheets/variables.less is not readable`.
 * The deprecated jQuery UI widget `$.fn.liveWidget` (`piwik.liveWidget`) has been removed together with the file `plugins/Live/javascripts/live.js` that defined it. Use the `Live.AutoRefreshWidget` Vue component instead.
 * Less variables that were only used within a single stylesheet have been inlined or renamed to private `@_`-prefixed names, and are therefore no longer visible to other stylesheets: `@top-menu-nav-color` (`plugins/CoreHome/stylesheets/layout.less`), `@color-period-selector`, `@color-period-selector-input-radio`, `@color-period-selector-options-hover-background`, `@color-period-selector-calendar-hover-background` (`PeriodSelector.less`), `@add-widget-padding`, `@add-widget-border`, `@add-widget-space-or-radius`, `@add-widget-categories`, `@add-widget-widgets`, `@add-widget-preview`, `@add-widget-height`, `@add-widget-item-height` (`AddWidgetModal.less`) and `@calendarHeaderBackground`, `@calendarHeaderColor`, `@calendarCurrentStateHover`, `@calendarBorder` (`plugins/Morpheus/stylesheets/ui/_components.less`). These were never theme variables; use the `@theme-color-*` variable they were derived from instead.
+* The default border colour `@theme-color-border` (`ThemeStyles::$colorBorder`) changes from `#cccccc` to `#e0e0e0` in
+  light mode; dark mode is unchanged. Core stylesheets that used `@theme-color-border-alternative` now use
+  `@theme-color-border`, which is no longer deprecated.
 * `CoreHome.EnrichedHeadline` no longer derives a report's inline help from the DOM. It used to look for a `.reportDocumentation[data-content]` element inside the next sibling of its headline and show that text behind a help icon; the text now comes from its `inline-help` attribute. The `piwik:reportChanged` DOM event, which told a headline to re-read that element, has been removed with it. Headlines rendered by `Piwik\View::singleReport()`, or by a template reproducing its shape, therefore lose their help icon unless `inline-help` is passed explicitly.
 * The development-only console commands `git:commit`, `git:pull` and `git:push` have been removed. They were thin wrappers around `git` that predate the current submodule workflow; use `git` directly instead.
 * Flat-first Actions archiving is enabled by default for new installations, as
@@ -126,6 +129,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   in Matomo 7. Matomo's theming is moving from component-oriented variable names to usage-oriented ones; because
   these variables fill roles that no existing variable covers, usage-oriented replacements will be defined before
   they are removed. They keep working until then.
+* The theme variable `@theme-color-border-alternative` (`ThemeStyles::$colorBorderAlternative`) is deprecated and will
+  be removed in Matomo 7; use `@theme-color-border` instead, which now carries the same value. Core no longer reads
+  the alternative, so a theme that overrides `$colorBorderAlternative` must override `$colorBorder` instead.
 
 ### Internal Changes
 * `./console vue:build` no longer emits the unminified `plugins/<Plugin>/vue/dist/<Plugin>.umd.js` bundle. Only the
