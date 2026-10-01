@@ -130,8 +130,9 @@ class FileIntegrity
     }
 
     /**
-     * @param $messages
-     * @return array
+     * @param string[] $messages
+     * @param string[]|null $filesFoundButNotExpected
+     * @return string[]
      */
     protected static function getMessagesFilesFoundButNotExpected($messages, ?array $filesFoundButNotExpected = null)
     {
