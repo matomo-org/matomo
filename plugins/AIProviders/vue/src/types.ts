@@ -56,3 +56,11 @@ export interface TestConnectionResponse {
   providerName: string;
   models: string[];
 }
+
+export type AIProcessingCategory = 'nonAnalytics' | 'aggregatedAnalytics';
+
+export interface AIProcessingSetting {
+  id: AIProcessingCategory;
+  enabled: boolean;
+  usedBy: { name: string, disclosureUrl: string }[];
+}
