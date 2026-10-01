@@ -115,14 +115,9 @@ class PromotionRendererTest extends IntegrationTestCase
         $this->assertStringContainsString('mtm_group=triggered_ad', $html);
         $this->assertStringContainsString('mtm_content=CustomReports', $html);
         $this->assertStringContainsString('mtm_placement=top_banner', $html);
-        // The trigger is deliberately absent from the outbound link. It says why the
-        // promotion fired, which is a fact about the reports of whoever clicks, so it must
-        // not leave the instance - though it still rides on the element for the directive,
-        // which needs it to dismiss the right promotion.
-        $this->assertStringNotContainsString('mtm_kwd', $html);
-        preg_match('/href="(https:\/\/plugins\.matomo\.org[^"]*)"/', $html, $outbound);
-        $this->assertNotEmpty($outbound, 'the Marketplace link should be present');
-        $this->assertStringNotContainsString('segments', $outbound[1], 'the trigger reached the Marketplace link');
+        // The campaign helper takes no argument for `mtm_kwd`, so the trigger name is put
+        // on the URL itself and must survive the helper merging its own parameters in.
+        $this->assertStringContainsString('mtm_kwd=segments', $html);
         // Both the headline and the call to action leave the app, so both open in a new
         // tab and withhold the referrer.
         // Only the call to action leaves the app - the headline is plain text - and the
@@ -278,7 +273,7 @@ class PromotionRendererTest extends IntegrationTestCase
 
         $this->assertStringContainsString('https://plugins.matomo.org/CustomReports', $html);
 
-        foreach (['mtm_campaign', 'mtm_source', 'mtm_medium', 'mtm_group', 'mtm_content', 'mtm_placement'] as $parameter) {
+        foreach (['mtm_campaign', 'mtm_source', 'mtm_medium', 'mtm_group', 'mtm_content', 'mtm_placement', 'mtm_kwd'] as $parameter) {
             $this->assertStringNotContainsString($parameter, $html, $parameter . ' survived the opt-out');
         }
     }
