@@ -9,7 +9,7 @@
   <div class="kpiCardContainer" :class="`kpiCardContainer--cols${columnCount}`">
     <template v-if="isLoading">
       <div class="kpiCard kpiCard--loading">
-        <div class="kpiCard__badgeSlot" />
+        <div class="kpiCard__badge kpiCard__badge--empty" aria-hidden="true" />
         <div class="kpiCard__title">&nbsp;</div>
         <div class="kpiCard__value">
           <MatomoLoader />

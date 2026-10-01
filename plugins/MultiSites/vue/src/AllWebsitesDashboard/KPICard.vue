@@ -7,7 +7,13 @@
 
 <template>
   <div class="kpiCard">
-    <div class="kpiCard__badgeSlot" />
+    <div
+      v-if="kpi.badge"
+      class="kpiCard__badge"
+      :title="kpi.badge.title"
+      v-html="$sanitize(kpi.badge.label)"
+      v-tooltips="{ duration: 200, delay: 200 }" />
+    <div v-else class="kpiCard__badge kpiCard__badge--empty" aria-hidden="true" />
 
     <div class="kpiCard__title">
       <span :class="`kpiCard__icon ${kpi.icon}`" />
@@ -42,13 +48,6 @@
       </template>
       <template v-else>&nbsp;</template>
     </div>
-
-    <div
-      v-if="kpi.badge"
-      class="kpiCard__badge"
-      :title="kpi.badge.title"
-      v-html="$sanitize(kpi.badge.label)"
-      v-tooltips="{ duration: 200, delay: 200 }" />
   </div>
 </template>
 

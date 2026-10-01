@@ -147,14 +147,13 @@
     row-gap: 1.5rem;
 
     .kpiCard {
-      // Four shared rows — badge slot, title, value, evolution — via subgrid, so those lines stay
-      // aligned across every card in a row even when a title wraps onto two lines. Column 1 has no
+      // Four shared rows — badge, title, value, evolution — via subgrid, so those lines stay aligned
+      // across every card in a row even when a title or a badge wraps onto two lines. Column 1 has no
       // left padding (the container column-gap is the only gutter), so the first value lines up with
       // the "All Websites" title and every first-in-row card lines up under it.
       display: grid;
       grid-row: span 4;
       grid-template-rows: subgrid;
-      position: relative;
       row-gap: 0.6rem;
     }
 
@@ -167,22 +166,22 @@
       top: -8px;
     }
 
-    .kpiCard__badgeSlot {
-      // Reserves the badge row at the top of every card, always, so a badge appearing on a refresh
-      // never shifts the values. The badge itself is taken out of the flow and floats over this slot.
-      min-height: 1.7rem;
-    }
-
     .kpiCard__badge {
+      // Its own subgrid row at the top of the card: a longer label grows the row and pushes the title
+      // down instead of overlapping it, and the row stays aligned across the band.
+      align-self: start;
       background-color: #ecf7fe;
       border: 2px solid #0d94e3;
       border-radius: 2px;
       font-size: 0.9rem;
-      left: 0;
+      justify-self: start;
       min-height: 1.5rem;
       padding: 0 0.35rem;
-      position: absolute;
-      top: 0;
+    }
+
+    .kpiCard__badge--empty {
+      // reserves the badge row on cards without a badge, so one appearing later does not shift the values
+      visibility: hidden;
     }
 
     .kpiCard__title {
