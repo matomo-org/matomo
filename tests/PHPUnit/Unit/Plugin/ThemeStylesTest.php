@@ -125,4 +125,17 @@ class ThemeStylesTest extends TestCase
         $this->assertStringContainsString('--theme-color-brand: ;', $lessCode);
         $this->assertStringContainsString('[data-theme-mode="dark"] {' . "\n" . '    color-scheme: dark;' . "\n" . '    --theme-color-brand: ;', $lessCode);
     }
+
+    public function testToLessCodeKeepsDeprecatedBorderAlternativeAsAliasOfBorder()
+    {
+        $styles = new ThemeStyles(ThemeStyles::LIGHT_MODE);
+        $lessCode = $styles->toLessCode();
+        [$rootBlock, $darkBlock] = explode('[data-theme-mode="dark"]', $lessCode, 2);
+
+        $this->assertStringContainsString('--theme-color-border: #e0e0e0;', $rootBlock);
+        $this->assertStringContainsString('--theme-color-border: #555555;', $darkBlock);
+        $this->assertStringContainsString('--theme-color-border-alternative: #e0e0e0;', $rootBlock);
+        $this->assertStringContainsString('--theme-color-border-alternative: #555555;', $darkBlock);
+        $this->assertStringContainsString('@theme-color-border-alternative: ~"var(--theme-color-border-alternative)";', $lessCode);
+    }
 }
