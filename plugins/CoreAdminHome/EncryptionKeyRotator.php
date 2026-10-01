@@ -482,6 +482,7 @@ class EncryptionKeyRotator
         array $target,
         #[\SensitiveParameter]
         string $oldKey,
+        #[\SensitiveParameter]
         string $configFileBeforeSave,
         \Throwable $failure
     ): void {
@@ -489,10 +490,17 @@ class EncryptionKeyRotator
             $this->rollBack($db, $target, $oldKey, $configFileBeforeSave, $failure);
         }
 
+        try {
+            // a no-op if the commit was applied; otherwise ends a transaction that would keep the rows locked, as
+            // destroying the PDO adapter does not close a connection that a statement still references
+            $db->rollBack();
+        } catch (\Throwable $rollBackFailure) {
+            // the connection may be gone, which ends the transaction too
+        }
+
         $value = $values[0];
         try {
-            // a new connection, as the server ends the transaction of the one closed either way; the adapter
-            // forgets its credentials once connected, so it cannot reconnect itself
+            // the adapter forgets its credentials once connected, so it cannot reconnect itself
             Db::destroyDatabaseObject();
             Db::createDatabaseObject();
             $stored = $this->fetchStoredCiphertext($value);
@@ -547,6 +555,7 @@ class EncryptionKeyRotator
         array $target,
         #[\SensitiveParameter]
         string $oldKey,
+        #[\SensitiveParameter]
         ?string $configFileBeforeSave,
         \Throwable $failure
     ): never {
@@ -621,8 +630,10 @@ class EncryptionKeyRotator
      * Not done with forceSave(): the config only writes what differs from the file as it was first read, and
      * with the old key back in memory nothing does, so the new key would stay in the file.
      */
-    private function restoreConfigFile(string $contents): void
-    {
+    private function restoreConfigFile(
+        #[\SensitiveParameter]
+        string $contents
+    ): void {
         $config = Config::getInstance();
         $localPath = $config->getLocalPath();
 

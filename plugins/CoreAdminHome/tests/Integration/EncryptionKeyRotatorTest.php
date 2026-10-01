@@ -250,7 +250,7 @@ class EncryptionKeyRotatorTest extends IntegrationTestCase
         $rotator = new class extends EncryptionKeyRotator {
             protected function commit(\Zend_Db_Adapter_Abstract $db): void
             {
-                $db->rollBack();
+                // the transaction stays open, holding its row locks
                 throw new \Exception('commit failed');
             }
         };
