@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\FileIntegrity;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group Core
@@ -17,6 +18,18 @@ use Piwik\FileIntegrity;
  */
 class FileIntegrityTest extends \PHPUnit\Framework\TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        Fixture::loadAllTranslations();
+    }
+
+    public function tearDown(): void
+    {
+        Fixture::resetTranslations();
+        parent::tearDown();
+    }
+
     public function testNoUnexpectedFilesGivesNoMessagesOrNotes()
     {
         $this->assertSame([[], []], TestFileIntegrity::getMessagesUnexpectedFiles([], []));
@@ -31,7 +44,7 @@ class FileIntegrityTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame([], $messages);
         $this->assertCount(1, $notes);
-        $this->assertStringContainsString('General_LeftoverDeveloperDocsFound', $notes[0]);
+        $this->assertStringContainsString('Some developer documentation files are left over', $notes[0]);
         $this->assertStringContainsString('AGENTS.md<br/>CHANGELOG.md<br/>CONTRIBUTING.md<br/>', $notes[0]);
     }
 
@@ -44,7 +57,7 @@ class FileIntegrityTest extends \PHPUnit\Framework\TestCase
 
         $this->assertCount(2, $messages);
         $this->assertSame('existing message', $messages[0]);
-        $this->assertStringContainsString('General_ExceptionUnexpectedFile', $messages[1]);
+        $this->assertStringContainsString('Please delete these files to prevent errors', $messages[1]);
         $this->assertStringContainsString('foo.php', $messages[1]);
         $this->assertStringNotContainsString('AGENTS.md', $messages[1]);
 
@@ -61,7 +74,7 @@ class FileIntegrityTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertCount(1, $messages);
-        $this->assertStringContainsString('General_ExceptionUnexpectedFile', $messages[0]);
+        $this->assertStringContainsString('Please delete these files to prevent errors', $messages[0]);
         $this->assertSame([], $notes);
     }
 }
