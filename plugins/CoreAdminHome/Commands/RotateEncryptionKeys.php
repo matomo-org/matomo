@@ -198,8 +198,8 @@ Usage examples:
          *             'pluginSettings' => ['apiKey'],
          *             'siteSettings' => ['siteToken'],
          *             'isEncrypted' => function (string $value): bool { ... },
-         *             'decrypt' => function (string $value, string $key): string { ... },
-         *             'encrypt' => function (string $value, string $key): string { ... },
+         *             'decrypt' => function (string $value, #[\SensitiveParameter] string $key): string { ... },
+         *             'encrypt' => function (#[\SensitiveParameter] string $value, #[\SensitiveParameter] string $key): string { ... },
          *         ];
          *     }
          *
@@ -219,6 +219,9 @@ Usage examples:
          *                          the config, and returns the plaintext. Throws when it cannot decrypt.
          *                        - **encrypt** (callable): receives a plaintext value and a raw key, and
          *                          returns the encrypted value. New keys are 32 random bytes, base64 encoded.
+         *
+         *                        The command prints the message of any exception these callbacks throw, so it
+         *                        must not include the value or the key.
          */
         Piwik::postEvent('CoreAdminHome.getEncryptionKeyRotationTargets', [&$targets]);
 
