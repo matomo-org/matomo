@@ -121,6 +121,21 @@
     line-height: inherit;
   }
 
+  // Names a group of entries, where `__separator` only divides them. Sits in the flow as a
+  // sibling of the items, so inside a `<ul>` menu it is an `<li>`. `text-align` is set because a
+  // panel floats wherever its consumer places it, and inherits that context's alignment: every
+  // `__menuLink` already defends against this on its own.
+  .mtm-dropdownPanel__menuHeading {
+    margin: 0;
+    padding: 8px 8px 4px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+    color: @theme-color-text-light;
+    text-align: left;
+    list-style: none;
+  }
+
   .mtm-dropdownPanel__menuLabel {
     // a flex item will not shrink below its content width without min-width: 0, which would
     // widen the panel instead of truncating the label
