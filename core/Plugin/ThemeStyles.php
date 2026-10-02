@@ -53,7 +53,6 @@ class ThemeStyles
         'colorBackgroundBrandLowContrast' => 'theme-color-background-brand-lowContrast',
         'colorBackgroundDisabled' => 'theme-color-background-disabled',
         'colorBorder' => 'theme-color-border',
-        'colorBorderAlternative' => 'theme-color-border-alternative',
         'colorBorderLight' => 'theme-color-border-light',
         'colorBorderBrand' => 'theme-color-border-brand',
         'colorBoxShadow' => 'theme-color-boxShadow',
@@ -76,6 +75,9 @@ class ThemeStyles
         'colorWidgetTitleText' => 'theme-color-widget-title-text',
         'colorWidgetTitleBackground' => 'theme-color-widget-title-background',
         'colorWidgetExportedBackgroundBase' => 'theme-color-widget-exported-background-base',
+
+        // Deprecated since Matomo 6.0.0, will be removed in Matomo 7. A duplicate of colorBorder.
+        'colorBorderAlternative' => 'theme-color-border-alternative',
     ];
 
     /**
@@ -351,8 +353,8 @@ class ThemeStyles
     public $colorBorderLight = ['#a9a399', '#645e54'];
 
     /**
-     * Brand-tinted border, the counterpart to $colorBorderAlternative for elements drawn on a
-     * brand-tinted surface.
+     * Brand-tinted border, the counterpart to $colorBorder for elements drawn on a brand-tinted
+     * surface.
      *
      * @var string|array<string>
      * @since Matomo 6.0.0
@@ -360,19 +362,19 @@ class ThemeStyles
     public $colorBorderBrand = ['#bfe7e9', '#2f5e5e'];
 
     /**
-     * @var string|array<string>
-     * @deprecated Use $colorBorderAlternative instead. Retained only for legacy use and will be
-     *             phased out once everything has moved to the alternative.
-     */
-    public $colorBorder = ['#cccccc', '#555555'];
-
-    /**
-     * Use this as the new border color. $colorBorder only remains so that we don't need to update
-     * screenshots unless we really need to
+     * Default border, for dividers and the outlines of cards, inputs and panels.
      *
      * @var string|array<string>
      */
-    public $colorBorderAlternative = ['#E0E0E0', '#555555'];
+    public $colorBorder = ['#e0e0e0', '#555555'];
+
+    /**
+     * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-border-alternative`)
+     *             - use $colorBorder (`@theme-color-border`) instead, which now carries this value.
+     *             Core no longer reads this variable.
+     */
+    public $colorBorderAlternative;
 
     /**
      * @var string|array<string>
@@ -428,6 +430,7 @@ class ThemeStyles
         $this->colorWidgetTitleBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBorder = $this->colorBackgroundTinyContrast;
+        $this->colorBorderAlternative = $this->colorBorder;
         $this->colorHeaderBackground = $this->colorBackgroundContrast;
         $this->colorHeaderText = $this->colorTextLighter;
     }
