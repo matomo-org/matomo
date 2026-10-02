@@ -51,6 +51,8 @@ class MenuTop extends MenuAbstract
      */
     public function getMenu()
     {
+        $this->resetIfBuiltForAnotherScope();
+
         if (!$this->menu) {
             foreach ($this->getAllMenus() as $menu) {
                 $menu->configureTopMenu($this);
