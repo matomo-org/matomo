@@ -374,7 +374,7 @@ class ThemeStyles
      *             - use $colorBorder (`@theme-color-border`) instead, which now carries this value.
      *             Core no longer reads this variable.
      */
-    public $colorBorderAlternative = ['#e0e0e0', '#555555'];
+    public $colorBorderAlternative;
 
     /**
      * @var string|array<string>
@@ -430,6 +430,7 @@ class ThemeStyles
         $this->colorWidgetTitleBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBorder = $this->colorBackgroundTinyContrast;
+        $this->colorBorderAlternative = $this->colorBorder;
         $this->colorHeaderBackground = $this->colorBackgroundContrast;
         $this->colorHeaderText = $this->colorTextLighter;
     }
