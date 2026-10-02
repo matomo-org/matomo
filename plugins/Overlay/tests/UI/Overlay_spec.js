@@ -7,8 +7,14 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 describe("Overlay", function () {
+    // look the frame up by its element: the Overlay session renames the frame's window.name
+    async function getOverlayFrame(page) {
+        const iframe = await page.$('#overlayIframe');
+        return iframe ? iframe.contentFrame() : null;
+    }
+
     async function removeOptOutIframe(page) {
-        const frame = page.frames().find(f => f.name() === 'overlayIframe');
+        const frame = await getOverlayFrame(page);
         if (frame) {
             await frame.evaluate(function () {
                 $('iframe#optOutIframe').remove();
@@ -65,7 +71,7 @@ describe("Overlay", function () {
 
             it("should show clicks when hover over link in iframe" + descAppendix, async function () {
 
-                const frame = page.frames().find(f => f.name() === 'overlayIframe');
+                const frame = await getOverlayFrame(page);
                 await (await frame.$('.btn.btn-large')).hover();
                 await page.waitForTimeout(250);
 
@@ -84,7 +90,7 @@ describe("Overlay", function () {
                 await page.reload();
                 // wait for sidebar to be finished loading
                 await page.waitForSelector('#overlaySidebar', {visible: true});
-                const frame = page.frames().find(f => f.name() === 'overlayIframe');
+                const frame = await getOverlayFrame(page);
                 await (await frame.$('.dropdown-toggle')).click();
 
                 await page.waitForTimeout(2000);
@@ -94,7 +100,7 @@ describe("Overlay", function () {
             });
 
             it("should change page when clicking on internal iframe link" + descAppendix, async function () {
-                const frame = page.frames().find(f => f.name() === 'overlayIframe');
+                const frame = await getOverlayFrame(page);
                 await (await frame.$('ul.nav>li:nth-child(2)>a')).click();
                 await page.waitForNetworkIdle();
 
@@ -172,7 +178,7 @@ describe("Overlay", function () {
 
                 await page.waitForTimeout(2000);
 
-                const frame = page.frames().find(f => f.name() === 'overlayIframe');
+                const frame = await getOverlayFrame(page);
                 await frame.waitForSelector('.PIS_LinkTag');
 
                 await removeOptOutIframe(page);
@@ -222,6 +228,26 @@ describe("Overlay", function () {
         const params = await captureForwardedApiRequest(true);
 
         expect(params.get('segment')).to.equal('visitIp==50.112.3.5');
+    });
+
+    it("should load the sidebar when a redirect on the tracked site trims the referrer", async function () {
+        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.save();
+
+        const redirectUrl = testEnvironment.overlayUrl + 'redirect.php';
+        const redirectedRequest = page.webpage.waitForRequest(function (request) {
+            return request.redirectChain().length > 0 && /\/overlay-test-site-real\/$/.test(request.url());
+        });
+
+        await page.goto('?module=Overlay&period=year&date=today&idSite=3#?l=' + encodeURIComponent(redirectUrl).replace(/[%]/g, '$'));
+
+        // the redirect trimmed the referrer, so the tracker cannot detect the session from it
+        const referrer = (await redirectedRequest).headers().referer;
+        expect(referrer).to.be.a('string');
+        expect(referrer).to.not.contain('startOverlaySession');
+
+        await page.waitForSelector('#overlaySidebar .overlayMainMetrics', {visible: true});
+        expect(await page.$eval('#overlayLoading', el => el.offsetParent === null)).to.equal(true);
     });
 
     it("should load overlay correctly when coming from an widgetized action report", async function () {
