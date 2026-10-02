@@ -266,6 +266,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 + "&removeOldVisits=0");
 
             await page.waitForSelector('circle');
+            // screenshotSelector() resizes the viewport to the page, and the map redraws on resize, which
+            // loses the hovered visit's tooltip. Resize first, so the capture doesn't resize again.
+            await page.resizeViewportToFullPage();
             await page.waitForTimeout(250); // rendering
             await (await page.jQuery('circle:eq(0)')).hover();
             await page.waitForSelector('.ui-tooltip', {visible: true}); // wait for tooltip

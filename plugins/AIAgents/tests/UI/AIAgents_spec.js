@@ -35,6 +35,8 @@ describe('AIAgents', function () {
   });
 
   it('should allow changing displayed metric using sparklines', async function () {
+    // sparkline.js links the sparklines only once the evolution graph has rendered
+    await page.waitForFunction(() => document.querySelectorAll('.sparkline.linked').length === 10);
     const sparklines = await page.$$('.sparkline.linked');
 
     expect(sparklines.length).to.equal(10);

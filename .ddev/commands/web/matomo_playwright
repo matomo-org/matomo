@@ -1,0 +1,26 @@
+#!/bin/bash
+
+## Description: Run the Playwright UI tests in tests/playwright
+## Usage: matomo:playwright [--update] [--rebuild-fixture] [playwright test options]
+## Example: "ddev matomo:playwright" or "ddev matomo:playwright specs/comparison.spec.js -g subtable" or "ddev matomo:playwright --update"
+## ExecRaw: true
+
+cd /var/www/html/tests/playwright || exit 1
+
+export MATOMO_URL="http://${DDEV_HOSTNAME%%,*}/"
+export PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/chromium
+# local screenshots differ from CI ones, so they get their own gitignored baselines
+export PLAYWRIGHT_SNAPSHOT_SUFFIX=local
+
+args=()
+for arg in "$@"; do
+  case "$arg" in
+    --update) export PLAYWRIGHT_UPDATE_SNAPSHOTS=changed ;;
+    --rebuild-fixture) export PLAYWRIGHT_FIXTURE_DROP=1 ;;
+    *) args+=("$arg") ;;
+  esac
+done
+
+[ -d node_modules ] || npm ci --no-audit --no-fund || exit 1
+
+npx playwright test "${args[@]}"

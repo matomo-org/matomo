@@ -1,0 +1,251 @@
+# Matomo UI tests on Playwright Test.
+#
+# Runs all UI specs (tests/playwright/specs and, through tests/playwright/legacy, the Mocha specs of core
+# and plugins) in shards of similar duration, against Matomo on PHP's built-in server and the runner's
+# MySQL on tmpfs. Called by matomo-tests.yml, or started by hand.
+#
+# Baselines are generated on CI only and kept as artifacts: a run for a commit with [update-screenshots]
+# in its message (or started with "update screenshots") writes them, and later runs of the same branch
+# compare against the newest ones.
+
+name: UI tests (Playwright)
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        required: false
+        default: ''
+      update_screenshots:
+        type: boolean
+        required: false
+        default: false
+  workflow_dispatch:
+    inputs:
+      update_screenshots:
+        description: 'Write new screenshot baselines instead of comparing'
+        type: boolean
+        default: false
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  PHP_VERSION: '8.1'
+  NODE_VERSION: '24'
+
+jobs:
+  # Splits the specs into shards up front, so each job can be named after what it tests.
+  plan:
+    name: UI shards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      shards: ${{ steps.plan.outputs.shards }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: false
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Fetch submodules
+        run: git -c protocol.version=2 submodule update --init --force --depth=1 --jobs=8
+      - id: plan
+        run: node tests/playwright/legacy/plan.js 10 >> "$GITHUB_OUTPUT"
+
+  playwright:
+    name: UI ${{ matrix.shard }}/10 (${{ matrix.label }})
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}
+      matrix:
+        include: ${{ fromJson(needs.plan.outputs.shards) }}
+    env:
+      CI: 'true'
+      MATOMO_URL: 'http://localhost/'
+      PLAYWRIGHT_SHARD: ${{ matrix.shard }}/10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: false
+          ref: ${{ inputs.ref || github.ref }}
+
+      # actions/checkout fetches submodules one after another (about 37 s for 17 of them)
+      - name: Fetch submodules
+        run: git -c protocol.version=2 submodule update --init --force --depth=1 --jobs=8
+
+      - name: Decide whether to write baselines
+        id: mode
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          FORCED: ${{ inputs.update_screenshots }}
+        run: |
+          message=$(gh api "repos/$GITHUB_REPOSITORY/commits/$SHA" --jq .commit.message || true)
+          if [ "$FORCED" = "true" ] || [[ "$message" == *"[update-screenshots]"* ]]; then
+            echo "update=changed" >> "$GITHUB_OUTPUT"
+          else
+            echo "update=none" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Find the newest baselines of this branch
+        if: steps.mode.outputs.update == 'none'
+        id: baselines
+        uses: actions/github-script@v9
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+        with:
+          script: |
+            const { data } = await github.rest.actions.listArtifactsForRepo({
+              ...context.repo,
+              name: 'playwright-baselines-1',
+              per_page: 100,
+            });
+            const artifact = data.artifacts.find((a) => !a.expired && a.workflow_run && a.workflow_run.head_branch === process.env.BRANCH);
+            if (!artifact) {
+              core.setFailed(`No screenshot baselines for ${process.env.BRANCH}. Push a commit with [update-screenshots] in its message first.`);
+              return;
+            }
+            core.info(`Using the baselines of run ${artifact.workflow_run.id}`);
+            core.setOutput('run-id', artifact.workflow_run.id);
+
+      - name: Download baselines
+        if: steps.mode.outputs.update == 'none'
+        uses: actions/download-artifact@v8
+        with:
+          pattern: playwright-baselines-*
+          merge-multiple: true
+          run-id: ${{ steps.baselines.outputs.run-id }}
+          github-token: ${{ github.token }}
+          path: tests/playwright/screenshots
+
+      # the runner's own MySQL 8.0, so no container registry can fail the job, with its data on tmpfs
+      - name: Start MySQL
+        run: |
+          sudo systemctl stop mysql
+          sudo mv /var/lib/mysql /var/lib/mysql-disk
+          sudo mkdir /var/lib/mysql
+          sudo mount -t tmpfs -o size=6g tmpfs /var/lib/mysql
+          sudo cp -a /var/lib/mysql-disk/. /var/lib/mysql/
+          sudo cp tests/playwright/ci/my.cnf /etc/mysql/conf.d/matomo.cnf
+          sudo systemctl start mysql
+          mysql -h127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS matomo_tests; SET GLOBAL local_infile = 1"
+
+      # only QueuedTracking needs it, so a registry outage must not fail the job
+      - name: Start Redis
+        run: docker run -d --name redis -p 6379:6379 mirror.gcr.io/library/redis:7-alpine || echo "::warning::Redis did not start"
+
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: bcmath, curl, zip, pdo_mysql, mysqli, gd, zlib, opcache, redis
+          # same as matomo-org/github-action-tests; with opcache on, request workers crash without a reply
+          ini-values: >-
+            memory_limit=768M, max_execution_time=10000, error_reporting=E_ALL, log_errors=on,
+            error_log=${{ github.workspace }}/tmp/logs/php-errors.log, display_errors=on,
+            zend.exception_ignore_args=Off, mysqli.allow_local_infile=On, opcache.enable=0
+          tools: composer:v2
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ runner.os }}-php${{ env.PHP_VERSION }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-php${{ env.PHP_VERSION }}-
+
+      - name: Composer install
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: tests/playwright/package-lock.json
+
+      - name: npm ci
+        working-directory: tests/playwright
+        run: npm ci --no-audit --no-fund
+
+      - name: Get Playwright version
+        id: playwright
+        working-directory: tests/playwright
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v6
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Install Chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        working-directory: tests/playwright
+        # no --with-deps: the runner image already has the system libraries, and apt mirrors have broken UI jobs before
+        run: npx playwright install chromium
+
+      - name: Configure Matomo and start PHP
+        run: |
+          set -eu
+          cp tests/playwright/ci/config.ini.php config/config.ini.php
+          mkdir -p tmp/assets tmp/cache/tracker tmp/latest tmp/logs tmp/sessions tmp/templates_c tmp/tcpdf tmp/climulti
+          chmod -R 777 tmp
+
+          # PHP's built-in server with several workers is enough for one browser, and needs no
+          # nginx or php-fpm pool. Port 80, because Matomo builds some URLs without the port.
+          sudo setcap CAP_NET_BIND_SERVICE=+eip "$(readlink -f "$(command -v php)")"
+          PHP_CLI_SERVER_WORKERS=8 nohup php -S 0.0.0.0:80 -t "$GITHUB_WORKSPACE" > tmp/logs/php-server.log 2>&1 &
+
+          # the test proxy answers 403 until the fixture setup marks this instance, so check a plain PHP file
+          for i in $(seq 1 30); do
+            curl -sf -o /dev/null http://localhost/index.php && exit 0
+            sleep 1
+          done
+          echo 'PHP server is not answering'
+          cat tmp/logs/php-server.log
+          exit 1
+
+      - name: List the specs of this shard
+        run: |
+          {
+            echo "### UI shard $PLAYWRIGHT_SHARD"
+            node -e "require('./tests/playwright/legacy/specs').shardFiles(process.env.PLAYWRIGHT_SHARD).forEach((f) => console.log('- ' + require('path').relative(process.cwd(), f)))"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Run Playwright tests
+        working-directory: tests/playwright
+        env:
+          PLAYWRIGHT_UPDATE_SNAPSHOTS: ${{ steps.mode.outputs.update }}
+        run: npx playwright test
+
+      - name: Upload report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          # one artifact per attempt, so a rerun keeps the evidence of the failed attempt
+          name: playwright-report-${{ matrix.shard }}-${{ github.run_attempt }}
+          path: |
+            tests/playwright/playwright-report
+            tests/playwright/test-results
+            tmp/logs
+          retention-days: 14
+
+      - name: Upload baselines
+        if: ${{ !cancelled() && steps.mode.outputs.update != 'none' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-baselines-${{ matrix.shard }}
+          path: tests/playwright/screenshots
+          overwrite: true
+          retention-days: 30

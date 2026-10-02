@@ -1,0 +1,7 @@
+/node_modules/
+/test-results/
+/playwright-report/
+/results/
+# screenshots rendered by a local (non-CI) browser; baselines come from CI only
+*-local.png
+/legacy/generated/

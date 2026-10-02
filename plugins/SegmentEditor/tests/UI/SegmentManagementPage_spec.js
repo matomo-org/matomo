@@ -740,6 +740,9 @@ describe("SegmentManagementPageTest", function () {
         && !!segment
         && segment.starred === desiredState;
     }, {}, segmentName, segmentId, shouldBeStarred);
+
+    // the UI updates before the API call returns, and a later toggle must not race the pending one
+    await page.waitForNetworkIdle();
   }
 
   function switchToAdminUser() {

@@ -80,12 +80,7 @@ if ($target === null) {
 $files = collect_files($phpunitDir, $target);
 sort($files, SORT_STRING);
 
-$bucket = [];
-foreach ($files as $i => $f) {
-    if ($i % $bucketCount === $bucketIndex) {
-        $bucket[] = $f;
-    }
-}
+$bucket = assign_bucket($files, $bucketIndex, $bucketCount, read_timings($repoRoot, $suite), $repoRoot);
 
 if ($mode === '--list') {
     foreach ($bucket as $f) {
@@ -115,6 +110,58 @@ if (str_starts_with($mode, '--write-xml=')) {
 }
 
 fail("unknown mode '$mode'");
+
+/**
+ * Seconds per test file (paths relative to the repository root) from .github/scripts/bucket-timings.json,
+ * measured on CI. Empty when there are none for the suite.
+ */
+function read_timings(string $repoRoot, string $suite): array
+{
+    $path = $repoRoot . '/.github/scripts/bucket-timings.json';
+    if (!is_file($path)) {
+        return [];
+    }
+    $timings = json_decode((string) file_get_contents($path), true);
+    return is_array($timings[$suite] ?? null) ? $timings[$suite] : [];
+}
+
+/**
+ * Without timings, every bucket-count-th file. With timings, the longest files first, each into the bucket
+ * with the least work so far, so the buckets take about the same time (files without a timing count as the
+ * median). Every job computes the same split and takes its own bucket from it.
+ */
+function assign_bucket(array $files, int $bucketIndex, int $bucketCount, array $timings, string $repoRoot): array
+{
+    if (empty($timings)) {
+        return array_values(array_filter($files, function ($i) use ($bucketIndex, $bucketCount) {
+            return $i % $bucketCount === $bucketIndex;
+        }, ARRAY_FILTER_USE_KEY));
+    }
+
+    $known = array_values($timings);
+    sort($known);
+    $median = $known[intdiv(count($known), 2)];
+
+    $durations = [];
+    foreach ($files as $file) {
+        $durations[$file] = (float) ($timings[substr($file, strlen($repoRoot) + 1)] ?? $median);
+    }
+    uksort($durations, function ($a, $b) use ($durations) {
+        return $durations[$b] <=> $durations[$a] ?: strcmp($a, $b);
+    });
+
+    $load = array_fill(0, $bucketCount, 0.0);
+    $buckets = array_fill(0, $bucketCount, []);
+    foreach ($durations as $file => $seconds) {
+        $least = array_keys($load, min($load))[0];
+        $load[$least] += $seconds;
+        $buckets[$least][] = $file;
+    }
+
+    $bucket = $buckets[$bucketIndex];
+    sort($bucket, SORT_STRING);
+    return $bucket;
+}
 
 /**
  * Walks the suite's <directory> entries and gathers every *Test.php file
