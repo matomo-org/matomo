@@ -266,6 +266,36 @@ describe('Live/SegmentVisitorLog row action', () => {
       );
     });
 
+    it('should strip the series segment and still keep the suffix', () => {
+      setUpComparisonRow(COMPARED_SEGMENT, SUFFIX_SEGMENT, `${COMPARED_SEGMENT};${CATEGORY_ROW_SEGMENT}`);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        `${COMPARED_SEGMENT};${SUFFIX_SEGMENT}`,
+        expect.objectContaining({
+          intersectSegment: CATEGORY_ROW_SEGMENT,
+        }),
+      );
+    });
+
+    it('should leave the row filter alone when it does not start with the series segment', () => {
+      // Segment::combine() returns only the series segment when it already contains the row's
+      // condition, so there is no "series;" prefix to strip
+      setUpComparisonRow(COMPARED_SEGMENT, '', COMPARED_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        COMPARED_SEGMENT,
+        expect.objectContaining({
+          intersectSegment: COMPARED_SEGMENT,
+        }),
+      );
+    });
+
     it('should still open the period of the clicked comparison row', () => {
       setUpComparisonRow(REPORT_SEGMENT, SUFFIX_SEGMENT);
 
