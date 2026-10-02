@@ -61,7 +61,12 @@ jobs:
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
+        # longest-running first: with max-parallel, the bucket matrices start their jobs in this order
         environment: &php-environments
+          - php: '8.5'
+            adapter: 'MYSQLI'
+            mysql-engine: 'Mysql'
+            mysql-version: '8.0'
           - php: '8.1'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mysql'
@@ -70,18 +75,19 @@ jobs:
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mariadb'
             mysql-version: '10.6'
-          - php: '8.5'
-            adapter: 'MYSQLI'
-            mysql-engine: 'Mysql'
-            mysql-version: '8.0'
     steps:
       - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      # actions/checkout fetches submodules one after another (about 37 s for 17 of them)
+      - &fetch-submodules
+        name: Fetch submodules
+        working-directory: matomo
+        run: git -c protocol.version=2 submodule update --init --force --depth=1 --jobs=8
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -110,9 +116,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -133,16 +140,18 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_CORE_MAX_PARALLEL || '10') }}
       matrix:
-        bucket: &php-buckets [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+        # jobs are created environment by environment, so the slowest PHP version starts first
         environment: *php-environments
+        bucket: &php-buckets [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
     steps:
       - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -156,9 +165,11 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'IntegrationTestsCore'
+          # the JUnit timings feed .github/scripts/bucket-timings.json (see list-bucket-tests.php)
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
+            --log-junit tests/PHPUnit/junit-bucket.xml
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -168,6 +179,14 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Upload test timings
+        if: ${{ always() && matrix.environment.php == '8.1' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: junit-IntegrationTestsCore-${{ matrix.bucket }}
+          path: matomo/tests/PHPUnit/junit-bucket.xml
+          retention-days: 14
+          if-no-files-found: ignore
   PHP-integration-plugins:
     name: PHP (IntegrationTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -175,16 +194,18 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_PLUGINS_MAX_PARALLEL || '10') }}
       matrix:
-        bucket: *php-buckets
+        # jobs are created environment by environment, so the slowest PHP version starts first
         environment: *php-environments
+        bucket: *php-buckets
     steps:
       - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -198,9 +219,11 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'IntegrationTestsPlugins'
+          # the JUnit timings feed .github/scripts/bucket-timings.json (see list-bucket-tests.php)
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
+            --log-junit tests/PHPUnit/junit-bucket.xml
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -210,6 +233,14 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Upload test timings
+        if: ${{ always() && matrix.environment.php == '8.1' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: junit-IntegrationTestsPlugins-${{ matrix.bucket }}
+          path: matomo/tests/PHPUnit/junit-bucket.xml
+          retention-days: 14
+          if-no-files-found: ignore
   PHP-system-plugins:
     name: PHP (SystemTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -217,16 +248,18 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_SYSTEM_PLUGINS_MAX_PARALLEL || '10') }}
       matrix:
-        bucket: *php-buckets
+        # jobs are created environment by environment, so the slowest PHP version starts first
         environment: *php-environments
+        bucket: *php-buckets
     steps:
       - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -240,9 +273,11 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'SystemTestsPlugins'
+          # the JUnit timings feed .github/scripts/bucket-timings.json (see list-bucket-tests.php)
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
+            --log-junit tests/PHPUnit/junit-bucket.xml
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -255,6 +290,14 @@ jobs:
           upload-artifacts: false
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Upload test timings
+        if: ${{ always() && matrix.environment.php == '8.1' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: junit-SystemTestsPlugins-${{ matrix.bucket }}
+          path: matomo/tests/PHPUnit/junit-bucket.xml
+          retention-days: 14
+          if-no-files-found: ignore
       - name: Upload bucket processed-files for aggregation
         if: ${{ always() && matrix.environment.php == '8.1' }}
         uses: actions/upload-artifact@v7
@@ -309,9 +352,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -326,9 +370,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -345,9 +390,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: Generate Plugin UI Matrices
         id: generate
         shell: bash
@@ -358,8 +404,12 @@ jobs:
             ! -path '*/node_modules/*' ! -path '*/vendor/*' \
             | awk -F/ '{print $2}' | sort -u)
 
+          # longest-running first (median seconds of recent successful jobs, unknown plugins count as
+          # 5 min), so max-parallel doesn't leave the slowest plugin jobs for last
           matrix=$(printf '%s\n' "$plugins" \
-            | jq -Rsc 'split("\n") | map(select(length>0) | {plugin: .}) | {include: .}')
+            | jq -Rsc --slurpfile timings .github/scripts/ui-plugin-timings.json \
+              'split("\n") | map(select(length>0) | {plugin: ., seconds: ($timings[0][.] // 300)})
+              | sort_by(-.seconds) | map({plugin}) | {include: .}')
 
           {
             echo "plugin_matrix=$matrix"
@@ -379,9 +429,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: Limit LFS fetch to this plugin's screenshots
         working-directory: matomo
         env:
@@ -421,9 +472,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-          submodules: true
+          submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *fetch-submodules
       - name: Limit LFS fetch to core screenshots
         working-directory: matomo
         run: |
