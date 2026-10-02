@@ -128,6 +128,11 @@ class Loader
             }
         }
 
+        // a report-only archive is a plugin archive, so it cannot be built without knowing the plugin
+        if (empty($pluginName) && !empty($this->params->getArchiveOnlyReport())) {
+            throw new \Exception('Archiving a specific report requires the plugin that provides it.');
+        }
+
         // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
         // made invalid, we will correctly re-archive below.
         if (
