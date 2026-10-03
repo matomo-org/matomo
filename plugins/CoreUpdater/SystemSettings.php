@@ -58,7 +58,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
         $this->releaseChannel = $this->createReleaseChannel();
         $this->releaseChannel->setIsWritableByCurrentUser($isWritable
-            && SettingsPiwik::isMultiServerEnvironment() === false);
+            && SettingsPiwik::isMultiServerEnvironment() === false
+            && SettingsPiwik::isVersionUpdateCheckEnabled());
 
         $this->sendPluginUpdateEmail = $this->createSendPluginUpdateEmail();
         $this->sendPluginUpdateEmail->setIsWritableByCurrentUser($isWritable
