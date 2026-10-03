@@ -1,6 +1,9 @@
 {
     "AIProviders": {
+        "AnthropicDefaultModelDescription": "Varsayılan model: claude-haiku-4-5",
         "ApiKey": "API anahtarı",
+        "ApiKeyAlreadyConfiguredPlaceholder": "Anahtarı değiştirmek için yeni bir anahtar yazın.",
+        "ApiKeyPlaceholder": "API anahtarınızı yazın",
         "DefaultBadge": "Varsayılan",
         "Model": "Model",
         "TestingConnection": "Sınanıyor…"

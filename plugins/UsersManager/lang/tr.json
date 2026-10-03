@@ -213,7 +213,7 @@
         "ResetTwoFactorAuthenticationInfo": "Kullanıcı kurtarma kodlarını ya da kimlik doğrulama aygıtını kaybettiği için oturum açamıyorsa, kullanıcının iki adımlı doğrulamasını sıfırlayarak yeniden oturum açmasını sağlanabilirsiniz.",
         "Role": "Rol",
         "RoleFor": "Şunun rolü",
-        "RolesHelp": "Matomo üzerinde bir kullanıcının belirli bir site üzerinde yapabileceği işlemler roller tarafından belirlenir. Roller hakkında ayrıntılı bilgi almak için %1$sGörüntüleme%2$s ve %3$sYönetici%4$s bölümlerine bakabilirsiniz.",
+        "RolesHelp": "Matomo üzerinde bir kullanıcının belirli bir site üzerinde yapabileceği işlemler roller tarafından belirlenir. Roller ile ilgili ayrıntılı bilgi almak için %1$sGörüntüleme%2$s ve %3$sYönetici%4$s bölümlerine bakabilirsiniz.",
         "SaveBasicInfo": "Temel bilgileri kaydet",
         "SecureUseOnly": "Yalnızca güvenli kullanım",
         "SendInvite": "Çağrı gönder",
