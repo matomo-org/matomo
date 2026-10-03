@@ -2,6 +2,8 @@
     "Tour": {
         "AddAnnotation": "Προσθήκη σχολιασμού",
         "AddAnotherWebsite": "Προσθήκη άλλου ιστοτόπου",
+        "AddRecommendedGoals": "Προσθήκη προτεινόμενων στόχων",
+        "AddRecommendedGoalsDescription": "Επισκόπηση προτεινόμενων στόχων για τον ιστοτόπο σας και δημιουργία στόχου που να ταιριάζει.",
         "AddReport": "Προσθήκη προγραμματισμένης αναφοράς",
         "AddSegment": "Προσθήκη ενός τμήματος",
         "BecomeMatomoExpert": "Γίνετε ειδικός στο Matomo",
