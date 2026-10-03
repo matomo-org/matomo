@@ -2,6 +2,7 @@
     "CoreUpdater": {
         "AlreadyUpToDate": "Tudo está atualizado.",
         "CheckingForPluginUpdates": "Verificando novas atualizações do plugin",
+        "CheckingForPluginUpdatesFailed": "Não foi possível verificar atualizações de plugins: %1$s",
         "ClickHereToViewSqlQueries": "Clique aqui para visualizar e copiar a lista de consultas SQL e comandos de console que serão executados",
         "CloudHosting": "Nuvem de hospedagem",
         "ConsoleCommandDescription": "Aciona atualizações. Use após atualizações do core Matomo ou atualizações de quaisquer arquivos de plugin. Acrescente --yes para atualizar sem confirmação.",
@@ -90,6 +91,7 @@
         "UpdateUsingHttpsFailedForceHttpInfo": "Por motivos de segurança, o Matomo não baixou a atualização através de uma conexão HTTP não segura. Certifique-se de que o HTTPS funciona no seu ambiente e tente novamente. Você só deve permitir atualizações via HTTP se tiver certeza de que a conexão é segura, ativando a opção de configuração %1$sforce_matomo_http_request%2$s.",
         "UpdateUsingHttpsFailedHelp": "Por que falhou? Fazendo o download da versão mais recente Matomo (via conexão segura HTTPS) pode falhar por várias razões, por exemplo, por causa de um erro de rede, velocidade de rede lenta ou configuração do sistema errado. Note que também pode significar que o servidor é o alvo de um ataque MITM e alguém está tentando substituir a atualização com uma versão maliciosa do Matomo.",
         "Updating": "Atualizando",
+        "UpdatingPluginXFailedY": "Não foi possível atualizar o plugin %1$s: %2$s",
         "UpdatingPluginXToVersionY": "Atualizando plugin %1$s para versão %2$s",
         "UpgradeComplete": "Atualização completa!",
         "UpgradePiwik": "Atualizar o Matomo",
