@@ -45,17 +45,15 @@ class FeatureFlagManager
             return $featureFlagObj->getForcedFeatureFlagState();
         }
 
-        $featureActive = false;
-
         foreach ($this->storages as $storage) {
             $isActive = $storage->isFeatureActive($featureFlagObj);
 
             if ($isActive !== null) {
-                $featureActive = $isActive;
+                return $isActive;
             }
         }
 
-        return $featureActive;
+        return false;
     }
 
     /**
