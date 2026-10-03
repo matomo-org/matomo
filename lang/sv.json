@@ -100,7 +100,6 @@
         "ColumnPageGenerationTime": "Tid för sidgenerering",
         "ColumnPageviews": "Sidvisningar",
         "ColumnPageviewsDocumentation": "Antalet gånger som denna sida besöktes.",
-        "ColumnPercentOfReportTotal": "%1$s (%% av totalt)",
         "ColumnPercentOfReportTotalDocumentation": "Andelen av rapportens totala %1$s som denna rad motsvarar.",
         "ColumnPercentageVisits": "%% besök",
         "ColumnPercentageVisitsDocumentation": "Andelen av totalt antal besök.",
