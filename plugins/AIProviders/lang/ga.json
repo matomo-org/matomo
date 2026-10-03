@@ -16,7 +16,6 @@
         "DefaultCapabilityLevelHelp": "Roghnaigh an cumas réamhshocraithe a d'fhéadfadh Matomo a úsáid. Is féidir le gnéithe aonair é seo a shárú.",
         "DefaultProvider": "Soláthraí réamhshocraithe",
         "DefaultProviderHelp": "Ceangail soláthraithe agus roghnaigh réamhshocrú le húsáid ag Matomo. Féadfaidh gnéithe aonair é seo a shárú agus an soláthraí nasctha is fearr leo a roghnú.",
-        "DefaultsTitle": "Athraigh socruithe soláthraí agus luachanna réamhshocraithe",
         "Disconnect": "Dícheangail",
         "DisconnectSuccess": "Soláthraí AI dícheangailte.",
         "Disconnecting": "Ag dícheangal…",

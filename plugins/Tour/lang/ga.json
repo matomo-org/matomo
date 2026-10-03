@@ -2,6 +2,8 @@
     "Tour": {
         "AddAnnotation": "Cuir nóta leis",
         "AddAnotherWebsite": "Cuir suíomh Gréasáin eile leis",
+        "AddRecommendedGoals": "Cuir spriocanna molta leis",
+        "AddRecommendedGoalsDescription": "Déan athbhreithniú ar mholtaí spriocanna chun do shuíomh gréasáin agus cruthaigh na spriocanna a oireann dó.",
         "AddReport": "Cuir tuairisc sceidealaithe leis",
         "AddSegment": "Cuir teascán leis",
         "BecomeMatomoExpert": "Bí i do shaineolaí Matomo",

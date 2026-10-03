@@ -16,7 +16,6 @@
         "DefaultCapabilityLevelHelp": "Matomoが使用できるデフォルトの機能を選択してください。個別の機能がこれを上書きすることがあります。",
         "DefaultProvider": "デフォルトプロバイダー",
         "DefaultProviderHelp": "プロバイダーを接続し、Matomo が使用するデフォルトを選択します。個々の機能はこれを上書きし、好みの接続プロバイダーを選択する場合があります。",
-        "DefaultsTitle": "プロバイダー設定とデフォルト値を変更する",
         "Disconnect": "切断",
         "DisconnectSuccess": "AIプロバイダーが切断されました。",
         "Disconnecting": "切断中…",

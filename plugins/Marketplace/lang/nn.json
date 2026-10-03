@@ -1,6 +1,8 @@
 {
     "Marketplace": {
         "ActivateLicenseKey": "Slå på",
+        "CategoryEcommerce": "Netthandel",
+        "CategorySecurity": "Tryggleik",
         "PluginKeywords": "Nøkkelord",
         "PluginVersionInfo": "%1$s van %2$s",
         "SubscriptionType": "Type"

@@ -2,6 +2,8 @@
     "Tour": {
         "AddAnnotation": "新增一個註解",
         "AddAnotherWebsite": "新增其他網站",
+        "AddRecommendedGoals": "新增建議的目標",
+        "AddRecommendedGoalsDescription": "檢視針對你網站提供的目標建議，並建立適合的目標。",
         "AddReport": "新增定期報表",
         "AddSegment": "新增一個區隔",
         "BecomeMatomoExpert": "成為 Matomo 專家",

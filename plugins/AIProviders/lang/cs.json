@@ -16,7 +16,6 @@
         "DefaultCapabilityLevelHelp": "Zvolte výchozí úroveň schopností, kterou smí Matomo používat. Jednotlivé funkce ji mohou přepsat.",
         "DefaultProvider": "Výchozí poskytovatel",
         "DefaultProviderHelp": "Připojte poskytovatele a vyberte výchozího poskytovatele, kterého má Matomo používat. Jednotlivé funkce mohou toto nastavení přepsat a zvolit preferovaného připojeného poskytovatele.",
-        "DefaultsTitle": "Nastavení poskytovatelů a výchozích hodnot",
         "Disconnect": "Odpojit",
         "DisconnectSuccess": "Poskytovatel AI byl odpojen.",
         "Disconnecting": "Odpojování…",
