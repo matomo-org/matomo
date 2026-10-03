@@ -7,8 +7,16 @@
 
 <template>
   <div class="kpiCard">
-    <div class="kpiCardTitle">
-      <span :class="`kpiCardIcon ${kpi.icon}`" />
+    <div
+      v-if="kpi.badge"
+      class="kpiCard__badge"
+      :title="kpi.badge.title"
+      v-html="$sanitize(kpi.badge.label)"
+      v-tooltips="{ duration: 200, delay: 200 }" />
+    <div v-else class="kpiCard__badge kpiCard__badge--empty" aria-hidden="true" />
+
+    <div class="kpiCard__title">
+      <span :class="`kpiCard__icon ${kpi.icon}`" />
       {{ translate(kpi.title) }}
     </div>
 
@@ -24,32 +32,21 @@
       </div>
     </div>
 
-    <div class="kpiCardValue"
-         :title="kpi.value"
-         v-tooltips="{ duration: 200, delay: 200, content: tooltipContent }"
+    <div
+      class="kpiCard__value"
+      :title="kpi.value"
+      v-tooltips="{ duration: 200, delay: 200, content: tooltipContent }"
     >{{ kpi.valueCompact }}</div>
 
-    <div class="kpiCardEvolution">
+    <div class="kpiCard__evolution">
       <template v-if="kpi.evolutionValue !== ''">
-        <span :class="`kpiCardEvolutionTrend ${evolutionTrendClass}`">
-          <span :class="`kpiCardEvolutionIcon ${evolutionTrendIcon}`" />
-          {{ kpi.evolutionValue }}&nbsp;
+        <span :class="`kpiCard__trend ${evolutionTrendClass}`">
+          <span :class="`kpiCard__trendIcon ${evolutionTrendIcon}`" />
+          {{ kpi.evolutionValue }}
         </span>
-        <span>{{ translate(evolutionTrendFrom) }}</span>
+        <span class="kpiCard__evolutionPeriod">{{ translate(evolutionTrendFrom) }}</span>
       </template>
-
-      <template v-else>
-        <div class="kpiCardEvolution">
-          <span class="kpiCardEvolutionTrend">&nbsp;</span>
-        </div>
-      </template>
-    </div>
-
-    <div v-if="kpi.badge"
-         class="kpiCardBadge"
-         :title="kpi.badge.title"
-         v-html="$sanitize(kpi.badge.label)"
-         v-tooltips="{ duration: 200, delay: 200 }">
+      <template v-else>&nbsp;</template>
     </div>
   </div>
 </template>
@@ -90,14 +87,14 @@ export default defineComponent({
     },
     evolutionTrendClass(): string {
       if (this.kpi.evolutionTrend === 1) {
-        return 'kpiTrendPositive';
+        return 'kpiCard__trend--positive';
       }
 
       if (this.kpi.evolutionTrend === -1) {
-        return 'kpiTrendNegative';
+        return 'kpiCard__trend--negative';
       }
 
-      return 'kpiTrendNeutral';
+      return 'kpiCard__trend--neutral';
     },
     evolutionTrendIcon(): string {
       if (this.kpi.evolutionTrend === 1) {

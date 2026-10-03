@@ -38,8 +38,8 @@ describe("MultiSitesBotTracking", function () {
         const aiKpiData = await page.evaluate(() => {
             const cards = Array.from(document.querySelectorAll('.kpiCard'));
             const card = cards.find((node) => {
-                const title = node.querySelector('.kpiCardTitle');
-                return title && title.textContent && title.textContent.includes('Total AI Chatbots');
+                const title = node.querySelector('.kpiCard__title');
+                return title && title.textContent && title.textContent.includes('AI Chatbots');
             });
 
             if (!card) {
@@ -47,8 +47,8 @@ describe("MultiSitesBotTracking", function () {
             }
 
             return {
-                value: card.querySelector('.kpiCardValue')?.textContent?.trim() || null,
-                badge: card.querySelector('.kpiCardBadge')?.textContent?.trim() || null,
+                value: card.querySelector('.kpiCard__value')?.textContent?.trim() || null,
+                badge: card.querySelector('.kpiCard__badge')?.textContent?.trim() || null,
             };
         });
 
