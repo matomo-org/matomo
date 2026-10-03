@@ -9,6 +9,10 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
+use Piwik\API\Request;
+use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Plugins\CoreAdminHome\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -101,6 +105,41 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->api->deleteTrackingFailure(1, 2);
         $this->setSuperUser();
         $this->api->deleteTrackingFailure(1, 2);
+    }
+
+    public function testArchiveReportsRequiresPluginWhenReportIsRequested()
+    {
+        Fixture::createSuperUser(true);
+        $this->setSuperUser();
+
+        $tracker = Fixture::getTracker(1, '2020-01-15 12:00:00');
+        $tracker->setUrl('http://example.com/page');
+        Fixture::checkResponse($tracker->doTrackPageView('page'));
+
+        $this->assertSame(1, $this->getPageUrlsRowCount());
+
+        StaticContainer::get(ArchiveInvalidator::class)->rememberToInvalidateArchivedReportsLater(1, Date::factory('2020-01-15'));
+
+        $exception = null;
+        try {
+            $this->api->archiveReports(1, 'day', '2020-01-15', false, false, 'nb_pageviews');
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        $this->assertSame(1, $this->getPageUrlsRowCount());
+        $this->assertNotNull($exception);
+        $this->assertStringContainsString('requires the plugin', $exception->getMessage());
+    }
+
+    private function getPageUrlsRowCount(): int
+    {
+        return Request::processRequest('Actions.getPageUrls', [
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => '2020-01-15',
+            'flat' => 1,
+        ])->getRowsCount();
     }
 
     protected function setSuperUser()
