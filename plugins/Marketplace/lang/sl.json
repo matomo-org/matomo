@@ -2,6 +2,10 @@
     "Marketplace": {
         "ActionInstall": "Namesti",
         "ActivateLicenseKey": "Omogoči",
+        "CategoryDevelopment": "Razvoj",
+        "CategoryEcommerce": "Ecommerce",
+        "CategorySecurity": "Varnost",
+        "MatomoMarketplace": "Matomo Tržnica",
         "PluginKeywords": "Ključne Besede",
         "PluginVersionInfo": "%1$s from %2$s",
         "SubscriptionType": "Tip"
