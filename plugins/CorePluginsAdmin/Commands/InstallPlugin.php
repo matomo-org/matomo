@@ -34,14 +34,14 @@ class InstallPlugin extends ConsoleCommand
 
         $input = $this->getInput();
         $output = $this->getOutput();
-        $pluginManager = Manager::getInstance();
 
-        if (!Marketplace::isMarketplaceEnabled()) {
+        if (!$this->isMarketplaceEnabled()) {
             $output->writeln(sprintf("<error>Marketplace is not enabled, can't install or update plugins.</error>"));
             return self::FAILURE;
         }
 
         $pluginNames = $input->getArgument('plugin');
+        $failed = false;
 
         foreach ($pluginNames as $pluginName) {
             try {
@@ -49,14 +49,19 @@ class InstallPlugin extends ConsoleCommand
                 $output->writeln(sprintf("Installed or updated plugin <info>%s</info>", $pluginName));
             } catch (\Piwik\Plugins\CorePluginsAdmin\PluginInstallerException $e) {
                 $output->writeln(sprintf("<error>Unable to install or update plugin %s. %s</error>", $pluginName, $e->getMessage()));
-                continue;
+                $failed = true;
             }
         }
 
-        return self::SUCCESS;
+        return $failed ? self::FAILURE : self::SUCCESS;
     }
 
-    private function installPlugin(string $pluginName): void
+    protected function isMarketplaceEnabled(): bool
+    {
+        return Marketplace::isMarketplaceEnabled();
+    }
+
+    protected function installPlugin(string $pluginName): void
     {
         $pluginInstaller = StaticContainer::get(PluginInstaller::class);
         $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
