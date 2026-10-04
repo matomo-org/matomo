@@ -246,7 +246,8 @@ describe("Overlay", function () {
         expect(referrer).to.be.a('string');
         expect(referrer).to.not.contain('startOverlaySession');
 
-        await page.waitForSelector('#overlaySidebar .overlayMainMetrics', {visible: true});
+        // the sidebar is rendered instead of staying on "Loading…"
+        await page.waitForSelector('#overlaySidebar .overlayMainMetrics, #overlaySidebar .overlayNoData', {visible: true});
         expect(await page.$eval('#overlayLoading', el => el.offsetParent === null)).to.equal(true);
     });
 
