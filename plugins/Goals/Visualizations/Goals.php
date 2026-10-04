@@ -121,7 +121,7 @@ class Goals extends HtmlTable
     {
         if ($this->dataTable instanceof DataTable\DataTableInterface) {
             foreach ($this->config->columns_to_display as $key => $column) {
-                if (false === strpos($column, 'revenue')) {
+                if (!str_contains($column, 'revenue')) {
                     continue;
                 }
                 $columnValues = $this->dataTable->getColumn($column);

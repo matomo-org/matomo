@@ -39,7 +39,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The conditional fallback definitions for `mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class and the `PHP_INT_SIZE`/`PHP_INT_MAX` constants have been removed from `libs/upgradephp/upgrade.php`. All of these are provided natively by every supported PHP version; the fallbacks only ever activated on PHP versions that are no longer supported, or when the function had been turned off via `disable_functions`.
 * The `gzopen()` fallback has also been removed from `libs/upgradephp/upgrade.php`. It aliased `gzopen()` to `gzopen64()` on distribution builds where zlib exposes only the latter, which is a packaging issue rather than a PHP version or `disable_functions` one. On such a build `Piwik\Unzip` now falls back to `PclZip`.
 * Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
-* When two log tables can be joined both via a join declared in `Piwik\Tracker\LogTable::getWaysToJoinToOtherLogTables()` and via the generic `idvisit` join (both tables implementing `getColumnToJoinOnIdVisit()`), the segment query builder now uses the declared join. Previously the generic `idvisit` join silently won. A plugin log table that declares a way-join to another `idvisit`-joinable table will see its declared join columns used in segmented queries from now on; note that a declared join also bypasses the partner table's `shouldJoinWithSubSelect()` wrapping, which only ever applied to the generic `idvisit` join (relevant when declaring a way-join directly to `log_visit`).
+* When a log table is joined to a table it can reach both via a join declared in `Piwik\Tracker\LogTable::getWaysToJoinToOtherLogTables()` and via the generic `idvisit` join (both tables implementing `getColumnToJoinOnIdVisit()`), the segment query builder now uses the declared join. Previously the generic `idvisit` join silently won. This applies only to the partner that is tried first: partners are tried in join order starting with the FROM table, and the first one yielding any join is used, so a declared join does not replace a generic `idvisit` join to an earlier table (e.g. a `log_visit` FROM table). A plugin log table that declares a way-join to another `idvisit`-joinable table will see its declared join columns used in segmented queries whenever that partner is tried first; note that a declared join also bypasses the partner table's `shouldJoinWithSubSelect()` wrapping, which only ever applied to the generic `idvisit` join (relevant when declaring a way-join directly to `log_visit`). A table declaring way-joins to several available partners is now joined to the first of them rather than the last.
 * The deprecated Piwik-era color aliases `@color-black-piwik`, `@color-blue-piwik`, `@color-red-piwik` and `@color-green-piwik` have been removed from `plugins/Morpheus/stylesheets/base/colors.less`. Use `@color-black-matomo`, `@color-blue-matomo`, `@color-red-matomo` and `@color-green-matomo` instead.
 * The third-party brand color variables `@color-orange-brand` (`#f57c00`), `@color-green-brandSocial` (`#009874`), `@color-blue-brandSocial` (`#3b5998`), `@color-blue-brandSocialLight` (`#1c87bd`) and `@color-blue-brandSocialVeryLight` (`#00aced`) have been removed. They described other companies' brands rather than Matomo's own palette; a plugin that still needs one of these colors should use the literal value.
 * The never-referenced palette tokens `@color-gray-light` (`#f0f0f0`), `@color-gray-bright` (`#EBF2EB`), `@color-gray-400` (`#BCBCBC`), `@color-jetstream` (`#c3d9c4`), `@color-silver-l14`, `@color-silver-l50`, `@color-silver-l70` and `@color-silver-l98` have been removed. Use one of the remaining `@color-silver-*` variables, a `@theme-color-*` variable or a literal value instead.
@@ -61,17 +61,31 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Request parameters are no longer trimmed while a request is parsed. `Piwik\API\Request::getRequestArrayFromString()` used to apply `trim((string) $value)` to every non-array parameter, so leading and trailing whitespace in values such as a `label` or a segment operand is now preserved, and scalars keep their type. As a consequence a boolean passed through `Piwik\API\Request::processRequest()` no longer arrives as `'1'`/`''`: a parameter read with `Piwik\Common::getRequestVar($name, $default, 'string')` or `Piwik\Request::getStringParameter()` falls back to its default instead. Pass a string, or read it with `Piwik\Request::getBoolParameter()`, which accepts real booleans.
 * The `SitesManager.getImageTrackingCode` API method now requires view access to the given site, matching `SitesManager.getJavascriptTag`. Its parameters are typed as well, so `idSite` must be an integer and `forceMatomoEndpoint` a boolean — the latter is now read with `Piwik\Request::getBoolParameter()`, which understands `0`, `1`, `true` and `false` and silently falls back to `false` for anything else, where previously any truthy value enabled it.
 * The legacy Transitions renderer has been removed together with the JavaScript globals it defined, `Piwik_Transitions`, `Piwik_Transitions_Canvas` and `Piwik_Transitions_Util`. Use the `Transitions.TransitionsReport` Vue component instead, or `DataTable_RowActions_Transitions.launchForUrl()`, which is unchanged and still opens the report for a URL. `Piwik_Transitions_Model` and `Piwik_Transitions_Ajax` remain, without the renderer-only members `htmlLoaded()`, `getShareInGroupTooltip()` and `callTransitionsController()`. The controller action `index.php?module=Transitions&action=renderPopover`, which rendered the removed markup, and the `@internal` API method `Transitions.getTranslations`, which only supplied its labels, have been removed with it, along with the `Piwik_Transitions_Translations` global that template defined. `Piwik_Transitions_Ajax.callApi()` no longer falls back to `Piwik_Popover.showError()` when no `setErrorCallback()` was registered: an API error is dropped and the request's callback never runs, so a caller that wants errors surfaced must register one.
+* A plugin with no cover image of its own now falls back to the same generic `uncategorised` cover as every other plugin. `Piwik\Plugins\Marketplace\Plugins::addPluginCoverImage()` used to give a paid plugin owned by `piwik` or `matomo-org` the Matomo-branded `matomo.png` cover instead, which the redesigned cards mark with a Matomo chip rather than a whole cover image. The Marketplace's own category stand-ins now count as no cover image as well, so a plugin the Marketplace categorised also takes the generic fallback.
 * Several parameters of the `Goals` API methods now declare a native `bool` type: `caseSensitive`, `allowMultipleConversionsPerVisit` and `useEventValueAsRevenue` of `Goals.addGoal` and `Goals.updateGoal`, `abandonedCarts` of `Goals.getItemsSku`, `Goals.getItemsName` and `Goals.getItemsCategory`, and `showAllGoalSpecificMetrics` and `compare` of `Goals.get` and `Goals.getMetrics`. Over HTTP these parameters were previously passed through as raw strings, so any value other than `0` was truthy: `&abandonedCarts=false` returned abandoned carts rather than purchased products. They are now read like every other boolean parameter, which accepts `0`, `1`, `false` and `true` and falls back to the default for anything else. Plugins calling these methods directly in PHP must pass a boolean or a value PHP can coerce to one; `null` is no longer accepted.
 * The `idGoal` parameter of `Goals.deleteGoal` and `Goals.updateGoal` now declares a native `int` type, like `Goals.getGoal` already did. A value that is not a number, such as `idGoal=ecommerceOrder`, is rejected by the API layer instead of being coerced to `0`. Plugins calling these methods directly in PHP must pass an integer or a numeric string.
+* The Marketplace's `PluginList` Vue component has been removed along with the plugin list it rendered. The redesigned page is built from the `PluginGrid`, `PluginSection`, `PluginCard`, `CategoryTabs`, `MarketplaceHero` and `SortMenu` components the plugin now exports instead. The translation keys `Marketplace_CreatedBy`, `Marketplace_Intro`, `Marketplace_IntroSuperUser`, `Marketplace_NoThemesFound`, `Marketplace_PriceFromPerPeriod`, `Marketplace_Show`, `Marketplace_Sort` and `Marketplace_SortByPopular` have been removed with the markup that used them. The `pluginType` hash parameter is no longer written and only `themes` and `plugins` are still read back, for the links CorePluginsAdmin makes; `#?pluginType=premium` no longer opens a filtered list and is silently ignored, landing the reader on the full catalogue instead.
 * The site selector dropdown (`CoreHome.SiteSelector`) now uses the generic dropdown panel and search input markup, so the classes it used to expose have been removed: `custom_select_search`, `custom_select_container`, `custom_select_ul_list`, `custom_select_all`, `websiteSearch`, `inp`, `reset`, `noresult`, `autocompleteMatched`, and the `dropdown` class on the panel itself. Code that selected inside the site selector must target `.piwikSelector__dropdown` for the panel, `.mtm-dropdownPanel__menu` for the site list, `.mtm-dropdownPanel__menuItem` / `.mtm-dropdownPanel__menuLink` / `.mtm-dropdownPanel__menuLabel` for an entry, `.mtm-dropdownPanel__noResult` for the empty state, `.mtm-dropdownPanel__searchMatch` for the highlighted search term, and `.mtm-searchInput__input` / `.mtm-searchInput__clear` for the search field. The unused Less rules that styled `custom_select_search` inside `.segment-element` have been removed from `plugins/SegmentEditor/stylesheets/segmentation.less` and `plugins/Morpheus/stylesheets/ui/_components.less`. `plugins/CoreHome/vue/src/SiteSelector/SiteSelector.less` also drops the now unmatched global rules `.sites_selector_container`, `.custom_select_block_show`, `.custom_selector_container .ui-menu-item`, `.siteSelect a` and `.custom_select_main_link`; nothing in core or the bundled plugins carried that markup, but a third-party plugin reproducing it would lose the styling. The internal `AllSitesLink.vue` component has been removed: it was never exported from `CoreHome`, and its "All Websites" row is now rendered by `SiteSelector.vue` as a regular panel menu item.
+* The deprecated `$webSearchEnabled` parameter of the `Piwik\Plugins\AIProviders\AIProviderResponse` constructor has been removed. Pass a `Piwik\Plugins\AIProviders\WebSearchUsage` instead, which reports the searches, queries and citations a completion actually produced rather than a bare flag. It occupied position 8, so a caller that passes the execution time and stop reason positionally must drop the flag or those values now bind to the wrong parameters; the execution time, stop reason and `WebSearchUsage` each move up one position, so `WebSearchUsage` is now 10th rather than the 11th it held in Matomo 5.14.0.
+* The deprecated method `Piwik\Plugins\AIProviders\AIProviderResponse::isWebSearchEnabled()` has been removed, along with the `webSearchEnabled` key of `AIProviderResponse::toArray()`. Use `wasWebSearchUsed()` and the `webSearchUsed` key instead, which say what they mean; `Piwik\Plugins\AIProviders\AIRequest::isWebSearchEnabled()` is unaffected and keeps reporting what the request asked for.
+* The deprecated method `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` has been removed and is no longer consulted. A provider that reported a search by overriding it must now override `supportsWebSearch()` to declare the capability and pass a `WebSearchUsage` to `buildResponse()`; an override left in place is simply ignored, so such a provider's answers report no search until it migrates.
+* Custom Dimension reports now credit a goal conversion to the value its visit ended with when the conversion recorded no value of its own, which happens when a visit-scoped dimension is only sent after the goal converted. Those conversions were previously left out of the report altogether, so `CustomDimensions.getCustomDimension` can return higher conversion counts for affected dates once they are re-archived. A conversion that did record a value is unaffected and still counts under that value. A visit that later sent the dimension as an empty value now credits its earlier conversions to "Value not defined". Segmented reports get the same credit, and a conversion is still counted once when the segment matches several actions of its visit.
+
+### New Features
+* Added contextual recommendations for Premium products based on how Matomo is being used.
 
 ### New APIs
+* The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its markup to it.
 * The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon, for use inside `DraggableList` rows. The `DraggableList` component's `handle` option now also works with real browser drags, which retarget `dragstart` to the draggable element (previously the handle was only recognised in synthetically dispatched events).
 * The new `closeTooltips()` helper in CoreHome closes the jQuery UI tooltips bound to a selector's elements, including pending delayed shows — for cases where no mouse event will fire that would close them, eg. once an HTML5 drag has started.
 * The generic dropdown panel (`plugins/Morpheus/stylesheets/ui/_dropdown-panel.less`) gained the elements `.mtm-dropdownPanel__search` (a nest element that hosts a search input inside a panel), `.mtm-dropdownPanel__searchMatch` (the part of a menu label matching the typed term) and `.mtm-dropdownPanel__noResult` (the row shown when a search yields nothing), plus the modifiers `.mtm-dropdownPanel__menu--scrollable` (caps the menu at `calc(80vh - 60px)` and scrolls) and `.mtm-dropdownPanel__menu--gutter` (an 8px horizontal gutter so the rows line up with a search input above them). The panel itself is now a fixed 254px wide rather than a 240px minimum. `.mtm-dropdownPanel__menuLabel` now truncates with an ellipsis instead of only allowing it.
 * The `SearchInput` clear button exported from `CoreHome` now carries a translated `title` (`General_Clear`), giving it an accessible name.
 * A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.
+* The `PasswordConfirmation` component exported from `CorePluginsAdmin` gained a `requireDeleteConfirmation` prop, off by default. When it is set the confirmation dialog additionally asks the user to type `delete` - an untranslated literal, the same word in every language - and its Confirm button stays disabled until that matches exactly and, where re-authentication applies, a password has been entered. It is meant for actions that permanently remove data, and is used in four places in PrivacyManager: the settings for regularly deleting old raw data, for deleting old aggregated report data and for enforcing a raw data retention period through a compliance policy - the last of these only when the save being confirmed actually switches retention on - and the Purge DB Now link, which deletes straight away rather than scheduling a deletion for later. A plugin that supplies an alternative identity confirmation component through the `PasswordConfirmation.altIdComponent` event keeps that component on screen while the word is missing, greyed out and made inert inside a wrapper the dialog owns, so it can be neither clicked nor reached by keyboard until the word matches, and pressing Enter in the dialog activates that component rather than confirming without it. The component has to contain a single `<a>` or `<button>` carrying the `btn` class for either to reach it.
 * The `SearchInput` component exported from `CoreHome` gained a `focused` prop and a `blur()` method: setting `focused` to `true` moves focus to the inner input and calling `blur()` on the component removes it, both of which were previously impossible because binding `v-focus-if` or an element ref to the component targeted its non-focusable wrapper. `CoreHome.QuickAccess` now renders this component instead of duplicating its markup, so its search field is no longer a separate `input` that happens to carry the same classes. Quick search also runs off the field's value rather than off keystrokes, so text that arrives without one (a pasted term, an IME candidate committed with the mouse) now searches too, and keys that belong to an open IME candidate window no longer act on the result list.
+* `Piwik\Plugin\ThemeStyles` gained `$colorWarning`, `$colorDanger`, `$colorTextBrand`, `$colorBackgroundBrandTinyContrast`, `$colorBackgroundBrandLowContrast` and `$colorBorderBrand`, exposed to Less as `@theme-color-warning`, `@theme-color-danger`, `@theme-color-text-brand`, `@theme-color-background-brand-tinyContrast`, `@theme-color-background-brand-lowContrast` and `@theme-color-border-brand`.
+* A template extending `@Morpheus/admin.twig` can override the new `contentClass` block to put a class on the page's `#content` element. Core provides `admin--wide`, which widens the content area for admin pages that lay out in columns rather than in a single text measure.
+* The new `PrivacyManager.compliancePolicySettingsUpdated` event announces the compliance policy settings a request has just changed, so an audit trail can record who changed what. It is posted by `PrivacyManager.setCompliancePolicySettings` and `PrivacyManager.enforceCompliancePolicySettings` once per call, and only when something actually changed: a request that fails, or that repeats the state a policy is already in, posts nothing. Its single array parameter holds the policy id, the `idSite` the policy was changed for (`null` for the instance wide state), whether every toggleable setting of the policy is enforced afterwards, and the settings whose enforcement state or compliance status changed. It deliberately carries no request parameters, and therefore no password confirmation or authentication token.
 
 ### HTTP API
 * Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional
@@ -80,6 +94,26 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (unique visitors and users) are excluded, as their report total is not a meaningful denominator. The columns can be disabled
   by setting the new `percent_of_total=0` request parameter (or `totals=0`). Note for CSV/TSV consumers parsing columns by
   position: the new columns change the header and column count, pass `percent_of_total=0` to keep the previous output.
+  A report that already expresses a metric as a percentage of its own, through a `{metric}_percentage` column (eg,
+  `DevicePlugins.getPlugin`, whose percentage leaves out the visits of browsers where plugins cannot be detected), does not
+  get a `{metric}_percent_of_total` column for that metric, as the two percentages would contradict each other.
+  `API.getProcessedReport` places each percentage directly after the metric it belongs to, and returns one only when that
+  metric is itself a column of the report: a report with a total for bounces but no `Bounces` column no longer carries a
+  `bounce_count_percent_of_total` entry in `columns`, `metricTypes`, `metricsDocumentation` or `reportData`.
+* Scheduled reports now include the `{metric}_percent_of_total` columns, with the label depending on how much room the
+  format has. CSV and TSV carry the full translated name (eg, `Visits (%)`) rather than the column id, while all other
+  columns keep the id they had before. HTML email shortens it to `(%)`, since the column always sits directly to the right
+  of the metric it belongs to. PDF leaves the columns out altogether: a portrait page has no room for a percentage after
+  every metric without squeezing the table until values are truncated. The PDF says so in a note on its front page, and
+  the report scheduling form says so under `Report Format`. A scheduled report has no request parameter of its own, so
+  unlike an API consumer its owner cannot turn the columns off with `percent_of_total=0`. In CSV and TSV the header of a
+  percentage column follows the report language while every other header keeps its untranslated id, so a consumer
+  matching headers by name sees a different string per language.
+* Custom report format renderers extending `Piwik\ReportRenderer` now receive the `{metric}_percent_of_total` columns as
+  well. `ReportRenderer::translatePercentOfTotalColumns()`, `shortenPercentOfTotalColumnLabels()` and
+  `removePercentOfTotalColumns()` are available to treat them the way the built-in formats do.
+* A PDF report table now fills the page width exactly. Rounding each column up used to push wide tables past the page,
+  clipping the last column of a report carrying ten or more metrics.
 
 ### Deprecations
 * `Piwik\Tracker\Visit::getTimeSpentReferrerAction()` and the `log_link_visit_action.time_spent_ref_action` column are
@@ -157,11 +191,53 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's
   `data-matomo-modal-id` to be exempted from its focus trap, which otherwise prevents it from holding focus. The
   exemption applies only to the modal named, so an element belonging to one modal cannot hold focus over another.
+* **A report's actions have moved out of the icon bars above and below the data table into a single report header.**
+  The header is rendered beside the table rather than inside it, so an action element is no longer a descendant of
+  `.dataTable`. A handler bound on the table alone never sees it: bind on the report wrapper instead, or reuse
+  `dataTable._findReportScope()`. Delegate rather than bind directly, because the header's menu is rendered by Vue after
+  a plugin's `init()` runs, and namespace your handler so it survives the reloads that rebuild the table.
+* **A `dataTable` subclass whose `init()` lists its handlers instead of calling the base `bindEventsAndApplyStyle()` must
+  also call `self.syncReportHeaderActions(domElem)`.** Without it the shared header is never told what the report offers,
+  and a dashboard widget - whose header is declared empty and filled from here - shows no actions at all.
+* The classes and ids the old bars carried are gone with them: `.dataTableHeaderControls`, `.searchAction`,
+  `.dataTableSearchInput`, `a.dropdownConfigureIcon`, `.activateVisualizationSelection`, `.periodName`, and the
+  materialize `dropdown-content` wrappers. The action classes themselves are unchanged - `.dataTableAction`,
+  `.activateExportSelection`, `.annotationView` and `.tableIcon[data-footer-icon-id]` still identify the same actions,
+  now inside `.reportHeader__actionsMenu`.
+* **The "rows to display" control is no longer a Materialize select.** `.limitSelection` now holds a
+  `.mtm-selector` - a `button.mtm-selector__trigger` and a panel whose choices are `a[data-limit]`
+  inside `.mtm-dropdownPanel__menu` - so `.select-wrapper`, `input.select-dropdown` and the native
+  `<select>` are gone. Read the current value from the trigger's label and pick one by its
+  `data-limit`. On a report with pagination the control now sits inside
+  `.dataTablePaginationControl` rather than in a row of its own.
+* The "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. It is now scoped to the
+  placement it renders in, `dataTableExportAsImageIcon-header`. A page showing several image-exportable reports still
+  repeats it, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
+* A dashboard layout is now filtered against the widgets available to the user it is served to, so a
+  widget that user may not use is dropped instead of being rendered and left to fail on its own API
+  calls. This matters for a plugin that disables a widget for some users: `createNewDashboardForUser`,
+  `resetDashboardLayout` and `copyDashboardToUser` build a layout from the *calling* user's widget list
+  and store it for someone else, so such a widget could end up saved in a dashboard whose owner has no
+  access to it. The filtering lives in
+  `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which is `@internal`: it
+  must not be called while the widget list is being built, so it is named here to locate the change
+  rather than to be called from a plugin.
+
+## Matomo 5.14.1
+
+### New APIs
+* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
+  now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
+  transport, which follows redirects internally.
+
+### New commands
+
+* New command `marketplace:warm-cache` refetches the plugin and theme lists shown in the Marketplace overview. With `--if-older-than=<seconds>` it only refetches when the lists are missing or at least that old. Matomo runs it in the background to refresh the lists at spread-out times rather than on the hour, so it does not normally need to be run by hand.
 
 ## Matomo 5.14.0
 
 ### Breaking Changes
-* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained four methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()` and `getImpact()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected.
+* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained five methods used by the granular compliance dashboard: `getPolicySettingId()`, `isExternallyManagedByPolicyPage()`, `getWhatItDoes()`, `getImpact()` and `getPolicyOrder()`. Plugins that implement the interface directly must implement them. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit default implementations and are not affected. `getPolicyOrder()` returns an order hint, lowest first, that decides where a compliance dashboard lists the setting, in the same way a menu item asks for its position; `PolicyManager::getAllControlledSettings()` now returns the settings in that order instead of in plugin discovery order, ordering settings that share a hint by their policy setting id. The trait's default, `PolicyComparisonInterface::POLICY_ORDER_LAST`, leaves a setting that does not ask for a position at the end of the list.
 * Exporting a report for a single goal (a goals table or a bar/pie/evolution chart showing one goal's
   conversions or revenue) now returns only the columns shown in the UI, by adding `showColumns` to the
   export request. Previously the export returned the aggregated all-goals columns and every other
@@ -173,11 +249,52 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Tooltip content - the `title` of the hovered element, or the `data-tooltip` a report cell carries - may only use simple inline formatting (`b`, `br`, `em`, `i`, `small`, `span`, `strong`, `u`, without attributes). Content carrying anything else is displayed as text in full rather than rendered, so nothing is lost from it, but a `div`, an `img` or a `class` no longer has any effect. A report cell tooltip built from `<column>_tooltip` row metadata used to be inserted without a sanitizer and now shows markup as text. What a plugin returns from `Piwik\Plugins\Live\VisitorDetailsAbstract::renderActionTooltip()` for the `Live.renderActionTooltip` event is escaped where the entries are combined, so the visitor log's action tooltip shows that content as text even when it uses those tags; separate entries with a line break as before. Markup Matomo puts in a tooltip itself lost the classes it carried - `tooltip-action-*` in the visits log tooltip and `comparison-card-tooltip` in the comparison cards - since attributes are not kept; nothing in Matomo styled them, but a third-party theme might. Tooltips track the cursor and close as soon as it leaves their target, so their content was never interactive.
 
 ### New APIs
+* `Piwik\Plugins\AIProviders` now implements provider-side web search, also called grounding, so an AI
+  feature can ask the provider to search the web before answering and then read the sources it used.
+  `Piwik\Plugins\AIProviders\AIRequest::withWebSearchEnabled()` is no longer advisory: Anthropic,
+  Google and OpenAI honour it, while AWS Bedrock and the custom provider reject a grounded request with
+  an `AIProviderClientException` rather than silently answering ungrounded. `AIProviderResponse` gained
+  `wasWebSearchUsed()`, `getWebSearchCitations()`, `getWebSearchRequestCount()` and
+  `getWebSearchQueries()`, backed by the new `Piwik\Plugins\AIProviders\WebSearchUsage`, which
+  normalises the three providers' incompatible grounding shapes; `AIProviderService::canUseWebSearch()`
+  and the new `supportsWebSearch` key of `getProviderStatusesForCaller()` let a feature check first.
+  Citation titles and queries are untrusted model output, length-capped but otherwise verbatim, so
+  escape them where they are rendered. Grounding is not a marginal cost: every provider charges per
+  search and bills the retrieved page content as input tokens on top. See `plugins/AIProviders/README.md`
+  for the per-provider caveats and the cost and timeout implications.
+* `AIRequest::withTimeoutSeconds()` overrides the provider HTTP timeout, which now defaults to 120s for
+  a grounded completion and stays at 30s otherwise. That outlasts the default read timeout of common
+  web servers and proxies, so grounded completions are intended for CLI commands and scheduled tasks.
+* `AIProviderResponse::getStopReason()` now reports a value for Google completions, which previously
+  always returned `null`. Google's `finishReason` is mapped onto the same vocabulary the conversation
+  API already uses (`STOP` becomes `end_turn`, `MAX_TOKENS` becomes `max_tokens`, `SAFETY` and
+  `RECITATION` become `guardrail_intervened`), so it matches AWS Bedrock and Anthropic. OpenAI keeps
+  reporting `stop` / `length` on both its grounded and ungrounded paths. A caller that treats an
+  unrecognised stop reason as a failure will start seeing Google values.
 * The new `Piwik\Http\SecurityHeaders::sendForDataResponse()` sends the header set for a response that is data rather than application UI: `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: deny` unless `[General] enable_framed_pages` allows embedding, and a `Content-Security-Policy` that allows no scripts, forms or base URI, only inline styles and images from Matomo itself (built by the new `Piwik\View\SecurityPolicy::restrictToDataResponse()`). Core sends it for the API endpoint itself, report exports, inline report previews, and the API module's `listAllMethods` and `listSegments` actions, which return HTML without a view; `action=listAllAPI`, which renders one, keeps the headers of a regular page. Call it in a plugin that streams an export or a report, before writing any output.
 * Two new events let plugins customise the "No data has been recorded yet" page, on both the standalone page and its embedding in the reporting UI:
   * `Template.siteWithoutData.afterTrackingMethods` collects additional HTML rendered below the tracking methods list and the section for temporarily hiding the page.
   * `SitesManager.siteWithoutData.showInviteTeamMemberLink` lets a plugin hide the "Invite Team Member" link by setting the posted flag to `false`.
 * The new `CoreHome.tooltipContent` renders the `title` of the hovered element as the content of a jQuery UI tooltip, and `window.vueSanitizeTooltip()` does the same for a value at hand in plain JavaScript. Both keep only the simple inline formatting a tooltip may show and fall back to displaying the whole value as text, so a title that was not written for a tooltip loses nothing while nothing in it is rendered.
+
+### Deprecations
+* `Piwik\Plugins\AIProviders\AIProviderResponse::isWebSearchEnabled()` is deprecated in favour of
+  `wasWebSearchUsed()`, and the `webSearchEnabled` key of `AIProviderResponse::toArray()` in favour of
+  the new `webSearchUsed` key. The name reads as request state, but both report what the provider
+  actually did, while `AIRequest::isWebSearchEnabled()` keeps the request meaning. Both will be removed
+  in Matomo 6.
+* The `$webSearchEnabled` parameter of the `AIProviderResponse` constructor is deprecated. Pass a
+  `Piwik\Plugins\AIProviders\WebSearchUsage` as the new trailing `$webSearch` parameter instead, which
+  reports the searches, queries and citations a completion actually produced rather than a bare flag.
+  The parameter keeps its position and its meaning, so positional callers written against Matomo 5.13.0
+  keep working and a `true` still makes `wasWebSearchUsed()` report a search. It will be removed in
+  Matomo 6.
+* `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` is deprecated. It was a
+  placeholder whose base implementation always returned `false`, and no bundled provider overrode it,
+  but a third-party provider that did override it controlled `AIProviderResponse::isWebSearchEnabled()`.
+  Such a provider should now override `supportsWebSearch()` to declare the capability and pass a
+  `WebSearchUsage` to `buildResponse()`. An existing override is still honoured by
+  `wasWebSearchUsed()` for the transition, and will stop being consulted in Matomo 6.
 
 ### HTTP API
 * A new `keep_flattened_dimension_columns` parameter keeps the columns a flattened report adds for its

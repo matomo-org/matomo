@@ -60,9 +60,9 @@ class Cache extends File
 
         if (
             empty($host)
-            || strpos($host, '..') !== false
-            || strpos($host, '\\') !== false
-            || strpos($host, '/') !== false
+            || str_contains($host, '..')
+            || str_contains($host, '\\')
+            || str_contains($host, '/')
         ) {
             throw new \Exception('Unsupported host');
         }

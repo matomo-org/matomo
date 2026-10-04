@@ -11,6 +11,9 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\AIProviders;
 
+/**
+ * @phpstan-import-type WebSearchCitationArray from WebSearchUsage
+ */
 class AIProviderResponse
 {
     /**
@@ -57,13 +60,6 @@ class AIProviderResponse
     private $reasoningLevel;
 
     /**
-     * Whether provider-side web search was actually applied.
-     *
-     * @var bool
-     */
-    private $webSearchEnabled;
-
-    /**
      * Total provider request time in milliseconds, including retries.
      *
      * @var int|null
@@ -77,6 +73,23 @@ class AIProviderResponse
      */
     private $stopReason;
 
+    /**
+     * What the provider's web search actually did, or {@link WebSearchUsage::none()}
+     * when it did not run.
+     *
+     * @var WebSearchUsage
+     */
+    private $webSearch;
+
+    /**
+     * Cost of the request in USD as billed by the provider, or null when the
+     * provider does not report one (token-billed providers leave pricing to the
+     * caller).
+     *
+     * @var float|null
+     */
+    private $cost;
+
     public function __construct(
         string $providerId,
         string $providerName,
@@ -85,9 +98,10 @@ class AIProviderResponse
         ?int $inputTokens = null,
         ?int $outputTokens = null,
         string $reasoningLevel = AIRequest::REASONING_NONE,
-        bool $webSearchEnabled = false,
         ?int $executionTimeMs = null,
-        ?string $stopReason = null
+        ?string $stopReason = null,
+        ?WebSearchUsage $webSearch = null,
+        ?float $cost = null
     ) {
         $this->providerId = $providerId;
         $this->providerName = $providerName;
@@ -96,9 +110,10 @@ class AIProviderResponse
         $this->inputTokens = $inputTokens;
         $this->outputTokens = $outputTokens;
         $this->reasoningLevel = $reasoningLevel;
-        $this->webSearchEnabled = $webSearchEnabled;
         $this->executionTimeMs = $executionTimeMs;
         $this->stopReason = $stopReason;
+        $this->webSearch = $webSearch ?? WebSearchUsage::none();
+        $this->cost = $cost;
     }
 
     public function getText(): string
@@ -126,9 +141,46 @@ class AIProviderResponse
         return $this->reasoningLevel;
     }
 
-    public function isWebSearchEnabled(): bool
+    /**
+     * Whether the provider's web search actually ran, which is not the same as
+     * whether it was requested: a model given the tool can decide the prompt
+     * needs no search.
+     */
+    public function wasWebSearchUsed(): bool
     {
-        return $this->webSearchEnabled;
+        return $this->webSearch->wasUsed();
+    }
+
+    /**
+     * Web sources attached to this answer, deduplicated, cited ones first where
+     * the provider distinguishes them. Titles are untrusted model output; see
+     * {@link WebSearchUsage} for what is and is not guaranteed.
+     *
+     * @return list<WebSearchCitationArray>
+     */
+    public function getWebSearchCitations(): array
+    {
+        return $this->webSearch->getCitations();
+    }
+
+    /**
+     * Number of searches the provider ran (what per-search fees are billed on),
+     * or null when it did not run or reports no count.
+     */
+    public function getWebSearchRequestCount(): ?int
+    {
+        return $this->webSearch->getRequestCount();
+    }
+
+    /**
+     * Search queries the model issued, when the provider echoes them. Can be
+     * empty even when searches ran.
+     *
+     * @return list<string>
+     */
+    public function getWebSearchQueries(): array
+    {
+        return $this->webSearch->getQueries();
     }
 
     public function getExecutionTimeMs(): ?int
@@ -139,6 +191,11 @@ class AIProviderResponse
     public function getStopReason(): ?string
     {
         return $this->stopReason;
+    }
+
+    public function getCost(): ?float
+    {
+        return $this->cost;
     }
 
     /**
@@ -178,9 +235,13 @@ class AIProviderResponse
             'inputTokens' => $this->inputTokens,
             'outputTokens' => $this->outputTokens,
             'reasoningLevel' => $this->reasoningLevel,
-            'webSearchEnabled' => $this->webSearchEnabled,
+            'webSearchUsed' => $this->wasWebSearchUsed(),
+            'webSearchRequestCount' => $this->webSearch->getRequestCount(),
+            'webSearchQueries' => $this->webSearch->getQueries(),
+            'webSearchCitations' => $this->webSearch->getCitations(),
             'executionTimeMs' => $this->executionTimeMs,
             'stopReason' => $this->stopReason,
+            'cost' => $this->cost,
         ];
     }
 }

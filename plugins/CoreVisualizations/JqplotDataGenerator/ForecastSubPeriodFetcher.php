@@ -190,7 +190,7 @@ class ForecastSubPeriodFetcher
             return $empty;
         }
 
-        if (empty($apiMethod) || strpos($apiMethod, '.') === false) {
+        if (empty($apiMethod) || !str_contains($apiMethod, '.')) {
             return $empty;
         }
 

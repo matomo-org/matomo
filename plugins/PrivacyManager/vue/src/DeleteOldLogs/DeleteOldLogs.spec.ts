@@ -28,7 +28,11 @@ vi.mock('CorePluginsAdmin', async () => ({
     },
     template: '<div class="field" />',
   }),
-  PasswordConfirmation: defineComponent({ template: '<div><slot/></div>' }),
+  PasswordConfirmation: defineComponent({
+    name: 'PasswordConfirmationStub',
+    props: { requireDeleteConfirmation: { type: Boolean, default: false } },
+    template: '<div><slot/></div>',
+  }),
   SaveButton: defineComponent({ template: '<button/>' }),
   Form: {},
 }));
@@ -88,5 +92,23 @@ describe('PrivacyManager/DeleteOldLogs', () => {
     expect(retentionField(mountDeleteOldLogs(cnilControls)).props('extraMetadata')).toEqual({
       compliancePolicyControlled: cnilControls,
     });
+  });
+
+  it('asks for the deletion to be typed out while old data will be deleted', () => {
+    const confirmation = mountDeleteOldLogs()
+      .findComponent({ name: 'PasswordConfirmationStub' });
+
+    expect(confirmation.props('requireDeleteConfirmation')).toBe(true);
+  });
+
+  it('asks for a password alone once deletion is turned off', async () => {
+    const wrapper = mountDeleteOldLogs();
+
+    await wrapper.setData({ enabled: false });
+
+    expect(
+      wrapper.findComponent({ name: 'PasswordConfirmationStub' })
+        .props('requireDeleteConfirmation'),
+    ).toBe(false);
   });
 });

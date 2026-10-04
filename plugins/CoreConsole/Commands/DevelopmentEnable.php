@@ -26,7 +26,7 @@ class DevelopmentEnable extends ConsoleCommand
     protected function doExecute(): int
     {
         $commandName = $this->getInput()->getFirstArgument();
-        $enable      = (false !== strpos($commandName, 'enable'));
+        $enable      = (str_contains($commandName, 'enable'));
 
         $config      = Config::getInstance();
         $development = $config->Development;

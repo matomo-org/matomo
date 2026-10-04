@@ -1544,19 +1544,19 @@ LOG;
     {
         $output = explode("\n", $output);
         $output = array_filter($output, function ($l) {
-            return strpos($l, 'Skipping invalidated archive') === false;
+            return !str_contains($l, 'Skipping invalidated archive');
         });
         $output = array_filter($output, function ($l) {
-            return strpos($l, 'Found archive with intersecting period') === false;
+            return !str_contains($l, 'Found archive with intersecting period');
         });
         $output = array_filter($output, function ($l) {
-            return strpos($l, 'Found duplicate invalidated archive') === false;
+            return !str_contains($l, 'Found duplicate invalidated archive');
         });
         $output = array_filter($output, function ($l) {
-            return strpos($l, 'No usable archive exists') === false;
+            return !str_contains($l, 'No usable archive exists');
         });
         $output = array_filter($output, function ($l) {
-            return strpos($l, 'Found invalidated archive we can skip (no visits)') === false;
+            return !str_contains($l, 'Found invalidated archive we can skip (no visits)');
         });
         $output = implode("\n", $output);
         return $output;

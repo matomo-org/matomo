@@ -46,11 +46,11 @@ class GoogleTagManager extends SiteContentDetectionAbstract
     {
         $needle = 'gtm.start';
 
-        if (strpos($data, $needle) !== false) {
+        if (str_contains($data, $needle)) {
             return true;
         }
 
-        if (strpos($data, 'gtm.js') !== false) {
+        if (str_contains($data, 'gtm.js')) {
             return true;
         }
 

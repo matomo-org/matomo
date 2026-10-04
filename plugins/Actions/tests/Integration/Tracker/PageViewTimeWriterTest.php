@@ -26,7 +26,7 @@ use Piwik\Tracker\Cache;
  *  - Heartbeat (ping=1) with the same pv_id updates time_spent
  *  - A second PV with a *different* pv_id does NOT collapse the first row (per-tab attribution)
  *  - PV without pv_id is recorded with NULL idpageview
- *  - Non-PV without pv_id is skipped (cannot safely attribute in a multi-tab session)
+ *  - Non-PV without pv_id closes the most recent pageview row
  *  - Non-ASCII pv_id is treated as absent (idpageview is an ascii-only column)
  *  - time_spent is capped at visit_standard_length
  *  - Kill-switch (record_accurate_page_view_time = 0) disables all writes
@@ -205,14 +205,13 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertNotNull($rows[0]['idaction_url']);
     }
 
-    public function testEventWithoutPvIdIsSkippedToProtectMultiTabAttribution()
+    public function testEventWithoutPvIdClosesTheMostRecentPageView()
     {
         // Simulate a tracker that doesn't emit pv_id (older SDKs / server-side libs). setPageviewId('')
-        // suppresses the auto-generated pv_id while leaving everything else intact. Without a pv_id
-        // we cannot safely attribute time to a specific tab (an event's idaction_url is a TYPE_EVENT
-        // row, not the page's TYPE_PAGE_URL row), so the writer skips the update. The row from the
-        // initial PV stays at time_spent = 0; the legacy archive path still credits this pageview
-        // via `time_spent_ref_action` on the following action.
+        // suppresses the auto-generated pv_id while leaving everything else intact. An event's own
+        // idaction_url is a TYPE_EVENT row, so it cannot be matched by idaction; the writer instead
+        // closes the most recent row, which is the page the legacy path credits too. Legacy cannot
+        // fill this in: events are excluded from the legacy time query entirely.
         $tracker = $this->getTracker($this->baseTime);
         $tracker->setPageviewId('');
         $tracker->setUrl('https://example.org/no-pvid');
@@ -226,25 +225,82 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $rows = $this->fetchPageViewTimeRows();
         $this->assertCount(1, $rows);
         $this->assertNull($rows[0]['idpageview']);
-        $this->assertSame(0, (int) $rows[0]['time_spent'], 'Without pv_id we cannot safely attribute; row stays untouched');
+        $this->assertSame(15, (int) $rows[0]['time_spent'], 'A pv_id-less event closes the most recent pageview row');
     }
 
-    public function testNonAsciiPvIdIsTreatedAsAbsentInsteadOfFailingTheWrite()
+    public function testNonAsciiPvIdIsHashedInsteadOfFailingTheWrite()
     {
         // idpageview is CHAR(6) CHARACTER SET ascii while log_link_visit_action.idpageview is
         // utf8mb4: a crafted pv_id like 'ééé' (6 bytes of valid UTF-8) passes the llva insert
-        // but would make the pvt INSERT fail under strict SQL mode. The writer must treat such
-        // values as absent so the row is still recorded (with NULL idpageview) and no warning
-        // is logged per hit.
+        // but would make the pvt INSERT fail under strict SQL mode. Keying it by a hash keeps
+        // the row, and keeps the id usable, so a later hit still finds this page view.
         $tracker = $this->getTracker($this->baseTime);
         $tracker->setPageviewId('ééé');
         $tracker->setUrl('https://example.org/landing');
         Fixture::checkResponse($tracker->doTrackPageView('Landing'));
 
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 15));
+        Fixture::checkResponse($tracker->doPing());
+
         $rows = $this->fetchPageViewTimeRows();
         $this->assertCount(1, $rows);
-        $this->assertNull($rows[0]['idpageview']);
-        $this->assertSame(0, (int) $rows[0]['time_spent']);
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{6}$/', (string) $rows[0]['idpageview']);
+        $this->assertSame(15, (int) $rows[0]['time_spent']);
+    }
+
+    public function testPunctuatedPvIdIsKeptRatherThanTreatedAsAbsent()
+    {
+        // A site setting its own id through setPageViewId() can use characters the JS tracker
+        // never generates. The ascii column stores them, so the writer must attribute by id
+        // instead of falling back to closing whichever row happens to be most recent.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('p_001');
+        $tracker->setUrl('https://example.org/landing');
+        Fixture::checkResponse($tracker->doTrackPageView('Landing'));
+
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 10));
+        $tracker->setPageviewId('p_002');
+        $tracker->setUrl('https://example.org/second');
+        Fixture::checkResponse($tracker->doTrackPageView('Second'));
+
+        // Carries the first page's id, so it must close that row and not the newer one.
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 40));
+        $tracker->setPageviewId('p_001');
+        Fixture::checkResponse($tracker->doTrackEvent('Video', 'play'));
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(['p_001', 'p_002'], array_keys($rows));
+        $this->assertSame(40, (int) $rows['p_001']['time_spent']);
+        $this->assertSame(0, (int) $rows['p_002']['time_spent']);
+    }
+
+    public function testOverlongPvIdsThatShareAPrefixStillSelectTheirOwnRow()
+    {
+        // Both ids share their first six characters. Truncating before checking would store
+        // one id for both page views, and the later hit would then grow the wrong row.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('pageview-1');
+        $tracker->setUrl('https://example.org/landing');
+        Fixture::checkResponse($tracker->doTrackPageView('Landing'));
+
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 10));
+        $tracker->setPageviewId('pageview-2');
+        $tracker->setUrl('https://example.org/second');
+        Fixture::checkResponse($tracker->doTrackPageView('Second'));
+
+        // Back on the first page, which is no longer the most recent row.
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 40));
+        $tracker->setPageviewId('pageview-1');
+        Fixture::checkResponse($tracker->doTrackEvent('Video', 'play'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(2, $rows);
+        $this->assertNotSame($rows[0]['idpageview'], $rows[1]['idpageview']);
+        $this->assertNotNull($rows[0]['idpageview']);
+
+        // The event reached the first page view, not the newer one.
+        $this->assertSame(40, (int) $rows[0]['time_spent']);
+        $this->assertSame(0, (int) $rows[1]['time_spent']);
     }
 
     public function testSiteSearchAfterPageviewInsertsSeparateRowAndClosesPreviousPage()

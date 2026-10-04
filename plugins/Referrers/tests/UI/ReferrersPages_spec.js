@@ -34,8 +34,10 @@ describe("ReferrersPages", function () {
   it("should display the another row when selected", async function () {
     await page.click('.metrics-picker__toggle');
 
-    await page.waitForSelector('.metrics-picker__options .metrics-picker__row input');
-    const element = await page.jQuery('.metrics-picker__options .metrics-picker__row input:not(:checked):first');
+    // click the label, not the input: the options sit in the DOM whether the dropdown is open or
+    // not, and the input itself is the hidden half of a Materialize checkbox
+    await page.waitForSelector('.metrics-picker__options .metrics-picker__row');
+    const element = await page.jQuery('.metrics-picker__options .metrics-picker__row:has(input:not(:checked)):first');
     await element.click();
     await page.waitForNetworkIdle();
     await page.waitForTimeout(250);
@@ -144,7 +146,7 @@ describe("ReferrersPages", function () {
   });
 
   it('should flatten the referrers > ai assistants report correctly', async function () {
-    await page.click('.dropdownConfigureIcon');
+    await page.click('.reportHeader__actionsTrigger');
     await page.click('.dataTableFlatten');
     await page.waitForNetworkIdle();
     await page.mouse.move(-10, -10);
@@ -154,8 +156,8 @@ describe("ReferrersPages", function () {
   });
 
   it('switching to goals view should disable flattening as its not supported', async function () {
-    await page.click('.dataTableHeaderControls .activateVisualizationSelection > span');
-    await page.click('.dataTableHeaderControls .tableIcon[data-footer-icon-id=tableGoals]');
+    await page.click('.reportHeader__actionsTrigger');
+    await page.click('.reportHeader__actionsMenu .tableIcon[data-footer-icon-id=tableGoals]');
     await page.mouse.move(-10, -10);
     await page.waitForNetworkIdle();
 

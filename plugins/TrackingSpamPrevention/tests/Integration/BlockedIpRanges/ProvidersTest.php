@@ -39,7 +39,7 @@ class ProvidersTest extends IntegrationTestCase
                 $invalid[] = $range;
                 continue;
             }
-            if (strpos($range, ':') === false) {
+            if (!str_contains($range, ':')) {
                 $hasIpv4 = true;
             } else {
                 $hasIpv6 = true;

@@ -13,7 +13,11 @@ use Piwik\Access;
 use Piwik\Cache;
 use Piwik\DI;
 use Piwik\FrontController;
+use Piwik\Nonce;
+use Piwik\Piwik;
+use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
+use Piwik\Plugins\Marketplace\Controller;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Tests\Framework\Fixture;
@@ -42,6 +46,17 @@ class ControllerTest extends IntegrationTestCase
     private $pluginsFixture = 'v2.0_plugins.json';
 
     private $invalidLicensesCacheKey = 'Marketplace_ExpiredPlugins';
+
+    /**
+     * @var array<string, string|\Exception> what a plugin's info request is answered with, either
+     *      the name of a fixture or the exception the request fails with
+     */
+    private $pluginInfoAnswers = [];
+
+    /**
+     * @var string[] the plugins the installer was asked to install or update, in order
+     */
+    private $installedPlugins = [];
 
     public function setUp(): void
     {
@@ -76,8 +91,10 @@ class ControllerTest extends IntegrationTestCase
         $always = [
             'canBeUpdated',
             'canTrialBeRequested',
+            'categories',
             'consumer',
             'coverImage',
+            'createdDateTime',
             'description',
             'displayName',
             'hasDownloadLink',
@@ -91,7 +108,11 @@ class ControllerTest extends IntegrationTestCase
             'isMissingLicense',
             'isNewBundle',
             'isPaid',
+            'isTheme',
             'isTrialRequested',
+            'keywords',
+            'lastUpdated',
+            'lastUpdatedRaw',
             'licenseStatus',
             'missingRequirements',
             'name',
@@ -99,9 +120,9 @@ class ControllerTest extends IntegrationTestCase
             'numDownloadsPretty',
             'owner',
             'priceFrom',
+            'promotions',
         ];
-        // only set for a plugin that can actually be downloaded, and only sent for a bundle
-        $conditional = ['downloadNonce', 'isBundle'];
+        $conditional = ['downloadNonce', 'isBundle', 'bundleSeats'];
 
         foreach ($plugins as $plugin) {
             $keys = array_keys($plugin);
@@ -139,6 +160,58 @@ class ControllerTest extends IntegrationTestCase
             self::assertArrayHasKey($name, $cards);
             self::assertTrue($cards[$name]['isBundle'] ?? false, "$name reaches the modal as a plugin");
         }
+    }
+
+    public function testSearchPluginsCarriesTheSeatTierEachBundleIsSoldAt()
+    {
+        // these three bundles are one product per tier, and the list repeats that tier across a
+        // product's variations - two billing periods in two currencies - so the label the card
+        // shows must not depend on which of them addPriceFrom() picked
+        $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
+
+        $cards = array_column($this->searchPlugins(), null, 'name');
+
+        self::assertSame(4, $cards['TeamBundle']['bundleSeats'] ?? null);
+        self::assertSame(20, $cards['BusinessBundle']['bundleSeats'] ?? null);
+        self::assertSame(50, $cards['EnterpriseBundle']['bundleSeats'] ?? null);
+    }
+
+    public function testSearchPluginsCarriesTheCategorySlugsTheTabBarIsBuiltFrom()
+    {
+        // the tab bar, the section stack and the card chips are all derived from this one field,
+        // client-side, so nothing else on the page can stand in for it
+        $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
+
+        $cards = array_column($this->searchPlugins(), 'categories', 'name');
+
+        self::assertNotEmpty($cards);
+        self::assertSame(['security'], $cards['SecurityInfo'] ?? null);
+        self::assertSame(['database'], $cards['CustomAlerts'] ?? null);
+        // a plugin no category claims reaches the client as an empty list, never as a missing key
+        self::assertSame([], $cards['WooCommerceAnalytics'] ?? null);
+
+        $slugs = array_unique(array_merge(...array_values($cards)));
+        sort($slugs);
+
+        self::assertSame(
+            ['customisation', 'database', 'development', 'insights', 'integration', 'security'],
+            $slugs
+        );
+    }
+
+    public function testSearchPluginsCarriesThePromotionPositionsTheHomeSectionsAreOrderedBy()
+    {
+        // the Featured and Best selling rows are built and ordered client-side from this field
+        // alone; the position is the plugin's place in the list the Marketplace keeps
+        $this->pluginsFixture = 'system_v2.0_plugins_sort-lastupdated.json';
+
+        $cards = array_column($this->searchPlugins(), 'promotions', 'name');
+
+        self::assertNotEmpty($cards);
+        self::assertSame(['featured' => 0, 'bestselling' => 1], $cards['CustomReports'] ?? null);
+        self::assertSame(['bestselling' => 4], $cards['UsersFlow'] ?? null);
+        // a plugin in no list reaches the client as an empty map, never as a missing key
+        self::assertSame([], $cards['WooCommerceAnalytics'] ?? null);
     }
 
     public function testGetPluginDetailsReturnsTheFieldsTheListOmits()
@@ -202,6 +275,68 @@ class ControllerTest extends IntegrationTestCase
         return json_decode($this->dispatch('getPluginDetails', ['pluginName' => $pluginName]), true);
     }
 
+    public function testUpdatePluginUpdatesTheRemainingPluginsWhenAnInfoRequestFails()
+    {
+        // a plugin the license key no longer covers is answered with an error on its info request,
+        // which is raised before the plugin is downloaded and used to end the whole run there
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR),
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $response = $this->dispatchUpdate('SecurityInfo,TreemapVisualization');
+
+        self::assertSame(['TreemapVisualization'], $this->installedPlugins);
+        self::assertStringContainsString('Requested plugin does not exist.', $response);
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo'),
+            $response
+        );
+    }
+
+    public function testUpdatePluginNotifiesOnlyOnceAboutAFailureThatHitsEveryPlugin()
+    {
+        // a Marketplace or network error is answered to every info request alike, and a persistent
+        // notification per selected plugin would only repeat the same message
+        $unreachable = new ServiceException('Marketplace could not be reached', ServiceException::HTTP_ERROR);
+
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => $unreachable,
+            'Provider' => $unreachable,
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $response = $this->dispatchUpdate('SecurityInfo,Provider,TreemapVisualization');
+
+        self::assertSame(['TreemapVisualization'], $this->installedPlugins);
+        self::assertSame(1, substr_count($response, 'Marketplace could not be reached'));
+
+        // both are still named as not updated, only the error itself is not repeated
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo, Provider'),
+            $response
+        );
+    }
+
+    private function dispatchUpdate(string $pluginName): string
+    {
+        // the update view renders a full admin page, whose menu resolves a site
+        if (!Fixture::siteCreated(1)) {
+            Fixture::createWebsite('2012-01-01 00:00:00');
+        }
+
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'updatePlugin',
+            'pluginName' => $pluginName,
+            'nonce' => Nonce::getNonce(Controller::UPDATE_NONCE),
+        ];
+
+        return Access::doAsSuperUser(function () {
+            return FrontController::getInstance()->fetchDispatch('Marketplace', 'updatePlugin');
+        });
+    }
+
     public function testSubscriptionOverviewClearsTheInvalidLicensesCache()
     {
         // this action renders a full admin page, whose menu resolves a site
@@ -261,10 +396,34 @@ class ControllerTest extends IntegrationTestCase
         $this->service->setOnDownloadCallback(function ($action) {
             return $this->service->getFixtureContent($this->fixtureFor($action));
         });
+        $this->service->setOnFetchCallback(function ($action) {
+            foreach ($this->pluginInfoAnswers as $pluginName => $answer) {
+                if ($action !== sprintf('plugins/%s/info', $pluginName)) {
+                    continue;
+                }
+
+                if ($answer instanceof \Exception) {
+                    throw $answer;
+                }
+
+                return json_decode($this->service->getFixtureContent($answer), true);
+            }
+
+            // anything else is answered out of the fixtures fixtureFor() wires up
+            return null;
+        });
+
+        $installer = $this->createMock(PluginInstaller::class);
+        $installer->method('installOrUpdatePluginFromMarketplace')->willReturnCallback(
+            function ($pluginName) {
+                $this->installedPlugins[] = $pluginName;
+            }
+        );
 
         return [
             'dev.forced_plugin_update_result' => [],
             'Piwik\Plugins\Marketplace\Api\Service' => DI::value($this->service),
+            'Piwik\Plugins\CorePluginsAdmin\PluginInstaller' => DI::value($installer),
         ];
     }
 

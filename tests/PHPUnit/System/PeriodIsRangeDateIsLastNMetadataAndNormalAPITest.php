@@ -76,7 +76,7 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
         $result = array();
         foreach ($segments as $segment) {
             $testSuffix = '';
-            if (!empty($segment) && false !== strpos($segment, 'pageUrl')) {
+            if (!empty($segment) && str_contains($segment, 'pageUrl')) {
                 $testSuffix .= '_pagesegment';
             }
 

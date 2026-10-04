@@ -1,0 +1,408 @@
+// The sidebar panel from the plugin page design: the period toggle spans the panel, the price is
+// the largest thing in it, and the cart button spans the panel with the currency switch under it.
+.shopPricingStacked() {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 24px;
+
+    .shopPricing__periods {
+        width: 100%;
+    }
+
+    // the two options share the width; sized to their text alone they overflow the panel
+    .shopPricing__period {
+        flex: auto;
+        justify-content: safe center;
+        min-width: 0;
+    }
+
+    .shopPricing__tierField {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .shopPricing__tier,
+    .shopPricing__currency {
+        width: 100%;
+    }
+
+    .shopPricing__price {
+        align-items: flex-start;
+        gap: 16px;
+        text-align: left;
+    }
+
+    // on its own line: beside a price this size it would not fit the panel
+    .shopPricing__leadIn {
+        display: block;
+        margin: 0 0 8px;
+        line-height: 16px;
+    }
+
+    .shopPricing__amountValue {
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 30px;
+        letter-spacing: -0.3px;
+    }
+
+    .shopPricing__amountPeriod {
+        line-height: 16px;
+    }
+
+    .shopPricing__billing {
+        line-height: 14px;
+    }
+
+    .shopPricing__cta {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .shopPricing__addToCart {
+        display: block;
+        width: 100%;
+    }
+}
+
+.shopPricing {
+    @_control-height: 34px;
+    @_control-radius: 8px;
+
+    display: flex;
+    align-items: safe center;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+
+    // one bordered group holding both options, so the two read as a single choice rather
+    // than a pair of independent on/off buttons
+    .shopPricing__periods {
+        display: flex;
+        align-items: safe center;
+        gap: 2px;
+        flex: none;
+        padding: 2px;
+        border: 1px solid @theme-color-border-alternative;
+        border-radius: @_control-radius;
+        box-sizing: border-box;
+    }
+
+    .shopPricing__period {
+        position: relative;
+        display: flex;
+        align-items: safe center;
+        gap: 8px;
+        height: @_control-height;
+        padding: 0 16px;
+        border: 1px solid transparent;
+        border-radius: @_control-radius;
+        color: @theme-color-text-light;
+        font-size: 14px;
+        line-height: 20px;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    .shopPricing__period:hover {
+        color: @theme-color-text-contrast;
+    }
+
+    .shopPricing__period--selected {
+        border-color: @theme-color-brand;
+        background-color: @theme-color-background-brand-lowContrast;
+        color: @theme-color-text;
+    }
+
+    .shopPricing__period:has(.shopPricing__periodInput:focus-visible) {
+        outline: 2px solid @theme-color-focus-ring;
+        outline-offset: 0;
+    }
+
+    // The radio carries the semantics and the keyboard behaviour, but the segment itself is
+    // the visible control; keep it off-screen rather than display:none so it stays focusable.
+    .shopPricing__periodInput {
+        position: absolute;
+        opacity: 0;
+        margin: 0;
+    }
+
+    // override: Materialize styles the span after a radio as a caption sitting beside a drawn
+    // circle — indenting it (padding-left: 35px), forcing its own type size (font-size: 1rem)
+    // and painting the circle in ::before/::after. These segments have no circle and follow the
+    // bar's own type scale. Materialize's selector outweighs a plain element class, so match its
+    // shape to win on specificity instead of reaching for !important, as MetricsPicker.less does.
+    [type="radio"] + span:not(.lever) {
+        display: inline;
+        height: auto;
+        padding: 0;
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    [type="radio"] + span:not(.lever)::before,
+    [type="radio"] + span:not(.lever)::after {
+        display: none;
+    }
+
+    .shopPricing__freeMonths {
+        padding: 4px 6px;
+        border-radius: @_control-radius;
+        background-color: @theme-color-brand;
+        color: @theme-color-brand-contrast;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 14px;
+        white-space: nowrap;
+    }
+
+    .shopPricing__tierField {
+        display: flex;
+        align-items: safe center;
+        gap: 8px;
+        flex: none;
+        margin: 0;
+    }
+
+    .shopPricing__tierLabel {
+        color: @theme-color-text-light;
+        font-size: 13px;
+        line-height: 16px;
+    }
+
+    .shopPricing__tier,
+    .shopPricing__currency {
+        width: auto;
+        height: @_control-height;
+        margin: 0;
+        padding: 0 8px 0 12px;
+        border: 1px solid @theme-color-border-light;
+        border-radius: @_control-radius;
+        background-color: transparent;
+        color: @theme-color-text-contrast;
+        font-size: 13px;
+        flex: none;
+    }
+
+    .shopPricing__price {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: safe center;
+        flex: auto;
+        text-align: right;
+        min-width: 0;
+    }
+
+    .shopPricing__amount {
+        white-space: nowrap;
+    }
+
+    .shopPricing__leadIn {
+        margin-right: 8px;
+        color: @theme-color-brand;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 24px;
+    }
+
+    .shopPricing__amountValue {
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 24px;
+        color: @theme-color-text-contrast;
+    }
+
+    .shopPricing__amountPeriod {
+        margin-left: 5px;
+        font-size: 13px;
+        line-height: 24px;
+        color: @theme-color-text-light;
+    }
+
+    .shopPricing__billing {
+        font-size: 12px;
+        line-height: 18px;
+        color: @theme-color-text-light;
+
+        // override: the amounts arrive as <strong> inside the translated sentence, and read as
+        // figures only when they are darker than the words around them
+        strong {
+            font-weight: 600;
+            color: @theme-color-text;
+        }
+    }
+
+    .shopPricing__featureList {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .shopPricing__featureItem {
+        display: flex;
+        align-items: safe center;
+        gap: 8px;
+        margin: 0;
+        color: @theme-color-text-contrast;
+        font-size: 13px;
+        line-height: 16px;
+    }
+
+    .shopPricing__featureCheck {
+        color: @theme-color-brand;
+        font-weight: bold;
+    }
+
+    .shopPricing__cta {
+        flex: none;
+    }
+
+    .shopPricing__currencySwitch {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: @theme-color-link;
+        font-size: 13px;
+        line-height: 16px;
+        text-align: center;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    // Morpheus outlines every focused button, so a click would leave the ring around the link;
+    // only keyboard focus needs it
+    .shopPricing__currencySwitch:focus {
+        outline: none;
+    }
+
+    .shopPricing__currencySwitch:focus-visible {
+        outline: 2px solid @theme-color-focus-ring;
+        outline-offset: 2px;
+    }
+
+    @media (max-width: 1200px) {
+        .shopPricing__amountValue {
+            font-size: 18px;
+        }
+    }
+
+    @media (max-width: 960px) {
+        .shopPricingStacked();
+    }
+}
+
+// the narrow layout, reached either by the viewport shrinking or by a parent saying the box it was
+// given is narrow - see the `stacked` prop, which a media query cannot know about
+.shopPricing--stacked {
+    .shopPricingStacked();
+}
+
+// The stacked panel styled as the pricing card on plugins.matomo.org: a large price with its
+// currency and period beside it, the tier picker under an uppercase heading, a checklist of what
+// the tier includes, and a full-width cart button with the currency switch centred under it.
+.shopPricing--prominent {
+    @_field-radius: 6px;
+
+    .shopPricingStacked();
+
+    gap: 20px;
+
+    // first on screen but kept after the controls in the markup, so a screen reader hears the
+    // choices before the price they produce
+    .shopPricing__price {
+        order: -1;
+        gap: 8px;
+    }
+
+    // tighter than the price's own size: digits have no ascenders, so a line box as tall as the
+    // font leaves a gap above the price that makes the top of the panel look deeper than the
+    // bottom, where the currency switch ends the panel on a line box that fits its text
+    .shopPricing__amount {
+        color: @theme-color-text-lighter;
+        font-size: 13px;
+        line-height: 32px;
+    }
+
+    .shopPricing__amountValue {
+        color: @theme-color-text;
+        font-size: 40px;
+        font-weight: 700;
+        line-height: inherit;
+        letter-spacing: normal;
+    }
+
+    .shopPricing__amountCurrency {
+        color: @theme-color-text-contrast;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .shopPricing__billing {
+        line-height: 16px;
+    }
+
+    .shopPricing__tierField {
+        gap: 12px;
+    }
+
+    .shopPricing__tierLabel {
+        color: @theme-color-text-contrast;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .shopPricing__tier,
+    .shopPricing__currency {
+        height: 48px;
+        padding: 0 14px;
+        border: 2px solid @theme-color-border;
+        border-radius: @_field-radius;
+        background-color: @theme-color-background-contrast;
+        color: @theme-color-text;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .shopPricing__tier:focus,
+    .shopPricing__currency:focus {
+        border-color: @theme-color-brand;
+        outline: none;
+    }
+
+    .shopPricing__cta {
+        gap: 20px;
+    }
+
+    .shopPricing__addToCart {
+        height: auto;
+        padding: 16px;
+        border: 0;
+        border-radius: @_field-radius;
+        background-color: @theme-color-brand;
+        box-shadow: none;
+        color: @theme-color-brand-contrast;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        text-align: center;
+        text-transform: none;
+    }
+
+    .shopPricing__currencySwitch {
+        color: @theme-color-text-light;
+        font-size: 12px;
+        text-decoration: none;
+    }
+
+    .shopPricing__currencySwitch:hover {
+        text-decoration: underline;
+    }
+}

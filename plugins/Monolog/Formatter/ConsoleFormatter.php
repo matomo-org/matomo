@@ -19,7 +19,7 @@ class ConsoleFormatter extends SymfonyConsoleFormatter
         $formatted = parent::format($record);
 
         foreach ($record['extra'] as $var => $val) {
-            if (false !== strpos($formatted, '%extra.' . $var . '%')) {
+            if (str_contains($formatted, '%extra.' . $var . '%')) {
                 $formatted = str_replace('%extra.' . $var . '%', $val, $formatted);
                 unset($record['extra'][$var]);
             }

@@ -77,7 +77,7 @@ class Actions extends BaseFilter
                     if ($url) {
                         $row->setMetadata('segmentValue', urlencode($url));
 
-                        if ($site && strpos($url, 'http://') === 0) {
+                        if ($site && str_starts_with($url, 'http://')) {
                             $host = parse_url($url, PHP_URL_HOST);
 
                             if ($host && PageUrl::shouldUseHttpsHost($site->getId(), $host)) {
@@ -121,7 +121,7 @@ class Actions extends BaseFilter
                 if ($isFlattening) {
                     $label = $row->getColumn('label');
                     $stringToSearch = $actionDelimiter . $defaultActionName;
-                    if (substr($label, -strlen($stringToSearch)) == $stringToSearch) {
+                    if ($stringToSearch !== '' && str_ends_with($label, $stringToSearch)) {
                         $label = substr($label, 0, -strlen($defaultActionName));
                         $label = rtrim($label, $actionDelimiter) . $actionDelimiter;
                         $row->setColumn('label', $label);
@@ -165,7 +165,7 @@ class Actions extends BaseFilter
         // `<main_url>/<path-to-folder>`. Strip the main URL to get the path-only portion
         // that we can re-attach to each known host.
         $mainUrlNormalized = rtrim($mainUrl, '/') . '/';
-        if (strpos($folderUrlStart, $mainUrlNormalized) !== 0) {
+        if (!str_starts_with($folderUrlStart, $mainUrlNormalized)) {
             return $original;
         }
         $folderPath = substr($folderUrlStart, strlen($mainUrlNormalized));

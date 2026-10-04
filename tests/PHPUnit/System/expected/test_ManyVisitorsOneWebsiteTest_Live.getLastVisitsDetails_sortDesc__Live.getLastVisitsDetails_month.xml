@@ -193,6 +193,8 @@
 				
 				<pageId>47</pageId>
 				<bandwidth />
+				<timeSpent>1260</timeSpent>
+				<timeSpentPretty>21 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>48</siteSearchCount>
@@ -972,6 +974,8 @@
 				
 				<pageId>36</pageId>
 				<bandwidth />
+				<timeSpent>1260</timeSpent>
+				<timeSpentPretty>21 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<siteSearchCategory>CAT</siteSearchCategory>
 				<siteSearchCount>36</siteSearchCount>

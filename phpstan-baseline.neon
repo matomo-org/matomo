@@ -523,18 +523,6 @@ parameters:
 			path: core/DataAccess/ArchivingDbAdapter.php
 
 		-
-			message: '#^Parameter \#3 \$where of method Piwik\\DataAccess\\LogQueryBuilder\:\:buildSelectQuery\(\) expects string, false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/DataAccess/LogQueryBuilder.php
-
-		-
-			message: '#^Parameter \#6 \$limitAndOffset of method Piwik\\DataAccess\\LogQueryBuilder\:\:buildSelectQuery\(\) expects int\|string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/DataAccess/LogQueryBuilder.php
-
-		-
 			message: '#^Call to an undefined method Piwik\\Db\|Piwik\\Db\\AdapterInterface\|Piwik\\Tracker\\Db\:\:fetchCol\(\)\.$#'
 			identifier: method.notFound
 			count: 2
@@ -841,8 +829,8 @@ parameters:
 			path: core/Filesystem.php
 
 		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
+			message: '#^Call to function is_writable\(\) with string will always evaluate to false\.$#'
+			identifier: function.impossibleType
 			count: 1
 			path: core/Filesystem.php
 
@@ -1705,24 +1693,6 @@ parameters:
 			path: core/Tracker/Request.php
 
 		-
-			message: '#^Parameter \#1 \$password of method Piwik\\Auth\:\:setPassword\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: '#^Variable \$access in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
 			message: '#^Call to function is_null\(\) with string will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 1
@@ -2365,18 +2335,6 @@ parameters:
 			path: plugins/BulkTracking/Tracker/Handler.php
 
 		-
-			message: '#^Parameter \#1 \$password of method Piwik\\Auth\:\:setPassword\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/BulkTracking/Tracker/Handler.php
-
-		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/BulkTracking/Tracker/Handler.php
-
-		-
 			message: '#^Result of && is always false\.$#'
 			identifier: booleanAnd.alwaysFalse
 			count: 1
@@ -2849,12 +2807,6 @@ parameters:
 			identifier: staticMethod.resultUnused
 			count: 1
 			path: plugins/CustomDimensions/GetCustomDimension.php
-
-		-
-			message: '#^Parameter \#3 \$additionalSelects of method Piwik\\DataAccess\\LogAggregator\:\:queryConversionsByDimension\(\) expects array, false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
 
 		-
 			message: '#^Variable \$value in isset\(\) always exists and is not nullable\.$#'
@@ -3445,12 +3397,6 @@ parameters:
 			path: plugins/Login/PasswordResetter.php
 
 		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/Login/PasswordVerifier.php
-
-		-
 			message: '#^Binary operation "\+" between int\<1, max\> and string results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
@@ -3895,7 +3841,7 @@ parameters:
 			path: plugins/UserId/Reports/GetUsers.php
 
 		-
-			message: '#^Call to function is_array\(\) with array\{login\: string, password\: string, email\: string, twofactor_secret\: string, superuser_access\: int\|string, date_registered\: string\|null, ts_password_modified\: string\|null, idchange_last_viewed\: int\|string\|null, \.\.\.\} will always evaluate to true\.$#'
+			message: '#^Call to function is_array\(\) with array\{login\: string, password\: string, email\: string, twofactor_secret\: string, superuser_access\: int\|string, date_registered\: string\|null, ts_password_modified\: string\|null, ts_sessions_invalidated\: string\|null, \.\.\.\} will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: plugins/UsersManager/API.php

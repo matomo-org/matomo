@@ -329,7 +329,7 @@ class Build extends ConsoleCommand
 
     private function isRelativeImport(string $importPath): bool
     {
-        return strpos($importPath, './') === 0 || strpos($importPath, '../') === 0;
+        return str_starts_with($importPath, './') || str_starts_with($importPath, '../');
     }
 
     private function getAllPlugins(): array

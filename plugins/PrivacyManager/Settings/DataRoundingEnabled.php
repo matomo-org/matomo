@@ -36,6 +36,11 @@ class DataRoundingEnabled extends CompliancePolicyEnforcedSetting
         return Piwik::translate('PrivacyManager_SegmentedDataRoundingSettingRequirementNote');
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 55;
+    }
+
     public static function getPolicyRequirements(): array
     {
         return [

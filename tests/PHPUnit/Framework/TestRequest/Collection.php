@@ -130,7 +130,7 @@ class Collection
             'idSites'        => $this->testConfig->idSite,
         ];
         if ($this->testConfig->date) {
-            $parametersToSet['date'] = ($this->testConfig->periods == ['range'] || strpos($this->testConfig->date, ',') !== false || preg_match('/last[ -]?(week|month|year)/i', $this->testConfig->date) || preg_match('/(today|yesterday)/i', $this->testConfig->date)) ?
+            $parametersToSet['date'] = ($this->testConfig->periods == ['range'] || str_contains($this->testConfig->date, ',') || preg_match('/last[ -]?(week|month|year)/i', $this->testConfig->date) || preg_match('/(today|yesterday)/i', $this->testConfig->date)) ?
                 $this->testConfig->date : date('Y-m-d', strtotime($this->testConfig->date));
         }
         $parametersToSet = array_merge($parametersToSet, $this->testConfig->otherRequestParameters);
@@ -270,7 +270,7 @@ class Collection
                     // Remove the first ? in the query string
                     $exampleUrl = substr($exampleUrl, 1);
                     $apiRequestId = $apiId;
-                    if (strpos($exampleUrl, 'period=') !== false) {
+                    if (str_contains($exampleUrl, 'period=')) {
                         $apiRequestId .= '_' . $period;
                     }
 
@@ -317,7 +317,7 @@ class Collection
         ) {
             return true;
         } elseif (
-            ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
+            ((!str_starts_with($methodName, 'get') && $methodName != 'generateReport')
                 || in_array($moduleName, $this->apiNotToCall) === true
                 || in_array($apiId, $this->apiNotToCall) === true
             )
@@ -355,6 +355,9 @@ class Collection
                 $this->apiNotToCall = array();
             }
         }
+
+        // unconditional so it also applies when a test sets apiToCall explicitly, e.g. to 'Goals'
+        $this->apiNotToCall[] = 'Goals.getSavedRecommendedGoals';
 
         if (!empty($this->testConfig->apiNotToCall)) {
             $this->apiNotToCall = array_merge($this->apiNotToCall, $this->testConfig->apiNotToCall);

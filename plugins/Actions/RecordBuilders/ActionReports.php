@@ -766,11 +766,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $orderBy = false;
         }
 
-        // Every recorded row already carries the accurate time_spent captured by the tracker
-        // writer (page-views are closed when the next page-view / site-search arrives, and
-        // heartbeats/events keep the current row up to date). Any residual last-visit row that
-        // was never closed shows 0 seconds — matching the legacy semantics where the last hit
-        // in a visit has no next action to derive time_spent_ref_action from.
+        // A row never closed shows 0, matching legacy semantics for the last hit in a visit.
         $select = "log_page_view_time.%s as idaction, $extraSelects
                 SUM(log_page_view_time.time_spent) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
@@ -837,44 +833,41 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $select = "log_link_visit_action.%s as idaction, $extraSelects
                 sum(log_link_visit_action.time_spent_ref_action) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
-        // Base filters shared by both the URL and name queries.
         $whereBase = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
         $whereBase .= " AND log_link_visit_action.time_spent_ref_action > 0
                  AND log_link_visit_action.%s > 0"
             . $this->getWhereClauseActionIsNotEvent();
 
-        // Anti-join keyed on the *credited* action: `time_spent_ref_action` credits the previous
-        // page (via `idaction_url_ref` / `idaction_name_ref`), so we drop a legacy row iff the
-        // accurate writer already recorded time for that credited page in the same visit. The
-        // `pvt.time_spent > 0` guard is what makes this safe for pv_id-less follow-up hits
-        // (older trackers, server-side SDKs, log import): the writer inserts the page-view row
-        // but cannot bump `time_spent` when a subsequent event/download/outlink has no pv_id and
-        // there is no later page-view to close it, so the accurate row stays at 0 and legacy has
-        // to fill in. When accurate did capture time (`time_spent > 0`), the legacy contribution
-        // is already covered and we drop the row to avoid double-counting the same visit's
-        // outlinks/downloads/content interactions.
-        //
-        // The key is per (visit, action), not per pageview *instance*: when the same page is
-        // viewed twice in one visit and only one instance got accurate time (the other closed
-        // solely by a pv_id-less hit), the other instance's legacy contribution is dropped too
-        // and its seconds are lost. This asymmetry is deliberate — the metric may undercount in
-        // that edge case but can never double-count; an instance-exact anti-join would need a
-        // self-join to the predecessor pageview, which is not worth the query cost. Pinned by
-        // ActionReportsAccurateArchiveTest::testRepeatedUrlClosedByPvIdLessHitOnlyUndercountsNeverInflates().
-        $whereUrl = $whereBase . "
+        // Keyed on the credited action, since time_spent_ref_action credits the previous page,
+        // and on time, because a page viewed twice in one visit has a row per view. Drop the
+        // legacy value only where the interval it credits overlaps the span a row measured,
+        // which is server_time through server_time + time_spent. Matching on the action alone
+        // would let one closed row suppress every other view of that page, including views the
+        // writer never captured, whose time would then be counted by neither path. A row the
+        // cap cut short spans less than the view lasted, so a closed row also covers the hit
+        // that follows it with no other row between, as that hit is the one the writer closed
+        // it with. A row that was never closed spans nothing.
+        $spanCovered = "
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
                          WHERE pvt.idvisit = log_link_visit_action.idvisit
-                           AND pvt.idaction_url = log_link_visit_action.idaction_url_ref
-                           AND pvt.time_spent > 0
+                           AND pvt.%s = log_link_visit_action.%s
+                           AND pvt.server_time < log_link_visit_action.server_time
+                           AND (
+                               log_link_visit_action.server_time
+                                   - INTERVAL log_link_visit_action.time_spent_ref_action SECOND
+                                   < pvt.server_time + INTERVAL pvt.time_spent SECOND
+                               OR pvt.time_spent > 0 AND NOT EXISTS (
+                                   SELECT 1 FROM `$pageViewTimeTable` AS pvt_next
+                                    WHERE pvt_next.idvisit = pvt.idvisit
+                                      AND pvt_next.server_time > pvt.server_time
+                                      AND pvt_next.server_time < log_link_visit_action.server_time
+                               )
+                           )
                      )";
-        $whereName = $whereBase . "
-                 AND NOT EXISTS (
-                        SELECT 1 FROM `$pageViewTimeTable` AS pvt
-                         WHERE pvt.idvisit = log_link_visit_action.idvisit
-                           AND pvt.idaction_name = log_link_visit_action.idaction_name_ref
-                           AND pvt.time_spent > 0
-                     )";
+
+        $whereUrl = $whereBase . sprintf($spanCovered, 'idaction_url', 'idaction_url_ref');
+        $whereName = $whereBase . sprintf($spanCovered, 'idaction_name', 'idaction_name_ref');
 
         $groupBy = "log_link_visit_action.%s";
 

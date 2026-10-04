@@ -49,7 +49,7 @@ class SqlDump extends Fixture
         }
 
         // unzip the dump
-        if (substr($dumpPath, -3) === ".gz") {
+        if (str_ends_with($dumpPath, ".gz")) {
             $deflatedDumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql'; // TODO: should depend on name of URL
             exec("gunzip -c \"" . $dumpPath . "\" > \"$deflatedDumpPath\"", $output, $return);
             if ($return !== 0) {

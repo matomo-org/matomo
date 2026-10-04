@@ -94,7 +94,7 @@ if ($mode === '--list') {
     exit(0);
 }
 
-if (strncmp($mode, '--write-xml=', 12) === 0) {
+if (str_starts_with($mode, '--write-xml=')) {
     $outPath = substr($mode, 12);
     if ($outPath === '') {
         fail("--write-xml requires a path");
@@ -141,7 +141,7 @@ function collect_files(string $phpunitDir, SimpleXMLElement $suite): array
             }
             $prefix = rtrim($excludeReal, '/') . '/';
             foreach (array_keys($found) as $f) {
-                if (strncmp($f, $prefix, strlen($prefix)) === 0) {
+                if (str_starts_with($f, $prefix)) {
                     unset($found[$f]);
                 }
             }
@@ -184,7 +184,7 @@ function recursive_test_files(string $rootDir): array
     );
     foreach ($it as $info) {
         /** @var SplFileInfo $info */
-        if ($info->isFile() && substr($info->getFilename(), -8) === 'Test.php') {
+        if ($info->isFile() && str_ends_with($info->getFilename(), 'Test.php')) {
             $out[] = $info->getPathname();
         }
     }

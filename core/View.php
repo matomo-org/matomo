@@ -143,7 +143,7 @@ class View implements ViewInterface
     public function __construct($templateFile)
     {
         $templateExt = '.twig';
-        if (substr($templateFile, -strlen($templateExt)) !== $templateExt) {
+        if (!str_ends_with($templateFile, $templateExt)) {
             $templateFile .= $templateExt;
         }
         $this->template = $templateFile;

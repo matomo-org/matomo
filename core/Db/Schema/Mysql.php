@@ -62,6 +62,7 @@ class Mysql implements SchemaInterface
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
+                          ts_sessions_invalidated TIMESTAMP NULL,
                           idchange_last_viewed INTEGER UNSIGNED NULL,
                           invited_by VARCHAR(100) NULL,
                           invite_token VARCHAR(191) NULL,
@@ -86,6 +87,7 @@ class Mysql implements SchemaInterface
                           date_created DATETIME NOT NULL,
                           date_expired DATETIME NULL,
                           secure_only TINYINT(2) unsigned NOT NULL DEFAULT '0',
+                          access_level VARCHAR(50) NULL,
                           ts_rotation_notified DATETIME NULL,
                           ts_expiration_warning_notified DATETIME NULL,
                             PRIMARY KEY(idusertokenauth),
@@ -828,7 +830,7 @@ class Mysql implements SchemaInterface
 
         // Note: This check for MariaDb is here on purpose, so it's working correctly for people
         // having MySQL still configured, when using MariaDb
-        if (strpos($version, "mariadb") === false) {
+        if (!str_contains($version, "mariadb")) {
             return false;
         }
 

@@ -114,9 +114,9 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
             $scheme = parse_url($url, PHP_URL_SCHEME);
             if (
                 empty($scheme)
-                && strpos($url, '://') === false
+                && !str_contains($url, '://')
             ) {
-                if (strpos($url, '//') === 0) {
+                if (str_starts_with($url, '//')) {
                     $url = 'http:' . $url;
                 } else {
                     $url = 'http://' . $url;
