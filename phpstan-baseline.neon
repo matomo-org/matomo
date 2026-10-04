@@ -2809,12 +2809,6 @@ parameters:
 			path: plugins/CustomDimensions/GetCustomDimension.php
 
 		-
-			message: '#^Parameter \#3 \$additionalSelects of method Piwik\\DataAccess\\LogAggregator\:\:queryConversionsByDimension\(\) expects array, false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
-
-		-
 			message: '#^Variable \$value in isset\(\) always exists and is not nullable\.$#'
 			identifier: isset.variable
 			count: 1
@@ -3847,7 +3841,7 @@ parameters:
 			path: plugins/UserId/Reports/GetUsers.php
 
 		-
-			message: '#^Call to function is_array\(\) with array\{login\: string, password\: string, email\: string, twofactor_secret\: string, superuser_access\: int\|string, date_registered\: string\|null, ts_password_modified\: string\|null, idchange_last_viewed\: int\|string\|null, \.\.\.\} will always evaluate to true\.$#'
+			message: '#^Call to function is_array\(\) with array\{login\: string, password\: string, email\: string, twofactor_secret\: string, superuser_access\: int\|string, date_registered\: string\|null, ts_password_modified\: string\|null, ts_sessions_invalidated\: string\|null, \.\.\.\} will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: plugins/UsersManager/API.php

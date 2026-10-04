@@ -267,6 +267,12 @@ class Session extends Zend_Session
 
     public static function destroyAllSessions(): void
     {
+        // Stamped before the rows are cleared, for the reason given on Model::invalidateUserSessions()
+        Db::query(
+            'UPDATE `' . Common::prefixTable('user') . '` SET `ts_sessions_invalidated` = ?',
+            [Date::now()->getDatetime()]
+        );
+
         $config = self::getDbTableConfig();
         $saveHandler = new DbTable($config);
         $saveHandler->destroyAll();
