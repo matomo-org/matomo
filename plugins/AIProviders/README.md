@@ -101,6 +101,7 @@ When a managed environment forces a provider from configuration, the service als
     'webSearchCitations' => [],            // ['url' => …, 'title' => …, 'domain' => …] per source
     'executionTimeMs' => 1234,             // total request time in milliseconds, including retries, or null
     'stopReason' => 'stop',                // provider stop reason, if available, or null
+    'cost' => null,                        // USD cost billed by the provider, when it reports one, or null
 ]
 ```
 
