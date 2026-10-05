@@ -10,8 +10,14 @@ import { mount } from '@vue/test-utils';
 
 const mockFetch = vi.hoisted(() => vi.fn());
 
+const mockMatomo = vi.hoisted(() => ({ idSite: 1, hasSuperUserAccess: false }));
+
 vi.mock('CoreHome', () => ({
-  Matomo: { idSite: 1 },
+  Matomo: mockMatomo,
+  MatomoUrl: {
+    urlParsed: { value: { idSite: '1' } },
+    stringify: (params: Record<string, string>) => new URLSearchParams(params).toString(),
+  },
   AjaxHelper: { fetch: (...args: unknown[]) => mockFetch(...args) },
   translate: (key: string) => key,
   ContentBlock: { template: '<div><slot/></div>' },
@@ -73,6 +79,24 @@ describe('RecommendGoals AI availability', () => {
     expect(w.find('.recommendGoals-privacyLink').exists()).toBe(false);
     expect(w.find('.recommendGoals-chip--aiUnavailable').text())
       .toBe('Goals_RecommendAiNotActivated');
+  });
+
+  it('links a superuser to the AI processing settings when AI processing is not allowed', async () => {
+    mockMatomo.hasSuperUserAccess = true;
+    const w = await mountWith('notPermitted');
+    mockMatomo.hasSuperUserAccess = false;
+
+    expect(w.find('.recommendGoals-aiSwitch').exists()).toBe(false);
+    expect(w.find('.recommendGoals-chip--aiUnavailable').exists()).toBe(false);
+    expect(w.find('.recommendGoals-aiProcessingLink').attributes('href'))
+      .toBe('?idSite=1&module=AIProviders&action=aiProcessing');
+  });
+
+  it('shows nothing to other users when AI processing is not allowed', async () => {
+    const w = await mountWith('notPermitted');
+
+    expect(w.find('.recommendGoals-chip--aiUnavailable').exists()).toBe(false);
+    expect(w.find('.recommendGoals-aiProcessingLink').exists()).toBe(false);
   });
 
   it('hides everything AI related when AI cannot be enabled on the instance', async () => {

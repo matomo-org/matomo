@@ -91,10 +91,17 @@ class AIProviders extends Plugin
 
     public function getClientSideTranslationKeys(array &$translations): void
     {
+        $translations[] = 'AIProviders_AIProcessing';
+        $translations[] = 'AIProviders_AIProcessingHelp';
+        $translations[] = 'AIProviders_AIProcessingIntro';
+        $translations[] = 'AIProviders_AIProcessingSaveSuccess';
+        $translations[] = 'AIProviders_AggregatedAnalyticsData';
+        $translations[] = 'AIProviders_AggregatedAnalyticsDataDescription';
         $translations[] = 'AIProviders_AnthropicDefaultModelDescription';
         $translations[] = 'AIProviders_ApiKey';
         $translations[] = 'AIProviders_ApiKeyAlreadyConfiguredPlaceholder';
         $translations[] = 'AIProviders_ApiKeyPlaceholder';
+        $translations[] = 'AIProviders_BackToPreviousPage';
         $translations[] = 'AIProviders_BedrockDescription';
         $translations[] = 'AIProviders_BedrockEndpointPlaceholder';
         $translations[] = 'AIProviders_BedrockEndpointTitle';
@@ -102,6 +109,7 @@ class AIProviders extends Plugin
         $translations[] = 'AIProviders_ClickTestConnectionToShowAvailableModels';
         $translations[] = 'AIProviders_ConfigurationIntro';
         $translations[] = 'AIProviders_CustomProviderDescription';
+        $translations[] = 'AIProviders_DataProcessingDetails';
         $translations[] = 'AIProviders_DefaultBadge';
         $translations[] = 'AIProviders_DefaultCapabilityLevel';
         $translations[] = 'AIProviders_DefaultCapabilityLevelHelp';
@@ -119,6 +127,8 @@ class AIProviders extends Plugin
         $translations[] = 'AIProviders_MenuTitle';
         $translations[] = 'AIProviders_Model';
         $translations[] = 'AIProviders_NoDefaultProviderWarning';
+        $translations[] = 'AIProviders_NonAnalyticsData';
+        $translations[] = 'AIProviders_NonAnalyticsDataDescription';
         $translations[] = 'AIProviders_OpenAIDefaultModelDescription';
         $translations[] = 'AIProviders_RefreshModels';
         $translations[] = 'AIProviders_RequestFailed';
@@ -132,6 +142,7 @@ class AIProviders extends Plugin
         $translations[] = 'AIProviders_ThinkingCapabilityDescription';
         $translations[] = 'AIProviders_UnexpectedError';
         $translations[] = 'AIProviders_UnsavedChanges';
+        $translations[] = 'AIProviders_UsedBy';
         $translations[] = 'General_Cancel';
         $translations[] = 'General_LoadingData';
     }

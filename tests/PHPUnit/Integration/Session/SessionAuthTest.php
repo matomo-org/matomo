@@ -73,6 +73,47 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEmpty($_SESSION, 'Expected $_SESSION to be empty. Instead got: ' . var_export($_SESSION, true));
     }
 
+    public function testAuthenticateReturnsFailureForSessionStartedBeforeSessionsEnded()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testAuthenticateFailsWhenSessionRowRecreatedAfterEnding()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        // re-create the removed row exactly as DbTable::write() would at request shutdown, through the
+        // same handler and config production uses
+        $handler = new DbTable(Session::getDbTableConfig());
+        $handler->write(session_id() ?: 'inflightSid', base64_encode(serialize($_SESSION)));
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testAuthenticateReturnsSuccessForSessionStartedAfterSessionsEnded()
+    {
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
+    }
+
     public function testAuthenticateReturnsFailureIfUsersModelReturnsIncorrectUser()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
@@ -162,6 +203,27 @@ class SessionAuthTest extends IntegrationTestCase
         Session::destroyAllSessions();
         $this->assertSame(0, $this->countActiveSessions());
         $this->assertEmpty($_SESSION);
+    }
+
+    public function testAuthenticateFailsWhenSessionRowRecreatedAfterDestroyAllSessions()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        // destroyAllSessions() clears $_SESSION as well, so the in-flight request's copy of it has
+        // to be taken before the call
+        $sessionData = base64_encode(serialize($_SESSION));
+
+        Session::destroyAllSessions();
+
+        // the in-flight request writes its session back at shutdown, and still holds it in memory
+        $handler = new DbTable(Session::getDbTableConfig());
+        $handler->write(session_id() ?: 'inflightSid', $sessionData);
+        $_SESSION = unserialize(base64_decode($sessionData));
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
     private function countActiveSessions(): int
