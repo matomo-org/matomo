@@ -423,6 +423,20 @@ describe("Marketplace", function () {
         });
     });
 
+    it('leaves out the admin top controls on the overview only', async function () {
+        setEnvironment('superuser', noLicense);
+
+        await page.goto('about:blank');
+        await page.goto('?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday');
+        await page.waitForSelector('.top_controls .zenModeToggle');
+
+        await page.goto('about:blank');
+        await page.goto(urlBase);
+        await waitForCatalogue();
+
+        expect(await page.$('.top_controls')).to.equal(null);
+    });
+
     [noLicense, expiredLicense, exceededLicense].forEach(function (consumer) {
         // when there is no license it should not show a warning! as it could be due to network problems etc
         it('should show a warning if license is ' + consumer, async function() {
