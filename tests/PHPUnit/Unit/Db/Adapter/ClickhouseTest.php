@@ -101,4 +101,21 @@ class ClickhouseTest extends \PHPUnit\Framework\TestCase
         self::assertSame('abcd', $params['chBind000']);
         self::assertSame('abcdefgh', $params['chBind001']);
     }
+
+    /**
+     * The query log has to show what the server received, so the compiled text is the client's
+     * own: values substituted and the FORMAT it appends to every select.
+     */
+    public function testCompileSentSelectMatchesWhatTheClientSends()
+    {
+        [$sql, $params] = Clickhouse::convertPositionalBinds(
+            'SELECT count(*) FROM log_visit WHERE idsite = ? AND referer_name = ?;',
+            [1, "it's"]
+        );
+
+        self::assertSame(
+            "SELECT count(*) FROM log_visit WHERE idsite = 1 AND referer_name = 'it\\'s' FORMAT JSON",
+            Clickhouse::compileSentSelect($sql, $params)
+        );
+    }
 }

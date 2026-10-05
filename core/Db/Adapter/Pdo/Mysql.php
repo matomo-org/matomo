@@ -15,6 +15,7 @@ use PDOException;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\AdapterInterface;
+use Piwik\Db\QueryLog;
 use Piwik\Db\Schema;
 use Piwik\Piwik;
 use Zend_Config;
@@ -109,6 +110,24 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
                 throw $e;
             }
         }
+    }
+
+    public function query($sql, $bind = array())
+    {
+        if (QueryLog::isEnabled()) {
+            return QueryLog::runMysql($this, $sql, $bind, fn() => parent::query($sql, $bind));
+        }
+
+        return parent::query($sql, $bind);
+    }
+
+    public function exec($sql)
+    {
+        if (QueryLog::isEnabled()) {
+            return QueryLog::runMysql($this, $sql, [], fn() => parent::exec($sql));
+        }
+
+        return parent::exec($sql);
     }
 
     /**

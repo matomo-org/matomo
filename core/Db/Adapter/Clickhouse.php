@@ -10,10 +10,13 @@
 namespace Piwik\Db\Adapter;
 
 use ClickHouseDB\Client;
+use ClickHouseDB\Query\Degeneration\Bindings;
+use ClickHouseDB\Query\Query;
 use Exception;
 use Piwik\DataAccess\ClickhouseDialectTranslator;
 use Piwik\Db\AdapterInterface;
 use Piwik\Db\ClickhouseLogTableSync;
+use Piwik\Db\QueryLog;
 use Piwik\Db\TransactionalDatabaseDynamicTrait;
 
 /**
@@ -210,9 +213,14 @@ class Clickhouse implements AdapterInterface
      */
     public function exec($sql)
     {
+        $startTime = microtime(true);
         try {
             $this->getClient()->write($sql);
         } catch (\Exception $e) {
+            if (QueryLog::isEnabled()) {
+                QueryLog::record('clickhouse', $this, $sql, $startTime, $e);
+            }
+
             // Same reasoning as selectRows(): without the statement in the message a CI
             // failure shows only the ClickHouse error and no way to tell what ran.
             throw new Exception(sprintf(
@@ -220,6 +228,10 @@ class Clickhouse implements AdapterInterface
                 $e->getMessage(),
                 substr(preg_replace('/\s+/', ' ', $sql), 0, 2000)
             ), 0, $e);
+        }
+
+        if (QueryLog::isEnabled()) {
+            QueryLog::record('clickhouse', $this, $sql, $startTime, null);
         }
 
         return 0;
@@ -323,6 +335,24 @@ class Clickhouse implements AdapterInterface
         return [$converted, $params];
     }
 
+    /**
+     * The SELECT text the client puts on the wire for this SQL and these named binds: the
+     * values substituted by its Bindings degeneration and FORMAT JSON appended, built with the
+     * client's own classes so the two cannot drift apart.
+     *
+     * @param array<string, mixed> $params
+     */
+    public static function compileSentSelect(string $sql, array $params): string
+    {
+        $bindings = new Bindings();
+        $bindings->bindParams($params);
+
+        $query = new Query($sql, [$bindings]);
+        $query->setFormat('JSON');
+
+        return $query->toSql();
+    }
+
     // -------------------------------------------------------------------------
     // Private helpers
     // -------------------------------------------------------------------------
@@ -358,6 +388,9 @@ class Clickhouse implements AdapterInterface
         try {
             $rows = $this->getClient()->select($chSql, $params)->rows();
         } catch (\Exception $e) {
+            if (QueryLog::isEnabled()) {
+                QueryLog::record('clickhouse', $this, self::compileSentSelect($chSql, $params), $startTime, $e);
+            }
             // No fallback by design — but make the failed (translated) SQL part of the
             // error so CI failures identify the offending query without reproduction.
             throw new Exception(sprintf(
@@ -368,6 +401,10 @@ class Clickhouse implements AdapterInterface
             ), 0, $e);
         }
 
+        if (QueryLog::isEnabled()) {
+            QueryLog::record('clickhouse', $this, self::compileSentSelect($chSql, $params), $startTime, null);
+        }
+
         // error_log, not the Matomo logger (logger messages become on-screen notifications
         // in the UI test environment): proves in CI job output that ClickHouse served the
         // query, including who asked for it.
@@ -375,7 +412,7 @@ class Clickhouse implements AdapterInterface
             'ClickHouse query OK (%d rows, %.1f ms) via %s: %s params=%s',
             count($rows),
             (microtime(true) - $startTime) * 1000,
-            $this->describeCallers(),
+            QueryLog::describeCallers(),
             substr(preg_replace('/\s+/', ' ', $chSql), 0, 600),
             substr((string) json_encode($params), 0, 300)
         ));
@@ -607,31 +644,5 @@ class Clickhouse implements AdapterInterface
         $parsed = filter_var($configured, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
         return $parsed === false ? 0 : 1;
-    }
-
-    /**
-     * Compact call tree (nearest callers first) for the query log line. Frames inside
-     * this class are skipped.
-     */
-    private function describeCallers(): string
-    {
-        $frames = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 15);
-        $parts = [];
-
-        foreach ($frames as $frame) {
-            if (
-                empty($frame['function'])
-                || ($frame['class'] ?? '') === self::class
-                || strpos($frame['function'], 'call_user_func') === 0
-            ) {
-                continue;
-            }
-            $parts[] = (!empty($frame['class']) ? $frame['class'] . '::' : '') . $frame['function'];
-            if (count($parts) >= 5) {
-                break;
-            }
-        }
-
-        return $parts ? implode(' <- ', $parts) : '(unknown caller)';
     }
 }

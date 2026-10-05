@@ -89,6 +89,9 @@ engines are being compared on. --period and --date drive the archive cases as be
   # the year-long window on its own, for one report
   ./console clickhouse:benchmark --date=2026-08-03 --case="v1*-365d"
 
+  # every SQL statement both engines receive, values interpolated, one JSON object per line
+  ./console clickhouse:benchmark --date=2026-08-03 --suite=archive --query-log=/tmp/queries.jsonl
+
   # show the commands without running them
   ./console clickhouse:benchmark --date=2026-08-03 --dry-run
 HELP);
@@ -128,6 +131,7 @@ HELP);
 
         $this->addRequiredValueOption('timeout', null, 'Seconds before a child is killed. 0 for no limit.', 0);
         $this->addRequiredValueOption('json', null, 'Write the full results, including every iteration, to this file.', '');
+        $this->addRequiredValueOption('query-log', null, 'Write every SQL statement the case children send, values interpolated, to this file as JSON lines. Overwritten. Holds data from the log tables. Timings include the logging overhead.', '');
         $this->addNoValueOption('dry-run', null, 'Print the commands each case would run, and stop.');
         $this->addNoValueOption('setup-segments', null, 'Store the built-in segments with auto-archiving so --archive-driver=cron can use them, then stop.');
         $this->addNoValueOption('allow-full-rearchive', null, 'With --setup-segments, permit segment creation while process_new_segments_from is beginning_of_time.');
@@ -262,6 +266,12 @@ HELP);
             $segmentIds = $audit['usable'];
         }
 
+        // Absolute, because the children run from the Matomo root rather than from here.
+        $queryLogPath = (string) $input->getOption('query-log');
+        if ($queryLogPath !== '' && $queryLogPath[0] !== '/') {
+            $queryLogPath = getcwd() . '/' . $queryLogPath;
+        }
+
         $runner = new CaseRunner($process, new MetricsReader(), [
             'archiveDriver' => $archiveDriver,
             'invalidate' => (bool) $input->getOption('invalidate'),
@@ -270,6 +280,7 @@ HELP);
             'tideways' => (bool) $input->getOption('tideways'),
             'tidewaysService' => (string) $input->getOption('tideways-service'),
             'segmentIds' => $segmentIds,
+            'queryLog' => $queryLogPath,
         ]);
 
         if ($input->getOption('dry-run')) {
@@ -289,6 +300,17 @@ HELP);
                 $this->currentUser()
             ));
             return self::FAILURE;
+        }
+
+        if ($queryLogPath !== '') {
+            if (!$this->isWritablePath($queryLogPath) || false === @file_put_contents($queryLogPath, '')) {
+                $this->writeErrorMessage(sprintf(
+                    'Cannot write --query-log=%s as user "%s". Nothing has been measured yet.',
+                    $queryLogPath,
+                    $this->currentUser()
+                ));
+                return self::FAILURE;
+            }
         }
 
         if (

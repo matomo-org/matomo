@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\CoreConsole\ClickhouseBench;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Db\QueryLog;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Segment;
 
@@ -63,6 +64,7 @@ final class CaseRunner
             'tideways' => true,
             'tidewaysService' => TidewaysSupport::DEFAULT_SERVICE,
             'segmentIds' => [],
+            'queryLog' => '',
             'onCommand' => null,
         ];
     }
@@ -109,7 +111,10 @@ final class CaseRunner
         // reports wasCached, writes no ArchivingMetrics row, and lands in the results as a
         // suspiciously fast leg.
         if ($case->isArchive() && $this->options['invalidate']) {
-            $invalidate = $this->execute($this->invalidateArguments($case), $env);
+            $invalidate = $this->execute(
+                $this->invalidateArguments($case),
+                $env + $this->queryLogEnvironment($case, $engine, $iteration, $isWarmup, 'invalidate')
+            );
             $commands[] = $invalidate['command'];
 
             if ($invalidate['exitCode'] !== 0) {
@@ -129,7 +134,10 @@ final class CaseRunner
 
         $watermark = $case->isArchive() ? $this->metrics->watermark() : 0;
 
-        $measured = $this->execute($this->measuredArguments($case), $env);
+        $measured = $this->execute(
+            $this->measuredArguments($case),
+            $env + $this->queryLogEnvironment($case, $engine, $iteration, $isWarmup, 'measured')
+        );
         $commands[] = $measured['command'];
 
         if ($measured['timedOut']) {
@@ -409,6 +417,34 @@ final class CaseRunner
         // records - it skips flags containing a '.', so a plugin-scoped archive has no row to
         // match anyway.
         return Rules::getDoneStringFlagFor([$case->getIdSite()], $segment, $case->getPeriod(), '');
+    }
+
+    /**
+     * Turns on Matomo's SQL query log in the child, with the step tagged on every line.
+     *
+     * Set per step rather than once per run so the file can be cut by case, engine, iteration
+     * and step without relying on timestamps. CliMulti grandchildren inherit it with the rest of
+     * the environment.
+     *
+     * @return array<string, string>
+     */
+    private function queryLogEnvironment(BenchCase $case, Engine $engine, int $iteration, bool $isWarmup, string $step): array
+    {
+        $path = (string) $this->options['queryLog'];
+        if ($path === '') {
+            return [];
+        }
+
+        return [
+            QueryLog::ENV_FILE => $path,
+            QueryLog::ENV_CONTEXT => (string) json_encode([
+                'case' => $case->getId(),
+                'engine' => $engine->getKey(),
+                'iteration' => $iteration,
+                'warmup' => $isWarmup,
+                'step' => $step,
+            ]),
+        ];
     }
 
     /**

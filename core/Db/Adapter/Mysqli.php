@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\AdapterInterface;
+use Piwik\Db\QueryLog;
 use Piwik\Db\Schema;
 use Piwik\Piwik;
 use Zend_Config;
@@ -207,6 +208,15 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         return mysqli_errno($connection) == $errno;
     }
 
+    public function query($sql, $bind = array())
+    {
+        if (QueryLog::isEnabled()) {
+            return QueryLog::runMysql($this, $sql, $bind, fn() => parent::query($sql, $bind));
+        }
+
+        return parent::query($sql, $bind);
+    }
+
     /**
      * Execute unprepared SQL query and throw away the result
      *
@@ -217,6 +227,19 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      * @return int  Number of rows affected (SELECT/INSERT/UPDATE/DELETE)
      */
     public function exec($sqlQuery)
+    {
+        if (QueryLog::isEnabled()) {
+            return QueryLog::runMysql($this, $sqlQuery, [], fn() => $this->execUnlogged($sqlQuery));
+        }
+
+        return $this->execUnlogged($sqlQuery);
+    }
+
+    /**
+     * @param string $sqlQuery
+     * @return int
+     */
+    private function execUnlogged($sqlQuery)
     {
         $rc = mysqli_query($this->_connection, $sqlQuery);
         $rowsAffected = mysqli_affected_rows($this->_connection);
