@@ -208,6 +208,44 @@ class ReporterTest extends TestCase
     }
 
     /**
+     * A trace URL is wide enough to wrap every other column, so the column is only there when a
+     * run produced one.
+     */
+    public function testTheTraceColumnIsOnlyShownWhenARunHasATrace(): void
+    {
+        $case = $this->apiCase();
+        $engines = [Engine::fromKey('mysql')];
+
+        $reporter = new Reporter();
+        $summary = $reporter->summarise([new RunResult('mysql', $case, 1, false, true, 100.0)], $engines);
+
+        self::assertNotContains('Trace', $reporter->tableHeader($engines));
+        self::assertCount(count($reporter->tableHeader($engines)), $reporter->tableRows($summary, $engines)[0]);
+    }
+
+    /**
+     * The link belongs to the case, not to whether it succeeded: a failed run is exactly the one
+     * whose trace someone wants to open. With more than one engine, the key says which leg a
+     * link is for.
+     */
+    public function testEachEngineLegLinksItsTraceEvenWhenTheRunFailed(): void
+    {
+        $case = $this->apiCase();
+        $results = [
+            new RunResult('mysql', $case, 1, false, true, 100.0, null, null, null, 0, 0, '', [], null, 'https://trace/m'),
+            new RunResult('clickhouse', $case, 1, false, false, 0.0, null, null, null, 0, 0, 'boom', [], null, 'https://trace/c'),
+        ];
+
+        $reporter = new Reporter();
+        $summary = $reporter->summarise($results, Engine::all());
+        $header = $reporter->tableHeader(Engine::all());
+        $row = $reporter->tableRows($summary, Engine::all())[0];
+
+        self::assertSame('Trace', end($header));
+        self::assertSame("mysql: https://trace/m\nclickhouse: https://trace/c", end($row));
+    }
+
+    /**
      * @return array{strength: string, rows: ?int, digest: string, summary: string}
      */
     private function fingerprint(string $digest, string $strength): array

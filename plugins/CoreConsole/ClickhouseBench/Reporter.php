@@ -24,6 +24,12 @@ namespace Piwik\Plugins\CoreConsole\ClickhouseBench;
  */
 final class Reporter
 {
+    /**
+     * Whether any run in this suite produced a trace link. Tracing needs --tideways-project and
+     * a `tideways` CLI that will hand out a session, so most runs have none.
+     */
+    private bool $hasTraceUrls = false;
+
     /** Above this, a cell's iterations disagree enough that the median is not a measurement. */
     public const SPREAD_WARNING = 2.0;
 
@@ -84,6 +90,14 @@ final class Reporter
         $summary = [];
         foreach ($byCase as $caseId => $byEngine) {
             $anyResult = reset($byEngine)[0];
+            foreach ($byEngine as $runs) {
+                foreach ($runs as $run) {
+                    if ($run->getTraceUrl() !== '') {
+                        $this->hasTraceUrls = true;
+                        break 2;
+                    }
+                }
+            }
             $row = [
                 'case' => $caseId,
                 'group' => $anyResult->getCase()->getGroup(),
@@ -115,6 +129,16 @@ final class Reporter
     {
         $ok = array_values(array_filter($runs, static fn(RunResult $run): bool => $run->isOk()));
 
+        // The link is a property of the case, not of whether it succeeded: a run that failed is
+        // exactly the one whose trace someone wants to open.
+        $traceUrl = '';
+        foreach ($runs as $run) {
+            if ($run->getTraceUrl() !== '') {
+                $traceUrl = $run->getTraceUrl();
+                break;
+            }
+        }
+
         if (empty($ok)) {
             $errors = array_map(static fn(RunResult $run): string => $run->getError(), $runs);
             return [
@@ -125,6 +149,7 @@ final class Reporter
                 'spread' => null,
                 'source' => 'none',
                 'error' => empty($errors) ? 'not run' : $errors[0],
+                'traceUrl' => $traceUrl,
             ];
         }
 
@@ -152,6 +177,7 @@ final class Reporter
                 static fn(RunResult $run): int => $run->getOtherArchiveCount(),
                 $ok
             )),
+            'traceUrl' => $traceUrl,
         ];
     }
 
@@ -263,6 +289,12 @@ final class Reporter
         }
         $header[] = 'Ratio';
         $header[] = 'Result';
+        // Last, and only when there is something to put in it. A full trace URL is wide enough
+        // to wrap every other column onto a second line, which is a bad trade on a run that
+        // produced no traces.
+        if ($this->hasTraceUrls) {
+            $header[] = 'Trace';
+        }
 
         return $header;
     }
@@ -298,6 +330,22 @@ final class Reporter
                 ? '-'
                 : round($case['ratio'], 2) . 'x ' . $case['faster'];
             $row[] = $case['agreement'];
+
+            if ($this->hasTraceUrls) {
+                // One link per case. Every engine's runs share a case row, so the engine keys
+                // are what separate the legs behind it - the URL filters on the correlation id,
+                // and each leg was given its own.
+                $urls = [];
+                foreach ($engines as $engine) {
+                    $url = (string) ($case['engines'][$engine->getKey()]['traceUrl'] ?? '');
+                    if ($url !== '') {
+                        $urls[] = count($engines) > 1
+                            ? $engine->getKey() . ': ' . $url
+                            : $url;
+                    }
+                }
+                $row[] = implode("\n", $urls);
+            }
 
             $rows[] = $row;
         }

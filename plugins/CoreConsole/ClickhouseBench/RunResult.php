@@ -35,6 +35,7 @@ final class RunResult
 
     /** @var array{strength: string, rows: ?int, digest: string, summary: string}|null */
     private ?array $fingerprint;
+    private string $traceUrl = '';
 
     /** @var string[] the console commands this run actually executed, in order */
     private array $commands;
@@ -60,7 +61,8 @@ final class RunResult
         int $otherArchiveCount = 0,
         string $error = '',
         array $commands = [],
-        ?array $scrub = null
+        ?array $scrub = null,
+        string $traceUrl = ''
     ) {
         $this->engineKey = $engineKey;
         $this->case = $case;
@@ -69,6 +71,7 @@ final class RunResult
         $this->ok = $ok;
         $this->wallMs = $wallMs;
         $this->fingerprint = $fingerprint;
+        $this->traceUrl = $traceUrl;
         $this->archiveMs = $archiveMs;
         $this->archiveExclusiveMs = $archiveExclusiveMs;
         $this->archiveCount = $archiveCount;
@@ -162,6 +165,11 @@ final class RunResult
         return $this->fingerprint;
     }
 
+    public function getTraceUrl(): string
+    {
+        return $this->traceUrl;
+    }
+
     /**
      * @return array{archives: int, rows: int, invalidations: int, tables: string[]}|null
      */
@@ -201,6 +209,7 @@ final class RunResult
             'archivesBuilt' => $this->archiveCount,
             'otherArchivesBuilt' => $this->otherArchiveCount,
             'fingerprint' => $this->fingerprint,
+            'traceUrl' => $this->traceUrl,
             'commands' => $this->commands,
             'scrubbed' => $this->scrub,
         ];

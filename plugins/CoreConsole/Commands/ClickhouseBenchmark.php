@@ -127,6 +127,7 @@ HELP);
 
         $this->addNegatableOption('tideways', null, 'Enable Tideways in the children: tideways.enable_cli, full sample rate, and a per-leg service name.', true);
         $this->addRequiredValueOption('tideways-service', null, 'Tideways service name. The engine key is appended, so the two legs stay separable.', TidewaysSupport::DEFAULT_SERVICE);
+        $this->addRequiredValueOption('tideways-project', null, 'Tideways project, eg acme/myproject. Set it to get a callgraph trace per case and a link to it in the results. Without it the run still reports measurements to Tideways, but produces no traces - that is a property of Tideways, not of this benchmark.', '');
         $this->addRequiredValueOption('tideways-ini', null, 'Extra php.ini override for the children, as name=value. Repeatable. For anything this install needs beyond tideways.enable_cli and tideways.sample_rate.', [], true);
 
         $this->addRequiredValueOption('timeout', null, 'Seconds before a child is killed. 0 for no limit.', 0);
@@ -266,6 +267,18 @@ HELP);
             $segmentIds = $audit['usable'];
         }
 
+        // Probed once here only so the run says up front whether it will produce traces, which
+        // is otherwise indistinguishable from traces that have not arrived yet. CaseRunner
+        // takes its own and refreshes it as the suite runs, because the token expires long
+        // before a full suite finishes.
+        $tidewaysProject = (string) $input->getOption('tideways-project');
+        if ((bool) $input->getOption('tideways') && $tidewaysProject !== '') {
+            $output->writeln(TidewaysSupport::captureSession($tidewaysProject) === null
+                ? '<comment>Tideways: could not get a profiling session from the `tideways` CLI for project '
+                    . $tidewaysProject . '. Measurements will still be reported; there will be no traces.</comment>'
+                : '<info>Tideways: profiling session acquired, one trace link per case.</info>');
+        }
+
         // Absolute, because the children run from the Matomo root rather than from here.
         $queryLogPath = (string) $input->getOption('query-log');
         if ($queryLogPath !== '' && $queryLogPath[0] !== '/') {
@@ -279,6 +292,7 @@ HELP);
             'cascade' => (bool) $input->getOption('cascade'),
             'tideways' => (bool) $input->getOption('tideways'),
             'tidewaysService' => (string) $input->getOption('tideways-service'),
+            'tidewaysProject' => $tidewaysProject,
             'segmentIds' => $segmentIds,
             'queryLog' => $queryLogPath,
         ]);

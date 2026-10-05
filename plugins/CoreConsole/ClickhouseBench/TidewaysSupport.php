@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\CoreConsole\ClickhouseBench;
 
+use Symfony\Component\Process\Process;
+
 /**
  * Makes the benchmark's child processes visible to Tideways.
  *
@@ -33,6 +35,14 @@ namespace Piwik\Plugins\CoreConsole\ClickhouseBench;
 final class TidewaysSupport
 {
     public const DEFAULT_SERVICE = 'matomo-bench';
+
+    /**
+     * Where a trace lands in the UI. `cid` is the correlation id, which is TIDEWAYS_REF -
+     * chosen here rather than by the CLI, which is the whole point: the link for a case is
+     * known before the case runs, so it can go in the results table without parsing anything
+     * back out of the child.
+     */
+    private const TRACE_URL_TEMPLATE = 'https://app.tideways.io/o/%s/traces?cid=%s';
 
     /**
      * @return array{loaded: bool, extension: ?string, version: ?string, hasDaemon: bool, notes: string[]}
@@ -111,12 +121,106 @@ final class TidewaysSupport
      *
      * @return array<string, string>
      */
-    public static function environment(string $service, Engine $engine): array
-    {
-        return [
+    public static function environment(
+        string $service,
+        Engine $engine,
+        ?string $session = null,
+        ?string $ref = null
+    ): array {
+        $env = [
             'TIDEWAYS_SERVICE' => $service . '-' . $engine->getKey(),
             'TIDEWAYS_SAMPLERATE' => '100',
         ];
+
+        // Without a session token the extension reports MEASUREMENTS but never a callgraph
+        // trace, which is the state this benchmark was in for its whole life: every run
+        // produced timing data in the Tideways UI and not one trace, and no ini setting fixes
+        // it. Neither tideways.sample_rate=100, nor tideways.trace_sample_rate=100, nor
+        // tideways.monitor=full produces a trace on their own - measured, all three.
+        //
+        // These are the two variables `tideways run` injects, and setting them directly rather
+        // than wrapping the child is what keeps this usable here: the wrapper prints its own
+        // summary onto the child's stdout, which is the stream the benchmark parses the
+        // archiving result out of.
+        if ($session !== null && $session !== '' && $ref !== null && $ref !== '') {
+            $env['TIDEWAYS_SESSION'] = $session;
+            $env['TIDEWAYS_REF'] = $ref;
+        }
+
+        return $env;
+    }
+
+    /**
+     * A profiling session token, obtained once per benchmark run from the `tideways` CLI.
+     *
+     * The token is signed and carries its own issue time, so it cannot be constructed here and
+     * it does not last forever. One is taken at the start of a run and reused for every child;
+     * a suite long enough to outlive it loses traces for its later cases and keeps its timings,
+     * which is the right way round. Returns null when the CLI is absent or refuses, and the
+     * benchmark then runs exactly as it did before.
+     */
+    public static function captureSession(string $project): ?string
+    {
+        if ($project === '') {
+            return null;
+        }
+
+        $process = new Process([
+            'tideways',
+            'run',
+            '-o',
+            $project,
+            PHP_BINARY,
+            '-r',
+            'echo getenv("TIDEWAYS_SESSION");',
+        ]);
+        $process->setTimeout(60.0);
+
+        try {
+            $process->run();
+        } catch (\Throwable $e) {
+            return null;
+        }
+
+        // The CLI prints its own status lines after the wrapped program's output, so take the
+        // first line that looks like a token rather than the whole of stdout.
+        foreach (preg_split('/\R/', $process->getOutput()) ?: [] as $line) {
+            $line = trim($line);
+            if ($line !== '' && strpos($line, 'method=') === 0) {
+                return $line;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * A correlation id for one case on one engine. Every process the case starts inherits it,
+     * so the warmup, the timed iterations and any CliMulti grandchildren all collect under a
+     * single link.
+     */
+    public static function makeRef(): string
+    {
+        $bytes = random_bytes(16);
+        $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40);
+        $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80);
+
+        return implode('-', [
+            bin2hex(substr($bytes, 0, 4)),
+            bin2hex(substr($bytes, 4, 2)),
+            bin2hex(substr($bytes, 6, 2)),
+            bin2hex(substr($bytes, 8, 2)),
+            bin2hex(substr($bytes, 10, 6)),
+        ]);
+    }
+
+    public static function traceUrl(string $project, string $ref): string
+    {
+        if ($project === '' || $ref === '') {
+            return '';
+        }
+
+        return sprintf(self::TRACE_URL_TEMPLATE, $project, rawurlencode($ref));
     }
 
     /**

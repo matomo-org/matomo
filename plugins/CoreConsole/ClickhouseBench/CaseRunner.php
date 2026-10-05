@@ -63,6 +63,7 @@ final class CaseRunner
             'cascade' => false,
             'tideways' => true,
             'tidewaysService' => TidewaysSupport::DEFAULT_SERVICE,
+            'tidewaysProject' => '',
             'segmentIds' => [],
             'queryLog' => '',
             'onCommand' => null,
@@ -83,11 +84,90 @@ final class CaseRunner
         return $commands;
     }
 
+    /**
+     * One correlation id per case per engine, so a case's warmup, its timed iterations and any
+     * CliMulti grandchildren all collect behind a single link.
+     *
+     * @var array<string, string>
+     */
+    private array $traceRefs = [];
+
+    /**
+     * The profiling session, and when it was taken.
+     *
+     * It expires. Measured: a token taken at the start of a suite still produced callgraphs
+     * for roughly the first hour and produced none at all two hours in, while a token taken
+     * at that moment worked immediately. A suite is easily longer than that - the archiving
+     * cases alone run for hours - so one token for the whole run silently loses traces for
+     * most of it AND leaves a link on every one of those rows pointing at a correlation id
+     * with nothing behind it, which is worse than having no link.
+     */
+    private ?string $tidewaysSession = null;
+    private float $tidewaysSessionTakenAt = 0.0;
+
+    /**
+     * Comfortably inside the observed lifetime. Refreshing costs one `tideways` CLI call
+     * between two measured legs, never inside one, so it cannot land in a timing.
+     */
+    private const TIDEWAYS_SESSION_TTL_SECONDS = 600.0;
+
+    private function tidewaysSession(): ?string
+    {
+        $project = (string) $this->options['tidewaysProject'];
+        if (!$this->options['tideways'] || $project === '') {
+            return null;
+        }
+
+        $age = microtime(true) - $this->tidewaysSessionTakenAt;
+        if ($this->tidewaysSession !== null && $age < self::TIDEWAYS_SESSION_TTL_SECONDS) {
+            return $this->tidewaysSession;
+        }
+
+        $fresh = TidewaysSupport::captureSession($project);
+        if ($fresh !== null) {
+            $this->tidewaysSession = $fresh;
+            $this->tidewaysSessionTakenAt = microtime(true);
+        }
+
+        return $this->tidewaysSession;
+    }
+
+    private function traceUrlFor(BenchCase $case, Engine $engine): string
+    {
+        $project = (string) $this->options['tidewaysProject'];
+        if (!$this->options['tideways'] || $project === '') {
+            return '';
+        }
+
+        $key = $case->getId() . '/' . $engine->getKey();
+        if (!isset($this->traceRefs[$key])) {
+            $this->traceRefs[$key] = TidewaysSupport::makeRef();
+        }
+
+        return TidewaysSupport::traceUrl($project, $this->traceRefs[$key]);
+    }
+
+    private function traceRefFor(BenchCase $case, Engine $engine): ?string
+    {
+        if ($this->traceUrlFor($case, $engine) === '') {
+            return null;
+        }
+
+        return $this->traceRefs[$case->getId() . '/' . $engine->getKey()];
+    }
+
     public function run(BenchCase $case, Engine $engine, int $iteration, bool $isWarmup): RunResult
     {
+        $traceUrl = $this->traceUrlFor($case, $engine);
+
         $env = $engine->getChildEnvironment();
         if ($this->options['tideways']) {
-            $env += TidewaysSupport::environment((string) $this->options['tidewaysService'], $engine);
+            $env += TidewaysSupport::environment(
+                (string) $this->options['tidewaysService'],
+                $engine,
+                $this->tidewaysSession(),
+                $this->traceRefFor($case, $engine)
+            );
         }
 
         $commands = [];
@@ -204,7 +284,8 @@ final class CaseRunner
             $otherCount,
             '',
             $commands,
-            $scrub
+            $scrub,
+            $traceUrl
         );
     }
 
@@ -528,7 +609,8 @@ final class CaseRunner
             0,
             $error,
             $commands,
-            $scrub
+            $scrub,
+            $this->traceUrlFor($case, $engine)
         );
     }
 
