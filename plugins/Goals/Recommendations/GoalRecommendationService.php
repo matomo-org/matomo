@@ -203,7 +203,7 @@ class GoalRecommendationService
                     $aiError = Piwik::translate('Goals_RecommendationAiUnavailable');
                 } catch (AIQuotaExceededException $e) {
                     // An AI usage limit was reached. The message is translated text meant for the user.
-                    $aiError = $e->getMessage();
+                    $aiError = Piwik::translate('Goals_RecommendationAiUsageLimitReached', $e->getMessage());
                 } catch (AIProviderClientException $e) {
                     $this->getLogger()->warning(
                         'Goals recommendations: AI request failed: {message}',

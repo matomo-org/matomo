@@ -19,10 +19,9 @@ namespace Piwik\Plugins\AIProviders;
  * Token counts are null when the provider does not report them, which is
  * usual for {@link OUTCOME_ERROR}. Carries no prompt or response content.
  *
- * Known gaps: a call that fails after the provider billed it (for example a
- * per-call priced API that retries an empty answer, then gives up) is
- * reported as {@link OUTCOME_ERROR} without its cost. Google's output tokens
- * do not include its thinking tokens.
+ * Meter only {@link OUTCOME_SUCCESS}. Known gap: a call that fails after the
+ * provider billed it (for example a per-call priced API that retries an empty
+ * answer, then gives up) is reported as {@link OUTCOME_ERROR} without its cost.
  */
 final class AIUsage
 {
@@ -32,7 +31,11 @@ final class AIUsage
     /** The provider answered, but the completion was rejected as empty. Tokens were still spent. */
     public const OUTCOME_EMPTY = 'empty';
 
-    /** The provider call failed. Tokens are usually unknown. */
+    /**
+     * The call failed. It may have failed before anything was sent (for example
+     * no API key configured), so it may not have been billed. Tokens, web
+     * searches and per-call fees are not known and read null or 0.
+     */
     public const OUTCOME_ERROR = 'error';
 
     /**
@@ -215,7 +218,8 @@ final class AIUsage
 
     /**
      * Web searches the provider ran, 0 when none ran, or null when search ran
-     * but the provider reports no count.
+     * but the provider reports no count. Always 0 for {@link OUTCOME_ERROR},
+     * where it is not known.
      */
     public function getWebSearchCalls(): ?int
     {
@@ -224,7 +228,8 @@ final class AIUsage
 
     /**
      * Calls billed at a fixed price per call (for example 1 for each call to a
-     * per-call priced API), 0 for token-billed providers.
+     * per-call priced API), 0 for token-billed providers. Always 0 for
+     * {@link OUTCOME_ERROR}, where it is not known.
      */
     public function getFlatFeeCalls(): int
     {

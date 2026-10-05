@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\AIProviders\tests\Integration;
 
 use Piwik\Config;
+use Piwik\Log\LoggerInterface;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\AIProviders\AIConversationRequest;
@@ -158,8 +159,10 @@ class UsageEventsTest extends IntegrationTestCase
     public function testFeatureKeyDefaultsToTheCallerPlugin(): void
     {
         $this->service()->complete(new AIRequest('Prompt', 'Goals'));
+        $this->service()->complete((new AIRequest('Prompt', 'Goals'))->withFeatureKey(''));
 
         $this->assertSame('Goals.default', $this->beforeRequestContexts[0]->getFeatureKey());
+        $this->assertSame('Goals.default', $this->beforeRequestContexts[1]->getFeatureKey());
         $this->assertNull($this->beforeRequestContexts[0]->getModel());
         $this->assertSame(0, $this->usages[0]->getWebSearchCalls());
     }
@@ -240,11 +243,23 @@ class UsageEventsTest extends IntegrationTestCase
         $this->assertSame($this->beforeRequestContexts[0], $usage->getContext());
     }
 
-    public function testFailingUsageListenerDoesNotFailTheCall(): void
+    public function testFailingUsageListenerDoesNotFailTheCallAndIsLogged(): void
     {
         Piwik::addAction('AIProviders.usage', function (): void {
             throw new \RuntimeException('Metering is down.');
         });
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
+            ->method('error')
+            ->with(
+                $this->stringContains('AIProviders.usage listener failed'),
+                $this->callback(function (array $context): bool {
+                    return $context['requestId'] === $this->beforeRequestContexts[0]->getRequestId()
+                        && $context['exception']->getMessage() === 'Metering is down.';
+                })
+            );
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
 
         $response = $this->service()->complete(new AIRequest('Prompt', 'Goals'));
 
@@ -281,6 +296,13 @@ class UsageEventsTest extends IntegrationTestCase
         $this->assertSame(AIRequestContext::TYPE_COMPLETE, $this->beforeRequestContexts[0]->getRequestType());
         $this->assertSame(0, $this->provider->calls);
         $this->assertSame([], $this->usages);
+    }
+
+    public function testAssertRequestAllowedStripsTheModelForACallerThatIsNotAllowlisted(): void
+    {
+        $this->service()->assertRequestAllowed((new AIRequest('Prompt', 'Goals'))->withModel('requested-model'));
+
+        $this->assertNull($this->beforeRequestContexts[0]->getModel());
     }
 
     public function testAssertRequestAllowedThrowsWithoutCallingTheProvider(): void

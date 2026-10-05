@@ -394,10 +394,18 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $aiRecommender->method('recommend')
             ->willThrowException(new AIQuotaExceededException('The AI usage limit has been reached.', new AIRequestDecision()));
 
-        $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+        Fixture::loadAllTranslations();
+        try {
+            $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+        } finally {
+            Fixture::resetTranslations();
+        }
 
         $this->assertSame('deterministic', $result['mode']);
-        $this->assertSame('The AI usage limit has been reached.', $result['aiError']);
+        $this->assertSame(
+            'The AI usage limit has been reached. Rule-based suggestions are shown instead.',
+            $result['aiError']
+        );
         $this->assertSame(0, (new RecommendationStore())->countAiScansToday($this->idSite));
     }
 

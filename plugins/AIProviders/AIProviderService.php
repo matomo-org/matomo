@@ -494,10 +494,10 @@ class AIProviderService
          * Also triggered by {@link assertRequestAllowed()}, with
          * `$context->isProbe()` true.
          *
-         * Listeners can only deny, so a denial stands whatever the order. Only
-         * `AIProviders.usage` reports a call that was made: a probe, a denial or
-         * a failing listener means no usage event follows. Otherwise the
-         * context's request ID is repeated in the matching usage event.
+         * Listeners can only deny, so a denial stands whatever the order. A
+         * probe, a denial or a failing listener means no usage event follows.
+         * Otherwise the context's request ID is repeated in the matching
+         * `AIProviders.usage` event, which is the one to meter.
          * Connection tests and model listings in the admin UI call the provider
          * directly and post neither event.
          *
@@ -550,8 +550,10 @@ class AIProviderService
             /**
              * Triggered after every {@link complete()} and {@link converse()}
              * provider call, whatever the outcome, so a plugin can meter or bill
-             * AI usage. Check `$usage->getOutcome()`: a failed call is reported
-             * too, usually without token counts or cost.
+             * AI usage. Check `$usage->getOutcome()` and meter only
+             * {@link AIUsage::OUTCOME_SUCCESS}: an error is reported too, and may
+             * mean nothing was sent or billed, for example when no API key is
+             * configured.
              *
              * Unlike most events, an exception thrown by a listener is logged and
              * not passed on, because the provider call has already been made

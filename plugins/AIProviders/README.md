@@ -253,7 +253,7 @@ AIProviders posts events around every `complete()` and `converse()` provider cal
 - A decision starts as allowed, and listeners can only `deny()`, so one listener cannot overrule another's denial. A denied call is never sent: the caller gets an `AIQuotaExceededException` carrying the decision.
 - `beforeRequest` and `usage` share one context, whose request ID links them and can serve as a dedupe key.
 - An exception thrown by a `usage` listener is logged and not passed on, because the call has already been made and paid for. It does stop the listeners after it, so catch your own errors.
-- Only `usage` reports a call that was made. `beforeRequest` is also posted by `assertRequestAllowed()` (with `$context->isProbe()` true), and no usage follows a denial.
+- Meter `usage` events with outcome `success` only. An `error` outcome may mean nothing was sent or billed, for example when no API key is configured. `beforeRequest` is also posted by `assertRequestAllowed()` (with `$context->isProbe()` true), and no usage follows a probe or a denial.
 - Connection tests and model listings in the admin UI call the provider directly and post no events.
 - Neither event carries prompt or response content.
 

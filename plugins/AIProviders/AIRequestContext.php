@@ -169,8 +169,9 @@ final class AIRequestContext
     }
 
     /**
-     * Login of the current user at call time. Scheduled tasks and the CLI run
-     * as a system user, so this is not always a real person.
+     * Login of the current user at call time. Scheduled tasks and console
+     * commands have no real user: this is then `'anonymous'`, or
+     * `'super user was set'` when the code runs with super user access.
      */
     public function getLogin(): string
     {

@@ -200,6 +200,7 @@
         "RecommendationAiProviderIssue": "The AI provider setup needs attention, so rule-based suggestions are shown instead. Please ask your administrator to review the AI settings.",
         "RecommendationAiRequestFailed": "The AI request failed, so rule-based suggestions are shown instead. Please try again later.",
         "RecommendationAiUnavailable": "No AI provider is configured, so rule-based suggestions are shown instead.",
+        "RecommendationAiUsageLimitReached": "%s Rule-based suggestions are shown instead.",
         "RecommendationApplyEventName": "Submitted an application",
         "RecommendationApplyName": "Started an application",
         "RecommendationApplyReason": "Reaching the application page is the key step for applicants.",

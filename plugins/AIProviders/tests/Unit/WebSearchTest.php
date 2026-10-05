@@ -583,7 +583,12 @@ class WebSearchTest extends TestCase
         $gemini = new WebSearchRecordingGoogle();
         $gemini->mockResponse = [
             'candidates' => [['content' => ['parts' => [['text' => 'Blue light scatters most.']]]]],
-            'usageMetadata' => ['promptTokenCount' => 3000, 'cachedContentTokenCount' => 2048, 'candidatesTokenCount' => 40],
+            'usageMetadata' => [
+                'promptTokenCount' => 3000,
+                'cachedContentTokenCount' => 2048,
+                'candidatesTokenCount' => 40,
+                'thoughtsTokenCount' => 60,
+            ],
         ];
 
         $response = $gemini->complete($this->plainRequest(), self::GEMINI_CONFIG);
@@ -591,7 +596,8 @@ class WebSearchTest extends TestCase
         $this->assertSame(952, $response->getInputTokens());
         $this->assertSame(2048, $response->getCacheReadTokens());
         $this->assertNull($response->getCacheWriteTokens());
-        $this->assertSame(40, $response->getOutputTokens());
+        // Thinking tokens are billed as output.
+        $this->assertSame(100, $response->getOutputTokens());
         $this->assertNull($response->getCost());
     }
 
