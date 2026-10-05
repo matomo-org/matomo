@@ -98,6 +98,8 @@ class PageViewTimeWriter
                 return;
             }
 
+            $this->lockVisitInTransaction($idVisit, $request);
+
             // Insert before closing: if the close fails, this row still exists at 0 and the
             // next hit closes it instead of reaching past it, which would count the gap twice.
             $this->insertPageView(
@@ -123,11 +125,30 @@ class PageViewTimeWriter
                 return;
             }
 
+            $this->lockVisitInTransaction($idVisit, $request);
             $this->closePreviousPageView($idVisit, (int) $action->getIdLinkVisitAction(), $serverTimeSql, $cap);
             return;
         }
 
+        $this->lockVisitInTransaction($idVisit, $request);
         $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap);
+    }
+
+    /**
+     * Inside a bulk or queued-tracking transaction, take the visit's row lock before touching
+     * this table. The visit update takes the same lock a moment later anyway; taking it first
+     * makes concurrent batches for one visit wait their turn instead of deadlocking on rows
+     * each locked in an earlier hit. A new visit's row was inserted by this transaction, so it
+     * is already locked.
+     */
+    private function lockVisitInTransaction(int $idVisit, Request $request): void
+    {
+        $db = Tracker::getDatabase();
+        if (!$db->isInTransaction() || $request->getMetadata('CoreHome', 'isNewVisit')) {
+            return;
+        }
+
+        $db->query('SELECT idvisit FROM `' . Common::prefixTable('log_visit') . '` WHERE idvisit = ? FOR UPDATE', [$idVisit]);
     }
 
     private function isRecordableAction(Action $action): bool
@@ -155,6 +176,10 @@ class PageViewTimeWriter
         // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
         // the cap would always win. It is a validated int from Tracker config.
         //
+        // FOR UPDATE makes the inner read take the row lock the UPDATE needs. Without it, two
+        // concurrent hits for one visit both take a shared lock on the same row and then
+        // deadlock trying to upgrade it.
+        //
         // Five indexes start with idvisit, and on a short visit the optimiser prefers one of
         // the others and then sorts. Pinning the index that already provides the order keeps
         // this a LIMIT 1 walk, which no sort can beat.
@@ -168,6 +193,7 @@ class PageViewTimeWriter
                                AND server_time < ?
                           ORDER BY server_time DESC, idpageviewtime DESC
                              LIMIT 1
+                               FOR UPDATE
                         ) t
                        )";
         $db->query($sql, [$serverTimeSql, $idVisit, $newIdLinkVa, $serverTimeSql]);
@@ -214,8 +240,8 @@ class PageViewTimeWriter
         $db = Tracker::getDatabase();
 
         // A page-view and its site-search hit share one pv_id, so (idvisit, pv_id) can match
-        // several rows; the most recent is the active one. Derived table and inlined $cap for
-        // the same reasons as closePreviousPageView().
+        // several rows; the most recent is the active one. Derived table, FOR UPDATE and inlined
+        // $cap for the same reasons as closePreviousPageView().
         $sql = "UPDATE `$table`
                    SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
                  WHERE idpageviewtime = (
@@ -224,6 +250,7 @@ class PageViewTimeWriter
                              WHERE idvisit = ? AND idpageview = ?
                           ORDER BY server_time DESC, idpageviewtime DESC
                              LIMIT 1
+                               FOR UPDATE
                         ) t
                        )";
         $db->query($sql, [$serverTimeSql, $idVisit, $pvId]);

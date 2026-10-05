@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Actions\Tracker;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
+use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
@@ -114,6 +115,18 @@ class ActionsRequestProcessor extends RequestProcessor
                 // Also runs when $action is null (pings), so the active row keeps accumulating.
                 (new PageViewTimeWriter())->write($action, $visitProperties, $request);
             } catch (\Throwable $e) {
+                // A deadlock inside a transaction has already rolled back everything this
+                // transaction wrote, so carrying on would save the rest of the batch on its own.
+                // Rethrow so the bulk / queued-tracking handler fails or retries the batch whole.
+                // mysqli's isErrNo() misses statement errors, hence the message check.
+                $db = Tracker::getDatabase();
+                if (
+                    $db->isInTransaction()
+                    && ($db->isErrNo($e, 1213) || stripos($e->getMessage(), 'Deadlock found') !== false)
+                ) {
+                    throw $e;
+                }
+
                 // Best-effort: a missing row falls back to the legacy path at archive time, so
                 // a failure here must never abort the visit update or the later processors.
                 // Reached e.g. when core:update has not yet created the table after a deploy.

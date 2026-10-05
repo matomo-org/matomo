@@ -12,9 +12,14 @@ namespace Piwik\Plugins\Actions\tests\Integration\Tracker;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Plugins\Actions\Tracker\PageViewTimeWriter;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit\VisitProperties;
 
 /**
  * Integration tests for accurate per-pageview time-spent capture.
@@ -30,6 +35,7 @@ use Piwik\Tracker\Cache;
  *  - time_spent is capped at visit_standard_length
  *  - Kill-switch (record_accurate_page_view_time = 0) disables all writes
  *  - Kill-switch can be applied per site via a [Tracker_N] config section
+ *  - Inside a tracker transaction (bulk / queued tracking) the same rows are written
  *
  * @group Actions
  * @group PageViewTime
@@ -356,6 +362,47 @@ class PageViewTimeWriterTest extends IntegrationTestCase
 
         $rows = $this->fetchPageViewTimeRows();
         $this->assertSame([], $rows, 'Per-site kill-switch must prevent writes for that site');
+    }
+
+    public function testWritesTheSameRowsInsideATrackerTransaction()
+    {
+        // Bulk and queued tracking run the writer inside a transaction, where it locks the visit
+        // row first. That must not change what it writes.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('aaaaaa');
+        $tracker->setUrl('https://example.org/page-a');
+        Fixture::checkResponse($tracker->doTrackPageView('Page A'));
+        $idVisit = (int) Db::fetchOne('SELECT idvisit FROM ' . Common::prefixTable('log_visit'));
+
+        $pageView = $this->createMock(Action::class);
+        $pageView->method('getActionType')->willReturn(Action::TYPE_PAGE_URL);
+        $pageView->method('getIdLinkVisitAction')->willReturn(999);
+        $pageView->method('getIdActionUrl')->willReturn(1);
+        $pageView->method('getIdActionName')->willReturn(2);
+
+        $db = Tracker::getDatabase();
+        $transactionId = $db->beginTransaction();
+        try {
+            $writer = new PageViewTimeWriter();
+            $writer->write($pageView, new VisitProperties(['idvisit' => $idVisit]), $this->makeRequest('bbbbbb', 20));
+            $writer->write(null, new VisitProperties(['idvisit' => $idVisit]), $this->makeRequest('bbbbbb', 50));
+            $db->commit($transactionId);
+        } finally {
+            Tracker::disconnectCachedDbConnection();
+        }
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertCount(2, $rows);
+        $this->assertSame(20, (int) $rows['aaaaaa']['time_spent'], 'The new pageview closes the previous one');
+        $this->assertSame(30, (int) $rows['bbbbbb']['time_spent'], 'The ping grows the new pageview');
+    }
+
+    private function makeRequest(string $pvId, int $secondsAfterBase): Request
+    {
+        $request = new Request(['idsite' => 1, 'pv_id' => $pvId]);
+        $request->setCurrentTimestamp(strtotime($this->baseTime) + $secondsAfterBase);
+        $request->setMetadata('CoreHome', 'isNewVisit', false);
+        return $request;
     }
 
     private function getTracker(string $timestamp): \MatomoTracker
