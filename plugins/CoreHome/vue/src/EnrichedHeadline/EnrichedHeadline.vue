@@ -29,9 +29,11 @@
     >
       <slot />
     </a>
+    <!-- A class rather than `v-show`: the bar has to keep its box when it is not showing, so the
+         title is laid out against the same width either way. -->
     <span
-      v-show="showIcons || showInlineHelp"
       class="enrichedHeadline__iconsBar"
+      :class="{ 'enrichedHeadline__iconsBar--visible': showIcons || showInlineHelp }"
     >
       <a
         v-if="helpUrl && !actualInlineHelp"
