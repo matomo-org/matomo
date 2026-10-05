@@ -15,14 +15,23 @@
  * (container-name / container-type) is declared in AllWebsitesDashboard.less.
  *
  * Each width is the usable card width at which that many cards would get too narrow; the drop is
- * always to a balanced arrangement, never a lonely trailing card. Selectors are written out in full
- * (including the #multisitesAllWebsitesDashboard ancestor) to match the specificity of the base rules
- * in AllWebsitesDashboard.less, and this file is registered after it so these overrides win.
+ * always to a balanced arrangement, never a lonely trailing card. The thresholds leave room for the
+ * longest labels and numbers, not just short English ones: the widest unbreakable title word is about
+ * 116px in German ("SEITENANSICHTEN") and a large value can reach ~140px, so each count drops before
+ * its cells fall below ~150px. Selectors are written out in full (including the
+ * #multisitesAllWebsitesDashboard ancestor) to match the specificity of the base rules in
+ * AllWebsitesDashboard.less, and this file is registered after it so these overrides win.
  */
 
-@container awdDashboard (max-width: 640px) {
+@container awdDashboard (max-width: 880px) {
   #multisitesAllWebsitesDashboard .kpiCardContainer--cols5 {
     --kpi-columns: 3;
+  }
+}
+
+@container awdDashboard (max-width: 680px) {
+  #multisitesAllWebsitesDashboard .kpiCardContainer--cols4 {
+    --kpi-columns: 2;
   }
 }
 
@@ -32,13 +41,7 @@
   }
 }
 
-@container awdDashboard (max-width: 520px) {
-  #multisitesAllWebsitesDashboard .kpiCardContainer--cols4 {
-    --kpi-columns: 2;
-  }
-}
-
-@container awdDashboard (max-width: 440px) {
+@container awdDashboard (max-width: 480px) {
   #multisitesAllWebsitesDashboard .kpiCardContainer--cols5 {
     --kpi-columns: 2;
   }
