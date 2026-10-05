@@ -1,8 +1,8 @@
 <template>
     <span>{{ translate('JsTrackerInstallCheck_OptionalTestInstallationDescription') }}</span>
     <div class="jsTrackerInstallCheck">
-      <div class="row testInstallFields">
-        <div class="col s2">
+      <div class="jsTrackerInstallCheck__testForm">
+        <div class="jsTrackerInstallCheck__urlField">
           <Field
               uicontrol="url"
               name="baseUrl"
@@ -12,8 +12,8 @@
               :disabled="isTesting"
           />
         </div>
-        <div class="col s10">
-          <input type="button" class="btn testInstallBtn"
+        <div class="jsTrackerInstallCheck__testButton">
+          <input type="button" class="btn"
                  @click="initiateTrackerTest"
                  :disabled="!baseUrl || isTesting"
                  :value="translate('JsTrackerInstallCheck_TestInstallationBtnText')">
