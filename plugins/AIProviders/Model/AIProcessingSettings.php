@@ -135,8 +135,10 @@ class AIProcessingSettings
 
     /**
      * Only http(s) links are rendered, so a listener cannot inject e.g. a javascript: href.
+     *
+     * @param mixed $url
      */
-    private function getSafeDisclosureUrl(mixed $url): string
+    private function getSafeDisclosureUrl($url): string
     {
         return is_string($url) && preg_match('~^https?://~i', $url) ? $url : '';
     }
