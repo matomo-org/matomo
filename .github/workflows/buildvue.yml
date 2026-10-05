@@ -30,7 +30,6 @@ jobs:
         id: vars
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ACTOR: ${{ github.event.pull_request.user.login }}
         run: |
           PR="${{ github.event.pull_request.number }}"
 
@@ -50,8 +49,7 @@ jobs:
             exit 0;
           fi
 
-          # Dependabot PRs run new dependency code in vue:build, so they never get the push token
-          if [[ "$BASE" == "$GITHUB_REPOSITORY" && "$ACTOR" != "dependabot[bot]" ]]
+          if [[ "$BASE" == "$GITHUB_REPOSITORY" ]]
           then
             echo "islocalbranch=1" >> "$GITHUB_OUTPUT"
           else
