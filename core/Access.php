@@ -1180,9 +1180,8 @@ class Access
      *
      * Use this method with care, as it might open up attack vectors
      *
-     * Entries the callback saves to the transient cache are discarded once it returns. Objects it
-     * reads from the caller's cache are shared, so state they keep that depends on the current
-     * access, like caches that live elsewhere, needs to be keyed by {@link getCacheScopeKey()}.
+     * Keys the callback saves or deletes through {@link Cache::getTransientCache()} are removed from
+     * the caller's cache when it returns. Keep per-request data that depends on the user there.
      *
      * @param callable $function The callback to execute. Should accept no arguments.
      * @return mixed The result of `$function`.

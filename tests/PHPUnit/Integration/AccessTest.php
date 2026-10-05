@@ -1687,6 +1687,25 @@ class AccessTest extends IntegrationTestCase
         $this->assertFalse($cache->contains('savedBefore'));
     }
 
+    public function testNestedDoAsSuperUserDiscardsEntriesSavedByTheInnerCallback()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+
+        Access::doAsSuperUser(function () {
+            Access::doAsSuperUser(function () {
+                Cache::getTransientCache()->save('savedInside', 'inner value');
+            });
+
+            $this->assertSame('inner value', Cache::getTransientCache()->fetch('savedInside'));
+            $this->assertTrue(Access::getInstance()->hasSuperUserAccess());
+        });
+
+        $this->assertSame($cache, Cache::getTransientCache());
+        $this->assertFalse($cache->contains('savedInside'));
+        $this->assertFalse(Access::getInstance()->hasSuperUserAccess());
+    }
+
     public function testGetCacheScopeKeyChangesInsideDoAsSuperUser()
     {
         $this->setUpViewUserForOneOfTwoSites();
