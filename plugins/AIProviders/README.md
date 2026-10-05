@@ -241,18 +241,20 @@ if (!$service->canConverse()) {
 
 ## Usage limits and metering (events)
 
-AIProviders posts events around every provider call so a plugin can limit or bill AI usage (Matomo Cloud does) without AIProviders depending on it. With no listener, nothing changes.
+AIProviders posts events around every `complete()` and `converse()` provider call so a plugin can limit or bill AI usage (Matomo Cloud does) without AIProviders depending on it. With no listener, nothing changes.
 
 | Event | When | Listener gets |
 | --- | --- | --- |
 | `AIProviders.beforeRequest` | Before every `complete()` / `converse()` provider call, after the provider is resolved | `AIRequestContext $context`, `AIRequestDecision $decision` |
-| `AIProviders.usage` | After every provider call: success, empty completion or error | `AIUsage $usage` |
+| `AIProviders.usage` | After every `complete()` / `converse()` provider call: success, empty completion or error | `AIUsage $usage` |
 | `AIProviders.getRemainingBudget` | When a caller calls `getRemainingBudget($featureKey)` before a batch | `string $featureKey`, `?int &$budget` |
 | `AIProviders.checkFeatureAllowed` | When a caller calls `checkFeatureAllowed($featureKey, $payload)` before an action | `string $featureKey`, `array $payload`, `AIRequestDecision $decision` |
 
 - A decision starts as allowed, and listeners can only `deny()`, so one listener cannot overrule another's denial. A denied call is never sent: the caller gets an `AIQuotaExceededException` carrying the decision.
 - `beforeRequest` and `usage` share one context, whose request ID links them and can serve as a dedupe key.
-- An exception thrown by a `usage` listener is logged and not passed on, because the call has already been made and paid for.
+- An exception thrown by a `usage` listener is logged and not passed on, because the call has already been made and paid for. It does stop the listeners after it, so catch your own errors.
+- Only `usage` reports a call that was made. `beforeRequest` is also posted by `assertRequestAllowed()` (with `$context->isProbe()` true), and no usage follows a denial.
+- Connection tests and model listings in the admin UI call the provider directly and post no events.
 - Neither event carries prompt or response content.
 
 Callers help listeners by describing the call:
@@ -271,6 +273,6 @@ try {
 }
 ```
 
-`assertRequestAllowed($request)` asks the same question before a feature starts, without calling the provider.
+`assertRequestAllowed($request)` asks the listeners the same question before a feature starts, without calling the provider. It does not check whether the provider supports the request.
 
 Providers report what a call used on their response: input, output and prompt-cache token counts (`inputTokens` excludes cached tokens for every provider), web searches, `flatFeeCalls` for per-call priced APIs, the provider-billed `cost`, and free-form `providerMeta`.

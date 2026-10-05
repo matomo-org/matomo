@@ -34,7 +34,7 @@ class AiRecommenderTest extends TestCase
             ->method('complete')
             ->with($this->callback(function (AIRequest $request): bool {
                 return $request->getCallerPluginName() === 'Goals'
-                    && $request->getFeatureKey() === 'goal-recommendation'
+                    && $request->getFeatureKey() === 'Goals.recommendation'
                     && $request->getIdSite() === 1
                     && $request->isJsonResponse()
                     && $request->getMaxTokens() === 4000

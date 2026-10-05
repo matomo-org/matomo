@@ -27,6 +27,7 @@ use Piwik\Plugins\AIProviders\Exception\AIProviderServerException;
 use Piwik\Plugins\AIProviders\Exception\AIQuotaExceededException;
 use Piwik\Plugins\AIProviders\Provider\AIProvider;
 use Piwik\Plugins\AIProviders\WebSearchUsage;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -76,6 +77,7 @@ class UsageEventsTest extends IntegrationTestCase
     public function tearDown(): void
     {
         Config::getInstance()->AIProviders = [];
+        Fixture::resetTranslations();
 
         parent::tearDown();
     }
@@ -124,6 +126,7 @@ class UsageEventsTest extends IntegrationTestCase
         $context = $this->beforeRequestContexts[0];
         $usage = $this->usages[0];
         $this->assertSame($context, $usage->getContext());
+        $this->assertFalse($context->isProbe());
         $this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $context->getRequestId());
         $this->assertSame(AIRequestContext::TYPE_COMPLETE, $context->getRequestType());
         $this->assertSame('AIBrandInsights.promptQuery', $context->getFeatureKey());
@@ -191,12 +194,14 @@ class UsageEventsTest extends IntegrationTestCase
             $decision->deny('limit_reached', 'Limit reached.');
         });
 
+        Fixture::loadAllTranslations();
+
         try {
             $this->service()->complete(new AIRequest('Prompt', 'Goals'));
             $this->fail('Expected the request to be denied.');
         } catch (AIQuotaExceededException $e) {
             $this->assertSame('disabled', $e->getDecision()->getReason());
-            $this->assertSame(Piwik::translate('AIProviders_QuotaReached'), $e->getMessage());
+            $this->assertSame('The AI usage limit has been reached.', $e->getMessage());
         }
     }
 
@@ -268,22 +273,66 @@ class UsageEventsTest extends IntegrationTestCase
         $this->assertSame(['region' => 'eu'], $usage->getProviderMeta());
     }
 
+    public function testAssertRequestAllowedIsAProbeAndPassesWhenAllowed(): void
+    {
+        $this->service()->assertRequestAllowed(new AIRequest('Prompt', 'Goals'));
+
+        $this->assertTrue($this->beforeRequestContexts[0]->isProbe());
+        $this->assertSame(AIRequestContext::TYPE_COMPLETE, $this->beforeRequestContexts[0]->getRequestType());
+        $this->assertSame(0, $this->provider->calls);
+        $this->assertSame([], $this->usages);
+    }
+
     public function testAssertRequestAllowedThrowsWithoutCallingTheProvider(): void
     {
         Piwik::addAction('AIProviders.beforeRequest', function (AIRequestContext $context, AIRequestDecision $decision): void {
             $decision->deny('limit_reached');
         });
 
-        $this->expectException(AIQuotaExceededException::class);
+        try {
+            $this->service()->assertRequestAllowed(new AIConversationRequest([], 'AskMatomo'));
+            $this->fail('Expected the probe to be denied.');
+        } catch (AIQuotaExceededException $e) {
+            $this->assertSame('limit_reached', $e->getDecision()->getReason());
+        }
+
+        $this->assertSame(0, $this->provider->calls);
+        $this->assertSame(AIRequestContext::TYPE_CONVERSE, $this->beforeRequestContexts[0]->getRequestType());
+        $this->assertTrue($this->beforeRequestContexts[0]->isProbe());
+        $this->assertSame([], $this->usages);
+    }
+
+    public function testDeniedConversationIsNeverSent(): void
+    {
+        Piwik::addAction('AIProviders.beforeRequest', function (AIRequestContext $context, AIRequestDecision $decision): void {
+            $decision->deny('limit_reached');
+        });
 
         try {
-            $this->service()->assertRequestAllowed(
-                new AIConversationRequest([], 'AskMatomo')
-            );
-        } finally {
-            $this->assertSame(0, $this->provider->calls);
-            $this->assertSame(AIRequestContext::TYPE_CONVERSE, $this->beforeRequestContexts[0]->getRequestType());
+            $this->service()->converse($this->conversationRequest());
+            $this->fail('Expected the conversation to be denied.');
+        } catch (AIQuotaExceededException $e) {
+            $this->assertSame('limit_reached', $e->getDecision()->getReason());
         }
+
+        $this->assertSame(0, $this->provider->calls);
+        $this->assertSame([], $this->usages);
+    }
+
+    public function testConversationFailureIsReportedAndRethrown(): void
+    {
+        $this->provider->error = new AIProviderServerException('Provider is down.');
+
+        try {
+            $this->service()->converse($this->conversationRequest());
+            $this->fail('Expected the provider error.');
+        } catch (AIProviderServerException $e) {
+            $this->assertSame($this->provider->error, $e);
+        }
+
+        $this->assertSame(AIUsage::OUTCOME_ERROR, $this->usages[0]->getOutcome());
+        $this->assertSame(AIRequestContext::TYPE_CONVERSE, $this->usages[0]->getContext()->getRequestType());
+        $this->assertSame($this->beforeRequestContexts[0], $this->usages[0]->getContext());
     }
 
     public function testRemainingBudgetIsUnlimitedWithoutListenersAndTheStrictestOtherwise(): void
@@ -318,6 +367,14 @@ class UsageEventsTest extends IntegrationTestCase
 
         $this->assertFalse($decision->isAllowed());
         $this->assertSame('Prompt limit reached.', $decision->getMessage());
+    }
+
+    private function conversationRequest(): AIConversationRequest
+    {
+        return new AIConversationRequest(
+            [['role' => 'user', 'content' => [['type' => 'text', 'text' => 'Hello']]]],
+            'AskMatomo'
+        );
     }
 
     private function service(): AIProviderService
@@ -382,6 +439,10 @@ class EventsTestProvider extends AIProvider
     public function converse(AIConversationRequest $request, array $configuration): AIConversationResponse
     {
         $this->calls++;
+
+        if ($this->error !== null) {
+            throw $this->error;
+        }
 
         return new AIConversationResponse(
             $this->getId(),

@@ -19,6 +19,7 @@ use Piwik\Development;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
+use Piwik\Plugins\AIProviders\Exception\AIQuotaExceededException;
 use Piwik\Plugins\AIProviders\Model\AIProcessingSettings;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Psr\Log\LoggerInterface;
@@ -200,6 +201,9 @@ class GoalRecommendationService
                         ['message' => $e->getMessage()]
                     );
                     $aiError = Piwik::translate('Goals_RecommendationAiUnavailable');
+                } catch (AIQuotaExceededException $e) {
+                    // An AI usage limit was reached. The message is translated text meant for the user.
+                    $aiError = $e->getMessage();
                 } catch (AIProviderClientException $e) {
                     $this->getLogger()->warning(
                         'Goals recommendations: AI request failed: {message}',

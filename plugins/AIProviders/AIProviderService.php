@@ -184,11 +184,12 @@ class AIProviderService
      * message before the user starts. Throws {@link AIQuotaExceededException}
      * when it would be denied.
      *
-     * Not a reservation: the real call is checked again.
-     *
-     * @param AIRequest|AIConversationRequest $request
+     * Only the listeners' decision is checked, not whether the provider supports
+     * the request. Not a reservation: the real call is checked again. The
+     * context's {@link AIRequestContext::isProbe()} is true, and no
+     * `AIProviders.usage` event follows.
      */
-    public function assertRequestAllowed($request): void
+    public function assertRequestAllowed(AIRequest|AIConversationRequest $request): void
     {
         $providers = AIProviders::getAvailableProviders();
         $resolution = $this->resolveProviderId($request->getProviderId(), $request->getCallerPluginName(), $providers);
@@ -200,7 +201,7 @@ class AIProviderService
         $provider = $this->requireProvider($providers, $resolution['providerId']);
         $type = $request instanceof AIConversationRequest ? AIRequestContext::TYPE_CONVERSE : AIRequestContext::TYPE_COMPLETE;
 
-        $this->requireAllowed($this->buildContext($type, $request, $provider));
+        $this->requireAllowed($this->buildContext($type, $request, $provider, true));
     }
 
     /**
@@ -453,11 +454,12 @@ class AIProviderService
         $provider->verifyConnection($configuration);
     }
 
-    /**
-     * @param AIRequest|AIConversationRequest $request The request after provider resolution.
-     */
-    private function buildContext(string $requestType, $request, AIProvider $provider): AIRequestContext
-    {
+    private function buildContext(
+        string $requestType,
+        AIRequest|AIConversationRequest $request,
+        AIProvider $provider,
+        bool $probe = false
+    ): AIRequestContext {
         $featureKey = $request->getFeatureKey();
 
         return new AIRequestContext(
@@ -472,7 +474,8 @@ class AIProviderService
             $request->getModel() !== '' ? $request->getModel() : null,
             $request->getMaxTokens(),
             $request instanceof AIRequest && $request->isWebSearchEnabled(),
-            $request->getMeta()
+            $request->getMeta(),
+            $probe
         );
     }
 
@@ -484,13 +487,19 @@ class AIProviderService
         $decision = new AIRequestDecision();
 
         /**
-         * Triggered before every AI provider call, after the provider is
-         * resolved, so a plugin can deny the call, for example when a usage
-         * limit is reached. A denied call is not sent: the caller gets an
-         * {@link AIQuotaExceededException} carrying the decision.
+         * Triggered before every {@link complete()} and {@link converse()} provider
+         * call, after the provider is resolved, so a plugin can deny the call, for
+         * example when a usage limit is reached. A denied call is not sent: the
+         * caller gets an {@link AIQuotaExceededException} carrying the decision.
+         * Also triggered by {@link assertRequestAllowed()}, with
+         * `$context->isProbe()` true.
          *
-         * Listeners can only deny, so a denial stands whatever the order. The
-         * context's request ID is repeated in the matching `AIProviders.usage` event.
+         * Listeners can only deny, so a denial stands whatever the order. Only
+         * `AIProviders.usage` reports a call that was made: a probe, a denial or
+         * a failing listener means no usage event follows. Otherwise the
+         * context's request ID is repeated in the matching usage event.
+         * Connection tests and model listings in the admin UI call the provider
+         * directly and post neither event.
          *
          * **Example**
          *
@@ -539,13 +548,15 @@ class AIProviderService
     {
         try {
             /**
-             * Triggered after every AI provider call, whatever the outcome, so a
-             * plugin can meter or bill AI usage. Check `$usage->getOutcome()`: a
-             * failed call is reported too, usually without token counts.
+             * Triggered after every {@link complete()} and {@link converse()}
+             * provider call, whatever the outcome, so a plugin can meter or bill
+             * AI usage. Check `$usage->getOutcome()`: a failed call is reported
+             * too, usually without token counts or cost.
              *
              * Unlike most events, an exception thrown by a listener is logged and
              * not passed on, because the provider call has already been made
-             * and paid for, and the caller should still get its answer.
+             * and paid for, and the caller should still get its answer. It does
+             * stop the listeners after it, so catch your own errors.
              *
              * **Example**
              *

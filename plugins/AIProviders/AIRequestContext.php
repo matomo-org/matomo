@@ -86,6 +86,11 @@ final class AIRequestContext
     private $meta;
 
     /**
+     * @var bool
+     */
+    private $probe;
+
+    /**
      * @param array<string, mixed> $meta
      */
     public function __construct(
@@ -100,7 +105,8 @@ final class AIRequestContext
         ?string $model,
         int $maxOutputTokens,
         bool $webSearchEnabled,
-        array $meta
+        array $meta,
+        bool $probe = false
     ) {
         $this->requestId = $requestId;
         $this->requestType = $requestType;
@@ -114,6 +120,7 @@ final class AIRequestContext
         $this->maxOutputTokens = $maxOutputTokens;
         $this->webSearchEnabled = $webSearchEnabled;
         $this->meta = $meta;
+        $this->probe = $probe;
     }
 
     /**
@@ -214,5 +221,15 @@ final class AIRequestContext
     public function getMeta(): array
     {
         return $this->meta;
+    }
+
+    /**
+     * Whether this only asks if a call would be allowed
+     * ({@link AIProviderService::assertRequestAllowed()}): no provider call
+     * follows, so no `AIProviders.usage` event either.
+     */
+    public function isProbe(): bool
+    {
+        return $this->probe;
     }
 }

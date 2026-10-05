@@ -377,6 +377,7 @@ class Anthropic extends AIProvider
             $stopReason,
             $this->readUsageTokens($response['usage'] ?? null, ['input_tokens']),
             $this->readUsageTokens($response['usage'] ?? null, ['output_tokens']),
+            null,
             $this->readUsageTokens($response['usage'] ?? null, self::CACHE_READ_USAGE_KEYS),
             $this->readUsageTokens($response['usage'] ?? null, self::CACHE_WRITE_USAGE_KEYS)
         );

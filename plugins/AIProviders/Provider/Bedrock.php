@@ -345,6 +345,7 @@ class Bedrock extends AIProvider
             $stopReason,
             $this->readUsageTokens($response['usage'] ?? null, ['inputTokens']),
             $this->readUsageTokens($response['usage'] ?? null, ['outputTokens']),
+            null,
             $this->readUsageTokens($response['usage'] ?? null, self::CACHE_READ_USAGE_KEYS),
             $this->readUsageTokens($response['usage'] ?? null, self::CACHE_WRITE_USAGE_KEYS)
         );

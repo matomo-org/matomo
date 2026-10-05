@@ -412,9 +412,9 @@ abstract class AIProvider
      * @param list<CanonicalContentBlockArray> $content canonical assistant content blocks
      * @param int|null $inputTokens      Prompt tokens reported by the provider, if any.
      * @param int|null $outputTokens     Completion tokens reported by the provider, if any.
+     * @param float|null $cost           Cost in USD as billed by the provider, if it reports one.
      * @param int|null $cacheReadTokens  Prompt tokens served from the provider cache, if any.
      * @param int|null $cacheWriteTokens Prompt tokens written to the provider cache, if any.
-     * @param float|null $cost           Cost in USD as billed by the provider, if it reports one.
      * @param int      $flatFeeCalls     Calls billed at a fixed price per call, 0 for token-billed providers.
      * @param array<string, mixed> $providerMeta Extra data for the usage event, no prompt or response content.
      */
@@ -424,9 +424,9 @@ abstract class AIProvider
         string $stopReason,
         ?int $inputTokens = null,
         ?int $outputTokens = null,
+        ?float $cost = null,
         ?int $cacheReadTokens = null,
         ?int $cacheWriteTokens = null,
-        ?float $cost = null,
         int $flatFeeCalls = 0,
         array $providerMeta = []
     ): AIConversationResponse {
@@ -439,27 +439,23 @@ abstract class AIProvider
             $inputTokens,
             $outputTokens,
             $this->lastRequestExecutionTimeMs,
+            $cost,
             $cacheReadTokens,
             $cacheWriteTokens,
-            $cost,
             $flatFeeCalls,
             $providerMeta
         );
     }
 
     /**
-     * Splits an OpenAI-style input count, which includes the tokens served from
-     * the prompt cache (`<detailsKey>.cached_tokens`), into uncached input and
-     * cache reads, so `inputTokens` means the same for every provider.
+     * Splits an input count that includes the tokens served from the prompt
+     * cache (as OpenAI and Gemini report it) into uncached input and cache
+     * reads, so `inputTokens` means the same for every provider.
      *
-     * @param mixed $usage The provider's decoded `usage` object.
      * @return array{0: int|null, 1: int|null} Uncached input tokens and cache read tokens.
      */
-    protected function splitCachedInputTokens($usage, string $totalKey, string $detailsKey): array
+    protected function splitCachedInputTokens(?int $total, ?int $cached): array
     {
-        $total = $this->readUsageTokens($usage, [$totalKey]);
-        $cached = is_array($usage) ? $this->readUsageTokens($usage[$detailsKey] ?? null, ['cached_tokens']) : null;
-
         if ($total === null || $cached === null) {
             return [$total, $cached];
         }
@@ -608,9 +604,8 @@ abstract class AIProvider
             : null;
 
         [$inputTokens, $cacheReadTokens] = $this->splitCachedInputTokens(
-            $response['usage'] ?? null,
-            'prompt_tokens',
-            'prompt_tokens_details'
+            $this->readUsageTokens($response['usage'] ?? null, ['prompt_tokens']),
+            $this->readUsageTokens($response['usage']['prompt_tokens_details'] ?? null, ['cached_tokens'])
         );
 
         return $this->buildResponse(
@@ -726,9 +721,8 @@ abstract class AIProvider
             : '';
 
         [$inputTokens, $cacheReadTokens] = $this->splitCachedInputTokens(
-            $response['usage'] ?? null,
-            'prompt_tokens',
-            'prompt_tokens_details'
+            $this->readUsageTokens($response['usage'] ?? null, ['prompt_tokens']),
+            $this->readUsageTokens($response['usage']['prompt_tokens_details'] ?? null, ['cached_tokens'])
         );
 
         return $this->buildConversationResponse(
@@ -737,6 +731,7 @@ abstract class AIProvider
             $this->mapOpenAIFinishReason($finishReason),
             $inputTokens,
             isset($response['usage']['completion_tokens']) ? (int) $response['usage']['completion_tokens'] : null,
+            null,
             $cacheReadTokens
         );
     }
@@ -1256,7 +1251,7 @@ abstract class AIProvider
                 }
 
                 $this->lastRequestExecutionTimeMs = (int) round((microtime(true) - $startedAt) * 1000);
-                StaticContainer::get(LoggerInterface::class)->info($body);
+
                 return $decoded;
             }
 

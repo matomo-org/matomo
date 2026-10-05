@@ -48,7 +48,7 @@
         "NonAnalyticsDataDescription": "Give AI tools access to your non-report data including goals, segments and sites. User data and aggregated report data is not included.",
         "OpenAIDefaultModelDescription": "Default model: gpt-5.4-mini",
         "PluginDescription": "Configure AI provider connections and default model settings used by Matomo AI features.",
-        "QuotaReached": "The AI usage limit for this account has been reached.",
+        "QuotaReached": "The AI usage limit has been reached.",
         "RefreshModels": "Refresh models",
         "RequestFailed": "AI provider request failed: %s",
         "SettingsSaveSuccess": "AI provider settings saved.",

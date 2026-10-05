@@ -145,14 +145,21 @@ class Google extends AIProvider
             : '';
         $stopReason = $this->resolveStopReason([], $finishReason);
 
+        [$inputTokens, $cacheReadTokens] = $this->splitCachedInputTokens(
+            $this->readUsageTokens($response['usageMetadata'] ?? null, ['promptTokenCount']),
+            $this->readUsageTokens($response['usageMetadata'] ?? null, ['cachedContentTokenCount'])
+        );
+
         return $this->buildResponse(
             $request,
             $model,
             $this->concatenateTextParts($response['candidates'][0]['content']['parts'] ?? null),
-            isset($response['usageMetadata']['promptTokenCount']) ? (int) $response['usageMetadata']['promptTokenCount'] : null,
+            $inputTokens,
             isset($response['usageMetadata']['candidatesTokenCount']) ? (int) $response['usageMetadata']['candidatesTokenCount'] : null,
             $stopReason !== '' ? $stopReason : null,
-            $this->parseWebSearchUsage($request, $response)
+            $this->parseWebSearchUsage($request, $response),
+            null,
+            $cacheReadTokens
         );
     }
 
@@ -398,12 +405,19 @@ class Google extends AIProvider
         $content = $this->googlePartsToCanonical($parts);
         $stopReason = $this->resolveStopReason($content, $finishReason);
 
+        [$inputTokens, $cacheReadTokens] = $this->splitCachedInputTokens(
+            $this->readUsageTokens($response['usageMetadata'] ?? null, ['promptTokenCount']),
+            $this->readUsageTokens($response['usageMetadata'] ?? null, ['cachedContentTokenCount'])
+        );
+
         return $this->buildConversationResponse(
             $model,
             $content,
             $stopReason,
-            isset($response['usageMetadata']['promptTokenCount']) ? (int) $response['usageMetadata']['promptTokenCount'] : null,
-            isset($response['usageMetadata']['candidatesTokenCount']) ? (int) $response['usageMetadata']['candidatesTokenCount'] : null
+            $inputTokens,
+            isset($response['usageMetadata']['candidatesTokenCount']) ? (int) $response['usageMetadata']['candidatesTokenCount'] : null,
+            null,
+            $cacheReadTokens
         );
     }
 

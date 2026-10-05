@@ -142,9 +142,9 @@ class AIConversationResponse
         ?int $inputTokens = null,
         ?int $outputTokens = null,
         ?int $executionTimeMs = null,
+        ?float $cost = null,
         ?int $cacheReadTokens = null,
         ?int $cacheWriteTokens = null,
-        ?float $cost = null,
         int $flatFeeCalls = 0,
         array $providerMeta = []
     ) {

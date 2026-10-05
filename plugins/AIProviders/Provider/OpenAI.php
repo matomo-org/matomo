@@ -136,9 +136,8 @@ class OpenAI extends AIProvider
         }
 
         [$inputTokens, $cacheReadTokens] = $this->splitCachedInputTokens(
-            $response['usage'] ?? null,
-            'input_tokens',
-            'input_tokens_details'
+            $this->readUsageTokens($response['usage'] ?? null, ['input_tokens']),
+            $this->readUsageTokens($response['usage']['input_tokens_details'] ?? null, ['cached_tokens'])
         );
 
         return $this->buildResponse(

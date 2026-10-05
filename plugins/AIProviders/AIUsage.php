@@ -13,10 +13,16 @@ namespace Piwik\Plugins\AIProviders;
 
 /**
  * What one provider call used, posted with the `AIProviders.usage` event after
- * every call, whatever its outcome.
+ * every {@link AIProviderService::complete()} and
+ * {@link AIProviderService::converse()} call, whatever its outcome.
  *
  * Token counts are null when the provider does not report them, which is
  * usual for {@link OUTCOME_ERROR}. Carries no prompt or response content.
+ *
+ * Known gaps: a call that fails after the provider billed it (for example a
+ * per-call priced API that retries an empty answer, then gives up) is
+ * reported as {@link OUTCOME_ERROR} without its cost. Google's output tokens
+ * do not include its thinking tokens.
  */
 final class AIUsage
 {
