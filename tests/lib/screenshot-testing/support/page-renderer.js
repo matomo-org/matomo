@@ -203,7 +203,17 @@ PageRenderer.prototype.resizeViewportToFullPage = async function () {
         height: document.documentElement.scrollHeight,
     }));
 
-    await this.webpage.setViewport(JSON.parse(dims));
+    const viewport = JSON.parse(dims);
+    const previous = this.webpage.viewport();
+    await this.webpage.setViewport(viewport);
+
+    // a width change makes sparkline cards re-request their image (see useSparklineSlotSize.ts)
+    if (previous && previous.width !== viewport.width) {
+        const hasSparklines = await this.webpage.evaluate(() => !!document.querySelector('.sparklineCard__sparkline, .sparklineSegmentComparisonRow__sparkline'));
+        if (hasSparklines) {
+            await this.waitForNetworkIdle();
+        }
+    }
 };
 
 PageRenderer.prototype.screenshotSelector = async function (selector, shouldResizeViewport = true) {

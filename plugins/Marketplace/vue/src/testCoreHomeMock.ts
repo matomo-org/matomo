@@ -1,0 +1,49 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/** Key, then its arguments, so a spec can assert a value reached the string. */
+export function translateStub(key: string, ...args: string[]): string {
+  return args.length ? `${key}:${args.join(',')}` : key;
+}
+
+/**
+ * Everything the Marketplace's component specs need from CoreHome, so a missing placeholder cannot
+ * fail in one spec and pass in the next. Imports nothing: a jest.mock() factory is hoisted above
+ * every import, so load this inside the factory instead:
+ *
+ *   jest.mock('CoreHome', () => jest.requireActual('../testCoreHomeMock').coreHomeMock(), {
+ *     virtual: true,
+ *   });
+ */
+export function coreHomeMock() {
+  return {
+    translate: translateStub,
+    // Returns the key, which is what an untranslated key does in the browser: categoryLabel()
+    // then falls back to ucfirst(slug), the path most category slugs really take.
+    translateOrDefault: (key: string) => key,
+    // the plugin page's screenshot lightbox; rendered inline rather than teleported to the
+    // document body, so `wrapper.find` can still see what it was handed
+    MatomoModal: {
+      props: ['modelValue'],
+      template: '<div class="matomoModal" v-if="modelValue"><slot /></div>',
+    },
+    // honours the locale argument, as CoreHome's does: categoryLabel() passes 'en' on purpose
+    ucfirst: (value: string, locale?: string) => `${
+      value.charAt(0).toLocaleUpperCase(locale || undefined)}${value.slice(1)}`,
+    MatomoUrl: {
+      urlParsed: { value: {} },
+      parsed: { value: { idSite: '1' } },
+      hashParsed: { value: {} },
+      // drops emptied parameters, as CoreHome's does - a page clears one by passing null
+      stringify: (params: Record<string, unknown>) => new URLSearchParams(
+        Object.entries(params)
+          .filter(([, value]) => value !== '' && value !== null && value !== undefined)
+          .map(([key, value]) => [key, String(value)]),
+      ).toString(),
+    },
+  };
+}

@@ -114,7 +114,6 @@ class AIProviders extends Plugin
         $translations[] = 'AIProviders_DefaultProvider';
         $translations[] = 'AIProviders_DefaultProviderHelp';
         $translations[] = 'AIProviders_DataProcessingDetails';
-        $translations[] = 'AIProviders_DefaultsTitle';
         $translations[] = 'AIProviders_Disconnect';
         $translations[] = 'AIProviders_DisconnectSuccess';
         $translations[] = 'AIProviders_Disconnecting';
