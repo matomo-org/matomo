@@ -69,6 +69,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Common::sendHeader('Content-Type: text/css');
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
+        Common::stripHeader('Set-Cookie');
 
         $files = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
@@ -96,6 +97,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Common::sendHeader('Content-Type: application/javascript; charset=UTF-8');
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
+        Common::stripHeader('Set-Cookie');
 
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
