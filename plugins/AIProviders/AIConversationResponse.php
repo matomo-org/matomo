@@ -80,6 +80,25 @@ class AIConversationResponse
     private $outputTokens;
 
     /**
+     * Number of input tokens served from the provider's prompt cache, or null
+     * when the provider does not report cache usage. Not part of
+     * {@link $inputTokens}: providers that cache report the two separately
+     * because a cache read is billed at a reduced rate.
+     *
+     * @var int|null
+     */
+    private $cacheReadTokens;
+
+    /**
+     * Number of input tokens written into the provider's prompt cache, or null
+     * when the provider does not report cache usage. Not part of
+     * {@link $inputTokens}, and billed at a premium rate.
+     *
+     * @var int|null
+     */
+    private $cacheWriteTokens;
+
+    /**
      * Total provider request time in milliseconds, including retries.
      *
      * @var int|null
@@ -97,7 +116,9 @@ class AIConversationResponse
         string $stopReason,
         ?int $inputTokens = null,
         ?int $outputTokens = null,
-        ?int $executionTimeMs = null
+        ?int $executionTimeMs = null,
+        ?int $cacheReadTokens = null,
+        ?int $cacheWriteTokens = null
     ) {
         $this->providerId = $providerId;
         $this->providerName = $providerName;
@@ -107,6 +128,8 @@ class AIConversationResponse
         $this->inputTokens = $inputTokens;
         $this->outputTokens = $outputTokens;
         $this->executionTimeMs = $executionTimeMs;
+        $this->cacheReadTokens = $cacheReadTokens;
+        $this->cacheWriteTokens = $cacheWriteTokens;
     }
 
     public function getProviderId(): string
@@ -162,6 +185,16 @@ class AIConversationResponse
     public function getOutputTokens(): ?int
     {
         return $this->outputTokens;
+    }
+
+    public function getCacheReadTokens(): ?int
+    {
+        return $this->cacheReadTokens;
+    }
+
+    public function getCacheWriteTokens(): ?int
+    {
+        return $this->cacheWriteTokens;
     }
 
     public function getExecutionTimeMs(): ?int

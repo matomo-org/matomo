@@ -94,6 +94,8 @@ When a managed environment forces a provider from configuration, the service als
     'text' => 'Generated response text.',
     'inputTokens' => 42,                   // input/prompt tokens reported by the provider, or null
     'outputTokens' => 12,                  // output/completion tokens reported by the provider, or null
+    'cacheReadTokens' => null,             // input tokens served from the prompt cache, not in inputTokens, or null
+    'cacheWriteTokens' => null,            // input tokens written to the prompt cache, not in inputTokens, or null
     'reasoningLevel' => 'none',            // reasoning level used
     'webSearchUsed' => false,              // whether provider-side web search actually ran
     'webSearchRequestCount' => null,       // searches performed, or null when none ran / not reported

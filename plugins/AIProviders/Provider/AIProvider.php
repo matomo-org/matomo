@@ -368,8 +368,10 @@ abstract class AIProvider
     }
 
     /**
-     * @param int|null $inputTokens  Prompt tokens reported by the provider, if any.
-     * @param int|null $outputTokens Completion tokens reported by the provider, if any.
+     * @param int|null $inputTokens      Prompt tokens reported by the provider, if any.
+     * @param int|null $outputTokens     Completion tokens reported by the provider, if any.
+     * @param int|null $cacheReadTokens  Prompt tokens served from the provider cache, if any.
+     * @param int|null $cacheWriteTokens Prompt tokens written to the provider cache, if any.
      */
     protected function buildResponse(
         AIRequest $request,
@@ -379,7 +381,9 @@ abstract class AIProvider
         ?int $outputTokens = null,
         ?string $stopReason = null,
         ?WebSearchUsage $webSearch = null,
-        ?float $cost = null
+        ?float $cost = null,
+        ?int $cacheReadTokens = null,
+        ?int $cacheWriteTokens = null
     ): AIProviderResponse {
         return new AIProviderResponse(
             $this->getId(),
@@ -392,21 +396,27 @@ abstract class AIProvider
             $this->lastRequestExecutionTimeMs,
             $stopReason,
             $webSearch,
-            $cost
+            $cost,
+            $cacheReadTokens,
+            $cacheWriteTokens
         );
     }
 
     /**
      * @param list<CanonicalContentBlockArray> $content canonical assistant content blocks
-     * @param int|null $inputTokens  Prompt tokens reported by the provider, if any.
-     * @param int|null $outputTokens Completion tokens reported by the provider, if any.
+     * @param int|null $inputTokens      Prompt tokens reported by the provider, if any.
+     * @param int|null $outputTokens     Completion tokens reported by the provider, if any.
+     * @param int|null $cacheReadTokens  Prompt tokens served from the provider cache, if any.
+     * @param int|null $cacheWriteTokens Prompt tokens written to the provider cache, if any.
      */
     protected function buildConversationResponse(
         string $model,
         array $content,
         string $stopReason,
         ?int $inputTokens = null,
-        ?int $outputTokens = null
+        ?int $outputTokens = null,
+        ?int $cacheReadTokens = null,
+        ?int $cacheWriteTokens = null
     ): AIConversationResponse {
         return new AIConversationResponse(
             $this->getId(),
@@ -416,8 +426,34 @@ abstract class AIProvider
             $stopReason,
             $inputTokens,
             $outputTokens,
-            $this->lastRequestExecutionTimeMs
+            $this->lastRequestExecutionTimeMs,
+            $cacheReadTokens,
+            $cacheWriteTokens
         );
+    }
+
+    /**
+     * Reads a token count from a provider `usage` object, taking the first key
+     * that is present. Providers that report the same counter under more than
+     * one name (Bedrock returns both the API and the CloudWatch metric
+     * spelling) can list every spelling they accept.
+     *
+     * @param mixed           $usage Raw `usage` value as decoded from the response.
+     * @param non-empty-list<string> $keys
+     */
+    protected function readUsageTokens($usage, array $keys): ?int
+    {
+        if (!is_array($usage)) {
+            return null;
+        }
+
+        foreach ($keys as $key) {
+            if (isset($usage[$key]) && is_numeric($usage[$key])) {
+                return (int) $usage[$key];
+            }
+        }
+
+        return null;
     }
 
     protected function getReasoningLevelUsed(AIRequest $request): string
@@ -1169,7 +1205,7 @@ abstract class AIProvider
                 }
 
                 $this->lastRequestExecutionTimeMs = (int) round((microtime(true) - $startedAt) * 1000);
-
+                StaticContainer::get(LoggerInterface::class)->info($body);
                 return $decoded;
             }
 
