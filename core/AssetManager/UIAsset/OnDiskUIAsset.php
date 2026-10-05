@@ -98,23 +98,19 @@ class OnDiskUIAsset extends UIAsset
      */
     public function writeContent($content): void
     {
+        $this->delete();
+
         $location = $this->getAbsoluteLocation();
 
-        // Write next to the file and move it in place, so a concurrent request reading the asset never
-        // finds it missing or half written (rename() replaces the file atomically).
-        $temporaryFile = $location . '.' . Common::getRandomString(8) . '.tmp';
-        if (@file_put_contents($temporaryFile, $content) === false) {
+        $newFile = @fopen($location, 'w');
+
+        if (!$newFile) {
             throw new Exception('The file : ' . $location . ' can not be opened in write mode.');
         }
 
-        // compressed copies of the previous content would be served instead of the new one
-        Filesystem::remove($location . '.deflate', true);
-        Filesystem::remove($location . '.gz', true);
+        fwrite($newFile, $content);
 
-        if (!@rename($temporaryFile, $location)) {
-            Filesystem::remove($temporaryFile, true);
-            throw new Exception('The file : ' . $location . ' can not be opened in write mode.');
-        }
+        fclose($newFile);
     }
 
     /**
