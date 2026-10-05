@@ -238,3 +238,39 @@ if (!$service->canConverse()) {
     // Hide or disable the feature.
 }
 ```
+
+## Usage limits and metering (events)
+
+AIProviders posts events around every provider call so a plugin can limit or bill AI usage (Matomo Cloud does) without AIProviders depending on it. With no listener, nothing changes.
+
+| Event | When | Listener gets |
+| --- | --- | --- |
+| `AIProviders.beforeRequest` | Before every `complete()` / `converse()` provider call, after the provider is resolved | `AIRequestContext $context`, `AIRequestDecision $decision` |
+| `AIProviders.usage` | After every provider call: success, empty completion or error | `AIUsage $usage` |
+| `AIProviders.getRemainingBudget` | When a caller calls `getRemainingBudget($featureKey)` before a batch | `string $featureKey`, `?int &$budget` |
+| `AIProviders.checkFeatureAllowed` | When a caller calls `checkFeatureAllowed($featureKey, $payload)` before an action | `string $featureKey`, `array $payload`, `AIRequestDecision $decision` |
+
+- A decision starts as allowed, and listeners can only `deny()`, so one listener cannot overrule another's denial. A denied call is never sent: the caller gets an `AIQuotaExceededException` carrying the decision.
+- `beforeRequest` and `usage` share one context, whose request ID links them and can serve as a dedupe key.
+- An exception thrown by a `usage` listener is logged and not passed on, because the call has already been made and paid for.
+- Neither event carries prompt or response content.
+
+Callers help listeners by describing the call:
+
+```php
+$request = (new AIRequest($prompt, 'YourPlugin'))
+    ->withFeatureKey('YourPlugin.summary') // defaults to 'YourPlugin.default'
+    ->withIdSite($idSite)
+    ->withUsageReference((string) $idQuery) // your own ID for this call
+    ->withMeta(['source' => 'scheduled']); // extra data for listeners, no prompt content
+
+try {
+    $response = $service->complete($request);
+} catch (AIQuotaExceededException $e) {
+    // Show $e->getMessage(); $e->getDecision() has the used / limit figures.
+}
+```
+
+`assertRequestAllowed($request)` asks the same question before a feature starts, without calling the provider.
+
+Providers report what a call used on their response: input, output and prompt-cache token counts (`inputTokens` excludes cached tokens for every provider), web searches, `flatFeeCalls` for per-call priced APIs, the provider-billed `cost`, and free-form `providerMeta`.

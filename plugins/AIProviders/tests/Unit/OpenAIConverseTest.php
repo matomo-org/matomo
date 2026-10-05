@@ -434,6 +434,26 @@ class OpenAIConverseTest extends TestCase
         $this->assertNull($response->getOutputTokens());
     }
 
+    public function testCachedPromptTokensAreReportedAsCacheReadsAndNotAsInput(): void
+    {
+        $openAI = new RecordingOpenAI();
+        $openAI->cannedResponse = [
+            'choices' => [['message' => ['content' => 'Hi.'], 'finish_reason' => 'stop']],
+            'usage' => [
+                'prompt_tokens' => 1200,
+                'completion_tokens' => 30,
+                'prompt_tokens_details' => ['cached_tokens' => 1024],
+            ],
+        ];
+
+        $response = $openAI->converse($this->simpleRequest(), self::CONFIGURATION);
+
+        $this->assertSame(176, $response->getInputTokens());
+        $this->assertSame(1024, $response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+        $this->assertSame(30, $response->getOutputTokens());
+    }
+
     public function testOpenAISupportsConversations(): void
     {
         $this->assertTrue((new OpenAI())->supportsConversations());

@@ -110,6 +110,21 @@ class AIRequest
     private $idSite = null;
 
     /**
+     * The caller's own identifier for this call (for example a conversation
+     * turn or a stored query ID), passed to usage listeners.
+     *
+     * @var string|null
+     */
+    private $usageReference = null;
+
+    /**
+     * Extra caller data for usage listeners, without prompt or response content.
+     *
+     * @var array<string, mixed>
+     */
+    private $meta = [];
+
+    /**
      * @var int
      */
     private $maxTokens = self::DEFAULT_MAX_TOKENS;
@@ -244,6 +259,32 @@ class AIRequest
         return $request;
     }
 
+    /**
+     * Sets the caller's own identifier for this call, passed to the
+     * `AIProviders.beforeRequest` and `AIProviders.usage` listeners.
+     */
+    public function withUsageReference(?string $usageReference): self
+    {
+        $request = clone $this;
+        $request->usageReference = $usageReference;
+
+        return $request;
+    }
+
+    /**
+     * Sets extra data for the `AIProviders.beforeRequest` and `AIProviders.usage`
+     * listeners. Must not contain prompt or response content.
+     *
+     * @param array<string, mixed> $meta
+     */
+    public function withMeta(array $meta): self
+    {
+        $request = clone $this;
+        $request->meta = $meta;
+
+        return $request;
+    }
+
     public function withMaxTokens(int $maxTokens): self
     {
         $request = clone $this;
@@ -358,6 +399,19 @@ class AIRequest
     public function getIdSite(): ?int
     {
         return $this->idSite;
+    }
+
+    public function getUsageReference(): ?string
+    {
+        return $this->usageReference;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getMeta(): array
+    {
+        return $this->meta;
     }
 
     public function getMaxTokens(): int

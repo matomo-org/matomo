@@ -372,6 +372,8 @@ abstract class AIProvider
      * @param int|null $outputTokens     Completion tokens reported by the provider, if any.
      * @param int|null $cacheReadTokens  Prompt tokens served from the provider cache, if any.
      * @param int|null $cacheWriteTokens Prompt tokens written to the provider cache, if any.
+     * @param int      $flatFeeCalls     Calls billed at a fixed price per call, 0 for token-billed providers.
+     * @param array<string, mixed> $providerMeta Extra data for the usage event, no prompt or response content.
      */
     protected function buildResponse(
         AIRequest $request,
@@ -383,7 +385,9 @@ abstract class AIProvider
         ?WebSearchUsage $webSearch = null,
         ?float $cost = null,
         ?int $cacheReadTokens = null,
-        ?int $cacheWriteTokens = null
+        ?int $cacheWriteTokens = null,
+        int $flatFeeCalls = 0,
+        array $providerMeta = []
     ): AIProviderResponse {
         return new AIProviderResponse(
             $this->getId(),
@@ -398,7 +402,9 @@ abstract class AIProvider
             $webSearch,
             $cost,
             $cacheReadTokens,
-            $cacheWriteTokens
+            $cacheWriteTokens,
+            $flatFeeCalls,
+            $providerMeta
         );
     }
 
@@ -408,6 +414,9 @@ abstract class AIProvider
      * @param int|null $outputTokens     Completion tokens reported by the provider, if any.
      * @param int|null $cacheReadTokens  Prompt tokens served from the provider cache, if any.
      * @param int|null $cacheWriteTokens Prompt tokens written to the provider cache, if any.
+     * @param float|null $cost           Cost in USD as billed by the provider, if it reports one.
+     * @param int      $flatFeeCalls     Calls billed at a fixed price per call, 0 for token-billed providers.
+     * @param array<string, mixed> $providerMeta Extra data for the usage event, no prompt or response content.
      */
     protected function buildConversationResponse(
         string $model,
@@ -416,7 +425,10 @@ abstract class AIProvider
         ?int $inputTokens = null,
         ?int $outputTokens = null,
         ?int $cacheReadTokens = null,
-        ?int $cacheWriteTokens = null
+        ?int $cacheWriteTokens = null,
+        ?float $cost = null,
+        int $flatFeeCalls = 0,
+        array $providerMeta = []
     ): AIConversationResponse {
         return new AIConversationResponse(
             $this->getId(),
@@ -428,8 +440,31 @@ abstract class AIProvider
             $outputTokens,
             $this->lastRequestExecutionTimeMs,
             $cacheReadTokens,
-            $cacheWriteTokens
+            $cacheWriteTokens,
+            $cost,
+            $flatFeeCalls,
+            $providerMeta
         );
+    }
+
+    /**
+     * Splits an OpenAI-style input count, which includes the tokens served from
+     * the prompt cache (`<detailsKey>.cached_tokens`), into uncached input and
+     * cache reads, so `inputTokens` means the same for every provider.
+     *
+     * @param mixed $usage The provider's decoded `usage` object.
+     * @return array{0: int|null, 1: int|null} Uncached input tokens and cache read tokens.
+     */
+    protected function splitCachedInputTokens($usage, string $totalKey, string $detailsKey): array
+    {
+        $total = $this->readUsageTokens($usage, [$totalKey]);
+        $cached = is_array($usage) ? $this->readUsageTokens($usage[$detailsKey] ?? null, ['cached_tokens']) : null;
+
+        if ($total === null || $cached === null) {
+            return [$total, $cached];
+        }
+
+        return [max(0, $total - $cached), $cached];
     }
 
     /**
@@ -572,13 +607,22 @@ abstract class AIProvider
             ? $response['choices'][0]['finish_reason']
             : null;
 
+        [$inputTokens, $cacheReadTokens] = $this->splitCachedInputTokens(
+            $response['usage'] ?? null,
+            'prompt_tokens',
+            'prompt_tokens_details'
+        );
+
         return $this->buildResponse(
             $request,
             $model,
             is_string($text) ? $text : '',
-            isset($response['usage']['prompt_tokens']) ? (int) $response['usage']['prompt_tokens'] : null,
+            $inputTokens,
             isset($response['usage']['completion_tokens']) ? (int) $response['usage']['completion_tokens'] : null,
-            $finishReason
+            $finishReason,
+            null,
+            null,
+            $cacheReadTokens
         );
     }
 
@@ -681,12 +725,19 @@ abstract class AIProvider
             ? $response['choices'][0]['finish_reason']
             : '';
 
+        [$inputTokens, $cacheReadTokens] = $this->splitCachedInputTokens(
+            $response['usage'] ?? null,
+            'prompt_tokens',
+            'prompt_tokens_details'
+        );
+
         return $this->buildConversationResponse(
             $model,
             $this->openAIMessageToCanonical($message),
             $this->mapOpenAIFinishReason($finishReason),
-            isset($response['usage']['prompt_tokens']) ? (int) $response['usage']['prompt_tokens'] : null,
-            isset($response['usage']['completion_tokens']) ? (int) $response['usage']['completion_tokens'] : null
+            $inputTokens,
+            isset($response['usage']['completion_tokens']) ? (int) $response['usage']['completion_tokens'] : null,
+            $cacheReadTokens
         );
     }
 

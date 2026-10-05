@@ -109,6 +109,25 @@ class AIProviderResponse
      */
     private $cost;
 
+    /**
+     * Calls billed at a fixed price per call (for example 1 for a per-call
+     * priced API), or 0 for token-billed providers.
+     *
+     * @var int
+     */
+    private $flatFeeCalls;
+
+    /**
+     * Extra provider-specific data for the `AIProviders.usage` event, without
+     * prompt or response content.
+     *
+     * @var array<string, mixed>
+     */
+    private $providerMeta;
+
+    /**
+     * @param array<string, mixed> $providerMeta
+     */
     public function __construct(
         string $providerId,
         string $providerName,
@@ -122,7 +141,9 @@ class AIProviderResponse
         ?WebSearchUsage $webSearch = null,
         ?float $cost = null,
         ?int $cacheReadTokens = null,
-        ?int $cacheWriteTokens = null
+        ?int $cacheWriteTokens = null,
+        int $flatFeeCalls = 0,
+        array $providerMeta = []
     ) {
         $this->providerId = $providerId;
         $this->providerName = $providerName;
@@ -137,6 +158,8 @@ class AIProviderResponse
         $this->cost = $cost;
         $this->cacheReadTokens = $cacheReadTokens;
         $this->cacheWriteTokens = $cacheWriteTokens;
+        $this->flatFeeCalls = $flatFeeCalls;
+        $this->providerMeta = $providerMeta;
     }
 
     public function getText(): string
@@ -229,6 +252,19 @@ class AIProviderResponse
     public function getCost(): ?float
     {
         return $this->cost;
+    }
+
+    public function getFlatFeeCalls(): int
+    {
+        return $this->flatFeeCalls;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getProviderMeta(): array
+    {
+        return $this->providerMeta;
     }
 
     /**

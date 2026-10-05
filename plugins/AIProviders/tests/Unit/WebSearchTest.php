@@ -801,6 +801,22 @@ class WebSearchTest extends TestCase
         $this->assertSame(800, $response->getOutputTokens());
     }
 
+    public function testOpenAiReportsCachedInputTokensAsCacheReadsAndNotAsInput(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+        $openAI->mockResponse['usage'] = [
+            'input_tokens' => 4050,
+            'output_tokens' => 800,
+            'input_tokens_details' => ['cached_tokens' => 2048],
+        ];
+
+        $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
+
+        $this->assertSame(2002, $response->getInputTokens());
+        $this->assertSame(2048, $response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+    }
+
     /**
      * Reasoning models emit open_page and find_in_page actions on the same
      * web_search_call item type. Counting those as searches would overstate the
