@@ -439,8 +439,22 @@ class LogAggregator
     ): void {
         $db = $this->getDb();
 
-        $db->query('CREATE TEMPORARY TABLE ' . $table . ' (idvisit UInt64) ENGINE = Memory');
-        $db->query('INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql, $segmentSelectBind);
+        // One statement, not two. A ClickHouse temporary table lives in the session, and an
+        // INSERT sent as a separate request has been observed failing with
+        // "Table <db>.logtmpsegment... does not exist" 25 ms after the CREATE that
+        // made it succeeded - resolving the name against the database rather than against the
+        // session. Creating and filling it in one request removes that window entirely, and
+        // costs a round trip less.
+        //
+        // The column list is kept even though AS SELECT would infer one, because the inferred
+        // type follows log_visit.idvisit and the rest of this class joins the table against
+        // columns declared UInt64. ENGINE is still explicit: a temporary table defaults to
+        // Memory, but only saying so keeps it true if that default ever moves.
+        $db->query(
+            'CREATE TEMPORARY TABLE ' . $table . ' (idvisit UInt64) ENGINE = Memory AS '
+                . $segmentSelectSql,
+            $segmentSelectBind
+        );
     }
 
     /**

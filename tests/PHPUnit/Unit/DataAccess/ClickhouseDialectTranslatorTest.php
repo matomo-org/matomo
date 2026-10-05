@@ -930,6 +930,85 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    // ---------------------------------------------------------------------
+    // Restricting around the segment temporary table
+    // ---------------------------------------------------------------------
+
+    /**
+     * The segment temporary table is filled by a statement that wraps a SELECT. Every other
+     * pass reads a statement that begins with SELECT, so before the wrapper was recognised the
+     * whole segment resolved with its joins unrestricted, and a negated segment ran out of
+     * memory before the table held a single row.
+     *
+     * @dataProvider selectWrapperProvider
+     */
+    public function testJoinsInsideAStatementWrappingASelectAreRestricted(string $wrapper): void
+    {
+        $sql = $wrapper . 'SELECT DISTINCT log_visit.idvisit FROM log_visit AS log_visit'
+            . ' LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit'
+            . ' WHERE log_visit.idsite = :chBind000';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringStartsWith($wrapper . 'SELECT DISTINCT log_visit.idvisit FROM log_visit AS log_visit', $out);
+        self::assertStringContainsString(
+            'LEFT JOIN (SELECT * FROM log_link_visit_action WHERE idvisit IN'
+            . ' (SELECT log_visit.idvisit FROM log_visit AS log_visit WHERE log_visit.idsite = :chBind000))'
+            . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit',
+            $out
+        );
+    }
+
+    public function selectWrapperProvider(): array
+    {
+        return [
+            'INSERT ... SELECT' => ['INSERT INTO logtmpsegmentabc (idvisit) '],
+            'CREATE ... AS SELECT' => ['CREATE TEMPORARY TABLE logtmpsegmentabc (idvisit UInt64) ENGINE = Memory AS '],
+        ];
+    }
+
+    /**
+     * Driven by the segment temporary table, log_conversion is the first join of every goal and
+     * ecommerce query. Left whole, it breaks the chain: log_visit keys off it and reads whole
+     * too. Restricting it lets the restriction carry on to the joins behind it.
+     */
+    public function testLogConversionIsRestrictedWhenTheSegmentTemporaryTableDrives(): void
+    {
+        $sql = 'SELECT x FROM matomo_logtmpsegmentabc AS logtmpsegmentabc'
+            . ' INNER JOIN matomo_log_conversion AS log_conversion ON log_conversion.idvisit = logtmpsegmentabc.idvisit'
+            . ' LEFT JOIN matomo_log_visit AS log_visit ON log_visit.idvisit = log_conversion.idvisit'
+            . ' WHERE log_conversion.idsite = :chBind000';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        $conversionRestriction = '(SELECT * FROM matomo_log_conversion WHERE idvisit IN'
+            . ' (SELECT logtmpsegmentabc.idvisit FROM matomo_logtmpsegmentabc AS logtmpsegmentabc))';
+        self::assertStringContainsString(
+            'INNER JOIN ' . $conversionRestriction
+            . ' AS log_conversion ON log_conversion.idvisit = logtmpsegmentabc.idvisit',
+            $out
+        );
+        self::assertStringContainsString(
+            'LEFT JOIN (SELECT * FROM matomo_log_visit WHERE idvisit IN'
+            . ' (SELECT log_conversion.idvisit FROM ' . $conversionRestriction . ' AS log_conversion))'
+            . ' AS log_visit ON log_visit.idvisit = log_conversion.idvisit',
+            $out
+        );
+    }
+
+    /**
+     * Anywhere else restricting log_conversion is a loss: it is small, so the sub-select prunes
+     * nothing and costs the planner the direct join.
+     */
+    public function testLogConversionIsLeftWholeWhenAnythingElseDrives(): void
+    {
+        $sql = 'SELECT x FROM log_visit AS log_visit'
+            . ' LEFT JOIN log_conversion AS log_conversion ON log_conversion.idvisit = log_visit.idvisit'
+            . ' WHERE log_visit.idsite = :chBind000';
+
+        self::assertSame($sql, ClickhouseDialectTranslator::restrictLogTableJoins($sql));
+    }
+
     /**
      * @dataProvider unsafeToRewriteProvider
      */

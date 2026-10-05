@@ -54,14 +54,52 @@ class ClickhouseDialectTranslator
      * matched with whatever table prefix the installation uses still attached, so the longest
      * table name has to come first or `matomo_log_link_visit_action` reads as a `log_action`.
      *
-     * log_conversion and log_conversion_item are deliberately absent. Joins to them carry
-     * conditions beyond the key (`AND log_conversion.idgoal = ...`), and they are small enough
-     * that joining one whole has never been the query that ran out of memory.
+     * log_conversion and log_conversion_item are deliberately absent here; log_conversion is
+     * restrictable only under the narrower condition in SEGMENT_TABLE_DRIVEN_JOIN_KEYS.
      */
     private const RESTRICTABLE_JOIN_KEYS = [
         'log_link_visit_action' => ['idvisit', 'idlink_va'],
         'log_action' => ['idaction'],
         'log_visit' => ['idvisit'],
+    ];
+
+    /**
+     * Tables restricted ONLY when the segment temporary table is the driving table, keyed as in
+     * RESTRICTABLE_JOIN_KEYS. Consulted after it, so a table listed in both takes the
+     * unconditional entry.
+     *
+     * With `[database_analytics] segment_cache = 1` Matomo resolves the segment once into
+     * `logtmpsegment<md5>` and drives every report query off it, which makes log_conversion the
+     * first join of each goal and ecommerce query:
+     *
+     *     FROM logtmpsegment<md5>
+     *     INNER JOIN log_conversion ON log_conversion.idvisit = logtmpsegment<md5>.idvisit
+     *     LEFT JOIN  log_visit      ON log_visit.idvisit = log_conversion.idvisit
+     *     LEFT JOIN  log_action     ON log_action.idaction = log_visit.visit_entry_idaction_url
+     *
+     * Leaving that first join alone does not cost one unrestricted table, it breaks the chain:
+     * log_visit (359M rows) keys off log_conversion.idvisit and log_action off log_visit, so all
+     * three read whole and archiving runs out of memory in FillingRightJoinSide.
+     *
+     * It is conditional because restricting log_conversion is a LOSS everywhere else, and a
+     * large one. Measured on the POC corpus, one day, the a1s compound segment with the cache
+     * off: 1.93 min unrestricted against 4.71 min restricted, for a byte-identical answer
+     * (fingerprint 799816df23ad097eb2f60e8877117439 both ways). log_conversion is small, so
+     * wrapping it in a sub-select buys no pruning and costs the planner the direct join. The
+     * original "small enough that joining one whole has never been the query that ran out of
+     * memory" was right about every path except this one.
+     *
+     * The ON-clause reasoning behind that original note was wrong, though, and it is why this is
+     * possible at all: JoinGenerator builds the join as a single `idvisit` equality and the
+     * `AND log_conversion.idgoal = ...` conditions sit in the WHERE, where
+     * keepConjunctsReferencingOnly() already handles them.
+     *
+     * log_conversion_item is in neither list, and listing it would be a no-op: JoinGenerator
+     * appends `AND `log_conversion_item`.deleted = 0` to every join it builds for that table, so
+     * the ON is never the single equality restrictOneJoin() requires.
+     */
+    private const SEGMENT_TABLE_DRIVEN_JOIN_KEYS = [
+        'log_conversion' => ['idvisit'],
     ];
 
     /**
@@ -1382,6 +1420,34 @@ class ClickhouseDialectTranslator
             return $sql;
         }
 
+        // A statement that WRAPS a SELECT: `INSERT INTO <t> (<cols>) SELECT ...` and
+        // `CREATE [TEMPORARY] TABLE <t> (<cols>) ENGINE = <e> AS SELECT ...`. Everything below
+        // reads a statement that BEGINS with SELECT - findTopLevelFromPos() returns null
+        // otherwise - so before the segment temporary table there was nothing to do here and
+        // both forms passed through untouched.
+        //
+        // The segment temporary table is filled by one of these, and for a negated segment that
+        // SELECT is the whole segment resolved at once: it joins log_link_visit_action (1.97
+        // billion rows) and log_action twice. Unrestricted it ran out of memory having read
+        // nothing useful, and the CREATE form ran out the same way. Restricting inside is safe
+        // for the reason it is safe anywhere - the pass changes how much a query reads, never
+        // what it returns - so the ids the temporary table ends up holding are unchanged.
+        //
+        // Both forms are matched by one pattern rather than two, because they differ only in
+        // parts that are optional in the other: an INSERT has no ENGINE and no AS, a CREATE has
+        // both. Keeping them together is what stops the next caller that wraps a SELECT in a
+        // third way from silently losing its restrictions, which is exactly how the CREATE form
+        // got missed when it replaced the INSERT.
+        //
+        // Only this pass is taught the prefix. The other passes that key off
+        // findTopLevelFromPos() are naming and GROUP BY fixes that neither form needs, and
+        // widening that helper itself would turn all of them on at once.
+        $wrapper = '~^(\s*(?:INSERT\s+INTO|CREATE\s+(?:TEMPORARY\s+)?TABLE)\s+`?[\w]+`?\s*'
+            . '(?:\([^()]*\))?\s*(?:ENGINE\s*=\s*[\w]+\s*)?(?:AS\s+)?)(SELECT\s.*)$~is';
+        if (preg_match($wrapper, $sql, $im)) {
+            return $im[1] . self::restrictLogTableJoins($im[2]);
+        }
+
         $sql = self::mapFromBlocks($sql, static function (string $inner): string {
             return self::restrictLogTableJoins($inner);
         });
@@ -1529,6 +1595,13 @@ class ClickhouseDialectTranslator
         $drivingTable = $dm[1];
         $drivingAlias = self::normalizeIdent($dm[2] ?? $dm[1]);
 
+        // The segment temporary table carries the installation's table prefix, so the marker is
+        // in the middle of the name rather than at either end.
+        $segmentTableDrives = false !== stripos(
+            self::normalizeIdent($drivingTable),
+            LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX
+        );
+
         // What each alias in scope can be restricted through, as a FROM clause. The driving
         // table starts it off; a join this pass rewrites is added as it goes, because a
         // restricted table can restrict the next join along - see the chaining note on
@@ -1549,7 +1622,7 @@ class ClickhouseDialectTranslator
             $end = $clauses[$i + 1]['pos'] ?? strlen($sql);
             $text = substr($sql, $clause['pos'], $end - $clause['pos']);
 
-            $rewritten = self::restrictOneJoin($text, $restrictions);
+            $rewritten = self::restrictOneJoin($text, $restrictions, $segmentTableDrives);
             if (null === $rewritten) {
                 continue;
             }
@@ -1599,13 +1672,16 @@ class ClickhouseDialectTranslator
 
     /**
      * @param array<string, string> $restrictions FROM clause per alias that can restrict a join
+     * @param bool $segmentTableDrives whether this scope is driven by the segment temporary
+     *                                 table, which widens the set of restrictable tables - see
+     *                                 SEGMENT_TABLE_DRIVEN_JOIN_KEYS
      *
      * @return array{0: string, 1: string, 2: string}|null the rewritten JOIN clause, the alias
      *                                                     it defines and the sub-select now
      *                                                     standing in for the table, or null to
      *                                                     leave the join alone
      */
-    private static function restrictOneJoin(string $joinText, array $restrictions): ?array
+    private static function restrictOneJoin(string $joinText, array $restrictions, bool $segmentTableDrives = false): ?array
     {
         // A join whose right side is already a subquery has been restricted by its caller
         // (LogAggregator::getActionRestrictionSubQuery does this for the dimension queries),
@@ -1632,7 +1708,7 @@ class ClickhouseDialectTranslator
             return null;
         }
 
-        $restrictable = self::restrictableJoinKey($m[2]);
+        $restrictable = self::restrictableJoinKey($m[2], $segmentTableDrives);
         if (null === $restrictable) {
             return null;
         }
@@ -1699,13 +1775,20 @@ class ClickhouseDialectTranslator
      *
      * Longest suffix first, so `matomo_log_link_visit_action` is not read as a `log_action`.
      *
+     * @param bool $segmentTableDrives also consider SEGMENT_TABLE_DRIVEN_JOIN_KEYS
+     *
      * @return array{0: string, 1: array<int, string>}|null
      */
-    private static function restrictableJoinKey(string $table): ?array
+    private static function restrictableJoinKey(string $table, bool $segmentTableDrives = false): ?array
     {
         $table = strtolower(self::normalizeIdent($table));
 
-        foreach (self::RESTRICTABLE_JOIN_KEYS as $logTable => $keyColumns) {
+        $candidates = self::RESTRICTABLE_JOIN_KEYS;
+        if ($segmentTableDrives) {
+            $candidates += self::SEGMENT_TABLE_DRIVEN_JOIN_KEYS;
+        }
+
+        foreach ($candidates as $logTable => $keyColumns) {
             if (substr($table, -strlen($logTable)) === $logTable) {
                 return [$logTable, $keyColumns];
             }
