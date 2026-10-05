@@ -87,7 +87,17 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A template extending `@Morpheus/admin.twig` can override the new `contentClass` block to put a class on the page's `#content` element. Core provides `admin--wide`, which widens the content area for admin pages that lay out in columns rather than in a single text measure.
 * The new `PrivacyManager.compliancePolicySettingsUpdated` event announces the compliance policy settings a request has just changed, so an audit trail can record who changed what. It is posted by `PrivacyManager.setCompliancePolicySettings` and `PrivacyManager.enforceCompliancePolicySettings` once per call, and only when something actually changed: a request that fails, or that repeats the state a policy is already in, posts nothing. Its single array parameter holds the policy id, the `idSite` the policy was changed for (`null` for the instance wide state), whether every toggleable setting of the policy is enforced afterwards, and the settings whose enforcement state or compliance status changed. It deliberately carries no request parameters, and therefore no password confirmation or authentication token.
 
+### New config.ini.php settings
+* `[Tracker] record_accurate_page_view_time` (default `1`, can be overridden per site in `[Tracker_N]`) is a temporary
+  kill-switch for the accurate time-on-page writer. Setting it to `0` stops new `log_page_view_time` rows from being
+  written; rows recorded earlier keep being used by the archiver and the visits log. It will be removed in a future
+  major version.
+
 ### HTTP API
+* Time on page is now measured per pageview, so `sum_time_spent` and `avg_time_on_page` in the Actions page URL and
+  page title reports change for data tracked after the upgrade. In `Live.getLastVisitsDetails`, `timeSpent` and
+  `timeSpentPretty` of a pageview show the measured time when there is one, and site-search actions can now carry
+  `timeSpent` and `timeSpentPretty` of their own.
 * Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional
   `{metric}_percent_of_total` column (eg, `nb_visits_percent_of_total`). The values match the ratio percentages the report tables
   show on hover, follow `format_metrics` like other percent metrics, and are included in all export formats. Non-additive metrics
@@ -119,8 +129,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\Tracker\Visit::getTimeSpentReferrerAction()` and the `log_link_visit_action.time_spent_ref_action` column are
   deprecated. The accurate per-pageview time-on-page metric is now sourced from the new `log_page_view_time` log table
   written by `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter`. The deprecated method and column remain functional
-  through 6.x for the fallback archive path (behind the `record_accurate_page_view_time` kill-switch) and are scheduled
-  for removal in a future major version.
+  through 6.x, because the archiver and the visits log still read them for pageviews that have no measured row (tracked
+  before the upgrade, while `record_accurate_page_view_time` was off, or whose row could not be written). They are
+  scheduled for removal in a future major version.
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
   is deprecated and will be removed in Matomo 7; use `@theme-color-background-contrast` instead. It is the generic
   elevated content surface and is already used well beyond widgets.
@@ -139,14 +150,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   via the `Piwik\Plugins\CoreHome\Tracker\LogTable\PageViewTime` `LogTable`. The archiver in
   `Piwik\Plugins\Actions\RecordBuilders\ActionReports` runs two queries per period: an accurate query summing
   `log_page_view_time.time_spent`, and the legacy `log_link_visit_action.time_spent_ref_action` query anti-joined
-  against `log_page_view_time` so legacy contributions to a page are dropped whenever the writer has already
-  recorded that page for the visit. Hits recorded before the new table existed are still counted via the legacy
-  path. A temporary `[Tracker] record_accurate_page_view_time` config key (default `1`) is available as a
-  kill-switch; disabling it stops recording new accurate rows (data collected while disabled uses the legacy
-  metric), while rows recorded earlier keep being used by the archiver and the visits log. On installs that opt
-  out of the default midnight visit split (`create_new_visit_after_midnight = 0`), time a cross-midnight visit
-  adds to the previous day's last pageview after that day was archived is not re-archived (the previous day's
-  archive is not invalidated), matching how visit metrics already behave for such visits under that setting.
+  against `log_page_view_time`. A legacy value is dropped only where the interval it credits overlaps the time a
+  `log_page_view_time` row for the same visit and page measured, or where it belongs to the hit that closed such a
+  row (which matters when the `visit_standard_length` cap cut the row short). Pageviews with no measured row (tracked
+  before the new table existed, while `record_accurate_page_view_time` was off, or whose row could not be written)
+  are still counted via the legacy path. On installs that opt out of the default midnight visit split
+  (`create_new_visit_after_midnight = 0`), time a cross-midnight visit adds to the previous day's last pageview
+  after that day was archived is not re-archived (the previous day's archive is not invalidated), matching how
+  visit metrics already behave for such visits under that setting.
 
 ### Internal Changes
 * `./console vue:build` no longer emits the unminified `plugins/<Plugin>/vue/dist/<Plugin>.umd.js` bundle. Only the
