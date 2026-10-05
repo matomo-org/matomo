@@ -101,6 +101,7 @@ class AIProviders extends Plugin
         $translations[] = 'AIProviders_ApiKey';
         $translations[] = 'AIProviders_ApiKeyAlreadyConfiguredPlaceholder';
         $translations[] = 'AIProviders_ApiKeyPlaceholder';
+        $translations[] = 'AIProviders_BackToPreviousPage';
         $translations[] = 'AIProviders_BedrockDescription';
         $translations[] = 'AIProviders_BedrockEndpointPlaceholder';
         $translations[] = 'AIProviders_BedrockEndpointTitle';
@@ -131,7 +132,6 @@ class AIProviders extends Plugin
         $translations[] = 'AIProviders_OpenAIDefaultModelDescription';
         $translations[] = 'AIProviders_RefreshModels';
         $translations[] = 'AIProviders_RequestFailed';
-        $translations[] = 'AIProviders_SaveSettings';
         $translations[] = 'AIProviders_SettingsSaveSuccess';
         $translations[] = 'AIProviders_StatusConnected';
         $translations[] = 'AIProviders_StatusNotConnected';

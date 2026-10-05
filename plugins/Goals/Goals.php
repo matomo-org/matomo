@@ -14,12 +14,16 @@ use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\AIProviders\Model\AIProcessingSettings;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\Goals\FeatureFlags\GoalRecommendations;
 use Piwik\Plugins\Goals\RecordBuilders\ProductRecord;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
@@ -111,8 +115,24 @@ class Goals extends \Piwik\Plugin
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Archiver.addRecordBuilders'             => 'addRecordBuilders',
             'Segment.filterSegments'                 => 'filterSegments',
+            'AIProviders.addAIProcessingFeatures'    => 'addAIProcessingFeatures',
         );
         return $hooks;
+    }
+
+    /**
+     * @param array<string, list<array{name: string, disclosureUrl?: string}>> $features
+     */
+    public function addAIProcessingFeatures(array &$features): void
+    {
+        if (!StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(GoalRecommendations::class)) {
+            return;
+        }
+
+        $features[AIProcessingSettings::CATEGORY_NON_ANALYTICS][] = [
+            // TODO: add 'disclosureUrl' for the privacy disclosure (ID-164) once it is published
+            'name' => Piwik::translate('Goals_RecommendedGoals'),
+        ];
     }
 
     public function addRecordBuilders(array &$recordBuilders): void
@@ -543,6 +563,7 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_RecommendUseAi';
         $translationKeys[] = 'Goals_RecommendAiToggleHelp';
         $translationKeys[] = 'Goals_RecommendAiProviderFallback';
+        $translationKeys[] = 'Goals_RecommendAiAllowProcessing';
         $translationKeys[] = 'Goals_RecommendAiNotActivated';
         $translationKeys[] = 'Goals_RecommendAiNotActivatedHelp';
         $translationKeys[] = 'Goals_RecommendAiNotConfigured';
