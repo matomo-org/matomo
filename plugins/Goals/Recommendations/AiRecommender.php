@@ -487,7 +487,10 @@ PROMPT;
             'name' => $name,
             'matchAttribute' => $matchAttribute,
             'pattern' => $pattern,
-            'patternType' => $this->normalizePatternType($matchAttribute),
+            // a kept rule-based regex goal stays a regex goal
+            'patternType' => ($fallback['pattern'] ?? null) === $pattern && ($fallback['matchAttribute'] ?? null) === $matchAttribute
+                ? (string) ($fallback['patternType'] ?? $this->normalizePatternType($matchAttribute))
+                : $this->normalizePatternType($matchAttribute),
             'caseSensitive' => $this->toBool($matomoGoal['caseSensitive'] ?? $fallback['caseSensitive'] ?? false),
             'allowMultipleConversionsPerVisit' => $this->toBool(
                 $matomoGoal['allowMultipleConversionsPerVisit']
