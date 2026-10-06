@@ -1,6 +1,7 @@
 {% extends inReportingMenu ? "empty.twig" : "admin.twig" %}
 
 {% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
+{% set showTopControls = false %}
 
 {# The plugin grid lays out up to five cards per row, so it wants the wide content area. #}
 {% block contentClass %}admin--wide{% endblock %}
