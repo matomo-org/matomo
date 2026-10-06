@@ -169,6 +169,7 @@ class BlockedIpRanges
         }
 
         $ranges = [];
+        $hasFailedProvider = false;
 
         foreach ($this->providers as $provider) {
             try {
@@ -177,7 +178,13 @@ class BlockedIpRanges
                 if ($this->configuration->shouldThrowExceptionOnIpRangeSync()) {
                     throw $e;
                 }
+                $hasFailedProvider = true;
             }
+        }
+
+        if ($hasFailedProvider) {
+            // keep the ranges of the previous sync, so the failed provider's ranges stay blocked until it syncs again
+            $ranges = array_merge($ranges, ...array_values($this->getBlockedRanges()));
         }
 
         $indexedRange = [];
@@ -194,8 +201,8 @@ class BlockedIpRanges
             if (empty($indexedRange[$indexed])) {
                 $indexedRange[$indexed] = [];
             }
-            $indexedRange[$indexed][] = $range;
+            $indexedRange[$indexed][$range] = $range;
         }
-        $this->setBlockedRanges($indexedRange);
+        $this->setBlockedRanges(array_map('array_values', $indexedRange));
     }
 }
