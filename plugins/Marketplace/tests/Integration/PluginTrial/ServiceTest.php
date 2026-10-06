@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
 use Piwik\Config\GeneralConfig;
 use Piwik\Notification\Manager;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -104,6 +105,19 @@ class ServiceTest extends IntegrationTestCase
         $notifications = Manager::getPendingInMemoryNotifications();
 
         self::assertCount(1, $notifications);
+    }
+
+    public function testCreateNotificationsEndsARequestForAPluginAlreadyActivated()
+    {
+        $service = new Service();
+        $service->request('CoreHome', 'Core Home');
+
+        $service->createNotificationsIfNeeded();
+
+        self::assertCount(0, Manager::getPendingInMemoryNotifications());
+        self::assertFalse($service->wasRequested('CoreHome'));
+        $requests = (new RequestHistory())->getRequests('CoreHome');
+        self::assertNotNull($requests[0]['ts_fulfilled']);
     }
 
     protected function assertRequested(bool $expected): void

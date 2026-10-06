@@ -14,7 +14,9 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
+use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Request;
 use Piwik\Request\AuthenticationToken;
 use Piwik\SettingsPiwik;
@@ -38,6 +40,7 @@ class Marketplace extends \Piwik\Plugin
             'Request.dispatch' => 'createPluginTrialNotification',
             'PluginManager.pluginInstalled' => 'removePluginTrialRequest',
             'PluginManager.pluginActivated' => 'removePluginTrialRequest',
+            'UsersManager.deleteUser' => 'anonymizePluginTrialRequests',
             'Widget.filterWidgets' => 'filterWidgets',
         );
     }
@@ -388,6 +391,33 @@ class Marketplace extends \Piwik\Plugin
             StaticContainer::get(PluginTrialService::class)->cancelRequest($pluginName);
         } catch (\Exception $e) {
             // ignore any type of error
+        }
+    }
+
+    public function anonymizePluginTrialRequests(string $userLogin): void
+    {
+        // each step catches its own failure, so one cannot skip the others, nor the UsersManager.deleteUser observers after this one
+        $this->runTrialRequestCleanup(function () use ($userLogin) {
+            StaticContainer::get(RequestHistory::class)->anonymizeLogin($userLogin);
+        });
+        $this->runTrialRequestCleanup(function () use ($userLogin) {
+            foreach (Storage::getPluginsInStorage() as $pluginName) {
+                $this->runTrialRequestCleanup(function () use ($userLogin, $pluginName) {
+                    (new Storage($pluginName))->anonymizeLogin($userLogin);
+                });
+            }
+        });
+    }
+
+    private function runTrialRequestCleanup(callable $cleanup): void
+    {
+        try {
+            $cleanup();
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->error(
+                'Could not anonymise a deleted user in plugin trial requests',
+                ['exception' => $e]
+            );
         }
     }
 

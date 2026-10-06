@@ -10,7 +10,10 @@
 namespace Piwik\Plugins\Marketplace\PluginTrial;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Config\GeneralConfig;
+use Piwik\Container\StaticContainer;
+use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -38,13 +41,31 @@ class Storage
      */
     public function setRequested(string $pluginDisplayName = ''): void
     {
+        $requestTime = time();
+
         $this->storage = [
-            'requestTime' => time(),
+            'requestTime' => $requestTime,
             'displayName' => $pluginDisplayName,
             'dismissed' => [],
             'requestedBy' => Piwik::getCurrentUserLogin(),
         ];
-        $this->saveStorage();
+
+        $this->writeWithHistory(function (RequestHistory $history) use ($requestTime) {
+            // the option first, the same lock order as setFulfilled() and expireIfUnchanged()
+            $this->saveStorage();
+            $history->add($this->pluginName, $this->storage['requestedBy'], $requestTime);
+        });
+    }
+
+    /**
+     * Ends the pending trial request because the plugin was installed or activated
+     */
+    public function setFulfilled(): void
+    {
+        $this->writeWithHistory(function (RequestHistory $history) {
+            $this->clearStorage();
+            $history->markFulfilled($this->pluginName);
+        });
     }
 
     /**
@@ -59,11 +80,43 @@ class Storage
         $expirationTime = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
 
         if ($this->storage['requestTime'] < (time() - $expirationTime * 24 * 3600)) {
-            $this->clearStorage(); // remove outdated request
-            return false;
+            if ($this->expireIfUnchanged()) {
+                return false;
+            }
+
+            return $this->wasRequested(); // the request was replaced since it was loaded
         }
 
         return true;
+    }
+
+    /**
+     * Removes the outdated request, unless another process has already replaced or removed it since it was loaded.
+     */
+    private function expireIfUnchanged(): bool
+    {
+        $loadedRequestTime = (int) $this->storage['requestTime'];
+        $expired = false;
+
+        $this->writeWithHistory(function (RequestHistory $history) use ($loadedRequestTime, &$expired) {
+            // FOR UPDATE holds back a concurrent new request until this one is expired
+            $storedRequest = $this->readStoredForUpdate();
+
+            if ((int) ($storedRequest['requestTime'] ?? 0) !== $loadedRequestTime) {
+                return;
+            }
+
+            $history->markExpired($this->pluginName);
+            $this->clearStorage();
+            $expired = true;
+        });
+
+        if (!$expired) {
+            Option::clearCachedOption($this->optionName);
+            $this->loadStorage();
+        }
+
+        return $expired;
     }
 
     /**
@@ -71,8 +124,16 @@ class Storage
      */
     public function setNotificationDismissed(): void
     {
-        $this->storage['dismissed'][] = Piwik::getCurrentUserLogin();
-        $this->saveStorage();
+        $this->writeWithHistory(function () {
+            $storedRequest = $this->readStoredForUpdate();
+            if (empty($storedRequest)) {
+                return;
+            }
+
+            $storedRequest['dismissed'][] = Piwik::getCurrentUserLogin();
+            $this->storage = $storedRequest;
+            $this->saveStorage();
+        });
     }
 
     /**
@@ -89,6 +150,52 @@ class Storage
     public function isNotificationDismissed(): bool
     {
         return !empty($this->storage['dismissed']) && in_array(Piwik::getCurrentUserLogin(), $this->storage['dismissed']);
+    }
+
+    /**
+     * Removes a deleted user's login from the pending request
+     */
+    public function anonymizeLogin(string $login): void
+    {
+        $this->writeWithHistory(function () use ($login) {
+            $storedRequest = $this->readStoredForUpdate();
+            if (empty($storedRequest)) {
+                return;
+            }
+
+            $dismissed = $storedRequest['dismissed'] ?? [];
+            $remainingDismissed = array_values(array_diff($dismissed, [$login]));
+            $wasRequester = ($storedRequest['requestedBy'] ?? null) === $login;
+
+            if (!$wasRequester && count($remainingDismissed) === count($dismissed)) {
+                return;
+            }
+
+            if ($wasRequester) {
+                $storedRequest['requestedBy'] = null;
+            }
+
+            $storedRequest['dismissed'] = $remainingDismissed;
+            $this->storage = $storedRequest;
+            $this->saveStorage();
+        });
+    }
+
+    /**
+     * Writers re-read the request under lock, so one expired, replaced or anonymised since this object was loaded
+     * is not written back.
+     *
+     * @return array<string, mixed>
+     */
+    private function readStoredForUpdate(): array
+    {
+        $stored = Db::fetchOne(
+            'SELECT option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name = ? FOR UPDATE',
+            [$this->optionName]
+        );
+        $storedRequest = json_decode($stored ?: '[]', true);
+
+        return is_array($storedRequest) ? $storedRequest : [];
     }
 
     /**
@@ -122,6 +229,34 @@ class Storage
     protected function loadStorage(): void
     {
         $this->storage = json_decode(Option::get($this->optionName) ?: '[]', true);
+    }
+
+    /**
+     * Keeps the history in step with the option: an exception from either write rolls back both.
+     */
+    private function writeWithHistory(callable $write): void
+    {
+        $db = Db::get();
+        if (!$db instanceof \Zend_Db_Adapter_Abstract) {
+            throw new Exception('Trial requests can only be written through the regular database connection.');
+        }
+
+        $db->beginTransaction();
+
+        try {
+            $write(StaticContainer::get(RequestHistory::class));
+            $db->commit();
+        } catch (\Throwable $e) {
+            try {
+                $db->rollBack();
+            } catch (\Throwable $rollbackError) {
+                // a dropped connection has already discarded the transaction; report what caused the failure
+            }
+            Option::clearCachedOption($this->optionName);
+            $this->loadStorage();
+
+            throw $e;
+        }
     }
 
     protected function saveStorage(): void

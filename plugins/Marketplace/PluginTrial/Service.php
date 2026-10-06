@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Marketplace\PluginTrial;
 use Exception;
 use Piwik\Config\GeneralConfig;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Session;
 
 final class Service
@@ -63,6 +64,15 @@ final class Service
         }
 
         foreach (Storage::getPluginsInStorage() as $pluginName) {
+            if (Manager::getInstance()->isPluginActivated($pluginName)) {
+                try {
+                    $this->cancelRequest($pluginName);
+                } catch (Exception $e) {
+                    // retried on the next page view, and must not hide the other plugins' notifications
+                }
+                continue;
+            }
+
             $trialRequest = new Notification($pluginName, new Storage($pluginName));
             $trialRequest->createNotificationIfNeeded();
         }

@@ -42,11 +42,25 @@ class Request
 
         $this->storage->setRequested($pluginDisplayName);
 
+        /**
+         * Triggered after the current user has requested a trial of a plugin, so an audit trail can record it.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Marketplace.pluginTrialRequested', function ($pluginName, $pluginDisplayName) {
+         *         $this->logActivity(Piwik::getCurrentUserLogin(), 'requested a trial of ' . $pluginName);
+         *     });
+         *
+         * @param string $pluginName The name of the requested plugin.
+         * @param string $pluginDisplayName The plugin's display name, or an empty string when none was given.
+         */
+        Piwik::postEvent('Marketplace.pluginTrialRequested', [$this->pluginName, $pluginDisplayName]);
+
         $this->sendEmailToSuperUsers();
     }
 
     /**
-     * Cancels a trial request
+     * Ends a pending trial request because the plugin was installed or activated
      */
     public function cancel(): void
     {
@@ -54,7 +68,7 @@ class Request
             return; // not requested
         }
 
-        $this->storage->clearStorage();
+        $this->storage->setFulfilled();
     }
 
 
