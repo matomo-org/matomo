@@ -90,6 +90,15 @@ class AIProviderResponse
     private $legacyWebSearchEnabled;
 
     /**
+     * Cost of the request in USD as billed by the provider, or null when the
+     * provider does not report one (token-billed providers leave pricing to the
+     * caller).
+     *
+     * @var float|null
+     */
+    private $cost;
+
+    /**
      * @param bool $webSearchEnabled Deprecated since 5.14.0; pass a {@link WebSearchUsage} as
      *                               $webSearch instead, which reports what the search actually
      *                               did rather than a bare flag. Still honoured by
@@ -107,7 +116,8 @@ class AIProviderResponse
         bool $webSearchEnabled = false,
         ?int $executionTimeMs = null,
         ?string $stopReason = null,
-        ?WebSearchUsage $webSearch = null
+        ?WebSearchUsage $webSearch = null,
+        ?float $cost = null
     ) {
         $this->providerId = $providerId;
         $this->providerName = $providerName;
@@ -120,6 +130,7 @@ class AIProviderResponse
         $this->stopReason = $stopReason;
         $this->webSearch = $webSearch ?? WebSearchUsage::none();
         $this->legacyWebSearchEnabled = $webSearchEnabled;
+        $this->cost = $cost;
     }
 
     public function getText(): string
@@ -210,6 +221,11 @@ class AIProviderResponse
         return $this->stopReason;
     }
 
+    public function getCost(): ?float
+    {
+        return $this->cost;
+    }
+
     /**
      * Returns the response text decoded as a JSON array/object, or null when the
      * text is not valid JSON. Intended for requests made with
@@ -255,6 +271,7 @@ class AIProviderResponse
             'webSearchCitations' => $this->webSearch->getCitations(),
             'executionTimeMs' => $this->executionTimeMs,
             'stopReason' => $this->stopReason,
+            'cost' => $this->cost,
         ];
     }
 }

@@ -50,6 +50,7 @@
         "PluginDescription": "Configure AI provider connections and default model settings used by Matomo AI features.",
         "RefreshModels": "Refresh models",
         "RequestFailed": "AI provider request failed: %s",
+        "SaveSettings": "Save settings",
         "SettingsSaveSuccess": "AI provider settings saved.",
         "StatusConnected": "API key saved",
         "StatusNotConnected": "Not connected",

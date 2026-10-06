@@ -132,6 +132,7 @@ class AIProviders extends Plugin
         $translations[] = 'AIProviders_OpenAIDefaultModelDescription';
         $translations[] = 'AIProviders_RefreshModels';
         $translations[] = 'AIProviders_RequestFailed';
+        $translations[] = 'AIProviders_SaveSettings';
         $translations[] = 'AIProviders_SettingsSaveSuccess';
         $translations[] = 'AIProviders_StatusConnected';
         $translations[] = 'AIProviders_StatusNotConnected';
