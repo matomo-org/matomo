@@ -212,7 +212,7 @@ class AIProviderService
      * What a unit is (credits, checks, ...) is up to the listener that limits
      * the feature.
      *
-     * @param string $featureKey The feature key the requests will use, for example `'AIBrandInsights.promptQuery'`.
+     * @param string $featureKey The feature key the requests will use, for example `'MyPlugin.promptQuery'`.
      */
     public function getRemainingBudget(string $featureKey): ?int
     {
@@ -236,7 +236,7 @@ class AIProviderService
          *         }
          *     }
          *
-         * @param string $featureKey The feature key, for example `'AIBrandInsights.promptQuery'`.
+         * @param string $featureKey The feature key, for example `'MyPlugin.promptQuery'`.
          * @param int|null &$budget  Remaining units, null for unlimited.
          */
         Piwik::postEvent('AIProviders.getRemainingBudget', [$featureKey, &$budget]);
@@ -250,7 +250,7 @@ class AIProviderService
      * {@link AIRequestDecision::isAllowed()} and show
      * {@link AIRequestDecision::getMessage()} when it is denied.
      *
-     * @param string               $featureKey The action, for example `'AIBrandInsights.addPrompt'`.
+     * @param string               $featureKey The action, for example `'MyPlugin.addPrompt'`.
      * @param array<string, mixed> $payload    Facts listeners need, for example `['currentCount' => 3]`.
      */
     public function checkFeatureAllowed(string $featureKey, array $payload = []): AIRequestDecision
@@ -267,12 +267,12 @@ class AIProviderService
          *
          *     public function decideAiFeature(string $featureKey, array $payload, AIRequestDecision $decision): void
          *     {
-         *         if ($featureKey === 'AIBrandInsights.addPrompt' && $payload['currentCount'] >= $this->getPromptLimit()) {
+         *         if ($featureKey === 'MyPlugin.addPrompt' && $payload['currentCount'] >= $this->getPromptLimit()) {
          *             $decision->deny('limit_reached', Piwik::translate('MyPlugin_PromptLimitReached'));
          *         }
          *     }
          *
-         * @param string               $featureKey The action, for example `'AIBrandInsights.addPrompt'`.
+         * @param string               $featureKey The action, for example `'MyPlugin.addPrompt'`.
          * @param array<string, mixed> $payload    Facts sent by the caller, for example `['currentCount' => 3]`.
          * @param AIRequestDecision    $decision   Starts as allowed; call `deny()` to refuse.
          */

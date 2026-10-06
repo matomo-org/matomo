@@ -88,7 +88,7 @@ class UsageEventsTest extends IntegrationTestCase
         // Allowlisted, so the requested model is kept although the provider is forced.
         Config::getInstance()->AIProviders = [
             'defaultProvider' => EventsTestProvider::ID,
-            'providerSelectionAllowlist' => ['AIBrandInsights'],
+            'providerSelectionAllowlist' => ['MyPlugin'],
         ];
 
         $this->provider->response = new AIProviderResponse(
@@ -110,8 +110,8 @@ class UsageEventsTest extends IntegrationTestCase
         );
 
         $this->service()->complete(
-            (new AIRequest('Prompt', 'AIBrandInsights'))
-                ->withFeatureKey('AIBrandInsights.promptQuery')
+            (new AIRequest('Prompt', 'MyPlugin'))
+                ->withFeatureKey('MyPlugin.promptQuery')
                 ->withIdSite(3)
                 ->withUsageReference('query-42')
                 ->withMeta(['source' => 'scheduled'])
@@ -130,8 +130,8 @@ class UsageEventsTest extends IntegrationTestCase
         $this->assertFalse($context->isProbe());
         $this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $context->getRequestId());
         $this->assertSame(AIRequestContext::TYPE_COMPLETE, $context->getRequestType());
-        $this->assertSame('AIBrandInsights.promptQuery', $context->getFeatureKey());
-        $this->assertSame('AIBrandInsights', $context->getCallerPluginName());
+        $this->assertSame('MyPlugin.promptQuery', $context->getFeatureKey());
+        $this->assertSame('MyPlugin', $context->getCallerPluginName());
         $this->assertSame(3, $context->getIdSite());
         $this->assertSame('query-42', $context->getUsageReference());
         $this->assertSame(EventsTestProvider::ID, $context->getProviderId());
@@ -359,7 +359,7 @@ class UsageEventsTest extends IntegrationTestCase
 
     public function testRemainingBudgetIsUnlimitedWithoutListenersAndTheStrictestOtherwise(): void
     {
-        $this->assertNull($this->service()->getRemainingBudget('AIBrandInsights.promptQuery'));
+        $this->assertNull($this->service()->getRemainingBudget('MyPlugin.promptQuery'));
 
         foreach ([40, 12] as $remaining) {
             Piwik::addAction('AIProviders.getRemainingBudget', function (string $featureKey, ?int &$budget) use ($remaining): void {
@@ -369,23 +369,23 @@ class UsageEventsTest extends IntegrationTestCase
             });
         }
 
-        $this->assertSame(12, $this->service()->getRemainingBudget('AIBrandInsights.promptQuery'));
+        $this->assertSame(12, $this->service()->getRemainingBudget('MyPlugin.promptQuery'));
     }
 
     public function testCheckFeatureAllowedPassesThePayloadAndReturnsTheDecision(): void
     {
-        $this->assertTrue($this->service()->checkFeatureAllowed('AIBrandInsights.addPrompt')->isAllowed());
+        $this->assertTrue($this->service()->checkFeatureAllowed('MyPlugin.addPrompt')->isAllowed());
 
         Piwik::addAction(
             'AIProviders.checkFeatureAllowed',
             function (string $featureKey, array $payload, AIRequestDecision $decision): void {
-                if ($featureKey === 'AIBrandInsights.addPrompt' && $payload['currentCount'] >= 1) {
+                if ($featureKey === 'MyPlugin.addPrompt' && $payload['currentCount'] >= 1) {
                     $decision->deny('limit_reached', 'Prompt limit reached.');
                 }
             }
         );
 
-        $decision = $this->service()->checkFeatureAllowed('AIBrandInsights.addPrompt', ['currentCount' => 1]);
+        $decision = $this->service()->checkFeatureAllowed('MyPlugin.addPrompt', ['currentCount' => 1]);
 
         $this->assertFalse($decision->isAllowed());
         $this->assertSame('Prompt limit reached.', $decision->getMessage());
