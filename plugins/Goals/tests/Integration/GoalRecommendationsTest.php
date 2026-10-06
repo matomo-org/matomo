@@ -135,7 +135,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $features = StaticContainer::get(AIProcessingSettings::class)->getFeaturesByCategory();
 
         $this->assertSame(
-            [Piwik::translate('Goals_RecommendedGoals')],
+            [Piwik::translate('Goals_GoalRecommendation')],
             array_column($features[AIProcessingSettings::CATEGORY_NON_ANALYTICS], 'name')
         );
     }

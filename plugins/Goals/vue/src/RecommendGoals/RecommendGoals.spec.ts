@@ -28,6 +28,8 @@ vi.mock('CoreHome', () => ({
 
 // eslint-disable-next-line import/first
 import RecommendGoals from './RecommendGoals.vue';
+// eslint-disable-next-line import/first
+import RecommendGoalCard from './RecommendGoalCard.vue';
 
 async function flush() {
   await new Promise((resolve) => { setTimeout(resolve, 0); });
@@ -83,13 +85,16 @@ describe('RecommendGoals AI availability', () => {
 
   it('links a superuser to the AI processing settings when AI processing is not allowed', async () => {
     mockMatomo.hasSuperUserAccess = true;
+    window.history.replaceState(null, '', '/index.php?module=Goals&action=manage&idSite=1#?period=day');
     const w = await mountWith('notPermitted');
     mockMatomo.hasSuperUserAccess = false;
+    window.history.replaceState(null, '', '/');
 
     expect(w.find('.recommendGoals-aiSwitch').exists()).toBe(false);
     expect(w.find('.recommendGoals-chip--aiUnavailable').exists()).toBe(false);
     expect(w.find('.recommendGoals-aiProcessingLink').attributes('href'))
-      .toBe('?idSite=1&module=AIProviders&action=aiProcessing');
+      .toBe(`?idSite=1&module=AIProviders&action=aiProcessing&returnTo=${
+        encodeURIComponent('index.php?module=Goals&action=manage&idSite=1#?period=day')}`);
   });
 
   it('shows nothing to other users when AI processing is not allowed', async () => {
@@ -159,5 +164,88 @@ describe('RecommendGoals scan warnings', () => {
     const w = await mountWithWarnings([]);
 
     expect(w.find('.recommendGoals-notice').exists()).toBe(false);
+  });
+});
+
+describe('RecommendGoals empty and completed states', () => {
+  const contactGoal = {
+    id: 'url:contact', name: 'Visited contact page', matchAttribute: 'url', pattern: '/contact', patternType: 'contains', reason: '', source: 'rule',
+  };
+
+  async function mountWithGoal(goals: Record<string, unknown> = {}) {
+    mockFetch.mockResolvedValue({
+      mode: 'deterministic',
+      goals: [contactGoal],
+      manualGoals: [{ name: 'Submitted a form', howTo: 'Send an event', category: 'form' }],
+      useAi: false,
+      generatedAt: 1700000000,
+      aiAvailability: 'disabled',
+    });
+    const wrapper = mount(RecommendGoals, {
+      props: { userCanEditGoals: true, goals },
+      global: { stubs: { RecommendGoalCard: true } },
+    });
+    await flush();
+    return wrapper;
+  }
+
+  it('replaces the cards with a confirmation once every suggestion is a goal', async () => {
+    const w = await mountWithGoal({ 1: { match_attribute: 'url', pattern: '/contact' } });
+
+    expect(w.find('.recommendGoals-notice--success').text()).toContain('Goals_RecommendAllCreated');
+    expect(w.find('.recommendGoals-list').exists()).toBe(false);
+    expect(w.find('.recommendGoals-manual').exists()).toBe(true);
+  });
+
+  it('collapses the whole section when the last suggestion is dismissed', async () => {
+    const w = await mountWithGoal();
+    mockFetch.mockClear();
+    mockFetch.mockResolvedValue({});
+
+    w.findComponent(RecommendGoalCard).vm.$emit('dismiss');
+    await flush();
+
+    expect(mockFetch).toHaveBeenCalledWith({ method: 'Goals.dismissRecommendedGoals', idSite: 1 });
+    expect(w.find('.recommendGoals-list').exists()).toBe(false);
+    expect(w.find('.recommendGoals-manual').exists()).toBe(false);
+    expect(w.find('.recommendGoals-run').text()).toBe('Goals_RecommendGoals');
+  });
+});
+
+describe('RecommendGoalCard', () => {
+  it('shows the reason with the crawl facts on its info icon and the setup steps in the details', () => {
+    const w = mount(RecommendGoalCard, {
+      props: {
+        rec: {
+          name: 'Submitted the contact form',
+          matchAttribute: 'event_action',
+          pattern: 'contact_submit',
+          patternType: 'exact',
+          reason: 'Contact form on every page.',
+          source: 'rule',
+          implementationNote: 'Send the event on submit.',
+          evidence: ['Seen on 4 pages.'],
+        },
+      },
+    });
+
+    expect(w.find('.recommendGoals-reasonText').text()).toBe('Contact form on every page.');
+    expect(w.find('.recommendGoals-reasonIcon').attributes('title'))
+      .toBe('Goals_RecommendWhySuggested\nSeen on 4 pages.');
+    expect(w.find('.recommendGoals-evidence summary').text()).toBe('Goals_RecommendManualHowTo');
+    expect(w.find('.recommendGoals-evidenceNote').text()).toBe('Send the event on submit.');
+  });
+
+  it('has no expandable section when the goal needs no setup', () => {
+    const w = mount(RecommendGoalCard, {
+      props: {
+        rec: {
+          name: 'Visited pricing page', matchAttribute: 'url', pattern: '/pricing', patternType: 'contains', reason: 'Pricing is linked from the menu.', source: 'rule', evidence: ['Linked 12 times across 6 pages.'],
+        },
+      },
+    });
+
+    expect(w.find('.recommendGoals-cardReason').exists()).toBe(true);
+    expect(w.find('.recommendGoals-evidence').exists()).toBe(false);
   });
 });

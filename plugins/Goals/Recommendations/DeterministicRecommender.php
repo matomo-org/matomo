@@ -49,6 +49,12 @@ class DeterministicRecommender
     /** Distinct files of one extension needed before an aggregated download goal is offered. */
     private const MIN_FILES_FOR_AGGREGATE = 2;
 
+    /** Distinct values of one path segment that make it a catalogue item, as in /{plugin}/changelog. */
+    private const MIN_TEMPLATE_ITEMS = 5;
+
+    /** Link labels shared by this many catalogue items are listing labels ("Learn more"). */
+    private const MIN_LISTING_LABEL_ITEMS = 3;
+
     /** A form seen on this share of crawled pages (min 3) is site wide, not a page's own form. */
     private const SITE_WIDE_FORM_SHARE = 0.3;
 
@@ -396,12 +402,15 @@ class DeterministicRecommender
         $this->boosts = $this->siteTypeBoosts($pages);
         $pagesCrawled = max(1, (int) ($analysis['pagesCrawled'] ?? count($pages)));
         $siteDomain = $this->registrableDomain((string) parse_url((string) ($analysis['url'] ?? ''), PHP_URL_HOST));
+        $templates = $this->pathTemplates($links);
 
         $candidates = array_merge(
             $this->platformCandidates((string) ($analysis['platform'] ?? '')),
-            $this->pathCandidates($links, $pagesCrawled),
+            $this->pathCandidates($links, $pagesCrawled, $templates),
+            $this->templateCandidates($templates, $pagesCrawled),
             $this->formCandidates($analysis['forms'] ?? [], $pagesCrawled),
             $this->outlinkCandidates($analysis['externalLinks'] ?? [], $siteDomain, $pagesCrawled),
+            $this->internalHostCandidates($analysis['internalHostLinks'] ?? [], $siteDomain, $pagesCrawled),
             $this->shopCandidates($links, $pages, (string) ($analysis['platform'] ?? '')),
             $this->downloadCandidates($analysis['downloads'] ?? [], $siteDomain)
         );
@@ -488,7 +497,7 @@ class DeterministicRecommender
                 'category' => $candidate['category'],
                 'matchAttribute' => $candidate['matchAttribute'],
                 'pattern' => $candidate['pattern'],
-                'label' => (string) ($candidate['label'] ?: ($candidate['evidence'][1] ?? '')),
+                'label' => (string) $candidate['label'],
                 'confidence' => round((float) $candidate['confidence'], 2),
                 'prominence' => round((float) $candidate['prominence'], 2),
                 'score' => round($this->score($candidate), 1),
@@ -564,9 +573,10 @@ class DeterministicRecommender
      * Same-origin paths classified by whole path tokens, link labels as supporting evidence.
      *
      * @param array<int, array<string, mixed>> $links
+     * @param array<string, array<string, mixed>> $templates see pathTemplates()
      * @return array<int, array<string, mixed>>
      */
-    private function pathCandidates(array $links, int $pagesCrawled): array
+    private function pathCandidates(array $links, int $pagesCrawled, array $templates): array
     {
         $candidates = [];
         foreach ($links as $link) {
@@ -574,6 +584,19 @@ class DeterministicRecommender
             $segments = $this->pathSegments($path);
             if (empty($segments) || $this->isFilePath($segments)) {
                 continue;
+            }
+            $family = $this->pathSegments($this->pathFamily($path));
+            $item = $this->catalogueItem($family, $link, $templates);
+            if ($item !== null) {
+                // members of a conversion template are covered by its regex goal
+                if (($family[$item['index'] + 1] ?? null) === $item['template']['next'] && $this->categoryForToken($item['template']['next']) !== null) {
+                    continue;
+                }
+                // an item name ("Signup" plugin) says nothing about the page, its sub-pages (/sl/tarife) still do
+                array_splice($segments, $item['index'] + count($segments) - count($family), 1);
+                if (empty($segments)) {
+                    continue;
+                }
             }
             $excluded = $this->isExcludedPath($segments);
 
@@ -596,13 +619,7 @@ class DeterministicRecommender
 
             $label = $this->pageLabel($link, $path);
             $exact = $this->isExactCategoryPage($path, self::CATEGORIES[$bestCategory]['tokens']);
-            $evidence = [Piwik::translate('Goals_RecommendationEvidenceLinkSightings', [
-                (string) ($link['occurrenceCount'] ?? 1),
-                (string) ($link['pageCount'] ?? 1),
-            ])];
-            if ($label !== '') {
-                $evidence[] = $label;
-            }
+            $evidence = [$this->linkedEvidence((int) ($link['occurrenceCount'] ?? 1), (int) ($link['pageCount'] ?? 1))];
 
             // /pricing is a better pricing page than /support-plans
             $candidates[] = $this->candidate(
@@ -614,6 +631,147 @@ class DeterministicRecommender
                 'rule',
                 $evidence,
                 ['label' => $exact ? '' : $label, 'exampleUrls' => array_slice($link['exampleUrls'] ?? [], 0, 3)]
+            );
+        }
+
+        return $candidates;
+    }
+
+    /**
+     * Path shapes with one varying segment followed by a fixed one, like /{plugin}/changelog.
+     * The varying segment names catalogue items (products, plugins), never a page purpose.
+     *
+     * @param array<int, array<string, mixed>> $links
+     * @return array<string, array{prefix: string[], next: string, items: array<string, true>, listingLabels: array<string, true>, pageCount: int, examples: string[]}>
+     */
+    private function pathTemplates(array $links): array
+    {
+        $templates = [];
+        $labelsByPath = [];
+        foreach ($links as $link) {
+            $path = (string) ($link['linkTarget'] ?? '');
+            // without the language prefix, /en/visit and /nl/visit would be catalogue items
+            $segments = $this->pathSegments($this->pathFamily($path));
+            $labelsByPath[implode('/', $segments)] = $this->labels($link);
+            for ($i = 0; $i < count($segments) - 1; $i++) {
+                $key = implode('/', array_slice($segments, 0, $i)) . '/*/' . $segments[$i + 1];
+                $templates[$key]['prefix'] = array_slice($segments, 0, $i);
+                $templates[$key]['next'] = $segments[$i + 1];
+                $templates[$key]['items'][$segments[$i]] = true;
+                $templates[$key]['pageCount'] = max($templates[$key]['pageCount'] ?? 0, (int) ($link['pageCount'] ?? 1));
+                $templates[$key]['examples'][] = $path;
+            }
+        }
+
+        $templates = array_filter($templates, function (array $template): bool {
+            return count($template['items']) >= self::MIN_TEMPLATE_ITEMS;
+        });
+
+        foreach ($templates as $key => $template) {
+            // labels the item pages share in listings ("Learn more") mark further items of the catalogue
+            $counts = [];
+            foreach (array_keys($template['items']) as $item) {
+                $itemPath = implode('/', array_merge($template['prefix'], [(string) $item]));
+                foreach (array_unique($labelsByPath[$itemPath] ?? []) as $label) {
+                    $counts[$label] = ($counts[$label] ?? 0) + 1;
+                }
+            }
+            $templates[$key]['listingLabels'] = array_fill_keys(array_keys(array_filter($counts, function (int $count): bool {
+                return $count >= self::MIN_LISTING_LABEL_ITEMS;
+            })), true);
+        }
+
+        return $templates;
+    }
+
+    /**
+     * The catalogue item segment of a path, also for a listing link next to the known items.
+     *
+     * @param string[] $segments
+     * @param array<string, mixed> $link
+     * @param array<string, array<string, mixed>> $templates see pathTemplates()
+     * @return array{index: int, template: array<string, mixed>}|null
+     */
+    private function catalogueItem(array $segments, array $link, array $templates): ?array
+    {
+        foreach ($templates as $template) {
+            $depth = count($template['prefix']);
+            if (count($segments) <= $depth || array_slice($segments, 0, $depth) !== $template['prefix']) {
+                continue;
+            }
+            if (
+                isset($template['items'][$segments[$depth]])
+                || (count($segments) === $depth + 1 && $this->isListingEntry($segments[$depth], $link, $template['listingLabels']))
+            ) {
+                return ['index' => $depth, 'template' => $template];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * A link labelled only with its own name and listing labels ("Signup", "Learn more"),
+     * unlike a menu entry that also carries its own wording ("Offers", "Shop now", "View all").
+     *
+     * @param array<string, mixed> $link
+     * @param array<string, true> $listingLabels
+     */
+    private function isListingEntry(string $segment, array $link, array $listingLabels): bool
+    {
+        $name = (string) preg_replace('/[^a-z0-9]/', '', $segment);
+        $hasListingLabel = false;
+        foreach ($this->labels($link) as $label) {
+            $normalized = (string) preg_replace('/[^a-z0-9]/', '', strtolower($label));
+            if ($normalized === '' || $normalized === $name) {
+                continue;
+            }
+            if (!isset($listingLabels[$label])) {
+                return false;
+            }
+            $hasListingLabel = true;
+        }
+
+        return $hasListingLabel;
+    }
+
+    /**
+     * One regex goal per catalogue shape whose fixed segment names a conversion,
+     * like /api/2.0/plugins/{plugin}/download.
+     *
+     * @param array<string, array<string, mixed>> $templates see pathTemplates()
+     * @return array<int, array<string, mixed>>
+     */
+    private function templateCandidates(array $templates, int $pagesCrawled): array
+    {
+        $candidates = [];
+        foreach ($templates as $template) {
+            $category = $this->categoryForToken($template['next']);
+            if ($category === null) {
+                continue;
+            }
+            $prefix = '/' . implode('/', array_merge($template['prefix'], ['']));
+            $pattern = preg_quote($prefix) . '[^/]+/' . preg_quote($template['next']) . '([/?#]|$)';
+            $count = count($template['items']);
+            $extra = ['exampleUrls' => array_slice(array_values(array_unique($template['examples'])), 0, 3), 'patternType' => 'regex'];
+            if ($category === 'download') {
+                // extensionless download links are internal links to the JS tracker until classed as downloads
+                $extra += [
+                    'name' => Piwik::translate('Goals_RecommendManualDownloadName'),
+                    'needsSetup' => true,
+                    'allowMultiple' => true,
+                    'implementationNote' => Piwik::translate('Goals_RecommendationDownloadClassSetupNote'),
+                ];
+            }
+            $candidates[] = $this->candidate(
+                $category,
+                $category === 'download' ? 'file' : 'url',
+                $pattern,
+                min(1.0, 0.5 + $count * 0.02),
+                min(1.0, $template['pageCount'] / $pagesCrawled) * 0.4 + min(0.3, $count / 50),
+                'rule-template',
+                [Piwik::translate('Goals_RecommendationEvidenceTemplatePaths', [(string) $count, $prefix . '…/' . $template['next']])],
+                $extra
             );
         }
 
@@ -660,14 +818,10 @@ class DeterministicRecommender
             $definition = self::CATEGORIES[$category];
             $pageCount = count($pagePaths);
             $isSiteWide = $pageCount >= max(3, (int) ceil($pagesCrawled * self::SITE_WIDE_FORM_SHARE));
-            $evidence = [Piwik::translate('Goals_RecommendationEvidenceFormFields', [
+            $evidence = [Piwik::translate('Goals_RecommendationEvidenceFormFieldsOn', [
                 implode(', ', array_unique($group['fieldTypes'])),
-                (string) $pageCount,
+                $this->countText($pageCount, 'Goals_RecommendationCountOnePage', 'Goals_RecommendationCountPages'),
             ])];
-            $label = trim((string) ($group['labels'][0] ?? ''));
-            if ($label !== '') {
-                $evidence[] = $label;
-            }
             $prominence = min(1.0, $pageCount / $pagesCrawled) * 0.5 + 0.25;
 
             $ownPage = !$isSiteWide ? $this->formPage($pagePaths, $definition['tokens']) : null;
@@ -776,17 +930,25 @@ class DeterministicRecommender
                 continue;
             }
             $platformCategory = null;
+            $platformPaths = [];
             foreach ($hrefs as $href) {
-                $platformCategory = $this->categoryForConversionHost($host . rtrim((string) parse_url($href, PHP_URL_PATH), '/'));
-                if ($platformCategory !== null) {
-                    break;
+                $path = rtrim((string) parse_url($href, PHP_URL_PATH), '/');
+                $hrefCategory = $this->categoryForConversionHost($host . $path);
+                if ($hrefCategory !== null) {
+                    $platformCategory = $platformCategory ?? $hrefCategory;
+                    $platformPaths[] = $path;
                 }
             }
-            if ($platformCategory === null && $this->isGenericHost($host)) {
+            // big platforms are linked as references too (a plugin mentioned in one article)
+            if ($this->isGenericHost($host) && ($platformCategory === null || count($link['sourcePages'] ?? []) < 2)) {
                 continue;
             }
             $labels = array_values(array_filter(array_map('strval', $link['labels'] ?? [])));
             $pattern = $host;
+            if ($platformCategory !== null && $this->categoryForConversionHost($host) === null) {
+                // wordpress.org/plugins/example, not every click to wordpress.org
+                $pattern = $host . $this->commonPathPrefix($platformPaths);
+            }
             $category = null;
             $confidence = 0.0;
             $isSibling = $siteDomain !== '' && $this->registrableDomain($host) === $siteDomain;
@@ -834,10 +996,18 @@ class DeterministicRecommender
             }
 
             $pageCount = count($link['sourcePages'] ?? []);
-            $candidates[] = $this->candidate($category, 'external_website', $pattern, $confidence, min(1.0, $pageCount / $pagesCrawled) * 0.5 + (count($labels) > 0 ? 0.25 : 0), 'rule-external-link', array_filter([
-                Piwik::translate('Goals_RecommendationEvidenceExternalLinks', [(string) ($link['count'] ?? 1), (string) $pageCount]),
-                $labels[0] ?? '',
-            ]), [
+            // footer only links (sister sites, legal) repeat on every page without being a call to action
+            $isFooterOnly = ($link['areas'] ?? []) === ['footer'];
+            if ($isFooterOnly) {
+                $confidence -= 0.3;
+            }
+            $prominence = ($isFooterOnly ? 0 : min(1.0, $pageCount / $pagesCrawled) * 0.5) + (count($labels) > 0 ? 0.25 : 0);
+            $candidates[] = $this->candidate($category, 'external_website', $pattern, $confidence, $prominence, 'rule-external-link', [
+                Piwik::translate('Goals_RecommendationEvidenceOnPages', [
+                    $this->countText((int) ($link['count'] ?? 1), 'Goals_RecommendationCountOneExternalLink', 'Goals_RecommendationCountExternalLinks'),
+                    $this->countText($pageCount, 'Goals_RecommendationCountOnePage', 'Goals_RecommendationCountPages'),
+                ]),
+            ], [
                 'host' => $host,
                 'allowMultiple' => true,
                 'reasonKey' => $this->outlinkReasonKey($category, $isSibling),
@@ -847,6 +1017,71 @@ class DeterministicRecommender
         }
 
         return $candidates;
+    }
+
+    /**
+     * Links to the site's other hosts (setDomains, site URLs) are no outlinks to the
+     * tracker but pageviews of this site, so they become URL goals on host and path:
+     * by host like an outlink (shop.example.com), by path like a page (/free-trial).
+     *
+     * @param array<int, array<string, mixed>> $internalHostLinks one entry per URL
+     * @return array<int, array<string, mixed>>
+     */
+    private function internalHostCandidates(array $internalHostLinks, string $siteDomain, int $pagesCrawled): array
+    {
+        $hosts = [];
+        $pathLinks = [];
+        foreach ($internalHostLinks as $link) {
+            $host = strtolower((string) ($link['host'] ?? ''));
+            $href = (string) ($link['href'] ?? '');
+            if ($host === '' || $href === '') {
+                continue;
+            }
+            $hosts[$host] = $hosts[$host] ?? ['host' => $host, 'href' => $href, 'labels' => [], 'examples' => [], 'sourcePages' => [], 'areas' => [], 'count' => 0];
+            $hosts[$host]['labels'] = array_slice(array_values(array_unique(array_merge($hosts[$host]['labels'], $link['labels'] ?? []))), 0, 4);
+            $hosts[$host]['examples'] = array_slice(array_values(array_unique(array_merge($hosts[$host]['examples'], [$href]))), 0, 4);
+            $hosts[$host]['sourcePages'] = array_values(array_unique(array_merge($hosts[$host]['sourcePages'], $link['sourcePages'] ?? [])));
+            $hosts[$host]['areas'] = array_values(array_unique(array_merge($hosts[$host]['areas'], $link['areas'] ?? [])));
+            $hosts[$host]['count'] += (int) ($link['count'] ?? 1);
+            $pathLinks[$host][] = [
+                'linkTarget' => (string) parse_url($href, PHP_URL_PATH),
+                'labelSamples' => $link['labels'] ?? [],
+                'pageCount' => count($link['sourcePages'] ?? []),
+                'occurrenceCount' => (int) ($link['count'] ?? 1),
+                'areas' => $link['areas'] ?? [],
+                'exampleUrls' => [$href],
+            ];
+        }
+
+        $candidates = [];
+        foreach ($this->outlinkCandidates(array_values($hosts), $siteDomain, $pagesCrawled) as $candidate) {
+            $host = $hosts[$candidate['host']] ?? ['count' => 1, 'sourcePages' => []];
+            $candidates[] = $this->asPageCandidate($candidate, (string) $candidate['pattern']) + [
+                'name' => Piwik::translate('Goals_RecommendationKeyPageName', [$candidate['pattern']]),
+            ];
+            $candidates[count($candidates) - 1]['evidence'][0] = $this->linkedEvidence((int) $host['count'], count($host['sourcePages']));
+        }
+        foreach ($pathLinks as $host => $links) {
+            foreach ($this->pathCandidates($links, $pagesCrawled, []) as $candidate) {
+                $candidates[] = $this->asPageCandidate($candidate, $host . rtrim((string) $candidate['pattern'], '/'));
+            }
+        }
+
+        return $candidates;
+    }
+
+    /**
+     * @param array<string, mixed> $candidate
+     * @return array<string, mixed>
+     */
+    private function asPageCandidate(array $candidate, string $pattern): array
+    {
+        return array_merge($candidate, [
+            'matchAttribute' => 'url',
+            'pattern' => $pattern,
+            'allowMultiple' => false,
+            'implementationNote' => '',
+        ]);
     }
 
     /**
@@ -1019,7 +1254,10 @@ class DeterministicRecommender
         }
 
         return [$this->candidate('download', 'file', $basename, 0.6, 0.3, 'rule-download', [
-            Piwik::translate('Goals_RecommendationEvidenceDownloadSightings', [(string) ($file['count'] ?? 1), (string) count($file['sourcePages'] ?? [])]),
+            Piwik::translate('Goals_RecommendationEvidenceOnPages', [
+                $this->countText((int) ($file['count'] ?? 1), 'Goals_RecommendationCountOneDownloadLink', 'Goals_RecommendationCountDownloadLinks'),
+                $this->countText(count($file['sourcePages'] ?? []), 'Goals_RecommendationCountOnePage', 'Goals_RecommendationCountPages'),
+            ]),
         ], [
             'name' => Piwik::translate('Goals_RecommendationDownloadFileName', [$this->titleFromText($labelText ?: $basename)]),
             'allowMultiple' => true,
@@ -1207,6 +1445,30 @@ class DeterministicRecommender
     /**
      * @param string $hostPath host plus path, e.g. "www.paypal.com/donate/campaign"
      */
+    /**
+     * Longest shared run of leading path segments, "/plugins" for "/plugins/a" and "/plugins/b".
+     *
+     * @param string[] $paths
+     */
+    private function commonPathPrefix(array $paths): string
+    {
+        $common = null;
+        foreach ($paths as $path) {
+            $segments = $this->pathSegments($path);
+            if ($common === null) {
+                $common = $segments;
+                continue;
+            }
+            $length = 0;
+            while (isset($common[$length], $segments[$length]) && $common[$length] === $segments[$length]) {
+                ++$length;
+            }
+            $common = array_slice($common, 0, $length);
+        }
+
+        return empty($common) ? '' : '/' . implode('/', $common);
+    }
+
     private function categoryForConversionHost(string $hostPath): ?string
     {
         $hostPath = (string) preg_replace('/^www\./', '', $hostPath);
@@ -1431,6 +1693,20 @@ class DeterministicRecommender
         return function_exists('mb_substr') ? mb_substr($value, 0, $maxLength) : substr($value, 0, $maxLength);
     }
 
+    /** Translations have no plural forms, so each count picks its singular or plural key. */
+    private function countText(int $count, string $singularKey, string $pluralKey): string
+    {
+        return $count === 1 ? Piwik::translate($singularKey) : Piwik::translate($pluralKey, [(string) $count]);
+    }
+
+    private function linkedEvidence(int $occurrences, int $pages): string
+    {
+        return Piwik::translate('Goals_RecommendationEvidenceLinkedOn', [
+            $this->countText($occurrences, 'Goals_RecommendationCountOnce', 'Goals_RecommendationCountTimes'),
+            $this->countText($pages, 'Goals_RecommendationCountOnePage', 'Goals_RecommendationCountPages'),
+        ]);
+    }
+
     /** Ellipsis marks the cut, so a shortened host does not read as a different domain. */
     private function truncateName(string $name): string
     {
@@ -1508,7 +1784,7 @@ class DeterministicRecommender
             'category' => $candidate['category'],
             'matchAttribute' => $matchAttribute,
             'pattern' => (string) $candidate['pattern'],
-            'patternType' => 'contains',
+            'patternType' => (string) ($candidate['patternType'] ?? 'contains'),
             'caseSensitive' => false,
             'allowMultipleConversionsPerVisit' => !empty($candidate['allowMultiple']) || $isRepeatable,
             'revenue' => 0,

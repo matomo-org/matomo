@@ -65,6 +65,89 @@ ul.ulGoalTopElements img {
         white-space: nowrap;
         width: 170px;
     }
+
+    // the callout sits in the title row, so it cannot push the table down
+    .card {
+        position: relative;
+    }
+
+    // points to the recommendation section that a long goals table pushes out of view;
+    // same tint as the recommendation scan notices
+    .manageGoals-recommendCallout {
+        align-items: center;
+        background: fade(@color-blue-matomo, 8%);
+        border: 1px solid fade(@color-blue-matomo, 50%);
+        border-radius: 3px;
+        color: @theme-color-text;
+        display: flex;
+        font-size: 13px;
+        gap: 10px;
+        // 40px box at 12px is centred in the 65px title row above the table
+        box-sizing: border-box;
+        height: 40px;
+        padding: 0 4px 0 12px;
+        position: absolute;
+        right: 16px;
+        top: 12px;
+
+        > .icon-info {
+            color: @color-blue-matomo;
+            font-size: 15px;
+        }
+
+        strong {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+    }
+
+    // link look, a full button outweighs the one-line callout
+    .manageGoals-recommendCalloutLink {
+        background: none;
+        border: 0;
+        border-radius: 2px;
+        color: @theme-color-link;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 0;
+        white-space: nowrap;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 2px;
+        }
+    }
+
+    .manageGoals-recommendCalloutClose {
+        background: transparent;
+        border: 0;
+        border-radius: 3px;
+        color: @theme-color-text-lighter;
+        cursor: pointer;
+        height: 32px;
+        width: 32px;
+
+        &:hover {
+            color: @theme-color-text;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 1px;
+        }
+    }
+
+    // no room beside the title on phones, so it flows above the table instead
+    @media (max-width: 640px) {
+        .manageGoals-recommendCallout {
+            margin: 0 0 16px;
+            position: static;
+        }
+    }
 }
 
 #content .recommendGoals {
@@ -224,12 +307,15 @@ ul.ulGoalTopElements img {
 
     .recommendGoals-cardIcon {
         align-items: center;
-        background: @theme-color-background-tinyContrast;
+        // light brand tint; literal #00b4be because Less colour functions need a real colour
+        background: fade(#00b4be, 12%);
         border-radius: 6px;
-        color: @theme-color-text-lighter;
+        // darkened for 3:1 non-text contrast on the tint
+        color: darken(#00b4be, 12%);
         display: flex;
-        font-size: 20px;
+        font-size: 18px;
         height: 40px;
+
         justify-content: center;
         width: 40px;
     }
@@ -259,12 +345,11 @@ ul.ulGoalTopElements img {
         pointer-events: none;
     }
 
+    // informational, not a blocker: the goal can be created right away
     .recommendGoals-chip--setup {
-        // literal #f57c00: @color-orange-brand was removed in Matomo 6
-        background: fade(#f57c00, 8%);
-        border-color: fade(#f57c00, 50%);
-        // darkened for WCAG AA contrast; #f57c00 on white is only ~2.7:1
-        color: darken(#f57c00, 15%);
+        background: fade(@color-blue-matomo, 8%);
+        border-color: fade(@color-blue-matomo, 40%);
+        color: @theme-color-text;
         cursor: help;
         pointer-events: auto; // chips ignore pointer events; this one carries a tooltip
     }
@@ -280,8 +365,38 @@ ul.ulGoalTopElements img {
         pointer-events: auto;
     }
 
+    // the short "why" stays on the card, clamped to two lines; the icon's tooltip lists the crawl facts
     .recommendGoals-cardReason {
+        align-items: flex-start;
+        color: @theme-color-text-light;
+        display: flex;
+        font-size: 12px;
+        gap: 6px;
+        line-height: 18px;
+        margin: 4px 0 0;
         max-width: 58em;
+        padding: 0;
+    }
+
+    .recommendGoals-reasonIcon {
+        border-radius: 50%;
+        color: @theme-color-link;
+        cursor: help;
+        flex: 0 0 auto;
+        font-size: 14px;
+        line-height: 18px;
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 2px;
+        }
+    }
+
+    .recommendGoals-reasonText {
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        overflow: hidden;
     }
 
     .recommendGoals-cardTrigger {
@@ -347,20 +462,20 @@ ul.ulGoalTopElements img {
         }
     }
 
+    // sits in the card body under the reason, so it adds one short line, not a row
     .recommendGoals-evidence {
-        border-top: 1px solid @theme-color-border-alternative;
+        margin-top: 4px;
 
         summary {
             align-items: center;
             border: 0;
-            color: @theme-color-text;
+            color: @theme-color-link;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             font-size: 12px;
-            font-weight: 600;
             gap: 6px;
             list-style: none;
-            padding: 8px 14px 8px 68px;
+            padding: 0;
 
             &::-webkit-details-marker,
             &::marker {
@@ -382,40 +497,20 @@ ul.ulGoalTopElements img {
         color: @theme-color-text-light;
         font-size: 12px;
         line-height: 18px;
-        // bottom matches the 10px above the body (8px summary + 2px here)
-        padding: 2px 14px 10px 68px;
+        padding: 6px 0 2px;
 
-        ul {
-            list-style: disc outside;
-            margin: 0 0 10px;
-            padding-left: 18px;
-
-            // most cards end on the evidence list, so it needs the same
-            // last-child reset as p or they close with 10px more space
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-
-        li {
-            list-style-type: disc;
-            margin: 2px 0;
-        }
-
+        // the global #content p size would win over the inherited 12px
         p {
-            margin: 0 0 10px;
+            color: @theme-color-text-light;
+            font-size: 12px;
+            line-height: 18px;
+            margin: 0 0 6px;
+            padding: 0;
 
             &:last-child {
                 margin-bottom: 0;
             }
         }
-    }
-
-    .recommendGoals-evidenceLabel {
-        color: @theme-color-text-lighter;
-        display: block;
-        font-weight: 600;
-        margin-bottom: 1px;
     }
 
     .recommendGoals-actions {
@@ -444,10 +539,8 @@ ul.ulGoalTopElements img {
         }
 
         .recommendGoals-chip--setup {
-            background: fade(#f57c00, 12%);
-            border-color: fade(#f57c00, 45%);
-            // full-strength orange reads fine on dark surfaces
-            color: #f57c00;
+            background: fade(@color-blue-matomo, 16%);
+            border-color: fade(@color-blue-matomo, 50%);
         }
 
         // tinyContrast is darker than the card surface in dark mode, which makes
@@ -456,10 +549,10 @@ ul.ulGoalTopElements img {
             background: fade(#fff, 9%);
         }
 
-        // same problem for the icon tile: lift it off the card and brighten the glyph
+        // dark-mode brand teal (#00d7e3, ThemeStyles colorBrand)
         .recommendGoals-cardIcon {
-            background: fade(#fff, 10%);
-            color: @theme-color-text;
+            background: fade(#00d7e3, 14%);
+            color: #00d7e3;
         }
     });
 
@@ -498,6 +591,16 @@ ul.ulGoalTopElements img {
             flex: 0 0 auto;
             font-size: 15px;
             line-height: 1.3;
+        }
+    }
+
+    .recommendGoals-notice--success {
+        background: fade(@color-green-matomo, 7%);
+        border-color: fade(@color-green-matomo, 35%);
+        margin-top: 16px;
+
+        [class^="icon-"] {
+            color: @color-green-matomo;
         }
     }
 
@@ -623,11 +726,6 @@ ul.ulGoalTopElements img {
 
         .recommendGoals-cardActions {
             margin-top: 10px;
-        }
-
-        .recommendGoals-evidence summary,
-        .recommendGoals-evidenceBody {
-            padding-left: 14px;
         }
     }
 
