@@ -1,19 +1,19 @@
-// A row of the title and whatever sits beside it, laid out so that showing the icons bar moves
-// nothing. Left inline the bar would take part in the line box's baseline and shift the title;
-// left to a wrapping flex row it would drop to a second line as soon as the title is long enough
-// that it no longer fits beside it, growing the heading by a row. Grid gives the bar a column of
-// its own, held whether or not the bar is showing, so the title is laid out against the same
-// width throughout and wraps the same way. Centring also puts the icons on the middle of the
-// text at any line height, where a fixed offset only holds at one.
+// The title and whatever sits beside it. Everything stays in the inline flow, so the title wraps
+// over the whole width and the icons bar sits after its last word, taking room from that line
+// alone. Reserving a column for the bar instead would take its width off every line, which in a
+// narrow widget costs the title several of them.
+//
+// What stops the bar moving the title as it appears is that it is never taken out of the flow:
+// see `visibility` below. A bar that comes and goes would shift the text both horizontally and,
+// through the line box's baseline, vertically.
 .enrichedHeadline {
-    display: grid;
-    // Title, then icons, then a filler. The filler earns its place twice: it leaves the icons
-    // against the end of the title rather than against the end of the row, and it takes up the
-    // slack a short title leaves, so the panel below - which spans all three - is the same width
-    // as the row above it.
-    grid-template-columns: minmax(0, max-content) max-content 1fr;
-    align-items: safe center;
     min-height: 22px;
+
+    .enrichedHeadline__title {
+        // Inline rather than inline-block: a block would take the whole width as one box and
+        // push the bar onto a line of its own, where the text itself still had room to spare.
+        display: inline;
+    }
 
     .enrichedHeadline__title--editable {
         cursor: pointer;
@@ -25,7 +25,7 @@
     // above rather than about the panel: a host placing it elsewhere spaces it its own way.
     .enrichedHeadline__help {
         // a row to itself, below the title and the icons
-        grid-column: 1 / -1;
+        display: block;
         margin: 10px 0;
 
         // empty while the panel is closed, and for good once a host has taken it
@@ -34,13 +34,15 @@
         }
     }
 
-    // Hidden rather than taken out of the layout, so its column is as wide closed as open. A
-    // title long enough to need two lines takes them from the start, instead of gaining one the
-    // moment the pointer arrives.
+    // Hidden rather than taken out of the flow, so the line boxes are the same whether or not the
+    // icons are showing, and nothing moves when the pointer arrives.
     .enrichedHeadline__iconsBar {
         line-height: 1 !important;
-        display: flex;
-        align-items: safe center;
+        display: inline-flex;
+        align-items: center;
+        // Aligned to the top of the line rather than its middle, which would hang the 22px
+        // rating icons a pixel below a 24px line and grow every heading by that pixel.
+        vertical-align: top;
         visibility: hidden;
     }
 

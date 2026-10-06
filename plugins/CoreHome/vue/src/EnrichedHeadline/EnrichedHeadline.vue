@@ -31,7 +31,7 @@
     </a>
     <!-- A class rather than `v-show`: the bar has to keep its box when it is not showing, so the
          title is laid out against the same width either way. -->
-    <span
+    <div
       class="enrichedHeadline__iconsBar"
       :class="{ 'enrichedHeadline__iconsBar--visible': showIcons || showInlineHelp }"
     >
@@ -53,7 +53,7 @@
       <div class="enrichedHeadline__ratingIcons" v-if="showRateFeature">
         <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
-    </span>
+    </div>
     <!-- A host offering somewhere of its own takes the panel out of here, so a panel this wide
          does not stretch the row the heading sits in. Every caller outside ReportHeader offers
          nothing and the panel stays. -->
