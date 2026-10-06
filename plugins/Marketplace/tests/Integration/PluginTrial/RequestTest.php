@@ -84,4 +84,47 @@ class RequestTest extends IntegrationTestCase
         self::assertNotNull($sentMail);
         self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
     }
+
+    public function testCreateSendsMailWhenAnEventObserverFails()
+    {
+        Fixture::createSuperUser();
+
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$sentMail) {
+            $sentMail = $mail;
+        });
+        Piwik::addAction('Marketplace.pluginTrialRequested', function () {
+            throw new \RuntimeException('observer failed');
+        });
+
+        try {
+            $this->createRequest();
+            self::fail('Expected the observer failure to be rethrown');
+        } catch (\RuntimeException $e) {
+            self::assertSame('observer failed', $e->getMessage());
+        }
+        self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
+    }
+
+    public function testCreatePostsTheEventWhenTheMailFails()
+    {
+        Fixture::createSuperUser();
+
+        Piwik::addAction('Mail.send', function () {
+            throw new \RuntimeException('mail failed');
+        });
+        Piwik::addAction('Marketplace.pluginTrialRequested', function (...$args) use (&$eventArgs) {
+            $eventArgs = $args;
+        });
+
+        $this->createRequest();
+        self::assertSame(['PremiumPlugin', 'Premium Plugin'], $eventArgs);
+    }
+
+    private function createRequest(): void
+    {
+        $storageMock = self::createMock(Storage::class);
+        $storageMock->method('wasRequested')->willReturn(false);
+
+        (new Request('PremiumPlugin', $storageMock))->create('Premium Plugin');
+    }
 }

@@ -42,6 +42,9 @@ class Request
 
         $this->storage->setRequested($pluginDisplayName);
 
+        // after the email, so a failing observer cannot stop it; safeSend() logs a failed send rather than throwing
+        $this->sendEmailToSuperUsers();
+
         /**
          * Triggered after the current user has requested a trial of a plugin, so an audit trail can record it.
          *
@@ -55,8 +58,6 @@ class Request
          * @param string $pluginDisplayName The plugin's display name, or an empty string when none was given.
          */
         Piwik::postEvent('Marketplace.pluginTrialRequested', [$this->pluginName, $pluginDisplayName]);
-
-        $this->sendEmailToSuperUsers();
     }
 
     /**
