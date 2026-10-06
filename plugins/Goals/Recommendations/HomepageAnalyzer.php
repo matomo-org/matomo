@@ -177,9 +177,7 @@ class HomepageAnalyzer
             'forms' => $this->rankForms($pages),
             'downloads' => $this->rankDownloads($pages),
             'contactLinks' => $this->rankContactLinks($pages),
-            'externalLinks' => array_values(array_filter($this->rankExternalLinks($pages), function (array $link) use ($isExternal): bool {
-                return $isExternal((string) $link['host']);
-            })),
+            'externalLinks' => $this->rankExternalLinks($pages, $internalHosts),
             'internalHosts' => $internalHosts,
             'internalHostLinks' => $this->rankInternalHostLinks($pages, $internalHosts),
             'technologies' => $this->detectTechnologies($idSite, $html, $response['headers'] ?? []),
@@ -213,7 +211,9 @@ class HomepageAnalyzer
         foreach ($domains as $domain) {
             // "https://www.example.com/shop", ".example.com" and "*.example.com" alike
             $domain = strtolower(trim(str_replace('\\/', '/', (string) $domain)));
+            // strip scheme, path/query/fragment and port, turn a leading "." into "*.", drop "www."
             $domain = (string) preg_replace(['#^[a-z]+://#', '#[/?\#].*$#', '#:\d+$#', '#^\.#', '#^www\.#'], ['', '', '', '*.', ''], $domain);
+            // keep only a plain host like "example.com" or "*.example.com"
             if (preg_match('#^(\*\.)?[a-z0-9-]+(\.[a-z0-9-]+)+$#', $domain)) {
                 $hosts[$domain] = true;
             }
@@ -235,11 +235,13 @@ class HomepageAnalyzer
             return $this->quotedStrings(implode(',', $matches[1]));
         }
 
+        // a Tag Manager container script URL, e.g. "//cdn.example.com/js/container_AbC123.js"
         if (!preg_match('#(?:https?:)?//[a-z0-9.:-]+/[^\s\'"<>]*?container_[a-z0-9_]+\.js#i', $html, $container)) {
             return [];
         }
         $response = $this->fetchHomepage(preg_replace('#^//#', 'https://', $container[0]), $timeout);
         $status = $response['status'] ?? null;
+        // the container config's domain list, e.g. "domains":["example.com","*.example.org"]
         if (!is_int($status) || $status < 200 || $status >= 300 || !preg_match_all('#"domains":(\[[^\]]*\])#', (string) ($response['data'] ?? ''), $matches)) {
             return [];
         }
@@ -1235,14 +1237,21 @@ class HomepageAnalyzer
     }
 
     /**
+     * Outlinks, one per host. Links to the site's own hosts are left out, see rankInternalHostLinks().
+     *
      * @param array<int, array{url: string, signals?: array<string, mixed>}> $pages
+     * @param string[] $internalHosts see getInternalHosts()
      * @return array<int, array<string, mixed>>
      */
-    private function rankExternalLinks(array $pages): array
+    private function rankExternalLinks(array $pages, array $internalHosts): array
     {
-        return $this->rankSignalItems($pages, 'externalLinks', 'host', function (array $bucket): int {
+        $links = $this->rankSignalItems($pages, 'externalLinks', 'host', function (array $bucket): int {
             return (int) $bucket['count'] * 4 + count($bucket['sourcePages']) * 3;
         });
+
+        return array_values(array_filter($links, function (array $link) use ($internalHosts): bool {
+            return !$this->isInternalHost((string) $link['host'], $internalHosts);
+        }));
     }
 
     /**
