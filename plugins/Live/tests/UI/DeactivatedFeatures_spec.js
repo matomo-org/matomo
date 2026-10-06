@@ -26,21 +26,12 @@ describe("DeactivatedFeatures", function () {
     });
 
 
-    async function setFeatures(idSite, vLog, vProfile, vAggregatedRealtime = 0) {
+    async function setFeatures(idSite, vLog, vProfile) {
         await testEnvironment.callApi("SitesManager.updateSite", {
             idSite: idSite, settingValues: {
                 Live: [
                     {name: 'disable_visitor_log', value: vLog},
                     {name: 'disable_visitor_profile', value: vProfile},
-                ]
-            }
-        });
-        // the aggregated real-time setting is only exposed (writable) once the visits log is
-        // disabled, so it has to be set in a second call
-        await testEnvironment.callApi("SitesManager.updateSite", {
-            idSite: idSite, settingValues: {
-                Live: [
-                    {name: 'enable_aggregated_realtime_reports', value: vAggregatedRealtime},
                 ]
             }
         });
@@ -69,7 +60,7 @@ describe("DeactivatedFeatures", function () {
         expect(realtimemap).to.be.ok;
     });
 
-    it('menu should not contain visits log & realtime when deactivated', async function () {
+    it('menu should not contain visits log but still contain realtime when deactivated', async function () {
         await setFeatures(1, 1, 1);
         await page.reload();
         await page.waitForSelector('#secondNavBar', {visible: true});
@@ -77,15 +68,16 @@ describe("DeactivatedFeatures", function () {
         const vlog = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
         expect(vlog).to.be.not.ok;
 
+        // the real-time page stays available, limited to the aggregated counters
         const realtime = await page.$('#secondNavBar .navbar a[href*="General_RealTime"]');
-        expect(realtime).to.be.not.ok;
+        expect(realtime).to.be.ok;
 
         const realtimemap = await page.$('#secondNavBar .navbar a[href*="UserCountryMap_RealTimeMap"]');
         expect(realtimemap).to.be.not.ok;
     });
 
-    it('realtime widget shows aggregated counters only when only aggregated real-time reports enabled', async function () {
-        await setFeatures(1, 1, 1, 1);
+    it('realtime widget shows aggregated counters only when deactivated', async function () {
+        await setFeatures(1, 1, 1);
         // render the widget in isolation to avoid the reporting page's redirect/polling timing
         await page.goto("?module=Widgetize&action=iframe&moduleToWidgetize=Live&actionToWidgetize=widget&idSite=1&period=day&date=today");
 
@@ -110,12 +102,12 @@ describe("DeactivatedFeatures", function () {
         expect(await page.getWholeCurrentUrl()).to.not.match(/Live_VisitorLog/); // page should be redirected to next subcategory
     });
 
-    it('it should not show realtime, when opened directly but disabled', async function () {
+    it('it should still show realtime, when opened directly but disabled', async function () {
         await setFeatures(1, 1, 1);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-08-09#?idSite=1&period=year&date=2009-08-09&category=General_Visitors&subcategory=General_RealTime");
         await page.waitForNetworkIdle();
 
-        expect(await page.getWholeCurrentUrl()).to.not.match(/General_RealTime/); // page should be redirected to next subcategory
+        expect(await page.getWholeCurrentUrl()).to.match(/General_RealTime/); // page should not be redirected
     });
 
     it('it should not show realtime map, when opened directly but disabled', async function () {
@@ -251,8 +243,9 @@ describe("DeactivatedFeatures", function () {
         const log = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivegetLastVisitsDetailsforceView1viewDataTableVisitorLogsmall1]');
         expect(log).to.be.not.ok;
 
+        // the real-time widget stays available, limited to the aggregated counters
         const realtime = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivewidget]');
-        expect(realtime).to.be.not.ok;
+        expect(realtime).to.be.ok;
 
         const realtimemap = await page.$('.widgetpreview-widgetlist [uniqueid=widgetUserCountryMaprealtimeMap]');
         expect(realtimemap).to.be.not.ok;
@@ -300,11 +293,6 @@ describe("DeactivatedFeatures", function () {
 
         const profile = await page.$('#LivePluginSettings #disable_visitor_profile');
         expect(profile).to.be.not.ok;
-
-        // even though disable_visitor_log is config-controlled (non-writable, so omitted from the
-        // payload), the aggregated real-time setting must still be reachable - it is gated server-side
-        const aggregated = await page.$('#LivePluginSettings #enable_aggregated_realtime_reports');
-        expect(aggregated).to.be.ok;
     });
 
     it('measurable settings for live plugin should be available by default', async function () {
@@ -318,36 +306,6 @@ describe("DeactivatedFeatures", function () {
 
         const profile = await page.$('[idsite="1"] #disable_visitor_profile');
         expect(profile).to.be.ok;
-    });
-
-    it('measurable aggregated real-time setting is available when the site visits log is disabled', async function () {
-        await setFeatures(1, 1, 0, 0); // disable this site's visits log
-        await page.goto("?module=SitesManager&action=index&idSite=1");
-        await page.waitForNetworkIdle();
-        await page.click('[idsite="1"] .icon-edit');
-        await page.waitForNetworkIdle();
-
-        // the per-site "Enable aggregated real-time reports" setting is exposed (server-side gate)
-        await page.waitForSelector('[idsite="1"] #enable_aggregated_realtime_reports', {visible: true});
-        const aggregated = await page.$('[idsite="1"] #enable_aggregated_realtime_reports');
-        expect(aggregated).to.be.ok;
-    });
-
-    it('measurable aggregated real-time setting is available when the visits log is disabled globally', async function () {
-        await setConfig(1, 1); // disable the visits log globally -> disable_visitor_log is non-writable per site
-        await page.goto("?module=SitesManager&action=index&idSite=1");
-        await page.waitForNetworkIdle();
-        await page.click('[idsite="1"] .icon-edit');
-        await page.waitForNetworkIdle();
-
-        // the per-site disable_visitor_log is hidden (non-writable), but the aggregated setting must
-        // still be reachable so the per-site opt-in is not lost
-        const log = await page.$('[idsite="1"] #disable_visitor_log');
-        expect(log).to.be.not.ok;
-
-        await page.waitForSelector('[idsite="1"] #enable_aggregated_realtime_reports', {visible: true});
-        const aggregated = await page.$('[idsite="1"] #enable_aggregated_realtime_reports');
-        expect(aggregated).to.be.ok;
     });
 
     it('measurable settings for live plugin should be available by default', async function () {
