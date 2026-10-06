@@ -85,13 +85,16 @@ describe('RecommendGoals AI availability', () => {
 
   it('links a superuser to the AI processing settings when AI processing is not allowed', async () => {
     mockMatomo.hasSuperUserAccess = true;
+    window.history.replaceState(null, '', '/index.php?module=Goals&action=manage&idSite=1#?period=day');
     const w = await mountWith('notPermitted');
     mockMatomo.hasSuperUserAccess = false;
+    window.history.replaceState(null, '', '/');
 
     expect(w.find('.recommendGoals-aiSwitch').exists()).toBe(false);
     expect(w.find('.recommendGoals-chip--aiUnavailable').exists()).toBe(false);
     expect(w.find('.recommendGoals-aiProcessingLink').attributes('href'))
-      .toBe('?idSite=1&module=AIProviders&action=aiProcessing');
+      .toBe(`?idSite=1&module=AIProviders&action=aiProcessing&returnTo=${
+        encodeURIComponent('index.php?module=Goals&action=manage&idSite=1#?period=day')}`);
   });
 
   it('shows nothing to other users when AI processing is not allowed', async () => {

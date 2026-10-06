@@ -368,13 +368,14 @@ const aiUnavailableHelp = computed(() => (aiAvailability.value === 'notActivated
   ? translate('Goals_RecommendAiNotActivatedHelp')
   : translate('Goals_RecommendAiNotConfiguredHelp')));
 
-// only a superuser can allow AI processing, so only they get the link
+// only a superuser can allow AI processing, so only they get the link (returnTo shows a back link there)
 const aiProcessingSettingsUrl = computed(() => (
   aiAvailability.value === 'notPermitted' && Matomo.hasSuperUserAccess
     ? `?${MatomoUrl.stringify({
       ...MatomoUrl.urlParsed.value,
       module: 'AIProviders',
       action: 'aiProcessing',
+      returnTo: `index.php${window.location.search}${window.location.hash}`,
     })}`
     : ''
 ));
