@@ -139,6 +139,9 @@ class Archiver
         /**
          * Triggered to filter / restrict reports, or to replace a RecordBuilder for the archive being processed.
          *
+         * The RecordBuilder instances are shared by every archive built in the same request, so replace or
+         * remove entries rather than modifying an instance.
+         *
          * **Example**
          *
          *     public function filterRecordBuilders(&$recordBuilders, ArchiveProcessor $archiveProcessor)
