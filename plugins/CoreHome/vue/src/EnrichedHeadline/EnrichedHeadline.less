@@ -43,7 +43,18 @@
         // Aligned to the top of the line rather than its middle, which would hang the 22px
         // rating icons a pixel below a 24px line and grow every heading by that pixel.
         vertical-align: top;
+        // Laid over the row rather than in it, the way the widget controls above already are.
+        // Claiming width instead would take it off every line of the title, and the title gets
+        // as little as 194px once a report's controls have had their share: a title past about
+        // half of that would send the icons to a line of their own and make the heading twice
+        // as tall, at rest, on every two-column report page.
+        width: 0;
         visibility: hidden;
+
+        // The icons keep their own size inside a box that has none, and so spill past it.
+        > * {
+            flex: none;
+        }
     }
 
     .enrichedHeadline__iconsBar--visible {
