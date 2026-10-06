@@ -14,6 +14,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Added contextual recommendations for Premium products based on how Matomo is being used.
 
 ### New APIs
+* The AIProviders plugin now lets a super user choose which categories of data AI features may send to an AI provider. Plugins check `Piwik\Plugins\AIProviders\Model\AIProcessingSettings::isEnabled()` before sending data, can list their features on the settings page through the `AIProviders.addAIProcessingFeatures` event, and can react to changes through the `AIProviders.aiProcessingSettingsChanged` event. See `AIProcessingSettings` for the available categories.
 * The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its markup to it.
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
