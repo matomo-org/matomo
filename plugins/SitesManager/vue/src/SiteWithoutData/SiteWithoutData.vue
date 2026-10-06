@@ -19,7 +19,8 @@
       {{ headline }}
     </h1>
 
-    <VueEntryContainer id="start-tracking-cta" :html="ctaContent || fetchedCtaContent" />
+    <!-- mount once the content is known: vue-entry components only start on mount -->
+    <VueEntryContainer v-if="ctaHtml" id="start-tracking-cta" :html="ctaHtml" />
 
     <ActivityIndicator
       :loading-message="`${translate('SitesManager_DetectingYourSite')}&hellip;`"
@@ -253,6 +254,9 @@ export default defineComponent({
     },
   },
   computed: {
+    ctaHtml(): string {
+      return this.ctaContent || this.fetchedCtaContent;
+    },
     ignoreSitesWithoutDataLink() {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
