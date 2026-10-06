@@ -1,0 +1,306 @@
+{
+  "syncToken": "1791274210434",
+  "creationTime": "2026-10-06T01:10:10.43436",
+  "prefixes": [
+    {
+      "ipv4Prefix": "34.1.208.0/20",
+      "service": "Google Cloud",
+      "scope": "africa-south1"
+    },
+    {
+      "ipv4Prefix": "34.35.0.0/16",
+      "service": "Google Cloud",
+      "scope": "africa-south1"
+    },
+    {
+      "ipv4Prefix": "34.152.86.0/23",
+      "service": "Google Cloud",
+      "scope": "africa-south1"
+    },
+    {
+      "ipv4Prefix": "34.177.50.0/23",
+      "service": "Google Cloud",
+      "scope": "africa-south1"
+    },
+    {
+      "ipv4Prefix": "34.183.123.0/24",
+      "service": "Google Cloud",
+      "scope": "africa-south1"
+    },
+    {
+      "ipv4Prefix": "34.184.122.0/24",
+      "service": "Google Cloud",
+      "scope": "africa-south1"
+    },
+    {
+      "ipv4Prefix": "34.80.0.0/15",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "34.137.0.0/16",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "34.183.71.0/24",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "34.183.104.0/24",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "34.184.70.0/24",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "34.184.83.0/24",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.185.128.0/19",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.185.160.0/20",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.187.144.0/20",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.189.160.0/19",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.194.128.0/17",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.201.128.0/17",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.206.192.0/18",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.220.32.0/21",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.221.128.0/17",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.229.128.0/17",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.234.0.0/18",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.235.16.0/20",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.236.128.0/18",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "35.242.32.0/21",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "104.155.192.0/19",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "104.155.224.0/20",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "104.199.128.0/18",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "104.199.192.0/19",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "104.199.224.0/20",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "104.199.242.0/23",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "104.199.244.0/22",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "104.199.248.0/21",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "107.167.176.0/20",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "130.211.240.0/20",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv4Prefix": "34.92.0.0/16",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "34.96.128.0/17",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "34.104.88.0/21",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "34.124.24.0/21",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "34.150.0.0/17",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "35.215.128.0/18",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "35.220.27.0/24",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "35.220.128.0/17",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "35.241.64.0/18",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "35.242.27.0/24",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "35.243.8.0/21",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    },
+    {
+      "ipv4Prefix": "8.237.0.0/18",
+      "service": "Google Cloud",
+      "scope": "asia-northeast1"
+    },
+    {
+      "ipv4Prefix": "34.84.0.0/16",
+      "service": "Google Cloud",
+      "scope": "asia-northeast1"
+    },
+    {
+      "ipv4Prefix": "34.85.0.0/17",
+      "service": "Google Cloud",
+      "scope": "asia-northeast1"
+    },
+    {
+      "ipv4Prefix": "34.104.62.0/23",
+      "service": "Google Cloud",
+      "scope": "asia-northeast1"
+    },
+    {
+      "ipv4Prefix": "34.104.128.0/17",
+      "service": "Google Cloud",
+      "scope": "asia-northeast1"
+    },
+    {
+      "ipv4Prefix": "34.127.190.0/23",
+      "service": "Google Cloud",
+      "scope": "asia-northeast1"
+    },
+    {
+      "ipv4Prefix": "34.146.0.0/16",
+      "service": "Google Cloud",
+      "scope": "asia-northeast1"
+    },
+    {
+      "ipv4Prefix": "34.153.192.0/19",
+      "service": "Google Cloud",
+      "scope": "asia-northeast1"
+    },
+    {
+      "ipv6Prefix": "2600:1900:8000::/44",
+      "service": "Google Cloud",
+      "scope": "africa-south1"
+    },
+    {
+      "ipv6Prefix": "2600:1902:10::/44",
+      "service": "Google Cloud",
+      "scope": "africa-south1"
+    },
+    {
+      "ipv6Prefix": "2600:1900:4030::/44",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv6Prefix": "2600:1902:20::/44",
+      "service": "Google Cloud",
+      "scope": "asia-east1"
+    },
+    {
+      "ipv6Prefix": "2600:1900:41a0::/44",
+      "service": "Google Cloud",
+      "scope": "asia-east2"
+    }
+  ]
+}
