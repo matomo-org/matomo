@@ -235,10 +235,9 @@ describe("Overlay", function () {
 
         await page.goto('?module=Overlay&period=year&date=today&idSite=3#?l=' + encodeURIComponent(redirectUrl).replace(/[%]/g, '$'));
 
-        // the redirect trimmed the referrer, so the tracker cannot detect the session from it
-        const referrer = (await redirectedRequest).headers().referer;
-        expect(referrer).to.be.a('string');
-        expect(referrer).to.not.contain('startOverlaySession');
+        // the redirect sets a policy that trims the referrer, so the tracker cannot detect the session from it
+        const redirect = (await redirectedRequest).redirectChain()[0].response();
+        expect(redirect.headers()['referrer-policy']).to.equal('origin');
 
         // the sidebar is rendered instead of staying on "Loading…"
         await page.waitForSelector('#overlaySidebar .overlayMainMetrics, #overlaySidebar .overlayNoData', {visible: true});
