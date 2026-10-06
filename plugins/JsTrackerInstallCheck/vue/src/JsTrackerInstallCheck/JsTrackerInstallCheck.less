@@ -1,31 +1,36 @@
-div.jsTrackerInstallCheck {
-  .testInstallBtn {
-    margin: 1rem 0 1rem 1.5rem;
+.jsTrackerInstallCheck {
+  .jsTrackerInstallCheck__testForm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
+    gap: 1rem 1.5rem;
+    margin: 1rem 0 0 0;
+  }
+
+  .jsTrackerInstallCheck__urlField {
+    flex: auto;
+    min-width: 240px;
+    max-width: 600px;
+
+    // override: the nested Field renders a Materialize row whose own column
+    // paddings and margins would offset the url input from the button next to it
+    .col {
+      padding: 0 !important;
+      margin: 0;
+    }
+
+    // override: the Field input is taller than the button it sits next to
+    input {
+      height: 36px;
+    }
   }
 
   div.loadingPiwik {
     margin-bottom: 1rem;
   }
 
-  .test-error,.success-message,.loadingPiwik,.testInstallFields {
+  .test-error,.success-message,.loadingPiwik,.jsTrackerInstallCheck__testForm {
     margin-bottom: 0;
-  }
-
-  div.testInstallFields div.col {
-    padding: 0 !important;
-
-    div.matomo-form-field > div.col.input-field {
-      padding-left: 0;
-      margin: 1rem 0 0 0;
-    }
-
-    div.matomo-form-field > div.col:not(.input-field) {
-      margin: 0;
-    }
-  }
-
-  #baseUrl {
-    height: 36px;
   }
 
   .form-group {
