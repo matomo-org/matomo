@@ -378,7 +378,8 @@ abstract class AIProvider
         ?int $inputTokens = null,
         ?int $outputTokens = null,
         ?string $stopReason = null,
-        ?WebSearchUsage $webSearch = null
+        ?WebSearchUsage $webSearch = null,
+        ?float $cost = null
     ): AIProviderResponse {
         return new AIProviderResponse(
             $this->getId(),
@@ -394,7 +395,8 @@ abstract class AIProvider
             $this->isWebSearchUsed($request),
             $this->lastRequestExecutionTimeMs,
             $stopReason,
-            $webSearch
+            $webSearch,
+            $cost
         );
     }
 
@@ -1060,7 +1062,7 @@ abstract class AIProvider
      * failures.
      *
      * @param array<string, string> $headers
-     * @param array<string, mixed> $payload
+     * @param array<mixed> $payload JSON body: an object, or a list for APIs that take one
      * @return array<string, mixed>
      */
     protected function sendJsonRequest(
@@ -1097,7 +1099,7 @@ abstract class AIProvider
      * {@link sendGetRequest()}.
      *
      * @param array<string, string> $headers
-     * @param array<string, mixed>|null $debugPayload
+     * @param array<mixed>|null $debugPayload
      * @return array<string, mixed>
      */
     private function sendRequest(
@@ -1248,7 +1250,7 @@ abstract class AIProvider
      * Debug-only metadata for local provider testing. Intentionally does not
      * log request/response content, headers, API keys, prompts, or model output.
      *
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      */
     private function logProviderRequestDebugMetadata(
         string $method,
@@ -1277,7 +1279,7 @@ abstract class AIProvider
     }
 
     /**
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      */
     private function logProviderResponseDebugMetadata(
         string $method,
@@ -1335,7 +1337,7 @@ abstract class AIProvider
     }
 
     /**
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      * @return array{host: string, path: string, model: string, thinking: string}
      */
     private function getProviderRequestDebugMetadata(string $url, ?array $payload): array
@@ -1351,7 +1353,7 @@ abstract class AIProvider
     }
 
     /**
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      */
     private function getDebugModel(?array $payload, string $path): string
     {
@@ -1369,7 +1371,7 @@ abstract class AIProvider
     }
 
     /**
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      */
     private function getDebugThinking(?array $payload): string
     {
