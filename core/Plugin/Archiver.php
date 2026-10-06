@@ -137,23 +137,25 @@ class Archiver
         }
 
         /**
-         * Triggered to filter / restrict reports.
+         * Triggered to filter / restrict reports, or to replace a RecordBuilder for the archive being processed.
          *
          * **Example**
          *
-         *     public function filterRecordBuilders(&$recordBuilders)
+         *     public function filterRecordBuilders(&$recordBuilders, ArchiveProcessor $archiveProcessor)
          *     {
-         *         foreach ($reports as $index => $recordBuilder) {
-         *              if ($recordBuilders instanceof AnotherPluginRecordBuilder) {
-         *                  unset($reports[$index]);
+         *         foreach ($recordBuilders as $index => $recordBuilder) {
+         *              if ($recordBuilder instanceof AnotherPluginRecordBuilder) {
+         *                  unset($recordBuilders[$index]);
          *              }
          *         }
          *     }
          *
          * @param ArchiveProcessor\RecordBuilder[] $recordBuilders An array of RecordBuilder instances
+         * @param ArchiveProcessor $archiveProcessor The processor of the archive the RecordBuilders will build,
+         *                                           for its site, period and segment.
          * @api
          */
-        Piwik::postEvent('Archiver.filterRecordBuilders', [&$recordBuilders]);
+        Piwik::postEvent('Archiver.filterRecordBuilders', [&$recordBuilders, $this->processor]);
 
         return $recordBuilders;
     }
