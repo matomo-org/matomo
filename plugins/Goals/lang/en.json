@@ -32,6 +32,8 @@
         "RecommendationEvidenceFormFieldsOn": "Form with fields %1$s seen on %2$s.",
         "RecommendationEvidenceLinkedOn": "Linked %1$s on %2$s.",
         "RecommendationEvidenceOnPages": "%1$s on %2$s.",
+        "RecommendCalloutTitle": "New: Goal Recommendations",
+        "RecommendCalloutTry": "Try it",
         "RecommendNeedsSetupTooltip": "You can create this goal now. It records conversions once your website sends the matching tracking event, see 'How to set it up' below.",
         "SendEvent": "Send an event",
         "ColumnAbandonedCartsDocumentation": "The total number of abandoned carts that contained this %s",

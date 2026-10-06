@@ -579,6 +579,8 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_RecommendNeedsSetup';
         $translationKeys[] = 'Goals_RecommendNeedsSetupTooltip';
         $translationKeys[] = 'Goals_RecommendAllCreated';
+        $translationKeys[] = 'Goals_RecommendCalloutTitle';
+        $translationKeys[] = 'Goals_RecommendCalloutTry';
         $translationKeys[] = 'Goals_RecommendNoneFound';
         $translationKeys[] = 'Goals_RecommendError';
         $translationKeys[] = 'Goals_RecommendManualTitle';

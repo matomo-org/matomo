@@ -65,6 +65,89 @@ ul.ulGoalTopElements img {
         white-space: nowrap;
         width: 170px;
     }
+
+    // the callout sits in the title row, so it cannot push the table down
+    .card {
+        position: relative;
+    }
+
+    // points to the recommendation section that a long goals table pushes out of view;
+    // same tint as the recommendation scan notices
+    .manageGoals-recommendCallout {
+        align-items: center;
+        background: fade(@color-blue-matomo, 8%);
+        border: 1px solid fade(@color-blue-matomo, 50%);
+        border-radius: 3px;
+        color: @theme-color-text;
+        display: flex;
+        font-size: 13px;
+        gap: 10px;
+        // 40px box at 12px is centred in the 65px title row above the table
+        box-sizing: border-box;
+        height: 40px;
+        padding: 0 4px 0 12px;
+        position: absolute;
+        right: 16px;
+        top: 12px;
+
+        > .icon-info {
+            color: @color-blue-matomo;
+            font-size: 15px;
+        }
+
+        strong {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+    }
+
+    // link look, a full button outweighs the one-line callout
+    .manageGoals-recommendCalloutLink {
+        background: none;
+        border: 0;
+        border-radius: 2px;
+        color: @theme-color-link;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 0;
+        white-space: nowrap;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 2px;
+        }
+    }
+
+    .manageGoals-recommendCalloutClose {
+        background: transparent;
+        border: 0;
+        border-radius: 3px;
+        color: @theme-color-text-lighter;
+        cursor: pointer;
+        height: 32px;
+        width: 32px;
+
+        &:hover {
+            color: @theme-color-text;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 1px;
+        }
+    }
+
+    // no room beside the title on phones, so it flows above the table instead
+    @media (max-width: 640px) {
+        .manageGoals-recommendCallout {
+            margin: 0 0 16px;
+            position: static;
+        }
+    }
 }
 
 #content .recommendGoals {
