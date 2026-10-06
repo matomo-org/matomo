@@ -220,8 +220,8 @@ class Sparklines extends ViewDataTable
             $comparisons = null;
         }
 
-        $originalDate = Common::getRequestVar('date');
-        $originalPeriod = Common::getRequestVar('period');
+        $originalDate = Common::getRequestVar('date', null, 'string');
+        $originalPeriod = Common::getRequestVar('period', null, 'string');
 
         $comparisonRows = [];
         $isComparing = $this->isComparing() && !empty($comparisons);
