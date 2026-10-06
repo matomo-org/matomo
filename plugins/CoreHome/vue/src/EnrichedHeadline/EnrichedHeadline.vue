@@ -12,67 +12,76 @@
     v-on:mouseleave="showIcons = false"
     ref="root"
   >
+    <!-- `title` carries no styles of ours; it stays in the DOM because third-party code reads
+         the report name from `.enrichedHeadline .title`, eg. the ReportSorter plugin. -->
     <div
       v-if="!editUrl"
-      class="title"
+      class="enrichedHeadline__title title"
       tabindex="6"
     >
       <slot />
     </div>
     <a
       v-if="editUrl"
-      class="title enrichedHeadline__editableTitle"
+      class="enrichedHeadline__title enrichedHeadline__title--editable title"
       :href="editUrl"
       :title="translate('CoreHome_ClickToEditX', htmlEntities(actualFeatureName || ''))"
     >
       <slot />
     </a>
-    <span
-      v-show="showIcons || showInlineHelp"
-      class="iconsBar"
+    <!-- A class rather than `v-show`: the bar has to keep its box when it is not showing, so the
+         title is laid out against the same width either way. -->
+    <div
+      class="enrichedHeadline__iconsBar"
+      :class="{ 'enrichedHeadline__iconsBar--visible': showIcons || showInlineHelp }"
     >
       <a
         v-if="helpUrl && !actualInlineHelp"
         rel="noreferrer noopener"
         target="_blank"
-        class="helpIcon"
+        class="enrichedHeadline__helpIcon"
         :href="helpUrl"
         :title="translate('CoreHome_ExternalHelp')"
       ><span class="icon-help" /></a>
       <a
         v-if="actualInlineHelp"
         v-on:click="showInlineHelp = !showInlineHelp"
-        class="helpIcon"
-        :class="{ 'active': showInlineHelp }"
+        class="enrichedHeadline__helpIcon"
+        :class="{ 'enrichedHeadline__helpIcon--active': showInlineHelp }"
         :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
       ><span class="icon-info" /></a>
-      <div class="ratingIcons" v-if="showRateFeature">
+      <div class="enrichedHeadline__ratingIcons" v-if="showRateFeature">
         <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
-    </span>
-    <div
-      class="inlineHelp"
-      v-show="showInlineHelp"
-    >
-      <div v-html="$sanitize(actualInlineHelp)"/>
-      <span class="helpDate"
-            v-if="reportGenerated!=''"
-            v-html="$sanitize(reportGenerated)"></span>
-      <a
-        v-if="helpUrl"
-        rel="noreferrer noopener"
-        target="_blank"
-        class="readMore"
-        :href="helpUrl"
-      >{{ translate('General_MoreDetails') }}</a>
+    </div>
+    <!-- A host offering somewhere of its own takes the panel out of here, so a panel this wide
+         does not stretch the row the heading sits in. Every caller outside ReportHeader offers
+         nothing and the panel stays. -->
+    <div class="enrichedHeadline__help">
+      <Teleport :to="helpContainer" :disabled="!helpContainer">
+        <!-- `v-if`, not `v-show`: a panel merely hidden is still a child, and would keep both
+             nest elements from collapsing to nothing while it is closed. -->
+        <div v-if="showInlineHelp" class="mtm-helpPanel">
+          <div v-html="$sanitize(actualInlineHelp)"/>
+          <span class="mtm-helpPanel__date"
+                v-if="reportGenerated!=''"
+                v-html="$sanitize(reportGenerated)"></span>
+          <a
+            v-if="helpUrl"
+            rel="noreferrer noopener"
+            target="_blank"
+            class="mtm-helpPanel__readMore"
+            :href="helpUrl"
+          >{{ translate('General_MoreDetails') }}</a>
+        </div>
+      </Teleport>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, Component } from 'vue';
+import { defineComponent, Component, PropType } from 'vue';
 import Matomo from '../Matomo/Matomo';
-import Periods from '../Periods/Periods';
 import { translateOrDefault } from '../translate';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
@@ -103,16 +112,12 @@ export interface EnrichedHeadlineData {
  * <h2><EnrichedHeadline inline-help="inlineHelp">Pages report</EnrichedHeadline></h2>
  * -> inlineHelp specified via a attribute shows help icon on headline hover
  *
- * <h2><EnrichedHeadline>All Websites Dashboard
- *     <div class="inlineHelp">My <strong>inline help</strong></div>
- * </EnrichedHeadline></h2>
- * -> alternative definition for inline help
- * -> shows help icon to display inline help on click. Note: You can combine inlinehelp and help-url
+ * <h2><EnrichedHeadline :help-container="element">Pages report</EnrichedHeadline></h2>
+ * -> renders the help panel into the given element instead of inside the headline, for a host
+ *    that wants it somewhere the heading's own row cannot stretch to
  *
- * * <h2><EnrichedHeadline report-generated="generated time">Pages report</EnrichedHeadline></h2>
- * -> reportGenerated specified via this attribute shows a clock icon with a tooltip which
- * activated by hover
- * -> the tooltip shows the value of the attribute
+ * <h2><EnrichedHeadline report-generated="generated time">Pages report</EnrichedHeadline></h2>
+ * -> reportGenerated specified via this attribute is shown at the foot of the help panel
  */
 export default defineComponent({
   props: {
@@ -127,6 +132,10 @@ export default defineComponent({
     reportGenerated: String,
     featureName: String,
     inlineHelp: String,
+    helpContainer: {
+      type: Object as PropType<HTMLElement|null>,
+      default: null,
+    },
   },
   data(): EnrichedHeadlineData {
     return {
@@ -151,45 +160,8 @@ export default defineComponent({
     },
   },
   mounted() {
-    const root = this.$refs.root as HTMLElement;
-
-    if (!this.actualInlineHelp) {
-      const inlineHelpNode = root.querySelector('.title .inlineHelp');
-
-      if (inlineHelpNode) {
-        // hackish solution to get binded html of p tag within the help node
-        // at this point the ng-bind-html is not yet converted into html when report is not
-        // initially loaded. Using $compile doesn't work. So get and set it manually
-        const helpDocs = inlineHelpNode.getAttribute('data-content')?.trim();
-        if (helpDocs && helpDocs.length) {
-          this.actualInlineHelp = `<p>${helpDocs}</p>`;
-          // this alternate inline help node is styled visible, so drop it once consumed
-          setTimeout(() => inlineHelpNode.remove(), 0);
-        }
-      }
-    }
-
     if (!this.actualFeatureName) {
       this.actualFeatureName = this.readReportFeatureName();
-    }
-
-    if (Matomo.period && Matomo.currentDateString) {
-      const currentPeriod = Periods.parse(
-        Matomo.period as string,
-        Matomo.currentDateString as string,
-      );
-
-      if (this.reportGenerated
-        && currentPeriod.containsToday()
-      ) {
-        window.$(root.querySelector('.report-generated')!).tooltip({
-          track: true,
-          content: this.reportGenerated,
-          items: 'div',
-          show: false,
-          hide: false,
-        });
-      }
     }
   },
   methods: {
@@ -202,7 +174,7 @@ export default defineComponent({
     },
     readReportFeatureName(): string {
       const root = this.$refs.root as HTMLElement;
-      return root?.querySelector('.title')?.textContent?.trim() || '';
+      return root?.querySelector('.enrichedHeadline__title')?.textContent?.trim() || '';
     },
   },
   computed: {

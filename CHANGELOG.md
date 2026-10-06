@@ -195,6 +195,30 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which is `@internal`: it
   must not be called while the widget list is being built, so it is named here to locate the change
   rather than to be called from a plugin.
+* The `EnrichedHeadline` Vue component renames the elements it renders, so a plugin styling or reading
+  them by class has to follow: `.title` becomes `.enrichedHeadline__title`, `.iconsBar` becomes
+  `.enrichedHeadline__iconsBar`, `.ratingIcons` becomes `.enrichedHeadline__ratingIcons`, `.helpIcon`
+  becomes `.enrichedHeadline__helpIcon` (its open state `.active` becomes
+  `.enrichedHeadline__helpIcon--active`). `.title` is still written to the DOM alongside its new
+  name, carrying no styles of Matomo's own, because third-party code reads the report name from
+  `.enrichedHeadline .title`.
+* The help panel a headline opens is now the standalone `mtm-helpPanel` block
+  (`plugins/Morpheus/stylesheets/ui/_help-panel.less`), with the elements `.mtm-helpPanel__readMore`
+  and `.mtm-helpPanel__date`, in place of the `.inlineHelp` markup scoped inside `.enrichedHeadline`.
+  Being a block it can be placed anywhere, and `ReportHeader` places it in a row of its own so it
+  spans the report card rather than sharing the header line with the report actions and displacing
+  them. The headline keeps it in `.enrichedHeadline__help`, a nest element, when no host asks for it.
+  Its parts are renamed with it: the panel's `.readMore` link becomes `.mtm-helpPanel__readMore` and
+  the headline's own `.helpDate` becomes `.mtm-helpPanel__date`. The DataTable's separate `.helpDate`,
+  which the report documentation emits, is untouched.
+  The panel is now removed from the DOM while closed rather than hidden in place, so code looking for
+  it has to account for it being absent, and it no longer sits under `.enrichedHeadline` on a report
+  page. Links inside the help text itself are no longer given the panel's underline and colour, only
+  the read-more link is: they take the usual link styling instead.
+* Passing help by writing a `<div class="inlineHelp">` into the `EnrichedHeadline` slot has been
+  removed, along with the `.inlineHelp` rule that hid that node and the code that consumed it. Nothing
+  in core or in any of the 128 Marketplace plugins used it. Use the `inline-help` attribute, which is
+  what every caller already does.
 
 ## Matomo 5.14.1
 
