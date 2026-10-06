@@ -96,6 +96,19 @@ class AIProcessingSettingsTest extends IntegrationTestCase
         );
     }
 
+    public function testDisclosureUrlIsOptionalAndOnlyHttpLinksAreKept(): void
+    {
+        Piwik::addAction('AIProviders.addAIProcessingFeatures', function (array &$features): void {
+            $features[AIProcessingSettings::CATEGORY_NON_ANALYTICS][] = ['name' => 'No link'];
+            $features[AIProcessingSettings::CATEGORY_NON_ANALYTICS][] = ['name' => 'Script', 'disclosureUrl' => 'javascript:alert(1)'];
+        });
+
+        self::assertSame(
+            [['name' => 'No link', 'disclosureUrl' => ''], ['name' => 'Script', 'disclosureUrl' => '']],
+            array_slice($this->api->getAIProcessingSettings()[0]['usedBy'], -2)
+        );
+    }
+
     public function testCategoriesStayListedWhenAListenerRemovesThem(): void
     {
         $this->api->setAIProcessingSettings([AIProcessingSettings::CATEGORY_NON_ANALYTICS]);

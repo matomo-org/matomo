@@ -10,6 +10,13 @@
     :content-title="translate('AIProviders_AIProcessing')"
     class="ai-processing"
   >
+    <a
+      v-if="returnUrl"
+      :href="returnUrl"
+      class="ai-processing-back"
+    >
+      <span class="icon-arrow-left"></span>{{ translate('AIProviders_BackToPreviousPage') }}
+    </a>
     <div class="contentHelp">{{ translate('AIProviders_AIProcessingHelp') }}</div>
     <p>{{ translate('AIProviders_AIProcessingIntro') }}</p>
 
@@ -27,24 +34,30 @@
         <div class="ai-processing-category-body">
           <h3 class="ai-processing-category-name">{{ translate(labels[category.id].name) }}</h3>
           <p>{{ translate(labels[category.id].description) }}</p>
-          <p
-            v-for="feature in category.usedBy"
-            :key="feature.name"
-            class="ai-processing-category-used-by"
+          <div
+            v-if="category.usedBy.length"
+            class="ai-processing-used-by"
           >
-            {{ translate('AIProviders_UsedBy', feature.name) }}
-            <template v-if="feature.disclosureUrl">
-              ·
-              <a
-                :href="feature.disclosureUrl"
-                rel="noreferrer noopener"
-                target="_blank"
+            <span class="ai-processing-used-by-label">{{ translate('AIProviders_UsedBy') }}</span>
+            <ul class="ai-processing-features">
+              <li
+                v-for="feature in category.usedBy"
+                :key="feature.name"
+                class="ai-processing-feature"
               >
-                <span class="icon-outlink" />
-                {{ translate('AIProviders_DataProcessingDetails') }}
-              </a>
-            </template>
-          </p>
+                {{ feature.name }}
+                <a
+                  v-if="feature.disclosureUrl"
+                  :href="feature.disclosureUrl"
+                  rel="noreferrer noopener"
+                  target="_blank"
+                >
+                  <span class="icon-outlink" />
+                  {{ translate('AIProviders_DataProcessingDetails') }}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="switch">
           <label>
@@ -61,7 +74,7 @@
 
       <div class="ai-processing-footer">
         <SaveButton
-          :value="translate('AIProviders_SaveSettings')"
+          :value="translate('General_Save')"
           :disabled="!hasUnsavedChanges"
           :saving="isSaving"
           @confirm="save()"
@@ -94,6 +107,11 @@ const labels: Record<AIProcessingCategory, { name: string, description: string }
     description: 'AIProviders_AggregatedAnalyticsDataDescription',
   },
 };
+
+// Set by a feature that sent the user here (e.g. Ask Matomo). Only a relative
+// index.php URL is accepted, so the link cannot lead off this Matomo.
+const returnTo = new URLSearchParams(window.location.search).get('returnTo') || '';
+const returnUrl = /^index\.php(?:[?#]|$)/.test(returnTo) ? returnTo : null;
 
 const categories = ref<AIProcessingSetting[]>([]);
 const enabled = ref<Record<string, boolean>>({});
@@ -147,6 +165,17 @@ onMounted(async () => {
 
 <style lang="less">
 .ai-processing {
+  .ai-processing-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 16px;
+
+    .icon-arrow-left {
+      font-size: 12px;
+    }
+  }
+
   .ai-processing-category {
     display: flex;
     align-items: flex-start;
@@ -171,9 +200,35 @@ onMounted(async () => {
     color: var(--theme-color-text-contrast);
   }
 
-  .ai-processing-category-body .ai-processing-category-used-by {
-    font-size: 13px;
+  .ai-processing-used-by {
+    margin-top: 14px;
+  }
+
+  .ai-processing-used-by-label {
+    display: block;
+    margin-bottom: 6px;
     color: var(--theme-color-text-lighter);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ai-processing-features {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ai-processing-feature {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 20px;
   }
 
   .ai-processing-footer {

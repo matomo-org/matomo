@@ -1,6 +1,6 @@
 {
     "AIProviders": {
-        "AIProcessing": "AI processing",
+        "AIProcessing": "AI Processing",
         "AIProcessingHelp": "Both categories are off by default and apply to all websites. AI features only send data from the categories you allow here.",
         "AIProcessingIntro": "You have the choice to opt in or opt out of using AI-powered tools and features in Matomo. Your data will not be used for model training by our AI service providers. Please remember to avoid sharing any sensitive information in your input data.",
         "AIProcessingSaveSuccess": "AI processing settings saved.",
@@ -10,6 +10,7 @@
         "ApiKey": "API key",
         "ApiKeyAlreadyConfiguredPlaceholder": "Enter a new key to replace the key.",
         "ApiKeyPlaceholder": "Enter your API key",
+        "BackToPreviousPage": "Back to previous page",
         "BedrockDescription": "Access AI models through AWS Bedrock.",
         "BedrockEndpointPlaceholder": "e.g. eu-central-1",
         "BedrockEndpointTitle": "AWS region",
@@ -60,6 +61,6 @@
         "ThinkingCapabilityDescription": "Better reasoning for complex tasks.",
         "UnexpectedError": "Unexpected error. Please check the Matomo server logs.",
         "UnsavedChanges": "You have unsaved changes",
-        "UsedBy": "Used by %s"
+        "UsedBy": "Used by"
     }
 }
