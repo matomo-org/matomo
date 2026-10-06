@@ -43,7 +43,7 @@
         "VisitsLogAndProfileDisabledPolicySettingTitle": "Visits Log and Visitor Profiles Disabled",
         "DisableVisitsLogAndProfileWhatItDoes": "Visits Log and Visitor Profile features are disabled.<br><br>This prevents an individual visitor's browsing path and detailed visit-level behaviour from being reconstructed.",
         "DisableVisitsLogAndProfileImpact": "<strong>Visitors > Visits Log</strong> and Visitor Profile views are unavailable.",
-        "DisableVisitsLogAndProfileDescription": "Also removes features that depend on these, like the e-commerce log, the segmented visits-log, the real-time map or the real-time widget. May be required to comply with local privacy laws\/guidelines.",
+        "DisableVisitsLogAndProfileDescription2": "Also removes features that depend on these, like the e-commerce log, the segmented visits-log or the real-time map. The real-time widget only shows the aggregated visit counts. May be required to comply with local privacy laws\/guidelines.",
         "QueryMaxExecutionTimeExceeded": "Could not run the query in time.",
         "QueryMaxExecutionTimeExceededReasonDateRange": "Maybe the selected date range is too wide?",
         "QueryMaxExecutionTimeExceededReasonSegment": "Maybe the selected segment didn't match any visits?",
