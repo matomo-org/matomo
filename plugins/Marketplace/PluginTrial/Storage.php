@@ -77,9 +77,7 @@ class Storage
             return false;
         }
 
-        $expirationTime = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
-
-        if ($this->storage['requestTime'] < (time() - $expirationTime * 24 * 3600)) {
+        if ($this->storage['requestTime'] < $this->getExpiredBefore()) {
             if ($this->expireIfUnchanged()) {
                 return false;
             }
@@ -88,6 +86,32 @@ class Storage
         }
 
         return true;
+    }
+
+    /**
+     * Returns if the current user has a pending trial request for the plugin
+     */
+    public function wasRequestedByCurrentUser(): bool
+    {
+        if (!$this->wasRequested()) {
+            return false;
+        }
+
+        $hasOpenRequest = StaticContainer::get(RequestHistory::class)->hasOpenRequest(
+            $this->pluginName,
+            Piwik::getCurrentUserLogin(),
+            $this->getExpiredBefore()
+        );
+
+        // until the update creates the history table, a pending request blocks every user, as it did before
+        return $hasOpenRequest ?? true;
+    }
+
+    private function getExpiredBefore(): int
+    {
+        $expirationDays = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
+
+        return time() - $expirationDays * 24 * 3600;
     }
 
     /**

@@ -41,11 +41,22 @@ class RequestTest extends IntegrationTestCase
     public function testCreateAlreadyRequested()
     {
         $storageMock = self::createMock(Storage::class);
-        $storageMock->method('wasRequested')->willReturn(true);
+        $storageMock->method('wasRequestedByCurrentUser')->willReturn(true);
         $storageMock->expects(self::never())->method('setRequested');
         Piwik::addAction('Marketplace.pluginTrialRequested', function () {
             self::fail('A repeated request must not post the event');
         });
+
+        $request = new Request('PremiumPlugin', $storageMock);
+        $request->create();
+    }
+
+    public function testCreateWhenAnotherUserAlreadyRequested()
+    {
+        $storageMock = self::createMock(Storage::class);
+        $storageMock->method('wasRequested')->willReturn(true);
+        $storageMock->method('wasRequestedByCurrentUser')->willReturn(false);
+        $storageMock->expects(self::once())->method('setRequested');
 
         $request = new Request('PremiumPlugin', $storageMock);
         $request->create();
@@ -70,7 +81,7 @@ class RequestTest extends IntegrationTestCase
         });
 
         $storageMock = self::createMock(Storage::class);
-        $storageMock->method('wasRequested')->willReturn(false);
+        $storageMock->method('wasRequestedByCurrentUser')->willReturn(false);
         $storageMock->expects(self::once())->method('setRequested');
 
         Piwik::addAction('Marketplace.pluginTrialRequested', function (...$args) use (&$eventArgs) {
@@ -123,7 +134,7 @@ class RequestTest extends IntegrationTestCase
     private function createRequest(): void
     {
         $storageMock = self::createMock(Storage::class);
-        $storageMock->method('wasRequested')->willReturn(false);
+        $storageMock->method('wasRequestedByCurrentUser')->willReturn(false);
 
         (new Request('PremiumPlugin', $storageMock))->create('Premium Plugin');
     }

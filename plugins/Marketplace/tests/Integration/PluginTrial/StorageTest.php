@@ -55,6 +55,16 @@ class StorageTest extends IntegrationTestCase
         self::assertTrue($storage->wasRequested());
     }
 
+    public function testWasRequestedByCurrentUserWithAnExpiryReachingBeforeTheEarliestDate()
+    {
+        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', 20000);
+
+        $storage = new Storage('PremiumPlugin');
+        $storage->setRequested();
+
+        self::assertTrue($storage->wasRequestedByCurrentUser());
+    }
+
     public function testClearStorage()
     {
         // Manually create a request that is 25 hours old
@@ -338,6 +348,7 @@ class StorageTest extends IntegrationTestCase
             $storage = new Storage('PremiumPlugin');
             $storage->setRequested('Premium Plugin');
             self::assertTrue((new Storage('PremiumPlugin'))->wasRequested());
+            self::assertTrue((new Storage('PremiumPlugin'))->wasRequestedByCurrentUser());
 
             Option::set('Marketplace.PluginTrialRequest.OtherPlugin', json_encode([
                 'requestTime' => time() - (25 * 3600),

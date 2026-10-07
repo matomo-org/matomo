@@ -36,7 +36,7 @@ final class Service
 
 
     /**
-     * Returns if a plugin was already requested
+     * Returns if the current user has already requested a plugin
      */
     public function wasRequested(string $pluginName): bool
     {

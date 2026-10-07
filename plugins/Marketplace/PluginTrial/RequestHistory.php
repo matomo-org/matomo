@@ -58,6 +58,28 @@ class RequestHistory
     }
 
     /**
+     * Returns whether the login has a request for the plugin that is still open and was made at or after $since, or
+     * null while the 6.0.0-b6 update has not yet created the table.
+     */
+    public function hasOpenRequest(string $pluginName, string $login, int $since): ?bool
+    {
+        try {
+            return (bool) Db::get()->fetchOne(
+                'SELECT 1 FROM ' . $this->getTable() . ' WHERE login = ? AND plugin_name = ? AND ts_requested >= ?'
+                . ' AND ts_fulfilled IS NULL AND ts_expired IS NULL LIMIT 1',
+                // Date::factory() throws for anything this old, which a very long expiry setting reaches
+                [$login, $pluginName, Date::factory(max($since, Date::FIRST_WEBSITE_TIMESTAMP))->getDatetime()]
+            );
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
+                throw $e;
+            }
+
+            return null;
+        }
+    }
+
+    /**
      * Keeps the requests so they still count, but forgets who made them.
      */
     public function anonymizeLogin(string $login): void

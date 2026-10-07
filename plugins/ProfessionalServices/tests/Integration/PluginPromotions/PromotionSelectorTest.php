@@ -12,6 +12,7 @@ namespace Piwik\Plugins\ProfessionalServices\tests\Integration\PluginPromotions;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionEligibility;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRegistry;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionSelector;
@@ -240,20 +241,33 @@ class PromotionSelectorTest extends IntegrationTestCase
     public function testAPendingTrialRequestSuppressesThatProduct(): void
     {
         $this->triggering = ['segments' => true, 'bounce_rate' => true];
+        $this->requestTrial('CustomReports', 'alice');
 
+        $this->assertSame('HeatmapSessionRecording', $this->makeSelector()->select()->getPromotion()->getPluginName());
+    }
+
+    public function testAnotherUsersTrialRequestDoesNotSuppressThatProduct(): void
+    {
+        $this->triggering = ['segments' => true, 'bounce_rate' => true];
+        $this->requestTrial('CustomReports', 'bob');
+
+        $this->assertSame('CustomReports', $this->makeSelector()->select()->getPromotion()->getPluginName());
+    }
+
+    private function requestTrial(string $pluginName, string $login): void
+    {
         // `time()`, not the frozen clock. Marketplace's trial storage expires a request
         // against the real clock rather than `Date::getNowTimestamp()`, so a request
         // stamped with this suite's frozen 2026-08-27 silently counted as expired once the
         // real date passed the 28 day window - and the test began failing on its own,
         // months after it was written, with no change to the code it covers.
-        Option::set('Marketplace.PluginTrialRequest.CustomReports', json_encode([
+        Option::set('Marketplace.PluginTrialRequest.' . $pluginName, json_encode([
             'requestTime' => time(),
-            'displayName' => 'Custom Reports',
+            'displayName' => $pluginName,
             'dismissed' => [],
-            'requestedBy' => 'alice',
+            'requestedBy' => $login,
         ]));
-
-        $this->assertSame('HeatmapSessionRecording', $this->makeSelector()->select()->getPromotion()->getPluginName());
+        (new RequestHistory())->add($pluginName, $login, time());
     }
 
     public function testNothingIsShownWhenPromotionsAreNotAllowed(): void

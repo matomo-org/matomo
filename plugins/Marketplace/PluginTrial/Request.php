@@ -42,7 +42,7 @@ class Request
 
         $this->storage->setRequested($pluginDisplayName);
 
-        // after the email, so a failing observer cannot stop it; safeSend() logs a failed send rather than throwing
+        // sent before the event is posted, so a failing observer cannot stop it; safeSend() logs a failed send rather than throwing
         $this->sendEmailToSuperUsers();
 
         /**
@@ -65,7 +65,7 @@ class Request
      */
     public function cancel(): void
     {
-        if (!$this->wasRequested()) {
+        if (!$this->storage->wasRequested()) {
             return; // not requested
         }
 
@@ -74,11 +74,11 @@ class Request
 
 
     /**
-     * Returns if a plugin was already requested
+     * Returns if the current user has already requested the plugin
      */
     public function wasRequested(): bool
     {
-        return $this->storage->wasRequested();
+        return $this->storage->wasRequestedByCurrentUser();
     }
 
     /**
