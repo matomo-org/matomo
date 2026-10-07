@@ -103,6 +103,17 @@ class ClickhouseDialectTranslator
     ];
 
     /**
+     * Tables small enough that a join keyed off one of them may be restricted through the
+     * whole table when the join to the table itself was left alone. See
+     * wholeTableRestriction(). Longest name first, for the same suffix reason as
+     * RESTRICTABLE_JOIN_KEYS.
+     */
+    private const WHOLE_TABLE_RESTRICTION_SOURCES = [
+        'log_conversion_item',
+        'log_conversion',
+    ];
+
+    /**
      * The words a WHERE conjunct may contain that are not column names. Deliberately short:
      * see namesAColumnWithoutItsTable(), where an omission costs a dropped conjunct and a
      * wrong inclusion costs a broken restriction.
@@ -1624,6 +1635,10 @@ class ClickhouseDialectTranslator
 
             $rewritten = self::restrictOneJoin($text, $restrictions, $segmentTableDrives);
             if (null === $rewritten) {
+                $whole = self::wholeTableRestriction($text);
+                if (null !== $whole) {
+                    $restrictions += $whole;
+                }
                 continue;
             }
 
@@ -1767,6 +1782,39 @@ class ClickhouseDialectTranslator
             $alias,
             $subQuery,
         ];
+    }
+
+    /**
+     * `[alias => 'FROM <table> AS <alias>']` for a join to one of WHOLE_TABLE_RESTRICTION_SOURCES
+     * that this pass left unrestricted, or null for any other join.
+     *
+     * A join keyed off such an alias can then be restricted through the whole table rather
+     * than not at all. The ecommerce segment is the case: JoinGenerator joins
+     * log_conversion_item with `AND deleted = 0` in the ON, which restrictOneJoin() does not
+     * take, and the productName lookup keyed off it read log_action whole - every name on the
+     * corpus for the handful that conversion items name. Reading the conversion item column
+     * instead is a superset of the ids the join can reach, so it is as safe as any other
+     * restriction here.
+     *
+     * @return array<string, string>|null
+     */
+    private static function wholeTableRestriction(string $joinText): ?array
+    {
+        $pattern = '~^\s*(?:(?:LEFT|INNER)\s+(?:OUTER\s+)?)?JOIN\s+(`?[\w]+`?)(?:\s+(?:AS\s+)?(`?[\w]+`?))?\s+ON\s~is';
+        if (!preg_match($pattern, $joinText, $m)) {
+            return null;
+        }
+
+        $table = strtolower(self::normalizeIdent($m[1]));
+        foreach (self::WHOLE_TABLE_RESTRICTION_SOURCES as $logTable) {
+            if (substr($table, -strlen($logTable)) === $logTable) {
+                $alias = self::normalizeIdent(($m[2] ?? '') !== '' ? $m[2] : $m[1]);
+
+                return [$alias => 'FROM ' . $m[1] . ' AS ' . $alias];
+            }
+        }
+
+        return null;
     }
 
     /**

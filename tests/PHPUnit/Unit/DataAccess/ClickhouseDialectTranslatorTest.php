@@ -789,6 +789,35 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * The ecommerce segment joins log_conversion_item with `deleted = 0` in the ON, which keeps
+     * that join unrestricted, and its productName lookup used to read log_action whole as a
+     * result. The conversion item table is small, so the lookup is restricted through all of it.
+     */
+    public function testAJoinKeyedOffAConversionItemJoinIsRestrictedThroughTheWholeTable(): void
+    {
+        $sql = 'SELECT log_visit.* FROM log_visit AS log_visit'
+            . ' LEFT JOIN log_conversion_item AS log_conversion_item ON log_conversion_item.idvisit = log_visit.idvisit'
+            . ' AND `log_conversion_item`.deleted = 0'
+            . ' LEFT JOIN log_action AS log_action_item ON log_conversion_item.idaction_name = log_action_item.idaction'
+            . ' WHERE log_visit.idsite = :chBind000 AND log_action_item.name_lower LIKE :chBind001';
+
+        $out = ClickhouseDialectTranslator::restrictLogTableJoins($sql);
+
+        self::assertStringContainsString(
+            ' LEFT JOIN log_conversion_item AS log_conversion_item ON log_conversion_item.idvisit = log_visit.idvisit'
+            . ' AND `log_conversion_item`.deleted = 0',
+            $out,
+            'the conversion item join itself is left alone'
+        );
+        self::assertStringContainsString(
+            'LEFT JOIN (SELECT *, `name_lower` FROM log_action WHERE idaction IN'
+            . ' (SELECT log_conversion_item.idaction_name FROM log_conversion_item AS log_conversion_item))'
+            . ' AS log_action_item ON log_conversion_item.idaction_name = log_action_item.idaction',
+            $out
+        );
+    }
+
+    /**
      * A RIGHT (or FULL) join keeps its unmatched right-hand rows, so removing one is only safe
      * if a driving conjunct rejects the NULLs it would be joined against - an argument this
      * pass cannot make from the SQL alone. LogAggregator::queryConversionsByPageView() can make
