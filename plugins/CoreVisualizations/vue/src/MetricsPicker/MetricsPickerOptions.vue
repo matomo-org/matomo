@@ -6,52 +6,70 @@
 -->
 
 <template>
-  <div
-    class="metrics-picker__options"
-    :role="multiselect ? 'group' : 'radiogroup'"
+  <ul
+    class="mtm-dropdownPanel__menu"
+    role="menu"
     :aria-label="translate('General_ChooseMetrics')"
   >
-    <label
-      class="metrics-picker__column metrics-picker__label"
+    <li
+      class="mtm-dropdownPanel__menuItem"
+      role="none"
       v-for="columnConfig in selectableColumns"
       :key="columnConfig.column"
     >
-      <input
-        class="filled-in"
-        :type="multiselect ? 'checkbox' : 'radio'"
-        :checked="!!columnStates[columnConfig.column]"
-        @change="optionSelected(columnConfig.column, columnStates)"
-        @keydown.enter.prevent="optionSelected(columnConfig.column, columnStates)"
-      />
-      <span aria-hidden="true"></span>
-      <span class="metrics-picker__title">{{ columnConfig.translation }}</span>
-    </label>
-    <p
-      class="metrics-picker__headline"
+      <div
+        class="mtm-dropdownPanel__menuLink metricsPickerColumn"
+        :role="multiselect ? 'menuitemcheckbox' : 'menuitemradio'"
+        tabindex="0"
+        :aria-checked="!!columnStates[columnConfig.column]"
+        @click="optionSelected(columnConfig.column, columnStates)"
+        @keydown.enter.prevent="activateItem"
+        @keydown.space.prevent="activateItem"
+      >
+        <span class="mtm-dropdownPanel__menuLabel">{{ columnConfig.translation }}</span>
+        <span
+          v-if="columnStates[columnConfig.column]"
+          class="mtm-dropdownPanel__rightIcon"
+          aria-hidden="true"
+        ><span class="icon-ok" /></span>
+      </div>
+    </li>
+    <li
+      class="mtm-dropdownPanel__menuHeading"
+      role="presentation"
       v-if="selectableRows.length"
     >
       {{ translate('General_RecordsToPlot') }}
-    </p>
-    <label
-      class="metrics-picker__row metrics-picker__label"
+    </li>
+    <li
+      class="mtm-dropdownPanel__menuItem"
+      role="none"
       v-for="rowConfig in selectableRows"
       :key="rowConfig.matcher"
     >
-      <input
-        class="filled-in"
-        :type="multiselect ? 'checkbox' : 'radio'"
-        :checked="!!rowStates[rowConfig.matcher]"
-        @change="optionSelected(rowConfig.matcher, rowStates)"
-        @keydown.enter.prevent="optionSelected(rowConfig.matcher, rowStates)"
-      />
-      <span aria-hidden="true"></span>
-      <span class="metrics-picker__title">{{ rowConfig.label }}</span>
-    </label>
-  </div>
+      <div
+        class="mtm-dropdownPanel__menuLink metricsPickerRow"
+        :role="multiselect ? 'menuitemcheckbox' : 'menuitemradio'"
+        tabindex="0"
+        :aria-checked="!!rowStates[rowConfig.matcher]"
+        @click="optionSelected(rowConfig.matcher, rowStates)"
+        @keydown.enter.prevent="activateItem"
+        @keydown.space.prevent="activateItem"
+      >
+        <span class="mtm-dropdownPanel__menuLabel">{{ rowConfig.label }}</span>
+        <span
+          v-if="rowStates[rowConfig.matcher]"
+          class="mtm-dropdownPanel__rightIcon"
+          aria-hidden="true"
+        ><span class="icon-ok" /></span>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { activateMenuItem } from 'CoreHome';
 
 export interface ColumnConfig {
   column: string;
@@ -130,6 +148,7 @@ export default defineComponent({
   },
   emits: ['select'],
   methods: {
+    activateItem: activateMenuItem,
     unselectOptions(optionStates: Record<string, boolean>) {
       Object.keys(optionStates).forEach((optionName) => {
         optionStates[optionName] = false;

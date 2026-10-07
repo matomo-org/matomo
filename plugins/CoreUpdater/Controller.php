@@ -66,6 +66,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Common::sendHeader('Content-Type: text/css');
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
+        Common::stripHeader('Set-Cookie');
 
         $files = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
@@ -93,6 +94,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Common::sendHeader('Content-Type: application/javascript; charset=UTF-8');
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
+        Common::stripHeader('Set-Cookie');
 
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
@@ -430,10 +432,9 @@ class Controller extends \Piwik\Plugin\Controller
         // check file integrity
         [$success, $messages] = FileIntegrity::getFileIntegrityInformation();
 
+        // Messages on a passing check are only notes, which the updater does not need to show
         if (!$success) {
             $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarning');
-        }
-        if (count($messages) > 0) {
             $this->warningMessages = array_merge($this->warningMessages, $messages);
         }
         Filesystem::deleteAllCacheOnUpdate();

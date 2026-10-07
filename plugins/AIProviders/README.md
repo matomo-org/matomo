@@ -147,8 +147,10 @@ verbatim, so escape them where you render them. URLs are guaranteed to be `http(
 
 **Grounding is not a marginal cost.** Every provider charges per search, and the retrieved page content
 is billed as input tokens on top, so a grounded request costs a multiple of the same request
-ungrounded rather than a little more. The number of searches is capped on Anthropic (`max_uses`: 5)
-and the retrieved context on OpenAI (`search_context_size`: medium); Google exposes no cap at all.
+ungrounded rather than a little more. The number of searches is capped at
+`AIRequest::DEFAULT_MAX_WEB_SEARCHES` (2) on Anthropic (`max_uses`) and OpenAI (`max_tool_calls`);
+raise or lower it per request with `withMaxWebSearches()`. OpenAI also caps the retrieved context
+(`search_context_size`: medium). Google exposes no cap at all and ignores the setting.
 
 Grounded requests are slow (30-90s). The provider timeout defaults to 120s for them (30s otherwise).
 That outlasts the default read timeout of every common web server and proxy in front of PHP (nginx

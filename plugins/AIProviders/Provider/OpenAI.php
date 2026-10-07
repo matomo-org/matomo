@@ -113,6 +113,8 @@ class OpenAI extends AIProvider
                 'effort' => $this->wantsThinking($request) ? self::REASONING_EFFORT_THINKING : self::REASONING_EFFORT_NONE,
             ],
             'tools' => [['type' => 'web_search', 'search_context_size' => self::WEB_SEARCH_CONTEXT_SIZE]],
+            // Caps every built-in tool call; web search is the only tool sent here.
+            'max_tool_calls' => $request->getMaxWebSearches(),
             // Unlike chat completions, the Responses API retains requests and
             // output server-side (~30 days) by default. Matomo prompts carry site
             // names, URLs and report data, so storage is switched off explicitly.
@@ -242,6 +244,12 @@ class OpenAI extends AIProvider
             $type = $item['type'] ?? null;
 
             if ($type === 'web_search_call') {
+                // When max_tool_calls is reached, one extra call is left at
+                // "searching": it never ran, so it is neither a billed search
+                // nor a query.
+                if (($item['status'] ?? null) === 'searching') {
+                    continue;
+                }
                 // Reasoning models emit open_page and find_in_page actions on this
                 // same item type. Those are follow-ups within a search, not new
                 // billed searches, so counting them would overstate the fee.

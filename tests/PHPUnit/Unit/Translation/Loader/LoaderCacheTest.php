@@ -12,6 +12,7 @@ namespace Piwik\Tests\Unit\Translation\Loader;
 use Matomo\Cache\Backend\ArrayCache;
 use Matomo\Cache\Lazy;
 use Piwik\Translation\Loader\LoaderCache;
+use Piwik\Version;
 
 /**
  * @group Translation
@@ -69,5 +70,22 @@ class LoaderCacheTest extends \PHPUnit\Framework\TestCase
 
         // Should call the wrapped loader a second time
         $loader->load('en', array('foo', 'bar'));
+    }
+
+    public function testShouldNotReuseTranslationsCachedByAnotherVersion()
+    {
+        $cache = new Lazy(new ArrayCache());
+        $cache->save('Translations-en-' . sha1('5.0.0' . 'foo'), array('old translations'));
+        $cache->save('Translations-en-' . sha1('foo'), array('old translations'));
+
+        $wrappedLoader = $this->getMockForAbstractClass('Piwik\Translation\Loader\LoaderInterface');
+        $wrappedLoader->expects($this->once())
+            ->method('load')
+            ->willReturn(array('translations!'));
+
+        $loader = new LoaderCache($wrappedLoader, $cache);
+
+        $this->assertEquals(array('translations!'), $loader->load('en', array('foo')));
+        $this->assertEquals(array('translations!'), $cache->fetch('Translations-en-' . sha1(Version::VERSION . 'foo')));
     }
 }

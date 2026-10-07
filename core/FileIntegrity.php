@@ -16,7 +16,14 @@ use Piwik\Plugins\CustomJsTracker\TrackerUpdater;
 class FileIntegrity
 {
     /**
+     * Developer docs shipped in the release root up to Matomo 5.13, which the updater leaves behind
+     */
+    private const LEFTOVER_DEVELOPER_DOCS = ['AGENTS.md', 'CHANGELOG.md', 'CONTRIBUTING.md'];
+
+    /**
      * Get file integrity information
+     *
+     * Messages can be returned even when the check succeeds, e.g. a note about leftover developer docs.
      *
      * @return array [bool $success, array $messages]
      */
@@ -40,13 +47,14 @@ class FileIntegrity
 
         $messages = self::getMessagesDirectoriesFoundButNotExpected($messages);
 
-        $messages = self::getMessagesFilesFoundButNotExpected($messages);
+        [$messages, $notes] = self::getMessagesUnexpectedFiles($messages, self::getFilesFoundButNotExpected());
 
         $messages = self::getMessagesFilesMismatch($messages);
 
+        // Notes are harmless, so they are reported without failing the check
         return array(
             $success = empty($messages),
-            $messages,
+            array_merge($messages, $notes),
         );
     }
 
@@ -122,34 +130,20 @@ class FileIntegrity
     }
 
     /**
-     * @param $messages
-     * @return array
+     * @param string[] $messages
+     * @param string[]|null $filesFoundButNotExpected
+     * @return string[]
      */
-    protected static function getMessagesFilesFoundButNotExpected($messages)
+    protected static function getMessagesFilesFoundButNotExpected($messages, ?array $filesFoundButNotExpected = null)
     {
-        $filesFoundButNotExpected = self::getFilesFoundButNotExpected();
+        if ($filesFoundButNotExpected === null) {
+            $filesFoundButNotExpected = self::getFilesFoundButNotExpected();
+        }
+
         if (count($filesFoundButNotExpected) > 0) {
             $messageFilesToDelete = '';
             foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
                 $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', htmlspecialchars($fileFoundNotExpected)) . '<br/>';
-            }
-
-            $files = array();
-            foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
-                $files[] = '"' . htmlspecialchars(realpath(dirname($fileFoundNotExpected)) . DIRECTORY_SEPARATOR . basename($fileFoundNotExpected)) . '"';
-            }
-
-            $deleteAllAtOnce = array();
-            $chunks = array_chunk($files, 50);
-
-            $command = 'rm';
-
-            if (SettingsServer::isWindows()) {
-                $command = 'del';
-            }
-
-            foreach ($chunks as $files) {
-                $deleteAllAtOnce[] = sprintf('%s %s', $command, implode(' ', $files));
             }
 
             $messages[] = Piwik::translate('General_ExceptionUnexpectedFile')
@@ -160,12 +154,92 @@ class FileIntegrity
                 . '<br/><br/>'
                 . Piwik::translate('General_ToDeleteAllFilesRunThisCommand')
                 . '<br/>'
-                . implode('<br />', $deleteAllAtOnce)
+                . implode('<br />', self::getDeleteFilesCommands($filesFoundButNotExpected))
                 . '<br/><br/>';
 
             return $messages;
         }
         return $messages;
+    }
+
+    /**
+     * @param string[] $leftoverDeveloperDocs
+     * @return string[]
+     */
+    private static function getMessagesLeftoverDeveloperDocs(array $leftoverDeveloperDocs): array
+    {
+        if (empty($leftoverDeveloperDocs)) {
+            return [];
+        }
+
+        $fileList = '';
+        foreach ($leftoverDeveloperDocs as $file) {
+            $fileList .= htmlspecialchars($file) . '<br/>';
+        }
+
+        return [
+            Piwik::translate('General_LeftoverDeveloperDocsFound')
+            . '<br/>'
+            . Piwik::translate('General_LeftoverDeveloperDocsSafeToDelete')
+            . '<br/><br/>'
+            . $fileList
+            . '<br/><br/>'
+            . Piwik::translate('General_ToDeleteAllFilesRunThisCommand')
+            . '<br/>'
+            . implode('<br />', self::getDeleteFilesCommands($leftoverDeveloperDocs))
+            . '<br/><br/>',
+        ];
+    }
+
+    /**
+     * Builds the messages for unexpected files. Leftover developer docs are returned separately as notes,
+     * as they should not fail the check.
+     *
+     * @param string[] $messages
+     * @param string[] $filesFoundButNotExpected
+     * @return array{0: string[], 1: string[]} [messages, notes]
+     */
+    protected static function getMessagesUnexpectedFiles(array $messages, array $filesFoundButNotExpected): array
+    {
+        $otherFiles = [];
+        $leftoverDeveloperDocs = [];
+        foreach ($filesFoundButNotExpected as $file) {
+            if (in_array($file, self::LEFTOVER_DEVELOPER_DOCS, true)) {
+                $leftoverDeveloperDocs[] = $file;
+            } else {
+                $otherFiles[] = $file;
+            }
+        }
+
+        return [
+            self::getMessagesFilesFoundButNotExpected($messages, $otherFiles),
+            self::getMessagesLeftoverDeveloperDocs($leftoverDeveloperDocs),
+        ];
+    }
+
+    /**
+     * @param string[] $filesToDelete
+     * @return string[]
+     */
+    private static function getDeleteFilesCommands(array $filesToDelete): array
+    {
+        $files = array();
+        foreach ($filesToDelete as $fileToDelete) {
+            $files[] = '"' . htmlspecialchars(realpath(dirname($fileToDelete)) . DIRECTORY_SEPARATOR . basename($fileToDelete)) . '"';
+        }
+
+        $command = 'rm';
+
+        if (SettingsServer::isWindows()) {
+            $command = 'del';
+        }
+
+        $deleteAllAtOnce = array();
+        foreach (array_chunk($files, 50) as $chunk) {
+            $deleteAllAtOnce[] = sprintf('%s %s', $command, implode(' ', $chunk));
+        }
+
+        return $deleteAllAtOnce;
     }
 
     /**
