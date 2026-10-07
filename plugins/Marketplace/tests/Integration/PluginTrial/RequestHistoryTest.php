@@ -44,16 +44,16 @@ class RequestHistoryTest extends IntegrationTestCase
         $this->history->add('PremiumPlugin', 'bob', strtotime('2026-10-03 10:00:00'));
 
         self::assertSame([
-            ['plugin_name' => 'PremiumPlugin', 'login' => 'bob', 'ts_requested' => '2026-10-03 10:00:00', 'ts_fulfilled' => null, 'ts_expired' => null],
-            ['plugin_name' => 'PremiumPlugin', 'login' => 'alice', 'ts_requested' => '2026-10-01 10:00:00', 'ts_fulfilled' => null, 'ts_expired' => null],
+            ['plugin_name' => 'PremiumPlugin', 'login' => 'bob', 'ts_requested' => '2026-10-03 10:00:00', 'ts_fulfilled' => null],
+            ['plugin_name' => 'PremiumPlugin', 'login' => 'alice', 'ts_requested' => '2026-10-01 10:00:00', 'ts_fulfilled' => null],
         ], $this->history->getRequests('PremiumPlugin'));
     }
 
-    public function testEndingARequestEndsEveryOpenRequestOfThatPluginOnlyOnce(): void
+    public function testFulfillingStampsEveryOpenRequestOfThatPluginOnlyOnce(): void
     {
         $this->history->add('PremiumPlugin', 'alice', strtotime('2026-09-01 10:00:00'));
         Date::$now = strtotime('2026-09-29 12:00:00');
-        $this->history->markExpired('PremiumPlugin');
+        $this->history->markFulfilled('PremiumPlugin');
 
         $this->history->add('PremiumPlugin', 'carol', strtotime('2026-10-01 10:00:01'));
         $this->history->add('PremiumPlugin', 'bob', strtotime('2026-10-01 10:00:00'));
@@ -63,16 +63,24 @@ class RequestHistoryTest extends IntegrationTestCase
         $this->history->markFulfilled('PremiumPlugin');
         Date::$now = strtotime('2026-10-06 12:00:00');
         $this->history->markFulfilled('PremiumPlugin');
-        $this->history->markExpired('PremiumPlugin');
 
         // newest first: carol, bob, alice
-        $premium = $this->history->getRequests('PremiumPlugin');
-        self::assertSame(['2026-10-05 12:00:00', '2026-10-05 12:00:00', null], array_column($premium, 'ts_fulfilled'));
-        self::assertSame([null, null, '2026-09-29 12:00:00'], array_column($premium, 'ts_expired'));
+        self::assertSame(
+            ['2026-10-05 12:00:00', '2026-10-05 12:00:00', '2026-09-29 12:00:00'],
+            array_column($this->history->getRequests('PremiumPlugin'), 'ts_fulfilled')
+        );
+        self::assertSame([null], array_column($this->history->getRequests('OtherPlugin'), 'ts_fulfilled'));
+    }
 
-        $other = $this->history->getRequests('OtherPlugin');
-        self::assertSame([null], array_column($other, 'ts_fulfilled'));
-        self::assertSame([null], array_column($other, 'ts_expired'));
+    public function testHasRequestedCountsFulfilledRequestsOfThatLoginAndPluginOnly(): void
+    {
+        $this->history->add('PremiumPlugin', 'alice', strtotime('2026-10-01 10:00:00'));
+        $this->history->markFulfilled('PremiumPlugin');
+        $this->history->add('OtherPlugin', 'bob', strtotime('2026-10-01 10:00:00'));
+
+        self::assertTrue($this->history->hasRequested('PremiumPlugin', 'alice'));
+        self::assertFalse($this->history->hasRequested('PremiumPlugin', 'bob'));
+        self::assertFalse($this->history->hasRequested('OtherPlugin', 'alice'));
     }
 
     public function testDeletingUserKeepsTheirRequestsWithoutTheirLogin(): void

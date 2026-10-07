@@ -9,12 +9,8 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
-use Piwik\Common;
 use Piwik\Config\GeneralConfig;
-use Piwik\Date;
-use Piwik\Db;
 use Piwik\Notification\Manager;
-use Piwik\Option;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
@@ -32,7 +28,6 @@ class ServiceTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', 1);
         FakeAccess::$identity = FakeAccess::$superUserLogin;
         \Zend_Session::$_unitTestEnabled = true;
         Manager::cancelAllNotifications();
@@ -99,27 +94,7 @@ class ServiceTest extends IntegrationTestCase
         self::assertSame(['alice', 'bob'], $logins);
     }
 
-    public function testAUsersRequestExpiresWhileANewerRequestFromAnotherUserIsPending()
-    {
-        $service = new Service();
-        FakeAccess::$identity = 'alice';
-        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
-        $requestTime = time() - 2 * 24 * 3600;
-        Db::query(
-            'UPDATE ' . Common::prefixTable(RequestHistory::TABLE_NAME) . ' SET ts_requested = ?',
-            [Date::factory($requestTime)->getDatetime()]
-        );
-        $optionName = 'Marketplace.PluginTrialRequest.PremiumPlugin';
-        Option::set($optionName, json_encode(['requestTime' => $requestTime] + json_decode(Option::get($optionName), true)));
-
-        FakeAccess::$identity = 'bob';
-        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
-
-        FakeAccess::$identity = 'alice';
-        self::assertFalse($service->wasRequested('PremiumPlugin'));
-    }
-
-    public function testCancelEndsEveryUsersRequest()
+    public function testCancelEndsThePendingRequestButEachUsersRequestStaysPermanent()
     {
         $service = new Service();
         FakeAccess::$identity = 'alice';
@@ -129,19 +104,15 @@ class ServiceTest extends IntegrationTestCase
 
         $service->cancelRequest('PremiumPlugin');
 
-        self::assertFalse($service->wasRequested('PremiumPlugin'));
-        FakeAccess::$identity = 'alice';
-        self::assertFalse($service->wasRequested('PremiumPlugin'));
-    }
-
-    public function testCancel()
-    {
-        $this->setRequested();
-
-        $service = new Service();
+        $this->assertRequested(false);
         self::assertTrue($service->wasRequested('PremiumPlugin'));
-        $service->cancelRequest('PremiumPlugin');
+        FakeAccess::$identity = 'alice';
+        self::assertTrue($service->wasRequested('PremiumPlugin'));
+
+        FakeAccess::$identity = 'carol';
         self::assertFalse($service->wasRequested('PremiumPlugin'));
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+        $this->assertRequested(true);
     }
 
     public function testCreateAndDismissNotifications()
@@ -174,7 +145,7 @@ class ServiceTest extends IntegrationTestCase
         $service->createNotificationsIfNeeded();
 
         self::assertCount(0, Manager::getPendingInMemoryNotifications());
-        self::assertFalse($service->wasRequested('CoreHome'));
+        self::assertFalse((new Storage('CoreHome'))->wasRequested());
         $requests = (new RequestHistory())->getRequests('CoreHome');
         self::assertNotNull($requests[0]['ts_fulfilled']);
     }

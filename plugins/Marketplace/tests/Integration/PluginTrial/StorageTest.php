@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
 use Piwik\Common;
-use Piwik\Config\GeneralConfig;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
@@ -30,13 +29,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class StorageTest extends IntegrationTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', 1);
-    }
-
     public function testConstructorFailsOnInvalidPlugin()
     {
         self::expectException(\Exception::class);
@@ -57,44 +49,21 @@ class StorageTest extends IntegrationTestCase
         self::assertTrue($storage->wasRequested());
     }
 
-    public function testWasRequestedByCurrentUserWithAnExpiryReachingBeforeTheEarliestDate()
-    {
-        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', 20000);
-
-        $storage = new Storage('PremiumPlugin');
-        $storage->setRequested();
-
-        self::assertTrue($storage->wasRequestedByCurrentUser());
-    }
-
     public function testClearStorage()
     {
-        // Manually create a request that is 25 hours old
-        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
-            'requestTime' => time() - (25 * 3600),
-            'displayName' => 'Premium Plugin',
-            'dismissed' => [],
-            'requestedBy' => 'olaf',
-        ]));
+        $this->setRequestOnlyInOption(time() - 60, 'olaf');
 
         $storage = new Storage('PremiumPlugin');
         $storage->clearStorage();
         self::assertFalse(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
     }
 
-    public function testWasRequestedClearsStorageWhenOutdated()
+    public function testARequestDoesNotExpire()
     {
-        // Manually create a request that is 25 hours old
-        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
-            'requestTime' => time() - (25 * 3600),
-            'displayName' => 'Premium Plugin',
-            'dismissed' => [],
-            'requestedBy' => 'olaf',
-        ]));
+        $this->setRequestOnlyInOption(time() - 400 * 24 * 3600, 'olaf');
 
-        $storage = new Storage('PremiumPlugin');
-        self::assertFalse($storage->wasRequested());
-        self::assertFalse(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
+        self::assertTrue((new Storage('PremiumPlugin'))->wasRequested());
+        self::assertNotFalse(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
     }
 
     public function testDismissRequest()
@@ -148,24 +117,15 @@ class StorageTest extends IntegrationTestCase
         $requests = (new RequestHistory())->getRequests('PremiumPlugin');
         self::assertCount(1, $requests);
         self::assertNotNull($requests[0]['ts_fulfilled']);
-        self::assertNull($requests[0]['ts_expired']);
     }
 
-    public function testWasRequestedRecordsTheExpiryInHistory()
+    public function testAFulfilledRequestStillCountsForItsRequester()
     {
-        $requestTime = time() - (25 * 3600);
-        (new RequestHistory())->add('PremiumPlugin', 'olaf', $requestTime);
-        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
-            'requestTime' => $requestTime,
-            'displayName' => 'Premium Plugin',
-            'dismissed' => [],
-            'requestedBy' => 'olaf',
-        ]));
+        $storage = new Storage('PremiumPlugin');
+        $storage->setRequested('Premium Plugin');
+        $storage->setFulfilled();
 
-        self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());
-        $requests = (new RequestHistory())->getRequests('PremiumPlugin');
-        self::assertNotNull($requests[0]['ts_expired']);
-        self::assertNull($requests[0]['ts_fulfilled']);
+        self::assertTrue((new Storage('PremiumPlugin'))->wasRequestedByCurrentUser());
     }
 
     public function testARequestOnlyTheOptionHoldsCountsForItsRequester()
@@ -208,18 +168,6 @@ class StorageTest extends IntegrationTestCase
         self::assertCount(1, $requests);
         self::assertSame('olaf', $requests[0]['login']);
         self::assertNotNull($requests[0]['ts_fulfilled']);
-    }
-
-    public function testExpiryRecordsARequestOnlyTheOptionHeld()
-    {
-        $this->setRequestOnlyInOption(time() - (25 * 3600), 'olaf');
-
-        self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());
-
-        $requests = (new RequestHistory())->getRequests('PremiumPlugin');
-        self::assertCount(1, $requests);
-        self::assertSame('olaf', $requests[0]['login']);
-        self::assertNotNull($requests[0]['ts_expired']);
     }
 
     public function testFulfillingDoesNotRecordADeletedRequesterAgainWhenTheUpdateAnonymisedTheirRequest()
@@ -275,63 +223,6 @@ class StorageTest extends IntegrationTestCase
 
         self::assertNotFalse(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
         self::assertSame([null], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'ts_fulfilled'));
-    }
-
-    public function testExpiryLeavesTheRequestOpenWhenTheOptionCannotBeCleared()
-    {
-        $requestTime = time() - (25 * 3600);
-        (new RequestHistory())->add('PremiumPlugin', 'olaf', $requestTime);
-        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
-            'requestTime' => $requestTime,
-            'displayName' => 'Premium Plugin',
-            'dismissed' => [],
-            'requestedBy' => 'olaf',
-        ]));
-
-        $storage = $this->createStorageThatCannotClear();
-        $this->assertOptionClearFailure(fn() => $storage->wasRequested());
-
-        self::assertNotFalse(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
-        self::assertSame([null], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'ts_expired'));
-    }
-
-    public function testExpiryKeepsARequestThatReplacedTheOutdatedOneSinceItWasLoaded()
-    {
-        $outdatedTime = time() - (25 * 3600);
-        (new RequestHistory())->add('PremiumPlugin', 'olaf', $outdatedTime);
-        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
-            'requestTime' => $outdatedTime,
-            'displayName' => 'Premium Plugin',
-            'dismissed' => [],
-            'requestedBy' => 'olaf',
-        ]));
-        $staleStorage = new Storage('PremiumPlugin');
-
-        // another process expires the outdated request and makes a new one
-        self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());
-        (new Storage('PremiumPlugin'))->setRequested('Premium Plugin');
-
-        self::assertTrue($staleStorage->wasRequested());
-        self::assertTrue((new Storage('PremiumPlugin'))->wasRequested());
-        $requests = (new RequestHistory())->getRequests('PremiumPlugin');
-        self::assertSame([null, null], array_column($requests, 'ts_fulfilled'));
-        self::assertNull($requests[0]['ts_expired']);
-        self::assertNotNull($requests[1]['ts_expired']);
-    }
-
-    public function testExpiryDoesNothingWhenTheOutdatedRequestIsAlreadyGone()
-    {
-        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
-            'requestTime' => time() - (25 * 3600),
-            'displayName' => 'Premium Plugin',
-            'dismissed' => [],
-            'requestedBy' => 'olaf',
-        ]));
-        $staleStorage = new Storage('PremiumPlugin');
-        Option::delete('Marketplace.PluginTrialRequest.PremiumPlugin');
-
-        self::assertFalse($staleStorage->wasRequested());
-        self::assertFalse(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
     }
 
     public function testDeletingUserRemovesTheirLoginFromPendingRequestsAndHistory()
@@ -450,15 +341,6 @@ class StorageTest extends IntegrationTestCase
             $storage->setRequested('Premium Plugin');
             self::assertTrue((new Storage('PremiumPlugin'))->wasRequested());
             self::assertTrue((new Storage('PremiumPlugin'))->wasRequestedByCurrentUser());
-
-            Option::set('Marketplace.PluginTrialRequest.OtherPlugin', json_encode([
-                'requestTime' => time() - (25 * 3600),
-                'displayName' => 'Other Plugin',
-                'dismissed' => [],
-                'requestedBy' => 'olaf',
-            ]));
-            self::assertFalse((new Storage('OtherPlugin'))->wasRequested());
-            self::assertFalse(Option::get('Marketplace.PluginTrialRequest.OtherPlugin'));
 
             $storage->setFulfilled();
             self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());

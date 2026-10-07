@@ -10,7 +10,6 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
-use Piwik\Config\GeneralConfig;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Updater;
@@ -40,7 +39,6 @@ class Updates_6_0_0_b6 extends Updates
                     'login' => 'VARCHAR(100) NULL',
                     'ts_requested' => 'DATETIME NOT NULL',
                     'ts_fulfilled' => 'DATETIME NULL',
-                    'ts_expired' => 'DATETIME NULL',
                 ], ['idrequest']),
                 $this->migration->db->addIndex('plugin_trial_request', ['plugin_name', 'ts_requested'], 'index_plugin_name_ts_requested'),
                 $this->migration->db->addIndex('plugin_trial_request', ['login', 'plugin_name'], 'index_login_plugin_name'),
@@ -66,12 +64,11 @@ class Updates_6_0_0_b6 extends Updates
 
         // A requester deleted since is stored as NULL, as if they had been anonymised on deletion.
         // NOT EXISTS keeps a re-run from copying a request twice.
-        $sql = "INSERT INTO `$table` (plugin_name, login, ts_requested, ts_expired)
-                SELECT ?, (SELECT login FROM `" . Common::prefixTable('user') . "` WHERE login = ?), ?, ?
+        $sql = "INSERT INTO `$table` (plugin_name, login, ts_requested)
+                SELECT ?, (SELECT login FROM `" . Common::prefixTable('user') . "` WHERE login = ?), ?
                 FROM DUAL
                 WHERE NOT EXISTS (SELECT 1 FROM `$table` WHERE plugin_name = ? AND ts_requested = ?)";
 
-        $expirationDays = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
         $migrations = [];
 
         foreach (Option::getLike($optionPrefix . '%') as $optionName => $value) {
@@ -88,11 +85,7 @@ class Updates_6_0_0_b6 extends Updates
             $requestedAt = Date::factory($requestTime)->getDatetime();
             $login = $request['requestedBy'] ?? '';
 
-            // a request that has already lapsed is recorded as expired when it lapsed, not at the next page view
-            $expiresAt = $requestTime + $expirationDays * 24 * 3600;
-            $expiredAt = $expirationDays >= 0 && $expiresAt < time() ? Date::factory($expiresAt)->getDatetime() : null;
-
-            $migrations[] = $this->migration->db->boundSql($sql, [$pluginName, $login, $requestedAt, $expiredAt, $pluginName, $requestedAt]);
+            $migrations[] = $this->migration->db->boundSql($sql, [$pluginName, $login, $requestedAt, $pluginName, $requestedAt]);
         }
 
         return $migrations;

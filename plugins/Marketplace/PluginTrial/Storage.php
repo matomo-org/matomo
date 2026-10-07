@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Marketplace\PluginTrial;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Option;
@@ -51,7 +50,7 @@ class Storage
         ];
 
         $this->writeWithHistory(function (RequestHistory $history) use ($requestTime) {
-            // the option first, the same lock order as setFulfilled() and expireIfUnchanged()
+            // the option first, the same lock order as setFulfilled()
             $this->recordInHistory($history, $this->readStoredForUpdate());
             $this->saveStorage();
             $history->add($this->pluginName, $this->storage['requestedBy'], $requestTime);
@@ -71,84 +70,28 @@ class Storage
     }
 
     /**
-     * Returns if a plugin was already requested
+     * Returns if the plugin has a pending trial request from any user
      */
     public function wasRequested(): bool
     {
-        if (empty($this->storage)) {
-            return false;
-        }
-
-        if ($this->storage['requestTime'] < $this->getExpiredBefore()) {
-            if ($this->expireIfUnchanged()) {
-                return false;
-            }
-
-            return $this->wasRequested(); // the request was replaced since it was loaded
-        }
-
-        return true;
+        return !empty($this->storage);
     }
 
     /**
-     * Returns if the current user has a pending trial request for the plugin
+     * Returns if the current user has ever requested a trial of the plugin. Requests are permanent, so this stays true
+     * after the plugin was installed, and after a trial or subscription for it ended.
      */
     public function wasRequestedByCurrentUser(): bool
     {
-        if (!$this->wasRequested()) {
-            return false;
-        }
-
         // also covers a request that Matomo before the update stored in the option alone
         if (($this->storage['requestedBy'] ?? null) === Piwik::getCurrentUserLogin()) {
             return true;
         }
 
-        $hasOpenRequest = StaticContainer::get(RequestHistory::class)->hasOpenRequest(
-            $this->pluginName,
-            Piwik::getCurrentUserLogin(),
-            $this->getExpiredBefore()
-        );
+        $hasRequested = StaticContainer::get(RequestHistory::class)->hasRequested($this->pluginName, Piwik::getCurrentUserLogin());
 
         // until the update creates the history table, a pending request blocks every user, as it did before
-        return $hasOpenRequest ?? true;
-    }
-
-    private function getExpiredBefore(): int
-    {
-        $expirationDays = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
-
-        return time() - $expirationDays * 24 * 3600;
-    }
-
-    /**
-     * Removes the outdated request, unless another process has already replaced or removed it since it was loaded.
-     */
-    private function expireIfUnchanged(): bool
-    {
-        $loadedRequestTime = (int) $this->storage['requestTime'];
-        $expired = false;
-
-        $this->writeWithHistory(function (RequestHistory $history) use ($loadedRequestTime, &$expired) {
-            // FOR UPDATE holds back a concurrent new request until this one is expired
-            $storedRequest = $this->readStoredForUpdate();
-
-            if ((int) ($storedRequest['requestTime'] ?? 0) !== $loadedRequestTime) {
-                return;
-            }
-
-            $this->recordInHistory($history, $storedRequest);
-            $history->markExpired($this->pluginName);
-            $this->clearStorage();
-            $expired = true;
-        });
-
-        if (!$expired) {
-            Option::clearCachedOption($this->optionName);
-            $this->loadStorage();
-        }
-
-        return $expired;
+        return $hasRequested ?? $this->wasRequested();
     }
 
     /**
@@ -222,8 +165,8 @@ class Storage
     }
 
     /**
-     * Writers re-read the request under lock, so one expired, replaced or anonymised since this object was loaded
-     * is not written back.
+     * Writers re-read the request under lock, so one fulfilled, replaced or anonymised since this object was
+     * loaded is not written back.
      *
      * @return array<string, mixed>
      */

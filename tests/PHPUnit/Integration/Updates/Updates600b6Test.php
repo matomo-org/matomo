@@ -10,7 +10,6 @@
 namespace Piwik\Tests\Integration\Updates;
 
 use Piwik\Common;
-use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
@@ -31,11 +30,10 @@ class Updates600b6Test extends IntegrationTestCase
 {
     public function testPendingTrialRequestsAreCopiedOnceWithDeletedRequestersAnonymised(): void
     {
-        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', 28);
         UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
 
         $pendingTime = time() - 3600;
-        $lapsedTime = time() - 30 * 24 * 3600;
+        $oldTime = time() - 400 * 24 * 3600;
         Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
             'requestTime' => $pendingTime,
             'displayName' => 'Premium Plugin',
@@ -43,7 +41,7 @@ class Updates600b6Test extends IntegrationTestCase
             'requestedBy' => 'alice',
         ]));
         Option::set('Marketplace.PluginTrialRequest.OtherPlugin', json_encode([
-            'requestTime' => $lapsedTime,
+            'requestTime' => $oldTime,
             'displayName' => 'Other Plugin',
             'dismissed' => [],
             'requestedBy' => 'since-deleted-user',
@@ -58,17 +56,11 @@ class Updates600b6Test extends IntegrationTestCase
 
         $history = new RequestHistory();
         self::assertSame(
-            [['plugin_name' => 'PremiumPlugin', 'login' => 'alice', 'ts_requested' => Date::factory($pendingTime)->getDatetime(), 'ts_fulfilled' => null, 'ts_expired' => null]],
+            [['plugin_name' => 'PremiumPlugin', 'login' => 'alice', 'ts_requested' => Date::factory($pendingTime)->getDatetime(), 'ts_fulfilled' => null]],
             $history->getRequests('PremiumPlugin')
         );
         self::assertSame(
-            [[
-                'plugin_name' => 'OtherPlugin',
-                'login' => null,
-                'ts_requested' => Date::factory($lapsedTime)->getDatetime(),
-                'ts_fulfilled' => null,
-                'ts_expired' => Date::factory($lapsedTime + 28 * 24 * 3600)->getDatetime(),
-            ]],
+            [['plugin_name' => 'OtherPlugin', 'login' => null, 'ts_requested' => Date::factory($oldTime)->getDatetime(), 'ts_fulfilled' => null]],
             $history->getRequests('OtherPlugin')
         );
         self::assertSame([], $history->getRequests('BrokenPlugin'));

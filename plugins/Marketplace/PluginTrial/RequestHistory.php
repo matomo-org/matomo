@@ -50,45 +50,39 @@ class RequestHistory
     }
 
     /**
-     * Marks the request as ended by the plugin being installed or activated.
+     * Marks every open request for the plugin as ended by the plugin being installed or activated, not only the
+     * option's: concurrent requests can each add a row, while the option keeps only one of them.
      */
     public function markFulfilled(string $pluginName): void
     {
-        $this->markEnded('ts_fulfilled', $pluginName);
+        $this->write(
+            'UPDATE ' . $this->getTable() . ' SET ts_fulfilled = ? WHERE plugin_name = ? AND ts_fulfilled IS NULL',
+            [Date::now()->getDatetime(), $pluginName]
+        );
     }
 
     /**
-     * Marks the request as having lapsed without the plugin being installed or activated.
-     */
-    public function markExpired(string $pluginName): void
-    {
-        $this->markEnded('ts_expired', $pluginName);
-    }
-
-    /**
-     * @return array<int, array{plugin_name: string, login: string|null, ts_requested: string, ts_fulfilled: string|null, ts_expired: string|null}> newest first
+     * @return array<int, array{plugin_name: string, login: string|null, ts_requested: string, ts_fulfilled: string|null}> newest first
      */
     public function getRequests(string $pluginName): array
     {
         return Db::get()->fetchAll(
-            'SELECT plugin_name, login, ts_requested, ts_fulfilled, ts_expired FROM ' . $this->getTable()
+            'SELECT plugin_name, login, ts_requested, ts_fulfilled FROM ' . $this->getTable()
             . ' WHERE plugin_name = ? ORDER BY ts_requested DESC, idrequest DESC',
             [$pluginName]
         );
     }
 
     /**
-     * Returns whether the login has a request for the plugin that is still open and was made at or after $since, or
-     * null while the 6.0.0-b6 update has not yet created the table.
+     * Returns whether the login has ever requested the plugin, fulfilled or not, or null while the 6.0.0-b6 update has
+     * not yet created the table.
      */
-    public function hasOpenRequest(string $pluginName, string $login, int $since): ?bool
+    public function hasRequested(string $pluginName, string $login): ?bool
     {
         try {
             return (bool) Db::get()->fetchOne(
-                'SELECT 1 FROM ' . $this->getTable() . ' WHERE login = ? AND plugin_name = ? AND ts_requested >= ?'
-                . ' AND ts_fulfilled IS NULL AND ts_expired IS NULL LIMIT 1',
-                // Date::factory() throws for anything this old, which a very long expiry setting reaches
-                [$login, $pluginName, Date::factory(max($since, Date::FIRST_WEBSITE_TIMESTAMP))->getDatetime()]
+                'SELECT 1 FROM ' . $this->getTable() . ' WHERE login = ? AND plugin_name = ? LIMIT 1',
+                [$login, $pluginName]
             );
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
@@ -124,20 +118,6 @@ class RequestHistory
 
             return [];
         }
-    }
-
-    /**
-     * Ends every open request for the plugin, not only the option's: concurrent requests can each add a row, while the
-     * option keeps only one of them.
-     *
-     * @param 'ts_fulfilled'|'ts_expired' $column
-     */
-    private function markEnded(string $column, string $pluginName): void
-    {
-        $this->write(
-            'UPDATE ' . $this->getTable() . " SET $column = ? WHERE plugin_name = ? AND ts_fulfilled IS NULL AND ts_expired IS NULL",
-            [Date::now()->getDatetime(), $pluginName]
-        );
     }
 
     /**
