@@ -113,7 +113,7 @@ jobs:
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
           php-version: ${{ matrix.environment.php }}
-          redis-service: true
+          redis-service: false
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
@@ -147,7 +147,7 @@ jobs:
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
           php-version: ${{ matrix.environment.php }}
-          redis-service: true
+          redis-service: false
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
@@ -192,7 +192,7 @@ jobs:
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
           php-version: ${{ matrix.environment.php }}
-          redis-service: true
+          redis-service: false
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
@@ -444,7 +444,7 @@ jobs:
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
           node-version: '24'
-          redis-service: true
+          redis-service: ${{ matrix.plugin == 'QueuedTracking' }}
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
@@ -484,7 +484,7 @@ jobs:
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
           node-version: '24'
-          redis-service: true
+          redis-service: false
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
