@@ -31,7 +31,8 @@ class RequestHistory
 
     /**
      * Records a request that only the option holds, as one stored by Matomo before the update still does while it
-     * keeps serving alongside the updated code.
+     * keeps serving alongside the updated code. A row stored with a NULL login, as the update does for a requester
+     * deleted since, counts as that request.
      */
     public function addIfMissing(string $pluginName, ?string $login, int $requestTime): void
     {
@@ -43,7 +44,7 @@ class RequestHistory
         $requestedAt = Date::factory($requestTime)->getDatetime();
         $this->write(
             'INSERT INTO ' . $this->getTable() . ' (plugin_name, login, ts_requested) SELECT ?, ?, ? FROM DUAL'
-            . ' WHERE NOT EXISTS (SELECT 1 FROM ' . $this->getTable() . ' WHERE plugin_name = ? AND ts_requested = ? AND login <=> ?)',
+            . ' WHERE NOT EXISTS (SELECT 1 FROM ' . $this->getTable() . ' WHERE plugin_name = ? AND ts_requested = ? AND (login <=> ? OR login IS NULL))',
             [$pluginName, $login, $requestedAt, $pluginName, $requestedAt, $login]
         );
     }

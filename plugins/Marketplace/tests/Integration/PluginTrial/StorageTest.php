@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
@@ -219,6 +220,20 @@ class StorageTest extends IntegrationTestCase
         self::assertCount(1, $requests);
         self::assertSame('olaf', $requests[0]['login']);
         self::assertNotNull($requests[0]['ts_expired']);
+    }
+
+    public function testFulfillingDoesNotRecordADeletedRequesterAgainWhenTheUpdateAnonymisedTheirRequest()
+    {
+        $requestTime = time() - 60;
+        $this->setRequestOnlyInOption($requestTime, 'olaf');
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable(RequestHistory::TABLE_NAME) . ' (plugin_name, login, ts_requested) VALUES (?, NULL, ?)',
+            ['PremiumPlugin', Date::factory($requestTime)->getDatetime()]
+        );
+
+        (new Storage('PremiumPlugin'))->setFulfilled();
+
+        self::assertSame([null], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login'));
     }
 
     private function setRequestOnlyInOption(int $requestTime, string $login): void
