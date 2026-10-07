@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Actions\tests\Integration\Tracker;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Plugins\Actions\Tracker\ActionsRequestProcessor;
 use Piwik\Plugins\Actions\Tracker\PageViewTimeWriter;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -36,6 +37,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  *  - Kill-switch (record_accurate_page_view_time = 0) disables all writes
  *  - Kill-switch can be applied per site via a [Tracker_N] config section
  *  - Inside a tracker transaction (bulk / queued tracking) the same rows are written
+ *  - A writer error fails a tracker transaction, but is only logged for a single request
  *
  * @group Actions
  * @group PageViewTime
@@ -395,6 +397,64 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertCount(2, $rows);
         $this->assertSame(20, (int) $rows['aaaaaa']['time_spent'], 'The new pageview closes the previous one');
         $this->assertSame(30, (int) $rows['bbbbbb']['time_spent'], 'The ping grows the new pageview');
+    }
+
+    public function testWriterErrorInsideATrackerTransactionFailsTheBatch()
+    {
+        // The error may have rolled back the whole transaction (e.g. a deadlock), so carrying on
+        // would save the rest of the batch on its own. It has to reach the bulk handler instead.
+        $idVisit = $this->trackVisitThenRemovePageViewTimeTable();
+
+        $db = Tracker::getDatabase();
+        $transactionId = $db->beginTransaction();
+        $error = null;
+        try {
+            (new ActionsRequestProcessor())->recordLogs(new VisitProperties(['idvisit' => $idVisit]), $this->makeRequest('bbbbbb', 20));
+        } catch (\Exception $e) {
+            $error = $e;
+        } finally {
+            $db->rollBack($transactionId);
+            $this->restorePageViewTimeTable();
+        }
+
+        $this->assertNotNull($error, 'The writer error should reach the caller inside a transaction');
+        $this->assertStringContainsString('log_page_view_time', $error->getMessage());
+    }
+
+    public function testWriterErrorOutsideATransactionIsOnlyLogged()
+    {
+        // A single request has nothing to roll back, so a missing table (e.g. core:update not
+        // run yet after a deploy) must not stop the visit from being recorded.
+        $idVisit = $this->trackVisitThenRemovePageViewTimeTable();
+
+        try {
+            (new ActionsRequestProcessor())->recordLogs(new VisitProperties(['idvisit' => $idVisit]), $this->makeRequest('bbbbbb', 20));
+        } finally {
+            $this->restorePageViewTimeTable();
+        }
+
+        $this->assertSame(['aaaaaa'], array_keys($this->fetchRowsByPvId()), 'Only the row tracked before the table went missing');
+    }
+
+    private function trackVisitThenRemovePageViewTimeTable(): int
+    {
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('aaaaaa');
+        $tracker->setUrl('https://example.org/page-a');
+        Fixture::checkResponse($tracker->doTrackPageView('Page A'));
+
+        // Renamed before the transaction starts: DDL inside one would commit it.
+        $table = Common::prefixTable('log_page_view_time');
+        Db::exec("RENAME TABLE `$table` TO `{$table}_moved`");
+
+        return (int) Db::fetchOne('SELECT idvisit FROM ' . Common::prefixTable('log_visit'));
+    }
+
+    private function restorePageViewTimeTable(): void
+    {
+        Tracker::disconnectCachedDbConnection();
+        $table = Common::prefixTable('log_page_view_time');
+        Db::exec("RENAME TABLE `{$table}_moved` TO `$table`");
     }
 
     private function makeRequest(string $pvId, int $secondsAfterBase): Request
