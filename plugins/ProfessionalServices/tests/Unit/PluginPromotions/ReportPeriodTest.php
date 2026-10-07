@@ -10,9 +10,11 @@
 namespace Piwik\Plugins\ProfessionalServices\tests\Unit\PluginPromotions;
 
 use PHPUnit\Framework\TestCase;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugins\ProfessionalServices\PluginPromotions\ReportPeriod;
 use Piwik\Site;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 
 /**
  * @group ProfessionalServices
@@ -26,6 +28,11 @@ class ReportPeriodTest extends TestCase
     {
         parent::setUp();
 
+        // reading the site needs view access
+        $access = new FakeAccess();
+        $access->setSuperUserAccess();
+        StaticContainer::getContainer()->set('Piwik\Access', $access);
+
         Site::setSiteFromArray(self::IDSITE, ['idsite' => self::IDSITE, 'timezone' => 'UTC']);
     }
 
@@ -33,6 +40,7 @@ class ReportPeriodTest extends TestCase
     {
         Date::$now = null;
         Site::clearCache();
+        FakeAccess::clearAccess();
 
         parent::tearDown();
     }
