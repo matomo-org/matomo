@@ -30,7 +30,7 @@ JSON fixtures are minified by the interceptor before being returned, so pretty-p
 
 ## Binary fixtures
 
-The single `.zip` fixture (`TreemapVisualization-4.0.2.zip`) is committed directly because it is small (~83 KB) and `LastForcedInstall` needs a real Piwik-4-compatible plugin archive to extract. Keep binary fixtures tiny; move them to Git LFS rather than this directory if you ever need anything larger.
+The `.zip` fixtures (`TreemapVisualization-4.0.2.zip`, `TreemapVisualization-5.0.10.zip`) are committed directly because they are small (under 100 KB) and `LastForcedInstall` needs a real plugin archive for its forced core version to extract. Keep binary fixtures tiny; move them to Git LFS rather than this directory if you ever need anything larger.
 
 ## Per-test overrides
 

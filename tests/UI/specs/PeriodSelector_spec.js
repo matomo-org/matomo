@@ -71,6 +71,7 @@ describe("PeriodSelector", function () {
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(13)');
         await element.click();
+        await page.mouse.move(-10, -10);
 
         expect(await page.screenshotSelector(selector)).to.matchImage('week_selected');
     });
@@ -113,6 +114,7 @@ describe("PeriodSelector", function () {
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(14)');
         await element.click();
+        await page.mouse.move(-10, -10);
 
         expect(await page.screenshotSelector(selector)).to.matchImage('month_selected');
     });

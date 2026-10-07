@@ -716,6 +716,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + generalParams + "&module=API&action=glossary&widget=1");
             await page.waitForNetworkIdle(); // glossary entries load asynchronously
 
+            // the scrollspy marks the first visible letter as active in a throttled resize handler
+            await page.resizeViewportToFullPage();
+            await page.waitForSelector('.glossaryPage .pagination a.active');
+
             expect(await page.screenshot({fullPage: true})).to.matchImage('glossary_widgetized');
         });
 
