@@ -106,6 +106,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->conversion_rate_returning = $this->formatConversionRate($goalMetrics, 'conversion_rate_returning_visit');
         $view->conversion_rate_new = $this->formatConversionRate($goalMetrics, 'conversion_rate_new_visit');
         $view->idGoal = $idGoal;
+        // forwarded to the segmented visitor log so it is not limited to the goal segment only
+        $view->currentSegment = \Piwik\Request::fromRequest()->getStringParameter('segment', '');
         $view->visitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogEnabled($this->idSite);
 
         return $view->render();
