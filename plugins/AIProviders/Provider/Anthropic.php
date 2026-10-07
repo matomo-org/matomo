@@ -39,13 +39,6 @@ class Anthropic extends AIProvider
     private const WEB_SEARCH_TOOL_TYPE = 'web_search_20250305';
     private const WEB_SEARCH_TOOL_NAME = 'web_search';
 
-    /**
-     * Searches allowed per grounded request. This is the cost cap: every search
-     * is billed as a server tool request on top of the retrieved page content,
-     * which lands in the prompt as input tokens.
-     */
-    private const WEB_SEARCH_MAX_USES = 5;
-
     public function __construct()
     {
         parent::__construct(
@@ -101,7 +94,7 @@ class Anthropic extends AIProvider
             $payload['tools'] = [[
                 'type' => self::WEB_SEARCH_TOOL_TYPE,
                 'name' => self::WEB_SEARCH_TOOL_NAME,
-                'max_uses' => self::WEB_SEARCH_MAX_USES,
+                'max_uses' => $request->getMaxWebSearches(),
             ]];
         }
 

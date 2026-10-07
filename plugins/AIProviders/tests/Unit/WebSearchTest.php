@@ -70,11 +70,20 @@ class WebSearchTest extends TestCase
         $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
 
         $this->assertSame([
-            ['type' => 'web_search_20250305', 'name' => 'web_search', 'max_uses' => 5],
+            ['type' => 'web_search_20250305', 'name' => 'web_search', 'max_uses' => AIRequest::DEFAULT_MAX_WEB_SEARCHES],
         ], $claude->sentPayload['tools']);
         // No tool_choice: Anthropic defaults it to "auto" when tools are present,
         // so Claude decides whether the prompt needs fresh sources.
         $this->assertArrayNotHasKey('tool_choice', $claude->sentPayload);
+    }
+
+    public function testAnthropicSendsTheRequestsOwnSearchCap(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+
+        $claude->complete($this->groundedRequest()->withMaxWebSearches(4), self::CLAUDE_CONFIG);
+
+        $this->assertSame(4, $claude->sentPayload['tools'][0]['max_uses']);
     }
 
     public function testAnthropicUsesTheLongerTimeoutOnlyForGroundedRequests(): void
@@ -624,6 +633,7 @@ class WebSearchTest extends TestCase
             $openAI->sentPayload['tools']
         );
         $this->assertArrayNotHasKey('tool_choice', $openAI->sentPayload);
+        $this->assertSame(AIRequest::DEFAULT_MAX_WEB_SEARCHES, $openAI->sentPayload['max_tool_calls']);
         $this->assertFalse($openAI->sentPayload['store'], 'prompts must not be retained by OpenAI');
         $this->assertSame(
             [['role' => 'user', 'content' => 'best web analytics tools']],
@@ -635,6 +645,15 @@ class WebSearchTest extends TestCase
         $this->assertArrayNotHasKey('max_completion_tokens', $openAI->sentPayload);
         $this->assertArrayNotHasKey('max_tokens', $openAI->sentPayload);
         $this->assertArrayNotHasKey('temperature', $openAI->sentPayload);
+    }
+
+    public function testOpenAiSendsTheRequestsOwnSearchCap(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+
+        $openAI->complete($this->groundedRequest()->withMaxWebSearches(4), self::OPENAI_CONFIG);
+
+        $this->assertSame(4, $openAI->sentPayload['max_tool_calls']);
     }
 
     public function testOpenAiUngroundedCompleteStaysOnChatCompletions(): void
@@ -765,6 +784,29 @@ class WebSearchTest extends TestCase
 
         $this->assertSame(1, $response->getWebSearchRequestCount());
         $this->assertSame(['best analytics'], $response->getWebSearchQueries());
+    }
+
+    /**
+     * Once max_tool_calls is reached OpenAI leaves one more call at "searching".
+     * It never ran, so it is neither billed nor a query.
+     */
+    public function testOpenAiSkipsTheSearchLeftUnfinishedAtTheCap(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+        $openAI->mockResponse = [
+            'output' => [
+                ['type' => 'web_search_call', 'status' => 'completed', 'action' => ['type' => 'search', 'query' => 'first']],
+                ['type' => 'web_search_call', 'status' => 'completed', 'action' => ['type' => 'search', 'query' => 'second']],
+                ['type' => 'web_search_call', 'status' => 'searching', 'action' => ['type' => 'search', 'query' => 'third']],
+                ['type' => 'message', 'content' => [['type' => 'output_text', 'text' => 'Matomo.']]],
+            ],
+            'status' => 'completed',
+        ];
+
+        $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
+
+        $this->assertSame(2, $response->getWebSearchRequestCount());
+        $this->assertSame(['first', 'second'], $response->getWebSearchQueries());
     }
 
     /**
