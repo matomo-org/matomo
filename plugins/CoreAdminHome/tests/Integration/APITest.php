@@ -9,6 +9,10 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
+use Piwik\API\Request;
+use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Plugins\CoreAdminHome\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -101,6 +105,67 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->api->deleteTrackingFailure(1, 2);
         $this->setSuperUser();
         $this->api->deleteTrackingFailure(1, 2);
+    }
+
+    /**
+     * @dataProvider getReportOnlyRequestsForArchiveOfAllPlugins
+     */
+    public function testArchiveReportsRejectsReportOnlyArchivingForArchiveOfAllPlugins($plugin, string $report)
+    {
+        $this->trackPageViewAndArchive();
+
+        StaticContainer::get(ArchiveInvalidator::class)->rememberToInvalidateArchivedReportsLater(1, Date::factory('2020-01-15'));
+
+        $exception = null;
+        try {
+            $this->api->archiveReports(1, 'day', '2020-01-15', false, $plugin, $report);
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        $this->assertSame(1, $this->getPageUrlsRowCount());
+        $this->assertNotNull($exception);
+        $this->assertStringContainsString('only possible for an archive of a single plugin', $exception->getMessage());
+    }
+
+    public function getReportOnlyRequestsForArchiveOfAllPlugins(): iterable
+    {
+        yield 'no plugin' => [false, 'nb_pageviews'];
+        yield 'unknown plugin' => ['UnknownPlugin', 'nb_pageviews'];
+        yield 'plugin not providing the report' => ['Actions', 'nb_pageviews'];
+        yield 'plugin providing the report' => ['Referrers', 'Referrers_type'];
+    }
+
+    public function testArchiveReportsArchivesSpecificReportForRangePeriod()
+    {
+        $this->trackPageViewAndArchive();
+
+        $result = $this->api->archiveReports(1, 'range', '2020-01-14,2020-01-16', false, 'Actions', 'Actions_actions_url');
+
+        $this->assertNotEmpty($result['idarchives']);
+        $this->assertSame(1, $this->getPageUrlsRowCount());
+    }
+
+    private function trackPageViewAndArchive(): void
+    {
+        Fixture::createSuperUser(true);
+        $this->setSuperUser();
+
+        $tracker = Fixture::getTracker(1, '2020-01-15 12:00:00');
+        $tracker->setUrl('http://example.com/page');
+        Fixture::checkResponse($tracker->doTrackPageView('page'));
+
+        $this->assertSame(1, $this->getPageUrlsRowCount());
+    }
+
+    private function getPageUrlsRowCount(): int
+    {
+        return Request::processRequest('Actions.getPageUrls', [
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => '2020-01-15',
+            'flat' => 1,
+        ])->getRowsCount();
     }
 
     protected function setSuperUser()
