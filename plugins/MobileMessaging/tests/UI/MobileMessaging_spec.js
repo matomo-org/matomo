@@ -70,6 +70,8 @@ describe("MobileMessaging", function () {
     await page.type('input#apiKey', '0123456789');
     await page.evaluate(() => $('#apiAccountSubmit input').click());
 
+    // saving the account reloads the page, the phone number form only exists after that
+    await page.waitForSelector('input#countryCallingCode', {visible: true});
     await page.waitForNetworkIdle();
 
     expect(await screenshotPageWrap()).to.matchImage('admin_numbers_initial');
