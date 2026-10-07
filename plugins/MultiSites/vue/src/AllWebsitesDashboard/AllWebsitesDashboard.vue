@@ -167,7 +167,7 @@ export default defineComponent({
         {
           badge: dashboardKPIs.badges?.visits || null,
           icon: 'icon-user',
-          title: 'MultiSites_TotalVisits',
+          title: 'General_ColumnNbVisits',
           value: dashboardKPIs.visits,
           valueCompact: dashboardKPIs.visitsCompact,
           evolutionPeriod: dashboardKPIs.evolutionPeriod,
@@ -177,7 +177,7 @@ export default defineComponent({
         {
           badge: dashboardKPIs.badges?.pageviews || null,
           icon: 'icon-show',
-          title: 'MultiSites_TotalPageviews',
+          title: 'General_ColumnPageviews',
           value: dashboardKPIs.pageviews,
           valueCompact: dashboardKPIs.pageviewsCompact,
           evolutionPeriod: dashboardKPIs.evolutionPeriod,
@@ -195,7 +195,7 @@ export default defineComponent({
             }
             : dashboardKPIs.badges?.aiChatbotsRequests,
           icon: 'icon-admin-platform',
-          title: 'MultiSites_TotalAiChatbotsRequests',
+          title: 'MultiSites_AiChatbotsRequests',
           tooltipBody: isSegmented ? 'MultiSites_AiChatbotsSegmentationTooltip' : undefined,
           value: dashboardKPIs.aiChatbotsRequests,
           valueCompact: dashboardKPIs.aiChatbotsRequestsCompact,
@@ -208,7 +208,7 @@ export default defineComponent({
       kpis.push({
         badge: dashboardKPIs.badges?.hits || null,
         icon: 'icon-hits',
-        title: 'MultiSites_TotalHits',
+        title: 'General_ColumnHits',
         tooltipBody: !isSegmented && hasBotTrackingEnabled
           ? 'MultiSites_TotalHitsIncludingAiTooltip'
           : undefined,
@@ -223,7 +223,7 @@ export default defineComponent({
         kpis.push({
           badge: dashboardKPIs.badges?.revenue || null,
           icon: 'icon-dollar-sign',
-          title: 'General_TotalRevenue',
+          title: 'General_ColumnRevenue',
           value: dashboardKPIs.revenue,
           valueCompact: dashboardKPIs.revenueCompact,
           evolutionPeriod: dashboardKPIs.evolutionPeriod,

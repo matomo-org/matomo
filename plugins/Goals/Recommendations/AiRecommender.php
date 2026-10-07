@@ -487,7 +487,7 @@ PROMPT;
             'name' => $name,
             'matchAttribute' => $matchAttribute,
             'pattern' => $pattern,
-            'patternType' => $this->normalizePatternType($matchAttribute),
+            'patternType' => $this->resolvePatternType($fallback, $pattern, $matchAttribute),
             'caseSensitive' => $this->toBool($matomoGoal['caseSensitive'] ?? $fallback['caseSensitive'] ?? false),
             'allowMultipleConversionsPerVisit' => $this->toBool(
                 $matomoGoal['allowMultipleConversionsPerVisit']
@@ -530,6 +530,19 @@ PROMPT;
         $value = $aliases[$value] ?? $value;
 
         return in_array($value, self::ALLOWED_MATCH_ATTRIBUTES, true) ? $value : 'url';
+    }
+
+    /**
+     * A kept rule-based regex goal stays a regex goal.
+     */
+    private function resolvePatternType(array $fallback, string $pattern, string $matchAttribute): string
+    {
+        $keepsFallback = ($fallback['pattern'] ?? null) === $pattern
+            && ($fallback['matchAttribute'] ?? null) === $matchAttribute;
+
+        return $keepsFallback && isset($fallback['patternType'])
+            ? (string) $fallback['patternType']
+            : $this->normalizePatternType($matchAttribute);
     }
 
     /**
