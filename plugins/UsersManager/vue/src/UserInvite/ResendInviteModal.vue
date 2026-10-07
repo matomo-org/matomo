@@ -114,7 +114,6 @@ export default defineComponent({
       }
     },
     onResendInvite(password: string) {
-      if (password === '') return;
       AjaxHelper.post<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
