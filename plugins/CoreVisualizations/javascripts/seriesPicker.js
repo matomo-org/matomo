@@ -9,6 +9,10 @@
 
 (function ($, require) {
 
+    // Picking a metric reloads the report, replacing the picker that had the focus. Keyed by
+    // report, so the picker drawn in its place can take the focus back.
+    var refocusAfterRedraw = {};
+
     /**
      * This class creates and manages the Series Picker for certain DataTable visualizations.
      *
@@ -121,6 +125,10 @@
 
                     rows = rows.map(encodeURIComponent);
 
+                    if (event.byKeyboard) {
+                      refocusAfterRedraw[self.dataTableId] = true;
+                    }
+
                     $(self).trigger('seriesPicked', [columns, rows]);
 
                     // inform dashboard widget about changed parameters (to be restored on reload)
@@ -141,6 +149,11 @@
             this.app.mount(this.domElem.children()[0]);
 
             $(this).trigger('seriesPickerRendered');
+
+            if (refocusAfterRedraw[this.dataTableId]) {
+                delete refocusAfterRedraw[this.dataTableId];
+                this.domElem.find('.mtm-selector__trigger').trigger('focus');
+            }
 
             function isItemDisplayed(columnOrRowConfig) {
                 return columnOrRowConfig.displayed;
