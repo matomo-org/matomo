@@ -5195,9 +5195,9 @@ function GetPremiumFeaturesvue_type_template_id_4ea2b47a_render(_ctx, _cache, $p
 GetPremiumFeaturesvue_type_script_lang_ts.render = GetPremiumFeaturesvue_type_template_id_4ea2b47a_render
 
 /* harmony default export */ var GetPremiumFeatures = (GetPremiumFeaturesvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=73252d1c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=2dee6362
 
-function OverviewIntrovue_type_template_id_73252d1c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function OverviewIntrovue_type_template_id_2dee6362_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Marketplace = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Marketplace");
   const _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Marketplace, {
@@ -5221,7 +5221,7 @@ function OverviewIntrovue_type_template_id_73252d1c_render(_ctx, _cache, $props,
     onStartTrialStop: _cache[2] || (_cache[2] = $event => this.disableInstallAllPlugins(false))
   }, null, 8, ["default-sort", "install-all-paid-plugins-visible", "install-disabled", "current-user-email", "is-auto-update-possible", "is-super-user", "is-multi-server-environment", "is-plugins-admin-enabled", "is-valid-consumer", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce", "has-some-admin-access", "num-users"])])), [[_directive_content_intro]]);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=73252d1c
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=template&id=2dee6362
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/OverviewIntro/OverviewIntro.vue?vue&type=script&lang=ts
 
@@ -5230,7 +5230,7 @@ function OverviewIntrovue_type_template_id_73252d1c_render(_ctx, _cache, $props,
 /**
  * The reporting page's site, period and segment selectors. Nothing in the Marketplace is scoped to
  * a site, a period or a segment, so in the reporting menu they would offer choices that change
- * nothing. The update notice beside them stays.
+ * nothing. The update notice beside them stays; the admin overview drops the top controls entirely.
  */
 const REPORTING_SELECTORS = '.top_controls .top_bar_sites_selector, .top_controls #periodString, ' + '.top_controls .segmentEditorPanel';
 /* harmony default export */ var OverviewIntrovue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -5351,7 +5351,7 @@ const REPORTING_SELECTORS = '.top_controls .top_bar_sites_selector, .top_control
 
 
 
-OverviewIntrovue_type_script_lang_ts.render = OverviewIntrovue_type_template_id_73252d1c_render
+OverviewIntrovue_type_script_lang_ts.render = OverviewIntrovue_type_template_id_2dee6362_render
 
 /* harmony default export */ var OverviewIntro = (OverviewIntrovue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/SubscriptionOverview/SubscriptionOverview.vue?vue&type=template&id=a5f6c6ae
