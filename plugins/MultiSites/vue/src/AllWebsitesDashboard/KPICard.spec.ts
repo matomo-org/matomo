@@ -23,27 +23,28 @@ const kpi = {
   evolutionValue: '',
 };
 
-function tooltipContent(modelValue: Record<string, unknown>): string {
+function tooltipText(modelValue: Record<string, unknown>): string {
   const wrapper = mount(KPICard, {
     props: { modelValue },
     global: { mocks: { translate: (key: string) => key } },
   });
 
-  return (wrapper.vm as unknown as { tooltipContent: () => string }).tooltipContent();
+  return wrapper.find('[role="tooltip"]').text();
 }
 
 describe('MultiSites/KPICard.vue', () => {
   it('shows the exact value in the tooltip', () => {
-    const content = tooltipContent(kpi);
+    const text = tooltipText(kpi);
 
-    expect(content).toContain('General_ColumnHits');
-    expect(content).toContain('2,912,345');
+    expect(text).toContain('General_ColumnHits');
+    expect(text).toContain('2,912,345');
   });
 
-  it('shows the exact value along with the description when the card has one', () => {
-    const content = tooltipContent({ ...kpi, tooltipBody: 'MultiSites_TotalHitsIncludingAiTooltip' });
+  it('shows the exact value before the description when the card has one', () => {
+    const text = tooltipText({ ...kpi, tooltipBody: 'MultiSites_TotalHitsIncludingAiTooltip' });
 
-    expect(content).toContain('2,912,345');
-    expect(content).toContain('MultiSites_TotalHitsIncludingAiTooltip');
+    expect(text).toContain('2,912,345');
+    expect(text.indexOf('2,912,345'))
+      .toBeLessThan(text.indexOf('MultiSites_TotalHitsIncludingAiTooltip'));
   });
 });
