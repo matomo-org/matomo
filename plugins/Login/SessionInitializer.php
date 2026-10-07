@@ -106,7 +106,9 @@ class SessionInitializer
 
             $this->processFailedSession($rememberMe);
         } else {
-            Piwik::postEvent('Login.authenticate.successful', array($auth->getLogin()));
+            // a token-only authentication has no login set on the Auth instance, so fall back to the authenticated identity
+            $login = $auth->getLogin() ?: $authResult->getIdentity();
+            Piwik::postEvent('Login.authenticate.successful', array($login));
 
             $this->processSuccessfulSession($authResult, $rememberMe);
         }
