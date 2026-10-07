@@ -52,6 +52,8 @@
     "/api/2.0/plugins/TreemapVisualization/info": "v2.0_plugins_TreemapVisualization_info.json",
     "/api/2.0/plugins/TreemapVisualization/info?piwik=4.16.2": "system_v2.0_plugins_TreemapVisualization_info_piwik4.json",
     "/api/2.0/plugins/TreemapVisualization/download/4.0.2?coreVersion=4.16.2": "TreemapVisualization-4.0.2.zip",
+    "/api/2.0/plugins/TreemapVisualization/info?piwik=5.11.2": "system_v2.0_plugins_TreemapVisualization_info_piwik5.json",
+    "/api/2.0/plugins/TreemapVisualization/download/5.0.10?coreVersion=5.11.2": "TreemapVisualization-5.0.10.zip",
     "/api/2.0/plugins/checkUpdates": "v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json",
     "/api/2.0/plugins?access_token=123456789&purchase_type=paid": "v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json",
     "/api/2.0/plugins?access_token=1234567891&purchase_type=paid": "v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json",
