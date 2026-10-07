@@ -204,6 +204,26 @@ class StorageTest extends IntegrationTestCase
         self::assertSame([], (new RequestHistory())->getRequests('PremiumPlugin'));
     }
 
+    public function testSetRequestedKeepsNoHistoryWhenTheOptionIsSilentlyNotSaved()
+    {
+        // Option::set() ignores a failed insert of a new option
+        $storage = new class ('PremiumPlugin') extends Storage {
+            protected function saveStorage(): void
+            {
+            }
+        };
+
+        try {
+            $storage->setRequested('Premium Plugin');
+            self::fail('Expected the missing option to fail the request');
+        } catch (\Exception $e) {
+            self::assertStringContainsString('PremiumPlugin', $e->getMessage());
+        }
+
+        self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());
+        self::assertSame([], (new RequestHistory())->getRequests('PremiumPlugin'));
+    }
+
     public function testSetFulfilledLeavesTheRequestPendingWhenTheOptionCannotBeCleared()
     {
         $storage = $this->createStorageThatCannotClear();

@@ -53,6 +53,10 @@ class Storage
             // the option first, the same lock order as setFulfilled()
             $this->recordInHistory($history, $this->readStoredForUpdate());
             $this->saveStorage();
+            // Option::set() ignores a failed insert of a new option, and a request recorded without it is never notified
+            if (empty($this->readStoredForUpdate())) {
+                throw new Exception('Could not save the trial request for ' . $this->pluginName);
+            }
             $history->add($this->pluginName, $this->storage['requestedBy'], $requestTime);
         });
     }
