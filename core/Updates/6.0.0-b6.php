@@ -10,7 +10,9 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Option;
 use Piwik\Updater;
 use Piwik\Updater\Migration;
@@ -60,6 +62,11 @@ class Updates_6_0_0_b6 extends Updates
     {
         $optionPrefix = 'Marketplace.PluginTrialRequest.';
         $table = Common::prefixTable('plugin_trial_request');
+        $optionTable = Common::prefixTable('option');
+        // the option_value condition leaves an option alone if it changed between preview and execution
+        $deleteOptionSql = "DELETE FROM `$optionTable` WHERE option_name = ? AND option_value = ?";
+        $updateOptionSql = "UPDATE `$optionTable` SET option_value = ? WHERE option_name = ? AND option_value = ?";
+        $expirationInDays = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
 
         // A requester deleted since is stored as NULL, as if they had been anonymised on deletion.
         // NOT EXISTS keeps a re-run from copying a request twice.
@@ -80,13 +87,55 @@ class Updates_6_0_0_b6 extends Updates
                 continue;
             }
 
+            // Matomo until now only deleted an expired request when it next read it, so drop any that are left
+            // -1 turns trial requests off rather than setting an expiry
+            if ($expirationInDays >= 0 && $requestTime < time() - $expirationInDays * 24 * 3600) {
+                $migrations[] = $this->migration->db->boundSql($deleteOptionSql, [$optionName, $value]);
+                continue;
+            }
+
             $pluginName = substr($optionName, strlen($optionPrefix));
             $requestedAt = Date::factory($requestTime)->getDatetime();
             $login = $request['requestedBy'] ?? '';
 
             $migrations[] = $this->migration->db->boundSql($sql, [$pluginName, $login, $requestedAt, $pluginName, $requestedAt]);
+
+            $anonymizedRequest = $this->withoutDeletedLogins($request);
+            if ($anonymizedRequest !== $request) {
+                $migrations[] = $this->migration->db->boundSql($updateOptionSql, [json_encode($anonymizedRequest), $optionName, $value]);
+            }
         }
 
         return $migrations;
+    }
+
+    /**
+     * Removes the users deleted since the request, as Marketplace now does when a user is deleted.
+     *
+     * @param array<string, mixed> $request
+     * @return array<string, mixed>
+     */
+    private function withoutDeletedLogins(array $request): array
+    {
+        $dismissed = is_array($request['dismissed'] ?? null) ? $request['dismissed'] : [];
+        $logins = array_values(array_filter(array_merge([$request['requestedBy'] ?? null], $dismissed), 'is_string'));
+        if (empty($logins)) {
+            return $request;
+        }
+
+        $existingLogins = Db::fetchAll(
+            'SELECT login FROM `' . Common::prefixTable('user') . '` WHERE login IN (' . Common::getSqlStringFieldsArray($logins) . ')',
+            $logins
+        );
+        $existingLogins = array_column($existingLogins, 'login');
+
+        if (isset($request['requestedBy']) && !in_array($request['requestedBy'], $existingLogins, true)) {
+            $request['requestedBy'] = null;
+        }
+        if (!empty($dismissed)) {
+            $request['dismissed'] = array_values(array_intersect($dismissed, $existingLogins));
+        }
+
+        return $request;
     }
 }

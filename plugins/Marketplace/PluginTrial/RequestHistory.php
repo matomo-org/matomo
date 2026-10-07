@@ -21,6 +21,12 @@ class RequestHistory
 {
     public const TABLE_NAME = 'plugin_trial_request';
 
+    /**
+     * @var array<string, string[]|null> the plugins each login has requested, so the Marketplace catalogue checks
+     * all of its plugins with one query
+     */
+    private $requestedPluginsByLogin = [];
+
     public function add(string $pluginName, string $login, int $requestTime): void
     {
         $this->write(
@@ -67,18 +73,13 @@ class RequestHistory
      */
     public function hasRequested(string $pluginName, string $login): ?bool
     {
-        try {
-            return (bool) Db::get()->fetchOne(
-                'SELECT 1 FROM ' . $this->getTable() . ' WHERE login = ? AND plugin_name = ? LIMIT 1',
-                [$login, $pluginName]
-            );
-        } catch (\Exception $e) {
-            if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
-                throw $e;
-            }
-
-            return null;
+        if (!array_key_exists($login, $this->requestedPluginsByLogin)) {
+            $this->requestedPluginsByLogin[$login] = $this->fetchRequestedPlugins($login);
         }
+
+        $requestedPlugins = $this->requestedPluginsByLogin[$login];
+
+        return $requestedPlugins === null ? null : in_array($pluginName, $requestedPlugins, true);
     }
 
     /**
@@ -116,12 +117,33 @@ class RequestHistory
      */
     private function write(string $sql, array $bind): void
     {
+        $this->requestedPluginsByLogin = [];
+
         try {
             Db::get()->query($sql, $bind);
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 throw $e;
             }
+        }
+    }
+
+    /**
+     * @return string[]|null null while the 6.0.0-b6 update has not yet created the table
+     */
+    private function fetchRequestedPlugins(string $login): ?array
+    {
+        try {
+            return array_column(Db::get()->fetchAll(
+                'SELECT DISTINCT plugin_name FROM ' . $this->getTable() . ' WHERE login = ?',
+                [$login]
+            ), 'plugin_name');
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
+                throw $e;
+            }
+
+            return null;
         }
     }
 

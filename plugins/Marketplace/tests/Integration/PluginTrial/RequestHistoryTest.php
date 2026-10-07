@@ -51,6 +51,17 @@ class RequestHistoryTest extends IntegrationTestCase
         self::assertFalse($this->history->hasRequested('OtherPlugin', 'alice'));
     }
 
+    public function testHasRequestedSeesRequestsAddedAfterAnEarlierCheck(): void
+    {
+        self::assertFalse($this->history->hasRequested('PremiumPlugin', 'alice'));
+
+        $this->history->add('PremiumPlugin', 'alice', strtotime('2026-10-01 10:00:00'));
+        self::assertTrue($this->history->hasRequested('PremiumPlugin', 'alice'));
+
+        $this->history->anonymizeLogin('alice');
+        self::assertFalse($this->history->hasRequested('PremiumPlugin', 'alice'));
+    }
+
     public function testDeletingUserKeepsTheirRequestsWithoutTheirLogin(): void
     {
         Fixture::createSuperUser();
