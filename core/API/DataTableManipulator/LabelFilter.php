@@ -34,6 +34,16 @@ class LabelFilter extends DataTableManipulator
 
     private string $labelColumn;
 
+    /**
+     * The label to look for in the next subtable we load.
+     */
+    private ?string $nextLabelPart = null;
+
+    /**
+     * Whether that is the last part of the label.
+     */
+    private bool $nextLabelPartIsLast = false;
+
     public function __construct($apiModule = false, $apiMethod = false, $request = array(), string $labelColumn = 'label')
     {
         parent::__construct($apiModule, $apiMethod, $request);
@@ -101,13 +111,41 @@ class LabelFilter extends DataTableManipulator
             return $row;
         }
 
-        $subTable = $this->loadSubtable($dataTable, $row);
+        $this->nextLabelPart = $labelParts[0];
+        $this->nextLabelPartIsLast = count($labelParts) === 1;
+
+        try {
+            $subTable = $this->loadSubtable($dataTable, $row);
+        } finally {
+            $this->nextLabelPart = null;
+            $this->nextLabelPartIsLast = false;
+        }
+
         if ($subTable === null) {
             // no more subtables but label parts left => no match found
             return false;
         }
 
         return $this->doFilterRecursiveDescend($labelParts, $subTable);
+    }
+
+    /**
+     * Drops the rows we don't need from a loaded subtable. See SubtablePruner.
+     */
+    protected function pruneLoadedSubtable(mixed $dataTable, array $request, string $apiModule, string $method): mixed
+    {
+        if ($this->nextLabelPart === null || !$dataTable instanceof DataTable) {
+            return $dataTable;
+        }
+
+        return (new SubtablePruner($this->labelColumn))->prune(
+            $dataTable,
+            $request,
+            $apiModule,
+            $method,
+            $this->getLabelVariations($this->nextLabelPart),
+            $this->nextLabelPartIsLast
+        );
     }
 
     /**

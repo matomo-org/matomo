@@ -19,6 +19,7 @@ use Piwik\Http\EgressBlockedException;
 use Piwik\Site;
 use Piwik\SiteContentDetector;
 use Piwik\UrlHelper;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Psr\Log\LoggerInterface;
 
@@ -151,6 +152,12 @@ class HomepageAnalyzer
 
         $pages = $this->crawlSameOriginPages($startUrl, $host, $html, $timeout);
         $links = $this->rankLinks($pages);
+        $internalHosts = $this->getInternalHosts($idSite, $html, $timeout);
+        $isExternal = function (string $linkHost) use ($internalHosts): bool {
+            return !$this->isInternalHost($linkHost, $internalHosts);
+        };
+        $manualSignals = $this->aggregateManualSignals($pages);
+        $manualSignals['outlinkHosts'] = array_filter($manualSignals['outlinkHosts'], $isExternal, ARRAY_FILTER_USE_KEY);
 
         $this->getLogger()->debug(
             'Goals recommendations: analysed {url} '
@@ -170,14 +177,108 @@ class HomepageAnalyzer
             'forms' => $this->rankForms($pages),
             'downloads' => $this->rankDownloads($pages),
             'contactLinks' => $this->rankContactLinks($pages),
-            'externalLinks' => $this->rankExternalLinks($pages),
+            'externalLinks' => $this->rankExternalLinks($pages, $internalHosts),
+            'internalHosts' => $internalHosts,
+            'internalHostLinks' => $this->rankInternalHostLinks($pages, $internalHosts),
             'technologies' => $this->detectTechnologies($idSite, $html, $response['headers'] ?? []),
             'platform' => $this->detectEcommercePlatform($html),
             'pages' => $this->summarizePages($pages),
             'pagesCrawled' => count($pages),
             'crawl' => $this->crawlStats,
-            'manualSignals' => $this->aggregateManualSignals($pages),
+            'manualSignals' => $manualSignals,
         ];
+    }
+
+    /**
+     * Hosts the Matomo tracker records as the site itself, so links to them are no
+     * outlinks: setDomains of the tracking code (inline or in the Tag Manager container)
+     * and the site's URLs, whose pages track into this site.
+     *
+     * @return string[] lowercase hosts without "www.", "*.example.com" for a subdomain wildcard
+     */
+    private function getInternalHosts(?int $idSite, string $html, int $timeout): array
+    {
+        $domains = $this->getTrackerDomains($html, $timeout);
+        if ($idSite !== null) {
+            try {
+                $domains = array_merge($domains, SitesManagerAPI::getInstance()->getSiteUrlsFromId($idSite));
+            } catch (\Exception $e) {
+                // without access to the site's URLs the tracker domains still apply
+            }
+        }
+
+        $hosts = [];
+        foreach ($domains as $domain) {
+            // "https://www.example.com/shop", ".example.com" and "*.example.com" alike
+            $domain = strtolower(trim(str_replace('\\/', '/', (string) $domain)));
+            // strip scheme, path/query/fragment and port, turn a leading "." into "*.", drop "www."
+            $domain = (string) preg_replace(['#^[a-z]+://#', '#[/?\#].*$#', '#:\d+$#', '#^\.#', '#^www\.#'], ['', '', '', '*.', ''], $domain);
+            // keep only a plain host like "example.com" or "*.example.com"
+            if (preg_match('#^(\*\.)?[a-z0-9-]+(\.[a-z0-9-]+)+$#', $domain)) {
+                $hosts[$domain] = true;
+            }
+        }
+
+        return array_keys($hosts);
+    }
+
+    /**
+     * setDomains values of an inline tracking code, else the domains of the first Tag
+     * Manager container the page loads.
+     *
+     * @return string[]
+     */
+    private function getTrackerDomains(string $html, int $timeout): array
+    {
+        // _paq.push(['setDomains', [...]]) or tracker.setDomains([...])
+        if (preg_match_all('#setDomains(?:[\'"]\s*,|\()\s*(\[[^\]]*\]|[\'"][^\'"]+[\'"])#', $html, $matches)) {
+            return $this->quotedStrings(implode(',', $matches[1]));
+        }
+
+        // a Tag Manager container script URL, e.g. "//cdn.example.com/js/container_AbC123.js"
+        if (!preg_match('#(?:https?:)?//[a-z0-9.:-]+/[^\s\'"<>]*?container_[a-z0-9_]+\.js#i', $html, $container)) {
+            return [];
+        }
+        $response = $this->fetchHomepage(preg_replace('#^//#', 'https://', $container[0]), $timeout);
+        $status = $response['status'] ?? null;
+        // the container config's domain list, e.g. "domains":["example.com","*.example.org"]
+        if (!is_int($status) || $status < 200 || $status >= 300 || !preg_match_all('#"domains":(\[[^\]]*\])#', (string) ($response['data'] ?? ''), $matches)) {
+            return [];
+        }
+
+        return $this->quotedStrings(implode(',', $matches[1]));
+    }
+
+    /**
+     * @return string[]
+     */
+    private function quotedStrings(string $value): array
+    {
+        preg_match_all('#[\'"]([^\'"]+)[\'"]#', $value, $matches);
+
+        return $matches[1];
+    }
+
+    /**
+     * Same matching as the tracker: exact host, or any subdomain for "*.example.com".
+     *
+     * @param string[] $internalHosts see getInternalHosts()
+     */
+    private function isInternalHost(string $host, array $internalHosts): bool
+    {
+        $host = (string) preg_replace('/^www\./', '', strtolower($host));
+        foreach ($internalHosts as $internalHost) {
+            if (strpos($internalHost, '*.') === 0) {
+                $domain = substr($internalHost, 2);
+                if ($host === $domain || substr($host, -strlen('.' . $domain)) === '.' . $domain) {
+                    return true;
+                }
+            } elseif ($host === $internalHost) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -1136,14 +1237,42 @@ class HomepageAnalyzer
     }
 
     /**
+     * Outlinks, one per host. Links to the site's own hosts are left out, see rankInternalHostLinks().
+     *
      * @param array<int, array{url: string, signals?: array<string, mixed>}> $pages
+     * @param string[] $internalHosts see getInternalHosts()
      * @return array<int, array<string, mixed>>
      */
-    private function rankExternalLinks(array $pages): array
+    private function rankExternalLinks(array $pages, array $internalHosts): array
     {
-        return $this->rankSignalItems($pages, 'externalLinks', 'host', function (array $bucket): int {
+        $links = $this->rankSignalItems($pages, 'externalLinks', 'host', function (array $bucket): int {
             return (int) $bucket['count'] * 4 + count($bucket['sourcePages']) * 3;
         });
+
+        return array_values(array_filter($links, function (array $link) use ($internalHosts): bool {
+            return !$this->isInternalHost((string) $link['host'], $internalHosts);
+        }));
+    }
+
+    /**
+     * Links to the site's other hosts, one per URL: their pages are pageviews of this site.
+     *
+     * @param array<int, array{url: string, signals?: array<string, mixed>}> $pages
+     * @param string[] $internalHosts see getInternalHosts()
+     * @return array<int, array<string, mixed>>
+     */
+    private function rankInternalHostLinks(array $pages, array $internalHosts): array
+    {
+        if (empty($internalHosts)) {
+            return [];
+        }
+        $links = $this->rankSignalItems($pages, 'externalLinks', 'href', function (array $bucket): int {
+            return (int) $bucket['count'] * 4 + count($bucket['sourcePages']) * 3;
+        });
+
+        return array_values(array_filter($links, function (array $link) use ($internalHosts): bool {
+            return $this->isInternalHost((string) $link['host'], $internalHosts);
+        }));
     }
 
     /**
@@ -1170,11 +1299,15 @@ class HomepageAnalyzer
                         'labels' => [],
                         'examples' => [],
                         'sourcePages' => [],
+                        'areas' => [],
                         'count' => 0,
                     ];
                 }
                 ++$buckets[$key]['count'];
                 $buckets[$key]['sourcePages'][$page['url']] = true;
+                if (!empty($item['area'])) {
+                    $buckets[$key]['areas'][(string) $item['area']] = true;
+                }
                 $this->addUniqueSample($buckets[$key]['labels'], (string) ($item['label'] ?? ''), 4);
                 $this->addUniqueSample($buckets[$key]['examples'], (string) ($item['href'] ?? ''), 4);
             }
@@ -1192,6 +1325,7 @@ class HomepageAnalyzer
         $ranked = [];
         foreach ($buckets as $bucket) {
             $bucket['sourcePages'] = array_slice(array_keys($bucket['sourcePages'] ?? []), 0, 6);
+            $bucket['areas'] = array_keys($bucket['areas'] ?? []);
             $bucket['score'] = $scoreCallback($bucket);
             $ranked[] = $bucket;
         }
