@@ -11,6 +11,7 @@ import { mount } from '@vue/test-utils';
 const mockFetch = jest.fn();
 
 const mockMatomo = { idSite: 1, hasSuperUserAccess: false };
+const mockShowNotification = jest.fn();
 
 jest.mock('CoreHome', () => ({
   Matomo: mockMatomo,
@@ -24,6 +25,7 @@ jest.mock('CoreHome', () => ({
   ActivityIndicator: { template: '<div/>' },
   Alert: { template: '<div><slot/></div>' },
   Progressbar: { template: '<div/>' },
+  NotificationsStore: { show: mockShowNotification, scrollToNotification: jest.fn() },
 }), { virtual: true });
 
 // eslint-disable-next-line import/first
@@ -97,11 +99,18 @@ describe('RecommendGoals AI availability', () => {
         encodeURIComponent('index.php?module=Goals&action=manage&idSite=1#?period=day')}`);
   });
 
-  it('shows nothing to other users when AI processing is not allowed', async () => {
+  it('tells other users to ask a superuser when they click the AI processing link', async () => {
     const w = await mountWith('notPermitted');
 
     expect(w.find('.recommendGoals-chip--aiUnavailable').exists()).toBe(false);
-    expect(w.find('.recommendGoals-aiProcessingLink').exists()).toBe(false);
+    const link = w.find('.recommendGoals-aiProcessingLink');
+    expect(link.attributes('href')).toBe('#');
+
+    await link.trigger('click');
+    expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Goals_RecommendAiAllowProcessingNoPermission',
+      context: 'error',
+    }));
   });
 
   it('hides everything AI related when AI cannot be enabled on the instance', async () => {
