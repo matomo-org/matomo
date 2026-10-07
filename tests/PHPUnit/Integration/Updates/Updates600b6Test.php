@@ -56,11 +56,11 @@ class Updates600b6Test extends IntegrationTestCase
 
         $history = new RequestHistory();
         self::assertSame(
-            [['plugin_name' => 'PremiumPlugin', 'login' => 'alice', 'ts_requested' => Date::factory($pendingTime)->getDatetime(), 'ts_fulfilled' => null]],
+            [['plugin_name' => 'PremiumPlugin', 'login' => 'alice', 'ts_requested' => Date::factory($pendingTime)->getDatetime()]],
             $history->getRequests('PremiumPlugin')
         );
         self::assertSame(
-            [['plugin_name' => 'OtherPlugin', 'login' => null, 'ts_requested' => Date::factory($oldTime)->getDatetime(), 'ts_fulfilled' => null]],
+            [['plugin_name' => 'OtherPlugin', 'login' => null, 'ts_requested' => Date::factory($oldTime)->getDatetime()]],
             $history->getRequests('OtherPlugin')
         );
         self::assertSame([], $history->getRequests('BrokenPlugin'));

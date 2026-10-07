@@ -50,32 +50,20 @@ class RequestHistory
     }
 
     /**
-     * Marks every open request for the plugin as ended by the plugin being installed or activated, not only the
-     * option's: concurrent requests can each add a row, while the option keeps only one of them.
-     */
-    public function markFulfilled(string $pluginName): void
-    {
-        $this->write(
-            'UPDATE ' . $this->getTable() . ' SET ts_fulfilled = ? WHERE plugin_name = ? AND ts_fulfilled IS NULL',
-            [Date::now()->getDatetime(), $pluginName]
-        );
-    }
-
-    /**
-     * @return array<int, array{plugin_name: string, login: string|null, ts_requested: string, ts_fulfilled: string|null}> newest first
+     * @return array<int, array{plugin_name: string, login: string|null, ts_requested: string}> newest first
      */
     public function getRequests(string $pluginName): array
     {
         return Db::get()->fetchAll(
-            'SELECT plugin_name, login, ts_requested, ts_fulfilled FROM ' . $this->getTable()
+            'SELECT plugin_name, login, ts_requested FROM ' . $this->getTable()
             . ' WHERE plugin_name = ? ORDER BY ts_requested DESC, idrequest DESC',
             [$pluginName]
         );
     }
 
     /**
-     * Returns whether the login has ever requested the plugin, fulfilled or not, or null while the 6.0.0-b6 update has
-     * not yet created the table.
+     * Returns whether the login has ever requested the plugin, or null while the 6.0.0-b6 update has not yet created
+     * the table.
      */
     public function hasRequested(string $pluginName, string $login): ?bool
     {

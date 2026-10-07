@@ -107,25 +107,16 @@ class StorageTest extends IntegrationTestCase
         self::assertSame([Piwik::getCurrentUserLogin(), Piwik::getCurrentUserLogin()], array_column($requests, 'login'));
     }
 
-    public function testSetFulfilledEndsTheRequestInBothOptionAndHistory()
+    public function testSetFulfilledEndsThePendingRequestButKeepsItInHistory()
     {
         $storage = new Storage('PremiumPlugin');
         $storage->setRequested('Premium Plugin');
         $storage->setFulfilled();
 
-        self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());
-        $requests = (new RequestHistory())->getRequests('PremiumPlugin');
-        self::assertCount(1, $requests);
-        self::assertNotNull($requests[0]['ts_fulfilled']);
-    }
-
-    public function testAFulfilledRequestStillCountsForItsRequester()
-    {
         $storage = new Storage('PremiumPlugin');
-        $storage->setRequested('Premium Plugin');
-        $storage->setFulfilled();
-
-        self::assertTrue((new Storage('PremiumPlugin'))->wasRequestedByCurrentUser());
+        self::assertFalse($storage->wasRequested());
+        self::assertTrue($storage->wasRequestedByCurrentUser());
+        self::assertCount(1, (new RequestHistory())->getRequests('PremiumPlugin'));
     }
 
     public function testARequestOnlyTheOptionHoldsCountsForItsRequester()
@@ -167,7 +158,6 @@ class StorageTest extends IntegrationTestCase
         $requests = (new RequestHistory())->getRequests('PremiumPlugin');
         self::assertCount(1, $requests);
         self::assertSame('olaf', $requests[0]['login']);
-        self::assertNotNull($requests[0]['ts_fulfilled']);
     }
 
     public function testFulfillingDoesNotRecordADeletedRequesterAgainWhenTheUpdateAnonymisedTheirRequest()
@@ -214,7 +204,7 @@ class StorageTest extends IntegrationTestCase
         self::assertSame([], (new RequestHistory())->getRequests('PremiumPlugin'));
     }
 
-    public function testSetFulfilledLeavesTheRequestOpenWhenTheOptionCannotBeCleared()
+    public function testSetFulfilledLeavesTheRequestPendingWhenTheOptionCannotBeCleared()
     {
         $storage = $this->createStorageThatCannotClear();
         $storage->setRequested('Premium Plugin');
@@ -222,7 +212,6 @@ class StorageTest extends IntegrationTestCase
         $this->assertOptionClearFailure(fn() => $storage->setFulfilled());
 
         self::assertNotFalse(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
-        self::assertSame([null], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'ts_fulfilled'));
     }
 
     public function testDeletingUserRemovesTheirLoginFromPendingRequestsAndHistory()

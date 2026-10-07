@@ -65,7 +65,6 @@ class Storage
         $this->writeWithHistory(function (RequestHistory $history) {
             $this->recordInHistory($history, $this->readStoredForUpdate());
             $this->clearStorage();
-            $history->markFulfilled($this->pluginName);
         });
     }
 

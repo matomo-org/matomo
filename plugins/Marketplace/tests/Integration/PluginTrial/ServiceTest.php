@@ -146,8 +146,7 @@ class ServiceTest extends IntegrationTestCase
 
         self::assertCount(0, Manager::getPendingInMemoryNotifications());
         self::assertFalse((new Storage('CoreHome'))->wasRequested());
-        $requests = (new RequestHistory())->getRequests('CoreHome');
-        self::assertNotNull($requests[0]['ts_fulfilled']);
+        self::assertCount(1, (new RequestHistory())->getRequests('CoreHome'));
     }
 
     protected function assertRequested(bool $expected): void

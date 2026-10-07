@@ -413,7 +413,6 @@ class Mysql implements SchemaInterface
                                       `plugin_name` VARCHAR(60) NOT NULL,
                                       `login` VARCHAR(100) NULL,
                                       `ts_requested` DATETIME NOT NULL,
-                                      `ts_fulfilled` DATETIME NULL,
                                       PRIMARY KEY(`idrequest`),
                                       INDEX index_plugin_name_ts_requested (`plugin_name`, `ts_requested`),
                                       INDEX index_login_plugin_name (`login`, `plugin_name`)

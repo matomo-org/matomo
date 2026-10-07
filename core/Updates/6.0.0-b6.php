@@ -38,7 +38,6 @@ class Updates_6_0_0_b6 extends Updates
                     'plugin_name' => 'VARCHAR(60) NOT NULL',
                     'login' => 'VARCHAR(100) NULL',
                     'ts_requested' => 'DATETIME NOT NULL',
-                    'ts_fulfilled' => 'DATETIME NULL',
                 ], ['idrequest']),
                 $this->migration->db->addIndex('plugin_trial_request', ['plugin_name', 'ts_requested'], 'index_plugin_name_ts_requested'),
                 $this->migration->db->addIndex('plugin_trial_request', ['login', 'plugin_name'], 'index_login_plugin_name'),
