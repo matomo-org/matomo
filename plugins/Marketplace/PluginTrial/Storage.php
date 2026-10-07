@@ -185,6 +185,14 @@ class Storage
     }
 
     /**
+     * @return string[] the requester and the users who dismissed the notification
+     */
+    public function getLogins(): array
+    {
+        return array_values(array_filter(array_merge([$this->storage['requestedBy'] ?? null], $this->storage['dismissed'] ?? [])));
+    }
+
+    /**
      * Removes a deleted user's login from the pending request
      */
     public function anonymizeLogin(string $login): void

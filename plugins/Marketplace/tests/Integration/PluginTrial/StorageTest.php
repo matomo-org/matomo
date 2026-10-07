@@ -15,6 +15,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
@@ -349,6 +350,27 @@ class StorageTest extends IntegrationTestCase
         self::assertSame([], $other['dismissed']);
 
         self::assertSame([null], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login'));
+    }
+
+    public function testActivatingMarketplaceRemovesLoginsOfUsersDeletedWhileItWasDeactivated()
+    {
+        UsersManagerAPI::getInstance()->addUser('bob', 'secret-password-2', 'bob@example.com');
+
+        (new RequestHistory())->add('PremiumPlugin', 'bob', time() - 60);
+        (new RequestHistory())->add('PremiumPlugin', 'carol', time());
+        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
+            'requestTime' => time(),
+            'displayName' => 'Premium Plugin',
+            'dismissed' => ['bob', 'dave'],
+            'requestedBy' => 'carol',
+        ]));
+
+        (new Marketplace())->activate();
+
+        $premium = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
+        self::assertNull($premium['requestedBy']);
+        self::assertSame(['bob'], $premium['dismissed']);
+        self::assertSame([null, 'bob'], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login'));
     }
 
     public function testAnonymizingKeepsARequestThatReplacedTheLoadedOne()

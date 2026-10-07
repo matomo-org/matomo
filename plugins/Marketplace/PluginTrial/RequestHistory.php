@@ -107,6 +107,25 @@ class RequestHistory
     }
 
     /**
+     * @return string[] logins still recorded for users who no longer exist
+     */
+    public function getDeletedLogins(): array
+    {
+        try {
+            return array_column(Db::get()->fetchAll(
+                'SELECT DISTINCT login FROM ' . $this->getTable() . ' WHERE login IS NOT NULL'
+                . ' AND login NOT IN (SELECT login FROM ' . Common::prefixTable('user') . ')'
+            ), 'login');
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
+                throw $e;
+            }
+
+            return [];
+        }
+    }
+
+    /**
      * Ends every open request for the plugin, not only the option's: concurrent requests can each add a row, while the
      * option keeps only one of them.
      *

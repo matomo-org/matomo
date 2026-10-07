@@ -17,6 +17,7 @@ use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Request;
 use Piwik\Request\AuthenticationToken;
 use Piwik\SettingsPiwik;
@@ -407,6 +408,31 @@ class Marketplace extends \Piwik\Plugin
                 });
             }
         });
+    }
+
+    /**
+     * Catches up on users deleted while Marketplace was deactivated, when UsersManager.deleteUser had no observer here.
+     */
+    public function activate()
+    {
+        $deletedLogins = [];
+        $this->runTrialRequestCleanup(function () use (&$deletedLogins) {
+            $deletedLogins = StaticContainer::get(RequestHistory::class)->getDeletedLogins();
+        });
+        $this->runTrialRequestCleanup(function () use (&$deletedLogins) {
+            $usersModel = new UsersModel();
+            foreach (Storage::getPluginsInStorage() as $pluginName) {
+                foreach ((new Storage($pluginName))->getLogins() as $login) {
+                    if (!$usersModel->userExists($login)) {
+                        $deletedLogins[] = $login;
+                    }
+                }
+            }
+        });
+
+        foreach (array_unique($deletedLogins) as $login) {
+            $this->anonymizePluginTrialRequests($login);
+        }
     }
 
     private function runTrialRequestCleanup(callable $cleanup): void
