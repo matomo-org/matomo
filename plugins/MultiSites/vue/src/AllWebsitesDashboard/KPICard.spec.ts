@@ -41,10 +41,10 @@ describe('MultiSites/KPICard.vue', () => {
   });
 
   it('shows the exact value before the description when the card has one', () => {
-    const text = tooltipText({ ...kpi, tooltipBody: 'MultiSites_TotalHitsIncludingAiTooltip' });
+    const text = tooltipText({ ...kpi, tooltipBody: 'MultiSites_HitsIncludingAiTooltip' });
 
     expect(text).toContain('2,912,345');
     expect(text.indexOf('2,912,345'))
-      .toBeLessThan(text.indexOf('MultiSites_TotalHitsIncludingAiTooltip'));
+      .toBeLessThan(text.indexOf('MultiSites_HitsIncludingAiTooltip'));
   });
 });

@@ -101,7 +101,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_AiChatbotsRequests';
         $translations[] = 'MultiSites_SegmentationNotSupported';
         $translations[] = 'MultiSites_AiChatbotsSegmentationTooltip';
-        $translations[] = 'MultiSites_TotalHitsIncludingAiTooltip';
+        $translations[] = 'MultiSites_HitsIncludingAiTooltip';
     }
 
     public function getStylesheetFiles(&$stylesheets)
