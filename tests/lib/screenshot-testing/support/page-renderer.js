@@ -380,10 +380,12 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
         }
 
         if (methodName === 'goto' || methodName === 'reload') {
-            if (typeof args[1] === 'object') {
-                args[1].timeout = 0;
+            // goto(url, options), but reload(options)
+            const optionsIndex = methodName === 'goto' ? 1 : 0;
+            if (typeof args[optionsIndex] === 'object') {
+                args[optionsIndex].timeout = 0;
             } else {
-                args[1] = {
+                args[optionsIndex] = {
                     timeout: 0,
                 };
             }
