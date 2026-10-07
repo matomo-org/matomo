@@ -22,6 +22,8 @@ describe('Marketplace_RequestTrial', function () {
     // 'validLicense' licenses PaidPlugin1 itself, which correctly suppresses the trial CTA.
     testEnvironment.consumer = 'validLicenseNoPlugins';
     testEnvironment.idSitesViewAccess = [1];
+    // requests are permanent per login, so request as a user no sibling spec sharing the fixture renders as
+    testEnvironment.fakeIdentity = 'trialRequestUser';
     testEnvironment.mockMarketplaceApiService = 1;
     testEnvironment.save();
   });
@@ -81,6 +83,7 @@ describe('Marketplace_RequestTrial', function () {
 
   it('should show a trial requested notification to the super user in reporting view', async function () {
     testEnvironment.idSitesViewAccess = []; // super user
+    delete testEnvironment.fakeIdentity;
     testEnvironment.save();
 
     await page.goto('?module=CoreHome&action=index&idSite=1&period=day&date=yesterday#?idSite=1&period=day&date=yesterday&category=General_Visitors&subcategory=Live_VisitorLog');
