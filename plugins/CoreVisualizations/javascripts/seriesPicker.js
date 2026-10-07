@@ -9,8 +9,9 @@
 
 (function ($, require) {
 
-    // Picking a metric reloads the report, replacing the picker that had the focus. Keyed by
-    // report, so the picker drawn in its place can take the focus back.
+    // Picking a metric reloads the report, replacing the picker that had the focus. Keyed by the
+    // report's identity rather than its table id, which a reload renumbers, so the picker drawn in
+    // its place can take the focus back.
     var refocusAfterRedraw = {};
 
     /**
@@ -125,8 +126,9 @@
 
                     rows = rows.map(encodeURIComponent);
 
-                    if (event.byKeyboard) {
-                      refocusAfterRedraw[self.dataTableId] = true;
+                    var reportKey = CoreHome.reportIdentity(self.domElem[0]);
+                    if (event.byKeyboard && reportKey) {
+                      refocusAfterRedraw[reportKey] = true;
                     }
 
                     $(self).trigger('seriesPicked', [columns, rows]);
@@ -150,9 +152,14 @@
 
             $(this).trigger('seriesPickerRendered');
 
-            if (refocusAfterRedraw[this.dataTableId]) {
-                delete refocusAfterRedraw[this.dataTableId];
-                this.domElem.find('.mtm-selector__trigger').trigger('focus');
+            var reportKey = CoreHome.reportIdentity(this.domElem[0]);
+            if (reportKey && refocusAfterRedraw[reportKey]) {
+                delete refocusAfterRedraw[reportKey];
+
+                // only where the reload dropped it: the user may have moved on while it loaded
+                if (!document.activeElement || document.activeElement === document.body) {
+                    this.domElem.find('.mtm-selector__trigger').trigger('focus');
+                }
             }
 
             function isItemDisplayed(columnOrRowConfig) {

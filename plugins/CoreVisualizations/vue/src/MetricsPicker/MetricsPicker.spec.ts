@@ -113,6 +113,19 @@ describe('CoreVisualizations/MetricsPicker.vue', () => {
     }
   });
 
+  it('moves back to the previous option with ArrowUp', async () => {
+    await mountPicker();
+    await openByKeyboard();
+    const walkable = items();
+
+    await panel().trigger('keydown', { key: 'ArrowDown' });
+    await panel().trigger('keydown', { key: 'ArrowDown' });
+    expect(document.activeElement).toBe(walkable[2]);
+
+    await panel().trigger('keydown', { key: 'ArrowUp' });
+    expect(document.activeElement).toBe(walkable[1]);
+  });
+
   it('wraps from the last option to the first, and back', async () => {
     await mountPicker();
     await openByKeyboard();
