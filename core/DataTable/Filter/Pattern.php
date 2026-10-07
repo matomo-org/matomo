@@ -66,6 +66,9 @@ class Pattern extends BaseFilter
      * ASCII-only `/i` does not fold letters such as å/ä/ö, so a search for
      * "öppettider" would miss the label "Öppettider".
      *
+     * Labels such as page URLs and titles are stored URL-encoded but displayed decoded, so the
+     * decoded value is matched too: a search for "foo/bar" finds a label stored as "foo%2Fbar".
+     *
      * @param string $patternQuoted
      * @param string $string
      * @param bool $invertedMatch
@@ -74,7 +77,14 @@ class Pattern extends BaseFilter
      */
     public static function match($patternQuoted, $string, $invertedMatch = false)
     {
-        return preg_match($patternQuoted . 'iu', $string) == 1 ^ $invertedMatch;
+        $isMatch = preg_match($patternQuoted . 'iu', $string) == 1;
+
+        if (!$isMatch) {
+            $decoded = urldecode((string) $string);
+            $isMatch = $decoded !== (string) $string && preg_match($patternQuoted . 'iu', $decoded) == 1;
+        }
+
+        return $isMatch ^ $invertedMatch;
     }
 
     /**
