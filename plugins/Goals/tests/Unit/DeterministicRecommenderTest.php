@@ -223,6 +223,58 @@ class DeterministicRecommenderTest extends TestCase
         $this->assertSame(Piwik::translate('Goals_RecommendationDownloadTypeName', ['PDF']), $goals[0]['name']);
     }
 
+    public function testRecommendTreatsCatalogueItemsAsDataAndAggregatesTheirDownloadsIntoOneRegexGoal(): void
+    {
+        $plugins = ['Signup', 'Slack', 'Funnels', 'Heatmaps', 'Cohorts', 'Forms', 'Media', 'Flows', 'Alerts', 'Reports', 'Audit'];
+        $links = [];
+        foreach ($plugins as $plugin) {
+            $links[] = $this->link('/' . $plugin, $plugin, ['labelSamples' => [$plugin, 'Learn more']]);
+            $links[] = $this->link('/' . $plugin . '/changelog', 'Changelog');
+            $links[] = $this->link('/api/2.0/plugins/' . $plugin . '/download/1.0.0', 'Free Download');
+        }
+        // language prefixes are not catalogue items
+        foreach (['en', 'de', 'fr', 'nl', 'es'] as $language) {
+            $links[] = $this->link('/' . $language . '/newsletter', 'Newsletter');
+        }
+
+        $goals = $this->recommender->recommend($this->analysis($links));
+
+        $this->assertSame([
+            ['url', 'contains', '/en/newsletter', false],
+            ['file', 'regex', '/api/2\.0/plugins/[^/]+/download([/?#]|$)', true],
+        ], array_map(function (array $goal): array {
+            return [$goal['matchAttribute'], $goal['patternType'], $goal['pattern'], $goal['needsSetup']];
+        }, $goals));
+    }
+
+    public function testRecommendTurnsLinksToTheSitesOtherHostsIntoPageGoals(): void
+    {
+        $goals = $this->recommender->recommend($this->analysis([], ['internalHostLinks' => [
+            $this->external('shop.example.com', 'Free trial', 'https://shop.example.com/free-trial/'),
+            $this->external('shop.example.com', 'FAQ', 'https://shop.example.com/faq/'),
+        ]]));
+
+        $this->assertSame([
+            ['url', 'shop.example.com/free-trial', 'signup'],
+            ['url', 'shop.example.com', 'partner'],
+        ], array_map(function (array $goal): array {
+            return [$goal['matchAttribute'], $goal['pattern'], $goal['category']];
+        }, $goals));
+        $this->assertSame(Piwik::translate('Goals_RecommendationKeyPageName', ['shop.example.com']), $goals[1]['name']);
+        $this->assertSame(Piwik::translate('Goals_RecommendationDefaultSetupNote'), $goals[1]['implementationNote']);
+    }
+
+    public function testRecommendDemotesFooterOnlyOutlinks(): void
+    {
+        $goals = $this->recommender->recommend($this->analysis([], ['externalLinks' => [
+            $this->external('shop.example.com', 'Shop', '', 10) + ['areas' => ['footer']],
+            $this->external('store.example.com', 'Store', '', 2) + ['areas' => ['section']],
+        ]]));
+
+        // the site wide footer link would win on reach alone
+        $this->assertSame(['store.example.com'], array_column($goals, 'pattern'));
+    }
+
     public function testRecommendClassifiesOutlinksByPlatformSiblingRedirectorBrandAndLabel(): void
     {
         $goals = $this->recommender->recommend($this->analysis([], ['pagesCrawled' => 10, 'externalLinks' => [
@@ -232,6 +284,8 @@ class DeterministicRecommenderTest extends TestCase
             $this->external('support.example.com', 'Support'),
             $this->external('example.giftpro.co.uk', 'Gift vouchers'),
             $this->external('wordpress.org', 'Get the plugin', 'https://wordpress.org/plugins/example/'),
+            // a big platform linked from a single page is a reference, not a conversion
+            $this->external('apps.apple.com', 'Our app', 'https://apps.apple.com/app/example/id1', 1),
             $this->external('partner.example.org', 'Faire un don', 'https://partner.example.org/x', 3),
             $this->external('github.com', 'Star us'),
         ]]));
@@ -243,7 +297,7 @@ class DeterministicRecommenderTest extends TestCase
             'go.example.com/discord' => 'community',
             'opencollective.com' => 'sponsor',
             'partner.example.org' => 'donate',
-            'wordpress.org' => 'partner',
+            'wordpress.org/plugins/example' => 'partner',
         ], $byPattern);
         $this->assertArrayNotHasKey('facebook.com', $byPattern);
         $this->assertArrayNotHasKey('support.example.com', $byPattern);

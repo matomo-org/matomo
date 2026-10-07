@@ -8,8 +8,8 @@
 <template>
   <ContentBlock
     v-if="shouldShowRecommendations"
-    :content-title="translate('Goals_RecommendedGoals')"
-    :feature="translate('Goals_RecommendedGoals')"
+    :content-title="translate('Goals_GoalRecommendation')"
+    :feature="translate('Goals_GoalRecommendation')"
     :help-text="translate('Goals_RecommendedGoalsIntro')"
     class="recommendGoals"
   >
@@ -26,7 +26,15 @@
         <span>{{ scanWarning.message }}</span>
       </div>
 
-      <div v-if="recommendations.length">
+      <p
+        v-if="isCompleted"
+        class="recommendGoals-notice recommendGoals-notice--success"
+        role="status"
+      >
+        <span class="icon-ok"></span>
+        <span>{{ translate('Goals_RecommendAllCreated') }}</span>
+      </p>
+      <div v-else-if="recommendations.length">
         <div class="recommendGoals-list">
           <RecommendGoalCard
             v-for="rec in visibleRecommendations"
@@ -88,7 +96,7 @@
             </div>
             <button
               type="button"
-              class="btn-flat"
+              class="btn btn-outline"
               @click="$emit('prefill', rec)"
               :disabled="isBusy"
             >
@@ -241,6 +249,11 @@
         >
           {{ aiUnavailableLabel }}
         </span>
+        <a
+          v-if="aiProcessingSettingsUrl"
+          class="recommendGoals-privacyLink recommendGoals-aiProcessingLink"
+          :href="aiProcessingSettingsUrl"
+        >{{ translate('Goals_RecommendAiAllowProcessing') }}</a>
         <button
           v-if="isAiAvailable"
           type="button"
@@ -265,6 +278,7 @@
 import { computed, ref } from 'vue';
 import {
   Matomo,
+  MatomoUrl,
   AjaxHelper,
   translate,
   ContentBlock,
@@ -338,7 +352,8 @@ const shouldShowRecommendations = computed(() => props.userCanEditGoals);
 const isAiAvailable = computed(() => aiAvailability.value === 'available');
 
 // 'disabled' stays silent: nobody on the instance can enable AI, so there is
-// nothing to act on. The other two states differ in what needs doing.
+// nothing to act on. 'notPermitted' only shows the AI processing link below.
+// The other two states differ in what needs doing.
 const aiUnavailableLabel = computed(() => {
   if (aiAvailability.value === 'notActivated') {
     return translate('Goals_RecommendAiNotActivated');
@@ -352,6 +367,18 @@ const aiUnavailableLabel = computed(() => {
 const aiUnavailableHelp = computed(() => (aiAvailability.value === 'notActivated'
   ? translate('Goals_RecommendAiNotActivatedHelp')
   : translate('Goals_RecommendAiNotConfiguredHelp')));
+
+// only a superuser can allow AI processing, so only they get the link (returnTo shows a back link there)
+const aiProcessingSettingsUrl = computed(() => (
+  aiAvailability.value === 'notPermitted' && Matomo.hasSuperUserAccess
+    ? `?${MatomoUrl.stringify({
+      ...MatomoUrl.urlParsed.value,
+      module: 'AIProviders',
+      action: 'aiProcessing',
+      returnTo: `index.php${window.location.search}${window.location.hash}`,
+    })}`
+    : ''
+));
 
 const isBusy = computed(() => isLoading.value
   || isCreatingAll.value
@@ -390,6 +417,11 @@ function isAccepted(rec: RecommendedGoal): boolean {
 
 const pendingRecommendations = computed(
   () => recommendations.value.filter((rec) => !isAccepted(rec)),
+);
+
+// every suggestion is now a goal, so the cards give way to one confirmation
+const isCompleted = computed(
+  () => recommendations.value.length > 0 && pendingRecommendations.value.length === 0,
 );
 
 // the strongest suggestions are shown first, the ranked rest on request
@@ -622,6 +654,12 @@ function dismiss() {
 }
 
 function dismissOne(rec: RecommendedGoal) {
+  // dismissing the last open suggestion clears the whole scan, like "Dismiss all"
+  if (recommendations.value.length === 1) {
+    dismiss();
+    return;
+  }
+
   dismissingId.value = recKey(rec);
   isDismissing.value = true;
   createError.value = null;
@@ -636,11 +674,6 @@ function dismissOne(rec: RecommendedGoal) {
     }
 
     recommendations.value = recommendations.value.filter((other) => other !== rec);
-    if (!recommendations.value.length && !manualGoals.value.length) {
-      hasRun.value = false;
-      recommendationMode.value = null;
-      generatedAt.value = null;
-    }
   }).catch(() => {
     createError.value = translate('Goals_RecommendDismissError');
   }).finally(() => {

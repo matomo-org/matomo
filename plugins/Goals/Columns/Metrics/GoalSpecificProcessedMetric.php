@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Goals\Columns\Metrics;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
@@ -82,14 +83,15 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
         }
 
         if (isset($this->idSite)) {
-            if (!isset(self::$goalsCache[$this->idSite])) {
-                self::$goalsCache[$this->idSite] = Request::processRequest(
+            $cacheKey = Access::getInstance()->getCacheScopeKey() . '.' . $this->idSite;
+            if (!isset(self::$goalsCache[$cacheKey])) {
+                self::$goalsCache[$cacheKey] = Request::processRequest(
                     'Goals.getGoals',
                     ['idSite' => $this->idSite, 'filter_limit' => '-1'],
                     $default = []
                 );
             }
-            return self::$goalsCache[$this->idSite][$this->idGoal]['name'] ?? '';
+            return self::$goalsCache[$cacheKey][$this->idGoal]['name'] ?? '';
         } else {
             return '';
         }
