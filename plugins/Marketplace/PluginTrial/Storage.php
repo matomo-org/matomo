@@ -52,6 +52,7 @@ class Storage
 
         $this->writeWithHistory(function (RequestHistory $history) use ($requestTime) {
             // the option first, the same lock order as setFulfilled() and expireIfUnchanged()
+            $this->recordInHistory($history, $this->readStoredForUpdate());
             $this->saveStorage();
             $history->add($this->pluginName, $this->storage['requestedBy'], $requestTime);
         });
@@ -63,6 +64,7 @@ class Storage
     public function setFulfilled(): void
     {
         $this->writeWithHistory(function (RequestHistory $history) {
+            $this->recordInHistory($history, $this->readStoredForUpdate());
             $this->clearStorage();
             $history->markFulfilled($this->pluginName);
         });
@@ -95,6 +97,11 @@ class Storage
     {
         if (!$this->wasRequested()) {
             return false;
+        }
+
+        // also covers a request that Matomo before the update stored in the option alone
+        if (($this->storage['requestedBy'] ?? null) === Piwik::getCurrentUserLogin()) {
+            return true;
         }
 
         $hasOpenRequest = StaticContainer::get(RequestHistory::class)->hasOpenRequest(
@@ -130,6 +137,7 @@ class Storage
                 return;
             }
 
+            $this->recordInHistory($history, $storedRequest);
             $history->markExpired($this->pluginName);
             $this->clearStorage();
             $expired = true;
@@ -220,6 +228,16 @@ class Storage
         $storedRequest = json_decode($stored ?: '[]', true);
 
         return is_array($storedRequest) ? $storedRequest : [];
+    }
+
+    /**
+     * @param array<string, mixed> $storedRequest
+     */
+    private function recordInHistory(RequestHistory $history, array $storedRequest): void
+    {
+        if (!empty($storedRequest['requestTime'])) {
+            $history->addIfMissing($this->pluginName, $storedRequest['requestedBy'] ?? null, (int) $storedRequest['requestTime']);
+        }
     }
 
     /**

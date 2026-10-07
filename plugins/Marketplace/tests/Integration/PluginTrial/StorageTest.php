@@ -166,6 +166,70 @@ class StorageTest extends IntegrationTestCase
         self::assertNull($requests[0]['ts_fulfilled']);
     }
 
+    public function testARequestOnlyTheOptionHoldsCountsForItsRequester()
+    {
+        $this->setRequestOnlyInOption(time(), Piwik::getCurrentUserLogin());
+
+        self::assertTrue((new Storage('PremiumPlugin'))->wasRequestedByCurrentUser());
+    }
+
+    public function testANewRequestRecordsTheOneItReplacesWhenOnlyTheOptionHeldIt()
+    {
+        $this->setRequestOnlyInOption(time() - 60, 'olaf');
+
+        (new Storage('PremiumPlugin'))->setRequested('Premium Plugin');
+
+        $logins = array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login');
+        self::assertSame([Piwik::getCurrentUserLogin(), 'olaf'], $logins);
+    }
+
+    public function testANewRequestRecordsTheOneItReplacesEvenWhenAnotherUserRequestedInTheSameSecond()
+    {
+        $requestTime = time() - 60;
+        (new RequestHistory())->add('PremiumPlugin', 'anna', $requestTime);
+        $this->setRequestOnlyInOption($requestTime, 'olaf');
+
+        (new Storage('PremiumPlugin'))->setRequested('Premium Plugin');
+
+        $logins = array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login');
+        sort($logins);
+        self::assertSame(['anna', 'olaf', Piwik::getCurrentUserLogin()], $logins);
+    }
+
+    public function testFulfillingRecordsARequestOnlyTheOptionHeld()
+    {
+        $this->setRequestOnlyInOption(time() - 60, 'olaf');
+
+        (new Storage('PremiumPlugin'))->setFulfilled();
+
+        $requests = (new RequestHistory())->getRequests('PremiumPlugin');
+        self::assertCount(1, $requests);
+        self::assertSame('olaf', $requests[0]['login']);
+        self::assertNotNull($requests[0]['ts_fulfilled']);
+    }
+
+    public function testExpiryRecordsARequestOnlyTheOptionHeld()
+    {
+        $this->setRequestOnlyInOption(time() - (25 * 3600), 'olaf');
+
+        self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());
+
+        $requests = (new RequestHistory())->getRequests('PremiumPlugin');
+        self::assertCount(1, $requests);
+        self::assertSame('olaf', $requests[0]['login']);
+        self::assertNotNull($requests[0]['ts_expired']);
+    }
+
+    private function setRequestOnlyInOption(int $requestTime, string $login): void
+    {
+        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
+            'requestTime' => $requestTime,
+            'displayName' => 'Premium Plugin',
+            'dismissed' => [],
+            'requestedBy' => $login,
+        ]));
+    }
+
     public function testSetRequestedKeepsNoHistoryWhenTheOptionCannotBeSaved()
     {
         $storage = new class ('PremiumPlugin') extends Storage {

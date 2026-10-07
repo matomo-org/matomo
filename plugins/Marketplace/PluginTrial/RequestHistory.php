@@ -30,6 +30,25 @@ class RequestHistory
     }
 
     /**
+     * Records a request that only the option holds, as one stored by Matomo before the update still does while it
+     * keeps serving alongside the updated code.
+     */
+    public function addIfMissing(string $pluginName, ?string $login, int $requestTime): void
+    {
+        // Date::factory() throws for anything this old
+        if ($requestTime < Date::FIRST_WEBSITE_TIMESTAMP) {
+            return;
+        }
+
+        $requestedAt = Date::factory($requestTime)->getDatetime();
+        $this->write(
+            'INSERT INTO ' . $this->getTable() . ' (plugin_name, login, ts_requested) SELECT ?, ?, ? FROM DUAL'
+            . ' WHERE NOT EXISTS (SELECT 1 FROM ' . $this->getTable() . ' WHERE plugin_name = ? AND ts_requested = ? AND login <=> ?)',
+            [$pluginName, $login, $requestedAt, $pluginName, $requestedAt, $login]
+        );
+    }
+
+    /**
      * Marks the request as ended by the plugin being installed or activated.
      */
     public function markFulfilled(string $pluginName): void

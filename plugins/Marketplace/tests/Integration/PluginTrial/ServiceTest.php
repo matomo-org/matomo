@@ -14,6 +14,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Notification\Manager;
+use Piwik\Option;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
@@ -103,10 +104,13 @@ class ServiceTest extends IntegrationTestCase
         $service = new Service();
         FakeAccess::$identity = 'alice';
         $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+        $requestTime = time() - 2 * 24 * 3600;
         Db::query(
             'UPDATE ' . Common::prefixTable(RequestHistory::TABLE_NAME) . ' SET ts_requested = ?',
-            [Date::factory(time() - 2 * 24 * 3600)->getDatetime()]
+            [Date::factory($requestTime)->getDatetime()]
         );
+        $optionName = 'Marketplace.PluginTrialRequest.PremiumPlugin';
+        Option::set($optionName, json_encode(['requestTime' => $requestTime] + json_decode(Option::get($optionName), true)));
 
         FakeAccess::$identity = 'bob';
         $service->request('PremiumPlugin', 'Pretty Premium Plugin');
