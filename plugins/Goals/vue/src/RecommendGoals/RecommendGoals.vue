@@ -250,9 +250,10 @@
           {{ aiUnavailableLabel }}
         </span>
         <a
-          v-if="aiProcessingSettingsUrl"
+          v-if="aiAvailability === 'notPermitted'"
           class="recommendGoals-privacyLink recommendGoals-aiProcessingLink"
           :href="aiProcessingSettingsUrl"
+          @click="onAiProcessingLinkClick"
         >{{ translate('Goals_RecommendAiAllowProcessing') }}</a>
         <button
           v-if="isAiAvailable"
@@ -285,6 +286,7 @@ import {
   ActivityIndicator,
   Alert,
   Progressbar,
+  NotificationsStore,
 } from 'CoreHome';
 import RecommendGoalCard from './RecommendGoalCard.vue';
 import useScanProgress from './useScanProgress';
@@ -368,17 +370,32 @@ const aiUnavailableHelp = computed(() => (aiAvailability.value === 'notActivated
   ? translate('Goals_RecommendAiNotActivatedHelp')
   : translate('Goals_RecommendAiNotConfiguredHelp')));
 
-// only a superuser can allow AI processing, so only they get the link (returnTo shows a back link there)
-const aiProcessingSettingsUrl = computed(() => (
-  aiAvailability.value === 'notPermitted' && Matomo.hasSuperUserAccess
-    ? `?${MatomoUrl.stringify({
-      ...MatomoUrl.urlParsed.value,
-      module: 'AIProviders',
-      action: 'aiProcessing',
-      returnTo: `index.php${window.location.search}${window.location.hash}`,
-    })}`
-    : ''
-));
+// only a superuser can allow AI processing (returnTo shows a back link there)
+const aiProcessingSettingsUrl = computed(() => (Matomo.hasSuperUserAccess
+  ? `?${MatomoUrl.stringify({
+    ...MatomoUrl.urlParsed.value,
+    module: 'AIProviders',
+    action: 'aiProcessing',
+    returnTo: `index.php${window.location.search}${window.location.hash}`,
+  })}`
+  : '#'));
+
+// other users still see the link, but are told to ask a superuser
+function onAiProcessingLinkClick(event: MouseEvent) {
+  if (Matomo.hasSuperUserAccess) {
+    return;
+  }
+
+  event.preventDefault();
+  const notificationInstanceId = NotificationsStore.show({
+    id: 'RecommendGoals.aiProcessingNotAllowed',
+    message: translate('Goals_RecommendAiAllowProcessingNoPermission'),
+    context: 'error',
+    type: 'toast',
+  });
+  // the notification renders at the top of the page, far above the link
+  NotificationsStore.scrollToNotification(notificationInstanceId);
+}
 
 const isBusy = computed(() => isLoading.value
   || isCreatingAll.value
