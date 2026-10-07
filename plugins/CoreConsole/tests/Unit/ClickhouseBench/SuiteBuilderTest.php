@@ -68,6 +68,17 @@ class SuiteBuilderTest extends TestCase
         self::assertStringContainsString('pageUrl=@/blog/', $segments['ecommerce']);
     }
 
+    public function testAnEmptyCountryDropsThatComponent(): void
+    {
+        $needles = SuiteBuilder::defaultNeedles();
+        $needles['country'] = '';
+
+        $segments = SuiteBuilder::defaultSegments($needles);
+
+        self::assertSame('pageUrl=@/news/;pageTitle=@Budget;deviceType==desktop', $segments['compound']);
+        self::assertSame($segments['compound'] . ';pageUrl!@/sport/', $segments['negated']);
+    }
+
     /**
      * The ids match the standalone SQL benchmark's file names on purpose. That is what makes a
      * number from this harness comparable to a number from there.

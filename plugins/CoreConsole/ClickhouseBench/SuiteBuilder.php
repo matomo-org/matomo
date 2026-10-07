@@ -87,12 +87,11 @@ final class SuiteBuilder
         $idGoal = $needles['idGoal'];
         $broadTitle = $needles['broadTitle'];
 
-        $compound = sprintf(
-            'pageUrl=@%s;pageTitle=@%s;countryCode==%s;deviceType==desktop',
-            $url,
-            $title,
-            $country
-        );
+        // An empty country drops that component, for data whose countries are spread too evenly
+        // for any one of them to leave the segment matching anything.
+        $compound = sprintf('pageUrl=@%s;pageTitle=@%s;', $url, $title)
+            . ($country === '' ? '' : 'countryCode==' . $country . ';')
+            . 'deviceType==desktop';
 
         return [
             'none' => '',

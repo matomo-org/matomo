@@ -121,7 +121,7 @@ HELP);
         $this->addRequiredValueOption('needle-title', null, 'pageTitle needle for the built-in segments.', 'Budget');
         $this->addRequiredValueOption('needle-transitions-title', null, 'pageTitle needle for the Transitions cases. Must MATCH the page in --transitions-url.', 'City');
         $this->addRequiredValueOption('needle-broad-title', null, 'pageTitle needle for the broad segment. Separate from --needle-title so widening this one does not also redefine compound, negated, conversion and ecommerce.', 'City');
-        $this->addRequiredValueOption('needle-country', null, 'countryCode for the built-in segments.', 'de');
+        $this->addRequiredValueOption('needle-country', null, 'countryCode for the built-in segments. Empty drops that component.', 'de');
         $this->addRequiredValueOption('needle-product', null, 'productName needle for the ecommerce segment.', 'Daily');
         $this->addRequiredValueOption('needle-goal', null, 'idgoal for the conversion segment.', '1');
 
