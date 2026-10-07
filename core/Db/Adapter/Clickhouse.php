@@ -571,6 +571,14 @@ class Clickhouse implements AdapterInterface
         // another timezone cannot shift toDate()/toHour() results.
         $client->settings()->set('session_timezone', 'UTC');
 
+        // An unmatched OUTER JOIN row has to read as NULL, as it does in MySQL. Without this a
+        // NOT NULL column on the optional side reads as its type default instead, so a
+        // condition that holds for 0 or '' matches visits that have no such row at all: the
+        // segment visitConvertedGoalId==0 matched every visit without a conversion, and
+        // `log_conversion.idgoal != 1` over a LEFT JOIN returned 17,964 rows against MySQL's
+        // 2,051 on the local corpus.
+        $client->settings()->set('join_use_nulls', 1);
+
         // A ClickHouse TEMPORARY TABLE lives in the session, so the segment cache in
         // LogAggregator cannot work without one. The id has to be stable for the life of the
         // process, because a table created by one query has to still be there for the next,

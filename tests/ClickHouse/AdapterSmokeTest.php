@@ -82,6 +82,41 @@ class AdapterSmokeTest extends TestCase
         $adapter->exec('DROP TABLE IF EXISTS ci_adapter_smoke');
     }
 
+    /**
+     * MySQL reads an unmatched LEFT JOIN row as NULL. ClickHouse reads a non-nullable column as
+     * its type default unless join_use_nulls is set, which made `idgoal = 0` match every visit
+     * without a conversion.
+     */
+    public function testAnUnmatchedLeftJoinRowReadsAsNullLikeMysql(): void
+    {
+        $adapter = $this->createAdapter();
+
+        $adapter->exec('DROP TABLE IF EXISTS ci_adapter_visit');
+        $adapter->exec('DROP TABLE IF EXISTS ci_adapter_conversion');
+        $adapter->exec('CREATE TABLE ci_adapter_visit (idvisit UInt32) ENGINE = MergeTree ORDER BY idvisit');
+        $adapter->exec(
+            'CREATE TABLE ci_adapter_conversion (idvisit UInt32, idgoal Int32) ENGINE = MergeTree ORDER BY idvisit'
+        );
+        $adapter->exec('INSERT INTO ci_adapter_visit VALUES (1), (2)');
+        $adapter->exec('INSERT INTO ci_adapter_conversion VALUES (1, 0)');
+
+        $rows = $adapter->fetchAll(
+            'SELECT v.idvisit, c.idgoal FROM ci_adapter_visit AS v'
+            . ' LEFT JOIN ci_adapter_conversion AS c ON c.idvisit = v.idvisit ORDER BY v.idvisit'
+        );
+        self::assertNull($rows[1]['idgoal']);
+
+        $matched = $adapter->fetchAll(
+            'SELECT v.idvisit FROM ci_adapter_visit AS v'
+            . ' LEFT JOIN ci_adapter_conversion AS c ON c.idvisit = v.idvisit WHERE c.idgoal = ?',
+            [0]
+        );
+        self::assertSame([1], array_map('intval', array_column($matched, 'idvisit')));
+
+        $adapter->exec('DROP TABLE IF EXISTS ci_adapter_visit');
+        $adapter->exec('DROP TABLE IF EXISTS ci_adapter_conversion');
+    }
+
     public function testFailingQueryThrowsWithTranslatedSqlInMessage(): void
     {
         $adapter = $this->createAdapter();
