@@ -354,6 +354,45 @@ class WebSearchTest extends TestCase
         $this->assertTrue($response->wasWebSearchUsed(), 'the search was billed even though it failed');
     }
 
+    /**
+     * Searches past max_uses come back as errors: they never ran, so their
+     * queries are not reported. The count is Anthropic's own.
+     */
+    public function testAnthropicLeavesOutTheQueriesOfFailedSearches(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+        $claude->mockResponse = [
+            'content' => [
+                ['type' => 'server_tool_use', 'id' => 'srvtoolu_1', 'name' => 'web_search', 'input' => ['query' => 'matomo']],
+                ['type' => 'server_tool_use', 'id' => 'srvtoolu_2', 'name' => 'web_search', 'input' => ['query' => 'plausible']],
+                ['type' => 'server_tool_use', 'id' => 'srvtoolu_3', 'name' => 'web_search', 'input' => ['query' => 'umami']],
+                [
+                    'type' => 'web_search_tool_result',
+                    'tool_use_id' => 'srvtoolu_1',
+                    'content' => [['type' => 'web_search_result', 'url' => 'https://matomo.org/', 'title' => 'Matomo']],
+                ],
+                [
+                    'type' => 'web_search_tool_result',
+                    'tool_use_id' => 'srvtoolu_2',
+                    'content' => [['type' => 'web_search_result', 'url' => 'https://plausible.io/', 'title' => 'Plausible']],
+                ],
+                [
+                    'type' => 'web_search_tool_result',
+                    'tool_use_id' => 'srvtoolu_3',
+                    'content' => ['type' => 'web_search_tool_result_error', 'error_code' => 'max_uses_exceeded'],
+                ],
+                ['type' => 'text', 'text' => 'Matomo and Plausible.'],
+            ],
+            'usage' => ['server_tool_use' => ['web_search_requests' => 2]],
+            'stop_reason' => 'end_turn',
+        ];
+
+        $response = $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
+
+        $this->assertSame(2, $response->getWebSearchRequestCount());
+        $this->assertSame(['matomo', 'plausible'], $response->getWebSearchQueries());
+    }
+
     public function testAnthropicReportsSearchUnusedWhenTheModelChoseNotToSearch(): void
     {
         $claude = new WebSearchRecordingAnthropic();
