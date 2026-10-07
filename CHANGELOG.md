@@ -15,6 +15,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New APIs
 * The AIProviders plugin now lets a super user choose which categories of data AI features may send to an AI provider. Plugins check `Piwik\Plugins\AIProviders\Model\AIProcessingSettings::isEnabled()` before sending data, can list their features on the settings page through the `AIProviders.addAIProcessingFeatures` event, and can react to changes through the `AIProviders.aiProcessingSettingsChanged` event. See `AIProcessingSettings` for the available categories.
+* `Piwik\Plugins\AIProviders\AIRequest::withMaxWebSearches()` caps the searches a grounded request may run, defaulting to `AIRequest::DEFAULT_MAX_WEB_SEARCHES` (2). It is sent to OpenAI as `max_tool_calls`, which was previously uncapped, and to Anthropic as `max_uses`, which was previously fixed at 5; Google has no per-request cap and ignores it. A caller that relied on more searches must now ask for them.
 * The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its markup to it.
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`

@@ -39,13 +39,6 @@ class Anthropic extends AIProvider
     private const WEB_SEARCH_TOOL_TYPE = 'web_search_20250305';
     private const WEB_SEARCH_TOOL_NAME = 'web_search';
 
-    /**
-     * Searches allowed per grounded request. This is the cost cap: every search
-     * is billed as a server tool request on top of the retrieved page content,
-     * which lands in the prompt as input tokens.
-     */
-    private const WEB_SEARCH_MAX_USES = 5;
-
     public function __construct()
     {
         parent::__construct(
@@ -101,7 +94,7 @@ class Anthropic extends AIProvider
             $payload['tools'] = [[
                 'type' => self::WEB_SEARCH_TOOL_TYPE,
                 'name' => self::WEB_SEARCH_TOOL_NAME,
-                'max_uses' => self::WEB_SEARCH_MAX_USES,
+                'max_uses' => $request->getMaxWebSearches(),
             ]];
         }
 
@@ -186,6 +179,8 @@ class Anthropic extends AIProvider
      * `server_tool_use` blocks, sources from `web_search_tool_result` rows and
      * from the `web_search_result_location` citations on text blocks (cited ones
      * first), and the search count from `usage.server_tool_use.web_search_requests`.
+     * A search whose result is an error (e.g. `max_uses_exceeded`) never ran, so
+     * its query is left out.
      *
      * @param array<string, mixed> $response
      */
@@ -197,7 +192,8 @@ class Anthropic extends AIProvider
 
         $content = is_array($response['content'] ?? null) ? $response['content'] : [];
 
-        $queries = [];
+        $searches = [];
+        $failedSearchIds = [];
         $cited = [];
         $returned = [];
 
@@ -211,7 +207,7 @@ class Anthropic extends AIProvider
             if ($type === 'server_tool_use' && ($block['name'] ?? null) === self::WEB_SEARCH_TOOL_NAME) {
                 $query = $block['input']['query'] ?? null;
                 if (is_string($query)) {
-                    $queries[] = $query;
+                    $searches[] = ['id' => $block['id'] ?? null, 'query' => $query];
                 }
                 continue;
             }
@@ -219,7 +215,12 @@ class Anthropic extends AIProvider
             if ($type === 'web_search_tool_result') {
                 // A failed search (e.g. max_uses_exceeded) still returns HTTP 200 with
                 // `content` set to a single web_search_tool_result_error object rather
-                // than a list of rows; its scalar members fail the is_array() test below.
+                // than a list of rows. It returned nothing and never ran.
+                if (($block['content']['type'] ?? null) === 'web_search_tool_result_error') {
+                    $failedSearchIds[] = $block['tool_use_id'] ?? null;
+                    continue;
+                }
+
                 foreach ((is_array($block['content'] ?? null) ? $block['content'] : []) as $row) {
                     if (is_array($row) && ($row['type'] ?? null) === 'web_search_result') {
                         $returned[] = ['url' => $row['url'] ?? null, 'title' => $row['title'] ?? null];
@@ -235,6 +236,13 @@ class Anthropic extends AIProvider
                     }
                     $cited[] = ['url' => $citation['url'] ?? null, 'title' => $citation['title'] ?? null];
                 }
+            }
+        }
+
+        $queries = [];
+        foreach ($searches as $search) {
+            if ($search['id'] === null || !in_array($search['id'], $failedSearchIds, true)) {
+                $queries[] = $search['query'];
             }
         }
 
