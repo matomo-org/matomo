@@ -379,12 +379,10 @@ class ClickhouseDialectTranslator
             return $sql;
         }
 
-        // Only a join of the rank's own SELECT counts, not one inside a sub-query of its FROM.
-        $scope = self::blankNestedScopes($sql, self::enclosingSelectStart($sql, $start));
-        if (!preg_match('~\bJOIN\s+`?\w*log_visit`?\s+(?:AS\s+)?`?(\w+)`?~i', $scope, $joinMatch)) {
+        $visit = self::visitJoinAlias($sql, self::enclosingSelectStart($sql, $start));
+        if (null === $visit) {
             return $sql;
         }
-        $visit = $joinMatch[1];
 
         $sql = substr($sql, 0, $assignMatch[0][1]) . substr($sql, $keyStart);
 
@@ -392,6 +390,47 @@ class ClickhouseDialectTranslator
             . 'row_number() OVER (PARTITION BY ' . trim($key)
             . ' ORDER BY ' . $visit . '.visit_last_action_time, ' . $visit . '.idvisit)'
             . substr($sql, $close + 1);
+    }
+
+    /**
+     * The alias of the log_visit join of the SELECT starting at $selectStart, or null if it has
+     * none. Only a join of that SELECT counts, not one inside a sub-query of its FROM. The join
+     * may be of the table itself or of a sub-select reading nothing but log_visit, which keeps
+     * the columns the rank is ordered by.
+     */
+    private static function visitJoinAlias(string $sql, int $selectStart): ?string
+    {
+        // blankNestedScopes() keeps offsets, so an offset in $scope is $selectStart before one in $sql
+        $scope = self::blankNestedScopes($sql, $selectStart);
+        if (!preg_match_all('~\bJOIN\b~i', $scope, $joins, PREG_OFFSET_CAPTURE)) {
+            return null;
+        }
+
+        foreach ($joins[0] as [$join, $offset]) {
+            // skipping the whitespace in $sql, as in $scope a joined sub-select is blank too
+            $at = $selectStart + $offset + strlen($join);
+            $at += strspn($sql, " \t\r\n", $at);
+
+            if ($sql[$at] !== '(') {
+                if (preg_match('~\G`?\w*log_visit`?\s+(?:AS\s+)?`?(\w+)`?~i', $sql, $m, 0, $at)) {
+                    return $m[1];
+                }
+                continue;
+            }
+
+            $close = self::closingParen($sql, $at);
+            $subSelect = self::blankNestedScopes($sql, $at + 1);
+            if (
+                $close > $at
+                && preg_match('~^\s*SELECT\b.*?\bFROM\s+`?\w*log_visit`?(?:\s+WHERE\b.*)?\s*$~is', $subSelect)
+                && !preg_match('~\b(?:JOIN|GROUP\s+BY|UNION)\b~i', $subSelect)
+                && preg_match('~\G\s*(?:AS\s+)?`?(\w+)`?~i', $sql, $m, 0, $close + 1)
+            ) {
+                return $m[1];
+            }
+        }
+
+        return null;
     }
 
     /**

@@ -162,6 +162,20 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testRanksTheVisitsOfALogVisitSubSelectJoin()
+    {
+        $sql = "SELECT (@rnk:=IF(@cur = r.idvisit,@rnk+1,1)) pos, (@cur:=r.idvisit) k FROM r"
+            . " RIGHT JOIN (SELECT idvisitor, idvisit, visit_last_action_time FROM log_visit"
+            . " WHERE idsite = 1 AND idvisitor IN (SELECT idvisitor FROM log_conversion WHERE idgoal = 2)) logv"
+            . " ON logv.idvisitor = r.idvisitor";
+
+        self::assertStringStartsWith(
+            'SELECT (toInt64(row_number() OVER (PARTITION BY r.idvisit'
+            . ' ORDER BY logv.visit_last_action_time, logv.idvisit))) pos, (r.idvisit) k',
+            ClickhouseDialectTranslator::translate($sql)
+        );
+    }
+
     /**
      * @dataProvider unrankableRunningRankProvider
      */
@@ -190,6 +204,20 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
             'log_visit joined only inside a sub-query' => [
                 "SELECT (@rnk:=IF(@cur = r.idvisit,@rnk+1,1)) pos, (@cur:=r.idvisit) k"
                 . " FROM (SELECT c.idvisit FROM c JOIN log_visit logv ON logv.idvisit = c.idvisit) AS r",
+            ],
+            'sub-select join of log_visit grouped' => [
+                "SELECT (@rnk:=IF(@cur = r.idvisit,@rnk+1,1)) pos, (@cur:=r.idvisit) k FROM r"
+                . " JOIN (SELECT idvisitor, max(idvisit) AS idvisit FROM log_visit GROUP BY idvisitor) logv"
+                . " ON logv.idvisitor = r.idvisitor",
+            ],
+            'sub-select join of log_visit joined to another table' => [
+                "SELECT (@rnk:=IF(@cur = r.idvisit,@rnk+1,1)) pos, (@cur:=r.idvisit) k FROM r"
+                . " JOIN (SELECT v.idvisitor, v.idvisit FROM log_visit v JOIN c ON c.idvisit = v.idvisit) logv"
+                . " ON logv.idvisitor = r.idvisitor",
+            ],
+            'sub-select join of another table' => [
+                "SELECT (@rnk:=IF(@cur = r.idvisit,@rnk+1,1)) pos, (@cur:=r.idvisit) k FROM r"
+                . " JOIN (SELECT idvisitor, idvisit FROM log_conversion) logv ON logv.idvisitor = r.idvisitor",
             ],
         ];
     }
