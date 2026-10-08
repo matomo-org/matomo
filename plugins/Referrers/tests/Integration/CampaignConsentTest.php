@@ -122,6 +122,31 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * The shape a consent platform actually produces: the visitor is measured without cookies,
+     * consents on the landing page, and the tracker reports it with a ping rather than a second
+     * page view. The ping carries the same page URL, so the campaign can be completed from it
+     * without recording an extra action.
+     */
+    public function testCampaignIsRecordedWhenConsentArrivesWithAPing(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name')
+        );
+
+        $this->ping('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+        $this->assertSame(self::CAMPAIGN_KEYWORD, $this->fetchVisitColumn('referer_keyword'));
+        $this->assertSame(1, $this->countVisits(), 'a ping must not start a second visit');
+        $this->assertSame(1, $this->countActions(), 'a ping must not record an extra action');
+    }
+
+    /**
      * Once the visitor has moved on, the campaign parameters are no longer in the URL, so there is
      * nothing to record. The discarded value stays discarded rather than being guessed at.
      */
@@ -174,6 +199,13 @@ class CampaignConsentTest extends IntegrationTestCase
 
     private function trackPageView(string $page, bool $withCampaign, ?string $consent): void
     {
+        $this->prepareRequest($page, $withCampaign, $consent);
+
+        Fixture::checkResponse($this->tracker->doTrackPageView(ucfirst($page)));
+    }
+
+    private function prepareRequest(string $page, bool $withCampaign, ?string $consent): void
+    {
         $this->testDate = $this->testDate->addPeriod(1, 'minute');
         $this->tracker->setForceVisitDateTime($this->testDate->getDatetime());
 
@@ -193,8 +225,21 @@ class CampaignConsentTest extends IntegrationTestCase
 
         $this->tracker->setUrl($url);
         $this->tracker->setUrlReferrer('');
+    }
 
-        Fixture::checkResponse($this->tracker->doTrackPageView(ucfirst($page)));
+    private function ping(string $page, bool $withCampaign, ?string $consent): void
+    {
+        $this->prepareRequest($page, $withCampaign, $consent);
+
+        Fixture::checkResponse($this->tracker->doPing());
+    }
+
+    private function countActions(): int
+    {
+        return (int) Db::fetchOne(
+            'SELECT COUNT(*) FROM ' . Common::prefixTable('log_link_visit_action') . ' WHERE idsite = ?',
+            [$this->idSite]
+        );
     }
 
     private function countVisits(): int
