@@ -82,4 +82,23 @@ describe('ReportExport directive', () => {
 
     expect(showLoading).toHaveBeenCalledWith('Export');
   });
+
+  // Vue passes a new binding on every render, so a handler holding the mounted one exports the
+  // report the icon described before, e.g. Product Name after switching to Product SKU.
+  it('should export the report the icon was last rendered for', () => {
+    const icon = mountIconIn(`
+      <div class="card-content">
+        <div class="dataTable" id="report"><a id="icon"></a></div>
+      </div>`);
+    $('#report').data('uiControlObject', { param: { filter_limit: 25 }, numberOfSubtables: 0 });
+
+    ReportExport.updated(icon, {
+      value: { ...args, reportTitle: 'Product SKU', apiMethod: 'Goals.getItemsSku' },
+    } as DirectiveBinding<ReportExportArgs>);
+    icon.click();
+
+    const { setTitle } = (window as unknown as { Piwik_Popover: { setTitle: ReturnType<typeof vi.fn> } })
+      .Piwik_Popover;
+    expect(setTitle).toHaveBeenCalledWith(expect.stringContaining('Product SKU'));
+  });
 });
