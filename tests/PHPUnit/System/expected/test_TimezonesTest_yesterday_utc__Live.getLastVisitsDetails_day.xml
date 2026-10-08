@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>44</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -106,7 +106,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>42</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -210,7 +210,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>40</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -314,7 +314,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>38</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -418,7 +418,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>36</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -522,7 +522,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>34</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -626,7 +626,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>32</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -730,7 +730,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>30</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -834,7 +834,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>28</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -938,7 +938,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>26</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1042,7 +1042,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>24</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1146,7 +1146,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>22</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1250,7 +1250,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>20</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1354,7 +1354,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>18</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1458,7 +1458,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>16</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1562,7 +1562,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>14</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1666,7 +1666,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>12</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1770,7 +1770,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>10</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1874,7 +1874,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>8</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -1978,7 +1978,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>6</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -2082,7 +2082,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>4</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
@@ -2186,7 +2186,7 @@
 	</row>
 	<row>
 		<idSite>2</idSite>
-		<idVisit>2</idVisit>
+		
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>d58a483a3cfef87b</fingerprint>
