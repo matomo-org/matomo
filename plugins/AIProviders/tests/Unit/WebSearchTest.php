@@ -554,6 +554,53 @@ class WebSearchTest extends TestCase
         $this->assertSame('First fragment. Second fragment.', $response->getText());
     }
 
+    public function testAnthropicCompletionReportsPromptCacheTokensSeparately(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+        $claude->mockResponse = [
+            'content' => [['type' => 'text', 'text' => 'Blue light scatters most.']],
+            'usage' => [
+                'input_tokens' => 50,
+                'output_tokens' => 20,
+                'cache_read_input_tokens' => 4000,
+                'cache_creation_input_tokens' => 300,
+            ],
+            'stop_reason' => 'end_turn',
+        ];
+
+        $response = $claude->complete($this->plainRequest(), self::CLAUDE_CONFIG);
+
+        $this->assertSame(50, $response->getInputTokens());
+        $this->assertSame(20, $response->getOutputTokens());
+        $this->assertSame(4000, $response->getCacheReadTokens());
+        $this->assertSame(300, $response->getCacheWriteTokens());
+        $this->assertNull($response->getCost());
+        $this->assertFalse($response->wasWebSearchUsed());
+    }
+
+    public function testGoogleCompletionReportsCachedTokensAsCacheReadsAndNotAsInput(): void
+    {
+        $gemini = new WebSearchRecordingGoogle();
+        $gemini->mockResponse = [
+            'candidates' => [['content' => ['parts' => [['text' => 'Blue light scatters most.']]]]],
+            'usageMetadata' => [
+                'promptTokenCount' => 3000,
+                'cachedContentTokenCount' => 2048,
+                'candidatesTokenCount' => 40,
+                'thoughtsTokenCount' => 60,
+            ],
+        ];
+
+        $response = $gemini->complete($this->plainRequest(), self::GEMINI_CONFIG);
+
+        $this->assertSame(952, $response->getInputTokens());
+        $this->assertSame(2048, $response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+        // Thinking tokens are billed as output.
+        $this->assertSame(100, $response->getOutputTokens());
+        $this->assertNull($response->getCost());
+    }
+
     public function testGoogleSkipsThoughtParts(): void
     {
         $gemini = new WebSearchRecordingGoogle();
@@ -799,6 +846,22 @@ class WebSearchTest extends TestCase
         ], $response->getWebSearchCitations());
         $this->assertSame(4050, $response->getInputTokens());
         $this->assertSame(800, $response->getOutputTokens());
+    }
+
+    public function testOpenAiReportsCachedInputTokensAsCacheReadsAndNotAsInput(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+        $openAI->mockResponse['usage'] = [
+            'input_tokens' => 4050,
+            'output_tokens' => 800,
+            'input_tokens_details' => ['cached_tokens' => 2048],
+        ];
+
+        $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
+
+        $this->assertSame(2002, $response->getInputTokens());
+        $this->assertSame(2048, $response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
     }
 
     /**

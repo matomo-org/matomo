@@ -218,6 +218,30 @@ describe("EmptySite", function () {
     }, group);
   }
 
+  it('should start a component added to the CTA row exactly once', async function () {
+    testEnvironment.injectNoDataCtaVueEntry = 1;
+    testEnvironment.save();
+
+    try {
+      await page.goto('about:blank');
+      await page.goto(urlToTest);
+      await page.waitForSelector('#start-tracking-cta .injected-cta');
+
+      // a second start would nest the rendered card inside itself
+      expect(await page.$$eval('#start-tracking-cta .card', (cards) => cards.length)).to.equal(1);
+
+      await page.click('#start-tracking-method-list .list-entry a');
+      await page.waitForSelector('#start-tracking-back');
+      await page.click('#start-tracking-back');
+      await page.waitForSelector('#start-tracking-method-list');
+
+      expect(await page.$$eval('#start-tracking-cta .card', (cards) => cards.length)).to.equal(1);
+    } finally {
+      delete testEnvironment.injectNoDataCtaVueEntry;
+      testEnvironment.save();
+    }
+  });
+
   it('should reload the tracker-setup screen when returning to it from another section', async function () {
     await page.goto('about:blank');
     await page.goto(urlToTest);

@@ -44,11 +44,6 @@
 			<notes>Visits log is required to be disabled.</notes>
 		</row>
 		<row>
-			<name>Aggregated Real-time Reports Enabled</name>
-			<value>compliant</value>
-			<notes>Aggregated real-time reports are required to be enabled.</notes>
-		</row>
-		<row>
 			<name>Segment Availability Restricted</name>
 			<value>compliant</value>
 			<notes>Limit the available segments to be compliant.</notes>

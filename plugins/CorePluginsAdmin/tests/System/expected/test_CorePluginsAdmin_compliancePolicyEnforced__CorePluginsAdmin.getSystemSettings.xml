@@ -520,7 +520,7 @@
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Also removes features that depend on these, like the e-commerce log, the segmented visits-log, the real-time map or the real-time widget. May be required to comply with local privacy laws/guidelines.</inlineHelp>
+				<inlineHelp>Also removes features that depend on these, like the e-commerce log, the segmented visits-log or the real-time map. The real-time widget only shows the aggregated visit counts. May be required to comply with local privacy laws/guidelines.</inlineHelp>
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>

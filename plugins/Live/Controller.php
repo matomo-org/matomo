@@ -39,13 +39,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasViewAccess($this->idSite);
 
-        // When the detailed visits log is disabled we still render the widget if the aggregated
-        // real-time reports are enabled, but limited to the aggregated counters only. Otherwise the
-        // visits log check throws and the widget stays unavailable, as before.
+        // When the detailed visits log is disabled the widget is limited to the aggregated counters only.
         $aggregatedOnly = Live::shouldShowAggregatedRealtimeOnly((int) $this->idSite);
-        if (!$aggregatedOnly) {
-            Live::checkIsVisitorLogEnabled($this->idSite);
-        }
 
         $view = new View('@Live/index');
         $view->idSite = $this->idSite;
