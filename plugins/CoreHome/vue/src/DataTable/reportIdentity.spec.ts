@@ -34,6 +34,28 @@ describe('CoreHome/reportIdentity', () => {
     expect(reportIdentity(el)).toBe('widget:uniq7');
   });
 
+  // A by-dimension container shows its reports one at a time inside its own widget, so the widget
+  // id alone would hand the next report the settings of the one shown before it.
+  it('adds the report to the widget id inside a by-dimension container', () => {
+    const pane = (report: string) => build(
+      '<div class="matomo-widget" id="widgetProducts"><div class="reportsByDimensionView">'
+      + `<div data-report="${report}"><div class="target"></div></div></div></div>`,
+    );
+
+    expect(reportIdentity(pane('Goals.getItemsName'))).toBe('widget:widgetProducts:Goals.getItemsName');
+    document.body.innerHTML = '';
+    expect(reportIdentity(pane('Goals.getItemsSku'))).toBe('widget:widgetProducts:Goals.getItemsSku');
+  });
+
+  it('gives a by-dimension header the same key as its table', () => {
+    const header = build(
+      '<div class="matomo-widget" id="widgetProducts"><div class="reportsByDimensionView">'
+      + '<div class="target"></div><div data-report="Goals.getItemsSku"></div></div></div>',
+    );
+
+    expect(reportIdentity(header, 'Goals.getItemsSku')).toBe('widget:widgetProducts:Goals.getItemsSku');
+  });
+
   it('keys off the report otherwise, container included', () => {
     const el = build(
       '<div containerid="VisitOverview"><div data-report="Actions.getPageUrls">'
