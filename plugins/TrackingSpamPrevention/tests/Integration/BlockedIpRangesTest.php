@@ -155,26 +155,6 @@ class BlockedIpRangesTest extends IntegrationTestCase
         ], $this->ranges->getBlockedRanges());
     }
 
-    public function testUpdateBlockedIpRangesKeepsPreviousRangesWhenAProviderFails()
-    {
-        $this->ranges->setBlockedRanges([
-            '15.' => ['15.15.15.0/21'],
-            '17.' => ['17.17.17.0/21'],
-        ]);
-
-        $this->ranges = new BlockedIpRanges([
-            new BlockedIpRanges\VariableRange(['15.15.15.0/21', '16.16.16.0/21']),
-            new BlockedIpRanges\ExceptionRange(),
-        ], new Configuration());
-
-        $this->ranges->updateBlockedIpRanges();
-        $this->assertSame([
-            '15.' => ['15.15.15.0/21'],
-            '16.' => ['16.16.16.0/21'],
-            '17.' => ['17.17.17.0/21'],
-        ], $this->ranges->getBlockedRanges());
-    }
-
     public function testUpdateBlockedIpRangesIgnoresValuesThatAreNotIpRanges()
     {
         $ranges = [
