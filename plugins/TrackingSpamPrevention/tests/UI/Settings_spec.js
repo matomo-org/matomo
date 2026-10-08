@@ -23,7 +23,6 @@ describe("TrackingSpamPreventionSettings", function () {
     it("should display the settings page", async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(20000);
         expect(await page.screenshotSelector(selector)).to.matchImage('page');
     });
 
