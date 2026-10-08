@@ -40,6 +40,17 @@ class Keyword extends Base
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
+
+        // See ReferrerName::onExistingVisit() - the keyword is discarded and restored alongside
+        // the campaign name, so it follows the same rule.
+        if (
+            CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn('referer_keyword'))
+            && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && !CampaignParameterValuesMasked::isPlaceholderValue($information['referer_keyword'])
+        ) {
+            return $information['referer_keyword'];
+        }
+
         if (
             $this->isCurrentReferrerDirectEntry($visitor)
             && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY
