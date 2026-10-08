@@ -12,7 +12,12 @@ declare(strict_types=1);
 namespace Piwik\Plugins\AIProviders;
 
 use InvalidArgumentException;
+use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
+use Piwik\Piwik;
 use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
+use Piwik\Plugins\AIProviders\Exception\AIQuotaExceededException;
 use Piwik\Plugins\AIProviders\Model\Configuration;
 use Piwik\Plugins\AIProviders\Provider\AIProvider;
 
@@ -66,6 +71,10 @@ class AIProviderService
      *
      * The requested model is forwarded for allowlisted callers and on
      * unmanaged instances, and stripped otherwise.
+     *
+     * Posts `AIProviders.beforeRequest` before the provider call, which throws
+     * {@link AIQuotaExceededException} when a listener denies it, and
+     * `AIProviders.usage` after it, whatever the outcome.
      */
     public function complete(AIRequest $request): AIProviderResponse
     {
@@ -94,26 +103,25 @@ class AIProviderService
 
         $configuration = $this->configuration->getProviderConfiguration($provider);
 
-        $response = $this->runWithProvider($provider, $configuration, $request);
+        $context = $this->buildContext(AIRequestContext::TYPE_COMPLETE, $request, $provider);
+        $this->requireAllowed($context);
 
-        /**
-         * TODO: publish an observability event here so billing or monitoring can
-         * hook into AI usage without this plugin depending on them. Emit basic
-         * data, for example:
-         *
-         *     Piwik::postEvent('AIProviders.usage', [[
-         *         'caller'    => $request->getCallerPluginName(),
-         *         'feature'   => $request->getFeatureKey(),
-         *         'idSite'    => $request->getIdSite(),
-         *         'login'     => Piwik::getCurrentUserLogin(),
-         *         'provider'  => $provider->getId(),
-         *         'model'     => $response->getModel(),
-         *         'tokensIn'  => $response->getInputTokens(),
-         *         'tokensOut' => $response->getOutputTokens(),
-         *     ]]);
-         *
-         * Not implemented yet.
-         */
+        $response = $this->callProvider($context, function () use ($provider, $request, $configuration): AIProviderResponse {
+            return $provider->complete($request, $configuration);
+        });
+
+        // Report before the empty check: the tokens were spent either way.
+        $isEmpty = trim($response->getText()) === '';
+        $this->postUsage(AIUsage::forCompletion(
+            $context,
+            $response,
+            $isEmpty ? AIUsage::OUTCOME_EMPTY : AIUsage::OUTCOME_SUCCESS
+        ));
+
+        if ($isEmpty) {
+            throw new \RuntimeException(sprintf('%s returned an empty response.', $provider->getName()));
+        }
+
         return $response;
     }
 
@@ -129,6 +137,9 @@ class AIProviderService
      *
      * Unlike {@link complete()}, an empty text response is valid here: a turn
      * may consist solely of tool_use blocks.
+     *
+     * Posts the same `AIProviders.beforeRequest` and `AIProviders.usage`
+     * events as {@link complete()}.
      */
     public function converse(AIConversationRequest $request): AIConversationResponse
     {
@@ -155,9 +166,121 @@ class AIProviderService
 
         $configuration = $this->configuration->getProviderConfiguration($provider);
 
-        // TODO: publish the same `AIProviders.usage` observability event as
-        // planned for complete() once it is implemented there.
-        return $provider->converse($request, $configuration);
+        $context = $this->buildContext(AIRequestContext::TYPE_CONVERSE, $request, $provider);
+        $this->requireAllowed($context);
+
+        $response = $this->callProvider($context, function () use ($provider, $request, $configuration): AIConversationResponse {
+            return $provider->converse($request, $configuration);
+        });
+
+        $this->postUsage(AIUsage::forConversation($context, $response));
+
+        return $response;
+    }
+
+    /**
+     * Asks the `AIProviders.beforeRequest` listeners whether the request would
+     * be allowed, without calling the provider, so a feature can show a limit
+     * message before the user starts. Throws {@link AIQuotaExceededException}
+     * when it would be denied.
+     *
+     * Only the listeners' decision is checked, not whether the provider supports
+     * the request. Not a reservation: the real call is checked again. The
+     * context's {@link AIRequestContext::isProbe()} is true, and no
+     * `AIProviders.usage` event follows.
+     *
+     * @param AIRequest|AIConversationRequest $request
+     */
+    public function assertRequestAllowed($request): void
+    {
+        $providers = AIProviders::getAvailableProviders();
+        $resolution = $this->resolveProviderId($request->getProviderId(), $request->getCallerPluginName(), $providers);
+
+        if ($resolution['stripRequestedModel']) {
+            $request = $request->withModel(null);
+        }
+
+        $provider = $this->requireProvider($providers, $resolution['providerId']);
+        $type = $request instanceof AIConversationRequest ? AIRequestContext::TYPE_CONVERSE : AIRequestContext::TYPE_COMPLETE;
+
+        $this->requireAllowed($this->buildContext($type, $request, $provider, true));
+    }
+
+    /**
+     * Returns how many units of the given feature may still be used, for
+     * callers that plan a batch of requests up front (for example a daily run),
+     * or null when the budget is unlimited or nobody limits it.
+     *
+     * What a unit is (credits, checks, ...) is up to the listener that limits
+     * the feature.
+     *
+     * @param string $featureKey The feature key the requests will use, for example `'MyPlugin.promptQuery'`.
+     */
+    public function getRemainingBudget(string $featureKey): ?int
+    {
+        $budget = null;
+
+        /**
+         * Triggered when a plugin asks how much of an AI feature's allowance is
+         * left, before it plans a batch of AI requests.
+         *
+         * Leave `$budget` untouched for unlimited. Otherwise only ever lower it:
+         * set it when it is null or above your remaining units, so the
+         * strictest listener wins whatever the order.
+         *
+         * **Example**
+         *
+         *     public function provideAiBudget(string $featureKey, ?int &$budget): void
+         *     {
+         *         $remaining = $this->getRemainingChecks($featureKey);
+         *         if ($budget === null || $remaining < $budget) {
+         *             $budget = $remaining;
+         *         }
+         *     }
+         *
+         * @param string $featureKey The feature key, for example `'MyPlugin.promptQuery'`.
+         * @param int|null &$budget  Remaining units, null for unlimited.
+         */
+        Piwik::postEvent('AIProviders.getRemainingBudget', [$featureKey, &$budget]);
+
+        return $budget;
+    }
+
+    /**
+     * Asks whether an AI feature action may run, for example adding one more
+     * prompt, before the caller performs it. Read
+     * {@link AIRequestDecision::isAllowed()} and show
+     * {@link AIRequestDecision::getMessage()} when it is denied.
+     *
+     * @param string               $featureKey The action, for example `'MyPlugin.addPrompt'`.
+     * @param array<string, mixed> $payload    Facts listeners need, for example `['currentCount' => 3]`.
+     */
+    public function checkFeatureAllowed(string $featureKey, array $payload = []): AIRequestDecision
+    {
+        $decision = new AIRequestDecision();
+
+        /**
+         * Triggered before a plugin performs an AI feature action, for example
+         * adding a prompt, so a plugin enforcing limits can deny it.
+         *
+         * Listeners can only deny, so a denial stands whatever the order.
+         *
+         * **Example**
+         *
+         *     public function decideAiFeature(string $featureKey, array $payload, AIRequestDecision $decision): void
+         *     {
+         *         if ($featureKey === 'MyPlugin.addPrompt' && $payload['currentCount'] >= $this->getPromptLimit()) {
+         *             $decision->deny('limit_reached', Piwik::translate('MyPlugin_PromptLimitReached'));
+         *         }
+         *     }
+         *
+         * @param string               $featureKey The action, for example `'MyPlugin.addPrompt'`.
+         * @param array<string, mixed> $payload    Facts sent by the caller, for example `['currentCount' => 3]`.
+         * @param AIRequestDecision    $decision   Starts as allowed; call `deny()` to refuse.
+         */
+        Piwik::postEvent('AIProviders.checkFeatureAllowed', [$featureKey, $payload, $decision]);
+
+        return $decision;
     }
 
     /**
@@ -334,20 +457,132 @@ class AIProviderService
     }
 
     /**
-     * Executes the request against the given provider and guards against an empty
-     * completion. Used by {@link complete()}.
-     *
-     * @param array{apiKey?: string, endpointUrl?: string, model?: string, useFipsEndpoint?: bool} $configuration
+     * @param AIRequest|AIConversationRequest $request
      */
-    private function runWithProvider(AIProvider $provider, array $configuration, AIRequest $request): AIProviderResponse
+    private function buildContext(
+        string $requestType,
+        $request,
+        AIProvider $provider,
+        bool $probe = false
+    ): AIRequestContext {
+        $featureKey = $request->getFeatureKey();
+
+        return new AIRequestContext(
+            Common::generateUniqId(),
+            $requestType,
+            $featureKey !== null && $featureKey !== '' ? $featureKey : $request->getCallerPluginName() . '.default',
+            $request->getCallerPluginName(),
+            $request->getIdSite(),
+            $request->getUsageReference(),
+            Piwik::getCurrentUserLogin(),
+            $provider->getId(),
+            $request->getModel() !== '' ? $request->getModel() : null,
+            $request->getMaxTokens(),
+            $request instanceof AIRequest && $request->isWebSearchEnabled(),
+            $request->getMeta(),
+            $probe
+        );
+    }
+
+    /**
+     * Throws when a `AIProviders.beforeRequest` listener denies the call.
+     */
+    private function requireAllowed(AIRequestContext $context): void
     {
-        $response = $provider->complete($request, $configuration);
+        $decision = new AIRequestDecision();
 
-        if (trim($response->getText()) === '') {
-            throw new \RuntimeException(sprintf('%s returned an empty response.', $provider->getName()));
+        /**
+         * Triggered before every {@link complete()} and {@link converse()} provider
+         * call, after the provider is resolved, so a plugin can deny the call, for
+         * example when a usage limit is reached. A denied call is not sent: the
+         * caller gets an {@link AIQuotaExceededException} carrying the decision.
+         * Also triggered by {@link assertRequestAllowed()}, with
+         * `$context->isProbe()` true.
+         *
+         * Listeners can only deny, so a denial stands whatever the order. A
+         * probe, a denial or a failing listener means no usage event follows.
+         * Otherwise the context's request ID is repeated in the matching
+         * `AIProviders.usage` event, which is the one to meter.
+         * Connection tests and model listings in the admin UI call the provider
+         * directly and post neither event.
+         *
+         * **Example**
+         *
+         *     public function decideAiRequest(AIRequestContext $context, AIRequestDecision $decision): void
+         *     {
+         *         if ($this->isOverLimit($context->getFeatureKey())) {
+         *             $decision->deny('limit_reached', Piwik::translate('MyPlugin_AiLimitReached'), $used, $limit, 0);
+         *         }
+         *     }
+         *
+         * @param AIRequestContext  $context  The call about to be made. No prompt content.
+         * @param AIRequestDecision $decision Starts as allowed; call `deny()` to refuse.
+         */
+        Piwik::postEvent('AIProviders.beforeRequest', [$context, $decision]);
+
+        if (!$decision->isAllowed()) {
+            throw new AIQuotaExceededException(
+                $decision->getMessage() ?? Piwik::translate('AIProviders_QuotaReached'),
+                $decision
+            );
         }
+    }
 
-        return $response;
+    /**
+     * Runs the provider call and reports a failure through `AIProviders.usage`
+     * before rethrowing it.
+     *
+     * @template T
+     * @param callable(): T $call
+     * @return T
+     */
+    private function callProvider(AIRequestContext $context, callable $call)
+    {
+        $start = microtime(true);
+
+        try {
+            return $call();
+        } catch (\Throwable $e) {
+            $this->postUsage(AIUsage::forError($context, $e, (int) round((microtime(true) - $start) * 1000)));
+
+            throw $e;
+        }
+    }
+
+    private function postUsage(AIUsage $usage): void
+    {
+        try {
+            /**
+             * Triggered after every {@link complete()} and {@link converse()}
+             * provider call, whatever the outcome, so a plugin can meter or bill
+             * AI usage. Check `$usage->getOutcome()` and meter only
+             * {@link AIUsage::OUTCOME_SUCCESS}: an error is reported too, and may
+             * mean nothing was sent or billed, for example when no API key is
+             * configured.
+             *
+             * Unlike most events, an exception thrown by a listener is logged and
+             * not passed on, because the provider call has already been made
+             * and paid for, and the caller should still get its answer. It does
+             * stop the listeners after it, so catch your own errors.
+             *
+             * **Example**
+             *
+             *     public function recordAiUsage(AIUsage $usage): void
+             *     {
+             *         if ($usage->isSuccess()) {
+             *             $this->store($usage->getContext()->getRequestId(), $usage->getInputTokens(), $usage->getOutputTokens());
+             *         }
+             *     }
+             *
+             * @param AIUsage $usage What the call used. No prompt or response content.
+             */
+            Piwik::postEvent('AIProviders.usage', [$usage]);
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->error(
+                'An AIProviders.usage listener failed for AI request {requestId}: {exception}',
+                ['requestId' => $usage->getContext()->getRequestId(), 'exception' => $e]
+            );
+        }
     }
 
     /**
