@@ -204,7 +204,7 @@ class StorageTest extends IntegrationTestCase
     public function testSetRequestedKeepsNoHistoryWhenTheOptionCannotBeSaved()
     {
         $storage = new class ('PremiumPlugin') extends Storage {
-            protected function saveStorage(): void
+            protected function insertStorage(array $request): bool
             {
                 throw new \RuntimeException('option write failed');
             }
@@ -221,49 +221,36 @@ class StorageTest extends IntegrationTestCase
         self::assertSame([], (new RequestHistory())->getRequests('PremiumPlugin'));
     }
 
-    public function testSetRequestedKeepsNoHistoryWhenTheOptionIsSilentlyNotSaved()
+    public function testSetRequestedAddsToAnotherUsersRequestMadePendingAtTheSameMoment()
     {
-        // Option::set() ignores a failed insert of a new option
-        $storage = new class ('PremiumPlugin') extends Storage {
-            protected function saveStorage(): void
+        $otherRequest = json_encode([
+            'requestTime' => time(),
+            'displayName' => 'Premium Plugin',
+            'dismissed' => [],
+            'requestedBy' => 'olaf',
+        ]);
+        $storage = new class ('PremiumPlugin', $otherRequest) extends Storage {
+            private $otherRequest;
+
+            public function __construct(string $pluginName, string $otherRequest)
             {
+                parent::__construct($pluginName);
+                $this->otherRequest = $otherRequest;
+            }
+
+            protected function insertStorage(array $request): bool
+            {
+                // committed by the other request after this one read the option
+                Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', $this->otherRequest);
+
+                return parent::insertStorage($request);
             }
         };
 
-        try {
-            $storage->setRequested('Premium Plugin');
-            self::fail('Expected the missing option to fail the request');
-        } catch (\Exception $e) {
-            self::assertStringContainsString('PremiumPlugin', $e->getMessage());
-        }
-
-        self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());
-        self::assertSame([], (new RequestHistory())->getRequests('PremiumPlugin'));
-    }
-
-    public function testSetRequestedFailsWhenAnotherUsersRequestWasSavedInstead()
-    {
-        // as when Option::set() swallows a deadlock lost to another user's simultaneous first request
-        $storage = new class ('PremiumPlugin') extends Storage {
-            protected function saveStorage(): void
-            {
-                Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
-                    'requestTime' => time(),
-                    'displayName' => 'Premium Plugin',
-                    'dismissed' => [],
-                    'requestedBy' => 'olaf',
-                ]));
-            }
-        };
-
-        try {
-            $storage->setRequested('Premium Plugin');
-            self::fail('Expected the other request in the option to fail this one');
-        } catch (\Exception $e) {
-            self::assertStringContainsString('PremiumPlugin', $e->getMessage());
-        }
-
-        self::assertSame([], (new RequestHistory())->getRequests('PremiumPlugin'));
+        self::assertSame(Storage::REQUEST_ADDED_TO_PENDING, $storage->setRequested('Premium Plugin'));
+        self::assertSame(['olaf'], $storage->getLogins());
+        self::assertSame($otherRequest, Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
+        self::assertSame([Piwik::getCurrentUserLogin()], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login'));
     }
 
     public function testSetFulfilledLeavesTheRequestPendingWhenTheOptionCannotBeCleared()

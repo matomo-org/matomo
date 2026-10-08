@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
 use Piwik\Config\GeneralConfig;
 use Piwik\Notification\Manager;
+use Piwik\Option;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
@@ -147,6 +148,24 @@ class ServiceTest extends IntegrationTestCase
         self::assertCount(0, Manager::getPendingInMemoryNotifications());
         self::assertFalse((new Storage('CoreHome'))->wasRequested());
         self::assertCount(1, (new RequestHistory())->getRequests('CoreHome'));
+    }
+
+    public function testCreateNotificationsShowsTheOtherPluginsWhenEndingARequestFails()
+    {
+        // a malformed requester makes ending the request throw a TypeError, an Error rather than an Exception
+        Option::set('Marketplace.PluginTrialRequest.CoreHome', json_encode([
+            'requestTime' => time(),
+            'displayName' => 'Core Home',
+            'dismissed' => [],
+            'requestedBy' => ['olaf'],
+        ]));
+        $service = new Service();
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+
+        $service->createNotificationsIfNeeded();
+
+        self::assertCount(1, Manager::getPendingInMemoryNotifications());
+        self::assertTrue((new Storage('CoreHome'))->wasRequested());
     }
 
     protected function assertRequested(bool $expected): void

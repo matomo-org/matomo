@@ -67,7 +67,7 @@ final class Service
             if (Manager::getInstance()->isPluginActivated($pluginName)) {
                 try {
                     $this->cancelRequest($pluginName);
-                } catch (Exception $e) {
+                } catch (\Throwable $e) {
                     // retried on the next page view, and must not hide the other plugins' notifications
                 }
                 continue;

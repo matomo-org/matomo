@@ -52,9 +52,25 @@ class RequestHistory
         }
 
         $requestedAt = Date::factory($requestTime)->getDatetime();
+        $matchesRequest = ' WHERE plugin_name = ? AND ts_requested = ? AND (login <=> ? OR login IS NULL)';
+
+        // the INSERT ... SELECT below takes shared next-key locks, which two users' simultaneous requests for a pending
+        // plugin would deadlock on, so a plain read first skips it in the usual case of an already recorded request
+        try {
+            if (Db::fetchOne('SELECT 1 FROM ' . $this->getTable() . $matchesRequest, [$pluginName, $requestedAt, $login])) {
+                return;
+            }
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
+                throw $e;
+            }
+
+            return;
+        }
+
         $this->write(
             'INSERT INTO ' . $this->getTable() . ' (plugin_name, login, ts_requested) SELECT ?, ?, ? FROM DUAL'
-            . ' WHERE NOT EXISTS (SELECT 1 FROM ' . $this->getTable() . ' WHERE plugin_name = ? AND ts_requested = ? AND (login <=> ? OR login IS NULL))',
+            . ' WHERE NOT EXISTS (SELECT 1 FROM ' . $this->getTable() . $matchesRequest . ')',
             [$pluginName, $login, $requestedAt, $pluginName, $requestedAt, $login]
         );
     }

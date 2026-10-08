@@ -55,33 +55,28 @@ class Storage
         $result = self::REQUEST_ALREADY_RECORDED;
 
         $this->writeWithHistory(function (RequestHistory $history) use ($pluginDisplayName, $requestTime, $login, &$result) {
-            // the option first, the same lock order as setFulfilled()
-            $storedRequest = $this->readStoredForUpdate();
-            $this->recordInHistory($history, $storedRequest);
+            $this->recordInHistory($history, $this->readStored());
 
             if (!$history->add($this->pluginName, $login, $requestTime)) {
                 return;
             }
 
-            if (!empty($storedRequest)) {
-                $this->storage = $storedRequest;
-                $result = self::REQUEST_ADDED_TO_PENDING;
-                return;
-            }
-
-            $this->storage = [
+            $request = [
                 'requestTime' => $requestTime,
                 'displayName' => $pluginDisplayName,
                 'dismissed' => [],
                 'requestedBy' => $login,
             ];
-            $this->saveStorage();
-            // Option::set() ignores a failed insert of a new option, even a deadlock that rolled this transaction back
-            // while another user's request was made pending, so check the option holds this request
-            if ($this->readStoredForUpdate() != $this->storage) {
-                throw new Exception('Could not save the trial request for ' . $this->pluginName);
+
+            if ($this->insertStorage($request)) {
+                $this->storage = $request;
+                $result = self::REQUEST_PENDING;
+                return;
             }
-            $result = self::REQUEST_PENDING;
+
+            // a locking read, as the plain one above does not see a request made pending since it ran
+            $this->storage = $this->readStored(true);
+            $result = self::REQUEST_ADDED_TO_PENDING;
         });
 
         return $result;
@@ -93,7 +88,7 @@ class Storage
     public function setFulfilled(): void
     {
         $this->writeWithHistory(function (RequestHistory $history) {
-            $this->recordInHistory($history, $this->readStoredForUpdate());
+            $this->recordInHistory($history, $this->readStored(true));
             $this->clearStorage();
         });
     }
@@ -129,7 +124,7 @@ class Storage
     public function setNotificationDismissed(): void
     {
         $this->writeWithHistory(function () {
-            $storedRequest = $this->readStoredForUpdate();
+            $storedRequest = $this->readStored(true);
             if (empty($storedRequest)) {
                 return;
             }
@@ -170,7 +165,7 @@ class Storage
     public function anonymizeLogin(string $login): void
     {
         $this->writeWithHistory(function () use ($login) {
-            $storedRequest = $this->readStoredForUpdate();
+            $storedRequest = $this->readStored(true);
             if (empty($storedRequest)) {
                 return;
             }
@@ -199,15 +194,33 @@ class Storage
      *
      * @return array<string, mixed>
      */
-    private function readStoredForUpdate(): array
+    private function readStored(bool $forUpdate = false): array
     {
         $stored = Db::fetchOne(
-            'SELECT option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name = ? FOR UPDATE',
+            'SELECT option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?' . ($forUpdate ? ' FOR UPDATE' : ''),
             [$this->optionName]
         );
         $storedRequest = json_decode($stored ?: '[]', true);
 
         return is_array($storedRequest) ? $storedRequest : [];
+    }
+
+    /**
+     * Unlike Option::set(), which runs an UPDATE first, this takes no gap lock that a simultaneous first request for
+     * another plugin could deadlock against.
+     *
+     * @param array<string, mixed> $request
+     * @return bool false when a request is already pending
+     */
+    protected function insertStorage(array $request): bool
+    {
+        $result = Db::query(
+            'INSERT IGNORE INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) VALUES (?, ?, 0)',
+            [$this->optionName, json_encode($request)]
+        );
+        Option::clearCachedOption($this->optionName);
+
+        return Db::get()->rowCount($result) > 0;
     }
 
     /**
