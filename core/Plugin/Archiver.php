@@ -146,6 +146,10 @@ class Archiver
          *
          *     public function filterRecordBuilders(&$recordBuilders, ArchiveProcessor $archiveProcessor)
          *     {
+         *         if ($archiveProcessor->getParams()->getSite()->getId() != $this->idSiteToRestrict) {
+         *             return;
+         *         }
+         *
          *         foreach ($recordBuilders as $index => $recordBuilder) {
          *              if ($recordBuilder instanceof AnotherPluginRecordBuilder) {
          *                  unset($recordBuilders[$index]);
