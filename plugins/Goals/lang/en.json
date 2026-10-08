@@ -140,6 +140,7 @@
         "ProductSKU": "Product SKU",
         "ProductSKUs": "Product SKUs",
         "RecommendAiAllowProcessing": "Allow AI processing to enable AI features",
+        "RecommendAiAllowProcessingNoPermission": "AI-improved suggestions send non-analytics data to an AI provider, which a super user has not allowed yet. Please ask a super user to allow it under System, AI Processing.",
         "RecommendAiNotActivated": "AI provider not activated",
         "RecommendAiNotActivatedHelp": "The AI Providers plugin is not activated. Activate it, or ask your administrator to do so, to get AI-improved suggestions.",
         "RecommendAiNotConfigured": "AI provider not configured",
