@@ -108,6 +108,14 @@ class SessionInitializer
         } else {
             // a token-only authentication has no login set on the Auth instance, so fall back to the authenticated identity
             $login = $auth->getLogin() ?: $authResult->getIdentity();
+
+            /**
+             * Triggered after a user has been authenticated successfully, before the authenticated session is initialized.
+             *
+             * When the user authenticated with a token only, the login is the login of the token's owner.
+             *
+             * @param string $login The login of the authenticated user.
+             */
             Piwik::postEvent('Login.authenticate.successful', array($login));
 
             $this->processSuccessfulSession($authResult, $rememberMe);

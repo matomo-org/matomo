@@ -13,6 +13,7 @@ use Piwik\Auth;
 use Piwik\AuthResult;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\Piwik;
 use Piwik\Plugins\Login\SessionInitializer;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -40,6 +41,20 @@ class SessionInitializerTest extends IntegrationTestCase
         $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS), true);
 
         $this->assertAuthCookieIsCreated($sessionInitializer->cookie);
+    }
+
+    public function testInitSessionPostsTokenOwnerLoginWhenAuthenticatingWithTokenOnly()
+    {
+        $successfulLogins = [];
+        Piwik::addAction('Login.authenticate.successful', function ($login) use (&$successfulLogins) {
+            $successfulLogins[] = $login;
+        });
+
+        // MockAuth has no login set (like a token-only authentication), the AuthResult identity is the token owner
+        $sessionInitializer = new TestSessionInitializer();
+        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS), true);
+
+        $this->assertSame(['testlogin'], $successfulLogins);
     }
 
     public function testInitSessionDeletesCookieWhenAuthenticationFailed()
