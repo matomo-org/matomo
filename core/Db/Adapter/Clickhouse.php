@@ -365,6 +365,12 @@ class Clickhouse implements AdapterInterface
      */
     private function selectRows(string $sql, array $bind, bool $logTableFreshnessCheck = true): array
     {
+        // Initialising MySQL user variables (`SET @rank=0, …`) has no ClickHouse counterpart,
+        // and the query that reads them is translated to not need them.
+        if (ClickhouseDialectTranslator::isUserVariableAssignment($sql)) {
+            return [];
+        }
+
         if ($logTableFreshnessCheck && defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             // Tests mutate the MySQL log tables mid-run; re-copy them before serving
             // stale results. The first ClickHouse query of a test process also runs

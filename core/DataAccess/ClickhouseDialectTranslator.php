@@ -35,6 +35,12 @@ namespace Piwik\DataAccess;
  * | TIMESTAMPDIFF(SECOND, '1970-01-01', x) | toUnixTimestamp(x) | Epoch literal only |
  * | DATE_ADD(d, INTERVAL - WEEKDAY(d) DAY) | toMonday(toDate(d)) | Start of week |
  *
+ * ### User variables
+ * ClickHouse has no session user variables. The one idiom archiving uses them for, a
+ * running rank within a group of consecutive rows, is rewritten to row_number(); see
+ * rewriteUserVariableRunningRank(). The statement that initialises the variables is not
+ * sent at all; see isUserVariableAssignment().
+ *
  * ### ReplacingMergeTree deduplication
  * The log table copies in ClickHouse use the ReplacingMergeTree engine, so reads must
  * collapse row versions. That is NOT handled here: the adapter sends the `final = 1`
@@ -153,6 +159,7 @@ class ClickhouseDialectTranslator
     public static function translate(string $sql): string
     {
         $sql = self::stripMysqlExecutionTimeHints($sql);
+        $sql = self::rewriteUserVariableRunningRank($sql);
         $sql = self::translateFunctions($sql);
         $sql = self::rewriteVisitDedup($sql);
         $sql = self::rewriteEmptyStringComparisons($sql);
@@ -287,6 +294,162 @@ class ClickhouseDialectTranslator
         $sql = preg_replace('~/\*\+\s*MAX_EXECUTION_TIME\(\d+\)\s*\*/~i', '', $sql) ?? $sql;
         $sql = preg_replace('~^\s*SET\s+STATEMENT\s+max_statement_time=\S+\s+FOR\s+~i', '', $sql) ?? $sql;
         return $sql;
+    }
+
+    /**
+     * True for a statement that does nothing but assign MySQL user variables, like
+     * `SET @rank=0, @key=0;`. ClickHouse has no user variables, and the query reading them is
+     * rewritten by rewriteUserVariableRunningRank() to not need them, so the adapter skips
+     * the statement instead of sending it.
+     */
+    public static function isUserVariableAssignment(string $sql): bool
+    {
+        if (!preg_match('~^\s*SET\s+(.*?)\s*;?\s*$~is', $sql, $m)) {
+            return false;
+        }
+
+        foreach (self::splitByComma($m[1]) as $assignment) {
+            if (!preg_match('~^\s*@\w+\s*:?=~', $assignment)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Rewrites MySQL's user-variable running rank into a window function:
+     *
+     *   (@rank:=IF(@key = <key>, @rank+1, 1)) pos, … (@key:=<key>) keyAlias
+     *
+     * becomes
+     *
+     *   (row_number() OVER (PARTITION BY <key> ORDER BY v.visit_last_action_time, v.idvisit)) pos,
+     *   … (<key>) keyAlias
+     *
+     * The idiom numbers the visits of each <key> group, the visits coming from the log_visit
+     * join of that SELECT. MySQL numbers rows in whatever order its plan reads them, which the
+     * query does not fix; the window orders them oldest first, so that position 1 is the
+     * earliest visit of the group and the highest position the latest. Without a log_visit join
+     * to order by, the query is left as it is, to fail loudly rather than rank in an arbitrary
+     * order.
+     */
+    private static function rewriteUserVariableRunningRank(string $sql): string
+    {
+        if (strpos($sql, '@') === false) {
+            return $sql;
+        }
+
+        if (!preg_match('~@(\w+)\s*:=\s*IF\s*\(~i', $sql, $m, PREG_OFFSET_CAPTURE)) {
+            return $sql;
+        }
+
+        $rankVariable = $m[1][0];
+        $start = $m[0][1];
+        $open = $start + strlen($m[0][0]) - 1;
+        $close = self::closingParen($sql, $open);
+        if ($close < 0) {
+            return $sql;
+        }
+
+        $args = self::splitByComma(substr($sql, $open + 1, $close - $open - 1));
+        if (
+            count($args) !== 3
+            || !preg_match('~^\s*@(\w+)\s*=\s*(.+?)\s*$~s', $args[0], $keyMatch)
+            || !preg_match('~^\s*@' . preg_quote($rankVariable, '~') . '\s*\+\s*1\s*$~', $args[1])
+            || trim($args[2]) !== '1'
+        ) {
+            return $sql;
+        }
+
+        [, $keyVariable, $key] = $keyMatch;
+
+        // The key variable has to be assigned the very key it is compared with, or the rank
+        // does not restart per key and is no row_number().
+        $keyAssignment = '~@' . preg_quote($keyVariable, '~') . '\s*:=\s*~';
+        if (!preg_match($keyAssignment, $sql, $assignMatch, PREG_OFFSET_CAPTURE, $close)) {
+            return $sql;
+        }
+        $keyStart = $assignMatch[0][1] + strlen($assignMatch[0][0]);
+        $keyEnd = self::closingParen('(' . substr($sql, $keyStart), 0) + $keyStart - 1;
+        if (
+            $keyEnd < $keyStart
+            || self::normalizeExpression(substr($sql, $keyStart, $keyEnd - $keyStart)) !== self::normalizeExpression($key)
+        ) {
+            return $sql;
+        }
+
+        // Only a join of the rank's own SELECT counts, not one inside a sub-query of its FROM.
+        $scope = self::blankNestedScopes($sql, self::enclosingSelectStart($sql, $start));
+        if (!preg_match('~\bJOIN\s+`?\w*log_visit`?\s+(?:AS\s+)?`?(\w+)`?~i', $scope, $joinMatch)) {
+            return $sql;
+        }
+        $visit = $joinMatch[1];
+
+        $sql = substr($sql, 0, $assignMatch[0][1]) . substr($sql, $keyStart);
+
+        return substr($sql, 0, $start)
+            . 'row_number() OVER (PARTITION BY ' . trim($key)
+            . ' ORDER BY ' . $visit . '.visit_last_action_time, ' . $visit . '.idvisit)'
+            . substr($sql, $close + 1);
+    }
+
+    /**
+     * The offset the SELECT that $offset is part of starts at: just inside the innermost
+     * parenthesis around $offset that opens a SELECT, or 0 for the top-level statement.
+     */
+    private static function enclosingSelectStart(string $sql, int $offset): int
+    {
+        $depth = 0;
+
+        for ($i = $offset - 1; $i >= 0; $i--) {
+            if ($sql[$i] === ')') {
+                $depth++;
+            } elseif ($sql[$i] === '(') {
+                if ($depth > 0) {
+                    $depth--;
+                } elseif (preg_match('~^\s*SELECT\b~i', substr($sql, $i + 1))) {
+                    return $i + 1;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * The rest of the scope $sql is in at $offset, up to the parenthesis closing it, with
+     * every parenthesised group inside it (and every quoted string) blanked out.
+     */
+    private static function blankNestedScopes(string $sql, int $offset): string
+    {
+        $out = '';
+        $depth = 0;
+
+        for ($i = $offset, $len = strlen($sql); $i < $len; $i++) {
+            $ch = $sql[$i];
+
+            if ($ch === "'" || $ch === '"') {
+                $end = self::skipQuoted($sql, $i);
+                $out .= str_repeat(' ', $end - $i);
+                $i = $end - 1;
+                continue;
+            }
+
+            if ($ch === '(') {
+                $depth++;
+            } elseif ($ch === ')') {
+                if (--$depth < 0) {
+                    break;
+                }
+                $out .= ' ';
+                continue;
+            }
+
+            $out .= $depth === 0 ? $ch : ' ';
+        }
+
+        return $out;
     }
 
     /**

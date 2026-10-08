@@ -114,6 +114,86 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertSame($sql, ClickhouseDialectTranslator::translate($sql));
     }
 
+    public function testRecognisesAStatementThatOnlyAssignsUserVariables()
+    {
+        self::assertTrue(ClickhouseDialectTranslator::isUserVariableAssignment('SET @rnk=0, @curscore=0;'));
+        self::assertTrue(ClickhouseDialectTranslator::isUserVariableAssignment(' set @rank := 0 '));
+    }
+
+    /**
+     * @dataProvider notOnlyUserVariableAssignmentProvider
+     */
+    public function testDoesNotSkipAStatementThatDoesMoreThanAssignUserVariables(string $sql)
+    {
+        self::assertFalse(ClickhouseDialectTranslator::isUserVariableAssignment($sql));
+    }
+
+    public function notOnlyUserVariableAssignmentProvider(): array
+    {
+        return [
+            'session setting'     => ['SET max_threads = 4'],
+            'mixed assignments'   => ['SET @rnk=0, max_threads = 4'],
+            'statement hint'      => ['SET STATEMENT max_statement_time=7200 FOR SELECT 1'],
+            'select of variables' => ['SELECT @rnk'],
+        ];
+    }
+
+    /**
+     * The rank numbers the visits of each conversion, oldest first, as the attribution reads
+     * the highest position as the latest visit.
+     */
+    public function testRewritesAUserVariableRunningRankIntoRowNumber()
+    {
+        $key = "concat(r.idvisit, '_', r.buster)";
+        $sql = "SELECT label FROM (SELECT (@rnk:=IF(@curscore = $key,@rnk+1,1)) num_pos,"
+            . " ($key) other, (@curscore:=$key) conversionId, logv.referer_type AS label"
+            . " FROM (SELECT idvisitor, idvisit, buster FROM log_conversion) AS r"
+            . " RIGHT JOIN log_visit logv ON logv.idvisitor = r.idvisitor WHERE logv.idsite = 1"
+            . ") AS yyy WHERE num_pos < 5";
+
+        self::assertSame(
+            "SELECT label FROM (SELECT (toInt64(row_number() OVER (PARTITION BY $key"
+            . " ORDER BY logv.visit_last_action_time, logv.idvisit))) num_pos,"
+            . " ($key) other, ($key) conversionId, logv.referer_type AS label"
+            . " FROM (SELECT idvisitor, idvisit, buster FROM log_conversion) AS r"
+            . " RIGHT JOIN log_visit logv ON logv.idvisitor = r.idvisitor WHERE logv.idsite = 1"
+            . ") AS yyy WHERE num_pos < 5",
+            ClickhouseDialectTranslator::translate($sql)
+        );
+    }
+
+    /**
+     * @dataProvider unrankableRunningRankProvider
+     */
+    public function testLeavesARunningRankItCannotOrderAlone(string $sql)
+    {
+        $translated = ClickhouseDialectTranslator::translate($sql);
+
+        self::assertStringContainsString('@rnk:=IF(', $translated);
+        self::assertStringNotContainsString('row_number()', $translated);
+    }
+
+    public function unrankableRunningRankProvider(): array
+    {
+        return [
+            'key variable assigned another key' => [
+                "SELECT (@rnk:=IF(@cur = r.idvisit,@rnk+1,1)) pos, (@cur:=r.buster) k"
+                . " FROM r JOIN log_visit logv ON logv.idvisitor = r.idvisitor",
+            ],
+            'not restarting at one' => [
+                "SELECT (@rnk:=IF(@cur = r.idvisit,@rnk+1,0)) pos, (@cur:=r.idvisit) k"
+                . " FROM r JOIN log_visit logv ON logv.idvisitor = r.idvisitor",
+            ],
+            'no log_visit join' => [
+                "SELECT (@rnk:=IF(@cur = r.idvisit,@rnk+1,1)) pos, (@cur:=r.idvisit) k FROM r",
+            ],
+            'log_visit joined only inside a sub-query' => [
+                "SELECT (@rnk:=IF(@cur = r.idvisit,@rnk+1,1)) pos, (@cur:=r.idvisit) k"
+                . " FROM (SELECT c.idvisit FROM c JOIN log_visit logv ON logv.idvisit = c.idvisit) AS r",
+            ],
+        ];
+    }
+
     public function testStripsIndexHints()
     {
         $sql = "SELECT * FROM log_visit USE INDEX (index_idsite_datetime) WHERE idsite = 1";
