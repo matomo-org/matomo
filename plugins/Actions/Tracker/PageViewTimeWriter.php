@@ -40,6 +40,7 @@ class PageViewTimeWriter
 {
     public const TABLE = 'log_page_view_time';
     public const CONFIG_KEY = 'record_accurate_page_view_time';
+    public const PARAM_PV_TIME = 'pv_time';
     public const DEFAULT_VISIT_STANDARD_LENGTH = 1800;
 
     /**
@@ -131,7 +132,52 @@ class PageViewTimeWriter
         }
 
         $this->lockVisitInTransaction($idVisit, $request);
-        $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap);
+        $clientTimeOnPage = $this->extractClientTimeOnPage($request, $cap);
+        $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap, $clientTimeOnPage);
+    }
+
+    /**
+     * Read the optional client-provided time-on-page value from `pv_time` (seconds).
+     *
+     * When the tracker JS counts focused time itself (e.g. a custom in-page counter) it can send
+     * the number directly with each follow-up tracker request (heartbeat / event / etc. — hits
+     * that carry the same `pv_id` as the pageview). {@see updateTimeSpent()} then trusts it as
+     * the authoritative value for that hit and skips the server-side `now − server_time`
+     * calculation. Multiple hits with `pv_time` settle via the same `GREATEST()` rule everything
+     * else uses, so a later hit can only grow the recorded time.
+     *
+     * On a brand-new pageview request the value is ignored — pageview rows are inserted at
+     * `time_spent = 0` and only later same-tab hits update them.
+     *
+     * Because everything settles through `GREATEST()`, a client value can only ever *raise*
+     * `time_spent` — it is not an end-to-end override. When the visitor navigates on,
+     * {@see closePreviousPageView()} applies the server-side wall-clock difference to the row,
+     * which wins whenever it exceeds the client's (necessarily smaller) focused-only count. The
+     * same happens on any later same-`pv_id` hit sent without `pv_time`. A smaller focused-only
+     * value therefore only survives on rows the server never re-measures: the last page of a
+     * visit, single-page visits, and abandoned tabs — exactly the rows where the server-side
+     * calculation was historically least accurate.
+     *
+     * Returns null when the param is missing OR non-positive. Zero is treated as "no client
+     * override" (not "the user spent 0s here"): a stored `time_spent = 0` is already reserved
+     * by the archiver — see ActionReports::archiveDayActionsTime() — as the "not measured yet"
+     * sentinel that triggers the last-page fallback to `visit_last_action_time − server_time`.
+     * Trusting a client `0` would create a visitor-log vs Actions-report divergence on the last
+     * page of a visit. Values above `Tracker.visit_standard_length` are clamped rather than
+     * nulled — a client saying "3600s" gets recorded as `visit_standard_length`.
+     */
+    private function extractClientTimeOnPage(Request $request, int $cap): ?int
+    {
+        // `pv_time` is registered as an int with default -1 in Request::getParam(), so the
+        // value we get back is guaranteed to be int. See `core/Tracker/Request.php`.
+        $seconds = $request->getParam(self::PARAM_PV_TIME);
+        if ($seconds <= 0) {
+            return null;
+        }
+        if ($seconds > $cap) {
+            $seconds = $cap;
+        }
+        return $seconds;
     }
 
     /**
@@ -234,16 +280,32 @@ class PageViewTimeWriter
         int $idVisit,
         string $pvId,
         string $serverTimeSql,
-        int $cap
+        int $cap,
+        ?int $clientTimeOnPage
     ): void {
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
+
+        // When the client supplied its own time-on-page measurement, use it instead of the
+        // server-side TIMESTAMPDIFF, e.g. for trackers that measure focused-only time. Both
+        // settle through the same LEAST()/GREATEST() rule, so out-of-order or smaller values
+        // can't shrink an earlier larger observation.
+        //
+        // The client value is wrapped in CAST(? AS UNSIGNED) because emulated prepares send
+        // bound ints as strings, which would make LEAST()/GREATEST() compare lexically.
+        if ($clientTimeOnPage !== null) {
+            $newTimeSpentExpr = 'CAST(? AS UNSIGNED)';
+            $newTimeSpentBind = $clientTimeOnPage;
+        } else {
+            $newTimeSpentExpr = 'TIMESTAMPDIFF(SECOND, server_time, ?)';
+            $newTimeSpentBind = $serverTimeSql;
+        }
 
         // A page-view and its site-search hit share one pv_id, so (idvisit, pv_id) can match
         // several rows; the most recent is the active one. Derived table, FOR UPDATE and inlined
         // $cap for the same reasons as closePreviousPageView().
         $sql = "UPDATE `$table`
-                   SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
+                   SET time_spent = LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))
                  WHERE idpageviewtime = (
                         SELECT idpageviewtime FROM (
                             SELECT idpageviewtime FROM `$table`
@@ -253,6 +315,6 @@ class PageViewTimeWriter
                                FOR UPDATE
                         ) t
                        )";
-        $db->query($sql, [$serverTimeSql, $idVisit, $pvId]);
+        $db->query($sql, [$newTimeSpentBind, $idVisit, $pvId]);
     }
 }
