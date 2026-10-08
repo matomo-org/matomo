@@ -158,8 +158,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
      * mode. A `cloud_blocking_mode` config override keeps that setting out of the settings payload,
      * leaving the condition unresolved and hiding both lists - including the custom one, which would
      * then be the only list in effect and still writable. So when the mode cannot be chosen in the UI
-     * the choice is made here instead, the same way
-     * Piwik\Plugins\Live\SystemSettings::makeAggregatedRealtimeReportsSetting() does.
+     * the choice is made here instead.
      */
     private function registerOrganisationListSettings(): void
     {

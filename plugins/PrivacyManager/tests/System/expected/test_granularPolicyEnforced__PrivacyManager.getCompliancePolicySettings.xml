@@ -87,16 +87,6 @@
 			<section>settings</section>
 		</row>
 		<row>
-			<id>Live.AggregatedRealtimeReportsEnabled</id>
-			<name>Aggregated Real-time Reports Enabled</name>
-			<whatItDoes>Aggregated real-time reports stay available while the Visits Log is turned off.&lt;br&gt;&lt;br&gt;Only the &quot;Last 24 hours&quot; and &quot;Last 30 minutes&quot; totals are shown, and their counts are rounded, so no individual visitor, visit, session or action level information is exposed.</whatItDoes>
-			<impact>&lt;strong&gt;Visitors &gt; Real-time&lt;/strong&gt; shows the aggregated counters only, with rounded counts.</impact>
-			<status>enforced</status>
-			<enforced>1</enforced>
-			<toggleable>1</toggleable>
-			<section>settings</section>
-		</row>
-		<row>
 			<id>SegmentEditor.LimitSegments</id>
 			<name>Segment Availability Restricted</name>
 			<whatItDoes>Segments based on Visitor IP Address, Site Time - Hour representing the time of the last action, and Ad Click ID are disabled.&lt;br&gt;&lt;br&gt;This prevents these detailed attributes from being filtered or combined to identify a specific visitor.</whatItDoes>
