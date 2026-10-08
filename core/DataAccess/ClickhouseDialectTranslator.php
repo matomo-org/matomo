@@ -30,6 +30,10 @@ namespace Piwik\DataAccess;
  * | DAYOFWEEK(x)   | toDayOfWeek(x)    | VisitDay plugin                    |
  * | IFNULL(a,b)    | ifNull(a,b)       | Segment expression generation      |
  * | CONCAT(...)    | concat(...)       | MySQL is case-insensitive; CH is not|
+ * | UNIX_TIMESTAMP(x) | toUnixTimestamp(x) | No argument reads now()       |
+ * | CONVERT_TZ(x, @@session.time_zone, '+00:00') | (x) | Only between session timezone and UTC |
+ * | TIMESTAMPDIFF(SECOND, '1970-01-01', x) | toUnixTimestamp(x) | Epoch literal only |
+ * | DATE_ADD(d, INTERVAL - WEEKDAY(d) DAY) | toMonday(toDate(d)) | Start of week |
  *
  * ### ReplacingMergeTree deduplication
  * The log table copies in ClickHouse use the ReplacingMergeTree engine, so reads must
@@ -507,6 +511,8 @@ class ClickhouseDialectTranslator
      */
     private static function translateFunctions(string $sql): string
     {
+        $sql = self::translateDateArithmetic($sql);
+
         // Order matters where one name is a prefix of another.
         $replacements = [
             // Date/time extraction
@@ -643,6 +649,100 @@ class ClickhouseDialectTranslator
         ) ?? $sql;
 
         return $sql;
+    }
+
+    /**
+     * Rewrites the MySQL date arithmetic ClickHouse has no name for: UNIX_TIMESTAMP, a
+     * CONVERT_TZ between the session timezone and UTC, TIMESTAMPDIFF from the epoch, and the
+     * start-of-week idiom `DATE_ADD(d, INTERVAL - WEEKDAY(d) DAY)`.
+     *
+     * The adapter pins session_timezone to UTC, so a conversion between the session timezone
+     * and UTC is the identity and is dropped. Any other CONVERT_TZ is left as it is, to fail
+     * loudly rather than shift a date silently.
+     */
+    private static function translateDateArithmetic(string $sql): string
+    {
+        $sql = preg_replace('/\bUNIX_TIMESTAMP\s*\(\s*\)/i', 'toUnixTimestamp(now())', $sql) ?? $sql;
+        $sql = preg_replace('/\bUNIX_TIMESTAMP\s*\(/i', 'toUnixTimestamp(', $sql) ?? $sql;
+
+        $sql = self::rewriteCalls($sql, 'CONVERT_TZ', static function (array $args): ?string {
+            if (count($args) !== 3 || !self::isUtcTimezone($args[1]) || !self::isUtcTimezone($args[2])) {
+                return null;
+            }
+
+            return '(' . trim($args[0]) . ')';
+        });
+
+        // ClickHouse's own TIMESTAMPDIFF rejects the string literal MySQL takes for the epoch.
+        $sql = self::rewriteCalls($sql, 'TIMESTAMPDIFF', static function (array $args): ?string {
+            if (
+                count($args) !== 3
+                || strtoupper(trim($args[0])) !== 'SECOND'
+                || !preg_match("/^'1970-01-01(?: 00:00:00)?'$/", trim($args[1]))
+            ) {
+                return null;
+            }
+
+            return 'toUnixTimestamp(' . trim($args[2]) . ')';
+        });
+
+        // MySQL returns a 'YYYY-MM-DD' string here. ClickHouse has neither WEEKDAY nor a
+        // negated expression after INTERVAL, and DATE_ADD on a string returns a DateTime64,
+        // so the idiom becomes the Date it computes, which reads back in the same format.
+        return self::rewriteCalls($sql, 'DATE_ADD', static function (array $args): ?string {
+            if (
+                count($args) !== 2
+                || !preg_match('/^\s*INTERVAL\s*-\s*WEEKDAY\s*(\(.*\))\s*DAY\s*$/is', $args[1], $m)
+                || self::closingParen($m[1], 0) !== strlen($m[1]) - 1
+                || self::normalizeExpression(substr($m[1], 1, -1)) !== self::normalizeExpression($args[0])
+            ) {
+                return null;
+            }
+
+            return 'toMonday(toDate(' . trim($args[0]) . '))';
+        });
+    }
+
+    /**
+     * Replaces every call to $function whose arguments $rewrite accepts. $rewrite gets the
+     * top-level arguments and returns the replacement, or null to leave the call as it is.
+     *
+     * @param callable(string[]): ?string $rewrite
+     */
+    private static function rewriteCalls(string $sql, string $function, callable $rewrite): string
+    {
+        $pattern = '/\b' . preg_quote($function, '/') . '\s*\(/i';
+        $offset = 0;
+
+        while (preg_match($pattern, $sql, $m, PREG_OFFSET_CAPTURE, $offset)) {
+            $start = $m[0][1];
+            $open = $start + strlen($m[0][0]) - 1;
+            $close = self::closingParen($sql, $open);
+            if ($close < 0) {
+                break;
+            }
+
+            $replacement = $rewrite(self::splitByComma(substr($sql, $open + 1, $close - $open - 1)));
+            if (null === $replacement) {
+                $offset = $open + 1;
+                continue;
+            }
+
+            // Resume at the replacement, so a call nested in the arguments is rewritten too.
+            $sql = substr($sql, 0, $start) . $replacement . substr($sql, $close + 1);
+            $offset = $start;
+        }
+
+        return $sql;
+    }
+
+    private static function isUtcTimezone(string $timezone): bool
+    {
+        return in_array(
+            strtolower(trim($timezone)),
+            ['@@session.time_zone', '@@time_zone', "'+00:00'", "'utc'"],
+            true
+        );
     }
 
     // -------------------------------------------------------------------------

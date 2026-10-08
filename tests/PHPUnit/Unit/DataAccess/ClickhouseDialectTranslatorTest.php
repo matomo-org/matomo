@@ -55,6 +55,65 @@ class ClickhouseDialectTranslatorTest extends \PHPUnit\Framework\TestCase
         self::assertStringNotContainsString('toMinute(', $translated);
     }
 
+    /**
+     * A first-visit date label reaches ClickHouse as MySQL date arithmetic. The session runs in
+     * UTC, so converting the session timezone to UTC is the identity and is dropped.
+     */
+    public function testTranslatesUnixTimestampAndASessionToUtcConversion()
+    {
+        $sql = "SELECT DATE_FORMAT(FROM_UNIXTIME((UNIX_TIMESTAMP(CONVERT_TZ(FROM_UNIXTIME("
+            . "(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first)"
+            . "), @@session.time_zone, '+00:00')) + 3600)), '%Y-%m-%d') AS label FROM t";
+
+        self::assertSame(
+            "SELECT DATE_FORMAT(FROM_UNIXTIME((toUnixTimestamp((FROM_UNIXTIME("
+            . "(toUnixTimestamp(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first)"
+            . "))) + 3600)), '%Y-%m-%d') AS label FROM t",
+            ClickhouseDialectTranslator::translate($sql)
+        );
+    }
+
+    public function testLeavesAConversionToAnotherTimezoneAlone()
+    {
+        $sql = "SELECT CONVERT_TZ(log_visit.visit_first_action_time, '+00:00', 'Europe/Berlin') AS label FROM t";
+
+        self::assertSame($sql, ClickhouseDialectTranslator::translate($sql));
+    }
+
+    public function testTranslatesSecondsSinceTheEpoch()
+    {
+        $sql = "SELECT (TIMESTAMPDIFF(SECOND, '1970-01-01 00:00:00', log_visit.visit_first_action_time)"
+            . " - log_visit.visitor_seconds_since_first) AS label FROM t";
+
+        self::assertSame(
+            "SELECT (toUnixTimestamp(log_visit.visit_first_action_time)"
+            . " - log_visit.visitor_seconds_since_first) AS label FROM t",
+            ClickhouseDialectTranslator::translate($sql)
+        );
+    }
+
+    /**
+     * ClickHouse has neither WEEKDAY nor a negated expression after INTERVAL, and DATE_ADD on a
+     * string returns a DateTime64 where MySQL returns 'YYYY-MM-DD'.
+     */
+    public function testTranslatesTheStartOfWeekIdiom()
+    {
+        $day = "DATE_FORMAT(DATE_ADD(log_visit.visit_first_action_time, INTERVAL 3600 SECOND), '%Y-%m-%d')";
+        $sql = "SELECT DATE_ADD($day, INTERVAL - WEEKDAY($day) DAY) AS label FROM t";
+
+        self::assertSame(
+            "SELECT toMonday(toDate($day)) AS label FROM t",
+            ClickhouseDialectTranslator::translate($sql)
+        );
+    }
+
+    public function testLeavesAWeekdayOffsetOfAnotherDateAlone()
+    {
+        $sql = "SELECT DATE_ADD(a, INTERVAL - WEEKDAY(b) DAY) AS label FROM t";
+
+        self::assertSame($sql, ClickhouseDialectTranslator::translate($sql));
+    }
+
     public function testStripsIndexHints()
     {
         $sql = "SELECT * FROM log_visit USE INDEX (index_idsite_datetime) WHERE idsite = 1";
