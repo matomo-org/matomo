@@ -94,18 +94,31 @@
 
     DataTable_RowActions_SegmentVisitorLog.prototype.trigger = function (tr, e, subTableLabel) {
         var clickedSegment = getRawSegmentValueFromRow(tr);
-        var currentSegment = this.dataTable.param.segment || '';
         var suffix = this.dataTable.props.segmented_visitor_log_segment_suffix || '';
         var extraParams = {};
 
-        // The main segment is the report's own context: its current segment (if any) plus any
-        // report-defined suffix, ANDed together at the action level. The clicked row's segment is
-        // always intersected at the visit level instead (see Model::queryLogVisits $intersectSegment),
-        // so a same-dimension condition — e.g. current pageUrl==X with clicked pageUrl==Y — is not
-        // collapsed onto a single action row, which would match nothing.
+        // A comparison row belongs to one series, so that series' segment (none for "All visits")
+        // is the context instead of the report's segment
+        var paramOverride = $(tr).data('param-override');
+        var isComparisonRow = typeof paramOverride === 'object' && paramOverride !== null;
+        var contextSegment = isComparisonRow
+            ? (paramOverride.segment || '')
+            : decodeURIComponent(this.dataTable.param.segment || '');
+
+        // The row filter of a comparison row already starts with its series' segment
+        // (see ComparisonRowGenerator), which would make one action match both conditions
+        if (isComparisonRow && contextSegment && clickedSegment.indexOf(contextSegment + ';') === 0) {
+            clickedSegment = clickedSegment.substring(contextSegment.length + 1);
+        }
+
+        // The main segment is the context plus any report-defined suffix, ANDed together at the
+        // action level. The clicked row's segment is always intersected at the visit level instead
+        // (see Model::queryLogVisits $intersectSegment), so a same-dimension condition — e.g. context
+        // pageUrl==X with clicked pageUrl==Y — is not collapsed onto a single action row, which
+        // would match nothing.
         var parts = [];
-        if (currentSegment) {
-            parts.push(decodeURIComponent(currentSegment));
+        if (contextSegment) {
+            parts.push(contextSegment);
         }
         if (suffix) {
             parts.push(suffix);
@@ -138,7 +151,11 @@
         if (typeof paramOverride !== 'object') {
             paramOverride = {};
         }
-        $.extend(extraParams, DataTable_RowActions_SegmentVisitorLog.filterAllowedExtraParams(paramOverride));
+        paramOverride = DataTable_RowActions_SegmentVisitorLog.filterAllowedExtraParams(paramOverride);
+        // trigger() already built the segment from the row's series and the report's suffix, so the
+        // series segment in the override must not replace it
+        delete paramOverride.segment;
+        $.extend(extraParams, paramOverride);
 
         this.openPopover(apiMethod, segment, extraParams);
     };
