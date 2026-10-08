@@ -19,7 +19,7 @@
         </li>
     </ul>
 {% if visitorLogEnabled %}
-<a href="javascript:;" class="segmentedlog" onclick="SegmentedVisitorLog.show('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {})">
+<a href="javascript:;" class="segmentedlog" onclick="{% if currentSegment %}SegmentedVisitorLog.show('Goals.getMetrics', '{{ currentSegment|e('js') }}', {intersectSegment: 'visitConvertedGoalId=={{ idGoal|e('js') }}'}){% else %}SegmentedVisitorLog.show('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {}){% endif %}">
     <span class="icon-visitor-profile rowActionIcon">&nbsp;</span>{{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
 </a>
 {% endif %}
