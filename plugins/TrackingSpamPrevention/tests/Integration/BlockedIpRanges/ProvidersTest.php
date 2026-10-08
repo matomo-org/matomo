@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration\BlockedIpRanges;
 
 use Matomo\Network\IPUtils;
-use Piwik\Piwik;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -26,9 +25,7 @@ class ProvidersTest extends IntegrationTestCase
      */
     public function testGetRanges(BlockedIpRanges\IpRangeProviderInterface $provider, bool $expectsIpv6)
     {
-        $this->serveRecordedResponses();
-
-        $ranges = $provider->getRanges();
+        $ranges = $this->withRetries(fn() => $provider->getRanges());
         $this->assertNotEmpty($ranges);
         $this->assertTrue(is_array($ranges));
         $this->assertGreaterThan(50, count($ranges));
@@ -60,10 +57,8 @@ class ProvidersTest extends IntegrationTestCase
 
     public function testGetDownloadUrlAzure()
     {
-        $this->serveRecordedResponses();
-
         $azure = new BlockedIpRanges\Azure();
-        $url = $azure->getDownloadUrl();
+        $url = $this->withRetries(fn() => $azure->getDownloadUrl());
         $this->assertStringStartsWith('https://download.microsoft.com/download/', $url);
         $substr = trim($url, '.json');
         $parts = explode('_', $substr);
@@ -74,29 +69,25 @@ class ProvidersTest extends IntegrationTestCase
     }
 
     /**
-     * The providers' servers fail CI runner requests now and then, so the tests use recorded responses: an excerpt
-     * of the Azure download page and trimmed copies of each provider's IP range list.
+     * The providers' servers fail CI runner requests now and then, so a failed fetch is retried a few times.
      */
-    private function serveRecordedResponses(): void
+    private function withRetries(callable $fetch)
     {
-        Piwik::addAction('Http.sendHttpRequest', function ($url, $params, &$response, &$status, &$headers) {
-            $resources = __DIR__ . '/../../resources/';
-
-            if (str_starts_with($url, 'https://www.microsoft.com/en-us/download/details.aspx?id=56519')) {
-                $response = file_get_contents($resources . 'azure-download-page.html');
-            } elseif (str_starts_with($url, 'https://download.microsoft.com/download/')) {
-                $response = file_get_contents($resources . 'azure-service-tags.json');
-            } elseif ($url === 'https://www.digitalocean.com/geo/google.csv') {
-                $response = file_get_contents($resources . 'digitalocean-google.csv');
-                $status = 200;
-            } elseif ($url === 'https://ip-ranges.amazonaws.com/ip-ranges.json') {
-                $response = file_get_contents($resources . 'aws-ip-ranges.json');
-            } elseif ($url === 'https://www.gstatic.com/ipranges/cloud.json') {
-                $response = file_get_contents($resources . 'gcloud-ip-ranges.json');
-            } elseif ($url === 'https://docs.oracle.com/en-us/iaas/tools/public_ip_ranges.json') {
-                $response = file_get_contents($resources . 'oracle-ip-ranges.json');
+        for ($attempt = 1;; $attempt++) {
+            try {
+                return $fetch();
+            } catch (\Exception $e) {
+                if ($attempt === 3) {
+                    throw $e;
+                }
+                fwrite(STDERR, sprintf(
+                    "Provider fetch failed (attempt %d/3), retrying in 5s: %s\n",
+                    $attempt,
+                    $e->getMessage()
+                ));
+                sleep(5);
             }
-        });
+        }
     }
 
     public function getIpRangeProviderDataProvider()
