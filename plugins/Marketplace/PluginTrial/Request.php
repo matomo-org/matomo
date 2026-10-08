@@ -32,7 +32,7 @@ class Request
     }
 
     /**
-     * Creates a trial request and sends a mail to all super users
+     * Creates a trial request, and sends a mail to all super users unless the plugin already had one pending
      */
     public function create(string $pluginDisplayName = ''): void
     {
@@ -40,30 +40,52 @@ class Request
             return; // already requested
         }
 
-        $this->storage->setRequested($pluginDisplayName);
+        $result = $this->storage->setRequested($pluginDisplayName);
 
-        $this->sendEmailToSuperUsers();
+        // a concurrent request by the same user got there first
+        if ($result === Storage::REQUEST_ALREADY_RECORDED) {
+            return;
+        }
+
+        if ($result === Storage::REQUEST_PENDING) {
+            // sent before the event is posted, so a failing observer cannot stop it; safeSend() logs a failed send rather than throwing
+            $this->sendEmailToSuperUsers();
+        }
+
+        /**
+         * Triggered after the current user has requested a trial of a plugin, so an audit trail can record it.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Marketplace.pluginTrialRequested', function ($pluginName, $pluginDisplayName) {
+         *         $this->logActivity(Piwik::getCurrentUserLogin(), 'requested a trial of ' . $pluginName);
+         *     });
+         *
+         * @param string $pluginName The name of the requested plugin.
+         * @param string $pluginDisplayName The plugin's display name, or an empty string when none was given.
+         */
+        Piwik::postEvent('Marketplace.pluginTrialRequested', [$this->pluginName, $pluginDisplayName]);
     }
 
     /**
-     * Cancels a trial request
+     * Ends a pending trial request because the plugin was installed or activated
      */
     public function cancel(): void
     {
-        if (!$this->wasRequested()) {
+        if (!$this->storage->wasRequested()) {
             return; // not requested
         }
 
-        $this->storage->clearStorage();
+        $this->storage->setFulfilled();
     }
 
 
     /**
-     * Returns if a plugin was already requested
+     * Returns if the current user has already requested the plugin
      */
     public function wasRequested(): bool
     {
-        return $this->storage->wasRequested();
+        return $this->storage->wasRequestedByCurrentUser();
     }
 
     /**

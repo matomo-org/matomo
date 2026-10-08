@@ -408,6 +408,16 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY (`key`)
                                   ) $tableOptions
             ",
+            'plugin_trial_request'    => "CREATE TABLE `{$prefixTables}plugin_trial_request` (
+                                      `idrequest` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `plugin_name` VARCHAR(60) NOT NULL,
+                                      `login` VARCHAR(100) NULL,
+                                      `ts_requested` DATETIME NOT NULL,
+                                      PRIMARY KEY(`idrequest`),
+                                      INDEX index_plugin_name_ts_requested (`plugin_name`, `ts_requested`),
+                                      UNIQUE INDEX index_login_plugin_name (`login`, `plugin_name`)
+                                  ) $tableOptions
+            ",
             'changes'             => "CREATE TABLE `{$prefixTables}changes` (
                                       `idchange` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
                                       `created_time` DATETIME NOT NULL,

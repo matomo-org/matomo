@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
 use Piwik\Config\GeneralConfig;
 use Piwik\Notification\Manager;
+use Piwik\Option;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -27,7 +29,7 @@ class ServiceTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', 1);
+        FakeAccess::$identity = FakeAccess::$superUserLogin;
         \Zend_Session::$_unitTestEnabled = true;
         Manager::cancelAllNotifications();
     }
@@ -74,14 +76,44 @@ class ServiceTest extends IntegrationTestCase
         self::assertTrue($service->wasRequested('PremiumPlugin'));
     }
 
-    public function testCancel()
+    public function testEachUserCanRequestAPluginOnce()
     {
-        $this->setRequested();
-
         $service = new Service();
+
+        FakeAccess::$identity = 'alice';
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
         self::assertTrue($service->wasRequested('PremiumPlugin'));
-        $service->cancelRequest('PremiumPlugin');
+
+        FakeAccess::$identity = 'bob';
         self::assertFalse($service->wasRequested('PremiumPlugin'));
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+        self::assertTrue($service->wasRequested('PremiumPlugin'));
+
+        $logins = array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login');
+        sort($logins);
+        self::assertSame(['alice', 'bob'], $logins);
+    }
+
+    public function testCancelEndsThePendingRequestButEachUsersRequestStaysPermanent()
+    {
+        $service = new Service();
+        FakeAccess::$identity = 'alice';
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+        FakeAccess::$identity = 'bob';
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+
+        $service->cancelRequest('PremiumPlugin');
+
+        $this->assertRequested(false);
+        self::assertTrue($service->wasRequested('PremiumPlugin'));
+        FakeAccess::$identity = 'alice';
+        self::assertTrue($service->wasRequested('PremiumPlugin'));
+
+        FakeAccess::$identity = 'carol';
+        self::assertFalse($service->wasRequested('PremiumPlugin'));
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+        $this->assertRequested(true);
     }
 
     public function testCreateAndDismissNotifications()
@@ -104,6 +136,36 @@ class ServiceTest extends IntegrationTestCase
         $notifications = Manager::getPendingInMemoryNotifications();
 
         self::assertCount(1, $notifications);
+    }
+
+    public function testCreateNotificationsEndsARequestForAPluginAlreadyActivated()
+    {
+        $service = new Service();
+        $service->request('CoreHome', 'Core Home');
+
+        $service->createNotificationsIfNeeded();
+
+        self::assertCount(0, Manager::getPendingInMemoryNotifications());
+        self::assertFalse((new Storage('CoreHome'))->wasRequested());
+        self::assertCount(1, (new RequestHistory())->getRequests('CoreHome'));
+    }
+
+    public function testCreateNotificationsShowsTheOtherPluginsWhenEndingARequestFails()
+    {
+        // a malformed requester makes ending the request throw a TypeError, an Error rather than an Exception
+        Option::set('Marketplace.PluginTrialRequest.CoreHome', json_encode([
+            'requestTime' => time(),
+            'displayName' => 'Core Home',
+            'dismissed' => [],
+            'requestedBy' => ['olaf'],
+        ]));
+        $service = new Service();
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+
+        $service->createNotificationsIfNeeded();
+
+        self::assertCount(1, Manager::getPendingInMemoryNotifications());
+        self::assertTrue((new Storage('CoreHome'))->wasRequested());
     }
 
     protected function assertRequested(bool $expected): void
