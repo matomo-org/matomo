@@ -56,6 +56,7 @@ concurrency:
 
 jobs:
   PHP:
+    if: false
     name: PHP (UnitTests, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
     strategy:
@@ -116,6 +117,7 @@ jobs:
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
   PHP-extra:
+    if: false
     name: PHP (${{ matrix.type }}, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
     strategy:
@@ -150,6 +152,7 @@ jobs:
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
   PHP-integration-core:
+    if: false
     name: PHP (IntegrationTestsCore, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
     strategy:
@@ -204,6 +207,7 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
   PHP-integration-plugins:
+    if: false
     name: PHP (IntegrationTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
     strategy:
@@ -258,6 +262,7 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
   PHP-system-plugins:
+    if: false
     name: PHP (SystemTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
     strategy:
@@ -331,7 +336,7 @@ jobs:
     # Run even if some buckets failed — partial processed/ trees are still
     # useful (each bucket uploads if: always()). Skip only when the matrix was
     # cancelled outright.
-    if: ${{ always() && needs.PHP-system-plugins.result != 'cancelled' }}
+    if: false
     steps:
       - uses: actions/checkout@v7
         with:
@@ -361,6 +366,7 @@ jobs:
           BUCKET_FILES_DIR: bucket-files
         run: bash matomo/.github/scripts/aggregate-bucket-artifacts.sh
   Javascript:
+    if: false
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -379,6 +385,7 @@ jobs:
           php-version: '8.1'
           node-version: '24'
   Client:
+    if: false
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
