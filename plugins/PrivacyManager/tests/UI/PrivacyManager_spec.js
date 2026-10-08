@@ -120,7 +120,6 @@ describe("PrivacyManager", function () {
         'Screen Resolution Detection Disabled',
         'Major Browser and OS Versions',
         'Visits Log and Visitor Profiles Disabled',
-        'Aggregated Real-time Reports Enabled',
         'Segment Availability Restricted',
         'Segmented Data Rounding Enabled',
         'Referrer Anonymisation Enabled',

@@ -15,9 +15,11 @@ let zenModeShortcutRegistered = false;
 function handleZenMode() {
   let zenMode = !!parseInt(getCookie('zenMode')!, 10);
   const iconSwitcher = $('.top_controls .zenModeToggle');
+  // a page without the top controls has no toggle to leave zen mode with
+  const isZenModeAvailable = !$('.layoutWithSidebarContent--noTopControls').length;
 
   function updateZenMode() {
-    if (zenMode) {
+    if (zenMode && isZenModeAvailable) {
       $('body').addClass('zenMode');
       iconSwitcher.addClass('icon-arrowdown').removeClass('icon-arrowup');
       iconSwitcher.prop('title', translate('CoreHome_ExitZenMode'));
@@ -28,7 +30,7 @@ function handleZenMode() {
     }
   }
 
-  if (!zenModeShortcutRegistered) {
+  if (!zenModeShortcutRegistered && isZenModeAvailable) {
     Matomo.helper.registerShortcut('z', translate('CoreHome_ShortcutZenMode'), (event) => {
       if (event.altKey) {
         return;

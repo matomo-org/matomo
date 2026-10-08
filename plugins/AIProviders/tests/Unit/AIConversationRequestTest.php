@@ -65,6 +65,9 @@ class AIConversationRequestTest extends TestCase
             ->withProviderId('anthropic')
             ->withModel('claude-haiku-4-5')
             ->withFeatureKey('chat')
+            ->withIdSite(3)
+            ->withUsageReference('turn-7')
+            ->withMeta(['conversationId' => 12])
             ->withMaxTokens(4096)
             ->withTemperature(0.7)
             ->withCapabilityLevel('thinking')
@@ -76,6 +79,9 @@ class AIConversationRequestTest extends TestCase
         $this->assertNull($request->getProviderId());
         $this->assertNull($request->getModel());
         $this->assertNull($request->getFeatureKey());
+        $this->assertNull($request->getIdSite());
+        $this->assertNull($request->getUsageReference());
+        $this->assertSame([], $request->getMeta());
         $this->assertSame(AIConversationRequest::DEFAULT_MAX_TOKENS, $request->getMaxTokens());
         $this->assertSame(AIRequest::DEFAULT_TEMPERATURE, $request->getTemperature());
         $this->assertNull($request->getCapabilityLevel());
@@ -87,6 +93,9 @@ class AIConversationRequestTest extends TestCase
         $this->assertSame('anthropic', $modified->getProviderId());
         $this->assertSame('claude-haiku-4-5', $modified->getModel());
         $this->assertSame('chat', $modified->getFeatureKey());
+        $this->assertSame(3, $modified->getIdSite());
+        $this->assertSame('turn-7', $modified->getUsageReference());
+        $this->assertSame(['conversationId' => 12], $modified->getMeta());
         $this->assertSame(4096, $modified->getMaxTokens());
         $this->assertSame(0.7, $modified->getTemperature());
         $this->assertSame('thinking', $modified->getCapabilityLevel());
@@ -106,6 +115,9 @@ class AIConversationRequestTest extends TestCase
         $this->assertNotSame($request, $request->withProviderId('anthropic'));
         $this->assertNotSame($request, $request->withModel('claude-haiku-4-5'));
         $this->assertNotSame($request, $request->withFeatureKey('chat'));
+        $this->assertNotSame($request, $request->withIdSite(1));
+        $this->assertNotSame($request, $request->withUsageReference('turn-7'));
+        $this->assertNotSame($request, $request->withMeta([]));
         $this->assertNotSame($request, $request->withMaxTokens(1));
         $this->assertNotSame($request, $request->withTemperature(0.5));
         $this->assertNotSame($request, $request->withCapabilityLevel('thinking'));

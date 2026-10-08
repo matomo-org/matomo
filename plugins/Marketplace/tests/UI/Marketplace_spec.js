@@ -423,6 +423,30 @@ describe("Marketplace", function () {
         });
     });
 
+    it('leaves out the admin top controls and zen mode on the overview only', async function () {
+        setEnvironment('superuser', noLicense);
+
+        await page.goto('about:blank');
+        await page.goto('?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday');
+        await (await page.waitForSelector('.top_controls .zenModeToggle')).click();
+        await page.waitForSelector('body.zenMode');
+
+        try {
+            await page.goto('about:blank');
+            await page.goto(urlBase);
+            await waitForCatalogue();
+
+            expect(await page.$('.top_controls')).to.equal(null);
+            expect(await page.$('body.zenMode')).to.equal(null);
+            expect(await page.$eval('nav', (el) => getComputedStyle(el).display)).to.not.equal('none');
+            expect(await page.$eval('#secondNavBar', (el) => getComputedStyle(el).display)).to.not.equal('none');
+            expect(await page.evaluate(() => 'z' in piwikHelper.shortcuts)).to.equal(false);
+        } finally {
+            // the zen mode cookie would otherwise hide the navigation in every later test
+            await page.evaluate(() => { document.cookie = 'zenMode=0; path=/'; });
+        }
+    });
+
     [noLicense, expiredLicense, exceededLicense].forEach(function (consumer) {
         // when there is no license it should not show a warning! as it could be due to network problems etc
         it('should show a warning if license is ' + consumer, async function() {

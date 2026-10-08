@@ -89,10 +89,6 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_EvolutionFromPreviousPeriod';
         $translations[] = 'MultiSites_EvolutionFromPreviousWeek';
         $translations[] = 'MultiSites_EvolutionFromPreviousYear';
-        $translations[] = 'MultiSites_TotalHits';
-        $translations[] = 'MultiSites_TotalAiChatbotsRequests';
-        $translations[] = 'MultiSites_TotalPageviews';
-        $translations[] = 'MultiSites_TotalVisits';
         $translations[] = 'MultiSites_AllWebsitesDashboardErrorMessage';
         $translations[] = 'MultiSites_MetricDocumentationWebsite';
         $translations[] = 'MultiSites_MetricDocumentationVisits';
@@ -111,5 +107,8 @@ class MultiSites extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.less";
+        // A plain .css, not .less: it relies on @container (see the file's header). Registered after
+        // the .less so its container-query overrides win.
+        $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.containerQueries.css";
     }
 }

@@ -30,10 +30,6 @@
         "SegmentationNotSupported": "Segmentation is not supported",
         "SingleWebsitesDashboardDocumentation": "This report gives you an informational overview for a specific website, containing the most general metrics about your visitors.",
         "TopLinkTooltip": "Compare Web Analytics stats for all of your Websites.",
-        "TotalAiChatbotsRequests": "Total AI Chatbots Requests",
-        "TotalHits": "Total Hits",
-        "TotalHitsIncludingAiTooltip": "Total Hits: Including all Human hits and AI Chatbots requests",
-        "TotalPageviews": "Total Pageviews",
-        "TotalVisits": "Total Visits"
+        "TotalHitsIncludingAiTooltip": "Total Hits: Including all Human hits and AI Chatbots requests"
     }
 }

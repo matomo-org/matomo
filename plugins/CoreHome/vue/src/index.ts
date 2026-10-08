@@ -110,6 +110,7 @@ export { default as scrollToAnchorInUrl } from './scrollToAnchorInUrl';
 export { default as SearchFiltersPersistenceStore } from './SearchFiltersPersistence/SearchFiltersPersistence.store';
 export { default as ReportActionsStore } from './DataTable/ReportActions.store';
 export { default as reportIdentity } from './DataTable/reportIdentity';
+export { default as activateMenuItem } from './DataTable/activateMenuItem';
 export { default as AutoClearPassword } from './AutoClearPassword/AutoClearPassword';
 export { default as PasswordStrength } from './PasswordStrength/PasswordStrength.vue';
 export * from './PasswordStrength/PasswordStrength';

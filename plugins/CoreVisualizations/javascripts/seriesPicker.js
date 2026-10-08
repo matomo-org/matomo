@@ -24,6 +24,13 @@
      *
      *                      Callback Signature: function () {}
      *
+     * 'seriesPickerRendered': Triggered once the picker's own markup is in the DOM, which is
+     *                      after 'placeSeriesPicker': that one fires while the element is still
+     *                      an empty shell, so a listener measuring or classing what the picker
+     *                      draws finds nothing there yet.
+     *
+     *                      Callback Signature: function () {}
+     *
      * 'seriesPicked':      Triggered when the user selects one or more columns/rows.
      *
      *                      Callback Signature: function (eventInfo, columns, rows) {}
@@ -132,6 +139,8 @@
               }
             });
             this.app.mount(this.domElem.children()[0]);
+
+            $(this).trigger('seriesPickerRendered');
 
             function isItemDisplayed(columnOrRowConfig) {
                 return columnOrRowConfig.displayed;

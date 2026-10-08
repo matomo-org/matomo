@@ -235,6 +235,14 @@ abstract class Db implements TransactionalDatabaseInterface
     abstract public function isErrNo($e, $errno);
 
     /**
+     * Whether a transaction started with beginTransaction() is still open.
+     */
+    public function isInTransaction(): bool
+    {
+        return false;
+    }
+
+    /**
      * Factory to create database objects
      *
      * @param array $configDb Database configuration
