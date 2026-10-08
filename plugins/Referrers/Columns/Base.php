@@ -403,6 +403,9 @@ abstract class Base extends VisitDimension
 
         // Some AI like ChatGPT are sending their hostname as `utm_source`
         $utmSource = UrlHelper::getParameterFromQueryString($this->currentUrlParse['query'] ?? '', 'utm_source');
+        if ($utmSource === 'perplexity') {
+            $utmSource = 'perplexity.ai';
+        }
 
         $aiAssistantName = false;
         if (isset($cachedReferrerAIAssistants[$this->referrerUrl])) {
