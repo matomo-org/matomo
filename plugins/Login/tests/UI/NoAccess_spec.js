@@ -49,7 +49,7 @@ describe("NoAccess", function () {
         });
         await page.waitForNetworkIdle();
 
-        await page.waitForTimeout(60500); // wait for session timeout
+        await page.waitForTimeout(3500); // wait for the 1 s idle timeout configured above
 
         await page.click('.nav-wrapper .right a[data-reporting-group=""]');
         await page.waitForNetworkIdle();
