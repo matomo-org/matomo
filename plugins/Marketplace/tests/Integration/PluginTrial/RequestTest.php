@@ -51,15 +51,42 @@ class RequestTest extends IntegrationTestCase
         $request->create();
     }
 
-    public function testCreateWhenAnotherUserAlreadyRequested()
+    public function testCreateWhenAnotherUserAlreadyRequestedPostsTheEventWithoutMailingAgain()
     {
+        Fixture::createSuperUser();
+        Piwik::addAction('Mail.send', function () {
+            self::fail('A plugin with a pending request must not mail super users again');
+        });
+        Piwik::addAction('Marketplace.pluginTrialRequested', function (...$args) use (&$eventArgs) {
+            $eventArgs = $args;
+        });
+
         $storageMock = self::createMock(Storage::class);
         $storageMock->method('wasRequested')->willReturn(true);
         $storageMock->method('wasRequestedByCurrentUser')->willReturn(false);
-        $storageMock->expects(self::once())->method('setRequested');
+        $storageMock->expects(self::once())->method('setRequested')->willReturn(Storage::REQUEST_ADDED_TO_PENDING);
 
         $request = new Request('PremiumPlugin', $storageMock);
-        $request->create();
+        $request->create('Premium Plugin');
+
+        self::assertSame(['PremiumPlugin', 'Premium Plugin'], $eventArgs);
+    }
+
+    public function testCreateDoesNothingMoreWhenAConcurrentRequestByTheSameUserWasRecordedFirst()
+    {
+        Fixture::createSuperUser();
+        Piwik::addAction('Mail.send', function () {
+            self::fail('A repeated request must not mail super users');
+        });
+        Piwik::addAction('Marketplace.pluginTrialRequested', function () {
+            self::fail('A repeated request must not post the event');
+        });
+
+        $storageMock = self::createMock(Storage::class);
+        $storageMock->method('wasRequestedByCurrentUser')->willReturn(false);
+        $storageMock->expects(self::once())->method('setRequested')->willReturn(Storage::REQUEST_ALREADY_RECORDED);
+
+        (new Request('PremiumPlugin', $storageMock))->create('Premium Plugin');
     }
 
     public function testCancel()
@@ -82,7 +109,7 @@ class RequestTest extends IntegrationTestCase
 
         $storageMock = self::createMock(Storage::class);
         $storageMock->method('wasRequestedByCurrentUser')->willReturn(false);
-        $storageMock->expects(self::once())->method('setRequested');
+        $storageMock->expects(self::once())->method('setRequested')->willReturn(Storage::REQUEST_PENDING);
 
         Piwik::addAction('Marketplace.pluginTrialRequested', function (...$args) use (&$eventArgs) {
             $eventArgs = $args;
@@ -135,6 +162,7 @@ class RequestTest extends IntegrationTestCase
     {
         $storageMock = self::createMock(Storage::class);
         $storageMock->method('wasRequestedByCurrentUser')->willReturn(false);
+        $storageMock->method('setRequested')->willReturn(Storage::REQUEST_PENDING);
 
         (new Request('PremiumPlugin', $storageMock))->create('Premium Plugin');
     }

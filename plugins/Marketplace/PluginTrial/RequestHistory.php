@@ -27,9 +27,13 @@ class RequestHistory
      */
     private $requestedPluginsByLogin = [];
 
-    public function add(string $pluginName, string $login, int $requestTime): void
+    /**
+     * Returns false when the login has already requested the plugin: each user's request is recorded once, which the
+     * unique key enforces even for two requests made at the same moment.
+     */
+    public function add(string $pluginName, string $login, int $requestTime): bool
     {
-        $this->write(
+        return $this->write(
             'INSERT INTO ' . $this->getTable() . ' (plugin_name, login, ts_requested) VALUES (?, ?, ?)',
             [$pluginName, $login, Date::factory($requestTime)->getDatetime()]
         );
@@ -38,7 +42,7 @@ class RequestHistory
     /**
      * Records a request that only the option holds, as one stored by Matomo before the update still does while it
      * keeps serving alongside the updated code. A row stored with a NULL login, as the update does for a requester
-     * deleted since, counts as that request.
+     * deleted since, counts as that request, as does an earlier request by the same login.
      */
     public function addIfMissing(string $pluginName, ?string $login, int $requestTime): void
     {
@@ -114,18 +118,25 @@ class RequestHistory
      * new code is deployed before core:update runs.
      *
      * @param list<mixed> $bind
+     * @return bool false when the row duplicates an existing one
      */
-    private function write(string $sql, array $bind): void
+    private function write(string $sql, array $bind): bool
     {
         $this->requestedPluginsByLogin = [];
 
         try {
             Db::get()->query($sql, $bind);
         } catch (\Exception $e) {
+            if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_DUPLICATE_ENTRY)) {
+                return false;
+            }
+
             if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 throw $e;
             }
         }
+
+        return true;
     }
 
     /**

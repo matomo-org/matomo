@@ -62,6 +62,19 @@ class RequestHistoryTest extends IntegrationTestCase
         self::assertFalse($this->history->hasRequested('PremiumPlugin', 'alice'));
     }
 
+    public function testEachLoginIsRecordedOncePerPlugin(): void
+    {
+        self::assertTrue($this->history->add('PremiumPlugin', 'alice', strtotime('2026-10-01 10:00:00')));
+        self::assertFalse($this->history->add('PremiumPlugin', 'alice', strtotime('2026-10-02 10:00:00')));
+        // a later request that only the option holds, as Matomo before the update can store
+        $this->history->addIfMissing('PremiumPlugin', 'alice', strtotime('2026-10-03 10:00:00'));
+
+        self::assertSame(
+            ['2026-10-01 10:00:00'],
+            array_column($this->history->getRequests('PremiumPlugin'), 'ts_requested')
+        );
+    }
+
     public function testDeletingUserKeepsTheirRequestsWithoutTheirLogin(): void
     {
         Fixture::createSuperUser();

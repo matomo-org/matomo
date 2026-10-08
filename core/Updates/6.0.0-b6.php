@@ -41,8 +41,9 @@ class Updates_6_0_0_b6 extends Updates
                     'login' => 'VARCHAR(100) NULL',
                     'ts_requested' => 'DATETIME NOT NULL',
                 ], ['idrequest']),
+                // straight after the table, so a duplicate request made during the update has the least time to block it
+                $this->migration->db->addUniqueKey('plugin_trial_request', ['login', 'plugin_name'], 'index_login_plugin_name'),
                 $this->migration->db->addIndex('plugin_trial_request', ['plugin_name', 'ts_requested'], 'index_plugin_name_ts_requested'),
-                $this->migration->db->addIndex('plugin_trial_request', ['login', 'plugin_name'], 'index_login_plugin_name'),
             ],
             $this->getPendingRequestMigrations()
         );

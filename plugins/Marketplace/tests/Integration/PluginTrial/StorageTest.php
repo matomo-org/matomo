@@ -95,16 +95,30 @@ class StorageTest extends IntegrationTestCase
         self::assertEquals(['BestPluginEver', 'PremiumPlugin'], Storage::getPluginsInStorage());
     }
 
-    public function testSetRequestedAddsEachRequestToHistory()
+    public function testSetRequestedRecordsAUsersRequestOnceWhenTwoArriveTogether()
     {
-        $storage = new Storage('PremiumPlugin');
-        $storage->setRequested('Premium Plugin');
-        $storage->clearStorage();
-        $storage->setRequested('Premium Plugin');
+        // both loaded before either wrote, as two requests at the same moment are
+        $first = new Storage('PremiumPlugin');
+        $second = new Storage('PremiumPlugin');
+
+        self::assertSame(Storage::REQUEST_PENDING, $first->setRequested('Premium Plugin'));
+        self::assertSame(Storage::REQUEST_ALREADY_RECORDED, $second->setRequested('Premium Plugin'));
 
         $requests = (new RequestHistory())->getRequests('PremiumPlugin');
-        self::assertCount(2, $requests);
-        self::assertSame([Piwik::getCurrentUserLogin(), Piwik::getCurrentUserLogin()], array_column($requests, 'login'));
+        self::assertSame([Piwik::getCurrentUserLogin()], array_column($requests, 'login'));
+    }
+
+    public function testARequestByAnotherUserKeepsThePendingRequestAndItsDismissals()
+    {
+        $this->setRequestOnlyInOption(time() - 60, 'olaf', ['anna']);
+        $pendingRequest = Option::get('Marketplace.PluginTrialRequest.PremiumPlugin');
+
+        $result = (new Storage('PremiumPlugin'))->setRequested('Premium Plugin');
+
+        self::assertSame(Storage::REQUEST_ADDED_TO_PENDING, $result);
+        Option::clearCachedOption('Marketplace.PluginTrialRequest.PremiumPlugin');
+        self::assertSame($pendingRequest, Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'));
+        self::assertTrue((new Storage('PremiumPlugin'))->wasRequestedByCurrentUser());
     }
 
     public function testSetFulfilledEndsThePendingRequestButKeepsItInHistory()
@@ -126,7 +140,7 @@ class StorageTest extends IntegrationTestCase
         self::assertTrue((new Storage('PremiumPlugin'))->wasRequestedByCurrentUser());
     }
 
-    public function testANewRequestRecordsTheOneItReplacesWhenOnlyTheOptionHeldIt()
+    public function testANewRequestRecordsThePendingOneWhenOnlyTheOptionHeldIt()
     {
         $this->setRequestOnlyInOption(time() - 60, 'olaf');
 
@@ -136,7 +150,7 @@ class StorageTest extends IntegrationTestCase
         self::assertSame([Piwik::getCurrentUserLogin(), 'olaf'], $logins);
     }
 
-    public function testANewRequestRecordsTheOneItReplacesEvenWhenAnotherUserRequestedInTheSameSecond()
+    public function testANewRequestRecordsThePendingOneEvenWhenAnotherUserRequestedInTheSameSecond()
     {
         $requestTime = time() - 60;
         (new RequestHistory())->add('PremiumPlugin', 'anna', $requestTime);
@@ -174,12 +188,15 @@ class StorageTest extends IntegrationTestCase
         self::assertSame([null], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login'));
     }
 
-    private function setRequestOnlyInOption(int $requestTime, string $login): void
+    /**
+     * @param string[] $dismissed
+     */
+    private function setRequestOnlyInOption(int $requestTime, string $login, array $dismissed = []): void
     {
         Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
             'requestTime' => $requestTime,
             'displayName' => 'Premium Plugin',
-            'dismissed' => [],
+            'dismissed' => $dismissed,
             'requestedBy' => $login,
         ]));
     }
@@ -221,6 +238,31 @@ class StorageTest extends IntegrationTestCase
         }
 
         self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());
+        self::assertSame([], (new RequestHistory())->getRequests('PremiumPlugin'));
+    }
+
+    public function testSetRequestedFailsWhenAnotherUsersRequestWasSavedInstead()
+    {
+        // as when Option::set() swallows a deadlock lost to another user's simultaneous first request
+        $storage = new class ('PremiumPlugin') extends Storage {
+            protected function saveStorage(): void
+            {
+                Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
+                    'requestTime' => time(),
+                    'displayName' => 'Premium Plugin',
+                    'dismissed' => [],
+                    'requestedBy' => 'olaf',
+                ]));
+            }
+        };
+
+        try {
+            $storage->setRequested('Premium Plugin');
+            self::fail('Expected the other request in the option to fail this one');
+        } catch (\Exception $e) {
+            self::assertStringContainsString('PremiumPlugin', $e->getMessage());
+        }
+
         self::assertSame([], (new RequestHistory())->getRequests('PremiumPlugin'));
     }
 

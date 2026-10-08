@@ -19,6 +19,13 @@ use Piwik\Plugin\Manager;
 
 class Storage
 {
+    /** the user had already requested the plugin, so nothing was recorded */
+    public const REQUEST_ALREADY_RECORDED = 'already_recorded';
+    /** recorded for a plugin that another user's request had already made pending */
+    public const REQUEST_ADDED_TO_PENDING = 'added_to_pending';
+    /** recorded and made the plugin's request pending */
+    public const REQUEST_PENDING = 'pending';
+
     private const OPTION_NAME = 'Marketplace.PluginTrialRequest.%s';
     private $pluginName;
     private $optionName;
@@ -36,29 +43,48 @@ class Storage
     }
 
     /**
-     * Creates a trial request for the current user
+     * Records a trial request by the current user. Only a request made while none is pending makes one pending, so
+     * super users are notified once per plugin and keep their dismissals.
+     *
+     * @return string one of the REQUEST_* constants
      */
-    public function setRequested(string $pluginDisplayName = ''): void
+    public function setRequested(string $pluginDisplayName = ''): string
     {
         $requestTime = time();
+        $login = Piwik::getCurrentUserLogin();
+        $result = self::REQUEST_ALREADY_RECORDED;
 
-        $this->storage = [
-            'requestTime' => $requestTime,
-            'displayName' => $pluginDisplayName,
-            'dismissed' => [],
-            'requestedBy' => Piwik::getCurrentUserLogin(),
-        ];
-
-        $this->writeWithHistory(function (RequestHistory $history) use ($requestTime) {
+        $this->writeWithHistory(function (RequestHistory $history) use ($pluginDisplayName, $requestTime, $login, &$result) {
             // the option first, the same lock order as setFulfilled()
-            $this->recordInHistory($history, $this->readStoredForUpdate());
+            $storedRequest = $this->readStoredForUpdate();
+            $this->recordInHistory($history, $storedRequest);
+
+            if (!$history->add($this->pluginName, $login, $requestTime)) {
+                return;
+            }
+
+            if (!empty($storedRequest)) {
+                $this->storage = $storedRequest;
+                $result = self::REQUEST_ADDED_TO_PENDING;
+                return;
+            }
+
+            $this->storage = [
+                'requestTime' => $requestTime,
+                'displayName' => $pluginDisplayName,
+                'dismissed' => [],
+                'requestedBy' => $login,
+            ];
             $this->saveStorage();
-            // Option::set() ignores a failed insert of a new option, and a request recorded without it is never notified
-            if (empty($this->readStoredForUpdate())) {
+            // Option::set() ignores a failed insert of a new option, even a deadlock that rolled this transaction back
+            // while another user's request was made pending, so check the option holds this request
+            if ($this->readStoredForUpdate() != $this->storage) {
                 throw new Exception('Could not save the trial request for ' . $this->pluginName);
             }
-            $history->add($this->pluginName, $this->storage['requestedBy'], $requestTime);
+            $result = self::REQUEST_PENDING;
         });
+
+        return $result;
     }
 
     /**

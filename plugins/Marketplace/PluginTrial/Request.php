@@ -32,7 +32,7 @@ class Request
     }
 
     /**
-     * Creates a trial request and sends a mail to all super users
+     * Creates a trial request, and sends a mail to all super users unless the plugin already had one pending
      */
     public function create(string $pluginDisplayName = ''): void
     {
@@ -40,10 +40,17 @@ class Request
             return; // already requested
         }
 
-        $this->storage->setRequested($pluginDisplayName);
+        $result = $this->storage->setRequested($pluginDisplayName);
 
-        // sent before the event is posted, so a failing observer cannot stop it; safeSend() logs a failed send rather than throwing
-        $this->sendEmailToSuperUsers();
+        // a concurrent request by the same user got there first
+        if ($result === Storage::REQUEST_ALREADY_RECORDED) {
+            return;
+        }
+
+        if ($result === Storage::REQUEST_PENDING) {
+            // sent before the event is posted, so a failing observer cannot stop it; safeSend() logs a failed send rather than throwing
+            $this->sendEmailToSuperUsers();
+        }
 
         /**
          * Triggered after the current user has requested a trial of a plugin, so an audit trail can record it.

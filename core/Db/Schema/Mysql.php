@@ -415,7 +415,7 @@ class Mysql implements SchemaInterface
                                       `ts_requested` DATETIME NOT NULL,
                                       PRIMARY KEY(`idrequest`),
                                       INDEX index_plugin_name_ts_requested (`plugin_name`, `ts_requested`),
-                                      INDEX index_login_plugin_name (`login`, `plugin_name`)
+                                      UNIQUE INDEX index_login_plugin_name (`login`, `plugin_name`)
                                   ) $tableOptions
             ",
             'changes'             => "CREATE TABLE `{$prefixTables}changes` (
