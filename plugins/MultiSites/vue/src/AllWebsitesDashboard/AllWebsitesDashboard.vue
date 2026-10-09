@@ -210,7 +210,7 @@ export default defineComponent({
         icon: 'icon-hits',
         title: 'General_ColumnHits',
         tooltipBody: !isSegmented && hasBotTrackingEnabled
-          ? 'MultiSites_TotalHitsIncludingAiTooltip'
+          ? 'MultiSites_HitsIncludingAiTooltip'
           : undefined,
         value: dashboardKPIs.hits,
         valueCompact: dashboardKPIs.hitsCompact,
