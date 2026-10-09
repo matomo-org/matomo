@@ -84,6 +84,8 @@ The command `ddev matomo:console` provides access to all Matomo console commands
 - `cache:clear` - Remove all caches, including CSS and JavaScript
 - `vue:build` - Builds vue modules for one or more plugins
 
+The Playwright UI tests have their own command, `ddev matomo:playwright`, see [tests/playwright/README.md](../tests/playwright/README.md).
+
 To mount local plugin repositories into Matomo without symlinks, use the host commands:
 
 ```

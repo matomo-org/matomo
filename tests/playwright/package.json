@@ -1,0 +1,18 @@
+{
+  "name": "matomo-playwright-tests",
+  "private": true,
+  "description": "Matomo UI tests on Playwright Test",
+  "scripts": {
+    "test": "playwright test",
+    "test:update": "PLAYWRIGHT_UPDATE_SNAPSHOTS=changed playwright test"
+  },
+  "engines": {
+    "node": ">=24.0.0 <25.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "chai": "4.5.0",
+    "chai-files": "1.4.0",
+    "qs": "6.14.0"
+  }
+}

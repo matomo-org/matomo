@@ -1,0 +1,49 @@
+# Parity check for the pinned UI test image (tests/docker/ui): renders the same specs on x64 and arm64
+# runners and keeps the screenshots, to compare them with each other and with local renders.
+name: UI Docker parity
+
+on:
+  pull_request:
+    paths:
+      - 'tests/docker/**'
+      - '.github/workflows/ui-docker-parity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    name: UI Docker parity (${{ matrix.runner }})
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+      - name: Fetch submodules
+        run: git -c protocol.version=2 submodule update --init --force --depth=1 --jobs=8
+
+      - name: Build the image
+        run: docker compose -f tests/docker/ui/compose.yml build ui
+
+      - name: Render the parity specs
+        env:
+          CI: 'true'
+          PLAYWRIGHT_SNAPSHOT_SUFFIX: docker-${{ runner.arch }}
+        run: >-
+          docker compose -f tests/docker/ui/compose.yml run --rm ui --update
+          specs/period-selector.spec.js legacy/generated/CustomDimensions
+          legacy/generated/core/EvolutionGraph_spec legacy/generated/core/PieGraph_spec
+
+      - name: Upload screenshots
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: docker-parity-${{ runner.arch }}
+          path: tests/playwright/screenshots/**/*-docker-*.png
+          retention-days: 14

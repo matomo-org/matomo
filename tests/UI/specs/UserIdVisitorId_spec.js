@@ -33,7 +33,9 @@ describe('UserIdVisitorId', function () {
     const visitorIds = new Set();
 
     for (let i = 0; i < visitsWithActionCount.length; i++) {
-      expect(visits[i].actionDetails.length).to.be.equal(visitsWithActionCount[i]);
+      // the UI fixture's goals convert on any page view, so only count the tracked actions
+      const actions = visits[i].actionDetails.filter((action) => action.type !== 'goal');
+      expect(actions.length).to.be.equal(visitsWithActionCount[i]);
 
       if (visits[i].visitorId) {
         visitorIds.add(visits[i].visitorId);

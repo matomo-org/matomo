@@ -125,6 +125,8 @@ describe("PrivacyManager_SiteSpecific", function () {
 
 
     async function capturePage(screenshotName) {
+        // the saved notification shifts the page, so the card under the pointer would get a hover shadow
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         const pageWrap = await page.$('.pageWrap,#notificationContainer,.modal.open');
         const screenshot = await pageWrap.screenshot();
