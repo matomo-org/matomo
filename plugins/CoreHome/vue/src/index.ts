@@ -46,6 +46,8 @@ export { default as tooltipContent } from './Tooltips/tooltipContent';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
 export { default as MatomoModal } from './MatomoModal/MatomoModal.vue';
 export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
+export { default as useSelectorDropdown } from './Selector/useSelectorDropdown';
+export type { SelectorDropdown } from './Selector/useSelectorDropdown';
 export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';
 export { default as ShowSensitiveData } from './ShowSensitiveData/ShowSensitiveData';
 export { default as DropdownButton } from './DropdownButton/DropdownButton';

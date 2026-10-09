@@ -567,6 +567,37 @@ describe("EvolutionGraph", function () {
         expect(period, 'Enter changed the period').to.equal('week');
     });
 
+    // A pick reloads the report and replaces the picker, so only a real page proves the focus
+    // reaches the new trigger.
+    it("should give the focus back to Choose metrics after a keyboard pick", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.focus('.series-picker-wrapper .mtm-selector__trigger');
+        await page.keyboard.press('Enter');
+        await page.waitForFunction(
+          () => document.activeElement.matches('.series-picker-wrapper [role^="menuitem"]'),
+        );
+
+        // unticking the only metric would not reload anything, so walk to one that adds a series
+        for (let i = 0; i < 10; i += 1) {
+            if (await page.evaluate(() => document.activeElement.getAttribute('aria-checked') === 'false')) {
+                break;
+            }
+            await page.keyboard.press('ArrowDown');
+        }
+        await page.keyboard.press('Space');
+        await page.waitForNetworkIdle();
+        await page.waitForFunction(
+          () => document.activeElement.matches('.series-picker-wrapper .mtm-selector__trigger'),
+        );
+
+        const columns = await page.evaluate(
+          () => $('.dataTable').first().data('uiControlObject').param.columns,
+        );
+        expect(columns.split(',').length, 'Space picked a second metric').to.equal(2);
+    });
+
     it("should render a report header inside a widgetized container", async function () {
         // Nothing above a widgetized container's children renders a header, so each renders its own.
         await page.goto("?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph"
