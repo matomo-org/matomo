@@ -105,7 +105,13 @@ class PageUrl
             Common::printDebug('Excluding parameters "' . implode(',', $parametersToExclude) . '" from URL');
         }
 
-        $parametersToExclude = array_map('strtolower', $parametersToExclude);
+        $parametersToExclude = array_map(function ($parameter) {
+            if (@preg_match($parameter, '') !== false) {
+                return $parameter;
+            }
+
+            return strtolower($parameter);
+        }, $parametersToExclude);
         return $parametersToExclude;
     }
 
