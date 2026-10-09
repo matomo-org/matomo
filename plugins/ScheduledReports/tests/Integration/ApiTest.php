@@ -19,6 +19,7 @@ use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
+use Piwik\Plugins\ScheduledReports\ReportSchedule;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
@@ -30,7 +31,6 @@ use Piwik\Plugins\Dashboard\Model as DashboardModel;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\NoAccessException;
 use Piwik\ReportRenderer;
-use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Scheduler\Task;
 use Piwik\Site;
@@ -591,12 +591,20 @@ class ApiTest extends IntegrationTestCase
         $report6['period'] = Schedule::PERIOD_NEVER;
         $report6['deleted'] = 0;
 
+        // local Monday 05:00 in Asia/Shanghai is Sunday 21:00 UTC
+        $report7 = self::getMonthlyEmailReportData($this->idSite);
+        $report7['idreport'] = 7;
+        $report7['idsite'] = 3;
+        $report7['period'] = Schedule::PERIOD_WEEK;
+        $report7['hour'] = 21;
+        $report7['deleted'] = 0;
+
         $stubbedAPIScheduledReports = $this->getMockBuilder('\\Piwik\\Plugins\\ScheduledReports\\API')
                                            ->setMethods(array('getReports', 'getInstance'))
                                            ->disableOriginalConstructor()
                                            ->getMock();
         $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
-            array($report1, $report2, $report3, $report4, $report5, $report6)
+            array($report1, $report2, $report3, $report4, $report5, $report6, $report7)
         ));
         \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
@@ -604,6 +612,7 @@ class ApiTest extends IntegrationTestCase
         Site::setSites(array(
             1 => array('timezone' => 'Europe/Paris'),
             2 => array('timezone' => 'UTC-6.5'),
+            3 => array('timezone' => 'Asia/Shanghai'),
         ));
 
         // expected tasks
@@ -612,29 +621,36 @@ class ApiTest extends IntegrationTestCase
         $scheduleTask1->setHour(0);
         $scheduleTask1->setTimezone('UTC');
 
-        $scheduleTask2 = new Monthly();
+        // weekly and monthly reports are kept on the site's local Monday / first day of the month
+        $scheduleTask2 = new ReportSchedule(Schedule::PERIOD_MONTH, 2);
         $scheduleTask2->setHour(0);
-        $scheduleTask2->setTimezone('UTC');
 
-        $scheduleTask3 = new Monthly();
+        $scheduleTask3 = new ReportSchedule(Schedule::PERIOD_MONTH, 1);
         $scheduleTask3->setHour(8);
-        $scheduleTask3->setTimezone('UTC');
 
-        $scheduleTask4 = new Monthly();
+        $scheduleTask4 = new ReportSchedule(Schedule::PERIOD_MONTH, 2);
         $scheduleTask4->setHour(8);
-        $scheduleTask4->setTimezone('UTC');
+
+        $scheduleTask5 = new ReportSchedule(Schedule::PERIOD_WEEK, 3);
+        $scheduleTask5->setHour(21);
 
         $expectedTasks = array(
             new Task(APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
             new Task(APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
             new Task(APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
             new Task(APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 7, $scheduleTask5),
         );
 
         $pdfReportPlugin = new Tasks();
         $pdfReportPlugin->schedule();
         $tasks = $pdfReportPlugin->getScheduledTasks();
         $this->assertEquals($expectedTasks, $tasks);
+
+        // the scheduler computes the next run as super user
+        self::setSuperUser();
+        $localTime = Date::adjustForTimezone($tasks[4]->getRescheduledTime(), 'Asia/Shanghai');
+        $this->assertSame('Monday 05:00', gmdate('l H:i', $localTime));
 
         \Piwik\Plugins\ScheduledReports\API::unsetInstance();
     }
