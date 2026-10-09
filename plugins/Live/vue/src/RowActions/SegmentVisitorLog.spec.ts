@@ -178,6 +178,19 @@ describe('Live/SegmentVisitorLog row action', () => {
       openPopoverSpy = vi.spyOn(rowActionInstance, 'openPopover').mockImplementation(() => undefined);
     };
 
+    // The report row the comparison rows belong to, with the filter it has once the report's queued
+    // filters ran (Referrers prepends referrerType==campaign after the comparison rows are built)
+    const CAMPAIGN_ROW_SEGMENT = 'referrerName==Google';
+    const CAMPAIGN_REPORT_ROW_SEGMENT = `referrerType==campaign;${CAMPAIGN_ROW_SEGMENT}`;
+    const addReportRow = (reportRowFilter: string, comparisonRowsInBetween = 0) => {
+      const row = window.$('#segment-row');
+      row.before(`<tr class="parentComparisonRow" data-segment-filter="${reportRowFilter}"></tr>`);
+      for (let i = 0; i < comparisonRowsInBetween; i += 1) {
+        const filter = `${COMPARED_SEGMENT};${CAMPAIGN_ROW_SEGMENT}`;
+        row.before(`<tr class="comparisonRow" data-segment-filter="${filter}"></tr>`);
+      }
+    };
+
     it('should keep the visitor log suffix instead of letting the row override replace the segment', () => {
       setUpComparisonRow(REPORT_SEGMENT, SUFFIX_SEGMENT);
 
@@ -250,10 +263,10 @@ describe('Live/SegmentVisitorLog row action', () => {
       );
     });
 
-    it('should strip the series segment the row filter already starts with', () => {
-      // ComparisonRowGenerator combines the series and row segments into the row filter, and
-      // keeping them in one intersect segment would require a single action to match both
-      setUpComparisonRow(COMPARED_SEGMENT, '', `${COMPARED_SEGMENT};${CATEGORY_ROW_SEGMENT}`);
+    it('should send the filter of the report row instead of the comparison row filter', () => {
+      // The comparison row filter starts with the series segment and misses referrerType==campaign
+      setUpComparisonRow(COMPARED_SEGMENT, '', `${COMPARED_SEGMENT};${CAMPAIGN_ROW_SEGMENT}`);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT);
 
       rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
 
@@ -261,13 +274,14 @@ describe('Live/SegmentVisitorLog row action', () => {
         'Goals.getReferrerType',
         COMPARED_SEGMENT,
         expect.objectContaining({
-          intersectSegment: CATEGORY_ROW_SEGMENT,
+          intersectSegment: CAMPAIGN_REPORT_ROW_SEGMENT,
         }),
       );
     });
 
-    it('should strip the series segment and still keep the suffix', () => {
-      setUpComparisonRow(COMPARED_SEGMENT, SUFFIX_SEGMENT, `${COMPARED_SEGMENT};${CATEGORY_ROW_SEGMENT}`);
+    it('should send the filter of the report row and still keep the suffix', () => {
+      setUpComparisonRow(COMPARED_SEGMENT, SUFFIX_SEGMENT, `${COMPARED_SEGMENT};${CAMPAIGN_ROW_SEGMENT}`);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT);
 
       rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
 
@@ -275,14 +289,42 @@ describe('Live/SegmentVisitorLog row action', () => {
         'Goals.getReferrerType',
         `${COMPARED_SEGMENT};${SUFFIX_SEGMENT}`,
         expect.objectContaining({
-          intersectSegment: CATEGORY_ROW_SEGMENT,
+          intersectSegment: CAMPAIGN_REPORT_ROW_SEGMENT,
         }),
       );
     });
 
-    it('should leave the row filter alone when it does not start with the series segment', () => {
-      // Segment::combine() returns only the series segment when it already contains the row's
-      // condition, so there is no "series;" prefix to strip
+    it('should send the filter of the report row for a row of the "All visits" series', () => {
+      setUpComparisonRow(null, '', CAMPAIGN_ROW_SEGMENT);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        CAMPAIGN_REPORT_ROW_SEGMENT,
+        expect.not.objectContaining({
+          intersectSegment: expect.anything(),
+        }),
+      );
+    });
+
+    it('should find the report row from a comparison row further down the series', () => {
+      setUpComparisonRow(COMPARED_SEGMENT, '', `${COMPARED_SEGMENT};${CAMPAIGN_ROW_SEGMENT}`);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT, 2);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        COMPARED_SEGMENT,
+        expect.objectContaining({
+          intersectSegment: CAMPAIGN_REPORT_ROW_SEGMENT,
+        }),
+      );
+    });
+
+    it('should keep the comparison row filter when there is no report row filter to use', () => {
       setUpComparisonRow(COMPARED_SEGMENT, '', COMPARED_SEGMENT);
 
       rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
