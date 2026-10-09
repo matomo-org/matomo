@@ -23,7 +23,15 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      # read-only job, so restoring node_modules over the tracked vendored packages is harmless
+      - uses: actions/cache@v6
+        with:
+          path: node_modules
+          key: stylelint-node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: stylelint
         run: |
-          npm install --ignore-scripts
+          npm install --ignore-scripts --no-audit --no-fund
           npx stylelint "**/*.{css,less}" -f github

@@ -50,7 +50,7 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildCanonicalKeyDropsEnvironmentNoise(): void
     {
-        $url = 'https://plugins.matomo.org/api/2.0/plugins?keywords=login&piwik=5.1.0&php=8.2.10&mysql=8.0.32&prefer_stable=1&release_channel=latest_stable&num_websites=3';
+        $url = 'https://plugins.matomo.org/api/2.0/plugins?keywords=login&piwik=6.1.0&php=8.2.10&mysql=8.0.32&prefer_stable=1&release_channel=latest_stable&num_websites=3';
 
         $this->assertSame(
             '/api/2.0/plugins?keywords=login',
@@ -60,7 +60,7 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildCanonicalKeyStripsPiwikWhenCurrentMajor(): void
     {
-        $url = 'https://plugins.matomo.org/api/2.0/plugins?piwik=5.12.0-alpha&sort=alpha';
+        $url = 'https://plugins.matomo.org/api/2.0/plugins?piwik=6.1.0-alpha&sort=alpha';
 
         $this->assertSame(
             '/api/2.0/plugins?sort=alpha',
@@ -78,9 +78,29 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testBuildCanonicalKeyKeepsPiwikForPreviousMajor(): void
+    {
+        $url = 'https://plugins.matomo.org/api/2.0/plugins?piwik=5.12.0&sort=alpha';
+
+        $this->assertSame(
+            '/api/2.0/plugins?piwik=5.12.0&sort=alpha',
+            $this->repository->buildCanonicalKey($url, null)
+        );
+    }
+
+    public function testBuildCanonicalKeyDropsUidAsNoise(): void
+    {
+        $url = 'https://plugins.matomo.org/api/2.0/plugins?keywords=login&piwik=6.0.0-b3&uid=5f9671cdfe904f1c5f9671cdfe904f1c';
+
+        $this->assertSame(
+            '/api/2.0/plugins?keywords=login',
+            $this->repository->buildCanonicalKey($url, null)
+        );
+    }
+
     public function testBuildCanonicalKeyDropsNumUsersAsNoise(): void
     {
-        $url = 'https://plugins.matomo.org/api/2.0/plugins?purchase_type=paid&num_users=201&piwik=5.1.0';
+        $url = 'https://plugins.matomo.org/api/2.0/plugins?purchase_type=paid&num_users=201&piwik=6.1.0';
 
         $this->assertSame(
             '/api/2.0/plugins?purchase_type=paid',
@@ -382,7 +402,7 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         ]);
         file_put_contents($this->tmpDir . '/security.json', '{"name":"SecurityInfo"}');
 
-        [$response] = $this->respond('https://plugins.matomo.org/api/2.0/plugins/SecurityInfo/info?piwik=5.12.0');
+        [$response] = $this->respond('https://plugins.matomo.org/api/2.0/plugins/SecurityInfo/info?piwik=6.1.0');
 
         $this->assertSame('{"name":"SecurityInfo"}', $response);
     }
