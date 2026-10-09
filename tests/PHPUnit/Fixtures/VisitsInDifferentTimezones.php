@@ -88,10 +88,6 @@ class VisitsInDifferentTimezones extends Fixture
 
     public function setMockNow()
     {
-        // set now to 12:00 yesterday
-        $now = time();
-        $now = $now - ($now % 86400) - 86400;
-        $now = $now + (12 * 3600);
-        Date::$now = $now;
+        Date::$now = Date::factory('2024-06-15 12:00:00')->getTimestamp();
     }
 }
