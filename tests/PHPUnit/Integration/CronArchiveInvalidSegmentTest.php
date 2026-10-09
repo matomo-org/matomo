@@ -32,6 +32,8 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
+
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
           '/method=API.get/' => json_encode(array(array('nb_visits' => 1))),
         );
