@@ -94,6 +94,12 @@ describe('Live/SegmentedVisitorLog popover title', () => {
       .toBe('Visits log showing visits where Segment is "referrerName==NoSuchCampaign"');
   });
 
+  it('should still name the segment when the report has no dimension', () => {
+    window.$(`[data-report="${API_METHOD}"]`).data('uiControlObject', { getReportMetadata: () => ({}) });
+
+    expect(show('')).toBe('Visits log showing visits where Segment is ""');
+  });
+
   it('should list every condition of a filter with more than one', () => {
     expect(show('visitorType==returning', { intersectSegment: CAMPAIGN_ROW_SEGMENT }))
       .toBe('Visits log showing visits where Segment is "referrerType==campaign and referrerName==Google"');

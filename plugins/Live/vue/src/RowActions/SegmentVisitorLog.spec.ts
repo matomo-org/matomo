@@ -338,6 +338,23 @@ describe('Live/SegmentVisitorLog row action', () => {
       );
     });
 
+    it('should not take the filter of an earlier report row when its own report row has none', () => {
+      // e.g. a "not defined" row, which renders an empty filter
+      setUpComparisonRow(COMPARED_SEGMENT, '', COMPARED_SEGMENT);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT);
+      addReportRow('');
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        COMPARED_SEGMENT,
+        expect.objectContaining({
+          intersectSegment: COMPARED_SEGMENT,
+        }),
+      );
+    });
+
     it('should still open the period of the clicked comparison row', () => {
       setUpComparisonRow(REPORT_SEGMENT, SUFFIX_SEGMENT);
 

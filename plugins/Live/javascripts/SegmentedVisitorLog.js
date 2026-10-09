@@ -78,7 +78,7 @@ var SegmentedVisitorLog = function() {
 
         // Without a matching row (e.g. a popover opened from a URL) there is no label to show,
         // so name the conditions instead of showing an empty value
-        if (displayedSegment && (!segmentName || !segmentValue || displayedSegment.indexOf(';') > 0)) {
+        if (!segmentName || (displayedSegment && (!segmentValue || displayedSegment.indexOf(';') > 0))) {
             segmentName = _pk_translate('General_Segment');
             var segmentParts = displayedSegment.split(';');
             segmentValue = segmentParts.join(' ' + _pk_translate('General_And') + ' ');
