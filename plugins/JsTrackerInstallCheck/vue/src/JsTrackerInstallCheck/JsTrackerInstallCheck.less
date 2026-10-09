@@ -13,15 +13,19 @@
     max-width: 600px;
 
     // override: the nested Field renders a Materialize row whose own column
-    // paddings and margins would offset the url input from the button next to it
+    // paddings, margins and minimum height (the empty help column) would make the
+    // field taller than its input, so the centred button would sit lower than the input
     .col {
       padding: 0 !important;
       margin: 0;
+      min-height: 0;
     }
 
-    // override: the Field input is taller than the button it sits next to
+    // override: the Field input is taller than the button it sits next to, and
+    // Materialize gives it a bottom margin
     input {
       height: 36px;
+      margin-bottom: 0;
     }
   }
 
