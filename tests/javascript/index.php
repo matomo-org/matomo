@@ -5331,6 +5331,26 @@ if ($mysql) {
         tracker.forgetCookieConsentGiven();
     });
 
+    test("Test API - requireCookieConsent keeps existing visitor ID cookie when consent is given", function() {
+        expect(8);
+
+        // the site ID is already known when requireCookieConsent is called, as it is for trackers added via addTracker
+        var tracker = Piwik.getTracker();
+        var visitorCookieName = tracker.hook.test._getCookieName('id');
+        var existingCookieValue = '1234567890abcdef.1600000000.';
+        tracker.hook.test._setCookie(visitorCookieName, existingCookieValue, 86400000);
+        strictEqual(tracker.hook.test._getCookie(visitorCookieName), existingCookieValue, 'visitor ID cookie exists before requiring cookie consent');
+
+        ok(tracker.requireCookieConsent(), 'requireCookieConsent disabled cookies');
+        tracker.setCookieConsentGiven();
+        strictEqual(tracker.hook.test._getCookie(visitorCookieName), existingCookieValue, 'existing visitor ID cookie is kept when cookie consent is given');
+        strictEqual(tracker.getVisitorId(), '1234567890abcdef', 'existing visitor ID is still used when cookie consent is given');
+
+        tracker.disableCookies();
+        strictEqual(document.cookie.indexOf(visitorCookieName + '='), -1, 'disableCookies still deletes the visitor ID cookie');
+        deleteCookies();
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 
