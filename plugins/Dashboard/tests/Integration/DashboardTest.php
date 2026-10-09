@@ -117,4 +117,44 @@ class DashboardTest extends IntegrationTestCase
 
         $this->assertSame('', $decoded[0][0]->uniqueId);
     }
+
+    /**
+     * @dataProvider getLayoutsWithReservedUniqueIds
+     */
+    public function testDecodeLayoutDropsUniqueIdsThatCollideWithObjectInternals(string $uniqueId)
+    {
+        $layout = '[[{"uniqueId":"' . $uniqueId . '","parameters":{"module":"Live","action":"widget"}}]]';
+
+        $decoded = $this->dashboard->decodeLayout($layout);
+
+        $this->assertSame('', $decoded[0][0]->uniqueId);
+    }
+
+    public function getLayoutsWithReservedUniqueIds(): array
+    {
+        return [
+            ['__proto__'],
+            ['constructor'],
+            ['prototype'],
+            ['hasOwnProperty'],
+            ['toString'],
+            ['valueOf'],
+            // character sanitization runs first, so a surrounded reserved name still collides
+            ['__proto__ '],
+            // the match is case-insensitive
+            ['__PROTO__'],
+            ['ToString'],
+        ];
+    }
+
+    public function testDecodeLayoutKeepsUniqueIdsThatMerelyResembleReservedNames()
+    {
+        // a legitimate widget id that contains, but does not equal, a reserved name is kept
+        $uniqueId = 'widget__proto__Live';
+        $layout = '[[{"uniqueId":"' . $uniqueId . '","parameters":{"module":"Live","action":"widget"}}]]';
+
+        $decoded = $this->dashboard->decodeLayout($layout);
+
+        $this->assertSame($uniqueId, $decoded[0][0]->uniqueId);
+    }
 }

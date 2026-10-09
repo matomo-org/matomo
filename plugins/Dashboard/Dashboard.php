@@ -20,6 +20,30 @@ use Piwik\Plugin;
 class Dashboard extends \Piwik\Plugin
 {
     /**
+     * Widget unique ids that collide with JavaScript object internals. A client consumer keys per-widget
+     * state by unique id, so an id like `__proto__` could reach an object's prototype through bracket
+     * access and leak one widget's state into another. These names are never produced for real widgets
+     * by {@see \Piwik\Widget\WidgetsList::getWidgetUniqueId()}, so any stored id reducing to one of them
+     * is dropped rather than persisted. Stored and compared in lower case so the match is
+     * case-insensitive.
+     */
+    private const RESERVED_WIDGET_UNIQUE_IDS = [
+        '__proto__',
+        'constructor',
+        'prototype',
+        '__definegetter__',
+        '__definesetter__',
+        '__lookupgetter__',
+        '__lookupsetter__',
+        'hasownproperty',
+        'isprototypeof',
+        'propertyisenumerable',
+        'tolocalestring',
+        'tostring',
+        'valueof',
+    ];
+
+    /**
      * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
@@ -290,6 +314,8 @@ class Dashboard extends \Piwik\Plugin
      * Widget unique ids are produced server side by {@see \Piwik\Widget\WidgetsList::getWidgetUniqueId()}
      * and consist of identifier characters, so legitimate widgets are left untouched. Any value that was
      * stored in a layout is reduced to that same set before consumers rely on it as a plain identifier.
+     * A sanitized id that still collides with a JavaScript object internal (see
+     * {@see self::RESERVED_WIDGET_UNIQUE_IDS}) is dropped to an empty id, as no real widget uses one.
      *
      * @param mixed $layout decoded layout as returned by json_decode()
      */
@@ -311,7 +337,13 @@ class Dashboard extends \Piwik\Plugin
             foreach ($column as $widget) {
                 if (is_object($widget) && property_exists($widget, 'uniqueId')) {
                     $uniqueId = is_string($widget->uniqueId) ? $widget->uniqueId : '';
-                    $widget->uniqueId = preg_replace('/[^a-zA-Z0-9_.+-]/', '', $uniqueId);
+                    $uniqueId = preg_replace('/[^a-zA-Z0-9_.+-]/', '', $uniqueId);
+
+                    if (in_array(strtolower($uniqueId), self::RESERVED_WIDGET_UNIQUE_IDS, true)) {
+                        $uniqueId = '';
+                    }
+
+                    $widget->uniqueId = $uniqueId;
                 }
             }
         }
