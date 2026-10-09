@@ -31,6 +31,7 @@ class ReportScheduleTest extends IntegrationTestCase
             3 => ['timezone' => 'UTC-6.5'],
             4 => ['timezone' => 'Asia/Kolkata'],
             5 => ['timezone' => 'America/Chicago'],
+            6 => ['timezone' => 'Australia/Sydney'],
         ]);
     }
 
@@ -75,5 +76,8 @@ class ReportScheduleTest extends IntegrationTestCase
         yield 'monthly, half hour offset crossing midnight' => [Schedule::PERIOD_MONTH, 4, 23, '2026-10-07 12:00:00 UTC', '2026-10-31 23:00:00'];
         yield 'monthly, rescheduled right after sending' => [Schedule::PERIOD_MONTH, 2, 21, '2026-10-31 21:00:00 UTC', '2026-11-30 21:00:00'];
         yield 'monthly, late run in the next UTC month does not skip a month' => [Schedule::PERIOD_MONTH, 2, 21, '2026-11-01 00:30:00 UTC', '2026-11-30 21:00:00'];
+        // clocks go forward on 2028-10-01 in Australia/Sydney, so 13:00 UTC never falls on the local 1st
+        yield 'monthly, local first day skipped by daylight saving time' => [Schedule::PERIOD_MONTH, 6, 13, '2028-09-15 12:00:00 UTC', '2028-10-01 13:00:00'];
+        yield 'monthly, rescheduled after the daylight saving time change' => [Schedule::PERIOD_MONTH, 6, 13, '2028-10-01 13:00:00 UTC', '2028-10-31 13:00:00'];
     }
 }
