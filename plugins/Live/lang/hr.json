@@ -10,7 +10,6 @@
         "DisableVisitorProfile": "Isključi profile posjetitelja",
         "DisableVisitorProfileDescription": "Sve funkcije u vezi s dnevnikom posjeta uvijek rade.",
         "DisableVisitsLogAndProfile": "Isključi dnevnik posjeta i profile posjetitelja",
-        "DisableVisitsLogAndProfileDescription": "Također uklanja fukcije koje ovise o njima, poput dnevnika e-trgovine, dnevnika segmentiranih posjeta, karte u stvarnom vremenu ili widgeta u stvarnom vremenu. Možda je potrebno za usklađivanje s lokalnim zakonima/smjernicama o privatnosti.",
         "FirstVisit": "Prvi posjet",
         "GoalType": "Vrsta",
         "HideMap": "sakrij kartu",

@@ -1,7 +1,34 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "Førespurnader frå KI-chatbotar",
+        "AiChatbotsSegmentationTooltip": "Segmentering er ikkje tilgjengeleg for dette måltalet, fordi førespurnader frå KI-chatbotar (som ChatGPT) ikkje er knytte til vanlege besøk eller besøkande.",
+        "AllWebsitesDashboardDocumentation": "Denne rapporten gir ei informativ oversikt over kvar av nettstadene dine, med dei mest generelle måltala om dei besøkande.",
+        "AllWebsitesDashboardErrorMessage": "Dataa er ikkje tilgjengelege no. Det kan kome av eit mellombels problem med tenaren eller at rapporten inneheld for mykje data. Prøv igjen seinare. Viss problemet held fram, kontaktar du Matomo-administratoren din for hjelp.",
         "AllWebsitesDashboardTitle": "Alle nettstadene",
         "Evolution": "Evolusjon",
-        "TotalPageviews": "Totale sidevisingar"
+        "EvolutionComparisonDay": "%1$s %2$s denne dagen samanlikna med %3$s %2$s i den førre delperioden (%4$s) Utvikling: %5$s",
+        "EvolutionComparisonIncomplete": "Den valde perioden er %1$s fullført.",
+        "EvolutionComparisonMonth": "%1$s %2$s denne månaden samanlikna med %3$s %2$s i den førre delperioden (%4$s) Utvikling: %5$s",
+        "EvolutionComparisonProportional": "Viss den førre perioden òg hadde vore %1$s fullført, ville det ha vore om lag %2$s %3$s\n(av totalt %4$s %3$s i den førre perioden).",
+        "EvolutionComparisonWeek": "%1$s %2$s denne veka samanlikna med %3$s %2$s i den førre delperioden (%4$s) Utvikling: %5$s",
+        "EvolutionComparisonYear": "%1$s %2$s i år samanlikna med %3$s %2$s i den førre delperioden (%4$s) Utvikling: %5$s",
+        "EvolutionFromPreviousDay": "Frå førre dag",
+        "EvolutionFromPreviousMonth": "Frå førre månad",
+        "EvolutionFromPreviousPeriod": "Frå førre periode",
+        "EvolutionFromPreviousWeek": "Frå førre veke",
+        "EvolutionFromPreviousYear": "Frå førre år",
+        "LoadingWebsites": "Lastar nettstader",
+        "MetricDocumentationAiChatbotsRequests": "Totalt tal på førespurnader frå KI-chatbotar som er registrerte for denne nettstaden.",
+        "MetricDocumentationEvolution": "Den prosentvise endringa i dette måltalet samanlikna med den førre perioden for denne nettstaden. Ein positiv verdi viser vekst, og ein negativ verdi viser nedgang.",
+        "MetricDocumentationHits": "Totalt tal på registrerte handlingar for denne nettstaden, inkludert sidevisingar, nedlastingar og utgåande lenkjer.",
+        "MetricDocumentationHitsIncludingAi": "Totalt tal på registrerte handlingar for denne nettstaden, inkludert sidevisingar, nedlastingar, utgåande lenkjer og førespurnader frå KI-chatbotar.",
+        "MetricDocumentationPageviews": "Totalt tal på sider som er viste på denne nettstaden. Dette omfattar fleire visingar av same side frå éin besøkande.",
+        "MetricDocumentationRevenue": "Samla omsetnad som er spora for denne nettstaden. Dette måltalet er tilgjengeleg viss e-handelssporing er skrudd på, og viser kjøp eller målbasert omsetnad.",
+        "MetricDocumentationVisits": "Totalt tal på besøk som er registrerte for denne nettstaden. Eit besøk startar når ein brukar opnar nettstaden, og sluttar etter ein periode utan aktivitet eller når økta går ut.",
+        "MetricDocumentationWebsite": "Lista over spora nettstader som blir viste i oversiktspanelet. Kvar rad er ein eigen nettstad med tilhøyrande analysedata.",
+        "PluginDescription": "Sjå og samanlikn alle nettstadene og appane dine i det nyttige oversiktspanelet «Alle nettstader».",
+        "SegmentationNotSupported": "Segmentering er ikkje støtta",
+        "SingleWebsitesDashboardDocumentation": "Denne rapporten gir ei informativ oversikt over ein bestemt nettstad, med dei mest generelle måltala om dei besøkande.",
+        "TopLinkTooltip": "Samanlikn nettanalysestatistikk for alle nettstadene dine."
     }
 }

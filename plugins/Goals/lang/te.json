@@ -5,6 +5,8 @@
         "GoalName": "లక్ష్యపు పేరు",
         "Goals": "లక్ష్యాలు",
         "Optional": "(ఐచ్చికం)",
-        "PageTitles": "పేజీ శీర్షికలు"
+        "PageTitles": "పేజీ శీర్షికలు",
+        "RecommendationCountOnePage": "1 పుట",
+        "RecommendationCountPages": "%s పుటలు"
     }
 }

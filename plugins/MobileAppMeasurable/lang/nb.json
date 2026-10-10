@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobil-app",
         "MobileAppDescription": "Et spesialbygget mobil-program for Android, iOS eller hvilken som helst annen mobil-plattform.",
+        "MobileAppLongDescription": "Spor brukeraktivitet i native iOS- og Android-apper. Dataene som samles inn, kan omfatte skjermvisninger, hendelser i appen, enhetsdetaljer og brukerøkter. Denne måleenheten er laget for apper som bruker mobil-SDK-ene til Matomo.",
         "MobileApps": "Mobil-apper"
     }
 }

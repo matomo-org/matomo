@@ -57,6 +57,8 @@
         "ProductName": "Toote nimi",
         "ProductSKU": "Tootekood",
         "Products": "Tooted",
+        "RecommendationCountOnePage": "1 leht",
+        "RecommendationCountPages": "%s lehte",
         "URL": "URL",
         "UpdateGoal": "Uuenda eesmärki",
         "ViewAndEditGoals": "Vaata ja muuda eesmärke",

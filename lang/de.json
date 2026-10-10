@@ -100,6 +100,8 @@
         "ColumnPageGenerationTime": "Seitengenerierungszeit",
         "ColumnPageviews": "Seitenansichten",
         "ColumnPageviewsDocumentation": "Die Anzahl der Seitenaufrufe.",
+        "ColumnPercentOfReportTotalShort": "%1$s (%%)",
+        "ColumnPercentOfReportTotalSymbol": "(%%)",
         "ColumnPercentageVisits": "%% Besuche",
         "ColumnPercentageVisitsDocumentation": "Der Prozentsatz der Gesamtbesuche.",
         "ColumnRevenue": "Umsatz",

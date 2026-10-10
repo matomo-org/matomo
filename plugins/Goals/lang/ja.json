@@ -140,6 +140,8 @@
         "ProductSKU": "製品番号",
         "ProductSKUs": "製品番号",
         "Products": "製品",
+        "RecommendationCountOnePage": "1 ページ",
+        "RecommendationCountPages": "%s ページ",
         "ReturningVisitorsConversionRateIs": "リピーターのコンバージョン率は %s です",
         "SendEvent": "イベントを送信",
         "SingleGoalOverviewDocumentation": "これは単一の目標に対するコンバージョンの概観です。 %s グラフの下のスパークラインは、クリックして拡大できます。",

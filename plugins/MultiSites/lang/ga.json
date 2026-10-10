@@ -29,11 +29,6 @@
         "PluginDescription": "Féach ar do shuímh Ghréasáin agus aipeanna go léir agus déan iad a chur i gcomparáid sa phainéal úsáideach 'Gach Láithreán Gréasáin' seo.",
         "SegmentationNotSupported": "Ní thacaítear le deighilt",
         "SingleWebsitesDashboardDocumentation": "Tugann an tuarascáil seo forbhreathnú faisnéiseach duit ar shuíomh Gréasáin ar leith, ina bhfuil na méadrachtaí is ginearálta faoi do chuairteoirí.",
-        "TopLinkTooltip": "Déan comparáid idir stats Web Analytics do do Láithreáin Ghréasáin go léir.",
-        "TotalAiChatbotsRequests": "Líon iomlán na nIarratas ar Chomhrábotanna AI",
-        "TotalHits": "Amas Iomlán",
-        "TotalHitsIncludingAiTooltip": "Líon Iomlán na mBuailtí: Lena n-áirítear gach buille Daonna agus iarratais ar Chomhrábotanna AI",
-        "TotalPageviews": "Iomlán Pageviews",
-        "TotalVisits": "Cuairteanna Iomlána"
+        "TopLinkTooltip": "Déan comparáid idir stats Web Analytics do do Láithreáin Ghréasáin go léir."
     }
 }

@@ -29,11 +29,6 @@
         "PluginDescription": "Lihat dan bandingkan semua situs web dan aplikasi Anda di dasbor 'Semua Situs Web' yang berguna ini.",
         "SegmentationNotSupported": "Segmentasi tidak didukung",
         "SingleWebsitesDashboardDocumentation": "Laporan ini memberikan Anda gambaran umum tentang informasi untuk situs web tertentu. Laporan ini berisi metrik paling umum tentang pengunjung Anda.",
-        "TopLinkTooltip": "Bandingkan statistik Analisis Web untuk semua Situs Web Anda.",
-        "TotalAiChatbotsRequests": "Total Permintaan Chatbot AI",
-        "TotalHits": "Total Hits",
-        "TotalHitsIncludingAiTooltip": "Total Hits: Termasuk semua Hits Manusia dan permintaan Chatbot AI",
-        "TotalPageviews": "Total Halaman Ditampilkan",
-        "TotalVisits": "Total Kunjungan"
+        "TopLinkTooltip": "Bandingkan statistik Analisis Web untuk semua Situs Web Anda."
     }
 }

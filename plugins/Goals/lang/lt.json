@@ -37,6 +37,8 @@
         "Optional": "(papildoma)",
         "PageTitle": "Puslapio antraštė",
         "Pattern": "Derinys",
+        "RecommendationCountOnePage": "1 puslapis",
+        "RecommendationCountPages": "%s puslapiai",
         "ReturningVisitorsConversionRateIs": "Sugrįžtančių lankytojų konversijos koeficientas yra %s",
         "URL": "URL",
         "UpdateGoal": "Atnaujinti uždavinį",

@@ -9,6 +9,7 @@
         "ClickToStarOrUnstar": "Cliceáil chun an nóta seo a réiltín nó a bhaint de.",
         "CreateNewAnnotation": "Cruthaigh nóta nua…",
         "EnterAnnotationText": "Cuir isteach do nóta…",
+        "HideAnnotations": "Folaigh na nótaí tráchta",
         "HideAnnotationsFor": "Folaigh nótaí do %s…",
         "IconDesc": "Féach ar nótaí don raon dátaí seo.",
         "IconDescHideNotes": "Folaigh nótaí don raon dáta seo.",
@@ -16,6 +17,7 @@
         "LoginToAnnotate": "Logáil isteach chun nóta a chruthú.",
         "NoAnnotations": "Níl aon nótaí ann don raon dátaí seo.",
         "PluginDescription": "Ligeann sé duit nótaí a cheangal le laethanta éagsúla chun athruithe a rinneadh ar do shuíomh Gréasáin a mharcáil, chun anailísí a dhéanann tú ar do shonraí a shábháil agus chun do chuid smaointe a roinnt le do chomhghleacaithe. Trí do shonraí a anótáil, cinnteoidh tú go gcuimhneoidh tú cén fáth a bhreathnaíonn do shonraí mar a dhéanann siad.",
+        "ShowAnnotations": "Taispeáin nótaí tráchta",
         "ViewAndAddAnnotations": "Féach ar agus cuir nótaí le %s leis…",
         "YouCannotModifyThisNote": "Ní féidir leat an nóta seo a mhodhnú, toisc nár chruthaigh tú é, agus níl rochtain riaracháin agat ar an suíomh seo."
     }

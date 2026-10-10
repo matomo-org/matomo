@@ -45,6 +45,8 @@
         "ProductName": "ชื่อสินค้า",
         "ProductSKU": "รหัส SKU สินค้า",
         "Products": "รายการ",
+        "RecommendationCountOnePage": "1 หน้า",
+        "RecommendationCountPages": "%s หน้า",
         "ReturningVisitorsConversionRateIs": "อัตราการย้อนกลับของการแปลงผู้เข้าชมเป็น %s",
         "URL": "URL",
         "UpdateGoal": "อัพเดตเป้าหมาย",

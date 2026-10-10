@@ -69,6 +69,8 @@
         "ProductName": "Імя прадукта",
         "ProductSKU": "Прадукт SKU",
         "Products": "Прадукты",
+        "RecommendationCountOnePage": "1 старонка",
+        "RecommendationCountPages": "%s старонак",
         "ReturningVisitorsConversionRateIs": "Канверсія вяртаючыхя наведвальнікаў - %s",
         "SingleGoalOverviewDocumentation": "Гэта агляд канверсій для адной мэты. %s Спарклайны можна павялічыць, націснуўшы на іх.",
         "URL": "URL",

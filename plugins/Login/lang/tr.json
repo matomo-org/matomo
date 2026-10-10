@@ -77,6 +77,7 @@
         "PasswordResetEmailAppTokens": "Parolanızı değiştirmek, uygulamaya özgü kodlarınızı otomatik olarak iptal etmez. İzinsiz erişimden şüpheleniyorsanız, lütfen var olan kodlarınızı silin ve kod yönetimi bölümünde yenilerini oluşturun.",
         "PasswordResetEmailLinkCancel": "Ben yapmadım",
         "PasswordResetEmailLinkReset": "Parolanızı sıfırlayın",
+        "PasswordResetEmailLinkValidity": "Güvenlik nedeniyle bu bağlantı %1$s sonra geçersiz olacak.",
         "PasswordResetEmailSubject": "Matomo hesabınızın parolasını sıfırlayın",
         "PasswordsDoNotMatch": "Parola ve onayı aynı değil.",
         "PleaseNote": "Lütfen unutmayın",
@@ -93,6 +94,7 @@
         "SettingBruteForceWhitelistIp": "Her zaman oturum açabilecek IP adresleri",
         "SettingPasswordStrengthCheck": "Güçlü parola kullanımı dayatılsın",
         "SettingPasswordStrengthCheckHelp": "Kullanıcıları bir dizi karmaşık kurala uygun güçlü parolalar kullanmaya zorlar: %1$s",
+        "SignInIntro": "Gizlilik odaklı Matomo istatistik platformunuza yeniden hoş geldiniz.",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Son bir saat içinde Matomo hesabınızda şüphe uyandıracak kadar çok sayıda oturum açma girişimi yapıldı. %2$s farklı IP adresinden %1$s oturum açma girişiminde bulunuldu. Birileri hesabınızı ele geçirmeye çalışıyor olabilir.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Şu işlemleri yapın:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Parolanızın güvenli olduğundan emin olun. En az 30 karakter uzunluğunda rastgele bir parola kullanın.",
@@ -100,8 +102,8 @@
         "SuspiciousLoginAttemptsInLastHourEmail5": "Matomo uygulamanıza, sınırlı sayıda kullanıcı ya da IP adresi erişiyorsa bir engellenmeyecek IP adresleri listesi oluşturun. %1$sAyrıntılı bilgi almak için belgeler bölümüne bakabilirsiniz.%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "Kullanıcı adınız ile yapılan bazı şüpheli oturum açma girişimleri fark ettik…",
         "TimeOfLogin": "Oturum açma zamanı",
-        "TokenAuthenticationFailed": "Belirtilen kodla kimlik doğrulaması yapılamadı. Geçersiz veya süresi doldu.",
-        "TokenAuthenticationFailedInsecure": "Belirtilen kodla kimlik doğrulaması yapılamadı. Geçersiz, süresi doldu veya POST parametresi olarak ya da HTTP Authorization başlığında gönderilmesi gerekiyor. Kod, ‘Yalnızca güvenli isteklere izin verilsin’ seçeneği ile oluşturulduysa, POST parametresi olarak veya HTTP Authorization başlığında gönderilmesi gerekir.",
+        "TokenAuthenticationFailed": "Belirtilen kodla kimlik doğrulaması yapılamadı. Geçersiz veya süresi dolmuş.",
+        "TokenAuthenticationFailedInsecure": "Belirtilen kodla kimlik doğrulaması yapılamadı. Geçersiz, süresi dolmuş veya POST parametresi olarak ya da HTTP Authorization üst bilgisinde gönderilmesi gerekiyor. Kod, ‘Yalnızca güvenli isteklere izin verilsin’ seçeneği ile oluşturulduysa, POST parametresi olarak veya HTTP Authorization üst bilgisinde gönderilebilir.",
         "UnblockAllIPs": "Engellenmiş tüm IP adreslerinin engellemesini kaldır",
         "WrongPasswordEntered": "Lütfen parolanızı yazın."
     }

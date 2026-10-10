@@ -1,5 +1,18 @@
 {
     "API": {
-        "LoadedAPIs": "Lasta vellykka %s APIar"
+        "ChangeTokenHint": "Viss du vil endre dette tokenet, går du til %1$ssida for personlege innstillingar%2$s.",
+        "EvolutionMetricName": "Utvikling i %s",
+        "GenerateVisits": "Viss du ikkje har data for i dag, kan du lage nokre med innstikket %1$s ved å gå til «Utvikling → Visitor Generator» under administrasjon i Matomo.",
+        "Glossary": "Ordliste",
+        "KeepTokenSecret": "Denne token_auth er like hemmeleg som brukarnamnet og passordet ditt, %1$s ikkje del han%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "Lær om vanlege omgrep, slik at du får mest mogleg ut av Matomo-analysen.",
+        "LoadedAPIs": "Lasta %s API-ar",
+        "MainMetricsReportDocumentation": "Denne rapporten gir ei oversikt over dei viktigaste måltala på tvers av alle kategoriar og innstikk.",
+        "MoreInformation": "Meir informasjon om API-a til Matomo finn du i %1$sIntroduksjon til Matomo-API-et%2$s og %3$sMatomo API-referansen%4$s.",
+        "PluginDescription": "Alle dataa i Matomo er tilgjengelege gjennom enkle API-ar. Dette innstikket er inngangspunktet for vevtenesta, som du kan kalle for å hente nettanalysedataa dine i XML, JSON, PHP, CSV osb.",
+        "ReportingApiReference": "Referanse for rapporterings-API-et",
+        "TopLinkTooltip": "Hent nettanalysedataa dine programmatisk gjennom eit enkelt API i JSON, XML osb.",
+        "UserAuthentication": "Brukarautentisering",
+        "UsingTokenAuth": "Viss du vil %1$shente data i eit skript, ein crontab osb.%2$s, må du leggje til URL-parameteren «%3$s» i API-kalla for URL-ar som krev autentisering."
     }
 }

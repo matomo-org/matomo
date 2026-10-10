@@ -2,6 +2,7 @@
     "CoreUpdater": {
         "AlreadyUpToDate": "Vše je již aktuální.",
         "CheckingForPluginUpdates": "Kontroluji nové aktualizace pluginů",
+        "CheckingForPluginUpdatesFailed": "Aktualizace pluginů se nepodařilo zkontrolovat: %1$s",
         "ClickHereToViewSqlQueries": "Kliknutím sem zobrazíte a zkopírujete seznam dotazů SQL a konzolových příkazů, které budou provedeny",
         "CloudHosting": "Cloudový hosting",
         "ConsoleCommandDescription": "Spouští aktualizace. Použijte jej po aktualizaci souborů jádra Matomo nebo libovolného pluginu. Chcete-li aktualizaci provést bez potvrzení, přidejte --yes.",
@@ -90,6 +91,7 @@
         "UpdateUsingHttpsFailedForceHttpInfo": "Z bezpečnostních důvodů Matomo nestáhlo aktualizaci přes nezabezpečené připojení HTTP. Ujistěte se, že ve vašem prostředí funguje HTTPS, a zkuste to znovu. Aktualizace přes HTTP povolte zapnutím konfigurační volby %1$sforce_matomo_http_request%2$s pouze tehdy, pokud jste si jisti, že je připojení bezpečné.",
         "UpdateUsingHttpsFailedHelp": "Proč se to nezdařilo? Stažení nejnovější verze Matomo přes zabezpečené připojení HTTPS může selhat z různých důvodů, například kvůli chybě sítě, pomalému připojení nebo nesprávné konfiguraci systému. Může to také znamenat, že je váš server cílem útoku typu MITM a někdo se pokouší nahradit aktualizaci škodlivou verzí Matomo.",
         "Updating": "Aktualizuji",
+        "UpdatingPluginXFailedY": "Plugin %1$s se nepodařilo aktualizovat: %2$s",
         "UpdatingPluginXToVersionY": "Aktualizuji plugin %1$s na verzi %2$s",
         "UpgradeComplete": "Aktualizace dokončena!",
         "UpgradePiwik": "Aktualizovat Matomo",

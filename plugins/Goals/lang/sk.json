@@ -43,6 +43,8 @@
         "ProductCategory": "Kategória produktu",
         "ProductName": "Názov produktu",
         "Products": "Produkty",
+        "RecommendationCountOnePage": "1 stránka",
+        "RecommendationCountPages": "%s stránok",
         "ReturningVisitorsConversionRateIs": "Miera konverzie vracajúcich sa návštevníkov %s",
         "URL": "URL",
         "UpdateGoal": "Aktualizovať ciele",

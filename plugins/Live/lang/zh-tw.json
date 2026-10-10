@@ -1,7 +1,6 @@
 {
     "Live": {
         "ActionsAndDuration": "%2$s 內 %1$s 個活動",
-        "AggregatedRealtimeReportsEnabledPolicySettingTitle": "已啟用統整後的即時報表",
         "AveragePageGenerationTime": "這個訪客平均花費 %1$s 載入網頁。",
         "CalculatedOverNPageViews": "以這個訪客過去 %1$s 次網頁瀏覽來計算。",
         "ClickToSeeAllContents": "點擊以查看每一項內容的互動與曝光",
@@ -11,14 +10,8 @@
         "DisableVisitorProfile": "關閉訪客資料",
         "DisableVisitorProfileDescription": "所有訪客紀錄相關的功能都會持續運作。",
         "DisableVisitsLogAndProfile": "關閉訪客紀錄與訪客資料",
-        "DisableVisitsLogAndProfileDescription": "同時也會移除依賴這些功能的其他功能，例如電子商務紀錄、區隔後的訪客紀錄、即時地圖與即時小工具。若要符合當地的隱私法規或指引，可能必須這麼做。",
         "DisableVisitsLogAndProfileImpact": "<strong>訪客 &gt; 訪客紀錄</strong>與訪客資料檢視將無法使用。",
         "DisableVisitsLogAndProfileWhatItDoes": "訪客紀錄與訪客資料功能已停用。<br><br>這可以避免個別訪客的瀏覽路徑與詳細的訪問層級行為被重建出來。",
-        "EnableAggregatedRealtimeReports": "啟用統整後的即時報表",
-        "EnableAggregatedRealtimeReportsDescription": "顯示「最近 24 小時」與「最近 30 分鐘」的隱私安全統整指標，不會顯示任何訪客、訪問、工作階段或活動層級的資訊。",
-        "EnableAggregatedRealtimeReportsImpact": "<strong>訪客 &gt; 即時</strong>只會顯示統整後的計數，且數值經過取整。",
-        "EnableAggregatedRealtimeReportsPolicySettingRequirementNote": "必須啟用統整後的即時報表。",
-        "EnableAggregatedRealtimeReportsWhatItDoes": "即使訪客紀錄已關閉，統整後的即時報表仍然可用。<br><br>只會顯示「最近 24 小時」與「最近 30 分鐘」的總計，且數值會經過取整，因此不會揭露任何訪客、訪問、工作階段或活動層級的資訊。",
         "ExportThisDatasetToXml": "將此資料集匯出為 XML",
         "FirstVisit": "首次訪問",
         "GoalType": "類型",

@@ -1,1 +1,8 @@
-{}
+{
+    "IntranetMeasurable": {
+        "Intranet": "Intranettstad",
+        "IntranetDescription": "Ei intranett-måleeining er akkurat som ein nettstad, men ligg på eit internt nettverk.",
+        "IntranetLongDescription": "Spor interne nettstader som berre er tilgjengelege i nettverket til organisasjonen din. Matomo brukar førsteparts informasjonskapslar for å identifisere unike besøkande meir nøyaktig i intranettmiljø.",
+        "Intranets": "Intranettstader"
+    }
+}

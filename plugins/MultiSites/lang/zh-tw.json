@@ -29,11 +29,6 @@
         "PluginDescription": "在「所有網站」展示板中查看並比較你所有的網站和應用程式。",
         "SegmentationNotSupported": "不支援區隔",
         "SingleWebsitesDashboardDocumentation": "此報表提供特定網站的資訊總覽，包含關於訪客最常用的指標。",
-        "TopLinkTooltip": "比較你所有網站的網站分析統計資料。",
-        "TotalAiChatbotsRequests": "AI 聊天機器人請求總數",
-        "TotalHits": "總命中數",
-        "TotalHitsIncludingAiTooltip": "總命中數：包含所有真人命中數與 AI 聊天機器人請求",
-        "TotalPageviews": "總瀏覽數",
-        "TotalVisits": "總訪問數"
+        "TopLinkTooltip": "比較你所有網站的網站分析統計資料。"
     }
 }

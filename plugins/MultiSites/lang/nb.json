@@ -1,18 +1,34 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "Forespørsler fra KI-chatboter",
+        "AiChatbotsSegmentationTooltip": "Segmentering er ikke tilgjengelig for dette måltallet fordi forespørsler fra KI-chatboter (som ChatGPT) ikke er knyttet til vanlige besøk eller besøkende.",
         "AllWebsitesDashboardDocumentation": "Denne rapporten gir deg en informasjonsoversikt for hver av nettsidene dine, inneholdende den vanligste statistikken om dine besøkende.",
+        "AllWebsitesDashboardErrorMessage": "Dataene er ikke tilgjengelige akkurat nå. Det kan skyldes et midlertidig problem på tjeneren eller at rapporten inneholder for mye data. Prøv igjen senere. Hvis problemet vedvarer, kontakt Matomo-administratoren din for å få hjelp.",
         "AllWebsitesDashboardTitle": "Alle nettsteder",
         "Evolution": "Utvikling",
         "EvolutionComparisonDay": "%1$s %2$s denne dagen sammenlignet med %3$s %2$s i den forrige delvise perioden (%4$s) Utvikling: %5$s",
-        "EvolutionComparisonIncomplete": "Valgt tidsperiode er %1$s fullfør",
+        "EvolutionComparisonIncomplete": "Den valgte tidsperioden er %1$s fullført.",
         "EvolutionComparisonMonth": "%1$s%2$s denne måneden sammenlignet med %3$s %2$s i forrige delvise periode (%4$s) Utvikling: %5$s",
         "EvolutionComparisonProportional": "Når tidligere periode også var %1$s fullført, ville det anslagsvis ha vært %2$s %3$s\n(av totalt %4$s %3$s i forrige periode).",
         "EvolutionComparisonWeek": "%1$s %2$s denne uken sammenlignet med %3$s %2$s i forrige delvise periode (%4$s) Utvikling: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s dette året sammenlignet med %3$s %2$s i forrige delvise periode (%4$s) Utvikling: %5$s",
+        "EvolutionFromPreviousDay": "Fra forrige dag",
+        "EvolutionFromPreviousMonth": "Fra forrige måned",
+        "EvolutionFromPreviousPeriod": "Fra forrige periode",
+        "EvolutionFromPreviousWeek": "Fra forrige uke",
+        "EvolutionFromPreviousYear": "Fra forrige år",
         "LoadingWebsites": "Laster nettsteder",
+        "MetricDocumentationAiChatbotsRequests": "Totalt antall forespørsler fra KI-chatboter som er registrert for dette nettstedet.",
+        "MetricDocumentationEvolution": "Prosentvis endring i dette måltallet sammenlignet med forrige periode for dette nettstedet. En positiv verdi betyr vekst, mens en negativ verdi betyr nedgang.",
+        "MetricDocumentationHits": "Totalt antall registrerte handlinger for dette nettstedet, inkludert sidevisninger, nedlastinger og utgående lenker.",
+        "MetricDocumentationHitsIncludingAi": "Totalt antall registrerte handlinger for dette nettstedet, inkludert sidevisninger, nedlastinger, utgående lenker og forespørsler fra KI-chatboter.",
+        "MetricDocumentationPageviews": "Totalt antall sider som er vist på dette nettstedet. Dette omfatter også flere visninger av samme side fra én besøkende.",
+        "MetricDocumentationRevenue": "Total omsetning som er sporet for dette nettstedet. Dette måltallet er tilgjengelig hvis e-handelssporing er skrudd på, og viser kjøp eller omsetning fra mål.",
+        "MetricDocumentationVisits": "Totalt antall besøk som er registrert for dette nettstedet. Et besøk starter når en bruker går inn på nettstedet, og slutter etter en periode uten aktivitet eller når økten utløper.",
+        "MetricDocumentationWebsite": "Listen over nettsteder som spores, og som vises i oversiktspanelet. Hver rad viser et eget nettsted med tilhørende analysedata.",
         "PluginDescription": "Se og sammenligne alle dine nettsteder og programmer i denne nyttige «Alle nettsteder»-oversikten.",
+        "SegmentationNotSupported": "Segmentering støttes ikke",
         "SingleWebsitesDashboardDocumentation": "Rapporten gir den en info-oversikt for en gitt nettside, og inneholder den mest generelle statistikken om dine besøkende.",
-        "TopLinkTooltip": "Sammenligne web-statistikk for alle dine nettsteder.",
-        "TotalPageviews": "Sidevisninger totalt"
+        "TopLinkTooltip": "Sammenligne web-statistikk for alle dine nettsteder."
     }
 }

@@ -80,6 +80,8 @@
         "ProductName": "उत्पाद का नाम",
         "ProductSKU": "उत्पाद SKU",
         "Products": "उत्पाद",
+        "RecommendationCountOnePage": "1 पेज",
+        "RecommendationCountPages": "%s के पन्नों",
         "ReturningVisitorsConversionRateIs": "आगंतुकों रूपांतरण दर रिटर्निंग %s है",
         "SendEvent": "एक घटना भेजें",
         "SingleGoalOverviewDocumentation": "यह एक ही लक्ष्य के लिए रूपांतरण का अवलोकन है. %s ग्राफ नीचे स्पार्कलाइन उन पर क्लिक करके विस्तारित किया जा सकता है.",

@@ -38,6 +38,8 @@
         "RecommendedPrivateDirectories": "Adresáře, které by měly být neveřejné",
         "RequiredPrivateDirectories": "Adresáře, které musí být neveřejné",
         "Sections": "Sekce",
+        "SessionStorageFormat": "Formát úložiště relací",
+        "SessionStorageFormatWarning": "Relace jsou ukládány jako %1$s, protože se nepodařilo nastavit session.serialize_handler na php_serialize, takže změny provedené dvěma požadavky současně se mohou ztratit. Nastavte jej v souboru php.ini na php_serialize.",
         "UrlsAccessibleViaBrowser": "Zjistili jsme, že výše uvedené adresy URL jsou dostupné prostřednictvím prohlížeče, přestože by podle našeho doporučení dostupné být neměly. Pokud je to možné, omezte k nim přístup."
     }
 }

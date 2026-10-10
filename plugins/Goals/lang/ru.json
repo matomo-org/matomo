@@ -127,6 +127,8 @@
         "ProductSKU": "Артикул",
         "ProductSKUs": "Артикулы",
         "Products": "Товары",
+        "RecommendationCountOnePage": "1 страница",
+        "RecommendationCountPages": "%s страниц",
         "ReturningVisitorsConversionRateIs": "Коэффициент наиболее частых вернувшихся посетителей %s",
         "SendEvent": "Отправили событие",
         "SingleGoalOverviewDocumentation": "Это обзор конверсий по конкретной цели. %s Графики, показанные ниже, можно увеличить, кликнув по ним.",

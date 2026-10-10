@@ -103,6 +103,8 @@
         "ProductSKU": "SKU produktu",
         "ProductSKUs": "SKU produktów",
         "Products": "Produkty",
+        "RecommendationCountOnePage": "1 strona",
+        "RecommendationCountPages": "%s stron",
         "ReturningVisitorsConversionRateIs": "Współczynnik konwersji dla powracających odwiedzających wynosi %s",
         "SendEvent": "Wyślij zdarzenie",
         "SingleGoalOverviewDocumentation": "To jest przegląd konwersji dla pojedynczego celu. %s Mini wykresy poniżej grafu można powiększyć klikając na nich.",

@@ -6,7 +6,6 @@
         "LoadingWebsites": "Cargando sitios web",
         "PluginDescription": "Mirá y compará todos tus sitios web y aplicaciones en este útil panel \"Todos los sitios web\".",
         "SingleWebsitesDashboardDocumentation": "Este informe te da un pantallazo de un sitio web específico, conteniendo las mediciones más generales sobre tus visitantes.",
-        "TopLinkTooltip": "Compará estadísticas de análisis web para todos tus sitios.",
-        "TotalPageviews": "Vista de páginas totales"
+        "TopLinkTooltip": "Compará estadísticas de análisis web para todos tus sitios."
     }
 }
