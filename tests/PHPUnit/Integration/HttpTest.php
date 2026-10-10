@@ -64,6 +64,45 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function getHttpAuthenticationTests()
+    {
+        $credentials = array(
+            'ordinary credentials' => array('test', 'test'),
+            'zero username' => array('0', 'test'),
+            'zero password' => array('test', '0'),
+            'both zero' => array('0', '0'),
+        );
+        $tests = array();
+
+        foreach ($this->getMethodsToTest() as $methodName => $method) {
+            foreach ($credentials as $caseName => $caseCredentials) {
+                $tests[$methodName . ' with ' . $caseName] = array_merge($method, $caseCredentials);
+            }
+        }
+
+        return $tests;
+    }
+
+    public function getInvalidHttpAuthenticationTests()
+    {
+        $credentials = array(
+            'absent credentials' => array(null, null),
+            'empty credentials' => array('', ''),
+            'missing password' => array('test', null),
+            'missing username' => array(null, 'test'),
+            'wrong credentials' => array('wrong', 'wrong'),
+        );
+        $tests = array();
+
+        foreach ($this->getMethodsToTest() as $methodName => $method) {
+            foreach ($credentials as $caseName => $caseCredentials) {
+                $tests[$methodName . ' with ' . $caseName] = array_merge($method, $caseCredentials);
+            }
+        }
+
+        return $tests;
+    }
+
     /**
      * @dataProvider getMethodsToTest
      */
@@ -161,9 +200,9 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider getMethodsToTest
+     * @dataProvider getHttpAuthenticationTests
      */
-    public function testHttpAuthentication($method)
+    public function testHttpAuthentication($method, $httpUsername, $httpPassword)
     {
         $result = Http::sendHttpRequestBy(
             $method,
@@ -178,18 +217,18 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             $byteRange = false,
             $getExtendedInfo = true,
             $httpMethod = 'GET',
-            $httpUsername = 'test',
-            $httpPassword = 'test'
+            $httpUsername,
+            $httpPassword
         );
 
-        $this->assertEquals('Authentication successful', $result['data']);
         $this->assertEquals(200, $result['status']);
+        $this->assertEquals('Authentication successful', $result['data']);
     }
 
     /**
-     * @dataProvider getMethodsToTest
+     * @dataProvider getInvalidHttpAuthenticationTests
      */
-    public function testHttpAuthenticationInvalid($method)
+    public function testHttpAuthenticationInvalid($method, $httpUsername, $httpPassword)
     {
         $result = Http::sendHttpRequestBy(
             $method,
@@ -204,8 +243,8 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             $byteRange = false,
             $getExtendedInfo = true,
             $httpMethod = 'GET',
-            $httpUsername = '',
-            $httpPassword = ''
+            $httpUsername,
+            $httpPassword
         );
 
         $this->assertEquals(401, $result['status']);
