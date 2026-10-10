@@ -46,6 +46,8 @@
         "PageTitle": "عنوان الصفحة",
         "PageTitles": "عناوين الصفحة",
         "Pattern": "النمط",
+        "RecommendationCountOnePage": "صفحة واحدة",
+        "RecommendationCountPages": "%s صفحات",
         "ReturningVisitorsConversionRateIs": "معدل التحويل للزيارات المتكررة هو %s",
         "URL": "الرابط",
         "UpdateGoal": "تحديث هدف",
