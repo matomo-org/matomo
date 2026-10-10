@@ -1,1 +1,7 @@
-{}
+{
+    "AIAgents": {
+        "AIAgentName": "Nome do Agente de IA",
+        "AIAgentsOverview": "Visão geral dos agentes de IA",
+        "AIAgentVisits": "Visitas de Agentes de IA"
+    }
+}

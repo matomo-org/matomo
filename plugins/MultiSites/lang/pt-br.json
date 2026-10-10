@@ -17,6 +17,7 @@
         "EvolutionFromPreviousPeriod": "Do período anterior",
         "EvolutionFromPreviousWeek": "Da semana anterior",
         "EvolutionFromPreviousYear": "Do ano anterior",
+        "HitsIncludingAiTooltip": "Incluindo todos os acessos de humanos e solicitações de chatbots de IA",
         "LoadingWebsites": "Carregando sites",
         "MetricDocumentationAiChatbotsRequests": "Número total de solicitações ao chatbot de IA registradas para este site.",
         "MetricDocumentationEvolution": "A variação percentual desta métrica em relação ao período anterior para este site. Um valor positivo indica crescimento, enquanto um valor negativo sinaliza uma queda.",
@@ -29,11 +30,6 @@
         "PluginDescription": "Veja e compare todos os seus sites e aplicativos neste útil painel 'Todos os sites'.",
         "SegmentationNotSupported": "A segmentação não é suportada",
         "SingleWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de um site específico, contendo as métricas mais gerais sobre seus visitantes.",
-        "TopLinkTooltip": "Comparar estatísticas de Web Analytics de todos os seus sites.",
-        "TotalAiChatbotsRequests": "Total de solicitações para chatbots de IA",
-        "TotalHits": "Total de acessos",
-        "TotalHitsIncludingAiTooltip": "Total de Acessos: Incluindo todos os acessos de humanos e solicitações de chatbots de IA",
-        "TotalPageviews": "Total de Exibições de Páginas",
-        "TotalVisits": "Total de visitas"
+        "TopLinkTooltip": "Comparar estatísticas de Web Analytics de todos os seus sites."
     }
 }
