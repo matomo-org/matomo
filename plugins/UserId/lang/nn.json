@@ -1,5 +1,15 @@
 {
     "UserId": {
-        "UserReportTitle": "Brukarar"
+        "PluginDescription": "Viser brukarrapportar",
+        "ThereIsNoDataForThisReportHelp": "%1$sLes brukarrettleiinga for å lære korleis du får data til denne rapporten.%2$s",
+        "UserId": "Brukar-ID",
+        "UserIdDisabledSettingImpact": "Verdiar for brukar-ID blir ikkje samla inn. Rapportar, segment og analyse på tvers av besøk basert på brukar-ID er ikkje tilgjengelege.",
+        "UserIdDisabledSettingRequirementNote": "Innsamling av brukar-ID ved sporing må vere skrudd av.",
+        "UserIdDisabledSettingTitle": "Sporing av brukar-ID er skrudd av",
+        "UserIdDisabledSettingWhatItDoes": "Sporing av brukar-ID er skrudd av. Sporingsoppsett må ikkje sende brukar-ID-ar med setUserId eller tilsvarande metodar.<br><br>Det hindrar at besøkande blir direkte identifiserte og kopla saman på tvers av besøk eller einingar.",
+        "UserIdSegmentHelp": "ein unik streng som ikkje er tom og som identifiserer brukaren (til dømes ei e-postadresse eller eit brukarnamn).",
+        "UserReportDocumentation": "Viser besøk og andre generelle måltal for kvar enkelt brukar-ID.",
+        "UserReportTitle": "Brukarar",
+        "VisitorsUserSubcategoryHelp": "Rapporten om brukar-ID viser besøk knytte til alle dei registrerte og innlogga brukarane dine. Forstå korleis bestemte brukarar brukar nettstaden, og finn ut kven som er dei mest og minst aktive brukarane dine."
     }
 }

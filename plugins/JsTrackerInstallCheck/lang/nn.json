@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "Kontrollen av sporingskoden feila. Sjekk at du har installert koden rett. %1$sLær meir%2$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Kontrollen av sporingskoden feila. Sjekk at du har installert innstikket «%1$s» og følgt alle stega. %2$sLær meir%3$s.",
+        "JsTrackingCodeInstallCheckSuccessMessage": "Sporingskoden er installert! Dette biletet forsvinn så snart det er spora nokre data for nettstaden din.",
+        "OptionalTestInstallationDescription": "Valfritt: For å teste at sporingskoden kan sende førespurnader til Matomo-instansen din skriv du inn den nøyaktige URL-en du sporar og klikkar på «Test installasjonen». Ei ny fane blir opna, og ho skal lukke seg innan 10 sekund.",
+        "PluginDescription": "Kontroller om sporingskoden er installert på nettstaden din og kan sende sporingsførespurnader tilbake til Matomo-instansen din",
+        "TestInstallationBtnText": "Test installasjonen"
+    }
+}

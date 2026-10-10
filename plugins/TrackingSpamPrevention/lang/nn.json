@@ -1,1 +1,36 @@
-{}
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "Ei IP-adresse vart utestengd fordi ho gav for mange handlingar.",
+        "BlockCloudNoteInternetDisabled": "Fordi internett er skrudd av i Matomo-oppsettet ditt, fungerer ikkje denne funksjonen.",
+        "PluginDescription": "Dette innstikket har fleire val for å hindre at spammarar og botar gjer dataa dine unøyaktige, slik at du kan stole på dataa dine igjen.",
+        "SettingBlockCloudIpRangesHelp": "Blokker sporingsførespurnader med ei vedlikehalden liste over kjende IP-område for skyleverandørar. Det gir betre dekning av trafikk frå skyleverandørar som kanskje ikkje blir fanga opp av ei liste over oppsette GeoIP-organisasjonsnamn. Lista over IP-område for skyleverandørar blir automatisk oppdatert kvar 24. time.",
+        "SettingBlockCloudIpRangesTitle": "Blokker trafikk frå IP-område for skyleverandørar",
+        "SettingBlockHeadlessDescription": "Dette er nettlesarar utan brukargrensesnitt, som stort sett blir brukte til automatisering. Det bør vere trygt å skru på dette viss du berre har vanlege nettstader eller appar. Det kan blokkere fleire botar og spamførespurnader som elles ikkje ville blitt oppdaga.",
+        "SettingBlockHeadlessTitle": "Blokker hovudlause nettlesarar",
+        "SettingBlockSdksAndLibrariesHelp": "Skru berre på dette valet viss sporinga blir gjord med JavaScript-sporaren eller Matomo Tag Manager. Det blokkerer sporingsførespurnader som blir sende av HTTP-klientar og sporingsbibliotek som ikkje er JavaScript, mellom anna verktøy som cURL, Guzzle og Postman.%3$s%1$sMerk:%2$s Ikkje skru på dette valet viss du sender sporingsdata med Matomo PHP Tracking SDK, Java SDK, Python SDK, Android SDK, iOS SDK eller andre sporingsbibliotek som ikkje er JavaScript.",
+        "SettingBlockSdksAndLibrariesTitle": "Blokker trafikk frå SDK-ar og bibliotek på tenarsida",
+        "SettingCloudBlockingModeHelp": "Vel korleis Matomo skal handtere sporingsførespurnader frå skyleverandørar. Du kan skru av all blokkering, bruke standardlista til Matomo over leverandørar eller halde ved like di eiga liste. Lista til Matomo kan bli oppdatert over tid når leverandørar blir lagde til eller endra.",
+        "SettingCloudBlockingModeOptionCustomList": "Bruk eiga liste over organisasjonar",
+        "SettingCloudBlockingModeOptionDefaultList": "Bruk standardlista til Matomo over leverandørar (tilrådd)",
+        "SettingCloudBlockingModeOptionOff": "Ikkje blokker skyleverandørar",
+        "SettingCloudBlockingModeTitle": "Blokker sporingsførespurnader frå skyleverandørar",
+        "SettingCustomOrganisationBlockListHelp": "Blokker sporingsførespurnader når IP-adressa til den besøkande høyrer til ein bestemt organisasjon, til dømes ein drifts- eller skyleverandør. Skriv inn éin organisasjon per linje. Bruk presise namn for å unngå utilsikta treff. Alle organisasjonar med eit namn som inneheld verdien du skriv inn, blir treffte. Matomo brukar denne lista i staden for standardlista over leverandørar.",
+        "SettingDefaultOrganisationBlockListHelp": "Dette er den gjeldande standardlista over organisasjonar som Matomo held ved like. Lista kan bli oppdatert over tid når leverandørar blir lagde til eller endra.",
+        "SettingDefaultOrganisationBlockListTitle": "Standardliste over blokkerte organisasjonar",
+        "SettingExcludedCountriesDescription": "Ikkje spor besøkande frå desse landa. Besøkande utanfor målområdet ditt er truleg botar eller spammarar, eller du kan bruke dette for å unngå personvernlover i andre jurisdiksjonar.",
+        "SettingExcludedCountriesTitle": "Utelat land",
+        "SettingIncludedCountriesDescription": "Dette utelèt alle andre land. Innstillinga «Utelat land» har meir informasjon.",
+        "SettingIncludedCountriesTitle": "Spor berre besøkande frå desse landa",
+        "SettingIpAllowListHelp": "Angi IP-adressene eller CIDR-områda som kan sende sporingsførespurnader. Skriv inn éin verdi per linje.",
+        "SettingIpAllowListTitle": "Liste over tillatne IP-adresser",
+        "SettingIpBlockListHelp": "Angi IP-adressene eller CIDR-områda som skal blokkerast frå å sende sporingsførespurnader. Skriv inn éin verdi per linje. Matomo kan automatisk blokkere fleire IP-adresser som ikkje står på denne lista, til dømes IP-område for skyleverandørar som blir henta dagleg når «Blokker trafikk frå IP-område for skyleverandørar» er skrudd på, eller IP-adresser som er mellombels utestengde for å ha gått over grensa for talet på handlingar.",
+        "SettingIpBlockListTitle": "Liste over blokkerte IP-adresser",
+        "SettingMaxActionsDescription": "Standardverdien «0» registrerer alle handlingar. Dei fleste nettstader har vanlegvis ikkje meir enn 100 til 300. Det kan vere trygt å gå ut frå at annan aktivitet er sporingsspam, ein bot eller eit åtak. Matomo sluttar å registrere fleire handlingar og blokkerer IP-adressene i opptil 24 timar for å redusere belastninga på tenaren og ta vare på datakvaliteten.",
+        "SettingMaxActionsTitle": "Flest handlingar som skal registrerast per besøk",
+        "SettingNotificationEmailDescription": "Denne e-postadressa blir varsla kvar gong ei IP-adresse blir utestengd for å ha for mange handlingar. I framtida kan det kome fleire varslingsgrunnar.",
+        "SettingNotificationEmailTitle": "E-post for varsel",
+        "SettingOrganisationBlockListPlaceholder": "Skyleverandør A%1$sSkyleverandør B",
+        "SettingOrganisationBlockListTitle": "Liste over blokkerte organisasjonar",
+        "SettingsIntroduction": "Spam- og bottrafikk kan blåse opp talet på sporingsførespurnader og føre uønskte data inn i rapportane dine. Set opp desse innstillingane for å redusere slik trafikk før han påverkar analysen."
+    }
+}
