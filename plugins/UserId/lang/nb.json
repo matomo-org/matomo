@@ -1,10 +1,15 @@
 {
     "UserId": {
         "PluginDescription": "Vises brukerrapporter",
-        "ThereIsNoDataForThisReportHelp": "%1$sLær mer om generering av data for denne rapporten i brukerveiledningen.%2$s",
+        "ThereIsNoDataForThisReportHelp": "%1$sLes brukerveiledningen for å lære hvordan du genererer data til denne rapporten.%2$s",
         "UserId": "Bruker-ID",
-        "UserReportDocumentation": "Denne rapporten viser besøk og andre generelle måleverdier for hver individuell bruker-ID.",
+        "UserIdDisabledSettingImpact": "Bruker-ID-er samles ikke inn. Rapporter om bruker-ID, segmenter og analyse på tvers av besøk basert på bruker-ID er ikke tilgjengelige.",
+        "UserIdDisabledSettingRequirementNote": "Innsamling av bruker-ID ved sporing må være skrudd av.",
+        "UserIdDisabledSettingTitle": "Sporing av bruker-ID er skrudd av",
+        "UserIdDisabledSettingWhatItDoes": "Sporing av bruker-ID er skrudd av. Sporingsoppsettet må ikke sende bruker-ID-er med setUserId eller tilsvarende metoder.<br><br>Dette hindrer at besøkende identifiseres direkte og kobles sammen på tvers av besøk eller enheter.",
+        "UserIdSegmentHelp": "en hvilken som helst unik streng som ikke er tom, og som identifiserer brukeren (for eksempel en e-postadresse eller et brukernavn).",
+        "UserReportDocumentation": "Viser besøk og andre generelle måltall for hver enkelt bruker-ID.",
         "UserReportTitle": "Bruker IDer",
-        "VisitorsUserSubcategoryHelp": "Bruker-ID-rapporten viser besøk for alle registrerte og innloggede brukere. Du kan bruke denne delen for å forstå nettsidebruk for spesifikke brukere og identifisere hvem dine mest og minst aktive brukere er."
+        "VisitorsUserSubcategoryHelp": "Rapporten om bruker-ID-er viser besøk knyttet til alle registrerte og innloggede brukere. Forstå hvordan bestemte brukere bruker nettstedet, og finn ut hvem som er de mest og minst aktive brukerne dine."
     }
 }

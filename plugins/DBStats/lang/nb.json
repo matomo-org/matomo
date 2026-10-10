@@ -10,7 +10,7 @@
         "MetricDataByYear": "Måledatatabeller etter år",
         "MetricTables": "Måletdatatabeller",
         "OtherTables": "Andre tabeller",
-        "PluginDescription": "Gir deg detaljerte rapporter om MySQL-databasebruk. Tilgjengelig for superbrukere under Diagnostikk.",
+        "PluginDescription": "Gir detaljerte rapporter om bruken av MySQL-databasen. Tilgjengelig for superbrukere under Diagnostikk.",
         "ReportDataByYear": "Rapporttabeller etter år",
         "ReportTables": "Rapporttabeller",
         "RowCount": "Antall rader",

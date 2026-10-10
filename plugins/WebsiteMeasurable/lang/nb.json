@@ -1,7 +1,8 @@
 {
     "WebsiteMeasurable": {
         "Website": "Nettsted",
-        "WebsiteDescription": "Et nettsted består av nettsider som typisk vises fra ett enkelt domene.",
+        "WebsiteDescription": "Et nettsted består av nettsider, vanligvis fra ett enkelt domene på nettet.",
+        "WebsiteLongDescription": "Spor interaksjoner fra besøkende, som sidevisninger, klikk, nedlastinger og hendelser, på et offentlig nettsted. Én måleenhet kan omfatte flere domener og underdomener, eller du kan lage egne måleenheter for hvert av dem.",
         "Websites": "Nettsteder"
     }
 }
