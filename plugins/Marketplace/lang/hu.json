@@ -1,6 +1,8 @@
 {
     "Marketplace": {
         "ActivateLicenseKey": "Bekapcsol",
+        "CategoryDevelopment": "Fejlesztés",
+        "CategorySecurity": "Biztonság",
         "PluginKeywords": "Kulcsszavak",
         "SubscriptionType": "Típus"
     }
