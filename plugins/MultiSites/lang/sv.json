@@ -24,9 +24,6 @@
         "MetricDocumentationWebsite": "Lista över spårade webbplatser som visas i instrumentpanelen. Varje rad representerar en webbplats med dess motsvarande analysdata.",
         "PluginDescription": "Visa och jämför alla dina webbplatser i panelen 'Alla webbplatser'.",
         "SingleWebsitesDashboardDocumentation": "Denna rapport ger dig en informationsöversikt för en specifik webbplats, som innehåller den mest allmänna statistiken om dina besökare.",
-        "TopLinkTooltip": "Jämför statistik för alla dina webbplatser.",
-        "TotalHits": "Träffar totalt",
-        "TotalPageviews": "Sidvisningar totalt",
-        "TotalVisits": "Besök totalt"
+        "TopLinkTooltip": "Jämför statistik för alla dina webbplatser."
     }
 }
