@@ -82,4 +82,27 @@ class PatternRecursiveTest extends \PHPUnit\Framework\TestCase
         $filteredTable->filter('PatternRecursive', array('label', $pattern));
         $this->assertEquals($expectedtable->getRows(), $filteredTable->getRows());
     }
+
+    /**
+     * @group Core
+     */
+    public function testFilterPatternMatchesDecodedValueOfUrlEncodedLabelInSubtable()
+    {
+        $subtable = new DataTable();
+        $subtable->addRowsFromArray([
+            [Row::COLUMNS => ['label' => '/foo%2Fbar']],
+            [Row::COLUMNS => ['label' => '/other']],
+        ]);
+
+        $table = new DataTable();
+        $table->addRowsFromArray([
+            [Row::COLUMNS => ['label' => 'dir'], Row::DATATABLE_ASSOCIATED => $subtable],
+            [Row::COLUMNS => ['label' => 'yahoo']],
+        ]);
+
+        $table->filter('PatternRecursive', ['label', 'foo/bar']);
+
+        $this->assertSame(['dir'], $table->getColumn('label'));
+        $this->assertSame(['/foo%2Fbar'], $table->getFirstRow()->getSubtable()->getColumn('label'));
+    }
 }
