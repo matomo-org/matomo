@@ -106,6 +106,8 @@
         "ProductSKU": "Produkt-SKU",
         "ProductSKUs": "Produkt varenummer",
         "Products": "Produkter",
+        "RecommendationCountOnePage": "1 side",
+        "RecommendationCountPages": "%s sider",
         "ReturningVisitorsConversionRateIs": "Tilbagevendende besøgendes konverteringsrate er %s",
         "SendEvent": "Send en hændelse",
         "SingleGoalOverviewDocumentation": "Oversigt over konverteringer for et enkelt mål. %s Minidiagrammer under diagrammet kan forstørres ved at klikke på dem.",
