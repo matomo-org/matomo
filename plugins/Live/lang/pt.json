@@ -10,7 +10,6 @@
         "DisableVisitorProfile": "Desative os perfis dos visitantes",
         "DisableVisitorProfileDescription": "Todos os recursos relacionados ao registro de visitas sempre funcionam.",
         "DisableVisitsLogAndProfile": "Desative o log de visitas e os perfis de visitantes",
-        "DisableVisitsLogAndProfileDescription": "Também remove recursos que dependem deles, como o log de comércio eletrônico, o log de visitas segmentadas, o mapa em tempo real ou o widget em tempo real. Pode ser necessário cumprir as leis/diretrizes locais de privacidade.",
         "FirstVisit": "Primeira visita",
         "GoalType": "Tipo",
         "HideMap": "ocultar mapa",

@@ -127,6 +127,8 @@
         "ProductSKU": "SKU do produto",
         "ProductSKUs": "SKUs do produto",
         "Products": "Produtos",
+        "RecommendationCountOnePage": "1 página",
+        "RecommendationCountPages": "%s páginas",
         "ReturningVisitorsConversionRateIs": "A taxa de conversão para visitantes recorrente é %s",
         "SendEvent": "Enviar um evento",
         "SingleGoalOverviewDocumentation": "Esta é uma visão geral das conversões para um único objetivo. %s Os gráficos Sparkline abaixo do gráfico podem ser ampliados, clicando sob os mesmos.",
