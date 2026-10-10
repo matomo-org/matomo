@@ -134,6 +134,8 @@
         "ProductSKU": "Referència del producte",
         "ProductSKUs": "SKU del producte",
         "Products": "Productes",
+        "RecommendationCountOnePage": "1 pàgina",
+        "RecommendationCountPages": "%s pàgines",
         "ReturningVisitorsConversionRateIs": "La taxa de conversió dels visitants recurrents és de %s",
         "SendEvent": "Envia un esdeveniment",
         "SingleGoalOverviewDocumentation": "Això es una visió global de les conversions d'un únic objectiu. %s Els minigràfics es poden ampliar fent clic sobre ells.",

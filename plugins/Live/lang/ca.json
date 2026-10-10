@@ -10,7 +10,6 @@
         "DisableVisitorProfile": "Desactiva els perfils de visitants",
         "DisableVisitorProfileDescription": "Totes les funcions relacionades amb el registre de visites funcionen sempre.",
         "DisableVisitsLogAndProfile": "Desactiveu el registre de visites i els perfils de visitants",
-        "DisableVisitsLogAndProfileDescription": "També elimina funcions que depenen d'aquestes, com ara el registre de comerç electrònic, el registre de visites segmentat, el mapa en temps real o el giny en temps real. Es pot exigir que compleixi les lleis/directrius de privadesa locals.",
         "FirstVisit": "Primera visita",
         "GoalType": "Tipus",
         "HideMap": "amagar el mapa",
