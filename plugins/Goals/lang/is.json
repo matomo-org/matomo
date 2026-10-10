@@ -27,6 +27,8 @@
         "MatchesExpression": "upfyllir skilyrðið %s",
         "Optional": "(valkvætt)",
         "Pattern": "Mynstur",
+        "RecommendationCountOnePage": "1 síða",
+        "RecommendationCountPages": "%s síður",
         "URL": "URL",
         "UpdateGoal": "Uppfæra Markmið",
         "ViewAndEditGoals": "Skoða og breyta Markmiðum",
