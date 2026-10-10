@@ -24,9 +24,6 @@
         "MetricDocumentationWebsite": "De lijst met gevolgde websites die in het dashboard wordt getoond. Elke rij toont een afzonderlijke website met de overeenkomstige analysegegevens.",
         "PluginDescription": "Bekijk en vergelijk al uw websites en apps in dit handige 'Alle websites' dashboard.",
         "SingleWebsitesDashboardDocumentation": "Dit rapport geeft een informatief overzicht voor een specifieke website met de meest algemene meetgegevens over uw bezoekers.",
-        "TopLinkTooltip": "Vergelijk Website statistieken van al je websites.",
-        "TotalHits": "Totaal aantal hits",
-        "TotalPageviews": "Totaal aantal paginaweergaven",
-        "TotalVisits": "Totaal aantal bezoeken"
+        "TopLinkTooltip": "Vergelijk Website statistieken van al je websites."
     }
 }

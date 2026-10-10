@@ -134,6 +134,8 @@
         "ProductSKU": "SKU product",
         "ProductSKUs": "SKU's producten",
         "Products": "Producten",
+        "RecommendationCountOnePage": "1 pagina",
+        "RecommendationCountPages": "%s pagina's",
         "ReturningVisitorsConversionRateIs": "Conversiepercentage terugkerende bezoekers is %s",
         "SendEvent": "Stuur een gebeurtenis",
         "SingleGoalOverviewDocumentation": "Dit is een overzicht van de conversies voor een enkel doel. %s De sparklines onder de grafiek kunnen worden vergroot door erop te klikken.",
