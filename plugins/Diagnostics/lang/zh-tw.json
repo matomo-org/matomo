@@ -38,6 +38,8 @@
         "RecommendedPrivateDirectories": "建議設為私有的目錄",
         "RequiredPrivateDirectories": "必須設為私有的目錄",
         "Sections": "區段",
+        "SessionStorageFormat": "工作階段儲存格式",
+        "SessionStorageFormatWarning": "工作階段以 %1$s 格式儲存，因為 session.serialize_handler 無法設定為 php_serialize，所以兩個同時送出的請求所做的變更可能會遺失。請在你的 php.ini 中將它設定為 php_serialize。",
         "UrlsAccessibleViaBrowser": "我們發現上述網址可以透過瀏覽器存取，但我們建議不要開放存取。如果可以，請限制對這些網址的存取。"
     }
 }

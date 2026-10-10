@@ -16,7 +16,6 @@
         "DefaultCapabilityLevelHelp": "選擇 Matomo 預設可使用的能力等級。個別功能可以覆寫此設定。",
         "DefaultProvider": "預設供應商",
         "DefaultProviderHelp": "連線供應商並選擇一個讓 Matomo 預設使用。個別功能可能會覆寫此設定，改用其偏好的已連線供應商。",
-        "DefaultsTitle": "變更供應商設定與預設值",
         "Disconnect": "中斷連線",
         "DisconnectSuccess": "已中斷 AI 供應商的連線。",
         "Disconnecting": "正在中斷連線…",
