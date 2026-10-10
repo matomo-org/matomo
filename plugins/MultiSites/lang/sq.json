@@ -29,11 +29,6 @@
         "PluginDescription": "Shihni dhe krahasoni krejt sajtet dhe aplikacionet tuaja te ky pult i dobishëm “Krejt Sajtet”.",
         "SegmentationNotSupported": "Segmentimi nuk mbulohet",
         "SingleWebsitesDashboardDocumentation": "Ky raport ju jep një përmbledhje informuese për një sajt të dhënë, me matjet më të përgjithshme rreth vizitorëve tuaj.",
-        "TopLinkTooltip": "Krahasoni statistika Analizimesh Web për krejt Sajtet tuaj.",
-        "TotalAiChatbotsRequests": "Kërkesa Robotësh IA Fjalosjesh Gjithsej",
-        "TotalHits": "Ardhje Gjithsej",
-        "TotalHitsIncludingAiTooltip": "Vizita Gjithsej: Përfshi krejt vizitat nga Qenie Njerëzore dhe kërkesa Robotësh IA Fjalosjesh",
-        "TotalPageviews": "Parje faqesh Gjithsej",
-        "TotalVisits": "Vizita Gjithsej"
+        "TopLinkTooltip": "Krahasoni statistika Analizimesh Web për krejt Sajtet tuaj."
     }
 }

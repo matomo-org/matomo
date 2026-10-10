@@ -138,6 +138,8 @@
         "ProductSKU": "SKU Produkti",
         "ProductSKUs": "SKU Produktesh",
         "Products": "Produkte",
+        "RecommendationCountOnePage": "1 faqe",
+        "RecommendationCountPages": "%s faqe",
         "ReturningVisitorsConversionRateIs": "Koeficienti i shndërrimit për vizitorë të rikthyer është %s",
         "SendEvent": "Dërgoni një akt",
         "SingleGoalOverviewDocumentation": "Kjo është një përmbledhje e shndërrimeve për një objektiv të vetëm. %s Grafikët vijëzorë nën të mund të zgjerohen duke klikuar mbi to.",
