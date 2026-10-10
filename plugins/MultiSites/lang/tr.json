@@ -24,16 +24,11 @@
         "MetricDocumentationHitsIncludingAi": "Sayfa görüntülemeleri, indirmeler, bağlantılar ve yapay zeka sohbet robotlarının istekleri ile bu site için kaydedilmiş toplam işlem sayısı.",
         "MetricDocumentationPageviews": "Bu sitede görüntülenen toplam sayfa sayısı. Bu değer, tek bir ziyaretçi tarafından aynı sayfanın birden fazla kez görüntülenmesini kapsar.",
         "MetricDocumentationRevenue": "Bu site için izlenen toplam gelir. Bu ölçüm, E-ticaret izlemesi etkinleştirilmişse kullanılabilir ve satın almaları veya hedefe göre geliri yansıtır.",
-        "MetricDocumentationVisits": "Bu site için kaydedilen toplam ziyaret sayısı. Bir ziyaret, bir kullanıcı siteye eriştiğinde başlar ve bir süre etkileşim olmadığında veya oturum sona erdiğinde biter.",
+        "MetricDocumentationVisits": "Bu site için kaydedilen toplam ziyaret sayısı. Bir ziyaret, bir kullanıcı siteye eriştiğinde başlar ve bir süre işlem yapılmadığında veya oturum sona erdiğinde biter.",
         "MetricDocumentationWebsite": "Panoda görüntülenecek izlenen sitelerinin listesi. Her satır, ilgili istatistik verileriyle ayrı bir siteyi gösterir.",
         "PluginDescription": "Tüm site ve uygulamalarınızı kullanışlı 'Tüm siteler' panosu ile görüp karşılaştırabilirsiniz.",
         "SegmentationNotSupported": "Dilimlere ayırma desteklenmiyor",
         "SingleWebsitesDashboardDocumentation": "Bu rapor, belirli bir site için, ziyaretçilerle ilgili genel ölçümlerden oluşan bilgilendirici bir özet içerir.",
-        "TopLinkTooltip": "Tüm sitelerinizin istatistiklerini karşılaştırın.",
-        "TotalAiChatbotsRequests": "Toplam yapay zeka sohbet robotu istekleri",
-        "TotalHits": "Toplam erişilme",
-        "TotalHitsIncludingAiTooltip": "Toplam erişilme: Tüm insan ve yapay zeka sohbet robotları erişilmeleri ile",
-        "TotalPageviews": "Sayfa gösterimi toplamı",
-        "TotalVisits": "Toplam ziyaret"
+        "TopLinkTooltip": "Tüm sitelerinizin istatistiklerini karşılaştırın."
     }
 }
