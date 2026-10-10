@@ -39,6 +39,8 @@
         "ProductName": "Ime izdelka",
         "ProductSKU": "SKU izdelka",
         "Products": "Izdelki",
+        "RecommendationCountOnePage": "1 stran",
+        "RecommendationCountPages": "%s strani",
         "URL": "URL",
         "UpdateGoal": "Posodobi Cilj",
         "VisitsUntilConv": "Obiskov za spreobrnitev",
