@@ -17,6 +17,7 @@
         "EvolutionFromPreviousPeriod": "From previous period",
         "EvolutionFromPreviousWeek": "From previous week",
         "EvolutionFromPreviousYear": "From previous year",
+        "HitsIncludingAiTooltip": "Including all Human hits and AI Chatbots requests",
         "LoadingWebsites": "Loading websites",
         "MetricDocumentationAiChatbotsRequests": "Total number of AI chatbot requests recorded for this website.",
         "MetricDocumentationEvolution": "The percentage change for this metric compared to the previous period for this website. A positive value indicates growth, while a negative value signals a decrease.",
@@ -29,7 +30,6 @@
         "PluginDescription": "View and compare all your websites and apps in this useful 'All Websites' dashboard.",
         "SegmentationNotSupported": "Segmentation is not supported",
         "SingleWebsitesDashboardDocumentation": "This report gives you an informational overview for a specific website, containing the most general metrics about your visitors.",
-        "TopLinkTooltip": "Compare Web Analytics stats for all of your Websites.",
-        "TotalHitsIncludingAiTooltip": "Total Hits: Including all Human hits and AI Chatbots requests"
+        "TopLinkTooltip": "Compare Web Analytics stats for all of your Websites."
     }
 }

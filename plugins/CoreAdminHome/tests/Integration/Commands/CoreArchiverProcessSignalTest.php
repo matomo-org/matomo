@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\CliMulti\Process;
 use Piwik\CliMulti\ProcessSymfony;
 use Piwik\Common;
 use Piwik\DataAccess\Model;
@@ -46,6 +47,11 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
      */
     private $dataAccessModel;
 
+    /**
+     * @var ProcessSymfony|null
+     */
+    private $process;
+
     public function setUp(): void
     {
         if (!extension_loaded('pcntl') || !function_exists('pcntl_signal')) {
@@ -57,6 +63,32 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         self::$fixture->stepControl->reset();
 
         $this->dataAccessModel = new Model();
+    }
+
+    public function tearDown(): void
+    {
+        // An archiver still running after a failed test (or a slow one) keeps writing into the tables the next
+        // setUp() restores, which fails it with duplicate keys or wrong invalidation counts. So unblock it, stop it
+        // and wait until its climulti children and requests have finished.
+        if (null !== $this->process) {
+            self::$fixture->stepControl->reset();
+
+            if ($this->process->isRunning()) {
+                $this->process->stop(10);
+            }
+
+            self::$fixture->stepControl->waitForSuccess(function (): bool {
+                foreach (Process::getListOfRunningProcesses() as $runningProcess) {
+                    if (str_contains($runningProcess, 'climulti:request') || str_contains($runningProcess, 'core:archive')) {
+                        return false;
+                    }
+                }
+
+                return [] === $this->dataAccessModel->getInvalidationsInProgress([self::$fixture->idSite]);
+            });
+        }
+
+        parent::tearDown();
     }
 
     /**
@@ -162,6 +194,12 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         self::$fixture->stepControl->unblockCronArchiveStart();
 
         $this->waitForArchivingToStart($process, $method, $blockSpec);
+
+        // with multiple processes a request started next to the blocked one can still be finishing here
+        self::$fixture->stepControl->waitForSuccess(function () use ($invalidationCountIntermediate): bool {
+            return $invalidationCountIntermediate === $this->getArchiveInvalidationCount();
+        });
+
         $this->assertArchiveInvalidationCount($invalidationCountIntermediate);
         $this->sendSignalToProcess($process, $signalToProcess, $method);
 
@@ -332,14 +370,21 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
      */
     private function assertArchiveInvalidationCount(array $expectedCounts): void
     {
-        $actualInProgress = $this->dataAccessModel->getInvalidationsInProgress([self::$fixture->idSite]);
-        $actualTotal = (int) Db::fetchOne(
-            'SELECT COUNT(*) FROM `' . Common::prefixTable('archive_invalidations') . '` WHERE idsite = ?',
-            [self::$fixture->idSite]
-        );
+        self::assertSame($expectedCounts, $this->getArchiveInvalidationCount());
+    }
 
-        self::assertSame($expectedCounts['total'], $actualTotal);
-        self::assertCount($expectedCounts['inProgress'], $actualInProgress);
+    /**
+     * @return array{inProgress: int, total: int}
+     */
+    private function getArchiveInvalidationCount(): array
+    {
+        return [
+            'inProgress' => count($this->dataAccessModel->getInvalidationsInProgress([self::$fixture->idSite])),
+            'total' => (int) Db::fetchOne(
+                'SELECT COUNT(*) FROM `' . Common::prefixTable('archive_invalidations') . '` WHERE idsite = ?',
+                [self::$fixture->idSite]
+            ),
+        ];
     }
 
     /**
@@ -451,6 +496,8 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         $process->setEnv([CoreArchiverProcessSignalFixture::ENV_TRIGGER => '1']);
         $process->setTimeout(null);
         $process->start();
+
+        $this->process = $process;
 
         self::assertTrue($process->isRunning());
         self::assertNotNull($process->getPid());
