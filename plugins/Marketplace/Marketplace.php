@@ -42,6 +42,7 @@ class Marketplace extends \Piwik\Plugin
             'PluginManager.pluginInstalled' => 'removePluginTrialRequest',
             'PluginManager.pluginActivated' => 'removePluginTrialRequest',
             'UsersManager.deleteUser' => 'anonymizePluginTrialRequests',
+            'UsersManager.setSuperUserAccess.end' => 'dismissPluginTrialRequestsForNewSuperUser',
             'Widget.filterWidgets' => 'filterWidgets',
         );
     }
@@ -395,6 +396,26 @@ class Marketplace extends \Piwik\Plugin
         }
     }
 
+    /**
+     * A new super user is only notified of trial requests made after they were granted super user access.
+     */
+    public function dismissPluginTrialRequestsForNewSuperUser(string $userLogin, bool $hasSuperUserAccess): void
+    {
+        if (!$hasSuperUserAccess) {
+            return;
+        }
+
+        // the grant has already been saved, so a failure must neither fail the API call nor skip the other plugins
+        $failureMessage = 'Could not dismiss plugin trial requests for a new super user';
+        $this->runTrialRequestCleanup(function () use ($userLogin, $failureMessage) {
+            foreach (Storage::getPluginsInStorage() as $pluginName) {
+                $this->runTrialRequestCleanup(function () use ($userLogin, $pluginName) {
+                    (new Storage($pluginName))->dismissNotificationFor($userLogin);
+                }, $failureMessage);
+            }
+        }, $failureMessage);
+    }
+
     public function anonymizePluginTrialRequests(string $userLogin): void
     {
         // each step catches its own failure, so one cannot skip the others, nor the UsersManager.deleteUser observers after this one
@@ -435,13 +456,15 @@ class Marketplace extends \Piwik\Plugin
         }
     }
 
-    private function runTrialRequestCleanup(callable $cleanup): void
-    {
+    private function runTrialRequestCleanup(
+        callable $cleanup,
+        string $failureMessage = 'Could not anonymise a deleted user in plugin trial requests'
+    ): void {
         try {
             $cleanup();
         } catch (\Throwable $e) {
             StaticContainer::get(LoggerInterface::class)->error(
-                'Could not anonymise a deleted user in plugin trial requests',
+                $failureMessage,
                 ['exception' => $e]
             );
         }

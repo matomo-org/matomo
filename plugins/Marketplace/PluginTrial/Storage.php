@@ -123,13 +123,18 @@ class Storage
      */
     public function setNotificationDismissed(): void
     {
-        $this->writeWithHistory(function () {
+        $this->dismissNotificationFor(Piwik::getCurrentUserLogin());
+    }
+
+    public function dismissNotificationFor(string $login): void
+    {
+        $this->writeWithHistory(function () use ($login) {
             $storedRequest = $this->readStored(true);
-            if (empty($storedRequest)) {
+            if (empty($storedRequest) || in_array($login, $storedRequest['dismissed'] ?? [], true)) {
                 return;
             }
 
-            $storedRequest['dismissed'][] = Piwik::getCurrentUserLogin();
+            $storedRequest['dismissed'][] = $login;
             $this->storage = $storedRequest;
             $this->saveStorage();
         });
