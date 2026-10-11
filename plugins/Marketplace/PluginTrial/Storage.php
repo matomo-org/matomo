@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class Storage
 {
@@ -66,6 +67,7 @@ class Storage
                 'displayName' => $pluginDisplayName,
                 'dismissed' => [],
                 'requestedBy' => $login,
+                'superUsers' => array_column((new UsersModel())->getUsersHavingSuperUserAccess(), 'login'),
             ];
 
             if ($this->insertStorage($request)) {
@@ -123,18 +125,13 @@ class Storage
      */
     public function setNotificationDismissed(): void
     {
-        $this->dismissNotificationFor(Piwik::getCurrentUserLogin());
-    }
-
-    public function dismissNotificationFor(string $login): void
-    {
-        $this->writeWithHistory(function () use ($login) {
+        $this->writeWithHistory(function () {
             $storedRequest = $this->readStored(true);
-            if (empty($storedRequest) || in_array($login, $storedRequest['dismissed'] ?? [], true)) {
+            if (empty($storedRequest)) {
                 return;
             }
 
-            $storedRequest['dismissed'][] = $login;
+            $storedRequest['dismissed'][] = Piwik::getCurrentUserLogin();
             $this->storage = $storedRequest;
             $this->saveStorage();
         });
@@ -149,19 +146,30 @@ class Storage
     }
 
     /**
-     * Returns if the current user has dismissed the trial request
+     * Returns if the current user has dismissed the trial request, or was not yet a super user when it was made
      */
     public function isNotificationDismissed(): bool
     {
-        return !empty($this->storage['dismissed']) && in_array(Piwik::getCurrentUserLogin(), $this->storage['dismissed']);
+        $login = Piwik::getCurrentUserLogin();
+
+        // a request stored before super users were recorded with it has no list, and is shown to every super user
+        if (isset($this->storage['superUsers']) && !in_array($login, $this->storage['superUsers'])) {
+            return true;
+        }
+
+        return !empty($this->storage['dismissed']) && in_array($login, $this->storage['dismissed']);
     }
 
     /**
-     * @return string[] the requester and the users who dismissed the notification
+     * @return string[] the requester, the super users at the time of the request and the users who dismissed the notification
      */
     public function getLogins(): array
     {
-        return array_values(array_filter(array_merge([$this->storage['requestedBy'] ?? null], $this->storage['dismissed'] ?? [])));
+        return array_values(array_unique(array_filter(array_merge(
+            [$this->storage['requestedBy'] ?? null],
+            $this->storage['superUsers'] ?? [],
+            $this->storage['dismissed'] ?? []
+        ))));
     }
 
     /**
@@ -178,13 +186,18 @@ class Storage
             $dismissed = $storedRequest['dismissed'] ?? [];
             $remainingDismissed = array_values(array_diff($dismissed, [$login]));
             $wasRequester = ($storedRequest['requestedBy'] ?? null) === $login;
+            $wasSuperUser = in_array($login, $storedRequest['superUsers'] ?? [], true);
 
-            if (!$wasRequester && count($remainingDismissed) === count($dismissed)) {
+            if (!$wasRequester && !$wasSuperUser && count($remainingDismissed) === count($dismissed)) {
                 return;
             }
 
             if ($wasRequester) {
                 $storedRequest['requestedBy'] = null;
+            }
+
+            if ($wasSuperUser) {
+                $storedRequest['superUsers'] = array_values(array_diff($storedRequest['superUsers'], [$login]));
             }
 
             $storedRequest['dismissed'] = $remainingDismissed;

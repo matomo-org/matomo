@@ -15,6 +15,7 @@ use Piwik\Option;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -29,6 +30,7 @@ class ServiceTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        Fixture::createSuperUser();
         FakeAccess::$identity = FakeAccess::$superUserLogin;
         \Zend_Session::$_unitTestEnabled = true;
         Manager::cancelAllNotifications();

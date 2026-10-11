@@ -879,23 +879,10 @@ class API extends \Piwik\Plugin\API
                 throw new Exception($message);
             }
 
-            $hadSuperUserAccess = !empty($this->model->getUser($userLogin)['superuser_access']);
-
             $this->model->deleteUserAccess($userLogin);
             $this->model->setSuperUserAccess($userLogin, $hasSuperUserAccess);
 
             Cache::deleteTrackerCache();
-
-            if ($hadSuperUserAccess !== (bool) $hasSuperUserAccess) {
-                /**
-                 * Triggered after a user is granted or loses super user access. Not triggered when the user's
-                 * super user access is set to what it already was.
-                 *
-                 * @param string $userLogin The login of the user whose super user access changed.
-                 * @param bool $hasSuperUserAccess `true` if the user was granted super user access, `false` if it was removed.
-                 */
-                Piwik::postEvent('UsersManager.setSuperUserAccess.end', [$userLogin, (bool) $hasSuperUserAccess]);
-            }
         });
     }
 

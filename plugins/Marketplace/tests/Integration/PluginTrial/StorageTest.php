@@ -19,6 +19,7 @@ use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -68,8 +69,8 @@ class StorageTest extends IntegrationTestCase
 
     public function testDismissRequest()
     {
+        $this->setRequestOnlyInOption(time(), 'olaf', [], [Piwik::getCurrentUserLogin()]);
         $storage = new Storage('PremiumPlugin');
-        $storage->setRequested();
         self::assertTrue($storage->wasRequested());
         self::assertFalse($storage->isNotificationDismissed());
         $storage->setNotificationDismissed();
@@ -190,15 +191,21 @@ class StorageTest extends IntegrationTestCase
 
     /**
      * @param string[] $dismissed
+     * @param string[]|null $superUsers null stores the request as Matomo did before super users were recorded with it
      */
-    private function setRequestOnlyInOption(int $requestTime, string $login, array $dismissed = []): void
+    private function setRequestOnlyInOption(int $requestTime, string $login, array $dismissed = [], ?array $superUsers = null): void
     {
-        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([
+        $request = [
             'requestTime' => $requestTime,
             'displayName' => 'Premium Plugin',
             'dismissed' => $dismissed,
             'requestedBy' => $login,
-        ]));
+        ];
+        if ($superUsers !== null) {
+            $request['superUsers'] = $superUsers;
+        }
+
+        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode($request));
     }
 
     public function testSetRequestedKeepsNoHistoryWhenTheOptionCannotBeSaved()
@@ -275,6 +282,7 @@ class StorageTest extends IntegrationTestCase
             'displayName' => 'Premium Plugin',
             'dismissed' => ['bob', 'alice'],
             'requestedBy' => 'alice',
+            'superUsers' => ['alice', 'bob'],
         ]));
         Option::set('Marketplace.PluginTrialRequest.OtherPlugin', json_encode([
             'requestTime' => time(),
@@ -288,6 +296,7 @@ class StorageTest extends IntegrationTestCase
         $premium = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
         self::assertNull($premium['requestedBy']);
         self::assertSame(['bob'], $premium['dismissed']);
+        self::assertSame(['bob'], $premium['superUsers']);
 
         $other = json_decode(Option::get('Marketplace.PluginTrialRequest.OtherPlugin'), true);
         self::assertSame('bob', $other['requestedBy']);
@@ -296,59 +305,32 @@ class StorageTest extends IntegrationTestCase
         self::assertSame([null], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login'));
     }
 
-    public function testGrantingSuperUserAccessDismissesPendingRequestsForTheNewSuperUser()
+    public function testARequestRecordsTheSuperUsersAtTheTimeItWasMade()
     {
         Fixture::createSuperUser();
         UsersManagerAPI::getInstance()->addUser('bob', 'secret-password-2', 'bob@example.com');
-        $this->setRequestOnlyInOption(time(), 'olaf');
-        Option::set('Marketplace.PluginTrialRequest.OtherPlugin', json_encode([
-            'requestTime' => time(),
-            'displayName' => 'Other Plugin',
-            'dismissed' => ['bob'],
-            'requestedBy' => 'olaf',
-        ]));
 
-        UsersManagerAPI::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = false;
-        UsersManagerAPI::getInstance()->setSuperUserAccess('bob', true);
+        (new Storage('PremiumPlugin'))->setRequested('Premium Plugin');
+        (new UsersModel())->setSuperUserAccess('bob', true);
 
-        self::assertSame(['bob'], json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true)['dismissed']);
-        self::assertSame(['bob'], json_decode(Option::get('Marketplace.PluginTrialRequest.OtherPlugin'), true)['dismissed']);
+        $request = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
+        self::assertSame([Fixture::ADMIN_USER_LOGIN], $request['superUsers']);
     }
 
-    public function testGrantingSuperUserAccessDismissesTheOtherRequestsWhenOneCannotBeDismissed()
+    public function testOnlyTheSuperUsersRecordedWithARequestAreNotified()
     {
-        Fixture::createSuperUser();
-        UsersManagerAPI::getInstance()->addUser('bob', 'secret-password-2', 'bob@example.com');
-        $this->setRequestOnlyInOption(time() - 60, 'olaf');
-        // the newest request is listed first, and its invalid plugin name makes the Storage constructor throw
-        Option::set('Marketplace.PluginTrialRequest.Inval$d', json_encode([
-            'requestTime' => time(),
-            'displayName' => 'Invalid',
-            'dismissed' => [],
-            'requestedBy' => 'olaf',
-        ]));
+        $this->setRequestOnlyInOption(time(), 'olaf', [], [Piwik::getCurrentUserLogin()]);
+        self::assertFalse((new Storage('PremiumPlugin'))->isNotificationDismissed());
 
-        UsersManagerAPI::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = false;
-        UsersManagerAPI::getInstance()->setSuperUserAccess('bob', true);
-
-        self::assertTrue(Piwik::hasTheUserSuperUserAccess('bob'));
-        self::assertSame(['bob'], json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true)['dismissed']);
+        $this->setRequestOnlyInOption(time(), 'olaf', [], ['olaf']);
+        self::assertTrue((new Storage('PremiumPlugin'))->isNotificationDismissed());
     }
 
-    public function testChangingSuperUserAccessOfAnExistingSuperUserDismissesNothing()
+    public function testARequestStoredWithoutSuperUsersIsShownToEverySuperUser()
     {
-        Fixture::createSuperUser();
-        UsersManagerAPI::getInstance()->addUser('bob', 'secret-password-2', 'bob@example.com');
-        UsersManagerAPI::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = false;
-        UsersManagerAPI::getInstance()->setSuperUserAccess('bob', true);
         $this->setRequestOnlyInOption(time(), 'olaf');
 
-        foreach ([true, false] as $hasSuperUserAccess) {
-            UsersManagerAPI::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = false;
-            UsersManagerAPI::getInstance()->setSuperUserAccess('bob', $hasSuperUserAccess);
-
-            self::assertSame([], json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true)['dismissed']);
-        }
+        self::assertFalse((new Storage('PremiumPlugin'))->isNotificationDismissed());
     }
 
     public function testActivatingMarketplaceRemovesLoginsOfUsersDeletedWhileItWasDeactivated()
