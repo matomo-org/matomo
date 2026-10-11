@@ -23,19 +23,20 @@
     <div style="display: none;" ref="kpiCardTooltipTemplate">
       <div role="tooltip">
         <h3>{{ translate(kpi.title) }}</h3>
-        <template v-if="kpi.tooltipBody">
-          {{ translate(kpi.tooltipBody) }}
-        </template>
-        <template v-else>
-          {{ kpi.value }}
-        </template>
+        {{ kpi.value }}
+        <div v-if="kpi.tooltipBody">{{ translate(kpi.tooltipBody) }}</div>
       </div>
     </div>
 
     <div
       class="kpiCard__value"
       :title="kpi.value"
-      v-tooltips="{ duration: 200, delay: 200, content: tooltipContent }"
+      v-tooltips="{
+        duration: 200,
+        delay: 200,
+        content: tooltipContent,
+        tooltipClass: 'kpiCard__tooltip',
+      }"
     >{{ kpi.valueCompact }}</div>
 
     <div class="kpiCard__evolution">

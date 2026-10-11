@@ -9,6 +9,11 @@
 
 (function ($, require) {
 
+    // Picking a metric reloads the report, replacing the picker that had the focus. Keyed by the
+    // report's identity rather than its table id, which a reload renumbers, so the picker drawn in
+    // its place can take the focus back.
+    var refocusAfterRedraw = {};
+
     /**
      * This class creates and manages the Series Picker for certain DataTable visualizations.
      *
@@ -121,6 +126,11 @@
 
                     rows = rows.map(encodeURIComponent);
 
+                    var reportKey = CoreHome.reportIdentity(self.domElem[0]);
+                    if (event.byKeyboard && reportKey) {
+                      refocusAfterRedraw[reportKey] = true;
+                    }
+
                     $(self).trigger('seriesPicked', [columns, rows]);
 
                     // inform dashboard widget about changed parameters (to be restored on reload)
@@ -141,6 +151,16 @@
             this.app.mount(this.domElem.children()[0]);
 
             $(this).trigger('seriesPickerRendered');
+
+            var reportKey = CoreHome.reportIdentity(this.domElem[0]);
+            if (reportKey && refocusAfterRedraw[reportKey]) {
+                delete refocusAfterRedraw[reportKey];
+
+                // only where the reload dropped it: the user may have moved on while it loaded
+                if (!document.activeElement || document.activeElement === document.body) {
+                    this.domElem.find('.mtm-selector__trigger').trigger('focus');
+                }
+            }
 
             function isItemDisplayed(columnOrRowConfig) {
                 return columnOrRowConfig.displayed;

@@ -9,6 +9,8 @@
 
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Container\StaticContainer;
+use Piwik\DI;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -26,6 +28,22 @@ class EmptySite extends Fixture
     {
         // empty
     }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => DI::add([
+                ['Template.siteWithoutData.additionalCta', DI::value(function (&$content) {
+                    // lets a UI test check that a component a plugin adds to the CTA row is started
+                    if (StaticContainer::get('test.vars.injectNoDataCtaVueEntry')) {
+                        $content .= '<div vue-entry="CoreHome.ContentBlock" content-title="Injected CTA">'
+                            . '<p class="injected-cta">Injected CTA</p></div>';
+                    }
+                })],
+            ]),
+        ];
+    }
+
     private function setUpWebsites()
     {
         if (!self::siteCreated($idSite = 1)) {

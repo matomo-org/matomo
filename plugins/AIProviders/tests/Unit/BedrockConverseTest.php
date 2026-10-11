@@ -65,6 +65,99 @@ class BedrockConverseTest extends TestCase
         $this->assertArrayNotHasKey('toolConfig', $bedrock->sentPayload);
     }
 
+    /**
+     * `usage.inputTokens` counts only the uncached prefix, so a cached turn can
+     * report a couple of input tokens against thousands actually processed.
+     *
+     * @see https://docs.aws.amazon.com/bedrock/latest/userguide/quotas-token-burndown.html
+     */
+    public function testConverseReportsCacheTokensApartFromInputTokens(): void
+    {
+        $bedrock = new RecordingBedrock();
+        $bedrock->cannedResponse = [
+            'output' => ['message' => ['role' => 'assistant', 'content' => [['text' => 'There were 20 visits.']]]],
+            'stopReason' => 'end_turn',
+            'usage' => [
+                'inputTokens' => 2,
+                'outputTokens' => 32,
+                'cacheReadInputTokens' => 5991,
+                'cacheWriteInputTokens' => 557,
+                'totalTokens' => 6582,
+            ],
+        ];
+
+        $response = $bedrock->converse($this->simpleRequest(), self::CONFIGURATION);
+
+        $this->assertSame(2, $response->getInputTokens());
+        $this->assertSame(32, $response->getOutputTokens());
+        $this->assertSame(5991, $response->getCacheReadTokens());
+        $this->assertSame(557, $response->getCacheWriteTokens());
+    }
+
+    /**
+     * Converse reports the same counters under the CloudWatch metric names as
+     * well, and a response may carry either spelling alone.
+     */
+    public function testConverseReadsTheCloudWatchSpellingOfTheCacheCounters(): void
+    {
+        $bedrock = new RecordingBedrock();
+        $bedrock->cannedResponse = [
+            'output' => ['message' => ['role' => 'assistant', 'content' => [['text' => 'Hi there.']]]],
+            'stopReason' => 'end_turn',
+            'usage' => [
+                'inputTokens' => 2,
+                'outputTokens' => 32,
+                'cacheReadInputTokenCount' => 5991,
+                'cacheWriteInputTokenCount' => 557,
+            ],
+        ];
+
+        $response = $bedrock->converse($this->simpleRequest(), self::CONFIGURATION);
+
+        $this->assertSame(5991, $response->getCacheReadTokens());
+        $this->assertSame(557, $response->getCacheWriteTokens());
+    }
+
+    public function testConverseReportsNoCacheTokensWhenTheResponseOmitsThem(): void
+    {
+        $bedrock = new RecordingBedrock();
+        $bedrock->cannedResponse = [
+            'output' => ['message' => ['role' => 'assistant', 'content' => [['text' => 'Hi there.']]]],
+            'stopReason' => 'end_turn',
+            'usage' => ['inputTokens' => 3, 'outputTokens' => 4],
+        ];
+
+        $response = $bedrock->converse($this->simpleRequest(), self::CONFIGURATION);
+
+        $this->assertNull($response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+    }
+
+    public function testCompleteReportsCacheTokensApartFromInputTokens(): void
+    {
+        $bedrock = new RecordingBedrock();
+        $bedrock->cannedResponse = [
+            'output' => ['message' => ['role' => 'assistant', 'content' => [['text' => 'It scatters sunlight.']]]],
+            'stopReason' => 'end_turn',
+            'usage' => [
+                'inputTokens' => 7,
+                'outputTokens' => 3,
+                'cacheReadInputTokens' => 2048,
+                'cacheWriteInputTokens' => 128,
+            ],
+        ];
+
+        $response = $bedrock->complete(
+            (new AIRequest('why is the sky blue?', 'FormAnalytics'))->withMaxTokens(32),
+            self::CONFIGURATION
+        );
+
+        $this->assertSame(7, $response->getInputTokens());
+        $this->assertSame(3, $response->getOutputTokens());
+        $this->assertSame(2048, $response->getCacheReadTokens());
+        $this->assertSame(128, $response->getCacheWriteTokens());
+    }
+
     public function testCompleteMapsSimpleResponseMetadata(): void
     {
         $bedrock = new RecordingBedrock();

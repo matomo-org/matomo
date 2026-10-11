@@ -25,7 +25,7 @@ class ProvidersTest extends IntegrationTestCase
      */
     public function testGetRanges(BlockedIpRanges\IpRangeProviderInterface $provider, bool $expectsIpv6)
     {
-        $ranges = $provider->getRanges();
+        $ranges = $this->withRetries(fn() => $provider->getRanges());
         $this->assertNotEmpty($ranges);
         $this->assertTrue(is_array($ranges));
         $this->assertGreaterThan(50, count($ranges));
@@ -58,7 +58,7 @@ class ProvidersTest extends IntegrationTestCase
     public function testGetDownloadUrlAzure()
     {
         $azure = new BlockedIpRanges\Azure();
-        $url = $azure->getDownloadUrl();
+        $url = $this->withRetries(fn() => $azure->getDownloadUrl());
         $this->assertStringStartsWith('https://download.microsoft.com/download/', $url);
         $substr = trim($url, '.json');
         $parts = explode('_', $substr);
@@ -66,6 +66,28 @@ class ProvidersTest extends IntegrationTestCase
         $this->assertSame(8, strlen($dateStr), 'The string should be a valid Ymd (8 digit) date');
         $time = strtotime($dateStr);
         $this->assertGreaterThan(0, $time, 'The date string should have parsed into a valid time');
+    }
+
+    /**
+     * The providers' servers fail CI runner requests now and then, so a failed fetch is retried a few times.
+     */
+    private function withRetries(callable $fetch)
+    {
+        for ($attempt = 1;; $attempt++) {
+            try {
+                return $fetch();
+            } catch (\Exception $e) {
+                if ($attempt === 3) {
+                    throw $e;
+                }
+                fwrite(STDERR, sprintf(
+                    "Provider fetch failed (attempt %d/3), retrying in 5s: %s\n",
+                    $attempt,
+                    $e->getMessage()
+                ));
+                sleep(5);
+            }
+        }
     }
 
     public function getIpRangeProviderDataProvider()

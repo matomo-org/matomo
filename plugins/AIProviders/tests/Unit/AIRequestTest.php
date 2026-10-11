@@ -51,6 +51,8 @@ class AIRequestTest extends TestCase
             ->withCapabilityLevel('thinking')
             ->withFeatureKey('goal-recommendation')
             ->withIdSite(3)
+            ->withUsageReference('query-42')
+            ->withMeta(['source' => 'scheduled'])
             ->withMaxTokens(256)
             ->withTemperature(0.7)
             ->withReasoningLevel('low')
@@ -63,6 +65,8 @@ class AIRequestTest extends TestCase
         $this->assertNull($request->getSystemPrompt());
         $this->assertNull($request->getProviderId());
         $this->assertSame(AIRequest::DEFAULT_MAX_TOKENS, $request->getMaxTokens());
+        $this->assertNull($request->getUsageReference());
+        $this->assertSame([], $request->getMeta());
 
         // The derived request carries the new values.
         $this->assertSame('System', $modified->getSystemPrompt());
@@ -71,6 +75,8 @@ class AIRequestTest extends TestCase
         $this->assertSame('thinking', $modified->getCapabilityLevel());
         $this->assertSame('goal-recommendation', $modified->getFeatureKey());
         $this->assertSame(3, $modified->getIdSite());
+        $this->assertSame('query-42', $modified->getUsageReference());
+        $this->assertSame(['source' => 'scheduled'], $modified->getMeta());
         $this->assertSame(256, $modified->getMaxTokens());
         $this->assertSame(0.7, $modified->getTemperature());
         $this->assertSame('low', $modified->getReasoningLevel());
