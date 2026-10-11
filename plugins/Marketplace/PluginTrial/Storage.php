@@ -16,7 +16,7 @@ use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 
 class Storage
 {
@@ -68,7 +68,7 @@ class Storage
                 'displayName' => $pluginDisplayName,
                 'dismissed' => [],
                 'requestedBy' => $login,
-                'superUsers' => array_column((new UsersModel())->getUsersHavingSuperUserAccess(), 'login'),
+                'superUsers' => array_column(UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess(), 'login'),
             ];
 
             if ($this->insertStorage($request)) {

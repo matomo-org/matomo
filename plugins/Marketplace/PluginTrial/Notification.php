@@ -48,7 +48,7 @@ class Notification
     public function createNotificationIfNeeded(): void
     {
         if (!$this->storage->wasRequested() || $this->storage->isNotificationDismissed()) {
-            return; // not requested or current user already dismissed the notification
+            return; // not requested, dismissed by the current user, or made before they were a super user
         }
 
         $marketplaceUrl = Url::getCurrentQueryStringWithParametersModified([

@@ -344,6 +344,16 @@ class StorageTest extends IntegrationTestCase
         self::assertSame('olaf', $request['requestedBy']);
     }
 
+    public function testARequestAddedToOneStoredWithoutSuperUsersKeepsItShownToEverySuperUser()
+    {
+        $this->setRequestOnlyInOption(time() - 60, 'olaf');
+
+        self::assertSame(Storage::REQUEST_ADDED_TO_PENDING, (new Storage('PremiumPlugin'))->setRequested('Premium Plugin'));
+
+        $request = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
+        self::assertArrayNotHasKey('superUsers', $request);
+    }
+
     public function testDismissingOnlyHidesTheRequestFromTheSuperUserWhoDismissedIt()
     {
         $this->setRequestOnlyInOption(time(), 'olaf', ['olaf'], ['olaf', Piwik::getCurrentUserLogin()]);
