@@ -124,17 +124,16 @@ describe('Marketplace_RequestTrial', function () {
     expect(await page.$('.notification-info')).to.be.null;
   });
 
-  it('should still show a trial requested notification for another super user', async function () {
+  it('should not show a trial requested notification to a user who was not a super user when it was made', async function () {
     testEnvironment.idSitesViewAccess = []; // super user
     testEnvironment.fakeIdentity = 'anotherSuperUser';
     testEnvironment.save();
 
     await page.goto('about:blank');
     await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
+    await page.waitForNetworkIdle();
 
-    const notification = await page.$('.notification-info');
-    const notificationText = await notification.getProperty('textContent');
-
-    expect(notificationText).to.match(/A user has requested to start a trial .+ Paid Plugin 1/i);
+    expect(await page.$('#notificationContainer')).to.be.ok;
+    expect(await page.$('.notification-info')).to.be.null;
   });
 });

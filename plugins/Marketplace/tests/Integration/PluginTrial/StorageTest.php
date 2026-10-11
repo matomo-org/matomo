@@ -378,6 +378,17 @@ class StorageTest extends IntegrationTestCase
         self::assertSame(array_merge($newRequest, ['dismissed' => []]), $stored);
     }
 
+    public function testAnonymisingRemovesALoginOnlyRecordedAsASuperUser()
+    {
+        $this->setRequestOnlyInOption(time(), 'olaf', [], ['alice', 'bob']);
+
+        (new Storage('PremiumPlugin'))->anonymizeLogin('bob');
+
+        $stored = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
+        self::assertSame(['alice'], $stored['superUsers']);
+        self::assertSame('olaf', $stored['requestedBy']);
+    }
+
     public function testDismissingKeepsALoginAnonymisedSinceItWasLoaded()
     {
         Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode([

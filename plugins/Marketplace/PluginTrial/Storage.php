@@ -153,7 +153,7 @@ class Storage
         $login = Piwik::getCurrentUserLogin();
 
         // a request stored before super users were recorded with it has no list, and is shown to every super user
-        if (isset($this->storage['superUsers']) && !in_array($login, $this->storage['superUsers'])) {
+        if (isset($this->storage['superUsers']) && !in_array($login, $this->storage['superUsers'], true)) {
             return true;
         }
 
