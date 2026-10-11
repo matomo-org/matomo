@@ -326,6 +326,31 @@ class StorageTest extends IntegrationTestCase
         self::assertTrue((new Storage('PremiumPlugin'))->isNotificationDismissed());
     }
 
+    public function testARequestAddedToAPendingOneAlsoNotifiesTheSuperUsersGrantedSince()
+    {
+        Fixture::createSuperUser();
+        UsersManagerAPI::getInstance()->addUser('bob', 'secret-password-2', 'bob@example.com');
+        (new UsersModel())->setSuperUserAccess('bob', true);
+        $this->setRequestOnlyInOption(time() - 60, 'olaf', ['olaf'], ['olaf']);
+
+        $result = (new Storage('PremiumPlugin'))->setRequested('Premium Plugin');
+
+        self::assertSame(Storage::REQUEST_ADDED_TO_PENDING, $result);
+        $request = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
+        $superUsers = $request['superUsers'];
+        sort($superUsers);
+        self::assertSame(['bob', 'olaf', Fixture::ADMIN_USER_LOGIN], $superUsers);
+        self::assertSame(['olaf'], $request['dismissed']);
+        self::assertSame('olaf', $request['requestedBy']);
+    }
+
+    public function testDismissingOnlyHidesTheRequestFromTheSuperUserWhoDismissedIt()
+    {
+        $this->setRequestOnlyInOption(time(), 'olaf', ['olaf'], ['olaf', Piwik::getCurrentUserLogin()]);
+
+        self::assertFalse((new Storage('PremiumPlugin'))->isNotificationDismissed());
+    }
+
     public function testARequestStoredWithoutSuperUsersIsShownToEverySuperUser()
     {
         $this->setRequestOnlyInOption(time(), 'olaf');
@@ -344,6 +369,7 @@ class StorageTest extends IntegrationTestCase
             'displayName' => 'Premium Plugin',
             'dismissed' => ['bob', 'dave'],
             'requestedBy' => 'carol',
+            'superUsers' => ['bob', 'erin'],
         ]));
 
         (new Marketplace())->activate();
@@ -351,6 +377,7 @@ class StorageTest extends IntegrationTestCase
         $premium = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
         self::assertNull($premium['requestedBy']);
         self::assertSame(['bob'], $premium['dismissed']);
+        self::assertSame(['bob'], $premium['superUsers']);
         self::assertSame([null, 'bob'], array_column((new RequestHistory())->getRequests('PremiumPlugin'), 'login'));
     }
 

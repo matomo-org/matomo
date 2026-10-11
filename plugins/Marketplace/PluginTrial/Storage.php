@@ -45,7 +45,8 @@ class Storage
 
     /**
      * Records a trial request by the current user. Only a request made while none is pending makes one pending, so
-     * super users are notified once per plugin and keep their dismissals.
+     * super users are notified once per plugin and keep their dismissals. Each request adds the current super users
+     * to the ones notified.
      *
      * @return string one of the REQUEST_* constants
      */
@@ -79,6 +80,13 @@ class Storage
             // a locking read, as the plain one above does not see a request made pending since it ran
             $this->storage = $this->readStored(true);
             $result = self::REQUEST_ADDED_TO_PENDING;
+
+            // super users granted access since the request became pending are notified of this later request;
+            // one stored without the list already notifies every super user
+            if (isset($this->storage['superUsers'])) {
+                $this->storage['superUsers'] = array_values(array_unique(array_merge($this->storage['superUsers'], $request['superUsers'])));
+                $this->saveStorage();
+            }
         });
 
         return $result;
