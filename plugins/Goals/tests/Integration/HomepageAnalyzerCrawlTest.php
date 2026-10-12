@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Goals\tests\Integration;
 
 use Piwik\Plugins\Goals\Recommendations\HomepageAnalyzer;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -228,6 +229,55 @@ class HomepageAnalyzerCrawlTest extends IntegrationTestCase
         $this->assertSame(0, $analysis['crawl']['failedFetches']);
         $this->assertFalse($analysis['crawl']['deadlineReached']);
         $this->assertSame($analysis['crawl'], $analyzer->getLastCrawlStats());
+    }
+
+    public function testLinksToHostsTheTrackerCountsAsTheSiteAreNoExternalLinks()
+    {
+        SitesManagerAPI::getInstance()->addSiteAliasUrls($this->idSite, ['https://shop.example.com']);
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><head><script>_paq.push(["setDomains", ["*.example.net"]]);</script></head><body>'
+                    . '<a href="https://shop.example.com/free-trial/">Free trial</a>'
+                    . '<a href="https://app.example.net/signup">Sign up</a>'
+                    . '<a href="https://partner.example.org/">Partner</a>'
+                    . '</body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+        ]);
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $this->assertEqualsCanonicalizing(['*.example.net', 'example.com', 'shop.example.com'], $analysis['internalHosts']);
+        $this->assertSame(['partner.example.org'], array_column($analysis['externalLinks'], 'host'));
+        $this->assertEqualsCanonicalizing(['shop.example.com', 'app.example.net'], array_column($analysis['internalHostLinks'], 'host'));
+        $this->assertSame(['partner.example.org' => 1], $analysis['manualSignals']['outlinkHosts']);
+    }
+
+    public function testTagManagerContainerDomainsAreInternalHosts()
+    {
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><head><script>g.src="https://cdn.example.org/example.com/container_Ab12Cd.js";</script></head><body>'
+                    . '<a href="https://shop.example.com/">Shop</a>'
+                    . '</body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'https://cdn.example.org/example.com/container_Ab12Cd.js' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => 'window.MatomoTagManager.addContainer({"variables":[{"domains":["*.example.com"],"trackingType":"pageview"}]});',
+            ],
+        ]);
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $this->assertContains('*.example.com', $analysis['internalHosts']);
+        $this->assertSame([], $analysis['externalLinks']);
+        $this->assertSame(['shop.example.com'], array_column($analysis['internalHostLinks'], 'host'));
     }
 
     /**

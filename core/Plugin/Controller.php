@@ -734,8 +734,6 @@ abstract class Controller
         if (!Piwik::isUserIsAnonymous()) {
             $this->showWhatIsNew($view);
 
-            $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
-
             // for BC only. Use contactEmail instead
             $view->emailSuperUser = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         }
@@ -766,7 +764,7 @@ abstract class Controller
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
-            || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
+            || !empty($general['enable_framed_logins']);
         $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') === 'Widgetize');
         if (!$view->enableFrames && !$embeddedAsIframe) {
             $view->setXFrameOptions('sameorigin');
@@ -785,7 +783,7 @@ abstract class Controller
             return count($allSites) === 1;
         });
 
-        if (isset($this->site) && is_object($this->site) && $this->site instanceof Site) {
+        if ($this->site instanceof Site) {
             $view->siteName = $this->site->getName();
         }
 

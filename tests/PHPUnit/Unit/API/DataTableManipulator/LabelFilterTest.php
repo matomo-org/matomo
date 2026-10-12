@@ -57,6 +57,52 @@ class LabelFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('the sanitized label', $result->getFirstRow()->getColumn('label'));
     }
 
+    public function testPruneLoadedSubtableHandsTheLabelToThePruner(): void
+    {
+        $table = $this->makeTableWithLabels(['other', 'wanted', 'another']);
+
+        $pruned = $this->pruneFor(new LabelFilter(), $table, 'wanted');
+
+        $this->assertSame(1, $pruned->getRowsCount());
+        $this->assertSame('wanted', $pruned->getFirstRow()->getColumn('label'));
+    }
+
+    public function testPruneLoadedSubtableLeavesTheTableAloneWhenNoSearchIsRunning(): void
+    {
+        $table = $this->makeTableWithLabels(['other', 'another']);
+
+        $pruned = $this->pruneFor(new LabelFilter(), $table, null);
+
+        $this->assertSame(2, $pruned->getRowsCount());
+    }
+
+    /**
+     * Sets the label the way doFilterRecursiveDescend() does while it loads a subtable.
+     */
+    private function pruneFor(LabelFilter $filter, DataTable $table, ?string $labelPart): DataTable
+    {
+        $class = new \ReflectionClass(LabelFilter::class);
+
+        $property = $class->getProperty('nextLabelPart');
+        $property->setAccessible(true);
+        $property->setValue($filter, $labelPart);
+
+        $method = $class->getMethod('pruneLoadedSubtable');
+        $method->setAccessible(true);
+
+        return $method->invoke($filter, $table, [], '', '');
+    }
+
+    private function makeTableWithLabels(array $labels): DataTable
+    {
+        $table = new DataTable();
+        foreach ($labels as $label) {
+            $table->addRow(new Row([Row::COLUMNS => ['label' => $label, 'nb_visits' => 1]]));
+        }
+
+        return $table;
+    }
+
     /**
      * Builds a single row table whose row is identified by $labelColumn and carries one comparison
      * row. When $labelColumn is not 'label' the value is only available as row metadata, which is

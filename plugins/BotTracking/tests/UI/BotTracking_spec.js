@@ -75,7 +75,7 @@ describe("BotTracking", function () {
 
         // the metrics picker options are always present in the DOM (the dropdown is
         // only hidden until the toggle is clicked), so we can count them directly
-        const availableMetrics = await page.$$('.metrics-picker__options input');
+        const availableMetrics = await page.$$('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
         expect(availableMetrics.length).to.equal(8);
 
         await page.mouse.move(0, 0);
@@ -96,7 +96,7 @@ describe("BotTracking", function () {
         await page.goto("?" + urlBase + "#?idSite=1&period=week&date=2025-02-02&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();
 
-        const availableMetrics = await page.$$('.metrics-picker__options input');
+        const availableMetrics = await page.$$('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
         expect(availableMetrics.length).to.equal(6);
 
         const sparklines = await page.$$('.metricValue');
