@@ -240,6 +240,41 @@ describe("SegmentManagementPageTest", function () {
     });
   });
 
+  it("should reload the sparklines one request at a time when the theme changes", async function() {
+    const { identifier } = await page.webpage.evaluateOnNewDocument(() => {
+      performance.setResourceTimingBufferSize(1000);
+    });
+
+    let themeChangedAt;
+    let tableRequests;
+    try {
+      await openPage();
+      await waitForAllSegmentRowsLoaded();
+      themeChangedAt = await page.evaluate(() => {
+        const now = performance.now();
+        window.dispatchEvent(new Event('themeModeChange'));
+        return now;
+      });
+      await waitForAllSegmentRowsLoaded();
+      tableRequests = await page.evaluate((since) => {
+        return performance.getEntriesByType('resource')
+          .filter((entry) => entry.startTime >= since)
+          .filter((entry) => /SegmentEditor\.getSegmentData|action=getEvolutionGraph/.test(entry.name))
+          .map((entry) => ({ name: entry.name, startTime: entry.startTime, responseEnd: entry.responseEnd }))
+          .sort((a, b) => a.startTime - b.startTime);
+      }, themeChangedAt);
+    } finally {
+      await page.webpage.removeScriptToEvaluateOnNewDocument(identifier);
+    }
+
+    // Each row loads again, and never more than one request is in flight
+    const loadableRowCount = await page.evaluate((selector) => $(selector).length, loadableRowsSelector);
+    expect(tableRequests.filter((request) => /getSegmentData/.test(request.name)).length).to.equal(loadableRowCount);
+    tableRequests.slice(1).forEach((request, index) => {
+      expect(request.startTime).to.be.at.least(tableRequests[index].responseEnd);
+    });
+  });
+
   it("should only load the rows close to the screen", async function() {
     // 400px + the 200px loading margin reaches the first rows of the table, not the last one
     await page.webpage.setViewport({ width: 1350, height: 400 });

@@ -31,7 +31,8 @@ function initManageSegmentsPage() {
   let isDestroyed = false;
   let rowObserver = null;
   let removeScrollListeners = null;
-  let loadNextVisibleRow = null;
+  const rowsToLoad = new Set();
+  let isLoadingRow = false;
   const LOAD_MARGIN_PX = 200;
   init();
 
@@ -44,21 +45,15 @@ function initManageSegmentsPage() {
     removeStarChangeListener = panelApi.onSegmentsStarChange(onSegmentsStarChange);
     // Leaving the page or changing its parameters replaces this table: stop loading its rows
     piwik.on('matomoPageChange', cleanup);
+    window.addEventListener('themeModeChange', onThemeModeChange);
     root.__segmentEditorManageSegmentsCleanup = cleanup;
   }
 
   function cleanup() {
     isDestroyed = true;
     piwik.off('matomoPageChange', cleanup);
-    loadNextVisibleRow = null;
-    if (rowObserver) {
-      rowObserver.disconnect();
-      rowObserver = null;
-    }
-    if (removeScrollListeners) {
-      removeScrollListeners();
-      removeScrollListeners = null;
-    }
+    window.removeEventListener('themeModeChange', onThemeModeChange);
+    stopWatchingRows();
     if (removeStarChangeListener) {
       removeStarChangeListener();
       removeStarChangeListener = null;
@@ -215,11 +210,34 @@ function initManageSegmentsPage() {
   // Each row costs two requests that may trigger archiving, so only the rows on screen
   // (or about to be) are loaded, one at a time. Rows hidden by the search are never on screen.
   function loadVisibleSegmentData() {
-    const rowsToLoad = new Set(Array.from(tbody.querySelectorAll('tr[data-segment-name]')).filter(function (row) {
-      return row.getAttribute('data-is-realtime') !== '1';
-    }));
-    let isLoading = false;
+    getLoadableRows().forEach(function (row) {
+      rowsToLoad.add(row);
+    });
+    watchRows();
+  }
 
+  function getLoadableRows() {
+    return Array.from(tbody.querySelectorAll('tr[data-segment-name]')).filter(function (row) {
+      return row.getAttribute('data-is-realtime') !== '1';
+    });
+  }
+
+  // The global refresh would request every loaded sparkline at once with the new colors, but
+  // loaded sparklines keep no data-src for it: put their rows back in the queue instead
+  function onThemeModeChange() {
+    getLoadableRows().forEach(function (row) {
+      const img = row.querySelector('img[data-segment-sparkline-src]');
+      // An image still loading is left as is: its row loads again once it is done
+      if (img && img.complete) {
+        img.removeAttribute('src');
+      }
+      rowsToLoad.add(row);
+    });
+    watchRows();
+  }
+
+  function watchRows() {
+    stopWatchingRows();
     // The observer only signals that something may have come on screen: the row to load is
     // checked when picked, so a missed or outdated notification cannot leave a row unloaded.
     rowObserver = new IntersectionObserver(loadNextRowNearScreen, {
@@ -235,42 +253,56 @@ function initManageSegmentsPage() {
       window.removeEventListener('scroll', loadNextRowNearScreen);
       window.removeEventListener('resize', loadNextRowNearScreen);
     };
-    loadNextVisibleRow = loadNextRowNearScreen;
     loadNextRowNearScreen();
+  }
 
-    function loadNextRowNearScreen() {
-      if (isDestroyed) {
-        return;
-      }
-      if (!root.isConnected) {
-        cleanup();
-        return;
-      }
-      if (isLoading) {
-        return;
-      }
+  function loadNextRowNearScreen() {
+    if (isDestroyed) {
+      return;
+    }
+    if (!root.isConnected) {
+      cleanup();
+      return;
+    }
+    if (isLoadingRow) {
+      return;
+    }
+    if (rowsToLoad.size === 0) {
+      stopWatchingRows();
+      return;
+    }
 
-      // Rows on screen first, then the ones within the margin, each in the displayed order,
-      // which starring a segment can change
-      const candidates = Array.from(tbody.children).filter(function (candidate) {
-        return rowsToLoad.has(candidate);
-      });
-      const row = candidates.find(function (candidate) {
-        return isNearScreen(candidate, 0);
-      }) || candidates.find(function (candidate) {
-        return isNearScreen(candidate, LOAD_MARGIN_PX);
-      });
-      if (!row) {
-        return;
-      }
+    // Rows on screen first, then the ones within the margin, each in the displayed order,
+    // which starring a segment can change
+    const candidates = Array.from(tbody.children).filter(function (candidate) {
+      return rowsToLoad.has(candidate);
+    });
+    const row = candidates.find(function (candidate) {
+      return isNearScreen(candidate, 0);
+    }) || candidates.find(function (candidate) {
+      return isNearScreen(candidate, LOAD_MARGIN_PX);
+    });
+    if (!row) {
+      return;
+    }
 
-      isLoading = true;
-      rowsToLoad.delete(row);
-      rowObserver.unobserve(row);
-      loadSegmentRow(row, function () {
-        isLoading = false;
-        loadNextRowNearScreen();
-      });
+    isLoadingRow = true;
+    rowsToLoad.delete(row);
+    rowObserver.unobserve(row);
+    loadSegmentRow(row, function () {
+      isLoadingRow = false;
+      loadNextRowNearScreen();
+    });
+  }
+
+  function stopWatchingRows() {
+    if (rowObserver) {
+      rowObserver.disconnect();
+      rowObserver = null;
+    }
+    if (removeScrollListeners) {
+      removeScrollListeners();
+      removeScrollListeners = null;
     }
   }
 
@@ -313,12 +345,13 @@ function initManageSegmentsPage() {
     // A sparkline request that never answers must not keep the following rows from loading
     timeoutId = setTimeout(done, 30000);
 
-    // refreshSparklines() only picks up images with a data-src, so moving the URL there
+    // refreshSparklines() only picks up images with a data-src, so setting the URL there
     // keeps the colors, size and token_auth handling. Scoped to the row so the sparklines
-    // already loaded are not requested again.
+    // already loaded are not requested again, and the data-src is removed right after so the
+    // global refresh on theme change skips them too.
     img.setAttribute('data-src', img.getAttribute('data-segment-sparkline-src'));
-    img.removeAttribute('data-segment-sparkline-src');
     piwik.refreshSparklines(row);
+    img.removeAttribute('data-src');
 
     if (!img.getAttribute('src')) {
       done();
@@ -423,9 +456,7 @@ function initManageSegmentsPage() {
 
   // Headless browsers may not deliver the observer notifications for the rows the search shows
   function loadRowsShownBySearch() {
-    if (loadNextVisibleRow) {
-      loadNextVisibleRow();
-    }
+    loadNextRowNearScreen();
   }
 
   function clearFilterSegmentList() {

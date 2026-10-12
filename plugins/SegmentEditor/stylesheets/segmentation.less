@@ -660,7 +660,8 @@ a.metric_category {
     }
 }
 
-// A sparkline not requested yet has no src: hide the empty frame browsers draw for it
-[data-page="manage-segments"] img[data-segment-sparkline-src] {
+// A sparkline not requested yet, or reset by a theme change, has no src: hide the empty frame
+// browsers draw for it
+[data-page="manage-segments"] img[data-segment-sparkline-src]:not([src]) {
     visibility: hidden;
 }
