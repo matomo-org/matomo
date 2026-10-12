@@ -29,6 +29,7 @@ function initManageSegmentsPage() {
   let removeStarChangeListener = null;
   let removePageListeners = null;
   let isDestroyed = false;
+  let rowObserver = null;
   init();
 
   function init() {
@@ -36,13 +37,17 @@ function initManageSegmentsPage() {
     removePageListeners = initListener();
     initHref();
     initTitles();
-    loadSegmentDataSequentially();
+    loadVisibleSegmentData();
     removeStarChangeListener = panelApi.onSegmentsStarChange(onSegmentsStarChange);
     root.__segmentEditorManageSegmentsCleanup = cleanup;
   }
 
   function cleanup() {
     isDestroyed = true;
+    if (rowObserver) {
+      rowObserver.disconnect();
+      rowObserver = null;
+    }
     if (removeStarChangeListener) {
       removeStarChangeListener();
       removeStarChangeListener = null;
@@ -192,30 +197,65 @@ function initManageSegmentsPage() {
     };
   }
 
-  function loadSegmentDataSequentially() {
-    const rowsToLoad = Array.from(tbody.querySelectorAll('tr[data-segment-name]')).filter(function (row) {
+  // Each row costs two requests that may trigger archiving, so only the rows on screen
+  // (or about to be) are loaded, one at a time. Rows hidden by the search are never on screen.
+  function loadVisibleSegmentData() {
+    const rowsToLoad = new Set(Array.from(tbody.querySelectorAll('tr[data-segment-name]')).filter(function (row) {
       return row.getAttribute('data-is-realtime') !== '1';
+    }));
+    const visibleRows = new Set();
+    let isLoading = false;
+
+    rowObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          visibleRows.add(entry.target);
+        } else {
+          visibleRows.delete(entry.target);
+        }
+      });
+      loadNextVisibleRow();
+    }, { rootMargin: '200px 0px' });
+    rowsToLoad.forEach(function (row) {
+      rowObserver.observe(row);
     });
-    loadSegmentDataByIndex(rowsToLoad, 0);
+
+    function loadNextVisibleRow() {
+      if (isLoading || isDestroyed || !rowObserver) {
+        return;
+      }
+      if (!root.isConnected) {
+        rowObserver.disconnect();
+        return;
+      }
+
+      // Follow the displayed order, which starring a segment can change
+      const row = Array.from(tbody.children).find(function (candidate) {
+        return rowsToLoad.has(candidate) && visibleRows.has(candidate);
+      });
+      if (!row) {
+        return;
+      }
+
+      isLoading = true;
+      rowsToLoad.delete(row);
+      rowObserver.unobserve(row);
+      loadSegmentRow(row, function () {
+        isLoading = false;
+        loadNextVisibleRow();
+      });
+    }
   }
 
-  function loadSegmentDataByIndex(rows, index) {
-    if (isDestroyed || !root.isConnected || index >= rows.length) {
-      return;
-    }
-
-    const row = rows[index];
+  function loadSegmentRow(row, onDone) {
     const segmentDefinition = row.getAttribute('data-segment-definition') || '';
-    const loadNextRow = function () {
-      loadSegmentDataByIndex(rows, index + 1);
-    };
     fetchSegmentData(segmentDefinition, function onSuccess(segmentData) {
       if (!isDestroyed) {
         applySegmentData(row, segmentData);
       }
-      loadSparkline(row, loadNextRow);
+      loadSparkline(row, onDone);
     }, function onError() {
-      loadSparkline(row, loadNextRow);
+      loadSparkline(row, onDone);
     });
   }
 

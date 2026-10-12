@@ -60,6 +60,11 @@ describe("SegmentManagementPageTest", function () {
       await page.goto(url);
       await page.waitForNetworkIdle();
       await page.waitForSelector('.pageWrap');
+      // Rows only load once close to the screen, so bring the last ones in before the screenshot
+      await page.evaluate(() => {
+        $('[data-page="manage-segments"] tr[data-segment-name]:last').get(0).scrollIntoView();
+      });
+      await page.waitForNetworkIdle();
 
       expect(await page.screenshotSelector('.pageWrap'))
         .to.matchImage('initial_mobile_table_contained');
@@ -236,6 +241,32 @@ describe("SegmentManagementPageTest", function () {
       expect(src).to.contain('action=getEvolutionGraph');
       expect(src).to.contain('colors=');
     });
+  });
+
+  it("should only load the rows close to the screen", async function() {
+    await page.webpage.setViewport({ width: 1350, height: 300 });
+
+    try {
+      await openPage();
+
+      const lastRowSelector = '[data-page="manage-segments"] tr[data-is-realtime="0"]:last';
+      const isLastRowLoaded = () => page.evaluate((selector) => {
+        return !!$(selector).find('.entityTable_Sparkline img').attr('src');
+      }, lastRowSelector);
+
+      expect(await isLastRowLoaded()).to.equal(false);
+
+      await page.evaluate((selector) => {
+        $(selector).get(0).scrollIntoView();
+      }, lastRowSelector);
+      await page.waitForFunction((selector) => {
+        return !!$(selector).find('.entityTable_Sparkline img').attr('src');
+      }, {}, lastRowSelector);
+
+      expect(await isLastRowLoaded()).to.equal(true);
+    } finally {
+      await page.webpage.setViewport(defaultViewport);
+    }
   });
 
   it("should mark realtime and pre-processed rows via data-is-realtime", async function() {
