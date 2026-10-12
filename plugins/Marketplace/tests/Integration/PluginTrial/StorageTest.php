@@ -397,6 +397,23 @@ class StorageTest extends IntegrationTestCase
         self::assertArrayNotHasKey('superUsers', $request);
     }
 
+    public function testARequestAddedToAPendingOneIsKeptWhenItsSuperUsersCannotBeAdded()
+    {
+        Fixture::createSuperUser();
+        $this->setRequestOnlyInOption(time() - 60, 'olaf', [], []);
+        $storage = new class ('PremiumPlugin') extends Storage {
+            protected function saveStorage(): void
+            {
+                throw new \RuntimeException('option write failed');
+            }
+        };
+
+        self::assertSame(Storage::REQUEST_ADDED_TO_PENDING, $storage->setRequested('Premium Plugin'));
+        self::assertTrue($storage->wasRequested());
+        self::assertTrue($storage->wasRequestedByCurrentUser());
+        self::assertSame([], json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true)['superUsers']);
+    }
+
     public function testDismissingOnlyHidesTheRequestFromTheSuperUserWhoDismissedIt()
     {
         $this->setRequestOnlyInOption(time(), 'olaf', ['olaf'], ['olaf', Piwik::getCurrentUserLogin()]);

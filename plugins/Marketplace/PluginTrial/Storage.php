@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -47,8 +48,8 @@ class Storage
 
     /**
      * Records a trial request by the current user. Only a request made while none is pending makes one pending, so
-     * super users are notified once per plugin and keep their dismissals. Each request adds the current super users
-     * to the ones notified.
+     * super users are notified once per plugin and keep their dismissals. Each request that is recorded adds the
+     * current super users to the ones notified.
      *
      * @return string one of the REQUEST_* constants
      */
@@ -56,9 +57,10 @@ class Storage
     {
         $requestTime = time();
         $login = Piwik::getCurrentUserLogin();
+        $superUsers = array_column(UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess(), 'login');
         $result = self::REQUEST_ALREADY_RECORDED;
 
-        $this->writeWithHistory(function (RequestHistory $history) use ($pluginDisplayName, $requestTime, $login, &$result) {
+        $this->writeWithHistory(function (RequestHistory $history) use ($pluginDisplayName, $requestTime, $login, $superUsers, &$result) {
             $storedValue = $this->readStoredValue();
             $storedRequest = $this->decodeStored($storedValue);
             $this->recordInHistory($history, $storedRequest);
@@ -78,7 +80,7 @@ class Storage
                 'displayName' => $pluginDisplayName,
                 'dismissed' => [],
                 'requestedBy' => $login,
-                'superUsers' => array_column(UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess(), 'login'),
+                'superUsers' => $superUsers,
             ];
 
             if ($this->insertStorage($request)) {
@@ -91,19 +93,49 @@ class Storage
             // failed insert already holds a shared lock on the row, and upgrading it would deadlock a concurrent request
             $this->storage = $this->readStored(self::LOCK_SHARED);
             $result = self::REQUEST_ADDED_TO_PENDING;
-
-            // super users granted access since the request became pending are notified of this later request;
-            // one stored without the list already notifies every super user
-            if (isset($this->storage['superUsers'])) {
-                $superUsers = array_values(array_unique(array_merge($this->storage['superUsers'], $request['superUsers'])));
-                if ($superUsers !== $this->storage['superUsers']) {
-                    $this->storage['superUsers'] = $superUsers;
-                    $this->saveStorage();
-                }
-            }
         });
 
+        if ($result === self::REQUEST_ADDED_TO_PENDING) {
+            try {
+                $this->addSuperUsers($superUsers, (int) ($this->storage['requestTime'] ?? 0));
+            } catch (\Throwable $e) {
+                // the request is already committed, so failing here would report an error for a saved request
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'Could not add the current super users to a pending plugin trial request',
+                    ['exception' => $e]
+                );
+            }
+        }
+
         return $result;
+    }
+
+    /**
+     * Super users granted access since the request became pending are notified of a later request. This is its own
+     * transaction: the request's holds a shared lock on the row, and two requests both writing under it would deadlock.
+     *
+     * @param string[] $superUsers
+     */
+    private function addSuperUsers(array $superUsers, int $pendingRequestTime): void
+    {
+        $this->writeWithHistory(function () use ($superUsers, $pendingRequestTime) {
+            $storedRequest = $this->readStored(self::LOCK_FOR_UPDATE);
+
+            // one stored without the list already notifies every super user, and one fulfilled or replaced since is
+            // not the request these users were added to
+            if (!isset($storedRequest['superUsers']) || (int) ($storedRequest['requestTime'] ?? 0) !== $pendingRequestTime) {
+                return;
+            }
+
+            $mergedSuperUsers = array_values(array_unique(array_merge($storedRequest['superUsers'], $superUsers)));
+            if ($mergedSuperUsers === $storedRequest['superUsers']) {
+                return;
+            }
+
+            $storedRequest['superUsers'] = $mergedSuperUsers;
+            $this->storage = $storedRequest;
+            $this->saveStorage();
+        });
     }
 
     /**
