@@ -8,7 +8,7 @@
  */
 
 describe("SiteSelector", function () {
-    const selectorToCapture = '.siteSelector,.siteSelector .piwikSelector__dropdown';
+    const selectorToCapture = '.siteSelector,.siteSelector .mtm-selector__dropdown';
     const url = "?module=UsersManager&action=userSettings&idSite=1&period=day&date=yesterday";
 
     it("should load correctly", async function() {

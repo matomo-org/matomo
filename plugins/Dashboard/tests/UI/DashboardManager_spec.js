@@ -8,7 +8,7 @@
  */
 
 describe("DashboardManager", function () {
-    const managerSelector = '.dashboard-manager,.dashboard-manager .piwikSelector__dropdown';
+    const managerSelector = '.dashboard-manager,.dashboard-manager .mtm-selector__dropdown';
     const modalSelector = '.modal.open.add-widget-modal';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
