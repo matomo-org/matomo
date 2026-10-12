@@ -1,8 +1,4 @@
 .evolutionBadge {
-  // local placeholder for a brand green not yet in the shared palette; swap for a
-  // @color-* variable once #33B343 lands in plugins/Morpheus/stylesheets/base/colors.less
-  @_evolution-green: #33B343;
-
   display: inline-flex;
   align-items: center;
   // Fluid pill: font-size scales with the card/column width via cqi, like the metric readout (see
@@ -31,46 +27,36 @@
     }
   }
 
+  // The theme colours resolve to a CSS var(--...), which Less colour functions (lighten/darken)
+  // can't operate on, so each pill gets its opaque tint from CSS color-mix() instead: mixed toward
+  // white on the light surface, toward black on the dark one. The theme also lightens the positive
+  // green in dark mode, so the text stays legible there.
   &.evolutionBadge--positive {
-    color: @_evolution-green;
-    // opaque pale-green tint; lighten keeps the green's saturation, so tune the
-    // percentage to taste (higher = paler)
-    background-color: lighten(@_evolution-green, 50%);
+    color: @theme-color-positive;
+    background-color: color-mix(in srgb, @theme-color-positive 9%, white);
   }
 
   &.evolutionBadge--negative {
-    // theme primary series red; it resolves to a CSS var(--...) and LESS colour
-    // functions (lighten/darken) can't operate on a var(), so mix toward white with
-    // CSS color-mix() for an opaque pale tint (the var-safe equivalent of lighten)
-    color: @theme-color-base-series;
-    background-color: color-mix(in srgb, @theme-color-base-series 5%, white);
+    color: @theme-color-negative;
+    background-color: color-mix(in srgb, @theme-color-negative 5%, white);
   }
 
   &.evolutionBadge--neutral {
-    // silver dash + value on an opaque silver tint; same grey family, mixed toward
-    // white so it reads as a pale pill on the light surface
-    color: @theme-color-text-lighter;
-    background-color: color-mix(in srgb, @theme-color-text-lighter 5%, white);
+    color: @theme-color-neutral;
+    background-color: color-mix(in srgb, @theme-color-neutral 5%, white);
   }
 
-  // brand green is a touch dark on a dark background, so lighten the text to keep
-  // the pill legible
   .inDarkMode({
     &.evolutionBadge--positive {
-      // mirror of light mode: lighten goes toward white for a pale tint on white,
-      // so on the dark surface darken the green into an opaque dark-green tint instead
-      color: lighten(@_evolution-green, 10%);
-      background-color: darken(@_evolution-green, 28%);
+      background-color: color-mix(in srgb, @theme-color-positive 30%, black);
     }
 
     &.evolutionBadge--negative {
-      // mix toward black for an opaque dark tint on the dark surface (the var-safe
-      // equivalent of darken)
-      background-color: color-mix(in srgb, @theme-color-base-series 18%, black);
+      background-color: color-mix(in srgb, @theme-color-negative 18%, black);
     }
 
     &.evolutionBadge--neutral {
-      background-color: color-mix(in srgb, @theme-color-text-lighter 14%, black);
+      background-color: color-mix(in srgb, @theme-color-neutral 14%, black);
     }
   });
 }
