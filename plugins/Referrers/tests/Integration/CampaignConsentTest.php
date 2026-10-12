@@ -14,6 +14,8 @@ namespace Piwik\Plugins\Referrers\tests\Integration;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
@@ -67,6 +69,7 @@ class CampaignConsentTest extends IntegrationTestCase
     public function tearDown(): void
     {
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        $this->setAdminReferrerAnonymisation(ReferrerAnonymizer::EXCLUDE_NONE);
         Cache::deleteTrackerCache();
 
         parent::tearDown();
@@ -244,6 +247,39 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * Consent only lifts what a compliance policy imposed. Referrer anonymisation the admin chose
+     * themselves is their own measure, not a policy's, so it still applies to a consented visitor
+     * - on a site with no policy enforced there is nothing for consent to relax at all.
+     */
+    public function testConsentDoesNotLiftTheAdminsOwnReferrerAnonymisation(): void
+    {
+        $this->setAdminReferrerAnonymisation(ReferrerAnonymizer::EXCLUDE_ALL);
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+
+        $this->assertSame('Ecosia', $this->fetchVisitColumn('referer_name'), 'the search engine should still be recorded');
+        $this->assertSame('', $this->fetchVisitColumn('referer_keyword'), 'consent lifted the admin\'s own anonymisation');
+        $this->assertSame('', $this->fetchVisitColumn('referer_url'), 'consent lifted the admin\'s own anonymisation');
+    }
+
+    /**
+     * With both in force, the admin's own measure is the floor consent relaxes down to. Here it is
+     * the stricter of the two, so the consented visitor is treated exactly as an unconsented one.
+     */
+    public function testConsentRelaxesOnlyAsFarAsTheAdminsOwnReferrerAnonymisation(): void
+    {
+        $this->enforceCampaignMasking();
+        $this->setAdminReferrerAnonymisation(ReferrerAnonymizer::EXCLUDE_ALL);
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+
+        $this->assertSame('', $this->fetchVisitColumn('referer_keyword'));
+        $this->assertSame('', $this->fetchVisitColumn('referer_url'));
+    }
+
+    /**
      * Consent relaxes a restriction that is in force; it never imposes one. A site with nothing
      * enforced records the campaign for everyone, consented or not, exactly as it does today.
      */
@@ -268,6 +304,13 @@ class CampaignConsentTest extends IntegrationTestCase
             CampaignParameterValuesMasked::getPlaceholderValue(),
             $this->fetchVisitColumn('referer_name')
         );
+    }
+
+    private function setAdminReferrerAnonymisation(string $level): void
+    {
+        $config = new PrivacyManagerConfig();
+        $config->anonymizeReferrer = $level;
+        Cache::deleteTrackerCache();
     }
 
     private function enforceCampaignMasking(): void
