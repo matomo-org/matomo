@@ -109,8 +109,8 @@
 		<row>
 			<id>PrivacyManager.ReferrerAnonymisation</id>
 			<name>Referrer Anonymisation Enabled</name>
-			<whatItDoes>Only the referrer host or referrer type is collected. Full referrer URLs, including paths and query parameters, are not stored.&lt;br&gt;&lt;br&gt;This reduces the risk of collecting personal or sensitive information contained in referrer URLs.</whatItDoes>
-			<impact>Attribution reports remain available, but detailed referrer paths and query parameters cannot be viewed, reported, or segmented.</impact>
+			<whatItDoes>For visitors who have not given their consent, only the referrer host or referrer type is collected. Full referrer URLs, including paths and query parameters, are not stored.&lt;br&gt;&lt;br&gt;This reduces the risk of collecting personal or sensitive information contained in referrer URLs. Where a visitor has given their consent, the referrer is stored as it was sent, up to the level of anonymisation configured for this site.</whatItDoes>
+			<impact>Attribution reports remain available, but for visitors who have not given their consent the detailed referrer paths and query parameters cannot be viewed, reported, or segmented.</impact>
 			<status>non_compliant</status>
 			<enforced>0</enforced>
 			<toggleable>1</toggleable>

@@ -380,8 +380,8 @@
         "CampaignParameterValuesMaskedSettingWhatItDoes": "Campaign name and campaign keyword values are masked before storage for visitors who have not given their consent.<br><br>This prevents detailed campaign and advertising identifiers from being used beyond permitted audience measurement purposes. Where a visitor has given their consent, the values are stored as they were sent.",
         "CampaignParameterValuesMaskedSettingImpact": "Campaign attribution and aggregate acquisition metrics remain available, but for visitors who have not given their consent the original campaign names and keywords cannot be viewed or used to distinguish individual campaigns.",
         "ReferrerAnonymizationSettingTitle": "Referrer Anonymisation Enabled",
-        "ReferrerAnonymizationSettingWhatItDoes": "Only the referrer host or referrer type is collected. Full referrer URLs, including paths and query parameters, are not stored.<br><br>This reduces the risk of collecting personal or sensitive information contained in referrer URLs.",
-        "ReferrerAnonymizationSettingImpact": "Attribution reports remain available, but detailed referrer paths and query parameters cannot be viewed, reported, or segmented.",
+        "ReferrerAnonymizationSettingWhatItDoes": "For visitors who have not given their consent, only the referrer host or referrer type is collected. Full referrer URLs, including paths and query parameters, are not stored.<br><br>This reduces the risk of collecting personal or sensitive information contained in referrer URLs. Where a visitor has given their consent, the referrer is stored as it was sent, up to the level of anonymisation configured for this site.",
+        "ReferrerAnonymizationSettingImpact": "Attribution reports remain available, but for visitors who have not given their consent the detailed referrer paths and query parameters cannot be viewed, reported, or segmented.",
         "ReferrerAnonymizationSettingRequirementNote": "Only the referrer host or referrer type may be collected."
     }
 }

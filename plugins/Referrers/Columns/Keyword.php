@@ -43,11 +43,7 @@ class Keyword extends Base
 
         // See ReferrerName::onExistingVisit() - the keyword is discarded and completed alongside
         // the campaign name, so it follows the same rule.
-        if (
-            CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn('referer_keyword'))
-            && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && $this->canCompleteDiscardedCampaign($visitor, $information['referer_keyword'])
-        ) {
+        if ($this->shouldCompleteDiscardedCampaign($visitor, $information, 'referer_keyword', $action, $request)) {
             return $information['referer_keyword'];
         }
 
