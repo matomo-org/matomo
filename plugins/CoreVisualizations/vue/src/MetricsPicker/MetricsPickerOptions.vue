@@ -22,7 +22,7 @@
         :role="multiselect ? 'menuitemcheckbox' : 'menuitemradio'"
         tabindex="0"
         :aria-checked="!!columnStates[columnConfig.column]"
-        @click="optionSelected(columnConfig.column, columnStates)"
+        @click="optionSelected(columnConfig.column, columnStates, $event)"
         @keydown.enter.prevent="activateItem"
         @keydown.space.prevent="activateItem"
       >
@@ -52,7 +52,7 @@
         :role="multiselect ? 'menuitemcheckbox' : 'menuitemradio'"
         tabindex="0"
         :aria-checked="!!rowStates[rowConfig.matcher]"
-        @click="optionSelected(rowConfig.matcher, rowStates)"
+        @click="optionSelected(rowConfig.matcher, rowStates, $event)"
         @keydown.enter.prevent="activateItem"
         @keydown.space.prevent="activateItem"
       >
@@ -157,7 +157,11 @@ export default defineComponent({
     getSelected(optionStates: Record<string, boolean>) {
       return Object.keys(optionStates).filter((optionName) => !!optionStates[optionName]);
     },
-    optionSelected(optionValue: string, optionStates: Record<string, boolean>) {
+    optionSelected(
+      optionValue: string,
+      optionStates: Record<string, boolean>,
+      event: MouseEvent|KeyboardEvent,
+    ) {
       if (!this.multiselect) {
         this.unselectOptions(this.columnStates);
         this.unselectOptions(this.rowStates);
@@ -168,7 +172,7 @@ export default defineComponent({
       this.$emit('select', {
         columns: this.getSelected(this.columnStates),
         rows: this.getSelected(this.rowStates),
-      });
+      }, event);
     },
   },
 });
