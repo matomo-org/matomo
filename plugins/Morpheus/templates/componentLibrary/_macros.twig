@@ -1,0 +1,17 @@
+{#
+  One example: a live preview and the markup that draws it, printed from the same string so the
+  two cannot drift apart. `markup` is static markup written in the component's own template, never
+  user input, which is what makes printing it raw safe.
+#}
+{% macro example(id, title, note, markup, previewModifier) %}
+    <section class="componentLibrary__example" id="example-{{ id }}">
+        <div class="componentLibrary__exampleHeader">
+            <h4 class="componentLibrary__exampleTitle">{{ title }}</h4>
+            {% if note %}<p class="componentLibrary__exampleNote">{{ note|raw }}</p>{% endif %}
+        </div>
+        <div class="componentLibrary__preview {{ previewModifier }}" data-example="{{ id }}">
+            {{ markup|raw }}
+        </div>
+        <pre class="componentLibrary__code"><code class="componentLibrary__codeText">{{ (markup ~ '')|trim|e('html') }}</code></pre>
+    </section>
+{% endmacro %}
