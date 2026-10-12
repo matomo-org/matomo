@@ -43,6 +43,19 @@ class Config
      */
     private ?int $idSite = null;
 
+    /**
+     * Suffix of the tracker cache entries holding a setting's configured value, that is the value
+     * an admin set themselves, before the stricter requirement a compliance policy may enforce on
+     * top of it.
+     */
+    public const CONFIGURED_VALUE_CACHE_SUFFIX = 'ConfiguredValue';
+
+    /**
+     * Settings the tracker needs the configured value of, alongside the enforced one. Caching it
+     * for every setting would only duplicate entries a policy can never override.
+     */
+    private const CACHE_CONFIGURED_VALUE_FOR = ['anonymizeReferrer'];
+
     public function __construct(?int $idSite = null)
     {
         $this->setIdSite($idSite);
@@ -198,9 +211,32 @@ class Config
         foreach ($this->getConfigPropertyNames() as $name) {
             // when setting tracker cache, we always want generic name
             $cacheContent[$this->prefix($name, false)] = $this->getFromOption($name);
+
+            if (in_array($name, self::CACHE_CONFIGURED_VALUE_FOR, true)) {
+                $cacheContent[$this->prefix($name . self::CONFIGURED_VALUE_CACHE_SUFFIX, false)]
+                    = $this->getFromOption($name, $allowPolicyComplianceOverride = false);
+            }
         }
 
         return $cacheContent;
+    }
+
+    /**
+     * The value an admin configured for this setting themselves, without the stricter requirement a
+     * compliance policy may be enforcing on top of it.
+     *
+     * Reads the tracker cache, so unlike {@see getFromOption()} it costs no query and is safe to
+     * call while tracking.
+     *
+     * @return mixed
+     */
+    public function getConfiguredValue(string $name)
+    {
+        if (!in_array($name, self::CACHE_CONFIGURED_VALUE_FOR, true)) {
+            throw new \Exception(sprintf('The configured value of %s is not available to the tracker', $name));
+        }
+
+        return $this->getFromTrackerCache($name . self::CONFIGURED_VALUE_CACHE_SUFFIX, $this->getPropertyConfig($name));
     }
 
     public function getConfigPropertyNames(): array
