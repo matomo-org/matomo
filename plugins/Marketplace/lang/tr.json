@@ -87,7 +87,6 @@
         "PluginUploadDisabled": "Yapılandırma dosyasındaki eklenti yükleme seçeneği kapatılmış. Bu seçeneği açmak için yapılandırma dosyanızı güncelleyin ya da yöneticiniz ile görüşün",
         "PluginVersionInfo": "%2$s sürümünden %1$s sürümüne",
         "PluginWebsite": "Eklenti sitesi",
-        "PriceExclTax": "%1$s %2$s vergi hariç.",
         "PriceFromPerPeriod": "%1$s / %2$s tarihinden",
         "RemoveLicenseKey": "Lisans anahtarını kaldır",
         "RequestTrial": "Deneme süresi iste",

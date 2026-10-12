@@ -72,7 +72,7 @@ class CustomDimension extends RecordBuilder
 
         if ($dimension['scope'] === CustomDimensions::SCOPE_VISIT) {
             $this->aggregateFromVisits($report, $logAggregator, $valueField, $dimensions, " log_visit.$valueField is not null");
-            $this->aggregateFromConversions($report, $logAggregator, $valueField, $dimensions, " log_conversion.$valueField is not null");
+            $this->aggregateFromConversions($report, $logAggregator, $valueField);
         } elseif ($dimension['scope'] === CustomDimensions::SCOPE_ACTION) {
             $this->aggregateFromActions($report, $logAggregator, $valueField);
         }
@@ -133,25 +133,41 @@ class CustomDimension extends RecordBuilder
         }
     }
 
+    /**
+     * A visit-scoped dimension is copied onto the conversion as the goal converts, so a conversion
+     * tracked before the dimension was ever sent carries no value at all. Reading log_conversion on
+     * its own left those conversions out of the report entirely: the visit was counted under the
+     * value it ended with, while its conversion matched no row, and the report then accounted for
+     * fewer conversions than the goal recorded.
+     *
+     * The copy stays the value of record wherever there is one, so a dimension that merely changed
+     * during the visit still credits the conversion to the value it was made under. The visit is
+     * only read when there is no copy to read, which is an absence rather than an earlier value.
+     */
     private function aggregateFromConversions(
         DataTable $report,
         LogAggregator $logAggregator,
-        string $valueField,
-        array $dimensions,
-        string $where
+        string $valueField
     ): void {
+        $valueAtConversionOrOfVisit = "COALESCE(log_conversion.$valueField, log_visit.$valueField)";
+
+        $dimensions = ['label' => $valueAtConversionOrOfVisit];
+        $where = "$valueAtConversionOrOfVisit is not null";
+        // log_visit is joined on idvisit, its primary key, so no conversion can be duplicated by it
+        $extraFrom = ['log_visit'];
+
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
-            $rankingQuery->addLabelColumn([$dimensions[0], 'idgoal']);
+            $rankingQuery->addLabelColumn(['label', 'idgoal']);
 
-            $query = $logAggregator->queryConversionsByDimension($dimensions, $where, false, [], $rankingQuery, $rankingQueryGenerate = true);
+            $query = $logAggregator->queryConversionsByDimension($dimensions, $where, [], $extraFrom, $rankingQuery, $rankingQueryGenerate = true);
         } else {
-            $query = $logAggregator->queryConversionsByDimension($dimensions, $where);
+            $query = $logAggregator->queryConversionsByDimension($dimensions, $where, [], $extraFrom);
         }
 
         while ($row = $query->fetch()) {
-            $value = $this->cleanCustomDimensionValue($row[$valueField]);
-            unset($row[$valueField]);
+            $value = $this->cleanCustomDimensionValue($row['label']);
+            unset($row['label']);
 
             if ($value === RankingQuery::LABEL_SUMMARY_ROW) {
                 // skip summary row

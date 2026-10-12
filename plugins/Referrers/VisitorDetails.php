@@ -100,7 +100,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         if (
             $this->getReferrerType() == 'search'
-            && strpos($this->getReferrerName(), 'Google') !== false
+            && str_contains($this->getReferrerName(), 'Google')
         ) {
             $url = @parse_url($this->details['referer_url']);
             if (empty($url['query'])) {

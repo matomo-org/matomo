@@ -65,4 +65,675 @@ ul.ulGoalTopElements img {
         white-space: nowrap;
         width: 170px;
     }
+
+    // the callout sits in the title row, so it cannot push the table down
+    .card {
+        position: relative;
+    }
+
+    // points to the recommendation section that a long goals table pushes out of view;
+    // same tint as the recommendation scan notices
+    .manageGoals-recommendCallout {
+        align-items: center;
+        background: fade(@color-blue-matomo, 8%);
+        border: 1px solid fade(@color-blue-matomo, 50%);
+        border-radius: 3px;
+        color: @theme-color-text;
+        display: flex;
+        font-size: 13px;
+        gap: 10px;
+        // 40px box at 12px is centred in the 65px title row above the table
+        box-sizing: border-box;
+        height: 40px;
+        padding: 0 4px 0 12px;
+        position: absolute;
+        right: 16px;
+        top: 12px;
+
+        > .icon-info {
+            color: @color-blue-matomo;
+            font-size: 15px;
+        }
+
+        strong {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+    }
+
+    // link look, a full button outweighs the one-line callout
+    .manageGoals-recommendCalloutLink {
+        background: none;
+        border: 0;
+        border-radius: 2px;
+        color: @theme-color-link;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 0;
+        white-space: nowrap;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 2px;
+        }
+    }
+
+    .manageGoals-recommendCalloutClose {
+        background: transparent;
+        border: 0;
+        border-radius: 3px;
+        color: @theme-color-text-lighter;
+        cursor: pointer;
+        height: 32px;
+        width: 32px;
+
+        &:hover {
+            color: @theme-color-text;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 1px;
+        }
+    }
+
+    // no room beside the title on phones, so it flows above the table instead
+    @media (max-width: 640px) {
+        .manageGoals-recommendCallout {
+            margin: 0 0 16px;
+            position: static;
+        }
+    }
+}
+
+#content .recommendGoals {
+    // scan in progress: the core progress bar, then loader and phase label on one line
+    .recommendGoals-scanProgress {
+        border-top: 1px solid @theme-color-border;
+        margin: 24px 0 8px;
+        padding-top: 16px;
+
+        .progressbar {
+            margin: 0;
+
+            > span {
+                align-items: center;
+                display: flex;
+                gap: 10px;
+                margin-top: 12px;
+            }
+
+            .label {
+                color: @theme-color-text;
+                font-size: 13px;
+            }
+        }
+    }
+
+    .recommendGoals-scanHint {
+        color: @theme-color-text-lighter;
+        font-size: 12px;
+        margin: 4px 0 0;
+    }
+
+    .recommendGoals-footer {
+        margin-top: 20px;
+    }
+
+    .recommendGoals-toolbar {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        margin: 12px 0 0;
+    }
+
+    .recommendGoals-aiSwitch {
+        display: flex;
+    }
+
+    .recommendGoals-aiSwitch label {
+        align-items: center;
+        color: @theme-color-text;
+        display: inline-flex;
+        font-size: 13px;
+
+        .lever {
+            margin: 0 10px 0 0;
+        }
+
+        input[type="checkbox"]:checked + .lever {
+            background-color: @theme-color-brand;
+
+            &::after {
+                background-color: @theme-color-brand-contrast;
+            }
+        }
+    }
+
+    .recommendGoals-privacyLink {
+        background: none;
+        border: 0;
+        border-radius: 2px;
+        color: @theme-color-link;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 0;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 2px;
+        }
+    }
+
+    // compact variant of the standard alert boxes ("AI was used" note, AI errors)
+    .alert {
+        border-width: 1px;
+        font-size: 12.5px;
+        margin: 14px 0 0;
+        padding: 8px 12px 8px 36px;
+
+        &::before {
+            font-size: 16px;
+            left: 12px;
+            margin-top: 0;
+            top: calc(~'50% - 8px');
+        }
+    }
+
+    .recommendGoals-privacyNote {
+        background: @theme-color-background-tinyContrast;
+        border-left: 3px solid @theme-color-border;
+        border-radius: 0 3px 3px 0;
+        color: @theme-color-text-lighter;
+        font-size: 12px;
+        margin: 10px 0 0;
+        max-width: 56em;
+        padding: 8px 12px;
+    }
+
+    .recommendGoals-meta {
+        color: @theme-color-text-light;
+        font-size: 12px;
+        margin: 0;
+    }
+
+    .recommendGoals-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .recommendGoals-card {
+        background: @theme-color-background-contrast;
+        border: 1px solid @theme-color-border;
+        border-radius: 6px;
+
+        &:hover {
+            box-shadow: 0 1px 5px @theme-color-boxShadow;
+        }
+    }
+
+    // a goal that already exists is settled: light green, no hover lift
+    .recommendGoals-card--added {
+        background: fade(@color-green-matomo, 7%);
+        border-color: fade(@color-green-matomo, 35%);
+
+        &:hover {
+            box-shadow: none;
+        }
+    }
+
+    .recommendGoals-cardMain {
+        align-items: start;
+        display: grid;
+        gap: 0 14px;
+        grid-template-columns: 40px 1fr auto;
+        padding: 13px 14px;
+    }
+
+    .recommendGoals-cardBody {
+        min-width: 0;
+    }
+
+    .recommendGoals-cardIcon {
+        align-items: center;
+        // light brand tint; literal #00b4be because Less colour functions need a real colour
+        background: fade(#00b4be, 12%);
+        border-radius: 6px;
+        // darkened for 3:1 non-text contrast on the tint
+        color: darken(#00b4be, 12%);
+        display: flex;
+        font-size: 18px;
+        height: 40px;
+
+        justify-content: center;
+        width: 40px;
+    }
+
+    .recommendGoals-cardTitle {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 8px;
+    }
+
+    .recommendGoals-cardName {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .recommendGoals-chip {
+        background: @theme-color-background-tinyContrast;
+        border: 1px solid @theme-color-border;
+        border-radius: 9px;
+        color: @theme-color-text-lighter;
+        font-size: 11px;
+        font-weight: normal;
+        line-height: 16px;
+        padding: 0 8px;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    // informational, not a blocker: the goal can be created right away
+    .recommendGoals-chip--setup {
+        background: fade(@color-blue-matomo, 8%);
+        border-color: fade(@color-blue-matomo, 40%);
+        color: @theme-color-text;
+        cursor: help;
+        pointer-events: auto; // chips ignore pointer events; this one carries a tooltip
+    }
+
+    // toolbar variant: 3px like buttons/panels/tooltips and sized to sit beside
+    // the scan button, unlike the small pill chips used inside the cards
+    .recommendGoals-chip--aiUnavailable {
+        border-radius: 3px;
+        cursor: help;
+        font-size: 13px;
+        line-height: 22px;
+        padding: 2px 10px;
+        pointer-events: auto;
+    }
+
+    // the short "why" stays on the card, clamped to two lines; the icon's tooltip lists the crawl facts
+    .recommendGoals-cardReason {
+        align-items: flex-start;
+        color: @theme-color-text-light;
+        display: flex;
+        font-size: 12px;
+        gap: 6px;
+        line-height: 18px;
+        margin: 4px 0 0;
+        max-width: 58em;
+        padding: 0;
+    }
+
+    .recommendGoals-reasonIcon {
+        border-radius: 50%;
+        color: @theme-color-link;
+        cursor: help;
+        flex: 0 0 auto;
+        font-size: 14px;
+        line-height: 18px;
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 2px;
+        }
+    }
+
+    .recommendGoals-reasonText {
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        overflow: hidden;
+    }
+
+    .recommendGoals-cardTrigger {
+        color: @theme-color-text-lighter;
+        font-size: 12px;
+        margin-top: 2px;
+        padding: 0;
+    }
+
+    .recommendGoals-cardActions {
+        align-items: center;
+        display: flex;
+        gap: 6px;
+        margin-top: 2px;
+    }
+
+    .recommendGoals-dismissBtn {
+        background: transparent;
+        border: 0;
+        border-radius: 3px;
+        color: @theme-color-text-lighter;
+        cursor: pointer;
+        height: 30px;
+        width: 30px;
+
+        &:hover {
+            background: @theme-color-background-base;
+            color: @theme-color-text;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 1px;
+        }
+
+        &[disabled] {
+            cursor: not-allowed;
+            opacity: .5;
+        }
+    }
+
+    .recommendGoals-accepted {
+        color: @theme-color-brand;
+        font-weight: 600;
+        white-space: nowrap;
+
+        .icon-ok {
+            margin-right: 4px;
+        }
+    }
+
+    // suppress the browser default focus ring on click; keep it for keyboard navigation
+    .recommendGoals-evidence summary,
+    .recommendGoals-manual summary,
+    .recommendGoals-debug summary {
+        &:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid @theme-color-focus-ring;
+            outline-offset: 2px;
+        }
+    }
+
+    // sits in the card body under the reason, so it adds one short line, not a row
+    .recommendGoals-evidence {
+        margin-top: 4px;
+
+        summary {
+            align-items: center;
+            border: 0;
+            color: @theme-color-link;
+            cursor: pointer;
+            display: inline-flex;
+            font-size: 12px;
+            gap: 6px;
+            list-style: none;
+            padding: 0;
+
+            &::-webkit-details-marker,
+            &::marker {
+                display: none;
+            }
+
+            .icon-chevron-right {
+                font-size: 10px;
+                transition: transform .12s ease;
+            }
+        }
+
+        &[open] summary .icon-chevron-right {
+            transform: rotate(90deg);
+        }
+    }
+
+    .recommendGoals-evidenceBody {
+        color: @theme-color-text-light;
+        font-size: 12px;
+        line-height: 18px;
+        padding: 6px 0 2px;
+
+        // the global #content p size would win over the inherited 12px
+        p {
+            color: @theme-color-text-light;
+            font-size: 12px;
+            line-height: 18px;
+            margin: 0 0 6px;
+            padding: 0;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .recommendGoals-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+        margin: 16px 0 0;
+    }
+
+    // theme variables adapt automatically; only genuine dark adjustments live here.
+    // tinyContrast/base are darker than the card surface in dark mode, so filled
+    // elements would sink into the card; light overlays lift them off it instead.
+    .inDarkMode({
+        .recommendGoals-chip {
+            background: fade(#fff, 9%);
+            color: @theme-color-text;
+        }
+
+        .recommendGoals-privacyNote {
+            background: fade(#fff, 6%);
+        }
+
+        .recommendGoals-dismissBtn:hover {
+            background: fade(#fff, 10%);
+        }
+
+        .recommendGoals-chip--setup {
+            background: fade(@color-blue-matomo, 16%);
+            border-color: fade(@color-blue-matomo, 50%);
+        }
+
+        // tinyContrast is darker than the card surface in dark mode, which makes
+        // the chip invisible; use a light overlay so it lifts off the card instead
+        .recommendGoals-pattern {
+            background: fade(#fff, 9%);
+        }
+
+        // dark-mode brand teal (#00d7e3, ThemeStyles colorBrand)
+        .recommendGoals-cardIcon {
+            background: fade(#00d7e3, 14%);
+            color: #00d7e3;
+        }
+    });
+
+    // subtle inline chip instead of the global terminal-style code block
+    .recommendGoals-pattern {
+        background: @theme-color-background-tinyContrast;
+        border: 1px solid @theme-color-border;
+        border-radius: 3px;
+        color: @theme-color-text;
+        line-height: 1;
+        overflow-wrap: anywhere;
+        padding: 1px 4px;
+        white-space: normal;
+
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+    }
+
+    // one line explaining a thin scan result: blue means information, orange means a problem,
+    // same tint recipe as the "needs setup" chip
+    .recommendGoals-notice {
+        align-items: flex-start;
+        background: fade(@color-blue-matomo, 8%);
+        border: 1px solid fade(@color-blue-matomo, 50%);
+        border-radius: 3px;
+        color: @theme-color-text;
+        display: flex;
+        font-size: 13px;
+        gap: 8px;
+        line-height: 1.45;
+        margin: 0 0 16px;
+        padding: 10px 12px;
+
+        [class^="icon-"] {
+            color: @color-blue-matomo;
+            flex: 0 0 auto;
+            font-size: 15px;
+            line-height: 1.3;
+        }
+    }
+
+    .recommendGoals-notice--success {
+        background: fade(@color-green-matomo, 7%);
+        border-color: fade(@color-green-matomo, 35%);
+        margin-top: 16px;
+
+        [class^="icon-"] {
+            color: @color-green-matomo;
+        }
+    }
+
+    .recommendGoals-notice--warning {
+        background: fade(#f57c00, 8%);
+        border-color: fade(#f57c00, 50%);
+
+        [class^="icon-"] {
+            color: #f57c00;
+        }
+    }
+
+    // TEMPORARY (ID-277 debugging): remove together with the debug payload
+    .recommendGoals-debug h4 {
+        font-size: 13px;
+        margin: 16px 0 4px;
+    }
+
+    .recommendGoals-debugTable {
+        font-family: monospace;
+        font-size: 11px;
+        width: 100%;
+
+        th,
+        td {
+            border-bottom: 1px solid @theme-color-border-light;
+            padding: 2px 6px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        code {
+            font-size: 11px;
+            word-break: break-all;
+        }
+    }
+
+    .recommendGoals-manual,
+    .recommendGoals-debug {
+        border-top: 1px solid @theme-color-border;
+        margin-top: 24px;
+        padding-top: 12px;
+
+        summary {
+            align-items: center;
+            border: 0;
+            color: @theme-color-link;
+            cursor: pointer;
+            display: flex;
+            font-size: 13px;
+            gap: 6px;
+            list-style: none;
+
+            &::-webkit-details-marker,
+            &::marker {
+                display: none;
+            }
+
+            .icon-chevron-right {
+                font-size: 10px;
+                transition: transform .12s ease;
+            }
+        }
+
+        &[open] summary .icon-chevron-right {
+            transform: rotate(90deg);
+        }
+
+        .recommendGoals-intro {
+            color: @theme-color-text-light;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+    }
+
+    .recommendGoals-manualList {
+        list-style: none;
+        margin: 8px 0 0;
+        padding: 0;
+
+        li {
+            align-items: center;
+            background: @theme-color-background-contrast;
+            border: 1px solid @theme-color-border;
+            border-radius: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            list-style: none;
+            margin-top: 8px;
+            padding: 9px 12px;
+        }
+    }
+
+    .recommendGoals-manualBody {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .recommendGoals-manualName {
+        display: block;
+        font-weight: 600;
+    }
+
+    .recommendGoals-manualHowTo {
+        color: @theme-color-text-light;
+        font-size: 12px;
+    }
+
+    .recommendGoals-empty {
+        color: @theme-color-text-light;
+        margin: 16px 0 0;
+    }
+
+    @media (max-width: 640px) {
+        .recommendGoals-cardMain {
+            grid-template-columns: 1fr;
+        }
+
+        .recommendGoals-cardIcon {
+            display: none;
+        }
+
+        .recommendGoals-cardActions {
+            margin-top: 10px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .recommendGoals-evidence summary .icon-chevron-right,
+        .recommendGoals-manual summary .icon-chevron-right,
+        .recommendGoals-debug summary .icon-chevron-right {
+            transition: none;
+        }
+    }
 }

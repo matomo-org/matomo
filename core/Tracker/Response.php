@@ -181,7 +181,7 @@ class Response
         $img = null;
         $size = null;
 
-        if (strlen($customImage) > 2 && substr($customImage, -2) == '==') {
+        if (strlen($customImage) > 2 && str_ends_with($customImage, '==')) {
             // Base64 image string
             $img = base64_decode($customImage);
             $size = getimagesizefromstring($img);

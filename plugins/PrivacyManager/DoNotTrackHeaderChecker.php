@@ -116,6 +116,6 @@ class DoNotTrackHeaderChecker
     protected function isHeaderDntFound()
     {
         return (isset($_SERVER['HTTP_X_DO_NOT_TRACK']) && $_SERVER['HTTP_X_DO_NOT_TRACK'] === '1')
-            || (isset($_SERVER['HTTP_DNT']) && substr($_SERVER['HTTP_DNT'], 0, 1) === '1');
+            || (isset($_SERVER['HTTP_DNT']) && str_starts_with($_SERVER['HTTP_DNT'], '1'));
     }
 }

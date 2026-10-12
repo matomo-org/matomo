@@ -196,7 +196,7 @@ class PluginSettingsTable extends BaseSettingsTable
 
     private function jsonEncodedMissingError(Exception $e)
     {
-        return strpos($e->getMessage(), 'json_encoded') !== false;
+        return str_contains($e->getMessage(), 'json_encoded');
     }
 
     public function load()

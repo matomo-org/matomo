@@ -80,6 +80,25 @@ class AIConversationResponse
     private $outputTokens;
 
     /**
+     * Number of input tokens served from the provider's prompt cache, or null
+     * when the provider does not report cache usage. Not part of
+     * {@link $inputTokens}: providers that cache report the two separately
+     * because a cache read is billed at a reduced rate.
+     *
+     * @var int|null
+     */
+    private $cacheReadTokens;
+
+    /**
+     * Number of input tokens written into the provider's prompt cache, or null
+     * when the provider does not report cache usage. Not part of
+     * {@link $inputTokens}, and billed at a premium rate.
+     *
+     * @var int|null
+     */
+    private $cacheWriteTokens;
+
+    /**
      * Total provider request time in milliseconds, including retries.
      *
      * @var int|null
@@ -87,7 +106,32 @@ class AIConversationResponse
     private $executionTimeMs;
 
     /**
+     * Cost of the request in USD as billed by the provider, or null when the
+     * provider does not report one.
+     *
+     * @var float|null
+     */
+    private $cost;
+
+    /**
+     * Calls billed at a fixed price per call (for example 1 for a per-call
+     * priced API), or 0 for token-billed providers.
+     *
+     * @var int
+     */
+    private $flatFeeCalls;
+
+    /**
+     * Extra provider-specific data for the `AIProviders.usage` event, without
+     * prompt or response content.
+     *
+     * @var array<string, mixed>
+     */
+    private $providerMeta;
+
+    /**
      * @param list<CanonicalContentBlockArray> $content
+     * @param array<string, mixed> $providerMeta
      */
     public function __construct(
         string $providerId,
@@ -97,7 +141,12 @@ class AIConversationResponse
         string $stopReason,
         ?int $inputTokens = null,
         ?int $outputTokens = null,
-        ?int $executionTimeMs = null
+        ?int $executionTimeMs = null,
+        ?float $cost = null,
+        ?int $cacheReadTokens = null,
+        ?int $cacheWriteTokens = null,
+        int $flatFeeCalls = 0,
+        array $providerMeta = []
     ) {
         $this->providerId = $providerId;
         $this->providerName = $providerName;
@@ -107,6 +156,11 @@ class AIConversationResponse
         $this->inputTokens = $inputTokens;
         $this->outputTokens = $outputTokens;
         $this->executionTimeMs = $executionTimeMs;
+        $this->cacheReadTokens = $cacheReadTokens;
+        $this->cacheWriteTokens = $cacheWriteTokens;
+        $this->cost = $cost;
+        $this->flatFeeCalls = $flatFeeCalls;
+        $this->providerMeta = $providerMeta;
     }
 
     public function getProviderId(): string
@@ -164,8 +218,36 @@ class AIConversationResponse
         return $this->outputTokens;
     }
 
+    public function getCacheReadTokens(): ?int
+    {
+        return $this->cacheReadTokens;
+    }
+
+    public function getCacheWriteTokens(): ?int
+    {
+        return $this->cacheWriteTokens;
+    }
+
     public function getExecutionTimeMs(): ?int
     {
         return $this->executionTimeMs;
+    }
+
+    public function getCost(): ?float
+    {
+        return $this->cost;
+    }
+
+    public function getFlatFeeCalls(): int
+    {
+        return $this->flatFeeCalls;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getProviderMeta(): array
+    {
+        return $this->providerMeta;
     }
 }

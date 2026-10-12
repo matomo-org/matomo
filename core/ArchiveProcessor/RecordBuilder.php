@@ -9,7 +9,6 @@
 
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -682,19 +681,7 @@ abstract class RecordBuilder
 
     protected function querySingleBlobRows(ArchiveProcessor $archiveProcessor, string $recordName): iterable
     {
-        // use the same parameters as ArchiveProcessor::getArchive(): a day period has no subperiods, so the
-        // period itself must be queried, and an archive can aggregate the archives of multiple sites for the
-        // same period (eg for roll-up day archives)
-        $archive = Archive::factory(
-            $archiveProcessor->getParams()->getSegment(),
-            $archiveProcessor->getParams()->getSubPeriods(),
-            $archiveProcessor->getParams()->getIdSites()
-        );
-        if (!method_exists($archive, 'querySingleBlob')) {
-            return [];
-        }
-
-        return $archive->querySingleBlob($recordName);
+        return $archiveProcessor->querySingleBlobRecord($recordName);
     }
 
     /**

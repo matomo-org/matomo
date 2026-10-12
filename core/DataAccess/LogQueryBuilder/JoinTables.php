@@ -156,7 +156,7 @@ class JoinTables extends \ArrayObject
             $firstTable = $firstTable['table'];
         }
 
-        if (strpos($firstTable, LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0) {
+        if (str_starts_with($firstTable, LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX)) {
             // the first table might be a temporary segment table in which case we need to keep the next one as well
             $sorted[] = array_shift($tables);
         }

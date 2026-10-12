@@ -44,21 +44,35 @@ class AuthResult
     protected $code = null;
 
     /**
+     * Optional authentication context payload.
+     *
+     * @var array<string,mixed>|null
+     */
+    protected $authContext = null;
+
+    /**
      * Constructor for AuthResult
      *
      * @param int    $code
      * @param string $login identity
      * @param string $tokenAuth
+     * @param array<string,mixed>|null $authContext Optional context the Auth implementation wants to pass on.
+     *                                              Declaring `token_access_level` - `null` included, meaning
+     *                                              "no scope" - states the token scope and stops core
+     *                                              looking it up on the token row, so leave the key out
+     *                                              unless the implementation knows the scope itself.
      */
     public function __construct(
         $code,
         $login,
         #[\SensitiveParameter]
-        $tokenAuth
+        $tokenAuth,
+        ?array $authContext = null
     ) {
         $this->code      = (int)$code;
         $this->login     = $login;
         $this->tokenAuth = $tokenAuth;
+        $this->authContext = $authContext;
     }
 
     /**
@@ -109,5 +123,16 @@ class AuthResult
     public function wasAuthenticationSuccessful()
     {
         return $this->code > self::FAILURE;
+    }
+
+    /**
+     * Returns optional context payload set during authentication.
+     *
+     * @return array<string,mixed>|null
+     * @since Matomo 6.0.0
+     */
+    public function getAuthContext()
+    {
+        return $this->authContext;
     }
 }

@@ -66,6 +66,11 @@ class ControllerTest extends IntegrationTestCase
         self::assertStringContainsString('icon-user-add', $html);
     }
 
+    public function testInviteUserLinkOpensTheInviteForm()
+    {
+        self::assertStringContainsString('showadduser=1', $this->getInviteUserLink());
+    }
+
     public function testAfterTrackingMethodsContentIsEmptyByDefault()
     {
         self::assertSame('', $this->getAfterTrackingMethodsContent());
@@ -113,6 +118,11 @@ class ControllerTest extends IntegrationTestCase
     private function getAfterTrackingMethodsContent(): string
     {
         return $this->invokeControllerMethod('getAfterTrackingMethodsContent');
+    }
+
+    private function getInviteUserLink(): string
+    {
+        return $this->invokeControllerMethod('getInviteUserLink');
     }
 
     /**

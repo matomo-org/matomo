@@ -217,14 +217,14 @@ class GeoIP2AutoUpdater extends Task
 
         $filename = $path;
 
-        if (substr($filename, -9, 9) === '.download') {
+        if (str_ends_with($filename, '.download')) {
             $filename = substr($filename, 0, -9);
         }
 
-        $isDbIpUnknownDbType = $isDbIp && substr($filename, -5, 5) == '.mmdb';
+        $isDbIpUnknownDbType = $isDbIp && str_ends_with($filename, '.mmdb');
 
         // extract file
-        if (substr($filename, -7, 7) == '.tar.gz') {
+        if (str_ends_with($filename, '.tar.gz')) {
             // find the .dat file in the tar archive
             $unzip = Unzip::factory('tar.gz', $path);
             $content = $unzip->listContent();
@@ -275,7 +275,7 @@ class GeoIP2AutoUpdater extends Task
             fwrite($fd, $unzipped);
             fclose($fd);
         } elseif (
-            substr($filename, -3, 3) == '.gz'
+            str_ends_with($filename, '.gz')
             || $isDbIpUnknownDbType
         ) {
             $unzip = Unzip::factory('gz', $path);
@@ -850,7 +850,7 @@ class GeoIP2AutoUpdater extends Task
     {
         $content = trim($this->fetchUrl($url));
 
-        if (0 === strpos($content, 'http')) {
+        if (str_starts_with($content, 'http')) {
             return $content;
         }
 

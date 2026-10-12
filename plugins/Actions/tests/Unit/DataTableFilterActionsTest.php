@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Actions\tests\Unit;
 
+use Piwik\Config\GeneralConfig;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\Actions\ArchivingHelper;
@@ -27,15 +28,60 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Actions/Actions.php';
  */
 class DataTableFilterActionsTest extends \PHPUnit\Framework\TestCase
 {
+    private const ACTION_CONFIG_KEYS = [
+        'action_default_name',
+        'action_category_delimiter',
+        'action_title_category_delimiter',
+        'action_url_category_delimiter',
+    ];
+
+    /** @var array<string, mixed> */
+    private $originalConfig = [];
+
     public function setUp(): void
     {
         Fixture::loadAllTranslations();
+
+        foreach (self::ACTION_CONFIG_KEYS as $key) {
+            $this->originalConfig[$key] = GeneralConfig::getConfigValue($key);
+        }
     }
 
     public function tearDown(): void
     {
+        foreach ($this->originalConfig as $key => $value) {
+            GeneralConfig::setConfigValue($key, $value);
+        }
+        ArchivingHelper::reloadConfig();
+
+        unset($_GET['flat']);
+
         Fixture::resetTranslations();
         SitesManagerAPI::unsetInstance();
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     */
+    private function setActionConfig(array $values): void
+    {
+        foreach ($values as $key => $value) {
+            GeneralConfig::setConfigValue($key, $value);
+        }
+        ArchivingHelper::reloadConfig();
+    }
+
+    private function filterFlattenedLabel(string $label, int $actionType): string
+    {
+        $_GET['flat'] = 1;
+
+        $table = new DataTable();
+        $row = new Row([Row::COLUMNS => ['label' => $label]]);
+        $table->addRow($row);
+
+        (new ActionsFilter($table, $actionType))->filter($table);
+
+        return $row->getColumn('label');
     }
 
     public function testFilterSetsNullSegmentForUnknownPageUrlEvenWithoutSiteUrlPrefix()
@@ -170,5 +216,33 @@ class DataTableFilterActionsTest extends \PHPUnit\Framework\TestCase
 
         $expected = 'pageUrl=^' . urlencode(urlencode('https://main.example.com/products'));
         $this->assertSame($expected, $row->getMetadata('segment'));
+    }
+
+    public function testFilterTrimsDefaultActionNameFromFlattenedLabel()
+    {
+        $this->setActionConfig([
+            'action_default_name' => 'index',
+            'action_category_delimiter' => '',
+            'action_url_category_delimiter' => '/',
+        ]);
+
+        $label = $this->filterFlattenedLabel('shop/index', Action::TYPE_PAGE_URL);
+
+        $this->assertSame('shop/', $label);
+    }
+
+    public function testFilterKeepsFlattenedLabelWhenThereIsNoDefaultActionNameToTrim()
+    {
+        // action_title_category_delimiter ships empty, so an empty action_default_name
+        // leaves nothing to search for. The label has to be returned untouched.
+        $this->setActionConfig([
+            'action_default_name' => '',
+            'action_category_delimiter' => '',
+            'action_title_category_delimiter' => '',
+        ]);
+
+        $label = $this->filterFlattenedLabel('My Page Title', Action::TYPE_PAGE_TITLE);
+
+        $this->assertSame('My Page Title', $label);
     }
 }

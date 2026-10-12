@@ -507,7 +507,7 @@ class QueueConsumer
     private function getPluginNameForArchiveIfAny(array $archive): ?string
     {
         $name = $archive['name'];
-        if (strpos($name, '.') === false) {
+        if (!str_contains($name, '.')) {
             return null;
         }
 

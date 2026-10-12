@@ -1,1 +1,17 @@
-{}
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "有 IP 因产生过多活动而被阻止。",
+        "BlockCloudNoteInternetDisabled": "由于在您的Matomo配置中网络已关闭，此功能将无法运作。",
+        "PluginDescription": "这个插件提供多种选项来防止垃圾信息发送者和机器人让您的数据不准确，使您能再次信任您自身的数据。",
+        "SettingBlockHeadlessTitle": "阻止无头浏览器",
+        "SettingBlockSdksAndLibrariesTitle": "阻止来自SDK和服务端库的流量",
+        "SettingExcludedCountriesTitle": "排除的国家",
+        "SettingIncludedCountriesTitle": "仅追踪来自这些国家的访客",
+        "SettingIpAllowListHelp": "指定允许发出追踪请求的IP地址或CIDR范围。一行一个。",
+        "SettingIpAllowListTitle": "IP 白名单",
+        "SettingIpBlockListTitle": "IP 黑名单",
+        "SettingMaxActionsTitle": "每次访问要记录的最大活动数",
+        "SettingNotificationEmailTitle": "通知邮件",
+        "SettingOrganisationBlockListTitle": "组织黑名单"
+    }
+}

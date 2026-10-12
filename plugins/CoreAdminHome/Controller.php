@@ -427,7 +427,7 @@ class Controller extends ControllerAdmin
 
         // Use a path relative to the current Matomo install so subdirectory installs
         // don't resolve internal "What's New" links against the web root.
-        if (strpos($link, '/index.php') === 0) {
+        if (str_starts_with($link, '/index.php')) {
             $link = substr($link, 1);
         }
 
@@ -453,10 +453,10 @@ class Controller extends ControllerAdmin
     {
         $fragmentPrefix = '';
         $fragmentQuery = '';
-        if (strpos($fragment, '/?') === 0) {
+        if (str_starts_with($fragment, '/?')) {
             $fragmentPrefix = '/?';
             $fragmentQuery = substr($fragment, 2);
-        } elseif (strpos($fragment, '?') === 0) {
+        } elseif (str_starts_with($fragment, '?')) {
             $fragmentPrefix = '?';
             $fragmentQuery = substr($fragment, 1);
         }
@@ -482,6 +482,6 @@ class Controller extends ControllerAdmin
 
     private function isInternalWhatIsNewLink(string $link): bool
     {
-        return strpos($link, 'index.php') === 0 || strpos($link, '/index.php') === 0;
+        return str_starts_with($link, 'index.php') || str_starts_with($link, '/index.php');
     }
 }

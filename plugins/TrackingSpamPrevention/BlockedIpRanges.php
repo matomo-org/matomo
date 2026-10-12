@@ -133,7 +133,7 @@ class BlockedIpRanges
             $ranges[$index] = [];
         }
 
-        if (strpos($ip, '.') !== false) {
+        if (str_contains($ip, '.')) {
             $ipRange = $ip . '/32';
         } else {
             $ipRange = $ip . '/128';

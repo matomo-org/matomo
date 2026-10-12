@@ -225,7 +225,7 @@ class LogDataAnonymizations
 
     public function getStartAndEndDate($date)
     {
-        if (strpos($date, ',') === false) {
+        if (!str_contains($date, ',')) {
             $period = PeriodFactory::build('day', $date);
         } else {
             $period = PeriodFactory::build('range', $date);

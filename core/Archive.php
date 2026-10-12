@@ -856,7 +856,7 @@ class Archive implements ArchiveQuery
 
         // If there is no dot, we return as is
         // Note: this could be an integer bigger than 32 bits
-        if (strpos((string)$value, '.') === false) {
+        if (!str_contains((string)$value, '.')) {
             return (float)$value;
         }
 

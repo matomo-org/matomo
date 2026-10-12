@@ -46,6 +46,8 @@ export { default as tooltipContent } from './Tooltips/tooltipContent';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
 export { default as MatomoModal } from './MatomoModal/MatomoModal.vue';
 export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
+export { default as useSelectorDropdown } from './Selector/useSelectorDropdown';
+export type { SelectorDropdown } from './Selector/useSelectorDropdown';
 export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';
 export { default as ShowSensitiveData } from './ShowSensitiveData/ShowSensitiveData';
 export { default as DropdownButton } from './DropdownButton/DropdownButton';
@@ -108,6 +110,9 @@ export {
 export { default as MobileLeftMenu } from './MobileLeftMenu/MobileLeftMenu.vue';
 export { default as scrollToAnchorInUrl } from './scrollToAnchorInUrl';
 export { default as SearchFiltersPersistenceStore } from './SearchFiltersPersistence/SearchFiltersPersistence.store';
+export { default as ReportActionsStore } from './DataTable/ReportActions.store';
+export { default as reportIdentity } from './DataTable/reportIdentity';
+export { default as activateMenuItem } from './DataTable/activateMenuItem';
 export { default as AutoClearPassword } from './AutoClearPassword/AutoClearPassword';
 export { default as PasswordStrength } from './PasswordStrength/PasswordStrength.vue';
 export * from './PasswordStrength/PasswordStrength';

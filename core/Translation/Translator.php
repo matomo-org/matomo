@@ -85,7 +85,7 @@ class Translator
         $args          = is_array($args) ? $args : [$args];
         $translationId = $translationId ?? '';
 
-        if (strpos($translationId, "_") !== false) {
+        if (str_contains($translationId, "_")) {
             [$plugin, $key] = explode("_", $translationId, 2);
             $language = is_string($language) ? $language : $this->currentLanguage;
 
@@ -187,7 +187,7 @@ class Translator
     {
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $id) {
-            if (strpos($id, '_') === false) {
+            if (!str_contains($id, '_')) {
                 StaticContainer::get(LoggerInterface::class)->warning(
                     'Unexpected translation key found in client side translations: {translation_key}',
                     ['translation_key' => $id]

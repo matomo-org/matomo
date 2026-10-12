@@ -4,9 +4,12 @@
 
   .mtm-searchInput__icon {
     position: absolute;
-    top: 50%;
+    top: 0;
+    bottom: 0;
     left: 12px;
-    transform: translateY(-50%);
+    margin: auto;
+    // The auto margins centre it only against a height of its own.
+    height: 1em;
     font-size: 14px;
     line-height: 1;
     color: @theme-color-text-placeholder;
@@ -39,18 +42,58 @@
     width: 13px;
     height: 13px;
     right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
+    bottom: 0;
+    margin: auto;
     padding: 0;
     border: 0;
     // it only renders when there is a value to clear, so it stays painted rather than
     // appearing on hover: a hover-only affordance is unreachable for keyboard users
-    background: url(plugins/CoreHome/images/reset_search.png);
+    background: transparent;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: @theme-color-text-placeholder;
+    // Smaller than the button, so the cross keeps the weight it had as an image.
+    font-size: 9px;
+
+    &:hover {
+      color: @theme-color-text;
+    }
 
     &:focus-visible {
       outline: 2px solid @theme-color-focus-ring;
       outline-offset: 2px;
+    }
+  }
+
+  // For a surface that already carries enough to look at: shorter, and no box of its own until it
+  // takes the focus. The icons go flush to the edges and centre above the underline.
+  &.mtm-searchInput--ghost {
+    .mtm-searchInput__icon {
+      left: 0;
+      bottom: 8px;
+    }
+
+    .mtm-searchInput__clear {
+      right: 0;
+      bottom: 8px;
+    }
+
+    .mtm-searchInput__input {
+      height: 30px;
+      padding: 4px 12px 8px 23px;
+      border: 0;
+      // Held while idle so taking the focus cannot shift the text.
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+
+      &:focus-visible {
+        border: 0;
+        border-bottom: 2px solid @theme-color-focus-ring;
+        outline: none;
+      }
     }
   }
 }

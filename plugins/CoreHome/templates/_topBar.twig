@@ -1,14 +1,24 @@
 {{ postEvent("Template.beforeTopBar", userLogin, topMenu) }}
 <ul class="right hide-on-med-and-down" role="menu">
-    {% macro menuItemLabel(label, icon) %}
-        {% if icon is defined and icon and icon starts with 'icon-' %}
+    {# `withLabel` draws the icon and the text together, which is what the mobile drawer needs:
+       a full width row has room for both, and there the icon alone would leave every entry
+       unnamed. The text is then what names the entry, so the icon is marked decorative rather
+       than carrying an aria-label that would be read out twice. #}
+    {% macro menuItemLabel(label, icon, withLabel) %}
+        {% set hasIcon = icon is defined and icon and icon starts with 'icon-' %}
+        {% if withLabel %}
+            {# The icon span is emitted even for an entry that registered no icon, so every row's
+               text starts in the same place instead of only the ones with a glyph being indented. #}
+            <span class="navbar-icon{% if hasIcon %} {{ icon|striptags }}{% endif %}" aria-hidden="true"></span>
+            <span class="navbar-label">{{ label|translate }}</span>
+        {% elseif hasIcon %}
             <span class="navbar-icon {{ icon|striptags }}" aria-label="{{ label|translate|e('html_attr') }}"></span>
         {% else %}
             <span class="navbar-label">{{ label|translate }}</span>
         {% endif %}
     {% endmacro %}
 
-    {% macro topMenuItem(label, icon, menu) %}
+    {% macro topMenuItem(label, icon, menu, withLabel) %}
         {% if menu._html is defined %}
             {{ menu._html|raw }}
         {% else %}
@@ -34,7 +44,7 @@
                      {% endif %}
                    </span>
                  {%  endif %}
-                 {{ _self.menuItemLabel(label, icon) }}
+                 {{ _self.menuItemLabel(label, icon, withLabel) }}
             </a>
             {% if menu._badgecount > 0 %}
             </div>
@@ -58,7 +68,7 @@
 <ul class="sidenav hide-on-large-only" id="mobile-top-menu" role="menu">
     {% for label,menu in topMenu %}
         <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}"
-            >{{ _self.topMenuItem(label, '', menu) }}</li>
+            >{{ _self.topMenuItem(label, menu._icon, menu, true) }}</li>
     {% endfor %}
 </ul>
 <a href="javascript:;" data-target="mobile-left-menu" class="activateLeftMenu hide-on-large-only button-collapse sidenav-trigger" style="display:none;"><span class="icon-menu-hamburger"></span></a>

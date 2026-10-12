@@ -110,6 +110,9 @@ class Tsv extends ReportRenderer
      */
     public function renderReport($processedReport)
     {
+        // the TSV renderer builds its header from the column names of the report data
+        self::translatePercentOfTotalColumns($processedReport['reportData'], $processedReport['columns'] ?? []);
+
         $tsvRenderer = $this->getRenderer(
             $processedReport['reportData'],
             $processedReport['metadata']['uniqueId']

@@ -2,8 +2,6 @@
     "TrackingSpamPrevention": {
         "BanIpNotificationMailSubject": "En IP-adress spärrades eftersom den gjorde för många anrop.",
         "BlockCloudNoteInternetDisabled": "När internet är otillgängligt i din inställning för Matomo kommer denna funktion inte att fungera.",
-        "SettingBlockCloudDescription": "Blockerar spårningsförfrågningar som kommer från molnleverantörer som AWS, Azure, Digital Ocean, Google Cloud och Oracle genom att hämta listor med deras IP-adresser. Det ska vara tryggt att aktivera ifall du endast använder Javascript-spårning, då deras spårningsförfrågningar inte kommer från molnet, om inte användarna kör med VPN som kommer ut genom en molnleverantör. Inställningen gäller alla dina webbplatser.",
-        "SettingBlockCloudTitle": "Förhindra begäran om spårning från molnet",
         "SettingBlockHeadlessDescription": "Detta är webbläsare utan ett användargränssnitt som oftast används för automatisering. Det borde vara ofarligt att aktivera detta om vanliga webbsidor eller program används. Den kan spärra övriga bottar och skräpanrop som annars inte hade upptäckts.",
         "SettingBlockHeadlessTitle": "Spärra huvudlösa webbläsare",
         "SettingExcludedCountriesDescription": "Spåra inte besökare från dessa länder. Besökare utanför ditt målområde är mest troligen bottar eller spammare eller så kan du använda det för att undvika integritetslagstiftningar i andra territorier.",

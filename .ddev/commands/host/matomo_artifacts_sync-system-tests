@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+## Description: Sync processed system test files from the artifacts server
+## Usage: matomo:artifacts:sync-system-tests <buildnumber> [-e] [-r <repository>] [-p <plugin>]
+## Example: ddev matomo:artifacts:sync-system-tests 12345 -e -r innocraft/plugin-FormAnalytics
+## OSTypes: darwin,linux,wsl2,windows
+
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${script_dir}/.matomo_artifacts_lib.sh"
+
+matomo_artifacts::sync development:sync-system-test-processed "$@"

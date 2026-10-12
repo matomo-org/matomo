@@ -236,7 +236,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame(12, $response->getInputTokens());
         $this->assertSame(7, $response->getOutputTokens());
         $this->assertSame(AIRequest::REASONING_NONE, $response->getReasoningLevel());
-        $this->assertFalse($response->isWebSearchEnabled());
+        $this->assertFalse($response->wasWebSearchUsed());
         $this->assertIsInt($response->getExecutionTimeMs());
     }
 
@@ -274,19 +274,19 @@ class ConfigurationTest extends IntegrationTestCase
             ->withModel('gpt-4o-mini')
             ->withMaxTokens(64)
             ->withTemperature(0.5)
-            ->withReasoningLevel('low')
-            ->withWebSearchEnabled(true);
+            ->withReasoningLevel('low');
 
         $response = StaticContainer::get(AIProviderService::class)->complete($request);
 
         $this->assertSame('Blue light scatters most.', $response->getText());
         $this->assertSame(AIRequest::REASONING_NONE, $response->getReasoningLevel());
-        $this->assertFalse($response->isWebSearchEnabled());
+        $this->assertFalse($response->wasWebSearchUsed());
         $this->assertIsArray($capturedBody);
         $this->assertSame('gpt-4o-mini', $capturedBody['model']);
         $this->assertSame(64, $capturedBody['max_completion_tokens']);
         $this->assertArrayNotHasKey('max_tokens', $capturedBody);
         $this->assertArrayNotHasKey('temperature', $capturedBody);
+        $this->assertArrayNotHasKey('tools', $capturedBody);
         $this->assertSame('none', $capturedBody['reasoning_effort']);
         $this->assertSame(
             [
@@ -294,6 +294,168 @@ class ConfigurationTest extends IntegrationTestCase
                 ['role' => 'user', 'content' => 'why is the sky blue'],
             ],
             $capturedBody['messages']
+        );
+    }
+
+    public function testWebSearchRequestRunsGroundedAndReportsWhatTheProviderSearched(): void
+    {
+        $this->api->saveSettings(
+            'openai',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'openai' => [
+                    'apiKey' => 'secret-openai-key',
+                    'endpointUrl' => '',
+                ],
+            ])
+        );
+
+        $capturedUrl = null;
+        $capturedBody = null;
+        Piwik::addAction('Http.sendHttpRequest', function (
+            string $url,
+            array $httpEventParams,
+            ?string &$response,
+            ?int &$status,
+            array &$headers
+        ) use (
+            &$capturedUrl,
+            &$capturedBody
+): void {
+            $capturedUrl = $url;
+            $capturedBody = json_decode((string) $httpEventParams['body'], true);
+            $response = (string) json_encode([
+                'output' => [
+                    ['type' => 'web_search_call', 'status' => 'completed', 'action' => ['type' => 'search', 'query' => 'sky colour']],
+                    [
+                        'type' => 'message',
+                        'content' => [[
+                            'type' => 'output_text',
+                            'text' => 'Blue light scatters most.',
+                            'annotations' => [
+                                ['type' => 'url_citation', 'url' => 'https://www.example.org/sky', 'title' => 'Why the sky is blue'],
+                            ],
+                        ]],
+                    ],
+                ],
+                'usage' => ['input_tokens' => 900, 'output_tokens' => 20],
+                'status' => 'completed',
+            ]);
+            $status = 200;
+            $headers = ['Content-Type' => 'application/json'];
+        });
+
+        $request = (new AIRequest('why is the sky blue', 'Test'))
+            ->withSystemPrompt('You are concise.')
+            ->withWebSearchEnabled(true);
+
+        $response = StaticContainer::get(AIProviderService::class)->complete($request);
+
+        $this->assertSame('https://api.openai.com/v1/responses', $capturedUrl);
+        $this->assertSame([['type' => 'web_search', 'search_context_size' => 'medium']], $capturedBody['tools']);
+        $this->assertFalse($capturedBody['store']);
+        $this->assertSame(
+            [
+                ['role' => 'developer', 'content' => 'You are concise.'],
+                ['role' => 'user', 'content' => 'why is the sky blue'],
+            ],
+            $capturedBody['input']
+        );
+
+        $this->assertSame('Blue light scatters most.', $response->getText());
+        $this->assertTrue($response->wasWebSearchUsed());
+        $this->assertSame(1, $response->getWebSearchRequestCount());
+        $this->assertSame(['sky colour'], $response->getWebSearchQueries());
+        $this->assertSame(
+            [['url' => 'https://www.example.org/sky', 'title' => 'Why the sky is blue', 'domain' => 'example.org']],
+            $response->getWebSearchCitations()
+        );
+        $this->assertSame(900, $response->getInputTokens());
+    }
+
+    public function testCanUseWebSearchAnswersForTheProviderThatWouldActuallyRun(): void
+    {
+        $this->api->saveSettings(
+            'openai',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'openai' => ['apiKey' => 'secret-openai-key', 'endpointUrl' => ''],
+            ])
+        );
+
+        $service = StaticContainer::get(AIProviderService::class);
+
+        $this->assertTrue($service->canUseWebSearch('Test'));
+        // A provider the caller asks for by name is answered for too, so a
+        // feature can degrade before spending anything.
+        $this->assertFalse($service->canUseWebSearch('Test', 'custom-provider'));
+    }
+
+    /**
+     * The reason canUseWebSearch() exists rather than callers reading
+     * supportsWebSearch() themselves: on a managed instance the forced provider
+     * wins, so a locked caller must be told about that provider's capability and
+     * not the one it would have asked for.
+     */
+    public function testCanUseWebSearchAnswersForTheForcedProviderOnAManagedInstance(): void
+    {
+        $this->api->saveSettings(
+            'bedrock',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'bedrock' => ['apiKey' => 'ak:sk', 'endpointUrl' => 'us-east-1'],
+                'openai' => ['apiKey' => 'secret-openai-key', 'endpointUrl' => ''],
+            ])
+        );
+        Config::getInstance()->AIProviders = [
+            'defaultProvider' => 'bedrock',
+            'providerSelectionAllowlist' => ['ExamplePlugin'],
+        ];
+
+        $service = StaticContainer::get(AIProviderService::class);
+
+        // Locked to Bedrock, which has no web search, even though OpenAI is
+        // configured and is what the caller asked for.
+        $this->assertFalse($service->canUseWebSearch('OtherPlugin'));
+        $this->assertFalse($service->canUseWebSearch('OtherPlugin', 'openai'));
+        // An allowlisted caller keeps its requested provider, so it can ground.
+        $this->assertTrue($service->canUseWebSearch('ExamplePlugin', 'openai'));
+    }
+
+    public function testCanUseWebSearchIsFalseForAnUnknownRequestedProvider(): void
+    {
+        $this->api->saveSettings(
+            'openai',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'openai' => ['apiKey' => 'secret-openai-key', 'endpointUrl' => ''],
+            ])
+        );
+
+        $this->assertFalse(
+            StaticContainer::get(AIProviderService::class)->canUseWebSearch('Test', 'not-a-provider')
+        );
+    }
+
+    public function testWebSearchRequestIsRejectedForAProviderWithoutWebSearch(): void
+    {
+        $this->api->saveSettings(
+            'custom-provider',
+            Configuration::CAPABILITY_INSTANT,
+            (string) json_encode([
+                'custom-provider' => [
+                    'apiKey' => '',
+                    'endpointUrl' => 'http://localhost:1234/v1',
+                    'model' => 'local-model',
+                ],
+            ])
+        );
+
+        $this->expectException(AIProviderClientException::class);
+        $this->expectExceptionMessage('does not support web search');
+
+        StaticContainer::get(AIProviderService::class)->complete(
+            (new AIRequest('why is the sky blue', 'Test'))->withWebSearchEnabled(true)
         );
     }
 
@@ -641,9 +803,11 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertTrue($statusesById['anthropic']['isConfigured']);
         $this->assertFalse($statusesById['google']['isConfigured']);
         $this->assertSame(
-            ['id', 'name', 'isConfigured'],
+            ['id', 'name', 'isConfigured', 'supportsWebSearch'],
             array_keys($statusesById['anthropic'])
         );
+        $this->assertTrue($statusesById['anthropic']['supportsWebSearch']);
+        $this->assertFalse($statusesById['bedrock']['supportsWebSearch']);
     }
 
     public function testNonAllowlistedCallerOnlySeesTheForcedProvider(): void

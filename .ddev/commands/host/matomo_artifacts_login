@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+## Description: Store the artifacts server credentials with your git credential helper
+## Usage: matomo:artifacts:login
+## Example: ddev matomo:artifacts:login
+## OSTypes: darwin,linux,wsl2,windows
+
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${script_dir}/.matomo_artifacts_lib.sh"
+
+matomo_artifacts::require_git || exit 1
+
+read -r -p "Username for https://${MATOMO_ARTIFACTS_HOST}: " username
+read -r -s -p "Password: " password
+echo
+
+if [[ -z "${username}" || -z "${password}" ]]; then
+  echo "Both a username and a password are required." >&2
+  exit 1
+fi
+
+printf 'protocol=https\nhost=%s\nusername=%s\npassword=%s\n\n' \
+  "${MATOMO_ARTIFACTS_HOST}" "${username}" "${password}" | git credential approve
+
+# git stores nothing at all when no helper is configured, and says so silently, so the only honest
+# check is to read the credential back and see that it is the one that was just entered
+stored="$(matomo_artifacts::fill_credential || true)"
+
+if [[ "$(matomo_artifacts::credential_field "${stored}" username)" != "${username}" \
+  || "$(matomo_artifacts::credential_field "${stored}" password)" != "${password}" ]]; then
+  echo "The credentials were not stored: git does not return them for ${MATOMO_ARTIFACTS_HOST}." >&2
+  echo "Either no credential helper stored them, or another one answers for this host first." >&2
+  matomo_artifacts::explain_credential_helpers
+  exit 1
+fi
+
+echo "Stored the credentials for ${MATOMO_ARTIFACTS_HOST} with your git credential helper."
+echo "To remove them again: printf 'protocol=https\\nhost=${MATOMO_ARTIFACTS_HOST}\\n\\n' | git credential reject"

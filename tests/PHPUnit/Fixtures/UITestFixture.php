@@ -399,6 +399,7 @@ class UITestFixture extends SqlDump
         $files = [
             'index.html',
             'opt-out.php',
+            'redirect.php',
             'user-id-visitor-id.php',
             'page-1.html',
             'page-2.html',
@@ -529,7 +530,7 @@ class UITestFixture extends SqlDump
                 $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
                 || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
                 || $widget['uniqueId'] == 'widgetCoreHomequickLinks'
-                || strpos($widget['uniqueId'], 'widgetExample') === 0
+                || str_starts_with($widget['uniqueId'], 'widgetExample')
             ) {
                 continue;
             }

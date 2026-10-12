@@ -49,7 +49,7 @@ class PendingUsers extends Fixture
     protected function setUpUser()
     {
         $model = new Model();
-        $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime, 1);
+        $model->addUser($this->pendingUser['login'], '', $this->pendingUser['email'], $this->dateTime);
         $model->attachInviteToken($this->pendingUser['login'], $this->token, 7);
     }
 

@@ -81,7 +81,6 @@
         "PluginUploadDisabled": "O envio de extensões está desativo no ficheiro de configuração. Para ativar esta funcionalidade, por favor, atualize a sua configuração ou contacte o seu administrador",
         "PluginVersionInfo": "%1$s de %2$s",
         "PluginWebsite": "Site da extensão",
-        "PriceExclTax": "%1$s %2$s excl. tax.",
         "PriceFromPerPeriod": "De %1$s / %2$s",
         "RemoveLicenseKey": "Remover chave da licença",
         "RequestTrial": "Solicitar avaliação",

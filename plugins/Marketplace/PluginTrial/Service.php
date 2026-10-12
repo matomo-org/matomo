@@ -84,7 +84,7 @@ final class Service
             return; // only super users can see and dismiss those notifications
         }
 
-        if (strpos($notificationId, 'Marketplace_PluginTrialRequest_') !== 0) {
+        if (!str_starts_with($notificationId, 'Marketplace_PluginTrialRequest_')) {
             return; // Ignore other notifications
         }
 

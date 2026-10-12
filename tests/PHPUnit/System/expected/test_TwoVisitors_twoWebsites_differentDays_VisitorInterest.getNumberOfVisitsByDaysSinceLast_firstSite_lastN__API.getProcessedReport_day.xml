@@ -28,7 +28,7 @@
 	<columns>
 		<label>Days since last visit</label>
 		<nb_visits>Visits</nb_visits>
-		<nb_visits_percent_of_total>Visits (% of total)</nb_visits_percent_of_total>
+		<nb_visits_percent_of_total>Visits (%)</nb_visits_percent_of_total>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">

@@ -48,6 +48,13 @@ class AIRequest
     public const DEFAULT_MAX_TOKENS = 1024;
     public const DEFAULT_TEMPERATURE = 0.2;
 
+    /**
+     * Searches a grounded request may run unless the caller sets its own cap.
+     * Kept low because every search is billed on top of the page content it
+     * pulls into the prompt as input tokens.
+     */
+    public const DEFAULT_MAX_WEB_SEARCHES = 2;
+
     public const REASONING_NONE = 'none';
 
     public const FORMAT_TEXT = 'text';
@@ -103,6 +110,21 @@ class AIRequest
     private $idSite = null;
 
     /**
+     * The caller's own identifier for this call (for example a conversation
+     * turn or a stored query ID), passed to usage listeners.
+     *
+     * @var string|null
+     */
+    private $usageReference = null;
+
+    /**
+     * Extra caller data for usage listeners, without prompt or response content.
+     *
+     * @var array<string, mixed>
+     */
+    private $meta = [];
+
+    /**
      * @var int
      */
     private $maxTokens = self::DEFAULT_MAX_TOKENS;
@@ -131,12 +153,35 @@ class AIRequest
     private $reasoningLevel = self::REASONING_NONE;
 
     /**
-     * Whether the caller wants provider web search. Currently advisory only;
-     * providers do not enable provider-specific web search tools yet.
+     * Whether the caller wants the provider's server-side web search (grounding).
+     * Providers without one reject the request — see
+     * {@link AIProviderService::complete()}. The model still decides whether a
+     * prompt needs a search, so read {@link AIProviderResponse::wasWebSearchUsed()}
+     * for what actually happened.
+     *
+     * Never free: providers charge per search on top of the retrieved page
+     * content, which arrives as input tokens.
      *
      * @var bool
      */
     private $webSearchEnabled = false;
+
+    /**
+     * Most searches a grounded request may run, where the provider supports a
+     * cap (Anthropic, OpenAI). Google has no per-request cap and ignores it.
+     *
+     * @var int
+     */
+    private $maxWebSearches = self::DEFAULT_MAX_WEB_SEARCHES;
+
+    /**
+     * Provider HTTP timeout, or null for the provider's default: 30s, raised to
+     * 120s for grounded requests because server-side search runs several fetches
+     * inside the one HTTP request.
+     *
+     * @var int|null
+     */
+    private $timeoutSeconds = null;
 
     /**
      * Future provider-specific thinking budget. Not applied to requests yet.
@@ -214,6 +259,32 @@ class AIRequest
         return $request;
     }
 
+    /**
+     * Sets the caller's own identifier for this call, passed to the
+     * `AIProviders.beforeRequest` and `AIProviders.usage` listeners.
+     */
+    public function withUsageReference(?string $usageReference): self
+    {
+        $request = clone $this;
+        $request->usageReference = $usageReference;
+
+        return $request;
+    }
+
+    /**
+     * Sets extra data for the `AIProviders.beforeRequest` and `AIProviders.usage`
+     * listeners. Must not contain prompt or response content.
+     *
+     * @param array<string, mixed> $meta
+     */
+    public function withMeta(array $meta): self
+    {
+        $request = clone $this;
+        $request->meta = $meta;
+
+        return $request;
+    }
+
     public function withMaxTokens(int $maxTokens): self
     {
         $request = clone $this;
@@ -243,6 +314,29 @@ class AIRequest
     {
         $request = clone $this;
         $request->webSearchEnabled = $webSearchEnabled;
+
+        return $request;
+    }
+
+    /**
+     * Caps the searches a grounded request may run; null restores
+     * {@link DEFAULT_MAX_WEB_SEARCHES}. Ignored by providers without a cap.
+     */
+    public function withMaxWebSearches(?int $maxWebSearches): self
+    {
+        $request = clone $this;
+        $request->maxWebSearches = $maxWebSearches === null ? self::DEFAULT_MAX_WEB_SEARCHES : max(1, $maxWebSearches);
+
+        return $request;
+    }
+
+    /**
+     * Overrides the provider HTTP timeout; null restores the provider default.
+     */
+    public function withTimeoutSeconds(?int $timeoutSeconds): self
+    {
+        $request = clone $this;
+        $request->timeoutSeconds = $timeoutSeconds === null ? null : max(1, $timeoutSeconds);
 
         return $request;
     }
@@ -307,6 +401,19 @@ class AIRequest
         return $this->idSite;
     }
 
+    public function getUsageReference(): ?string
+    {
+        return $this->usageReference;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getMeta(): array
+    {
+        return $this->meta;
+    }
+
     public function getMaxTokens(): int
     {
         return $this->maxTokens;
@@ -330,6 +437,16 @@ class AIRequest
     public function isWebSearchEnabled(): bool
     {
         return $this->webSearchEnabled;
+    }
+
+    public function getMaxWebSearches(): int
+    {
+        return $this->maxWebSearches;
+    }
+
+    public function getTimeoutSeconds(): ?int
+    {
+        return $this->timeoutSeconds;
     }
 
     public function getThinkingBudget(): ?int

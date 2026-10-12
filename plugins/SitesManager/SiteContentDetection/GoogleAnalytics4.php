@@ -27,7 +27,7 @@ class GoogleAnalytics4 extends SiteContentDetectionAbstract
             return false;
         }
 
-        if (strpos($data, 'gtag.js') !== false) {
+        if (str_contains($data, 'gtag.js')) {
             return true;
         }
 

@@ -271,7 +271,7 @@ class Process
             $uname = php_uname();
         }
 
-        if (strpos($uname, 'synology') !== false) {
+        if (str_contains($uname, 'synology')) {
             return true;
         }
         return false;

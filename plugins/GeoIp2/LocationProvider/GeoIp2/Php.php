@@ -266,7 +266,7 @@ class Php extends GeoIp2
             // In some cases the region code might be returned including the country code
             // e.g. AE-DU instead of only DU. In that case we remove the prefix
             // see https://github.com/matomo-org/matomo/issues/19323
-            if (0 === strpos($subdivisionIsoCode, $result[self::COUNTRY_CODE_KEY] . '-')) {
+            if (str_starts_with($subdivisionIsoCode, $result[self::COUNTRY_CODE_KEY] . '-')) {
                 $subdivisionIsoCode = substr($subdivisionIsoCode, strlen($result[self::COUNTRY_CODE_KEY]) + 1);
             }
 

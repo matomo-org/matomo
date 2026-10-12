@@ -163,7 +163,7 @@ class Filesystem
 
             $output = @shell_exec($command);
             if ($output) {
-                $commandFailed = (false !== strpos($output, "no file systems processed"));
+                $commandFailed = (str_contains($output, "no file systems processed"));
                 $output = trim($output);
                 $outputArray = explode("\n", $output);
                 if (
@@ -563,7 +563,7 @@ class Filesystem
     private static function isPathWithinTmpFolder($path)
     {
         $pathIsTmp = StaticContainer::get('path.tmp');
-        $isPathWithinTmpFolder = strpos($path, $pathIsTmp) === 0;
+        $isPathWithinTmpFolder = str_starts_with($path, $pathIsTmp);
         return $isPathWithinTmpFolder;
     }
 

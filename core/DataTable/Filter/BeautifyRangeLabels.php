@@ -77,7 +77,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
     public function beautify($value)
     {
         // if there's more than one element, handle as a range w/ an upper bound
-        if (strpos($value, "-") !== false) {
+        if (str_contains($value, "-")) {
             // get the range
             sscanf($value, "%d - %d", $lowerBound, $upperBound);
 

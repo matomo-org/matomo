@@ -29,4 +29,9 @@ class TrackerResponse extends Response
     {
         $this->isAuthenticated = $isAuthenticated;
     }
+
+    public function isAuthenticated()
+    {
+        return $this->isAuthenticated;
+    }
 }

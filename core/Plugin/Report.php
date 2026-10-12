@@ -987,7 +987,7 @@ class Report
 
     private function getSubtableApiMethod()
     {
-        if (strpos($this->actionToLoadSubTables, '.') !== false) {
+        if (str_contains($this->actionToLoadSubTables, '.')) {
             return explode('.', $this->actionToLoadSubTables);
         } else {
             return array($this->module, $this->actionToLoadSubTables);

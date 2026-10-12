@@ -105,7 +105,7 @@ abstract class GeoIp2 extends LocationProvider
      */
     public static function getPathForGeoIpDatabase($filename)
     {
-        if (strpos($filename, '/') !== false && file_exists($filename)) {
+        if (str_contains($filename, '/') && file_exists($filename)) {
             return $filename;
         }
 

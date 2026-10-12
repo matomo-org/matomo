@@ -38,6 +38,8 @@
         "RecommendedPrivateDirectories": "Προτεινόμενοι Ιδιωτικοί Κατάλογοι",
         "RequiredPrivateDirectories": "Απαιτούμενα Ιδιωτικοί Κατάλογοι",
         "Sections": "Τμήματα",
+        "SessionStorageFormat": "Μορφή Αποθήκευσης Συνεδρίας",
+        "SessionStorageFormatWarning": "Οι συνεδρίες αποθηκεύονται ως %1$s επειδή το session.serialize_handler δεν ήταν δυνατό να οριστεί στην τιμή php_serialize, οπότε αλλαγές που κάνουν δύο αιτήσεις την ίδια στιγμή ενδέχεται να χαθούν. Καθορίστε το σε php_serialize στο php.ini σας.",
         "UrlsAccessibleViaBrowser": "Βρέθηκε ότι οι παραπάνω διευθύνσεις URL είναι προσπελάσιμες μέσω του φυλλομετρητή, αλλά συνιστούμε να μην είναι. Αν είναι δυνατόν, αποκλείστε την πρόσβαση σε αυτές."
     }
 }

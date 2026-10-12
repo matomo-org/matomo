@@ -194,7 +194,7 @@ class JoinGenerator
                     $i > 0
                     && $this->tables[$i - 1]
                     && is_string($this->tables[$i - 1])
-                    && strpos($this->tables[$i - 1], LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0
+                    && str_starts_with($this->tables[$i - 1], LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX)
                 ) {
                     $joinName = 'INNER JOIN';
                     // when we archive a segment there will be eg `logtmpsegment$HASH` as first table.

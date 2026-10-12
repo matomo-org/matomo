@@ -150,7 +150,7 @@ class Controller extends \Piwik\Plugin\Controller
             // use this date for the new annotation, unless it is a date range, in
             // which case we use the first date of the range.
             $date = Common::getRequestVar('date');
-            if (strpos($date, ',') !== false) {
+            if (str_contains($date, ',')) {
                 $date = reset(explode(',', $date));
             }
 

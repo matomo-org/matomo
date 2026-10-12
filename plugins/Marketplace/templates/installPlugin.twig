@@ -2,6 +2,14 @@
 
 {% block content %}
 
+    {# with the Marketplace page the install started from, both links return to it as it was left #}
+    {% set backToMarketplaceUrl = linkTo({'module': 'Marketplace', 'action': 'overview'}) %}
+    {% set activateRedirect = {'redirectTo': 'marketplace'} %}
+    {% if marketplaceUrl %}
+        {% set backToMarketplaceUrl = marketplaceUrl %}
+        {% set activateRedirect = {'redirectTo': 'referrer', 'referrer': marketplaceUrl|url_encode} %}
+    {% endif %}
+
     <div style="max-width:980px;">
 
         {% for plugin in plugins %}
@@ -17,10 +25,10 @@
 
                 <p>{{ 'Marketplace_StepThemeSuccessfullyInstalled'|translate(plugin.name, plugin.latestVersion) }}</p>
 
-                <p><strong><a class="btn" href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce, 'redirectTo': 'marketplace'}) }}">{{ 'Marketplace_ActionActivateTheme'|translate }}</a></strong>
+                <p><strong><a class="btn" href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}|merge(activateRedirect)) }}">{{ 'Marketplace_ActionActivateTheme'|translate }}</a></strong>
 
                     |
-                    <a href="{{ linkTo({'module': 'Marketplace', 'action': 'overview', 'show': 'themes'}) }}">{{ 'Marketplace_BackToMarketplace'|translate }}</a></p>
+                    <a href="{{ backToMarketplaceUrl }}">{{ 'Marketplace_BackToMarketplace'|translate }}</a></p>
 
             {% else %}
 
@@ -30,10 +38,10 @@
 
                 <p>{{ 'Marketplace_StepPluginSuccessfullyInstalled'|translate(plugin.name, plugin.latestVersion) }}</p>
 
-                <p><strong><a class="btn" href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce, 'redirectTo': 'marketplace'}) }}">{{ 'Marketplace_ActionActivatePlugin'|translate }}</a></strong>
+                <p><strong><a class="btn" href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}|merge(activateRedirect)) }}">{{ 'Marketplace_ActionActivatePlugin'|translate }}</a></strong>
 
                     |
-                    <a href="{{ linkTo({'module': 'Marketplace', 'action': 'overview', 'show': ''}) }}">{{ 'Marketplace_BackToMarketplace'|translate }}</a></p>
+                    <a href="{{ backToMarketplaceUrl }}">{{ 'Marketplace_BackToMarketplace'|translate }}</a></p>
 
             {% endif %}
         </div>

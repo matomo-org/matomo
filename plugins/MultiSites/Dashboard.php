@@ -163,7 +163,7 @@ class Dashboard
                 continue;
             }
 
-            $metricTypes[$metricName] = strpos($metricName, 'revenue') !== false
+            $metricTypes[$metricName] = str_contains($metricName, 'revenue')
                 ? Dimension::TYPE_MONEY
                 : Dimension::TYPE_NUMBER;
         }
@@ -180,7 +180,7 @@ class Dashboard
         $formatter = NumberFormatter::getInstance();
         foreach ($metrics as $metricName => &$value) {
             if (in_array($metricName, $this->displayedMetricColumns)) {
-                if (strpos($metricName, 'revenue') !== false) {
+                if (str_contains($metricName, 'revenue')) {
                     $currency = isset($metrics['idsite']) ? Site::getCurrencySymbolFor($metrics['idsite']) : '';
                     $value  = $formatter->formatCurrency($value, $currency);
                     continue;
@@ -211,7 +211,7 @@ class Dashboard
     {
         foreach ($sitesByGroup->getRows() as $index => $site) {
             $label = strtolower($site->getColumn('label'));
-            $labelMatches = false !== strpos($label, $pattern);
+            $labelMatches = str_contains($label, $pattern);
 
             if ($site->getMetadata('isGroup')) {
                 $subtable = $site->getSubtable();
@@ -224,7 +224,7 @@ class Dashboard
             } elseif (!$labelMatches) {
                 $group = $site->getMetadata('group');
 
-                if (!$group || false === strpos(strtolower($group), $pattern)) {
+                if (!$group || !str_contains(strtolower($group), $pattern)) {
                     $sitesByGroup->deleteRow($index);
                 }
             }

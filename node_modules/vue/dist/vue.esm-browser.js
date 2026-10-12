@@ -1,5 +1,5 @@
 /**
-* vue v3.5.42
+* vue v3.5.43
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/
@@ -199,10 +199,10 @@ function normalizeStyle(value) {
 }
 const listDelimiterRE = /;(?![^(]*\))/g;
 const propertyDelimiterRE = /:([^]+)/;
-const styleCommentRE = /\/\*[^]*?\*\//g;
+const styleCommentRE = /"(?:[^"\\]|\\[^])*"|'(?:[^'\\]|\\[^])*'|\\[^]|\/\*[^]*?\*\//g;
 function parseStringStyle(cssText) {
   const ret = {};
-  cssText.replace(styleCommentRE, "").split(listDelimiterRE).forEach((item) => {
+  cssText.replace(styleCommentRE, (match) => match.startsWith("/*") ? "" : match).split(listDelimiterRE).forEach((item) => {
     if (item) {
       const tmp = item.split(propertyDelimiterRE);
       tmp.length > 1 && (ret[tmp[0].trim()] = tmp[1].trim());
@@ -294,22 +294,22 @@ function getEscapedCssVarName(key, doubleEscape) {
   );
 }
 
-function looseCompareArrays(a, b) {
+function looseCompareArrays(a, b, seen) {
   if (a.length !== b.length) return false;
   let equal = true;
   for (let i = 0; equal && i < a.length; i++) {
-    equal = looseEqual(a[i], b[i]);
+    equal = looseEqual(a[i], b[i], seen);
   }
   return equal;
 }
-function looseCompareCollections(a, b) {
+function looseCompareCollections(a, b, seen) {
   if (a.size !== b.size) return false;
   const candidates = Array.from(b);
   const matched = new Uint8Array(candidates.length);
   for (const item of a) {
     let index = -1;
     for (let i = 0; i < candidates.length; i++) {
-      if (!matched[i] && looseEqual(item, candidates[i])) {
+      if (!matched[i] && looseEqual(item, candidates[i], seen)) {
         index = i;
         break;
       }
@@ -319,7 +319,47 @@ function looseCompareCollections(a, b) {
   }
   return true;
 }
-function looseEqual(a, b) {
+function looseCompareObjects(a, b, seen) {
+  let aValidType = isMap(a);
+  let bValidType = isMap(b);
+  if (aValidType || bValidType) {
+    return aValidType && bValidType ? looseCompareCollections(a, b, seen) : false;
+  }
+  aValidType = isSet(a);
+  bValidType = isSet(b);
+  if (aValidType || bValidType) {
+    return aValidType && bValidType ? looseCompareCollections(a, b, seen) : false;
+  }
+  const aKeysCount = Object.keys(a).length;
+  const bKeysCount = Object.keys(b).length;
+  if (aKeysCount !== bKeysCount) {
+    return false;
+  }
+  for (const key in a) {
+    const aHasKey = a.hasOwnProperty(key);
+    const bHasKey = b.hasOwnProperty(key);
+    if (aHasKey && !bHasKey || !aHasKey && bHasKey || !looseEqual(a[key], b[key], seen)) {
+      return false;
+    }
+  }
+  return String(a) === String(b);
+}
+function looseCompareNested(a, b, seen, compare) {
+  if (!seen) {
+    seen = [/* @__PURE__ */ new Map(), /* @__PURE__ */ new Map()];
+  }
+  const [seenA, seenB] = seen;
+  if (seenA.has(a) || seenB.has(b)) {
+    return seenA.get(a) === b && seenB.get(b) === a;
+  }
+  seenA.set(a, b);
+  seenB.set(b, a);
+  const equal = compare(a, b, seen);
+  seenA.delete(a);
+  seenB.delete(b);
+  return equal;
+}
+function looseEqual(a, b, seen) {
   if (a === b) return true;
   let aValidType = isDate(a);
   let bValidType = isDate(b);
@@ -334,7 +374,7 @@ function looseEqual(a, b) {
   aValidType = isArray(a);
   bValidType = isArray(b);
   if (aValidType || bValidType) {
-    return aValidType && bValidType ? looseCompareArrays(a, b) : false;
+    return aValidType && bValidType ? looseCompareNested(a, b, seen, looseCompareArrays) : false;
   }
   aValidType = isObject(a);
   bValidType = isObject(b);
@@ -342,28 +382,7 @@ function looseEqual(a, b) {
     if (!aValidType || !bValidType) {
       return false;
     }
-    aValidType = isMap(a);
-    bValidType = isMap(b);
-    if (aValidType || bValidType) {
-      return aValidType && bValidType ? looseCompareCollections(a, b) : false;
-    }
-    aValidType = isSet(a);
-    bValidType = isSet(b);
-    if (aValidType || bValidType) {
-      return aValidType && bValidType ? looseCompareCollections(a, b) : false;
-    }
-    const aKeysCount = Object.keys(a).length;
-    const bKeysCount = Object.keys(b).length;
-    if (aKeysCount !== bKeysCount) {
-      return false;
-    }
-    for (const key in a) {
-      const aHasKey = a.hasOwnProperty(key);
-      const bHasKey = b.hasOwnProperty(key);
-      if (aHasKey && !bHasKey || !aHasKey && bHasKey || !looseEqual(a[key], b[key])) {
-        return false;
-      }
-    }
+    return looseCompareNested(a, b, seen, looseCompareObjects);
   }
   return String(a) === String(b);
 }
@@ -1164,7 +1183,9 @@ function reactiveReadArray(array) {
   const raw = toRaw(array);
   if (raw === array) return raw;
   track(raw, "iterate", ARRAY_ITERATE_KEY);
-  return isShallow(array) ? raw : raw.map(toReactive);
+  if (isShallow(array)) return raw;
+  if (!isReadonly(array)) return raw.map(toReactive);
+  return isReactive(array) ? raw.map((item) => toReadonly(toReactive(item))) : raw.map(toReadonly);
 }
 function shallowReadArray(arr) {
   track(arr = toRaw(arr), "iterate", ARRAY_ITERATE_KEY);
@@ -4433,13 +4454,15 @@ function createHydrationFunctions(rendererInternals) {
             getContainerType(container),
             optimized
           );
-          if (isAsyncWrapper(vnode) && !vnode.component.subTree) {
+          if ((isAsyncWrapper(vnode) || vnode.component.asyncDep) && !vnode.component.subTree) {
             let subTree;
             if (isFragmentStart) {
               subTree = createVNode(Static);
               subTree.anchor = nextNode ? nextNode.previousSibling : container.lastChild;
             } else {
-              subTree = node.nodeType === 3 ? createTextVNode("") : createVNode("div");
+              subTree = node.nodeType === 3 ? createTextVNode("") : createVNode(
+                node.nodeType === 8 ? Comment : "div"
+              );
             }
             subTree.el = node;
             vnode.component.subTree = subTree;
@@ -7885,6 +7908,12 @@ function baseCreateRenderer(options, createHydrationFns) {
       optimized = false;
       n2.dynamicChildren = null;
     }
+    if (n2.dynamicChildren && n1 && n1.dynamicChildren && n1.dynamicChildren.hasOnce) {
+      if (n2.dynamicChildren === EMPTY_ARR) {
+        n2.dynamicChildren = [];
+      }
+      n2.dynamicChildren.hasOnce = true;
+    }
     const { type, ref, shapeFlag } = n2;
     switch (type) {
       case Text:
@@ -8492,6 +8521,7 @@ function baseCreateRenderer(options, createHydrationFns) {
         {
           pushWarningContext(n2);
         }
+        n2.el = n1.el;
         updateComponentPreRender(instance, n2, optimized);
         {
           popWarningContext();
@@ -9083,7 +9113,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       cacheIndex,
       memo
     } = vnode;
-    if (patchFlag === -2) {
+    if (patchFlag === -2 || dynamicChildren && dynamicChildren.hasOnce) {
       optimized = false;
     }
     if (ref != null) {
@@ -9091,7 +9121,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       setRef(ref, null, parentSuspense, vnode, true);
       resetTracking();
     }
-    if (cacheIndex != null) {
+    if (cacheIndex != null && (!vnode.ctx || vnode.ctx === parentComponent)) {
       parentComponent.renderCache[cacheIndex] = void 0;
     }
     if (shapeFlag & 256) {
@@ -9172,6 +9202,9 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
     if (type === Static) {
       removeStaticNode(vnode);
+      if (transition && !transition.persisted && transition.afterLeave) {
+        transition.afterLeave();
+      }
       return;
     }
     const performRemove = () => {
@@ -9214,6 +9247,9 @@ function baseCreateRenderer(options, createHydrationFns) {
     scope.stop();
     if (job) {
       job.flags |= 8;
+      unmount(subTree, instance, parentSuspense, doRemove);
+    } else if (instance.vnode.el && subTree) {
+      subTree.transition = instance.vnode.transition;
       unmount(subTree, instance, parentSuspense, doRemove);
     }
     if (um) {
@@ -9429,7 +9465,7 @@ const SuspenseImpl = {
         rendererInternals
       );
     } else {
-      if (parentSuspense && parentSuspense.deps > 0 && !n1.suspense.isInFallback) {
+      if (parentSuspense && parentSuspense.deps > 0 && !n1.suspense.isInFallback && !parentSuspense.isHydrating) {
         n2.suspense = n1.suspense;
         n2.suspense.vnode = n2;
         n2.el = n1.el;
@@ -9515,10 +9551,12 @@ function patchSuspense(n1, n2, container, anchor, parentComponent, namespace, sl
   if (pendingBranch) {
     suspense.pendingBranch = newBranch;
     if (isSameVNodeType(pendingBranch, newBranch)) {
+      suspense.deps++;
       patch(
         pendingBranch,
         newBranch,
-        suspense.hiddenContainer,
+        // a hydrating pending branch is adopted SSR DOM, already in place
+        isHydrating ? container : suspense.hiddenContainer,
         null,
         parentComponent,
         suspense,
@@ -9526,6 +9564,7 @@ function patchSuspense(n1, n2, container, anchor, parentComponent, namespace, sl
         slotScopeIds,
         optimized
       );
+      suspense.deps--;
       if (suspense.deps <= 0) {
         suspense.resolve();
       } else if (isInFallback) {
@@ -9791,6 +9830,7 @@ function createSuspenseBoundary(vnode, parentSuspense, parentComponent, containe
       suspense.effects = [];
       if (isSuspensible) {
         if (parentSuspense && parentSuspense.pendingBranch && parentSuspenseId === parentSuspense.pendingId) {
+          parentSuspenseId = void 0;
           parentSuspense.deps--;
           if (parentSuspense.deps === 0 && !sync) {
             parentSuspense.resolve();
@@ -9864,6 +9904,12 @@ function createSuspenseBoundary(vnode, parentSuspense, parentComponent, containe
           return;
         }
         unsetCurrentInstance();
+        if (hydratedEl && !instance.scope.active) {
+          if (isInPendingSuspense && --suspense.deps === 0) {
+            suspense.resolve();
+          }
+          return;
+        }
         instance.asyncResolved = true;
         const { vnode: vnode2 } = instance;
         {
@@ -10285,7 +10331,8 @@ function cloneVNode(vnode, extraProps, mergeRef = false, cloneTransition = false
     el: vnode.el,
     anchor: vnode.anchor,
     ctx: vnode.ctx,
-    ce: vnode.ce
+    ce: vnode.ce,
+    cacheIndex: vnode.cacheIndex
   };
   if (transition && cloneTransition) {
     setTransitionHooks(
@@ -11090,7 +11137,7 @@ function isMemoSame(cached, memo) {
   return true;
 }
 
-const version = "3.5.42";
+const version = "3.5.43";
 const warn = warn$1 ;
 const ErrorTypeStrings = ErrorTypeStrings$1 ;
 const devtools = devtools$1 ;

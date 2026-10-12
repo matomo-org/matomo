@@ -27,7 +27,7 @@ class GoogleAnalytics3 extends SiteContentDetectionAbstract
             return false;
         }
 
-        if (strpos($data, '(i,s,o,g,r,a,m)') !== false) {
+        if (str_contains($data, '(i,s,o,g,r,a,m)')) {
             return true;
         }
 

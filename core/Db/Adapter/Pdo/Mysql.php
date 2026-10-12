@@ -247,7 +247,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         }
 
         $charset = $charsetInfo[0]['Value'];
-        return strpos($charset, 'utf8') === 0;
+        return str_starts_with($charset, 'utf8');
     }
 
 

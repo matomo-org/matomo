@@ -11,13 +11,16 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Matomo\Network\IPUtils;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker\Failures;
 use Piwik\Tracker\Request;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\TrackerConfig;
@@ -431,6 +434,73 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($isAuthenticated);
     }
 
+    public function testAuthenticateSuperUserOrAdminAllowsSiteAdminTokenWithoutScope()
+    {
+        $token = $this->createUserTokenForSite(2);
+
+        $this->assertTrue(Request::authenticateSuperUserOrAdminOrWrite($token, 2));
+    }
+
+    public function testAuthenticateSuperUserOrAdminAllowsSiteAdminTokenScopedToWrite()
+    {
+        $token = $this->createUserTokenForSite(2, 'admin', 'write');
+
+        $this->assertTrue(Request::authenticateSuperUserOrAdminOrWrite($token, 2));
+    }
+
+    public function testAuthenticateSuperUserOrAdminAllowsSiteAdminTokenScopedToAdmin()
+    {
+        $token = $this->createUserTokenForSite(2, 'admin', 'admin');
+
+        $this->assertTrue(Request::authenticateSuperUserOrAdminOrWrite($token, 2));
+    }
+
+    public function testAuthenticateSuperUserOrAdminRejectsSiteAdminTokenScopedToView()
+    {
+        $token = $this->createUserTokenForSite(2, 'admin', 'view');
+
+        $this->assertFalse(Request::authenticateSuperUserOrAdminOrWrite($token, 2));
+    }
+
+    public function testAuthenticateSuperUserOrAdminRejectsScopedTokenForDifferentSite()
+    {
+        Cache::getCacheWebsiteAttributes(1);
+        Cache::getCacheWebsiteAttributes(2);
+
+        $token = $this->createUserTokenForSite(2, 'admin', 'write');
+
+        $this->assertFalse(Request::authenticateSuperUserOrAdminOrWrite($token, 1));
+        $this->assertTrue(Request::authenticateSuperUserOrAdminOrWrite($token, 2));
+    }
+
+    public function testAuthenticateSuperUserOrAdminRejectsScopedViewSuperUserTokenForTracking()
+    {
+        $token = $this->createSuperUserToken('view');
+
+        $this->assertFalse(Request::authenticateSuperUserOrAdminOrWrite($token, 1));
+        $this->assertFalse(Request::authenticateSuperUserOrAdminOrWrite($token, 2));
+    }
+
+    public function testAuthenticateSuperUserOrAdminAllowsScopedWriteSuperUserTokenForAnySiteViaFallback()
+    {
+        Cache::getCacheWebsiteAttributes(1);
+
+        $token = $this->createSuperUserToken('write');
+
+        $this->assertTrue(Request::authenticateSuperUserOrAdminOrWrite($token, 1));
+        $this->assertTrue(Request::authenticateSuperUserOrAdminOrWrite($token, 2));
+    }
+
+    public function testAuthenticateSuperUserOrAdminRejectsSuperUserTokenWhenIdSiteIsInvalid()
+    {
+        Fixture::createSuperUser(false);
+        $token = Fixture::getTokenAuth();
+
+        $this->assertFalse(Request::authenticateSuperUserOrAdminOrWrite($token, 0));
+        $this->assertFalse(Request::authenticateSuperUserOrAdminOrWrite($token, -2));
+        $this->assertFalse(Request::authenticateSuperUserOrAdminOrWrite($token, null));
+    }
+
     public function testAuthenticateSuperUserOrAdminShouldAlwaysWorkForSuperUser()
     {
         Fixture::createSuperUser(false);
@@ -443,7 +513,45 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($isAuthenticated);
     }
 
+    public function testIsAuthenticatedRecordsTrackingFailureWhenScopedTokenUsesApiSession()
+    {
+        $token = $this->createUserTokenForSite(2, 'admin', 'write');
+
+        $failures = new Failures();
+        $failures->deleteAllTrackingFailures();
+        StaticContainer::getContainer()->set('Piwik\Tracker\Failures', $failures);
+
+        $_POST['token_auth'] = $token;
+        $_POST['force_api_session'] = '1';
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+
+        try {
+            // rec=1 as a real tracking request has it: Failures::logFailure() skips excluded visits, and a
+            // request without it is excluded before the failure would be stored.
+            $request = $this->buildRequest(array('idsite' => '2', 'rec' => '1'));
+
+            // Token detection refuses a scoped token sent with force_api_session=1. The tracker treats that
+            // as "not authenticated" rather than surfacing an exception, but the failure still has to reach
+            // Tracking Failures - the only place an operator can see why an integration stopped working.
+            $this->assertFalse($request->isAuthenticated());
+
+            $recorded = $failures->getAllFailures();
+            $this->assertCount(1, $recorded);
+            $this->assertSame(Failures::FAILURE_ID_NOT_AUTHENTICATED, (int) $recorded[0]['idfailure']);
+            $this->assertSame(2, (int) $recorded[0]['idsite']);
+        } finally {
+            unset($_POST['token_auth'], $_POST['force_api_session']);
+            StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+            $failures->deleteAllTrackingFailures();
+        }
+    }
+
     private function createAdminUserForSite($idSite)
+    {
+        return $this->createUserTokenForSite($idSite);
+    }
+
+    private function createUserTokenForSite($idSite, $siteAccess = 'admin', $tokenAccessLevel = null)
     {
         $login = 'myadmin';
         $passwordHash = UsersManager::getPasswordHash('password');
@@ -452,8 +560,20 @@ class RequestTest extends IntegrationTestCase
         $token = $user->generateRandomTokenAuth();
 
         $user->addUser($login, $passwordHash, 'admin@piwik', '2014-01-01 00:00:00');
-        $user->addUserAccess($login, 'admin', array($idSite));
-        $user->addTokenAuth($login, $token, 'createAdminUserForSite', '2014-01-01 00:00:00');
+        $user->addUserAccess($login, $siteAccess, array($idSite));
+        $user->addTokenAuth($login, $token, 'createAdminUserForSite', '2014-01-01 00:00:00', null, false, false, $tokenAccessLevel);
+
+        return $token;
+    }
+
+    private function createSuperUserToken($tokenAccessLevel)
+    {
+        Fixture::createSuperUser(false);
+
+        $user = new Model();
+        $token = $user->generateRandomTokenAuth();
+
+        $user->addTokenAuth(Fixture::ADMIN_USER_LOGIN, $token, 'scoped superuser tracker token', '2014-01-01 00:00:00', null, false, false, $tokenAccessLevel);
 
         return $token;
     }

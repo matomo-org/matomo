@@ -80,7 +80,7 @@ class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatPro
                 $pattern = $format;
         }
 
-        if (strpos($pattern, '{time}') !== false) {
+        if (str_contains($pattern, '{time}')) {
             $pattern = str_replace('{time}', $this->getTimeFormat(), $pattern);
         }
 

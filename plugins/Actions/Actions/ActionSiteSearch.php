@@ -124,7 +124,7 @@ class ActionSiteSearch extends Action
         $parsedFragment = parse_url($fragment);
 
         // check if fragment contains a separate query (beginning with ?) otherwise assume complete fragment as query
-        if ($fragment && strpos($fragment, '?') !== false && !empty($parsedFragment['query'])) {
+        if ($fragment && str_contains($fragment, '?') && !empty($parsedFragment['query'])) {
             $fragmentBeforeQuery = !empty($parsedFragment['path']) ? $parsedFragment['path'] : '';
             $fragmentQuery = $parsedFragment['query'];
         } else {

@@ -71,7 +71,7 @@ class Azure implements IpRangeProviderInterface
         $downloadUrl = trim($contentDownloadPage, '="' . "'") . '.json';
         $downloadUrl = trim($downloadUrl);
 
-        if (strpos($downloadUrl, 'http') !== 0) {
+        if (!str_starts_with($downloadUrl, 'http')) {
             throw new \Exception('Expected download URL for Azure IP ranges to start with HTTP but it does not. It is: ' . $downloadUrl);
         }
 

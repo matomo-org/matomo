@@ -653,7 +653,8 @@ class API extends \Piwik\Plugin\API
                 return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
             }
 
-            $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
+            // The capped variant: raw rows would answer past the token's access level.
+            $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccessWithinTokenScope($_restrictSitesToLogin);
             $sitesId = array_column($accessRaw, 'idsite');
             return array_map('intval', $sitesId);
         } else {
@@ -1919,7 +1920,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getTimezoneName(string $timezone, ?string $countryCode = null, ?bool $multipleTimezonesInCountry = null): string
     {
-        if (substr($timezone, 0, 3) === 'UTC') {
+        if (str_starts_with($timezone, 'UTC')) {
             return $this->translator->translate('SitesManager_Format_Utc', str_replace(['.25', '.5', '.75'], [':15', ':30', ':45'], substr($timezone, 3)));
         }
 

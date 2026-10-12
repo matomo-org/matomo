@@ -7,25 +7,31 @@
 {% set showCardAsContentBlock = (properties.show_as_content_block and properties.show_title and not isWidget) %}
 {% set showOnlyTitleWithoutCard = not showCardAsContentBlock and properties.title and properties.show_title %}
 
-{# Mount the header even when the iframe shows no title, so a later story can host the report
-   actions from the same anchor as a full-page report. #}
+{# Mount the header even when there is no title to show: the header is what hosts the report
+   actions, so a report that has any needs one whatever else it renders. Without this the graph
+   inside the row evolution popover - neither titled, nor a card, nor a widgetized iframe - would
+   have nowhere to reach its export from. `not isWidget` leaves out a report inside widget chrome,
+   which has the same actions but does not own the header: the chrome renders one itself (see
+   Dashboard's _widgetFactoryTemplate.twig).
+
+   show_footer and show_footer_icons stand in for the header's own flags because this is going to be
+   refactored with the goal of moving the table actions to the top of the report for all reports, at
+   which point they can be renamed to show_header and show_header_icons. #}
 {% set widgetizedIframe = isWidgetizedIframe|default(false) %}
-{% set renderStandaloneHeader = not showCardAsContentBlock and (showOnlyTitleWithoutCard or widgetizedIframe) %}
-{% set headerContext = widgetizedIframe ? 'widgetized' : 'fullPage' %}
+{% set hasReportActions = properties.show_footer and properties.show_footer_icons and error is not defined %}
+{% set ownsHeader = ownsReportHeader|default(false) %}
+{% set renderStandaloneHeader = not showCardAsContentBlock and mayRenderReportHeader
+    and (showOnlyTitleWithoutCard or widgetizedIframe or ownsHeader
+        or (hasReportActions and not isWidget)) %}
+{% set headerContext = (widgetizedIframe or ownsHeader) ? 'widgetized' : 'fullPage' %}
 
-{#
-using the show_footer to control the header actions as well since this is going to be refactored with the goal
-of moving the table actions to the top of the report for all reports, at which point the config for the report
-can be renamed to show_header and show_header_icons
-#}
-{% set showTableActionsInHeader = properties.show_footer and properties.show_footer_icons %}
-
-{# The header must stay outside `.dataTable`, which an ajax reload replaces wholesale without a
-   `showtitle` parameter (see dataTable.js) - inside it, it would not survive the first sort. #}
+{# The header must stay outside `.dataTable`, which an ajax reload replaces wholesale - inside it, it
+   would not survive the first sort. `mayRenderReportHeader` is what keeps that same reload from
+   returning a second one; see reloadAjaxDataTable() in dataTable.js. #}
 {% if showCardAsContentBlock  %}
 <div class="card">
 <div class="card-content">
-    {% if properties.title %}
+    {% if properties.title and mayRenderReportHeader %}
         {% include "@CoreHome/_reportHeader.twig" with { inCard: true } %}
     {% endif %}
 {% elseif renderStandaloneHeader %}
@@ -61,14 +67,6 @@ can be renamed to show_header and show_header_icons
         {% if error is defined %}
             <div vue-entry="CoreHome.Alert" severity="danger">{{ error.message }}</div>
         {% else %}
-            {% if showTableActionsInHeader %}
-                <div class="row dataTableHeaderControls">
-                    <div class="col dataTableControls s12">
-                        {% include "@CoreHome/_dataTableActions.twig" with { placement: 'top' } %}
-                    </div>
-                </div>
-            {% endif %}
-
             {% if properties.show_header_message is defined and properties.show_header_message is not empty %}
                 <div class='datatableHeaderMessage'>{{ properties.show_header_message | raw }}</div>
             {% endif %}

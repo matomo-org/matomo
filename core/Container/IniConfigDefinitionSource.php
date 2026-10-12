@@ -44,7 +44,7 @@ class IniConfigDefinitionSource implements DefinitionSource
      */
     public function getDefinition(string $name): ?\DI\Definition\Definition
     {
-        if (strpos($name, $this->prefix) !== 0) {
+        if (!str_starts_with($name, $this->prefix)) {
             return null;
         }
 

@@ -10,7 +10,14 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\Log\LoggerInterface;
+use Piwik\Piwik;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\DailyTriggerCache;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionRenderer;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\PromotionSelector;
+use Piwik\Plugins\ProfessionalServices\PluginPromotions\UserPromotionState;
 use Piwik\View;
 use Piwik\Plugin;
 
@@ -23,6 +30,8 @@ class ProfessionalServices extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Template.beforeDashboardWidgets' => 'renderDashboardPromotion',
+            'SitesManager.deleteSite.end' => 'deletePromotionTriggerCache',
             'Template.afterGoalConversionOverviewReport' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
@@ -43,11 +52,105 @@ class ProfessionalServices extends \Piwik\Plugin
     {
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/promos.less';
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/widget.less';
+        $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/productPromotion.less';
+    }
+
+    /**
+     * Renders at most one contextual plugin promotion above the widgets of the default or
+     * a custom dashboard. Every dashboard is rendered through this template, and no other
+     * page is, so the promotion cannot leak onto All Websites or a report page.
+     */
+    public function renderDashboardPromotion(&$out)
+    {
+        if (!$this->isTheAppsOwnDashboard() || !$this->canBuildPromotions()) {
+            return;
+        }
+
+        try {
+            $selected = StaticContainer::get(PromotionSelector::class)->select();
+
+            if (null === $selected) {
+                return;
+            }
+
+            // Rendered before it is recorded, so that a promotion which cannot be rendered
+            // does not take the slot. Recording first meant a promotion whose copy threw
+            // held the slot against every other one and was retried on every dashboard,
+            // while never drawing the dismiss control that would have released it.
+            $rendered = StaticContainer::get(PromotionRenderer::class)->render($selected);
+
+            StaticContainer::get(UserPromotionState::class)->recordShown(
+                $selected->getPromotion()->getPluginName(),
+                $selected->getPromotion()->getTriggerName(),
+                $selected->getIdSite(),
+                $selected->getTriggerResult()->toArray()
+            );
+
+            $out .= $rendered;
+        } catch (\Throwable $e) {
+            // A promotion is never important enough to break a dashboard. Throwable rather
+            // than Exception because the likeliest failure here is not an exception at
+            // all: the copy carries placeholders, and translating a string whose
+            // translation has lost one throws a ValueError out of sprintf.
+            // `{exception}` rather than `{message}`: ExceptionToTextProcessor replaces the
+            // whole message with the formatted exception when the context carries one and
+            // the message does not name it, which would throw this sentence away.
+            // `ignoreInScreenWriter` because the default configuration writes WARN to the
+            // screen (`log_writers[] = screen`, `log_level = WARN` in global.ini.php), which
+            // would put a promotion's own failure in front of the user as a notification on
+            // their dashboard. The log is for whoever runs the instance, not for them.
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'Could not render the dashboard plugin promotion: {exception}',
+                ['exception' => $e, 'ignoreInScreenWriter' => true]
+            );
+        }
+    }
+
+    /**
+     * Whether the promotions can be constructed at all.
+     *
+     * Asking the container for the selector builds the registry, which builds all 22
+     * triggers, three of which reach `Marketplace\Api\Service` - and its `$domain` is
+     * defined in the Marketplace plugin's own DI config, which is only loaded while that
+     * plugin is activated. Without this gate a deactivated Marketplace turns every
+     * dashboard render into a PHP-DI definition error; the catch below would log it, and
+     * on the default `log_writers[] = screen` that dump lands on the page itself.
+     *
+     * Checked before the container is touched, because by the time an exception is thrown
+     * the damage is already a warning notification on a page the user did nothing to
+     * deserve.
+     */
+    private function canBuildPromotions(): bool
+    {
+        return Plugin\Manager::getInstance()->isPluginActivated('Marketplace');
+    }
+
+    /**
+     * Whether this render is the dashboard inside the app, as opposed to a copy of it
+     * somewhere the promotion has no business being.
+     *
+     * `Dashboard/index.twig` includes the same template to build the exported widget, and
+     * Widgetize can render it into an iframe on someone else's page. Both post this event,
+     * neither is a place to advertise: the reader may not even be a Matomo user, and the
+     * dismiss control writes to whoever's session happens to be behind the export.
+     */
+    private function isTheAppsOwnDashboard(): bool
+    {
+        return Piwik::getModule() === 'Dashboard' && Piwik::getAction() === 'embeddedIndex';
+    }
+
+    public function deletePromotionTriggerCache($idSite)
+    {
+        StaticContainer::get(DailyTriggerCache::class)->deleteForSite((int) $idSite);
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = 'Marketplace_RequestTrialSubmitted';
+        $translationKeys[] = 'Marketplace_TrialRequested';
         $translationKeys[] = 'ProfessionalServices_DismissedNotification';
+        $translationKeys[] = 'ProfessionalServices_PromotionTrialRequestFailed';
+        $translationKeys[] = 'ProfessionalServices_PromotionDismissFailed';
         $translationKeys[] = 'ProfessionalServices_PromoFunnels';
         $translationKeys[] = 'ProfessionalServices_PromoFormAnalytics';
         $translationKeys[] = 'ProfessionalServices_PromoMediaAnalytics';

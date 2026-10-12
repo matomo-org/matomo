@@ -129,7 +129,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         foreach ($translations as &$translation) {
             if (
-                false === strpos($translation, '%s')
+                !str_contains($translation, '%s')
                 && $translation !== $noVisitTranslation
             ) {
                 $translation = '%s ' . $translation;

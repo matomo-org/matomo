@@ -38,7 +38,10 @@
         <div class="granularComplianceEnforceAll" v-if="canSave">
           <div class="granularComplianceEnforceAllText">
             <h3>{{ translate('PrivacyManager_ComplianceEnforceAllTitle') }}</h3>
-            <p>{{ translate('PrivacyManager_ComplianceEnforceAllDescription') }}</p>
+            <p>{{ translate(
+              'PrivacyManager_ComplianceCNILEnforceAllDescription',
+              translate('PrivacyManager_ComplianceManagedOutsideTitle'),
+            ) }}</p>
           </div>
           <button
             type="button"
@@ -73,9 +76,15 @@
           <PasswordConfirmation
             :model-value="showPasswordConfirmation"
             :passwordFieldId="'passwordGranular' + complianceType"
+            :require-delete-confirmation="rawDataRetentionBeingEnabled"
             @confirmed="saveSettings"
             @aborted="resetSave"
-          />
+          >
+            <template v-if="rawDataRetentionBeingEnabled">
+              <h2>{{ translate('PrivacyManager_ComplianceEnforceRetentionConfirmTitle') }}</h2>
+              <p>{{ translate('PrivacyManager_ComplianceEnforceRetentionConfirmBody') }}</p>
+            </template>
+          </PasswordConfirmation>
         </template>
       </template>
     </template>
@@ -94,6 +103,10 @@ import { ActivityIndicator, ContentBlock } from 'CoreHome';
 import { PasswordConfirmation, SaveButton } from 'CorePluginsAdmin';
 import { createGranularComplianceStore } from './GranularCompliance.store';
 import GranularComplianceTable from './GranularComplianceTable.vue';
+
+// the id shape comes from PolicyComparisonTrait::getPolicySettingId(): the plugin name, a
+// dot, and the setting class' short name
+const RAW_DATA_RETENTION_SETTING_ID = 'PrivacyManager.ReportRetention';
 
 export default defineComponent({
   props: {
@@ -147,6 +160,13 @@ export default defineComponent({
     );
     const hasUnsavedChanges = computed(() => store.dirtySettingIds.value.length > 0);
     const canSave = computed(() => !store.state.configControlled);
+    // raw data retention caps how long raw data may be kept. Whether that cap purges
+    // anything is gated separately on delete_logs_enable. save() posts changed settings
+    // only, so ask for the acknowledgement when this save turns enforcement on
+    const rawDataRetentionBeingEnabled = computed(
+      () => !!store.state.localEnforced[RAW_DATA_RETENTION_SETTING_ID]
+        && store.dirtySettingIds.value.includes(RAW_DATA_RETENTION_SETTING_ID),
+    );
 
     // the save buttons can sit far below the notification area, so bring the
     // outcome of a save into view once it is rendered
@@ -173,6 +193,7 @@ export default defineComponent({
       externalSettings,
       hasUnsavedChanges,
       canSave,
+      rawDataRetentionBeingEnabled,
       showPasswordConfirmation: ref(false),
     };
   },

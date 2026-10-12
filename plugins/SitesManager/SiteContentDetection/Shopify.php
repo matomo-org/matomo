@@ -31,6 +31,6 @@ class Shopify extends SiteContentDetectionAbstract
     public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'Shopify.theme';
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 }

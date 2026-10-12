@@ -71,7 +71,6 @@
         "PluginUploadDisabled": "Opplastning av programtillegg har blitt skrudd av i oppsettsfilen. For å skru på denne funksjonen må du oppdatere oppsettet eller kontakte din administrator.",
         "PluginVersionInfo": "%1$s fra %2$s",
         "PluginWebsite": "Nettsted for utvidelse",
-        "PriceExclTax": "%1$s%2$s eks. moms.",
         "PriceFromPerPeriod": "Fra %1$s / %2$s",
         "RemoveLicenseKey": "Fjern lisensnøkkel",
         "Reviews": "Vurderinger",

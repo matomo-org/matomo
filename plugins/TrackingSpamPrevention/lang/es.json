@@ -2,8 +2,6 @@
     "TrackingSpamPrevention": {
         "BanIpNotificationMailSubject": "Una IP ha sido baneada porque generaba demasiadas acciones.",
         "BlockCloudNoteInternetDisabled": "Debido a que su configuración de Matomo tiene Internet deshabilitado, esta función no funcionará.",
-        "SettingBlockCloudDescription": "Bloquea las solicitudes de seguimiento entrantes de los servicios en la nube, como AWS, Azure, Digital Ocean, Google Cloud y Oracle, devolviendo una lista de sus rangos de IP. Habilitar esto debería estar libre de riesgos si solo realiza un seguimiento con el rastreador de JavaScript, ya que sus solicitudes de seguimiento no se originan en la nube, excepto cuando se usa una VPN que pasa datos a través de servicios en la nube. Estos ajustes se aplican a todos sus sitios.",
-        "SettingBlockCloudTitle": "Bloquear solicitudes de seguimiento desde la nube",
         "SettingBlockHeadlessDescription": "Estos son navegadores sin interfaz de usuario, que se utilizan principalmente para la automatización. Debería ser seguro activar esto si solo tiene sitios web o aplicaciones regulares. Puede bloquear bots adicionales y solicitudes de spam que de otro modo no se detectarían.",
         "SettingBlockHeadlessTitle": "Bloquear navegadores sin cabeza",
         "SettingExcludedCountriesDescription": "No realice un seguimiento de los visitantes de estos países. Los visitantes fuera de su área de destino probablemente serán bots o spammers, o puede usarlo para evitar las leyes de privacidad en otras jurisdicciones.",

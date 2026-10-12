@@ -29,6 +29,10 @@ class FakeAccess extends Access
     public static $idSitesCapabilities = array();
     public static $identity = 'superUserLogin';
     public static $superUserLogin = 'superUserLogin';
+    /**
+     * Access level of the token the faked request authenticated with, null meaning it carries no scope.
+     */
+    public static $tokenAccessLevel = null;
 
     public static function clearAccess($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin', $idSitesWrite = array(), $idSitesCapabilities = array())
     {
@@ -38,11 +42,17 @@ class FakeAccess extends Access
         self::$idSitesView  = $idSitesView;
         self::$identity     = $identity;
         self::$idSitesCapabilities = $idSitesCapabilities;
+        self::$tokenAccessLevel = null;
     }
 
     public function getTokenAuth()
     {
         return null;
+    }
+
+    public function getTokenAccessLevel(): ?string
+    {
+        return self::$tokenAccessLevel;
     }
 
     public function __construct($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin', $idSitesWrite = array())

@@ -406,7 +406,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $line = trim($line);
 
             // the only command that is not a JSON literal
-            if (false !== strpos($line, 'document.')) {
+            if (str_contains($line, 'document.')) {
                 continue;
             }
 
@@ -774,7 +774,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
                 '_paq.push(["setExcludedReferrers", [' . $json . ']]);',
             ];
 
-            if (strpos($value, ',') === false) {
+            if (!str_contains($value, ',')) {
                 yield "excludedQueryParams as string / $label" => [
                     ['excludedQueryParams' => $value],
                     '_paq.push(["setExcludedQueryParams", [' . $json . ']]);',

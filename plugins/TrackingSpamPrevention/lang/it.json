@@ -2,8 +2,6 @@
     "TrackingSpamPrevention": {
         "BanIpNotificationMailSubject": "Un IP è stato bannato per aver generato troppe azioni.",
         "BlockCloudNoteInternetDisabled": "Poiché Internet è disattivato nella configurazione di Matomo, questa funzione non funzionerà.",
-        "SettingBlockCloudDescription": "Blocca le richieste di tracciamento provenienti da provider cloud come AWS, Azure, Digital Ocean, Google Cloud e Oracle, recuperando un elenco dei loro intervalli IP. L'opzione dovrebbe essere attivata se si utilizza solo il tracker JavaScript, poiché le richieste di tracciamento non provengono da cloud, a meno che non si utilizzi una VPN che instrada i dati attraverso i provider cloud. L'impostazione si applica a tutti i siti.",
-        "SettingBlockCloudTitle": "Bloccare le richieste di tracciamento dal cloud",
         "SettingBlockHeadlessDescription": "Si tratta di browser senza interfaccia utente, utilizzati soprattutto per l'automazione. Dovrebbe essere sicuro attivarlo se si hanno solo siti web o app regolari. Può bloccare ulteriori bot e richieste di spam che altrimenti non verrebbero rilevati.",
         "SettingBlockHeadlessTitle": "Blocca i browser headless",
         "SettingExcludedCountriesDescription": "Non tracciate i visitatori provenienti da questi Paesi. I visitatori al di fuori della vostra area di riferimento saranno probabilmente bot o spammer, oppure potrete usarli per evitare le leggi sulla privacy in altre giurisdizioni.",

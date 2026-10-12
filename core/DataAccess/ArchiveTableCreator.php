@@ -211,11 +211,11 @@ class ArchiveTableCreator
 
     public static function getTypeFromTableName($tableName)
     {
-        if (strpos($tableName, 'archive_numeric_') !== false) {
+        if (str_contains($tableName, 'archive_numeric_')) {
             return self::NUMERIC_TABLE;
         }
 
-        if (strpos($tableName, 'archive_blob_') !== false) {
+        if (str_contains($tableName, 'archive_blob_')) {
             return self::BLOB_TABLE;
         }
 

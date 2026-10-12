@@ -952,7 +952,7 @@ class API extends \Piwik\Plugin\API
     {
         if (
             is_string($suggestedValuesCallback)
-            && strpos($suggestedValuesCallback, '::') !== false
+            && str_contains($suggestedValuesCallback, '::')
         ) {
             $suggestedValuesCallback = explode('::', $suggestedValuesCallback);
         }

@@ -87,7 +87,6 @@
         "PluginUploadDisabled": "Het opladen van een plug-in is uitgeschakeld in het config-bestand. Om dit mogelijk te maken dient u de configuratie aan te passen of neemt u contact op met uw beheerder",
         "PluginVersionInfo": "%1$s van %2$s",
         "PluginWebsite": "Plug-in website",
-        "PriceExclTax": "%1$s %2$s excl. BTW.",
         "PriceFromPerPeriod": "Van %1$s / %2$s",
         "RemoveLicenseKey": "Licentiesleutel verwijderen",
         "RequestTrial": "Proefversie aanvragen",

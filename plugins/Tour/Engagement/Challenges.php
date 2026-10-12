@@ -13,6 +13,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Controller;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\Goals\FeatureFlags\GoalRecommendations;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\Tour\Dao\DataFinder;
 use Piwik\Plugins\UserCountry\UserCountry;
@@ -43,6 +45,10 @@ class Challenges
 
         if ($this->isActivePlugin('Goals')) {
             $challenges[] = StaticContainer::get(ChallengeCreatedGoal::class);
+
+            if (StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(GoalRecommendations::class)) {
+                $challenges[] = StaticContainer::get(ChallengeAddRecommendedGoals::class);
+            }
         }
 
         $challenges[] = StaticContainer::get(ChallengeCustomLogo::class);

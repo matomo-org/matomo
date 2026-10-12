@@ -147,7 +147,7 @@ class Model
             $periodCondition .= ")";
         }
         if (!empty($name)) {
-            if (strpos($name, '.') !== false) {
+            if (str_contains($name, '.')) {
                 [$plugin, $name] = explode('.', $name, 2);
             } else {
                 $plugin = $name;
@@ -274,7 +274,7 @@ class Model
                         $doneFlagToCheck != $doneFlag
                         && (empty($hash)
                             || !in_array($hash, $hashesOfAllSegmentsToArchiveInCoreArchive)
-                            || strpos($doneFlagToCheck, '.') !== false)
+                            || str_contains($doneFlagToCheck, '.'))
                     ) {
                         continue; // the done flag is for a segment that is not auto archive or a plugin specific archive, so we don't want to process it.
                     }

@@ -118,7 +118,7 @@
             function ajax(params, dataType) {
                 dataType = dataType || 'json';
                 params = $.extend({}, params);
-                var token_auth = '' + params.token_auth;
+                var token_auth = params.token_auth ? String(params.token_auth) : '';
                 delete params['token_auth'];
                 return $.ajax({
                     url: 'index.php?' + $.param(params),

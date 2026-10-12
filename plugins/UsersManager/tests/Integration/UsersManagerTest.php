@@ -147,6 +147,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         unset($userAfter['date_registered']);
         unset($userAfter['ts_password_modified']);
+        unset($userAfter['ts_sessions_invalidated']);
         unset($userAfter['idchange_last_viewed']);
         unset($userAfter['ts_changes_shown']);
         unset($userAfter['password']);
@@ -411,6 +412,30 @@ class UsersManagerTest extends IntegrationTestCase
 
         // delete the user
         $this->api->deleteUser("superuser");
+    }
+
+    public function testAddUserKeepsTheAccessOfAnExistingLoginWhenUsernameChecksAreDisabled()
+    {
+        // with this setting the uniqueness validator returns early, so the insert is what rejects the login
+        \Piwik\Config::getInstance()->General['disable_checks_usernames_attributes'] = 1;
+
+        $this->api->addUser('existinguser', 'password', 'existinguser@example.org');
+        $this->api->setUserAccess('existinguser', 'view', array(1));
+
+        $caught = null;
+
+        try {
+            $this->api->addUser('existinguser', 'password', 'anotheremail@example.org');
+        } catch (Exception $e) {
+            $caught = $e;
+        }
+
+        $this->assertNotNull($caught, 'Adding a user with an already used login should not succeed');
+
+        $this->assertEquals(
+            array(array('site' => '1', 'access' => 'view')),
+            $this->model->getSitesAccessFromUser('existinguser')
+        );
     }
 
     /**
@@ -687,6 +712,7 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['token_auth']);
             unset($user['date_registered']);
             unset($user['ts_password_modified']);
+            unset($user['ts_sessions_invalidated']);
             unset($user['invite_status']);
             unset($user['invite_expired_at']);
             unset($user['invite_token']);

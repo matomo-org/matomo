@@ -123,4 +123,39 @@ class PatternTest extends \PHPUnit\Framework\TestCase
             array('org', array(2, 5)),
         );
     }
+
+    /**
+     * @dataProvider getUnicodeCaseInsensitiveData
+     */
+    public function testMatchIsUnicodeCaseInsensitive($pattern, $string, $shouldMatch)
+    {
+        $quoted = DataTable\Filter\Pattern::getPatternQuoted($pattern);
+        $this->assertSame($shouldMatch, (bool) DataTable\Filter\Pattern::match($quoted, $string));
+    }
+
+    public function getUnicodeCaseInsensitiveData()
+    {
+        return [
+            'lowercase search finds title case' => ['öppettider', 'Öppettider', true],
+            'same casing still matches' => ['Öppettider', 'Öppettider', true],
+            'uppercase search finds title case' => ['ÖPPETTIDER', 'Öppettider', true],
+            'mixed casing search finds title case' => ['ÖpPeTtIdEr', 'Öppettider', true],
+            'unrelated word does not match' => ['öppettider', 'stängt', false],
+            'lowercase ä finds Ä' => ['äpple', 'Äpple', true],
+            'lowercase å finds Å' => ['ångest', 'Ångest', true],
+            'uppercase Ä finds ä' => ['ÄPPLE', 'äpple', true],
+        ];
+    }
+
+    public function testFilterPatternMatchesLowercaseUnicodeSearchAgainstTitleCaseLabel()
+    {
+        $table = new DataTable();
+        $table->addRowFromArray([Row::COLUMNS => ['label' => 'Öppettider']]);
+
+        $filteredTable = clone $table;
+        $filteredTable->filter('Pattern', ['label', 'öppettider']);
+
+        $this->assertCount(1, $filteredTable->getRows());
+        $this->assertSame('Öppettider', $filteredTable->getFirstRow()->getColumn('label'));
+    }
 }

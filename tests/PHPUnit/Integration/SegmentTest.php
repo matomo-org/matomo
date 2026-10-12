@@ -2230,6 +2230,56 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    // see https://github.com/piwik/piwik/issues/9194
+    public function testGetSelectQueryWhenQueryingLogConversionJoinedWithLogVisitWithSegmentThatUsesLogLinkVisitActionShouldUseSubselectGroupedByIdVisitAndBuster()
+    {
+        $select = 'log_conversion.idgoal AS `idgoal`,
+                   COALESCE(log_conversion.custom_dimension_1, log_visit.custom_dimension_1) AS `label`,
+                   count(*) AS `1`,
+                   count(distinct log_conversion.idvisit) AS `3`';
+
+        $from = ['log_conversion', 'log_visit'];
+        $where = 'log_conversion.server_time >= ? AND log_conversion.server_time <= ? AND log_conversion.idsite IN (?)';
+        $groupBy = 'log_conversion.idgoal, `label`';
+        $bind = array('2015-10-14 11:00:00', '2015-10-15 10:59:59', 1);
+
+        $segment = 'pageUrl=@/';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy = false, $groupBy);
+        $this->assertQueryDoesNotFail($query);
+
+        $logConversionTable = Common::prefixTable('log_conversion');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logVisitTable = Common::prefixTable('log_visit');
+        $logAction = Common::prefixTable('log_action');
+
+        $expectedBind = $bind;
+        $expectedBind[] = '%/%';
+        $expected = array(
+            "sql"  => "
+                SELECT log_inner.idgoal AS `idgoal`,
+                   COALESCE(log_inner.custom_dimension_1, log_inner.custom_dimension_1244d1b9649c84c78c7071cbc49b0d2d2) AS `label`,
+                   count(*) AS `1`,
+                   count(distinct log_inner.idvisit) AS `3`
+                FROM (
+                    SELECT log_conversion.idgoal, log_conversion.custom_dimension_1, log_visit.custom_dimension_1 as custom_dimension_1244d1b9649c84c78c7071cbc49b0d2d2, log_conversion.idvisit
+                    FROM $logConversionTable AS log_conversion
+                       LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
+                       LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_conversion.idvisit
+                       LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
+                    WHERE ( log_conversion.server_time >= ?
+                        AND log_conversion.server_time <= ?
+                        AND log_conversion.idsite IN (?) )
+                        AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
+                    GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
+                    ORDER BY NULL ) AS log_inner
+                    GROUP BY log_inner.idgoal, `label`",
+            "bind" => $expectedBind);
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function testGetSelectQueryWhenJoinCustomLogTableTwoTablesRemovedFromLogVisitFirstThenJoinTableAdjacentToLogVisit()
     {
         $this->defineEntitiesNotDirectlyJoinableToVisit();
@@ -2342,6 +2392,149 @@ SQL;
                 '%matomo.org/jobs/%',
             ],
         ];
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheQueryIsNotAboutVisitsOnly()
+    {
+        // the visits log lets a subquery match the joined tables instead of grouping their rows away,
+        // which only returns the same rows when the query selects and sorts log_visit rows. Every
+        // other query keeps the grouped shape.
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.idvisit, log_link_visit_action.idaction_url',
+            'log_visit',
+            'log_visit.idsite = ?',
+            array(1),
+            'log_visit.visit_last_action_time DESC',
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.idvisit, log_link_visit_action.idaction_url
+                      FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( log_visit.idsite = ? )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY log_visit.visit_last_action_time DESC LIMIT 0, 100',
+            'bind' => array(1, 'Test'),
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheWhereContainsASubquery()
+    {
+        // the conditions of the caller are rewritten to an alias of log_visit, which would rewrite
+        // the inside of a subquery selecting from log_visit too. Those queries keep the group by.
+        $logVisit = Common::prefixTable('log_visit');
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.*',
+            'log_visit',
+            'log_visit.idsite = ? AND log_visit.idvisit IN (SELECT log_visit.idvisit FROM ' . $logVisit . ' AS log_visit WHERE log_visit.location_country = ?)',
+            array(1, 'fr'),
+            'log_visit.visit_last_action_time DESC',
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.*
+                      FROM ' . $logVisit . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( log_visit.idsite = ? AND log_visit.idvisit IN (SELECT log_visit.idvisit FROM ' . $logVisit . ' AS log_visit WHERE log_visit.location_country = ?) )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY log_visit.visit_last_action_time DESC LIMIT 0, 100',
+            'bind' => array(1, 'fr', 'Test'),
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheWhereQuotesTheVisitTable()
+    {
+        // the conditions of the caller are rewritten to an alias of log_visit, and the rewrite only
+        // replaces the unquoted form of the table name. A quoted reference would be left pointing at
+        // a table the rewritten query does not have, so those queries keep the group by.
+        $logVisit = Common::prefixTable('log_visit');
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.*',
+            'log_visit',
+            '`log_visit`.idsite = ?',
+            array(1),
+            'log_visit.visit_last_action_time DESC',
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.*
+                      FROM ' . $logVisit . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( `log_visit`.idsite = ? )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY log_visit.visit_last_action_time DESC LIMIT 0, 100',
+            'bind' => array(1, 'Test'),
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheOrderByContainsASubquery()
+    {
+        // the sorting of the caller is rewritten to an alias of log_visit just like its conditions
+        // are, which would rewrite the inside of a subquery selecting from log_visit too. Those
+        // queries keep the group by.
+        $logVisit = Common::prefixTable('log_visit');
+        $orderBy = '(log_visit.idvisit IN (SELECT log_visit.idvisit FROM ' . $logVisit . ' AS log_visit WHERE log_visit.location_country = \'fr\')) DESC, log_visit.visit_last_action_time DESC';
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.*',
+            'log_visit',
+            'log_visit.idsite = ?',
+            array(1),
+            $orderBy,
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.*
+                      FROM ' . $logVisit . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( log_visit.idsite = ? )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY ' . $orderBy . ' LIMIT 0, 100',
+            'bind' => array(1, 'Test'),
+        );
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }

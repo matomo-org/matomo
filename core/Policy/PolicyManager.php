@@ -124,6 +124,8 @@ class PolicyManager
     }
 
     /**
+     * Settings controlled by the given policy, in the order they ask to be listed in.
+     *
      * @param class-string<CompliancePolicy> $policyClass
      * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
      */
@@ -139,6 +141,15 @@ class PolicyManager
 
             $underPolicy[] = $setting;
         }
+
+        // the order hint of a setting decides where a compliance dashboard lists it, the same way
+        // a menu item asks for its position. Settings sharing a hint are ordered by their policy
+        // setting id rather than by their title, which is translated and would make the order of
+        // the dashboard depend on the language it is read in
+        usort($underPolicy, static function (string $settingA, string $settingB): int {
+            return [$settingA::getPolicyOrder(), $settingA::getPolicySettingId()]
+                <=> [$settingB::getPolicyOrder(), $settingB::getPolicySettingId()];
+        });
 
         return $underPolicy;
     }
@@ -230,6 +241,13 @@ class PolicyManager
             $enforced = filter_var($enforced, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
             if (is_null($enforced)) {
                 throw new Exception(sprintf('Invalid enforcement value for the setting "%s"', $settingId));
+            }
+
+            // a setting pinned in config.ini.php, or one the current user may not change, is
+            // only refused once it is written. Rejecting it here as well keeps the write
+            // all-or-nothing, so a later setting cannot fail after earlier ones went live
+            if (!$toggleableSettingsById[$settingId]::isEnforcementWritable($idSite)) {
+                throw new Exception(sprintf('The enforcement state of the setting "%s" cannot be changed', $settingId));
             }
 
             $normalised[$settingId] = $enforced;

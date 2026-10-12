@@ -244,8 +244,8 @@ class Model
         $isMaxExecutionTimeError = $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
                                    || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
                                    || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_STATEMENT_TIME_EXCEEDED_QUERY_INTERRUPTED)
-                                   || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false
-                                   || strpos($e->getMessage(), 'max_statement_time exceeded') !== false;
+                                   || str_contains($e->getMessage(), 'maximum statement execution time exceeded')
+                                   || str_contains($e->getMessage(), 'max_statement_time exceeded');
 
         if (false === $isMaxExecutionTimeError) {
             return;
@@ -807,8 +807,8 @@ class Model
 
             if (
                 !in_array($date, array('now', 'today', 'yesterdaySameTime'))
-                && strpos($date, 'last') === false
-                && strpos($date, 'previous') === false
+                && !str_contains($date, 'last')
+                && !str_contains($date, 'previous')
                 && Date::factory($dateString)->toString('Y-m-d') != Date::factory('now', $currentTimezone)->toString()
             ) {
                 $dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);

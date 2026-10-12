@@ -26,13 +26,13 @@ class Complianz extends ConsentManagerDetectionAbstract
     public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'complianz-gdpr';
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 
     public function checkIsConnected(?string $data = null, ?array $headers = null): bool
     {
         $needle = "if (!cmplz_in_array( 'statistics', consentedCategories )) {
 		_paq.push(['forgetCookieConsentGiven']);";
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 }

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
@@ -433,7 +434,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $cacheKey = (int)$idSite . '.' . (string)$period . '.' . (int)$idReport . '.' . (int)$ifSuperUserReturnOnlySuperUserReports;
+        $cacheKey = Access::getInstance()->getCacheScopeKey() . '.' . (int)$idSite . '.' . (string)$period . '.' . (int)$idReport . '.' . (int)$ifSuperUserReturnOnlySuperUserReports;
         if (isset(self::$cache[$cacheKey])) {
             return self::$cache[$cacheKey];
         }
@@ -677,9 +678,6 @@ class API extends \Piwik\Plugin\API
                     // regardless of the parameters present in the original request.
                     'disable_queued_filters' => 0,
                     'disable_generic_filters' => 0,
-                    // scheduled reports render every processed report column, adding the
-                    // percent-of-total columns would bloat the emailed tables
-                    'percent_of_total' => 0,
                 ];
 
                 // all Websites dashboard should not be truncated in the report

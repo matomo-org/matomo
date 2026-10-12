@@ -109,7 +109,7 @@ class Dependency
      */
     private function markPluginsWithoutUpperBoundMatomoRequirementAsIncompatible($requiredVersion)
     {
-        if (strpos($requiredVersion, ',') !== false) {
+        if (str_contains($requiredVersion, ',')) {
             return $requiredVersion;
         }
 

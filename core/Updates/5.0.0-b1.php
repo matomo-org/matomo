@@ -53,7 +53,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->db->addColumns('log_conversion', ['pageviews_before' => "SMALLINT UNSIGNED DEFAULT NULL"]);
 
         $instanceId = SettingsPiwik::getPiwikInstanceId();
-        if (strpos($instanceId, '.matomo.cloud') === false && strpos($instanceId, '.innocraft.cloud') === false) {
+        if (!str_contains($instanceId, '.matomo.cloud') && !str_contains($instanceId, '.innocraft.cloud')) {
             $commandString = './console core:calculate-conversion-pages --dates=yesterday,today';
             $populatePagesBefore = new CustomMigration([CalculateConversionPages::class, 'calculateYesterdayAndToday'], $commandString);
             $migrations[] = $populatePagesBefore;
@@ -70,7 +70,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         foreach ($tables as $table) {
             $migrations[] = $this->migration->db->sql(sprintf('DELETE FROM `%s` WHERE ts_archived is null', $table));
 
-            $hasPrefix = strpos($table, 'archive') !== 0;
+            $hasPrefix = !str_starts_with($table, 'archive');
             if ($hasPrefix) {
                 $table = Common::unprefixTable($table);
             }

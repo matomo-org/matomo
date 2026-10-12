@@ -110,13 +110,12 @@ class Theme
         $pathAsset = $src[2];
 
         // Basic health check, we don't replace if not starting with plugins/
-        $posPluginsInPath = strpos($pathAsset, 'plugins');
-        if ($posPluginsInPath !== 0) {
+        if (!str_starts_with($pathAsset, 'plugins')) {
             return $source;
         }
 
         // or if it's already rewritten
-        if (strpos($pathAsset, $this->themeName) !== false) {
+        if (str_contains($pathAsset, $this->themeName)) {
             return $source;
         }
 
