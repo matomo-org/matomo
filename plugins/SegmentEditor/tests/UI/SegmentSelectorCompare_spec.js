@@ -10,7 +10,7 @@
 describe('SegmentComparison', () => {
   var generalParams = 'idSite=1&period=year&date=2012-08-09';
   async function clickCompareButton(selector) {
-    await page.click('.segmentationContainer .title');
+    await page.click('.segmentListContainer .mtm-selector__trigger');
     await page.waitForSelector(selector);
     await page.evaluate((buttonSelector) => {
       const button = document.querySelector(buttonSelector);
@@ -44,7 +44,7 @@ describe('SegmentComparison', () => {
     let title = await page.$eval('.segmentationContainer .segmentList li:last-child .compareSegment', (el) => el.getAttribute('title'));
     expect(title).to.not.equal(maxLimitMessage);
 
-    await page.waitForSelector('.segmentationContainer');
+    await page.waitForSelector('.segmentListContainer .mtm-selector__trigger');
     // We check that the number of <li> elements is greater than the limit we set
     const liElemLength = await page.$$eval('.segmentListContainer .segmentList li', (e) => e.length);
     expect(liElemLength).to.be.greaterThan(maxSegments);
@@ -59,7 +59,7 @@ describe('SegmentComparison', () => {
     // Making sure that the list is closed initially before the loop starts
     const segmentListIsExpanded = await page.evaluate(() => !!document.querySelector('.segmentEditorPanel.expanded'));
     if (segmentListIsExpanded) {
-      await page.click('.segmentationContainer .title');
+      await page.click('.segmentListContainer .mtm-selector__trigger');
       await page.waitForTimeout(100);
     }
 
@@ -90,9 +90,9 @@ describe('SegmentComparison', () => {
     await page.waitForNetworkIdle();
     await page.goto(dashUrl);
     await page.waitForNetworkIdle();
-    await page.waitForSelector('.segmentationContainer');
+    await page.waitForSelector('.segmentListContainer .mtm-selector__trigger');
 
-    await page.click('.segmentationContainer .title');
+    await page.click('.segmentListContainer .mtm-selector__trigger');
     await page.waitForSelector('.segmentListContainer .segmentList li[data-idsegment]');
 
     const segmentIds = await page.$$eval(

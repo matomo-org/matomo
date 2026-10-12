@@ -322,7 +322,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     const togglePanelListener = vi.fn();
     panelContainer.addEventListener('SegmentEditor:toggle-panel', togglePanelListener);
 
-    await wrapper.find('a.title').trigger('click');
+    await wrapper.find('a.mtm-selector__trigger').trigger('click');
 
     expect(togglePanelListener).toHaveBeenCalledTimes(1);
   });

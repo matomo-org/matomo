@@ -13,11 +13,11 @@ describe('VersionInfoHeaderMessage', function() {
 
   const selectorComponent = 'div[vue-entry="CoreHome.VersionInfoHeaderMessage"]';
   const selectorMessage = '#header_message';
-  const selectorMessageTitle = '#header_message .title';
+  const selectorMessageTitle = '#header_message .mtm-selector__trigger';
   const selectorMessageDropdown = '#header_message .mtm-selector__dropdown';
   const selectorMessagePanel = '#header_message .mtm-dropdownPanel';
   const selectorUpdateLink = '#updateCheckLinkContainer';
-  const selectorUpdateButtonIcon = '#header_message .title .icon-reload';
+  const selectorUpdateButtonIcon = '#header_message .mtm-selector__trigger .icon-reload';
   const selectorDropdownUpdaterLink = `${selectorMessagePanel} a[href*="CoreUpdater"]`;
 
   const urlAdminHome = '?idSite=1&period=year&date=2012-08-09&module=CoreAdminHome&action=home';

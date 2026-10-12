@@ -8,8 +8,7 @@
 <template>
   <div
     ref="root"
-    class="dashboard-manager mtm-selector mtm-selector--fullWidthOnSmallScreen
-           piwikTopControl dashboardSettings"
+    class="mtm-selector mtm-selector--fullWidthOnSmallScreen piwikTopControl"
     v-expand-on-click="{
       expander: 'expander',
       expandedClass: 'mtm-selector--expanded',
@@ -21,7 +20,7 @@
   >
     <button
       type="button"
-      class="mtm-selector__trigger title"
+      class="mtm-selector__trigger"
       v-tooltips
       :title="translate('Dashboard_ManageDashboard')"
       tabindex="4"
@@ -176,7 +175,7 @@ export default defineComponent({
 
     onMounted(() => {
       Matomo.postEvent('Dashboard.DashboardSettings.mounted', root.value);
-      $(root.value!).hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
+      $(root.value!).hide(); // hide the selector initially (shown manually by Dashboard.ts)
     });
 
     return {
@@ -278,7 +277,7 @@ export default defineComponent({
       }
     },
     openAddWidget() {
-      // close the dashboard-manager dropdown when opening the modal
+      // close the dropdown when opening the modal
       (this.$refs.root as HTMLElement).classList.remove('mtm-selector--expanded');
       Matomo.postEvent('Dashboard.AddWidget.open');
     },

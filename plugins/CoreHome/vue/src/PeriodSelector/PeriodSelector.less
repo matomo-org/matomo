@@ -2,6 +2,8 @@
 @_periodSelector_optionsHoverBackground: @theme-color-code;
 
 .periodSelector {
+  // The selector's panel pads 8px; the calendars want the 16px they always had.
+  padding: 8px;
 
   .preset-option-text {
     padding-left: 30px !important;
@@ -156,11 +158,6 @@
 
   .flex {
     display: flex;
-  }
-
-  // The selector's panel pads 8px; the calendars want the 16px they always had.
-  .periodSelector__panelBody {
-    padding: 8px;
   }
 
   .period-type {

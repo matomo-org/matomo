@@ -21,14 +21,14 @@ describe("SiteSelector", function () {
     });
 
     it("should show tooltip when hovering the element", async function() {
-        await page.hover('.sites_autocomplete .title');
+        await page.hover('.sites_autocomplete .mtm-selector__trigger');
         const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true })
 
         expect(await tooltip.getProperty('textContent')).to.match(/Choose a website, currently selected website: <script>_x\(0\)<\/script>/);
     });
 
     it("should display expanded when clicked", async function() {
-        await page.click('.sites_autocomplete .title');
+        await page.click('.sites_autocomplete .mtm-selector__trigger');
 
         await page.waitForSelector('.siteSelector .mtm-dropdownPanel__menu');
         await page.waitForNetworkIdle();
