@@ -29,8 +29,7 @@
 
   // The theme colours resolve to a CSS var(--...), which Less colour functions (lighten/darken)
   // can't operate on, so each pill gets its opaque tint from CSS color-mix() instead: mixed toward
-  // white on the light surface, toward black on the dark one. The theme also lightens the positive
-  // green in dark mode, so the text stays legible there.
+  // white on the light surface, toward black on the dark one.
   &.evolutionBadge--positive {
     color: @theme-color-positive;
     background-color: color-mix(in srgb, @theme-color-positive 9%, white);

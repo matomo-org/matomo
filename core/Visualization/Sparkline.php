@@ -183,7 +183,7 @@ class Sparkline implements ViewInterface
     {
         $colors = Common::getRequestVar('colors', false, 'json');
 
-        // used when the request passes no colors; the default white background takes the light theme values
+        // the default background is white, so take the light theme values
         $themeStyles = ThemeStyles::get(ThemeStyles::LIGHT_MODE);
         $defaultColors = array(
             'backgroundColor' => '#ffffff',
