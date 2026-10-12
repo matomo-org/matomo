@@ -319,11 +319,41 @@ class StorageTest extends IntegrationTestCase
 
     public function testOnlyTheSuperUsersRecordedWithARequestAreNotified()
     {
+        UsersManagerAPI::getInstance()->addUser('olaf', 'secret-password-1', 'olaf@example.com');
+        (new UsersModel())->setSuperUserAccess('olaf', true);
+
         $this->setRequestOnlyInOption(time(), 'olaf', [], [Piwik::getCurrentUserLogin()]);
         self::assertFalse((new Storage('PremiumPlugin'))->isNotificationDismissed());
 
         $this->setRequestOnlyInOption(time(), 'olaf', [], ['olaf']);
         self::assertTrue((new Storage('PremiumPlugin'))->isNotificationDismissed());
+    }
+
+    public function testARequestIsShownToEverySuperUserOnceItsRecordedSuperUsersWereDeleted()
+    {
+        Fixture::createSuperUser();
+        UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
+        (new UsersModel())->setSuperUserAccess('alice', true);
+        $this->setRequestOnlyInOption(time(), 'olaf', [], ['alice']);
+
+        UsersManagerAPI::getInstance()->deleteUser('alice');
+
+        $request = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
+        self::assertSame([], $request['superUsers']);
+        self::assertFalse((new Storage('PremiumPlugin'))->isNotificationDismissed());
+    }
+
+    public function testARequestIsShownToEverySuperUserOnceItsRecordedSuperUsersLostAccess()
+    {
+        Fixture::createSuperUser();
+        UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
+        (new UsersModel())->setSuperUserAccess('alice', true);
+        $this->setRequestOnlyInOption(time(), 'olaf', [], ['alice']);
+        self::assertTrue((new Storage('PremiumPlugin'))->isNotificationDismissed());
+
+        (new UsersModel())->setSuperUserAccess('alice', false);
+
+        self::assertFalse((new Storage('PremiumPlugin'))->isNotificationDismissed());
     }
 
     public function testARequestAddedToAPendingOneAlsoNotifiesTheSuperUsersGrantedSince()

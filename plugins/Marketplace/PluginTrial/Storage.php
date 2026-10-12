@@ -84,8 +84,11 @@ class Storage
             // super users granted access since the request became pending are notified of this later request;
             // one stored without the list already notifies every super user
             if (isset($this->storage['superUsers'])) {
-                $this->storage['superUsers'] = array_values(array_unique(array_merge($this->storage['superUsers'], $request['superUsers'])));
-                $this->saveStorage();
+                $superUsers = array_values(array_unique(array_merge($this->storage['superUsers'], $request['superUsers'])));
+                if ($superUsers !== $this->storage['superUsers']) {
+                    $this->storage['superUsers'] = $superUsers;
+                    $this->saveStorage();
+                }
             }
         });
 
@@ -160,12 +163,24 @@ class Storage
     {
         $login = Piwik::getCurrentUserLogin();
 
-        // a request stored before super users were recorded with it has no list, and is shown to every super user
-        if (isset($this->storage['superUsers']) && !in_array($login, $this->storage['superUsers'], true)) {
+        // a request stored before super users were recorded with it has no list, and is shown to every super user, as is
+        // one whose recorded super users were all deleted or demoted since, so it is never hidden from everyone
+        if (
+            isset($this->storage['superUsers'])
+            && !in_array($login, $this->storage['superUsers'], true)
+            && $this->isARecordedSuperUserStillOne()
+        ) {
             return true;
         }
 
-        return !empty($this->storage['dismissed']) && in_array($login, $this->storage['dismissed']);
+        return !empty($this->storage['dismissed']) && in_array($login, $this->storage['dismissed'], true);
+    }
+
+    private function isARecordedSuperUserStillOne(): bool
+    {
+        $superUsers = array_column(UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess(), 'login');
+
+        return !empty(array_intersect($this->storage['superUsers'], $superUsers));
     }
 
     /**
