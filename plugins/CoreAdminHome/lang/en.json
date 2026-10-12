@@ -159,6 +159,7 @@
         "TrustedHostSettings": "Trusted Matomo Hostname",
         "TwoFactorAuth": "Two-factor auth",
         "UiDemo": "UI Demo",
+        "ComponentLibrary": "Component Library",
         "UncheckToOptOut": "Uncheck this box to opt-out.",
         "UpdateSettings": "Update settings",
         "UseCustomLogo": "Use a custom logo",
