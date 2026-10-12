@@ -1,0 +1,43 @@
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/*
+ * A plain .css file, not .less, because less.php does not support @container (see
+ * KPICardContainer.containerQueries.css). Registered after KPICard.less so these overrides win.
+ *
+ * Once the band it sits in is 600px wide or less, it shows one card per row (see
+ * KPICardContainer.containerQueries.css), so the card no longer lines its rows up with neighbours:
+ * the trend sits on one line with its period, and the badge keeps its place above the title but no
+ * longer reserves that row on cards without one.
+ */
+@container (max-width: 600px) {
+  .kpiCard {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    grid-row: auto;
+  }
+
+  .kpiCard__badge {
+    align-self: flex-start;
+  }
+
+  .kpiCard__badge--empty {
+    display: none;
+  }
+
+  .kpiCard__value {
+    font-size: 2rem;
+  }
+
+  .kpiCard__evolution {
+    align-items: baseline;
+    column-gap: 0.35rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

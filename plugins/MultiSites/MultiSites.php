@@ -107,8 +107,11 @@ class MultiSites extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.less";
-        // A plain .css, not .less: it relies on @container (see the file's header). Registered after
-        // the .less so its container-query overrides win.
-        $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.containerQueries.css";
+        $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.less";
+        $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.less";
+        // Plain .css, not .less: they rely on @container (see the files' headers). Registered after
+        // the .less files so their container-query overrides win.
+        $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICardContainer.containerQueries.css";
+        $stylesheets[] = "plugins/MultiSites/vue/src/AllWebsitesDashboard/KPICard.containerQueries.css";
     }
 }

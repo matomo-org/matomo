@@ -1,0 +1,95 @@
+.kpiCard {
+  // Four rows — badge, title, value, evolution — shared with the other cards of the band through
+  // subgrid, so those lines stay aligned across a row even when a title or a badge wraps onto two
+  // lines. Outside a grid, the subgrid falls back to the card's own rows.
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: 0.6rem;
+}
+
+.kpiCard__badge {
+  // Its own row above the title: a longer label grows the row and pushes the title down instead of
+  // overlapping it. Aligned to the bottom of the row so every badge sits the same distance from its
+  // title; the slack from a shorter badge goes above it, not between it and the title.
+  align-self: end;
+  background-color: #ecf7fe;
+  border: 2px solid #0d94e3;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  justify-self: start;
+  min-height: 1.5rem;
+  padding: 0 0.35rem;
+}
+
+.kpiCard__badge--empty {
+  // reserves the badge row on cards without a badge, so one appearing later does not shift the values
+  visibility: hidden;
+}
+
+.kpiCard__title {
+  // titles align to the top of the row, so a wrapped two-line title does not drop the one-line
+  // titles below it; first baseline keeps the icon on the first line of the label
+  align-items: first baseline;
+  align-self: start;
+  color: #76838f;
+  column-gap: 0.35rem;
+  display: flex;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.kpiCard__icon {
+  font-size: 0.9rem;
+  position: relative;
+  top: 1px;
+}
+
+.kpiCard__value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.kpiCard__evolution {
+  // The trend and the period label ("From previous day") are stacked as one group below the value.
+  // The gap before this group is the card row-gap, so the empty space reads as sitting before the
+  // trend, grouped with the period. No ellipsis: the label wraps, and subgrid keeps it aligned.
+  align-items: flex-start;
+  color: #76838f;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  row-gap: 0.15rem;
+}
+
+.kpiCard__trend {
+  font-size: 1rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.kpiCard__trend--positive {
+  color: green;
+}
+
+.kpiCard__trend--negative {
+  color: red;
+}
+
+.kpiCard__trend--neutral .kpiCard__trendIcon {
+  color: #ccc;
+}
+
+.kpiCard__trendIcon {
+  font-size: 0.7rem;
+}
+
+// override: jQuery UI appends the tooltip to the body, outside the card. Chained with .ui-tooltip to
+// beat .ui-tooltip { max-width: 600px } in Morpheus general/_jqueryUI.less, which is loaded after
+// plugin stylesheets.
+.ui-tooltip.kpiCard__tooltip {
+  max-width: 240px;
+}

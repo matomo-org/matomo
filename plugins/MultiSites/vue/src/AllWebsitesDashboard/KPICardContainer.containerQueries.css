@@ -1,0 +1,56 @@
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/*
+ * The KPI band responds to its own width, not the viewport, so it does not drop a column just before
+ * the collapsing reporting menu hands it more room.
+ *
+ * This lives in a plain .css file on purpose: Matomo compiles .less through less.php, which does not
+ * support @container, whereas .css files are injected into the merged stylesheet verbatim (see
+ * core/AssetManager/UIAssetMerger/StylesheetUIAssetMerger). The query container itself is declared
+ * in KPICardContainer.less, and this file is registered after it so these overrides win.
+ *
+ * Each width is the band width at which that many cards would get too narrow; the drop is always to
+ * a balanced arrangement, never a lonely trailing card. The thresholds leave room for the longest
+ * labels and numbers, not just short English ones: the widest unbreakable title word is about 116px
+ * in German ("SEITENANSICHTEN") and a large value can reach ~140px, so each count drops before its
+ * cells fall below ~150px.
+ */
+
+@container kpiCardContainer (max-width: 880px) {
+  .kpiCardContainer__list--cols5 {
+    --kpi-columns: 3;
+  }
+}
+
+@container kpiCardContainer (max-width: 680px) {
+  .kpiCardContainer__list--cols4 {
+    --kpi-columns: 2;
+  }
+}
+
+/*
+ * Phones and narrow windows get one card per row, with a dashed rule between cards.
+ * KPICard.containerQueries.css switches the cards to their one-per-row layout at the same width.
+ */
+@container kpiCardContainer (max-width: 600px) {
+  /* written after the --colsN modifiers, at the same specificity, so it overrides them all */
+  .kpiCardContainer__list {
+    --kpi-columns: 1;
+    row-gap: 1.25rem;
+  }
+
+  .kpiCardContainer__item {
+    display: block;
+    grid-row: auto;
+  }
+
+  .kpiCardContainer__item--separated {
+    border-top: 1px dashed var(--theme-color-border);
+    padding-top: 1.25rem;
+  }
+}
