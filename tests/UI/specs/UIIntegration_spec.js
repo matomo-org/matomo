@@ -204,6 +204,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.click('.limitSelection [data-limit="10"]');
             await page.mouse.move(0, 0);
             await page.waitForNetworkIdle();
+            // the annotation icons under the graph load in a separate request, which the network idle
+            // wait stops counting once it is slow, so a capture could miss their row
+            await page.waitForSelector('.dataTableVizEvolution .evolution-annotations');
 
             expect(await screenshotPageWrap()).to.matchImage('visitors_overview_limit');
         });
