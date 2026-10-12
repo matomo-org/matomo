@@ -200,20 +200,49 @@ function initManageSegmentsPage() {
   }
 
   function loadSegmentDataByIndex(rows, index) {
-    if (isDestroyed || index >= rows.length) {
+    if (isDestroyed || !root.isConnected || index >= rows.length) {
       return;
     }
 
     const row = rows[index];
     const segmentDefinition = row.getAttribute('data-segment-definition') || '';
+    const loadNextRow = function () {
+      loadSegmentDataByIndex(rows, index + 1);
+    };
     fetchSegmentData(segmentDefinition, function onSuccess(segmentData) {
       if (!isDestroyed) {
         applySegmentData(row, segmentData);
       }
-      loadSegmentDataByIndex(rows, index + 1);
+      loadSparkline(row, loadNextRow);
     }, function onError() {
-      loadSegmentDataByIndex(rows, index + 1);
+      loadSparkline(row, loadNextRow);
     });
+  }
+
+  function loadSparkline(row, onDone) {
+    const img = row.querySelector('img[data-segment-sparkline-src]');
+    if (isDestroyed || !root.isConnected || !img) {
+      onDone();
+      return;
+    }
+
+    const done = function () {
+      img.removeEventListener('load', done);
+      img.removeEventListener('error', done);
+      onDone();
+    };
+    img.addEventListener('load', done);
+    img.addEventListener('error', done);
+
+    // refreshSparklines() only picks up images with a data-src, so moving the URL there
+    // starts this row's request alone and keeps the colors, size and token_auth handling.
+    img.setAttribute('data-src', img.getAttribute('data-segment-sparkline-src'));
+    img.removeAttribute('data-segment-sparkline-src');
+    piwik.refreshSparklines();
+
+    if (!img.getAttribute('src')) {
+      done();
+    }
   }
 
   function fetchSegmentData(segmentDefinition, onSuccess, onError) {
