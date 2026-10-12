@@ -49,6 +49,18 @@ final class Service
     }
 
     /**
+     * Returns if any user's request for a plugin is pending, so super users were already notified of it
+     */
+    public function isPending(string $pluginName): bool
+    {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
+        return (new Storage($pluginName))->wasRequested();
+    }
+
+    /**
      * Creates notifications for all available plugin trial requests if any
      *
      * @throws Exception

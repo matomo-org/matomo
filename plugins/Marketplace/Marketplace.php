@@ -260,6 +260,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PluginUploadDisabled';
         $translationKeys[] = 'Marketplace_RemoveLicenseKey';
         $translationKeys[] = 'Marketplace_RequestTrial';
+        $translationKeys[] = 'Marketplace_RequestTrialConfirmAlreadyRequested';
         $translationKeys[] = 'Marketplace_RequestTrialConfirmEmailWarning';
         $translationKeys[] = 'Marketplace_RequestTrialConfirmTitle';
         $translationKeys[] = 'Marketplace_RequestTrialSubmitted';

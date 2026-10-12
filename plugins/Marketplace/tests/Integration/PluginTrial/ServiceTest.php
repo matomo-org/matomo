@@ -95,6 +95,28 @@ class ServiceTest extends IntegrationTestCase
         self::assertSame(['alice', 'bob'], $logins);
     }
 
+    public function testIsPendingForEveryUserUntilTheRequestEnds()
+    {
+        $service = new Service();
+        FakeAccess::$identity = 'alice';
+        self::assertFalse($service->isPending('PremiumPlugin'));
+        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
+
+        FakeAccess::$identity = 'bob';
+        self::assertTrue($service->isPending('PremiumPlugin'));
+
+        $service->cancelRequest('PremiumPlugin');
+        self::assertFalse($service->isPending('PremiumPlugin'));
+    }
+
+    public function testIsPendingDisabled()
+    {
+        $this->setRequested();
+        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', -1);
+
+        self::assertFalse((new Service())->isPending('PremiumPlugin'));
+    }
+
     public function testCancelEndsThePendingRequestButEachUsersRequestStaysPermanent()
     {
         $service = new Service();

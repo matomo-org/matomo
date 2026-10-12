@@ -27,6 +27,8 @@ class Storage
     public const REQUEST_PENDING = 'pending';
 
     private const OPTION_NAME = 'Marketplace.PluginTrialRequest.%s';
+    private const LOCK_FOR_UPDATE = ' FOR UPDATE';
+    private const LOCK_SHARED = ' LOCK IN SHARE MODE';
     private $pluginName;
     private $optionName;
     private $storage = [];
@@ -55,7 +57,15 @@ class Storage
         $result = self::REQUEST_ALREADY_RECORDED;
 
         $this->writeWithHistory(function (RequestHistory $history) use ($pluginDisplayName, $requestTime, $login, &$result) {
-            $this->recordInHistory($history, $this->readStored());
+            $storedValue = $this->readStoredValue();
+            $storedRequest = $this->decodeStored($storedValue);
+            $this->recordInHistory($history, $storedRequest);
+
+            // Matomo before the update saves a dismissal without the request when the request was cleared since it was
+            // loaded; such a row is no request, but would make insertStorage() treat one as pending
+            if ($storedValue !== false && empty($storedRequest['requestTime'])) {
+                $this->deleteStoredWithoutRequest();
+            }
 
             if (!$history->add($this->pluginName, $login, $requestTime)) {
                 return;
@@ -74,8 +84,9 @@ class Storage
                 return;
             }
 
-            // a locking read, as the plain one above does not see a request made pending since it ran
-            $this->storage = $this->readStored(true);
+            // a locking read, as the plain one above does not see a request made pending since it ran. Shared, as the
+            // failed insert already holds a shared lock on the row, and upgrading it would deadlock a concurrent request
+            $this->storage = $this->readStored(self::LOCK_SHARED);
             $result = self::REQUEST_ADDED_TO_PENDING;
         });
 
@@ -88,17 +99,18 @@ class Storage
     public function setFulfilled(): void
     {
         $this->writeWithHistory(function (RequestHistory $history) {
-            $this->recordInHistory($history, $this->readStored(true));
+            $this->recordInHistory($history, $this->readStored(self::LOCK_FOR_UPDATE));
             $this->clearStorage();
         });
     }
 
     /**
-     * Returns if the plugin has a pending trial request from any user
+     * Returns if the plugin has a pending trial request from any user. A row without a request time is a dismissal
+     * Matomo before the update saved after the request was cleared, so it is none.
      */
     public function wasRequested(): bool
     {
-        return !empty($this->storage);
+        return !empty($this->storage['requestTime']);
     }
 
     /**
@@ -124,7 +136,7 @@ class Storage
     public function setNotificationDismissed(): void
     {
         $this->writeWithHistory(function () {
-            $storedRequest = $this->readStored(true);
+            $storedRequest = $this->readStored(self::LOCK_FOR_UPDATE);
             if (empty($storedRequest)) {
                 return;
             }
@@ -165,7 +177,7 @@ class Storage
     public function anonymizeLogin(string $login): void
     {
         $this->writeWithHistory(function () use ($login) {
-            $storedRequest = $this->readStored(true);
+            $storedRequest = $this->readStored(self::LOCK_FOR_UPDATE);
             if (empty($storedRequest)) {
                 return;
             }
@@ -194,15 +206,31 @@ class Storage
      *
      * @return array<string, mixed>
      */
-    private function readStored(bool $forUpdate = false): array
+    private function readStored(string $lock = ''): array
     {
-        $stored = Db::fetchOne(
-            'SELECT option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?' . ($forUpdate ? ' FOR UPDATE' : ''),
-            [$this->optionName]
-        );
-        $storedRequest = json_decode($stored ?: '[]', true);
+        return $this->decodeStored($this->readStoredValue($lock));
+    }
+
+    /**
+     * @param string|false $storedValue
+     * @return array<string, mixed>
+     */
+    private function decodeStored($storedValue): array
+    {
+        $storedRequest = json_decode($storedValue ?: '[]', true);
 
         return is_array($storedRequest) ? $storedRequest : [];
+    }
+
+    /**
+     * @return string|false false when no request is stored
+     */
+    private function readStoredValue(string $lock = '')
+    {
+        return Db::fetchOne(
+            'SELECT option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?' . $lock,
+            [$this->optionName]
+        );
     }
 
     /**
@@ -221,6 +249,20 @@ class Storage
         Option::clearCachedOption($this->optionName);
 
         return Db::get()->rowCount($result) > 0;
+    }
+
+    /**
+     * Re-reads under lock, so a request made since is kept, and a dismissal Matomo before the update added since is
+     * deleted too. No shared lock is held on the row yet, so taking an exclusive one cannot deadlock.
+     */
+    private function deleteStoredWithoutRequest(): void
+    {
+        if (!empty($this->readStored(self::LOCK_FOR_UPDATE)['requestTime'])) {
+            return;
+        }
+
+        Db::query('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?', [$this->optionName]);
+        Option::clearCachedOption($this->optionName);
     }
 
     /**
@@ -253,7 +295,7 @@ class Storage
 
         foreach ($trialRequests as $trialRequest => $data) {
             $data = json_decode($data, true);
-            $plugins[str_replace(sprintf(self::OPTION_NAME, ''), '', $trialRequest)] = $data['requestTime'];
+            $plugins[str_replace(sprintf(self::OPTION_NAME, ''), '', $trialRequest)] = $data['requestTime'] ?? 0;
         }
 
         arsort($plugins);
