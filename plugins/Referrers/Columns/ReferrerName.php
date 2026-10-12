@@ -43,16 +43,13 @@ class ReferrerName extends Base
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
         // A campaign the policy discarded is a marker for "not collected", not a referrer the
-        // visitor actually arrived from. When a later request in the same visit is allowed to
-        // carry the real value - because the visitor has since consented - record it instead of
-        // keeping the placeholder. Nothing is held back to make this work: the value arrives on
-        // that request, which is why it only applies while the visitor is still on a URL carrying
-        // it. If the request is not allowed to carry it, the incoming value is a placeholder too
-        // and this does nothing.
+        // visitor actually arrived from. When a request in the same visit is allowed to carry the
+        // real value - because the visitor has since consented - record it instead of keeping the
+        // placeholder. Nothing is held back to make this work: the value arrives on that request.
         if (
             CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn('referer_name'))
             && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && !CampaignParameterValuesMasked::isPlaceholderValue($information['referer_name'])
+            && $this->canCompleteDiscardedCampaign($visitor, $information['referer_name'])
         ) {
             return $information['referer_name'];
         }

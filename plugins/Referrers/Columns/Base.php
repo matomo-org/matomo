@@ -799,11 +799,17 @@ abstract class Base extends VisitDimension
         $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
         $new = mb_strtolower($information[$infoName] ?? '');
 
-        // A value the policy discarded becoming readable is not the visitor arriving from
-        // somewhere new, it is the same campaign we were not allowed to record a moment ago.
-        // Treating it as a change would start a second visit part way through the first, which
-        // both splits the visit and counts the visitor twice.
-        if (CampaignParameterValuesMasked::isPlaceholderValue($existing)) {
+        // A discarded value tells us nothing about which campaign it stood for, so it cannot be
+        // compared with anything. This holds whichever side it appears on: a stored placeholder
+        // becoming readable is the same campaign we were not allowed to record a moment ago, and
+        // a stored campaign arriving as a placeholder is that same campaign on a request that may
+        // not carry it - for instance one sent in a batch, which never reports consent. Treating
+        // either as a change would start a second visit part way through the first and count the
+        // visitor twice.
+        if (
+            CampaignParameterValuesMasked::isPlaceholderValue($existing)
+            || CampaignParameterValuesMasked::isPlaceholderValue($new)
+        ) {
             return false;
         }
 
@@ -839,5 +845,30 @@ abstract class Base extends VisitDimension
     {
         $referrerType = $visitor->getImmutableVisitorColumn('referer_type');
         return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
+    }
+
+    /**
+     * Whether a campaign this visit discarded may be completed from the current request.
+     *
+     * We kept nothing of the discarded campaign, so an incoming one cannot be checked against it.
+     * Completing the visit from a campaign the visitor arrived through later would credit the
+     * first campaign's visit to the second, so this is allowed only while the visit is still on
+     * the page it arrived on - which is also the only time the original parameters are still in
+     * the URL. A ping does not count as an action, so consent reported that way still qualifies.
+     *
+     * This does not make a later campaign impossible to confuse with the original one, since a
+     * second page can carry campaign parameters of its own. It limits the window to the single
+     * action during which the original campaign is plausibly still the one in the URL.
+     */
+    protected function canCompleteDiscardedCampaign(Visitor $visitor, $incomingValue): bool
+    {
+        if (!CampaignParameterValuesMasked::isPlaceholderValue($incomingValue ?? '')) {
+            // the immutable value is the count as stored. The mutable one may already hold the
+            // SQL expression that increments it for this request, which is not a number.
+            return (int) $visitor->getImmutableVisitorColumn('visit_total_actions') <= 1;
+        }
+
+        // the request is not allowed to carry the campaign either, so there is nothing to complete
+        return false;
     }
 }

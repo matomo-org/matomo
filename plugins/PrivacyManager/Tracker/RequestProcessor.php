@@ -62,6 +62,12 @@ class RequestProcessor extends Tracker\RequestProcessor
     {
         $this->provideIdSiteToPrivacyManagerConfig($request);
 
+        if ($request->hasConsent()) {
+            // the visitor consented before this visit was created, so the referrer may be kept as
+            // detected. Anonymisation is the treatment for a visitor who has not consented.
+            return;
+        }
+
         $type = $visitProperties->getProperty('referer_type');
 
         // we do not anonymise the referrer url in manipulateRequest because otherwise the referrer would not be detected
@@ -82,6 +88,11 @@ class RequestProcessor extends Tracker\RequestProcessor
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
         $this->provideIdSiteToPrivacyManagerConfig($request);
+
+        if ($request->hasConsent()) {
+            // see onNewVisit() - a consented request's referrer is kept as detected
+            return;
+        }
 
         if (isset($valuesToUpdate['referer_type'])) {
             $type = $valuesToUpdate['referer_type'];
