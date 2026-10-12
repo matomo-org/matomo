@@ -436,6 +436,7 @@ class Request
             'res'          => array(self::UNKNOWN_RESOLUTION, 'string'),
             'idgoal'       => array(-1, 'int'),
             'ping'         => array(0, 'int'),
+            'consent'      => array('', 'string'),
 
             // other
             'bots'         => array(0, 'int'),
@@ -944,7 +945,7 @@ class Request
      */
     public function hasConsent(): bool
     {
-        return '1' === Common::getRequestVar('consent', '', 'string', $this->params);
+        return '1' === $this->getParam('consent');
     }
 
     public function getPlugins()

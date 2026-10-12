@@ -3401,6 +3401,16 @@ if (typeof window.Matomo !== 'object') {
 
                 hasSentTrackingRequestYet = true;
 
+                if (hasGivenConsent()) {
+                    // each request in the batch is handled on its own by the server, so the
+                    // consent has to travel with every one of them rather than with the batch
+                    var consented = [], requestIndex;
+                    for (requestIndex = 0; requestIndex < requests.length; requestIndex++) {
+                        consented.push(requests[requestIndex] + '&consent=1');
+                    }
+                    requests = consented;
+                }
+
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                     var chunks = arrayChunk(requests, 50);
 

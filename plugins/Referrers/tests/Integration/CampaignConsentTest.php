@@ -60,6 +60,8 @@ class CampaignConsentTest extends IntegrationTestCase
             $defaultInit = true,
             $useLocal = false
         );
+
+        $this->tracker->setUrlReferrer('');
     }
 
     public function tearDown(): void
@@ -147,6 +149,50 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * Not every request carries the consent flag even after the visitor has consented - a batch of
+     * requests does not, for instance. Such a request still has the campaign in its URL, so it is
+     * masked, and the stored campaign then differs from the incoming one. That is not the visitor
+     * arriving from somewhere new and must not start a second visit.
+     */
+    public function testARequestWithoutTheConsentFlagDoesNotSplitAConsentedVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+
+        $this->assertSame(1, $this->countVisits(), 'a request without the consent flag split the visit');
+        $this->assertSame(
+            self::CAMPAIGN_NAME,
+            $this->fetchVisitColumn('referer_name'),
+            'the recorded campaign must not be replaced by the placeholder'
+        );
+    }
+
+    /**
+     * The campaign we discarded cannot be compared with a campaign arriving later, because we kept
+     * nothing to compare it against. Completing a visit from a different campaign would credit the
+     * first campaign's visit to the second, so the completion only applies while the visit is
+     * still on the page it arrived on.
+     */
+    public function testALaterDifferentCampaignDoesNotTakeOverTheVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackPageView('article', $withCampaign = false, $consent = '1');
+        $this->trackPageView('offer', $withCampaign = true, $consent = '1', 'another campaign');
+
+        $this->assertNotSame(
+            'another campaign',
+            $this->fetchVisitColumn('referer_name'),
+            'a later campaign took over the visit it did not bring the visitor to'
+        );
+    }
+
+    /**
      * Once the visitor has moved on, the campaign parameters are no longer in the URL, so there is
      * nothing to record. The discarded value stays discarded rather than being guessed at.
      */
@@ -162,6 +208,39 @@ class CampaignConsentTest extends IntegrationTestCase
             $this->fetchVisitColumn('referer_name')
         );
         $this->assertSame(1, $this->countVisits());
+    }
+
+    /**
+     * A compliance policy also shortens the referrer and drops the search keyword. The referring
+     * site and the channel are kept either way, so what consent restores here is the keyword and
+     * the rest of the referrer URL.
+     */
+    public function testReferrerDetailIsKeptWhenTheRequestCarriesConsent(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+
+        $this->assertSame('Ecosia', $this->fetchVisitColumn('referer_name'));
+        $this->assertSame('running shoes', $this->fetchVisitColumn('referer_keyword'));
+        $this->assertStringContainsString('q=running+shoes', (string) $this->fetchVisitColumn('referer_url'));
+    }
+
+    /**
+     * Without consent the referrer keeps its exempt treatment: the search engine is still
+     * recorded, the keyword and the rest of the URL are not.
+     */
+    public function testReferrerDetailIsDroppedWithoutConsent(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+
+        $this->assertSame('Ecosia', $this->fetchVisitColumn('referer_name'), 'the search engine should still be recorded');
+        $this->assertSame('', $this->fetchVisitColumn('referer_keyword'));
+        $this->assertStringNotContainsString('q=', (string) $this->fetchVisitColumn('referer_url'));
     }
 
     /**
@@ -197,15 +276,23 @@ class CampaignConsentTest extends IntegrationTestCase
         Cache::deleteTrackerCache();
     }
 
-    private function trackPageView(string $page, bool $withCampaign, ?string $consent): void
-    {
-        $this->prepareRequest($page, $withCampaign, $consent);
+    private function trackPageView(
+        string $page,
+        bool $withCampaign,
+        ?string $consent,
+        ?string $campaign = null
+    ): void {
+        $this->prepareRequest($page, $withCampaign, $consent, $campaign);
 
         Fixture::checkResponse($this->tracker->doTrackPageView(ucfirst($page)));
     }
 
-    private function prepareRequest(string $page, bool $withCampaign, ?string $consent): void
-    {
+    private function prepareRequest(
+        string $page,
+        bool $withCampaign,
+        ?string $consent,
+        ?string $campaign = null
+    ): void {
         $this->testDate = $this->testDate->addPeriod(1, 'minute');
         $this->tracker->setForceVisitDateTime($this->testDate->getDatetime());
 
@@ -218,13 +305,12 @@ class CampaignConsentTest extends IntegrationTestCase
         $url = 'http://example.com/' . $page;
         if ($withCampaign) {
             $url .= '?' . http_build_query([
-                'pk_campaign' => self::CAMPAIGN_NAME,
+                'pk_campaign' => $campaign ?? self::CAMPAIGN_NAME,
                 'pk_kwd' => self::CAMPAIGN_KEYWORD,
             ]);
         }
 
         $this->tracker->setUrl($url);
-        $this->tracker->setUrlReferrer('');
     }
 
     private function ping(string $page, bool $withCampaign, ?string $consent): void
