@@ -659,3 +659,8 @@ a.metric_category {
         width: calc(100% - 15px);
     }
 }
+
+// A sparkline not requested yet has no src: hide the empty frame browsers draw for it
+[data-page="manage-segments"] img[data-segment-sparkline-src] {
+    visibility: hidden;
+}
