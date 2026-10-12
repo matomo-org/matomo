@@ -190,6 +190,7 @@ class ControllerTest extends IntegrationTestCase
             $this->assertSame('25', $heightNode->nodeValue);
 
             // manageSegmentsPage.js sets data-src one row at a time.
+            $this->assertNull($sparklineImage->attributes->getNamedItem('src'));
             $this->assertNull($sparklineImage->attributes->getNamedItem('data-src'));
             $this->assertNotEmpty($sparklineImage->attributes->getNamedItem('data-segment-sparkline-src')->nodeValue ?? '');
         }

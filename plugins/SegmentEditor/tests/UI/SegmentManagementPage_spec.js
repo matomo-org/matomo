@@ -198,6 +198,46 @@ describe("SegmentManagementPageTest", function () {
     expect(tableData.realtime.actions).to.equal('-');
   });
 
+  it("should load the rows data and sparklines one request at a time", async function() {
+    let inFlight = 0;
+    let maxInFlight = 0;
+    let listening = true;
+    const isTableDataRequest = (req) => /SegmentEditor\.getSegmentData|action=getEvolutionGraph/.test(req.url());
+    const onRequest = (req) => {
+      if (listening && isTableDataRequest(req)) {
+        inFlight += 1;
+        maxInFlight = Math.max(maxInFlight, inFlight);
+      }
+    };
+    const onRequestDone = (req) => {
+      if (listening && isTableDataRequest(req)) {
+        inFlight -= 1;
+      }
+    };
+    page.on('request', onRequest);
+    page.on('requestfinished', onRequestDone);
+    page.on('requestfailed', onRequestDone);
+
+    let sparklineSources;
+    try {
+      await openPage();
+      sparklineSources = await page.evaluate(() => {
+        return $('[data-page="manage-segments"] tr[data-is-realtime="0"] .entityTable_Sparkline img')
+          .map((index, img) => img.getAttribute('src') || '')
+          .get();
+      });
+    } finally {
+      listening = false;
+    }
+
+    expect(maxInFlight).to.equal(1);
+    expect(sparklineSources.length).to.be.above(1);
+    sparklineSources.forEach((src) => {
+      expect(src).to.contain('action=getEvolutionGraph');
+      expect(src).to.contain('colors=');
+    });
+  });
+
   it("should mark realtime and pre-processed rows via data-is-realtime", async function() {
     await openPage();
 

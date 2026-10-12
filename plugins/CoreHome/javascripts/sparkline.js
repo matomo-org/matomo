@@ -24,8 +24,9 @@ piwik.getSparklineColors = function () {
     return colors;
 };
 
-piwik.refreshSparklines = function () {
-    $('.sparkline img').each(function () {
+// scope (optional): only refresh the sparklines inside this element, instead of the whole page
+piwik.refreshSparklines = function (scope) {
+    $('.sparkline img', scope).each(function () {
         var $self = $(this);
         var dataSrc = $self.attr('data-src');
 

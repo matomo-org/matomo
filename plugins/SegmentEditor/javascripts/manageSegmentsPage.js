@@ -226,19 +226,24 @@ function initManageSegmentsPage() {
       return;
     }
 
+    let timeoutId = null;
     const done = function () {
+      clearTimeout(timeoutId);
       img.removeEventListener('load', done);
       img.removeEventListener('error', done);
       onDone();
     };
     img.addEventListener('load', done);
     img.addEventListener('error', done);
+    // A sparkline request that never answers must not keep the following rows from loading
+    timeoutId = setTimeout(done, 30000);
 
     // refreshSparklines() only picks up images with a data-src, so moving the URL there
-    // starts this row's request alone and keeps the colors, size and token_auth handling.
+    // keeps the colors, size and token_auth handling. Scoped to the row so the sparklines
+    // already loaded are not requested again.
     img.setAttribute('data-src', img.getAttribute('data-segment-sparkline-src'));
     img.removeAttribute('data-segment-sparkline-src');
-    piwik.refreshSparklines();
+    piwik.refreshSparklines(row);
 
     if (!img.getAttribute('src')) {
       done();
