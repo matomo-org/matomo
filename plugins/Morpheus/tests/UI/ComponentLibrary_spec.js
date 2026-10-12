@@ -13,67 +13,52 @@ describe("ComponentLibrary", function () {
         testEnvironment.save();
     });
 
-    async function capture(example, name) {
-        const element = await page.$(`[data-example="${example}"]`);
-        expect(await element.screenshot()).to.matchImage(name);
-    }
+    // Hover and keyboard focus cannot be set from the markup. The page names, on each preview, the
+    // state to show and the element that carries it, and the browser is told to apply them, so a
+    // single capture shows every state of the component.
+    async function forceDeclaredStates() {
+        const client = await page.webpage.target().createCDPSession();
+        await client.send('DOM.enable');
+        await client.send('CSS.enable');
 
-    async function reset() {
-        await page.mouse.move(-10, -10);
-        await page.evaluate(() => document.activeElement && document.activeElement.blur());
-    }
-
-    describe("ComponentLibrarySelector", function () {
-        const examples = [
-            'label',
-            'arrow',
-            'icon',
-            'iconOnly',
-            'placeholder',
-            'startAction',
-            'endAction',
-            'bothActions',
-            'fullWidth',
-            'open',
-            'disabled',
-            'readOnly',
-            'disabledAction',
-        ];
-
-        before(async function () {
-            await page.goto(url + 'selector');
-            await page.waitForNetworkIdle();
+        const { root } = await client.send('DOM.getDocument', { depth: -1 });
+        const { nodeIds } = await client.send('DOM.querySelectorAll', {
+            nodeId: root.nodeId,
+            selector: '[data-force-state]',
         });
 
-        examples.forEach(function (example) {
-            it(`should show the ${example} example`, async function () {
-                await reset();
-                await capture(example, example);
+        for (const previewId of nodeIds) {
+            const { attributes } = await client.send('DOM.getAttributes', { nodeId: previewId });
+            const attribute = (name) => attributes[attributes.indexOf(name) + 1];
+
+            const { nodeId } = await client.send('DOM.querySelector', {
+                nodeId: previewId,
+                selector: attribute('data-force-target'),
             });
-        });
+            // A keyboard focus is a focus too: forcing :focus-visible alone leaves the browser's own
+            // outline, which :focus removes.
+            const state = attribute('data-force-state');
+            await client.send('CSS.forcePseudoState', {
+                nodeId,
+                forcedPseudoClasses: state === 'focus-visible' ? ['focus', state] : [state],
+            });
+        }
+    }
 
-        it("should frame the whole selector when its trigger is hovered", async function () {
-            await reset();
-            await page.hover('[data-example="bothActions"] .mtm-selector__trigger');
-            await capture('bothActions', 'trigger_hover');
-        });
+    async function captureComponent(component) {
+        await page.goto(url + component);
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        await forceDeclaredStates();
 
-        it("should ring only the action when an action is hovered", async function () {
-            await reset();
-            await page.hover('[data-example="bothActions"] .mtm-selector__action--start');
-            await capture('bothActions', 'action_hover');
-        });
+        // The markup under each preview is for reading, not for spotting a visual regression.
+        await page.webpage.addStyleTag({ content: '.componentLibrary__code { display: none !important; }' });
 
-        it("should frame the whole selector when its trigger has the keyboard focus", async function () {
-            await reset();
-            await page.focus('[data-example="bothActions"] .mtm-selector__action--start');
-            await page.keyboard.press('Tab');
-            await capture('bothActions', 'trigger_focus');
-        });
+        const element = await page.$('.componentLibrary__page');
+        expect(await element.screenshot()).to.matchImage(component);
+    }
 
-        it("should ring only the action when an action has the keyboard focus", async function () {
-            await page.keyboard.press('Tab');
-            await capture('bothActions', 'action_focus');
-        });
+    it("should show every variation and state of the selector", async function () {
+        await captureComponent('selector');
     });
 });

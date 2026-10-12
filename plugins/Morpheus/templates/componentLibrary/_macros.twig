@@ -2,14 +2,22 @@
   One example: a live preview and the markup that draws it, printed from the same string so the
   two cannot drift apart. `markup` is static markup written in the component's own template, never
   user input, which is what makes printing it raw safe.
+
+  `forceState` names a pseudo-class (hover, focus-visible) the page cannot show on its own, and
+  `forceTarget` the element inside the preview that carries it. The screenshot test forces both,
+  so one capture of the page shows every state.
 #}
-{% macro example(id, title, note, markup, previewModifier) %}
+{% macro example(id, title, note, markup, previewModifier, forceState, forceTarget) %}
     <section class="componentLibrary__example" id="example-{{ id }}">
         <div class="componentLibrary__exampleHeader">
             <h4 class="componentLibrary__exampleTitle">{{ title }}</h4>
             {% if note %}<p class="componentLibrary__exampleNote">{{ note|raw }}</p>{% endif %}
         </div>
-        <div class="componentLibrary__preview {{ previewModifier }}" data-example="{{ id }}">
+        <div
+            class="componentLibrary__preview {{ previewModifier }}"
+            data-example="{{ id }}"
+            {% if forceState %}data-force-state="{{ forceState }}" data-force-target="{{ forceTarget }}"{% endif %}
+        >
             {{ markup|raw }}
         </div>
         <pre class="componentLibrary__code"><code class="componentLibrary__codeText">{{ (markup ~ '')|trim|e('html') }}</code></pre>
