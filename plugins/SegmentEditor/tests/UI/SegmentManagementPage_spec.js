@@ -203,41 +203,37 @@ describe("SegmentManagementPageTest", function () {
   });
 
   it("should load the rows data and sparklines one request at a time", async function() {
-    // Only the requests seen starting here count: the previous test can leave one in flight,
-    // which the navigation then cancels
-    const pendingRequests = new Set();
-    let maxInFlight = 0;
-    const isTableDataRequest = (req) => /SegmentEditor\.getSegmentData|action=getEvolutionGraph/.test(req.url());
-    const onRequest = (req) => {
-      if (isTableDataRequest(req)) {
-        pendingRequests.add(req);
-        maxInFlight = Math.max(maxInFlight, pendingRequests.size);
-      }
-    };
-    const onRequestDone = (req) => {
-      pendingRequests.delete(req);
-    };
-    page.webpage.on('request', onRequest);
-    page.webpage.on('requestfinished', onRequestDone);
-    page.webpage.on('requestfailed', onRequestDone);
+    // Timings are read from the page itself: the order puppeteer emits its request events in is
+    // not guaranteed, and requests left by the previous page do not belong to this document
+    const { identifier } = await page.webpage.evaluateOnNewDocument(() => {
+      performance.setResourceTimingBufferSize(1000);
+    });
 
+    let tableRequests;
     let sparklineSources;
     try {
       await openPage();
       await waitForAllSegmentRowsLoaded();
+      tableRequests = await page.evaluate(() => {
+        return performance.getEntriesByType('resource')
+          .filter((entry) => /SegmentEditor\.getSegmentData|action=getEvolutionGraph/.test(entry.name))
+          .map((entry) => ({ startTime: entry.startTime, responseEnd: entry.responseEnd }))
+          .sort((a, b) => a.startTime - b.startTime);
+      });
       sparklineSources = await page.evaluate(() => {
         return $('[data-page="manage-segments"] tr[data-is-realtime="0"] .entityTable_Sparkline img')
           .map((index, img) => img.getAttribute('src') || '')
           .get();
       });
     } finally {
-      page.webpage.off('request', onRequest);
-      page.webpage.off('requestfinished', onRequestDone);
-      page.webpage.off('requestfailed', onRequestDone);
+      await page.webpage.removeScriptToEvaluateOnNewDocument(identifier);
     }
 
-    expect(maxInFlight).to.equal(1);
     expect(sparklineSources.length).to.be.above(1);
+    expect(tableRequests.length).to.equal(sparklineSources.length * 2);
+    tableRequests.slice(1).forEach((request, index) => {
+      expect(request.startTime).to.be.at.least(tableRequests[index].responseEnd);
+    });
     sparklineSources.forEach((src) => {
       expect(src).to.contain('action=getEvolutionGraph');
       expect(src).to.contain('colors=');
