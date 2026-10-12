@@ -55,6 +55,7 @@ class Updates600b6Test extends IntegrationTestCase
         ]));
         Option::set('Marketplace.PluginTrialRequest.BrokenPlugin', 'not json');
         Option::set('Marketplace.PluginTrialRequest.BadTimePlugin', json_encode(['requestTime' => 'yesterday', 'requestedBy' => 'alice']));
+        Option::set('Marketplace.PluginTrialRequest.DismissedOnlyPlugin', json_encode(['dismissed' => ['alice']]));
 
         Db::query('DROP TABLE ' . Common::prefixTable('plugin_trial_request'));
 
@@ -78,6 +79,20 @@ class Updates600b6Test extends IntegrationTestCase
         self::assertFalse($this->getStoredOption('ExpiredPlugin'));
         self::assertSame([], $history->getRequests('BrokenPlugin'));
         self::assertSame([], $history->getRequests('BadTimePlugin'));
+        self::assertSame([], $history->getRequests('DismissedOnlyPlugin'));
+        self::assertFalse($this->getStoredOption('BrokenPlugin'));
+        self::assertFalse($this->getStoredOption('BadTimePlugin'));
+        self::assertFalse($this->getStoredOption('DismissedOnlyPlugin'));
+    }
+
+    public function testTrialRequestsWithoutARequestTimeAreDeletedWhenTrialRequestsAreTurnedOff(): void
+    {
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = -1;
+        Option::set('Marketplace.PluginTrialRequest.DismissedOnlyPlugin', json_encode(['dismissed' => ['alice']]));
+
+        $this->runUpdate();
+
+        self::assertFalse($this->getStoredOption('DismissedOnlyPlugin'));
     }
 
     public function testTrialRequestsAreKeptWhenTrialRequestsAreTurnedOff(): void

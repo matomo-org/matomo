@@ -122,6 +122,19 @@ class StorageTest extends IntegrationTestCase
         self::assertTrue((new Storage('PremiumPlugin'))->wasRequestedByCurrentUser());
     }
 
+    public function testARequestReplacesADismissalSavedWithoutItsRequest()
+    {
+        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode(['dismissed' => ['anna']]));
+
+        $result = (new Storage('PremiumPlugin'))->setRequested('Premium Plugin');
+
+        self::assertSame(Storage::REQUEST_PENDING, $result);
+        Option::clearCachedOption('Marketplace.PluginTrialRequest.PremiumPlugin');
+        $stored = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
+        self::assertSame(Piwik::getCurrentUserLogin(), $stored['requestedBy']);
+        self::assertSame([], $stored['dismissed']);
+    }
+
     public function testSetFulfilledEndsThePendingRequestButKeepsItInHistory()
     {
         $storage = new Storage('PremiumPlugin');
@@ -497,6 +510,20 @@ class StorageTest extends IntegrationTestCase
 
             $storage->setFulfilled();
             self::assertFalse((new Storage('PremiumPlugin'))->wasRequested());
+        } finally {
+            DbHelper::createTables();
+        }
+    }
+
+    public function testADismissalSavedWithoutItsRequestIsNoPendingRequestBeforeTheUpdate()
+    {
+        Option::set('Marketplace.PluginTrialRequest.PremiumPlugin', json_encode(['dismissed' => ['anna']]));
+        Db::query('DROP TABLE ' . Common::prefixTable(RequestHistory::TABLE_NAME));
+
+        try {
+            $storage = new Storage('PremiumPlugin');
+            self::assertFalse($storage->wasRequested());
+            self::assertFalse($storage->wasRequestedByCurrentUser());
         } finally {
             DbHelper::createTables();
         }

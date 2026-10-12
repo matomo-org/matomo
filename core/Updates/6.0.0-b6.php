@@ -83,14 +83,14 @@ class Updates_6_0_0_b6 extends Updates
 
             $requestTime = (int) ($request['requestTime'] ?? 0);
 
-            // Date::factory() throws for anything this old, which would abort the whole update
-            if ($requestTime < Date::FIRST_WEBSITE_TIMESTAMP) {
-                continue;
-            }
-
             // Matomo until now only deleted an expired request when it next read it, so drop any that are left
-            // -1 turns trial requests off rather than setting an expiry
-            if ($expirationInDays >= 0 && $requestTime < time() - $expirationInDays * 24 * 3600) {
+            // -1 turns trial requests off rather than setting an expiry.
+            // A row without a usable request time, such as a dismissal saved after its request was cleared, is no
+            // request, and Date::factory() would throw for it and abort the whole update.
+            if (
+                $requestTime < Date::FIRST_WEBSITE_TIMESTAMP
+                || ($expirationInDays >= 0 && $requestTime < time() - $expirationInDays * 24 * 3600)
+            ) {
                 $migrations[] = $this->migration->db->boundSql($deleteOptionSql, [$optionName, $value]);
                 continue;
             }
