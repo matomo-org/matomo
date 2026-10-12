@@ -881,7 +881,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (empty($date)) {
-            $date = Date::now()->subPeriod(1, $report['period'])->toString();
+            $date = ReportSchedule::getToday((string) $report['period'], (int) $report['idsite'])->subPeriod(1, $report['period'])->toString();
         }
 
         Context::changeIdSite($report['idsite'], function () use ($report, $idReport, $date, $force) {

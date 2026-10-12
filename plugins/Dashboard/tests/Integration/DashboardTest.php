@@ -124,7 +124,7 @@ class DashboardTest extends IntegrationTestCase
     /**
      * @dataProvider getLayoutsWithReservedUniqueIds
      */
-    public function testDecodeLayoutDropsUniqueIdsThatCollideWithObjectInternals(string $uniqueId)
+    public function testDecodeLayoutDropsReservedWidgetUniqueIds(string $uniqueId)
     {
         $layout = '[[{"uniqueId":"' . $uniqueId . '","parameters":{"module":"Live","action":"widget"}}]]';
 

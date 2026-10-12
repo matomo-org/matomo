@@ -15,10 +15,9 @@ interface SearchFiltersPersistenceState {
   category: string;
   subcategory: string;
   idSite: string;
-  // Keyed by widget unique id. A Map is used deliberately: widget ids originate from the DOM and a
-  // plain object would let an id such as `__proto__` reach the prototype through the inherited setter,
-  // so a later lookup for an unrelated widget could return another widget's stored filters. Map keys
-  // are plain data and never touch the prototype chain, which keeps each widget's filters isolated.
+  // Keyed by widget unique id. A Map is used deliberately: widget ids originate from stored layout
+  // data, and Map keys are plain data that never resolve against an object's own or inherited members,
+  // so each widget's filters stay isolated to their own entry whatever the id happens to be.
   widgetSearchFilters: Map<string, Record<string, string>>;
 }
 

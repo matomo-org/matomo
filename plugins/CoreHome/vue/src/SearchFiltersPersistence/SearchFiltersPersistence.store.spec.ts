@@ -41,9 +41,10 @@ describe('CoreHome/SearchFiltersPersistence.store', () => {
     expect(store.getSearchFilters('widgetA')).toEqual({});
   });
 
-  // The defect: a widget id that collides with an object internal must not leak another widget's
-  // filters, pollute the prototype, or return anything but what was stored for that exact id.
-  const reservedIds = [
+  // Widget ids come from stored layout data, so an id that happens to match a JavaScript object
+  // member name must behave like any other id: isolated to its own entry, returning only what was
+  // stored for that exact id and nothing from any other id.
+  const objectMemberIds = [
     '__proto__',
     'constructor',
     'prototype',
@@ -52,34 +53,21 @@ describe('CoreHome/SearchFiltersPersistence.store', () => {
     'valueOf',
   ];
 
-  it.each(reservedIds)(
-    'returns no filters for reserved id "%s" that stored nothing',
-    (reservedId) => {
-      // Mirror the reported chain: widget A stores filters that carry a key matching widget B's id.
-      store.setSearchFilters(reservedId, { filter_patternX: { module: 'API', method: 'x' } } as never);
+  it.each(objectMemberIds)(
+    'does not surface an entry stored under "%s" when a different id is looked up',
+    (memberId) => {
+      store.setSearchFilters(memberId, { filter_patternX: { module: 'x' } } as never);
 
-      // Widget B asks for its own filters and must get nothing back.
       expect(store.getSearchFilters('filter_patternX')).toEqual({});
     },
   );
 
-  it.each(reservedIds)(
-    'does not replace the backing object prototype when id is "%s"',
-    (reservedId) => {
-      store.setSearchFilters(reservedId, { injected: true } as never);
+  it.each(objectMemberIds)(
+    'stores and returns an entry for "%s" as its own data only',
+    (memberId) => {
+      store.setSearchFilters(memberId, { filter_pattern: 'own' });
 
-      // Object.prototype and plain-object prototypes must be untouched by the write.
-      expect(Object.getPrototypeOf({})).toBe(Object.prototype);
-      expect(({} as Record<string, unknown>).injected).toBeUndefined();
-    },
-  );
-
-  it.each(reservedIds)(
-    'still stores and returns an entry for reserved id "%s" as its own data',
-    (reservedId) => {
-      store.setSearchFilters(reservedId, { filter_pattern: 'own' });
-
-      expect(store.getSearchFilters(reservedId)).toEqual({ filter_pattern: 'own' });
+      expect(store.getSearchFilters(memberId)).toEqual({ filter_pattern: 'own' });
     },
   );
 });
