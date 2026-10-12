@@ -250,9 +250,15 @@ function initManageSegmentsPage() {
         return;
       }
 
-      // Follow the displayed order, which starring a segment can change
-      const row = Array.from(tbody.children).find(function (candidate) {
-        return rowsToLoad.has(candidate) && isNearScreen(candidate);
+      // Rows on screen first, then the ones within the margin, each in the displayed order,
+      // which starring a segment can change
+      const candidates = Array.from(tbody.children).filter(function (candidate) {
+        return rowsToLoad.has(candidate);
+      });
+      const row = candidates.find(function (candidate) {
+        return isNearScreen(candidate, 0);
+      }) || candidates.find(function (candidate) {
+        return isNearScreen(candidate, LOAD_MARGIN_PX);
       });
       if (!row) {
         return;
@@ -268,12 +274,12 @@ function initManageSegmentsPage() {
     }
   }
 
-  function isNearScreen(row) {
+  function isNearScreen(row, margin) {
     if (row.offsetParent === null) {
       return false;
     }
     const rect = row.getBoundingClientRect();
-    return rect.bottom >= -LOAD_MARGIN_PX && rect.top <= window.innerHeight + LOAD_MARGIN_PX;
+    return rect.bottom >= -margin && rect.top <= window.innerHeight + margin;
   }
 
   function loadSegmentRow(row, onDone) {
