@@ -1,0 +1,124 @@
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/*
+ * The KPI band: one cell per KPI card, in a grid whose column count follows the number of cards.
+ *
+ * A plain .css file, not .less: the container queries below are not supported by less.php, whereas
+ * .css files are injected into the merged stylesheet verbatim (see
+ * core/AssetManager/UIAssetMerger/StylesheetUIAssetMerger).
+ */
+
+.kpiCardContainer {
+  /*
+   * Query container for the rules below and for KPICard.css, so the band responds to its own width
+   * rather than the viewport: the reporting menu can collapse and widen the page, and the band
+   * should use that width. The grid sits on the list inside it, since a container cannot be
+   * restyled by its own queries.
+   */
+  container-name: kpiCardContainer;
+  container-type: inline-size;
+  margin: 0 0 2rem;
+}
+
+.kpiCardContainer__list {
+  align-items: start;
+  column-gap: clamp(1rem, 3vw, 3rem);
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(var(--kpi-columns, 5), minmax(0, 1fr));
+  row-gap: 1.5rem;
+}
+
+/*
+ * The number of columns follows the number of KPIs (a modifier class, not an inline style, so the
+ * container queries can override it).
+ */
+.kpiCardContainer__list--cols1 {
+  --kpi-columns: 1;
+}
+
+.kpiCardContainer__list--cols3 {
+  --kpi-columns: 3;
+}
+
+.kpiCardContainer__list--cols4 {
+  --kpi-columns: 4;
+}
+
+.kpiCardContainer__list--cols5 {
+  --kpi-columns: 5;
+}
+
+.kpiCardContainer__item {
+  /*
+   * Nest element for a KPICard. A subgrid spanning the card's four rows (badge, title, value,
+   * evolution), so the card's own subgrid still reaches the band's rows and lines up with its
+   * neighbours. --separated (every card but the first) only shows its rule once the cards stack
+   * one per row, see below.
+   */
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+}
+
+.kpiCardContainer__loading {
+  /*
+   * the height of a row of cards with one-line titles (badge row, title, value, two-line
+   * evolution), so the sites table below does not jump once the KPIs load
+   */
+  align-items: safe center;
+  display: flex;
+  grid-column: 1 / -1;
+  justify-content: safe center;
+  min-height: 9.5rem;
+}
+
+/*
+ * The band responds to its own width, not the viewport, so it does not drop a column just before
+ * the collapsing reporting menu hands it more room.
+ *
+ * Each width is the band width at which that many cards would get too narrow; the drop is always to
+ * a balanced arrangement, never a lonely trailing card. The thresholds leave room for the longest
+ * labels and numbers, not just short English ones: the widest unbreakable title word is about 116px
+ * in German ("SEITENANSICHTEN") and a large value can reach ~140px, so each count drops before its
+ * cells fall below ~150px. Written after the base rules, at the same specificity, so they win.
+ */
+
+@container kpiCardContainer (max-width: 880px) {
+  .kpiCardContainer__list--cols5 {
+    --kpi-columns: 3;
+  }
+}
+
+@container kpiCardContainer (max-width: 680px) {
+  .kpiCardContainer__list--cols4 {
+    --kpi-columns: 2;
+  }
+}
+
+/*
+ * Phones and narrow windows get one card per row, with a dashed rule between cards. KPICard.css
+ * switches the cards to their one-per-row layout at the same width.
+ */
+@container kpiCardContainer (max-width: 600px) {
+  /* written after the --colsN modifiers, at the same specificity, so it overrides them all */
+  .kpiCardContainer__list {
+    --kpi-columns: 1;
+    row-gap: 1.25rem;
+  }
+
+  .kpiCardContainer__item {
+    display: block;
+    grid-row: auto;
+  }
+
+  .kpiCardContainer__item--separated {
+    border-top: 1px dashed var(--theme-color-border);
+    padding-top: 1.25rem;
+  }
+}
