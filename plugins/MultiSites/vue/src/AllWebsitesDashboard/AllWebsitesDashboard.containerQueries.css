@@ -35,18 +35,53 @@
   }
 }
 
+/*
+ * Phones and narrow windows get one card per row, styled as before the band moved to a grid: a dashed
+ * rule between cards and the trend on one line with its period. The badge keeps its place above the
+ * title, but no longer reserves that row on cards without one, since there is no neighbour to line up
+ * with.
+ */
 @container awdDashboard (max-width: 600px) {
+  #multisitesAllWebsitesDashboard .kpiCardContainer--cols5,
+  #multisitesAllWebsitesDashboard .kpiCardContainer--cols4,
+  #multisitesAllWebsitesDashboard .kpiCardContainer--cols3 {
+    --kpi-columns: 1;
+  }
+
+  #multisitesAllWebsitesDashboard .kpiCardContainer {
+    row-gap: 1.25rem;
+  }
+
+  #multisitesAllWebsitesDashboard .kpiCardContainer .kpiCard {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    grid-row: auto;
+    row-gap: 0.6rem;
+  }
+
+  #multisitesAllWebsitesDashboard .kpiCardContainer .kpiCard + .kpiCard {
+    /* at its own size, cropped by the card: scaled to the card width, the dashes blur into a line */
+    background: url('plugins/MultiSites/images/kpi_divider_horizontal.svg') top left no-repeat;
+    padding-top: 1.25rem;
+  }
+
+  #multisitesAllWebsitesDashboard .kpiCardContainer .kpiCard__badge {
+    align-self: flex-start;
+  }
+
+  #multisitesAllWebsitesDashboard .kpiCardContainer .kpiCard__badge--empty {
+    display: none;
+  }
+
   #multisitesAllWebsitesDashboard .kpiCardContainer .kpiCard__value {
     font-size: 2rem;
   }
-}
 
-@container awdDashboard (max-width: 480px) {
-  #multisitesAllWebsitesDashboard .kpiCardContainer--cols5 {
-    --kpi-columns: 2;
-  }
-
-  #multisitesAllWebsitesDashboard .kpiCardContainer--cols3 {
-    --kpi-columns: 1;
+  #multisitesAllWebsitesDashboard .kpiCardContainer .kpiCard__evolution {
+    align-items: baseline;
+    column-gap: 0.35rem;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }
