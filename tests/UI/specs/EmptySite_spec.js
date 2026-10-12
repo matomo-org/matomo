@@ -61,6 +61,27 @@ describe("EmptySite", function () {
     expect(await pageElement.screenshot()).to.matchImage('trackingCode');
   });
 
+  it('should vertically centre the test installation button on the url input', async function () {
+    const rects = await page.evaluate(() => {
+      const toRect = (element) => {
+        const rect = element.getBoundingClientRect();
+        return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
+      };
+
+      return {
+        input: toRect($('.jsTrackerInstallCheck__urlField input:visible')[0]),
+        button: toRect($('.jsTrackerInstallCheck__testButton .btn:visible')[0]),
+      };
+    });
+
+    // the button only sits beside the input on wide screens, otherwise it wraps below it
+    expect(rects.button.left).to.be.at.least(rects.input.right);
+
+    const inputCentre = (rects.input.top + rects.input.bottom) / 2;
+    const buttonCentre = (rects.button.top + rects.button.bottom) / 2;
+    expect(Math.abs(buttonCentre - inputCentre)).to.be.at.most(1);
+  });
+
   it('should show the advanced tracking options when clicked', async function () {
     await page.evaluate(() => $('.advance-option a').click());
 
