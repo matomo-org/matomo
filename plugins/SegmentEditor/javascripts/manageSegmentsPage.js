@@ -31,6 +31,7 @@ function initManageSegmentsPage() {
   let isDestroyed = false;
   let rowObserver = null;
   let removeScrollListeners = null;
+  let loadNextVisibleRow = null;
   const LOAD_MARGIN_PX = 200;
   init();
 
@@ -41,11 +42,15 @@ function initManageSegmentsPage() {
     initTitles();
     loadVisibleSegmentData();
     removeStarChangeListener = panelApi.onSegmentsStarChange(onSegmentsStarChange);
+    // Leaving the page or changing its parameters replaces this table: stop loading its rows
+    piwik.on('matomoPageChange', cleanup);
     root.__segmentEditorManageSegmentsCleanup = cleanup;
   }
 
   function cleanup() {
     isDestroyed = true;
+    piwik.off('matomoPageChange', cleanup);
+    loadNextVisibleRow = null;
     if (rowObserver) {
       rowObserver.disconnect();
       rowObserver = null;
@@ -190,9 +195,13 @@ function initManageSegmentsPage() {
       if (value.length >= 2) {
         filterTimerId = setTimeout(function () {
           filterSegmentList(value);
+          loadRowsShownBySearch();
         }, 500);
       } else {
-        filterTimerId = setTimeout(clearFilterSegmentList, 500);
+        filterTimerId = setTimeout(function () {
+          clearFilterSegmentList();
+          loadRowsShownBySearch();
+        }, 500);
       }
     }));
 
@@ -213,27 +222,31 @@ function initManageSegmentsPage() {
 
     // The observer only signals that something may have come on screen: the row to load is
     // checked when picked, so a missed or outdated notification cannot leave a row unloaded.
-    rowObserver = new IntersectionObserver(loadNextVisibleRow, {
+    rowObserver = new IntersectionObserver(loadNextRowNearScreen, {
       rootMargin: `${LOAD_MARGIN_PX}px 0px`,
     });
     rowsToLoad.forEach(function (row) {
       rowObserver.observe(row);
     });
     // Headless browsers may not deliver the observer notifications without a new frame
-    window.addEventListener('scroll', loadNextVisibleRow, { passive: true });
-    window.addEventListener('resize', loadNextVisibleRow);
+    window.addEventListener('scroll', loadNextRowNearScreen, { passive: true });
+    window.addEventListener('resize', loadNextRowNearScreen);
     removeScrollListeners = function () {
-      window.removeEventListener('scroll', loadNextVisibleRow);
-      window.removeEventListener('resize', loadNextVisibleRow);
+      window.removeEventListener('scroll', loadNextRowNearScreen);
+      window.removeEventListener('resize', loadNextRowNearScreen);
     };
-    loadNextVisibleRow();
+    loadNextVisibleRow = loadNextRowNearScreen;
+    loadNextRowNearScreen();
 
-    function loadNextVisibleRow() {
-      if (isLoading || isDestroyed) {
+    function loadNextRowNearScreen() {
+      if (isDestroyed) {
         return;
       }
       if (!root.isConnected) {
         cleanup();
+        return;
+      }
+      if (isLoading) {
         return;
       }
 
@@ -250,7 +263,7 @@ function initManageSegmentsPage() {
       rowObserver.unobserve(row);
       loadSegmentRow(row, function () {
         isLoading = false;
-        loadNextVisibleRow();
+        loadNextRowNearScreen();
       });
     }
   }
@@ -326,6 +339,7 @@ function initManageSegmentsPage() {
     ajaxHandler.setErrorCallback(function (xhr, textStatus) {
       // Requests are aborted when leaving the page, which is about to remove the table
       if (textStatus === 'abort') {
+        cleanup();
         return;
       }
       if (typeof onError === 'function') {
@@ -398,6 +412,13 @@ function initManageSegmentsPage() {
 
     if ($(root).find("[data-segment-name]:visible").length === 0) {
       $(noResultElement).show();
+    }
+  }
+
+  // Headless browsers may not deliver the observer notifications for the rows the search shows
+  function loadRowsShownBySearch() {
+    if (loadNextVisibleRow) {
+      loadNextVisibleRow();
     }
   }
 
