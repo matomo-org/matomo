@@ -235,7 +235,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
       endDate: new Date('2026-02-18'),
     });
 
-    const root = wrapper.find('.periodSelector').element as HTMLElement;
+    const root = wrapper.find('.mtm-selector').element as HTMLElement;
     root.classList.add('mtm-selector--expanded');
 
     document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));

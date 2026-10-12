@@ -16,7 +16,8 @@
     }"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
-    <!-- `expanded` rides along with the modifier: plugins read it to know the list is open. -->
+    <!-- `siteSelector` and `expanded` carry no styles: plugins read them to find the selector and
+         to know its list is open. -->
     <input
       v-if="name"
       type="hidden"
@@ -28,7 +29,7 @@
       @click="onClickSelector"
       @keydown="onPressEnter($event)"
       href="javascript:void(0)"
-      class="mtm-selector__trigger title"
+      class="mtm-selector__trigger"
       tabindex="4"
       v-tooltips
       :title="selectorLinkTitle"

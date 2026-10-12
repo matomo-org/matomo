@@ -27,6 +27,8 @@
 
   .mtm-selector__trigger {
     box-sizing: border-box;
+    // Takes whatever width the control is given, so a sized selector keeps its arrow at the end.
+    flex: auto;
     min-width: 0;
     display: flex;
     align-items: center;
@@ -215,12 +217,30 @@
   }
 }
 
+// Draws attention to the control, such as an available update.
+.mtm-selector--highlighted .mtm-selector__trigger {
+  color: @theme-color-link;
+}
+
+// Steps back from the content around it, for a control that is informative rather than central.
+.mtm-selector--muted {
+  color: @theme-color-text-light;
+}
+
+// Waits on a request the control started: a spinner stands in for its icon.
+.mtm-selector--loading .mtm-selector__trigger {
+  background: url(plugins/Morpheus/images/loading.svg) no-repeat @_selector-paddingHorizontal center / 16px;
+}
+
+.mtm-selector--loading .mtm-selector__icon {
+  visibility: hidden;
+}
+
 // Fills the row it is placed in, for a layout that stacks the selector onto a line of its own.
 .mtm-selector--fullWidth {
   display: flex;
 
   .mtm-selector__trigger {
-    flex: auto;
     justify-content: center;
   }
 
@@ -237,7 +257,6 @@
     display: flex;
 
     .mtm-selector__trigger {
-      flex: auto;
       justify-content: safe center;
     }
 

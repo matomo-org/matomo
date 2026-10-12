@@ -465,7 +465,7 @@ describe("SegmentManagementPageTest", function () {
 
       await clickDashboardLinkForSegment(allVisitsName);
       await page.waitForFunction((expectedName) => {
-        const text = $('.segmentationContainer .segmentationTitle').text().trim();
+        const text = $('.segmentListContainer .segmentationTitle').text().trim();
         return text.indexOf(expectedName) !== -1;
       }, {}, allVisitsName);
 
@@ -473,7 +473,7 @@ describe("SegmentManagementPageTest", function () {
 
       await clickDashboardLinkForSegment(globalSegment.name);
       await page.waitForFunction((expectedName) => {
-        const text = $('.segmentationContainer .segmentationTitle').text().trim();
+        const text = $('.segmentListContainer .segmentationTitle').text().trim();
         return text.indexOf(expectedName) !== -1;
       }, {}, globalSegment.name);
     });
@@ -483,7 +483,7 @@ describe("SegmentManagementPageTest", function () {
 
       await clickDashboardLinkForSegment(complexDashboardSegment.name);
       await page.waitForFunction((expectedName) => {
-        const text = $('.segmentationContainer .segmentationTitle').text().trim();
+        const text = $('.segmentListContainer .segmentationTitle').text().trim();
         return text.indexOf(expectedName) !== -1;
       }, {}, complexDashboardSegment.name);
 
@@ -609,7 +609,7 @@ describe("SegmentManagementPageTest", function () {
   }
 
   async function openSegmentPanel() {
-    await page.click('.segmentationContainer .title');
+    await page.click('.segmentListContainer .mtm-selector__trigger');
     await page.waitForSelector('.segmentEditorPanel .segmentList', { visible: true });
   }
 
@@ -811,7 +811,7 @@ describe("SegmentManagementPageTest", function () {
       return window.location.href !== oldUrl
         && window.location.href.indexOf('category=Dashboard_Dashboard') !== -1;
     }, {}, previousUrl);
-    await page.waitForSelector('.segmentationContainer .segmentationTitle', { visible: true });
+    await page.waitForSelector('.segmentListContainer .segmentationTitle', { visible: true });
     await page.waitForNetworkIdle();
   }
 });

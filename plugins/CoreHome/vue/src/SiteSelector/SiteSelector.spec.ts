@@ -151,7 +151,7 @@ describe('CoreHome/SiteSelector', () => {
   it('keeps the panel open when the no-result row is clicked', async () => {
     const wrapper = await mountSelector();
 
-    await wrapper.find('.title').trigger('click');
+    await wrapper.find('.mtm-selector__trigger').trigger('click');
     await flushPromises();
     expect(wrapper.classes()).toContain('expanded');
 
@@ -172,7 +172,7 @@ describe('CoreHome/SiteSelector', () => {
   it('switches to all websites when the all websites entry is clicked', async () => {
     const wrapper = await mountSelector({ showSelectedSite: true, allSitesText: 'All Websites' });
 
-    await wrapper.find('.title').trigger('click');
+    await wrapper.find('.mtm-selector__trigger').trigger('click');
     await flushPromises();
     expect(wrapper.classes()).toContain('expanded');
 

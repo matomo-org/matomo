@@ -153,7 +153,7 @@ describe('ChangeTitle', function () {
 
   /** We go through the segments and make sure the title changes accordingly. */
   it ('should change the title if new segment is chosen', async function () {
-    await page.click('div.segmentEditorPanel div.segmentListContainer div.segmentationContainer a.title');
+    await page.click('div.segmentEditorPanel .segmentListContainer .mtm-selector__trigger');
     await page.waitForNetworkIdle();
     let segmentDataDef = 'continentCode==eur';
     let me = await page.waitForSelector(`div.segmentationContainer div.segmentList ul li:nth-of-type(3)`);
@@ -164,7 +164,7 @@ describe('ChangeTitle', function () {
     let currentTitle = await page.title();
     expect(currentTitle).to.equal(title);
 
-    await page.click('div.segmentEditorPanel div.segmentListContainer div.segmentationContainer a.title');
+    await page.click('div.segmentEditorPanel .segmentListContainer .mtm-selector__trigger');
     await page.waitForNetworkIdle();
     segmentDataDef = 'browserCode==FF';
     me = await page.waitForSelector(`div.segmentationContainer div.segmentList ul li:nth-of-type(2)`);
@@ -175,7 +175,7 @@ describe('ChangeTitle', function () {
     currentTitle = await page.title();
     expect(currentTitle).to.equal(title);
 
-    await page.click('div.segmentEditorPanel div.segmentListContainer div.segmentationContainer a.title');
+    await page.click('div.segmentEditorPanel .segmentListContainer .mtm-selector__trigger');
     await page.waitForNetworkIdle();
     me = await page.waitForSelector(`div.segmentationContainer div.segmentList ul li:nth-of-type(1)`);
     await me.click();
@@ -185,7 +185,7 @@ describe('ChangeTitle', function () {
     currentTitle = await page.title();
     expect(currentTitle).to.equal(title);
 
-    await page.click('div.segmentEditorPanel div.segmentListContainer div.segmentationContainer a.title');
+    await page.click('div.segmentEditorPanel .segmentListContainer .mtm-selector__trigger');
     await page.waitForNetworkIdle();
     me = await page.waitForSelector(`div.segmentationContainer div.segmentList ul li:nth-of-type(4)`);
     await me.click();

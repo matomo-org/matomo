@@ -8,7 +8,7 @@
 <template>
   <div
     ref="root"
-    class="periodSelector mtm-selector mtm-selector--fullWidthOnSmallScreen"
+    class="mtm-selector mtm-selector--fullWidthOnSmallScreen"
     v-expand-on-click="{
       expander: 'title',
       expandedClass: 'mtm-selector--expanded',
@@ -19,7 +19,7 @@
     <button
       v-if="canShowMovePeriod"
       type="button"
-      class="mtm-selector__action mtm-selector__action--start move-period move-period-prev"
+      class="mtm-selector__action mtm-selector__action--start"
       tabindex="4"
       @click="movePeriod(-1)"
       :disabled="isPeriodMoveDisabled(-1)"
@@ -31,9 +31,8 @@
 
     <button
       ref="title"
-      id="date"
       type="button"
-      class="mtm-selector__trigger title"
+      class="mtm-selector__trigger"
       tabindex="4"
       v-tooltips
       :title="translate('General_ChooseDate', currentlyViewingText)"
@@ -53,7 +52,7 @@
       ]"
     >
       <div class="mtm-dropdownPanel">
-        <div class="periodSelector__panelBody">
+        <div ref="panelContent" class="periodSelector">
           <div class="flex">
             <PeriodSelectorOptionsColumn
               :ui-selected-period="selectedPeriod"
@@ -110,7 +109,7 @@
     <button
       v-if="canShowMovePeriod"
       type="button"
-      class="mtm-selector__action mtm-selector__action--end move-period move-period-next"
+      class="mtm-selector__action mtm-selector__action--end"
       tabindex="4"
       @click="movePeriod(1)"
       :disabled="isPeriodMoveDisabled(1)"
@@ -547,7 +546,7 @@ export default defineComponent({
       }
     },
     handleZIndexPositionRelativeCompareDropdownIssue() {
-      const $element = window.$(this.$refs.root as HTMLElement);
+      const $element = window.$(this.$refs.panelContent as HTMLElement);
       $element.on('focus', '#comparePeriodToDropdown .select-dropdown', () => {
         $element.addClass('compare-dropdown-open');
       }).on('blur', '#comparePeriodToDropdown .select-dropdown', () => {

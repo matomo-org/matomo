@@ -10,14 +10,14 @@
     id="header_message"
     class="mtm-selector"
     :class="{
-      header_info: !latestVersionAvailable || lastUpdateCheckFailed,
-      update_available: latestVersionAvailable
+      'mtm-selector--muted': !latestVersionAvailable || lastUpdateCheckFailed,
+      'mtm-selector--highlighted': latestVersionAvailable,
     }"
   >
     <Passthrough v-if="latestVersionAvailable">
       <span
         v-if="isMultiServerEnvironment"
-        class="mtm-selector__trigger title"
+        class="mtm-selector__trigger"
         ref="expander"
       >
         <span class="mtm-selector__icon" aria-hidden="true">
@@ -29,7 +29,7 @@
       </span>
       <a
         v-else
-        class="mtm-selector__trigger title"
+        class="mtm-selector__trigger"
         href="?module=CoreUpdater&action=newVersionAvailable"
         ref="expander"
       >
@@ -44,12 +44,12 @@
     <Passthrough v-else-if="isSuperUser && (isAdminArea || lastUpdateCheckFailed)">
       <a
         v-if="isInternetEnabled"
-        class="mtm-selector__trigger title"
+        class="mtm-selector__trigger"
         v-html="$sanitize(updateCheck)"
       ></a>
       <a
         v-else
-        class="mtm-selector__trigger title"
+        class="mtm-selector__trigger"
         :href="externalRawLink('https://matomo.org/changelog/')"
         target="_blank"
         rel="noreferrer noopener"
