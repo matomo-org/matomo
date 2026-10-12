@@ -13,7 +13,7 @@ describe("PeriodSelector", function () {
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
     const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
-    const selector = '#periodString,#periodString .dropdown';
+    const selector = '#periodString,#periodMore';
     const waitForPeriodChecked = async function (periodId) {
         await page.waitForFunction((id) => window.$(id).is(':checked'), {}, periodId);
     };
@@ -193,7 +193,7 @@ describe("PeriodSelector", function () {
 
         const stateAfterPeriodClick = await page.evaluate(function () {
             return {
-                expanded: $('.periodSelector').hasClass('expanded'),
+                expanded: $('.periodSelector').hasClass('mtm-selector--expanded'),
                 applyVisible: $('#calendarApply').is(':visible'),
                 selectedCells: $('.period-date td.ui-datepicker-current-period').length,
             };

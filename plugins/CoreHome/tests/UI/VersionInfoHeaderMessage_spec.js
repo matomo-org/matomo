@@ -14,7 +14,7 @@ describe('VersionInfoHeaderMessage', function() {
   const selectorComponent = 'div[vue-entry="CoreHome.VersionInfoHeaderMessage"]';
   const selectorMessage = '#header_message';
   const selectorMessageTitle = '#header_message .title';
-  const selectorMessageDropdown = '#header_message .piwikSelector__dropdown';
+  const selectorMessageDropdown = '#header_message .mtm-selector__dropdown';
   const selectorMessagePanel = '#header_message .mtm-dropdownPanel';
   const selectorUpdateLink = '#updateCheckLinkContainer';
   const selectorUpdateButtonIcon = '#header_message .title .icon-reload';
@@ -59,7 +59,7 @@ describe('VersionInfoHeaderMessage', function() {
       const dropdown = document.querySelector(dropdownSel);
 
       // offsetParent covers the `display: none` the dropdown falls back to when not expanded
-      return !!root && root.classList.contains('expanded')
+      return !!root && root.classList.contains('mtm-selector--expanded')
         && !!dropdown && dropdown.offsetParent !== null;
     }, selectorMessage, selectorMessageDropdown);
   };

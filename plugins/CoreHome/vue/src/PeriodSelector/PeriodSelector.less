@@ -158,19 +158,9 @@
     display: flex;
   }
 
-  #periodMore {
-    box-sizing: border-box;
-    left: 0;
-    max-width: calc(~'100vw - 16px');
-    right: auto;
-  }
-
-  @media (max-width: 600px) {
-    #periodMore {
-      max-width: 90%;
-      left: 25px;
-      right: auto;
-    }
+  // The selector's panel pads 8px; the calendars want the 16px they always had.
+  .periodSelector__panelBody {
+    padding: 8px;
   }
 
   .period-type {
@@ -395,18 +385,6 @@
       .ui-datepicker-current-period > span {
         background: @theme-color-text !important;
       }
-    }
-  }
-}
-
-.periodSelector-withPrevNext {
-  .move-period {
-    border: none;
-    cursor: pointer;
-
-    &:disabled {
-      color: @color-silver;
-      cursor: auto;
     }
   }
 }

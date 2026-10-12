@@ -9,132 +9,143 @@
   <div ref="root">
     <div
       v-if="viewModel"
-      class="segmentationContainer listHtml"
+      class="segmentationContainer listHtml mtm-selector mtm-selector--fullWidthOnSmallScreen"
+      :class="{ 'mtm-selector--expanded': viewModel.isExpanded }"
     >
       <a
-        class="title"
+        class="mtm-selector__trigger title"
         tabindex="4"
         :title="viewModel.currentSegmentTooltip"
         @click.prevent="togglePanel"
       >
-        <span class="icon icon-segment" />
-        <span
-          class="segmentationTitle"
-          :class="{ 'segment-clicked': !!viewModel.currentSegmentValue }"
-        >
-          {{ viewModel.currentSegmentTitle }}
+        <span class="mtm-selector__icon" aria-hidden="true">
+          <span class="icon-segment" />
+        </span>
+        <span class="mtm-selector__label">
+          <span
+            class="segmentationTitle"
+            :class="{ 'segment-clicked': !!viewModel.currentSegmentValue }"
+          >
+            {{ viewModel.currentSegmentTitle }}
+          </span>
         </span>
       </a>
-      <div class="dropdown dropdown-body">
-        <div class="segmentFilterContainer">
-          <SearchInput
-            tabindex="4"
-            v-model="searchInput"
-            :show-clear="true"
-          />
-        </div>
-        <ul class="submenu">
-          <li>
-            <span class="segment-visits-label">
-              {{ translate('SegmentEditor_SelectSegmentOfVisits') }}
-            </span>
-            <div class="segmentList">
-              <ul>
-                <template
-                  v-for="entry in viewModel.entries"
-                  :key="entry.key"
-                >
-                  <span
-                    v-if="entry.type === 'header'"
-                    :class="entry.className"
-                  >
-                    <hr>
-                    {{ entry.label }}:
-                    <br>
-                  </span>
-                  <li
-                    v-else-if="entry.type === 'no-results'"
-                    :class="getEntryClasses(entry)"
-                  >
-                    {{ entry.label }}
-                  </li>
-                  <li
-                    v-else
-                    :class="getEntryClasses(entry)"
-                    :data-idsegment="entry.idsegment"
-                    :data-definition="entry.definition"
-                    @click.prevent="selectSegment(entry)"
-                    @animationend="clearStarAnimationClass(entry)"
-                  >
-                    <span
-                      class="segname"
-                      tabindex="4"
-                      :title="entry.tooltip"
-                      @keyup.enter.prevent="selectSegment(entry)"
-                    >
-                      {{ entry.label }}
-                    </span>
-                    <template v-if="entry.type === 'segment'">
-                      <star-button  v-if="entry.showStarButton" :segment="entry"/>
-                      <span
-                        v-else-if="entry.showStarPlaceholder"
-                        class="segmentAction starSegment segmentAction--placeholder"
-                        aria-hidden="true"
-                      />
-                      <compare-button
-                        v-if="entry.showCompareButton"
-                        :segment="entry"
-                        :is-anonymous="viewModel.isUserAnonymous"
-                        @toggle-compare-button="toggleComparison"
-                      />
-                      <edit-button
-                        v-if="entry.showEditButton"
-                        :segment="entry"
-                        @open-edit-button="openEditSegment"
-                      />
-                      <span
-                        v-else-if="entry.showEditPlaceholder"
-                        class="segmentAction editSegment segmentAction--placeholder"
-                        aria-hidden="true"
-                      />
-                    </template>
-                  </li>
-                </template>
-              </ul>
+      <div
+        class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft"
+      >
+        <div class="mtm-dropdownPanel">
+          <div class="dropdown dropdown-body">
+            <div class="segmentFilterContainer">
+              <SearchInput
+                tabindex="4"
+                v-model="searchInput"
+                :show-clear="true"
+              />
             </div>
-          </li>
-        </ul>
-        <template v-if="viewModel.authorizedToCreateSegments">
-          <button
-            tabindex="4"
-            class="add_new_segment btn"
-            @click.stop.prevent="openAddSegment"
-          >
-            <span class="icon-add" />
-            &nbsp; {{ translate('SegmentEditor_AddNewSegment') }}
-          </button>
-          <a
-            :href="viewModel.manageSegmentsUrl"
-            tabindex="4"
-            class="btn btn-block btn-outline manage_segment_btn"
-          >
-            {{ translate('SegmentEditor_ManageSegments') }}
-          </a>
-        </template>
-        <template v-else-if="viewModel.isUserAnonymous">
-          <div>
-            <span class="youMustBeLoggedIn">
-              {{ translate('SegmentEditor_YouMustBeLoggedInToCreateSegments') }}
-            </span>
-            <a
-              :href="viewModel.loginUrl"
-              tabindex="4"
-              class="sign_in_segment_btn btn"
-            >
-              {{ translate('Login_LogIn') }}
-            </a>
+            <ul class="submenu">
+              <li>
+                <span class="segment-visits-label">
+                  {{ translate('SegmentEditor_SelectSegmentOfVisits') }}
+                </span>
+                <div class="segmentList">
+                  <ul>
+                    <template
+                      v-for="entry in viewModel.entries"
+                      :key="entry.key"
+                    >
+                      <span
+                        v-if="entry.type === 'header'"
+                        :class="entry.className"
+                      >
+                        <hr>
+                        {{ entry.label }}:
+                        <br>
+                      </span>
+                      <li
+                        v-else-if="entry.type === 'no-results'"
+                        :class="getEntryClasses(entry)"
+                      >
+                        {{ entry.label }}
+                      </li>
+                      <li
+                        v-else
+                        :class="getEntryClasses(entry)"
+                        :data-idsegment="entry.idsegment"
+                        :data-definition="entry.definition"
+                        @click.prevent="selectSegment(entry)"
+                        @animationend="clearStarAnimationClass(entry)"
+                      >
+                        <span
+                          class="segname"
+                          tabindex="4"
+                          :title="entry.tooltip"
+                          @keyup.enter.prevent="selectSegment(entry)"
+                        >
+                          {{ entry.label }}
+                        </span>
+                        <template v-if="entry.type === 'segment'">
+                          <star-button  v-if="entry.showStarButton" :segment="entry"/>
+                          <span
+                            v-else-if="entry.showStarPlaceholder"
+                            class="segmentAction starSegment segmentAction--placeholder"
+                            aria-hidden="true"
+                          />
+                          <compare-button
+                            v-if="entry.showCompareButton"
+                            :segment="entry"
+                            :is-anonymous="viewModel.isUserAnonymous"
+                            @toggle-compare-button="toggleComparison"
+                          />
+                          <edit-button
+                            v-if="entry.showEditButton"
+                            :segment="entry"
+                            @open-edit-button="openEditSegment"
+                          />
+                          <span
+                            v-else-if="entry.showEditPlaceholder"
+                            class="segmentAction editSegment segmentAction--placeholder"
+                            aria-hidden="true"
+                          />
+                        </template>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+            <template v-if="viewModel.authorizedToCreateSegments">
+              <button
+                tabindex="4"
+                class="add_new_segment btn"
+                @click.stop.prevent="openAddSegment"
+              >
+                <span class="icon-add" />
+                &nbsp; {{ translate('SegmentEditor_AddNewSegment') }}
+              </button>
+              <a
+                :href="viewModel.manageSegmentsUrl"
+                tabindex="4"
+                class="btn btn-block btn-outline manage_segment_btn"
+              >
+                {{ translate('SegmentEditor_ManageSegments') }}
+              </a>
+            </template>
+            <template v-else-if="viewModel.isUserAnonymous">
+              <div>
+                <span class="youMustBeLoggedIn">
+                  {{ translate('SegmentEditor_YouMustBeLoggedInToCreateSegments') }}
+                </span>
+                <a
+                  :href="viewModel.loginUrl"
+                  tabindex="4"
+                  class="sign_in_segment_btn btn"
+                >
+                  {{ translate('Login_LogIn') }}
+                </a>
+              </div>
+            </template>
           </div>
-        </template>
+        </div>
       </div>
     </div>
   </div>

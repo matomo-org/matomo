@@ -236,12 +236,12 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     });
 
     const root = wrapper.find('.periodSelector').element as HTMLElement;
-    root.classList.add('expanded');
+    root.classList.add('mtm-selector--expanded');
 
     document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
     document.body.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
 
-    expect(root.classList.contains('expanded')).toBe(false);
+    expect(root.classList.contains('mtm-selector--expanded')).toBe(false);
     expect(updateLocationSpy).not.toHaveBeenCalled();
     expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'last30days' });
     expect((wrapper.vm as any).pendingPresetSelection).toEqual(expect.objectContaining({

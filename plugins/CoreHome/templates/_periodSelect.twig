@@ -2,6 +2,7 @@
     id="periodString"
     vue-entry="CoreHome.PeriodSelector"
     periods="{{ enabledPeriods|json_encode|e('html_attr') }}"
+    anchor-dropdown-right="{{ anchorDropdownRight|default(false)|json_encode }}"
     class="borderedControl piwikTopControl"
 >
 </div>
