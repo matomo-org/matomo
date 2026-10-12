@@ -38,6 +38,14 @@
     gap: 20px;
   }
 
+  // In the DOM from the moment the report has help, so it has to collapse until the reader
+  // opens the panel and gives it a child, or it would claim the column gap for nothing.
+  .reportHeader__help {
+    &:empty {
+      display: none;
+    }
+  }
+
   .reportHeader__title {
     flex: auto;
     min-width: 0;

@@ -22,14 +22,14 @@ describe("RelatedReportsHelp", function () {
     // report's own `.reportDocumentation`
     async function archivedOnDate() {
         return page.evaluate(function () {
-            const el = document.querySelector('.enrichedHeadline .helpDate');
+            const el = document.querySelector('.mtm-helpPanel__date');
             return el ? el.textContent.trim() : 'NO DATE ELEMENT';
         });
     }
 
     async function inlineHelpText() {
         return page.evaluate(function () {
-            const help = document.querySelector('.enrichedHeadline .inlineHelp');
+            const help = document.querySelector('.mtm-helpPanel');
             return help ? help.innerText.trim() : '';
         });
     }
@@ -46,9 +46,9 @@ describe("RelatedReportsHelp", function () {
     async function openInlineHelp() {
         // the icons bar is only shown on hover, so reveal it before clicking the info icon
         await page.hover('.enrichedHeadline');
-        await page.waitForSelector('.enrichedHeadline .icon-info', { visible: true });
-        await page.click('.enrichedHeadline .icon-info');
-        await page.waitForSelector('.enrichedHeadline .inlineHelp', { visible: true });
+        await page.waitForSelector('.enrichedHeadline__helpIcon .icon-info', { visible: true });
+        await page.click('.enrichedHeadline__helpIcon .icon-info');
+        await page.waitForSelector('.mtm-helpPanel', { visible: true });
     }
 
     it("should update the report help text when switching to a related report", async function () {
@@ -71,7 +71,7 @@ describe("RelatedReportsHelp", function () {
 
         // the help popup stays open across the reload and must now show the new report's help
         await page.waitForFunction(function () {
-            const help = document.querySelector('.enrichedHeadline .inlineHelp');
+            const help = document.querySelector('.mtm-helpPanel');
             return help && help.innerText.indexOf('titles of entry pages') !== -1;
         });
 
