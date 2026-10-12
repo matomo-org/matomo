@@ -46,11 +46,7 @@ class ReferrerName extends Base
         // visitor actually arrived from. When a request in the same visit is allowed to carry the
         // real value - because the visitor has since consented - record it instead of keeping the
         // placeholder. Nothing is held back to make this work: the value arrives on that request.
-        if (
-            CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn('referer_name'))
-            && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && $this->canCompleteDiscardedCampaign($visitor, $information['referer_name'])
-        ) {
+        if ($this->shouldCompleteDiscardedCampaign($visitor, $information, 'referer_name', $action, $request)) {
             return $information['referer_name'];
         }
 

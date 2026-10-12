@@ -18,6 +18,7 @@ use Piwik\Plugins\Referrers\AIAssistant as AIAssistantDetection;
 use Piwik\Plugins\Referrers\SearchEngine as SearchEngineDetection;
 use Piwik\Plugins\Referrers\Social as SocialNetworkDetection;
 use Piwik\Plugins\SitesManager\SiteUrls;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
@@ -784,33 +785,37 @@ abstract class Base extends VisitDimension
         }
     }
 
-    protected function isReferrerInformationNew(Visitor $visitor, $information)
+    /**
+     * @param Action|null $action
+     */
+    protected function isReferrerInformationNew(Visitor $visitor, $information, $action = null, ?Request $request = null)
     {
         foreach (['referer_keyword', 'referer_name', 'referer_type'] as $infoName) {
-            if ($this->hasReferrerColumnChanged($visitor, $information, $infoName)) {
+            if ($this->hasReferrerColumnChanged($visitor, $information, $infoName, $action, $request)) {
                 return true;
             }
         }
         return false;
     }
 
-    protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
+    /**
+     * @param Action|null $action
+     */
+    protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName, $action = null, ?Request $request = null)
     {
         $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
         $new = mb_strtolower($information[$infoName] ?? '');
 
-        // A discarded value tells us nothing about which campaign it stood for, so it cannot be
-        // compared with anything. This holds whichever side it appears on: a stored placeholder
-        // becoming readable is the same campaign we were not allowed to record a moment ago, and
-        // a stored campaign arriving as a placeholder is that same campaign on a request that may
-        // not carry it - for instance one sent in a batch, which never reports consent. Treating
-        // either as a change would start a second visit part way through the first and count the
-        // visitor twice.
-        if (
-            CampaignParameterValuesMasked::isPlaceholderValue($existing)
-            || CampaignParameterValuesMasked::isPlaceholderValue($new)
-        ) {
+        // the incoming campaign was discarded as well, so it stands for the stored one rather than
+        // for a different campaign, and must not count as a change
+        if (CampaignParameterValuesMasked::isPlaceholderValue($new)) {
             return false;
+        }
+
+        // a discarded campaign kept nothing to compare an incoming one against, so the two can only
+        // be told apart while the visit is still on the page it arrived on
+        if (CampaignParameterValuesMasked::isPlaceholderValue($existing)) {
+            return false === $this->isRequestOnVisitEntryPage($visitor, $action, $request);
         }
 
         $result = $existing != $new;
@@ -848,27 +853,78 @@ abstract class Base extends VisitDimension
     }
 
     /**
+     * Whether the discarded value stored for this column should be replaced with the one the
+     * current request carries.
+     *
+     * @param Action|null $action
+     */
+    protected function shouldCompleteDiscardedCampaign(Visitor $visitor, array $information, string $column, $action = null, ?Request $request = null): bool
+    {
+        return CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn($column))
+            && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && $this->canCompleteDiscardedCampaign($visitor, $information[$column] ?? '', $action, $request);
+    }
+
+    /**
      * Whether a campaign this visit discarded may be completed from the current request.
      *
-     * We kept nothing of the discarded campaign, so an incoming one cannot be checked against it.
-     * Completing the visit from a campaign the visitor arrived through later would credit the
-     * first campaign's visit to the second, so this is allowed only while the visit is still on
-     * the page it arrived on - which is also the only time the original parameters are still in
-     * the URL. A ping does not count as an action, so consent reported that way still qualifies.
+     * Nothing was kept of the discarded campaign, so completing the visit from one the visitor
+     * arrived through later would credit the first campaign's visit to the second. It is allowed
+     * only while the visit is still on the page it arrived on, which is also the only time the
+     * original campaign parameters are still in the URL.
      *
-     * This does not make a later campaign impossible to confuse with the original one, since a
-     * second page can carry campaign parameters of its own. It limits the window to the single
-     * action during which the original campaign is plausibly still the one in the URL.
+     * @param Action|null $action
      */
-    protected function canCompleteDiscardedCampaign(Visitor $visitor, $incomingValue): bool
+    protected function canCompleteDiscardedCampaign(Visitor $visitor, $incomingValue, $action = null, ?Request $request = null): bool
     {
-        if (!CampaignParameterValuesMasked::isPlaceholderValue($incomingValue ?? '')) {
-            // the immutable value is the count as stored. The mutable one may already hold the
-            // SQL expression that increments it for this request, which is not a number.
-            return (int) $visitor->getImmutableVisitorColumn('visit_total_actions') <= 1;
+        $incomingValue = (string) ($incomingValue ?? '');
+
+        // an empty value would claim the visitor arrived without one, where the placeholder says it
+        // was not collected
+        if ('' === $incomingValue || CampaignParameterValuesMasked::isPlaceholderValue($incomingValue)) {
+            return false;
         }
 
-        // the request is not allowed to carry the campaign either, so there is nothing to complete
-        return false;
+        return true === $this->isRequestOnVisitEntryPage($visitor, $action, $request);
+    }
+
+    /**
+     * Whether this request is still on the page the visit arrived on, or null when that cannot be
+     * told - for an action that has no page URL of its own, for instance.
+     *
+     * Neither completing a discarded campaign nor splitting the visit may be decided on a guess,
+     * so both are refused for an unknown answer.
+     *
+     * @param Action|null $action
+     */
+    private function isRequestOnVisitEntryPage(Visitor $visitor, $action, ?Request $request = null): ?bool
+    {
+        // a ping still carries an action at this point - it is dropped later in the request - and
+        // records none of it, so like any request without one it leaves the visitor where they are
+        if (empty($action) || ($request !== null && $request->getParam('ping') == 1)) {
+            return true;
+        }
+
+        // Actions\Columns\EntryPageUrl implements onExistingVisit, so this column is already among
+        // the ones loaded for an existing visit. It is deliberately not declared in
+        // getRequiredVisitFields(): that feeds the dimension dependency sort, which would reorder
+        // every referrer dimension after EntryPageUrl for a value that is read either way.
+        $entryIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_entry_idaction_url');
+
+        if (empty($entryIdActionUrl)) {
+            return null;
+        }
+
+        // the ids of the current action are resolved a few statements later, when it is recorded.
+        // The lookup is cached on the action, so asking for them here costs the same queries only
+        // sooner, and nothing in between changes the action they are derived from.
+        $action->loadIdsFromLogActionTable();
+        $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
+
+        if (empty($idActionUrl)) {
+            return null;
+        }
+
+        return $entryIdActionUrl === (int) $idActionUrl;
     }
 }

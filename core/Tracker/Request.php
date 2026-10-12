@@ -436,9 +436,9 @@ class Request
             'res'          => array(self::UNKNOWN_RESOLUTION, 'string'),
             'idgoal'       => array(-1, 'int'),
             'ping'         => array(0, 'int'),
-            'consent'      => array('', 'string'),
 
             // other
+            'consent'      => array('', 'string'),
             'bots'         => array(0, 'int'),
             'dp'           => array(0, 'int'),
             'rec'          => array(0, 'int'),
