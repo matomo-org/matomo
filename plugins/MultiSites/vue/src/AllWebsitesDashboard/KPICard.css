@@ -110,7 +110,8 @@
 }
 
 .kpiCard__trend--neutral .kpiCard__trendIcon {
-  color: var(--theme-color-text-lighter);
+  /* a fainter dot than the neutral text beside it */
+  color: color-mix(in srgb, var(--theme-color-text-lighter) 35%, transparent);
 }
 
 .kpiCard__trendIcon {
