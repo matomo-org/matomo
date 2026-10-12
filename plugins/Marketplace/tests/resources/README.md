@@ -6,7 +6,7 @@ The fixtures are intentionally synthetic — third-party plugin/theme developer 
 
 ## How lookup works
 
-`FixtureRepository` builds a canonical key from each request: `path + sorted query (significant params only) + access_token from POST`. Environment noise (`piwik` matching the current major, `php`, `mysql`, `prefer_stable`, `release_channel`, `num_users`, `num_websites`) and empty params are dropped. `manifest.json` maps the resulting keys to fixture filenames.
+`FixtureRepository` builds a canonical key from each request: `path + sorted query (significant params only) + access_token from POST`. Environment noise (`piwik` matching the current major, `php`, `mysql`, `prefer_stable`, `release_channel`, `num_users`, `num_websites`, the random per-install `uid`) and empty params are dropped. `manifest.json` maps the resulting keys to fixture filenames.
 
 A miss on a known marketplace host (`plugins.matomo.org` / `plugins.piwik.org` / themes equivalents) writes a stderr line prefixed `[Marketplace FixtureRepository]` (deduplicated per canonical key) and lets the real HTTP transport proceed. No PHP deprecation or exception is raised — that's deliberate, so external plugin CIs that hit un-cached Marketplace URLs are never broken by this hook. The miss will graduate to a hard throw once all in-tree and external plugin tests provide fixtures (see PR #24624). Hosts outside the marketplace list are not intercepted.
 
