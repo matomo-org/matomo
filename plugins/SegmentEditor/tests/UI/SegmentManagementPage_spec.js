@@ -12,8 +12,7 @@ describe("SegmentManagementPageTest", function () {
 
   const defaultViewport = { width: 1350, height: 768 };
   const mobileViewport = { width: 480, height: 900 };
-  const firstLoadableRowSelector = '[data-page="manage-segments"] tr[data-is-realtime="0"]:first';
-  const lastLoadableRowSelector = '[data-page="manage-segments"] tr[data-is-realtime="0"]:last';
+  const loadableRowsSelector = '[data-page="manage-segments"] tr[data-is-realtime="0"]';
   var generalParams = 'idSite=1&period=range&date=2010-03-06,2010-03-08';
   var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=CoreHome_Segments';
   const globalSegment = {
@@ -63,9 +62,7 @@ describe("SegmentManagementPageTest", function () {
       await page.waitForNetworkIdle();
       await page.waitForSelector('.pageWrap');
       // Rows only load once close to the screen, so bring the last ones in before the screenshot
-      await page.evaluate((selector) => {
-        $(selector).get(0).scrollIntoView();
-      }, lastLoadableRowSelector);
+      await scrollToLoadableRow('last');
       await waitForAllSegmentRowsLoaded();
 
       expect(await page.screenshotSelector('.pageWrap'))
@@ -206,24 +203,23 @@ describe("SegmentManagementPageTest", function () {
   });
 
   it("should load the rows data and sparklines one request at a time", async function() {
-    let inFlight = 0;
+    // Only the requests seen starting here count: the previous test can leave one in flight,
+    // which the navigation then cancels
+    const pendingRequests = new Set();
     let maxInFlight = 0;
-    let listening = true;
     const isTableDataRequest = (req) => /SegmentEditor\.getSegmentData|action=getEvolutionGraph/.test(req.url());
     const onRequest = (req) => {
-      if (listening && isTableDataRequest(req)) {
-        inFlight += 1;
-        maxInFlight = Math.max(maxInFlight, inFlight);
+      if (isTableDataRequest(req)) {
+        pendingRequests.add(req);
+        maxInFlight = Math.max(maxInFlight, pendingRequests.size);
       }
     };
     const onRequestDone = (req) => {
-      if (listening && isTableDataRequest(req)) {
-        inFlight -= 1;
-      }
+      pendingRequests.delete(req);
     };
-    page.on('request', onRequest);
-    page.on('requestfinished', onRequestDone);
-    page.on('requestfailed', onRequestDone);
+    page.webpage.on('request', onRequest);
+    page.webpage.on('requestfinished', onRequestDone);
+    page.webpage.on('requestfailed', onRequestDone);
 
     let sparklineSources;
     try {
@@ -235,7 +231,9 @@ describe("SegmentManagementPageTest", function () {
           .get();
       });
     } finally {
-      listening = false;
+      page.webpage.off('request', onRequest);
+      page.webpage.off('requestfinished', onRequestDone);
+      page.webpage.off('requestfailed', onRequestDone);
     }
 
     expect(maxInFlight).to.equal(1);
@@ -252,15 +250,13 @@ describe("SegmentManagementPageTest", function () {
 
     try {
       await openPage();
-      await waitForSegmentRowLoaded(firstLoadableRowSelector);
+      await waitForLoadableRowLoaded('first');
       await page.waitForNetworkIdle();
 
-      expect(await isSegmentRowLoaded(lastLoadableRowSelector)).to.equal(false);
+      expect(await isLoadableRowLoaded('last')).to.equal(false);
 
-      await page.evaluate((selector) => {
-        $(selector).get(0).scrollIntoView();
-      }, lastLoadableRowSelector);
-      await waitForSegmentRowLoaded(lastLoadableRowSelector);
+      await scrollToLoadableRow('last');
+      await waitForLoadableRowLoaded('last');
     } finally {
       await page.webpage.setViewport(defaultViewport);
     }
@@ -682,12 +678,23 @@ describe("SegmentManagementPageTest", function () {
     }, segmentName);
   }
 
-  function isSegmentRowLoaded(rowSelector) {
-    return page.evaluate((selector) => !!$(selector).find('.entityTable_Sparkline img').attr('src'), rowSelector);
+  // position: 'first' or 'last' of the rows that load data, in displayed order
+  function isLoadableRowLoaded(position) {
+    return page.evaluate((selector, rowPosition) => {
+      return !!$(selector)[rowPosition]().find('.entityTable_Sparkline img').attr('src');
+    }, loadableRowsSelector, position);
   }
 
-  function waitForSegmentRowLoaded(rowSelector) {
-    return page.waitForFunction((selector) => !!$(selector).find('.entityTable_Sparkline img').attr('src'), {}, rowSelector);
+  function waitForLoadableRowLoaded(position) {
+    return page.waitForFunction((selector, rowPosition) => {
+      return !!$(selector)[rowPosition]().find('.entityTable_Sparkline img').attr('src');
+    }, {}, loadableRowsSelector, position);
+  }
+
+  function scrollToLoadableRow(position) {
+    return page.evaluate((selector, rowPosition) => {
+      $(selector)[rowPosition]().get(0).scrollIntoView();
+    }, loadableRowsSelector, position);
   }
 
   async function waitForAllSegmentRowsLoaded() {

@@ -30,6 +30,7 @@ function initManageSegmentsPage() {
   let removePageListeners = null;
   let isDestroyed = false;
   let rowObserver = null;
+  let removeScrollListeners = null;
   const LOAD_MARGIN_PX = 200;
   init();
 
@@ -48,6 +49,10 @@ function initManageSegmentsPage() {
     if (rowObserver) {
       rowObserver.disconnect();
       rowObserver = null;
+    }
+    if (removeScrollListeners) {
+      removeScrollListeners();
+      removeScrollListeners = null;
     }
     if (removeStarChangeListener) {
       removeStarChangeListener();
@@ -214,7 +219,13 @@ function initManageSegmentsPage() {
     rowsToLoad.forEach(function (row) {
       rowObserver.observe(row);
     });
-    // Headless browsers may not deliver the first notification without a new frame
+    // Headless browsers may not deliver the observer notifications without a new frame
+    window.addEventListener('scroll', loadNextVisibleRow, { passive: true });
+    window.addEventListener('resize', loadNextVisibleRow);
+    removeScrollListeners = function () {
+      window.removeEventListener('scroll', loadNextVisibleRow);
+      window.removeEventListener('resize', loadNextVisibleRow);
+    };
     loadNextVisibleRow();
 
     function loadNextVisibleRow() {
@@ -310,8 +321,13 @@ function initManageSegmentsPage() {
       date,
     }, 'GET');
     ajaxHandler.useCallbackInCaseOfError();
-    // An HTTP error (e.g. a 429) skips the callback, which would stop the loading of the next rows
-    ajaxHandler.setErrorCallback(function () {
+    // An HTTP error (e.g. a 429) skips the callback, which would stop the loading of the next rows.
+    // The row keeps its '-' instead of the generic loading error notice.
+    ajaxHandler.setErrorCallback(function (xhr, textStatus) {
+      // Requests are aborted when leaving the page, which is about to remove the table
+      if (textStatus === 'abort') {
+        return;
+      }
       if (typeof onError === 'function') {
         onError();
       }
@@ -328,7 +344,9 @@ function initManageSegmentsPage() {
         onSuccess(response);
       }
     });
-    ajaxHandler.send();
+    ajaxHandler.send().catch(function () {
+      // already handled by the error callback
+    });
   }
 
   function getReportingParam(paramName) {
