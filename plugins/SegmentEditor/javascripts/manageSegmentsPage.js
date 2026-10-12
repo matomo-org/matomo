@@ -30,6 +30,7 @@ function initManageSegmentsPage() {
   let removePageListeners = null;
   let isDestroyed = false;
   let rowObserver = null;
+  const LOAD_MARGIN_PX = 200;
   init();
 
   function init() {
@@ -203,35 +204,31 @@ function initManageSegmentsPage() {
     const rowsToLoad = new Set(Array.from(tbody.querySelectorAll('tr[data-segment-name]')).filter(function (row) {
       return row.getAttribute('data-is-realtime') !== '1';
     }));
-    const visibleRows = new Set();
     let isLoading = false;
 
-    rowObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          visibleRows.add(entry.target);
-        } else {
-          visibleRows.delete(entry.target);
-        }
-      });
-      loadNextVisibleRow();
-    }, { rootMargin: '200px 0px' });
+    // The observer only signals that something may have come on screen: the row to load is
+    // checked when picked, so a missed or outdated notification cannot leave a row unloaded.
+    rowObserver = new IntersectionObserver(loadNextVisibleRow, {
+      rootMargin: `${LOAD_MARGIN_PX}px 0px`,
+    });
     rowsToLoad.forEach(function (row) {
       rowObserver.observe(row);
     });
+    // Headless browsers may not deliver the first notification without a new frame
+    loadNextVisibleRow();
 
     function loadNextVisibleRow() {
-      if (isLoading || isDestroyed || !rowObserver) {
+      if (isLoading || isDestroyed) {
         return;
       }
       if (!root.isConnected) {
-        rowObserver.disconnect();
+        cleanup();
         return;
       }
 
       // Follow the displayed order, which starring a segment can change
       const row = Array.from(tbody.children).find(function (candidate) {
-        return rowsToLoad.has(candidate) && visibleRows.has(candidate);
+        return rowsToLoad.has(candidate) && isNearScreen(candidate);
       });
       if (!row) {
         return;
@@ -245,6 +242,14 @@ function initManageSegmentsPage() {
         loadNextVisibleRow();
       });
     }
+  }
+
+  function isNearScreen(row) {
+    if (row.offsetParent === null) {
+      return false;
+    }
+    const rect = row.getBoundingClientRect();
+    return rect.bottom >= -LOAD_MARGIN_PX && rect.top <= window.innerHeight + LOAD_MARGIN_PX;
   }
 
   function loadSegmentRow(row, onDone) {
@@ -305,6 +310,12 @@ function initManageSegmentsPage() {
       date,
     }, 'GET');
     ajaxHandler.useCallbackInCaseOfError();
+    // An HTTP error (e.g. a 429) skips the callback, which would stop the loading of the next rows
+    ajaxHandler.setErrorCallback(function () {
+      if (typeof onError === 'function') {
+        onError();
+      }
+    });
     ajaxHandler.setCallback(function (response) {
       if (!response || response.result === 'error') {
         if (typeof onError === 'function') {

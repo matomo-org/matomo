@@ -12,6 +12,8 @@ describe("SegmentManagementPageTest", function () {
 
   const defaultViewport = { width: 1350, height: 768 };
   const mobileViewport = { width: 480, height: 900 };
+  const firstLoadableRowSelector = '[data-page="manage-segments"] tr[data-is-realtime="0"]:first';
+  const lastLoadableRowSelector = '[data-page="manage-segments"] tr[data-is-realtime="0"]:last';
   var generalParams = 'idSite=1&period=range&date=2010-03-06,2010-03-08';
   var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=CoreHome_Segments';
   const globalSegment = {
@@ -48,7 +50,7 @@ describe("SegmentManagementPageTest", function () {
 
   it("should load correctly", async function() {
     await page.goto(url);
-    await page.waitForNetworkIdle();
+    await waitForAllSegmentRowsLoaded();
 
     expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');
   });
@@ -61,10 +63,10 @@ describe("SegmentManagementPageTest", function () {
       await page.waitForNetworkIdle();
       await page.waitForSelector('.pageWrap');
       // Rows only load once close to the screen, so bring the last ones in before the screenshot
-      await page.evaluate(() => {
-        $('[data-page="manage-segments"] tr[data-segment-name]:last').get(0).scrollIntoView();
-      });
-      await page.waitForNetworkIdle();
+      await page.evaluate((selector) => {
+        $(selector).get(0).scrollIntoView();
+      }, lastLoadableRowSelector);
+      await waitForAllSegmentRowsLoaded();
 
       expect(await page.screenshotSelector('.pageWrap'))
         .to.matchImage('initial_mobile_table_contained');
@@ -226,6 +228,7 @@ describe("SegmentManagementPageTest", function () {
     let sparklineSources;
     try {
       await openPage();
+      await waitForAllSegmentRowsLoaded();
       sparklineSources = await page.evaluate(() => {
         return $('[data-page="manage-segments"] tr[data-is-realtime="0"] .entityTable_Sparkline img')
           .map((index, img) => img.getAttribute('src') || '')
@@ -244,28 +247,38 @@ describe("SegmentManagementPageTest", function () {
   });
 
   it("should only load the rows close to the screen", async function() {
-    await page.webpage.setViewport({ width: 1350, height: 300 });
+    // 400px + the 200px loading margin reaches the first rows of the table, not the last one
+    await page.webpage.setViewport({ width: 1350, height: 400 });
 
     try {
       await openPage();
+      await waitForSegmentRowLoaded(firstLoadableRowSelector);
+      await page.waitForNetworkIdle();
 
-      const lastRowSelector = '[data-page="manage-segments"] tr[data-is-realtime="0"]:last';
-      const isLastRowLoaded = () => page.evaluate((selector) => {
-        return !!$(selector).find('.entityTable_Sparkline img').attr('src');
-      }, lastRowSelector);
-
-      expect(await isLastRowLoaded()).to.equal(false);
+      expect(await isSegmentRowLoaded(lastLoadableRowSelector)).to.equal(false);
 
       await page.evaluate((selector) => {
         $(selector).get(0).scrollIntoView();
-      }, lastRowSelector);
-      await page.waitForFunction((selector) => {
-        return !!$(selector).find('.entityTable_Sparkline img').attr('src');
-      }, {}, lastRowSelector);
-
-      expect(await isLastRowLoaded()).to.equal(true);
+      }, lastLoadableRowSelector);
+      await waitForSegmentRowLoaded(lastLoadableRowSelector);
     } finally {
       await page.webpage.setViewport(defaultViewport);
+    }
+  });
+
+  it("should keep loading the next rows when a row data request fails", async function() {
+    const cdpSession = await page.webpage.createCDPSession();
+    await cdpSession.send('Network.enable');
+    await cdpSession.send('Network.setBlockedURLs', { urls: ['*SegmentEditor.getSegmentData*'] });
+
+    try {
+      await openPage();
+      await waitForAllSegmentRowsLoaded();
+
+      expect(await getSegmentRowNumericData(siteSegment.name)).to.deep.equal({ visits: '-', actions: '-' });
+    } finally {
+      await cdpSession.send('Network.setBlockedURLs', { urls: [] });
+      await cdpSession.detach();
     }
   });
 
@@ -667,6 +680,23 @@ describe("SegmentManagementPageTest", function () {
         actions: ($numericCells.eq(1).text() || '').trim(),
       };
     }, segmentName);
+  }
+
+  function isSegmentRowLoaded(rowSelector) {
+    return page.evaluate((selector) => !!$(selector).find('.entityTable_Sparkline img').attr('src'), rowSelector);
+  }
+
+  function waitForSegmentRowLoaded(rowSelector) {
+    return page.waitForFunction((selector) => !!$(selector).find('.entityTable_Sparkline img').attr('src'), {}, rowSelector);
+  }
+
+  async function waitForAllSegmentRowsLoaded() {
+    await page.waitForFunction(() => {
+      return $('[data-page="manage-segments"] tr[data-is-realtime="0"] .entityTable_Sparkline img')
+        .toArray()
+        .every((img) => !!img.getAttribute('src'));
+    });
+    await page.waitForNetworkIdle();
   }
 
   async function openPage() {
