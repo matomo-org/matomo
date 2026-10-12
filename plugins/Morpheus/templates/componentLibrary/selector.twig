@@ -170,6 +170,26 @@
     {% endset %}
     {{ library.example('bothActions', 'Start and end actions', 'One action at most on each side.', bothActions) }}
 
+    {% set highlighted %}
+<div class="mtm-selector mtm-selector--highlighted">
+  <a class="mtm-selector__trigger" href="#">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-update"></span></span>
+    <span class="mtm-selector__label">New Update: Matomo 6.1.0</span>
+  </a>
+</div>
+    {% endset %}
+    {{ library.example('highlighted', 'Highlighted', '<code>mtm-selector--highlighted</code> draws attention to the control, such as an available update.', highlighted) }}
+
+    {% set muted %}
+<div class="mtm-selector mtm-selector--muted">
+  <a class="mtm-selector__trigger" href="#">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-reload"></span></span>
+    <span class="mtm-selector__label">Check for updates</span>
+  </a>
+</div>
+    {% endset %}
+    {{ library.example('muted', 'Muted', '<code>mtm-selector--muted</code> steps back from the content around it.', muted) }}
+
     {% set fullWidth %}
 <div class="mtm-selector mtm-selector--fullWidth">
   <button type="button" class="mtm-selector__action mtm-selector__action--start" aria-label="Previous period">
@@ -199,10 +219,16 @@
         <tr><td>Keyboard focus</td><td><code>:focus-visible</code> on the trigger</td><td>A focus ring around the whole frame.</td></tr>
         <tr><td>Action hover, action focus</td><td>the pointer or the keyboard on an action</td><td>The ring is drawn around that action only.</td></tr>
         <tr><td>Open</td><td><code>mtm-selector--expanded</code> on the block</td><td>Blue frame, arrow turned over, panel shown.</td></tr>
+        <tr><td>Loading</td><td><code>mtm-selector--loading</code> on the block</td><td>A spinner stands in for the icon.</td></tr>
         <tr><td>Disabled</td><td><code>mtm-selector--disabled</code>, and <code>disabled</code> on the trigger</td><td>Faded, ignores the pointer.</td></tr>
         <tr><td>Read only</td><td><code>mtm-selector--readOnly</code></td><td>Full strength, no hover: a single choice that opens nothing.</td></tr>
         <tr><td>Disabled action</td><td><code>disabled</code> on the action</td><td>Greyed glyph, no ring.</td></tr>
     </table>
+
+    {{ library.example('hover', 'Hover', 'The pointer on the trigger frames the whole control, actions included.', bothActions, '', 'hover', '.mtm-selector__trigger') }}
+    {{ library.example('focus', 'Keyboard focus', 'A 2px ring around the whole control.', bothActions, '', 'focus-visible', '.mtm-selector__trigger') }}
+    {{ library.example('actionHover', 'Action hover', 'The ring stays on the action.', bothActions, '', 'hover', '.mtm-selector__action--start') }}
+    {{ library.example('actionFocus', 'Action keyboard focus', '', bothActions, '', 'focus-visible', '.mtm-selector__action--end') }}
 
     {% set open %}
 <div class="mtm-selector mtm-selector--expanded">
@@ -264,6 +290,16 @@
 </div>
     {% endset %}
     {{ library.example('disabledAction', 'Disabled action', '', disabledAction) }}
+
+    {% set loading %}
+<div class="mtm-selector mtm-selector--muted mtm-selector--loading">
+  <a class="mtm-selector__trigger" href="#">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-reload"></span></span>
+    <span class="mtm-selector__label">Check for updates</span>
+  </a>
+</div>
+    {% endset %}
+    {{ library.example('loading', 'Loading', '<code>mtm-selector--loading</code>, while a request the control started is running.', loading) }}
 </section>
 
 {# ------------------------------------------------------------------------------------------- #}
@@ -329,7 +365,7 @@ export default defineComponent({
         <tr><td><code>CoreHome/vue/src/SiteSelector/SiteSelector.vue</code></td><td>Placeholder, read only, a searchable list</td></tr>
         <tr><td><code>SegmentEditor/vue/src/SegmentSelector/SegmentSelector.vue</code></td><td>Left icon, a legacy panel inside <code>mtm-dropdownPanel</code></td></tr>
         <tr><td><code>Dashboard/vue/src/DashboardSettings/DashboardSettings.vue</code></td><td>End action, a menu panel</td></tr>
-        <tr><td><code>CoreHome/vue/src/VersionInfoHeaderMessage/VersionInfoHeaderMessage.vue</code></td><td>Opens on hover, a text panel</td></tr>
+        <tr><td><code>CoreHome/vue/src/VersionInfoHeaderMessage/VersionInfoHeaderMessage.vue</code></td><td>Highlighted, muted and loading; opens on hover, a text panel</td></tr>
         <tr><td><code>CoreHome/vue/src/ReportHeader/ReportHeader.vue</code></td><td>Icon only, menu panels with <code>useSelectorDropdown()</code></td></tr>
         <tr><td><code>CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue</code></td><td>Panel above overlays, with <code>useSelectorDropdown()</code></td></tr>
     </table>
