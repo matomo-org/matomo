@@ -19,4 +19,9 @@ class CustomDimensionReportWithRollUp implements FeatureFlagInterface
     {
         return 'CustomDimensionReportWithRollUp';
     }
+
+    public function allowsCookieOverwrite(): bool
+    {
+        return false;
+    }
 }

@@ -17,4 +17,9 @@ class FakeFeatureFlag implements FeatureFlagInterface
     {
         return 'NotReal';
     }
+
+    public function allowsCookieOverwrite(): bool
+    {
+        return false;
+    }
 }
