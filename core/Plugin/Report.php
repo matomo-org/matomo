@@ -763,6 +763,23 @@ class Report
     }
 
     /**
+     * Returns a filter to search the report's rows with, in place of matching the pattern against
+     * each row's label, or `null` to keep matching the label.
+     *
+     * Lets a report recognise a search the label alone cannot answer, such as a full URL pasted
+     * into a report whose labels hold only the path. The filter is applied to every table of the
+     * response, and has to keep a row whose subtable still holds a match.
+     *
+     * @param string $pattern The search as the request sent it.
+     * @return callable|null A filter taking the DataTable to search.
+     * @internal
+     */
+    public function getSearchFilter(string $pattern): ?callable
+    {
+        return null;
+    }
+
+    /**
      * Get the list of related reports if there are any. They will be displayed for instance below a report as a
      * recommended related report.
      *
