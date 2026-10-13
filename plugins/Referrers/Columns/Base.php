@@ -899,31 +899,24 @@ abstract class Base extends VisitDimension
      */
     private function isRequestOnVisitEntryPage(Visitor $visitor, $action, ?Request $request = null): ?bool
     {
-        // the immutable values are the visit as stored, before anything this request changes
-        $actionsSoFar = (int) $visitor->getImmutableVisitorColumn('visit_total_actions');
+        // The immutable values are the visit as stored, before anything this request changes. Only
+        // an action with a page URL of its own moves the exit page, so an event recorded on the
+        // landing page - a consent banner impression, say - leaves the visitor where they arrived.
+        $entryIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_entry_idaction_url');
+        $exitIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_exit_idaction_url');
+
+        if (empty($entryIdActionUrl) || empty($exitIdActionUrl)) {
+            return null;
+        }
+
+        // campaign parameters are stripped from stored URLs, so once the visit has been on another
+        // page, coming back cannot be told apart from never having left
+        $hasLeftEntryPage = $entryIdActionUrl !== $exitIdActionUrl;
 
         // a ping still carries an action at this point - it is dropped later in the request - and
-        // records none of it, so like any request without one it leaves the visitor where they
-        // already were, which is the arrival page only while that is the visit's single action
+        // records none of it
         if (empty($action) || ($request !== null && $request->getParam('ping') == 1)) {
-            return 1 === $actionsSoFar ? true : null;
-        }
-
-        if ($actionsSoFar > 1) {
-            // the visitor has moved on. Campaign parameters are stripped from stored URLs, so
-            // returning to the page they arrived on cannot be told apart from never having left
-            // it by the page alone - the count of actions already recorded is what separates them.
-            return false;
-        }
-
-        // Actions\Columns\EntryPageUrl implements onExistingVisit, so this column is already among
-        // the ones loaded for an existing visit. It is deliberately not declared in
-        // getRequiredVisitFields(): that feeds the dimension dependency sort, which would reorder
-        // every referrer dimension after EntryPageUrl for a value that is read either way.
-        $entryIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_entry_idaction_url');
-
-        if (empty($entryIdActionUrl)) {
-            return null;
+            return $hasLeftEntryPage ? null : true;
         }
 
         // the ids of the current action are resolved a few statements later, when it is recorded.
@@ -933,9 +926,11 @@ abstract class Base extends VisitDimension
         $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
 
         if (empty($idActionUrl)) {
-            return null;
+            // an event, download or outlink: it records no page of its own, so like a ping it does
+            // not move the visitor
+            return $hasLeftEntryPage ? null : true;
         }
 
-        return $entryIdActionUrl === (int) $idActionUrl;
+        return !$hasLeftEntryPage && $entryIdActionUrl === (int) $idActionUrl;
     }
 }
