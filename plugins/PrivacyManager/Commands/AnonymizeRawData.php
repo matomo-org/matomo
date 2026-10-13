@@ -30,7 +30,7 @@ class AnonymizeRawData extends ConsoleCommand
         );
         $this->addRequiredValueOption('date', null, 'Date or date range to invalidate raw data for (UTC). Either a date like "2015-01-03" or a range like "2015-01-05,2015-02-12". By default, all data including today will be anonymized.', $defaultDate);
         $this->addRequiredValueOption('unset-visit-columns', null, 'Comma separated list of log_visit columns that you want to unset. Each value for that column will be set to its default value. If the same column exists in "log_conversion" table as well, the column will be unset there as well. This action cannot be undone.', '');
-        $this->addRequiredValueOption('unset-link-visit-action-columns', null, 'Comma separated list of log_link_visit_action columns that you want to unset. Each value for that column will be set to its default value. This action cannot be undone.', '');
+        $this->addRequiredValueOption('unset-link-visit-action-columns', null, 'Comma separated list of log_link_visit_action columns that you want to unset. Each value for that column will be set to its default value. If the same column exists in "log_page_view_time" table as well, the column will be unset there as well. This action cannot be undone.', '');
         $this->addNoValueOption('anonymize-ip', null, 'If set, the IP will be anonymized with a mask of at least 2. This action cannot be undone.');
         $this->addNoValueOption('anonymize-location', null, 'If set, the location will be re-evaluated based on the anonymized IP. This action cannot be undone.');
         $this->addNoValueOption('anonymize-userid', null, 'If set, any set user-id will be anonymized. This action cannot be undone.');

@@ -6,25 +6,28 @@
 -->
 
 <template>
-  <div class="kpiCardContainer" :class="`kpiCardContainer--cols${columnCount}`">
-    <template v-if="isLoading">
-      <div class="kpiCard kpiCard--loading">
-        <div class="kpiCard__badge kpiCard__badge--empty" aria-hidden="true" />
-        <div class="kpiCard__title">&nbsp;</div>
-        <div class="kpiCard__value">
-          <MatomoLoader />
-        </div>
-        <div class="kpiCard__evolution">&nbsp;</div>
-      </div>
-    </template>
-
-    <template
-      v-else
-      v-for="(kpi, index) in kpis"
-      :key="`kpi-card-${index}`"
+  <div class="kpiCardContainer">
+    <div
+      class="kpiCardContainer__list"
+      :class="`kpiCardContainer__list--cols${columnCount}`"
     >
-      <KPICard :model-value="kpi" />
-    </template>
+      <div v-if="isLoading" class="kpiCardContainer__loading">
+        <MatomoLoader />
+      </div>
+
+      <template
+        v-else
+        v-for="(kpi, index) in kpis"
+        :key="`kpi-card-${index}`"
+      >
+        <div
+          class="kpiCardContainer__item"
+          :class="{ 'kpiCardContainer__item--separated': index > 0 }"
+        >
+          <KPICard :model-value="kpi" />
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 

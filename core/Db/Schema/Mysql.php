@@ -280,6 +280,26 @@ class Mysql implements SchemaInterface
                                         ) $tableOptions
             ",
 
+            'log_page_view_time' => "CREATE TABLE {$prefixTables}log_page_view_time (
+                                        idpageviewtime BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                        idsite INTEGER(10) UNSIGNED NOT NULL,
+                                        idvisit BIGINT(10) UNSIGNED NOT NULL,
+                                        idlink_va BIGINT(10) UNSIGNED NOT NULL,
+                                        idpageview CHAR(6) CHARACTER SET ascii COLLATE ascii_bin NULL DEFAULT NULL,
+                                        idaction_url INTEGER(10) UNSIGNED NULL DEFAULT NULL,
+                                        idaction_name INTEGER(10) UNSIGNED NULL DEFAULT NULL,
+                                        server_time DATETIME NOT NULL,
+                                        time_spent INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+                                          PRIMARY KEY(idpageviewtime),
+                                          UNIQUE KEY unique_idvisit_idlink_va (idvisit, idlink_va),
+                                          INDEX index_idvisit_idpageview (idvisit, idpageview),
+                                          INDEX index_idvisit_server_time (idvisit, server_time),
+                                          INDEX index_idsite_server_time (idsite, server_time),
+                                          INDEX index_idvisit_idaction_url_time (idvisit, idaction_url, time_spent),
+                                          INDEX index_idvisit_idaction_name_time (idvisit, idaction_name, time_spent)
+                                        ) $tableOptions
+            ",
+
             'log_profiling'   => "CREATE TABLE {$prefixTables}log_profiling (
                                   query TEXT NOT NULL,
                                   count INTEGER UNSIGNED NULL,
@@ -406,6 +426,16 @@ class Mysql implements SchemaInterface
                                       `value` VARCHAR(255) NULL DEFAULT NULL,
                                       `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
                                       PRIMARY KEY (`key`)
+                                  ) $tableOptions
+            ",
+            'plugin_trial_request'    => "CREATE TABLE `{$prefixTables}plugin_trial_request` (
+                                      `idrequest` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `plugin_name` VARCHAR(60) NOT NULL,
+                                      `login` VARCHAR(100) NULL,
+                                      `ts_requested` DATETIME NOT NULL,
+                                      PRIMARY KEY(`idrequest`),
+                                      INDEX index_plugin_name_ts_requested (`plugin_name`, `ts_requested`),
+                                      UNIQUE INDEX index_login_plugin_name (`login`, `plugin_name`)
                                   ) $tableOptions
             ",
             'changes'             => "CREATE TABLE `{$prefixTables}changes` (

@@ -16,6 +16,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated method `Piwik\Url::saveCORSHostnameInConfig()` has been removed. It was no longer in use.
 * The deprecated method `Piwik\Plugin\Report::getThirdLeveltableDimension()` has been removed. Use `Piwik\Plugin\Report::getNthLevelTableDimension(2)` instead.
 * The deprecated `API.getSettings` API method has been removed, along with the default `[APISettings]` section shipped in `config/global.ini.php` that it exposed. There is no replacement; integrations that fetched key/value pairs from that section over the REST API must migrate to another mechanism. Any `[APISettings]` entries in a local `config.ini.php` simply become inert.
+* Plugin trial requests no longer expire: each user can request a trial of a plugin once. The `[General] plugin_trial_request_expiration_in_days` setting now only disables trial requests when set to `-1`; any other value is ignored.
 * The deprecated static method `getDefaultPort()` has been removed from `Piwik\Db\AdapterInterface` and its implementations (`Piwik\Db\Adapter\Mysqli`, `Piwik\Db\Adapter\Pdo\Mysql`). Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
 * The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
 * The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
@@ -39,6 +40,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The conditional fallback definitions for `mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class and the `PHP_INT_SIZE`/`PHP_INT_MAX` constants have been removed from `libs/upgradephp/upgrade.php`. All of these are provided natively by every supported PHP version; the fallbacks only ever activated on PHP versions that are no longer supported, or when the function had been turned off via `disable_functions`.
 * The `gzopen()` fallback has also been removed from `libs/upgradephp/upgrade.php`. It aliased `gzopen()` to `gzopen64()` on distribution builds where zlib exposes only the latter, which is a packaging issue rather than a PHP version or `disable_functions` one. On such a build `Piwik\Unzip` now falls back to `PclZip`.
 * Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
+* When a log table is joined to a table it can reach both via a join declared in `Piwik\Tracker\LogTable::getWaysToJoinToOtherLogTables()` and via the generic `idvisit` join (both tables implementing `getColumnToJoinOnIdVisit()`), the segment query builder now uses the declared join. Previously the generic `idvisit` join silently won. This applies only to the partner that is tried first: partners are tried in join order starting with the FROM table, and the first one yielding any join is used, so a declared join does not replace a generic `idvisit` join to an earlier table (e.g. a `log_visit` FROM table). A plugin log table that declares a way-join to another `idvisit`-joinable table will see its declared join columns used in segmented queries whenever that partner is tried first; note that a declared join also bypasses the partner table's `shouldJoinWithSubSelect()` wrapping, which only ever applied to the generic `idvisit` join (relevant when declaring a way-join directly to `log_visit`). A table declaring way-joins to several available partners is now joined to the first of them rather than the last.
 * The deprecated Piwik-era color aliases `@color-black-piwik`, `@color-blue-piwik`, `@color-red-piwik` and `@color-green-piwik` have been removed from `plugins/Morpheus/stylesheets/base/colors.less`. Use `@color-black-matomo`, `@color-blue-matomo`, `@color-red-matomo` and `@color-green-matomo` instead.
 * The third-party brand color variables `@color-orange-brand` (`#f57c00`), `@color-green-brandSocial` (`#009874`), `@color-blue-brandSocial` (`#3b5998`), `@color-blue-brandSocialLight` (`#1c87bd`) and `@color-blue-brandSocialVeryLight` (`#00aced`) have been removed. They described other companies' brands rather than Matomo's own palette; a plugin that still needs one of these colors should use the literal value.
 * The never-referenced palette tokens `@color-gray-light` (`#f0f0f0`), `@color-gray-bright` (`#EBF2EB`), `@color-gray-400` (`#BCBCBC`), `@color-jetstream` (`#c3d9c4`), `@color-silver-l14`, `@color-silver-l50`, `@color-silver-l70` and `@color-silver-l98` have been removed. Use one of the remaining `@color-silver-*` variables, a `@theme-color-*` variable or a literal value instead.
@@ -105,11 +107,22 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * `AIRequest` and `AIConversationRequest` gained `withUsageReference()` / `getUsageReference()` and `withMeta()` / `getMeta()`, and `AIConversationRequest` gained `withIdSite()` / `getIdSite()`, so a caller can describe a call to these listeners. A feature key should follow `<Plugin>.<feature>`; without one the call is reported as `<Plugin>.default`.
   * `AIProviderResponse` and `AIConversationResponse` gained `getCacheReadTokens()`, `getCacheWriteTokens()`, `getFlatFeeCalls()` and `getProviderMeta()`, and `AIConversationResponse` gained `getCost()`. `AIProviderResponse::toArray()` gained the `cacheReadTokens` and `cacheWriteTokens` keys. `AIProvider::buildResponse()` and `AIProvider::buildConversationResponse()` gained matching trailing optional parameters for providers to fill.
 * The `Archiver.filterRecordBuilders` event now also receives the `ArchiveProcessor` of the archive being built, so a listener can restrict or replace RecordBuilders for a specific site, period or segment. The RecordBuilder instances are shared by every archive built in the same request, so a listener should replace or remove entries rather than modify an instance. Existing listeners that take only `$recordBuilders` are unaffected.
+* The new `Marketplace.pluginTrialRequested` event is posted after a user requests a trial of a plugin, with the plugin's name and display name, so an audit trail can record it. The requesting user is the current user.
 
 ### New commands
 * The new `core:rotate-encryption-keys` console command replaces the encryption key a plugin keeps in the local config file (`config/config.ini.php` by default) and re-encrypts every value the plugin declares, or changes nothing if any value cannot be decrypted.
 
+### New config.ini.php settings
+* `[Tracker] record_accurate_page_view_time` (default `1`, can be overridden per site in `[Tracker_N]`) is a temporary
+  kill-switch for the accurate time-on-page writer. Setting it to `0` stops new `log_page_view_time` rows from being
+  written; rows recorded earlier keep being used by the archiver and the visits log. It will be removed in a future
+  major version.
+
 ### HTTP API
+* Time on page is now measured per pageview, so `sum_time_spent` and `avg_time_on_page` in the Actions page URL and
+  page title reports change for data tracked after the upgrade. In `Live.getLastVisitsDetails`, `timeSpent` and
+  `timeSpentPretty` of a pageview show the measured time when there is one, and site-search actions can now carry
+  `timeSpent` and `timeSpentPretty` of their own.
 * Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional
   `{metric}_percent_of_total` column (eg, `nb_visits_percent_of_total`). The values match the ratio percentages the report tables
   show on hover, follow `format_metrics` like other percent metrics, and are included in all export formats. Non-additive metrics
@@ -138,6 +151,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   clipping the last column of a report carrying ten or more metrics.
 
 ### Deprecations
+* `Piwik\Tracker\Visit::getTimeSpentReferrerAction()` and the `log_link_visit_action.time_spent_ref_action` column are
+  deprecated. The accurate per-pageview time-on-page metric is now sourced from the new `log_page_view_time` log table
+  written by `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter`. The deprecated method and column remain functional
+  through 6.x, because the archiver and the visits log still read them for pageviews that have no measured row (tracked
+  before the upgrade, while `record_accurate_page_view_time` was off, or whose row could not be written). They are
+  scheduled for removal in a future major version.
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
   is deprecated and will be removed in Matomo 7; use `@theme-color-background-contrast` instead. It is the generic
   elevated content surface and is already used well beyond widgets.
@@ -152,6 +171,21 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The theme variable `@theme-color-border-alternative` (`ThemeStyles::$colorBorderAlternative`) is deprecated and will
   be removed in Matomo 7; use `@theme-color-border` instead, which now carries the same value. Core no longer reads
   the alternative, so a theme that overrides `$colorBorderAlternative` must override `$colorBorder` instead.
+
+### Schema
+* New log table `log_page_view_time` (one row per `(idvisit, idlink_va)`) records the accurate time each pageview /
+  site-search hit was visible, populated by the tracker on every recordable hit. It participates in raw-log purging
+  via the `Piwik\Plugins\CoreHome\Tracker\LogTable\PageViewTime` `LogTable`. The archiver in
+  `Piwik\Plugins\Actions\RecordBuilders\ActionReports` runs two queries per period: an accurate query summing
+  `log_page_view_time.time_spent`, and the legacy `log_link_visit_action.time_spent_ref_action` query anti-joined
+  against `log_page_view_time`. A legacy value is dropped only where the interval it credits overlaps the time a
+  `log_page_view_time` row for the same visit and page measured, or where it belongs to the hit that closed such a
+  row (which matters when the `visit_standard_length` cap cut the row short). Pageviews with no measured row (tracked
+  before the new table existed, while `record_accurate_page_view_time` was off, or whose row could not be written)
+  are still counted via the legacy path. On installs that opt out of the default midnight visit split
+  (`create_new_visit_after_midnight = 0`), time a cross-midnight visit adds to the previous day's last pageview
+  after that day was archived is not re-archived (the previous day's archive is not invalidated), matching how
+  visit metrics already behave for such visits under that setting.
 
 ### Internal Changes
 * `./console vue:build` no longer emits the unminified `plugins/<Plugin>/vue/dist/<Plugin>.umd.js` bundle. Only the

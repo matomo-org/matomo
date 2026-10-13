@@ -55,11 +55,6 @@
   }
 
   [vue-entry="MultiSites.AllWebsitesDashboard"] {
-    // Establish a query container so the KPI band can respond to the card's own width rather than the
-    // viewport: the reporting menu can collapse and widen the card, and the band should use that width.
-    // The @container rules that use it live in AllWebsitesDashboard.containerQueries.css.
-    container-name: awdDashboard;
-    container-type: inline-size;
     display: flex;
     flex-direction: column;
   }
@@ -123,135 +118,6 @@
     .card-title {
       margin-bottom: 0;
     }
-  }
-
-  .kpiCardContainer {
-    align-items: start;
-    column-gap: ~"clamp(1rem, 3vw, 3rem)";
-    display: grid;
-    grid-auto-rows: auto;
-    grid-template-columns: repeat(var(--kpi-columns, 5), minmax(0, 1fr));
-    margin: 0 0 2rem;
-    row-gap: 1.5rem;
-
-    .kpiCard {
-      // Four shared rows — badge, title, value, evolution — via subgrid, so those lines stay aligned
-      // across every card in a row even when a title or a badge wraps onto two lines. Column 1 has no
-      // left padding (the container column-gap is the only gutter), so the first value lines up with
-      // the "All Websites" title and every first-in-row card lines up under it.
-      display: grid;
-      grid-row: span 4;
-      grid-template-rows: subgrid;
-      row-gap: 0.6rem;
-    }
-
-    .kpiCard--loading {
-      grid-column: ~"1 / -1";
-      text-align: center;
-    }
-
-    .kpiCard--loading .matomo-loader {
-      top: -8px;
-    }
-
-    .kpiCard__badge {
-      // Its own subgrid row above the title: a longer label grows the row and pushes the title down
-      // instead of overlapping it. Aligned to the bottom of the row so every badge sits the same
-      // distance from its title; the slack from a shorter badge goes above it, not between it and the
-      // title.
-      align-self: end;
-      background-color: #ecf7fe;
-      border: 2px solid #0d94e3;
-      border-radius: 2px;
-      font-size: 0.9rem;
-      justify-self: start;
-      min-height: 1.5rem;
-      padding: 0 0.35rem;
-    }
-
-    .kpiCard__badge--empty {
-      // reserves the badge row on cards without a badge, so one appearing later does not shift the values
-      visibility: hidden;
-    }
-
-    .kpiCard__title {
-      // titles align to the top of the row, so a wrapped two-line title does not drop the one-line
-      // titles below it; first baseline keeps the icon on the first line of the label
-      align-items: first baseline;
-      align-self: start;
-      color: #76838f;
-      column-gap: 0.35rem;
-      display: flex;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-    }
-
-    .kpiCard__icon {
-      font-size: 0.9rem;
-      position: relative;
-      top: 1px;
-    }
-
-    .kpiCard__value {
-      font-size: 2.5rem;
-      font-weight: bold;
-      line-height: 1.05;
-      white-space: nowrap;
-    }
-
-    .kpiCard__trend {
-      font-size: 1rem;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .kpiCard__trend--positive {
-      color: green;
-    }
-
-    .kpiCard__trend--negative {
-      color: red;
-    }
-
-    .kpiCard__trend--neutral .kpiCard__trendIcon {
-      color: #ccc;
-    }
-
-    .kpiCard__trendIcon {
-      font-size: 0.7rem;
-    }
-
-    .kpiCard__evolution {
-      // The trend and the period label ("From previous day") are stacked as one group below the value.
-      // The gap before this group is the card row-gap, so the empty space reads as sitting before the
-      // trend, grouped with the period. No ellipsis: the label wraps, and subgrid keeps it aligned.
-      align-items: flex-start;
-      color: #76838f;
-      display: flex;
-      flex-direction: column;
-      font-size: 0.9rem;
-      line-height: 1.2;
-      row-gap: 0.15rem;
-    }
-  }
-
-  // The number of columns follows the number of KPIs (a modifier class, not an inline style, so the
-  // responsive overrides further down can win). Each count reduces only when that many cards would
-  // get too narrow, and always to a balanced arrangement, never to a lonely trailing card.
-  .kpiCardContainer--cols1 {
-    --kpi-columns: 1;
-  }
-
-  .kpiCardContainer--cols3 {
-    --kpi-columns: 3;
-  }
-
-  .kpiCardContainer--cols4 {
-    --kpi-columns: 4;
-  }
-
-  .kpiCardContainer--cols5 {
-    --kpi-columns: 5;
   }
 
   .sitesTableContainer {
@@ -407,9 +273,4 @@
       }
     }
   }
-}
-
-// jQuery UI appends tooltips to the body, outside the dashboard
-.ui-tooltip.kpiCard__tooltip {
-  max-width: 240px;
 }
