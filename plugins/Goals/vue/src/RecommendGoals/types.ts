@@ -77,3 +77,7 @@ export interface RecommendationsResponse {
   privacyNote?: string;
   debug?: RecommendationDebug|null;
 }
+
+export interface AddRecommendedGoalsResponse {
+  goals?: { recommendationId: string; idGoal: number }[];
+}
