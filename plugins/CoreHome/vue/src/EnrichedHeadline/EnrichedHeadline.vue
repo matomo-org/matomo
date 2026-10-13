@@ -29,11 +29,10 @@
     >
       <slot />
     </a>
-    <!-- The word joiner, in an unbreakable box, ties the bar to the title's last word: without
-         it the line can break before the bar and leave it on a line of its own.
-         A class rather than `v-show` on the bar: it has to keep its box when it is not showing,
-         so the title is laid out against the same width either way. -->
-    <div class="enrichedHeadline__iconsGlue">&#8288;<div
+    <!-- Ties the bar to the title's last word, see the stylesheet. A class rather than `v-show`
+         on the bar: it has to keep its box when it is not showing, so the title is laid out
+         against the same width either way. -->
+    <div class="enrichedHeadline__iconsGlue"><div
       class="enrichedHeadline__iconsBar"
       :class="{ 'enrichedHeadline__iconsBar--visible': showIcons || showInlineHelp }"
     >
