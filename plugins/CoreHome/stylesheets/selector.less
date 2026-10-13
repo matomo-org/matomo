@@ -22,9 +22,7 @@
   border-radius: @_selector-button_border-radius;
   box-shadow: @_selector-button_box-shadow;
 
-  span.title,
-  a.title,
-  button.title {
+  a.title {
     flex: auto;
 
     display: flex;
@@ -60,13 +58,6 @@
       // remove relative: [class^="icon-"], [class*=" icon-"]{line-height:1em}
       font-size: inherit;
       line-height: inherit;
-
-      &.iconHidden {
-        visibility: hidden;
-      }
-    }
-
-    .icon:not(.icon-fixed) {
       float: right;
 
       &::after {
@@ -77,15 +68,12 @@
   }
 
   &.expanded,
-  &.editing,
   &:hover,
   &:focus,
   &:focus-within {
     border: @_selector-button_border-active;
 
-    span.title,
-    a.title,
-    button.title {
+    a.title {
       text-decoration: none;
       background: @_selector-button_color-background-hover;
     }
@@ -128,21 +116,4 @@
   &.active .dropdown {
     background-color: @_selector-dropdown_color-background;
   }
-}
-
-/* Positioning wrapper for a dropdown panel (e.g. .mtm-dropdownPanel).
-   Owns placement + show/hide only; appearance belongs to the panel it wraps.
-   Padding rather than margin for the offset, so a pointer can cross the gap without leaving. */
-.piwikSelector__dropdown {
-  display: none;
-
-  position: absolute;
-  z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
-  top: 100%;
-  padding-top: @_selector-dropdown_offset-top;
-  left: -1px;
-}
-
-.piwikSelector.expanded .piwikSelector__dropdown {
-  display: block;
 }
