@@ -36,13 +36,19 @@
         }
     }
 
-    // Unbreakable, so the line cannot break between the word joiner it holds and the bar: the
-    // bar moves to the next line with the title's last word, never alone. A bar on a line of its
-    // own would make the heading taller than its text, at rest.
+    // Ties the bar to the title's last word: without it the line can break before the bar and
+    // leave it alone on a line of its own, making the heading taller than its text, at rest.
+    // Unbreakable, so the line cannot break between the word joiner it starts with and the bar.
     .enrichedHeadline__iconsGlue {
         // Inline, so it stays on the title's line rather than starting one of its own.
         display: inline;
         white-space: nowrap;
+    }
+
+    // Generated rather than written in the DOM, so it stays out of the heading's text, which
+    // code reads the report name from.
+    .enrichedHeadline__iconsGlue::before {
+        content: "\2060";
     }
 
     // Hidden rather than taken out of the flow, so the line boxes are the same whether or not the
