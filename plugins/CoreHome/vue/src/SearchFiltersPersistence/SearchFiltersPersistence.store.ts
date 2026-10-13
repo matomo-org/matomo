@@ -16,8 +16,8 @@ interface SearchFiltersPersistenceState {
   subcategory: string;
   idSite: string;
   // Keyed by widget unique id. A Map is used deliberately: widget ids originate from stored layout
-  // data, and Map keys are plain data that never resolve against an object's own or inherited members,
-  // so each widget's filters stay isolated to their own entry whatever the id happens to be.
+  // data, and Map keys are plain data that never resolve against an object's own or inherited
+  // members, so each widget's filters stay isolated to its own entry whatever the id may be.
   widgetSearchFilters: Map<string, Record<string, string>>;
 }
 
