@@ -274,16 +274,35 @@ describe('ReportHeader', () => {
         value: () => ({ matches: narrow }) as MediaQueryList,
       });
     });
-    // jsdom lays nothing out, so the fit measurement is handed the widths it would have read.
-    function giveRoom(wrapper: ReturnType<typeof mountComponent>, width: number) {
+    // jsdom lays nothing out, so the fit measurement is handed the widths it would have read: the
+    // title gets the line less 120px of controls, and needs `titleWidth` to hold on one line.
+    function giveRoom(wrapper: ReturnType<typeof mountComponent>, width: number, titleWidth = 150) {
       const size = (selector: string, prop: string, value: number) => {
-        Object.defineProperty(wrapper.find(selector).element, prop, {
-          value, configurable: true,
-        });
+        const element = wrapper.find(selector);
+        if (element.exists()) {
+          Object.defineProperty(element.element, prop, { value, configurable: true });
+        }
       };
       size('.reportHeader__header', 'clientWidth', width);
-      size('.reportHeader__controls', 'offsetWidth', 100);
+      size('.reportHeader__title', 'clientWidth', width - 120);
+      size('.reportHeader__title', 'scrollWidth', titleWidth);
     }
+
+    // Export beside a title it pushed onto a second line, or under the icons that follow it.
+    it('should promote nothing that would break the title and its icons onto two lines', async () => {
+      const wrapper = mountComponent({ ...offered, context: 'widgetized' });
+      const vm = wrapper.vm as unknown as {
+        updatePromoted: () => Promise<void>; promotedCount: number;
+      };
+
+      giveRoom(wrapper, 400, 260);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBeGreaterThan(0);
+
+      giveRoom(wrapper, 400, 300);
+      await vm.updatePromoted();
+      expect(vm.promotedCount).toBe(0);
+    });
 
     // The observer skips a width it has already measured, so a demotion that kept the width it was
     // promoted at could never be undone by returning to it, say by restoring a window or undoing
