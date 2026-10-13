@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
+use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
@@ -43,6 +44,9 @@ class CampaignConsentTest extends IntegrationTestCase
     /** @var int */
     private $idSite;
 
+    /** @var int */
+    private static $idGoal;
+
     /** @var Date */
     private $testDate;
 
@@ -55,6 +59,14 @@ class CampaignConsentTest extends IntegrationTestCase
 
         $this->idSite = Fixture::createWebsite('2024-01-01 00:00:00', 0, 'Campaign consent', 'http://example.com');
         $this->testDate = Date::factory('2024-01-02 10:00:00');
+
+        self::$idGoal = GoalsApi::getInstance()->addGoal(
+            $this->idSite,
+            'Converted',
+            'manually',
+            '',
+            'contains'
+        );
 
         $this->tracker = Fixture::getTracker(
             $this->idSite,
@@ -467,6 +479,91 @@ class CampaignConsentTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * Consent is recorded against the visit, so a later request that does not repeat the flag is
+     * still known to come from a visitor who consented and is not masked all over again.
+     */
+    public function testConsentIsRecordedOnTheVisitAndAppliesToLaterRequests(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent'), 'consent was not recorded on the visit');
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+        $this->assertSame(1, $this->countVisits());
+    }
+
+    /**
+     * Consent arriving part way through the visit is kept, so it does not have to be repeated.
+     */
+    public function testConsentGivenDuringAVisitIsKept(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'no consent should be recorded yet');
+
+        $this->ping('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent'));
+    }
+
+    /**
+     * A visit that never reports consent records none, which is not the same as refusing it.
+     */
+    public function testNoConsentIsRecordedWhenTheSiteDoesNotSignalIt(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'));
+    }
+
+    /**
+     * A conversion is attributed from the attribution cookie, which outlives the visit. Where the
+     * visit's own campaign was discarded, the conversion must not report one either - otherwise
+     * the Goals and Referrers reports disagree about the same visit.
+     */
+    public function testAConversionDoesNotReportACampaignTheVisitDiscarded(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackPageView('basket', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name'),
+            'the visit should still hold a discarded campaign'
+        );
+
+        $this->trackGoalConversion();
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchConversionColumn('referer_name'),
+            'the conversion reported a campaign the visit does not hold'
+        );
+    }
+
+    /**
+     * Where the visit does hold its campaign, the conversion reports the same one.
+     */
+    public function testAConversionReportsTheCampaignTheVisitHolds(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        $this->trackGoalConversion();
+
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchConversionColumn('referer_name'));
+    }
+
     private function setAdminReferrerAnonymisation(string $level): void
     {
         $config = new PrivacyManagerConfig();
@@ -544,6 +641,40 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->prepareRequest($page, $withCampaign, $consent, $campaign);
 
         Fixture::checkResponse($this->tracker->doPing());
+    }
+
+    /**
+     * The JS tracker sends the campaign it attributed the visitor to from its own cookie, which is
+     * what makes a conversion able to report a campaign the visit itself does not hold.
+     */
+    private function trackGoalConversion(?string $attributedCampaign = self::CAMPAIGN_NAME): void
+    {
+        $this->testDate = $this->testDate->addPeriod(1, 'minute');
+        $this->tracker->setForceVisitDateTime($this->testDate->getDatetime());
+        $this->tracker->clearCustomTrackingParameters();
+
+        if (null !== $attributedCampaign) {
+            $this->tracker->setAttributionInfo(json_encode([
+                $attributedCampaign,
+                self::CAMPAIGN_KEYWORD,
+                $this->testDate->getTimestamp(),
+                '',
+            ]));
+        }
+
+        Fixture::checkResponse($this->tracker->doTrackGoal(self::$idGoal));
+    }
+
+    /**
+     * @return mixed
+     */
+    private function fetchConversionColumn(string $column)
+    {
+        return Db::fetchOne(
+            'SELECT `' . $column . '` FROM ' . Common::prefixTable('log_conversion')
+            . ' WHERE idsite = ? ORDER BY idvisit ASC LIMIT 1',
+            [$this->idSite]
+        );
     }
 
     private function countActions(): int

@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Plugins\Referrers\AIAssistant as AIAssistantDetection;
 use Piwik\Plugins\Referrers\SearchEngine as SearchEngineDetection;
@@ -176,7 +177,7 @@ abstract class Base extends VisitDimension
 
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && !$request->hasConsent()
+            && !$this->hasVisitorConsented($request, $visitor)
             && CampaignParameterValuesMasked::isEnabled((int) $this->idsite)
         ) {
             $referrerInformation['referer_name'] = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -746,8 +747,14 @@ abstract class Base extends VisitDimension
 
         if (
             $type === Common::REFERRER_TYPE_CAMPAIGN
-            && !$request->hasConsent()
             && CampaignParameterValuesMasked::isEnabled($request->getIdSite())
+            && (
+                !$this->hasVisitorConsented($request, $visitor)
+                // the campaign reaching here can come from the attribution cookie, which outlives
+                // the visit. Where the visit itself holds no campaign, surfacing one against the
+                // conversion would contradict it with detail gathered before the visitor consented
+                || CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn('referer_name'))
+            )
         ) {
             $name = CampaignParameterValuesMasked::getPlaceholderValue();
             $keyword = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -844,6 +851,18 @@ abstract class Base extends VisitDimension
     private function truncateReferrerKeyword($refererKeyword)
     {
         return mb_substr($refererKeyword, 0, 255);
+    }
+
+    /**
+     * Whether the visitor has given their consent, by this request or earlier in the visit.
+     *
+     * Consent describes the visitor, not the request, so a later request that does not repeat the
+     * flag - one sent in a batch, or by a tracker that does not report it at all - is not treated
+     * as though the visitor had never consented.
+     */
+    protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
+    {
+        return $request->hasConsent() || Consent::hasVisitConsented($visitor);
     }
 
     protected function isCurrentReferrerDirectEntry(Visitor $visitor)
