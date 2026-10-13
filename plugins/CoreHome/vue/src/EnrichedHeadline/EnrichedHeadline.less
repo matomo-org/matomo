@@ -1,7 +1,9 @@
 // The title and whatever sits beside it. Everything stays in the inline flow, so the title wraps
 // over the whole width and the icons bar sits after its last word, taking room from that line
 // alone. Reserving a column for the bar instead would take its width off every line, which in a
-// narrow widget costs the title several of them.
+// narrow widget costs the title several of them. Taking room, rather than being laid over the
+// row, is what keeps the icons off whatever sits to the right of the heading: a last line with
+// no room left for them breaks before its last word instead.
 //
 // What stops the bar moving the title as it appears is that it is never taken out of the flow:
 // see `visibility` below. A bar that comes and goes would shift the text both horizontally and,
@@ -34,6 +36,13 @@
         }
     }
 
+    // Unbreakable, so the line cannot break between the word joiner it holds and the bar: the
+    // bar moves to the next line with the title's last word, never alone. A bar on a line of its
+    // own would make the heading taller than its text, at rest.
+    .enrichedHeadline__iconsGlue {
+        white-space: nowrap;
+    }
+
     // Hidden rather than taken out of the flow, so the line boxes are the same whether or not the
     // icons are showing, and nothing moves when the pointer arrives.
     .enrichedHeadline__iconsBar {
@@ -43,18 +52,7 @@
         // Aligned to the top of the line rather than its middle, which would hang the 22px
         // rating icons a pixel below a 24px line and grow every heading by that pixel.
         vertical-align: top;
-        // Laid over the row rather than in it, the way the widget controls above already are.
-        // Claiming width instead would take it off every line of the title, and the title gets
-        // as little as 194px once a report's controls have had their share: a title past about
-        // half of that would send the icons to a line of their own and make the heading twice
-        // as tall, at rest, on every two-column report page.
-        width: 0;
         visibility: hidden;
-
-        // The icons keep their own size inside a box that has none, and so spill past it.
-        > * {
-            flex: none;
-        }
     }
 
     .enrichedHeadline__iconsBar--visible {
