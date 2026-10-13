@@ -31,10 +31,13 @@ use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\ProxyHttp;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Url;
 use Piwik\View;
 
@@ -43,6 +46,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const UPDATE_NONCE = 'Marketplace.updatePlugin';
     public const INSTALL_NONCE = 'Marketplace.installPlugin';
     public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
+    public const UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE = 'Marketplace.unsubscribeTrialRequestEmails';
 
     private LicenseKey $licenseKey;
     private Plugins $plugins;
@@ -438,6 +442,39 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ];
 
         return array_intersect_key($plugin, array_flip($cardFields));
+    }
+
+    /**
+     * Linked from the trial request email, so it works without logging in: the token authorises the login.
+     */
+    public function unsubscribeTrialRequestEmails()
+    {
+        $view = new View('@Marketplace/unsubscribeTrialRequestEmails');
+        $this->setBasicVariablesNoneAdminView($view);
+        $view->linkTitle = Piwik::getRandomTitle();
+
+        $request = Request::fromRequest();
+        $login = $request->getStringParameter('login', '');
+        $token = $request->getStringParameter('token', '');
+
+        if (
+            !StaticContainer::get(UnsubscribeToken::class)->isValid($login, $token)
+            || empty((new UsersModel())->getUser($login))
+        ) {
+            $view->error = Piwik::translate('Marketplace_RequestTrialUnsubscribeInvalidLink');
+            return $view->render();
+        }
+
+        if ($request->getStringParameter('confirm', '') !== '') {
+            Nonce::checkNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+            StaticContainer::get(UserScopedSettingsAccessManager::class)
+                ->set('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
+            $view->success = true;
+        } else {
+            $view->nonce = Nonce::getNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+        }
+
+        return $view->render();
     }
 
     public function installAllPaidPlugins()

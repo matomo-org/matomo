@@ -9,11 +9,16 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\PluginTrial\Request;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
+use Piwik\Plugins\Marketplace\UserSettings;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -121,6 +126,25 @@ class RequestTest extends IntegrationTestCase
         self::assertSame(['PremiumPlugin', 'Premium Plugin'], $eventArgs);
         self::assertNotNull($sentMail);
         self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
+    }
+
+    public function testCreateSkipsSuperUsersWhoTurnedTheEmailsOff()
+    {
+        Fixture::createSuperUser();
+        $usersModel = new UsersModel();
+        $usersModel->addUser('optedOut', 'password', 'opted-out@example.org', Date::now()->getDatetime());
+        $usersModel->setSuperUserAccess('optedOut', true);
+        StaticContainer::get(UserScopedSettingsAccessManager::class)
+            ->set('Marketplace', 'optedOut', UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
+
+        $recipients = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$recipients) {
+            $recipients = array_merge($recipients, array_keys($mail->getRecipients()));
+        });
+
+        $this->createRequest();
+
+        self::assertSame(['hello@example.org'], $recipients);
     }
 
     public function testCreateSendsMailWhenAnEventObserverFails()
