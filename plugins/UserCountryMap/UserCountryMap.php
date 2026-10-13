@@ -9,22 +9,8 @@
 
 namespace Piwik\Plugins\UserCountryMap;
 
-use Piwik\FrontController;
-use Piwik\Piwik;
-
 class UserCountryMap extends \Piwik\Plugin
 {
-    public function postLoad()
-    {
-        Piwik::addAction('Template.leftColumnUserCountry', array('Piwik\Plugins\UserCountryMap\UserCountryMap', 'insertMapInLocationReport'));
-    }
-
-    public static function insertMapInLocationReport(&$out)
-    {
-        $out = '<h2>' . Piwik::translate('UserCountryMap_VisitorMap') . '</h2>';
-        $out .= FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap');
-    }
-
     public function registerEvents()
     {
         $hooks = array(
@@ -64,5 +50,12 @@ class UserCountryMap extends \Piwik\Plugin
         $translationKeys[] = 'UserCountryMap_WithUnknownRegion';
         $translationKeys[] = 'UserCountryMap_WithUnknownCity';
         $translationKeys[] = 'General_UserId';
+        $translationKeys[] = 'UserCountryMap_VisitorMap';
+        $translationKeys[] = 'CoreHome_ThereIsNoDataForThisReport';
+        $translationKeys[] = 'General_LoadingData';
+        $translationKeys[] = 'UserCountryMap_Regions';
+        $translationKeys[] = 'UserCountryMap_Countries';
+        $translationKeys[] = 'UserCountryMap_Cities';
+        $translationKeys[] = 'UserCountryMap_WorldWide';
     }
 }
