@@ -37,11 +37,7 @@ class Filesystem
             return;
         }
 
-        AssetManager::getInstance()->removeMergedAssets($pluginName);
-        View::clearCompiledTemplates();
-        TrackerCache::deleteTrackerCache();
-        PiwikCache::flushAll();
-        self::clearPhpCaches();
+        self::deleteCacheFilesOnUpdate($pluginName);
 
         $pluginManager = Plugin\Manager::getInstance();
         $plugins = $pluginManager->getLoadedPlugins();
@@ -54,6 +50,21 @@ class Filesystem
          * command).
          */
         Piwik::postEvent('Filesystem.allCachesCleared');
+    }
+
+    /**
+     * The part of deleteAllCacheOnUpdate() that runs no plugin code, for a request that has replaced
+     * plugin files while the previous versions of the plugin classes are still loaded.
+     *
+     * @internal
+     */
+    public static function deleteCacheFilesOnUpdate($pluginName = false): void
+    {
+        AssetManager::getInstance()->removeMergedAssets($pluginName);
+        View::clearCompiledTemplates();
+        TrackerCache::deleteTrackerCache();
+        PiwikCache::flushAll();
+        self::clearPhpCaches();
     }
 
     /**

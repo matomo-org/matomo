@@ -12,6 +12,8 @@ namespace Piwik\Plugins\Marketplace\tests\Integration;
 use Piwik\Access;
 use Piwik\Cache;
 use Piwik\DI;
+use Piwik\EventDispatcher;
+use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -319,23 +321,123 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
+    public function testUpdatePluginRunsNoPluginCodeOnceTheFilesAreReplaced()
+    {
+        // the plugins loaded at the start of the update request are still their previous versions, so
+        // a listener reached from a rendered page or a full cache clear could call into code they lack
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $postedEvents = [];
+        foreach (['Template.jsGlobalVariables', 'Filesystem.allCachesCleared'] as $eventName) {
+            EventDispatcher::getInstance()->addObserver($eventName, function () use ($eventName, &$postedEvents) {
+                $postedEvents[] = $eventName;
+            });
+        }
+
+        $resultUrl = $this->dispatchUpdateAndGetRedirect('TreemapVisualization');
+
+        self::assertSame(['TreemapVisualization'], $this->installedPlugins);
+        self::assertSame([], $postedEvents);
+        self::assertSame('installOrUpdateResult', $this->getQueryParameters($resultUrl)['action']);
+    }
+
+    public function testInstallOrUpdateResultShowsTheUpdatedPluginsOnlyOnce()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $resultId = $this->getQueryParameters($this->dispatchUpdateAndGetRedirect('TreemapVisualization'))['resultId'];
+
+        $response = $this->dispatchResult($resultId);
+        self::assertStringContainsString(Piwik::translate('Marketplace_UpdatingPlugin', 'TreemapVisualization'), $response);
+
+        // reloading the page shows no result a second time
+        $redirectUrl = $this->dispatchAndGetRedirect('installOrUpdateResult', ['resultId' => $resultId]);
+        self::assertSame('overview', $this->getQueryParameters($redirectUrl)['action']);
+    }
+
+    public function testInstallOrUpdateResultIgnoresAnotherResultId()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $this->dispatchUpdateAndGetRedirect('TreemapVisualization');
+
+        $redirectUrl = $this->dispatchAndGetRedirect('installOrUpdateResult', ['resultId' => 'someOtherId']);
+        self::assertSame('overview', $this->getQueryParameters($redirectUrl)['action']);
+    }
+
+    /**
+     * Updates the plugins and returns the page the update redirects to, as the browser would show it.
+     */
     private function dispatchUpdate(string $pluginName): string
     {
-        // the update view renders a full admin page, whose menu resolves a site
+        $resultId = $this->getQueryParameters($this->dispatchUpdateAndGetRedirect($pluginName))['resultId'];
+
+        return $this->dispatchResult($resultId);
+    }
+
+    private function dispatchUpdateAndGetRedirect(string $pluginName): string
+    {
+        return $this->dispatchAndGetRedirect('updatePlugin', [
+            'pluginName' => $pluginName,
+            'nonce' => Nonce::getNonce(Controller::UPDATE_NONCE),
+        ]);
+    }
+
+    private function dispatchResult(string $resultId): string
+    {
+        // the result view renders a full admin page, whose menu resolves a site
         if (!Fixture::siteCreated(1)) {
             Fixture::createWebsite('2012-01-01 00:00:00');
         }
 
         $_GET = [
             'module' => 'Marketplace',
-            'action' => 'updatePlugin',
-            'pluginName' => $pluginName,
-            'nonce' => Nonce::getNonce(Controller::UPDATE_NONCE),
+            'action' => 'installOrUpdateResult',
+            'resultId' => $resultId,
         ];
 
         return Access::doAsSuperUser(function () {
-            return FrontController::getInstance()->fetchDispatch('Marketplace', 'updatePlugin');
+            return FrontController::getInstance()->fetchDispatch('Marketplace', 'installOrUpdateResult');
         });
+    }
+
+    private function dispatchAndGetRedirect(string $action, array $params): string
+    {
+        $_GET = array_merge(['module' => 'Marketplace', 'action' => $action], $params);
+
+        $outputBufferLevel = ob_get_level();
+        try {
+            Access::doAsSuperUser(function () use ($action) {
+                FrontController::getInstance()->fetchDispatch('Marketplace', $action);
+            });
+        } catch (\Exception $e) {
+            // on the command line Url::redirectToUrl() throws with the URL instead of sending the header
+            if (preg_match('/redirect you to this URL: (\S+)/', $e->getMessage(), $matches)) {
+                return $matches[1];
+            }
+
+            throw $e;
+        } finally {
+            // fetchDispatch() leaves its output buffer open when the action throws
+            while (ob_get_level() > $outputBufferLevel) {
+                ob_end_clean();
+            }
+        }
+
+        self::fail(sprintf('The action "%s" did not redirect', $action));
+    }
+
+    private function getQueryParameters(string $url): array
+    {
+        parse_str((string) parse_url($url, PHP_URL_QUERY), $parameters);
+
+        return $parameters;
     }
 
     public function testSubscriptionOverviewClearsTheInvalidLicensesCache()
@@ -416,6 +518,9 @@ class ControllerTest extends IntegrationTestCase
         $installer->method('installOrUpdatePluginFromMarketplace')->willReturnCallback(
             function ($pluginName) {
                 $this->installedPlugins[] = $pluginName;
+
+                // as the real installer does once it has replaced the files
+                Filesystem::deleteAllCacheOnUpdate($pluginName);
             }
         );
 

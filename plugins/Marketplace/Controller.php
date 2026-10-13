@@ -33,6 +33,7 @@ use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\ProxyHttp;
 use Piwik\Request;
+use Piwik\Session\SessionNamespace;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Url;
@@ -43,6 +44,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const UPDATE_NONCE = 'Marketplace.updatePlugin';
     public const INSTALL_NONCE = 'Marketplace.installPlugin';
     public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
+    private const INSTALL_OR_UPDATE_RESULT_SESSION_KEY = 'installOrUpdateResult';
 
     private LicenseKey $licenseKey;
     private Plugins $plugins;
@@ -544,8 +546,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function updatePlugin()
     {
-        $view = $this->createUpdateOrInstallView('updatePlugin', static::UPDATE_NONCE);
-        return $view->render();
+        $this->installOrUpdateAndRedirect('updatePlugin', static::UPDATE_NONCE);
     }
 
     public function installPlugin()
@@ -559,13 +560,52 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'referrer' => urlencode($this->getMarketplaceUrlToReturnTo()),
         );
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-            $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
-            $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
-            return $view->render();
+            $this->installOrUpdateAndRedirect('installPlugin', static::INSTALL_NONCE);
         }
     }
 
-    private function createUpdateOrInstallView($template, $nonceName)
+    /**
+     * Shows the result of installOrUpdateAndRedirect(). A request of its own, so the classes of the
+     * replaced plugins are loaded from their new files before any of their code runs.
+     */
+    public function installOrUpdateResult()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $session = new SessionNamespace('Marketplace');
+        $result = $session->{self::INSTALL_OR_UPDATE_RESULT_SESSION_KEY};
+        unset($session->{self::INSTALL_OR_UPDATE_RESULT_SESSION_KEY});
+
+        $resultId = Common::getRequestVar('resultId', '', 'string');
+        if (empty($result['id']) || $resultId === '' || $result['id'] !== $resultId) {
+            Url::redirectToUrl('index.php?' . Url::getQueryStringFromParameters([
+                'module' => 'Marketplace',
+                'action' => 'overview',
+            ]));
+            return;
+        }
+
+        // the request that replaced the files cleared only what runs no plugin code
+        Filesystem::deleteAllCacheOnUpdate();
+
+        $view = new View('@Marketplace/' . $result['template']);
+        $this->setBasicVariablesView($view);
+        $view->errorMessage = '';
+        $view->plugins = $result['plugins'];
+        $view->marketplaceUrl = $result['marketplaceUrl'];
+        if ($result['template'] === 'installPlugin') {
+            $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
+        }
+
+        return $view->render();
+    }
+
+    /**
+     * Replaces the plugin files and redirects to installOrUpdateResult(). The plugins loaded at the
+     * start of this request stay in memory in their previous versions, so once a file is replaced
+     * nothing here may run plugin code: no view, no event, no full cache clear.
+     */
+    private function installOrUpdateAndRedirect(string $template, string $nonceName): void
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->dieIfPluginsAdminIsDisabled();
@@ -581,31 +621,35 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        $view = new View('@Marketplace/' . $template);
-        $view->errorMessage = '';
-
         $pluginInfos = [];
         $failedPlugins = [];
         $notifiedMessages = [];
-        foreach ($plugins as $pluginName) {
-            $currentPluginInfo = [];
 
-            try {
-                // inside the try as well, as it fails for a plugin the license key no longer covers
-                $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
-                $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-                $pluginInfos[] = $currentPluginInfo;
-            } catch (\Exception $e) {
-                // one plugin that cannot be updated - an expired or missing license being the common
-                // case - must not keep the remaining selected ones on their old version
-                $failedPlugins[] = $pluginName;
+        // the full cache clear after each plugin posts an event, which runs listeners of the previous versions
+        Filesystem::$skipCacheClearOnUpdate = true;
+        try {
+            foreach ($plugins as $pluginName) {
+                $currentPluginInfo = [];
 
-                // a Marketplace or network error fails every plugin with the same message
-                if (!in_array($e->getMessage(), $notifiedMessages, true)) {
-                    $notifiedMessages[] = $e->getMessage();
-                    $this->notifyAboutFailedInstallOrUpdate($pluginName, $currentPluginInfo, $e);
+                try {
+                    // inside the try as well, as it fails for a plugin the license key no longer covers
+                    $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
+                    $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+                    $pluginInfos[] = $currentPluginInfo;
+                } catch (\Exception $e) {
+                    // one plugin that cannot be updated - an expired or missing license being the common
+                    // case - must not keep the remaining selected ones on their old version
+                    $failedPlugins[] = $pluginName;
+
+                    // a Marketplace or network error fails every plugin with the same message
+                    if (!in_array($e->getMessage(), $notifiedMessages, true)) {
+                        $notifiedMessages[] = $e->getMessage();
+                        $this->notifyAboutFailedInstallOrUpdate($pluginName, $currentPluginInfo, $e);
+                    }
                 }
             }
+        } finally {
+            Filesystem::$skipCacheClearOnUpdate = false;
         }
 
         if (empty($pluginInfos)) {
@@ -613,19 +657,36 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return;
         }
 
+        // also resets the opcode cache, so the next request reads the new files
+        Filesystem::deleteCacheFilesOnUpdate();
+
         if (!empty($failedPlugins)) {
             $notification = new Notification(Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', implode(', ', $failedPlugins)));
             $notification->context = Notification::CONTEXT_INFO;
             Notification\Manager::notify('Marketplace_PluginsCouldNotBeUpdated', $notification);
         }
 
-        // only now, as the view copies the pending notifications once and the loop above adds to them
-        $this->setBasicVariablesView($view);
+        $resultId = Common::generateUniqId();
+        $session = new SessionNamespace('Marketplace');
+        $session->{self::INSTALL_OR_UPDATE_RESULT_SESSION_KEY} = [
+            'id' => $resultId,
+            'template' => $template,
+            // only what the templates show, the full plugin information is too large for the session
+            'plugins' => array_map(function (array $plugin) {
+                return [
+                    'name' => $plugin['name'],
+                    'isTheme' => !empty($plugin['isTheme']),
+                    'latestVersion' => $plugin['latestVersion'] ?? '',
+                ];
+            }, $pluginInfos),
+            'marketplaceUrl' => $this->getMarketplaceUrlToReturnTo(),
+        ];
 
-        $view->plugins = $pluginInfos;
-        $view->marketplaceUrl = $this->getMarketplaceUrlToReturnTo();
-
-        return $view;
+        Url::redirectToUrl('index.php?' . Url::getQueryStringFromParameters([
+            'module' => 'Marketplace',
+            'action' => 'installOrUpdateResult',
+            'resultId' => $resultId,
+        ]));
     }
 
     /**
