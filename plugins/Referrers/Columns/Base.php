@@ -177,7 +177,7 @@ abstract class Base extends VisitDimension
 
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && !$this->hasVisitorConsented($request, $visitor)
+            && !$request->hasConsent()
             && CampaignParameterValuesMasked::isEnabled((int) $this->idsite)
         ) {
             $referrerInformation['referer_name'] = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -918,24 +918,20 @@ abstract class Base extends VisitDimension
      */
     private function isRequestOnVisitEntryPage(Visitor $visitor, $action, ?Request $request = null): ?bool
     {
-        // The immutable values are the visit as stored, before anything this request changes. Only
-        // an action with a page URL of its own moves the exit page, so an event recorded on the
-        // landing page - a consent banner impression, say - leaves the visitor where they arrived.
-        $entryIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_entry_idaction_url');
-        $exitIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_exit_idaction_url');
-
-        if (empty($entryIdActionUrl) || empty($exitIdActionUrl)) {
-            return null;
-        }
-
-        // campaign parameters are stripped from stored URLs, so once the visit has been on another
-        // page, coming back cannot be told apart from never having left
-        $hasLeftEntryPage = $entryIdActionUrl !== $exitIdActionUrl;
+        // The immutable value is the visit as stored, before this request changes it. Interactions
+        // count page views and site searches and nothing else, so an event recorded on the landing
+        // page - a consent banner impression, say - does not close the window, and they only ever
+        // rise, so returning to the page the visit arrived on does not reopen it.
+        $interactions = (int) $visitor->getImmutableVisitorColumn('visit_total_interactions');
 
         // a ping still carries an action at this point - it is dropped later in the request - and
-        // records none of it
+        // records none of it, so it leaves the visitor wherever the visit already was
         if (empty($action) || ($request !== null && $request->getParam('ping') == 1)) {
-            return $hasLeftEntryPage ? null : true;
+            return 1 === $interactions ? true : null;
+        }
+
+        if ($interactions > 1) {
+            return false;
         }
 
         // the ids of the current action are resolved a few statements later, when it is recorded.
@@ -947,9 +943,15 @@ abstract class Base extends VisitDimension
         if (empty($idActionUrl)) {
             // an event, download or outlink: it records no page of its own, so like a ping it does
             // not move the visitor
-            return $hasLeftEntryPage ? null : true;
+            return 1 === $interactions ? true : null;
         }
 
-        return !$hasLeftEntryPage && $entryIdActionUrl === (int) $idActionUrl;
+        $entryIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_entry_idaction_url');
+
+        if (empty($entryIdActionUrl)) {
+            return null;
+        }
+
+        return $entryIdActionUrl === (int) $idActionUrl;
     }
 }
