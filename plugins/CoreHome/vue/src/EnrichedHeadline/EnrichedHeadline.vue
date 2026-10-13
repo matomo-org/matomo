@@ -29,11 +29,11 @@
     >
       <slot />
     </a>
-    <!-- The word joiner, in an unbreakable span, ties the bar to the title's last word: without
+    <!-- The word joiner, in an unbreakable box, ties the bar to the title's last word: without
          it the line can break before the bar and leave it on a line of its own.
          A class rather than `v-show` on the bar: it has to keep its box when it is not showing,
          so the title is laid out against the same width either way. -->
-    <span class="enrichedHeadline__iconsGlue">&#8288;<div
+    <div class="enrichedHeadline__iconsGlue">&#8288;<div
       class="enrichedHeadline__iconsBar"
       :class="{ 'enrichedHeadline__iconsBar--visible': showIcons || showInlineHelp }"
     >
@@ -55,7 +55,7 @@
       <div class="enrichedHeadline__ratingIcons" v-if="showRateFeature">
         <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
-    </div></span>
+    </div></div>
     <!-- A host offering somewhere of its own takes the panel out of here, so a panel this wide
          does not stretch the row the heading sits in. Every caller outside ReportHeader offers
          nothing and the panel stays. -->
