@@ -311,10 +311,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             $plugin['isTrialRequested'] = false;
+            $plugin['isTrialPending'] = false;
             $plugin['canTrialBeRequested'] = false;
 
             if ($plugin['isEligibleForFreeTrial']) {
                 $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
+                $plugin['isTrialPending'] = StaticContainer::get(PluginTrialService::class)->isPending($plugin['name']);
                 $plugin['canTrialBeRequested'] = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0) !== -1;
             }
 
@@ -413,6 +415,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'isEligibleForFreeTrial',
             'isNewBundle',
             'isTrialRequested',
+            'isTrialPending',
             'canTrialBeRequested',
             'missingRequirements',
             'numDownloads',

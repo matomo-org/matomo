@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Marketplace\PluginTrial;
 use Exception;
 use Piwik\Config\GeneralConfig;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Session;
 
 final class Service
@@ -35,7 +36,7 @@ final class Service
 
 
     /**
-     * Returns if a plugin was already requested
+     * Returns if the current user has already requested a plugin
      */
     public function wasRequested(string $pluginName): bool
     {
@@ -45,6 +46,18 @@ final class Service
 
         $request = new Request($pluginName, new Storage($pluginName));
         return $request->wasRequested();
+    }
+
+    /**
+     * Returns if any user's request for a plugin is pending, so super users were already notified of it
+     */
+    public function isPending(string $pluginName): bool
+    {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
+        return (new Storage($pluginName))->wasRequested();
     }
 
     /**
@@ -63,6 +76,15 @@ final class Service
         }
 
         foreach (Storage::getPluginsInStorage() as $pluginName) {
+            if (Manager::getInstance()->isPluginActivated($pluginName)) {
+                try {
+                    $this->cancelRequest($pluginName);
+                } catch (\Throwable $e) {
+                    // retried on the next page view, and must not hide the other plugins' notifications
+                }
+                continue;
+            }
+
             $trialRequest = new Notification($pluginName, new Storage($pluginName));
             $trialRequest->createNotificationIfNeeded();
         }
