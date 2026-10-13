@@ -217,6 +217,38 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * A consent platform commonly records an event of its own - a banner impression, say - on the
+     * landing page before the visitor answers it. An event carries no page URL, so it does not
+     * move the visitor off the page they arrived on and must not close the window.
+     */
+    public function testCampaignIsRecordedWhenAnEventPrecedesTheConsentPing(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackEvent('landing', 'Consent', 'banner shown');
+        $this->ping('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+        $this->assertSame(1, $this->countVisits());
+    }
+
+    /**
+     * The same visit, but the page is reloaded with consent rather than reporting it by a ping.
+     */
+    public function testCampaignIsRecordedWhenTheLandingPageIsReloadedAfterAnEvent(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackEvent('landing', 'Consent', 'banner shown');
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+        $this->assertSame(1, $this->countVisits(), 'the reload split the visit');
+    }
+
+    /**
      * The visitor moves on and only then consents, on a request that records no action of its own.
      * The campaign in that request's URL is not the one they arrived through, and nothing was kept
      * of the one that was, so the visit cannot be credited to it.
@@ -498,6 +530,13 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->tracker->setUrl('http://example.com/' . $page . '?' . http_build_query(['pk_campaign' => $campaign]));
 
         Fixture::checkResponse($this->tracker->doTrackPageView(ucfirst($page)));
+    }
+
+    private function trackEvent(string $page, string $category, string $eventAction): void
+    {
+        $this->prepareRequest($page, $withCampaign = true, $consent = null);
+
+        Fixture::checkResponse($this->tracker->doTrackEvent($category, $eventAction));
     }
 
     private function ping(string $page, bool $withCampaign, ?string $consent, ?string $campaign = null): void
