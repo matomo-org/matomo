@@ -200,8 +200,9 @@ class PluginInstaller
                     $params   = array(ucfirst($dep['requirement']), $dep['requiredVersion'], $metadata->name);
                     $message .= Piwik::translate('CorePluginsAdmin_MissingRequirementsPleaseInstallNotice', $params);
                 } else {
-                    $params   = array(ucfirst($dep['requirement']), $dep['actualVersion'], $dep['requiredVersion']);
-                    $message .= Piwik::translate('CorePluginsAdmin_MissingRequirementsNotice', $params);
+                    $params = array(ucfirst($dep['requirement']), $dep['actualVersion'], $dep['requiredVersion']);
+                    $key    = !empty($dep['tooNew']) ? 'CorePluginsAdmin_MissingRequirementsNoticeTooNew' : 'CorePluginsAdmin_MissingRequirementsNotice';
+                    $message .= Piwik::translate($key, $params);
                 }
             }
 
