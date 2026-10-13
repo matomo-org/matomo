@@ -13,7 +13,6 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Period;
@@ -415,7 +414,7 @@ class ScheduledReports extends \Piwik\Plugin
         // duplicate-send safeguard must therefore compare against the schedule cadence,
         // not the data range, otherwise it suppresses every same-cadence-window dispatch
         // after the first.
-        $schedulePeriod = Period\Factory::build($report['period'], Date::today());
+        $schedulePeriod = Period\Factory::build($report['period'], ReportSchedule::getToday((string) $report['period'], (int) $report['idsite']));
 
         // Safeguard against sending the same report twice for the same scheduled cadence (unless $force is true)
         if (!$force && $this->reportAlreadySent($report, $schedulePeriod)) {
