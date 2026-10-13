@@ -10,6 +10,8 @@
 namespace Piwik\Plugins\PagePerformance;
 
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
+use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
@@ -85,7 +87,13 @@ class PagePerformance extends \Piwik\Plugin
 
     public function enrichApi($dataTable, $params)
     {
-        if ('Actions' !== $params['module'] || !$dataTable instanceof DataTable\DataTableInterface) {
+        if (!$dataTable instanceof DataTable\DataTableInterface) {
+            return;
+        }
+
+        $this->addPagePerformanceAggregationOps($dataTable);
+
+        if ('Actions' !== $params['module']) {
             return;
         }
 
@@ -133,6 +141,73 @@ class PagePerformance extends \Piwik\Plugin
 
             $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
         });
+    }
+
+    private function addPagePerformanceAggregationOps(DataTable\DataTableInterface $dataTable): void
+    {
+        $dataTable->filter(function (DataTable $table) {
+            $aggregationOps = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+
+            if (!is_array($aggregationOps)) {
+                $aggregationOps = [];
+            }
+
+            foreach (array_keys(Metrics::getPagePerformanceMetrics()) as $metricName) {
+                $aggregationOps[$metricName] = function ($thisColumnValue, $columnToSumValue, Row $thisRow, Row $rowToSum) use ($metricName) {
+                    return $this->aggregateAveragePerformanceMetric($thisColumnValue, $columnToSumValue, $thisRow, $rowToSum, $metricName);
+                };
+            }
+
+            $aggregationOps['avg_page_load_time'] = [$this, 'aggregateAveragePageLoadTime'];
+
+            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $aggregationOps);
+        });
+    }
+
+    public function aggregateAveragePerformanceMetric($thisColumnValue, $columnToSumValue, Row $thisRow, Row $rowToSum, $columnName)
+    {
+        $metricId = substr($columnName, strlen('avg_'));
+        $sum = $thisRow->getColumn('sum_' . $metricId);
+        $hits = $thisRow->getColumn('nb_hits_with_' . $metricId);
+
+        if (is_numeric($sum) && is_numeric($hits)) {
+            return Piwik::getQuotientSafe($sum, $hits, $precision = 3);
+        }
+
+        return $this->sumNumericValues($thisColumnValue, $columnToSumValue);
+    }
+
+    public function aggregateAveragePageLoadTime($thisColumnValue, $columnToSumValue, Row $thisRow, Row $rowToSum)
+    {
+        $sum = 0;
+        $hasMetric = false;
+
+        foreach (array_keys(Metrics::getPagePerformanceMetrics()) as $metricName) {
+            $value = $thisRow->getColumn($metricName);
+            if (is_numeric($value)) {
+                $sum += $value;
+                $hasMetric = true;
+            }
+        }
+
+        if ($hasMetric) {
+            return $sum;
+        }
+
+        return $this->sumNumericValues($thisColumnValue, $columnToSumValue);
+    }
+
+    private function sumNumericValues($thisColumnValue, $columnToSumValue)
+    {
+        if (!is_numeric($thisColumnValue)) {
+            return $columnToSumValue;
+        }
+
+        if (!is_numeric($columnToSumValue)) {
+            return $thisColumnValue;
+        }
+
+        return $thisColumnValue + $columnToSumValue;
     }
 
     public function configureViewDataTable(ViewDataTable $view)
