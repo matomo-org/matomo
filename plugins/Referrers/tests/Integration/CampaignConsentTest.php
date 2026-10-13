@@ -301,6 +301,59 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * Consent recorded for a visit says the visitor consented, not that every later request did.
+     * A request that does not report it is treated as one that has not consented, so the campaign
+     * it carries is masked and never stored in the clear - it cannot be told apart from the same
+     * campaign arriving again on a request that simply does not repeat the flag, so as everywhere
+     * else a masked incoming value leaves the visit as it is rather than starting a second one.
+     */
+    public function testACampaignArrivingWithoutConsentIsNeverStoredInTheClear(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+
+        $this->trackPageView('other', $withCampaign = true, $consent = null, 'winter clearance');
+
+        $storedCampaigns = Db::fetchAll(
+            'SELECT referer_name FROM ' . Common::prefixTable('log_visit') . ' WHERE idsite = ?',
+            [$this->idSite]
+        );
+
+        foreach ($storedCampaigns as $row) {
+            $this->assertNotSame(
+                'winter clearance',
+                $row['referer_name'],
+                'a campaign was stored in the clear from a request that did not report consent'
+            );
+        }
+
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+    }
+
+    /**
+     * Returning to the page the visit arrived on does not put the visitor back where they started.
+     * The campaign that brought them in is still unknown, so a later one cannot be credited with
+     * the visit just because the page matches again.
+     */
+    public function testReturningToTheLandingPageDoesNotReopenTheWindow(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = null);
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1', 'winter clearance');
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name'),
+            'a later campaign took over once the visitor returned to the landing page'
+        );
+    }
+
+    /**
      * The positive control for the rule above: when neither campaign was discarded, a second one
      * splits the visit exactly as it does today. The placeholder handling must not suppress that.
      */
@@ -696,11 +749,11 @@ class CampaignConsentTest extends IntegrationTestCase
     /**
      * @return mixed
      */
-    private function fetchVisitColumn(string $column)
+    private function fetchVisitColumn(string $column, int $offset = 0)
     {
         return Db::fetchOne(
             'SELECT `' . $column . '` FROM ' . Common::prefixTable('log_visit')
-            . ' WHERE idsite = ? ORDER BY idvisit ASC LIMIT 1',
+            . ' WHERE idsite = ? ORDER BY idvisit ASC LIMIT 1 OFFSET ' . $offset,
             [$this->idSite]
         );
     }
