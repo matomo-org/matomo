@@ -66,12 +66,12 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingWhatItDoes');
+        return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingWhatItDoes2');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
-        return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingImpact');
+        return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingImpact2');
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
