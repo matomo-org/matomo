@@ -37,6 +37,7 @@ export function makePlugin(overrides: Partial<PluginCard> = {}): PluginCard {
     isMissingLicense: false,
     isEligibleForFreeTrial: false,
     isTrialRequested: false,
+    isTrialPending: false,
     canTrialBeRequested: false,
     missingRequirements: [],
     numDownloads: 0,
