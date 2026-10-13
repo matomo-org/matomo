@@ -59,6 +59,8 @@ async function mountWith(aiAvailability: string) {
 }
 
 describe('RecommendGoals AI availability', () => {
+  beforeEach(() => localStorage.clear());
+
   it('shows the toggle and the privacy link when AI is available', async () => {
     const w = await mountWith('available');
 
@@ -119,6 +121,26 @@ describe('RecommendGoals AI availability', () => {
     expect(w.find('.recommendGoals-aiSwitch').exists()).toBe(false);
     expect(w.find('.recommendGoals-privacyLink').exists()).toBe(false);
     expect(w.find('.recommendGoals-chip--aiUnavailable').exists()).toBe(false);
+  });
+
+  it('turns the toggle on and scans with AI even when the saved scan was rule-based', async () => {
+    const w = await mountWith('available');
+
+    expect((w.find('.recommendGoals-aiSwitch input').element as HTMLInputElement).checked).toBe(true);
+
+    await w.find('.recommendGoals-run').trigger('click');
+    expect(mockFetch).toHaveBeenLastCalledWith(
+      { method: 'Goals.runGoalRecommendationScan', idSite: 1, useAi: 1 },
+      { createErrorNotification: false },
+    );
+  });
+
+  it('keeps the toggle off after the user switched it off', async () => {
+    const w = await mountWith('available');
+    await w.find('.recommendGoals-aiSwitch input').setValue(false);
+
+    const reloaded = await mountWith('available');
+    expect((reloaded.find('.recommendGoals-aiSwitch input').element as HTMLInputElement).checked).toBe(false);
   });
 
   it('uses the privacy note built by the server', async () => {

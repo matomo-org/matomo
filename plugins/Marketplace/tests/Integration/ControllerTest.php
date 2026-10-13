@@ -109,6 +109,7 @@ class ControllerTest extends IntegrationTestCase
             'isNewBundle',
             'isPaid',
             'isTheme',
+            'isTrialPending',
             'isTrialRequested',
             'keywords',
             'lastUpdated',

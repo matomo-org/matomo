@@ -16,6 +16,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated method `Piwik\Url::saveCORSHostnameInConfig()` has been removed. It was no longer in use.
 * The deprecated method `Piwik\Plugin\Report::getThirdLeveltableDimension()` has been removed. Use `Piwik\Plugin\Report::getNthLevelTableDimension(2)` instead.
 * The deprecated `API.getSettings` API method has been removed, along with the default `[APISettings]` section shipped in `config/global.ini.php` that it exposed. There is no replacement; integrations that fetched key/value pairs from that section over the REST API must migrate to another mechanism. Any `[APISettings]` entries in a local `config.ini.php` simply become inert.
+* Plugin trial requests no longer expire: each user can request a trial of a plugin once. The `[General] plugin_trial_request_expiration_in_days` setting now only disables trial requests when set to `-1`; any other value is ignored.
 * The deprecated static method `getDefaultPort()` has been removed from `Piwik\Db\AdapterInterface` and its implementations (`Piwik\Db\Adapter\Mysqli`, `Piwik\Db\Adapter\Pdo\Mysql`). Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
 * The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
 * The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
@@ -106,6 +107,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * `AIRequest` and `AIConversationRequest` gained `withUsageReference()` / `getUsageReference()` and `withMeta()` / `getMeta()`, and `AIConversationRequest` gained `withIdSite()` / `getIdSite()`, so a caller can describe a call to these listeners. A feature key should follow `<Plugin>.<feature>`; without one the call is reported as `<Plugin>.default`.
   * `AIProviderResponse` and `AIConversationResponse` gained `getCacheReadTokens()`, `getCacheWriteTokens()`, `getFlatFeeCalls()` and `getProviderMeta()`, and `AIConversationResponse` gained `getCost()`. `AIProviderResponse::toArray()` gained the `cacheReadTokens` and `cacheWriteTokens` keys. `AIProvider::buildResponse()` and `AIProvider::buildConversationResponse()` gained matching trailing optional parameters for providers to fill.
 * The `Archiver.filterRecordBuilders` event now also receives the `ArchiveProcessor` of the archive being built, so a listener can restrict or replace RecordBuilders for a specific site, period or segment. The RecordBuilder instances are shared by every archive built in the same request, so a listener should replace or remove entries rather than modify an instance. Existing listeners that take only `$recordBuilders` are unaffected.
+* The new `Marketplace.pluginTrialRequested` event is posted after a user requests a trial of a plugin, with the plugin's name and display name, so an audit trail can record it. The requesting user is the current user.
 
 ### New commands
 * The new `core:rotate-encryption-keys` console command replaces the encryption key a plugin keeps in the local config file (`config/config.ini.php` by default) and re-encrypts every value the plugin declares, or changes nothing if any value cannot be decrypted.
@@ -248,6 +250,30 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `Piwik\Plugins\Dashboard\Dashboard::removeWidgetsNotAvailableToUser()`, which is `@internal`: it
   must not be called while the widget list is being built, so it is named here to locate the change
   rather than to be called from a plugin.
+* The `EnrichedHeadline` Vue component renames the elements it renders, so a plugin styling or reading
+  them by class has to follow: `.title` becomes `.enrichedHeadline__title`, `.iconsBar` becomes
+  `.enrichedHeadline__iconsBar`, `.ratingIcons` becomes `.enrichedHeadline__ratingIcons`, `.helpIcon`
+  becomes `.enrichedHeadline__helpIcon` (its open state `.active` becomes
+  `.enrichedHeadline__helpIcon--active`). `.title` is still written to the DOM alongside its new
+  name, carrying no styles of Matomo's own, because third-party code reads the report name from
+  `.enrichedHeadline .title`.
+* The help panel a headline opens is now the standalone `mtm-helpPanel` block
+  (`plugins/Morpheus/stylesheets/ui/_help-panel.less`), with the elements `.mtm-helpPanel__readMore`
+  and `.mtm-helpPanel__date`, in place of the `.inlineHelp` markup scoped inside `.enrichedHeadline`.
+  Being a block it can be placed anywhere, and `ReportHeader` places it in a row of its own so it
+  spans the report card rather than sharing the header line with the report actions and displacing
+  them. The headline keeps it in `.enrichedHeadline__help`, a nest element, when no host asks for it.
+  Its parts are renamed with it: the panel's `.readMore` link becomes `.mtm-helpPanel__readMore` and
+  the headline's own `.helpDate` becomes `.mtm-helpPanel__date`. The DataTable's separate `.helpDate`,
+  which the report documentation emits, is untouched.
+  The panel is now removed from the DOM while closed rather than hidden in place, so code looking for
+  it has to account for it being absent, and it no longer sits under `.enrichedHeadline` on a report
+  page. Links inside the help text itself are no longer given the panel's underline and colour, only
+  the read-more link is: they take the usual link styling instead.
+* Passing help by writing a `<div class="inlineHelp">` into the `EnrichedHeadline` slot has been
+  removed, along with the `.inlineHelp` rule that hid that node and the code that consumed it. Nothing
+  in core or in any of the 128 Marketplace plugins used it. Use the `inline-help` attribute, which is
+  what every caller already does.
 
 ## Matomo 5.14.1
 
