@@ -217,6 +217,46 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * The visitor moves on and only then consents, on a request that records no action of its own.
+     * The campaign in that request's URL is not the one they arrived through, and nothing was kept
+     * of the one that was, so the visit cannot be credited to it.
+     */
+    public function testALaterCampaignDoesNotTakeOverThroughAPingOnAnotherPage(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = null);
+        $this->ping('other', $withCampaign = true, $consent = '1', 'winter clearance');
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name'),
+            'a campaign reported by a ping took over the visit it did not bring the visitor to'
+        );
+    }
+
+    /**
+     * Campaign parameters are stripped from stored URLs, so returning to the page the visit arrived
+     * on through a different campaign looks identical to still being on it. The visit has recorded
+     * another action by then, which is what tells the two apart.
+     */
+    public function testReturningToTheLandingPageThroughADifferentCampaignDoesNotTakeOver(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = null);
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1', 'winter clearance');
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name'),
+            'returning through a different campaign took over the original visit'
+        );
+    }
+
+    /**
      * The positive control for the rule above: when neither campaign was discarded, a second one
      * splits the visit exactly as it does today. The placeholder handling must not suppress that.
      */
@@ -460,9 +500,9 @@ class CampaignConsentTest extends IntegrationTestCase
         Fixture::checkResponse($this->tracker->doTrackPageView(ucfirst($page)));
     }
 
-    private function ping(string $page, bool $withCampaign, ?string $consent): void
+    private function ping(string $page, bool $withCampaign, ?string $consent, ?string $campaign = null): void
     {
-        $this->prepareRequest($page, $withCampaign, $consent);
+        $this->prepareRequest($page, $withCampaign, $consent, $campaign);
 
         Fixture::checkResponse($this->tracker->doPing());
     }

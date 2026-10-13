@@ -2492,6 +2492,10 @@ if (typeof window.Matomo !== 'object') {
                 // tracking continue without them.
                 configCookieConsentGiven = false,
 
+                // whether that consent came from the remembered-consent cookie, which is the only
+                // form of it another window can withdraw in a way this one can observe
+                configCookieConsentRemembered = false,
+
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = null, // initialized below
@@ -3241,6 +3245,13 @@ if (typeof window.Matomo !== 'object') {
                     configHasConsent = false;
                 } else if (getCookie(CONSENT_COOKIE_NAME)) {
                     configHasConsent = true;
+                }
+
+                // forgetCookieConsentGiven() in another window deletes the cookie this one read
+                // its consent from, so stop reporting it rather than keep unmasking until reload
+                if (configCookieConsentRemembered && !getCookie(COOKIE_CONSENT_COOKIE_NAME)) {
+                    configCookieConsentGiven = false;
+                    configCookieConsentRemembered = false;
                 }
             }
 
@@ -6561,6 +6572,7 @@ if (typeof window.Matomo !== 'object') {
                     // the visitor consented on an earlier page view and setCookieConsentGiven()
                     // is not called again in that case, so the consent is recorded here instead
                     configCookieConsentGiven = true;
+                    configCookieConsentRemembered = true;
                     return false;
                 }
                 this.disableCookies();
@@ -6585,6 +6597,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.forgetCookieConsentGiven = function () {
                 configCookieConsentGiven = false;
+                configCookieConsentRemembered = false;
                 deleteCookie(COOKIE_CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 this.disableCookies();
             };
@@ -6614,6 +6627,7 @@ if (typeof window.Matomo !== 'object') {
                     hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
                 }
                 this.setCookieConsentGiven();
+                configCookieConsentRemembered = true;
                 var now = new Date().getTime();
                 setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             };

@@ -899,10 +899,21 @@ abstract class Base extends VisitDimension
      */
     private function isRequestOnVisitEntryPage(Visitor $visitor, $action, ?Request $request = null): ?bool
     {
+        // the immutable values are the visit as stored, before anything this request changes
+        $actionsSoFar = (int) $visitor->getImmutableVisitorColumn('visit_total_actions');
+
         // a ping still carries an action at this point - it is dropped later in the request - and
-        // records none of it, so like any request without one it leaves the visitor where they are
+        // records none of it, so like any request without one it leaves the visitor where they
+        // already were, which is the arrival page only while that is the visit's single action
         if (empty($action) || ($request !== null && $request->getParam('ping') == 1)) {
-            return true;
+            return 1 === $actionsSoFar ? true : null;
+        }
+
+        if ($actionsSoFar > 1) {
+            // the visitor has moved on. Campaign parameters are stripped from stored URLs, so
+            // returning to the page they arrived on cannot be told apart from never having left
+            // it by the page alone - the count of actions already recorded is what separates them.
+            return false;
         }
 
         // Actions\Columns\EntryPageUrl implements onExistingVisit, so this column is already among
