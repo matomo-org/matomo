@@ -14,6 +14,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
+use Piwik\Plugins\Marketplace\UserSettings;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 
 class Request
 {
@@ -89,13 +91,19 @@ class Request
     }
 
     /**
-     * Send notification email to all super users
+     * Send notification email to all super users who have not turned these emails off
      */
     private function sendEmailToSuperUsers(): void
     {
         $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
+        $settings = StaticContainer::get(UserScopedSettingsAccessManager::class)
+            ->getValuesForAllUsers('Marketplace', [UserSettings::NOTIFY_ON_PLUGIN_REQUEST]);
 
         foreach ($superUsers as $login => $email) {
+            if (!($settings[$login][UserSettings::NOTIFY_ON_PLUGIN_REQUEST] ?? true)) {
+                continue;
+            }
+
             $email = StaticContainer::getContainer()->make(
                 RequestTrialNotificationEmail::class,
                 [
