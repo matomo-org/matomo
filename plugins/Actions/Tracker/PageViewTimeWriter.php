@@ -141,10 +141,11 @@ class PageViewTimeWriter
      *
      * When the tracker JS counts focused time itself (e.g. a custom in-page counter) it can send
      * the number directly with each follow-up tracker request (heartbeat / event / etc. — hits
-     * that carry the same `pv_id` as the pageview). {@see updateTimeSpent()} then trusts it as
-     * the authoritative value for that hit and skips the server-side `now − server_time`
-     * calculation. Multiple hits with `pv_time` settle via the same `GREATEST()` rule everything
-     * else uses, so a later hit can only grow the recorded time.
+     * that carry the same `pv_id` as the pageview). {@see updateTimeSpent()} then uses it for
+     * that hit in place of the server-side `now − server_time` calculation, as long as it is not
+     * larger: a client value can lower a hit's measurement but never exceed the time the server
+     * saw pass since the pageview. Multiple hits with `pv_time` settle via the same `GREATEST()`
+     * rule everything else uses, so a later hit can only grow the recorded time.
      *
      * On a brand-new pageview request the value is ignored — pageview rows are inserted at
      * `time_spent = 0` and only later same-tab hits update them.
@@ -163,8 +164,9 @@ class PageViewTimeWriter
      * by the archiver — see ActionReports::archiveDayActionsTime() — as the "not measured yet"
      * sentinel that triggers the last-page fallback to `visit_last_action_time − server_time`.
      * Trusting a client `0` would create a visitor-log vs Actions-report divergence on the last
-     * page of a visit. Values above `Tracker.visit_standard_length` are clamped rather than
-     * nulled — a client saying "3600s" gets recorded as `visit_standard_length`.
+     * page of a visit. Values above `Tracker.visit_standard_length` are clamped here rather than
+     * nulled, and {@see updateTimeSpent()} further caps the value at the time elapsed since the
+     * pageview.
      */
     private function extractClientTimeOnPage(Request $request, int $cap): ?int
     {
@@ -286,19 +288,22 @@ class PageViewTimeWriter
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
 
-        // When the client supplied its own time-on-page measurement, use it instead of the
-        // server-side TIMESTAMPDIFF, e.g. for trackers that measure focused-only time. Both
-        // settle through the same LEAST()/GREATEST() rule, so out-of-order or smaller values
-        // can't shrink an earlier larger observation.
+        // When the client supplied its own time-on-page measurement, e.g. a tracker that counts
+        // focused-only time, it can lower this hit's measurement but never exceed the time the
+        // server saw pass since the pageview. The archiver treats a row as covering
+        // server_time through server_time + time_spent, so a larger client value would credit
+        // time that never passed and hide legacy credits that follow it. Both settle through the
+        // same LEAST()/GREATEST() rule, so out-of-order or smaller values can't shrink an earlier
+        // larger observation.
         //
         // The client value is wrapped in CAST(? AS UNSIGNED) because emulated prepares send
         // bound ints as strings, which would make LEAST()/GREATEST() compare lexically.
         if ($clientTimeOnPage !== null) {
-            $newTimeSpentExpr = 'CAST(? AS UNSIGNED)';
-            $newTimeSpentBind = $clientTimeOnPage;
+            $newTimeSpentExpr = 'LEAST(CAST(? AS UNSIGNED), TIMESTAMPDIFF(SECOND, server_time, ?))';
+            $newTimeSpentBinds = [$clientTimeOnPage, $serverTimeSql];
         } else {
             $newTimeSpentExpr = 'TIMESTAMPDIFF(SECOND, server_time, ?)';
-            $newTimeSpentBind = $serverTimeSql;
+            $newTimeSpentBinds = [$serverTimeSql];
         }
 
         // A page-view and its site-search hit share one pv_id, so (idvisit, pv_id) can match
@@ -315,6 +320,6 @@ class PageViewTimeWriter
                                FOR UPDATE
                         ) t
                        )";
-        $db->query($sql, [$newTimeSpentBind, $idVisit, $pvId]);
+        $db->query($sql, array_merge($newTimeSpentBinds, [$idVisit, $pvId]));
     }
 }

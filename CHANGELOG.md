@@ -195,7 +195,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `GREATEST()` rule, so `pv_time` can only ever raise `time_spent`: when a later pageview closes the row, the
   server-side wall-clock difference still applies, meaning a smaller focused-only count survives only on rows
   the server never re-measures — the last page of a visit, single-page visits, and abandoned tabs (exactly
-  where server-side measurement was least accurate). Values above `Tracker.visit_standard_length` are capped;
+  where server-side measurement was least accurate). Values are capped at the time elapsed since the pageview,
+  and at `Tracker.visit_standard_length`, so `pv_time` can report less time than has passed but never more;
   zero, negative, and missing values fall back to the server-side calculation.
 
 ### Internal Changes

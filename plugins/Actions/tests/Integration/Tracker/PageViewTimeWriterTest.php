@@ -379,13 +379,10 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertSame(25, (int) $rows[0]['time_spent']);
     }
 
-    public function testClientPvTimeAboveCapIsClampedToVisitStandardLength()
+    public function testClientPvTimeIsCappedAtElapsedTime()
     {
-        // A misbehaving or malicious client sending an absurd pv_time must never push
-        // time_spent past the visit_standard_length cap. Same cap the server-side path
-        // enforces via LEAST() in SQL, applied earlier here for defence-in-depth.
-        $cap = (int) (Config::getInstance()->Tracker['visit_standard_length'] ?? 1800);
-
+        // A misbehaving or malicious client sending an absurd pv_time must never record more
+        // time than the server saw pass since the pageview, here 30s.
         $tracker = $this->getTracker($this->baseTime);
         $tracker->setPageviewId('bigpvt');
         $tracker->setUrl('https://example.org/client-time');
@@ -397,7 +394,49 @@ class PageViewTimeWriterTest extends IntegrationTestCase
 
         $rows = $this->fetchPageViewTimeRows();
         $this->assertCount(1, $rows);
-        $this->assertSame($cap, (int) $rows[0]['time_spent']);
+        $this->assertSame(30, (int) $rows[0]['time_spent']);
+    }
+
+    public function testClientPvTimeCannotInflateTimeWhenNextPageviewClosesTheRow()
+    {
+        // The close goes through GREATEST() too, so an inflated pv_time would survive it. The
+        // row must hold the 10s that actually passed, not the 1800s the client claimed at +2s.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('infl01');
+        $tracker->setUrl('https://example.org/page-a');
+        Fixture::checkResponse($tracker->doTrackPageView('Page A'));
+
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 2));
+        $tracker->setDebugStringAppend('&ping=1&' . PageViewTimeWriter::PARAM_PV_TIME . '=1800');
+        Fixture::checkResponse($tracker->doTrackPageView('Page A'));
+
+        $tracker->setDebugStringAppend('');
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 10));
+        $tracker->setPageviewId('infl02');
+        $tracker->setUrl('https://example.org/page-b');
+        Fixture::checkResponse($tracker->doTrackPageView('Page B'));
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(10, (int) $rows['infl01']['time_spent']);
+        $this->assertSame(0, (int) $rows['infl02']['time_spent']);
+    }
+
+    public function testClientPvTimeOnOutOfOrderPingDoesNotChangeTheRow()
+    {
+        // A ping timed before its pageview has no elapsed time to cap against, so the client
+        // value must not be applied, the same as the server-side calculation in that case.
+        $tracker = $this->getTracker($this->offset($this->baseTime, 10));
+        $tracker->setPageviewId('order1');
+        $tracker->setUrl('https://example.org/client-time');
+        Fixture::checkResponse($tracker->doTrackPageView('Client time'));
+
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 5));
+        $tracker->setDebugStringAppend('&ping=1&' . PageViewTimeWriter::PARAM_PV_TIME . '=60');
+        Fixture::checkResponse($tracker->doTrackPageView('Client time'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(1, $rows);
+        $this->assertSame(0, (int) $rows[0]['time_spent']);
     }
 
     public function testClientPvTimeZeroFallsBackToServerCalculation()
