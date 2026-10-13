@@ -48,7 +48,7 @@
 				<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>216</sum_time_spent>
+				<sum_time_spent>252</sum_time_spent>
 				<nb_hits_following_search>1</nb_hits_following_search>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
@@ -59,7 +59,7 @@
 				<avg_page_load_time>0</avg_page_load_time>
 				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
 				<nb_hits_percent_of_total>50%</nb_hits_percent_of_total>
-				<avg_time_on_page>108</avg_time_on_page>
+				<avg_time_on_page>126</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==This%2Bis%2Ba%2Bpageview%252C%2Bnot%2Ba%2BSearch%2B-%2BIS_FOLLOWING_SEARCH%2BONCE</segment>
