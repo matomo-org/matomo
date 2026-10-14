@@ -9,11 +9,8 @@
 
 namespace Piwik\Plugins\Actions\DataTable\Filter;
 
-use Piwik\Cache;
-use Piwik\CacheId;
 use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
 use Piwik\Tracker\PageUrl;
 
@@ -21,10 +18,11 @@ use Piwik\Tracker\PageUrl;
  * Searches a page URL report for a full URL, as copied from the browser, rather than for a pattern
  * in the labels, which hold only the path.
  *
- * A row matches when its `url` metadata is the searched URL. The scheme and a leading `www.` are
- * ignored, and the host may be any of the site's URLs: a row keeps only the URL viewed the most
- * among those sharing its path, so the host it holds may be another of the site's aliases. A URL
- * on a host that is not one of the site's URLs matches nothing.
+ * A row matches when its `url` metadata has the searched path and query, the scheme and a leading
+ * `www.` being ignored. Its host is not compared: a row gathers every host the path was viewed on
+ * and keeps only the URL viewed the most, so the host it holds may be an alias, or a host the
+ * site's URLs do not list. The searched URL has to be on one of the site's URLs, or on the host
+ * the row holds.
  *
  * Folders have no URL of their own: they are kept when one of the pages they hold matches.
  */
@@ -56,28 +54,27 @@ class PageUrlSearch extends BaseFilter
     public function filter($table)
     {
         $site = $table->getMetadata('site');
-        $idSite = $site instanceof Site ? $site->getId() : null;
 
-        $siteHosts = $idSite ? $this->getSiteHosts($idSite) : [];
-        $searched = $idSite ? $this->splitUrl(PageUrl::excludeQueryParametersFromUrl(trim($this->searchedUrl), $idSite)) : null;
-
-        if (null === $searched || !in_array($searched['host'], $siteHosts, true)) {
-            $searched = null;
+        $searched = null;
+        $isOnSiteHost = false;
+        if ($site instanceof Site) {
+            $idSite = $site->getId();
+            $searched = $this->splitUrl((string) PageUrl::excludeQueryParametersFromUrl(trim($this->searchedUrl), $idSite));
+            $isOnSiteHost = null !== $searched && in_array($searched['host'], $this->getSiteHosts($idSite), true);
         }
 
-        $this->deleteRowsNotMatching($table, $searched, $siteHosts);
+        $this->deleteRowsNotMatching($table, $searched, $isOnSiteHost);
     }
 
     /**
      * @param array{host: string, path: string}|null $searched
-     * @param list<string> $siteHosts
      * @return int The number of rows left.
      */
-    private function deleteRowsNotMatching(DataTable $table, ?array $searched, array $siteHosts): int
+    private function deleteRowsNotMatching(DataTable $table, ?array $searched, bool $isOnSiteHost): int
     {
         foreach ($table->getRows() as $key => $row) {
             $subtable = $row->getSubtable();
-            if ($subtable && $this->deleteRowsNotMatching($subtable, $searched, $siteHosts) > 0) {
+            if ($subtable && $this->deleteRowsNotMatching($subtable, $searched, $isOnSiteHost) > 0) {
                 continue;
             }
 
@@ -88,7 +85,7 @@ class PageUrlSearch extends BaseFilter
                 null === $searched
                 || null === $rowUrl
                 || $rowUrl['path'] !== $searched['path']
-                || !in_array($rowUrl['host'], $siteHosts, true)
+                || (!$isOnSiteHost && $rowUrl['host'] !== $searched['host'])
             ) {
                 $table->deleteRow($key);
             }
@@ -128,19 +125,8 @@ class PageUrlSearch extends BaseFilter
      */
     private function getSiteHosts(int $idSite): array
     {
-        // the same cache entry PageUrl::shouldUseHttpsHost() reads, so one request asks for the URLs
-        // once however many periods it covers
-        $cache = Cache::getTransientCache();
-        $cacheId = CacheId::siteAware('siteurls', [$idSite]);
-
-        $siteUrls = $cache->fetch($cacheId);
-        if (empty($siteUrls)) {
-            $siteUrls = SitesManagerAPI::getInstance()->getSiteUrlsFromId($idSite);
-            $cache->save($cacheId, $siteUrls);
-        }
-
         $hosts = [];
-        foreach ($siteUrls as $siteUrl) {
+        foreach (PageUrl::getSiteUrls($idSite) as $siteUrl) {
             $split = $this->splitUrl($siteUrl);
             if (null !== $split) {
                 $hosts[] = $split['host'];

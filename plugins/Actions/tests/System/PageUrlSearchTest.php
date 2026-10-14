@@ -55,6 +55,9 @@ class PageUrlSearchTest extends IntegrationTestCase
             'http://example.com/blog/item?id=123',
             'https://shop.example.org/cart/view',
             'http://example.com/account/login?sessionid=abc',
+            // a host the site's URLs do not list
+            'http://preview.example.com/pricing',
+            'http://example.com:8080/staging/page',
         ]);
     }
 
@@ -88,6 +91,36 @@ class PageUrlSearchTest extends IntegrationTestCase
                 'https://shop.example.org/cart/view',
                 $flat,
                 ['/cart/view'],
+            ];
+
+            yield "the main URL finds a page tracked on an alias, $view" => [
+                'https://example.com/cart/view',
+                $flat,
+                ['/cart/view'],
+            ];
+
+            yield "the main URL finds a page tracked on a host the site's URLs do not list, $view" => [
+                'https://example.com/pricing',
+                $flat,
+                ['/pricing'],
+            ];
+
+            yield "the URL a page holds, on a host the site's URLs do not list, $view" => [
+                'http://preview.example.com/pricing',
+                $flat,
+                ['/pricing'],
+            ];
+
+            yield "a host with a port, $view" => [
+                'http://example.com:8080/staging/page',
+                $flat,
+                ['/staging/page'],
+            ];
+
+            yield "an upper-case scheme and host, $view" => [
+                'HTTPS://WWW.EXAMPLE.COM/products/item?id=123',
+                $flat,
+                ['/products/item?id=123'],
             ];
 
             yield "a host that is not one of the site's URLs, $view" => [
@@ -135,7 +168,7 @@ class PageUrlSearchTest extends IntegrationTestCase
     private function trackPageViews(array $urls): void
     {
         foreach ($urls as $index => $url) {
-            $tracker = Fixture::getTracker($this->idSite, self::DATE . ' 0' . $index . ':00:00', $defaultInit = true);
+            $tracker = Fixture::getTracker($this->idSite, sprintf('%s %02d:00:00', self::DATE, $index), $defaultInit = true);
             $tracker->setUrl($url);
             Fixture::checkResponse($tracker->doTrackPageView('page ' . $index));
         }
