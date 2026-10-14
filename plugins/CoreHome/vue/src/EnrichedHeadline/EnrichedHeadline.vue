@@ -31,7 +31,8 @@
     </a>
     <!-- Ties the bar to the title's last word, see the stylesheet. A class rather than `v-show`
          on the bar: it has to keep its box when it is not showing, so the title is laid out
-         against the same width either way. -->
+         against the same width either way. A `div` made inline rather than a `span`: the visitor
+         map strips every `span` of its heading to retitle it, and would take the bar along. -->
     <div class="enrichedHeadline__iconsGlue"><div
       class="enrichedHeadline__iconsBar"
       :class="{ 'enrichedHeadline__iconsBar--visible': showIcons || showInlineHelp }"
@@ -119,6 +120,9 @@ export interface EnrichedHeadlineData {
  *
  * <h2><EnrichedHeadline report-generated="generated time">Pages report</EnrichedHeadline></h2>
  * -> reportGenerated specified via this attribute is shown at the foot of the help panel
+ *
+ * Write the title right against the closing tag, with no whitespace after it: the hover icons
+ * are kept on its last word only, and a trailing space lets them wrap onto a line of their own.
  */
 export default defineComponent({
   props: {

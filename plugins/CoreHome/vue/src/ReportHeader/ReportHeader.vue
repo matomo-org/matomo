@@ -698,19 +698,21 @@ export default defineComponent({
     titleHeight(): number {
       return (this.$refs.title as HTMLElement | undefined)?.offsetHeight ?? 0;
     },
-    // Whether the title, with the icons that follow it, still holds on one line. The title wraps
-    // instead of overflowing, so it is measured unwrapped against the width it has. Nothing is
-    // painted in between.
+    // Whether the title, with the icons that follow it, still holds on one line: it is no taller
+    // as it wraps than kept on one line. Heights rather than widths, because `scrollWidth` and
+    // `clientWidth` are rounded to whole pixels while the title's box is not, so a title wrapped
+    // by a fraction of a pixel reads as fitting. Nothing is painted in between.
     titleFitsOneLine(): boolean {
       const title = this.$refs.title as HTMLElement | undefined;
       if (!title) {
         return true;
       }
 
+      const wrapped = title.offsetHeight;
       title.style.whiteSpace = 'nowrap';
-      const fits = title.scrollWidth <= title.clientWidth;
+      const oneLine = title.offsetHeight;
       title.style.whiteSpace = '';
-      return fits;
+      return wrapped <= oneLine;
     },
     // A control removed with its panel open never hears onClosed, and would come back announcing
     // itself expanded. The fit loop gives them back one at a time, so this cannot be tied to
