@@ -20,7 +20,6 @@
            cancelling links EnrichedHeadline renders inside the heading. -->
       <component
         v-if="showTitle"
-        ref="title"
         :is="titleTag"
         class="reportHeader__title widgetName"
         :class="{ 'reportHeader__title--clickable': titleClickable }"
@@ -46,7 +45,7 @@
 
       <!-- Widget controls: hidden until the widget is hovered/focused. Each action emits an
            intent that onControl() bridges to the jQuery widget. -->
-      <div class="reportHeader__controls">
+      <div ref="headerControls" class="reportHeader__controls">
         <div class="reportHeader__widgetControls">
           <WidgetControls
             v-if="hasControls"
@@ -290,6 +289,11 @@ import { translate } from '../translate';
 // A search is a full DataTable reload, so debounce to avoid one on every keystroke.
 const SEARCH_DEBOUNCE_MS = 300;
 
+// Promote only while the title keeps this much of the line, whatever it says: two widgets of the
+// same width then show the same controls. The title wraps to fit, and its hover icons share this
+// room as they follow its last word.
+const MIN_TITLE_WIDTH = 140;
+
 export interface ControlVisibility {
   minimise: boolean;
   maximise: boolean;
@@ -517,7 +521,6 @@ export default defineComponent({
       promotedCount: 0,
       resizeObserver: null as ResizeObserver | null,
       lastMeasuredWidth: -1,
-      lastMeasuredTitleHeight: -1,
     };
   },
   mounted() {
@@ -672,9 +675,7 @@ export default defineComponent({
     isPromoted(action: PromotableActionId): boolean {
       return this.promotedActions.indexOf(action) !== -1;
     },
-    // Watches the line's width, and the title's height: promoting changes what is inside the
-    // line, never how wide it is, but the title gets taller when what it holds outgrows it, say
-    // once the rating icons have loaded.
+    // Watches the line's width only: promoting changes what is inside it, never how wide it is.
     watchForRoom() {
       const row = this.$refs.headerRow as HTMLElement | undefined;
       if (!row || typeof ResizeObserver === 'undefined') {
@@ -682,37 +683,12 @@ export default defineComponent({
       }
 
       this.resizeObserver = new ResizeObserver(() => {
-        if (row.clientWidth === this.lastMeasuredWidth
-          && this.titleHeight() === this.lastMeasuredTitleHeight) {
+        if (row.clientWidth === this.lastMeasuredWidth) {
           return;
         }
         this.updatePromoted();
       });
       this.resizeObserver.observe(row);
-
-      const title = this.$refs.title as HTMLElement | undefined;
-      if (title) {
-        this.resizeObserver.observe(title);
-      }
-    },
-    titleHeight(): number {
-      return (this.$refs.title as HTMLElement | undefined)?.offsetHeight ?? 0;
-    },
-    // Whether the title, with the icons that follow it, still holds on one line: it is no taller
-    // as it wraps than kept on one line. Heights rather than widths, because `scrollWidth` and
-    // `clientWidth` are rounded to whole pixels while the title's box is not, so a title wrapped
-    // by a fraction of a pixel reads as fitting. Nothing is painted in between.
-    titleFitsOneLine(): boolean {
-      const title = this.$refs.title as HTMLElement | undefined;
-      if (!title) {
-        return true;
-      }
-
-      const wrapped = title.offsetHeight;
-      title.style.whiteSpace = 'nowrap';
-      const oneLine = title.offsetHeight;
-      title.style.whiteSpace = '';
-      return wrapped <= oneLine;
     },
     // A control removed with its panel open never hears onClosed, and would come back announcing
     // itself expanded. The fit loop gives them back one at a time, so this cannot be tied to
@@ -751,9 +727,6 @@ export default defineComponent({
         || row.closest('.__reportHeader-onHover')
         || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
         this.demoteAll();
-        // Taken once the demotion is drawn, so the observer does not answer the change it makes.
-        await this.$nextTick();
-        this.lastMeasuredTitleHeight = this.titleHeight();
         return;
       }
 
@@ -761,17 +734,20 @@ export default defineComponent({
       this.promotedCount = promotable;
       await this.$nextTick();
 
-      // The title, and its icons, come first: an action is only promoted while it leaves them on
-      // one line, since it is still in the menu otherwise. A report with no title has no room to
-      // take.
-      while (this.showTitle && this.promotedCount > 0 && !this.titleFitsOneLine()) {
+      const controls = this.$refs.headerControls as HTMLElement | undefined;
+      if (!controls) {
+        return;
+      }
+
+      // A report with no title has no room to take.
+      while (this.showTitle && this.promotedCount > 0
+        && row.clientWidth - controls.offsetWidth < MIN_TITLE_WIDTH) {
         this.promotedCount -= 1;
         // eslint-disable-next-line no-await-in-loop
         await this.$nextTick();
       }
 
       this.syncExpandedFlags();
-      this.lastMeasuredTitleHeight = this.titleHeight();
     },
     translate,
     onTitleClick() {
