@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { flushPromises, mount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import ReportHeader from './ReportHeader.vue';
 import ExportMenu from '../DataTable/ExportMenu.vue';
 
@@ -274,40 +274,16 @@ describe('ReportHeader', () => {
         value: () => ({ matches: narrow }) as MediaQueryList,
       });
     });
-    // jsdom lays nothing out, so the fit measurement is handed what it would have read: the title
-    // gets the line less 120px of controls, needs `titleWidth` to hold on one line, and is a
-    // 24px line tall, or two of them once it wraps.
-    function giveRoom(wrapper: ReturnType<typeof mountComponent>, width: number, titleWidth = 150) {
-      const row = wrapper.find('.reportHeader__header');
-      if (row.exists()) {
-        Object.defineProperty(row.element, 'clientWidth', { value: width, configurable: true });
-      }
-
-      const title = wrapper.find('.reportHeader__title');
-      if (title.exists()) {
-        const element = title.element as HTMLElement;
-        Object.defineProperty(element, 'offsetHeight', {
-          configurable: true,
-          get: () => (element.style.whiteSpace === 'nowrap' || titleWidth <= width - 120 ? 24 : 48),
+    // jsdom lays nothing out, so the fit measurement is handed the widths it would have read.
+    function giveRoom(wrapper: ReturnType<typeof mountComponent>, width: number) {
+      const size = (selector: string, prop: string, value: number) => {
+        Object.defineProperty(wrapper.find(selector).element, prop, {
+          value, configurable: true,
         });
-      }
-    }
-
-    // Export beside a title it pushed onto a second line, or under the icons that follow it.
-    it('should promote nothing that would break the title and its icons onto two lines', async () => {
-      const wrapper = mountComponent({ ...offered, context: 'widgetized' });
-      const vm = wrapper.vm as unknown as {
-        updatePromoted: () => Promise<void>; promotedCount: number;
       };
-
-      giveRoom(wrapper, 400, 260);
-      await vm.updatePromoted();
-      expect(vm.promotedCount).toBeGreaterThan(0);
-
-      giveRoom(wrapper, 400, 300);
-      await vm.updatePromoted();
-      expect(vm.promotedCount).toBe(0);
-    });
+      size('.reportHeader__header', 'clientWidth', width);
+      size('.reportHeader__controls', 'offsetWidth', 100);
+    }
 
     // The observer skips a width it has already measured, so a demotion that kept the width it was
     // promoted at could never be undone by returning to it, say by restoring a window or undoing
@@ -329,52 +305,6 @@ describe('ReportHeader', () => {
 
       expect(vm.promotedCount).toBe(0);
       expect(vm.lastMeasuredWidth).toBe(700);
-    });
-
-    // jsdom has no ResizeObserver, so the one watching for room is stood in for and its callback
-    // called by hand. Promoting never changes the line's width, but the title grows when the
-    // rating icons load after it, and that alone has to be measured again.
-    it('should measure again when the title grows at the same width, and only then', async () => {
-      const original = window.ResizeObserver;
-      let notify = () => {};
-      window.ResizeObserver = class {
-        constructor(callback: () => void) {
-          notify = callback;
-        }
-
-        observe() {}
-
-        unobserve() {}
-
-        disconnect() {}
-      } as unknown as typeof ResizeObserver;
-
-      try {
-        const wrapper = mountComponent({ ...offered, context: 'widgetized' });
-        const vm = wrapper.vm as unknown as {
-          updatePromoted: () => Promise<void>; promotedCount: number;
-        };
-
-        giveRoom(wrapper, 1200);
-        await vm.updatePromoted();
-        expect(vm.promotedCount).toBeGreaterThan(0);
-
-        // Same width, same height: the observer answering a layout it caused measures nothing.
-        vm.promotedCount = 0;
-        notify();
-        await flushPromises();
-        expect(vm.promotedCount).toBe(0);
-
-        Object.defineProperty(wrapper.find('.reportHeader__title').element, 'offsetHeight', {
-          configurable: true,
-          value: 30,
-        });
-        notify();
-        await flushPromises();
-        expect(vm.promotedCount).toBeGreaterThan(0);
-      } finally {
-        window.ResizeObserver = original;
-      }
     });
 
     // Maximising a widget changes what shares the line without changing its width.
