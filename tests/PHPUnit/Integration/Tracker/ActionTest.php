@@ -408,6 +408,35 @@ class ActionTest extends IntegrationTestCase
     }
 
     /**
+     * Testing that regular expressions containing uppercase metacharacters (e.g. \D, \S, \W) preserve their casing.
+     */
+    public function testExcludeQueryParametersRegExWithUppercaseMetacharacters()
+    {
+        $excludedQueryParameters = '/^ad_\D+$/';
+        $this->setUpRootAccess();
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = '',
+            $excludedQueryParameters,
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        );
+
+        // ad_abc matches \D+ and should be excluded; ad_123 contains digits and should not match \D+
+        $this->assertEquals('http://example.org/test', PageUrl::excludeQueryParametersFromUrl('http://example.org/test?ad_abc=1', $idSite));
+        $this->assertEquals('http://example.org/test?ad_123=1', PageUrl::excludeQueryParametersFromUrl('http://example.org/test?ad_123=1', $idSite));
+    }
+
+    /**
      * Testing with some website specific and some global excluded query parameters
      * @dataProvider getTestUrls
      */
