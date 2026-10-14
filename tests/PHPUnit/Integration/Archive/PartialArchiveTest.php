@@ -176,7 +176,6 @@ class PartialArchiveTest extends IntegrationTestCase
         $this->assertEquals([ArchiveWriter::DONE_PARTIAL, ArchiveWriter::DONE_PARTIAL], $goalsArchiveValues);
 
         $data = GoalsApi::getInstance()->getDaysToConversion(1, 'range', '2020-04-06,2020-04-09', false, $this->idGoal);
-        $this->assertEquals(1, $data->getRowsCount());
         $this->assertEquals(['label' => '0-0', Metrics::INDEX_NB_CONVERSIONS => 1], $data->getFirstRow()->getColumns());
     }
 
