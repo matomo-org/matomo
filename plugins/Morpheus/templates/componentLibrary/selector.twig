@@ -90,24 +90,29 @@
 
     {% set arrow %}
 <div class="mtm-selector">
-  <button type="button" class="mtm-selector__trigger">
+  <button type="button" class="mtm-selector__trigger" aria-expanded="false">
+    <span class="mtm-selector__label">Choose metrics</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+</div>
+<div class="mtm-selector mtm-selector--expanded">
+  <button type="button" class="mtm-selector__trigger" aria-expanded="true">
     <span class="mtm-selector__label">Choose metrics</span>
     <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
   </button>
 </div>
     {% endset %}
-    {{ library.example('arrow', 'Dropdown arrow', 'Says the control opens a panel. Leave it out when the panel is not a list to choose from.', arrow) }}
+    {{ library.example('arrow', 'Dropdown arrow', 'Says the control opens a panel, and turns over while it is open: closed on the left, open on the right. Leave it out when the panel is not a list to choose from.', arrow, 'componentLibrary__preview--row') }}
 
     {% set icon %}
 <div class="mtm-selector">
   <button type="button" class="mtm-selector__trigger">
     <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-export"></span></span>
     <span class="mtm-selector__label">Export</span>
-    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
   </button>
 </div>
     {% endset %}
-    {{ library.example('icon', 'Left icon', '', icon) }}
+    {{ library.example('icon', 'Left icon', '<code>mtm-selector__icon</code>, before the label.', icon) }}
 
     {% set iconOnly %}
 <div class="mtm-selector mtm-selector--iconOnly">
@@ -188,7 +193,7 @@
   </a>
 </div>
     {% endset %}
-    {{ library.example('muted', 'Muted', '<code>mtm-selector--muted</code> steps back from the content around it.', muted) }}
+    {{ library.example('muted', 'Muted', '<code>mtm-selector--muted</code> greys the text, for a secondary control the page should not draw the eye to, such as the link to check for updates.', muted) }}
 
     {% set fullWidth %}
 <div class="mtm-selector mtm-selector--fullWidth">
@@ -221,7 +226,7 @@
         <tr><td>Open</td><td><code>mtm-selector--expanded</code> on the block</td><td>Blue frame, arrow turned over, panel shown.</td></tr>
         <tr><td>Loading</td><td><code>mtm-selector--loading</code> on the block</td><td>A spinner stands in for the icon.</td></tr>
         <tr><td>Disabled</td><td><code>mtm-selector--disabled</code>, and <code>disabled</code> on the trigger</td><td>Faded, ignores the pointer.</td></tr>
-        <tr><td>Read only</td><td><code>mtm-selector--readOnly</code></td><td>Full strength, no hover: a single choice that opens nothing.</td></tr>
+        <tr><td>Read only</td><td><code>mtm-selector--readOnly</code></td><td>Full strength, but the default cursor and no blue frame under the pointer: a single choice that opens nothing.</td></tr>
         <tr><td>Disabled action</td><td><code>disabled</code> on the action</td><td>Greyed glyph, no ring.</td></tr>
     </table>
 
@@ -253,8 +258,30 @@
     </div>
   </div>
 </div>
+<div class="mtm-selector mtm-selector--expanded">
+  <button type="button" class="mtm-selector__trigger" aria-haspopup="menu" aria-expanded="true">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-export"></span></span>
+    <span class="mtm-selector__label">Export</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+  <div class="mtm-selector__dropdown">
+    <div class="mtm-dropdownPanel">
+      <ul class="mtm-dropdownPanel__menu" role="menu">
+        <li class="mtm-dropdownPanel__menuItem" role="none">
+          <a class="mtm-dropdownPanel__menuLink" role="menuitem" href="#"><span class="mtm-dropdownPanel__menuLabel">CSV</span></a>
+        </li>
+        <li class="mtm-dropdownPanel__menuItem" role="none">
+          <a class="mtm-dropdownPanel__menuLink" role="menuitem" href="#"><span class="mtm-dropdownPanel__menuLabel">TSV (Excel)</span></a>
+        </li>
+        <li class="mtm-dropdownPanel__menuItem" role="none">
+          <a class="mtm-dropdownPanel__menuLink" role="menuitem" href="#"><span class="mtm-dropdownPanel__menuLabel">JSON</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
     {% endset %}
-    {{ library.example('open', 'Open', 'The panel grows from the right edge of the control by default. <code>mtm-selector__dropdown--anchorLeft</code> grows it from the left edge, for a selector at the left of its row. <code>mtm-selector__dropdown--aboveOverlays</code> lifts it over popovers and dialogs, for a selector rendered inside one.', open, 'componentLibrary__preview--tall') }}
+    {{ library.example('open', 'Open', 'The panel grows from the right edge of the control by default, as on the right: a panel wider than its control grows inwards rather than off the page. <code>mtm-selector__dropdown--anchorLeft</code> grows it from the left edge instead, as on the left, for a selector at the left of its row. <code>mtm-selector__dropdown--aboveOverlays</code> lifts it over popovers and dialogs, for a selector rendered inside one.', open, 'componentLibrary__preview--tall componentLibrary__preview--row componentLibrary__preview--spread') }}
 
     {% set disabled %}
 <div class="mtm-selector mtm-selector--disabled">
@@ -273,7 +300,7 @@
   </span>
 </div>
     {% endset %}
-    {{ library.example('readOnly', 'Read only', '', readOnly) }}
+    {{ library.example('readOnly', 'Read only', 'Looks like a closed selector, but shows no arrow, keeps the default cursor and does not frame itself in blue under the pointer. Shown here hovered.', readOnly, '', 'hover', '.mtm-selector__trigger') }}
 
     {% set disabledAction %}
 <div class="mtm-selector">
@@ -292,7 +319,7 @@
     {{ library.example('disabledAction', 'Disabled action', '', disabledAction) }}
 
     {% set loading %}
-<div class="mtm-selector mtm-selector--muted mtm-selector--loading">
+<div class="mtm-selector mtm-selector--loading">
   <a class="mtm-selector__trigger" href="#">
     <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-reload"></span></span>
     <span class="mtm-selector__label">Check for updates</span>
@@ -353,22 +380,6 @@ export default defineComponent({
 </script>
     {% endset %}
     <pre class="componentLibrary__code"><code class="componentLibrary__codeText">{{ (vueUsage ~ '')|trim|e('html') }}</code></pre>
-</section>
-
-{# ------------------------------------------------------------------------------------------- #}
-
-<section class="componentLibrary__section">
-    <h2 class="componentLibrary__sectionTitle">Used in</h2>
-    <table class="componentLibrary__table">
-        <tr><th>Component</th><th>Shows</th></tr>
-        <tr><td><code>CoreHome/vue/src/PeriodSelector/PeriodSelector.vue</code></td><td>Start and end actions, a dialog panel</td></tr>
-        <tr><td><code>CoreHome/vue/src/SiteSelector/SiteSelector.vue</code></td><td>Placeholder, read only, a searchable list</td></tr>
-        <tr><td><code>SegmentEditor/vue/src/SegmentSelector/SegmentSelector.vue</code></td><td>Left icon, a legacy panel inside <code>mtm-dropdownPanel</code></td></tr>
-        <tr><td><code>Dashboard/vue/src/DashboardSettings/DashboardSettings.vue</code></td><td>End action, a menu panel</td></tr>
-        <tr><td><code>CoreHome/vue/src/VersionInfoHeaderMessage/VersionInfoHeaderMessage.vue</code></td><td>Highlighted, muted and loading; opens on hover, a text panel</td></tr>
-        <tr><td><code>CoreHome/vue/src/ReportHeader/ReportHeader.vue</code></td><td>Icon only, menu panels with <code>useSelectorDropdown()</code></td></tr>
-        <tr><td><code>CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue</code></td><td>Panel above overlays, with <code>useSelectorDropdown()</code></td></tr>
-    </table>
 </section>
 
 {% endblock %}
