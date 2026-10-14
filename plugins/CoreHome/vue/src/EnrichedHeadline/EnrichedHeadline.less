@@ -66,15 +66,13 @@
     // Hidden rather than taken out of the flow, so the line boxes are the same whether or not the
     // icons are showing, and nothing moves when the pointer arrives.
     .enrichedHeadline__iconsBar {
-        line-height: 1 !important;
         display: inline-flex;
         align-items: center;
-        // Aligned to the top of the line rather than its middle or baseline, which would grow
-        // every heading by a pixel or, without the help icon, three. Nudged down after layout
-        // instead, so the icons centre on the letters without touching the line's height.
+        // As tall as one line of the title and aligned to its top, so the icons centre on that
+        // line without ever growing it. Aligned to the baseline instead, the 22px rating icons
+        // alone would grow the heading by three pixels.
+        height: 1lh;
         vertical-align: top;
-        position: relative;
-        top: 2px;
         visibility: hidden;
     }
 
@@ -83,8 +81,10 @@
     }
 
     // No `display` or `vertical-align`: a flex item of the bar above, so both are ignored.
+    // Line height 1 here and on the help icon, so neither is taller than its glyph or image.
     .enrichedHeadline__ratingIcons {
         margin-left: 6px;
+        line-height: 1 !important;
     }
 
     .enrichedHeadline__helpIcon {
@@ -92,6 +92,7 @@
         margin-left: 8px;
         opacity: 0.4;
         font-size: 16px;
+        line-height: 1 !important;
         color: @theme-color-text-light !important;
         text-decoration: none;
     }
