@@ -51,13 +51,22 @@ describe('Marketplace/CTAStatus', () => {
 
       expect(wrapper.find('.alert.alert-success').exists()).toBe(true);
       expect(wrapper.find('.alert').classes()).toContain('alert-no-background');
-      expect(wrapper.find('.ctaStatus').exists()).toBe(false);
+      expect(wrapper.find('.ctaStatus__label').exists()).toBe(false);
       expect(wrapper.text().replace(/\s+/g, ' ')).toBe('Installed (Deactivate)');
     });
 
     it('renders no brackets when the caller has no action to put in them', () => {
       const wrapper = mountStatus({ inModal: true, hasAction: false });
       expect(wrapper.text()).toBe('Installed');
+    });
+
+    it('puts a button action under the alert rather than in brackets inside it', () => {
+      const wrapper = mountStatus({ inModal: true, hasAction: true, actionAsButton: true });
+
+      expect(wrapper.find('.alert').text()).toBe('Installed');
+      expect(wrapper.find('.alert a').exists()).toBe(false);
+      expect(wrapper.find('a').text()).toBe('Deactivate');
+      expect(wrapper.text()).not.toContain('(');
     });
 
     it('maps every tone onto the alert class that already styles it', () => {
