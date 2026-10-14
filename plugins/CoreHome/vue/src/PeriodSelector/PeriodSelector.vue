@@ -8,7 +8,7 @@
 <template>
   <div
     ref="root"
-    class="mtm-selector mtm-selector--fullWidthOnSmallScreen"
+    class="mtm-selector mtm-selector--fullWidthOnSmallScreen periodSelector"
     v-expand-on-click="{
       expander: 'title',
       expandedClass: 'mtm-selector--expanded',
@@ -21,6 +21,9 @@
       type="button"
       class="mtm-selector__action mtm-selector__action--start"
       tabindex="4"
+      v-tooltips
+      :title="translate('General_PreviousPeriod')"
+      :aria-label="translate('General_PreviousPeriod')"
       @click="movePeriod(-1)"
       :disabled="isPeriodMoveDisabled(-1)"
     >
@@ -52,7 +55,7 @@
       ]"
     >
       <div class="mtm-dropdownPanel">
-        <div ref="panelContent" class="periodSelector">
+        <div ref="panelContent" class="periodSelector__panel">
           <div class="flex">
             <PeriodSelectorOptionsColumn
               :ui-selected-period="selectedPeriod"
@@ -111,6 +114,9 @@
       type="button"
       class="mtm-selector__action mtm-selector__action--end"
       tabindex="4"
+      v-tooltips
+      :title="translate('General_NextPeriod')"
+      :aria-label="translate('General_NextPeriod')"
       @click="movePeriod(1)"
       :disabled="isPeriodMoveDisabled(1)"
     >
