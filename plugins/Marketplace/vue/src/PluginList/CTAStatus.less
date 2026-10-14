@@ -48,8 +48,15 @@
   color: @theme-color-danger;
 }
 
+// Right-aligned by the auto margin, also once it has wrapped under the label. It can shrink to its
+// widest button: on a card too narrow for both side by side, they wrap, the box takes the whole row
+// and the centring puts each one in the middle of it.
 .ctaStatus__action {
-  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: safe center;
+  gap: 8px;
+  margin-left: auto;
 
   // override: Materialize sizes .btn-block to the full row; a status line only wants the label's
   // width, with enough room that the button does not resize as its label changes
@@ -57,4 +64,33 @@
     width: auto;
     min-width: 110px;
   }
+}
+
+// The modal's rendering: the alert with any button-shaped action under it, closer than the panel's
+// own gap would put them.
+.ctaStatus--panel {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 12px;
+
+  // override: Morpheus spaces every .alert from what follows it; here the gap above does that
+  .alert {
+    margin-bottom: 0;
+  }
+
+  // override: Morpheus's success alert is a fixed green; on this page it takes the theme brand,
+  // as the Deactivate button under it does. Dark mode keeps Morpheus's transparent background.
+  .alert-success {
+    border-color: @theme-color-brand;
+    background-color: @theme-color-background-brand-lowContrast;
+
+    &::before {
+      color: @theme-color-brand;
+    }
+  }
+}
+
+.ctaStatus__alertAction {
+  white-space: nowrap;
 }
