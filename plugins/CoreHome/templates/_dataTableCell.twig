@@ -64,7 +64,7 @@
             {%- if column in dimensions -%}
                 {{- row.getColumn(column)|number(2,0)|rawSafeDecoded -}}
             {%- else -%}
-                {{- row.getColumn(column)|number(2,0)|rawSafeDecodedEntities -}}
+                {{- row.getColumn(column)|rawSafeDecodedEntities -}}
             {%- endif -%}
             {%- if row.getMetadata('html_column_' ~ column ~ '_suffix') -%}
                 <span class='column-suffix'>{{ row.getMetadata('html_column_' ~ column ~ '_suffix') | raw }}</span>
