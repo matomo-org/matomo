@@ -144,11 +144,11 @@
     {% set endAction %}
 <div class="mtm-selector">
   <button type="button" class="mtm-selector__trigger">
-    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-dashboard-customize"></span></span>
-    <span class="mtm-selector__label">Manage Dashboard</span>
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-calendar"></span></span>
+    <span class="mtm-selector__label">2012</span>
   </button>
-  <button type="button" class="mtm-selector__action mtm-selector__action--end" aria-label="Add a widget">
-    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-add1"></span></span>
+  <button type="button" class="mtm-selector__action mtm-selector__action--end" aria-label="Next period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-right"></span></span>
   </button>
 </div>
     {% endset %}
@@ -313,8 +313,8 @@
         </li>
         <li>Name an action, or an icon-only trigger, with an <code>aria-label</code>: it shows no text.</li>
         <li>
-            The trigger carries <code>aria-haspopup</code> and <code>aria-expanded</code>; in Vue,
-            <code>triggerProps()</code> sets both.
+            Give the trigger <code>aria-haspopup</code> and an <code>aria-expanded</code> that follows the
+            panel; in Vue, <code>triggerProps()</code> sets both.
         </li>
         <li>
             Escape closes the panel and gives the focus back to the trigger. Arrow keys, Home and End
