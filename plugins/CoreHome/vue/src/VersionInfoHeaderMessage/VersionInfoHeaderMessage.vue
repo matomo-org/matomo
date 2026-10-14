@@ -9,10 +9,7 @@
     v-expand-on-hover="{ expander: 'expander', expandedClass: 'mtm-selector--expanded' }"
     id="header_message"
     class="mtm-selector"
-    :class="{
-      'mtm-selector--muted': !latestVersionAvailable || lastUpdateCheckFailed,
-      'mtm-selector--highlighted': latestVersionAvailable,
-    }"
+    :class="{ 'mtm-selector--highlighted': latestVersionAvailable }"
   >
     <Passthrough v-if="latestVersionAvailable">
       <span
