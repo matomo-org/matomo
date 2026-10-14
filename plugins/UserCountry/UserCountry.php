@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
+use Piwik\Segment\SegmentExpression;
 
 class UserCountry extends \Piwik\Plugin
 {
@@ -79,19 +80,33 @@ class UserCountry extends \Piwik\Plugin
     /**
      * Returns a list of country codes for a given continent code.
      *
+     * The segment always matches the list with `IN`, whatever its operator, so a negative match is
+     * expressed by the list itself: the codes of every other continent, the internal ones such as
+     * `xx` (unknown) included.
+     *
      * @param string $continent The continent code.
+     * @param string|null $sqlField The segment's SQL field, passed by the segment and unused.
+     * @param string|null $matchType The segment operator, see {@link SegmentExpression}.
      * @return array
      */
-    public static function getCountriesForContinent($continent)
+    public static function getCountriesForContinent($continent, $sqlField = null, $matchType = null)
     {
         /** @var RegionDataProvider $regionDataProvider */
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
 
         $result = array();
         $continent = strtolower($continent);
-        foreach ($regionDataProvider->getCountryList() as $countryCode => $continentCode) {
-            if ($continent == $continentCode) {
-                $result[] = $countryCode;
+        if ($matchType === SegmentExpression::MATCH_NOT_EQUAL) {
+            foreach ($regionDataProvider->getCountryList($includeInternalCodes = true) as $countryCode => $continentCode) {
+                if ($continent != $continentCode) {
+                    $result[] = $countryCode;
+                }
+            }
+        } else {
+            foreach ($regionDataProvider->getCountryList() as $countryCode => $continentCode) {
+                if ($continent == $continentCode) {
+                    $result[] = $countryCode;
+                }
             }
         }
         return array('SQL'  => "'" . implode("', '", $result) . "', ?",
