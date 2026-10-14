@@ -185,16 +185,6 @@
     {% endset %}
     {{ library.example('highlighted', 'Highlighted', '<code>mtm-selector--highlighted</code> draws attention to the control, such as an available update.', highlighted) }}
 
-    {% set muted %}
-<div class="mtm-selector mtm-selector--muted">
-  <a class="mtm-selector__trigger" href="#">
-    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-reload"></span></span>
-    <span class="mtm-selector__label">Check for updates</span>
-  </a>
-</div>
-    {% endset %}
-    {{ library.example('muted', 'Muted', '<code>mtm-selector--muted</code> greys the text, for a secondary control the page should not draw the eye to, such as the link to check for updates.', muted) }}
-
     {% set fullWidth %}
 <div class="mtm-selector mtm-selector--fullWidth">
   <button type="button" class="mtm-selector__action mtm-selector__action--start" aria-label="Previous period">
@@ -227,7 +217,7 @@
         <tr><td>Disabled</td><td><code>mtm-selector--disabled</code>, and <code>disabled</code> on the trigger</td><td>Faded, ignores the pointer.</td></tr>
         <tr><td>Read only</td><td><code>mtm-selector--readOnly</code></td><td>Full strength, but the default cursor and no blue frame under the pointer: a single choice that opens nothing.</td></tr>
         <tr><td>Disabled action</td><td><code>disabled</code> on the action</td><td>Greyed glyph, no ring.</td></tr>
-        <tr><td>Loading</td><td><code>mtm-selector--loading</code> on the block</td><td>A spinner stands in for the icon.</td></tr>
+        <tr><td>Loading</td><td><code>mtm-selector--loading</code> on the block</td><td>Grey text, a spinner in place of the icon.</td></tr>
     </table>
 
     {{ library.example('hover', 'Hover', 'The pointer on the trigger frames the whole control, actions included.', bothActions, '', 'hover', '.mtm-selector__trigger') }}
@@ -326,7 +316,7 @@
   </a>
 </div>
     {% endset %}
-    {{ library.example('loading', 'Loading', '<code>mtm-selector--loading</code>, while a request the control started is running.', loading) }}
+    {{ library.example('loading', 'Loading', '<code>mtm-selector--loading</code>, while a request the control started is running, such as a check for updates: the text greys and a spinner stands in for the icon.', loading) }}
 </section>
 
 {# ------------------------------------------------------------------------------------------- #}

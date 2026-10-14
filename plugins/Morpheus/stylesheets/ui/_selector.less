@@ -222,12 +222,11 @@
   color: @theme-color-link;
 }
 
-// Steps back from the content around it, for a control that is informative rather than central.
-.mtm-selector--muted {
+// Waits on a request the control started: its text greys and a spinner stands in for its icon.
+.mtm-selector--loading {
   color: @theme-color-text-light;
 }
 
-// Waits on a request the control started: a spinner stands in for its icon.
 .mtm-selector--loading .mtm-selector__trigger {
   background: url(plugins/Morpheus/images/loading.svg) no-repeat @_selector-paddingHorizontal center / 16px;
 }
