@@ -69,9 +69,12 @@
         line-height: 1 !important;
         display: inline-flex;
         align-items: center;
-        // Aligned to the top of the line rather than its middle, which would hang the 22px
-        // rating icons a pixel below a 24px line and grow every heading by that pixel.
+        // Aligned to the top of the line rather than its middle or baseline, which would grow
+        // every heading by a pixel or, without the help icon, three. Nudged down after layout
+        // instead, so the icons centre on the letters without touching the line's height.
         vertical-align: top;
+        position: relative;
+        top: 2px;
         visibility: hidden;
     }
 
