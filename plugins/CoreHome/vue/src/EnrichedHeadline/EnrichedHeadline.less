@@ -5,6 +5,13 @@
 // row, is what keeps the icons off whatever sits to the right of the heading: a last line with
 // no room left for them breaks before its last word instead.
 //
+// Except where the last word and the bar are wider than the title on their own, a long word in
+// a narrow column, eg. "Bildschirmauflösungen" in a three-column dashboard at 1024px. Nothing
+// keeps both on one line then, and the title's `overflow-wrap: break-word` breaks before the bar,
+// which takes a line of its own: the heading is a line taller than its text. Accepted as the
+// lesser evil: breaking inside the word instead reads worse, and a bar laid over the row is what
+// put the icons under the Export button.
+//
 // What stops the bar moving the title as it appears is that it is never taken out of the flow:
 // see `visibility` below. A bar that comes and goes would shift the text both horizontally and,
 // through the line box's baseline, vertically.
@@ -36,9 +43,12 @@
         }
     }
 
-    // Ties the bar to the title's last word: without it the line can break before the bar and
-    // leave it alone on a line of its own, making the heading taller than its text, at rest.
-    // Unbreakable, so the line cannot break between the word joiner it starts with and the bar.
+    // Keeps the bar on the title's last word: a line breaking before the bar would leave it alone
+    // on a line of its own, making the heading taller than its text, at rest. Chrome already
+    // offers no break between a letter and the inline box that follows it; the word joiner says
+    // so for any engine that would, and `nowrap` keeps the line from breaking after it.
+    // Only a word ending right before it is kept: whitespace between the title's text and the
+    // glue is a break opportunity no joiner removes.
     .enrichedHeadline__iconsGlue {
         // Inline, so it stays on the title's line rather than starting one of its own.
         display: inline;
@@ -46,9 +56,11 @@
     }
 
     // Generated rather than written in the DOM, so it stays out of the heading's text, which
-    // code reads the report name from.
+    // code reads the report name from. The empty alternative text keeps it from assistive
+    // technologies; an engine that does not know the syntax drops it and keeps the line above.
     .enrichedHeadline__iconsGlue::before {
         content: "\2060";
+        content: ~'"\2060" / ""';
     }
 
     // Hidden rather than taken out of the flow, so the line boxes are the same whether or not the

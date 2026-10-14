@@ -291,6 +291,51 @@ describe('DataTable', function () {
     expect(layout.title).to.be.equal('Device type');
   });
 
+  // The icons that follow a title, its rating thumbs among them, were laid over the line and ended
+  // up under the Export button or the ⋮ trigger beside it: a click meant for one opened the other.
+  // Every report on the page is checked across a range of widths, since only some of them leave a
+  // title just too little room.
+  it('should keep the icons that follow a title clear of the controls beside it', async function () {
+    await openDevicesDetectionWidget();
+
+    const overlaps = [];
+    try {
+      for (let width = 1000; width <= 1400; width += 25) {
+        await page.webpage.setViewport({ width, height: 768 });
+        await page.waitForTimeout(250);
+
+        overlaps.push(...await page.evaluate((viewportWidth) => {
+          const visibleBoxes = (root, selector) => Array.from(root.querySelectorAll(selector))
+            .map((element) => element.getBoundingClientRect())
+            .filter((box) => box.width > 0 && box.height > 0);
+
+          return Array.from(document.querySelectorAll('.reportHeader__header')).map((row) => {
+            const icons = visibleBoxes(row, '.enrichedHeadline__iconsBar *');
+            const controls = visibleBoxes(row, '.reportHeader__controls *');
+            if (!icons.length || !controls.length) {
+              return null;
+            }
+
+            const iconsBottom = Math.max(...icons.map((box) => box.bottom));
+            const iconsRight = Math.max(...icons.map((box) => box.right));
+            // only the controls on the icons' own line can be in their way
+            const controlsLeft = Math.min(...controls
+              .filter((box) => box.top < iconsBottom)
+              .map((box) => box.left));
+
+            return iconsRight > controlsLeft
+              ? `${row.querySelector('.reportHeader__title').innerText.trim()} at ${viewportWidth}px`
+              : null;
+          }).filter((overlap) => overlap !== null);
+        }, width));
+      }
+    } finally {
+      await page.webpage.setViewport({ width: 1350, height: 768 });
+    }
+
+    expect(overlaps).to.deep.equal([]);
+  });
+
   // A report shown without a content block card keeps the metrics of the plain `h2` it used to
   // be, and ReportHeader.less carries hand-copied values to do so. Compare against a real `h2`
   // rendered in the same page so the copies fail loudly if the global heading styles ever change.
