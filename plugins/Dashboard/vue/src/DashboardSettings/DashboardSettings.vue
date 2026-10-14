@@ -103,20 +103,6 @@
         </ul>
       </div>
     </div>
-    <button
-      type="button"
-      class="mtm-selector__action mtm-selector__action--end"
-      data-action="addWidgetShortcut"
-      tabindex="4"
-      v-tooltips
-      :title="translate('Dashboard_AddAWidget')"
-      :aria-label="translate('Dashboard_AddAWidget')"
-      @click="openAddWidget()"
-    >
-      <span class="mtm-selector__icon" aria-hidden="true">
-        <span class="icon-add1" />
-      </span>
-    </button>
     <AddWidgetModal
       @select="onWidgetSelected"
     />
