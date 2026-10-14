@@ -15,7 +15,10 @@ interface SearchFiltersPersistenceState {
   category: string;
   subcategory: string;
   idSite: string;
-  widgetSearchFilters: Record<string, Record<string, string>>;
+  // Keyed by widget unique id. A Map is used deliberately: widget ids originate from stored layout
+  // data, and Map keys are plain data that never resolve against an object's own or inherited
+  // members, so each widget's filters stay isolated to its own entry whatever the id may be.
+  widgetSearchFilters: Map<string, Record<string, string>>;
 }
 
 export class SearchFiltersPersistenceStore {
@@ -35,22 +38,22 @@ export class SearchFiltersPersistenceStore {
     category: '',
     subcategory: '',
     idSite: '',
-    widgetSearchFilters: {},
+    widgetSearchFilters: new Map(),
   });
 
   private state = computed(() => readonly(this.privateState));
 
   resetSearchFilters(): void {
-    this.privateState.widgetSearchFilters = {};
+    this.privateState.widgetSearchFilters = new Map();
   }
 
   getSearchFilters(widgetId: string): Record<string, string> {
-    return this.state.value.widgetSearchFilters[widgetId] || {};
+    return this.state.value.widgetSearchFilters.get(widgetId) || {};
   }
 
   setSearchFilters(widgetId: string, filters: Record<string, string>): void {
     if (widgetId) {
-      this.privateState.widgetSearchFilters[widgetId] = filters;
+      this.privateState.widgetSearchFilters.set(widgetId, filters);
     }
   }
 

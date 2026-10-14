@@ -10623,7 +10623,7 @@ class SearchFiltersPersistence_store_SearchFiltersPersistenceStore {
       category: '',
       subcategory: '',
       idSite: '',
-      widgetSearchFilters: {}
+      widgetSearchFilters: new Map()
     }));
     SearchFiltersPersistence_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState)));
     Matomo_Matomo.on('matomoPageChange', () => {
@@ -10634,14 +10634,14 @@ class SearchFiltersPersistence_store_SearchFiltersPersistenceStore {
     });
   }
   resetSearchFilters() {
-    this.privateState.widgetSearchFilters = {};
+    this.privateState.widgetSearchFilters = new Map();
   }
   getSearchFilters(widgetId) {
-    return this.state.value.widgetSearchFilters[widgetId] || {};
+    return this.state.value.widgetSearchFilters.get(widgetId) || {};
   }
   setSearchFilters(widgetId, filters) {
     if (widgetId) {
-      this.privateState.widgetSearchFilters[widgetId] = filters;
+      this.privateState.widgetSearchFilters.set(widgetId, filters);
     }
   }
   updateCurrentRoutingFromUrl() {
