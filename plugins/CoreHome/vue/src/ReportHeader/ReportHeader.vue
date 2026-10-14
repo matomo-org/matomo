@@ -290,9 +290,9 @@ import { translate } from '../translate';
 const SEARCH_DEBOUNCE_MS = 300;
 
 // Promote only while the title keeps this much of the line, whatever it says: two widgets of the
-// same width then show the same controls. The title wraps to fit, and its hover icons share this
-// room as they follow its last word.
-const MIN_TITLE_WIDTH = 140;
+// same width then show the same controls. The title wraps to fit, and its hover icons, about 80px,
+// follow its last word: this leaves them a line with a short word, rather than one of their own.
+const MIN_TITLE_WIDTH = 220;
 
 export interface ControlVisibility {
   minimise: boolean;
