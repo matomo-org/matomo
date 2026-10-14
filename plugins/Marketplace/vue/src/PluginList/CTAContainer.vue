@@ -76,6 +76,7 @@
       :label="translate('General_Installed')"
       :in-modal="inModal"
       :has-action="hasInstalledAction"
+      :action-as-button="hasActivationToggle"
     >
       <template v-if="plugin.missingRequirements.length > 0 || !isAutoUpdatePossible">
         <DownloadButton
@@ -84,16 +85,13 @@
           :is-auto-update-possible="isAutoUpdatePossible"
         />
       </template>
-      <template v-else-if="!plugin.isInvalid && !isMultiServerEnvironment && isPluginsAdminEnabled">
+      <template v-else-if="hasActivationToggle">
         <a v-if="plugin.isActivated"
-           :class="{ 'btn btn-block': !inModal }"
+           :class="activationToggleClass"
            :href="linkToDeactivate(plugin.name)"
         >{{ translate('CorePluginsAdmin_Deactivate') }}</a>
-        <template v-else-if="plugin.missingRequirements.length > 0">
-          -
-        </template>
         <a v-else
-           :class="{ 'btn btn-block': !inModal }"
+           :class="activationToggleClass"
            :href="linkToActivate(plugin.name)"
         >{{ translate('CorePluginsAdmin_Activate') }}</a>
       </template>
@@ -267,7 +265,22 @@ export default defineComponent({
     hasInstalledAction(): boolean {
       return this.plugin.missingRequirements.length > 0
         || !this.isAutoUpdatePossible
-        || (!this.plugin.isInvalid && !this.isMultiServerEnvironment && this.isPluginsAdminEnabled);
+        || this.hasActivationToggle;
+    },
+    /** Whether the installed state offers Activate or Deactivate rather than a download. */
+    hasActivationToggle(): boolean {
+      return this.plugin.missingRequirements.length === 0
+        && this.isAutoUpdatePossible
+        && !this.plugin.isInvalid
+        && !this.isMultiServerEnvironment
+        && this.isPluginsAdminEnabled;
+    },
+    /**
+     * A button in both places. The card restyles its buttons as outlines itself, so the plugin page
+     * asks Morpheus for the same outline, rather than a link in the green of the alert around it.
+     */
+    activationToggleClass(): string {
+      return this.inModal ? 'btn btn-outline btn-block' : 'btn btn-block';
     },
   },
   methods: {
