@@ -216,8 +216,9 @@ class ArchiveWriter
 
         $currentStatus = $this->getModel()->getArchiveStatus($numericTable, $idArchive, $this->doneFlag);
 
-        // If the current archive was already invalidated during runtime, directly update status to invalidated instead of done
-        if (self::DONE_ERROR_INVALIDATED === $currentStatus) {
+        // If the current archive was already invalidated during runtime, directly update status to invalidated instead of done.
+        // A partial archive stays partial, as DONE_INVALIDATED would mark it as complete.
+        if (self::DONE_ERROR_INVALIDATED === $currentStatus && !$this->parameters->isPartialArchive()) {
             $doneValue = self::DONE_INVALIDATED;
         }
 
