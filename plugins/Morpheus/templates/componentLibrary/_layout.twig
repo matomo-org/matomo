@@ -98,6 +98,15 @@
         .componentLibrary .componentLibrary__preview--tall {
             min-height: 220px;
         }
+        /* Several examples side by side, aligned on their top edge so an open panel hangs freely. */
+        .componentLibrary .componentLibrary__preview--row {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+        }
+        .componentLibrary .componentLibrary__preview--spread {
+            justify-content: space-between;
+        }
         .componentLibrary .componentLibrary__code {
             margin: 0;
             padding: 12px 16px;
