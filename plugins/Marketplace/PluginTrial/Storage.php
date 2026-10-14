@@ -13,9 +13,11 @@ use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 
 class Storage
 {
@@ -46,7 +48,8 @@ class Storage
 
     /**
      * Records a trial request by the current user. Only a request made while none is pending makes one pending, so
-     * super users are notified once per plugin and keep their dismissals.
+     * super users are notified once per plugin and keep their dismissals. Each request that is recorded adds the
+     * current super users to the ones notified.
      *
      * @return string one of the REQUEST_* constants
      */
@@ -54,9 +57,10 @@ class Storage
     {
         $requestTime = time();
         $login = Piwik::getCurrentUserLogin();
+        $superUsers = array_column(UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess(), 'login');
         $result = self::REQUEST_ALREADY_RECORDED;
 
-        $this->writeWithHistory(function (RequestHistory $history) use ($pluginDisplayName, $requestTime, $login, &$result) {
+        $this->writeWithHistory(function (RequestHistory $history) use ($pluginDisplayName, $requestTime, $login, $superUsers, &$result) {
             $storedValue = $this->readStoredValue();
             $storedRequest = $this->decodeStored($storedValue);
             $this->recordInHistory($history, $storedRequest);
@@ -76,6 +80,7 @@ class Storage
                 'displayName' => $pluginDisplayName,
                 'dismissed' => [],
                 'requestedBy' => $login,
+                'superUsers' => $superUsers,
             ];
 
             if ($this->insertStorage($request)) {
@@ -90,7 +95,47 @@ class Storage
             $result = self::REQUEST_ADDED_TO_PENDING;
         });
 
+        if ($result === self::REQUEST_ADDED_TO_PENDING) {
+            try {
+                $this->addSuperUsers($superUsers, (int) ($this->storage['requestTime'] ?? 0));
+            } catch (\Throwable $e) {
+                // the request is already committed, so failing here would report an error for a saved request
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'Could not add the current super users to a pending plugin trial request',
+                    ['exception' => $e]
+                );
+            }
+        }
+
         return $result;
+    }
+
+    /**
+     * Super users granted access since the request became pending are notified of a later request. This is its own
+     * transaction: the request's holds a shared lock on the row, and two requests both writing under it would deadlock.
+     *
+     * @param string[] $superUsers
+     */
+    private function addSuperUsers(array $superUsers, int $pendingRequestTime): void
+    {
+        $this->writeWithHistory(function () use ($superUsers, $pendingRequestTime) {
+            $storedRequest = $this->readStored(self::LOCK_FOR_UPDATE);
+
+            // one stored without the list already notifies every super user, and one fulfilled or replaced since is
+            // not the request these users were added to
+            if (!isset($storedRequest['superUsers']) || (int) ($storedRequest['requestTime'] ?? 0) !== $pendingRequestTime) {
+                return;
+            }
+
+            $mergedSuperUsers = array_values(array_unique(array_merge($storedRequest['superUsers'], $superUsers)));
+            if ($mergedSuperUsers === $storedRequest['superUsers']) {
+                return;
+            }
+
+            $storedRequest['superUsers'] = $mergedSuperUsers;
+            $this->storage = $storedRequest;
+            $this->saveStorage();
+        });
     }
 
     /**
@@ -156,19 +201,42 @@ class Storage
     }
 
     /**
-     * Returns if the current user has dismissed the trial request
+     * Returns if the current user has dismissed the trial request, or was not yet a super user when it was made
      */
     public function isNotificationDismissed(): bool
     {
-        return !empty($this->storage['dismissed']) && in_array(Piwik::getCurrentUserLogin(), $this->storage['dismissed']);
+        $login = Piwik::getCurrentUserLogin();
+
+        // a request stored before super users were recorded with it has no list, and is shown to every super user, as is
+        // one whose recorded super users were all deleted or demoted since, so it is never hidden from everyone
+        if (
+            isset($this->storage['superUsers'])
+            && !in_array($login, $this->storage['superUsers'], true)
+            && $this->isARecordedSuperUserStillOne()
+        ) {
+            return true;
+        }
+
+        return !empty($this->storage['dismissed']) && in_array($login, $this->storage['dismissed'], true);
+    }
+
+    private function isARecordedSuperUserStillOne(): bool
+    {
+        $superUsers = array_column(UsersManagerApi::getInstance()->getUsersHavingSuperUserAccess(), 'login');
+
+        return !empty(array_intersect($this->storage['superUsers'], $superUsers));
     }
 
     /**
-     * @return string[] the requester and the users who dismissed the notification
+     * @return string[] the requester, the super users at the time of the request and the users who dismissed the notification
      */
     public function getLogins(): array
     {
-        return array_values(array_filter(array_merge([$this->storage['requestedBy'] ?? null], $this->storage['dismissed'] ?? [])));
+        return array_values(array_unique(array_filter(array_merge(
+            [$this->storage['requestedBy'] ?? null],
+            $this->storage['superUsers'] ?? [],
+            $this->storage['dismissed'] ?? []
+        ))));
     }
 
     /**
@@ -185,13 +253,18 @@ class Storage
             $dismissed = $storedRequest['dismissed'] ?? [];
             $remainingDismissed = array_values(array_diff($dismissed, [$login]));
             $wasRequester = ($storedRequest['requestedBy'] ?? null) === $login;
+            $wasSuperUser = in_array($login, $storedRequest['superUsers'] ?? [], true);
 
-            if (!$wasRequester && count($remainingDismissed) === count($dismissed)) {
+            if (!$wasRequester && !$wasSuperUser && count($remainingDismissed) === count($dismissed)) {
                 return;
             }
 
             if ($wasRequester) {
                 $storedRequest['requestedBy'] = null;
+            }
+
+            if ($wasSuperUser) {
+                $storedRequest['superUsers'] = array_values(array_diff($storedRequest['superUsers'], [$login]));
             }
 
             $storedRequest['dismissed'] = $remainingDismissed;
