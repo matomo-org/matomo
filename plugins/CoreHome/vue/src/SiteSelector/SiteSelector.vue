@@ -404,7 +404,7 @@ export default defineComponent({
       }
     },
     onPressEnter(event: KeyboardEvent) {
-      if (event.key !== 'Enter') {
+      if (event.key !== 'Enter' || !this.hasMultipleSites) {
         return;
       }
 
