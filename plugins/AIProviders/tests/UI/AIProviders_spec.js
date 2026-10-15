@@ -28,12 +28,14 @@ describe("AIProviders", function () {
     }
 
     // the card of a provider, found by its name
-    function card(name) {
-        return `xpath///*[contains(@class, "ai-providers-card") and @role="radio"][.//*[contains(@class, "ai-providers-card-name") and normalize-space()="${name}"]]`;
+    async function card(name) {
+        return page.evaluateHandle((providerName) => Array.from(document.querySelectorAll('.ai-providers-card')).find(
+            (el) => el.querySelector('.ai-providers-card-name').textContent.trim() === providerName
+        ), name);
     }
 
     async function cardState(name) {
-        const el = await page.$(card(name));
+        const el = await card(name);
         return {
             selected: await el.evaluate((e) => e.getAttribute('aria-checked') === 'true'),
             connected: !!(await el.$('.ai-providers-card-status.is-connected')),
@@ -56,7 +58,7 @@ describe("AIProviders", function () {
         });
 
         it("should flag unsaved changes and discard them on cancel", async function () {
-            await (await page.$(card('OpenAI'))).click();
+            await (await card('OpenAI')).click();
             await page.waitForSelector('.ai-providers-unsaved-changes.is-visible');
 
             expect(await cardState('OpenAI')).to.eql({ selected: true, connected: true });
@@ -68,7 +70,7 @@ describe("AIProviders", function () {
         });
 
         it("should save a new default provider and capability level", async function () {
-            await (await page.$(card('OpenAI'))).click();
+            await (await card('OpenAI')).click();
             await page.click('input[name=defaultCapabilityLevel][value=thinking]');
             await page.click(saveButton);
             await page.waitForNetworkIdle();
@@ -79,7 +81,7 @@ describe("AIProviders", function () {
         });
 
         it("should disconnect a provider", async function () {
-            await (await (await page.$(card('OpenAI'))).$('.ai-providers-card-actions button:last-child')).click();
+            await (await (await card('OpenAI')).$('.ai-providers-card-actions button:last-child')).click();
             await page.waitForSelector('.notification-success');
 
             // the default falls back to the remaining connected provider
