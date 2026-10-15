@@ -13,6 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
@@ -54,6 +55,11 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
 
         $this->formatter = new Formatter();
 
+        // reports are formatted for sites the user can view
+        $access = new FakeAccess();
+        $access->setSuperUserAccess();
+        StaticContainer::getContainer()->set('Piwik\Access', $access);
+
         Fixture::loadAllTranslations();
         $this->setSiteManagerApiMock();
     }
@@ -63,6 +69,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
         Fixture::resetTranslations();
         NumberFormatter::getInstance()->clearCache();
         $this->unsetSiteManagerApiMock();
+        FakeAccess::clearAccess();
     }
 
     /**

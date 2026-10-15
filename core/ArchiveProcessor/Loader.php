@@ -136,6 +136,20 @@ class Loader
             }
         }
 
+        // a report-only archive is partial, so it must not be stored under the done flag of an archive for all plugins
+        if (!empty($this->params->getArchiveOnlyReport())) {
+            $doneFlag = Rules::getDoneStringFlagFor(
+                [$this->params->getSite()->getId()],
+                $this->params->getSegment(),
+                $this->params->getPeriod()->getLabel(),
+                $pluginName
+            );
+
+            if ($doneFlag === Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment())) {
+                throw new \Exception('Archiving a specific report is only possible for an archive of a single plugin.');
+            }
+        }
+
         // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
         // made invalid, we will correctly re-archive below.
         if (

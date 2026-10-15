@@ -189,6 +189,8 @@ class Controller extends \Piwik\Plugin\Controller
         // A strict referrer policy would strip the path/query and break that handshake, so the
         // policy is relaxed here. Keep the URL canonical: only module, action, idSite, period,
         // date, and segment belong on it. See canonicalizeOverlayUrl() in startOverlaySession.twig.
+        // A redirect on the tracked site can still strip the referrer, so the template also stores
+        // the session in window.name, which isOverlaySession() falls back to.
         $view->setUseStrictReferrerPolicy(false);
         Common::sendHeader('Content-Type: text/html; charset=UTF-8');
 

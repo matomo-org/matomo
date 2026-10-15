@@ -91,6 +91,7 @@ class ProxyHttp
 
         // set some HTTP response headers
         self::overrideCacheControlHeaders('public');
+        Common::stripHeader('Set-Cookie');
         Common::sendHeader('Vary: Accept-Encoding');
 
         if (false === $filename) {

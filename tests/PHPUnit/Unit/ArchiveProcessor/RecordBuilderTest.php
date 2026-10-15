@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Record;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
@@ -22,6 +23,7 @@ use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugins\Goals\RecordBuilders\GeneralGoalsRecords;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 
 class RecordBuilderTest extends TestCase
 {
@@ -47,6 +49,7 @@ class RecordBuilderTest extends TestCase
     {
         Manager::getInstance()->deleteAll();
         Site::clearCache();
+        FakeAccess::clearAccess();
 
         parent::tearDown();
     }
@@ -1673,6 +1676,7 @@ class RecordBuilderTest extends TestCase
         ?array $foundRequestedReports = null,
         bool $addSubtablesToAggregatedTables = false
     ): ArchiveProcessor {
+        $this->setUpSuperUserAccess();
         Site::setSiteFromArray(1, ['idsite' => 1, 'ecommerce' => 0, 'sitesearch' => 0, 'exclude_unknown_urls' => 0, 'keep_url_fragment' => 0]);
         $params = new Parameters(new Site(1), PeriodFactory::build($period, '2020-03-04'), new Segment('', [1]));
 
@@ -1938,5 +1942,13 @@ class RecordBuilderTest extends TestCase
         $table = new DataTable();
         $table->addRowFromSimpleArray(['label' => '[subtable] the thing', 'nb_visits' => 15]);
         return $table;
+    }
+
+    private function setUpSuperUserAccess(): void
+    {
+        // archiving runs with access to every site
+        $access = new FakeAccess();
+        $access->setSuperUserAccess();
+        StaticContainer::getContainer()->set('Piwik\Access', $access);
     }
 }
