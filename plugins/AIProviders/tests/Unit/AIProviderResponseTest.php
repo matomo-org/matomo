@@ -91,6 +91,8 @@ class AIProviderResponseTest extends TestCase
             'text' => 'Matomo is open source.',
             'inputTokens' => 900,
             'outputTokens' => 20,
+            'cacheReadTokens' => null,
+            'cacheWriteTokens' => null,
             'reasoningLevel' => AIRequest::REASONING_NONE,
             'webSearchUsed' => true,
             'webSearchEnabled' => true,
