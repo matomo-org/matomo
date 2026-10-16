@@ -76,8 +76,6 @@ class Model
      * @param array $newConversion
      *
      * @return bool
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
      */
     public function updateConversion($idVisit, $idGoal, $newConversion)
     {
@@ -107,6 +105,14 @@ class Model
         try {
             $this->getDb()->query($sql, $sqlBind);
         } catch (Exception $e) {
+            // Inside a bulk / queued-tracking transaction, a deadlock or snapshot isolation conflict has already rolled
+            // back everything written so far, so carrying on would save the rest of the batch on its own. Let the
+            // handler fail the batch whole instead.
+            $db = $this->getDb();
+            if ($db->isInTransaction() && ($db->isErrNo($e, 1213) || $db->isErrNo($e, 1020))) {
+                throw $e;
+            }
+
             StaticContainer::get(LoggerInterface::class)->error("There was an error while updating the Conversion: {exception}", [
                 'exception' => $e,
             ]);

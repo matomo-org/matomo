@@ -15,6 +15,8 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker;
+use Piwik\Tracker\Db\Pdo\Mysql as PdoMysql;
 use Piwik\Tracker\Model;
 
 /**
@@ -211,6 +213,46 @@ class ModelTest extends IntegrationTestCase
         ];
 
         $this->assertEquals($expectedItemsInDb, $itemsInDb);
+    }
+
+    /**
+     * @dataProvider getUpdateConversionErrors
+     */
+    public function testUpdateConversionRethrowsOnlyErrorsThatEndTheTransaction(string $message, bool $inTransaction, bool $isRethrown)
+    {
+        $error = new \Exception($message);
+
+        $db = $this->getMockBuilder(PdoMysql::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['query', 'isInTransaction'])
+            ->getMock();
+        $db->method('query')->willThrowException($error);
+        $db->method('isInTransaction')->willReturn($inTransaction);
+
+        $trackerDb = new \ReflectionProperty(Tracker::class, 'db');
+        $originalDb = $trackerDb->getValue();
+        $trackerDb->setValue(null, $db);
+
+        try {
+            if ($isRethrown) {
+                $this->expectExceptionObject($error);
+            }
+
+            $this->assertFalse($this->model->updateConversion(1, 0, ['items' => 2]));
+        } finally {
+            $trackerDb->setValue(null, $originalDb);
+        }
+    }
+
+    public static function getUpdateConversionErrors(): iterable
+    {
+        $deadlock = 'SQLSTATE[40001]: Serialization failure: 1213 Deadlock found when trying to get lock; try restarting transaction';
+
+        yield 'deadlock in a transaction' => [$deadlock, true, true];
+        yield 'snapshot isolation conflict in a transaction' => ['SQLSTATE[HY000]: General error: 1020 Record has changed since last read in table \'log_conversion\'', true, true];
+        yield 'lock wait timeout in a transaction' => ['SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction', true, false];
+        yield 'other error in a transaction' => ['SQLSTATE[42S22]: Column not found: 1054 Unknown column \'items\' in \'field list\'', true, false];
+        yield 'deadlock without a transaction' => [$deadlock, false, false];
     }
 
     private function assertLogActionTableContainsTestAction($idaction)
