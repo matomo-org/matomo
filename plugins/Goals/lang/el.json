@@ -140,6 +140,8 @@
         "ProductSKU": "Προϊόν SKU",
         "ProductSKUs": "SKU προϊόντων",
         "Products": "Προϊόντα",
+        "RecommendationCountOnePage": "1 σελίδα",
+        "RecommendationCountPages": "%s σελίδες",
         "ReturningVisitorsConversionRateIs": "Ο βαθμός μετατροπής επιστρεφόμενων επισκεπτών είναι %s",
         "SendEvent": "Αποστολή συμβάντος",
         "SingleGoalOverviewDocumentation": "Αυτή είναι μια επισκόπηση των μετατροπών για ένα μόνο στόχο. %s Τα μικροδιαγράμματα κάτω από το διάγραμμα μπορούν να μεγεθυνθούν πατώντας επάνω τους.",
