@@ -127,6 +127,8 @@
         "ProductSKU": "પ્રોડક્ટ SKU",
         "ProductSKUs": "પ્રોડક્ટ SKUs",
         "Products": "પ્રોડક્ટ્સ",
+        "RecommendationCountOnePage": "1 પૃષ્ઠ",
+        "RecommendationCountPages": "%s પૃષ્ઠો",
         "ReturningVisitorsConversionRateIs": "પરત ફરતા મુલાકાતીઓનો રૂપાંતર દર %s છે",
         "SendEvent": "ઇવેન્ટ મોકલો",
         "SingleGoalOverviewDocumentation": "આ એક ધ્યેય માટેના રૂપાંતરણોની ઝાંખી છે. %s ગ્રાફની નીચેની સ્પાર્કલાઈન તેના પર ક્લિક કરીને મોટી કરી શકાય છે.",
