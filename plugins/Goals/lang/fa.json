@@ -67,6 +67,8 @@
         "ProductName": "نام محصول",
         "ProductSKU": "محصول SKU",
         "Products": "محصولات",
+        "RecommendationCountOnePage": "1 صفحه",
+        "RecommendationCountPages": "%s صفحات",
         "ReturningVisitorsConversionRateIs": "نرخ بازگشت بازدیدکنندگان %s است",
         "URL": "آدرس",
         "UpdateGoal": "به روز رسانی هدف",
