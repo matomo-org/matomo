@@ -38,6 +38,8 @@
         "Optional": "(opcionális)",
         "PageTitles": "Oldalak címe",
         "Pattern": "Egyezési minta",
+        "RecommendationCountOnePage": "1 oldal",
+        "RecommendationCountPages": "%s oldal",
         "ReturningVisitorsConversionRateIs": "A visszatérő látogatók konverziós aránya %s",
         "URL": "URL",
         "UpdateGoal": "Cél frissítése",

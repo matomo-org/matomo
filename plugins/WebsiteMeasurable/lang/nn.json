@@ -1,6 +1,8 @@
 {
     "WebsiteMeasurable": {
         "Website": "Nettstad",
+        "WebsiteDescription": "Ein nettstad består av nettsider, vanlegvis leverte frå eitt domene på nettet.",
+        "WebsiteLongDescription": "Spor interaksjonar frå besøkande, som sidevisingar, klikk, nedlastingar og hendingar, på ein offentleg nettstad. Éi måleeining kan omfatte fleire domene og underdomene, eller du kan opprette eigne måleeiningar for kvart av dei.",
         "Websites": "Nettstadar"
     }
 }

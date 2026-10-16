@@ -140,6 +140,8 @@
         "ProductSKU": "Artikelnummer (SKU)",
         "ProductSKUs": "Produktartikelnummern",
         "Products": "Produkte",
+        "RecommendationCountOnePage": "1 Seite",
+        "RecommendationCountPages": "%s Seiten",
         "ReturningVisitorsConversionRateIs": "Umsätze pro wiederkehrendem Besucher: %s",
         "SendEvent": "Ein Ereignis auslösen",
         "SingleGoalOverviewDocumentation": "Dies ist eine Übersicht über die Konversionen eines einzelnen Ziels. %s Die Sparklines (kleine Graphen) können durch Klicken vergrößert werden.",

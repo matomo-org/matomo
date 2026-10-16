@@ -9,6 +9,7 @@
         "ClickToStarOrUnstar": "Bu nota işaret koymak ya da kaldırmak için tıklayın.",
         "CreateNewAnnotation": "Not ekle…",
         "EnterAnnotationText": "Notunuzu yazın…",
+        "HideAnnotations": "Notları gizle",
         "HideAnnotationsFor": "%s için notları gizle…",
         "IconDesc": "Bu tarih aralığındaki notları görüntüle.",
         "IconDescHideNotes": "Bu tarih aralığındaki notları gizle.",
@@ -16,6 +17,7 @@
         "LoginToAnnotate": "Not eklemek için oturum açın.",
         "NoAnnotations": "Bu tarih aralığında bir not yok.",
         "PluginDescription": "Bu özellik sitede farklı günlerde yaptığınız değişiklikleri veri incelemeleri ve düşüncelerinizi çalışma arkadaşlarınızla paylaşmak için notlar eklenmesini sağlar. Verilerinize not ekleyerek neden bu şekilde görüntülendiklerini hatırlayabilirsiniz.",
+        "ShowAnnotations": "Notları görüntüle",
         "ViewAndAddAnnotations": "%s için notları görüntüle ve yeni not ekle…",
         "YouCannotModifyThisNote": "Bu notu siz eklemediğiniz ya da yönetici yetkileriniz olmadığı için düzenleyemezsiniz."
     }

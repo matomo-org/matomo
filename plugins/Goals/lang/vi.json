@@ -75,6 +75,8 @@
         "ProductName": "Tên sản phẩm",
         "ProductSKU": "Sản phẩm SKU",
         "Products": "Các sản phẩm",
+        "RecommendationCountOnePage": "1 trang",
+        "RecommendationCountPages": "%s trang",
         "ReturningVisitorsConversionRateIs": "Tỷ lệ chuyển đổi khách truy cập quay lại là %s",
         "SingleGoalOverviewDocumentation": "Đây là tổng quan về chuyển đổi một mục tiêu duy nhất. %s Các Sparkline dưới biểu đồ có thể được mở rộng bằng cách nhấp vào chúng.",
         "URL": "URL",

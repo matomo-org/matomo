@@ -29,11 +29,6 @@
         "PluginDescription": "Zeige und vergleiche alle Webseiten und Apps in diesem hilfreichen „Alle Webseiten“-Dashboard.",
         "SegmentationNotSupported": "Segmentierung wird nicht unterstützt",
         "SingleWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht über eine bestimmte Webseite, in dem die allgemeinsten Metriken Ihrer Besucher ausgewertet werden.",
-        "TopLinkTooltip": "Vergleichen Sie Web-Analyse-Statistiken für alle Ihre Webseiten.",
-        "TotalAiChatbotsRequests": "Gesamtzahl der Anfragen an KI-Chatbots",
-        "TotalHits": "Gesamtanzahl der Aufrufe",
-        "TotalHitsIncludingAiTooltip": "Gesamtanzahl der Zugriffe: Einschließlich aller Zugriffe durch Menschen und Anfragen von KI-Chatbots",
-        "TotalPageviews": "Gesamte Seitenansichten",
-        "TotalVisits": "Gesamte Besuche"
+        "TopLinkTooltip": "Vergleichen Sie Web-Analyse-Statistiken für alle Ihre Webseiten."
     }
 }

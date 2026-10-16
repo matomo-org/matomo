@@ -27,17 +27,19 @@
         "MysqlMaxPacketSizeWarning": "MySQL veri tabanınız için '%1$smax_allowed_packet%2$s' değerini en az %3$s olarak ayarlamanız önerilir. Şu anda %4$s olarak ayarlanmış.",
         "MysqlTemporaryTablesWarning": "Matomo uygulamasının düzgün çalışabilmesi için CREATE TEMPORARY TABLES MySQL izninin verilmiş olması gereklidir.",
         "MysqlTransactionLevel": "İşlem yalıtma düzeyinin değiştirilmesi desteklenmiyor. Arşivleme çalışır ancak daha yavaş olabilir. Olabiliyorsa `binlog_format` seçeneğinin `row` olarak değiştirilmesi önerilir.",
-        "NoDataForReportArchivingNotRun": "Yakın zamanda raporlarınız arşivlenmemiş. %1$sRaporlarınızı üretmek hakkında ayrıntılı bilgi almak için buraya tıklayabilirsiniz.%2$s",
+        "NoDataForReportArchivingNotRun": "Yakın zamanda raporlarınız arşivlenmemiş. %1$sRaporlarınızı üretmek ile ilgili ayrıntılı bilgi almak için buraya tıklayabilirsiniz.%2$s",
         "PHPFPMWarningApache": "PHP FPM, .php dosyaları için .htaccess kurallarını yok sayar. Hassas dosyalara doğrudan erişilemediğinden emin olmak için, %3$s satırının hemen üstündeki apache sanal sunucu yapılandırmanızdaki %2$s bölümüne %1$s satırını ekleyerek, belirli klasörlerin PHP FPM tarafından işlenmesini engellemeniz önerilir.",
         "PHPFPMWarningGeneric": "PHP FPM, .php dosyaları için .htaccess kurallarını yok sayabilir. Hassas dosyalara doğrudan erişilemediğinden emin olmak için, site sunucunuzu /config klasörünü PHP FPM tarafından işlenmesini engelleyecek şekilde yapılandırmanız önerilir.",
         "PHPFPMWarningNginx": "PHP FPM, .php dosyaları için .htaccess kurallarını yok sayar. Hassas dosyalara doğrudan erişilemediğinden emin olmak için, belirli klasörlerin PHP FPM tarafından işlenmesini engellemeniz önerilir. Ayrıntılı bilgi almak için %1$s resmi Nginx sunucu yapılandırmasına %2$s bakabilirsiniz",
         "PrivateDirectoryCantCheckUrl": "%1$s adresine tıklamak sonuç vermedi: %2$s",
         "PrivateDirectoryInternetDisabled": "Bu Matomo kopyasında İnternet özellikleri kapatılmış olduğundan aşağıdaki adreslerin erişilebilir olup olmadığı denetlenemedi.",
-        "PrivateDirectoryIsAccessible": "Yukarıdaki adreslere tarayıcı ile erişilememesi gerektiği halde erişilebiliyor. Bu adreslerdeki içerikler, sunucunuz ve potansiyel olarak kullanıcılarınız hakkında bilgiler sağlayabilir. Bu durum potansiyel bir güvenlik riski oluşturabilir. Lütfen bu adreslere erişimi kısıtlayın.",
+        "PrivateDirectoryIsAccessible": "Yukarıdaki adreslere tarayıcı ile erişilememesi gerektiği halde erişilebiliyor. Bu adreslerdeki içerikler, sunucunuz ve potansiyel olarak kullanıcılarınız ile ilgili bilgiler sağlayabilir. Bu durum potansiyel bir güvenlik riski oluşturabilir. Lütfen bu adreslere erişimi kısıtlayın.",
         "PrivateDirectoryManualCheck": "Lütfen erişilip erişilemediğini görmek için adresleri el ile bir tarayıcıda açın. Yapabiliyorsanız sunucu yapılandırmasını değiştirerek, bu dosyalara/klasörlere İnternet ya da İntranet üzerinden bir tarayıcı ile erişilmesini engellemeniz gerekebilir.",
         "RecommendedPrivateDirectories": "Önerilen gizli klasörler",
         "RequiredPrivateDirectories": "Gerekli kişisel klasörler",
         "Sections": "Bölümler",
+        "SessionStorageFormat": "Oturum kaydetme biçimi",
+        "SessionStorageFormatWarning": "Oturumlar %1$s olarak kaydediliyor çünkü session.serialize_handler, php_serialize olarak ayarlanamadı. Bu nedenle aynı anda iki istekte yapılan değişiklikler kaybolabilir. Php.ini dosyanızdan php_serialize olarak ayarlayın.",
         "UrlsAccessibleViaBrowser": "Yukarıdaki adreslere tarayıcı üzerinden erişilebildiğini gördük, ancak bunun yapılamamasını öneririz. Yapabiliyorsanız, bu klasörelere erişme iznini kısıtlayın."
     }
 }

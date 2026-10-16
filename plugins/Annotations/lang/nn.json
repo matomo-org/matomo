@@ -1,1 +1,24 @@
-{}
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Legg til merknader for %s …",
+        "AnnotationOnDate": "Merknad %1$s: %2$s",
+        "Annotations": "Merknader",
+        "ClickToDelete": "Klikk for å slette denne merknaden.",
+        "ClickToEdit": "Klikk for å redigere denne merknaden.",
+        "ClickToEditOrAdd": "Klikk for å redigere eller leggje til ein ny merknad.",
+        "ClickToStarOrUnstar": "Klikk for å stjernemerke denne merknaden eller fjerne stjerna.",
+        "CreateNewAnnotation": "Opprett ein ny merknad …",
+        "EnterAnnotationText": "Skriv inn notatet ditt …",
+        "HideAnnotations": "Gøym merknader",
+        "HideAnnotationsFor": "Gøym merknader for %s …",
+        "IconDesc": "Vis notat for dette datointervallet.",
+        "IconDescHideNotes": "Gøym notat for dette datointervallet.",
+        "InlineQuickHelp": "Du kan lage merknader for å markere spesielle hendingar (som eit nytt blogginnlegg eller ny design på nettstaden), for å lagre dataanalysane dine eller for å lagre anna du meiner er viktig.",
+        "LoginToAnnotate": "Logg inn for å lage ein merknad.",
+        "NoAnnotations": "Det finst ingen merknader for dette datointervallet.",
+        "PluginDescription": "Lèt deg feste notat til ulike dagar for å markere endringar på nettstaden, lagre analysar du gjer av dataa dine og dele tankane dine med kollegaer. Når du merkjer dataa dine, hugsar du kvifor dataa ser ut som dei gjer.",
+        "ShowAnnotations": "Vis merknader",
+        "ViewAndAddAnnotations": "Vis og legg til merknader for %s …",
+        "YouCannotModifyThisNote": "Du kan ikkje endre denne merknaden, fordi du ikkje har laga han og heller ikkje har administratortilgang til denne nettstaden."
+    }
+}
