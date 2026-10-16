@@ -71,14 +71,16 @@
         opacity: 0.4;
         font-size: 16px;
         line-height: 1;
-        color: @theme-color-text-light;
+        // `!important` here and below: in a card title, _cards.less forces the text colour on
+        // every link with an `!important` of its own.
+        color: @theme-color-text-light !important;
         text-decoration: none;
     }
 
     // Same specificity as the rule above, so it has to stay below it to win.
     .enrichedHeadline__helpIcon:hover,
     .enrichedHeadline__helpIcon--active {
-        color: @theme-color-link;
+        color: @theme-color-link !important;
         opacity: 0.9;
         text-decoration: none;
     }
