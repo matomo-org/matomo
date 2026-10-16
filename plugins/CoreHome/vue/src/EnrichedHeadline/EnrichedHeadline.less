@@ -1,39 +1,24 @@
-// The title and whatever sits beside it. Everything stays in the inline flow, so the title wraps
-// over the whole width and the icons bar sits after its last word, taking room from that line
-// alone. Reserving a column for the bar instead would take its width off every line, which in a
-// narrow widget costs the title several of them. Taking room, rather than being laid over the
-// row, is what keeps the icons off whatever sits to the right of the heading: a last line with
-// no room left for them breaks before its last word instead.
+// Everything stays in the inline flow: the title wraps over the whole width and the icons bar
+// follows its last word, taking room from that line alone. Laid over the row instead, the icons
+// ended up under the controls beside the heading.
 //
-// Except where the last word and the bar are wider than the title on their own, a long word in
-// a narrow column, eg. "Bildschirmauflösungen" in a three-column dashboard at 1024px. Nothing
-// keeps both on one line then, and the title's `overflow-wrap: break-word` breaks before the bar,
-// which takes a line of its own: the heading is a line taller than its text. Accepted as the
-// lesser evil: breaking inside the word instead reads worse, and a bar laid over the row is what
-// put the icons under the Export button.
-//
-// What stops the bar moving the title as it appears is that it is never taken out of the flow:
-// see `visibility` below. A bar that comes and goes would shift the text both horizontally and,
-// through the line box's baseline, vertically.
+// A last word too long to share a line with the bar, eg. "Bildschirmauflösungen" in a narrow
+// dashboard column, leaves the bar on a line of its own: breaking inside the word reads worse.
 .enrichedHeadline {
     min-height: 22px;
 
     .enrichedHeadline__title {
-        // Inline rather than inline-block: a block would take the whole width as one box and
-        // push the bar onto a line of its own, where the text itself still had room to spare.
+        // Inline rather than inline-block, which would push the bar onto a line of its own.
         display: inline;
     }
 
     .enrichedHeadline__title--editable {
         cursor: pointer;
-        // an editable title still takes the colour of its heading, not the link colour
         color: inherit;
     }
 
-    // The spacing lives here and not on the panel, because it is about the heading directly
-    // above rather than about the panel: a host placing it elsewhere spaces it its own way.
+    // Spaced here rather than on the panel, which a host may render elsewhere.
     .enrichedHeadline__help {
-        // a row to itself, below the title and the icons
         display: block;
         margin: 10px 0;
 
@@ -43,34 +28,28 @@
         }
     }
 
-    // Keeps the bar on the title's last word: a line breaking before the bar would leave it alone
-    // on a line of its own, making the heading taller than its text, at rest. Chrome already
-    // offers no break between a letter and the inline box that follows it; the word joiner says
-    // so for any engine that would, and `nowrap` keeps the line from breaking after it.
-    // Only a word ending right before it is kept: whitespace between the title's text and the
-    // glue is a break opportunity no joiner removes.
+    // Keeps the bar on the title's last word, so it never sits alone on a line at rest: the word
+    // joiner forbids a break before the bar, `nowrap` one inside it. A space between the title
+    // and the glue is still a break opportunity.
     .enrichedHeadline__iconsGlue {
-        // Inline, so it stays on the title's line rather than starting one of its own.
         display: inline;
         white-space: nowrap;
     }
 
-    // Generated rather than written in the DOM, so it stays out of the heading's text, which
-    // code reads the report name from. The empty alternative text keeps it from assistive
-    // technologies; an engine that does not know the syntax drops it and keeps the line above.
+    // Generated, so it stays out of the heading's text, which code reads the report name from.
+    // The empty alternative text hides it from assistive technologies; an engine that does not
+    // know that syntax keeps the first declaration.
     .enrichedHeadline__iconsGlue::before {
         content: "\2060";
         content: ~'"\2060" / ""';
     }
 
-    // Hidden rather than taken out of the flow, so the line boxes are the same whether or not the
-    // icons are showing, and nothing moves when the pointer arrives.
+    // Hidden rather than taken out of the flow, so the title does not move when the icons show.
     .enrichedHeadline__iconsBar {
         display: inline-flex;
         align-items: center;
-        // As tall as one line of the title and aligned to its top, so the icons centre on that
-        // line without ever growing it. Aligned to the baseline instead, the 22px rating icons
-        // alone would grow the heading by three pixels.
+        // One line tall and aligned to its top, so the icons centre on the line without growing
+        // it, which the 22px rating icons would on the baseline.
         height: 1lh;
         vertical-align: top;
         visibility: hidden;
@@ -80,11 +59,10 @@
         visibility: visible;
     }
 
-    // No `display` or `vertical-align`: a flex item of the bar above, so both are ignored.
-    // Line height 1 here and on the help icon, so neither is taller than its glyph or image.
+    // Line height 1 here and on the help icon: with the title's, the rating icons sit 6px high.
     .enrichedHeadline__ratingIcons {
         margin-left: 6px;
-        line-height: 1 !important;
+        line-height: 1;
     }
 
     .enrichedHeadline__helpIcon {
@@ -92,15 +70,15 @@
         margin-left: 8px;
         opacity: 0.4;
         font-size: 16px;
-        line-height: 1 !important;
-        color: @theme-color-text-light !important;
+        line-height: 1;
+        color: @theme-color-text-light;
         text-decoration: none;
     }
 
     // Same specificity as the rule above, so it has to stay below it to win.
     .enrichedHeadline__helpIcon:hover,
     .enrichedHeadline__helpIcon--active {
-        color: @theme-color-link !important;
+        color: @theme-color-link;
         opacity: 0.9;
         text-decoration: none;
     }
