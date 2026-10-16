@@ -303,9 +303,16 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     this.addMultiEvolutionRow(label, $(originalRow || tr).data('comparison-series'), originalRow || tr);
 
     // check whether we have rows marked for multi row evolution
-    var extraParams = $.extend({}, $(originalRow || tr).data('param-override'));
+    var paramOverride = $(originalRow || tr).data('param-override');
+    var extraParams = $.extend({}, paramOverride);
     if (typeof extraParams !== 'object') {
         extraParams = {};
+    }
+
+    // an "All visits" comparison row has no segment in its override, so send an empty one instead of
+    // letting the request fall back to the report's segment
+    if (typeof paramOverride === 'object' && paramOverride !== null && !paramOverride.segment) {
+        extraParams.segment = '';
     }
 
     if (this.multiEvolutionRows.length > 1) {
