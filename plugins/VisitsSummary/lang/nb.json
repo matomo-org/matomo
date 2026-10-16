@@ -19,7 +19,7 @@
         "NbUsersDescription": "brukere",
         "NbVisitsBounced": "besøk har takket for seg (forlot nettstedet etter én side)",
         "NbVisitsDescription": "besøk",
-        "PluginDescription": "Rapporterer generelle analysetall: besøk, unike besøkere, antall handlinger, sprettfrekvens, etc.",
+        "PluginDescription": "Rapporterer generelle analysetall: besøk, unike besøkende, antall handlinger, sprettfrekvens, etc.",
         "VisitsSummary": "Besøksammendrag",
         "VisitsSummaryDocumentation": "Dette er en oversikt over besøksutvikling.",
         "VisitsSummaryReportDocumentation": "Denne rapporten gir en veldig generell oversikt over hvordan dine besøkende oppfører seg.",
