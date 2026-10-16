@@ -7,10 +7,17 @@
 
 <template>
   <div
-    class="siteSelector piwikSelector borderedControl"
-    :class="{'expanded': showSitesList, 'disabled': !hasMultipleSites}"
+    class="siteSelector mtm-selector"
+    :class="{
+      'mtm-selector--expanded': showSitesList,
+      'expanded': showSitesList,
+      'mtm-selector--readOnly': !hasMultipleSites,
+      'mtm-selector--fullWidthOnSmallScreen': fullWidthOnSmallScreen,
+    }"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
+    <!-- `siteSelector` and `expanded` carry no styles: plugins read them to find the selector and
+         to know its list is open. -->
     <input
       v-if="name"
       type="hidden"
@@ -22,28 +29,44 @@
       @click="onClickSelector"
       @keydown="onPressEnter($event)"
       href="javascript:void(0)"
-      :class="{'loading': isLoading}"
-      class="title"
+      class="mtm-selector__trigger"
       tabindex="4"
       v-tooltips
       :title="selectorLinkTitle"
     >
-      <span>
+      <span
+        v-if="displayedModelValue?.name || !placeholder"
+        class="mtm-selector__label"
+      >
         <span
+          class="siteSelector__name"
           v-text="displayedModelValue?.name || firstSiteName"
-          v-if="displayedModelValue?.name || !placeholder"
         />
-        <span
-          v-if="!displayedModelValue?.name && placeholder"
-          class="placeholder"
-        >{{ placeholder }}</span>
       </span>
       <span
-        class="icon icon-chevron-down"
-        :class="{'iconHidden': isLoading, 'collapsed': !showSitesList}"
-      />
+        v-else
+        class="mtm-selector__label mtm-selector__label--placeholder"
+      >
+        <span class="siteSelector__name">{{ placeholder }}</span>
+      </span>
+      <span
+        v-if="hasMultipleSites"
+        class="mtm-selector__rightIcon"
+        aria-hidden="true"
+      >
+        <span
+          v-if="isLoading && showSitesList"
+          class="siteSelector__loading"
+        />
+        <span
+          v-else
+          class="icon-chevron-down"
+        />
+      </span>
     </a>
-    <div class="piwikSelector__dropdown">
+    <div
+      class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft"
+    >
       <div class="mtm-dropdownPanel mtm-dropdownPanel--fixedWidth">
         <div
           class="mtm-dropdownPanel__search"
@@ -195,6 +218,7 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [] as string[],
     },
+    fullWidthOnSmallScreen: Boolean,
   },
   emits: ['update:modelValue', 'blur'],
   components: {
@@ -380,7 +404,7 @@ export default defineComponent({
       }
     },
     onPressEnter(event: KeyboardEvent) {
-      if (event.key !== 'Enter') {
+      if (event.key !== 'Enter' || !this.hasMultipleSites) {
         return;
       }
 

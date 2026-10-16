@@ -130,7 +130,7 @@ describe("Comparison", function () {
         await page.goto(dashboardUrl);
         await page.waitForNetworkIdle();
 
-        await page.click('#periodString #date');
+        await page.click('#periodString .mtm-selector__trigger');
 
         await page.waitForSelector('input#comparePeriodTo', { visible: true });
         await page.click('input#comparePeriodTo + span');
@@ -147,7 +147,7 @@ describe("Comparison", function () {
     });
 
     it('should add a segment comparison when the compare icon in the segment list is clicked', async () => {
-        await page.click('.segmentationContainer');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await (await page.jQuery('li[data-idsegment=2] .compareSegment', { waitFor: true })).click();
         await page.waitForNetworkIdle();
         await page.waitForSelector('.widget');
@@ -216,7 +216,7 @@ describe("Comparison", function () {
     });
 
     it('should remove period comparison if period is selected w/o compare set', async () => {
-        await page.click('#periodString .periodSelector');
+        await page.click('#periodString .mtm-selector__trigger');
         await page.waitForSelector('input#comparePeriodTo', { visible: true });
         await page.click('input#comparePeriodTo + span');
 
