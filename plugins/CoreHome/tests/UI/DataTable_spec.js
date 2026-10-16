@@ -19,16 +19,12 @@ describe('DataTable', function () {
     metricColumn: `${widgetSelector} #nb_uniq_visitors`,
     limitDropdownTrigger: `${widgetSelector} .limitSelection .mtm-selector__trigger`,
     limitDropdownMenu: `${widgetSelector} .limitSelection .mtm-dropdownPanel__menu`,
-    // One 3-dots trigger opens one menu holding every action, so the visualisation list and the
-    // config items no longer have separate triggers of their own.
     actionsTrigger: `${widgetSelector} .reportHeader__actionsTrigger`,
     actionsMenu: `${widgetSelector} .reportHeader__actionsMenu`,
     visualizationButtons: `${widgetSelector} .reportHeader__actionsMenu .dataTableFooterIcons .tableIcon[data-footer-icon-id]`,
-    // Scoped to the widget: the page shows several reports and each renders its own copy of the
-    // menu in its own header, so an unscoped selector picks whichever comes first in the document.
+    // Scoped to the widget: the page shows several reports, each with its own header.
     totalsRowToggle: `${widgetSelector} .dataTableShowTotalsRow`,
     percentageValuesToggle: `${widgetSelector} .dataTableShowPercentageValues`,
-    // scoped to the widget: the page shows four reports, each with its own header search
     searchInput: `${widgetSelector} .reportHeader__search .mtm-searchInput__input`,
     totalsRow: `${widgetSelector} table.dataTable tr.totalsRow`,
     footerMessage: `${widgetSelector} .datatableFooterMessage`,
@@ -260,7 +256,6 @@ describe('DataTable', function () {
     // the widget name from the metadata still wins over the report's own title
     expect(layout.title).to.be.equal('Device type');
     expect(layout.widgetControls).to.be.equal(0);
-    // the actions moved into the header: nothing is rendered around the table any more
     expect(layout.actionBarsInTable).to.be.equal(0);
     expect(layout.actionsInHeader).to.be.equal(1);
   });
@@ -291,10 +286,8 @@ describe('DataTable', function () {
     expect(layout.title).to.be.equal('Device type');
   });
 
-  // The icons that follow a title, its rating thumbs among them, were laid over the line and ended
-  // up under the Export button or the ⋮ trigger beside it: a click meant for one opened the other.
-  // Every report on the page is checked across a range of widths, since only some of them leave a
-  // title just too little room.
+  // A click meant for 👎 used to open the Export menu under it. Checked across a range of widths,
+  // since only some leave a title just too little room.
   it('should keep the icons that follow a title clear of the controls beside it', async function () {
     await openDevicesDetectionWidget();
 
@@ -336,9 +329,8 @@ describe('DataTable', function () {
     expect(overlaps).to.deep.equal([]);
   });
 
-  // A report shown without a content block card keeps the metrics of the plain `h2` it used to
-  // be, and ReportHeader.less carries hand-copied values to do so. Compare against a real `h2`
-  // rendered in the same page so the copies fail loudly if the global heading styles ever change.
+  // ReportHeader.less copies the plain `h2` metrics by hand for a report shown without a card, so
+  // a real `h2` on the same page catches the copies drifting from the global heading styles.
   it('should give a report shown without a card the metrics of a plain heading', async function () {
     const ecommerceLog = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09"
       + "#?idSite=1&period=year&date=2012-08-09&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog";
@@ -402,9 +394,7 @@ describe('DataTable', function () {
     expect(ajaxRequestCount).to.be.equal(2);
   });
 
-  // The configure icon used to be highlighted while a non-default setting was active. There is no
-  // configure icon any more, so only the swap itself is asserted here; the menu entry's own wording
-  // and accessible name are covered in DataTableActions.component.spec.ts.
+  // The menu entry's wording and accessible name are covered in DataTableActions.component.spec.ts.
   it('should swap absolute and percentage values when the percentage setting is toggled', async function () {
     await loadWidget();
 
@@ -513,8 +503,7 @@ describe('DataTable', function () {
 
     cells.forEach((cell) => {
       expect(cell.value).to.match(/%$/);
-      // comparison rows append their period over period change, which stays next to the
-      // hover value exactly as it did before percentages could be shown
+      // comparison rows append their period over period change to the hover value
       expect(cell.hover).to.match(/^[\d,.]+( \([+-][\d,.]+%\))?$/);
     });
   });
