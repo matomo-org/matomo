@@ -124,6 +124,8 @@ class PolicyManager
     }
 
     /**
+     * Settings controlled by the given policy, in the order they ask to be listed in.
+     *
      * @param class-string<CompliancePolicy> $policyClass
      * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
      */
@@ -139,6 +141,15 @@ class PolicyManager
 
             $underPolicy[] = $setting;
         }
+
+        // the order hint of a setting decides where a compliance dashboard lists it, the same way
+        // a menu item asks for its position. Settings sharing a hint are ordered by their policy
+        // setting id rather than by their title, which is translated and would make the order of
+        // the dashboard depend on the language it is read in
+        usort($underPolicy, static function (string $settingA, string $settingB): int {
+            return [$settingA::getPolicyOrder(), $settingA::getPolicySettingId()]
+                <=> [$settingB::getPolicyOrder(), $settingB::getPolicySettingId()];
+        });
 
         return $underPolicy;
     }

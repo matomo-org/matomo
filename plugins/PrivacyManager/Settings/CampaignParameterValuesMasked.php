@@ -101,6 +101,11 @@ class CampaignParameterValuesMasked implements
         return '';
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 65;
+    }
+
     public static function getPolicyRequirements(): array
     {
         return [
