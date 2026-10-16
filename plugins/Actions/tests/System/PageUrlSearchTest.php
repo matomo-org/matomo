@@ -11,8 +11,10 @@ namespace Piwik\Plugins\Actions\tests\System;
 
 use Piwik\API\Request;
 use Piwik\DataTable;
+use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Cache as TrackerCache;
 
 /**
  * A full URL pasted into the search of a page URL report, which the labels, holding only the path,
@@ -28,13 +30,16 @@ class PageUrlSearchTest extends IntegrationTestCase
     /**
      * @var int
      */
-    private $idSite;
+    private static $idSite;
 
-    public function setUp(): void
+    /**
+     * Tracks once for the whole class: the tables are restored before each test.
+     */
+    protected static function beforeTableDataCached()
     {
-        parent::setUp();
+        parent::beforeTableDataCached();
 
-        $this->idSite = Fixture::createWebsite(
+        self::$idSite = Fixture::createWebsite(
             self::DATE . ' 00:00:00',
             $ecommerce = 0,
             $siteName = false,
@@ -48,7 +53,7 @@ class PageUrlSearchTest extends IntegrationTestCase
             $excludedParameters = 'sessionid'
         );
 
-        $this->trackPageViews([
+        self::trackPageViews([
             'http://example.com/products/item?id=123',
             'http://example.com/products/item?id=124',
             // the same last part of the path, under another folder
@@ -162,13 +167,28 @@ class PageUrlSearchTest extends IntegrationTestCase
         }
     }
 
+    public function testComparesTheSearchedUrlAsIsWhenItCannotBeNormalized()
+    {
+        // archive first, then make the site's tracker cache, which the normalization reads, fail to build
+        $this->searchPageUrls('item', true);
+        TrackerCache::deleteCacheWebsiteAttributes(self::$idSite);
+        Piwik::addAction('Tracker.Cache.getSiteAttributes', function () {
+            throw new \Exception('The tracker cache cannot be built');
+        });
+
+        $this->assertEquals(
+            ['/products/item?id=123'],
+            $this->searchPageUrls('https://example.com/products/item?id=123', true)
+        );
+    }
+
     /**
      * @param list<string> $urls Each one tracked as its own visit.
      */
-    private function trackPageViews(array $urls): void
+    private static function trackPageViews(array $urls): void
     {
         foreach ($urls as $index => $url) {
-            $tracker = Fixture::getTracker($this->idSite, sprintf('%s %02d:00:00', self::DATE, $index), $defaultInit = true);
+            $tracker = Fixture::getTracker(self::$idSite, sprintf('%s %02d:00:00', self::DATE, $index), $defaultInit = true);
             $tracker->setUrl($url);
             Fixture::checkResponse($tracker->doTrackPageView('page ' . $index));
         }
@@ -181,7 +201,7 @@ class PageUrlSearchTest extends IntegrationTestCase
     {
         /** @var DataTable $table */
         $table = Request::processRequest($method, [
-            'idSite' => $this->idSite,
+            'idSite' => self::$idSite,
             'period' => 'day',
             'date' => self::DATE,
             'flat' => $flat ? '1' : '0',

@@ -273,7 +273,7 @@ class DataTableGenericFilter
             return null;
         }
 
-        return $this->report->getSearchFilter(Common::unsanitizeInputValue($filterParameters[1]));
+        return $this->report->getSearchFilter($filterParameters[1]);
     }
 
     private function invokeCallbackBeforeRowLimitingFilters(DataTable $datatable): void

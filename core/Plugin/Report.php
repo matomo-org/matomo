@@ -770,9 +770,10 @@ class Report
      * into a report whose labels hold only the path. The filter is applied to every table of the
      * response, and has to keep a row whose subtable still holds a match.
      *
-     * @param string $pattern The search as the request sent it.
+     * @param string $pattern The search as {@link Common::getRequestVar()} returns it, sanitized
+     *                        like the pattern the label filter receives.
      * @return callable|null A filter taking the DataTable to search.
-     * @internal
+     * @ignore
      */
     public function getSearchFilter(string $pattern): ?callable
     {

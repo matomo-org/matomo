@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Actions\DataTable\Filter;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
 use Piwik\Site;
@@ -35,7 +36,7 @@ class PageUrlSearch extends BaseFilter
 
     /**
      * @param DataTable $table
-     * @param string $searchedUrl A full URL, see {@link isFullUrl()}.
+     * @param string $searchedUrl A full URL, see {@link isFullUrl()}, sanitized as the request holds it.
      */
     public function __construct($table, string $searchedUrl)
     {
@@ -54,14 +55,21 @@ class PageUrlSearch extends BaseFilter
     public function filter($table)
     {
         $site = $table->getMetadata('site');
-
-        $searched = null;
-        $isOnSiteHost = false;
-        if ($site instanceof Site) {
-            $idSite = $site->getId();
-            $searched = $this->splitUrl((string) PageUrl::excludeQueryParametersFromUrl(trim($this->searchedUrl), $idSite));
-            $isOnSiteHost = null !== $searched && in_array($searched['host'], $this->getSiteHosts($idSite), true);
+        if (!$site instanceof Site) {
+            // without its site, the URL cannot be normalized like the tracker did: search the labels instead
+            $table->filter('PatternRecursive', ['label', $this->searchedUrl]);
+            return;
         }
+
+        $idSite = $site->getId();
+        try {
+            $url = PageUrl::excludeQueryParametersFromUrl(trim($this->searchedUrl), $idSite);
+        } catch (\Exception $e) {
+            $url = Common::unsanitizeInputValue(trim($this->searchedUrl));
+        }
+
+        $searched = $this->splitUrl((string) $url);
+        $isOnSiteHost = null !== $searched && in_array($searched['host'], $this->getSiteHosts($idSite), true);
 
         $this->deleteRowsNotMatching($table, $searched, $isOnSiteHost);
     }
@@ -81,6 +89,8 @@ class PageUrlSearch extends BaseFilter
             $url = $row->getMetadata('url');
             $rowUrl = is_string($url) ? $this->splitUrl($url) : null;
 
+            // the path and query are compared as tracked, neither decoded nor reordered: `/café` does
+            // not find a page tracked as `/caf%C3%A9`, nor `?b=2&a=1` one tracked as `?a=1&b=2`
             if (
                 null === $searched
                 || null === $rowUrl
