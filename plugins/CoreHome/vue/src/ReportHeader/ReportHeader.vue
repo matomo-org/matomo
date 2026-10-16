@@ -13,7 +13,6 @@
       'reportHeader--plainTitle': plainTitle,
     }"
   >
-    <!-- First line: the title, the widget controls and the report's own menu. -->
     <div v-if="!isEmpty" ref="headerRow" class="reportHeader__header">
       <!-- `.widgetName` and the nested <span> are an external hook dataTable.js,
            SingleMetricView and UserCountryMap look for. `.self` stops the key handlers
@@ -43,8 +42,6 @@
       </component>
       <span v-if="!isFullPage" class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
 
-      <!-- Widget controls: hidden until the widget is hovered/focused. Each action emits an
-           intent that onControl() bridges to the jQuery widget. -->
       <div ref="headerControls" class="reportHeader__controls">
         <div class="reportHeader__widgetControls">
           <WidgetControls
@@ -60,14 +57,10 @@
           />
         </div>
 
-        <!-- The report's 3-dots menu. The panel is one menu built from the report's own actions;
-           when the report has none the whole toolbar stays `:empty` and claims none of the
-           header's gap. -->
+        <!-- Without any report action, the toolbar stays `:empty` and takes none of the gap. -->
         <div class="reportHeader__toolbar">
-          <!-- Promoted report actions, never beside the widget controls: separate scopes.
-               Least deserving first, so the highest rank sits nearest the trigger and a new one
-               appears to its left rather than pushing the others along. -->
-          <!-- One toggle, so it needs no panel and no label: the icon and its title carry it. -->
+          <!-- Promoted actions, least deserving first: the highest rank sits nearest the ⋮
+               trigger, and one promoted later appears to the left, not pushing the others. -->
           <div
             v-if="isPromoted('annotations')"
             class="mtm-selector mtm-selector--iconOnly"
@@ -107,7 +100,6 @@
                 <span class="icon-chevron-down" />
               </span>
             </button>
-            <!-- Choosing an export is the end of the interaction, so the panel folds with it. -->
             <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
             <div
               class="mtm-selector__dropdown"
@@ -186,12 +178,8 @@
               <span class="icon-more-verti" aria-hidden="true" />
             </button>
 
-            <!-- ExpandOnClick only closes on a click *outside* the element, so picking an action
-               would otherwise leave the menu hanging open over the reloading report. The
-               dropdown it replaces closed on item click, so match that. -->
-            <!-- The click handler only dismisses the menu after an entry was chosen. Every entry is
-               a focusable control of its own and Escape closes the menu through ExpandOnClick, so
-               no keyboard path depends on it. -->
+            <!-- The click only dismisses the menu once an entry is chosen: every entry is
+                 focusable and Escape closes the menu, so no keyboard path depends on it. -->
             <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
             <div
               class="reportHeader__actionsMenu"
@@ -238,14 +226,11 @@
       </div>
     </div>
 
-    <!-- Where EnrichedHeadline puts its help panel, so it spans the card instead of sharing the
-         header row with the actions and pushing them down. Mounted as soon as the report has
-         help rather than when the panel opens, because a teleport needs its target to exist. -->
+    <!-- Where EnrichedHeadline puts its help panel, so it spans the card instead of pushing the
+         actions down. Mounted as soon as there is help: a teleport needs its target to exist. -->
     <div v-if="hasHelpRow" ref="helpRow" class="reportHeader__help" />
 
-    <!-- Second line, mounted independently of the first so a titleless report still gets its
-         search. Only the search lives here today; a later story adding a sibling must widen the
-         condition below. -->
+    <!-- Mounted independently of the line above, so a titleless report still gets its search. -->
     <div v-if="canSearch" class="reportHeader__subheader">
       <div class="reportHeader__search">
         <SearchInput
@@ -286,7 +271,6 @@ import SearchInput from '../SearchInput/SearchInput.vue';
 import WidgetControls from '../WidgetControls/WidgetControls.vue';
 import { translate } from '../translate';
 
-// A search is a full DataTable reload, so debounce to avoid one on every keystroke.
 const SEARCH_DEBOUNCE_MS = 300;
 
 // Promote only while the title keeps this much of the line, whatever it says: two widgets of the
@@ -301,10 +285,7 @@ export interface ControlVisibility {
   close: boolean;
 }
 
-// Which widget controls each context exposes. Kept here so every surface that renders
-// the header stays consistent with the redesign spec. `dashboard` is the normal widget state
-// (all controls only make sense on a dashboard); `maximised`/`collapsed` are its state
-// variants; `widgetized`/`preview`/`fullPage` render no controls.
+// `maximised` and `collapsed` are states of a dashboard widget.
 const CONTROLS_BY_CONTEXT: Record<string, ControlVisibility> = {
   dashboard: {
     minimise: true, maximise: true, refresh: true, close: true,
@@ -332,14 +313,13 @@ export default defineComponent({
       type: String,
       default: 'dashboard',
     },
-    // Not `title`: that attribute on the twig host is picked up by the widget's v-tooltips
-    // directive and shown as a tooltip repeating the heading. Core passes `report-title`.
+    // Not `title`: on the twig host, the widget's v-tooltips directive shows it as a tooltip
+    // repeating the heading.
     reportTitle: {
       type: String,
       default: '',
     },
-    // @deprecated 6.0.0 - use `reportTitle`. 5.x only had `title`. Vue templates only: as a
-    // twig host attribute it would trigger the tooltip above.
+    // @deprecated 6.0.0 - use `reportTitle`. Vue templates only, see the tooltip above.
     title: {
       type: String,
       default: '',
@@ -354,16 +334,14 @@ export default defineComponent({
       default: 'h3',
     },
     enriched: Boolean,
-    // Keeps the plain heading metrics of a report that is not shown in a card.
+    // For a report not shown in a card: keeps the metrics of a plain heading.
     plainTitle: Boolean,
-    // A titleless widgetized embed still mounts the subheader for its search, so only the
-    // heading is suppressed, not the whole component.
     showTitle: {
       type: Boolean,
       default: true,
     },
-    // Left empty on purpose: EnrichedHeadline then names the rated feature after the rendered
-    // title, i.e. the widget name. Only dataTable.js sets it, to follow a related report.
+    // Empty by default, so EnrichedHeadline names the rated feature after the widget's title.
+    // dataTable.js sets it to follow a related report.
     featureName: {
       type: String,
       default: '',
@@ -384,9 +362,8 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    // Shows the search input; dataTable.js drives it from the report's `show_search` config.
     showSearch: Boolean,
-    // Current server-side pattern, pushed back after each reload to keep the field in sync.
+    // The server-side pattern, pushed back after each reload.
     searchQuery: {
       type: String,
       default: '',
@@ -395,9 +372,8 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    // Report action props, forwarded to DataTableActions. They are declared here rather than on
-    // a nested vue-entry because compileVueEntryComponents mounts parents first, which would
-    // leave a nested entry detached before its own turn came.
+    // Forwarded to DataTableActions. Declared here rather than on a nested vue-entry, which
+    // compileVueEntryComponents would detach by mounting this parent first.
     showFooter: Boolean,
     showFooterIcons: Boolean,
     footerIcons: {
@@ -425,8 +401,7 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    // Written by syncReportHeaderActions() with the key it published under, so this header cannot
-    // read one nobody wrote.
+    // The key syncReportHeaderActions() published this report's actions under.
     reportKey: {
       type: String,
       default: '',
@@ -448,8 +423,7 @@ export default defineComponent({
     showTotalsRow: Boolean,
     showExcludeLowPopulation: Boolean,
     showPivotBySubtable: Boolean,
-    // Not `translations`: DataTableActions uses that name for its own period/label map, and the
-    // header would otherwise shadow the global translate() helper in this file.
+    // Not `translations`, which would shadow the translate() helper in this file.
     actionTranslations: {
       type: Object,
       default: () => ({}),
@@ -479,9 +453,8 @@ export default defineComponent({
     ExpandOnClick,
   },
   emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick', 'search'],
-  // Created once: ExpandOnClick keeps its own state inside the binding object, so handing it a
-  // fresh one on every render would lose it. Cast on the way in because Vue unwraps the refs a
-  // composable held in data() carries, which is the shape the declaration below describes.
+  // Created once: ExpandOnClick keeps its state in the binding object, which a fresh one on
+  // every render would lose. Cast because Vue unwraps the refs of a composable held in data().
   created() {
     this.actionsSelector = useSelectorDropdown(
       { role: 'menu', expandedClass: 'reportHeader__actions--expanded' },
@@ -513,8 +486,7 @@ export default defineComponent({
       periodsBinding: null as unknown as Record<string, unknown>,
       exportBinding: null as unknown as Record<string, unknown>,
       helpContainer: null as HTMLElement | null,
-      // Local mirror of the field, seeded from `searchQuery`.
-      // Stands in until the first publish; see the reportKey prop.
+      // Until the table publishes its own, see the reportKey prop.
       mountedReportKey: '',
       query: this.searchQuery,
       searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
@@ -524,22 +496,19 @@ export default defineComponent({
     };
   },
   mounted() {
-    // Only until the table publishes and tells us the key it wrote - see syncReportHeaderActions().
     this.mountedReportKey = reportIdentity(this.$el as HTMLElement, this.reportId);
     this.watchForRoom();
     this.updatePromoted();
     this.syncHelpContainer();
   },
   watch: {
-    // The row is only in the DOM once there is help, so the teleport target has to be picked up
-    // again whenever that changes - switching to a related report with documentation, say.
+    // The row only exists while there is help, which a related report can change.
     hasHelpRow() {
       this.$nextTick(() => this.syncHelpContainer());
     },
     searchQuery(value: string) {
-      // Server-driven update; reflect it into the field without dispatching another search.
-      // Skip while a search is pending: a reload syncing the previous pattern back would
-      // otherwise revert the user's in-flight typing.
+      // Skipped while a search is pending: the reload of the previous pattern would revert what
+      // the user is typing.
       if (this.searchDebounceTimer) {
         return;
       }
@@ -576,15 +545,11 @@ export default defineComponent({
       const c = this.controls;
       return c.minimise || c.maximise || c.refresh || c.close;
     },
-    // The actions menu is offered wherever the report renders its footer icons. A subtable has
-    // none: ViewDataTable forces show_footer_icons off for one, and it reuses its parent's
-    // header anyway.
-    // What the menu renders from. Twig gives this header a starting point; on a reload the table is
-    // replaced and this header is not, so twig's values then describe the load before it and
-    // whatever the report published for itself wins.
     activeReportKey(): string {
       return this.reportKey || this.mountedReportKey;
     },
+    // Twig's props only describe the first load: on a reload the table is replaced and this
+    // header is not, so what the report published wins.
     actions(): ReportActionsConfig {
       return {
         showFooter: this.showFooter,
@@ -624,14 +589,13 @@ export default defineComponent({
     exportTriggerProps(): Record<string, string> {
       return this.promotedExport.triggerProps();
     },
-    // A trigger opening onto nothing is worse than no trigger: once its ranks are promoted out, a
-    // report may have nothing left to put in the menu.
+    // A subtable has no footer icons, and so no menu. Once its actions are promoted out, a report
+    // may have nothing left for the menu either.
     showActions(): boolean {
       return this.actions.showFooter && this.actions.showFooterIcons
         && menuHoldsAnything(this.actions, this.promotedActions);
     },
-    // Whether the header line has nothing to render. Only that line is dropped: the subheader
-    // below it is mounted independently, so a titleless widgetized report still gets its search.
+    // Only the header line: the subheader below is mounted on its own.
     isEmpty(): boolean {
       return !this.showTitle && !this.hasControls && !this.showActions
         && this.promotedActions.length === 0;
@@ -639,8 +603,7 @@ export default defineComponent({
     isFullPage(): boolean {
       return this.context === 'fullPage';
     },
-    // Search is offered on real reports, but not where there is no table to search: the widget
-    // preview is a static thumbnail, and a minimised widget has its content hidden.
+    // No table to search: the widget preview is a thumbnail, a minimised widget hides its content.
     canSearch(): boolean {
       return this.showSearch && this.context !== 'preview' && this.context !== 'collapsed';
     },
@@ -651,11 +614,11 @@ export default defineComponent({
     titleTag(): string {
       return this.headingLevel === 'h2' ? 'h2' : 'h3';
     },
-    // The help panel is styled for a paragraph, which the old scrape also added.
+    // The help panel is styled for a paragraph.
     wrappedInlineHelp(): string {
       return this.inlineHelp ? `<p>${this.inlineHelp}</p>` : '';
     },
-    // `showTitle` is part of it because the headline that owns the panel renders only with one.
+    // The headline that owns the panel renders only with a title.
     hasHelpRow(): boolean {
       return this.showTitle && this.enriched && !!this.wrappedInlineHelp;
     },
@@ -665,7 +628,7 @@ export default defineComponent({
     syncHelpContainer() {
       this.helpContainer = (this.$refs.helpRow as HTMLElement | undefined) || null;
     },
-    // Picking a period is the end of the interaction, and the directive never hears it.
+    // See closeActions().
     closePromotedPeriods(event: MouseEvent|KeyboardEvent) {
       this.promotedPeriods.closedBy(event);
     },
@@ -713,16 +676,13 @@ export default defineComponent({
         return;
       }
 
-      // The width this decision was taken at, whichever way it goes. Recording it only when
-      // promoting left a demotion remembering the width it was promoted at, so coming back to
-      // exactly that width - restoring a maximised window, undoing a zoom - was read as no change
-      // and never asked again.
+      // Recorded whichever way the decision goes: recorded only when promoting, coming back to
+      // that width, say by restoring a window, read as no change and never demoted again.
       this.lastMeasuredWidth = row.clientWidth;
 
       const promotable = this.promotable.length;
-      // Widget controls leave too little of the line to share, so nothing comes out beside them
-      // until the fit is tuned more finely. A host carrying the hover hook promotes nothing
-      // either: an embed keeps every action in its menu, whether or not it draws a title.
+      // Widget controls leave too little of the line to share. An embed, carrying the hover hook,
+      // keeps every action in its menu.
       if (!promotable || this.hasControls
         || row.closest('.__reportHeader-onHover')
         || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
@@ -730,7 +690,7 @@ export default defineComponent({
         return;
       }
 
-      // Try them all, then give back the least deserving until the title has room again.
+      // Try them all, then give back the least deserving until the title has its room.
       this.promotedCount = promotable;
       await this.$nextTick();
 
@@ -761,11 +721,8 @@ export default defineComponent({
       this.actionsSelector.closedBy(event);
     },
     onControl(intent: string) {
-      // Re-emit for Vue-native consumers...
+      // Emitted for a Vue parent, and dispatched for the jQuery dashboard widget.
       this.$emit(intent as 'minimise'|'maximise'|'refresh'|'close');
-
-      // ...and dispatch a bubbling native event so non-Vue owners (the jQuery dashboard
-      // widget) can bridge control intents back to their existing handlers.
       this.$el.dispatchEvent(new CustomEvent(`widgetcontrol:${intent}`, { bubbles: true }));
     },
     onQueryInput(value: string) {
@@ -783,10 +740,8 @@ export default defineComponent({
     },
     dispatchSearch(keyword: string) {
       this.searchDebounceTimer = null;
-      // Re-emit for Vue-native consumers...
+      // Emitted for a Vue parent, and dispatched for the jQuery DataTable.
       this.$emit('search', { keyword });
-
-      // ...and dispatch a bubbling native event so the jQuery DataTable can apply the filter.
       this.$el.dispatchEvent(new CustomEvent('reportheader:search', {
         bubbles: true,
         detail: { keyword },
