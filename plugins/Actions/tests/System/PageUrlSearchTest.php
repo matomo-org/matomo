@@ -172,9 +172,15 @@ class PageUrlSearchTest extends IntegrationTestCase
         // archive first, then make the site's tracker cache, which the normalization reads, fail to build
         $this->searchPageUrls('item', true);
         TrackerCache::deleteCacheWebsiteAttributes(self::$idSite);
-        Piwik::addAction('Tracker.Cache.getSiteAttributes', function () {
+        $isNormalizationFailing = false;
+        Piwik::addAction('Tracker.Cache.getSiteAttributes', function () use (&$isNormalizationFailing) {
+            $isNormalizationFailing = true;
             throw new \Exception('The tracker cache cannot be built');
         });
+
+        // without the normalization, the excluded parameter is kept: the page tracked without it is not found
+        $this->assertEquals([], $this->searchPageUrls('http://example.com/account/login?sessionid=xyz', true));
+        $this->assertTrue($isNormalizationFailing);
 
         $this->assertEquals(
             ['/products/item?id=123'],
