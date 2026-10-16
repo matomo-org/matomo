@@ -1,6 +1,9 @@
 <?php
 
-if (isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == 'test' && $_SERVER['PHP_AUTH_PW'] == 'test') {
+$validCredentials = array('test:test', '0:test', 'test:0', '0:0');
+$providedCredentials = ($_SERVER['PHP_AUTH_USER'] ?? '') . ':' . ($_SERVER['PHP_AUTH_PW'] ?? '');
+
+if (in_array($providedCredentials, $validCredentials, true)) {
     echo 'Authentication successful';
     exit;
 } else {
