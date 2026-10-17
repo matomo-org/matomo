@@ -378,7 +378,7 @@ class Model
 
         $updateSql = "UPDATE `$archiveTable` SET value = " . ArchiveWriter::DONE_INVALIDATED
             . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition"
-            . " AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ")";
+            . " AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ", " . ArchiveWriter::DONE_PARTIAL . ")";
 
         Db::query($updateSql);
 
