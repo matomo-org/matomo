@@ -80,9 +80,8 @@ class UserCountry extends \Piwik\Plugin
     /**
      * Returns a list of country codes for a given continent code.
      *
-     * The segment always matches the list with `IN`, whatever its operator, so a negative match is
-     * expressed by the list itself: the codes of every other continent, the internal ones such as
-     * `xx` (unknown) included.
+     * A negative match uses the same list, flagged `negate`: it keeps the visits of every other
+     * country, the unknown or empty ones included, as the `!=` of a country segment does.
      *
      * @param string $continent The continent code.
      * @param string|null $sqlField The segment's SQL field, passed by the segment and unused.
@@ -96,21 +95,14 @@ class UserCountry extends \Piwik\Plugin
 
         $result = array();
         $continent = strtolower($continent);
-        if ($matchType === SegmentExpression::MATCH_NOT_EQUAL) {
-            foreach ($regionDataProvider->getCountryList($includeInternalCodes = true) as $countryCode => $continentCode) {
-                if ($continent != $continentCode) {
-                    $result[] = $countryCode;
-                }
-            }
-        } else {
-            foreach ($regionDataProvider->getCountryList() as $countryCode => $continentCode) {
-                if ($continent == $continentCode) {
-                    $result[] = $countryCode;
-                }
+        foreach ($regionDataProvider->getCountryList() as $countryCode => $continentCode) {
+            if ($continent == $continentCode) {
+                $result[] = $countryCode;
             }
         }
         return array('SQL'  => "'" . implode("', '", $result) . "', ?",
-                     'bind' => '-'); // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
+                     'bind' => '-', // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
+                     'negate' => $matchType === SegmentExpression::MATCH_NOT_EQUAL);
     }
 
     /**
