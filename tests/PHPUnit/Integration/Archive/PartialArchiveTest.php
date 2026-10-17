@@ -175,8 +175,13 @@ class PartialArchiveTest extends IntegrationTestCase
         }), 'value');
         $this->assertEquals([ArchiveWriter::DONE_PARTIAL, ArchiveWriter::DONE_PARTIAL], $goalsArchiveValues);
 
+        $maxIdArchive = $this->getMaxIdArchive('2020_04');
+
         $data = GoalsApi::getInstance()->getDaysToConversion(1, 'range', '2020-04-06,2020-04-09', false, $this->idGoal);
         $this->assertEquals(['label' => '0-0', Metrics::INDEX_NB_CONVERSIONS => 1], $data->getFirstRow()->getColumns());
+
+        // an invalidated archive of a past range is archived again on request, which would also return the data
+        $this->assertEquals($maxIdArchive, $this->getMaxIdArchive('2020_04'));
     }
 
     private static function createWebsite()
