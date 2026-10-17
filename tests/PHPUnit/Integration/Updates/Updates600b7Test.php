@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\Updates;
 use Piwik\Config;
 use Piwik\CronArchive\ReArchiveList;
 use Piwik\Piwik;
+use Piwik\Plugins\CustomDimensions\API as CustomDimensionsAPI;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -75,6 +76,18 @@ class Updates600b7Test extends IntegrationTestCase
 
         self::assertSame(['continentCode!=ams'], array_map(function ($item) {
             return json_decode($item, true)['segment'];
+        }, (new ReArchiveList())->getAll()));
+    }
+
+    public function testASegmentOfEverySiteValidOnlyOnSomeSitesIsRearchivedOnThem(): void
+    {
+        CustomDimensionsAPI::getInstance()->configureNewCustomDimension(1, 'Plan', 'visit', true);
+        $this->createSegment('continentCode!=eur;dimension1==premium', 0);
+
+        (new Updates_6_0_0_b7())->doUpdate(new Updater());
+
+        self::assertSame([[1]], array_map(function ($item) {
+            return json_decode($item, true)['idSites'];
         }, (new ReArchiveList())->getAll()));
     }
 
