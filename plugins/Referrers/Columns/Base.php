@@ -13,11 +13,13 @@ use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Plugins\Referrers\AIAssistant as AIAssistantDetection;
 use Piwik\Plugins\Referrers\SearchEngine as SearchEngineDetection;
 use Piwik\Plugins\Referrers\Social as SocialNetworkDetection;
 use Piwik\Plugins\SitesManager\SiteUrls;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
@@ -175,6 +177,7 @@ abstract class Base extends VisitDimension
 
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && !$request->hasConsent()
             && CampaignParameterValuesMasked::isEnabled((int) $this->idsite)
         ) {
             $referrerInformation['referer_name'] = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -745,6 +748,13 @@ abstract class Base extends VisitDimension
         if (
             $type === Common::REFERRER_TYPE_CAMPAIGN
             && CampaignParameterValuesMasked::isEnabled($request->getIdSite())
+            && (
+                !$this->hasVisitorConsented($request, $visitor)
+                // the campaign reaching here can come from the attribution cookie, which outlives
+                // the visit. Where the visit itself holds no campaign, surfacing one against the
+                // conversion would contradict it with detail gathered before the visitor consented
+                || CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn('referer_name'))
+            )
         ) {
             $name = CampaignParameterValuesMasked::getPlaceholderValue();
             $keyword = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -782,20 +792,38 @@ abstract class Base extends VisitDimension
         }
     }
 
-    protected function isReferrerInformationNew(Visitor $visitor, $information)
+    /**
+     * @param Action|null $action
+     */
+    protected function isReferrerInformationNew(Visitor $visitor, $information, $action = null, ?Request $request = null)
     {
         foreach (['referer_keyword', 'referer_name', 'referer_type'] as $infoName) {
-            if ($this->hasReferrerColumnChanged($visitor, $information, $infoName)) {
+            if ($this->hasReferrerColumnChanged($visitor, $information, $infoName, $action, $request)) {
                 return true;
             }
         }
         return false;
     }
 
-    protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
+    /**
+     * @param Action|null $action
+     */
+    protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName, $action = null, ?Request $request = null)
     {
         $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
         $new = mb_strtolower($information[$infoName] ?? '');
+
+        // the incoming campaign was discarded as well, so it stands for the stored one rather than
+        // for a different campaign, and must not count as a change
+        if (CampaignParameterValuesMasked::isPlaceholderValue($new)) {
+            return false;
+        }
+
+        // a discarded campaign kept nothing to compare an incoming one against, so the two can only
+        // be told apart while the visit is still on the page it arrived on
+        if (CampaignParameterValuesMasked::isPlaceholderValue($existing)) {
+            return false === $this->isRequestOnVisitEntryPage($visitor, $action, $request);
+        }
 
         $result = $existing != $new;
         if ($result) {
@@ -825,9 +853,105 @@ abstract class Base extends VisitDimension
         return mb_substr($refererKeyword, 0, 255);
     }
 
+    /**
+     * Whether the visitor has given their consent, by this request or earlier in the visit.
+     *
+     * Consent describes the visitor, not the request, so a later request that does not repeat the
+     * flag - one sent in a batch, or by a tracker that does not report it at all - is not treated
+     * as though the visitor had never consented.
+     */
+    protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
+    {
+        return $request->hasConsent() || Consent::hasVisitConsented($visitor);
+    }
+
     protected function isCurrentReferrerDirectEntry(Visitor $visitor)
     {
         $referrerType = $visitor->getImmutableVisitorColumn('referer_type');
         return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
+    }
+
+    /**
+     * Whether the discarded value stored for this column should be replaced with the one the
+     * current request carries.
+     *
+     * @param Action|null $action
+     */
+    protected function shouldCompleteDiscardedCampaign(Visitor $visitor, array $information, string $column, $action = null, ?Request $request = null): bool
+    {
+        return CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn($column))
+            && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && $this->canCompleteDiscardedCampaign($visitor, $information[$column] ?? '', $action, $request);
+    }
+
+    /**
+     * Whether a campaign this visit discarded may be completed from the current request.
+     *
+     * Nothing was kept of the discarded campaign, so completing the visit from one the visitor
+     * arrived through later would credit the first campaign's visit to the second. It is allowed
+     * only while the visit is still on the page it arrived on, which is also the only time the
+     * original campaign parameters are still in the URL.
+     *
+     * @param Action|null $action
+     */
+    protected function canCompleteDiscardedCampaign(Visitor $visitor, $incomingValue, $action = null, ?Request $request = null): bool
+    {
+        $incomingValue = (string) ($incomingValue ?? '');
+
+        // an empty value would claim the visitor arrived without one, where the placeholder says it
+        // was not collected
+        if ('' === $incomingValue || CampaignParameterValuesMasked::isPlaceholderValue($incomingValue)) {
+            return false;
+        }
+
+        return true === $this->isRequestOnVisitEntryPage($visitor, $action, $request);
+    }
+
+    /**
+     * Whether this request is still on the page the visit arrived on, or null when that cannot be
+     * told - for an action that has no page URL of its own, for instance.
+     *
+     * Neither completing a discarded campaign nor splitting the visit may be decided on a guess,
+     * so both are refused for an unknown answer.
+     *
+     * @param Action|null $action
+     */
+    private function isRequestOnVisitEntryPage(Visitor $visitor, $action, ?Request $request = null): ?bool
+    {
+        // The immutable value is the visit as stored, before this request changes it. Interactions
+        // count page views and site searches and nothing else, so an event recorded on the landing
+        // page - a consent banner impression, say - does not close the window, and they only ever
+        // rise, so returning to the page the visit arrived on does not reopen it.
+        $interactions = (int) $visitor->getImmutableVisitorColumn('visit_total_interactions');
+
+        // a ping still carries an action at this point - it is dropped later in the request - and
+        // records none of it, so it leaves the visitor wherever the visit already was
+        if (empty($action) || ($request !== null && $request->getParam('ping') == 1)) {
+            return 1 === $interactions ? true : null;
+        }
+
+        if ($interactions > 1) {
+            return false;
+        }
+
+        // the ids of the current action are resolved a few statements later, when it is recorded.
+        // The lookup is cached on the action, so asking for them here costs the same queries only
+        // sooner, and nothing in between changes the action they are derived from.
+        $action->loadIdsFromLogActionTable();
+        $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
+
+        if (empty($idActionUrl)) {
+            // an event, download or outlink: it records no page of its own, so like a ping it does
+            // not move the visitor
+            return 1 === $interactions ? true : null;
+        }
+
+        $entryIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_entry_idaction_url');
+
+        if (empty($entryIdActionUrl)) {
+            return null;
+        }
+
+        return $entryIdActionUrl === (int) $idActionUrl;
     }
 }

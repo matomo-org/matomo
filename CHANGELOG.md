@@ -290,6 +290,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 5.14.1
 
 ### New APIs
+* The HTTP Tracking API accepts a `consent` parameter. `consent=1` states that the visitor had given their consent when the request was sent; any other value, and its absence, mean no consent is being signalled rather than that consent was refused. It relaxes what a compliance policy withholds for that request - campaign parameter masking and referrer anonymisation - down to the level the site itself is configured for, and never beyond it. The JavaScript tracker sets it on requests sent after `setCookieConsentGiven()`, `rememberCookieConsentGiven()` or a granted `requireConsent()`.
+* `Piwik\Tracker\Request::hasConsent()` returns whether the request carries that parameter.
+* `log_visit.consent` is now written. The column was reserved and left empty until now; it records whether the visitor gave their consent during the visit, and is empty where none was ever signalled, which is not the same as consent being refused. `Piwik\Plugins\CoreHome\Columns\Consent::hasVisitConsented()` reads it during tracking.
+* `Piwik\Plugins\PrivacyManager\Config::getConfiguredValue()` returns the value an admin configured for a privacy setting themselves, without the stricter requirement a compliance policy may be enforcing on top of it. It reads the tracker cache rather than the option table, so it is safe to call while tracking. The tracker cache gains a matching `PrivacyManager.anonymizeReferrerConfiguredValue` entry.
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
   transport, which follows redirects internally.
