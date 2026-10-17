@@ -510,6 +510,8 @@ class Segment
 
                 // sqlFilter-callbacks might return arrays for more complex cases
                 // e.g. see TableLogAction::getIdActionFromSegment()
+                // a sub sql expression flagged 'negate' matches the rows not in it, NULL included,
+                // e.g. see UserCountry::getCountriesForContinent()
                 if (is_array($value) && isset($value['SQL'])) {
                     // Special case: returned value is a sub sql expression!
                     $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
