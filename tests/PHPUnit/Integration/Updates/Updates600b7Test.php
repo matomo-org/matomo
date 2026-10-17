@@ -66,6 +66,18 @@ class Updates600b7Test extends IntegrationTestCase
         ], $reArchives);
     }
 
+    public function testASegmentNoLongerValidIsSkipped(): void
+    {
+        $this->createSegment('continentCode!=eur;segmentOfARemovedPlugin==x', 0);
+        $this->createSegment('continentCode!=ams', 0);
+
+        (new Updates_6_0_0_b7())->doUpdate(new Updater());
+
+        self::assertSame(['continentCode!=ams'], array_map(function ($item) {
+            return json_decode($item, true)['segment'];
+        }, (new ReArchiveList())->getAll()));
+    }
+
     public function testNothingIsRearchivedWhenRearchivingIsTurnedOff(): void
     {
         Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 0;

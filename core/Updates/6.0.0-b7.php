@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Updater;
@@ -54,21 +55,27 @@ class Updates_6_0_0_b7 extends Updates
                 continue;
             }
 
+            $idSegment = (int) $segment['idsegment'];
             $definition = $segment['definition'];
             $idSites = empty($segment['enable_only_idsite']) ? 'all' : [(int) $segment['enable_only_idsite']];
             $migrationHint = sprintf(
                 './console core:invalidate-report-data --sites=%s --dates=%s,today --segment=%d',
                 is_array($idSites) ? implode(',', $idSites) : $idSites,
                 $startDate->toString(),
-                $segment['idsegment']
+                $idSegment
             );
 
-            $migrations[] = new CustomMigration(function () use ($definition, $idSites) {
+            $migrations[] = new CustomMigration(function () use ($idSegment, $definition, $idSites) {
                 try {
                     // only the definition is kept for the rearchiving, the sites are resolved then
                     $segment = new Segment($definition, is_array($idSites) ? $idSites : []);
                 } catch (\Exception $e) {
-                    return; // a segment no longer valid, eg. of a plugin since removed, has nothing to rearchive
+                    // a segment no longer valid, eg. of a plugin since removed, has nothing to rearchive
+                    StaticContainer::get(LoggerInterface::class)->warning(
+                        'Segment {idSegment} is no longer valid, its reports are not rearchived: {ex}',
+                        ['idSegment' => $idSegment, 'ex' => $e]
+                    );
+                    return;
                 }
 
                 $invalidator = StaticContainer::get(ArchiveInvalidator::class);
