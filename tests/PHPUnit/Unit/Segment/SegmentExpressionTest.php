@@ -111,6 +111,36 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider getSubSqlExpressions
+     * @group Core
+     */
+    public function testSubSqlExpression(array $value, array $expectedSql)
+    {
+        $segment = new SegmentExpression('');
+        $segment->setSubExpressionsAfterCleanup([[[
+            SegmentExpression::INDEX_OPERAND_NAME => 'log_visit.location_country',
+            SegmentExpression::INDEX_OPERAND_OPERATOR => SegmentExpression::MATCH_ACTIONS_CONTAINS,
+            SegmentExpression::INDEX_OPERAND_VALUE => $value,
+        ]]]);
+        $availableTables = ['log_visit'];
+        $segment->parseSubExpressionsIntoSqlExpressions($availableTables);
+
+        $this->assertEquals($expectedSql, $segment->getSql());
+    }
+
+    public function getSubSqlExpressions(): iterable
+    {
+        yield 'matched' => [
+            ['SQL' => "'fr', 'de', ?", 'bind' => '-'],
+            ['where' => "( log_visit.location_country IN ('fr', 'de', ?) )", 'bind' => ['-']],
+        ];
+        yield 'negated' => [
+            ['SQL' => "'fr', 'de', ?", 'bind' => '-', 'negate' => true],
+            ['where' => "( log_visit.location_country IS NULL OR log_visit.location_country NOT IN ('fr', 'de', ?) )", 'bind' => ['-']],
+        ];
+    }
+
+    /**
      * Dataprovider for testBogusFiltersExpectExceptionThrown
      * @return array
      */
