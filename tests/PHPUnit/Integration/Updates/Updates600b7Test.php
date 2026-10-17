@@ -45,19 +45,25 @@ class Updates600b7Test extends IntegrationTestCase
         $update = new Updates_6_0_0_b7();
         $hints = array_map('strval', $update->getMigrations(new Updater()));
 
-        self::assertSame([
+        // the migration does not order the segments it reads
+        self::assertEqualsCanonicalizing([
             "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$notEurope",
             "./console core:invalidate-report-data --sites=2 --dates=$startDate,today --segment=$notSouthAmerica",
         ], $hints);
 
         $update->doUpdate(new Updater());
 
+        $reArchives = array_map(function ($item) {
+            return json_decode($item, true);
+        }, (new ReArchiveList())->getAll());
+        usort($reArchives, function ($a, $b) {
+            return strcmp($a['segment'], $b['segment']);
+        });
+
         self::assertSame([
             ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode!=eur'],
             ['idSites' => [2], 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode%21%3Dams'],
-        ], array_map(function ($item) {
-            return json_decode($item, true);
-        }, (new ReArchiveList())->getAll()));
+        ], $reArchives);
     }
 
     public function testNothingIsRearchivedWhenRearchivingIsTurnedOff(): void
