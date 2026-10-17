@@ -376,7 +376,6 @@ class Model
 
         $idArchives = array_map('intval', array_column($recordsToUpdate, 'idarchive'));
 
-        // partial archives are left as they are, as DONE_INVALIDATED would mark them as complete (see updateArchiveAsInvalidated())
         $updateSql = "UPDATE `$archiveTable` SET value = " . ArchiveWriter::DONE_INVALIDATED
             . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition"
             . " AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ", " . ArchiveWriter::DONE_PARTIAL . ")";
