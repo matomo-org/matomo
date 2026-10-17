@@ -12,7 +12,9 @@ declare(strict_types=1);
 namespace Piwik\Plugins\UserCountry\tests\Integration;
 
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -39,8 +41,8 @@ class ContinentSegmentTest extends IntegrationTestCase
         Fixture::createSuperUser(true);
         $this->idSite = Fixture::createWebsite('2015-01-01 00:00:00');
 
-        // two European, two South American, one North American, one Asian and one unknown country
-        foreach (['fr', 'de', 'br', 'ar', 'us', 'jp', 'xx'] as $index => $country) {
+        // two European, two South American, one North American, one Asian, one unknown and one unlisted country
+        foreach (['fr', 'de', 'br', 'ar', 'us', 'jp', 'xx', 'zz'] as $index => $country) {
             $tracker = Fixture::getTracker($this->idSite, $this->date . ' ' . (10 + $index) . ':00:00');
             $tracker->setCountry($country);
             $tracker->setIp('10.0.0.' . ($index + 1));
@@ -60,10 +62,39 @@ class ContinentSegmentTest extends IntegrationTestCase
     {
         yield 'is Europe' => ['continentCode==eur', ['de', 'fr']];
         yield 'is South America' => ['continentCode==ams', ['ar', 'br']];
-        yield 'is not Europe' => ['continentCode!=eur', ['ar', 'br', 'jp', 'us', 'xx']];
-        yield 'is not South America' => ['continentCode!=ams', ['de', 'fr', 'jp', 'us', 'xx']];
-        yield 'is neither Europe nor South America' => ['continentCode!=eur;continentCode!=ams', ['jp', 'us', 'xx']];
-        yield 'is Europe or not South America' => ['continentCode==eur,continentCode!=ams', ['de', 'fr', 'jp', 'us', 'xx']];
+        yield 'is not Europe' => ['continentCode!=eur', ['ar', 'br', 'jp', 'us', 'xx', 'zz']];
+        yield 'is not South America' => ['continentCode!=ams', ['de', 'fr', 'jp', 'us', 'xx', 'zz']];
+        yield 'is neither Europe nor South America' => ['continentCode!=eur;continentCode!=ams', ['jp', 'us', 'xx', 'zz']];
+        yield 'is Europe or not South America' => ['continentCode==eur,continentCode!=ams', ['de', 'fr', 'jp', 'us', 'xx', 'zz']];
+    }
+
+    public function testIsNotKeepsTheVisitsWithoutCountry(): void
+    {
+        $tracker = Fixture::getTracker($this->idSite, $this->date . ' 20:00:00');
+        $tracker->setIp('10.0.0.100');
+        Fixture::checkResponse($tracker->doTrackPageView('/no-country'));
+
+        $logVisit = Common::prefixTable('log_visit');
+        Db::query("UPDATE `$logVisit` SET location_country = NULL WHERE idvisit = ?", [Db::fetchOne("SELECT MAX(idvisit) FROM `$logVisit`")]);
+
+        $this->assertSame(9, $this->getVisitsInSegment(''));
+        $this->assertSame(2, $this->getVisitsInSegment('continentCode==eur'));
+        $this->assertSame(7, $this->getVisitsInSegment('continentCode!=eur'));
+        $this->assertSame(7, $this->getVisitsInSegment('countryCode!=fr;countryCode!=de'));
+    }
+
+    private function getVisitsInSegment(string $segment): int
+    {
+        /** @var DataTable $table */
+        $table = Request::processRequest('VisitsSummary.get', [
+            'idSite' => $this->idSite,
+            'period' => 'day',
+            'date' => $this->date,
+            'segment' => $segment,
+            'format' => 'original',
+        ]);
+
+        return (int) $table->getFirstRow()->getColumn('nb_visits');
     }
 
     /**
