@@ -80,9 +80,6 @@ class UserCountry extends \Piwik\Plugin
     /**
      * Returns a list of country codes for a given continent code.
      *
-     * A negative match uses the same list, flagged `negate`: it keeps the visits of every other
-     * country, the unknown or empty ones included, as the `!=` of a country segment does.
-     *
      * @param string $continent The continent code.
      * @param string|null $sqlField The segment's SQL field, passed by the segment and unused.
      * @param string|null $matchType The segment operator, see {@link SegmentExpression}.
