@@ -66,24 +66,64 @@ class Updates_6_0_0_b7 extends Updates
             );
 
             $migrations[] = new CustomMigration(function () use ($idSegment, $definition, $idSites) {
-                try {
-                    // only the definition is kept for the rearchiving, the sites are resolved then
-                    $segment = new Segment($definition, is_array($idSites) ? $idSites : []);
-                } catch (\Exception $e) {
-                    // a segment no longer valid, eg. of a plugin since removed, has nothing to rearchive
+                $segmentsToRearchive = $this->getSegmentsToRearchive($definition, $idSites);
+                if (empty($segmentsToRearchive)) {
                     StaticContainer::get(LoggerInterface::class)->warning(
-                        'Segment {idSegment} is no longer valid, its reports are not rearchived: {ex}',
-                        ['idSegment' => $idSegment, 'ex' => $e]
+                        'Segment {idSegment} is no longer valid on any of its sites, its reports are not rearchived',
+                        ['idSegment' => $idSegment]
                     );
                     return;
                 }
 
                 $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-                $invalidator->scheduleReArchiving($idSites, null, null, null, $segment);
+                foreach ($segmentsToRearchive as [$sites, $segment]) {
+                    $invalidator->scheduleReArchiving($sites, null, null, null, $segment);
+                }
             }, $migrationHint);
         }
 
         return $migrations;
+    }
+
+    /**
+     * A segment of every site may only be valid in the context of a site, eg. one on a custom
+     * dimension, so it is then rearchived site by site.
+     *
+     * @param 'all'|int[] $idSites
+     * @return array<array{0: 'all'|int[], 1: Segment}>
+     */
+    private function getSegmentsToRearchive(string $definition, $idSites): array
+    {
+        $segment = $this->createSegment($definition, is_array($idSites) ? $idSites : []);
+        if ($segment) {
+            return [[$idSites, $segment]];
+        }
+
+        if (is_array($idSites)) {
+            return [];
+        }
+
+        $segmentsToRearchive = [];
+        foreach (array_column(Db::fetchAll(sprintf('SELECT idsite FROM `%s`', Common::prefixTable('site'))), 'idsite') as $idSite) {
+            $segment = $this->createSegment($definition, [(int) $idSite]);
+            if ($segment) {
+                $segmentsToRearchive[] = [[(int) $idSite], $segment];
+            }
+        }
+
+        return $segmentsToRearchive;
+    }
+
+    /**
+     * @param int[] $idSites
+     */
+    private function createSegment(string $definition, array $idSites): ?Segment
+    {
+        try {
+            return new Segment($definition, $idSites);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     public function doUpdate(Updater $updater)
