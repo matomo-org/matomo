@@ -256,19 +256,10 @@
     letter-spacing: 0;
   }
 
-  // override: the secondary CTA reads as an outline button. Materialize's .btn colour wins on
-  // specificity alone, so the text colour needs !important.
+  // override: the secondary CTA reads as an outline button
   .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
-    border: 1px solid @theme-color-brand;
+    .marketplaceOutlineButton();
     line-height: 30px; // 32px, less the border
-    background: @theme-color-background-contrast;
-    color: @theme-color-text-brand !important;
-
-    &:hover,
-    &:focus {
-      background: @theme-color-background-brand-lowContrast;
-      color: @theme-color-text-brand !important;
-    }
   }
 
   .btn.purchaseable,
