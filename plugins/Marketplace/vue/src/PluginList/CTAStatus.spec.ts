@@ -65,7 +65,7 @@ describe('Marketplace/CTAStatus', () => {
 
       expect(wrapper.find('.alert').text()).toBe('Installed');
       expect(wrapper.find('.alert a').exists()).toBe(false);
-      expect(wrapper.find('a').text()).toBe('Deactivate');
+      expect(wrapper.find('.ctaStatus__actionButton a').text()).toBe('Deactivate');
       expect(wrapper.text()).not.toContain('(');
     });
 
@@ -75,6 +75,8 @@ describe('Marketplace/CTAStatus', () => {
         .classes();
 
       expect(alertClasses('success')).toContain('alert-success');
+      expect(alertClasses('success')).toContain('ctaStatus__alert--brand');
+      expect(alertClasses('warning')).not.toContain('ctaStatus__alert--brand');
       expect(alertClasses('warning')).toContain('alert-warning');
       expect(alertClasses('danger')).toContain('alert-danger');
     });

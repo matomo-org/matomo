@@ -6,12 +6,12 @@
 -->
 
 <template>
-  <div v-if="inModal" class="ctaStatus ctaStatus--panel">
-    <div class="alert alert-no-background" :class="alertClass">
+  <div v-if="inModal" class="ctaStatus ctaStatus--stacked">
+    <div class="ctaStatus__alert alert alert-no-background" :class="alertClass">
       {{ label }}
       <span v-if="hasAction && !actionAsButton" class="ctaStatus__alertAction">(<slot />)</span>
     </div>
-    <slot v-if="hasAction && actionAsButton" />
+    <div v-if="hasAction && actionAsButton" class="ctaStatus__actionButton"><slot /></div>
   </div>
 
   <div v-else class="ctaStatus" :class="toneClass">
@@ -35,7 +35,7 @@ import { defineComponent } from 'vue';
  * the alert's padding and border will not fit.
  */
 const ALERT_CLASSES: Record<string, string> = {
-  success: 'alert-success',
+  success: 'alert-success ctaStatus__alert--brand',
   warning: 'alert-warning',
   danger: 'alert-danger',
 };
