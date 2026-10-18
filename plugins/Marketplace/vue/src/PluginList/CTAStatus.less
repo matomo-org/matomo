@@ -68,26 +68,28 @@
 
 // The modal's rendering: the alert with any button-shaped action under it, closer than the panel's
 // own gap would put them.
-.ctaStatus--panel {
+.ctaStatus--stacked {
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
   gap: 12px;
+}
 
-  // override: Morpheus spaces every .alert from what follows it; here the gap above does that
-  .alert {
-    margin-bottom: 0;
-  }
+// Morpheus spaces every .alert from what follows it; here the gap above does that. Two classes, so
+// this wins over the single .alert class whatever order the stylesheets load in.
+.ctaStatus .ctaStatus__alert {
+  margin-bottom: 0;
+}
 
-  // override: Morpheus's success alert is a fixed green; on this page it takes the theme brand,
-  // as the Deactivate button under it does. Dark mode keeps Morpheus's transparent background.
-  .alert-success {
-    border-color: @theme-color-brand;
-    background-color: @theme-color-background-brand-lowContrast;
+// Morpheus's success alert is a fixed green; here it takes the theme brand, as the Deactivate
+// button under it does. Dark mode keeps Morpheus's transparent background, its selector being the
+// more specific one.
+.ctaStatus .ctaStatus__alert--brand {
+  border-color: @theme-color-brand;
+  background-color: @theme-color-background-brand-lowContrast;
 
-    &::before {
-      color: @theme-color-brand;
-    }
+  &::before {
+    color: @theme-color-brand;
   }
 }
 
