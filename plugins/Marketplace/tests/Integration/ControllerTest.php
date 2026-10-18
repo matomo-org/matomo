@@ -634,6 +634,27 @@ class ControllerTest extends IntegrationTestCase
         self::assertNull($this->getNotifySetting('otherUser'));
     }
 
+    public function testUnsubscribeTrialRequestEmailsPostsTheEventOnlyWhenItTurnsTheEmailsOff()
+    {
+        Fixture::createSuperUser();
+        $token = $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN);
+
+        $postedFor = [];
+        Piwik::addAction('Marketplace.trialRequestEmailsUnsubscribed', function (string $login) use (&$postedFor) {
+            $postedFor[] = $login;
+        });
+
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token);
+        self::assertSame([], $postedFor);
+
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token, true);
+        self::assertSame([Fixture::ADMIN_USER_LOGIN], $postedFor);
+
+        // eg the link in an older email, once the emails are already off
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token, true);
+        self::assertSame([Fixture::ADMIN_USER_LOGIN], $postedFor);
+    }
+
     private function dispatchUnsubscribe(string $login, string $token, bool $confirm = false): string
     {
         $_GET = [
