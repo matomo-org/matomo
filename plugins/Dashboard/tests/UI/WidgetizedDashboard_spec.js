@@ -233,6 +233,9 @@ describe("WidgetizedDashboard", function () {
             $('#copyDashboardName').val('new <dash> 💩').change();
         });
         await page.waitForSelector('#copyDashboardUser [value="superUserLogin"]');
+        // page.select() would still pass if Materialize had wrapped the select, though its dropdown,
+        // built before the users loaded, offers only "Loading data"
+        expect(await page.evaluate(() => $('#copyDashboardUser').closest('.select-wrapper').length)).to.equal(0);
         await page.select('#copyDashboardUser', 'superUserLogin');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
