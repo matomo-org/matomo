@@ -781,6 +781,10 @@ class Visualization extends ViewDataTable
             $javascriptVariablesToSet['compareSegments'] = Common::unsanitizeInputValues($javascriptVariablesToSet['compareSegments']);
         }
 
+        if (isset($javascriptVariablesToSet['intersectSegment'])) {
+            $javascriptVariablesToSet['intersectSegment'] = Common::unsanitizeInputValues($javascriptVariablesToSet['intersectSegment']);
+        }
+
         return $javascriptVariablesToSet;
     }
 
