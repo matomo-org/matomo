@@ -467,8 +467,27 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if ($request->getStringParameter('confirm', '') !== '') {
             Nonce::checkNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
-            StaticContainer::get(UserScopedSettingsAccessManager::class)
-                ->set('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
+            $settings = StaticContainer::get(UserScopedSettingsAccessManager::class);
+            $wasOn = (bool) $settings->get('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, true);
+            $settings->set('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
+
+            /**
+             * Triggered after a user has turned off plugin trial request emails from the link in one of those emails,
+             * so an audit trail can record it. Not posted when they were already off. Nobody is logged in when this is
+             * posted, so use `$login` rather than the current user.
+             *
+             * **Example**
+             *
+             *     Piwik::addAction('Marketplace.trialRequestEmailsUnsubscribed', function ($login) {
+             *         $this->logActivity($login, 'unsubscribed from plugin trial request emails');
+             *     });
+             *
+             * @param string $login The login of the user who unsubscribed.
+             */
+            if ($wasOn) {
+                Piwik::postEvent('Marketplace.trialRequestEmailsUnsubscribed', [$login]);
+            }
+
             $view->success = true;
         } else {
             $view->nonce = Nonce::getNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
