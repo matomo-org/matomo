@@ -5,6 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+@import "../../../stylesheets/_variables.less";
+
 // Wraps rather than squeezing the label: an action of two buttons - More Details and Download,
 // when a plugin cannot be installed from here - leaves the label no room on a card, and it was
 // drawn underneath them.
@@ -91,6 +93,15 @@
   &::before {
     color: @theme-color-brand;
   }
+}
+
+// override: Morpheus's .btn-outline is uppercase, in @theme-color-brand, which is too light for text
+// on white. It takes the card's outline instead, and the card's case, so the two buttons match.
+.ctaStatus__actionButton .btn.btn-outline {
+  .marketplaceOutlineButton();
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .ctaStatus__alertAction {
