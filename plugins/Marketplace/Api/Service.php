@@ -71,8 +71,11 @@ class Service
     }
 
     /**
-     * Downloads data from the given URL via a POST request. If a destination path is given, the downloaded data
-     * will be stored in the given path and returned otherwise.
+     * Downloads data from the given URL. If a destination path is given, the downloaded data will be stored in the
+     * given path and returned otherwise.
+     *
+     * The request is a POST whenever post data is passed, even an empty array, or once {@link authenticate()} has
+     * added the access token, so neither ends up in the URL. Otherwise it is a GET.
      *
      * Make sure to call {@link authenticate()} to download paid plugins.
      *
@@ -82,7 +85,6 @@ class Service
      * @param null|array $postData eg array('email' => 'user@example.org')
      * @param bool $getExtendedInfo Return the extended response info for the HTTP request.
      * @return bool|string Returns the downloaded data or true if a destination path was given.
-     * @throws \Exception
      */
     public function download(
         $url,
@@ -119,7 +121,7 @@ class Service
             $acceptInvalidSslCertificate = false,
             $byteRange = false,
             $getExtendedInfo,
-            $httpMethod = 'POST',
+            $httpMethod = null === $postData ? 'GET' : 'POST',
             $httpUsername = null,
             $httpPassword = null,
             $postData
