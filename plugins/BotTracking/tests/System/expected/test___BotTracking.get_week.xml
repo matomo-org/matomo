@@ -5,6 +5,6 @@
 	<BotTracking_AIChatbotsNotFoundRequests>2</BotTracking_AIChatbotsNotFoundRequests>
 	<BotTracking_AIChatbotsUniqueChatbots>6</BotTracking_AIChatbotsUniqueChatbots>
 	<BotTracking_AIChatbotsServerErrorRequests>3</BotTracking_AIChatbotsServerErrorRequests>
-	<BotTracking_AIChatbotsClickThroughRate>0.3226</BotTracking_AIChatbotsClickThroughRate>
 	<BotTracking_AIChatbotsTrafficRatio>1.9375</BotTracking_AIChatbotsTrafficRatio>
+	<BotTracking_AIChatbotsClickThroughRate>0.3226</BotTracking_AIChatbotsClickThroughRate>
 </result>

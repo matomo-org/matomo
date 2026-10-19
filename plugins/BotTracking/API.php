@@ -18,6 +18,7 @@ use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Archiver as ActionsArchiver;
+use Piwik\Plugins\BotTracking\Columns\Metrics\AIChatbotTrafficRatio;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotReports;
@@ -74,14 +75,36 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
 
+        if (in_array(ActionsArchiver::METRIC_PAGEVIEWS_RECORD_NAME, $columns)) {
+            $this->computeAIChatbotTrafficRatio($dataTable);
+        }
+
         if (!empty($requestedColumns)) {
             $dataTable->queueFilter('ColumnDelete', [$columnsToRemove = [], $requestedColumns]);
-        } else {
-            // Page views are only fetched to compute the AI chatbot traffic ratio
-            $dataTable->queueFilter('ColumnDelete', [[ActionsArchiver::METRIC_PAGEVIEWS_RECORD_NAME]]);
         }
 
         return $dataTable;
+    }
+
+    /**
+     * Page views are only fetched to compute the ratio, so they are removed right away: API.get
+     * merges this report without its queued filters, which would leave them in its output.
+     * The ratio is kept, as processed metrics already set on a row are not computed again.
+     */
+    private function computeAIChatbotTrafficRatio(DataTableInterface $dataTable): void
+    {
+        $ratio = new AIChatbotTrafficRatio();
+
+        $dataTable->filter(function (DataTable $table) use ($ratio) {
+            foreach ($table->getRows() as $row) {
+                $value = $ratio->compute($row);
+                if ($value !== false) {
+                    $row->setColumn($ratio->getName(), $value);
+                }
+
+                $row->deleteColumn(ActionsArchiver::METRIC_PAGEVIEWS_RECORD_NAME);
+            }
+        });
     }
 
     /**
