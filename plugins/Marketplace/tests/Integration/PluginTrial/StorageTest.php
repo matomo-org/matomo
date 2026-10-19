@@ -94,6 +94,34 @@ class StorageTest extends IntegrationTestCase
         ]));
 
         self::assertEquals(['BestPluginEver', 'PremiumPlugin'], Storage::getPluginsInStorage());
+
+        $displayNames = [];
+        foreach (Storage::getAllInStorage() as $pluginName => $storage) {
+            $displayNames[$pluginName] = $storage->getDisplayName();
+        }
+        self::assertSame(['BestPluginEver' => 'BestPluginEver', 'PremiumPlugin' => 'A useful plugin'], $displayNames);
+    }
+
+    public function testTheChangeMarkerChangesWithEveryWrite()
+    {
+        $markers = [Storage::getChangeMarker()];
+        $storage = new Storage('PremiumPlugin');
+
+        $storage->setRequested('Premium Plugin');
+        $markers[] = Storage::getChangeMarker();
+        $storage->setNotificationDismissed();
+        $markers[] = Storage::getChangeMarker();
+        $storage->clearStorage();
+        $markers[] = Storage::getChangeMarker();
+
+        self::assertCount(4, array_unique($markers));
+    }
+
+    public function testTheChangeMarkerIsNotReadAsARequest()
+    {
+        (new Storage('PremiumPlugin'))->setRequested('Premium Plugin');
+
+        self::assertSame(['PremiumPlugin'], Storage::getPluginsInStorage());
     }
 
     public function testSetRequestedRecordsAUsersRequestOnceWhenTwoArriveTogether()
