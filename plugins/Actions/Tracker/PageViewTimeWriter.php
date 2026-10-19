@@ -35,6 +35,12 @@ use Piwik\Tracker\Visit\VisitProperties;
  *    path still credits the missing action, overcounting that interval once. Only the INSERT
  *    does this; a failed close leaves the row as it was, so the legacy value covers the rest
  *    unless an earlier hit already grew the row, which then suppresses it.
+ *  - Concurrent batches for one visit: inside a bulk or queued-tracking transaction, the rows
+ *    to update are found with a plain read, which sees the transaction's REPEATABLE READ
+ *    snapshot. A pageview another batch committed for the same visit after that snapshot is
+ *    missed, so the older row is closed across it and overcounted. QueuedTracking routes a
+ *    visitor to a single queue, so this mostly takes concurrent log imports, and core already
+ *    reads log_visit the same way when it recognises the visit.
  */
 class PageViewTimeWriter
 {
@@ -217,11 +223,13 @@ class PageViewTimeWriter
         // The row this hit just inserted is excluded by idlink_va and by the strict
         // server_time bound. GREATEST() lets out-of-order heartbeats only grow time_spent.
         //
-        // A plain read, then an update by primary key: a locking read would also lock the index
-        // entries next to the visit's rows when it finds none, e.g. on a visit's first pageview.
-        // Those belong to neighbouring visits another queued-tracking worker may be writing,
-        // which deadlocks both workers. In a transaction, the visit's log_visit lock still
-        // serializes hits for the same visit.
+        // A plain read, then an update by primary key. A locking read takes next-key locks that
+        // cover the index gap just before this visit's first row, and the neighbouring visit's
+        // last entry when the visit has no row yet, e.g. on its first pageview. Another
+        // queued-tracking worker may be writing that neighbouring visit, which deadlocks both
+        // workers. In a transaction, the visit's log_visit lock still orders hits for the same
+        // visit, but the read does not see rows committed after the transaction's snapshot (see
+        // the class docblock).
         //
         // Five indexes start with idvisit, and on a short visit the optimiser prefers one of
         // the others and then sorts. Pinning the index that already provides the order keeps

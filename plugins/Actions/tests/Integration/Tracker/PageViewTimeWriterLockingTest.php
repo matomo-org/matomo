@@ -40,8 +40,8 @@ class PageViewTimeWriterLockingTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        if (!extension_loaded('mysqli')) {
-            $this->markTestSkipped('The second worker connects with mysqli');
+        if (!function_exists('mysqli_poll')) {
+            $this->markTestSkipped('The second worker needs mysqli with mysqlnd for its async query');
         }
 
         Fixture::createWebsite('2026-01-01 00:00:00');
@@ -75,8 +75,8 @@ class PageViewTimeWriterLockingTest extends IntegrationTestCase
         // The other worker tracks two pageviews for visit 1 in one batch. The second lands in
         // the index gap between visit 1's last row and visit 2.
         $this->startOtherWorker();
-        $this->otherWorker->query($this->getInsertSql(1, 2, 'bbbbbb', 10));
-        $this->otherWorker->query($this->getInsertSql(1, 3, 'cccccc', 20, $delayed = true), MYSQLI_ASYNC);
+        $this->queryOtherWorker($this->getInsertSql(1, 2, 'bbbbbb', 10));
+        $this->queryOtherWorker($this->getInsertSql(1, 3, 'cccccc', 20, delayed: true), MYSQLI_ASYNC);
 
         $pageView = $this->createMock(Action::class);
         $pageView->method('getActionType')->willReturn(Action::TYPE_PAGE_URL);
@@ -94,8 +94,8 @@ class PageViewTimeWriterLockingTest extends IntegrationTestCase
         $this->insertRow(1, 1, 'aaaaaa', 0);
 
         $this->startOtherWorker();
-        $this->otherWorker->query($this->getInsertSql(1, 2, 'bbbbbb', 10));
-        $this->otherWorker->query($this->getInsertSql(1, 3, 'cccccc', 20, $delayed = true), MYSQLI_ASYNC);
+        $this->queryOtherWorker($this->getInsertSql(1, 2, 'bbbbbb', 10));
+        $this->queryOtherWorker($this->getInsertSql(1, 3, 'cccccc', 20, delayed: true), MYSQLI_ASYNC);
 
         // A heartbeat for a pv_id visit 2 has no row for, e.g. a visit started before the table existed.
         $this->assertNoDeadlock(function () {
@@ -116,9 +116,13 @@ class PageViewTimeWriterLockingTest extends IntegrationTestCase
             $writerError = $e->getMessage();
         }
 
+        // The MYSQLI tracker adapter turns mysqli exceptions off process-wide when it connects,
+        // so a failed reap may return false instead of throwing.
         $otherWorkerError = null;
         try {
-            $this->otherWorker->reap_async_query();
+            if ($this->otherWorker->reap_async_query() === false) {
+                $otherWorkerError = $this->otherWorker->error;
+            }
         } catch (\mysqli_sql_exception $e) {
             $otherWorkerError = $e->getMessage();
         }
@@ -136,10 +140,22 @@ class PageViewTimeWriterLockingTest extends IntegrationTestCase
     {
         $config = Db::getDatabaseConfig();
 
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $this->otherWorker = new \mysqli($config['host'], $config['username'], $config['password'], $config['dbname'], (int) $config['port']);
-        $this->otherWorker->query('SET SESSION innodb_lock_wait_timeout = 3');
-        $this->otherWorker->begin_transaction();
+        if ($this->otherWorker->connect_error) {
+            throw new \Exception('The other worker could not connect: ' . $this->otherWorker->connect_error);
+        }
+        $this->queryOtherWorker('SET SESSION innodb_lock_wait_timeout = 3');
+        $this->queryOtherWorker('START TRANSACTION');
+    }
+
+    /**
+     * Throws whatever the global mysqli report mode is, see assertNoDeadlock().
+     */
+    private function queryOtherWorker(string $sql, int $resultMode = MYSQLI_STORE_RESULT): void
+    {
+        if ($this->otherWorker->query($sql, $resultMode) === false) {
+            throw new \Exception('The other worker failed: ' . $this->otherWorker->error);
+        }
     }
 
     /**
