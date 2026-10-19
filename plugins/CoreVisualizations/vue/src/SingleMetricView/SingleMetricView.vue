@@ -121,8 +121,14 @@ export default defineComponent({
       actualIdGoal.value ? `goal${actualIdGoal.value}_${actualMetric.value}` : actualMetric.value,
     ]);
 
+    // API.get leaves out a non-goal metric it could not compute for the period (eg. a ratio
+    // without a denominator): that value is unavailable, not a real zero
+    function isValueUnavailable(response: MetricValues) {
+      return !isIdGoalSet() && !(actualMetric.value in response);
+    }
+
     const metricValueUnformatted = computed(() => {
-      if (!responses.value?.[1]) {
+      if (!responses.value?.[1] || isValueUnavailable(responses.value[1])) {
         return null;
       }
 
@@ -132,7 +138,7 @@ export default defineComponent({
     });
 
     const pastValueUnformatted = computed(() => {
-      if (!responses.value?.[2]) {
+      if (!responses.value?.[2] || isValueUnavailable(responses.value[2])) {
         return null;
       }
 
@@ -187,7 +193,7 @@ export default defineComponent({
     });
 
     const pastValue = computed(() => {
-      if (!responses.value?.[3]) {
+      if (!responses.value?.[3] || isValueUnavailable(responses.value[3])) {
         return null;
       }
 
@@ -201,6 +207,10 @@ export default defineComponent({
       }
 
       const currentData = responses.value[0];
+      if (isValueUnavailable(currentData)) {
+        return '-';
+      }
+
       return currentData[actualMetric.value] || 0;
     });
 
