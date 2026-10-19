@@ -97,7 +97,7 @@ class PageViewTimeWriterLockingTest extends IntegrationTestCase
         $this->queryOtherWorker($this->getInsertSql(1, 2, 'bbbbbb', 10));
         $this->queryOtherWorker($this->getInsertSql(1, 3, 'cccccc', 20, delayed: true), MYSQLI_ASYNC);
 
-        // A heartbeat for a pv_id visit 2 has no row for, e.g. a visit started before the table existed.
+        // A heartbeat for a pv_id that visit 2 has no row for, e.g. a visit started before the table existed.
         $this->assertNoDeadlock(function () {
             (new PageViewTimeWriter())->write(null, new VisitProperties(['idvisit' => 2]), $this->makeRequest('zzzzzz', false));
         });

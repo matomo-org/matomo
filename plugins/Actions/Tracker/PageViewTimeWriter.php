@@ -38,7 +38,9 @@ use Piwik\Tracker\Visit\VisitProperties;
  *  - Concurrent batches for one visit: inside a bulk or queued-tracking transaction, the rows
  *    to update are found with a plain read, which sees the transaction's REPEATABLE READ
  *    snapshot. A pageview another batch committed for the same visit after that snapshot is
- *    missed, so the older row is closed across it and overcounted. QueuedTracking routes a
+ *    missed, so the older row is closed across it and overcounted. Likewise a hit for a pv_id
+ *    whose row another batch committed after that snapshot updates nothing, and only a later
+ *    hit for that pv_id catches up. QueuedTracking routes a
  *    visitor to a single queue, so this mostly takes concurrent log imports, and core already
  *    reads log_visit the same way when it recognises the visit.
  */
@@ -109,7 +111,7 @@ class PageViewTimeWriter
 
             // Insert before closing: if the close fails, this row still exists at 0 and the
             // next hit closes it instead of reaching past it, which would count the gap twice.
-            // A new visit has no earlier row, so it skips the close and its lookup query.
+            // A new visit's first hit has no earlier row, so it skips the close and its lookup.
             $this->insertPageView(
                 $idSite,
                 $idVisit,
@@ -126,16 +128,17 @@ class PageViewTimeWriter
             return;
         }
 
+        if ($request->getMetadata('CoreHome', 'isNewVisit')) {
+            // A new visit's first hit has no earlier row to close or update.
+            return;
+        }
+
         // Non-recorded hit: ping, event, content, outlink, download, page title only, etc.
         // Without pv_id, fall back to closing the most recent row: that is the same page the
         // legacy path credits, since only pageviews and site searches move the visit exit ids.
         if ($pvId === null) {
             if ($action === null || (int) $action->getIdLinkVisitAction() <= 0) {
                 // Nothing in log_link_visit_action to align with (ping, ecommerce, manual goal).
-                return;
-            }
-            if ($request->getMetadata('CoreHome', 'isNewVisit')) {
-                // No earlier row to close yet.
                 return;
             }
 

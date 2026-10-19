@@ -40,7 +40,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  *    zero/missing fallback, ignored on the initial pageview, superseded by the wall-clock
  *    close when the visitor navigates on)
  *  - Inside a tracker transaction (bulk / queued tracking) the same rows are written
- *  - The first hits of a new visit do not query for a pageview to close
+ *  - The first hit of a new visit does not query for a row to close or update
  *  - A writer error fails a tracker transaction, but is only logged for a single request
  *
  * @group Actions
@@ -593,9 +593,10 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertSame(30, (int) $rows['bbbbbb']['time_spent'], 'The ping grows the new pageview');
     }
 
-    public function testFirstHitsOfANewVisitDoNotLookForAPageViewToClose()
+    public function testTheFirstHitOfANewVisitDoesNotLookForARowToUpdate()
     {
-        // A new visit has no earlier row, so its first hits should not spend a query on the close.
+        // Only a visit's first hit is flagged as new, and that visit has no earlier row, so it
+        // should not spend a query looking for one. Each hit below starts its own visit.
         $pageView = $this->createMock(Action::class);
         $pageView->method('getActionType')->willReturn(Action::TYPE_PAGE_URL);
         $pageView->method('getIdLinkVisitAction')->willReturn(999);
@@ -605,15 +606,15 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $event->method('getIdLinkVisitAction')->willReturn(1000);
 
         $writer = new PageViewTimeWriter();
-        $visit = new VisitProperties(['idvisit' => 1]);
 
         $selectsBefore = $this->countTrackerSelects();
-        $writer->write($pageView, $visit, $this->makeRequest('aaaaaa', 0, isNewVisit: true));
-        $writer->write($event, $visit, $this->makeRequest('', 10, isNewVisit: true));
-        $this->assertSame(0, $this->countTrackerSelects() - $selectsBefore, 'A new visit skips the close');
+        $writer->write($pageView, new VisitProperties(['idvisit' => 1]), $this->makeRequest('aaaaaa', 0, isNewVisit: true));
+        $writer->write($event, new VisitProperties(['idvisit' => 2]), $this->makeRequest('', 0, isNewVisit: true));
+        $writer->write($event, new VisitProperties(['idvisit' => 3]), $this->makeRequest('bbbbbb', 0, isNewVisit: true));
+        $this->assertSame(0, $this->countTrackerSelects() - $selectsBefore, 'The first hit of a new visit queries nothing');
 
-        $writer->write($event, $visit, $this->makeRequest('', 20));
-        $this->assertSame(1, $this->countTrackerSelects() - $selectsBefore, 'An existing visit still closes its previous pageview');
+        $writer->write($event, new VisitProperties(['idvisit' => 1]), $this->makeRequest('', 20));
+        $this->assertSame(1, $this->countTrackerSelects() - $selectsBefore, 'A later hit still closes the previous pageview');
         $this->assertSame(20, (int) $this->fetchRowsByPvId()['aaaaaa']['time_spent']);
     }
 
