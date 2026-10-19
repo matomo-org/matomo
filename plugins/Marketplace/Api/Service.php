@@ -80,8 +80,8 @@ class Service
      * Downloads data from the given URL. If a destination path is given, the downloaded data will be stored in the
      * given path and returned otherwise.
      *
-     * The request is a POST whenever post data is passed, even an empty array, or once {@link authenticate()} has
-     * added the access token, so neither ends up in the URL. Otherwise it is a GET.
+     * POST is requested whenever post data is passed or {@link authenticate()} has added the access token, so neither
+     * ends up in the URL. Otherwise it is a GET.
      *
      * Make sure to call {@link authenticate()} to download paid plugins.
      *
@@ -93,6 +93,7 @@ class Service
      * @param bool $withAccessToken Pass false to leave the access token off a request the Marketplace does not
      *                              personalise.
      * @return bool|string Returns the downloaded data or true if a destination path was given.
+     * @throws \Exception
      */
     public function download(
         $url,
