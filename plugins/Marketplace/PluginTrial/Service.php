@@ -14,9 +14,15 @@ use Piwik\Config\GeneralConfig;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Session;
+use Piwik\Session\SessionNamespace;
 
 final class Service
 {
+    private const SESSION_NAMESPACE = 'Marketplace.PluginTrial';
+
+    // bounds how long a notification the session dropped, or one built for another site or language, can stay so
+    private const MAX_SECONDS_BETWEEN_CHECKS = 600;
+
     public function __construct()
     {
     }
@@ -75,24 +81,51 @@ final class Service
             return; // only super users can see and dismiss those notifications
         }
 
-        // this runs on every request, so the super users are looked up at most once, and only if a check needs them
+        // this runs on every request, so it is skipped while no request has changed since this session last checked
+        $changeMarker = Storage::getChangeMarker();
+        $session = self::isSessionEnabled() ? new SessionNamespace(self::SESSION_NAMESPACE) : null;
+        if (
+            $session !== null
+            && $session->checkedMarker === $changeMarker
+            && $session->checkedLogin === Piwik::getCurrentUserLogin()
+            && $session->checkedAt > time() - self::MAX_SECONDS_BETWEEN_CHECKS
+            // activating a plugin outside the plugin manager, eg in the config, changes no request
+            && !array_filter((array) $session->checkedPlugins, [Manager::getInstance(), 'isPluginActivated'])
+        ) {
+            return;
+        }
+
+        // looked up at most once, and only if a check needs them
         $superUsers = null;
         $getSuperUsers = function () use (&$superUsers): array {
             return $superUsers ??= Storage::getSuperUserLogins();
         };
+        $allChecked = true;
+        $checkedPlugins = [];
 
-        foreach (Storage::getPluginsInStorage() as $pluginName) {
+        foreach (Storage::getAllInStorage() as $pluginName => $storage) {
             if (Manager::getInstance()->isPluginActivated($pluginName)) {
                 try {
                     $this->cancelRequest($pluginName);
                 } catch (\Throwable $e) {
                     // retried on the next page view, and must not hide the other plugins' notifications
+                    $allChecked = false;
                 }
                 continue;
             }
 
-            $trialRequest = new Notification($pluginName, new Storage($pluginName));
+            $checkedPlugins[] = $pluginName;
+
+            $trialRequest = new Notification($pluginName, $storage);
             $trialRequest->createNotificationIfNeeded($getSuperUsers);
+        }
+
+        // a check that needed the current super users can change with them, and demoting one changes no request
+        if ($session !== null && $allChecked && $superUsers === null) {
+            $session->checkedMarker = $changeMarker;
+            $session->checkedLogin = Piwik::getCurrentUserLogin();
+            $session->checkedPlugins = $checkedPlugins;
+            $session->checkedAt = time();
         }
     }
 
@@ -147,6 +180,14 @@ final class Service
             $notification = new Notification($pluginName, new Storage($pluginName));
             $notification->removeFromSession();
         }
+    }
+
+    /**
+     * Without a session the notifications are not kept between requests, so every request has to check again
+     */
+    private static function isSessionEnabled(): bool
+    {
+        return Session::isWritable() && Session::isReadable();
     }
 
     public function isEnabled(): bool

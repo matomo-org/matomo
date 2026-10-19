@@ -29,13 +29,20 @@ class Storage
     public const REQUEST_PENDING = 'pending';
 
     private const OPTION_NAME = 'Marketplace.PluginTrialRequest.%s';
+    // must not match OPTION_NAME's LIKE pattern, or it would be read as a plugin's request
+    private const CHANGE_MARKER_OPTION_NAME = 'Marketplace.PluginTrialRequestsChanged';
     private const LOCK_FOR_UPDATE = ' FOR UPDATE';
     private const LOCK_SHARED = ' LOCK IN SHARE MODE';
     private $pluginName;
     private $optionName;
     private $storage = [];
+    // null outside writeWithHistory(), whose writes are only marked as changes once committed
+    private ?bool $changed = null;
 
-    public function __construct(string $pluginName)
+    /**
+     * @param string|null $storedValue the request's option value when the caller has already read it
+     */
+    public function __construct(string $pluginName, ?string $storedValue = null)
     {
         if (!Manager::getInstance()->isValidPluginName($pluginName)) {
             throw new Exception('Invalid plugin name given ' . $pluginName);
@@ -43,7 +50,21 @@ class Storage
 
         $this->pluginName = $pluginName;
         $this->optionName = sprintf(self::OPTION_NAME, $pluginName);
-        $this->loadStorage();
+
+        if ($storedValue === null) {
+            $this->loadStorage();
+        } else {
+            $this->storage = $this->decodeStored($storedValue);
+        }
+    }
+
+    /**
+     * Returns a value that changes whenever any trial request is written, so a caller can tell if what it read is
+     * still current. Autoloaded once first written, so reading it then costs no query.
+     */
+    public static function getChangeMarker(): string
+    {
+        return (string) Option::get(self::CHANGE_MARKER_OPTION_NAME);
     }
 
     /**
@@ -336,7 +357,12 @@ class Storage
         );
         Option::clearCachedOption($this->optionName);
 
-        return Db::get()->rowCount($result) > 0;
+        $inserted = Db::get()->rowCount($result) > 0;
+        if ($inserted) {
+            $this->recordChange();
+        }
+
+        return $inserted;
     }
 
     /**
@@ -351,6 +377,7 @@ class Storage
 
         Db::query('DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?', [$this->optionName]);
         Option::clearCachedOption($this->optionName);
+        $this->recordChange();
     }
 
     /**
@@ -369,26 +396,49 @@ class Storage
     public function clearStorage(): void
     {
         Option::delete($this->optionName);
+        $this->recordChange();
     }
 
     /**
      * Returns the names of plugins where trial requests are stored for, sorted by request time descending
      *
-     * @return array
+     * @return string[]
      */
     public static function getPluginsInStorage(): array
     {
-        $plugins = [];
-        $trialRequests = Option::getLike(sprintf(self::OPTION_NAME, '%'));
+        return array_keys(self::getStoredValuesByPlugin());
+    }
 
-        foreach ($trialRequests as $trialRequest => $data) {
-            $data = json_decode($data, true);
-            $plugins[str_replace(sprintf(self::OPTION_NAME, ''), '', $trialRequest)] = $data['requestTime'] ?? 0;
+    /**
+     * Returns the stored trial requests, sorted by request time descending, read with one query
+     *
+     * @return iterable<string, Storage> keyed by plugin name
+     */
+    public static function getAllInStorage(): iterable
+    {
+        // built as iterated, so an invalid plugin name only stops the requests after it
+        foreach (self::getStoredValuesByPlugin() as $pluginName => $storedValue) {
+            yield $pluginName => new self($pluginName, $storedValue);
+        }
+    }
+
+    /**
+     * @return array<string, string> option values keyed by plugin name, sorted by request time descending
+     */
+    private static function getStoredValuesByPlugin(): array
+    {
+        $storedValues = [];
+        $requestTimes = [];
+
+        foreach (Option::getLike(sprintf(self::OPTION_NAME, '%')) as $optionName => $storedValue) {
+            $pluginName = str_replace(sprintf(self::OPTION_NAME, ''), '', $optionName);
+            $storedValues[$pluginName] = $storedValue;
+            $requestTimes[$pluginName] = json_decode($storedValue, true)['requestTime'] ?? 0;
         }
 
-        arsort($plugins);
+        arsort($requestTimes);
 
-        return array_keys($plugins);
+        return array_replace($requestTimes, $storedValues);
     }
 
     protected function loadStorage(): void
@@ -406,12 +456,15 @@ class Storage
             throw new Exception('Trial requests can only be written through the regular database connection.');
         }
 
+        $this->changed = false;
         $db->beginTransaction();
 
         try {
             $write(StaticContainer::get(RequestHistory::class));
             $db->commit();
         } catch (\Throwable $e) {
+            $this->changed = null;
+
             try {
                 $db->rollBack();
             } catch (\Throwable $rollbackError) {
@@ -422,10 +475,48 @@ class Storage
 
             throw $e;
         }
+
+        $this->markCommittedChanges();
+    }
+
+    private function markCommittedChanges(): void
+    {
+        $changed = $this->changed;
+        $this->changed = null;
+        if ($changed) {
+            $this->markChanged();
+        }
+    }
+
+    private function recordChange(): void
+    {
+        if ($this->changed === null) {
+            $this->markChanged();
+        } else {
+            $this->changed = true;
+        }
+    }
+
+    /**
+     * Written after the commit: updating this one row inside every write's transaction would serialise the writes
+     * for different plugins
+     */
+    private function markChanged(): void
+    {
+        try {
+            Option::set(self::CHANGE_MARKER_OPTION_NAME, Common::getRandomString(16), 1);
+        } catch (\Throwable $e) {
+            // the write is already committed; super users see it at their next periodic check or after the next write
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'Could not record that a plugin trial request changed',
+                ['exception' => $e]
+            );
+        }
     }
 
     protected function saveStorage(): void
     {
         Option::set($this->optionName, json_encode($this->storage));
+        $this->recordChange();
     }
 }
