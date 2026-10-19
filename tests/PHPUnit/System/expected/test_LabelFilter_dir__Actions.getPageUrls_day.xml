@@ -4,7 +4,7 @@
 		<label>dir</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
-		<sum_time_spent>720</sum_time_spent>
+		<sum_time_spent>756</sum_time_spent>
 		<nb_hits_with_time_network>4</nb_hits_with_time_network>
 		<min_time_network>0.0000</min_time_network>
 		<max_time_network>0.2500</max_time_network>
@@ -37,7 +37,7 @@
 		<avg_page_load_time>1.316</avg_page_load_time>
 		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
 		<nb_hits_percent_of_total>50%</nb_hits_percent_of_total>
-		<avg_time_on_page>180</avg_time_on_page>
+		<avg_time_on_page>189</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir</segment>

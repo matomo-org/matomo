@@ -40,6 +40,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The conditional fallback definitions for `mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class and the `PHP_INT_SIZE`/`PHP_INT_MAX` constants have been removed from `libs/upgradephp/upgrade.php`. All of these are provided natively by every supported PHP version; the fallbacks only ever activated on PHP versions that are no longer supported, or when the function had been turned off via `disable_functions`.
 * The `gzopen()` fallback has also been removed from `libs/upgradephp/upgrade.php`. It aliased `gzopen()` to `gzopen64()` on distribution builds where zlib exposes only the latter, which is a packaging issue rather than a PHP version or `disable_functions` one. On such a build `Piwik\Unzip` now falls back to `PclZip`.
 * Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
+* When a log table is joined to a table it can reach both via a join declared in `Piwik\Tracker\LogTable::getWaysToJoinToOtherLogTables()` and via the generic `idvisit` join (both tables implementing `getColumnToJoinOnIdVisit()`), the segment query builder now uses the declared join. Previously the generic `idvisit` join silently won. This applies only to the partner that is tried first: partners are tried in join order starting with the FROM table, and the first one yielding any join is used, so a declared join does not replace a generic `idvisit` join to an earlier table (e.g. a `log_visit` FROM table). A plugin log table that declares a way-join to another `idvisit`-joinable table will see its declared join columns used in segmented queries whenever that partner is tried first; note that a declared join also bypasses the partner table's `shouldJoinWithSubSelect()` wrapping, which only ever applied to the generic `idvisit` join (relevant when declaring a way-join directly to `log_visit`). A table declaring way-joins to several available partners is now joined to the first of them rather than the last.
 * The deprecated Piwik-era color aliases `@color-black-piwik`, `@color-blue-piwik`, `@color-red-piwik` and `@color-green-piwik` have been removed from `plugins/Morpheus/stylesheets/base/colors.less`. Use `@color-black-matomo`, `@color-blue-matomo`, `@color-red-matomo` and `@color-green-matomo` instead.
 * The third-party brand color variables `@color-orange-brand` (`#f57c00`), `@color-green-brandSocial` (`#009874`), `@color-blue-brandSocial` (`#3b5998`), `@color-blue-brandSocialLight` (`#1c87bd`) and `@color-blue-brandSocialVeryLight` (`#00aced`) have been removed. They described other companies' brands rather than Matomo's own palette; a plugin that still needs one of these colors should use the literal value.
 * The never-referenced palette tokens `@color-gray-light` (`#f0f0f0`), `@color-gray-bright` (`#EBF2EB`), `@color-gray-400` (`#BCBCBC`), `@color-jetstream` (`#c3d9c4`), `@color-silver-l14`, `@color-silver-l50`, `@color-silver-l70` and `@color-silver-l98` have been removed. Use one of the remaining `@color-silver-*` variables, a `@theme-color-*` variable or a literal value instead.
@@ -96,6 +97,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `PasswordConfirmation` component exported from `CorePluginsAdmin` gained a `requireDeleteConfirmation` prop, off by default. When it is set the confirmation dialog additionally asks the user to type `delete` - an untranslated literal, the same word in every language - and its Confirm button stays disabled until that matches exactly and, where re-authentication applies, a password has been entered. It is meant for actions that permanently remove data, and is used in four places in PrivacyManager: the settings for regularly deleting old raw data, for deleting old aggregated report data and for enforcing a raw data retention period through a compliance policy - the last of these only when the save being confirmed actually switches retention on - and the Purge DB Now link, which deletes straight away rather than scheduling a deletion for later. A plugin that supplies an alternative identity confirmation component through the `PasswordConfirmation.altIdComponent` event keeps that component on screen while the word is missing, greyed out and made inert inside a wrapper the dialog owns, so it can be neither clicked nor reached by keyboard until the word matches, and pressing Enter in the dialog activates that component rather than confirming without it. The component has to contain a single `<a>` or `<button>` carrying the `btn` class for either to reach it.
 * The `SearchInput` component exported from `CoreHome` gained a `focused` prop and a `blur()` method: setting `focused` to `true` moves focus to the inner input and calling `blur()` on the component removes it, both of which were previously impossible because binding `v-focus-if` or an element ref to the component targeted its non-focusable wrapper. `CoreHome.QuickAccess` now renders this component instead of duplicating its markup, so its search field is no longer a separate `input` that happens to carry the same classes. Quick search also runs off the field's value rather than off keystrokes, so text that arrives without one (a pasted term, an IME candidate committed with the mouse) now searches too, and keys that belong to an open IME candidate window no longer act on the result list.
 * `Piwik\Plugin\ThemeStyles` gained `$colorWarning`, `$colorDanger`, `$colorTextBrand`, `$colorBackgroundBrandTinyContrast`, `$colorBackgroundBrandLowContrast` and `$colorBorderBrand`, exposed to Less as `@theme-color-warning`, `@theme-color-danger`, `@theme-color-text-brand`, `@theme-color-background-brand-tinyContrast`, `@theme-color-background-brand-lowContrast` and `@theme-color-border-brand`.
+* `Piwik\Plugin\ThemeStyles` gained `$colorPositive`, `$colorNegative` and `$colorNeutral`, exposed to Less as `@theme-color-positive`, `@theme-color-negative` and `@theme-color-neutral` (and as the matching `--theme-color-*` CSS variables). They colour what reads as positive, negative or neither, such as a metric's evolution or a trend, as opposed to `$colorSuccess` and `$colorDanger`, which report the outcome of an operation. `$colorNeutral` defaults to `$colorTextLighter`. Evolution badges, sparkline trends and dots, the All Websites dashboard and the Insights report now use them.
 * A template extending `@Morpheus/admin.twig` can override the new `contentClass` block to put a class on the page's `#content` element. Core provides `admin--wide`, which widens the content area for admin pages that lay out in columns rather than in a single text measure.
 * The new `PrivacyManager.compliancePolicySettingsUpdated` event announces the compliance policy settings a request has just changed, so an audit trail can record who changed what. It is posted by `PrivacyManager.setCompliancePolicySettings` and `PrivacyManager.enforceCompliancePolicySettings` once per call, and only when something actually changed: a request that fails, or that repeats the state a policy is already in, posts nothing. Its single array parameter holds the policy id, the `idSite` the policy was changed for (`null` for the instance wide state), whether every toggleable setting of the policy is enforced afterwards, and the settings whose enforcement state or compliance status changed. It deliberately carries no request parameters, and therefore no password confirmation or authentication token.
 * Plugins opt in to the new `core:rotate-encryption-keys` console command through the new `CoreAdminHome.getEncryptionKeyRotationTargets` event by describing where their key lives (`configSection`, `configKey`), which `options`, system `pluginSettings` and `siteSettings` hold encrypted values, and callables to recognise (`isEncrypted`), `decrypt` and `encrypt` a value with a given key. Per-user plugin settings and options whose names are not known in advance cannot be declared. The new `CoreAdminHome.encryptionKeyRotated` event is posted after each plugin's key was rotated.
@@ -111,7 +113,17 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New commands
 * The new `core:rotate-encryption-keys` console command replaces the encryption key a plugin keeps in the local config file (`config/config.ini.php` by default) and re-encrypts every value the plugin declares, or changes nothing if any value cannot be decrypted.
 
+### New config.ini.php settings
+* `[Tracker] record_accurate_page_view_time` (default `1`, can be overridden per site in `[Tracker_N]`) is a temporary
+  kill-switch for the accurate time-on-page writer. Setting it to `0` stops new `log_page_view_time` rows from being
+  written; rows recorded earlier keep being used by the archiver and the visits log. It will be removed in a future
+  major version.
+
 ### HTTP API
+* Time on page is now measured per pageview, so `sum_time_spent` and `avg_time_on_page` in the Actions page URL and
+  page title reports change for data tracked after the upgrade. In `Live.getLastVisitsDetails`, `timeSpent` and
+  `timeSpentPretty` of a pageview show the measured time when there is one, and site-search actions can now carry
+  `timeSpent` and `timeSpentPretty` of their own.
 * Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional
   `{metric}_percent_of_total` column (eg, `nb_visits_percent_of_total`). The values match the ratio percentages the report tables
   show on hover, follow `format_metrics` like other percent metrics, and are included in all export formats. Non-additive metrics
@@ -140,6 +152,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   clipping the last column of a report carrying ten or more metrics.
 
 ### Deprecations
+* `Piwik\Tracker\Visit::getTimeSpentReferrerAction()` and the `log_link_visit_action.time_spent_ref_action` column are
+  deprecated. The accurate per-pageview time-on-page metric is now sourced from the new `log_page_view_time` log table
+  written by `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter`. The deprecated method and column remain functional
+  through 6.x, because the archiver and the visits log still read them for pageviews that have no measured row (tracked
+  before the upgrade, while `record_accurate_page_view_time` was off, or whose row could not be written). They are
+  scheduled for removal in a future major version.
 * The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`)
   is deprecated and will be removed in Matomo 7; use `@theme-color-background-contrast` instead. It is the generic
   elevated content surface and is already used well beyond widgets.
@@ -154,6 +172,33 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The theme variable `@theme-color-border-alternative` (`ThemeStyles::$colorBorderAlternative`) is deprecated and will
   be removed in Matomo 7; use `@theme-color-border` instead, which now carries the same value. Core no longer reads
   the alternative, so a theme that overrides `$colorBorderAlternative` must override `$colorBorder` instead.
+
+### Schema
+* New log table `log_page_view_time` (one row per `(idvisit, idlink_va)`) records the accurate time each pageview /
+  site-search hit was visible, populated by the tracker on every recordable hit. It participates in raw-log purging
+  via the `Piwik\Plugins\CoreHome\Tracker\LogTable\PageViewTime` `LogTable`. The archiver in
+  `Piwik\Plugins\Actions\RecordBuilders\ActionReports` runs two queries per period: an accurate query summing
+  `log_page_view_time.time_spent`, and the legacy `log_link_visit_action.time_spent_ref_action` query anti-joined
+  against `log_page_view_time`. A legacy value is dropped only where the interval it credits overlaps the time a
+  `log_page_view_time` row for the same visit and page measured, or where it belongs to the hit that closed such a
+  row (which matters when the `visit_standard_length` cap cut the row short). Pageviews with no measured row (tracked
+  before the new table existed, while `record_accurate_page_view_time` was off, or whose row could not be written)
+  are still counted via the legacy path. On installs that opt out of the default midnight visit split
+  (`create_new_visit_after_midnight = 0`), time a cross-midnight visit adds to the previous day's last pageview
+  after that day was archived is not re-archived (the previous day's archive is not invalidated), matching how
+  visit metrics already behave for such visits under that setting.
+
+### Tracker HTTP API
+* New optional tracker request parameter `pv_time` (integer, seconds). When a tracker measures time-on-page
+  itself (e.g. a focused-only counter) and sends `&pv_time=N` on a follow-up hit carrying the pageview's
+  `pv_id`, `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter` records that value as the hit's measurement
+  instead of the server-side `now − server_time` calculation. All measurements settle through the writer's
+  `GREATEST()` rule, so `pv_time` can only ever raise `time_spent`: when a later pageview closes the row, the
+  server-side wall-clock difference still applies, meaning a smaller focused-only count survives only on rows
+  the server never re-measures — the last page of a visit, single-page visits, and abandoned tabs (exactly
+  where server-side measurement was least accurate). Values are capped at the time elapsed since the pageview,
+  and at `Tracker.visit_standard_length`, so `pv_time` can report less time than has passed but never more;
+  zero, negative, and missing values fall back to the server-side calculation.
 
 ### Internal Changes
 * `./console vue:build` no longer emits the unminified `plugins/<Plugin>/vue/dist/<Plugin>.umd.js` bundle. Only the

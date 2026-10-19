@@ -62,6 +62,10 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
                 'idaction_category4',
                 'idaction_category5',
             ),
+            'log_page_view_time' => array(
+                'idaction_url',
+                'idaction_name',
+            ),
         );
 
         $this->assertEquals($expectedColumns, $actualColumns);
@@ -114,6 +118,10 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
                 'idaction_category4',
                 'idaction_category5',
                 'some_unknown_idaction_column',
+            ),
+            'log_page_view_time' => array(
+                'idaction_url',
+                'idaction_name',
             ),
             'log_custom_table' => array(
                 'some_column1',

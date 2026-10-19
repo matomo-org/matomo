@@ -105,10 +105,12 @@
             ? (paramOverride.segment || '')
             : decodeURIComponent(this.dataTable.param.segment || '');
 
-        // The row filter of a comparison row already starts with its series' segment
-        // (see ComparisonRowGenerator), which would make one action match both conditions
-        if (isComparisonRow && contextSegment && clickedSegment.indexOf(contextSegment + ';') === 0) {
-            clickedSegment = clickedSegment.substring(contextSegment.length + 1);
+        // The report adds conditions to its rows after the comparison rows are built (e.g. the
+        // referrerType==campaign prefix on Campaigns), so the row the comparison belongs to carries
+        // the complete filter for the clicked value
+        if (isComparisonRow) {
+            var reportRow = $(tr).prevAll('tr.parentComparisonRow').first();
+            clickedSegment = getRawSegmentValueFromRow(reportRow) || clickedSegment;
         }
 
         // The main segment is the context plus any report-defined suffix, ANDed together at the

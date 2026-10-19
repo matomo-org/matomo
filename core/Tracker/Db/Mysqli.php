@@ -415,6 +415,11 @@ class Mysqli extends Db
         return mysqli_affected_rows($this->connection);
     }
 
+    public function isInTransaction(): bool
+    {
+        return $this->activeTransaction !== null;
+    }
+
     /**
      * Start Transaction
      * @return ?string TransactionID

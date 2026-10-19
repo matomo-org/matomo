@@ -45,7 +45,8 @@ class Updates_6_0_0_b6 extends Updates
                 $this->migration->db->addUniqueKey('plugin_trial_request', ['login', 'plugin_name'], 'index_login_plugin_name'),
                 $this->migration->db->addIndex('plugin_trial_request', ['plugin_name', 'ts_requested'], 'index_plugin_name_ts_requested'),
             ],
-            $this->getPendingRequestMigrations()
+            $this->getPendingRequestMigrations(),
+            $this->getPageViewTimeMigrations()
         );
     }
 
@@ -106,6 +107,70 @@ class Updates_6_0_0_b6 extends Updates
                 $migrations[] = $this->migration->db->boundSql($updateOptionSql, [json_encode($anonymizedRequest), $optionName, $value]);
             }
         }
+
+        return $migrations;
+    }
+
+    /**
+     * @return Migration[]
+     */
+    private function getPageViewTimeMigrations(): array
+    {
+        $migrations = [];
+
+        $migrations[] = $this->migration->db->createTable(
+            'log_page_view_time',
+            [
+                'idpageviewtime' => 'BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'idsite'         => 'INTEGER(10) UNSIGNED NOT NULL',
+                'idvisit'        => 'BIGINT(10) UNSIGNED NOT NULL',
+                'idlink_va'      => 'BIGINT(10) UNSIGNED NOT NULL',
+                'idpageview'     => 'CHAR(6) CHARACTER SET ascii COLLATE ascii_bin NULL DEFAULT NULL',
+                'idaction_url'   => 'INTEGER(10) UNSIGNED NULL DEFAULT NULL',
+                'idaction_name'  => 'INTEGER(10) UNSIGNED NULL DEFAULT NULL',
+                'server_time'    => 'DATETIME NOT NULL',
+                'time_spent'     => 'INTEGER(10) UNSIGNED NOT NULL DEFAULT 0',
+            ],
+            'idpageviewtime'
+        );
+
+        $migrations[] = $this->migration->db->addUniqueKey(
+            'log_page_view_time',
+            ['idvisit', 'idlink_va'],
+            'unique_idvisit_idlink_va'
+        );
+
+        $migrations[] = $this->migration->db->addIndex(
+            'log_page_view_time',
+            ['idvisit', 'idpageview'],
+            'index_idvisit_idpageview'
+        );
+
+        $migrations[] = $this->migration->db->addIndex(
+            'log_page_view_time',
+            ['idvisit', 'server_time'],
+            'index_idvisit_server_time'
+        );
+
+        $migrations[] = $this->migration->db->addIndex(
+            'log_page_view_time',
+            ['idsite', 'server_time'],
+            'index_idsite_server_time'
+        );
+
+        // The legacy time-on-page anti-join probes per row on (idvisit, idaction_url|idaction_name),
+        // which a visit's own actions already narrow to a row or two.
+        $migrations[] = $this->migration->db->addIndex(
+            'log_page_view_time',
+            ['idvisit', 'idaction_url', 'time_spent'],
+            'index_idvisit_idaction_url_time'
+        );
+
+        $migrations[] = $this->migration->db->addIndex(
+            'log_page_view_time',
+            ['idvisit', 'idaction_name', 'time_spent'],
+            'index_idvisit_idaction_name_time'
+        );
 
         return $migrations;
     }

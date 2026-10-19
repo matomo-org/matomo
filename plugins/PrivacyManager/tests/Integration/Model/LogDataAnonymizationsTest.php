@@ -278,6 +278,8 @@ Starting to unset log_conversion table entries (if possible).
 Number of unset log_conversion table entries: 0
 Starting to unset log_link_visit_action table entries.
 Number of unset log_link_visit_action table entries: 0
+Starting to unset log_page_view_time table entries (if possible).
+Number of unset log_page_view_time table entries: 0
 ",
             'requester' => 'mylogin',
             'sites' => array ('All Websites'),

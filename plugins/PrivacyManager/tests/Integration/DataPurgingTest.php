@@ -219,6 +219,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('log_page_view_time')     => 6,
             Common::prefixTable('archive_numeric_2012_01') => -1,
             Common::prefixTable('archive_blob_2012_01')    => -1,
         );
@@ -344,6 +345,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('log_page_view_time')     => 6,
             Common::prefixTable('archive_numeric_2012_01') => 1, // remove the garbage metric
             Common::prefixTable('archive_blob_2012_01')    => -1,
         );
@@ -399,6 +401,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('log_page_view_time')     => 6,
             Common::prefixTable('archive_numeric_2012_01') => -1,
             Common::prefixTable('archive_blob_2012_01')    => 10,  // removing 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports + 1 segmented report
         );
@@ -434,6 +437,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('log_page_view_time')     => 6,
             Common::prefixTable('archive_numeric_2012_01') => -1,
             Common::prefixTable('archive_blob_2012_01')    => 11, // 5 days, 1 month & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
@@ -469,6 +473,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('log_page_view_time')     => 6,
             Common::prefixTable('archive_numeric_2012_01') => -1,
             Common::prefixTable('archive_blob_2012_01')    => 14, // 5 days, 4 weeks, 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
@@ -504,6 +509,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('log_page_view_time')     => 6,
             Common::prefixTable('archive_numeric_2012_01') => -1,
             Common::prefixTable('archive_blob_2012_01')    => 14,  // 5 days, 4 weeks & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
@@ -571,6 +577,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('log_page_view_time')     => 6,
             Common::prefixTable('archive_numeric_2012_01') => -1,
             Common::prefixTable('archive_blob_2012_01')    => 13,  // 5 days, 4 weeks, 1 month & 1 year + 1 garbage report + 1 segmented report
         );
@@ -607,6 +614,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_link_visit_action')   => 6 + $events + $contents,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('log_page_view_time')     => 6,
             Common::prefixTable('archive_numeric_2012_01') => -1,
             Common::prefixTable('archive_blob_2012_01')    => 9, // 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports
         );
