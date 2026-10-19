@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\Actions\Archiver as ActionsArchiver;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotReports;
@@ -75,6 +76,9 @@ class API extends \Piwik\Plugin\API
 
         if (!empty($requestedColumns)) {
             $dataTable->queueFilter('ColumnDelete', [$columnsToRemove = [], $requestedColumns]);
+        } else {
+            // Page views are only fetched to compute the AI chatbot traffic ratio
+            $dataTable->queueFilter('ColumnDelete', [[ActionsArchiver::METRIC_PAGEVIEWS_RECORD_NAME]]);
         }
 
         return $dataTable;
