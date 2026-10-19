@@ -217,6 +217,12 @@ class PageViewTimeWriter
         // The row this hit just inserted is excluded by idlink_va and by the strict
         // server_time bound. GREATEST() lets out-of-order heartbeats only grow time_spent.
         //
+        // A plain read, then an update by primary key: a locking read would also lock the index
+        // entries next to the visit's rows when it finds none, e.g. on a visit's first pageview.
+        // Those belong to neighbouring visits another queued-tracking worker may be writing,
+        // which deadlocks both workers. In a transaction, the visit's log_visit lock still
+        // serializes hits for the same visit.
+        //
         // Five indexes start with idvisit, and on a short visit the optimiser prefers one of
         // the others and then sorts. Pinning the index that already provides the order keeps
         // this a LIMIT 1 walk, which no sort can beat.
@@ -230,35 +236,18 @@ class PageViewTimeWriter
             [$idVisit, $newIdLinkVa, $serverTimeSql]
         );
 
-        // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
-        // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
-        // the cap would always win. It is a validated int from Tracker config.
-        $this->updateRow(
-            $idPageViewTime,
-            "LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))",
-            [$serverTimeSql]
-        );
-    }
-
-    /**
-     * Updates the row found by a plain read, by primary key. A locking read would also lock the
-     * index entries next to the visit's rows when it finds none, e.g. on a visit's first pageview,
-     * and those belong to neighbouring visits that another queued-tracking worker may be
-     * writing, which deadlocks both workers. Within a transaction the visit's log_visit lock
-     * still serializes hits for the same visit.
-     *
-     * @param int|string|false $idPageViewTime
-     */
-    private function updateRow($idPageViewTime, string $timeSpentExpr, array $binds): void
-    {
         if (empty($idPageViewTime)) {
             return;
         }
 
-        $table = Common::prefixTable(self::TABLE);
-        Tracker::getDatabase()->query(
-            "UPDATE `$table` SET time_spent = $timeSpentExpr WHERE idpageviewtime = ?",
-            array_merge($binds, [$idPageViewTime])
+        // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
+        // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
+        // the cap would always win. It is a validated int from Tracker config.
+        $db->query(
+            "UPDATE `$table`
+                SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
+              WHERE idpageviewtime = ?",
+            [$serverTimeSql, $idPageViewTime]
         );
     }
 
@@ -322,8 +311,8 @@ class PageViewTimeWriter
         }
 
         // A page-view and its site-search hit share one pv_id, so (idvisit, pv_id) can match
-        // several rows; the most recent is the active one. Inlined $cap for the same reason as
-        // closePreviousPageView().
+        // several rows; the most recent is the active one. Plain read and inlined $cap for the same
+        // reasons as closePreviousPageView().
         $idPageViewTime = $db->fetchOne(
             "SELECT idpageviewtime FROM `$table`
               WHERE idvisit = ? AND idpageview = ?
@@ -332,10 +321,15 @@ class PageViewTimeWriter
             [$idVisit, $pvId]
         );
 
-        $this->updateRow(
-            $idPageViewTime,
-            "LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))",
-            $newTimeSpentBinds
+        if (empty($idPageViewTime)) {
+            return;
+        }
+
+        $db->query(
+            "UPDATE `$table`
+                SET time_spent = LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))
+              WHERE idpageviewtime = ?",
+            array_merge($newTimeSpentBinds, [$idPageViewTime])
         );
     }
 }
