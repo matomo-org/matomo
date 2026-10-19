@@ -217,34 +217,49 @@ class PageViewTimeWriter
         // The row this hit just inserted is excluded by idlink_va and by the strict
         // server_time bound. GREATEST() lets out-of-order heartbeats only grow time_spent.
         //
-        // The derived table works around MySQL not allowing an UPDATE to reference its target
-        // in a subquery, and avoids `UPDATE ... ORDER BY ... LIMIT 1`, which is binlog-unsafe.
-        //
-        // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
-        // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
-        // the cap would always win. It is a validated int from Tracker config.
-        //
-        // FOR UPDATE makes the inner read take the row lock the UPDATE needs. Without it, two
-        // concurrent hits for one visit both take a shared lock on the same row and then
-        // deadlock trying to upgrade it.
-        //
         // Five indexes start with idvisit, and on a short visit the optimiser prefers one of
         // the others and then sorts. Pinning the index that already provides the order keeps
         // this a LIMIT 1 walk, which no sort can beat.
-        $sql = "UPDATE `$table`
-                   SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
-                 WHERE idpageviewtime = (
-                        SELECT idpageviewtime FROM (
-                            SELECT idpageviewtime FROM `$table` FORCE INDEX (index_idvisit_server_time)
-                             WHERE idvisit = ?
-                               AND idlink_va <> ?
-                               AND server_time < ?
-                          ORDER BY server_time DESC, idpageviewtime DESC
-                             LIMIT 1
-                               FOR UPDATE
-                        ) t
-                       )";
-        $db->query($sql, [$serverTimeSql, $idVisit, $newIdLinkVa, $serverTimeSql]);
+        $idPageViewTime = $db->fetchOne(
+            "SELECT idpageviewtime FROM `$table` FORCE INDEX (index_idvisit_server_time)
+              WHERE idvisit = ?
+                AND idlink_va <> ?
+                AND server_time < ?
+           ORDER BY server_time DESC, idpageviewtime DESC
+              LIMIT 1",
+            [$idVisit, $newIdLinkVa, $serverTimeSql]
+        );
+
+        // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
+        // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
+        // the cap would always win. It is a validated int from Tracker config.
+        $this->updateRow(
+            $idPageViewTime,
+            "LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))",
+            [$serverTimeSql]
+        );
+    }
+
+    /**
+     * Updates the row found by a plain read, by primary key. A locking read would also lock the
+     * index entries next to the visit's rows when it finds none, e.g. on a visit's first pageview,
+     * and those belong to neighbouring visits that another queued-tracking worker may be
+     * writing, which deadlocks both workers. Within a transaction the visit's log_visit lock
+     * still serializes hits for the same visit.
+     *
+     * @param int|string|false $idPageViewTime
+     */
+    private function updateRow($idPageViewTime, string $timeSpentExpr, array $binds): void
+    {
+        if (empty($idPageViewTime)) {
+            return;
+        }
+
+        $table = Common::prefixTable(self::TABLE);
+        Tracker::getDatabase()->query(
+            "UPDATE `$table` SET time_spent = $timeSpentExpr WHERE idpageviewtime = ?",
+            array_merge($binds, [$idPageViewTime])
+        );
     }
 
     private function insertPageView(
@@ -307,19 +322,20 @@ class PageViewTimeWriter
         }
 
         // A page-view and its site-search hit share one pv_id, so (idvisit, pv_id) can match
-        // several rows; the most recent is the active one. Derived table, FOR UPDATE and inlined
-        // $cap for the same reasons as closePreviousPageView().
-        $sql = "UPDATE `$table`
-                   SET time_spent = LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))
-                 WHERE idpageviewtime = (
-                        SELECT idpageviewtime FROM (
-                            SELECT idpageviewtime FROM `$table`
-                             WHERE idvisit = ? AND idpageview = ?
-                          ORDER BY server_time DESC, idpageviewtime DESC
-                             LIMIT 1
-                               FOR UPDATE
-                        ) t
-                       )";
-        $db->query($sql, array_merge($newTimeSpentBinds, [$idVisit, $pvId]));
+        // several rows; the most recent is the active one. Inlined $cap for the same reason as
+        // closePreviousPageView().
+        $idPageViewTime = $db->fetchOne(
+            "SELECT idpageviewtime FROM `$table`
+              WHERE idvisit = ? AND idpageview = ?
+           ORDER BY server_time DESC, idpageviewtime DESC
+              LIMIT 1",
+            [$idVisit, $pvId]
+        );
+
+        $this->updateRow(
+            $idPageViewTime,
+            "LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))",
+            $newTimeSpentBinds
+        );
     }
 }
