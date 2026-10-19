@@ -9,9 +9,7 @@
 
 namespace Piwik\Tests\Unit\Request;
 
-use Piwik\Cache;
-
-class AuthenticationToken extends \PHPUnit\Framework\TestCase
+class AuthenticationTokenTest extends \PHPUnit\Framework\TestCase
 {
     public function tearDown(): void
     {
@@ -19,7 +17,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         $_GET = $_POST = [];
         unset($_SERVER['HTTP_AUTHORIZATION']);
         $this->setNestedApiInvocationCount(0);
-        Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
+        \Piwik\API\Request::setIsRootRequestApiRequest(null);
     }
 
     /**
@@ -386,7 +384,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         if ($count > 0) {
             \Piwik\API\Request::setIsRootRequestApiRequest('API.getPiwikVersion');
         } else {
-            Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
+            \Piwik\API\Request::setIsRootRequestApiRequest(null);
         }
     }
 }
