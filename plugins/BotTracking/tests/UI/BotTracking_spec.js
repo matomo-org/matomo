@@ -76,15 +76,28 @@ describe("BotTracking", function () {
         // the metrics picker options are always present in the DOM (the dropdown is
         // only hidden until the toggle is clicked), so we can count them directly
         const availableMetrics = await page.$$('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
-        expect(availableMetrics.length).to.equal(8);
+        expect(availableMetrics.length).to.equal(9);
 
         await page.mouse.move(0, 0);
 
         const sparklines = await page.$$('.metricValue');
-        expect(sparklines.length).to.equal(8);
+        expect(sparklines.length).to.equal(9);
 
         var elem = await page.$('.pageWrap');
         expect(await elem.screenshot()).to.matchImage('bot_overview');
+    });
+
+    it('should show the AI chatbot traffic ratio as a multiplier with its documentation', async function () {
+        const ratio = await page.evaluate(function () {
+            var $title = jQuery('.metricValue__title:contains("AI Chatbot traffic ratio")');
+            return {
+                value: $title.closest('.sparkline').find('.metricValue__number').text().trim(),
+                documentation: $title.attr('title'),
+            };
+        });
+
+        expect(ratio.value).to.equal('8.0×');
+        expect(ratio.documentation).to.contain('page views made by humans, directly or via AI agents');
     });
 
     it('should not have shown a "no recent tracking requests" message', async function () {
@@ -97,10 +110,50 @@ describe("BotTracking", function () {
         await page.waitForNetworkIdle();
 
         const availableMetrics = await page.$$('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
-        expect(availableMetrics.length).to.equal(6);
+        expect(availableMetrics.length).to.equal(7);
 
         const sparklines = await page.$$('.metricValue');
-        expect(sparklines.length).to.equal(6);
+        expect(sparklines.length).to.equal(7);
+    });
+
+    it('should show the AI chatbot traffic ratio as unavailable for a period without page views', async function () {
+        await page.goto("?" + urlBase + "#?idSite=1&period=day&date=2025-01-15&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
+        await page.waitForNetworkIdle();
+
+        const value = await page.evaluate(function () {
+            return jQuery('.metricValue__title:contains("AI Chatbot traffic ratio")')
+                .closest('.sparkline').find('.metricValue__number').text().trim();
+        });
+
+        expect(value).to.equal('-');
+    });
+
+    async function getKpiWidgetValue(date) {
+        await page.goto("?module=Widgetize&action=iframe&moduleToWidgetize=CoreVisualizations&actionToWidgetize=singleMetricView"
+            + "&column=BotTracking_AIChatbotsTrafficRatio&idSite=1&period=day&date=" + date + "&disableLink=1&widget=1");
+        await page.waitForNetworkIdle();
+
+        return await page.evaluate(function () {
+            return {
+                value: jQuery('.singleMetricView .metric-value strong').text().trim(),
+                label: jQuery('.singleMetricView .metric-value').text().trim(),
+                hasEvolution: jQuery('.singleMetricView .metricEvolution').length > 0,
+            };
+        });
+    }
+
+    it('should show the AI chatbot traffic ratio in the KPI widget', async function () {
+        const kpi = await getKpiWidgetValue('2025-02-02');
+
+        expect(kpi.value).to.equal('8.0×');
+        expect(kpi.label).to.contain('ai chatbot traffic ratio');
+    });
+
+    it('should show the AI chatbot traffic ratio as unavailable in the KPI widget for a period without page views', async function () {
+        const kpi = await getKpiWidgetValue('2025-01-15');
+
+        expect(kpi.value).to.equal('-');
+        expect(kpi.hasEvolution).to.equal(false);
     });
 
     it('should render AI Assistants > AI Chatbots Overview bot detail report', async function () {
