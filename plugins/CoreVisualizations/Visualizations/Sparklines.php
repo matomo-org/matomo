@@ -384,8 +384,14 @@ class Sparklines extends ViewDataTable
                     if (!isset($column[$i])) {
                         continue;
                     }
+                    // A processed metric that could not be computed (eg. a ratio without a
+                    // denominator) is unavailable, not zero
+                    $isUnavailable = $firstRow
+                        && isset($columnMetrics[$column[$i]])
+                        && $firstRow->getColumn($column[$i]) === false;
+
                     $newMetric = [
-                        'value' => $this->formatSparklineMetricValue(
+                        'value' => $isUnavailable ? '-' : $this->formatSparklineMetricValue(
                             $value,
                             $column[$i],
                             $columnMetrics,
