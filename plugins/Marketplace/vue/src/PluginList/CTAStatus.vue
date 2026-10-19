@@ -7,7 +7,7 @@
 
 <template>
   <div v-if="inModal" class="ctaStatus ctaStatus--stacked">
-    <div class="ctaStatus__alert alert alert-no-background" :class="alertClass">
+    <div class="alert alert-no-background" :class="alertClass">
       {{ label }}
       <span v-if="hasAction && !actionAsButton" class="ctaStatus__alertAction">(<slot />)</span>
     </div>
@@ -32,10 +32,11 @@ import { defineComponent } from 'vue';
  *
  * Two renderings: the modal keeps the alert banner it has always had, with the action in brackets
  * or, with `actionAsButton`, as a button under it; a card draws one row, state then action, since
- * the alert's padding and border will not fit.
+ * the alert's padding and border will not fit. Success takes the brand alert rather than the green
+ * one, as the page around it is drawn in the brand colour.
  */
 const ALERT_CLASSES: Record<string, string> = {
-  success: 'alert-success ctaStatus__alert--brand',
+  success: 'alert-brand',
   warning: 'alert-warning',
   danger: 'alert-danger',
 };

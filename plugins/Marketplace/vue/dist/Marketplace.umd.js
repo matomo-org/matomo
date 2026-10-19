@@ -1238,21 +1238,21 @@ function PluginCardvue_type_template_id_f0dcfd56_render(_ctx, _cache, $props, $s
 }
 // CONCATENATED MODULE: ./plugins/Marketplace/vue/src/PluginCard/PluginCard.vue?vue&type=template&id=f0dcfd56
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/PluginList/CTAContainer.vue?vue&type=template&id=7716806d
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/PluginList/CTAContainer.vue?vue&type=template&id=1894f6bf
 
-const CTAContainervue_type_template_id_7716806d_hoisted_1 = ["href"];
-const CTAContainervue_type_template_id_7716806d_hoisted_2 = ["href"];
-const CTAContainervue_type_template_id_7716806d_hoisted_3 = ["href"];
-const CTAContainervue_type_template_id_7716806d_hoisted_4 = ["href"];
-const CTAContainervue_type_template_id_7716806d_hoisted_5 = ["title"];
-const CTAContainervue_type_template_id_7716806d_hoisted_6 = ["title", "href"];
-const CTAContainervue_type_template_id_7716806d_hoisted_7 = ["href"];
-const CTAContainervue_type_template_id_7716806d_hoisted_8 = ["title"];
-const CTAContainervue_type_template_id_7716806d_hoisted_9 = ["title"];
-function CTAContainervue_type_template_id_7716806d_render(_ctx, _cache, $props, $setup, $data, $options) {
+const CTAContainervue_type_template_id_1894f6bf_hoisted_1 = ["href"];
+const CTAContainervue_type_template_id_1894f6bf_hoisted_2 = ["href"];
+const CTAContainervue_type_template_id_1894f6bf_hoisted_3 = ["href"];
+const CTAContainervue_type_template_id_1894f6bf_hoisted_4 = ["title"];
+const CTAContainervue_type_template_id_1894f6bf_hoisted_5 = ["title", "href"];
+const CTAContainervue_type_template_id_1894f6bf_hoisted_6 = ["href"];
+const CTAContainervue_type_template_id_1894f6bf_hoisted_7 = ["title"];
+const CTAContainervue_type_template_id_1894f6bf_hoisted_8 = ["title"];
+function CTAContainervue_type_template_id_1894f6bf_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MoreDetailsAction = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MoreDetailsAction");
   const _component_CTAStatus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("CTAStatus");
   const _component_DownloadButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DownloadButton");
+  const _component_MarketplaceButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MarketplaceButton");
   return _ctx.isSuperUser ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 0
   }, [_ctx.plugin.isMissingLicense ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_CTAStatus, {
@@ -1274,7 +1274,7 @@ function CTAContainervue_type_template_id_7716806d_render(_ctx, _cache, $props, 
     target: "_blank",
     rel: "noreferrer noopener",
     href: _ctx.externalRawLink(_ctx.plugin.consumer.loginUrl)
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_UpgradeSubscription')), 9, CTAContainervue_type_template_id_7716806d_hoisted_1)) : _ctx.plugin.hasExceededLicense ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_CTAStatus, {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_UpgradeSubscription')), 9, CTAContainervue_type_template_id_1894f6bf_hoisted_1)) : _ctx.plugin.hasExceededLicense ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_CTAStatus, {
     key: 2,
     tone: "danger",
     label: _ctx.translate('Marketplace_LicenseExceeded'),
@@ -1293,7 +1293,7 @@ function CTAContainervue_type_template_id_7716806d_render(_ctx, _cache, $props, 
     key: 0,
     class: "btn btn-block",
     href: _ctx.linkToUpdate(_ctx.plugin.name)
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreUpdater_UpdateTitle')), 9, CTAContainervue_type_template_id_7716806d_hoisted_2)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_CTAStatus, {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreUpdater_UpdateTitle')), 9, CTAContainervue_type_template_id_1894f6bf_hoisted_2)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_CTAStatus, {
     key: 1,
     tone: "warning",
     label: _ctx.translate('Marketplace_CannotUpdate'),
@@ -1326,15 +1326,19 @@ function CTAContainervue_type_template_id_7716806d_render(_ctx, _cache, $props, 
       "is-auto-update-possible": _ctx.isAutoUpdatePossible
     }, null, 8, ["plugin", "show-as-button", "is-auto-update-possible"])) : _ctx.hasActivationToggle ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
       key: 1
-    }, [_ctx.plugin.isActivated ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    }, [_ctx.inModal ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_MarketplaceButton, {
       key: 0,
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.activationToggleClass),
-      href: _ctx.linkToDeactivate(_ctx.plugin.name)
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_Deactivate')), 11, CTAContainervue_type_template_id_7716806d_hoisted_3)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+      href: _ctx.activationToggleUrl,
+      outline: true,
+      "full-width": true
+    }, {
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.activationToggleLabel), 1)]),
+      _: 1
+    }, 8, ["href"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
       key: 1,
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.activationToggleClass),
-      href: _ctx.linkToActivate(_ctx.plugin.name)
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CorePluginsAdmin_Activate')), 11, CTAContainervue_type_template_id_7716806d_hoisted_4))], 64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
+      class: "btn btn-block",
+      href: _ctx.activationToggleUrl
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.activationToggleLabel), 9, CTAContainervue_type_template_id_1894f6bf_hoisted_3))], 64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
     _: 1
   }, 8, ["label", "in-modal", "has-action", "action-as-button"])) : _ctx.plugin.isEligibleForFreeTrial && !_ctx.inModal && _ctx.isPluginsAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
     key: 5,
@@ -1342,14 +1346,14 @@ function CTAContainervue_type_template_id_7716806d_render(_ctx, _cache, $props, 
     class: "btn btn-block purchaseable",
     title: _ctx.translate('Marketplace_StartFreeTrial'),
     onClick: _cache[3] || (_cache[3] = $event => _ctx.$emit('openDetailsModal'))
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_StartFreeTrial')), 9, CTAContainervue_type_template_id_7716806d_hoisted_5)) : _ctx.plugin.isEligibleForFreeTrial && _ctx.inModal && _ctx.shopVariationUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_StartFreeTrial')), 9, CTAContainervue_type_template_id_1894f6bf_hoisted_4)) : _ctx.plugin.isEligibleForFreeTrial && _ctx.inModal && _ctx.shopVariationUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 6,
     class: "btn btn-block addToCartLink",
     target: "_blank",
     title: _ctx.translate('Marketplace_ClickToCompletePurchase'),
     rel: "noreferrer noopener",
     href: _ctx.shopVariationUrl
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_AddToCart')), 9, CTAContainervue_type_template_id_7716806d_hoisted_6)) : !_ctx.inModal && !_ctx.plugin.isDownloadable && (_ctx.plugin.isPaid || _ctx.plugin.isNewBundle || _ctx.plugin.missingRequirements.length > 0 || !_ctx.isAutoUpdatePossible) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_MoreDetailsAction, {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_AddToCart')), 9, CTAContainervue_type_template_id_1894f6bf_hoisted_5)) : !_ctx.inModal && !_ctx.plugin.isDownloadable && (_ctx.plugin.isPaid || _ctx.plugin.isNewBundle || _ctx.plugin.missingRequirements.length > 0 || !_ctx.isAutoUpdatePossible) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_MoreDetailsAction, {
     key: 7,
     "show-as-button": true,
     label: _ctx.translate('General_MoreDetails'),
@@ -1376,7 +1380,7 @@ function CTAContainervue_type_template_id_7716806d_render(_ctx, _cache, $props, 
     key: 9,
     href: _ctx.linkToInstall(_ctx.plugin.name),
     class: "btn btn-block"
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_ActionInstall')), 9, CTAContainervue_type_template_id_7716806d_hoisted_7)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_ActionInstall')), 9, CTAContainervue_type_template_id_1894f6bf_hoisted_6)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 10
   }, [!_ctx.inModal ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_MoreDetailsAction, {
     key: 0,
@@ -1388,7 +1392,7 @@ function CTAContainervue_type_template_id_7716806d_render(_ctx, _cache, $props, 
     class: "btn btn-block purchaseable disabled",
     href: "",
     title: _ctx.translate('Marketplace_TrialRequested')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TrialRequested')), 9, CTAContainervue_type_template_id_7716806d_hoisted_8)) : _ctx.plugin.canTrialBeRequested && !_ctx.plugin.isMissingLicense ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_TrialRequested')), 9, CTAContainervue_type_template_id_1894f6bf_hoisted_7)) : _ctx.plugin.canTrialBeRequested && !_ctx.plugin.isMissingLicense ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 2,
     class: "btn btn-block purchaseable",
     href: "",
@@ -1396,7 +1400,7 @@ function CTAContainervue_type_template_id_7716806d_render(_ctx, _cache, $props, 
       this.$emit('requestTrial');
     }, ["prevent"])),
     title: _ctx.translate('Marketplace_RequestTrial')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_RequestTrial')), 9, CTAContainervue_type_template_id_7716806d_hoisted_9)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Marketplace_RequestTrial')), 9, CTAContainervue_type_template_id_1894f6bf_hoisted_8)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 3
   }, [!_ctx.inModal ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_MoreDetailsAction, {
     key: 0,
@@ -1405,41 +1409,87 @@ function CTAContainervue_type_template_id_7716806d_render(_ctx, _cache, $props, 
     onAction: _cache[8] || (_cache[8] = $event => _ctx.$emit('openDetailsModal'))
   }, null, 8, ["label"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64));
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/PluginList/CTAContainer.vue?vue&type=template&id=7716806d
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/PluginList/CTAContainer.vue?vue&type=template&id=1894f6bf
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/PluginList/CTAStatus.vue?vue&type=template&id=57b22b95
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/MarketplaceButton/MarketplaceButton.vue?vue&type=template&id=6f9af684
 
-const CTAStatusvue_type_template_id_57b22b95_hoisted_1 = {
+const MarketplaceButtonvue_type_template_id_6f9af684_hoisted_1 = ["href"];
+function MarketplaceButtonvue_type_template_id_6f9af684_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["marketplaceButton", {
+      'marketplaceButton--outline': _ctx.outline,
+      'marketplaceButton--fullWidth': _ctx.fullWidth
+    }]),
+    href: _ctx.href
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 10, MarketplaceButtonvue_type_template_id_6f9af684_hoisted_1);
+}
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/MarketplaceButton/MarketplaceButton.vue?vue&type=template&id=6f9af684
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/MarketplaceButton/MarketplaceButton.vue?vue&type=script&lang=ts
+
+/**
+ * A Marketplace link drawn as a button, in the brand colour or, with `outline`, as the outline the
+ * plugin card's secondary actions use. Its own block rather than Materialize's .btn, so nothing has
+ * to override .btn's uppercase and colours to make it match the redesign.
+ */
+/* harmony default export */ var MarketplaceButtonvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    href: {
+      type: String,
+      required: true
+    },
+    outline: {
+      type: Boolean,
+      default: false
+    },
+    fullWidth: {
+      type: Boolean,
+      default: false
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/MarketplaceButton/MarketplaceButton.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/MarketplaceButton/MarketplaceButton.vue
+
+
+
+MarketplaceButtonvue_type_script_lang_ts.render = MarketplaceButtonvue_type_template_id_6f9af684_render
+
+/* harmony default export */ var MarketplaceButton = (MarketplaceButtonvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/PluginList/CTAStatus.vue?vue&type=template&id=ea8984be
+
+const CTAStatusvue_type_template_id_ea8984be_hoisted_1 = {
   key: 0,
   class: "ctaStatus ctaStatus--stacked"
 };
-const CTAStatusvue_type_template_id_57b22b95_hoisted_2 = {
+const CTAStatusvue_type_template_id_ea8984be_hoisted_2 = {
   key: 0,
   class: "ctaStatus__alertAction"
 };
-const CTAStatusvue_type_template_id_57b22b95_hoisted_3 = {
+const CTAStatusvue_type_template_id_ea8984be_hoisted_3 = {
   key: 0,
   class: "ctaStatus__actionButton"
 };
-const CTAStatusvue_type_template_id_57b22b95_hoisted_4 = {
+const CTAStatusvue_type_template_id_ea8984be_hoisted_4 = {
   class: "ctaStatus__label"
 };
-const CTAStatusvue_type_template_id_57b22b95_hoisted_5 = {
+const CTAStatusvue_type_template_id_ea8984be_hoisted_5 = {
   key: 0,
   class: "ctaStatus__action"
 };
-function CTAStatusvue_type_template_id_57b22b95_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return _ctx.inModal ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", CTAStatusvue_type_template_id_57b22b95_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["ctaStatus__alert alert alert-no-background", _ctx.alertClass])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.label) + " ", 1), _ctx.hasAction && !_ctx.actionAsButton ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", CTAStatusvue_type_template_id_57b22b95_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("("), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default"), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(")")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2), _ctx.hasAction && _ctx.actionAsButton ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", CTAStatusvue_type_template_id_57b22b95_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+function CTAStatusvue_type_template_id_ea8984be_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return _ctx.inModal ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", CTAStatusvue_type_template_id_ea8984be_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["alert alert-no-background", _ctx.alertClass])
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.label) + " ", 1), _ctx.hasAction && !_ctx.actionAsButton ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", CTAStatusvue_type_template_id_ea8984be_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("("), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default"), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(")")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2), _ctx.hasAction && _ctx.actionAsButton ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", CTAStatusvue_type_template_id_ea8984be_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 1,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["ctaStatus", _ctx.toneClass])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", CTAStatusvue_type_template_id_57b22b95_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", CTAStatusvue_type_template_id_ea8984be_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["ctaStatus__icon", _ctx.iconClass]),
     "aria-hidden": "true"
-  }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.label), 1)]), _ctx.hasAction ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", CTAStatusvue_type_template_id_57b22b95_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2));
+  }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.label), 1)]), _ctx.hasAction ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", CTAStatusvue_type_template_id_ea8984be_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2));
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/PluginList/CTAStatus.vue?vue&type=template&id=57b22b95
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/PluginList/CTAStatus.vue?vue&type=template&id=ea8984be
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/PluginList/CTAStatus.vue?vue&type=script&lang=ts
 
@@ -1449,10 +1499,11 @@ function CTAStatusvue_type_template_id_57b22b95_render(_ctx, _cache, $props, $se
  *
  * Two renderings: the modal keeps the alert banner it has always had, with the action in brackets
  * or, with `actionAsButton`, as a button under it; a card draws one row, state then action, since
- * the alert's padding and border will not fit.
+ * the alert's padding and border will not fit. Success takes the brand alert rather than the green
+ * one, as the page around it is drawn in the brand colour.
  */
 const ALERT_CLASSES = {
-  success: 'alert-success ctaStatus__alert--brand',
+  success: 'alert-brand',
   warning: 'alert-warning',
   danger: 'alert-danger'
 };
@@ -1510,7 +1561,7 @@ const ICON_CLASSES = {
 
 
 
-CTAStatusvue_type_script_lang_ts.render = CTAStatusvue_type_template_id_57b22b95_render
+CTAStatusvue_type_script_lang_ts.render = CTAStatusvue_type_template_id_ea8984be_render
 
 /* harmony default export */ var CTAStatus = (CTAStatusvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/PluginList/DownloadButton.vue?vue&type=template&id=def25d5a
@@ -1618,6 +1669,7 @@ MoreDetailsActionvue_type_script_lang_ts.render = MoreDetailsActionvue_type_temp
 
 
 
+
 /* harmony default export */ var CTAContainervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     plugin: {
@@ -1674,6 +1726,7 @@ MoreDetailsActionvue_type_script_lang_ts.render = MoreDetailsActionvue_type_temp
   components: {
     CTAStatus: CTAStatus,
     DownloadButton: DownloadButton,
+    MarketplaceButton: MarketplaceButton,
     MoreDetailsAction: MoreDetailsAction
   },
   computed: {
@@ -1692,12 +1745,11 @@ MoreDetailsActionvue_type_script_lang_ts.render = MoreDetailsActionvue_type_temp
     hasActivationToggle() {
       return this.plugin.missingRequirements.length === 0 && this.isAutoUpdatePossible && !this.plugin.isInvalid && !this.isMultiServerEnvironment && this.isPluginsAdminEnabled;
     },
-    /**
-     * A button in both places. The card restyles its buttons as outlines itself, so the plugin page
-     * asks Morpheus for the same outline, rather than a link in the green of the alert around it.
-     */
-    activationToggleClass() {
-      return this.inModal ? 'btn btn-outline btn-block' : 'btn btn-block';
+    activationToggleUrl() {
+      return this.plugin.isActivated ? this.linkToDeactivate(this.plugin.name) : this.linkToActivate(this.plugin.name);
+    },
+    activationToggleLabel() {
+      return this.plugin.isActivated ? Object(external_CoreHome_["translate"])('CorePluginsAdmin_Deactivate') : Object(external_CoreHome_["translate"])('CorePluginsAdmin_Activate');
     }
   },
   methods: {
@@ -1767,7 +1819,7 @@ MoreDetailsActionvue_type_script_lang_ts.render = MoreDetailsActionvue_type_temp
 
 
 
-CTAContainervue_type_script_lang_ts.render = CTAContainervue_type_template_id_7716806d_render
+CTAContainervue_type_script_lang_ts.render = CTAContainervue_type_template_id_1894f6bf_render
 
 /* harmony default export */ var CTAContainer = (CTAContainervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Marketplace/vue/src/PluginCard/MatomoGlyph.vue?vue&type=template&id=3fb0461a

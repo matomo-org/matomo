@@ -165,6 +165,7 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginGrid/EmptyState.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginSection/PluginSection.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginList/CTAStatus.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/MarketplaceButton/MarketplaceButton.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/PluginDetails.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/PluginDetailsSkeleton.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/ShopPricing.less";

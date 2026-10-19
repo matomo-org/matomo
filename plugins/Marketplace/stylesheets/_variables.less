@@ -5,24 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// Numbers and mixins the Marketplace components share. Imported by each file that reads them rather
-// than listed in Marketplace::getStylesheetFiles(), so nothing depends on the order stylesheets merge
-// in.
-
-// The Marketplace's outline button: the card's secondary CTA and the plugin page's Activate and
-// Deactivate. Materialize's .btn colour, and Morpheus's .btn-outline one, win on specificity or
-// !important alone, so the text colour needs !important too.
-.marketplaceOutlineButton() {
-  border: 1px solid @theme-color-brand;
-  background: @theme-color-background-contrast;
-  color: @theme-color-text-brand !important;
-
-  &:hover,
-  &:focus {
-    background: @theme-color-background-brand-lowContrast;
-    color: @theme-color-text-brand !important;
-  }
-}
+// Numbers the Marketplace components share. Imported by each file that reads them rather than
+// listed in Marketplace::getStylesheetFiles(), so nothing depends on the order stylesheets merge in.
 
 // Card geometry shared by PluginCard and PluginCardSkeleton. The placeholder has to hold exactly
 // the footprint a card takes, so both blocks read these numbers from one place rather than one
