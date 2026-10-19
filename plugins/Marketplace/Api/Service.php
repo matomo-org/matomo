@@ -17,6 +17,12 @@ class Service
     public const HTTP_REQUEST_TIMEOUT = 60;
 
     /**
+     * Actions the Marketplace answers the same for every consumer, so they are sent without the access token and
+     * stay a cacheable GET.
+     */
+    private const ACTIONS_WITHOUT_ACCESS_TOKEN = ['info'];
+
+    /**
      * @var string
      */
     private $domain;
@@ -84,6 +90,8 @@ class Service
      * @param null|int $timeout Defaults to 60 seconds see {@link self::HTTP_REQUEST_TIMEOUT}
      * @param null|array $postData eg array('email' => 'user@example.org')
      * @param bool $getExtendedInfo Return the extended response info for the HTTP request.
+     * @param bool $withAccessToken Pass false to leave the access token off a request the Marketplace does not
+     *                              personalise.
      * @return bool|string Returns the downloaded data or true if a destination path was given.
      */
     public function download(
@@ -91,7 +99,8 @@ class Service
         $destinationPath = null,
         $timeout = null,
         ?array $postData = null,
-        bool $getExtendedInfo = false
+        bool $getExtendedInfo = false,
+        bool $withAccessToken = true
     ) {
         $method = Http::getTransportMethod();
 
@@ -99,7 +108,7 @@ class Service
             $timeout = static::HTTP_REQUEST_TIMEOUT;
         }
 
-        if ($this->accessToken) {
+        if ($withAccessToken && $this->accessToken) {
             if (!is_array($postData)) {
                 $postData = [];
             }
@@ -154,7 +163,8 @@ class Service
         $query = Http::buildQuery($params);
         $url   = sprintf('%s%s?%s', $endpoint, $action, $query);
 
-        $response = $this->download($url, null, null, $postData, true);
+        $withAccessToken = !in_array($action, self::ACTIONS_WITHOUT_ACCESS_TOKEN, true);
+        $response = $this->download($url, null, null, $postData, true, $withAccessToken);
         $result = $response['data'] ?? null;
 
         if (null === $result) {

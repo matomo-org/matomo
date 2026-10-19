@@ -89,6 +89,18 @@ class ServiceTest extends IntegrationTestCase
         $this->assertStringNotContainsString('abc123', $request['url']);
     }
 
+    public function testFetchLeavesTheAccessTokenOffInfoSoItStaysAGet()
+    {
+        $request = $this->captureRequest(function (Service $service) {
+            $service->authenticate('abc123');
+            $service->fetch('info', []);
+        });
+
+        $this->assertSame('GET', $request['method']);
+        $this->assertEmpty($request['body']);
+        $this->assertStringNotContainsString('abc123', $request['url']);
+    }
+
     public function testFetchUsesPostWhenPostDataIsGivenWithoutAnAccessToken()
     {
         $request = $this->captureRequest(function (Service $service) {
