@@ -109,6 +109,7 @@ class PageViewTimeWriter
 
             // Insert before closing: if the close fails, this row still exists at 0 and the
             // next hit closes it instead of reaching past it, which would count the gap twice.
+            // A new visit has no earlier row, so it skips the close and its lookup query.
             $this->insertPageView(
                 $idSite,
                 $idVisit,
@@ -119,7 +120,9 @@ class PageViewTimeWriter
                 $serverTimeSql
             );
 
-            $this->closePreviousPageView($idVisit, $idLinkVa, $serverTimeSql, $cap);
+            if (!$request->getMetadata('CoreHome', 'isNewVisit')) {
+                $this->closePreviousPageView($idVisit, $idLinkVa, $serverTimeSql, $cap);
+            }
             return;
         }
 
@@ -129,6 +132,10 @@ class PageViewTimeWriter
         if ($pvId === null) {
             if ($action === null || (int) $action->getIdLinkVisitAction() <= 0) {
                 // Nothing in log_link_visit_action to align with (ping, ecommerce, manual goal).
+                return;
+            }
+            if ($request->getMetadata('CoreHome', 'isNewVisit')) {
+                // No earlier row to close yet.
                 return;
             }
 
