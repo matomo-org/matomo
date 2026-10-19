@@ -43,11 +43,12 @@ class Notification
     /**
      * Creates a plugin trial notification for the current user if needed
      *
+     * @param (callable(): string[])|null $getCurrentSuperUsers see Storage::isNotificationDismissed()
      * @throws Exception
      */
-    public function createNotificationIfNeeded(): void
+    public function createNotificationIfNeeded(?callable $getCurrentSuperUsers = null): void
     {
-        if (!$this->storage->wasRequested() || $this->storage->isNotificationDismissed()) {
+        if (!$this->storage->wasRequested() || $this->storage->isNotificationDismissed($getCurrentSuperUsers)) {
             return; // not requested, dismissed by the current user, or made before they were a super user
         }
 

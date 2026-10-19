@@ -75,6 +75,12 @@ final class Service
             return; // only super users can see and dismiss those notifications
         }
 
+        // this runs on every request, so the super users are looked up at most once, and only if a check needs them
+        $superUsers = null;
+        $getSuperUsers = function () use (&$superUsers): array {
+            return $superUsers ??= Storage::getSuperUserLogins();
+        };
+
         foreach (Storage::getPluginsInStorage() as $pluginName) {
             if (Manager::getInstance()->isPluginActivated($pluginName)) {
                 try {
@@ -86,7 +92,7 @@ final class Service
             }
 
             $trialRequest = new Notification($pluginName, new Storage($pluginName));
-            $trialRequest->createNotificationIfNeeded();
+            $trialRequest->createNotificationIfNeeded($getSuperUsers);
         }
     }
 

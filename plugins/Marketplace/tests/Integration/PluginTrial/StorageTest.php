@@ -397,6 +397,49 @@ class StorageTest extends IntegrationTestCase
         self::assertArrayNotHasKey('superUsers', $request);
     }
 
+    public function testARequestAddedToAPendingOneDoesNotRecordASuperUserDeletedWhileItWasMade()
+    {
+        UsersManagerAPI::getInstance()->addUser('bob', 'secret-password-2', 'bob@example.com');
+        (new UsersModel())->setSuperUserAccess('bob', true);
+        $this->setRequestOnlyInOption(time() - 60, 'olaf', [], ['olaf']);
+        $storage = new class ('PremiumPlugin') extends Storage {
+            protected function insertStorage(array $request): bool
+            {
+                // bob's deletion lands while the request is being recorded, before anonymizeLogin() could remove him
+                Db::query('DELETE FROM ' . Common::prefixTable('user') . ' WHERE login = ?', ['bob']);
+                return parent::insertStorage($request);
+            }
+        };
+
+        self::assertSame(Storage::REQUEST_ADDED_TO_PENDING, $storage->setRequested('Premium Plugin'));
+
+        $request = json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true);
+        self::assertNotContains('bob', $request['superUsers']);
+    }
+
+    public function testANewRequestIsShownToEverySuperUserWhenItsSuperUsersCannotBeRecorded()
+    {
+        $storage = new class ('PremiumPlugin') extends Storage {
+            protected function saveStorage(): void
+            {
+                throw new \RuntimeException('option write failed');
+            }
+        };
+
+        self::assertSame(Storage::REQUEST_PENDING, $storage->setRequested('Premium Plugin'));
+        self::assertSame([], json_decode(Option::get('Marketplace.PluginTrialRequest.PremiumPlugin'), true)['superUsers']);
+        self::assertFalse((new Storage('PremiumPlugin'))->isNotificationDismissed());
+    }
+
+    public function testIsNotificationDismissedUsesTheSuperUsersItIsGiven()
+    {
+        $this->setRequestOnlyInOption(time(), 'olaf', [], ['alice']);
+        $storage = new Storage('PremiumPlugin');
+
+        self::assertTrue($storage->isNotificationDismissed(fn() => ['alice']));
+        self::assertFalse($storage->isNotificationDismissed());
+    }
+
     public function testARequestAddedToAPendingOneIsKeptWhenItsSuperUsersCannotBeAdded()
     {
         Fixture::createSuperUser();
