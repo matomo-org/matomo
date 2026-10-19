@@ -86,14 +86,16 @@
         />
       </template>
       <template v-else-if="hasActivationToggle">
-        <a v-if="plugin.isActivated"
-           :class="activationToggleClass"
-           :href="linkToDeactivate(plugin.name)"
-        >{{ translate('CorePluginsAdmin_Deactivate') }}</a>
+        <MarketplaceButton
+          v-if="inModal"
+          :href="activationToggleUrl"
+          :outline="true"
+          :full-width="true"
+        >{{ activationToggleLabel }}</MarketplaceButton>
         <a v-else
-           :class="activationToggleClass"
-           :href="linkToActivate(plugin.name)"
-        >{{ translate('CorePluginsAdmin_Activate') }}</a>
+           class="btn btn-block"
+           :href="activationToggleUrl"
+        >{{ activationToggleLabel }}</a>
       </template>
     </CTAStatus>
 
@@ -185,7 +187,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoUrl } from 'CoreHome';
+import { MatomoUrl, translate } from 'CoreHome';
+import MarketplaceButton from '../MarketplaceButton/MarketplaceButton.vue';
 import CTAStatus from './CTAStatus.vue';
 import DownloadButton from './DownloadButton.vue';
 import MoreDetailsAction from './MoreDetailsAction.vue';
@@ -249,6 +252,7 @@ export default defineComponent({
   components: {
     CTAStatus,
     DownloadButton,
+    MarketplaceButton,
     MoreDetailsAction,
   },
   computed: {
@@ -275,12 +279,15 @@ export default defineComponent({
         && !this.isMultiServerEnvironment
         && this.isPluginsAdminEnabled;
     },
-    /**
-     * A button in both places. The card restyles its buttons as outlines itself, so the plugin page
-     * asks Morpheus for the same outline, rather than a link in the green of the alert around it.
-     */
-    activationToggleClass(): string {
-      return this.inModal ? 'btn btn-outline btn-block' : 'btn btn-block';
+    activationToggleUrl(): string {
+      return this.plugin.isActivated
+        ? this.linkToDeactivate(this.plugin.name)
+        : this.linkToActivate(this.plugin.name);
+    },
+    activationToggleLabel(): string {
+      return this.plugin.isActivated
+        ? translate('CorePluginsAdmin_Deactivate')
+        : translate('CorePluginsAdmin_Activate');
     },
   },
   methods: {

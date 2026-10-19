@@ -538,11 +538,24 @@ describe('PluginDetails', () => {
     await flushPromises();
 
     const buy = wrapper.find('.marketplacePluginDetails__buy');
-    const deactivate = buy.find('a.btn.btn-outline');
+    const deactivate = buy.find('a.marketplaceButton.marketplaceButton--outline');
 
     expect(buy.find('.alert').text()).toBe('General_Installed');
     expect(deactivate.text()).toBe('CorePluginsAdmin_Deactivate');
+    expect(deactivate.attributes('href')).toContain('action=deactivate');
     expect(deactivate.element.closest('.alert')).toBe(null);
+  });
+
+  it('offers Activate in the same button for an installed plugin that is not active', async () => {
+    mockPost.mockResolvedValue({ ...detailsResponse, isInstalled: true, isActivated: false });
+
+    const wrapper = mountDetails({ ...cardRow, isInstalled: true, isActivated: false }, true);
+    await flushPromises();
+
+    const activate = wrapper.find('.marketplacePluginDetails__buy a.marketplaceButton--outline');
+
+    expect(activate.text()).toBe('CorePluginsAdmin_Activate');
+    expect(activate.attributes('href')).toContain('action=activate');
   });
 
   it('says Free above the button for a plugin that costs nothing', async () => {

@@ -49,7 +49,7 @@ describe('Marketplace/CTAStatus', () => {
     it('stays the alert it has always been', () => {
       const wrapper = mountStatus({ inModal: true, hasAction: true });
 
-      expect(wrapper.find('.alert.alert-success').exists()).toBe(true);
+      expect(wrapper.find('.alert.alert-brand').exists()).toBe(true);
       expect(wrapper.find('.alert').classes()).toContain('alert-no-background');
       expect(wrapper.find('.ctaStatus__label').exists()).toBe(false);
       expect(wrapper.text().replace(/\s+/g, ' ')).toBe('Installed (Deactivate)');
@@ -74,9 +74,7 @@ describe('Marketplace/CTAStatus', () => {
         .find('.alert')
         .classes();
 
-      expect(alertClasses('success')).toContain('alert-success');
-      expect(alertClasses('success')).toContain('ctaStatus__alert--brand');
-      expect(alertClasses('warning')).not.toContain('ctaStatus__alert--brand');
+      expect(alertClasses('success')).toContain('alert-brand');
       expect(alertClasses('warning')).toContain('alert-warning');
       expect(alertClasses('danger')).toContain('alert-danger');
     });
