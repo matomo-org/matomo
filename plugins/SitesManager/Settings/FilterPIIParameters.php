@@ -62,6 +62,11 @@ class FilterPIIParameters implements
         return '';
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 15;
+    }
+
     public static function getPolicyRequirements(): array
     {
         return [

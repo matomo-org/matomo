@@ -77,6 +77,11 @@ class EcommerceRestricted extends CompliancePolicyEnforcedSetting
         return $currentValue === $policyValues[$policy] || !self::hasEcommerceEnabledSite($idSites);
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 75;
+    }
+
     public static function getPolicyRequirements(): array
     {
         return [

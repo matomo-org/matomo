@@ -23,6 +23,11 @@ class LimitSegments extends CompliancePolicyEnforcedSetting
         return Piwik::translate('SegmentEditor_LimitSegmentsSettingImpact');
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 50;
+    }
+
     public static function getPolicyRequirements(): array
     {
         return [

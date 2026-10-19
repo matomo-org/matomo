@@ -87,6 +87,11 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
         return Piwik::translate('PrivacyManager_AnonymizeIpInlineHelp');
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 5;
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policies = [];

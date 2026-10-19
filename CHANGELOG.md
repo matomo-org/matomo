@@ -4,6 +4,11 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 5.14.2
+
+### Breaking Changes
+* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained the method `getPolicyOrder()`, which returns an order hint, lowest first, that decides where a compliance dashboard lists the setting, in the same way a menu item asks for its position. Plugins that implement the interface directly must implement it. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit a default implementation and are not affected. `PolicyManager::getAllControlledSettings()` now returns the settings in that order instead of in plugin discovery order, ordering settings that share a hint by their policy setting id. The trait's default, `PolicyComparisonInterface::POLICY_ORDER_LAST`, leaves a setting that does not ask for a position at the end of the list.
+
 ## Matomo 5.14.1
 
 ### Breaking Changes
