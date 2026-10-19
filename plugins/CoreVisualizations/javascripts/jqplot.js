@@ -51,7 +51,12 @@ function updateLegendFooterStacking($legendFooter)
     // 0 when the footer isn't laid out yet (e.g. display:none); skip so we don't flip-flop
     var width = $legendFooter[0].clientWidth;
     if (width > 0) {
-        $legendFooter.toggleClass('is-narrow', width < FOOTER_STACK_MAX_WIDTH);
+        var isNarrow = width < FOOTER_STACK_MAX_WIDTH;
+        $legendFooter.toggleClass('is-narrow', isNarrow);
+        // The picker is a shared selector, so the layout that knows it is stacked is what puts
+        // the modifier on it. Styling it from the footer would reach into another block.
+        $legendFooter.find('.jqplot-legend-picker .mtm-selector')
+            .toggleClass('mtm-selector--fullWidth', isNarrow);
     }
 }
 
@@ -1678,6 +1683,13 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             $pickerSlot.empty().append(this.domElem);
             $legendFooter.addClass('has-picker');
             updateLegendFooterStacking($legendFooter);
+        });
+
+        // Again once the picker has drawn itself: the event above fires before its Vue app
+        // mounts, so the selector that carries the stacked layout is not in the DOM yet.
+        $(seriesPicker).bind('seriesPickerRendered', function () {
+            var $dataTable = $(plot.targetId).closest('.dataTable');
+            updateLegendFooterStacking(getOrCreateLegendFooter($dataTable));
         });
 
         // handle seriesPicked event

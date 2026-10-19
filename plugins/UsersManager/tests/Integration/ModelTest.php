@@ -593,6 +593,20 @@ class ModelTest extends IntegrationTestCase
         $this->model->setTokenAuthWasUsed('tokenFooBar', '2025-01-02 03:04:05');
     }
 
+    public function testInvalidateUserSessionsStampsTheTimestampForThatUserOnly()
+    {
+        $before = $this->model->getUser($this->login);
+        $this->assertEmpty($before['ts_sessions_invalidated']);
+
+        $this->model->invalidateUserSessions($this->login);
+
+        $after = $this->model->getUser($this->login);
+        $this->assertNotEmpty($after['ts_sessions_invalidated'], 'the target user should carry an invalidation timestamp');
+
+        $other = $this->model->getUser($this->login2);
+        $this->assertEmpty($other['ts_sessions_invalidated'], 'another user must be left untouched');
+    }
+
     public function testDeleteUserSessionsDeletesMatchingSessionsOnly()
     {
         $this->insertSessionRowForLogin('login2character', '');

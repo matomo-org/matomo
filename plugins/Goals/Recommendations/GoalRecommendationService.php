@@ -15,11 +15,12 @@ use Piwik\Config;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Container\StaticContainer;
-use Piwik\Date;
 use Piwik\Development;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
+use Piwik\Plugins\AIProviders\Exception\AIQuotaExceededException;
+use Piwik\Plugins\AIProviders\Model\AIProcessingSettings;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Psr\Log\LoggerInterface;
 
@@ -31,8 +32,6 @@ use Psr\Log\LoggerInterface;
  */
 class GoalRecommendationService
 {
-    private const CONSENT_KEY_PREFIX = 'Goals.aiRecommendationsConsent.';
-
     private const SCAN_LOCK_TTL_SECONDS = 60;
 
     private const SITE_SCAN_LOCK_NAMESPACE = 'Goals.recommendationScan.site.';
@@ -183,7 +182,6 @@ class GoalRecommendationService
             $aiError = Piwik::translate('Goals_RecommendationAiDailyLimitReached', $dailyLimit);
         } elseif ($useAi) {
             if ($this->isAiAvailable()) {
-                $this->recordAiConsent();
                 $aiRecommender = $this->getAiRecommender();
                 try {
                     $aiGoals = $this->filterExistingGoals(
@@ -203,6 +201,9 @@ class GoalRecommendationService
                         ['message' => $e->getMessage()]
                     );
                     $aiError = Piwik::translate('Goals_RecommendationAiUnavailable');
+                } catch (AIQuotaExceededException $e) {
+                    // An AI usage limit was reached. The message is translated text meant for the user.
+                    $aiError = Piwik::translate('Goals_RecommendationAiUsageLimitReached', $e->getMessage());
                 } catch (AIProviderClientException $e) {
                     $this->getLogger()->warning(
                         'Goals recommendations: AI request failed: {message}',
@@ -221,6 +222,8 @@ class GoalRecommendationService
                         ? $e->getMessage()
                         : Piwik::translate('Goals_RecommendationAiRequestFailed');
                 }
+            } elseif ($this->getAiAvailability() === 'notPermitted') {
+                $aiError = Piwik::translate('Goals_RecommendationAiNotPermitted');
             } else {
                 $aiError = Piwik::translate('Goals_RecommendationAiUnavailable');
             }
@@ -522,7 +525,8 @@ class GoalRecommendationService
 
     /**
      * How usable the AI feature currently is, so the UI can adapt the AI toggle:
-     * 'available' (a configured default provider exists), 'notConfigured' (the
+     * 'available' (a configured default provider exists), 'notPermitted' (a super
+     * user has not allowed AI processing of non-analytics data), 'notConfigured' (the
      * AIProviders plugin is active but has no configured provider), 'notActivated'
      * (the plugin is not active but could be) or 'disabled' (not active and plugin
      * administration is off, so nobody on this instance can enable it).
@@ -534,8 +538,8 @@ class GoalRecommendationService
         }
 
         if (Manager::getInstance()->isPluginActivated('AIProviders')) {
-            // plugin is there, so what is missing is a configured provider
-            return 'notConfigured';
+            // plugin is there, so what is missing is the permission or a configured provider
+            return $this->isAiProcessingPermitted() ? 'notConfigured' : 'notPermitted';
         }
 
         // nobody can activate the plugin here, so the feature is out of reach
@@ -545,7 +549,7 @@ class GoalRecommendationService
     private function isAiAvailable(): bool
     {
         $service = $this->getAiProviderService();
-        if ($service === null) {
+        if ($service === null || !$this->isAiProcessingPermitted()) {
             return false;
         }
 
@@ -604,12 +608,14 @@ class GoalRecommendationService
         return StaticContainer::get(LoggerInterface::class);
     }
 
-    private function recordAiConsent(): void
+    /**
+     * The site signals sent to the provider are non-analytics data, so a super user
+     * must have allowed that category centrally.
+     */
+    private function isAiProcessingPermitted(): bool
     {
-        $login = Piwik::getCurrentUserLogin();
-        if (!empty($login)) {
-            \Piwik\Option::set(self::CONSENT_KEY_PREFIX . $login, (string) Date::now()->getTimestamp());
-        }
+        return StaticContainer::get(AIProcessingSettings::class)
+            ->isEnabled(AIProcessingSettings::CATEGORY_NON_ANALYTICS);
     }
 
     private function getAiRecommender(): AiRecommender

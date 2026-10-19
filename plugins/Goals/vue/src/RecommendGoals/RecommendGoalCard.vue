@@ -19,7 +19,7 @@
           <span class="recommendGoals-cardName">{{ rec.name }}</span>
           <span v-if="needsSetup"
             class="recommendGoals-chip recommendGoals-chip--setup"
-            :title="translate('Goals_RecommendNeedsSetupHelp')">
+            :title="translate('Goals_RecommendNeedsSetupTooltip')">
             {{ translate('Goals_RecommendNeedsSetup') }}
           </span>
         </div>
@@ -27,6 +27,24 @@
           {{ triggerDescription }}
           <code class="recommendGoals-pattern">{{ displayPattern }}</code>
         </p>
+        <p class="recommendGoals-cardReason" v-if="rec.reason">
+          <span
+            class="icon-info recommendGoals-reasonIcon"
+            tabindex="0"
+            :title="whyTooltip"
+            :aria-label="whyTooltip"
+          ></span>
+          <span class="recommendGoals-reasonText">{{ rec.reason }}</span>
+        </p>
+        <details class="recommendGoals-evidence" v-if="hasSetupNote">
+          <summary>
+            <span class="icon-chevron-right"></span>
+            {{ translate('Goals_RecommendManualHowTo') }}
+          </summary>
+          <div class="recommendGoals-evidenceBody">
+            <p class="recommendGoals-evidenceNote">{{ rec.implementationNote }}</p>
+          </div>
+        </details>
       </div>
 
       <!-- CARD ACTIONS -->
@@ -60,24 +78,6 @@
         </template>
       </div>
     </div>
-    <details class="recommendGoals-evidence" v-if="hasEvidence">
-      <summary>
-        <span class="icon-chevron-right"></span>
-        {{ translate('Goals_RecommendWhySuggested') }}
-      </summary>
-      <div class="recommendGoals-evidenceBody">
-        <p class="recommendGoals-cardReason" v-if="rec.reason">{{ rec.reason }}</p>
-        <ul v-if="rec.evidence && rec.evidence.length">
-          <li v-for="(item, index) in rec.evidence" :key="index">{{ item }}</li>
-        </ul>
-        <p class="recommendGoals-evidenceNote" v-if="needsSetup && rec.implementationNote">
-          <span class="recommendGoals-evidenceLabel">
-            {{ translate('Goals_RecommendManualHowTo') }}
-          </span>
-          {{ rec.implementationNote }}
-        </p>
-      </div>
-    </details>
   </div>
 </template>
 
@@ -104,9 +104,13 @@ defineEmits<{
 const needsSetup = computed(() => (props.rec.needsSetup
   || (props.rec.matchAttribute || '').indexOf('event_') === 0));
 
-const hasEvidence = computed(() => !!(props.rec.reason
-  || (props.rec.evidence && props.rec.evidence.length)
-  || (needsSetup.value && props.rec.implementationNote)));
+const hasSetupNote = computed(() => needsSetup.value && !!props.rec.implementationNote);
+
+// the crawl facts behind the suggestion, shown when hovering the reason's info icon
+const whyTooltip = computed(() => [
+  translate('Goals_RecommendWhySuggested'),
+  ...(props.rec.evidence || []),
+].join('\n'));
 
 const goalIcon = computed(() => {
   const matchAttribute = props.rec.matchAttribute || 'url';

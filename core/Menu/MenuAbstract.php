@@ -9,6 +9,7 @@
 
 namespace Piwik\Menu;
 
+use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API;
@@ -54,6 +55,10 @@ abstract class MenuAbstract extends Singleton
      * @var array<string, string>
      */
     protected $menuIcons = [];
+    /**
+     * @var string|null
+     */
+    private $builtForScope = null;
 
     /**
      * Builds the menu, applies edits, renames
@@ -63,12 +68,41 @@ abstract class MenuAbstract extends Singleton
      */
     public function getMenu()
     {
+        // a subclass may have skipped its build because it saw a menu built for another user,
+        // eg. inside Access::doAsSuperUser(), so clear it and let the subclass build it again
+        if ($this->resetIfBuiltForAnotherScope()) {
+            return $this->getMenu();
+        }
+
         $this->buildMenu();
         $this->applyEdits();
         $this->applyRemoves();
         $this->applyRenames();
         $this->applyOrdering();
         return $this->menu;
+    }
+
+    /**
+     * Drops the built menu when it was built for another access scope, eg. inside Access::doAsSuperUser(),
+     * so the next build only contains what the current user can see. Returns whether it was dropped.
+     */
+    protected function resetIfBuiltForAnotherScope(): bool
+    {
+        $scope = Access::getInstance()->getCacheScopeKey();
+        $isBuiltForAnotherScope = $this->builtForScope !== null && $this->builtForScope !== $scope;
+
+        if ($isBuiltForAnotherScope) {
+            $this->menu = [];
+            $this->menuEntries = [];
+            $this->menuEntriesToRemove = [];
+            $this->edits = [];
+            $this->renames = [];
+            $this->orderingApplied = false;
+        }
+
+        $this->builtForScope = $scope;
+
+        return $isBuiltForAnotherScope;
     }
 
     /**

@@ -1124,6 +1124,7 @@ class API extends \Piwik\Plugin\API
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExist($userLogin);
 
+        $this->model->invalidateUserSessions($userLogin);
         $this->model->deleteUserSessions($userLogin);
     }
 

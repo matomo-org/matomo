@@ -8,8 +8,8 @@
 <template>
   <ContentBlock
     v-if="shouldShowRecommendations"
-    :content-title="translate('Goals_RecommendedGoals')"
-    :feature="translate('Goals_RecommendedGoals')"
+    :content-title="translate('Goals_GoalRecommendation')"
+    :feature="translate('Goals_GoalRecommendation')"
     :help-text="translate('Goals_RecommendedGoalsIntro')"
     class="recommendGoals"
   >
@@ -22,11 +22,19 @@
         :class="'recommendGoals-notice--' + scanWarning.severity"
         role="status"
       >
-        <span :class="scanWarning.severity === 'warning' ? 'icon-warning' : 'icon-info'"></span>
+        <span :class="scanWarning.severity === 'warning' ? 'icon-warning' : 'icon-info'" />
         <span>{{ scanWarning.message }}</span>
       </div>
 
-      <div v-if="recommendations.length">
+      <p
+        v-if="isCompleted"
+        class="recommendGoals-notice recommendGoals-notice--success"
+        role="status"
+      >
+        <span class="icon-ok" />
+        <span>{{ translate('Goals_RecommendAllCreated') }}</span>
+      </p>
+      <div v-else-if="recommendations.length">
         <div class="recommendGoals-list">
           <RecommendGoalCard
             v-for="rec in visibleRecommendations"
@@ -76,7 +84,7 @@
 
       <details class="recommendGoals-manual" v-if="manualGoals.length">
         <summary>
-          <span class="icon-chevron-right"></span>
+          <span class="icon-chevron-right" />
           {{ translate('Goals_RecommendManualTitle') }} ({{ manualGoals.length }})
         </summary>
         <p class="recommendGoals-intro">{{ translate('Goals_RecommendManualIntro') }}</p>
@@ -88,7 +96,7 @@
             </div>
             <button
               type="button"
-              class="btn-flat"
+              class="btn btn-outline"
               @click="$emit('prefill', rec)"
               :disabled="isBusy"
             >
@@ -101,7 +109,7 @@
       <!-- TEMPORARY (ID-277 debugging): development mode only, remove before merge -->
       <details class="recommendGoals-debug" v-if="debug">
         <summary>
-          <span class="icon-chevron-right"></span>
+          <span class="icon-chevron-right" />
           Debug: crawl input and candidates (this will be removed before deployment)
         </summary>
         <p class="recommendGoals-intro">
@@ -220,7 +228,7 @@
           @click="recommend()"
           :disabled="isBusy"
         >
-          <span class="icon-search"></span>
+          <span class="icon-search" />
           {{ scanButtonLabel }}
         </button>
         <div class="switch recommendGoals-aiSwitch" v-if="isAiAvailable">
@@ -229,8 +237,9 @@
               type="checkbox"
               v-model="useAi"
               :disabled="isBusy"
+              @change="rememberUseAi"
             />
-            <span class="lever"></span>
+            <span class="lever" />
             {{ translate('Goals_RecommendUseAi') }}
           </label>
         </div>
@@ -241,6 +250,12 @@
         >
           {{ aiUnavailableLabel }}
         </span>
+        <a
+          v-if="aiAvailability === 'notPermitted'"
+          class="recommendGoals-privacyLink recommendGoals-aiProcessingLink"
+          :href="aiProcessingSettingsUrl"
+          @click="onAiProcessingLinkClick"
+        >{{ translate('Goals_RecommendAiAllowProcessing') }}</a>
         <button
           v-if="isAiAvailable"
           type="button"
@@ -265,12 +280,14 @@
 import { computed, ref } from 'vue';
 import {
   Matomo,
+  MatomoUrl,
   AjaxHelper,
   translate,
   ContentBlock,
   ActivityIndicator,
   Alert,
   Progressbar,
+  NotificationsStore,
 } from 'CoreHome';
 import RecommendGoalCard from './RecommendGoalCard.vue';
 import useScanProgress from './useScanProgress';
@@ -297,7 +314,14 @@ const emit = defineEmits<{
 }>();
 /* eslint-enable func-call-spacing, no-spaced-func */
 
-const useAi = ref(false);
+const useAiKey = 'Goals.RecommendGoals.UseAi';
+
+function getStoredUseAi(): boolean {
+  try { return localStorage.getItem(useAiKey) !== '0'; } catch { return true; }
+}
+
+// on whenever AI is available, unless the user switched it off in this browser
+const useAi = ref(getStoredUseAi());
 const lastRunUsedAi = ref(false);
 const isLoading = ref(false);
 const isLoadingSaved = ref(false);
@@ -338,7 +362,8 @@ const shouldShowRecommendations = computed(() => props.userCanEditGoals);
 const isAiAvailable = computed(() => aiAvailability.value === 'available');
 
 // 'disabled' stays silent: nobody on the instance can enable AI, so there is
-// nothing to act on. The other two states differ in what needs doing.
+// nothing to act on. 'notPermitted' only shows the AI processing link below.
+// The other two states differ in what needs doing.
 const aiUnavailableLabel = computed(() => {
   if (aiAvailability.value === 'notActivated') {
     return translate('Goals_RecommendAiNotActivated');
@@ -352,6 +377,33 @@ const aiUnavailableLabel = computed(() => {
 const aiUnavailableHelp = computed(() => (aiAvailability.value === 'notActivated'
   ? translate('Goals_RecommendAiNotActivatedHelp')
   : translate('Goals_RecommendAiNotConfiguredHelp')));
+
+// only a superuser can allow AI processing (returnTo shows a back link there)
+const aiProcessingSettingsUrl = computed(() => (Matomo.hasSuperUserAccess
+  ? `?${MatomoUrl.stringify({
+    ...MatomoUrl.urlParsed.value,
+    module: 'AIProviders',
+    action: 'aiProcessing',
+    returnTo: `index.php${window.location.search}${window.location.hash}`,
+  })}`
+  : '#'));
+
+// other users still see the link, but are told to ask a superuser
+function onAiProcessingLinkClick(event: MouseEvent) {
+  if (Matomo.hasSuperUserAccess) {
+    return;
+  }
+
+  event.preventDefault();
+  const notificationInstanceId = NotificationsStore.show({
+    id: 'RecommendGoals.aiProcessingNotAllowed',
+    message: translate('Goals_RecommendAiAllowProcessingNoPermission'),
+    context: 'error',
+    type: 'toast',
+  });
+  // the notification renders at the top of the page, far above the link
+  NotificationsStore.scrollToNotification(notificationInstanceId);
+}
 
 const isBusy = computed(() => isLoading.value
   || isCreatingAll.value
@@ -390,6 +442,11 @@ function isAccepted(rec: RecommendedGoal): boolean {
 
 const pendingRecommendations = computed(
   () => recommendations.value.filter((rec) => !isAccepted(rec)),
+);
+
+// every suggestion is now a goal, so the cards give way to one confirmation
+const isCompleted = computed(
+  () => recommendations.value.length > 0 && pendingRecommendations.value.length === 0,
 );
 
 // the strongest suggestions are shown first, the ranked rest on request
@@ -457,6 +514,10 @@ const privacyNote = computed(
     || translate('Goals_RecommendAiToggleHelp', providerName.value),
 );
 
+function rememberUseAi() {
+  try { localStorage.setItem(useAiKey, useAi.value ? '1' : '0'); } catch { /* hi */ }
+}
+
 function loadSavedRecommendations() {
   isLoadingSaved.value = true;
 
@@ -487,7 +548,6 @@ function loadSavedRecommendations() {
     warnings.value = response.warnings || [];
     recommendationMode.value = response.mode || null;
     generatedAt.value = response.generatedAt;
-    useAi.value = !!response.useAi;
     lastRunUsedAi.value = !!response.useAi;
     hasRun.value = true;
   }).catch(() => {
@@ -622,6 +682,12 @@ function dismiss() {
 }
 
 function dismissOne(rec: RecommendedGoal) {
+  // dismissing the last open suggestion clears the whole scan, like "Dismiss all"
+  if (recommendations.value.length === 1) {
+    dismiss();
+    return;
+  }
+
   dismissingId.value = recKey(rec);
   isDismissing.value = true;
   createError.value = null;
@@ -636,11 +702,6 @@ function dismissOne(rec: RecommendedGoal) {
     }
 
     recommendations.value = recommendations.value.filter((other) => other !== rec);
-    if (!recommendations.value.length && !manualGoals.value.length) {
-      hasRun.value = false;
-      recommendationMode.value = null;
-      generatedAt.value = null;
-    }
   }).catch(() => {
     createError.value = translate('Goals_RecommendDismissError');
   }).finally(() => {

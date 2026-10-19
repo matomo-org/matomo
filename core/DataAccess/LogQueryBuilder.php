@@ -123,9 +123,10 @@ class LogQueryBuilder
         $joinWithSubSelect = $join->shouldJoinWithSelect();
 
         // hack for https://github.com/piwik/piwik/issues/9194#issuecomment-164321612
+        // log_visit joins one row per conversion, so a caller joining it still gets its conversions de-duplicated
         $useSpecialConversionGroupBy = (!empty($segmentSql)
             && str_contains($groupBy, 'log_conversion.idgoal')
-            && $fromInitially == array('log_conversion')
+            && ($fromInitially == array('log_conversion') || $fromInitially == array('log_conversion', 'log_visit'))
             && str_contains($from, 'log_link_visit_action'));
 
         if (!empty($this->forcedInnerGroupBy)) {

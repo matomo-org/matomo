@@ -131,6 +131,12 @@ class SessionAuth implements Auth
             return $this->makeAuthFailure();
         }
 
+        $tsSessionsInvalidated = !empty($user['ts_sessions_invalidated']) ? $user['ts_sessions_invalidated'] : null;
+        if ($this->isSessionStartedBeforeInvalidation($sessionFingerprint, $tsSessionsInvalidated)) {
+            $this->destroyCurrentSession($sessionFingerprint);
+            return $this->makeAuthFailure();
+        }
+
         $this->updateSessionExpireTime($sessionFingerprint);
 
         if (
@@ -148,6 +154,21 @@ class SessionAuth implements Auth
         }
 
         return $this->makeAuthSuccess($user, $tokenAuth);
+    }
+
+    private function isSessionStartedBeforeInvalidation(SessionFingerprint $sessionFingerprint, $tsSessionsInvalidated)
+    {
+        if ($tsSessionsInvalidated === null) {
+            return false;
+        }
+
+        // if the session start time doesn't exist for some reason, log the user out
+        $sessionStartTime = $sessionFingerprint->getSessionStartTime();
+        if (empty($sessionStartTime)) {
+            return true;
+        }
+
+        return $sessionStartTime < Date::factory($tsSessionsInvalidated)->getTimestampUTC();
     }
 
     private function isSessionStartedBeforePasswordChange(SessionFingerprint $sessionFingerprint, $tsPasswordModified)

@@ -1,72 +1,85 @@
-.inlineHelp {
-    display: none;
-}
-
+// The title and whatever sits beside it. Everything stays in the inline flow, so the title wraps
+// over the whole width and the icons bar sits after its last word, taking room from that line
+// alone. Reserving a column for the bar instead would take its width off every line, which in a
+// narrow widget costs the title several of them.
+//
+// What stops the bar moving the title as it appears is that it is never taken out of the flow:
+// see `visibility` below. A bar that comes and goes would shift the text both horizontally and,
+// through the line box's baseline, vertically.
 .enrichedHeadline {
     min-height: 22px;
 
-    // Not `.title`: that is the hook this component and SegmentedVisitorLog read the text
-    // from, and it is shared with the non-editable case.
-    .enrichedHeadline__editableTitle {
+    .enrichedHeadline__title {
+        // Inline rather than inline-block: a block would take the whole width as one box and
+        // push the bar onto a line of its own, where the text itself still had room to spare.
+        display: inline;
+    }
+
+    .enrichedHeadline__title--editable {
         cursor: pointer;
         // an editable title still takes the colour of its heading, not the link colour
         color: inherit;
     }
 
-    .title {
-        display: inline-block;
-    }
-
-    .inlineHelp {
+    // The spacing lives here and not on the panel, because it is about the heading directly
+    // above rather than about the panel: a host placing it elsewhere spaces it its own way.
+    .enrichedHeadline__help {
+        // a row to itself, below the title and the icons
         display: block;
-        background: @theme-color-background-base;
-        font-size: 12px;
-        line-height: 1.1;
-        font-weight: normal;
-        border: 1px solid @theme-color-border-alternative;
-        margin: 10px 0 10px 0;
-        padding: 10px;
-        border-radius: 2px;
+        margin: 10px 0;
 
-        .readMore {
-            margin-top: 10px;
-            display: inline-block;
-            font-weight: bold;
+        // empty while the panel is closed, and for good once a host has taken it
+        &:empty {
+            display: none;
         }
     }
 
-    .iconsBar {
+    // Hidden rather than taken out of the flow, so the line boxes are the same whether or not the
+    // icons are showing, and nothing moves when the pointer arrives.
+    .enrichedHeadline__iconsBar {
         line-height: 1 !important;
         display: inline-flex;
         align-items: center;
-    }
+        // Aligned to the top of the line rather than its middle, which would hang the 22px
+        // rating icons a pixel below a 24px line and grow every heading by that pixel.
+        vertical-align: top;
+        // Laid over the row rather than in it, the way the widget controls above already are.
+        // Claiming width instead would take it off every line of the title, and the title gets
+        // as little as 194px once a report's controls have had their share: a title past about
+        // half of that would send the icons to a line of their own and make the heading twice
+        // as tall, at rest, on every two-column report page.
+        width: 0;
+        visibility: hidden;
 
-    .ratingIcons {
-        display: inline-block;
-        vertical-align: middle;
-        margin-left: 6px;
-
-        img {
-          filter: @theme-filter-on-illustration;
+        // The icons keep their own size inside a box that has none, and so spill past it.
+        > * {
+            flex: none;
         }
     }
 
-    .helpIcon {
+    .enrichedHeadline__iconsBar--visible {
+        visibility: visible;
+    }
+
+    // No `display` or `vertical-align`: a flex item of the bar above, so both are ignored.
+    .enrichedHeadline__ratingIcons {
+        margin-left: 6px;
+    }
+
+    .enrichedHeadline__helpIcon {
         cursor: pointer;
-        display: inline-block;
-        margin-bottom: -1px;
         margin-left: 8px;
         opacity: 0.4;
         font-size: 16px;
         color: @theme-color-text-light !important;
         text-decoration: none;
+    }
 
-        &:hover, &.active {
-            color: @theme-color-link !important;
-            opacity: 0.9;
-            text-decoration: none;
-        }
+    // Same specificity as the rule above, so it has to stay below it to win.
+    .enrichedHeadline__helpIcon:hover,
+    .enrichedHeadline__helpIcon--active {
+        color: @theme-color-link !important;
+        opacity: 0.9;
+        text-decoration: none;
     }
 }
-
-

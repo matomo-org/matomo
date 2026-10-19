@@ -70,11 +70,20 @@ class WebSearchTest extends TestCase
         $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
 
         $this->assertSame([
-            ['type' => 'web_search_20250305', 'name' => 'web_search', 'max_uses' => 5],
+            ['type' => 'web_search_20250305', 'name' => 'web_search', 'max_uses' => AIRequest::DEFAULT_MAX_WEB_SEARCHES],
         ], $claude->sentPayload['tools']);
         // No tool_choice: Anthropic defaults it to "auto" when tools are present,
         // so Claude decides whether the prompt needs fresh sources.
         $this->assertArrayNotHasKey('tool_choice', $claude->sentPayload);
+    }
+
+    public function testAnthropicSendsTheRequestsOwnSearchCap(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+
+        $claude->complete($this->groundedRequest()->withMaxWebSearches(4), self::CLAUDE_CONFIG);
+
+        $this->assertSame(4, $claude->sentPayload['tools'][0]['max_uses']);
     }
 
     public function testAnthropicUsesTheLongerTimeoutOnlyForGroundedRequests(): void
@@ -345,6 +354,45 @@ class WebSearchTest extends TestCase
         $this->assertTrue($response->wasWebSearchUsed(), 'the search was billed even though it failed');
     }
 
+    /**
+     * Searches past max_uses come back as errors: they never ran, so their
+     * queries are not reported. The count is Anthropic's own.
+     */
+    public function testAnthropicLeavesOutTheQueriesOfFailedSearches(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+        $claude->mockResponse = [
+            'content' => [
+                ['type' => 'server_tool_use', 'id' => 'srvtoolu_1', 'name' => 'web_search', 'input' => ['query' => 'matomo']],
+                ['type' => 'server_tool_use', 'id' => 'srvtoolu_2', 'name' => 'web_search', 'input' => ['query' => 'plausible']],
+                ['type' => 'server_tool_use', 'id' => 'srvtoolu_3', 'name' => 'web_search', 'input' => ['query' => 'umami']],
+                [
+                    'type' => 'web_search_tool_result',
+                    'tool_use_id' => 'srvtoolu_1',
+                    'content' => [['type' => 'web_search_result', 'url' => 'https://matomo.org/', 'title' => 'Matomo']],
+                ],
+                [
+                    'type' => 'web_search_tool_result',
+                    'tool_use_id' => 'srvtoolu_2',
+                    'content' => [['type' => 'web_search_result', 'url' => 'https://plausible.io/', 'title' => 'Plausible']],
+                ],
+                [
+                    'type' => 'web_search_tool_result',
+                    'tool_use_id' => 'srvtoolu_3',
+                    'content' => ['type' => 'web_search_tool_result_error', 'error_code' => 'max_uses_exceeded'],
+                ],
+                ['type' => 'text', 'text' => 'Matomo and Plausible.'],
+            ],
+            'usage' => ['server_tool_use' => ['web_search_requests' => 2]],
+            'stop_reason' => 'end_turn',
+        ];
+
+        $response = $claude->complete($this->groundedRequest(), self::CLAUDE_CONFIG);
+
+        $this->assertSame(2, $response->getWebSearchRequestCount());
+        $this->assertSame(['matomo', 'plausible'], $response->getWebSearchQueries());
+    }
+
     public function testAnthropicReportsSearchUnusedWhenTheModelChoseNotToSearch(): void
     {
         $claude = new WebSearchRecordingAnthropic();
@@ -506,6 +554,53 @@ class WebSearchTest extends TestCase
         $this->assertSame('First fragment. Second fragment.', $response->getText());
     }
 
+    public function testAnthropicCompletionReportsPromptCacheTokensSeparately(): void
+    {
+        $claude = new WebSearchRecordingAnthropic();
+        $claude->mockResponse = [
+            'content' => [['type' => 'text', 'text' => 'Blue light scatters most.']],
+            'usage' => [
+                'input_tokens' => 50,
+                'output_tokens' => 20,
+                'cache_read_input_tokens' => 4000,
+                'cache_creation_input_tokens' => 300,
+            ],
+            'stop_reason' => 'end_turn',
+        ];
+
+        $response = $claude->complete($this->plainRequest(), self::CLAUDE_CONFIG);
+
+        $this->assertSame(50, $response->getInputTokens());
+        $this->assertSame(20, $response->getOutputTokens());
+        $this->assertSame(4000, $response->getCacheReadTokens());
+        $this->assertSame(300, $response->getCacheWriteTokens());
+        $this->assertNull($response->getCost());
+        $this->assertFalse($response->wasWebSearchUsed());
+    }
+
+    public function testGoogleCompletionReportsCachedTokensAsCacheReadsAndNotAsInput(): void
+    {
+        $gemini = new WebSearchRecordingGoogle();
+        $gemini->mockResponse = [
+            'candidates' => [['content' => ['parts' => [['text' => 'Blue light scatters most.']]]]],
+            'usageMetadata' => [
+                'promptTokenCount' => 3000,
+                'cachedContentTokenCount' => 2048,
+                'candidatesTokenCount' => 40,
+                'thoughtsTokenCount' => 60,
+            ],
+        ];
+
+        $response = $gemini->complete($this->plainRequest(), self::GEMINI_CONFIG);
+
+        $this->assertSame(952, $response->getInputTokens());
+        $this->assertSame(2048, $response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+        // Thinking tokens are billed as output.
+        $this->assertSame(100, $response->getOutputTokens());
+        $this->assertNull($response->getCost());
+    }
+
     public function testGoogleSkipsThoughtParts(): void
     {
         $gemini = new WebSearchRecordingGoogle();
@@ -624,6 +719,7 @@ class WebSearchTest extends TestCase
             $openAI->sentPayload['tools']
         );
         $this->assertArrayNotHasKey('tool_choice', $openAI->sentPayload);
+        $this->assertSame(AIRequest::DEFAULT_MAX_WEB_SEARCHES, $openAI->sentPayload['max_tool_calls']);
         $this->assertFalse($openAI->sentPayload['store'], 'prompts must not be retained by OpenAI');
         $this->assertSame(
             [['role' => 'user', 'content' => 'best web analytics tools']],
@@ -635,6 +731,15 @@ class WebSearchTest extends TestCase
         $this->assertArrayNotHasKey('max_completion_tokens', $openAI->sentPayload);
         $this->assertArrayNotHasKey('max_tokens', $openAI->sentPayload);
         $this->assertArrayNotHasKey('temperature', $openAI->sentPayload);
+    }
+
+    public function testOpenAiSendsTheRequestsOwnSearchCap(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+
+        $openAI->complete($this->groundedRequest()->withMaxWebSearches(4), self::OPENAI_CONFIG);
+
+        $this->assertSame(4, $openAI->sentPayload['max_tool_calls']);
     }
 
     public function testOpenAiUngroundedCompleteStaysOnChatCompletions(): void
@@ -743,6 +848,22 @@ class WebSearchTest extends TestCase
         $this->assertSame(800, $response->getOutputTokens());
     }
 
+    public function testOpenAiReportsCachedInputTokensAsCacheReadsAndNotAsInput(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+        $openAI->mockResponse['usage'] = [
+            'input_tokens' => 4050,
+            'output_tokens' => 800,
+            'input_tokens_details' => ['cached_tokens' => 2048],
+        ];
+
+        $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
+
+        $this->assertSame(2002, $response->getInputTokens());
+        $this->assertSame(2048, $response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+    }
+
     /**
      * Reasoning models emit open_page and find_in_page actions on the same
      * web_search_call item type. Counting those as searches would overstate the
@@ -765,6 +886,29 @@ class WebSearchTest extends TestCase
 
         $this->assertSame(1, $response->getWebSearchRequestCount());
         $this->assertSame(['best analytics'], $response->getWebSearchQueries());
+    }
+
+    /**
+     * Once max_tool_calls is reached OpenAI leaves one more call at "searching".
+     * It never ran, so it is neither billed nor a query.
+     */
+    public function testOpenAiSkipsTheSearchLeftUnfinishedAtTheCap(): void
+    {
+        $openAI = new WebSearchRecordingOpenAI();
+        $openAI->mockResponse = [
+            'output' => [
+                ['type' => 'web_search_call', 'status' => 'completed', 'action' => ['type' => 'search', 'query' => 'first']],
+                ['type' => 'web_search_call', 'status' => 'completed', 'action' => ['type' => 'search', 'query' => 'second']],
+                ['type' => 'web_search_call', 'status' => 'searching', 'action' => ['type' => 'search', 'query' => 'third']],
+                ['type' => 'message', 'content' => [['type' => 'output_text', 'text' => 'Matomo.']]],
+            ],
+            'status' => 'completed',
+        ];
+
+        $response = $openAI->complete($this->groundedRequest(), self::OPENAI_CONFIG);
+
+        $this->assertSame(2, $response->getWebSearchRequestCount());
+        $this->assertSame(['first', 'second'], $response->getWebSearchQueries());
     }
 
     /**

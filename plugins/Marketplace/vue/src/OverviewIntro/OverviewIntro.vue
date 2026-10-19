@@ -43,7 +43,7 @@ import { TObject } from '../types';
 /**
  * The reporting page's site, period and segment selectors. Nothing in the Marketplace is scoped to
  * a site, a period or a segment, so in the reporting menu they would offer choices that change
- * nothing. The update notice beside them stays.
+ * nothing. The update notice beside them stays; the admin overview drops the top controls entirely.
  */
 const REPORTING_SELECTORS = '.top_controls .top_bar_sites_selector, .top_controls #periodString, '
   + '.top_controls .segmentEditorPanel';

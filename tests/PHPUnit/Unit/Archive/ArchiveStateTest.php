@@ -14,11 +14,13 @@ namespace Piwik\Tests\Unit\Archive;
 use PHPUnit\Framework\TestCase;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataCollection;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 
 /**
  * @group Archive
@@ -268,7 +270,25 @@ class ArchiveStateTest extends TestCase
             'timezone' => 'UTC',
         ];
 
+        $this->setUpSuperUserAccess();
+
         // setting static site information since Site makes API queries
         Site::setSiteFromArray(self::IDSITE, array_merge($defaults, $siteInfo));
+    }
+
+    private function setUpSuperUserAccess(): void
+    {
+        // archiving runs with access to every site
+        $access = new FakeAccess();
+        $access->setSuperUserAccess();
+        StaticContainer::getContainer()->set('Piwik\Access', $access);
+    }
+
+    protected function tearDown(): void
+    {
+        FakeAccess::clearAccess();
+        Site::clearCache();
+
+        parent::tearDown();
     }
 }

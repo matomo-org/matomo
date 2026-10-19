@@ -147,6 +147,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         unset($userAfter['date_registered']);
         unset($userAfter['ts_password_modified']);
+        unset($userAfter['ts_sessions_invalidated']);
         unset($userAfter['idchange_last_viewed']);
         unset($userAfter['ts_changes_shown']);
         unset($userAfter['password']);
@@ -711,6 +712,7 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['token_auth']);
             unset($user['date_registered']);
             unset($user['ts_password_modified']);
+            unset($user['ts_sessions_invalidated']);
             unset($user['invite_status']);
             unset($user['invite_expired_at']);
             unset($user['invite_token']);
