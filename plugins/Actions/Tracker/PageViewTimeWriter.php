@@ -259,8 +259,11 @@ class PageViewTimeWriter
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
 
-        // A retried request must not reset time_spent accumulated since the first run, so the
-        // upsert refreshes the idaction columns only.
+        // Every hit, retried ones included, brings a fresh log_link_visit_action id, so the
+        // duplicate branch is a safety net, not a path tracking relies on. If it ever runs, it
+        // refreshes the idaction columns only, so time_spent accumulated since is kept. It also
+        // takes next-key locks reaching into the neighbouring visit's index range, so do not turn
+        // it into a normal path.
         $sql = "INSERT INTO `$table`
                     (idsite, idvisit, idlink_va, idpageview, idaction_url, idaction_name, server_time, time_spent)
                 VALUES (?, ?, ?, ?, ?, ?, ?, 0)
