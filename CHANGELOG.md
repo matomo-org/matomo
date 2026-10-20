@@ -9,6 +9,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 * The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained the method `getPolicyOrder()`, which returns an order hint, lowest first, that decides where a compliance dashboard lists the setting, in the same way a menu item asks for its position. Plugins that implement the interface directly must implement it. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit a default implementation and are not affected. `PolicyManager::getAllControlledSettings()` now returns the settings in that order instead of in plugin discovery order, ordering settings that share a hint by their policy setting id. The trait's default, `PolicyComparisonInterface::POLICY_ORDER_LAST`, leaves a setting that does not ask for a position at the end of the list.
 
+### New APIs
+* The new `PrivacyManager.compliancePolicySettingsUpdated` event announces the compliance policy settings a request has just changed, so an audit trail can record who changed what. It is posted by `PrivacyManager.setCompliancePolicySettings` and `PrivacyManager.enforceCompliancePolicySettings` once per call, and only when something actually changed: a request that fails, or that repeats the state a policy is already in, posts nothing. Its single array parameter holds the policy id, the `idSite` the policy was changed for (`null` for the instance wide state), whether every toggleable setting of the policy is enforced afterwards, and the settings whose enforcement state or compliance status changed. It deliberately carries no request parameters, and therefore no password confirmation or authentication token.
+
 ## Matomo 5.14.1
 
 ### Breaking Changes
