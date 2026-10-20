@@ -10,6 +10,7 @@
 namespace Piwik\Updates;
 
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
@@ -17,6 +18,7 @@ use Piwik\DbHelper;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Segment;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Updater;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Custom as CustomMigration;
@@ -25,7 +27,7 @@ use Piwik\Updates;
 class Updates_6_0_0_b7 extends Updates
 {
     /**
-     * A Continent segment with `!=` matched the visits of the very continent it excludes. Its saved
+     * A Continent segment with `!=` or `!@` matched the visits of the very continent it excludes. Its saved
      * segments keep their definition, so the reports archived for them are rearchived, as far back
      * as `rearchive_reports_in_past_last_n_months` allows.
      *
@@ -50,8 +52,8 @@ class Updates_6_0_0_b7 extends Updates
 
         $migrations = [];
         foreach ($segments as $segment) {
-            // a definition may have been stored with its operators encoded
-            if (stripos(urldecode($segment['definition']), 'continentCode!=') === false) {
+            // like Segment, a definition may have been stored encoded, separators included
+            if (!$this->isExcludingAContinent($segment['definition']) && !$this->isExcludingAContinent(urldecode($segment['definition']))) {
                 continue;
             }
 
@@ -114,6 +116,28 @@ class Updates_6_0_0_b7 extends Updates
         return $segmentsToRearchive;
     }
 
+    private function isExcludingAContinent(string $definition): bool
+    {
+        try {
+            $conditions = (new SegmentExpression($definition))->parseSubExpressions();
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        foreach ($conditions as $orConditions) {
+            foreach ($orConditions as $condition) {
+                if (
+                    $condition[SegmentExpression::INDEX_OPERAND_NAME] === 'continentCode'
+                    && in_array($condition[SegmentExpression::INDEX_OPERAND_OPERATOR], [SegmentExpression::MATCH_NOT_EQUAL, SegmentExpression::MATCH_DOES_NOT_CONTAIN], true)
+                ) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @param int[] $idSites
      */
@@ -123,6 +147,9 @@ class Updates_6_0_0_b7 extends Updates
             return new Segment($definition, $idSites);
         } catch (\Exception $e) {
             return null;
+        } finally {
+            // the segments metadata cached for each site would otherwise add up until the update ends
+            Cache::getTransientCache()->flushAll();
         }
     }
 
