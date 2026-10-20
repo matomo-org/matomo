@@ -199,14 +199,6 @@ class RenamedReportUniqueIdsTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testHasRenamedReportUniqueIdDetectsARetiredEntry(): void
-    {
-        self::assertTrue(ProcessedReport::hasRenamedReportUniqueId(['Goals_get', 'Goals_get_idGoal--0']));
-        self::assertFalse(ProcessedReport::hasRenamedReportUniqueId(['Goals_get', 'VisitsSummary_get']));
-        self::assertFalse(ProcessedReport::hasRenamedReportUniqueId([null, 5, ['nested']]));
-        self::assertFalse(ProcessedReport::hasRenamedReportUniqueId([]));
-    }
-
     public function testGetRenamedReportUniqueIdsReturnsAnEmptyListForAnEmptySelection(): void
     {
         self::assertSame([], ProcessedReport::getRenamedReportUniqueIds([]));

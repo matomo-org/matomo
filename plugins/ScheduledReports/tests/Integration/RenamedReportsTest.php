@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Goals\API as GoalsApi;
+use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\ReportRenderer;
@@ -31,8 +32,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class RenamedReportsTest extends IntegrationTestCase
 {
     private const RETIRED_GOALS_GET = 'Goals_get_idGoal--0';
-
-    private const DATE = '2015-01-02';
 
     /**
      * @var int
@@ -63,61 +62,6 @@ class RenamedReportsTest extends IntegrationTestCase
         APIScheduledReports::$cache = [];
     }
 
-    public function testAStoredRetiredIdIsReturnedAsTheAllGoalsReport(): void
-    {
-        $idReport = $this->addReport(['VisitsSummary_get', 'Goals_get']);
-        $this->overwriteStoredReports($idReport, ['VisitsSummary_get', self::RETIRED_GOALS_GET]);
-
-        self::assertSame(['VisitsSummary_get', 'Goals_get'], $this->getStoredReportsFromApi($idReport));
-    }
-
-    public function testAStoredRowHoldingBothIdsIsReturnedWithASingleEntry(): void
-    {
-        $idReport = $this->addReport(['Goals_get']);
-        $this->overwriteStoredReports($idReport, ['Goals_get', self::RETIRED_GOALS_GET]);
-
-        self::assertSame(['Goals_get'], $this->getStoredReportsFromApi($idReport));
-    }
-
-    public function testAStoredRetiredIdIsReturnedAsTheEcommerceOrderReportWhereEcommerceIsOn(): void
-    {
-        $idSiteWithEcommerce = Fixture::createWebsite('2015-01-01 00:00:00', $ecommerce = 1);
-        GoalsApi::getInstance()->addGoal($idSiteWithEcommerce, 'Thank you page', 'url', 'thank-you', 'contains');
-
-        $idReport = APIScheduledReports::getInstance()->addReport(
-            $idSiteWithEcommerce,
-            'Test report',
-            Schedule::PERIOD_DAY,
-            0,
-            ScheduledReports::EMAIL_TYPE,
-            ReportRenderer::HTML_FORMAT,
-            ['Goals_get'],
-            [
-                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
-                ScheduledReports::ENFORCE_ORDER_PARAMETER => false,
-            ]
-        );
-        $this->overwriteStoredReports($idReport, [self::RETIRED_GOALS_GET]);
-
-        $reports = APIScheduledReports::getInstance()->getReports($idSiteWithEcommerce, false, $idReport);
-
-        self::assertSame(['Goals_get_idGoal--ecommerceOrder'], reset($reports)['reports']);
-    }
-
-    public function testACorruptStoredSelectionIsLeftAloneAsBefore(): void
-    {
-        $idReport = $this->addReport(['Goals_get']);
-        Db::query(
-            'UPDATE ' . Common::prefixTable('report') . ' SET reports = ? WHERE idreport = ?',
-            ['"not a list"', $idReport]
-        );
-        APIScheduledReports::$cache = [];
-
-        $reports = APIScheduledReports::getInstance()->getReports($this->idSite, false, $idReport);
-
-        self::assertSame('not a list', reset($reports)['reports']);
-    }
-
     public function testSavingAReportWithARetiredIdPersistsTheAllGoalsReport(): void
     {
         $idReport = $this->addReport(['VisitsSummary_get', self::RETIRED_GOALS_GET]);
@@ -135,6 +79,16 @@ class RenamedReportsTest extends IntegrationTestCase
         self::assertSame(['Goals_get'], $this->getStoredReportsFromDb($idReport));
     }
 
+    public function testSavingAReportWithARetiredIdPersistsTheEcommerceOrderReportWhereEcommerceIsOn(): void
+    {
+        $idSiteWithEcommerce = Fixture::createWebsite('2015-01-01 00:00:00', $ecommerce = 1);
+        GoalsApi::getInstance()->addGoal($idSiteWithEcommerce, 'Thank you page', 'url', 'thank-you', 'contains');
+
+        $idReport = $this->addReport([self::RETIRED_GOALS_GET], $idSiteWithEcommerce);
+
+        self::assertSame(['Goals_get_idGoal--ecommerceOrder'], $this->getStoredReportsFromDb($idReport));
+    }
+
     public function testSavingAReportWithAnUnknownIdIsStillRejected(): void
     {
         self::expectException(\Exception::class);
@@ -143,29 +97,30 @@ class RenamedReportsTest extends IntegrationTestCase
         $this->addReport(['Goals_get_idGoal--999']);
     }
 
-    public function testTheCustomOrderBranchRendersTheGoalsSectionOnce(): void
+    public function testRejectingARetiredIdNamesTheRequestedId(): void
     {
-        $idReport = $this->addReport(['Goals_get'], $enforceOrder = true);
-        $this->overwriteStoredReports($idReport, ['Goals_get', self::RETIRED_GOALS_GET]);
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage("Report Goals_get_idGoal--0 is unknown or not available for report type 'mobile'.");
 
-        $generated = APIScheduledReports::getInstance()->generateReport(
-            $idReport,
-            self::DATE,
-            false,
-            APIScheduledReports::OUTPUT_RETURN
+        APIScheduledReports::getInstance()->addReport(
+            $this->idSite,
+            'Test report',
+            Schedule::PERIOD_DAY,
+            0,
+            MobileMessaging::MOBILE_TYPE,
+            MobileMessaging::SMS_FORMAT,
+            [self::RETIRED_GOALS_GET],
+            [MobileMessaging::PHONE_NUMBERS_PARAMETER => []]
         );
-
-        self::assertSame(1, substr_count($generated, 'id="Goals_get"'));
-        self::assertStringNotContainsString('id="' . self::RETIRED_GOALS_GET . '"', $generated);
     }
 
     /**
      * @param list<string> $reports
      */
-    private function addReport(array $reports, bool $enforceOrder = false): int
+    private function addReport(array $reports, ?int $idSite = null): int
     {
         return APIScheduledReports::getInstance()->addReport(
-            $this->idSite,
+            $idSite ?? $this->idSite,
             'Test report',
             Schedule::PERIOD_DAY,
             0,
@@ -174,32 +129,9 @@ class RenamedReportsTest extends IntegrationTestCase
             $reports,
             [
                 ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
-                ScheduledReports::ENFORCE_ORDER_PARAMETER => $enforceOrder,
+                ScheduledReports::ENFORCE_ORDER_PARAMETER => false,
             ]
         );
-    }
-
-    /**
-     * @param list<string> $reports
-     */
-    private function overwriteStoredReports(int $idReport, array $reports): void
-    {
-        Db::query(
-            'UPDATE ' . Common::prefixTable('report') . ' SET reports = ? WHERE idreport = ?',
-            [json_encode($reports), $idReport]
-        );
-
-        APIScheduledReports::$cache = [];
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function getStoredReportsFromApi(int $idReport): array
-    {
-        $reports = APIScheduledReports::getInstance()->getReports($this->idSite, false, $idReport);
-
-        return reset($reports)['reports'];
     }
 
     /**

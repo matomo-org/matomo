@@ -303,28 +303,8 @@ class ProcessedReport
     }
 
     /**
-     * Whether any entry of a stored or requested selection is a report unique id that is no longer
-     * advertised. Lets a caller skip the report metadata lookup that resolving one needs.
-     *
-     * @param array<mixed> $apiMethodUniqueIds
-     * @return bool
-     * @ignore
-     */
-    public static function hasRenamedReportUniqueId($apiMethodUniqueIds)
-    {
-        foreach ($apiMethodUniqueIds as $apiMethodUniqueId) {
-            if (is_string($apiMethodUniqueId) && isset(self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId])) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * For backward compatibility: resolves each report unique id of a stored or requested
-     * selection, keeping the first occurrence of a report the resolution itself ends up naming
-     * twice. A selection that already named the same report twice keeps both entries.
+     * For backward compatibility: resolves each report unique id of a requested selection,
+     * keeping the first occurrence of a report the resolution itself ends up naming twice. A selection that already named the same report twice keeps both entries.
      *
      * @param array<mixed> $apiMethodUniqueIds
      * @param list<string>|null $availableUniqueIds
