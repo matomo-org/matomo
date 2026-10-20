@@ -38,7 +38,11 @@ class Updates600b7Test extends IntegrationTestCase
     {
         $notEurope = $this->createSegment('continentCode!=eur', 0);
         $notSouthAmerica = $this->createSegment('continentCode%21%3Dams', 2);
+        $notContainingAsia = $this->createSegment('continentCode!@asi', 0);
+        $frenchNotInEurope = $this->createSegment('countryCode%3D%3Dfr%3BcontinentCode%21%3Deur', 0);
         $this->createSegment('continentCode==eur', 0);
+        $this->createSegment('continentCode!=', 0);
+        $this->createSegment('eventAction==continentCode!=eur', 0);
         $this->createSegment('countryCode!=fr', 0);
         $this->createSegment('continentCode!=asi', 0, $deleted = 1);
 
@@ -50,6 +54,8 @@ class Updates600b7Test extends IntegrationTestCase
         self::assertEqualsCanonicalizing([
             "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$notEurope",
             "./console core:invalidate-report-data --sites=2 --dates=$startDate,today --segment=$notSouthAmerica",
+            "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$notContainingAsia",
+            "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$frenchNotInEurope",
         ], $hints);
 
         $update->doUpdate(new Updater());
@@ -63,7 +69,9 @@ class Updates600b7Test extends IntegrationTestCase
 
         self::assertSame([
             ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode!=eur'],
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode!@asi'],
             ['idSites' => [2], 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode%21%3Dams'],
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'countryCode%3D%3Dfr%3BcontinentCode%21%3Deur'],
         ], $reArchives);
     }
 
