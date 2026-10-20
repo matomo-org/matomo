@@ -63,6 +63,12 @@ class PageUrlSearchTest extends IntegrationTestCase
             // a host the site's URLs do not list
             'http://preview.example.com/pricing',
             'http://example.com:8080/staging/page',
+            // a single row, holding the URL tracked the most
+            'http://example.com/docs/',
+            'http://example.com/docs/',
+            'http://example.com/docs/index',
+            // tracked as `/thing?id=5`
+            'http://example.com/thing;id=5',
         ]);
     }
 
@@ -140,6 +146,19 @@ class PageUrlSearchTest extends IntegrationTestCase
                 ['/account/login'],
             ];
 
+            yield "the URL a page holds, ending with /, $view" => [
+                'https://example.com/docs/',
+                $flat,
+                // the flat view labels the row by the URL it holds
+                [$flat ? '/docs/' : '/docs/index'],
+            ];
+
+            yield "a URL sharing its row with a URL ending with /, $view" => [
+                'https://example.com/docs/index',
+                $flat,
+                [$flat ? '/docs/' : '/docs/index'],
+            ];
+
             yield "a URL tracked for none of the pages, $view" => [
                 'https://example.com/products/item?id=999',
                 $flat,
@@ -165,6 +184,20 @@ class PageUrlSearchTest extends IntegrationTestCase
                 $method
             );
         }
+    }
+
+    public function testFindsAPageTrackedWithAParameterTheSiteExcludesSinceThen()
+    {
+        Request::processRequest('SitesManager.updateSite', [
+            'idSite' => self::$idSite,
+            'excludedQueryParameters' => 'sessionid,id',
+        ]);
+
+        $this->assertEquals(
+            ['/products/item?id=123'],
+            $this->searchPageUrls('https://example.com/products/item?id=123', true)
+        );
+        $this->assertEquals(['/thing?id=5'], $this->searchPageUrls('https://example.com/thing;id=5', true));
     }
 
     public function testComparesTheSearchedUrlAsIsWhenItCannotBeNormalized()

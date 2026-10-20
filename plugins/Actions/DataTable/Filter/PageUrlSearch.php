@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\Actions\DataTable\Filter;
 
-use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
 use Piwik\Site;
@@ -25,6 +25,12 @@ use Piwik\Tracker\PageUrl;
  * site's URLs do not list. The searched URL has to be on one of the site's URLs, or on the host
  * the row holds.
  *
+ * Like the archiver, a path ending with `/` is compared with `action_default_name` appended: `/docs/`
+ * and `/docs/index` are a single row, which holds only one of the two URLs.
+ *
+ * The URL is searched both without the parameters the site excludes today, and as pasted: a row
+ * holds its URL as tracked, before a parameter was excluded.
+ *
  * Folders have no URL of their own: they are kept when one of the pages they hold matches.
  */
 class PageUrlSearch extends BaseFilter
@@ -33,6 +39,11 @@ class PageUrlSearch extends BaseFilter
      * @var string
      */
     private $searchedUrl;
+
+    /**
+     * @var string
+     */
+    private $defaultActionName = '';
 
     /**
      * @param DataTable $table
@@ -61,42 +72,45 @@ class PageUrlSearch extends BaseFilter
             return;
         }
 
+        $this->defaultActionName = (string) Config::getInstance()->General['action_default_name'];
+
         $idSite = $site->getId();
+        $urls = [PageUrl::cleanupUrl($this->searchedUrl)];
         try {
-            $url = PageUrl::excludeQueryParametersFromUrl(trim($this->searchedUrl), $idSite);
+            $urls[] = (string) PageUrl::excludeQueryParametersFromUrl(trim($this->searchedUrl), $idSite);
         } catch (\Exception $e) {
-            $url = Common::unsanitizeInputValue(trim($this->searchedUrl));
+            // for example when the site's tracker cache fails to build: the URL is searched as pasted only
         }
 
-        $searched = $this->splitUrl((string) $url);
-        $isOnSiteHost = null !== $searched && in_array($searched['host'], $this->getSiteHosts($idSite), true);
+        $siteHosts = $this->getSiteHosts($idSite);
+        $searchedUrls = [];
+        foreach (array_unique($urls) as $url) {
+            $searched = $this->splitUrl($url);
+            if (null !== $searched) {
+                $searched['isOnSiteHost'] = in_array($searched['host'], $siteHosts, true);
+                $searchedUrls[] = $searched;
+            }
+        }
 
-        $this->deleteRowsNotMatching($table, $searched, $isOnSiteHost);
+        $this->deleteRowsNotMatching($table, $searchedUrls);
     }
 
     /**
-     * @param array{host: string, path: string}|null $searched
+     * @param list<array{host: string, path: string, isOnSiteHost: bool}> $searchedUrls
      * @return int The number of rows left.
      */
-    private function deleteRowsNotMatching(DataTable $table, ?array $searched, bool $isOnSiteHost): int
+    private function deleteRowsNotMatching(DataTable $table, array $searchedUrls): int
     {
         foreach ($table->getRows() as $key => $row) {
             $subtable = $row->getSubtable();
-            if ($subtable && $this->deleteRowsNotMatching($subtable, $searched, $isOnSiteHost) > 0) {
+            if ($subtable && $this->deleteRowsNotMatching($subtable, $searchedUrls) > 0) {
                 continue;
             }
 
             $url = $row->getMetadata('url');
             $rowUrl = is_string($url) ? $this->splitUrl($url) : null;
 
-            // the path and query are compared as tracked, neither decoded nor reordered: `/café` does
-            // not find a page tracked as `/caf%C3%A9`, nor `?b=2&a=1` one tracked as `?a=1&b=2`
-            if (
-                null === $searched
-                || null === $rowUrl
-                || $rowUrl['path'] !== $searched['path']
-                || (!$isOnSiteHost && $rowUrl['host'] !== $searched['host'])
-            ) {
+            if (null === $rowUrl || !$this->isMatchingAny($rowUrl, $searchedUrls)) {
                 $table->deleteRow($key);
             }
         }
@@ -105,8 +119,29 @@ class PageUrlSearch extends BaseFilter
     }
 
     /**
+     * @param array{host: string, path: string} $rowUrl
+     * @param list<array{host: string, path: string, isOnSiteHost: bool}> $searchedUrls
+     */
+    private function isMatchingAny(array $rowUrl, array $searchedUrls): bool
+    {
+        foreach ($searchedUrls as $searched) {
+            // the path and query are compared as tracked, neither decoded nor reordered: `/café` does
+            // not find a page tracked as `/caf%C3%A9`, nor `?b=2&a=1` one tracked as `?a=1&b=2`
+            if (
+                $rowUrl['path'] === $searched['path']
+                && ($searched['isOnSiteHost'] || $rowUrl['host'] === $searched['host'])
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return array{host: string, path: string}|null The lower-cased host, without `www.`, and
-     *                                                everything after it, `/` for nothing.
+     *                                                everything after it, `/` for nothing, with
+     *                                                `action_default_name` after a trailing `/`.
      */
     private function splitUrl(string $url): ?array
     {
@@ -125,6 +160,12 @@ class PageUrlSearch extends BaseFilter
 
         if ($path === '' || $path[0] !== '/') {
             $path = '/' . $path;
+        }
+
+        // like ArchivingHelper::parseNameFromPageUrl(), which looks before the fragment, query included
+        $fragmentStart = strcspn($path, '#');
+        if ($path[$fragmentStart - 1] === '/') {
+            $path = substr_replace($path, $this->defaultActionName, $fragmentStart, 0);
         }
 
         return ['host' => $host, 'path' => $path];
