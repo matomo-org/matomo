@@ -99,7 +99,7 @@ class UserCountry extends \Piwik\Plugin
         }
         return array('SQL'  => "'" . implode("', '", $result) . "', ?",
                      'bind' => '-', // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
-                     'negate' => $matchType === SegmentExpression::MATCH_NOT_EQUAL);
+                     'negate' => in_array($matchType, [SegmentExpression::MATCH_NOT_EQUAL, SegmentExpression::MATCH_DOES_NOT_CONTAIN], true));
     }
 
     /**
