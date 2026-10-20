@@ -66,6 +66,8 @@ class ContinentSegmentTest extends IntegrationTestCase
         yield 'is not South America' => ['continentCode!=ams', ['de', 'fr', 'jp', 'us', 'xx', 'zz']];
         yield 'is neither Europe nor South America' => ['continentCode!=eur;continentCode!=ams', ['jp', 'us', 'xx', 'zz']];
         yield 'is Europe or not South America' => ['continentCode==eur,continentCode!=ams', ['de', 'fr', 'jp', 'us', 'xx', 'zz']];
+        yield 'contains Europe' => ['continentCode=@eur', ['de', 'fr']];
+        yield 'does not contain Europe' => ['continentCode!@eur', ['ar', 'br', 'jp', 'us', 'xx', 'zz']];
     }
 
     public function testIsNotKeepsTheVisitsWithoutCountry(): void
@@ -80,6 +82,7 @@ class ContinentSegmentTest extends IntegrationTestCase
         $this->assertSame(9, $this->getVisitsInSegment(''));
         $this->assertSame(2, $this->getVisitsInSegment('continentCode==eur'));
         $this->assertSame(7, $this->getVisitsInSegment('continentCode!=eur'));
+        $this->assertSame(7, $this->getVisitsInSegment('continentCode!@eur'));
         $this->assertSame(7, $this->getVisitsInSegment('countryCode!=fr;countryCode!=de'));
     }
 
