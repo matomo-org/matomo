@@ -4,13 +4,48 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
-## Matomo 5.14.1
+## Matomo 5.14.2
+
+### Breaking Changes
+* The interface `Piwik\Settings\Interfaces\PolicyComparisonInterface` gained the method `getPolicyOrder()`, which returns an order hint, lowest first, that decides where a compliance dashboard lists the setting, in the same way a menu item asks for its position. Plugins that implement the interface directly must implement it. Plugins using `Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait` (as all known implementers do) inherit a default implementation and are not affected. `PolicyManager::getAllControlledSettings()` now returns the settings in that order instead of in plugin discovery order, ordering settings that share a hint by their policy setting id. The trait's default, `PolicyComparisonInterface::POLICY_ORDER_LAST`, leaves a setting that does not ask for a position at the end of the list.
 
 ### New APIs
+* The new `PrivacyManager.compliancePolicySettingsUpdated` event announces the compliance policy settings a request has just changed, so an audit trail can record who changed what. It is posted by `PrivacyManager.setCompliancePolicySettings` and `PrivacyManager.enforceCompliancePolicySettings` once per call, and only when something actually changed: a request that fails, or that repeats the state a policy is already in, posts nothing. Its single array parameter holds the policy id, the `idSite` the policy was changed for (`null` for the instance wide state), whether every toggleable setting of the policy is enforced afterwards, and the settings whose enforcement state or compliance status changed. It deliberately carries no request parameters, and therefore no password confirmation or authentication token.
+
+## Matomo 5.14.1
+
+### Breaking Changes
+* A plugin with no cover image of its own now falls back to the same generic `uncategorised` cover as every other plugin. `Piwik\Plugins\Marketplace\Plugins::addPluginCoverImage()` used to give a paid plugin owned by `piwik` or `matomo-org` the Matomo-branded `matomo.png` cover instead, which the redesigned cards mark with a Matomo chip rather than a whole cover image. The Marketplace's own category stand-ins now count as no cover image as well, so a plugin the Marketplace categorised also takes the generic fallback.
+* The Marketplace's `PluginList` Vue component has been removed along with the plugin list it rendered. The redesigned page is built from the `PluginGrid`, `PluginSection`, `PluginCard`, `CategoryTabs`, `MarketplaceHero` and `SortMenu` components the plugin now exports instead. The translation keys `Marketplace_CreatedBy`, `Marketplace_Intro`, `Marketplace_IntroSuperUser`, `Marketplace_NoThemesFound`, `Marketplace_PriceFromPerPeriod`, `Marketplace_Show`, `Marketplace_Sort` and `Marketplace_SortByPopular` have been removed with the markup that used them. The `pluginType` hash parameter is no longer written and only `themes` and `plugins` are still read back, for the links CorePluginsAdmin makes; `#?pluginType=premium` no longer opens a filtered list and is silently ignored, landing the reader on the full catalogue instead.
+* `Piwik\Plugins\AIProviders\AIProviderResponse::getInputTokens()` and `AIConversationResponse::getInputTokens()` now count only uncached input for every provider. For OpenAI, OpenAI-compatible custom providers and Google they no longer include the tokens served from the prompt cache, which `getCacheReadTokens()` reports instead. For Google, `getOutputTokens()` now includes the model's thinking tokens, which Google bills as output.
+
+### New Features
+* Added contextual recommendations for Premium products based on how Matomo is being used.
+
+### New APIs
+* The AIProviders plugin now lets a super user choose which categories of data AI features may send to an AI provider. Plugins check `Piwik\Plugins\AIProviders\Model\AIProcessingSettings::isEnabled()` before sending data, can list their features on the settings page through the `AIProviders.addAIProcessingFeatures` event, and can react to changes through the `AIProviders.aiProcessingSettingsChanged` event. See `AIProcessingSettings` for the available categories.
+* `Piwik\Plugins\AIProviders\AIRequest::withMaxWebSearches()` caps the searches a grounded request may run, defaulting to `AIRequest::DEFAULT_MAX_WEB_SEARCHES` (2). It is sent to OpenAI as `max_tool_calls`, which was previously uncapped, and to Anthropic as `max_uses`, which was previously fixed at 5; Google has no per-request cap and ignores it. A caller that relied on more searches must now ask for them.
+* `Piwik\Plugins\AIProviders\AIProviderService` now posts events so a plugin can limit and meter AI usage:
+  * `AIProviders.beforeRequest` is posted before every `complete()` and `converse()` provider call with an `AIRequestContext` and an `AIRequestDecision`. A listener can only `deny()` the call, which is then not sent: the caller gets an `AIQuotaExceededException`, a subclass of `AIProviderClientException`, carrying the decision. `AIProviderService::assertRequestAllowed()` asks the same question without calling the provider; its context reports `isProbe()`.
+  * `AIProviders.usage` is posted after every `complete()` and `converse()` provider call, whatever the outcome, with an `AIUsage`: token counts including prompt-cache reads and writes, web search calls, per-call fees, the provider-billed cost and provider metadata. An error outcome may mean nothing was sent or billed, for example when no API key is configured. An exception thrown by a listener is logged and not rethrown, but it stops the listeners after it, so listeners should catch their own errors.
+  * `AIProviders.getRemainingBudget` and `AIProviders.checkFeatureAllowed` let a plugin limit a feature before a batch or an action, through `AIProviderService::getRemainingBudget()` and `AIProviderService::checkFeatureAllowed()`.
+  * `AIRequest` and `AIConversationRequest` gained `withUsageReference()` / `getUsageReference()` and `withMeta()` / `getMeta()`, and `AIConversationRequest` gained `withIdSite()` / `getIdSite()`, so a caller can describe a call to these listeners. A feature key should follow `<Plugin>.<feature>`; without one the call is reported as `<Plugin>.default`.
+  * `AIProviderResponse` and `AIConversationResponse` gained `getCacheReadTokens()`, `getCacheWriteTokens()`, `getFlatFeeCalls()` and `getProviderMeta()`, and `AIConversationResponse` gained `getCost()`. `AIProviderResponse::toArray()` gained the `cacheReadTokens` and `cacheWriteTokens` keys. `AIProvider::buildResponse()` and `AIProvider::buildConversationResponse()` gained matching trailing optional parameters for providers to fill.
+* The new `Template.beforeDashboardWidgets` event is posted at the top of the dashboard, above the widgets, and allows a plugin to render its own content there. It is posted by `plugins/Dashboard/templates/embeddedIndex.twig`; like the other `Template.*` events, a listener takes the rendered output by reference (`function (&$out)`) and appends its markup to it.
 * `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` extended info (`$getExtendedInfo = true`)
   now includes an `effectiveUrl` entry: the final URL after following redirects. Best effort on the `fopen`
   transport, which follows redirects internally.
-* The new `PrivacyManager.compliancePolicySettingsUpdated` event announces the compliance policy settings a request has just changed, so an audit trail can record who changed what. It is posted by `PrivacyManager.setCompliancePolicySettings` and `PrivacyManager.enforceCompliancePolicySettings` once per call, and only when something actually changed: a request that fails, or that repeats the state a policy is already in, posts nothing. Its single array parameter holds the policy id, the `idSite` the policy was changed for (`null` for the instance wide state), whether every toggleable setting of the policy is enforced afterwards, and the settings whose enforcement state or compliance status changed. It deliberately carries no request parameters, and therefore no password confirmation or authentication token.
+* `Piwik\Plugin\ThemeStyles` gained `$colorSuccess`, `$colorWarning`, `$colorDanger`, `$colorTextBrand`, `$colorBackgroundBrandTinyContrast`, `$colorBackgroundBrandLowContrast` and `$colorBorderBrand`, exposed to Less as `@theme-color-success`, `@theme-color-warning`, `@theme-color-danger`, `@theme-color-text-brand`, `@theme-color-background-brand-tinyContrast`, `@theme-color-background-brand-lowContrast` and `@theme-color-border-brand`.
+* A template extending `@Morpheus/admin.twig` can override the new `contentClass` block to put a class on the page's `#content` element. Core provides `admin--wide`, which widens the content area for admin pages that lay out in columns rather than in a single text measure.
+
+### New commands
+
+* New command `marketplace:warm-cache` refetches the plugin and theme lists shown in the Marketplace overview. With `--if-older-than=<seconds>` it only refetches when the lists are missing or at least that old. Matomo runs it in the background to refresh the lists at spread-out times rather than on the hour, so it does not normally need to be run by hand.
+
+### New config.ini.php settings
+* The new `[Goals]` section limits the automatic goal recommendations:
+  * `recommendation_max_crawl_pages` (default `50`) caps how many same-origin pages are fetched when a website is analysed for goal recommendations.
+  * `recommendation_ai_daily_scan_limit` (default `0`, no limit) caps how many AI-assisted goal recommendation scans can run per site and day, for example to limit AI provider usage in managed environments.
 
 ## Matomo 5.14.0
 

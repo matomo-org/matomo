@@ -155,6 +155,11 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
             return parent::fetch($action, $params, $postData, $getExtendedInfo, $throwOnApiError);
         }
 
+        // the Client rejects a list response without a 'plugins' array
+        if (in_array($action, ['plugins', 'themes'], true)) {
+            return ['plugins' => []];
+        }
+
         return [];
     }
 }

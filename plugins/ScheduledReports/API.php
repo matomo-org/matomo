@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
@@ -439,7 +440,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $cacheKey = (int)$idSite . '.' . (string)$period . '.' . (int)$idReport . '.' . (int)$ifSuperUserReturnOnlySuperUserReports;
+        $cacheKey = Access::getInstance()->getCacheScopeKey() . '.' . (int)$idSite . '.' . (string)$period . '.' . (int)$idReport . '.' . (int)$ifSuperUserReturnOnlySuperUserReports;
         if (isset(self::$cache[$cacheKey])) {
             return self::$cache[$cacheKey];
         }
@@ -883,7 +884,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (empty($date)) {
-            $date = Date::now()->subPeriod(1, $report['period'])->toString();
+            $date = ReportSchedule::getToday((string) $report['period'], (int) $report['idsite'])->subPeriod(1, $report['period'])->toString();
         }
 
         Context::changeIdSite($report['idsite'], function () use ($report, $idReport, $date, $force) {

@@ -368,8 +368,12 @@ abstract class AIProvider
     }
 
     /**
-     * @param int|null $inputTokens  Prompt tokens reported by the provider, if any.
-     * @param int|null $outputTokens Completion tokens reported by the provider, if any.
+     * @param int|null $inputTokens      Prompt tokens reported by the provider, if any.
+     * @param int|null $outputTokens     Completion tokens reported by the provider, if any.
+     * @param int|null $cacheReadTokens  Prompt tokens served from the provider cache, if any.
+     * @param int|null $cacheWriteTokens Prompt tokens written to the provider cache, if any.
+     * @param int      $flatFeeCalls     Calls billed at a fixed price per call, 0 for token-billed providers.
+     * @param array<string, mixed> $providerMeta Extra data for the usage event, no prompt or response content.
      */
     protected function buildResponse(
         AIRequest $request,
@@ -378,7 +382,12 @@ abstract class AIProvider
         ?int $inputTokens = null,
         ?int $outputTokens = null,
         ?string $stopReason = null,
-        ?WebSearchUsage $webSearch = null
+        ?WebSearchUsage $webSearch = null,
+        ?float $cost = null,
+        ?int $cacheReadTokens = null,
+        ?int $cacheWriteTokens = null,
+        int $flatFeeCalls = 0,
+        array $providerMeta = []
     ): AIProviderResponse {
         return new AIProviderResponse(
             $this->getId(),
@@ -394,21 +403,36 @@ abstract class AIProvider
             $this->isWebSearchUsed($request),
             $this->lastRequestExecutionTimeMs,
             $stopReason,
-            $webSearch
+            $webSearch,
+            $cost,
+            $cacheReadTokens,
+            $cacheWriteTokens,
+            $flatFeeCalls,
+            $providerMeta
         );
     }
 
     /**
      * @param list<CanonicalContentBlockArray> $content canonical assistant content blocks
-     * @param int|null $inputTokens  Prompt tokens reported by the provider, if any.
-     * @param int|null $outputTokens Completion tokens reported by the provider, if any.
+     * @param int|null $inputTokens      Prompt tokens reported by the provider, if any.
+     * @param int|null $outputTokens     Completion tokens reported by the provider, if any.
+     * @param float|null $cost           Cost in USD as billed by the provider, if it reports one.
+     * @param int|null $cacheReadTokens  Prompt tokens served from the provider cache, if any.
+     * @param int|null $cacheWriteTokens Prompt tokens written to the provider cache, if any.
+     * @param int      $flatFeeCalls     Calls billed at a fixed price per call, 0 for token-billed providers.
+     * @param array<string, mixed> $providerMeta Extra data for the usage event, no prompt or response content.
      */
     protected function buildConversationResponse(
         string $model,
         array $content,
         string $stopReason,
         ?int $inputTokens = null,
-        ?int $outputTokens = null
+        ?int $outputTokens = null,
+        ?float $cost = null,
+        ?int $cacheReadTokens = null,
+        ?int $cacheWriteTokens = null,
+        int $flatFeeCalls = 0,
+        array $providerMeta = []
     ): AIConversationResponse {
         return new AIConversationResponse(
             $this->getId(),
@@ -418,8 +442,53 @@ abstract class AIProvider
             $stopReason,
             $inputTokens,
             $outputTokens,
-            $this->lastRequestExecutionTimeMs
+            $this->lastRequestExecutionTimeMs,
+            $cost,
+            $cacheReadTokens,
+            $cacheWriteTokens,
+            $flatFeeCalls,
+            $providerMeta
         );
+    }
+
+    /**
+     * Splits an input count that includes the tokens served from the prompt
+     * cache (as OpenAI and Gemini report it) into uncached input and cache
+     * reads, so `inputTokens` means the same for every provider.
+     *
+     * @return array{0: int|null, 1: int|null} Uncached input tokens and cache read tokens.
+     */
+    protected function splitCachedInputTokens(?int $total, ?int $cached): array
+    {
+        if ($total === null || $cached === null) {
+            return [$total, $cached];
+        }
+
+        return [max(0, $total - $cached), $cached];
+    }
+
+    /**
+     * Reads a token count from a provider `usage` object, taking the first key
+     * that is present. Providers that report the same counter under more than
+     * one name (Bedrock returns both the API and the CloudWatch metric
+     * spelling) can list every spelling they accept.
+     *
+     * @param mixed           $usage Raw `usage` value as decoded from the response.
+     * @param non-empty-list<string> $keys
+     */
+    protected function readUsageTokens($usage, array $keys): ?int
+    {
+        if (!is_array($usage)) {
+            return null;
+        }
+
+        foreach ($keys as $key) {
+            if (isset($usage[$key]) && is_numeric($usage[$key])) {
+                return (int) $usage[$key];
+            }
+        }
+
+        return null;
     }
 
     protected function getReasoningLevelUsed(AIRequest $request): string
@@ -551,13 +620,21 @@ abstract class AIProvider
             ? $response['choices'][0]['finish_reason']
             : null;
 
+        [$inputTokens, $cacheReadTokens] = $this->splitCachedInputTokens(
+            $this->readUsageTokens($response['usage'] ?? null, ['prompt_tokens']),
+            $this->readUsageTokens($response['usage']['prompt_tokens_details'] ?? null, ['cached_tokens'])
+        );
+
         return $this->buildResponse(
             $request,
             $model,
             is_string($text) ? $text : '',
-            isset($response['usage']['prompt_tokens']) ? (int) $response['usage']['prompt_tokens'] : null,
+            $inputTokens,
             isset($response['usage']['completion_tokens']) ? (int) $response['usage']['completion_tokens'] : null,
-            $finishReason
+            $finishReason,
+            null,
+            null,
+            $cacheReadTokens
         );
     }
 
@@ -660,12 +737,19 @@ abstract class AIProvider
             ? $response['choices'][0]['finish_reason']
             : '';
 
+        [$inputTokens, $cacheReadTokens] = $this->splitCachedInputTokens(
+            $this->readUsageTokens($response['usage'] ?? null, ['prompt_tokens']),
+            $this->readUsageTokens($response['usage']['prompt_tokens_details'] ?? null, ['cached_tokens'])
+        );
+
         return $this->buildConversationResponse(
             $model,
             $this->openAIMessageToCanonical($message),
             $this->mapOpenAIFinishReason($finishReason),
-            isset($response['usage']['prompt_tokens']) ? (int) $response['usage']['prompt_tokens'] : null,
-            isset($response['usage']['completion_tokens']) ? (int) $response['usage']['completion_tokens'] : null
+            $inputTokens,
+            isset($response['usage']['completion_tokens']) ? (int) $response['usage']['completion_tokens'] : null,
+            null,
+            $cacheReadTokens
         );
     }
 
@@ -1060,7 +1144,7 @@ abstract class AIProvider
      * failures.
      *
      * @param array<string, string> $headers
-     * @param array<string, mixed> $payload
+     * @param array<mixed> $payload JSON body: an object, or a list for APIs that take one
      * @return array<string, mixed>
      */
     protected function sendJsonRequest(
@@ -1097,7 +1181,7 @@ abstract class AIProvider
      * {@link sendGetRequest()}.
      *
      * @param array<string, string> $headers
-     * @param array<string, mixed>|null $debugPayload
+     * @param array<mixed>|null $debugPayload
      * @return array<string, mixed>
      */
     private function sendRequest(
@@ -1248,7 +1332,7 @@ abstract class AIProvider
      * Debug-only metadata for local provider testing. Intentionally does not
      * log request/response content, headers, API keys, prompts, or model output.
      *
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      */
     private function logProviderRequestDebugMetadata(
         string $method,
@@ -1277,7 +1361,7 @@ abstract class AIProvider
     }
 
     /**
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      */
     private function logProviderResponseDebugMetadata(
         string $method,
@@ -1335,7 +1419,7 @@ abstract class AIProvider
     }
 
     /**
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      * @return array{host: string, path: string, model: string, thinking: string}
      */
     private function getProviderRequestDebugMetadata(string $url, ?array $payload): array
@@ -1351,7 +1435,7 @@ abstract class AIProvider
     }
 
     /**
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      */
     private function getDebugModel(?array $payload, string $path): string
     {
@@ -1369,7 +1453,7 @@ abstract class AIProvider
     }
 
     /**
-     * @param array<string, mixed>|null $payload
+     * @param array<mixed>|null $payload
      */
     private function getDebugThinking(?array $payload): string
     {

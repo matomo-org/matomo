@@ -1,0 +1,152 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+.categoryTabs {
+  margin-top: 16px;
+}
+
+.categoryTabs__select {
+  display: none;
+
+  @media (max-width: 760px) {
+    display: block;
+  }
+
+  .categoryTabs__selectInput {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid @theme-color-border-alternative;
+    border-radius: 4px;
+    background: @theme-color-background-contrast;
+    color: @theme-color-text;
+  }
+}
+
+.categoryTabs__bar {
+  display: flex;
+  align-items: safe center;
+  width: fit-content;
+  max-width: 100%;
+  height: 38px;
+  padding: 0 2px;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 6px;
+  background: @theme-color-background-contrast;
+
+  @media (max-width: 760px) {
+    display: none;
+  }
+}
+
+.categoryTabs__list {
+  display: flex;
+  align-items: safe center;
+  gap: 2px;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.categoryTabs__tab {
+  display: inline-flex;
+  align-items: safe center;
+  height: 34px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+  color: @theme-color-headline-alternative;
+  transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.categoryTabs__tab--active {
+  border-color: @theme-color-brand;
+  background: @theme-color-background-brand-lowContrast;
+  color: @theme-color-text;
+}
+
+.categoryTabs__tab--overflow {
+  display: inline-flex;
+
+  @media (max-width: 1400px) {
+    display: none;
+  }
+}
+
+.categoryTabs__more {
+  position: relative;
+  flex: none;
+  display: none;
+
+  @media (max-width: 1400px) {
+    display: block;
+  }
+}
+
+.categoryTabs__tab--more {
+  gap: 6px;
+}
+
+.categoryTabs__menu {
+  position: absolute;
+  right: 0;
+  z-index: 20;
+  margin-top: 4px;
+  width: 240px;
+  padding: 4px 0;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 4px;
+  background: @theme-color-background-contrast;
+  box-shadow: @theme-shadow-overlay;
+}
+
+.categoryTabs__menuItem {
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  color: @theme-color-text;
+}
+
+.categoryTabs__menuItem--active {
+  background: @theme-color-background-brand-lowContrast;
+  color: @theme-color-text-brand;
+}
+
+// override: Materialize's global `button:focus` paints its own fill on every bare <button> and
+// outranks a lone class, so the tag has to appear here for the tabs and menu options to keep their
+// own backgrounds on click. Focus is given the hover background rather than none of its own, and
+// keyboard focus still shows through Morpheus's `:focus-visible` outline.
+button.categoryTabs__tab:hover,
+button.categoryTabs__tab:focus,
+button.categoryTabs__menuItem:hover,
+button.categoryTabs__menuItem:focus {
+  background: @theme-color-background-base;
+}
+
+button.categoryTabs__tab--active:hover,
+button.categoryTabs__tab--active:focus,
+button.categoryTabs__menuItem--active:hover,
+button.categoryTabs__menuItem--active:focus {
+  background: @theme-color-background-brand-lowContrast;
+}
+
+// override: Morpheus's legacy `:focus { outline: thin dotted }` in general/_default.less fires on
+// a plain mouse click, so the tabs and menu options picked up a dotted ring the moment they were clicked. Only the
+// keyboard ring below it - `button:focus-visible` - is wanted, so the click case is turned off here.
+button.categoryTabs__tab:focus:not(:focus-visible),
+button.categoryTabs__menuItem:focus:not(:focus-visible) {
+  outline: none;
+}

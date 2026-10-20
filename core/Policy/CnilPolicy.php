@@ -15,6 +15,7 @@ use Piwik\Url;
 class CnilPolicy extends CompliancePolicy
 {
     private const CONSENT_EXEMPTION_FAQ_URL = 'https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/';
+    private const CLOUD_DPA_URL = 'https://matomo.org/matomo-cloud-dpa/';
 
     public static function getName(): string
     {
@@ -28,10 +29,20 @@ class CnilPolicy extends CompliancePolicy
 
     protected static function generateGranularDescription(): string
     {
-        return Piwik::translate(
-            'General_ComplianceCNILGranularDescription',
+        $description = Piwik::translate(
+            'General_ComplianceCNILGranularDescription2',
             array_merge(self::getFaqLinkParameters(), [self::getGranularStatusLegend()])
         );
+
+        // the DPA only covers Matomo Cloud, so on-premise instances must not be pointed at it
+        if (static::getPluginManagerInstance()->isPluginActivated('Cloud')) {
+            $description .= '<br/><br/>' . Piwik::translate('General_ComplianceCNILCloudDpa', [
+                self::getLinkOpeningTag(self::CLOUD_DPA_URL),
+                '</a>',
+            ]);
+        }
+
+        return $description;
     }
 
     /**
@@ -41,16 +52,21 @@ class CnilPolicy extends CompliancePolicy
      */
     private static function getFaqLinkParameters(): array
     {
-        $openingTag = '<a href="' .
+        $openingTag = self::getLinkOpeningTag(self::CONSENT_EXEMPTION_FAQ_URL);
+
+        return [$openingTag, '</a>', $openingTag, '</a>'];
+    }
+
+    private static function getLinkOpeningTag(string $url): string
+    {
+        return '<a href="' .
             Url::addCampaignParametersToMatomoLink(
-                self::CONSENT_EXEMPTION_FAQ_URL,
+                $url,
                 null,
                 null,
                 'App.PrivacyManager.compliance'
             ) .
             '" target="_blank" rel="noreferrer noopener">';
-
-        return [$openingTag, '</a>', $openingTag, '</a>'];
     }
 
     protected static function generateWarnings(): string
@@ -71,14 +87,7 @@ class CnilPolicy extends CompliancePolicy
                 'title' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutTitle'),
                 'note' =>
                     Piwik::translate('General_ComplianceCNILUnknownSettingOptOutNotes', [
-                        '<a href="' .
-                        Url::addCampaignParametersToMatomoLink(
-                            'https://matomo.org/faq/general/faq_20000/',
-                            null,
-                            null,
-                            'App.PrivacyManager.compliance'
-                        ) .
-                        '" target="_blank" rel="noreferrer noopener">',
+                        self::getLinkOpeningTag('https://matomo.org/faq/general/faq_20000/'),
                         '</a>',
                     ]),
                 'impact' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutImpact'),

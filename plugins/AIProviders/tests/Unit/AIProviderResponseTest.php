@@ -53,6 +53,7 @@ class AIProviderResponseTest extends TestCase
         $this->assertNull($response->getWebSearchRequestCount());
         $this->assertSame([], $response->getWebSearchCitations());
         $this->assertSame([], $response->getWebSearchQueries());
+        $this->assertNull($response->getCost());
     }
 
     /**
@@ -90,6 +91,8 @@ class AIProviderResponseTest extends TestCase
             'text' => 'Matomo is open source.',
             'inputTokens' => 900,
             'outputTokens' => 20,
+            'cacheReadTokens' => null,
+            'cacheWriteTokens' => null,
             'reasoningLevel' => AIRequest::REASONING_NONE,
             'webSearchUsed' => true,
             'webSearchEnabled' => true,
@@ -100,6 +103,7 @@ class AIProviderResponseTest extends TestCase
             ],
             'executionTimeMs' => 5,
             'stopReason' => 'stop',
+            'cost' => 0.004,
         ], $this->groundedResponse()->toArray());
     }
 
@@ -120,7 +124,8 @@ class AIProviderResponseTest extends TestCase
                 [['url' => 'https://matomo.org/a', 'title' => 'Matomo']],
                 2,
                 ['best analytics']
-            )
+            ),
+            0.004
         );
     }
 }

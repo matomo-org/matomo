@@ -399,6 +399,7 @@ class UITestFixture extends SqlDump
         $files = [
             'index.html',
             'opt-out.php',
+            'redirect.php',
             'user-id-visitor-id.php',
             'page-1.html',
             'page-2.html',

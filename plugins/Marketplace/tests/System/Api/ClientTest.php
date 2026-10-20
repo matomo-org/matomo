@@ -172,9 +172,8 @@ class ClientTest extends SystemTestCase
 
     public function testThePluginListIsCachedForLongerThanTheTaskRefillsIt()
     {
-        // the list is browsing data, which the Marketplace itself serves with an eight day max-age.
-        // It has to outlive the interval Tasks::warmCacheEntries() refills it at, or the warming is
-        // moot: the entry would expire before the next refill and a visitor would pay for it.
+        // browsing data, which the Marketplace itself serves with an eight day max-age. It has to
+        // outlive the interval Tasks::warmCacheEntries() has it refilled at or the warming is moot.
         $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
             $client->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_ALL);
         });
@@ -194,7 +193,7 @@ class ClientTest extends SystemTestCase
 
     public function testThePaidPluginListIsCachedForLongerThanTheTaskRefillsIt()
     {
-        // the premium filter is its own cache entry and the task warms it too
+        // the premium filter is its own cache entry and is warmed too
         $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
             $client->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_PAID);
         });
@@ -204,7 +203,7 @@ class ClientTest extends SystemTestCase
 
     public function testAPurchaseTypeNothingWarmsIsNotHeldForTheLongerTimeout()
     {
-        // no task refills the free-only list, so it would go stale without ever being warm
+        // nothing refills the free-only list, so it would go stale without ever being warm
         $ttls = $this->recordCacheTimeouts('v2.0_plugins.json', function (Client $client) {
             $client->searchForPlugins('', '', Sort::DEFAULT_SORT, PurchaseType::TYPE_FREE);
         });

@@ -1,0 +1,58 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// override: CoreAdminHome's `.admin section` puts default spacing on every section of an admin
+// page and outranks a lone class, so the tag is the narrowest selector that reaches it. This file
+// is merged after generalSettings.less, so the equal specificity resolves here.
+section.marketplaceHero {
+  margin-top: 0;
+  line-height: inherit;
+  padding: 55px 24px;
+  border-radius: 8px;
+  text-align: center;
+  // Two corner washes over a near-white base, as the design builds it: a cyan haze bleeding in
+  // from the bottom left and a stronger green one from the top right. Figma draws each as a
+  // 514x768 rectangle blurred by 200px and mostly parked outside the frame, so only its falloff
+  // shows; these are that falloff as radial gradients, which paint far more cheaply than two
+  // blurred layers and - at that blur radius - lose nothing but a tilt no one can see.
+  background:
+    radial-gradient(60% 180% at 5% 130%, rgba(0, 242, 255, 0.15), transparent 70%),
+    radial-gradient(45% 200% at 99% -20%, rgba(50, 255, 193, 0.4), transparent 70%),
+    #f6ffff;
+
+  .inDarkMode({
+    background: @theme-color-background-lowContrast;
+  });
+
+  @media (max-width: 640px) {
+    padding: 40px 24px;
+  }
+}
+
+.marketplaceHero__title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: @theme-color-headline-alternative;
+}
+
+// The second class is only here to outrank CoreAdminHome's `.admin p`, which would otherwise set
+// this paragraph's spacing; `padding-bottom` is reset for the same reason.
+.marketplaceHero .marketplaceHero__subtitle {
+  margin: 12px auto 0;
+  padding-bottom: 0;
+  font-size: 14px;
+  line-height: 18px;
+  color: @theme-color-text;
+}
+
+.marketplaceHero__search {
+  margin: 24px auto 0;
+  max-width: 430px;
+}

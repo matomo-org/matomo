@@ -141,13 +141,28 @@ class ModelTest extends IntegrationTestCase
         $this->assertReturnedIdsMatch(array($this->idSegment1, $this->idSegment2), $segments);
     }
 
+    public function testGetSegmentByDefinitionForSite()
+    {
+        $segment = $this->model->getSegmentByDefinition('country==Hobbiton', 1, 'user2');
+        $this->assertEquals($this->idSegment3, $segment['idsegment']);
+
+        $segment = $this->model->getSegmentByDefinition('country==Hobbiton', 1, null);
+        $this->assertEquals($this->idSegment3, $segment['idsegment']);
+
+        $this->assertNull($this->model->getSegmentByDefinition('country==Hobbiton', 1, 'user1'));
+        $this->assertNull($this->model->getSegmentByDefinition('country==Hobbiton', 2, 'user2'));
+
+        $segment = $this->model->getSegmentByDefinition('country==Genovia', 2, 'user2');
+        $this->assertEquals($this->idSegment2, $segment['idsegment']);
+    }
+
     public function testGetSegmentByDefinitionWithDeletedSegment()
     {
-        $segment = $this->model->getSegmentByDefinition('Country==Genovia');
+        $segment = $this->model->getSegmentByDefinition('Country==Genovia', 1, 'user1');
         $this->assertNotEmpty($segment);
 
         $this->model->deleteSegment($this->idSegment2);
-        $segment = $this->model->getSegmentByDefinition('Country==Genovia');
+        $segment = $this->model->getSegmentByDefinition('Country==Genovia', 1, 'user1');
 
         $this->assertEmpty($segment);
     }

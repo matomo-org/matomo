@@ -98,6 +98,11 @@ class UserIdDisabled implements
         return '';
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 20;
+    }
+
     public static function getPolicyRequirements(): array
     {
         return [

@@ -2448,8 +2448,10 @@ let zenModeShortcutRegistered = false;
 function handleZenMode() {
   let zenMode = !!parseInt(getCookie('zenMode'), 10);
   const iconSwitcher = zenMode_$('.top_controls .zenModeToggle');
+  // a page without the top controls has no toggle to leave zen mode with
+  const isZenModeAvailable = !zenMode_$('.layoutWithSidebarContent--noTopControls').length;
   function updateZenMode() {
-    if (zenMode) {
+    if (zenMode && isZenModeAvailable) {
       zenMode_$('body').addClass('zenMode');
       iconSwitcher.addClass('icon-arrowdown').removeClass('icon-arrowup');
       iconSwitcher.prop('title', translate('CoreHome_ExitZenMode'));
@@ -2459,7 +2461,7 @@ function handleZenMode() {
       iconSwitcher.prop('title', translate('CoreHome_EnterZenMode'));
     }
   }
-  if (!zenModeShortcutRegistered) {
+  if (!zenModeShortcutRegistered && isZenModeAvailable) {
     Matomo_Matomo.helper.registerShortcut('z', translate('CoreHome_ShortcutZenMode'), event => {
       if (event.altKey) {
         return;
@@ -10621,7 +10623,7 @@ class SearchFiltersPersistence_store_SearchFiltersPersistenceStore {
       category: '',
       subcategory: '',
       idSite: '',
-      widgetSearchFilters: {}
+      widgetSearchFilters: new Map()
     }));
     SearchFiltersPersistence_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState)));
     Matomo_Matomo.on('matomoPageChange', () => {
@@ -10632,14 +10634,14 @@ class SearchFiltersPersistence_store_SearchFiltersPersistenceStore {
     });
   }
   resetSearchFilters() {
-    this.privateState.widgetSearchFilters = {};
+    this.privateState.widgetSearchFilters = new Map();
   }
   getSearchFilters(widgetId) {
-    return this.state.value.widgetSearchFilters[widgetId] || {};
+    return this.state.value.widgetSearchFilters.get(widgetId) || {};
   }
   setSearchFilters(widgetId, filters) {
     if (widgetId) {
-      this.privateState.widgetSearchFilters[widgetId] = filters;
+      this.privateState.widgetSearchFilters.set(widgetId, filters);
     }
   }
   updateCurrentRoutingFromUrl() {

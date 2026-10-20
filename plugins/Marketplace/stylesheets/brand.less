@@ -1,0 +1,17 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// The redesigned Marketplace is drawn in the teal brand Matomo 6 made the primary one, and its
+// brand-tinted surfaces and borders only match that colour. 5.x's brand is still green, so the
+// Marketplace page takes the Matomo 6 brand for itself rather than changing it everywhere.
+.marketplace {
+  --theme-color-brand: #00b4be;
+
+  .inDarkMode({
+    --theme-color-brand: #00d7e3;
+  });
+}
