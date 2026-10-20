@@ -239,6 +239,8 @@ class Mysql extends Db
      */
     public function query($query, $parameters = array())
     {
+        $this->failIfTransactionAborted();
+
         try {
             return $this->executeQuery($query, $parameters);
         } catch (Exception $e) {
@@ -257,7 +259,9 @@ class Mysql extends Db
                 return $this->executeQuery($query, $parameters);
             } else {
                 $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
-                throw new DbException("Error query: " . $message, (int) $e->getCode());
+                $error = new DbException("Error query: " . $message, (int) $e->getCode());
+                $this->markTransactionAbortedIfNeeded($error);
+                throw $error;
             }
         }
     }
@@ -377,6 +381,7 @@ class Mysql extends Db
         }
 
         if ($success) {
+            $this->resetTransactionAborted();
             $this->activeTransaction = uniqid();
             return $this->activeTransaction;
         }
@@ -394,9 +399,26 @@ class Mysql extends Db
             return;
         }
 
+        if ($this->isTransactionAborted()) {
+            try {
+                $this->failIfTransactionAborted();
+            } catch (DbException $aborted) {
+                // the server already rolled back, this ends the transaction on our side too
+                $this->rollBack($xid);
+                throw $aborted;
+            }
+        }
+
         $this->activeTransaction = null;
 
-        if (!$this->connection->commit()) {
+        try {
+            $success = $this->connection->commit();
+        } catch (PDOException $e) {
+            // keep the server's message, it holds the error number, e.g. when a cluster rejects the transaction
+            throw new DbException("Commit failed: " . $e->getMessage(), (int) $e->getCode(), $e);
+        }
+
+        if (!$success) {
             throw new DbException("Commit failed");
         }
     }
@@ -412,6 +434,12 @@ class Mysql extends Db
         }
 
         $this->activeTransaction = null;
+        $this->resetTransactionAborted();
+
+        if (!$this->connection->inTransaction()) {
+            // the server already rolled back, e.g. after a deadlock, and PDO would throw "There is no active transaction"
+            return;
+        }
 
         if (!$this->connection->rollBack()) {
             throw new DbException("Rollback failed");

@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Db\Adapter;
 use Piwik\Db\TransactionalDatabaseInterface;
 use Piwik\Db\TransactionalDatabaseStaticTrait;
+use Piwik\Db\TransactionErrors;
 use Piwik\Piwik;
 use Piwik\Timer;
 use Piwik\Tracker\Db\DbException;
@@ -34,6 +35,18 @@ abstract class Db implements TransactionalDatabaseInterface
     protected $queriesProfiling = array();
 
     protected $connection = null;
+
+    /**
+     * Starts with the deadlock message and contains " 1213 ", so existing deadlock checks recognise it whether
+     * they look at the error number or the message.
+     */
+    public const TRANSACTION_ABORTED_MESSAGE = 'Deadlock found when trying to get lock; the database already rolled'
+        . ' this transaction back (MySQL error 1213 - the whole batch has to be retried)';
+
+    /**
+     * @var Exception|null the error that made the server roll back the open transaction
+     */
+    private $transactionAbortedBy = null;
 
     /**
      * Enables the SQL profiling.
@@ -240,6 +253,46 @@ abstract class Db implements TransactionalDatabaseInterface
     public function isInTransaction(): bool
     {
         return false;
+    }
+
+    /**
+     * Whether the server has already rolled back the open transaction, e.g. after a deadlock. Until the
+     * transaction is rolled back here too, every query and the commit fail, so nothing after the error is stored.
+     */
+    public function isTransactionAborted(): bool
+    {
+        return $this->transactionAbortedBy !== null;
+    }
+
+    /**
+     * Call with every exception a query throws.
+     */
+    protected function markTransactionAbortedIfNeeded(Exception $e): void
+    {
+        if ($this->isInTransaction() && TransactionErrors::endsTransaction($this, $e)) {
+            $this->transactionAbortedBy = $e;
+        }
+    }
+
+    /**
+     * Call before running any query.
+     *
+     * @throws DbException if the server has already rolled back the open transaction
+     */
+    protected function failIfTransactionAborted(): void
+    {
+        if ($this->transactionAbortedBy !== null) {
+            throw new DbException(
+                self::TRANSACTION_ABORTED_MESSAGE,
+                TransactionErrors::ERROR_CODE_DEADLOCK,
+                $this->transactionAbortedBy
+            );
+        }
+    }
+
+    protected function resetTransactionAborted(): void
+    {
+        $this->transactionAbortedBy = null;
     }
 
     /**

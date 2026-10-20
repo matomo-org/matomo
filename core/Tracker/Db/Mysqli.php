@@ -232,7 +232,7 @@ class Mysqli extends Db
             }
             return $rows;
         } catch (Exception $e) {
-            throw new DbException("Error query: " . $e->getMessage());
+            throw new DbException("Error query: " . $e->getMessage(), (int) $e->getCode());
         }
     }
 
@@ -268,7 +268,7 @@ class Mysqli extends Db
             }
             return $row;
         } catch (Exception $e) {
-            throw new DbException("Error query: " . $e->getMessage());
+            throw new DbException("Error query: " . $e->getMessage(), (int) $e->getCode());
         }
     }
 
@@ -316,11 +316,25 @@ class Mysqli extends Db
 
     private function executeQuery($sql, $bind)
     {
+        $this->failIfTransactionAborted();
 
+        try {
+            return $this->prepareAndExecute($sql, $bind);
+        } catch (Exception $e) {
+            $this->markTransactionAbortedIfNeeded($e);
+            throw $e;
+        }
+    }
+
+    private function prepareAndExecute($sql, $bind)
+    {
         $stmt = mysqli_prepare($this->connection, $sql);
 
         if (!$stmt) {
-            throw new DbException('preparing query failed: ' . mysqli_error($this->connection) . ' : ' . $sql);
+            throw new DbException(
+                'preparing query failed: ' . mysqli_error($this->connection) . ' : ' . $sql,
+                mysqli_errno($this->connection)
+            );
         }
 
         if (!is_array($bind)) {
@@ -344,7 +358,7 @@ class Mysqli extends Db
         }
 
         if (!empty($stmt->error)) {
-            throw new DbException('executeQuery() failed: ' . mysqli_error($this->connection) . ' : ' . $sql);
+            throw new DbException('executeQuery() failed: ' . mysqli_error($this->connection) . ' : ' . $sql, $stmt->errno);
         }
 
         $metaResults = $stmt->result_metadata();
@@ -431,6 +445,7 @@ class Mysqli extends Db
         }
 
         if ($this->connection->autocommit(false)) {
+            $this->resetTransactionAborted();
             $this->activeTransaction = uniqid();
             return $this->activeTransaction;
         }
@@ -448,10 +463,22 @@ class Mysqli extends Db
             return;
         }
 
+        if ($this->isTransactionAborted()) {
+            try {
+                $this->failIfTransactionAborted();
+            } catch (DbException $aborted) {
+                // the server already rolled back, this ends the transaction on our side too
+                $this->rollBack($xid);
+                throw $aborted;
+            }
+        }
+
         $this->activeTransaction = null;
 
         if (!$this->connection->commit()) {
-            throw new DbException("Commit failed");
+            $error = new DbException("Commit failed: " . $this->connection->error, $this->connection->errno);
+            $this->connection->autocommit(true);
+            throw $error;
         }
 
         $this->connection->autocommit(true);
@@ -468,9 +495,10 @@ class Mysqli extends Db
         }
 
         $this->activeTransaction = null;
+        $this->resetTransactionAborted();
 
         if (!$this->connection->rollback()) {
-            throw new DbException("Rollback failed");
+            throw new DbException("Rollback failed: " . $this->connection->error, $this->connection->errno);
         }
 
         $this->connection->autocommit(true);
