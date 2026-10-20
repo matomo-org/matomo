@@ -642,7 +642,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             && !empty($resetToken)
             && !empty($login)
             && !empty($passwordHash)
-            && empty($errorMessage)
         ) {
             Nonce::checkNonce(self::NONCE_CONFIRMRESETPASSWORD, $_POST['nonce']);
             if (
