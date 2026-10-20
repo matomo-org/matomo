@@ -13,6 +13,7 @@ use Exception;
 use PDO;
 use PDOException;
 use PDOStatement;
+use Piwik\Common;
 use Piwik\Tracker\Db;
 use Piwik\Tracker\Db\DbException;
 
@@ -404,7 +405,12 @@ class Mysql extends Db
                 $this->failIfTransactionAborted();
             } catch (DbException $aborted) {
                 // the server already rolled back, this ends the transaction on our side too
-                $this->rollBack($xid);
+                try {
+                    $this->rollBack($xid);
+                } catch (Exception $rollBackException) {
+                    // report the abort, so callers know to retry the whole batch
+                    Common::printDebug('Rollback after the transaction was aborted failed: ' . $rollBackException->getMessage());
+                }
                 throw $aborted;
             }
         }

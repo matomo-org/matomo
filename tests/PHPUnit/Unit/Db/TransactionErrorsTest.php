@@ -50,6 +50,22 @@ class TransactionErrorsTest extends TestCase
         $this->assertFalse(TransactionErrors::endsTransaction($db, new \Exception('Error query: Duplicate entry')));
     }
 
+    public function testDecidesByTheErrorNumberOnlyWhenAskedTo(): void
+    {
+        // the adapters append the query's parameters, which can hold any text
+        $e = new \Exception("Error query: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '5' for key 'PRIMARY'"
+            . " In query: INSERT INTO log_media (media_title) VALUES (?) Parameters: array ( 0 => 'Deadlock found when trying to get lock', )");
+        $db = $this->getPdoStyleDb();
+
+        $this->assertFalse(TransactionErrors::endsTransactionByErrorNumber($db, $e));
+        $this->assertTrue(TransactionErrors::endsTransactionByErrorNumber($db, new \Exception(
+            'SQLSTATE[40001]: Serialization failure: 1213 Deadlock: wsrep aborted transaction'
+        )));
+        $this->assertFalse(TransactionErrors::endsTransactionByErrorNumber($db, new \Exception(
+            'Mysqli statement execute error : Deadlock found when trying to get lock; try restarting transaction'
+        )));
+    }
+
     private function getPdoStyleDb(): object
     {
         return new class {

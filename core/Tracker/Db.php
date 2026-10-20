@@ -265,11 +265,12 @@ abstract class Db implements TransactionalDatabaseInterface
     }
 
     /**
-     * Call with every exception a query throws.
+     * Call with every exception a query throws. It must carry the error number: the message is not checked, as it
+     * can hold the query's parameters.
      */
     protected function markTransactionAbortedIfNeeded(Exception $e): void
     {
-        if ($this->isInTransaction() && TransactionErrors::endsTransaction($this, $e)) {
+        if ($this->isInTransaction() && TransactionErrors::endsTransactionByErrorNumber($this, $e)) {
             $this->transactionAbortedBy = $e;
         }
     }

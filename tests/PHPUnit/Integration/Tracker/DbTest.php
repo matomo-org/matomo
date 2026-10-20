@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Db\TransactionErrors;
 use Piwik\Tests\Framework\DbErrorRaiser;
 use Piwik\Tests\Framework\Fixture;
@@ -37,6 +38,8 @@ class DbTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
+        // ends any transaction a failed test left open, which would block dropping the procedure
+        Tracker::disconnectCachedDbConnection();
         DbErrorRaiser::uninstall();
         parent::tearDown();
     }
@@ -225,6 +228,81 @@ class DbTest extends IntegrationTestCase
             "SELECT option_value FROM `{$this->tableName}` WHERE option_name = 'deadlock_a'"
         ));
         $this->assertNewTransactionWorks();
+    }
+
+    public function testErrorWhoseParametersMentionADeadlockKeepsTheTransactionUsable()
+    {
+        $db = Tracker::getDatabase();
+        $this->insertOption($db, 'Deadlock found when trying to get lock');
+
+        $xid = $db->beginTransaction();
+        $duplicate = $this->catchException(function () use ($db) {
+            $this->insertOption($db, 'Deadlock found when trying to get lock');
+        });
+        $this->insertOption($db, 'after_error');
+        $db->commit($xid);
+
+        $this->assertTrue($db->isErrNo($duplicate, 1062));
+        $this->assertFalse($db->isTransactionAborted());
+        $this->assertOptionsStored(['after_error']);
+    }
+
+    public function testCommitReportsTheAbortEvenIfTheRollbackFails()
+    {
+        $db = Tracker\Db::connectPiwikTrackerDb();
+        $connectionId = $db->fetchOne('SELECT CONNECTION_ID()');
+        $xid = $db->beginTransaction();
+        $this->raiseError($db, 1213, 'Deadlock found when trying to get lock; try restarting transaction');
+
+        // the rollback inside commit() fails on a closed connection
+        Db::exec('KILL ' . (int) $connectionId);
+
+        $e = $this->catchException(function () use ($db, $xid) {
+            $db->commit($xid);
+        });
+
+        $this->assertSame(Tracker\Db::TRANSACTION_ABORTED_MESSAGE, $e->getMessage());
+        $this->assertSame(1213, $e->getCode());
+    }
+
+    public function testRealSnapshotIsolationConflictStopsEveryLaterQuery()
+    {
+        $db = Tracker\Db::connectPiwikTrackerDb();
+        try {
+            $db->query('SET SESSION innodb_snapshot_isolation = ON');
+        } catch (\Exception $e) {
+            $this->markTestSkipped('Needs MariaDB 10.6.18 or later, which has innodb_snapshot_isolation');
+        }
+
+        $this->insertOption($db, 'snapshot_row');
+        $update = "UPDATE `{$this->tableName}` SET option_value = ? WHERE option_name = 'snapshot_row'";
+
+        $xid = $db->beginTransaction();
+        // fixes the transaction's snapshot
+        $db->fetchOne("SELECT option_value FROM `{$this->tableName}` WHERE option_name = 'snapshot_row'");
+
+        $other = $this->connectWithMysqli();
+        $other->query("UPDATE `{$this->tableName}` SET option_value = 'other' WHERE option_name = 'snapshot_row'");
+        $other->close();
+
+        $conflict = $this->catchException(function () use ($db, $update) {
+            $db->query($update, ['tracker']);
+        });
+
+        $this->assertTrue($db->isErrNo($conflict, 1020));
+        $this->assertTrue($db->isTransactionAborted());
+
+        $this->catchException(function () use ($db) {
+            $this->insertOption($db, 'after_error');
+        });
+        $this->catchException(function () use ($db, $xid) {
+            $db->commit($xid);
+        });
+
+        $this->assertSame('other', Tracker::getDatabase()->fetchOne(
+            "SELECT option_value FROM `{$this->tableName}` WHERE option_name = 'snapshot_row'"
+        ));
+        $this->assertOptionsStored([]);
     }
 
     public function testRowCountWhenUpdatingReturnsAllMatchedRowsNotOnlyUpdatedRows()

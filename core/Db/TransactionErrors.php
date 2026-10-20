@@ -77,6 +77,17 @@ final class TransactionErrors
     }
 
     /**
+     * Like endsTransaction(), but decides by the error number only. For exceptions known to carry the number, whose
+     * message may also hold query parameters that must not decide anything.
+     *
+     * @param \Piwik\Tracker\Db|AdapterInterface $db the connection the error happened on
+     */
+    public static function endsTransactionByErrorNumber($db, \Exception $e): bool
+    {
+        return self::matchesAny($db, $e, array_fill_keys(array_keys(self::ENDS_TRANSACTION), null));
+    }
+
+    /**
      * @param \Piwik\Tracker\Db|AdapterInterface $db the connection the error happened on
      */
     public static function isStatementOnly($db, \Exception $e): bool
