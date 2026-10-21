@@ -806,7 +806,9 @@ export default defineComponent({
     },
     scrollToRecommendations() {
       const section = this.$refs.recommendGoals as { $el?: HTMLElement }|undefined;
-      section?.$el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (section && section.$el) {
+        section.$el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     },
     dismissRecommendCallout() {
       this.recommendCalloutDismissed = true;

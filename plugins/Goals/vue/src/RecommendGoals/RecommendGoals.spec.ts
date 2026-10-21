@@ -14,7 +14,7 @@ const mockMatomo = { idSite: 1, hasSuperUserAccess: false };
 const mockShowNotification = jest.fn();
 
 jest.mock('CoreHome', () => ({
-  Matomo: mockMatomo,
+  get Matomo() { return mockMatomo; },
   MatomoUrl: {
     urlParsed: { value: { idSite: '1' } },
     stringify: (params: Record<string, string>) => new URLSearchParams(params).toString(),
@@ -25,7 +25,10 @@ jest.mock('CoreHome', () => ({
   ActivityIndicator: { template: '<div/>' },
   Alert: { template: '<div><slot/></div>' },
   Progressbar: { template: '<div/>' },
-  NotificationsStore: { show: mockShowNotification, scrollToNotification: jest.fn() },
+  NotificationsStore: {
+    show: (...args: unknown[]) => mockShowNotification(...args),
+    scrollToNotification: () => undefined,
+  },
 }), { virtual: true });
 
 // eslint-disable-next-line import/first
