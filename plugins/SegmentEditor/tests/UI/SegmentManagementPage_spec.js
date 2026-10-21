@@ -12,6 +12,7 @@ describe("SegmentManagementPageTest", function () {
 
   const defaultViewport = { width: 1350, height: 768 };
   const mobileViewport = { width: 480, height: 900 };
+  const loadableRowsSelector = '[data-page="manage-segments"] tr[data-is-realtime="0"]';
   var generalParams = 'idSite=1&period=range&date=2010-03-06,2010-03-08';
   var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=CoreHome_Segments';
   const globalSegment = {
@@ -48,7 +49,7 @@ describe("SegmentManagementPageTest", function () {
 
   it("should load correctly", async function() {
     await page.goto(url);
-    await page.waitForNetworkIdle();
+    await waitForAllSegmentRowsLoaded();
 
     expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');
   });
@@ -60,6 +61,9 @@ describe("SegmentManagementPageTest", function () {
       await page.goto(url);
       await page.waitForNetworkIdle();
       await page.waitForSelector('.pageWrap');
+      // Rows only load once close to the screen, so bring the last ones in before the screenshot
+      await scrollToLoadableRow('last');
+      await waitForAllSegmentRowsLoaded();
 
       expect(await page.screenshotSelector('.pageWrap'))
         .to.matchImage('initial_mobile_table_contained');
@@ -196,6 +200,113 @@ describe("SegmentManagementPageTest", function () {
     expect(tableData.preProcessed.actions).to.match(/[0-9]/);
     expect(tableData.realtime.visits).to.equal('-');
     expect(tableData.realtime.actions).to.equal('-');
+  });
+
+  it("should load the rows data and sparklines one request at a time", async function() {
+    // Timings are read from the page itself: the order puppeteer emits its request events in is
+    // not guaranteed, and requests left by the previous page do not belong to this document
+    const { identifier } = await page.webpage.evaluateOnNewDocument(() => {
+      performance.setResourceTimingBufferSize(1000);
+    });
+
+    let tableRequests;
+    let sparklineSources;
+    try {
+      await openPage();
+      await waitForAllSegmentRowsLoaded();
+      tableRequests = await page.evaluate(() => {
+        return performance.getEntriesByType('resource')
+          .filter((entry) => /SegmentEditor\.getSegmentData|action=getEvolutionGraph/.test(entry.name))
+          .map((entry) => ({ startTime: entry.startTime, responseEnd: entry.responseEnd }))
+          .sort((a, b) => a.startTime - b.startTime);
+      });
+      sparklineSources = await page.evaluate(() => {
+        return $('[data-page="manage-segments"] tr[data-is-realtime="0"] .entityTable_Sparkline img')
+          .map((index, img) => img.getAttribute('src') || '')
+          .get();
+      });
+    } finally {
+      await page.webpage.removeScriptToEvaluateOnNewDocument(identifier);
+    }
+
+    expect(sparklineSources.length).to.be.above(1);
+    expect(tableRequests.length).to.equal(sparklineSources.length * 2);
+    tableRequests.slice(1).forEach((request, index) => {
+      expect(request.startTime).to.be.at.least(tableRequests[index].responseEnd);
+    });
+    sparklineSources.forEach((src) => {
+      expect(src).to.contain('action=getEvolutionGraph');
+      expect(src).to.contain('colors=');
+    });
+  });
+
+  it("should reload the sparklines one request at a time when the theme changes", async function() {
+    const { identifier } = await page.webpage.evaluateOnNewDocument(() => {
+      performance.setResourceTimingBufferSize(1000);
+    });
+
+    let themeChangedAt;
+    let tableRequests;
+    try {
+      await openPage();
+      await waitForAllSegmentRowsLoaded();
+      themeChangedAt = await page.evaluate(() => {
+        const now = performance.now();
+        window.dispatchEvent(new Event('themeModeChange'));
+        return now;
+      });
+      await waitForAllSegmentRowsLoaded();
+      tableRequests = await page.evaluate((since) => {
+        return performance.getEntriesByType('resource')
+          .filter((entry) => entry.startTime >= since)
+          .filter((entry) => /SegmentEditor\.getSegmentData|action=getEvolutionGraph/.test(entry.name))
+          .map((entry) => ({ name: entry.name, startTime: entry.startTime, responseEnd: entry.responseEnd }))
+          .sort((a, b) => a.startTime - b.startTime);
+      }, themeChangedAt);
+    } finally {
+      await page.webpage.removeScriptToEvaluateOnNewDocument(identifier);
+    }
+
+    // Each row loads again, and never more than one request is in flight
+    const loadableRowCount = await page.evaluate((selector) => $(selector).length, loadableRowsSelector);
+    expect(tableRequests.filter((request) => /getSegmentData/.test(request.name)).length).to.equal(loadableRowCount);
+    tableRequests.slice(1).forEach((request, index) => {
+      expect(request.startTime).to.be.at.least(tableRequests[index].responseEnd);
+    });
+  });
+
+  it("should only load the rows close to the screen", async function() {
+    // 400px + the 200px loading margin reaches the first rows of the table, not the last one
+    await page.webpage.setViewport({ width: 1350, height: 400 });
+
+    try {
+      await openPage();
+      await waitForLoadableRowLoaded('first');
+      await page.waitForNetworkIdle();
+
+      expect(await isLoadableRowLoaded('last')).to.equal(false);
+
+      await scrollToLoadableRow('last');
+      await waitForLoadableRowLoaded('last');
+    } finally {
+      await page.webpage.setViewport(defaultViewport);
+    }
+  });
+
+  it("should keep loading the next rows when a row data request fails", async function() {
+    const cdpSession = await page.webpage.createCDPSession();
+    await cdpSession.send('Network.enable');
+    await cdpSession.send('Network.setBlockedURLs', { urls: ['*SegmentEditor.getSegmentData*'] });
+
+    try {
+      await openPage();
+      await waitForAllSegmentRowsLoaded();
+
+      expect(await getSegmentRowNumericData(siteSegment.name)).to.deep.equal({ visits: '-', actions: '-' });
+    } finally {
+      await cdpSession.send('Network.setBlockedURLs', { urls: [] });
+      await cdpSession.detach();
+    }
   });
 
   it("should mark realtime and pre-processed rows via data-is-realtime", async function() {
@@ -596,6 +707,34 @@ describe("SegmentManagementPageTest", function () {
         actions: ($numericCells.eq(1).text() || '').trim(),
       };
     }, segmentName);
+  }
+
+  // position: 'first' or 'last' of the rows that load data, in displayed order
+  function isLoadableRowLoaded(position) {
+    return page.evaluate((selector, rowPosition) => {
+      return !!$(selector)[rowPosition]().find('.entityTable_Sparkline img').attr('src');
+    }, loadableRowsSelector, position);
+  }
+
+  function waitForLoadableRowLoaded(position) {
+    return page.waitForFunction((selector, rowPosition) => {
+      return !!$(selector)[rowPosition]().find('.entityTable_Sparkline img').attr('src');
+    }, {}, loadableRowsSelector, position);
+  }
+
+  function scrollToLoadableRow(position) {
+    return page.evaluate((selector, rowPosition) => {
+      $(selector)[rowPosition]().get(0).scrollIntoView();
+    }, loadableRowsSelector, position);
+  }
+
+  async function waitForAllSegmentRowsLoaded() {
+    await page.waitForFunction(() => {
+      return $('[data-page="manage-segments"] tr[data-is-realtime="0"] .entityTable_Sparkline img')
+        .toArray()
+        .every((img) => !!img.getAttribute('src'));
+    });
+    await page.waitForNetworkIdle();
   }
 
   async function openPage() {

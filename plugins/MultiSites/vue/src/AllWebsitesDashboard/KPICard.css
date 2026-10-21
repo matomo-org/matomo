@@ -101,17 +101,16 @@
 }
 
 .kpiCard__trend--positive {
-  color: var(--theme-color-success);
+  color: var(--theme-color-positive);
 }
 
 .kpiCard__trend--negative {
-  /* same tokens as the CoreVisualizations EvolutionBadge */
-  color: var(--theme-color-base-series);
+  color: var(--theme-color-negative);
 }
 
 .kpiCard__trend--neutral .kpiCard__trendIcon {
   /* a fainter dot than the neutral text beside it */
-  color: color-mix(in srgb, var(--theme-color-text-lighter) 35%, transparent);
+  color: color-mix(in srgb, var(--theme-color-neutral) 35%, transparent);
 }
 
 .kpiCard__trendIcon {

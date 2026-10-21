@@ -35,11 +35,20 @@ use Piwik\Tracker\Visit\VisitProperties;
  *    path still credits the missing action, overcounting that interval once. Only the INSERT
  *    does this; a failed close leaves the row as it was, so the legacy value covers the rest
  *    unless an earlier hit already grew the row, which then suppresses it.
+ *  - Concurrent batches for one visit: inside a bulk or queued-tracking transaction, the rows
+ *    to update are found with a plain read, which sees the transaction's REPEATABLE READ
+ *    snapshot. A pageview another batch committed for the same visit after that snapshot is
+ *    missed, so the older row is closed across it and overcounted. Likewise a hit for a pv_id
+ *    whose row another batch committed after that snapshot updates nothing, and only a later
+ *    hit for that pv_id catches up. QueuedTracking routes a
+ *    visitor to a single queue, so this mostly takes concurrent log imports, and core already
+ *    reads log_visit the same way when it recognises the visit.
  */
 class PageViewTimeWriter
 {
     public const TABLE = 'log_page_view_time';
     public const CONFIG_KEY = 'record_accurate_page_view_time';
+    public const PARAM_PV_TIME = 'pv_time';
     public const DEFAULT_VISIT_STANDARD_LENGTH = 1800;
 
     /**
@@ -102,6 +111,7 @@ class PageViewTimeWriter
 
             // Insert before closing: if the close fails, this row still exists at 0 and the
             // next hit closes it instead of reaching past it, which would count the gap twice.
+            // A new visit's first hit has no earlier row, so it skips the close and its lookup.
             $this->insertPageView(
                 $idSite,
                 $idVisit,
@@ -112,7 +122,14 @@ class PageViewTimeWriter
                 $serverTimeSql
             );
 
-            $this->closePreviousPageView($idVisit, $idLinkVa, $serverTimeSql, $cap);
+            if (!$request->getMetadata('CoreHome', 'isNewVisit')) {
+                $this->closePreviousPageView($idVisit, $idLinkVa, $serverTimeSql, $cap);
+            }
+            return;
+        }
+
+        if ($request->getMetadata('CoreHome', 'isNewVisit')) {
+            // A new visit's first hit has no earlier row to close or update.
             return;
         }
 
@@ -131,7 +148,54 @@ class PageViewTimeWriter
         }
 
         $this->lockVisitInTransaction($idVisit, $request);
-        $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap);
+        $clientTimeOnPage = $this->extractClientTimeOnPage($request, $cap);
+        $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap, $clientTimeOnPage);
+    }
+
+    /**
+     * Read the optional client-provided time-on-page value from `pv_time` (seconds).
+     *
+     * When the tracker JS counts focused time itself (e.g. a custom in-page counter) it can send
+     * the number directly with each follow-up tracker request (heartbeat / event / etc. — hits
+     * that carry the same `pv_id` as the pageview). {@see updateTimeSpent()} then uses it for
+     * that hit in place of the server-side `now − server_time` calculation, as long as it is not
+     * larger: a client value can lower a hit's measurement but never exceed the time the server
+     * saw pass since the pageview. Multiple hits with `pv_time` settle via the same `GREATEST()`
+     * rule everything else uses, so a later hit can only grow the recorded time.
+     *
+     * On a brand-new pageview request the value is ignored — pageview rows are inserted at
+     * `time_spent = 0` and only later same-tab hits update them.
+     *
+     * Because everything settles through `GREATEST()`, a client value can only ever *raise*
+     * `time_spent` — it is not an end-to-end override. When the visitor navigates on,
+     * {@see closePreviousPageView()} applies the server-side wall-clock difference to the row,
+     * which wins whenever it exceeds the client's (necessarily smaller) focused-only count. The
+     * same happens on any later same-`pv_id` hit sent without `pv_time`. A smaller focused-only
+     * value therefore only survives on rows the server never re-measures: the last page of a
+     * visit, single-page visits, and abandoned tabs — exactly the rows where the server-side
+     * calculation was historically least accurate.
+     *
+     * Returns null when the param is missing OR non-positive. Zero is treated as "no client
+     * override" (not "the user spent 0s here"): a stored `time_spent = 0` is already reserved
+     * by the archiver — see ActionReports::archiveDayActionsTime() — as the "not measured yet"
+     * sentinel that triggers the last-page fallback to `visit_last_action_time − server_time`.
+     * Trusting a client `0` would create a visitor-log vs Actions-report divergence on the last
+     * page of a visit. Values above `Tracker.visit_standard_length` are clamped here rather than
+     * nulled, and {@see updateTimeSpent()} further caps the value at the time elapsed since the
+     * pageview.
+     */
+    private function extractClientTimeOnPage(Request $request, int $cap): ?int
+    {
+        // `pv_time` is registered as an int with default -1 in Request::getParam(), so the
+        // value we get back is guaranteed to be int. See `core/Tracker/Request.php`.
+        $seconds = $request->getParam(self::PARAM_PV_TIME);
+        if ($seconds <= 0) {
+            return null;
+        }
+        if ($seconds > $cap) {
+            $seconds = $cap;
+        }
+        return $seconds;
     }
 
     /**
@@ -169,34 +233,40 @@ class PageViewTimeWriter
         // The row this hit just inserted is excluded by idlink_va and by the strict
         // server_time bound. GREATEST() lets out-of-order heartbeats only grow time_spent.
         //
-        // The derived table works around MySQL not allowing an UPDATE to reference its target
-        // in a subquery, and avoids `UPDATE ... ORDER BY ... LIMIT 1`, which is binlog-unsafe.
-        //
-        // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
-        // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
-        // the cap would always win. It is a validated int from Tracker config.
-        //
-        // FOR UPDATE makes the inner read take the row lock the UPDATE needs. Without it, two
-        // concurrent hits for one visit both take a shared lock on the same row and then
-        // deadlock trying to upgrade it.
+        // A plain read, then an update by primary key. A locking read takes next-key locks that
+        // cover the index gap just before this visit's first row, and the neighbouring visit's
+        // last entry when the visit has no row yet, e.g. on its first pageview. Another
+        // queued-tracking worker may be writing that neighbouring visit, which deadlocks both
+        // workers. In a transaction, the visit's log_visit lock still orders hits for the same
+        // visit, but the read does not see rows committed after the transaction's snapshot (see
+        // the class docblock).
         //
         // Five indexes start with idvisit, and on a short visit the optimiser prefers one of
         // the others and then sorts. Pinning the index that already provides the order keeps
         // this a LIMIT 1 walk, which no sort can beat.
-        $sql = "UPDATE `$table`
-                   SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
-                 WHERE idpageviewtime = (
-                        SELECT idpageviewtime FROM (
-                            SELECT idpageviewtime FROM `$table` FORCE INDEX (index_idvisit_server_time)
-                             WHERE idvisit = ?
-                               AND idlink_va <> ?
-                               AND server_time < ?
-                          ORDER BY server_time DESC, idpageviewtime DESC
-                             LIMIT 1
-                               FOR UPDATE
-                        ) t
-                       )";
-        $db->query($sql, [$serverTimeSql, $idVisit, $newIdLinkVa, $serverTimeSql]);
+        $idPageViewTime = $db->fetchOne(
+            "SELECT idpageviewtime FROM `$table` FORCE INDEX (index_idvisit_server_time)
+              WHERE idvisit = ?
+                AND idlink_va <> ?
+                AND server_time < ?
+           ORDER BY server_time DESC, idpageviewtime DESC
+              LIMIT 1",
+            [$idVisit, $newIdLinkVa, $serverTimeSql]
+        );
+
+        if (empty($idPageViewTime)) {
+            return;
+        }
+
+        // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
+        // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
+        // the cap would always win. It is a validated int from Tracker config.
+        $db->query(
+            "UPDATE `$table`
+                SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
+              WHERE idpageviewtime = ?",
+            [$serverTimeSql, $idPageViewTime]
+        );
     }
 
     private function insertPageView(
@@ -234,25 +304,50 @@ class PageViewTimeWriter
         int $idVisit,
         string $pvId,
         string $serverTimeSql,
-        int $cap
+        int $cap,
+        ?int $clientTimeOnPage
     ): void {
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
 
+        // When the client supplied its own time-on-page measurement, e.g. a tracker that counts
+        // focused-only time, it can lower this hit's measurement but never exceed the time the
+        // server saw pass since the pageview. The archiver treats a row as covering
+        // server_time through server_time + time_spent, so a larger client value would credit
+        // time that never passed and hide legacy credits that follow it. Both settle through the
+        // same LEAST()/GREATEST() rule, so out-of-order or smaller values can't shrink an earlier
+        // larger observation.
+        //
+        // The client value is wrapped in CAST(? AS UNSIGNED) because emulated prepares send
+        // bound ints as strings, which would make LEAST()/GREATEST() compare lexically.
+        if ($clientTimeOnPage !== null) {
+            $newTimeSpentExpr = 'LEAST(CAST(? AS UNSIGNED), TIMESTAMPDIFF(SECOND, server_time, ?))';
+            $newTimeSpentBinds = [$clientTimeOnPage, $serverTimeSql];
+        } else {
+            $newTimeSpentExpr = 'TIMESTAMPDIFF(SECOND, server_time, ?)';
+            $newTimeSpentBinds = [$serverTimeSql];
+        }
+
         // A page-view and its site-search hit share one pv_id, so (idvisit, pv_id) can match
-        // several rows; the most recent is the active one. Derived table, FOR UPDATE and inlined
-        // $cap for the same reasons as closePreviousPageView().
-        $sql = "UPDATE `$table`
-                   SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
-                 WHERE idpageviewtime = (
-                        SELECT idpageviewtime FROM (
-                            SELECT idpageviewtime FROM `$table`
-                             WHERE idvisit = ? AND idpageview = ?
-                          ORDER BY server_time DESC, idpageviewtime DESC
-                             LIMIT 1
-                               FOR UPDATE
-                        ) t
-                       )";
-        $db->query($sql, [$serverTimeSql, $idVisit, $pvId]);
+        // several rows; the most recent is the active one. Plain read and inlined $cap for the same
+        // reasons as closePreviousPageView().
+        $idPageViewTime = $db->fetchOne(
+            "SELECT idpageviewtime FROM `$table`
+              WHERE idvisit = ? AND idpageview = ?
+           ORDER BY server_time DESC, idpageviewtime DESC
+              LIMIT 1",
+            [$idVisit, $pvId]
+        );
+
+        if (empty($idPageViewTime)) {
+            return;
+        }
+
+        $db->query(
+            "UPDATE `$table`
+                SET time_spent = LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))
+              WHERE idpageviewtime = ?",
+            array_merge($newTimeSpentBinds, [$idPageViewTime])
+        );
     }
 }

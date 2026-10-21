@@ -327,6 +327,14 @@ div.widgetpreview-preview {
     margin-top: 18px;
     display: inline-block;
   }
+
+  // The theme only colours selects Materialize may replace. This one keeps `browser-default`,
+  // as Materialize would freeze it on its "Loading data" option on the standalone dashboard.
+  select {
+    color: @theme-color-text;
+    background: @theme-color-background-contrast;
+    border: 1px solid @theme-color-border-light;
+  }
 }
 
 
