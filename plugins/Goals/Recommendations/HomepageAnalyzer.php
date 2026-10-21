@@ -608,7 +608,12 @@ class HomepageAnalyzer
             }
 
             $response = $this->fetchHomepage($url, $timeout);
-            $redirectedTo = $this->getRedirectTarget($url, is_array($response) ? (string) ($response['effectiveUrl'] ?? '') : '', $host);
+            // a redirect to an error page is no page to recommend
+            $status = is_array($response) ? ($response['status'] ?? null) : null;
+            if (!is_int($status) || $status < 200 || $status >= 300) {
+                continue;
+            }
+            $redirectedTo = $this->getRedirectTarget($url, (string) ($response['effectiveUrl'] ?? ''), $host);
             if ($redirectedTo !== null) {
                 $redirects[$this->pathKey($url)] = $redirectedTo;
             }
