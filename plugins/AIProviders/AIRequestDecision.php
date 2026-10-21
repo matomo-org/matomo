@@ -18,7 +18,8 @@ namespace Piwik\Plugins\AIProviders;
  * Starts as allowed, so nothing changes when no plugin listens. Listeners can
  * only {@link deny()}: there is no way to allow again, so one listener cannot
  * overrule another's denial whatever order they run in. The first denial
- * wins and later ones are ignored.
+ * wins and later ones are ignored. Listeners that allow can {@link reportUsage()}
+ * for display.
  */
 final class AIRequestDecision
 {
@@ -75,6 +76,32 @@ final class AIRequestDecision
         $this->allowed = false;
         $this->reason = $reason;
         $this->message = $message;
+        $this->used = $used;
+        $this->limit = $limit;
+        $this->remaining = $remaining;
+    }
+
+    /**
+     * Reports usage figures for an allowed request or feature, so callers can show them without a
+     * denial, for example "20 of 25 prompts used". Ignored once denied, which keeps its own figures.
+     *
+     * When several listeners report, the one with the least remaining wins. A listener reporting no
+     * remaining (unlimited) never replaces one that did.
+     *
+     * @param int|null $used      Units used so far, for display only.
+     * @param int|null $limit     Allowance, for display only. Its meaning is up to the listener.
+     * @param int|null $remaining Units left, for display only.
+     */
+    public function reportUsage(?int $used, ?int $limit, ?int $remaining): void
+    {
+        if (!$this->allowed) {
+            return;
+        }
+
+        if ($this->remaining !== null && ($remaining === null || $remaining >= $this->remaining)) {
+            return;
+        }
+
         $this->used = $used;
         $this->limit = $limit;
         $this->remaining = $remaining;
