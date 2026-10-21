@@ -260,9 +260,7 @@ class Mysql extends Db
                 return $this->executeQuery($query, $parameters);
             } else {
                 $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
-                $error = new DbException("Error query: " . $message, (int) $e->getCode());
-                $this->markTransactionAbortedIfNeeded($error);
-                throw $error;
+                throw new DbException("Error query: " . $message, (int) $e->getCode());
             }
         }
     }
@@ -314,6 +312,8 @@ class Mysql extends Db
             }
             return $sth;
         } catch (PDOException $e) {
+            // checked before the parameters are added to the message, so they can't be mistaken for an error number
+            $this->markTransactionAbortedIfNeeded($e);
             $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
             throw new DbException("Error query: " . $message, (int) $e->getCode());
         }
@@ -420,6 +420,12 @@ class Mysql extends Db
         try {
             $success = $this->connection->commit();
         } catch (PDOException $e) {
+            try {
+                // PDO may still think the transaction is open, and would refuse to begin the next one
+                $this->connection->rollBack();
+            } catch (Exception $rollBackException) {
+                // the server has ended the transaction anyway
+            }
             // keep the server's message, it holds the error number, e.g. when a cluster rejects the transaction
             throw new DbException("Commit failed: " . $e->getMessage(), (int) $e->getCode(), $e);
         }
@@ -443,7 +449,7 @@ class Mysql extends Db
         $this->resetTransactionAborted();
 
         if (!$this->connection->inTransaction()) {
-            // the server already rolled back, e.g. after a deadlock, and PDO would throw "There is no active transaction"
+            // nothing left to roll back, e.g. a statement like ALTER TABLE ended the transaction, and PDO would throw "There is no active transaction"
             return;
         }
 
