@@ -48,8 +48,15 @@
   color: @theme-color-danger;
 }
 
+// Right-aligned by the auto margin, also once it has wrapped under the label. It can shrink to its
+// widest button: on a card too narrow for both side by side, they wrap, the box takes the whole row
+// and the centring puts each one in the middle of it.
 .ctaStatus__action {
-  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: safe center;
+  gap: 8px;
+  margin-left: auto;
 
   // override: Materialize sizes .btn-block to the full row; a status line only wants the label's
   // width, with enough room that the button does not resize as its label changes
@@ -57,4 +64,17 @@
     width: auto;
     min-width: 110px;
   }
+}
+
+// The modal's rendering: the alert with any button-shaped action under it, spaced by the alert's
+// own bottom margin.
+.ctaStatus--stacked {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0;
+}
+
+.ctaStatus__alertAction {
+  white-space: nowrap;
 }

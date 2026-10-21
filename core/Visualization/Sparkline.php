@@ -11,6 +11,7 @@ namespace Piwik\Visualization;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\View\ViewInterface;
 
 /**
@@ -182,11 +183,13 @@ class Sparkline implements ViewInterface
     {
         $colors = Common::getRequestVar('colors', false, 'json');
 
+        // the default background is white, so take the light theme values
+        $themeStyles = ThemeStyles::get(ThemeStyles::LIGHT_MODE);
         $defaultColors = array(
             'backgroundColor' => '#ffffff',
             'lineColor' => '#162C4A',
-            'minPointColor' => '#ff7f7f',
-            'maxPointColor' => '#75BF7C',
+            'minPointColor' => $themeStyles->getPropertyValue('colorNegative'),
+            'maxPointColor' => $themeStyles->getPropertyValue('colorPositive'),
             'lastPointColor' => '#55AAFF',
             'fillColor' => '#ffffff',
         );

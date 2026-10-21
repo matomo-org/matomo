@@ -370,7 +370,6 @@ class DataTablePostProcessor
                 !empty($goalsToProcess)
                 && count($goalsToProcess) == 1
                 && $goalsToProcess[0] !== '0'
-                && $goalsToProcess[0] !== 0
             ) {
                 $defaultIdGoal = $goalsToProcess[0];
             } else {
