@@ -19,9 +19,9 @@ namespace Piwik\Plugins\AIProviders;
  * {@link deny()} but there is no way to allow again, so one listener cannot
  * overrule another's denial whatever order they run in. The first denial
  * wins and later ones are ignored. A listener that allows can instead
- * {@link reportUsage()} for display; only
- * {@link AIProviderService::checkFeatureAllowed()} hands the decision back to
- * its caller, so that is the only place those figures show.
+ * {@link reportUsage()}; only {@link AIProviderService::checkFeatureAllowed()}
+ * hands the decision back to its caller, which may show the figures and act
+ * on the limit.
  */
 final class AIRequestDecision
 {
@@ -98,7 +98,8 @@ final class AIRequestDecision
      */
     public function reportUsage(?int $used, ?int $limit, ?int $remaining): void
     {
-        if (!$this->allowed) {
+        // A report saying nothing must not wipe one that said something.
+        if (!$this->allowed || ($used === null && $limit === null && $remaining === null)) {
             return;
         }
 

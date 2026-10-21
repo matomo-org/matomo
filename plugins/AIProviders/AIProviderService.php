@@ -508,7 +508,8 @@ class AIProviderService
          * Also triggered by {@link assertRequestAllowed()}, with
          * `$context->isProbe()` true.
          *
-         * Listeners can only deny, so a denial stands whatever the order. Usage
+         * Listeners can deny but not allow again, so a denial stands whatever the
+         * order. Usage
          * reported on an allowed decision is not passed on here; only
          * {@link checkFeatureAllowed()} returns its decision to the caller. A
          * probe, a denial or a failing listener means no usage event follows.

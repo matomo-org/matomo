@@ -76,6 +76,16 @@ class AIRequestDecisionTest extends TestCase
         $this->assertSame(5, $decision->getRemaining());
     }
 
+    public function testAnEmptyReportNeverWipesOneWithFigures(): void
+    {
+        $decision = new AIRequestDecision();
+        $decision->reportUsage(20, 25, null);
+        $decision->reportUsage(null, null, null);
+
+        $this->assertSame(20, $decision->getUsed());
+        $this->assertSame(25, $decision->getLimit());
+    }
+
     public function testReportUsageWithoutRemainingNeverLoosensAnExistingReport(): void
     {
         $decision = new AIRequestDecision();
