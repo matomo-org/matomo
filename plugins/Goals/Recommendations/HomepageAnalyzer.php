@@ -34,6 +34,9 @@ class HomepageAnalyzer
     public const MAX_LINKS = 500;
 
     private const MAX_PAGES = 50;
+
+    private const MAX_REDIRECT_PROBES = 25;
+    private const REDIRECT_PROBE_SECONDS = 10;
     /** Same-origin links queued for crawling per page (best discovery score first). */
     private const MAX_QUEUED_LINKS_PER_PAGE = 40;
 
@@ -482,6 +485,7 @@ class HomepageAnalyzer
         $queued = [rtrim($startUrl, '/') => true];
         $visited = [];
         $pages = [];
+        $redirects = [];
         $htmlByUrl = [$startUrl => $homepageHtml];
         $deadline = microtime(true) + $this->getCrawlDeadlineSeconds();
         $maxPages = $this->getMaxPages();
@@ -500,6 +504,11 @@ class HomepageAnalyzer
             if ($html === null) {
                 $response = $this->usableResponse($this->fetchHomepage($currentUrl, $timeout), $currentUrl);
                 $html = is_array($response) ? (string) ($response['data'] ?? '') : '';
+
+                $redirectedTo = $this->getRedirectTarget($currentUrl, (string) ($response['effectiveUrl'] ?? ''), $host);
+                if ($redirectedTo !== null) {
+                    $redirects[$this->pathKey($currentUrl)] = $redirectedTo;
+                }
 
                 $pageHost = is_array($response)
                     ? $this->getUrlAuthority((string) ($response['effectiveUrl'] ?? ''))
@@ -568,7 +577,93 @@ class HomepageAnalyzer
 
         $this->crawlStats['deadlineReached'] = !empty($queue) && count($pages) < $maxPages && microtime(true) >= $deadline;
 
-        return $pages;
+        $redirects += $this->probeUncrawledLinks($pages, $visited, $host, $timeout);
+
+        return $this->applyRedirects($pages, $redirects);
+    }
+
+    /**
+     * Fetches the best ranked linked pages the crawl did not reach, to learn whether they redirect.
+     *
+     * @param array<int, array{url: string, links: array<int, array{
+     *   linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
+     * }>}> $pages
+     * @param array<string, bool> $visited
+     * @return array<string, string> path key => final URL
+     */
+    private function probeUncrawledLinks(array $pages, array $visited, string $host, int $timeout): array
+    {
+        $redirects = [];
+        $probes = 0;
+        $deadline = microtime(true) + self::REDIRECT_PROBE_SECONDS;
+        // probe failures do not count as crawl failures
+        $failedFetches = $this->crawlStats['failedFetches'];
+        foreach ($this->rankLinks($pages) as $ranked) {
+            $url = $ranked['exampleUrls'][0];
+            if (isset($visited[rtrim($url, '/')])) {
+                continue;
+            }
+            if (++$probes > self::MAX_REDIRECT_PROBES || microtime(true) >= $deadline) {
+                break;
+            }
+
+            $response = $this->fetchHomepage($url, $timeout);
+            $redirectedTo = $this->getRedirectTarget($url, is_array($response) ? (string) ($response['effectiveUrl'] ?? '') : '', $host);
+            if ($redirectedTo !== null) {
+                $redirects[$this->pathKey($url)] = $redirectedTo;
+            }
+        }
+        $this->crawlStats['failedFetches'] = $failedFetches;
+
+        return $redirects;
+    }
+
+    /**
+     * The URL a page redirected to, '' when it left the host, null when it did not move.
+     */
+    private function getRedirectTarget(string $requestedUrl, string $effectiveUrl, string $host): ?string
+    {
+        if ($effectiveUrl === '') {
+            return null;
+        }
+        if (strcasecmp($this->getUrlAuthority($effectiveUrl), $host) !== 0) {
+            return '';
+        }
+
+        return $this->pathKey($effectiveUrl) !== $this->pathKey($requestedUrl) ? $effectiveUrl : null;
+    }
+
+    private function pathKey(string $url): string
+    {
+        return strtolower(rtrim((string) parse_url($url, PHP_URL_PATH), '/'));
+    }
+
+    /**
+     * Points links at the page they redirect to. Links to a redirect that lands on the homepage or another host are dropped.
+     *
+     * @param array<int, array<string, mixed>> $pages
+     * @param array<string, string> $redirects path key => final URL
+     * @return array<int, array<string, mixed>>
+     */
+    private function applyRedirects(array $pages, array $redirects): array
+    {
+        return array_map(function (array $page) use ($redirects): array {
+            $links = [];
+            foreach ($page['links'] as $link) {
+                $finalUrl = $redirects[strtolower($link['linkTarget'])] ?? null;
+                if ($finalUrl === null) {
+                    $links[] = $link;
+                    continue;
+                }
+
+                $target = rtrim((string) parse_url($finalUrl, PHP_URL_PATH), '/');
+                if ($target !== '') {
+                    $links[] = ['linkTarget' => $target, 'url' => $finalUrl, 'sourceTarget' => $link['linkTarget']] + $link;
+                }
+            }
+
+            return ['links' => $links] + $page;
+        }, $pages);
     }
 
     /**
@@ -577,7 +672,8 @@ class HomepageAnalyzer
      * @param array<int, array{
      *   url: string,
      *   links: array<int, array{
-     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
+     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int,
+     *     sourceTarget?: string
      *   }>
      * }> $pages
      * @return array<int, array{
@@ -595,6 +691,7 @@ class HomepageAnalyzer
                 if (!isset($buckets[$target])) {
                     $buckets[$target] = [
                         'linkTarget' => $target,
+                        'sourceTarget' => $link['sourceTarget'] ?? null,
                         'labels' => [],
                         'areas' => [],
                         'areaCounts' => [],
@@ -636,6 +733,7 @@ class HomepageAnalyzer
             $ranked[] = [
                 'linkText' => implode(' / ', array_slice($labelSamples, 0, 3)),
                 'linkTarget' => $bucket['linkTarget'],
+                'sourceTarget' => $bucket['sourceTarget'],
                 'score' => $this->recommendationScore($bucket),
                 'pageCount' => $pageCount,
                 'occurrenceCount' => $bucket['occurrenceCount'],
