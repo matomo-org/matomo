@@ -20,8 +20,8 @@ namespace Piwik\Plugins\AIProviders;
  * overrule another's denial whatever order they run in. The first denial
  * wins and later ones are ignored. A listener that allows can instead
  * {@link reportUsage()}; only {@link AIProviderService::checkFeatureAllowed()}
- * hands the decision back to its caller, which may show the figures and act
- * on the limit.
+ * returns an allowed decision to its caller, which may show the figures and
+ * act on the limit. A denial reaches callers either way.
  */
 final class AIRequestDecision
 {
@@ -89,7 +89,9 @@ final class AIRequestDecision
      * denial, for example "20 of 25 prompts used". Ignored once denied, which keeps its own figures.
      *
      * When several listeners report, the one with the least remaining wins. A listener reporting no
-     * remaining (unlimited) never replaces one that did.
+     * remaining (unlimited) never replaces one that did, but a report without remaining is not
+     * stricter than anything, even with a limit: a later report may replace it. A report with no
+     * figures at all is ignored.
      *
      * @param int|null $used      Units used so far.
      * @param int|null $limit     Allowance, in the units the feature key defines. Callers may act on it,

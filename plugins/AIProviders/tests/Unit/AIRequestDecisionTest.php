@@ -90,7 +90,7 @@ class AIRequestDecisionTest extends TestCase
     {
         $decision = new AIRequestDecision();
         $decision->reportUsage(20, 25, 5);
-        $decision->reportUsage(null, null, null);
+        $decision->reportUsage(3, null, null);
 
         $this->assertSame(20, $decision->getUsed());
         $this->assertSame(25, $decision->getLimit());

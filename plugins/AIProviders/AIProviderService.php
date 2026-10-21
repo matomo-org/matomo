@@ -509,10 +509,9 @@ class AIProviderService
          * `$context->isProbe()` true.
          *
          * Listeners can deny but not allow again, so a denial stands whatever the
-         * order. Usage
-         * reported on an allowed decision is not passed on here; only
-         * {@link checkFeatureAllowed()} returns its decision to the caller. A
-         * probe, a denial or a failing listener means no usage event follows.
+         * order. Usage reported on an allowed decision is not passed on here; only
+         * {@link checkFeatureAllowed()} returns an allowed decision to its caller.
+         * A probe, a denial or a failing listener means no usage event follows.
          * Otherwise the context's request ID is repeated in the matching
          * `AIProviders.usage` event, which is the one to meter.
          * Connection tests and model listings in the admin UI call the provider
