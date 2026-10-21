@@ -116,7 +116,7 @@ class HomepageAnalyzerCrawlTest extends IntegrationTestCase
             'http://example.com/' => [
                 'status' => 200,
                 'headers' => [],
-                'data' => '<html><body><a href="/docs/installation/">Install</a></body></html>',
+                'data' => '<html><body><a href="/docs/installation/">Install</a><a href="/old-pricing">Pricing</a></body></html>',
                 'effectiveUrl' => 'http://example.com/',
             ],
             'http://example.com/docs/installation/' => [
@@ -125,13 +125,20 @@ class HomepageAnalyzerCrawlTest extends IntegrationTestCase
                 'data' => '',
                 'effectiveUrl' => 'http://example.com/faq/installing/',
             ],
+            'http://example.com/old-pricing' => [
+                'status' => 404,
+                'headers' => [],
+                'data' => '',
+                'effectiveUrl' => 'http://example.com/not-found',
+            ],
         ]);
         Config::getInstance()->Goals['recommendation_max_crawl_pages'] = 1;
 
         $analysis = $analyzer->analyze($this->idSite);
 
         $this->assertSame(1, $analysis['pagesCrawled']);
-        $this->assertSame(['/faq/installing'], array_column($analysis['links'], 'linkTarget'));
+        // a redirect to an error page keeps the linked path
+        $this->assertEqualsCanonicalizing(['/faq/installing', '/old-pricing'], array_column($analysis['links'], 'linkTarget'));
     }
 
     public function testCrawlSkipsPagesThatRedirectOffOrigin()
