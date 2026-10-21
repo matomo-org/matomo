@@ -479,7 +479,8 @@ class Controller extends \Piwik\Plugin\Controller
         if ($view->goalRecommendationsEnabled && $view->userCanEditGoals) {
             try {
                 $view->goalAiAvailability = StaticContainer::get(GoalRecommendationService::class)->getAiAvailability();
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
+                // fall back to the API response
             }
         }
         $view->currencySymbol = Site::getCurrencySymbolFor($this->idSite);
