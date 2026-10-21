@@ -48,7 +48,7 @@ final class TransactionErrors
      * The server has already rolled the whole transaction back. Nothing written in it survives, and anything
      * written afterwards on the same connection would be stored on its own.
      *
-     * The message is a fallback for exceptions that lost their error number, e.g. when a caller rewraps them.
+     * The message is a fallback for exceptions that carry no error number, e.g. when a caller rewrapped them.
      */
     private const ENDS_TRANSACTION = [
         self::ERROR_CODE_RECORD_HAS_CHANGED => 'Record has changed since last read',
@@ -105,11 +105,18 @@ final class TransactionErrors
                 return true;
             }
 
-            if ($message !== null && stripos($e->getMessage(), $message) !== false) {
+            // MySQL's message can quote the failing value, so only trust it when there is no error number to go by
+            if ($message !== null && !self::hasErrorNumber($e) && stripos($e->getMessage(), $message) !== false) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static function hasErrorNumber(\Exception $e): bool
+    {
+        // the code, e.g. for mysqli, or a number in the message as PDO reports it, e.g. "SQLSTATE[23000]: ...: 1062 ..."
+        return !empty($e->getCode()) || preg_match('/(?:\[|\s)[0-9]{4}(?:\]|\s)/', $e->getMessage()) === 1;
     }
 }

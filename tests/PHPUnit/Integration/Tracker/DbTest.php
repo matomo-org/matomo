@@ -29,6 +29,12 @@ use Piwik\Tracker\Db\DbException;
 class DbTest extends IntegrationTestCase
 {
     private $tableName;
+
+    /**
+     * @var array<Tracker\Db|\mysqli>
+     */
+    private $connections = [];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -38,7 +44,19 @@ class DbTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        // ends any transaction a failed test left open, which would block dropping the procedure
+        // a failed test can leave a transaction open, and dropping the procedure would wait for it
+        foreach ($this->connections as $connection) {
+            try {
+                if ($connection instanceof \mysqli) {
+                    $connection->close();
+                } else {
+                    $connection->disconnect();
+                }
+            } catch (\Throwable $e) {
+                // already closed
+            }
+        }
+        $this->connections = [];
         Tracker::disconnectCachedDbConnection();
         DbErrorRaiser::uninstall();
         parent::tearDown();
@@ -55,8 +73,8 @@ class DbTest extends IntegrationTestCase
         $tracker['innodb_lock_wait_timeout'] = 3;
         Config::getInstance()->Tracker = $tracker;
 
-        $db1 = Tracker\Db::connectPiwikTrackerDb();
-        $db2 = Tracker\Db::connectPiwikTrackerDb();
+        $db1 = $this->connect();
+        $db2 = $this->connect();
 
         $timer = new Timer();
 
@@ -95,7 +113,7 @@ class DbTest extends IntegrationTestCase
      */
     public function testErrorThatEndsTheTransactionStopsEveryLaterQueryAndTheCommit(int $errorNumber, string $message)
     {
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
         $xid = $db->beginTransaction();
         $this->insertOption($db, 'before_error');
 
@@ -133,7 +151,7 @@ class DbTest extends IntegrationTestCase
 
     public function testRollBackAfterTheTransactionWasEndedDoesNotThrow()
     {
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
         $xid = $db->beginTransaction();
         $this->insertOption($db, 'before_error');
         $this->raiseError($db, 1213, 'Deadlock found when trying to get lock; try restarting transaction');
@@ -147,7 +165,7 @@ class DbTest extends IntegrationTestCase
 
     public function testFailedCommitLeavesTheConnectionReadyForTheNextTransaction()
     {
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
         if (!$db instanceof Tracker\Db\Pdo\Mysql) {
             $this->markTestSkipped('Only PDO keeps its own record of whether a transaction is open');
         }
@@ -171,6 +189,9 @@ class DbTest extends IntegrationTestCase
     public function testErrorWithoutAnErrorNumberIgnoresNumbersInTheParameters()
     {
         $db = Tracker::getDatabase();
+        if (!$db instanceof Tracker\Db\Pdo\Mysql) {
+            $this->markTestSkipped('mysqli rejects the wrong number of parameters with a ValueError, which is not checked');
+        }
         $xid = $db->beginTransaction();
 
         $e = null;
@@ -192,7 +213,7 @@ class DbTest extends IntegrationTestCase
      */
     public function testErrorThatDoesNotEndTheTransactionKeepsItUsable(int $errorNumber, string $message)
     {
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
         $xid = $db->beginTransaction();
         $this->insertOption($db, 'before_error');
 
@@ -214,7 +235,7 @@ class DbTest extends IntegrationTestCase
 
     public function testErrorOutsideOfATransactionDoesNotStopLaterQueries()
     {
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
 
         $this->raiseError($db, 1213, 'Deadlock found when trying to get lock; try restarting transaction');
         $this->assertFalse($db->isTransactionAborted());
@@ -236,7 +257,7 @@ class DbTest extends IntegrationTestCase
         $other->query("UPDATE `{$this->tableName}` SET option_value = 'other' WHERE option_name IN ('deadlock_pad_1', 'deadlock_pad_2', 'deadlock_pad_3')");
         $other->query("UPDATE `{$this->tableName}` SET option_value = 'other' WHERE option_name = 'deadlock_b'");
 
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
         $xid = $db->beginTransaction();
         $db->query($update, ['tracker', 'deadlock_a']);
 
@@ -291,7 +312,7 @@ class DbTest extends IntegrationTestCase
 
     public function testCommitReportsTheAbortEvenIfTheRollbackFails()
     {
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
         $connectionId = $db->fetchOne('SELECT CONNECTION_ID()');
         $xid = $db->beginTransaction();
         $this->raiseError($db, 1213, 'Deadlock found when trying to get lock; try restarting transaction');
@@ -309,7 +330,7 @@ class DbTest extends IntegrationTestCase
 
     public function testRealSnapshotIsolationConflictStopsEveryLaterQuery()
     {
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
         try {
             $db->query('SET SESSION innodb_snapshot_isolation = ON');
         } catch (\Exception $e) {
@@ -471,7 +492,7 @@ class DbTest extends IntegrationTestCase
     {
         $config = Config::getInstance();
         $config->database['collation'] = null;
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
 
         // exact value depends on database used
         $currentCollation = $db->fetchOne('SELECT @@collation_connection');
@@ -482,15 +503,15 @@ class DbTest extends IntegrationTestCase
     {
         $config = Config::getInstance();
         $config->database['collation'] = $config->database['charset'] . '_swedish_ci';
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
 
         $currentCollation = $db->fetchOne('SELECT @@collation_connection');
         self::assertSame($config->database['collation'], $currentCollation);
     }
 
     /**
-     * Swaps the adapter's PDO for one whose next commit fails the way the server reports it, e.g. when a cluster rejects
-     * the transaction. Such an error leaves PDO believing the transaction is still open.
+     * Swaps the adapter's PDO for one whose next commit fails without reaching the server, so the transaction is still
+     * open there, and PDO refuses to begin another one until it is rolled back.
      */
     private function makeNextCommitFail(Tracker\Db\Pdo\Mysql $db): void
     {
@@ -565,12 +586,20 @@ class DbTest extends IntegrationTestCase
         ));
     }
 
+    /**
+     * @return Tracker\Db\Mysqli|Tracker\Db\Pdo\Mysql
+     */
+    private function connect(): Tracker\Db
+    {
+        return $this->connections[] = Tracker\Db::connectPiwikTrackerDb();
+    }
+
     private function connectWithMysqli(): \mysqli
     {
         $config = Config::getInstance()->database;
         mysqli_report(MYSQLI_REPORT_OFF);
 
-        return new \mysqli($config['host'], $config['username'], $config['password'], $config['dbname'], (int) $config['port']);
+        return $this->connections[] = new \mysqli($config['host'], $config['username'], $config['password'], $config['dbname'], (int) $config['port']);
     }
 
     private function insertRowId($value = '1')
