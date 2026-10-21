@@ -721,6 +721,9 @@ abstract class Controller
         }
     }
 
+    /**
+     * @internal temporary warning, will be removed again
+     */
     protected static function notifyWhenPhpVersionHasCriticalVulnerability(): void
     {
         if (defined('PIWIK_TEST_MODE')) { // to avoid changing every UI test
