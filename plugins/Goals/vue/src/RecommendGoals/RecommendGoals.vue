@@ -302,8 +302,10 @@ import type {
 const props = withDefaults(defineProps<{
   goals?: Record<string, Record<string, unknown>>;
   userCanEditGoals?: boolean;
+  aiAvailability?: string;
 }>(), {
   goals: () => ({}),
+  aiAvailability: '',
 });
 
 /* eslint-disable func-call-spacing, no-spaced-func */
@@ -343,7 +345,7 @@ const debug = ref<RecommendationDebug|null>(null);
 const generatedAt = ref<number|null>(null);
 const remainingAiScans = ref<number|null>(null);
 const providerName = ref<string>(translate('Goals_RecommendAiProviderFallback'));
-const aiAvailability = ref<string>('available');
+const aiAvailability = ref<string>(props.aiAvailability);
 const serverPrivacyNote = ref<string>('');
 const createdRecommendationKeys = ref<string[]>([]);
 

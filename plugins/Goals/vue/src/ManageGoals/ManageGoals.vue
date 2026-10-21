@@ -148,6 +148,7 @@
         v-show="showGoalList"
         :goals="currentGoals"
         :user-can-edit-goals="userCanEditGoals"
+        :ai-availability="goalAiAvailability"
         @created="onRecommendedGoalsCreated"
         @prefill="prefillManualGoal"
       />
@@ -164,6 +165,7 @@
         v-if="goalRecommendationsEnabled && onlyShowAddNewGoal"
         :goals="currentGoals"
         :user-can-edit-goals="userCanEditGoals"
+        :ai-availability="goalAiAvailability"
         @created="onRecommendedGoalsCreated"
         @prefill="prefillManualGoal"
       />
@@ -502,6 +504,10 @@ export default defineComponent({
     onlyShowAddNewGoal: Boolean,
     userCanEditGoals: Boolean,
     goalRecommendationsEnabled: Boolean,
+    goalAiAvailability: {
+      type: String,
+      default: '',
+    },
     ecommerceEnabled: Boolean,
     goals: {
       type: Object,
