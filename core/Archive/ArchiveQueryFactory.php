@@ -76,10 +76,7 @@ class ArchiveQueryFactory
     {
         $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
 
-        $timezone = false;
-        if (count($websiteIds) === 1) {
-            $timezone = Site::getTimezoneFor($websiteIds[0]);
-        }
+        $timezone = Site::getTimezoneForIdSitesString($websiteIds);
 
         $idSiteIsAll = $idSites === Archive::REQUEST_ALL_WEBSITES_FLAG;
 

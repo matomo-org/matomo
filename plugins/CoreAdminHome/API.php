@@ -36,7 +36,6 @@ use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Failures;
 use Piwik\Url;
-use Piwik\Plugins\SitesManager\Model as SitesModel;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
@@ -454,7 +453,7 @@ class API extends \Piwik\Plugin\API
                 if (count($subPeriods) && !$this->isRelativeRange($theDate)) {
                     $toInvalidate[] = $periodObj->getRangeString();
                 } elseif (count($subPeriods)) {
-                    $timezones ??= $this->getTimezonesOfSites($idSites);
+                    $timezones ??= Site::getTimezonesFor($idSites);
                     $rangeStrings = [];
                     foreach (array_merge(['UTC'], $timezones) as $timezone) {
                         try {
@@ -486,22 +485,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return [$toInvalidate, $invalidDates];
-    }
-
-    /**
-     * @param int[] $idSites
-     * @return string[]
-     */
-    private function getTimezonesOfSites(array $idSites): array
-    {
-        if (empty($idSites)) {
-            return [];
-        }
-
-        // One query rather than a site lookup each, as $idSites can be every site of the instance.
-        $sites = (new SitesModel())->getSitesFromIds($idSites);
-
-        return array_values(array_unique(array_column($sites, 'timezone')));
     }
 
     /**

@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Http\BadRequestException;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Plugins\SitesManager\Model as SitesModel;
 
 /**
  * Provides access to individual [site entity](/guides/persistence-and-the-mysql-backend#websites-aka-sites) data
@@ -557,6 +558,40 @@ class Site
     public static function getTimezoneFor($idsite)
     {
         return self::getFor((int)$idsite, 'timezone');
+    }
+
+    /**
+     * Timezone the archive resolves dates in: the site's when the idSite value resolves to a single site.
+     *
+     * @param bool|int|string|array<string|int|null> $idSites
+     * @return string|false
+     * @internal
+     */
+    public static function getTimezoneForIdSitesString($idSites)
+    {
+        $ids = self::getIdSitesFromIdSitesString($idSites);
+
+        return count($ids) === 1 ? self::getTimezoneFor(reset($ids)) : false;
+    }
+
+    /**
+     * Returns the distinct timezones of the given sites, read in one query rather than a lookup per site.
+     *
+     * @param int[] $idSites
+     * @return string[]
+     * @internal
+     */
+    public static function getTimezonesFor(array $idSites): array
+    {
+        if (empty($idSites)) {
+            return [];
+        }
+
+        Piwik::checkUserHasViewAccess($idSites);
+
+        $sites = (new SitesModel())->getSitesFromIds($idSites);
+
+        return array_values(array_unique(array_column($sites, 'timezone')));
     }
 
     /**

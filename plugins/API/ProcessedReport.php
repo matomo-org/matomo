@@ -541,11 +541,8 @@ class ProcessedReport
         if ($resolvedPeriod instanceof Period) {
             $period = $resolvedPeriod->getLocalizedLongString();
         } else {
-            // The archive only uses a site timezone when the request names a single site, and
-            // reads it off the parsed list: $website's id does not survive an array idSite.
             // Of the two factory methods, only build() accepts a multiple-period date.
-            $idSites  = Site::getIdSitesFromIdSitesString($idSite);
-            $timezone = count($idSites) === 1 ? Site::getTimezoneFor($idSites[0]) : false;
+            $timezone = Site::getTimezoneForIdSitesString($idSite);
             $period = $isMultiplePeriod
                 ? Period\Factory::build($period, $date, $timezone)
                 : Period\Factory::makePeriodFromQueryParams($timezone, $period, $date);
