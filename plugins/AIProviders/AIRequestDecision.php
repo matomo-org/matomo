@@ -15,11 +15,13 @@ namespace Piwik\Plugins\AIProviders;
  * Whether an AI request or feature may run, as decided by the listeners of
  * `AIProviders.beforeRequest` and `AIProviders.checkFeatureAllowed`.
  *
- * Starts as allowed, so nothing changes when no plugin listens. Listeners can
- * only {@link deny()}: there is no way to allow again, so one listener cannot
+ * Starts as allowed, so nothing changes when no plugin listens. A listener can
+ * {@link deny()} but there is no way to allow again, so one listener cannot
  * overrule another's denial whatever order they run in. The first denial
- * wins and later ones are ignored. Listeners that allow can {@link reportUsage()}
- * for display.
+ * wins and later ones are ignored. A listener that allows can instead
+ * {@link reportUsage()} for display; only
+ * {@link AIProviderService::checkFeatureAllowed()} hands the decision back to
+ * its caller, so that is the only place those figures show.
  */
 final class AIRequestDecision
 {

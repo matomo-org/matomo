@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group AIProviders
+ * @group Plugins
  */
 class AIRequestDecisionTest extends TestCase
 {
