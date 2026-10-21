@@ -917,9 +917,8 @@ class Request
         try {
             $idSite = $this->getIdSite();
             if (!empty($idSite) && $idSite > 0) {
-                $cache    = TrackerCache::getCacheWebsiteAttributes($idSite);
-                $cacheKey = UserIdDisabled::class;
-                if (($cache[$cacheKey] ?? false) === true) {
+                $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+                if (UserIdDisabled::shouldDiscardUserId($cache, $this->hasConsent())) {
                     return false;
                 }
             }
