@@ -375,6 +375,48 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
+    public function testUpdatePluginLeavesASuccessSummaryForWhenTheResultPageIsNeverShown()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $this->dispatchUpdateUntilRedirect('TreemapVisualization');
+
+        // the "Database upgrade required" screen drops these, then continues to the dashboard
+        NotificationManager::cancelAllNonPersistent();
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        self::assertContains(
+            Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]),
+            $this->getNotificationMessages()
+        );
+    }
+
+    public function testUpdatePluginResultWithdrawsTheSuccessSummaryItShowsItself()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $response = $this->followRedirect($this->dispatchUpdateUntilRedirect('TreemapVisualization'));
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        $successMessage = Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]);
+        self::assertSame(1, substr_count($response, $successMessage));
+        self::assertNotContains($successMessage, $this->getNotificationMessages());
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getNotificationMessages(): array
+    {
+        return array_values(array_map(static function ($notification) {
+            return $notification->message;
+        }, NotificationManager::getAllNotificationsToDisplay()));
+    }
+
     public function testUpdatePluginResultRedirectsToTheMarketplaceForAnUnknownToken()
     {
         $_GET = [

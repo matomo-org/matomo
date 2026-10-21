@@ -640,10 +640,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Notification\Manager::notify('Marketplace_PluginsCouldNotBeUpdated', $notification);
         }
 
+        $isUpdate = $nonceName === static::UPDATE_NONCE;
+        $summary = [];
+        foreach ($this->getInstalledPluginInfos($installedPlugins) as $pluginInfo) {
+            if ($pluginInfo['isTheme']) {
+                $translationKey = $isUpdate ? 'Marketplace_StepThemeSuccessfullyUpdated' : 'Marketplace_StepThemeSuccessfullyInstalled';
+            } else {
+                $translationKey = $isUpdate ? 'Marketplace_StepPluginSuccessfullyUpdated' : 'Marketplace_StepPluginSuccessfullyInstalled';
+            }
+            $summary[] = Piwik::translate($translationKey, [$pluginInfo['name'], $pluginInfo['latestVersion']]);
+        }
+
         $token = PluginInstallResults::store([
             'plugins' => $installedPlugins,
             'marketplaceUrl' => $this->getMarketplaceUrlToReturnTo(),
-        ]);
+        ], implode(' ', $summary));
 
         Piwik::redirectToModule('Marketplace', $resultAction, [
             'pluginName' => null,
@@ -663,12 +674,33 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->dieIfPluginsAdminIsDisabled();
         $this->displayWarningIfConfigFileNotWritable();
 
-        $result = PluginInstallResults::get(
-            Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '')
-        );
+        $token = Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '');
+        $result = PluginInstallResults::get($token);
 
+        $pluginInfos = $this->getInstalledPluginInfos($result['plugins'] ?? []);
+        if (empty($pluginInfos)) {
+            return null;
+        }
+
+        PluginInstallResults::cancelSummary($token);
+
+        $view = new View('@Marketplace/' . $template);
+        $this->setBasicVariablesView($view);
+        $view->errorMessage = '';
+        $view->plugins = $pluginInfos;
+        $view->marketplaceUrl = $result['marketplaceUrl'] ?? '';
+
+        return $view;
+    }
+
+    /**
+     * @param string[] $pluginNames
+     * @return list<array{name: string, latestVersion: string, isTheme: bool}>
+     */
+    private function getInstalledPluginInfos(array $pluginNames): array
+    {
         $pluginInfos = [];
-        foreach ($result['plugins'] ?? [] as $pluginName) {
+        foreach ($pluginNames as $pluginName) {
             if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
                 continue;
             }
@@ -682,17 +714,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             ];
         }
 
-        if (empty($pluginInfos)) {
-            return null;
-        }
-
-        $view = new View('@Marketplace/' . $template);
-        $this->setBasicVariablesView($view);
-        $view->errorMessage = '';
-        $view->plugins = $pluginInfos;
-        $view->marketplaceUrl = $result['marketplaceUrl'] ?? '';
-
-        return $view;
+        return $pluginInfos;
     }
 
     /**

@@ -120,7 +120,14 @@ class Controller extends Plugin\ControllerAdmin
         $pluginMetadata = $this->pluginInstaller->installOrUpdatePluginFromFile($file);
 
         // see PluginInstallResults for why the result is rendered by a new request
-        $token = PluginInstallResults::store(['plugins' => [$pluginMetadata->name]]);
+        $metadata = (new Plugin\MetadataLoader($pluginMetadata->name))->load();
+        $token = PluginInstallResults::store(
+            ['plugins' => [$pluginMetadata->name]],
+            $this->translator->translate(
+                empty($metadata['theme']) ? 'Marketplace_StepPluginSuccessfullyInstalled' : 'Marketplace_StepThemeSuccessfullyInstalled',
+                [$pluginMetadata->name, $metadata['version']]
+            )
+        );
 
         Piwik::redirectToModule('CorePluginsAdmin', 'uploadPluginResult', [
             'nonce' => null,
@@ -133,9 +140,8 @@ class Controller extends Plugin\ControllerAdmin
         $this->dieIfPluginsAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
 
-        $result = PluginInstallResults::get(
-            \Piwik\Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '')
-        );
+        $token = \Piwik\Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '');
+        $result = PluginInstallResults::get($token);
         $pluginName = $result['plugins'][0] ?? '';
 
         if ($pluginName === '' || !$this->pluginManager->isPluginInFilesystem($pluginName)) {
@@ -143,6 +149,8 @@ class Controller extends Plugin\ControllerAdmin
             Piwik::redirectToModule('CorePluginsAdmin', 'plugins', [PluginInstallResults::TOKEN_PARAMETER => null]);
             return;
         }
+
+        PluginInstallResults::cancelSummary($token);
 
         $metadata = (new Plugin\MetadataLoader($pluginName))->load();
 

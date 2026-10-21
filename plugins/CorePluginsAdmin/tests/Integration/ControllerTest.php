@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\DI;
 use Piwik\FrontController;
 use Piwik\Nonce;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\MetadataLoader;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
@@ -111,6 +112,36 @@ class ControllerTest extends IntegrationTestCase
             Piwik::translate('Marketplace_StepPluginSuccessfullyInstalled', [self::UPLOADED_PLUGIN, $installedVersion]),
             $response
         );
+    }
+
+    public function testUploadPluginLeavesASuccessSummaryUntilTheResultPageShowsIt()
+    {
+        parse_str((string) parse_url($this->uploadPluginUntilRedirect(), PHP_URL_QUERY), $query);
+
+        $installedVersion = (new MetadataLoader(self::UPLOADED_PLUGIN))->load()['version'];
+        $successMessage = Piwik::translate('Marketplace_StepPluginSuccessfullyInstalled', [self::UPLOADED_PLUGIN, $installedVersion]);
+
+        // what the "Database upgrade required" screen does before it continues to the dashboard
+        NotificationManager::cancelAllNonPersistent();
+        self::assertContains($successMessage, $this->getNotificationMessages());
+
+        $_GET = $query;
+        $response = Access::doAsSuperUser(function () {
+            return FrontController::getInstance()->fetchDispatch('CorePluginsAdmin', 'uploadPluginResult');
+        });
+
+        self::assertSame(1, substr_count($response, $successMessage));
+        self::assertNotContains($successMessage, $this->getNotificationMessages());
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getNotificationMessages(): array
+    {
+        return array_values(array_map(static function ($notification) {
+            return $notification->message;
+        }, NotificationManager::getAllNotificationsToDisplay()));
     }
 
     public function testUploadPluginResultRedirectsToThePluginsPageForAnUnknownToken()

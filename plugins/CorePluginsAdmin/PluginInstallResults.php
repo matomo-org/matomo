@@ -10,12 +10,17 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
+use Piwik\Notification;
 use Piwik\Session\SessionNamespace;
 
 /**
  * Hands the outcome of a plugin install or update to the request that displays it. The request that
  * replaces the plugin files still has the old plugin code loaded, so it only records what it did and
  * redirects; the result page is rendered by a new request, which loads the new code.
+ *
+ * When an updated plugin ships a migration, that request is sent to the database upgrade screen, which
+ * continues to the dashboard instead of the result page. So a summary is also posted as a persistent
+ * notification, and the result page withdraws it when it is shown.
  *
  * @phpstan-type InstallResult array{plugins: list<string>, marketplaceUrl?: string}
  */
@@ -32,7 +37,7 @@ class PluginInstallResults
      * @param InstallResult $result
      * @return string the token to read the result back with
      */
-    public static function store(array $result): string
+    public static function store(array $result, string $summary): string
     {
         $token = Common::getRandomString(32);
 
@@ -40,7 +45,22 @@ class PluginInstallResults
         $session->$token = $result;
         $session->setExpirationSeconds(self::TTL_IN_SECONDS, $token);
 
+        $notification = new Notification($summary);
+        $notification->context = Notification::CONTEXT_SUCCESS;
+        $notification->type = Notification::TYPE_PERSISTENT;
+        Notification\Manager::notify(self::getSummaryNotificationId($token), $notification);
+
         return $token;
+    }
+
+    /**
+     * Withdraws the summary posted by store(), for a result page that shows the result itself.
+     */
+    public static function cancelSummary(string $token): void
+    {
+        if (ctype_alnum($token)) {
+            Notification\Manager::cancel(self::getSummaryNotificationId($token));
+        }
     }
 
     /**
@@ -61,5 +81,10 @@ class PluginInstallResults
         $result = $session->$token;
 
         return is_array($result) ? $result : null;
+    }
+
+    private static function getSummaryNotificationId(string $token): string
+    {
+        return 'CorePluginsAdmin_InstallResult' . $token;
     }
 }
