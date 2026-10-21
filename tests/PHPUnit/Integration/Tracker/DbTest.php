@@ -145,6 +145,48 @@ class DbTest extends IntegrationTestCase
         $this->assertNewTransactionWorks();
     }
 
+    public function testFailedCommitLeavesTheConnectionReadyForTheNextTransaction()
+    {
+        $db = Tracker\Db::connectPiwikTrackerDb();
+        if (!$db instanceof Tracker\Db\Pdo\Mysql) {
+            $this->markTestSkipped('Only PDO keeps its own record of whether a transaction is open');
+        }
+        $this->makeNextCommitFail($db);
+
+        $xid = $db->beginTransaction();
+        $this->insertOption($db, 'before_error');
+        $e = $this->catchException(function () use ($db, $xid) {
+            $db->commit($xid);
+        });
+
+        $this->assertStringContainsString(' 1180 ', $e->getMessage());
+
+        $xid = $db->beginTransaction();
+        $this->insertOption($db, 'next_transaction');
+        $db->commit($xid);
+
+        $this->assertOptionsStored(['next_transaction']);
+    }
+
+    public function testErrorWithoutAnErrorNumberIgnoresNumbersInTheParameters()
+    {
+        $db = Tracker::getDatabase();
+        $xid = $db->beginTransaction();
+
+        $e = null;
+        try {
+            // fails in the client, so the message has no error number of its own
+            $db->query("INSERT INTO `{$this->tableName}` (option_name, option_value, autoload) VALUES (?, ?, ?)", ['x 1213 y', '1']);
+        } catch (\Throwable $e) {
+        }
+        $this->insertOption($db, 'after_error');
+        $db->commit($xid);
+
+        $this->assertNotNull($e);
+        $this->assertFalse($db->isTransactionAborted());
+        $this->assertOptionsStored(['after_error']);
+    }
+
     /**
      * @dataProvider getErrorsThatDoNotEndTheTransaction
      */
@@ -444,6 +486,36 @@ class DbTest extends IntegrationTestCase
 
         $currentCollation = $db->fetchOne('SELECT @@collation_connection');
         self::assertSame($config->database['collation'], $currentCollation);
+    }
+
+    /**
+     * Swaps the adapter's PDO for one whose next commit fails the way the server reports it, e.g. when a cluster rejects
+     * the transaction. Such an error leaves PDO believing the transaction is still open.
+     */
+    private function makeNextCommitFail(Tracker\Db\Pdo\Mysql $db): void
+    {
+        $read = function (string $name) use ($db) {
+            $property = new \ReflectionProperty(Tracker\Db\Pdo\Mysql::class, $name);
+            $property->setAccessible(true);
+            return $property->getValue($db);
+        };
+
+        $pdo = new class ($read('dsn'), $read('username'), $read('password'), $read('mysqlOptions')) extends \PDO {
+            private $failCommit = true;
+
+            public function commit(): bool
+            {
+                if ($this->failCommit) {
+                    $this->failCommit = false;
+                    throw new \PDOException('SQLSTATE[HY000]: General error: 1180 Got error 149 during COMMIT');
+                }
+                return parent::commit();
+            }
+        };
+
+        $connection = new \ReflectionProperty(Tracker\Db\Pdo\Mysql::class, 'connection');
+        $connection->setAccessible(true);
+        $connection->setValue($db, $pdo);
     }
 
     private function raiseError(Tracker\Db $db, int $errorNumber, string $message): \Exception
