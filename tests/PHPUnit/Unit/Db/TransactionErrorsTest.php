@@ -50,6 +50,18 @@ class TransactionErrorsTest extends TestCase
         $this->assertFalse(TransactionErrors::endsTransaction($db, new \Exception('Error query: Duplicate entry')));
     }
 
+    public function testIgnoresTheMessageWhenTheErrorHasANumber(): void
+    {
+        // MySQL quotes the failing value, which can hold any text
+        $duplicate = "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '%s' for key 'PRIMARY'";
+        $db = $this->getPdoStyleDb();
+
+        $this->assertFalse(TransactionErrors::endsTransaction($db, new \Exception(sprintf($duplicate, 'Deadlock found when trying to get lock'))));
+        $this->assertFalse(TransactionErrors::isStatementOnly($db, new \Exception(sprintf($duplicate, 'Lock wait timeout exceeded'))));
+        // mysqli keeps the number in the exception code
+        $this->assertFalse(TransactionErrors::isStatementOnly($db, new \Exception("Duplicate entry 'Lock wait timeout exceeded' for key 'PRIMARY'", 1062)));
+    }
+
     public function testDecidesByTheErrorNumberOnlyWhenAskedTo(): void
     {
         // the adapters append the query's parameters, which can hold any text

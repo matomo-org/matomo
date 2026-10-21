@@ -483,6 +483,8 @@ class Mysqli extends Db
 
         if (!$this->connection->commit()) {
             $error = new DbException("Commit failed: " . $this->connection->error, $this->connection->errno);
+            // turning autocommit back on would commit the transaction if the server still had it open
+            $this->connection->rollback();
             $this->connection->autocommit(true);
             throw $error;
         }
