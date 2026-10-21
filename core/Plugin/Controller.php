@@ -91,6 +91,8 @@ abstract class Controller
 
     private const PHP_CRITICAL_VULNERABILITY_ADVISORY_URL = 'https://www.php.net/archive/2026.php#2026-10-21-5';
 
+    private const PHP_CRITICAL_VULNERABILITY_ANNOUNCEMENT_URL = 'https://matomo.org/blog/2026/10/critical-php-security-vulnerabilities-important-update-for-matomo-users/';
+
     private const PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID = 'PHPCriticalSecurityVulnerabilityCheck';
 
     /**
@@ -743,6 +745,8 @@ abstract class Controller
 
         $message = Piwik::translate('General_PhpCriticalSecurityUpdateRequired', [
             PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION,
+            Url::getExternalLinkTag(self::PHP_CRITICAL_VULNERABILITY_ANNOUNCEMENT_URL),
+            '</a>',
             '<a href="' . self::PHP_CRITICAL_VULNERABILITY_ADVISORY_URL . '" target="_blank" rel="noreferrer noopener">',
             '</a>',
         ]);
