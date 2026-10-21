@@ -153,6 +153,16 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   `removePercentOfTotalColumns()` are available to treat them the way the built-in formats do.
 * A PDF report table now fills the page width exactly. Rounding each column up used to push wide tables past the page,
   clipping the last column of a report carrying ten or more metrics.
+* For a relative date such as `today`, `yesterday`, `last-week`, `lastN` or `previousN` on a site whose day differs
+  from UTC's, these values now name or use the site's days instead of UTC's: `prettyDate` of `API.getProcessedReport`
+  (and the date line and file name of the scheduled reports generated from it), `comparePeriodPretty` and the comparison
+  series labels, `last_period_date` and the evolution columns of `MultiSites.getAll`, `MultiSites.getOne` and
+  `MultiSites.getAllWithGroups` when the request covers a single site, `lastDate` of `Insights.getInsights` and
+  `Insights.getMoversAndShakers`, and the visit evolution of `SegmentEditor.getSegmentData`. The `date` metadata of
+  `Insights.getInsights` and `Insights.getMoversAndShakers` now holds the resolved date (`2026-09-08` rather than
+  `yesterday`), so it names the same days as `lastDate`.
+* `daysAgo` of `firstVisit` and `lastVisit` in `Live.getVisitorProfile` now counts the site's calendar days, so a visit
+  early in the day two days back is `2` days ago rather than `1`.
 
 ### Deprecations
 * `Piwik\Tracker\Visit::getTimeSpentReferrerAction()` and the `log_link_visit_action.time_spent_ref_action` column are

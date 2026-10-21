@@ -16,6 +16,7 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugins\API\API;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -154,6 +155,51 @@ class ProcessedReportRelativeDateTimezoneTest extends IntegrationTestCase
             $report['prettyDate'],
             'previous7 did not end on the site\'s yesterday.'
         );
+    }
+
+    /** A comparison row reaches the archive on the site's days, so its label has to name them too. */
+    public function testAComparedRelativeRangeIsLabelledOnTheSitesOwnDays(): void
+    {
+        $report = Request::processRequest('API.getProcessedReport', [
+            'idSite' => $this->idSite,
+            'period' => 'range',
+            'date' => 'previous7',
+            'apiModule' => 'VisitsSummary',
+            'apiAction' => 'get',
+            'compare' => 1,
+            'compareSegments' => ['visitCount>=1'],
+            'format' => 'original',
+        ]);
+
+        $row = $report['reportData']->getFirstRow();
+        self::assertNotFalse($row, 'The report holds no rows, so its comparison labels describe no data.');
+
+        $sitesWindow = PeriodFactory::build('range', self::AUCKLAND_PREVIOUS7)->getLocalizedLongString();
+        foreach ($row->getComparisons()->getRows() as $comparison) {
+            self::assertSame(3, (int) $comparison->getColumn('nb_visits'));
+            self::assertSame(ucfirst($sitesWindow), $comparison->getMetadata('comparePeriodPretty'));
+        }
+    }
+
+    /** Comparison graphs name each series from the request rather than from the report rows. */
+    public function testAComparedRelativeRangeSeriesIsLabelledOnTheSitesOwnDays(): void
+    {
+        $originalGet = $_GET;
+        $_GET = [
+            'idSite' => (string) $this->idSite,
+            'period' => 'range',
+            'date' => 'previous7',
+            'compareSegments' => ['visitCount>=1'],
+        ];
+
+        try {
+            $label = DataComparisonFilter::getPrettyComparisonLabelFromSeriesIndex(0);
+        } finally {
+            $_GET = $originalGet;
+        }
+
+        $sitesWindow = PeriodFactory::build('range', self::AUCKLAND_PREVIOUS7)->getLocalizedLongString();
+        self::assertStringContainsString('(' . ucfirst($sitesWindow) . ')', $label);
     }
 
     /** A comma date is a multiple period, so it stays labelled as a range. */
