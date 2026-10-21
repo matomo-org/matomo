@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\DimensionSegmentFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
@@ -73,6 +75,11 @@ class Consent extends VisitDimension
         }
 
         parent::configureSegments($segmentsList, $dimensionSegmentFactory);
+    }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        // do not generate any metric for this
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)

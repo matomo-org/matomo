@@ -13,11 +13,13 @@ namespace Piwik\Plugins\CoreHome\tests\Integration\Columns;
 
 use Piwik\API\Request;
 use Piwik\Cache;
+use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Metrics\Formatter;
+use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\ConsentAwareAnalytics;
 use Piwik\Tests\Framework\Fixture;
@@ -149,6 +151,16 @@ class ConsentStateSegmentTest extends IntegrationTestCase
         $this->expectExceptionMessage("Segment 'consentState' is not a supported segment.");
 
         $this->getArchivedVisitCount($this->idSite, 'consentState==consented');
+    }
+
+    public function testNoMetricIsDerivedFromConsent(): void
+    {
+        $dimensionId = (new Consent())->getId();
+        $metricsOfDimension = array_filter(MetricsList::get()->getMetrics(), function ($metric) use ($dimensionId) {
+            return $metric instanceof ArchivedMetric && $metric->getDimension() && $metric->getDimension()->getId() === $dimensionId;
+        });
+
+        $this->assertSame([], array_values($metricsOfDimension));
     }
 
     /**
