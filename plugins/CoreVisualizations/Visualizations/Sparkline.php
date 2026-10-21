@@ -14,6 +14,8 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Request;
+use Piwik\Site;
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
@@ -38,7 +40,7 @@ class Sparkline extends ViewDataTable
         $date = Common::getRequestVar('date');
 
         if ($period == 'range') {
-            $periodObj = Period\Factory::build($period, $date);
+            $periodObj = Period\Factory::build($period, $date, $this->getTimezone());
             $_GET['period'] = 'day';
             $_GET['date'] = $periodObj->getRangeString();
         }
@@ -195,6 +197,7 @@ class Sparkline extends ViewDataTable
     {
         $comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array');
         $compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array');
+        $timezone = $this->getTimezone();
 
         foreach ($comparePeriods as $index => $comparePeriod) {
             $compareDate = $compareDates[$index];
@@ -202,12 +205,17 @@ class Sparkline extends ViewDataTable
                 continue;
             }
 
-            $periodObj = Period\Factory::build($comparePeriod, $compareDate);
+            $periodObj = Period\Factory::build($comparePeriod, $compareDate, $timezone);
             $comparePeriods[$index] = 'day';
             $compareDates[$index] = $periodObj->getRangeString();
         }
 
         $this->requestConfig->request_parameters_to_modify['comparePeriods'] = $comparePeriods;
         $this->requestConfig->request_parameters_to_modify['compareDates'] = $compareDates;
+    }
+
+    private function getTimezone(): string|false
+    {
+        return Site::getTimezoneForIdSitesString(Request::fromRequest()->getStringParameter('idSite', ''));
     }
 }
