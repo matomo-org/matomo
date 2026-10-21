@@ -428,7 +428,7 @@
         "PasswordStrengthValidationSpecialChar": "Contains a special character",
         "PasswordStrengthValidationFailed": "Password strength validation failed. The password should meet these rules: %1$s.",
         "Period": "Period",
-        "PhpCriticalSecurityUpdateRequired": "Your server reports PHP %1$s, a version affected by critical security vulnerabilities. Contact your server administrator or hosting provider immediately to upgrade PHP or confirm that vendor security fixes have been applied. Updating Matomo alone does not fix these vulnerabilities. %2$sView PHP security advisory%3$s",
+        "PhpCriticalSecurityUpdateRequired": "Your server reports PHP %1$s, a version affected by critical security vulnerabilities. Contact your server administrator or hosting provider immediately to upgrade PHP or confirm that vendor security fixes have been applied. Updating Matomo alone does not fix these vulnerabilities. %2$sRead the Matomo announcement%3$s or %4$sview the PHP security advisory%5$s.",
         "PhpCriticalSecurityUpdateRequiredTitle": "Urgent PHP security update required",
         "Piechart": "Pie chart",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s is available. Please notify the %2$sMatomo administrator%3$s.",
