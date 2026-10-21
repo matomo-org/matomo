@@ -60,9 +60,10 @@ final class AIRequestDecision
      *
      * @param string      $reason    Machine-readable reason, for example `'limit_reached'` or `'disabled'`.
      * @param string|null $message   Translated text to show the user, or null for a generic message.
-     * @param int|null    $used      Units used so far, for display only.
-     * @param int|null    $limit     Allowance, for display only. Its meaning is up to the listener.
-     * @param int|null    $remaining Units left, for display only.
+     * @param int|null    $used      Units used so far.
+     * @param int|null    $limit     Allowance, in the units the feature key defines. Callers may act on
+     *                               it, not only show it, so it must be the real allowance.
+     * @param int|null    $remaining Units left.
      */
     public function deny(
         string $reason,
@@ -90,9 +91,10 @@ final class AIRequestDecision
      * When several listeners report, the one with the least remaining wins. A listener reporting no
      * remaining (unlimited) never replaces one that did.
      *
-     * @param int|null $used      Units used so far, for display only.
-     * @param int|null $limit     Allowance, for display only. Its meaning is up to the listener.
-     * @param int|null $remaining Units left, for display only.
+     * @param int|null $used      Units used so far.
+     * @param int|null $limit     Allowance, in the units the feature key defines. Callers may act on it,
+     *                            not only show it, so it must be the real allowance.
+     * @param int|null $remaining Units left.
      */
     public function reportUsage(?int $used, ?int $limit, ?int $remaining): void
     {

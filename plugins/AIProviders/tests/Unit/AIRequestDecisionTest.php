@@ -65,6 +65,17 @@ class AIRequestDecisionTest extends TestCase
         $this->assertSame(24, $decision->getUsed());
     }
 
+    public function testReportUsageWithRemainingReplacesAnUnlimitedReport(): void
+    {
+        $decision = new AIRequestDecision();
+        $decision->reportUsage(3, null, null);
+        $decision->reportUsage(20, 25, 5);
+
+        $this->assertSame(20, $decision->getUsed());
+        $this->assertSame(25, $decision->getLimit());
+        $this->assertSame(5, $decision->getRemaining());
+    }
+
     public function testReportUsageWithoutRemainingNeverLoosensAnExistingReport(): void
     {
         $decision = new AIRequestDecision();
