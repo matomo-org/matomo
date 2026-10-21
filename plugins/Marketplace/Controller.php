@@ -25,6 +25,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Controller as PluginsController;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
+use Piwik\Plugins\CorePluginsAdmin\PluginInstallResults;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
@@ -544,7 +545,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function updatePlugin()
     {
-        $view = $this->createUpdateOrInstallView('updatePlugin', static::UPDATE_NONCE);
+        $this->installOrUpdateAndRedirect('updatePluginResult', static::UPDATE_NONCE);
+    }
+
+    public function updatePluginResult()
+    {
+        $view = $this->createUpdateOrInstallResultView('updatePlugin');
+        if ($view === null) {
+            Piwik::redirectToModule('Marketplace', 'overview', [PluginInstallResults::TOKEN_PARAMETER => null]);
+            return;
+        }
+
         return $view->render();
     }
 
@@ -559,17 +570,29 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'referrer' => urlencode($this->getMarketplaceUrlToReturnTo()),
         );
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-            $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
-            $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
-            return $view->render();
+            $this->installOrUpdateAndRedirect('installPluginResult', static::INSTALL_NONCE);
         }
     }
 
-    private function createUpdateOrInstallView($template, $nonceName)
+    public function installPluginResult()
+    {
+        $view = $this->createUpdateOrInstallResultView('installPlugin');
+        if ($view === null) {
+            Piwik::redirectToModule('Marketplace', 'overview', [PluginInstallResults::TOKEN_PARAMETER => null]);
+            return;
+        }
+
+        $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
+        return $view->render();
+    }
+
+    /**
+     * Replaces the plugin files, then redirects to the result page instead of rendering it (see PluginInstallResults).
+     */
+    private function installOrUpdateAndRedirect(string $resultAction, string $nonceName): void
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->dieIfPluginsAdminIsDisabled();
-        $this->displayWarningIfConfigFileNotWritable();
 
         $plugins = $this->getPluginNameIfNonceValid($nonceName);
 
@@ -581,10 +604,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        $view = new View('@Marketplace/' . $template);
-        $view->errorMessage = '';
-
-        $pluginInfos = [];
+        $installedPlugins = [];
         $failedPlugins = [];
         $notifiedMessages = [];
         foreach ($plugins as $pluginName) {
@@ -594,7 +614,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // inside the try as well, as it fails for a plugin the license key no longer covers
                 $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-                $pluginInfos[] = $currentPluginInfo;
+                $installedPlugins[] = $pluginName;
             } catch (\Exception $e) {
                 // one plugin that cannot be updated - an expired or missing license being the common
                 // case - must not keep the remaining selected ones on their old version
@@ -608,7 +628,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        if (empty($pluginInfos)) {
+        if (empty($installedPlugins)) {
             Url::redirectToReferrer();
             return;
         }
@@ -619,11 +639,59 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Notification\Manager::notify('Marketplace_PluginsCouldNotBeUpdated', $notification);
         }
 
-        // only now, as the view copies the pending notifications once and the loop above adds to them
-        $this->setBasicVariablesView($view);
+        $token = PluginInstallResults::store([
+            'plugins' => $installedPlugins,
+            'marketplaceUrl' => $this->getMarketplaceUrlToReturnTo(),
+        ]);
 
+        Url::redirectToUrl(Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
+            'module' => 'Marketplace',
+            'action' => $resultAction,
+            'pluginName' => null,
+            'nonce' => null,
+            'mode' => null,
+            'referrer' => null,
+            PluginInstallResults::TOKEN_PARAMETER => $token,
+        ]));
+    }
+
+    /**
+     * @return View|null null when there is no result to show, eg because it expired or was recorded in another session
+     */
+    private function createUpdateOrInstallResultView(string $template): ?View
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->dieIfPluginsAdminIsDisabled();
+        $this->displayWarningIfConfigFileNotWritable();
+
+        $result = PluginInstallResults::get(
+            Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '')
+        );
+
+        $pluginInfos = [];
+        foreach ($result['plugins'] ?? [] as $pluginName) {
+            if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
+                continue;
+            }
+
+            // read from disk rather than the Marketplace, so the page shows the version actually installed
+            $metadata = (new Plugin\MetadataLoader($pluginName))->load();
+            $pluginInfos[] = [
+                'name' => $pluginName,
+                'latestVersion' => $metadata['version'],
+                'isTheme' => !empty($metadata['theme']),
+            ];
+        }
+
+        if (empty($pluginInfos)) {
+            return null;
+        }
+
+        $view = new View('@Marketplace/' . $template);
+        $this->setBasicVariablesView($view);
+        $view->errorMessage = '';
         $view->plugins = $pluginInfos;
-        $view->marketplaceUrl = $this->getMarketplaceUrlToReturnTo();
+        $view->marketplaceUrl = $result['marketplaceUrl'] ?? '';
 
         return $view;
     }

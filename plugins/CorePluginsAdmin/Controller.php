@@ -117,17 +117,45 @@ class Controller extends Plugin\ControllerAdmin
             throw new \Exception('Something went wrong during the plugin file upload. Please try again.');
         }
 
-        $view = $this->configureView('@CorePluginsAdmin/uploadPlugin');
-
         $pluginMetadata = $this->pluginInstaller->installOrUpdatePluginFromFile($file);
 
-        $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
-        $view->plugin = array(
-            'name'        => $pluginMetadata->name,
-            'version'     => $pluginMetadata->version,
-            'isTheme'     => !empty($pluginMetadata->theme),
-            'isActivated' => $this->pluginManager->isPluginActivated($pluginMetadata->name),
+        // see PluginInstallResults for why the result is rendered by a new request
+        $token = PluginInstallResults::store(['plugins' => [$pluginMetadata->name]]);
+
+        Url::redirectToUrl(Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
+            'module' => 'CorePluginsAdmin',
+            'action' => 'uploadPluginResult',
+            'nonce' => null,
+            PluginInstallResults::TOKEN_PARAMETER => $token,
+        ]));
+    }
+
+    public function uploadPluginResult()
+    {
+        $this->dieIfPluginsAdminIsDisabled();
+        Piwik::checkUserHasSuperUserAccess();
+
+        $result = PluginInstallResults::get(
+            \Piwik\Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '')
         );
+        $pluginName = $result['plugins'][0] ?? '';
+
+        if ($pluginName === '' || !$this->pluginManager->isPluginInFilesystem($pluginName)) {
+            // expired, or recorded in another session
+            Piwik::redirectToModule('CorePluginsAdmin', 'plugins', [PluginInstallResults::TOKEN_PARAMETER => null]);
+            return;
+        }
+
+        $metadata = (new Plugin\MetadataLoader($pluginName))->load();
+
+        $view = $this->configureView('@CorePluginsAdmin/uploadPlugin');
+        $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
+        $view->plugin = [
+            'name'        => $pluginName,
+            'version'     => $metadata['version'],
+            'isTheme'     => !empty($metadata['theme']),
+            'isActivated' => $this->pluginManager->isPluginActivated($pluginName),
+        ];
 
         return $view->render();
     }
