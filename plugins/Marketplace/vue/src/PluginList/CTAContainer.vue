@@ -76,6 +76,7 @@
       :label="translate('General_Installed')"
       :in-modal="inModal"
       :has-action="hasInstalledAction"
+      :action-as-button="hasActivationToggle"
     >
       <template v-if="plugin.missingRequirements.length > 0 || !isAutoUpdatePossible">
         <DownloadButton
@@ -84,18 +85,17 @@
           :is-auto-update-possible="isAutoUpdatePossible"
         />
       </template>
-      <template v-else-if="!plugin.isInvalid && !isMultiServerEnvironment && isPluginsAdminEnabled">
-        <a v-if="plugin.isActivated"
-           :class="{ 'btn btn-block': !inModal }"
-           :href="linkToDeactivate(plugin.name)"
-        >{{ translate('CorePluginsAdmin_Deactivate') }}</a>
-        <template v-else-if="plugin.missingRequirements.length > 0">
-          -
-        </template>
+      <template v-else-if="hasActivationToggle">
+        <MarketplaceButton
+          v-if="inModal"
+          :href="activationToggleUrl"
+          :outline="true"
+          :full-width="true"
+        >{{ activationToggleLabel }}</MarketplaceButton>
         <a v-else
-           :class="{ 'btn btn-block': !inModal }"
-           :href="linkToActivate(plugin.name)"
-        >{{ translate('CorePluginsAdmin_Activate') }}</a>
+           class="btn btn-block"
+           :href="activationToggleUrl"
+        >{{ activationToggleLabel }}</a>
       </template>
     </CTAStatus>
 
@@ -187,7 +187,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoUrl } from 'CoreHome';
+import { MatomoUrl, translate } from 'CoreHome';
+import MarketplaceButton from '../MarketplaceButton/MarketplaceButton.vue';
 import CTAStatus from './CTAStatus.vue';
 import DownloadButton from './DownloadButton.vue';
 import MoreDetailsAction from './MoreDetailsAction.vue';
@@ -251,6 +252,7 @@ export default defineComponent({
   components: {
     CTAStatus,
     DownloadButton,
+    MarketplaceButton,
     MoreDetailsAction,
   },
   computed: {
@@ -267,7 +269,25 @@ export default defineComponent({
     hasInstalledAction(): boolean {
       return this.plugin.missingRequirements.length > 0
         || !this.isAutoUpdatePossible
-        || (!this.plugin.isInvalid && !this.isMultiServerEnvironment && this.isPluginsAdminEnabled);
+        || this.hasActivationToggle;
+    },
+    /** Whether the installed state offers Activate or Deactivate rather than a download. */
+    hasActivationToggle(): boolean {
+      return this.plugin.missingRequirements.length === 0
+        && this.isAutoUpdatePossible
+        && !this.plugin.isInvalid
+        && !this.isMultiServerEnvironment
+        && this.isPluginsAdminEnabled;
+    },
+    activationToggleUrl(): string {
+      return this.plugin.isActivated
+        ? this.linkToDeactivate(this.plugin.name)
+        : this.linkToActivate(this.plugin.name);
+    },
+    activationToggleLabel(): string {
+      return this.plugin.isActivated
+        ? translate('CorePluginsAdmin_Deactivate')
+        : translate('CorePluginsAdmin_Activate');
     },
   },
   methods: {

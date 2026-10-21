@@ -38,6 +38,8 @@ jest.mock('CoreHome', () => ({
   ucfirst: (value: string) => `${value.charAt(0).toUpperCase()}${value.slice(1)}`,
   externalLink: (url: string) => `<a href="${url}">`,
   externalRawLink: (url: string) => url,
+  // the activate and deactivate links CTAContainer builds for an installed plugin
+  MatomoUrl: jest.requireActual('../testCoreHomeMock').coreHomeMock().MatomoUrl,
 }), { virtual: true });
 
 // required rather than imported: an import would load the component, and so run the factory
@@ -535,6 +537,33 @@ describe('PluginDetails', () => {
     expect(wrapper.find('.marketplacePluginDetails__free').exists()).toBe(false);
     expect(wrapper.find('.marketplacePluginDetails__buy')
       .findComponent({ name: 'CTAContainer' }).exists()).toBe(true);
+  });
+
+  it('offers Deactivate as an outline button under the status, as the card does', async () => {
+    mockPost.mockResolvedValue({ ...detailsResponse, isInstalled: true, isActivated: true });
+
+    const wrapper = mountDetails({ ...cardRow, isInstalled: true, isActivated: true }, true);
+    await flushPromises();
+
+    const buy = wrapper.find('.marketplacePluginDetails__buy');
+    const deactivate = buy.find('a.marketplaceButton.marketplaceButton--outline');
+
+    expect(buy.find('.alert').text()).toBe('General_Installed');
+    expect(deactivate.text()).toBe('CorePluginsAdmin_Deactivate');
+    expect(deactivate.attributes('href')).toContain('action=deactivate');
+    expect(deactivate.element.closest('.alert')).toBe(null);
+  });
+
+  it('offers Activate in the same button for an installed plugin that is not active', async () => {
+    mockPost.mockResolvedValue({ ...detailsResponse, isInstalled: true, isActivated: false });
+
+    const wrapper = mountDetails({ ...cardRow, isInstalled: true, isActivated: false }, true);
+    await flushPromises();
+
+    const activate = wrapper.find('.marketplacePluginDetails__buy a.marketplaceButton--outline');
+
+    expect(activate.text()).toBe('CorePluginsAdmin_Activate');
+    expect(activate.attributes('href')).toContain('action=activate');
   });
 
   it('says Free above the button for a plugin that costs nothing', async () => {
