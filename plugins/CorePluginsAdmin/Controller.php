@@ -122,12 +122,10 @@ class Controller extends Plugin\ControllerAdmin
         // see PluginInstallResults for why the result is rendered by a new request
         $token = PluginInstallResults::store(['plugins' => [$pluginMetadata->name]]);
 
-        Url::redirectToUrl(Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
-            'module' => 'CorePluginsAdmin',
-            'action' => 'uploadPluginResult',
+        Piwik::redirectToModule('CorePluginsAdmin', 'uploadPluginResult', [
             'nonce' => null,
             PluginInstallResults::TOKEN_PARAMETER => $token,
-        ]));
+        ]);
     }
 
     public function uploadPluginResult()

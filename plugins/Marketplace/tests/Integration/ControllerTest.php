@@ -14,6 +14,7 @@ use Piwik\Cache;
 use Piwik\DI;
 use Piwik\FrontController;
 use Piwik\Nonce;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\MetadataLoader;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
@@ -320,6 +321,24 @@ class ControllerTest extends IntegrationTestCase
         self::assertStringContainsString(
             Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo, Provider'),
             $response
+        );
+    }
+
+    public function testUpdatePluginKeepsTheFailureSummaryWhenAPageInBetweenDropsTransientNotifications()
+    {
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR),
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $redirectUrl = $this->dispatchUpdateUntilRedirect('SecurityInfo,TreemapVisualization');
+
+        // what the "Database upgrade required" screen does when an updated plugin ships a migration
+        NotificationManager::cancelAllNonPersistent();
+
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo'),
+            $this->followRedirect($redirectUrl)
         );
     }
 

@@ -636,6 +636,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (!empty($failedPlugins)) {
             $notification = new Notification(Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', implode(', ', $failedPlugins)));
             $notification->context = Notification::CONTEXT_INFO;
+            $notification->type = Notification::TYPE_PERSISTENT;
             Notification\Manager::notify('Marketplace_PluginsCouldNotBeUpdated', $notification);
         }
 
@@ -644,15 +645,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'marketplaceUrl' => $this->getMarketplaceUrlToReturnTo(),
         ]);
 
-        Url::redirectToUrl(Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified([
-            'module' => 'Marketplace',
-            'action' => $resultAction,
+        Piwik::redirectToModule('Marketplace', $resultAction, [
             'pluginName' => null,
             'nonce' => null,
             'mode' => null,
             'referrer' => null,
             PluginInstallResults::TOKEN_PARAMETER => $token,
-        ]));
+        ]);
     }
 
     /**

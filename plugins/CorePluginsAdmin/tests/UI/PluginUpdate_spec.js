@@ -51,6 +51,7 @@ describe("PluginUpdate", function () {
         delete testEnvironment.mockMarketplaceApiService;
         delete testEnvironment.mockMarketplacePluginUpdate;
         delete testEnvironment.forceEnablePluginUpdateChecks;
+        delete testEnvironment.pluginsToLoad;
         testEnvironment.save();
     });
 

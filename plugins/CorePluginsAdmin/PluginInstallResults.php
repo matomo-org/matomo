@@ -16,6 +16,8 @@ use Piwik\Session\SessionNamespace;
  * Hands the outcome of a plugin install or update to the request that displays it. The request that
  * replaces the plugin files still has the old plugin code loaded, so it only records what it did and
  * redirects; the result page is rendered by a new request, which loads the new code.
+ *
+ * @phpstan-type InstallResult array{plugins: list<string>, marketplaceUrl?: string}
  */
 class PluginInstallResults
 {
@@ -27,7 +29,7 @@ class PluginInstallResults
     private const TTL_IN_SECONDS = 600;
 
     /**
-     * @param array<string, mixed> $result
+     * @param InstallResult $result
      * @return string the token to read the result back with
      */
     public static function store(array $result): string
@@ -42,11 +44,11 @@ class PluginInstallResults
     }
 
     /**
-     * @return array<string, mixed>|null null when the token is unknown, belongs to another session or has expired
+     * @return InstallResult|null null when the token is unknown, belongs to another session or has expired
      */
     public static function get(string $token): ?array
     {
-        if ($token === '' || !ctype_alnum($token)) {
+        if (!ctype_alnum($token)) {
             return null;
         }
 
@@ -55,6 +57,7 @@ class PluginInstallResults
             return null;
         }
 
+        /** @var InstallResult|null $result written by store() only */
         $result = $session->$token;
 
         return is_array($result) ? $result : null;
