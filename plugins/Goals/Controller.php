@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Goals;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Http\JsonResponse;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
@@ -22,6 +23,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Goals\FeatureFlags\GoalRecommendations;
+use Piwik\Plugins\Goals\Recommendations\GoalRecommendationService;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Site;
@@ -473,6 +475,13 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view->userCanEditGoals = Piwik::isUserHasWriteAccess($this->idSite);
         $view->goalRecommendationsEnabled = $this->featureFlagManager->isFeatureActive(GoalRecommendations::class);
+        $view->goalAiAvailability = '';
+        if ($view->goalRecommendationsEnabled && $view->userCanEditGoals) {
+            try {
+                $view->goalAiAvailability = StaticContainer::get(GoalRecommendationService::class)->getAiAvailability();
+            } catch (\Exception $e) {
+            }
+        }
         $view->currencySymbol = Site::getCurrencySymbolFor($this->idSite);
         $view->goalTriggerTypeOptions = array(
             'visitors' => Piwik::translate('Goals_WhenVisitors'),
