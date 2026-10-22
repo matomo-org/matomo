@@ -1,1 +1,28 @@
-{}
+{
+    "UserCountryMap": {
+        "AndNOthers": "og %s andre",
+        "Cities": "Byar",
+        "Countries": "Land",
+        "DaysAgo": "%s dagar sidan",
+        "GoalConversions": "%s målkonverteringar",
+        "HoursAgo": "%s timar sidan",
+        "MinutesAgo": "%s minutt sidan",
+        "NoVisit": "Ingen besøk",
+        "NoVisitsInfo": "Ingen besøk blir viste, fordi ingen besøk i denne perioden har rett geoposisjoneringsinformasjon (breidde- og lengdegrad).",
+        "NoVisitsInfo2": "Løys dette ved å bruke ein GeoIP-tilbydar for geoposisjonering med ein GeoIP-database på bynivå. Sjølv om det er lite sannsynleg, kan det framleis vere umogleg å geoposisjonere enkelte IP-adresser.",
+        "None": "Ingen",
+        "PluginDescription": "Gir småprogramma «Kart over besøkande» og «Sanntidskart». Krev innstikket «UserCountry».",
+        "RealTimeMap": "Sanntidskart",
+        "RealTimeMapHelp": "Viser kvar dei besøkande på nettstaden var dei siste 30 minutta, og blinkar for nye besøkande. Nye besøk blir viste som store oransje bobler, og eldre som mindre grå bobler. Kartet blir oppdatert kvart femte sekund.",
+        "Regions": "Regionar",
+        "Searches": "%s søk",
+        "SecondsAgo": "%s sekund sidan",
+        "ShowingVisits": "Geoposisjonerte besøk dei siste",
+        "Unlocated": "<b>%1$s</b> %2$s av besøka frå %3$s kunne ikkje geoposisjonerast.",
+        "VisitorMap": "Kart over besøkande",
+        "WithUnknownCity": "%s frå ukjende byar",
+        "WithUnknownRegion": "%s frå ukjende regionar",
+        "WorldWide": "Heile verda",
+        "map": "kart"
+    }
+}

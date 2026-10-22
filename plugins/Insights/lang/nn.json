@@ -1,1 +1,35 @@
-{}
+{
+    "Insights": {
+        "ControlComparedToDescription": "Vekst samanlikna med",
+        "ControlFilterByDescription": "Vis alle, berre endringar, berre nye eller berre forsvunne",
+        "DatePeriodCombinationNotSupported": "Det er ikkje mogleg å lage innsikt for denne kombinasjonen av dato og periode.",
+        "DayComparedToPreviousDay": "førre dag",
+        "DayComparedToPreviousWeek": "same dag veka før",
+        "DayComparedToPreviousYear": "same dag året før",
+        "Filter": "Filter",
+        "FilterIncreaserAndDecreaser": "Auke og nedgang",
+        "FilterOnlyDecreaser": "Berre nedgang",
+        "FilterOnlyDisappeared": "Berre forsvunne",
+        "FilterOnlyIncreaser": "Berre auke",
+        "FilterOnlyMovers": "Berre endringar",
+        "FilterOnlyNew": "Berre nye",
+        "IgnoredChanges": "Endringar som gjaldt færre enn %s besøk, vart ignorerte.",
+        "MonthComparedToPreviousMonth": "førre månad",
+        "MonthComparedToPreviousYear": "same månad året før",
+        "MoversAndShakersWidgetTitle": "Største endringar",
+        "NoResultMatchesCriteria": "Ingen rader samsvarer med kriteria",
+        "OverviewWidgetTitle": "Oversikt over innsikt",
+        "PluginDescription": "Gir innsikt i trafikken din. Innsikta er tilgjengeleg som småprogram i oversiktspanelet og som eit nytt ikon i rapportane, slik at du ser dei viktigaste trendane i dataa dine.",
+        "TitleConsideredInsightsChanges": "Radene auka eller minka med minst %1$s besøk (%2$s%% av %3$s besøk totalt).",
+        "TitleConsideredInsightsGrowth": "Desse radene har ein vekst på minst %1$s%% samanlikna med %2$s.",
+        "TitleConsideredMoversAndShakersChanges": "Rader blir rekna som endringar berre viss dei auka med meir enn %1$s%% besøk eller minka med mindre enn %2$s%% besøk, nye oppføringar berre viss dei auka med meir enn %3$s%% besøk (%4$s), og forsvunne rader viss dei minka med mindre enn %5$s%% besøk (%6$s).",
+        "TitleConsideredMoversAndShakersGrowth": "%1$s endra seg frå %2$s til %3$s samanlikna med %4$s. Ut frå dette er det venta ei utvikling på %5$s%% for kvar rad.",
+        "TitleRowChangeDetails": "«%1$s» endra seg frå %2$s (%3$s) til %4$s (%5$s) %6$s.",
+        "TitleRowDisappearedDetails": "«%1$s» minka med %2$s og forsvann i %3$s samanlikna med %4$s.",
+        "TitleRowMoverAndShaker": "Denne rada hadde større verknad enn gjennomsnittet.",
+        "TitleRowNewDetails": "«%1$s» auka med %2$s og er ny samanlikna med %3$s.",
+        "WeekComparedToPreviousWeek": "førre veke",
+        "WidgetCategory": "Innsikt",
+        "YearComparedToPreviousYear": "førre år"
+    }
+}
