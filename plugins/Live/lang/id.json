@@ -1,7 +1,6 @@
 {
     "Live": {
         "ActionsAndDuration": "%1$s tindakan dalam %2$s",
-        "AggregatedRealtimeReportsEnabledPolicySettingTitle": "Laporan Real-time Teragregasi Diaktifkan",
         "AveragePageGenerationTime": "Rata-rata setiap halaman membutuhkan %1$s untuk memuat untuk pengunjung ini.",
         "CalculatedOverNPageViews": "Dihitung menggunakan tampilan %1$s halaman terakhir dari pengunjung ini.",
         "ClickToSeeAllContents": "Klik untuk melihat setiap interaksi/tayangan konten",
@@ -11,14 +10,8 @@
         "DisableVisitorProfile": "Nonaktifkan profil pengunjung",
         "DisableVisitorProfileDescription": "Semua fitur terkait log kunjungan selalu berfungsi.",
         "DisableVisitsLogAndProfile": "Matikan log Kunjungan dan profil Pengunjung",
-        "DisableVisitsLogAndProfileDescription": "Fitur-fitur yang bergantung pada fitur-fitur ini juga dihapus, seperti log e-commerce, log kunjungan tersegmentasi, peta waktu nyata, atau widget waktu nyata. Anda mungkin perlu mematuhi undang-undang/pedoman privasi negara anda.",
         "DisableVisitsLogAndProfileImpact": "<strong>Pengunjung &gt; Log Kunjungan</strong> dan tampilan Profil Pengunjung tidak tersedia.",
         "DisableVisitsLogAndProfileWhatItDoes": "Fitur Log Kunjungan dan Profil Pengunjung dinonaktifkan.<br><br>Hal ini mencegah rekonstruksi jalur penjelajahan pengunjung individual dan perilaku tingkat kunjungan yang terperinci.",
-        "EnableAggregatedRealtimeReports": "Aktifkan laporan real-time teragregasi",
-        "EnableAggregatedRealtimeReportsDescription": "Menampilkan metrik teragregasi yang aman secara privasi untuk \"24 Jam Terakhir\" dan \"30 Menit Terakhir\". Tidak ada informasi tingkat pengunjung, kunjungan, sesi, atau tindakan individual yang ditampilkan.",
-        "EnableAggregatedRealtimeReportsImpact": "<strong>Pengunjung &gt; Real-time</strong> hanya menampilkan penghitung teragregasi, dengan jumlah yang dibulatkan.",
-        "EnableAggregatedRealtimeReportsPolicySettingRequirementNote": "Laporan real-time teragregasi harus diaktifkan.",
-        "EnableAggregatedRealtimeReportsWhatItDoes": "Laporan real-time teragregasi tetap tersedia saat Log Kunjungan dimatikan.<br><br>Hanya total \"24 Jam Terakhir\" dan \"30 Menit Terakhir\" yang ditampilkan, dan jumlahnya dibulatkan, sehingga tidak ada informasi tingkat pengunjung, kunjungan, sesi, atau tindakan individual yang diungkapkan.",
         "ExportThisDatasetToXml": "Ekspor dataset ini ke XML",
         "FirstVisit": "Kunjungan pertama",
         "GoalType": "Jenis",
