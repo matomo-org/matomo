@@ -17,6 +17,12 @@ class Service
     public const HTTP_REQUEST_TIMEOUT = 60;
 
     /**
+     * Actions the Marketplace answers the same for every consumer, so they are sent without the access token and
+     * stay a cacheable GET.
+     */
+    private const ACTIONS_WITHOUT_ACCESS_TOKEN = ['info'];
+
+    /**
      * @var string
      */
     private $domain;
@@ -71,8 +77,11 @@ class Service
     }
 
     /**
-     * Downloads data from the given URL via a POST request. If a destination path is given, the downloaded data
-     * will be stored in the given path and returned otherwise.
+     * Downloads data from the given URL. If a destination path is given, the downloaded data will be stored in the
+     * given path and returned otherwise.
+     *
+     * POST is requested whenever post data is passed or {@link authenticate()} has added the access token, so neither
+     * ends up in the URL. Otherwise it is a GET.
      *
      * Make sure to call {@link authenticate()} to download paid plugins.
      *
@@ -81,6 +90,8 @@ class Service
      * @param null|int $timeout Defaults to 60 seconds see {@link self::HTTP_REQUEST_TIMEOUT}
      * @param null|array $postData eg array('email' => 'user@example.org')
      * @param bool $getExtendedInfo Return the extended response info for the HTTP request.
+     * @param bool $withAccessToken Pass false to leave the access token off a request the Marketplace does not
+     *                              personalise.
      * @return bool|string Returns the downloaded data or true if a destination path was given.
      * @throws \Exception
      */
@@ -89,7 +100,8 @@ class Service
         $destinationPath = null,
         $timeout = null,
         ?array $postData = null,
-        bool $getExtendedInfo = false
+        bool $getExtendedInfo = false,
+        bool $withAccessToken = true
     ) {
         $method = Http::getTransportMethod();
 
@@ -97,7 +109,7 @@ class Service
             $timeout = static::HTTP_REQUEST_TIMEOUT;
         }
 
-        if ($this->accessToken) {
+        if ($withAccessToken && $this->accessToken) {
             if (!is_array($postData)) {
                 $postData = [];
             }
@@ -119,7 +131,7 @@ class Service
             $acceptInvalidSslCertificate = false,
             $byteRange = false,
             $getExtendedInfo,
-            $httpMethod = 'POST',
+            $httpMethod = null === $postData ? 'GET' : 'POST',
             $httpUsername = null,
             $httpPassword = null,
             $postData
@@ -152,7 +164,8 @@ class Service
         $query = Http::buildQuery($params);
         $url   = sprintf('%s%s?%s', $endpoint, $action, $query);
 
-        $response = $this->download($url, null, null, $postData, true);
+        $withAccessToken = !in_array($action, self::ACTIONS_WITHOUT_ACCESS_TOKEN, true);
+        $response = $this->download($url, null, null, $postData, true, $withAccessToken);
         $result = $response['data'] ?? null;
 
         if (null === $result) {
