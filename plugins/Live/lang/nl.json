@@ -10,7 +10,6 @@
         "DisableVisitorProfile": "Schakel bezoekersprofielen uit",
         "DisableVisitorProfileDescription": "Alle bezoekerslog gerelateerde functionaliteiten werken altijd.",
         "DisableVisitsLogAndProfile": "Schakel bezoekenlog en bezoekersprofielen uit",
-        "DisableVisitsLogAndProfileDescription": "Verwijdert tevens de functionaliteiten die hiervan afhankelijk zijn, zoals de e-commercelog, het gesegmenteerd bezoekenlog, de real-time kaart of het real-time widget. Mogelijk vereist om in overeenstemming te zijn met de privacy wetgeving/richtlijnen.",
         "FirstVisit": "Eerste bezoek",
         "GoalType": "Type",
         "HideMap": "Verberg kaart",
