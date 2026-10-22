@@ -114,6 +114,21 @@ class ChartTest extends TestCase
         ];
     }
 
+    public function testSetAxisXLabelsDecodesHtmlEntitiesInTicksButKeepsLabelsEncoded(): void
+    {
+        $chart = new Chart(new FakeLogger());
+        $chart->properties = ['x_axis_step_size' => 1, 'show_all_ticks' => true];
+
+        $chart->setAxisXLabels(['My &quot;quoted&quot; video', 'Tom &amp; Jerry &lt;b&gt;', 42]);
+
+        $axes = $chart->render()['params']['axes'];
+
+        // ticks are drawn as plain text (canvas) and must not show HTML entities
+        self::assertSame(['My "quoted" video', 'Tom & Jerry <b>', 42], $axes['xaxis']['ticks']);
+        // labels are inserted as HTML into tooltips and must stay encoded
+        self::assertSame(['My &quot;quoted&quot; video', 'Tom &amp; Jerry &lt;b&gt;', 42], $axes['xaxis']['labels']);
+    }
+
     /**
      * @param array<int> $dataCounts
      */
