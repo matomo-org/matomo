@@ -70,11 +70,19 @@ class Consent extends VisitDimension
 
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
-        if (!StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(ConsentAwareAnalytics::class)) {
+        if (!self::isFeatureEnabled()) {
             return;
         }
 
         parent::configureSegments($segmentsList, $dimensionSegmentFactory);
+    }
+
+    /**
+     * Whether consent state may be offered in reporting, which only happens while consent-aware analytics is enabled.
+     */
+    public static function isFeatureEnabled(): bool
+    {
+        return StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(ConsentAwareAnalytics::class);
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)

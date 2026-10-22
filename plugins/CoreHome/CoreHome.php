@@ -22,6 +22,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ThemeStyles;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 use Piwik\SettingsPiwik;
@@ -53,12 +54,20 @@ class CoreHome extends \Piwik\Plugin
             'Request.dispatchCoreAndPluginUpdatesScreen' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
             'Tracker.setTrackerCacheGeneral'             => 'setTrackerCacheGeneral',
             'Segment.filterSegments'                     => 'filterSegments',
+            'CustomReports.addDimensionsToIgnore'        => 'addDimensionsToIgnore',
         );
     }
 
     public function isTrackerPlugin()
     {
         return true;
+    }
+
+    public function addDimensionsToIgnore(&$dimensionsToIgnore)
+    {
+        if (!Consent::isFeatureEnabled()) {
+            $dimensionsToIgnore[] = (new Consent())->getId();
+        }
     }
 
     public function setTrackerCacheGeneral(&$cacheGeneral)

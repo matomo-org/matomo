@@ -19,6 +19,7 @@ use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Metrics\Formatter;
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\ConsentAwareAnalytics;
@@ -151,6 +152,25 @@ class ConsentStateSegmentTest extends IntegrationTestCase
         $this->expectExceptionMessage("Segment 'consentState' is not a supported segment.");
 
         $this->getArchivedVisitCount($this->idSite, 'consentState==consented');
+    }
+
+    /**
+     * @dataProvider getFeatureFlagStates
+     */
+    public function testDimensionIsOfferedToCustomReportsOnlyWhileTheFeatureFlagIsEnabled(bool $enabled): void
+    {
+        $this->setConsentAwareAnalyticsFeatureFlag($enabled);
+
+        $dimensionsToIgnore = [];
+        Piwik::postEvent('CustomReports.addDimensionsToIgnore', [&$dimensionsToIgnore]);
+
+        $this->assertSame(!$enabled, in_array('CoreHome.Consent', $dimensionsToIgnore, true));
+    }
+
+    public function getFeatureFlagStates(): iterable
+    {
+        yield 'enabled' => [true];
+        yield 'disabled' => [false];
     }
 
     public function testNoMetricIsDerivedFromConsent(): void
