@@ -175,6 +175,7 @@ abstract class Base extends VisitDimension
 
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+            && !$request->hasConsent()
             && CampaignParameterValuesMasked::isEnabled((int) $this->idsite)
         ) {
             $referrerInformation['referer_name'] = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -744,6 +745,7 @@ abstract class Base extends VisitDimension
 
         if (
             $type === Common::REFERRER_TYPE_CAMPAIGN
+            && !$request->hasConsent()
             && CampaignParameterValuesMasked::isEnabled((int) $request->getIdSite())
         ) {
             $name = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -796,6 +798,14 @@ abstract class Base extends VisitDimension
     {
         $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
         $new = mb_strtolower($information[$infoName] ?? '');
+
+        // A value the policy discarded becoming readable is not the visitor arriving from
+        // somewhere new, it is the same campaign we were not allowed to record a moment ago.
+        // Treating it as a change would start a second visit part way through the first, which
+        // both splits the visit and counts the visitor twice.
+        if (CampaignParameterValuesMasked::isPlaceholderValue($existing)) {
+            return false;
+        }
 
         $result = $existing != $new;
         if ($result) {
