@@ -171,6 +171,10 @@ class ConsoleTest extends ConsoleCommandTestCase
 
     public function testConsoleHandlesFatalErrorsCorrectly()
     {
+        if (in_array(PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, ['7.2', '8.1'], true)) {
+            $this->markTestSkipped('Temporarily disabled on PHP 7.2 and 8.1: the builds used in CI no longer run shutdown functions after an out-of-memory error.');
+        }
+
         $cliPhp = new CliPhp();
         $php = $cliPhp->findPhpBinary();
         $command = $php . " -i | grep 'memory_limit => -1'";
