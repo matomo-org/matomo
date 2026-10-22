@@ -972,10 +972,16 @@ class CronArchive
 
         // invalidate range archives
         $dates = $this->getCustomDateRangeToPreProcess($idSiteToInvalidate);
+        $timezone = Site::getTimezoneFor($idSiteToInvalidate);
 
         foreach ($dates as $date) {
             try {
-                PeriodFactory::build('range', $date);
+                // A single-site report resolves a relative range on the site's own day, a multi-site
+                // one on UTC's (ArchiveQueryFactory), so archive both when they differ.
+                $rangeStrings = array_unique([
+                    PeriodFactory::makePeriodFromQueryParams($timezone, 'range', $date)->getRangeString(),
+                    PeriodFactory::makePeriodFromQueryParams(false, 'range', $date)->getRangeString(),
+                ]);
             } catch (\Exception $ex) {
                 $this->logger->debug("  Found invalid range date in [General] archiving_custom_ranges: {date}", ['date' => $date]);
                 continue;
@@ -983,7 +989,9 @@ class CronArchive
 
             $this->logger->debug('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
 
-            $this->invalidateWithSegments($idSiteToInvalidate, $date, 'range');
+            foreach ($rangeStrings as $rangeString) {
+                $this->invalidateWithSegments($idSiteToInvalidate, $rangeString, 'range');
+            }
         }
 
         $this->setInvalidationTime();

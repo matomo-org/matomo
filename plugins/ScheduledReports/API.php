@@ -882,6 +882,14 @@ class API extends \Piwik\Plugin\API
 
         if (empty($date)) {
             $date = ReportSchedule::getToday((string) $report['period'], (int) $report['idsite'])->subPeriod(1, $report['period'])->toString();
+        } else {
+            // Resolved on the report site's day, as a single-site archive resolves it, so the report, its
+            // date line and the period passed to the event below all name the same days.
+            $date = Period\Factory::resolveRelativeDate(
+                Site::getTimezoneFor($report['idsite']),
+                $report['period_param'] ?? $report['period'],
+                $date
+            );
         }
 
         Context::changeIdSite($report['idsite'], function () use ($report, $idReport, $date, $force) {

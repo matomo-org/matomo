@@ -19,6 +19,7 @@ use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\EvolutionPeriodSelector;
+use Piwik\Request;
 use Piwik\Site;
 
 /**
@@ -100,10 +101,12 @@ class Evolution extends JqplotGraph
         // it won't show historical data before the range.
         $period = Common::getRequestVar('period', false);
         $selector = StaticContainer::get(EvolutionPeriodSelector::class);
+        // The report beside the graph resolves a relative date in the timezone the archive uses.
+        $timezone = Site::getTimezoneForIdSitesString(Request::fromRequest()->getStringParameter('idSite', ''));
 
         if ($period === 'range') {
             $date = Common::getRequestVar('date', false);
-            $requestingPeriod = Factory::build($period, $date);
+            $requestingPeriod = Factory::build($period, $date, $timezone);
 
             // if a larger date range is selected, then for better performance and for seeing trends better we want to use
             // a suitable period (rather than always using for example the day range)
@@ -127,11 +130,11 @@ class Evolution extends JqplotGraph
             $requestArray = $this->request->getRequestArray();
             $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
 
-            $requestingPeriod = Factory::build($requestArray['period'], $requestArray['date']);
+            $requestingPeriod = Factory::build($requestArray['period'], $requestArray['date'], $timezone);
 
             $comparisonPeriods = [];
             if (!empty($requestArray['comparePeriods'])) {
-                $comparisonPeriods = $selector->getComparisonPeriodObjects($requestArray['comparePeriods'], $requestArray['compareDates']);
+                $comparisonPeriods = $selector->getComparisonPeriodObjects($requestArray['comparePeriods'], $requestArray['compareDates'], $timezone);
             }
 
             $this->requestConfig->request_parameters_to_modify = $selector->setDatePeriods(

@@ -49,8 +49,8 @@ class Range extends Period
      * @param string $strPeriod The type of period each subperiod is. Either `'day'`, `'week'`,
      *                          `'month'` or `'year'`.
      * @param string $strDate The date range, eg, `'2007-07-24,2013-11-15'`.
-     * @param string $timezone The timezone to use, eg, `'UTC'`.
-     * @param bool|Date $today The date to use as _today_. Defaults to `Date::factory('today', $timzeone)`.
+     * @param string|false $timezone The timezone to use, eg, `'UTC'`. An empty value means UTC.
+     * @param bool|Date $today The date to use as _today_. Defaults to `Date::factory('now', $timezone)`.
      * @api
      */
     public function __construct($strPeriod, $strDate, $timezone = 'UTC', $today = false)
@@ -254,15 +254,9 @@ class Range extends Period
         } elseif ($dateRange = Range::parseDateRange($this->strDate)) {
             $strDateStart = $dateRange[1];
             $strDateEnd = $dateRange[2];
-            $startDate = Date::factory($strDateStart);
-
-            // we set the timezone in the Date object only if the date is relative eg. 'today', 'yesterday', 'now'
-            $timezone = null;
-            if (!str_contains($strDateEnd, '-')) {
-                $timezone = $this->timezone;
-            }
-
-            $endDate = Date::factory($strDateEnd, $timezone)->setTime("00:00:00");
+            // Date::factory() would resolve a relative endpoint such as 'last-week' on UTC's day.
+            $startDate = Date::factoryInTimezoneIfRelative($strDateStart, $this->timezone);
+            $endDate = Date::factoryInTimezoneIfRelative($strDateEnd, $this->timezone)->setTime("00:00:00");
             $maxAllowedEndDate = Date::factory(self::getMaxAllowedEndTimestamp());
 
             if ($endDate->isLater($maxAllowedEndDate)) {
@@ -441,30 +435,34 @@ class Range extends Period
      *
      * @param bool|string $date The date to get the last date of.
      * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
+     * @param string|false $timezone The timezone a relative $date such as 'today' is resolved in;
+     *                               an empty value means UTC.
      *
      * @return array An array with two elements, a string for the date before $date and
      *               a Period instance for the period before $date.
      * @api
      */
-    public static function getLastDate($date = false, $period = false)
+    public static function getLastDate($date = false, $period = false, $timezone = false)
     {
-        return self::getDateXPeriodsAgo(1, $date, $period);
+        return self::getDateXPeriodsAgo(1, $date, $period, $timezone);
     }
 
     /**
      * Returns the date that is X periods before the supplied date.
      *
-     * @param bool|string $date The date to get the last date of.
-     * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
      * @param int         $subXPeriods How many periods in the past the date should be, for instance 1 or 7.
      *                    If sub period is 365 days and the current year is a leap year we assume you want to get the
      *                    day one year ago and change the value to 366 days therefore.
+     * @param bool|string $date The date to get the last date of.
+     * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
+     * @param string|false $timezone The timezone a relative $date such as 'today' is resolved in;
+     *                               an empty value means UTC.
      *
      * @return array An array with two elements, a string for the date before $date and
      *               a Period instance for the period before $date.
      * @api
      */
-    public static function getDateXPeriodsAgo($subXPeriods, $date = false, $period = false)
+    public static function getDateXPeriodsAgo($subXPeriods, $date = false, $period = false, $timezone = false)
     {
         if ($date === false) {
             $date = Common::getRequestVar('date');
@@ -474,12 +472,18 @@ class Range extends Period
             $period = Common::getRequestVar('period');
         }
 
-        if (365 == $subXPeriods && 'day' == $period && Date::factory($date)->isLeapYear()) {
+        // A relative date resolves on the day $timezone is on, and Date::factory() would hand back
+        // UTC's. Keep the original spelling too: the lastN/previousN test below still has to see
+        // 'last-week' as a date it cannot compare against an earlier one.
+        $keyword = Date::getRelativeKeyword($date);
+        $resolvedDate = $keyword === null ? $date : Date::factoryInTimezone($keyword, $timezone)->toString();
+
+        if (365 == $subXPeriods && 'day' == $period && Date::factory($resolvedDate)->isLeapYear()) {
             $subXPeriods = 366;
         }
 
         if ($period === 'range') {
-            $rangePeriod = new Range($period, $date);
+            $rangePeriod = new Range($period, $date, $timezone);
             $daysDifference = self::getNumDaysDifference($rangePeriod->getDateStart(), $rangePeriod->getDateEnd());
             $end = $rangePeriod->getDateStart()->subDay(1);
             $from = $end->subDay($daysDifference);
@@ -494,14 +498,14 @@ class Range extends Period
             if (str_contains($date, ',')) {
                 // date in the form of 2011-01-01,2011-02-02
 
-                $rangePeriod = new Range($period, $date);
+                $rangePeriod = new Range($period, $date, $timezone);
 
                 $lastStartDate = $rangePeriod->getDateStart()->subPeriod($subXPeriods, $period);
                 $lastEndDate   = $rangePeriod->getDateEnd()->subPeriod($subXPeriods, $period);
 
                 $strLastDate = "$lastStartDate,$lastEndDate";
             } else {
-                $lastPeriod  = Date::factory($date)->subPeriod($subXPeriods, $period);
+                $lastPeriod  = Date::factory($resolvedDate)->subPeriod($subXPeriods, $period);
                 $strLastDate = $lastPeriod->toString();
             }
         }
@@ -533,7 +537,8 @@ class Range extends Period
      * @param string $period The sub period type, `'day'`, `'week'`, `'month'` and `'year'`.
      * @param int $lastN The number of periods of type `$period` that the result range should
      *                   span.
-     * @param string $endDate The desired end date of the range.
+     * @param string $endDate The desired end date of the range, either an absolute date or a
+     *                        relative value such as `'today'` or `'last-week'`.
      * @param \Piwik\Site $site The site whose timezone should be used.
      * @return string The date range string, eg, `'2012-01-02,2013-01-02'`.
      * @api
@@ -543,12 +548,7 @@ class Range extends Period
         $timezone = $site->getTimezone();
         $last30Relative = new Range($period, $lastN, $timezone);
 
-        if (!str_contains($endDate, '-')) {
-            // eg today, yesterday, ... needs the timezone
-            $endDate = Date::factoryInTimezone($endDate, $timezone);
-        } else {
-            $endDate = Date::factory($endDate);
-        }
+        $endDate = Date::factoryInTimezoneIfRelative($endDate, $timezone);
         $last30Relative->setDefaultEndDate($endDate);
 
         $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();

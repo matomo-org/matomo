@@ -124,6 +124,13 @@ class DataComparisonFilter
      */
     private $invertCompareChangeCompute;
 
+    /**
+     * Timezones the archive resolves relative dates in, by idSite. Resolving `all` costs a query.
+     *
+     * @var array<string, string|false>
+     */
+    private array $timezones = [];
+
     public function __construct($request, ?Report $report = null)
     {
         $this->request = new \Piwik\Request($request);
@@ -333,7 +340,7 @@ class DataComparisonFilter
             if ($comparisonIdSubtable === -1) { // no subtable in comparison row
                 $table = new DataTable();
                 $table->setMetadata('site', new Site($params['idSite']));
-                $table->setMetadata('period', Period\Factory::build($params['period'], $params['date']));
+                $table->setMetadata('period', Period\Factory::build($params['period'], $params['date'], $this->getTimezone($params['idSite'])));
                 return $table;
             }
 
@@ -394,7 +401,7 @@ class DataComparisonFilter
         $metadata['comparePeriod'] = $period;
         $metadata['compareDate'] = $date;
 
-        $prettyPeriod = Factory::build($period, $date)->getLocalizedLongString();
+        $prettyPeriod = Factory::build($period, $date, $this->getTimezone($idSite))->getLocalizedLongString();
         $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);
 
         $metadata['compareSeriesPretty'] = self::getComparisonSeriesLabelSuffixFromParts(
@@ -612,6 +619,14 @@ class DataComparisonFilter
     }
 
     /**
+     * @param string|int $idSite
+     */
+    private function getTimezone($idSite): string|false
+    {
+        return $this->timezones[(string) $idSite] ??= Site::getTimezoneForIdSitesString($idSite);
+    }
+
+    /**
      * Returns the pretty series label for a specific comparison based on the currently set comparison query parameters.
      *
      * @param int $labelSeriesIndex The index of the comparison. Comparison series order is determined by {@see self::getReportsToCompare()}.
@@ -628,7 +643,8 @@ class DataComparisonFilter
         $segmentObj = new Segment($compareSegments[$segmentIndex], [$idSite]);
         $prettySegment = $segmentObj->getStoredSegmentName(self::getSingleSiteId($idSite));
 
-        $prettyPeriod = Factory::build($comparePeriods[$periodIndex], $compareDates[$periodIndex])->getLocalizedLongString();
+        $timezone = Site::getTimezoneForIdSitesString($idSite);
+        $prettyPeriod = Factory::build($comparePeriods[$periodIndex], $compareDates[$periodIndex], $timezone)->getLocalizedLongString();
         $prettyPeriod = ucfirst($prettyPeriod);
 
         return self::getComparisonSeriesLabelSuffixFromParts($prettyPeriod, $prettySegment);

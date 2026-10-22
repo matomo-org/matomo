@@ -64,7 +64,9 @@ abstract class Factory
      *
      * @param string $period `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
-     * @param string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
+     * @param string|false $timezone Timezone the date is resolved in; an empty value means UTC.
+     *                               Applies when $period is 'range', or when $date is a relative
+     *                               or multiple-period value such as 'today' or 'last7'.
      * @return \Piwik\Period
      */
     public static function build($period, $date, $timezone = 'UTC')
@@ -80,7 +82,8 @@ abstract class Factory
                 return new Range($period, $date, $timezone);
             }
 
-            $dateObject = Date::factory($date);
+            // Date::factory() would resolve a relative date on UTC's day, not the timezone's.
+            $dateObject = Date::factoryInTimezoneIfRelative($date, $timezone);
         } elseif ($date instanceof Date) {
             $dateObject = $date;
         } else {
@@ -144,11 +147,12 @@ abstract class Factory
     /**
      * Creates a Period instance using a period, date and timezone.
      *
-     * @param string $timezone The timezone of the date. Only used if `$date` is `'now'`, `'today'`,
-     *                         `'yesterday'` or `'yesterdaySameTime'`.
+     * @param string|false $timezone Timezone the date is resolved in; an empty value means UTC.
+     *                               Applies to relative values such as `'today'` or `'last-week'`,
+     *                               and anchors a `'range'` on that timezone's current day.
      * @param string $period The period string: `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
-     * @param string|Date $date The date or date range string. Can be a special value including
-     *                     `'now'`, `'today'`, `'yesterday'`, `'yesterdaySameTime'`.
+     * @param string|Date $date The date or date range string. Can be a relative value such as
+     *                          `'now'`, `'today'`, `'yesterdaySameTime'` or `'last-week'`.
      * @return \Piwik\Period
      */
     public static function makePeriodFromQueryParams($timezone, $period, $date)
@@ -161,17 +165,34 @@ abstract class Factory
 
         if ($period == 'range') {
             self::checkPeriodIsEnabled('range');
-            $oPeriod = new Range('range', $date, $timezone, Date::factory('today', $timezone));
+            // Not Date::factory(): it shifts UTC's midnight by the offset, which stays on UTC's day ahead
+            // of UTC and lands on the day before behind it, rather than on the timezone's own day.
+            $oPeriod = new Range('range', $date, $timezone, Date::factoryInTimezone('today', $timezone));
         } else {
             if (!($date instanceof Date)) {
-                if (preg_match('/^(now|today|yesterday|yesterdaySameTime|last[ -]?(?:week|month|year))$/i', $date)) {
-                    $date = Date::factoryInTimezone($date, $timezone);
-                }
-                $date = Date::factory($date);
+                $date = Date::factoryInTimezoneIfRelative($date, $timezone);
             }
             $oPeriod = Factory::build($period, $date);
         }
         return $oPeriod;
+    }
+
+    /**
+     * Returns $date with a relative value resolved in $timezone the way {@link makePeriodFromQueryParams()}
+     * resolves it, so it names the same days wherever it is passed on. Any other date is returned as is.
+     *
+     * @param string|false $timezone Timezone the date is resolved in; an empty value means UTC.
+     * @ignore
+     */
+    public static function resolveRelativeDate($timezone, string $period, string $date): string
+    {
+        if ($period === 'range') {
+            return self::makePeriodFromQueryParams($timezone, $period, $date)->getRangeString();
+        }
+
+        $keyword = Date::getRelativeKeyword($date);
+
+        return $keyword === null ? $date : Date::factoryInTimezone($keyword, $timezone)->toString();
     }
 
     /**

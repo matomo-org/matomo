@@ -113,7 +113,8 @@ use Piwik\Log\LoggerInterface;
  *         public function beforeLoadDataTable()
  *         {
  *             $date = Common::getRequestVar('date');
- *             list($previousDate, $ignore) = Range::getLastDate($date, $period);
+ *             $timezone = Site::getTimezoneFor(Common::getRequestVar('idSite', null, 'int'));
+ *             list($previousDate, $ignore) = Range::getLastDate($date, $period, $timezone);
  *
  *             $this->requestConfig->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
  *         }
