@@ -31,6 +31,8 @@ use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\ConsentAwareAnalytics;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
 /**
@@ -40,6 +42,7 @@ use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 class Request
 {
     private $cdtCache;
+    private ?bool $hasConsentCache = null;
     private $idSiteCache;
     private $paramsCache = array();
 
@@ -944,7 +947,23 @@ class Request
      */
     public function hasConsent(): bool
     {
-        return '1' === $this->getParam('consent');
+        if (null !== $this->hasConsentCache) {
+            return $this->hasConsentCache;
+        }
+
+        if ('1' !== $this->getParam('consent')) {
+            return $this->hasConsentCache = false;
+        }
+
+        // The feature flag plugin may not be loaded, and the DI configuration it needs is not
+        // available during an update. Reporting no consent then leaves tracking as it was.
+        try {
+            $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+
+            return $this->hasConsentCache = $featureFlagManager->isFeatureActive(ConsentAwareAnalytics::class);
+        } catch (\Throwable $e) {
+            return $this->hasConsentCache = false;
+        }
     }
 
     public function getPlugins()

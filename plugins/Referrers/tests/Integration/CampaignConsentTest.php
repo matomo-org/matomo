@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Referrers\tests\Integration;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
@@ -57,6 +58,8 @@ class CampaignConsentTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        $this->enableConsentAwareAnalytics();
+
         $this->idSite = Fixture::createWebsite('2024-01-01 00:00:00', 0, 'Campaign consent', 'http://example.com');
         $this->testDate = Date::factory('2024-01-02 10:00:00');
 
@@ -76,6 +79,52 @@ class CampaignConsentTest extends IntegrationTestCase
         );
 
         $this->tracker->setUrlReferrer('');
+    }
+
+    /**
+     * The whole of this behaviour is gated. With the flag off, a request reporting consent is
+     * treated exactly as one that does not, which is how every install behaves until it is on.
+     */
+    public function testConsentHasNoEffectWhileTheFeatureFlagIsOff(): void
+    {
+        $this->disableConsentAwareAnalytics();
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name')
+        );
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'));
+    }
+
+    private function disableConsentAwareAnalytics(): void
+    {
+        self::$fixture->getTestEnvironment()->overrideConfig(
+            'FeatureFlags',
+            'ConsentAwareAnalytics_feature',
+            'disabled'
+        );
+        self::$fixture->getTestEnvironment()->save();
+
+        Config::getInstance()->FeatureFlags = ['ConsentAwareAnalytics_feature' => 'disabled'];
+    }
+
+    /**
+     * The behaviour under test is gated by the ConsentAwareAnalytics feature flag, and the tracker
+     * runs in its own request, so the flag has to be set where that request will read it.
+     */
+    private function enableConsentAwareAnalytics(): void
+    {
+        self::$fixture->getTestEnvironment()->overrideConfig(
+            'FeatureFlags',
+            'ConsentAwareAnalytics_feature',
+            'enabled'
+        );
+        self::$fixture->getTestEnvironment()->save();
+
+        Config::getInstance()->FeatureFlags = ['ConsentAwareAnalytics_feature' => 'enabled'];
     }
 
     public function tearDown(): void
