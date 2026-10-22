@@ -11,6 +11,7 @@ import { mount } from '@vue/test-utils';
 const mockFetch = vi.hoisted(() => vi.fn());
 
 const mockMatomo = vi.hoisted(() => ({ idSite: 1, hasSuperUserAccess: false }));
+const mockShowNotification = vi.hoisted(() => vi.fn());
 
 vi.mock('CoreHome', () => ({
   Matomo: mockMatomo,
@@ -24,6 +25,7 @@ vi.mock('CoreHome', () => ({
   ActivityIndicator: { template: '<div/>' },
   Alert: { template: '<div><slot/></div>' },
   Progressbar: { template: '<div/>' },
+  NotificationsStore: { show: mockShowNotification, scrollToNotification: vi.fn() },
 }));
 
 // eslint-disable-next-line import/first
@@ -57,6 +59,8 @@ async function mountWith(aiAvailability: string) {
 }
 
 describe('RecommendGoals AI availability', () => {
+  beforeEach(() => localStorage.clear());
+
   it('shows the toggle and the privacy link when AI is available', async () => {
     const w = await mountWith('available');
 
@@ -97,11 +101,18 @@ describe('RecommendGoals AI availability', () => {
         encodeURIComponent('index.php?module=Goals&action=manage&idSite=1#?period=day')}`);
   });
 
-  it('shows nothing to other users when AI processing is not allowed', async () => {
+  it('tells other users to ask a superuser when they click the AI processing link', async () => {
     const w = await mountWith('notPermitted');
 
     expect(w.find('.recommendGoals-chip--aiUnavailable').exists()).toBe(false);
-    expect(w.find('.recommendGoals-aiProcessingLink').exists()).toBe(false);
+    const link = w.find('.recommendGoals-aiProcessingLink');
+    expect(link.attributes('href')).toBe('#');
+
+    await link.trigger('click');
+    expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Goals_RecommendAiAllowProcessingNoPermission',
+      context: 'error',
+    }));
   });
 
   it('hides everything AI related when AI cannot be enabled on the instance', async () => {
@@ -110,6 +121,26 @@ describe('RecommendGoals AI availability', () => {
     expect(w.find('.recommendGoals-aiSwitch').exists()).toBe(false);
     expect(w.find('.recommendGoals-privacyLink').exists()).toBe(false);
     expect(w.find('.recommendGoals-chip--aiUnavailable').exists()).toBe(false);
+  });
+
+  it('turns the toggle on and scans with AI even when the saved scan was rule-based', async () => {
+    const w = await mountWith('available');
+
+    expect((w.find('.recommendGoals-aiSwitch input').element as HTMLInputElement).checked).toBe(true);
+
+    await w.find('.recommendGoals-run').trigger('click');
+    expect(mockFetch).toHaveBeenLastCalledWith(
+      { method: 'Goals.runGoalRecommendationScan', idSite: 1, useAi: 1 },
+      { createErrorNotification: false },
+    );
+  });
+
+  it('keeps the toggle off after the user switched it off', async () => {
+    const w = await mountWith('available');
+    await w.find('.recommendGoals-aiSwitch input').setValue(false);
+
+    const reloaded = await mountWith('available');
+    expect((reloaded.find('.recommendGoals-aiSwitch input').element as HTMLInputElement).checked).toBe(false);
   });
 
   it('uses the privacy note built by the server', async () => {

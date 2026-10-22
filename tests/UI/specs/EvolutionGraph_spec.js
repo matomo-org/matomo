@@ -178,18 +178,16 @@ describe("EvolutionGraph", function () {
     });
 
     it("should display the metric picker when the metric picker button is clicked", async function () {
-        await page.click('.metrics-picker__toggle');
+        await page.click('.series-picker-wrapper .mtm-selector__trigger');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
         await page.keyboard.press('Escape');
     });
 
     it("should show multiple metrics when another metric picked", async function () {
-        await page.click('.metrics-picker__toggle');
-        // click the label, not the input: the options sit in the DOM whether the dropdown is open
-        // or not, and the input itself is the hidden half of a Materialize checkbox
-        await page.waitForSelector('.metrics-picker__options label');
-        const element = await page.jQuery('.metrics-picker__options .metrics-picker__label:has(input:not(:checked)):first');
+        await page.click('.series-picker-wrapper .mtm-selector__trigger');
+        await page.waitForSelector('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
+        const element = await page.jQuery('.series-picker-wrapper .mtm-dropdownPanel__menuLink[aria-checked="false"]:first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
@@ -485,9 +483,9 @@ describe("EvolutionGraph", function () {
                 };
             });
 
-            await page.click('.metrics-picker__toggle');
-            await page.waitForSelector('.metrics-picker__options label');
-            const element = await page.jQuery('.metrics-picker__options .metrics-picker__label:has(input:not(:checked)):first');
+            await page.click('.series-picker-wrapper .mtm-selector__trigger');
+            await page.waitForSelector('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
+            const element = await page.jQuery('.series-picker-wrapper .mtm-dropdownPanel__menuLink[aria-checked="false"]:first');
             await element.click();
             await page.waitForSelector('.jqplot-loading');
 
@@ -567,6 +565,37 @@ describe("EvolutionGraph", function () {
           () => $('.dataTable').first().data('uiControlObject').param.period,
         );
         expect(period, 'Enter changed the period').to.equal('week');
+    });
+
+    // A pick reloads the report and replaces the picker, so only a real page proves the focus
+    // reaches the new trigger.
+    it("should give the focus back to Choose metrics after a keyboard pick", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.focus('.series-picker-wrapper .mtm-selector__trigger');
+        await page.keyboard.press('Enter');
+        await page.waitForFunction(
+          () => document.activeElement.matches('.series-picker-wrapper [role^="menuitem"]'),
+        );
+
+        // unticking the only metric would not reload anything, so walk to one that adds a series
+        for (let i = 0; i < 10; i += 1) {
+            if (await page.evaluate(() => document.activeElement.getAttribute('aria-checked') === 'false')) {
+                break;
+            }
+            await page.keyboard.press('ArrowDown');
+        }
+        await page.keyboard.press('Space');
+        await page.waitForNetworkIdle();
+        await page.waitForFunction(
+          () => document.activeElement.matches('.series-picker-wrapper .mtm-selector__trigger'),
+        );
+
+        const columns = await page.evaluate(
+          () => $('.dataTable').first().data('uiControlObject').param.columns,
+        );
+        expect(columns.split(',').length, 'Space picked a second metric').to.equal(2);
     });
 
     it("should render a report header inside a widgetized container", async function () {

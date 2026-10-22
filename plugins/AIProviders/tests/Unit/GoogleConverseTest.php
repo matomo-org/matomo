@@ -532,6 +532,41 @@ class GoogleConverseTest extends TestCase
         $this->assertNull($response->getOutputTokens());
     }
 
+    public function testCachedPromptTokensAreReportedAsCacheReadsAndNotAsInput(): void
+    {
+        $gemini = new RecordingGoogle();
+        $gemini->cannedResponse = [
+            'candidates' => [[
+                'content' => ['parts' => [['text' => 'Hi.']]],
+                'finishReason' => 'STOP',
+            ]],
+            'usageMetadata' => ['promptTokenCount' => 3000, 'cachedContentTokenCount' => 2048, 'candidatesTokenCount' => 40],
+        ];
+
+        $response = $gemini->converse($this->simpleRequest(), self::CONFIGURATION);
+
+        $this->assertSame(952, $response->getInputTokens());
+        $this->assertSame(2048, $response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+        $this->assertSame(40, $response->getOutputTokens());
+    }
+
+    public function testThinkingTokensAreCountedAsOutput(): void
+    {
+        $gemini = new RecordingGoogle();
+        $gemini->cannedResponse = [
+            'candidates' => [[
+                'content' => ['parts' => [['text' => 'Hi.']]],
+                'finishReason' => 'STOP',
+            ]],
+            'usageMetadata' => ['promptTokenCount' => 12, 'candidatesTokenCount' => 40, 'thoughtsTokenCount' => 60],
+        ];
+
+        $response = $gemini->converse($this->simpleRequest(), self::CONFIGURATION);
+
+        $this->assertSame(100, $response->getOutputTokens());
+    }
+
     public function testGeminiSupportsConversations(): void
     {
         $this->assertTrue((new Google())->supportsConversations());

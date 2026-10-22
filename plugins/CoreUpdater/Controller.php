@@ -432,10 +432,9 @@ class Controller extends \Piwik\Plugin\Controller
         // check file integrity
         [$success, $messages] = FileIntegrity::getFileIntegrityInformation();
 
+        // Messages on a passing check are only notes, which the updater does not need to show
         if (!$success) {
             $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarning');
-        }
-        if (count($messages) > 0) {
             $this->warningMessages = array_merge($this->warningMessages, $messages);
         }
         Filesystem::deleteAllCacheOnUpdate();

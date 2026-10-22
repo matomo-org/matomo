@@ -7,30 +7,27 @@
 
 <template>
   <div class="kpiCardContainer">
-    <template v-if="isLoading">
-      <div class="kpiCard kpiCardLoading">
-        <div class="kpiCardTitle">&nbsp;</div>
-        <div class="kpiCardValue">
-          <MatomoLoader />
-        </div>
-        <div class="kpiCardEvolution">
-          <span class="kpiCardEvolutionTrend">&nbsp;</span>
-        </div>
-        <div v-if="hasKpiBadge" class="kpiCardBadge">&nbsp;</div>
+    <div
+      class="kpiCardContainer__list"
+      :class="`kpiCardContainer__list--cols${columnCount}`"
+    >
+      <div v-if="isLoading" class="kpiCardContainer__loading">
+        <MatomoLoader />
       </div>
-    </template>
 
-    <template
+      <template
         v-else
         v-for="(kpi, index) in kpis"
         :key="`kpi-card-${index}`"
-    >
-      <template v-if="index > 0">
-        <div :class="{ kpiCardDivider: true, kpiCardDividerBadge: hasKpiBadge }">&nbsp;</div>
+      >
+        <div
+          class="kpiCardContainer__item"
+          :class="{ 'kpiCardContainer__item--separated': index > 0 }"
+        >
+          <KPICard :model-value="kpi" />
+        </div>
       </template>
-
-      <KPICard :model-value="kpi" />
-    </template>
+    </div>
   </div>
 </template>
 
@@ -54,8 +51,8 @@ export default defineComponent({
     },
   },
   computed: {
-    hasKpiBadge(): boolean {
-      return this.kpis.some((kpi: KPICardData) => !!kpi.badge);
+    columnCount(): number {
+      return this.isLoading ? 1 : (this.kpis.length || 1);
     },
     kpis(): KPICardData[] {
       return this.modelValue as KPICardData[];

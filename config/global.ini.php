@@ -846,8 +846,8 @@ enable_load_data_infile = 1
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
 
-; Defines when a plugin trial request expires and a new one can be requested
-; By settings this value to -1 plugin trial requests will be disabled
+; Setting this value to -1 disables plugin trial requests. Any other value enables them: trial requests no longer
+; expire, so the number of days is not used
 plugin_trial_request_expiration_in_days = 28
 
 ; By setting this option to 0 the users management will be disabled
@@ -1022,6 +1022,14 @@ cookie_domain =
 
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics = 1
+
+; Set to 0 to stop recording accurate per-pageview time-spent rows into the log_page_view_time table.
+; Can be overridden for a single site via a [Tracker_N] section, where N is the idSite.
+; Only affects data collected while disabled: those pageviews fall back to the legacy
+; time_spent_ref_action metric at archive time, while rows recorded before disabling keep being used.
+; This is a temporary safety control (introduced in 6.0.0), scheduled for removal in a future major
+; version once the new metric has been validated in production.
+record_accurate_page_view_time = 1
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
 ; after their last page view, it will be recorded as a new visit. In case you are using the Matomo JavaScript tracker to

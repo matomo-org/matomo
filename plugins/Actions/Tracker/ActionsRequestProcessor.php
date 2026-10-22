@@ -9,6 +9,10 @@
 
 namespace Piwik\Plugins\Actions\Tracker;
 
+use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
+use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
@@ -101,6 +105,32 @@ class ActionsRequestProcessor extends RequestProcessor
 
             $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
             $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
+        }
+
+        if (
+            !$request->getMetadata('CoreHome', 'visitorNotFoundInDb')
+            && PageViewTimeWriter::isEnabled($request->getIdSiteIfExists())
+        ) {
+            try {
+                // Also runs when $action is null (pings), so the active row keeps accumulating.
+                (new PageViewTimeWriter())->write($action, $visitProperties, $request);
+            } catch (\Throwable $e) {
+                // Inside a bulk / queued-tracking transaction the error may have rolled back
+                // everything written so far (e.g. a deadlock), so carrying on would save the rest
+                // of the batch on its own. Let the handler fail the batch whole instead.
+                if (Tracker::getDatabase()->isInTransaction()) {
+                    throw $e;
+                }
+
+                // Best-effort: a missing row falls back to the legacy path at archive time, so
+                // a failure here must never abort the visit update or the later processors.
+                // Reached e.g. when core:update has not yet created the table after a deploy.
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'Failed to record accurate page view time: {exception}',
+                    ['exception' => $e]
+                );
+                Common::printDebug('PageViewTimeWriter failed: ' . $e->getMessage());
+            }
         }
     }
 }

@@ -48,6 +48,13 @@ class AIRequest
     public const DEFAULT_MAX_TOKENS = 1024;
     public const DEFAULT_TEMPERATURE = 0.2;
 
+    /**
+     * Searches a grounded request may run unless the caller sets its own cap.
+     * Kept low because every search is billed on top of the page content it
+     * pulls into the prompt as input tokens.
+     */
+    public const DEFAULT_MAX_WEB_SEARCHES = 2;
+
     public const REASONING_NONE = 'none';
 
     public const FORMAT_TEXT = 'text';
@@ -103,6 +110,21 @@ class AIRequest
     private $idSite = null;
 
     /**
+     * The caller's own identifier for this call (for example a conversation
+     * turn or a stored query ID), passed to usage listeners.
+     *
+     * @var string|null
+     */
+    private $usageReference = null;
+
+    /**
+     * Extra caller data for usage listeners, without prompt or response content.
+     *
+     * @var array<string, mixed>
+     */
+    private $meta = [];
+
+    /**
      * @var int
      */
     private $maxTokens = self::DEFAULT_MAX_TOKENS;
@@ -143,6 +165,14 @@ class AIRequest
      * @var bool
      */
     private $webSearchEnabled = false;
+
+    /**
+     * Most searches a grounded request may run, where the provider supports a
+     * cap (Anthropic, OpenAI). Google has no per-request cap and ignores it.
+     *
+     * @var int
+     */
+    private $maxWebSearches = self::DEFAULT_MAX_WEB_SEARCHES;
 
     /**
      * Provider HTTP timeout, or null for the provider's default: 30s, raised to
@@ -229,6 +259,32 @@ class AIRequest
         return $request;
     }
 
+    /**
+     * Sets the caller's own identifier for this call, passed to the
+     * `AIProviders.beforeRequest` and `AIProviders.usage` listeners.
+     */
+    public function withUsageReference(?string $usageReference): self
+    {
+        $request = clone $this;
+        $request->usageReference = $usageReference;
+
+        return $request;
+    }
+
+    /**
+     * Sets extra data for the `AIProviders.beforeRequest` and `AIProviders.usage`
+     * listeners. Must not contain prompt or response content.
+     *
+     * @param array<string, mixed> $meta
+     */
+    public function withMeta(array $meta): self
+    {
+        $request = clone $this;
+        $request->meta = $meta;
+
+        return $request;
+    }
+
     public function withMaxTokens(int $maxTokens): self
     {
         $request = clone $this;
@@ -258,6 +314,18 @@ class AIRequest
     {
         $request = clone $this;
         $request->webSearchEnabled = $webSearchEnabled;
+
+        return $request;
+    }
+
+    /**
+     * Caps the searches a grounded request may run; null restores
+     * {@link DEFAULT_MAX_WEB_SEARCHES}. Ignored by providers without a cap.
+     */
+    public function withMaxWebSearches(?int $maxWebSearches): self
+    {
+        $request = clone $this;
+        $request->maxWebSearches = $maxWebSearches === null ? self::DEFAULT_MAX_WEB_SEARCHES : max(1, $maxWebSearches);
 
         return $request;
     }
@@ -333,6 +401,19 @@ class AIRequest
         return $this->idSite;
     }
 
+    public function getUsageReference(): ?string
+    {
+        return $this->usageReference;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getMeta(): array
+    {
+        return $this->meta;
+    }
+
     public function getMaxTokens(): int
     {
         return $this->maxTokens;
@@ -356,6 +437,11 @@ class AIRequest
     public function isWebSearchEnabled(): bool
     {
         return $this->webSearchEnabled;
+    }
+
+    public function getMaxWebSearches(): int
+    {
+        return $this->maxWebSearches;
     }
 
     public function getTimeoutSeconds(): ?int

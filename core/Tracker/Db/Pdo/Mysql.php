@@ -348,6 +348,11 @@ class Mysql extends Db
         return $queryResult->rowCount();
     }
 
+    public function isInTransaction(): bool
+    {
+        return $this->activeTransaction !== null;
+    }
+
     /**
      * Start Transaction
      * @return ?string TransactionID

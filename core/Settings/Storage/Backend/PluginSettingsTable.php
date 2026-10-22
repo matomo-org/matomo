@@ -309,13 +309,14 @@ class PluginSettingsTable extends BaseSettingsTable
      */
     public static function removeAllUserSettingsForUser($userLogin)
     {
-        if (empty($userLogin)) {
+        if (trim((string) $userLogin) === '') {
             throw new Exception('No userLogin specified. Cannot remove all settings for this user');
         }
 
         try {
             $table = Common::prefixTable('plugin_setting');
-            Db::get()->query(sprintf('DELETE FROM `%s` WHERE user_login = ?', $table), array($userLogin));
+            // never remove system settings, which are stored with an empty user_login
+            Db::get()->query(sprintf("DELETE FROM `%s` WHERE user_login = ? AND user_login <> ''", $table), array($userLogin));
         } catch (Exception $e) {
             if ($e->getCode() != 42) {
                 // ignore table not found error, which might occur when updating from an older version of Piwik
