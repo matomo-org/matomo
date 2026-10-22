@@ -23,6 +23,8 @@ class FrontControllerTest extends IntegrationTestCase
 {
     public function testFatalErrorStackTracesReturned()
     {
+        $this->markTestSkipped('Temporarily disabled: the PHP 7.2/8.1 builds used in CI no longer run shutdown functions after an out-of-memory error.');
+
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal.php?format=json';
         $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 5 : 20);
 
