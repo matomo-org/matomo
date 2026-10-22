@@ -100,7 +100,6 @@
         "ColumnPageGenerationTime": "ページ生成時間",
         "ColumnPageviews": "ページビュー",
         "ColumnPageviewsDocumentation": "このページにアクセスした回数。",
-        "ColumnPercentOfReportTotal": "%1$s（合計の%%）",
         "ColumnPercentOfReportTotalDocumentation": "この行が報告書の合計%1$sに占める割合。",
         "ColumnPercentageVisits": "%% ビジット",
         "ColumnPercentageVisitsDocumentation": "総訪問数に占める割合。",
