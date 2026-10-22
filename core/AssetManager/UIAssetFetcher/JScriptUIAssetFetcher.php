@@ -69,6 +69,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     protected function getPriorityOrder()
     {
         return array(
+            'tests/resources/screenshot-override/override.init.js', // we need this to load as early as possible
             'node_modules/jquery/dist/jquery.min.js',
             'node_modules/jquery/dist/jquery.js',
             'node_modules/@materializecss/materialize/dist/js/materialize.min.js', // so jquery ui datepicker overrides materializecss
