@@ -88,6 +88,8 @@
         "ProductName": "Denumirea produsului",
         "ProductSKU": "SKU Produs",
         "Products": "Produse",
+        "RecommendationCountOnePage": "1 pagina",
+        "RecommendationCountPages": "%s pagini",
         "ReturningVisitorsConversionRateIs": "Rata de conversie pentru vizitatorii care s-au reintors este %s",
         "SendEvent": "Trimite un eveniment",
         "SingleGoalOverviewDocumentation": "Aceasta este o privire de ansamblu a conversiilor pentru un singur obiectiv. %s Diagramele de tip sparkline de sub grafic pot fi mărite dând click pe ele.",
