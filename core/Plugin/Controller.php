@@ -28,6 +28,7 @@ use Piwik\FrontController;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\NoAccessException;
+use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Period\Month;
 use Piwik\Period;
@@ -77,6 +78,23 @@ use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
  */
 abstract class Controller
 {
+    /**
+     * First upstream release of each PHP branch that fixes the critical vulnerabilities announced on 2026-10-21.
+     * Older branches get no upstream fix, newer branches were never affected.
+     */
+    private const PHP_CRITICAL_VULNERABILITY_FIXED_RELEASES = [
+        '8.2' => 35,
+        '8.3' => 36,
+        '8.4' => 27,
+        '8.5' => 12,
+    ];
+
+    private const PHP_CRITICAL_VULNERABILITY_ADVISORY_URL = 'https://www.php.net/archive/2026.php#2026-10-21-5';
+
+    private const PHP_CRITICAL_VULNERABILITY_ANNOUNCEMENT_URL = 'https://matomo.org/blog/2026/10/critical-php-security-vulnerabilities-important-update-for-matomo-users/';
+
+    private const PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID = 'PHPCriticalSecurityVulnerabilityCheck';
+
     /**
      * The plugin name, eg. `'Referrers'`.
      *
@@ -698,9 +716,61 @@ abstract class Controller
 
         $notifications = $view->notifications;
         if (empty($notifications)) {
+            self::notifyWhenPhpVersionHasCriticalVulnerability();
+
             $view->notifications = NotificationManager::getAllNotificationsToDisplay();
             NotificationManager::cancelAllNonPersistent();
         }
+    }
+
+    /**
+     * @internal temporary warning, will be removed again
+     */
+    protected static function notifyWhenPhpVersionHasCriticalVulnerability(): void
+    {
+        if (defined('PIWIK_TEST_MODE')) { // to avoid changing every UI test
+            return;
+        }
+
+        // a token_auth request is likely an embedded page shown to the public, not a signed-in user
+        if (Piwik::isUserIsAnonymous() || StaticContainer::get(AuthenticationToken::class)->getAuthToken() !== '') {
+            return;
+        }
+
+        if (!self::isPhpVersionAffectedByCriticalVulnerability(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION)) {
+            // persistent notifications stay in the session, so drop it once PHP has been fixed
+            NotificationManager::cancel(self::PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID);
+            return;
+        }
+
+        $message = Piwik::translate('General_PhpCriticalSecurityUpdateRequired', [
+            PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION,
+            Url::getExternalLinkTag(self::PHP_CRITICAL_VULNERABILITY_ANNOUNCEMENT_URL),
+            '</a>',
+            '<a href="' . self::PHP_CRITICAL_VULNERABILITY_ADVISORY_URL . '" target="_blank" rel="noreferrer noopener">',
+            '</a>',
+        ]);
+
+        $notification = new Notification($message);
+        $notification->raw = true;
+        $notification->title = Piwik::translate('General_PhpCriticalSecurityUpdateRequiredTitle');
+        $notification->priority = Notification::PRIORITY_MAX;
+        $notification->context = Notification::CONTEXT_WARNING;
+        // persistent, so the reporting UI doesn't clear it when it renders a report like it does with transient ones
+        $notification->type = Notification::TYPE_PERSISTENT;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        NotificationManager::notify(self::PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID, $notification);
+    }
+
+    private static function isPhpVersionAffectedByCriticalVulnerability(int $major, int $minor, int $release): bool
+    {
+        $branch = $major . '.' . $minor;
+
+        if (isset(self::PHP_CRITICAL_VULNERABILITY_FIXED_RELEASES[$branch])) {
+            return $release < self::PHP_CRITICAL_VULNERABILITY_FIXED_RELEASES[$branch];
+        }
+
+        return version_compare($branch, '8.2', '<');
     }
 
     private function getValidDate(Date $date, Date $minDate, Date $maxDate)
