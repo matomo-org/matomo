@@ -19,6 +19,7 @@ use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Storage\Factory as StorageFactory;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Version;
 
 /**
@@ -263,6 +264,22 @@ class SystemSettingsTest extends IntegrationTestCase
         });
     }
 
+    public function testTrackingRequestsTakeTheSplitFromTheTrackerCache()
+    {
+        // the recorded version postdates the split, so only the cached flag can turn the default off
+        $this->inTrackerModeWithCache([SystemSettings::TRACKER_CACHE_KEY_PREDATES_SPLIT => true], Version::VERSION, function (SystemSettings $settings) {
+            $this->assertSame(false, $settings->block_clouds->getValue());
+        });
+    }
+
+    public function testTrackingRequestsFallBackToTheRecordedVersionWhenTheTrackerCacheLacksTheSplit()
+    {
+        // a cache built before the key existed, or while the plugin was being installed
+        $this->inTrackerModeWithCache([], '5.2.0', function (SystemSettings $settings) {
+            $this->assertSame(false, $settings->block_clouds->getValue());
+        });
+    }
+
     public function testCloudBlockingModeFollowsAnEnabledTickboxUntilTheMigrationRuns()
     {
         $this->storeLegacyState(true);
@@ -483,6 +500,20 @@ class SystemSettingsTest extends IntegrationTestCase
         }
 
         $storage->save();
+    }
+
+    private function inTrackerModeWithCache(array $cacheGeneral, string $version, callable $assertions): void
+    {
+        $trackerModeBefore = $GLOBALS['PIWIK_TRACKER_MODE'] ?? false;
+        TrackerCache::setCacheGeneral($cacheGeneral);
+        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
+
+        try {
+            $this->withRecordedVersion($version, $assertions);
+        } finally {
+            $GLOBALS['PIWIK_TRACKER_MODE'] = $trackerModeBefore;
+            TrackerCache::clearCacheGeneral();
+        }
     }
 
     private function withRecordedVersion(string $version, callable $assertions): void

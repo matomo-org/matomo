@@ -49,6 +49,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
             '10.' => ['10.10.0.0/21'],
             '200.' => ['200.200.0.0/21'],
         ], $cache[BlockedIpRanges::OPTION_KEY]);
+        $this->assertFalse($cache[SystemSettings::TRACKER_CACHE_KEY_PREDATES_SPLIT]);
     }
 
     public function testIsExcludedVisitWhenBlockedUserAgentWhenGoodUserAgentWontBlock()
