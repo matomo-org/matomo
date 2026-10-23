@@ -272,6 +272,14 @@ class SystemSettingsTest extends IntegrationTestCase
         });
     }
 
+    public function testTrackingRequestsKeepACachedFalseOverTheRecordedVersion()
+    {
+        // the recorded version predates the split, so falling through a cached false would turn the default off
+        $this->inTrackerModeWithCache([SystemSettings::TRACKER_CACHE_KEY_PREDATES_SPLIT => false], '5.2.0', function (SystemSettings $settings) {
+            $this->assertSame(true, $settings->block_clouds->getValue());
+        });
+    }
+
     public function testTrackingRequestsFallBackToTheRecordedVersionWhenTheTrackerCacheLacksTheSplit()
     {
         // a cache built before the key existed, or while the plugin was being installed
