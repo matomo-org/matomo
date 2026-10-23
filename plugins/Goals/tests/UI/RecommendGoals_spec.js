@@ -62,12 +62,14 @@ describe("RecommendGoals", function () {
     });
 
     it("should show why a suggestion was made", async function () {
+        expect(await page.$eval(`${cards}:first-child .recommendGoals-cardReason`, (el) => el.textContent)).to.contain('ready to convert');
+
+        // 6.x shows the reason inline and keeps only the setup note in a drawer
         const details = await page.$('.recommendGoals-card .recommendGoals-evidence');
         expect(await details.evaluate((el) => el.open)).to.equal(false);
 
         await page.click('.recommendGoals-card .recommendGoals-evidence summary');
-        expect(await details.evaluate((el) => el.open)).to.equal(true);
-        expect(await details.evaluate((el) => el.textContent)).to.contain('ready to convert');
+        expect(await details.evaluate((el) => el.textContent)).to.contain('newsletter_submit');
     });
 
     it("should create a single recommended goal", async function () {

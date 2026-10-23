@@ -131,7 +131,7 @@ class Goals extends \Piwik\Plugin
 
         $features[AIProcessingSettings::CATEGORY_NON_ANALYTICS][] = [
             // TODO: add 'disclosureUrl' for the privacy disclosure (ID-164) once it is published
-            'name' => Piwik::translate('Goals_RecommendedGoals'),
+            'name' => Piwik::translate('Goals_GoalRecommendation'),
         ];
     }
 
@@ -558,12 +558,13 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_GoalCreated';
         $translationKeys[] = 'Goals_GoalUpdated';
         $translationKeys[] = 'Goals_ViewGoalReport';
-        $translationKeys[] = 'Goals_RecommendedGoals';
+        $translationKeys[] = 'Goals_GoalRecommendation';
         $translationKeys[] = 'Goals_RecommendedGoalsIntro';
         $translationKeys[] = 'Goals_RecommendUseAi';
         $translationKeys[] = 'Goals_RecommendAiToggleHelp';
         $translationKeys[] = 'Goals_RecommendAiProviderFallback';
         $translationKeys[] = 'Goals_RecommendAiAllowProcessing';
+        $translationKeys[] = 'Goals_RecommendAiAllowProcessingNoPermission';
         $translationKeys[] = 'Goals_RecommendAiNotActivated';
         $translationKeys[] = 'Goals_RecommendAiNotActivatedHelp';
         $translationKeys[] = 'Goals_RecommendAiNotConfigured';
@@ -577,7 +578,10 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_RecommendDismissError';
         $translationKeys[] = 'Goals_RecommendDismissSuggestion';
         $translationKeys[] = 'Goals_RecommendNeedsSetup';
-        $translationKeys[] = 'Goals_RecommendNeedsSetupHelp';
+        $translationKeys[] = 'Goals_RecommendNeedsSetupTooltip';
+        $translationKeys[] = 'Goals_RecommendAllCreated';
+        $translationKeys[] = 'Goals_RecommendCalloutTitle';
+        $translationKeys[] = 'Goals_RecommendCalloutTry';
         $translationKeys[] = 'Goals_RecommendNoneFound';
         $translationKeys[] = 'Goals_RecommendError';
         $translationKeys[] = 'Goals_RecommendManualTitle';

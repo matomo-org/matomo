@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\Goals\tests\Integration;
 
+use Piwik\Config;
 use Piwik\Plugins\Goals\Recommendations\HomepageAnalyzer;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -68,6 +70,75 @@ class HomepageAnalyzerCrawlTest extends IntegrationTestCase
         $targets = array_column($analysis['links'], 'linkTarget');
         $this->assertContains('/pricing', $targets);
         $this->assertContains('/contact', $targets);
+    }
+
+    public function testCrawlRewritesLinksToTheSameOriginPageTheyRedirectTo()
+    {
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body><a href="/docs/installation/">Install</a><a href="/old-home">Home</a><a href="/go/partner">Partner</a></body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'http://example.com/docs/installation/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body>Install</body></html>',
+                'effectiveUrl' => 'http://example.com/faq/installing/',
+            ],
+            'http://example.com/old-home' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body>Home</body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'http://example.com/go/partner' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body>Partner</body></html>',
+                'effectiveUrl' => 'http://partner.org/',
+            ],
+        ]);
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $targets = array_column($analysis['links'], 'linkTarget');
+        $this->assertContains('/faq/installing', $targets);
+        $this->assertNotContains('/docs/installation', $targets);
+        $this->assertNotContains('/old-home', $targets);
+        $this->assertNotContains('/go/partner', $targets);
+    }
+
+    public function testLinksBeyondTheCrawlBudgetAreProbedForRedirects()
+    {
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body><a href="/docs/installation/">Install</a><a href="/old-pricing">Pricing</a></body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'http://example.com/docs/installation/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '',
+                'effectiveUrl' => 'http://example.com/faq/installing/',
+            ],
+            'http://example.com/old-pricing' => [
+                'status' => 404,
+                'headers' => [],
+                'data' => '',
+                'effectiveUrl' => 'http://example.com/not-found',
+            ],
+        ]);
+        Config::getInstance()->Goals['recommendation_max_crawl_pages'] = 1;
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $this->assertSame(1, $analysis['pagesCrawled']);
+        // a redirect to an error page keeps the linked path
+        $this->assertEqualsCanonicalizing(['/faq/installing', '/old-pricing'], array_column($analysis['links'], 'linkTarget'));
     }
 
     public function testCrawlSkipsPagesThatRedirectOffOrigin()
@@ -228,6 +299,55 @@ class HomepageAnalyzerCrawlTest extends IntegrationTestCase
         $this->assertSame(0, $analysis['crawl']['failedFetches']);
         $this->assertFalse($analysis['crawl']['deadlineReached']);
         $this->assertSame($analysis['crawl'], $analyzer->getLastCrawlStats());
+    }
+
+    public function testLinksToHostsTheTrackerCountsAsTheSiteAreNoExternalLinks()
+    {
+        SitesManagerAPI::getInstance()->addSiteAliasUrls($this->idSite, ['https://shop.example.com']);
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><head><script>_paq.push(["setDomains", ["*.example.net"]]);</script></head><body>'
+                    . '<a href="https://shop.example.com/free-trial/">Free trial</a>'
+                    . '<a href="https://app.example.net/signup">Sign up</a>'
+                    . '<a href="https://partner.example.org/">Partner</a>'
+                    . '</body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+        ]);
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $this->assertEqualsCanonicalizing(['*.example.net', 'example.com', 'shop.example.com'], $analysis['internalHosts']);
+        $this->assertSame(['partner.example.org'], array_column($analysis['externalLinks'], 'host'));
+        $this->assertEqualsCanonicalizing(['shop.example.com', 'app.example.net'], array_column($analysis['internalHostLinks'], 'host'));
+        $this->assertSame(['partner.example.org' => 1], $analysis['manualSignals']['outlinkHosts']);
+    }
+
+    public function testTagManagerContainerDomainsAreInternalHosts()
+    {
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><head><script>g.src="https://cdn.example.org/example.com/container_Ab12Cd.js";</script></head><body>'
+                    . '<a href="https://shop.example.com/">Shop</a>'
+                    . '</body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'https://cdn.example.org/example.com/container_Ab12Cd.js' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => 'window.MatomoTagManager.addContainer({"variables":[{"domains":["*.example.com"],"trackingType":"pageview"}]});',
+            ],
+        ]);
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $this->assertContains('*.example.com', $analysis['internalHosts']);
+        $this->assertSame([], $analysis['externalLinks']);
+        $this->assertSame(['shop.example.com'], array_column($analysis['internalHostLinks'], 'host'));
     }
 
     /**
