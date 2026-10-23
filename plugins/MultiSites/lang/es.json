@@ -29,10 +29,6 @@
         "PluginDescription": "Vea y compare todos sus páginas web y aplicaciones en este útil panel 'Toda las páginas web'",
         "SegmentationNotSupported": "La segmentación no es compatible",
         "SingleWebsitesDashboardDocumentation": "Este informe le brinda una descripción general informativa de una página web específica, que contiene las métricas más generales sobre sus visitantes.",
-        "TopLinkTooltip": "Comparar la estadísticas de Análisis de internet para todos sus sitios.",
-        "TotalAiChatbotsRequests": "Total de solicitudes a los chatbots de IA",
-        "TotalHits": "Total de accesos",
-        "TotalPageviews": "Páginas vistas en total",
-        "TotalVisits": "Visitas totales"
+        "TopLinkTooltip": "Comparar la estadísticas de Análisis de internet para todos sus sitios."
     }
 }

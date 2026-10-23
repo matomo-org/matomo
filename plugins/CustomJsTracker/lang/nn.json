@@ -1,1 +1,8 @@
-{}
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "Vi tilrår å gjere %1$s skrivbar ved å køyre denne kommandoen: %2$s",
+        "DiagnosticPiwikJsNotWritable": "JavaScript-sporingsfila %s i Matomo er ikkje skrivbar. Det tyder at andre innstikk ikkje kan utvide JavaScript-sporaren. I framtida kan til og med nokre kjernefunksjonar slutte å fungere som venta.",
+        "DiagnosticPiwikJsWritable": "Skrivbar JavaScript-sporar (%s)",
+        "PluginDescription": "Lèt alle innstikk utvide JavaScript-sporingsfila til Matomo (matomo.js) og leggje til ny funksjonalitet og nye moglegheiter for måling av nettstader."
+    }
+}

@@ -91,6 +91,8 @@
         "ProductName": "Naziv proizvoda",
         "ProductSKU": "SKU proizvoda",
         "Products": "Proizvodi",
+        "RecommendationCountOnePage": "1 stranica",
+        "RecommendationCountPages": "%s stranica",
         "ReturningVisitorsConversionRateIs": "Stepen ispunjenja od strane posetilaca koji se vraćaju je %s",
         "SendEvent": "Pošalji događaj",
         "SingleGoalOverviewDocumentation": "Ovo je pregled ispunjenja cilja. %s Linijice ispod grafikona možete da uvećate klikom na njih.",
