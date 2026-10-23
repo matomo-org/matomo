@@ -626,4 +626,156 @@ describe("EvolutionGraph", function () {
         const shown = await page.evaluate(() => $('.annotation-manager').is(':visible'));
         expect(shown, 'clicking it opens the notes').to.equal(true);
     });
+
+    describe("axis labels", function () {
+        const visitsAndBounceRateUrl = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-01-31"
+            + "&evolution_day_last_n=30&moduleToWidgetize=VisitsSummary&actionToWidgetize=getEvolutionGraph"
+            + "&columns=nb_visits,bounce_rate&isFooterExpandedInDashboard=1";
+
+        // No fixture has visits in the millions, so push the visits series past 10,000,000 and
+        // spread the bounce rate over 0-100% in the browser, then redraw with the new ticks.
+        const openLargeValueGraph = async function (deviceScaleFactor) {
+            await page.webpage.setViewport({ width: 1350, height: 768, deviceScaleFactor });
+            await page.goto(visitsAndBounceRateUrl);
+            await page.waitForNetworkIdle();
+            await page.evaluate(() => {
+                const dataTable = $('.dataTable:has(.piwik-graph)').data('uiControlObject');
+                dataTable.data[0] = dataTable.data[0].map((value, i) => 9000000 + i * 100000);
+                dataTable.data[1] = dataTable.data[1].map((value, i) => (i * 37) % 101);
+                dataTable.setYTicks();
+                dataTable.render();
+            });
+        };
+
+        const getAxisTicks = function () {
+            return page.evaluate(() => {
+                const target = document.querySelector('.jqplot-target').getBoundingClientRect();
+                const ticksOf = (axis) => Array.from(document.querySelectorAll('.jqplot-' + axis + ' > *'))
+                    .filter((tick) => tick.textContent.trim() !== '')
+                    .map((tick) => {
+                        const rect = tick.getBoundingClientRect();
+                        return {
+                            tagName: tick.tagName,
+                            text: tick.textContent,
+                            inside: rect.left >= target.left - 0.5 && rect.right <= target.right + 0.5
+                                && rect.top >= target.top - 0.5 && rect.bottom <= target.bottom + 0.5,
+                        };
+                    });
+
+                return { yaxis: ticksOf('yaxis'), y2axis: ticksOf('y2axis'), xaxis: ticksOf('xaxis') };
+            });
+        };
+
+        const expectWholeTextTicks = function (ticks, axis, dpr) {
+            expect(ticks.length, axis + ' has labels at DPR ' + dpr).to.be.above(0);
+            ticks.forEach((tick) => {
+                expect(tick.tagName, axis + ' "' + tick.text + '" is text at DPR ' + dpr).to.equal('DIV');
+                expect(tick.inside, axis + ' "' + tick.text + '" is inside the graph at DPR ' + dpr).to.equal(true);
+            });
+        };
+
+        [1, 1.25, 1.5, 2].forEach(function (dpr) {
+            it("should show complete axis labels for large values and percentages at DPR " + dpr, async function () {
+                await openLargeValueGraph(dpr);
+                const ticks = await getAxisTicks();
+
+                expectWholeTextTicks(ticks.yaxis, 'yaxis', dpr);
+                expectWholeTextTicks(ticks.y2axis, 'y2axis', dpr);
+                expectWholeTextTicks(ticks.xaxis, 'xaxis', dpr);
+
+                const yLabels = ticks.yaxis.map((tick) => tick.text);
+                expect(yLabels[yLabels.length - 1]).to.match(/^\d{2},\d{3},\d{3}$/);
+                expect(ticks.y2axis.map((tick) => tick.text)).to.include.members(['0%', '100%']);
+            });
+        });
+
+        it("should show complete month labels on a monthly graph", async function () {
+            await page.goto(visitsAndBounceRateUrl.replace('period=day', 'period=month')
+                .replace('evolution_day_last_n=30', 'evolution_month_last_n=12'));
+            await page.waitForNetworkIdle();
+
+            const ticks = await getAxisTicks();
+            expectWholeTextTicks(ticks.xaxis, 'xaxis', 1);
+            ticks.xaxis.forEach((tick) => {
+                expect(tick.text).to.match(/^[A-Z][a-z]{2} \d{4}$/);
+            });
+        });
+
+        it("should insert axis labels as text, not HTML", async function () {
+            await page.goto(visitsAndBounceRateUrl);
+            await page.waitForNetworkIdle();
+
+            const result = await page.evaluate(() => {
+                const dataTable = $('.dataTable:has(.piwik-graph)').data('uiControlObject');
+                const xaxis = dataTable.jqplotParams.axes.xaxis;
+                xaxis.ticks = xaxis.ticks.slice();
+                xaxis.ticks[0] = '<b class="axisLabelProbe">x</b>';
+                xaxis.ticksOriginal = undefined;
+                dataTable.render();
+
+                return {
+                    elements: document.querySelectorAll('.jqplot-axis .axisLabelProbe').length,
+                    text: document.querySelector('.jqplot-xaxis > div').textContent,
+                };
+            });
+
+            expect(result.elements).to.equal(0);
+            expect(result.text).to.equal('<b class="axisLabelProbe">x</b>');
+        });
+
+        it("should draw the axis labels into the exported image", async function () {
+            await openLargeValueGraph(1);
+
+            // the spec's prefix, as this nested suite's title has a space in it
+            expect(await page.screenshotSelector('.dataTable')).to.matchImage({
+                imageName: 'axis_labels_large_values',
+                prefix: 'EvolutionGraph',
+            });
+
+            // the widest left-axis label, in graph coordinates, which the export keeps at DPR 1
+            const labelBox = await page.evaluate(() => {
+                const target = document.querySelector('.jqplot-target').getBoundingClientRect();
+                const ticks = Array.from(document.querySelectorAll('.jqplot-yaxis > div'));
+                const widest = ticks.reduce((a, b) => (b.offsetWidth > a.offsetWidth ? b : a));
+                const rect = widest.getBoundingClientRect();
+                return {
+                    left: Math.floor(rect.left - target.left),
+                    top: Math.floor(rect.top - target.top),
+                    width: Math.ceil(rect.width),
+                    height: Math.ceil(rect.height),
+                };
+            });
+
+            await openExport();
+            await page.click('#dataTableExportAsImageIcon-header');
+            await page.waitForSelector('.ui-dialog img');
+
+            const inkPixels = await page.evaluate(async (box) => {
+                const image = new Image();
+                image.src = document.querySelector('.ui-dialog img').src;
+                await new Promise((resolve, reject) => {
+                    image.onload = resolve;
+                    image.onerror = reject;
+                });
+
+                const canvas = document.createElement('canvas');
+                canvas.width = image.width;
+                canvas.height = image.height;
+                const context = canvas.getContext('2d');
+                context.drawImage(image, 0, 0);
+
+                const background = context.getImageData(0, 0, 1, 1).data;
+                const pixels = context.getImageData(box.left, box.top, box.width, box.height).data;
+                let count = 0;
+                for (let i = 0; i < pixels.length; i += 4) {
+                    if (pixels[i] !== background[0] || pixels[i + 1] !== background[1] || pixels[i + 2] !== background[2]) {
+                        count += 1;
+                    }
+                }
+                return count;
+            }, labelBox);
+
+            expect(inkPixels, 'the left-axis label is drawn in the export').to.be.above(0);
+        });
+    });
 });
