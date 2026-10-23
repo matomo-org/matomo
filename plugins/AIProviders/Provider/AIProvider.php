@@ -15,7 +15,9 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Http;
+use Piwik\Http\EgressBlockedException;
 use Piwik\Log\LoggerInterface;
+use Piwik\Piwik;
 use Piwik\Plugins\AIProviders\AIConversationRequest;
 use Piwik\Plugins\AIProviders\AIConversationResponse;
 use Piwik\Plugins\AIProviders\AIProviderResponse;
@@ -185,6 +187,12 @@ abstract class AIProvider
     public function getEndpointFieldPlaceholder(): string
     {
         return 'AIProviders_EndpointUrlPlaceholder';
+    }
+
+    /** Translation key for the endpoint field's inline help in the admin UI, empty for none. */
+    public function getEndpointFieldHelp(): string
+    {
+        return '';
     }
 
     /**
@@ -1019,6 +1027,7 @@ abstract class AIProvider
      *     defaultEndpointUrl: string,
      *     endpointFieldTitle: string,
      *     endpointFieldPlaceholder: string,
+     *     endpointFieldHelp: string,
      *     defaultModel: string
      * }
      */
@@ -1033,6 +1042,7 @@ abstract class AIProvider
             'defaultEndpointUrl' => $this->getDefaultEndpointUrl(),
             'endpointFieldTitle' => $this->getEndpointFieldTitle(),
             'endpointFieldPlaceholder' => $this->getEndpointFieldPlaceholder(),
+            'endpointFieldHelp' => $this->getEndpointFieldHelp(),
             'defaultModel' => $this->getDefaultModel(),
         ];
     }
@@ -1219,10 +1229,19 @@ abstract class AIProvider
                     $requestBody,
                     $requestHeaders,
                     null,
-                    $checkHostIsAllowed
+                    $checkHostIsAllowed,
+                    true
                 );
             } catch (Exception $e) {
                 $this->logProviderTransportDebugMetadata($method, $url, $timeoutSeconds, $attempt + 1, $e);
+
+                if ($e instanceof EgressBlockedException) {
+                    throw new AIProviderClientException(
+                        Piwik::translate('AIProviders_ErrorEndpointEgressBlocked', [$this->getName(), $e->getMessage()]),
+                        0,
+                        $e
+                    );
+                }
 
                 throw new AIProviderException(sprintf(
                     'Could not connect to %s.',
