@@ -14,6 +14,7 @@ namespace Piwik\Plugins\BotTracking\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\BotTracking\Columns\Metrics\AIChatbotTrafficRatio;
 use Piwik\Plugins\BotTracking\Columns\Metrics\ClickThroughRate;
 use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
@@ -33,6 +34,7 @@ class Get extends Report
         $this->metrics          = Metrics::getReportMetricColumns();
         $this->processedMetrics = [
             new ClickThroughRate(),
+            new AIChatbotTrafficRatio(),
         ];
         $this->order            = 10;
 

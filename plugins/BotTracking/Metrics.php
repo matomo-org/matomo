@@ -24,6 +24,7 @@ class Metrics
     public const METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS = 'BotTracking_AIChatbotsNotFoundRequests';
     public const METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS = 'BotTracking_AIChatbotsServerErrorRequests';
     public const METRIC_AI_CHATBOTS_CLICK_THROUGH_RATE = 'BotTracking_AIChatbotsClickThroughRate';
+    public const METRIC_AI_CHATBOTS_TRAFFIC_RATIO = 'BotTracking_AIChatbotsTrafficRatio';
     public const COLUMN_REQUESTS = 'requests';
     public const COLUMN_DOCUMENT_REQUESTS = 'document_requests';
     public const COLUMN_PAGE_REQUESTS = 'page_requests';
@@ -79,6 +80,7 @@ class Metrics
     {
         return [
             self::METRIC_AI_CHATBOTS_REQUESTS,
+            self::METRIC_AI_CHATBOTS_TRAFFIC_RATIO,
             self::METRIC_AI_CHATBOTS_ACQUIRED_VISITS,
             self::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS,
             self::METRIC_AI_CHATBOTS_UNIQUE_DOCUMENT_URLS,
@@ -103,6 +105,7 @@ class Metrics
             self::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS    => Piwik::translate('BotTracking_ColumnNotFoundRequests'),
             self::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS => Piwik::translate('BotTracking_ColumnServerErrorRequests'),
             self::METRIC_AI_CHATBOTS_CLICK_THROUGH_RATE    => Piwik::translate('BotTracking_ColumnClickThroughRate'),
+            self::METRIC_AI_CHATBOTS_TRAFFIC_RATIO         => Piwik::translate('BotTracking_ColumnAIChatbotTrafficRatio'),
         ];
     }
 
@@ -120,6 +123,7 @@ class Metrics
             self::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS    => Piwik::translate('BotTracking_ColumnNotFoundRequestsDocumentation'),
             self::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS => Piwik::translate('BotTracking_ColumnServerErrorRequestsDocumentation'),
             self::METRIC_AI_CHATBOTS_CLICK_THROUGH_RATE    => Piwik::translate('BotTracking_ColumnClickThroughRateDocumentation'),
+            self::METRIC_AI_CHATBOTS_TRAFFIC_RATIO         => Piwik::translate('BotTracking_ColumnAIChatbotTrafficRatioDocumentation'),
         ];
     }
 
@@ -137,6 +141,7 @@ class Metrics
             self::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS    => Dimension::TYPE_NUMBER,
             self::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS => Dimension::TYPE_NUMBER,
             self::METRIC_AI_CHATBOTS_CLICK_THROUGH_RATE    => Dimension::TYPE_PERCENT,
+            self::METRIC_AI_CHATBOTS_TRAFFIC_RATIO         => Dimension::TYPE_FLOAT,
         ];
     }
 }
