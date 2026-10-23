@@ -172,6 +172,8 @@ return array(
         $isValidUserWithoutLicenses = $c->get('test.vars.consumer') === 'validLicenseNoPlugins';
         $createAccountResponseCode = (int) $c->get('test.vars.createAccountResponseCode');
         $startFreeTrialSuccess = $c->get('test.vars.startFreeTrialSuccess');
+        // ['name' => ..., 'version' => ..., 'zip' => path relative to the Matomo root]: offered as an update and downloadable
+        $pluginUpdate = $c->get('test.vars.mockMarketplacePluginUpdate');
 
         // which paid plugins fixture this consumer sees. The generic PaidPluginN info branch below
         // answers out of the same one, so a card and its modal cannot disagree. PaidPlugin1 is the
@@ -209,15 +211,42 @@ return array(
 
         $service->setOnDownloadCallback(function (
             $action,
-            $params
+            $params,
+            $postData = null,
+            $url = null,
+            $destinationPath = null
         ) use (
             $service,
             $isExceededUser,
             $isValidUserWithoutLicenses,
             $startFreeTrialSuccess,
             $createAccountResponseCode,
-            $paidPluginsFixture
+            $paidPluginsFixture,
+            $pluginUpdate
         ) {
+            // the plugin download carries over the action of the info request before it, so match its URL first
+            if (
+                !empty($pluginUpdate)
+                && !empty($destinationPath)
+                && strpos((string) $url, '/plugins/' . $pluginUpdate['name'] . '/download/') !== false
+            ) {
+                return copy(PIWIK_INCLUDE_PATH . '/' . $pluginUpdate['zip'], $destinationPath);
+            }
+
+            if (!empty($pluginUpdate) && $action === 'plugins/' . $pluginUpdate['name'] . '/info') {
+                $plugin = json_decode($service->getFixtureContent('v2.0_plugins_TreemapVisualization_info.json'), true);
+                $version = array_pop($plugin['versions']);
+                $version['name'] = $pluginUpdate['version'];
+                $version['download'] = '/api/2.0/plugins/' . $pluginUpdate['name'] . '/download/' . $pluginUpdate['version'];
+
+                $plugin['name'] = $pluginUpdate['name'];
+                $plugin['displayName'] = $pluginUpdate['name'];
+                $plugin['latestVersion'] = $pluginUpdate['version'];
+                $plugin['versions'] = [$version];
+
+                return json_encode($plugin);
+            }
+
             if ($action === 'info') {
                 return $service->getFixtureContent('v2.0_info.json');
             } elseif ($action === 'consumer' && $service->getAccessToken() === 'valid') {
@@ -305,7 +334,20 @@ return array(
                     'data' => $data,
                 ];
             } elseif ($action === 'plugins/checkUpdates') {
-                return $service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json');
+                $content = $service->getFixtureContent('v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json');
+
+                if (empty($pluginUpdate)) {
+                    return $content;
+                }
+
+                $updates = json_decode($content, true);
+                $updates[] = [
+                    'name' => $pluginUpdate['name'],
+                    'version' => $pluginUpdate['version'],
+                    'repositoryChangelogUrl' => '',
+                ];
+
+                return json_encode($updates);
             }
         });
 

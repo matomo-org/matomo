@@ -14,14 +14,19 @@ use Piwik\Cache;
 use Piwik\DI;
 use Piwik\FrontController;
 use Piwik\Nonce;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugin\MetadataLoader;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
+use Piwik\Plugins\CorePluginsAdmin\PluginInstallResults;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
 use Piwik\Plugins\Marketplace\Controller;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Url;
 
 /**
  * @group Marketplace
@@ -319,12 +324,143 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
+    public function testUpdatePluginKeepsTheFailureSummaryWhenAPageInBetweenDropsTransientNotifications()
+    {
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR),
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $redirectUrl = $this->dispatchUpdateUntilRedirect('SecurityInfo,TreemapVisualization');
+
+        // what the "Database upgrade required" screen does when an updated plugin ships a migration
+        NotificationManager::cancelAllNonPersistent();
+
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo'),
+            $this->followRedirect($redirectUrl)
+        );
+    }
+
+    public function testUpdatePluginRedirectsToTheResultPageInsteadOfRenderingIt()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $redirectUrl = $this->dispatchUpdateUntilRedirect('TreemapVisualization');
+        parse_str((string) parse_url($redirectUrl, PHP_URL_QUERY), $query);
+
+        self::assertSame('updatePluginResult', $query['action']);
+        self::assertArrayNotHasKey('nonce', $query);
+        self::assertArrayNotHasKey('pluginName', $query);
+        self::assertSame(
+            ['plugins' => ['TreemapVisualization'], 'marketplaceUrl' => ''],
+            PluginInstallResults::get($query[PluginInstallResults::TOKEN_PARAMETER])
+        );
+    }
+
+    public function testUpdatePluginResultShowsTheVersionInstalledOnDisk()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $response = $this->dispatchUpdate('TreemapVisualization');
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]),
+            $response
+        );
+    }
+
+    public function testUpdatePluginLeavesASuccessSummaryForWhenTheResultPageIsNeverShown()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $this->dispatchUpdateUntilRedirect('TreemapVisualization');
+
+        // the "Database upgrade required" screen drops these, then continues to the dashboard
+        NotificationManager::cancelAllNonPersistent();
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        self::assertContains(
+            Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]),
+            $this->getNotificationMessages()
+        );
+    }
+
+    public function testUpdatePluginResultWithdrawsTheSuccessSummaryItShowsItself()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $response = $this->followRedirect($this->dispatchUpdateUntilRedirect('TreemapVisualization'));
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        $successMessage = Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]);
+        self::assertSame(1, substr_count($response, $successMessage));
+        self::assertNotContains($successMessage, $this->getNotificationMessages());
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getNotificationMessages(): array
+    {
+        return array_values(array_map(static function ($notification) {
+            return $notification->message;
+        }, NotificationManager::getAllNotificationsToDisplay()));
+    }
+
+    public function testUpdatePluginResultRedirectsToTheMarketplaceForAnUnknownToken()
+    {
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'updatePluginResult',
+            PluginInstallResults::TOKEN_PARAMETER => 'unknownToken',
+        ];
+
+        $redirectUrl = $this->dispatchUntilRedirect('updatePluginResult');
+
+        self::assertStringContainsString('module=Marketplace&action=overview', $redirectUrl);
+    }
+
+    public function testInstallPluginResultLinksBackToTheMarketplacePageTheInstallStartedFrom()
+    {
+        $this->createWebsiteForAdminPages();
+
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $marketplaceUrl = Url::getCurrentUrlWithoutQueryString() . '?module=Marketplace&action=overview#?pluginType=plugins';
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'installPlugin',
+            'pluginName' => 'TreemapVisualization',
+            'nonce' => Nonce::getNonce(Controller::INSTALL_NONCE),
+            'referrer' => $marketplaceUrl,
+        ];
+
+        $response = $this->followRedirect($this->dispatchUntilRedirect('installPlugin'));
+
+        self::assertSame(['TreemapVisualization'], $this->installedPlugins);
+        self::assertStringContainsString(htmlspecialchars($marketplaceUrl, ENT_QUOTES), $response);
+    }
+
     private function dispatchUpdate(string $pluginName): string
     {
-        // the update view renders a full admin page, whose menu resolves a site
-        if (!Fixture::siteCreated(1)) {
-            Fixture::createWebsite('2012-01-01 00:00:00');
-        }
+        return $this->followRedirect($this->dispatchUpdateUntilRedirect($pluginName));
+    }
+
+    private function dispatchUpdateUntilRedirect(string $pluginName): string
+    {
+        $this->createWebsiteForAdminPages();
 
         $_GET = [
             'module' => 'Marketplace',
@@ -333,9 +469,55 @@ class ControllerTest extends IntegrationTestCase
             'nonce' => Nonce::getNonce(Controller::UPDATE_NONCE),
         ];
 
-        return Access::doAsSuperUser(function () {
-            return FrontController::getInstance()->fetchDispatch('Marketplace', 'updatePlugin');
+        return $this->dispatchUntilRedirect('updatePlugin');
+    }
+
+    /**
+     * @return string the URL the action redirects to
+     */
+    private function dispatchUntilRedirect(string $action): string
+    {
+        // a redirect is raised as an exception on the CLI, which leaves fetchDispatch()'s output buffer open
+        $outputBufferLevel = ob_get_level();
+
+        try {
+            Access::doAsSuperUser(function () use ($action) {
+                FrontController::getInstance()->fetchDispatch('Marketplace', $action);
+            });
+        } catch (\Exception $e) {
+            if (!preg_match('/would redirect you to this URL: (\S+)/', $e->getMessage(), $matches)) {
+                throw $e;
+            }
+
+            return $matches[1];
+        } finally {
+            while (ob_get_level() > $outputBufferLevel) {
+                ob_end_clean();
+            }
+        }
+
+        self::fail(sprintf('The "%s" action did not redirect', $action));
+    }
+
+    /**
+     * Dispatches the result page a redirect points at, as the browser's next request would.
+     */
+    private function followRedirect(string $redirectUrl): string
+    {
+        parse_str((string) parse_url($redirectUrl, PHP_URL_QUERY), $query);
+        $_GET = $query;
+
+        return Access::doAsSuperUser(function () use ($query) {
+            return FrontController::getInstance()->fetchDispatch($query['module'], $query['action']);
         });
+    }
+
+    private function createWebsiteForAdminPages(): void
+    {
+        // the result pages render a full admin page, whose menu resolves a site
+        if (!Fixture::siteCreated(1)) {
+            Fixture::createWebsite('2012-01-01 00:00:00');
+        }
     }
 
     public function testSubscriptionOverviewClearsTheInvalidLicensesCache()
@@ -419,10 +601,15 @@ class ControllerTest extends IntegrationTestCase
             }
         );
 
+        // installing asks for the password again unless it was confirmed recently
+        $passwordVerifier = $this->createMock(PasswordVerifier::class);
+        $passwordVerifier->method('requirePasswordVerifiedRecently')->willReturn(true);
+
         return [
             'dev.forced_plugin_update_result' => [],
             'Piwik\Plugins\Marketplace\Api\Service' => DI::value($this->service),
             'Piwik\Plugins\CorePluginsAdmin\PluginInstaller' => DI::value($installer),
+            PasswordVerifier::class => DI::value($passwordVerifier),
         ];
     }
 
