@@ -2,6 +2,7 @@
     "CoreUpdater": {
         "AlreadyUpToDate": "一切都已經是最新的。",
         "CheckingForPluginUpdates": "正在檢查外掛更新",
+        "CheckingForPluginUpdatesFailed": "無法檢查外掛更新：%1$s",
         "ClickHereToViewSqlQueries": "點擊這裡來查看並複製即將執行的 SQL 指令和主控台指令列表",
         "CloudHosting": "雲端代管",
         "ConsoleCommandDescription": "觸發更新。請在 Matomo 核心或任何外掛檔案更新後使用。在結尾加上 --yes 即可在不詢問確認的情況下直接升級。",
@@ -90,6 +91,7 @@
         "UpdateUsingHttpsFailedForceHttpInfo": "為了安全起見，Matomo 不會透過不安全的 HTTP 連線下載更新。請確認你的環境可正常使用 HTTPS 後再試一次。只有在你確定連線安全的情況下，才應該啟用 %1$sforce_matomo_http_request%2$s 設定選項以允許透過 HTTP 更新。",
         "UpdateUsingHttpsFailedHelp": "為什麼會失敗？透過安全的 HTTPS 連線下載最新版 Matomo 失敗的原因有很多，例如網路錯誤、網路速度過慢或系統設定錯誤。請注意，這也可能代表你的伺服器正遭受中間人（MITM）攻擊，有人試圖用惡意版本的 Matomo 取代這次更新。",
         "Updating": "更新中",
+        "UpdatingPluginXFailedY": "無法更新外掛 %1$s：%2$s",
         "UpdatingPluginXToVersionY": "正在將外掛 %1$s 更新至版本 %2$s",
         "UpgradeComplete": "升級完成！",
         "UpgradePiwik": "升級 Matomo",

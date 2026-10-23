@@ -40,6 +40,8 @@
         "ProductName": "Produkta nosaukums",
         "ProductSKU": "Produkta kods",
         "Products": "Produkti",
+        "RecommendationCountOnePage": "1 lapa",
+        "RecommendationCountPages": "%s lapas",
         "URL": "URL",
         "UpdateGoal": "Atjaunināt mērķi",
         "ViewAndEditGoals": "Skatīt un labot mērķus",

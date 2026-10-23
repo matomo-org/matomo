@@ -2,6 +2,7 @@
     "General": {
         "12HourClock": "12-tuntinen kello",
         "24HourClock": "24-tuntinen kello",
+        "AIAssistants": "Tekoälyavustajat",
         "API": "API",
         "AbandonedCarts": "Hylätyt ostoskorit",
         "AboutPiwikX": "Tietoja Matomosta %s",

@@ -1,5 +1,11 @@
 {
     "DevicePlugins": {
-        "WidgetPlugins": "Liste over innstikk"
+        "BrowserWithNoPluginsEnabled": "%1$s utan programtillegg skrudde på",
+        "BrowserWithPluginsEnabled": "%1$s med programtillegga %2$s skrudde på",
+        "ColumnPercentageVisitsDocumentation": "Prosentdelen av alle besøk der programtillegget vart oppdaga. Eit besøk kan omfatte fleire programtillegg. Verdien er runda ned til heile tal.",
+        "PluginDescription": "Rapporterer lista over programtillegg som er støtta i nettlesarane til dei besøkande.",
+        "PluginDetectionDoesNotWorkInIE": "Merk: Gjenkjenning av programtillegg fungerer ikkje i Internet Explorer før versjon 11. Denne rapporten byggjer berre på andre nettlesarar enn IE og nyare versjonar av IE.",
+        "WidgetPlugins": "Liste over innstikk",
+        "WidgetPluginsDocumentation": "Denne rapporten viser kva programtillegg i nettlesaren dei besøkande hadde skrudd på. Denne informasjonen kan vere viktig når du skal velje rett måte å levere innhaldet ditt på."
     }
 }

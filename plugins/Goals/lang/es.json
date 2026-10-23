@@ -140,6 +140,8 @@
         "ProductSKU": "SKU (número de referencia) del producto",
         "ProductSKUs": "SKUs del producto",
         "Products": "Productos",
+        "RecommendationCountOnePage": "1 página",
+        "RecommendationCountPages": "%s páginas",
         "ReturningVisitorsConversionRateIs": "La tasa de visitantes que retornan es %s",
         "SendEvent": "Enviar un evento",
         "SingleGoalOverviewDocumentation": "Esta es la información general de las conversiones de un solo objetivo. %s Los gráficos pueden ser agrandados haciendo clic en ellos.",

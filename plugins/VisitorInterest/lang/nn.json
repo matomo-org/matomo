@@ -1,13 +1,25 @@
 {
     "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s–%2$s min",
+        "BetweenXYSeconds": "%1$s–%2$s s",
         "ColumnPagesPerVisit": "Sider per vitjing",
+        "ColumnPercentageVisitsDocumentation": "Prosentdelen av alle besøk der dei besøkande så langt hadde dette talet på besøk totalt.",
         "ColumnVisitDuration": "Vitjingslengde",
         "Engagement": "Engasjement",
         "NPages": "%s sider",
         "OnePage": "1 side",
+        "PluginDescription": "Interessa til dei besøkande: tal på sider viste, tid brukt på nettstaden, dagar sidan førre besøk og meir.",
+        "VisitNum": "Besøksnummer",
+        "VisitsByDaysSinceLast": "Besøk etter dagar sidan førre besøk",
         "VisitsPerDuration": "Vitjingar per vitjingstid",
         "VisitsPerNbOfPages": "Vitjingar per mengd sider",
-        "WidgetLengths": "Lengda på vitjingane",
-        "WidgetPages": "Sider per vitjing"
+        "WidgetLengths": "Lengda på besøka",
+        "WidgetLengthsDocumentation": "Kor mange besøk som hadde ei viss samla varigheit. Først blir rapporten vist som ei taggsky, der vanlegare varigheiter har større skrift.",
+        "WidgetPages": "Sider per vitjing",
+        "WidgetPagesDocumentation": "Kor mange besøk som hadde eit visst tal på sidevisingar. Først blir rapporten vist som ei taggsky, der vanlegare tal på sider har større skrift.",
+        "WidgetVisitsByDaysSinceLast": "Besøk etter dagar sidan førre besøk",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Kor mange besøk som kom frå tilbakevendande besøkande der førre besøk var eit visst tal på dagar sidan.",
+        "WidgetVisitsByNumDocumentation": "Talet på besøkande som nådde sitt n-te besøk, altså det samla talet på besøkande som har besøkt nettstaden din eit visst tal på gonger eller fleire.",
+        "visitsByVisitCount": "Besøk etter besøksnummer"
     }
 }
