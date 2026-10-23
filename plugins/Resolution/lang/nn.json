@@ -3,8 +3,16 @@
         "ColumnConfiguration": "Konfigurasjon",
         "ColumnResolution": "Oppløysing",
         "Configurations": "Konfigurasjonar",
+        "PluginDescription": "Rapporterer skjermoppløysinga til dei besøkande.",
         "Resolutions": "Oppløysingar",
-        "WidgetGlobalVisitors": "Global vitjarkonfigurasjon",
-        "WidgetResolutions": "Skjermoppløysing"
+        "ScreenResolutionDetectionDisabled": "Registrering av skjermoppløysing er skrudd av",
+        "ScreenResolutionDetectionDisabledImpact": "Informasjon om skjermoppløysing blir ikkje samla inn, og rapportane om skjermoppløysing under <strong>Besøkande &gt; Einingar</strong> er ikkje tilgjengelege.",
+        "ScreenResolutionDetectionDisabledRequirementNote": "Registrering av skjermoppløysing og rapporten om skjermoppløysing må vere skrudde av.",
+        "ScreenResolutionDetectionDisabledWhatItDoes": "Registrering av skjermoppløysing er skrudd av.<br><br>Det reduserer risikoen for at besøkande blir identifiserte ut frå skjermoppsettet sitt.",
+        "ScreenResolutionReportDisabledByCompliancePolicy": "Etterlevingsreglane har skrudd av rapporten om skjermoppløysing.",
+        "WidgetGlobalVisitors": "Oppsett hos besøkande",
+        "WidgetGlobalVisitorsDocumentation": "Denne rapporten viser dei vanlegaste samla oppsetta dei besøkande hadde. Eit oppsett er kombinasjonen av operativsystem, nettlesartype og skjermoppløysing.",
+        "WidgetResolutions": "Skjermoppløysing",
+        "WidgetResolutionsDocumentation": "Denne rapporten viser skjermoppløysingane dei besøkande brukte då dei såg på nettstaden din."
     }
 }

@@ -16,7 +16,6 @@
         "DefaultCapabilityLevelHelp": "选择 Matomo 可以使用的默认能力。具体功能可能会覆盖此设置。",
         "DefaultProvider": "默认提供商",
         "DefaultProviderHelp": "连接各个提供商，并为 Matomo 挑选一个默认选项。具体功能可能会覆盖此设置，转而使用它们自己偏好的已连接提供商。",
-        "DefaultsTitle": "更改提供商设置和默认值",
         "Disconnect": "断开连接",
         "DisconnectSuccess": "AI 提供商已断开连接。",
         "Disconnecting": "正在断开连接…",

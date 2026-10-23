@@ -1,6 +1,12 @@
 {
     "AIProviders": {
+        "ApiKey": "Ключ API",
+        "ApiKeyAlreadyConfiguredPlaceholder": "Вставьте новый ключ для замены.",
+        "ApiKeyPlaceholder": "Введите ваш API ключ",
+        "BedrockEndpointTitle": "Регион AWS",
         "DefaultBadge": "По умолчанию",
+        "Disconnect": "Отключиться",
+        "Disconnecting": "Отключение…",
         "Model": "Модель",
         "TestingConnection": "Тестирование…"
     }

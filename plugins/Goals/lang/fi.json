@@ -93,6 +93,8 @@
         "ProductQuantity": "Tuotteen määrä",
         "ProductSKU": "Tuotteen SKU",
         "Products": "Tuotteet",
+        "RecommendationCountOnePage": "1 sivu",
+        "RecommendationCountPages": "%s sivua",
         "ReturningVisitorsConversionRateIs": "Palaavien kävijöiden siirtymäaste on %s",
         "SendEvent": "Lähetä tapahtuma",
         "SingleGoalOverviewDocumentation": "Tämä on yleiskatsaus yksittäisen tavoitteen saavuttamiselle. %s Pienet kuvaajat suurenevat klikkaamalla.",

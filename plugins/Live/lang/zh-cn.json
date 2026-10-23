@@ -10,7 +10,6 @@
         "DisableVisitorProfile": "关闭访客个人资料",
         "DisableVisitorProfileDescription": "所有与访问日志相关的功能始终有效。",
         "DisableVisitsLogAndProfile": "关闭访问日志和访客档案",
-        "DisableVisitsLogAndProfileDescription": "还删除依赖于这些的功能，例如电子商务日志、分段访问日志、实时地图或实时小部件。可能需要遵守当地的隐私法律/准则。",
         "FirstVisit": "首次访问",
         "GoalType": "类型",
         "HideMap": "隐藏地图",

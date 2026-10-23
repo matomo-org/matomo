@@ -1,7 +1,6 @@
 {
     "Live": {
         "ActionsAndDuration": "%1$s gníomh i %2$s",
-        "AggregatedRealtimeReportsEnabledPolicySettingTitle": "Tuarascálacha Fíor-Ama Comhiomlánaithe Cumasaithe",
         "AveragePageGenerationTime": "Thóg sé %1$s ar gach leathanach le luchtú don chuairteoir seo ar an meán.",
         "CalculatedOverNPageViews": "Áirithe trí úsáid a bhaint as radharcanna leathanach %1$s an chuairteora deiridh seo.",
         "ClickToSeeAllContents": "Cliceáil chun gach idirghníomhaíocht/léiriú ábhair a fheiceáil",
@@ -11,14 +10,9 @@
         "DisableVisitorProfile": "Múch próifílí cuairteoirí",
         "DisableVisitorProfileDescription": "Feidhmíonn gach gné a bhaineann le logáil cuairte i gcónaí.",
         "DisableVisitsLogAndProfile": "Múch loga cuairteanna agus próifílí cuairteoirí",
-        "DisableVisitsLogAndProfileDescription": "Baintear freisin gnéithe a bhraitheann orthu seo, amhail an loga ríomhthráchtála, an loga cuairteanna deighilte, an léarscáil fíor-ama nó an ghiuirléid fíor-ama. D’fhéadfadh go gcaithfí cloí le dlíthe/treoirlínte príobháideachais áitiúla.",
+        "DisableVisitsLogAndProfileDescription2": "Baintear gnéithe a bhraitheann orthu seo freisin, amhail an loga ríomhthráchtála, an loga cuairteanna deighilte nó an léarscáil fíor-ama. Ní thaispeánann an giuirléid fíor-ama ach líon comhiomlán na gcuairteanna. D’fhéadfadh sé a bheith riachtanach chun cloí le dlíthe nó treoirlínte áitiúla maidir le príobháideachas.",
         "DisableVisitsLogAndProfileImpact": "Níl radhairc <strong>Cuairteoirí &gt; Log Cuairteanna</strong> agus Próifíl Cuairteoirí ar fáil.",
         "DisableVisitsLogAndProfileWhatItDoes": "Tá gnéithe Log Cuairteanna agus Próifíl Cuairteoirí díchumasaithe.<br><br>Coscann sé seo cosán brabhsála cuairteora aonair agus iompar mionsonraithe ar leibhéal na cuairte a atógáil.",
-        "EnableAggregatedRealtimeReports": "Cumasaigh tuarascálacha fíor-ama comhiomlánaithe",
-        "EnableAggregatedRealtimeReportsDescription": "Taispeánann sé méadrachtaí comhiomlánaithe atá sábháilte ó thaobh príobháideachta de do na \"24 uair an chloig dheireanacha\" agus na \"30 nóiméad dheireanacha\". Ní thaispeántar aon fhaisnéis faoi chuairteoir aonair, cuairt, seisiún ná gníomhaíocht.",
-        "EnableAggregatedRealtimeReportsImpact": "Ní thaispeánann <strong>Cuairteoirí &gt; Fíor-am</strong> ach na comhaireamh comhiomlánaithe, le comhaireamh slánaithe.",
-        "EnableAggregatedRealtimeReportsPolicySettingRequirementNote": "Caithfear tuarascálacha fíor-ama comhiomlánaithe a chumasú.",
-        "EnableAggregatedRealtimeReportsWhatItDoes": "Fanann tuarascálacha fíor-ama comhiomlánaithe ar fáil fad a bhíonn an Log Cuairteanna múchta.<br><br>Ní thaispeántar ach na hiomláin \"24 uair an chloig dheireanacha\" agus \"30 nóiméad dheireanacha\", agus déantar a gcomhaireamh a shlánú, mar sin ní nochtar aon fhaisnéis faoi chuairteoir aonair, cuairt, seisiún ná leibhéal gníomhaíochta.",
         "ExportThisDatasetToXml": "Easpórtáil an tacar sonraí seo chuig XML",
         "FirstVisit": "An chéad chuairt",
         "GoalType": "Cineál",

@@ -29,11 +29,6 @@
         "PluginDescription": "この便利な「すべてのウェブサイト」ダッシュボードで、すべてのウェブサイトとアプリケーションを見て、比較してください。",
         "SegmentationNotSupported": "セグメンテーションはサポートされていません",
         "SingleWebsitesDashboardDocumentation": "このレポートは、訪問者に関する最も一般的なメトリックを含む、特定のWebサイトの情報の概要を提供します。",
-        "TopLinkTooltip": "あなたの全ウェブサイトに対するウェブ解析統計情報を比較してください。",
-        "TotalAiChatbotsRequests": "AIチャットボットへのリクエスト総数",
-        "TotalHits": "総アクセス数",
-        "TotalHitsIncludingAiTooltip": "総ヒット数：人間によるすべてのヒットとAIチャットボットからのリクエストを含む",
-        "TotalPageviews": "総ページビュー",
-        "TotalVisits": "総訪問数"
+        "TopLinkTooltip": "あなたの全ウェブサイトに対するウェブ解析統計情報を比較してください。"
     }
 }
