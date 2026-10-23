@@ -581,11 +581,13 @@ class DeterministicRecommender
         $candidates = [];
         foreach ($links as $link) {
             $path = (string) ($link['linkTarget'] ?? '');
-            $segments = $this->pathSegments($path);
+            // classify redirects by the linked path
+            $linkedPath = (string) ($link['sourceTarget'] ?? $path);
+            $segments = $this->pathSegments($linkedPath);
             if (empty($segments) || $this->isFilePath($segments)) {
                 continue;
             }
-            $family = $this->pathSegments($this->pathFamily($path));
+            $family = $this->pathSegments($this->pathFamily($linkedPath));
             $item = $this->catalogueItem($family, $link, $templates);
             if ($item !== null) {
                 // members of a conversion template are covered by its regex goal
@@ -618,7 +620,7 @@ class DeterministicRecommender
             }
 
             $label = $this->pageLabel($link, $path);
-            $exact = $this->isExactCategoryPage($path, self::CATEGORIES[$bestCategory]['tokens']);
+            $exact = $this->isExactCategoryPage($linkedPath, self::CATEGORIES[$bestCategory]['tokens']);
             $evidence = [$this->linkedEvidence((int) ($link['occurrenceCount'] ?? 1), (int) ($link['pageCount'] ?? 1))];
 
             // /pricing is a better pricing page than /support-plans
