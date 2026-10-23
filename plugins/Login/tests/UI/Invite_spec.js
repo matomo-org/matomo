@@ -32,6 +32,13 @@ describe('Invite', function () {
 
   it('should display error page', async function (){
     await page.goto(wrongUserUrl);
+    // The error page redirects to the dashboard after 3s, which a slow screenshot would capture
+    await page.evaluate(() => {
+      let timeoutId = setTimeout(() => {}, 0);
+      while (timeoutId--) {
+        clearTimeout(timeoutId);
+      }
+    });
     expect(await page.screenshot({ fullPage: true })).to.matchImage('error');
   });
 
@@ -39,10 +46,6 @@ describe('Invite', function () {
   // the one worth a baseline next to the panel.
   it('should display set password page beside the What\'s New panel', async function () {
     await withWhatsNewPanel(async function () {
-      // The error page above leaves a 3s redirect timer pending, which would abort the navigation
-      // below. Same guard loginUser() uses in the TwoFactorAuth spec.
-      await page.goto('about:blank');
-
       await page.goto(pendingUserUrl);
       await page.waitForSelector('.loginWhatsNew__entry');
       expect(await page.screenshot({ fullPage: true })).to.matchImage('set_password_whats_new');
