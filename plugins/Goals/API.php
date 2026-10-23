@@ -258,7 +258,8 @@ class API extends \Piwik\Plugin\API
      * Dismisses a single saved goal recommendation so it is no longer shown.
      *
      * The dismissal lasts until the next recommendation scan replaces the saved
-     * results. When no saved recommendation has the given identifier, nothing changes.
+     * results. Dismissing the last one removes the saved scan. When no saved
+     * recommendation has the given identifier, nothing changes.
      * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
      *
      * @param int $idSite The numeric ID of the website the recommendation belongs to.
@@ -276,6 +277,59 @@ class API extends \Piwik\Plugin\API
         $success = $this->getRecommendationService()->dismissRecommendation($idSite, $recommendationId);
 
         return ['success' => $success];
+    }
+
+    /**
+     * Creates goals from the recommendations saved by the last scan, through {@link addGoal()}.
+     *
+     * Unknown and dismissed identifiers are skipped. A goal that fails validation does not stop the others.
+     * Requires the `GoalRecommendations` feature flag to be enabled on this instance.
+     *
+     * @param int $idSite The numeric ID of the website to create the goals for.
+     * @param string[] $recommendationIds The `id` values of the recommendations to create.
+     * @return array The saved scan's mode (`ai` or `deterministic`) and the created goals.
+     * @phpstan-return array{mode: ?string, goals: list<array{recommendationId: string, idGoal: int}>}
+     */
+    public function addRecommendedGoals(int $idSite, array $recommendationIds): array
+    {
+        Piwik::checkUserHasWriteAccess($idSite);
+        $this->checkGoalRecommendationsEnabled();
+
+        $recommendationIds = array_map(function ($id): string {
+            return Common::unsanitizeInputValue((string) $id);
+        }, $recommendationIds);
+
+        $saved = $this->getRecommendationService()->getSavedRecommendations($idSite);
+        $created = [];
+
+        foreach ($saved['goals'] as $recommendation) {
+            $recommendationId = (string) ($recommendation['id'] ?? '');
+            if ($recommendationId === '' || !in_array($recommendationId, $recommendationIds, true)) {
+                continue;
+            }
+
+            try {
+                // keeps the API.Goals.addGoal.end listeners running
+                $idGoal = Request::processRequest('Goals.addGoal', [
+                    'idSite' => $idSite,
+                    'name' => $recommendation['name'] ?? '',
+                    'matchAttribute' => $recommendation['matchAttribute'] ?? 'url',
+                    'pattern' => $recommendation['pattern'] ?? '',
+                    'patternType' => $recommendation['patternType'] ?? 'contains',
+                    'caseSensitive' => empty($recommendation['caseSensitive']) ? 0 : 1,
+                    'revenue' => $recommendation['revenue'] ?? 0,
+                    'allowMultipleConversionsPerVisit' => empty($recommendation['allowMultipleConversionsPerVisit']) ? 0 : 1,
+                    'description' => ($recommendation['description'] ?? '') ?: ($recommendation['reason'] ?? ''),
+                    'useEventValueAsRevenue' => empty($recommendation['useEventValueAsRevenue']) ? 0 : 1,
+                    'createdFromRecommendedGoal' => 1,
+                ], $default = []);
+                $created[] = ['recommendationId' => $recommendationId, 'idGoal' => (int) $idGoal];
+            } catch (Exception $e) {
+                // left out of the result
+            }
+        }
+
+        return ['mode' => $saved['mode'], 'goals' => $created];
     }
 
     private function getRecommendationService(): GoalRecommendationService
@@ -348,7 +402,7 @@ class API extends \Piwik\Plugin\API
         bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
         bool $useEventValueAsRevenue = false
-    ) {
+    ): int {
         Piwik::checkUserHasWriteAccess($idSite);
 
         $patternType = Common::unsanitizeInputValue($patternType);
