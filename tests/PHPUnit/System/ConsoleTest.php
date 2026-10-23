@@ -82,6 +82,15 @@ class TestCommandWithFatalError extends ConsoleCommand
         try {
             \Piwik\ErrorHandler::pushFatalErrorBreadcrumb(static::class, []);
 
+            // the ondrej/php PPA builds of PHP 8.1 and older skip shutdown functions after running out of memory
+            if (PHP_VERSION_ID < 80200) {
+                set_time_limit(1);
+                $i = 0;
+                while (true) {
+                    $i++;
+                }
+            }
+
             $val = "";
             while (true) {
                 $val .= str_repeat("*", 1024 * 1024 * 1024);
@@ -176,8 +185,9 @@ class ConsoleTest extends ConsoleCommandTestCase
         $command = $php . " -i | grep 'memory_limit => -1'";
 
         $output = shell_exec($command);
+        $commandPhpVersionId = (int) shell_exec($php . " -r 'echo PHP_VERSION_ID;'");
 
-        if ($output == "memory_limit => -1 => -1\n") {
+        if ($commandPhpVersionId >= 80200 && $output == "memory_limit => -1 => -1\n") {
             $this->markTestSkipped("no memory limit in php-cli");
         }
 
@@ -188,13 +198,17 @@ class ConsoleTest extends ConsoleCommandTestCase
         $output = shell_exec($command);
         $output = $this->normalizeOutput($output);
 
+        $error = $commandPhpVersionId < 80200
+            ? 'Maximum execution time of 1 second exceeded'
+            : 'Allowed memory size of X bytes exhausted (tried to allocate X bytes)';
+
         $expected = <<<END
 
-Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 87
+Fatal error: $error in /tests/PHPUnit/System/ConsoleTest.php on line %d
 *** IN SAFEMODE ***
-Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) (which lead to: Error: array (
+Matomo encountered an error: $error (which lead to: Error: array (
   'type' => 1,
-  'message' => 'Allowed memory size of X bytes exhausted (tried to allocate X bytes)',
+  'message' => '$error',
   'file' => '/tests/PHPUnit/System/ConsoleTest.php',
   'line' => %d,
   'backtrace' => ' on /tests/PHPUnit/System/ConsoleTest.php(%d)
