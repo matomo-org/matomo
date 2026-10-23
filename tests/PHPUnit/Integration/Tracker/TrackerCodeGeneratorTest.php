@@ -568,6 +568,18 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             ],
         ];
 
+        yield 'mergeSubdomains and mergeAliasUrls strip www prefix' => [
+            [
+                'createSiteWithUrls' => ['https://www.example.org', 'https://WWW.example.com/path', 'https://www.com'],
+                'mergeSubdomains' => true,
+                'mergeAliasUrls' => true,
+            ],
+            [
+                '_paq.push(["setCookieDomain", "*.example.org"]);',
+                '_paq.push(["setDomains", ["*.example.org","*.www.com","*.example.com/path"]]);',
+            ],
+        ];
+
         yield 'crossDomain implies setDomains' => [
             ['createSiteWithUrls' => $urls, 'crossDomain' => true],
             [
