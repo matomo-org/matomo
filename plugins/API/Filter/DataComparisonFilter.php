@@ -321,7 +321,7 @@ class DataComparisonFilter
                 throw new \Exception("Comparing segments/periods with subtables only works when the comparison idSubtables are supplied as well.");
             }
 
-            $segmentIndex = empty($paramsToModify['segment']) ? 0 : $this->compareSegmentIndices[$paramsToModify['segment']];
+            $segmentIndex = $this->compareSegmentIndices[$paramsToModify['segment']];
             $periodIndex = empty($paramsToModify['period']) ? 0 : $this->comparePeriodIndices[$paramsToModify['period']][$paramsToModify['date']];
             $seriesIndex = self::getComparisonSeriesIndex(null, $periodIndex, $segmentIndex, count($this->compareSegments));
 

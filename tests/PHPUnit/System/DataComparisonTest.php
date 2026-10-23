@@ -111,6 +111,57 @@ class DataComparisonTest extends SystemTestCase
         }
     }
 
+    public function testAllVisitsComparedToASegmentLoadsItsOwnSubtable(): void
+    {
+        $segment = urlencode('browserCode==ff');
+        $params = [
+            'idSite' => self::$fixture->idSite,
+            'date' => '2012-08-09',
+            'period' => 'month',
+        ];
+
+        /** @var DataTable $segmentTable */
+        $segmentTable = Request::processRequest('Actions.getPageUrls', $params + ['segment' => $segment]);
+        /** @var DataTable $allVisitsTable */
+        $allVisitsTable = Request::processRequest('Actions.getPageUrls', $params);
+
+        // pick a row whose subtable id differs between the two archives
+        $segmentIdSubtable = null;
+        $allVisitsIdSubtable = null;
+        foreach ($segmentTable->getRows() as $row) {
+            $allVisitsRow = $allVisitsTable->getRowFromLabel($row->getColumn('label'));
+            if (
+                $row->getIdSubDataTable()
+                && $allVisitsRow
+                && $allVisitsRow->getIdSubDataTable()
+                && $allVisitsRow->getIdSubDataTable() != $row->getIdSubDataTable()
+            ) {
+                $segmentIdSubtable = $row->getIdSubDataTable();
+                $allVisitsIdSubtable = $allVisitsRow->getIdSubDataTable();
+                break;
+            }
+        }
+        $this->assertNotNull($segmentIdSubtable);
+
+        /** @var DataTable $comparisonTable */
+        $comparisonTable = Request::processRequest('Actions.getPageUrls', $params + [
+            'segment' => $segment,
+            'idSubtable' => $segmentIdSubtable,
+            'compareSegments' => [''],
+            'compare' => '1',
+            'comparisonIdSubtables' => json_encode([$segmentIdSubtable, $allVisitsIdSubtable]),
+        ]);
+        /** @var DataTable $allVisitsSubtable */
+        $allVisitsSubtable = Request::processRequest('Actions.getPageUrls', $params + ['idSubtable' => $allVisitsIdSubtable]);
+
+        $this->assertGreaterThan(0, $comparisonTable->getRowsCount());
+        foreach ($comparisonTable->getRows() as $row) {
+            $allVisitsRow = $allVisitsSubtable->getRowFromLabel($row->getColumn('label'));
+            $allVisitsComparison = array_values($row->getComparisons()->getRows())[1];
+            $this->assertEquals($allVisitsRow->getColumn('nb_visits'), $allVisitsComparison->getColumn('nb_visits'), $row->getColumn('label'));
+        }
+    }
+
     public function getApiForTesting()
     {
         $apiToTest = [
