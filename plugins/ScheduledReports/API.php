@@ -27,6 +27,7 @@ use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -1084,6 +1085,8 @@ class API extends \Piwik\Plugin\API
         foreach ($availableReportMetadata as $reportMetadata) {
             $availableReportIds[] = $reportMetadata['uniqueId'];
         }
+
+        $requestedReports = ProcessedReport::getRenamedReportUniqueIds($requestedReports, $availableReportIds);
 
         foreach ($requestedReports as $report) {
             if (!in_array($report, $availableReportIds)) {
