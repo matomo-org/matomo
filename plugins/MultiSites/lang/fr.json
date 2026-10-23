@@ -29,11 +29,6 @@
         "PluginDescription": "Affichez et comparez tous vos sites Web et applications dans ce tableau de bord \"Tous les sites Web\" utile.",
         "SegmentationNotSupported": "La segmentation n'est pas prise en charge",
         "SingleWebsitesDashboardDocumentation": "Ce rapport vous donne un aperçu informatif d'un site Web spécifique, contenant les métriques les plus générales sur vos visiteurs.",
-        "TopLinkTooltip": "Comparez les statistiques pour tous vos sites web.",
-        "TotalAiChatbotsRequests": "Total des requêtes des chatbots IA",
-        "TotalHits": "Total des hits",
-        "TotalHitsIncludingAiTooltip": "Total des hits : inclut tous les hits humains et les requêtes des chatbots IA",
-        "TotalPageviews": "Total des vues de pages",
-        "TotalVisits": "Total des visites"
+        "TopLinkTooltip": "Comparez les statistiques pour tous vos sites web."
     }
 }

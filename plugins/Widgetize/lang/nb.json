@@ -1,17 +1,21 @@
 {
     "Widgetize": {
-        "DirectLink": "&rsaquo; Direkte lenke",
-        "DisplayDashboardInIframe": "Du kan også vise hele Matomo-oversikten i programmet eller på nettsiden din med en Iframe (%1$svis eksempel%2$s). Datoparameter kan settes til en gitt kalenderdato, «today», eller «yesterday». Periodeparameteret kan også settes til «day», «week», «month», eller «year». Språkparemeteret kan også settes til språkkoden tilhørende en oversettelse, som f.eks language=fr. For idSite=1 og date=yesterday, kan du skrive:",
+        "DirectLink": "› Direkte lenke",
+        "DisplayDashboardInIframe": "Du kan også vise hele oversiktspanelet i Matomo i applikasjonen eller på nettstedet ditt i en IFRAME (%1$sse eksempel%2$s). Parameteren date kan settes til en bestemt kalenderdato, «today» eller «yesterday». Parameteren period kan settes til «day», «week», «month» eller «year». Parameteren language kan settes til språkkoden for en oversettelse, for eksempel language=fr. For idSite=1 og date=yesterday kan du for eksempel skrive:",
         "DisplayDashboardInIframeAllSites": "Du kan også lage miniprogrammer av alle nettsider i oversikten i en Iframe (%1$svis eksempel%2$s)",
         "EmbedIframe": "› Bygg inn iframe",
+        "ErrorTokenAuthFailed": "Denne URL-en til miniprogrammet kunne ikke autentiseres med <code>token_auth</code> som ble oppgitt. URL-er til miniprogrammer fungerer bare med tokener som er opprettet uten hake for «Tillat bare sikre forespørsler». Lag et token som kan brukes i URL-er, på %1$ssikkerhetssiden%2$s, eller gi %3$sden anonyme brukeren visningstilgang%4$s for å bygge inn miniprogrammet uten token.",
+        "ErrorTokenAuthFailedDisabledByPolicy": "Denne URL-en til miniprogrammet kunne ikke autentiseres fordi URL-basert <code>token_auth</code> er skrudd av på grunn av en tjenerregel i denne Matomo-installasjonen. Gi %1$sden anonyme brukeren visningstilgang%2$s, eller hent miniprogrammet via en mellomtjener på tjenersiden som sender tokenet med POST.",
         "Intro": "Med Matomo kan du %1$seksportere dine vev-analyserapporter%2$s til bloggen, nettsiden, eller intranettsoversikten din … med ett klikk.",
         "OpenInNewWindow": "Åpne i nytt vindu",
         "PluginDescription": "Vis alle Matomo-rapporter du vil på ditt nettsted eller i ditt program med en enkel «embed»-HTML-tagg.",
         "Reports": "Lag miniprogrammer av rapporter",
         "SelectAReport": "Velg en rapport, kopier og lim inn innbyggingskoden din på siden, under miniprogrammet:",
-        "TooHighAccessLevel": "Denne brukeren har superbrukertilgang. Innebygging av miniprogrammer med superbruker-identitetsbekreftelse tillates ikke. %1$sSjekk O-S-S for mer info.%2$s",
+        "TooHighAccessLevel": "Denne brukeren har superbrukertilgang. Det er ikke tillatt å bygge inn miniprogrammer med autentiseringstoken for superbrukere. %1$sSe FAQ for mer informasjon.%2$s",
         "TopLinkTooltip": "Eksporter Matomo-rapporter som miniprogrammer og bygg dem inn oversikten i programmet ditt som en iframe.",
+        "UrlTokensDisabledByPolicy": "URL-basert <code>token_auth</code> er skrudd av på grunn av en tjenerregel i denne Matomo-installasjonen (<code>only_allow_secure_auth_tokens</code> er skrudd på). URL-er til miniprogrammer kan ikke autentiseres med en token-parameter. For å publisere disse miniprogrammene på en passordbeskyttet side kan du gi %1$sden anonyme brukeren visningstilgang%2$s, eller hente miniprogrammene via en mellomtjener på tjenersiden som sender tokenet med POST.",
         "ViewAccessRequired": "Denne brukeren har ihvertfall litt skrivetilgang. Kun symboler tilhørende brukere som kun har lesetilgang kan brukes. Sjekk %1$s for mer info.",
-        "ViewableAnonymously": "Hvis du ønker at miniprogrammene skal være synlige for alle, må du først sette «view»-tilgang for anonyme brukere i %1$sbrukerhåndteringsdelen%2$s.<br>Alternativt, hvis du publiserer miniprogrammer på en passordbeskyttet eller privat side, trenger du ikke å tillate «anonymous» å vise rapportene dine. I sådant fall må du legge til det hemmelige <code>token_auth</code>-parameteret i nettadressen til ditt miniprogram. Du kan håndtere dine identitetbekreftelsessymboler på din %3$ssikkerhetsside%4$s."
+        "ViewableAnonymously": "Hvis du vil at miniprogrammene skal være synlige for alle, må du først gi den anonyme brukeren «view»-tilgang i %1$sbrukeradministrasjonen%2$s. <br>Hvis du publiserer miniprogrammer på en passordbeskyttet eller privat side, trenger du ikke nødvendigvis å la «anonymous» se rapportene dine. Da kan du i stedet legge til den hemmelige parameteren <code>token_auth</code> i URL-en til miniprogrammet. Du kan administrere autentiseringstokenene dine på %3$ssikkerhetssiden%4$s.",
+        "ViewableAnonymouslyUrlTokenRequirement": "Bare tokener som er opprettet uten hake for «Tillat bare sikre forespørsler», kan brukes som URL-parameter. Tokener som er merket som bare sikre, må sendes med POST og vil ikke autentisere en URL til et miniprogram."
     }
 }

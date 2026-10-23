@@ -16,7 +16,6 @@
         "DefaultCapabilityLevelHelp": "Pilih kapabilitas default yang boleh digunakan Matomo. Fitur individual dapat mengesampingkan pengaturan ini.",
         "DefaultProvider": "Penyedia default",
         "DefaultProviderHelp": "Hubungkan penyedia dan pilih default untuk digunakan Matomo. Fitur individual dapat mengesampingkan ini dan memilih penyedia terhubung yang mereka inginkan.",
-        "DefaultsTitle": "Ubah pengaturan penyedia dan nilai default",
         "Disconnect": "Putuskan koneksi",
         "DisconnectSuccess": "Penyedia AI terputus.",
         "Disconnecting": "Memutuskan koneksi…",

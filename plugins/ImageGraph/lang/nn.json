@@ -1,5 +1,6 @@
 {
     "ImageGraph": {
-        "PluginDescription": "Opprett vakre statiske grafar som PNG-bilete for ein Matomo-rapport."
+        "ColumnOrdinateMissing": "Fann ikkje kolonnen «%1$s» i denne rapporten. Prøv ein av %2$s.",
+        "PluginDescription": "Lag fine statiske grafar som PNG-bilete for alle datarapportane dine."
     }
 }

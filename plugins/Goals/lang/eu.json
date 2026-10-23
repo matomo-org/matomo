@@ -127,6 +127,8 @@
         "ProductSKU": "Produktuaren SKU",
         "ProductSKUs": "Produktuen SKU",
         "Products": "Produktuak",
+        "RecommendationCountOnePage": "orri bat",
+        "RecommendationCountPages": "%s orri",
         "ReturningVisitorsConversionRateIs": "Itzultzen diren bisitarien bihurketa-tasa %s da",
         "SendEvent": "Bidali gertaera",
         "SingleGoalOverviewDocumentation": "Hau helburu baten bihurketen ikuspegi orokorra da. %s Grafikoaren azpiko sparkline grafikoak handitu daitezke haietan klik eginez.",

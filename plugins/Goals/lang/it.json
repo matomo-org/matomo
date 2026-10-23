@@ -127,6 +127,8 @@
         "ProductSKU": "SKU prodotto",
         "ProductSKUs": "Codici Inventario Prodotto",
         "Products": "Prodotti",
+        "RecommendationCountOnePage": "1 pagina",
+        "RecommendationCountPages": "%s pagine",
         "ReturningVisitorsConversionRateIs": "Il rapporto di conversione dei visitatori che tornano è %s",
         "SendEvent": "Invia un evento",
         "SingleGoalOverviewDocumentation": "Questa è una panoramica delle conversioni per un unico obiettivo. %sLe sparklines sotto il grafico possono essere ingrandite cliccandoci sopra.",

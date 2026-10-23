@@ -35,6 +35,8 @@
         "NewVisitorsConversionRateIs": "ახალი ვიზიტორების კინვერციის მაჩვენებელი არის %s",
         "Optional": "(ოფციონალური)",
         "Pattern": "ნიმუში",
+        "RecommendationCountOnePage": "1 გვერდი",
+        "RecommendationCountPages": "%s გვერდი",
         "ReturningVisitorsConversionRateIs": "დაბრუნებული ვიზიტორების კონვერსიის მაჩვენებელი არის %s",
         "URL": "URL",
         "UpdateGoal": "მიზნის რედაქტირება",

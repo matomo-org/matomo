@@ -2,17 +2,17 @@
     "API": {
         "ChangeTokenHint": "Hvis du vil endre dette symbolet kan du gå til din %1$spersonlige innstillingsside%2$s.",
         "EvolutionMetricName": "%s-utvikling",
-        "GenerateVisits": "Hvis du ikke har data for i dag kan du generere det med %1$s-utvidelsen ved å gå til «Utvikling» → «Besøksgenerator»-i administrasjonsområdet for Matomo.",
+        "GenerateVisits": "Hvis du ikke har data for i dag kan du generere det med %1$s-tillegget ved å gå til «Utvikling» → «Besøksgenerator»-i administrasjonsområdet for Matomo.",
         "Glossary": "Ordliste",
         "KeepTokenSecret": "Denne token_auth er like hemmelig som brukernavnet og passordet ditt. %1$s Ikke del den%2$s!",
-        "LearnAboutCommonlyUsedTerms2": "Lær mer om ofte brukt orbruk for å få mest mulig ut av Matomo-analyse.",
+        "LearnAboutCommonlyUsedTerms2": "Lær om vanlige begreper for å få mest mulig ut av Matomo-analysen.",
         "LoadedAPIs": "Lastet inn %s API-er",
-        "MainMetricsReportDocumentation": "Denne rapporten gir den en oversikt over de viktigste måleverdiene på tvers av kategorier og programtillegg.",
-        "MoreInformation": "For mer informasjon om Matomo API-er, vennligst se på %1$s Introduction to Matomo API %2$s og %3$s Matomo API Reference %4$s.",
-        "PluginDescription": "Alle data i Matomo er tilgjengelig gjennom enkle API-er. Denne utvidelsen er web-tjenestens inngangspunkt, som du kan kalle opp for å få ut dine vev-analysedata i XML, JSON, PHP, CSV, etc.",
+        "MainMetricsReportDocumentation": "Denne rapporten gir den en oversikt over de viktigste måleverdiene på tvers av kategorier og tillegg.",
+        "MoreInformation": "Mer informasjon om API-ene i Matomo finner du i %1$sIntroduksjon til Matomo-API-et%2$s og %3$sMatomo API-referansen%4$s.",
+        "PluginDescription": "Alle data i Matomo er tilgjengelig gjennom enkle API-er. Dette tillegget er web-tjenestens inngangspunkt, som du kan kalle opp for å få ut dine vev-analysedata i XML, JSON, PHP, CSV, etc.",
         "ReportingApiReference": "Referanse for rapporterings-API",
         "TopLinkTooltip": "Få tilgang til dine analysedata programmatisk gjennom et enkel API i JSON, XML, etc.",
         "UserAuthentication": "Brukerautentisering",
-        "UsingTokenAuth": "Hvis du vil %1$s forespørre data i et skript, en crontab, osv. %2$s du må legge til nettadresse-parameteret «%3$s» til i API-kallsnettadressene som krever identitetsbekreftelse."
+        "UsingTokenAuth": "Hvis du vil %1$shente data i et skript, en crontab osv.,%2$s må du legge til URL-parameteren «%3$s» i API-kallene for URL-er som krever autentisering."
     }
 }

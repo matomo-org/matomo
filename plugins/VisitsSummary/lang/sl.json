@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "povprečni čas generiranja",
         "GenerateQueries": "%s izvršenih povpraševanj",
         "GenerateTime": "%s sekund za prikaz strani",
         "NbActionsDescription": "%s akcij",
