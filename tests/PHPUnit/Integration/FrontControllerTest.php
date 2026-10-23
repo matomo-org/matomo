@@ -23,6 +23,11 @@ class FrontControllerTest extends IntegrationTestCase
 {
     public function testFatalErrorStackTracesReturned()
     {
+        // PHP 8.1's backported fix for CVE-2026-109618 stops Matomo's fatal error output after running out of memory
+        if (version_compare(PHP_VERSION, '8.2', '<')) {
+            $this->markTestSkipped('Fatal error output after running out of memory is missing on PHP 8.1');
+        }
+
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal.php?format=json';
         $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 5 : 20);
 

@@ -171,6 +171,11 @@ class ConsoleTest extends ConsoleCommandTestCase
 
     public function testConsoleHandlesFatalErrorsCorrectly()
     {
+        // PHP 8.1's backported fix for CVE-2026-109618 stops Matomo's fatal error output after running out of memory
+        if (version_compare(PHP_VERSION, '8.2', '<')) {
+            $this->markTestSkipped('Fatal error output after running out of memory is missing on PHP 8.1');
+        }
+
         $cliPhp = new CliPhp();
         $php = $cliPhp->findPhpBinary();
         $command = $php . " -i | grep 'memory_limit => -1'";
