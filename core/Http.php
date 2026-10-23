@@ -399,7 +399,8 @@ class Http
         /** @var string|null $response */
         $response = null;
 
-        $httpAuthIsUsed = !empty($httpUsername) || !empty($httpPassword);
+        $httpAuthIsUsed = ($httpUsername !== null && $httpUsername !== '')
+            || ($httpPassword !== null && $httpPassword !== '');
 
         $httpAuth = '';
         if ($httpAuthIsUsed) {
@@ -814,7 +815,10 @@ class Http
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBodyQuery);
             }
 
-            if (!empty($httpUsername) && !empty($httpPassword)) {
+            if (
+                $httpUsername !== null && $httpUsername !== ''
+                && $httpPassword !== null && $httpPassword !== ''
+            ) {
                 $curl_options += array(
                     CURLOPT_USERPWD => $httpUsername . ':' . $httpPassword,
                 );
