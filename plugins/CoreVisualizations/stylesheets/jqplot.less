@@ -29,8 +29,13 @@
     margin: 0 3px 0 7px;
 }
 
-.jqplot-axis-tick, .jqplot-xaxis-tick, .jqplot-yaxis-tick {
+.jqplot-axis-tick, .jqplot-xaxis-tick, .jqplot-yaxis-tick,
+.jqplot-y2axis-tick, .jqplot-y3axis-tick {
     position: absolute;
+    // as tall as the font, like the canvas ticks were, so the axes keep their size
+    line-height: 1;
+    white-space: nowrap;
+    color: @theme-color-text-lighter;
 }
 
 .jqplot-xaxis-tick {
