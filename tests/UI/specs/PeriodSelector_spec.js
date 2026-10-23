@@ -13,7 +13,7 @@ describe("PeriodSelector", function () {
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
     const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
-    const selector = '#periodString,#periodString .dropdown';
+    const selector = '#periodString,#periodMore';
     const waitForPeriodChecked = async function (periodId) {
         await page.waitForFunction((id) => window.$(id).is(':checked'), {}, periodId);
     };
@@ -36,7 +36,7 @@ describe("PeriodSelector", function () {
     });
 
     it("should expand when clicked", async function() {
-        await page.click('.periodSelector .title');
+        await page.click('#periodString .mtm-selector__trigger');
         expect(await page.screenshotSelector(selector)).to.matchImage('expanded');
     });
 
@@ -172,14 +172,14 @@ describe("PeriodSelector", function () {
     });
 
     it("should close on click if previously opened", async function () {
-      await page.click('.periodSelector .title');
+      await page.click('#periodString .mtm-selector__trigger');
       expect(await page.screenshotSelector(selector)).to.matchImage('closed');
     });
 
 
     it('should apply non-range period selection only after calendar click', async function () {
         await page.goto(url);
-        await page.click('.periodSelector .title');
+        await page.click('#periodString .mtm-selector__trigger');
         await page.evaluate(function () {
             piwikHelper.isReportingPage = function () {
                 return true;
@@ -193,7 +193,7 @@ describe("PeriodSelector", function () {
 
         const stateAfterPeriodClick = await page.evaluate(function () {
             return {
-                expanded: $('.periodSelector').hasClass('expanded'),
+                expanded: $('#periodString .mtm-selector').hasClass('mtm-selector--expanded'),
                 applyVisible: $('#calendarApply').is(':visible'),
                 selectedCells: $('.period-date td.ui-datepicker-current-period').length,
             };
@@ -220,7 +220,7 @@ describe("PeriodSelector", function () {
         });
 
         await page.goto(url);
-        await page.click('.periodSelector .title');
+        await page.click('#periodString .mtm-selector__trigger');
         await page.evaluate(function () {
             piwikHelper.isReportingPage = function () {
                 return true;
@@ -278,7 +278,7 @@ describe("PeriodSelector", function () {
 
     it('should keep range selection pending until apply', async function () {
         await page.goto(url);
-        await page.click('.periodSelector .title');
+        await page.click('#periodString .mtm-selector__trigger');
         await page.evaluate(function () {
             piwikHelper.isReportingPage = function () {
                 return true;
@@ -302,7 +302,7 @@ describe("PeriodSelector", function () {
 
     it('should keep legacy double-click immediate apply behavior for non-range periods', async function () {
         await page.goto(url);
-        await page.click('.periodSelector .title');
+        await page.click('#periodString .mtm-selector__trigger');
         await page.evaluate(function () {
             piwikHelper.isReportingPage = function () {
                 return true;
@@ -319,7 +319,7 @@ describe("PeriodSelector", function () {
     it('should keep rolling last7 token after reload and apply', async function () {
         const tokenUrl = '?module=CoreHome&action=index&idSite=1&period=range&date=last7#?idSite=1&period=range&date=last7&category=General_Actions&subcategory=General_Pages';
         await page.goto(tokenUrl);
-        await page.click('.periodSelector .title');
+        await page.click('#periodString .mtm-selector__trigger');
         await page.evaluate(function () {
             piwikHelper.isReportingPage = function () {
                 return true;
@@ -337,9 +337,9 @@ describe("PeriodSelector", function () {
     it("should move forward two days when next period selector is clicked twice", async function () {
         await page.goto(url);
 
-        await page.click('.periodSelector .move-period-next');
+        await page.click('#periodString .mtm-selector__action--end');
         await page.waitForNetworkIdle();
-        await page.click('.periodSelector .move-period-next');
+        await page.click('#periodString .mtm-selector__action--end');
 
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
@@ -348,7 +348,7 @@ describe("PeriodSelector", function () {
     });
 
     it("should move back one days when previous period selector is clicked once", async function () {
-        await page.click('.periodSelector .move-period-prev');
+        await page.click('#periodString .mtm-selector__action--start');
 
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
@@ -410,7 +410,7 @@ describe("PeriodSelector", function () {
           expect(await getSelectedPeriodType()).to.match(/Custom/);
 
           // ensure inputs are properly filled
-          await page.click('.periodSelector .title');
+          await page.click('#periodString .mtm-selector__trigger');
           await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
 
           expect(await page.screenshotSelector(selector)).to.matchImage('custom_comparison_url');
@@ -421,7 +421,7 @@ describe("PeriodSelector", function () {
         await page.goto('about:blank');
         await page.goto(url.replace(/date=[^&#]+&/, 'date=2020-08-08,2020-08-09&'));
         await page.waitForFunction(
-            () => window.$('.periodSelector .title').text().trim().length > 0,
+            () => window.$('#periodString .mtm-selector__trigger').text().trim().length > 0,
         );
 
         expect(await page.screenshotSelector(selector + ',#notificationContainer')).to.matchImage('invalid');
@@ -437,7 +437,7 @@ describe("PeriodSelector", function () {
             + '#?idSite=1&period=week&date=2012-01-03&category=General_Actions&subcategory=General_Pages';
 
         await page.goto(explicitWeekUrl);
-        await page.click('.periodSelector .title');
+        await page.click('#periodString .mtm-selector__trigger');
         await waitForPeriodChecked('#period_id_week');
         await page.waitForFunction(() => window.$('#preset_date_lastWeekMonSun').is(':checked'));
 

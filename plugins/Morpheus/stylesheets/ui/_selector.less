@@ -1,56 +1,146 @@
-// A control that opens a panel to choose from: a period, an export format, a metric.
-// Matches `.piwikSelector` and `.metrics-picker` on result, deliberately, without sharing their
-// markup. Placement is NOT owned here — the consumer places the selector.
+// A control that opens a panel to choose from: a website, a period, a segment, an export format.
+// Placement is NOT owned here — the consumer places the selector.
+//
+// The control is one framed row: an optional action button at its start, the trigger, an optional
+// action button at its end. Each action has a state of its own, while the trigger's hover, focus
+// and open states are drawn around the whole row. See the "Selector" section of the UI demo page.
 
 @_selector-paddingVertical: 8px;
 @_selector-paddingHorizontal: 16px;
 @_selector-height: 38px;
 @_selector-gap: 8px;
+@_selector-borderRadius: 8px;
 
 .mtm-selector {
   position: relative;
   display: inline-flex;
+  box-sizing: border-box;
+  min-height: @_selector-height;
+  background-color: @theme-color-background-contrast;
+  border: 1px solid @theme-color-border;
+  border-radius: @_selector-borderRadius;
+  font-size: 14px;
+  line-height: 20px;
+  color: @theme-color-text;
+  // Stops a changing label (a date, a count) from shifting on its own digits.
+  font-variant: tabular-nums;
 
   .mtm-selector__trigger {
     box-sizing: border-box;
-    min-height: @_selector-height;
+    // Takes whatever width the control is given, so a sized selector keeps its arrow at the end.
+    flex: auto;
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: @_selector-gap;
+    margin: 0;
     padding: @_selector-paddingVertical @_selector-paddingHorizontal;
-    background-color: @theme-color-background-contrast;
-    border: 1px solid @theme-color-border;
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 20px;
+    background: transparent;
+    border: 0;
+    border-radius: @_selector-borderRadius;
+    font: inherit;
     white-space: nowrap;
     cursor: pointer;
     appearance: none;
     text-decoration: none;
-    color: @theme-color-text;
-    // Stops a changing label (a date, a count) from shifting on its own digits.
-    font-variant: tabular-nums;
+    color: inherit;
 
     &:focus {
       outline: none;
     }
 
-    &:focus-visible {
-      outline: 2px solid @theme-color-focus-ring;
+    // The frame of the whole row, actions included. The trigger is left unpositioned so this
+    // resolves against the block, which is what lets the trigger's state wrap its actions.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border: 1px solid transparent;
+      border-radius: @_selector-borderRadius;
+      pointer-events: none;
+    }
+
+    &:hover::before {
+      border-color: @theme-color-link;
+    }
+
+    // :focus-visible, not :focus: a control still outlined after a plain click would read as open.
+    // The frame and a 1px outline make the 2px ring other focused controls have.
+    &:focus-visible::before {
+      border-color: @theme-color-focus-ring;
+      outline: 1px solid @theme-color-focus-ring;
     }
   }
 
-  // :focus-visible, not :focus: a control still outlined after a plain click would read as open.
-  &:hover .mtm-selector__trigger,
-  &.mtm-selector--expanded .mtm-selector__trigger,
-  .mtm-selector__trigger:focus-visible {
+  &.mtm-selector--expanded .mtm-selector__trigger::before {
     border-color: @theme-color-link;
+  }
+
+  // A one-click button beside the trigger, such as a step to the previous period. It is drawn
+  // inside the frame, and its own hover and focus ring stays on it rather than on the row.
+  .mtm-selector__action {
+    position: relative;
+    display: flex;
+    align-items: safe center;
+    margin: 0;
+    padding: @_selector-paddingVertical;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    appearance: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    // Over the frame, so the ring meets the row's own edges.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border: 1px solid transparent;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    &:hover::before {
+      border-color: @theme-color-link;
+    }
+
+    &:focus-visible::before {
+      border-color: @theme-color-focus-ring;
+      outline: 1px solid @theme-color-focus-ring;
+    }
+
+    &:disabled {
+      color: @color-silver;
+      cursor: default;
+    }
+
+    &:disabled::before {
+      border-color: transparent;
+    }
+  }
+
+  // The negative margin hands the trigger's padding back as the gap: the action keeps a click
+  // target as wide as its ring, and the label lands where it would without the action.
+  .mtm-selector__action--start {
+    padding-left: @_selector-paddingHorizontal;
+    margin-right: -@_selector-gap;
+    border-radius: @_selector-borderRadius 0 0 @_selector-borderRadius;
+  }
+
+  .mtm-selector__action--end {
+    padding-right: @_selector-paddingHorizontal;
+    margin-left: -@_selector-gap;
+    border-radius: 0 @_selector-borderRadius @_selector-borderRadius 0;
   }
 
   .mtm-selector__icon {
     // Icon fonts carry their own line box, which would set the control's height.
     line-height: 1;
-    font-size: 16px;
   }
 
   .mtm-selector__label {
@@ -58,6 +148,12 @@
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  // A label the control shows while nothing is chosen yet.
+  .mtm-selector__label--placeholder {
+    color: @color-silver;
+    font-style: italic;
   }
 
   // Sits at the end of the control, and turns over to say the panel is open.
@@ -74,12 +170,16 @@
   }
 
   // Anchored right, so a panel wider than its control grows inwards rather than off the page.
+  // Padding rather than margin for the offset, so a pointer can cross the gap without leaving a
+  // selector that opens on hover. The -1px lines it up with the outer edge of the frame.
   .mtm-selector__dropdown {
     display: none;
     position: absolute;
     top: 100%;
-    right: 0;
-    margin-top: @_selector-gap;
+    right: -1px;
+    padding-top: @_selector-gap + 1px;
+    // Never runs past the edge of a narrow screen.
+    max-width: ~"calc(100vw - 32px)";
     // Over a sticky `thead` (150) and its cells (99), under the row actions (1000).
     z-index: 200;
   }
@@ -90,7 +190,7 @@
 
   // For a selector at the left of a wide row, where growing inwards would start the panel off it.
   .mtm-selector__dropdown--anchorLeft {
-    left: 0;
+    left: -1px;
     right: auto;
   }
 
@@ -99,12 +199,40 @@
   .mtm-selector__dropdown--aboveOverlays {
     z-index: 1010;
   }
+}
 
-  // A control with nothing to choose from still shows what it is set to.
-  &.disabled {
-    opacity: 0.5;
-    pointer-events: none;
+// A control with nothing to choose from still shows what it is set to.
+.mtm-selector--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+// A control with a single choice, such as the website selector of a one-website install: it shows
+// what it is set to, at full strength, and opens nothing.
+.mtm-selector--readOnly .mtm-selector__trigger {
+  cursor: default;
+
+  &:hover::before {
+    border-color: transparent;
   }
+}
+
+// Draws attention to the control, such as an available update.
+.mtm-selector--highlighted .mtm-selector__trigger {
+  color: @theme-color-link;
+}
+
+// Waits on a request the control started: its text greys and a spinner stands in for its icon.
+.mtm-selector--loading {
+  color: @theme-color-text-light;
+}
+
+.mtm-selector--loading .mtm-selector__trigger {
+  background: url(plugins/Morpheus/images/loading.svg) no-repeat @_selector-paddingHorizontal center / 16px;
+}
+
+.mtm-selector--loading .mtm-selector__icon {
+  visibility: hidden;
 }
 
 // Fills the row it is placed in, for a layout that stacks the selector onto a line of its own.
@@ -112,7 +240,6 @@
   display: flex;
 
   .mtm-selector__trigger {
-    width: 100%;
     justify-content: center;
   }
 
@@ -123,8 +250,23 @@
   }
 }
 
+// Fills the row on a small screen, where the top controls stack one per line.
+@media (max-width: 600px) {
+  .mtm-selector--fullWidthOnSmallScreen {
+    display: flex;
+
+    .mtm-selector__trigger {
+      justify-content: safe center;
+    }
+
+    .mtm-selector__rightIcon {
+      margin-left: 0;
+    }
+  }
+}
+
 .mtm-selector--iconOnly .mtm-selector__trigger {
-  min-width: @_selector-height;
+  min-width: @_selector-height - 2px;
   justify-content: center;
   padding-left: @_selector-paddingVertical;
   padding-right: @_selector-paddingVertical;

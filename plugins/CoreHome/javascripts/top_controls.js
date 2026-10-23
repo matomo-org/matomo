@@ -57,64 +57,6 @@ function initTopControls() {
     }
 }
 
-//Keyboard controls for Top Controls Calendar through tab and enter.
-$( document ).ready(function() {
-    $('.periodSelector').keydown(function(e){
-        toggleCalendar(e);
-    })
-
-    blockPropegation();
-
-    $('.periodSelector .form-radio').keydown(function(e){
-        e.stopPropagation();
-        if(e.which==13){
-            selectPeriodRadioButton($(this));
-        }
-    })
-});
-
-//Keyboard controls for Top Controls Calendar through tab and enter.
-$( document ).ready(function() {
-    $('.periodSelector').keydown(function(e){
-        toggleCalendar(e);
-    })
-
-    blockPropegation();
-
-    $('.periodSelector .form-radio').keydown(function(e){
-        e.stopPropagation();
-        if(e.which==13){
-            selectPeriodRadioButton($(this));
-        }
-    })
-});
-
-function toggleCalendar(e){
-    var calendarOpen = $('.periodSelector').hasClass('expanded');
-
-    if(e.which==13){
-        if(calendarOpen){
-            $('.periodSelector').removeClass('expanded');
-        }else{
-            $('.periodSelector').addClass('expanded');
-        }
-    }
-}
-
-function selectPeriodRadioButton(button){
-    $('.periodSelector .form-radio').removeClass('checked');
-    button.addClass('checked');
-    button.find('input').click();
-
-    blockPropegation();
-}
-
-function blockPropegation(){
-    $('.ui-datepicker-month, .ui-datepicker-year, .periodSelector td a').keydown(function(e){
-        e.stopPropagation();
-    })
-}
-
 //refresh page short cut 'r'
 $(function () {
   piwikHelper.registerShortcut('r', _pk_translate('CoreHome_ShortcutRefresh'), function (event) {

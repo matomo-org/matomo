@@ -253,11 +253,11 @@ describe('Dashboard/DashboardSettings export navigation', () => {
     it('closes the expanded dropdown and posts the add-widget open event', () => {
       const wrapper = mountComponent();
       const root = wrapper.element as HTMLElement;
-      root.classList.add('expanded');
+      root.classList.add('mtm-selector--expanded');
 
       (wrapper.vm as any).openAddWidget();
 
-      expect(root.classList.contains('expanded')).toBe(false);
+      expect(root.classList.contains('mtm-selector--expanded')).toBe(false);
       expect(mockMatomo.postEvent).toHaveBeenCalledWith('Dashboard.AddWidget.open');
     });
   });

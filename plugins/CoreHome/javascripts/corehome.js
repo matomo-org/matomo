@@ -16,12 +16,12 @@
             var headerComponentParent = $(COMPONENT_SELECTOR).parent();
 
             // when 'check for updates...' link is clicked, force a check & display the result
-            headerComponentParent.one('click', '#header_message a.title:not([href])', function (e) {
+            headerComponentParent.one('click', '#header_message a.mtm-selector__trigger:not([href])', function (e) {
                 var headerComponent = $(this)
                   .closest(COMPONENT_SELECTOR);
                 var headerMessage = headerComponent.find('#header_message');
 
-                var $titleElement = headerMessage.find('.title');
+                var $titleElement = headerMessage.find('.mtm-selector__trigger');
                 if ($titleElement.attr('target')) { // if this is an external link, internet access is not available on the server
                     return;
                 }
@@ -37,13 +37,13 @@
 
                 ajaxRequest.withTokenInUrl();
 
-                $titleElement.addClass('activityIndicator');
+                headerMessage.addClass('mtm-selector--loading');
 
                 ajaxRequest.setCallback(function (response) {
                     headerMessage.fadeOut('slow', function () {
                         response = $(COMPONENT_SELECTOR, $('<div>' + response + '</div>'));
 
-                        $titleElement.removeClass('activityIndicator');
+                        headerMessage.removeClass('mtm-selector--loading');
 
                         if (response.length) {
                             headerComponent.replaceWith(response);
@@ -52,7 +52,7 @@
 
                             initUpdateCheck();
                         } else {
-                            headerMessage.find('.title')
+                            headerMessage.find('.mtm-selector__trigger')
                               .html(_pk_translate('CoreHome_YouAreUsingTheLatestVersion'));
                             headerMessage.show();
                             setTimeout(function () {

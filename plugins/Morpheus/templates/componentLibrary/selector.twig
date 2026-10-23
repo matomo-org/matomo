@@ -1,0 +1,366 @@
+{% extends '@Morpheus/componentLibrary/_layout.twig' %}
+{% import '@Morpheus/componentLibrary/_macros.twig' as library %}
+
+{% block componentPage %}
+
+<h1 class="componentLibrary__title">Selector <code>.mtm-selector</code></h1>
+<p class="componentLibrary__summary">
+    A control that shows the current choice and opens a panel to change it: the website, period,
+    segment and dashboard selectors at the top of a page, the export and period pickers of a report.
+</p>
+
+<table class="componentLibrary__table">
+    <tr>
+        <th>Use it for</th>
+        <td>A choice, or a set of actions, that opens in a panel under the control.</td>
+    </tr>
+    <tr>
+        <th>Use something else for</th>
+        <td>
+            A single action with nothing to choose: a button (<code>.btn</code>).
+            A choice inside a form: the form field of the matching type.
+        </td>
+    </tr>
+    <tr>
+        <th>Source</th>
+        <td>
+            <code>plugins/Morpheus/stylesheets/ui/_selector.less</code> for the control,
+            <code>plugins/Morpheus/stylesheets/ui/_dropdown-panel.less</code> for its panel,
+            <code>plugins/CoreHome/vue/src/Selector/useSelectorDropdown.ts</code> for its behaviour.
+        </td>
+    </tr>
+</table>
+
+{# ------------------------------------------------------------------------------------------- #}
+
+<section class="componentLibrary__section">
+    <h2 class="componentLibrary__sectionTitle">Anatomy</h2>
+    <p>
+        One framed row: an optional action at its start, the trigger, an optional action at its end.
+        The panel is placed right after the trigger in the markup, so the keyboard reaches it before
+        the end action.
+    </p>
+
+    <table class="componentLibrary__table">
+        <tr><th>Part</th><th>Class</th><th>Required</th><th>Notes</th></tr>
+        <tr><td>Block</td><td><code>mtm-selector</code></td><td>yes</td><td>Draws the frame. The consumer places it.</td></tr>
+        <tr><td>Trigger</td><td><code>mtm-selector__trigger</code></td><td>yes</td><td>A <code>&lt;button type="button"&gt;</code>, or a link when it navigates.</td></tr>
+        <tr><td>Icon</td><td><code>mtm-selector__icon</code></td><td>no</td><td>Wraps an icon font glyph, before the label.</td></tr>
+        <tr><td>Label</td><td><code>mtm-selector__label</code></td><td>no</td><td>The current choice. Ellipsised when the control is too narrow.</td></tr>
+        <tr><td>Dropdown arrow</td><td><code>mtm-selector__rightIcon</code></td><td>no</td><td>Turns over while the panel is open.</td></tr>
+        <tr><td>Panel</td><td><code>mtm-selector__dropdown</code></td><td>no</td><td>Positions the panel; holds a <code>mtm-dropdownPanel</code> that draws it.</td></tr>
+        <tr><td>Start action</td><td><code>mtm-selector__action mtm-selector__action--start</code></td><td>no</td><td>A one-click button before the trigger.</td></tr>
+        <tr><td>End action</td><td><code>mtm-selector__action mtm-selector__action--end</code></td><td>no</td><td>A one-click button after the panel.</td></tr>
+    </table>
+
+    {% set anatomy %}
+<div class="mtm-selector">
+  <button type="button" class="mtm-selector__action mtm-selector__action--start" aria-label="Previous period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-left"></span></span>
+  </button>
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-calendar"></span></span>
+    <span class="mtm-selector__label">2012</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+  <div class="mtm-selector__dropdown">
+    <div class="mtm-dropdownPanel">…</div>
+  </div>
+  <button type="button" class="mtm-selector__action mtm-selector__action--end" aria-label="Next period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-right"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('anatomy', 'Every part', '', anatomy) }}
+</section>
+
+{# ------------------------------------------------------------------------------------------- #}
+
+<section class="componentLibrary__section">
+    <h2 class="componentLibrary__sectionTitle">Variations</h2>
+
+    {% set label %}
+<div class="mtm-selector">
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__label">Choose metrics</span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('label', 'Label', 'The smallest selector.', label) }}
+
+    {% set arrow %}
+<div class="mtm-selector">
+  <button type="button" class="mtm-selector__trigger" aria-expanded="false">
+    <span class="mtm-selector__label">Choose metrics</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+</div>
+<div class="mtm-selector mtm-selector--expanded">
+  <button type="button" class="mtm-selector__trigger" aria-expanded="true">
+    <span class="mtm-selector__label">Choose metrics</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('arrow', 'Dropdown arrow', 'Says the control opens a panel, and turns over while it is open: closed on the left, open on the right. Leave it out when the panel is not a list to choose from.', arrow, 'componentLibrary__preview--row') }}
+
+    {% set icon %}
+<div class="mtm-selector">
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-export"></span></span>
+    <span class="mtm-selector__label">Export</span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('icon', 'Left icon', '<code>mtm-selector__icon</code>, before the label.', icon) }}
+
+    {% set iconOnly %}
+<div class="mtm-selector mtm-selector--iconOnly">
+  <button type="button" class="mtm-selector__trigger" aria-label="Annotations">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-annotation"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('iconOnly', 'Icon only', '<code>mtm-selector--iconOnly</code>. Square, and named by an <code>aria-label</code> since it shows no text.', iconOnly) }}
+
+    {% set placeholder %}
+<div class="mtm-selector">
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__label mtm-selector__label--placeholder">Select a website</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('placeholder', 'Placeholder', '<code>mtm-selector__label--placeholder</code>, while nothing is chosen yet.', placeholder) }}
+
+    {% set startAction %}
+<div class="mtm-selector">
+  <button type="button" class="mtm-selector__action mtm-selector__action--start" aria-label="Previous period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-left"></span></span>
+  </button>
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-calendar"></span></span>
+    <span class="mtm-selector__label">2012</span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('startAction', 'Start action', '<code>mtm-selector__action--start</code>, before the trigger.', startAction) }}
+
+    {% set endAction %}
+<div class="mtm-selector">
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-calendar"></span></span>
+    <span class="mtm-selector__label">2012</span>
+  </button>
+  <button type="button" class="mtm-selector__action mtm-selector__action--end" aria-label="Next period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-right"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('endAction', 'End action', '<code>mtm-selector__action--end</code>, after the trigger and its panel.', endAction) }}
+
+    {% set bothActions %}
+<div class="mtm-selector">
+  <button type="button" class="mtm-selector__action mtm-selector__action--start" aria-label="Previous period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-left"></span></span>
+  </button>
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-calendar"></span></span>
+    <span class="mtm-selector__label">2012</span>
+  </button>
+  <button type="button" class="mtm-selector__action mtm-selector__action--end" aria-label="Next period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-right"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('bothActions', 'Start and end actions', 'One action at most on each side.', bothActions) }}
+
+    {% set highlighted %}
+<div class="mtm-selector mtm-selector--highlighted">
+  <a class="mtm-selector__trigger" href="#">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-update"></span></span>
+    <span class="mtm-selector__label">New Update: Matomo 6.1.0</span>
+  </a>
+</div>
+    {% endset %}
+    {{ library.example('highlighted', 'Highlighted', '<code>mtm-selector--highlighted</code> draws attention to the control, such as an available update.', highlighted) }}
+
+    {% set fullWidth %}
+<div class="mtm-selector mtm-selector--fullWidth">
+  <button type="button" class="mtm-selector__action mtm-selector__action--start" aria-label="Previous period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-left"></span></span>
+  </button>
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-calendar"></span></span>
+    <span class="mtm-selector__label">2012</span>
+  </button>
+  <button type="button" class="mtm-selector__action mtm-selector__action--end" aria-label="Next period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-right"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('fullWidth', 'Full width', '<code>mtm-selector--fullWidth</code> fills its row and centres the trigger. <code>mtm-selector--fullWidthOnSmallScreen</code> does it on screens 600px wide and narrower only, as the top controls do.', fullWidth) }}
+</section>
+
+{# ------------------------------------------------------------------------------------------- #}
+
+<section class="componentLibrary__section">
+    <h2 class="componentLibrary__sectionTitle">States</h2>
+
+    <table class="componentLibrary__table">
+        <tr><th>State</th><th>Set by</th><th>Looks</th></tr>
+        <tr><td>Closed</td><td>default</td><td>Grey frame.</td></tr>
+        <tr><td>Hover</td><td>the pointer on the trigger</td><td>The whole frame turns blue.</td></tr>
+        <tr><td>Keyboard focus</td><td><code>:focus-visible</code> on the trigger</td><td>A focus ring around the whole frame.</td></tr>
+        <tr><td>Action hover, action focus</td><td>the pointer or the keyboard on an action</td><td>The ring is drawn around that action only.</td></tr>
+        <tr><td>Open</td><td><code>mtm-selector--expanded</code> on the block</td><td>Blue frame, arrow turned over, panel shown.</td></tr>
+        <tr><td>Disabled</td><td><code>mtm-selector--disabled</code>, and <code>disabled</code> on the trigger</td><td>Faded, ignores the pointer.</td></tr>
+        <tr><td>Read only</td><td><code>mtm-selector--readOnly</code></td><td>Exactly as closed, without the hover effect: a single choice that opens nothing.</td></tr>
+        <tr><td>Disabled action</td><td><code>disabled</code> on the action</td><td>Greyed glyph, no ring.</td></tr>
+        <tr><td>Loading</td><td><code>mtm-selector--loading</code> on the block</td><td>Grey text, a spinner in place of the icon.</td></tr>
+    </table>
+
+    {{ library.example('hover', 'Hover', 'The pointer on the trigger frames the whole control, actions included.', bothActions, '', 'hover', '.mtm-selector__trigger') }}
+    {{ library.example('focus', 'Keyboard focus', 'A 2px ring around the whole control.', bothActions, '', 'focus-visible', '.mtm-selector__trigger') }}
+    {{ library.example('actionHover', 'Action hover', 'The ring stays on the action.', bothActions, '', 'hover', '.mtm-selector__action--start') }}
+    {{ library.example('actionFocus', 'Action keyboard focus', '', bothActions, '', 'focus-visible', '.mtm-selector__action--end') }}
+
+    {% set open %}
+<div class="mtm-selector mtm-selector--expanded">
+  <button type="button" class="mtm-selector__trigger" aria-haspopup="menu" aria-expanded="true">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-export"></span></span>
+    <span class="mtm-selector__label">Export</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+  <div class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft">
+    <div class="mtm-dropdownPanel">
+      <ul class="mtm-dropdownPanel__menu" role="menu">
+        <li class="mtm-dropdownPanel__menuItem" role="none">
+          <a class="mtm-dropdownPanel__menuLink" role="menuitem" href="#"><span class="mtm-dropdownPanel__menuLabel">CSV</span></a>
+        </li>
+        <li class="mtm-dropdownPanel__menuItem" role="none">
+          <a class="mtm-dropdownPanel__menuLink" role="menuitem" href="#"><span class="mtm-dropdownPanel__menuLabel">TSV (Excel)</span></a>
+        </li>
+        <li class="mtm-dropdownPanel__menuItem" role="none">
+          <a class="mtm-dropdownPanel__menuLink" role="menuitem" href="#"><span class="mtm-dropdownPanel__menuLabel">JSON</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="mtm-selector mtm-selector--expanded">
+  <button type="button" class="mtm-selector__trigger" aria-haspopup="menu" aria-expanded="true">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-export"></span></span>
+    <span class="mtm-selector__label">Export</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+  <div class="mtm-selector__dropdown">
+    <div class="mtm-dropdownPanel">
+      <ul class="mtm-dropdownPanel__menu" role="menu">
+        <li class="mtm-dropdownPanel__menuItem" role="none">
+          <a class="mtm-dropdownPanel__menuLink" role="menuitem" href="#"><span class="mtm-dropdownPanel__menuLabel">CSV</span></a>
+        </li>
+        <li class="mtm-dropdownPanel__menuItem" role="none">
+          <a class="mtm-dropdownPanel__menuLink" role="menuitem" href="#"><span class="mtm-dropdownPanel__menuLabel">TSV (Excel)</span></a>
+        </li>
+        <li class="mtm-dropdownPanel__menuItem" role="none">
+          <a class="mtm-dropdownPanel__menuLink" role="menuitem" href="#"><span class="mtm-dropdownPanel__menuLabel">JSON</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+    {% endset %}
+    {{ library.example('open', 'Open', 'The panel grows from the right edge of the control by default, as on the right: a panel wider than its control grows inwards rather than off the page. <code>mtm-selector__dropdown--anchorLeft</code> grows it from the left edge instead, as on the left, for a selector at the left of its row. <code>mtm-selector__dropdown--aboveOverlays</code> lifts it over popovers and dialogs, for a selector rendered inside one.', open, 'componentLibrary__preview--tall componentLibrary__preview--row componentLibrary__preview--spread') }}
+
+    {% set disabled %}
+<div class="mtm-selector mtm-selector--disabled">
+  <button type="button" class="mtm-selector__trigger" disabled>
+    <span class="mtm-selector__label">Choose metrics</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('disabled', 'Disabled', '', disabled) }}
+
+    {% set disabledAction %}
+<div class="mtm-selector">
+  <button type="button" class="mtm-selector__action mtm-selector__action--start" aria-label="Previous period" disabled>
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-left"></span></span>
+  </button>
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-calendar"></span></span>
+    <span class="mtm-selector__label">2011-01-01</span>
+  </button>
+  <button type="button" class="mtm-selector__action mtm-selector__action--end" aria-label="Next period">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-chevron-right"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('disabledAction', 'Disabled action', '', disabledAction) }}
+
+    {% set loading %}
+<div class="mtm-selector mtm-selector--loading">
+  <a class="mtm-selector__trigger" href="#">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-reload"></span></span>
+    <span class="mtm-selector__label">Check for updates</span>
+  </a>
+</div>
+    {% endset %}
+    {{ library.example('loading', 'Loading', '<code>mtm-selector--loading</code>, while a request the control started is running, such as a check for updates: the text greys and a spinner stands in for the icon.', loading) }}
+</section>
+
+{# ------------------------------------------------------------------------------------------- #}
+
+<section class="componentLibrary__section">
+    <h2 class="componentLibrary__sectionTitle">Behaviour and accessibility</h2>
+    <ul class="componentLibrary__list">
+        <li>
+            The keyboard walks the start action, the trigger, the open panel, then the end action.
+            Keep that order in the markup and give the three buttons the same <code>tabindex</code>.
+        </li>
+        <li>Name an action, or an icon-only trigger, with an <code>aria-label</code>: it shows no text.</li>
+        <li>
+            Give the trigger <code>aria-haspopup</code> and an <code>aria-expanded</code> that follows the
+            panel; in Vue, <code>triggerProps()</code> sets both.
+        </li>
+        <li>
+            Escape closes the panel and gives the focus back to the trigger. Arrow keys, Home and End
+            walk a menu or a list panel.
+        </li>
+    </ul>
+
+    <p>In a Vue component, <code>useSelectorDropdown()</code> from CoreHome brings all of it:</p>
+    {% set vueUsage %}
+<template>
+  <div ref="root" class="mtm-selector" v-expand-on-click="binding">
+    <button ref="trigger" type="button" class="mtm-selector__trigger" v-bind="selector.triggerProps()">
+      <span class="mtm-selector__label">Export</span>
+    </button>
+    <div class="mtm-selector__dropdown" @keydown="selector.onKeydown">
+      <div class="mtm-dropdownPanel">…</div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { ExpandOnClick, useSelectorDropdown } from 'CoreHome';
+
+export default defineComponent({
+  directives: { ExpandOnClick },
+  created() {
+    this.selector = useSelectorDropdown(
+      { role: 'menu', expandedClass: 'mtm-selector--expanded' },
+      () => this.$refs.root as HTMLElement | null,
+      () => this.$refs.trigger as HTMLElement | null,
+    );
+    this.binding = this.selector.expandBinding('trigger');
+  },
+});
+</script>
+    {% endset %}
+    <pre class="componentLibrary__code"><code class="componentLibrary__codeText">{{ (vueUsage ~ '')|trim|e('html') }}</code></pre>
+</section>
+
+{% endblock %}

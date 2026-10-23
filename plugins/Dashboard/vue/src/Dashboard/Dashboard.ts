@@ -17,12 +17,14 @@ interface DashboardDirectiveArgs {
 
 const { $ } = window;
 
+const SETTINGS_SELECTOR = '[vue-entry="Dashboard.DashboardSettings"] > .mtm-selector';
+
 function renderDashboard(
   dashboardId: string|number,
   dashboard: Dashboard,
   layout: DashboardLayout,
 ) {
-  const $settings = $('.dashboardSettings');
+  const $settings = $(SETTINGS_SELECTOR);
 
   $settings.show();
   window.initTopControls();
@@ -84,7 +86,7 @@ function fetchDashboard(dashboardId: string|number) {
 }
 
 function clearDashboard() {
-  $('.top_controls .dashboard-manager').hide();
+  $(`.top_controls ${SETTINGS_SELECTOR}`).hide();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ($('#dashboardWidgetsArea') as any).dashboard('destroy');
 }
