@@ -11,10 +11,14 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Db;
+use Piwik\Db\TransactionErrors;
+use Piwik\Tests\Framework\DbErrorRaiser;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Timer;
 use Piwik\Tracker;
+use Piwik\Tracker\Db\DbException;
 
 /**
  * Tracker DB test
@@ -25,10 +29,37 @@ use Piwik\Tracker;
 class DbTest extends IntegrationTestCase
 {
     private $tableName;
+
+    /**
+     * @var array<Tracker\Db|\mysqli>
+     */
+    private $connections = [];
+
     public function setUp(): void
     {
         parent::setUp();
         $this->tableName = Common::prefixTable('option');
+        DbErrorRaiser::install();
+    }
+
+    public function tearDown(): void
+    {
+        // a failed test can leave a transaction open, and dropping the procedure would wait for it
+        foreach ($this->connections as $connection) {
+            try {
+                if ($connection instanceof \mysqli) {
+                    $connection->close();
+                } else {
+                    $connection->disconnect();
+                }
+            } catch (\Throwable $e) {
+                // already closed
+            }
+        }
+        $this->connections = [];
+        Tracker::disconnectCachedDbConnection();
+        DbErrorRaiser::uninstall();
+        parent::tearDown();
     }
 
     public function testInnodbLockWaitTimeout()
@@ -42,8 +73,8 @@ class DbTest extends IntegrationTestCase
         $tracker['innodb_lock_wait_timeout'] = 3;
         Config::getInstance()->Tracker = $tracker;
 
-        $db1 = Tracker\Db::connectPiwikTrackerDb();
-        $db2 = Tracker\Db::connectPiwikTrackerDb();
+        $db1 = $this->connect();
+        $db2 = $this->connect();
 
         $timer = new Timer();
 
@@ -67,11 +98,276 @@ class DbTest extends IntegrationTestCase
             $this->assertTrue($e instanceof Tracker\Db\DbException);
         }
 
+        // only the statement was rolled back, the transaction can still be used
+        $this->assertFalse($db1->isTransactionAborted());
+        $result = $db1->query("UPDATE $site SET name = ? WHERE idsite = ?", ['baz', $idSite1]);
+        $this->assertSame(1, $db1->rowCount($result));
+
         $ms = $timer->getTimeMs();
 
         $this->assertGreaterThan(3000, $ms);
         $this->assertLessThan(5000, $ms);
     }
+    /**
+     * @dataProvider getErrorsThatEndTheTransaction
+     */
+    public function testErrorThatEndsTheTransactionStopsEveryLaterQueryAndTheCommit(int $errorNumber, string $message)
+    {
+        $db = $this->connect();
+        $xid = $db->beginTransaction();
+        $this->insertOption($db, 'before_error');
+
+        $error = $this->raiseError($db, $errorNumber, $message);
+        $this->assertTrue($db->isErrNo($error, $errorNumber));
+        $this->assertTrue($db->isTransactionAborted());
+
+        // a tracking step that logs the error and carries on must not be able to write anything else
+        $refusal = $this->catchException(function () use ($db) {
+            $this->insertOption($db, 'after_error');
+        });
+        $this->assertTrue($db->isErrNo($refusal, TransactionErrors::ERROR_CODE_DEADLOCK));
+        $this->assertSame(1, preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $refusal->getMessage(), $match));
+        $this->assertSame('1213', $match[1], 'Checks that read the number from the message must see a deadlock too');
+
+        $commitError = $this->catchException(function () use ($db, $xid) {
+            $db->commit($xid);
+        });
+        $this->assertTrue($db->isErrNo($commitError, TransactionErrors::ERROR_CODE_DEADLOCK));
+        $this->assertFalse($db->isInTransaction());
+        $this->assertFalse($db->isTransactionAborted());
+
+        $this->assertOptionsStored([]);
+        $this->assertNewTransactionWorks();
+    }
+
+    public function getErrorsThatEndTheTransaction(): iterable
+    {
+        yield 'deadlock' => [1213, 'Deadlock found when trying to get lock; try restarting transaction'];
+        yield 'MariaDB snapshot isolation conflict' => [1020, "Record has changed since last read in table 'log_visit'"];
+        yield 'lock table full' => [1206, 'The total number of locks exceeds the lock table size'];
+        yield 'group replication rollback' => [3101, 'Plugin instructed the server to rollback the current transaction.'];
+        yield 'commit failed' => [1180, "Got error 149 - 'Lock deadlock; Retry transaction' during COMMIT"];
+    }
+
+    public function testRollBackAfterTheTransactionWasEndedDoesNotThrow()
+    {
+        $db = $this->connect();
+        $xid = $db->beginTransaction();
+        $this->insertOption($db, 'before_error');
+        $this->raiseError($db, 1213, 'Deadlock found when trying to get lock; try restarting transaction');
+
+        $db->rollBack($xid);
+
+        $this->assertFalse($db->isTransactionAborted());
+        $this->assertOptionsStored([]);
+        $this->assertNewTransactionWorks();
+    }
+
+    public function testFailedCommitLeavesTheConnectionReadyForTheNextTransaction()
+    {
+        $db = $this->connect();
+        if (!$db instanceof Tracker\Db\Pdo\Mysql) {
+            $this->markTestSkipped('Only PDO keeps its own record of whether a transaction is open');
+        }
+        $this->makeNextCommitFail($db);
+
+        $xid = $db->beginTransaction();
+        $this->insertOption($db, 'before_error');
+        $e = $this->catchException(function () use ($db, $xid) {
+            $db->commit($xid);
+        });
+
+        $this->assertStringContainsString(' 1180 ', $e->getMessage());
+
+        $xid = $db->beginTransaction();
+        $this->insertOption($db, 'next_transaction');
+        $db->commit($xid);
+
+        $this->assertOptionsStored(['next_transaction']);
+    }
+
+    public function testErrorWithoutAnErrorNumberIgnoresNumbersInTheParameters()
+    {
+        $db = Tracker::getDatabase();
+        if (!$db instanceof Tracker\Db\Pdo\Mysql) {
+            $this->markTestSkipped('mysqli rejects the wrong number of parameters with a ValueError, which is not checked');
+        }
+        $xid = $db->beginTransaction();
+
+        $e = null;
+        try {
+            // fails in the client, so the message has no error number of its own
+            $db->query("INSERT INTO `{$this->tableName}` (option_name, option_value, autoload) VALUES (?, ?, ?)", ['x 1213 y', '1']);
+        } catch (\Throwable $e) {
+        }
+        $this->insertOption($db, 'after_error');
+        $db->commit($xid);
+
+        $this->assertNotNull($e);
+        $this->assertFalse($db->isTransactionAborted());
+        $this->assertOptionsStored(['after_error']);
+    }
+
+    /**
+     * @dataProvider getErrorsThatDoNotEndTheTransaction
+     */
+    public function testErrorThatDoesNotEndTheTransactionKeepsItUsable(int $errorNumber, string $message)
+    {
+        $db = $this->connect();
+        $xid = $db->beginTransaction();
+        $this->insertOption($db, 'before_error');
+
+        $error = $this->raiseError($db, $errorNumber, $message);
+        $this->assertTrue($db->isErrNo($error, $errorNumber));
+        $this->assertFalse($db->isTransactionAborted());
+
+        $this->insertOption($db, 'after_error');
+        $db->commit($xid);
+
+        $this->assertOptionsStored(['after_error', 'before_error']);
+    }
+
+    public function getErrorsThatDoNotEndTheTransaction(): iterable
+    {
+        yield 'lock wait timeout' => [1205, 'Lock wait timeout exceeded; try restarting transaction'];
+        yield 'unknown column' => [1054, "Unknown column 'items' in 'field list'"];
+    }
+
+    public function testErrorOutsideOfATransactionDoesNotStopLaterQueries()
+    {
+        $db = $this->connect();
+
+        $this->raiseError($db, 1213, 'Deadlock found when trying to get lock; try restarting transaction');
+        $this->assertFalse($db->isTransactionAborted());
+
+        $this->insertOption($db, 'after_error');
+        $this->assertOptionsStored(['after_error']);
+    }
+
+    public function testRealDeadlockStopsEveryLaterQuery()
+    {
+        foreach (['deadlock_a', 'deadlock_b', 'deadlock_pad_1', 'deadlock_pad_2', 'deadlock_pad_3'] as $name) {
+            $this->insertOption(Tracker::getDatabase(), $name);
+        }
+        $update = "UPDATE `{$this->tableName}` SET option_value = ? WHERE option_name = ?";
+
+        $other = $this->connectWithMysqli();
+        $other->query('START TRANSACTION');
+        // the server rolls back the transaction that changed fewer rows, which makes the tracker connection the victim
+        $other->query("UPDATE `{$this->tableName}` SET option_value = 'other' WHERE option_name IN ('deadlock_pad_1', 'deadlock_pad_2', 'deadlock_pad_3')");
+        $other->query("UPDATE `{$this->tableName}` SET option_value = 'other' WHERE option_name = 'deadlock_b'");
+
+        $db = $this->connect();
+        $xid = $db->beginTransaction();
+        $db->query($update, ['tracker', 'deadlock_a']);
+
+        // waits for the tracker connection without blocking this process
+        $other->query("UPDATE `{$this->tableName}` SET option_value = 'other' WHERE option_name = 'deadlock_a'", MYSQLI_ASYNC);
+        usleep(300 * 1000);
+
+        $deadlock = $this->catchException(function () use ($db, $update) {
+            $db->query($update, ['tracker', 'deadlock_b']);
+        }, false);
+
+        $other->reap_async_query();
+        $other->query('ROLLBACK');
+        $other->close();
+
+        if ($deadlock === null) {
+            $db->rollBack($xid);
+            $this->markTestSkipped('The server rolled back the other transaction, so there was no deadlock to check');
+        }
+
+        $this->assertTrue($db->isErrNo($deadlock, 1213));
+        $this->assertTrue($db->isTransactionAborted());
+
+        $this->catchException(function () use ($db) {
+            $this->insertOption($db, 'after_error');
+        });
+
+        $db->rollBack($xid);
+
+        $this->assertSame('1', Tracker::getDatabase()->fetchOne(
+            "SELECT option_value FROM `{$this->tableName}` WHERE option_name = 'deadlock_a'"
+        ));
+        $this->assertNewTransactionWorks();
+    }
+
+    public function testErrorWhoseParametersMentionADeadlockKeepsTheTransactionUsable()
+    {
+        $db = Tracker::getDatabase();
+        $this->insertOption($db, 'Deadlock found when trying to get lock');
+
+        $xid = $db->beginTransaction();
+        $duplicate = $this->catchException(function () use ($db) {
+            $this->insertOption($db, 'Deadlock found when trying to get lock');
+        });
+        $this->insertOption($db, 'after_error');
+        $db->commit($xid);
+
+        $this->assertTrue($db->isErrNo($duplicate, 1062));
+        $this->assertFalse($db->isTransactionAborted());
+        $this->assertOptionsStored(['after_error']);
+    }
+
+    public function testCommitReportsTheAbortEvenIfTheRollbackFails()
+    {
+        $db = $this->connect();
+        $connectionId = $db->fetchOne('SELECT CONNECTION_ID()');
+        $xid = $db->beginTransaction();
+        $this->raiseError($db, 1213, 'Deadlock found when trying to get lock; try restarting transaction');
+
+        // the rollback inside commit() fails on a closed connection
+        Db::exec('KILL ' . (int) $connectionId);
+
+        $e = $this->catchException(function () use ($db, $xid) {
+            $db->commit($xid);
+        });
+
+        $this->assertSame(Tracker\Db::TRANSACTION_ABORTED_MESSAGE, $e->getMessage());
+        $this->assertSame(1213, $e->getCode());
+    }
+
+    public function testRealSnapshotIsolationConflictStopsEveryLaterQuery()
+    {
+        $db = $this->connect();
+        try {
+            $db->query('SET SESSION innodb_snapshot_isolation = ON');
+        } catch (\Exception $e) {
+            $this->markTestSkipped('Needs MariaDB 10.6.18 or later, which has innodb_snapshot_isolation');
+        }
+
+        $this->insertOption($db, 'snapshot_row');
+        $update = "UPDATE `{$this->tableName}` SET option_value = ? WHERE option_name = 'snapshot_row'";
+
+        $xid = $db->beginTransaction();
+        // fixes the transaction's snapshot
+        $db->fetchOne("SELECT option_value FROM `{$this->tableName}` WHERE option_name = 'snapshot_row'");
+
+        $other = $this->connectWithMysqli();
+        $other->query("UPDATE `{$this->tableName}` SET option_value = 'other' WHERE option_name = 'snapshot_row'");
+        $other->close();
+
+        $conflict = $this->catchException(function () use ($db, $update) {
+            $db->query($update, ['tracker']);
+        });
+
+        $this->assertTrue($db->isErrNo($conflict, 1020));
+        $this->assertTrue($db->isTransactionAborted());
+
+        $this->catchException(function () use ($db) {
+            $this->insertOption($db, 'after_error');
+        });
+        $this->catchException(function () use ($db, $xid) {
+            $db->commit($xid);
+        });
+
+        $this->assertSame('other', Tracker::getDatabase()->fetchOne(
+            "SELECT option_value FROM `{$this->tableName}` WHERE option_name = 'snapshot_row'"
+        ));
+        $this->assertOptionsStored([]);
+    }
+
     public function testRowCountWhenUpdatingReturnsAllMatchedRowsNotOnlyUpdatedRows()
     {
         $db = Tracker::getDatabase();
@@ -196,7 +492,7 @@ class DbTest extends IntegrationTestCase
     {
         $config = Config::getInstance();
         $config->database['collation'] = null;
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
 
         // exact value depends on database used
         $currentCollation = $db->fetchOne('SELECT @@collation_connection');
@@ -207,10 +503,103 @@ class DbTest extends IntegrationTestCase
     {
         $config = Config::getInstance();
         $config->database['collation'] = $config->database['charset'] . '_swedish_ci';
-        $db = Tracker\Db::connectPiwikTrackerDb();
+        $db = $this->connect();
 
         $currentCollation = $db->fetchOne('SELECT @@collation_connection');
         self::assertSame($config->database['collation'], $currentCollation);
+    }
+
+    /**
+     * Swaps the adapter's PDO for one whose next commit fails without reaching the server, so the transaction is still
+     * open there, and PDO refuses to begin another one until it is rolled back.
+     */
+    private function makeNextCommitFail(Tracker\Db\Pdo\Mysql $db): void
+    {
+        $read = function (string $name) use ($db) {
+            $property = new \ReflectionProperty(Tracker\Db\Pdo\Mysql::class, $name);
+            $property->setAccessible(true);
+            return $property->getValue($db);
+        };
+
+        $pdo = new class ($read('dsn'), $read('username'), $read('password'), $read('mysqlOptions')) extends \PDO {
+            private $failCommit = true;
+
+            public function commit(): bool
+            {
+                if ($this->failCommit) {
+                    $this->failCommit = false;
+                    throw new \PDOException('SQLSTATE[HY000]: General error: 1180 Got error 149 during COMMIT');
+                }
+                return parent::commit();
+            }
+        };
+
+        $connection = new \ReflectionProperty(Tracker\Db\Pdo\Mysql::class, 'connection');
+        $connection->setAccessible(true);
+        $connection->setValue($db, $pdo);
+    }
+
+    private function raiseError(Tracker\Db $db, int $errorNumber, string $message): \Exception
+    {
+        return $this->catchException(function () use ($db, $errorNumber, $message) {
+            DbErrorRaiser::raise($db, $errorNumber, $message);
+        });
+    }
+
+    private function catchException(callable $callback, bool $required = true): ?\Exception
+    {
+        try {
+            $callback();
+        } catch (DbException $e) {
+            return $e;
+        }
+
+        if ($required) {
+            $this->fail('Expected a database error');
+        }
+
+        return null;
+    }
+
+    private function insertOption(Tracker\Db $db, string $name): void
+    {
+        $db->query("INSERT INTO `{$this->tableName}` (option_name, option_value, autoload) VALUES (?, '1', 0)", [$name]);
+    }
+
+    private function assertOptionsStored(array $expected): void
+    {
+        $names = Tracker::getDatabase()->fetchAll(
+            "SELECT option_name FROM `{$this->tableName}` WHERE option_name IN ('before_error', 'after_error', 'next_transaction') ORDER BY option_name"
+        );
+        $this->assertSame($expected, array_column($names, 'option_name'));
+    }
+
+    private function assertNewTransactionWorks(): void
+    {
+        $db = Tracker::getDatabase();
+        $xid = $db->beginTransaction();
+        $this->insertOption($db, 'next_transaction');
+        $db->commit($xid);
+
+        $this->assertSame('1', Tracker::getDatabase()->fetchOne(
+            "SELECT option_value FROM `{$this->tableName}` WHERE option_name = 'next_transaction'"
+        ));
+    }
+
+    /**
+     * @return Tracker\Db\Mysqli|Tracker\Db\Pdo\Mysql
+     */
+    private function connect(): Tracker\Db
+    {
+        return $this->connections[] = Tracker\Db::connectPiwikTrackerDb();
+    }
+
+    private function connectWithMysqli(): \mysqli
+    {
+        $config = Config::getInstance()->database;
+        mysqli_report(MYSQLI_REPORT_OFF);
+
+        return $this->connections[] = new \mysqli($config['host'], $config['username'], $config['password'], $config['dbname'], (int) $config['port']);
     }
 
     private function insertRowId($value = '1')

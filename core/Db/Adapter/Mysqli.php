@@ -204,6 +204,11 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
             return mysqli_connect_errno() == $errno;
         }
 
+        // the connection only keeps the error of its latest statement, so prefer the number the exception carries
+        if (is_int($e->getCode()) && $e->getCode() > 0) {
+            return $e->getCode() == $errno;
+        }
+
         return mysqli_errno($connection) == $errno;
     }
 
