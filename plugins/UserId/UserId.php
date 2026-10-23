@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\UserId;
 
+use Piwik\Plugins\UserId\Settings\UserIdDisabled;
+
 /**
  * Plugin adds a new Users report showing all unique user IDs and some aggregated data
  */
@@ -19,6 +21,15 @@ class UserId extends \Piwik\Plugin
      *
      * @return array
      */
+    /**
+     * The tracker needs the value an admin set themselves as well as the one a compliance policy
+     * resolves to, so that consent can lift the policy's requirement without overriding theirs.
+     */
+    public function setTrackerCacheSiteAttributes(&$cacheContent, int $idSite): void
+    {
+        $cacheContent[UserIdDisabled::CONFIGURED_VALUE_CACHE_KEY] = UserIdDisabled::getMeasurableValue($idSite);
+    }
+
     public function registerEvents()
     {
         return array(
@@ -26,6 +37,8 @@ class UserId extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJavaScriptFiles',
             // Add translations for the client side JS
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            // Keep the configured value available to the tracker alongside the enforced one
+            'Tracker.Cache.getSiteAttributes' => 'setTrackerCacheSiteAttributes',
         );
     }
 

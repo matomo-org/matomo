@@ -438,6 +438,7 @@ class Request
             'ping'         => array(0, 'int'),
 
             // other
+            'consent'      => array('', 'string'),
             'bots'         => array(0, 'int'),
             'dp'           => array(0, 'int'),
             'rec'          => array(0, 'int'),
@@ -916,9 +917,8 @@ class Request
         try {
             $idSite = $this->getIdSite();
             if (!empty($idSite) && $idSite > 0) {
-                $cache    = TrackerCache::getCacheWebsiteAttributes($idSite);
-                $cacheKey = UserIdDisabled::class;
-                if (($cache[$cacheKey] ?? false) === true) {
+                $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+                if (UserIdDisabled::shouldDiscardUserId($cache, $this->hasConsent())) {
                     return false;
                 }
             }
@@ -932,6 +932,19 @@ class Request
     public function getForcedVisitorId()
     {
         return $this->getParam('cid');
+    }
+
+    /**
+     * Whether the visitor had given their consent when this request was sent.
+     *
+     * The JavaScript tracker sets this when consent is in use and has been granted, either for
+     * tracking as a whole or for cookies. A request without the parameter is not a refusal, it
+     * only means the site is not signalling consent, so nothing may be relaxed on the strength of
+     * its absence.
+     */
+    public function hasConsent(): bool
+    {
+        return '1' === $this->getParam('consent');
     }
 
     public function getPlugins()

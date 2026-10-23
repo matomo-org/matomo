@@ -30,7 +30,7 @@ class Website extends Base
 
         if (
             $information['referer_type'] == Common::REFERRER_TYPE_WEBSITE
-            && $this->isReferrerInformationNew($visitor, $information)
+            && $this->isReferrerInformationNew($visitor, $information, $action, $request)
         ) {
             Common::printDebug("Existing visit detected, but creating new visit because website referrer information is different than last action.");
 
