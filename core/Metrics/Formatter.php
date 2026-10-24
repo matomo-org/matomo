@@ -73,7 +73,7 @@ class Formatter
             } else {
                 $time    = sprintf(Piwik::translate('Intl_NDays'), $days) . " " . sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
             }
-            $centiSeconds = intval($numberOfSeconds * 100) % 100;
+            $centiSeconds = intval(round($numberOfSeconds * 100, 6)) % 100;
             if ($centiSeconds) {
                 $time .= '.' . sprintf("%02s", $centiSeconds);
             }
@@ -82,6 +82,9 @@ class Formatter
             }
             return $time;
         }
+        // Round before splitting into units so a remainder like 59.999s carries over instead of rendering as 60s.
+        $numberOfSeconds = round($numberOfSeconds, $numberOfSeconds > 0 && $numberOfSeconds < 0.01 ? 3 : 2);
+
         $secondsInYear = 86400 * 365.25;
 
         $years      = floor($numberOfSeconds / $secondsInYear);
