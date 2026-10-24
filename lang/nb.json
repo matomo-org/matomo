@@ -431,6 +431,8 @@
         "PasswordStrengthValidationSpecialChar": "Inneholder et spesialtegn",
         "PasswordStrengthValidationUppercase": "Inneholder en stor bokstav",
         "Period": "Periode",
+        "PhpCriticalSecurityUpdateRequired": "Tjeneren din rapporterer PHP %1$s, en versjon som er rammet av kritiske sikkerhetssårbarheter. Kontakt tjeneradministratoren eller vertsleverandøren din umiddelbart for å oppgradere PHP eller bekrefte at sikkerhetsfiksene fra leverandøren er tatt i bruk. Å oppdatere bare Matomo retter ikke disse sårbarhetene. %2$sLes kunngjøringen fra Matomo%3$s eller %4$sse sikkerhetsvarselet for PHP%5$s.",
+        "PhpCriticalSecurityUpdateRequiredTitle": "Det kreves en hastende sikkerhetsoppdatering av PHP",
         "Piechart": "Kakediagram",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s er tilgjengelig. Vennligst gi beskjed til %2$sMatomo administrator%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s er tilgjengelig. %2$s Oppdater nå!%3$s (se %4$s endringer%5$s).",
