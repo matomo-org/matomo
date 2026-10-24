@@ -125,15 +125,16 @@ class Date
         if ($dateString instanceof self) {
             return new Date($dateString->timestamp, $dateString->timezone);
         }
-        if ($dateString === 'now') {
+        $dateKeyword = is_string($dateString) ? strtolower($dateString) : $dateString;
+        if ($dateKeyword === 'now') {
             $date = self::now();
-        } elseif ($dateString === 'today') {
+        } elseif ($dateKeyword === 'today') {
             $date = self::today();
-        } elseif ($dateString === 'tomorrow') {
+        } elseif ($dateKeyword === 'tomorrow') {
             $date = self::tomorrow();
-        } elseif ($dateString === 'yesterday') {
+        } elseif ($dateKeyword === 'yesterday') {
             $date = self::yesterday();
-        } elseif ($dateString === 'yesterdaySameTime') {
+        } elseif ($dateKeyword === 'yesterdaysametime') {
             $date = self::yesterdaySameTime();
         } elseif (is_string($dateString) && preg_match('/^last[ -]?week$/i', urldecode($dateString))) {
             $date = self::lastWeek();
@@ -186,13 +187,14 @@ class Date
      */
     public static function factoryInTimezone($dateString, $timezone)
     {
-        if ($dateString === 'now') {
+        $dateKeyword = is_string($dateString) ? strtolower($dateString) : $dateString;
+        if ($dateKeyword === 'now') {
             return self::nowInTimezone((string)$timezone);
-        } elseif ($dateString === 'today') {
+        } elseif ($dateKeyword === 'today') {
             return self::todayInTimezone((string)$timezone);
-        } elseif ($dateString === 'yesterday') {
+        } elseif ($dateKeyword === 'yesterday') {
             return self::yesterdayInTimezone((string)$timezone);
-        } elseif ($dateString === 'yesterdaySameTime') {
+        } elseif ($dateKeyword === 'yesterdaysametime') {
             return self::yesterdaySameTimeInTimezone((string)$timezone);
         } elseif (preg_match('/^last[ -]?week$/i', urldecode($dateString))) {
             return self::lastWeekInTimezone((string)$timezone);
