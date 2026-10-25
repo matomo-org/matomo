@@ -431,6 +431,8 @@
         "PasswordStrengthValidationSpecialChar": "Bir özel karakter içeriyor",
         "PasswordStrengthValidationUppercase": "Bir büyük harf içeriyor",
         "Period": "Zaman aralığı",
+        "PhpCriticalSecurityUpdateRequired": "Sunucunuz, kritik güvenlik açıklarından etkilenen bir sürüm olan PHP %1$s kullanıyor. PHP sürümünü yükseltmek veya üreticinin güvenlik düzeltmelerinin uygulandığını onaylamak için hemen sunucu yöneticiniz veya barındırma hizmeti sağlayıcınız ile görüşün. Yalnızca Matomo uygulamasını güncellemek bu güvenlik açıklarını düzeltmez. %2$sMatomo duyurusunu okuyun%3$s veya %4$sPHP güvenlik önerisine%5$s bakın.",
+        "PhpCriticalSecurityUpdateRequiredTitle": "Acil olarak PHP güvenlik güncellemesinin yapılması gerekiyor",
         "Piechart": "Daire çizelge",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s sürümü yayınlanmış. Lütfen %2$sMatomo yöneticisine%3$s bilgi verin.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s sürümü yayınlanmış. %2$s Lütfen şimdi güncelleyin!%3$s (%4$s değişikliklere bakın%5$s).",
