@@ -86,9 +86,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The new `core:rotate-encryption-keys` console command replaces the encryption key a plugin keeps in the local config file (`config/config.ini.php` by default) and re-encrypts every value the plugin declares, or changes nothing if any value cannot be decrypted.
 
 ### New config.ini.php settings
-* `[General] enable_php_critical_vulnerability_notification` (default `1`) controls the warning shown to signed-in users
-  when the PHP version is affected by the critical PHP security vulnerabilities announced on 2026-10-21. Set it to `0`
-  to hide the warning, for example when your Linux distribution has backported the fix without changing the PHP version number.
 * `[Tracker] record_accurate_page_view_time` (default `1`, can be overridden per site in `[Tracker_N]`) is a temporary kill-switch for the accurate time-on-page writer. Setting it to `0` stops new `log_page_view_time` rows from being written; rows recorded earlier keep being used by the archiver and the visits log. It will be removed in a future major version.
 
 ### HTTP API
@@ -117,6 +114,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The help panel a headline opens is now the standalone `mtm-helpPanel` block (`plugins/Morpheus/stylesheets/ui/_help-panel.less`) in place of the `.inlineHelp` markup scoped inside `.enrichedHeadline`: its `.readMore` link becomes `.mtm-helpPanel__readMore` and the headline's `.helpDate` becomes `.mtm-helpPanel__date` (the DataTable's separate `.helpDate` is untouched). `ReportHeader` places it in a row of its own below the header; the headline keeps it in `.enrichedHeadline__help` otherwise. The panel is removed from the DOM while closed rather than hidden, so code looking for it has to account for it being absent.
 * Passing help by writing a `<div class="inlineHelp">` into the `EnrichedHeadline` slot is no longer supported; use the `inline-help` attribute instead.
 * The conditional fallback definitions for functions and constants that every supported PHP version provides natively (`mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class, `PHP_INT_SIZE` and `PHP_INT_MAX`) have been removed from `libs/upgradephp/upgrade.php`, as has the `gzopen()` alias for builds whose zlib exposes only `gzopen64()`; `Piwik\Unzip` falls back to `PclZip` on such a build.
+
+## Matomo 5.14.3
+
+### New config.ini.php settings
+* `[General] enable_php_critical_vulnerability_notification` (default `1`) controls the warning shown to signed-in users
+  when the PHP version is affected by the critical PHP security vulnerabilities announced on 2026-10-21. Set it to `0`
+  to hide the warning, for example when your Linux distribution has backported the fix without changing the PHP version number.
 
 ## Matomo 5.14.2
 
