@@ -768,7 +768,7 @@ abstract class Controller
     private static function isPhpCriticalVulnerabilityNotificationEnabled(): bool
     {
         // a missing or invalid value keeps the warning on, only an explicit 0 or false hides it
-        return GeneralConfig::getBoolConfigValue('enable_php_critical_vulnerability_notification', true) !== false;
+        return GeneralConfig::getBoolConfigValue('enable_php_critical_vulnerability_notification', true);
     }
 
     private static function isPhpVersionAffectedByCriticalVulnerability(int $major, int $minor, int $release): bool
