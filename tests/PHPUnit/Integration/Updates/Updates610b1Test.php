@@ -17,14 +17,14 @@ use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater;
-use Piwik\Updates\Updates_6_0_0_b7;
+use Piwik\Updates\Updates_6_1_0_b1;
 
-require_once __DIR__ . '/../../../../core/Updates/6.0.0-b7.php';
+require_once __DIR__ . '/../../../../core/Updates/6.1.0-b1.php';
 
 /**
  * @group Updates
  */
-class Updates600b7Test extends IntegrationTestCase
+class Updates610b1Test extends IntegrationTestCase
 {
     public function setUp(): void
     {
@@ -47,7 +47,7 @@ class Updates600b7Test extends IntegrationTestCase
         $this->createSegment('continentCode!=asi', 0, $deleted = 1);
 
         $startDate = Piwik::getEarliestDateToRearchive()->toString();
-        $update = new Updates_6_0_0_b7();
+        $update = new Updates_6_1_0_b1();
         $hints = array_map('strval', $update->getMigrations(new Updater()));
 
         // the migration does not order the segments it reads
@@ -80,7 +80,7 @@ class Updates600b7Test extends IntegrationTestCase
         $this->createSegment('continentCode!=eur;segmentOfARemovedPlugin==x', 0);
         $this->createSegment('continentCode!=ams', 0);
 
-        (new Updates_6_0_0_b7())->doUpdate(new Updater());
+        (new Updates_6_1_0_b1())->doUpdate(new Updater());
 
         self::assertSame(['continentCode!=ams'], array_map(function ($item) {
             return json_decode($item, true)['segment'];
@@ -92,7 +92,7 @@ class Updates600b7Test extends IntegrationTestCase
         CustomDimensionsAPI::getInstance()->configureNewCustomDimension(1, 'Plan', 'visit', true);
         $this->createSegment('continentCode!=eur;dimension1==premium', 0);
 
-        (new Updates_6_0_0_b7())->doUpdate(new Updater());
+        (new Updates_6_1_0_b1())->doUpdate(new Updater());
 
         self::assertSame([[1]], array_map(function ($item) {
             return json_decode($item, true)['idSites'];
@@ -104,7 +104,7 @@ class Updates600b7Test extends IntegrationTestCase
         Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 0;
         $this->createSegment('continentCode!=eur', 0);
 
-        self::assertSame([], (new Updates_6_0_0_b7())->getMigrations(new Updater()));
+        self::assertSame([], (new Updates_6_1_0_b1())->getMigrations(new Updater()));
     }
 
     private function createSegment(string $definition, int $idSite, int $deleted = 0): int

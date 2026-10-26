@@ -24,7 +24,7 @@ use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Custom as CustomMigration;
 use Piwik\Updates;
 
-class Updates_6_0_0_b7 extends Updates
+class Updates_6_1_0_b1 extends Updates
 {
     /**
      * A Continent segment with `!=` or `!@` matched the visits of the very continent it excludes. Its saved
