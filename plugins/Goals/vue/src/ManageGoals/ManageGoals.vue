@@ -27,6 +27,25 @@
             </span>
           </div>
 
+          <div class="manageGoals-recommendCallout" v-if="showRecommendCallout" role="note">
+            <span class="icon-info" aria-hidden="true"></span>
+            <strong>{{ translate('Goals_RecommendCalloutTitle') }}</strong>
+            <button
+              type="button"
+              class="manageGoals-recommendCalloutLink"
+              @click="scrollToRecommendations()"
+            >{{ translate('Goals_RecommendCalloutTry') }}</button>
+            <button
+              type="button"
+              class="manageGoals-recommendCalloutClose"
+              :title="translate('General_Close')"
+              :aria-label="translate('General_Close')"
+              @click="dismissRecommendCallout()"
+            >
+              <span class="icon-close"></span>
+            </button>
+          </div>
+
           <table v-content-table>
             <thead>
               <tr>
@@ -125,9 +144,11 @@
 
       <RecommendGoals
         v-if="goalRecommendationsEnabled && !onlyShowAddNewGoal"
+        ref="recommendGoals"
         v-show="showGoalList"
         :goals="currentGoals"
         :user-can-edit-goals="userCanEditGoals"
+        :ai-availability="goalAiAvailability"
         @created="onRecommendedGoalsCreated"
         @prefill="prefillManualGoal"
       />
@@ -144,6 +165,7 @@
         v-if="goalRecommendationsEnabled && onlyShowAddNewGoal"
         :goals="currentGoals"
         :user-can-edit-goals="userCanEditGoals"
+        :ai-availability="goalAiAvailability"
         @created="onRecommendedGoalsCreated"
         @prefill="prefillManualGoal"
       />
@@ -445,6 +467,17 @@ import ManageGoalsStore from './ManageGoals.store';
 import RecommendGoals from '../RecommendGoals/RecommendGoals.vue';
 
 const notificationKey = 'Goals.ManageGoals.Notification';
+const recommendCalloutKey = 'Goals.ManageGoals.RecommendCalloutDismissed';
+// below this many goals the recommendation section is still in view without scrolling far
+const recommendCalloutMinGoals = 7;
+
+function isRecommendCalloutDismissed(): boolean {
+  try {
+    return localStorage.getItem(recommendCalloutKey) === '1';
+  } catch (e) {
+    return false;
+  }
+}
 interface ManageGoalsState {
   showEditGoal: boolean;
   showGoalList: boolean;
@@ -458,6 +491,7 @@ interface ManageGoalsState {
   goalToDelete: Goal|null;
   addEditTableComponent: boolean;
   patternMissing: boolean;
+  recommendCalloutDismissed: boolean;
 }
 
 function ambiguousBoolToInt(n: string|number|boolean): 1|0 {
@@ -470,6 +504,10 @@ export default defineComponent({
     onlyShowAddNewGoal: Boolean,
     userCanEditGoals: Boolean,
     goalRecommendationsEnabled: Boolean,
+    goalAiAvailability: {
+      type: String,
+      default: '',
+    },
     ecommerceEnabled: Boolean,
     goals: {
       type: Object,
@@ -506,6 +544,8 @@ export default defineComponent({
       goalToDelete: null,
       addEditTableComponent: false,
       patternMissing: false,
+      // read synchronously so the callout is in the first render, no layout shift
+      recommendCalloutDismissed: isRecommendCalloutDismissed(),
     };
   },
   components: {
@@ -764,6 +804,20 @@ export default defineComponent({
         this.isLoading = false;
       });
     },
+    scrollToRecommendations() {
+      const section = this.$refs.recommendGoals as { $el?: HTMLElement }|undefined;
+      if (section && section.$el) {
+        section.$el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    },
+    dismissRecommendCallout() {
+      this.recommendCalloutDismissed = true;
+      try {
+        localStorage.setItem(recommendCalloutKey, '1');
+      } catch (e) {
+        // without storage the callout only stays hidden until the next page load
+      }
+    },
     storeNotification(goalId:string|number, isCreate:boolean) {
       try {
         sessionStorage.setItem(notificationKey, JSON.stringify({ goal: goalId, create: isCreate }));
@@ -890,6 +944,12 @@ export default defineComponent({
     },
   },
   computed: {
+    showRecommendCallout(): boolean {
+      return !!this.goalRecommendationsEnabled
+        && !!this.userCanEditGoals
+        && !this.recommendCalloutDismissed
+        && Object.keys(this.currentGoals || {}).length > recommendCalloutMinGoals;
+    },
     learnMoreAboutGoalTracking() {
       return translate(
         'Goals_LearnMoreAboutGoalTrackingDocumentation',
