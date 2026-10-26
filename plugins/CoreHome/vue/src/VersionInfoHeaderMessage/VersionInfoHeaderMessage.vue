@@ -9,12 +9,18 @@
     v-expand-on-hover="{ expander: 'expander', expandedClass: 'mtm-selector--expanded' }"
     id="header_message"
     class="mtm-selector"
-    :class="{ 'mtm-selector--highlighted': latestVersionAvailable }"
+    :class="{
+      'mtm-selector--highlighted': latestVersionAvailable,
+      header_info: !latestVersionAvailable || lastUpdateCheckFailed,
+      update_available: latestVersionAvailable,
+    }"
   >
+    <!-- `header_info`, `update_available`, `title` and `piwikSelector__dropdown` carry no styles:
+         plugins read them to find the message and its parts. -->
     <Passthrough v-if="latestVersionAvailable">
       <span
         v-if="isMultiServerEnvironment"
-        class="mtm-selector__trigger"
+        class="mtm-selector__trigger title"
         ref="expander"
       >
         <span class="mtm-selector__icon" aria-hidden="true">
@@ -26,7 +32,7 @@
       </span>
       <a
         v-else
-        class="mtm-selector__trigger"
+        class="mtm-selector__trigger title"
         href="?module=CoreUpdater&action=newVersionAvailable"
         ref="expander"
       >
@@ -41,12 +47,12 @@
     <Passthrough v-else-if="isSuperUser && (isAdminArea || lastUpdateCheckFailed)">
       <a
         v-if="isInternetEnabled"
-        class="mtm-selector__trigger"
+        class="mtm-selector__trigger title"
         v-html="$sanitize(updateCheck)"
       ></a>
       <a
         v-else
-        class="mtm-selector__trigger"
+        class="mtm-selector__trigger title"
         :href="externalRawLink('https://matomo.org/changelog/')"
         target="_blank"
         rel="noreferrer noopener"
@@ -57,7 +63,7 @@
       </a>
     </Passthrough>
 
-    <div class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft positionInViewport">
+    <div class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft positionInViewport piwikSelector__dropdown">
       <div class="mtm-dropdownPanel">
         <div class="mtm-dropdownPanel__text">
           <span

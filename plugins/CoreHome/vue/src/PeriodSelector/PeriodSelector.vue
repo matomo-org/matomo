@@ -9,6 +9,7 @@
   <div
     ref="root"
     class="mtm-selector mtm-selector--fullWidthOnSmallScreen periodSelector"
+    :class="{ 'periodSelector-withPrevNext': canShowMovePeriod }"
     v-expand-on-click="{
       expander: 'title',
       expandedClass: 'mtm-selector--expanded',
@@ -16,10 +17,12 @@
       onClosed: onClosed,
     }"
   >
+    <!-- `periodSelector`, `periodSelector-withPrevNext`, `move-period*`, `#date` and `title` carry
+         no styles: plugins read them to find the selector's parts. -->
     <button
       v-if="canShowMovePeriod"
       type="button"
-      class="mtm-selector__action mtm-selector__action--start"
+      class="mtm-selector__action mtm-selector__action--start move-period move-period-prev"
       tabindex="4"
       v-tooltips
       :title="translate('General_PreviousPeriod')"
@@ -34,8 +37,9 @@
 
     <button
       ref="title"
+      id="date"
       type="button"
-      class="mtm-selector__trigger"
+      class="mtm-selector__trigger title"
       tabindex="4"
       v-tooltips
       :title="translate('General_ChooseDate', currentlyViewingText)"
@@ -112,7 +116,7 @@
     <button
       v-if="canShowMovePeriod"
       type="button"
-      class="mtm-selector__action mtm-selector__action--end"
+      class="mtm-selector__action mtm-selector__action--end move-period move-period-next"
       tabindex="4"
       v-tooltips
       :title="translate('General_NextPeriod')"

@@ -16,8 +16,8 @@
     }"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
-    <!-- `siteSelector` and `expanded` carry no styles: plugins read them to find the selector and
-         to know its list is open. -->
+    <!-- `siteSelector`, `expanded`, `title` and `piwikSelector__dropdown` carry no styles: plugins
+         read them to find the selector and its parts, and to know its list is open. -->
     <input
       v-if="name"
       type="hidden"
@@ -29,7 +29,7 @@
       @click="onClickSelector"
       @keydown="onPressEnter($event)"
       href="javascript:void(0)"
-      class="mtm-selector__trigger"
+      class="mtm-selector__trigger title"
       tabindex="4"
       v-tooltips
       :title="selectorLinkTitle"
@@ -65,7 +65,7 @@
       </span>
     </a>
     <div
-      class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft"
+      class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft piwikSelector__dropdown"
     >
       <div class="mtm-dropdownPanel mtm-dropdownPanel--fixedWidth">
         <div

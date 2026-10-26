@@ -8,7 +8,7 @@
 <template>
   <div
     ref="root"
-    class="mtm-selector mtm-selector--fullWidthOnSmallScreen piwikTopControl"
+    class="mtm-selector mtm-selector--fullWidthOnSmallScreen piwikTopControl dashboard-manager dashboardSettings"
     v-expand-on-click="{
       expander: 'expander',
       expandedClass: 'mtm-selector--expanded',
@@ -18,9 +18,11 @@
     @click="onOpen()"
     @focusout="onFocusOut"
   >
+    <!-- `dashboard-manager`, `dashboardSettings`, `title` and `piwikSelector__dropdown` carry no
+         styles: plugins read them to find the selector and its parts. -->
     <button
       type="button"
-      class="mtm-selector__trigger"
+      class="mtm-selector__trigger title"
       v-tooltips
       :title="translate('Dashboard_ManageDashboard')"
       tabindex="4"
@@ -31,7 +33,7 @@
       </span>
       <span class="mtm-selector__label">{{ translate('Dashboard_ManageDashboard') }}</span>
     </button>
-    <div class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft positionInViewport">
+    <div class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft positionInViewport piwikSelector__dropdown">
       <div
         class="mtm-dropdownPanel mtm-dropdownPanel--wide"
         v-tooltips="{show: false}"

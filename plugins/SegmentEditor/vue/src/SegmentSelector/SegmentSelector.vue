@@ -12,8 +12,9 @@
       class="mtm-selector mtm-selector--fullWidthOnSmallScreen"
       :class="{ 'mtm-selector--expanded': viewModel.isExpanded }"
     >
+      <!-- `title` carries no styles: plugins read it to find the trigger. -->
       <a
-        class="mtm-selector__trigger"
+        class="mtm-selector__trigger title"
         tabindex="4"
         :title="viewModel.currentSegmentTooltip"
         @click.prevent="togglePanel"
