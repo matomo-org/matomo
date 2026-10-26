@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\AIProviders\tests\Unit;
 
 use Piwik\Plugins\AIProviders\AIRequestDecision;
+use Piwik\Plugins\AIProviders\AIUsageAction;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -76,6 +77,20 @@ class AIRequestDecisionTest extends TestCase
         $this->assertSame(5, $decision->getRemaining());
     }
 
+    public function testOnATieTheLaterReportWins(): void
+    {
+        $action = new AIUsageAction('Buy more credits', 'index.php?module=Billing');
+        $decision = new AIRequestDecision();
+        $decision->reportUsage(20, 25, 5, 'Earlier', new AIUsageAction('Upgrade', 'index.php?module=Plans'));
+        $decision->reportUsage(95, 100, 5, 'Later', $action);
+
+        $this->assertSame(95, $decision->getUsed());
+        $this->assertSame(100, $decision->getLimit());
+        $this->assertSame(5, $decision->getRemaining());
+        $this->assertSame('Later', $decision->getMessage());
+        $this->assertSame($action, $decision->getAction());
+    }
+
     public function testAnEmptyReportNeverWipesOneWithFigures(): void
     {
         $decision = new AIRequestDecision();
@@ -95,5 +110,78 @@ class AIRequestDecisionTest extends TestCase
         $this->assertSame(20, $decision->getUsed());
         $this->assertSame(25, $decision->getLimit());
         $this->assertSame(5, $decision->getRemaining());
+    }
+
+    public function testReportUsageCarriesItsMessageAndAction(): void
+    {
+        $action = new AIUsageAction('Buy more credits', 'index.php?module=Billing&action=index');
+        $decision = new AIRequestDecision();
+        $decision->reportUsage(80, 100, 20, 'Renews in November.', $action);
+
+        $this->assertTrue($decision->isAllowed());
+        $this->assertSame('Renews in November.', $decision->getMessage());
+        $this->assertSame($action, $decision->getAction());
+    }
+
+    public function testTheMessageAndActionTravelWithTheStrictestReport(): void
+    {
+        $decision = new AIRequestDecision();
+        $decision->reportUsage(10, 100, 90, 'Loose', new AIUsageAction('Loose', 'index.php'));
+        $decision->reportUsage(24, 25, 1, 'Strict');
+        $decision->reportUsage(50, 100, 50, 'Ignored', new AIUsageAction('Ignored', 'index.php'));
+
+        $this->assertSame('Strict', $decision->getMessage());
+        $this->assertNull($decision->getAction());
+    }
+
+    public function testAStricterReportWithoutAMessageClearsTheEarlierMessage(): void
+    {
+        $decision = new AIRequestDecision();
+        $decision->reportUsage(10, 100, 90, 'Renews in November.');
+        $decision->reportUsage(24, 25, 1);
+
+        $this->assertSame(1, $decision->getRemaining());
+        $this->assertNull($decision->getMessage());
+    }
+
+    public function testDenyCarriesItsOwnAction(): void
+    {
+        $action = new AIUsageAction('Buy more credits', 'index.php?module=Billing&action=index');
+        $decision = new AIRequestDecision();
+        $decision->reportUsage(20, 25, 5, 'Renews soon', new AIUsageAction('Upgrade', 'index.php?module=Plans'));
+        $decision->deny('limit_reached', 'Used up', 25, 25, 0, $action);
+
+        $this->assertFalse($decision->isAllowed());
+        $this->assertSame('Used up', $decision->getMessage());
+        $this->assertSame($action, $decision->getAction());
+    }
+
+    public function testDenyWithoutAnActionDropsTheActionOfAnEarlierReport(): void
+    {
+        $decision = new AIRequestDecision();
+        $decision->reportUsage(20, 25, 5, 'Renews soon', new AIUsageAction('Buy more', 'index.php'));
+        $decision->deny('limit_reached', 'Used up', 25, 25, 0);
+
+        $this->assertSame('Used up', $decision->getMessage());
+        $this->assertNull($decision->getAction());
+    }
+
+    public function testDenyWithoutAMessageDropsTheMessageOfAnEarlierReport(): void
+    {
+        $decision = new AIRequestDecision();
+        $decision->reportUsage(20, 25, 5, 'Renews soon');
+        $decision->deny('limit_reached');
+
+        $this->assertNull($decision->getMessage());
+    }
+
+    public function testALaterDenialDoesNotReplaceTheFirstDenialsAction(): void
+    {
+        $decision = new AIRequestDecision();
+        $decision->deny('disabled');
+        $decision->deny('limit_reached', 'Used up', 25, 25, 0, new AIUsageAction('Buy more', 'index.php'));
+
+        $this->assertSame('disabled', $decision->getReason());
+        $this->assertNull($decision->getAction());
     }
 }
