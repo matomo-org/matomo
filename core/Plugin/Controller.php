@@ -737,7 +737,7 @@ abstract class Controller
         }
 
         if (
-            GeneralConfig::getBoolConfigValue('enable_php_critical_vulnerability_notification', true) === false
+            !self::isPhpCriticalVulnerabilityNotificationEnabled()
             || !self::isPhpVersionAffectedByCriticalVulnerability(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION)
         ) {
             // persistent notifications stay in the session, so drop it once PHP has been fixed or the warning is turned off
@@ -762,6 +762,12 @@ abstract class Controller
         $notification->type = Notification::TYPE_PERSISTENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
         NotificationManager::notify(self::PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID, $notification);
+    }
+
+    private static function isPhpCriticalVulnerabilityNotificationEnabled(): bool
+    {
+        // a missing or invalid value keeps the warning on, only an explicit 0 or false hides it
+        return GeneralConfig::getBoolConfigValue('enable_php_critical_vulnerability_notification', true) !== false;
     }
 
     private static function isPhpVersionAffectedByCriticalVulnerability(int $major, int $minor, int $release): bool

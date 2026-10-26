@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Core\Plugin;
 
 use PHPUnit\Framework\TestCase;
+use Piwik\Config;
 use Piwik\Plugin\Controller;
 use ReflectionMethod;
 
@@ -18,6 +19,25 @@ use ReflectionMethod;
  */
 class ControllerTest extends TestCase
 {
+    /**
+     * @var array<string, mixed>
+     */
+    private $originalGeneralConfig;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->originalGeneralConfig = Config::getInstance()->General;
+    }
+
+    public function tearDown(): void
+    {
+        Config::getInstance()->General = $this->originalGeneralConfig;
+
+        parent::tearDown();
+    }
+
     /**
      * @dataProvider getPhpVersionsForCriticalVulnerability
      */
@@ -54,5 +74,36 @@ class ControllerTest extends TestCase
 
         yield 'PHP 8.6 not affected' => [8, 6, 0, false];
         yield 'PHP 9.0 not affected' => [9, 0, 0, false];
+    }
+
+    /**
+     * @dataProvider getPhpCriticalVulnerabilityNotificationConfigValues
+     * @param mixed $configValue null removes the setting
+     */
+    public function testIsPhpCriticalVulnerabilityNotificationEnabled($configValue, bool $expected): void
+    {
+        $general = Config::getInstance()->General;
+        unset($general['enable_php_critical_vulnerability_notification']);
+        if ($configValue !== null) {
+            $general['enable_php_critical_vulnerability_notification'] = $configValue;
+        }
+        Config::getInstance()->General = $general;
+
+        $method = new ReflectionMethod(Controller::class, 'isPhpCriticalVulnerabilityNotificationEnabled');
+        $method->setAccessible(true);
+
+        $this->assertSame($expected, $method->invoke(null));
+    }
+
+    public function getPhpCriticalVulnerabilityNotificationConfigValues(): iterable
+    {
+        yield 'enabled' => ['1', true];
+        yield 'enabled with true' => ['true', true];
+        yield 'disabled' => ['0', false];
+        yield 'disabled with false' => ['false', false];
+
+        // a broken setting must never hide a security warning
+        yield 'missing setting' => [null, true];
+        yield 'invalid value' => ['nope', true];
     }
 }
