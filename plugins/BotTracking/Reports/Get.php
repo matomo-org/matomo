@@ -34,8 +34,10 @@ class Get extends Report
         $this->metrics          = Metrics::getReportMetricColumns();
         $this->processedMetrics = [
             new ClickThroughRate(),
-            new AIChatbotTrafficRatio(),
         ];
+        if (Metrics::isAIChatbotTrafficRatioAvailable()) {
+            $this->processedMetrics[] = new AIChatbotTrafficRatio();
+        }
         $this->order            = 10;
 
         if (\Piwik\Request::fromRequest()->getStringParameter('period', '') !== 'day') {

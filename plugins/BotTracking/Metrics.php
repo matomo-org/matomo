@@ -13,6 +13,7 @@ namespace Piwik\Plugins\BotTracking;
 
 use Piwik\Piwik;
 use Piwik\Columns\Dimension;
+use Piwik\Plugin\Manager;
 
 class Metrics
 {
@@ -78,7 +79,7 @@ class Metrics
      */
     public static function getSparklineMetricOrder(): array
     {
-        return [
+        $metrics = [
             self::METRIC_AI_CHATBOTS_REQUESTS,
             self::METRIC_AI_CHATBOTS_TRAFFIC_RATIO,
             self::METRIC_AI_CHATBOTS_ACQUIRED_VISITS,
@@ -89,6 +90,21 @@ class Metrics
             self::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS,
             self::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS,
         ];
+
+        if (!self::isAIChatbotTrafficRatioAvailable()) {
+            $metrics = array_values(array_diff($metrics, [self::METRIC_AI_CHATBOTS_TRAFFIC_RATIO]));
+        }
+
+        return $metrics;
+    }
+
+    /**
+     * The traffic ratio divides by the page views of the Actions plugin, whose archives cannot be
+     * requested while it is deactivated.
+     */
+    public static function isAIChatbotTrafficRatioAvailable(): bool
+    {
+        return Manager::getInstance()->isPluginActivated('Actions');
     }
 
     /**
