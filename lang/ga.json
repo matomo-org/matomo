@@ -431,6 +431,8 @@
         "PasswordStrengthValidationSpecialChar": "Tá carachtar speisialta ann",
         "PasswordStrengthValidationUppercase": "Tá litir mhór ann",
         "Period": "Tréimhse",
+        "PhpCriticalSecurityUpdateRequired": "Tuairiscíonn do fhreastalaí go bhfuil PHP %1$s á úsáid, leagan a bhfuil leochaileachtaí slándála criticiúla ag baint leis. Déan teagmháil le riarthóir do fhreastalaí nó leis an soláthraí óstála láithreach chun PHP a uasghrádú, nó chun a dheimhniú go bhfuil paistí slándála ón díoltóir curtha i bhfeidhm. Ní réitíonn nuashonrú Matomo amháin na leochaileachtaí seo. %2$sLéigh an fógra ó Matomo%3$s nó %4$sféach ar an gcomhairle slándála do PHP%5$s.",
+        "PhpCriticalSecurityUpdateRequiredTitle": "Nuashonrú slándála práinneach PHP ag teastáil",
         "Piechart": "Píchairt",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "Tá %1$s ar fáil. Cuir in iúl do riarthóir %2$sMatomo%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Tá Matomo %1$s ar fáil. %2$sPlease update now!%3$s (féach %4$schanges%5$s).",
