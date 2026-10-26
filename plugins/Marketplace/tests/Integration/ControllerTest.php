@@ -342,6 +342,53 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
+    public function testUpdatePluginResultShowsTheFailureSummaryOnlyOnce()
+    {
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR),
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $failureSummary = Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo');
+
+        self::assertStringContainsString($failureSummary, $this->dispatchUpdate('SecurityInfo,TreemapVisualization'));
+        self::assertNotContains($failureSummary, $this->getNotificationMessages());
+    }
+
+    public function testUpdatePluginDropsTheFailureSummaryOfAnEarlierUpdate()
+    {
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR),
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        // the result page is skipped, as it is when an updated plugin ships a migration
+        $this->dispatchUpdateUntilRedirect('SecurityInfo,TreemapVisualization');
+
+        // a later update where every plugin fails returns before posting a summary of its own
+        $this->dispatchUpdateUntilRedirect('SecurityInfo');
+
+        self::assertNotContains(
+            Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo'),
+            $this->getNotificationMessages()
+        );
+    }
+
+    public function testUpdatePluginReplacesTheSuccessSummaryOfAnEarlierUpdate()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        // the result page is skipped both times, as it is when an updated plugin ships a migration
+        $this->dispatchUpdateUntilRedirect('TreemapVisualization');
+        $this->dispatchUpdateUntilRedirect('TreemapVisualization');
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        $successMessage = Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]);
+        self::assertSame(1, count(array_keys($this->getNotificationMessages(), $successMessage, true)));
+    }
+
     public function testUpdatePluginRedirectsToTheResultPageInsteadOfRenderingIt()
     {
         $this->pluginInfoAnswers = [

@@ -45,6 +45,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const INSTALL_NONCE = 'Marketplace.installPlugin';
     public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
 
+    private const FAILURE_SUMMARY_NOTIFICATION_ID = 'Marketplace_PluginsCouldNotBeUpdated';
+
     private LicenseKey $licenseKey;
     private Plugins $plugins;
 
@@ -604,6 +606,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
+        Notification\Manager::cancel(self::FAILURE_SUMMARY_NOTIFICATION_ID);
+
         $installedPlugins = [];
         $failedPlugins = [];
         $notifiedMessages = [];
@@ -637,12 +641,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $notification = new Notification(Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', implode(', ', $failedPlugins)));
             $notification->context = Notification::CONTEXT_INFO;
             $notification->type = Notification::TYPE_PERSISTENT;
-            Notification\Manager::notify('Marketplace_PluginsCouldNotBeUpdated', $notification);
+            Notification\Manager::notify(self::FAILURE_SUMMARY_NOTIFICATION_ID, $notification);
         }
 
         $isUpdate = $nonceName === static::UPDATE_NONCE;
         $summary = [];
-        foreach ($this->getInstalledPluginInfos($installedPlugins) as $pluginInfo) {
+        foreach (PluginInstallResults::getInstalledPluginInfos($installedPlugins) as $pluginInfo) {
             if ($pluginInfo['isTheme']) {
                 $translationKey = $isUpdate ? 'Marketplace_StepThemeSuccessfullyUpdated' : 'Marketplace_StepThemeSuccessfullyInstalled';
             } else {
@@ -677,44 +681,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $token = Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '');
         $result = PluginInstallResults::get($token);
 
-        $pluginInfos = $this->getInstalledPluginInfos($result['plugins'] ?? []);
+        $pluginInfos = PluginInstallResults::getInstalledPluginInfos($result['plugins'] ?? []);
         if (empty($pluginInfos)) {
             return null;
         }
 
-        PluginInstallResults::cancelSummary($token);
+        PluginInstallResults::cancelSummary();
 
         $view = new View('@Marketplace/' . $template);
         $this->setBasicVariablesView($view);
+        // the view now holds it, so it is shown this once rather than on every page until dismissed
+        Notification\Manager::cancel(self::FAILURE_SUMMARY_NOTIFICATION_ID);
         $view->errorMessage = '';
         $view->plugins = $pluginInfos;
         $view->marketplaceUrl = $result['marketplaceUrl'] ?? '';
 
         return $view;
-    }
-
-    /**
-     * @param string[] $pluginNames
-     * @return list<array{name: string, latestVersion: string, isTheme: bool}>
-     */
-    private function getInstalledPluginInfos(array $pluginNames): array
-    {
-        $pluginInfos = [];
-        foreach ($pluginNames as $pluginName) {
-            if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
-                continue;
-            }
-
-            // read from disk rather than the Marketplace, so the page shows the version actually installed
-            $metadata = (new Plugin\MetadataLoader($pluginName))->load();
-            $pluginInfos[] = [
-                'name' => $pluginName,
-                'latestVersion' => $metadata['version'],
-                'isTheme' => !empty($metadata['theme']),
-            ];
-        }
-
-        return $pluginInfos;
     }
 
     /**

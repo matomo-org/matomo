@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
 use Piwik\Notification;
+use Piwik\Plugin;
 use Piwik\Session\SessionNamespace;
 
 /**
@@ -20,7 +21,7 @@ use Piwik\Session\SessionNamespace;
  *
  * When an updated plugin ships a migration, that request is sent to the database upgrade screen, which
  * continues to the dashboard instead of the result page. So a summary is also posted as a persistent
- * notification, and the result page withdraws it when it is shown.
+ * notification, which the next summary replaces and the result page withdraws when it is shown.
  *
  * @phpstan-type InstallResult array{plugins: list<string>, marketplaceUrl?: string}
  */
@@ -29,6 +30,8 @@ class PluginInstallResults
     public const TOKEN_PARAMETER = 'resultToken';
 
     private const SESSION_NAMESPACE = 'CorePluginsAdmin.pluginInstallResults';
+
+    private const SUMMARY_NOTIFICATION_ID = 'CorePluginsAdmin_InstallResult';
 
     // long enough to survive a reload of the result page, short enough not to pile up in the session
     private const TTL_IN_SECONDS = 600;
@@ -48,7 +51,7 @@ class PluginInstallResults
         $notification = new Notification($summary);
         $notification->context = Notification::CONTEXT_SUCCESS;
         $notification->type = Notification::TYPE_PERSISTENT;
-        Notification\Manager::notify(self::getSummaryNotificationId($token), $notification);
+        Notification\Manager::notify(self::SUMMARY_NOTIFICATION_ID, $notification);
 
         return $token;
     }
@@ -56,11 +59,9 @@ class PluginInstallResults
     /**
      * Withdraws the summary posted by store(), for a result page that shows the result itself.
      */
-    public static function cancelSummary(string $token): void
+    public static function cancelSummary(): void
     {
-        if (ctype_alnum($token)) {
-            Notification\Manager::cancel(self::getSummaryNotificationId($token));
-        }
+        Notification\Manager::cancel(self::SUMMARY_NOTIFICATION_ID);
     }
 
     /**
@@ -83,8 +84,29 @@ class PluginInstallResults
         return is_array($result) ? $result : null;
     }
 
-    private static function getSummaryNotificationId(string $token): string
+    /**
+     * @param string[] $pluginNames
+     * @return list<array{name: string, latestVersion: string, isTheme: bool}> one entry per plugin still on disk
+     */
+    public static function getInstalledPluginInfos(array $pluginNames): array
     {
-        return 'CorePluginsAdmin_InstallResult' . $token;
+        $pluginManager = Plugin\Manager::getInstance();
+
+        $pluginInfos = [];
+        foreach ($pluginNames as $pluginName) {
+            if (!$pluginManager->isPluginInFilesystem($pluginName)) {
+                continue;
+            }
+
+            // read from disk rather than the Marketplace, so the page shows the version actually installed
+            $metadata = (new Plugin\MetadataLoader($pluginName))->load();
+            $pluginInfos[] = [
+                'name' => $pluginName,
+                'latestVersion' => $metadata['version'],
+                'isTheme' => !empty($metadata['theme']),
+            ];
+        }
+
+        return $pluginInfos;
     }
 }

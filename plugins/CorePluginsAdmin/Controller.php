@@ -142,25 +142,23 @@ class Controller extends Plugin\ControllerAdmin
 
         $token = \Piwik\Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '');
         $result = PluginInstallResults::get($token);
-        $pluginName = $result['plugins'][0] ?? '';
+        $pluginInfo = PluginInstallResults::getInstalledPluginInfos($result['plugins'] ?? [])[0] ?? null;
 
-        if ($pluginName === '' || !$this->pluginManager->isPluginInFilesystem($pluginName)) {
+        if ($pluginInfo === null) {
             // expired, or recorded in another session
             Piwik::redirectToModule('CorePluginsAdmin', 'plugins', [PluginInstallResults::TOKEN_PARAMETER => null]);
             return;
         }
 
-        PluginInstallResults::cancelSummary($token);
-
-        $metadata = (new Plugin\MetadataLoader($pluginName))->load();
+        PluginInstallResults::cancelSummary();
 
         $view = $this->configureView('@CorePluginsAdmin/uploadPlugin');
         $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
         $view->plugin = [
-            'name'        => $pluginName,
-            'version'     => $metadata['version'],
-            'isTheme'     => !empty($metadata['theme']),
-            'isActivated' => $this->pluginManager->isPluginActivated($pluginName),
+            'name'        => $pluginInfo['name'],
+            'version'     => $pluginInfo['latestVersion'],
+            'isTheme'     => $pluginInfo['isTheme'],
+            'isActivated' => $this->pluginManager->isPluginActivated($pluginInfo['name']),
         ];
 
         return $view->render();
