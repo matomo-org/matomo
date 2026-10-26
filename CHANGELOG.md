@@ -4,6 +4,13 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 5.14.3
+
+### New config.ini.php settings
+* `[General] enable_php_critical_vulnerability_notification` (default `1`) controls the warning shown to signed-in users
+  when the PHP version is affected by the critical PHP security vulnerabilities announced on 2026-10-21. Set it to `0`
+  to hide the warning, for example when your Linux distribution has backported the fix without changing the PHP version number.
+
 ## Matomo 5.14.2
 
 ### Breaking Changes
