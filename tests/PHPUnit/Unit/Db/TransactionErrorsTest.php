@@ -78,6 +78,18 @@ class TransactionErrorsTest extends TestCase
         )));
     }
 
+    public function testReturnsTheNumberOfTheErrorThatEndedTheTransaction(): void
+    {
+        $db = $this->getPdoStyleDb();
+
+        $this->assertSame(1206, TransactionErrors::getErrorNumberThatEndsTransaction($db, new \Exception(
+            'SQLSTATE[HY000]: General error: 1206 The total number of locks exceeds the lock table size'
+        )));
+        $this->assertNull(TransactionErrors::getErrorNumberThatEndsTransaction($db, new \Exception(
+            'SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction'
+        )));
+    }
+
     private function getPdoStyleDb(): object
     {
         return new class {

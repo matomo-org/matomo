@@ -84,7 +84,24 @@ final class TransactionErrors
      */
     public static function endsTransactionByErrorNumber($db, \Exception $e): bool
     {
-        return self::matchesAny($db, $e, array_fill_keys(array_keys(self::ENDS_TRANSACTION), null));
+        return self::getErrorNumberThatEndsTransaction($db, $e) !== null;
+    }
+
+    /**
+     * The error number of an error that ends the transaction, or null for any other error. Decides by the error
+     * number only, like endsTransactionByErrorNumber().
+     *
+     * @param \Piwik\Tracker\Db|AdapterInterface $db the connection the error happened on
+     */
+    public static function getErrorNumberThatEndsTransaction($db, \Exception $e): ?int
+    {
+        foreach (array_keys(self::ENDS_TRANSACTION) as $code) {
+            if ($db->isErrNo($e, $code)) {
+                return $code;
+            }
+        }
+
+        return null;
     }
 
     /**

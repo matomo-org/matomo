@@ -129,6 +129,7 @@ class DbTest extends IntegrationTestCase
         $this->assertTrue($db->isErrNo($refusal, TransactionErrors::ERROR_CODE_DEADLOCK));
         $this->assertSame(1, preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $refusal->getMessage(), $match));
         $this->assertSame('1213', $match[1], 'Checks that read the number from the message must see a deadlock too');
+        $this->assertStringContainsString(' Original error: MySQL ' . $errorNumber, $refusal->getMessage());
 
         $commitError = $this->catchException(function () use ($db, $xid) {
             $db->commit($xid);
@@ -325,7 +326,7 @@ class DbTest extends IntegrationTestCase
             $db->commit($xid);
         });
 
-        $this->assertSame(Tracker\Db::TRANSACTION_ABORTED_MESSAGE, $e->getMessage());
+        $this->assertSame(Tracker\Db::TRANSACTION_ABORTED_MESSAGE . ' Original error: MySQL 1213', $e->getMessage());
         $this->assertSame(1213, $e->getCode());
     }
 
