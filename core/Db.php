@@ -801,7 +801,7 @@ class Db implements TransactionalDatabaseInterface
         }
 
         try {
-            $deadlockInfo = self::fetchAll("SHOW ENGINE INNODB STATUS");
+            $deadlockInfo = self::get()->fetchAll("SHOW ENGINE INNODB STATUS");
 
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));

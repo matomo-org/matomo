@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\TransactionErrors;
+use Piwik\SettingsServer;
 use Piwik\Tests\Framework\DbErrorRaiser;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -326,6 +327,27 @@ class DbTest extends IntegrationTestCase
 
         $this->assertSame(Tracker\Db::TRANSACTION_ABORTED_MESSAGE, $e->getMessage());
         $this->assertSame(1213, $e->getCode());
+    }
+
+    public function testStaticQueryAfterTheTransactionWasEndedThrowsTheAbort()
+    {
+        // in tracker mode the static Db helpers use the tracker connection, e.g. for Option::get() on a cold cache
+        SettingsServer::setIsTrackerApiRequest();
+        try {
+            $db = Tracker::getDatabase();
+            $xid = $db->beginTransaction();
+            $this->raiseError($db, 1213, 'Deadlock found when trying to get lock; try restarting transaction');
+
+            // logging the deadlock info must not run its query through Db::fetchAll(), it would recurse until out of memory
+            $e = $this->catchException(function () {
+                Db::fetchOne('SELECT 1');
+            });
+            $this->assertTrue($db->isErrNo($e, TransactionErrors::ERROR_CODE_DEADLOCK));
+
+            $db->rollBack($xid);
+        } finally {
+            SettingsServer::setIsNotTrackerApiRequest();
+        }
     }
 
     public function testRealSnapshotIsolationConflictStopsEveryLaterQuery()
