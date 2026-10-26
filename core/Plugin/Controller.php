@@ -723,7 +723,8 @@ abstract class Controller
     }
 
     /**
-     * @internal temporary warning, will be removed again
+     * @internal temporary warning, will be removed again, together with the
+     *           [General] enable_php_critical_vulnerability_notification setting
      */
     protected static function notifyWhenPhpVersionHasCriticalVulnerability(): void
     {

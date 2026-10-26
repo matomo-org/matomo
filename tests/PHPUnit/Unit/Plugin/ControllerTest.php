@@ -101,6 +101,8 @@ class ControllerTest extends TestCase
         yield 'enabled with true' => ['true', true];
         yield 'disabled' => ['0', false];
         yield 'disabled with false' => ['false', false];
+        // the INI reader turns an unquoted false, no or off into a real boolean
+        yield 'disabled with boolean false' => [false, false];
 
         // a broken setting must never hide a security warning
         yield 'missing setting' => [null, true];
