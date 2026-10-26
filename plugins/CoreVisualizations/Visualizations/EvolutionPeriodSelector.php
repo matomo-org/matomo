@@ -68,13 +68,16 @@ class EvolutionPeriodSelector
         return $params;
     }
 
-    public function getComparisonPeriodObjects($comparePeriods, $compareDates): array
+    /**
+     * @param string|false $timezone Timezone a relative compare date is resolved in; an empty value means UTC.
+     */
+    public function getComparisonPeriodObjects($comparePeriods, $compareDates, $timezone = false): array
     {
         $periods = [];
         if (!empty($comparePeriods)) {
             foreach ($comparePeriods as $periodIndex => $period) {
                 $date = $compareDates[$periodIndex];
-                $periods[] = Factory::build($period, $date);
+                $periods[] = Factory::build($period, $date, $timezone);
             }
         }
         return $periods;

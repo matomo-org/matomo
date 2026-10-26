@@ -53,9 +53,9 @@ class Model
         return $table;
     }
 
-    public function getLastDate($date, $period, $comparedToXPeriods)
+    public function getLastDate($date, $period, $comparedToXPeriods, $timezone = false)
     {
-        $pastDate = Range::getDateXPeriodsAgo(abs($comparedToXPeriods), $date, $period);
+        $pastDate = Range::getDateXPeriodsAgo(abs($comparedToXPeriods), $date, $period, $timezone);
 
         if (empty($pastDate[0])) {
             throw new \Exception('Not possible to compare this date/period combination');

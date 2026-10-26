@@ -11,8 +11,11 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
 use Piwik\API\Request;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Db;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -144,6 +147,116 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
 
         $this->assertNotEmpty($result['idarchives']);
         $this->assertSame(1, $this->getPageUrlsRowCount());
+    }
+
+    public function testInvalidateArchivedReportsInvalidatesARelativeRangeOnTheSiteDayAndOnUtcs()
+    {
+        $this->setSuperUser();
+
+        // 04:37 on the 25th for the site, still the 24th for UTC.
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        try {
+            $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'UTC+12');
+
+            $this->api->invalidateArchivedReports($idSite, 'last7', 'range', false, false, true);
+        } finally {
+            Date::$now = null;
+        }
+
+        $ranges = Db::fetchAll(
+            'SELECT DISTINCT date1, date2 FROM ' . Common::prefixTable('archive_invalidations')
+            . ' WHERE idsite = ? AND period = ? ORDER BY date1',
+            [$idSite, Piwik::$idPeriods['range']]
+        );
+
+        // what a multi-site and a single-site report request for date=last7 read
+        $this->assertEquals([
+            ['date1' => '2020-12-18', 'date2' => '2020-12-24'],
+            ['date1' => '2020-12-19', 'date2' => '2020-12-25'],
+        ], $ranges);
+    }
+
+    public function testInvalidateArchivedReportsInvalidatesEverySiteOnTheDayOfEachOfTheirTimezonesAndUtcs()
+    {
+        $this->setSuperUser();
+
+        // 2020-12-25 for the first site, 2020-12-24 for UTC, 2020-12-23 for the second site.
+        Date::$now = strtotime('2020-12-24 10:30:00');
+
+        $idSitesSeenByListeners = [];
+        Piwik::addAction('Archiving.getIdSitesToMarkArchivesAsInvalidated', function (&$idSites) use (&$idSitesSeenByListeners) {
+            $idSitesSeenByListeners[] = $idSites;
+        });
+
+        try {
+            $idSiteAhead = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'UTC+14');
+            $idSiteBehind = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'UTC-11');
+
+            $output = $this->api->invalidateArchivedReports($idSiteAhead . ',' . $idSiteBehind, 'last7', 'range', false, false, true);
+        } finally {
+            Date::$now = null;
+        }
+
+        // listeners such as roll-up reporting add sites, so they see every site in a single call
+        $this->assertSame([[$idSiteAhead, $idSiteBehind]], $idSitesSeenByListeners);
+
+        $this->assertSame([
+            'Success. The following dates were invalidated successfully: 2020-12-18,2020-12-24, 2020-12-19,2020-12-25, 2020-12-17,2020-12-23',
+        ], $output);
+
+        $expectedRanges = [
+            ['date1' => '2020-12-17', 'date2' => '2020-12-23'],
+            ['date1' => '2020-12-18', 'date2' => '2020-12-24'],
+            ['date1' => '2020-12-19', 'date2' => '2020-12-25'],
+        ];
+        $this->assertEquals($expectedRanges, $this->getInvalidatedRanges($idSiteAhead));
+        $this->assertEquals($expectedRanges, $this->getInvalidatedRanges($idSiteBehind));
+    }
+
+    public function testInvalidateArchivedReportsSkipsADayOnWhichTheRangeEndsBeforeItStarts()
+    {
+        $this->setSuperUser();
+
+        // 2020-12-24 for UTC, still 2020-12-23 for the site.
+        Date::$now = strtotime('2020-12-24 03:00:00');
+
+        try {
+            $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'America/Chicago');
+
+            $output = $this->api->invalidateArchivedReports($idSite, ['2020-12-24,today', '2020-12-01,2020-12-05'], 'range', false, false, true);
+        } finally {
+            Date::$now = null;
+        }
+
+        $this->assertSame([
+            'Success. The following dates were invalidated successfully: 2020-12-24,2020-12-24, 2020-12-01,2020-12-05',
+        ], $output);
+    }
+
+    public function testInvalidateArchivedReportsSkipsAnUnknownSiteForARange()
+    {
+        $this->setSuperUser();
+
+        $idSite = Fixture::createWebsite('2019-04-04 03:45:45');
+
+        $this->api->invalidateArchivedReports($idSite . ',9999', '2020-12-18,2020-12-24', 'range', false, false, true);
+
+        $this->assertEquals([
+            ['date1' => '2020-12-18', 'date2' => '2020-12-24'],
+        ], $this->getInvalidatedRanges($idSite));
+    }
+
+    /**
+     * @return array<array{date1: string, date2: string}>
+     */
+    private function getInvalidatedRanges(int $idSite): array
+    {
+        return Db::fetchAll(
+            'SELECT DISTINCT date1, date2 FROM ' . Common::prefixTable('archive_invalidations')
+            . ' WHERE idsite = ? AND period = ? ORDER BY date1',
+            [$idSite, Piwik::$idPeriods['range']]
+        );
     }
 
     private function trackPageViewAndArchive(): void

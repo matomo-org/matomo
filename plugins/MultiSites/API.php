@@ -354,7 +354,9 @@ class API extends \Piwik\Plugin\API
 
         // if the period isn't a range & a lastN/previousN date isn't used, we get the same
         // data for the last period to show the evolution of visits/actions/revenue
-        [$strLastDate, $lastPeriod] = Range::getLastDate($date, $period);
+        // Anchor the comparison period on the day the archive above resolved the date on.
+        $timezone = Site::getTimezoneForIdSitesString($idSites);
+        [$strLastDate, $lastPeriod] = Range::getLastDate($date, $period, $timezone);
 
         if ($strLastDate !== false) {
             if ($lastPeriod !== false) {

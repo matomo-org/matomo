@@ -1015,6 +1015,74 @@ class CronArchiveTest extends IntegrationTestCase
         }
     }
 
+    /**
+     * CronArchive keeps the custom ranges per site in a static, which would carry 'last7' into later tests.
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testInvalidateCustomRangeResolvesARelativeRangeOnTheSiteDay()
+    {
+        // 04:37 on the 25th for the site, still the 24th for UTC.
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'UTC+12');
+
+        GeneralConfig::setConfigValue('archiving_custom_ranges', ['last7']);
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $cronarchive = new TestCronArchive();
+        $cronarchive->skipInvalidatingRecentDates = true;
+        $cronarchive->init();
+        $cronarchive->setApiToInvalidateArchivedReport($mockInvalidateApi);
+        $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSite);
+
+        $rangeInvalidations = array_values(array_filter($mockInvalidateApi->getInvalidations(), function ($call) {
+            return $call[2] === 'range';
+        }));
+
+        // the ranges a single-site and a multi-site report request for date=last7 read
+        $singleSiteRange = Factory::makePeriodFromQueryParams('UTC+12', 'range', 'last7')->getRangeString();
+        $multiSiteRange = Factory::makePeriodFromQueryParams(false, 'range', 'last7')->getRangeString();
+
+        $this->assertSame('2020-12-19,2020-12-25', $singleSiteRange);
+        $this->assertSame('2020-12-18,2020-12-24', $multiSiteRange);
+        $this->assertCount(2, $rangeInvalidations);
+        $this->assertSame([$singleSiteRange], $rangeInvalidations[0][1]);
+        $this->assertSame([$multiSiteRange], $rangeInvalidations[1][1]);
+    }
+
+    /**
+     * CronArchive keeps the custom ranges per site in a static, which would carry the range into later tests.
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testInvalidateCustomRangeInvalidatesAnAbsoluteRangeOnce()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'UTC+12');
+
+        GeneralConfig::setConfigValue('archiving_custom_ranges', ['2020-12-01,2020-12-10']);
+
+        $mockInvalidateApi = $this->getMockInvalidateApi();
+
+        $cronarchive = new TestCronArchive();
+        $cronarchive->skipInvalidatingRecentDates = true;
+        $cronarchive->init();
+        $cronarchive->setApiToInvalidateArchivedReport($mockInvalidateApi);
+        $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($idSite);
+
+        $rangeInvalidations = array_values(array_filter($mockInvalidateApi->getInvalidations(), function ($call) {
+            return $call[2] === 'range';
+        }));
+
+        $this->assertCount(1, $rangeInvalidations);
+        $this->assertSame(['2020-12-01,2020-12-10'], $rangeInvalidations[0][1]);
+    }
+
     public function testGetColumnNamesFromTable()
     {
         Fixture::createWebsite('2014-12-12 00:01:02');

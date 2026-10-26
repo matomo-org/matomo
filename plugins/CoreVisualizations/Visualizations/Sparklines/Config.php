@@ -16,6 +16,7 @@ use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Request;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -342,12 +343,13 @@ class Config extends \Piwik\ViewDataTable\Config
             $periodTranslated = Piwik::translate('Intl_Period' . ucfirst($params['period']));
             $tooltip = Piwik::translate('General_SparklineTooltipUsedPeriod', $periodTranslated);
             if (!empty($params['date'])) {
-                $period = Period\Factory::build('day', $params['date']);
+                $timezone = Site::getTimezoneForIdSitesString($params['idSite'] ?? Request::fromRequest()->getStringParameter('idSite', ''));
+                $period = Period\Factory::build('day', $params['date'], $timezone);
                 $tooltip .= ' ' . Piwik::translate('General_Period') . ': ' . $period->getLocalizedShortString() . '.';
 
                 if (!empty($params['compareDates'])) {
                     foreach ($params['compareDates'] as $index => $comparisonDate) {
-                        $comparePeriod = Period\Factory::build('day', $comparisonDate);
+                        $comparePeriod = Period\Factory::build('day', $comparisonDate, $timezone);
                         $tooltip .= ' ' . Piwik::translate('General_Period') . ' ' . ($index + 2) . ': ' . $comparePeriod->getLocalizedShortString() . '.';
                     }
                 }

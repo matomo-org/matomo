@@ -21,6 +21,7 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
+use Piwik\Site;
 use Piwik\View;
 
 /**
@@ -222,6 +223,8 @@ class Sparklines extends ViewDataTable
 
         $originalDate = Common::getRequestVar('date');
         $originalPeriod = Common::getRequestVar('period');
+        // The report beside the sparkline resolves a relative date in the timezone the archive uses.
+        $timezone = Site::getTimezoneForIdSitesString(\Piwik\Request::fromRequest()->getStringParameter('idSite', ''));
 
         $comparisonRows = [];
         $isComparing = $this->isComparing() && !empty($comparisons);
@@ -277,7 +280,7 @@ class Sparklines extends ViewDataTable
                 'action'  => $this->requestConfig->getApiMethodToRequest(),
             ]);
 
-            $periodObj = Factory::build($originalPeriod, $originalDate);
+            $periodObj = Factory::build($originalPeriod, $originalDate, $timezone);
             $comparePeriods = $data->getMetadata('comparePeriods');
             $compareDates = $data->getMetadata('compareDates');
 
@@ -286,7 +289,7 @@ class Sparklines extends ViewDataTable
             $comparePeriodsWithoutOriginalPeriod = $comparePeriods ? array_slice($comparePeriods, 1) : [];
 
             $periodSelector = new EvolutionPeriodSelector($this->config);
-            $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate);
+            $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate, $timezone);
             $sparklineUrlParams = $periodSelector->setDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods, $isComparing);
 
             if ($isComparing) {
