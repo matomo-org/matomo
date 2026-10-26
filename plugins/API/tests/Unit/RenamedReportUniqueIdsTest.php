@@ -22,9 +22,9 @@ class RenamedReportUniqueIdsTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getRenamedReportUniqueIdCases
      */
-    public function testGetRenamedReportUniqueIdResolvesRetiredIds(string $uniqueId, string $expected): void
+    public function testGetRenamedReportUniqueIdsResolvesRetiredIds(string $uniqueId, string $expected): void
     {
-        self::assertSame($expected, ProcessedReport::getRenamedReportUniqueId($uniqueId));
+        self::assertSame([$expected], ProcessedReport::getRenamedReportUniqueIds([$uniqueId]));
     }
 
     /**
@@ -124,18 +124,7 @@ class RenamedReportUniqueIdsTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetRenamedReportUniqueIdResolvesToTheEcommerceOrderReportWhenItIsAvailable(): void
-    {
-        self::assertSame(
-            'Goals_get_idGoal--ecommerceOrder',
-            ProcessedReport::getRenamedReportUniqueId(
-                'Goals_get_idGoal--0',
-                ['Goals_get', 'Goals_get_idGoal--ecommerceOrder']
-            )
-        );
-    }
-
-    public function testGetRenamedReportUniqueIdResolvesTheConversionDistributionsToAllGoalsWhereEcommerceIsAvailable(): void
+    public function testGetRenamedReportUniqueIdsResolvesTheConversionDistributionsToAllGoalsWhereEcommerceIsAvailable(): void
     {
         self::assertSame(
             ['Goals_getVisitsUntilConversion', 'Goals_getDaysToConversion'],
@@ -151,24 +140,19 @@ class RenamedReportUniqueIdsTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetRenamedReportUniqueIdFallsBackWhenTheEcommerceOrderReportIsNotAvailable(): void
+    public function testGetRenamedReportUniqueIdsFallsBackWhenTheEcommerceOrderReportIsNotAvailable(): void
     {
         self::assertSame(
-            'Goals_get',
-            ProcessedReport::getRenamedReportUniqueId('Goals_get_idGoal--0', ['Goals_get'])
+            ['Goals_get'],
+            ProcessedReport::getRenamedReportUniqueIds(['Goals_get_idGoal--0'], ['Goals_get'])
         );
     }
 
-    public function testGetRenamedReportUniqueIdFallsBackWhenNoAvailabilityIsKnown(): void
-    {
-        self::assertSame('Goals_get', ProcessedReport::getRenamedReportUniqueId('Goals_get_idGoal--0'));
-    }
-
-    public function testGetRenamedReportUniqueIdLeavesAnUnknownIdAloneWhateverIsAvailable(): void
+    public function testGetRenamedReportUniqueIdsLeavesAnUnknownIdAloneWhateverIsAvailable(): void
     {
         self::assertSame(
-            'VisitsSummary_get',
-            ProcessedReport::getRenamedReportUniqueId('VisitsSummary_get', ['Goals_get'])
+            ['VisitsSummary_get'],
+            ProcessedReport::getRenamedReportUniqueIds(['VisitsSummary_get'], ['Goals_get'])
         );
     }
 
@@ -180,22 +164,6 @@ class RenamedReportUniqueIdsTest extends \PHPUnit\Framework\TestCase
                 ['VisitsSummary_get', 'Goals_get_idGoal--0'],
                 ['VisitsSummary_get', 'Goals_get', 'Goals_get_idGoal--ecommerceOrder']
             )
-        );
-    }
-
-    public function testGetRenamedReportUniqueIdCandidatesListsTheReplacementsMostFaithfulFirst(): void
-    {
-        self::assertSame(
-            ['Goals_get_idGoal--ecommerceOrder', 'Goals_get'],
-            ProcessedReport::getRenamedReportUniqueIdCandidates('Goals_get_idGoal--0')
-        );
-        self::assertSame(
-            ['Goals_getVisitsUntilConversion'],
-            ProcessedReport::getRenamedReportUniqueIdCandidates('Goals_getVisitsUntilConversion_idGoal--0')
-        );
-        self::assertSame(
-            ['VisitsSummary_get'],
-            ProcessedReport::getRenamedReportUniqueIdCandidates('VisitsSummary_get')
         );
     }
 

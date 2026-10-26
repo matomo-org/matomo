@@ -255,14 +255,10 @@ class ProcessedReport
     }
 
     /**
-     * For backward compatibility: the reports a no longer advertised report unique id resolves to,
-     * most faithful candidate first. An unknown id yields itself.
-     *
      * @param mixed $apiMethodUniqueId
      * @return list<mixed>
-     * @ignore
      */
-    public static function getRenamedReportUniqueIdCandidates($apiMethodUniqueId)
+    private static function getRenamedReportUniqueIdCandidates($apiMethodUniqueId)
     {
         if (!is_string($apiMethodUniqueId)) {
             return [$apiMethodUniqueId];
@@ -272,18 +268,13 @@ class ProcessedReport
     }
 
     /**
-     * For backward compatibility: resolves a report unique id that is no longer advertised to the
-     * report that replaced it. An unknown id is returned unchanged.
-     *
-     * Pass the unique ids advertised for the site to get the most faithful replacement that is
-     * actually available there; without them the always-available replacement is returned.
+     * Without `$availableUniqueIds`, the last (always-available) candidate is returned.
      *
      * @param mixed $apiMethodUniqueId
      * @param list<string>|null $availableUniqueIds
      * @return mixed
-     * @ignore
      */
-    public static function getRenamedReportUniqueId($apiMethodUniqueId, ?array $availableUniqueIds = null)
+    private static function getRenamedReportUniqueId($apiMethodUniqueId, ?array $availableUniqueIds = null)
     {
         if (!is_string($apiMethodUniqueId) || !isset(self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId])) {
             return $apiMethodUniqueId;
