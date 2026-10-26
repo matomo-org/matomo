@@ -736,8 +736,11 @@ abstract class Controller
             return;
         }
 
-        if (!self::isPhpVersionAffectedByCriticalVulnerability(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION)) {
-            // persistent notifications stay in the session, so drop it once PHP has been fixed
+        if (
+            GeneralConfig::getBoolConfigValue('enable_php_critical_vulnerability_notification', true) === false
+            || !self::isPhpVersionAffectedByCriticalVulnerability(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION)
+        ) {
+            // persistent notifications stay in the session, so drop it once PHP has been fixed or the warning is turned off
             NotificationManager::cancel(self::PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID);
             return;
         }

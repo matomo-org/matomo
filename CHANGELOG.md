@@ -86,6 +86,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The new `core:rotate-encryption-keys` console command replaces the encryption key a plugin keeps in the local config file (`config/config.ini.php` by default) and re-encrypts every value the plugin declares, or changes nothing if any value cannot be decrypted.
 
 ### New config.ini.php settings
+* `[General] enable_php_critical_vulnerability_notification` (default `1`) controls the warning shown to signed-in users
+  when the PHP version is affected by the critical PHP security vulnerabilities announced on 2026-10-21. Set it to `0`
+  to hide the warning, for example when your Linux distribution has backported the fix without changing the PHP version number.
 * `[Tracker] record_accurate_page_view_time` (default `1`, can be overridden per site in `[Tracker_N]`) is a temporary kill-switch for the accurate time-on-page writer. Setting it to `0` stops new `log_page_view_time` rows from being written; rows recorded earlier keep being used by the archiver and the visits log. It will be removed in a future major version.
 
 ### HTTP API
