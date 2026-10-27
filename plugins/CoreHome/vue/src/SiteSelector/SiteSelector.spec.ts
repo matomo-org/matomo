@@ -30,6 +30,7 @@ const mocked = vi.hoisted(() => {
       { idsite: '2', name: 'Another Site' },
     ],
     loadSite: vi.fn(),
+    setInitialSites: (() => undefined) as (sites: { idsite: string, name: string }[]) => void,
   };
 });
 
@@ -37,6 +38,7 @@ vi.mock('./SitesStore', async () => {
   const { computed, ref } = await import('vue');
   const initialSites = ref(mocked.sites);
   const initialSitesFiltered = ref([]);
+  mocked.setInitialSites = (sites) => { initialSites.value = sites; };
 
   return {
     default: {
@@ -61,6 +63,10 @@ describe('CoreHome/SiteSelector', () => {
   beforeEach(() => {
     setAutocompleteMinSites(1);
     mocked.loadSite.mockClear();
+  });
+
+  afterEach(() => {
+    mocked.setInitialSites(mocked.sites);
   });
 
   async function mountSelector(props: Record<string, unknown> = {}) {
@@ -195,5 +201,37 @@ describe('CoreHome/SiteSelector', () => {
     const labels = wrapper.findAll('.mtm-dropdownPanel__menuLabel').map((el) => el.text());
 
     expect(labels[0]).toBe('All Websites');
+  });
+
+  it('opens and closes the list on Enter', async () => {
+    const wrapper = await mountSelector();
+    const trigger = wrapper.find('.mtm-selector__trigger');
+
+    await trigger.trigger('keydown', { key: 'Enter' });
+    await flushPromises();
+    expect(wrapper.classes()).toContain('mtm-selector--expanded');
+
+    await trigger.trigger('keydown', { key: 'Enter' });
+    expect(wrapper.classes()).not.toContain('mtm-selector--expanded');
+  });
+
+  it('shows a single website read-only, and opens nothing on click or Enter', async () => {
+    mocked.setInitialSites([mocked.sites[0]]);
+
+    const wrapper = await mountSelector();
+    const trigger = wrapper.find('.mtm-selector__trigger');
+
+    expect(wrapper.classes()).toContain('mtm-selector--readOnly');
+    expect(wrapper.find('.mtm-selector__rightIcon').exists()).toBe(false);
+
+    await trigger.trigger('click');
+    await trigger.trigger('keydown', { key: 'Enter' });
+    expect(wrapper.classes()).not.toContain('mtm-selector--expanded');
+  });
+
+  it('fills the row on a small screen only when asked to', async () => {
+    expect((await mountSelector()).classes()).not.toContain('mtm-selector--fullWidthOnSmallScreen');
+    expect((await mountSelector({ fullWidthOnSmallScreen: true })).classes())
+      .toContain('mtm-selector--fullWidthOnSmallScreen');
   });
 });
