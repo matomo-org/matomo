@@ -515,10 +515,8 @@ class Sparklines extends ViewDataTable
     /**
      * A processed metric that could not be computed (eg. a ratio without a denominator) is
      * unavailable, not zero.
-     *
-     * @param DataTable\Row|false|null $row
      */
-    private function isUnavailableMetricValue($row, string $columnName, array $columnMetrics): bool
+    private function isUnavailableMetricValue(DataTable\Row|false|null $row, string $columnName, array $columnMetrics): bool
     {
         return $row instanceof DataTable\Row
             && isset($columnMetrics[$columnName])

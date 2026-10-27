@@ -37,10 +37,8 @@ class AIChatbotTrafficRatioAvailabilityTest extends IntegrationTestCase
     public function tearDown(): void
     {
         if (!Manager::getInstance()->isPluginActivated('Actions')) {
-            Manager::getInstance()->loadPlugin('Actions');
-            Manager::getInstance()->installLoadedPlugins();
             Manager::getInstance()->activatePlugin('Actions');
-            $this->flushCaches();
+            Cache::flushAll();
         }
 
         parent::tearDown();
@@ -55,8 +53,7 @@ class AIChatbotTrafficRatioAvailabilityTest extends IntegrationTestCase
     public function testGetLeavesOutTheTrafficRatioWhileActionsIsDeactivated(): void
     {
         Manager::getInstance()->deactivatePlugin('Actions');
-        Manager::getInstance()->unloadPlugin('Actions');
-        $this->flushCaches();
+        Cache::flushAll();
 
         $this->assertNotContains(Metrics::METRIC_AI_CHATBOTS_TRAFFIC_RATIO, Metrics::getSparklineMetricOrder());
         $this->assertArrayNotHasKey(Metrics::METRIC_AI_CHATBOTS_TRAFFIC_RATIO, $this->getReportProcessedMetrics());
@@ -90,12 +87,5 @@ class AIChatbotTrafficRatioAvailabilityTest extends IntegrationTestCase
         ]);
 
         return $table->getFirstRow()->getColumns();
-    }
-
-    private function flushCaches(): void
-    {
-        Cache::getLazyCache()->flushAll();
-        Cache::getEagerCache()->flushAll();
-        Cache::getTransientCache()->flushAll();
     }
 }
