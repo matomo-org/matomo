@@ -331,20 +331,20 @@ class Sparklines extends ViewDataTable
                                 'group' => $periodPretty,
                             ];
 
-                            $comparisonIndex = $periodIndex === 0 ? 1 : 0;
-                            $comparisonRow = $comparePeriods[$comparisonIndex] ?? false;
-                            $comparisonDate = $compareDates[$comparisonIndex] ?? false;
-                            $originalCompareRow = ($comparisonRow && $comparisonDate)
-                                ? $this->findComparisonRow($comparisonRows, $segment, $comparisonRow, $comparisonDate)
-                                : false;
-
                             // A change from or to an unavailable value would be computed against a 0
                             // that was never measured
-                            if (
-                                isset($evolutions[$i])
-                                && !$isUnavailable
-                                && !$this->isUnavailableMetricValue($originalCompareRow, $columnToUse[$i], $columnMetrics)
-                            ) {
+                            if (isset($evolutions[$i]) && !$isUnavailable) {
+                                $comparisonIndex = $periodIndex === 0 ? 1 : 0;
+                                $comparisonRow = $comparePeriods[$comparisonIndex] ?? false;
+                                $comparisonDate = $compareDates[$comparisonIndex] ?? false;
+                                $originalCompareRow = ($comparisonRow && $comparisonDate)
+                                    ? $this->findComparisonRow($comparisonRows, $segment, $comparisonRow, $comparisonDate)
+                                    : false;
+                                if ($this->isUnavailableMetricValue($originalCompareRow, $columnToUse[$i], $columnMetrics)) {
+                                    $metrics[] = $metricInfo;
+                                    continue;
+                                }
+
                                 $originalValue = $originalCompareRow ? $originalCompareRow->getColumn($columnToUse[$i]) : 0;
                                 if ($originalValue === false) {
                                     $originalValue = 0;
