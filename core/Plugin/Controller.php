@@ -744,7 +744,7 @@ abstract class Controller
 
         if (
             NotificationManager::isDisabled(self::PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID)
-            || !self::isPhpVersionAffectedByCriticalVulnerability(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION)
+            || !self::isPhpAffectedBySecurityAdvisory20261021(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION)
         ) {
             // persistent notifications stay in the session, so drop it once PHP has been fixed or the warning is turned off
             NotificationManager::cancel(self::PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID);
@@ -770,7 +770,7 @@ abstract class Controller
         NotificationManager::notify(self::PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID, $notification);
     }
 
-    private static function isPhpVersionAffectedByCriticalVulnerability(int $major, int $minor, int $release): bool
+    private static function isPhpAffectedBySecurityAdvisory20261021(int $major, int $minor, int $release): bool
     {
         $branch = $major . '.' . $minor;
 
