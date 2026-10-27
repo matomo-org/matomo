@@ -65,12 +65,10 @@ class AIChatbotTrafficRatioTest extends TestCase
     public function getComputeTestData(): iterable
     {
         yield 'twice as many requests as page views' => [20, 10, 2.0];
-        yield 'fewer requests than page views' => [1, 3, 0.333333];
+        yield 'fewer requests than page views' => [1, 3, 0.3333];
         yield 'no requests' => [0, 10, 0.0];
-        yield 'some requests on a busy site are not rounded down to none' => [4, 100000, 0.00004];
-        yield 'one request per million page views' => [1, 1000000, 0.000001];
-        yield 'some requests on a very busy site' => [49, 1000000, 0.000049];
-        yield 'below the six decimals' => [1, 3000000, 0.0];
+        yield 'smallest ratio the four decimals keep' => [5, 100000, 0.0001];
+        yield 'below the four decimals' => [4, 100000, 0.0];
         yield 'no page views is unavailable' => [5, 0, false];
         yield 'no data at all is unavailable' => [null, null, false];
     }

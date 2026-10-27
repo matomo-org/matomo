@@ -58,8 +58,7 @@ class AIChatbotTrafficRatio extends ProcessedMetric
             return false;
         }
 
-        // Six decimals, so a busy site's small ratio is not rounded down to none
-        return Piwik::getQuotientSafe($requests, $pageviews, 6);
+        return Piwik::getQuotientSafe($requests, $pageviews, 4);
     }
 
     /**
