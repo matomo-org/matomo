@@ -93,7 +93,9 @@ abstract class Controller
 
     private const PHP_CRITICAL_VULNERABILITY_ANNOUNCEMENT_URL = 'https://matomo.org/blog/2026/10/critical-php-security-vulnerabilities-important-update-for-matomo-users/';
 
-    private const PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID = 'PHPCriticalSecurityVulnerabilityCheck';
+    private const PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID = 'PhpSecurityAdvisory_2026_10_21';
+
+    private const LEGACY_PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID = 'PHPCriticalSecurityVulnerabilityCheck';
 
     /**
      * The plugin name, eg. `'Referrers'`.
@@ -724,8 +726,8 @@ abstract class Controller
     }
 
     /**
-     * @internal temporary warning, will be removed again, together with the
-     *           [General] enable_php_critical_vulnerability_notification setting
+     * @internal temporary warning, will be removed again, together with the legacy notification ID.
+     *           Admins can hide it with [General] disabled_notifications[] = PhpSecurityAdvisory_2026_10_21
      */
     protected static function notifyWhenPhpVersionHasCriticalVulnerability(): void
     {
@@ -738,8 +740,11 @@ abstract class Controller
             return;
         }
 
+        // sessions may still hold the warning under the ID it had before it was renamed
+        NotificationManager::cancel(self::LEGACY_PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID);
+
         if (
-            !self::isPhpCriticalVulnerabilityNotificationEnabled()
+            NotificationManager::isDisabled(self::PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID)
             || !self::isPhpVersionAffectedByCriticalVulnerability(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION)
         ) {
             // persistent notifications stay in the session, so drop it once PHP has been fixed or the warning is turned off
@@ -764,12 +769,6 @@ abstract class Controller
         $notification->type = Notification::TYPE_PERSISTENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
         NotificationManager::notify(self::PHP_CRITICAL_VULNERABILITY_NOTIFICATION_ID, $notification);
-    }
-
-    private static function isPhpCriticalVulnerabilityNotificationEnabled(): bool
-    {
-        // a missing or invalid value keeps the warning on, only an explicit 0 or false hides it
-        return GeneralConfig::getBoolConfigValue('enable_php_critical_vulnerability_notification', true);
     }
 
     private static function isPhpVersionAffectedByCriticalVulnerability(int $major, int $minor, int $release): bool
