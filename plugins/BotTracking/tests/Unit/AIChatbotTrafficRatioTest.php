@@ -67,6 +67,9 @@ class AIChatbotTrafficRatioTest extends TestCase
         yield 'twice as many requests as page views' => [20, 10, 2.0];
         yield 'fewer requests than page views' => [1, 3, 0.3333];
         yield 'no requests' => [0, 10, 0.0];
+        yield 'some requests on a busy site are not rounded down to none' => [4, 100000, 0.0001];
+        yield 'smallest ratio the rounding keeps' => [5, 100000, 0.0001];
+        yield 'some requests on a very busy site' => [49, 1000000, 0.0001];
         yield 'no page views is unavailable' => [5, 0, false];
         yield 'no data at all is unavailable' => [null, null, false];
     }
@@ -93,6 +96,9 @@ class AIChatbotTrafficRatioTest extends TestCase
         yield 'no trailing zero below 1' => [0.5, '0.5×'];
         yield 'some traffic never reads as none' => [0.0049, '<0.01×'];
         yield 'smallest value shown as is' => [0.005, '0.01×'];
+        yield 'smallest ratio the API returns' => [0.0001, '<0.01×'];
+        yield 'last value below 1' => [0.994, '0.99×'];
+        yield 'rounded up to 1 with one decimal' => [0.995, '1.0×'];
         yield 'no requests' => [0, '0.0×'];
     }
 }

@@ -58,7 +58,14 @@ class AIChatbotTrafficRatio extends ProcessedMetric
             return false;
         }
 
-        return round($requests / $pageviews, 4);
+        $ratio = round($requests / $pageviews, 4);
+
+        // Some chatbot traffic is never rounded down to none: it keeps the smallest ratio the API returns
+        if ($ratio == 0 && $requests > 0) {
+            return 0.0001;
+        }
+
+        return $ratio;
     }
 
     /**
