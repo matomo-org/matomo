@@ -162,8 +162,6 @@ class Controller extends ControllerAdmin
 
                 DbHelper::checkDatabaseVersion();
 
-                Db::get()->checkClientVersion();
-
                 $this->redirectToNextStep(__FUNCTION__);
             } catch (Exception $e) {
                 $view->errorMessage = Common::sanitizeInputValue($e->getMessage());
