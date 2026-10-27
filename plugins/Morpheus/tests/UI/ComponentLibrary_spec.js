@@ -17,7 +17,7 @@ describe("ComponentLibrary", function () {
     // state to show and the element that carries it, and the browser is told to apply them, so a
     // single capture shows every state of the component.
     async function forceDeclaredStates() {
-        const client = await page.webpage.target().createCDPSession();
+        const client = await page.webpage.createCDPSession();
         await client.send('DOM.enable');
         await client.send('CSS.enable');
 
