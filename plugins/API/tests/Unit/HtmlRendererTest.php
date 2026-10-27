@@ -284,9 +284,7 @@ class HtmlRendererTest extends \PHPUnit\Framework\TestCase
 
         $response = $this->builder->renderDataTable($dataTable);
 
-        $stdClass = version_compare(PHP_VERSION, 7.3, '>=') ?
-            "(object) array(\n  )," :
-            "stdClass::__set_state(array(\n  )),";
+        $stdClass = "(object) array(\n  ),";
 
         $isPHP82orNewer = version_compare(PHP_VERSION, 8.2, '>=');
 

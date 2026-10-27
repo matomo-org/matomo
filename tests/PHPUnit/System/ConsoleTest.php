@@ -218,10 +218,6 @@ Matomo encountered an error: $error (which lead to: Error: array (
 ))
 END;
 
-        if (PHP_MAJOR_VERSION < 8) {
-            $expected = "#!/usr/bin/env php\n" . $expected;
-        }
-
         $this->assertStringMatchesFormat($expected, $output);
     }
 
@@ -243,10 +239,6 @@ test-command-with-exception
 
 
 END;
-
-        if (PHP_MAJOR_VERSION < 8) {
-            $expected = "#!/usr/bin/env php\n" . $expected;
-        }
 
         $this->assertStringMatchesFormat($expected, $output);
     }
