@@ -67,8 +67,15 @@ class AIChatbotTrafficRatio extends ProcessedMetric
      */
     public function format($value, Formatter $formatter)
     {
-        // Always one decimal, so that 2 reads as "2.0×"
-        $number = NumberFormatter::getInstance()->formatNumber($value, 1, 1);
+        $numberFormatter = NumberFormatter::getInstance();
+
+        // Some chatbot traffic would otherwise read as none at all
+        if ($value > 0 && $value < 0.005) {
+            return Piwik::translate('BotTracking_AIChatbotTrafficRatioBelowValue', $numberFormatter->formatNumber(0.01, 2, 2));
+        }
+
+        // A ratio below 1 is common on a busy site, so it keeps a second decimal: 0.04× rather than 0.0×
+        $number = $numberFormatter->formatNumber($value, $value < 1 ? 2 : 1, 1);
 
         return Piwik::translate('BotTracking_AIChatbotTrafficRatioValue', $number);
     }

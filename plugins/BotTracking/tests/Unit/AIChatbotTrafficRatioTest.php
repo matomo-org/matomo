@@ -13,8 +13,11 @@ namespace Piwik\Plugins\BotTracking\tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\DataTable\Row;
+use Piwik\Metrics\Formatter;
+use Piwik\NumberFormatter;
 use Piwik\Plugins\BotTracking\Columns\Metrics\AIChatbotTrafficRatio;
 use Piwik\Plugins\BotTracking\Metrics;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group BotTracking
@@ -22,6 +25,19 @@ use Piwik\Plugins\BotTracking\Metrics;
  */
 class AIChatbotTrafficRatioTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        Fixture::loadAllTranslations();
+    }
+
+    public function tearDown(): void
+    {
+        Fixture::resetTranslations();
+        NumberFormatter::getInstance()->clearCache();
+        parent::tearDown();
+    }
+
     /**
      * @dataProvider getComputeTestData
      * @param int|null $requests
@@ -53,5 +69,30 @@ class AIChatbotTrafficRatioTest extends TestCase
         yield 'no requests' => [0, 10, 0.0];
         yield 'no page views is unavailable' => [5, 0, false];
         yield 'no data at all is unavailable' => [null, null, false];
+    }
+
+    /**
+     * @dataProvider getFormatTestData
+     * @param int|float $value
+     */
+    public function testFormat($value, string $expected): void
+    {
+        $metric = new AIChatbotTrafficRatio();
+
+        $this->assertSame($expected, $metric->format($value, new Formatter()));
+    }
+
+    /**
+     * @return iterable<string, array{int|float, string}>
+     */
+    public function getFormatTestData(): iterable
+    {
+        yield 'one decimal from 1 upwards' => [2, '2.0×'];
+        yield 'one decimal for a multiplier' => [8.04, '8.0×'];
+        yield 'two decimals below 1' => [0.04, '0.04×'];
+        yield 'no trailing zero below 1' => [0.5, '0.5×'];
+        yield 'some traffic never reads as none' => [0.0049, '<0.01×'];
+        yield 'smallest value shown as is' => [0.005, '0.01×'];
+        yield 'no requests' => [0, '0.0×'];
     }
 }

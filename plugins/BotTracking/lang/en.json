@@ -1,5 +1,6 @@
 {
     "BotTracking": {
+        "AIChatbotTrafficRatioBelowValue": "<%1$s×",
         "AIChatbotTrafficRatioValue": "%1$s×",
         "AIChatbotsAIFavouredPagesDocumentation": "Shows pages that are frequently requested by AI chatbots but less often visited by humans. Useful for discovering content that AI systems surface or reference but that doesn't yet attract much direct human engagement.",
         "AIChatbotsAIFavouredPagesTitle": "AI-Favoured Pages",
