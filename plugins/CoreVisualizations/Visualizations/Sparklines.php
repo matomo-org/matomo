@@ -343,7 +343,7 @@ class Sparklines extends ViewDataTable
                             if (
                                 isset($evolutions[$i])
                                 && !$isUnavailable
-                                && !$this->isUnavailableMetricValue($originalCompareRow ?: null, $columnToUse[$i], $columnMetrics)
+                                && !$this->isUnavailableMetricValue($originalCompareRow, $columnToUse[$i], $columnMetrics)
                             ) {
                                 $originalValue = $originalCompareRow ? $originalCompareRow->getColumn($columnToUse[$i]) : 0;
                                 if ($originalValue === false) {
@@ -393,7 +393,7 @@ class Sparklines extends ViewDataTable
                         continue;
                     }
                     $newMetric = [
-                        'value' => $this->isUnavailableMetricValue($firstRow ?: null, $column[$i], $columnMetrics) ? '-' : $this->formatSparklineMetricValue(
+                        'value' => $this->isUnavailableMetricValue($firstRow, $column[$i], $columnMetrics) ? '-' : $this->formatSparklineMetricValue(
                             $value,
                             $column[$i],
                             $columnMetrics,
@@ -515,10 +515,12 @@ class Sparklines extends ViewDataTable
     /**
      * A processed metric that could not be computed (eg. a ratio without a denominator) is
      * unavailable, not zero.
+     *
+     * @param DataTable\Row|false|null $row
      */
-    private function isUnavailableMetricValue(?DataTable\Row $row, string $columnName, array $columnMetrics): bool
+    private function isUnavailableMetricValue($row, string $columnName, array $columnMetrics): bool
     {
-        return $row
+        return $row instanceof DataTable\Row
             && isset($columnMetrics[$columnName])
             && $row->getColumn($columnName) === false;
     }

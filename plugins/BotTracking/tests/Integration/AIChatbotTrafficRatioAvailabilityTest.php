@@ -34,6 +34,18 @@ class AIChatbotTrafficRatioAvailabilityTest extends IntegrationTestCase
         Fixture::createWebsite('2025-01-01 00:00:00');
     }
 
+    public function tearDown(): void
+    {
+        if (!Manager::getInstance()->isPluginActivated('Actions')) {
+            Manager::getInstance()->loadPlugin('Actions');
+            Manager::getInstance()->installLoadedPlugins();
+            Manager::getInstance()->activatePlugin('Actions');
+            $this->flushCaches();
+        }
+
+        parent::tearDown();
+    }
+
     public function testTheTrafficRatioIsOfferedWhileActionsIsActivated(): void
     {
         $this->assertContains(Metrics::METRIC_AI_CHATBOTS_TRAFFIC_RATIO, Metrics::getSparklineMetricOrder());
@@ -44,9 +56,7 @@ class AIChatbotTrafficRatioAvailabilityTest extends IntegrationTestCase
     {
         Manager::getInstance()->deactivatePlugin('Actions');
         Manager::getInstance()->unloadPlugin('Actions');
-        Cache::getLazyCache()->flushAll();
-        Cache::getEagerCache()->flushAll();
-        Cache::getTransientCache()->flushAll();
+        $this->flushCaches();
 
         $this->assertNotContains(Metrics::METRIC_AI_CHATBOTS_TRAFFIC_RATIO, Metrics::getSparklineMetricOrder());
         $this->assertArrayNotHasKey(Metrics::METRIC_AI_CHATBOTS_TRAFFIC_RATIO, $this->getReportProcessedMetrics());
@@ -80,5 +90,12 @@ class AIChatbotTrafficRatioAvailabilityTest extends IntegrationTestCase
         ]);
 
         return $table->getFirstRow()->getColumns();
+    }
+
+    private function flushCaches(): void
+    {
+        Cache::getLazyCache()->flushAll();
+        Cache::getEagerCache()->flushAll();
+        Cache::getTransientCache()->flushAll();
     }
 }

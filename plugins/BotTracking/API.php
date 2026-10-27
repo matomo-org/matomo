@@ -89,7 +89,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Page views are only fetched to compute the ratio, so they are removed right away: API.get
      * merges this report without its queued filters, which would leave them in its output.
-     * The ratio is kept, as processed metrics already set on a row are not computed again.
+     * The ratio is then not computed a second time by DataTablePostProcessor, which skips the
+     * processed metrics a row already has: both paths are needed, API.get only gets this one.
      */
     private function computeAIChatbotTrafficRatio(DataTableInterface $dataTable): void
     {
