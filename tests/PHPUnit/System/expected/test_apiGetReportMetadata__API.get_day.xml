@@ -76,7 +76,6 @@
 	<BotTracking_AIChatbotsUniqueChatbots>0</BotTracking_AIChatbotsUniqueChatbots>
 	<BotTracking_AIChatbotsUniqueDocumentUrls>0</BotTracking_AIChatbotsUniqueDocumentUrls>
 	<BotTracking_AIChatbotsServerErrorRequests>0</BotTracking_AIChatbotsServerErrorRequests>
-	<BotTracking_AIChatbotsTrafficRatio>0</BotTracking_AIChatbotsTrafficRatio>
 	<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
 	<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
 	<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
@@ -115,4 +114,5 @@
 	<nb_actions_per_visit>1</nb_actions_per_visit>
 	<avg_time_on_site>1086</avg_time_on_site>
 	<BotTracking_AIChatbotsClickThroughRate>0</BotTracking_AIChatbotsClickThroughRate>
+	<BotTracking_AIChatbotsTrafficRatio>0</BotTracking_AIChatbotsTrafficRatio>
 </result>

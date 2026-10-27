@@ -45,6 +45,11 @@ class AIChatbotTrafficRatio extends ProcessedMetric
         ];
     }
 
+    public function getTemporaryMetrics()
+    {
+        return [ActionsArchiver::METRIC_PAGEVIEWS_RECORD_NAME];
+    }
+
     public function compute(Row $row)
     {
         $rawRequests  = $this->getMetric($row, Metrics::METRIC_AI_CHATBOTS_REQUESTS);

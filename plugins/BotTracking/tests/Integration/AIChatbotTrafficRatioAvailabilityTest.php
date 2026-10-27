@@ -50,6 +50,13 @@ class AIChatbotTrafficRatioAvailabilityTest extends IntegrationTestCase
         $this->assertArrayHasKey(Metrics::METRIC_AI_CHATBOTS_TRAFFIC_RATIO, $this->getReportProcessedMetrics());
     }
 
+    public function testThePageViewsTheRatioIsComputedFromAreNotReturned(): void
+    {
+        foreach (['BotTracking.get', 'API.get'] as $method) {
+            $this->assertArrayNotHasKey('Actions_nb_pageviews', $this->getFirstRowColumns($method), $method);
+        }
+    }
+
     public function testGetLeavesOutTheTrafficRatioWhileActionsIsDeactivated(): void
     {
         Manager::getInstance()->deactivatePlugin('Actions');
