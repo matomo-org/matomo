@@ -6,7 +6,10 @@
 -->
 <template>
   <div
-    v-expand-on-hover="{ expander: 'expander', expandedClass: 'mtm-selector--expanded' }"
+    v-expand-on-hover="{
+      expander: 'expander',
+      expandedClass: ['mtm-selector--expanded', 'expanded'],
+    }"
     id="header_message"
     class="mtm-selector"
     :class="{
@@ -15,8 +18,8 @@
       update_available: latestVersionAvailable,
     }"
   >
-    <!-- `header_info`, `update_available`, `title` and `piwikSelector__dropdown` carry no styles:
-         plugins read them to find the message and its parts. -->
+    <!-- `header_info`, `update_available`, `expanded`, `title` and `piwikSelector__dropdown` carry
+         no styles: plugins read them to find the message and its parts, and to know it is open. -->
     <Passthrough v-if="latestVersionAvailable">
       <span
         v-if="isMultiServerEnvironment"

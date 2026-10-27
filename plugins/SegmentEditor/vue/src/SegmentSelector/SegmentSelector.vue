@@ -9,10 +9,11 @@
   <div ref="root">
     <div
       v-if="viewModel"
-      class="mtm-selector mtm-selector--fullWidthOnSmallScreen"
+      class="mtm-selector mtm-selector--fullWidthOnSmallScreen listHtml"
       :class="{ 'mtm-selector--expanded': viewModel.isExpanded }"
     >
-      <!-- `title` carries no styles: plugins read it to find the trigger. -->
+      <!-- `listHtml` and `title` carry no styles: plugins read them to find the selector and its
+           trigger. -->
       <a
         class="mtm-selector__trigger title"
         tabindex="4"

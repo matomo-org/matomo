@@ -12,13 +12,14 @@
     :class="{ 'periodSelector-withPrevNext': canShowMovePeriod }"
     v-expand-on-click="{
       expander: 'title',
-      expandedClass: 'mtm-selector--expanded',
+      expandedClass: ['mtm-selector--expanded', 'expanded'],
       onExpand: onExpand,
       onClosed: onClosed,
     }"
   >
-    <!-- `periodSelector`, `periodSelector-withPrevNext`, `move-period*`, `#date` and `title` carry
-         no styles: plugins read them to find the selector's parts. -->
+    <!-- `periodSelector`, `periodSelector-withPrevNext`, `expanded`, `move-period*`, `#date`,
+         `title` and `dropdown` carry no styles: plugins read them to find the selector's parts, and
+         to know it is open. -->
     <button
       v-if="canShowMovePeriod"
       type="button"
@@ -52,7 +53,7 @@
 
     <div
       id="periodMore"
-      class="mtm-selector__dropdown"
+      class="mtm-selector__dropdown dropdown"
       :class="[
         selectedPeriod === 'range' ? 'dual-calendar' : 'single-calendar',
         { 'mtm-selector__dropdown--anchorLeft': !anchorDropdownRight },
@@ -1014,7 +1015,7 @@ export default defineComponent({
       this.dismissInvalidComparisonMessage();
     },
     closePeriodSelector() {
-      (this.$refs.root as HTMLElement).classList.remove('mtm-selector--expanded');
+      (this.$refs.root as HTMLElement).classList.remove('mtm-selector--expanded', 'expanded');
     },
     isCompareRangeValid() {
       try {

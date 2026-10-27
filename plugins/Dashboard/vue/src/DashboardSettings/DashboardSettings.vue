@@ -11,15 +11,16 @@
     class="mtm-selector mtm-selector--fullWidthOnSmallScreen piwikTopControl dashboard-manager dashboardSettings"
     v-expand-on-click="{
       expander: 'expander',
-      expandedClass: 'mtm-selector--expanded',
+      expandedClass: ['mtm-selector--expanded', 'expanded'],
       onExpand: onExpand,
       onClosed: onClosed,
     }"
     @click="onOpen()"
     @focusout="onFocusOut"
   >
-    <!-- `dashboard-manager`, `dashboardSettings`, `title` and `piwikSelector__dropdown` carry no
-         styles: plugins read them to find the selector and its parts. -->
+    <!-- `dashboard-manager`, `dashboardSettings`, `expanded`, `title` and `piwikSelector__dropdown`
+         carry no styles: plugins read them to find the selector and its parts, and to know it is
+         open. -->
     <button
       type="button"
       class="mtm-selector__trigger title"
@@ -249,7 +250,7 @@ export default defineComponent({
       if (newTarget && root.contains(newTarget)) {
         return;
       }
-      root.classList.remove('mtm-selector--expanded');
+      root.classList.remove('mtm-selector--expanded', 'expanded');
     },
     onClosed(event: MouseEvent|KeyboardEvent) {
       // Return focus to the trigger when the dropdown was dismissed via the Escape
@@ -266,7 +267,7 @@ export default defineComponent({
     },
     openAddWidget() {
       // close the dropdown when opening the modal
-      (this.$refs.root as HTMLElement).classList.remove('mtm-selector--expanded');
+      (this.$refs.root as HTMLElement).classList.remove('mtm-selector--expanded', 'expanded');
       Matomo.postEvent('Dashboard.AddWidget.open');
     },
     onWidgetSelected(widget: WidgetType) {

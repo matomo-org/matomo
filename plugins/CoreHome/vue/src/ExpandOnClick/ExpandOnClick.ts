@@ -14,7 +14,9 @@ export interface ExpandOnClickArgs {
   expander: string | HTMLElement,
   // The class carried while open. Defaults to the bare `expanded` the older selectors read; a
   // block that owns its own states passes its modifier instead, so its stylesheet can nest it.
-  expandedClass?: string;
+  // A list adds every class, the first one holding the state: a block can pass its modifier
+  // followed by `expanded`, kept as an unstyled hook for the plugins reading it until Matomo 7.
+  expandedClass?: string | string[];
   onClosed?: (event: MouseEvent|KeyboardEvent) => void;
   onExpand?: (event: MouseEvent|KeyboardEvent) => void;
 
@@ -30,8 +32,13 @@ export interface ExpandOnClickArgs {
   onEscapeHandler?: (event: KeyboardEvent) => void;
 }
 
-function expandedClassOf(binding: DirectiveBinding<ExpandOnClickArgs>): string {
-  return binding.value?.expandedClass || 'expanded';
+function expandedClassesOf(binding: DirectiveBinding<ExpandOnClickArgs>): string[] {
+  const expandedClass = binding.value?.expandedClass || 'expanded';
+  return Array.isArray(expandedClass) ? expandedClass : [expandedClass];
+}
+
+function isExpanded(element: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): boolean {
+  return element.classList.contains(expandedClassesOf(binding)[0]);
 }
 
 function expand(
@@ -39,7 +46,7 @@ function expand(
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  element.classList.add(expandedClassOf(binding));
+  element.classList.add(...expandedClassesOf(binding));
   if (binding.value?.onExpand) {
     binding.value.onExpand(event);
   }
@@ -55,10 +62,10 @@ function close(
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  if (!element.classList.contains(expandedClassOf(binding))) {
+  if (!isExpanded(element, binding)) {
     return;
   }
-  element.classList.remove(expandedClassOf(binding));
+  element.classList.remove(...expandedClassesOf(binding));
 
   if (binding.value?.onClosed) {
     binding.value.onClosed(event);
@@ -70,7 +77,7 @@ function onClickOnExpander(
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  if (element.classList.contains(expandedClassOf(binding))) {
+  if (isExpanded(element, binding)) {
     close(element, binding, event);
   } else {
     expand(element, binding, event);
