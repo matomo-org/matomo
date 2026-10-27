@@ -36,6 +36,7 @@ use Piwik\Site;
 use Piwik\Tracker\Failures;
 use Piwik\Url;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Validators\IdSites;
 
 /**
  * Provides administrative API methods for scheduling, archiving, tracking failures, and opt-out code generation.
@@ -168,7 +169,7 @@ class API extends \Piwik\Plugin\API
      *
      * Note: This is done automatically when tracking or importing visits in the past.
      *
-     * @param string $idSites Comma-separated list of site IDs to invalidate reports for.
+     * @param string|int[] $idSites Comma-separated list or array of site IDs to invalidate reports for, or `all`.
      * @param string|string[] $dates Comma-separated list of dates or date ranges to invalidate.
      *                               Use an array of strings when `$period` is `range`.
      * @param 'day'|'week'|'month'|'year'|'range'|false $period The period type to invalidate.
@@ -184,13 +185,15 @@ class API extends \Piwik\Plugin\API
      * @hideExceptForSuperUser
      */
     public function invalidateArchivedReports(
-        $idSites,
+        #[IdSites(allowAll: true)] $idSites,
         $dates,
         $period = false,
         $segment = false,
         $cascadeDown = false,
         $_forceInvalidateNonexistent = false
     ): array {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
         $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         if (empty($idSites)) {
             throw new Exception("Specify a value for &idSites= as a comma separated list of website IDs, for which your token_auth has 'admin' permission");

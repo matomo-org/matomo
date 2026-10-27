@@ -32,6 +32,7 @@ use Piwik\Policy\PolicyManager;
 use Piwik\Site;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Validators\BaseValidator;
+use Piwik\Validators\IdSites;
 
 /**
  * The PrivacyManager API lets you manage GDPR workflows, anonymization settings, and privacy compliance controls.
@@ -207,7 +208,8 @@ class API extends \Piwik\Plugin\API
      *                                 - Single site ID (e.g. 1)
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5")
-     *                                 An empty value or "all" schedules anonymization for all websites.
+     *                                 An empty value or "all" schedules anonymization for all websites. Any other
+     *                                 value must name at least one website (`0` or `,` are rejected).
      * @param string $date Date or date range to anonymize.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
@@ -219,7 +221,7 @@ class API extends \Piwik\Plugin\API
      * @param string $passwordConfirmation Current user password confirmation.
      */
     public function anonymizeSomeRawData(
-        $idSites,
+        #[IdSites(allowAll: true)] $idSites,
         string $date,
         $anonymizeIp = false,
         $anonymizeLocation = false,
@@ -229,6 +231,8 @@ class API extends \Piwik\Plugin\API
         #[\SensitiveParameter]
         string $passwordConfirmation = ''
     ): void {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
         Piwik::checkUserHasSuperUserAccess();
 
         $this->confirmCurrentUserPassword($passwordConfirmation);
