@@ -34,9 +34,50 @@ class GoalsTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        unset($_GET['idSite'], $_GET['date'], $_GET['period'], $_GET['idGoal']);
+        unset($_GET['idSite'], $_GET['date'], $_GET['period'], $_GET['idGoal'], $_GET['filter_sort_column'], $_GET['filter_sort_order']);
 
         parent::tearDown();
+    }
+
+    /**
+     * @dataProvider getSingleGoalIds
+     */
+    public function testSortRequestedByTheUserIsKept(string $idGoal): void
+    {
+        $_GET['idGoal'] = $idGoal;
+        $_GET['filter_sort_column'] = 'revenue';
+        $_GET['filter_sort_order'] = 'asc';
+
+        $view = $this->buildGoalsView();
+        $view->beforeLoadDataTable();
+
+        $this->assertSame('revenue', $view->requestConfig->filter_sort_column);
+        $this->assertSame('asc', $view->requestConfig->filter_sort_order);
+
+        // the browser relies on the sort sent back for the sort icon and to toggle the order on the next click
+        $clientSideParameters = (new \ReflectionMethod($view, 'getClientSideParametersToSet'))->invoke($view);
+        $this->assertSame('revenue', $clientSideParameters['filter_sort_column']);
+        $this->assertSame('asc', $clientSideParameters['filter_sort_order']);
+    }
+
+    /**
+     * @dataProvider getSingleGoalIds
+     */
+    public function testSortDefaultsToTheGoalColumnWhenNoneIsRequested(string $idGoal, string $expectedSortColumn): void
+    {
+        $_GET['idGoal'] = $idGoal;
+
+        $view = $this->buildGoalsView();
+        $view->beforeLoadDataTable();
+
+        $this->assertSame($expectedSortColumn, $view->requestConfig->filter_sort_column);
+        $this->assertSame('desc', $view->requestConfig->filter_sort_order);
+    }
+
+    public function getSingleGoalIds(): iterable
+    {
+        yield 'site goal' => ['1', 'goal_1_nb_conversions'];
+        yield 'ecommerce order' => ['ecommerceOrder', 'goal_ecommerceOrder_revenue'];
     }
 
     public function testExportIsRestrictedToTheDisplayedColumnsForASingleGoal(): void

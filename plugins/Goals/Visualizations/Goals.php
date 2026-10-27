@@ -170,11 +170,9 @@ class Goals extends HtmlTable
 
     private function setPropertiesForEcommerceView()
     {
-        $this->requestConfig->filter_sort_order = 'desc';
-
         switch ($this->displayType) {
             case self::GOALS_DISPLAY_NORMAL:
-                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
+                $this->setDefaultSort('goal_ecommerceOrder_revenue');
                 $this->config->columns_to_display = [
                     'label',
                     'nb_visits',
@@ -187,7 +185,7 @@ class Goals extends HtmlTable
                 ];
                 break;
             case self::GOALS_DISPLAY_PAGES:
-                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue_attrib';
+                $this->setDefaultSort('goal_ecommerceOrder_revenue_attrib');
                 $this->config->columns_to_display = [
                     'label',
                     'nb_visits',
@@ -197,7 +195,7 @@ class Goals extends HtmlTable
                 ];
                 break;
             case self::GOALS_DISPLAY_ENTRY_PAGES:
-                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue_entry';
+                $this->setDefaultSort('goal_ecommerceOrder_revenue_entry');
                 $this->config->columns_to_display = [
                     'label',
                     'entry_nb_visits',
@@ -208,7 +206,7 @@ class Goals extends HtmlTable
                 ];
                 break;
             default:
-                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
+                $this->setDefaultSort('goal_ecommerceOrder_revenue');
                 $this->config->columns_to_display = [
                     'label',
                     'nb_visits',
@@ -294,8 +292,7 @@ class Goals extends HtmlTable
                 $idGoals = array_keys($allGoals);
             } else {
                 // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
-                $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions';
-                $this->requestConfig->filter_sort_order = 'desc';
+                $this->setDefaultSort('goal_' . reset($idGoals) . '_nb_conversions');
             }
 
             $this->config->columns_to_display = ['label', 'nb_visits'];
@@ -321,12 +318,11 @@ class Goals extends HtmlTable
         if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
             if ('all' === $idGoals) {
                 $idGoals = array_keys($allGoals);
-                $this->requestConfig->filter_sort_column = 'nb_visits';
+                $this->setDefaultSort('nb_visits');
             } else {
                 // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
-                $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions_attrib';
+                $this->setDefaultSort('goal_' . reset($idGoals) . '_nb_conversions_attrib');
             }
-            $this->requestConfig->filter_sort_order  = 'desc';
 
             $this->config->columns_to_display = ['label', 'nb_visits'];
             $goalColumnTemplates = [
@@ -347,12 +343,11 @@ class Goals extends HtmlTable
         if ($this->displayType == self::GOALS_DISPLAY_ENTRY_PAGES) {
             if ('all' === $idGoals) {
                 $idGoals = array_keys($allGoals);
-                $this->requestConfig->filter_sort_column = 'entry_nb_visits';
+                $this->setDefaultSort('entry_nb_visits');
             } else {
                 // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
-                $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions_entry';
+                $this->setDefaultSort('goal_' . reset($idGoals) . '_nb_conversions_entry');
             }
-            $this->requestConfig->filter_sort_order  = 'desc';
             $this->config->columns_to_display = ['label', 'entry_nb_visits'];
             $goalColumnTemplates = [
                 'goal_%s_nb_conversions_entry',
@@ -367,6 +362,20 @@ class Goals extends HtmlTable
                 }
             }
         }
+    }
+
+    /**
+     * Sorts by the given column unless the request asks for a sort, eg. after a column header was
+     * clicked. That sort is also sent back to the browser, which relies on it for the sort icon.
+     */
+    private function setDefaultSort(string $column): void
+    {
+        if ('' !== \Piwik\Request::fromRequest()->getStringParameter('filter_sort_column', '')) {
+            return;
+        }
+
+        $this->requestConfig->filter_sort_column = $column;
+        $this->requestConfig->filter_sort_order = 'desc';
     }
 
     protected $goalsForCurrentSite = null;
