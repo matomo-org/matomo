@@ -450,7 +450,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Linked from the trial request email, so it works without logging in: the token authorises the login.
      */
-    public function unsubscribeTrialRequestEmails()
+    public function unsubscribeTrialRequestEmails(): string
     {
         $view = new View('@Marketplace/unsubscribeTrialRequestEmails');
         $this->setBasicVariablesNoneAdminView($view);
@@ -474,20 +474,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $wasOn = (bool) $settings->get('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, true);
             $settings->set('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
 
-            /**
-             * Triggered after a user has turned off plugin trial request emails from the link in one of those emails,
-             * so an audit trail can record it. Not posted when they were already off. Nobody is logged in when this is
-             * posted, so use `$login` rather than the current user.
-             *
-             * **Example**
-             *
-             *     Piwik::addAction('Marketplace.trialRequestEmailsUnsubscribed', function ($login) {
-             *         $this->logActivity($login, 'unsubscribed from plugin trial request emails');
-             *     });
-             *
-             * @param string $login The login of the user who unsubscribed.
-             */
             if ($wasOn) {
+                /**
+                 * Triggered after a user has turned off plugin trial request emails from the link in one of those
+                 * emails, so an audit trail can record it. Not posted when they were already off. The current user may
+                 * be anonymous or someone other than `$login`, so use `$login`.
+                 *
+                 * **Example**
+                 *
+                 *     Piwik::addAction('Marketplace.trialRequestEmailsUnsubscribed', function ($login) {
+                 *         $this->logActivity($login, 'unsubscribed from plugin trial request emails');
+                 *     });
+                 *
+                 * @param string $login The login of the user who unsubscribed.
+                 */
                 Piwik::postEvent('Marketplace.trialRequestEmailsUnsubscribed', [$login]);
             }
 
