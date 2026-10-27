@@ -23,7 +23,7 @@ class ControllerTest extends TestCase
      */
     public function testIsPhpVersionAffectedByCriticalVulnerability(int $major, int $minor, int $release, bool $expected): void
     {
-        $method = new ReflectionMethod(Controller::class, 'isPhpVersionAffectedByCriticalVulnerability');
+        $method = new ReflectionMethod(Controller::class, 'isPhpAffectedBySecurityAdvisory20261021');
         $method->setAccessible(true);
 
         $this->assertSame($expected, $method->invoke(null, $major, $minor, $release));
