@@ -65,18 +65,18 @@ class AIChatbotTrafficRatioTest extends TestCase
     public function getComputeTestData(): iterable
     {
         yield 'twice as many requests as page views' => [20, 10, 2.0];
-        yield 'fewer requests than page views' => [1, 3, 0.3333];
+        yield 'fewer requests than page views' => [1, 3, 1 / 3];
         yield 'no requests' => [0, 10, 0.0];
-        yield 'some requests on a busy site are not rounded down to none' => [4, 100000, 0.0001];
-        yield 'smallest ratio the rounding keeps' => [5, 100000, 0.0001];
-        yield 'some requests on a very busy site' => [49, 1000000, 0.0001];
+        yield 'some requests on a busy site are not rounded down to none' => [4, 100000, 4 / 100000];
+        yield 'one request per million page views' => [1, 1000000, 1 / 1000000];
+        yield 'some requests on a very busy site' => [49, 1000000, 49 / 1000000];
         yield 'no page views is unavailable' => [5, 0, false];
         yield 'no data at all is unavailable' => [null, null, false];
     }
 
     /**
      * @dataProvider getFormatTestData
-     * @param int|float $value
+     * @param int|float|string $value
      */
     public function testFormat($value, string $expected): void
     {
@@ -86,7 +86,7 @@ class AIChatbotTrafficRatioTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{int|float, string}>
+     * @return iterable<string, array{int|float|string, string}>
      */
     public function getFormatTestData(): iterable
     {
@@ -96,7 +96,8 @@ class AIChatbotTrafficRatioTest extends TestCase
         yield 'no trailing zero below 1' => [0.5, '0.5×'];
         yield 'some traffic never reads as none' => [0.0049, '<0.01×'];
         yield 'smallest value shown as is' => [0.005, '0.01×'];
-        yield 'smallest ratio the API returns' => [0.0001, '<0.01×'];
+        yield 'some requests on a busy site' => [4 / 100000, '<0.01×'];
+        yield 'numeric string, as format_metrics passes it' => ['0.04', '0.04×'];
         yield 'last value below 1' => [0.994, '0.99×'];
         yield 'rounded up to 1 with one decimal' => [0.995, '1.0×'];
         yield 'no requests' => [0, '0.0×'];

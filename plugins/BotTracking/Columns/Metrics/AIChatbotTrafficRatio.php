@@ -58,14 +58,8 @@ class AIChatbotTrafficRatio extends ProcessedMetric
             return false;
         }
 
-        $ratio = round($requests / $pageviews, 4);
-
-        // Some chatbot traffic is never rounded down to none: it keeps the smallest ratio the API returns
-        if ($ratio == 0 && $requests > 0) {
-            return 0.0001;
-        }
-
-        return $ratio;
+        // Not rounded: a busy site's ratio can be far below any fixed precision
+        return (float) ($requests / $pageviews);
     }
 
     /**
@@ -74,6 +68,7 @@ class AIChatbotTrafficRatio extends ProcessedMetric
      */
     public function format($value, Formatter $formatter)
     {
+        $value = (float) $value;
         $numberFormatter = NumberFormatter::getInstance();
 
         // Some chatbot traffic would otherwise read as none at all
