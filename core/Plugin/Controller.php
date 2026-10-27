@@ -756,7 +756,7 @@ abstract class Controller
             PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION,
             Url::getExternalLinkTag(self::PHP_SECURITY_ADVISORY_2026_10_21_ANNOUNCEMENT_URL),
             '</a>',
-            '<a href="' . self::PHP_SECURITY_ADVISORY_2026_10_21_ADVISORY_URL . '" target="_blank" rel="noreferrer noopener">',
+            Url::getExternalLinkTag(self::PHP_SECURITY_ADVISORY_2026_10_21_ADVISORY_URL),
             '</a>',
         ]);
 

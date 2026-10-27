@@ -69,6 +69,7 @@ class Manager
      * Only notifications that check this before calling {@link notify()} can be hidden.
      *
      * @param string $id The notification ID, see {@link notify()}.
+     * @internal
      */
     public static function isDisabled(string $id): bool
     {
