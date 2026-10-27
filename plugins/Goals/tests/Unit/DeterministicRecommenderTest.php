@@ -100,6 +100,19 @@ class DeterministicRecommenderTest extends TestCase
         $this->assertSame('activation', $goals[0]['category']);
     }
 
+    public function testRecommendLeavesARedirectOntoATemplateMemberToTheTemplateGoal(): void
+    {
+        $links = [];
+        foreach (['Signup', 'Slack', 'Funnels', 'Heatmaps', 'Cohorts', 'Forms', 'Media', 'Flows', 'Alerts', 'Reports', 'Audit'] as $plugin) {
+            $links[] = $this->link('/' . $plugin, $plugin);
+            $links[] = $this->link('/' . $plugin . '/pricing', 'Pricing', $plugin === 'Signup' ? ['sourceTarget' => '/pricing'] : []);
+        }
+
+        $goals = $this->recommender->recommend($this->analysis($links));
+
+        $this->assertNotContains('/Signup/pricing', array_column($goals, 'pattern'));
+    }
+
     public function testRecommendAllowsActivationPagesInsideDocumentation(): void
     {
         $goals = $this->recommender->recommend($this->analysis([

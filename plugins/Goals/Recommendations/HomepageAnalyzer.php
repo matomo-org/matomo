@@ -36,7 +36,8 @@ class HomepageAnalyzer
     private const MAX_PAGES = 50;
 
     private const MAX_REDIRECT_PROBES = 25;
-    private const REDIRECT_PROBE_SECONDS = 10;
+    /** Probes only need the status and final URL, not the body. */
+    private const REDIRECT_PROBE_BYTES = 1024;
     /** Same-origin links queued for crawling per page (best discovery score first). */
     private const MAX_QUEUED_LINKS_PER_PAGE = 40;
 
@@ -290,7 +291,7 @@ class HomepageAnalyzer
      *
      * @return array{status?: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string}|null
      */
-    protected function fetchHomepage(string $url, int $timeout): ?array
+    protected function fetchHomepage(string $url, int $timeout, int $maxBytes = self::MAX_RESPONSE_BYTES): ?array
     {
         // Respect the same internet-features kill switch SiteContentDetector honours.
         if (0 === GeneralConfig::getIntegerConfigValue('enable_internet_features', 0)) {
@@ -309,7 +310,7 @@ class HomepageAnalyzer
                 null,
                 0,
                 false,
-                [0, self::MAX_RESPONSE_BYTES], // $byteRange: Range hint to keep responses small
+                [0, $maxBytes], // $byteRange: Range hint to keep responses small
                 true, // $getExtendedInfo: returns ['status', 'headers', 'data']
                 'GET',
                 null,
@@ -577,13 +578,14 @@ class HomepageAnalyzer
 
         $this->crawlStats['deadlineReached'] = !empty($queue) && count($pages) < $maxPages && microtime(true) >= $deadline;
 
-        $redirects += $this->probeUncrawledLinks($pages, $visited, $host, $timeout);
+        $redirects += $this->probeUncrawledLinks($pages, $visited, $host, $timeout, $deadline);
 
         return $this->applyRedirects($pages, $redirects);
     }
 
     /**
      * Fetches the best ranked linked pages the crawl did not reach, to learn whether they redirect.
+     * Shares the crawl's deadline, so probing never extends the request.
      *
      * @param array<int, array{url: string, links: array<int, array{
      *   linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
@@ -591,11 +593,10 @@ class HomepageAnalyzer
      * @param array<string, bool> $visited
      * @return array<string, string> path key => final URL
      */
-    private function probeUncrawledLinks(array $pages, array $visited, string $host, int $timeout): array
+    private function probeUncrawledLinks(array $pages, array $visited, string $host, int $timeout, float $deadline): array
     {
         $redirects = [];
         $probes = 0;
-        $deadline = microtime(true) + self::REDIRECT_PROBE_SECONDS;
         // probe failures do not count as crawl failures
         $failedFetches = $this->crawlStats['failedFetches'];
         foreach ($this->rankLinks($pages) as $ranked) {
@@ -607,7 +608,7 @@ class HomepageAnalyzer
                 break;
             }
 
-            $response = $this->fetchHomepage($url, $timeout);
+            $response = $this->fetchHomepage($url, $timeout, self::REDIRECT_PROBE_BYTES);
             // a redirect to an error page is no page to recommend
             $status = is_array($response) ? ($response['status'] ?? null) : null;
             if (!is_int($status) || $status < 200 || $status >= 300) {
@@ -696,7 +697,7 @@ class HomepageAnalyzer
                 if (!isset($buckets[$target])) {
                     $buckets[$target] = [
                         'linkTarget' => $target,
-                        'sourceTarget' => $link['sourceTarget'] ?? null,
+                        'sourceTargets' => [],
                         'labels' => [],
                         'areas' => [],
                         'areaCounts' => [],
@@ -706,6 +707,11 @@ class HomepageAnalyzer
                         'buttonLikeCount' => 0,
                         'heroCount' => 0,
                     ];
+                }
+
+                $source = $link['sourceTarget'] ?? null;
+                if ($source !== null) {
+                    $buckets[$target]['sourceTargets'][$source] = ($buckets[$target]['sourceTargets'][$source] ?? 0) + 1;
                 }
 
                 $labelKey = strtolower($link['linkText']);
@@ -735,10 +741,14 @@ class HomepageAnalyzer
         foreach ($buckets as $bucket) {
             $pageCount = count($bucket['pageUrls']);
             $labelSamples = array_values($bucket['labels']);
+            // the most linked source wins, alphabetical on ties, so crawl order does not matter
+            $sourceTargets = $bucket['sourceTargets'];
+            ksort($sourceTargets);
+            arsort($sourceTargets);
             $ranked[] = [
                 'linkText' => implode(' / ', array_slice($labelSamples, 0, 3)),
                 'linkTarget' => $bucket['linkTarget'],
-                'sourceTarget' => $bucket['sourceTarget'],
+                'sourceTarget' => empty($sourceTargets) ? null : (string) array_key_first($sourceTargets),
                 'score' => $this->recommendationScore($bucket),
                 'pageCount' => $pageCount,
                 'occurrenceCount' => $bucket['occurrenceCount'],

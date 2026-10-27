@@ -587,13 +587,12 @@ class DeterministicRecommender
             if (empty($segments) || $this->isFilePath($segments)) {
                 continue;
             }
+            if ($this->isConversionTemplateMember($this->pathSegments($this->pathFamily($path)), $link, $templates)) {
+                continue;
+            }
             $family = $this->pathSegments($this->pathFamily($linkedPath));
             $item = $this->catalogueItem($family, $link, $templates);
             if ($item !== null) {
-                // members of a conversion template are covered by its regex goal
-                if (($family[$item['index'] + 1] ?? null) === $item['template']['next'] && $this->categoryForToken($item['template']['next']) !== null) {
-                    continue;
-                }
                 // an item name ("Signup" plugin) says nothing about the page, its sub-pages (/sl/tarife) still do
                 array_splice($segments, $item['index'] + count($segments) - count($family), 1);
                 if (empty($segments)) {
@@ -684,6 +683,22 @@ class DeterministicRecommender
         }
 
         return $templates;
+    }
+
+    /**
+     * Whether a path is an item page of a template that gets its own regex goal (/plugins/X/download).
+     *
+     * @param string[] $family
+     * @param array<string, mixed> $link
+     * @param array<string, array<string, mixed>> $templates see pathTemplates()
+     */
+    private function isConversionTemplateMember(array $family, array $link, array $templates): bool
+    {
+        $item = $this->catalogueItem($family, $link, $templates);
+
+        return $item !== null
+            && ($family[$item['index'] + 1] ?? null) === $item['template']['next']
+            && $this->categoryForToken($item['template']['next']) !== null;
     }
 
     /**
