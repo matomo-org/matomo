@@ -64,7 +64,9 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
                 $this->onDownloadCallback,
                 $this->action,
                 $this->params,
-                $this->postData
+                $this->postData,
+                $url,
+                $destinationPath
             );
 
             if ($getExtendedInfo && is_string($result)) {
