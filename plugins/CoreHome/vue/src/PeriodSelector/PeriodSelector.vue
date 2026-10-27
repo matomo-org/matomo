@@ -12,14 +12,17 @@
     :class="{ 'periodSelector-withPrevNext': canShowMovePeriod }"
     v-expand-on-click="{
       expander: 'title',
-      expandedClass: ['mtm-selector--expanded', 'expanded'],
+      expandedClass: [
+        'mtm-selector--expanded',
+        /* @deprecated since Matomo 6.1.0, removed in Matomo 7: use mtm-selector--expanded */
+        'expanded',
+      ],
       onExpand: onExpand,
       onClosed: onClosed,
     }"
   >
-    <!-- `periodSelector`, `periodSelector-withPrevNext`, `expanded`, `move-period*`, `#date`,
-         `title` and `dropdown` carry no styles: plugins read them to find the selector's parts, and
-         to know it is open. -->
+    <!-- `periodSelector`, `periodSelector-withPrevNext`, `move-period*`, `#date`, `title` and
+         `dropdown` carry no styles: plugins read them to find the selector's parts. -->
     <button
       v-if="canShowMovePeriod"
       type="button"

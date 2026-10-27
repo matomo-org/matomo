@@ -11,16 +11,19 @@
     class="mtm-selector mtm-selector--fullWidthOnSmallScreen piwikTopControl dashboard-manager dashboardSettings"
     v-expand-on-click="{
       expander: 'expander',
-      expandedClass: ['mtm-selector--expanded', 'expanded'],
+      expandedClass: [
+        'mtm-selector--expanded',
+        /* @deprecated since Matomo 6.1.0, removed in Matomo 7: use mtm-selector--expanded */
+        'expanded',
+      ],
       onExpand: onExpand,
       onClosed: onClosed,
     }"
     @click="onOpen()"
     @focusout="onFocusOut"
   >
-    <!-- `dashboard-manager`, `dashboardSettings`, `expanded`, `title` and `piwikSelector__dropdown`
-         carry no styles: plugins read them to find the selector and its parts, and to know it is
-         open. -->
+    <!-- `dashboard-manager`, `dashboardSettings`, `title` and `piwikSelector__dropdown` carry no
+         styles: plugins read them to find the selector and its parts. -->
     <button
       type="button"
       class="mtm-selector__trigger title"

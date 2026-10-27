@@ -8,7 +8,11 @@
   <div
     v-expand-on-hover="{
       expander: 'expander',
-      expandedClass: ['mtm-selector--expanded', 'expanded'],
+      expandedClass: [
+        'mtm-selector--expanded',
+        /* @deprecated since Matomo 6.1.0, removed in Matomo 7: use mtm-selector--expanded */
+        'expanded',
+      ],
     }"
     id="header_message"
     class="mtm-selector"
@@ -18,8 +22,8 @@
       update_available: latestVersionAvailable,
     }"
   >
-    <!-- `header_info`, `update_available`, `expanded`, `title` and `piwikSelector__dropdown` carry
-         no styles: plugins read them to find the message and its parts, and to know it is open. -->
+    <!-- `header_info`, `update_available`, `title` and `piwikSelector__dropdown` carry no styles:
+         plugins read them to find the message and its parts. -->
     <Passthrough v-if="latestVersionAvailable">
       <span
         v-if="isMultiServerEnvironment"

@@ -10,14 +10,15 @@
     class="siteSelector mtm-selector"
     :class="{
       'mtm-selector--expanded': showSitesList,
+      /* @deprecated since Matomo 6.1.0, removed in Matomo 7: use mtm-selector--expanded */
       'expanded': showSitesList,
       'mtm-selector--readOnly': !hasMultipleSites,
       'mtm-selector--fullWidthOnSmallScreen': fullWidthOnSmallScreen,
     }"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
-    <!-- `siteSelector`, `expanded`, `title` and `piwikSelector__dropdown` carry no styles: plugins
-         read them to find the selector and its parts, and to know its list is open. -->
+    <!-- `siteSelector`, `title` and `piwikSelector__dropdown` carry no styles: plugins read them to
+         find the selector and its parts. -->
     <input
       v-if="name"
       type="hidden"
