@@ -19,9 +19,9 @@ use ReflectionMethod;
 class ControllerTest extends TestCase
 {
     /**
-     * @dataProvider getPhpVersionsForCriticalVulnerability
+     * @dataProvider getPhpVersionsForSecurityAdvisory20261021
      */
-    public function testIsPhpVersionAffectedByCriticalVulnerability(int $major, int $minor, int $release, bool $expected): void
+    public function testIsPhpAffectedBySecurityAdvisory20261021(int $major, int $minor, int $release, bool $expected): void
     {
         $method = new ReflectionMethod(Controller::class, 'isPhpAffectedBySecurityAdvisory20261021');
         $method->setAccessible(true);
@@ -29,7 +29,7 @@ class ControllerTest extends TestCase
         $this->assertSame($expected, $method->invoke(null, $major, $minor, $release));
     }
 
-    public function getPhpVersionsForCriticalVulnerability(): iterable
+    public function getPhpVersionsForSecurityAdvisory20261021(): iterable
     {
         yield 'PHP 7.2 has no upstream fix' => [7, 2, 5, true];
         yield 'PHP 7.4 has no upstream fix' => [7, 4, 33, true];
