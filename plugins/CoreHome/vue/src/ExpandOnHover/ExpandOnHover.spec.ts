@@ -50,6 +50,15 @@ describe('CoreHome/ExpandOnHover', () => {
     wrapper.unmount();
   });
 
+  it('falls back on the bare expanded class for an empty list', async () => {
+    const wrapper = await mountExpandable([]);
+
+    await wrapper.find('span').trigger('mouseenter');
+    expect(wrapper.classes()).toContain('expanded');
+
+    wrapper.unmount();
+  });
+
   it('carries every class it is given while hovered, and drops them all on leave', async () => {
     const wrapper = await mountExpandable(['mtm-selector--expanded', 'expanded']);
 

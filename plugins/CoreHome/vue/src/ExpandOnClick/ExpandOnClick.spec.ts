@@ -40,6 +40,18 @@ describe('CoreHome/ExpandOnClick', () => {
     wrapper.unmount();
   });
 
+  it('falls back on the bare expanded class for an empty list', async () => {
+    const wrapper = await mountExpandable([]);
+
+    await wrapper.find('button').trigger('click');
+    expect(wrapper.classes()).toContain('expanded');
+
+    await wrapper.find('button').trigger('click');
+    expect(wrapper.classes()).not.toContain('expanded');
+
+    wrapper.unmount();
+  });
+
   it('carries every class it is given while open, and drops them all on Escape', async () => {
     const wrapper = await mountExpandable(['mtm-selector--expanded', 'expanded']);
 

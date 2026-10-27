@@ -59,8 +59,7 @@ const doc = document.documentElement;
  */
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnHoverArgs>): void {
-    const expandedClass = binding.value.expandedClass || 'expanded';
-    const expandedClasses = Array.isArray(expandedClass) ? expandedClass : [expandedClass];
+    const expandedClasses = DirectiveUtilities.getExpandedClasses(binding.value.expandedClass);
     binding.value.onMouseEnter = onMouseEnter.bind(null, el, expandedClasses);
     binding.value.onMouseLeave = onMouseLeave.bind(null, el, expandedClasses);
     binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, expandedClasses);

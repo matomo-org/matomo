@@ -14,13 +14,13 @@ export interface ExpandOnClickArgs {
   expander: string | HTMLElement,
   // The class carried while open. Defaults to the bare `expanded` the older selectors read; a
   // block that owns its own states passes its modifier instead, so its stylesheet can nest it.
-  // A list adds every class, the first one holding the state: a block can pass its modifier
-  // followed by `expanded`, kept as an unstyled hook for the plugins reading it until Matomo 7.
+  // A list adds every class, the first one holding the state.
   expandedClass?: string | string[];
   onClosed?: (event: MouseEvent|KeyboardEvent) => void;
   onExpand?: (event: MouseEvent|KeyboardEvent) => void;
 
   // state
+  expandedClasses?: string[];
   isMouseDown?: boolean;
   hasScrolled?: boolean;
 
@@ -32,13 +32,8 @@ export interface ExpandOnClickArgs {
   onEscapeHandler?: (event: KeyboardEvent) => void;
 }
 
-function expandedClassesOf(binding: DirectiveBinding<ExpandOnClickArgs>): string[] {
-  const expandedClass = binding.value?.expandedClass || 'expanded';
-  return Array.isArray(expandedClass) ? expandedClass : [expandedClass];
-}
-
 function isExpanded(element: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): boolean {
-  return element.classList.contains(expandedClassesOf(binding)[0]);
+  return element.classList.contains(binding.value.expandedClasses![0]);
 }
 
 function expand(
@@ -46,7 +41,7 @@ function expand(
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  element.classList.add(...expandedClassesOf(binding));
+  element.classList.add(...binding.value.expandedClasses!);
   if (binding.value?.onExpand) {
     binding.value.onExpand(event);
   }
@@ -65,7 +60,7 @@ function close(
   if (!isExpanded(element, binding)) {
     return;
   }
-  element.classList.remove(...expandedClassesOf(binding));
+  element.classList.remove(...binding.value.expandedClasses!);
 
   if (binding.value?.onClosed) {
     binding.value.onClosed(event);
@@ -135,6 +130,9 @@ const doc = document.documentElement;
  */
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
+    binding.value.expandedClasses = DirectiveUtilities.getExpandedClasses(
+      binding.value.expandedClass,
+    );
     binding.value.isMouseDown = false;
     binding.value.hasScrolled = false;
     binding.value.onClickOnExpander = onClickOnExpander.bind(null, el, binding);
