@@ -7,410 +7,113 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.0.0
 
 ### Breaking Changes
-* API method parameters are now validated against their declared type: for a parameter declared without a default or
-  with a `null` default, a value the type cannot accept, such as an array for a `string` parameter, is rejected with a
-  bad request error instead of silently falling back to `null`; a parameter with any other default still falls back to
-  it. A parameter that is not supplied continues to use its default. This applies to API classes that set
-  `$autoSanitizeInputParams = false` or methods annotated `@unsanitized`; all other API methods are unaffected.
-* Before upgrading a proxied installation that configures `[General] proxy_host_headers`, add both the public hostname
-  and the hostname used to reach Matomo to `trusted_hosts`; otherwise the invalid-host warning replaces the login form.
-  With trusted-host checking enabled, `Piwik\Url::isValidHost()` without an explicit hostname now validates the
-  proxy-derived hostname, and `Piwik\Url::getCurrentHost()` returns that hostname only when it is accepted, falling back
-  to the request/configuration-derived hostname otherwise. New installations record both hostnames automatically.
-* The deprecated method `Piwik\Archive::getBlob()` has been removed. Use one of the `Piwik\Archive::getDataTable*()`
-  methods instead.
-* The deprecated method `Piwik\Archive::clearStaticCache()` has been removed. It was a no-op kept only for backwards
-  compatibility.
-* The deprecated method `Piwik\ArchiveProcessor\Parameters::setIsPartialArchive()` has been removed. Use
-  `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()` instead.
-* The deprecated method `Piwik\Db\Adapter::getDefaultPortForAdapter()` has been removed. Use
-  `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
+* API method parameters are now validated against their declared type: for a parameter declared without a default or with a `null` default, a value the type cannot accept, such as an array for a `string` parameter, is rejected with a bad request error instead of silently falling back to `null`; a parameter with any other default still falls back to it. A parameter that is not supplied continues to use its default. This applies to API classes that set `$autoSanitizeInputParams = false` or methods annotated `@unsanitized`; all other API methods are unaffected.
+* Before upgrading a proxied installation that configures `[General] proxy_host_headers`, add both the public hostname and the hostname used to reach Matomo to `trusted_hosts`; otherwise the invalid-host warning replaces the login form. With trusted-host checking enabled, `Piwik\Url::isValidHost()` without an explicit hostname now validates the proxy-derived hostname, and `Piwik\Url::getCurrentHost()` returns that hostname only when it is accepted, falling back to the request/configuration-derived hostname otherwise. New installations record both hostnames automatically.
+* The deprecated method `Piwik\Archive::getBlob()` has been removed. Use one of the `Piwik\Archive::getDataTable*()` methods instead.
+* The deprecated method `Piwik\Archive::clearStaticCache()` has been removed. It was a no-op kept only for backwards compatibility.
+* The deprecated method `Piwik\ArchiveProcessor\Parameters::setIsPartialArchive()` has been removed. Use `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()` instead.
+* The deprecated method `Piwik\Db\Adapter::getDefaultPortForAdapter()` has been removed. Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
 * The deprecated method `Piwik\Url::saveCORSHostnameInConfig()` has been removed. It was no longer in use.
-* The deprecated method `Piwik\Plugin\Report::getThirdLeveltableDimension()` has been removed. Use
-  `Piwik\Plugin\Report::getNthLevelTableDimension(2)` instead.
-* The deprecated `API.getSettings` API method has been removed, along with the default `[APISettings]` section shipped
-  in `config/global.ini.php` that it exposed. There is no replacement; integrations that fetched key/value pairs from
-  that section over the REST API must migrate to another mechanism. Any `[APISettings]` entries in a local
-  `config.ini.php` simply become inert.
-* Plugin trial requests no longer expire: each user can request a trial of a plugin once. The `[General]
-  plugin_trial_request_expiration_in_days` setting now only disables trial requests when set to `-1`; any other value is
-  ignored.
-* The deprecated static method `getDefaultPort()` has been removed from `Piwik\Db\AdapterInterface` and its
-  implementations (`Piwik\Db\Adapter\Mysqli`, `Piwik\Db\Adapter\Pdo\Mysql`). Use
-  `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
-* The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the
-  `SitesManager.getExcludedQueryParameters` API method instead.
-* The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use
-  `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
-* The deprecated method `Piwik\Db::isOptimizeInnoDBSupported()` has been removed. Use
-  `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
-* The deprecated method `Piwik\Db\TransactionLevel::setUncommitted()` has been removed. Use
-  `Piwik\Db\TransactionLevel::setTransactionLevelForNonLockingReads()` instead.
-* The deprecated `SitesManager.setGlobalExcludedQueryParameters` API method has been removed. Use
-  `SitesManager.setGlobalQueryParamExclusion` instead.
+* The deprecated method `Piwik\Plugin\Report::getThirdLeveltableDimension()` has been removed. Use `Piwik\Plugin\Report::getNthLevelTableDimension(2)` instead.
+* The deprecated `API.getSettings` API method has been removed, along with the default `[APISettings]` section shipped in `config/global.ini.php` that it exposed. There is no replacement; integrations that fetched key/value pairs from that section over the REST API must migrate to another mechanism. Any `[APISettings]` entries in a local `config.ini.php` simply become inert.
+* Plugin trial requests no longer expire: each user can request a trial of a plugin once. The `[General] plugin_trial_request_expiration_in_days` setting now only disables trial requests when set to `-1`; any other value is ignored.
+* The deprecated static method `getDefaultPort()` has been removed from `Piwik\Db\AdapterInterface` and its implementations (`Piwik\Db\Adapter\Mysqli`, `Piwik\Db\Adapter\Pdo\Mysql`). Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
+* The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
+* The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
+* The deprecated method `Piwik\Db::isOptimizeInnoDBSupported()` has been removed. Use `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
+* The deprecated method `Piwik\Db\TransactionLevel::setUncommitted()` has been removed. Use `Piwik\Db\TransactionLevel::setTransactionLevelForNonLockingReads()` instead.
+* The deprecated `SitesManager.setGlobalExcludedQueryParameters` API method has been removed. Use `SitesManager.setGlobalQueryParamExclusion` instead.
 * The deprecated method `Piwik\API\Request::isTokenAuthProvidedSecurely()` has been removed.
-* The API methods `Annotations.add`, `Annotations.save` and `Annotations.delete` now require `Write` permission.
-  Previously `Annotations.add` required only `View` permission, and the author of an annotation could modify or delete
-  it with only `View` permission.
-* Following the upgrade to psr/log 3, `Piwik\Log\LoggerInterface` (which extends `Psr\Log\LoggerInterface`) now requires
-  the PSR-3 `void` return type on its logging methods (`log()`, `debug()`, `info()`, `notice()`, `warning()`, `error()`,
-  `critical()`, `alert()`, `emergency()`). Plugins that implement this interface directly must add the `: void` return
-  type to these methods. Plugins that obtain the logger through dependency injection or extend `Piwik\Log\Logger` are
-  not affected.
-* The deprecated archiving script `./misc/cron/archive.sh` has been removed. Use the console command `core:archive`
-  instead.
+* The API methods `Annotations.add`, `Annotations.save` and `Annotations.delete` now require `Write` permission. Previously `Annotations.add` required only `View` permission, and the author of an annotation could modify or delete it with only `View` permission.
+* Following the upgrade to psr/log 3, `Piwik\Log\LoggerInterface` (which extends `Psr\Log\LoggerInterface`) now requires the PSR-3 `void` return type on its logging methods (`log()`, `debug()`, `info()`, `notice()`, `warning()`, `error()`, `critical()`, `alert()`, `emergency()`). Plugins that implement this interface directly must add the `: void` return type to these methods. Plugins that obtain the logger through dependency injection or extend `Piwik\Log\Logger` are not affected.
+* The deprecated archiving script `./misc/cron/archive.sh` has been removed. Use the console command `core:archive` instead.
 * The `SEO` plugin has been removed, along with its `SEO` widget and the `SEO.getRank` API method.
-* The `TrackingSpamPrevention` plugin is now bundled with core and activated by default. It is no longer distributed on
-  the Marketplace and can no longer be uninstalled, and updating to Matomo 6 activates it on installations where it was
-  deactivated or was never installed. `Piwik\Plugin\Manager::isPluginBundledWithCore('TrackingSpamPrevention')`
-  therefore returns `true` from now on.
-* The `TrackingSpamPrevention` setting `block_clouds` no longer controls GeoIP organisation blocking; it now only
-  enables the daily cloud provider IP range sync. The new `cloud_blocking_mode` setting decides whether organisation
-  names are matched against nothing (`off`), Matomo's maintained default list (`default`) or the
-  `organisation_block_list` setting (`custom`). Both are `[TrackingSpamPrevention]` `config.ini.php` keys as well as UI
-  settings, and `Piwik\Plugins\TrackingSpamPrevention\SystemSettings::getBlockedOrganisations()` now returns the list
-  the selected mode puts into effect rather than the stored list. Existing installations are migrated to the blocking
-  they already had; installations where the plugin was never installed start with both options enabled.
-* One Click Update now always downloads the update archive over HTTPS. The insecure "retry over HTTP" fallback screen
-  and the `https` request parameter of the `CoreUpdater.oneClickUpdate` action have been removed, and the `$https`
-  parameter of `Piwik\Plugins\CoreUpdater\Updater::updatePiwik()` and
-  `Piwik\Plugins\CoreUpdater\Updater::getArchiveUrl()` has been removed. HTTP is only used when the
-  `force_matomo_http_request` config option is enabled.
-* The global function `_glob()` has been removed. Use the native `glob()` instead. As a consequence `glob()` must no
-  longer be listed in the `disable_functions` php.ini directive: Matomo now refuses to start with an explicit error
-  message instead of emulating it. `glob()`, `fnmatch()` and `file_get_contents()` have also moved from the recommended
-  to the required functions in the system check, which additionally catches a Suhosin function blacklist.
-* The global functions `safe_serialize()` and `_safe_serialize()` have been removed. Use the native `serialize()`
-  instead; note that the retained `safe_unserialize()` accepts only a strict subset of PHP's serialization format, so
-  values containing objects, references or resources cannot be read back with it.
-* The global function `_parse_ini_file()` has been removed. It was unused; use `Piwik\Config` for Matomo's configuration
-  or `Matomo\Ini\IniReader` for other INI files.
-* Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new
-  `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action
-  must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not
-  inherited).
-* When a log table can be joined to another one both via a join declared in
-  `Piwik\Tracker\LogTable::getWaysToJoinToOtherLogTables()` and via the generic `idvisit` join, the segment query
-  builder now uses the declared join; previously the generic `idvisit` join silently won. Partners are tried in join
-  order starting with the FROM table and the first one yielding any join is used, so a declared join does not replace a
-  generic `idvisit` join to an earlier table. A declared join bypasses the partner table's `shouldJoinWithSubSelect()`
-  wrapping, which only ever applied to the generic join, and a table declaring way-joins to several available partners
-  is now joined to the first of them rather than the last.
-* The deprecated Piwik-era color aliases `@color-black-piwik`, `@color-blue-piwik`, `@color-red-piwik` and
-  `@color-green-piwik` have been removed from `plugins/Morpheus/stylesheets/base/colors.less`. Use
-  `@color-black-matomo`, `@color-blue-matomo`, `@color-red-matomo` and `@color-green-matomo` instead.
-* The third-party brand color variables `@color-orange-brand` (`#f57c00`), `@color-green-brandSocial` (`#009874`),
-  `@color-blue-brandSocial` (`#3b5998`), `@color-blue-brandSocialLight` (`#1c87bd`) and
-  `@color-blue-brandSocialVeryLight` (`#00aced`) have been removed. They described other companies' brands rather than
-  Matomo's own palette; a plugin that still needs one of these colors should use the literal value.
-* The never-referenced palette tokens `@color-gray-light` (`#f0f0f0`), `@color-gray-bright` (`#EBF2EB`),
-  `@color-gray-400` (`#BCBCBC`), `@color-jetstream` (`#c3d9c4`), `@color-silver-l14`, `@color-silver-l50`,
-  `@color-silver-l70` and `@color-silver-l98` have been removed. Use one of the remaining `@color-silver-*` variables, a
-  `@theme-color-*` variable or a literal value instead.
-* The stylesheet `plugins/Morpheus/stylesheets/base/mode-colors.less` has been removed together with the variables it
-  defined, `@color-mode-black` and `@color-mode-white`. Use the `.inDarkMode()` mixin (still available from
-  `plugins/Morpheus/stylesheets/base/mixins.less`) or the relevant `@theme-color-*` variable instead.
-* The stylesheet `plugins/Login/stylesheets/variables.less` has been removed together with the variable it defined,
-  `@login-section-background`. A plugin that registers this file in `getStylesheetFiles()` must drop that line,
-  otherwise stylesheet merging fails with `The ui asset with 'href' = .../plugins/Login/stylesheets/variables.less is
-  not readable`.
-* The "Enable aggregated real-time reports" setting has been removed. Visitors > Real-time now shows the aggregated
-  "Last 24 hours" and "Last 30 minutes" counters whenever the Visits Log is disabled, so there is nothing to turn on any
-  more. The global and per-site `enable_aggregated_realtime_reports` settings are gone; stored values are left in place
-  and ignored. The `Piwik\Plugins\Live\Settings\AggregatedRealtimeReportsEnabled` class, the
-  `Piwik\Plugins\Live\Live::isAggregatedRealtimeEnabled()` method and the `$enableAggregatedRealtimeReports` properties
-  of `Piwik\Plugins\Live\SystemSettings` and `Piwik\Plugins\Live\MeasurableSettings` have been removed with no
-  replacement. `PrivacyManager.getCompliancePolicySettings` and `PrivacyManager.getComplianceStatus` no longer return
-  the `Live.AggregatedRealtimeReportsEnabled` entry.
-* The deprecated jQuery UI widget `$.fn.liveWidget` (`piwik.liveWidget`) has been removed together with the file
-  `plugins/Live/javascripts/live.js` that defined it. Use the `Live.AutoRefreshWidget` Vue component instead.
-* Less variables that were only used within a single stylesheet have been inlined or renamed to private `@_`-prefixed
-  names, and are therefore no longer visible to other stylesheets: `@top-menu-nav-color`
-  (`plugins/CoreHome/stylesheets/layout.less`), `@color-period-selector`, `@color-period-selector-input-radio`,
-  `@color-period-selector-options-hover-background`, `@color-period-selector-calendar-hover-background`
-  (`PeriodSelector.less`), `@add-widget-padding`, `@add-widget-border`, `@add-widget-space-or-radius`,
-  `@add-widget-categories`, `@add-widget-widgets`, `@add-widget-preview`, `@add-widget-height`,
-  `@add-widget-item-height` (`AddWidgetModal.less`) and `@calendarHeaderBackground`, `@calendarHeaderColor`,
-  `@calendarCurrentStateHover`, `@calendarBorder` (`plugins/Morpheus/stylesheets/ui/_components.less`). These were never
-  theme variables; use the `@theme-color-*` variable they were derived from instead.
-* The default border colour `@theme-color-border` (`ThemeStyles::$colorBorder`) changes from `#cccccc` to `#e0e0e0` in
-  light mode; dark mode is unchanged. Core stylesheets that used `@theme-color-border-alternative` now use
-  `@theme-color-border`, which is no longer deprecated.
-* `CoreHome.EnrichedHeadline` no longer derives a report's inline help from the DOM. It used to look for a
-  `.reportDocumentation[data-content]` element inside the next sibling of its headline and show that text behind a help
-  icon; the text now comes from its `inline-help` attribute. The `piwik:reportChanged` DOM event, which told a headline
-  to re-read that element, has been removed with it. Headlines rendered by `Piwik\View::singleReport()`, or by a
-  template reproducing its shape, therefore lose their help icon unless `inline-help` is passed explicitly.
-* The development-only console commands `git:commit`, `git:pull` and `git:push` have been removed. They were thin
-  wrappers around `git` that predate the current submodule workflow; use `git` directly instead.
-* Flat-first Actions archiving is enabled by default for new installations, as
-  `datatable_archiving_maximum_rows_actions_flat` now defaults to `10000` instead of `0`. Installations updated from
-  Matomo 5 keep the legacy hierarchical-only archiving, as the update writes a `0` to their `config.ini.php`, unless the
-  setting is already configured there or in `common.config.ini.php`. While it is enabled, the page URL and page title
-  reports (including their entry and exit variants) are capped by this setting instead of
-  `datatable_archiving_maximum_rows_actions` and `datatable_archiving_maximum_rows_subtable_actions`, each of them is
-  stored as one additional archive record, and their page categories are no longer truncated per category, so a category
-  no longer ends in a summary row of its own.
-* Request parameters are no longer trimmed while a request is parsed. `Piwik\API\Request::getRequestArrayFromString()`
-  used to apply `trim((string) $value)` to every non-array parameter, so leading and trailing whitespace in values such
-  as a `label` or a segment operand is now preserved, and scalars keep their type. As a consequence a boolean passed
-  through `Piwik\API\Request::processRequest()` no longer arrives as `'1'`/`''`: a parameter read with
-  `Piwik\Common::getRequestVar($name, $default, 'string')` or `Piwik\Request::getStringParameter()` falls back to its
-  default instead. Pass a string, or read it with `Piwik\Request::getBoolParameter()`, which accepts real booleans.
-* The `SitesManager.getImageTrackingCode` API method now requires view access to the given site, matching
-  `SitesManager.getJavascriptTag`. Its parameters are typed as well, so `idSite` must be an integer and
-  `forceMatomoEndpoint` a boolean — the latter is now read with `Piwik\Request::getBoolParameter()`, which understands
-  `0`, `1`, `true` and `false` and silently falls back to `false` for anything else, where previously any truthy value
-  enabled it.
-* The legacy Transitions renderer has been removed together with the JavaScript globals `Piwik_Transitions`,
-  `Piwik_Transitions_Canvas`, `Piwik_Transitions_Util` and `Piwik_Transitions_Translations`, the controller action
-  `Transitions.renderPopover` and the `@internal` API method `Transitions.getTranslations`. Use the
-  `Transitions.TransitionsReport` Vue component instead, or `DataTable_RowActions_Transitions.launchForUrl()`, which is
-  unchanged. `Piwik_Transitions_Model` and `Piwik_Transitions_Ajax` remain without the renderer-only members
-  `htmlLoaded()`, `getShareInGroupTooltip()` and `callTransitionsController()`, and `Piwik_Transitions_Ajax.callApi()`
-  no longer shows an error popover by itself: a caller that wants errors surfaced must register one with
-  `setErrorCallback()`.
-* Several parameters of the `Goals` API methods now declare a native `bool` type: `caseSensitive`,
-  `allowMultipleConversionsPerVisit` and `useEventValueAsRevenue` of `Goals.addGoal` and `Goals.updateGoal`,
-  `abandonedCarts` of `Goals.getItemsSku`, `Goals.getItemsName` and `Goals.getItemsCategory`, and
-  `showAllGoalSpecificMetrics` of `Goals.get` and `Goals.getMetrics`, and `compare` of `Goals.get`. Over HTTP these
-  parameters were previously passed through as raw strings, so any value other than `0` was truthy:
-  `&abandonedCarts=false` returned abandoned carts rather than purchased products. They are now read like every other
-  boolean parameter, which accepts `0`, `1`, `false` and `true` and falls back to the default for anything else. Plugins
-  calling these methods directly in PHP must pass a boolean or a value PHP can coerce to one; `null` is no longer
-  accepted.
-* The `idGoal` parameter of `Goals.deleteGoal` and `Goals.updateGoal` now declares a native `int` type, like
-  `Goals.getGoal` already did. A value that is not a number, such as `idGoal=ecommerceOrder`, is rejected by the API
-  layer instead of being coerced to `0`. Plugins calling these methods directly in PHP must pass an integer or a numeric
-  string.
-* The site selector dropdown (`CoreHome.SiteSelector`) now uses the generic dropdown panel and search input markup, so
-  the classes it used to expose have been removed: `custom_select_search`, `custom_select_container`,
-  `custom_select_ul_list`, `custom_select_all`, `websiteSearch`, `inp`, `reset`, `noresult`, `autocompleteMatched`, and
-  the `dropdown` class on the panel itself. Code that selected inside the site selector must target
-  `.piwikSelector__dropdown` for the panel, `.mtm-dropdownPanel__menu` for the site list, `.mtm-dropdownPanel__menuItem`
-  / `.mtm-dropdownPanel__menuLink` / `.mtm-dropdownPanel__menuLabel` for an entry, `.mtm-dropdownPanel__noResult` for
-  the empty state, `.mtm-dropdownPanel__searchMatch` for the highlighted search term, and `.mtm-searchInput__input` /
-  `.mtm-searchInput__clear` for the search field. The global Less rules for the old markup (`.sites_selector_container`,
-  `.custom_select_block_show`, `.custom_selector_container .ui-menu-item`, `.siteSelect a`, `.custom_select_main_link`)
-  have been removed as well.
-* The deprecated `$webSearchEnabled` parameter of the `Piwik\Plugins\AIProviders\AIProviderResponse` constructor has
-  been removed; pass a `Piwik\Plugins\AIProviders\WebSearchUsage` instead. It occupied position 8, so a caller passing
-  the later parameters positionally must drop the flag or they bind to the wrong parameters.
-* The deprecated method `Piwik\Plugins\AIProviders\AIProviderResponse::isWebSearchEnabled()` has been removed, along
-  with the `webSearchEnabled` key of `AIProviderResponse::toArray()`. Use `wasWebSearchUsed()` and the `webSearchUsed`
-  key instead, which say what they mean; `Piwik\Plugins\AIProviders\AIRequest::isWebSearchEnabled()` is unaffected and
-  keeps reporting what the request asked for.
-* The deprecated method `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` has been removed and is no
-  longer consulted. A provider that reported a search by overriding it must now override `supportsWebSearch()` to
-  declare the capability and pass a `WebSearchUsage` to `buildResponse()`; an override left in place is simply ignored,
-  so such a provider's answers report no search until it migrates.
-* Custom Dimension reports now credit a goal conversion that recorded no dimension value of its own to the value its
-  visit ended with, which happens when a visit-scoped dimension is only sent after the goal converted. Those conversions
-  were previously left out, so `CustomDimensions.getCustomDimension` can return higher conversion counts for affected
-  dates once they are re-archived.
-* The "Choose metrics" picker (`CoreVisualizations.MetricsPicker`) now uses the generic selector and dropdown panel
-  markup, so every class it used to expose has been removed: `metrics-picker`, `metrics-picker__toggle`,
-  `metrics-picker__toggle-label`, `metrics-picker__chevron`, `metrics-picker__dropdown`, `metrics-picker__options`,
-  `metrics-picker__column`, `metrics-picker__row`, `metrics-picker__label`, `metrics-picker__title`,
-  `metrics-picker__headline` and the `expanded` class it carried while open. Its options are no longer Materialize
-  checkboxes: each is a `.mtm-dropdownPanel__menuLink` carrying `role="menuitemcheckbox"` (`menuitemradio` in
-  single-select mode) and `aria-checked`. Code that selected inside the picker must target `.mtm-selector__trigger` for
-  the button, `.mtm-dropdownPanel__menuLink` for an option, `.mtm-dropdownPanel__menuLabel` for its text and
-  `[aria-checked="true"]` for the selected state, scoped to `.series-picker-wrapper`. The `metricsPickerColumn` and
-  `metricsPickerRow` hook classes tell a metric apart from a plottable row.
+* The `TrackingSpamPrevention` plugin is now bundled with core and activated by default. It is no longer distributed on the Marketplace and can no longer be uninstalled, and updating to Matomo 6 activates it on installations where it was deactivated or was never installed. `Piwik\Plugin\Manager::isPluginBundledWithCore('TrackingSpamPrevention')` therefore returns `true` from now on.
+* The `TrackingSpamPrevention` setting `block_clouds` no longer controls GeoIP organisation blocking; it now only enables the daily cloud provider IP range sync. The new `cloud_blocking_mode` setting decides whether organisation names are matched against nothing (`off`), Matomo's maintained default list (`default`) or the `organisation_block_list` setting (`custom`). Both are `[TrackingSpamPrevention]` `config.ini.php` keys as well as UI settings, and `Piwik\Plugins\TrackingSpamPrevention\SystemSettings::getBlockedOrganisations()` now returns the list the selected mode puts into effect rather than the stored list. Existing installations are migrated to the blocking they already had; installations where the plugin was never installed start with both options enabled.
+* One Click Update now always downloads the update archive over HTTPS. The insecure "retry over HTTP" fallback screen and the `https` request parameter of the `CoreUpdater.oneClickUpdate` action have been removed, and the `$https` parameter of `Piwik\Plugins\CoreUpdater\Updater::updatePiwik()` and `Piwik\Plugins\CoreUpdater\Updater::getArchiveUrl()` has been removed. HTTP is only used when the `force_matomo_http_request` config option is enabled.
+* The global function `_glob()` has been removed. Use the native `glob()` instead. As a consequence `glob()` must no longer be listed in the `disable_functions` php.ini directive: Matomo now refuses to start with an explicit error message instead of emulating it. `glob()`, `fnmatch()` and `file_get_contents()` have also moved from the recommended to the required functions in the system check, which additionally catches a Suhosin function blacklist.
+* The global functions `safe_serialize()` and `_safe_serialize()` have been removed. Use the native `serialize()` instead; note that the retained `safe_unserialize()` accepts only a strict subset of PHP's serialization format, so values containing objects, references or resources cannot be read back with it.
+* The global function `_parse_ini_file()` has been removed. It was unused; use `Piwik\Config` for Matomo's configuration or `Matomo\Ini\IniReader` for other INI files.
+* Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type and re-declare `#[Piwik\Http\JsonResponse]` (attributes are not inherited).
+* When a log table can be joined to another one both via a join declared in `Piwik\Tracker\LogTable::getWaysToJoinToOtherLogTables()` and via the generic `idvisit` join, the segment query builder now uses the declared join; previously the generic `idvisit` join silently won. Partners are tried in join order starting with the FROM table and the first one yielding any join is used, so a declared join does not replace a generic `idvisit` join to an earlier table. A declared join bypasses the partner table's `shouldJoinWithSubSelect()` wrapping, which only ever applied to the generic join, and a table declaring way-joins to several available partners is now joined to the first of them rather than the last.
+* The deprecated Piwik-era color aliases `@color-black-piwik`, `@color-blue-piwik`, `@color-red-piwik` and `@color-green-piwik` have been removed from `plugins/Morpheus/stylesheets/base/colors.less`. Use `@color-black-matomo`, `@color-blue-matomo`, `@color-red-matomo` and `@color-green-matomo` instead.
+* The third-party brand color variables `@color-orange-brand` (`#f57c00`), `@color-green-brandSocial` (`#009874`), `@color-blue-brandSocial` (`#3b5998`), `@color-blue-brandSocialLight` (`#1c87bd`) and `@color-blue-brandSocialVeryLight` (`#00aced`) have been removed. They described other companies' brands rather than Matomo's own palette; a plugin that still needs one of these colors should use the literal value.
+* The never-referenced palette tokens `@color-gray-light` (`#f0f0f0`), `@color-gray-bright` (`#EBF2EB`), `@color-gray-400` (`#BCBCBC`), `@color-jetstream` (`#c3d9c4`), `@color-silver-l14`, `@color-silver-l50`, `@color-silver-l70` and `@color-silver-l98` have been removed. Use one of the remaining `@color-silver-*` variables, a `@theme-color-*` variable or a literal value instead.
+* The stylesheet `plugins/Morpheus/stylesheets/base/mode-colors.less` has been removed together with the variables it defined, `@color-mode-black` and `@color-mode-white`. Use the `.inDarkMode()` mixin (still available from `plugins/Morpheus/stylesheets/base/mixins.less`) or the relevant `@theme-color-*` variable instead.
+* The stylesheet `plugins/Login/stylesheets/variables.less` has been removed together with the variable it defined, `@login-section-background`. A plugin that registers this file in `getStylesheetFiles()` must drop that line, otherwise stylesheet merging fails with `The ui asset with 'href' = .../plugins/Login/stylesheets/variables.less is not readable`.
+* The "Enable aggregated real-time reports" setting has been removed. Visitors > Real-time now shows the aggregated "Last 24 hours" and "Last 30 minutes" counters whenever the Visits Log is disabled, so there is nothing to turn on any more. The global and per-site `enable_aggregated_realtime_reports` settings are gone; stored values are left in place and ignored. The `Piwik\Plugins\Live\Settings\AggregatedRealtimeReportsEnabled` class, the `Piwik\Plugins\Live\Live::isAggregatedRealtimeEnabled()` method and the `$enableAggregatedRealtimeReports` properties of `Piwik\Plugins\Live\SystemSettings` and `Piwik\Plugins\Live\MeasurableSettings` have been removed with no replacement. `PrivacyManager.getCompliancePolicySettings` and `PrivacyManager.getComplianceStatus` no longer return the `Live.AggregatedRealtimeReportsEnabled` entry.
+* The deprecated jQuery UI widget `$.fn.liveWidget` (`piwik.liveWidget`) has been removed together with the file `plugins/Live/javascripts/live.js` that defined it. Use the `Live.AutoRefreshWidget` Vue component instead.
+* Less variables that were only used within a single stylesheet have been inlined or renamed to private `@_`-prefixed names, and are therefore no longer visible to other stylesheets: `@top-menu-nav-color` (`plugins/CoreHome/stylesheets/layout.less`), `@color-period-selector`, `@color-period-selector-input-radio`, `@color-period-selector-options-hover-background`, `@color-period-selector-calendar-hover-background` (`PeriodSelector.less`), `@add-widget-padding`, `@add-widget-border`, `@add-widget-space-or-radius`, `@add-widget-categories`, `@add-widget-widgets`, `@add-widget-preview`, `@add-widget-height`, `@add-widget-item-height` (`AddWidgetModal.less`) and `@calendarHeaderBackground`, `@calendarHeaderColor`, `@calendarCurrentStateHover`, `@calendarBorder` (`plugins/Morpheus/stylesheets/ui/_components.less`). These were never theme variables; use the `@theme-color-*` variable they were derived from instead.
+* The default border colour `@theme-color-border` (`ThemeStyles::$colorBorder`) changes from `#cccccc` to `#e0e0e0` in light mode; dark mode is unchanged. Core stylesheets that used `@theme-color-border-alternative` now use `@theme-color-border`, which is no longer deprecated.
+* `CoreHome.EnrichedHeadline` no longer derives a report's inline help from the DOM. It used to look for a `.reportDocumentation[data-content]` element inside the next sibling of its headline and show that text behind a help icon; the text now comes from its `inline-help` attribute. The `piwik:reportChanged` DOM event, which told a headline to re-read that element, has been removed with it. Headlines rendered by `Piwik\View::singleReport()`, or by a template reproducing its shape, therefore lose their help icon unless `inline-help` is passed explicitly.
+* The development-only console commands `git:commit`, `git:pull` and `git:push` have been removed. They were thin wrappers around `git` that predate the current submodule workflow; use `git` directly instead.
+* Flat-first Actions archiving is enabled by default for new installations, as `datatable_archiving_maximum_rows_actions_flat` now defaults to `10000` instead of `0`. Installations updated from Matomo 5 keep the legacy hierarchical-only archiving, as the update writes a `0` to their `config.ini.php`, unless the setting is already configured there or in `common.config.ini.php`. While it is enabled, the page URL and page title reports (including their entry and exit variants) are capped by this setting instead of `datatable_archiving_maximum_rows_actions` and `datatable_archiving_maximum_rows_subtable_actions`, each of them is stored as one additional archive record, and their page categories are no longer truncated per category, so a category no longer ends in a summary row of its own.
+* Request parameters are no longer trimmed while a request is parsed. `Piwik\API\Request::getRequestArrayFromString()` used to apply `trim((string) $value)` to every non-array parameter, so leading and trailing whitespace in values such as a `label` or a segment operand is now preserved, and scalars keep their type. As a consequence a boolean passed through `Piwik\API\Request::processRequest()` no longer arrives as `'1'`/`''`: a parameter read with `Piwik\Common::getRequestVar($name, $default, 'string')` or `Piwik\Request::getStringParameter()` falls back to its default instead. Pass a string, or read it with `Piwik\Request::getBoolParameter()`, which accepts real booleans.
+* The `SitesManager.getImageTrackingCode` API method now requires view access to the given site, matching `SitesManager.getJavascriptTag`. Its parameters are typed as well, so `idSite` must be an integer and `forceMatomoEndpoint` a boolean — the latter is now read with `Piwik\Request::getBoolParameter()`, which understands `0`, `1`, `true` and `false` and silently falls back to `false` for anything else, where previously any truthy value enabled it.
+* The legacy Transitions renderer has been removed together with the JavaScript globals `Piwik_Transitions`, `Piwik_Transitions_Canvas`, `Piwik_Transitions_Util` and `Piwik_Transitions_Translations`, the controller action `Transitions.renderPopover` and the `@internal` API method `Transitions.getTranslations`. Use the `Transitions.TransitionsReport` Vue component instead, or `DataTable_RowActions_Transitions.launchForUrl()`, which is unchanged. `Piwik_Transitions_Model` and `Piwik_Transitions_Ajax` remain without the renderer-only members `htmlLoaded()`, `getShareInGroupTooltip()` and `callTransitionsController()`, and `Piwik_Transitions_Ajax.callApi()` no longer shows an error popover by itself: a caller that wants errors surfaced must register one with `setErrorCallback()`.
+* Several parameters of the `Goals` API methods now declare a native `bool` type: `caseSensitive`, `allowMultipleConversionsPerVisit` and `useEventValueAsRevenue` of `Goals.addGoal` and `Goals.updateGoal`, `abandonedCarts` of `Goals.getItemsSku`, `Goals.getItemsName` and `Goals.getItemsCategory`, and `showAllGoalSpecificMetrics` of `Goals.get` and `Goals.getMetrics`, and `compare` of `Goals.get`. Over HTTP these parameters were previously passed through as raw strings, so any value other than `0` was truthy: `&abandonedCarts=false` returned abandoned carts rather than purchased products. They are now read like every other boolean parameter, which accepts `0`, `1`, `false` and `true` and falls back to the default for anything else. Plugins calling these methods directly in PHP must pass a boolean or a value PHP can coerce to one; `null` is no longer accepted.
+* The `idGoal` parameter of `Goals.deleteGoal` and `Goals.updateGoal` now declares a native `int` type, like `Goals.getGoal` already did. A value that is not a number, such as `idGoal=ecommerceOrder`, is rejected by the API layer instead of being coerced to `0`. Plugins calling these methods directly in PHP must pass an integer or a numeric string.
+* The site selector dropdown (`CoreHome.SiteSelector`) now uses the generic dropdown panel and search input markup, so the classes it used to expose have been removed: `custom_select_search`, `custom_select_container`, `custom_select_ul_list`, `custom_select_all`, `websiteSearch`, `inp`, `reset`, `noresult`, `autocompleteMatched`, and the `dropdown` class on the panel itself. Code that selected inside the site selector must target `.piwikSelector__dropdown` for the panel, `.mtm-dropdownPanel__menu` for the site list, `.mtm-dropdownPanel__menuItem` / `.mtm-dropdownPanel__menuLink` / `.mtm-dropdownPanel__menuLabel` for an entry, `.mtm-dropdownPanel__noResult` for the empty state, `.mtm-dropdownPanel__searchMatch` for the highlighted search term, and `.mtm-searchInput__input` / `.mtm-searchInput__clear` for the search field. The global Less rules for the old markup (`.sites_selector_container`, `.custom_select_block_show`, `.custom_selector_container .ui-menu-item`, `.siteSelect a`, `.custom_select_main_link`) have been removed as well.
+* The deprecated `$webSearchEnabled` parameter of the `Piwik\Plugins\AIProviders\AIProviderResponse` constructor has been removed; pass a `Piwik\Plugins\AIProviders\WebSearchUsage` instead. It occupied position 8, so a caller passing the later parameters positionally must drop the flag or they bind to the wrong parameters.
+* The deprecated method `Piwik\Plugins\AIProviders\AIProviderResponse::isWebSearchEnabled()` has been removed, along with the `webSearchEnabled` key of `AIProviderResponse::toArray()`. Use `wasWebSearchUsed()` and the `webSearchUsed` key instead, which say what they mean; `Piwik\Plugins\AIProviders\AIRequest::isWebSearchEnabled()` is unaffected and keeps reporting what the request asked for.
+* The deprecated method `Piwik\Plugins\AIProviders\Provider\AIProvider::isWebSearchUsed()` has been removed and is no longer consulted. A provider that reported a search by overriding it must now override `supportsWebSearch()` to declare the capability and pass a `WebSearchUsage` to `buildResponse()`; an override left in place is simply ignored, so such a provider's answers report no search until it migrates.
+* Custom Dimension reports now credit a goal conversion that recorded no dimension value of its own to the value its visit ended with, which happens when a visit-scoped dimension is only sent after the goal converted. Those conversions were previously left out, so `CustomDimensions.getCustomDimension` can return higher conversion counts for affected dates once they are re-archived.
+* The "Choose metrics" picker (`CoreVisualizations.MetricsPicker`) now uses the generic selector and dropdown panel markup, so every class it used to expose has been removed: `metrics-picker`, `metrics-picker__toggle`, `metrics-picker__toggle-label`, `metrics-picker__chevron`, `metrics-picker__dropdown`, `metrics-picker__options`, `metrics-picker__column`, `metrics-picker__row`, `metrics-picker__label`, `metrics-picker__title`, `metrics-picker__headline` and the `expanded` class it carried while open. Its options are no longer Materialize checkboxes: each is a `.mtm-dropdownPanel__menuLink` carrying `role="menuitemcheckbox"` (`menuitemradio` in single-select mode) and `aria-checked`. Code that selected inside the picker must target `.mtm-selector__trigger` for the button, `.mtm-dropdownPanel__menuLink` for an option, `.mtm-dropdownPanel__menuLabel` for its text and `[aria-checked="true"]` for the selected state, scoped to `.series-picker-wrapper`. The `metricsPickerColumn` and `metricsPickerRow` hook classes tell a metric apart from a plottable row.
 
 ### New APIs
-* The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon for use inside
-  `DraggableList` rows, and the `DraggableList` component's `handle` option now also works with real browser drags.
-* The new `closeTooltips()` helper in CoreHome closes the jQuery UI tooltips bound to a selector's elements, including
-  pending delayed shows — for cases where no mouse event will fire that would close them, eg. once an HTML5 drag has
-  started.
-* The generic dropdown panel (`plugins/Morpheus/stylesheets/ui/_dropdown-panel.less`) gained the elements
-  `.mtm-dropdownPanel__search` (a nest element that hosts a search input inside a panel),
-  `.mtm-dropdownPanel__searchMatch` (the part of a menu label matching the typed term) and
-  `.mtm-dropdownPanel__noResult` (the row shown when a search yields nothing), plus the modifiers
-  `.mtm-dropdownPanel__menu--scrollable` (caps the menu at `calc(80vh - 60px)` and scrolls) and
-  `.mtm-dropdownPanel__menu--gutter` (an 8px horizontal gutter so the rows line up with a search input above them). The
-  panel itself is now a fixed 254px wide rather than a 240px minimum. `.mtm-dropdownPanel__menuLabel` now truncates with
-  an ellipsis instead of only allowing it.
-* The generic selector (`plugins/Morpheus/stylesheets/ui/_selector.less`) gained the element modifiers
-  `.mtm-selector__dropdown--anchorLeft` (anchors the panel to the control's left edge, for a selector at the left of a
-  wide row) and `.mtm-selector__dropdown--aboveOverlays` (raises the panel to `z-index: 1010`, for a selector that can
-  be rendered inside a jQuery UI dialog, which the default 200 deliberately sits under), plus the block modifier
-  `.mtm-selector--fullWidth` (fills the row, for a layout that stacks the selector onto a line of its own).
-* The generic dropdown panel gained the element `.mtm-dropdownPanel__menuHeading`, which names a group of entries where
-  `.mtm-dropdownPanel__separator` only divides them.
-* The `activateMenuItem` helper is now exported from `CoreHome`; it clicks a panel menu entry that is not a link when a
-  key activates it.
-* A new `#[Piwik\Http\JsonResponse]` attribute declares that a plugin controller action returns JSON: Matomo sends the
-  `Content-Type: application/json` header after the action has returned, so output produced while building the response
-  can no longer overwrite it. An action using the attribute must return the JSON string, must not send the header itself
-  and must not emit output or call `exit` before returning. The attribute is not inherited, so a subclass overriding a
-  JSON action must re-declare it. These requirements are enforced by PHPStan rules.
-* The `PasswordConfirmation` component exported from `CorePluginsAdmin` gained a `requireDeleteConfirmation` prop, off
-  by default. When set, the dialog additionally asks the user to type `delete` (an untranslated literal) and keeps its
-  Confirm button disabled until that matches and, where re-authentication applies, a password has been entered. It is
-  meant for actions that permanently remove data. A plugin supplying an alternative identity confirmation through the
-  `PasswordConfirmation.altIdComponent` event keeps that component on screen but inert until the word matches; it has to
-  contain a single `<a>` or `<button>` carrying the `btn` class for that to work.
-* The `SearchInput` component exported from `CoreHome` gained a `focused` prop and a `blur()` method: setting `focused`
-  to `true` moves focus to the inner input and calling `blur()` removes it, which was previously impossible because
-  `v-focus-if` or an element ref targeted the component's non-focusable wrapper. `CoreHome.QuickAccess` now renders this
-  component instead of duplicating its markup.
-* `Piwik\Plugin\ThemeStyles` gained `$colorPositive`, `$colorNegative` and `$colorNeutral`, exposed to Less as
-  `@theme-color-positive`, `@theme-color-negative` and `@theme-color-neutral` (and as the matching `--theme-color-*` CSS
-  variables). They colour what reads as positive, negative or neither, such as a metric's evolution or a trend, as
-  opposed to `$colorSuccess` and `$colorDanger`, which report the outcome of an operation. `$colorNeutral` defaults to
-  `$colorTextLighter`. Evolution badges, sparkline trends and dots, the All Websites dashboard and the Insights report
-  now use them.
-* Plugins opt in to the new `core:rotate-encryption-keys` console command through the new
-  `CoreAdminHome.getEncryptionKeyRotationTargets` event by describing where their key lives (`configSection`,
-  `configKey`), which `options`, system `pluginSettings` and `siteSettings` hold encrypted values, and callables to
-  recognise (`isEncrypted`), `decrypt` and `encrypt` a value with a given key. Per-user plugin settings and options
-  whose names are not known in advance cannot be declared. The new `CoreAdminHome.encryptionKeyRotated` event is posted
-  after each plugin's key was rotated.
-* `Piwik\Plugins\AIProviders\AIRequestDecision::reportUsage()` lets an `AIProviders.checkFeatureAllowed` listener that
-  allows an action still report the used, limit and remaining figures, which `getUsed()`, `getLimit()` and
-  `getRemaining()` previously returned only after `deny()`. It is ignored once the decision is denied. With several
-  listeners the report with the least remaining wins, and a report without a remaining figure (unlimited) never replaces
-  one that has it.
-* The `Archiver.filterRecordBuilders` event now also receives the `ArchiveProcessor` of the archive being built, so a
-  listener can restrict or replace RecordBuilders for a specific site, period or segment. The RecordBuilder instances
-  are shared by every archive built in the same request, so a listener should replace or remove entries rather than
-  modify an instance. Existing listeners that take only `$recordBuilders` are unaffected.
-* The new `Marketplace.pluginTrialRequested` event is posted after a user requests a trial of a plugin, with the
-  plugin's name and display name, so an audit trail can record it. The requesting user is the current user.
+* The new `DragHandle` Vue component in CoreHome renders the standard 6-dot drag-handle icon for use inside `DraggableList` rows, and the `DraggableList` component's `handle` option now also works with real browser drags.
+* The new `closeTooltips()` helper in CoreHome closes the jQuery UI tooltips bound to a selector's elements, including pending delayed shows — for cases where no mouse event will fire that would close them, eg. once an HTML5 drag has started.
+* The generic dropdown panel (`plugins/Morpheus/stylesheets/ui/_dropdown-panel.less`) gained the elements `.mtm-dropdownPanel__search` (a nest element that hosts a search input inside a panel), `.mtm-dropdownPanel__searchMatch` (the part of a menu label matching the typed term) and `.mtm-dropdownPanel__noResult` (the row shown when a search yields nothing), plus the modifiers `.mtm-dropdownPanel__menu--scrollable` (caps the menu at `calc(80vh - 60px)` and scrolls) and `.mtm-dropdownPanel__menu--gutter` (an 8px horizontal gutter so the rows line up with a search input above them). The panel itself is now a fixed 254px wide rather than a 240px minimum. `.mtm-dropdownPanel__menuLabel` now truncates with an ellipsis instead of only allowing it.
+* The generic selector (`plugins/Morpheus/stylesheets/ui/_selector.less`) gained the element modifiers `.mtm-selector__dropdown--anchorLeft` (anchors the panel to the control's left edge, for a selector at the left of a wide row) and `.mtm-selector__dropdown--aboveOverlays` (raises the panel to `z-index: 1010`, for a selector that can be rendered inside a jQuery UI dialog, which the default 200 deliberately sits under), plus the block modifier `.mtm-selector--fullWidth` (fills the row, for a layout that stacks the selector onto a line of its own).
+* The generic dropdown panel gained the element `.mtm-dropdownPanel__menuHeading`, which names a group of entries where `.mtm-dropdownPanel__separator` only divides them.
+* The `activateMenuItem` helper is now exported from `CoreHome`; it clicks a panel menu entry that is not a link when a key activates it.
+* A new `#[Piwik\Http\JsonResponse]` attribute declares that a plugin controller action returns JSON: Matomo sends the `Content-Type: application/json` header after the action has returned, so output produced while building the response can no longer overwrite it. An action using the attribute must return the JSON string, must not send the header itself and must not emit output or call `exit` before returning. The attribute is not inherited, so a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.
+* The `PasswordConfirmation` component exported from `CorePluginsAdmin` gained a `requireDeleteConfirmation` prop, off by default. When set, the dialog additionally asks the user to type `delete` (an untranslated literal) and keeps its Confirm button disabled until that matches and, where re-authentication applies, a password has been entered. It is meant for actions that permanently remove data. A plugin supplying an alternative identity confirmation through the `PasswordConfirmation.altIdComponent` event keeps that component on screen but inert until the word matches; it has to contain a single `<a>` or `<button>` carrying the `btn` class for that to work.
+* The `SearchInput` component exported from `CoreHome` gained a `focused` prop and a `blur()` method: setting `focused` to `true` moves focus to the inner input and calling `blur()` removes it, which was previously impossible because `v-focus-if` or an element ref targeted the component's non-focusable wrapper. `CoreHome.QuickAccess` now renders this component instead of duplicating its markup.
+* `Piwik\Plugin\ThemeStyles` gained `$colorPositive`, `$colorNegative` and `$colorNeutral`, exposed to Less as `@theme-color-positive`, `@theme-color-negative` and `@theme-color-neutral` (and as the matching `--theme-color-*` CSS variables). They colour what reads as positive, negative or neither, such as a metric's evolution or a trend, as opposed to `$colorSuccess` and `$colorDanger`, which report the outcome of an operation. `$colorNeutral` defaults to `$colorTextLighter`. Evolution badges, sparkline trends and dots, the All Websites dashboard and the Insights report now use them.
+* Plugins opt in to the new `core:rotate-encryption-keys` console command through the new `CoreAdminHome.getEncryptionKeyRotationTargets` event by describing where their key lives (`configSection`, `configKey`), which `options`, system `pluginSettings` and `siteSettings` hold encrypted values, and callables to recognise (`isEncrypted`), `decrypt` and `encrypt` a value with a given key. Per-user plugin settings and options whose names are not known in advance cannot be declared. The new `CoreAdminHome.encryptionKeyRotated` event is posted after each plugin's key was rotated.
+* `Piwik\Plugins\AIProviders\AIRequestDecision::reportUsage()` lets an `AIProviders.checkFeatureAllowed` listener that allows an action still report the used, limit and remaining figures, which `getUsed()`, `getLimit()` and `getRemaining()` previously returned only after `deny()`. It is ignored once the decision is denied. With several listeners the report with the least remaining wins, and a report without a remaining figure (unlimited) never replaces one that has it.
+* The `Archiver.filterRecordBuilders` event now also receives the `ArchiveProcessor` of the archive being built, so a listener can restrict or replace RecordBuilders for a specific site, period or segment. The RecordBuilder instances are shared by every archive built in the same request, so a listener should replace or remove entries rather than modify an instance. Existing listeners that take only `$recordBuilders` are unaffected.
+* The new `Marketplace.pluginTrialRequested` event is posted after a user requests a trial of a plugin, with the plugin's name and display name, so an audit trail can record it. The requesting user is the current user.
 
 ### Deprecations
-* `Piwik\Tracker\Visit::getTimeSpentReferrerAction()` and the `log_link_visit_action.time_spent_ref_action` column are
-  deprecated. The accurate per-pageview time-on-page metric is now sourced from the new `log_page_view_time` log table
-  written by `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter`. The deprecated method and column remain functional
-  through 6.x, because the archiver and the visits log still read them for pageviews that have no measured row (tracked
-  before the upgrade, while `record_accurate_page_view_time` was off, or whose row could not be written). They are
-  scheduled for removal in a future major version.
-* The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`) is
-  deprecated and will be removed in Matomo 7; use `@theme-color-background-contrast` instead. It is the generic elevated
-  content surface and is already used well beyond widgets.
-* The component-oriented theme variables `@theme-color-menu-contrast-text`, `@theme-color-menu-contrast-textSelected`,
-  `@theme-color-menu-contrast-textActive`, `@theme-color-menu-contrast-background`,
-  `@theme-color-menu-contrast-backgroundHover`, `@theme-color-widget-border`, `@theme-color-widget-title-text`,
-  `@theme-color-widget-title-background` and `@theme-color-widget-exported-background-base` (and the corresponding
-  `ThemeStyles` properties, also readable via `themeStyles.getPropertyValue()`) are deprecated and will be removed in
-  Matomo 7. Matomo's theming is moving from component-oriented variable names to usage-oriented ones; because these
-  variables fill roles that no existing variable covers, usage-oriented replacements will be defined before they are
-  removed. They keep working until then.
-* The theme variable `@theme-color-border-alternative` (`ThemeStyles::$colorBorderAlternative`) is deprecated and will
-  be removed in Matomo 7; use `@theme-color-border` instead, which now carries the same value. Core no longer reads the
-  alternative, so a theme that overrides `$colorBorderAlternative` must override `$colorBorder` instead.
+* `Piwik\Tracker\Visit::getTimeSpentReferrerAction()` and the `log_link_visit_action.time_spent_ref_action` column are deprecated. The accurate per-pageview time-on-page metric is now sourced from the new `log_page_view_time` log table written by `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter`. The deprecated method and column remain functional through 6.x, because the archiver and the visits log still read them for pageviews that have no measured row (tracked before the upgrade, while `record_accurate_page_view_time` was off, or whose row could not be written). They are scheduled for removal in a future major version.
+* The component-oriented theme variable `@theme-color-widget-background` (`ThemeStyles::$colorWidgetBackground`) is deprecated and will be removed in Matomo 7; use `@theme-color-background-contrast` instead. It is the generic elevated content surface and is already used well beyond widgets.
+* The component-oriented theme variables `@theme-color-menu-contrast-text`, `@theme-color-menu-contrast-textSelected`, `@theme-color-menu-contrast-textActive`, `@theme-color-menu-contrast-background`, `@theme-color-menu-contrast-backgroundHover`, `@theme-color-widget-border`, `@theme-color-widget-title-text`, `@theme-color-widget-title-background` and `@theme-color-widget-exported-background-base` (and the corresponding `ThemeStyles` properties, also readable via `themeStyles.getPropertyValue()`) are deprecated and will be removed in Matomo 7. Matomo's theming is moving from component-oriented variable names to usage-oriented ones; because these variables fill roles that no existing variable covers, usage-oriented replacements will be defined before they are removed. They keep working until then.
+* The theme variable `@theme-color-border-alternative` (`ThemeStyles::$colorBorderAlternative`) is deprecated and will be removed in Matomo 7; use `@theme-color-border` instead, which now carries the same value. Core no longer reads the alternative, so a theme that overrides `$colorBorderAlternative` must override `$colorBorder` instead.
 
 ### New commands
-* The new `core:rotate-encryption-keys` console command replaces the encryption key a plugin keeps in the local config
-  file (`config/config.ini.php` by default) and re-encrypts every value the plugin declares, or changes nothing if any
-  value cannot be decrypted.
+* The new `core:rotate-encryption-keys` console command replaces the encryption key a plugin keeps in the local config file (`config/config.ini.php` by default) and re-encrypts every value the plugin declares, or changes nothing if any value cannot be decrypted.
 
 ### New config.ini.php settings
-* `[Tracker] record_accurate_page_view_time` (default `1`, can be overridden per site in `[Tracker_N]`) is a temporary
-  kill-switch for the accurate time-on-page writer. Setting it to `0` stops new `log_page_view_time` rows from being
-  written; rows recorded earlier keep being used by the archiver and the visits log. It will be removed in a future
-  major version.
+* `[Tracker] record_accurate_page_view_time` (default `1`, can be overridden per site in `[Tracker_N]`) is a temporary kill-switch for the accurate time-on-page writer. Setting it to `0` stops new `log_page_view_time` rows from being written; rows recorded earlier keep being used by the archiver and the visits log. It will be removed in a future major version.
 
 ### HTTP API
-* Time on page is now measured per pageview, so `sum_time_spent` and `avg_time_on_page` in the Actions page URL and page
-  title reports change for data tracked after the upgrade. In `Live.getLastVisitsDetails`, `timeSpent` and
-  `timeSpentPretty` of a pageview show the measured time when there is one, and site-search actions can now carry
-  `timeSpent` and `timeSpentPretty` of their own.
-* Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an
-  additional `{metric}_percent_of_total` column (eg, `nb_visits_percent_of_total`), included in all export formats and
-  following `format_metrics` like other percent metrics. Non-additive metrics (unique visitors and users) and metrics a
-  report already expresses through a `{metric}_percentage` column are excluded. The columns can be disabled with the new
-  `percent_of_total=0` request parameter (or `totals=0`); CSV/TSV consumers parsing columns by position should pass it,
-  as the new columns change the header and column count. `API.getProcessedReport` places each percentage directly after
-  its metric and returns one only when that metric is itself a column of the report.
-* Scheduled reports now include the `{metric}_percent_of_total` columns as well: CSV and TSV carry them under the
-  translated name (eg, `Visits (%)`), HTML email shortens the label to `(%)`, and PDF leaves them out for lack of room.
-  A scheduled report has no request parameter of its own, so its owner cannot turn the columns off with
-  `percent_of_total=0`.
-* Custom report format renderers extending `Piwik\ReportRenderer` now receive the `{metric}_percent_of_total` columns as
-  well. `ReportRenderer::translatePercentOfTotalColumns()`, `shortenPercentOfTotalColumnLabels()` and
-  `removePercentOfTotalColumns()` are available to treat them the way the built-in formats do.
+* Time on page is now measured per pageview, so `sum_time_spent` and `avg_time_on_page` in the Actions page URL and page title reports change for data tracked after the upgrade. In `Live.getLastVisitsDetails`, `timeSpent` and `timeSpentPretty` of a pageview show the measured time when there is one, and site-search actions can now carry `timeSpent` and `timeSpentPretty` of their own.
+* Report rows now include a percentage-of-report-total value for each metric the report processes totals for, as an additional `{metric}_percent_of_total` column (eg, `nb_visits_percent_of_total`), included in all export formats and following `format_metrics` like other percent metrics. Non-additive metrics (unique visitors and users) and metrics a report already expresses through a `{metric}_percentage` column are excluded. The columns can be disabled with the new `percent_of_total=0` request parameter (or `totals=0`); CSV/TSV consumers parsing columns by position should pass it, as the new columns change the header and column count. `API.getProcessedReport` places each percentage directly after its metric and returns one only when that metric is itself a column of the report.
+* Scheduled reports now include the `{metric}_percent_of_total` columns as well: CSV and TSV carry them under the translated name (eg, `Visits (%)`), HTML email shortens the label to `(%)`, and PDF leaves them out for lack of room. A scheduled report has no request parameter of its own, so its owner cannot turn the columns off with `percent_of_total=0`.
+* Custom report format renderers extending `Piwik\ReportRenderer` now receive the `{metric}_percent_of_total` columns as well. `ReportRenderer::translatePercentOfTotalColumns()`, `shortenPercentOfTotalColumnLabels()` and `removePercentOfTotalColumns()` are available to treat them the way the built-in formats do.
 
 ### Schema
-* New log table `log_page_view_time` (one row per `(idvisit, idlink_va)`) records the accurate time each pageview or
-  site-search hit was visible. It is written by the tracker on every recordable hit and takes part in raw-log purging
-  via the `Piwik\Plugins\CoreHome\Tracker\LogTable\PageViewTime` `LogTable`. The Actions archiver sums it where a row
-  exists and falls back to the legacy `log_link_visit_action.time_spent_ref_action` for pageviews with no measured row,
-  such as those tracked before the upgrade or while `record_accurate_page_view_time` was off.
+* New log table `log_page_view_time` (one row per `(idvisit, idlink_va)`) records the accurate time each pageview or site-search hit was visible. It is written by the tracker on every recordable hit and takes part in raw-log purging via the `Piwik\Plugins\CoreHome\Tracker\LogTable\PageViewTime` `LogTable`. The Actions archiver sums it where a row exists and falls back to the legacy `log_link_visit_action.time_spent_ref_action` for pageviews with no measured row, such as those tracked before the upgrade or while `record_accurate_page_view_time` was off.
 
 ### HTTP Tracking API
-* New optional tracker request parameter `pv_time` (integer, seconds). A tracker that measures time-on-page itself can
-  send it on a follow-up hit carrying the pageview's `pv_id`, and `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter`
-  records it as the hit's measurement instead of the server-side calculation. It can only ever raise `time_spent`, so a
-  smaller value survives only on pageviews the server never re-measures (the last page of a visit, single-page visits,
-  abandoned tabs). Values are capped at the time elapsed since the pageview and at `Tracker.visit_standard_length`;
-  zero, negative and missing values fall back to the server-side calculation.
+* New optional tracker request parameter `pv_time` (integer, seconds). A tracker that measures time-on-page itself can send it on a follow-up hit carrying the pageview's `pv_id`, and `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter` records it as the hit's measurement instead of the server-side calculation. It can only ever raise `time_spent`, so a smaller value survives only on pageviews the server never re-measures (the last page of a visit, single-page visits, abandoned tabs). Values are capped at the time elapsed since the pageview and at `Tracker.visit_standard_length`; zero, negative and missing values fall back to the server-side calculation.
 
 ### Internal Changes
-* `./console vue:build` no longer emits the unminified `plugins/<Plugin>/vue/dist/<Plugin>.umd.js` bundle. Only the
-  minified `<Plugin>.umd.min.js` was ever loaded by Matomo, and development mode uses the `<Plugin>.development.umd.js`
-  produced by `./console vue:build --watch`. Plugin authors can delete the committed `vue/dist/<Plugin>.umd.js` file
-  from their repository and add `/vue/dist/*.umd.js` to their `.gitignore`. Nothing else needs to change; the file is
-  simply no longer regenerated.
-* Select form fields (`uicontrol="select"`) are now rendered as the bordered, rounded control used by the expandable
-  selects and the top-level selectors instead of Materialize's underlined field; inside a content table
-  (`v-content-table`) the select is a compact control with no label space, and while open it adds the `expanded` class
-  to its `.select-wrapper`. Plugin stylesheets that pin a narrow width on `.select-wrapper` may need widening, because
-  the control now reserves horizontal padding for its text and chevron; rules that positioned Materialize's `.caret` or
-  tuned the inner `input`'s height, line-height or font-size can be dropped, the shared styles size the field.
-  `.expandableSelector__chevron` now uses `margin-right` rather than `padding-right`.
-* The expandable select (`uicontrol="expandable-select"`) now renders its option list as a direct child of `<body>`,
-  positioned against the viewport, so a scrolling or clipping ancestor can no longer cut it off. The list is no longer a
-  descendant of `.expandableSelector`; it carries the classes `expandableList expandableSelector__list` and a
-  `data-name` attribute holding the field's name, which is the supported way to target a particular field's list. An
-  element rendered at page level that belongs to a control inside a Materialize modal can set
-  `data-matomo-modal-escapee` to that modal's `data-matomo-modal-id` to be exempted from its focus trap.
-* **A report's actions have moved out of the icon bars above and below the data table into a single report header.** The
-  header is rendered beside the table rather than inside it, so an action element is no longer a descendant of
-  `.dataTable`. A handler bound on the table alone never sees it: bind on the report wrapper instead, or reuse
-  `dataTable._findReportScope()`. Delegate rather than bind directly, because the header's menu is rendered by Vue after
-  a plugin's `init()` runs, and namespace your handler so it survives the reloads that rebuild the table.
-* **A `dataTable` subclass whose `init()` lists its handlers instead of calling the base `bindEventsAndApplyStyle()`
-  must also call `self.syncReportHeaderActions(domElem)`.** Without it the shared header is never told what the report
-  offers, and a dashboard widget - whose header is declared empty and filled from here - shows no actions at all.
-* The classes and ids the old bars carried are gone with them: `.dataTableHeaderControls`, `.searchAction`,
-  `.dataTableSearchInput`, `a.dropdownConfigureIcon`, `.activateVisualizationSelection`, `.periodName`, and the
-  materialize `dropdown-content` wrappers. The action classes themselves are unchanged - `.dataTableAction`,
-  `.activateExportSelection`, `.annotationView` and `.tableIcon[data-footer-icon-id]` still identify the same actions,
-  now inside `.reportHeader__actionsMenu`.
-* **The "rows to display" control is no longer a Materialize select.** `.limitSelection` now holds a `.mtm-selector` - a
-  `button.mtm-selector__trigger` and a panel whose choices are `a[data-limit]` inside `.mtm-dropdownPanel__menu` - so
-  `.select-wrapper`, `input.select-dropdown` and the native `<select>` are gone. Read the current value from the
-  trigger's label and pick one by its `data-limit`. On a report with pagination the control now sits inside
-  `.dataTablePaginationControl` rather than in a row of its own.
-* The "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. It is now scoped to the
-  placement it renders in, `dataTableExportAsImageIcon-header`. A page showing several image-exportable reports still
-  repeats it, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
-* A dashboard layout is now filtered against the widgets available to the user it is served to, so a widget that user
-  may not use is dropped instead of being rendered and failing on its own API calls. This matters for a plugin that
-  disables a widget for some users: `createNewDashboardForUser`, `resetDashboardLayout` and `copyDashboardToUser` build
-  a layout from the calling user's widget list and store it for someone else.
-* The `EnrichedHeadline` Vue component renames the elements it renders, so a plugin styling or reading them by class has
-  to follow: `.title` becomes `.enrichedHeadline__title`, `.iconsBar` becomes `.enrichedHeadline__iconsBar`,
-  `.ratingIcons` becomes `.enrichedHeadline__ratingIcons`, `.helpIcon` becomes `.enrichedHeadline__helpIcon` (its open
-  state `.active` becomes `.enrichedHeadline__helpIcon--active`). `.title` is still written to the DOM alongside its new
-  name, carrying no styles of Matomo's own, because third-party code reads the report name from `.enrichedHeadline
-  .title`.
-* The help panel a headline opens is now the standalone `mtm-helpPanel` block
-  (`plugins/Morpheus/stylesheets/ui/_help-panel.less`) in place of the `.inlineHelp` markup scoped inside
-  `.enrichedHeadline`: its `.readMore` link becomes `.mtm-helpPanel__readMore` and the headline's `.helpDate` becomes
-  `.mtm-helpPanel__date` (the DataTable's separate `.helpDate` is untouched). `ReportHeader` places it in a row of its
-  own below the header; the headline keeps it in `.enrichedHeadline__help` otherwise. The panel is removed from the DOM
-  while closed rather than hidden, so code looking for it has to account for it being absent.
-* Passing help by writing a `<div class="inlineHelp">` into the `EnrichedHeadline` slot is no longer supported; use the
-  `inline-help` attribute instead.
-* The conditional fallback definitions for functions and constants that every supported PHP version provides natively
-  (`mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class,
-  `PHP_INT_SIZE` and `PHP_INT_MAX`) have been removed from `libs/upgradephp/upgrade.php`, as has the `gzopen()` alias
-  for builds whose zlib exposes only `gzopen64()`; `Piwik\Unzip` falls back to `PclZip` on such a build.
+* `./console vue:build` no longer emits the unminified `plugins/<Plugin>/vue/dist/<Plugin>.umd.js` bundle. Only the minified `<Plugin>.umd.min.js` was ever loaded by Matomo, and development mode uses the `<Plugin>.development.umd.js` produced by `./console vue:build --watch`. Plugin authors can delete the committed `vue/dist/<Plugin>.umd.js` file from their repository and add `/vue/dist/*.umd.js` to their `.gitignore`. Nothing else needs to change; the file is simply no longer regenerated.
+* Select form fields (`uicontrol="select"`) are now rendered as the bordered, rounded control used by the expandable selects and the top-level selectors instead of Materialize's underlined field; inside a content table (`v-content-table`) the select is a compact control with no label space, and while open it adds the `expanded` class to its `.select-wrapper`. Plugin stylesheets that pin a narrow width on `.select-wrapper` may need widening, because the control now reserves horizontal padding for its text and chevron; rules that positioned Materialize's `.caret` or tuned the inner `input`'s height, line-height or font-size can be dropped, the shared styles size the field. `.expandableSelector__chevron` now uses `margin-right` rather than `padding-right`.
+* The expandable select (`uicontrol="expandable-select"`) now renders its option list as a direct child of `<body>`, positioned against the viewport, so a scrolling or clipping ancestor can no longer cut it off. The list is no longer a descendant of `.expandableSelector`; it carries the classes `expandableList expandableSelector__list` and a `data-name` attribute holding the field's name, which is the supported way to target a particular field's list. An element rendered at page level that belongs to a control inside a Materialize modal can set `data-matomo-modal-escapee` to that modal's `data-matomo-modal-id` to be exempted from its focus trap.
+* **A report's actions have moved out of the icon bars above and below the data table into a single report header.** The header is rendered beside the table rather than inside it, so an action element is no longer a descendant of `.dataTable`. A handler bound on the table alone never sees it: bind on the report wrapper instead, or reuse `dataTable._findReportScope()`. Delegate rather than bind directly, because the header's menu is rendered by Vue after a plugin's `init()` runs, and namespace your handler so it survives the reloads that rebuild the table.
+* **A `dataTable` subclass whose `init()` lists its handlers instead of calling the base `bindEventsAndApplyStyle()` must also call `self.syncReportHeaderActions(domElem)`.** Without it the shared header is never told what the report offers, and a dashboard widget - whose header is declared empty and filled from here - shows no actions at all.
+* The classes and ids the old bars carried are gone with them: `.dataTableHeaderControls`, `.searchAction`, `.dataTableSearchInput`, `a.dropdownConfigureIcon`, `.activateVisualizationSelection`, `.periodName`, and the materialize `dropdown-content` wrappers. The action classes themselves are unchanged - `.dataTableAction`, `.activateExportSelection`, `.annotationView` and `.tableIcon[data-footer-icon-id]` still identify the same actions, now inside `.reportHeader__actionsMenu`.
+* **The "rows to display" control is no longer a Materialize select.** `.limitSelection` now holds a `.mtm-selector` - a `button.mtm-selector__trigger` and a panel whose choices are `a[data-limit]` inside `.mtm-dropdownPanel__menu` - so `.select-wrapper`, `input.select-dropdown` and the native `<select>` are gone. Read the current value from the trigger's label and pick one by its `data-limit`. On a report with pagination the control now sits inside `.dataTablePaginationControl` rather than in a row of its own.
+* The "export as image" icon no longer carries the id `dataTableFooterExportAsImageIcon`. It is now scoped to the placement it renders in, `dataTableExportAsImageIcon-header`. A page showing several image-exportable reports still repeats it, so prefer selecting `.dataTableAction.tableIcon` within the report you mean.
+* A dashboard layout is now filtered against the widgets available to the user it is served to, so a widget that user may not use is dropped instead of being rendered and failing on its own API calls. This matters for a plugin that disables a widget for some users: `createNewDashboardForUser`, `resetDashboardLayout` and `copyDashboardToUser` build a layout from the calling user's widget list and store it for someone else.
+* The `EnrichedHeadline` Vue component renames the elements it renders, so a plugin styling or reading them by class has to follow: `.title` becomes `.enrichedHeadline__title`, `.iconsBar` becomes `.enrichedHeadline__iconsBar`, `.ratingIcons` becomes `.enrichedHeadline__ratingIcons`, `.helpIcon` becomes `.enrichedHeadline__helpIcon` (its open state `.active` becomes `.enrichedHeadline__helpIcon--active`). `.title` is still written to the DOM alongside its new name, carrying no styles of Matomo's own, because third-party code reads the report name from `.enrichedHeadline .title`.
+* The help panel a headline opens is now the standalone `mtm-helpPanel` block (`plugins/Morpheus/stylesheets/ui/_help-panel.less`) in place of the `.inlineHelp` markup scoped inside `.enrichedHeadline`: its `.readMore` link becomes `.mtm-helpPanel__readMore` and the headline's `.helpDate` becomes `.mtm-helpPanel__date` (the DataTable's separate `.helpDate` is untouched). `ReportHeader` places it in a row of its own below the header; the headline keeps it in `.enrichedHeadline__help` otherwise. The panel is removed from the DOM while closed rather than hidden, so code looking for it has to account for it being absent.
+* Passing help by writing a `<div class="inlineHelp">` into the `EnrichedHeadline` slot is no longer supported; use the `inline-help` attribute instead.
+* The conditional fallback definitions for functions and constants that every supported PHP version provides natively (`mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class, `PHP_INT_SIZE` and `PHP_INT_MAX`) have been removed from `libs/upgradephp/upgrade.php`, as has the `gzopen()` alias for builds whose zlib exposes only `gzopen64()`; `Piwik\Unzip` falls back to `PclZip` on such a build.
 
 ## Matomo 5.14.2
 
