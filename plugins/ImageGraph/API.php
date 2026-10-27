@@ -23,6 +23,8 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Request as PiwikRequest;
 use Piwik\SettingsServer;
+use Piwik\Validators\NumberRange;
+use Piwik\Validators\WhitelistedValue;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Matomo report.
@@ -122,13 +124,13 @@ class API extends \Piwik\Plugin\API
      * @param string $apiModule API module name of the source report.
      * @param string $apiAction API method name of the source report.
      * @param 'evolution'|'verticalBar'|'horizontalBar'|'pie'|'3dPie'|false $graphType Optional graph type.
-     * @param int $outputType Output mode: inline image, saved file, or raw PHP graph object.
+     * @param int $outputType Output mode: `0` inline image, `1` saved file, or `2` raw PHP graph object.
      * @param string|false $columns Optional comma-separated metric names to plot.
      * @param string|false $labels Optional comma-separated row labels to include for evolution graphs.
      * @param bool $showLegend Whether the graph legend should be displayed.
-     * @param int|false $width Optional graph width in pixels.
-     * @param int|false $height Optional graph height in pixels.
-     * @param int $fontSize Base font size used in the graph.
+     * @param int|false $width Optional graph width in pixels, at least `0` (`0` uses the default).
+     * @param int|false $height Optional graph height in pixels, at least `0` (`0` uses the default).
+     * @param int $fontSize Base font size used in the graph, at least `1`.
      * @param int|false $legendFontSize Optional legend font size.
      * @param bool $aliasedGraph Whether anti-aliasing should be enabled.
      * @param int|string|false $idGoal Optional goal ID for report methods that support goals.
@@ -151,13 +153,13 @@ class API extends \Piwik\Plugin\API
         string $apiModule,
         string $apiAction,
         $graphType = false,
-        int $outputType = API::GRAPH_OUTPUT_INLINE,
+        #[WhitelistedValue([API::GRAPH_OUTPUT_INLINE, API::GRAPH_OUTPUT_FILE, API::GRAPH_OUTPUT_PHP])] int $outputType = API::GRAPH_OUTPUT_INLINE,
         $columns = false,
         $labels = false,
         bool $showLegend = true,
-        $width = false,
-        $height = false,
-        int $fontSize = API::DEFAULT_FONT_SIZE,
+        #[NumberRange(0)] $width = false,
+        #[NumberRange(0)] $height = false,
+        #[NumberRange(1)] int $fontSize = API::DEFAULT_FONT_SIZE,
         $legendFontSize = false,
         bool $aliasedGraph = true,
         $idGoal = false,
@@ -170,6 +172,8 @@ class API extends \Piwik\Plugin\API
         $segment = false,
         $idDimension = false
     ) {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
         Piwik::checkUserHasViewAccess($idSite);
 
         // a graph may only be streamed to the browser by the top-level request, so it is checked

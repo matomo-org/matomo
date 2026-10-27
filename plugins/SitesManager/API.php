@@ -44,6 +44,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\UrlHelper;
+use Piwik\Validators\NumberRange;
 use Piwik\Validators\WhitelistedValue;
 
 /**
@@ -490,13 +491,20 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $permission One of `'view'`, `'write'` or `'admin'`.
      * @param string|null $pattern Optional name/URL pattern to filter results by.
-     * @param int|null $limit Maximum number of sites to return, or `null` for no limit.
+     * @param int|null $limit Maximum number of sites to return, or `null` (or `0`) for no limit. Must not be negative.
      * @param int[] $sitesToExclude Site IDs to exclude from the result.
      * @param string[] $siteTypesToExclude Site types (e.g. `'website'`, `'mobileapp'`) to exclude from the result.
      * @return list<SiteData> Websites matching the access level and filters.
      */
-    public function getSitesWithMinimumAccess(string $permission, ?string $pattern = null, ?int $limit = null, array $sitesToExclude = [], array $siteTypesToExclude = []): array
-    {
+    public function getSitesWithMinimumAccess(
+        string $permission,
+        ?string $pattern = null,
+        #[NumberRange(0)] ?int $limit = null,
+        array $sitesToExclude = [],
+        array $siteTypesToExclude = []
+    ): array {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
         switch (strtolower($permission)) {
             case Access\Role\Admin::ID:
                 $sitesId = Access::getInstance()->getSitesIdWithAdminAccess();
