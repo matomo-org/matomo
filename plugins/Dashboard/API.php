@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Dashboard;
 
 use Piwik\API\Request;
 use Piwik\Piwik;
+use Piwik\Validators\CharacterLength;
+use Piwik\Validators\NumberRange;
 
 /**
  * The Dashboard API lets you manage user dashboards and retrieve their widget configurations.
@@ -63,12 +65,17 @@ class API extends \Piwik\Plugin\API
      * Creates a new dashboard for a user.
      *
      * @param string $login Login of the user the dashboard should be created for.
-     * @param string $dashboardName Name of the new dashboard.
+     * @param string $dashboardName Name of the new dashboard, at most 100 characters.
      * @param bool $addDefaultWidgets Whether to populate the dashboard with the default widget layout.
      * @return int|string ID of the newly created dashboard.
      */
-    public function createNewDashboardForUser(string $login, string $dashboardName = '', bool $addDefaultWidgets = true)
-    {
+    public function createNewDashboardForUser(
+        string $login,
+        #[CharacterLength(null, 100)] string $dashboardName = '',
+        bool $addDefaultWidgets = true
+    ) {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
         $this->checkLoginIsNotAnonymous($login);
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
 
@@ -105,11 +112,16 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idDashboard ID of the dashboard to copy.
      * @param string $copyToUser Login of the user that should receive the dashboard copy.
-     * @param string $dashboardName Name for the copied dashboard.
+     * @param string $dashboardName Name for the copied dashboard, at most 100 characters.
      * @return int|string ID of the newly created dashboard copy.
      */
-    public function copyDashboardToUser(int $idDashboard, string $copyToUser, string $dashboardName = '')
-    {
+    public function copyDashboardToUser(
+        #[NumberRange(1)] int $idDashboard,
+        string $copyToUser,
+        #[CharacterLength(null, 100)] string $dashboardName = ''
+    ) {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
         Piwik::checkUserHasSomeAdminAccess();
 
         // get users only returns users of sites the current user has at least admin access to
@@ -140,11 +152,13 @@ class API extends \Piwik\Plugin\API
     /**
      * Resets a dashboard to the default widget layout.
      *
-     * @param int $idDashboard ID of the dashboard to reset.
+     * @param int $idDashboard ID of the dashboard to reset, at least `1`.
      * @param string $login Login of the dashboard owner. Defaults to the current user.
      */
-    public function resetDashboardLayout(int $idDashboard, string $login = ''): void
+    public function resetDashboardLayout(#[NumberRange(1)] int $idDashboard, string $login = ''): void
     {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
         $login = $login ?: Piwik::getCurrentUserLogin();
 
         $this->checkLoginIsNotAnonymous($login);

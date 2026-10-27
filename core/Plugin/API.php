@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\API\ParameterValidator;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -145,6 +146,30 @@ abstract class API
             // in case of any error (e.g. the provided password is too weak)
             throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
+    }
+
+    /**
+     * Runs the validator attributes of the calling method's parameters (any validator in
+     * `Piwik\Validators` that is marked as an attribute, for example `#[NumberRange(0)]`). Call it as the
+     * method's first statement:
+     *
+     *     public function getUsers(#[NumberRange(0)] ?int $limit = null)
+     *     {
+     *         $this->checkParameters(__METHOD__, get_defined_vars());
+     *         // ...
+     *     }
+     *
+     * It covers every caller: HTTP requests and `Request::processRequest()` as well as direct PHP calls.
+     * Parameters whose value is `null` are skipped. `__METHOD__` names the declaring class, so the
+     * validators keep applying when a subclass overrides the method and calls `parent::`.
+     *
+     * @param string $method the calling method as `Class::method`, see `__METHOD__`
+     * @param array<string, mixed> $arguments the calling method's arguments by name, see `get_defined_vars()`
+     * @throws \Piwik\API\ParameterValidationException listing every parameter that failed (HTTP 400)
+     */
+    protected function checkParameters(string $method, array $arguments): void
+    {
+        StaticContainer::get(ParameterValidator::class)->validate($method, $arguments);
     }
 
     /**

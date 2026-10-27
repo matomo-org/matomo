@@ -9,8 +9,10 @@
 
 namespace Piwik\Validators;
 
+use Attribute;
 use Piwik\Piwik;
 
+#[Attribute(Attribute::TARGET_PARAMETER)]
 class NumberRange extends BaseValidator
 {
     public const MAX_SMALL_INT_UNSIGNED = 65535;
