@@ -3,7 +3,7 @@
 //
 // The control is one framed row: an optional action button at its start, the trigger, an optional
 // action button at its end. Each action has a state of its own, while the trigger's hover, focus
-// and open states are drawn around the whole row. See the "Selector" section of the UI demo page.
+// and open states are drawn around the whole row. See the "Selector" page of the Component Library.
 
 @_selector-paddingVertical: 8px;
 @_selector-paddingHorizontal: 16px;
@@ -70,10 +70,6 @@
       border-color: @theme-color-focus-ring;
       outline: 1px solid @theme-color-focus-ring;
     }
-  }
-
-  &.mtm-selector--expanded .mtm-selector__trigger::before {
-    border-color: @theme-color-link;
   }
 
   // A one-click button beside the trigger, such as a step to the previous period. It is drawn
@@ -165,10 +161,6 @@
     transition: transform .15s ease;
   }
 
-  &.mtm-selector--expanded .mtm-selector__rightIcon {
-    transform: rotate(180deg);
-  }
-
   // Anchored right, so a panel wider than its control grows inwards rather than off the page.
   // Padding rather than margin for the offset, so a pointer can cross the gap without leaving a
   // selector that opens on hover. The -1px lines it up with the outer edge of the frame.
@@ -184,10 +176,6 @@
     z-index: 200;
   }
 
-  &.mtm-selector--expanded .mtm-selector__dropdown {
-    display: block;
-  }
-
   // For a selector at the left of a wide row, where growing inwards would start the panel off it.
   .mtm-selector__dropdown--anchorLeft {
     left: -1px;
@@ -198,6 +186,21 @@
   // under. 1010 is what the series picker popover uses to clear a jQuery UI dialog.
   .mtm-selector__dropdown--aboveOverlays {
     z-index: 1010;
+  }
+}
+
+// The panel is open.
+.mtm-selector--expanded {
+  .mtm-selector__trigger::before {
+    border-color: @theme-color-link;
+  }
+
+  .mtm-selector__rightIcon {
+    transform: rotate(180deg);
+  }
+
+  .mtm-selector__dropdown {
+    display: block;
   }
 }
 
