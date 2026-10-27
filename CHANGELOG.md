@@ -6,8 +6,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### New APIs
+* API methods can validate their parameters with validator attributes: the validators `Piwik\Validators\NumberRange`, `CharacterLength`, `WhitelistedValue` and the new `IdSites` can be put on a parameter (eg. `#[NumberRange(0)] ?int $limit = null`), and run when the method calls `$this->checkParameters(__METHOD__, get_defined_vars());` as its first statement, for HTTP requests as well as direct PHP calls. Every invalid parameter is reported at once in a `Piwik\API\ParameterValidationException` (HTTP 400), and the validators are listed in the API reference. Arrays are rejected unless every validator on the parameter implements `Piwik\Validators\AcceptsArrayValues`.
+
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
+
+### HTTP API
+* API methods that validate their parameters answer an invalid request with HTTP 400 and an error message naming every invalid parameter. JSON responses additionally list them in an `errors` array, eg. `{"result": "error", "message": "...", "errors": [{"parameter": "limit", "message": "..."}]}`. More API methods will adopt parameter validation over time, so API clients should expect such errors from any method.
 
 ## Matomo 6.0.0
 
