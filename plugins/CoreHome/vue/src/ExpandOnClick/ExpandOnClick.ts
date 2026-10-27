@@ -20,7 +20,6 @@ export interface ExpandOnClickArgs {
   onExpand?: (event: MouseEvent|KeyboardEvent) => void;
 
   // state
-  expandedClasses?: string[];
   isMouseDown?: boolean;
   hasScrolled?: boolean;
 
@@ -32,16 +31,17 @@ export interface ExpandOnClickArgs {
   onEscapeHandler?: (event: KeyboardEvent) => void;
 }
 
-function isExpanded(element: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): boolean {
-  return element.classList.contains(binding.value.expandedClasses![0]);
+function isExpanded(element: HTMLElement, expandedClasses: string[]): boolean {
+  return element.classList.contains(expandedClasses[0]);
 }
 
 function expand(
   element: HTMLElement,
+  expandedClasses: string[],
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  element.classList.add(...binding.value.expandedClasses!);
+  element.classList.add(...expandedClasses);
   if (binding.value?.onExpand) {
     binding.value.onExpand(event);
   }
@@ -54,13 +54,14 @@ function expand(
 
 function close(
   element: HTMLElement,
+  expandedClasses: string[],
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  if (!isExpanded(element, binding)) {
+  if (!isExpanded(element, expandedClasses)) {
     return;
   }
-  element.classList.remove(...binding.value.expandedClasses!);
+  element.classList.remove(...expandedClasses);
 
   if (binding.value?.onClosed) {
     binding.value.onClosed(event);
@@ -69,18 +70,20 @@ function close(
 
 function onClickOnExpander(
   element: HTMLElement,
+  expandedClasses: string[],
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
-  if (isExpanded(element, binding)) {
-    close(element, binding, event);
+  if (isExpanded(element, expandedClasses)) {
+    close(element, expandedClasses, binding, event);
   } else {
-    expand(element, binding, event);
+    expand(element, expandedClasses, binding, event);
   }
 }
 
 function onClickOutsideElement(
   element: HTMLElement,
+  expandedClasses: string[],
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent,
 ) {
@@ -93,7 +96,7 @@ function onClickOutsideElement(
   }
 
   if (!element.contains(event.target as HTMLElement)) {
-    close(element, binding, event);
+    close(element, expandedClasses, binding, event);
   }
 }
 
@@ -108,13 +111,14 @@ function onMouseDown(binding: DirectiveBinding<ExpandOnClickArgs>) {
 
 function onEscapeHandler(
   element: HTMLElement,
+  expandedClasses: string[],
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: KeyboardEvent,
 ) {
   if (event.key === 'Escape') {
     binding.value.isMouseDown = false;
     binding.value.hasScrolled = false;
-    close(element, binding, event);
+    close(element, expandedClasses, binding, event);
   }
 }
 
@@ -130,15 +134,18 @@ const doc = document.documentElement;
  */
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
-    binding.value.expandedClasses = DirectiveUtilities.getExpandedClasses(
-      binding.value.expandedClass,
-    );
+    const expandedClasses = DirectiveUtilities.getExpandedClasses(binding.value.expandedClass);
     binding.value.isMouseDown = false;
     binding.value.hasScrolled = false;
-    binding.value.onClickOnExpander = onClickOnExpander.bind(null, el, binding);
-    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, binding);
+    binding.value.onClickOnExpander = onClickOnExpander.bind(null, el, expandedClasses, binding);
+    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, expandedClasses, binding);
     binding.value.onMouseDown = onMouseDown.bind(null, binding);
-    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);
+    binding.value.onClickOutsideElement = onClickOutsideElement.bind(
+      null,
+      el,
+      expandedClasses,
+      binding,
+    );
     binding.value.onScroll = onScroll.bind(null, binding);
 
     setTimeout(() => {
