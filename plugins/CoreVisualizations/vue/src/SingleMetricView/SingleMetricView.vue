@@ -28,7 +28,7 @@
         </span>
         <span
           class="metricEvolution"
-          v-if="pastValue !== null"
+          v-if="metricChangePercent !== null"
           :title="translate(
             'General_EvolutionSummaryGeneric', metricValue ?? '', currentPeriod ?? '',
             pastValue ?? '', pastPeriod ?? '', metricChangePercent ?? '')"

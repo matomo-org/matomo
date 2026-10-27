@@ -175,6 +175,15 @@ describe("BotTracking", function () {
         expect(kpi.hasEvolution).to.equal(false);
     });
 
+    it('should show no AI chatbot traffic ratio evolution in the KPI widget for a period without page views after one with', async function () {
+        const previousDay = await getKpiWidgetValue('2025-02-06');
+        expect(previousDay.value).to.not.equal('-');
+
+        const kpi = await getKpiWidgetValue('2025-02-07');
+        expect(kpi.value).to.equal('-');
+        expect(kpi.hasEvolution).to.equal(false);
+    });
+
     it('should render AI Assistants > AI Chatbots Overview bot detail report', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();
