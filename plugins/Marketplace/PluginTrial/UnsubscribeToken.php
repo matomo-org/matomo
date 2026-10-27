@@ -23,7 +23,7 @@ class UnsubscribeToken
 
     public function generate(string $login): string
     {
-        return hash_hmac('sha256', self::PURPOSE . '|' . $login, SettingsPiwik::getSalt());
+        return hash_hmac('sha256', self::PURPOSE . '|' . $login, (string) SettingsPiwik::getSalt());
     }
 
     public function isValid(string $login, string $token): bool

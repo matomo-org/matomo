@@ -655,7 +655,27 @@ class ControllerTest extends IntegrationTestCase
         self::assertSame([Fixture::ADMIN_USER_LOGIN], $postedFor);
     }
 
-    private function dispatchUnsubscribe(string $login, string $token, bool $confirm = false): string
+    public function testUnsubscribeTrialRequestEmailsRejectsAConfirmWithAnInvalidNonce()
+    {
+        Fixture::createSuperUser();
+        $bufferLevel = ob_get_level();
+
+        try {
+            $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN), true, 'invalid');
+            self::fail('Expected the nonce check to throw');
+        } catch (\Exception $e) {
+            self::assertSame(Piwik::translate('General_ExceptionSecurityCheckFailed'), $e->getMessage());
+        } finally {
+            // the dispatch throws before closing the output buffer it opened
+            while (ob_get_level() > $bufferLevel) {
+                ob_end_clean();
+            }
+        }
+
+        self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    private function dispatchUnsubscribe(string $login, string $token, bool $confirm = false, ?string $nonce = null): string
     {
         $_GET = [
             'module' => 'Marketplace',
@@ -666,11 +686,13 @@ class ControllerTest extends IntegrationTestCase
 
         if ($confirm) {
             $_GET['confirm'] = '1';
-            $_GET['nonce'] = Nonce::getNonce(Controller::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+            $_GET['nonce'] = $nonce ?? Nonce::getNonce(Controller::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
         }
 
         // the link is opened from an email, so the action must work without a session
         Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess();
+        $this->assertTrue(Piwik::isUserIsAnonymous());
 
         return FrontController::getInstance()->fetchDispatch('Marketplace', 'unsubscribeTrialRequestEmails');
     }
