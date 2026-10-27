@@ -128,6 +128,25 @@ describe("BotTracking", function () {
         expect(value).to.equal('-');
     });
 
+    it('should show no AI chatbot traffic ratio evolution when comparing with a period without page views', async function () {
+        await page.goto("?" + urlBase + "#?idSite=1&period=day&date=2025-02-02&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview"
+            + "&compareDates[]=2025-01-15&comparePeriods[]=day");
+        await page.waitForNetworkIdle();
+
+        const getComparison = function (title) {
+            return page.evaluate(function (title) {
+                var $card = jQuery('.sparklineDateComparison__title:contains("' + title + '")').closest('.sparklineDateComparison');
+                return {
+                    values: $card.find('.metricValue__number').map(function () { return jQuery(this).text().trim(); }).get(),
+                    evolutions: $card.find('.evolutionBadge').length,
+                };
+            }, title);
+        };
+
+        expect(await getComparison('AI Chatbot traffic ratio')).to.deep.equal({ values: ['8.0×', '-'], evolutions: 0 });
+        expect((await getComparison('Requests')).evolutions).to.be.above(0);
+    });
+
     async function getKpiWidgetValue(date) {
         await page.goto("?module=Widgetize&action=iframe&moduleToWidgetize=CoreVisualizations&actionToWidgetize=singleMetricView"
             + "&column=BotTracking_AIChatbotsTrafficRatio&idSite=1&period=day&date=" + date + "&disableLink=1&widget=1");
