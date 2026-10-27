@@ -6,52 +6,71 @@
 -->
 <template>
   <div
-    v-expand-on-hover="{expander: 'expander'}"
+    v-expand-on-hover="{
+      expander: 'expander',
+      expandedClass: [
+        'mtm-selector--expanded',
+        /* @deprecated since Matomo 6.1.0, removed in Matomo 7: use mtm-selector--expanded */
+        'expanded',
+      ],
+    }"
     id="header_message"
-    class="piwikSelector"
+    class="mtm-selector"
     :class="{
+      'mtm-selector--highlighted': latestVersionAvailable,
       header_info: !latestVersionAvailable || lastUpdateCheckFailed,
-      update_available: latestVersionAvailable
+      update_available: latestVersionAvailable,
     }"
   >
+    <!-- `header_info`, `update_available`, `title` and `piwikSelector__dropdown` carry no styles:
+         plugins read them to find the message and its parts. -->
     <Passthrough v-if="latestVersionAvailable">
       <span
         v-if="isMultiServerEnvironment"
-        class="title"
-        style="cursor:pointer;"
+        class="mtm-selector__trigger title"
         ref="expander"
       >
-        <span class="icon-update"></span>
-        {{ translate('General_NewUpdatePiwikX', latestVersionAvailable) }}
+        <span class="mtm-selector__icon" aria-hidden="true">
+          <span class="icon-update" />
+        </span>
+        <span class="mtm-selector__label">
+          {{ translate('General_NewUpdatePiwikX', latestVersionAvailable) }}
+        </span>
       </span>
       <a
         v-else
-        class="title"
+        class="mtm-selector__trigger title"
         href="?module=CoreUpdater&action=newVersionAvailable"
-        style="cursor:pointer;"
         ref="expander"
       >
-        <span class="icon-update"></span>
-        {{ translate('General_NewUpdatePiwikX', latestVersionAvailable) }}
+        <span class="mtm-selector__icon" aria-hidden="true">
+          <span class="icon-update" />
+        </span>
+        <span class="mtm-selector__label">
+          {{ translate('General_NewUpdatePiwikX', latestVersionAvailable) }}
+        </span>
       </a>
     </Passthrough>
     <Passthrough v-else-if="isSuperUser && (isAdminArea || lastUpdateCheckFailed)">
-      <a v-if="isInternetEnabled" class="title" v-html="$sanitize(updateCheck)"></a>
+      <a
+        v-if="isInternetEnabled"
+        class="mtm-selector__trigger title"
+        v-html="$sanitize(updateCheck)"
+      ></a>
       <a
         v-else
-        class="title"
+        class="mtm-selector__trigger title"
         :href="externalRawLink('https://matomo.org/changelog/')"
         target="_blank"
         rel="noreferrer noopener"
       >
-        <span id="updateCheckLinkContainer">
+        <span id="updateCheckLinkContainer" class="mtm-selector__label">
           {{ translate('CoreHome_SeeAvailableVersions') }}
         </span>
       </a>
     </Passthrough>
 
-    <!-- Two nodes on purpose: the outer one owns placement, the inner one owns appearance. -->
-    <div class="piwikSelector__dropdown positionInViewport">
+    <div class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft positionInViewport piwikSelector__dropdown">
       <div class="mtm-dropdownPanel">
         <div class="mtm-dropdownPanel__text">
           <span

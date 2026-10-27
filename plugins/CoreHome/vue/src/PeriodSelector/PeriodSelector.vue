@@ -8,98 +8,129 @@
 <template>
   <div
     ref="root"
-    class="periodSelector piwikSelector"
-    :class="{'periodSelector-withPrevNext': canShowMovePeriod}"
+    class="mtm-selector mtm-selector--fullWidthOnSmallScreen periodSelector"
+    :class="{ 'periodSelector-withPrevNext': canShowMovePeriod }"
     v-expand-on-click="{
       expander: 'title',
+      expandedClass: [
+        'mtm-selector--expanded',
+        /* @deprecated since Matomo 6.1.0, removed in Matomo 7: use mtm-selector--expanded */
+        'expanded',
+      ],
       onExpand: onExpand,
       onClosed: onClosed,
     }"
   >
+    <!-- `periodSelector`, `periodSelector-withPrevNext`, `move-period*`, `#date`, `title` and
+         `dropdown` carry no styles: plugins read them to find the selector's parts. -->
     <button
       v-if="canShowMovePeriod"
-      class="move-period move-period-prev"
+      type="button"
+      class="mtm-selector__action mtm-selector__action--start move-period move-period-prev"
+      tabindex="4"
+      v-tooltips
+      :title="translate('General_PreviousPeriod')"
+      :aria-label="translate('General_PreviousPeriod')"
       @click="movePeriod(-1)"
       :disabled="isPeriodMoveDisabled(-1)"
     >
-      <span class="icon-chevron-left"></span>
+      <span class="mtm-selector__icon" aria-hidden="true">
+        <span class="icon-chevron-left" />
+      </span>
     </button>
 
     <button
       ref="title"
       id="date"
-      class="title"
+      type="button"
+      class="mtm-selector__trigger title"
       tabindex="4"
       v-tooltips
       :title="translate('General_ChooseDate', currentlyViewingText)"
     >
-      <span class="icon icon-calendar" />
-      {{ currentlyViewingText }}
+      <span class="mtm-selector__icon" aria-hidden="true">
+        <span class="icon-calendar" />
+      </span>
+      <span class="mtm-selector__label">{{ currentlyViewingText }}</span>
     </button>
 
     <div
       id="periodMore"
-      class="dropdown"
-      :class="selectedPeriod === 'range' ? 'dual-calendar' : 'single-calendar'"
+      class="mtm-selector__dropdown dropdown"
+      :class="[
+        selectedPeriod === 'range' ? 'dual-calendar' : 'single-calendar',
+        { 'mtm-selector__dropdown--anchorLeft': !anchorDropdownRight },
+      ]"
     >
-      <div class="flex">
-        <PeriodSelectorOptionsColumn
-          :ui-selected-period="selectedPeriod"
-          :periods-filtered="periodsFiltered"
-          :applied-period="committedPeriod"
-          :active-preset-id="activePresetId"
-          :min-allowed-date="minAllowedDate"
-          :max-allowed-date="maxAllowedDate"
-          @update:ui-selected-period="selectedPeriod = $event"
-          @period-select="onPeriodOptionSelected($event)"
-          @period-dblclick="onPeriodOptionDblClick($event)"
-          @preset-select="onPresetDateRangeSelected($event)"
-          @preset-dblclick="onPresetDateRangeDblClick($event)"
-        />
-        <PeriodSelectorCalendarColumn
-          :ui-selection="uiSelection"
-          :calendar-viewport="calendarViewport"
-          :display-range-start-date="displayRangeStartDate"
-          :display-range-end-date="displayRangeEndDate"
-          :single-calendar-period="singleCalendarPeriod"
-          :single-calendar-selected-date="singleCalendarSelectedDate"
-          :is-comparison-enabled="isComparisonEnabled"
-          :is-comparing="isComparing"
-          :compare-period-type="comparePeriodType"
-          :compare-start-date="compareStartDate"
-          :compare-end-date="compareEndDate"
-          :compare-period-dropdown-options="comparePeriodDropdownOptions"
-          :show-invalid-comparison-message="shouldDisplayInvalidComparisonMessage()"
-          :is-apply-enabled="isApplyEnabled()"
-          @range-change="onRangeChange($event.start, $event.end)"
-          @single-date-select="onDatePickerSelected($event)"
-          @apply-click="onApplyClicked()"
-          @disabled-apply-interaction="onDisabledApplyInteraction()"
-          @update:isComparing="onCompareToggleUpdated($event)"
-          @update:comparePeriodType="onComparePeriodTypeUpdated($event)"
-          @update:compareStartDate="onCompareStartDateUpdated($event)"
-          @update:compareEndDate="onCompareEndDateUpdated($event)"
-        />
-      </div>
-      <div
-        id="ajaxLoadingCalendar"
-        v-if="isLoadingNewPage"
-      >
-        <ActivityIndicator
-          :loading="true"
-        />
-        <div class="loadingSegment">
-          {{ translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime') }}
+      <div class="mtm-dropdownPanel">
+        <div ref="panelContent" class="periodSelector__panel">
+          <div class="flex">
+            <PeriodSelectorOptionsColumn
+              :ui-selected-period="selectedPeriod"
+              :periods-filtered="periodsFiltered"
+              :applied-period="committedPeriod"
+              :active-preset-id="activePresetId"
+              :min-allowed-date="minAllowedDate"
+              :max-allowed-date="maxAllowedDate"
+              @update:ui-selected-period="selectedPeriod = $event"
+              @period-select="onPeriodOptionSelected($event)"
+              @period-dblclick="onPeriodOptionDblClick($event)"
+              @preset-select="onPresetDateRangeSelected($event)"
+              @preset-dblclick="onPresetDateRangeDblClick($event)"
+            />
+            <PeriodSelectorCalendarColumn
+              :ui-selection="uiSelection"
+              :calendar-viewport="calendarViewport"
+              :display-range-start-date="displayRangeStartDate"
+              :display-range-end-date="displayRangeEndDate"
+              :single-calendar-period="singleCalendarPeriod"
+              :single-calendar-selected-date="singleCalendarSelectedDate"
+              :is-comparison-enabled="isComparisonEnabled"
+              :is-comparing="isComparing"
+              :compare-period-type="comparePeriodType"
+              :compare-start-date="compareStartDate"
+              :compare-end-date="compareEndDate"
+              :compare-period-dropdown-options="comparePeriodDropdownOptions"
+              :show-invalid-comparison-message="shouldDisplayInvalidComparisonMessage()"
+              :is-apply-enabled="isApplyEnabled()"
+              @range-change="onRangeChange($event.start, $event.end)"
+              @single-date-select="onDatePickerSelected($event)"
+              @apply-click="onApplyClicked()"
+              @disabled-apply-interaction="onDisabledApplyInteraction()"
+              @update:isComparing="onCompareToggleUpdated($event)"
+              @update:comparePeriodType="onComparePeriodTypeUpdated($event)"
+              @update:compareStartDate="onCompareStartDateUpdated($event)"
+              @update:compareEndDate="onCompareEndDateUpdated($event)"
+            />
+          </div>
+          <div
+            id="ajaxLoadingCalendar"
+            v-if="isLoadingNewPage"
+          >
+            <ActivityIndicator
+              :loading="true"
+            />
+            <div class="loadingSegment">
+              {{ translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime') }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <button
       v-if="canShowMovePeriod"
-      class="move-period move-period-next"
+      type="button"
+      class="mtm-selector__action mtm-selector__action--end move-period move-period-next"
+      tabindex="4"
+      v-tooltips
+      :title="translate('General_NextPeriod')"
+      :aria-label="translate('General_NextPeriod')"
       @click="movePeriod(1)"
       :disabled="isPeriodMoveDisabled(1)"
     >
-      <span class="icon-chevron-right"></span>
+      <span class="mtm-selector__icon" aria-hidden="true">
+        <span class="icon-chevron-right" />
+      </span>
     </button>
   </div>
 </template>
@@ -238,6 +269,8 @@ export default defineComponent({
   name: 'PeriodSelector',
   props: {
     periods: Array,
+    // For a selector placed at the right of its row, so the panel grows inwards from there.
+    anchorDropdownRight: Boolean,
   },
   components: {
     PeriodSelectorOptionsColumn,
@@ -527,7 +560,7 @@ export default defineComponent({
       }
     },
     handleZIndexPositionRelativeCompareDropdownIssue() {
-      const $element = window.$(this.$refs.root as HTMLElement);
+      const $element = window.$(this.$refs.panelContent as HTMLElement);
       $element.on('focus', '#comparePeriodToDropdown .select-dropdown', () => {
         $element.addClass('compare-dropdown-open');
       }).on('blur', '#comparePeriodToDropdown .select-dropdown', () => {
@@ -985,7 +1018,7 @@ export default defineComponent({
       this.dismissInvalidComparisonMessage();
     },
     closePeriodSelector() {
-      (this.$refs.root as HTMLElement).classList.remove('expanded');
+      (this.$refs.root as HTMLElement).classList.remove('mtm-selector--expanded', 'expanded');
     },
     isCompareRangeValid() {
       try {

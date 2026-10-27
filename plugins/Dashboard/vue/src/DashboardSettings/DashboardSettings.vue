@@ -8,23 +8,36 @@
 <template>
   <div
     ref="root"
-    class="dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings"
-    v-expand-on-click="{expander: 'expander', onExpand: onExpand, onClosed: onClosed}"
+    class="mtm-selector mtm-selector--fullWidthOnSmallScreen piwikTopControl dashboard-manager dashboardSettings"
+    v-expand-on-click="{
+      expander: 'expander',
+      expandedClass: [
+        'mtm-selector--expanded',
+        /* @deprecated since Matomo 6.1.0, removed in Matomo 7: use mtm-selector--expanded */
+        'expanded',
+      ],
+      onExpand: onExpand,
+      onClosed: onClosed,
+    }"
     @click="onOpen()"
     @focusout="onFocusOut"
   >
+    <!-- `dashboard-manager`, `dashboardSettings`, `title` and `piwikSelector__dropdown` carry no
+         styles: plugins read them to find the selector and its parts. -->
     <button
       type="button"
-      class="title"
+      class="mtm-selector__trigger title"
       v-tooltips
       :title="translate('Dashboard_ManageDashboard')"
       tabindex="4"
       ref="expander"
     >
-      <span class="icon icon-dashboard-customize"></span>
-      {{ translate('Dashboard_ManageDashboard') }}
+      <span class="mtm-selector__icon" aria-hidden="true">
+        <span class="icon-dashboard-customize" />
+      </span>
+      <span class="mtm-selector__label">{{ translate('Dashboard_ManageDashboard') }}</span>
     </button>
-    <div class="piwikSelector__dropdown positionInViewport">
+    <div class="mtm-selector__dropdown mtm-selector__dropdown--anchorLeft positionInViewport piwikSelector__dropdown">
       <div
         class="mtm-dropdownPanel mtm-dropdownPanel--wide"
         v-tooltips="{show: false}"
@@ -154,7 +167,7 @@ export default defineComponent({
 
     onMounted(() => {
       Matomo.postEvent('Dashboard.DashboardSettings.mounted', root.value);
-      $(root.value!).hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
+      $(root.value!).hide(); // hide the selector initially (shown manually by Dashboard.ts)
     });
 
     return {
@@ -240,7 +253,7 @@ export default defineComponent({
       if (newTarget && root.contains(newTarget)) {
         return;
       }
-      root.classList.remove('expanded');
+      root.classList.remove('mtm-selector--expanded', 'expanded');
     },
     onClosed(event: MouseEvent|KeyboardEvent) {
       // Return focus to the trigger when the dropdown was dismissed via the Escape
@@ -256,8 +269,8 @@ export default defineComponent({
       }
     },
     openAddWidget() {
-      // close the dashboard-manager dropdown when opening the modal
-      (this.$refs.root as HTMLElement).classList.remove('expanded');
+      // close the dropdown when opening the modal
+      (this.$refs.root as HTMLElement).classList.remove('mtm-selector--expanded', 'expanded');
       Matomo.postEvent('Dashboard.AddWidget.open');
     },
     onWidgetSelected(widget: WidgetType) {

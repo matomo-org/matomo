@@ -31,7 +31,7 @@ describe("SearchFilterPersistenceTest", function () {
     });
 
     it("should persist the search term when date is moved", async function () {
-        await page.click('.periodSelector .move-period-next');
+        await page.click('#periodString .mtm-selector__action--end');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('persisted_date');
@@ -46,14 +46,14 @@ describe("SearchFilterPersistenceTest", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(200);
 
-        await page.click('.periodSelector .move-period-prev');
+        await page.click('#periodString .mtm-selector__action--start');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('persisted_sorting');
     });
 
     it("should persist the search term when segment is changed", async function () {
-        await page.click('.segmentationContainer');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await(await page.jQuery('li[data-idsegment=3] .segname', { waitFor: true })).click();
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());

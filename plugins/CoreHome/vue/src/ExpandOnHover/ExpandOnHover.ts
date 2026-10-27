@@ -12,6 +12,8 @@ import DirectiveUtilities from '../directiveUtilities';
 export interface ExpandOnHoverArgs {
   // input (provided by user)
   expander: string | HTMLElement,
+  // The class, or classes, carried while open, as for ExpandOnClick.
+  expandedClass?: string | string[];
 
   // event handlers
   onMouseEnter?: () => void;
@@ -20,8 +22,8 @@ export interface ExpandOnHoverArgs {
   onEscapeHandler?: (event: KeyboardEvent) => void;
 }
 
-function onMouseEnter(element: HTMLElement) {
-  element.classList.add('expanded');
+function onMouseEnter(element: HTMLElement, expandedClasses: string[]) {
+  element.classList.add(...expandedClasses);
 
   const positionElement = element.querySelector('.positionInViewport');
   if (positionElement) {
@@ -29,19 +31,19 @@ function onMouseEnter(element: HTMLElement) {
   }
 }
 
-function onMouseLeave(element: HTMLElement) {
-  element.classList.remove('expanded');
+function onMouseLeave(element: HTMLElement, expandedClasses: string[]) {
+  element.classList.remove(...expandedClasses);
 }
 
-function onClickOutsideElement(element: HTMLElement, event: MouseEvent) {
+function onClickOutsideElement(element: HTMLElement, expandedClasses: string[], event: MouseEvent) {
   if (!element.contains(event.target as HTMLElement)) {
-    element.classList.remove('expanded');
+    element.classList.remove(...expandedClasses);
   }
 }
 
-function onEscapeHandler(element: HTMLElement, event: KeyboardEvent) {
+function onEscapeHandler(element: HTMLElement, expandedClasses: string[], event: KeyboardEvent) {
   if (event.which === 27) {
-    element.classList.remove('expanded');
+    element.classList.remove(...expandedClasses);
   }
 }
 
@@ -57,10 +59,11 @@ const doc = document.documentElement;
  */
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnHoverArgs>): void {
-    binding.value.onMouseEnter = onMouseEnter.bind(null, el);
-    binding.value.onMouseLeave = onMouseLeave.bind(null, el);
-    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el);
-    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el);
+    const expandedClasses = DirectiveUtilities.getExpandedClasses(binding.value.expandedClass);
+    binding.value.onMouseEnter = onMouseEnter.bind(null, el, expandedClasses);
+    binding.value.onMouseLeave = onMouseLeave.bind(null, el, expandedClasses);
+    binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, expandedClasses);
+    binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, expandedClasses);
 
     setTimeout(() => {
       const expander = DirectiveUtilities.getRef(binding.value.expander, binding);

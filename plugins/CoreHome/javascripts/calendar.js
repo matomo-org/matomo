@@ -86,7 +86,7 @@
         } else {
             event.returnValue = false; // IE
         }
-        $('#periodString .title').trigger('click').focus();
+        $('#periodString .mtm-selector__trigger').trigger('click').focus();
     });
 
 }(jQuery));
