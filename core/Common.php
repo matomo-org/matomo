@@ -277,21 +277,7 @@ class Common
      */
     public static function hashEquals(string $stringA, string $stringB)
     {
-        if (function_exists('hash_equals')) {
-            return hash_equals($stringA, $stringB);
-        }
-
-        if (strlen($stringA) !== strlen($stringB)) {
-            return false;
-        }
-
-        $result = "\0";
-        $stringA ^= $stringB;
-        for ($i = 0; $i < strlen($stringA); $i++) {
-            $result |= $stringA[$i];
-        }
-
-        return $result === "\0";
+        return hash_equals($stringA, $stringB);
     }
 
     /**
