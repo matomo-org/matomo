@@ -40,15 +40,15 @@ class GoalsTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getSingleGoalIds
+     * @dataProvider getSingleGoalViews
      */
-    public function testSortRequestedByTheUserIsKept(string $idGoal): void
+    public function testSortRequestedByTheUserIsKept(string $apiMethod, string $idGoal): void
     {
         $_GET['idGoal'] = $idGoal;
         $_GET['filter_sort_column'] = 'revenue';
         $_GET['filter_sort_order'] = 'asc';
 
-        $view = $this->buildGoalsView();
+        $view = $this->buildGoalsView($apiMethod);
         $view->beforeLoadDataTable();
 
         $this->assertSame('revenue', $view->requestConfig->filter_sort_column);
@@ -61,23 +61,34 @@ class GoalsTest extends IntegrationTestCase
     }
 
     /**
-     * @dataProvider getSingleGoalIds
+     * @dataProvider getDefaultSortsOfSingleGoalViews
      */
-    public function testSortDefaultsToTheGoalColumnWhenNoneIsRequested(string $idGoal, string $expectedSortColumn): void
+    public function testSortDefaultsToTheGoalColumnWhenNoneIsRequested(string $apiMethod, string $idGoal, string $expectedSortColumn): void
     {
         $_GET['idGoal'] = $idGoal;
 
-        $view = $this->buildGoalsView();
+        $view = $this->buildGoalsView($apiMethod);
         $view->beforeLoadDataTable();
 
         $this->assertSame($expectedSortColumn, $view->requestConfig->filter_sort_column);
         $this->assertSame('desc', $view->requestConfig->filter_sort_order);
     }
 
-    public function getSingleGoalIds(): iterable
+    public function getSingleGoalViews(): iterable
     {
-        yield 'site goal' => ['1', 'goal_1_nb_conversions'];
-        yield 'ecommerce order' => ['ecommerceOrder', 'goal_ecommerceOrder_revenue'];
+        foreach ($this->getDefaultSortsOfSingleGoalViews() as $name => [$apiMethod, $idGoal]) {
+            yield $name => [$apiMethod, $idGoal];
+        }
+    }
+
+    public function getDefaultSortsOfSingleGoalViews(): iterable
+    {
+        yield 'site goal' => ['Referrers.getReferrerType', '1', 'goal_1_nb_conversions'];
+        yield 'ecommerce order' => ['Referrers.getReferrerType', 'ecommerceOrder', 'goal_ecommerceOrder_revenue'];
+        yield 'site goal, pages' => ['Actions.getPageUrls', '1', 'goal_1_nb_conversions_attrib'];
+        yield 'ecommerce order, pages' => ['Actions.getPageUrls', 'ecommerceOrder', 'goal_ecommerceOrder_revenue_attrib'];
+        yield 'site goal, entry pages' => ['Actions.getEntryPageUrls', '1', 'goal_1_nb_conversions_entry'];
+        yield 'ecommerce order, entry pages' => ['Actions.getEntryPageUrls', 'ecommerceOrder', 'goal_ecommerceOrder_revenue_entry'];
     }
 
     public function testExportIsRestrictedToTheDisplayedColumnsForASingleGoal(): void
@@ -111,13 +122,13 @@ class GoalsTest extends IntegrationTestCase
         $this->assertArrayNotHasKey('keep_flattened_dimension_columns', $view->config->export_parameters_to_modify);
     }
 
-    private function buildGoalsView(): Goals
+    private function buildGoalsView(string $apiMethod = 'Referrers.getReferrerType'): Goals
     {
         /** @var Goals $view */
         $view = ViewDataTableFactory::build(
             Goals::ID,
-            'Referrers.getReferrerType',
-            $controllerAction = 'Referrers.getReferrerType',
+            $apiMethod,
+            $controllerAction = $apiMethod,
             $forceDefault = false,
             $loadViewDataTableParametersForUser = false
         );
