@@ -57,6 +57,11 @@ class AIChatbotTrafficRatioAvailabilityTest extends IntegrationTestCase
         }
     }
 
+    public function testThePageViewsAreReturnedWithHiddenColumnsLikeAnyTemporaryMetric(): void
+    {
+        $this->assertArrayHasKey('Actions_nb_pageviews', $this->getFirstRowColumns('API.get', ['hideColumns' => 'nb_visits']));
+    }
+
     public function testGetLeavesOutTheTrafficRatioWhileActionsIsDeactivated(): void
     {
         Manager::getInstance()->deactivatePlugin('Actions');
@@ -81,17 +86,18 @@ class AIChatbotTrafficRatioAvailabilityTest extends IntegrationTestCase
     }
 
     /**
+     * @param array<string, string> $params
      * @return array<string, mixed>
      */
-    private function getFirstRowColumns(string $method): array
+    private function getFirstRowColumns(string $method, array $params = []): array
     {
         /** @var DataTable $table */
-        $table = Request::processRequest($method, [
+        $table = Request::processRequest($method, array_merge([
             'idSite' => 1,
             'period' => 'day',
             'date'   => '2025-01-15',
             'format' => 'original',
-        ]);
+        ], $params));
 
         return $table->getFirstRow()->getColumns();
     }
