@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\API\tests\Unit;
 
+use Piwik\API\ParameterValidationException;
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer;
 use Piwik\Plugins\API\Renderer\Json;
 
 /**
@@ -82,6 +84,26 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('{"result":"error","message":"The error message"}', $response);
         $this->assertEquals((array) array('result' => 'error', 'message' => 'The error message'), json_decode($response, true));
+        $this->assertNoJsonError($response);
+    }
+
+    public function testRenderExceptionShouldListParameterValidationErrors()
+    {
+        $exception = new ParameterValidationException([
+            ['parameter' => 'limit', 'message' => 'too low'],
+            ['parameter' => 'filter_status', 'message' => 'The value "<b>" is not allowed'],
+        ]);
+
+        $response = $this->jsonBuilder->renderException(Renderer::formatValueXml($exception->getMessage()), $exception);
+
+        $this->assertEquals([
+            'result' => 'error',
+            'message' => 'General_InvalidValueForParameter too low; General_InvalidValueForParameter The value &quot;&lt;b&gt;&quot; is not allowed',
+            'errors' => [
+                ['parameter' => 'limit', 'message' => 'too low'],
+                ['parameter' => 'filter_status', 'message' => 'The value &quot;&lt;b&gt;&quot; is not allowed'],
+            ],
+        ], json_decode($response, true));
         $this->assertNoJsonError($response);
     }
 
