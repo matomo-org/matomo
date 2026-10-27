@@ -842,11 +842,8 @@ class Http
                 }
             }
 
-            /*
-             * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
-             * in safe_mode or open_basedir is set
-             */
-            if (!$validateEgressIp && (string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '') {
+            // CURLOPT_FOLLOWLOCATION cannot be set when open_basedir is set
+            if (!$validateEgressIp && ini_get('open_basedir') == '') {
                 $protocols = 0;
 
                 foreach (explode(',', $allowedProtocols) as $protocol) {
