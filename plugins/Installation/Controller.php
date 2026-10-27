@@ -767,7 +767,6 @@ class Controller extends ControllerAdmin
         });
     }
 
-    // should be private but there's a bug in php 5.3.6
     public function hasEnoughTablesToReuseDb($tablesInstalled)
     {
         if (empty($tablesInstalled) || !is_array($tablesInstalled)) {

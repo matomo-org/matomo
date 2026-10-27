@@ -693,8 +693,8 @@ class Http
                             . $via . "\r\n"
                             . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                             . $rangeHeader,
-                        'max_redirects' => 5, // PHP 5.1.0
-                        'timeout'       => $timeout, // PHP 5.2.1
+                        'max_redirects' => 5,
+                        'timeout'       => $timeout,
                     ),
                 );
 
