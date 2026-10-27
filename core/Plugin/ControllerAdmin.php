@@ -490,7 +490,7 @@ abstract class ControllerAdmin extends Controller
 
         self::notifyAnyInvalidLicense();
         self::notifyAnyInvalidPlugin();
-        self::notifyWhenPhpVersionHasCriticalVulnerability();
+        self::notifyWhenPhpIsAffectedBySecurityAdvisory20261021();
         self::notifyWhenPhpVersionIsEOL();
         self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();
         self::notifyWhenDatabaseVersionIsNotCompatibleWithNextMajorPiwik();
