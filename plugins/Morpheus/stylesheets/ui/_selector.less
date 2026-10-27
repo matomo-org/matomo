@@ -146,7 +146,6 @@
     text-overflow: ellipsis;
   }
 
-  // A label the control shows while nothing is chosen yet.
   .mtm-selector__label--placeholder {
     color: @color-silver;
     font-style: italic;
@@ -189,9 +188,11 @@
   }
 }
 
-// The panel is open.
 .mtm-selector--expanded {
-  .mtm-selector__trigger::before {
+  // :focus-visible spelled out, as it outranks the open state otherwise: a selector opened from
+  // the keyboard keeps the open frame inside its focus ring.
+  .mtm-selector__trigger::before,
+  .mtm-selector__trigger:focus-visible::before {
     border-color: @theme-color-link;
   }
 
