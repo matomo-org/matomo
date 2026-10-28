@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\NoAccessException;
 use Piwik\Tests\Framework\Fixture;
@@ -138,6 +139,12 @@ class HandlerTest extends IntegrationTestCase
     {
         $this->executeOnException(new NoAccessException('test', 0));
         $this->assertSame(400, $this->response->statusCode);
+    }
+
+    public function testOnExceptionShouldSendStatusCode500IfOtherHttpCodeExceptionWithForbiddenCode()
+    {
+        $this->executeOnException(new PluginDeactivatedException('Goals'));
+        $this->assertSame(500, $this->response->statusCode);
     }
 
     public function testOnExceptionShouldNotRethrowExceptionToExitTrackerImmediately()
