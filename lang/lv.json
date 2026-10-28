@@ -198,7 +198,6 @@
         "ExceptionFileIntegrity": "Neizdevās veikt integritātes pārbaudi: %s",
         "ExceptionFileToDelete": "Dzēst failu: %s",
         "ExceptionFilesizeMismatch": "Faila izmērs nesakrīt: %1$s (sagaidāmais izmērs: %2$s, atrasts: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Jūsu %1$s klienta versija ir %2$s, kas nav saderīga ar servera %3$s versiju.",
         "ExceptionInvalidAggregateReportsFormat": "Apkopotā ziņojumu formāts \"%1$s\" nav derīgs. Mēģiniet kādu no šiem: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Šodienas arhīva saglabāšanas laikam jābūt lielākam par 0 sekundēm",
         "ExceptionInvalidDateBeforeFirstWebsite": "Datums \"%1$s\" ir laikposmā pirms vietnes parādīšanās tiešsaistē. Mēģiniet datumu, kas ir pēc %2$s (laika zīmogs %3$s).",

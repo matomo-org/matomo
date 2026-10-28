@@ -215,7 +215,6 @@
         "ExceptionFileIntegrity": "بررسی درستی شکست خورد: %s",
         "ExceptionFileToDelete": "فایل‌های برای پاک‌کردن: %s",
         "ExceptionFilesizeMismatch": "اندازه فایل اشتباه است: %1$s (اندازه مورد انتظار:%2$s، اندازه کنونی:%3$s)",
-        "ExceptionIncompatibleClientServerVersions": "نسخه کلاینت %1$s شما %2$s است که با نسخه سرور %3$s هم‌خوانی ندارد.",
         "ExceptionInvalidAggregateReportsFormat": "فرمت مجموعه گزارش‌ها «%1$s» معتبر نیست. یکی از این موارد را امتحان کنید: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "امروز هم آرشیو زندگی باید تعداد ثانیه بزرگتر از صفر",
         "ExceptionInvalidDateBeforeFirstWebsite": "تاریخ «%1$s» قبل از تاریخ آنلاین شدن اولین وبسایت است. تاریخی بعد از %2$s را امتحان کنید (برچسب زمان %3$s).",

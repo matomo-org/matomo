@@ -239,7 +239,6 @@
         "ExceptionFileIntegrity": "Bütünlük sağlanamadı: %s",
         "ExceptionFileToDelete": "Silinecek dosya: %s",
         "ExceptionFilesizeMismatch": "Dosya boyutu uyumsuz: %1$s (Beklenen Boyut: %2$s, Bulunan: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "%1$s istemci sürümünüz %2$s. Ancak bu sürüm %3$s sunucu sürümü ile uyumsuz.",
         "ExceptionInvalidAggregateReportsFormat": "'%1$s' birikimli rapor türü geçersiz. Onun yerine şunlardan birini deneyin: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Bugün arşivi terk etme zamanı saniye olarak sıfırdan büyük bir sayı olmalıdır",
         "ExceptionInvalidDateBeforeFirstWebsite": "'%1$s' tarihi ilk sitenin çevrim içi olmasından daha önce. %2$s (zaman damgası %3$s) tarihinden sonraki bir tarih deneyin.",

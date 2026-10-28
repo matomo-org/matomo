@@ -239,7 +239,6 @@
         "ExceptionFileIntegrity": "Test integrity selhal: %s",
         "ExceptionFileToDelete": "Soubor ke smazání: %s",
         "ExceptionFilesizeMismatch": "Nesouhlasí velikost souboru: %1$s (očekávaná délka: %2$s, nalezeno: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Vaše %1$s verze klienta je %2$s tato je ale nekompatibilní se serverem %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Agregovaný formát hlášení %1$s není platný. Zkuste místo toho nějaký z %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Dnešní doba života archivu musí být číslo větší než nula",
         "ExceptionInvalidDateBeforeFirstWebsite": "Datum '%1$s' je datum předtím, než byla první stránka online. Zkuste datum, které je po %2$s (časová značka %3$s).",

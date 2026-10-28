@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "透過 HTTPS 更新",
         "SystemCheckViewFullSystemCheck": "查看完整的系統檢查報表",
         "SystemCheckWarnDomHelp": "你應該啟用「dom」擴充功能（例如安裝 php-dom 或 php-xml 套件）。",
-        "SystemCheckWarnJsonHelp": "你應該啟用「JSON」擴充功能（例如安裝 php-json 套件）。",
         "SystemCheckWarnLibXmlHelp": "你應該啟用「libxml」擴充功能（例如安裝 php-libxml 套件），因為其他 PHP 核心擴充功能需要它。",
         "SystemCheckWarnOpensslHelp": "你應該啟用 OpenSSL 擴充功能以允許安全更新。",
         "SystemCheckWarnSimpleXMLHelp": "你應該啟用「SimpleXML」擴充功能（例如安裝 php-simplexml 或 php-xml 套件）。",

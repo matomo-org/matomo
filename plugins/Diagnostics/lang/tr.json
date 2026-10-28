@@ -18,7 +18,6 @@
         "DatabaseReaderConnection": "Veri tabanı okuyucu bağlantısı",
         "DatabaseUtf8Requirement": "Bu özellik 4 baytlık UTF8 karakterlerini kaydedebilmek için gereklidir. utf8mb4 kullanılabilir olmadan, özel karakterler, duygu ifadeleri (emojiler), asya dillerinde az kullanılan karakterler, çeşitli tarihsel ya da matematiksel simgeler yerine %1$s kullanılır. Ayrıntılı bilgi almak için %2$ssık sorulan sorular bölümüne%3$s bakabilirsiniz.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Veri tabanınız utf8mb4 karakter kümesini destekliyor ancak veri tabanı tablolarınız henüz dönüştürülmemiş. Bu işlemi %1$s komutunu yürüterek ya da genel ayarlar bölümünden otomatik dönüştürme seçeneğini açarak yapabilirsiniz.",
-        "DatabaseUtf8mb4CharsetRecommended": "Veri tabanınız henüz utf8mb4 karakter kümesini desteklemiyor.",
         "EnableRequiredDirectoriesDiagnostic": "Yapılandırma ayarlarında kapatıldığından bu denetim atlandı. Bu denetimi açmak için \"config/config.ini.php\" dosyasında [General] enable_required_directories_diagnostic = 1 ayarını yapın.",
         "HideUnchanged": "Yalnızca değiştirilmiş değerlerin görüntülenmesi için %1$sdeğiştirilmemiş tüm değerleri gizleyin%2$s.",
         "HtaccessWarningNginx": "Hassas dosyalara doğrudan erişilemediğinden emin olmak için, site sunucunuzu belirli klasörlere erişimi engelleyecek şekilde yapılandırmanız önerilir. Ayrıntılı bilgi almak için %1$s resmi Nginx sunucu yapılandırmasına %2$s bakabilirsiniz",

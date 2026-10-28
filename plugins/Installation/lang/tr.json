@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "HTTPS üzerinden güncelleme",
         "SystemCheckViewFullSystemCheck": "Tam sistem denetimi raporunu görüntüle",
         "SystemCheckWarnDomHelp": "\"dom\" eklentisini etkinleştirmelisiniz (örneğin \"php-dom\" ve/veya \"php-xml\" paketini kurun).",
-        "SystemCheckWarnJsonHelp": "\"json\" eklentisini etkinleştirmelisiniz (Örneğin \"php-json\" paketini kurun).",
         "SystemCheckWarnLibXmlHelp": "Diğer çekirdek PHP eklentileri için gerekli olduğundan \"libxml\" eklentisini etkinleştirmelisiniz (örneğin \"php-libxml\" paketini kurun).",
         "SystemCheckWarnOpensslHelp": "Güncellemelerin güvenli olarak yapılabilmesi için \"OpenSSL\" eklentisini etkinleştirmelisiniz.",
         "SystemCheckWarnSimpleXMLHelp": "\"SimpleXML\" eklentisini etkinleştirmelisiniz (örneğin \"php-simplexml\" ve/veya \"php-xml\" paketini kurun).",

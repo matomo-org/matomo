@@ -239,7 +239,6 @@
         "ExceptionFileIntegrity": "Проверка целостности не удалась: %s",
         "ExceptionFileToDelete": "Файл для удаления: %s",
         "ExceptionFilesizeMismatch": "Размер файла не совпадает: %1$s (ожидался: %2$s, обнаружен: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Версия %1$s вашего клиента — %2$s, она не совместима с сервером версии %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Определение формата отчётов «%1$s» неверно. Попробуйте любое из следующих действий: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Время архивирования (в секундах) должно быть больше нуля",
         "ExceptionInvalidDateBeforeFirstWebsite": "Дата «%1$s» — это дата до того, как первый сайт был в сети. Попробуйте дату после %2$s (отметка времени %3$s).",

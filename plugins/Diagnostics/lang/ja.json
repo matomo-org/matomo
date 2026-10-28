@@ -18,7 +18,6 @@
         "DatabaseReaderConnection": "データベースリーダー接続",
         "DatabaseUtf8Requirement": "これは、4 バイトの UTF8 文字を格納できるようにするために必要です。 utf8mb4 が使用可能でない限り、絵文字などの特殊文字、アジア言語のあまり一般的でない文字、さまざまな歴史的なスクリプトまたは数学記号は %1$s に置き換えられます。 このトピックの詳細については、%2$sこの FAQ %3$sを参照してください。",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "データベースは utf8mb4 文字セットをサポートしていますが、データベース テーブルはまだ変換されていません。 これを行うには、コマンド %1$s を実行するか、一般設定で自動変換を有効にします。",
-        "DatabaseUtf8mb4CharsetRecommended": "データベースはまだ utf8mb4 文字セットをサポートしていません。",
         "EnableRequiredDirectoriesDiagnostic": "このチェックは構成で無効になっているため、このチェックはスキップされました。 このチェックを有効にするには、\"config/config.ini.php\" ファイルで [General] enable_required_directories_diagnostic = 1 を設定します。",
         "HideUnchanged": "変更された値だけを表示する場合は、変更されていない値%2$sをすべて非表示にすることができます%1$s。",
         "HtaccessWarningNginx": "機密ファイルに直接アクセスできないようにするには、特定のディレクトリへのアクセスを制限するように Web サーバーを構成することをお勧めします。 詳細については、%1$s 公式の nginx サーバー構成 %2$s を参照してください",

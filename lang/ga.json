@@ -239,7 +239,6 @@
         "ExceptionFileIntegrity": "Theip ar sheiceáil ionracais: %s",
         "ExceptionFileToDelete": "Comhad le scriosadh: %s",
         "ExceptionFilesizeMismatch": "Mí-oiriúint mhéid an chomhaid:%1$s (fad ionchais:%2$s, aims:%3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Is é %2$s an leagan cliaint %1$s nach bhfuil comhoiriúnach leis an leagan freastalaí %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Níl formáid chomhiomlán na dtuairiscí '%1$s' bailí. Bain triail as aon cheann díobh seo a leanas ina ionad: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Sa lá atá inniu ann caithfidh am cartlainne a bheith ina chónaí roinnt soicindí níos mó ná náid",
         "ExceptionInvalidDateBeforeFirstWebsite": "Is dáta é an dáta '%1$s' sula raibh an chéad suíomh Gréasáin ar líne. Bain triail as an dáta atá i ndiaidh %2$s (stampa ama %3$s).",

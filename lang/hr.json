@@ -147,7 +147,6 @@
         "ExceptionDatabaseVersion": "Vaša %1$s verzija je %2$s ali Matomo zahtjeva barem %3$s.",
         "ExceptionFileIntegrity": "Provjera integriteta nije uspjela: %s",
         "ExceptionFilesizeMismatch": "Veličina datoteke ne odgovara:%1$s (očekivana veličina: %2$s, pronađena: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Vaša %1$s klijent verzija je %2$s koja nije uskladiva sa server verzijom %3$s.",
         "ExceptionInvalidArchiveTimeToLive": "Vrijednost mora biti broj sekundi veći od nule",
         "ExceptionInvalidDateFormat": "Format datuma mora biti %1$s ili bilo koji izraz koji prepoznaje %2$s funkcija (vidi %3$s za više informacija)",
         "ExceptionInvalidDateRange": "Datum '%1$s' nema ispravan raspon. Mora imati sljedeći oblik: %2$s.",

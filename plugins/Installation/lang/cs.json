@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "Aktualizace přes HTTPS",
         "SystemCheckViewFullSystemCheck": "Zobrazit úplnou zprávu o kontrole systému",
         "SystemCheckWarnDomHelp": "Měli byste zapnout rozšíření \"dom\" (např. nainstalovat balíček \"php-dom\" a/nebo \"php-xml\").",
-        "SystemCheckWarnJsonHelp": "Měli byste zapnout rozšíření \"JSON\" (např. nainstalovat balíček \"php-json\").",
         "SystemCheckWarnLibXmlHelp": "Měli byste povolit rozšíření 'libxml' (například nainstalovat balíček 'php-libxml'), protože je vyžadují další základní rozšíření PHP.",
         "SystemCheckWarnOpensslHelp": "Pro bezpečné aktualizace byste měli povolit rozšíření OpenSSL.",
         "SystemCheckWarnSimpleXMLHelp": "Měli byste povolit rozšíření 'SimpleXML' (například nainstalovat jeden či oba balíčky 'php-simplexml' a 'php-xml').",

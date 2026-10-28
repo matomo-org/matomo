@@ -239,7 +239,6 @@
         "ExceptionFileIntegrity": "Integritetssjekk feila: %s",
         "ExceptionFileToDelete": "Fil som skal slettast: %s",
         "ExceptionFilesizeMismatch": "Filstorleiken stemmer ikkje: %1$s (venta lengd: %2$s, fann: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "%1$s-klientversjonen din er %2$s, som ikkje er kompatibel med tenarversjonen %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Formatet «%1$s» for aggregerte rapportar er ikkje gyldig. Prøv eitt av desse i staden: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Levetida for dagens arkiv må vera lengre enn null sekund",
         "ExceptionInvalidDateBeforeFirstWebsite": "Datoen «%1$s» er før den første nettstaden var på nett. Prøv ein dato etter %2$s (tidsstempel %3$s).",

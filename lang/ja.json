@@ -232,7 +232,6 @@
         "ExceptionFileIntegrity": "整合性チェックに失敗しました：%s",
         "ExceptionFileToDelete": "削除するファイル：%s",
         "ExceptionFilesizeMismatch": "ファイルサイズの不一致：%1$s (expected length: %2$s, found: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "%1$sクライアントバージョンは %2$s であり、これはサーバーバージョン %3$ss と互換性がありません。",
         "ExceptionInvalidAggregateReportsFormat": "集計レポートフォーマット '%1$s' は無効です。代わりに次のいずれかを試してください： %2$s。",
         "ExceptionInvalidArchiveTimeToLive": "今日のアーカイブの有効期限は 0 より大きい秒数である必要があります",
         "ExceptionInvalidDateBeforeFirstWebsite": "\" %1$s \" の日付は、最初のウェブサイトがオンラインになる前の日付です。%2$s（タイムスタンプ %3$s）の後の日付を試してください。",

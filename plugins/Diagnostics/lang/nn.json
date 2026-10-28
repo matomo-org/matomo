@@ -18,7 +18,6 @@
         "DatabaseReaderConnection": "Lesetilkopling til databasen",
         "DatabaseUtf8Requirement": "Dette trengst for å kunne lagre 4-byte UTF8-teikn. Med mindre utf8mb4 er tilgjengeleg, blir spesialteikn som emojiar, mindre vanlege teikn i asiatiske språk, ulike historiske skriftsystem eller matematiske symbol bytte ut med %1$s. Du kan lese meir om dette i %2$sdenne FAQ-en%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Databasen din støttar teiknsettet utf8mb4, men databasetabellane er ikkje konverterte enno. Du kan gjere det ved å køyre kommandoen %1$s eller ved å aktivere den automatiske konverteringa i Generelle innstillingar.",
-        "DatabaseUtf8mb4CharsetRecommended": "Databasen din støttar ikkje teiknsettet utf8mb4 enno.",
         "EnableRequiredDirectoriesDiagnostic": "Denne sjekken vart hoppa over fordi han er skrudd av i oppsettet. For å skru han på set du [General] enable_required_directories_diagnostic = 1 i fila «config/config.ini.php».",
         "HideUnchanged": "Viss du berre vil sjå endra verdiar, kan du %1$sgøyme alle uendra verdiar%2$s.",
         "HtaccessWarningNginx": "For å sikre at sensitive filer ikkje kan opnast direkte, tilrår vi å setje opp vevtenaren slik at tilgangen til visse mapper blir avgrensa. For meir informasjon, sjå %1$s det offisielle nginx-tenaroppsettet %2$s",

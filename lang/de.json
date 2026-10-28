@@ -233,7 +233,6 @@
         "ExceptionFileIntegrity": "Integritätsprüfung fehlgeschlagen: %s",
         "ExceptionFileToDelete": "Zu löschende Datei: %s",
         "ExceptionFilesizeMismatch": "Unterschiedliche Dateigröße: %1$s (erwartete Größe: %2$s, gefunden: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Ihre %1$s-Client-Version ist %2$s, die aber mit der Server-Version %3$s inkompatibel ist.",
         "ExceptionInvalidAggregateReportsFormat": "Aggregiertes Berichtsformat '%1$s' ungültig. Versuchen Sie eines der folgenden: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Die Archivierungszeit von Live-Berichten muss eine Zahl in Sekunden (größer als null) sein",
         "ExceptionInvalidDateBeforeFirstWebsite": "Das Datum '%1$s' ist vor dem Datum, an dem die erste Webseite online ging. Versuchen Sie ein Datum, das nach dem %2$s (Zeitstempel %3$s) liegt.",

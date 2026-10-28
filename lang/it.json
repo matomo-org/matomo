@@ -222,7 +222,6 @@
         "ExceptionFileIntegrity": "Test di integrità fallito: %s",
         "ExceptionFileToDelete": "File da eliminare: %s",
         "ExceptionFilesizeMismatch": "Discordanza di dimensione file: %1$s (dimensione attesa: %2$s, trovata: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "La tua %1$s versione del client è %2$s la quale non è compatibile con la versione del server %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Formato di report aggregati '%1$s' non valido. Prova, invece, uno dei seguenti: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Il tempo di archiviazione di oggi deve essere un numero di secondi maggiore di zero",
         "ExceptionInvalidDateBeforeFirstWebsite": "La data '%1$s' è una data precedente a quando il sito web è stato messo online per la prima volta. Prova una data posteriore a %2$s (timestamp %3$s).",

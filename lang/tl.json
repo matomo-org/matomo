@@ -128,7 +128,6 @@
         "ExceptionConfigurationFileNotFound": "Ang configuration file {%s} ay hindi nahanap o hindi mabasa.",
         "ExceptionDatabaseVersion": "Ang iyong %1$s na bersyon ay %2$s ngunit nangangailangan ang Matomo ng hindi bababa sa %3$s.",
         "ExceptionFileIntegrity": "Nabigo ang integrity check: %s",
-        "ExceptionIncompatibleClientServerVersions": "Ang iyong %1$s bersyon ng client ay %2$s kung saan ay hindi tugma sa bersyon ng server %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Ang pinagsama-samang mga hindi wastong format '%1$s'. Subukan ang alinman sa mga sumusunod sa halip: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Ngayon ang oras ng archive upang mabuhay ay dapat bilang ng segundo na higit pa sa zero",
         "ExceptionInvalidDateFormat": "Ang format ng petsa ay dapat na: %1$s o anumang keyword na suportado ng function na %2$s (tingnan ang %3$s para sa karagdagang impormasyon).",

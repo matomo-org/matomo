@@ -18,7 +18,6 @@
         "DatabaseReaderConnection": "資料庫讀取器連線",
         "DatabaseUtf8Requirement": "必須支援此設定才能儲存 4 位元組的 UTF8 字元。在 utf8mb4 可用之前，特殊字元（例如表情符號、較少用的亞洲語系字元、各式古文字或數學符號）都會被取代為 %1$s。你可以在 %2$s這個 FAQ%3$s 中閱讀更多細節。",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "你的資料庫支援 utf8mb4 字元集，但你的資料庫資料表尚未轉換。你可以執行 %1$s 這個指令，或是在「一般設定」中啟用自動轉換。",
-        "DatabaseUtf8mb4CharsetRecommended": "你的資料庫尚未支援 utf8mb4 字元集。",
         "EnableRequiredDirectoriesDiagnostic": "此檢查已在設定檔中停用，因此略過。若要啟用此檢查，請在「config/config.ini.php」檔案中設定 [General] enable_required_directories_diagnostic = 1。",
         "HideUnchanged": "如果你只想看有變更過值的設定，你可以%1$s隱藏未修改的值%2$s。",
         "HtaccessWarningNginx": "為確保敏感檔案無法被直接存取，建議設定你的網頁伺服器以限制對特定目錄的存取。更多資訊請參閱%1$s官方 nginx 伺服器設定%2$s",

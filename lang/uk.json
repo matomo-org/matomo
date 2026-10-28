@@ -220,7 +220,6 @@
         "ExceptionFileIntegrity": "Перевірка цілісності не вдалася: %s",
         "ExceptionFileToDelete": "Файл для видалення: %s",
         "ExceptionFilesizeMismatch": "Розмір файлу не збігається: %1$s (очікувався: %2$s, виявлено: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Версія %1$s Вашого клієнта - %2$s, вона не сумісна з сервером версії %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Визначення формату звітів '%1$s' невірно. Спробуйте що-небудь інше, замість: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Час архівування (в секундах) має бути більше нуля",
         "ExceptionInvalidDateBeforeFirstWebsite": "Дата '%1$s' — це дата до того, як перший вебсайт був онлайн. Спробуйте дату після %2$s (мітка часу %3$s).",

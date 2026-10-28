@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "Оновлення через HTTPS",
         "SystemCheckViewFullSystemCheck": "Перегляд звіту про повну перевірку системи",
         "SystemCheckWarnDomHelp": "Необхідно увімкнути розширення «dom» (наприклад, встановити пакунок «php-dom» та/або «php-xml»).",
-        "SystemCheckWarnJsonHelp": "Слід увімкнути розширення «JSON» (наприклад, встановити пакунок «php-json»).",
         "SystemCheckWarnLibXmlHelp": "Необхідно вімкнути розширення \"libxml\" (наприклад встановити пакунок \"php-libxml\") так як він вимагається іншими розширеннями ядра PHP.",
         "SystemCheckWarnOpensslHelp": "Слід увімкнути розширення «OpenSSL», щоб дозволити безпечні оновлення.",
         "SystemCheckWarnSimpleXMLHelp": "Необхідно увімкнути розширення «SimpleXML» (наприклад, встановити пакунок «php-simplexml» та/або «php-xml»).",

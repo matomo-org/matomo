@@ -229,7 +229,6 @@
         "ExceptionFileIntegrity": "A verificação de integridade falhou: %s",
         "ExceptionFileToDelete": "Ficheiro a eliminar: %s",
         "ExceptionFilesizeMismatch": "O tamanho do ficheiro não corresponde: %1$s (tamanho esperado: %2$s, encontrado: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "A sua versão cliente de %1$s é %2$s que é incompatível com a versão servidor %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "O formato agregado de relatórios '%1$s' não é válido. Em alternativa tente um dos seguintes: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "O tempo de vida do arquivo tem de ser um número de segundos maior que zero",
         "ExceptionInvalidDateBeforeFirstWebsite": "A data '%1$s' é uma data anterior ao primeiro site estar online. Tente uma data posterior a %2$s (marca temporal %3$s).",

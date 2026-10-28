@@ -154,7 +154,6 @@
         "ExceptionDatabaseVersion": "आपका %1$s संस्करण %2$s है लेकिन Matomo कम से कम %3$s की आवश्यकता है",
         "ExceptionFileIntegrity": "अखंडता की जाँच विफल: %s",
         "ExceptionFilesizeMismatch": "फ़ाइल का आकार बेमेल है:%1$s (अपेक्षित लंबाई:%2$s,पाया :%3$s)",
-        "ExceptionIncompatibleClientServerVersions": "अपने %1$sग्राहक के संस्करण%2$s जो है सर्वर संस्करण%3$s के साथ असंगत है",
         "ExceptionInvalidAggregateReportsFormat": "सकल रिपोर्टों स्वरूप '%1$s' मान्य नहीं है. इसके बजाय निम्नलिखित में से किसी का प्रयास करें:%2$s.",
         "ExceptionInvalidArchiveTimeToLive": "आज संग्रह जीने के लिए शून्य से अधिक सेकंड की संख्या होनी चाहिए",
         "ExceptionInvalidDateFormat": "तिथि प्रारूप में होना चाहिए:%1$s या (अधिक जानकारी के लिए %2$s देखें) प्रकार्य %3$sद्वारा किसी भी शब्द का समर्थन किया",
