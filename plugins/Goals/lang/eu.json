@@ -86,7 +86,6 @@
         "Goals": "Helburuak",
         "GoalsAdjective": "Helburuak %s",
         "GoalsBy": "Helburuak honen arabera: %s",
-        "GoalsOverview": "Helburuen ikuspegi orokorra",
         "GoalsOverviewDocumentation": "Hau zure helburuen bihurketaren ikuspegi orokorra da. Hasieran, grafikoak bihurketa guztien batura erakusten du. %s Grafikoaren azpian helburu bakoitzaren bihurketen txostena ikus dezakezu. Sparkline grafikoak handitu daitezke haietan klik eginez.",
         "GoalsOverviewSubcategoryHelp1": "Helburuen ikuspegi orokorrak zure webgunean definitutako helburuen errendimenduaren berri ematen du. Zure helburuen bihurketen ehunekoak, sortutako diru-sarreren kopurua eta bakoitzaren txosten osoak ikus ditzakezu.",
         "GoalsOverviewSubcategoryHelp2": "Egin klik sparkline grafikoko metrika bakoitzean bertan fokua ezartzeko tamaina osoko bilakaera grafikoaren barruan.",
