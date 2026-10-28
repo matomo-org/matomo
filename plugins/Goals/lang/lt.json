@@ -28,7 +28,6 @@
         "GoalName": "Uždavinio pavadinimas",
         "GoalX": "Uždavinys %s",
         "Goals": "Uždaviniai",
-        "GoalsOverview": "Uždavinių apžvalga",
         "IsExactly": "yra tiksliai %s",
         "Manually": "rankiniu būdu",
         "ManuallyTriggeredUsingJavascriptFunction": "Uždavinys paleistas rankiniu būdu naudojantis JavaScript API trackGoal()",
