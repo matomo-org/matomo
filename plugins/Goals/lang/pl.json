@@ -71,7 +71,6 @@
         "Goals": "Cele",
         "GoalsAdjective": "Cele %s",
         "GoalsBy": "Cele według %s",
-        "GoalsOverview": "Przegląd celów",
         "GoalsOverviewDocumentation": "To jest przegląd konwersji Twoich celów. Wstępnie wykres pokazuje sumę wszystkich konwersji. %s Poniżej wykresu, zobaczysz raporty konwersji poszczególnych celów. Linie wykropkowane można powiększyć klikając na nie.",
         "HelpOneConversionPerVisit": "Jeżeli strona pasująca do tego trafienia jest odświeżana lub wyświetlana częściej w trakcie odwiedzin, trafienie będzie śledzić tylko za pierwszym razem, gdy strona była po raz pierwszy wyświetlona w trakcie wizyty.",
         "IsExactly": "równa się %s",
