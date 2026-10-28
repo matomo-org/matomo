@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "Nuashonraigh thar HTTPS",
         "SystemCheckViewFullSystemCheck": "Féach ar an tuarascáil iomlán seiceála córais",
         "SystemCheckWarnDomHelp": "Ba chóir duit an síneadh \"dom\" a chasadh air (m.sh., an pacáiste \"php-dom\" agus / nó \"php-xml\" a shuiteáil).",
-        "SystemCheckWarnJsonHelp": "Ba chóir duit an síneadh \"JSON\" a chasadh air (m.sh., an pacáiste \"php-json\" a shuiteáil).",
         "SystemCheckWarnLibXmlHelp": "Ba chóir duit an síneadh \"libxml\" a chumasú (m.sh., \"suiteáil an pacáiste php-libxml\") mar go bhfuil sé ag teastáil ó shíntí lárnacha PHP eile.",
         "SystemCheckWarnOpensslHelp": "Ba chóir duit an síneadh \"OpenSSL\" a chumasú chun nuashonruithe slána a cheadú.",
         "SystemCheckWarnSimpleXMLHelp": "Ba chóir duit an síneadh \"SimpleXML\" a chumasú (m.sh., an pacáiste \"php-simplexml\" agus / nó \"php-xml\" a shuiteáil).",
