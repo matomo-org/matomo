@@ -93,7 +93,6 @@
         "Goals": "Objectius",
         "GoalsAdjective": "Objectius %s",
         "GoalsBy": "Objectius per %s",
-        "GoalsOverview": "Vista general d'objectius",
         "GoalsOverviewDocumentation": "Això es una vista global de les conversions dels vostres objectius. Inicialment el gràfic mostra la suma de totes les conversions. %s Davalla del gràfic, podeu veure els informes de conversions per cada un dels vostres objectius. Els minigràfics es pot ampliar fent clic sobre ells.",
         "GoalsOverviewSubcategoryHelp1": "La visió general dels objectius informa sobre el rendiment dels objectius definits per al vostre lloc web. Podeu accedir als percentatges de conversió dels vostres objectius, a la quantitat d'ingressos generats i als informes complets de cadascun d'ells.",
         "GoalsOverviewSubcategoryHelp2": "Feu clic a una mètrica individual dins del gràfic destacat per centrar-vos-hi dins del gràfic d'evolució a mida completa.",
