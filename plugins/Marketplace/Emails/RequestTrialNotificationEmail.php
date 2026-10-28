@@ -30,6 +30,10 @@ class RequestTrialNotificationEmail extends Mail
     private string $pluginName;
     private string $pluginDisplayName;
 
+    /**
+     * @param string|null $unsubscribeToken null to sign one for `$login`; if there is no such user, the email
+     *                                      has no unsubscribe line
+     */
     public function __construct(
         string $login,
         string $emailAddress,

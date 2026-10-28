@@ -183,6 +183,39 @@ class RequestTest extends IntegrationTestCase
         self::assertSame(['hello@example.org'], $recipients);
     }
 
+    public function testCreateMailsTheOtherSuperUsersAndPostsTheEventWhenOneEmailCannotBePrepared()
+    {
+        Fixture::createSuperUser();
+        $usersModel = new UsersModel();
+        $usersModel->addUser('brokenToken', 'password', 'broken@example.org', Date::now()->getDatetime());
+        $usersModel->setSuperUserAccess('brokenToken', true);
+
+        StaticContainer::getContainer()->set(UnsubscribeToken::class, new class extends UnsubscribeToken {
+            public function generate(string $login): ?string
+            {
+                if ($login === 'brokenToken') {
+                    throw new \Exception('database unavailable');
+                }
+
+                return parent::generate($login);
+            }
+        });
+
+        $recipients = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$recipients) {
+            $recipients = array_merge($recipients, array_keys($mail->getRecipients()));
+        });
+        $eventPosted = false;
+        Piwik::addAction('Marketplace.pluginTrialRequested', function () use (&$eventPosted) {
+            $eventPosted = true;
+        });
+
+        $this->createRequest();
+
+        self::assertSame(['hello@example.org'], $recipients);
+        self::assertTrue($eventPosted);
+    }
+
     public function testCreateSendsMailWhenAnEventObserverFails()
     {
         Fixture::createSuperUser();
