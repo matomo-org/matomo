@@ -229,7 +229,6 @@
         "ExceptionFileIntegrity": "Kontrola integrity sa nepodarila: %s",
         "ExceptionFileToDelete": "Súbor na zmazanie: %s",
         "ExceptionFilesizeMismatch": "Nesedí veľkosť súboru: %1$s (očakávaná veľkosť: %2$s, nájdená veľkosť: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Vaša verzia klienta %1$s je %2$s, ktorá je nekompatibilná s verziou servera %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Formát agregovaných reportov '%1$s' je neplatný. Skúste namiesto toho použiť jeden z týchto: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Dnešný čas archivovania",
         "ExceptionInvalidDateFormat": "Formát dátumu musí byť: %1$s alebo kľúčového slova ktoré podporuje funkciu %2$s (pozri %3$s pre viac informácií)",
