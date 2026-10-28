@@ -178,7 +178,7 @@ abstract class Base extends VisitDimension
 
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && !$request->hasConsent()
+            && !$this->hasVisitorConsented($request, $visitor)
             && CampaignParameterValuesMasked::isEnabled((int) $this->idsite)
         ) {
             $referrerInformation['referer_name'] = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -863,7 +863,18 @@ abstract class Base extends VisitDimension
      */
     protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
     {
-        return $request->hasConsent() || Consent::hasVisitConsented($visitor);
+        if ($request->hasConsent()) {
+            return true;
+        }
+
+        // a visit being created now does not inherit the consent of the one before it: the
+        // recognised visit's columns are still loaded at this point, and the consent recorded
+        // against that visit says nothing about this one
+        if ($request->getMetadata('CoreHome', 'isNewVisit')) {
+            return false;
+        }
+
+        return Consent::hasVisitConsented($visitor);
     }
 
     protected function isCurrentReferrerDirectEntry(Visitor $visitor)
