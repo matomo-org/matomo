@@ -229,7 +229,6 @@
         "ExceptionFileIntegrity": "Kontrolli i pacenueshmërisë dështoi: %s",
         "ExceptionFileToDelete": "Kartelë për t’u fshirë: %s",
         "ExceptionFilesizeMismatch": "Mospërputhje madhësie kartelash: %1$s (pritej gjatësi: %2$s, u gjet: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Versioni i klientit tuaj për %1$s është %2$s, çka është e papërputhshme me versionin e shërbyesit %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Formati '%1$s' për raporte të grumbulluar s’është i vlefshëm. Provoni më mirë ndonjë nga vijuesit: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Jetëgjatësia e arkivit për sot duhet të jetë një numër sekondash më i madh se zero",
         "ExceptionInvalidDateBeforeFirstWebsite": "Data '%1$s' bie përpara se sajti i parë të qe në internet. Provoni një datë që bie pas %2$s (vulë kohore %3$s).",
