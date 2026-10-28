@@ -223,7 +223,6 @@
         "ExceptionFileIntegrity": "Integriteitscontrole mislukt: %s",
         "ExceptionFileToDelete": "Te verwijderen bestand: %s",
         "ExceptionFilesizeMismatch": "Bestandsgrootte klopt niet: %1$s (verwachte grootte: %2$s, gevonden: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Uw %1$s cliënt-versie is %2$s maar is niet compatibel met server-versie %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Samengesteld rapporten formaat '%1$s' niet geldig. Probeer in plaats daarvan een van de volgende: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "De archiveringstijd van vandaag moet een aantal seconden groter dan nul zijn",
         "ExceptionInvalidDateBeforeFirstWebsite": "De datum '%1$s' ligt voor de datum dat de 1e website online was. Probeer een datum na %2$s(tijdstip %3$s).",
