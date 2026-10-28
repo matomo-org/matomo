@@ -31,6 +31,7 @@ use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
 /**
@@ -40,6 +41,7 @@ use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 class Request
 {
     private $cdtCache;
+    private ?bool $hasConsentCache = null;
     private $idSiteCache;
     private $paramsCache = array();
 
@@ -944,7 +946,21 @@ class Request
      */
     public function hasConsent(): bool
     {
-        return '1' === $this->getParam('consent');
+        if (null !== $this->hasConsentCache) {
+            return $this->hasConsentCache;
+        }
+
+        if ('1' !== $this->getParam('consent')) {
+            return $this->hasConsentCache = false;
+        }
+
+        $idSite = $this->getIdSiteIfExists();
+
+        if (!is_numeric($idSite) || !$idSite) {
+            return $this->hasConsentCache = false;
+        }
+
+        return $this->hasConsentCache = ConsentAwareAnalytics::isEnabled((int) $idSite);
     }
 
     public function getPlugins()

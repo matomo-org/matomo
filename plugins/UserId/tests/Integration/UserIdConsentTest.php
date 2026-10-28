@@ -19,6 +19,7 @@ use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics as ConsentAwareAnalyticsSetting;
 use Piwik\Tracker\Cache;
 
 /**
@@ -55,6 +56,52 @@ class UserIdConsentTest extends IntegrationTestCase
             $useLocal = false
         );
         $this->tracker->setUrlReferrer('');
+
+        $this->enableConsentAwareAnalytics();
+    }
+
+    /**
+     * The feature is opt-in per site. A site that has not opted in behaves exactly as it does
+     * today, whether or not a request reports consent.
+     */
+    public function testConsentHasNoEffectForASiteThatHasNotOptedIn(): void
+    {
+        $this->disableConsentAwareAnalytics();
+        $this->enforcePolicy();
+
+        $this->trackPageView($consent = '1');
+
+        $this->assertSame('', (string) $this->fetchVisitColumn('user_id'));
+    }
+
+    private function disableConsentAwareAnalytics(): void
+    {
+        $measurable = ConsentAwareAnalyticsSetting::getMeasurableSetting($this->idSite);
+        $measurable->setValue(false);
+        $measurable->save();
+
+        Cache::deleteTrackerCache();
+    }
+
+    /**
+     * Consent-aware measurement is opt-in per site, so the tests turn it on for theirs. The
+     * tracker runs in its own request, so the system setting has to be set where that request
+     * will read it.
+     */
+    private function enableConsentAwareAnalytics(): void
+    {
+        self::$fixture->getTestEnvironment()->overrideConfig(
+            'PrivacyManager',
+            'ConsentAwareAnalytics',
+            '1'
+        );
+        self::$fixture->getTestEnvironment()->save();
+
+        $measurable = ConsentAwareAnalyticsSetting::getMeasurableSetting($this->idSite);
+        $measurable->setValue(true);
+        $measurable->save();
+
+        Cache::deleteTrackerCache();
     }
 
     public function tearDown(): void

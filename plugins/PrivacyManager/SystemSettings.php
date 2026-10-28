@@ -30,12 +30,25 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var SystemSetting */
     public $showInEmbeddedWidgets;
 
+    /** @var SystemSetting */
+    public $consentAwareAnalytics;
+
     protected function init()
     {
         $this->imprintUrl = $this->createImprintUrlSetting();
         $this->privacyPolicyUrl = $this->createPrivacyPolicyUrlSetting();
         $this->termsAndConditionUrl = $this->createTermsAndConditionUrlSetting();
         $this->showInEmbeddedWidgets = $this->createShowInEmbeddedWidgetsSetting();
+        $this->consentAwareAnalytics = $this->createConsentAwareAnalyticsSetting();
+    }
+
+    private function createConsentAwareAnalyticsSetting(): SystemSetting
+    {
+        return $this->makeSetting('ConsentAwareAnalytics', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->title = Piwik::translate('PrivacyManager_ConsentAwareAnalyticsSettingTitle');
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+            $field->inlineHelp = Piwik::translate('PrivacyManager_ConsentAwareAnalyticsSettingHelp');
+        });
     }
 
     private function createImprintUrlSetting(): SystemSetting
