@@ -15,6 +15,8 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\ExceptionHandler;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -209,8 +211,8 @@ class Controller extends Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
         if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
-            throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Piwik admins.
-            Please contact your Piwik admins with your request so they can assist you.');
+            throw new NoPrivilegesException('Enabling, disabling and uninstalling plugins has been disabled by Piwik admins.
+            Please contact your Piwik admins with your request so they can assist you.', 403);
         }
     }
 
@@ -571,7 +573,7 @@ class Controller extends Plugin\ControllerAdmin
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
         if (!Plugin\Manager::getInstance()->isPluginInFilesystem($pluginName)) {
-            throw new Exception('Invalid plugin');
+            throw new ThingNotFoundException('Invalid plugin');
         }
 
         $metadata = new Plugin\MetadataLoader($pluginName);
