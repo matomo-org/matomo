@@ -57,7 +57,6 @@
         "GoalName": "Tên mục tiêu",
         "GoalX": "Mục tiêu %s",
         "Goals": "Các mục tiêu",
-        "GoalsOverview": "Các mục tiêu tổng quan",
         "GoalsOverviewDocumentation": "Đây là một cái nhìn tổng thể về goal conversions. Thoạt đầu, đồ thị này cho thấy tổng tất cả các lần chuyển đổi. %s Dưới đồ thị này, bạn có thể thấy các báo cáo conversion đối với mỗi goal của bạn. Sparklines có thể được phóng to khi click vào.",
         "HelpOneConversionPerVisit": "Nếu một trang phù hợp với mục tiêu này được làm mới hoặc xem nhiều hơn một lần trong một lượt truy cập, Mục tiêu sẽ chỉ được theo dõi lần đầu tiên trang đã được nạp trong lượt truy cập này.",
         "IsExactly": "%s chính xác",
