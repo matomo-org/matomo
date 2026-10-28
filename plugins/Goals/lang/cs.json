@@ -100,7 +100,6 @@
         "Goals": "Cíle",
         "GoalsAdjective": "Cíle %s",
         "GoalsBy": "Cíle podle %s",
-        "GoalsOverview": "Přehled cílů",
         "GoalsOverviewDocumentation": "Toto je přehled konverzí vašich cílů. Graf zpočátku zobrazuje součet všech konverzí. %s Pod grafem najdete přehledy konverzí jednotlivých cílů. Minigrafy můžete zvětšit kliknutím.",
         "GoalsOverviewSubcategoryHelp1": "Přehled cílů informuje o výkonnosti cílů definovaných pro váš web. Najdete v něm procenta konverzí a výši dosaženého příjmu i úplný přehled každého cíle.",
         "GoalsOverviewSubcategoryHelp2": "Kliknutím na jednotlivou metriku v grafu se na ni zaměříte v grafu vývoje v plné velikosti.",
