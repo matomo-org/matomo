@@ -27,6 +27,7 @@ use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -1086,12 +1087,14 @@ class API extends \Piwik\Plugin\API
         }
 
         foreach ($requestedReports as $report) {
-            if (!in_array($report, $availableReportIds)) {
+            [$resolvedReport] = ProcessedReport::getRenamedReportUniqueIds([$report], $availableReportIds);
+
+            if (!in_array($resolvedReport, $availableReportIds)) {
                 throw new Exception("Report $report is unknown or not available for report type '$reportType'.");
             }
         }
 
-        return (string)json_encode($requestedReports);
+        return (string)json_encode(ProcessedReport::getRenamedReportUniqueIds($requestedReports, $availableReportIds));
     }
 
     /**
