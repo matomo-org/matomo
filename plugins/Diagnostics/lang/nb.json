@@ -18,7 +18,6 @@
         "DatabaseReaderConnection": "Databaseleser-tilkobling",
         "DatabaseUtf8Requirement": "Dette kreves for å kunne lagre 4-byte lange UTF-8-tegn. Med mindre utf8mb4 er tilgjengelig, vil spesialtegn som f.eks. emoji-er, mindre vanlige tegn i asiatiske språk, forskjellige historiske og matematiske symboler bli erstattet med %1$s. Du kan lese mer om dette i %2$sO-S-S%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Databasen din støtter utf8mb4-tegnsettet, men databasetabellene har ikke blitt konvertert enda. Du kan gjøre dette ved å kjøre kommandoen «%1$s» eller ved å skru på auto-konvertering i generelle innstillinger.",
-        "DatabaseUtf8mb4CharsetRecommended": "Databasen din støtter ikke utf8mb4-tegnsettet enda.",
         "EnableRequiredDirectoriesDiagnostic": "Denne sjekken ble hoppet over siden den er skrudd av i oppsettet. Skru den på ved å sette [General] enable_required_directories_diagnostic = 1 i «config/config.ini.php»-filen.",
         "HideUnchanged": "Hvis du kun vil se de endrede verdiene, kan du %1$sskjule alle uendrede verdier%2$s.",
         "HtaccessWarningNginx": "For å forsikre at sensitive filer ikke kan nås direkte anbefales det å sette opp vev-tjeneren din slik at den begrenser tilgang til gitte mapper. Som eksempel kan du sjekke %1$sdet offisielle NGINX-tjeneroppsettet%2$s",
