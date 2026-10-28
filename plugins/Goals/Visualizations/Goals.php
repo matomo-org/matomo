@@ -37,6 +37,8 @@ class Goals extends HtmlTable
 
     private bool $isSingleGoalView = false;
 
+    private ?string $defaultSortColumn = null;
+
     public function beforeLoadDataTable()
     {
         $request = $this->getRequestArray();
@@ -162,6 +164,8 @@ class Goals extends HtmlTable
             $goalsToProcess = [$idGoal];
             $this->isSingleGoalView = true;
         }
+
+        $this->applyDefaultSort();
 
         // add goals columns
         $this->requestConfig->request_parameters_to_modify['filter_update_columns_when_show_all_goals'] = $idGoal;
@@ -365,16 +369,36 @@ class Goals extends HtmlTable
     }
 
     /**
-     * Sorts by the given column unless the request asks for a sort, eg. after a column header was
-     * clicked. That sort is also sent back to the browser, which relies on it for the sort icon.
+     * The column to sort by unless the user chose a sort, applied by applyDefaultSort() once the columns
+     * to display are known.
      */
     private function setDefaultSort(string $column): void
     {
+        $this->defaultSortColumn = $column;
+    }
+
+    /**
+     * Keeps the sort the user chose, either in the request after a column header was clicked or saved
+     * from that click when the table is reloaded. That sort is also sent back to the browser, which relies
+     * on it for the sort icon.
+     */
+    private function applyDefaultSort(): void
+    {
+        if (null === $this->defaultSortColumn) {
+            return;
+        }
+
         if ('' !== \Piwik\Request::fromRequest()->getStringParameter('filter_sort_column', '')) {
             return;
         }
 
-        $this->requestConfig->filter_sort_column = $column;
+        // the sort is saved per report for every goal, so it may be a column of another goal's table
+        $savedSortColumn = $this->getOverrideParams()['filter_sort_column'] ?? '';
+        if ('' !== $savedSortColumn && in_array($savedSortColumn, $this->config->columns_to_display, true)) {
+            return;
+        }
+
+        $this->requestConfig->filter_sort_column = $this->defaultSortColumn;
         $this->requestConfig->filter_sort_order = 'desc';
     }
 
