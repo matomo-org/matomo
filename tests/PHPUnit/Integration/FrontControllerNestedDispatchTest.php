@@ -59,15 +59,39 @@ class FrontControllerNestedDispatchTest extends IntegrationTestCase
             }
         );
 
+        $exception = null;
         try {
             FrontController::getInstance()->dispatch('SitesManager', 'getSiteEmptyState');
-            $this->fail('Expected the nested dispatch to be rejected');
         } catch (\Exception $e) {
-            $this->assertStringContainsString('SitesManager.getSiteEmptyState is already being dispatched', $e->getMessage());
+            $exception = $e;
         }
+
+        $this->assertNotNull($exception, 'Expected the nested dispatch to be rejected');
+        $this->assertStringContainsString('SitesManager.getSiteEmptyState is already being dispatched', $exception->getMessage());
 
         // the rejected dispatch must not stay on the stack: running the action again works
         $this->assertContains(FrontController::getInstance()->dispatch('SitesManager', 'getSiteEmptyState'), ['true', 'false']);
+    }
+
+    public function testDispatchingTheDefaultActionWhileItRunsWithoutAnActionNameIsRejected(): void
+    {
+        // an empty action runs the controller's default action (index), so both dispatches are the same action
+        EventDispatcher::getInstance()->addObserver(
+            'Controller.SitesManager.',
+            function () {
+                FrontController::getInstance()->dispatch('SitesManager', 'index');
+            }
+        );
+
+        $exception = null;
+        try {
+            FrontController::getInstance()->dispatch('SitesManager', '');
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        $this->assertNotNull($exception, 'Expected the nested dispatch to be rejected');
+        $this->assertStringContainsString('SitesManager.index is already being dispatched', $exception->getMessage());
     }
 
     public function testDispatchingADifferentActionFromARunningOneIsAllowed(): void
