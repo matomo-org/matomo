@@ -21,10 +21,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class OptOutManagerTest extends IntegrationTestCase
 {
-    /**
-     * @var array<string, mixed>
-     */
-    private $get = [];
+    private array $get = [];
 
     public function setUp(): void
     {
@@ -69,13 +66,16 @@ class OptOutManagerTest extends IntegrationTestCase
 
     public function testGetOptOutSelfContainedEmbedCodeKeepsPlainValidationError(): void
     {
+        $exception = null;
         try {
             (new OptOutManager())->getOptOutSelfContainedEmbedCode('zzz', '000000', '12px', 'Arial', true, true);
-            $this->fail('expected an exception for the invalid background color');
         } catch (\Exception $e) {
-            $this->assertNotInstanceOf(HttpCodeException::class, $e);
-            $this->assertStringContainsString("The URL parameter backgroundColor value of 'zzz' is not valid.", $e->getMessage());
+            $exception = $e;
         }
+
+        $this->assertInstanceOf(\Exception::class, $exception);
+        $this->assertNotInstanceOf(HttpCodeException::class, $exception);
+        $this->assertStringContainsString("The URL parameter backgroundColor value of 'zzz' is not valid.", $exception->getMessage());
     }
 
     /**

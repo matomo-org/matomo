@@ -629,8 +629,6 @@ JS;
 
     /**
      * Styling for the public opt-out endpoints, where invalid values are a client error.
-     *
-     * @throws BadRequestException
      */
     private function optOutStylingFromRequest(bool $noBody): string
     {
@@ -643,8 +641,6 @@ JS;
 
     /**
      * Provide a CSS style sheet based on the chosen opt out style options
-     *
-     * @throws \InvalidArgumentException
      */
     private function optOutStyling(
         ?string $fontSize = null,
