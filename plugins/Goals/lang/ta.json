@@ -136,6 +136,8 @@
         "ProductSKU": "பொருள் தனிக்குறியீடு(SKU)",
         "ProductSKUs": "தயாரிப்பு ச்கச்",
         "Products": "பொருட்கள்",
+        "RecommendationCountOnePage": "1 பக்கம்",
+        "RecommendationCountPages": "%s பக்கங்கள்",
         "ReturningVisitorsConversionRateIs": "திரும்பும் பார்வையாளர்களின் மாற்று விகிதம் %s",
         "SendEvent": "ஒரு நிகழ்வை அனுப்பவும்",
         "SingleGoalOverviewDocumentation": "இது ஒரு இலக்குக்கான மாற்றங்களின் கண்ணோட்டம். %s வரைபடத்தின் கீழ் உள்ள ச்பார்க்லைன்ச்சை அவர்கள் அதன் மேல் கிளிக் செய்வதன் மூலம் பெரிதாக்க முடியும்.",

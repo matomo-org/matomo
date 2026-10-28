@@ -59,7 +59,7 @@ class BotRequest
 
         /**
          * For BC reasons we iterate over all visit request processors as well, to ensure a possible request manipulation is applied
-         * For Matomo 6 we should remove that and ensure plugins that also should manipulate bot requests implement a BotRequestProcessor for it
+         * A future major version should remove that and ensure plugins that also should manipulate bot requests implement a BotRequestProcessor for it
          * @deprecated
          */
         foreach ($this->requestProcessors as $processor) {

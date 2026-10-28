@@ -43,6 +43,10 @@
     },
     "specialOffer": "",
     "category": "security",
+    "categories": [
+        "security"
+    ],
+    "promotions": {},
     "versions": [
         {
             "name": "6.0.4",

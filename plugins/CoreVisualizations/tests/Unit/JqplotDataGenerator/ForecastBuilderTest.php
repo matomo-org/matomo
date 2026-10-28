@@ -3197,10 +3197,6 @@ class ForecastBuilderTest extends TestCase
         $reflection = new ReflectionClass(ForecastBuilder::class);
         $method = $reflection->getMethod($methodName);
 
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
         return $method->invokeArgs($builder, $arguments);
     }
 }

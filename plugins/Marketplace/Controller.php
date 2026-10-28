@@ -25,16 +25,20 @@ use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Controller as PluginsController;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
+use Piwik\Plugins\CorePluginsAdmin\PluginInstallResults;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\ProxyHttp;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Url;
 use Piwik\View;
 
@@ -43,6 +47,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const UPDATE_NONCE = 'Marketplace.updatePlugin';
     public const INSTALL_NONCE = 'Marketplace.installPlugin';
     public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
+    public const UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE = 'Marketplace.unsubscribeTrialRequestEmails';
+
+    private const FAILURE_SUMMARY_NOTIFICATION_ID = 'Marketplace_PluginsCouldNotBeUpdated';
 
     private LicenseKey $licenseKey;
     private Plugins $plugins;
@@ -311,10 +318,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             $plugin['isTrialRequested'] = false;
+            $plugin['isTrialPending'] = false;
             $plugin['canTrialBeRequested'] = false;
 
             if ($plugin['isEligibleForFreeTrial']) {
                 $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
+                $plugin['isTrialPending'] = StaticContainer::get(PluginTrialService::class)->isPending($plugin['name']);
                 $plugin['canTrialBeRequested'] = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0) !== -1;
             }
 
@@ -413,6 +422,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'isEligibleForFreeTrial',
             'isNewBundle',
             'isTrialRequested',
+            'isTrialPending',
             'canTrialBeRequested',
             'missingRequirements',
             'numDownloads',
@@ -435,6 +445,58 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ];
 
         return array_intersect_key($plugin, array_flip($cardFields));
+    }
+
+    /**
+     * Linked from the trial request email, so it works without logging in: the token authorises the login.
+     */
+    public function unsubscribeTrialRequestEmails(): string
+    {
+        $view = new View('@Marketplace/unsubscribeTrialRequestEmails');
+        $this->setBasicVariablesNoneAdminView($view);
+        $view->linkTitle = Piwik::getRandomTitle();
+
+        $request = Request::fromRequest();
+        $login = $request->getStringParameter('login', '');
+        $token = $request->getStringParameter('token', '');
+
+        if (
+            !StaticContainer::get(UnsubscribeToken::class)->isValid($login, $token)
+            || empty((new UsersModel())->getUser($login))
+        ) {
+            $view->error = Piwik::translate('Marketplace_RequestTrialUnsubscribeInvalidLink');
+            return $view->render();
+        }
+
+        if ($request->getStringParameter('confirm', '') !== '') {
+            Nonce::checkNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+            $settings = StaticContainer::get(UserScopedSettingsAccessManager::class);
+            $wasOn = (bool) $settings->get('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, true);
+            $settings->set('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
+
+            if ($wasOn) {
+                /**
+                 * Triggered after a user has turned off plugin trial request emails from the link in one of those
+                 * emails, so an audit trail can record it. Not posted when they were already off. The current user may
+                 * be anonymous or someone other than `$login`, so use `$login`.
+                 *
+                 * **Example**
+                 *
+                 *     Piwik::addAction('Marketplace.trialRequestEmailsUnsubscribed', function ($login) {
+                 *         $this->logActivity($login, 'unsubscribed from plugin trial request emails');
+                 *     });
+                 *
+                 * @param string $login The login of the user who unsubscribed.
+                 */
+                Piwik::postEvent('Marketplace.trialRequestEmailsUnsubscribed', [$login]);
+            }
+
+            $view->success = true;
+        } else {
+            $view->nonce = Nonce::getNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+        }
+
+        return $view->render();
     }
 
     public function installAllPaidPlugins()
@@ -541,7 +603,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function updatePlugin()
     {
-        $view = $this->createUpdateOrInstallView('updatePlugin', static::UPDATE_NONCE);
+        $this->installOrUpdateAndRedirect('updatePluginResult', static::UPDATE_NONCE);
+    }
+
+    public function updatePluginResult()
+    {
+        $view = $this->createUpdateOrInstallResultView('updatePlugin');
+        if ($view === null) {
+            Piwik::redirectToModule('Marketplace', 'overview', [PluginInstallResults::TOKEN_PARAMETER => null]);
+            return;
+        }
+
         return $view->render();
     }
 
@@ -556,17 +628,29 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'referrer' => urlencode($this->getMarketplaceUrlToReturnTo()),
         );
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-            $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
-            $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
-            return $view->render();
+            $this->installOrUpdateAndRedirect('installPluginResult', static::INSTALL_NONCE);
         }
     }
 
-    private function createUpdateOrInstallView($template, $nonceName)
+    public function installPluginResult()
+    {
+        $view = $this->createUpdateOrInstallResultView('installPlugin');
+        if ($view === null) {
+            Piwik::redirectToModule('Marketplace', 'overview', [PluginInstallResults::TOKEN_PARAMETER => null]);
+            return;
+        }
+
+        $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
+        return $view->render();
+    }
+
+    /**
+     * Replaces the plugin files, then redirects to the result page instead of rendering it (see PluginInstallResults).
+     */
+    private function installOrUpdateAndRedirect(string $resultAction, string $nonceName): void
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->dieIfPluginsAdminIsDisabled();
-        $this->displayWarningIfConfigFileNotWritable();
 
         $plugins = $this->getPluginNameIfNonceValid($nonceName);
 
@@ -578,10 +662,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        $view = new View('@Marketplace/' . $template);
-        $view->errorMessage = '';
+        Notification\Manager::cancel(self::FAILURE_SUMMARY_NOTIFICATION_ID);
 
-        $pluginInfos = [];
+        $installedPlugins = [];
         $failedPlugins = [];
         $notifiedMessages = [];
         foreach ($plugins as $pluginName) {
@@ -591,7 +674,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // inside the try as well, as it fails for a plugin the license key no longer covers
                 $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-                $pluginInfos[] = $currentPluginInfo;
+                $installedPlugins[] = $pluginName;
             } catch (\Exception $e) {
                 // one plugin that cannot be updated - an expired or missing license being the common
                 // case - must not keep the remaining selected ones on their old version
@@ -605,7 +688,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        if (empty($pluginInfos)) {
+        if (empty($installedPlugins)) {
             Url::redirectToReferrer();
             return;
         }
@@ -613,14 +696,61 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (!empty($failedPlugins)) {
             $notification = new Notification(Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', implode(', ', $failedPlugins)));
             $notification->context = Notification::CONTEXT_INFO;
-            Notification\Manager::notify('Marketplace_PluginsCouldNotBeUpdated', $notification);
+            $notification->type = Notification::TYPE_PERSISTENT;
+            Notification\Manager::notify(self::FAILURE_SUMMARY_NOTIFICATION_ID, $notification);
         }
 
-        // only now, as the view copies the pending notifications once and the loop above adds to them
-        $this->setBasicVariablesView($view);
+        $isUpdate = $nonceName === static::UPDATE_NONCE;
+        $summary = [];
+        foreach (PluginInstallResults::getInstalledPluginInfos($installedPlugins) as $pluginInfo) {
+            if ($pluginInfo['isTheme']) {
+                $translationKey = $isUpdate ? 'Marketplace_StepThemeSuccessfullyUpdated' : 'Marketplace_StepThemeSuccessfullyInstalled';
+            } else {
+                $translationKey = $isUpdate ? 'Marketplace_StepPluginSuccessfullyUpdated' : 'Marketplace_StepPluginSuccessfullyInstalled';
+            }
+            $summary[] = Piwik::translate($translationKey, [$pluginInfo['name'], $pluginInfo['latestVersion']]);
+        }
 
+        $token = PluginInstallResults::store([
+            'plugins' => $installedPlugins,
+            'marketplaceUrl' => $this->getMarketplaceUrlToReturnTo(),
+        ], implode(' ', $summary));
+
+        Piwik::redirectToModule('Marketplace', $resultAction, [
+            'pluginName' => null,
+            'nonce' => null,
+            'mode' => null,
+            'referrer' => null,
+            PluginInstallResults::TOKEN_PARAMETER => $token,
+        ]);
+    }
+
+    /**
+     * @return View|null null when there is no result to show, eg because it expired or was recorded in another session
+     */
+    private function createUpdateOrInstallResultView(string $template): ?View
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->dieIfPluginsAdminIsDisabled();
+        $this->displayWarningIfConfigFileNotWritable();
+
+        $token = Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '');
+        $result = PluginInstallResults::get($token);
+
+        $pluginInfos = PluginInstallResults::getInstalledPluginInfos($result['plugins'] ?? []);
+        if (empty($pluginInfos)) {
+            return null;
+        }
+
+        PluginInstallResults::cancelSummary();
+
+        $view = new View('@Marketplace/' . $template);
+        $this->setBasicVariablesView($view);
+        // the view now holds it, so it is shown this once rather than on every page until dismissed
+        Notification\Manager::cancel(self::FAILURE_SUMMARY_NOTIFICATION_ID);
+        $view->errorMessage = '';
         $view->plugins = $pluginInfos;
-        $view->marketplaceUrl = $this->getMarketplaceUrlToReturnTo();
+        $view->marketplaceUrl = $result['marketplaceUrl'] ?? '';
 
         return $view;
     }

@@ -131,6 +131,8 @@
         "ProductSKU": "Produktvariant",
         "ProductSKUs": "Produktvarianter",
         "Products": "Produkter",
+        "RecommendationCountOnePage": "1 sida",
+        "RecommendationCountPages": "%s sidor",
         "ReturningVisitorsConversionRateIs": "Återkommande besökares omvandlingsgrad är %s",
         "SendEvent": "triggar en händelse",
         "SingleGoalOverviewDocumentation": "Detta är en översikt av omvandlingar för ett enda mål. %s miniatyrdiagramen under grafen kan förstoras genom att klicka på dem.",

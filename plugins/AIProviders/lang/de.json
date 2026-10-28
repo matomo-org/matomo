@@ -1,6 +1,8 @@
 {
     "AIProviders": {
         "ApiKey": "API-Schlüssel",
+        "ApiKeyAlreadyConfiguredPlaceholder": "Geben Sie einen neuen Schlüssel ein, um den Schlüssel zu ersetzen.",
+        "BackToPreviousPage": "Zurück zur vorherigen Seite",
         "DefaultBadge": "Standard",
         "Model": "Modell",
         "TestingConnection": "Prüfen…"

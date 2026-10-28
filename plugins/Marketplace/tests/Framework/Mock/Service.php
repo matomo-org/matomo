@@ -56,14 +56,17 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         $destinationPath = null,
         $timeout = null,
         ?array $postData = null,
-        bool $getExtendedInfo = false
+        bool $getExtendedInfo = false,
+        bool $withAccessToken = true
     ) {
         if ($this->onDownloadCallback && is_callable($this->onDownloadCallback)) {
             $result = call_user_func(
                 $this->onDownloadCallback,
                 $this->action,
                 $this->params,
-                $this->postData
+                $this->postData,
+                $url,
+                $destinationPath
             );
 
             if ($getExtendedInfo && is_string($result)) {

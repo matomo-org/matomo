@@ -277,21 +277,7 @@ class Common
      */
     public static function hashEquals(string $stringA, string $stringB)
     {
-        if (function_exists('hash_equals')) {
-            return hash_equals($stringA, $stringB);
-        }
-
-        if (strlen($stringA) !== strlen($stringB)) {
-            return false;
-        }
-
-        $result = "\0";
-        $stringA ^= $stringB;
-        for ($i = 0; $i < strlen($stringA); $i++) {
-            $result |= $stringA[$i];
-        }
-
-        return $result === "\0";
+        return hash_equals($stringA, $stringB);
     }
 
     /**
@@ -402,7 +388,6 @@ class Common
     {
         // $_GET and $_REQUEST already urldecode()'d
         // decode
-        // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
         $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
         $value = self::sanitizeNullBytes($value);

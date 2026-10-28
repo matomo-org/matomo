@@ -9,6 +9,7 @@
 
 namespace Piwik\Notification;
 
+use Piwik\Config\GeneralConfig;
 use Piwik\Notification;
 use Piwik\Session;
 use Piwik\Session\SessionNamespace;
@@ -61,6 +62,21 @@ class Manager
         self::checkId($id);
 
         self::removeNotification($id);
+    }
+
+    /**
+     * Whether an admin has hidden a notification via `[General] disabled_notifications[]`.
+     * Only notifications that check this before calling {@link notify()} can be hidden.
+     *
+     * @param string $id The notification ID, see {@link notify()}.
+     * @internal
+     */
+    public static function isDisabled(string $id): bool
+    {
+        // a missing or invalid setting hides nothing
+        $disabledIds = GeneralConfig::getArrayConfigValue('disabled_notifications', []);
+
+        return in_array($id, $disabledIds, true);
     }
 
     /**

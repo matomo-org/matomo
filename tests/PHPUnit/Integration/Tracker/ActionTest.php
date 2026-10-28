@@ -602,7 +602,7 @@ class ActionTest extends IntegrationTestCase
             array(
                 'request'  => array('url'         => 'http://example.org/ACTION/URL',
                                     'action_name' => "T\xe9st"),
-                'expected' => array('name' => version_compare(PHP_VERSION, '5.2.5') === -1 ? 'T\xe9st' : 'Tést',
+                'expected' => array('name' => 'Tést',
                                     'url'  => 'http://example.org/ACTION/URL',
                                     'type' => Action::TYPE_PAGE_URL),
             ),

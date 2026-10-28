@@ -181,8 +181,8 @@
 				<pageId>2</pageId>
 				<pageLoadTime>2.45s</pageLoadTime>
 				<bandwidth />
-				<timeSpent>900</timeSpent>
-				<timeSpentPretty>15 min 0s</timeSpentPretty>
+				<timeSpent>1332</timeSpent>
+				<timeSpentPretty>22 min 12s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>2446</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Second page view - should be registered as URL</title>
@@ -286,6 +286,8 @@
 				
 				<pageId>7</pageId>
 				<bandwidth />
+				<timeSpent>108</timeSpent>
+				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
 				<siteSearchCategory />
 				<siteSearchCount />

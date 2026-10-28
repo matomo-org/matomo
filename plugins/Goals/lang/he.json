@@ -4,6 +4,8 @@
         "CategoryTextReferrers_Referrers": "הפניות",
         "ColumnConversions": "המרות",
         "EntryPages": "עמודי כניסה",
-        "PageTitles": "כותרות עמוד"
+        "PageTitles": "כותרות עמוד",
+        "RecommendationCountOnePage": "עמוד 1",
+        "RecommendationCountPages": "%s עמודים"
     }
 }

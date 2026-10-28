@@ -1,6 +1,8 @@
 {
     "Marketplace": {
         "ActivateLicenseKey": "เปิดใช้งาน",
+        "CategoryEcommerce": "อีคอมเมิร์ซ",
+        "CategorySecurity": "ความปลอดภัย",
         "PluginKeywords": "คีย์เวิร์ด",
         "SubscriptionType": "รูปแบบ",
         "Support": "บริการช่วยเหลือ"

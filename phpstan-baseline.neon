@@ -91,18 +91,6 @@ parameters:
 			path: core/API/DataTablePostProcessor.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between non\-falsy\-string and ''0'' will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between non\-falsy\-string and 0 will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
 			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -323,12 +311,6 @@ parameters:
 			identifier: booleanAnd.leftAlwaysTrue
 			count: 1
 			path: core/Changes/Model.php
-
-		-
-			message: '#^Variable \$response in empty\(\) always exists and is always falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: core/CliMulti.php
 
 		-
 			message: '#^Call to function is_string\(\) with non\-falsy\-string will always evaluate to true\.$#'
@@ -1071,12 +1053,6 @@ parameters:
 		-
 			message: '#^Right side of \|\| is always false\.$#'
 			identifier: booleanOr.rightAlwaysFalse
-			count: 1
-			path: core/Plugin/Manager.php
-
-		-
-			message: '#^Variable \$plugin in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
 			count: 1
 			path: core/Plugin/Manager.php
 
@@ -2089,12 +2065,6 @@ parameters:
 			path: plugins/Actions/Actions/ActionSiteSearch.php
 
 		-
-			message: '#^Variable \$keywordParameterRaw might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: plugins/Actions/Actions/ActionSiteSearch.php
-
-		-
 			message: '#^Call to function is_null\(\) with Piwik\\DataTable\\Row will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 2
@@ -2579,12 +2549,6 @@ parameters:
 			identifier: empty.variable
 			count: 1
 			path: plugins/CorePluginsAdmin/PluginInstaller.php
-
-		-
-			message: '#^Variable \$setting in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: plugins/CorePluginsAdmin/SettingsMetadata.php
 
 		-
 			message: '#^Right side of && is always true\.$#'
@@ -3187,12 +3151,6 @@ parameters:
 			path: plugins/Insights/DataTable/Filter/OrderBy.php
 
 		-
-			message: '#^Call to an undefined method Piwik\\Db\|Piwik\\Db\\AdapterInterface\|Piwik\\Tracker\\Db\:\:checkClientVersion\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: plugins/Installation/Controller.php
-
-		-
 			message: '#^Expression on left side of \?\? is not nullable\.$#'
 			identifier: nullCoalesce.expr
 			count: 1
@@ -3211,10 +3169,22 @@ parameters:
 			path: plugins/Installation/FormDatabaseSetup.php
 
 		-
+			message: '#^Constructor of class Piwik\\Plugins\\Installation\\FormDatabaseSetup has an unused parameter \$attributes\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: plugins/Installation/FormDatabaseSetup.php
+
+		-
 			message: '#^Call to an undefined method HTML_QuickForm2_Node\:\:loadOptions\(\)\.$#'
 			identifier: method.notFound
 			count: 2
 			path: plugins/Installation/FormFirstWebsiteSetup.php
+
+		-
+			message: '#^Constructor of class Piwik\\Plugins\\Installation\\FormSuperUser has an unused parameter \$attributes\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: plugins/Installation/FormSuperUser.php
 
 		-
 			message: '#^Instanceof between Exception and Exception will always evaluate to true\.$#'
@@ -3254,12 +3224,6 @@ parameters:
 
 		-
 			message: '#^Parameter &\$languages by\-ref type of method Piwik\\Plugins\\LanguagesManager\\API\:\:enableDevelopmentLanguageInDevEnvironment\(\) expects list\<string\>, array\<int\<0, max\>, string\> given\.$#'
-			identifier: parameterByRef.type
-			count: 1
-			path: plugins/LanguagesManager/API.php
-
-		-
-			message: '#^Parameter &\$languages by\-ref type of method Piwik\\Plugins\\LanguagesManager\\API\:\:enableDevelopmentLanguageInDevEnvironment\(\) expects list\<string\>, non\-empty\-array\<int\<0, max\>, string\> given\.$#'
 			identifier: parameterByRef.type
 			count: 1
 			path: plugins/LanguagesManager/API.php

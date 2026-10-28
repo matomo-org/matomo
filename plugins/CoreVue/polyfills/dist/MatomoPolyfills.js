@@ -445,10 +445,10 @@
     var SHARED = "__core-js_shared__";
     var store = sharedStore.exports = globalThis2[SHARED] || defineGlobalProperty2(SHARED, {});
     (store.versions || (store.versions = [])).push({
-      version: "3.50.0",
+      version: "3.51.0",
       mode: IS_PURE ? "pure" : "global",
       copyright: "\xA9 2013\u20132025 Denis Pushkarev (zloirock.ru), 2025\u20132026 CoreJS Company (core-js.io). All rights reserved.",
-      license: "https://github.com/zloirock/core-js/blob/v3.50.0/LICENSE",
+      license: "https://github.com/zloirock/core-js/blob/v3.51.0/LICENSE",
       source: "https://github.com/zloirock/core-js"
     });
     return sharedStore.exports;
@@ -2857,14 +2857,14 @@
     };
     return deletePropertyOrThrow;
   }
-  var arraySlice;
+  var arraySlice$1;
   var hasRequiredArraySlice;
   function requireArraySlice() {
-    if (hasRequiredArraySlice) return arraySlice;
+    if (hasRequiredArraySlice) return arraySlice$1;
     hasRequiredArraySlice = 1;
     var uncurryThis = requireFunctionUncurryThis();
-    arraySlice = uncurryThis([].slice);
-    return arraySlice;
+    arraySlice$1 = uncurryThis([].slice);
+    return arraySlice$1;
   }
   var arraySort;
   var hasRequiredArraySort;
@@ -6049,13 +6049,19 @@
     var $ = require_export();
     var uncurryThis = requireFunctionUncurryThis();
     var iterate2 = requireIterate();
+    var fails2 = requireFails();
+    var getIterator = requireGetIteratorInternal();
+    var setPrototypeOf2 = requireObjectSetPrototypeOf();
+    var wellKnownSymbol2 = requireWellKnownSymbol();
     var $RangeError = RangeError;
     var $TypeError = TypeError;
     var $Infinity = Infinity;
     var $NaN = NaN;
+    var $sumPrecise = Math.sumPrecise;
     var abs = Math.abs;
     var pow = Math.pow;
     var push = uncurryThis([].push);
+    var ITERATOR = wellKnownSymbol2("iterator");
     var POW_2_1023 = pow(2, 1023);
     var MAX_SAFE_INTEGER = pow(2, 53) - 1;
     var MAX_DOUBLE = Number.MAX_VALUE;
@@ -6065,12 +6071,30 @@
     var PLUS_INFINITY = {};
     var MINUS_ZERO = {};
     var FINITE = {};
+    var FORCED = fails2(function() {
+      if ($sumPrecise([-1]) !== -1 || $sumPrecise([-MAX_DOUBLE]) !== -MAX_DOUBLE) return true;
+      if (!setPrototypeOf2) return false;
+      try {
+        $sumPrecise(setPrototypeOf2([1], {}));
+        return true;
+      } catch (error) {
+      }
+      try {
+        var prototype = {};
+        prototype[ITERATOR] = function() {
+          return this;
+        };
+        $sumPrecise(setPrototypeOf2(getIterator([1]), prototype));
+        return true;
+      } catch (error) {
+      }
+    });
     var twosum = function(x, y) {
       var hi = x + y;
       var lo = y - (hi - x);
       return { hi, lo };
     };
-    $({ target: "Math", stat: true }, {
+    $({ target: "Math", stat: true, forced: FORCED }, {
       // eslint-disable-next-line max-statements -- ok
       sumPrecise: function sumPrecise(items) {
         var numbers = [];
@@ -7617,7 +7641,7 @@
       var hex = numberToString2(charCodeAt(chr, 0), 16);
       return hex.length < 3 ? "\\x" + padStart(hex, 2, "0") : "\\u" + padStart(hex, 4, "0");
     };
-    var FORCED = !$escape || $escape("ab") !== "\\x61b";
+    var FORCED = !$escape || $escape("ab\u{2002A}") !== "\\x61b\u{2002A}";
     $({ target: "RegExp", stat: true, forced: FORCED }, {
       escape: function escape(S) {
         aString2(S);
@@ -8553,10 +8577,9 @@
       var S = toString2(string);
       var C = speciesConstructor2(R, RegExp);
       var flags = toString2(getRegExpFlags(R));
-      var matcher, $global, fullUnicode;
-      matcher = new C(C === RegExp ? R.source : R, flags);
-      $global = !!~stringIndexOf2(flags, "g");
-      fullUnicode = !!~stringIndexOf2(flags, "u") || !!~stringIndexOf2(flags, "v");
+      var matcher = new C(C === RegExp ? R.source : R, flags);
+      var $global = !!~stringIndexOf2(flags, "g");
+      var fullUnicode = !!~stringIndexOf2(flags, "u") || !!~stringIndexOf2(flags, "v");
       matcher.lastIndex = toLength2(R.lastIndex);
       return new $RegExpStringIterator(matcher, S, $global, fullUnicode);
     };
@@ -11574,8 +11597,8 @@
     var mapGet = MapHelpers.get;
     var mapSet = MapHelpers.set;
     var Set2 = SetHelpers.Set;
-    var setAdd = SetHelpers.add;
-    var setHas = SetHelpers.has;
+    var setAdd2 = SetHelpers.add;
+    var setHas2 = SetHelpers.has;
     var objectKeys2 = getBuiltIn2("Object", "keys");
     var push = uncurryThis([].push);
     var thisBooleanValue = uncurryThis(true.valueOf);
@@ -11880,7 +11903,7 @@
           break;
         case "Set":
           value.forEach(function(v) {
-            setAdd(cloned, structuredCloneInternal(v, map));
+            setAdd2(cloned, structuredCloneInternal(v, map));
           });
           break;
         case "Error":
@@ -11916,11 +11939,11 @@
         value = transfer[i++];
         type = classof2(value);
         transferred = void 0;
-        if (type === "ArrayBuffer" ? setHas(buffers, value) : mapHas(map, value)) {
+        if (type === "ArrayBuffer" ? setHas2(buffers, value) : mapHas(map, value)) {
           throw new DOMException2("Duplicate transferable", DATA_CLONE_ERROR);
         }
         if (type === "ArrayBuffer") {
-          setAdd(buffers, value);
+          setAdd2(buffers, value);
           continue;
         }
         if (PROPER_STRUCTURED_CLONE_TRANSFER) {
@@ -14045,7 +14068,7 @@
     return web_urlSearchParams_size;
   }
   requireWeb_urlSearchParams_size();
-  /*! @license DOMPurify 3.4.16 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.4.16/LICENSE */
+  /*! @license DOMPurify 3.4.17 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.4.17/LICENSE */
   function _arrayLikeToArray(r, a) {
     (null == a || a > r.length) && (a = r.length);
     for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
@@ -14116,8 +14139,12 @@
   const arrayLastIndexOf = unapply(Array.prototype.lastIndexOf);
   const arrayPop = unapply(Array.prototype.pop);
   const arrayPush = unapply(Array.prototype.push);
+  const arraySlice = unapply(Array.prototype.slice);
   const arraySplice = unapply(Array.prototype.splice);
   const arrayIsArray = Array.isArray;
+  const setCreate = unconstruct(Set);
+  const setAdd = unapply(Set.prototype.add);
+  const setHas = unapply(Set.prototype.has);
   const stringToLowerCase = unapply(String.prototype.toLowerCase);
   const stringToString = unapply(String.prototype.toString);
   const stringMatch = unapply(String.prototype.match);
@@ -14223,6 +14250,14 @@
       return null;
     }
     return fallbackValue;
+  }
+  function lookupAccessor(object, prop) {
+    while (object !== null) {
+      const desc = getOwnPropertyDescriptor(object, prop);
+      if (desc) return desc.get ? unapply(desc.get) : null;
+      object = getPrototypeOf(object);
+    }
+    return null;
   }
   function isRegex(value) {
     try {
@@ -14908,7 +14943,7 @@
     documentFragment: 11,
     notation: 12
   };
-  const LITERAL_TEXT_ELEMENT_NAMES = [
+  const LITERAL_TEXT_ELEMENTS = freeze(addToSet({}, [
     "style",
     "script",
     "xmp",
@@ -14917,15 +14952,7 @@
     "noframes",
     "plaintext",
     "noscript"
-  ];
-  const LITERAL_TEXT_ELEMENTS = freeze(addToSet({}, LITERAL_TEXT_ELEMENT_NAMES));
-  const LITERAL_TEXT_CLOSE = (function() {
-    const map = {};
-    arrayForEach(LITERAL_TEXT_ELEMENT_NAMES, (name) => {
-      map[name] = seal(new RegExp("</" + name + "(?=[\\t\\n\\f\\r />])", "i"));
-    });
-    return freeze(map);
-  })();
+  ]));
   const getGlobal = function getGlobal2() {
     return typeof window === "undefined" ? null : window;
   };
@@ -14972,7 +14999,7 @@
   function createDOMPurify() {
     let window2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getGlobal();
     const DOMPurify = (root) => createDOMPurify(root);
-    DOMPurify.version = "3.4.16";
+    DOMPurify.version = "3.4.17";
     DOMPurify.removed = [];
     if (!window2 || !window2.document || window2.document.nodeType !== NODE_TYPE.document || !window2.Element) {
       DOMPurify.isSupported = false;
@@ -15003,6 +15030,10 @@
     };
     const _readNodeName = function _readNodeName2(node) {
       return getNodeName ? getNodeName(node) : node.nodeName;
+    };
+    const getNamespaceURI = lookupAccessor(ElementPrototype, "namespaceURI");
+    const _readNamespaceURI = function _readNamespaceURI2(element) {
+      return getNamespaceURI ? getNamespaceURI(element) : element.namespaceURI;
     };
     if (typeof HTMLTemplateElement === "function") {
       const template = document2.createElement("template");
@@ -15117,6 +15148,7 @@
     const SANITIZE_NAMED_PROPS_PREFIX = "user-content-";
     let KEEP_CONTENT = true;
     let IN_PLACE = false;
+    let IN_PLACE_VISITED = null;
     let USE_PROFILES = {};
     let FORBID_CONTENTS = null;
     const DEFAULT_FORBID_CONTENTS = addToSet({}, [
@@ -15355,18 +15387,23 @@
       return !ALL_MATHML_TAGS[tagName] && (COMMON_SVG_AND_HTML_ELEMENTS[tagName] || !ALL_SVG_TAGS[tagName]);
     };
     const _checkValidNamespace = function _checkValidNamespace2(element) {
-      let parent = getParentNode(element);
-      if (!parent || !parent.tagName) parent = {
-        namespaceURI: NAMESPACE,
-        tagName: "template"
-      };
-      const tagName = stringToLowerCase(element.tagName);
-      const parentTagName = stringToLowerCase(parent.tagName);
-      if (!ALLOWED_NAMESPACES[element.namespaceURI]) return false;
-      if (element.namespaceURI === SVG_NAMESPACE) return _checkSvgNamespace(tagName, parent, parentTagName);
-      if (element.namespaceURI === MATHML_NAMESPACE) return _checkMathMlNamespace(tagName, parent, parentTagName);
-      if (element.namespaceURI === HTML_NAMESPACE) return _checkHtmlNamespace(tagName, parent, parentTagName);
-      if (PARSER_MEDIA_TYPE === "application/xhtml+xml" && ALLOWED_NAMESPACES[element.namespaceURI]) return true;
+      const elementNamespace = _readNamespaceURI(element);
+      const tagName = stringToLowerCase(_readNodeName(element));
+      const parentNode = getParentNode(element);
+      let parent;
+      let parentTagName;
+      if (parentNode && _readNodeType(parentNode) === NODE_TYPE.element) {
+        parent = { namespaceURI: _readNamespaceURI(parentNode) };
+        parentTagName = stringToLowerCase(_readNodeName(parentNode));
+      } else {
+        parent = { namespaceURI: NAMESPACE };
+        parentTagName = "template";
+      }
+      if (!ALLOWED_NAMESPACES[elementNamespace]) return false;
+      if (elementNamespace === SVG_NAMESPACE) return _checkSvgNamespace(tagName, parent, parentTagName);
+      if (elementNamespace === MATHML_NAMESPACE) return _checkMathMlNamespace(tagName, parent, parentTagName);
+      if (elementNamespace === HTML_NAMESPACE) return _checkHtmlNamespace(tagName, parent, parentTagName);
+      if (PARSER_MEDIA_TYPE === "application/xhtml+xml" && ALLOWED_NAMESPACES[elementNamespace]) return true;
       return false;
     };
     const _forceRemove = function _forceRemove2(node) {
@@ -15391,19 +15428,13 @@
     const _neutralizeRoot = function _neutralizeRoot2(root) {
       _neutralizeSubtree(root);
       const childNodes = getChildNodes(root);
-      if (childNodes) {
-        const snapshot = [];
-        arrayForEach(childNodes, (child) => {
-          arrayPush(snapshot, child);
-        });
-        arrayForEach(snapshot, (child) => {
-          try {
-            remove(child);
-          } catch (_) {
-          }
-        });
-      }
-      const attributes = getAttributes(root);
+      if (childNodes) arrayForEach(arraySlice(childNodes), (child) => {
+        try {
+          remove(child);
+        } catch (_) {
+        }
+      });
+      const attributes = _readNodeType(root) === NODE_TYPE.element ? getAttributes(root) : null;
       if (attributes) for (let i = attributes.length - 1; i >= 0; --i) {
         const attribute = attributes[i];
         const name = attribute && attribute.name;
@@ -15450,14 +15481,93 @@
         _stripAttributeNode(element, attribute, name);
       }
     };
-    const _neutralizeSubtree = function _neutralizeSubtree2(root) {
+    const _walkTree = function _walkTree2(root, visit) {
+      let intoShadow = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
       const stack = [root];
       while (stack.length > 0) {
         const node = stack.pop();
-        if (_readNodeType(node) === NODE_TYPE.element) _stripDisallowedAttributes(node);
+        if (visit(node) === false) continue;
+        if (intoShadow && _readNodeType(node) === NODE_TYPE.element) {
+          const shadowRoot = getShadowRoot(node);
+          if (_isDocumentFragment(shadowRoot)) stack.push(shadowRoot);
+        }
         const childNodes = getChildNodes(node);
         if (childNodes) for (let i = childNodes.length - 1; i >= 0; --i) stack.push(childNodes[i]);
       }
+    };
+    const _neutralizeSubtree = function _neutralizeSubtree2(root) {
+      _walkTree(root, (node) => {
+        if (_readNodeType(node) === NODE_TYPE.element) _stripDisallowedAttributes(node);
+      });
+    };
+    const _collectLiveNodes = function _collectLiveNodes2(root) {
+      const nodes = [];
+      _walkTree(root, (node) => {
+        nodes.push(node);
+      }, true);
+      return nodes;
+    };
+    const _neutralizeEscapedElements = function _neutralizeEscapedElements2(root, before) {
+      const reachable = setCreate();
+      arrayForEach(_collectLiveNodes(root), (node) => {
+        if (_readNodeType(node) === NODE_TYPE.element) setAdd(reachable, node);
+      });
+      arrayForEach(before, (node) => {
+        if (_readNodeType(node) === NODE_TYPE.element && !setHas(reachable, node)) _stripDisallowedAttributes(node);
+      });
+    };
+    const _neutralizeDiscarded = function _neutralizeDiscarded2(root, before) {
+      let rootRemoved = false;
+      arrayForEach(DOMPurify.removed, (entry) => {
+        if (entry.element) {
+          rootRemoved = rootRemoved || entry.element === root;
+          _neutralizeSubtree(entry.element);
+        }
+      });
+      _neutralizeEscapedElements(root, before);
+      return rootRemoved;
+    };
+    const MAX_UNVISITED_ROUNDS = 8;
+    const _sanitizeUnvisitedNodes = function _sanitizeUnvisitedNodes2(root, before) {
+      const visited = IN_PLACE_VISITED;
+      let original = null;
+      const getOriginal = () => {
+        if (!original) {
+          original = setCreate();
+          arrayForEach(before, (beforeNode) => {
+            setAdd(original, beforeNode);
+          });
+        }
+        return original;
+      };
+      for (let round = 0; ; round++) {
+        const live = _collectLiveNodes(root);
+        const containers = [root];
+        let pending = false;
+        arrayForEach(live, (node) => {
+          if (_readNodeType(node) === NODE_TYPE.documentFragment) arrayPush(containers, node);
+          else if (!pending && !setHas(visited, node)) pending = setHas(getOriginal(), node);
+        });
+        if (!pending) return;
+        if (round >= MAX_UNVISITED_ROUNDS) throw typeErrorCreate("the tree kept changing during in-place sanitization; refusing to return it");
+        arrayForEach(containers, (container, index) => {
+          _sanitizeUnvisitedIn(container, index > 0, root, getOriginal());
+        });
+      }
+    };
+    const _sanitizeUnvisitedIn = function _sanitizeUnvisitedIn2(container, inShadow, root, original) {
+      const iterator = _createNodeIterator(container);
+      let node;
+      while (node = iterator.nextNode()) {
+        if (!setHas(original, node) || setHas(IN_PLACE_VISITED, node)) continue;
+        if (inShadow) _executeHooks(hooks.uponSanitizeShadowNode, node, null);
+        _sanitizeElements(node, root);
+        _sanitizeAttributes(node, root);
+        if (_isDocumentFragment(node.content)) _sanitizeShadowDOM2(node.content);
+      }
+    };
+    const _markVisited = function _markVisited2(node) {
+      if (IN_PLACE_VISITED) setAdd(IN_PLACE_VISITED, node);
     };
     const _isPatchLinkageAttribute = function _isPatchLinkageAttribute2(lcName, lcTag) {
       if (!SAFE_FOR_XML) return false;
@@ -15466,16 +15576,14 @@
     };
     const _neutralizePatchLinkage = function _neutralizePatchLinkage2(root) {
       if (!SAFE_FOR_XML) return;
-      const stack = [root];
-      while (stack.length > 0) {
-        const node = stack.pop();
+      _walkTree(root, (node) => {
         const nodeType = _readNodeType(node);
         if (nodeType === NODE_TYPE.processingInstruction || nodeType === NODE_TYPE.comment && regExpTest(COMMENT_MARKUP_PROBE, node.data)) {
           try {
             remove(node);
           } catch (_) {
           }
-          continue;
+          return false;
         }
         if (nodeType === NODE_TYPE.element) {
           const element = node;
@@ -15486,9 +15594,8 @@
           } catch (_) {
           }
         }
-        const childNodes = getChildNodes(node);
-        if (childNodes) for (let i = childNodes.length - 1; i >= 0; --i) stack.push(childNodes[i]);
-      }
+        return true;
+      });
     };
     const _initDocument = function _initDocument2(dirty) {
       let doc = null;
@@ -15528,6 +15635,13 @@
     };
     const _scrubTemplateExpressions2 = function _scrubTemplateExpressions(node) {
       var _node$querySelectorAl;
+      _scrubOwnCharacterData(node);
+      const templates = (_node$querySelectorAl = node.querySelectorAll) === null || _node$querySelectorAl === void 0 ? void 0 : _node$querySelectorAl.call(node, "template");
+      if (templates) arrayForEach(templates, (tmpl) => {
+        if (_isDocumentFragment(tmpl.content)) _scrubTemplateExpressions2(tmpl.content);
+      });
+    };
+    const _scrubOwnCharacterData = function _scrubOwnCharacterData2(node) {
       node.normalize();
       const doc = getOwnerDocument ? getOwnerDocument(node) : node.ownerDocument;
       const walker = createNodeIterator.call(doc || node, node, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_CDATA_SECTION | NodeFilter.SHOW_PROCESSING_INSTRUCTION, null);
@@ -15536,10 +15650,6 @@
         currentNode.data = _stripTemplateExpressions(currentNode.data);
         currentNode = walker.nextNode();
       }
-      const templates = (_node$querySelectorAl = node.querySelectorAll) === null || _node$querySelectorAl === void 0 ? void 0 : _node$querySelectorAl.call(node, "template");
-      if (templates) arrayForEach(templates, (tmpl) => {
-        if (_isDocumentFragment(tmpl.content)) _scrubTemplateExpressions2(tmpl.content);
-      });
     };
     const _isClobbered = function _isClobbered2(element) {
       const realTagName = getNodeName ? getNodeName(element) : null;
@@ -15571,7 +15681,7 @@
     }
     const _isUnsafeNode = function _isUnsafeNode2(currentNode, tagName) {
       if (SAFE_FOR_XML && currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(ELEMENT_MARKUP_PROBE, currentNode.textContent) && regExpTest(ELEMENT_MARKUP_PROBE, currentNode.innerHTML)) return true;
-      if (SAFE_FOR_XML && currentNode.namespaceURI === HTML_NAMESPACE && LITERAL_TEXT_ELEMENTS[tagName] && (_isNode(currentNode.firstElementChild) || typeof currentNode.textContent === "string" && regExpTest(LITERAL_TEXT_CLOSE[tagName], currentNode.textContent))) return true;
+      if (SAFE_FOR_XML && LITERAL_TEXT_ELEMENTS[tagName] && _readNodeType(currentNode) === NODE_TYPE.element && _readNamespaceURI(currentNode) === HTML_NAMESPACE && (_isNode(currentNode.firstElementChild) || typeof currentNode.textContent === "string" && regExpTest(ELEMENT_MARKUP_PROBE, currentNode.textContent))) return true;
       if (currentNode.nodeType === NODE_TYPE.processingInstruction) return true;
       if (SAFE_FOR_XML && currentNode.nodeType === NODE_TYPE.comment && regExpTest(COMMENT_MARKUP_PROBE, currentNode.data)) return true;
       return false;
@@ -15586,7 +15696,7 @@
     };
     const _sanitizeDisallowedNode = function _sanitizeDisallowedNode2(currentNode, tagName, root) {
       if (!FORBID_TAGS[tagName] && _isBasicCustomElement(tagName) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, tagName)) return false;
-      if (KEEP_CONTENT && !FORBID_CONTENTS[tagName]) {
+      if (KEEP_CONTENT && !FORBID_CONTENTS[tagName] && !FORBID_CONTENTS[stringToLowerCase(tagName)]) {
         const parentNode = getParentNode(currentNode);
         const childNodes = getChildNodes(currentNode);
         if (childNodes && parentNode) {
@@ -15610,6 +15720,7 @@
       return true;
     };
     const _sanitizeElements = function _sanitizeElements2(currentNode, root) {
+      _markVisited(currentNode);
       _executeHooks(hooks.beforeSanitizeElements, currentNode, null);
       if (_handleHookDetachedNode(currentNode, root)) return true;
       if (_isClobbered(currentNode)) {
@@ -15703,6 +15814,10 @@
         return false;
       }
     };
+    const _isUnsafeAttributeValue = function _isUnsafeAttributeValue2(name, value) {
+      if (SAFE_FOR_XML && regExpTest(/((--!?|])>)|<\/(style|script|title|xmp|textarea|noscript|iframe|noembed|noframes)/i, value)) return true;
+      return stringToLowerCase(name) === "attributename" && stringMatch(value, "href") !== null;
+    };
     const _sanitizeAttributes = function _sanitizeAttributes2(currentNode, root) {
       _executeHooks(hooks.beforeSanitizeAttributes, currentNode, null);
       if (_handleHookDetachedNode(currentNode, root)) return;
@@ -15736,11 +15851,7 @@
           value = SANITIZE_NAMED_PROPS_PREFIX + value;
           recreatedNamedProp = true;
         }
-        if (SAFE_FOR_XML && regExpTest(/((--!?|])>)|<\/(style|script|title|xmp|textarea|noscript|iframe|noembed|noframes)/i, value)) {
-          _removeAttribute(name, currentNode, attr);
-          continue;
-        }
-        if (lcName === "attributename" && stringMatch(value, "href")) {
+        if (_isUnsafeAttributeValue(name, value)) {
           _removeAttribute(name, currentNode, attr);
           continue;
         }
@@ -15783,6 +15894,7 @@
           }
         }
       }
+      if (SAFE_FOR_TEMPLATES) _scrubOwnCharacterData(fragment);
       _executeHooks(hooks.afterSanitizeShadowDOM, fragment, null);
     };
     const _sanitizeAttachedShadowRoots = function _sanitizeAttachedShadowRoots2(root) {
@@ -15846,6 +15958,8 @@
       if (hooks.uponSanitizeAttribute.length > 0) ALLOWED_ATTR = clone(ALLOWED_ATTR);
       DOMPurify.removed = [];
       const inPlace = IN_PLACE && typeof dirty !== "string" && _isNode(dirty);
+      let inPlaceNodes = [];
+      const outerVisited = IN_PLACE_VISITED;
       if (inPlace) {
         _neutralizePatchLinkage(dirty);
         const nn = _readNodeName(dirty);
@@ -15860,12 +15974,8 @@
           _neutralizeRoot(dirty);
           throw typeErrorCreate("root node is clobbered and cannot be sanitized in-place");
         }
-        try {
-          _sanitizeAttachedShadowRoots(dirty);
-        } catch (error) {
-          _neutralizeRoot(dirty);
-          throw error;
-        }
+        inPlaceNodes = _collectLiveNodes(dirty);
+        IN_PLACE_VISITED = setCreate();
       } else if (_isNode(dirty)) {
         body = _initDocument("<!---->");
         importedNode = body.ownerDocument.importNode(dirty, true);
@@ -15881,30 +15991,25 @@
       if (body && FORCE_BODY) _forceRemove(body.firstChild);
       const walkRoot = inPlace ? dirty : body;
       try {
+        if (inPlace) _sanitizeAttachedShadowRoots(dirty);
         const nodeIterator = _createNodeIterator(walkRoot);
         while (currentNode = nodeIterator.nextNode()) {
           _sanitizeElements(currentNode, walkRoot);
           _sanitizeAttributes(currentNode, walkRoot);
           if (_isDocumentFragment(currentNode.content)) _sanitizeShadowDOM2(currentNode.content);
         }
+        if (inPlace) _sanitizeUnvisitedNodes(dirty, inPlaceNodes);
       } catch (error) {
         if (inPlace) {
           _neutralizeRoot(dirty);
-          arrayForEach(DOMPurify.removed, (entry) => {
-            if (entry.element) _neutralizeSubtree(entry.element);
-          });
+          _neutralizeDiscarded(dirty, inPlaceNodes);
         }
         throw error;
+      } finally {
+        IN_PLACE_VISITED = outerVisited;
       }
       if (inPlace) {
-        let rootWasRemoved = false;
-        arrayForEach(DOMPurify.removed, (entry) => {
-          if (entry.element) {
-            if (entry.element === dirty) rootWasRemoved = true;
-            _neutralizeSubtree(entry.element);
-          }
-        });
-        if (rootWasRemoved) throw typeErrorCreate("a node selected for removal could not be safely returned; refusing to sanitize in place");
+        if (_neutralizeDiscarded(dirty, inPlaceNodes)) throw typeErrorCreate("a node selected for removal could not be safely returned; refusing to sanitize in place");
         if (SAFE_FOR_TEMPLATES) _scrubTemplateExpressions2(dirty);
         return dirty;
       }
@@ -15941,6 +16046,7 @@
       if (!CONFIG) _parseConfig({});
       const lcTag = transformCaseFunc(tag);
       const lcName = transformCaseFunc(attr);
+      if (typeof value === "string" && (_isUnsafeAttributeValue(attr, value) || !ALLOW_SELF_CLOSE_IN_ATTR && regExpTest(SELF_CLOSING_TAG, value))) return false;
       return _isValidAttribute(lcTag, lcName, value);
     };
     DOMPurify.addHook = function(entryPoint, hookFunction) {

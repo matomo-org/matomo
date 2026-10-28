@@ -87,6 +87,8 @@
         "ProductName": "제품 이름",
         "ProductSKU": "제품 번호",
         "Products": "제품",
+        "RecommendationCountOnePage": "1페이지",
+        "RecommendationCountPages": "%s페이지",
         "ReturningVisitorsConversionRateIs": "재방분 전환율은 %s",
         "SendEvent": "이벤트 보내기",
         "SingleGoalOverviewDocumentation": "이것은 하나의 목표 전환 개요입니다. %s 그래프 아래의 스파크라인은 클릭하여 확대할 수 있습니다.",
