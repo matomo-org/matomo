@@ -45,6 +45,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         parent::setUp();
+        Common::$headersSentInTests = [];
         $this->response = new TestResponse();
     }
 
@@ -108,6 +109,51 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->response->outputResponse($this->getTracker());
 
         Fixture::checkResponse($this->response->getOutput());
+    }
+
+    public function testOutputResponseShouldKeepExceptionResponseIfNothingWasTracked()
+    {
+        $tracker = $this->getTracker();
+        $tracker->setCountOfLoggedRequests(0);
+        $this->response->init($tracker);
+
+        $_GET['idsite'] = '1';
+        $this->response->outputException($tracker, new Exception('My Custom Message'), 500);
+        $this->response->outputResponse($tracker);
+        unset($_GET['idsite']);
+
+        Fixture::checkResponse($this->response->getOutput());
+        $this->assertSame(['HTTP/1.1 500 Internal Server Error'], $this->getSentStatusLines());
+    }
+
+    public function testOutputExceptionShouldKeepStatusCodeIfNoImageIsRequested()
+    {
+        $tracker = $this->getTracker();
+        $tracker->setCountOfLoggedRequests(0);
+        $this->response->init($tracker);
+
+        $_GET['send_image'] = '0';
+        $this->response->outputException($tracker, new Exception('My Custom Message'), 400);
+        $this->response->outputResponse($tracker);
+        unset($_GET['send_image']);
+
+        $this->assertEquals('', $this->response->getOutput());
+        $this->assertSame(['HTTP/1.1 400 Bad Request'], $this->getSentStatusLines());
+    }
+
+    public function testOutputExceptionShouldNotKeepStatusCodeIfRequestWasAlreadyTracked()
+    {
+        $tracker = $this->getTracker();
+        $this->response->init($tracker);
+
+        $_GET['send_image'] = '0';
+        $this->response->outputException($tracker, new Exception('My Custom Message'), 500);
+        $this->response->outputResponse($tracker);
+        unset($_GET['send_image']);
+
+        $this->assertEquals('', $this->response->getOutput());
+        $statusLines = $this->getSentStatusLines();
+        $this->assertSame('HTTP/1.1 204 No Response', end($statusLines));
     }
 
     public function testOutputResponseShouldOutputNoResponseIf204HeaderIsRequested()
@@ -215,6 +261,13 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
 
         // Compare the hash of the response with the file hash
         $this->assertSame($md5Response, $md5File);
+    }
+
+    private function getSentStatusLines(): array
+    {
+        return array_values(array_filter(array_keys(Common::$headersSentInTests), function ($header) {
+            return str_starts_with($header, 'HTTP/');
+        }));
     }
 
     private function getTracker()

@@ -88,6 +88,26 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals(400, $response['status']);
     }
 
+    public function testResponseShouldOnlyContainTheImageIfSiteIdIsInvalid()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&idsite=100';
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
+        Fixture::checkResponse($response['data']);
+    }
+
+    public function testResponseShouldSend400ResponseCodeIfSiteIdIsInvalidAndImageIsDisabled()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&idsite=100&send_image=0';
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
+        $this->assertSame('', $response['data']);
+    }
+
     public function testResponseShouldSend400ResponseCodeIfIdGoalIsInvalid()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');

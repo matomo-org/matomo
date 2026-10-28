@@ -213,7 +213,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(1, count($this->getConversionItems()));
 
         $response = $this->sendTrackingRequestByCurl($urlToTest);
-        self::assertStringContainsString('This resource is part of Matomo.', $response);
+        Fixture::checkResponse($response);
 
         $this->assertEquals(1, $this->getCountOfConversions());
         $this->assertEquals(1, count($this->getConversionItems()));
