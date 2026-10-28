@@ -2486,6 +2486,11 @@ if (typeof window.Matomo !== 'object') {
                 // whether requireConsent() was called or not
                 configConsentRequired = false,
 
+                // whether the site reported that the visitor consented to being tracked, which is
+                // independent of requireConsent(): setConsentGiven() is documented as callable
+                // without it, and a site measuring under a compliance exemption does exactly that
+                configConsentGiven = false,
+
                 // whether the site reported that the visitor consented to cookies. Kept apart from
                 // the above because the two mechanisms are independent: requireConsent() holds
                 // every request back until consent, cookie consent only gates cookies and lets
@@ -3226,6 +3231,10 @@ if (typeof window.Matomo !== 'object') {
              * without cookies until then.
              */
             function hasGivenConsent() {
+                if (configConsentGiven || configCookieConsentGiven) {
+                    return true;
+                }
+
                 if (configConsentRequired && configHasConsent) {
                     return true;
                 }
@@ -3243,8 +3252,12 @@ if (typeof window.Matomo !== 'object') {
             function refreshConsentStatus() {
                 if (getCookie(CONSENT_REMOVED_COOKIE_NAME)) {
                     configHasConsent = false;
+                    configConsentGiven = false;
                 } else if (getCookie(CONSENT_COOKIE_NAME)) {
+                    // consent remembered on an earlier page view, so setConsentGiven() is not
+                    // called again and the consent is picked up here instead
                     configHasConsent = true;
+                    configConsentGiven = true;
                 }
 
                 // forgetCookieConsentGiven() in another window deletes the cookie this one read
@@ -7489,6 +7502,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setConsentGiven = function (setCookieConsent) {
                 configHasConsent = true;
+                configConsentGiven = true;
                 if (!configBrowserFeatureDetection) {
                     this.enableBrowserFeatureDetection();
                 }
@@ -7569,6 +7583,7 @@ if (typeof window.Matomo !== 'object') {
                     hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
                 }
 
+                configConsentGiven = false;
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 this.forgetCookieConsentGiven();

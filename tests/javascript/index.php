@@ -5366,6 +5366,33 @@ if ($mysql) {
         }, 3000);
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent is reported without requireConsent being used", function() {
+        stop();
+
+        deleteCookies();
+
+        // a site measuring under a compliance exemption tracks from the first page view and only
+        // reports consent once it is given, so it never calls requireConsent()
+        var consenting = Piwik.getTracker();
+        consenting.disableBrowserFeatureDetection();
+        consenting.setCustomData('token', getConsentToken() + 'exempt');
+        consenting.trackRequest('myFoo=beforeConsent');
+        consenting.setConsentGiven();
+        consenting.trackRequest('myFoo=afterConsent');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'exempt');
+            strictEqual(true, requests.indexOf('myFoo=beforeConsent') > 0, "the visitor is tracked before consent is given");
+            strictEqual(true, requests.indexOf('myFoo=afterConsent') > 0, "the visitor is still tracked after consent is given");
+            ok((requests.match(/consent=1/g) || []).length > 0, "consent=1 is sent once consent has been given, without requireConsent");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 
