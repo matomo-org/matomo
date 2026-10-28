@@ -22,9 +22,6 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
     protected function init()
     {
         $this->consentAwareAnalytics = $this->makeConsentAwareAnalyticsSetting();
-
-        // the instance has to have the feature on before a site can be opted in to it
-        $this->consentAwareAnalytics->setIsWritableByCurrentUser(ConsentAwareAnalytics::isEnabledForInstance());
     }
 
     private function makeConsentAwareAnalyticsSetting(): MeasurableSetting

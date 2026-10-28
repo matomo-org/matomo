@@ -14,6 +14,7 @@ namespace Piwik\Plugins\CoreHome\Columns;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit\EntryPage;
 use Piwik\Tracker\Visitor;
 
 /**
@@ -53,6 +54,26 @@ class Consent extends VisitDimension
         // consent given part way through a visit applies to the visit, so later requests do not
         // have to repeat the flag for it to be known
         return self::CONSENT_GIVEN;
+    }
+
+    /**
+     * Consent reaching a visit that did not have it starts a new visit, unless the visitor is
+     * still on the page they arrived on.
+     *
+     * A visit measured before consent was measured under a compliance policy's restrictions. Where
+     * the visitor is still on their arrival page the same visit is continued and filled in, since
+     * it is the same landing and the data for it is still in the request. Once they have moved on
+     * the two are kept apart, and consent begins a visit of its own.
+     *
+     */
+    public function shouldForceNewVisit(Request $request, Visitor $visitor, ?Action $action = null)
+    {
+        if (!$request->hasConsent() || self::hasVisitConsented($visitor)) {
+            return false;
+        }
+
+        // null means it could not be told, and a visit is not split on a guess
+        return false === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
     }
 
     /**

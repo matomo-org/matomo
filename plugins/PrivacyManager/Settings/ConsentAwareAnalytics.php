@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
-use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
 use Piwik\Tracker\Cache as TrackerCache;
@@ -23,8 +22,7 @@ use Piwik\Tracker\Cache as TrackerCache;
  * same, whether or not they consented. While it is on, a visitor who consents is measured without
  * the restrictions the policy imposes for those who have not.
  *
- * It is deliberately two settings. The system one turns the feature on for the instance, the
- * measurable one chooses the sites it applies to, so it can be rolled out a site at a time.
+ * It is set per site rather than for the instance, so it can be rolled out a site at a time.
  */
 class ConsentAwareAnalytics
 {
@@ -49,19 +47,11 @@ class ConsentAwareAnalytics
     }
 
     /**
-     * Whether the instance has the feature turned on at all.
-     */
-    public static function isEnabledForInstance(): bool
-    {
-        return (bool) (new SystemSettings())->consentAwareAnalytics->getValue();
-    }
-
-    /**
      * The value as configured, for writing into the tracker cache.
      */
     public static function isEnabledForSite(int $idSite): bool
     {
-        return self::isEnabledForInstance() && (bool) self::getMeasurableValue($idSite);
+        return (bool) self::getMeasurableValue($idSite);
     }
 
     /**

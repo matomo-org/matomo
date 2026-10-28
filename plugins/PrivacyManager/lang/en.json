@@ -376,8 +376,6 @@
         "ViewPrivacyComplianceOverview": "View privacy compliance overview",
         "CampaignParameterDiscarded": "(UTM parameter discarded)",
         "CampaignParameterValuesMaskedSettingRequirementNote": "Campaign parameter values must be masked before they are stored.",
-        "ConsentAwareAnalyticsSettingTitle": "Measure consent-aware analytics",
-        "ConsentAwareAnalyticsSettingHelp": "Measure visitors who have given their consent without the restrictions a compliance policy applies to those who have not. Turning this on for the instance makes the setting available per site; each site is then opted in individually.",
         "ConsentAwareAnalyticsMeasurableTitle": "Measure consent-aware analytics for this site",
         "ConsentAwareAnalyticsMeasurableHelp": "A visitor who gives their consent is measured as if the compliance policy were not enforced for them. Visitors who have not given their consent keep the treatment the policy requires.",
         "CampaignParameterValuesMaskedSettingTitle": "Campaign Parameter Masking Enabled",

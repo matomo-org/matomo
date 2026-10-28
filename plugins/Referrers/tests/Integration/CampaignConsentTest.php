@@ -82,6 +82,43 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * Consent reaching a visit that was measured without it starts a visit of its own, unless the
+     * visitor is still on the page they arrived on. The earlier visit keeps the treatment it was
+     * measured under.
+     */
+    public function testConsentAfterNavigatingStartsItsOwnVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(2, $this->countVisits(), 'consent should have started a second visit');
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name'),
+            'the first visit should keep the treatment it was measured under'
+        );
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'the first visit did not consent');
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent', 1), 'the second visit is the consented one');
+    }
+
+    /**
+     * Still on the arrival page, so the same visit continues rather than a second one starting.
+     */
+    public function testConsentOnTheArrivalPageContinuesTheSameVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->ping('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits());
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent'));
+    }
+
+    /**
      * The feature is opt-in per site. A site that has not opted in behaves exactly as it does
      * today, whether or not a request reports consent.
      */
@@ -109,19 +146,10 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
-     * Consent-aware measurement is opt-in per site, so the tests turn it on for theirs. The
-     * tracker runs in its own request, so the system setting has to be set where that request
-     * will read it.
+     * Consent-aware measurement is opt-in per site, so the tests opt theirs in.
      */
     private function enableConsentAwareAnalytics(): void
     {
-        self::$fixture->getTestEnvironment()->overrideConfig(
-            'PrivacyManager',
-            'ConsentAwareAnalytics',
-            '1'
-        );
-        self::$fixture->getTestEnvironment()->save();
-
         $measurable = ConsentAwareAnalyticsSetting::getMeasurableSetting($this->idSite);
         $measurable->setValue(true);
         $measurable->save();
@@ -453,9 +481,9 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
         $this->trackPageView('article', $withCampaign = false, $consent = '1');
 
-        $this->assertSame(1, $this->countVisits());
-        $this->assertSame('running shoes', $this->fetchVisitColumn('referer_keyword'));
-        $this->assertStringContainsString('q=running+shoes', (string) $this->fetchVisitColumn('referer_url'));
+        $this->assertSame(2, $this->countVisits(), 'consent away from the arrival page starts its own visit');
+        $this->assertSame('running shoes', $this->fetchVisitColumn('referer_keyword', 1));
+        $this->assertStringContainsString('q=running+shoes', (string) $this->fetchVisitColumn('referer_url', 1));
     }
 
     public function testReferrerDetailIsDroppedOnAnExistingVisitWithoutConsent(): void
@@ -485,9 +513,10 @@ class CampaignConsentTest extends IntegrationTestCase
 
         $this->assertSame(
             CampaignParameterValuesMasked::getPlaceholderValue(),
-            $this->fetchVisitColumn('referer_name')
+            $this->fetchVisitColumn('referer_name'),
+            'the campaign was discarded and is not recoverable once the visitor has moved on'
         );
-        $this->assertSame(1, $this->countVisits());
+        $this->assertSame(2, $this->countVisits(), 'consent away from the arrival page starts its own visit');
     }
 
     /**
@@ -637,15 +666,14 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->enforceCampaignMasking();
 
         $this->trackPageView('landing', $withCampaign = true, $consent = null);
-        $this->trackPageView('basket', $withCampaign = false, $consent = '1');
 
         $this->assertSame(
             CampaignParameterValuesMasked::getPlaceholderValue(),
             $this->fetchVisitColumn('referer_name'),
-            'the visit should still hold a discarded campaign'
+            'the visit should hold a discarded campaign'
         );
 
-        $this->trackGoalConversion();
+        $this->trackGoalConversion(self::CAMPAIGN_NAME, $consent = null);
 
         $this->assertSame(
             CampaignParameterValuesMasked::getPlaceholderValue(),
@@ -751,11 +779,15 @@ class CampaignConsentTest extends IntegrationTestCase
      * The JS tracker sends the campaign it attributed the visitor to from its own cookie, which is
      * what makes a conversion able to report a campaign the visit itself does not hold.
      */
-    private function trackGoalConversion(?string $attributedCampaign = self::CAMPAIGN_NAME): void
+    private function trackGoalConversion(?string $attributedCampaign = self::CAMPAIGN_NAME, ?string $consent = '1'): void
     {
         $this->testDate = $this->testDate->addPeriod(1, 'minute');
         $this->tracker->setForceVisitDateTime($this->testDate->getDatetime());
         $this->tracker->clearCustomTrackingParameters();
+
+        if (null !== $consent) {
+            $this->tracker->setCustomTrackingParameter('consent', $consent);
+        }
 
         if (null !== $attributedCampaign) {
             $this->tracker->setAttributionInfo(json_encode([
