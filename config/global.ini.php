@@ -410,9 +410,9 @@ archiving_range_force_on_browser_request = 1
 archiving_custom_ranges[] =
 
 ; If configured, archiving queries will be aborted after the configured amount of seconds. Set it to -1 if the query time
-; should not be limited. Note: This feature requires a recent database version and the PDO\MYSQL extension
-; must be used. Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint.
-; This feature will not work with the MYSQLI extension.
+; should not be limited. Note: the PDO\MYSQL extension must be used. The limit is applied through the MAX_EXECUTION_TIME
+; hint on MySQL and through SET STATEMENT max_statement_time on MariaDB. This feature will not work with the MYSQLI
+; extension.
 archiving_query_max_execution_time = 7200
 
 ; Allows you to disable archiving segments for selected plugins. For more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
@@ -452,7 +452,7 @@ hash_algorithm = whirlpool
 
 ; set the algorithm used by password_hash()
 ; "default" for the algorithm used by the PHP version or one of ["bcrypt", "argon2i", "argon2id"]
-; "argon2id" requires at least PHP 7.3.0
+; the argon2 algorithms require PHP to be built with Argon2 support
 ; for all argon2 algorithms, additional parameters can be changed below
 ; any changes are applied to the stored hash on the next login of a user
 ; see https://www.php.net/manual/en/function.password-hash.php and https://wiki.php.net/rfc/argon2_password_hash
@@ -689,9 +689,8 @@ live_ai_chatbots_top_page_urls_maximum_rows = 100
 
 ; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
 ; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
-; limited. Note: This feature requires a recent database version and the PDO\MYSQL extension must be used.
-; Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint. This feature will
-; not work with the MYSQLI extension.
+; limited. Note: the PDO\MYSQL extension must be used. The limit is applied through the MAX_EXECUTION_TIME hint on MySQL
+; and through SET STATEMENT max_statement_time on MariaDB. This feature will not work with the MYSQLI extension.
 live_query_max_execution_time = -1
 
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),

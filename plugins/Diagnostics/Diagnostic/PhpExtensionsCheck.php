@@ -57,9 +57,7 @@ class PhpExtensionsCheck implements Diagnostic
     {
         $requiredExtensions = array(
             'zlib',
-            'json',
             'filter',
-            'hash',
             'session',
         );
 
@@ -70,9 +68,7 @@ class PhpExtensionsCheck implements Diagnostic
     {
         $messages = array(
             'zlib'    => 'Installation_SystemCheckZlibHelp',
-            'json'    => 'Installation_SystemCheckWarnJsonHelp',
             'filter'  => 'Installation_SystemCheckFilterHelp',
-            'hash'    => 'Installation_SystemCheckHashHelp',
             'session' => 'Installation_SystemCheckSessionHelp',
         );
 

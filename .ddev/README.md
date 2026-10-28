@@ -96,7 +96,7 @@ ddev matomo:plugins:unmount
 
 `ddev matomo:plugins:mount` creates a local-only `.ddev/docker-compose.local-plugins.yaml`, adds bind mounts for discovered `plugin-*` directories, and restarts DDEV automatically. If you pass a plugin directory path directly, the command reads the plugin name from `plugin.json` when present and otherwise infers it from directory names like `plugin-FormAnalytics`.
 
-When a plugin declares `require.php` in `plugin.json`, the mount command compares it with the PHP version currently used by DDEV. Simple constraints such as `>=7.2.0` are enforced and incompatible plugins are skipped. More complex Composer-style expressions are only warned about and the plugin is mounted anyway.
+When a plugin declares `require.php` in `plugin.json`, the mount command compares it with the PHP version currently used by DDEV. Simple constraints such as `>=8.1.0` are enforced and incompatible plugins are skipped. More complex Composer-style expressions are only warned about and the plugin is mounted anyway.
 
 `ddev matomo:plugins:unmount` removes one or more managed plugin mounts by plugin name. If all managed mounts are removed, the generated compose override is deleted automatically.
 
