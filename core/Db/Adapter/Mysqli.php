@@ -114,7 +114,6 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         return parent::getServerVersion();
     }
 
-
     /**
      * Return number of affected rows in last query
      *
