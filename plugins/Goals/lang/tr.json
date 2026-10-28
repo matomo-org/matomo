@@ -100,7 +100,6 @@
         "Goals": "Hedefler",
         "GoalsAdjective": "%s hedef",
         "GoalsBy": "%s değerine göre hedefler",
-        "GoalsOverview": "Hedefler özeti",
         "GoalsOverviewDocumentation": "Hedef dönüşümü özetleri burada görülebilir. Başlangıçta çizelgede Tüm hedef dönüşümlerinin toplamı görüntülenir. %s Çizelgenin aşağısında her bir hedefin dönüşüm oranı görülebilir. Çubuklar üzerine tıklandığında genişler.",
         "GoalsOverviewSubcategoryHelp1": "Hedefler özeti raporu, site için tanımlanmış hedeflerin başarımını içerir. Hedeflerin dönüşüm yüzdeleri, elde edilen toplam gelir miktarı ve her bir hedef için tam raporlar görülebilir.",
         "GoalsOverviewSubcategoryHelp2": "Tam boyutlu gelişim çizelgesi içinde odaklamak istediğiniz ölçüt için mini grafik üzerindeki bir ölçüte tıklayın.",
