@@ -99,7 +99,6 @@
         "Goals": "Metas",
         "GoalsAdjective": "Metas %s",
         "GoalsBy": "Metas por %s",
-        "GoalsOverview": "Visão geral de metas",
         "GoalsOverviewDocumentation": "Esta é uma visão geral de suas conversões de metas. Inicialmente, o gráfico mostra a soma de todas as conversões. %s abaixo do gráfico, você pode ver relatórios de conversão para cada uma de suas metas. Os minigráficos podem ser ampliados clicando sobre eles.",
         "GoalsOverviewSubcategoryHelp1": "A Visão geral das metas informa sobre o desempenho das metas definidas para o seu site. Você pode acessar as porcentagens de conversão de sua meta, o valor da receita gerada e relatórios completos para cada um.",
         "GoalsOverviewSubcategoryHelp2": "Clique em uma métrica individual no gráfico de tendências para focalizá-la no gráfico de evolução em tamanho real.",
