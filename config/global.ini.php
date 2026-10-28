@@ -702,6 +702,10 @@ multisites_refresh_after_seconds = 300
 ; the superusers should see the notification.
 show_update_notification_to_superusers_only = 0
 
+; notifications to hide, by ID. Only some notifications can be hidden, e.g. the warning about the PHP security
+; advisory of 2026-10-21, when your Linux distribution has backported the fix without changing the PHP version number:
+;disabled_notifications[] = PhpSecurityAdvisory_2026_10_21
+
 ; Set to 1 if you're using https on your Matomo server and Matomo can't detect it,
 ; e.g., a reverse proxy using https-to-http, or a web server that doesn't
 ; set the HTTPS environment variable.

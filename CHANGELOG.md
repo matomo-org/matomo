@@ -115,6 +115,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Passing help by writing a `<div class="inlineHelp">` into the `EnrichedHeadline` slot is no longer supported; use the `inline-help` attribute instead.
 * The conditional fallback definitions for functions and constants that every supported PHP version provides natively (`mysqli_set_charset()`, `file_get_contents()`, `utf8_encode()`, `utf8_decode()`, `fnmatch()`, the `Error` class, `PHP_INT_SIZE` and `PHP_INT_MAX`) have been removed from `libs/upgradephp/upgrade.php`, as has the `gzopen()` alias for builds whose zlib exposes only `gzopen64()`; `Piwik\Unzip` falls back to `PclZip` on such a build.
 
+## Matomo 5.14.3
+
+### New config.ini.php settings
+* `[General] disabled_notifications[]` lists the IDs of notifications to hide. For now only
+  `PhpSecurityAdvisory_2026_10_21` can be hidden: the warning shown to signed-in users when the PHP version is affected by
+  the critical PHP security vulnerabilities announced on 2026-10-21, for example when your Linux distribution has backported
+  the fix without changing the PHP version number.
+
 ## Matomo 5.14.2
 
 ### Breaking Changes
