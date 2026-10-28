@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Goals\tests\Integration;
 
+use Piwik\Config;
 use Piwik\Plugins\Goals\Recommendations\HomepageAnalyzer;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
@@ -69,6 +70,120 @@ class HomepageAnalyzerCrawlTest extends IntegrationTestCase
         $targets = array_column($analysis['links'], 'linkTarget');
         $this->assertContains('/pricing', $targets);
         $this->assertContains('/contact', $targets);
+    }
+
+    public function testCrawlRewritesLinksToTheSameOriginPageTheyRedirectTo()
+    {
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body><a href="/docs/installation/">Install</a><a href="/old-home">Home</a><a href="/go/partner">Partner</a></body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'http://example.com/docs/installation/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body>Install</body></html>',
+                'effectiveUrl' => 'http://example.com/faq/installing/',
+            ],
+            'http://example.com/old-home' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body>Home</body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'http://example.com/go/partner' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body>Partner</body></html>',
+                'effectiveUrl' => 'http://partner.org/',
+            ],
+        ]);
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $targets = array_column($analysis['links'], 'linkTarget');
+        $this->assertContains('/faq/installing', $targets);
+        $this->assertNotContains('/docs/installation', $targets);
+        $this->assertNotContains('/old-home', $targets);
+        $this->assertNotContains('/go/partner', $targets);
+    }
+
+    public function testLinksBeyondTheCrawlBudgetAreProbedForRedirects()
+    {
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body><a href="/docs/installation/">Install</a><a href="/old-pricing">Pricing</a></body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'http://example.com/docs/installation/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '',
+                'effectiveUrl' => 'http://example.com/faq/installing/',
+            ],
+            'http://example.com/old-pricing' => [
+                'status' => 404,
+                'headers' => [],
+                'data' => '',
+                'effectiveUrl' => 'http://example.com/not-found',
+            ],
+        ]);
+        Config::getInstance()->Goals['recommendation_max_crawl_pages'] = 1;
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $this->assertSame(1, $analysis['pagesCrawled']);
+        // a redirect to an error page keeps the linked path
+        $this->assertEqualsCanonicalizing(['/faq/installing', '/old-pricing'], array_column($analysis['links'], 'linkTarget'));
+        // probes only need the status and final URL
+        $this->assertSame(1024, $analyzer->requestedBytes['http://example.com/docs/installation/']);
+    }
+
+    /**
+     * @dataProvider getLinkOrders
+     */
+    public function testLinksLandingOnOnePageKeepTheMostLinkedSourceWhateverTheOrder(string $homepageLinks)
+    {
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '<html><body>' . $homepageLinks . '</body></html>',
+                'effectiveUrl' => 'http://example.com/',
+            ],
+            'http://example.com/download' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '',
+                'effectiveUrl' => 'http://example.com/faq/installing',
+            ],
+            'http://example.com/get-matomo' => [
+                'status' => 200,
+                'headers' => [],
+                'data' => '',
+                'effectiveUrl' => 'http://example.com/faq/installing',
+            ],
+        ]);
+        Config::getInstance()->Goals['recommendation_max_crawl_pages'] = 1;
+
+        $analysis = $analyzer->analyze($this->idSite);
+
+        $this->assertSame(['/faq/installing'], array_column($analysis['links'], 'linkTarget'));
+        $this->assertSame('/download', $analysis['links'][0]['sourceTarget']);
+    }
+
+    public function getLinkOrders(): iterable
+    {
+        $direct = '<a href="/faq/installing">FAQ</a>';
+        $download = '<a href="/download">Download</a><a href="/download">Get it</a>';
+        $getMatomo = '<a href="/get-matomo">Get Matomo</a>';
+
+        yield 'direct link first' => [$direct . $download . $getMatomo];
+        yield 'redirected links first' => [$getMatomo . $download . $direct];
     }
 
     public function testCrawlSkipsPagesThatRedirectOffOrigin()
@@ -295,8 +410,12 @@ class HomepageAnalyzerCrawlTest extends IntegrationTestCase
                 $this->responsesByUrl = $responsesByUrl;
             }
 
-            protected function fetchHomepage(string $url, int $timeout): ?array
+            /** @var array<string, int> url => requested byte limit */
+            public $requestedBytes = [];
+
+            protected function fetchHomepage(string $url, int $timeout, int $maxBytes = 2000000): ?array
             {
+                $this->requestedBytes[$url] = $maxBytes;
                 return $this->responsesByUrl[$url] ?? null;
             }
         };
