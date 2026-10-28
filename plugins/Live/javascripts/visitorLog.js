@@ -60,13 +60,19 @@
                     e.preventDefault();
                     e.stopPropagation();
 
+                    // self.param.segment is URL encoded, the clicked row's filter is not
+                    var segment = self.param.segment || '';
+                    if (self.param.intersectSegment) {
+                        segment += encodeURIComponent((segment ? ';' : '') + self.param.intersectSegment);
+                    }
+
                     var url = window.location.href;
-                    url = broadcast.updateParamValue('addSegmentAsNew=' + self.param.segment, url);
+                    url = broadcast.updateParamValue('addSegmentAsNew=' + segment, url);
                     url = broadcast.updateParamValue('popover=', url);
                     // Show user the Visits Log so that they can easily refine their new segment if needed
                     url = broadcast.updateParamValue('category=General_Visitors', url);
                     url = broadcast.updateParamValue('subcategory=Live_VisitorLog', url);
-                    url = broadcast.updateParamValue('segment=' + self.param.segment, url);
+                    url = broadcast.updateParamValue('segment=' + segment, url);
 
                     window.open(url, '_blank');
                 });
