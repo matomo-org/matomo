@@ -239,7 +239,6 @@
         "ExceptionFileIntegrity": "Ο έλεγχος ακεραιότητας απέτυχε: %s",
         "ExceptionFileToDelete": "Αρχείο για διαγραφή: %s",
         "ExceptionFilesizeMismatch": "Διαφορά στο μέγεθος αρχείου: %1$s (αναμενόμενο: %2$s, βρέθηκε: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Η έκδοση του πελάτη σας %1$s είναι %2$s η οποία είναι ασύμβατη με την έκδοση διακομιστή %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Η μορφή της συγκεντρωτικής αναφοράς '%1$s' δεν είναι έγκυρη. Δοκιμάστε μια από τις παρακάτω: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Ο ημερήσιος χρόνος αρχειοθέτησης πρέπει να είναι ένας αριθμός σε δευτερόλεπτα, μεγαλύτερος του μηδέν",
         "ExceptionInvalidDateBeforeFirstWebsite": "Η ημερομηνία '%1$s' είναι ημερομηνία προτού ο ιστοτόπος τεθεί σε λειτουργία. Δοκιμάστε μια ημερομηνία που είναι πιο μετά από %2$s (χρονοσήμανση %3$s).",
