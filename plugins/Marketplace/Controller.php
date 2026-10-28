@@ -33,7 +33,6 @@ use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
-use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\ProxyHttp;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
@@ -460,10 +459,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $login = $request->getStringParameter('login', '');
         $token = $request->getStringParameter('token', '');
 
-        if (
-            !StaticContainer::get(UnsubscribeToken::class)->isValid($login, $token)
-            || empty((new UsersModel())->getUser($login))
-        ) {
+        if (!StaticContainer::get(UnsubscribeToken::class)->isValid($login, $token)) {
             $view->error = Piwik::translate('Marketplace_RequestTrialUnsubscribeInvalidLink');
             return $view->render();
         }

@@ -608,6 +608,7 @@ class ControllerTest extends IntegrationTestCase
     public function testUnsubscribeTrialRequestEmailsRejectsATokenForAnotherLogin()
     {
         Fixture::createSuperUser();
+        (new UsersModel())->addUser('someoneElse', 'password', 'else@example.org', Date::now()->getDatetime());
 
         $html = $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken('someoneElse'), true);
 
@@ -615,9 +616,14 @@ class ControllerTest extends IntegrationTestCase
         self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
     }
 
-    public function testUnsubscribeTrialRequestEmailsRejectsAValidTokenForAnUnknownUser()
+    public function testUnsubscribeTrialRequestEmailsRejectsTheLinkOnceTheUserIsDeleted()
     {
-        $html = $this->dispatchUnsubscribe('unknownUser', $this->unsubscribeToken('unknownUser'));
+        $model = new UsersModel();
+        $model->addUser('deletedUser', 'password', 'deleted@example.org', Date::now()->getDatetime());
+        $token = $this->unsubscribeToken('deletedUser');
+        $model->deleteUserOnly('deletedUser');
+
+        $html = $this->dispatchUnsubscribe('deletedUser', $token);
 
         self::assertStringContainsString('This unsubscribe link is not valid.', $html);
     }

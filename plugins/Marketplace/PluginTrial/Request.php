@@ -104,6 +104,11 @@ class Request
                 continue;
             }
 
+            // the user was deleted since the lookup above, so the email's unsubscribe link could not be signed
+            if (StaticContainer::get(UnsubscribeToken::class)->generate((string) $login) === null) {
+                continue;
+            }
+
             $email = StaticContainer::getContainer()->make(
                 RequestTrialNotificationEmail::class,
                 [

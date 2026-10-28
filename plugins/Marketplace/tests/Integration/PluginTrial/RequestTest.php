@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\PluginTrial\Request;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\Plugins\Marketplace\UserSettings;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
@@ -136,6 +137,31 @@ class RequestTest extends IntegrationTestCase
         $usersModel->setSuperUserAccess('optedOut', true);
         StaticContainer::get(UserScopedSettingsAccessManager::class)
             ->set('Marketplace', 'optedOut', UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
+
+        $recipients = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$recipients) {
+            $recipients = array_merge($recipients, array_keys($mail->getRecipients()));
+        });
+
+        $this->createRequest();
+
+        self::assertSame(['hello@example.org'], $recipients);
+    }
+
+    public function testCreateSkipsSuperUsersWhoseUnsubscribeLinkCannotBeSigned()
+    {
+        Fixture::createSuperUser();
+        $usersModel = new UsersModel();
+        $usersModel->addUser('deletedMeanwhile', 'password', 'deleted@example.org', Date::now()->getDatetime());
+        $usersModel->setSuperUserAccess('deletedMeanwhile', true);
+
+        // stands in for the user being deleted between the recipient lookup and the send
+        StaticContainer::getContainer()->set(UnsubscribeToken::class, new class extends UnsubscribeToken {
+            public function generate(string $login): ?string
+            {
+                return $login === 'deletedMeanwhile' ? null : parent::generate($login);
+            }
+        });
 
         $recipients = [];
         Piwik::addAction('Mail.send', function (Mail $mail) use (&$recipients) {
