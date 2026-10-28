@@ -198,7 +198,6 @@
         "ExceptionFileIntegrity": "Eheystarkistus epäonnistui: %s",
         "ExceptionFileToDelete": "Poistettava tiedosto: %s",
         "ExceptionFilesizeMismatch": "Tiedoston koko ei täsmää: %1$s (koon pitäisi olla %2$s, oli %3$s).",
-        "ExceptionIncompatibleClientServerVersions": "Ohjelman %1$s asiakasohjelman versio on %2$s, joka on epäyhteensopiva palvelimen version %3$s kanssa.",
         "ExceptionInvalidAggregateReportsFormat": "Koontaraportin formaatti '%1$s' ei kelpaa. Kokeile jotain seuraavista: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Arkistoinnin aika täytyy ilmoittaa sekunteina ja olla suurempaa kuin nolla",
         "ExceptionInvalidDateBeforeFirstWebsite": "Päivämäärä '%1$s' edeltää ensimmäisen sivuston käyttöönottoa. Kokeile %2$s myöhempää päivämäärä (aikaleima %3$s).",
