@@ -135,7 +135,6 @@
         "SystemCheckUpdateHttps": "HTTPS પર અપડેટ",
         "SystemCheckViewFullSystemCheck": "પૂર્ણ સિસ્ટમ-ચેક અહેવાલ જુઓ",
         "SystemCheckWarnDomHelp": "તમને \"dom\" વિસ્તરણ ચાલુ કરવું જોઈએ (ઉદા., \"php-dom\" અને/અથવા \"php-xml\" પેકેજ સ્થાપિત કરો).",
-        "SystemCheckWarnJsonHelp": "તમારે \"JSON\" વિસ્તરણ ચાલુ કરવું જોઈએ (ઉદા., \"php-json\" પેકેજ સ્થાપિત કરો).",
         "SystemCheckWarnLibXmlHelp": "તમારે \"libxml\" વિસ્તરણને સક્ષમ કરવું જોઈએ (ઉદા., \"php-libxml\" પેકેજ ઇન્સ્ટોલ કરો) કારણ કે તે અન્ય હાર્દ PHP વિસ્તરણો દ્વારા આવશ્યક છે.",
         "SystemCheckWarnOpensslHelp": "સુરક્ષિત અપડેટ્સને મંજૂરી આપવા માટે તમારે \"OpenSSL\" એક્સ્ટેંશનને સક્ષમ કરવું જોઈએ.",
         "SystemCheckWarnSimpleXMLHelp": "તમે \"SimpleXML\" વિસ્તરણને સક્ષમ કરવું જોઈએ (ઉદા., \"php-simplexml\" અને/અથવા \"php-xml\" પેકેજ સ્થાપિત કરો).",
