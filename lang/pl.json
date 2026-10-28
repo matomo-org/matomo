@@ -207,7 +207,6 @@
         "ExceptionFileIntegrity": "Weryfikacja integralności pliku zakończona niepowodzeniem: %s",
         "ExceptionFileToDelete": "Plik do usunięcia: %s",
         "ExceptionFilesizeMismatch": "Zła wielkość pliku: %1$s (spodziewana wielkość: %2$s, znaleziono: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Twoja %1$s wersja klienta to %2$s co oznacza, że jest niezgodna z tą wersją serwera %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Zagregowany format raportu '%1$s' jest niepoprawny. Zamiast niego spróbuj: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Obecny czas życia archiwum musi być określony numerem sekund większym niż zero",
         "ExceptionInvalidDateBeforeFirstWebsite": "Data '%1$s' jest wcześniejsza niż data publikacji pierwszego serwisu. Spróbuj użyć daty po %2$s (znacznik czasu %3$s).",
