@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\GeoIp2\tests\Integration;
 
 use Piwik\Config;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Option;
 use Piwik\Plugins\GeoIp2\Controller;
 use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
@@ -65,6 +66,17 @@ class ControllerTest extends IntegrationTestCase
         Option::delete('geoip2.download_url.isp');
 
         parent::tearDown();
+    }
+
+    public function testUpdateGeoIPLinksIsForbiddenWhenGeolocationAdminIsDisabled()
+    {
+        Config::getInstance()->General['enable_geolocation_admin'] = 0;
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+        $this->expectExceptionMessage('Geo location setting page has been disabled.');
+
+        $this->controller->updateGeoIPLinks();
     }
 
     public function testDownloadMissingGeoIpDbShouldAbortIfConfiguredUrlChangesMidDownloadAndDeleteChunks()
