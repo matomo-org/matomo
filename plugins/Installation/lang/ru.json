@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "Обновление через HTTPS",
         "SystemCheckViewFullSystemCheck": "Просмотр отчёта о полной проверке системы",
         "SystemCheckWarnDomHelp": "Следует включить модуль \"dom\" (скорее всего, установив пакет \"php-dom\" и/или \"php-xml\").",
-        "SystemCheckWarnJsonHelp": "Вам следует включить расширение \"JSON\" (например, установив пакет \"php-json\").",
         "SystemCheckWarnLibXmlHelp": "Следует разрешить модуль \"libxml\" (скорее всего, установить модуль \"php-libxml\"), поскольку он необходим другим модулям PHP.",
         "SystemCheckWarnOpensslHelp": "Вы должны включить расширение \"OpenSSL\", чтобы разрешить безопасные обновления.",
         "SystemCheckWarnSimpleXMLHelp": "Следует разрешить модуль \"SimpleXML\" (скорее всего, установить модуль \"php-simplexml\" и/или \"php-xml\").",
