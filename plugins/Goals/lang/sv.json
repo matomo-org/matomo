@@ -90,7 +90,6 @@
         "Goals": "Mål",
         "GoalsAdjective": "Mål %s",
         "GoalsBy": "Mål efter %s",
-        "GoalsOverview": "Målöversikt",
         "GoalsOverviewDocumentation": "Detta är en översikt över dina målomvandlingar. Inledningsvis visar grafen summan av alla omvandlingar. %s Nedanför diagrammet kan du se omvandlingsrapporter för varje mål. Miniatyrdiagrammen kan förstoras genom att klicka på dem.",
         "GoalsOverviewSubcategoryHelp1": "Målöversikten rapporterar om resultatet för de mål som definierats för din webbplats. Du kan komma åt ditt måls konverteringsprocent, genererade omsättning och fullständiga rapporter för varje.",
         "GoalsOverviewSubcategoryHelp2": "Klicka på ett enskilt mått i sparkline-diagrammet för att fokusera på det i det fullstora utvecklingsdiagrammet.",
