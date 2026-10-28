@@ -178,7 +178,6 @@
         "ExceptionFileIntegrity": "בדיקת שלמות נכשלה: %s",
         "ExceptionFileToDelete": "קבצים למחיקה: %s",
         "ExceptionFilesizeMismatch": "אין התאמה במשקל הקובץ: %1$s (מצופה: %2$s, נמצא: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "גרסת צד הלקוח של %1$s היא %2$s בעוד גרסת צד השרת היא %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "פורמט הדוחות המצטבר '%1$s' אינו חוקי. במקום זאת, נסה לבצע אחת מהפעולות הבאות: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "זמן החיים של ארכיון היום חייב להיות מספר שניות הגדול מ-0.",
         "ExceptionInvalidDateBeforeFirstWebsite": "התאריך '%1$s' הוא תאריך לפני שהאתר הראשון היה מקוון. נסה את התאריך שאחרי %2$s (חותמת זמן %3$s).",
