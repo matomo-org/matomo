@@ -49,6 +49,24 @@ class FrontControllerTest extends SystemTestCase
         );
     }
 
+    /**
+     * @dataProvider invalidModuleOrActionUrlsProvider
+     */
+    public function testInvalidModuleOrActionIsAClientError(string $url): void
+    {
+        $header = $this->getResponseHeader($url);
+
+        self::assertMatchesRegularExpression('~^HTTP/[\d.]+ 400 ~', $header);
+    }
+
+    public function invalidModuleOrActionUrlsProvider(): array
+    {
+        return [
+            ['index.php?module=CoreHome/robots.txt&action=index'],
+            ['index.php?module=CoreHome&action[%24eq]=index'],
+        ];
+    }
+
     private function getResponseHeader($url)
     {
         if (! function_exists('curl_init')) {

@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Exception\PluginNotFoundException;
+use Piwik\Http\BadRequestException;
 use Piwik\Http\HttpCodeException;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Config\GeneralConfig;
@@ -493,6 +494,9 @@ class FrontController extends Singleton
 
         if (is_null($action)) {
             $action = Common::getRequestVar('action', false);
+            if (is_array($action)) {
+                throw new BadRequestException('Invalid action name');
+            }
             if ($action !== false) {
                 // If a value was provided, check it has the correct type.
                 $action = Common::getRequestVar('action', null, 'string');
@@ -508,7 +512,7 @@ class FrontController extends Singleton
         }
 
         if (!ctype_alnum($module)) {
-            throw new Exception("Invalid module name '$module'");
+            throw new BadRequestException("Invalid module name '$module'");
         }
 
         [$module, $action] = Request::getRenamedModuleAndAction($module, $action);
