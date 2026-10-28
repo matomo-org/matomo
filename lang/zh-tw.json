@@ -239,7 +239,6 @@
         "ExceptionFileIntegrity": "完整性檢查失敗：%s",
         "ExceptionFileToDelete": "要刪除的檔案：%s",
         "ExceptionFilesizeMismatch": "檔案大小不符：%1$s（預計大小：%2$s，已找到：%3$s）",
-        "ExceptionIncompatibleClientServerVersions": "你的 %1$s 客戶端版本為 %2$s，與伺服器版本 %3$s 不相容。",
         "ExceptionInvalidAggregateReportsFormat": "合併的報表格式「%1$s」無效。嘗試下列任一來替代：%2$s。",
         "ExceptionInvalidArchiveTimeToLive": "今日彙整時間必須是大於 0 的秒數",
         "ExceptionInvalidDateBeforeFirstWebsite": "日期「%1$s」比網站上線日期還早。嘗試使用 %2$s 之後的日期（時間戳 %3$s）。",
