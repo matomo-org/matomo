@@ -11,9 +11,11 @@ namespace Piwik\Plugins\CoreUpdater\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Nonce;
 use Piwik\Plugins\CoreUpdater\ArchiveDownloadException;
 use Piwik\Plugins\CoreUpdater\Controller;
+use Piwik\Plugins\CoreUpdater\NoUpdatesFoundException;
 use Piwik\Plugins\CoreUpdater\Updater;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -237,6 +239,27 @@ class ControllerTest extends IntegrationTestCase
         return array(
             'Piwik\Access' => new FakeAccess(),
         );
+    }
+
+    public function testRunUpdaterAndExitReportsNoUpdatesWhenAutoUpdateIsDisabled()
+    {
+        Config::getInstance()->General['enable_auto_update'] = 0;
+
+        $this->expectException(NoUpdatesFoundException::class);
+
+        $this->buildController()->runUpdaterAndExit();
+    }
+
+    public function testNewVersionAvailableIsForbiddenWhenAutoUpdateIsDisabled()
+    {
+        FakeAccess::clearAccess(true);
+        Config::getInstance()->General['enable_auto_update'] = 0;
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+        $this->expectExceptionMessage('Auto updater is disabled');
+
+        $this->buildController()->newVersionAvailable();
     }
 
     private function buildController(?Updater $updater = null): Controller
