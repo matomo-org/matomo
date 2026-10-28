@@ -136,24 +136,15 @@ class ControllerTest extends IntegrationTestCase
         self::assertNotContains($successMessage, $this->getNotificationMessages());
     }
 
-    /**
-     * @return string[]
-     */
     public function testActivateIsForbiddenWhenPluginsAdminIsDisabled()
     {
-        $general = Config::getInstance()->General;
-        $originalPluginsAdmin = $general['enable_plugins_admin'] ?? null;
         Config::getInstance()->General['enable_plugins_admin'] = 0;
         $_GET = ['module' => 'CorePluginsAdmin', 'action' => 'activate', 'pluginName' => self::UPLOADED_PLUGIN];
 
         $this->expectException(NoPrivilegesException::class);
         $this->expectExceptionCode(403);
 
-        try {
-            $this->dispatchUntilRedirect('activate');
-        } finally {
-            Config::getInstance()->General['enable_plugins_admin'] = $originalPluginsAdmin;
-        }
+        $this->dispatchUntilRedirect('activate');
     }
 
     public function testShowLicenseAnswersNotFoundForAnUnknownPlugin()
@@ -167,6 +158,9 @@ class ControllerTest extends IntegrationTestCase
         $this->dispatchUntilRedirect('showLicense');
     }
 
+    /**
+     * @return string[]
+     */
     private function getNotificationMessages(): array
     {
         return array_values(array_map(static function ($notification) {

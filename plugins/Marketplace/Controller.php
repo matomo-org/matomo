@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\PluginNotFoundException;
 use Piwik\Http\JsonResponse;
 use Piwik\Date;
@@ -813,8 +814,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function dieIfPluginsAdminIsDisabled()
     {
         if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
-            throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Matomo admins.
-            Please contact your Matomo admins with your request so they can assist you.');
+            throw new NoPrivilegesException('Enabling, disabling and uninstalling plugins has been disabled by Matomo admins.
+            Please contact your Matomo admins with your request so they can assist you.', 403);
         }
     }
 
