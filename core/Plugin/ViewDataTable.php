@@ -295,7 +295,7 @@ abstract class ViewDataTable implements ViewInterface
         }
 
         $this->overrideParams = $overrideParams ?: [];
-        $this->overrideViewPropertiesWithParams($overrideParams);
+        $this->overrideViewPropertiesWithParams($this->overrideParams);
         $this->overrideViewPropertiesWithQueryParams();
 
         /**
@@ -559,7 +559,7 @@ abstract class ViewDataTable implements ViewInterface
 
     /**
      * Returns the parameters this view was constructed with to override its default properties, eg. the
-     * parameters saved for the user when {@link \Piwik\ViewDataTable\Factory::build()} loaded them.
+     * parameters saved for the user when {@link Piwik\ViewDataTable\Factory::build()} loaded them.
      * Request parameters are applied afterwards and are not included.
      */
     protected function getOverrideParams(): array
