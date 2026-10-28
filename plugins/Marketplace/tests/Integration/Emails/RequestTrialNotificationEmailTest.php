@@ -10,11 +10,8 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration\Emails;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Date;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
-use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
-use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\View;
@@ -43,14 +40,11 @@ class RequestTrialNotificationEmailTest extends IntegrationTestCase
 
     public function testBodyLinksToTheMarketplaceUnsubscribePageForTheRecipient()
     {
-        (new UsersModel())->addUser('some.user', 'password', 'some.user@example.org', Date::now()->getDatetime());
-        $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'PremiumPlugin', 'Premium Plugin');
+        $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'PremiumPlugin', 'Premium Plugin', 'abc123');
         $body = html_entity_decode($email->getBodyHtml());
 
-        $token = StaticContainer::get(UnsubscribeToken::class)->generate('some.user');
-        self::assertNotEmpty($token);
         self::assertStringContainsString(
-            'index.php?module=Marketplace&action=unsubscribeTrialRequestEmails&login=some.user&token=' . $token,
+            'index.php?module=Marketplace&action=unsubscribeTrialRequestEmails&login=some.user&token=abc123',
             $body
         );
         self::assertStringContainsString('To unsubscribe from plugin request email notifications, please follow this link:', $body);

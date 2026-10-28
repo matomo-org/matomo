@@ -18,7 +18,8 @@ use Piwik\SettingsPiwik;
 /**
  * Signs the login in a trial request email's unsubscribe link, so the link works without logging in
  * but cannot be altered to unsubscribe another user. The user's registration date is signed too, so a
- * link stops working if the user is deleted and the same login is created again later.
+ * link stops working if the user is deleted and the same login is created again later, provided the
+ * new registration date differs (it has second precision, and is NULL for some very old users).
  */
 class UnsubscribeToken
 {
@@ -58,7 +59,7 @@ class UnsubscribeToken
      *
      * @return string|false false when no user has this login, '' when the user has no registration date
      */
-    private function getRegisteredTimestamp(string $login)
+    private function getRegisteredTimestamp(string $login): string|false
     {
         // matches UsersManager\Model::getUser(): prefer an exact login match over a case-insensitive one
         $rows = Db::fetchAll(

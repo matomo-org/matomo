@@ -15,7 +15,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 
@@ -25,15 +24,23 @@ class RequestTrialNotificationEmail extends Mail
 
     private string $login;
 
+    private string $unsubscribeToken;
+
     private string $pluginName;
     private string $pluginDisplayName;
 
-    public function __construct(string $login, string $emailAddress, string $pluginName, string $pluginDisplayName)
-    {
+    public function __construct(
+        string $login,
+        string $emailAddress,
+        string $pluginName,
+        string $pluginDisplayName,
+        string $unsubscribeToken
+    ) {
         parent::__construct();
 
         $this->emailAddress = $emailAddress;
         $this->login = $login;
+        $this->unsubscribeToken = $unsubscribeToken;
         $this->pluginName = $pluginName;
         $this->pluginDisplayName = $pluginDisplayName;
 
@@ -86,7 +93,7 @@ class RequestTrialNotificationEmail extends Mail
             'module' => 'Marketplace',
             'action' => 'unsubscribeTrialRequestEmails',
             'login' => $this->login,
-            'token' => StaticContainer::get(UnsubscribeToken::class)->generate($this->login),
+            'token' => $this->unsubscribeToken,
         ]);
     }
 }

@@ -104,8 +104,9 @@ class Request
                 continue;
             }
 
-            // the user was deleted since the lookup above, so the email's unsubscribe link could not be signed
-            if (StaticContainer::get(UnsubscribeToken::class)->generate((string) $login) === null) {
+            // null when the user was deleted since the lookup above
+            $unsubscribeToken = StaticContainer::get(UnsubscribeToken::class)->generate((string) $login);
+            if ($unsubscribeToken === null) {
                 continue;
             }
 
@@ -114,6 +115,7 @@ class Request
                 [
                     'emailAddress' => $email,
                     'login' => $login,
+                    'unsubscribeToken' => $unsubscribeToken,
                     'pluginName' => $this->pluginName,
                     'pluginDisplayName' => $this->storage->getDisplayName(),
                 ]
