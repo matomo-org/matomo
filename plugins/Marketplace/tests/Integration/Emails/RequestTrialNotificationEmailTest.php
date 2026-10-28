@@ -64,6 +64,15 @@ class RequestTrialNotificationEmailTest extends IntegrationTestCase
         self::assertStringContainsString('login=some.user&token=' . $token, html_entity_decode($email->getBodyHtml()));
     }
 
+    public function testBodyLeavesOutTheUnsubscribeLineWhenTheUserDoesNotExist()
+    {
+        $email = new RequestTrialNotificationEmail('missing.user', 'missing.user@example.org', 'PremiumPlugin', 'Premium Plugin');
+        $body = html_entity_decode($email->getBodyHtml());
+
+        self::assertStringNotContainsString('unsubscribeTrialRequestEmails', $body);
+        self::assertStringNotContainsString('To unsubscribe from plugin request email notifications', $body);
+    }
+
     public function testScheduledReportFooterKeepsTheReportWording()
     {
         $footer = new View('@CoreHome/ReportRenderer/_htmlReportFooter.twig');
