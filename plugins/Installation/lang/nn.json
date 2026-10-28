@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "Oppdatering over HTTPS",
         "SystemCheckViewFullSystemCheck": "Vis heile rapporten frå systemsjekken",
         "SystemCheckWarnDomHelp": "Du bør skru på utvidinga «dom» (t.d. installere pakken «php-dom» og/eller «php-xml»).",
-        "SystemCheckWarnJsonHelp": "Du bør skru på utvidinga «JSON» (t.d. installere pakken «php-json»).",
         "SystemCheckWarnLibXmlHelp": "Du bør slå på \"libxml\"-utvidinga (t.d. installer \"php-libxml\"-pakken) sidan andre kjerneutvidingar i PHP krev den.",
         "SystemCheckWarnOpensslHelp": "Du bør skru på utvidinga «OpenSSL» for å tillate sikre oppdateringar.",
         "SystemCheckWarnSimpleXMLHelp": "Du bør installera \"SimpleXML\"-utvidinga (t.d. installer \"php-simplexml\"- og/eller \"php-xml\"-pakken).",
