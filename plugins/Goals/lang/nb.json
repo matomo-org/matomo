@@ -100,7 +100,6 @@
         "Goals": "Mål",
         "GoalsAdjective": "Mål %s",
         "GoalsBy": "Mål etter %s",
-        "GoalsOverview": "Måloversikt",
         "GoalsOverviewDocumentation": "Dette er en oversikt over dine målkonverteringer. I utgangspunktet viser grafen summen av konverteringer. %sUnder grafen kan du se konverteringsrapporter for hver av målene dine. Miniatyrdiagrammene kan forstørres ved å klikke på dem.",
         "GoalsOverviewSubcategoryHelp1": "Måloversikten rapporterer ytelsen for mål definert på nettsiden din. Du får tilgang til konverteringsprosenter, mengden omsetning generert, og fullstendige rapporter for hver av dem.",
         "GoalsOverviewSubcategoryHelp2": "Klikk på en individuell måling i minidiagrammet for å fokusere på det i det fullstendige utviklingsdiagrammet.",
