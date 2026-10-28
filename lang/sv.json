@@ -231,7 +231,6 @@
         "ExceptionFileIntegrity": "Integritetskontrollen misslyckades: %s",
         "ExceptionFileToDelete": "Fil som raderas: %s",
         "ExceptionFilesizeMismatch": "Filstorleken matchar inte: %1$s (förväntad storlek: %2$s, aktuell: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Din %1$s klientversion är %2$s, vilket är inkompatibel med serverns version %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Samlingsrapportens format, '%1$s', är ogiltigt. Prova något av följande: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Arkiveringstidens giltighetstid för idag måste anges i sekunder och vara större än noll",
         "ExceptionInvalidDateBeforeFirstWebsite": "Datumet '%1$s' är innan webbplatsen publicerades. Försök med ett datum efter %2$s (tidsstämpel %3$s).",
