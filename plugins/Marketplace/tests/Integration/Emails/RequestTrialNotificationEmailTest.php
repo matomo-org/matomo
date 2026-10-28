@@ -10,8 +10,11 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration\Emails;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\View;
@@ -49,6 +52,16 @@ class RequestTrialNotificationEmailTest extends IntegrationTestCase
         );
         self::assertStringContainsString('To unsubscribe from plugin request email notifications, please follow this link:', $body);
         self::assertStringNotContainsString('To unsubscribe from this report', $body);
+    }
+
+    public function testBodySignsTheUnsubscribeLinkWhenNoTokenIsPassed()
+    {
+        (new UsersModel())->addUser('some.user', 'password', 'some.user@example.org', Date::now()->getDatetime());
+        $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'PremiumPlugin', 'Premium Plugin');
+
+        $token = StaticContainer::get(UnsubscribeToken::class)->generate('some.user');
+        self::assertNotNull($token);
+        self::assertStringContainsString('login=some.user&token=' . $token, html_entity_decode($email->getBodyHtml()));
     }
 
     public function testScheduledReportFooterKeepsTheReportWording()

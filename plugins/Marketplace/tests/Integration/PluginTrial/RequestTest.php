@@ -121,12 +121,22 @@ class RequestTest extends IntegrationTestCase
             $eventArgs = $args;
         });
 
-        $request = new Request('PremiumPlugin', $storageMock);
-        $request->create('Premium Plugin');
+        // the unsubscribe link is only rendered through its translation
+        Fixture::loadAllTranslations();
+        try {
+            $request = new Request('PremiumPlugin', $storageMock);
+            $request->create('Premium Plugin');
+        } finally {
+            Fixture::resetTranslations();
+        }
 
         self::assertSame(['PremiumPlugin', 'Premium Plugin'], $eventArgs);
         self::assertNotNull($sentMail);
         self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
+        self::assertStringContainsString(
+            'login=' . Fixture::ADMIN_USER_LOGIN . '&token=' . StaticContainer::get(UnsubscribeToken::class)->generate(Fixture::ADMIN_USER_LOGIN),
+            html_entity_decode($sentMail->getBodyHtml())
+        );
     }
 
     public function testCreateSkipsSuperUsersWhoTurnedTheEmailsOff()

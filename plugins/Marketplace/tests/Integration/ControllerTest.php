@@ -705,7 +705,10 @@ class ControllerTest extends IntegrationTestCase
 
     private function unsubscribeToken(string $login): string
     {
-        return StaticContainer::get(UnsubscribeToken::class)->generate($login);
+        $token = StaticContainer::get(UnsubscribeToken::class)->generate($login);
+        self::assertNotNull($token, "No user '$login' to sign an unsubscribe token for");
+
+        return $token;
     }
 
     /**
