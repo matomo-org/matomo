@@ -15,7 +15,6 @@
         "DatabaseReaderConnection": "Koneksi Pembaca Basis Data",
         "DatabaseUtf8Requirement": "Fitur ini diperlukan untuk dapat menyimpan karakter UTF8 4 byte. Tanpa utf8mb4, %1$s digunakan sebagai pengganti karakter khusus, emotikon (emoji), karakter Asia yang kurang umum, berbagai simbol sejarah atau matematika. Untuk informasi terperinci, Anda dapat melihatnya di %2$sFAQ%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Basis data Anda mendukung pengodean karakter utf8mb4, tetapi tabel basis data Anda belum dikonversi. Anda dapat melakukannya dengan menjalankan perintah %1$s atau mengaktifkan konversi otomatis di Pengaturan Umum.",
-        "DatabaseUtf8mb4CharsetRecommended": "Basis data Anda belum mendukung pengodean karakter utf8mb4.",
         "EnableRequiredDirectoriesDiagnostic": "Pemeriksaan ini dilewati karena dinonaktifkan di dalam pengaturan. Untuk mengaktifkannya, centang set [General] enable_required_directories_diagnostic = 1 dalam berkas \"config/config.ini.php\".",
         "HideUnchanged": "Jika Anda hanya ingin melihat nilai yang sudah diubah, Anda dapat %1$smenyembunyikan semua nilai yang tidak berubah%2$s.",
         "HtaccessWarningNginx": "Untuk memastikan bahwa berkas sensitif tidak dapat diakses secara langsung, disarankan untuk mengkonfigurasi server web Anda untuk membatasi akses ke direktori tertentu. Untuk informasi lebih lanjut, silakan lihat %1$s konfigurasi server nginx resmi %2$s",

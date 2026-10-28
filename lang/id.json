@@ -239,7 +239,6 @@
         "ExceptionFileIntegrity": "Pemeriksaan integritas gagal: %s",
         "ExceptionFileToDelete": "Berkas yang akan dihapus: %s",
         "ExceptionFilesizeMismatch": "Ukuran berkas tidak cocok: %1$s (panjang yang diharapkan: %2$s, ditemukan: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Versi klien %1$s Anda adalah %2$s yang mana tidak sesuai dengan server versi %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Format laporan agregat '%1$s' tidak valid. Cobalah salah satu format berikut ini: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Waktu hidup untuk pengarsipan hari ini harus beberapa detik lebih besar dari nol",
         "ExceptionInvalidDateBeforeFirstWebsite": "Tanggal '%1$s' adalah tanggal sebelum situs web pertama daring. Coba tanggal setelah %2$s(cap waktu %3$s).",

@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "Perbarui melalui HTTPS",
         "SystemCheckViewFullSystemCheck": "Lihat laporan pemeriksaan sistem secara lengkap",
         "SystemCheckWarnDomHelp": "Anda harus mengaktifkan ekstensi \"dom\" (misalnya, memasang paket \"php-dom\" dan/ atau \"php-xml\").",
-        "SystemCheckWarnJsonHelp": "Anda harus mengaktifkan ekstensi \"JSON\" (mis., instal paket \"php-json\").",
         "SystemCheckWarnLibXmlHelp": "Anda harus mengaktifkan ekstensi \"libxml\" (misalnya, paket \"install the php-libxml\") seperti yang diperlukan oleh ekstensi inti PHP lainnya.",
         "SystemCheckWarnOpensslHelp": "Anda harus mengaktifkan ekstensi \"OpenSSL\" untuk mengizinkan pembaruan yang aman.",
         "SystemCheckWarnSimpleXMLHelp": "Anda harus mengaktifkan ekstensi \"SimpleXML\" (misalnya, memasang paket \"php-simplexml\" dan/ atau \"php-xml\").",
