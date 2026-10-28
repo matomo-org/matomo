@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Nonce;
+use Piwik\Option;
 use Piwik\Plugins\CoreUpdater\ArchiveDownloadException;
 use Piwik\Plugins\CoreUpdater\Controller;
 use Piwik\Plugins\CoreUpdater\NoUpdatesFoundException;
@@ -248,6 +249,23 @@ class ControllerTest extends IntegrationTestCase
         $this->expectException(NoUpdatesFoundException::class);
 
         $this->buildController()->runUpdaterAndExit();
+    }
+
+    public function testRunUpdaterAndExitIsForbiddenWithPendingUpdatesWhenAutoUpdateIsDisabled()
+    {
+        Config::getInstance()->General['enable_auto_update'] = 0;
+        $installedCoreVersion = Option::get('version_core');
+        Option::set('version_core', '6.0.0-b6');
+
+        try {
+            $this->buildController()->runUpdaterAndExit();
+            $this->fail('expected the auto updater guard to throw');
+        } catch (NoPrivilegesException $e) {
+            self::assertSame(403, $e->getCode());
+            self::assertSame('Auto updater is disabled', $e->getMessage());
+        } finally {
+            Option::set('version_core', $installedCoreVersion);
+        }
     }
 
     public function testNewVersionAvailableIsForbiddenWhenAutoUpdateIsDisabled()
