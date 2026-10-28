@@ -20,7 +20,6 @@
         "GoalName": "Nafn Markmiðs",
         "GoalX": "Markmið %s",
         "Goals": "Markmið",
-        "GoalsOverview": "Yfirlit Markmiða",
         "IsExactly": "er nákvæmlega %s",
         "Manually": "handvirkt",
         "ManuallyTriggeredUsingJavascriptFunction": "Markmið er kveikt handvirkt með því að nota JavaScript API trackGoal()",
