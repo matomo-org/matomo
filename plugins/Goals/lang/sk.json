@@ -31,7 +31,6 @@
         "GoalName": "Názov cieľa",
         "GoalX": "Cieľ %s",
         "Goals": "Ciele",
-        "GoalsOverview": "Prehľad cieľov",
         "IsExactly": "je presne %s",
         "Manually": "ručne",
         "ManuallyTriggeredUsingJavascriptFunction": "Cieľom je ručne spúšťa pomocou JavaScript API trackGoal()",
