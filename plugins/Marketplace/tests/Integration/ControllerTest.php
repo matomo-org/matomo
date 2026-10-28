@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Piwik\Access;
 use Piwik\Cache;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\DI;
 use Piwik\FrontController;
 use Piwik\Nonce;
@@ -23,7 +25,11 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
 use Piwik\Plugins\Marketplace\Controller;
 use Piwik\Plugins\Marketplace\LicenseKey;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
+use Piwik\Plugins\Marketplace\UserSettings;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Url;
@@ -586,6 +592,123 @@ class ControllerTest extends IntegrationTestCase
         // the page reads the licenses again while rendering its own banners, so the entry is
         // repopulated rather than absent - what matters is that the stale value did not survive
         self::assertNotSame($stale, Cache::getEagerCache()->fetch($this->invalidLicensesCacheKey));
+    }
+
+    public function testUnsubscribeTrialRequestEmailsAsksForConfirmationWithoutChangingTheSetting()
+    {
+        Fixture::createSuperUser();
+
+        $html = $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN));
+
+        self::assertStringContainsString('Are you sure you want to unsubscribe from plugin request email notifications?', $html);
+        self::assertStringContainsString('name="confirm"', $html);
+        self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    public function testUnsubscribeTrialRequestEmailsRejectsATokenForAnotherLogin()
+    {
+        Fixture::createSuperUser();
+
+        $html = $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken('someoneElse'), true);
+
+        self::assertStringContainsString('This unsubscribe link is not valid.', $html);
+        self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    public function testUnsubscribeTrialRequestEmailsRejectsAValidTokenForAnUnknownUser()
+    {
+        $html = $this->dispatchUnsubscribe('unknownUser', $this->unsubscribeToken('unknownUser'));
+
+        self::assertStringContainsString('This unsubscribe link is not valid.', $html);
+    }
+
+    public function testUnsubscribeTrialRequestEmailsTurnsTheEmailsOffForThatUserOnConfirm()
+    {
+        Fixture::createSuperUser();
+        (new UsersModel())->addUser('otherUser', 'password', 'other@example.org', Date::now()->getDatetime());
+
+        $html = $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN), true);
+
+        self::assertStringContainsString('You have been successfully unsubscribed from plugin request email notifications.', $html);
+        self::assertFalse((bool) $this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+        self::assertNull($this->getNotifySetting('otherUser'));
+    }
+
+    public function testUnsubscribeTrialRequestEmailsPostsTheEventOnlyWhenItTurnsTheEmailsOff()
+    {
+        Fixture::createSuperUser();
+        $token = $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN);
+
+        $postedFor = [];
+        Piwik::addAction('Marketplace.trialRequestEmailsUnsubscribed', function (string $login) use (&$postedFor) {
+            $postedFor[] = $login;
+        });
+
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token);
+        self::assertSame([], $postedFor);
+
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token, true);
+        self::assertSame([Fixture::ADMIN_USER_LOGIN], $postedFor);
+
+        // eg the link in an older email, once the emails are already off
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token, true);
+        self::assertSame([Fixture::ADMIN_USER_LOGIN], $postedFor);
+    }
+
+    public function testUnsubscribeTrialRequestEmailsRejectsAConfirmWithAnInvalidNonce()
+    {
+        Fixture::createSuperUser();
+        $bufferLevel = ob_get_level();
+
+        try {
+            $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN), true, 'invalid');
+            self::fail('Expected the nonce check to throw');
+        } catch (\Exception $e) {
+            self::assertSame(Piwik::translate('General_ExceptionSecurityCheckFailed'), $e->getMessage());
+        } finally {
+            // the dispatch throws before closing the output buffer it opened
+            while (ob_get_level() > $bufferLevel) {
+                ob_end_clean();
+            }
+        }
+
+        self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    private function dispatchUnsubscribe(string $login, string $token, bool $confirm = false, ?string $nonce = null): string
+    {
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'unsubscribeTrialRequestEmails',
+            'login' => $login,
+            'token' => $token,
+        ];
+
+        if ($confirm) {
+            $_GET['confirm'] = '1';
+            $_GET['nonce'] = $nonce ?? Nonce::getNonce(Controller::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+        }
+
+        // the link is opened from an email, so the action must work without a session
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess();
+        $this->assertTrue(Piwik::isUserIsAnonymous());
+
+        return FrontController::getInstance()->fetchDispatch('Marketplace', 'unsubscribeTrialRequestEmails');
+    }
+
+    private function unsubscribeToken(string $login): string
+    {
+        return StaticContainer::get(UnsubscribeToken::class)->generate($login);
+    }
+
+    /**
+     * @return mixed the stored value, or null when the user never set it
+     */
+    private function getNotifySetting(string $login)
+    {
+        return StaticContainer::get(UserScopedSettingsAccessManager::class)
+            ->get('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST);
     }
 
     /**

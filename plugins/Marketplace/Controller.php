@@ -32,10 +32,13 @@ use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\ProxyHttp;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Url;
 use Piwik\View;
 
@@ -44,6 +47,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const UPDATE_NONCE = 'Marketplace.updatePlugin';
     public const INSTALL_NONCE = 'Marketplace.installPlugin';
     public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
+    public const UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE = 'Marketplace.unsubscribeTrialRequestEmails';
 
     private const FAILURE_SUMMARY_NOTIFICATION_ID = 'Marketplace_PluginsCouldNotBeUpdated';
 
@@ -441,6 +445,58 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ];
 
         return array_intersect_key($plugin, array_flip($cardFields));
+    }
+
+    /**
+     * Linked from the trial request email, so it works without logging in: the token authorises the login.
+     */
+    public function unsubscribeTrialRequestEmails(): string
+    {
+        $view = new View('@Marketplace/unsubscribeTrialRequestEmails');
+        $this->setBasicVariablesNoneAdminView($view);
+        $view->linkTitle = Piwik::getRandomTitle();
+
+        $request = Request::fromRequest();
+        $login = $request->getStringParameter('login', '');
+        $token = $request->getStringParameter('token', '');
+
+        if (
+            !StaticContainer::get(UnsubscribeToken::class)->isValid($login, $token)
+            || empty((new UsersModel())->getUser($login))
+        ) {
+            $view->error = Piwik::translate('Marketplace_RequestTrialUnsubscribeInvalidLink');
+            return $view->render();
+        }
+
+        if ($request->getStringParameter('confirm', '') !== '') {
+            Nonce::checkNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+            $settings = StaticContainer::get(UserScopedSettingsAccessManager::class);
+            $wasOn = (bool) $settings->get('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, true);
+            $settings->set('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
+
+            if ($wasOn) {
+                /**
+                 * Triggered after a user has turned off plugin trial request emails from the link in one of those
+                 * emails, so an audit trail can record it. Not posted when they were already off. The current user may
+                 * be anonymous or someone other than `$login`, so use `$login`.
+                 *
+                 * **Example**
+                 *
+                 *     Piwik::addAction('Marketplace.trialRequestEmailsUnsubscribed', function ($login) {
+                 *         $this->logActivity($login, 'unsubscribed from plugin trial request emails');
+                 *     });
+                 *
+                 * @param string $login The login of the user who unsubscribed.
+                 */
+                Piwik::postEvent('Marketplace.trialRequestEmailsUnsubscribed', [$login]);
+            }
+
+            $view->success = true;
+        } else {
+            $view->nonce = Nonce::getNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+        }
+
+        return $view->render();
     }
 
     public function installAllPaidPlugins()
