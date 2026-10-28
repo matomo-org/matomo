@@ -12,6 +12,7 @@ namespace Piwik\Tracker;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Http\HttpCodeException;
 use Piwik\Tracker;
 use Exception;
 use Piwik\Log\LoggerInterface;
@@ -88,7 +89,10 @@ class Handler
     public function onException(Tracker $tracker, RequestSet $requestSet, Exception $e)
     {
         $statusCode = 500;
-        if ($e instanceof UnexpectedWebsiteFoundException) {
+        // checked first, as NoAccessException is also an InvalidRequestParameterException
+        if ($e instanceof HttpCodeException && in_array($e->getCode(), [401, 403], true)) {
+            $statusCode = $e->getCode();
+        } elseif ($e instanceof UnexpectedWebsiteFoundException) {
             $statusCode = 400;
         } elseif ($e instanceof InvalidRequestParameterException) {
             $statusCode = 400;

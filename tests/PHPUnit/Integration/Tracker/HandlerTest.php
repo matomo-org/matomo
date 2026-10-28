@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\NoAccessException;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Tracker\Response;
 use Piwik\Tests\Framework\Mock\Tracker\ScheduledTasksRunner;
@@ -118,6 +119,24 @@ class HandlerTest extends IntegrationTestCase
     public function testOnExceptionShouldSendStatusCode400IfInvalidRequestParameterException()
     {
         $this->executeOnException(new InvalidRequestParameterException('test'));
+        $this->assertSame(400, $this->response->statusCode);
+    }
+
+    public function testOnExceptionShouldSendStatusCode401IfNoAccessException()
+    {
+        $this->executeOnException(new NoAccessException('test'));
+        $this->assertSame(401, $this->response->statusCode);
+    }
+
+    public function testOnExceptionShouldSendStatusCode403IfNoAccessExceptionWithForbiddenCode()
+    {
+        $this->executeOnException(new NoAccessException('test', 403));
+        $this->assertSame(403, $this->response->statusCode);
+    }
+
+    public function testOnExceptionShouldSendStatusCode400IfNoAccessExceptionHasAnUnsupportedCode()
+    {
+        $this->executeOnException(new NoAccessException('test', 0));
         $this->assertSame(400, $this->response->statusCode);
     }
 
