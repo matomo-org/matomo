@@ -200,11 +200,10 @@ class Controller extends ControllerAdmin
             $view->tablesInstalled     = implode(', ', $tablesInstalled);
             $view->someTablesInstalled = true;
 
-            $self = $this;
-            Access::doAsSuperUser(function () use ($self, $tablesInstalled, $view) {
+            Access::doAsSuperUser(function () use ($tablesInstalled, $view) {
                 Access::getInstance();
                 if (
-                    $self->hasEnoughTablesToReuseDb($tablesInstalled) &&
+                    $this->hasEnoughTablesToReuseDb($tablesInstalled) &&
                     count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
                     count(APIUsersManager::getInstance()->getUsers()) > 0
                 ) {
@@ -767,7 +766,7 @@ class Controller extends ControllerAdmin
         });
     }
 
-    public function hasEnoughTablesToReuseDb($tablesInstalled)
+    private function hasEnoughTablesToReuseDb($tablesInstalled)
     {
         if (empty($tablesInstalled) || !is_array($tablesInstalled)) {
             return false;
