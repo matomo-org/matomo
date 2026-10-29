@@ -100,7 +100,6 @@
         "Goals": "Sasaran",
         "GoalsAdjective": "Sasaran %s",
         "GoalsBy": "Sasaran berdasarkan %s",
-        "GoalsOverview": "Ikhtisar Sasaran",
         "GoalsOverviewDocumentation": "Ini adalah ikhtisar konversi sasaran Anda. Awalnya, grafik menunjukkan jumlah semua konversi. %s Di bawah grafik, Anda dapat melihat laporan konversi untuk setiap sasaran Anda. Sparklines dapat diperbesar dengan mengkliknya.",
         "GoalsOverviewSubcategoryHelp1": "Laporan Ikhtisar Sasaran melaporkan kinerja sasaran yang ditetapkan untuk situs web Anda. Anda dapat mengakses persentase konversi sasaran Anda, jumlah pendapatan yang dihasilkan, dan laporan lengkap untuk masing-masing.",
         "GoalsOverviewSubcategoryHelp2": "Klik pada metrik individual dalam grafik sparkline untuk memfokuskannya dalam grafik evolusi ukuran penuh.",

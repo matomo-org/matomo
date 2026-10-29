@@ -27,7 +27,6 @@
         "GoalName": "მიზნის სახელი",
         "GoalX": "მიზანი %s",
         "Goals": "მიზნები",
-        "GoalsOverview": "მიზნების მიმოხილვა",
         "IsExactly": "არის ზუსტად %s",
         "Manually": "შეირჩეს მექანიკურად",
         "ManuallyTriggeredUsingJavascriptFunction": "მიზანი მექანიკურად ჩართულია JavaScript API trackGoal() გამოყენებით",

@@ -32,7 +32,6 @@
         "GoalName": "ชื่อเป้าหมาย",
         "GoalX": "เป้าหมาย %s",
         "Goals": "เป้าหมาย",
-        "GoalsOverview": "ภาพรวมของเป้าหมาย",
         "IsExactly": "คือว่า %s",
         "Manually": "ด้วยตนเอง",
         "ManuallyTriggeredUsingJavascriptFunction": "เป้าหมายถูกเรียกด้วยตนเองโดยใช้ JavaScript API trackGoal()",
