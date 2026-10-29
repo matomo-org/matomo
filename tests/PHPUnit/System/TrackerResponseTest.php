@@ -119,6 +119,25 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertEquals(400, $response['status']);
     }
 
+    /**
+     * @dataProvider getCustomTimestampsOutOfRange
+     */
+    public function testResponseShouldSend400ResponseCodeIfCustomTimestampIsOutOfRange($cdt)
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
+        $url .= '&cdt=' . urlencode($cdt);
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
+    }
+
+    public function getCustomTimestampsOutOfRange(): iterable
+    {
+        yield 'more than a day in future' => ['' . (time() + 2 * 86400)];
+        yield 'beyond the integer range' => ['99999999999999999999'];
+    }
+
     public function testResponseShouldSend400ResponseCodeIfIdGoalIsInvalid()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');

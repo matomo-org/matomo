@@ -67,6 +67,8 @@ class Request
 
     public const UNKNOWN_RESOLUTION = 'unknown';
 
+    private const CUSTOM_TIMESTAMP_MAX_SECONDS_IN_FUTURE = 86400;
+
     private $customTimestampDoesNotRequireTokenauthWhenNewerThan;
 
     /**
@@ -578,14 +580,26 @@ class Request
 
         if (!is_numeric($cdt)) {
             $cdt = strtotime($cdt, $this->timestamp);
+
+            if ($cdt === false) {
+                throw new InvalidRequestParameterException("Custom timestamp 'cdt' could not be parsed");
+            }
         }
 
         if (!empty($cdo)) {
             $cdt = $cdt - abs($cdo);
         }
 
+        if (
+            $cdt > $this->timestamp + self::CUSTOM_TIMESTAMP_MAX_SECONDS_IN_FUTURE
+            || $cdt <= $this->timestamp - 20 * 365 * 86400
+        ) {
+            throw new InvalidRequestParameterException('Custom timestamp is more than a day in the future or more than 20 years in the past');
+        }
+
         if (!$this->isTimestampValid($cdt, $this->timestamp)) {
-            Common::printDebug(sprintf("Datetime %s is not valid", date("Y-m-d H:i:m", $cdt)));
+            // slightly in the future, e.g. a client clock running fast
+            Common::printDebug('Custom timestamp is in the future, using the current time');
             return false;
         }
 
