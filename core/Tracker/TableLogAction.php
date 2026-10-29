@@ -21,6 +21,9 @@ use Piwik\Segment\SegmentExpression;
  */
 class TableLogAction
 {
+    // length of the log_action.name column
+    private const NAME_MAX_LENGTH = 4096;
+
     /**
      * This function will find the idaction from the lookup table log_action,
      * given an Action name, type, and an optional URL Prefix.
@@ -37,6 +40,11 @@ class TableLogAction
         foreach ($actionsNameAndType as &$action) {
             if (2 == count($action)) {
                 $action[] = null;
+            }
+
+            // longer names don't fit the column, cut them before the lookup so lookup and insert match
+            if (is_string($action[0]) && strlen($action[0]) > self::NAME_MAX_LENGTH) {
+                $action[0] = mb_substr($action[0], 0, self::NAME_MAX_LENGTH);
             }
         }
 

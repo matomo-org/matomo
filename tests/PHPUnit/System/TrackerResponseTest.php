@@ -9,6 +9,8 @@
 
 namespace Piwik\Tests\System;
 
+use Piwik\Common;
+use Piwik\Db;
 use Piwik\Http;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -117,6 +119,20 @@ class TrackerResponseTest extends SystemTestCase
 
         $response = $this->sendHttpRequest($url);
         $this->assertEquals(400, $response['status']);
+    }
+
+    public function testResponseShouldTrackEventWithANameLongerThanTheActionNameColumn()
+    {
+        $url = $this->tracker->getUrlTrackEvent(str_repeat('a', 5000), 'Action');
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
+        $url .= '&ua=' . urlencode('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36');
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(200, $response['status']);
+        Fixture::checkResponse($response['data']);
+
+        $storedNames = Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('log_action') . ' WHERE name = ?', [str_repeat('a', 4096)]);
+        $this->assertEquals(1, $storedNames);
     }
 
     public function testResponseShouldSend400ResponseCodeIfIdGoalIsInvalid()
