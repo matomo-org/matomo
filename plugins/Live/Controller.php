@@ -206,7 +206,7 @@ class Controller extends \Piwik\Plugin\Controller
         $visitorData = Request::processRequest('Live.getVisitorProfile');
 
         if (empty($visitorData)) {
-            throw new ThingNotFoundException('Visitor could not be found'); // for example when URL parameter is not set
+            throw new ThingNotFoundException('Visitor could not be found'); // e.g. its raw data was deleted
         }
 
         VisitorLog::groupActionsByPageviewId($visitorData['lastVisits']);

@@ -142,6 +142,15 @@ describe("Live", function () {
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_limited');
     });
 
+    it('should show an error in the visitor profile popover for an unknown visitor', async function() {
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog&popover=visitorProfile$3Affffffffffffffff");
+
+        await page.waitForSelector('.ui-dialog .Piwik_Popover_Error_Title', { visible: true });
+
+        const message = await page.$eval('.ui-dialog .Piwik_Popover_Error_Title', (element) => element.textContent);
+        expect(message).to.equal('This visitor could not be found. Their visit data may have been deleted.');
+    });
+
     it('should show visitor log next page', async function() {
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
 
