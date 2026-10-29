@@ -16,7 +16,6 @@ use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Plugins\CoreUpdater\ArchiveDownloadException;
 use Piwik\Plugins\CoreUpdater\Controller;
-use Piwik\Plugins\CoreUpdater\NoUpdatesFoundException;
 use Piwik\Plugins\CoreUpdater\Updater;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -242,11 +241,13 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
-    public function testRunUpdaterAndExitReportsNoUpdatesWhenAutoUpdateIsDisabled()
+    public function testRunUpdaterAndExitIsForbiddenWithoutPendingUpdatesWhenAutoUpdateIsDisabled()
     {
         Config::getInstance()->General['enable_auto_update'] = 0;
 
-        $this->expectException(NoUpdatesFoundException::class);
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+        $this->expectExceptionMessage('Auto updater is disabled');
 
         $this->buildController()->runUpdaterAndExit();
     }

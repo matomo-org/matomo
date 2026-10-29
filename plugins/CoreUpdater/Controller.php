@@ -305,6 +305,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function runUpdaterAndExit($doDryRun = null)
     {
+        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
+        }
+
         $updater = new DbUpdater();
         $componentsWithUpdateFile = $updater->getComponentUpdates();
 
@@ -313,10 +317,6 @@ class Controller extends \Piwik\Plugin\Controller
             $this->removeUpdateDetailsToken();
 
             throw new NoUpdatesFoundException("Everything is already up to date.");
-        }
-
-        if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         SettingsServer::setMaxExecutionTime(0);
