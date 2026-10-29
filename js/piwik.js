@@ -2491,16 +2491,6 @@ if (typeof window.Matomo !== 'object') {
                 // without it, and a site measuring under a compliance exemption does exactly that
                 configConsentGiven = false,
 
-                // whether the site reported that the visitor consented to cookies. Kept apart from
-                // the above because the two mechanisms are independent: requireConsent() holds
-                // every request back until consent, cookie consent only gates cookies and lets
-                // tracking continue without them.
-                configCookieConsentGiven = false,
-
-                // whether that consent came from the remembered-consent cookie, which is the only
-                // form of it another window can withdraw in a way this one can observe
-                configCookieConsentRemembered = false,
-
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = null, // initialized below
@@ -3222,27 +3212,22 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
-             * Whether the visitor has given consent, through either of the two consent mechanisms.
+             * Whether the visitor has consented to being tracked.
              *
              * This is what lets the server know a request may carry data that a compliance policy
              * would otherwise withhold, such as campaign parameters under the CNIL configuration.
-             * Both mechanisms count: requireConsent() holds requests back until consent is given,
-             * while setCookieConsentGiven() reports it for a visitor who was being measured
-             * without cookies until then.
+             * Consent to cookies is deliberately not the signal: it says the visitor accepted
+             * being recognised across page views, not that they accepted being measured.
+             * setConsentGiven() reports it without requireConsent() having to hold requests back,
+             * so a site measuring under a compliance exemption can track from the first page view
+             * and report consent only once it is given.
              */
             function hasGivenConsent() {
-                if (configConsentGiven || configCookieConsentGiven) {
+                if (configConsentGiven) {
                     return true;
                 }
 
-                if (configConsentRequired && configHasConsent) {
-                    return true;
-                }
-
-                // the cookie state is not the signal: a site may keep cookies off for reasons of
-                // its own, and setCookieConsentGiven() is documented as callable without
-                // requireCookieConsent() ever being used
-                return false;
+                return configConsentRequired && configHasConsent;
             }
 
             /*
@@ -3258,13 +3243,6 @@ if (typeof window.Matomo !== 'object') {
                     // called again and the consent is picked up here instead
                     configHasConsent = true;
                     configConsentGiven = true;
-                }
-
-                // forgetCookieConsentGiven() in another window deletes the cookie this one read
-                // its consent from, so stop reporting it rather than keep unmasking until reload
-                if (configCookieConsentRemembered && !getCookie(COOKIE_CONSENT_COOKIE_NAME)) {
-                    configCookieConsentGiven = false;
-                    configCookieConsentRemembered = false;
                 }
             }
 
@@ -6536,8 +6514,6 @@ if (typeof window.Matomo !== 'object') {
              * Enables cookies if they were disabled previously.
              */
             this.setCookieConsentGiven = function () {
-                configCookieConsentGiven = true;
-
                 if (configCookiesDisabled && !configDoNotTrack) {
                     configCookiesDisabled = false;
                     if (!configBrowserFeatureDetection) {
@@ -6582,10 +6558,6 @@ if (typeof window.Matomo !== 'object') {
              */
             this.requireCookieConsent = function() {
                 if (this.getRememberedCookieConsent()) {
-                    // the visitor consented on an earlier page view and setCookieConsentGiven()
-                    // is not called again in that case, so the consent is recorded here instead
-                    configCookieConsentGiven = true;
-                    configCookieConsentRemembered = true;
                     return false;
                 }
                 this.disableCookies();
@@ -6609,8 +6581,6 @@ if (typeof window.Matomo !== 'object') {
              * want to re-ask for cookie consent after a specific time period.
              */
             this.forgetCookieConsentGiven = function () {
-                configCookieConsentGiven = false;
-                configCookieConsentRemembered = false;
                 deleteCookie(COOKIE_CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 this.disableCookies();
             };
@@ -6640,7 +6610,6 @@ if (typeof window.Matomo !== 'object') {
                     hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
                 }
                 this.setCookieConsentGiven();
-                configCookieConsentRemembered = true;
                 var now = new Date().getTime();
                 setCookie(COOKIE_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             };

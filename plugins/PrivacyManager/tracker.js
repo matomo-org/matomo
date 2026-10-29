@@ -13,11 +13,7 @@
             return;
         }
 
-        // Disable cookies and remove them when a tracker is created.
-        //
-        // Replacing these also stops the tracker reporting cookie consent, but that is not what
-        // makes a site tracking without cookies measure every visitor the same way: the server
-        // refuses consent for such a site whichever consent method the page called.
+        // disable cookies and remove them when a tracker is created
         window.Matomo.on('TrackerSetup', function(tracker) {
             tracker.setCookieConsentGiven=function(){};
             tracker.rememberCookieConsentGiven=function(){};
