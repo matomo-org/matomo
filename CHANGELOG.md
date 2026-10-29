@@ -104,6 +104,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A single tracking request that fails because of a server error now answers `500` instead of `400`. A failed request also keeps its `400` or `500` when it was sent with `send_image=0`, and its response body is only the tracking image (or empty with `send_image=0`), no longer followed by the "This resource is part of Matomo" text. A request that was already recorded when the error occurred keeps its previous response, so that clients don't send it again.
   * A `Piwik\NoAccessException` with the code `401` or `403` thrown while tracking now answers with that code instead of `400`.
   * A bulk tracking request answers `401` instead of `500` when `[Tracker] bulk_requests_require_authentication` is enabled and no `token_auth` is given, and `403` instead of `500` when the `token_auth` lacks the required access.
+  * In a bulk tracking request, a request sent with `ca=1` that no activated plugin handles is now counted as invalid, instead of failing the whole bulk request with `500`.
   * A bulk tracking request whose body is not valid JSON, or whose `requests` is missing or not an array, is rejected with `400` instead of being answered with a success response that tracked nothing.
   * The tracking endpoint answers `503` instead of `200` while Matomo is not installed yet.
   * An array passed for a numeric tracking parameter, such as `revenue[]=1`, now falls back to the parameter's default like any other wrongly typed value, instead of failing the request with `500`.

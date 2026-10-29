@@ -108,6 +108,17 @@ class TrackerResponseTest extends SystemTestCase
         $this->assertSame('', $response['data']);
     }
 
+    public function testResponseShouldSend400ResponseCodeIfCustomActionIsNotHandledByAnyPlugin()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $url .= '&token_auth=' . Fixture::getTokenAuth();
+        $url .= '&ua=' . urlencode('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36');
+        $url .= '&ca=1';
+
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
+    }
+
     public function testResponseShouldSend400ResponseCodeIfIdGoalIsInvalid()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');

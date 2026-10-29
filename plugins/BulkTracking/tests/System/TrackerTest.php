@@ -71,6 +71,19 @@ class TrackerTest extends SystemTestCase
         $this->assertEquals('{"status":"success","tracked":3,"invalid":3,"invalid_indices":[2,4,5]}', $response);
     }
 
+    public function testResponseShouldReportCustomActionRequestNotHandledByAnyPluginAsInvalid()
+    {
+        $this->tracker->doTrackPageView('Test');
+
+        $this->tracker->setDebugStringAppend('ca=1');
+        $this->tracker->doTrackPageView('Test');
+        $this->tracker->DEBUG_APPEND_URL = '';
+
+        $response = $this->tracker->doBulkTrack();
+
+        $this->assertEquals('{"status":"success","tracked":1,"invalid":1,"invalid_indices":[1]}', $response);
+    }
+
     public function testResponseShouldSend400ResponseCodeIfBodyIsNotValidJson()
     {
         $response = $this->sendBulkRequest('{"requests":["?idsite=1&rec=1"');
