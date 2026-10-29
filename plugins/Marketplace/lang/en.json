@@ -136,6 +136,7 @@
         "RequestTrialSubmitted": "Trial requested for plugin %s.",
         "RequestTrialUnsubscribeConfirmation": "Are you sure you want to unsubscribe from plugin request email notifications?",
         "RequestTrialUnsubscribeConfirmationDetail": "You will no longer receive emails when users request a plugin.",
+        "RequestTrialUnsubscribeExpired": "This page has expired. Please open the unsubscribe link from the email again.",
         "RequestTrialUnsubscribeFooter": "To unsubscribe from plugin request email notifications, please follow this link: %1$s",
         "RequestTrialUnsubscribeInvalidLink": "This unsubscribe link is not valid.",
         "RequestTrialUnsubscribeSuccess": "You have been successfully unsubscribed from plugin request email notifications.",
