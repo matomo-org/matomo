@@ -11,6 +11,8 @@ namespace Piwik\Plugins\BulkTracking\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\NoAccessException;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\TrackerConfig;
 
@@ -34,7 +36,7 @@ class Requests
 
             if (!$request->isAuthenticated()) {
                 $msg = sprintf("token_auth specified does not have Admin permission for idsite=%s", $request->getIdSite());
-                throw new Exception($msg);
+                throw new NoAccessException($msg, 403);
             }
         }
     }
@@ -42,7 +44,7 @@ class Requests
     private function checkTokenAuthNotEmpty($token)
     {
         if (empty($token)) {
-            throw new Exception("token_auth must be specified when using Bulk Tracking Import. "
+            throw new NoAccessException("token_auth must be specified when using Bulk Tracking Import. "
                 . " See <a href='https://developer.matomo.org/api-reference/tracking-api'>Tracking Doc</a>");
         }
     }
@@ -66,12 +68,20 @@ class Requests
 
     public function getRequestsArrayFromBulkRequest($rawData)
     {
+        return $this->getRequestsAndTokenAuth($this->decodeBulkRequest($rawData));
+    }
+
+    private function decodeBulkRequest($rawData): mixed
+    {
         $rawData = trim($rawData);
         $rawData = Common::sanitizeLineBreaks($rawData);
 
         // POST data can be array of string URLs or array of arrays w/ visit info
-        $jsonData = json_decode($rawData, $assoc = true);
+        return json_decode($rawData, $assoc = true);
+    }
 
+    private function getRequestsAndTokenAuth(mixed $jsonData): array
+    {
         $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $jsonData);
 
         $requests = array();
@@ -84,18 +94,20 @@ class Requests
 
     public function shouldSendResponse($rawData): bool
     {
-        $rawData = trim($rawData);
-        $rawData = Common::sanitizeLineBreaks($rawData);
-
-        // POST data can be array of string URLs or array of arrays w/ visit info
-        $jsonData = json_decode($rawData, $assoc = true);
+        $jsonData = $this->decodeBulkRequest($rawData);
 
         return !!Common::getRequestVar('send_image', true, 'string', $jsonData);
     }
 
     public function initRequestsAndTokenAuth($rawData)
     {
-        list($requests, $tokenAuth) = $this->getRequestsArrayFromBulkRequest($rawData);
+        $jsonData = $this->decodeBulkRequest($rawData);
+
+        if (!is_array($jsonData) || !is_array($jsonData['requests'] ?? null)) {
+            throw new InvalidRequestParameterException("The bulk tracking request body must be a JSON object with a 'requests' array.");
+        }
+
+        list($requests, $tokenAuth) = $this->getRequestsAndTokenAuth($jsonData);
 
         $validRequests = array();
 

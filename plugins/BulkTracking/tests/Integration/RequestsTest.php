@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\BulkTracking\tests\Integration;
 
 use Piwik\Container\StaticContainer;
+use Piwik\NoAccessException;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
@@ -68,7 +69,8 @@ class RequestsTest extends IntegrationTestCase
 
     public function testAuthenticateRequestsShouldThrowAnExceptionIfTokenAuthIsEmpty()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(NoAccessException::class);
+        $this->expectExceptionCode(401);
         $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
 
         $requests = array($this->buildDummyRequest());
@@ -77,7 +79,8 @@ class RequestsTest extends IntegrationTestCase
 
     public function testAuthenticateRequestsShouldThrowAnExceptionIfAnyTokenAuthIsEmpty()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(NoAccessException::class);
+        $this->expectExceptionCode(401);
         $this->expectExceptionMessage('token_auth must be specified when using Bulk Tracking Import');
 
         $requests = array($this->buildDummyRequest($this->getSuperUserToken()), $this->buildDummyRequest());
@@ -86,7 +89,8 @@ class RequestsTest extends IntegrationTestCase
 
     public function testAuthenticateRequestsShouldThrowAnExceptionIfTokenIsNotValid()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(NoAccessException::class);
+        $this->expectExceptionCode(403);
         $this->expectExceptionMessage('token_auth specified does not have Admin permission for idsite=1');
 
         $dummyToken = StaticContainer::get(Model::class)->generateRandomTokenAuth();

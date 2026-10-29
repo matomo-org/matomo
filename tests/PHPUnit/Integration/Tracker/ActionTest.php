@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Config;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
@@ -69,7 +70,7 @@ class ActionTest extends IntegrationTestCase
 
     public function testFactoryNotDefaultsToPageViewWhenCustomPluginRequest()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidRequestParameterException::class);
         $this->expectExceptionMessage('Request was meant for a plugin which is no longer activated. Request needs to be ignored.');
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));

@@ -551,7 +551,7 @@ class Common
                     $ok = true;
                 }
             } elseif ($varType === 'float') {
-                $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($value);
+                $valueToCompare = is_array($value) ? '' : Common::forceDotAsSeparatorForDecimalPoint($value);
 
                 // Simplified regex for float without support for underscore notation
                 // will match:  1.234, 1.2e3, 7E-10

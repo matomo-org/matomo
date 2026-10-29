@@ -47,7 +47,7 @@ class EnvironmentValidationTest extends SystemTestCase
     {
         $this->simulateAbsentConfigFile('global.ini.php');
 
-        $output = $this->triggerPiwikFrom($entryPoint);
+        $output = $this->triggerPiwikFrom($entryPoint, 503);
 
         $this->assertOutputContainsConfigFileMissingError('global.ini.php', $output);
     }
@@ -56,8 +56,8 @@ class EnvironmentValidationTest extends SystemTestCase
     {
         $this->simulateAbsentConfigFile('config.ini.php');
 
-        $output = $this->triggerPiwikFrom('tracker');
-        self::assertStringContainsString('As Matomo is not installed yet, the Tracking API cannot proceed and will exit without error.', $output);
+        $output = $this->triggerPiwikFrom('tracker', 503);
+        self::assertStringContainsString('As Matomo is not installed yet, the Tracking API cannot proceed.', $output);
     }
 
     public function testNoLocalConfigFileTriggersErrorInConsole()
@@ -179,10 +179,10 @@ class EnvironmentValidationTest extends SystemTestCase
         $testingEnvironment->save();
     }
 
-    private function triggerPiwikFrom($entryPoint)
+    private function triggerPiwikFrom($entryPoint, int $expectedTrackerStatus = 200)
     {
         if ($entryPoint == 'tracker') {
-            return $this->sendRequestToTracker();
+            return $this->sendRequestToTracker($expectedTrackerStatus);
         } elseif ($entryPoint == 'web') {
             return $this->sendRequestToWeb();
         } elseif ($entryPoint == 'console') {
@@ -194,12 +194,11 @@ class EnvironmentValidationTest extends SystemTestCase
         }
     }
 
-    private function sendRequestToTracker()
+    private function sendRequestToTracker(int $expectedStatus)
     {
         list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/matomo.php?idsite=1&rec=1&action_name=something');
 
-        // Check Tracker requests return 200
-        $this->assertEquals(200, $info["http_code"], 'Ok response');
+        $this->assertEquals($expectedStatus, $info["http_code"], 'Tracker response code');
 
         return $response;
     }
