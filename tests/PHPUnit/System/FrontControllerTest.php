@@ -17,6 +17,11 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class FrontControllerTest extends SystemTestCase
 {
+    protected static function configureFixture($fixture)
+    {
+        $fixture->createSuperUser = true;
+    }
+
     /**
      * @dataProvider malformedUrlsProvider
      */
@@ -49,6 +54,16 @@ class FrontControllerTest extends SystemTestCase
         );
     }
 
+    public function testApiRequestForANonExistingWebsiteIsAClientError(): void
+    {
+        [$header, $body] = $this->getResponse(
+            'index.php?module=API&method=SitesManager.getSiteFromId&idSite=9999&format=json&token_auth=' . Fixture::getTokenAuth()
+        );
+
+        self::assertMatchesRegularExpression('~^HTTP/[\d.]+ 400 ~', $header);
+        self::assertStringContainsString('An unexpected website was found in the request', $body);
+    }
+
     /**
      * @dataProvider invalidModuleOrActionUrlsProvider
      */
@@ -69,6 +84,14 @@ class FrontControllerTest extends SystemTestCase
 
     private function getResponseHeader($url)
     {
+        return $this->getResponse($url)[0];
+    }
+
+    /**
+     * @return array{string, string} the response header and body
+     */
+    private function getResponse(string $url): array
+    {
         if (! function_exists('curl_init')) {
             $this->markTestSkipped('Curl is not installed');
         }
@@ -82,9 +105,10 @@ class FrontControllerTest extends SystemTestCase
         $response = curl_exec($ch);
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $header = substr($response, 0, $headerSize);
+        $body = substr($response, $headerSize);
 
         curl_close($ch);
 
-        return $header;
+        return [$header, $body];
     }
 }
