@@ -60,6 +60,7 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_Transitions';
         $translationKeys[] = 'CoreHome_ThereIsNoDataForThisReport';
         $translationKeys[] = 'General_Others';
+        $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'Actions_ActionType';
         $translationKeys[] = 'Transitions_TopX';
         $translationKeys[] = 'Transitions_AvailableInOtherReports';

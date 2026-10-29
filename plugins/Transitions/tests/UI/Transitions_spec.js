@@ -206,4 +206,24 @@ describe("Transitions", function () {
 
         await setThemeMode('light');
     });
+
+    it('should pass an API error answered with a 4xx status to the error callback', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
+        await page.waitForNetworkIdle();
+
+        const errorName = await page.evaluate(() => new Promise((resolve) => {
+            const ajax = new window.Piwik_Transitions_Ajax();
+            ajax.setErrorCallback((name) => resolve(name));
+            // a website that doesn't exist is answered with a 400
+            ajax.callApi('Transitions.getTransitionsForAction', {
+                idSite: 99999,
+                period: 'year',
+                date: '2012-08-09',
+                actionType: 'url',
+                actionName: 'http://example.org/',
+            }, () => resolve(null));
+        }));
+
+        expect(errorName).to.contain('An unexpected website was found in the request');
+    });
 });
