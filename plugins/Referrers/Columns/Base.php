@@ -176,6 +176,11 @@ abstract class Base extends VisitDimension
             $referrerInformation['referer_keyword'] = $this->truncateReferrerKeyword($referrerInformation['referer_keyword']);
         }
 
+        // PHPStan reads $typeReferrerAnalyzed as never being a campaign here and so calls this
+        // condition dead, which it is not: detectReferrerCampaign() sets the property through a
+        // path it does not follow. The entry is baselined for that reason, and gained a conjunct
+        // rather than a second site when consent was taken into account - do not delete the block
+        // on the strength of the analyser's view.
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
             && !$this->hasVisitorConsented($request, $visitor)

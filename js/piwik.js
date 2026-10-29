@@ -3242,7 +3242,7 @@ if (typeof window.Matomo !== 'object') {
                 // the cookie state is not the signal: a site may keep cookies off for reasons of
                 // its own, and setCookieConsentGiven() is documented as callable without
                 // requireCookieConsent() ever being used
-                return configCookieConsentGiven;
+                return false;
             }
 
             /*

@@ -913,7 +913,11 @@ class Request
         return IPUtils::stringToBinaryIP($this->getIpString());
     }
 
-    public function getForcedUserId()
+    /**
+     * @param bool|null $hasConsent overrides what the request reports, for a caller that knows
+     *                              the consent does not apply to the visit being recorded
+     */
+    public function getForcedUserId(?bool $hasConsent = null)
     {
         $userId = $this->getParam('uid');
         if (strlen($userId) === 0) {
@@ -924,7 +928,7 @@ class Request
             $idSite = $this->getIdSite();
             if (!empty($idSite) && $idSite > 0) {
                 $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-                if (UserIdDisabled::shouldDiscardUserId($cache, $this->hasConsent())) {
+                if (UserIdDisabled::shouldDiscardUserId($cache, $hasConsent ?? $this->hasConsent())) {
                     return false;
                 }
             }
@@ -941,15 +945,15 @@ class Request
     }
 
     /**
-     * Whether the visitor had given their consent when this request was sent.
+     * Whether this request may be measured as one from a visitor who has given their consent.
      *
-     * The JavaScript tracker sets this when consent is in use and has been granted, either for
+     * Consent-aware measurement is opt-in per site, so this is false for every site that has not
+     * been opted in, whatever the request reports.
+     *
+     * The JavaScript tracker reports consent when it is in use and has been granted, either for
      * tracking as a whole or for cookies. A request without the parameter is not a refusal, it
      * only means the site is not signalling consent, so nothing may be relaxed on the strength of
      * its absence.
-     *
-     * Consent-aware measurement is opt-in, so this is false for every site that has not been
-     * opted in, whatever the request reports.
      */
     public function hasConsent(): bool
     {
@@ -967,7 +971,17 @@ class Request
             return $this->hasConsentCache = false;
         }
 
-        return $this->hasConsentCache = ConsentAwareAnalytics::isEnabled((int) $idSite);
+        if (!ConsentAwareAnalytics::isEnabled((int) $idSite)) {
+            return $this->hasConsentCache = false;
+        }
+
+        // Forcing cookieless tracking is the strictest consent-exempt posture a site can choose,
+        // and a site that has chosen it measures every visitor the same way. Whatever a page
+        // reports, it is refused here rather than in the tracker the page loaded, so that it
+        // holds for any caller of any of the consent methods.
+        $privacyConfig = new \Piwik\Plugins\PrivacyManager\Config((int) $idSite);
+
+        return $this->hasConsentCache = !$privacyConfig->forceCookielessTracking;
     }
 
     public function getPlugins()

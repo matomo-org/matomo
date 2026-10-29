@@ -77,6 +77,16 @@ class UserId extends VisitDimension
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
+        // A policy that withholds the User ID is lifted by the visitor's consent, so the consent
+        // has to be the one belonging to this visit. Where it is not - a consent ping landing on
+        // a visit measured before any was given, which cannot start a visit of its own - the
+        // User ID belongs to the visit that consent does start, not to this one.
+        if ($request->hasConsent() && !Consent::appliesToVisit($request, $visitor, $action)) {
+            $value = $request->getForcedUserId($hasConsent = false);
+
+            return empty($value) ? $value : mb_substr($value, 0, self::MAXLENGTH);
+        }
+
         return $this->onNewVisit($request, $visitor, $action);
     }
 

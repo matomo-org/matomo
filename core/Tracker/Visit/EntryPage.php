@@ -21,8 +21,8 @@ use Piwik\Tracker\Visitor;
  * Several things need this and cannot be decided on a guess, so the answer is deliberately three
  * valued: true, false, or null where it cannot be told.
  *
- * For use while tracking a request. It is deliberately not part of the public API: the shape of
- * the answer is still settling, and resolving it has the side effect noted below.
+ * For use while tracking a request, by core and by plugins that record their own dimensions and
+ * need the same answer core decides on. Resolving it has the side effect noted below.
  */
 class EntryPage
 {

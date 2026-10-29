@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
@@ -24,8 +26,7 @@ use Piwik\Tracker\Cache as TrackerCache;
  * the restrictions the policy imposes for those who have not.
  *
  * It is set per site rather than for the instance, so it can be rolled out a site at a time.
- */
-/**
+ *
  * @implements MeasurableSettingInterface<bool>
  */
 class ConsentAwareAnalytics implements MeasurableSettingInterface
@@ -71,5 +72,39 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
         $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
 
         return true === ($cache[self::TRACKER_CACHE_KEY] ?? false);
+    }
+
+    /**
+     * Whether a compliance policy is imposing something on this site that consent can lift.
+     *
+     * Consent relaxes a restriction that is in force. Where none is - no policy is enforced, or
+     * the one that is requires nothing of the settings consent relaxes - a consenting visitor is
+     * measured exactly as everyone else, and nothing about their visit should differ either.
+     *
+     * Read from the tracker cache, so it costs no query. It is only ever asked on a request that
+     * already reports consent for an opted-in site.
+     */
+    public static function hasRelaxableRestriction(?int $idSite = null): bool
+    {
+        if (null === $idSite) {
+            return false;
+        }
+
+        $siteAttributes = TrackerCache::getCacheWebsiteAttributes($idSite);
+
+        if (true === ($siteAttributes[CampaignParameterValuesMasked::class] ?? false)) {
+            return true;
+        }
+
+        if (
+            ($siteAttributes[UserIdDisabled::class] ?? false)
+            !== ($siteAttributes[UserIdDisabled::CONFIGURED_VALUE_CACHE_KEY] ?? false)
+        ) {
+            return true;
+        }
+
+        $config = new PrivacyManagerConfig($idSite);
+
+        return $config->anonymizeReferrer !== (string) $config->getConfiguredValue('anonymizeReferrer');
     }
 }

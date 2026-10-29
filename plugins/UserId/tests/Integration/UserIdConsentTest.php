@@ -61,6 +61,29 @@ class UserIdConsentTest extends IntegrationTestCase
     }
 
     /**
+     * The tracker pings the server by itself when consent is given, and that ping can land after
+     * the visitor has moved on. It cannot start a visit, so the User ID it carries must not be
+     * written onto the visit measured before consent either.
+     */
+    public function testAConsentingPingAfterNavigatingDoesNotPutTheUserIdOnTheEarlierVisit(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView(null, 'landing');
+        $this->trackPageView(null, 'other');
+        $this->ping('1', 'other');
+
+        $this->assertSame(1, $this->countVisits(), 'a ping cannot start a visit');
+        $this->assertSame('', (string) $this->fetchVisitColumn('user_id'), 'the ping named the earlier visit');
+
+        $this->trackPageView('1', 'other');
+
+        $this->assertSame(2, $this->countVisits());
+        $this->assertSame('', (string) $this->fetchVisitColumn('user_id'));
+        $this->assertSame(self::USER_ID, $this->fetchVisitColumn('user_id', 1));
+    }
+
+    /**
      * Consent given once the visitor has moved on starts a visit of its own. The campaign and the
      * original referrer are gone from the request by then, but the User ID is not - the site keeps
      * sending it - so the new visit carries it.
@@ -177,7 +200,21 @@ class UserIdConsentTest extends IntegrationTestCase
         Cache::deleteTrackerCache();
     }
 
+    private function ping(?string $consent, string $page = 'landing'): void
+    {
+        $this->prepareRequest($consent, $page);
+
+        Fixture::checkResponse($this->tracker->doPing());
+    }
+
     private function trackPageView(?string $consent, string $page = 'landing'): void
+    {
+        $this->prepareRequest($consent, $page);
+
+        Fixture::checkResponse($this->tracker->doTrackPageView(ucfirst($page)));
+    }
+
+    private function prepareRequest(?string $consent, string $page): void
     {
         $this->testDate = $this->testDate->addPeriod(1, 'minute');
         $this->tracker->setForceVisitDateTime($this->testDate->getDatetime());
@@ -189,8 +226,6 @@ class UserIdConsentTest extends IntegrationTestCase
         }
 
         $this->tracker->setUrl('http://example.com/' . $page);
-
-        Fixture::checkResponse($this->tracker->doTrackPageView(ucfirst($page)));
     }
 
     /**

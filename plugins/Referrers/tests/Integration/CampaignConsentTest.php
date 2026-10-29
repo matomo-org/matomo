@@ -161,6 +161,7 @@ class CampaignConsentTest extends IntegrationTestCase
     {
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
         $this->setAdminReferrerAnonymisation(ReferrerAnonymizer::EXCLUDE_NONE);
+        $this->setForcedCookielessTracking(false);
         Cache::deleteTrackerCache();
 
         parent::tearDown();
@@ -409,6 +410,14 @@ class CampaignConsentTest extends IntegrationTestCase
         }
 
         $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+        // the visit had consented, so the incoming campaign is compared as it was sent and a
+        // different one splits the visit as it always does. The second visit did not consent,
+        // which is why the campaign that started it is stored discarded rather than in the clear
+        $this->assertSame(2, $this->countVisits());
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name', 1)
+        );
     }
 
     /**
@@ -694,6 +703,132 @@ class CampaignConsentTest extends IntegrationTestCase
 
         $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
         $this->assertSame(self::CAMPAIGN_NAME, $this->fetchConversionColumn('referer_name'));
+    }
+
+    /**
+     * The tracker pings the server by itself when consent is given, and that ping can land long
+     * after the visitor has moved on. It cannot start a visit of its own - a ping records no page
+     * - so it must not mark the visit it lands on as consented either: doing so would hand the
+     * browsing measured before consent the treatment consent buys, and leave every later request
+     * seeing a consented visit, so nothing would ever split.
+     */
+    public function testAConsentingPingAfterNavigatingLeavesTheVisitUnconsented(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = null);
+        $this->ping('other', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits(), 'a ping cannot start a visit');
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'the ping consented the earlier visit');
+
+        // the pageview that follows is the first request that can carry the visit, so it is the
+        // one that starts it
+        $this->trackPageView('other', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(2, $this->countVisits());
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'));
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent', 1));
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name'),
+            'the first visit should keep the treatment it was measured under'
+        );
+    }
+
+    /**
+     * Splitting the visit is what keeps browsing measured under a restriction apart from browsing
+     * measured without one. With no policy enforced there is no restriction for consent to lift,
+     * so there is nothing to keep apart and one visitor must not be counted as two.
+     */
+    public function testConsentDoesNotSplitTheVisitWhenNoRestrictionIsEnforced(): void
+    {
+        // deliberately no enforceCampaignMasking(): the site is opted in, nothing is enforced
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits());
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+    }
+
+    /**
+     * Forcing cookieless tracking is the strictest consent-exempt posture a site can choose, and
+     * such a site measures every visitor the same way. The refusal is the server's, so it holds
+     * whichever consent method the page called and whatever the request reports.
+     */
+    public function testForcedCookielessTrackingWithholdsConsent(): void
+    {
+        $this->enforceCampaignMasking();
+        $this->setForcedCookielessTracking(true);
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name')
+        );
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'));
+    }
+
+    /**
+     * The attribution cookie outlives the visit, so a consented conversion can carry a campaign
+     * the visit itself never recorded. Consent does not reach back: the visit holds a discarded
+     * campaign, and the conversion must not contradict it.
+     */
+    public function testAConsentedConversionDoesNotReportACampaignTheVisitDiscarded(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = null);
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name'),
+            'the visit should hold a discarded campaign'
+        );
+
+        $this->trackGoalConversion(self::CAMPAIGN_NAME, $consent = '1');
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchConversionColumn('referer_name'),
+            'the conversion reported a campaign the visit does not hold'
+        );
+    }
+
+    /**
+     * A visit being created now does not inherit the consent of the one before it. The recognised
+     * visit's columns are still loaded while the new one is being decided, so the consent stored
+     * against the visit that is ending must not relax the one that is starting.
+     */
+    public function testANewVisitDoesNotInheritTheConsentOfTheOneBefore(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+
+        $this->tracker->setForceNewVisit();
+        $this->trackPageView('landing', $withCampaign = true, $consent = null, 'winter clearance');
+
+        $this->assertSame(2, $this->countVisits());
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name', 1),
+            'the new visit was measured as though it had consented'
+        );
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent', 1));
+    }
+
+    private function setForcedCookielessTracking(bool $enabled): void
+    {
+        $config = new PrivacyManagerConfig();
+        $config->forceCookielessTracking = $enabled;
+
+        Cache::deleteTrackerCache();
     }
 
     private function setAdminReferrerAnonymisation(string $level): void

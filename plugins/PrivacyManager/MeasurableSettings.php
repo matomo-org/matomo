@@ -33,6 +33,11 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
 
+        // The setting lifts restrictions a compliance policy enforces, and enforcing a policy is
+        // itself reserved to a superuser. A site admin who could switch this on would be able to
+        // undo a decision they cannot make, so only a superuser may write it.
+        $setting->setIsWritableByCurrentUser(Piwik::hasUserSuperUserAccess());
+
         $this->addSetting($setting);
 
         return $setting;
