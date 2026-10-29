@@ -19,6 +19,7 @@ use Piwik\Plugins\CoreUpdater\Controller;
 use Piwik\Plugins\CoreUpdater\Updater;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Updater as DbUpdater;
 
 /**
  * @group Plugins
@@ -259,6 +260,8 @@ class ControllerTest extends IntegrationTestCase
         Option::set('version_core', '6.0.0-b6');
 
         try {
+            self::assertNotEmpty((new DbUpdater())->getComponentUpdates());
+
             $this->buildController()->runUpdaterAndExit();
             $this->fail('expected the auto updater guard to throw');
         } catch (NoPrivilegesException $e) {
@@ -269,7 +272,10 @@ class ControllerTest extends IntegrationTestCase
         }
     }
 
-    public function testNewVersionAvailableIsForbiddenWhenAutoUpdateIsDisabled()
+    /**
+     * @dataProvider getActionsGuardedByTheAutoUpdater
+     */
+    public function testActionIsForbiddenWhenAutoUpdateIsDisabled(string $action)
     {
         FakeAccess::clearAccess(true);
         Config::getInstance()->General['enable_auto_update'] = 0;
@@ -278,7 +284,17 @@ class ControllerTest extends IntegrationTestCase
         $this->expectExceptionCode(403);
         $this->expectExceptionMessage('Auto updater is disabled');
 
-        $this->buildController()->newVersionAvailable();
+        $this->buildController()->$action();
+    }
+
+    public function getActionsGuardedByTheAutoUpdater(): array
+    {
+        return [
+            ['newVersionAvailable'],
+            ['oneClickUpdate'],
+            ['oneClickUpdatePartTwo'],
+            ['oneClickResults'],
+        ];
     }
 
     private function buildController(?Updater $updater = null): Controller
