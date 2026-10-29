@@ -52,6 +52,7 @@
         "VisitorLogDocumentation": "This table shows the latest visits within the selected date range. Hover over the date of a vist to find out when the most recent one occurred. %1$s If the date range includes today, you can see your visitors in real-time. %2$s The data displayed here is always live, regardless of whether and how often you make use of the archiving cron-job.",
         "VisitorLogNoDataMessagePurged": "The data has likely been purged because the regular deletion of old raw data is on, and the date for this report is more than %s days old. A superuser can change this setting by going to Administration → Privacy.",
         "VisitorProfile": "Visitor profile",
+        "VisitorProfileNotFound": "This visitor could not be found. Their visit data may have been deleted.",
         "VisitorsInRealTime": "Visits in real-time",
         "VisitorsLastVisit": "Also visited %s days earlier.",
         "VisitsFrom": "%1$s%2$s visits%3$s from",

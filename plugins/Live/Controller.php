@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
 use Piwik\Config\GeneralConfig;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Piwik;
 use Piwik\DataTable;
 use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
@@ -205,7 +206,7 @@ class Controller extends \Piwik\Plugin\Controller
         $visitorData = Request::processRequest('Live.getVisitorProfile');
 
         if (empty($visitorData)) {
-            throw new \Exception('Visitor could not be found'); // for example when URL parameter is not set
+            throw new ThingNotFoundException('Visitor could not be found'); // e.g. its raw data was deleted
         }
 
         VisitorLog::groupActionsByPageviewId($visitorData['lastVisits']);
