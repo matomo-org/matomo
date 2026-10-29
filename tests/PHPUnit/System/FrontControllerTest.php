@@ -17,11 +17,6 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class FrontControllerTest extends SystemTestCase
 {
-    protected static function configureFixture($fixture)
-    {
-        $fixture->createSuperUser = true;
-    }
-
     /**
      * @dataProvider malformedUrlsProvider
      */
