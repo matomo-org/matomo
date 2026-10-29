@@ -481,7 +481,7 @@ class ArchiveCronTest extends SystemTestCase
         Rules::setBrowserTriggerArchiving(false);
 
         // track a visit so archiving will go through
-        $tracker = Fixture::getTracker(1, '2005-09-04');
+        $tracker = Fixture::getTracker(1, '2012-09-04');
         $tracker->setUrl('http://example.com/test/url2');
         Fixture::checkResponse($tracker->doTrackPageView('jkl'));
 
