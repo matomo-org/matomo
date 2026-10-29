@@ -399,7 +399,8 @@ class Http
         /** @var string|null $response */
         $response = null;
 
-        $httpAuthIsUsed = !empty($httpUsername) || !empty($httpPassword);
+        $httpAuthIsUsed = ($httpUsername !== null && $httpUsername !== '')
+            || ($httpPassword !== null && $httpPassword !== '');
 
         $httpAuth = '';
         if ($httpAuthIsUsed) {
@@ -692,8 +693,8 @@ class Http
                             . $via . "\r\n"
                             . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                             . $rangeHeader,
-                        'max_redirects' => 5, // PHP 5.1.0
-                        'timeout'       => $timeout, // PHP 5.2.1
+                        'max_redirects' => 5,
+                        'timeout'       => $timeout,
                     ),
                 );
 
@@ -814,7 +815,10 @@ class Http
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBodyQuery);
             }
 
-            if (!empty($httpUsername) && !empty($httpPassword)) {
+            if (
+                $httpUsername !== null && $httpUsername !== ''
+                && $httpPassword !== null && $httpPassword !== ''
+            ) {
                 $curl_options += array(
                     CURLOPT_USERPWD => $httpUsername . ':' . $httpPassword,
                 );
@@ -838,11 +842,8 @@ class Http
                 }
             }
 
-            /*
-             * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
-             * in safe_mode or open_basedir is set
-             */
-            if (!$validateEgressIp && (string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '') {
+            // CURLOPT_FOLLOWLOCATION cannot be set when open_basedir is set
+            if (!$validateEgressIp && ini_get('open_basedir') == '') {
                 $protocols = 0;
 
                 foreach (explode(',', $allowedProtocols) as $protocol) {

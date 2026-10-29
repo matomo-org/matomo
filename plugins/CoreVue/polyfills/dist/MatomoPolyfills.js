@@ -445,10 +445,10 @@
     var SHARED = "__core-js_shared__";
     var store = sharedStore.exports = globalThis2[SHARED] || defineGlobalProperty2(SHARED, {});
     (store.versions || (store.versions = [])).push({
-      version: "3.50.0",
+      version: "3.51.0",
       mode: IS_PURE ? "pure" : "global",
       copyright: "\xA9 2013\u20132025 Denis Pushkarev (zloirock.ru), 2025\u20132026 CoreJS Company (core-js.io). All rights reserved.",
-      license: "https://github.com/zloirock/core-js/blob/v3.50.0/LICENSE",
+      license: "https://github.com/zloirock/core-js/blob/v3.51.0/LICENSE",
       source: "https://github.com/zloirock/core-js"
     });
     return sharedStore.exports;
@@ -6049,13 +6049,19 @@
     var $ = require_export();
     var uncurryThis = requireFunctionUncurryThis();
     var iterate2 = requireIterate();
+    var fails2 = requireFails();
+    var getIterator = requireGetIteratorInternal();
+    var setPrototypeOf2 = requireObjectSetPrototypeOf();
+    var wellKnownSymbol2 = requireWellKnownSymbol();
     var $RangeError = RangeError;
     var $TypeError = TypeError;
     var $Infinity = Infinity;
     var $NaN = NaN;
+    var $sumPrecise = Math.sumPrecise;
     var abs = Math.abs;
     var pow = Math.pow;
     var push = uncurryThis([].push);
+    var ITERATOR = wellKnownSymbol2("iterator");
     var POW_2_1023 = pow(2, 1023);
     var MAX_SAFE_INTEGER = pow(2, 53) - 1;
     var MAX_DOUBLE = Number.MAX_VALUE;
@@ -6065,12 +6071,30 @@
     var PLUS_INFINITY = {};
     var MINUS_ZERO = {};
     var FINITE = {};
+    var FORCED = fails2(function() {
+      if ($sumPrecise([-1]) !== -1 || $sumPrecise([-MAX_DOUBLE]) !== -MAX_DOUBLE) return true;
+      if (!setPrototypeOf2) return false;
+      try {
+        $sumPrecise(setPrototypeOf2([1], {}));
+        return true;
+      } catch (error) {
+      }
+      try {
+        var prototype = {};
+        prototype[ITERATOR] = function() {
+          return this;
+        };
+        $sumPrecise(setPrototypeOf2(getIterator([1]), prototype));
+        return true;
+      } catch (error) {
+      }
+    });
     var twosum = function(x, y) {
       var hi = x + y;
       var lo = y - (hi - x);
       return { hi, lo };
     };
-    $({ target: "Math", stat: true }, {
+    $({ target: "Math", stat: true, forced: FORCED }, {
       // eslint-disable-next-line max-statements -- ok
       sumPrecise: function sumPrecise(items) {
         var numbers = [];
@@ -7617,7 +7641,7 @@
       var hex = numberToString2(charCodeAt(chr, 0), 16);
       return hex.length < 3 ? "\\x" + padStart(hex, 2, "0") : "\\u" + padStart(hex, 4, "0");
     };
-    var FORCED = !$escape || $escape("ab") !== "\\x61b";
+    var FORCED = !$escape || $escape("ab\u{2002A}") !== "\\x61b\u{2002A}";
     $({ target: "RegExp", stat: true, forced: FORCED }, {
       escape: function escape(S) {
         aString2(S);
@@ -8553,10 +8577,9 @@
       var S = toString2(string);
       var C = speciesConstructor2(R, RegExp);
       var flags = toString2(getRegExpFlags(R));
-      var matcher, $global, fullUnicode;
-      matcher = new C(C === RegExp ? R.source : R, flags);
-      $global = !!~stringIndexOf2(flags, "g");
-      fullUnicode = !!~stringIndexOf2(flags, "u") || !!~stringIndexOf2(flags, "v");
+      var matcher = new C(C === RegExp ? R.source : R, flags);
+      var $global = !!~stringIndexOf2(flags, "g");
+      var fullUnicode = !!~stringIndexOf2(flags, "u") || !!~stringIndexOf2(flags, "v");
       matcher.lastIndex = toLength2(R.lastIndex);
       return new $RegExpStringIterator(matcher, S, $global, fullUnicode);
     };

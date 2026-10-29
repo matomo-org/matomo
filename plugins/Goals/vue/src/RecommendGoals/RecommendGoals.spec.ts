@@ -143,6 +143,18 @@ describe('RecommendGoals AI availability', () => {
     expect((reloaded.find('.recommendGoals-aiSwitch input').element as HTMLInputElement).checked).toBe(false);
   });
 
+  it('renders the server-provided state before the API responds', async () => {
+    mockFetch.mockReturnValue(new Promise(() => {}));
+
+    const w = mount(RecommendGoals, {
+      props: { userCanEditGoals: true, aiAvailability: 'disabled' },
+      global: { stubs: { RecommendGoalCard: true } },
+    });
+    await nextTick();
+
+    expect(w.find('.recommendGoals-aiSwitch').exists()).toBe(false);
+  });
+
   it('uses the privacy note built by the server', async () => {
     const w = await mountWith('available');
 

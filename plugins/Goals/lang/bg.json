@@ -125,6 +125,8 @@
         "ProductSKU": "SKU на продукта",
         "ProductSKUs": "SKU на продукти",
         "Products": "Продукти",
+        "RecommendationCountOnePage": "1 страница",
+        "RecommendationCountPages": "%s страници",
         "ReturningVisitorsConversionRateIs": "Стойност на конверсията от върналите се посетители е %s",
         "SendEvent": "Изпратете събитие",
         "SingleGoalOverviewDocumentation": "Това е преглед на конверсиите за една цел. %s Блестящите линии могат да бъдат уголемени като кликнете върху тях.",

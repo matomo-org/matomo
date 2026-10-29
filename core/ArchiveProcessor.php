@@ -444,8 +444,6 @@ class ArchiveProcessor
     }
 
     /**
-     * Note: public only for use in closure in PHP 5.3.
-     *
      * @param DataTable $table
      * @return bool
      */
@@ -631,9 +629,6 @@ class ArchiveProcessor
         }
     }
 
-    /**
-     * Note: public only for use in closure in PHP 5.3.
-     */
     public function renameColumnsAfterAggregation(DataTable $table, $columnsToRenameAfterAggregation = null)
     {
         // Rename columns after aggregation

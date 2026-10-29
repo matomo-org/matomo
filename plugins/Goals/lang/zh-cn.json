@@ -127,6 +127,8 @@
         "ProductSKU": "产品 SKU",
         "ProductSKUs": "产品SKU",
         "Products": "产品",
+        "RecommendationCountOnePage": "1 頁",
+        "RecommendationCountPages": "%s 页",
         "ReturningVisitorsConversionRateIs": "老访客转化率为 %s",
         "SendEvent": "发送事件",
         "SingleGoalOverviewDocumentation": "这是单个目标转化的概览。%s 点击图形下的迷你图可放大。",

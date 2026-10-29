@@ -229,7 +229,6 @@
         "ExceptionFileIntegrity": "ஒருமைப்பாடு சோதனை தோல்வியடைந்தது: %s",
         "ExceptionFileToDelete": "நீக்க கோப்பு: %s",
         "ExceptionFilesizeMismatch": "கோப்பு அளவு பொருந்தாதது: %1$s (எதிர்பார்க்கப்படும் நீளம்: %2$s, காணப்படுகிறது: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "உங்கள் %1$s கிளையன்ட் பதிப்பு %2$s ஆகும், இது சேவையக பதிப்பு %3$s உடன் பொருந்தாது.",
         "ExceptionInvalidAggregateReportsFormat": "El format de informes agregats '%1$s' no és vàlid. Proveu-ne algun dels següents en el seu lloc: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "இன்று வாழ்வதற்கான காப்பக நேரம் பூச்சியத்தை விட பல வினாடிகள் அதிகமாக இருக்க வேண்டும்",
         "ExceptionInvalidDateBeforeFirstWebsite": "'%1$s' தேதி முதல் வலைத்தளம் ஆன்லைனில் இருப்பதற்கு முந்தைய தேதி. %2$s க்குப் பிறகு தேதியை முயற்சிக்கவும் (நேர முத்திரை %3$s).",

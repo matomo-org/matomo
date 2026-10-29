@@ -40,6 +40,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  *    zero/missing fallback, ignored on the initial pageview, superseded by the wall-clock
  *    close when the visitor navigates on)
  *  - Inside a tracker transaction (bulk / queued tracking) the same rows are written
+ *  - The first hit of a new visit does not query for a row to close or update
  *  - A writer error fails a tracker transaction, but is only logged for a single request
  *
  * @group Actions
@@ -592,6 +593,31 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertSame(30, (int) $rows['bbbbbb']['time_spent'], 'The ping grows the new pageview');
     }
 
+    public function testTheFirstHitOfANewVisitDoesNotLookForARowToUpdate()
+    {
+        // Only a visit's first hit is flagged as new, and that visit has no earlier row, so it
+        // should not spend a query looking for one. Each hit below starts its own visit.
+        $pageView = $this->createMock(Action::class);
+        $pageView->method('getActionType')->willReturn(Action::TYPE_PAGE_URL);
+        $pageView->method('getIdLinkVisitAction')->willReturn(999);
+
+        $event = $this->createMock(Action::class);
+        $event->method('getActionType')->willReturn(Action::TYPE_EVENT);
+        $event->method('getIdLinkVisitAction')->willReturn(1000);
+
+        $writer = new PageViewTimeWriter();
+
+        $selectsBefore = $this->countTrackerSelects();
+        $writer->write($pageView, new VisitProperties(['idvisit' => 1]), $this->makeRequest('aaaaaa', 0, isNewVisit: true));
+        $writer->write($event, new VisitProperties(['idvisit' => 2]), $this->makeRequest('', 0, isNewVisit: true));
+        $writer->write($event, new VisitProperties(['idvisit' => 3]), $this->makeRequest('bbbbbb', 0, isNewVisit: true));
+        $this->assertSame(0, $this->countTrackerSelects() - $selectsBefore, 'The first hit of a new visit queries nothing');
+
+        $writer->write($event, new VisitProperties(['idvisit' => 1]), $this->makeRequest('', 20));
+        $this->assertSame(1, $this->countTrackerSelects() - $selectsBefore, 'A later hit still closes the previous pageview');
+        $this->assertSame(20, (int) $this->fetchRowsByPvId()['aaaaaa']['time_spent']);
+    }
+
     public function testWriterErrorInsideATrackerTransactionFailsTheBatch()
     {
         // The error may have rolled back the whole transaction (e.g. a deadlock), so carrying on
@@ -650,12 +676,17 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         Db::exec("RENAME TABLE `{$table}_moved` TO `$table`");
     }
 
-    private function makeRequest(string $pvId, int $secondsAfterBase): Request
+    private function makeRequest(string $pvId, int $secondsAfterBase, bool $isNewVisit = false): Request
     {
         $request = new Request(['idsite' => 1, 'pv_id' => $pvId]);
         $request->setCurrentTimestamp(strtotime($this->baseTime) + $secondsAfterBase);
-        $request->setMetadata('CoreHome', 'isNewVisit', false);
+        $request->setMetadata('CoreHome', 'isNewVisit', $isNewVisit);
         return $request;
+    }
+
+    private function countTrackerSelects(): int
+    {
+        return (int) Tracker::getDatabase()->fetchRow("SHOW SESSION STATUS LIKE 'Com_select'")['Value'];
     }
 
     private function getTracker(string $timestamp): \MatomoTracker

@@ -119,7 +119,6 @@
         "ExceptionDatabaseVersion": "คุณ %1$s มีเวอร์ชั่นคือ %2$s แต่ Matomo ต้องมีอย่างน้อย %3$s.",
         "ExceptionFileIntegrity": "พบข้อผิดพลาดในการตรวจสอบความสมบูรณ์: %s",
         "ExceptionFilesizeMismatch": "ขนาดของไฟล์ไม่ตรงกัน: %1$s (ขนาดไฟล์ที่คาดไว้: %2$s, พบ: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "คุณ %1$s เวอร์ชั่นของไคลเอ็นต์ %2$s ซึ่งไม่เข้ากันกับเวอร์ชั่นของเซิร์ฟเวอร์ %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "รูปแบบการรวมรายงาน '%1$s' ไม่ถูกต้อง กรุณาลองรายการดังต่อไปนี้แทน: %2$s",
         "ExceptionInvalidArchiveTimeToLive": "วันนี้เวลาเก็บอยู่จะต้องเป็นจำนวนวินาทีที่มากกว่าศูนย์",
         "ExceptionInvalidDateFormat": "รูปแบบเวลาจะเป็น: %1$s หรือคีย์บอร์ดใดที่รองรับฟังก์ชั่น %2$s (ดู %3$s สำหรับข้อมูลเพิ่มเติม)",

@@ -162,8 +162,6 @@ class Controller extends ControllerAdmin
 
                 DbHelper::checkDatabaseVersion();
 
-                Db::get()->checkClientVersion();
-
                 $this->redirectToNextStep(__FUNCTION__);
             } catch (Exception $e) {
                 $view->errorMessage = Common::sanitizeInputValue($e->getMessage());
@@ -202,11 +200,10 @@ class Controller extends ControllerAdmin
             $view->tablesInstalled     = implode(', ', $tablesInstalled);
             $view->someTablesInstalled = true;
 
-            $self = $this;
-            Access::doAsSuperUser(function () use ($self, $tablesInstalled, $view) {
+            Access::doAsSuperUser(function () use ($tablesInstalled, $view) {
                 Access::getInstance();
                 if (
-                    $self->hasEnoughTablesToReuseDb($tablesInstalled) &&
+                    $this->hasEnoughTablesToReuseDb($tablesInstalled) &&
                     count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
                     count(APIUsersManager::getInstance()->getUsers()) > 0
                 ) {
@@ -769,8 +766,7 @@ class Controller extends ControllerAdmin
         });
     }
 
-    // should be private but there's a bug in php 5.3.6
-    public function hasEnoughTablesToReuseDb($tablesInstalled)
+    private function hasEnoughTablesToReuseDb($tablesInstalled)
     {
         if (empty($tablesInstalled) || !is_array($tablesInstalled)) {
             return false;

@@ -11,17 +11,28 @@ namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Piwik\Access;
 use Piwik\Cache;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\DI;
 use Piwik\FrontController;
 use Piwik\Nonce;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugin\MetadataLoader;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
+use Piwik\Plugins\CorePluginsAdmin\PluginInstallResults;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
 use Piwik\Plugins\Marketplace\Controller;
 use Piwik\Plugins\Marketplace\LicenseKey;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
+use Piwik\Plugins\Marketplace\UserSettings;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Url;
 
 /**
  * @group Marketplace
@@ -319,12 +330,190 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
+    public function testUpdatePluginKeepsTheFailureSummaryWhenAPageInBetweenDropsTransientNotifications()
+    {
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR),
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $redirectUrl = $this->dispatchUpdateUntilRedirect('SecurityInfo,TreemapVisualization');
+
+        // what the "Database upgrade required" screen does when an updated plugin ships a migration
+        NotificationManager::cancelAllNonPersistent();
+
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo'),
+            $this->followRedirect($redirectUrl)
+        );
+    }
+
+    public function testUpdatePluginResultShowsTheFailureSummaryOnlyOnce()
+    {
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR),
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $failureSummary = Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo');
+
+        self::assertStringContainsString($failureSummary, $this->dispatchUpdate('SecurityInfo,TreemapVisualization'));
+        self::assertNotContains($failureSummary, $this->getNotificationMessages());
+    }
+
+    public function testUpdatePluginDropsTheFailureSummaryOfAnEarlierUpdate()
+    {
+        $this->pluginInfoAnswers = [
+            'SecurityInfo' => new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR),
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        // the result page is skipped, as it is when an updated plugin ships a migration
+        $this->dispatchUpdateUntilRedirect('SecurityInfo,TreemapVisualization');
+
+        // a later update where every plugin fails returns before posting a summary of its own
+        $this->dispatchUpdateUntilRedirect('SecurityInfo');
+
+        self::assertNotContains(
+            Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', 'SecurityInfo'),
+            $this->getNotificationMessages()
+        );
+    }
+
+    public function testUpdatePluginReplacesTheSuccessSummaryOfAnEarlierUpdate()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        // the result page is skipped both times, as it is when an updated plugin ships a migration
+        $this->dispatchUpdateUntilRedirect('TreemapVisualization');
+        $this->dispatchUpdateUntilRedirect('TreemapVisualization');
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        $successMessage = Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]);
+        self::assertSame(1, count(array_keys($this->getNotificationMessages(), $successMessage, true)));
+    }
+
+    public function testUpdatePluginRedirectsToTheResultPageInsteadOfRenderingIt()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $redirectUrl = $this->dispatchUpdateUntilRedirect('TreemapVisualization');
+        parse_str((string) parse_url($redirectUrl, PHP_URL_QUERY), $query);
+
+        self::assertSame('updatePluginResult', $query['action']);
+        self::assertArrayNotHasKey('nonce', $query);
+        self::assertArrayNotHasKey('pluginName', $query);
+        self::assertSame(
+            ['plugins' => ['TreemapVisualization'], 'marketplaceUrl' => ''],
+            PluginInstallResults::get($query[PluginInstallResults::TOKEN_PARAMETER])
+        );
+    }
+
+    public function testUpdatePluginResultShowsTheVersionInstalledOnDisk()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $response = $this->dispatchUpdate('TreemapVisualization');
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]),
+            $response
+        );
+    }
+
+    public function testUpdatePluginLeavesASuccessSummaryForWhenTheResultPageIsNeverShown()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $this->dispatchUpdateUntilRedirect('TreemapVisualization');
+
+        // the "Database upgrade required" screen drops these, then continues to the dashboard
+        NotificationManager::cancelAllNonPersistent();
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        self::assertContains(
+            Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]),
+            $this->getNotificationMessages()
+        );
+    }
+
+    public function testUpdatePluginResultWithdrawsTheSuccessSummaryItShowsItself()
+    {
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $response = $this->followRedirect($this->dispatchUpdateUntilRedirect('TreemapVisualization'));
+
+        $installedVersion = (new MetadataLoader('TreemapVisualization'))->load()['version'];
+        $successMessage = Piwik::translate('Marketplace_StepPluginSuccessfullyUpdated', ['TreemapVisualization', $installedVersion]);
+        self::assertSame(1, substr_count($response, $successMessage));
+        self::assertNotContains($successMessage, $this->getNotificationMessages());
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getNotificationMessages(): array
+    {
+        return array_values(array_map(static function ($notification) {
+            return $notification->message;
+        }, NotificationManager::getAllNotificationsToDisplay()));
+    }
+
+    public function testUpdatePluginResultRedirectsToTheMarketplaceForAnUnknownToken()
+    {
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'updatePluginResult',
+            PluginInstallResults::TOKEN_PARAMETER => 'unknownToken',
+        ];
+
+        $redirectUrl = $this->dispatchUntilRedirect('updatePluginResult');
+
+        self::assertStringContainsString('module=Marketplace&action=overview', $redirectUrl);
+    }
+
+    public function testInstallPluginResultLinksBackToTheMarketplacePageTheInstallStartedFrom()
+    {
+        $this->createWebsiteForAdminPages();
+
+        $this->pluginInfoAnswers = [
+            'TreemapVisualization' => 'v2.0_plugins_TreemapVisualization_info.json',
+        ];
+
+        $marketplaceUrl = Url::getCurrentUrlWithoutQueryString() . '?module=Marketplace&action=overview#?pluginType=plugins';
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'installPlugin',
+            'pluginName' => 'TreemapVisualization',
+            'nonce' => Nonce::getNonce(Controller::INSTALL_NONCE),
+            'referrer' => $marketplaceUrl,
+        ];
+
+        $response = $this->followRedirect($this->dispatchUntilRedirect('installPlugin'));
+
+        self::assertSame(['TreemapVisualization'], $this->installedPlugins);
+        self::assertStringContainsString(htmlspecialchars($marketplaceUrl, ENT_QUOTES), $response);
+    }
+
     private function dispatchUpdate(string $pluginName): string
     {
-        // the update view renders a full admin page, whose menu resolves a site
-        if (!Fixture::siteCreated(1)) {
-            Fixture::createWebsite('2012-01-01 00:00:00');
-        }
+        return $this->followRedirect($this->dispatchUpdateUntilRedirect($pluginName));
+    }
+
+    private function dispatchUpdateUntilRedirect(string $pluginName): string
+    {
+        $this->createWebsiteForAdminPages();
 
         $_GET = [
             'module' => 'Marketplace',
@@ -333,9 +522,55 @@ class ControllerTest extends IntegrationTestCase
             'nonce' => Nonce::getNonce(Controller::UPDATE_NONCE),
         ];
 
-        return Access::doAsSuperUser(function () {
-            return FrontController::getInstance()->fetchDispatch('Marketplace', 'updatePlugin');
+        return $this->dispatchUntilRedirect('updatePlugin');
+    }
+
+    /**
+     * @return string the URL the action redirects to
+     */
+    private function dispatchUntilRedirect(string $action): string
+    {
+        // a redirect is raised as an exception on the CLI, which leaves fetchDispatch()'s output buffer open
+        $outputBufferLevel = ob_get_level();
+
+        try {
+            Access::doAsSuperUser(function () use ($action) {
+                FrontController::getInstance()->fetchDispatch('Marketplace', $action);
+            });
+        } catch (\Exception $e) {
+            if (!preg_match('/would redirect you to this URL: (\S+)/', $e->getMessage(), $matches)) {
+                throw $e;
+            }
+
+            return $matches[1];
+        } finally {
+            while (ob_get_level() > $outputBufferLevel) {
+                ob_end_clean();
+            }
+        }
+
+        self::fail(sprintf('The "%s" action did not redirect', $action));
+    }
+
+    /**
+     * Dispatches the result page a redirect points at, as the browser's next request would.
+     */
+    private function followRedirect(string $redirectUrl): string
+    {
+        parse_str((string) parse_url($redirectUrl, PHP_URL_QUERY), $query);
+        $_GET = $query;
+
+        return Access::doAsSuperUser(function () use ($query) {
+            return FrontController::getInstance()->fetchDispatch($query['module'], $query['action']);
         });
+    }
+
+    private function createWebsiteForAdminPages(): void
+    {
+        // the result pages render a full admin page, whose menu resolves a site
+        if (!Fixture::siteCreated(1)) {
+            Fixture::createWebsite('2012-01-01 00:00:00');
+        }
     }
 
     public function testSubscriptionOverviewClearsTheInvalidLicensesCache()
@@ -357,6 +592,123 @@ class ControllerTest extends IntegrationTestCase
         // the page reads the licenses again while rendering its own banners, so the entry is
         // repopulated rather than absent - what matters is that the stale value did not survive
         self::assertNotSame($stale, Cache::getEagerCache()->fetch($this->invalidLicensesCacheKey));
+    }
+
+    public function testUnsubscribeTrialRequestEmailsAsksForConfirmationWithoutChangingTheSetting()
+    {
+        Fixture::createSuperUser();
+
+        $html = $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN));
+
+        self::assertStringContainsString('Are you sure you want to unsubscribe from plugin request email notifications?', $html);
+        self::assertStringContainsString('name="confirm"', $html);
+        self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    public function testUnsubscribeTrialRequestEmailsRejectsATokenForAnotherLogin()
+    {
+        Fixture::createSuperUser();
+
+        $html = $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken('someoneElse'), true);
+
+        self::assertStringContainsString('This unsubscribe link is not valid.', $html);
+        self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    public function testUnsubscribeTrialRequestEmailsRejectsAValidTokenForAnUnknownUser()
+    {
+        $html = $this->dispatchUnsubscribe('unknownUser', $this->unsubscribeToken('unknownUser'));
+
+        self::assertStringContainsString('This unsubscribe link is not valid.', $html);
+    }
+
+    public function testUnsubscribeTrialRequestEmailsTurnsTheEmailsOffForThatUserOnConfirm()
+    {
+        Fixture::createSuperUser();
+        (new UsersModel())->addUser('otherUser', 'password', 'other@example.org', Date::now()->getDatetime());
+
+        $html = $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN), true);
+
+        self::assertStringContainsString('You have been successfully unsubscribed from plugin request email notifications.', $html);
+        self::assertFalse((bool) $this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+        self::assertNull($this->getNotifySetting('otherUser'));
+    }
+
+    public function testUnsubscribeTrialRequestEmailsPostsTheEventOnlyWhenItTurnsTheEmailsOff()
+    {
+        Fixture::createSuperUser();
+        $token = $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN);
+
+        $postedFor = [];
+        Piwik::addAction('Marketplace.trialRequestEmailsUnsubscribed', function (string $login) use (&$postedFor) {
+            $postedFor[] = $login;
+        });
+
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token);
+        self::assertSame([], $postedFor);
+
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token, true);
+        self::assertSame([Fixture::ADMIN_USER_LOGIN], $postedFor);
+
+        // eg the link in an older email, once the emails are already off
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token, true);
+        self::assertSame([Fixture::ADMIN_USER_LOGIN], $postedFor);
+    }
+
+    public function testUnsubscribeTrialRequestEmailsRejectsAConfirmWithAnInvalidNonce()
+    {
+        Fixture::createSuperUser();
+        $bufferLevel = ob_get_level();
+
+        try {
+            $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN), true, 'invalid');
+            self::fail('Expected the nonce check to throw');
+        } catch (\Exception $e) {
+            self::assertSame(Piwik::translate('General_ExceptionSecurityCheckFailed'), $e->getMessage());
+        } finally {
+            // the dispatch throws before closing the output buffer it opened
+            while (ob_get_level() > $bufferLevel) {
+                ob_end_clean();
+            }
+        }
+
+        self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    private function dispatchUnsubscribe(string $login, string $token, bool $confirm = false, ?string $nonce = null): string
+    {
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'unsubscribeTrialRequestEmails',
+            'login' => $login,
+            'token' => $token,
+        ];
+
+        if ($confirm) {
+            $_GET['confirm'] = '1';
+            $_GET['nonce'] = $nonce ?? Nonce::getNonce(Controller::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+        }
+
+        // the link is opened from an email, so the action must work without a session
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess();
+        $this->assertTrue(Piwik::isUserIsAnonymous());
+
+        return FrontController::getInstance()->fetchDispatch('Marketplace', 'unsubscribeTrialRequestEmails');
+    }
+
+    private function unsubscribeToken(string $login): string
+    {
+        return StaticContainer::get(UnsubscribeToken::class)->generate($login);
+    }
+
+    /**
+     * @return mixed the stored value, or null when the user never set it
+     */
+    private function getNotifySetting(string $login)
+    {
+        return StaticContainer::get(UserScopedSettingsAccessManager::class)
+            ->get('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST);
     }
 
     /**
@@ -419,10 +771,15 @@ class ControllerTest extends IntegrationTestCase
             }
         );
 
+        // installing asks for the password again unless it was confirmed recently
+        $passwordVerifier = $this->createMock(PasswordVerifier::class);
+        $passwordVerifier->method('requirePasswordVerifiedRecently')->willReturn(true);
+
         return [
             'dev.forced_plugin_update_result' => [],
             'Piwik\Plugins\Marketplace\Api\Service' => DI::value($this->service),
             'Piwik\Plugins\CorePluginsAdmin\PluginInstaller' => DI::value($installer),
+            PasswordVerifier::class => DI::value($passwordVerifier),
         ];
     }
 

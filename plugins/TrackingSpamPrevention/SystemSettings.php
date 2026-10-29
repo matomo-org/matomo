@@ -21,6 +21,7 @@ use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Tracker\Cache;
 use Piwik\Validators\Email;
 use Piwik\Validators\IpRanges;
@@ -30,6 +31,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public const CLOUD_BLOCKING_OFF = 'off';
     public const CLOUD_BLOCKING_DEFAULT_LIST = 'default';
     public const CLOUD_BLOCKING_CUSTOM_LIST = 'custom';
+
+    /** @internal */
+    public const TRACKER_CACHE_KEY_PREDATES_SPLIT = 'TrackingSpamPrevention.installPredatesSplit';
 
     private const SPLIT_VERSION = '6.0.0-b2';
 
@@ -441,12 +445,20 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
      */
     private function installPredatesSplit(): bool
     {
-        if ($this->installPredatesSplit !== null) {
-            return $this->installPredatesSplit;
+        if ($this->installPredatesSplit === null) {
+            // the first option read of a request loads every autoloaded option, which tracking requests avoid
+            $trackerCache = SettingsServer::isTrackerApiRequest() ? Cache::getCacheGeneral() : [];
+            $this->installPredatesSplit = $trackerCache[self::TRACKER_CACHE_KEY_PREDATES_SPLIT] ?? self::readInstallPredatesSplit();
         }
 
+        return $this->installPredatesSplit;
+    }
+
+    /** @internal */
+    public static function readInstallPredatesSplit(): bool
+    {
         try {
-            $version = Option::get('version_' . $this->pluginName);
+            $version = Option::get('version_TrackingSpamPrevention');
         } catch (\Exception $e) {
             // mysql error 1146: there is no option table yet, so the plugin is being installed right
             // now and there is no earlier state to preserve
@@ -457,9 +469,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $version = false;
         }
 
-        $this->installPredatesSplit = !empty($version) && version_compare($version, self::SPLIT_VERSION, '<');
-
-        return $this->installPredatesSplit;
+        return !empty($version) && version_compare($version, self::SPLIT_VERSION, '<');
     }
 
     private function hasConfigOverride(Setting $setting): bool

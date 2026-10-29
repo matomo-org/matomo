@@ -18,7 +18,6 @@
         "DatabaseReaderConnection": "Připojení databáze pro čtení",
         "DatabaseUtf8Requirement": "Tato podpora je nutná k ukládání čtyřbajtových znaků UTF-8. Bez dostupné znakové sady utf8mb4 se zvláštní znaky, například emoji, méně časté znaky asijských jazyků, různá historická písma nebo matematické symboly, nahradí znakem %1$s. Další podrobnosti najdete v %2$stomto článku v Častých dotazech%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Vaše databáze podporuje znakovou sadu utf8mb4, její tabulky ale zatím nebyly převedeny. Můžete je převést spuštěním příkazu %1$s nebo zapnutím automatického převodu v Obecných nastaveních.",
-        "DatabaseUtf8mb4CharsetRecommended": "Vaše databáze zatím nepodporuje znakovou sadu utf8mb4.",
         "EnableRequiredDirectoriesDiagnostic": "Tato kontrola byla přeskočena, protože je v konfiguraci vypnutá. Chcete-li ji zapnout, nastavte v souboru „config/config.ini.php“ volbu [General] enable_required_directories_diagnostic = 1.",
         "HideUnchanged": "Pokud chcete vidět pouze změněné hodnoty, můžete %1$snezměněné hodnoty skrýt%2$s.",
         "HtaccessWarningNginx": "Aby k citlivým souborům nebylo možné přistupovat přímo, doporučujeme webový server nakonfigurovat tak, aby omezil přístup k určitým adresářům. Další informace najdete v %1$soficiální konfiguraci serveru nginx%2$s.",
@@ -38,6 +37,8 @@
         "RecommendedPrivateDirectories": "Adresáře, které by měly být neveřejné",
         "RequiredPrivateDirectories": "Adresáře, které musí být neveřejné",
         "Sections": "Sekce",
+        "SessionStorageFormat": "Formát úložiště relací",
+        "SessionStorageFormatWarning": "Relace jsou ukládány jako %1$s, protože se nepodařilo nastavit session.serialize_handler na php_serialize, takže změny provedené dvěma požadavky současně se mohou ztratit. Nastavte jej v souboru php.ini na php_serialize.",
         "UrlsAccessibleViaBrowser": "Zjistili jsme, že výše uvedené adresy URL jsou dostupné prostřednictvím prohlížeče, přestože by podle našeho doporučení dostupné být neměly. Pokud je to možné, omezte k nim přístup."
     }
 }

@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\DBStats;
 
 use Exception;
-use Piwik\Config;
 use Piwik\Db;
 
 /**
@@ -20,33 +19,21 @@ class MySQLMetadataDataAccess
 {
     public function getDBStatus()
     {
-        if (
-            function_exists('mysql_connect')
-            && function_exists('mysql_stat')
-            && function_exists('mysql_close')
-        ) {
-            $configDb = Config::getInstance()->database;
-            $link = mysql_connect($configDb['host'], $configDb['username'], $configDb['password']);
-            $status = mysql_stat($link);
-            mysql_close($link);
-            $status = explode("  ", $status);
-        } else {
-            $fullStatus = Db::fetchAssoc('SHOW STATUS');
-            if (empty($fullStatus)) {
-                throw new Exception('Error, SHOW STATUS failed');
-            }
-
-            $status = array(
-                'Uptime'                 => $fullStatus['Uptime']['Value'],
-                'Threads'                => $fullStatus['Threads_running']['Value'],
-                'Questions'              => $fullStatus['Questions']['Value'],
-                'Slow queries'           => $fullStatus['Slow_queries']['Value'],
-                'Flush tables'           => $fullStatus['Flush_commands']['Value'],
-                'Open tables'            => $fullStatus['Open_tables']['Value'],
-                'Opens'                  => 'unavailable', // not available via SHOW STATUS
-                'Queries per second avg' => 'unavailable', // not available via SHOW STATUS
-            );
+        $fullStatus = Db::fetchAssoc('SHOW STATUS');
+        if (empty($fullStatus)) {
+            throw new Exception('Error, SHOW STATUS failed');
         }
+
+        $status = array(
+            'Uptime'                 => $fullStatus['Uptime']['Value'],
+            'Threads'                => $fullStatus['Threads_running']['Value'],
+            'Questions'              => $fullStatus['Questions']['Value'],
+            'Slow queries'           => $fullStatus['Slow_queries']['Value'],
+            'Flush tables'           => $fullStatus['Flush_commands']['Value'],
+            'Open tables'            => $fullStatus['Open_tables']['Value'],
+            'Opens'                  => 'unavailable', // not available via SHOW STATUS
+            'Queries per second avg' => 'unavailable', // not available via SHOW STATUS
+        );
 
         return $status;
     }

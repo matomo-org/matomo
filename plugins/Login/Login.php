@@ -15,6 +15,7 @@ use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\NoAccessException;
@@ -224,7 +225,8 @@ class Login extends \Piwik\Plugin
         }
 
         if (!$this->hasPerformedBruteForceCheck && !$bruteForce->isAllowedToLogin(IP::getIpFromHeader())) {
-            throw new Exception(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'));
+            // not a NoAccessException: that would dispatch the login page, which runs this check again
+            throw new NoPrivilegesException(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'), 403);
         }
 
         // for performance reasons we make sure to execute it only once per request

@@ -147,7 +147,6 @@
         "ExceptionDatabaseVersionNewerThanCodebaseWait": "Morda vaš Matomo skrbnik trenutno izvaja proces nadgradnje. Prosimo, poskusite kasneje.",
         "ExceptionFileIntegrity": "Preverjanje integritete ni bilo uspešno: %s",
         "ExceptionFilesizeMismatch": "Velikost datoteke se ne ujema: %1$s (pričakovana dolžina: %2$s, najdeno: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Vaša %1$s različica odjemalca je %2$s, ki je nezdružljiva s strežniško različico %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Oblika skupnega poročila '%1$s' ni pravilna. Namesto tega poskusite kaj od tega: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "\"Today archive time to live\" mora biti število sekund več kot nič.",
         "ExceptionInvalidDateFormat": "Oblika datuma mora biti: %1$s ali katerakoli ključna beseda, podprta v funkciji %2$s (oglejte si %3$s za več informacij)",

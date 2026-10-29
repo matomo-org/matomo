@@ -3151,12 +3151,6 @@ parameters:
 			path: plugins/Insights/DataTable/Filter/OrderBy.php
 
 		-
-			message: '#^Call to an undefined method Piwik\\Db\|Piwik\\Db\\AdapterInterface\|Piwik\\Tracker\\Db\:\:checkClientVersion\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: plugins/Installation/Controller.php
-
-		-
 			message: '#^Expression on left side of \?\? is not nullable\.$#'
 			identifier: nullCoalesce.expr
 			count: 1

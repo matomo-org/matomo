@@ -33,6 +33,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\PercentOfReportTotal;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Timer;
+use Piwik\Tracker\GoalManager;
 
 /**
  * @phpstan-type ProcessedReportData array{
@@ -49,6 +50,32 @@ use Piwik\Timer;
 class ProcessedReport
 {
     private ReportsProvider $reportsProvider;
+
+    /**
+     * Retired report unique ids mapped to their replacements, preferred first. The ecommerce order
+     * report is only advertised for sites with ecommerce enabled.
+     */
+    private const RENAMED_REPORT_UNIQUE_IDS = [
+        'Goals_get_idGoal--0' => [
+            'Goals_get_idGoal--ecommerceOrder',
+            'Goals_get',
+        ],
+        'Goals_getVisitsUntilConversion_idGoal--0' => [
+            'Goals_getVisitsUntilConversion',
+        ],
+        'Goals_getDaysToConversion_idGoal--0' => [
+            'Goals_getDaysToConversion',
+        ],
+    ];
+
+    /**
+     * The `idGoal` replacing `idGoal=0` per API method; `null` drops it (all goals).
+     */
+    private const RETIRED_GOAL_OVERVIEW_ID_GOALS = [
+        'Goals.get'                      => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
+        'Goals.getVisitsUntilConversion' => null,
+        'Goals.getDaysToConversion'      => null,
+    ];
 
     private const PERFORMANCE_METRICS_TO_FORMAT = [
         'avg_time_network',
@@ -104,6 +131,8 @@ class ProcessedReport
         $aggregateUniquesUnavailable =
             !SettingsPiwik::isUniqueVisitorsEnabled($period)
             || ($isMultiSiteRequest && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites());
+
+        $apiParameters = self::withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters);
 
         foreach ($reportsMetadata as $report) {
             $isPerDimensionReport = !empty($report['dimension']) || !empty($report['dimensions']);
@@ -166,13 +195,159 @@ class ProcessedReport
         return !empty($translation);
     }
 
+    /**
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param mixed $apiParameters
+     * @return mixed
+     */
+    private static function withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters)
+    {
+        if (
+            !is_array($apiParameters)
+            || !isset($apiParameters['idGoal'])
+            || !is_scalar($apiParameters['idGoal'])
+            || (string) $apiParameters['idGoal'] !== (string) GoalManager::IDGOAL_ORDER
+        ) {
+            return $apiParameters;
+        }
+
+        $apiMethod = $apiModule . '.' . $apiAction;
+
+        if (!array_key_exists($apiMethod, self::RETIRED_GOAL_OVERVIEW_ID_GOALS)) {
+            return $apiParameters;
+        }
+
+        $idGoal = self::RETIRED_GOAL_OVERVIEW_ID_GOALS[$apiMethod];
+
+        if (null === $idGoal) {
+            unset($apiParameters['idGoal']);
+        } else {
+            $apiParameters['idGoal'] = $idGoal;
+        }
+
+        return $apiParameters;
+    }
+
+    /**
+     * @param int|string $idSite
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param mixed $apiParameters
+     * @ignore
+     */
+    public static function getReportNotFoundMessage($idSite, $apiModule, $apiAction, $apiParameters): string
+    {
+        $message = "Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports.";
+
+        $resolvedParameters = self::withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters);
+
+        if (
+            $resolvedParameters !== $apiParameters
+            && is_array($resolvedParameters)
+            && ($resolvedParameters['idGoal'] ?? null) === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+        ) {
+            $message .= ' idGoal=0 is the ecommerce order goal (idGoal=' . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+                . '), whose report is only available for a single website with ecommerce enabled.';
+        }
+
+        return $message . " \n";
+    }
+
+    /**
+     * @param mixed $apiMethodUniqueId
+     * @return list<mixed>
+     */
+    private static function getRenamedReportUniqueIdCandidates($apiMethodUniqueId)
+    {
+        if (!is_string($apiMethodUniqueId)) {
+            return [$apiMethodUniqueId];
+        }
+
+        return self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId] ?? [$apiMethodUniqueId];
+    }
+
+    /**
+     * Without `$availableUniqueIds`, the last (always-available) candidate is returned.
+     *
+     * @param mixed $apiMethodUniqueId
+     * @param list<string>|null $availableUniqueIds
+     * @return mixed
+     */
+    private static function getRenamedReportUniqueId($apiMethodUniqueId, ?array $availableUniqueIds = null)
+    {
+        if (!is_string($apiMethodUniqueId) || !isset(self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId])) {
+            return $apiMethodUniqueId;
+        }
+
+        $candidates = self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId];
+
+        if (null !== $availableUniqueIds) {
+            foreach ($candidates as $candidate) {
+                if (in_array($candidate, $availableUniqueIds, true)) {
+                    return $candidate;
+                }
+            }
+        }
+
+        return end($candidates);
+    }
+
+    /**
+     * Collapses only duplicates the resolution produces.
+     *
+     * @param array<mixed> $apiMethodUniqueIds
+     * @param list<string>|null $availableUniqueIds
+     * @return array<mixed>
+     * @ignore
+     */
+    public static function getRenamedReportUniqueIds($apiMethodUniqueIds, ?array $availableUniqueIds = null)
+    {
+        $renamed     = [];
+        $emitted     = [];
+        $fromRenamed = [];
+
+        foreach ($apiMethodUniqueIds as $apiMethodUniqueId) {
+            if (!is_string($apiMethodUniqueId)) {
+                $renamed[] = $apiMethodUniqueId;
+                continue;
+            }
+
+            $wasRenamed        = isset(self::RENAMED_REPORT_UNIQUE_IDS[$apiMethodUniqueId]);
+            $apiMethodUniqueId = self::getRenamedReportUniqueId($apiMethodUniqueId, $availableUniqueIds);
+
+            // a resolved id absorbs at most one later entry naming the same report
+            if (isset($emitted[$apiMethodUniqueId])) {
+                if ($wasRenamed) {
+                    continue;
+                }
+
+                if (isset($fromRenamed[$apiMethodUniqueId])) {
+                    unset($fromRenamed[$apiMethodUniqueId]);
+                    continue;
+                }
+            }
+
+            if ($wasRenamed) {
+                $fromRenamed[$apiMethodUniqueId] = true;
+            }
+
+            $renamed[]                   = $apiMethodUniqueId;
+            $emitted[$apiMethodUniqueId] = true;
+        }
+
+        return $renamed;
+    }
+
     public function getReportMetadataByUniqueId($idSite, $apiMethodUniqueId)
     {
         $metadata = $this->getReportMetadata($idSite);
 
-        foreach ($metadata as $report) {
-            if ($report['uniqueId'] == $apiMethodUniqueId) {
-                return $report;
+        foreach (self::getRenamedReportUniqueIdCandidates($apiMethodUniqueId) as $candidate) {
+            foreach ($metadata as $report) {
+                if ($report['uniqueId'] == $candidate) {
+                    return $report;
+                }
             }
         }
     }
@@ -447,10 +622,13 @@ class ProcessedReport
             $showSubtableReports = true
         );
         if (empty($reportMetadata)) {
-            throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");
+            throw new Exception(self::getReportNotFoundMessage($idSite, $apiModule, $apiAction, $apiParameters));
         }
 
         $reportMetadata = reset($reportMetadata);
+
+        // Goals.get does not read the HTTP string "0" as the ecommerce order goal, so request the resolved report
+        $apiParameters = self::withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters);
 
         // Generate Api call URL passing custom parameters
         $parameters = array_merge($apiParameters, array(

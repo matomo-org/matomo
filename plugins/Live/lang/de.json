@@ -1,7 +1,6 @@
 {
     "Live": {
         "ActionsAndDuration": "%1$s Aktionen in %2$s",
-        "AggregatedRealtimeReportsEnabledPolicySettingTitle": "Aggregierte Echtzeitberichte aktiviert",
         "AveragePageGenerationTime": "Jede Seite brauchte für diesen Besucher durchschnittlich %1$s zum Laden.",
         "CalculatedOverNPageViews": "Berechnet mithilfe der letzten %1$s Seitenansichten dieses Besuchers.",
         "ClickToSeeAllContents": "Klicken, um sämtliche Inhaltsinteraktionen/Impressionen zu sehen",
@@ -11,14 +10,8 @@
         "DisableVisitorProfile": "Nur Besucherprofil deaktivieren",
         "DisableVisitorProfileDescription": "Hier können Sie nur die Besucherprofil-Funktion deaktivieren. Alle Funktionen, welche auf dem Besucherprotokoll basieren, funktionieren weiterhin.",
         "DisableVisitsLogAndProfile": "Besucher-Protokoll und Besucherprofil deaktivieren",
-        "DisableVisitsLogAndProfileDescription": "Hier können Sie das Besucher-Log und die Besucherprofil-Funktion deaktivieren. Dies wird auch alle Funktionen deaktivieren, welche darauf basieren, wie das E-Commerce Log, das segmentierte Besucher-Log, die Echtzeitkarte oder das Echtzeit-Widget. Das ist eventuell nötig , um die lokalen Datenschutzbestimmungen einhalten zu können.",
         "DisableVisitsLogAndProfileImpact": "Die Ansichten von <strong>Besucher &gt; Besuchsprotokoll</strong> und Besucherprofilen sind nicht verfügbar.",
         "DisableVisitsLogAndProfileWhatItDoes": "Die Funktionen Besuchsprotokoll und Besucherprofil sind deaktiviert.<br><br>Dies verhindert, dass der Browsingpfad eines bestimmten Besuchers und das detaillierte Verhalten auf der Ebene einzelner Besuche rekonstruiert wird.",
-        "EnableAggregatedRealtimeReports": "Aggregierte Echtzeitberichte aktivieren",
-        "EnableAggregatedRealtimeReportsDescription": "Zeigt datenschutzsichere aggregierte Metriken für die letzten 24 Stunden und die letzten 30 Minuten. Keine Informationen auf der Ebene einzelner Besucher, Besuche, Sitzungen oder Aktionen werden angezeigt.",
-        "EnableAggregatedRealtimeReportsImpact": "<strong>Besucher &gt; Echtzeit</strong> zeigt allein die aggregierten Zähler, und zwar mit gerundeten Werten.",
-        "EnableAggregatedRealtimeReportsPolicySettingRequirementNote": "Aggregierte Echtzeitberichte müssen aktiviert sein.",
-        "EnableAggregatedRealtimeReportsWhatItDoes": "Aggregierte Echtzeitberichte bleiben verfügbar, wenn das Besuchsprotokoll ausgeschaltet wird.<br><br>Nur die Summen der letzten 24 Stunden und der letzten 30 Minuten werden angezeigt, und deren Werte werden gerundet, sodass keine Informationen auf der Ebene von Besuchern, Besuchen, Sitzungen oder Aktionen abgeleitet werden können.",
         "ExportThisDatasetToXml": "Diesen Datensatz als XML exportieren",
         "FirstVisit": "Erster Besuch",
         "GoalType": "Typ",

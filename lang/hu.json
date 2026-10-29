@@ -153,7 +153,6 @@
         "ExceptionFileIntegrity": "Integritás ellenőrzés sikertelen: %s",
         "ExceptionFileToDelete": "Törölni kívánt fájl: %s",
         "ExceptionFilesizeMismatch": "Fájlméret nem egyezik %1$s (várt hossz: %2$s, ehelyett a talált: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "A %1$s kliens verzió: %2$s, mely inkompatibilis a következő szerver verzióval: %3$s.",
         "ExceptionInvalidArchiveTimeToLive": "A mai archívum élettartamának nullánál nagyobbnak kell lennie másodpercekben mérve.",
         "ExceptionInvalidDateFormat": "A dátumformátumnak a következőnek kell lennie: %1$s vagy bármely, a %2$s funkció által támogatott kulcsszó (további információ: %3$s)",
         "ExceptionInvalidDateRange": "A '%1$s' időintervallum nem megfelelő. Kérjük, próbáld meg helyette a következőket: %2$s.",

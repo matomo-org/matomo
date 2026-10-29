@@ -6,6 +6,10 @@
         "SiteWithoutDataInstallWithX": "Installeren met %1$s",
         "SiteWithoutDataStepByStepGuide": "Stapsgewijze handleiding",
         "AIChatbotsContentPagesTitle": "Pagina's",
-        "ContentUrl": "URL"
+        "ContentUrl": "URL",
+        "AIChatbotsAIFavouredPagesDocumentation": "Toon pagina's die regelmatig bevraagd worden door AI chatbots, maar minder vaak bezocht worden door mensen. Nuttig voor het ontdekken van content dat door AI-systemen en referenties wordt gebruikt, maar nog weinig aandacht krijgt door mensen.",
+        "AIChatbotsAIFavouredPagesTitle": "Door AI aanbevolen pagina's",
+        "AIChatbotsBrokenContentDocumentation": "Dit rapport geeft een overzicht van gebroken pagina-URL's en document-URL's (zoals PDF, Word of Excel bestanden) die door AI chatbots (zoals ChatGPT) werden gevonden, maar foutmeldingen teruggaven of niet beschikbaar waren. Dit helpt bij het identificeren van ontbrekende of onbereikbare content die door LLM'en worden verwerkt. Zo kunnen die gebroken linken worden hersteld en de betrouwbaarheid van de website verbeterd.",
+        "AIChatbotsBrokenContentTitle": "Gebroken pagina's en documenten"
     }
 }

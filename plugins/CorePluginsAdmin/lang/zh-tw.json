@@ -77,6 +77,7 @@
         "Themes": "主題",
         "ThemesDescription": "主題可以改變 Matomo 使用者介面的外觀，提供全新的視覺體驗，讓你享受閱讀分析報表的過程。",
         "ThemesManagement": "主題管理",
+        "TypeWordToConfirm": "請輸入 %1$s 以確認這些資料將被永久刪除。",
         "UninstallConfirm": "你即將解除安裝外掛 %s。這個外掛以及它所收集的所有資料，都會從你的平台上完全移除且無法復原。你確定要這麼做嗎？",
         "UpdateSelected": "更新選擇項目",
         "Version": "版本",

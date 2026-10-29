@@ -12,7 +12,6 @@
         "CustomProviderDescription": "Gebruik uw eigen OpenAI-compatibel endpoint.",
         "DefaultBadge": "Standaard",
         "DefaultProvider": "Standaard provider",
-        "DefaultsTitle": "Wijzig provider-instellingen en standaardwaardes",
         "Model": "Model",
         "TestingConnection": "Testen…"
     }

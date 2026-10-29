@@ -48,9 +48,7 @@ class Mariadb extends Mysql
 
     public function isOptimizeInnoDBSupported(): bool
     {
-        $version = strtolower($this->getVersion());
-        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
-        return version_compare($semanticVersion, '10.1.1', '>=');
+        return true;
     }
 
     public function supportsRankingRollupWithoutExtraSorting(): bool

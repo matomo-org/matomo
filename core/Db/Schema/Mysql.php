@@ -836,16 +836,8 @@ class Mysql implements SchemaInterface
 
     public function isOptimizeInnoDBSupported(): bool
     {
-        $version = strtolower($this->getVersion());
-
-        // Note: This check for MariaDb is here on purpose, so it's working correctly for people
-        // having MySQL still configured, when using MariaDb
-        if (!str_contains($version, "mariadb")) {
-            return false;
-        }
-
-        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
-        return version_compare($semanticVersion, '10.1.1', '>=');
+        // MariaDB supports it; this also covers MariaDB running with the MySQL schema configured
+        return str_contains(strtolower($this->getVersion()), 'mariadb');
     }
 
     public function supportsRankingRollupWithoutExtraSorting(): bool

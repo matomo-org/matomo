@@ -203,23 +203,6 @@ class TwoFactorAuthenticator
      */
     private function timingSafeEquals(string $safeString, string $userString): bool
     {
-        if (function_exists('hash_equals')) {
-            return hash_equals($safeString, $userString);
-        }
-        $safeLen = strlen($safeString);
-        $userLen = strlen($userString);
-
-        if ($userLen != $safeLen) {
-            return false;
-        }
-
-        $result = 0;
-
-        for ($i = 0; $i < $userLen; ++$i) {
-            $result |= (ord($safeString[$i]) ^ ord($userString[$i]));
-        }
-
-        // They are only identical strings if $result is exactly 0...
-        return $result === 0;
+        return hash_equals($safeString, $userString);
     }
 }

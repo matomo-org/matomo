@@ -198,7 +198,6 @@
         "ExceptionFileIntegrity": "અખંડિતતા તપાસ નિષ્ફળ: %s",
         "ExceptionFileToDelete": "કાઢી નાખવા માટેની ફાઇલ: %s",
         "ExceptionFilesizeMismatch": "ફાઇલનું કદ મેળ ખાતું નથી: %1$s (અપેક્ષિત લંબાઈ: %2$s, મળ્યું: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "તમારું %1$s ક્લાયંટ વર્ઝન %2$s છે જે સર્વર વર્ઝન %3$s સાથે અસંગત છે.",
         "ExceptionInvalidAggregateReportsFormat": "એકંદર રિપોર્ટ્સ ફોર્મેટ '%1$s' માન્ય નથી. તેના બદલે નીચેનામાંથી કોઈપણ પ્રયાસ કરો: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "આજે જીવવા માટેનો આર્કાઇવ સમય શૂન્ય કરતાં વધુ સેકન્ડનો હોવો જોઈએ",
         "ExceptionInvalidDateBeforeFirstWebsite": "તારીખ '%1$s' એ પહેલી વેબસાઈટ ઓનલાઈન થઈ તે પહેલાની તારીખ છે. %2$s (ટાઇમસ્ટેમ્પ %3$s) પછીની તારીખ અજમાવી જુઓ.",

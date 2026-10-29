@@ -231,7 +231,6 @@
         "ExceptionFileIntegrity": "Échec du contrôle d'intégrité : %s",
         "ExceptionFileToDelete": "Fichier à supprimer : %s",
         "ExceptionFilesizeMismatch": "Discordance de taille de fichier : %1$s (attendue : %2$s, trouvée : %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "La version de votre client %1$s est %2$s ce qui est incompatible avec la version du serveur %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Le format '%1$s' des rapports agrégés n'est pas valide. Essayez plutôt l'une des options suivantes : %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "La durée de l'archivage doit être un nombre de secondes supérieur à zéro",
         "ExceptionInvalidDateBeforeFirstWebsite": "La date '%1$s' se situe avant la date de mise en ligne du site. Essayez une date qui se situe après %2$s (horodatage %3$s).",

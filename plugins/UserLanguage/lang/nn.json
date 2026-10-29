@@ -1,6 +1,9 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "Nettlesarspråk",
-        "LanguageCode": "Språkkode"
+        "LanguageCode": "Språkkode",
+        "PluginDescription": "Rapporterer hovudspråket i nettlesaren til dei besøkande.",
+        "getLanguageCodeDocumentation": "Viser nøyaktig kva språkkode nettlesaren til den besøkande er sett til. (t.d. «Tysk – Austerrike (de-at)»)",
+        "getLanguageDocumentation": "Viser kva språk nettlesarane til dei besøkande brukar. (t.d. «Fransk»)"
     }
 }

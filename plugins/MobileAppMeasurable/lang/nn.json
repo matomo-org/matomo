@@ -1,1 +1,8 @@
-{}
+{
+    "MobileAppMeasurable": {
+        "MobileApp": "Mobilapp",
+        "MobileAppDescription": "Ein innebygd mobilapp for iOS, Android eller eit anna mobilt operativsystem.",
+        "MobileAppLongDescription": "Spor brukaraktivitet i innebygde iOS- og Android-appar. Innsamla data kan omfatte skjermvisingar, hendingar i appen, einingsdetaljar og brukarøkter. Denne måleeininga er laga for appar som brukar mobil-SDK-ane til Matomo.",
+        "MobileApps": "Mobilappar"
+    }
+}

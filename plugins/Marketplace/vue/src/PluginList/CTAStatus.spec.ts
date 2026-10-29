@@ -49,9 +49,9 @@ describe('Marketplace/CTAStatus', () => {
     it('stays the alert it has always been', () => {
       const wrapper = mountStatus({ inModal: true, hasAction: true });
 
-      expect(wrapper.find('.alert.alert-success').exists()).toBe(true);
+      expect(wrapper.find('.alert.alert-brand').exists()).toBe(true);
       expect(wrapper.find('.alert').classes()).toContain('alert-no-background');
-      expect(wrapper.find('.ctaStatus').exists()).toBe(false);
+      expect(wrapper.find('.ctaStatus__label').exists()).toBe(false);
       expect(wrapper.text().replace(/\s+/g, ' ')).toBe('Installed (Deactivate)');
     });
 
@@ -60,12 +60,21 @@ describe('Marketplace/CTAStatus', () => {
       expect(wrapper.text()).toBe('Installed');
     });
 
+    it('puts a button action under the alert rather than in brackets inside it', () => {
+      const wrapper = mountStatus({ inModal: true, hasAction: true, actionAsButton: true });
+
+      expect(wrapper.find('.alert').text()).toBe('Installed');
+      expect(wrapper.find('.alert a').exists()).toBe(false);
+      expect(wrapper.find('.ctaStatus__actionButton a').text()).toBe('Deactivate');
+      expect(wrapper.text()).not.toContain('(');
+    });
+
     it('maps every tone onto the alert class that already styles it', () => {
       const alertClasses = (tone: string) => mountStatus({ inModal: true, tone })
         .find('.alert')
         .classes();
 
-      expect(alertClasses('success')).toContain('alert-success');
+      expect(alertClasses('success')).toContain('alert-brand');
       expect(alertClasses('warning')).toContain('alert-warning');
       expect(alertClasses('danger')).toContain('alert-danger');
     });
