@@ -29,7 +29,6 @@
         "GoalName": "Cél elnevezése",
         "GoalX": "%s nevű cél",
         "Goals": "Célok",
-        "GoalsOverview": "Célok áttekintése",
         "IsExactly": "megegyezik ezzel: %s",
         "Manually": "nem következik be automatikusan, csak ott",
         "ManuallyTriggeredUsingJavascriptFunction": "Nem automatikusan történő célteljesülést a JavaScript API trackGoal() funkciójával lehet létrehozni",

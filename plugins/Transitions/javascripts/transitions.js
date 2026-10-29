@@ -524,8 +524,8 @@ Piwik_Transitions_Ajax.prototype.loadTotalNbPageviews = function (callback) {
 };
 
 /**
- * Receives an API error as (exception name, request params). `useTransitionsData` sets this
- * because the report shows errors itself; without one an error is dropped and the request's
+ * Receives a failed request as (error message, request params). `useTransitionsData` sets this
+ * because the report shows errors itself; without one an API error is dropped and the request's
  * callback never runs.
  */
 Piwik_Transitions_Ajax.prototype.setErrorCallback = function (callback) {
@@ -555,5 +555,16 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
             callback(result);
         }
     );
+    if (typeof self.errorCallback == 'function') {
+        ajaxRequest.setErrorCallback(function (xhr, status) {
+            if (status === 'abort' || !xhr || xhr.status === 0) {
+                return;
+            }
+
+            // a failed request, e.g. an API error answered with a 4xx status, which carries its message in the body
+            var message = xhr.responseJSON && xhr.responseJSON.message;
+            self.errorCallback(message || _pk_translate('General_ErrorRequest', ['', '']), params);
+        });
+    }
     ajaxRequest.send();
 };

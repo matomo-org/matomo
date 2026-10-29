@@ -73,7 +73,6 @@
         "Goals": "Mål",
         "GoalsAdjective": "Mål %s",
         "GoalsBy": "Mål for %s",
-        "GoalsOverview": "Måloversigt",
         "GoalsOverviewDocumentation": "Oversigt over dine målkonverteringer. I første omgang viser diagrammet summen af alle konverteringer. %s Under diagrammet, kan du se konverteringsrapporter for hvert af dine mål. Minidiagrammer kan udvides ved at klikke på dem.",
         "HelpOneConversionPerVisit": "Hvis en side der matcher målet opdateres eller ses mere end én gang i et besøg, vil målet kun spores første gang siden bliver indlæst under besøget.",
         "IsExactly": "er nøjagtig %s",

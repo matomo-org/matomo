@@ -100,7 +100,6 @@
         "Goals": "目標",
         "GoalsAdjective": "目標%s",
         "GoalsBy": "依%s劃分的目標",
-        "GoalsOverview": "目標總覽",
         "GoalsOverviewDocumentation": "這是你目標轉換的總覽。圖表一開始會顯示所有轉換的總和。%s 圖表下方可以看到每個目標的轉換報表，迷你圖可以點擊放大。",
         "GoalsOverviewSubcategoryHelp1": "「目標總覽」會報告你為網站所定義目標的成效。你可以查看各目標的轉換率、產生的收益金額，以及每個目標的完整報表。",
         "GoalsOverviewSubcategoryHelp2": "點擊迷你圖中的單一指標，即可在完整尺寸的發展趨勢圖中聚焦查看。",

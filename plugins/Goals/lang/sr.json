@@ -66,7 +66,6 @@
         "Goals": "Ciljevi",
         "GoalsAdjective": "Ciljevi %s",
         "GoalsBy": "Ciljevi za %s",
-        "GoalsOverview": "Pregled ciljeva",
         "GoalsOverviewDocumentation": "Ovo je pregled ispunjenja vaših ciljeva. Grafik inicijalno prikazuje sumu svih ispunjenja. %s Ispod grafikona se nalaze izveštaji za svaki od vaših ciljeva. Linijice možete da uvećate klikom na njih.",
         "HelpOneConversionPerVisit": "Ukoliko je stranica koja odgovara ovom cilju otvorena više od jednom tokom jedne posete, cilj će biti ispraćen samo prilikom prvog otvaranja stranice.",
         "IsExactly": "je tačno %s",

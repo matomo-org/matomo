@@ -9,8 +9,10 @@
 
 namespace Piwik\Plugins\BulkTracking\tests\System;
 
+use Piwik\Http;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
 /**
  * @group BulkTracking
@@ -67,5 +69,59 @@ class TrackerTest extends SystemTestCase
         $response = $this->tracker->doBulkTrack();
 
         $this->assertEquals('{"status":"success","tracked":3,"invalid":3,"invalid_indices":[2,4,5]}', $response);
+    }
+
+    public function testResponseShouldReportCustomActionRequestNotHandledByAnyPluginAsInvalid()
+    {
+        $this->tracker->doTrackPageView('Test');
+
+        $this->tracker->setDebugStringAppend('ca=1');
+        $this->tracker->doTrackPageView('Test');
+        $this->tracker->DEBUG_APPEND_URL = '';
+
+        $response = $this->tracker->doBulkTrack();
+
+        $this->assertEquals('{"status":"success","tracked":1,"invalid":1,"invalid_indices":[1]}', $response);
+    }
+
+    public function testResponseShouldSend400ResponseCodeIfBodyIsNotValidJson()
+    {
+        $response = $this->sendBulkRequest('{"requests":["?idsite=1&rec=1"');
+
+        $this->assertEquals(400, $response['status']);
+        $this->assertEquals('{"status":"error","tracked":0,"invalid":0}', $response['data']);
+    }
+
+    public function testResponseShouldSend401Or403ResponseCodeIfAuthenticationIsRequiredButMissingOrInsufficient()
+    {
+        $testingEnvironment = new TestingEnvironmentVariables();
+        $testingEnvironment->overrideConfig('Tracker', 'bulk_requests_require_authentication', 1);
+        $testingEnvironment->save();
+
+        try {
+            $response = $this->sendBulkRequest('{"requests":["?idsite=1&rec=1"]}');
+            $this->assertEquals(401, $response['status']);
+
+            $response = $this->sendBulkRequest('{"requests":["?idsite=1&rec=1"],"token_auth":"' . md5('invalid') . '"}');
+            $this->assertEquals(403, $response['status']);
+
+            $response = $this->sendBulkRequest('{"requests":["?idsite=1&rec=1"],"token_auth":"' . Fixture::getTokenAuth() . '"}');
+            $this->assertEquals(200, $response['status']);
+        } finally {
+            $testingEnvironment->removeOverriddenConfig('Tracker', 'bulk_requests_require_authentication');
+            $testingEnvironment->save();
+        }
+    }
+
+    private function sendBulkRequest(string $body): array
+    {
+        return Http::sendHttpRequestBy(
+            Http::getTransportMethod(),
+            Fixture::getTrackerUrl(),
+            10,
+            getExtendedInfo: true,
+            httpMethod: 'POST',
+            requestBody: $body
+        );
     }
 }

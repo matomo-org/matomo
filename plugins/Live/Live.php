@@ -172,6 +172,8 @@ class Live extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "Live_VisitorProfile";
+        $translationKeys[] = "Live_VisitorProfileNotFound";
+        $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = "Live_ClickToViewAllActions";
         $translationKeys[] = "Live_NoMoreVisits";
         $translationKeys[] = "Live_ShowMap";

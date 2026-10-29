@@ -100,7 +100,6 @@
         "Goals": "Mål",
         "GoalsAdjective": "Mål %s",
         "GoalsBy": "Mål etter %s",
-        "GoalsOverview": "Måloversyn",
         "GoalsOverviewDocumentation": "Dette er ei oversikt over målkonverteringane dine. I utgangspunktet viser grafen summen av alle konverteringar. %s Under grafen kan du sjå konverteringsrapportar for kvart av måla dine. Linjediagramma kan forstørrast ved å klikke på dei.",
         "GoalsOverviewSubcategoryHelp1": "Måloversikta rapporterer resultata for måla som er definerte for nettstaden din. Du får sjå konverteringsprosentane for måla, kor mykje omsetnad dei har gitt, og fullstendige rapportar for kvart av dei.",
         "GoalsOverviewSubcategoryHelp2": "Klikk på eit enkelt måltal i linjediagrammet for å vise det i den store utviklingsgrafen.",

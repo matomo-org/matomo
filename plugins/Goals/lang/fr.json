@@ -99,7 +99,6 @@
         "Goals": "Objectifs",
         "GoalsAdjective": "Objectifs %s",
         "GoalsBy": "Objectifs par %s",
-        "GoalsOverview": "Vue d'ensemble des Objectifs",
         "GoalsOverviewDocumentation": "Ceci est un aperçu de vos conversions d'objectifs. Initialement, le graphique, affiche la somme des conversions. %s Sous le graphique, vous pouvez voir les rapports de conversion pour chacun de vos objectifs. Les lignes de tendance peuvent être agrandies en cliquant dessus.",
         "GoalsOverviewSubcategoryHelp1": "La vue d'ensemble des objectifs rend compte de la performance des objectifs définis pour votre site web. Vous pouvez accéder aux pourcentages de conversion, au montant des revenus générés et aux rapports complets pour chacun de vos objectifs.",
         "GoalsOverviewSubcategoryHelp2": "Cliquez sur une métrique dans le graphique pour vous concentrer sur celle-ci dans le graphique d'évolution en taille réelle.",

@@ -70,7 +70,6 @@
         "GoalName": "Nume ţintă",
         "GoalX": "Ţinta %s",
         "Goals": "Ţinte",
-        "GoalsOverview": "Rezumat ţinte",
         "GoalsOverviewDocumentation": "Acesta este o prezentare generală a obiectivelor. La început, graficul arată suma tuturor obiectivelor. %s Sub grafic, poți găsi rapoarte pentru fiecare obiectiv. Graficele (sparklines) pot fi mărite dând click pe ele.",
         "HelpOneConversionPerVisit": "În cazul în care o Pagina se potriveste cu Scopul si este reîmprospătat sau vizionat de mai multe ori intr-o Vizita , atunci scopul va fi sa urmăreasca de când pagina a fost încărcat în timpul acestei vizite.",
         "IsExactly": "este exact %s",

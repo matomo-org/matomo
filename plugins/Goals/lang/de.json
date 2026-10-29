@@ -99,7 +99,6 @@
         "Goals": "Ziele",
         "GoalsAdjective": "Ziele %s",
         "GoalsBy": "Ziele nach %s",
-        "GoalsOverview": "Ziel-Übersicht",
         "GoalsOverviewDocumentation": "Dies ist eine Übersicht über die Ziel-Konversionen. Zu Beginn zeigt der Graph die Summe aller Konversionen an. %s Darunter können Sie die Berichte zu Konversionen der einzelnen Ziele sehen. Die Sparklines (kleine Graphen) können durch Klicken vergrößert werden.",
         "GoalsOverviewSubcategoryHelp1": "Die Zielübersicht zeigt Berichte über die Leistung der für Ihre Webseite definierten Ziele. Sie können auf die prozentualen Konversionsraten Ihrer Ziele, die Höhe des generierten Umsatzes und vollständige Berichte für jedes Ziel zugreifen.",
         "GoalsOverviewSubcategoryHelp2": "Klicken Sie auf eine einzelne Metrik innerhalb des Sparkline-Diagramms, um sie im Entwicklungsdiagramm in voller Größe zu betrachten.",

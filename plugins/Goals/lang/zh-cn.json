@@ -86,7 +86,6 @@
         "Goals": "转化与收益分析",
         "GoalsAdjective": "目标%s",
         "GoalsBy": "目标数%s",
-        "GoalsOverview": "目标概览",
         "GoalsOverviewDocumentation": "这是目标转化概览。图形首先显示所有转化总和。%s 在图形下面可以看到每个目标的转化报表，点击波迷你图可放大。",
         "GoalsOverviewSubcategoryHelp1": "目标概述报告为您的网站定义的目标的性能。您可以访问目标的转化率、产生的收入金额以及每个目标的完整报告。",
         "GoalsOverviewSubcategoryHelp2": "单击迷你图内的单个指标，即可在全尺寸演化图中关注该指标。",

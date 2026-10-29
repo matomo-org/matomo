@@ -12,6 +12,8 @@ namespace Piwik\Plugins\CorePluginsAdmin\tests\Integration;
 use Piwik\Access;
 use Piwik\Config;
 use Piwik\DI;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\FrontController;
 use Piwik\Nonce;
 use Piwik\Notification\Manager as NotificationManager;
@@ -132,6 +134,28 @@ class ControllerTest extends IntegrationTestCase
 
         self::assertSame(1, substr_count($response, $successMessage));
         self::assertNotContains($successMessage, $this->getNotificationMessages());
+    }
+
+    public function testActivateIsForbiddenWhenPluginsAdminIsDisabled()
+    {
+        Config::getInstance()->General['enable_plugins_admin'] = 0;
+        $_GET = ['module' => 'CorePluginsAdmin', 'action' => 'activate', 'pluginName' => self::UPLOADED_PLUGIN];
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+
+        $this->dispatchUntilRedirect('activate');
+    }
+
+    public function testShowLicenseAnswersNotFoundForAnUnknownPlugin()
+    {
+        $_GET = ['module' => 'CorePluginsAdmin', 'action' => 'showLicense', 'pluginName' => '/robots.txt'];
+
+        $this->expectException(ThingNotFoundException::class);
+        $this->expectExceptionCode(404);
+        $this->expectExceptionMessage('Invalid plugin');
+
+        $this->dispatchUntilRedirect('showLicense');
     }
 
     /**

@@ -46,11 +46,14 @@ class RequestTest extends UnitTestCase
         $this->assertSame($this->time, $this->request->getCurrentTimestamp());
     }
 
-    public function testGetCurrentTimestampShouldReturnTheCurrentTimestampIfTimestampIsInvalid()
+    public function testGetCurrentTimestampShouldRejectATimestampMoreThan20YearsOld()
     {
+        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectExceptionMessage('Custom timestamp is more than a day in the future or more than 20 years in the past');
+
         $request = $this->buildRequest(array('cdt' => '' . 5));
         $request->setIsAuthenticated();
-        $this->assertSame($this->time, $request->getCurrentTimestamp());
+        $request->getCurrentTimestamp();
     }
 
     public function testGetCurrentTimestampShouldReturnTheCurrentTimestampIfRelativeOffsetIsUsed()

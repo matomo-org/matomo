@@ -11,9 +11,11 @@ namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Piwik\Access;
 use Piwik\Cache;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\DI;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
 use Piwik\Nonce;
 use Piwik\Notification\Manager as NotificationManager;
@@ -285,6 +287,17 @@ class ControllerTest extends IntegrationTestCase
     private function getPluginDetails(string $pluginName): array
     {
         return json_decode($this->dispatch('getPluginDetails', ['pluginName' => $pluginName]), true);
+    }
+
+    public function testDownloadIsForbiddenWhenPluginsAdminIsDisabled()
+    {
+        Config::getInstance()->General['enable_plugins_admin'] = 0;
+        $_GET = ['module' => 'Marketplace', 'action' => 'download', 'pluginName' => 'TreemapVisualization'];
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+
+        $this->dispatchUntilRedirect('download');
     }
 
     public function testUpdatePluginUpdatesTheRemainingPluginsWhenAnInfoRequestFails()

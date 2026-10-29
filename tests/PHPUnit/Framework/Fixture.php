@@ -733,10 +733,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
 
-        self::assertStringContainsString($expectedResponse, $response);
-        self::assertStringContainsString('This resource is part of Matomo.', $response);
-        self::assertStringNotContainsString('Error', $response);
-        self::assertStringNotContainsString('Fatal', $response);
+        // a failed request is only told apart by its status code, the body is the plain tracking image
+        self::assertEquals($expectedResponse, $response);
     }
 
     /**

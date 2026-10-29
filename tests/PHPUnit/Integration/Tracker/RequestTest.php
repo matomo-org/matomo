@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\Tracker;
 use Matomo\Network\IPUtils;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -284,6 +285,52 @@ class RequestTest extends IntegrationTestCase
         $request = $this->buildRequest(array('cdt' => '' . ($this->time + 30800)));
         $request->setCurrentTimestamp($this->time);
         $this->assertSame($this->time, $request->getCurrentTimestamp());
+    }
+
+    public function testCdtShouldReturnTheCurrentTimestampIfTimestampIsLessThanADayInFuture()
+    {
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time + 86400)));
+        $request->setCurrentTimestamp($this->time);
+        $this->assertSame($this->time, $request->getCurrentTimestamp());
+    }
+
+    /**
+     * @dataProvider getCustomTimestampsOutOfRange
+     */
+    public function testCdtShouldRejectTimestampsOutOfRange($cdt)
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectExceptionMessage('Custom timestamp is more than a day in the future or more than 20 years in the past');
+
+        // an int is an offset to the current time
+        if (is_int($cdt)) {
+            $cdt = '' . ($this->time + $cdt);
+        }
+
+        $request = $this->buildRequest(array('cdt' => $cdt));
+        $request->setCurrentTimestamp($this->time);
+        $request->setIsAuthenticated();
+        $request->getCurrentTimestamp();
+    }
+
+    public function getCustomTimestampsOutOfRange(): iterable
+    {
+        yield 'more than a day in future' => [86401];
+        yield 'more than 20 years old' => [-20 * 365 * 86400];
+        yield 'beyond the integer range' => ['99999999999999999999'];
+        yield 'negative beyond the integer range' => ['-99999999999999999999'];
+        yield 'infinite' => ['1e400'];
+        yield 'date string far in future' => ['+2 days'];
+    }
+
+    public function testCdtShouldRejectTimestampsThatCannotBeParsed()
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectExceptionMessage("Custom timestamp 'cdt' could not be parsed");
+
+        $request = $this->buildRequest(array('cdt' => 'not a date'));
+        $request->setCurrentTimestamp($this->time);
+        $request->getCurrentTimestamp();
     }
 
     public function testCdtShouldReturnTheCustomTimestampShouldUseStrToTimeIfItIsNotATime()

@@ -97,7 +97,6 @@
         "Goals": "Objektiva",
         "GoalsAdjective": "Objektiva %s",
         "GoalsBy": "Objektiva sipas %s",
-        "GoalsOverview": "Përmbledhje Objektivash",
         "GoalsOverviewDocumentation": "Kjo është një përmbledhje e shndërrimeve tuaja për objektivat. Fillimisht, grafiku tregon shumën e krejt shndërrimeve. %s Nën grafik, mund të shihni raporte shndërrimesh për secilin prej objektivave tuaj. Grafikët vijëzorë mund të zmadhohen duke klikuar mbi ta.",
         "GoalsOverviewSubcategoryHelp1": "Përmbledhje Objektivash raporton mbi funksionimin e objektivave të përkufizuar për sajtin tuaj. Mund të shihni përqindje shndërrimesh për objektivat tuaj, sasinë e të ardhurave dhe raporte të plotë për secilin.",
         "GoalsOverviewSubcategoryHelp2": "Klikoni mbi një vlerë individuale brenda grafikut që fokusi të kalojë mbi të, brenda grafikut në madhësi të plotë të evolucionit.",
