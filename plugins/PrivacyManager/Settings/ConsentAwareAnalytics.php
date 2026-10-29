@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
 use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
 use Piwik\Tracker\Cache as TrackerCache;
 
@@ -24,7 +25,10 @@ use Piwik\Tracker\Cache as TrackerCache;
  *
  * It is set per site rather than for the instance, so it can be rolled out a site at a time.
  */
-class ConsentAwareAnalytics
+/**
+ * @implements MeasurableSettingInterface<bool>
+ */
+class ConsentAwareAnalytics implements MeasurableSettingInterface
 {
     /** @use MeasurableGetterTrait<bool> */
     use MeasurableGetterTrait;
