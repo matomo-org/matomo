@@ -21,12 +21,18 @@ use Piwik\Tracker\Visitor;
  * Several things need this and cannot be decided on a guess, so the answer is deliberately three
  * valued: true, false, or null where it cannot be told.
  *
- * @api
+ * For use while tracking a request. It is deliberately not part of the public API: the shape of
+ * the answer is still settling, and resolving it has the side effect noted below.
  */
 class EntryPage
 {
     /**
+     * Resolves the current action's ids when it records a page, a few statements earlier than the
+     * request would otherwise, so calling this is not free of side effects.
+     *
      * @param Action|null $action the action this request records, if it records one
+     * @param Request|null $request omitting it skips the ping check, which changes the answer for
+     *                              a ping, so pass it wherever it is available
      * @return bool|null null where the answer cannot be determined
      */
     public static function isRequestOnEntryPage(Visitor $visitor, $action, ?Request $request = null): ?bool

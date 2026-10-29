@@ -21,15 +21,6 @@ class UserId extends \Piwik\Plugin
      *
      * @return array
      */
-    /**
-     * The tracker needs the value an admin set themselves as well as the one a compliance policy
-     * resolves to, so that consent can lift the policy's requirement without overriding theirs.
-     */
-    public function setTrackerCacheSiteAttributes(&$cacheContent, int $idSite): void
-    {
-        $cacheContent[UserIdDisabled::CONFIGURED_VALUE_CACHE_KEY] = UserIdDisabled::getMeasurableValue($idSite);
-    }
-
     public function registerEvents()
     {
         return array(
@@ -40,6 +31,15 @@ class UserId extends \Piwik\Plugin
             // Keep the configured value available to the tracker alongside the enforced one
             'Tracker.Cache.getSiteAttributes' => 'setTrackerCacheSiteAttributes',
         );
+    }
+
+    /**
+     * The tracker needs the value an admin set themselves as well as the one a compliance policy
+     * resolves to, so that consent can lift the policy's requirement without overriding theirs.
+     */
+    public function setTrackerCacheSiteAttributes(&$cacheContent, int $idSite): void
+    {
+        $cacheContent[UserIdDisabled::CONFIGURED_VALUE_CACHE_KEY] = UserIdDisabled::getMeasurableValue($idSite);
     }
 
     /**

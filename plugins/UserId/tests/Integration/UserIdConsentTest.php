@@ -61,6 +61,23 @@ class UserIdConsentTest extends IntegrationTestCase
     }
 
     /**
+     * Consent given once the visitor has moved on starts a visit of its own. The campaign and the
+     * original referrer are gone from the request by then, but the User ID is not - the site keeps
+     * sending it - so the new visit carries it.
+     */
+    public function testTheVisitConsentStartsAfterNavigatingCarriesTheUserId(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView(null, 'landing');
+        $this->trackPageView('1', 'other');
+
+        $this->assertSame(2, $this->countVisits(), 'consent away from the arrival page starts its own visit');
+        $this->assertSame('', (string) $this->fetchVisitColumn('user_id'), 'the unconsented visit keeps no User ID');
+        $this->assertSame(self::USER_ID, $this->fetchVisitColumn('user_id', 1), 'the consented visit carries it');
+    }
+
+    /**
      * The feature is opt-in per site. A site that has not opted in behaves exactly as it does
      * today, whether or not a request reports consent.
      */
@@ -160,7 +177,7 @@ class UserIdConsentTest extends IntegrationTestCase
         Cache::deleteTrackerCache();
     }
 
-    private function trackPageView(?string $consent): void
+    private function trackPageView(?string $consent, string $page = 'landing'): void
     {
         $this->testDate = $this->testDate->addPeriod(1, 'minute');
         $this->tracker->setForceVisitDateTime($this->testDate->getDatetime());
@@ -171,19 +188,27 @@ class UserIdConsentTest extends IntegrationTestCase
             $this->tracker->setCustomTrackingParameter('consent', $consent);
         }
 
-        $this->tracker->setUrl('http://example.com/landing');
+        $this->tracker->setUrl('http://example.com/' . $page);
 
-        Fixture::checkResponse($this->tracker->doTrackPageView('Landing'));
+        Fixture::checkResponse($this->tracker->doTrackPageView(ucfirst($page)));
     }
 
     /**
      * @return mixed
      */
-    private function fetchVisitColumn(string $column)
+    private function fetchVisitColumn(string $column, int $offset = 0)
     {
         return Db::fetchOne(
             'SELECT `' . $column . '` FROM ' . Common::prefixTable('log_visit')
-            . ' WHERE idsite = ? ORDER BY idvisit ASC LIMIT 1',
+            . ' WHERE idsite = ? ORDER BY idvisit ASC LIMIT 1 OFFSET ' . $offset,
+            [$this->idSite]
+        );
+    }
+
+    private function countVisits(): int
+    {
+        return (int) Db::fetchOne(
+            'SELECT COUNT(*) FROM ' . Common::prefixTable('log_visit') . ' WHERE idsite = ?',
             [$this->idSite]
         );
     }

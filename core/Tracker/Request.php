@@ -529,6 +529,10 @@ class Request
         if ($name === 'cdt') {
             $this->cdtCache = null;
         }
+
+        if ($name === 'consent') {
+            $this->hasConsentCache = null;
+        }
     }
 
     public function hasParam($name)
@@ -943,6 +947,9 @@ class Request
      * tracking as a whole or for cookies. A request without the parameter is not a refusal, it
      * only means the site is not signalling consent, so nothing may be relaxed on the strength of
      * its absence.
+     *
+     * Consent-aware measurement is opt-in, so this is false for every site that has not been
+     * opted in, whatever the request reports.
      */
     public function hasConsent(): bool
     {
