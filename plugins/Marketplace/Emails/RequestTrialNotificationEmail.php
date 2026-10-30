@@ -25,15 +25,28 @@ class RequestTrialNotificationEmail extends Mail
 
     private string $login;
 
+    private ?string $unsubscribeToken;
+
     private string $pluginName;
     private string $pluginDisplayName;
 
-    public function __construct(string $login, string $emailAddress, string $pluginName, string $pluginDisplayName)
-    {
+    /**
+     * @param string|null $unsubscribeToken null to sign one for `$login`; if there is no such user, the email
+     *                                      has no unsubscribe line
+     */
+    public function __construct(
+        string $login,
+        string $emailAddress,
+        string $pluginName,
+        string $pluginDisplayName,
+        ?string $unsubscribeToken = null
+    ) {
         parent::__construct();
 
         $this->emailAddress = $emailAddress;
         $this->login = $login;
+        $this->unsubscribeToken = $unsubscribeToken
+            ?? StaticContainer::get(UnsubscribeToken::class)->generate($login);
         $this->pluginName = $pluginName;
         $this->pluginDisplayName = $pluginDisplayName;
 
@@ -80,13 +93,20 @@ class RequestTrialNotificationEmail extends Mail
         ));
     }
 
-    private function getUnsubscribeLink(): string
+    /**
+     * @return string|null null when there is no user to sign a token for, so the footer leaves the line out
+     */
+    private function getUnsubscribeLink(): ?string
     {
+        if ($this->unsubscribeToken === null) {
+            return null;
+        }
+
         return SettingsPiwik::getPiwikUrl() . 'index.php?' . http_build_query([
             'module' => 'Marketplace',
             'action' => 'unsubscribeTrialRequestEmails',
             'login' => $this->login,
-            'token' => StaticContainer::get(UnsubscribeToken::class)->generate($this->login),
+            'token' => $this->unsubscribeToken,
         ]);
     }
 }
