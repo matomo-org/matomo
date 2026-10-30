@@ -386,16 +386,11 @@ class QueueConsumer
         );
 
         $periods = array_flip(Piwik::$idPeriods);
+        $doneFlag = $this->getDoneFlag($archiveToProcess);
 
         foreach ($inProgressArchives as $archiveBeingProcessed) {
-            $this->findSegmentForArchive($archiveBeingProcessed);
-
-            // we don't care about lower periods being concurrent if they are for different segments (that are not "all visits")
-            if (
-                !empty($archiveBeingProcessed['segment'])
-                && !empty($archiveToProcess['segment'])
-                && $archiveBeingProcessed['segment'] != $archiveToProcess['segment']
-            ) {
+            // archives of different segments, incl. "all visits", don't use each other's data
+            if ($this->getDoneFlag($archiveBeingProcessed) !== $doneFlag) {
                 continue;
             }
 
@@ -413,18 +408,15 @@ class QueueConsumer
                 continue;
             }
 
-            if (empty($archiveToProcess['segment']) && !empty($archiveBeingProcessed['segment'])) {
-                return "segment archive in progress for same site with lower or same period ({$archiveBeingProcessed['segment']}, period = {$processedPeriodLabel}, date = {$processedPeriodDate})";
-            }
-
-            if (!empty($archiveToProcess['segment']) && empty($archiveBeingProcessed['segment'])) {
-                return "all visits archive in progress for same site with lower or same period (period = {$processedPeriodLabel}, date = {$processedPeriodDate})";
-            }
-
             return "lower or same period in progress (period = {$processedPeriodLabel}, date = {$processedPeriodDate})";
         }
 
         return null;
+    }
+
+    private function getDoneFlag(array $archive): string
+    {
+        return explode('.', $archive['name'])[0];
     }
 
     private function isArchiveOfLowerPeriod(array $archiveToProcess, array $archiveBeingProcessed): bool
