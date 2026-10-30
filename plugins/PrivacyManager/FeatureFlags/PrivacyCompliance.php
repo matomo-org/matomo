@@ -25,4 +25,9 @@ class PrivacyCompliance implements FeatureFlagInterface, ForcedFeatureFlagStateI
     {
         return true;
     }
+
+    public function allowsCookieOverwrite(): bool
+    {
+        return false;
+    }
 }
