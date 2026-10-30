@@ -1,5 +1,7 @@
 {
     "BotTracking": {
+        "AIChatbotTrafficRatioBelowValue": "<%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
         "AIChatbotsAIFavouredPagesDocumentation": "Shows pages that are frequently requested by AI chatbots but less often visited by humans. Useful for discovering content that AI systems surface or reference but that doesn't yet attract much direct human engagement.",
         "AIChatbotsAIFavouredPagesTitle": "AI-Favoured Pages",
         "AIChatbotsBrokenContentDocumentation": "This report lists broken page URLs and document URLs (such as PDFs, Word, or Excel files) that were accessed by AI Chatbots (like ChatGPT) but returned errors or were unavailable. It helps identify missing or inaccessible content that LLMs attempted to fetch, allowing you to fix broken links and improve your site’s reliability and discoverability.",
@@ -32,6 +34,8 @@
         "ColumnAIChatbotName": "AI Chatbot Name",
         "ColumnAIChatbotRequests": "AI Chatbot Requests",
         "ColumnAIChatbotRequestsDocumentation": "The total number of times this URL was requested by AI chatbots during the selected period.",
+        "ColumnAIChatbotTrafficRatio": "AI Chatbot traffic ratio",
+        "ColumnAIChatbotTrafficRatioDocumentation": "The ratio of AI chatbot requests to page views made by humans, directly or via AI agents. A value of 2.0× means there were twice as many AI chatbot requests as page views.",
         "ColumnAcquiredVisits": "Acquired visits",
         "ColumnAcquiredVisitsDocumentation": "Visits that started after someone clicked from an AI chatbot (Referrers → AI Assistants).",
         "ColumnAvgResponseSize": "Avg. Response Size",
