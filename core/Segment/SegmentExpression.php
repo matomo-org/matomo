@@ -299,7 +299,7 @@ class SegmentExpression
                 // it can be used internally to inject sub-expressions into the query.
                 // see Segment::getCleanedExpression()
                 $innerSql = $value['SQL'];
-                $sqlMatch = '%s IN (%innerSql%)';
+                $sqlMatch = empty($value['negate']) ? '%s IN (%innerSql%)' : '%s IS NULL OR %s NOT IN (%innerSql%)';
                 $value = $value['bind'];
                 break;
             case self::MATCH_ACTIONS_NOT_CONTAINS:

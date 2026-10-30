@@ -4,6 +4,14 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 6.1.0
+
+### Breaking Changes
+* A Continent segment with `!=` (`continentCode!=eur`) or `!@` (`continentCode!@eur`) now excludes the visits of that continent, and keeps every other visit, including those with no country or an unlisted one, as `countryCode!=` does. It used to match the visits of that very continent, like `==`. The update schedules the saved segments using it for rearchiving, as far back as `rearchive_reports_in_past_last_n_months`, which the next `core:archive` run applies.
+
+### New APIs
+* A segment `sqlFilter` callback returning a sub-expression (`['SQL' => ..., 'bind' => ...]`) can set `'negate' => true` to match the rows not in it, `NULL` included, as `!=` does for a plain value.
+
 ## Matomo 6.0.0
 
 ### Breaking Changes
