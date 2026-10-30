@@ -13,6 +13,7 @@ namespace Piwik\Plugins\LanguagesManager\tests\Integration;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Http\BadRequestException;
 use Piwik\Nonce;
 use Piwik\Plugins\LanguagesManager\Controller;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -30,6 +31,7 @@ class ControllerTest extends IntegrationTestCase
     public function tearDown(): void
     {
         $_GET = [];
+        $_POST = [];
 
         unset($_SERVER['HTTP_REFERER']);
 
@@ -56,6 +58,56 @@ class ControllerTest extends IntegrationTestCase
         $bare = Url::getCurrentUrlWithoutQueryString();
 
         self::assertSame($bare, $this->saveLanguageFrom($bare . '?language=fr'));
+    }
+
+    public function testSaveLanguageAcceptsTheParametersThroughTheFormPost(): void
+    {
+        $_SERVER['HTTP_REFERER'] = $this->page();
+        $_POST['language'] = 'de';
+        $_POST['nonce'] = Nonce::getNonce(LanguagesManager::LANGUAGE_SELECTION_NONCE);
+
+        try {
+            Access::doAsSuperUser(static function () {
+                (new Controller())->saveLanguage();
+            });
+        } catch (Exception $e) {
+            self::assertStringContainsString('redirect you to this URL: ' . $this->page(), $e->getMessage());
+            return;
+        }
+
+        self::fail('saveLanguage did not redirect');
+    }
+
+    /**
+     * @dataProvider getInvalidLanguages
+     */
+    public function testSaveLanguageRejectsAnInvalidLanguage(?string $language): void
+    {
+        if ($language !== null) {
+            $_GET['language'] = $language;
+        }
+        $_GET['nonce'] = Nonce::getNonce(LanguagesManager::LANGUAGE_SELECTION_NONCE);
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionCode(400);
+
+        Access::doAsSuperUser(static function () {
+            (new Controller())->saveLanguage();
+        });
+    }
+
+    /**
+     * @return array<string, array{string|null}>
+     */
+    public function getInvalidLanguages(): array
+    {
+        return [
+            'missing' => [null],
+            'empty' => [''],
+            'not installed' => ['xx'],
+            'path' => ['../en'],
+            'markup' => ['<b>en</b>'],
+        ];
     }
 
     /**
