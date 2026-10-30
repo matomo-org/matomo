@@ -121,7 +121,8 @@ return array(
         array('AssetManager.getJavaScriptFiles', \Piwik\DI::value(function (&$jsFiles) {
             $useOverrideJs = \Piwik\Container\StaticContainer::get('test.vars.useOverrideJs');
             if ($useOverrideJs) {
-                $jsFiles[] = 'tests/resources/screenshot-override/override.js';
+                $jsFiles[] = 'tests/resources/screenshot-override/override.init.js';
+                $jsFiles[] = 'tests/resources/screenshot-override/override.end.js';
             }
         })),
 
