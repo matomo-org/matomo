@@ -16,8 +16,10 @@ use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\RedirectException;
+use Piwik\Http\BadRequestException;
 use Piwik\Plugins\Login\Controller;
 use Piwik\Plugins\Login\PasswordResetter;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Auth\PasswordStrength;
@@ -165,6 +167,60 @@ class ControllerTest extends IntegrationTestCase
         $this->controller->acceptInvitation();
     }
 
+    public function testAcceptInvitationWithoutTokenRedirectsWithoutRecordingAFailedAttempt()
+    {
+        $this->assertInvitationFailure(function () {
+            $this->controller->acceptInvitation();
+        }, RedirectException::class, 'Login_InvalidOrExpiredTokenV2', 0);
+    }
+
+    public function testAcceptInvitationWithUnknownTokenRedirectsAndRecordsAFailedAttempt()
+    {
+        $_POST['token'] = 'unknowntoken';
+
+        $this->assertInvitationFailure(function () {
+            $this->controller->acceptInvitation();
+        }, RedirectException::class, 'Login_InvalidOrExpiredTokenV2', 1);
+    }
+
+    public function testAcceptInvitationWithExpiredInvitationRedirects()
+    {
+        [, $token] = $this->generateTestUser();
+        (new Model())->updateUserFields('test', ['invite_expired_at' => Date::now()->subDay(1)->getDatetime()]);
+        $_POST['token'] = $token;
+
+        $this->assertInvitationFailure(function () {
+            $this->controller->acceptInvitation();
+        }, RedirectException::class, 'Login_InvalidOrExpiredTokenV2', 0);
+    }
+
+    public function testDeclineInvitationWithoutTokenIsABadRequestWithoutRecordingAFailedAttempt()
+    {
+        $this->assertInvitationFailure(function () {
+            $this->controller->declineInvitation();
+        }, BadRequestException::class, 'Login_InvalidOrExpiredToken', 0);
+    }
+
+    public function testDeclineInvitationWithUnknownTokenIsABadRequestAndRecordsAFailedAttempt()
+    {
+        $_POST['token'] = 'unknowntoken';
+
+        $this->assertInvitationFailure(function () {
+            $this->controller->declineInvitation();
+        }, BadRequestException::class, 'Login_InvalidOrExpiredToken', 1);
+    }
+
+    public function testDeclineInvitationWithExpiredInvitationIsABadRequest()
+    {
+        [, $token] = $this->generateTestUser();
+        (new Model())->updateUserFields('test', ['invite_expired_at' => Date::now()->subDay(1)->getDatetime()]);
+        $_POST['token'] = $token;
+
+        $this->assertInvitationFailure(function () {
+            $this->controller->declineInvitation();
+        }, BadRequestException::class, 'Login_InvalidOrExpiredToken', 0);
+    }
+
     public function testAcceptInvitationDoesNotOverwriteAPasswordSetByAnEarlierRedemption()
     {
         [$userEmail, $token] = $this->generateTestUser();
@@ -245,7 +301,8 @@ class ControllerTest extends IntegrationTestCase
         $_POST['token'] = $linkToken;
         $_POST['invitation_form'] = 'Decline';
 
-        self::expectException(\Exception::class);
+        self::expectException(BadRequestException::class);
+        self::expectExceptionCode(400);
         self::expectExceptionMessage('Login_InvalidOrExpiredToken');
 
         try {
@@ -367,6 +424,28 @@ class ControllerTest extends IntegrationTestCase
         );
 
         return $linkToken;
+    }
+
+    /**
+     * @param class-string<\Exception> $exceptionClass
+     */
+    private function assertInvitationFailure(callable $action, string $exceptionClass, string $message, int $expectedFailedAttempts): void
+    {
+        $bruteForceDetection = StaticContainer::get(BruteForceDetection::class);
+        $failedAttemptsBefore = count($bruteForceDetection->getAll());
+
+        $exception = null;
+        try {
+            $action();
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        $this->assertInstanceOf($exceptionClass, $exception);
+        $this->assertSame(400, $exception->getCode());
+        $this->assertSame($message, $exception->getMessage());
+
+        $this->assertSame($expectedFailedAttempts, count($bruteForceDetection->getAll()) - $failedAttemptsBefore);
     }
 
     private function buildController($usersModel = null, ?PasswordStrength $passwordStrength = null): Controller
