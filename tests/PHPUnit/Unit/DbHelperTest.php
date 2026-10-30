@@ -22,22 +22,192 @@ use Piwik\DbHelper;
 class DbHelperTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @dataProvider getExtractGroupByFromQueryTestData
+     */
+    public function testExtractGroupByFromQuery(string $sql, bool $stripTableNames, ?string $expectedGroupBy): void
+    {
+        $extractedGroupBy = DbHelper::extractGroupByFromQuery($sql, $stripTableNames);
+
+        $this->checkQueryExtraction($expectedGroupBy, $extractedGroupBy);
+    }
+
+    public function getExtractGroupByFromQueryTestData(): iterable
+    {
+        yield 'no clause' => [
+            'SELECT my_column FROM my_table',
+            false,
+            null,
+        ];
+
+        yield 'simple group by' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one, column_two
+            ',
+            false,
+            'column_one, column_two',
+        ];
+
+        yield 'multiple group by' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    GROUP BY column_two
+                ) AS my_data
+                GROUP BY column_one
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'nested group by ignored' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    GROUP BY column_two
+                ) AS my_data
+            ',
+            false,
+            null,
+        ];
+
+        yield 'nested group by ignored - with rollup' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    GROUP BY column_two WITH ROLLUP
+                ) AS my_data
+            ',
+            false,
+            null,
+        ];
+
+        yield 'nested group by ignored - having' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    GROUP BY column_two
+                    HAVING COUNT(column_two) > 0
+                ) AS my_data
+            ',
+            false,
+            null,
+        ];
+
+        yield 'query terminated by ;' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one;
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following WITH' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one WITH ROLLUP
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following HAVING' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+                HAVING COUNT(column_two) > 0
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following WINDOW' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+                WINDOW x AS (ORDER BY column_two)
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following ORDER' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+                ORDER BY column_two
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following LIMIT' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+                LIMIT 1
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'column names starting with a keyword' => [
+            'SELECT label, order_status FROM my_table GROUP BY label, order_status, with_flag, limit_flag',
+            false,
+            'label, order_status, with_flag, limit_flag',
+        ];
+
+        yield 'unbalanced parentheses' => [
+            'SELECT my_column FROM my_table GROUP BY column_one, (, column_two',
+            false,
+            null,
+        ];
+
+        yield 'with stripped table names' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY `my_table`.`column_one`, `column_two`
+            ',
+            true,
+            '`column_one`, `column_two`',
+        ];
+
+        yield 'without stripped table names' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY `my_table`.`column_one`, `column_two`
+            ',
+            false,
+            '`my_table`.`column_one`, `column_two`',
+        ];
+    }
+
+    /**
      * @dataProvider getExtractOrderByFromQueryTestData
      */
     public function testExtractOrderByFromQuery(string $sql, bool $stripTableNames, ?string $expectedOrderBy): void
     {
         $extractedOrderBy = DbHelper::extractOrderByFromQuery($sql, $stripTableNames);
 
-        // compare with collapsed whitespace
-        if (null !== $expectedOrderBy) {
-            $expectedOrderBy = trim(preg_replace('/\s+/', ' ', $expectedOrderBy));
-        }
-
-        if (null !== $extractedOrderBy) {
-            $extractedOrderBy = trim(preg_replace('/\s+/', ' ', $extractedOrderBy));
-        }
-
-        $this->assertSame($expectedOrderBy, $extractedOrderBy);
+        $this->checkQueryExtraction($expectedOrderBy, $extractedOrderBy);
     }
 
     public function getExtractOrderByFromQueryTestData(): iterable
@@ -124,6 +294,12 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             'column_one',
         ];
 
+        yield 'column names starting with a keyword' => [
+            'SELECT hits, limit_flag FROM my_table ORDER BY hits DESC, limit_flag',
+            false,
+            'hits DESC, limit_flag',
+        ];
+
         yield 'unbalanced parentheses' => [
             'SELECT my_column FROM my_table ORDER BY column_one, (, column_two',
             false,
@@ -148,6 +324,166 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             ',
             false,
             '`my_table`.`column_one`, `column_two`',
+        ];
+    }
+
+    /**
+     * @dataProvider getExtractSelectFromQueryTestData
+     */
+    public function testExtractSelectFromQuery(string $sql, ?string $expectedSelect): void
+    {
+        $extractedSelect = DbHelper::extractSelectFromQuery($sql);
+
+        $this->checkQueryExtraction($expectedSelect, $extractedSelect);
+    }
+
+    public function getExtractSelectFromQueryTestData(): iterable
+    {
+        yield 'no clause' => [
+            'SET @counter = 1',
+            null,
+        ];
+
+        yield 'minimal select' => [
+            'SELECT @@version',
+            '@@version',
+        ];
+
+        yield 'minimal select terminated by ;' => [
+            'SELECT @@version;',
+            '@@version',
+        ];
+
+        yield 'asterisk' => [
+            '
+                SELECT *
+                FROM my_table
+            ',
+            '*',
+        ];
+
+        yield 'skip comments and optimizer hints at the beginning' => [
+            '
+                SELECT /*+ OPTIMIZE */
+                    /* this will be skipped */
+                    column_one,
+                    /* this will be kept */
+                    column_two
+                FROM my_table
+            ',
+            '
+                column_one,
+                /* this will be kept */
+                column_two
+            ',
+        ];
+
+        yield 'nested select by ignored' => [
+            '
+                SELECT column_one, column_two AS second_column
+                FROM (
+                    SELECT column_three
+                    FROM my_table
+                ) AS my_data
+            ',
+            'column_one, column_two AS second_column',
+        ];
+
+        yield 'column names starting with a keyword' => [
+            'SELECT label, from_date FROM my_table',
+            'label, from_date',
+        ];
+
+        yield 'unbalanced parentheses' => [
+            'SELECT my_column ( FROM my_table',
+            null,
+        ];
+
+        yield 'unbalanced quotes' => [
+            "SELECT 'my_column FROM my_table",
+            null,
+        ];
+
+        yield 'FROM inside a function call' => [
+            'SELECT EXTRACT(YEAR FROM created) AS year, TRIM(LEADING 0 FROM code) AS code FROM my_table',
+            'EXTRACT(YEAR FROM created) AS year, TRIM(LEADING 0 FROM code) AS code',
+        ];
+
+        yield 'scalar subquery' => [
+            'SELECT column_one, (SELECT COUNT(*) FROM other_table) AS hits FROM my_table',
+            'column_one, (SELECT COUNT(*) FROM other_table) AS hits',
+        ];
+
+        yield 'FROM inside quotes and comments' => [
+            "SELECT 'from (' AS `from`, column_one /* from ( */ FROM my_table",
+            "'from (' AS `from`, column_one /* from ( */",
+        ];
+
+        yield 'leading comment' => [
+            '/* select from */ SELECT column_one FROM my_table',
+            'column_one',
+        ];
+
+        yield 'common table expression' => [
+            '
+                WITH my_data AS (SELECT column_one FROM my_table)
+                SELECT column_one, COUNT(*) AS hits FROM my_data
+            ',
+            'column_one, COUNT(*) AS hits',
+        ];
+
+        yield 'common table expression without main query' => [
+            'WITH my_data AS (SELECT column_one FROM my_table)',
+            null,
+        ];
+    }
+
+    /**
+     * @dataProvider getExtractDerivedTableFromQueryTestData
+     */
+    public function testExtractDerivedTableFromQuery(string $sql, ?string $expectedQuery): void
+    {
+        $extractedQuery = DbHelper::extractDerivedTableFromQuery($sql);
+
+        $this->checkQueryExtraction($expectedQuery, $extractedQuery);
+    }
+
+    public function getExtractDerivedTableFromQueryTestData(): iterable
+    {
+        yield 'no derived table' => [
+            'SELECT * FROM my_table',
+            null,
+        ];
+
+        yield 'no select' => [
+            'SET @counter = 1',
+            null,
+        ];
+
+        yield 'derived table' => [
+            '
+                SELECT * FROM (
+                    SELECT column_one, COUNT(*) AS hits FROM my_table GROUP BY column_one WITH ROLLUP
+                ) AS rollupQuery
+                ORDER BY hits DESC
+            ',
+            'SELECT column_one, COUNT(*) AS hits FROM my_table GROUP BY column_one WITH ROLLUP',
+        ];
+
+        yield 'nested parentheses, quotes and comments' => [
+            "
+                /* select the rows */
+                SELECT * FROM (
+                    SELECT IF(a, ')', b) AS c /* ) */ FROM (SELECT a, b FROM my_table) AS t
+                ) AS wrapped
+                WHERE (c > 0)
+            ",
+            "SELECT IF(a, ')', b) AS c /* ) */ FROM (SELECT a, b FROM my_table) AS t",
+        ];
+
+        yield 'unbalanced parentheses' => [
+            'SELECT * FROM ( SELECT column_one FROM my_table',
+            null,
         ];
     }
 
@@ -413,5 +749,21 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             'SELECT /* comment */ * FROM (SELECT /*+ HINT_ONE(1) */ /* comment */ value FROM table)',
             'MAX_EXECUTION_TIME(100)',
         ];
+    }
+
+    /**
+     * Compare two extracted SQL query parts with collapsed whitespace.
+     */
+    private function checkQueryExtraction(?string $expected, ?string $extracted): void
+    {
+        if (null !== $expected) {
+            $expected = trim(preg_replace('/\s+/', ' ', $expected));
+        }
+
+        if (null !== $extracted) {
+            $extracted = trim(preg_replace('/\s+/', ' ', $extracted));
+        }
+
+        $this->assertSame($expected, $extracted);
     }
 }
