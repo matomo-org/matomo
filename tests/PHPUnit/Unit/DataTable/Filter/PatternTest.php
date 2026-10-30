@@ -158,4 +158,57 @@ class PatternTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(1, $filteredTable->getRows());
         $this->assertSame('Öppettider', $filteredTable->getFirstRow()->getColumn('label'));
     }
+
+    /**
+     * @dataProvider getUrlEncodedLabelData
+     */
+    public function testFilterPatternMatchesDecodedValueOfUrlEncodedLabel($pattern, $expectedLabels)
+    {
+        $table = new DataTable();
+        $table->addRowsFromArray([
+            [Row::COLUMNS => ['label' => '/enc/foo%2Fbar%20baz']],
+            [Row::COLUMNS => ['label' => 'enc foo%2Fbar title']],
+            [Row::COLUMNS => ['label' => 'plain foo/bar']],
+            [Row::COLUMNS => ['label' => 'other']],
+        ]);
+
+        $table->filter('Pattern', ['label', $pattern]);
+
+        $this->assertSame($expectedLabels, $table->getColumn('label'));
+    }
+
+    public function getUrlEncodedLabelData()
+    {
+        return [
+            'displayed text finds encoded labels' => ['foo/bar', ['/enc/foo%2Fbar%20baz', 'enc foo%2Fbar title', 'plain foo/bar']],
+            'decoded space is searchable' => ['bar baz', ['/enc/foo%2Fbar%20baz']],
+            'encoded search still works' => ['foo%2F', ['/enc/foo%2Fbar%20baz', 'enc foo%2Fbar title']],
+            'no match' => ['foo/baz', []],
+        ];
+    }
+
+    public function testInvertedFilterPatternExcludesUrlEncodedLabelMatchingDecodedValue()
+    {
+        $table = new DataTable();
+        $table->addRowsFromArray([
+            [Row::COLUMNS => ['label' => 'enc foo%2Fbar title']],
+            [Row::COLUMNS => ['label' => 'other']],
+        ]);
+
+        $table->filter('Pattern', ['label', 'foo/bar', true]);
+
+        $this->assertSame(['other'], $table->getColumn('label'));
+    }
+
+    public function testFilterArrayPatternMatchesDecodedValueOfUrlEncodedLabel()
+    {
+        $rows = [
+            ['label' => 'enc foo%2Fbar title'],
+            ['label' => 'other'],
+        ];
+
+        $filter = new DataTable\Filter\Pattern(new DataTable(), ['label'], 'foo/bar');
+
+        $this->assertSame([0], array_keys($filter->filterArray($rows)));
+    }
 }
