@@ -46,6 +46,7 @@ class PercentOfReportTotal extends ProcessedMetric
      */
     private const NON_ADDITIVE_METRIC_NAMES = [
         'nb_uniq_visitors',
+        'nb_uniq_visitors_estimated',
         'nb_users',
         'entry_nb_uniq_visitors',
         'exit_nb_uniq_visitors',
