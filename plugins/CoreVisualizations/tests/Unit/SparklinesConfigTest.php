@@ -24,9 +24,17 @@ class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
      */
     private $config;
 
+    private $backupGet;
+
     public function setUp(): void
     {
+        $this->backupGet = $_GET;
         $this->config = new Config();
+    }
+
+    public function tearDown(): void
+    {
+        $_GET = $this->backupGet;
     }
 
     public function testHasSparklineMetricsShouldNotHaveSparklineMetricsByDefault()
@@ -120,6 +128,16 @@ class SparklinesConfigTest extends \PHPUnit\Framework\TestCase
             'placeholder0' => [['url' => '', 'metrics' => array(), 'order' => 999, 'group' => 'placeholder0']],
             'placeholder2' => [['url' => '', 'metrics' => array(), 'order' => 1001, 'group' => 'placeholder2']],
         ), $this->config->getSortedSparklines());
+    }
+
+    public function testGetGraphParamsModifiedShouldRejectArrayPeriodWithException()
+    {
+        $_GET['period'] = ['day'];
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("The parameter 'period' doesn't have a correct type");
+
+        $this->config->getGraphParamsModified();
     }
 
     private function addFewSparklines()
