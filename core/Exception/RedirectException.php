@@ -10,10 +10,11 @@
 namespace Piwik\Exception;
 
 use Piwik\Common;
+use Piwik\Http\HttpCodeException;
 use Piwik\Url;
 use Piwik\UrlHelper;
 
-class RedirectException extends \Piwik\Exception\Exception implements IRedirectException
+class RedirectException extends \Piwik\Exception\Exception implements IRedirectException, HttpCodeException
 {
     private $redirectTo;
     private $countdown;
@@ -22,12 +23,14 @@ class RedirectException extends \Piwik\Exception\Exception implements IRedirectE
      * @param $message
      * @param string $redirectTo
      * @param int $countdown
+     * @param int $code the HTTP status code of the page that redirects
      */
-    public function __construct($message, $redirectTo, $countdown = 5)
+    public function __construct($message, $redirectTo, $countdown = 5, $code = 400)
     {
         $this->redirectTo = $redirectTo;
         $this->countdown = $countdown;
         $this->message = $message;
+        $this->code = $code;
     }
 
     public function getRedirectionUrl(): string
