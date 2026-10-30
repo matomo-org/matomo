@@ -110,16 +110,17 @@ class NoAccessTest extends IntegrationTestCase
     {
         $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-        $this->withSessionClosedEarly(function () {
-            ob_start();
-            try {
-                $this->getLoginPlugin()->noAccess(new NoAccessException('initial no access'));
-            } finally {
-                ob_end_clean();
-            }
+        // stops at the dispatch, as the action itself sends a status header
+        Piwik::addAction('Controller.Login.ajaxNoAccess', function () {
+            throw new \RuntimeException('ajaxNoAccess dispatched');
         });
 
-        $this->assertSame(1, $this->dispatchCount);
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('ajaxNoAccess dispatched');
+
+        $this->withSessionClosedEarly(function () {
+            $this->getLoginPlugin()->noAccess(new NoAccessException('initial no access'));
+        });
     }
 
     public function testDispatchDoesNotRecurseWhenTheUsedLoginIsBlocked()
