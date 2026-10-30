@@ -2359,8 +2359,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         let move = true;
 
         for (let i = 0; i < points.length; i++) {
-            // skip to the first non-null point and move to it.
-            if (null === points[i][0] && null === points[i][1]) {
+            // skip missing points and start a new line after them, so the gap shows
+            if (null === points[i][0] || null === points[i][1]) {
+                move = true;
                 continue;
             }
 
@@ -2396,8 +2397,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         move = true;
 
         for (let i = 0; i < points.length; i++) {
-            // skip to the first non-null point and move to it.
-            if (points[i][0] === null && points[i][1] === null) {
+            // skip missing points and start a new line after them, so the gap shows
+            if (points[i][0] === null || points[i][1] === null) {
+                move = true;
                 continue;
             }
 

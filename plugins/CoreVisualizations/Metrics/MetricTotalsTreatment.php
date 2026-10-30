@@ -44,15 +44,16 @@ class MetricTotalsTreatment
     /**
      * Metrics whose treatment cannot be derived from their metadata.
      *
-     * - `nb_uniq_visitors` and `nb_users` are plain numbers that the totals row sums, but a visitor
-     *   or user counted in several rows is only one visitor or user, so their total is not the sum
-     *   of the rows it covers.
+     * - `nb_uniq_visitors`, `nb_uniq_visitors_estimated` and `nb_users` are plain numbers that the
+     *   totals row sums, but a visitor or user counted in several rows is only one visitor or user,
+     *   so their total is not the sum of the rows it covers.
      * - `max_actions` is aggregated with `max` through a special case in
      *   {@link \Piwik\DataTable\Row::sumRow()} instead of through the aggregation operations, so the
      *   aggregation metadata cannot tell that it is not summed.
      */
     private const TREATMENT_OVERRIDES = [
         'nb_uniq_visitors' => self::TREATMENT_DERIVED,
+        'nb_uniq_visitors_estimated' => self::TREATMENT_DERIVED,
         'nb_users' => self::TREATMENT_DERIVED,
         'max_actions' => self::TREATMENT_DERIVED,
     ];

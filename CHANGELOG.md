@@ -9,6 +9,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
+### New config.ini.php settings
+* `[General] enable_unique_visitors_estimate_site_totals` (default `0`) stores an estimate of each website's total unique visitors for every period, including years and ranges, where the exact count is disabled by default. Roll-ups of several sites get no estimate yet.
+* `[General] unique_visitors_estimate_precision` (default `14`, from `4` to `18`) sets the accuracy of that estimate.
+
+### HTTP API
+* `VisitsSummary.get` returns a new `nb_uniq_visitors_estimated` column when `[General] enable_unique_visitors_estimate_site_totals` is on.
+* `VisitFrequency.get` and `AIAgents.get` return the same estimate per visitor type, as `nb_uniq_visitors_estimated_new`, `_returning`, `_ai_agent` and `_human`. They can be picked in those reports' evolution graphs, but have no sparkline.
+
 ### Other changes
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
