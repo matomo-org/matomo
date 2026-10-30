@@ -197,13 +197,11 @@ describe("UserSettings", function () {
         await page.type('#passwordBis', superUserPassword);
         await page.type('#passwordConfirmation', superUserPassword);
         await page.click('#userSettingsTable .btn');
-        // Saving submits the form and navigates to the "already using this password" error page; wait for
-        // that navigation before capturing, otherwise the form (pre-navigation) is screenshotted instead.
-        await page.waitForNetworkIdle();
-        // tolerate minor rendering variance (~0.07%) between runs on the new headless Chrome
-        expect(await page.screenshot({ fullPage: true })).to.matchImage({
-            imageName: 'password_reuse',
-            comparisonThreshold: 0.002,
-        });
+        // saving submits the form, which redirects back to the security page with an error notification
+        await page.waitForSelector('.notification-error', { visible: true });
+
+        expect(page.url()).to.contain('action=userSecurity');
+        const notificationText = await page.evaluate(() => $('.notification-error').text());
+        expect(notificationText).to.contain('already using this password');
     });
 });
