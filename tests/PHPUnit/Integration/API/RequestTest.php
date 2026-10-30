@@ -16,6 +16,7 @@ use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -267,8 +268,9 @@ class RequestTest extends IntegrationTestCase
 
     public function testCheckTokenAuthIsNotLimitedDoesNotAllowSuperUserTokenAuthIfCurrentlyInUiRequest()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(NoPrivilegesException::class);
         $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+        $this->expectExceptionCode(403);
 
         Common::$isCliMode = false;
         $this->access->setSuperUserAccess(true);
@@ -280,8 +282,9 @@ class RequestTest extends IntegrationTestCase
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
 
-        $this->expectException(\Exception::class);
+        $this->expectException(NoPrivilegesException::class);
         $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+        $this->expectExceptionCode(403);
 
         Common::$isCliMode = false;
         $this->access->setSuperUserAccess(true);
@@ -293,8 +296,9 @@ class RequestTest extends IntegrationTestCase
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
 
-        $this->expectException(\Exception::class);
+        $this->expectException(NoPrivilegesException::class);
         $this->expectExceptionMessage('Widgetize_ViewAccessRequired');
+        $this->expectExceptionCode(403);
 
         $this->idSitesAccess['view'] = [];
         $this->idSitesAccess['write'] = [1];
@@ -312,8 +316,9 @@ class RequestTest extends IntegrationTestCase
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
 
-        $this->expectException(\Exception::class);
+        $this->expectException(NoPrivilegesException::class);
         $this->expectExceptionMessage('Widgetize_ViewAccessRequired');
+        $this->expectExceptionCode(403);
 
         $this->idSitesAccess['view'] = [];
         $this->idSitesAccess['admin'] = [1];
@@ -398,8 +403,9 @@ class RequestTest extends IntegrationTestCase
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
         $this->setAllowedModuleActions(['someplugin.someMethod']);
 
-        $this->expectException(\Exception::class);
+        $this->expectException(NoPrivilegesException::class);
         $this->expectExceptionMessage('Widgetize_ViewAccessRequired');
+        $this->expectExceptionCode(403);
 
         $this->idSitesAccess['view'] = [];
         $this->idSitesAccess['write'] = [1];
@@ -439,8 +445,9 @@ class RequestTest extends IntegrationTestCase
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
         $this->setAllowedModuleActions(['SomePlugin.someMethod']);
 
-        $this->expectException(\Exception::class);
+        $this->expectException(NoPrivilegesException::class);
         $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+        $this->expectExceptionCode(403);
 
         Common::$isCliMode = false;
         $this->access->setSuperUserAccess(true);
