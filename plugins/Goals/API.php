@@ -402,7 +402,7 @@ class API extends \Piwik\Plugin\API
         bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
         bool $useEventValueAsRevenue = false
-    ): int {
+    ) {
         Piwik::checkUserHasWriteAccess($idSite);
 
         $patternType = Common::unsanitizeInputValue($patternType);
