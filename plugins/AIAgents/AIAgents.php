@@ -43,7 +43,9 @@ class AIAgents extends Plugin
         $translations['nb_actions_per_visit_ai_agent'] = 'AIAgents_ColumnAIAgentAvgActionsPerVisit';
         $translations['nb_actions_per_visit_human']    = 'AIAgents_ColumnHumanAvgActionsPerVisit';
         $translations['nb_uniq_visitors_ai_agent']     = 'AIAgents_ColumnAIAgentUniqueVisitors';
+        $translations['nb_uniq_visitors_estimated_ai_agent'] = 'AIAgents_ColumnAIAgentUniqueVisitorsEstimated';
         $translations['nb_uniq_visitors_human']        = 'AIAgents_ColumnHumanUniqueVisitors';
+        $translations['nb_uniq_visitors_estimated_human'] = 'AIAgents_ColumnHumanUniqueVisitorsEstimated';
         $translations['nb_users_ai_agent']             = 'AIAgents_ColumnAIAgentUsers';
         $translations['nb_users_human']                = 'AIAgents_ColumnHumanUsers';
         $translations['nb_visits_ai_agent']            = 'AIAgents_ColumnAIAgentVisits';
@@ -63,6 +65,8 @@ class AIAgents extends Plugin
         $types['nb_uniq_human']              = Dimension::TYPE_NUMBER;
         $types['nb_uniq_visitors_ai_agent']  = Dimension::TYPE_NUMBER;
         $types['nb_uniq_visitors_human']     = Dimension::TYPE_NUMBER;
+        $types['nb_uniq_visitors_estimated_ai_agent'] = Dimension::TYPE_NUMBER;
+        $types['nb_uniq_visitors_estimated_human'] = Dimension::TYPE_NUMBER;
         $types['nb_users_ai_agent']          = Dimension::TYPE_NUMBER;
         $types['nb_users_human']             = Dimension::TYPE_NUMBER;
         $types['nb_visits_ai_agent']         = Dimension::TYPE_NUMBER;
