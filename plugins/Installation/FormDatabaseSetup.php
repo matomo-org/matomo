@@ -114,6 +114,37 @@ class FormDatabaseSetup extends QuickForm2
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array($defaults));
     }
 
+    /**
+     * Returns the database SSL settings given through the environment, so Matomo can be installed onto a database
+     * that requires an encrypted connection. Each setting of the [database] section in global.ini.php is read from
+     * MATOMO_DATABASE_<NAME> or DATABASE_<NAME>, e.g. MATOMO_DATABASE_ENABLE_SSL and MATOMO_DATABASE_SSL_CA, like the
+     * other database settings of this form. Without MATOMO_DATABASE_ENABLE_SSL, SSL stays off.
+     *
+     * @internal
+     * @return array The SSL settings to merge into the database connection info.
+     */
+    public function getSslSettingsFromEnvironment(): array
+    {
+        $settings = ['enable_ssl' => filter_var($this->getEnvironmentSetting('enable_ssl'), FILTER_VALIDATE_BOOLEAN)];
+        if (!$settings['enable_ssl']) {
+            return $settings;
+        }
+
+        foreach (['ssl_ca', 'ssl_cert', 'ssl_key', 'ssl_ca_path', 'ssl_cipher'] as $name) {
+            $value = $this->getEnvironmentSetting($name);
+            if (null !== $value && '' !== $value) {
+                $settings[$name] = $value;
+            }
+        }
+
+        $noVerify = $this->getEnvironmentSetting('ssl_no_verify');
+        if (null !== $noVerify && '' !== $noVerify) {
+            $settings['ssl_no_verify'] = filter_var($noVerify, FILTER_VALIDATE_BOOLEAN);
+        }
+
+        return $settings;
+    }
+
     private function getEnvironmentSetting(string $name): ?string
     {
         $envName = 'DATABASE_' . strtoupper($name); // fyi getenv is case insensitive
@@ -163,8 +194,7 @@ class FormDatabaseSetup extends QuickForm2
             'port'          => Db\Schema::getDefaultPortForSchema($schema),
             'schema'        => $schema,
             'type'          => 'InnoDB',
-            'enable_ssl'    => false
-        );
+        ) + $this->getSslSettingsFromEnvironment();
 
         $extractedHostAndPort = HostPortExtractor::extract($dbInfos['host']);
         if (!is_null($extractedHostAndPort)) {
