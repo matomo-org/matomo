@@ -1129,12 +1129,6 @@ parameters:
 			path: core/Plugin/Visualization.php
 
 		-
-			message: '#^Ternary operator condition is always true\.$#'
-			identifier: ternary.alwaysTrue
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
@@ -2611,12 +2605,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Cloud.php
 
 		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Graph.php
-
-		-
 			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable\\Map will always evaluate to false\.$#'
 			identifier: instanceof.alwaysFalse
 			count: 1
@@ -2632,12 +2620,6 @@ parameters:
 			message: '#^Call to Piwik\\Plugin\\Visualization\:\:beforeGenericFiltersAreAppliedToLoadedDataTable\(\) on a separate line has no effect\.$#'
 			identifier: staticMethod.resultUnused
 			count: 1
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
-
-		-
-			message: '#^Property Piwik\\Plugin\\Visualization\:\:\$report \(Piwik\\Plugin\\Report\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 2
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
 
 		-
