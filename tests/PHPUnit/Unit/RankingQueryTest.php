@@ -9,7 +9,6 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\Db\Schema;
 use Piwik\RankingQuery;
 
 /**
@@ -18,12 +17,6 @@ use Piwik\RankingQuery;
  */
 class RankingQueryTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown(): void
-    {
-        Schema::unsetInstance();
-        parent::tearDown();
-    }
-
     /**
      * @dataProvider getBasicTestData
      * @dataProvider getBasicTestDataWithRollup
@@ -31,14 +24,11 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
      * @dataProvider getPartitionResultTestData
      */
     public function testRankingQuery(
-        Schema $mockSchema,
         RankingQuery $rankingQuery,
         string $innerQuery,
         bool $withRollup,
         string $expectedQuery
     ): void {
-        Schema::setSingletonInstance($mockSchema);
-
         $query = $rankingQuery->generateRankingQuery($innerQuery, $withRollup);
 
         $queryNoWhitespace = preg_replace("/\s+/", "", $query);
@@ -70,62 +60,16 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
             FROM (
                 SELECT
                     `label`,
-                    CASE
-                        WHEN @counter = 11 THEN 11
-                        ELSE @counter := @counter + 1
-                    END AS counter,
+                    LEAST(ROW_NUMBER() OVER (ORDER BY `label`), 11) AS counter,
                     `column`,
                     `columnSum`
                 FROM
-                    ( SELECT @counter := 0 ) initCounter,
                     ( SELECT `label`, `column`, `columnSum` FROM `myTable` ) actualQuery
-                ) AS withCounter
+            ) AS withCounter
             GROUP BY counter
         ";
 
-        $mockSchema = $this->createMock(Schema::class);
-        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
-        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
-
-        yield 'basic - default' => [
-            $mockSchema,
-            $rankingQuery,
-            $innerQuery,
-            false,
-            $expectedQuery,
-        ];
-
-        $expectedQuery = "
-            SELECT
-                CASE
-                    WHEN counter = 11 THEN 'Others'
-                    ELSE `label`
-                END AS `label`,
-                `column`,
-                sum(`columnSum`) AS `columnSum`
-            FROM (
-                SELECT
-                    `label`,
-                    CASE
-                        WHEN @counter = 11 THEN 11
-                        ELSE @counter := @counter + 1
-                    END AS counter,
-                    `column`,
-                    `columnSum`
-                FROM
-                    ( SELECT @counter := 0 ) initCounter,
-                    ( SELECT `label`, `column`, `columnSum` FROM `myTable` LIMIT 18446744073709551615 ) actualQuery
-                ) AS withCounter
-            GROUP BY counter
-            ORDER BY counter
-        ";
-
-        $mockSchema = $this->createMock(Schema::class);
-        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
-        $mockSchema->method('supportsSortingInSubquery')->willReturn(false);
-
-        yield 'basic - sorting in subquery not supported' => [
-            $mockSchema,
+        yield 'basic' => [
             $rankingQuery,
             $innerQuery,
             false,
@@ -152,10 +96,6 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
             ORDER BY `column`
         ';
 
-        $mockSchema = $this->createMock(Schema::class);
-        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
-        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
-
         $expectedQuery = "
             SELECT
                 CASE
@@ -178,22 +118,38 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                     CASE
                         WHEN `label` IS NULL THEN -1
                         WHEN `url` IS NULL THEN -1
-                        WHEN @counter = 11 THEN 11 
-                        ELSE @counter := @counter + 1
+                        ELSE LEAST(
+                            ROW_NUMBER() OVER (
+                                ORDER BY
+                                    CASE
+                                        WHEN `label` IS NULL THEN 1
+                                        WHEN `url` IS NULL THEN 1
+                                        ELSE 0
+                                    END,
+                                    `column`
+                            ),
+                            11
+                        )
                     END AS counter,
                     CASE
                         WHEN `label` IS NULL AND `url` IS NULL THEN -1
-                        WHEN `label` IS NULL AND @counterRollup = 11 THEN 11
-                        WHEN `label` IS NULL THEN @counterRollup := @counterRollup + 1
-                        WHEN `url` IS NULL AND @counterRollup = 11 THEN 11
-                        WHEN `url` IS NULL THEN @counterRollup := @counterRollup + 1
-                        ELSE 0
+                        WHEN `label` IS NOT NULL AND `url` IS NOT NULL THEN 0
+                        ELSE LEAST(
+                            ROW_NUMBER() OVER (
+                                ORDER BY
+                                    CASE
+                                        WHEN `label` IS NULL AND `url` IS NULL THEN 1
+                                        WHEN `label` IS NULL OR `url` IS NULL THEN 0
+                                        ELSE 1
+                                    END,
+                                    `column`
+                            ),
+                            11
+                        )
                     END AS counterRollup,
                     `column`,
                     `columnSum`
                 FROM
-                    ( SELECT @counter := 0 ) initCounter,
-                    ( SELECT @counterRollup := 0 ) initCounterRollup,
                     (
                         SELECT * FROM (
                             SELECT `label`, `url`, `column`, `columnSum`
@@ -202,7 +158,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                         ) AS rollupQuery
                         ORDER BY `column`
                     ) actualQuery
-                ) AS withCounter
+            ) AS withCounter
             GROUP BY counter, counterRollup,
                 CASE
                     WHEN counterRollup = 11 THEN 'Others'
@@ -219,160 +175,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
             ORDER BY counter, counterRollup
         ";
 
-        yield 'basic with rollup - default' => [
-            $mockSchema,
-            $rankingQuery,
-            $innerQuery,
-            true,
-            $expectedQuery,
-        ];
-
-        $expectedQuery = "
-            SELECT
-                CASE
-                    WHEN counterRollup = 11 THEN 'Others'
-                    WHEN counterRollup > 0 THEN `label`
-                    WHEN counter = 11 AND counterRollup = 0 THEN `label`
-                    WHEN counter = 11 THEN 'Others'
-                    ELSE `label`
-                END AS `label`,
-                CASE
-                    WHEN `url` IS NULL THEN NULL
-                    WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
-                    ELSE `url`
-                END AS `url`,
-                `column`,
-                sum(`columnSum`) AS `columnSum`
-            FROM (
-                SELECT 
-                    `label`, `url`,
-                    CASE
-                        WHEN `label` IS NULL THEN -1
-                        WHEN `url` IS NULL THEN -1
-                        WHEN @counter = 11 THEN 11
-                        ELSE @counter := @counter + 1
-                    END AS counter,
-                    CASE
-                        WHEN `label` IS NULL AND `url` IS NULL THEN -1
-                        WHEN `label` IS NULL AND @counterRollup = 11 THEN 11
-                        WHEN `label` IS NULL THEN @counterRollup := @counterRollup + 1
-                        WHEN `url` IS NULL AND @counterRollup = 11 THEN 11
-                        WHEN `url` IS NULL THEN @counterRollup := @counterRollup + 1
-                        ELSE 0
-                    END AS counterRollup,
-                    `column`,
-                    `columnSum`
-                FROM
-                    ( SELECT @counter := 0 ) initCounter,
-                    ( SELECT @counterRollup := 0 ) initCounterRollup,
-                    (
-                        SELECT * FROM (
-                            SELECT `label`, `url`, `column`, `columnSum`
-                            FROM `myTable`
-                            GROUP BY `label`, `url` WITH ROLLUP
-                        ) AS rollupQuery
-                        ORDER BY `column`
-                        LIMIT 18446744073709551615
-                    ) actualQuery
-                ) AS withCounter
-            GROUP BY counter, counterRollup,
-                CASE
-                    WHEN counterRollup = 11 THEN 'Others'
-                    WHEN counterRollup > 0 THEN `label`
-                    WHEN counter = 11 AND counterRollup = 0 THEN `label`
-                    WHEN counter = 11 THEN 'Others'
-                    ELSE `label`
-                END,
-                CASE
-                    WHEN `url` IS NULL THEN NULL
-                    WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
-                    ELSE `url`
-                END
-            ORDER BY counter, counterRollup
-        ";
-
-        $mockSchema = $this->createMock(Schema::class);
-        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
-        $mockSchema->method('supportsSortingInSubquery')->willReturn(false);
-
-        yield 'basic with rollup - sorting in subquery not supported' => [
-            $mockSchema,
-            $rankingQuery,
-            $innerQuery,
-            true,
-            $expectedQuery,
-        ];
-
-        $expectedQuery = "
-            SELECT
-                CASE
-                    WHEN counterRollup = 11 THEN 'Others'
-                    WHEN counterRollup > 0 THEN `label`
-                    WHEN counter = 11 AND counterRollup = 0 THEN `label`
-                    WHEN counter = 11 THEN 'Others'
-                    ELSE `label`
-                END AS `label`,
-                CASE
-                    WHEN `url` IS NULL THEN NULL
-                    WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
-                    ELSE `url`
-                END AS `url`,
-                `column`,
-                sum(`columnSum`) AS `columnSum`
-            FROM (
-                SELECT
-                    `label`, `url`,
-                    CASE
-                        WHEN `label` IS NULL THEN -1
-                        WHEN `url` IS NULL THEN -1
-                        WHEN @counter = 11 THEN 11
-                        ELSE @counter := @counter + 1
-                    END AS counter,
-                    CASE
-                        WHEN `label` IS NULL AND `url` IS NULL THEN -1
-                        WHEN `label` IS NULL AND @counterRollup = 11 THEN 11
-                        WHEN `label` IS NULL THEN @counterRollup := @counterRollup + 1
-                        WHEN `url` IS NULL AND @counterRollup = 11 THEN 11
-                        WHEN `url` IS NULL THEN @counterRollup := @counterRollup + 1
-                        ELSE 0
-                    END AS counterRollup,
-                    `column`,
-                    `columnSum`
-                FROM
-                    ( SELECT @counter := 0 ) initCounter,
-                    ( SELECT @counterRollup := 0 ) initCounterRollup,
-                    (
-                        SELECT * FROM (
-                            SELECT `label`, `url`, `column`, `columnSum`
-                            FROM `myTable`
-                            GROUP BY `label`, `url` WITH ROLLUP
-                        ) AS rollupQuery
-                        ORDER BY `column`
-                    ) actualQuery
-                    ORDER BY `label` IS NULL, `url` IS NULL, `column`
-                ) AS withCounter
-            GROUP BY counter, counterRollup,
-                CASE
-                    WHEN counterRollup = 11 THEN 'Others'
-                    WHEN counterRollup > 0 THEN `label`
-                    WHEN counter = 11 AND counterRollup = 0 THEN `label`
-                    WHEN counter = 11 THEN 'Others'
-                    ELSE `label`
-                END,
-                CASE
-                    WHEN `url` IS NULL THEN NULL
-                    WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
-                    ELSE `url`
-                END
-            ORDER BY counter, counterRollup
-        ";
-
-        $mockSchema = $this->createMock(Schema::class);
-        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(false);
-        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
-
-        yield 'basic with rollup - ranking query without extra sorting not supported' => [
-            $mockSchema,
+        yield 'basic with rollup' => [
             $rankingQuery,
             $innerQuery,
             true,
@@ -382,7 +185,6 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
 
     public function getExcludeRowsTestData(): iterable
     {
-
         $rankingQuery = new RankingQuery(20);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn('label');
@@ -402,23 +204,26 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                     `label`,
                     CASE
                         WHEN exclude_marker != 0 THEN -1 * exclude_marker
-                        WHEN @counter = 21 THEN 21
-                        ELSE @counter := @counter + 1
+                        ELSE LEAST(
+                            ROW_NUMBER() OVER (
+                                ORDER BY
+                                    CASE
+                                        WHEN exclude_marker != 0 THEN 1 * exclude_marker
+                                        ELSE 0
+                                    END,
+                                    `label`
+                            ),
+                            21
+                        )
                     END AS counter,
                     `exclude_marker`
                 FROM
-                    ( SELECT @counter := 0 ) initCounter,
                     ( SELECT `label`, 1 AS exclude_marker FROM myTable ) actualQuery
                 ) AS withCounter
             GROUP BY counter
         ";
 
-        $mockSchema = $this->createMock(Schema::class);
-        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
-        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
-
         yield 'exclude rows' => [
-            $mockSchema,
             $rankingQuery,
             $innerQuery,
             false,
@@ -430,12 +235,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $rankingQuery->addLabelColumn('label');
         $rankingQuery->setColumnToMarkExcludedRows('exclude_marker');
 
-        $mockSchema = $this->createMock(Schema::class);
-        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
-        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
-
         yield 'exclude rows - string limit' => [
-            $mockSchema,
             $rankingQuery,
             $innerQuery,
             false,
@@ -463,34 +263,336 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                 SELECT
                     `label`,
                     CASE
-                        WHEN `partition` = 1 AND @counter1 = 1001 THEN 1001
-                        WHEN `partition` = 1 THEN @counter1 := @counter1 + 1
-                        WHEN `partition` = 2 AND @counter2 = 1001 THEN 1001
-                        WHEN `partition` = 2 THEN @counter2 := @counter2 + 1
-                        WHEN `partition` = 3 AND @counter3 = 1001 THEN 1001
-                        WHEN `partition` = 3 THEN @counter3 := @counter3 + 1
-                        ELSE 0
+                        WHEN `partition` IS NULL OR `partition` NOT IN (1, 2, 3) THEN 0
+                        ELSE LEAST(ROW_NUMBER() OVER (PARTITION BY `partition` ORDER BY `label`), 1001)
                     END AS counter,
                     `partition`
                 FROM
-                    ( SELECT @counter1 := 0 ) initCounter1,
-                    ( SELECT @counter2 := 0 ) initCounter2,
-                    ( SELECT @counter3 := 0 ) initCounter3,
                     ( SELECT `label`, `partition` FROM `myTable` ) actualQuery
                 ) AS withCounter
             GROUP BY counter, `partition`
         ";
 
-        $mockSchema = $this->createMock(Schema::class);
-        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
-        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
-
         yield 'partition result' => [
-            $mockSchema,
             $rankingQuery,
             $innerQuery,
             false,
             $expectedQuery,
+        ];
+    }
+
+    public function testPartitionWithoutPossibleValuesRanksNoRow(): void
+    {
+        $rankingQuery = new RankingQuery(1000);
+        $rankingQuery->addLabelColumn('label');
+        $rankingQuery->partitionResultIntoMultipleGroups('partition', []);
+
+        $query = preg_replace('/\s+/', ' ', $rankingQuery->generateRankingQuery('SELECT `label`, `partition` FROM `myTable`'));
+
+        $this->assertStringNotContainsString('NOT IN', $query);
+        $this->assertStringContainsString('CASE WHEN 1 = 1 THEN 0 ELSE LEAST(ROW_NUMBER()', $query);
+    }
+
+    /**
+     * @dataProvider getLimitTestData
+     */
+    public function testLimitSetsTheCounterCap(int $limit, int $expectedCap): void
+    {
+        $rankingQuery = new RankingQuery($limit);
+        $rankingQuery->addLabelColumn('label');
+
+        $query = preg_replace('/\s+/', ' ', $rankingQuery->generateRankingQuery('SELECT `label` FROM `myTable`'));
+
+        $this->assertStringContainsString('ORDER BY `label`), ' . $expectedCap . ') AS counter', $query);
+        $this->assertStringContainsString('WHEN counter = ' . $expectedCap . ' THEN', $query);
+    }
+
+    public function getLimitTestData(): iterable
+    {
+        yield 'positive limit' => [10, 11];
+        yield 'limit 0 groups every row into "Others"' => [0, 1];
+        yield 'limit -1 groups every row into "Others"' => [-1, 0];
+        yield 'limit below -1 ranks every row' => [-2, PHP_INT_MAX];
+    }
+
+    public function testLimitIsCappedAtTheLargestInteger(): void
+    {
+        $rankingQuery = new RankingQuery(PHP_INT_MAX);
+        $rankingQuery->addLabelColumn('label');
+
+        $query = $rankingQuery->generateRankingQuery('SELECT `label` FROM `myTable`');
+
+        $this->assertStringContainsString('WHEN counter = ' . PHP_INT_MAX . ' THEN', $query);
+    }
+
+    /**
+     * @dataProvider getGenerateWindowOrderByStringTestData
+     */
+    public function testGenerateWindowOrderByString(
+        RankingQuery $rankingQuery,
+        string $innerQuery,
+        bool $withRollup,
+        string $expectedOrderBy
+    ): void {
+        $query = $rankingQuery->generateRankingQuery($innerQuery, $withRollup);
+
+        $queryNoWhitespace = preg_replace("/\s+/", "", $query);
+        $expectedNoWhitespace = preg_replace("/\s+/", "", $expectedOrderBy);
+
+        // the window ORDER BY ends the ROW_NUMBER() window of the counter (limit 1 + "Others")
+        $this->assertMatchesRegularExpression(
+            '/(?:OVER\(ORDERBY|END,)' . preg_quote($expectedNoWhitespace, '/') . '\),2\)/',
+            $queryNoWhitespace,
+            'Unexpected query: ' . $query
+        );
+    }
+
+    public function getGenerateWindowOrderByStringTestData(): iterable
+    {
+        $rankingQuery = new RankingQuery(1);
+        $rankingQuery->addLabelColumn('label_1');
+        $rankingQuery->addLabelColumn('label_2');
+
+        $labelColumnsString = '`label_1`, `label_2`';
+
+        yield 'SELECT extraction fails' => [
+            $rankingQuery,
+            'SET @counter = 1',
+            false,
+            $labelColumnsString,
+        ];
+
+        yield 'SELECT extraction fails - with rollup' => [
+            $rankingQuery,
+            'SELECT * FROM (SET @counter = 1)',
+            true,
+            $labelColumnsString,
+        ];
+
+        yield 'window matches ORDER BY' => [
+            $rankingQuery,
+            'SELECT column_one, column_two FROM my_table GROUP BY column_two ORDER BY column_one ASC',
+            false,
+            'column_one ASC',
+        ];
+
+        yield 'window matches ORDER BY - rollup' => [
+            $rankingQuery,
+            '
+                SELECT *
+                FROM (
+                    SELECT column_one, column_two
+                    FROM my_table
+                    GROUP BY column_two WITH ROLLUP
+                ) AS rollupQuery
+                ORDER BY column_one ASC
+            ',
+            true,
+            'column_one ASC',
+        ];
+
+        yield 'window matches ORDER BY - wrapped query' => [
+            $rankingQuery,
+            '
+                SELECT *
+                FROM (
+                    SELECT column_one, COUNT(*) AS hits
+                    FROM my_table
+                    GROUP BY column_one
+                ) AS wrappedQuery
+                ORDER BY wrappedQuery.hits DESC
+            ',
+            false,
+            '`hits` DESC',
+        ];
+
+        yield 'window ignores expressions - wrapped query' => [
+            $rankingQuery,
+            'SELECT * FROM (SELECT column_one FROM my_table) AS wrappedQuery ORDER BY count(*) DESC',
+            false,
+            '`label_1`, `label_2`',
+        ];
+
+        yield 'window matches GROUP BY' => [
+            $rankingQuery,
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'window matches GROUP BY - rollup' => [
+            $rankingQuery,
+            '
+                SELECT *
+                FROM (
+                    SELECT column_one, column_two
+                    FROM my_table
+                    GROUP BY column_one WITH ROLLUP
+                ) AS rollupQuery
+            ',
+            true,
+            'column_one',
+        ];
+
+        yield 'unselected column is removed' => [
+            $rankingQuery,
+            'SELECT column_one FROM my_table ORDER BY column_one, column_two',
+            false,
+            'column_one',
+        ];
+
+        yield 'column only matching the end of a selected column is removed' => [
+            $rankingQuery,
+            'SELECT column_one, date_created FROM my_table ORDER BY column_one, created DESC',
+            false,
+            'column_one',
+        ];
+
+        yield 'unselected function call is removed' => [
+            $rankingQuery,
+            'SELECT column_one FROM my_table GROUP BY column_one ORDER BY count(*) DESC, column_one',
+            false,
+            'column_one',
+        ];
+
+        yield 'ordering stops at the first unusable column' => [
+            $rankingQuery,
+            'SELECT column_one, column_two FROM my_table ORDER BY column_one, count(*) DESC, column_two',
+            false,
+            'column_one',
+        ];
+
+        yield 'function arguments are not split' => [
+            $rankingQuery,
+            'SELECT column_one, IF(a, b, c) AS score FROM my_table GROUP BY column_one ORDER BY IF(a, b, c) DESC',
+            false,
+            'column_one',
+        ];
+
+        yield 'function calls are resolved to their alias' => [
+            $rankingQuery,
+            'SELECT column_one, IF(a,b,c) AS score FROM my_table GROUP BY column_one ORDER BY IF(a,b,c) DESC',
+            false,
+            '`score` DESC',
+        ];
+
+        yield 'function calls with table names are resolved to their alias' => [
+            $rankingQuery,
+            'SELECT column_one, COUNT(my_table.id) AS hits FROM my_table GROUP BY column_one ORDER BY COUNT(my_table.id) DESC',
+            false,
+            '`hits` DESC',
+        ];
+
+        yield 'column aliases are resolved' => [
+            $rankingQuery,
+            'SELECT column_one AS column_new FROM my_table ORDER BY column_one',
+            false,
+            '`column_new`',
+        ];
+
+        yield 'column aliases are resolved - backtick quoted' => [
+            $rankingQuery,
+            'SELECT column_one AS `column_new` FROM my_table ORDER BY column_one',
+            false,
+            '`column_new`',
+        ];
+
+        yield 'column aliases are resolved - double quoted' => [
+            $rankingQuery,
+            'SELECT column_one AS "column_new" FROM my_table ORDER BY column_one',
+            false,
+            '`column_new`',
+        ];
+
+        yield 'column aliases are resolved - single quoted' => [
+            $rankingQuery,
+            "SELECT column_one AS 'column_new' FROM my_table ORDER BY column_one",
+            false,
+            '`column_new`',
+        ];
+
+        yield 'column aliases are only resolved for the whole column name' => [
+            $rankingQuery,
+            'SELECT custom_dimension_2 AS `custom_dimension_2`, count(*) AS `2` FROM my_table GROUP BY custom_dimension_2 ORDER BY `2` DESC',
+            false,
+            '`2` DESC',
+        ];
+
+        yield 'column only used as a function argument is removed' => [
+            $rankingQuery,
+            'SELECT COALESCE(log_action.name, log_action.url_prefix) AS label_1, COUNT(*) AS hits FROM log_action GROUP BY label_1 ORDER BY log_action.name',
+            false,
+            'label_1',
+        ];
+
+        yield 'column at the end of an aliased expression is not resolved to the alias' => [
+            $rankingQuery,
+            'SELECT column_one, column_two + column_three AS total FROM my_table ORDER BY column_three, column_one',
+            false,
+            $labelColumnsString,
+        ];
+
+        yield 'columns after DISTINCT and comments are found' => [
+            $rankingQuery,
+            'SELECT DISTINCT column_one, /* second */ column_two FROM my_table ORDER BY column_two, column_one',
+            false,
+            'column_two, column_one',
+        ];
+
+        yield 'FROM inside a function call' => [
+            $rankingQuery,
+            'SELECT EXTRACT(YEAR FROM created) AS year, COUNT(*) AS hits FROM my_table GROUP BY year ORDER BY hits DESC',
+            false,
+            'hits DESC',
+        ];
+
+        yield 'scalar subquery' => [
+            $rankingQuery,
+            'SELECT column_one, (SELECT COUNT(*) FROM other_table WHERE other_table.id = my_table.id) AS hits FROM my_table ORDER BY hits DESC',
+            false,
+            'hits DESC',
+        ];
+
+        yield 'common table expression' => [
+            $rankingQuery,
+            'WITH my_data AS (SELECT column_one, COUNT(*) AS hits FROM my_table GROUP BY column_one) SELECT column_one, hits FROM my_data ORDER BY hits DESC',
+            false,
+            'hits DESC',
+        ];
+
+        yield 'comment containing SELECT - rollup' => [
+            $rankingQuery,
+            '
+                /* select the top rows */
+                SELECT *
+                FROM (
+                    SELECT column_one, COUNT(*) AS hits
+                    FROM my_table
+                    GROUP BY column_one WITH ROLLUP
+                ) AS rollupQuery
+                ORDER BY hits DESC
+            ',
+            true,
+            'hits DESC',
+        ];
+
+        yield 'column aliases are resolved - rollup' => [
+            $rankingQuery,
+            '
+                SELECT *
+                FROM (
+                    SELECT column_one AS column_new
+                    FROM my_table
+                    GROUP BY column_two WITH ROLLUP
+                ) AS rollupQuery
+                ORDER BY column_new
+            ',
+            true,
+            'column_new',
         ];
     }
 }

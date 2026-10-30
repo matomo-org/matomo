@@ -172,11 +172,15 @@ interface SchemaInterface
     /**
      * Returns if the database engine can provide a rollup ranking query result
      * without needing additional sorting.
+     *
+     * @deprecated since 6.1.0, ranking queries no longer depend on it; will be removed in Matomo 7
      */
     public function supportsRankingRollupWithoutExtraSorting(): bool;
 
     /**
      * Returns if the database engine is able to use sorted subqueries
+     *
+     * @deprecated since 6.1.0, ranking queries no longer depend on it; will be removed in Matomo 7
      */
     public function supportsSortingInSubquery(): bool;
 

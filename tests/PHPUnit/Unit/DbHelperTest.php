@@ -337,6 +337,16 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
         $this->checkQueryExtraction($expectedSelect, $extractedSelect);
     }
 
+    public function testExtractSelectFromQueryWithStrippedTableNames(): void
+    {
+        $extractedSelect = DbHelper::extractSelectFromQuery(
+            'SELECT `my_table`.`column_one`, COUNT(my_table.column_two) AS hits FROM my_table',
+            true
+        );
+
+        $this->assertSame('`column_one`, COUNT(`column_two`) AS hits', $extractedSelect);
+    }
+
     public function getExtractSelectFromQueryTestData(): iterable
     {
         yield 'no clause' => [

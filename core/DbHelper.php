@@ -485,7 +485,7 @@ class DbHelper
      * is skipped, a FROM inside parentheses (subqueries, function arguments)
      * does not end the columns.
      */
-    public static function extractSelectFromQuery(string $sql): ?string
+    public static function extractSelectFromQuery(string $sql, bool $stripTableNames = false): ?string
     {
         $selectStart = self::findSelectColumnsStart($sql);
 
@@ -501,7 +501,15 @@ class DbHelper
 
         $select = trim(substr($sql, $selectStart, $selectEnd - $selectStart));
 
-        return '' === $select ? null : $select;
+        if ('' === $select) {
+            return null;
+        }
+
+        if ($stripTableNames) {
+            return self::stripTableNamesFromQueryClause($select);
+        } else {
+            return $select;
+        }
     }
 
     /**
