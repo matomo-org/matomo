@@ -470,9 +470,31 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         if ($request->getStringParameter('confirm', '') !== '') {
-            Nonce::checkNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+            $nonce = $request->getStringParameter('nonce', '');
+            $nonceError = Nonce::verifyNonceWithErrorMessage(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE, $nonce);
+
+            // as Nonce::checkNonce() does, so a request without a nonce cannot expire a form open in another tab
+            if ($nonce !== '') {
+                Nonce::discardNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+            }
+
             $settings = StaticContainer::get(UserScopedSettingsAccessManager::class);
             $wasOn = (bool) $settings->get('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, true);
+
+            if ($nonceError !== '') {
+                // a refresh or a second open tab resubmits a nonce the first confirm consumed, so answer someone who
+                // came from an email with the outcome rather than a security error; the token already authorised $login
+                if ($nonceError !== Piwik::translate('Login_InvalidNonceToken')) {
+                    $view->error = Piwik::translate('General_ExceptionSecurityCheckFailed');
+                } elseif (!$wasOn) {
+                    $view->success = true;
+                } else {
+                    $view->error = Piwik::translate('Marketplace_RequestTrialUnsubscribeExpired');
+                }
+
+                return $view->render();
+            }
+
             $settings->set('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
 
             if ($wasOn) {
