@@ -14,6 +14,7 @@ use Piwik\Archive\ArchiveQueryFactory;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataCollection;
 use Piwik\Archive\Parameters;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
@@ -950,7 +951,7 @@ class Archive implements ArchiveQuery
      */
     public static function getPluginForReport($report)
     {
-        if (in_array($report, Metrics::getVisitsMetricNames())) {
+        if (in_array($report, Metrics::getVisitsMetricNames()) || $report === PluginsArchiver::UNIQUE_VISITORS_ESTIMATE_METRIC) {
             // Core metrics are always processed in Core, for the requested date/period/segment
             $report = 'VisitsSummary_CoreMetrics';
         } elseif (str_starts_with($report, 'Goal_')) {

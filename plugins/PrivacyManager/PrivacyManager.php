@@ -910,7 +910,7 @@ class PrivacyManager extends Plugin
     {
         return ['nb_uniq_visitors', 'nb_visits', 'nb_users', 'nb_actions', 'max_actions',
                 'sum_visit_length', 'bounce_count', 'nb_visits_converted', 'nb_conversions',
-                'revenue', 'quantity', 'price', 'orders'];
+                'revenue', 'quantity', 'price', 'orders', 'nb_uniq_visitors_estimated'];
     }
 
     /**

@@ -42,7 +42,8 @@ class API extends \Piwik\Plugin\API
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
      * @param string|string[]|false $columns Specific metrics to include, or `false` to return the default set.
-     * @return DataTable|DataTable\Map VisitsSummary metrics for the requested period.
+     * @return DataTable|DataTable\Map VisitsSummary metrics for the requested period. Includes
+     *                                   `nb_uniq_visitors_estimated` when the unique visitors estimate is enabled.
      */
     public function get($idSite, string $period, string $date, $segment = false, $columns = false)
     {
@@ -55,7 +56,22 @@ class API extends \Piwik\Plugin\API
         $report = ReportsProvider::factory('VisitsSummary', 'get');
         $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $requestedColumns);
 
+        $hasEstimate = in_array('nb_uniq_visitors_estimated', $columns);
+        if ($hasEstimate && !in_array('nb_visits', $columns)) {
+            $columns[] = 'nb_visits';
+        }
+
         $dataTable = $archive->getDataTableFromNumeric($columns);
+
+        if ($hasEstimate) {
+            // a missing estimate reads as 0, which can't be right for a period with visits, so leave it out
+            $dataTable->filter(function (DataTable $table) {
+                $row = $table->getFirstRow();
+                if ($row && $row->getColumn('nb_visits') && !$row->getColumn('nb_uniq_visitors_estimated')) {
+                    $row->deleteColumn('nb_uniq_visitors_estimated');
+                }
+            });
+        }
 
         if (!empty($requestedColumns)) {
             $dataTable->queueFilter('ColumnDelete', [$columnsToRemove = [], $requestedColumns]);
@@ -80,7 +96,9 @@ class API extends \Piwik\Plugin\API
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             $columns = array_merge(['nb_uniq_visitors', 'nb_users'], $columns);
         }
-        $columns = array_values($columns);
+        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
+            $columns[] = 'nb_uniq_visitors_estimated';
+        }
         return $columns;
     }
 
