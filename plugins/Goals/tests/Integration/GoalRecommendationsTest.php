@@ -285,6 +285,15 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->assertSame(['Visited pricing page'], array_column($this->api->getGoals($this->idSite), 'name'));
     }
 
+    public function testAddRecommendedGoalsIgnoresNonScalarIds()
+    {
+        $this->saveScan([$this->makeRecommendation()]);
+
+        $result = $this->api->addRecommendedGoals($this->idSite, [['url:contact'], 'url:contact']);
+
+        $this->assertSame(['url:contact'], array_column($result['goals'], 'recommendationId'));
+    }
+
     public function testAddRecommendedGoalsRequiresWriteAccess()
     {
         $this->saveScan([$this->makeRecommendation()]);

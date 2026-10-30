@@ -297,7 +297,7 @@ class API extends \Piwik\Plugin\API
 
         $recommendationIds = array_map(function ($id): string {
             return Common::unsanitizeInputValue((string) $id);
-        }, $recommendationIds);
+        }, array_filter($recommendationIds, 'is_scalar'));
 
         $saved = $this->getRecommendationService()->getSavedRecommendations($idSite);
         $created = [];
