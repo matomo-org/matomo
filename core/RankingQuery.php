@@ -285,139 +285,22 @@ class RankingQuery
     {
         // +1 to include "Others"
         $limit = $this->limit + 1;
-        $counterExpression = $this->getCounterExpression($limit, $withRollup);
 
-        // generate select clauses for label columns
-        $labelColumnsString = '`' . implode('`, `', array_keys($this->labelColumns)) . '`';
+        $labelColumnsString = $this->generateLabelColumnsString();
+        $labelColumnsOthersSwitches = $this->generateLabelColumnsOthersSwitches($limit, $withRollup);
+        $additionalColumnsExpressions = $this->generateAdditionalColumnsExpressions();
+        $counterExpressions = $this->generateVariableCounterExpressions($limit, $withRollup);
+        $counterRollupExpressions = $this->generateVariableCounterRollupExpressions($limit, $withRollup);
 
-        $labelColumnsOthersSwitch = [];
-        $withRollupColumns = [];
-        $withRollupOthersGroupBy  = [];
-
-        foreach (array_keys($this->labelColumns) as $column) {
-            if ($withRollup) {
-                if ([] === $withRollupColumns) {
-                    // support "Others" row for first label column
-                    $rollupWhen = "
-                        WHEN counterRollup = $limit THEN '" . $this->othersLabelValue . "'
-                        WHEN counterRollup > 0 THEN `$column`
-                        WHEN counter = $limit AND counterRollup = 0 THEN `$column`
-                        WHEN counter = $limit THEN '" . $this->othersLabelValue . "'
-                    ";
-                } else {
-                    // support "Others" row for secondary label columns
-                    $rollupWhen = "
-                        WHEN `$column` IS NULL THEN NULL
-                        WHEN counter = $limit AND counterRollup = 0 THEN '" . $this->othersLabelValue . "'
-                    ";
-                }
-
-                $switch = "
-                    CASE
-                        $rollupWhen
-                        ELSE `$column`
-                    END
-                ";
-
-                $labelColumnsOthersSwitch[] = "$switch AS `$column`";
-                $withRollupColumns[]        = $column;
-                $withRollupOthersGroupBy[]  = $switch;
-            } else {
-                $labelColumnsOthersSwitch[] = "
-                    CASE
-                        WHEN counter = $limit THEN '" . $this->othersLabelValue . "'
-                        ELSE `$column`
-                    END AS `$column`
-                ";
-            }
-        }
-
-        $labelColumnsOthersSwitch = implode(', ', $labelColumnsOthersSwitch);
-
-        // generate select clauses for additional columns
-        $additionalColumnsString = '';
-        $additionalColumnsAggregatedString = '';
-        foreach ($this->additionalColumns as $additionalColumn => $aggregation) {
-            $additionalColumnsString .= ', `' . $additionalColumn . '`';
-            if ($aggregation !== false) {
-                $additionalColumnsAggregatedString .= ', ' . $aggregation . '(`' . $additionalColumn . '`) AS `' . $additionalColumn . '`';
-            } else {
-                $additionalColumnsAggregatedString .= ', `' . $additionalColumn . '`';
-            }
-        }
-
-        // initialize the counters
-        if ($this->partitionColumn !== false) {
-            $initCounter = '';
-            foreach ($this->partitionColumnValues as $value) {
-                $initCounter .= '( SELECT @counter' . intval($value) . ':=0 ) initCounter' . intval($value) . ', ';
-            }
-        } else {
-            $initCounter = '( SELECT @counter:=0 ) initCounter,';
-        }
-
-        $counterRollupExpression = '';
-
-        if ($withRollup) {
-            $initCounter .= ' ( SELECT @counterRollup:=0 ) initCounterRollup,';
-            $counterRollupWhen = '';
-
-            if (count($withRollupColumns) >= 2) {
-                $counterRollupWhen = "
-                    WHEN `" . implode('` IS NULL AND `', $withRollupColumns) . "` IS NULL THEN -1
-                ";
-            }
-
-            foreach ($withRollupColumns as $withRollupColumn) {
-                $counterRollupWhen .= "
-                    WHEN `$withRollupColumn` IS NULL AND @counterRollup = $limit THEN $limit
-                    WHEN `$withRollupColumn` IS NULL THEN @counterRollup := @counterRollup + 1
-                ";
-            }
-
-            $counterRollupExpression = "
-                , CASE
-                    $counterRollupWhen
-                    ELSE 0
-                END AS counterRollup
-            ";
-        }
-
-        if (!str_contains($innerQuery, ' LIMIT ') && !Schema::getInstance()->supportsSortingInSubquery()) {
-            // Setting a limit for the inner query forces the optimizer to use a temporary table, which uses the sorting
-            $innerQuery .= ' LIMIT 18446744073709551615';
-        }
-
-        // add a counter to the query
-        // we rely on the sorting of the inner query
-        $withCounter = "
-			SELECT
-				$labelColumnsString,
-				$counterExpression AS counter
-				$counterRollupExpression
-				$additionalColumnsString
-			FROM
-				$initCounter
-				( $innerQuery ) actualQuery
-		";
-
-        if ($withRollup && !Schema::getInstance()->supportsRankingRollupWithoutExtraSorting()) {
-            // MariaDB requires an additional sorting layer to return
-            // the counter/counterRollup values we expect
-            $rollupColumnSorts = [];
-
-            foreach ($withRollupColumns as $withRollupColumn) {
-                $rollupColumnSorts[] = "`$withRollupColumn` IS NULL";
-            }
-
-            $withCounter .= ' ORDER BY ' . implode(', ', $rollupColumnSorts);
-            $innerQueryOrderBy = DbHelper::extractOrderByFromQuery($innerQuery);
-
-            if (null !== $innerQueryOrderBy) {
-                // copy ORDER BY from inner query to rollup sorting
-                $withCounter .= ', ' . $innerQueryOrderBy;
-            }
-        }
+        $innerQuery = $this->prepareInnerQuery($innerQuery);
+        $withCounterQuery = $this->prepareWithCounterQuery(
+            $innerQuery,
+            $withRollup,
+            $labelColumnsString,
+            $counterExpressions,
+            $counterRollupExpressions,
+            $additionalColumnsExpressions
+        );
 
         // group by the counter - this groups "Others" because the counter stops at $limit
         $groupBy = 'counter';
@@ -425,36 +308,130 @@ class RankingQuery
         if ($withRollup) {
             // group rollups additionally by the rollup counter and the
             // full "Others" switch to ensure correct secondary level "Others" calculation
-            $groupBy .= ', counterRollup, ' . implode(', ', $withRollupOthersGroupBy);
+            $groupBy .= ', counterRollup, ' . implode(', ', $labelColumnsOthersSwitches);
         }
 
         if ($this->partitionColumn !== false) {
             $groupBy .= ', `' . $this->partitionColumn . '`';
         }
 
-        $groupOthers = "
-			SELECT
-				$labelColumnsOthersSwitch
-				$additionalColumnsAggregatedString
-			FROM ( $withCounter ) AS withCounter
-			GROUP BY $groupBy
-		";
+        $labelColumnsOthersSelects = [];
+
+        foreach ($labelColumnsOthersSwitches as $column => $switch) {
+            $labelColumnsOthersSelects[] = "$switch AS `$column`";
+        }
+
+        $rankingSelectString = implode(
+            ',
+            ',
+            array_filter([
+                implode(', ', $labelColumnsOthersSelects),
+                $additionalColumnsExpressions['additionalColumnsAggregated'],
+            ])
+        );
+
+        $rankingQuery = "
+            SELECT
+                $rankingSelectString
+            FROM ( $withCounterQuery ) AS withCounter
+            GROUP BY $groupBy
+        ";
 
         if ($withRollup) {
             // Sort the final result if a rollup was used
             // to ensure rollup values are returned first, and "Others" last
-            $groupOthers .= " ORDER BY counter, counterRollup";
+            $rankingQuery .= " ORDER BY counter, counterRollup";
         } elseif (!Schema::getInstance()->supportsSortingInSubquery()) {
             // When subqueries aren't sorted, we need to sort the result manually again
-            $groupOthers .= " ORDER BY counter";
+            $rankingQuery .= " ORDER BY counter";
         }
 
-        return $groupOthers;
+        return $rankingQuery;
     }
 
-    private function getCounterExpression($limit, bool $withRollup = false)
+    /**
+     * @return array{additionalColumns: string, additionalColumnsAggregated: string}
+     */
+    private function generateAdditionalColumnsExpressions(): array
     {
-        $whens = array();
+        $columnsString = '';
+        $columnsAggregatedString = '';
+
+        if ([] !== $this->additionalColumns) {
+            $columnsToAggregate = [];
+
+            foreach ($this->additionalColumns as $additionalColumn => $aggregation) {
+                if ($aggregation !== false) {
+                    $columnsToAggregate[] = $aggregation . '(`' . $additionalColumn . '`) AS `' . $additionalColumn . '`';
+                } else {
+                    $columnsToAggregate[] = '`' . $additionalColumn . '`';
+                }
+            }
+
+            $columnsString = '`' . implode('`, `', array_keys($this->additionalColumns)) . '`';
+            $columnsAggregatedString = implode(', ', $columnsToAggregate);
+        }
+
+        return [
+            'additionalColumns' => $columnsString,
+            'additionalColumnsAggregated' => $columnsAggregatedString,
+        ];
+    }
+
+    /**
+     * @return array<string, string> The switch expression (without alias) indexed by label column
+     */
+    private function generateLabelColumnsOthersSwitches(int $limit, bool $withRollup): array
+    {
+        $isFirstLabelColumn = true;
+        $switches = [];
+
+        foreach (array_keys($this->labelColumns) as $column) {
+            if ($withRollup && $isFirstLabelColumn) {
+                // support "Others" row for first label column
+                $whens = "
+                    WHEN counterRollup = $limit THEN '" . $this->othersLabelValue . "'
+                    WHEN counterRollup > 0 THEN `$column`
+                    WHEN counter = $limit AND counterRollup = 0 THEN `$column`
+                    WHEN counter = $limit THEN '" . $this->othersLabelValue . "'
+                ";
+            } elseif ($withRollup) {
+                // support "Others" row for secondary label columns
+                $whens = "
+                    WHEN `$column` IS NULL THEN NULL
+                    WHEN counter = $limit AND counterRollup = 0 THEN '" . $this->othersLabelValue . "'
+                ";
+            } else {
+                $whens = "
+                    WHEN counter = $limit THEN '" . $this->othersLabelValue . "'
+                ";
+            }
+
+            $switches[$column] = "
+                CASE
+                    $whens
+                    ELSE `$column`
+                END
+            ";
+
+            $isFirstLabelColumn = false;
+        }
+
+        return $switches;
+    }
+
+    private function generateLabelColumnsString(): string
+    {
+        return '`' . implode('`, `', array_keys($this->labelColumns)) . '`';
+    }
+
+    /**
+     * @return array{counter: string, init: string}
+     */
+    private function generateVariableCounterExpressions(int $limit, bool $withRollup): array
+    {
+        $inits = [];
+        $whens = [];
 
         if ($this->columnToMarkExcludedRows !== false) {
             // when a row has been specified that marks which records should be excluded
@@ -474,22 +451,144 @@ class RankingQuery
             // partition: one counter per possible value
             foreach ($this->partitionColumnValues as $value) {
                 $isValue = '`' . $this->partitionColumn . '` = ' . intval($value);
-                $counter = '@counter' . intval($value);
-                $whens[] = "WHEN $isValue AND $counter = $limit THEN $limit";
-                $whens[] = "WHEN $isValue THEN $counter:=$counter+1";
+                $partitionCounter = '@counter' . intval($value);
+
+                $whens[] = "WHEN $isValue AND $partitionCounter = $limit THEN $limit";
+                $whens[] = "WHEN $isValue THEN $partitionCounter := $partitionCounter + 1";
+                $inits[] = "( SELECT $partitionCounter := 0 ) initCounter" . intval($value);
             }
+
             $whens[] = "ELSE 0";
         } else {
             // no partitioning: add a single counter
             $whens[] = "WHEN @counter = $limit THEN $limit";
-            $whens[] = "ELSE @counter:=@counter+1";
+            $whens[] = "ELSE @counter := @counter + 1";
+
+            $inits[] = '( SELECT @counter := 0 ) initCounter';
         }
 
-        return "
-			CASE
-				" . implode("
-				", $whens) . "
-			END
-		";
+        $init = implode(', ', $inits);
+        $counter = "
+            CASE
+                " . implode("
+                ", $whens) . "
+            END AS counter
+        ";
+
+        return [
+            'init' => $init,
+            'counter' => $counter,
+        ];
+    }
+
+    /**
+     * @return array{counter: string, init: string}
+     */
+    private function generateVariableCounterRollupExpressions(int $limit, bool $withRollup): array
+    {
+        $counter = '';
+        $init = '';
+
+        if ($withRollup) {
+            $rollupColumns = array_keys($this->labelColumns);
+            $whens = [];
+
+            if (count($rollupColumns) >= 2) {
+                $whens[] = "WHEN `" . implode('` IS NULL AND `', $rollupColumns) . "` IS NULL THEN -1";
+            }
+
+            foreach ($rollupColumns as $withRollupColumn) {
+                $whens[] = "WHEN `$withRollupColumn` IS NULL AND @counterRollup = $limit THEN $limit";
+                $whens[] = "WHEN `$withRollupColumn` IS NULL THEN @counterRollup := @counterRollup + 1";
+            }
+
+            $init = '( SELECT @counterRollup := 0 ) initCounterRollup';
+            $counter = "
+                CASE
+                    " . implode("
+                    ", $whens) . "
+                    ELSE 0
+                END AS counterRollup
+            ";
+        }
+
+        return [
+            'init' => $init,
+            'counter' => $counter,
+        ];
+    }
+
+    private function prepareInnerQuery(string $query): string
+    {
+        if (!str_contains($query, ' LIMIT ') && !Schema::getInstance()->supportsSortingInSubquery()) {
+            // Setting a limit for the inner query forces the optimizer to use a temporary table, which uses the sorting
+            $query .= ' LIMIT 18446744073709551615';
+        }
+
+        return $query;
+    }
+
+    /**
+     * @param array{counter: string, init: string} $counterExpressions
+     * @param array{counter: string, init: string} $counterRollupExpressions
+     * @param array{additionalColumns: string, additionalColumnsAggregated: string} $additionalColumnsExpressions
+     */
+    private function prepareWithCounterQuery(
+        string $innerQuery,
+        bool $withRollup,
+        string $labelColumnsString,
+        array $counterExpressions,
+        array $counterRollupExpressions,
+        array $additionalColumnsExpressions
+    ): string {
+        $selectString = implode(
+            ',
+            ',
+            array_filter([
+                $labelColumnsString,
+                $counterExpressions['counter'],
+                $counterRollupExpressions['counter'],
+                $additionalColumnsExpressions['additionalColumns'],
+            ])
+        );
+
+        $fromString = implode(
+            ',
+            ',
+            array_filter([
+                $counterExpressions['init'],
+                $counterRollupExpressions['init'],
+                "( $innerQuery ) actualQuery",
+            ])
+        );
+
+        // add a counter to the query
+        // we rely on the sorting of the inner query
+        $query = "
+            SELECT
+                $selectString
+            FROM
+            $fromString
+        ";
+
+        if ($withRollup && !Schema::getInstance()->supportsRankingRollupWithoutExtraSorting()) {
+            // MariaDB requires an additional sorting layer to return
+            // the counter/counterRollup values we expect
+            $rollupColumnSorts = [];
+
+            foreach (array_keys($this->labelColumns) as $rollupColumn) {
+                $rollupColumnSorts[] = "`$rollupColumn` IS NULL";
+            }
+
+            $query .= ' ORDER BY ' . implode(', ', $rollupColumnSorts);
+            $innerQueryOrderBy = DbHelper::extractOrderByFromQuery($innerQuery, true);
+
+            if (null !== $innerQueryOrderBy) {
+                // copy ORDER BY from inner query to rollup sorting
+                $query .= ', ' . $innerQueryOrderBy;
+            }
+        }
+
+        return $query;
     }
 }
