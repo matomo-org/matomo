@@ -10,7 +10,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Db\Schema;
 
 /**
  * The ranking query class wraps an arbitrary SQL query with more SQL that limits
@@ -286,34 +285,20 @@ class RankingQuery
         // +1 to include "Others"
         $limit = $this->limit + 1;
 
-        $labelColumnsString = $this->generateLabelColumnsString();
         $labelColumnsOthersSwitches = $this->generateLabelColumnsOthersSwitches($limit, $withRollup);
         $additionalColumnsExpressions = $this->generateAdditionalColumnsExpressions();
-        $counterExpressions = $this->generateVariableCounterExpressions($limit, $withRollup);
-        $counterRollupExpressions = $this->generateVariableCounterRollupExpressions($limit, $withRollup);
+        $windowOrderBy = $this->generateWindowOrderByExpression($innerQuery, $withRollup);
 
-        $innerQuery = $this->prepareInnerQuery($innerQuery);
-        $withCounterQuery = $this->prepareWithCounterQuery(
-            $innerQuery,
-            $withRollup,
-            $labelColumnsString,
-            $counterExpressions,
-            $counterRollupExpressions,
-            $additionalColumnsExpressions
+        $withCounterSelectString = implode(
+            ',
+            ',
+            array_filter([
+                $this->generateLabelColumnsString(),
+                $this->generateCounterExpression($limit, $windowOrderBy, $withRollup),
+                $this->generateCounterRollupExpression($limit, $windowOrderBy, $withRollup),
+                $additionalColumnsExpressions['additionalColumns'],
+            ])
         );
-
-        // group by the counter - this groups "Others" because the counter stops at $limit
-        $groupBy = 'counter';
-
-        if ($withRollup) {
-            // group rollups additionally by the rollup counter and the
-            // full "Others" switch to ensure correct secondary level "Others" calculation
-            $groupBy .= ', counterRollup, ' . implode(', ', $labelColumnsOthersSwitches);
-        }
-
-        if ($this->partitionColumn !== false) {
-            $groupBy .= ', `' . $this->partitionColumn . '`';
-        }
 
         $labelColumnsOthersSelects = [];
 
@@ -330,20 +315,23 @@ class RankingQuery
             ])
         );
 
+        $groupByExpression = $this->generateGroupByExpression($withRollup, $labelColumnsOthersSwitches);
+
         $rankingQuery = "
             SELECT
                 $rankingSelectString
-            FROM ( $withCounterQuery ) AS withCounter
-            GROUP BY $groupBy
+            FROM (
+                SELECT
+                    $withCounterSelectString
+                FROM ( $innerQuery ) actualQuery
+            ) AS withCounter
+            GROUP BY $groupByExpression
         ";
 
         if ($withRollup) {
             // Sort the final result if a rollup was used
             // to ensure rollup values are returned first, and "Others" last
             $rankingQuery .= " ORDER BY counter, counterRollup";
-        } elseif (!Schema::getInstance()->supportsSortingInSubquery()) {
-            // When subqueries aren't sorted, we need to sort the result manually again
-            $rankingQuery .= " ORDER BY counter";
         }
 
         return $rankingQuery;
@@ -425,170 +413,200 @@ class RankingQuery
         return '`' . implode('`, `', array_keys($this->labelColumns)) . '`';
     }
 
-    /**
-     * @return array{counter: string, init: string}
-     */
-    private function generateVariableCounterExpressions(int $limit, bool $withRollup): array
+    private function generateCounterExpression(int $limit, string $windowOrderBy, bool $withRollup): string
     {
-        $inits = [];
-        $whens = [];
+        $partitionBy = '';
+
+        if ($this->partitionColumn !== false) {
+            $partitionBy = "PARTITION BY `{$this->partitionColumn}`";
+        }
+
+        $excludeWhens = [];
+        $orderByWhens = [];
 
         if ($this->columnToMarkExcludedRows !== false) {
-            // when a row has been specified that marks which records should be excluded
-            // from limiting, we don't give those rows the normal counter but -1 times the
-            // value they had before. this way, they have a separate number space (i.e. negative
-            // integers).
-            $whens[] = "WHEN {$this->columnToMarkExcludedRows} != 0 THEN -1 * {$this->columnToMarkExcludedRows}";
+            // rows excluded from the limit get a separate, negative number space
+            // and are ordered last so they don't take up any of the counted positions
+            $excludeWhens[] = "WHEN {$this->columnToMarkExcludedRows} != 0 THEN -1 * {$this->columnToMarkExcludedRows}";
+            $orderByWhens[] = "WHEN {$this->columnToMarkExcludedRows} != 0 THEN 1 * {$this->columnToMarkExcludedRows}";
         }
 
         if ($withRollup) {
             foreach (array_keys($this->labelColumns) as $column) {
-                $whens[] = "WHEN `$column` IS NULL THEN -1";
+                $excludeWhens[] = "WHEN `$column` IS NULL THEN -1";
+                $orderByWhens[] = "WHEN `$column` IS NULL THEN 1";
             }
         }
 
         if ($this->partitionColumn !== false) {
-            // partition: one counter per possible value
-            foreach ($this->partitionColumnValues as $value) {
-                $isValue = '`' . $this->partitionColumn . '` = ' . intval($value);
-                $partitionCounter = '@counter' . intval($value);
-
-                $whens[] = "WHEN $isValue AND $partitionCounter = $limit THEN $limit";
-                $whens[] = "WHEN $isValue THEN $partitionCounter := $partitionCounter + 1";
-                $inits[] = "( SELECT $partitionCounter := 0 ) initCounter" . intval($value);
-            }
-
-            $whens[] = "ELSE 0";
-        } else {
-            // no partitioning: add a single counter
-            $whens[] = "WHEN @counter = $limit THEN $limit";
-            $whens[] = "ELSE @counter := @counter + 1";
-
-            $inits[] = '( SELECT @counter := 0 ) initCounter';
+            // rows outside the possible partition values are not ranked
+            $possibleValues = implode(', ', array_map('intval', $this->partitionColumnValues));
+            $excludeWhens[] = "WHEN `{$this->partitionColumn}` NOT IN ($possibleValues) THEN 0";
         }
 
-        $init = implode(', ', $inits);
-        $counter = "
-            CASE
-                " . implode("
-                ", $whens) . "
-            END AS counter
-        ";
-
-        return [
-            'init' => $init,
-            'counter' => $counter,
-        ];
-    }
-
-    /**
-     * @return array{counter: string, init: string}
-     */
-    private function generateVariableCounterRollupExpressions(int $limit, bool $withRollup): array
-    {
-        $counter = '';
-        $init = '';
-
-        if ($withRollup) {
-            $rollupColumns = array_keys($this->labelColumns);
-            $whens = [];
-
-            if (count($rollupColumns) >= 2) {
-                $whens[] = "WHEN `" . implode('` IS NULL AND `', $rollupColumns) . "` IS NULL THEN -1";
-            }
-
-            foreach ($rollupColumns as $withRollupColumn) {
-                $whens[] = "WHEN `$withRollupColumn` IS NULL AND @counterRollup = $limit THEN $limit";
-                $whens[] = "WHEN `$withRollupColumn` IS NULL THEN @counterRollup := @counterRollup + 1";
-            }
-
-            $init = '( SELECT @counterRollup := 0 ) initCounterRollup';
-            $counter = "
+        if ([] === $orderByWhens) {
+            $orderBy = $windowOrderBy;
+        } else {
+            $orderBy = "
                 CASE
                     " . implode("
-                    ", $whens) . "
+                    ", $orderByWhens) . "
                     ELSE 0
-                END AS counterRollup
+                END,
+                $windowOrderBy
             ";
         }
 
-        return [
-            'init' => $init,
-            'counter' => $counter,
-        ];
-    }
+        // the counter stops at $limit to group all rows after the limit into "Others"
+        $rowNumber = "LEAST(ROW_NUMBER() OVER ($partitionBy ORDER BY $orderBy), $limit)";
 
-    private function prepareInnerQuery(string $query): string
-    {
-        if (!str_contains($query, ' LIMIT ') && !Schema::getInstance()->supportsSortingInSubquery()) {
-            // Setting a limit for the inner query forces the optimizer to use a temporary table, which uses the sorting
-            $query .= ' LIMIT 18446744073709551615';
+        if ([] === $excludeWhens) {
+            return "$rowNumber AS counter";
         }
 
-        return $query;
+        return "
+            CASE
+                " . implode("
+                ", $excludeWhens) . "
+                ELSE $rowNumber
+            END AS counter
+        ";
+    }
+
+    private function generateCounterRollupExpression(int $limit, string $windowOrderBy, bool $withRollup): string
+    {
+        if (!$withRollup) {
+            return '';
+        }
+
+        $rollupColumns = array_keys($this->labelColumns);
+
+        return "
+            CASE
+                WHEN `" . implode('` IS NULL AND `', $rollupColumns) . "` IS NULL THEN -1
+                WHEN `" . implode('` IS NOT NULL AND `', $rollupColumns) . "` IS NOT NULL THEN 0
+                ELSE LEAST(
+                    ROW_NUMBER() OVER (
+                        ORDER BY
+                            CASE
+                                WHEN `" . implode('` IS NULL AND `', $rollupColumns) . "` IS NULL THEN 1
+                                WHEN `" . implode('` IS NULL OR `', $rollupColumns) . "` IS NULL THEN 0
+                                ELSE 1
+                            END,
+                            $windowOrderBy
+                    ),
+                    $limit
+                )
+            END AS counterRollup
+        ";
     }
 
     /**
-     * @param array{counter: string, init: string} $counterExpressions
-     * @param array{counter: string, init: string} $counterRollupExpressions
-     * @param array{additionalColumns: string, additionalColumnsAggregated: string} $additionalColumnsExpressions
+     * @param array<string, string> $labelColumnsOthersSwitches
      */
-    private function prepareWithCounterQuery(
-        string $innerQuery,
-        bool $withRollup,
-        string $labelColumnsString,
-        array $counterExpressions,
-        array $counterRollupExpressions,
-        array $additionalColumnsExpressions
-    ): string {
-        $selectString = implode(
-            ',
-            ',
-            array_filter([
-                $labelColumnsString,
-                $counterExpressions['counter'],
-                $counterRollupExpressions['counter'],
-                $additionalColumnsExpressions['additionalColumns'],
-            ])
-        );
+    private function generateGroupByExpression(bool $withRollup, array $labelColumnsOthersSwitches): string
+    {
+        // group by the counter - this groups "Others" because the counter stops at $limit
+        $groupBy = 'counter';
 
-        $fromString = implode(
-            ',
-            ',
-            array_filter([
-                $counterExpressions['init'],
-                $counterRollupExpressions['init'],
-                "( $innerQuery ) actualQuery",
-            ])
-        );
+        if ($withRollup) {
+            // group rollups additionally by the rollup counter and the
+            // full "Others" switch to ensure correct secondary level "Others" calculation
+            $groupBy .= ', counterRollup, ' . implode(', ', $labelColumnsOthersSwitches);
+        }
 
-        // add a counter to the query
-        // we rely on the sorting of the inner query
-        $query = "
-            SELECT
-                $selectString
-            FROM
-            $fromString
-        ";
+        if ($this->partitionColumn !== false) {
+            $groupBy .= ', `' . $this->partitionColumn . '`';
+        }
 
-        if ($withRollup && !Schema::getInstance()->supportsRankingRollupWithoutExtraSorting()) {
-            // MariaDB requires an additional sorting layer to return
-            // the counter/counterRollup values we expect
-            $rollupColumnSorts = [];
+        return $groupBy;
+    }
 
-            foreach (array_keys($this->labelColumns) as $rollupColumn) {
-                $rollupColumnSorts[] = "`$rollupColumn` IS NULL";
+    private function generateWindowOrderByExpression(string $innerQuery, bool $withRollup): string
+    {
+        $selectColumns = DbHelper::extractSelectFromQuery($innerQuery);
+
+        if ($withRollup && '*' === $selectColumns) {
+            // special case for wrapped ROLLUP query
+            // we find the real columns one level deeper
+            $outerSelectPos = stripos($innerQuery, 'SELECT');
+            $innerSelectPos = stripos($innerQuery, 'SELECT', $outerSelectPos + strlen('SELECT'));
+            $realInnerQuery = substr($innerQuery, $innerSelectPos);
+            $selectColumns = DbHelper::extractSelectFromQuery($realInnerQuery);
+        }
+
+        if (null === $selectColumns || '*' === $selectColumns) {
+            // order by label columns if we can not find
+            // the named SELECT columns to order by
+            return $this->generateLabelColumnsString();
+        }
+
+        $columns = DbHelper::extractOrderByFromQuery($innerQuery, true);
+        $columns = $this->prepareColumnsForWindowOrderBy($columns, $selectColumns);
+
+        if (null === $columns) {
+            $columns = DbHelper::extractGroupByFromQuery($innerQuery, true);
+
+            if (null === $columns && $withRollup) {
+                // a rollup has the GROUP BY inside the wrapper
+                $outerSelectPos = stripos($innerQuery, 'SELECT');
+                $innerSelectPos = stripos($innerQuery, 'SELECT', $outerSelectPos + strlen('SELECT'));
+                $lastClosingParenthesis = strrpos($innerQuery, ')');
+
+                $realInnerQuery = substr($innerQuery, $innerSelectPos, $lastClosingParenthesis - $innerSelectPos);
+                $columns = DbHelper::extractGroupByFromQuery($realInnerQuery, true);
             }
 
-            $query .= ' ORDER BY ' . implode(', ', $rollupColumnSorts);
-            $innerQueryOrderBy = DbHelper::extractOrderByFromQuery($innerQuery, true);
+            $columns = $this->prepareColumnsForWindowOrderBy($columns, $selectColumns);
+        }
 
-            if (null !== $innerQueryOrderBy) {
-                // copy ORDER BY from inner query to rollup sorting
-                $query .= ', ' . $innerQueryOrderBy;
+        if (null === $columns) {
+            $columns = $this->generateLabelColumnsString();
+        }
+
+        return $columns;
+    }
+
+    private function prepareColumnsForWindowOrderBy(?string $expr, string $selectColumns): ?string
+    {
+        if (null === $expr) {
+            return null;
+        }
+
+        $exprColumns = explode(',', $expr);
+
+        foreach ($exprColumns as $i => &$exprColumn) {
+            $columnParts = explode(' ', trim($exprColumn));
+
+            if (count($columnParts) > 2) {
+                // the column contains more than just "column ASC"
+                // remove the column for safety, we don't know what we are really dealing with
+                unset($exprColumns[$i]);
+                continue;
+            }
+
+            $column = str_replace('`', '', trim($columnParts[0]));
+            $quotedColumn = preg_quote($column, '/');
+
+            if (preg_match('/`?' . $quotedColumn . '`? AS [`"\']?(\w+)[`"\']?(?:,|$)/is', $selectColumns, $matches)) {
+                // unalias the column to allow usage in window
+                $column = trim($matches[1]);
+                $quotedColumn = preg_quote($column, '/');
+                $columnParts[0] = '`' . $column . '`';
+                $exprColumn = implode(' ', $columnParts);
+            }
+
+            if (!preg_match('/[`"\']?' . $quotedColumn . '[`"\']?(?:,|$)/is', $selectColumns)) {
+                // the column was not found as "column," or "column<end of select>" in the SELECT part
+                // we remove it from the window because it otherwise break the query
+                unset($exprColumns[$i]);
             }
         }
 
-        return $query;
+        if ([] === $exprColumns) {
+            return null;
+        }
+
+        return implode(', ', array_map('trim', $exprColumns));
     }
 }
