@@ -19,6 +19,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Log\LoggerInterface;
 use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Option;
@@ -943,7 +944,20 @@ class Controller extends ControllerAdmin
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         Nonce::checkNonce(self::NONCE_CHANGE_PASSWORD);
 
-        $this->processPasswordChange($userLogin);
+        try {
+            $this->processPasswordChange($userLogin);
+        } catch (Exception $e) {
+            // mostly input mistakes, so show them on the form instead of an error page
+            StaticContainer::get(LoggerInterface::class)->debug('Password change failed: {exception}', [
+                'exception' => $e,
+            ]);
+
+            $notification = new Notification($e->getMessage());
+            $notification->context = Notification::CONTEXT_ERROR;
+            Notification\Manager::notify('errorpass', $notification);
+            $this->redirectToIndex('UsersManager', 'userSecurity');
+            return;
+        }
 
         $notification = new Notification(Piwik::translate('CoreAdminHome_SettingsSaveSuccess'));
         $notification->context = Notification::CONTEXT_SUCCESS;
