@@ -2569,12 +2569,6 @@ parameters:
 			path: plugins/CoreUpdater/Updater.php
 
 		-
-			message: '#^Parameter \#1 \$exception of class Piwik\\Plugins\\CoreUpdater\\UpdaterException constructor expects Exception, Throwable given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CoreUpdater/Updater.php
-
-		-
 			message: '#^Variable \$comparisonTable in empty\(\) always exists and is not falsy\.$#'
 			identifier: empty.variable
 			count: 1
