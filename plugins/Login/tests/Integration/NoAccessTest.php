@@ -17,6 +17,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\Login\Login;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\Login\SystemSettings;
+use Piwik\Session;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -48,7 +49,7 @@ class NoAccessTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        unset($_POST['form_login']);
+        unset($_POST['form_login'], $_SERVER['HTTP_X_REQUESTED_WITH']);
 
         parent::tearDown();
     }
@@ -89,6 +90,38 @@ class NoAccessTest extends IntegrationTestCase
         $this->assertSame(2, $this->dispatchCount);
     }
 
+    public function testNoAccessRethrowsWhenTheSessionWasClosedEarly()
+    {
+        $exception = new NoAccessException('initial no access');
+
+        $this->withSessionClosedEarly(function () use ($exception) {
+            try {
+                $this->getLoginPlugin()->noAccess($exception);
+                $this->fail('expected the NoAccessException to be rethrown');
+            } catch (NoAccessException $e) {
+                $this->assertSame($exception, $e);
+            }
+        });
+
+        $this->assertSame(0, $this->dispatchCount);
+    }
+
+    public function testNoAccessStillAnswersAjaxRequestsWhenTheSessionWasClosedEarly()
+    {
+        $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+        $this->withSessionClosedEarly(function () {
+            ob_start();
+            try {
+                $this->getLoginPlugin()->noAccess(new NoAccessException('initial no access'));
+            } finally {
+                ob_end_clean();
+            }
+        });
+
+        $this->assertSame(1, $this->dispatchCount);
+    }
+
     public function testDispatchDoesNotRecurseWhenTheUsedLoginIsBlocked()
     {
         $login = 'bruteforced';
@@ -117,6 +150,24 @@ class NoAccessTest extends IntegrationTestCase
         }
 
         $this->assertSame(2, $this->dispatchCount);
+    }
+
+    private function withSessionClosedEarly(callable $callback): void
+    {
+        $sessionStarted = new \ReflectionProperty(Session::class, 'sessionStarted');
+        $writable = new \ReflectionProperty(\Zend_Session_Abstract::class, '_writable');
+        $wasStarted = $sessionStarted->getValue();
+        $wasWritable = $writable->getValue();
+
+        $sessionStarted->setValue(null, true);
+        $writable->setValue(null, false);
+
+        try {
+            $callback();
+        } finally {
+            $sessionStarted->setValue(null, $wasStarted);
+            $writable->setValue(null, $wasWritable);
+        }
     }
 
     private function getLoginPlugin(): Login

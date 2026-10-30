@@ -322,6 +322,11 @@ class Login extends \Piwik\Plugin
                 return;
             }
 
+            if (Session::isSessionStarted() && !Session::isWritable()) {
+                // the session was closed early, so the login page couldn't store its nonce
+                throw $exception;
+            }
+
             $response = $frontController->dispatch(Piwik::getLoginPluginName(), 'login', [$exception->getMessage()]);
             echo is_string($response) ? $response : '';
         } finally {
