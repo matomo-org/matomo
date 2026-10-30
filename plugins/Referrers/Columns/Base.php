@@ -882,6 +882,22 @@ abstract class Base extends VisitDimension
         return Consent::hasVisitConsented($visitor);
     }
 
+    /**
+     * Whether the consent this request reports may relax what is recorded against the visit it is
+     * being written to.
+     *
+     * A request that reports consent can still land on a visit measured before any was given,
+     * without being able to start one of its own - a ping, which records no page. Its consent
+     * belongs to the visit that the next request able to start one will create, so it must not
+     * relax what is written to the earlier visit. A request that reports no consent is unaffected.
+     *
+     * @param Action|null $action
+     */
+    protected function mayRelaxForThisVisit(Request $request, Visitor $visitor, $action = null): bool
+    {
+        return !$request->hasConsent() || Consent::appliesToVisit($request, $visitor, $action);
+    }
+
     protected function isCurrentReferrerDirectEntry(Visitor $visitor)
     {
         $referrerType = $visitor->getImmutableVisitorColumn('referer_type');

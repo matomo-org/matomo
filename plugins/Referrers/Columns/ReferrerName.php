@@ -40,6 +40,10 @@ class ReferrerName extends Base
 
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
+        if (!$this->mayRelaxForThisVisit($request, $visitor, $action)) {
+            return false;
+        }
+
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
         // A campaign the policy discarded is a marker for "not collected", not a referrer the

@@ -51,6 +51,10 @@ class ReferrerUrl extends Base
 
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
+        if (!$this->mayRelaxForThisVisit($request, $visitor, $action)) {
+            return false;
+        }
+
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
         if (
             $this->isCurrentReferrerDirectEntry($visitor)

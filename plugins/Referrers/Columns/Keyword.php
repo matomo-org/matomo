@@ -39,6 +39,10 @@ class Keyword extends Base
 
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
+        if (!$this->mayRelaxForThisVisit($request, $visitor, $action)) {
+            return false;
+        }
+
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
         // See ReferrerName::onExistingVisit() - the keyword is discarded and completed alongside

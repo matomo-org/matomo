@@ -823,6 +823,37 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->assertSame('', (string) $this->fetchVisitColumn('consent', 1));
     }
 
+    /**
+     * The referrer can be detected part way through a visit that arrived as a direct entry, and
+     * that path writes to the existing visit rather than creating one. A consent ping cannot
+     * start a visit of its own, so the referrer it carries must not be written to the visit
+     * measured before consent either - in the clear or at all.
+     */
+    public function testAConsentingPingAfterNavigatingDoesNotPutAReferrerOnTheEarlierVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = null);
+
+        $this->assertSame(
+            Common::REFERRER_TYPE_DIRECT_ENTRY,
+            (int) $this->fetchVisitColumn('referer_type'),
+            'the visit should have arrived as a direct entry'
+        );
+
+        $this->ping('other', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits(), 'a ping cannot start a visit');
+        $this->assertSame(
+            Common::REFERRER_TYPE_DIRECT_ENTRY,
+            (int) $this->fetchVisitColumn('referer_type'),
+            'the ping gave the earlier visit a referrer'
+        );
+        $this->assertSame('', (string) $this->fetchVisitColumn('referer_name'));
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'));
+    }
+
     private function setForcedCookielessTracking(bool $enabled): void
     {
         $config = new PrivacyManagerConfig();
