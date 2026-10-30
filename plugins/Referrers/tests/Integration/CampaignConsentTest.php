@@ -24,6 +24,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics as ConsentAwareAnalyticsSetting;
 use Piwik\Tracker\Cache;
+use Piwik\Tracker\TrackerConfig;
 
 /**
  * Campaign parameters are discarded while a compliance policy withholds them, and recorded once
@@ -224,6 +225,34 @@ class CampaignConsentTest extends IntegrationTestCase
      * page view. The ping carries the same page URL, so the campaign can be completed from it
      * without recording an extra action.
      */
+    /**
+     * Time is the other half of the rule. Staying on the arrival page only continues the same
+     * visit while that visit is still open, and what decides that is Matomo's own visit length -
+     * so whatever an instance is configured to is respected, and this feature introduces no
+     * setting of its own to govern it.
+     */
+    public function testConsentOnTheArrivalPageStartsItsOwnVisitOnceTheVisitLengthHasPassed(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+
+        // the visitor leaves the page open and consents long after the visit has closed
+        $this->advanceBeyondTheVisitLength();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(2, $this->countVisits(), 'the earlier visit had closed, so consent starts its own');
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name'),
+            'the closed visit keeps the treatment it was measured under'
+        );
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'));
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name', 1));
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent', 1));
+    }
+
     public function testCampaignIsRecordedWhenConsentArrivesWithAPing(): void
     {
         $this->enforceCampaignMasking();
@@ -902,6 +931,16 @@ class CampaignConsentTest extends IntegrationTestCase
 
         $this->assertSame(1, $this->countVisits());
         $this->assertStringNotContainsString('q=running+shoes', (string) $this->fetchVisitColumn('referer_url'));
+    }
+
+    /**
+     * Past the visit length an instance is configured to, rather than a number of this test's own.
+     */
+    private function advanceBeyondTheVisitLength(): void
+    {
+        $visitLength = (int) TrackerConfig::getConfigValue('visit_standard_length');
+
+        $this->testDate = $this->testDate->addPeriod($visitLength + 60, 'second');
     }
 
     private function setForcedCookielessTracking(bool $enabled): void
