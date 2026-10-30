@@ -51,6 +51,17 @@ class Keyword extends Base
             return $information['referer_keyword'];
         }
 
+        // A search engine's keyword is cleared outright by the same anonymisation that shortens
+        // the referrer URL, with nothing left to say it was ever there. A campaign's is not - it
+        // is discarded and completed through the placeholder above - so this covers the rest.
+        if (
+            $information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN
+            && '' !== (string) $information['referer_keyword']
+            && $this->shouldCompleteWithheldReferrer($visitor, $information, $request)
+        ) {
+            return $information['referer_keyword'];
+        }
+
         if (
             $this->isCurrentReferrerDirectEntry($visitor)
             && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY

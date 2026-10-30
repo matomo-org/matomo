@@ -854,6 +854,56 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->assertSame('', (string) $this->fetchVisitColumn('consent'));
     }
 
+    /**
+     * The policy shortens the referrer URL and clears a search engine's keyword outright, leaving
+     * nothing to say either was ever there. Consent reaching the visit while the visitor is still
+     * on the page they arrived on completes them from the request, the same way a discarded
+     * campaign is completed, so the visit does not end up half relaxed.
+     */
+    public function testReferrerDetailIsCompletedWhenConsentArrivesOnTheArrivalPage(): void
+    {
+        $this->enforceCampaignMasking();
+        $this->setAdminReferrerAnonymisation(ReferrerAnonymizer::EXCLUDE_NONE);
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+
+        $this->assertSame('Ecosia', $this->fetchVisitColumn('referer_name'), 'the name is kept by this policy');
+        $this->assertSame('', (string) $this->fetchVisitColumn('referer_keyword'), 'the keyword should be withheld');
+        $this->assertStringNotContainsString(
+            'q=running+shoes',
+            (string) $this->fetchVisitColumn('referer_url'),
+            'the URL should be withheld'
+        );
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits(), 'consent on the arrival page must not start a second visit');
+        $this->assertSame('running shoes', $this->fetchVisitColumn('referer_keyword'));
+        $this->assertStringContainsString('q=running+shoes', (string) $this->fetchVisitColumn('referer_url'));
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent'));
+    }
+
+    /**
+     * The admin's own anonymisation is not relaxed by consent, so there is nothing to complete
+     * beyond what they configured for themselves.
+     */
+    public function testReferrerDetailIsNotCompletedBeyondTheAdminsOwnAnonymisation(): void
+    {
+        $this->enforceCampaignMasking();
+        $this->setAdminReferrerAnonymisation(ReferrerAnonymizer::EXCLUDE_PATH);
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits());
+        $this->assertStringNotContainsString('q=running+shoes', (string) $this->fetchVisitColumn('referer_url'));
+    }
+
     private function setForcedCookielessTracking(bool $enabled): void
     {
         $config = new PrivacyManagerConfig();

@@ -893,6 +893,25 @@ abstract class Base extends VisitDimension
      *
      * @param Action|null $action
      */
+    /**
+     * Whether referrer detail a compliance policy withheld may be re-recorded from this request.
+     *
+     * Anonymisation shortens or clears a value rather than replacing it, so unlike a discarded
+     * campaign there is no marker saying it was withheld. This goes instead by the visit not
+     * having consented until now, which is true only of the request folding consent into it -
+     * and the caller has already established, through mayRelaxForThisVisit(), that the visitor
+     * is still on the page they arrived on, which is why the request still carries the referrer.
+     *
+     * The referrer has to be the same kind the visit arrived with. Completing a different one
+     * would credit the visit to a referrer that did not bring the visitor to it.
+     */
+    protected function shouldCompleteWithheldReferrer(Visitor $visitor, array $information, Request $request): bool
+    {
+        return $request->hasConsent()
+            && !Consent::hasVisitConsented($visitor)
+            && $information['referer_type'] == $visitor->getImmutableVisitorColumn('referer_type');
+    }
+
     protected function mayRelaxForThisVisit(Request $request, Visitor $visitor, $action = null): bool
     {
         return !$request->hasConsent() || Consent::appliesToVisit($request, $visitor, $action);
