@@ -105,6 +105,10 @@ class Controller extends \Piwik\Plugin\Controller
             $selectableColumns = array_diff($selectableColumns, ['nb_uniq_visitors', 'nb_users']);
         }
 
+        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
+            $selectableColumns[] = 'nb_uniq_visitors_estimated';
+        }
+
         $displaySiteSearch = Site::isSiteSearchEnabledFor($this->idSite);
 
         if ($displaySiteSearch) {
