@@ -58,6 +58,9 @@ class Get extends \Piwik\Plugin\Report
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             $this->metrics = array_merge(['nb_uniq_visitors'], $this->metrics);
         }
+        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
+            $this->metrics[] = 'nb_uniq_visitors_estimated';
+        }
 
         $this->subcategoryId = 'General_Overview';
         // Used to process metrics, not displayed/used directly

@@ -380,6 +380,7 @@ class Metrics
             $types = [
                 'nb_visits'                     => Dimension::TYPE_NUMBER,
                 'nb_uniq_visitors'              => Dimension::TYPE_NUMBER,
+                'nb_uniq_visitors_estimated'    => Dimension::TYPE_NUMBER,
                 'nb_actions'                    => Dimension::TYPE_NUMBER,
                 'nb_users'                      => Dimension::TYPE_NUMBER,
                 'avg_time_on_page'              => Dimension::TYPE_DURATION_S,
@@ -475,6 +476,7 @@ class Metrics
             'entry_bounce_count'            => 'General_ColumnBounces',
             'exit_bounce_count'             => 'General_ColumnBounces',
             'exit_rate'                     => 'General_ColumnExitRate',
+            'nb_uniq_visitors_estimated'    => 'VisitsSummary_ColumnNbUniqVisitorsEstimated',
         );
 
         $dailySum = ' (' . Piwik::translate('General_DailySum') . ')';
@@ -622,6 +624,10 @@ class Metrics
             'exit_rate'            => 'General_ColumnExitRateDocumentation',
             'nb_visits_converted'  => 'General_VisitConvertedGoalDocumentation',
         );
+
+        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
+            $translations['nb_uniq_visitors_estimated'] = 'VisitsSummary_ColumnNbUniqVisitorsEstimatedDocumentation';
+        }
 
         /**
          * Use this event to register translations for metrics documentation processed by your plugin.

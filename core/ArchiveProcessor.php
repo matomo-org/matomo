@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\BlobTableAggregator;
+use Piwik\ArchiveProcessor\HyperLogLog;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
@@ -316,6 +317,45 @@ class ArchiveProcessor
 
         // returns the array of records once summed
         return $metrics;
+    }
+
+    /**
+     * Merges the unique visitors sketches of the subperiods this archive aggregates. Returns null when a
+     * subperiod with visits has no sketch (eg it was archived before the estimate was enabled), so the
+     * estimate is left out rather than undercounted.
+     *
+     * @internal
+     */
+    public function aggregateUniqueVisitorsSketch(string $recordName): ?HyperLogLog
+    {
+        // merge() lowers the precision when a stored sketch has a lower one
+        $merged = new HyperLogLog(SettingsPiwik::getUniqueVisitorsEstimatePrecision());
+        $sketchCount = 0;
+
+        foreach ($this->getArchive()->querySingleBlob($recordName) as $row) {
+            try {
+                $merged->merge(HyperLogLog::fromString($row['value']));
+            } catch (\InvalidArgumentException $e) {
+                // a damaged sketch counts as missing: no estimate rather than a wrong one
+                return null;
+            }
+            $sketchCount++;
+        }
+
+        $visits = $this->getArchive()->getDataTableFromNumeric('nb_visits');
+        $subPeriodsWithVisits = 0;
+        $visits->filter(function (DataTable $table) use (&$subPeriodsWithVisits) {
+            $row = $table->getFirstRow();
+            if ($row && $row->getColumn('nb_visits') > 0) {
+                $subPeriodsWithVisits++;
+            }
+        });
+
+        if ($sketchCount === 0 || $sketchCount < $subPeriodsWithVisits) {
+            return null;
+        }
+
+        return $merged;
     }
 
     public function getNumberOfVisits()

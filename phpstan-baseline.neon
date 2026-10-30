@@ -3883,12 +3883,6 @@ parameters:
 			path: plugins/VisitTime/RecordBuilders/Base.php
 
 		-
-			message: '#^Parameter \#1 \$array \(array\{''nb_uniq_visitors'', ''nb_users'', ''nb_visits'', ''nb_actions'', ''nb_visits_converted'', ''bounce_count'', ''sum_visit_length'', ''max_actions''\}\|array\{''nb_visits'', ''nb_actions'', ''nb_visits_converted'', ''bounce_count'', ''sum_visit_length'', ''max_actions''\}\) of array_values is already a list, call has no effect\.$#'
-			identifier: arrayValues.list
-			count: 1
-			path: plugins/VisitsSummary/API.php
-
-		-
 			message: '#^Call to Piwik\\Plugin\\Report\:\:init\(\) on a separate line has no effect\.$#'
 			identifier: staticMethod.resultUnused
 			count: 1

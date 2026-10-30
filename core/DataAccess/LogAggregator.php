@@ -9,6 +9,7 @@
 
 namespace Piwik\DataAccess;
 
+use Piwik\ArchiveProcessor\HyperLogLog;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
 use Piwik\Config;
@@ -699,6 +700,32 @@ class LogAggregator
         }
 
         return $this->getDb()->query($query['sql'], $query['bind']);
+    }
+
+    /**
+     * Builds a HyperLogLog sketch of the visitors in this archive's visits, for estimating unique visitors.
+     * The query returns at most 2^precision rows: per bucket, the minimum of the remaining hash bits.
+     */
+    public function queryUniqueVisitorsSketch(int $precision): HyperLogLog
+    {
+        $tableName = self::LOG_VISIT_TABLE;
+
+        // first 64 bits of MD5, so visitor IDs supplied by users (cid) are spread evenly too
+        $hash = "CAST(CONV(SUBSTRING(MD5($tableName.idvisitor), 1, 16), 16, 10) AS UNSIGNED)";
+
+        $where = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD);
+        $query = $this->generateQuery("$hash AS h", [$tableName], $where, '', '');
+
+        // hash each visit once in a derived table; the LIMIT stops MySQL merging it into the outer query and
+        // hashing twice. Visits repeated by a segment join don't change MIN(). The precision is inlined, as binds
+        // would break segment queries
+        $sql = 'SELECT (h & ' . ((1 << $precision) - 1) . ") AS bucket, MIN(h >> $precision) AS remainder_min"
+            . ' FROM (' . $query['sql'] . ' LIMIT 18446744073709551615) AS hashed GROUP BY bucket';
+        $rows = $this->getDb()->fetchAll($sql, $query['bind']);
+
+        return HyperLogLog::fromBucketMinimums($precision, array_map(function ($row) {
+            return [$row['bucket'], $row['remainder_min']];
+        }, $rows));
     }
 
     /**

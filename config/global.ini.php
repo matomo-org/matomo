@@ -235,6 +235,17 @@ enable_processing_unique_visitors_range = 0
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
 
+; when set to 1, an estimate of Unique Visitors `nb_uniq_visitors_estimated` is processed for all period types, including year and range.
+; at the default precision it is usually within 2% of the exact count, and long periods are processed without querying the logs again.
+; it is not processed yet for archives that cover several websites, such as Roll-Ups.
+; segment archives get their own estimate too, including the segments Visits Frequency and AI Agents archive for their reports.
+; to get it for reports archived before it was enabled, invalidate them with ./console core:invalidate-report-data
+enable_processing_unique_visitors_estimated = 0
+
+; precision of the estimate, from 4 to 18. each step up makes it more accurate and doubles its storage.
+; the default 14 uses about 7 KB per archive and is usually within 2% of the exact count.
+unique_visitors_estimated_precision = 14
+
 ; The list of periods that are available in the Matomo calendar
 ; Example use case: custom date range requests are processed in real time,
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period

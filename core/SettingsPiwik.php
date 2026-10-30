@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\HyperLogLog;
 use Piwik\Cache as PiwikCache;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -334,6 +335,26 @@ class SettingsPiwik
         }
 
         return $result;
+    }
+
+    /**
+     * Returns true if estimated unique visitors (`nb_uniq_visitors_estimated`) are processed.
+     */
+    public static function isUniqueVisitorsEstimateEnabled(): bool
+    {
+        return !empty(Config::getInstance()->General['enable_processing_unique_visitors_estimated']);
+    }
+
+    /**
+     * Returns the configured precision of the unique visitors estimate, or 14 if it is out of range.
+     */
+    public static function getUniqueVisitorsEstimatePrecision(): int
+    {
+        $precision = filter_var(Config::getInstance()->General['unique_visitors_estimated_precision'] ?? null, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => HyperLogLog::MIN_PRECISION, 'max_range' => HyperLogLog::MAX_PRECISION],
+        ]);
+
+        return $precision === false ? 14 : $precision;
     }
 
     /**
