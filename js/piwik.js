@@ -7435,16 +7435,16 @@ if (typeof window.Matomo !== 'object') {
 
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
 
-                var i, requestType;
-                for (i = 0; i < consentRequestsQueue.length; i++) {
-                    requestType = typeof consentRequestsQueue[i][0];
+                var i, requestType, queuedRequests = consentRequestsQueue;
+                consentRequestsQueue = [];
+                for (i = 0; i < queuedRequests.length; i++) {
+                    requestType = typeof queuedRequests[i][0];
                     if (requestType === 'string') {
-                        sendRequest(consentRequestsQueue[i][0], configTrackerPause, consentRequestsQueue[i][1]);
+                        sendRequest(queuedRequests[i][0], configTrackerPause, queuedRequests[i][1]);
                     } else if (requestType === 'object') {
-                        sendBulkRequest(consentRequestsQueue[i][0], configTrackerPause);
+                        sendBulkRequest(queuedRequests[i][0], configTrackerPause);
                     }
                 }
-                consentRequestsQueue = [];
 
                 // we need to enable cookies after sending the previous requests as it will make sure that we send
                 // a ping request if needed. Cookies are only set once we call `getRequest`. Above only calls sendRequest
