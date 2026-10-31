@@ -5331,6 +5331,117 @@ if ($mysql) {
         tracker.forgetCookieConsentGiven();
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - cookie consent is not reported as consent to being tracked", function() {
+        stop();
+
+        deleteCookies();
+
+        // accepting cookies says the visitor agreed to being recognised across page views, not
+        // that they agreed to being measured, so it must not relax what a compliance policy
+        // withholds. Only setConsentGiven() does that.
+        var cookieConsenting = Piwik.getTracker();
+        cookieConsenting.disableBrowserFeatureDetection();
+        cookieConsenting.setCustomData('token', getCookieConsentToken() + 'cookiesonly');
+        cookieConsenting.requireCookieConsent();
+        cookieConsenting.trackRequest('myFoo=beforeCookieConsent');
+        cookieConsenting.setCookieConsentGiven();
+        cookieConsenting.trackRequest('myFoo=afterCookieConsent');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getCookieConsentToken() + 'cookiesonly');
+            strictEqual(true, requests.indexOf('myFoo=beforeCookieConsent') > 0, "the visitor is tracked before cookie consent is given");
+            strictEqual(true, requests.indexOf('myFoo=afterCookieConsent') > 0, "the visitor is still tracked after cookie consent is given");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "cookie consent was reported as consent to being tracked");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent is reported without requireConsent being used", function() {
+        stop();
+
+        deleteCookies();
+
+        // a site measuring under a compliance exemption tracks from the first page view and only
+        // reports consent once it is given, so it never calls requireConsent()
+        var consenting = Piwik.getTracker();
+        consenting.disableBrowserFeatureDetection();
+        consenting.setCustomData('token', getConsentToken() + 'exempt');
+        consenting.trackRequest('myFoo=beforeConsent');
+        consenting.setConsentGiven();
+        consenting.trackRequest('myFoo=afterConsent');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'exempt');
+            strictEqual(true, requests.indexOf('myFoo=beforeConsent') > 0, "the visitor is tracked before consent is given");
+            strictEqual(true, requests.indexOf('myFoo=afterConsent') > 0, "the visitor is still tracked after consent is given");
+            strictEqual(1, (requests.match(/consent=1/g) || []).length, "only the request sent after consent carries the flag, without requireConsent");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent is reported on every request released from the queue", function() {
+        stop();
+
+        deleteCookies();
+
+        // requireConsent() holds requests back and releases them together once consent arrives,
+        // so the flag has to be put on each of them rather than on the batch
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'queued');
+        tracker.requireConsent();
+        tracker.trackRequest('myFoo=queuedOne');
+        tracker.trackRequest('myFoo=queuedTwo');
+        tracker.setConsentGiven();
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'queued');
+            strictEqual(true, requests.indexOf('myFoo=queuedOne') > 0, "the first held request is sent once consent is given");
+            strictEqual(true, requests.indexOf('myFoo=queuedTwo') > 0, "the second held request is sent once consent is given");
+            strictEqual(2, (requests.match(/consent=1/g) || []).length, "each request released from the queue carries the flag");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent remembered on an earlier page view is reported", function() {
+        stop();
+
+        deleteCookies();
+
+        // the visitor consented on a previous page view, so the site does not call
+        // setConsentGiven() again and the remembered-consent cookie is the only thing saying so
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.rememberConsentGiven();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'remembered');
+        tracker.trackRequest('myFoo=remembered');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'remembered');
+            strictEqual(1, (requests.match(/consent=1/g) || []).length, "the remembered consent is reported");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 

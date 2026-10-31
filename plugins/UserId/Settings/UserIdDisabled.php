@@ -28,6 +28,12 @@ class UserIdDisabled implements
     /** @use MeasurableGetterTrait<bool> */
     use MeasurableGetterTrait;
 
+    /**
+     * Tracker cache key holding the value an admin set for this themselves, kept alongside the one
+     * a compliance policy resolves to, which is stored under the class name.
+     */
+    public const CONFIGURED_VALUE_CACHE_KEY = 'UserId.userIdDisabledConfiguredValue';
+
     private bool $value;
 
     protected function __construct(bool $value)
@@ -124,6 +130,21 @@ class UserIdDisabled implements
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Whether the User ID this request carries has to be discarded.
+     *
+     * Consent lifts what a compliance policy required of the site, never what the admin turned on
+     * themselves, so a consenting visitor is measured at the level the site is configured for.
+     *
+     * @param array $siteAttributes the tracker cache for the site, as site attributes
+     */
+    public static function shouldDiscardUserId(array $siteAttributes, bool $hasConsent): bool
+    {
+        $key = $hasConsent ? self::CONFIGURED_VALUE_CACHE_KEY : self::class;
+
+        return true === ($siteAttributes[$key] ?? false);
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string

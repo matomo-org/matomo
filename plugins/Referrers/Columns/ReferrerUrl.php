@@ -51,7 +51,22 @@ class ReferrerUrl extends Base
 
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
+        if (!$this->mayRelaxForThisVisit($request, $visitor, $action)) {
+            return false;
+        }
+
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
+
+        // the policy shortened the URL this visit arrived from. Consent reaching the visit while
+        // the visitor is still on that page relaxes it to what the site configured for itself,
+        // and the request carries the referrer again to record it from
+        if (
+            '' !== (string) $information['referer_url']
+            && $this->shouldCompleteWithheldReferrer($visitor, $information, $request)
+        ) {
+            return $this->trimUrl($information['referer_url']);
+        }
+
         if (
             $this->isCurrentReferrerDirectEntry($visitor)
             && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY

@@ -2486,6 +2486,11 @@ if (typeof window.Matomo !== 'object') {
                 // whether requireConsent() was called or not
                 configConsentRequired = false,
 
+                // whether the site reported that the visitor consented to being tracked, which is
+                // independent of requireConsent(): setConsentGiven() is documented as callable
+                // without it, and a site measuring under a compliance exemption does exactly that
+                configConsentGiven = false,
+
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = null, // initialized below
@@ -3207,14 +3212,37 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
+             * Whether the visitor has consented to being tracked.
+             *
+             * This is what lets the server know a request may carry data that a compliance policy
+             * would otherwise withhold, such as campaign parameters under the CNIL configuration.
+             * Consent to cookies is deliberately not the signal: it says the visitor accepted
+             * being recognised across page views, not that they accepted being measured.
+             * setConsentGiven() reports it without requireConsent() having to hold requests back,
+             * so a site measuring under a compliance exemption can track from the first page view
+             * and report consent only once it is given.
+             */
+            function hasGivenConsent() {
+                if (configConsentGiven) {
+                    return true;
+                }
+
+                return configConsentRequired && configHasConsent;
+            }
+
+            /*
              * Check first-party cookies and update the <code>configHasConsent</code> value.  Ensures that any
              * change to the user opt-in/out status in another browser window will be respected.
              */
             function refreshConsentStatus() {
                 if (getCookie(CONSENT_REMOVED_COOKIE_NAME)) {
                     configHasConsent = false;
+                    configConsentGiven = false;
                 } else if (getCookie(CONSENT_COOKIE_NAME)) {
+                    // consent remembered on an earlier page view, so setConsentGiven() is not
+                    // called again and the consent is picked up here instead
                     configHasConsent = true;
+                    configConsentGiven = true;
                 }
             }
 
@@ -3302,7 +3330,7 @@ if (typeof window.Matomo !== 'object') {
                 hasSentTrackingRequestYet = true;
 
                 if (!configDoNotTrack && request) {
-                    if (configConsentRequired && configHasConsent) { // send a consent=1 when explicit consent is given for the apache logs
+                    if (hasGivenConsent()) { // send a consent=1 when explicit consent is given for the apache logs
                         request += '&consent=1';
                     }
 
@@ -3363,6 +3391,10 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
+                // as in sendRequest(): consent withdrawn in another window has to be picked up
+                // before the state is read, now that it also decides whether consent is reported
+                refreshConsentStatus();
+
                 if (configBrowserFeatureDetection && !clientHintsResolved && supportsClientHints()) {
                     clientHintsRequestQueue.push([requests, null]);
                     return;
@@ -3374,6 +3406,16 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 hasSentTrackingRequestYet = true;
+
+                if (hasGivenConsent()) {
+                    // each request in the batch is handled on its own by the server, so the
+                    // consent has to travel with every one of them rather than with the batch
+                    var consented = [], requestIndex;
+                    for (requestIndex = 0; requestIndex < requests.length; requestIndex++) {
+                        consented.push(requests[requestIndex] + '&consent=1');
+                    }
+                    requests = consented;
+                }
 
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                     var chunks = arrayChunk(requests, 50);
@@ -7429,6 +7471,7 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setConsentGiven = function (setCookieConsent) {
                 configHasConsent = true;
+                configConsentGiven = true;
                 if (!configBrowserFeatureDetection) {
                     this.enableBrowserFeatureDetection();
                 }
@@ -7509,6 +7552,7 @@ if (typeof window.Matomo !== 'object') {
                     hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
                 }
 
+                configConsentGiven = false;
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 this.forgetCookieConsentGiven();
