@@ -13,6 +13,7 @@ use Exception;
 use PDO;
 use PDOException;
 use PDOStatement;
+use Piwik\Common;
 use Piwik\Tracker\Db;
 use Piwik\Tracker\Db\DbException;
 
@@ -239,6 +240,8 @@ class Mysql extends Db
      */
     public function query($query, $parameters = array())
     {
+        $this->failIfTransactionAborted();
+
         try {
             return $this->executeQuery($query, $parameters);
         } catch (Exception $e) {
@@ -309,6 +312,8 @@ class Mysql extends Db
             }
             return $sth;
         } catch (PDOException $e) {
+            // checked before the parameters are added to the message, so they can't be mistaken for an error number
+            $this->markTransactionAbortedIfNeeded($e);
             $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
             throw new DbException("Error query: " . $message, (int) $e->getCode());
         }
@@ -377,6 +382,7 @@ class Mysql extends Db
         }
 
         if ($success) {
+            $this->resetTransactionAborted();
             $this->activeTransaction = uniqid();
             return $this->activeTransaction;
         }
@@ -394,9 +400,37 @@ class Mysql extends Db
             return;
         }
 
+        if ($this->isTransactionAborted()) {
+            try {
+                $this->failIfTransactionAborted();
+            } catch (DbException $aborted) {
+                // the server already rolled back, this ends the transaction on our side too
+                try {
+                    $this->rollBack($xid);
+                } catch (Exception $rollBackException) {
+                    // report the abort, so callers know to retry the whole batch
+                    Common::printDebug('Rollback after the transaction was aborted failed: ' . $rollBackException->getMessage());
+                }
+                throw $aborted;
+            }
+        }
+
         $this->activeTransaction = null;
 
-        if (!$this->connection->commit()) {
+        try {
+            $success = $this->connection->commit();
+        } catch (PDOException $e) {
+            try {
+                // PDO may still think the transaction is open, and would refuse to begin the next one
+                $this->connection->rollBack();
+            } catch (Exception $rollBackException) {
+                // the server has ended the transaction anyway
+            }
+            // keep the server's message, it holds the error number, e.g. when a cluster rejects the transaction
+            throw new DbException("Commit failed: " . $e->getMessage(), (int) $e->getCode(), $e);
+        }
+
+        if (!$success) {
             throw new DbException("Commit failed");
         }
     }
@@ -412,6 +446,12 @@ class Mysql extends Db
         }
 
         $this->activeTransaction = null;
+        $this->resetTransactionAborted();
+
+        if (!$this->connection->inTransaction()) {
+            // nothing left to roll back, e.g. a statement like ALTER TABLE ended the transaction, and PDO would throw "There is no active transaction"
+            return;
+        }
 
         if (!$this->connection->rollBack()) {
             throw new DbException("Rollback failed");

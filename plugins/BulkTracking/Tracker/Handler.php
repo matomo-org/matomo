@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\BulkTracking\Tracker;
 
 use Piwik\Access;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Db\TransactionErrors;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
@@ -61,10 +63,7 @@ class Handler extends Tracker\Handler
             } catch (InvalidRequestParameterException $ex) {
                 $invalidRequests[] = $index;
             } catch (Exception $e) {
-                if (
-                    stripos($e->getMessage(), 'Lock wait timeout exceeded')
-                    || Tracker::getDatabase()->isErrNo($e, 1205)
-                ) {
+                if (TransactionErrors::isStatementOnly(Tracker::getDatabase(), $e)) {
                     continue;
                 } else {
                     throw $e;
@@ -77,7 +76,13 @@ class Handler extends Tracker\Handler
 
     public function onException(Tracker $tracker, RequestSet $requestSet, Exception $e)
     {
-        $this->rollbackTransaction();
+        try {
+            $this->rollbackTransaction();
+        } catch (Exception $rollbackException) {
+            // the original error is the one to report
+            Common::printDebug('Failed to roll back the bulk tracking transaction: ' . $rollbackException->getMessage());
+        }
+
         parent::onException($tracker, $requestSet, $e);
     }
 
@@ -91,8 +96,11 @@ class Handler extends Tracker\Handler
     private function commitTransaction()
     {
         if (!empty($this->transactionId)) {
-            $this->getDb()->commit($this->transactionId);
-            $this->transactionId = null;
+            try {
+                $this->getDb()->commit($this->transactionId);
+            } finally {
+                $this->transactionId = null;
+            }
         }
     }
 
