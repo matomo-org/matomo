@@ -62,6 +62,10 @@ class PhpSettingsCheck implements Diagnostic
         $maxExecutionTime->setErrorResult(DiagnosticResult::STATUS_WARNING);
         $requiredSettings[] = $maxExecutionTime;
 
+        if (false === (new \ReflectionMethod($this, __FUNCTION__))->getDocComment()) {
+            $requiredSettings[] = new RequiredPhpSetting('opcache.save_comments', 1);
+        }
+
         return $requiredSettings;
     }
 }
