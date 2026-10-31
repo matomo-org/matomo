@@ -9,6 +9,7 @@
         "ClickToStarOrUnstar": "Cliquez pour mettre en favori cette annotation ou l'enlever.",
         "CreateNewAnnotation": "Créer une nouvelle annotation…",
         "EnterAnnotationText": "Entrez votre note…",
+        "HideAnnotations": "Masquer les annotations",
         "HideAnnotationsFor": "Masquer les annotations pour %s…",
         "IconDesc": "Afficher les notes pour cette plage de dates.",
         "IconDescHideNotes": "Masquer les notes pour cette plage de dates.",
@@ -16,6 +17,7 @@
         "LoginToAnnotate": "Connectez-vous pour créer une annotation.",
         "NoAnnotations": "Il n'y a pas d'annotations pour cette plage de dates.",
         "PluginDescription": "Vous permet de joindre des notes à différents jours pour marquer les modifications apportées à votre site Web, enregistrer les analyses que vous faites concernant vos données et partager vos réflexions avec vos collègues. En annotant vos données, vous vous assurerez de vous rappeler pourquoi vos données ressemblent à ce qu'elles sont.",
+        "ShowAnnotations": "Afficher les annotations",
         "ViewAndAddAnnotations": "Afficher et ajouter des annotations pour %s…",
         "YouCannotModifyThisNote": "Vous ne pouvez pas modifier cette annotation, car vous ne l'avez pas créée et vous n'avez pas non plus d'accès administrateur pour ce site."
     }
