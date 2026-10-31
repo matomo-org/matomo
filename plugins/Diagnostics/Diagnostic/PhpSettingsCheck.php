@@ -62,6 +62,10 @@ class PhpSettingsCheck implements Diagnostic
         $maxExecutionTime->setErrorResult(DiagnosticResult::STATUS_WARNING);
         $requiredSettings[] = $maxExecutionTime;
 
+        if (extension_loaded('Zend OPcache') && !ini_get('opcache.save_comments')) {
+            $requiredSettings[] = new RequiredPhpSetting('opcache.save_comments', 1);
+        }
+
         return $requiredSettings;
     }
 }
