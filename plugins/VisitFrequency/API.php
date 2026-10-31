@@ -121,10 +121,13 @@ class API extends \Piwik\Plugin\API
 
     protected function prefixColumns(DataTable\DataTableInterface $table, string $suffix): void
     {
-        $rename = array();
-        foreach ($table->getColumns() as $oldColumn) {
-            $rename[$oldColumn] = $oldColumn . $suffix;
-        }
-        $table->filter('ReplaceColumnNames', [$rename]);
+        // renamed per period, as periods can have different columns (eg no unique visitors estimate)
+        $table->filter(function (DataTable $periodTable) use ($suffix) {
+            $rename = array();
+            foreach ($periodTable->getColumns() as $oldColumn) {
+                $rename[$oldColumn] = $oldColumn . $suffix;
+            }
+            $periodTable->filter('ReplaceColumnNames', [$rename]);
+        });
     }
 }

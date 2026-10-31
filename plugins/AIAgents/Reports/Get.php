@@ -22,6 +22,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\AIAgents\API;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
 class Get extends Report
@@ -57,6 +58,10 @@ class Get extends Report
             'nb_users_human',
             'max_actions_human',
         ];
+
+        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
+            array_push($this->metrics, 'nb_uniq_visitors_estimated_ai_agent', 'nb_uniq_visitors_estimated_human');
+        }
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)

@@ -19,6 +19,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\VisitFrequency\API;
 use Piwik\Plugins\VisitFrequency\Columns\Metrics\ReturningMetric;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
 class Get extends \Piwik\Plugin\Report
@@ -50,6 +51,10 @@ class Get extends \Piwik\Plugin\Report
             'nb_users_new',
             'max_actions_new',
         ];
+
+        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
+            array_push($this->metrics, 'nb_uniq_visitors_estimated_returning', 'nb_uniq_visitors_estimated_new');
+        }
         $this->order = 40;
         $this->subcategoryId = 'VisitorInterest_Engagement';
     }

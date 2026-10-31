@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Archive\ArchiveState;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -227,8 +228,13 @@ class Evolution extends JqplotDataGenerator
                 // 0.0 values continue to flow through as plain int 0 (downstream consumers
                 // doing `=== 0` rely on it). The hasColumnValue check below tracks the
                 // separate "real 0 vs missing" distinction the forecast builder needs.
-                $seriesData[] = $value ?: 0;
-                $seriesDataAvailability[] = $this->hasColumnValue($value);
+                $hasValue = $this->hasColumnValue($value);
+                if (!$hasValue && $this->isShownAsGapWhenMissing($columnName)) {
+                    $seriesData[] = null;
+                } else {
+                    $seriesData[] = $value ?: 0;
+                }
+                $seriesDataAvailability[] = $hasValue;
             }
         }
         return $seriesData;
@@ -486,6 +492,15 @@ class Evolution extends JqplotDataGenerator
         }
     }
 
+    /**
+     * The estimate can be missing for periods with visits (eg days archived before it was turned on). It's drawn as a
+     * gap there instead of 0, which would look like a drop. Also matches the per visitor type copies, eg `_new`.
+     */
+    private function isShownAsGapWhenMissing(string $columnName): bool
+    {
+        return str_starts_with($columnName, PluginsArchiver::UNIQUE_VISITORS_ESTIMATE_METRIC);
+    }
+
     private function getSeriesMetadata(array $rowsToDisplay, array $columnsToDisplay, array $units, array $dataTables)
     {
         $seriesMetadata = null; // maps series labels to any metadata of the series
@@ -516,6 +531,11 @@ class Evolution extends JqplotDataGenerator
                 } else {
                     $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
                     $seriesUnits[$seriesLabel] = $units[$columnName];
+
+                    if ($this->isShownAsGapWhenMissing($columnName)) {
+                        // keep null points so the line breaks there
+                        $seriesMetadata[$seriesLabel] = ['breakOnNull' => true];
+                    }
                 }
             }
         }

@@ -2,6 +2,8 @@
     "VisitsSummary": {
         "AverageGenerationTime": "average generation time",
         "AverageVisitDuration": "average visit duration",
+        "ColumnNbUniqVisitorsEstimated": "Unique visitors (estimated)",
+        "ColumnNbUniqVisitorsEstimatedDocumentation": "An estimate of the number of unique visitors, usually within 2%% of the exact count. Unlike the exact count, it is quick to process for long periods and segments.",
         "GenerateQueries": "%s queries executed",
         "GenerateTime": "%s seconds to generate the page",
         "MaxNbActions": "max actions in one visit",

@@ -4,6 +4,16 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 6.1.0
+
+### New config.ini.php settings
+* `[General] enable_processing_unique_visitors_estimated` (default `0`) stores an estimate of unique visitors for every period, including years and ranges, where the exact count is disabled by default. Roll-ups of several sites get no estimate yet.
+* `[General] unique_visitors_estimated_precision` (default `14`, from `4` to `18`) sets the accuracy of that estimate.
+
+### HTTP API
+* `VisitsSummary.get` returns a new `nb_uniq_visitors_estimated` column when `[General] enable_processing_unique_visitors_estimated` is on.
+* `VisitFrequency.get` and `AIAgents.get` return the same estimate per visitor type, as `nb_uniq_visitors_estimated_new`, `_returning`, `_ai_agent` and `_human`. They can be picked in those reports' evolution graphs, but have no sparkline.
+
 ## Matomo 6.0.0
 
 ### Breaking Changes

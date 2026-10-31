@@ -55,6 +55,9 @@ class Controller extends \Piwik\Plugin\Controller
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             $columnNames[] = 'nb_uniq_visitors';
         }
+        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
+            $columnNames[] = 'nb_uniq_visitors_estimated';
+        }
         $columnNames[] = 'nb_actions';
         $columnNames[] = 'nb_actions_per_visit';
         $columnNames[] = 'bounce_rate';
