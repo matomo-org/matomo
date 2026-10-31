@@ -5477,6 +5477,23 @@ if ($mysql) {
         strictEqual(tracker.hasConsent(), false, "hasConsent() false when optout cookie present");
     });
 
+    test("Test setConsentGiven() when optout cookie cannot be deleted", function() {
+        expect(5);
+
+        var tracker = Piwik.addTracker();
+        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
+        tracker.requireConsent();
+        tracker.trackRequest('myFoo=bar');
+
+        // the tracker deletes the cookie on path "/" only, so a cookie on the page path survives
+        document.cookie = 'mtm_consent_removed=12345;path=' + window.location.pathname;
+        tracker.setConsentGiven(false);
+
+        var queue = tracker.getConsentRequestsQueue();
+        strictEqual(queue.length, 1, "setConsentGiven() keeps the request queued while the optout cookie is still present");
+        strictEqual(0, queue[0].indexOf('myFoo=bar'), "the queued request is the tracking request");
+    });
+
     test("Internal timers and setLinkTrackingTimer()", function() {
         expect(8);
 
