@@ -65,6 +65,7 @@
         "VisitorLogSubcategoryHelp2": "Enquanto outros relatórios no Matomo mostram como seus visitantes se comportam em um nível agregado, o registro de visitas fornece detalhes granulares. Você também pode usar segmentos para restringir a tipos específicos de visitas para entender melhor seus visitantes.",
         "VisitorLogSubcategoryHelp3": "Saiba mais no guia de registro de visitas.",
         "VisitorProfile": "Perfil do visitante",
+        "VisitorProfileNotFound": "Este visitante não pôde ser encontrado. Os dados da sua visita podem ter sido excluídos.",
         "VisitorsInRealTime": "Visitas em tempo real",
         "VisitorsLastVisit": "Também visitou %s dias antes.",
         "VisitsFrom": "%1$s%2$s visitas%3$s de",
