@@ -11,9 +11,10 @@
 
 namespace Piwik\Plugins\LanguagesManager;
 
-use Piwik\Common;
+use Piwik\Http\BadRequestException;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Request;
 use Piwik\Url;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
@@ -24,10 +25,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function saveLanguage()
     {
-        $language = Common::getRequestVar('language');
-        $nonce = Common::getRequestVar('nonce', '');
+        $request = Request::fromRequest();
+        $language = $request->getStringParameter('language', '');
 
-        Nonce::checkNonce(LanguagesManager::LANGUAGE_SELECTION_NONCE, $nonce);
+        if (!API::getInstance()->isLanguageAvailable($language)) {
+            throw new BadRequestException('Invalid language');
+        }
+
+        Nonce::checkNonce(LanguagesManager::LANGUAGE_SELECTION_NONCE, $request->getStringParameter('nonce', ''));
 
         LanguagesManager::setLanguageForSession($language);
 
