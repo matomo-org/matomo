@@ -193,6 +193,9 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel, original
                 if (!ptr.hasClass(findLevel) || ptr.hasClass('nodata')) {
                     continue;
                 }
+                // the ancestor row may never have been hovered (e.g. rows of a searched table),
+                // so its handler might not be bound yet
+                this.initTr(ptr);
                 ptr.trigger(this.trEventName, {
                     label: label,
                     originalEvent: e,
