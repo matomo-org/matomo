@@ -4554,7 +4554,7 @@ if ($mysql) {
     });
 
     test("campaign attribution cookie on a new session after a campaign landing from an external referrer", function () {
-        expect(15);
+        expect(18);
 
         function landOnCampaignThenStartNewSession(configure) {
             var tracker = Piwik.getTracker();
@@ -4617,6 +4617,14 @@ if ($mysql) {
         equal(tracker.getAttributionCampaignName(), 'Shopping', 'excluded referrer keeps the campaign name');
         equal(tracker.getAttributionCampaignKeyword(), 'Shoes', 'excluded referrer keeps the campaign keyword');
         equal(tracker.getAttributionReferrerUrl(), 'https://www.google.com/', 'excluded referrer keeps the referrer url');
+
+        tracker = landOnCampaignThenStartNewSession();
+        tracker.setReferrerUrl('https://chatgpt.com/');
+        tracker.setCustomUrl('https://matomo.org/?utm_source=chatgpt.com');
+        tracker.trackPageView('aiAssistantReturn');
+        equal(tracker.getAttributionCampaignName(), '', 'AI assistant referrer clears the campaign name');
+        equal(tracker.getAttributionCampaignKeyword(), '', 'AI assistant referrer clears the campaign keyword');
+        equal(tracker.getAttributionReferrerUrl(), 'https://chatgpt.com/', 'AI assistant referrer replaces the referrer url');
 
         tracker = landOnCampaignThenStartNewSession(function (t) {
             t.setConversionAttributionFirstReferrer(true);

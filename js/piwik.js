@@ -4042,7 +4042,7 @@ if (typeof window.Matomo !== 'object') {
 
                     hasNewReferrer = currentReferrerHostName.length // there is a referrer
                         && !isSiteHostName(currentReferrerHostName) // domain is not the current domain
-                        && !isReferrerExcluded(configReferrerUrl); // referrer is excluded
+                        && !isReferrerExcluded(configReferrerUrl); // referrer is not excluded
 
                     if (hasNewReferrer
                         && (
