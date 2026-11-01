@@ -964,6 +964,33 @@ describe('PeriodSelector', () => {
     expect(appliedDate.getTime()).not.toBe(movedDate.getTime());
   });
 
+  it('moves exactly one month when the anchor date is the 31st', () => {
+    const createMoveVm = (anchorDate: Date): any => ({
+      committedPeriod: 'month',
+      committedAnchorDate: anchorDate,
+      minAllowedDate: new Date(
+        window.piwik.minDateYear,
+        window.piwik.minDateMonth - 1,
+        window.piwik.minDateDay,
+      ),
+      maxAllowedDate: new Date(
+        window.piwik.maxDateYear,
+        window.piwik.maxDateMonth - 1,
+        window.piwik.maxDateDay,
+      ),
+      canMovePeriod: vi.fn(() => true),
+      setPiwikPeriodAndDate: vi.fn(),
+    });
+
+    const nextVm = createMoveVm(new Date(2013, 0, 31));
+    methods.movePeriod.call(nextVm, 1);
+    expect(format(nextVm.setPiwikPeriodAndDate.mock.calls[0][1] as Date)).toBe('2013-02-01');
+
+    const previousVm = createMoveVm(new Date(2013, 2, 31));
+    methods.movePeriod.call(previousVm, -1);
+    expect(format(previousVm.setPiwikPeriodAndDate.mock.calls[0][1] as Date)).toBe('2013-02-01');
+  });
+
   it('highlights last week for any date within that week', () => {
     const originalTimezoneOffset = window.piwik.timezoneOffset;
     const nowSpy = vi.spyOn(Date, 'now').mockReturnValue(new Date('2026-06-01T12:00:00Z').valueOf());
