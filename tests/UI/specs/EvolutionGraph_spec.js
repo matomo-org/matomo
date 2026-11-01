@@ -723,6 +723,27 @@ describe("EvolutionGraph", function () {
             expect(result.text).to.equal('<b class="axisLabelProbe">x</b>');
         });
 
+        // No fixture has metrics in four units, so add a 4th-axis label next to the 2nd axis's ones
+        it("should style labels of a 4th value axis like the other axes", async function () {
+            await page.goto(visitsAndBounceRateUrl);
+            await page.waitForNetworkIdle();
+
+            const styles = await page.evaluate(() => {
+                const y2Tick = document.querySelector('.jqplot-y2axis > div');
+                const y4Tick = $('<div class="jqplot-y4axis-tick">2 G</div>').insertAfter(y2Tick)[0];
+                const styleOf = (tick) => {
+                    const style = getComputedStyle(tick);
+                    return { whiteSpace: style.whiteSpace, color: style.color, height: tick.offsetHeight };
+                };
+                return { y2: styleOf(y2Tick), y4: styleOf(y4Tick) };
+            });
+
+            expect(styles.y4.whiteSpace).to.equal('nowrap');
+            expect(styles.y4.color).to.equal(styles.y2.color);
+            // one line, give or take a pixel of rounding; a wrapped label is more than twice as tall
+            expect(styles.y4.height, 'the label stays on one line').to.be.at.most(styles.y2.height + 1);
+        });
+
         it("should draw the axis labels into the exported image", async function () {
             await openLargeValueGraph(1);
 
