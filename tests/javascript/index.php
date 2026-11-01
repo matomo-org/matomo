@@ -4553,6 +4553,81 @@ if ($mysql) {
         equal(tracker.getAttributionReferrerUrl(), 'https://example.com/referrer', 'AI-style source does not overwrite referrer url');
     });
 
+    test("campaign attribution cookie on a new session after a campaign landing from an external referrer", function () {
+        expect(15);
+
+        function landOnCampaignThenStartNewSession(configure) {
+            var tracker = Piwik.getTracker();
+            tracker.setTrackerUrl("matomo.php");
+            tracker.setSiteId(1);
+            tracker.setCustomData({ "token" : getToken() });
+            tracker.deleteCookies();
+            tracker.setConversionAttributionFirstReferrer(false);
+            if (configure) {
+                configure(tracker);
+            }
+
+            tracker.setReferrerUrl('https://www.google.com/');
+            tracker.setCustomUrl('https://matomo.org/?pk_campaign=Shopping&pk_kwd=Shoes');
+            tracker.trackPageView('campaignLanding');
+
+            tracker.hook.test._setCookie(tracker.hook.test._getCookieName('ses'), '', -129600000);
+
+            return tracker;
+        }
+
+        var tracker = landOnCampaignThenStartNewSession();
+        tracker.setReferrerUrl('');
+        tracker.setCustomUrl('https://matomo.org/checkout');
+        tracker.trackPageView('directReturn');
+        equal(tracker.getAttributionCampaignName(), 'Shopping', 'direct return keeps the campaign name');
+        equal(tracker.getAttributionCampaignKeyword(), 'Shoes', 'direct return keeps the campaign keyword');
+        equal(tracker.getAttributionReferrerUrl(), 'https://www.google.com/', 'direct return keeps the referrer url');
+
+        tracker = landOnCampaignThenStartNewSession();
+        tracker.setReferrerUrl('https://www.bing.com/search?q=shoes');
+        tracker.setCustomUrl('https://matomo.org/checkout');
+        tracker.trackPageView('organicReturn');
+        equal(tracker.getAttributionCampaignName(), '', 'new external referrer clears the campaign name');
+        equal(tracker.getAttributionCampaignKeyword(), '', 'new external referrer clears the campaign keyword');
+        equal(tracker.getAttributionReferrerUrl(), 'https://www.bing.com/search?q=shoes', 'new external referrer replaces the referrer url');
+
+        tracker = landOnCampaignThenStartNewSession();
+        tracker.setReferrerUrl('');
+        tracker.setCustomUrl('https://matomo.org/?pk_campaign=Newsletter');
+        tracker.trackPageView('newCampaignReturn');
+        equal(tracker.getAttributionCampaignName(), 'Newsletter', 'new campaign replaces the campaign name');
+        equal(tracker.getAttributionCampaignKeyword(), '', 'new campaign without keyword clears the campaign keyword');
+
+        tracker = landOnCampaignThenStartNewSession(function (t) {
+            t.setDomains(['matomo.org']);
+        });
+        tracker.setReferrerUrl('https://matomo.org/blog/');
+        tracker.setCustomUrl('https://matomo.org/checkout');
+        tracker.trackPageView('ownSiteReturn');
+        equal(tracker.getAttributionCampaignName(), 'Shopping', 'referrer from own site keeps the campaign name');
+        equal(tracker.getAttributionReferrerUrl(), 'https://www.google.com/', 'referrer from own site keeps the referrer url');
+
+        tracker = landOnCampaignThenStartNewSession(function (t) {
+            t.setExcludedReferrers(['paypal.com']);
+        });
+        tracker.setReferrerUrl('https://www.paypal.com/checkout');
+        tracker.setCustomUrl('https://matomo.org/thank-you');
+        tracker.trackPageView('excludedReferrerReturn');
+        equal(tracker.getAttributionCampaignName(), 'Shopping', 'excluded referrer keeps the campaign name');
+        equal(tracker.getAttributionCampaignKeyword(), 'Shoes', 'excluded referrer keeps the campaign keyword');
+        equal(tracker.getAttributionReferrerUrl(), 'https://www.google.com/', 'excluded referrer keeps the referrer url');
+
+        tracker = landOnCampaignThenStartNewSession(function (t) {
+            t.setConversionAttributionFirstReferrer(true);
+        });
+        tracker.setReferrerUrl('https://www.bing.com/search?q=shoes');
+        tracker.setCustomUrl('https://matomo.org/checkout');
+        tracker.trackPageView('firstReferrerOrganicReturn');
+        equal(tracker.getAttributionCampaignName(), 'Shopping', 'first referrer attribution keeps the first campaign name');
+        equal(tracker.getAttributionReferrerUrl(), 'https://www.google.com/', 'first referrer attribution keeps the first referrer url');
+    });
+
     // heartbeat tests
     test("trackingHeartBeat", function () {
         expect(13);
