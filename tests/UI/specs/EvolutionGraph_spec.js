@@ -753,25 +753,28 @@ describe("EvolutionGraph", function () {
                 prefix: 'EvolutionGraph',
             });
 
-            // the widest left-axis label, in graph coordinates, which the export keeps at DPR 1
-            const labelBox = await page.evaluate(() => {
+            // the widest label of each axis, in graph coordinates, which the export keeps at DPR 1
+            const labelBoxes = await page.evaluate(() => {
                 const target = document.querySelector('.jqplot-target').getBoundingClientRect();
-                const ticks = Array.from(document.querySelectorAll('.jqplot-yaxis > div'));
-                const widest = ticks.reduce((a, b) => (b.offsetWidth > a.offsetWidth ? b : a));
-                const rect = widest.getBoundingClientRect();
-                return {
-                    left: Math.floor(rect.left - target.left),
-                    top: Math.floor(rect.top - target.top),
-                    width: Math.ceil(rect.width),
-                    height: Math.ceil(rect.height),
+                const widestLabelBox = (axis) => {
+                    const ticks = Array.from(document.querySelectorAll('.jqplot-' + axis + ' > div'));
+                    const widest = ticks.reduce((a, b) => (b.offsetWidth > a.offsetWidth ? b : a));
+                    const rect = widest.getBoundingClientRect();
+                    return {
+                        left: Math.floor(rect.left - target.left),
+                        top: Math.floor(rect.top - target.top),
+                        width: Math.ceil(rect.width),
+                        height: Math.ceil(rect.height),
+                    };
                 };
+                return { yaxis: widestLabelBox('yaxis'), y2axis: widestLabelBox('y2axis') };
             });
 
             await openExport();
             await page.click('#dataTableExportAsImageIcon-header');
             await page.waitForSelector('.ui-dialog img');
 
-            const inkPixels = await page.evaluate(async (box) => {
+            const ink = await page.evaluate(async (boxes) => {
                 const image = new Image();
                 image.src = document.querySelector('.ui-dialog img').src;
                 await new Promise((resolve, reject) => {
@@ -786,17 +789,36 @@ describe("EvolutionGraph", function () {
                 context.drawImage(image, 0, 0);
 
                 const background = context.getImageData(0, 0, 1, 1).data;
-                const pixels = context.getImageData(box.left, box.top, box.width, box.height).data;
+                const isInk = (pixels, i) => pixels[i] !== background[0]
+                    || pixels[i + 1] !== background[1] || pixels[i + 2] !== background[2];
+
+                const yPixels = context.getImageData(boxes.yaxis.left, boxes.yaxis.top, boxes.yaxis.width, boxes.yaxis.height).data;
                 let count = 0;
-                for (let i = 0; i < pixels.length; i += 4) {
-                    if (pixels[i] !== background[0] || pixels[i + 1] !== background[1] || pixels[i + 2] !== background[2]) {
+                for (let i = 0; i < yPixels.length; i += 4) {
+                    if (isInk(yPixels, i)) {
                         count += 1;
                     }
                 }
-                return count;
-            }, labelBox);
 
-            expect(inkPixels, 'the left-axis label is drawn in the export').to.be.above(0);
+                // the right axis is left-aligned, so its label's right edge shows where it was drawn.
+                // Search past the box too, as nothing else is drawn to the right of the last axis.
+                const box = boxes.y2axis;
+                const searchWidth = box.width + 15;
+                const y2Pixels = context.getImageData(box.left, box.top, searchWidth, box.height).data;
+                let rightmostInk = -1;
+                for (let i = 0; i < y2Pixels.length; i += 4) {
+                    if (isInk(y2Pixels, i)) {
+                        rightmostInk = Math.max(rightmostInk, (i / 4) % searchWidth);
+                    }
+                }
+
+                return { yaxisCount: count, y2axisRightEdge: box.left + rightmostInk + 1 };
+            }, labelBoxes);
+
+            expect(ink.yaxisCount, 'the left-axis label is drawn in the export').to.be.above(0);
+            const y2axisRightEdge = labelBoxes.y2axis.left + labelBoxes.y2axis.width;
+            expect(ink.y2axisRightEdge, 'the right-axis label is drawn where it is on screen')
+                .to.be.within(y2axisRightEdge - 2, y2axisRightEdge + 1);
         });
     });
 });

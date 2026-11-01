@@ -759,13 +759,13 @@ function applyFooterLegendRowLimit($dataTable)
         },
 
         // Position of an element inside the plot container. Axis children are positioned
-        // within their axis div, so add the axis's own offset and top margin.
+        // within their axis div, so add the axis's own offset and margins, which position() leaves out.
         getExportPosition: function ($element) {
             var position = $element.position();
             var $parent = $element.parent();
             if ($parent.hasClass('jqplot-axis')) {
                 var parentPosition = $parent.position();
-                position.left += parentPosition.left;
+                position.left += parentPosition.left + (parseInt($parent.css('marginLeft'), 10) || 0);
                 position.top += parentPosition.top + (parseInt($parent.css('marginTop'), 10) || 0);
             }
             return position;
