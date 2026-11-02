@@ -112,7 +112,19 @@ use Piwik\Log\LoggerInterface;
  *         // $this->dataTable from a DataTable instance to a DataTable\Map instance.
  *         public function beforeLoadDataTable()
  *         {
+ *             $period = Common::getRequestVar('period');
  *             $date = Common::getRequestVar('date');
+ *
+ *             // a range, lastN, previousN or a date range has no single period to compare against
+ *             if ($period === 'range' || Period::isMultiplePeriod($date, $period)) {
+ *                 return;
+ *             }
+ *
+ *             // resolve 'today' on the archive's day: a single site's own, otherwise UTC's
+ *             $idSites = \Piwik\Site::getIdSitesFromIdSitesString(\Piwik\Request::fromRequest()->getParameter('idSite', ''));
+ *             $timezone = count($idSites) === 1 ? \Piwik\Site::getTimezoneFor(reset($idSites)) : false;
+ *             $date = Period\Factory::makePeriodFromQueryParams($timezone, $period, $date)
+ *                 ->getDateStart()->toString();
  *             list($previousDate, $ignore) = Range::getLastDate($date, $period);
  *
  *             $this->requestConfig->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
@@ -122,7 +134,12 @@ use Piwik\Log\LoggerInterface;
  *         // check if there is data or not.
  *         public function isThereDataToDisplay()
  *         {
- *             $tables = $this->dataTable->getDataTables()
+ *             // beforeLoadDataTable() loaded a single table when there is nothing to compare against
+ *             if (!($this->dataTable instanceof DataTable\Map)) {
+ *                 return parent::isThereDataToDisplay();
+ *             }
+ *
+ *             $tables = $this->dataTable->getDataTables();
  *             $requestedDataTable = end($tables);
  *
  *             return $requestedDataTable->getRowsCount() != 0;
