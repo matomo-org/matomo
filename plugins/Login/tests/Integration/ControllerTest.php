@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Login\tests\Integration;
 
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Auth;
 use Piwik\Common;
@@ -19,6 +20,7 @@ use Piwik\Exception\RedirectException;
 use Piwik\Http\BadRequestException;
 use Piwik\Plugins\Login\Controller;
 use Piwik\Plugins\Login\PasswordResetter;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -192,6 +194,33 @@ class ControllerTest extends IntegrationTestCase
         $this->assertInvitationFailure(function () {
             $this->controller->acceptInvitation();
         }, RedirectException::class, 'Login_InvalidOrExpiredTokenV2', 0);
+    }
+
+    public function testConfirmPasswordRedirectsToTheDashboardWithoutAPendingConfirmation()
+    {
+        StaticContainer::get(PasswordVerifier::class)->forgetVerifiedPassword();
+
+        $this->expectExceptionMessage('Matomo would redirect you to this URL: index.php');
+
+        $this->controller->confirmPassword();
+    }
+
+    public function testConfirmPasswordShowsTheFormWhileAConfirmationIsPending()
+    {
+        Fixture::createWebsite('2024-01-01 00:00:00');
+
+        $passwordVerifier = StaticContainer::get(PasswordVerifier::class);
+        $passwordVerifier->setDisableRedirect();
+        $passwordVerifier->requirePasswordVerified(['module' => 'UsersManager', 'action' => 'userSecurity']);
+
+        try {
+            $html = (new Controller(null, null, null, $passwordVerifier))->confirmPassword();
+        } finally {
+            // the pending confirmation lives in the session, which later tests share
+            $passwordVerifier->forgetVerifiedPassword();
+        }
+
+        $this->assertStringContainsString('name="password"', $html);
     }
 
     public function testDeclineInvitationWithoutTokenIsABadRequestWithoutRecordingAFailedAttempt()
