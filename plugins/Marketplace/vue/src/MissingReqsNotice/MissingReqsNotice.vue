@@ -12,8 +12,8 @@
     class="alert alert-danger"
   >
     {{ translate(
-      req.tooNew
-        ? 'CorePluginsAdmin_MissingRequirementsNoticeTooNew'
+      req.actualVersionTooNew
+        ? 'CorePluginsAdmin_MissingRequirementsNotYetCompatibleNotice'
         : 'CorePluginsAdmin_MissingRequirementsNotice',
       requirement(req.requirement),
       req.actualVersion,

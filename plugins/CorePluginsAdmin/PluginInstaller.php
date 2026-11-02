@@ -201,7 +201,9 @@ class PluginInstaller
                     $message .= Piwik::translate('CorePluginsAdmin_MissingRequirementsPleaseInstallNotice', $params);
                 } else {
                     $params = array(ucfirst($dep['requirement']), $dep['actualVersion'], $dep['requiredVersion']);
-                    $key    = !empty($dep['tooNew']) ? 'CorePluginsAdmin_MissingRequirementsNoticeTooNew' : 'CorePluginsAdmin_MissingRequirementsNotice';
+                    $key    = !empty($dep['actualVersionTooNew'])
+                        ? 'CorePluginsAdmin_MissingRequirementsNotYetCompatibleNotice'
+                        : 'CorePluginsAdmin_MissingRequirementsNotice';
                     $message .= Piwik::translate($key, $params);
                 }
             }
