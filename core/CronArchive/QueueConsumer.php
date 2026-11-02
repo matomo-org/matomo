@@ -379,11 +379,11 @@ class QueueConsumer
         );
 
         $periods = array_flip(Piwik::$idPeriods);
-        $doneFlag = $this->getDoneFlag($archiveToProcess);
+        $segmentDoneFlag = $this->getSegmentDoneFlag($archiveToProcess);
 
         foreach ($inProgressArchives as $archiveBeingProcessed) {
             // archives of different segments, incl. "all visits", don't use each other's data
-            if ($this->getDoneFlag($archiveBeingProcessed) !== $doneFlag) {
+            if ($this->getSegmentDoneFlag($archiveBeingProcessed) !== $segmentDoneFlag) {
                 continue;
             }
 
@@ -407,7 +407,7 @@ class QueueConsumer
         return null;
     }
 
-    private function getDoneFlag(array $archive): string
+    private function getSegmentDoneFlag(array $archive): string
     {
         return explode('.', $archive['name'])[0];
     }
