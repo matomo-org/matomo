@@ -209,7 +209,8 @@ class Model
         }
 
         // we add every archive we need to invalidate + the archives that do not already exist to archive_invalidations.
-        // except for archives that are DONE_IN_PROGRESS.
+        // an invalidation that is already queued is not added again. one that is in progress deliberately is, as that
+        // run may miss data tracked after it started.
         $archivesToCreateInvalidationRowsFor = [];
         foreach ($archivesToInvalidate as $row) {
             $archivesToCreateInvalidationRowsFor[$row['idsite']][$row['period']][$row['date1']][$row['date2']][$row['name']] = $row['idarchive'];

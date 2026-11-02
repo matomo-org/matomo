@@ -552,6 +552,70 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals(0, $count);
     }
 
+    /**
+     * @dataProvider getTestDataForQueuedCopyOfInProgressInvalidation
+     */
+    public function testQueuedCopyOfInProgressInvalidationIsOnlyDeletedIfOlderThanInProgressOne(array $invalidations, int $expectedQueuedCount)
+    {
+        Fixture::createWebsite('2015-02-03');
+
+        // force archiving so we don't skip those without visits
+        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
+            $idSites[] = 1;
+        });
+
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            $cronArchive,
+            $this->makeTestArchiveFilter()
+        );
+
+        Date::$now = strtotime('2018-03-10 01:00:00');
+
+        $this->insertInvalidations($invalidations);
+
+        $iteratedInvalidations = [];
+        while (true) {
+            $next = $queueConsumer->getNextArchivesToProcess();
+            if ($next === null) {
+                break;
+            }
+
+            $iteratedInvalidations[] = $next;
+        }
+
+        // the queued copy is never started while the other one is in progress
+        $this->assertEquals([[]], $iteratedInvalidations);
+
+        $table = Common::prefixTable('archive_invalidations');
+        $this->assertEquals(1, Db::fetchOne("SELECT COUNT(*) FROM $table WHERE status = 1"));
+        $this->assertEquals($expectedQueuedCount, Db::fetchOne("SELECT COUNT(*) FROM $table WHERE status = 0"));
+    }
+
+    public function getTestDataForQueuedCopyOfInProgressInvalidation(): iterable
+    {
+        $inProgress = ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => '2018-03-10 00:50:00'];
+        $queued = ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID];
+
+        yield 'queued copy added after the in progress one is kept' => [
+            'invalidations' => [$inProgress, $queued],
+            'expectedQueuedCount' => 1,
+        ];
+
+        yield 'queued copy added before the in progress one is deleted' => [
+            'invalidations' => [$queued, $inProgress],
+            'expectedQueuedCount' => 0,
+        ];
+    }
+
     public function testSkipSegmentsToday()
     {
         Date::$now = strtotime('2018-03-04 01:00:00');
