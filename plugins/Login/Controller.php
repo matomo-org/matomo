@@ -19,6 +19,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\RedirectException;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Http\BadRequestException;
 use Piwik\IP;
 use Piwik\Log;
@@ -298,7 +299,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function logme()
     {
         if (Config\GeneralConfig::getConfigValue('login_allow_logme') == 0) {
-            throw new Exception('This functionality has been disabled in config');
+            throw new ThingNotFoundException('This functionality has been disabled in config');
         }
 
         $request  = Request::fromRequest();

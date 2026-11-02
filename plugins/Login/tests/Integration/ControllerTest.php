@@ -16,6 +16,7 @@ use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\RedirectException;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Http\BadRequestException;
 use Piwik\Plugins\Login\Controller;
 use Piwik\Plugins\Login\PasswordResetter;
@@ -192,6 +193,17 @@ class ControllerTest extends IntegrationTestCase
         $this->assertInvitationFailure(function () {
             $this->controller->acceptInvitation();
         }, RedirectException::class, 'Login_InvalidOrExpiredTokenV2', 0);
+    }
+
+    public function testLogmeIsNotFoundWhileItIsDisabled()
+    {
+        Config::getInstance()->General['login_allow_logme'] = 0;
+
+        $this->expectException(ThingNotFoundException::class);
+        $this->expectExceptionCode(404);
+        $this->expectExceptionMessage('This functionality has been disabled in config');
+
+        $this->controller->logme();
     }
 
     public function testDeclineInvitationWithoutTokenIsABadRequestWithoutRecordingAFailedAttempt()
