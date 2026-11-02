@@ -2220,6 +2220,13 @@ if (typeof window.Matomo !== 'object') {
                 COOKIE_CONSENT_COOKIE_NAME = 'mtm_cookie_consent',
                 CONSENT_REMOVED_COOKIE_NAME = 'mtm_consent_removed',
 
+                // Consent to being measured, which is not the same as mtm_consent. That one says
+                // the visitor is not opted out, and the opt-out form writes it too, so it cannot
+                // stand for a visitor having been asked whether they agree to be measured beyond
+                // what a compliance policy allows. Only the tracker's own consent calls write
+                // this one, so only an answer the site actually asked for is reported.
+                MEASUREMENT_CONSENT_COOKIE_NAME = 'mtm_measurement_consent',
+
                 // Current URL and Referrer URL
                 locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
                 domainAlias = domainFixup(locationArray[0]),
@@ -2531,7 +2538,7 @@ if (typeof window.Matomo !== 'object') {
                 if (
                     configCookiesDisabled
                     && cookieName !== CONSENT_REMOVED_COOKIE_NAME
-                    && cookieName !== CONSENT_COOKIE_NAME
+                    && cookieName !== MEASUREMENT_CONSENT_COOKIE_NAME
                 ) {
                     return 0;
                 }
@@ -2548,7 +2555,13 @@ if (typeof window.Matomo !== 'object') {
              * Set cookie value
              */
             function setCookie(cookieName, value, msToExpire, path, domain, isSecure, sameSite) {
-                if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
+                // as in getCookie(): a site with cookies off still has to be able to record, and
+                // to clear, the decision the visitor made about being measured
+                if (
+                    configCookiesDisabled
+                    && cookieName !== CONSENT_REMOVED_COOKIE_NAME
+                    && cookieName !== MEASUREMENT_CONSENT_COOKIE_NAME
+                ) {
                     return;
                 }
 
@@ -3245,10 +3258,17 @@ if (typeof window.Matomo !== 'object') {
                 if (getCookie(CONSENT_REMOVED_COOKIE_NAME)) {
                     configHasConsent = false;
                     configConsentGiven = false;
-                } else if (getCookie(CONSENT_COOKIE_NAME)) {
+
+                    return;
+                }
+
+                if (getCookie(CONSENT_COOKIE_NAME)) {
+                    configHasConsent = true;
+                }
+
+                if (getCookie(MEASUREMENT_CONSENT_COOKIE_NAME)) {
                     // consent remembered on an earlier page view, so setConsentGiven() is not
                     // called again and the consent is picked up here instead
-                    configHasConsent = true;
                     configConsentGiven = true;
                 }
             }
@@ -7539,6 +7559,7 @@ if (typeof window.Matomo !== 'object') {
                 this.setConsentGiven(setCookieConsent);
                 var now = new Date().getTime();
                 setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(MEASUREMENT_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             };
 
             /**
@@ -7561,6 +7582,7 @@ if (typeof window.Matomo !== 'object') {
 
                 configConsentGiven = false;
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+                deleteCookie(MEASUREMENT_CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 this.forgetCookieConsentGiven();
                 this.requireConsent();

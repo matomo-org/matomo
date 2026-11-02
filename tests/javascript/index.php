@@ -5497,6 +5497,33 @@ if ($mysql) {
         }, 2000);
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - opting back in through the opt-out form is not consent to being measured", function() {
+        stop();
+
+        deleteCookies();
+
+        // the standalone opt-out script writes mtm_consent directly when a visitor opts back in.
+        // That answers "do you want to be tracked at all", not "may we measure you beyond what
+        // the compliance policy allows", so it must not be reported as the latter
+        document.cookie = 'mtm_consent=' + new Date().getTime() + ';path=/';
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'optedbackin');
+        tracker.trackRequest('myFoo=optedBackIn');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'optedbackin');
+            strictEqual(true, requests.indexOf('myFoo=optedBackIn') > 0, "the visitor is tracked after opting back in");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "opting back in was reported as consent to being measured");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 
