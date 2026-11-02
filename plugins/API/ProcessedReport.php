@@ -711,8 +711,22 @@ class ProcessedReport
 
         $website = new Site($idSite);
 
-        $period = Period\Factory::build($period, $date);
-        $period = $period->getLocalizedLongString();
+        // Keep in sync with ArchiveQueryFactory::getSiteInfoFromQueryParam() and getPeriodInfoFromQueryParam().
+        $timezone = $this->getTimezoneForIdSites($idSite);
+        // Of the two factory methods, only build() accepts a multiple-period date.
+        $requestedPeriod = Period::isMultiplePeriod($date, $period)
+            ? Period\Factory::build($period, $date, $timezone)
+            : null;
+
+        // Modules such as MultiSites.getAll select their own sites, so idSite's timezone may not be the rows'.
+        $resolvedPeriod = $this->getPeriodFromTable(
+            $dataTable,
+            $requestedPeriod === null ? null : count($requestedPeriod->getSubperiods())
+        );
+        $resolvedPeriod = $resolvedPeriod
+            ?? $requestedPeriod
+            ?? Period\Factory::makePeriodFromQueryParams($timezone, $period, $date);
+        $period = $resolvedPeriod->getLocalizedLongString();
 
         $return = array(
             'website'        => $website->getName(),
@@ -727,6 +741,70 @@ class ProcessedReport
             $return['timerMillis'] = $timer->getTimeMs(0);
         }
         return $return;
+    }
+
+    /**
+     * The site's timezone when $idSites resolves to a single site, false otherwise, as the archive picks it.
+     *
+     * @param int|string|int[] $idSites
+     */
+    private function getTimezoneForIdSites($idSites): string|false
+    {
+        $ids = Site::getIdSitesFromIdSitesString($idSites);
+
+        return count($ids) === 1 ? Site::getTimezoneFor(reset($ids)) : false;
+    }
+
+    private function getPeriodFromTable(DataTable|DataTable\Map $dataTable, ?int $requestedPeriodCount = null): ?Period
+    {
+        if ($dataTable instanceof DataTable) {
+            // A single table cannot name every period of a multiple-period date, so keep the requested range.
+            if ($requestedPeriodCount !== null) {
+                return null;
+            }
+
+            $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+            return $period instanceof Period ? $period : null;
+        }
+
+        $periods = [];
+        foreach ($dataTable->getDataTables() as $table) {
+            $period = $this->getPeriodFromTable($table);
+            if ($period === null) {
+                return null;
+            }
+
+            $periods[] = $period;
+        }
+
+        if ($requestedPeriodCount !== null && $dataTable->getKeyName() === 'date') {
+            // ComparisonRowGenerator appends a longer comparison range's extra periods after the requested ones.
+            $periods = array_slice($periods, 0, $requestedPeriodCount);
+        }
+
+        $firstPeriod = $periods[0] ?? null;
+        $startDate = null;
+        $endDate = null;
+        foreach ($periods as $period) {
+            // Compare calendar dates directly; each site's UTC boundaries can differ.
+            $start = $period->getDateStart()->toString();
+            $end = $period->getDateEnd()->toString();
+            $startDate = $startDate === null ? $start : min($startDate, $start);
+            $endDate = $endDate === null ? $end : max($endDate, $end);
+        }
+
+        // A multiple-period date stays labelled as a range even when it spans a single period.
+        if (
+            $firstPeriod === null
+            || ($requestedPeriodCount === null
+                && $startDate === $firstPeriod->getDateStart()->toString()
+                && $endDate === $firstPeriod->getDateEnd()->toString())
+        ) {
+            return $firstPeriod;
+        }
+
+        // Not Factory::build(): it rejects 'range' where that period is disabled, but these rows are already archived.
+        return new Period\Range('range', $startDate . ',' . $endDate);
     }
 
     /**
