@@ -184,8 +184,11 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSomeViewAccess();
         $this->checkTokenInUrl();
 
-        $notificationId = Common::getRequestVar('notificationId');
-        NotificationManager::cancel($notificationId);
+        $notificationId = \Piwik\Request::fromRequest()->getStringParameter('notificationId', '');
+        // client-side notifications can use IDs no stored notification has, so there is nothing to remove
+        if (NotificationManager::isValidId($notificationId)) {
+            NotificationManager::cancel($notificationId);
+        }
 
         return json_encode(true);
     }
