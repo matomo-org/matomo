@@ -4554,7 +4554,7 @@ if ($mysql) {
     });
 
     test("campaign attribution cookie on a new session after a campaign landing from an external referrer", function () {
-        expect(18);
+        expect(21);
 
         function landOnCampaignThenStartNewSession(configure) {
             var tracker = Piwik.getTracker();
