@@ -35,7 +35,7 @@ class ExceptionToTextProcessor
             return $record;
         }
 
-        /** @var \Exception $exception */
+        /** @var \Throwable|array{message: string, file: string, line: int, ...} $exception */
         $exception = $record['context']['exception'];
 
         if ($exception instanceof InvalidRequestParameterException) {
@@ -44,8 +44,8 @@ class ExceptionToTextProcessor
 
         $exceptionStr = sprintf(
             "%s(%d): %s",
-            ExceptionHandler::replaceSensitiveValues($exception instanceof \Exception ? $exception->getFile() : $exception['file']),
-            $exception instanceof \Exception ? $exception->getLine() : $exception['line'],
+            ExceptionHandler::replaceSensitiveValues($exception instanceof \Throwable ? $exception->getFile() : $exception['file']),
+            $exception instanceof \Throwable ? $exception->getLine() : $exception['line'],
             $this->getStackTrace($exception)
         );
 
@@ -66,7 +66,7 @@ class ExceptionToTextProcessor
     private function contextContainsException($record)
     {
         return isset($record['context']['exception'])
-            && ($record['context']['exception'] instanceof \Exception
+            && ($record['context']['exception'] instanceof \Throwable
                 || $this->isLooksLikeFatalErrorArray($record['context']['exception']));
     }
 
