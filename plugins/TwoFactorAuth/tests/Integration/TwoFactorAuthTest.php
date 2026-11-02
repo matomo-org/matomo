@@ -193,16 +193,18 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertTrue($sessionFingerprint->hasVerifiedTwoFactor());
     }
 
-    public function testOnLoginSetupTwoFactorAuthNotAvailableWhenUserAlreadyUsesTwoFactorAuth()
+    public function testOnLoginSetupTwoFactorAuthRedirectsToTheDashboardWhenUserAlreadyUsesTwoFactorAuth()
     {
         $this->setTwoFaRequired(true);
         $this->setCurrentUser($this->userWith2Fa);
 
+        // as after completing the setup, which verifies the session
         $sessionFingerprint = new SessionFingerprint();
         $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+        $sessionFingerprint->setTwoFactorAuthenticationVerified($this->userWith2Fa);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('not available');
+        $this->expectExceptionMessage('Matomo would redirect you to this URL: index.php');
 
         StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
     }
@@ -234,7 +236,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         StaticContainer::get(Controller::class)->onLoginSetupTwoFactorAuth();
     }
 
-    public function testOnLoginSetupTwoFactorAuthKeepsExistingSecretWhenNotAvailable()
+    public function testOnLoginSetupTwoFactorAuthKeepsExistingSecretWhenUserAlreadyUsesTwoFactorAuth()
     {
         $this->setTwoFaRequired(true);
         $this->setCurrentUser($this->userWith2Fa);
@@ -259,8 +261,8 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
         $user = (new Model())->getUser($this->userWith2Fa);
         $this->assertSame($this->user2faSecret, $user['twofactor_secret']);
-        $this->assertNotNull($exception, 'An exception should have been thrown');
-        $this->assertSame('not available', $exception->getMessage());
+        $this->assertNotNull($exception, 'The setup should have redirected');
+        $this->assertStringContainsString('Matomo would redirect you to this URL: index.php', $exception->getMessage());
     }
 
     public function testOnRequestDispatchRequiresFreshLoginWhenDifferentUserIsAuthenticatedDuringPendingSession()
