@@ -3994,10 +3994,11 @@ if (typeof window.Matomo !== 'object') {
                     campaignNameFromUrl = '',
                     campaignKeywordFromUrl = '',
                     hasNewReferrer,
+                    hasCampaignInUrl = false,
                     attributionValues = {};
 
-                campaignNameDetected = attributionCookie[0];
-                campaignKeywordDetected = attributionCookie[1];
+                campaignNameDetected = attributionCookie[0] || '';
+                campaignKeywordDetected = attributionCookie[1] || '';
                 referralTs = attributionCookie[2];
                 referralUrl = attributionCookie[3];
 
@@ -4033,6 +4034,11 @@ if (typeof window.Matomo !== 'object') {
                                   }
                               }
                           }
+
+                          hasCampaignInUrl = campaignNameFromUrl.length || campaignKeywordFromUrl.length;
+                          for (i = 0; !hasCampaignInUrl && i < configCampaignKnownParameters.length; i++) {
+                              hasCampaignInUrl = getUrlParameter(currentUrl, configCampaignKnownParameters[i]).length;
+                          }
                     }
 
                     // Store the referrer URL and time in the cookie;
@@ -4056,7 +4062,7 @@ if (typeof window.Matomo !== 'object') {
                     }
 
                     // A direct return keeps the stored campaign, so conversions still credit the last non-direct source
-                    if (campaignNameFromUrl.length) {
+                    if (hasCampaignInUrl) {
                         campaignNameDetected = campaignNameFromUrl;
                         campaignKeywordDetected = campaignKeywordFromUrl;
                     } else if (hasNewReferrer && !configConversionAttributionFirstReferrer) {

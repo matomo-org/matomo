@@ -4554,7 +4554,7 @@ if ($mysql) {
     });
 
     test("campaign attribution cookie on a new session after a campaign landing from an external referrer", function () {
-        expect(21);
+        expect(27);
 
         function landOnCampaignThenStartNewSession(configure) {
             var tracker = Piwik.getTracker();
@@ -4598,6 +4598,28 @@ if ($mysql) {
         tracker.trackPageView('newCampaignReturn');
         equal(tracker.getAttributionCampaignName(), 'Newsletter', 'new campaign replaces the campaign name');
         equal(tracker.getAttributionCampaignKeyword(), '', 'new campaign without keyword clears the campaign keyword');
+
+        tracker = landOnCampaignThenStartNewSession();
+        tracker.setReferrerUrl('');
+        tracker.setCustomUrl('https://matomo.org/?mtm_cpn=Spring&mtm_source=newsletter');
+        tracker.trackPageView('campaignParameterOnlyKnownToServerReturn');
+        equal(tracker.getAttributionCampaignName(), '', 'campaign parameter without a tracked name clears the campaign name');
+        equal(tracker.getAttributionCampaignKeyword(), '', 'campaign parameter without a tracked name clears the campaign keyword');
+
+        tracker = landOnCampaignThenStartNewSession();
+        tracker.setReferrerUrl('');
+        tracker.setCustomUrl('https://matomo.org/?pk_kwd=boots');
+        tracker.trackPageView('keywordOnlyReturn');
+        equal(tracker.getAttributionCampaignName(), '', 'campaign keyword without a name clears the campaign name');
+        equal(tracker.getAttributionCampaignKeyword(), 'boots', 'campaign keyword without a name is stored');
+
+        tracker = landOnCampaignThenStartNewSession();
+        tracker.hook.test._setCookie(tracker.hook.test._getCookieName('ref'), '[null,null,0,"https://www.google.com/"]', 86400000);
+        tracker.setReferrerUrl('');
+        tracker.setCustomUrl('https://matomo.org/checkout');
+        tracker.trackPageView('nullCampaignInCookieReturn');
+        equal(tracker.getAttributionCampaignName(), '', 'null campaign name in the cookie is read as empty');
+        equal(tracker.getAttributionReferrerUrl(), 'https://www.google.com/', 'null campaign name in the cookie keeps the referrer url');
 
         tracker = landOnCampaignThenStartNewSession(function (t) {
             t.setDomains(['matomo.org']);
