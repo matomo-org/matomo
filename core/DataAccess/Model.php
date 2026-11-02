@@ -780,6 +780,9 @@ class Model
         return $statement->rowCount() > 0;
     }
 
+    /**
+     * @deprecated since Matomo 6.1.0, use isArchiveAlreadyInProgress() instead. Will be removed in Matomo 7.
+     */
     public function isSimilarArchiveInProgress($invalidation)
     {
         $table = Common::prefixTable('archive_invalidations');
