@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Monolog\Processor;
 
 use Monolog\LogRecord;
 use Piwik\Common;
-use Piwik\ErrorHandler;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\ExceptionHandler;
 use Piwik\Log;
@@ -22,7 +21,7 @@ use Piwik\Url;
  */
 class ExceptionToTextProcessor
 {
-    private $forcePrintBacktrace;
+    private bool $forcePrintBacktrace;
 
     public function __construct(bool $forcePrintBacktrace = false)
     {
@@ -36,7 +35,7 @@ class ExceptionToTextProcessor
         }
 
         /** @var \Throwable|array{message: string, file: string, line: int, ...} $exception */
-        $exception = $record['context']['exception'];
+        $exception = $record->context['exception'];
 
         if ($exception instanceof InvalidRequestParameterException) {
             return $record;
@@ -49,13 +48,10 @@ class ExceptionToTextProcessor
             $this->getStackTrace($exception)
         );
 
-        if (
-            !isset($record['message'])
-            || !str_contains($record['message'], '{exception}')
-        ) {
+        if (!str_contains($record->message, '{exception}')) {
             $message = $exceptionStr;
         } else {
-            $message = str_replace('{exception}', $exceptionStr, ExceptionHandler::replaceSensitiveValues($record['message']));
+            $message = str_replace('{exception}', $exceptionStr, ExceptionHandler::replaceSensitiveValues($record->message));
         }
 
         $message .= ' [' . $this->getErrorContext() . ']';
@@ -63,38 +59,28 @@ class ExceptionToTextProcessor
         return $record->with(message: $message);
     }
 
-    private function contextContainsException($record)
+    private function contextContainsException(LogRecord $record): bool
     {
-        return isset($record['context']['exception'])
-            && ($record['context']['exception'] instanceof \Throwable
-                || $this->isLooksLikeFatalErrorArray($record['context']['exception']));
+        return isset($record->context['exception'])
+            && ($record->context['exception'] instanceof \Throwable
+                || $this->isLooksLikeFatalErrorArray($record->context['exception']));
     }
 
-    private function isLooksLikeFatalErrorArray($exception)
+    private function isLooksLikeFatalErrorArray(mixed $exception): bool
     {
         return is_array($exception) && isset($exception['message']) && isset($exception['file']) && isset($exception['line']);
     }
 
-    private function getMessage($exception)
-    {
-        if ($exception instanceof \ErrorException) {
-            return ErrorHandler::getErrNoString($exception->getSeverity()) . ' - ' . ExceptionHandler::replaceSensitiveValues($exception->getMessage());
-        }
-
-        if (is_array($exception) && isset($exception['message'])) {
-            return ExceptionHandler::replaceSensitiveValues($exception['message']);
-        }
-
-        return ExceptionHandler::replaceSensitiveValues($exception->getMessage());
-    }
-
-    private function getStackTrace($exception)
+    /**
+     * @param \Throwable|array{message: string, file: string, line: int, ...} $exception
+     */
+    private function getStackTrace(\Throwable|array $exception): string
     {
         return Log::$debugBacktraceForTests ?: self::getMessageAndWholeBacktrace($exception, $this->forcePrintBacktrace ? true : null);
     }
 
     /**
-     * @param \Throwable|array{message: ?string, backtrace: ?string} $exception
+     * @param \Throwable|array{message?: ?string, backtrace?: ?string, ...} $exception
      */
     public static function getMessageAndWholeBacktrace($exception, ?bool $shouldPrintBacktrace = null): string
     {
@@ -132,13 +118,13 @@ class ExceptionToTextProcessor
         return $message;
     }
 
-    private function getErrorContext()
+    private function getErrorContext(): string
     {
         try {
             $context = 'Query: ' . Url::getCurrentQueryString();
             $context .= ', CLI mode: ' . (int)Common::isPhpCliMode();
             return $context;
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
             return 'cannot get url or cli mode: ' . ExceptionHandler::replaceSensitiveValues($ex->getMessage());
         }
     }
