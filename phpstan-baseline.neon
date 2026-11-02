@@ -2461,37 +2461,13 @@ parameters:
 			path: plugins/CoreHome/Controller.php
 
 		-
-			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
 			message: '#^Instanceof between Piwik\\DataTable\\Map and Piwik\\DataTable\\DataTableInterface will always evaluate to true\.$#'
 			identifier: instanceof.alwaysTrue
 			count: 1
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
-			message: '#^Instanceof between Piwik\\Date and Piwik\\Date will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(mixed\)\: bool\)\|null, ''strlen'' given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between array\|int\|Piwik\\Date\|string and false will always evaluate to true\.$#'
+			message: '#^Strict comparison using \!\=\= between array\|int\|string and false will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
