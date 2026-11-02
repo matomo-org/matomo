@@ -11,6 +11,11 @@
 		<documentation>The total number of times this URL was requested by AI chatbots during the selected period.</documentation>
 	</row>
 	<row>
+		<name>AI Chatbot traffic ratio</name>
+		<id>BotTracking_AIChatbotsTrafficRatio</id>
+		<documentation>The ratio of AI chatbot requests to page views made by humans, directly or via AI agents. A value of 2.0× means there were twice as many AI chatbot requests as page views.</documentation>
+	</row>
+	<row>
 		<name>Acquired visits</name>
 		<id>BotTracking_AIChatbotsAcquiredVisits</id>
 		<documentation>Visits that started after someone clicked from an AI chatbot (Referrers → AI Assistants).</documentation>
