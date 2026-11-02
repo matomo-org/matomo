@@ -197,7 +197,7 @@ class QueueConsumerTest extends IntegrationTestCase
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 2, 'date1' => '2020-04-04', 'date2' => '2020-04-04', 'period' => Day::PERIOD_ID, 'report' => 'testReport'],
             ['idarchive' => 1, 'name' => 'done', 'idsite' => 2, 'date1' => '2020-03-30', 'date2' => '2020-04-05', 'period' => Week::PERIOD_ID, 'report' => 'testReport'], // intersecting period
 
-            // segments are skipped due to insersecting period with all visits
+            // segment days run next to "all visits", segment week/month wait for the segment days
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => Day::PERIOD_ID, 'report' => null],
             ['idarchive' => 1, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID, 'report' => null],
@@ -303,6 +303,53 @@ class QueueConsumerTest extends IntegrationTestCase
                 [
                     'idarchive' => '1',
                     'idsite' => '1',
+                    'date1' => '2018-03-08',
+                    'date2' => '2018-03-08',
+                    'period' => '1',
+                    'name' => 'done' . $segmentHash,
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => 'browserCode==IE;dimension1==val',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'processing_host' => null,
+                    'process_id' => null,
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite' => '1',
+                    'date1' => '2018-03-07',
+                    'date2' => '2018-03-07',
+                    'period' => '1',
+                    'name' => 'done' . $segmentHash,
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => 'browserCode==IE;dimension1==val',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'processing_host' => null,
+                    'process_id' => null,
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite' => '1',
+                    'date1' => '2018-03-06',
+                    'date2' => '2018-03-06',
+                    'period' => '1',
+                    'name' => 'done' . $segmentHash,
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => 'browserCode==IE;dimension1==val',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'processing_host' => null,
+                    'process_id' => null,
+                ],
+            ],
+            [
+                [
+                    'idarchive' => '1',
+                    'idsite' => '1',
                     'date1' => '2018-03-04',
                     'date2' => '2018-03-04',
                     'period' => '1',
@@ -310,6 +357,23 @@ class QueueConsumerTest extends IntegrationTestCase
                     'report' => null,
                     'plugin' => null,
                     'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'processing_host' => null,
+                    'process_id' => null,
+                ],
+            ],
+            [
+                [
+                    'idarchive' => '1',
+                    'idsite' => '1',
+                    'date1' => '2018-03-04',
+                    'date2' => '2018-03-04',
+                    'period' => '1',
+                    'name' => 'done' . $segmentHash,
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => 'browserCode==IE;dimension1==val',
                     'ts_started' => null,
                     'status' => '0',
                     'processing_host' => null,
@@ -398,36 +462,6 @@ class QueueConsumerTest extends IntegrationTestCase
                 [
                     'idarchive' => '1',
                     'idsite' => '1',
-                    'date1' => '2018-03-08',
-                    'date2' => '2018-03-08',
-                    'period' => '1',
-                    'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
-                    'report' => null,
-                    'plugin' => null,
-                    'segment' => 'browserCode==IE;dimension1==val',
-                    'ts_started' => null,
-                    'status' => '0',
-                    'processing_host' => null,
-                    'process_id' => null,
-                ],
-                [
-                    'idarchive' => '1',
-                    'idsite' => '1',
-                    'date1' => '2018-03-07',
-                    'date2' => '2018-03-07',
-                    'period' => '1',
-                    'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
-                    'report' => null,
-                    'plugin' => null,
-                    'segment' => 'browserCode==IE;dimension1==val',
-                    'ts_started' => null,
-                    'status' => '0',
-                    'processing_host' => null,
-                    'process_id' => null,
-                ],
-                [
-                    'idarchive' => '1',
-                    'idsite' => '1',
                     'date1' => '2018-03-06',
                     'date2' => '2018-03-06',
                     'period' => '1',
@@ -440,14 +474,29 @@ class QueueConsumerTest extends IntegrationTestCase
                     'processing_host' => null,
                     'process_id' => null,
                 ],
+                [
+                    'idarchive' => '1',
+                    'idsite' => '1',
+                    'date1' => '2018-03-04',
+                    'date2' => '2018-03-11',
+                    'period' => '2',
+                    'name' => 'done',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'processing_host' => null,
+                    'process_id' => null,
+                ],
             ],
             [
                 [
                     'idarchive' => '1',
                     'idsite' => '1',
                     'date1' => '2018-03-04',
-                    'date2' => '2018-03-04',
-                    'period' => '1',
+                    'date2' => '2018-03-11',
+                    'period' => '2',
                     'name' => 'donec3afbf588c35606b9cd9ecd1ac781428',
                     'report' => null,
                     'plugin' => null,
@@ -653,7 +702,40 @@ class QueueConsumerTest extends IntegrationTestCase
                     'process_id' => null,
                 ],
             ],
-            [],
+            [
+                [
+                    'idarchive' => '9',
+                    'idsite' => '1',
+                    'date1' => '2018-03-01',
+                    'date2' => '2018-03-03',
+                    'period' => '5',
+                    'name' => 'done',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => '',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'processing_host' => null,
+                    'process_id' => null,
+                ],
+            ],
+            [
+                [
+                    'idarchive' => '7',
+                    'idsite' => '1',
+                    'date1' => '2018-02-02',
+                    'date2' => '2018-03-04',
+                    'period' => '5',
+                    'name' => 'done3736b708e4d20cfc10610e816a1b2341',
+                    'report' => null,
+                    'plugin' => null,
+                    'segment' => 'browserCode==FF',
+                    'ts_started' => null,
+                    'status' => '0',
+                    'processing_host' => null,
+                    'process_id' => null,
+                ],
+            ],
             [// end of idsite=1
             ],
         ];
@@ -1382,44 +1464,44 @@ class QueueConsumerTest extends IntegrationTestCase
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
-        yield 'segment archiving during "all visits" archiving should be detected as intersecting with same period' => [
+        yield 'segment archiving during "all visits" archiving should not be detected as intersecting with same period' => [
             'existingInvalidations' => [
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
+            'expected' => null,
         ];
 
-        yield 'segment archiving for plugin during "all visits" archiving should be detected as intersecting with same period' => [
+        yield 'segment archiving for plugin during "all visits" archiving should not be detected as intersecting with same period' => [
             'existingInvalidations' => [
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
+            'expected' => null,
         ];
 
-        yield 'segment archiving during "all visits" plugin archiving should be detected as intersecting with same period' => [
+        yield 'segment archiving during "all visits" plugin archiving should not be detected as intersecting with same period' => [
             'existingInvalidations' => [
                 ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
+            'expected' => null,
         ];
 
-        yield 'segment archiving for plugin during "all visits" plugin archiving should be detected as intersecting with same period' => [
+        yield 'segment archiving for plugin during "all visits" plugin archiving should not be detected as intersecting with same period' => [
             'existingInvalidations' => [
                 ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
+            'expected' => null,
         ];
 
-        yield 'segment archiving during "all visits" archiving should be detected as intersecting with lower period' => [
+        yield 'segment archiving during "all visits" archiving should not be detected as intersecting with lower period' => [
             'existingInvalidations' => [
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
+            'expected' => null,
         ];
 
         yield 'segment archiving during "all visits" archiving not should be detected as intersecting with different periods' => [
@@ -1430,28 +1512,28 @@ class QueueConsumerTest extends IntegrationTestCase
             'expected' => null,
         ];
 
-        yield '"all visits" archiving, while running a segment should be detected as intersecting' => [
+        yield '"all visits" archiving, while running a segment should not be detected as intersecting' => [
             'existingInvalidations' => [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)',
+            'expected' => null,
         ];
 
-        yield '"all visits" plugin archiving, while running a segment should be detected as intersecting' => [
+        yield '"all visits" plugin archiving, while running a segment should not be detected as intersecting' => [
             'existingInvalidations' => [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)',
+            'expected' => null,
         ];
 
-        yield '"all visits" archiving with bigger period, while running a segment should be detected as intersecting' => [
+        yield '"all visits" archiving with bigger period, while running a segment should not be detected as intersecting' => [
             'existingInvalidations' => [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
-            'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)',
+            'expected' => null,
         ];
 
         yield 'same period, but different segments archiving should not be detected as intersecting' => [
@@ -1460,6 +1542,22 @@ class QueueConsumerTest extends IntegrationTestCase
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
             'expected' => null,
+        ];
+
+        yield 'segment archiving while an unknown segment is running should not be detected as intersecting' => [
+            'existingInvalidations' => [
+                ['name' => 'done00000000000000000000000000000000', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
+            'expected' => null,
+        ];
+
+        yield 'week period should be detected as intersecting when plugin archive of same segment is processed for day' => [
+            'existingInvalidations' => [
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'segment' => 'browserCode==IE'],
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
         yield 'day period should not be detected as intersecting when range is processed' => [
