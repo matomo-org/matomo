@@ -12,6 +12,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   the critical PHP security vulnerabilities announced on 2026-10-21, for example when your Linux distribution has backported
   the fix without changing the PHP version number.
 
+### Internal Changes
+* A dashboard layout only ever keeps widgets that render a report. `Piwik\Plugins\Dashboard\Dashboard::decodeLayout()` now drops any stored entry that points at a non-widget module such as the `API` module, and `copyDashboardToUser` stores the same filtered layout it would serve. Legitimate layouts are built from plugin widgets and are unaffected.
+
 ## Matomo 5.14.2
 
 ### Breaking Changes
