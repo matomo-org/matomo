@@ -161,7 +161,7 @@ class Visualization extends ViewDataTable
     protected $metricsFormatter = null;
 
     /**
-     * @var Report
+     * @var Report|null
      */
     protected $report;
 
@@ -894,7 +894,7 @@ class Visualization extends ViewDataTable
         $message = 'Some ViewDataTable::requestConfig properties have changed after requesting the data table. '
                  . 'That means the changed values had probably no effect. For instance in beforeRender() hook. '
                  . 'Probably a bug? Details:'
-                 . print_r($details, 1);
+                 . print_r($details, true);
 
         Log::warning($message);
     }
