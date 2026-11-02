@@ -19,6 +19,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\RedirectException;
+use Piwik\Http\BadRequestException;
 use Piwik\IP;
 use Piwik\Log;
 use Piwik\Log\LoggerInterface;
@@ -722,7 +723,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $request = Request::fromRequest();
 
-        $token = $request->getStringParameter('token');
+        $token = $request->getStringParameter('token', '');
+        if ($token === '') {
+            // nothing was guessed, so no failed attempt is recorded
+            throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 3);
+        }
+
         // the invitation form is only processed when submitted via POST
         $form = Request::fromPost()->getStringParameter('invitation_form', '');
 
@@ -841,19 +847,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $model = $this->usersModel;
 
-        $token = Common::getRequestVar('token', null, 'string');
+        $token = Common::getRequestVar('token', '', 'string');
         $form = Common::getRequestVar('invitation_form', false, 'string');
+
+        if ($token === '') {
+            // nothing was guessed, so no failed attempt is recorded
+            throw new BadRequestException(Piwik::translate('Login_InvalidOrExpiredToken'));
+        }
 
         $user = $model->getUserByInviteToken($token);
 
         // if no user matches the invite token
         if (!$user) {
             $this->bruteForceDetection->addFailedAttempt(IP::getIpFromHeader());
-            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+            throw new BadRequestException(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
 
         if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
-            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+            throw new BadRequestException(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
 
         $view = new View('@Login/invitationDecline');
@@ -869,7 +880,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // The delete is pinned to the invitation looked up above, so only a request that actually
                 // removed the row goes on to clean up and notify.
                 if (!$model->deletePendingUserByInviteToken($user['login'], $token)) {
-                    throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+                    throw new BadRequestException(Piwik::translate('Login_InvalidOrExpiredToken'));
                 }
 
                 $model->deleteUserAccess($user['login']);

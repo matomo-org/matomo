@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\ExampleReport\Reports\GetExampleReport;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
@@ -145,7 +146,8 @@ class ReportTest extends IntegrationTestCase
 
     public function testCheckIsEnabledShouldThrowAnExceptionIfReportIsNotEnabled()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
         $this->expectExceptionMessage('General_ExceptionReportNotEnabled');
 
         $this->disabledReport->checkIsEnabled();

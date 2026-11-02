@@ -15,6 +15,8 @@ use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\UsersManager\Controller;
 use Piwik\Nonce;
+use Piwik\Notification;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Date;
 use Piwik\Plugin\ThemeStyles;
@@ -148,9 +150,23 @@ class ControllerTest extends IntegrationTestCase
     {
         $this->setupPostStateWithPassword('password1');
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('General_PasswordStrengthValidationFailed');
-        $this->controller->recordPasswordChange();
+        $this->assertStringContainsString('General_PasswordStrengthValidationFailed', $this->recordPasswordChangeAndGetError());
+    }
+
+    public function testRecordPasswordChangeReportsMismatchingPasswords()
+    {
+        $this->setupPostStateWithPassword('Password111!');
+        $_POST['passwordBis'] = 'Password222!';
+
+        $this->assertSame('Login_PasswordsDoNotMatch', $this->recordPasswordChangeAndGetError());
+    }
+
+    public function testRecordPasswordChangeReportsAPasswordThatIsAlreadyInUse()
+    {
+        $this->setupPostStateWithPassword('Password111!');
+        $_POST['passwordConfirmation'] = 'Password111!';
+
+        $this->assertSame('UsersManager_PasswordAlreadyInUse', $this->recordPasswordChangeAndGetError());
     }
 
     public function testRecordPasswordChangePasswordStrengthCheckStrongPassword()
@@ -164,9 +180,8 @@ class ControllerTest extends IntegrationTestCase
         $usersModel->addUser($userLogin, $passwordHash = '', $userEmail, Date::now()->getDatetime());
 
         // expect test to get past strength check and fail when checking existing password
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
-        $this->controller->recordPasswordChange();
+        // the test framework appends a debugging hint to errors of nested API requests
+        $this->assertStringStartsWith('UsersManager_ConfirmWithReAuthentication', $this->recordPasswordChangeAndGetError());
     }
 
     public function testRecordUserSettingsShouldRejectInvalidThemeMode()
@@ -496,9 +511,8 @@ class ControllerTest extends IntegrationTestCase
         $_GET['passwordBis'] = 'weak';
 
         // expect test to get past strength check and fail when checking existing password
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
-        $this->controller->recordPasswordChange();
+        // the test framework appends a debugging hint to errors of nested API requests
+        $this->assertStringStartsWith('UsersManager_ConfirmWithReAuthentication', $this->recordPasswordChangeAndGetError());
     }
 
     public function testDeleteTokenRequiresRecentPasswordVerification()
@@ -903,6 +917,27 @@ class ControllerTest extends IntegrationTestCase
         $this->assertNull($this->passwordVerify->requirePasswordVerifiedRecently($params));
         $this->passwordVerify->setPasswordVerifiedCorrectly();
         $this->assertTrue($this->passwordVerify->requirePasswordVerifiedRecently($params));
+    }
+
+    /**
+     * @return string the message of the error notification shown on the security page
+     */
+    private function recordPasswordChangeAndGetError(): string
+    {
+        NotificationManager::cancelAllNotifications();
+
+        try {
+            $this->controller->recordPasswordChange();
+            $this->fail('expected a redirect back to the security page');
+        } catch (NoWebsiteFoundException $e) {
+            // redirectToIndex() can't redirect on the CLI and throws this for a super user instead
+        }
+
+        $notifications = NotificationManager::getAllNotificationsToDisplay();
+        $this->assertArrayHasKey('errorpass', $notifications);
+        $this->assertSame(Notification::CONTEXT_ERROR, $notifications['errorpass']->context);
+
+        return $notifications['errorpass']->message;
     }
 
     private function setupPostStateWithPassword(string $password)

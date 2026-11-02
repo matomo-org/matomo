@@ -179,7 +179,7 @@ class Filechecks
             return trim(shell_exec('whoami') ?? '');
         }
 
-        $currentUser = get_current_user();
+        $currentUser = function_exists('get_current_user') ? get_current_user() : '';
 
         if (empty($currentUser) && function_exists('posix_geteuid') && function_exists('posix_getpwuid')) {
             $currentUserId = posix_geteuid();

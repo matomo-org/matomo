@@ -15,6 +15,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -270,7 +271,7 @@ class Report
      * customize the error message. Eg.
      * ```
      * if (!$this->isEnabled()) {
-     * throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
+     * throw new NoPrivilegesException('Setting XYZ is not enabled or the user has not enough permission', 403);
      * }
      * ```
      * @throws \Exception
@@ -279,7 +280,7 @@ class Report
     public function checkIsEnabled()
     {
         if (!$this->isEnabled()) {
-            throw new Exception(Piwik::translate('General_ExceptionReportNotEnabled'));
+            throw new NoPrivilegesException(Piwik::translate('General_ExceptionReportNotEnabled'), 403);
         }
     }
 
