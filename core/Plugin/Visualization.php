@@ -112,7 +112,17 @@ use Piwik\Log\LoggerInterface;
  *         // $this->dataTable from a DataTable instance to a DataTable\Map instance.
  *         public function beforeLoadDataTable()
  *         {
+ *             $period = Common::getRequestVar('period');
  *             $date = Common::getRequestVar('date');
+ *
+ *             // resolve a relative date such as 'today' on the site's day, as the archive does,
+ *             // so both ends of the requested range name the same day. lastN, previousN and
+ *             // date ranges have no single period to compare against.
+ *             if (!str_contains($date, ',') && !preg_match('/last|previous/', $date)) {
+ *                 $timezone = Site::getTimezoneFor(Request::fromRequest()->getIntegerParameter('idSite'));
+ *                 $date = Period\Factory::makePeriodFromQueryParams($timezone, $period, $date)
+ *                     ->getDateStart()->toString();
+ *             }
  *             list($previousDate, $ignore) = Range::getLastDate($date, $period);
  *
  *             $this->requestConfig->request_parameters_to_modify['date'] = $previousDate . ',' . $date;

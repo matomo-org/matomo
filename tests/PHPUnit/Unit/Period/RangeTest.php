@@ -11,6 +11,7 @@ namespace Piwik\Tests\Unit\Period;
 
 use Exception;
 use Piwik\Date;
+use Piwik\Period\Factory;
 use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
@@ -25,6 +26,13 @@ class RangeTest extends BasePeriodTest
     {
         parent::setUp();
         Date::$now = null;
+    }
+
+    public function tearDown(): void
+    {
+        Date::$now = null;
+
+        parent::tearDown();
     }
 
     /**
@@ -1382,5 +1390,148 @@ class RangeTest extends BasePeriodTest
 
         $this->assertEquals(1, $range->getNumberOfSubperiods());
         $this->assertEquals($expected->getRangeString(), $range->getRangeString());
+    }
+
+    public function testGetLastDateResolvesARelativeDateOnTheGivenTimezoneDay()
+    {
+        // 04:37 on the 25th for the given timezone, still the 24th for the server.
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [$strLastDate, $lastPeriod] = Range::getLastDate('today', 'day', 'UTC+12');
+
+        $this->assertEquals('2020-12-24', $strLastDate);
+        $this->assertEquals('2020-12-24', $lastPeriod->toString());
+    }
+
+    public function testGetLastDateEndsTheDateRangeBeforeTheRelativeEndOfTheArchivedRange()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        // The archive's Range ends 'today' on UTC's midnight shifted into the timezone: the 23rd
+        // for UTC-12, and the 24th for the server.
+        $this->assertEquals(['2020-12-19,2020-12-22', false], Range::getLastDate('2020-12-20,today', 'day', 'UTC-12'));
+        $this->assertEquals(['2020-12-19,2020-12-23', false], Range::getLastDate('2020-12-20,today', 'day'));
+    }
+
+    public function testGetLastDateWithoutATimezoneComparesAgainstTheServerDay()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [$strLastDate] = Range::getLastDate('today', 'day');
+
+        $this->assertEquals('2020-12-23', $strLastDate);
+    }
+
+    public function testGetLastDateKeepsTheTimeOfDayOfNow()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [, $lastPeriod] = Range::getLastDate('now', 'day');
+
+        $this->assertEquals('2020-12-23 16:37:00', $lastPeriod->getDatetime());
+    }
+
+    /**
+     * @dataProvider getDatesWithoutAComparisonPeriod
+     */
+    public function testGetLastDateStillRefusesADateItCannotCompare($date)
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        [$strLastDate, $lastPeriod] = Range::getLastDate($date, 'day', 'UTC+12');
+
+        $this->assertFalse($strLastDate);
+        $this->assertFalse($lastPeriod);
+    }
+
+    public function testGetDateXPeriodsAgoEndsARelativeRangeBeforeTheArchivedRange()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        // The archive ends last7 on Date::factory('today', $timezone): the 24th for UTC+12 and
+        // the 23rd for UTC-12, so the seven days before it end on the 17th and the 16th.
+        $this->assertEquals(['2020-12-11,2020-12-17', false], Range::getDateXPeriodsAgo(1, 'last7', 'range', 'UTC+12'));
+        $this->assertEquals(['2020-12-10,2020-12-16', false], Range::getDateXPeriodsAgo(1, 'last7', 'range', 'UTC-12'));
+        $this->assertEquals(['2020-12-11,2020-12-17', false], Range::getDateXPeriodsAgo(1, 'last7', 'range'));
+    }
+
+    public function testGetDateXPeriodsAgoTestsTheLeapYearOfTheGivenTimezoneDay()
+    {
+        // 2025-01-01 for the given timezone, still 2024-12-31 for the server: only the server's
+        // year is a leap year, which would stretch 365 days to 366.
+        Date::$now = strtotime('2024-12-31 16:37:00');
+
+        $this->assertEquals(['2024-01-02', '2024-01-02'], Range::getDateXPeriodsAgo(365, 'today', 'day', 'UTC+12'));
+        $this->assertEquals(['2023-12-31', '2023-12-31'], Range::getDateXPeriodsAgo(365, 'today', 'day'));
+    }
+
+    /**
+     * @dataProvider getRelativeRangesAroundAYearBoundary
+     */
+    public function testGetDateXPeriodsAgoEndsTheDayBeforeTheArchivedRangeAndHasItsLength($now, $date, $timezone)
+    {
+        Date::$now = strtotime($now);
+
+        $archivedRange = Factory::makePeriodFromQueryParams($timezone, 'range', $date);
+        [$strLastDate, $lastPeriod] = Range::getDateXPeriodsAgo(1, $date, 'range', $timezone);
+        [, $lastEnd] = explode(',', $strLastDate);
+
+        $this->assertEquals($archivedRange->getDateStart()->subDay(1)->toString(), $lastEnd);
+        // Counted on whole days: the archived range ends at the time of day 'today' starts in $timezone.
+        $archivedDays = new Range('day', $archivedRange->getRangeString());
+        $this->assertEquals($archivedDays->getDayCount(), (new Range('day', $strLastDate))->getDayCount());
+        $this->assertFalse($lastPeriod);
+    }
+
+    public function getRelativeRangesAroundAYearBoundary()
+    {
+        $cases = [];
+        // Monday 2020-12-28 to Sunday 2021-01-03: the week crosses the year boundary.
+        for ($day = 0; $day < 7; $day++) {
+            $today = date('Y-m-d', strtotime('2020-12-28') + $day * 86400);
+            $now = "$today 14:00:00";
+            // A date range starting mid-week and ending on the current day, relative and absolute.
+            $start = date('Y-m-d', strtotime($today) - 4 * 86400);
+            foreach (['last3', 'previous3', 'last34', "$start,today", "$start,$today"] as $date) {
+                foreach ([false, 'UTC+12', 'UTC-12'] as $timezone) {
+                    $cases["$now $date " . var_export($timezone, true)] = [$now, $date, $timezone];
+                }
+            }
+        }
+
+        return $cases;
+    }
+
+    /**
+     * @dataProvider getLongRelativeRangesInTimezonesFarFromUtc
+     */
+    public function testGetDateXPeriodsAgoKeepsTheLengthOfALongRelativeRange($date, $timezone, $archived, $expected)
+    {
+        // The end of the archived range carries the time of day 'today' starts in the timezone,
+        // and a range starting with a whole week or month starts at midnight.
+        Date::$now = strtotime('2026-11-05 14:00:00');
+
+        $this->assertEquals($archived, Factory::makePeriodFromQueryParams($timezone, 'range', $date)->getRangeString());
+        $this->assertEquals([$expected, false], Range::getDateXPeriodsAgo(1, $date, 'range', $timezone));
+    }
+
+    public function getLongRelativeRangesInTimezonesFarFromUtc()
+    {
+        return [
+            ['last36', 'UTC-12', '2026-09-30,2026-11-04', '2026-08-25,2026-09-29'],
+            ['last36', 'America/New_York', '2026-09-30,2026-11-04', '2026-08-25,2026-09-29'],
+            ['last37', 'UTC+14', '2026-09-30,2026-11-05', '2026-08-24,2026-09-29'],
+        ];
+    }
+
+    public function getDatesWithoutAComparisonPeriod()
+    {
+        return [
+            ['last7'],
+            ['previous30'],
+            // Resolving the keyword must not turn this into a date with a comparison period.
+            ['last-week'],
+            ['last week'],
+        ];
     }
 }

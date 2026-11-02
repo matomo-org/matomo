@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\MultiSites\tests\Integration;
 
 use Piwik\Access;
+use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Plugins\MultiSites\API as APIMultiSites;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -35,6 +36,75 @@ class MultiSitesTest extends IntegrationTestCase
 
         \Piwik\Plugin\Manager::getInstance()->loadPlugins(['MultiSites', 'VisitsSummary', 'Actions']);
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
+    }
+
+    public function tearDown(): void
+    {
+        Date::$now = null;
+
+        parent::tearDown();
+    }
+
+    /**
+     * @dataProvider getTimezonesAndTheirPreviousDay
+     */
+    public function testGetOneComparesAgainstThePreviousDayOfTheSiteTimezone($timezone, $expectedLastDate)
+    {
+        // 04:37 on the 25th for a site twelve hours ahead, still the 24th for the server.
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        $idSite = $this->addSiteInTimezone($timezone);
+
+        $dataTable = APIMultiSites::getInstance()->getOne($idSite, 'day', 'today');
+
+        $this->assertEquals($expectedLastDate, $dataTable->getMetadata('last_period_date')->toString());
+    }
+
+    public function testGetAllComparesAgainstThePreviousDayOfTheSiteTimezoneWhenOnlyOneSiteMatches()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+        $this->addSiteInTimezone('UTC+12');
+
+        $dataTable = APIMultiSites::getInstance()->getAll('day', 'today', null, null, false, 'timezone');
+
+        $this->assertEquals('2020-12-24', $dataTable->getMetadata('last_period_date')->toString());
+    }
+
+    public function testGetAllComparesAgainstThePreviousUtcDayForSeveralSites()
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+        $this->addSiteInTimezone('UTC+12');
+        $this->addSiteInTimezone('UTC+12');
+
+        $dataTable = APIMultiSites::getInstance()->getAll('day', 'today', null, null, false, 'timezone');
+
+        // The archive of several sites resolves 'today' in UTC, even when they share a timezone.
+        $this->assertEquals('2020-12-23', $dataTable->getMetadata('last_period_date')->toString());
+    }
+
+    private function addSiteInTimezone(string $timezone): int
+    {
+        return APISitesManager::getInstance()->addSite(
+            'timezone site',
+            'http://timezone.example',
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            $timezone
+        );
+    }
+
+    public function getTimezonesAndTheirPreviousDay()
+    {
+        return [
+            // The archive resolves 'today' on the site's own day, so the period it is compared
+            // against has to come from the same day rather than from the server's.
+            ['UTC+12', '2020-12-24'],
+            ['UTC', '2020-12-23'],
+        ];
     }
 
     /**

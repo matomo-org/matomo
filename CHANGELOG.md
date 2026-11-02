@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### New APIs
+* `Piwik\Period\Range::getLastDate()` and `Range::getDateXPeriodsAgo()` gained an optional trailing `$timezone` parameter that a relative date such as `today` is resolved in. Without it they resolve on UTC's day, as before. For `period=range` with a relative date such as `last7`, the range they return now has the length of the range the archive builds and ends the day before it, with or without `$timezone`; it used to be one day longer when called in the second half of the day. The archive resolves a single site's relative date in that site's timezone, so a plugin comparing a report with its previous period should pass `Piwik\Site::getTimezoneFor($idSite)`.
+
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
@@ -15,6 +18,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A relative `range` is still resolved as before, not on the site's days, and is labelled on the days its rows are archived for.
   * A module that selects its own set of sites, such as `MultiSites.getAll`, is labelled on the days its rows cover, which are UTC's days when it covers more than one site.
   * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
+* For a relative date such as `today` or `yesterday` on a site whose day differs from UTC's, the period a report is compared against now comes before the site's day instead of UTC's: `last_period_date` and the evolution columns of `MultiSites.getAll`, `MultiSites.getOne` and `MultiSites.getAllWithGroups` when the request covers a single site, the visit evolution of `SegmentEditor.getSegmentData`, and the period `Insights.getInsights` and `Insights.getMoversAndShakers` compare against. The `date` metadata of the table those two Insights methods return now holds that resolved day as `YYYY-MM-DD`, or for `period=range` the resolved range as `YYYY-MM-DD,YYYY-MM-DD`, instead of the date as requested. For `period=range` with a relative date such as `last7`, the range these methods compare against now has the same length as the requested range, for every site; it used to be one day longer when requested in the second half of the UTC day.
 
 ### Other changes
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
