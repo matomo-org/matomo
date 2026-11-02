@@ -26,6 +26,8 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Diagnostics\Diagnostics;
+use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
+use Piwik\Plugins\Live\Model as LiveModel;
 use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Segment;
 use Piwik\SettingsServer;
@@ -205,7 +207,13 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        $segmentInfo = $this->getSegmentIfIsUnprocessed();
+        try {
+            $segmentInfo = $this->getSegmentIfIsUnprocessed();
+        } catch (MaxExecutionTimeExceededException $e) {
+            // the notice is only a hint, so skip it rather than fail the report
+            return;
+        }
+
         if (empty($segmentInfo)) {
             return;
         }
@@ -292,8 +300,7 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // if no visits recorded, data will not appear, so don't show the message
-        $liveModel = new \Piwik\Plugins\Live\Model();
-        $visits = $liveModel->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, false, false, 'ASC');
+        $visits = StaticContainer::get(LiveModel::class)->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, false, false, 'ASC');
         if (empty($visits)) {
             return null;
         }
