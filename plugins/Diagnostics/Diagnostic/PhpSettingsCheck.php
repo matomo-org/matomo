@@ -50,6 +50,8 @@ class PhpSettingsCheck implements Diagnostic
     }
 
     /**
+     * Note: Do not remove this doc block. It is used below to detect if opcache.save_comments is disabled.
+     *
      * @return RequiredPhpSetting[]
      */
     private function getRequiredSettings()
