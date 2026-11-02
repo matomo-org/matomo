@@ -17,6 +17,7 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\Plugins\Actions\Tracker\ActionsRequestProcessor;
 use Piwik\Tracker;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -553,15 +554,21 @@ class Visit implements VisitInterface
             $valuesToUpdate['idvisitor'] = $idVisitor;
         }
 
-        $visitorId = $this->request->getVisitorId();
+        // A User ID a compliance policy would have withheld must not reach this visit by another
+        // route either: while enable_userid_overwrites_visitorid is on it replaces the visit's
+        // idvisitor with a hash of the User ID, which identifies the visitor as surely as the
+        // column would have. It may only do so where the consent reported applies to this visit.
+        $hasConsent = $this->mayUseTheReportedConsent() ? null : false;
+
+        $visitorId = $this->request->getVisitorId($hasConsent);
         if ($visitorId && strlen($visitorId) === Tracker::LENGTH_BINARY_ID) {
             // Might update the idvisitor when it was forced or overwritten for this visit
-            $valuesToUpdate['idvisitor'] = $this->request->getVisitorId();
+            $valuesToUpdate['idvisitor'] = $visitorId;
         }
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->request->getIdSiteIfExists())) {
             // User ID takes precedence and overwrites idvisitor value
-            $userId = $this->request->getForcedUserId();
+            $userId = $this->request->getForcedUserId($hasConsent);
             if ($userId) {
                 $userIdHash = $this->request->getUserIdHashed($userId);
                 $binIdVisitor = Common::hex2bin($userIdHash);
@@ -571,6 +578,23 @@ class Visit implements VisitInterface
         }
 
         return $valuesToUpdate;
+    }
+
+    /**
+     * Whether the consent this request reports may relax what is written to the visit it is being
+     * recorded against. A request that reports none is unaffected.
+     */
+    private function mayUseTheReportedConsent(): bool
+    {
+        if (!$this->request->hasConsent()) {
+            return true;
+        }
+
+        return Consent::appliesToVisit(
+            $this->request,
+            $this->makeVisitorFacade(),
+            $this->request->getMetadata('Actions', 'action')
+        );
     }
 
     protected function insertNewVisit($visit)

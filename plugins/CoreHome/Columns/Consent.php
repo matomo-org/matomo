@@ -75,6 +75,13 @@ class Consent extends VisitDimension
             return false;
         }
 
+        // Nothing is being withheld for consent to lift, so there is no earlier treatment to
+        // keep this request away from. Ordinary tracking - a referrer detected part way through
+        // a visit, say - must not be held back by a question that makes no difference here.
+        if (!ConsentAwareAnalytics::hasRelaxableRestriction((int) $request->getIdSiteIfExists())) {
+            return true;
+        }
+
         if (self::hasVisitConsented($visitor)) {
             return true;
         }

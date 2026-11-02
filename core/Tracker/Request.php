@@ -42,6 +42,7 @@ class Request
 {
     private $cdtCache;
     private ?bool $hasConsentCache = null;
+    private ?bool $measuresConsentCache = null;
     private $idSiteCache;
     private $paramsCache = array();
 
@@ -830,13 +831,17 @@ class Request
      *
      * @throws Exception
      */
-    public function getVisitorId()
+    /**
+     * @param bool|null $hasConsent overrides what the request reports, for a caller that knows
+     *                              the consent does not apply to the visit being recorded
+     */
+    public function getVisitorId(?bool $hasConsent = null)
     {
         $found = false;
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->getIdSiteIfExists())) {
             // If User ID is set it takes precedence
-            $userId = $this->getForcedUserId();
+            $userId = $this->getForcedUserId($hasConsent);
             if ($userId) {
                 $userIdHashed = $this->getUserIdHashed($userId);
                 $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
@@ -985,17 +990,36 @@ class Request
             return $this->hasConsentCache = false;
         }
 
-        if (!ConsentAwareAnalytics::isEnabled((int) $idSite)) {
-            return $this->hasConsentCache = false;
+        return $this->hasConsentCache = $this->measuresConsentAwareAnalytics();
+    }
+
+    /**
+     * Whether the site this request belongs to measures consent-aware analytics at all.
+     *
+     * Consent only means anything where it does. A site that has not opted in, or that forces
+     * cookieless tracking - the strictest consent-exempt posture it can choose - measures every
+     * visitor the same way, so consent reported for this request, or recorded against the visit
+     * it belongs to before the site changed its mind, must not relax anything.
+     */
+    public function measuresConsentAwareAnalytics(): bool
+    {
+        if (null !== $this->measuresConsentCache) {
+            return $this->measuresConsentCache;
         }
 
-        // Forcing cookieless tracking is the strictest consent-exempt posture a site can choose,
-        // and a site that has chosen it measures every visitor the same way. Whatever a page
-        // reports, it is refused here rather than in the tracker the page loaded, so that it
-        // holds for any caller of any of the consent methods.
+        $idSite = $this->getIdSiteIfExists();
+
+        if (!is_numeric($idSite) || !$idSite) {
+            return $this->measuresConsentCache = false;
+        }
+
+        if (!ConsentAwareAnalytics::isEnabled((int) $idSite)) {
+            return $this->measuresConsentCache = false;
+        }
+
         $privacyConfig = new \Piwik\Plugins\PrivacyManager\Config((int) $idSite);
 
-        return $this->hasConsentCache = !$privacyConfig->forceCookielessTracking;
+        return $this->measuresConsentCache = !$privacyConfig->forceCookielessTracking;
     }
 
     public function getPlugins()

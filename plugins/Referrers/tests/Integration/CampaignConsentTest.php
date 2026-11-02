@@ -943,6 +943,72 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->testDate = $this->testDate->addPeriod($visitLength + 60, 'second');
     }
 
+    /**
+     * A ping says which page it was sent from, so it is read like any other request rather than
+     * trusted on the interaction count alone. One sent from a page the visitor moved on to must
+     * not fold consent into the visit they arrived on - even where no page view recorded the
+     * move, which would otherwise leave the count still reading as the arrival.
+     */
+    public function testAConsentingPingFromAnotherPageDoesNotConsentTheArrivalVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->ping('other', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits(), 'a ping cannot start a visit');
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'the ping consented the arrival visit');
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name')
+        );
+    }
+
+    /**
+     * Consent recorded against a visit stops counting once the site stops measuring consent-aware
+     * analytics. Turning the setting off has to take effect for the visits that already consented,
+     * not only for the ones that start afterwards.
+     */
+    public function testConsentStopsCountingOnceTheSiteStopsMeasuringIt(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+
+        $this->disableConsentAwareAnalytics();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null, 'winter clearance');
+
+        foreach (Db::fetchAll('SELECT referer_name FROM ' . Common::prefixTable('log_visit')) as $row) {
+            $this->assertNotSame(
+                'winter clearance',
+                $row['referer_name'],
+                'the visit kept its consent after the site stopped measuring it'
+            );
+        }
+    }
+
+    /**
+     * With no policy enforced there is nothing for consent to lift, so a request reporting it
+     * must leave ordinary tracking alone - including a referrer detected part way through a visit
+     * that arrived as a direct entry, which is recorded for any other visitor.
+     */
+    public function testConsentDoesNotHoldBackOrdinaryTrackingWhenNothingIsEnforced(): void
+    {
+        // deliberately no enforceCampaignMasking(): the site is opted in, nothing is enforced
+
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = null);
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('third', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits());
+        $this->assertSame('Ecosia', $this->fetchVisitColumn('referer_name'), 'the referrer was held back by consent');
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent'), 'consent was never recorded');
+    }
+
     private function setForcedCookielessTracking(bool $enabled): void
     {
         $config = new PrivacyManagerConfig();

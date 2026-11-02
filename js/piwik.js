@@ -2525,7 +2525,14 @@ if (typeof window.Matomo !== 'object') {
              * Get cookie value
              */
             function getCookie(cookieName) {
-                if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
+                // the consent cookies record a decision the visitor made rather than track them,
+                // and a site that turns cookies off still has to honour that decision, so they
+                // stay readable where the rest do not
+                if (
+                    configCookiesDisabled
+                    && cookieName !== CONSENT_REMOVED_COOKIE_NAME
+                    && cookieName !== CONSENT_COOKIE_NAME
+                ) {
                     return 0;
                 }
 
@@ -2841,6 +2848,25 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
+             * Whether the visitor has consented to being tracked.
+             *
+             * This is what lets the server know a request may carry data that a compliance policy
+             * would otherwise withhold, such as campaign parameters under the CNIL configuration.
+             * Consent to cookies is deliberately not the signal: it says the visitor accepted
+             * being recognised across page views, not that they accepted being measured.
+             * setConsentGiven() reports it without requireConsent() having to hold requests back,
+             * so a site measuring under a compliance exemption can track from the first page view
+             * and report consent only once it is given.
+             */
+            function hasGivenConsent() {
+                if (configConsentGiven) {
+                    return true;
+                }
+
+                return configConsentRequired && configHasConsent;
+            }
+
+            /*
              * Removes hash tag from the URL
              * Removes ignore_referrer/ignore_referer
              * Removes configVisitorIdUrlParameter
@@ -2854,7 +2880,7 @@ if (typeof window.Matomo !== 'object') {
 
                 // Remove campaign names/keywords from URL
                 if (shouldIgnoreCampaignForReferrer(configReferrerUrl)
-                  || (configEnableCampaignParameters !== true && !configConsentRequired)) {
+                  || (configEnableCampaignParameters !== true && !configConsentRequired && !hasGivenConsent())) {
                     for (i = 0; i < configCampaignNameParameters.length; i++) {
                       url = removeUrlParameter(url, configCampaignNameParameters[i]);
                     }
@@ -3209,25 +3235,6 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 callback();
-            }
-
-            /*
-             * Whether the visitor has consented to being tracked.
-             *
-             * This is what lets the server know a request may carry data that a compliance policy
-             * would otherwise withhold, such as campaign parameters under the CNIL configuration.
-             * Consent to cookies is deliberately not the signal: it says the visitor accepted
-             * being recognised across page views, not that they accepted being measured.
-             * setConsentGiven() reports it without requireConsent() having to hold requests back,
-             * so a site measuring under a compliance exemption can track from the first page view
-             * and report consent only once it is given.
-             */
-            function hasGivenConsent() {
-                if (configConsentGiven) {
-                    return true;
-                }
-
-                return configConsentRequired && configHasConsent;
             }
 
             /*
@@ -4050,7 +4057,7 @@ if (typeof window.Matomo !== 'object') {
                     // Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
                     if ((!configConversionAttributionFirstReferrer
                         || !campaignNameDetected.length)
-                        && (configEnableCampaignParameters || configConsentRequired)
+                        && (configEnableCampaignParameters || configConsentRequired || hasGivenConsent())
                         && !shouldIgnoreCampaignForReferrer(configReferrerUrl)
                         && !shouldIgnoreCampaignAttributionForSource(currentUrl)) {
                           for (i in configCampaignNameParameters) {

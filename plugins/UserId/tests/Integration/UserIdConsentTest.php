@@ -84,6 +84,32 @@ class UserIdConsentTest extends IntegrationTestCase
     }
 
     /**
+     * A User ID the policy withholds must not reach the visit by another route either. While
+     * enable_userid_overwrites_visitorid is on - the default - it would otherwise replace the
+     * visit's idvisitor with a hash of the User ID, identifying the visitor just as surely as
+     * the column it was kept out of.
+     */
+    public function testAConsentingPingDoesNotIdentifyTheEarlierVisitThroughItsVisitorId(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView(null, 'landing');
+
+        $visitorIdBefore = bin2hex((string) $this->fetchVisitColumn('idvisitor'));
+        $this->assertNotSame('', $visitorIdBefore);
+
+        $this->ping('1', 'other');
+
+        $this->assertSame(1, $this->countVisits(), 'a ping cannot start a visit');
+        $this->assertSame('', (string) $this->fetchVisitColumn('user_id'));
+        $this->assertSame(
+            $visitorIdBefore,
+            bin2hex((string) $this->fetchVisitColumn('idvisitor')),
+            'the ping identified the earlier visit through its visitor id'
+        );
+    }
+
+    /**
      * Consent given once the visitor has moved on starts a visit of its own. The campaign and the
      * original referrer are gone from the request by then, but the User ID is not - the site keeps
      * sending it - so the new visit carries it.

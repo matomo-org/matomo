@@ -5442,6 +5442,61 @@ if ($mysql) {
         }, 3000);
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent remembered on an earlier page view is reported while cookies are off", function() {
+        stop();
+
+        deleteCookies();
+
+        // a site measuring under a compliance exemption tracks without cookies, so the consent
+        // cookie is the only record of the visitor having consented on an earlier page view and
+        // has to stay readable even though the rest do not
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.rememberConsentGiven();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'cookieless');
+        tracker.disableCookies();
+        tracker.trackRequest('myFoo=cookieless');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'cookieless');
+            strictEqual(true, requests.indexOf('myFoo=cookieless') > 0, "the visitor is tracked without cookies");
+            strictEqual(1, (requests.match(/consent=1/g) || []).length, "the remembered consent is reported with cookies off");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - disable CampaignParameters keeps them once consent is given", function() {
+        // disableCampaignParameters() is documented as applying unless consent is given, and
+        // consent does not have to arrive through requireConsent() for that to hold
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData('token', getCampaignParamToken() + '3');
+        tracker.disableCampaignParameters();
+        tracker.setCustomUrl('http://localhost.localdomain/?mtm_campaign=something&mtm_kwd=keyword');
+
+        tracker.trackRequest('foo=beforeConsent');
+        tracker.setConsentGiven();
+        tracker.trackRequest('foo=afterConsent');
+
+        stop();
+
+        setTimeout(function() {
+            var results = fetchTrackedRequests(getCampaignParamToken() + '3', true);
+            strictEqual(true, results[0].indexOf('mtm_campaign%3Dsomething') === -1, "campaign parameters were kept before consent was given");
+            strictEqual(false, results[1].indexOf('mtm_campaign%3Dsomething') === -1, "campaign parameters were stripped after consent was given");
+
+            start();
+        }, 2000);
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 
