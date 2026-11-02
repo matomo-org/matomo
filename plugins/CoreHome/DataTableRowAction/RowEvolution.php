@@ -9,13 +9,13 @@
 
 namespace Piwik\Plugins\CoreHome\DataTableRowAction;
 
-use Exception;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Map;
 use Piwik\Date;
+use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\NumberFormatter;
 use Piwik\Period\Factory as PeriodFactory;
@@ -125,30 +125,30 @@ class RowEvolution
      * @param int $idSite
      * @param Date $date ($this->date from controller)
      * @param string $graphType
-     * @throws Exception
+     * @throws BadRequestException
      */
     public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
         $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
         if (empty($this->apiMethod)) {
-            throw new Exception("Parameter apiMethod not set.");
+            throw new BadRequestException("Parameter apiMethod not set.");
         }
 
         $label = DataTablePostProcessor::getLabelFromRequest($_GET);
         if (!is_array($label)) {
-            throw new Exception("Expected label to be an array, got instead: " . $label);
+            throw new BadRequestException("Expected label to be an array, got instead: " . $label);
         }
         $this->label = Common::unsanitizeInputValue($label[0]);
 
         if ($this->label === '') {
-            throw new Exception("Parameter label not set.");
+            throw new BadRequestException("Parameter label not set.");
         }
 
         $this->period = Common::getRequestVar('period', '', 'string');
         PeriodFactory::checkPeriodIsEnabled($this->period);
 
         if ($this->period != 'range' && !($date instanceof Date)) {
-            throw new Exception("Expected date to be an instance of \\Piwik\\Date");
+            throw new BadRequestException("Expected date to be an instance of \\Piwik\\Date");
         }
 
         $this->idSite = $idSite;
