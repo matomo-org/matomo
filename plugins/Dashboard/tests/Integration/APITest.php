@@ -192,6 +192,20 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($dashboard['layout'], $layout);
     }
 
+    public function testCopyDashboardToUserStoresOnlyWidgetsThatRenderAReport()
+    {
+        $layout = '[[{"uniqueId":"widgetApiindex","parameters":{"module":"API","action":"index"}},'
+            . '{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+        $id = $this->model->createNewDashboardForUser('superUserLogin', 'any name', $layout);
+
+        $newId = $this->api->copyDashboardToUser($id, 'eva', 'new name');
+
+        $stored = (new Dashboard())->getLayoutForUser('eva', $newId);
+
+        $this->assertStringNotContainsString('"API"', $stored);
+        $this->assertStringContainsString('widgetLivewidget', $stored);
+    }
+
     public function testCopyDashboardToUserFails()
     {
         $this->expectException(\Exception::class);
