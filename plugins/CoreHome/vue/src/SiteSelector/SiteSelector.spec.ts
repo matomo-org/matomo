@@ -234,4 +234,12 @@ describe('CoreHome/SiteSelector', () => {
     expect((await mountSelector({ fullWidthOnSmallScreen: true })).classes())
       .toContain('mtm-selector--fullWidthOnSmallScreen');
   });
+
+  it('fills its container with the name at the start when placed as a form field', async () => {
+    const wrapper = await mountSelector({ fullWidth: true, alignLabelStart: true });
+
+    expect(wrapper.classes()).toContain('mtm-selector--fullWidth');
+    expect(wrapper.find('.mtm-selector__label').classes()).toContain('mtm-selector__label--alignStart');
+    expect(wrapper.find('.siteSelector__name').classes()).toContain('siteSelector__name--unbounded');
+  });
 });

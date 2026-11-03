@@ -13,6 +13,7 @@
       /* @deprecated since Matomo 6.1.0, removed in Matomo 7: use mtm-selector--expanded */
       'expanded': showSitesList,
       'mtm-selector--readOnly': !hasMultipleSites,
+      'mtm-selector--fullWidth': fullWidth,
       'mtm-selector--fullWidthOnSmallScreen': fullWidthOnSmallScreen,
     }"
     v-focus-anywhere-but-here="{ blur: onBlur }"
@@ -38,17 +39,23 @@
       <span
         v-if="displayedModelValue?.name || !placeholder"
         class="mtm-selector__label"
+        :class="{ 'mtm-selector__label--alignStart': alignLabelStart }"
       >
         <span
           class="siteSelector__name"
+          :class="{ 'siteSelector__name--unbounded': fullWidth }"
           v-text="displayedModelValue?.name || firstSiteName"
         />
       </span>
       <span
         v-else
         class="mtm-selector__label mtm-selector__label--placeholder"
+        :class="{ 'mtm-selector__label--alignStart': alignLabelStart }"
       >
-        <span class="siteSelector__name">{{ placeholder }}</span>
+        <span
+          class="siteSelector__name"
+          :class="{ 'siteSelector__name--unbounded': fullWidth }"
+        >{{ placeholder }}</span>
       </span>
       <span
         v-if="hasMultipleSites"
@@ -219,7 +226,9 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [] as string[],
     },
+    fullWidth: Boolean,
     fullWidthOnSmallScreen: Boolean,
+    alignLabelStart: Boolean,
   },
   emits: ['update:modelValue', 'blur'],
   components: {
