@@ -1141,6 +1141,57 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    /**
+     * @dataProvider getNegatedSegmentsComputedFromVisitColumns
+     */
+    public function testGetSelectQueryFiltersTheVisitsDirectlyWhenANegatedSegmentIsComputedFromVisitColumns(string $segment, string $expectedWhere, array $expectedBind)
+    {
+        $segment = new Segment($segment, [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false, []);
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $expected = [
+            'sql'  => " SELECT log_visit.* FROM $logVisitTable AS log_visit WHERE $expectedWhere ",
+            'bind' => $expectedBind,
+        ];
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function getNegatedSegmentsComputedFromVisitColumns(): iterable
+    {
+        yield 'is not' => [
+            'daysSinceLastVisit!=50',
+            '( FLOOR(log_visit.visitor_seconds_since_last / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_last / 86400) <> ? )',
+            ['50'],
+        ];
+
+        yield 'does not contain' => [
+            'visitLocalHour!@5',
+            '( HOUR(log_visit.visitor_localtime) IS NULL OR HOUR(log_visit.visitor_localtime) NOT LIKE ? )',
+            ['%5%'],
+        ];
+    }
+
+    public function testGetSelectQueryKeepsTheSubQueryForANegatedSegmentComputedFromActionColumns()
+    {
+        $segment = new Segment('daysSinceLastVisit!=50;actionServerHour!=5', [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false, []);
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $expected = [
+            'sql'  => " SELECT log_visit.* FROM $logVisitTable AS log_visit
+                        WHERE ( FLOOR(log_visit.visitor_seconds_since_last / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_last / 86400) <> ? )
+                        AND ( log_visit.idvisit NOT IN (
+                            SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                            WHERE ( log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND (HOUR(log_link_visit_action.server_time) = ?)) ) ",
+            'bind' => ['50', '2020-02-02 02:00:00', '2020-02-29 02:00:00', '5'],
+        ];
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function testGetSelectQueryWhenUsingNotEqualsAndNotContainsCompareOnActionDimensionWithIdSitesAndDates()
     {
         $select = 'log_visit.*';

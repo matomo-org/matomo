@@ -330,15 +330,39 @@ class Segment
         if (!empty($availableSegment['unionOfSegments'])) {
             foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
                 $unionSegment = $this->getSegmentByName($segmentNameOfUnion);
-                if (str_starts_with($unionSegment['sqlSegment'], 'log_visit.')) {
+                if ($this->readsOnlyVisitColumns($unionSegment['sqlSegment'])) {
                     return true;
                 }
             }
-        } elseif (str_starts_with($availableSegment['sqlSegment'], 'log_visit.')) {
+        } elseif ($this->readsOnlyVisitColumns($availableSegment['sqlSegment'])) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * A segment computed from the columns of the visit only, e.g. `HOUR(log_visit.visit_last_action_time)`,
+     * has a single value per visit, so its negation can filter the visits directly, without a subquery.
+     */
+    private function readsOnlyVisitColumns($sqlSegment): bool
+    {
+        if (!is_string($sqlSegment) || $sqlSegment === '') {
+            return false;
+        }
+
+        $columns = SegmentExpression::parseColumnsFromSqlExpr($sqlSegment);
+        if (empty($columns)) {
+            return false;
+        }
+
+        foreach ($columns as $column) {
+            if (!str_starts_with($column, 'log_visit.')) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function doesSegmentNeedSubquery($operator, $segmentName)
