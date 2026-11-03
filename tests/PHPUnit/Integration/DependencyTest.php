@@ -80,18 +80,37 @@ class DependencyTest extends IntegrationTestCase
         ));
     }
 
-    public function testGetMissingDependenciesMarksTooNewOnlyWhenUpperBoundsFail()
+    public function testGetMissingDependenciesMarksActualVersionTooNewWhenNoNewerVersionIsAccepted()
     {
         $this->assertMissingDependency(array('piwik' => '>=4.0.0,<5.0.0-b1'), array(
             $this->missingPiwik('>=4.0.0,<5.0.0-b1', '<5.0.0-b1', true),
         ));
 
-        $this->assertMissingDependency(array('piwik' => '>=99.0.0,<100.0.0'), array(
-            $this->missingPiwik('>=99.0.0,<100.0.0', '>=99.0.0'),
+        $this->assertMissingDependency(array('piwik' => '^4.0'), array(
+            $this->missingPiwik('^4.0,<5.0.0-b1', '^4.0, <5.0.0-b1', true),
         ));
 
         $this->assertMissingDependency(array('php' => '<=5.2'), array(
             $this->missingPhp('<=5.2', null, true),
+        ));
+
+        $this->assertMissingDependency(array('php' => '>=5.0 <7.0'), array(
+            $this->missingPhp('>=5.0 <7.0', null, true),
+        ));
+
+        $this->assertMissingDependency(array('php' => '~5.2'), array(
+            $this->missingPhp('~5.2', null, true),
+        ));
+    }
+
+    public function testGetMissingDependenciesDoesNotMarkActualVersionTooNewWhenANewerVersionIsAccepted()
+    {
+        $this->assertMissingDependency(array('piwik' => '>=99.0.0,<100.0.0'), array(
+            $this->missingPiwik('>=99.0.0,<100.0.0', '>=99.0.0'),
+        ));
+
+        $this->assertMissingDependency(array('php' => '<7.0 || >=99.0'), array(
+            $this->missingPhp('<7.0 || >=99.0'),
         ));
 
         $this->assertMissingDependency(array('unkNowN' => '<1.0'), array(
@@ -102,7 +121,7 @@ class DependencyTest extends IntegrationTestCase
     public function testGetMissingVersionANDCondition()
     {
         $this->assertMissingDependency(array('php' => '<2.0,>=9.0', 'piwik' => '>=3.0.0-b1,<4.0.0-b1'), array(
-            $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0'),
+            $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0', true),
             $this->missingPiwik('>=3.0.0-b1,<4.0.0-b1', '<4.0.0-b1', true),
         ));
     }

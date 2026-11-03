@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugin;
 
+use Composer\Semver\Constraint\Constraint;
+use Composer\Semver\Intervals;
 use Composer\Semver\VersionParser;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Marketplace\Environment;
@@ -49,15 +51,12 @@ class Dependency
             $missingVersions = $this->getMissingVersions($currentVersion, $requiredVersion);
 
             if (!empty($missingVersions)) {
-                $upperBounds         = array_filter($missingVersions, fn ($version) => preg_match('/^<[^>]/', $version));
-                $actualVersionTooNew = !empty($currentVersion) && count($upperBounds) === count($missingVersions);
-
                 $missingRequirements[] = array(
                     'requirement'         => $name,
                     'actualVersion'       => $currentVersion,
                     'requiredVersion'     => $requiredVersion,
                     'causedBy'            => implode(', ', $missingVersions),
-                    'actualVersionTooNew' => $actualVersionTooNew,
+                    'actualVersionTooNew' => $this->isActualVersionTooNew($currentVersion, $requiredVersion),
                 );
             }
         }
@@ -79,21 +78,10 @@ class Dependency
             return $missingVersions;
         }
 
-        $requiredVersion = $this->makeVersionBackwardsCompatibleIfNoComparisonDefined($requiredVersion);
-
         $version = new VersionParser();
         $constraintsExisting = $version->parseConstraints($currentVersion);
 
-        $requiredVersions = explode(',', (string) $requiredVersion);
-
-        foreach ($requiredVersions as $required) {
-            $required = trim($required);
-
-            if (empty($required)) {
-                continue;
-            }
-
-            $required = $this->makeVersionBackwardsCompatibleIfNoComparisonDefined($required);
+        foreach ($this->splitRequiredVersions($requiredVersion) as $required) {
             $constraintRequired = $version->parseConstraints($required);
 
             if (!$constraintRequired->matches($constraintsExisting)) {
@@ -102,6 +90,49 @@ class Dependency
         }
 
         return $missingVersions;
+    }
+
+    /**
+     * Whether no version newer than the current one satisfies the requirement, so that updating
+     * the requirement could not help.
+     *
+     * @param string|null $currentVersion
+     * @param string $requiredVersion
+     * @return bool
+     */
+    private function isActualVersionTooNew($currentVersion, $requiredVersion)
+    {
+        $currentVersion = trim($currentVersion ?? '');
+
+        if (empty($currentVersion)) {
+            return false;
+        }
+
+        $version  = new VersionParser();
+        $required = $version->parseConstraints(implode(',', $this->splitRequiredVersions($requiredVersion)));
+        $current  = $version->normalize($currentVersion);
+
+        return !Intervals::haveIntersections($required, new Constraint('>', $current));
+    }
+
+    /**
+     * @param string $requiredVersion
+     * @return string[]
+     */
+    private function splitRequiredVersions($requiredVersion)
+    {
+        $requiredVersion  = $this->makeVersionBackwardsCompatibleIfNoComparisonDefined($requiredVersion);
+        $requiredVersions = array();
+
+        foreach (explode(',', (string) $requiredVersion) as $required) {
+            $required = trim($required);
+
+            if (!empty($required)) {
+                $requiredVersions[] = $this->makeVersionBackwardsCompatibleIfNoComparisonDefined($required);
+            }
+        }
+
+        return $requiredVersions;
     }
 
     /**
