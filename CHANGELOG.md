@@ -7,18 +7,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.1.0
 
 ### Breaking Changes
-* The website selector (`CoreHome.SiteSelector`) now renders the generic `.mtm-selector` control. Target `.mtm-selector__trigger` for its trigger, `.mtm-selector__dropdown` for its panel, and the `mtm-selector--expanded` and `mtm-selector--readOnly` modifiers for its states.
-  * The `piwikSelector` and `borderedControl` classes are no longer on it. The legacy `.piwikSelector` styles in `plugins/CoreHome/stylesheets/selector.less` are kept unchanged for plugins' own markup, except that the `.piwikSelector__dropdown` rules now only apply inside a `.piwikSelector`.
-  * These are removed: its `loading`, `disabled`, `placeholder`, `iconHidden` and `collapsed` states, and the `icon` class on its arrow.
+* The website selector (`CoreHome.SiteSelector`) now renders the generic `.mtm-selector` control instead of `.piwikSelector`. Its `loading`, `disabled`, `placeholder`, `iconHidden` and `collapsed` states and the `icon` class on its arrow are removed, and the `.piwikSelector__dropdown` rules now only apply inside a `.piwikSelector`.
 
 ### New APIs
-* The `CoreHome.SiteSelector` Vue component takes a `full-width` prop, to fill its container, a `full-width-on-small-screen` prop, to do it on screens 600px wide and narrower only, as the top controls do, and an `align-label-start` prop, to hold the website name to the start as in a form field.
-* The `CoreHome.SiteSelector` Vue component takes a `full-width-on-small-screen` prop, to fill its row on screens 600px wide and narrower, as the top controls do.
+* The `CoreHome.SiteSelector` Vue component takes the `full-width`, `full-width-on-small-screen` and `align-label-start` props.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 
 ### Deprecations
-* The classes plugins use to find the website selector are kept, without styles, and will be removed in Matomo 7: `title` on its trigger, `expanded` while it is open (to read the open state only: adding or removing it no longer opens or closes anything) and `piwikSelector__dropdown` on its panel. Target the `mtm-selector` classes instead.
+* The `title`, `expanded` and `piwikSelector__dropdown` classes are kept on the website selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
