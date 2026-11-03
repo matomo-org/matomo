@@ -26,10 +26,13 @@ use Piwik\Updates;
 
 class Updates_6_1_0_b1 extends Updates
 {
+    private const CONTINENT_CODES = ['eur', 'asi', 'amc', 'amn', 'ams', 'afr', 'ant', 'oce'];
+
     /**
-     * A Continent segment with `!=` or `!@` matched the visits of the very continent it excludes. Its saved
-     * segments keep their definition, so the reports archived for them are rearchived, as far back
-     * as `rearchive_reports_in_past_last_n_months` allows.
+     * A Continent segment now applies its operator to the continent of the visit country, where it used to
+     * match the countries of the continent it names whatever the operator, so `!=` matched the very continent
+     * it excludes. Its saved segments keep their definition, so the reports archived for them are rearchived,
+     * as far back as `rearchive_reports_in_past_last_n_months` allows.
      *
      * @return Migration[]
      */
@@ -53,7 +56,7 @@ class Updates_6_1_0_b1 extends Updates
         $migrations = [];
         foreach ($segments as $segment) {
             // like Segment, a definition may have been stored encoded, separators included
-            if (!$this->isExcludingAContinent($segment['definition']) && !$this->isExcludingAContinent(urldecode($segment['definition']))) {
+            if (!$this->hasAChangedContinentCondition($segment['definition']) && !$this->hasAChangedContinentCondition(urldecode($segment['definition']))) {
                 continue;
             }
 
@@ -116,7 +119,11 @@ class Updates_6_1_0_b1 extends Updates
         return $segmentsToRearchive;
     }
 
-    private function isExcludingAContinent(string $definition): bool
+    /**
+     * Only `==` on a continent matches the same visits as before, any other Continent condition changed.
+     * The legacy Tibet code, now counted in Asia, is left aside: current geolocation no longer sets it.
+     */
+    private function hasAChangedContinentCondition(string $definition): bool
     {
         try {
             $conditions = (new SegmentExpression($definition))->parseSubExpressions();
@@ -126,10 +133,13 @@ class Updates_6_1_0_b1 extends Updates
 
         foreach ($conditions as $orConditions) {
             foreach ($orConditions as $condition) {
-                if (
-                    $condition[SegmentExpression::INDEX_OPERAND_NAME] === 'continentCode'
-                    && in_array($condition[SegmentExpression::INDEX_OPERAND_OPERATOR], [SegmentExpression::MATCH_NOT_EQUAL, SegmentExpression::MATCH_DOES_NOT_CONTAIN], true)
-                ) {
+                if ($condition[SegmentExpression::INDEX_OPERAND_NAME] !== 'continentCode') {
+                    continue;
+                }
+
+                $isSameAsBefore = $condition[SegmentExpression::INDEX_OPERAND_OPERATOR] === SegmentExpression::MATCH_EQUAL
+                    && in_array(strtolower((string) $condition[SegmentExpression::INDEX_OPERAND_VALUE]), self::CONTINENT_CODES, true);
+                if (!$isSameAsBefore) {
                     return true;
                 }
             }
