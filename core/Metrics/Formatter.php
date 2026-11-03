@@ -64,6 +64,8 @@ class Formatter
 
         // Display 01:45:17 time format
         if ($displayTimeAsSentence === false) {
+            // Round once so seconds and centiseconds share one value and a carry reaches the seconds.
+            $numberOfSeconds = round($numberOfSeconds, 6);
             $days    = floor($numberOfSeconds / 86400);
             $hours   = floor(($reminder = ($numberOfSeconds - $days * 86400)) / 3600);
             $minutes = floor(($reminder = ($reminder - $hours * 3600)) / 60);
