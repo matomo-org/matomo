@@ -134,6 +134,12 @@ class PageUrlSearchTest extends IntegrationTestCase
                 ['/products/item?id=123'],
             ];
 
+            yield "a path and query in another case, $view" => [
+                'https://example.com/Products/ITEM?Id=123',
+                $flat,
+                ['/products/item?id=123'],
+            ];
+
             yield "a host that is not one of the site's URLs, $view" => [
                 'https://elsewhere.example.net/products/item?id=123',
                 $flat,

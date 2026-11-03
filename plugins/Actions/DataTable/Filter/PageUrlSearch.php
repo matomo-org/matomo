@@ -19,8 +19,8 @@ use Piwik\Tracker\PageUrl;
  * Searches a page URL report for a full URL, as copied from the browser, rather than for a pattern
  * in the labels, which hold only the path.
  *
- * A row matches when its `url` metadata has the searched path and query, the scheme and a leading
- * `www.` being ignored. Its host is not compared: a row gathers every host the path was viewed on
+ * A row matches when its `url` metadata has the searched path and query, ignoring case like the
+ * search of the labels, the scheme and a leading `www.` being ignored. Its host is not compared: a row gathers every host the path was viewed on
  * and keeps only the URL viewed the most, so the host it holds may be an alias, or a host the
  * site's URLs do not list. The searched URL has to be on one of the site's URLs, or on the host
  * the row holds.
@@ -139,9 +139,9 @@ class PageUrlSearch extends BaseFilter
     }
 
     /**
-     * @return array{host: string, path: string}|null The lower-cased host, without `www.`, and
-     *                                                everything after it, `/` for nothing, with
-     *                                                `action_default_name` after a trailing `/`.
+     * @return array{host: string, path: string}|null The host, without `www.`, and everything after
+     *                                                it, `/` for nothing, with `action_default_name`
+     *                                                after a trailing `/`, both lower-cased.
      */
     private function splitUrl(string $url): ?array
     {
@@ -168,7 +168,7 @@ class PageUrlSearch extends BaseFilter
             $path = substr_replace($path, $this->defaultActionName, $fragmentStart, 0);
         }
 
-        return ['host' => $host, 'path' => $path];
+        return ['host' => $host, 'path' => mb_strtolower($path)];
     }
 
     /**
