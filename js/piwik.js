@@ -6518,7 +6518,9 @@ if (typeof window.Matomo !== 'object') {
                 if (this.getRememberedCookieConsent()) {
                     return false;
                 }
-                this.disableCookies();
+                // we won't call this.disableCookies() since we don't want to delete any cookies just yet
+                // user might call `setCookieConsentGiven` next. Cookies are deleted on the next tracking request otherwise
+                configCookiesDisabled = true;
                 return true;
             };
 
