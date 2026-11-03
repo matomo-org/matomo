@@ -4554,7 +4554,7 @@ if ($mysql) {
     });
 
     test("campaign attribution cookie on a new session after a campaign landing from an external referrer", function () {
-        expect(27);
+        expect(28);
 
         function landOnCampaignThenStartNewSession(configure) {
             var tracker = Piwik.getTracker();
@@ -4605,6 +4605,7 @@ if ($mysql) {
         tracker.trackPageView('campaignParameterOnlyKnownToServerReturn');
         equal(tracker.getAttributionCampaignName(), '', 'campaign parameter without a tracked name clears the campaign name');
         equal(tracker.getAttributionCampaignKeyword(), '', 'campaign parameter without a tracked name clears the campaign keyword');
+        equal(tracker.getAttributionReferrerUrl(), 'https://www.google.com/', 'campaign parameter without a tracked name keeps the referrer url');
 
         tracker = landOnCampaignThenStartNewSession();
         tracker.setReferrerUrl('');
