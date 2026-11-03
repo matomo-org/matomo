@@ -229,6 +229,9 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
             array(3599.999, array('1 hours 0 min', '00:59:59.99')),
             array(86399.999, array('1 days 0 hours', '23:59:59.99')),
             array(-59.999, array('-1 min 0s', '-00:00:59.99')),
+            array(1.9999999999999998, array('2s', '00:00:02')),
+            array(59.99999999999999, array('1 min 0s', '00:01:00')),
+            array(60.004, array('1 min 0s', '00:01:00')),
         );
     }
 
