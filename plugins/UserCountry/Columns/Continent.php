@@ -27,14 +27,27 @@ class Continent extends Dimension
     protected $nameSingular = 'UserCountry_Continent';
     protected $namePlural = 'UserCountry_Continents';
     protected $segmentName = 'continentCode';
-    protected $acceptValues = 'eur, asi, amc, amn, ams, afr, ant, oce';
+    protected $acceptValues = 'eur, asi, amc, amn, ams, afr, ant, oce, unk';
 
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         // Set on the segment only: the dimension itself still groups by country, see groupValue()
         $segment = new Segment();
         $segment->setSqlSegment($this->getContinentOfCountrySql());
+        $segment->setSqlFilterValue([self::class, 'toContinentCode']);
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
+    }
+
+    /**
+     * Lower-cases a segment value, as the continent codes are lower case whatever the collation of the database.
+     *
+     * @internal
+     * @param string $value
+     * @return string
+     */
+    public static function toContinentCode($value)
+    {
+        return strtolower((string) $value);
     }
 
     /**
