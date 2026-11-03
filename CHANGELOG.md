@@ -8,16 +8,19 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 * The website selector (`CoreHome.SiteSelector`) now renders the generic `.mtm-selector` control instead of `.piwikSelector`. Its `loading`, `disabled`, `placeholder`, `iconHidden` and `collapsed` states and the `icon` class on its arrow are removed, and the `.piwikSelector__dropdown` rules now only apply inside a `.piwikSelector`.
+* The period selector (`CoreHome.PeriodSelector`) now renders the generic `.mtm-selector` control instead of `.piwikSelector`. The content of its `#periodMore` panel is wrapped in `.mtm-dropdownPanel > .periodSelector__panel`, the `icon` class on its calendar icon is removed, and so are the global functions `toggleCalendar()`, `selectPeriodRadioButton()` and `blockPropegation()` of `plugins/CoreHome/javascripts/top_controls.js`.
 
 ### New APIs
 * The `CoreHome.SiteSelector` Vue component takes the `full-width`, `full-width-on-small-screen` and `align-label-start` props.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
+* The `CoreHome.PeriodSelector` Vue component takes the `anchor-dropdown-right` prop, set from `@CoreHome/_periodSelect.twig` with its `anchorDropdownRight` variable.
 
 ### Deprecations
 * The `title`, `expanded` and `piwikSelector__dropdown` classes are kept on the website selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
+* The `periodSelector`, `periodSelector-withPrevNext`, `title`, `move-period`, `move-period-prev`, `move-period-next`, `dropdown`, `single-calendar`, `dual-calendar` and `expanded` classes and the `#date` id are kept on the period selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
 
 ## Matomo 6.0.0
 

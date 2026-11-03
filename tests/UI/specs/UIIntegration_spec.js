@@ -843,7 +843,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should reload to the correct date when a date range is selected in the period selector', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
             await page.waitForNetworkIdle();
-            await page.click('#date.title');
+            await page.click('#periodString .mtm-selector__trigger');
             await page.click('#period_id_range');
             await page.click('#inputCalendarFrom', { clickCount: 3 });
             await page.keyboard.press('Backspace');

@@ -108,8 +108,8 @@ describe('AllWebsitesDashboard', function () {
             });
 
             // change period to trigger reload of KPIS
-            await page.click('.move-period-prev');
-            await page.click('.move-period-next');
+            await page.click('#periodString .mtm-selector__action--start');
+            await page.click('#periodString .mtm-selector__action--end');
             await page.waitForNetworkIdle();
 
             expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_kpi_badge');
@@ -141,8 +141,8 @@ describe('AllWebsitesDashboard', function () {
             });
 
             // change period to trigger reload of KPIS
-            await page.click('.move-period-prev');
-            await page.click('.move-period-next');
+            await page.click('#periodString .mtm-selector__action--start');
+            await page.click('#periodString .mtm-selector__action--end');
             await page.waitForNetworkIdle();
 
             expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_all_badges');
@@ -172,8 +172,8 @@ describe('AllWebsitesDashboard', function () {
             });
 
             // change period to trigger reload of KPIS
-            await page.click('.move-period-prev');
-            await page.click('.move-period-next');
+            await page.click('#periodString .mtm-selector__action--start');
+            await page.click('#periodString .mtm-selector__action--end');
             await page.waitForNetworkIdle();
 
             await page.waitForSelector('.kpiCard__badge:not(.kpiCard__badge--empty)');
@@ -299,7 +299,7 @@ describe('AllWebsitesDashboard', function () {
 
     describe('Period Selector', function () {
         async function getPeriodSelectorTitle() {
-            const periodSelector = await page.$('.periodSelector .title');
+            const periodSelector = await page.$('#periodString .mtm-selector__trigger');
             const periodSelectorTitle = await periodSelector.getProperty('textContent');
 
             return (await periodSelectorTitle.jsonValue()).trim();
@@ -312,7 +312,7 @@ describe('AllWebsitesDashboard', function () {
             expect(await getPeriodSelectorTitle()).to.equal('2013-01-23');
             expect(await getSitesTableCell(1, 2)).to.equal('6');
 
-            await page.click('.periodSelector .move-period-prev');
+            await page.click('#periodString .mtm-selector__action--start');
             await page.waitForNetworkIdle();
 
             expect(await getPeriodSelectorTitle()).to.equal('2013-01-22');
@@ -421,8 +421,8 @@ describe('AllWebsitesDashboard', function () {
             });
 
             // change period to trigger reload of KPIS
-            await page.click('.move-period-prev');
-            await page.click('.move-period-next');
+            await page.click('#periodString .mtm-selector__action--start');
+            await page.click('#periodString .mtm-selector__action--end');
             await page.waitForNetworkIdle();
 
             expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_tablet');
@@ -461,8 +461,8 @@ describe('AllWebsitesDashboard', function () {
             });
 
             // change period to trigger reload of KPIS
-            await page.click('.move-period-prev');
-            await page.click('.move-period-next');
+            await page.click('#periodString .mtm-selector__action--start');
+            await page.click('#periodString .mtm-selector__action--end');
             await page.waitForNetworkIdle();
 
             expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_tablet_no_revenue');

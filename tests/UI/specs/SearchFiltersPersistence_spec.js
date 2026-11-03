@@ -31,7 +31,7 @@ describe("SearchFilterPersistenceTest", function () {
     });
 
     it("should persist the search term when date is moved", async function () {
-        await page.click('.periodSelector .move-period-next');
+        await page.click('#periodString .mtm-selector__action--end');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('persisted_date');
@@ -46,7 +46,7 @@ describe("SearchFilterPersistenceTest", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(200);
 
-        await page.click('.periodSelector .move-period-prev');
+        await page.click('#periodString .mtm-selector__action--start');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('persisted_sorting');
