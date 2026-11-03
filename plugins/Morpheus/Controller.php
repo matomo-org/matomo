@@ -908,10 +908,6 @@ export default defineComponent({
         ]);
     }
 
-    /**
-     * One page per generic, reusable component, documented in the same shape: what it is for, its
-     * parts, its variations, its states, its behaviour and where it is used.
-     */
     public function componentLibrary()
     {
         if (! Development::isEnabled() || !Piwik::isUserHasSomeAdminAccess()) {

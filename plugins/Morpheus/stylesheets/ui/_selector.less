@@ -1,9 +1,8 @@
-// A control that opens a panel to choose from: a website, a period, a segment, an export format.
+// A control that opens a panel to choose from: a period, an export format, a metric.
 // Placement is NOT owned here — the consumer places the selector.
 //
 // The control is one framed row: an optional action button at its start, the trigger, an optional
-// action button at its end. Each action has a state of its own, while the trigger's hover, focus
-// and open states are drawn around the whole row. See the "Selector" page of the Component Library.
+// action button at its end. See the "Selector" page of the Component Library.
 
 @_selector-paddingVertical: 8px;
 @_selector-paddingHorizontal: 16px;
@@ -170,7 +169,6 @@
     top: 100%;
     right: -1px;
     padding-top: @_selector-gap + 1px;
-    // Never runs past the edge of a narrow screen.
     max-width: ~"calc(100vw - 32px)";
     // Over a sticky `thead` (150) and its cells (99), under the row actions (1000).
     z-index: 200;
@@ -224,12 +222,10 @@
   }
 }
 
-// Draws attention to the control, such as an available update.
 .mtm-selector--highlighted .mtm-selector__trigger {
   color: @theme-color-link;
 }
 
-// Waits on a request the control started: its text greys and a spinner stands in for its icon.
 .mtm-selector--loading {
   color: @theme-color-text-light;
 }
@@ -257,7 +253,6 @@
   }
 }
 
-// Fills the row on a small screen, where the top controls stack one per line.
 @media (max-width: 600px) {
   .mtm-selector--fullWidthOnSmallScreen {
     display: flex;
