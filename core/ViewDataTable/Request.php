@@ -129,7 +129,7 @@ class Request
      */
     protected function getDefaultOrCurrent($nameVar)
     {
-        if (isset($_GET[$nameVar])) {
+        if (isset($_GET[$nameVar]) && !is_array($_GET[$nameVar])) {
             return Common::sanitizeInputValue($_GET[$nameVar]);
         }
 

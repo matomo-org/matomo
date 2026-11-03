@@ -455,7 +455,7 @@ class Config extends \Piwik\ViewDataTable\Config
     public function getGraphParamsModified($paramsToSet = array())
     {
         if (!isset($paramsToSet['period'])) {
-            $period = Common::getRequestVar('period');
+            $period = Common::getRequestVar('period', null, 'string');
         } else {
             $period = $paramsToSet['period'];
         }
