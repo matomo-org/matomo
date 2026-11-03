@@ -161,4 +161,25 @@ describe('SingleMetricView', function () {
         var messageText = await (await message.getProperty('textContent')).jsonValue();
         expect(messageText).to.contain("This metric isn't available for this period.");
     });
+
+    it('should show a metric the period does not compute as unavailable rather than zero', async function () {
+        // new users are not processed for year periods, so API.get leaves the column out: the
+        // widget must not read that as a real 0
+        var notComputedUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=CoreVisualizations&"
+            + "actionToWidgetize=singleMetricView&column=nb_users_new&idSite=1&period=year&date=2012-08-09";
+        await page.goto(notComputedUrl);
+        await page.waitForSelector('.singleMetricView');
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(250);
+
+        var kpi = await page.evaluate(function () {
+            return {
+                value: $('.singleMetricView .metric-value strong').text().trim(),
+                hasEvolution: $('.singleMetricView .metricEvolution').length > 0,
+            };
+        });
+
+        expect(kpi.value).to.equal('-');
+        expect(kpi.hasEvolution).to.equal(false);
+    });
 });

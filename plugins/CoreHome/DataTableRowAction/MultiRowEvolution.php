@@ -17,6 +17,8 @@ use Piwik\Request;
 /**
  * MULTI ROW EVOLUTION
  * The class handles the popover that shows the evolution of a multiple rows in a data table
+ *
+ * @phpstan-import-type RowEvolutionReport from RowEvolution
  */
 class MultiRowEvolution extends RowEvolution
 {
@@ -34,15 +36,15 @@ class MultiRowEvolution extends RowEvolution
 
     /**
      * The metrics available in the metrics select
-     * @var array
+     * @var array<string, string>
      */
     protected $metricsForSelect;
 
     /**
      * The constructor
      * @param int $idSite
-     * @param \Piwik\Date $date ($this->date from controller)
-     * @param string $graphType
+     * @param \Piwik\Date|null $date ($this->date from controller)
+     * @param string|null $graphType
      */
     public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
@@ -56,6 +58,10 @@ class MultiRowEvolution extends RowEvolution
         parent::loadEvolutionReport($this->metric);
     }
 
+    /**
+     * @param RowEvolutionReport&array{column: string, metadata: array{columns: array<string, string>}} $report
+     * @return void
+     */
     protected function extractEvolutionReport($report)
     {
         $this->metric = $report['column'];

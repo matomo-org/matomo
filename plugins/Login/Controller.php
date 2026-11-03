@@ -258,7 +258,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSomeViewAccess();
 
         if (!$this->passwordVerify->hasPasswordVerifyBeenRequested()) {
-            throw new Exception('Not available');
+            // eg after the confirmation was completed or expired, so there is nothing left to confirm
+            Url::redirectToUrl('index.php');
         }
 
         if (!Url::isValidHost()) {

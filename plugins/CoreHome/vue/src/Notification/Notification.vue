@@ -130,7 +130,8 @@ export default defineComponent({
       this.markNotificationAsRead();
     },
     markNotificationAsRead() {
-      if (!this.notificationId) {
+      // only persistent notifications stay in the session, so only they need to be removed there
+      if (!this.notificationId || this.type !== 'persistent') {
         return;
       }
       AjaxHelper.post({ // GET params
