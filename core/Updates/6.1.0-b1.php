@@ -49,7 +49,7 @@ class Updates_6_1_0_b1 extends Updates
         }
 
         $segments = Db::fetchAll(
-            sprintf('SELECT idsegment, definition, enable_only_idsite FROM `%s` WHERE deleted = 0 AND definition LIKE ?', $table),
+            sprintf('SELECT idsegment, definition, enable_only_idsite FROM `%s` WHERE deleted = 0 AND definition LIKE ? ORDER BY idsegment', $table),
             ['%continentCode%']
         );
 
