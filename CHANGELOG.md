@@ -15,6 +15,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 
 ### New APIs
+* The `CoreHome.SiteSelector` Vue component takes a `full-width` prop, to fill its container, a `full-width-on-small-screen` prop, to do it on screens 600px wide and narrower only, as the top controls do, and an `align-label-start` prop, to hold the website name to the start as in a form field.
 * The `CoreHome.SiteSelector` Vue component takes a `full-width-on-small-screen` prop, to fill its row on screens 600px wide and narrower, as the top controls do.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
