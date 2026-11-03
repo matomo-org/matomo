@@ -3,6 +3,7 @@
 use Piwik\Container\Container;
 use Piwik\Log\Logger;
 use Piwik\Log;
+use Piwik\Plugins\Monolog\Formatter\FormatterFactory;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
 use Piwik\Plugins\Monolog\Handler\LogCaptureHandler;
 
@@ -128,7 +129,7 @@ return array(
 
     'Piwik\Plugins\Monolog\Handler\WebNotificationHandler' => Piwik\DI::create()
         ->constructor(Piwik\DI::get('log.level.screen'))
-        ->method('setFormatter', Piwik\DI::get('log.formatter.screen')),
+        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter')),
 
     'log.level' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_level')) {
@@ -191,78 +192,26 @@ return array(
         return $c->get('log.level');
     }),
 
+    'log.formatter.classes' => array(
+        'json'     => 'Piwik\Plugins\Monolog\Formatter\JsonFormatter',
+        'loggly'   => 'Piwik\Plugins\Monolog\Formatter\LogglyFormatter',
+        'logstash' => 'Piwik\Plugins\Monolog\Formatter\LogstashFormatter',
+    ),
+
     'log.formatter.file' => Piwik\DI::factory(function (Container $c) {
-        $format = $c->has('ini.log.log_format_file') ? $c->get('ini.log.log_format_file') : $c->get('ini.log.log_format');
-
-        if ($format === 'json') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
-        } elseif ($format === 'logstash') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\LogstashFormatter::class);
-        } elseif ($format === 'loggly') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\LogglyFormatter::class);
-        }
-
-        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
-            'logMessageFormat'      => $c->get('log.trace.format'),
-            'allowInlineLineBreaks' => false,
-        ]);
+        return FormatterFactory::createForWriter($c, 'file', 'log.lineMessageFormatter.file');
     }),
 
-    'log.formatter.screen' => Piwik\DI::factory(function (Container $c) {
-        // screen writer only supports text
-        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
-            'logMessageFormat' => $c->get('log.short.format'),
-        ]);
-    }),
-
-    'log.formatter.database' => Piwik\DI::factory(function (Container $c) {
-        $format = $c->has('ini.log.log_format_database') ? $c->get('ini.log.log_format_database') : $c->get('ini.log.log_format');
-
-        if ($format === 'json') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
-        } elseif ($format === 'logstash') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\LogstashFormatter::class);
-        } elseif ($format === 'loggly') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\LogglyFormatter::class);
-        }
-
-        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
-            'logMessageFormat' => $c->get('log.short.format'),
-        ]);
+    'log.formatter.errorlog' => Piwik\DI::factory(function (Container $c) {
+        return FormatterFactory::createForWriter($c, 'errorlog', 'log.lineMessageFormatter.file');
     }),
 
     'log.formatter.syslog' => Piwik\DI::factory(function (Container $c) {
-        $format = $c->has('ini.log.log_format_syslog') ? $c->get('ini.log.log_format_syslog') : $c->get('ini.log.log_format');
-
-        if ($format === 'json') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
-        } elseif ($format === 'logstash') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\LogstashFormatter::class);
-        } elseif ($format === 'loggly') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\LogglyFormatter::class);
-        }
-
-        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
-            'logMessageFormat'      => $c->get('log.trace.format'),
-            'allowInlineLineBreaks' => false,
-        ]);
+        return FormatterFactory::createForWriter($c, 'syslog', 'log.lineMessageFormatter.file');
     }),
 
-    'log.format.errorlog' => Piwik\DI::factory(function (Container $c) {
-        $format = $c->has('ini.log.log_format_errorlog') ? $c->get('ini.log.log_format_errorlog') : $c->get('ini.log.log_format');
-
-        if ($format === 'json') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\JsonFormatter::class);
-        } elseif ($format === 'logstash') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\LogstashFormatter::class);
-        } elseif ($format === 'loggly') {
-            return $c->make(Piwik\Plugins\Monolog\Formatter\LogglyFormatter::class);
-        }
-
-        return $c->make(Piwik\Plugins\Monolog\Formatter\LineMessageFormatter::class, [
-            'logMessageFormat'      => $c->get('log.trace.format'),
-            'allowInlineLineBreaks' => false,
-        ]);
+    'log.formatter.database' => Piwik\DI::factory(function (Container $c) {
+        return FormatterFactory::createForWriter($c, 'database', 'log.lineMessageFormatter');
     }),
 
     'log.file.filename' => Piwik\DI::factory(function (Container $c) {
@@ -301,12 +250,12 @@ return array(
 
     'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => Piwik\DI::create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
                                                                 ->constructor(Piwik\DI::get('log.short.format')),
+    'log.lineMessageFormatter' => Piwik\DI::create('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+        ->constructor(Piwik\DI::get('log.short.format')),
 
-    // @deprecated Remove in Matomo 6
-    'log.lineMessageFormatter'      => Piwik\DI::get('log.formatter.screen'),
-
-    // deprecated Remove in Matomo 6
-    'log.lineMessageFormatter.file' => Piwik\DI::get('log.formatter.file'),
+    'log.lineMessageFormatter.file' => Piwik\DI::autowire('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+        ->constructor(Piwik\DI::get('log.trace.format'))
+        ->constructorParameter('allowInlineLineBreaks', false),
 
     'log.short.format' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.string_message_format')) {

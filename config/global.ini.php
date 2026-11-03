@@ -129,10 +129,16 @@ log_level = WARN
 ; log_level_errorlog =
 ; log_level_syslog =
 
-; format to use for log writers (except screen). Can either be text, json, loggly or logstash
-; Screen log writer will always use text
-; you can also set specific log formats for different writers, by appending the writer name to log_format_, like above
+; format of the log entries written by the file, database, errorlog and syslog writers.
+; possible values are: text, json, loggly, logstash
+; the screen writer always uses text.
 log_format = text
+
+; you can also set specific log formats for different writers, by appending the writer name to log_format_, like so:
+; log_format_file =
+; log_format_database =
+; log_format_errorlog =
+; log_format_syslog =
 
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/matomo.log

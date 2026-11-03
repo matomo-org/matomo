@@ -12,11 +12,14 @@ namespace Piwik\Plugins\Monolog\Formatter;
 use Monolog\Formatter\LogglyFormatter as MonologLogglyFormatter;
 
 /**
- * Formats a log message into a json string
+ * Formats a log record as one JSON object per line in the format expected by Loggly.
  */
 class LogglyFormatter extends MonologLogglyFormatter
 {
-    public function __construct($batchMode = self::BATCH_MODE_NEWLINES, $appendNewline = false)
+    use RedactSensitiveValuesTrait;
+
+    // Monolog disables the newline as the format is meant for its Loggly handler, but our writers are line based
+    public function __construct(int $batchMode = self::BATCH_MODE_NEWLINES, bool $appendNewline = true)
     {
         parent::__construct($batchMode, $appendNewline);
     }

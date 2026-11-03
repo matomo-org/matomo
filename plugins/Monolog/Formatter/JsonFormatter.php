@@ -12,8 +12,9 @@ namespace Piwik\Plugins\Monolog\Formatter;
 use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
 
 /**
- * Formats a log message into a json string
+ * Formats a log record as one JSON object per line.
  */
 class JsonFormatter extends MonologJsonFormatter
 {
+    use RedactSensitiveValuesTrait;
 }

@@ -12,12 +12,14 @@ namespace Piwik\Plugins\Monolog\Formatter;
 use Monolog\Formatter\LogstashFormatter as MonologLogstashFormatter;
 
 /**
- * Formats a log message into a json string
+ * Formats a log record as one JSON object per line in the format expected by Logstash.
  */
 class LogstashFormatter extends MonologLogstashFormatter
 {
-    public function __construct($systemName = null, $extraPrefix = null, $contextPrefix = 'ctxt_', $version = MonologLogstashFormatter::V0)
+    use RedactSensitiveValuesTrait;
+
+    public function __construct(?string $systemName = null, string $extraKey = 'extra', string $contextKey = 'context')
     {
-        parent::__construct('Matomo', $systemName, $extraPrefix, $contextPrefix, $version);
+        parent::__construct('Matomo', $systemName, $extraKey, $contextKey);
     }
 }
