@@ -1,6 +1,10 @@
 name: PHPStan check
 
-on: pull_request
+on:
+  pull_request:
+  push:
+    branches:
+      - '**.x-dev'
 
 permissions:
   actions: read
@@ -29,7 +33,20 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.5'
+      - name: "Restore PHPStan result cache"
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ./tmp
+          key: "result-cache-v1-${{ github.run_id }}"
+          restore-keys: |
+            result-cache-v1-
       - name: PHPStan
         id: phpstan
-        run: composer run phpstan
+        run: composer run phpstan -- -vv
+      - name: "Save result cache"
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        if: always()
+        with:
+         path: ./tmp
+         key: "result-cache-v1-${{ github.run_id }}"
