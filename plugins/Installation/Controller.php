@@ -566,9 +566,12 @@ class Controller extends ControllerAdmin
 
         if (
             defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
-            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')
+            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.init.js')
+            && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.end.js')
         ) {
-            $files[] = 'tests/resources/screenshot-override/override.js';
+            array_unshift($files, 'tests/resources/screenshot-override/override.init.js');
+
+            $files[] = 'tests/resources/screenshot-override/override.end.js';
         }
 
         return AssetManager::compileCustomJs($files);
