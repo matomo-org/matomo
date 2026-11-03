@@ -200,6 +200,7 @@
             <div class="pagedUsersList__siteFilter">
               <Field
                   class="permissions-for-selector"
+                  full-width
                   :model-value="permissionsForSite"
                   @update:model-value="onPermissionsForUpdate($event);"
                   uicontrol="site"
