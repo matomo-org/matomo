@@ -281,8 +281,10 @@ class Visualization extends ViewDataTable
             $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_VisualizationDoesNotSupportComparison');
         }
 
+        $hasData = !empty($this->dataTable) && $this->hasAnyData($this->dataTable);
+
         // a report that failed to load is not empty, so it gets no hints for missing data
-        if (empty($loadingError) && (empty($this->dataTable) || !$this->hasAnyData($this->dataTable))) {
+        if (empty($loadingError) && !$hasData) {
             /**
              * @ignore
              */
