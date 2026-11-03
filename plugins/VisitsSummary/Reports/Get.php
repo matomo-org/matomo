@@ -55,11 +55,8 @@ class Get extends \Piwik\Plugin\Report
         );
 
         $period = Piwik::getPeriod('day');
-        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             $this->metrics = array_merge(['nb_uniq_visitors'], $this->metrics);
-        }
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
-            $this->metrics[] = 'nb_uniq_visitors_estimated';
         }
 
         $this->subcategoryId = 'General_Overview';
@@ -87,13 +84,52 @@ class Get extends \Piwik\Plugin\Report
         );
     }
 
+    /**
+     * Labels for the unique visitors and users columns of periods where they are estimated.
+     *
+     * @return array<string, string>
+     */
+    public static function getEstimatedMetricTranslations(): array
+    {
+        return [
+            'nb_uniq_visitors' => Piwik::translate('VisitsSummary_ColumnNbUniqVisitorsEstimated'),
+            'nb_users' => Piwik::translate('VisitsSummary_ColumnNbUsersEstimated'),
+        ];
+    }
+
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $report = $this->buildReportMetadata();
+        if (empty($report)) {
+            return;
+        }
+
+        if (SettingsPiwik::isUniqueVisitorsEstimated((string) ($infos['period'] ?? ''))) {
+            $report['metrics'] = array_replace(
+                $report['metrics'],
+                array_intersect_key(self::getEstimatedMetricTranslations(), $report['metrics'])
+            );
+        }
+
+        $availableReports[] = $report;
+    }
+
     public function configureView(ViewDataTable $view)
     {
+        $isEstimated = SettingsPiwik::isUniqueVisitorsEstimated(Common::getRequestVar('period', '', 'string'));
+        if ($isEstimated) {
+            $view->config->addTranslations(self::getEstimatedMetricTranslations());
+        }
+
         if ($view->isViewDataTableId(Sparklines::ID)) {
             /** @var Sparklines $view */
             $view->requestConfig->apiMethodToRequestDataTable = 'API.get';
             $this->addSparklineColumns($view);
-            $view->config->addTranslations($this->getSparklineTranslations());
+            $view->config->addTranslations($this->getSparklineTranslations($isEstimated));
 
             $view->config->filters[] = function (DataTable $table) use ($view) {
                 $firstRow = $table->getFirstRow();
@@ -215,9 +251,14 @@ class Get extends \Piwik\Plugin\Report
         );
     }
 
-    private function getSparklineTranslations()
+    private function getSparklineTranslations(bool $isEstimated)
     {
         $translations = $this->getSparklineTranslationsKeys();
+        if ($isEstimated) {
+            $translations['nb_uniq_visitors'] = 'NbUniqueVisitorsEstimated';
+            $translations['nb_users'] = 'NbUsersEstimatedDescription';
+        }
+
         foreach ($translations as $metric => $key) {
             $translations[$metric] = Piwik::translate('VisitsSummary_' . $key);
         }
@@ -230,7 +271,7 @@ class Get extends \Piwik\Plugin\Report
         $currentPeriod = Common::getRequestVar('period');
         $currentIdSite = Common::getRequestVar('idSite');
         $currentDate   = Common::getRequestVar('date');
-        $displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
+        $displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsTotalAvailable($currentPeriod);
 
         $isActionPluginEnabled = Common::isActionsPluginEnabled();
 

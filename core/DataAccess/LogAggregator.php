@@ -704,16 +704,32 @@ class LogAggregator
 
     /**
      * Builds a HyperLogLog sketch of the visitors in this archive's visits, for estimating unique visitors.
-     * The query returns at most 2^precision rows: per bucket, the minimum of the remaining hash bits.
      */
     public function queryUniqueVisitorsSketch(int $precision): HyperLogLog
     {
+        return $this->querySketch($precision, 'idvisitor');
+    }
+
+    /**
+     * Builds a HyperLogLog sketch of the users (User IDs) in this archive's visits, for estimating users.
+     */
+    public function queryUsersSketch(int $precision): HyperLogLog
+    {
+        return $this->querySketch($precision, 'user_id');
+    }
+
+    /**
+     * The query returns at most 2^precision rows: per bucket, the minimum of the remaining hash bits.
+     */
+    private function querySketch(int $precision, string $column): HyperLogLog
+    {
         $tableName = self::LOG_VISIT_TABLE;
 
-        // first 64 bits of MD5, so visitor IDs supplied by users (cid) are spread evenly too
-        $hash = "CAST(CONV(SUBSTRING(MD5($tableName.idvisitor), 1, 16), 16, 10) AS UNSIGNED)";
+        // first 64 bits of MD5, so IDs supplied by users (cid, uid) are spread evenly too
+        $hash = "CAST(CONV(SUBSTRING(MD5($tableName.$column), 1, 16), 16, 10) AS UNSIGNED)";
 
-        $where = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD);
+        // visits without a User ID have none to count
+        $where = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, "%s.$column IS NOT NULL");
         $query = $this->generateQuery("$hash AS h", [$tableName], $where, '', '');
 
         // hash each visit once in a derived table; the LIMIT stops MySQL merging it into the outer query and

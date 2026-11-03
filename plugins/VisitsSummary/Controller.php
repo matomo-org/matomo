@@ -15,6 +15,7 @@ use Piwik\DataTable;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\Plugins\VisitsSummary\Reports\Get;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
@@ -101,12 +102,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $currentPeriod = Common::getRequestVar('period', false);
 
-        if (!SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod)) {
+        if (!SettingsPiwik::isUniqueVisitorsTotalAvailable($currentPeriod)) {
             $selectableColumns = array_diff($selectableColumns, ['nb_uniq_visitors', 'nb_users']);
-        }
-
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
-            $selectableColumns[] = 'nb_uniq_visitors_estimated';
         }
 
         $displaySiteSearch = Site::isSiteSearchEnabledFor($this->idSite);
@@ -127,6 +124,10 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (empty($view->config->columns_to_display)) {
             $view->config->columns_to_display = array('nb_visits');
+        }
+
+        if (SettingsPiwik::isUniqueVisitorsEstimated((string) $currentPeriod)) {
+            $view->config->addTranslations(Get::getEstimatedMetricTranslations());
         }
 
         return $this->renderView($view);

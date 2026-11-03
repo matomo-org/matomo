@@ -247,16 +247,17 @@ enable_processing_unique_visitors_range = 0
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
 
-; when set to 1, an estimate of the website's total Unique Visitors `nb_uniq_visitors_estimated` is processed for all period types, including year and range.
-; it covers the totals shown in Visits Overview, Visits Frequency and AI Agents only. unique visitors in report rows, such as per country, are unchanged.
-; at the default precision it is usually within 2% of the exact count, and long periods are processed without querying the logs again.
-; it is not processed yet for archives that cover several websites, such as Roll-Ups.
-; segment archives get their own estimate too, including the segments Visits Frequency and AI Agents archive for their reports.
-; to get it for reports archived before it was enabled, invalidate them with ./console core:invalidate-report-data
+; when set to 1, a website's total Unique Visitors and Users for weeks, months, years and ranges are estimated instead of counted, which
+; avoids querying the logs again for long periods and segments. days are still counted exactly, and store the data the estimates are built from.
+; years and ranges get them too, even when enable_processing_unique_visitors_year and _range are 0.
+; at the default precision the estimate is usually within 2% of the exact count, and Users are near exact below about 40,000.
+; it covers the totals in Visits Overview, Visits Frequency and AI Agents only. unique visitors in report rows, such as per country, are unchanged.
+; archives covering several websites, such as Roll-Ups, and periods whose days were archived before it was enabled are processed as if it were off.
+; to estimate reports archived before it was enabled, invalidate them with ./console core:invalidate-report-data
 enable_unique_visitors_estimate_site_totals = 0
 
 ; precision of the estimate, from 4 to 18. each step up makes it more accurate and doubles its storage.
-; the default 14 uses about 7 KB per archive and is usually within 2% of the exact count.
+; the default 14 uses up to about 7 KB per archive for Unique Visitors, and as much again for Users on websites that use User ID.
 unique_visitors_estimate_precision = 14
 
 ; The list of periods that are available in the Matomo calendar

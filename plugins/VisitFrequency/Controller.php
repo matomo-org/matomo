@@ -13,6 +13,8 @@ use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\Plugins\VisitFrequency\Reports\Get;
+use Piwik\Plugins\VisitsSummary\Reports\Get as VisitsSummaryGet;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -52,11 +54,8 @@ class Controller extends \Piwik\Plugin\Controller
         $period = Common::getRequestVar('period', false);
 
         $columnNames = array('nb_visits');
-        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             $columnNames[] = 'nb_uniq_visitors';
-        }
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
-            $columnNames[] = 'nb_uniq_visitors_estimated';
         }
         $columnNames[] = 'nb_actions';
         $columnNames[] = 'nb_actions_per_visit';
@@ -82,6 +81,10 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (empty($view->config->columns_to_display)) {
             $view->config->columns_to_display = array('nb_visits_returning');
+        }
+
+        if (SettingsPiwik::isUniqueVisitorsEstimated((string) $period)) {
+            $view->config->addTranslations(Get::getEstimatedMetricTranslations() + VisitsSummaryGet::getEstimatedMetricTranslations());
         }
 
         return $this->renderView($view);

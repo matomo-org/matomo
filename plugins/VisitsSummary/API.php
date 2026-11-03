@@ -42,8 +42,7 @@ class API extends \Piwik\Plugin\API
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
      * @param string|string[]|false $columns Specific metrics to include, or `false` to return the default set.
-     * @return DataTable|DataTable\Map VisitsSummary metrics for the requested period. Includes
-     *                                   `nb_uniq_visitors_estimated` when the unique visitors estimate is enabled.
+     * @return DataTable|DataTable\Map VisitsSummary metrics for the requested period.
      */
     public function get($idSite, string $period, string $date, $segment = false, $columns = false)
     {
@@ -56,19 +55,16 @@ class API extends \Piwik\Plugin\API
         $report = ReportsProvider::factory('VisitsSummary', 'get');
         $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $requestedColumns);
 
-        $hasEstimate = in_array('nb_uniq_visitors_estimated', $columns);
-        if ($hasEstimate && !in_array('nb_visits', $columns)) {
-            $columns[] = 'nb_visits';
-        }
-
         $dataTable = $archive->getDataTableFromNumeric($columns);
 
-        if ($hasEstimate) {
-            // a missing estimate reads as 0, which can't be right for a period with visits, so leave it out
+        if (SettingsPiwik::isUniqueVisitorsEstimated($period)) {
+            // no unique visitors for a period with visits means its days have no sketches to estimate from (eg
+            // they were archived before the estimate was enabled), so leave them out rather than show 0
             $dataTable->filter(function (DataTable $table) {
                 $row = $table->getFirstRow();
-                if ($row && $row->getColumn('nb_visits') && !$row->getColumn('nb_uniq_visitors_estimated')) {
-                    $row->deleteColumn('nb_uniq_visitors_estimated');
+                if ($row && $row->getColumn('nb_visits') && !$row->getColumn('nb_uniq_visitors')) {
+                    $row->deleteColumn('nb_uniq_visitors');
+                    $row->deleteColumn('nb_users');
                 }
             });
         }
@@ -93,12 +89,10 @@ class API extends \Piwik\Plugin\API
             'sum_visit_length',
             'max_actions',
         ];
-        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             $columns = array_merge(['nb_uniq_visitors', 'nb_users'], $columns);
         }
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
-            $columns[] = 'nb_uniq_visitors_estimated';
-        }
+        $columns = array_values($columns);
         return $columns;
     }
 
@@ -326,7 +320,7 @@ class API extends \Piwik\Plugin\API
 
     private function checkUniqueIsEnabledOrFail(string $period, string $metric): void
     {
-        if (!SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (!SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             throw new \Exception(
                 'The metric ' . $metric . ' is not enabled for the requested period. ' .
                 'Please see this FAQ: ' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_113/')

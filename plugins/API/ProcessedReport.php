@@ -128,16 +128,19 @@ class ProcessedReport
         // Unique visitors / users can't be summed across days, so on non-day periods they only exist
         // for aggregate (dimensionless) reports where archiving computed them. Strip them from
         // per-dimension reports, and from unprocessed periods/scopes (year/range, multi-site).
-        $aggregateUniquesUnavailable =
-            !SettingsPiwik::isUniqueVisitorsEnabled($period)
-            || ($isMultiSiteRequest && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites());
+        $skipUniquesForMultipleSites = $isMultiSiteRequest && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();
+        $aggregateUniquesUnavailable = !SettingsPiwik::isUniqueVisitorsEnabled($period) || $skipUniquesForMultipleSites;
+        // the website's totals are also available when estimated
+        $siteTotalUniquesEstimated = SettingsPiwik::isUniqueVisitorsEstimated((string) $period) && !$skipUniquesForMultipleSites;
 
         $apiParameters = self::withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters);
 
         foreach ($reportsMetadata as $report) {
             $isPerDimensionReport = !empty($report['dimension']) || !empty($report['dimensions']);
+            $isSiteTotalReport = $report['module'] === 'VisitsSummary' && $report['action'] === 'get';
+            $uniquesUnavailable = $aggregateUniquesUnavailable && !($siteTotalUniquesEstimated && $isSiteTotalReport);
 
-            if ($isNonDayPeriod && ($aggregateUniquesUnavailable || $isPerDimensionReport)) {
+            if ($isNonDayPeriod && ($uniquesUnavailable || $isPerDimensionReport)) {
                 unset($report['metrics']['nb_uniq_visitors'], $report['metrics']['nb_users']);
             }
             if (
