@@ -75,8 +75,8 @@ class Updates_6_1_0_b1 extends Updates
 
             $idSites = empty($segment['enable_only_idsite']) ? 'all' : [(int) $segment['enable_only_idsite']];
 
-            // the same definition saved by several users is rearchived once
-            $scheduledSegmentKey = $definition . '|' . json_encode($idSites);
+            // the same definition saved by several users, encoded or not, is rearchived once
+            $scheduledSegmentKey = urldecode($definition) . '|' . json_encode($idSites);
             if (isset($scheduledSegments[$scheduledSegmentKey])) {
                 continue;
             }
