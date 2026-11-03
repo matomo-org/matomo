@@ -22,6 +22,10 @@
         </td>
     </tr>
     <tr>
+        <th>Available since</th>
+        <td>Matomo 6.0.0. The changes of each version are listed at the end of this page.</td>
+    </tr>
+    <tr>
         <th>Source</th>
         <td>
             <code>plugins/Morpheus/stylesheets/ui/_selector.less</code> for the control,
@@ -363,6 +367,32 @@ export default defineComponent({
 </script>
     {% endset %}
     <pre class="componentLibrary__code"><code class="componentLibrary__codeText">{{ (vueUsage ~ '')|trim|e('html') }}</code></pre>
+</section>
+
+<section class="componentLibrary__section">
+    <h2 class="componentLibrary__sectionTitle">Changes</h2>
+    <table class="componentLibrary__table">
+        <tr>
+            <th>Matomo 6.1.0</th>
+            <td>
+                The frame surrounds the whole control, and a selector given a width centres its content.
+                New: the start and end actions (<code>mtm-selector__action--start</code>,
+                <code>mtm-selector__action--end</code>), the <code>mtm-selector--readOnly</code>,
+                <code>mtm-selector--highlighted</code>, <code>mtm-selector--loading</code>,
+                <code>mtm-selector--disabled</code> and <code>mtm-selector--fullWidthOnSmallScreen</code>
+                modifiers, and the <code>mtm-selector__label--placeholder</code> and
+                <code>mtm-selector__label--alignStart</code> label modifiers.
+                Deprecated: the <code>disabled</code> class, for <code>mtm-selector--disabled</code>.
+            </td>
+        </tr>
+        <tr>
+            <th>Matomo 6.0.0</th>
+            <td>
+                The control, its panel, <code>mtm-selector--iconOnly</code>, <code>mtm-selector--fullWidth</code>,
+                <code>mtm-selector__dropdown--anchorLeft</code> and <code>mtm-selector__dropdown--aboveOverlays</code>.
+            </td>
+        </tr>
+    </table>
 </section>
 
 {% endblock %}
