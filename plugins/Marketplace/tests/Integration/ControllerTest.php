@@ -661,7 +661,8 @@ class ControllerTest extends IntegrationTestCase
 
         $html = $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN), true, 'invalid');
 
-        self::assertStringContainsString('This page has expired. Please open the unsubscribe link from the email again.', $html);
+        self::assertStringContainsString(Piwik::translate('Login_InvalidNonceToken'), $html);
+        $this->assertFormOffersTheCurrentNonce($html);
         self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
     }
 
@@ -677,7 +678,7 @@ class ControllerTest extends IntegrationTestCase
         self::assertStringContainsString('You have been successfully unsubscribed from plugin request email notifications.', $html);
     }
 
-    public function testUnsubscribeTrialRequestEmailsReportsAFailedReferrerCheckAsASecurityError()
+    public function testUnsubscribeTrialRequestEmailsOffersTheFormAgainAfterAFailedReferrerCheck()
     {
         Fixture::createSuperUser();
         $_SERVER['HTTP_REFERER'] = 'https://attacker.example.org/';
@@ -688,9 +689,26 @@ class ControllerTest extends IntegrationTestCase
             unset($_SERVER['HTTP_REFERER']);
         }
 
-        self::assertStringContainsString(Piwik::translate('General_ExceptionSecurityCheckFailed'), $html);
-        self::assertStringNotContainsString('This page has expired.', $html);
+        self::assertStringContainsString('The form security failed because of an invalid "Referer" header.', $html);
+        $this->assertFormOffersTheCurrentNonce($html);
         self::assertNull($this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    public function testUnsubscribeTrialRequestEmailsShowsSuccessForAnAlreadyUnsubscribedUserDespiteAFailedReferrerCheck()
+    {
+        Fixture::createSuperUser();
+        $token = $this->unsubscribeToken(Fixture::ADMIN_USER_LOGIN);
+        $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token, true);
+        $_SERVER['HTTP_REFERER'] = 'https://attacker.example.org/';
+
+        try {
+            $html = $this->dispatchUnsubscribe(Fixture::ADMIN_USER_LOGIN, $token, true);
+        } finally {
+            unset($_SERVER['HTTP_REFERER']);
+        }
+
+        self::assertStringContainsString('You have been successfully unsubscribed from plugin request email notifications.', $html);
+        self::assertStringNotContainsString('name="confirm"', $html);
     }
 
     public function testUnsubscribeTrialRequestEmailsShowsSuccessForAResubmittedConfirm()
@@ -710,6 +728,13 @@ class ControllerTest extends IntegrationTestCase
         self::assertStringContainsString('You have been successfully unsubscribed from plugin request email notifications.', $html);
         self::assertFalse((bool) $this->getNotifySetting(Fixture::ADMIN_USER_LOGIN));
         self::assertSame([Fixture::ADMIN_USER_LOGIN], $postedFor);
+    }
+
+    private function assertFormOffersTheCurrentNonce(string $html): void
+    {
+        $nonce = Nonce::getNonce(Controller::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+        self::assertStringContainsString('<input type="hidden" name="nonce" value="' . $nonce . '"/>', $html);
+        self::assertStringContainsString('name="confirm"', $html);
     }
 
     private function dispatchUnsubscribe(string $login, string $token, bool $confirm = false, ?string $nonce = null): string
