@@ -34,6 +34,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
             $menu->addDevelopmentItem('CoreAdminHome_UiDemo', $this->urlForAction('demo'));
+            $menu->addDevelopmentItem('CoreAdminHome_ComponentLibrary', $this->urlForAction('componentLibrary'));
         }
     }
 }

@@ -9,6 +9,7 @@
         "CheckToOptIn": "Check this box to opt-in.",
         "ClickHereToOptIn": "Click here to opt in.",
         "ClickHereToOptOut": "Click here to opt out.",
+        "ComponentLibrary": "Component Library",
         "ConfirmDeleteAllTrackingFailures": "Are you sure you want to delete all tracking failures?",
         "ConfirmDeleteThisTrackingFailure": "Are you sure you want to delete this tracking failure?",
         "Cors": "Cors",

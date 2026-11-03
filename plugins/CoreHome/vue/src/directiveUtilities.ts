@@ -13,6 +13,15 @@ function getRef<T>(expander: string | HTMLElement, binding: DirectiveBinding<T>)
     : binding.instance?.$refs[expander] as HTMLElement;
 }
 
+// The classes ExpandOnClick and ExpandOnHover carry while open: `expanded` when none or an empty
+// list is given.
+function getExpandedClasses(expandedClass?: string | string[]): string[] {
+  const expandedClasses = Array.isArray(expandedClass) ? expandedClass : [expandedClass];
+  const validClasses = expandedClasses.filter((name): name is string => !!name);
+  return validClasses.length ? validClasses : ['expanded'];
+}
+
 export default {
   getRef,
+  getExpandedClasses,
 };

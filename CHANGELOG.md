@@ -6,7 +6,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### New APIs
+* The generic selector (`plugins/Morpheus/stylesheets/ui/_selector.less`) now draws its frame around the whole control and can hold one-click buttons beside its trigger: `.mtm-selector__action` with `.mtm-selector__action--start` or `.mtm-selector__action--end`, each with its own hover and focus ring. It also gains the `.mtm-selector__label--placeholder` element modifier and the `mtm-selector--readOnly`, `mtm-selector--highlighted`, `mtm-selector--loading` and `mtm-selector--fullWidthOnSmallScreen` block modifiers. Each one is documented on the new *Administration → Development → Component Library* page, available in development mode.
+* The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, the class an element carries while open in place of `expanded`. In both directives the option also accepts a list of classes, added and removed together, the first one telling whether the element is open; an empty list falls back on `expanded`.
+
 ### Deprecations
+* The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
 ## Matomo 6.0.0

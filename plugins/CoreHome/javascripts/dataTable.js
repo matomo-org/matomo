@@ -791,7 +791,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         if (self.isEmpty) {
             // The class only dims it; the attribute is what removes it from the tab order.
-            $selector.addClass('disabled')
+            $selector.addClass('mtm-selector--disabled')
                 .find('.mtm-selector__trigger').attr('disabled', 'disabled');
             return;
         }
