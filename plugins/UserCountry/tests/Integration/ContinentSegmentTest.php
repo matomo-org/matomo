@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Db;
+use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -40,6 +41,7 @@ class ContinentSegmentTest extends IntegrationTestCase
 
         Fixture::createSuperUser(true);
         $this->idSite = Fixture::createWebsite('2015-01-01 00:00:00');
+        $idGoal = GoalsAPI::getInstance()->addGoal($this->idSite, 'Converted', 'manually', '', 'contains');
 
         // two European, two South American, one North American, one Asian, one unknown and one unlisted country
         foreach (['fr', 'de', 'br', 'ar', 'us', 'jp', 'xx', 'zz'] as $index => $country) {
@@ -47,6 +49,7 @@ class ContinentSegmentTest extends IntegrationTestCase
             $tracker->setCountry($country);
             $tracker->setIp('10.0.0.' . ($index + 1));
             Fixture::checkResponse($tracker->doTrackPageView('/page-' . $index));
+            Fixture::checkResponse($tracker->doTrackGoal($idGoal));
         }
     }
 
@@ -70,6 +73,10 @@ class ContinentSegmentTest extends IntegrationTestCase
         yield 'does not contain Europe' => ['continentCode!@eur', ['ar', 'br', 'jp', 'us', 'xx', 'zz']];
         yield 'contains am' => ['continentCode=@am', ['ar', 'br', 'us']];
         yield 'starts with am' => ['continentCode=^am', ['ar', 'br', 'us']];
+        yield 'ends with s' => ['continentCode=$s', ['ar', 'br']];
+        yield 'is Europe in upper case' => ['continentCode==EUR', ['de', 'fr']];
+        yield 'is not empty' => ['continentCode!=', ['ar', 'br', 'de', 'fr', 'jp', 'us', 'xx', 'zz']];
+        yield 'is empty' => ['continentCode==', []];
         yield 'is unknown' => ['continentCode==unk', ['xx', 'zz']];
         yield 'is not unknown' => ['continentCode!=unk', ['ar', 'br', 'de', 'fr', 'jp', 'us']];
     }
@@ -98,6 +105,31 @@ class ContinentSegmentTest extends IntegrationTestCase
                 $continentCode
             );
         }
+    }
+
+    public function testIsNotAppliesToConversionsAndTheVisitorLog(): void
+    {
+        /** @var DataTable $goals */
+        $goals = Request::processRequest('Goals.get', [
+            'idSite' => $this->idSite,
+            'period' => 'day',
+            'date' => $this->date,
+            'segment' => 'continentCode!=eur',
+            'format' => 'original',
+        ]);
+        $this->assertSame(6, (int) $goals->getFirstRow()->getColumn('nb_conversions'));
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('Live.getLastVisitsDetails', [
+            'idSite' => $this->idSite,
+            'period' => 'day',
+            'date' => $this->date,
+            'segment' => 'continentCode!=eur',
+            'format' => 'original',
+        ]);
+        $countries = $visits->getColumn('countryCode');
+        sort($countries);
+        $this->assertSame(['ar', 'br', 'jp', 'us', 'xx', 'zz'], $countries);
     }
 
     public function testIsNotKeepsTheVisitsWithoutCountry(): void

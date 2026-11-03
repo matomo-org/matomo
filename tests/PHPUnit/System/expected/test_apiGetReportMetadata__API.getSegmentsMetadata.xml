@@ -358,7 +358,7 @@
 		<category>Visitor location</category>
 		<name>Continent</name>
 		<segment>continentCode</segment>
-		<acceptedValues>eur, asi, amc, amn, ams, afr, ant, oce</acceptedValues>
+		<acceptedValues>eur, asi, amc, amn, ams, afr, ant, oce, unk</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

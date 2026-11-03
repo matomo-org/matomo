@@ -46,6 +46,10 @@ class Updates610b1Test extends IntegrationTestCase
         $europeOrNotAsia = $this->createSegment('continentCode==eur,continentCode!=asi', 0);
         $this->createSegment('continentCode==eur', 0);
         $this->createSegment('continentCode==EUR;continentCode==asi', 0);
+        // saved again by another user, rearchived once
+        $this->createSegment('continentCode!=eur', 0);
+        // not a valid segment, skipped
+        $this->createSegment('continentCode', 0);
         $this->createSegment('eventAction==continentCode!=eur', 0);
         $this->createSegment('countryCode!=fr', 0);
         $this->createSegment('continentCode!=asi', 0, $deleted = 1);

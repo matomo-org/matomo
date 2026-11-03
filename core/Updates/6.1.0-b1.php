@@ -54,15 +54,33 @@ class Updates_6_1_0_b1 extends Updates
         );
 
         $migrations = [];
+        $scheduledSegments = [];
         foreach ($segments as $segment) {
+            $idSegment = (int) $segment['idsegment'];
+            $definition = $segment['definition'];
+
             // like Segment, a definition may have been stored encoded, separators included
-            if (!$this->hasAChangedContinentCondition($segment['definition']) && !$this->hasAChangedContinentCondition(urldecode($segment['definition']))) {
+            $parsedDefinitions = array_filter([$this->parseConditions($definition), $this->parseConditions(urldecode($definition))], 'is_array');
+            if (empty($parsedDefinitions)) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'Segment {idSegment} could not be parsed, its reports are not rearchived',
+                    ['idSegment' => $idSegment]
+                );
                 continue;
             }
 
-            $idSegment = (int) $segment['idsegment'];
-            $definition = $segment['definition'];
+            if (!in_array(true, array_map([$this, 'hasAChangedContinentCondition'], $parsedDefinitions), true)) {
+                continue;
+            }
+
             $idSites = empty($segment['enable_only_idsite']) ? 'all' : [(int) $segment['enable_only_idsite']];
+
+            // the same definition saved by several users is rearchived once
+            $scheduledSegmentKey = $definition . '|' . json_encode($idSites);
+            if (isset($scheduledSegments[$scheduledSegmentKey])) {
+                continue;
+            }
+            $scheduledSegments[$scheduledSegmentKey] = true;
             $migrationHint = sprintf(
                 './console core:invalidate-report-data --sites=%s --dates=%s,today --segment=%d',
                 is_array($idSites) ? implode(',', $idSites) : $idSites,
@@ -120,17 +138,23 @@ class Updates_6_1_0_b1 extends Updates
     }
 
     /**
+     * @return array|null the conditions as returned by {@see SegmentExpression::parseSubExpressions()}, null if the definition cannot be parsed
+     */
+    private function parseConditions(string $definition): ?array
+    {
+        try {
+            return (new SegmentExpression($definition))->parseSubExpressions();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
      * Only `==` on a continent matches the same visits as before, any other Continent condition changed.
      * The legacy Tibet code, now counted in Asia, is left aside: current geolocation no longer sets it.
      */
-    private function hasAChangedContinentCondition(string $definition): bool
+    private function hasAChangedContinentCondition(array $conditions): bool
     {
-        try {
-            $conditions = (new SegmentExpression($definition))->parseSubExpressions();
-        } catch (\Exception $e) {
-            return false;
-        }
-
         foreach ($conditions as $orConditions) {
             foreach ($orConditions as $condition) {
                 if ($condition[SegmentExpression::INDEX_OPERAND_NAME] !== 'continentCode') {
