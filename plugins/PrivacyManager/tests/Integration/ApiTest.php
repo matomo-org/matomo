@@ -566,6 +566,30 @@ class ApiTest extends IntegrationTestCase
         $this->assertNull($updates[0]['idSite']);
     }
 
+    public function testSetCompliancePolicySettingsAnnouncesPinningASettingThePolicyAlreadyEnforced(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        // with the policy active the setting already resolves to enforced without a stored state
+        CnilPolicy::setActiveStatus($this->siteId, true);
+        $this->assertTrue(IPAnonymisation::isEnforced($this->siteId));
+        $this->assertNull(IPAnonymisation::getStoredEnforcementState($this->siteId));
+
+        $updates = $this->captureCompliancePolicySettingsUpdated();
+
+        $this->api->setCompliancePolicySettings(
+            $this->siteId,
+            'cnil_v1',
+            ['PrivacyManager.IPAnonymisation' => 1]
+        );
+
+        // pinning it is a durable change - it survives the policy being switched off later - so
+        // it has to be announced even though the resolved state and the status never moved
+        $this->assertTrue(IPAnonymisation::getStoredEnforcementState($this->siteId));
+        $this->assertCount(1, $updates);
+        $this->assertArrayHasKey('PrivacyManager.IPAnonymisation', $this->getChangesById($updates[0]));
+    }
+
     public function testSetCompliancePolicySettingsAnnouncesNothingWhenTheRequestRepeatsTheCurrentState(): void
     {
         $this->enableGranularComplianceFeature();

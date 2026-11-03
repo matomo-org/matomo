@@ -867,15 +867,15 @@ class API extends \Piwik\Plugin\API
 
         $idSite = $this->resolveCompliancePolicyIdSite($idSite);
 
-        $before = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+        $before = $this->complianceSettingsProvider->getPolicyEnforcementSnapshot($policy, $idSite);
 
         PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
 
-        $after = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+        $after = $this->complianceSettingsProvider->getPolicyEnforcementSnapshot($policy, $idSite);
 
         $this->postCompliancePolicySettingsUpdated($policy, $idSite, $before, $after);
 
-        return $after;
+        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
     }
 
     /**
@@ -910,15 +910,15 @@ class API extends \Piwik\Plugin\API
             $settingValues[$settingClass::getPolicySettingId()] = true;
         }
 
-        $before = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+        $before = $this->complianceSettingsProvider->getPolicyEnforcementSnapshot($policy, $idSite);
 
         PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
 
-        $after = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+        $after = $this->complianceSettingsProvider->getPolicyEnforcementSnapshot($policy, $idSite);
 
         $this->postCompliancePolicySettingsUpdated($policy, $idSite, $before, $after);
 
-        return $after;
+        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
     }
 
     /**
@@ -927,12 +927,12 @@ class API extends \Piwik\Plugin\API
      *
      * Nothing is posted when the request left every setting as it was, which keeps a save
      * that repeats the current state out of the audit trail. A request that fails never
-     * reaches this point, and does not need to: the write is validated upfront and is
-     * all-or-nothing, so a failed request leaves nothing behind to announce.
+     * reaches this point: the write is validated upfront, so a request that fails validation
+     * leaves nothing behind to announce.
      *
      * @param class-string<CompliancePolicy> $policy
-     * @param array<string, mixed> $before payload taken before the settings were written
-     * @param array<string, mixed> $after payload taken after the settings were written
+     * @param array<string, mixed> $before enforcement snapshot taken before the settings were written
+     * @param array<string, mixed> $after enforcement snapshot taken after the settings were written
      */
     private function postCompliancePolicySettingsUpdated(
         string $policy,
