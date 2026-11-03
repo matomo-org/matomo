@@ -10,7 +10,7 @@
 describe("SegmentSelectorEditorTest", function () {
     const getSegmentQuery = n => '.segmentList li:nth-of-type(' + (n+1) + ')';
     const getSegmentStarQuery = n => getSegmentQuery(n) + ' .starSegment';
-    var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
+    var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .mtm-dropdownPanel,.segment-element";
     // the dimension list is rendered at the page level, so it has to be named to stay in shot
     var selectorsWithOpenList = selectorsToCapture + ",.expandableSelector__list";
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
