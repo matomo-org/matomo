@@ -26,10 +26,11 @@
 
   .mtm-selector__trigger {
     box-sizing: border-box;
-    // Takes whatever width the control is given, so a sized selector keeps its arrow at the end.
+    // Takes whatever width the control is given, and centres its content in a sized selector.
     flex: auto;
     min-width: 0;
     display: flex;
+    justify-content: safe center;
     align-items: center;
     gap: @_selector-gap;
     margin: 0;
@@ -146,15 +147,19 @@
     text-overflow: ellipsis;
   }
 
+  // Holds the label to the start and pushes the right icon to the end, as in a form field.
+  .mtm-selector__label--alignStart {
+    margin-right: auto;
+  }
+
   .mtm-selector__label--placeholder {
     color: @color-silver;
     font-style: italic;
   }
 
-  // Sits at the end of the control, and turns over to say the panel is open.
+  // Turns over to say the panel is open.
   .mtm-selector__rightIcon {
     flex: none;
-    margin-left: auto;
     line-height: 1;
     font-size: 12px;
     transition: transform .15s ease;
@@ -241,35 +246,16 @@
 // Fills the row it is placed in, for a layout that stacks the selector onto a line of its own.
 .mtm-selector--fullWidth {
   display: flex;
-
-  .mtm-selector__trigger {
-    justify-content: center;
-  }
-
-  // The right icon holds itself to the end of the control with an auto margin, which would eat
-  // the free space the centring needs and leave the label alone on the left.
-  .mtm-selector__rightIcon {
-    margin-left: 0;
-  }
 }
 
 @media (max-width: 600px) {
   .mtm-selector--fullWidthOnSmallScreen {
     display: flex;
-
-    .mtm-selector__trigger {
-      justify-content: safe center;
-    }
-
-    .mtm-selector__rightIcon {
-      margin-left: 0;
-    }
   }
 }
 
 .mtm-selector--iconOnly .mtm-selector__trigger {
   min-width: @_selector-height - 2px;
-  justify-content: center;
   padding-left: @_selector-paddingVertical;
   padding-right: @_selector-paddingVertical;
 }

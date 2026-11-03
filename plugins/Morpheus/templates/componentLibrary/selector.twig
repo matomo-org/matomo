@@ -195,7 +195,17 @@
   </button>
 </div>
     {% endset %}
-    {{ library.example('fullWidth', 'Full width', '<code>mtm-selector--fullWidth</code> fills its row and centres the trigger. <code>mtm-selector--fullWidthOnSmallScreen</code> does it on screens 600px wide and narrower only, as the top controls do.', fullWidth) }}
+    {{ library.example('fullWidth', 'Full width', '<code>mtm-selector--fullWidth</code> fills its row. <code>mtm-selector--fullWidthOnSmallScreen</code> does it on screens 600px wide and narrower only, as the top controls do. Like any selector given a width, it centres its content.', fullWidth) }}
+
+    {% set labelAlignStart %}
+<div class="mtm-selector mtm-selector--fullWidth">
+  <button type="button" class="mtm-selector__trigger">
+    <span class="mtm-selector__label mtm-selector__label--alignStart">Example website</span>
+    <span class="mtm-selector__rightIcon" aria-hidden="true"><span class="icon-chevron-down"></span></span>
+  </button>
+</div>
+    {% endset %}
+    {{ library.example('labelAlignStart', 'Label at the start', '<code>mtm-selector__label--alignStart</code> holds the label to the start of a selector given a width, and its arrow to the end, as in a form field.', labelAlignStart) }}
 </section>
 
 <section class="componentLibrary__section">
