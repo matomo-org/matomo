@@ -5,7 +5,7 @@
  * Version: @VERSION
  * Revision: @REVISION
  *
- * Copyright (c) 2009-2013 Chris Leonello
+ * Copyright (c) 2009-2016 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -60,9 +60,13 @@
      * 
      * 'jqplotDataMouseOver' - triggered when user mouseing over a slice.
      * 'jqplotDataHighlight' - triggered the first time user mouses over a slice,
-     * if highlighting is enabled.
+     *   if highlighting is enabled.
      * 'jqplotDataUnhighlight' - triggered when a user moves the mouse out of
-     * a highlighted slice.
+     *   a highlighted slice.
+     * 'jqplotLegendHighlight' - triggered the first time user mouses over a legend,
+     *   if highlighting is enabled.
+     * 'jqplotLegendUnhighlight' - triggered when a user moves the mouse out of
+     *   a highlighted legend.
      * 'jqplotDataClick' - triggered when the user clicks on a slice.
      * 'jqplotDataRightClick' - tiggered when the user right clicks on a slice if
      * the "captureRightClick" option is set to true on the plot.
@@ -146,6 +150,10 @@
         // 180 or - 180 = on the negative x axis.
         this.startAngle = 0;
         this.tickRenderer = $.jqplot.PieTickRenderer;
+        // prop: showSlice
+        // Array for whether the pie chart slice for a data element should be displayed.
+        // Containsg true or false for each data element.  If not specified, defaults to true.
+        this.showSlice = [];
         // Used as check for conditions where pie shouldn't be drawn.
         this._drawData = true;
         this._type = 'pie';
@@ -207,6 +215,9 @@
             if (this.data[i][1] != 0) {
                 // we have data, O.K. to draw.
                 this._drawData = true;
+                if (this.showSlice[i] === undefined) {
+                  this.showSlice[i] = true;
+                }
             }
             stack.push(this.data[i][1]);
             td.push([this.data[i][0]]);
@@ -225,6 +236,23 @@
     };
     
     $.jqplot.PieRenderer.prototype.makeGridData = function(data, plot) {
+
+        var hdt = document.getElementsByClassName("jqplot-table-legend-label jqplot-seriesToggle jqplot-series-hidden");
+
+        var ndt = this.data.map(function(arr) {
+                    return arr.slice();
+        });
+
+        if (hdt[0] != null) {
+            for(i=0;i<hdt.length;i++){
+                for(j=0;j<ndt.length;j++){
+                    if(hdt[i].innerText == ndt[j][0]){
+                        ndt[j][1] = 0;
+                    }
+                }
+            }
+        }
+
         var stack = [];
         var td = [];
         var tot = 0;
@@ -236,18 +264,18 @@
                 // we have data, O.K. to draw.
                 this._drawData = true;
             }
-            stack.push(data[i][1]);
-            td.push([data[i][0]]);
+            stack.push(ndt[i][1]);
+            td.push([ndt[i][0]]);
             if (i>0) {
                 stack[i] += stack[i-1];
             }
-            tot += data[i][1];
+            tot += ndt[i][1];
         }
         var fact = Math.PI*2/stack[stack.length - 1];
         
         for (var i=0; i<stack.length; i++) {
             td[i][1] = stack[i] * fact;
-            td[i][2] = data[i][1]/tot;
+            td[i][2] = ndt[i][1]/tot;
         }
         return td;
     };
@@ -357,6 +385,8 @@
         var offy = 0;
         var trans = 1;
         var colorGenerator = new $.jqplot.ColorGenerator(this.seriesColors);
+        var sliceColor;
+
         if (options.legendInfo && options.legendInfo.placement == 'insideGrid') {
             var li = options.legendInfo;
             switch (li.location) {
@@ -395,8 +425,12 @@
         
         var shadow = (opts.shadow != undefined) ? opts.shadow : this.shadow;
         var fill = (opts.fill != undefined) ? opts.fill : this.fill;
+        
+        //see http://stackoverflow.com/questions/20221461/hidpi-retina-plot-drawing
         var cw = parseInt(ctx.canvas.style.width);
         var ch = parseInt(ctx.canvas.style.height);
+        //
+        
         var w = cw - offx - 2 * this.padding;
         var h = ch - offy - 2 * this.padding;
         var mindim = Math.min(w,h);
@@ -457,46 +491,50 @@
         }
         
         for (var i=0; i<gd.length; i++) {
-                      
-            this.renderer.drawSlice.call (this, ctx, this._sliceAngles[i][0], this._sliceAngles[i][1], colorGenerator.next(), false);
-        
-            if (this.showDataLabels && gd[i][2]*100 >= this.dataLabelThreshold) {
-                var fstr, avgang = (this._sliceAngles[i][0] + this._sliceAngles[i][1])/2, label;
+
+            sliceColor = colorGenerator.next();
+
+            if (this.showSlice[i]) {
+                this.renderer.drawSlice.call (this, ctx, this._sliceAngles[i][0], this._sliceAngles[i][1], sliceColor, false);
             
-                if (this.dataLabels == 'label') {
-                    fstr = this.dataLabelFormatString || '%s';
-                    label = $.jqplot.sprintf(fstr, gd[i][0]);
+                if (this.showDataLabels && gd[i][2]*100 >= this.dataLabelThreshold) {
+                    var fstr, avgang = (this._sliceAngles[i][0] + this._sliceAngles[i][1])/2, label;
+                
+                    if (this.dataLabels == 'label') {
+                        fstr = this.dataLabelFormatString || '%s';
+                        label = $.jqplot.sprintf(fstr, gd[i][0]);
+                    }
+                    else if (this.dataLabels == 'value') {
+                        fstr = this.dataLabelFormatString || '%d';
+                        label = $.jqplot.sprintf(fstr, this.data[i][1]);
+                    }
+                    else if (this.dataLabels == 'percent') {
+                        fstr = this.dataLabelFormatString || '%d%%';
+                        label = $.jqplot.sprintf(fstr, gd[i][2]*100);
+                    }
+                    else if (this.dataLabels.constructor == Array) {
+                        fstr = this.dataLabelFormatString || '%s';
+                        label = $.jqplot.sprintf(fstr, this.dataLabels[i]);
+                    }
+                
+                    var fact = (this._radius ) * this.dataLabelPositionFactor + this.sliceMargin + this.dataLabelNudge;
+                
+                    var x = this._center[0] + Math.cos(avgang) * fact + this.canvas._offsets.left;
+                    var y = this._center[1] + Math.sin(avgang) * fact + this.canvas._offsets.top;
+                
+                    var labelelem = $('<div class="jqplot-pie-series jqplot-data-label" style="position:absolute;">' + label + '</div>').insertBefore(plot.eventCanvas._elem);
+                    if (this.dataLabelCenterOn) {
+                        x -= labelelem.width()/2;
+                        y -= labelelem.height()/2;
+                    }
+                    else {
+                        x -= labelelem.width() * Math.sin(avgang/2);
+                        y -= labelelem.height()/2;
+                    }
+                    x = Math.round(x);
+                    y = Math.round(y);
+                    labelelem.css({left: x, top: y});
                 }
-                else if (this.dataLabels == 'value') {
-                    fstr = this.dataLabelFormatString || '%d';
-                    label = $.jqplot.sprintf(fstr, this.data[i][1]);
-                }
-                else if (this.dataLabels == 'percent') {
-                    fstr = this.dataLabelFormatString || '%d%%';
-                    label = $.jqplot.sprintf(fstr, gd[i][2]*100);
-                }
-                else if (this.dataLabels.constructor == Array) {
-                    fstr = this.dataLabelFormatString || '%s';
-                    label = $.jqplot.sprintf(fstr, this.dataLabels[i]);
-                }
-            
-                var fact = (this._radius ) * this.dataLabelPositionFactor + this.sliceMargin + this.dataLabelNudge;
-            
-                var x = this._center[0] + Math.cos(avgang) * fact + this.canvas._offsets.left;
-                var y = this._center[1] + Math.sin(avgang) * fact + this.canvas._offsets.top;
-            
-                var labelelem = $('<div class="jqplot-pie-series jqplot-data-label" style="position:absolute;">' + label + '</div>').insertBefore(plot.eventCanvas._elem);
-                if (this.dataLabelCenterOn) {
-                    x -= labelelem.width()/2;
-                    y -= labelelem.height()/2;
-                }
-                else {
-                    x -= labelelem.width() * Math.sin(avgang/2);
-                    y -= labelelem.height()/2;
-                }
-                x = Math.round(x);
-                y = Math.round(y);
-                labelelem.css({left: x, top: y});
             }
         }            
     };
@@ -554,6 +592,9 @@
         // prop: numberColumns
         // Maximum number of columns in the legend.  0 or null for unlimited.
         this.numberColumns = null;
+        // prop: width
+        // Fixed with of legend.  0 or null for auto size
+        this.width = null;
         $.extend(true, this, options);
     };
     
@@ -630,7 +671,7 @@
                 
                 var i, j;
                 var tr, td1, td2; 
-                var lt, rs, color;
+                var lt, tt, rs, color;
                 var idx = 0; 
                 var div0, div1;   
                 
@@ -647,8 +688,21 @@
                     }
                     
                     for (j=0; j<nc; j++) {
-                        if (idx < pd.length){
-                            lt = this.labels[idx] || pd[idx][0].toString();
+                        if (idx < pd.length) {
+                            tt = '';
+                            if (this.labels[idx]) {
+                                lt = this.labels[idx];
+                            }
+                            else {
+                                if (typeof pd[idx][0] === 'object') {
+                                    lt = pd[idx][0][0].toString();
+                                    tt = pd[idx][0][1].toString();
+                                }
+                                else  {
+                                    lt = pd[idx][0].toString();
+                                }
+                            }
+                            //lt = this.labels[idx] || pd[idx][0].toString();
                             color = colorGenerator.next();
                             if (!reverse){
                                 if (i>0){
@@ -676,6 +730,9 @@
 
                             div0 = $(document.createElement('div'));
                             div0.addClass('jqplot-table-legend-swatch-outline');
+                            if (tt !== '') {
+                                div0.attr("title", tt);
+                            }
                             div1 = $(document.createElement('div'));
                             div1.addClass('jqplot-table-legend-swatch');
                             div1.css({backgroundColor: color, borderColor: color});
@@ -689,7 +746,7 @@
                                 td2.text(lt);
                             }
                             else {
-                                td2.html(lt);
+                                td2.html('<a title="' + tt + '">' + lt + "</a>");
                             }
                             if (reverse) {
                                 td2.prependTo(tr);
@@ -748,7 +805,7 @@
         
         if (setopts) {
             options.axesDefaults.renderer = $.jqplot.PieAxisRenderer;
-            options.legend.renderer = $.jqplot.PieLegendRenderer;
+            options.legend.renderer = options.legend.renderer || $.jqplot.PieLegendRenderer;
             options.legend.preDraw = true;
             options.seriesDefaults.pointLabels = {show: false};
         }
@@ -774,12 +831,14 @@
     }
     
     function highlight (plot, sidx, pidx) {
-        var s = plot.series[sidx];
-        var canvas = plot.plugins.pieRenderer.highlightCanvas;
-        canvas._ctx.clearRect(0,0,canvas._ctx.canvas.width, canvas._ctx.canvas.height);
-        s._highlightedPoint = pidx;
-        plot.plugins.pieRenderer.highlightedSeriesIndex = sidx;
-        s.renderer.drawSlice.call(s, canvas._ctx, s._sliceAngles[pidx][0], s._sliceAngles[pidx][1], s.highlightColorGenerator.get(pidx), false);
+        if (plot.series[sidx].showSlice[pidx]) {
+            var s = plot.series[sidx];
+            var canvas = plot.plugins.pieRenderer.highlightCanvas;
+            canvas._ctx.clearRect(0,0,canvas._ctx.canvas.width, canvas._ctx.canvas.height);
+            s._highlightedPoint = pidx;
+            plot.plugins.pieRenderer.highlightedSeriesIndex = sidx;
+            s.renderer.drawSlice.call(s, canvas._ctx, s._sliceAngles[pidx][0], s._sliceAngles[pidx][1], s.highlightColorGenerator.get(pidx), false);
+        }
     }
     
     function unhighlight (plot) {

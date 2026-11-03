@@ -10,7 +10,7 @@
  * 
  * About: Copyright & License
  * 
- * Copyright (c) 2009-2013 Chris Leonello
+ * Copyright (c) 2009-2016 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT and GPL version 2.0 licenses. This means that you can 
  * choose the license that best suits your project and use it accordingly.
@@ -184,7 +184,7 @@
      *   enabled in the individual plot options.  Default: false.
      *   This property sets the "show" property of certain plugins to true or false.
      *   Only plugins that can be immediately active upon loading are affected.  This includes
-     *   non-renderer plugins like cursor, dragable, highlighter, and trendline.
+     *   non-renderer plugins like cursor, draggable, highlighter, and trendline.
      * defaultHeight - Default height for plots where no css height specification exists.  This
      *   is a jqplot wide default.
      * defaultWidth - Default height for plots where no css height specification exists.  This
@@ -295,6 +295,7 @@
             if ($.jqplot.use_excanvas) {
                 return window.G_vmlCanvasManager.initElement(canvas);
             }
+
             var cctx = canvas.getContext('2d');
 
             var canvasBackingScale = 1;
@@ -892,7 +893,7 @@
         // prop: placement
         // "insideGrid" places legend inside the grid area of the plot.
         // "outsideGrid" places the legend outside the grid but inside the plot container, 
-        // shrinking the grid to accomodate the legend.
+        // shrinking the grid to accommodate the legend.
         // "inside" synonym for "insideGrid", 
         // "outside" places the legend ouside the grid area, but does not shrink the grid which
         // can cause the legend to overflow the plot container.
@@ -1325,6 +1326,7 @@
         this._sumy = 0;
         this._sumx = 0;
         this._type = '';
+        this.step = false;
     }
     
     Series.prototype = new $.jqplot.ElemContainer();
@@ -1804,7 +1806,7 @@
         // prop: drawIfHidden
         // True to execute the draw method even if the plot target is hidden.
         // Generally, this should be false.  Most plot elements will not be sized/
-        // positioned correctly if renderered into a hidden container.  To render into
+        // positioned correclty if renderered into a hidden container.  To render into
         // a hidden container, call the replot method when the container is shown.
         this.drawIfHidden = false;
         this.eventCanvas = new $.jqplot.GenericCanvas();
@@ -2058,7 +2060,18 @@
                 $.extend(true, this.noDataIndicator, options.noDataIndicator);
             }
             
-            if (data == null || $.isArray(data) == false || data.length == 0 || $.isArray(data[0]) == false || data[0].length == 0) {
+			// check for any data
+            var hasData = false;
+            if (data != null && $.isArray(data) === true) {
+                for (var i = 0; i < data.length; i++) {
+                    if ($.isArray(data[i]) === true && data[i].length > 0) {
+                        hasData = true;
+                        break;
+                    };
+                }
+            };
+
+            if (!hasData) {
                 
                 if (this.noDataIndicator.show == false) {
                     throw new Error("No data specified");
@@ -2100,7 +2113,13 @@
             
             // make a copy of the data
             this.data = $.extend(true, [], data);
-            
+            // fix missing data entries
+            for (var i = 0; i < this.data.length; i++) {
+                if ($.isArray(data[i]) == false) {
+                    this.data[i] = [];
+                };
+            };
+			
             this.parseOptions(options);
             
             if (this.textColor) {
@@ -3049,10 +3068,6 @@
                 
                 if (this.legend.placement === 'outsideGrid') {
                     legendPadding = {top:this.title.getHeight(), left: 0, right: 0, bottom: 0};
-                    if (this.legend.location === 's') {
-                        legendPadding.left = this._gridPadding.left;
-                        legendPadding.right = this._gridPadding.right;
-                    }
                 }
                 
                 ax.xaxis.pack({position:'absolute', bottom:this._gridPadding.bottom - ax.xaxis.getHeight(), left:0, width:this._width}, {min:this._gridPadding.left, max:this._width - this._gridPadding.right});
@@ -3131,8 +3146,33 @@
                 }
 
                 var fb = this.fillBetween;
-                if (fb.fill && fb.series1 !== fb.series2 && fb.series1 < seriesLength && fb.series2 < seriesLength && series[fb.series1]._type === 'line' && series[fb.series2]._type === 'line') {
+                if(typeof fb.series1 == 'number'){
+                    if(fb.fill&&fb.series1!==fb.series2&&fb.series1<seriesLength&&fb.series2<seriesLength&&series[fb.series1]._type==="line"&&series[fb.series2]._type==="line")
                     this.doFillBetweenLines();
+                }
+                else{
+                    if(fb.series1 != null && fb.series2 != null){
+                        var doFb = false;
+                        if(fb.series1.length === fb.series2.length){
+                            var tempSeries1 = 0;
+                            var tempSeries2 = 0;
+                            
+                            for(var cnt = 0; cnt < fb.series1.length; cnt++){
+                                tempSeries1 = fb.series1[cnt];
+                                tempSeries2 = fb.series2[cnt];
+                                if(tempSeries1!==tempSeries2&&tempSeries1<seriesLength&&tempSeries2<seriesLength&&series[tempSeries1]._type==="line"&&series[tempSeries2]._type==="line"){
+                                    doFb = true;
+                                }
+                                else{
+                                    doFb = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if(fb.fill && doFb){
+                            this.doFillBetweenLines();
+                        }
+                    }
                 }
 
                 for (var i=0, l=$.jqplot.postDrawHooks.length; i<l; i++) {
@@ -3174,37 +3214,47 @@
 
         jqPlot.prototype.doFillBetweenLines = function () {
             var fb = this.fillBetween;
+            var series = this.series;
             var sid1 = fb.series1;
             var sid2 = fb.series2;
-            // first series should always be lowest index
-            var id1 = (sid1 < sid2) ? sid1 : sid2;
-            var id2 = (sid2 >  sid1) ? sid2 : sid1;
+            var id1 = 0, id2 = 0;
 
-            var series1 = this.series[id1];
-            var series2 = this.series[id2];
-
-            if (series2.renderer.smooth) {
-                var tempgd = series2.renderer._smoothedData.slice(0).reverse();
+            function fill(id1, id2){
+                var series1 = series[id1];
+                var series2 = series[id2];
+                if (series2.renderer.smooth)
+                    var tempgd = series2.renderer._smoothedData.slice(0).reverse();
+                else
+                    var tempgd = series2.gridData.slice(0).reverse();
+                if (series1.renderer.smooth)
+                    var gd = series1.renderer._smoothedData.concat(tempgd);
+                else
+                    var gd = series1.gridData.concat(tempgd);
+                var color = fb.color !== null ? fb.color : series[id1].fillColor;
+                var baseSeries = fb.baseSeries !== null ? fb.baseSeries : id1;
+                var sr =
+                    series[baseSeries].renderer.shapeRenderer;
+                var opts =
+                {
+                    fillStyle : color,
+                    fill : true,
+                    closePath : true
+                };
+                sr.draw(series1.shadowCanvas._ctx, gd, opts)
             }
-            else {
-                var tempgd = series2.gridData.slice(0).reverse();
-            }
 
-            if (series1.renderer.smooth) {
-                var gd = series1.renderer._smoothedData.concat(tempgd);
+            if(typeof sid1 == 'number' && typeof sid2 == 'number'){
+                id1 = sid1 < sid2 ? sid1 : sid2;
+                id2 = sid2 > sid1 ? sid2 : sid1;
+                fill(id1, id2);
             }
-            else {
-                var gd = series1.gridData.concat(tempgd);
+            else{
+                for(var cnt = 0; cnt < sid1.length ; cnt++){
+                    id1 = sid1[cnt] < sid2[cnt] ? sid1[cnt] : sid2[cnt];
+                    id2 = sid2[cnt] > sid1[cnt] ? sid2[cnt] : sid1[cnt];
+                    fill(id1, id2);
+                }
             }
-
-            var color = (fb.color !== null) ? fb.color : this.series[sid1].fillColor;
-            var baseSeries = (fb.baseSeries !== null) ? fb.baseSeries : id1;
-
-            // now apply a fill to the shape on the lower series shadow canvas,
-            // so it is behind both series.
-            var sr = this.series[baseSeries].renderer.shapeRenderer;
-            var opts = {fillStyle: color, fill: true, closePath: true};
-            sr.draw(series1.shadowCanvas._ctx, gd, opts);
         };
         
         this.bindCustomEvents = function() {
@@ -3261,7 +3311,7 @@
                         for (j=0; j<s._barPoints.length; j++) {
                             points = s._barPoints[j];
                             p = s.gridData[j];
-                            if (x>points[0][0] && x<points[2][0] && y>points[2][1] && y<points[0][1]) {
+                            if (x>points[0][0] && x<points[2][0] && (y>points[2][1] && y<points[0][1] || y<points[2][1] && y>points[0][1])) {
                                 return {seriesIndex:s.index, pointIndex:j, gridData:p, data:s.data[j], points:s._barPoints[j]};
                             }
                         }
@@ -3414,7 +3464,7 @@
                         for (j=0; j<v.length; j++) {
                             cv = v[j];
                             if (y >= cv[0][1] && y <= cv[3][1] && x >= lex[0] && x <= rex[0]) {
-                                return {seriesIndex:s.index, pointIndex:j, gridData:null, data:s.data[j]};
+                                return {seriesIndex:s.index, pointIndex:j, gridData:[gridpos.x,gridpos.y], data:s.data[j]};
                             }
                         }         
                         break;           
