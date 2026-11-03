@@ -415,7 +415,7 @@ class Controller extends ControllerAdmin
                 'module' => 'UsersManager',
                 'action' => 'deleteToken',
                 'idtokenauth' => $idTokenAuth,
-                'nonce' => $nonce,
+                'nonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
             ];
 
             if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
