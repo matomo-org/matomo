@@ -25,6 +25,7 @@ use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\FrontController;
+use Piwik\Http\BadRequestException;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\NoAccessException;
@@ -1177,7 +1178,7 @@ abstract class Controller
             Access::getInstance()->checkUserHasViewAccess($this->idSite);
             new Site($this->idSite);
         } elseif (empty($this->site) || empty($this->idSite)) {
-            throw new Exception("The requested website idSite is not found in the request, or is invalid.
+            throw new BadRequestException("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Matomo and have permission to access the specified website.");
         }
     }

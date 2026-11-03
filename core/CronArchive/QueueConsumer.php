@@ -209,13 +209,6 @@ class QueueConsumer
                 continue;
             }
 
-            if ($this->model->isSimilarArchiveInProgress($invalidatedArchive)) {
-                $this->logger->debug("Found duplicate invalidated archive (same archive currently in progress), ignoring: $invalidationDesc");
-                $this->addInvalidationToExclude($invalidatedArchive);
-                $this->model->deleteInvalidations([$invalidatedArchive]);
-                continue;
-            }
-
             if (self::hasIntersectingPeriod($archivesToProcess, $invalidatedArchive)) {
                 $this->logger->debug("Found archive with intersecting period with others in concurrent batch, skipping until next batch: $invalidationDesc");
 

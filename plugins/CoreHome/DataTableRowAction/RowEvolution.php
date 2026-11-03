@@ -9,13 +9,13 @@
 
 namespace Piwik\Plugins\CoreHome\DataTableRowAction;
 
-use Exception;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Map;
 use Piwik\Date;
+use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\NumberFormatter;
 use Piwik\Period\Factory as PeriodFactory;
@@ -32,6 +32,8 @@ use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 /**
  * ROW EVOLUTION
  * The class handles the popover that shows the evolution of a single row in a data table
+ *
+ * @phpstan-type RowEvolutionReport array{label?: string, logo?: string, column?: string, reportData: Map, metadata: array{metrics: array<string, array{name: string, min?: number, max?: number, change?: string, logo?: string}>, dimension: string, columns?: array<string, string>}}
  */
 class RowEvolution
 {
@@ -60,14 +62,14 @@ class RowEvolution
     protected $period;
 
     /**
-     * The requested date
-     * @var Date
+     * The requested date range, not set for the range period
+     * @var string|null
      */
     protected $date;
 
     /**
      * The request segment
-     * @var string
+     * @var string|false
      */
     protected $segment;
 
@@ -103,7 +105,7 @@ class RowEvolution
 
     /**
      * The type of graph that has been requested last
-     * @var string
+     * @var string|null
      */
     protected $graphType;
 
@@ -123,38 +125,38 @@ class RowEvolution
      * The constructor
      * Initialize some local variables from the request
      * @param int $idSite
-     * @param Date $date ($this->date from controller)
-     * @param string $graphType
-     * @throws Exception
+     * @param Date|null $date ($this->date from controller)
+     * @param string|null $graphType
+     * @throws BadRequestException
      */
     public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
         $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
         if (empty($this->apiMethod)) {
-            throw new Exception("Parameter apiMethod not set.");
+            throw new BadRequestException("Parameter apiMethod not set.");
         }
 
         $label = DataTablePostProcessor::getLabelFromRequest($_GET);
         if (!is_array($label)) {
-            throw new Exception("Expected label to be an array, got instead: " . $label);
+            throw new BadRequestException("Expected label to be an array, got instead: " . $label);
         }
         $this->label = Common::unsanitizeInputValue($label[0]);
 
         if ($this->label === '') {
-            throw new Exception("Parameter label not set.");
+            throw new BadRequestException("Parameter label not set.");
         }
 
         $this->period = Common::getRequestVar('period', '', 'string');
         PeriodFactory::checkPeriodIsEnabled($this->period);
 
-        if ($this->period != 'range' && !($date instanceof Date)) {
-            throw new Exception("Expected date to be an instance of \\Piwik\\Date");
-        }
-
         $this->idSite = $idSite;
         $this->graphType = $graphType;
 
         if ($this->period != 'range') {
+            if (!($date instanceof Date)) {
+                throw new BadRequestException("Expected date to be an instance of \\Piwik\\Date");
+            }
+
             // handle day, week, month and year: display last X periods
             //handle cache if exist
             $cache = ViewDataTableManager::getViewDataTableParameters(
@@ -265,7 +267,7 @@ class RowEvolution
             return $value !== null && $value !== false;
         });
 
-        /** @var array{label: string, reportData: Map, metadata: array{metrics: array, dimension: string, columns: array}} $report */
+        /** @var RowEvolutionReport $report */
         $report = Request::processRequest('API.getRowEvolution', $parameters);
 
         // at this point the report data will reference the comparison series labels for the changed compare periods/dates. We don't
@@ -286,7 +288,7 @@ class RowEvolution
     }
 
     /**
-     * @param array $report
+     * @param RowEvolutionReport $report
      * @return void
      */
     protected function extractEvolutionReport($report)
@@ -301,8 +303,8 @@ class RowEvolution
     /**
      * Generic method to get an evolution graph or a sparkline for the row evolution popover.
      * Do as much as possible from outside the controller.
-     * @param string|bool $graphType
-     * @param array|bool $metrics
+     * @param string|false $graphType
+     * @param array<string, mixed>|false $metrics
      * @return ViewDataTable
      */
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
@@ -355,7 +357,7 @@ class RowEvolution
 
     /**
      * Prepare metrics toggles with spark lines
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     protected function getMetricsToggles()
     {
@@ -442,8 +444,7 @@ class RowEvolution
 
         ob_start();
         $view->render();
-        $spark = ob_get_contents();
-        ob_end_clean();
+        $spark = (string) ob_get_clean();
 
         // undo header change by sparkline renderer
         Common::sendHeader('Content-type: text/html');
@@ -490,13 +491,13 @@ class RowEvolution
     }
 
     /**
-     * @param array $report
+     * @param RowEvolutionReport $report
      * @return string
      */
     protected function extractPrettyLabel($report)
     {
         // By default, use the specified label
-        $rowLabel = Common::sanitizeInputValue($report['label']);
+        $rowLabel = Common::sanitizeInputValue($report['label'] ?? '');
 
         /** @var \Piwik\DataTable\Map $dataTableMap */
         $dataTableMap = $report['reportData'];
@@ -504,7 +505,9 @@ class RowEvolution
         // If the dataTable specifies a label_html, use this instead
         if ($dataTableMap instanceof DataTableInterface) {
             $labelPretty = $dataTableMap->getColumn('label_html');
-            $labelPretty = array_filter($labelPretty, 'strlen');
+            $labelPretty = array_filter($labelPretty, function ($label) {
+                return (string) $label !== '';
+            });
             $labelPretty = current($labelPretty);
             if (!empty($labelPretty)) {
                 return $labelPretty;

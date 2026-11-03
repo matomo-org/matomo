@@ -197,7 +197,11 @@ class Controller extends \Piwik\Plugin\Controller
         $this->validator->checkCanUseTwoFa();
         $this->validator->checkCurrentUserMatchesSessionUser();
         $this->validator->check2FaIsRequired();
-        $this->validator->check2FaNotEnabled();
+
+        if (TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
+            // eg reloaded after the setup was completed, so continue where the completed setup leads to
+            Url::redirectToUrl('index.php');
+        }
 
         return $this->setupTwoFactorAuth($standalone = true);
     }

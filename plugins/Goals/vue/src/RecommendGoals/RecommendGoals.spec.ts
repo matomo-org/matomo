@@ -19,7 +19,10 @@ vi.mock('CoreHome', () => ({
     urlParsed: { value: { idSite: '1' } },
     stringify: (params: Record<string, string>) => new URLSearchParams(params).toString(),
   },
-  AjaxHelper: { fetch: (...args: unknown[]) => mockFetch(...args) },
+  AjaxHelper: {
+    fetch: (...args: unknown[]) => mockFetch(...args),
+    post: (...args: unknown[]) => mockFetch(...args),
+  },
   translate: (key: string) => key,
   ContentBlock: { template: '<div><slot/></div>' },
   ActivityIndicator: { template: '<div/>' },
@@ -214,11 +217,12 @@ describe('RecommendGoals empty and completed states', () => {
   const contactGoal = {
     id: 'url:contact', name: 'Visited contact page', matchAttribute: 'url', pattern: '/contact', patternType: 'contains', reason: '', source: 'rule',
   };
+  const pricingGoal = { ...contactGoal, id: 'url:pricing', name: 'Visited pricing page', pattern: '/pricing' };
 
-  async function mountWithGoal(goals: Record<string, unknown> = {}) {
+  async function mountWithGoal(goals: Record<string, unknown> = {}, recommendations = [contactGoal]) {
     mockFetch.mockResolvedValue({
       mode: 'deterministic',
-      goals: [contactGoal],
+      goals: recommendations,
       manualGoals: [{ name: 'Submitted a form', howTo: 'Send an event', category: 'form' }],
       useAi: false,
       generatedAt: 1700000000,
@@ -243,15 +247,56 @@ describe('RecommendGoals empty and completed states', () => {
   it('collapses the whole section when the last suggestion is dismissed', async () => {
     const w = await mountWithGoal();
     mockFetch.mockClear();
-    mockFetch.mockResolvedValue({});
+    mockFetch.mockResolvedValue({ success: true });
 
     w.findComponent(RecommendGoalCard).vm.$emit('dismiss');
     await flush();
 
-    expect(mockFetch).toHaveBeenCalledWith({ method: 'Goals.dismissRecommendedGoals', idSite: 1 });
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith(
+      { method: 'Goals.dismissRecommendedGoal', idSite: 1, recommendationId: 'url:contact' },
+      { createErrorNotification: false },
+    );
     expect(w.find('.recommendGoals-list').exists()).toBe(false);
     expect(w.find('.recommendGoals-manual').exists()).toBe(false);
     expect(w.find('.recommendGoals-run').text()).toBe('Goals_RecommendGoals');
+  });
+
+  it('creates a single suggestion with one request', async () => {
+    const w = await mountWithGoal({}, [contactGoal, pricingGoal]);
+    mockFetch.mockClear();
+    mockFetch.mockResolvedValue({ goals: [{ recommendationId: 'url:contact', idGoal: 7 }] });
+
+    w.findComponent(RecommendGoalCard).vm.$emit('create');
+    await flush();
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith(
+      { method: 'Goals.addRecommendedGoals', idSite: 1 },
+      { recommendationIds: ['url:contact'] },
+      { createErrorNotification: false },
+    );
+    expect(w.emitted('created')).toEqual([[[7]]]);
+  });
+
+  it('creates all open suggestions with one request', async () => {
+    const w = await mountWithGoal({}, [contactGoal, pricingGoal]);
+    mockFetch.mockClear();
+    mockFetch.mockResolvedValue({
+      goals: [{ recommendationId: 'url:contact', idGoal: 7 }, { recommendationId: 'url:pricing', idGoal: 8 }],
+    });
+
+    await w.find('.recommendGoals-actions .btn').trigger('click');
+    await flush();
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith(
+      { method: 'Goals.addRecommendedGoals', idSite: 1 },
+      { recommendationIds: ['url:contact', 'url:pricing'] },
+      { createErrorNotification: false },
+    );
+    expect(w.emitted('created')).toEqual([[[7, 8]]]);
+    expect(w.find('.recommendGoals-notice--success').text()).toContain('Goals_RecommendAllCreated');
   });
 });
 
