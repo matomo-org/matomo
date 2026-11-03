@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 * The website selector (`CoreHome.SiteSelector`) now renders the generic `.mtm-selector` control instead of `.piwikSelector`. Its `loading`, `disabled`, `placeholder`, `iconHidden` and `collapsed` states and the `icon` class on its arrow are removed, and the `.piwikSelector__dropdown` rules now only apply inside a `.piwikSelector`.
 * The period selector (`CoreHome.PeriodSelector`) now renders the generic `.mtm-selector` control instead of `.piwikSelector`. The content of its `#periodMore` panel is wrapped in `.mtm-dropdownPanel > .periodSelector__panel`, the `icon` class on its calendar icon is removed, and so are the global functions `toggleCalendar()`, `selectPeriodRadioButton()` and `blockPropegation()` of `plugins/CoreHome/javascripts/top_controls.js`.
+* The segment selector (`SegmentEditor.SegmentSelector`) now renders the generic `.mtm-selector` control instead of `.piwikSelector`. Its `.segmentationContainer` now wraps the content inside its panel rather than the whole control, and its `listHtml` class and the `icon` class on its segment icon are removed.
 
 ### New APIs
 * The `CoreHome.SiteSelector` Vue component takes the `full-width`, `full-width-on-small-screen` and `align-label-start` props.
@@ -19,6 +20,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Deprecations
 * The `title`, `expanded` and `piwikSelector__dropdown` classes are kept on the website selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
 * The `periodSelector`, `periodSelector-withPrevNext`, `title`, `move-period`, `move-period-prev`, `move-period-next`, `dropdown`, `single-calendar`, `dual-calendar` and `expanded` classes and the `#date` id are kept on the period selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
+* The `title` class is kept on the segment selector's trigger for plugins, without styles, and will be removed in Matomo 7; use `.mtm-selector__trigger` instead.
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 

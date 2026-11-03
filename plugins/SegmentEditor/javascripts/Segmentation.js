@@ -20,7 +20,7 @@ Segmentation = (function($) {
         } else {
             event.returnValue = false; // IE
         }
-        $('.segmentListContainer .segmentationContainer .title').trigger('click').focus();
+        $('.segmentListContainer .mtm-selector__trigger').trigger('click').focus();
     });
 
     var segmentation = function segmentation(config) {

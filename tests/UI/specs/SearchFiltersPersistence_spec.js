@@ -53,7 +53,7 @@ describe("SearchFilterPersistenceTest", function () {
     });
 
     it("should persist the search term when segment is changed", async function () {
-        await page.click('.segmentationContainer');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await(await page.jQuery('li[data-idsegment=3] .segname', { waitFor: true })).click();
         await page.waitForNetworkIdle();
         await page.evaluate(() => document.activeElement.blur());

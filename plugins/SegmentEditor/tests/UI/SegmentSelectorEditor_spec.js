@@ -149,7 +149,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should open selector when control clicked", async function() {
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_open');
     });
 
@@ -178,7 +178,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.goto('about:blank');
         await page.goto(url);
         await page.waitForNetworkIdle();
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         const firstSegmentStarCount = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').length);
         expect(firstSegmentStarCount).to.equal(0);
     });
@@ -187,7 +187,7 @@ describe("SegmentSelectorEditorTest", function () {
         await switchToConnectedUser();
         await page.goto('about:blank');
         await page.goto(url);
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await page.evaluate(function() {
             $('.segmentList button.editSegment:first').click();
         });
@@ -214,7 +214,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should open blank segment editor when create new segment link is clicked", async function() {
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await page.click('.add_new_segment');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.segmentRow0');
@@ -300,15 +300,15 @@ describe("SegmentSelectorEditorTest", function () {
             $('button.saveAndApply').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.segmentationContainer');
+        await page.waitForSelector('.segmentListContainer .mtm-selector__trigger');
 
-        await page.click('.segmentationContainer');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved');
     });
 
     it("should show the new segment after page reload", async function() {
         await page.reload();
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved');
     });
 
@@ -391,11 +391,11 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should keep the updated segment name after page reload", async function() {
         await page.reload();
-        await page.waitForSelector('.segmentationContainer .title');
+        await page.waitForSelector('.segmentListContainer .mtm-selector__trigger');
         await page.waitForFunction(() => {
-            return $('.segmentationContainer .segmentationTitle').text().indexOf('edited segment') !== -1;
+            return $('.segmentListContainer .segmentationTitle').text().indexOf('edited segment') !== -1;
         });
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await page.waitForSelector('.segmentList li[data-idsegment="4"] .editSegment');
     });
 
@@ -458,24 +458,24 @@ describe("SegmentSelectorEditorTest", function () {
         var elem = await page.jQuery('.modal.open .modal-footer a:contains(Yes):visible');
         await elem.click();
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.segmentationContainer .title');
+        await page.waitForSelector('.segmentListContainer .mtm-selector__trigger');
 
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         expect(await page.screenshotSelector(selectorsToCapture + ',.modal.open')).to.matchImage('deleted');
     });
 
     it("should not show the deleted segment after page reload", async function() {
         await page.reload();
-        await page.waitForSelector('.segmentationContainer .title');
+        await page.waitForSelector('.segmentListContainer .mtm-selector__trigger');
 
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('deleted');
     });
 
     it('should correctly handle complex segments with encoded characters and whitespace', async function () {
         await page.goto(url);
 
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await page.click('.add_new_segment');
         await page.type('input.edit_segment_name', 'complex segment');
 
@@ -529,7 +529,7 @@ describe("SegmentSelectorEditorTest", function () {
         testEnvironment.overrideConfig('General', 'enable_create_realtime_segments', 0);
         testEnvironment.save();
         await page.goto(url);
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await page.click('.add_new_segment');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments');
@@ -562,9 +562,9 @@ describe("SegmentSelectorEditorTest", function () {
             $('button.saveAndApply').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.segmentationContainer');
+        await page.waitForSelector('.segmentListContainer .mtm-selector__trigger');
 
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments_saved');
     });
 
@@ -578,7 +578,7 @@ describe("SegmentSelectorEditorTest", function () {
         });
 
         await page.goto(url);
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
 
         await expectSearchToShowOnly('ЖУРНАЛ', 'журнал');
         await expectSearchToShowOnly('中文', '中文');
@@ -653,7 +653,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.reload();
         await page.waitForNetworkIdle();
 
-        await page.click('.segmentationContainer .title');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await page.waitForSelector('.add_new_segment', { visible: true });
         await page.click('.add_new_segment');
         await page.waitForNetworkIdle();

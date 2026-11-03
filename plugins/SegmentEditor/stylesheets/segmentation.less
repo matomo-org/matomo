@@ -419,12 +419,10 @@ div.scrollable {
 }
 
 .segmentEditorPanel.expanded .segmentationContainer {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-
+    // The selector's panel already pads its content.
     .dropdown-body {
         min-width: 337px;
-        padding: @_segmentselector-dropdown_padding;
+        padding: 0;
     }
 
     @media screen and (max-width: 600px) {
