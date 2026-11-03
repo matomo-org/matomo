@@ -14,7 +14,6 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
-use Piwik\Segment\SegmentExpression;
 
 class UserCountry extends \Piwik\Plugin
 {
@@ -81,11 +80,9 @@ class UserCountry extends \Piwik\Plugin
      * Returns a list of country codes for a given continent code.
      *
      * @param string $continent The continent code.
-     * @param string|null $sqlField The segment's SQL field, passed by the segment and unused.
-     * @param string|null $matchType The segment operator, see {@link SegmentExpression}.
      * @return array
      */
-    public static function getCountriesForContinent($continent, $sqlField = null, $matchType = null)
+    public static function getCountriesForContinent($continent)
     {
         /** @var RegionDataProvider $regionDataProvider */
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
@@ -98,8 +95,7 @@ class UserCountry extends \Piwik\Plugin
             }
         }
         return array('SQL'  => "'" . implode("', '", $result) . "', ?",
-                     'bind' => '-', // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
-                     'negate' => in_array($matchType, [SegmentExpression::MATCH_NOT_EQUAL, SegmentExpression::MATCH_DOES_NOT_CONTAIN], true));
+                     'bind' => '-'); // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
     }
 
     /**

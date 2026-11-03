@@ -7,10 +7,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.1.0
 
 ### Breaking Changes
-* A Continent segment with `!=` (`continentCode!=eur`) or `!@` (`continentCode!@eur`) now excludes the visits of that continent, and keeps every other visit, including those with no country or an unlisted one, as `countryCode!=` does. It used to match the visits of that very continent, like `==`. The update schedules the saved segments using it for rearchiving, as far back as `rearchive_reports_in_past_last_n_months`, which the next `core:archive` run applies.
-
-### New APIs
-* A segment `sqlFilter` callback returning a sub-expression (`['SQL' => ..., 'bind' => ...]`) can set `'negate' => true` to match the rows not in it, `NULL` included, as `!=` does for a plain value.
+* The Continent segment (`continentCode`) now applies its operator to the continent of the visit country, mapped as in the Continent report. It used to match the countries of the continent it names whatever the operator, so `continentCode!=eur` matched the European visits. Now `!=` and `!@` exclude that continent and keep every other visit, `=@`, `=^` and `=$` compare the continent code, and a visit with no country or an unlisted one is on the Unknown continent (`continentCode==unk`), so `continentCode==` matches no visit. `==` on a continent is unchanged. The update schedules the saved segments with any other Continent condition for rearchiving, as far back as `rearchive_reports_in_past_last_n_months`, which the next `core:archive` run applies.
 
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.

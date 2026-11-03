@@ -34,14 +34,18 @@ class Updates610b1Test extends IntegrationTestCase
         Fixture::createWebsite('2015-01-01 00:00:00');
     }
 
-    public function testOnlySavedSegmentsExcludingAContinentAreRearchived(): void
+    public function testOnlySavedSegmentsWithAChangedContinentConditionAreRearchived(): void
     {
         $notEurope = $this->createSegment('continentCode!=eur', 0);
         $notSouthAmerica = $this->createSegment('continentCode%21%3Dams', 2);
         $notContainingAsia = $this->createSegment('continentCode!@asi', 0);
         $frenchNotInEurope = $this->createSegment('countryCode%3D%3Dfr%3BcontinentCode%21%3Deur', 0);
+        $containingAm = $this->createSegment('continentCode=@am', 0);
+        $unknown = $this->createSegment('continentCode==unk', 0);
+        $notEmpty = $this->createSegment('continentCode!=', 0);
+        $europeOrNotAsia = $this->createSegment('continentCode==eur,continentCode!=asi', 0);
         $this->createSegment('continentCode==eur', 0);
-        $this->createSegment('continentCode!=', 0);
+        $this->createSegment('continentCode==EUR;continentCode==asi', 0);
         $this->createSegment('eventAction==continentCode!=eur', 0);
         $this->createSegment('countryCode!=fr', 0);
         $this->createSegment('continentCode!=asi', 0, $deleted = 1);
@@ -56,6 +60,10 @@ class Updates610b1Test extends IntegrationTestCase
             "./console core:invalidate-report-data --sites=2 --dates=$startDate,today --segment=$notSouthAmerica",
             "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$notContainingAsia",
             "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$frenchNotInEurope",
+            "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$containingAm",
+            "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$unknown",
+            "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$notEmpty",
+            "./console core:invalidate-report-data --sites=all --dates=$startDate,today --segment=$europeOrNotAsia",
         ], $hints);
 
         $update->doUpdate(new Updater());
@@ -68,9 +76,13 @@ class Updates610b1Test extends IntegrationTestCase
         });
 
         self::assertSame([
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode!='],
             ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode!=eur'],
             ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode!@asi'],
             ['idSites' => [2], 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode%21%3Dams'],
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode==eur,continentCode!=asi'],
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode==unk'],
+            ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'continentCode=@am'],
             ['idSites' => 'all', 'pluginName' => null, 'report' => null, 'startDate' => null, 'segment' => 'countryCode%3D%3Dfr%3BcontinentCode%21%3Deur'],
         ], $reArchives);
     }

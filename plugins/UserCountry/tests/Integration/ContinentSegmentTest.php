@@ -68,6 +68,36 @@ class ContinentSegmentTest extends IntegrationTestCase
         yield 'is Europe or not South America' => ['continentCode==eur,continentCode!=ams', ['de', 'fr', 'jp', 'us', 'xx', 'zz']];
         yield 'contains Europe' => ['continentCode=@eur', ['de', 'fr']];
         yield 'does not contain Europe' => ['continentCode!@eur', ['ar', 'br', 'jp', 'us', 'xx', 'zz']];
+        yield 'contains am' => ['continentCode=@am', ['ar', 'br', 'us']];
+        yield 'starts with am' => ['continentCode=^am', ['ar', 'br', 'us']];
+        yield 'is unknown' => ['continentCode==unk', ['xx', 'zz']];
+        yield 'is not unknown' => ['continentCode!=unk', ['ar', 'br', 'de', 'fr', 'jp', 'us']];
+    }
+
+    public function testSegmentOfEachContinentMatchesTheContinentReport(): void
+    {
+        /** @var DataTable $report */
+        $report = Request::processRequest('UserCountry.getCountry', [
+            'idSite' => $this->idSite,
+            'period' => 'day',
+            'date' => $this->date,
+            'format' => 'original',
+        ]);
+
+        // the Continent report groups the countries with Common::getContinent()
+        $visitsByContinent = [];
+        foreach ($report->getRows() as $row) {
+            $continentCode = Common::getContinent($row->getMetadata('code'));
+            $visitsByContinent[$continentCode] = ($visitsByContinent[$continentCode] ?? 0) + (int) $row->getColumn('nb_visits');
+        }
+
+        foreach (['afr', 'amc', 'amn', 'ams', 'ant', 'asi', 'eur', 'oce', 'unk'] as $continentCode) {
+            self::assertSame(
+                $visitsByContinent[$continentCode] ?? 0,
+                $this->getVisitsInSegment('continentCode==' . $continentCode),
+                $continentCode
+            );
+        }
     }
 
     public function testIsNotKeepsTheVisitsWithoutCountry(): void
@@ -84,6 +114,9 @@ class ContinentSegmentTest extends IntegrationTestCase
         $this->assertSame(7, $this->getVisitsInSegment('continentCode!=eur'));
         $this->assertSame(7, $this->getVisitsInSegment('continentCode!@eur'));
         $this->assertSame(7, $this->getVisitsInSegment('countryCode!=fr;countryCode!=de'));
+        // a visit without a country is on the Unknown continent, as in the Continent report
+        $this->assertSame(3, $this->getVisitsInSegment('continentCode==unk'));
+        $this->assertSame(0, $this->getVisitsInSegment('continentCode=='));
     }
 
     private function getVisitsInSegment(string $segment): int
