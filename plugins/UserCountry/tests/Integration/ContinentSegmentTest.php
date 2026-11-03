@@ -79,6 +79,8 @@ class ContinentSegmentTest extends IntegrationTestCase
         yield 'is empty' => ['continentCode==', []];
         yield 'is unknown' => ['continentCode==unk', ['xx', 'zz']];
         yield 'is not unknown' => ['continentCode!=unk', ['ar', 'br', 'de', 'fr', 'jp', 'us']];
+        yield 'contains unknown' => ['continentCode=@unk', ['xx', 'zz']];
+        yield 'does not contain unknown' => ['continentCode!@unk', ['ar', 'br', 'de', 'fr', 'jp', 'us']];
     }
 
     public function testSegmentOfEachContinentMatchesTheContinentReport(): void
