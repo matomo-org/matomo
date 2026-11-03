@@ -5524,6 +5524,87 @@ if ($mysql) {
         }, 3000);
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - requireConsentForRestrictedData tracks before consent and reports it after", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'restricted');
+        tracker.requireConsentForRestrictedData();
+
+        ok(!tracker.areCookiesEnabled(), 'cookies are withheld until consent is given');
+        tracker.trackRequest('myFoo=beforeConsent');
+
+        tracker.rememberConsentGiven();
+        ok(tracker.areCookiesEnabled(), 'cookies are enabled once consent is given');
+        tracker.trackRequest('myFoo=afterConsent');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'restricted');
+            strictEqual(true, requests.indexOf('myFoo=beforeConsent') > 0, "the visitor is tracked before consent is given");
+            strictEqual(true, requests.indexOf('myFoo=afterConsent') > 0, "the visitor is tracked after consent is given");
+            // the request sent after consent, and the ping setCookieConsentGiven() fires by
+            // itself once cookies are enabled - the one before consent is the only one without
+            strictEqual(2, (requests.match(/consent=1/g) || []).length, "the request sent before consent carries the flag");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - withdrawing consent returns the visitor to the exempt measurement", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData('token', getConsentToken() + 'withdrawn');
+        tracker.requireConsentForRestrictedData();
+        tracker.rememberConsentGiven();
+
+        // withdrawing is not opting out: the exemption does not depend on consent, so the
+        // visitor keeps being measured, just without what consent had lifted
+        tracker.forgetConsentGiven();
+
+        ok(!tracker.areCookiesEnabled(), 'cookies are withheld again once consent is withdrawn');
+        ok(!tracker.isUserOptedOut(), 'withdrawing consent is not opting out');
+
+        tracker.trackRequest('myFoo=afterWithdrawal');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'withdrawn');
+            strictEqual(true, requests.indexOf('myFoo=afterWithdrawal') > 0, "the visitor is still measured after withdrawing consent");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "consent is still reported after it was withdrawn");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - requireConsent overrides requireConsentForRestrictedData", function() {
+        deleteCookies();
+
+        // the two contradict each other, and withholding everything is the stricter of the two
+        var tracker = Piwik.getTracker();
+        tracker.requireConsentForRestrictedData();
+        tracker.requireConsent();
+
+        ok(tracker.isConsentRequired(), 'requireConsent() stands');
+
+        tracker.trackRequest('myFoo=shouldBeHeld');
+        strictEqual(1, tracker.getConsentRequestsQueue().length, 'the request is held back rather than sent');
+
+        deleteCookies();
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 
