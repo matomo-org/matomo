@@ -18,9 +18,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Deprecations
 * The `title`, `expanded` and `piwikSelector__dropdown` classes are kept on the website selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
+* The `periodSelector`, `periodSelector-withPrevNext`, `title`, `move-period`, `move-period-prev`, `move-period-next`, `dropdown`, `single-calendar`, `dual-calendar` and `expanded` classes and the `#date` id are kept on the period selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
-* The `periodSelector`, `periodSelector-withPrevNext`, `title`, `move-period`, `move-period-prev`, `move-period-next`, `dropdown`, `single-calendar`, `dual-calendar` and `expanded` classes and the `#date` id are kept on the period selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
 
 ## Matomo 6.0.0
 
