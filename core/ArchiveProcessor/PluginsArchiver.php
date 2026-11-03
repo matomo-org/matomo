@@ -30,7 +30,7 @@ use Exception;
 class PluginsArchiver
 {
     public const UNIQUE_VISITORS_SKETCH_RECORD = 'VisitsSummary_uniq_visitors_sketch';
-    public const UNIQUE_VISITORS_ESTIMATE_METRIC = 'nb_uniq_visitors_estimated';
+    public const USERS_SKETCH_RECORD = 'VisitsSummary_users_sketch';
 
     /**
      * @var string|null
@@ -320,13 +320,15 @@ class PluginsArchiver
         $metrics = $this->convertMetricsIdToName($data);
         $this->archiveProcessor->insertNumericRecords($metrics);
 
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
-            $sketch = null;
-            if ($this->canEstimateUniqueVisitors($metrics)) {
-                $precision = SettingsPiwik::getUniqueVisitorsEstimatePrecision();
-                $sketch = $this->archiveProcessor->getLogAggregator()->queryUniqueVisitorsSketch($precision);
+        // days stay exact, but store the sketches longer periods estimate their unique visitors and users from
+        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled() && $this->canEstimateUniqueVisitors($metrics)) {
+            $logAggregator = $this->archiveProcessor->getLogAggregator();
+            $precision = SettingsPiwik::getUniqueVisitorsEstimatePrecision();
+
+            $this->insertSketch(self::UNIQUE_VISITORS_SKETCH_RECORD, $logAggregator->queryUniqueVisitorsSketch($precision));
+            if (!empty($metrics['nb_users'])) {
+                $this->insertSketch(self::USERS_SKETCH_RECORD, $logAggregator->queryUsersSketch($precision));
             }
-            $this->insertUniqueVisitorsEstimate($sketch, $metrics['nb_visits']);
         }
 
         return $metrics;
@@ -345,14 +347,52 @@ class PluginsArchiver
     protected function aggregateMultipleVisitsMetrics()
     {
         $toSum = Metrics::getVisitsMetricNames();
-        $metrics = $this->archiveProcessor->aggregateNumericMetrics($toSum);
 
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
-            $sketch = null;
-            if ($this->canEstimateUniqueVisitors($metrics)) {
-                $sketch = $this->archiveProcessor->aggregateUniqueVisitorsSketch(self::UNIQUE_VISITORS_SKETCH_RECORD);
+        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled() && count($this->params->getIdSites()) === 1) {
+            $metrics = $this->aggregateMultipleVisitsMetricsWithEstimates($toSum);
+            if ($metrics !== null) {
+                return $metrics;
             }
-            $this->insertUniqueVisitorsEstimate($sketch, $metrics['nb_visits']);
+        }
+
+        return $this->archiveProcessor->aggregateNumericMetrics($toSum);
+    }
+
+    /**
+     * Estimates unique visitors and users from the sub-periods' sketches instead of counting them in the logs.
+     * Returns null when the sketches are missing or damaged, so they are counted as usual.
+     */
+    private function aggregateMultipleVisitsMetricsWithEstimates(array $toSum): ?array
+    {
+        $visitorsSketch = $this->archiveProcessor->aggregateUniqueVisitorsSketch(self::UNIQUE_VISITORS_SKETCH_RECORD);
+        if ($visitorsSketch === null) {
+            return null;
+        }
+
+        // a sub-period with visitors sketch but no users sketch had no users
+        $usersSketch = $this->archiveProcessor->aggregateUniqueVisitorsSketch(self::USERS_SKETCH_RECORD, false);
+        if ($usersSketch === null) {
+            return null;
+        }
+
+        $metrics = $this->archiveProcessor->aggregateNumericMetrics(
+            array_values(array_diff($toSum, ['nb_uniq_visitors', 'nb_users']))
+        );
+
+        // an estimate can't exceed the visits it was built from
+        $metrics['nb_uniq_visitors'] = min($visitorsSketch->estimate(), (int) $metrics['nb_visits']);
+        $metrics['nb_users'] = min($usersSketch->estimate(), (int) $metrics['nb_visits']);
+        $this->archiveProcessor->insertNumericRecords([
+            'nb_uniq_visitors' => $metrics['nb_uniq_visitors'],
+            'nb_users' => $metrics['nb_users'],
+        ]);
+
+        // only sub-periods need their sketches, and a range is never one
+        if ($this->params->getPeriod()->getLabel() !== 'range') {
+            $this->insertSketch(self::UNIQUE_VISITORS_SKETCH_RECORD, $visitorsSketch);
+            if ($metrics['nb_users'] > 0) {
+                $this->insertSketch(self::USERS_SKETCH_RECORD, $usersSketch);
+            }
         }
 
         return $metrics;
@@ -366,24 +406,10 @@ class PluginsArchiver
             && count($this->params->getIdSites()) === 1;
     }
 
-    private function insertUniqueVisitorsEstimate(?HyperLogLog $sketch, $visits): void
+    private function insertSketch(string $recordName, HyperLogLog $sketch): void
     {
-        // stored as 0 when there is no estimate, as a range archive missing a requested record is rebuilt on every
-        // request. The API hides a 0 estimate for a period with visits
-        if ($sketch === null) {
-            $this->archiveProcessor->insertNumericRecord(self::UNIQUE_VISITORS_ESTIMATE_METRIC, 0);
-            return;
-        }
-
-        // only sub-periods need their sketch, and a range is never one
-        if ($this->params->getPeriod()->getLabel() !== 'range') {
-            $this->archiveProcessor->insertBlobRecord(self::UNIQUE_VISITORS_SKETCH_RECORD, $sketch->toString());
-        }
-
-        // an estimate can't exceed the visits it was built from
-        $this->archiveProcessor->insertNumericRecord(self::UNIQUE_VISITORS_ESTIMATE_METRIC, min($sketch->estimate(), (int) $visits));
+        $this->archiveProcessor->insertBlobRecord($recordName, $sketch->toString());
     }
-
 
     /**
      * @param class-string<Archiver> $archiverClass

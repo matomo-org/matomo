@@ -320,14 +320,21 @@ class ArchiveProcessor
     }
 
     /**
-     * Merges the unique visitors sketches of the subperiods this archive aggregates. Returns null when a
-     * subperiod with visits has no sketch (eg it was archived before the estimate was enabled), so the
-     * estimate is left out rather than undercounted.
+     * Merges the unique visitors or users sketches of the subperiods this archive aggregates. Returns null when
+     * they can't be merged into a reliable estimate:
+     * - a sketch is damaged;
+     * - `$requiredForEveryVisit` is set and a subperiod with visits has no sketch (eg it was archived before the
+     *   estimate was enabled), so the estimate is left out rather than undercounted;
+     * - an `ArchiveProcessor.ComputeNbUniques.getIdSites` listener counts other sites than this one.
      *
      * @internal
      */
-    public function aggregateUniqueVisitorsSketch(string $recordName): ?HyperLogLog
+    public function aggregateUniqueVisitorsSketch(string $recordName, bool $requiredForEveryVisit = true): ?HyperLogLog
     {
+        if (array_map('intval', $this->getIdSitesToComputeNbUniques()) !== [(int) $this->getParams()->getSite()->getId()]) {
+            return null;
+        }
+
         // merge() lowers the precision when a stored sketch has a lower one
         $merged = new HyperLogLog(SettingsPiwik::getUniqueVisitorsEstimatePrecision());
         $sketchCount = 0;
@@ -344,6 +351,10 @@ class ArchiveProcessor
                 return null;
             }
             $sketchCount++;
+        }
+
+        if (!$requiredForEveryVisit) {
+            return $merged;
         }
 
         $visits = $this->getArchive()->getDataTableFromNumeric('nb_visits');

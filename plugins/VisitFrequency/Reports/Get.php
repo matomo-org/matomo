@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\VisitFrequency\Reports;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
@@ -51,10 +52,6 @@ class Get extends \Piwik\Plugin\Report
             'nb_users_new',
             'max_actions_new',
         ];
-
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
-            array_push($this->metrics, 'nb_uniq_visitors_estimated_returning', 'nb_uniq_visitors_estimated_new');
-        }
         $this->order = 40;
         $this->subcategoryId = 'VisitorInterest_Engagement';
     }
@@ -77,8 +74,48 @@ class Get extends \Piwik\Plugin\Report
         );
     }
 
+    /**
+     * Labels for the unique visitors and users columns of periods where they are estimated.
+     *
+     * @return array<string, string>
+     */
+    public static function getEstimatedMetricTranslations(): array
+    {
+        return [
+            'nb_uniq_visitors_returning' => Piwik::translate('VisitFrequency_ColumnUniqueReturningVisitorsEstimated'),
+            'nb_users_returning' => Piwik::translate('VisitFrequency_ColumnReturningUsersEstimated'),
+            'nb_uniq_visitors_new' => Piwik::translate('VisitFrequency_ColumnUniqueNewVisitorsEstimated'),
+            'nb_users_new' => Piwik::translate('VisitFrequency_ColumnNewUsersEstimated'),
+        ];
+    }
+
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $report = $this->buildReportMetadata();
+        if (empty($report)) {
+            return;
+        }
+
+        if (SettingsPiwik::isUniqueVisitorsEstimated((string) ($infos['period'] ?? ''))) {
+            $report['metrics'] = array_replace(
+                $report['metrics'],
+                array_intersect_key(self::getEstimatedMetricTranslations(), $report['metrics'])
+            );
+        }
+
+        $availableReports[] = $report;
+    }
+
     public function configureView(ViewDataTable $view)
     {
+        if (SettingsPiwik::isUniqueVisitorsEstimated(Common::getRequestVar('period', '', 'string'))) {
+            $view->config->addTranslations(self::getEstimatedMetricTranslations());
+        }
+
         if ($view->isViewDataTableId(Sparklines::ID)) {
             $view->requestConfig->apiMethodToRequestDataTable = 'VisitFrequency.get';
             $this->addSparklineColumns($view);

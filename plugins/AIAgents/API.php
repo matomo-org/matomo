@@ -131,15 +131,12 @@ class API extends PluginAPI
 
     protected function addSuffixToTableColumns(DataTableInterface $table, string $suffix): void
     {
-        // renamed per period, as periods can have different columns (eg no unique visitors estimate)
-        $table->filter(function (DataTable $periodTable) use ($suffix) {
-            $renames = [];
+        $renames = [];
 
-            foreach ($periodTable->getColumns() as $oldColumn) {
-                $renames[$oldColumn] = $oldColumn . $suffix;
-            }
+        foreach ($table->getColumns() as $oldColumn) {
+            $renames[$oldColumn] = $oldColumn . $suffix;
+        }
 
-            $periodTable->filter('ReplaceColumnNames', [$renames]);
-        });
+        $table->filter('ReplaceColumnNames', [$renames]);
     }
 }

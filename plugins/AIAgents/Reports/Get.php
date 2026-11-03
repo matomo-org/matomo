@@ -22,6 +22,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\AIAgents\API;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
@@ -58,10 +59,6 @@ class Get extends Report
             'nb_users_human',
             'max_actions_human',
         ];
-
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
-            array_push($this->metrics, 'nb_uniq_visitors_estimated_ai_agent', 'nb_uniq_visitors_estimated_human');
-        }
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
@@ -82,8 +79,48 @@ class Get extends Report
         );
     }
 
+    /**
+     * Labels for the unique visitors and users columns of periods where they are estimated.
+     *
+     * @return array<string, string>
+     */
+    public static function getEstimatedMetricTranslations(): array
+    {
+        return [
+            'nb_uniq_visitors_ai_agent' => Piwik::translate('AIAgents_ColumnAIAgentUniqueVisitorsEstimated'),
+            'nb_users_ai_agent' => Piwik::translate('AIAgents_ColumnAIAgentUsersEstimated'),
+            'nb_uniq_visitors_human' => Piwik::translate('AIAgents_ColumnHumanUniqueVisitorsEstimated'),
+            'nb_users_human' => Piwik::translate('AIAgents_ColumnHumanUsersEstimated'),
+        ];
+    }
+
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $report = $this->buildReportMetadata();
+        if (empty($report)) {
+            return;
+        }
+
+        if (SettingsPiwik::isUniqueVisitorsEstimated((string) ($infos['period'] ?? ''))) {
+            $report['metrics'] = array_replace(
+                $report['metrics'],
+                array_intersect_key(self::getEstimatedMetricTranslations(), $report['metrics'])
+            );
+        }
+
+        $availableReports[] = $report;
+    }
+
     public function configureView(ViewDataTable $view)
     {
+        if (SettingsPiwik::isUniqueVisitorsEstimated(Request::fromRequest()->getStringParameter('period', ''))) {
+            $view->config->addTranslations(self::getEstimatedMetricTranslations());
+        }
+
         if ($view->isViewDataTableId(Sparklines::ID)) {
             /** @var Sparklines $view */
             $view->requestConfig->apiMethodToRequestDataTable = 'AIAgents.get';
