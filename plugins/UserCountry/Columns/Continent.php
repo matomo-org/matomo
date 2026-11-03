@@ -61,6 +61,10 @@ class Continent extends Dimension
 
         $countriesByContinent = [];
         foreach ($regionDataProvider->getCountryList() as $countryCode => $continentCode) {
+            // the codes are written into the SQL, so only plain codes are kept
+            if (!preg_match('/^[a-z]{2}$/', (string) $countryCode) || !preg_match('/^[a-z]{3}$/', (string) $continentCode)) {
+                continue;
+            }
             $countriesByContinent[$continentCode][] = $countryCode;
         }
         // Common::getContinent() counts the legacy Tibet code as China
