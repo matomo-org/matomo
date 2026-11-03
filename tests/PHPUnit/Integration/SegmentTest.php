@@ -1173,6 +1173,30 @@ class SegmentTest extends IntegrationTestCase
         ];
     }
 
+    /**
+     * @dataProvider getNegatedSegmentsComputedFromVisitColumns
+     */
+    public function testGetSelectQueryIsTheSameWithOrWithoutDatesWhenANegatedSegmentIsComputedFromVisitColumns(string $segment)
+    {
+        $segmentWithDates = new Segment($segment, [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+        $segmentWithoutDates = new Segment($segment, []);
+
+        $this->assertEquals(
+            $segmentWithoutDates->getSelectQuery('log_visit.*', 'log_visit', false, []),
+            $segmentWithDates->getSelectQuery('log_visit.*', 'log_visit', false, [])
+        );
+    }
+
+    public function testGetSelectQueryKeepsTheSubQueryForANegatedSegmentStartingWithAVisitColumnButReadingAnActionColumn()
+    {
+        $segment = new Segment('customVisitAndActionSegment!=5', [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false, []);
+
+        $this->assertStringContainsString('log_visit.idvisit NOT IN (', $query['sql']);
+        $this->assertStringContainsString('(log_visit.visit_total_actions - log_link_visit_action.pageview_position = ?)', $query['sql']);
+    }
+
     public function testGetSelectQueryKeepsTheSubQueryForANegatedSegmentComputedFromActionColumns()
     {
         $segment = new Segment('daysSinceLastVisit!=50;actionServerHour!=5', [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
@@ -2832,6 +2856,13 @@ SQL;
                     $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);
                     $segment->setName('Custom Segment');
                     $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first)');
+                    $list->addSegment($segment);
+
+                    $segment = new \Piwik\Plugin\Segment();
+                    $segment->setSegment('customVisitAndActionSegment');
+                    $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);
+                    $segment->setName('Custom Visit And Action Segment');
+                    $segment->setSqlSegment('log_visit.visit_total_actions - log_link_visit_action.pageview_position');
                     $list->addSegment($segment);
                 })],
             ],
