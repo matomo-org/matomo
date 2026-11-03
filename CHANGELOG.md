@@ -6,6 +6,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### New config.ini.php settings
+* `[log] log_format` selects the format of the entries written by the `file`, `database`, `errorlog` and `syslog` log writers: `text` (the default and previous behaviour), `json`, `loggly` or `logstash`. `log_format_<writer>` (for example `log_format_file`) overrides it for a single writer. The `screen` writer always uses `text`.
+
+### New APIs
+* The Monolog plugin provides the DI entries `log.formatter.file`, `log.formatter.database`, `log.formatter.errorlog` and `log.formatter.syslog`, which resolve the formatter configured for the respective log writer, and `log.formatter.classes`, a map of format name to formatter class that plugins can extend to offer additional log formats. The `text` format keeps using `log.lineMessageFormatter` and `log.lineMessageFormatter.file`.
+
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
