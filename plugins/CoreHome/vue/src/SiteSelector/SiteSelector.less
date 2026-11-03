@@ -1,19 +1,19 @@
-// Only the selector button and its placement in a page belong here. The dropdown is painted by
-// the generic `.mtm-dropdownPanel` and `.mtm-searchInput` blocks.
+// The control is the generic `.mtm-selector`, and its dropdown the generic `.mtm-dropdownPanel`
+// and `.mtm-searchInput` blocks. Only what is particular to a website name belongs here.
 
-.siteSelector {
-  width: auto;
+// Single classes: `.siteSelector` stays on the root for plugins to read, and carries no styles.
+.siteSelector__name {
+  display: block;
+  max-width: 161px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  a.title {
-    .icon.collapsed.iconHidden {
-      visibility: visible;
-    }
-
-    span.placeholder {
-      color: #9e9e9e;
-      font-style: italic;
-    }
-  }
+.siteSelector__loading {
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: url(plugins/Morpheus/images/loading.svg) no-repeat center / contain;
 }
 
 #content {
@@ -23,55 +23,9 @@
     z-index: 99;
     vertical-align: middle;
 
-    > .siteSelector {
+    > .mtm-selector {
       position: absolute;
       z-index: 998;
-    }
-
-    a.title {
-      text-decoration: none;
-    }
-  }
-}
-
-.siteSelector.expanded {
-  .loading {
-    background: url(plugins/Morpheus/images/loading.svg) no-repeat 16% 11px;
-  }
-
-  a.title .icon-chevron-down {
-    transform: rotate(180deg);
-  }
-}
-
-.siteSelector.piwikSelector a.title {
-  > span {
-    max-width: 161px;
-    // the title is already a flex row (selector.less); letting the name shrink is what
-    // stops a long one from running into the chevron instead of overflowing past it
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  // never shrink the chevron; its own box already leaves an 8px gap
-  .icon {
-    flex: none;
-    // rotation timing follows MetricsPicker, so the dropdowns behave alike when open
-    transition: transform .15s ease;
-  }
-
-  span {
-    vertical-align: top;
-  }
-}
-
-.siteSelector.disabled {
-  a.title {
-    cursor: default !important;
-
-    .icon {
-      display: none !important;
     }
   }
 }
