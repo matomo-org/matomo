@@ -18,7 +18,9 @@ use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Http\BadRequestException;
 use Piwik\Log\LoggerInterface;
 use Piwik\Nonce;
 use Piwik\Notification;
@@ -401,23 +403,23 @@ class Controller extends ControllerAdmin
         if (!empty($idTokenAuth)) {
             // the forms only submit 'all' or a token id
             if ($idTokenAuth !== 'all' && !ctype_digit($idTokenAuth)) {
-                throw new Exception('Invalid idtokenauth');
+                throw new BadRequestException('Invalid idtokenauth');
             }
 
             $nonce = $request->getStringParameter('nonce', '');
             if (!Nonce::verifyNonce(self::NONCE_DELETE_AUTH_TOKEN, $nonce)) {
-                throw new Exception(Piwik::translate('General_ExceptionSecurityCheckFailed'));
+                throw new BadRequestException(Piwik::translate('General_ExceptionSecurityCheckFailed'));
             }
 
             $params = [
                 'module' => 'UsersManager',
                 'action' => 'deleteToken',
                 'idtokenauth' => $idTokenAuth,
-                'nonce' => $nonce,
+                'nonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
             ];
 
             if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-                throw new Exception('Not allowed');
+                throw new NoPrivilegesException('Not allowed');
             }
 
             Nonce::checkNonce(self::NONCE_DELETE_AUTH_TOKEN, $nonce);
@@ -470,7 +472,7 @@ class Controller extends ControllerAdmin
         $params = ['module' => 'UsersManager', 'action' => 'addNewToken'];
 
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-            throw new Exception('Not allowed');
+            throw new NoPrivilegesException('Not allowed');
         }
 
         $postRequest = \Piwik\Request::fromPost();
