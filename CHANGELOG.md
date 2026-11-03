@@ -17,6 +17,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 * Controller actions can ask the user to confirm with their second factor, e.g. a two-factor authentication code, by calling `Piwik\Plugins\Login\SecondFactorVerifier::requireSecondFactorConfirmed()`. Each confirmation can be used once, for that action only.
 * Plugins that provide a second factor answer the new events `Login.userRequiresSecondFactorConfirmation` and `Login.verifySecondFactor`.
+* The `CoreHome.SiteSelector` Vue component takes a `full-width` prop, to fill its container, a `full-width-on-small-screen` prop, to do it on screens 600px wide and narrower only, as the top controls do, and an `align-label-start` prop, to hold the website name to the start as in a form field.
 * The `CoreHome.SiteSelector` Vue component takes a `full-width-on-small-screen` prop, to fill its row on screens 600px wide and narrower, as the top controls do.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.

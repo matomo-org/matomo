@@ -197,7 +197,7 @@
             >
               <span class="icon-help"/>
             </a>
-            <div>
+            <div class="pagedUsersList__siteFilter">
               <Field
                   class="permissions-for-selector"
                   :model-value="permissionsForSite"
@@ -205,6 +205,8 @@
                   uicontrol="site"
                   :ui-control-attributes="{
                     onlySitesWithAdminAccess: currentUserRole !== 'superuser',
+                    fullWidth: true,
+                    alignLabelStart: true,
                   }"
               />
             </div>
