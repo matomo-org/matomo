@@ -193,8 +193,9 @@
 
 /* Positioning wrapper for a dropdown panel (e.g. .mtm-dropdownPanel).
    Owns placement + show/hide only; appearance belongs to the panel it wraps.
-   Padding rather than margin for the offset, so a pointer can cross the gap without leaving. */
-.piwikSelector__dropdown {
+   Padding rather than margin for the offset, so a pointer can cross the gap without leaving.
+   Scoped to .piwikSelector: the .mtm-selector dropdowns carry the class as an unstyled hook. */
+.piwikSelector .piwikSelector__dropdown {
   display: none;
 
   position: absolute;

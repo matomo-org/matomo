@@ -2,10 +2,6 @@
   display: block;
   position: relative;
 
-  .siteSelector {
-    display: inline-block;
-  }
-
   .dropdown-content li > span {
     font-size: 13px;
     line-height: 19px;
@@ -210,10 +206,11 @@
   }
 }
 
-#root .pagedUsersList .siteSelector.borderedControl {
+#root .pagedUsersList .mtm-selector {
   width: 150px;
 }
 
-#content .pagedUsersList .sites_autocomplete > .siteSelector {
-  position: static;
+// In flow, unlike the overlaid top bar selector, but still the containing block of its focus ring and panel.
+#content .pagedUsersList .sites_autocomplete > .mtm-selector {
+  position: relative;
 }

@@ -143,7 +143,7 @@ describe("UsersManager", function () {
             $('select[name=status-level-filter]').val('string:').change();
         });
 
-        await page.evaluate(() => $('th.role_header .siteSelector a.title').click());
+        await page.evaluate(() => $('th.role_header .siteSelector .mtm-selector__trigger').click());
         await page.waitForNetworkIdle();
         await page.waitForSelector('.siteSelector .mtm-dropdownPanel__menu a');
         await page.evaluate(function () {
@@ -369,7 +369,7 @@ describe("UsersManager", function () {
         await page.type('#user_login', '000newuser');
         await page.type('#user_email', 'theuser@email.com');
 
-        await page.click('.userInviteForm .siteSelector a.title');
+        await page.click('.userInviteForm .siteSelector .mtm-selector__trigger');
         await (await page.jQuery('.userInviteForm .siteSelector .mtm-dropdownPanel__menu a:eq(1):visible', { waitFor: true })).click();
 
         await page.evaluate(() => $('.userInviteForm .matomo-save-button input').click());
