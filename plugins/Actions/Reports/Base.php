@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
+use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
@@ -22,6 +23,7 @@ use Piwik\Plugins\Actions\Columns\ExitPageTitle;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
 use Piwik\Plugins\Actions\Columns\PageTitle;
 use Piwik\Plugins\Actions\Columns\PageUrl;
+use Piwik\Plugins\Actions\DataTable\Filter\PageUrlSearch;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\API\Request;
 
@@ -146,14 +148,35 @@ abstract class Base extends \Piwik\Plugin\Report
             return GeneralConfig::getConfigValue('action_title_category_delimiter') ?: $this->recursiveLabelSeparator;
         }
 
-        if (
-            $this->dimension instanceof PageUrl
-            || $this->dimension instanceof EntryPageUrl
-            || $this->dimension instanceof ExitPageUrl
-        ) {
+        if ($this->isPageUrlReport()) {
             return GeneralConfig::getConfigValue('action_url_category_delimiter') ?: $this->recursiveLabelSeparator;
         }
 
         return parent::getRecursiveLabelSeparator();
+    }
+
+    /**
+     * Searches a page URL report for a full URL pasted into it, which its labels, holding only
+     * the path, never match.
+     */
+    public function getSearchFilter(string $pattern): ?callable
+    {
+        if (
+            !$this->isPageUrlReport()
+            || !PageUrlSearch::isFullUrl($pattern)
+        ) {
+            return null;
+        }
+
+        return function (DataTable $table) use ($pattern) {
+            $table->filter(PageUrlSearch::class, [$pattern]);
+        };
+    }
+
+    private function isPageUrlReport(): bool
+    {
+        return $this->dimension instanceof PageUrl
+            || $this->dimension instanceof EntryPageUrl
+            || $this->dimension instanceof ExitPageUrl;
     }
 }
