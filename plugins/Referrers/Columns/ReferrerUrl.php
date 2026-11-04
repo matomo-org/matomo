@@ -62,7 +62,7 @@ class ReferrerUrl extends Base
         // and the request carries the referrer again to record it from
         if (
             '' !== (string) $information['referer_url']
-            && $this->shouldCompleteWithheldReferrer($visitor, $information, $request)
+            && $this->shouldCompleteWithheldReferrer($visitor, $information, $request, $action)
         ) {
             return $this->trimUrl($information['referer_url']);
         }

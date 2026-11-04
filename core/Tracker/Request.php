@@ -829,11 +829,9 @@ class Request
      * or from a Visitor ID from 3rd party (optional) cookies,
      * or from a given Visitor Id from 1st party?
      *
-     * @throws Exception
-     */
-    /**
      * @param bool|null $hasConsent overrides what the request reports, for a caller that knows
      *                              the consent does not apply to the visit being recorded
+     * @throws Exception
      */
     public function getVisitorId(?bool $hasConsent = null)
     {

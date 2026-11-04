@@ -57,7 +57,7 @@ class Keyword extends Base
         if (
             $information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN
             && '' !== (string) $information['referer_keyword']
-            && $this->shouldCompleteWithheldReferrer($visitor, $information, $request)
+            && $this->shouldCompleteWithheldReferrer($visitor, $information, $request, $action)
         ) {
             return $information['referer_keyword'];
         }

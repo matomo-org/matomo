@@ -2502,6 +2502,10 @@ if (typeof window.Matomo !== 'object') {
                 // consent only to lift the restrictions that exemption imposes
                 configRestrictedDataConsentRequired = false,
 
+                // whether consent to being measured came from its cookie, which is the only form
+                // of it another window can withdraw in a way this one can observe
+                configMeasurementConsentRemembered = false,
+
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = null, // initialized below
@@ -3274,6 +3278,14 @@ if (typeof window.Matomo !== 'object') {
                     // consent remembered on an earlier page view, so setConsentGiven() is not
                     // called again and the consent is picked up here instead
                     configConsentGiven = true;
+                    configMeasurementConsentRemembered = true;
+                }
+
+                // and withdrawing it in another window deletes the cookie this one read it from,
+                // so stop reporting it rather than keep going until a reload
+                if (configMeasurementConsentRemembered && !getCookie(MEASUREMENT_CONSENT_COOKIE_NAME)) {
+                    configConsentGiven = false;
+                    configMeasurementConsentRemembered = false;
                 }
             }
 
@@ -4162,6 +4174,11 @@ if (typeof window.Matomo !== 'object') {
              * Sends the pageview and browser settings with every request in case of race conditions.
              */
             function getRequest(request, customData, pluginMethod) {
+                // the request is assembled here, and purify() and the campaign detection below
+                // both read the consent state, so a consent remembered on an earlier page view
+                // has to be picked up before any of that rather than when the request is sent
+                refreshConsentStatus();
+
                 var i,
                     now = new Date(),
                     customVariablesCopy = customVariables,
@@ -6620,11 +6637,40 @@ if (typeof window.Matomo !== 'object') {
                     return false;
                 }
 
+                if (this.getRememberedCookieConsent()) {
+                    // cookies were accepted on an earlier page view, so they are not taken away
+                    // again here any more than requireCookieConsent() would. Consent to being
+                    // measured is a separate answer and is still waited on
+                    return false;
+                }
+
                 this.disableCookies();
 
                 return true;
             };
 
+            /**
+             * When called, no cookies will be set until you have called `setCookieConsentGiven()`
+             * unless consent was given previously AND you called {@link rememberCookieConsentGiven()} when the user
+             * gave consent.
+             *
+             * This may be useful when you want to implement for example a popup to ask for cookie consent.
+             * Once the user has given consent, you should call {@link setCookieConsentGiven()}
+             * or {@link rememberCookieConsentGiven()}.
+             *
+             * If you require tracking consent for example because you are tracking personal data and GDPR applies to you,
+             * then have a look at `_paq.push(['requireConsent'])` instead.
+             *
+             * If the user has already given consent in the past, you can either decide to not call `requireCookieConsent` at all
+             * or call `_paq.push(['setCookieConsentGiven'])` on each page view at any time after calling `requireCookieConsent`.
+             *
+             * When the user gives you the consent to set cookies, you can also call `_paq.push(['rememberCookieConsentGiven', optionalTimeoutInHours])`
+             * and for the duration while the cookie consent is remembered, any call to `requireCoookieConsent` will be automatically ignored
+             * until you call `forgetCookieConsentGiven`.
+             * `forgetCookieConsentGiven` needs to be called when the user removes consent for using cookies. This means if you call `rememberCookieConsentGiven` at the
+             * time the user gives you consent, you do not need to ever call `_paq.push(['setCookieConsentGiven'])` as the consent
+             * will be detected automatically through cookies.
+             */
             this.requireCookieConsent = function() {
                 if (this.getRememberedCookieConsent()) {
                     return false;
@@ -7609,6 +7655,7 @@ if (typeof window.Matomo !== 'object') {
                 var now = new Date().getTime();
                 setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 setCookie(MEASUREMENT_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                configMeasurementConsentRemembered = true;
             };
 
             /**
@@ -7617,6 +7664,10 @@ if (typeof window.Matomo !== 'object') {
             * consent will be enforced. You may call this method if the user removes consent manually, or if you
             * want to re-ask for consent after a specific time period. You can optionally define the lifetime of
             * the CONSENT_REMOVED_COOKIE_NAME cookie in hours using a parameter.
+            *
+            * On a site that called {@link requireConsentForRestrictedData()} this withdraws only what consent
+            * had lifted: measurement continues under the compliance exemption, which never depended on consent.
+            * {@link optUserOut()} ends measurement in every case.
             *
             * @param {int} hoursToExpire After how many hours the CONSENT_REMOVED_COOKIE_NAME cookie should expire.
             * By default the consent is valid for 30 years unless cookies are deleted by the user or the browser
@@ -7632,6 +7683,7 @@ if (typeof window.Matomo !== 'object') {
                 // consent, so withdrawing consent returns the visitor to that measurement rather
                 // than ending it. optUserOut() is the call that ends it.
                 configConsentGiven = false;
+                configMeasurementConsentRemembered = false;
                 deleteCookie(MEASUREMENT_CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 this.forgetCookieConsentGiven();
             };
@@ -7671,6 +7723,14 @@ if (typeof window.Matomo !== 'object') {
             this.forgetUserOptOut = function () {
                 // we can't automatically enable cookies here as we don't know if user actually gave consent for cookies
                 this.setConsentGiven(false);
+
+                // Opting back in answers whether the visitor wants to be tracked at all, not
+                // whether they agree to be measured beyond what a compliance policy allows. On a
+                // site asking that second question, only its own consent call may answer it.
+                if (configRestrictedDataConsentRequired) {
+                    configConsentGiven = false;
+                    configMeasurementConsentRemembered = false;
+                }
             };
 
           /**
@@ -7767,7 +7827,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setReferrerUrlMaxLength', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'requireConsentForRestrictedData', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
+        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'requireConsentForRestrictedData', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setReferrerUrlMaxLength', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {
