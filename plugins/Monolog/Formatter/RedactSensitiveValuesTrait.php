@@ -38,7 +38,8 @@ trait RedactSensitiveValuesTrait
             return $normalized;
         }
 
-        if (is_array($normalized['context']['exception'] ?? null)) {
+        // the fatal error array is not a Throwable, so normalizeException() does not redact it
+        if (is_array($record->context['exception'] ?? null) && is_array($normalized['context']['exception'] ?? null)) {
             $normalized['context']['exception'] = self::redactException($normalized['context']['exception']);
         }
 
@@ -68,6 +69,15 @@ trait RedactSensitiveValuesTrait
     }
 
     /**
+     * @return array<mixed>
+     */
+    protected function normalizeException(\Throwable $e, int $depth = 0): array
+    {
+        // previous exceptions are normalized, and so redacted, through this method as well
+        return self::redactException(parent::normalizeException($e, $depth));
+    }
+
+    /**
      * @param array<mixed> $exception
      * @return array<mixed>
      */
@@ -86,10 +96,6 @@ trait RedactSensitiveValuesTrait
                 }
             }
             unset($frame);
-        }
-
-        if (isset($exception['previous']) && is_array($exception['previous'])) {
-            $exception['previous'] = self::redactException($exception['previous']);
         }
 
         return $exception;
