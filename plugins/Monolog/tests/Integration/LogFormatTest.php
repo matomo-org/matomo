@@ -109,6 +109,23 @@ class LogFormatTest extends IntegrationTestCase
         $this->assertSame('caused by smtppass', $records[1]['context']['exception']['previous']['message']);
     }
 
+    public function testJsonFileLoggingRedactsExceptionsUnderAnyContextKey()
+    {
+        $logger = $this->recreateLogSingleton('file', ['ini.log.log_format' => 'json']);
+
+        Config::getInstance()->mail['password'] = 'smtp-secret-value';
+
+        $logger->warning('Tracker encountered an exception: {ex}', [new \Exception('mentions smtp-secret-value')]);
+
+        $contents = file_get_contents(self::getLogFileLocation());
+        $this->assertStringNotContainsString('smtp-secret-value', $contents);
+        $this->assertStringNotContainsString(PIWIK_DOCUMENT_ROOT, $contents);
+
+        $records = $this->getLogFileRecords();
+        $this->assertSame('mentions smtppass', $records[0]['context'][0]['message']);
+        $this->assertStringStartsWith('/plugins/Monolog/tests/Integration/LogFormatTest.php:', $records[0]['context'][0]['file']);
+    }
+
     public function testJsonFileLoggingRedactsFatalErrorAndPhpErrorContext()
     {
         $logger = $this->recreateLogSingleton('file', ['ini.log.log_format' => 'json']);
