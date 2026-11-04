@@ -392,6 +392,15 @@ time_before_range_archive_considered_outdated = -1
 ; Do not configure this value lower than the maximum time it can take for the longest running archiving job to finish
 archive_failure_recovery_timeout = 86400
 
+; core:archive skips an archive that failed, and the periods built from it, until this many seconds have passed.
+; One comma separated value per failed attempt, the last one is used for any further attempt. Each value is capped at
+; one year, an invalid list is ignored in favour of the default.
+archive_failure_retry_delays = "3600,21600,86400,86400"
+
+; After this many failed attempts core:archive stops retrying an archive (minimum 1).
+; Use ./console core:archive-failures to list failed archives and retry them.
+archive_failure_max_attempts = 5
+
 ; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0

@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveFailures;
 use Piwik\DataAccess\Model as CoreModel;
 use Piwik\Date;
 use Piwik\Db;
@@ -89,6 +90,8 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $coreModel = new CoreModel();
         $coreModel->deleteInvalidationsForDeletedSites();
+
+        (new ArchiveFailures())->deleteFailuresForDeletedSites();
     }
 
     public function deleteOldFingerprintSalts()
