@@ -125,7 +125,11 @@ class LogFormatTest extends IntegrationTestCase
             ],
         ]);
         $logger->warning('Notice: something', [
-            'trace' => [['file' => PIWIK_DOCUMENT_ROOT . '/core/Notice.php', 'line' => 34, 'function' => 'run']],
+            'trace' => [[
+                'file' => PIWIK_DOCUMENT_ROOT . '/core/Notice.php',
+                'line' => 34,
+                'function' => '{closure:' . PIWIK_DOCUMENT_ROOT . '/config/global.php:12}',
+            ]],
         ]);
 
         $contents = file_get_contents(self::getLogFileLocation());
@@ -137,6 +141,7 @@ class LogFormatTest extends IntegrationTestCase
         $this->assertSame('/core/Fatal.php', $records[0]['context']['exception']['file']);
         $this->assertSame(" on /core/Fatal.php(12)\n#0 smtppass", $records[0]['context']['exception']['backtrace']);
         $this->assertSame('/core/Notice.php', $records[1]['context']['trace'][0]['file']);
+        $this->assertSame('{closure:/config/global.php:12}', $records[1]['context']['trace'][0]['function']);
     }
 
     public function testJsonFileLoggingRedactsObjectsInContext()
@@ -184,7 +189,9 @@ class LogFormatTest extends IntegrationTestCase
         $records = $this->getLogFileRecords();
         $this->assertSame('exception mentions smtppass', $records[0]['context']['exception']['message']);
         $this->assertNotEmpty($records[0]['context']['exception']['trace']);
-        $this->assertStringStartsWith('/vendor/phpunit/', $records[0]['context']['exception']['trace'][0]);
+        foreach ($records[0]['context']['exception']['trace'] as $frame) {
+            $this->assertStringStartsNotWith(PIWIK_DOCUMENT_ROOT, $frame);
+        }
     }
 
     public function testArchiveProfilingLogAlwaysUsesTextFormat()
