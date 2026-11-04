@@ -588,4 +588,124 @@ describe('CoreHome/AjaxHelper', () => {
       expect(chunkSizes).toEqual([]);
     });
   });
+
+  describe('a request failing with an HTTP error status', () => {
+    function installFailingAjaxMock(status: number, body: unknown, sessionTimedOut = false): void {
+      type AjaxOptions = { error: (xhr: unknown, textStatus: string, errorThrown: string) => void };
+      const jquery = window.$ as JQueryStatic & { ajax: typeof window.$.ajax };
+      jquery.ajax = ((ajaxOptions: AjaxOptions) => {
+        const xhr = {
+          readyState: 4,
+          status,
+          statusText: 'error',
+          responseJSON: body,
+          abort: vi.fn(),
+          getResponseHeader(headerName: string) {
+            return sessionTimedOut && headerName === 'X-Matomo-Session-Timed-Out' ? '1' : null;
+          },
+          then() {
+            return this;
+          },
+          fail(callback: (request: JQueryXhr, textStatus: string, errorThrown: unknown) => void) {
+            callback(this as unknown as JQueryXhr, 'error', 'error');
+            return this;
+          },
+        };
+
+        ajaxOptions.error(xhr, 'error', 'error');
+
+        return xhr as unknown as JQueryXhr;
+      }) as typeof window.$.ajax;
+    }
+
+    const apiError = { result: 'error', message: 'The requested heatmap does not exist' };
+
+    it('shows the message of an API error answered with a 4xx status like one answered with 200', async () => {
+      installFailingAjaxMock(404, apiError);
+
+      await expect(AjaxHelper.fetch({ method: 'API.getMatomoVersion' })).rejects.toThrow(apiError.message);
+      expect(notificationCallCount).toBe(1);
+    });
+
+    it('rejects with the message of the API error when asked for the response object', async () => {
+      installFailingAjaxMock(404, apiError);
+
+      await expect(AjaxHelper.fetch(
+        { method: 'API.getMatomoVersion' },
+        { returnResponseObject: true },
+      )).rejects.toThrow(apiError.message);
+    });
+
+    it('rejects with the message of the API error when error notifications are turned off', async () => {
+      installFailingAjaxMock(403, apiError);
+
+      await expect(AjaxHelper.fetch(
+        { method: 'API.getMatomoVersion' },
+        { createErrorNotification: false },
+      )).rejects.toThrow(apiError.message);
+      expect(notificationCallCount).toBe(0);
+    });
+
+    it('passes the API error to the callback when asked to use it in case of an error', async () => {
+      installFailingAjaxMock(400, apiError);
+
+      const callback = vi.fn();
+      const errorCallback = vi.fn();
+      const helper = new AjaxHelper();
+      helper.addParams({ method: 'API.getMatomoVersion' }, 'get');
+      helper.useCallbackInCaseOfError();
+      helper.setCallback(callback);
+      helper.setErrorCallback(errorCallback);
+
+      await expect(helper.send()).resolves.toEqual(apiError);
+      expect(callback).toHaveBeenCalledWith(apiError, 'error', expect.anything());
+      expect(errorCallback).not.toHaveBeenCalled();
+    });
+
+    it('leaves an API error answered with a 4xx status to a custom error callback', async () => {
+      installFailingAjaxMock(400, apiError);
+
+      const callback = vi.fn();
+      const errorCallback = vi.fn();
+      const helper = new AjaxHelper();
+      helper.addParams({ method: 'API.getMatomoVersion' }, 'get');
+      helper.setCallback(callback);
+      helper.setErrorCallback(errorCallback);
+
+      await expect(helper.send()).rejects.toMatchObject({ status: 400 });
+      expect(errorCallback).toHaveBeenCalled();
+      expect(callback).not.toHaveBeenCalled();
+      expect(notificationCallCount).toBe(0);
+    });
+
+    it('refreshes the page instead of showing the API error of a timed out session', async () => {
+      installFailingAjaxMock(401, apiError, true);
+
+      const helper = new AjaxHelper();
+      helper.addParams({ method: 'API.getMatomoVersion' }, 'get');
+      helper.send();
+      await Promise.resolve();
+
+      expect(window.piwikHelper.refreshAfter).toHaveBeenCalled();
+      expect(notificationCallCount).toBe(0);
+    });
+
+    it.each([
+      ['a server error', 500, apiError],
+      ['a client error that is no API error', 404, undefined],
+      ['an API error without a message', 400, { result: 'error', message: null }],
+      ['a rate limited request', 429, apiError],
+    ])('does not handle %s as an API error', async (name, status, body) => {
+      installFailingAjaxMock(status as number, body);
+
+      const callback = vi.fn();
+      const helper = new AjaxHelper();
+      helper.addParams({ method: 'API.getMatomoVersion' }, 'get');
+      helper.setCallback(callback);
+
+      await expect(helper.send()).rejects.toMatchObject({ status });
+      expect(callback).not.toHaveBeenCalled();
+      expect(notificationCallCount).toBe(0);
+    });
+  });
 });
