@@ -531,6 +531,18 @@ class ControllerTest extends IntegrationTestCase
         $this->controller->deleteToken();
     }
 
+    public function testDeleteTokenRejectsMissingNonce()
+    {
+        $this->passwordVerify->setDisableRedirect();
+
+        $_POST = ['idtokenauth' => '1'];
+        $_GET = [];
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionSecurityCheckFailed');
+        $this->controller->deleteToken();
+    }
+
     public function testDeleteTokenDeletesTokenAfterPasswordConfirmationRedirect()
     {
         $idTokenAuth = $this->addTokenForCurrentUser('token submitted for deletion');
