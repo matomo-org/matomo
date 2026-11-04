@@ -97,8 +97,18 @@ class RequestTest extends IntegrationTestCase
     public function testCancel()
     {
         $storageMock = self::createMock(Storage::class);
-        $storageMock->method('wasRequested')->willReturn(true);
+        $storageMock->method('hasPendingRequests')->willReturn(true);
         $storageMock->expects(self::once())->method('setFulfilled');
+
+        $request = new Request('PremiumPlugin', $storageMock);
+        $request->cancel();
+    }
+
+    public function testCancelDoesNothingWithoutPendingRequests()
+    {
+        $storageMock = self::createMock(Storage::class);
+        $storageMock->method('hasPendingRequests')->willReturn(false);
+        $storageMock->expects(self::never())->method('setFulfilled');
 
         $request = new Request('PremiumPlugin', $storageMock);
         $request->cancel();

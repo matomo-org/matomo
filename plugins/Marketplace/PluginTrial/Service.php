@@ -28,16 +28,43 @@ final class Service
     }
 
     /**
-     * Creates a trial request (and sends a mail to all super users)
+     * Creates a trial or install request (and sends a mail to all super users)
+     *
+     * @param string $requestType one of the RequestHistory::REQUEST_TYPE_* constants
      */
-    public function request(string $pluginName, string $pluginDisplayName): void
-    {
+    public function request(
+        string $pluginName,
+        string $pluginDisplayName,
+        string $requestType = RequestHistory::REQUEST_TYPE_TRIAL,
+        ?string $message = null
+    ): void {
         if (!$this->isEnabled()) {
             return;
         }
 
         $request = new Request($pluginName, new Storage($pluginName));
-        $request->create($pluginDisplayName);
+        $request->create($pluginDisplayName, $requestType, $message);
+    }
+
+    /**
+     * Approves or declines all of a plugin's pending requests as the current super user
+     *
+     * @param string $decision one of the RequestHistory::DECISION_* constants
+     * @return int the number of requests decided
+     * @throws Exception when none of the plugin's requests is pending
+     */
+    public function decide(string $pluginName, string $decision, ?string $note = null): int
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $request = new Request($pluginName, new Storage($pluginName));
+        $numRequests = $request->decide($decision, $note);
+
+        if (Session::isStarted()) {
+            (new Notification($pluginName, new Storage($pluginName)))->removeFromSession();
+        }
+
+        return $numRequests;
     }
 
 
@@ -64,6 +91,19 @@ final class Service
         }
 
         return (new Storage($pluginName))->wasRequested();
+    }
+
+    /**
+     * Returns if any of a plugin's requests is still to be decided, including one recorded without making the plugin
+     * pending, see Storage::hasPendingRequests()
+     */
+    public function hasPendingRequests(string $pluginName): bool
+    {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
+        return (new Storage($pluginName))->hasPendingRequests();
     }
 
     /**

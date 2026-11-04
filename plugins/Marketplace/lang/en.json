@@ -117,6 +117,7 @@
         "PluginVersionInfo": "%1$s from %2$s",
         "PluginWebsite": "Plugin Website",
         "PluginRequestsSettingsTitle": "Plugin Requests",
+        "PluginRequestAlreadyDecided": "Another Super User has already responded to the requests for this plugin.",
         "NotifyOnPluginRequest": "Notify me when a user requests a plugin.",
         "NotifyOnPluginRequestHelp": "When enabled, you will receive an email when a user requests a plugin.",
         "TrialRequested": "Trial requested",

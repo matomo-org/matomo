@@ -12,13 +12,18 @@ namespace Piwik\Plugins\Marketplace;
 use Exception;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
+use Piwik\Plugins\Marketplace\FeatureFlags\PluginRequests;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\Validators\CharacterLength;
 use Piwik\Validators\Exception as ValidatorException;
 use Piwik\Validators\NotEmpty;
 
@@ -29,6 +34,8 @@ use Piwik\Validators\NotEmpty;
  */
 class API extends \Piwik\Plugin\API
 {
+    private const MAX_NOTE_LENGTH = 1000;
+
     private Client $marketplaceClient;
 
     private Service $marketplaceService;
@@ -41,13 +48,16 @@ class API extends \Piwik\Plugin\API
 
     private PluginTrialService $pluginTrialService;
 
+    private FeatureFlagManager $featureFlagManager;
+
     public function __construct(
         Service $service,
         Client $client,
         InvalidLicenses $expired,
         PluginManager $pluginManager,
         Environment $environment,
-        PluginTrialService $pluginTrialService
+        PluginTrialService $pluginTrialService,
+        FeatureFlagManager $featureFlagManager
     ) {
         $this->marketplaceService = $service;
         $this->marketplaceClient  = $client;
@@ -55,6 +65,7 @@ class API extends \Piwik\Plugin\API
         $this->pluginManager = $pluginManager;
         $this->environment = $environment;
         $this->pluginTrialService = $pluginTrialService;
+        $this->featureFlagManager = $featureFlagManager;
     }
 
     /**
@@ -152,7 +163,7 @@ class API extends \Piwik\Plugin\API
      * @unsanitized
      * @internal
      */
-    public function requestTrial(string $pluginName): bool
+    public function requestTrial(string $pluginName, string $message = ''): bool
     {
         Piwik::checkUserIsNotAnonymous();
 
@@ -160,9 +171,120 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Cannot request trial as a super user');
         }
 
+        $message = $this->checkNote($message);
+        $pluginInfo = $this->getRequestablePluginInfo($pluginName);
+
+        $this->pluginTrialService->request(
+            $pluginInfo['name'],
+            $pluginInfo['displayName'] ?: $pluginInfo['name'],
+            RequestHistory::REQUEST_TYPE_TRIAL,
+            $message
+        );
+
+        return true;
+    }
+
+    /**
+     * Asks the super users to install a free plugin.
+     *
+     * @unsanitized
+     * @internal
+     */
+    public function requestInstall(string $pluginName, string $message = ''): bool
+    {
+        Piwik::checkUserIsNotAnonymous();
+        $this->checkPluginRequestsActive();
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            throw new Exception('Cannot request install as a super user');
+        }
+
+        if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
+            throw new Exception('Plugins cannot be installed on this Matomo, so cannot be requested');
+        }
+
+        $message = $this->checkNote($message);
+        $pluginInfo = $this->getRequestablePluginInfo($pluginName);
+
+        if (empty($pluginInfo['isFree'])) {
+            throw new Exception('Only free plugins can be requested for install: ' . $pluginInfo['name']);
+        }
+
+        if ($this->pluginManager->isPluginInstalled($pluginInfo['name'], true)) {
+            throw new Exception('The plugin is already installed: ' . $pluginInfo['name']);
+        }
+
+        $this->pluginTrialService->request(
+            $pluginInfo['name'],
+            $pluginInfo['displayName'] ?: $pluginInfo['name'],
+            RequestHistory::REQUEST_TYPE_INSTALL,
+            $message
+        );
+
+        return true;
+    }
+
+    /**
+     * Declines all pending requests for a plugin.
+     *
+     * @unsanitized
+     * @internal
+     * @return int the number of requests declined
+     */
+    public function declinePluginRequest(string $pluginName, string $note = ''): int
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkPluginRequestsActive();
+
+        $note = $this->checkNote($note);
+        $this->checkValidPluginName($pluginName);
+
+        return $this->pluginTrialService->decide($pluginName, RequestHistory::DECISION_DECLINED, $note);
+    }
+
+    /**
+     * Starts a free trial of a requested plugin, and approves all of its pending requests once the trial started.
+     *
+     * @unsanitized
+     * @internal
+     * @return int the number of requests approved
+     */
+    public function approvePluginTrial(string $pluginName): int
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkPluginRequestsActive();
+        $this->checkValidPluginName($pluginName);
+
+        // checked first, so no trial is started for requests another super user has already decided on
+        if (!$this->pluginTrialService->hasPendingRequests($pluginName)) {
+            throw new Exception(Piwik::translate('Marketplace_PluginRequestAlreadyDecided'));
+        }
+
+        $this->startFreeTrial($pluginName);
+
+        return $this->pluginTrialService->decide($pluginName, RequestHistory::DECISION_APPROVED);
+    }
+
+    private function checkPluginRequestsActive(): void
+    {
+        if (!$this->featureFlagManager->isFeatureActive(PluginRequests::class)) {
+            throw new Exception('Plugin requests are not enabled');
+        }
+    }
+
+    private function checkValidPluginName(string $pluginName): void
+    {
         if (!$this->pluginManager->isValidPluginName($pluginName)) {
             throw new Exception('Invalid plugin name given ' . $pluginName);
         }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getRequestablePluginInfo(string $pluginName): array
+    {
+        $this->checkValidPluginName($pluginName);
 
         $pluginInfo = $this->marketplaceClient->getPluginInfo($pluginName);
 
@@ -170,9 +292,18 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Unable to find plugin with given name: ' . $pluginName);
         }
 
-        $this->pluginTrialService->request($pluginInfo['name'], $pluginInfo['displayName'] ?: $pluginInfo['name']);
+        return $pluginInfo;
+    }
 
-        return true;
+    /**
+     * @return string|null null for an empty note
+     */
+    private function checkNote(string $note): ?string
+    {
+        $note = trim($note);
+        (new CharacterLength(null, self::MAX_NOTE_LENGTH))->validate($note);
+
+        return $note === '' ? null : $note;
     }
 
     /**

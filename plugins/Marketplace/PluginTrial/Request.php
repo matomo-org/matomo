@@ -34,15 +34,20 @@ class Request
     }
 
     /**
-     * Creates a trial request, and sends a mail to all super users unless the plugin already had one pending
+     * Creates a trial or install request, and sends a mail to all super users unless the plugin already had one pending
+     *
+     * @param string $requestType one of the RequestHistory::REQUEST_TYPE_* constants
      */
-    public function create(string $pluginDisplayName = ''): void
-    {
+    public function create(
+        string $pluginDisplayName = '',
+        string $requestType = RequestHistory::REQUEST_TYPE_TRIAL,
+        ?string $message = null
+    ): void {
         if ($this->wasRequested()) {
             return; // already requested
         }
 
-        $result = $this->storage->setRequested($pluginDisplayName);
+        $result = $this->storage->setRequested($pluginDisplayName, $requestType, $message);
 
         // a concurrent request by the same user got there first
         if ($result === Storage::REQUEST_ALREADY_RECORDED) {
@@ -74,11 +79,49 @@ class Request
      */
     public function cancel(): void
     {
-        if (!$this->storage->wasRequested()) {
+        if (!$this->storage->hasPendingRequests()) {
             return; // not requested
         }
 
-        $this->storage->setFulfilled();
+        $numRequests = $this->storage->setFulfilled();
+        if ($numRequests > 0) {
+            $this->postDecidedEvent(RequestHistory::DECISION_APPROVED, $numRequests);
+        }
+    }
+
+    /**
+     * Approves or declines all of the plugin's pending requests as the current super user
+     *
+     * @param string $decision one of the RequestHistory::DECISION_* constants
+     * @return int the number of requests decided
+     * @throws Exception when another super user has already decided on them
+     */
+    public function decide(string $decision, ?string $note = null): int
+    {
+        $numRequests = $this->storage->setDecided($decision, $note);
+        $this->postDecidedEvent($decision, $numRequests);
+
+        return $numRequests;
+    }
+
+    private function postDecidedEvent(string $decision, int $numRequests): void
+    {
+        /**
+         * Triggered after a plugin's pending requests were approved or declined, so an audit trail can record it. A
+         * plugin activated by any means approves its pending requests, with no super user logged in when activated
+         * from the command line.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Marketplace.pluginRequestDecided', function ($pluginName, $decision, $numRequests) {
+         *         $this->logActivity(Piwik::getCurrentUserLogin(), $decision . ' ' . $numRequests . ' requests for ' . $pluginName);
+         *     });
+         *
+         * @param string $pluginName The name of the requested plugin.
+         * @param string $decision `approved` or `declined`.
+         * @param int $numRequests The number of requests the decision ended.
+         */
+        Piwik::postEvent('Marketplace.pluginRequestDecided', [$this->pluginName, $decision, $numRequests]);
     }
 
 

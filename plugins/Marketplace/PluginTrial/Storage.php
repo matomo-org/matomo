@@ -72,15 +72,19 @@ class Storage
      * super users are notified once per plugin and keep their dismissals. Each request that is recorded adds the
      * current super users to the ones notified.
      *
+     * @param string $requestType one of the RequestHistory::REQUEST_TYPE_* constants
      * @return string one of the REQUEST_* constants
      */
-    public function setRequested(string $pluginDisplayName = ''): string
-    {
+    public function setRequested(
+        string $pluginDisplayName = '',
+        string $requestType = RequestHistory::REQUEST_TYPE_TRIAL,
+        ?string $message = null
+    ): string {
         $requestTime = time();
         $login = Piwik::getCurrentUserLogin();
         $result = self::REQUEST_ALREADY_RECORDED;
 
-        $this->writeWithHistory(function (RequestHistory $history) use ($pluginDisplayName, $requestTime, $login, &$result) {
+        $this->writeWithHistory(function (RequestHistory $history) use ($pluginDisplayName, $requestType, $message, $requestTime, $login, &$result) {
             $storedValue = $this->readStoredValue();
             $storedRequest = $this->decodeStored($storedValue);
             $this->recordInHistory($history, $storedRequest);
@@ -91,7 +95,7 @@ class Storage
                 $this->deleteStoredWithoutRequest();
             }
 
-            if (!$history->add($this->pluginName, $login, $requestTime)) {
+            if (!$history->add($this->pluginName, $login, $requestTime, $requestType, $message)) {
                 return;
             }
 
@@ -162,14 +166,64 @@ class Storage
     }
 
     /**
-     * Ends the pending trial request because the plugin was installed or activated
+     * Ends the pending trial request because the plugin was installed or activated, which approves its requests
+     *
+     * @return int the number of requests approved
      */
-    public function setFulfilled(): void
+    public function setFulfilled(): int
     {
-        $this->writeWithHistory(function (RequestHistory $history) {
-            $this->recordInHistory($history, $this->readStored(self::LOCK_FOR_UPDATE));
+        $numRequests = 0;
+
+        $this->writeWithHistory(function (RequestHistory $history) use (&$numRequests) {
+            $numRequests = $this->decidePendingRequests($history, RequestHistory::DECISION_APPROVED, null, null);
             $this->clearStorage();
         });
+
+        return $numRequests;
+    }
+
+    /**
+     * Ends the plugin's pending requests with the current super user's decision. The history's row locks make a second
+     * decision for the same plugin wait until this one is committed, and then find no request left.
+     *
+     * @param string $decision one of the RequestHistory::DECISION_* constants
+     * @return int the number of requests decided
+     * @throws Exception when no request of the plugin is pending, so nothing is stored
+     */
+    public function setDecided(string $decision, ?string $note = null): int
+    {
+        $numRequests = 0;
+
+        $this->writeWithHistory(function (RequestHistory $history) use ($decision, $note, &$numRequests) {
+            $numRequests = $this->decidePendingRequests($history, $decision, Piwik::getCurrentUserLogin(), $note);
+            if ($numRequests === 0) {
+                throw new Exception(Piwik::translate('Marketplace_PluginRequestAlreadyDecided'));
+            }
+
+            $this->clearStorage();
+        });
+
+        return $numRequests;
+    }
+
+    /**
+     * Locks the history before the option, in the order setRequested() writes them: a decision holding the option's row
+     * lock while waiting for a request's uncommitted history row would deadlock with that request waiting for the option.
+     */
+    private function decidePendingRequests(RequestHistory $history, string $decision, ?string $decidedBy, ?string $note): int
+    {
+        $this->recordInHistory($history, $this->readStored());
+
+        return $history->addDecision($this->pluginName, $decision, $decidedBy, $note, time());
+    }
+
+    /**
+     * Returns if any of the plugin's requests is still to be decided. Unlike wasRequested(), this also finds a request
+     * recorded while a decision cleared the pending option, which a database reading only committed rows lets through.
+     */
+    public function hasPendingRequests(): bool
+    {
+        return $this->wasRequested() || StaticContainer::get(RequestHistory::class)->hasPendingRequests($this->pluginName);
     }
 
     /**

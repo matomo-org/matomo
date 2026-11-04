@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### New APIs
+* The new `Marketplace.pluginRequestDecided` event is posted after all pending requests for a plugin were approved or declined, with the plugin's name, the decision (`approved` or `declined`) and the number of requests it ended, so an audit trail can record it. When a Super User decides, they are the current user. Installing or activating a plugin by any means also approves its pending requests and posts the event, possibly with no user logged in, such as from the command line.
+
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
