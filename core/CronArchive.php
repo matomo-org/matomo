@@ -22,6 +22,7 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive\QueueConsumer;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\CronArchive\StopArchiverException;
+use Piwik\DataAccess\ArchiveFailures;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
@@ -88,6 +89,12 @@ class CronArchive
      * @var Model
      */
     private $model;
+
+    private ArchiveFailures $archiveFailures;
+
+    private int $failedArchivesCount = 0;
+
+    private bool $isUpdatedWhileArchiving = false;
 
     private $lastSuccessRunTimestamp = false;
     private $errors = [];
@@ -249,6 +256,9 @@ class CronArchive
     private const STEP_SCHEDULED_TASKS = 3;
     private const STEP_FINISH = 4;
 
+    private const UNSUPPORTED_SEGMENT_PATTERN = "/Segment (.*?) is not a supported segment/i";
+    private const UPDATE_REQUIRED_PATTERN = "/some plugins have been upgraded to a new version|Database Upgrade Required\\. Your Matomo database is out-of-date/";
+
     public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
@@ -259,6 +269,7 @@ class CronArchive
         $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
 
         $this->model = StaticContainer::get(Model::class);
+        $this->archiveFailures = new ArchiveFailures();
 
         $this->periodIdsToLabels = array_flip(Piwik::$idPeriods);
 
@@ -280,6 +291,11 @@ class CronArchive
         if ($this->isMaintenanceModeEnabled()) {
             $this->logger->info("Archiving won't run because maintenance mode is enabled");
             return;
+        }
+
+        // like requests, which only fail while an upgrade is pending if auto update is enabled
+        if (SettingsPiwik::isAutoUpdateEnabled() && (new Updater())->getComponentUpdates() !== null) {
+            $this->logFatalError("Archiving won't run because Matomo or plugins were updated and the database upgrade is still pending. Run ./console core:update first.");
         }
 
         $self = $this;
@@ -468,6 +484,10 @@ class CronArchive
 
             $successCount = $this->launchArchivingFor($archivesToProcess, $queueConsumer);
             $numArchivesFinished += $successCount;
+
+            if ($this->isUpdatedWhileArchiving) {
+                break;
+            }
             if ($this->maxArchivesToProcess && $numArchivesFinished >= $this->maxArchivesToProcess) {
                 $this->logger->info("Maximum number of archives to process per execution has been reached.");
                 break;
@@ -485,6 +505,7 @@ class CronArchive
 
         $this->logSection("SUMMARY");
         $this->logger->info("Processed $numArchivesFinished archives.");
+        $this->logArchiveFailuresSummary();
         $this->logger->info("Total API requests: {$this->requests}");
 
         $this->logger->info("done: " . $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " . (empty($this->errors)
@@ -553,6 +574,7 @@ class CronArchive
 
                 // site is using the tracker, but there are no visits for this period, so just delete the archive and move on
                 $this->deleteInvalidatedArchives($archive);
+                $this->archiveFailures->deleteFailure($archive);
                 continue;
             }
 
@@ -576,31 +598,45 @@ class CronArchive
         $timers = $this->cliMultiHandler->getTimers();
         $successCount = 0;
 
+        $isUpdateRequired = false;
+
         foreach ($urls as $index => $url) {
             $content = array_key_exists($index, $responses) ? $responses[$index] : null;
+            $archive = $archivesBeingQueried[$index];
 
-            if (null !== $this->signal && empty($content)) {
+            $stats = json_decode((string) $content, $assoc = true);
+            $isErrorResponse = !is_array($stats) || ($stats['result'] ?? null) === 'error';
+
+            if (null !== $this->signal && $isErrorResponse) {
                 // processes killed by system
-                $idinvalidation = $archivesBeingQueried[$index]['idinvalidation'];
+                $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
+                $this->logger->info('Archiving process killed, reset invalidation with id ' . $archive['idinvalidation']);
 
-                $this->model->releaseInProgressInvalidations([$idinvalidation]);
-                $this->logger->info('Archiving process killed, reset invalidation with id ' . $idinvalidation);
+                continue;
+            }
+
+            if ($isErrorResponse && preg_match(self::UPDATE_REQUIRED_PATTERN, (string) $content)) {
+                // Matomo was updated while archiving, the archive itself did not fail
+                $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
+                $isUpdateRequired = true;
 
                 continue;
             }
 
             $checkInvalid = $this->checkResponse($content, $url);
 
-            $stats = json_decode($content, $assoc = true);
             if (!is_array($stats)) {
                 $this->logger->info(var_export($content, true));
 
-                $idinvalidation = $archivesBeingQueried[$index]['idinvalidation'];
-                $this->model->releaseInProgressInvalidations([$idinvalidation]);
-
-                $queueConsumer->ignoreIdInvalidation($idinvalidation);
+                $this->handleFailedArchive($archive, empty($content) ? 'Empty response' : (string) $content, $queueConsumer);
 
                 $this->logError("Error unserializing the following response from $url: '" . $content . "'");
+                continue;
+            }
+
+            if ($isErrorResponse && !preg_match(self::UNSUPPORTED_SEGMENT_PATTERN, (string) ($stats['message'] ?? ''))) {
+                // the error was already logged by checkResponse()
+                $this->handleFailedArchive($archive, (string) ($stats['message'] ?? $content), $queueConsumer);
                 continue;
             }
 
@@ -611,22 +647,76 @@ class CronArchive
                 $url,
                 $timers[$index],
                 $visitsForPeriod,
-                $archivesBeingQueried[$index]['plugin'],
-                $archivesBeingQueried[$index]['report'],
+                $archive['plugin'],
+                $archive['report'],
                 !$checkInvalid,
                 $peakMemory
             );
 
-            $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
+            $this->deleteInvalidatedArchives($archive);
+            $this->archiveFailures->deleteFailure($archive);
 
-            $this->repairInvalidationsIfNeeded($archivesBeingQueried[$index]);
+            $this->repairInvalidationsIfNeeded($archive);
 
             ++$successCount;
+        }
+
+        if ($isUpdateRequired) {
+            $this->isUpdatedWhileArchiving = true;
+            $this->logError("Archiving stopped because Matomo or plugins were updated while archiving. Run ./console core:update before archiving again.");
         }
 
         $this->requests += count($urls);
 
         return $successCount;
+    }
+
+    private function handleFailedArchive(array $archive, string $error, QueueConsumer $queueConsumer): void
+    {
+        try {
+            // recorded before releasing the invalidation, so no other archiver picks it up in between
+            $failure = $this->archiveFailures->recordFailure($archive, $error);
+        } catch (\Exception $e) {
+            $this->logError("Could not record the failed archive of invalidation {$archive['idinvalidation']}: " . $e->getMessage());
+            $failure = null;
+        }
+
+        $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
+        $queueConsumer->ignoreIdInvalidation($archive['idinvalidation']);
+
+        ++$this->failedArchivesCount;
+
+        if (null === $failure) {
+            return;
+        }
+
+        $description = "idSite = {$archive['idsite']}, period = {$this->periodIdsToLabels[$archive['period']]}, date = "
+            . "{$archive['date1']},{$archive['date2']}, segment = '" . ($archive['segment'] ?? '') . "'"
+            . (!empty($archive['plugin']) ? ", plugin = {$archive['plugin']}" : '')
+            . (!empty($archive['report']) ? ", report = {$archive['report']}" : '');
+
+        if ($failure['givenUp']) {
+            $this->logger->info("Archiving failed for $description (attempt {$failure['attempts']} of {$failure['maxAttempts']}), giving up. "
+                . "Run ./console core:archive-failures to list failed archives and retry them.");
+        } else {
+            $this->logger->info("Archiving failed for $description (attempt {$failure['attempts']} of {$failure['maxAttempts']}), "
+                . "it will be retried after {$failure['retryAfter']} UTC.");
+        }
+    }
+
+    private function logArchiveFailuresSummary(): void
+    {
+        if (!ArchiveFailures::isAvailable()) {
+            return;
+        }
+
+        $counts = $this->archiveFailures->getFailureCounts();
+        if ($this->failedArchivesCount === 0 && $counts['waiting'] === 0 && $counts['givenUp'] === 0) {
+            return;
+        }
+
+        $this->logger->info("Archiving failed for {$this->failedArchivesCount} archives in this run. {$counts['waiting']} failed archives are "
+            . "waiting for a retry and {$counts['givenUp']} were given up. Run ./console core:archive-failures for details.");
     }
 
     private function deleteInvalidatedArchives($archive)
@@ -834,7 +924,7 @@ class CronArchive
     private function logNetworkError($url, $response)
     {
 
-        if (preg_match("/Segment (.*?) is not a supported segment/i", $response, $match)) {
+        if (preg_match(self::UNSUPPORTED_SEGMENT_PATTERN, $response, $match)) {
             $this->logger->info($match[0]);
             return false;
         }

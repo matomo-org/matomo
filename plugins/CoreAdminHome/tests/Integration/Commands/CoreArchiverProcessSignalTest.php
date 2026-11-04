@@ -208,6 +208,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         $this->waitForProcessToStop($process);
         $this->assertArchivingOutput($process, $method, $signalToProcess, $signalOutput, $blockSpec);
         $this->assertArchiveInvalidationCount($invalidationCountFinal);
+        $this->assertNoArchiveFailures();
     }
 
     public function getSigintDuringArchivingData(): iterable
@@ -311,6 +312,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         $this->waitForProcessToStop($process);
         $this->assertArchivingOutput($process, $method, \SIGTERM, \SIGTERM, $blockSpec);
         $this->assertArchiveInvalidationCount(['inProgress' => 0, 'total' => 14]);
+        $this->assertNoArchiveFailures();
     }
 
     public function getSigtermDuringArchivingData(): iterable
@@ -363,6 +365,12 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
     {
         yield 'stop using sigint' => [\SIGINT];
         yield 'stop using sigterm' => [\SIGTERM];
+    }
+
+    private function assertNoArchiveFailures(): void
+    {
+        // a killed archiving process is not a failed archive
+        self::assertSame(0, (int) Db::fetchOne('SELECT COUNT(*) FROM `' . Common::prefixTable('archive_failures') . '`'));
     }
 
     /**
