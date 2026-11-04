@@ -396,6 +396,25 @@ class Mysql implements SchemaInterface
                                         ) $tableOptions
             ",
 
+            'archive_failures' => "CREATE TABLE `{$prefixTables}archive_failures` (
+                                            idfailure BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                            idsite INTEGER UNSIGNED NOT NULL,
+                                            name VARCHAR(255) NOT NULL,
+                                            period TINYINT UNSIGNED NOT NULL,
+                                            date1 DATE NOT NULL,
+                                            date2 DATE NOT NULL,
+                                            `report` VARCHAR(255) NOT NULL DEFAULT '',
+                                            archive_hash CHAR(32) NOT NULL,
+                                            attempts SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+                                            last_error TEXT NULL,
+                                            ts_first_failed DATETIME NOT NULL,
+                                            ts_last_failed DATETIME NOT NULL,
+                                            ts_retry_after DATETIME NOT NULL,
+                                            PRIMARY KEY(idfailure),
+                                            UNIQUE KEY unique_archive(idsite, period, date1, date2, archive_hash)
+                                        ) $tableOptions
+            ",
+
             'sequence'        => "CREATE TABLE {$prefixTables}sequence (
                                       `name` VARCHAR(120) NOT NULL,
                                       `value` BIGINT(20) UNSIGNED NOT NULL ,
