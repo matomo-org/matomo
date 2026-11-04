@@ -20,11 +20,11 @@ class TokenProcessor
 {
     public function __invoke(LogRecord $record): LogRecord
     {
-        return $record->with(message: self::removeTokenAuth($record['message']));
+        return $record->with(message: self::removeTokenAuth($record->message));
     }
 
     public static function removeTokenAuth(string $value): string
     {
-        return preg_replace('/token_auth=[0-9a-h]+/', 'token_auth=removed', $value);
+        return (string) preg_replace('/token_auth=[0-9a-h]+/', 'token_auth=removed', $value);
     }
 }

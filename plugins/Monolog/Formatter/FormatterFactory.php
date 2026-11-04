@@ -27,9 +27,10 @@ class FormatterFactory
         $format = self::getConfiguredFormat($container, $writerName);
 
         if ($format === self::FORMAT_TEXT) {
-            return $container->get($textFormatterEntry);
+            return self::getFormatter($container, $textFormatterEntry, $format);
         }
 
+        /** @var array<string, string> $classes */
         $classes = $container->get('log.formatter.classes');
 
         if (!isset($classes[$format])) {
@@ -41,13 +42,27 @@ class FormatterFactory
             ));
         }
 
-        return $container->get($classes[$format]);
+        return self::getFormatter($container, $classes[$format], $format);
+    }
+
+    private static function getFormatter(Container $container, string $entry, string $format): FormatterInterface
+    {
+        $formatter = $container->get($entry);
+
+        if (!$formatter instanceof FormatterInterface) {
+            throw new \Exception(sprintf('The log format "%s" does not resolve to a %s.', $format, FormatterInterface::class));
+        }
+
+        return $formatter;
     }
 
     private static function getConfiguredFormat(Container $container, string $writerName): string
     {
         foreach (['ini.log.log_format_' . $writerName, 'ini.log.log_format'] as $entry) {
-            $format = $container->has($entry) ? strtolower(trim((string) $container->get($entry))) : '';
+            $value = $container->has($entry) ? $container->get($entry) : null;
+
+            // a value that is not a string, e.g. from `log_format[] =`, is reported as invalid format by its type
+            $format = is_string($value) ? strtolower(trim($value)) : ($value === null ? '' : get_debug_type($value));
 
             if ($format !== '') {
                 return $format;

@@ -44,7 +44,7 @@ trait RedactSensitiveValuesTrait
 
         if (is_array($normalized['context']['trace'] ?? null)) {
             foreach ($normalized['context']['trace'] as &$frame) {
-                if (is_string($frame['file'] ?? null)) {
+                if (is_array($frame) && is_string($frame['file'] ?? null)) {
                     $frame['file'] = str_replace(PIWIK_DOCUMENT_ROOT, '', $frame['file']);
                 }
             }
@@ -60,12 +60,17 @@ trait RedactSensitiveValuesTrait
 
         // the json formatter leaves objects to json_encode, decode them so their strings are redacted as well
         if (is_object($normalized)) {
+            /** @var array<array<mixed>|scalar|null>|scalar|null $normalized */
             $normalized = json_decode($this->toJson($normalized, true), true);
         }
 
         return $normalized;
     }
 
+    /**
+     * @param array<mixed> $exception
+     * @return array<mixed>
+     */
     private static function redactException(array $exception): array
     {
         foreach (['message', 'file', 'backtrace'] as $key) {
