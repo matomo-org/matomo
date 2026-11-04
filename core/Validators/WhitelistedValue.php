@@ -9,8 +9,10 @@
 
 namespace Piwik\Validators;
 
+use Attribute;
 use Piwik\Piwik;
 
+#[Attribute(Attribute::TARGET_PARAMETER)]
 class WhitelistedValue extends BaseValidator
 {
     private $whitelisted = array();

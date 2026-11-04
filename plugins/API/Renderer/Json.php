@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\API\Renderer;
 
 use Piwik\API\ApiRenderer;
+use Piwik\API\ParameterValidationException;
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\Piwik;
@@ -37,6 +38,14 @@ class Json extends ApiRenderer
         $exceptionMessage = str_replace(array("\r\n", "\n"), " ", $message);
 
         $data = array('result' => 'error', 'message' => $exceptionMessage);
+
+        if ($exception instanceof ParameterValidationException) {
+            // encoded like the message itself, as violation messages may contain the received value
+            $data['errors'] = array_map(function (array $violation): array {
+                $violation['message'] = Renderer::formatValueXml($violation['message']);
+                return $violation;
+            }, $exception->getViolations());
+        }
 
         if ($this->shouldSendBacktrace()) {
             $data['backtrace'] = ExceptionToTextProcessor::getMessageAndWholeBacktrace($exception, true);
