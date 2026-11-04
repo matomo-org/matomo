@@ -278,7 +278,8 @@ return array(
         }
 
         $fileHandler = new FileHandler($logFile, Logger::INFO);
-        $fileHandler->setFormatter($c->get('log.formatter.file'));
+        // always text: Piwik\CronArchive\Performance\Logger parses the lines of this file
+        $fileHandler->setFormatter($c->get('log.lineMessageFormatter.file'));
         return [$fileHandler];
     },
 
