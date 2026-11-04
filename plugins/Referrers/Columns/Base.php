@@ -910,6 +910,19 @@ abstract class Base extends VisitDimension
             return false;
         }
 
+        // The type alone does not identify the referrer - two search engines share one - so the
+        // name has to match as well, or a different referrer of the same kind would have its URL
+        // and keyword written onto this visit. A discarded campaign has no name left to compare,
+        // and is kept apart by its own placeholder rules instead.
+        $storedName = (string) $visitor->getImmutableVisitorColumn('referer_name');
+
+        if (
+            !CampaignParameterValuesMasked::isPlaceholderValue($storedName)
+            && mb_strtolower($storedName) !== mb_strtolower((string) ($information['referer_name'] ?? ''))
+        ) {
+            return false;
+        }
+
         return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
     }
 

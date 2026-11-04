@@ -1009,6 +1009,38 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->assertSame(1, (int) $this->fetchVisitColumn('consent'), 'consent was never recorded');
     }
 
+    /**
+     * Two search engines share one referrer type, so the type alone does not say the request
+     * carries the referrer this visit arrived with. Completing the withheld URL and keyword from
+     * a different one would leave the visit naming one search engine and describing another.
+     */
+    public function testADifferentReferrerOfTheSameKindDoesNotCompleteTheWithheldDetail(): void
+    {
+        $this->enforceCampaignMasking();
+        $this->setAdminReferrerAnonymisation(ReferrerAnonymizer::EXCLUDE_NONE);
+
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+
+        $this->assertSame('Ecosia', $this->fetchVisitColumn('referer_name'));
+
+        // still on the arrival page, but the request now carries a different search engine
+        $this->tracker->setUrlReferrer('https://www.bing.com/search?q=winter+boots');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+
+        $this->assertSame('Ecosia', $this->fetchVisitColumn('referer_name'), 'the visit changed referrer');
+        $this->assertStringNotContainsString(
+            'winter+boots',
+            (string) $this->fetchVisitColumn('referer_url'),
+            'another search engine completed the withheld URL'
+        );
+        $this->assertNotSame(
+            'winter boots',
+            $this->fetchVisitColumn('referer_keyword'),
+            'another search engine completed the withheld keyword'
+        );
+    }
+
     private function setForcedCookielessTracking(bool $enabled): void
     {
         $config = new PrivacyManagerConfig();

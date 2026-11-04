@@ -5711,6 +5711,72 @@ if ($mysql) {
         deleteCookies();
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - opting back in through the tracker form is not consent to being measured", function() {
+        stop();
+
+        deleteCookies();
+
+        // optUserOut()/forgetUserOptOut() answer whether the visitor wants to be tracked at all.
+        // The existing opt-out coverage only exercised the cookie form, which is how this got
+        // through review once already
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'optbackin');
+        tracker.requireConsentForRestrictedData();
+
+        tracker.optUserOut();
+        ok(tracker.isUserOptedOut(), 'the visitor is opted out');
+
+        tracker.forgetUserOptOut();
+        ok(!tracker.isUserOptedOut(), 'the visitor is tracked again');
+
+        tracker.trackRequest('myFoo=afterOptBackIn');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'optbackin');
+            strictEqual(true, requests.indexOf('myFoo=afterOptBackIn') > 0, "the visitor is measured again after opting back in");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "opting back in was reported as consent to being measured");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent withdrawn in another window stops being reported", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'otherwindow');
+        tracker.requireConsentForRestrictedData();
+        tracker.rememberConsentGiven();
+
+        // a second tracker stands in for another window: withdrawing there deletes the cookie
+        // this one read its consent from, so it has to stop reporting it rather than keep going
+        // until a reload
+        var otherWindow = Piwik.getTracker();
+        otherWindow.disableBrowserFeatureDetection();
+        otherWindow.requireConsentForRestrictedData();
+        otherWindow.forgetConsentGiven();
+
+        tracker.trackRequest('myFoo=afterOtherWindowWithdrew');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'otherwindow');
+            strictEqual(true, requests.indexOf('myFoo=afterOtherWindowWithdrew') > 0, "the visitor is still measured");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "consent is still reported after another window withdrew it");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 

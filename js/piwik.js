@@ -2506,6 +2506,10 @@ if (typeof window.Matomo !== 'object') {
                 // of it another window can withdraw in a way this one can observe
                 configMeasurementConsentRemembered = false,
 
+                // whether optUserOut() is what required consent, rather than the site asking for
+                // it, so that opting back in undoes exactly what opting out did
+                configConsentRequiredByOptOut = false,
+
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = null, // initialized below
@@ -7574,8 +7578,8 @@ if (typeof window.Matomo !== 'object') {
              * `forgetConsentGiven` needs to be called when the user removes consent for tracking. This means if you call `rememberConsentGiven` at the
              * time the user gives you consent, you do not need to ever call `_paq.push(['setConsentGiven'])`.
              */
-            this.requireConsent = function () {
-                if (configRestrictedDataConsentRequired) {
+            this.requireConsent = function (isFromOptUserOut) {
+                if (configRestrictedDataConsentRequired && true !== isFromOptUserOut) {
                     // the two contradict each other. Withholding everything is the stricter of
                     // the two, so it is the one that stands
                     logConsoleError('requireConsent() overrides requireConsentForRestrictedData(): no request will be sent until consent is given.');
@@ -7611,9 +7615,15 @@ if (typeof window.Matomo !== 'object') {
              *
              * @param {boolean} [setCookieConsent=true] Internal parameter. Defines whether cookies should be enabled or not.
              */
-            this.setConsentGiven = function (setCookieConsent) {
+            this.setConsentGiven = function (setCookieConsent, isMeasurementConsent) {
                 configHasConsent = true;
-                configConsentGiven = true;
+
+                // isMeasurementConsent is for internal callers that restore tracking without the
+                // visitor having answered whether they agree to be measured. A site calling this
+                // passes nothing and is reporting that consent, which is the whole point of it.
+                if (false !== isMeasurementConsent) {
+                    configConsentGiven = true;
+                }
                 if (!configBrowserFeatureDetection) {
                     this.enableBrowserFeatureDetection();
                 }
@@ -7734,22 +7744,30 @@ if (typeof window.Matomo !== 'object') {
                 deleteCookie(MEASUREMENT_CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 this.forgetCookieConsentGiven();
-                this.requireConsent();
+
+                // remember that this is what required consent, so opting back in undoes exactly
+                // this and nothing the site set up for itself
+                configConsentRequiredByOptOut = !configConsentRequired;
+                this.requireConsent(true);
             };
 
             /**
              * Alias for rememberConsentGiven(). After calling this function, the current user will be tracked.
              */
             this.forgetUserOptOut = function () {
-                // we can't automatically enable cookies here as we don't know if user actually gave consent for cookies
-                this.setConsentGiven(false);
-
                 // Opting back in answers whether the visitor wants to be tracked at all, not
-                // whether they agree to be measured beyond what a compliance policy allows. On a
-                // site asking that second question, only its own consent call may answer it.
-                if (configRestrictedDataConsentRequired) {
-                    configConsentGiven = false;
-                    configMeasurementConsentRemembered = false;
+                // whether they agree to be measured beyond what a compliance policy allows, so
+                // tracking is restored without reporting consent to being measured. We can't
+                // automatically enable cookies here either, as we don't know whether the visitor
+                // gave consent for those.
+                this.setConsentGiven(false, false);
+
+                // and the gate optUserOut() put up comes back down with it. One the site put up
+                // for itself stays, so a requireConsent() site still reports the consent the
+                // visitor is returning to, as it always has.
+                if (configConsentRequiredByOptOut) {
+                    configConsentRequired = false;
+                    configConsentRequiredByOptOut = false;
                 }
             };
 
