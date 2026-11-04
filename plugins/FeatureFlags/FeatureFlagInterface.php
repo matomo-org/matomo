@@ -12,4 +12,6 @@ namespace Piwik\Plugins\FeatureFlags;
 interface FeatureFlagInterface
 {
     public function getName(): string;
+
+    public function allowsCookieOverwrite(): bool;
 }
