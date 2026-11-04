@@ -8,7 +8,7 @@
  */
 
 describe("DashboardManager", function () {
-    const managerSelector = '.dashboard-manager,.dashboard-manager .piwikSelector__dropdown';
+    const managerSelector = '[vue-entry="Dashboard.DashboardSettings"] .mtm-selector,[vue-entry="Dashboard.DashboardSettings"] .mtm-selector__dropdown';
     const modalSelector = '.modal.open.add-widget-modal';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
@@ -22,7 +22,7 @@ describe("DashboardManager", function () {
     });
 
     it("should expand when clicked", async function() {
-        await page.click('.dashboard-manager .title');
+        await page.click('[vue-entry="Dashboard.DashboardSettings"] .mtm-selector__trigger');
 
         expect(await page.screenshotSelector(managerSelector)).to.matchImage('expanded');
     });
@@ -84,7 +84,7 @@ describe("DashboardManager", function () {
         const widgetsCountBefore = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
         expect(widgetsCountBefore).to.equal(2);
 
-        await page.click('.dashboard-manager .title');
+        await page.click('[vue-entry="Dashboard.DashboardSettings"] .mtm-selector__trigger');
         await page.click('button[data-action="createDashboard"]');
         await page.waitForSelector('#createDashboardName', { visible: true });
 
@@ -137,7 +137,7 @@ describe("DashboardManager", function () {
     });
 
     it("should remove dashboard when remove dashboard process completed", async function() {
-        await page.click('.dashboard-manager .title');
+        await page.click('[vue-entry="Dashboard.DashboardSettings"] .mtm-selector__trigger');
         await page.click('button[data-action="removeDashboard"]');
         button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();

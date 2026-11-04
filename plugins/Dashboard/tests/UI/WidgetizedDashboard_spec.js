@@ -31,8 +31,8 @@ describe("WidgetizedDashboard", function () {
     };
 
     var clickDashboardMenuItem = async function (item) {
-        await page.waitForSelector('.dashboard-manager .title', { visible: true });
-        await page.click('.dashboard-manager .title');
+        await page.waitForSelector('[vue-entry="Dashboard.DashboardSettings"] .mtm-selector__trigger', { visible: true });
+        await page.click('[vue-entry="Dashboard.DashboardSettings"] .mtm-selector__trigger');
         await page.waitForSelector('button[data-action="' + item + '"]', { visible: true });
         await page.click('button[data-action="' + item + '"]');
     }
@@ -137,7 +137,7 @@ describe("WidgetizedDashboard", function () {
     it("should add a widget when a widget is selected in the dashboard manager", async function() {
         const modalSelector = '.modal.open.add-widget-modal';
 
-        await page.click('.dashboard-manager .title');
+        await page.click('[vue-entry="Dashboard.DashboardSettings"] .mtm-selector__trigger');
         await page.waitForTimeout(50);
         await page.click('button[data-action="addWidget"]');
         await page.waitForSelector(modalSelector);

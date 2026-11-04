@@ -659,7 +659,8 @@ ul.browser-default {
       }
     }
 
-    .piwikTopControl {
+    // The .mtm-selector controls carry the class for top_controls.js only, and style themselves.
+    .piwikTopControl:where(:not(.mtm-selector)) {
       position: relative;
       font-size: 14px;
     }
@@ -682,13 +683,6 @@ ul.browser-default {
 
   nav ul a{
     display: none;
-  }
-
-  #root, #standalone {
-    .dashboard-manager{
-      display: none !important;
-      visibility: hidden !important;
-    }
   }
 
   #root{
