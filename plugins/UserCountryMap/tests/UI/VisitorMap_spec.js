@@ -88,7 +88,7 @@ describe("VisitorMap", function () {
             + '#?' + dashboardParams + '&category=Dashboard_Dashboard&subcategory=1');
         await page.waitForNetworkIdle();
 
-        await page.click('.dashboard-manager .title');
+        await page.click('[vue-entry="Dashboard.DashboardSettings"] .mtm-selector__trigger');
         await page.waitForTimeout(50);
         await page.click('button[data-action="addWidget"]');
         await page.waitForSelector(modalSelector);

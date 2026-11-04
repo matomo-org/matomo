@@ -1,6 +1,6 @@
 {% set updateCheck %}
-    <span class="icon icon-fixed icon-reload"></span>
-    <span id="updateCheckLinkContainer">
+    <span class="mtm-selector__icon" aria-hidden="true"><span class="icon-reload"></span></span>
+    <span id="updateCheckLinkContainer" class="mtm-selector__label">
         {{ (lastUpdateCheckFailed|default(false) ? 'General_ErrorTryAgain' : 'CoreHome_CheckForUpdates')|translate }}
     </span>
 {% endset %}
@@ -29,7 +29,7 @@
     is-anonymous="{{ isUserIsAnonymous|default(false)|json_encode }}"
     contact-email="{{ contactEmail|json_encode }}"
     piwik-version="{{ piwik_version|default(null)|json_encode }}"
-    class="borderedControl piwikTopControl"
+    class="piwikTopControl"
 ></div>
 
 <span class="icon icon-arrowup zenModeToggle"></span>
