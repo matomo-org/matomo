@@ -13,11 +13,15 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Auth;
 use Piwik\AuthResult;
+use Piwik\Http\BadRequestException;
+use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\Nonce;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionNamespace;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Login\Auth as LoginAuth;
+use Piwik\Plugins\Login\PasswordVerifier;
+use Piwik\Plugins\Login\SecondFactorVerifier;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
@@ -30,6 +34,7 @@ use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Request\AuthenticationToken;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -104,10 +109,373 @@ class TwoFactorAuthTest extends IntegrationTestCase
             $_GET['module'],
             $_GET['action'],
             $_GET['token_auth'],
-            $_GET['force_api_session']
+            $_GET['force_api_session'],
+            $_GET['disableNonce'],
+            $_GET['idSite'],
+            $_GET[SecondFactorVerifier::CONFIRMATION_TOKEN_PARAMETER],
+            $_POST['regenerateNonce']
         );
         // the session is not reset between tests, so leftover fingerprints or setup secrets would leak
         $_SESSION = [];
+    }
+
+    public function testUserRequiresSecondFactorConfirmationOnlyWhenUsingTwoFactorAuth()
+    {
+        $verifier = StaticContainer::get(SecondFactorVerifier::class);
+
+        $this->assertTrue($verifier->isSecondFactorRequired($this->userWith2Fa));
+        $this->assertFalse($verifier->isSecondFactorRequired($this->userWithout2Fa));
+    }
+
+    public function testVerifySecondFactorAcceptsAuthAppAndNormalisedRecoveryCodes()
+    {
+        $this->setCurrentUser($this->userWith2Fa);
+
+        $this->assertTrue($this->confirmSecondFactor(
+            ['module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth'],
+            $this->generateValidAuthCode($this->user2faSecret)
+        ));
+
+        // recovery codes are accepted the way users may type them
+        $recoveryCode = $this->dao->getAllRecoveryCodesForLogin($this->userWith2Fa)[0];
+        $typedRecoveryCode = ' ' . strtolower(substr($recoveryCode, 0, 3) . '-' . substr($recoveryCode, 3)) . ' ';
+        $this->assertTrue($this->confirmSecondFactor(
+            ['module' => 'TwoFactorAuth', 'action' => 'showRecoveryCodes'],
+            $typedRecoveryCode
+        ));
+        $this->assertNotContains($recoveryCode, $this->dao->getAllRecoveryCodesForLogin($this->userWith2Fa));
+    }
+
+    public function testVerifySecondFactorRejectsInvalidCodeAndRecordsFailedAttempt()
+    {
+        $this->setCurrentUser($this->userWith2Fa);
+
+        $this->assertFalse($this->confirmSecondFactor(['module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth'], '000000'));
+
+        $attempts = $this->bruteForceDetection->getAll();
+        $this->assertCount(1, $attempts);
+        $this->assertSame($this->userWith2Fa, $attempts[0]['login']);
+    }
+
+    public function testDisableTwoFactorAuthRequiresSecondFactorAfterThePassword()
+    {
+        $_GET['disableNonce'] = $this->setUpVerifiedDisableFlow($this->userWith2Fa);
+
+        $this->expectRedirectToSecondFactorConfirmation(function () {
+            StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+        });
+
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($this->userWith2Fa));
+    }
+
+    public function testDisableTwoFactorAuthDisables2FaOnceSecondFactorIsConfirmed()
+    {
+        $_GET['disableNonce'] = $this->setUpVerifiedDisableFlow($this->userWith2Fa);
+        $this->assertTrue($this->confirmSecondFactor(
+            ['module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth', 'disableNonce' => $_GET['disableNonce']],
+            $this->generateValidAuthCode($this->user2faSecret)
+        ));
+
+        $this->disableTwoFactorAuthExpectingRedirect();
+
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($this->userWith2Fa));
+    }
+
+    public function testDisableTwoFactorAuthIgnoresSecondFactorConfirmedForAnotherAction()
+    {
+        $_GET['disableNonce'] = $this->setUpVerifiedDisableFlow($this->userWith2Fa);
+        $this->assertTrue($this->confirmSecondFactor(
+            ['module' => 'TwoFactorAuth', 'action' => 'showRecoveryCodes'],
+            $this->generateValidAuthCode($this->user2faSecret)
+        ));
+
+        $this->expectRedirectToSecondFactorConfirmation(function () {
+            StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+        });
+
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($this->userWith2Fa));
+    }
+
+    public function testDisableTwoFactorAuthThrowsWhenNonceIsInvalidEvenWhenPasswordVerified()
+    {
+        $this->setUpVerifiedDisableFlow($this->userWith2Fa);
+        $_GET['disableNonce'] = 'not-a-valid-nonce';
+
+        try {
+            StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+            $this->fail('Expected a security check exception to be thrown for the invalid nonce');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('General_ExceptionSecurityCheckFailed', $e->getMessage());
+        }
+
+        // 2fa must remain enabled when the nonce is invalid
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($this->userWith2Fa));
+    }
+
+    public function testDisableTwoFactorAuthRejectsInvalidNonceBeforeAskingForThePassword()
+    {
+        $this->setCurrentUser($this->userWith2Fa);
+        $this->setTwoFactorAuthVerified($this->userWith2Fa);
+
+        $_GET['disableNonce'] = 'not-a-valid-nonce';
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage('General_ExceptionSecurityCheckFailed');
+
+        StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+    }
+
+    public function testShowRecoveryCodesRequiresSecondFactorAfterThePassword()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'showRecoveryCodes']);
+
+        $this->expectRedirectToSecondFactorConfirmation(function () {
+            StaticContainer::get(Controller::class)->showRecoveryCodes();
+        });
+    }
+
+    public function testShowRecoveryCodesReportsAnExpiredRegenerateNonceOnceConfirmedAgain()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'showRecoveryCodes']);
+        $_GET['idSite'] = $this->createWebsiteAsSuperUser();
+        $_POST['regenerateNonce'] = 'expired-nonce';
+
+        $message = '';
+        try {
+            StaticContainer::get(Controller::class)->showRecoveryCodes();
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        $this->assertMatchesRegularExpression('/secondFactorRequest=([0-9a-f]{32})/', $message);
+        preg_match('/secondFactorRequest=([0-9a-f]{32})/', $message, $matches);
+
+        $url = StaticContainer::get(SecondFactorVerifier::class)->confirmSecondFactor(
+            $matches[1],
+            $this->generateValidAuthCode($this->user2faSecret)
+        );
+        $this->assertStringNotContainsString('regenerateError', (string) $url);
+
+        // the confirmed view, as the redirect back opens it
+        unset($_POST['regenerateNonce']);
+        parse_str((string) parse_url((string) $url, PHP_URL_QUERY), $query);
+        $_GET[SecondFactorVerifier::CONFIRMATION_TOKEN_PARAMETER] = $query[SecondFactorVerifier::CONFIRMATION_TOKEN_PARAMETER];
+
+        $html = StaticContainer::get(Controller::class)->showRecoveryCodes();
+
+        $this->assertStringContainsString('regenerate-error="true"', $html);
+    }
+
+    public function testSetupTwoFactorAuthRequiresSecondFactorToReplaceTheConfiguredDevice()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth']);
+
+        // the setup page needs a website for its layout; the test users are super users
+        $_GET['idSite'] = $this->createWebsiteAsSuperUser();
+
+        $this->expectRedirectToSecondFactorConfirmation(function () {
+            StaticContainer::get(Controller::class)->setupTwoFactorAuth();
+        });
+
+        // no new secret was generated for the setup
+        $this->assertEmpty((new SessionNamespace('TwoFactorAuthenticator'))->secret);
+    }
+
+    public function testSetupTwoFactorAuthRequiresSecondFactorForEveryViewWhenReplacingTheConfiguredDevice()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth']);
+        $_GET['idSite'] = $this->createWebsiteAsSuperUser();
+
+        // a secret generated for an earlier, confirmed view
+        $this->setReplacementSecret($this->twoFa->generateSecret());
+
+        $this->expectRedirectToSecondFactorConfirmation(function () {
+            StaticContainer::get(Controller::class)->setupTwoFactorAuth();
+        });
+    }
+
+    public function testSetupTwoFactorAuthReplacesTheDeviceWithACodeSubmittedFromAConfirmedView()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth']);
+        $_GET['idSite'] = $this->createWebsiteAsSuperUser();
+
+        $newSecret = $this->twoFa->generateSecret();
+        $this->setReplacementSecret($newSecret);
+        $_GET['authCode'] = $this->generateValidAuthCode($newSecret);
+        $_GET['authCodeNonce'] = Nonce::getNonce(Controller::AUTH_CODE_NONCE);
+
+        StaticContainer::get(Controller::class)->setupTwoFactorAuth();
+
+        $user = (new Model())->getUser($this->userWith2Fa);
+        $this->assertSame($newSecret, $user['twofactor_secret']);
+    }
+
+    public function testSetupTwoFactorAuthShowsAWrongCodeForTheNewDeviceWithoutAnotherConfirmation()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth']);
+        $_GET['idSite'] = $this->createWebsiteAsSuperUser();
+
+        $this->setReplacementSecret($this->twoFa->generateSecret());
+        $_GET['authCode'] = '000000';
+        $_GET['authCodeNonce'] = Nonce::getNonce(Controller::AUTH_CODE_NONCE);
+
+        $html = StaticContainer::get(Controller::class)->setupTwoFactorAuth();
+
+        $this->assertStringContainsString('TwoFactorAuth_WrongAuthCodeTryAgain', $html);
+        $user = (new Model())->getUser($this->userWith2Fa);
+        $this->assertSame($this->user2faSecret, $user['twofactor_secret']);
+    }
+
+    public function testSetupTwoFactorAuthDoesNotReplaceTheDeviceWithASecretCreatedWithoutConfirmation()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth']);
+        $_GET['idSite'] = $this->createWebsiteAsSuperUser();
+
+        // eg created while the user did not use 2FA yet
+        $newSecret = $this->twoFa->generateSecret();
+        $session = new SessionNamespace('TwoFactorAuthenticator');
+        $session->secret = $newSecret;
+        $session->secretLogin = $this->userWith2Fa;
+        $_GET['authCode'] = $this->generateValidAuthCode($newSecret);
+        $_GET['authCodeNonce'] = Nonce::getNonce(Controller::AUTH_CODE_NONCE);
+
+        $this->expectRedirectToSecondFactorConfirmation(function () {
+            StaticContainer::get(Controller::class)->setupTwoFactorAuth();
+        });
+
+        $user = (new Model())->getUser($this->userWith2Fa);
+        $this->assertSame($this->user2faSecret, $user['twofactor_secret']);
+    }
+
+    public function testShowRecoveryCodesDoesNotReportAnEarlierRegenerateErrorAfterRegenerating()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'showRecoveryCodes']);
+        $_GET['idSite'] = $this->createWebsiteAsSuperUser();
+        $session = new SessionNamespace('TwoFactorAuthenticator');
+        $session->regenerateFailed = $this->userWith2Fa;
+        $_POST['regenerateNonce'] = Nonce::getNonce(Controller::REGENERATE_CODES_2FA_NONCE);
+
+        $html = StaticContainer::get(Controller::class)->showRecoveryCodes();
+
+        $this->assertStringContainsString('regenerate-success="true"', $html);
+        $this->assertStringNotContainsString('regenerate-error="true"', $html);
+    }
+
+    public function testSetupTwoFactorAuthDoesNotReuseASecretGeneratedForAnotherUser()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth']);
+        $_GET['idSite'] = $this->createWebsiteAsSuperUser();
+
+        $session = new SessionNamespace('TwoFactorAuthenticator');
+        $session->secret = $this->twoFa->generateSecret();
+        $session->secretLogin = $this->otherUserWith2Fa;
+
+        $this->expectRedirectToSecondFactorConfirmation(function () {
+            StaticContainer::get(Controller::class)->setupTwoFactorAuth();
+        });
+    }
+
+    /**
+     * Puts a secret into the setup session as a confirmed view of replacing the device does.
+     */
+    private function setReplacementSecret(string $secret): void
+    {
+        $session = new SessionNamespace('TwoFactorAuthenticator');
+        $session->secret = $secret;
+        $session->secretLogin = $this->userWith2Fa;
+        $session->secretConfirmed = true;
+    }
+
+    /**
+     * Creates a website the page layout can use and grants the current user super user access, which the test
+     * users have.
+     */
+    private function createWebsiteAsSuperUser(): int
+    {
+        $idSite = Access::doAsSuperUser(function () {
+            return Fixture::createWebsite('2024-01-01 00:00:00');
+        });
+        Access::getInstance()->setSuperUserAccess(true);
+
+        return $idSite;
+    }
+
+    private function disableTwoFactorAuthExpectingRedirect(): void
+    {
+        // the test users are super users, so the notification email can look up the current user
+        Access::getInstance()->setSuperUserAccess(true);
+
+        try {
+            StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+            $this->fail('Expected the action to end with a redirect');
+        } catch (NoWebsiteFoundException $e) {
+            // outside a web request, redirectToIndex() swallows the redirect and ends with this exception
+        }
+    }
+
+    private function expectRedirectToSecondFactorConfirmation(callable $action): void
+    {
+        try {
+            $action();
+            $this->fail('Expected a redirect to the second factor confirmation');
+        } catch (\Exception $e) {
+            // redirects become an exception outside of a web request
+            $this->assertStringContainsString('Matomo would redirect you to this URL', $e->getMessage());
+            $this->assertStringContainsString('action=confirmSecondFactor', $e->getMessage());
+        }
+    }
+
+    /**
+     * @param array<string, string> $params
+     */
+    private function confirmSecondFactor(array $params, string $code): bool
+    {
+        $verifier = new SecondFactorVerifier();
+        $url = $verifier->confirmSecondFactor($verifier->requestConfirmation($params), $code);
+
+        if ($url === null) {
+            return false;
+        }
+
+        // as the redirect back to the action does
+        parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+        $_GET[SecondFactorVerifier::CONFIRMATION_TOKEN_PARAMETER] = $query[SecondFactorVerifier::CONFIRMATION_TOKEN_PARAMETER];
+
+        return true;
+    }
+
+    private function setTwoFactorAuthVerified(string $login): void
+    {
+        $fingerprint = new SessionFingerprint();
+        $fingerprint->initialize($login, $login . '-token');
+        $fingerprint->setTwoFactorAuthenticationVerified($login);
+    }
+
+    /**
+     * Puts the session into the state of a user who verified 2FA on login and recently confirmed the password for
+     * the given action.
+     *
+     * @param array<string, string> $params
+     */
+    private function setUpVerifiedPassword(string $login, array $params): void
+    {
+        $this->setCurrentUser($login);
+        $this->setTwoFactorAuthVerified($login);
+
+        $verifier = new PasswordVerifier();
+        $verifier->setDisableRedirect();
+        $verifier->requirePasswordVerifiedRecently($params);
+        $verifier->setPasswordVerifiedCorrectly($login);
+    }
+
+    /**
+     * Like {@link setUpVerifiedPassword()} for disabling 2FA. Returns a valid disable nonce.
+     */
+    private function setUpVerifiedDisableFlow(string $login): string
+    {
+        $this->setUpVerifiedPassword($login, ['module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth']);
+
+        return Nonce::getNonce(Controller::DISABLE_2FA_NONCE);
     }
 
     public function testLoginTwoFactorAuthRequiresFreshLoginWhenCurrentUserDoesNotMatchPendingSessionUser()
@@ -179,6 +547,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $newSecret = $this->twoFa->generateSecret();
         $session = new SessionNamespace('TwoFactorAuthenticator');
         $session->secret = $newSecret;
+        $session->secretLogin = $this->userWithout2Fa;
         $_GET['authCode'] = $this->generateValidAuthCode($newSecret);
         $_GET['authCodeNonce'] = Nonce::getNonce(Controller::AUTH_CODE_NONCE);
 
@@ -248,6 +617,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $replacementSecret = $this->twoFa->generateSecret();
         $session = new SessionNamespace('TwoFactorAuthenticator');
         $session->secret = $replacementSecret;
+        $session->secretLogin = $this->userWith2Fa;
         $_GET['authCode'] = $this->generateValidAuthCode($replacementSecret);
         $_GET['authCodeNonce'] = Nonce::getNonce(Controller::AUTH_CODE_NONCE);
 

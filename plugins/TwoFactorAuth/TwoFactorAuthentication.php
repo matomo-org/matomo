@@ -270,7 +270,18 @@ class TwoFactorAuthentication
     }
 
     /**
-     * Records a failed attempt for the brute force detection, if the Login plugin is available and enabled.
+     * Normalises a code as users may enter it: recovery codes are shown in groups separated by dashes and are
+     * stored upper case, app codes are only numbers.
+     */
+    public function normalizeAuthCode(
+        #[\SensitiveParameter]
+        string $authCode
+    ): string {
+        return trim(strtoupper(str_replace('-', '', $authCode)));
+    }
+
+    /**
+     * Records a failed attempt for the brute force detection, if it is enabled.
      */
     public function recordFailedAuthAttempt(string $login): void
     {
@@ -280,7 +291,7 @@ class TwoFactorAuthentication
                 $bruteForce->addFailedAttempt(IP::getIpFromHeader(), $login);
             }
         } catch (Exception $e) {
-            // ignore error eg if login plugin is disabled
+            // recording is best effort and must not fail the request it belongs to
         }
     }
 }

@@ -42,6 +42,8 @@ class TwoFactorAuth extends \Piwik\Plugin
             'Template.userSecurity.afterPassword' => 'render2FaUserSettings',
             'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Login.userRequiresSecondFactorConfirmation' => 'userRequiresSecondFactorConfirmation',
+            'Login.verifySecondFactor' => 'verifySecondFactor',
         );
     }
 
@@ -159,6 +161,27 @@ class TwoFactorAuth extends \Piwik\Plugin
                 }
             }
         }
+    }
+
+    public function userRequiresSecondFactorConfirmation(bool &$requiresSecondFactor, string $login): void
+    {
+        if (TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
+            $requiresSecondFactor = true;
+        }
+    }
+
+    public function verifySecondFactor(
+        bool &$isValid,
+        string $login,
+        #[\SensitiveParameter]
+        string $code
+    ): void {
+        if ($isValid || !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
+            return;
+        }
+
+        $twoFa = $this->getTwoFa();
+        $isValid = $twoFa->validateAuthCode($login, $twoFa->normalizeAuthCode($code));
     }
 
     private function getTwoFa()

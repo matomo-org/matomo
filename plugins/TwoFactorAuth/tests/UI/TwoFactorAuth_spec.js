@@ -91,6 +91,17 @@ describe("TwoFactorAuth", function () {
         await testEnvironment.save();
     });
 
+    async function confirmSecondFactor(code)
+    {
+        await page.waitForSelector('.confirmSecondFactorForm');
+        await page.waitForNetworkIdle();
+        await page.type('.confirmSecondFactorForm #second_factor_form_code', code);
+        await page.click('.confirmSecondFactorForm #second_factor_form_submit');
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
+    }
+
     async function confirmPassword()
     {
         await page.waitForSelector('.confirmPasswordForm');
@@ -190,8 +201,13 @@ describe("TwoFactorAuth", function () {
         expect(await element.screenshot()).to.matchImage('show_recovery_codes_step1');
     });
 
-    it('should be possible to show recovery codes step2 done', async function () {
+    it('should ask for the authentication code to show recovery codes', async function () {
         await confirmPassword();
+        expect(await page.waitForSelector('.confirmSecondFactorForm', {visible: true})).to.be.ok;
+    });
+
+    it('should be possible to show recovery codes step2 done', async function () {
+        await confirmSecondFactor('123456'); // a valid recovery code for this user (see fixture)
         expect(await page.screenshotSelector('#content')).to.matchImage('show_recovery_codes_step2');
     });
 
@@ -216,7 +232,7 @@ describe("TwoFactorAuth", function () {
         expect(await modal.screenshot()).to.matchImage('usersettings_twofa_disable_step1');
     });
 
-    it('should be possible to disable two factor step 2 confirmed', async function () {
+    it('should be possible to disable two factor step 2 confirm password', async function () {
         await selectModalButton('Yes');
 
         const element = await page.waitForSelector('.loginSection', {visible: true});
@@ -224,8 +240,20 @@ describe("TwoFactorAuth", function () {
         expect(await element.screenshot()).to.matchImage('usersettings_twofa_disable_step2');
     });
 
-    it('should be possible to disable two factor step 3 verified', async function () {
+    it('should ask for the authentication code after confirming the password', async function () {
         await confirmPassword();
+        expect(await page.waitForSelector('.confirmSecondFactorForm', {visible: true})).to.be.ok;
+    });
+
+    it('should show an error when providing a wrong authentication code while disabling', async function () {
+        await confirmSecondFactor('555555');
+        await page.waitForSelector('.confirmSecondFactorForm', {visible: true});
+        const formText = await page.evaluate(() => $('.confirmSecondFactorForm').text());
+        expect(formText).to.contain('The authentication code is not correct');
+    });
+
+    it('should be possible to disable two factor step 3 verified', async function () {
+        await confirmSecondFactor('123456'); // a valid recovery code for this user (see fixture)
         await page.waitForSelector('.userSettings2FA');
         const elem = await page.$('.userSettings2FA');
         expect(await elem.screenshot()).to.matchImage('usersettings_twofa_disable_step3');
