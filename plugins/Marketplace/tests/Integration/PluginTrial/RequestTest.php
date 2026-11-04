@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\PluginTrial\Request;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\Plugins\Marketplace\UserSettings;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
@@ -120,12 +121,22 @@ class RequestTest extends IntegrationTestCase
             $eventArgs = $args;
         });
 
-        $request = new Request('PremiumPlugin', $storageMock);
-        $request->create('Premium Plugin');
+        // the unsubscribe link is only rendered through its translation
+        Fixture::loadAllTranslations();
+        try {
+            $request = new Request('PremiumPlugin', $storageMock);
+            $request->create('Premium Plugin');
+        } finally {
+            Fixture::resetTranslations();
+        }
 
         self::assertSame(['PremiumPlugin', 'Premium Plugin'], $eventArgs);
         self::assertNotNull($sentMail);
         self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
+        self::assertStringContainsString(
+            'login=' . Fixture::ADMIN_USER_LOGIN . '&token=' . StaticContainer::get(UnsubscribeToken::class)->generate(Fixture::ADMIN_USER_LOGIN),
+            html_entity_decode($sentMail->getBodyHtml())
+        );
     }
 
     public function testCreateSkipsSuperUsersWhoTurnedTheEmailsOff()
@@ -145,6 +156,64 @@ class RequestTest extends IntegrationTestCase
         $this->createRequest();
 
         self::assertSame(['hello@example.org'], $recipients);
+    }
+
+    public function testCreateSkipsSuperUsersWhoseUnsubscribeLinkCannotBeSigned()
+    {
+        Fixture::createSuperUser();
+        $usersModel = new UsersModel();
+        $usersModel->addUser('deletedMeanwhile', 'password', 'deleted@example.org', Date::now()->getDatetime());
+        $usersModel->setSuperUserAccess('deletedMeanwhile', true);
+
+        // stands in for the user being deleted between the recipient lookup and the send
+        StaticContainer::getContainer()->set(UnsubscribeToken::class, new class extends UnsubscribeToken {
+            public function generate(string $login): ?string
+            {
+                return $login === 'deletedMeanwhile' ? null : parent::generate($login);
+            }
+        });
+
+        $recipients = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$recipients) {
+            $recipients = array_merge($recipients, array_keys($mail->getRecipients()));
+        });
+
+        $this->createRequest();
+
+        self::assertSame(['hello@example.org'], $recipients);
+    }
+
+    public function testCreateMailsTheOtherSuperUsersAndPostsTheEventWhenOneEmailCannotBePrepared()
+    {
+        Fixture::createSuperUser();
+        $usersModel = new UsersModel();
+        $usersModel->addUser('brokenToken', 'password', 'broken@example.org', Date::now()->getDatetime());
+        $usersModel->setSuperUserAccess('brokenToken', true);
+
+        StaticContainer::getContainer()->set(UnsubscribeToken::class, new class extends UnsubscribeToken {
+            public function generate(string $login): ?string
+            {
+                if ($login === 'brokenToken') {
+                    throw new \Exception('database unavailable');
+                }
+
+                return parent::generate($login);
+            }
+        });
+
+        $recipients = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$recipients) {
+            $recipients = array_merge($recipients, array_keys($mail->getRecipients()));
+        });
+        $eventPosted = false;
+        Piwik::addAction('Marketplace.pluginTrialRequested', function () use (&$eventPosted) {
+            $eventPosted = true;
+        });
+
+        $this->createRequest();
+
+        self::assertSame(['hello@example.org'], $recipients);
+        self::assertTrue($eventPosted);
     }
 
     public function testCreateSendsMailWhenAnEventObserverFails()
