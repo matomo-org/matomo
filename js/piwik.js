@@ -4076,10 +4076,14 @@ if (typeof window.Matomo !== 'object') {
                     currentUrl = configCustomUrl || locationHrefAlias,
                     campaignNameDetected,
                     campaignKeywordDetected,
+                    campaignNameFromUrl = '',
+                    campaignKeywordFromUrl = '',
+                    hasNewReferrer,
+                    hasCampaignInUrl = false,
                     attributionValues = {};
 
-                campaignNameDetected = attributionCookie[0];
-                campaignKeywordDetected = attributionCookie[1];
+                campaignNameDetected = attributionCookie[0] || '';
+                campaignKeywordDetected = attributionCookie[1] || '';
                 referralTs = attributionCookie[2];
                 referralUrl = attributionCookie[3];
 
@@ -4098,9 +4102,9 @@ if (typeof window.Matomo !== 'object') {
                         && !shouldIgnoreCampaignAttributionForSource(currentUrl)) {
                           for (i in configCampaignNameParameters) {
                               if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
-                                  campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
+                                  campaignNameFromUrl = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
 
-                                  if (campaignNameDetected.length) {
+                                  if (campaignNameFromUrl.length) {
                                       break;
                                   }
                               }
@@ -4108,12 +4112,17 @@ if (typeof window.Matomo !== 'object') {
 
                           for (i in configCampaignKeywordParameters) {
                               if (Object.prototype.hasOwnProperty.call(configCampaignKeywordParameters, i)) {
-                                  campaignKeywordDetected = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
+                                  campaignKeywordFromUrl = getUrlParameter(currentUrl, configCampaignKeywordParameters[i]);
 
-                                  if (campaignKeywordDetected.length) {
+                                  if (campaignKeywordFromUrl.length) {
                                       break;
                                   }
                               }
+                          }
+
+                          hasCampaignInUrl = campaignNameFromUrl.length || campaignKeywordFromUrl.length;
+                          for (i = 0; !hasCampaignInUrl && i < configCampaignKnownParameters.length; i++) {
+                              hasCampaignInUrl = getUrlParameter(currentUrl, configCampaignKnownParameters[i]).length;
                           }
                     }
 
@@ -4122,9 +4131,11 @@ if (typeof window.Matomo !== 'object') {
                     currentReferrerHostName = getHostName(configReferrerUrl);
                     originalReferrerHostName = referralUrl.length ? getHostName(referralUrl) : '';
 
-                    if (currentReferrerHostName.length // there is a referrer
+                    hasNewReferrer = currentReferrerHostName.length // there is a referrer
                         && !isSiteHostName(currentReferrerHostName) // domain is not the current domain
-                        && !isReferrerExcluded(configReferrerUrl) // referrer is excluded
+                        && !isReferrerExcluded(configReferrerUrl); // referrer is not excluded
+
+                    if (hasNewReferrer
                         && (
                             !configConversionAttributionFirstReferrer // attribute to last known referrer
                             || !originalReferrerHostName.length // previously empty
@@ -4133,6 +4144,15 @@ if (typeof window.Matomo !== 'object') {
                         )
                     ) {
                         referralUrl = configReferrerUrl;
+                    }
+
+                    // A direct return keeps the stored campaign, so conversions still credit the last non-direct source
+                    if (hasCampaignInUrl) {
+                        campaignNameDetected = campaignNameFromUrl;
+                        campaignKeywordDetected = campaignKeywordFromUrl;
+                    } else if (hasNewReferrer && !configConversionAttributionFirstReferrer) {
+                        campaignNameDetected = '';
+                        campaignKeywordDetected = '';
                     }
 
                     // Set the referral cookie if we have either a Referrer URL, or detected a Campaign (or both)

@@ -161,7 +161,7 @@ class Visualization extends ViewDataTable
     protected $metricsFormatter = null;
 
     /**
-     * @var Report
+     * @var Report|null
      */
     protected $report;
 
@@ -281,7 +281,10 @@ class Visualization extends ViewDataTable
             $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_VisualizationDoesNotSupportComparison');
         }
 
-        if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {
+        $hasData = !empty($this->dataTable) && $this->hasAnyData($this->dataTable);
+
+        // a report that failed to load is not empty, so it gets no hints for missing data
+        if (empty($loadingError) && !$hasData) {
             /**
              * @ignore
              */
@@ -893,7 +896,7 @@ class Visualization extends ViewDataTable
         $message = 'Some ViewDataTable::requestConfig properties have changed after requesting the data table. '
                  . 'That means the changed values had probably no effect. For instance in beforeRender() hook. '
                  . 'Probably a bug? Details:'
-                 . print_r($details, 1);
+                 . print_r($details, true);
 
         Log::warning($message);
     }

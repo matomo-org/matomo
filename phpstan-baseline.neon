@@ -1099,39 +1099,9 @@ parameters:
 			path: core/Plugin/ViewDataTable.php
 
 		-
-			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Instanceof between Piwik\\DataTable\|null and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 2
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Instanceof between null and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
 			message: '#^Parameter \#1 \$dataTable of method Piwik\\Plugin\\ViewDataTable\:\:setDataTable\(\) expects Piwik\\DataTable\|Piwik\\DataTable\\Map, Piwik\\DataTable\\DataTableInterface given\.$#'
 			identifier: argument.type
 			count: 2
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Parameter \#2 \$return of function print_r expects bool, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Ternary operator condition is always true\.$#'
-			identifier: ternary.alwaysTrue
-			count: 1
 			path: core/Plugin/Visualization.php
 
 		-
@@ -2581,12 +2551,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Cloud.php
 
 		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Graph.php
-
-		-
 			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable\\Map will always evaluate to false\.$#'
 			identifier: instanceof.alwaysFalse
 			count: 1
@@ -2605,12 +2569,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
 
 		-
-			message: '#^Property Piwik\\Plugin\\Visualization\:\:\$report \(Piwik\\Plugin\\Report\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 2
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
-
-		-
 			message: '#^Property Piwik\\ViewDataTable\\RequestConfig\:\:\$filter_excludelowpop_value \(Closure\|string\) does not accept false\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -2625,12 +2583,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Piwik\\DataTable\\DataTableInterface\:\:getMetadata\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
-
-		-
-			message: '#^Instanceof between Piwik\\DataTable\|null and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
 
@@ -3604,12 +3556,6 @@ parameters:
 			message: '#^Parameter &\$segments by\-ref type of method Piwik\\Plugins\\SegmentEditor\\SegmentEditor\:\:getKnownSegmentsToArchiveForSite\(\) expects array\<string\>, array given\.$#'
 			identifier: parameterByRef.type
 			count: 2
-			path: plugins/SegmentEditor/SegmentEditor.php
-
-		-
-			message: '#^Variable \$endDate in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
 			path: plugins/SegmentEditor/SegmentEditor.php
 
 		-
