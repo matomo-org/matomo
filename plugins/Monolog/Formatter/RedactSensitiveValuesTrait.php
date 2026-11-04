@@ -48,6 +48,19 @@ trait RedactSensitiveValuesTrait
                     $frame['file'] = str_replace(PIWIK_DOCUMENT_ROOT, '', $frame['file']);
                 }
             }
+            unset($frame);
+        }
+
+        return $normalized;
+    }
+
+    protected function normalize(mixed $data, int $depth = 0): mixed
+    {
+        $normalized = parent::normalize($data, $depth);
+
+        // the json formatter leaves objects to json_encode, decode them so their strings are redacted as well
+        if (is_object($normalized)) {
+            $normalized = json_decode($this->toJson($normalized, true), true);
         }
 
         return $normalized;
@@ -67,6 +80,7 @@ trait RedactSensitiveValuesTrait
                     $frame = ExceptionHandler::replaceSensitiveValues($frame);
                 }
             }
+            unset($frame);
         }
 
         if (isset($exception['previous']) && is_array($exception['previous'])) {
