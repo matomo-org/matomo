@@ -166,9 +166,14 @@ class HyperLogLog
         }
         $z += $m * self::sigma($counts[0] / $m);
 
+        // only reachable with a broken hash or sketch (eg every register in the top rank): don't divide by
+        // zero or overflow the int
+        if ($z == 0) {
+            return PHP_INT_MAX;
+        }
+
         $estimate = $m * $m / (2 * log(2)) / $z;
 
-        // only reachable with a broken hash (eg every visitor in the top rank): don't overflow the int
         return $estimate >= PHP_INT_MAX ? PHP_INT_MAX : (int) round($estimate);
     }
 

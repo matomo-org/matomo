@@ -31,6 +31,8 @@ class PluginsArchiver
 {
     public const UNIQUE_VISITORS_SKETCH_RECORD = 'VisitsSummary_uniq_visitors_sketch';
     public const USERS_SKETCH_RECORD = 'VisitsSummary_users_sketch';
+    // 1 on archives whose unique visitors and users are estimated and 0 on ones counted exactly, for the API
+    public const UNIQUES_ESTIMATED_METRIC = 'uniques_estimated';
 
     /**
      * @var string|null
@@ -348,13 +350,19 @@ class PluginsArchiver
     {
         $toSum = Metrics::getVisitsMetricNames();
 
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled() && count($this->params->getIdSites()) === 1) {
+        if (!SettingsPiwik::isUniqueVisitorsEstimateEnabled()) {
+            return $this->archiveProcessor->aggregateNumericMetrics($toSum);
+        }
+
+        if (count($this->params->getIdSites()) === 1) {
             $metrics = $this->aggregateMultipleVisitsMetricsWithEstimates($toSum);
             if ($metrics !== null) {
                 return $metrics;
             }
         }
 
+        // stored as 0 rather than left out, as a range missing a requested record is archived again on every request
+        $this->archiveProcessor->insertNumericRecords([self::UNIQUES_ESTIMATED_METRIC => 0]);
         return $this->archiveProcessor->aggregateNumericMetrics($toSum);
     }
 
@@ -385,6 +393,7 @@ class PluginsArchiver
         $this->archiveProcessor->insertNumericRecords([
             'nb_uniq_visitors' => $metrics['nb_uniq_visitors'],
             'nb_users' => $metrics['nb_users'],
+            self::UNIQUES_ESTIMATED_METRIC => 1,
         ]);
 
         // only sub-periods need their sketches, and a range is never one

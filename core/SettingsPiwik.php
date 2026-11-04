@@ -348,13 +348,13 @@ class SettingsPiwik
 
     /**
      * Returns true if a website's total unique visitors and users for the given period are estimated rather
-     * than counted. Days are always counted.
+     * than counted. Days are always counted, and so is an empty period label, which callers use when there's no period.
      *
      * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
      */
     public static function isUniqueVisitorsEstimated(string $periodLabel): bool
     {
-        return $periodLabel !== 'day' && self::isUniqueVisitorsEstimateEnabled();
+        return in_array($periodLabel, ['week', 'month', 'year', 'range'], true) && self::isUniqueVisitorsEstimateEnabled();
     }
 
     /**

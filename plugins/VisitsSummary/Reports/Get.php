@@ -152,6 +152,10 @@ class Get extends \Piwik\Plugin\Report
                     $view->config->removeSparklineMetric(array('nb_actions'));
                 }
 
+                if (!is_numeric($firstRow->getColumn('nb_uniq_visitors'))) {
+                    $view->config->replaceSparklineMetric(['nb_visits', 'nb_uniq_visitors'], ['nb_visits']);
+                }
+
                 $nbUsers = $firstRow->getColumn('nb_users');
                 if (!is_numeric($nbUsers) || 0 >= $nbUsers) {
                     $view->config->replaceSparklineMetric(array('nb_users'), '');
