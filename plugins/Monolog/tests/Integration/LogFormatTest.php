@@ -139,6 +139,54 @@ class LogFormatTest extends IntegrationTestCase
         $this->assertSame('/core/Notice.php', $records[1]['context']['trace'][0]['file']);
     }
 
+    public function testJsonFileLoggingRedactsObjectsInContext()
+    {
+        $logger = $this->recreateLogSingleton('file', ['ini.log.log_format' => 'json']);
+
+        $url = 'index.php?token_auth=9b1cefc915ff6180071fb7dcd13ec5a4';
+        $serializable = new class ($url) implements \JsonSerializable {
+            public function __construct(private string $url)
+            {
+            }
+
+            public function jsonSerialize(): array
+            {
+                return ['url' => $this->url];
+            }
+        };
+        $plain = new class ($url) {
+            public function __construct(public string $url)
+            {
+            }
+        };
+
+        $logger->warning('objects', ['serializable' => $serializable, 'plain' => $plain]);
+
+        $this->assertStringNotContainsString('9b1cefc915ff6180071fb7dcd13ec5a4', file_get_contents(self::getLogFileLocation()));
+
+        $records = $this->getLogFileRecords();
+        $this->assertSame(['url' => 'index.php?token_auth=removed'], $records[0]['context']['serializable']);
+        $this->assertSame(['url' => 'index.php?token_auth=removed'], $records[0]['context']['plain']);
+    }
+
+    public function testLogstashFileLoggingRedactsExceptionTrace()
+    {
+        $this->recreateLogSingleton('file', ['ini.log.log_format' => 'logstash']);
+
+        Config::getInstance()->mail['password'] = 'smtp-secret-value';
+
+        Log::error(new \Exception('exception mentions smtp-secret-value'));
+
+        $contents = file_get_contents(self::getLogFileLocation());
+        $this->assertStringNotContainsString('smtp-secret-value', $contents);
+        $this->assertStringNotContainsString(PIWIK_DOCUMENT_ROOT, $contents);
+
+        $records = $this->getLogFileRecords();
+        $this->assertSame('exception mentions smtppass', $records[0]['context']['exception']['message']);
+        $this->assertNotEmpty($records[0]['context']['exception']['trace']);
+        $this->assertStringStartsWith('/vendor/phpunit/', $records[0]['context']['exception']['trace'][0]);
+    }
+
     public function testArchiveProfilingLogAlwaysUsesTextFormat()
     {
         $container = $this->createContainer([
