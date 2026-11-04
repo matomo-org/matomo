@@ -1684,6 +1684,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
 					          delete self.param.totalRows;
 
+                    // A table loaded as a subtable keeps the comparisonIdSubtables it was requested with, for
+                    // its own paging. Sent in the URL, they would take precedence over the clicked row's ones.
+                    var savedComparisonIdSubtables = self.param.comparisonIdSubtables;
+                    delete self.param.comparisonIdSubtables;
+
                     var extraParams = {};
                     extraParams.comparisonIdSubtables = self.getComparisonIdSubtables($(this));
 
@@ -1693,6 +1698,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     self.param.action = savedActionVariable;
                     delete self.param.idSubtable;
+                    if (typeof savedComparisonIdSubtables !== 'undefined') {
+                        self.param.comparisonIdSubtables = savedComparisonIdSubtables;
+                    }
                     self.restoreAllFilters(filtersToRestore);
 
                     self.loadedSubDataTable[divIdToReplaceWithSubTable] = true;
