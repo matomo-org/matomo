@@ -235,13 +235,13 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
       endDate: new Date('2026-02-18'),
     });
 
-    const root = wrapper.find('.periodSelector').element as HTMLElement;
-    root.classList.add('expanded');
+    const root = wrapper.find('.mtm-selector').element as HTMLElement;
+    root.classList.add('mtm-selector--expanded');
 
     document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
     document.body.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
 
-    expect(root.classList.contains('expanded')).toBe(false);
+    expect(root.classList.contains('mtm-selector--expanded')).toBe(false);
     expect(updateLocationSpy).not.toHaveBeenCalled();
     expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'last30days' });
     expect((wrapper.vm as any).pendingPresetSelection).toEqual(expect.objectContaining({
@@ -251,6 +251,20 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     expect((wrapper.vm as any).activePresetId).toBe('last30days');
 
     updateLocationSpy.mockRestore();
+    wrapper.unmount();
+  });
+
+  it('tells the panel whether it shows one calendar or a range of two', async () => {
+    const wrapper = mountSelector();
+    const panel = () => wrapper.find('.periodSelector__panel');
+
+    await wrapper.setData({ selectedPeriod: 'day' });
+    expect(panel().classes()).toContain('periodSelector__panel--singleCalendar');
+    expect(panel().classes()).not.toContain('periodSelector__panel--dualCalendar');
+
+    await wrapper.setData({ selectedPeriod: 'range' });
+    expect(panel().classes()).toContain('periodSelector__panel--dualCalendar');
+    expect(panel().classes()).not.toContain('periodSelector__panel--singleCalendar');
     wrapper.unmount();
   });
 });
