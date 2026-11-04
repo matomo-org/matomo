@@ -43,12 +43,12 @@ trait RedactSensitiveValuesTrait
         }
 
         if (is_array($normalized['context']['trace'] ?? null)) {
-            foreach ($normalized['context']['trace'] as &$frame) {
-                if (is_array($frame) && is_string($frame['file'] ?? null)) {
-                    $frame['file'] = str_replace(PIWIK_DOCUMENT_ROOT, '', $frame['file']);
+            // besides the file, closure and anonymous class names can contain the path since PHP 8.4
+            array_walk_recursive($normalized['context']['trace'], function (&$value) {
+                if (is_string($value)) {
+                    $value = str_replace(PIWIK_DOCUMENT_ROOT, '', $value);
                 }
-            }
-            unset($frame);
+            });
         }
 
         return $normalized;
