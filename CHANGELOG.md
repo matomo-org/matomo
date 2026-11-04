@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### New APIs
+* The new `Piwik\Plugins\Login\SecondFactorVerifier` lets controller actions require a fresh, single-use confirmation with the user's second factor, which plugins provide through the new `Login.userRequiresSecondFactorConfirmation` and `Login.verifySecondFactor` events.
+
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
