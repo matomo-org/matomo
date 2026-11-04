@@ -16,6 +16,7 @@
         "MissingAuthCodeAPI": "Please specify a two-factor authentication code.",
         "InvalidAuthCode": "Incorrect two-factor authentication code.",
         "RequiredAuthCodeNotConfiguredAPI": "You must set up two-factor authentication. Please log in to do so.",
+        "ResetOwnTwoFactorAuthNotAllowed": "To turn off two-factor authentication for your own account, use your personal security settings.",
         "VerifyIdentifyExplanation": "Verify yourself by opening the two-factor authentication app on your device to get your authentication code.",
         "DontHaveYourMobileDevice": "Don't have your mobile device?",
         "EnterRecoveryCodeInstead": "Enter one of your recovery codes",

@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### Breaking Changes
+* The API method `TwoFactorAuth.resetTwoFactorAuth` now refuses to reset the two-factor authentication of the current user, which is turned off in the personal security settings instead, and also accepts an email address.
+
 ### New APIs
 * The new `Piwik\Plugins\Login\SecondFactorVerifier` lets controller actions require a fresh, single-use confirmation with the user's second factor, which plugins provide through the new `Login.userRequiresSecondFactorConfirmation` and `Login.verifySecondFactor` events.
 
