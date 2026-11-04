@@ -6,11 +6,16 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### Breaking Changes
+* The website selector (`CoreHome.SiteSelector`) now renders the generic `.mtm-selector` control instead of `.piwikSelector`. Its `loading`, `disabled`, `placeholder`, `iconHidden` and `collapsed` states and the `icon` class on its arrow are removed, and the `.piwikSelector__dropdown` rules now only apply inside a `.piwikSelector`.
+
 ### New APIs
+* The `CoreHome.SiteSelector` Vue component takes the `full-width`, `full-width-on-small-screen` and `align-label-start` props.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 
 ### Deprecations
+* The `title`, `expanded` and `piwikSelector__dropdown` classes are kept on the website selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 

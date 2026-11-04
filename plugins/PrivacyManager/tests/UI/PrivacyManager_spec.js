@@ -103,7 +103,7 @@ describe("PrivacyManager", function () {
 
     async function selectSite(id)
     {
-        await page.click('.siteSelector a.title');
+        await page.click('.siteSelector .mtm-selector__trigger');
         await page.click('.siteSelector .mtm-dropdownPanel__menu a[href*="idSite=' + id + '"]');
         await page.waitForNetworkIdle();
     }
@@ -142,7 +142,7 @@ describe("PrivacyManager", function () {
     {
         return await page.evaluate(() => {
             const checked = document.querySelector('input[name="complianceScope"]:checked');
-            const selector = document.querySelector('#complianceSite a.title');
+            const selector = document.querySelector('#complianceSite .mtm-selector__trigger');
             const notice = document.querySelector('.complianceScopeNotice');
             const overrideNote = document.querySelector('.complianceScopeOverrideNote');
 
@@ -394,7 +394,7 @@ describe("PrivacyManager", function () {
     });
 
     it('should anonymize only one site and different date pre filled', async function() {
-        await page.click('.form-group #anonymizeSite .title');
+        await page.click('.form-group #anonymizeSite .mtm-selector__trigger');
         await page.waitForTimeout(1000);
         await page.click(".form-group #anonymizeSite [title='Site 1']");
         await page.click('[name="anonymizeIp"] label');
@@ -674,7 +674,7 @@ describe("PrivacyManager", function () {
       await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site');
       await page.waitForNetworkIdle();
 
-      await page.click('#complianceSite a.title');
+      await page.click('#complianceSite .mtm-selector__trigger');
       await page.waitForTimeout(250);
 
       const entries = await page.evaluate(
