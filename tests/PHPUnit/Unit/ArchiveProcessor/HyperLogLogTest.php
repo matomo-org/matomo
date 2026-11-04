@@ -118,6 +118,13 @@ class HyperLogLogTest extends \PHPUnit\Framework\TestCase
         HyperLogLog::fromString(substr($this->sketchOf(0, 100)->toString(), 0, -1) . chr(52));
     }
 
+    public function testEstimateOfSketchWithEveryRegisterInTheTopRankDoesNotDivideByZero()
+    {
+        $sketch = HyperLogLog::fromString(chr(self::PRECISION) . str_repeat(chr(51), 1 << self::PRECISION));
+
+        $this->assertSame(PHP_INT_MAX, $sketch->estimate());
+    }
+
     /**
      * Hashes the IDs the same way the SQL bucket query does (first 64 bits of MD5) and keeps
      * the minimum remainder per bucket.

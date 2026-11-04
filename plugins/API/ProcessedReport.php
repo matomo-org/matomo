@@ -137,7 +137,7 @@ class ProcessedReport
 
         foreach ($reportsMetadata as $report) {
             $isPerDimensionReport = !empty($report['dimension']) || !empty($report['dimensions']);
-            $isSiteTotalReport = $report['module'] === 'VisitsSummary' && $report['action'] === 'get';
+            $isSiteTotalReport = in_array($report['module'], ['VisitsSummary', 'API'], true) && $report['action'] === 'get';
             $uniquesUnavailable = $aggregateUniquesUnavailable && !($siteTotalUniquesEstimated && $isSiteTotalReport);
 
             if ($isNonDayPeriod && ($uniquesUnavailable || $isPerDimensionReport)) {
@@ -384,6 +384,31 @@ class ProcessedReport
     }
 
     /**
+     * Main metrics (API.get) merges the other get reports, so it takes the labels they set for the period, eg
+     * "(estimated)" unique visitors.
+     */
+    private function useMergedReportLabelsForMainMetrics(array &$availableReports): void
+    {
+        $labels = [];
+        $mainMetricsIndex = null;
+        foreach ($availableReports as $index => $report) {
+            if ($report['action'] !== 'get' || !empty($report['parameters'])) {
+                continue;
+            }
+            if ($report['module'] === 'API') {
+                $mainMetricsIndex = $index;
+                continue;
+            }
+            $labels = array_merge($labels, $report['metrics'] ?? []);
+        }
+
+        if ($mainMetricsIndex !== null) {
+            $metrics = $availableReports[$mainMetricsIndex]['metrics'];
+            $availableReports[$mainMetricsIndex]['metrics'] = array_replace($metrics, array_intersect_key($labels, $metrics));
+        }
+    }
+
+    /**
      * Triggers a hook to ask plugins for available Reports.
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
@@ -415,6 +440,8 @@ class ProcessedReport
         foreach ($this->reportsProvider->getAllReports() as $report) {
             $report->configureReportMetadata($availableReports, $parameters);
         }
+
+        $this->useMergedReportLabelsForMainMetrics($availableReports);
 
         foreach ($availableReports as &$availableReport) {
             if ($hideMetricsDoc) {

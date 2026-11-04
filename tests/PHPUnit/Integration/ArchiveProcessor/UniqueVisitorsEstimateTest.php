@@ -63,6 +63,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertSame($this->countExact('user_id', 1, 10), (int) $row['nb_users']);
         $this->assertNull($this->getStoredSketch('day', '2024-03-01'));
         $this->assertNull($this->getStoredSketch('month', '2024-03-01'));
+        $this->assertArrayNotHasKey('uniques_estimated', $row);
     }
 
     public function testDaysKeepTheExactCounts()
@@ -73,6 +74,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertSame($this->countExact('user_id', 4, 4), (int) $row['nb_users']);
         $this->assertNotNull($this->getStoredSketch('day', '2024-03-04'));
         $this->assertNotNull($this->getStoredSketch('day', '2024-03-04', PluginsArchiver::USERS_SKETCH_RECORD));
+        $this->assertArrayNotHasKey('uniques_estimated', $row);
     }
 
     /**
@@ -94,6 +96,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertEqualsWithDelta($visitors, $row['nb_uniq_visitors'], 2);
         $this->assertEqualsWithDelta($users, $row['nb_users'], 2);
         $this->assertLessThanOrEqual($row['nb_visits'], $row['nb_uniq_visitors']);
+        $this->assertSame(1, $row['uniques_estimated']);
     }
 
     public function getLongerPeriods(): array
@@ -138,6 +141,23 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertNull($this->getStoredSketch('week', '2024-03-04', PluginsArchiver::USERS_SKETCH_RECORD));
     }
 
+    public function testUsersDifferingInCaseOrAccentsAreCountedOnceAcrossDays()
+    {
+        // two users, written differently from visit to visit and day to day
+        Db::query(
+            'UPDATE ' . Common::prefixTable('log_visit') . ' SET user_id = ELT((DAY(visit_last_action_time) + HOUR(visit_last_action_time)) % 6 + 1, ?, ?, ?, ?, ?, ?)'
+            . ' WHERE user_id IS NOT NULL',
+            ['Alice', 'alice', 'ALICE', 'José', 'Jose', 'JOSÉ']
+        );
+        // the exact count follows the column's case and accent insensitive collation
+        $this->assertSame(2, $this->countExact('user_id', 4, 10));
+
+        $week = $this->getVisitsSummary('week', '2024-03-04');
+
+        $this->assertSame(1, $week['uniques_estimated']);
+        $this->assertSame(2, (int) $week['nb_users']);
+    }
+
     /**
      * @dataProvider getPrecisionSettings
      */
@@ -173,6 +193,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertSame($this->countExact('idvisitor', 1, 10), (int) $row['nb_uniq_visitors']);
         $this->assertSame($this->countExact('user_id', 1, 10), (int) $row['nb_users']);
         $this->assertNull($this->getStoredSketch('month', '2024-03-01'));
+        $this->assertSame(0, $row['uniques_estimated']);
     }
 
     public function testRangeWithoutAnEstimateHidesUniquesAndIsNotArchivedAgain()
@@ -195,6 +216,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         // range uniques are off, so the exact path stores 0, which is hidden rather than shown as a count
         $this->assertArrayNotHasKey('nb_uniq_visitors', $row);
         $this->assertArrayNotHasKey('nb_users', $row);
+        $this->assertSame(0, $row['uniques_estimated']);
     }
 
     public function testDamagedSketchFallsBackToTheExactCount()
@@ -210,6 +232,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertSame(self::VISITS_PER_DAY * 7, (int) $week['nb_visits']);
         $this->assertSame($this->countExact('idvisitor', 4, 10), (int) $week['nb_uniq_visitors']);
         $this->assertNull($this->getStoredSketch('week', '2024-03-04'));
+        $this->assertSame(0, $week['uniques_estimated']);
     }
 
     public function testSegmentsAreEstimated()
@@ -241,6 +264,70 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertGreaterThan(0, $row["nb_uniq_visitors$suffix"]);
         $this->assertEqualsWithDelta($this->countExact('idvisitor', 1, 10, $where), $row["nb_uniq_visitors$suffix"], 2);
         $this->assertEqualsWithDelta($this->countExact('user_id', 1, 10, $where), $row["nb_users$suffix"], 2);
+        $this->assertSame(1, $row["uniques_estimated$suffix"]);
+    }
+
+    public function testEstimateFlagComesWithTheRequestedUniquesOnly()
+    {
+        $columns = function (string $requested) {
+            $result = Request::processRequest('VisitsSummary.get', [
+                'idSite' => 1,
+                'period' => 'month',
+                'date' => '2024-03-01',
+                'columns' => $requested,
+            ]);
+            return $result->getFirstRow()->getColumns();
+        };
+
+        $this->assertSame(['nb_uniq_visitors', 'uniques_estimated'], array_keys($columns('nb_uniq_visitors')));
+        $this->assertSame(['nb_visits'], array_keys($columns('nb_visits')));
+    }
+
+    public function testUsersAreKeptWhenRequestedWithoutUniqueVisitors()
+    {
+        $columns = function (string $method, string $requested) {
+            $result = Request::processRequest($method, [
+                'idSite' => 1,
+                'period' => 'month',
+                'date' => '2024-03-01',
+                'columns' => $requested,
+            ]);
+            return $result->getFirstRow()->getColumns();
+        };
+
+        $this->assertArrayHasKey('nb_users', $columns('VisitsSummary.get', 'nb_visits,nb_users'));
+        $this->assertArrayHasKey('nb_users', $columns('API.get', 'nb_visits,nb_users'));
+        $this->assertArrayHasKey('nb_users_returning', $columns('VisitFrequency.get', 'nb_visits_returning,nb_users_returning'));
+    }
+
+    public function testSingleUniquesMetricsAreEstimatedOnYears()
+    {
+        $visitors = Request::processRequest('VisitsSummary.getUniqueVisitors', ['idSite' => 1, 'period' => 'year', 'date' => '2024-03-01']);
+        $users = Request::processRequest('VisitsSummary.getUsers', ['idSite' => 1, 'period' => 'year', 'date' => '2024-03-01']);
+
+        $this->assertSame(['nb_uniq_visitors'], array_keys($visitors->getFirstRow()->getColumns()));
+        $this->assertEqualsWithDelta($this->countExact('idvisitor', 1, 10), $visitors->getFirstRow()->getColumn('nb_uniq_visitors'), 2);
+        $this->assertSame(['nb_users'], array_keys($users->getFirstRow()->getColumns()));
+        $this->assertEqualsWithDelta($this->countExact('user_id', 1, 10), $users->getFirstRow()->getColumn('nb_users'), 2);
+    }
+
+    public function testYearWithoutAnEstimateHasNoUniquesAnywhere()
+    {
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
+        $this->getVisitsSummary('day', '2024-03-01');
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+
+        $visitors = Request::processRequest('VisitsSummary.getUniqueVisitors', ['idSite' => 1, 'period' => 'year', 'date' => '2024-03-01']);
+        $users = Request::processRequest('VisitsSummary.getUsers', ['idSite' => 1, 'period' => 'year', 'date' => '2024-03-01']);
+
+        $this->assertFalse($visitors->getFirstRow() ? $visitors->getFirstRow()->getColumn('nb_uniq_visitors') : false);
+        $this->assertFalse($users->getFirstRow() ? $users->getFirstRow()->getColumn('nb_users') : false);
+        $this->assertStringNotContainsString('VisitsSummary_NbUniqueVisitorsEstimated', $this->getSparklines('year', '2024-03-01'));
+    }
+
+    public function testSparklinesShowTheEstimateOnYears()
+    {
+        $this->assertStringContainsString('VisitsSummary_NbUniqueVisitorsEstimated', $this->getSparklines('year', '2024-03-01'));
     }
 
     public function getSplitColumns(): array
@@ -284,6 +371,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $after = $this->getVisitsSummary('month', '2024-03-01');
         $this->assertSame($before['nb_uniq_visitors'], $after['nb_uniq_visitors']);
         $this->assertSame($before['nb_users'], $after['nb_users']);
+        $this->assertSame(1, $after['uniques_estimated']);
     }
 
     public function testArchivesCoveringSeveralSitesAreNotEstimated()
@@ -305,6 +393,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertSame(self::VISITS_PER_DAY * 10, (int) $row['nb_visits']);
         // as with the setting off, unique visitors across several sites are not processed
         $this->assertArrayNotHasKey('nb_uniq_visitors', $row);
+        $this->assertSame(0, $row['uniques_estimated']);
         $this->assertNull($this->getStoredSketch('day', '2024-03-01', PluginsArchiver::UNIQUE_VISITORS_SKETCH_RECORD, $idRollUp));
         $this->assertNull($this->getStoredSketch('month', '2024-03-01', PluginsArchiver::UNIQUE_VISITORS_SKETCH_RECORD, $idRollUp));
     }
@@ -314,8 +403,12 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
      */
     public function testEstimatedColumnsAreLabelledOnLongerPeriodsOnly(string $module, string $suffix)
     {
-        $labels = function (string $period) use ($module, $suffix) {
-            $metadata = Request::processRequest('API.getReportMetadata', ['idSite' => 1, 'period' => $period, 'date' => '2024-03-01']);
+        $labels = function (?string $period) use ($module, $suffix) {
+            $params = ['idSite' => 1, 'date' => '2024-03-01'];
+            if ($period !== null) {
+                $params['period'] = $period;
+            }
+            $metadata = Request::processRequest('API.getReportMetadata', $params);
             foreach ($metadata as $report) {
                 if ($report['module'] === $module && $report['action'] === 'get') {
                     return [$report['metrics']["nb_uniq_visitors$suffix"], $report['metrics']["nb_users$suffix"]];
@@ -326,7 +419,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         };
 
         // tests don't load translations, so the labels are the translation keys
-        foreach ($labels('day') as $label) {
+        foreach (array_merge($labels('day'), $labels(null)) as $label) {
             $this->assertStringNotContainsString('Estimated', $label);
         }
 
@@ -341,7 +434,28 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
             'all visitors' => ['VisitsSummary', ''],
             'new visitors' => ['VisitFrequency', '_new'],
             'human visitors' => ['AIAgents', '_human'],
+            'main metrics, all visitors' => ['API', ''],
+            'main metrics, returning visitors' => ['API', '_returning'],
+            'main metrics, AI agents' => ['API', '_ai_agent'],
         ];
+    }
+
+    public function testMainMetricsKeepTheEstimateOnYears()
+    {
+        $report = Request::processRequest('API.getProcessedReport', [
+            'idSite' => 1,
+            'period' => 'year',
+            'date' => '2024-03-01',
+            'apiModule' => 'API',
+            'apiAction' => 'get',
+            'format_metrics' => 0,
+        ]);
+        $row = $report['reportData']->getFirstRow()->getColumns();
+
+        $this->assertSame('VisitsSummary_ColumnNbUniqVisitorsEstimated', $report['metadata']['metrics']['nb_uniq_visitors']);
+        $this->assertSame('VisitFrequency_ColumnUniqueReturningVisitorsEstimated', $report['metadata']['metrics']['nb_uniq_visitors_returning']);
+        $this->assertEqualsWithDelta($this->countExact('idvisitor', 1, 10), $row['nb_uniq_visitors'], 2);
+        $this->assertEqualsWithDelta($this->countExact('user_id', 1, 10), $row['nb_users'], 2);
     }
 
     public function testEvolutionGraphLabelsTheEstimate()
@@ -362,6 +476,19 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         }
 
         $this->assertStringContainsString('"label":"VisitsSummary_ColumnNbUniqVisitorsEstimated"', html_entity_decode($html, ENT_QUOTES));
+    }
+
+    private function getSparklines(string $period, string $date): string
+    {
+        [$get, $request] = [$_GET, $_REQUEST];
+        $_GET = $_REQUEST = ['idSite' => 1, 'period' => $period, 'date' => $date];
+        try {
+            $html = FrontController::getInstance()->fetchDispatch('VisitsSummary', 'getSparklines');
+        } finally {
+            [$_GET, $_REQUEST] = [$get, $request];
+        }
+
+        return html_entity_decode($html, ENT_QUOTES);
     }
 
     private static function trackVisits(): void

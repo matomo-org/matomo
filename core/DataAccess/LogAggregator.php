@@ -725,8 +725,12 @@ class LogAggregator
     {
         $tableName = self::LOG_VISIT_TABLE;
 
+        // User IDs are compared by the column's collation when counted exactly, so 'Alice' and 'alice' are one
+        // user; hashing their collation weight keeps that. Visitor IDs are binary
+        $value = $column === 'user_id' ? "WEIGHT_STRING($tableName.$column)" : "$tableName.$column";
+
         // first 64 bits of MD5, so IDs supplied by users (cid, uid) are spread evenly too
-        $hash = "CAST(CONV(SUBSTRING(MD5($tableName.$column), 1, 16), 16, 10) AS UNSIGNED)";
+        $hash = "CAST(CONV(SUBSTRING(MD5($value), 1, 16), 16, 10) AS UNSIGNED)";
 
         // visits without a User ID have none to count
         $where = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, "%s.$column IS NOT NULL");
