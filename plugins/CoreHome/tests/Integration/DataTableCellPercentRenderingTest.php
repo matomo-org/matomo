@@ -78,6 +78,16 @@ class DataTableCellPercentRenderingTest extends IntegrationTestCase
     }
 
     /**
+     * Metrics are already formatted before they reach the HTML table. Applying the generic
+     * number filter here would discard precision chosen by the metric formatter.
+     */
+    public function testMetricFormattingPrecisionIsPreserved(): void
+    {
+        self::assertSame('100.00%', $this->renderCellValue('en', '100.00%'));
+        self::assertSame('0.125', $this->renderCellValue('en', '0.125'));
+    }
+
+    /**
      * The value cell is not decoded any more, so escaping is all that stands between a column
      * value and the page.
      */
