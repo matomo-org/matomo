@@ -298,6 +298,29 @@ class LogFormatTest extends IntegrationTestCase
         $container->make(FileHandler::class);
     }
 
+    public function testNonStringFormatThrows()
+    {
+        $container = $this->createContainer(['ini.log.log_format' => ['json']]);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid log format "array" configured for the "file" log writer.');
+
+        $container->make(FileHandler::class);
+    }
+
+    public function testFormatClassThatIsNoFormatterThrows()
+    {
+        $container = $this->createContainer([
+            'ini.log.log_format' => 'custom',
+            'log.formatter.classes' => \Piwik\DI::add(['custom' => \stdClass::class]),
+        ]);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The log format "custom" does not resolve to a Monolog\Formatter\FormatterInterface.');
+
+        $container->make(FileHandler::class);
+    }
+
     private function getLogFileRecords(): array
     {
         $this->assertFileExists(self::getLogFileLocation());
