@@ -49,16 +49,16 @@ class DependencyTest extends IntegrationTestCase
     public function testGetMissingDependenciesMultipleConditions()
     {
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '<2.0'), array(
-            $this->missingPhp('<5.2'),
-            $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0'),
+            $this->missingPhp('<5.2', null, true),
+            $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0', true),
         ));
 
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '>=4.0.0-b1,<9.0'), array(
-            $this->missingPhp('<5.2'),
+            $this->missingPhp('<5.2', null, true),
         ));
 
         $this->assertMissingDependency(array('php' => '<9.2', 'piwik' => '<2.0'), array(
-            $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0'),
+            $this->missingPiwik('>=2.0.0-b1,<2.0', '<2.0', true),
         ));
 
         $this->assertMissingDependency(array('php' => '<9.2', 'piwik' => '>=2.0,<9.0'), array());
@@ -67,11 +67,11 @@ class DependencyTest extends IntegrationTestCase
     public function testGetMissingDependenciesMultipleConditionsDifferentConditions()
     {
         $this->assertMissingDependency(array('php' => '<5.2', 'piwik' => '>2.0,<9.0.0'), array(
-            $this->missingPhp('<5.2'),
+            $this->missingPhp('<5.2', null, true),
         ));
 
         $this->assertMissingDependency(array('php' => '>=5.3', 'piwik' => '>1.0,<2.0'), array(
-            $this->missingPiwik('>1.0,<2.0', '<2.0'),
+            $this->missingPiwik('>1.0,<2.0', '<2.0', true),
         ));
 
         $this->assertMissingDependency(array('php' => '!=' . $this->formatPhpVersion(), 'piwik' => '<>' . Version::VERSION), array(
@@ -80,11 +80,49 @@ class DependencyTest extends IntegrationTestCase
         ));
     }
 
+    public function testGetMissingDependenciesMarksActualVersionTooNewWhenNoNewerVersionIsAccepted()
+    {
+        $this->assertMissingDependency(array('piwik' => '>=4.0.0,<5.0.0-b1'), array(
+            $this->missingPiwik('>=4.0.0,<5.0.0-b1', '<5.0.0-b1', true),
+        ));
+
+        $this->assertMissingDependency(array('piwik' => '^4.0'), array(
+            $this->missingPiwik('^4.0,<5.0.0-b1', '^4.0, <5.0.0-b1', true),
+        ));
+
+        $this->assertMissingDependency(array('php' => '<=5.2'), array(
+            $this->missingPhp('<=5.2', null, true),
+        ));
+
+        $this->assertMissingDependency(array('php' => '>=5.0 <7.0'), array(
+            $this->missingPhp('>=5.0 <7.0', null, true),
+        ));
+
+        $this->assertMissingDependency(array('php' => '~5.2'), array(
+            $this->missingPhp('~5.2', null, true),
+        ));
+    }
+
+    public function testGetMissingDependenciesDoesNotMarkActualVersionTooNewWhenANewerVersionIsAccepted()
+    {
+        $this->assertMissingDependency(array('piwik' => '>=99.0.0,<100.0.0'), array(
+            $this->missingPiwik('>=99.0.0,<100.0.0', '>=99.0.0'),
+        ));
+
+        $this->assertMissingDependency(array('php' => '<7.0 || >=99.0'), array(
+            $this->missingPhp('<7.0 || >=99.0'),
+        ));
+
+        $this->assertMissingDependency(array('unkNowN' => '<1.0'), array(
+            $this->buildMissingDependecy('unkNowN', '', '<1.0'),
+        ));
+    }
+
     public function testGetMissingVersionANDCondition()
     {
         $this->assertMissingDependency(array('php' => '<2.0,>=9.0', 'piwik' => '>=3.0.0-b1,<4.0.0-b1'), array(
-            $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0'),
-            $this->missingPiwik('>=3.0.0-b1,<4.0.0-b1', '<4.0.0-b1'),
+            $this->missingPhp('<2.0,>=9.0', '<2.0, >=9.0', true),
+            $this->missingPiwik('>=3.0.0-b1,<4.0.0-b1', '<4.0.0-b1', true),
         ));
     }
 
@@ -275,27 +313,28 @@ class DependencyTest extends IntegrationTestCase
         );
     }
 
-    private function missingPiwik($requiredVersion, $causedBy = null)
+    private function missingPiwik($requiredVersion, $causedBy = null, $actualVersionTooNew = false)
     {
-        return $this->buildMissingDependecy('piwik', Version::VERSION, $requiredVersion, $causedBy);
+        return $this->buildMissingDependecy('piwik', Version::VERSION, $requiredVersion, $causedBy, $actualVersionTooNew);
     }
 
-    private function missingPhp($requiredVersion, $causedBy = null)
+    private function missingPhp($requiredVersion, $causedBy = null, $actualVersionTooNew = false)
     {
-        return $this->buildMissingDependecy('php', $this->formatPhpVersion(), $requiredVersion, $causedBy);
+        return $this->buildMissingDependecy('php', $this->formatPhpVersion(), $requiredVersion, $causedBy, $actualVersionTooNew);
     }
 
-    private function buildMissingDependecy($name, $currentVersion, $requiredVersion, $causedBy = null)
+    private function buildMissingDependecy($name, $currentVersion, $requiredVersion, $causedBy = null, $actualVersionTooNew = false)
     {
         if (is_null($causedBy)) {
             $causedBy = $requiredVersion;
         }
 
         return array(
-            'requirement'     => $name,
-            'actualVersion'   => $currentVersion,
-            'requiredVersion' => $requiredVersion,
-            'causedBy'        => $causedBy,
+            'requirement'         => $name,
+            'actualVersion'       => $currentVersion,
+            'requiredVersion'     => $requiredVersion,
+            'causedBy'            => $causedBy,
+            'actualVersionTooNew' => $actualVersionTooNew,
         );
     }
 
