@@ -105,7 +105,50 @@ class LogFormatTest extends IntegrationTestCase
         $this->assertSame('url is index.php?token_auth=removed', $records[0]['message']);
         $this->assertSame(['index.php?token_auth=removed'], $records[0]['context']);
         $this->assertSame('exception mentions smtppass', $records[1]['context']['exception']['message']);
+        $this->assertStringStartsWith('/plugins/Monolog/tests/Integration/LogFormatTest.php:', $records[1]['context']['exception']['file']);
         $this->assertSame('caused by smtppass', $records[1]['context']['exception']['previous']['message']);
+    }
+
+    public function testJsonFileLoggingRedactsFatalErrorAndPhpErrorContext()
+    {
+        $logger = $this->recreateLogSingleton('file', ['ini.log.log_format' => 'json']);
+
+        Config::getInstance()->mail['password'] = 'smtp-secret-value';
+
+        $logger->error('Fatal error encountered: {exception}', [
+            'exception' => [
+                'type' => E_ERROR,
+                'message' => 'fatal mentions smtp-secret-value',
+                'file' => PIWIK_DOCUMENT_ROOT . '/core/Fatal.php',
+                'line' => 12,
+                'backtrace' => ' on ' . PIWIK_DOCUMENT_ROOT . "/core/Fatal.php(12)\n#0 smtp-secret-value",
+            ],
+        ]);
+        $logger->warning('Notice: something', [
+            'trace' => [['file' => PIWIK_DOCUMENT_ROOT . '/core/Notice.php', 'line' => 34, 'function' => 'run']],
+        ]);
+
+        $contents = file_get_contents(self::getLogFileLocation());
+        $this->assertStringNotContainsString('smtp-secret-value', $contents);
+        $this->assertStringNotContainsString(PIWIK_DOCUMENT_ROOT, $contents);
+
+        $records = $this->getLogFileRecords();
+        $this->assertSame('fatal mentions smtppass', $records[0]['context']['exception']['message']);
+        $this->assertSame('/core/Fatal.php', $records[0]['context']['exception']['file']);
+        $this->assertSame(" on /core/Fatal.php(12)\n#0 smtppass", $records[0]['context']['exception']['backtrace']);
+        $this->assertSame('/core/Notice.php', $records[1]['context']['trace'][0]['file']);
+    }
+
+    public function testArchiveProfilingLogAlwaysUsesTextFormat()
+    {
+        $container = $this->createContainer([
+            'ini.log.log_format' => 'json',
+            'ini.Debug.archive_profiling_log' => self::getLogFileLocation(),
+        ]);
+
+        $handlers = $container->get('archiving.performance.handlers');
+
+        $this->assertInstanceOf(LineMessageFormatter::class, $handlers[0]->getFormatter());
     }
 
     public function testLogglyFileLoggingWritesOneJsonObjectPerLine()
@@ -245,10 +288,13 @@ class LogFormatTest extends IntegrationTestCase
         return $newEnv->getContainer();
     }
 
-    private function recreateLogSingleton(string $backend, array $definitions): void
+    private function recreateLogSingleton(string $backend, array $definitions): Log\LoggerInterface
     {
         $container = $this->createContainer($definitions + ['ini.log.log_writers' => [$backend]]);
 
-        Log::setSingletonInstance(new Log($container->make(Log\LoggerInterface::class)));
+        $logger = $container->make(Log\LoggerInterface::class);
+        Log::setSingletonInstance(new Log($logger));
+
+        return $logger;
     }
 }
