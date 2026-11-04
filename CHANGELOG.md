@@ -8,11 +8,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
+* `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive, which it previously dropped, and after how many failed attempts it stops retrying.
 
 ### New APIs
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
+
+### New commands
+* `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
 
 ### Deprecations
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
