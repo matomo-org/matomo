@@ -1,45 +1,4 @@
 <div class="SegmentEditor" style="display:none;">
-    <div class="segmentationContainer listHtml">
-        <a class="title" tabindex="4" title="{{ 'SegmentEditor_ChooseASegment'|translate }}. {{ 'SegmentEditor_CurrentlySelectedSegment'|translate(segmentDescription) }}">
-            <span class="icon icon-segment"></span><span class="segmentationTitle"></span>
-        </a>
-        <div class="dropdown dropdown-body">
-            <div class="segmentFilterContainer">
-                <input class="segmentFilter browser-default" type="text" tabindex="4" value="" placeholder="{{ 'General_Search'|translate }}"/>
-                <span></span>
-            </div>
-            <ul class="submenu">
-                <li>{{ 'SegmentEditor_SelectSegmentOfVisits'|translate }}
-                    <div class="segmentList">
-                        <ul>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-
-            {% if authorizedToCreateSegments %}
-                <button tabindex="4" class="add_new_segment btn">
-                    <span class="icon-add"></span>&nbsp;
-                    {{ 'SegmentEditor_AddNewSegment'|translate }}
-                </button>
-                <a href="index.php?{{ manageSegmentUrl|urlRewriteWithParameters|slice(1) }}" tabindex="4" class="btn btn-block btn-outline">
-                    {{ 'SegmentEditor_ManageSegments'|translate }}
-                </a>
-            {% else %}
-                <hr/>
-                <ul class="submenu">
-                <li>
-                    {% if isUserAnonymous %}
-                        <span class='youMustBeLoggedIn'>{{ 'SegmentEditor_YouMustBeLoggedInToCreateSegments'|translate }}
-                        <br/>&rsaquo; <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a> </span>
-                    {% endif %}
-                </li>
-                </ul>
-                <br/><br/>
-            {% endif %}
-        </div>
-    </div>
-
     <div class="segment-element borderedControl expanded">
 
         <div class="segment-content">

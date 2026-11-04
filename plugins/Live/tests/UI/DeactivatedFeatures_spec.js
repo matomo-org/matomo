@@ -165,8 +165,8 @@ describe("DeactivatedFeatures", function () {
     it('it should show button to test new segments with enabled visits log', async function () {
         await setFeatures(1, 0, 1);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-07-09#?idSite=1&period=year&date=2012-07-09&category=General_Visitors&subcategory=General_Overview");
-        await page.waitForSelector('.segmentationContainer');
-        await page.click('.segmentationContainer');
+        await page.waitForSelector('.segmentListContainer .mtm-selector__trigger');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await page.click('.add_new_segment');
 
         const element = await page.$('.segmentEditorPanel .testSegment');
@@ -176,8 +176,8 @@ describe("DeactivatedFeatures", function () {
     it('it should not show button to test new segments with disabled visits log', async function () {
         await setFeatures(1, 1, 1);
         await page.reload();
-        await page.waitForSelector('.segmentationContainer');
-        await page.click('.segmentationContainer');
+        await page.waitForSelector('.segmentListContainer .mtm-selector__trigger');
+        await page.click('.segmentListContainer .mtm-selector__trigger');
         await page.click('.add_new_segment');
 
         const element = await page.$('.segmentEditorPanel .testSegment');
