@@ -15,6 +15,7 @@ use Piwik\Db;
 use Piwik\IP;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\UsersManager\Model;
@@ -274,7 +275,7 @@ class TwoFactorAuthentication
     public function recordFailedAuthAttempt(string $login): void
     {
         try {
-            $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
+            $bruteForce = StaticContainer::get(BruteForceDetection::class);
             if ($bruteForce->isEnabled()) {
                 $bruteForce->addFailedAttempt(IP::getIpFromHeader(), $login);
             }

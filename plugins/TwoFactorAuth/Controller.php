@@ -12,11 +12,13 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\BadRequestException;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Login\WhatsNewProvider;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
+use Piwik\Request;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionNamespace;
 use Piwik\Url;
@@ -156,11 +158,19 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('Two-factor authentication cannot be disabled as it is enforced');
         }
 
-        $nonce = Common::getRequestVar('disableNonce', null, 'string');
-        $params = array('module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth', 'disableNonce' => $nonce);
+        $nonce = Request::fromRequest()->getStringParameter('disableNonce', '');
+        if (!Nonce::verifyNonce(self::DISABLE_2FA_NONCE, $nonce)) {
+            throw new BadRequestException(Piwik::translate('General_ExceptionSecurityCheckFailed'));
+        }
+
+        $params = [
+            'module' => 'TwoFactorAuth',
+            'action' => 'disableTwoFactorAuth',
+            'disableNonce' => Nonce::getNonce(self::DISABLE_2FA_NONCE),
+        ];
 
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-            Nonce::checkNonce(self::DISABLE_2FA_NONCE, $nonce);
+            Nonce::discardNonce(self::DISABLE_2FA_NONCE);
 
             $this->twoFa->disable2FAforUser(Piwik::getCurrentUserLogin());
             $this->passwordVerify->forgetVerifiedPassword();
@@ -234,8 +244,9 @@ class Controller extends \Piwik\Plugin\Controller
         $secret = $session->secret;
         $session->setExpirationSeconds(60 * 15, 'secret');
 
-        $authCode = Common::getRequestVar('authCode', '', 'string');
-        $authCodeNonce = Common::getRequestVar('authCodeNonce', '', 'string');
+        $request = Request::fromRequest();
+        $authCode = $request->getStringParameter('authCode', '');
+        $authCodeNonce = $request->getStringParameter('authCodeNonce', '');
         $hasSubmittedForm = !empty($authCodeNonce) || !empty($authCode);
         $accessErrorString = '';
         $login = Piwik::getCurrentUserLogin();
@@ -313,7 +324,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->validator->checkVerified2FA();
         $this->validator->check2FaEnabled();
 
-        $regenerateNonce = Common::getRequestVar('regenerateNonce', '', 'string', $_POST);
+        $regenerateNonce = Request::fromPost()->getStringParameter('regenerateNonce', '');
         $postedValidNonce = !empty($regenerateNonce) && Nonce::verifyNonce(
             self::REGENERATE_CODES_2FA_NONCE,
             $regenerateNonce

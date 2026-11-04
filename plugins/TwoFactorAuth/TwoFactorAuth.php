@@ -11,7 +11,6 @@ namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Access;
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
@@ -148,7 +147,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         if (Piwik::getModule() === 'Login' && Piwik::getAction() === 'logme' && $login) {
             // we allow user to send an "authCode" along logme to directly log in... if not, user will see the
             // auth code verification screen after logme
-            $authCode = Common::getRequestVar('authCode', '', 'string');
+            $authCode = \Piwik\Request::fromRequest()->getStringParameter('authCode', '');
             $twoFa = $this->getTwoFa();
 
             if ($authCode && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
