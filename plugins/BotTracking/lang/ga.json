@@ -108,6 +108,10 @@
         "TopPageUrlsLast30MinutesDocumentation": "Taispeánann sé URLanna leathanaigh arna n-iarraidh ag comhrábotanna AI le 30 nóiméad anuas, in ord de réir iarratais comhrábot.",
         "TopPageUrlsLast30MinutesTitle": "URLanna na Leathanaigh is Fearr - 30 nóiméad deireanacha",
         "TopPageUrlsLast8HoursDocumentation": "Taispeánann sé URLanna leathanaigh arna n-iarraidh ag comhrábotanna AI le linn na 8 n-uaire an chloig seo caite, in ord de réir iarratais comhrábot.",
-        "TopPageUrlsLast8HoursTitle": "URLanna Barrleathanaigh - 8 n-uaire an chloig dheireanacha"
+        "TopPageUrlsLast8HoursTitle": "URLanna Barrleathanaigh - 8 n-uaire an chloig dheireanacha",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "Cóimheas tráchta do bhotaí comhrá AI",
+        "ColumnAIChatbotTrafficRatioDocumentation": "An cóimheas idir iarratais ar chomhrá-bhaill AI agus radhairc leathanach a rinne daoine, go díreach nó trí ghníomhairí AI. Ciallaíonn luach 2.0× go raibh dhá oiread iarratas ar chomhrá-bhaill AI ann agus a bhí de radhairc leathanach."
     }
 }
