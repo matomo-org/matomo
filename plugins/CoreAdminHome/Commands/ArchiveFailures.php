@@ -68,23 +68,47 @@ Usage examples:
     protected function doExecute(): int
     {
         $archiveFailures = new ArchiveFailuresDao();
-        $failures = $archiveFailures->getFailures($this->getIdSites(), (bool) $this->getInput()->getOption('given-up'));
+        $idSites = $this->getIdSites();
+        $givenUpOnly = (bool) $this->getInput()->getOption('given-up');
 
-        if (empty($failures)) {
+        if ($this->getInput()->getOption('reset')) {
+            $count = 0;
+            $idFailures = [];
+            foreach ($archiveFailures->iterateFailures($idSites, $givenUpOnly, false) as $failure) {
+                $idFailures[] = $failure['idfailure'];
+                if (count($idFailures) >= 1000) {
+                    $count += $archiveFailures->deleteFailuresById($idFailures);
+                    $idFailures = [];
+                }
+            }
+            $count += $archiveFailures->deleteFailuresById($idFailures);
+
+            if ($count === 0) {
+                $this->getOutput()->writeln('No failed archives found.');
+            } else {
+                $this->getOutput()->writeln("Number of failed archives that were reset: $count. They will be processed in the next core:archive run.");
+            }
+
+            return self::SUCCESS;
+        }
+
+        $count = 0;
+        $failures = [];
+        foreach ($archiveFailures->iterateFailures($idSites, $givenUpOnly) as $failure) {
+            ++$count;
+            if (count($failures) < self::MAX_ROWS_TO_LIST) {
+                $failures[] = $failure;
+            }
+        }
+
+        if ($count === 0) {
             $this->getOutput()->writeln('No failed archives found.');
             return self::SUCCESS;
         }
 
-        if ($this->getInput()->getOption('reset')) {
-            $count = $archiveFailures->deleteFailuresById(array_column($failures, 'idfailure'));
-            $this->getOutput()->writeln("Number of failed archives that were reset: $count. They will be processed in the next core:archive run.");
-            return self::SUCCESS;
-        }
-
-        $this->getOutput()->writeln(count($failures) . ' failed archives found:');
-        if (count($failures) > self::MAX_ROWS_TO_LIST) {
-            $failures = array_slice($failures, 0, self::MAX_ROWS_TO_LIST);
-            $this->getOutput()->writeln('Output limited to oldest ' . self::MAX_ROWS_TO_LIST . ' records');
+        $this->getOutput()->writeln($count . ' failed archives found:');
+        if ($count > self::MAX_ROWS_TO_LIST) {
+            $this->getOutput()->writeln('Output limited to the oldest ' . self::MAX_ROWS_TO_LIST . ' records');
         }
 
         $periods = array_flip(Piwik::$idPeriods);

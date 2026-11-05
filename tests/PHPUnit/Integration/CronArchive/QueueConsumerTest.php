@@ -562,6 +562,44 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals(10, Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE status = 0'));
     }
 
+    public function testInvalidationAddedDuringTheRunForAFailedArchiveIsSkipped()
+    {
+        Fixture::createWebsite('2015-02-03');
+
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+        $queueConsumer = new QueueConsumer(new NullLogger(), new FixedSiteIds([1]), 1, 24, new Model(), new SegmentArchiving(), $cronArchive);
+
+        $this->insertArchiveFailures([
+            ['date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'attempts' => 1, 'ts_retry_after' => Date::now()->addHour(1)->getDatetime()],
+        ]);
+        $this->insertInvalidations([
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => Day::PERIOD_ID],
+        ]);
+
+        $processed = [];
+        $next = $queueConsumer->getNextArchivesToProcess();
+        $processed[] = $next[0]['date1'];
+        Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$next[0]['idinvalidation']]);
+
+        // eg invalidated again by a user while archiving runs
+        $this->insertInvalidations([
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID],
+        ]);
+
+        while (null !== ($next = $queueConsumer->getNextArchivesToProcess())) {
+            foreach ($next as $item) {
+                $processed[] = $item['date1'];
+                Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$item['idinvalidation']]);
+            }
+        }
+
+        $this->assertSame(['2018-03-08', '2018-03-07'], $processed);
+        $this->assertEquals(2, Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE date1 = ?', ['2018-03-06']));
+    }
+
     public function testPluginInvalidationDeletedIfUsableArchiveExists()
     {
         Fixture::createWebsite('2015-02-03');

@@ -234,20 +234,42 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['ids' => [], 'validUntil' => null], $this->archiveFailures->getBlockedInvalidationIds(2));
     }
 
-    public function testFingerprintChangesWithFailuresAndInvalidations()
+    public function testIterateFailuresLoadsAllFailuresInChunks()
     {
-        $this->assertSame('', $this->archiveFailures->getFingerprint(1));
+        Config::getInstance()->General['archive_failure_max_attempts'] = 2;
+        for ($day = 1; $day <= 5; $day++) {
+            $invalidation = $this->getInvalidation(['date1' => "2020-01-0$day", 'date2' => "2020-01-0$day"]);
+            $this->archiveFailures->recordFailure($invalidation, 'error');
+            if ($day % 2 === 0) {
+                $this->archiveFailures->recordFailure($invalidation, 'error');
+            }
+        }
+
+        $dates = [];
+        foreach ($this->archiveFailures->iterateFailures([], false, false, 2) as $failure) {
+            $dates[] = $failure['date1'];
+            $this->assertArrayNotHasKey('last_error', $failure);
+        }
+        $this->assertSame(['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05'], $dates);
+
+        $givenUp = array_column(iterator_to_array($this->archiveFailures->iterateFailures([1], true, true, 2), false), 'date1');
+        $this->assertSame(['2020-01-02', '2020-01-04'], $givenUp);
+    }
+
+    public function testFailureStateChangesWithFailuresAndNewInvalidations()
+    {
+        $this->assertNull($this->archiveFailures->getFailureState(1));
 
         $this->archiveFailures->recordFailure($this->getInvalidation(), 'error');
-        $fingerprint = $this->archiveFailures->getFingerprint(1);
-        $this->assertNotSame('', $fingerprint);
+        $state = $this->archiveFailures->getFailureState(1);
+        $this->assertNotNull($state);
 
         $this->archiveFailures->recordFailure($this->getInvalidation(), 'error');
-        $this->assertNotSame($fingerprint, $fingerprint = $this->archiveFailures->getFingerprint(1));
+        $this->assertNotSame($state['failures'], $this->archiveFailures->getFailureState(1)['failures']);
 
-        $this->insertInvalidations(['new invalidation' => [1, '2020-02-04', '2020-02-04']]);
-        $this->assertNotSame($fingerprint, $this->archiveFailures->getFingerprint(1));
-        $this->assertSame('', $this->archiveFailures->getFingerprint(2));
+        $ids = $this->insertInvalidations(['new invalidation' => [1, '2020-02-04', '2020-02-04']]);
+        $this->assertSame($ids['new invalidation'], $this->archiveFailures->getFailureState(1)['maxIdInvalidation']);
+        $this->assertNull($this->archiveFailures->getFailureState(2));
     }
 
     /**
