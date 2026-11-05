@@ -120,6 +120,7 @@
         "PluginRequestAlreadyDecided": "Another Super User has already responded to the requests for this plugin.",
         "PluginAlreadyRequested": "You have already requested this plugin.",
         "NoPendingPluginRequests": "There are no pending requests for this plugin.",
+        "FreePluginHasNoTrial": "This plugin is free, so it has no trial. Install it instead.",
         "InstallRequestedNotification": "A user has requested to install the %1$s plugin. To install it, go to %2$sthe marketplace%3$s and click on “Install”.",
         "RequestInstallNotificationEmailIntro": "A user of your Matomo instance has requested to install the %s plugin.",
         "RequestInstallNotificationEmailHowToInstallIntro": "To install it:",

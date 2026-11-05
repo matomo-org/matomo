@@ -259,6 +259,12 @@ class API extends \Piwik\Plugin\API
         // checked first, so no trial is started for requests another super user has already decided on
         $this->checkHasPendingRequests($pluginName);
 
+        // free plugins have no trial, and are installed instead
+        $pluginInfo = $this->marketplaceClient->getPluginInfo($pluginName);
+        if (!empty($pluginInfo['isFree'])) {
+            throw new Exception(Piwik::translate('Marketplace_FreePluginHasNoTrial'));
+        }
+
         $this->startFreeTrial($pluginName);
 
         // the trial is running now, so the requests another super user declined while it was started are left declined
@@ -289,6 +295,11 @@ class API extends \Piwik\Plugin\API
     private function checkHasPendingRequests(string $pluginName): void
     {
         $this->checkValidPluginName($pluginName);
+
+        // requests Matomo did not approve on activation, eg as Matomo before 6.1 still served it, are approved now
+        if ($this->pluginManager->isPluginActivated($pluginName)) {
+            $this->pluginTrialService->cancelRequest($pluginName);
+        }
 
         if (!$this->pluginTrialService->hasPendingRequests($pluginName)) {
             throw new Exception(Piwik::translate('Marketplace_NoPendingPluginRequests'));

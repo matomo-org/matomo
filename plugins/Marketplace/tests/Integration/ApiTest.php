@@ -614,6 +614,68 @@ class ApiTest extends IntegrationTestCase
         self::assertSame(['approved'], $this->getStoredDecisions());
     }
 
+    /**
+     * @dataProvider dataFreePluginRequestTypes
+     */
+    public function testApprovePluginTrialRefusesAFreePluginWithoutStartingATrial(string $requestMethod): void
+    {
+        $this->enablePluginRequests();
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+        $this->api->$requestMethod('Barometer');
+
+        $this->setSuperUser();
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function ($action) use ($service) {
+            if (str_ends_with($action, '/freeTrial')) {
+                self::fail('A trial was started for a free plugin');
+            }
+            return $service->getFixtureContent('v2.0_plugins_Barometer_info.json');
+        });
+
+        try {
+            $this->api->approvePluginTrial('Barometer');
+            self::fail('A free plugin was approved for a trial');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_FreePluginHasNoTrial', $e->getMessage());
+        }
+
+        self::assertSame([], $this->getStoredDecisions());
+        self::assertTrue((new Storage('Barometer'))->wasRequested());
+    }
+
+    public function dataFreePluginRequestTypes(): iterable
+    {
+        yield 'install request' => ['requestInstall'];
+        yield 'trial request' => ['requestTrial'];
+    }
+
+    /**
+     * Matomo before 6.1 approves nothing when it activates a plugin, so its requests stay pending if it still serves
+     * after the update, eg during a deployment
+     *
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsApproveTheRequestsOfAnAlreadyActivatedPlugin(string $method): void
+    {
+        $this->enablePluginRequests();
+        $this->setSuperUser();
+        StaticContainer::get(RequestHistory::class)->add('Marketplace', 'aUser', time());
+        $this->service->setOnDownloadCallback(static function () {
+            self::fail('The Marketplace was asked about an activated plugin');
+        });
+
+        try {
+            $this->api->$method('Marketplace');
+            self::fail('A decision was made for an activated plugin');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_NoPendingPluginRequests', $e->getMessage());
+        }
+
+        self::assertSame(['approved'], $this->getStoredDecisions());
+        self::assertFalse((new Storage('Marketplace'))->hasPendingRequests());
+    }
+
     public function testApprovePluginTrialKeepsTheRequestsPendingWhenTheTrialFails(): void
     {
         $this->enablePluginRequests();
