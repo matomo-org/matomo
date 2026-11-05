@@ -1030,7 +1030,7 @@ abstract class Controller
      * - **periodsNames** - List of available periods mapped to their singular and plural translations.
      *
      * @param View $view
-     * @throws Exception if the current period is invalid.
+     * @throws BadRequestException if the current period is invalid.
      * @api
      */
     public static function setPeriodVariablesView($view)
@@ -1045,7 +1045,7 @@ abstract class Controller
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
-            throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
+            throw new BadRequestException("Period must be one of: " . implode(", ", $availablePeriods));
         }
 
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
