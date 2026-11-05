@@ -286,46 +286,29 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertSame([['day', '2019-12-10', '1', '2020-02-03 05:05:06', 'not a JSON response']], $this->getFailures());
     }
 
-    public function testArchivingDoesNotRunWhileAnUpdateIsPending()
+    public function testArchivingStopsWithoutRecordingFailuresWhileAnUpdateIsPending()
     {
-        $this->archiveAndInvalidateDay();
+        $invalidations = $this->archiveAndInvalidateDay();
         Option::set('version_core', '6.0.0');
-        Config::getInstance()->General['enable_auto_update'] = 1;
-        Config::getInstance()->General['enable_internet_features'] = 1;
-
-        try {
-            $this->runArchiverMain();
-            $this->fail('Archiving did not fail');
-        } catch (\Exception $e) {
-            $this->assertStringContainsString("Archiving won't run because Matomo or plugins were updated and the database upgrade is still pending.", $e->getMessage());
-        }
-
-        $this->assertCount(4, $this->getInvalidations());
-    }
-
-    public function testArchivingRunsWhileAnUpdateIsPendingIfAutoUpdateIsDisabled()
-    {
-        $this->archiveAndInvalidateDay();
-        Option::set('version_core', '6.0.0');
-        Config::getInstance()->General['enable_auto_update'] = 0;
 
         $logger = new FakeLogger();
         $archiver = new CronArchive($logger);
         $archiver->skipInvalidatingRecentDates = true;
         $archiver->disableScheduledTasks = true;
+        $archiver->concurrentRequestsPerWebsite = 1;
 
         try {
             $archiver->main();
             $this->fail('Archiving did not fail');
         } catch (\Exception $e) {
-            // the sub-requests of this test still have auto update enabled, so they report the pending update
             $this->assertStringContainsString('1 total errors during this script execution', $e->getMessage());
         }
 
-        // archiving started, like requests do while an upgrade is pending without auto update
-        $this->assertStringNotContainsString("Archiving won't run", $logger->output);
-        $this->assertStringContainsString('Starting archiving for', $logger->output);
+        // the archiving requests report the pending upgrade, archiving stops after the first one
         $this->assertStringContainsString('Archiving stopped because Matomo or plugins were updated while archiving', $logger->output);
+        $this->assertSame(1, substr_count($logger->output, 'Starting archiving for'));
+        $this->assertSame([], $this->getFailures());
+        $this->assertSame($invalidations, $this->getInvalidations());
     }
 
     public function testFailureIsRemovedWhenThereIsNothingToArchive()
@@ -379,18 +362,6 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
             $invalidation['status'] = ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD;
             return $invalidation;
         }, $invalidations);
-    }
-
-    private function runArchiverMain(): string
-    {
-        $logger = new FakeLogger();
-
-        $archiver = new CronArchive($logger);
-        $archiver->skipInvalidatingRecentDates = true;
-        $archiver->disableScheduledTasks = true;
-        $archiver->main();
-
-        return $logger->output;
     }
 
     private function setNow(string $now): void

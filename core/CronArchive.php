@@ -293,11 +293,6 @@ class CronArchive
             return;
         }
 
-        // like requests, which only fail while an upgrade is pending if auto update is enabled
-        if (SettingsPiwik::isAutoUpdateEnabled() && (new Updater())->getComponentUpdates() !== null) {
-            $this->logFatalError("Archiving won't run because Matomo or plugins were updated and the database upgrade is still pending. Run ./console core:update first.");
-        }
-
         $self = $this;
         /*
          * Archiving tasks need to be performed as super, to ensure we pass any permission check.
