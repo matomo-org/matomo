@@ -15,7 +15,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
@@ -162,25 +161,33 @@ class ArchiveFailures
 
     /**
      * @param int[] $idSites restricts the result to these sites, all sites if empty
+     * @param bool $withError whether to include the last_error column
      * @return array[] failure rows, oldest first, each with its 'state'
      */
-    public function getFailures(array $idSites = [], bool $givenUpOnly = false): array
+    public function getFailures(array $idSites = [], bool $givenUpOnly = false, bool $withError = true): array
     {
         if (!self::isAvailable()) {
             return [];
         }
 
+        $columns = $withError
+            ? 'f.*'
+            : 'f.idfailure, f.idsite, f.name, f.period, f.date1, f.date2, f.report, f.attempts, f.ts_first_failed, f.ts_last_failed, f.ts_retry_after';
+
         // failures of deleted sites are removed by a scheduled task
-        $sql = "SELECT f.* FROM `" . self::getTable() . "` f INNER JOIN `" . Common::prefixTable('site') . "` s ON s.idsite = f.idsite";
+        $sql = "SELECT $columns FROM `" . self::getTable() . "` f INNER JOIN `" . Common::prefixTable('site') . "` s ON s.idsite = f.idsite";
         if (!empty($idSites)) {
             $sql .= " WHERE f.idsite IN (" . implode(',', array_map('intval', $idSites)) . ")";
         }
         $sql .= " ORDER BY f.ts_first_failed ASC, f.idfailure ASC";
 
         $now = Date::now()->getDatetime();
+        $maxAttempts = [];
         $failures = [];
         foreach (Db::fetchAll($sql) as $failure) {
-            $failure['state'] = $this->getState($failure, $now);
+            $idSite = (int) $failure['idsite'];
+            $maxAttempts[$idSite] = $maxAttempts[$idSite] ?? self::getMaxAttempts($idSite);
+            $failure['state'] = $this->getState($failure, $now, $maxAttempts[$idSite]);
 
             if (!$givenUpOnly || $failure['state'] === self::STATE_GIVEN_UP) {
                 $failures[] = $failure;
@@ -188,6 +195,48 @@ class ArchiveFailures
         }
 
         return $failures;
+    }
+
+    /**
+     * Like getFailures(), but loads them in chunks, in the order they were first recorded, to keep the memory use
+     * bounded for any number of failures.
+     *
+     * @param int[] $idSites restricts the result to these sites, all sites if empty
+     * @return \Generator<array> failure rows, each with its 'state'
+     */
+    public function iterateFailures(array $idSites = [], bool $givenUpOnly = false, bool $withError = true, int $chunkSize = 1000): \Generator
+    {
+        if (!self::isAvailable()) {
+            return;
+        }
+
+        $columns = $withError
+            ? 'f.*'
+            : 'f.idfailure, f.idsite, f.name, f.period, f.date1, f.date2, f.report, f.attempts, f.ts_first_failed, f.ts_last_failed, f.ts_retry_after';
+        $siteCondition = empty($idSites) ? '' : ' AND f.idsite IN (' . implode(',', array_map('intval', $idSites)) . ')';
+
+        $now = Date::now()->getDatetime();
+        $maxAttempts = [];
+        $lastIdFailure = 0;
+
+        do {
+            $rows = Db::fetchAll(
+                "SELECT $columns FROM `" . self::getTable() . "` f INNER JOIN `" . Common::prefixTable('site') . "` s ON s.idsite = f.idsite
+                  WHERE f.idfailure > ?$siteCondition ORDER BY f.idfailure ASC LIMIT " . (int) $chunkSize,
+                [$lastIdFailure]
+            );
+
+            foreach ($rows as $failure) {
+                $lastIdFailure = (int) $failure['idfailure'];
+                $idSite = (int) $failure['idsite'];
+                $maxAttempts[$idSite] = $maxAttempts[$idSite] ?? self::getMaxAttempts($idSite);
+                $failure['state'] = $this->getState($failure, $now, $maxAttempts[$idSite]);
+
+                if (!$givenUpOnly || $failure['state'] === self::STATE_GIVEN_UP) {
+                    yield $failure;
+                }
+            }
+        } while (count($rows) === $chunkSize);
     }
 
     /**
@@ -207,7 +256,7 @@ class ArchiveFailures
         $blockedRangeDates = [];
         $validUntil = null;
 
-        foreach ($this->getFailures([$idSite]) as $failure) {
+        foreach ($this->getFailures([$idSite], false, false) as $failure) {
             if ($failure['state'] === self::STATE_RETRY_PENDING) {
                 continue;
             }
@@ -261,13 +310,16 @@ class ArchiveFailures
     }
 
     /**
-     * Changes whenever a failure of the site is recorded, updated or removed, or, while the site has failures, an
-     * invalidation is added. Empty when the site has no failures.
+     * Tells when the invalidations blocked for a site need to be loaded again: 'failures' changes whenever a failure
+     * of the site is recorded, updated or removed, and 'maxIdInvalidation' grows when an invalidation is added.
+     *
+     * @return array{failures: string, maxIdInvalidation: int}|null null when the site has no failures
+     * @phpstan-impure reads the current database state
      */
-    public function getFingerprint(int $idSite): string
+    public function getFailureState(int $idSite): ?array
     {
         if (!self::isAvailable()) {
-            return '';
+            return null;
         }
 
         $row = Db::fetchRow(
@@ -277,15 +329,16 @@ class ArchiveFailures
         );
 
         if (empty($row['num'])) {
-            return '';
+            return null;
         }
 
-        $row['max_idinvalidation'] = Db::fetchOne(
-            "SELECT MAX(idinvalidation) FROM `" . Common::prefixTable('archive_invalidations') . "` WHERE idsite = ?",
-            [$idSite]
-        );
-
-        return implode('|', $row);
+        return [
+            'failures' => implode('|', $row),
+            'maxIdInvalidation' => (int) Db::fetchOne(
+                "SELECT MAX(idinvalidation) FROM `" . Common::prefixTable('archive_invalidations') . "` WHERE idsite = ?",
+                [$idSite]
+            ),
+        ];
     }
 
     /**
@@ -368,9 +421,9 @@ class ArchiveFailures
         Db::query("DELETE f FROM `$table` f LEFT JOIN `$siteTable` s ON f.idsite = s.idsite WHERE s.idsite IS NULL");
     }
 
-    public function getState(array $failure, string $now): string
+    public function getState(array $failure, string $now, ?int $maxAttempts = null): string
     {
-        if ((int) $failure['attempts'] >= self::getMaxAttempts((int) $failure['idsite'])) {
+        if ((int) $failure['attempts'] >= ($maxAttempts ?? self::getMaxAttempts((int) $failure['idsite']))) {
             return self::STATE_GIVEN_UP;
         }
 
@@ -397,9 +450,17 @@ class ArchiveFailures
             $parentLabels = ['year'];
         }
 
+        // plain date arithmetic, building period objects is too slow for many failures
+        $timestamp = strtotime($failure['date1'] . ' UTC');
         foreach ($parentLabels as $label) {
-            $parent = PeriodFactory::build($label, $failure['date1']);
-            $periods[] = [(int) $parent->getId(), $parent->getDateStart()->toString(), $parent->getDateEnd()->toString()];
+            if ($label === 'week') {
+                $weekStart = $timestamp - ((int) gmdate('N', $timestamp) - 1) * 86400;
+                $periods[] = [Piwik::$idPeriods['week'], gmdate('Y-m-d', $weekStart), gmdate('Y-m-d', $weekStart + 6 * 86400)];
+            } elseif ($label === 'month') {
+                $periods[] = [Piwik::$idPeriods['month'], gmdate('Y-m-01', $timestamp), gmdate('Y-m-t', $timestamp)];
+            } else {
+                $periods[] = [Piwik::$idPeriods['year'], gmdate('Y-01-01', $timestamp), gmdate('Y-12-31', $timestamp)];
+            }
         }
 
         return $periods;
