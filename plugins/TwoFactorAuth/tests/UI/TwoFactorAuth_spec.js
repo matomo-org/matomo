@@ -203,7 +203,9 @@ describe("TwoFactorAuth", function () {
 
     it('should ask for the authentication code to show recovery codes', async function () {
         await confirmPassword();
-        expect(await page.waitForSelector('.confirmSecondFactorForm', {visible: true})).to.be.ok;
+        const element = await page.waitForSelector('.loginSection', {visible: true});
+        await page.waitForTimeout(150);
+        expect(await element.screenshot()).to.matchImage('second_factor_confirmation');
     });
 
     it('should be possible to show recovery codes step2 done', async function () {
