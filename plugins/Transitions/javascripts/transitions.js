@@ -561,7 +561,7 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
                 return;
             }
 
-            // a failed request, e.g. an API error answered with a 4xx status, which carries its message in the body
+            // a failed request that isn't handled as an API error, e.g. a server error, may still carry a message in its body
             var message = xhr.responseJSON && xhr.responseJSON.message;
             self.errorCallback(message || _pk_translate('General_ErrorRequest', ['', '']), params);
         });

@@ -9,6 +9,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
+### Other changes
+* The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
+
 ## Matomo 6.0.0
 
 ### Breaking Changes
