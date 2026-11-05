@@ -141,6 +141,23 @@ describe("QuickAccess", function () {
       await page.waitForFunction(() => window.location.href.includes('subcategory=General_Pages'));
     });
 
+    it("should find a reporting page by the name of a report shown on it", async function () {
+      await page.goto(url);
+
+      // "Region" is not a menu entry itself, but a report on the Visitors > Locations page
+      await page.focus('.quick-access input');
+      await page.keyboard.type('Region');
+      await page.waitForFunction(
+          (selector) => Array.from(document.querySelectorAll(selector)).some((element) => element.textContent.trim() === 'Locations'),
+          {},
+          pagesResultSelector,
+      );
+
+      await page.click(pagesResultSelector);
+
+      await page.waitForFunction(() => window.location.href.includes('subcategory=UserCountry_SubmenuLocations'));
+    });
+
     it("should clear the search field when switching reporting section", async function () {
       // Switching section only changes the hash (no remount), so the typed text used to persist here.
       await page.goto(url + '#?idSite=1&period=year&date=2012-08-09&category=General_Visitors&subcategory=General_Overview');
