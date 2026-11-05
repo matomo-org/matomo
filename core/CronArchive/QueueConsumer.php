@@ -66,6 +66,8 @@ class QueueConsumer
 
     private ?string $invalidationsBlockedByFailuresState = null;
 
+    private int $invalidationsBlockedByFailuresMaxId = 0;
+
     private ?string $invalidationsBlockedByFailuresValidUntil = null;
 
     /**
@@ -184,6 +186,9 @@ class QueueConsumer
         $invalidationsToExcludeInBatch = [];
 
         $siteCreationTime = Date::factory(Site::getCreationDateFor($this->idSite));
+
+        // failures only change while jobs run, so checking once per batch is enough
+        $this->refreshInvalidationsBlockedByFailures((int) $this->idSite);
 
         // get archives to process simultaneously
         $archivesToProcess = [];
@@ -342,7 +347,6 @@ class QueueConsumer
     {
         $iterations = 0;
         while ($iterations < 100) {
-            $this->refreshInvalidationsBlockedByFailures((int) $idSite);
             $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore, $this->invalidationsBlockedByFailures);
 
             $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->currentSiteArchivingStartTime, $invalidationsToExclude);
@@ -531,23 +535,32 @@ class QueueConsumer
 
     /**
      * Reloads the invalidations to skip because of archive failures when a failure of the site was recorded or
-     * removed, also by another archiver, a new invalidation was added, or a retry delay passed.
+     * removed, also by another archiver, a new invalidation was added, or a retry delay passed. Processed (deleted)
+     * invalidations don't require a reload.
      */
     private function refreshInvalidationsBlockedByFailures(int $idSite): void
     {
-        $fingerprint = $this->archiveFailures->getFingerprint($idSite);
-        $state = $idSite . '|' . $fingerprint;
+        $failureState = $this->archiveFailures->getFailureState($idSite);
+        if (null === $failureState) {
+            $this->invalidationsBlockedByFailures = [];
+            $this->invalidationsBlockedByFailuresState = null;
+            return;
+        }
+
+        $state = $idSite . '|' . $failureState['failures'];
         if (
             $state === $this->invalidationsBlockedByFailuresState
+            && $failureState['maxIdInvalidation'] <= $this->invalidationsBlockedByFailuresMaxId
             && (null === $this->invalidationsBlockedByFailuresValidUntil || $this->invalidationsBlockedByFailuresValidUntil > Date::now()->getDatetime())
         ) {
             return;
         }
 
-        $blocked = '' === $fingerprint ? ['ids' => [], 'validUntil' => null] : $this->archiveFailures->getBlockedInvalidationIds($idSite);
+        $blocked = $this->archiveFailures->getBlockedInvalidationIds($idSite);
         $this->invalidationsBlockedByFailures = $blocked['ids'];
         $this->invalidationsBlockedByFailuresValidUntil = $blocked['validUntil'];
         $this->invalidationsBlockedByFailuresState = $state;
+        $this->invalidationsBlockedByFailuresMaxId = $failureState['maxIdInvalidation'];
     }
 
     /**
@@ -559,26 +572,36 @@ class QueueConsumer
         $archiveFailures = $this->archiveFailures;
         $archiveFailures->deleteFailuresWithoutInvalidations($this->idSite);
 
-        $failures = $archiveFailures->getFailures([$this->idSite]);
+        $failures = $archiveFailures->getFailures([$this->idSite], false, false);
         if (empty($failures)) {
             return;
         }
 
-        $siteCreationTime = Date::factory(Site::getCreationDateFor($this->idSite));
+        $siteCreationDate = Date::factory(Site::getCreationDateFor($this->idSite))->toString();
         $idFailuresToDelete = [];
         $skippedCounts = [ArchiveFailures::STATE_WAITING => 0, ArchiveFailures::STATE_GIVEN_UP => 0];
+        // the checks only depend on the period and the done flag, which many failures share
+        $isPeriodProcessable = [];
+        $isNameProcessable = [];
 
         foreach ($failures as $failure) {
             $periodLabel = $this->periodIdsToLabels[$failure['period']] ?? null;
-            $plugin = $this->getPluginNameForArchiveIfAny($failure);
+            if (!isset($isPeriodProcessable[$failure['period']])) {
+                $isPeriodProcessable[$failure['period']] = !empty($periodLabel)
+                    && PeriodFactory::isPeriodEnabledForAPI($periodLabel)
+                    && !PeriodFactory::isAnyLowerPeriodDisabledForAPI($periodLabel);
+            }
+
+            if (!isset($isNameProcessable[$failure['name']])) {
+                $plugin = $this->getPluginNameForArchiveIfAny($failure);
+                $isNameProcessable[$failure['name']] = (empty($plugin) || Manager::getInstance()->isPluginActivated($plugin))
+                    && $this->findSegmentForArchive($failure);
+            }
 
             if (
-                empty($periodLabel)
-                || !PeriodFactory::isPeriodEnabledForAPI($periodLabel)
-                || PeriodFactory::isAnyLowerPeriodDisabledForAPI($periodLabel)
-                || Date::factory($failure['date2'])->isEarlier($siteCreationTime)
-                || (!empty($plugin) && !Manager::getInstance()->isPluginActivated($plugin))
-                || !$this->findSegmentForArchive($failure)
+                !$isPeriodProcessable[$failure['period']]
+                || !$isNameProcessable[$failure['name']]
+                || $failure['date2'] < $siteCreationDate
             ) {
                 $idFailuresToDelete[] = $failure['idfailure'];
             } elseif (isset($skippedCounts[$failure['state']])) {
