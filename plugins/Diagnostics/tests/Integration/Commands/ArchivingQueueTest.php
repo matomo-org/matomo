@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\Diagnostics\tests\Integration\Commands;
 
+use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Common;
+use Piwik\Db;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
@@ -69,6 +72,24 @@ OUTPUT;
         $actual = $this->applicationTester->getDisplay();
 
         $this->assertStringMatchesFormat($expected, $actual);
+    }
+
+    public function testInvalidationsOnHoldAreShownAsSuch()
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        Db::query("UPDATE `$table` SET status = ? WHERE idinvalidation = 4", [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]);
+
+        try {
+            $this->applicationTester->run([
+                'command' => 'diagnostics:archiving-queue',
+                '--json' => true,
+            ]);
+            $statuses = array_column(json_decode($this->applicationTester->getDisplay(), true), 'Status', 'Invalidation');
+        } finally {
+            Db::query("UPDATE `$table` SET status = ? WHERE idinvalidation = 4", [ArchiveInvalidator::INVALIDATION_STATUS_QUEUED]);
+        }
+
+        $this->assertSame([1 => 'Queued', 2 => 'Queued', 3 => 'Queued', 4 => 'On hold'], $statuses);
     }
 }
 
