@@ -574,7 +574,7 @@ class CronArchive
 
                 // site is using the tracker, but there are no visits for this period, so just delete the archive and move on
                 $this->deleteInvalidatedArchives($archive);
-                $this->archiveFailures->deleteFailure($archive);
+                $this->releaseArchivesHeldBy($archive);
                 continue;
             }
 
@@ -654,7 +654,7 @@ class CronArchive
             );
 
             $this->deleteInvalidatedArchives($archive);
-            $this->archiveFailures->deleteFailure($archive);
+            $this->releaseArchivesHeldBy($archive);
 
             $this->repairInvalidationsIfNeeded($archive);
 
@@ -674,21 +674,22 @@ class CronArchive
     private function handleFailedArchive(array $archive, string $error, QueueConsumer $queueConsumer): void
     {
         try {
-            // recorded before releasing the invalidation, so no other archiver picks it up in between
+            // recorded before the invalidation is put on hold, so the failure is known when it can be picked up again
             $failure = $this->archiveFailures->recordFailure($archive, $error);
         } catch (\Exception $e) {
             $this->logError("Could not record the failed archive of invalidation {$archive['idinvalidation']}: " . $e->getMessage());
             $failure = null;
         }
 
-        $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
         $queueConsumer->ignoreIdInvalidation($archive['idinvalidation']);
-
         ++$this->failedArchivesCount;
 
         if (null === $failure) {
+            $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
             return;
         }
+
+        $this->model->holdFailedInvalidation($archive);
 
         $description = "idSite = {$archive['idsite']}, period = {$this->periodIdsToLabels[$archive['period']]}, date = "
             . "{$archive['date1']},{$archive['date2']}, segment = '" . ($archive['segment'] ?? '') . "'"
@@ -701,6 +702,27 @@ class CronArchive
         } else {
             $this->logger->info("Archiving failed for $description (attempt {$failure['attempts']} of {$failure['maxAttempts']}), "
                 . "it will be retried after {$failure['retryAfter']} UTC.");
+        }
+    }
+
+    /**
+     * Once an archive that had failed is processed, the archives that were on hold because of it can be processed.
+     */
+    private function releaseArchivesHeldBy(array $archive): void
+    {
+        if ($this->archiveFailures->deleteFailure($archive) === 0) {
+            return;
+        }
+
+        $released = $this->archiveFailures->releaseUnblockedInvalidations((int) $archive['idsite'], $archive);
+        if ($released > 0) {
+            $this->logger->debug("Released {released} invalidations that were on hold until {name} for {period} {date1},{date2} was archived.", [
+                'released' => $released,
+                'name' => $archive['name'],
+                'period' => $this->periodIdsToLabels[$archive['period']],
+                'date1' => $archive['date1'],
+                'date2' => $archive['date2'],
+            ]);
         }
     }
 
@@ -1303,7 +1325,8 @@ class CronArchive
         }
 
         $sql = "SELECT DISTINCT period FROM `$table`
-                 WHERE idsite = ? AND name = ? AND period > ? AND ? >= date1 AND date2 >= ? AND status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . " $reportClause";
+                 WHERE idsite = ? AND name = ? AND period > ? AND ? >= date1 AND date2 >= ?
+                   AND status IN (" . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . ", " . ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD . ") $reportClause";
 
         $higherPeriods = Db::fetchAll($sql, $bind);
         $higherPeriods = array_column($higherPeriods, 'period');

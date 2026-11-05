@@ -62,7 +62,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         // the year is built from the failed months, so it waits for them instead of failing as well
         $this->assertSame(['1 month 2019-11-01 done', '1 month 2019-12-01 done'], $this->getFailures());
         $this->assertStringNotContainsString('period=year', $output);
-        $this->assertSame(['1 year 2019-01-01 done'], $this->getQueuedInvalidations(1, [4]));
+        $this->assertSame(['1 year 2019-01-01 done'], $this->getWaitingInvalidations(1, [4], ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD));
     }
 
     public function testEverythingElseIsArchivedWhenTheYearFails()
@@ -109,7 +109,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         $failingDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($failingSegment);
         $this->assertSame(['1 day 2019-12-10 ' . $failingDoneFlag], $this->getFailures());
         $this->assertSame(1, substr_count($output, '(attempt 1 of 5)'));
-        $this->assertCount(4, $this->getQueuedInvalidations(1, [1, 2, 3, 4], $failingDoneFlag));
+        $this->assertCount(4, $this->getWaitingInvalidations(1, [1, 2, 3, 4], ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $failingDoneFlag));
     }
 
     public function testOtherSitesAreArchivedWhenASiteFails()
@@ -158,7 +158,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
 
         // the next run has nothing to do until the retry delay passed
         $output = $this->runArchiver();
-        $this->assertStringContainsString('Skipping 9 archives that failed recently and 0 that were given up', $output);
+        $this->assertStringContainsString('Holding back 9 archives that failed recently and 0 that were given up', $output);
         $this->assertStringNotContainsString('Starting archiving for', $output);
         $this->assertStringContainsString('Processed 0 archives.', $output);
 
@@ -172,7 +172,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         $this->assertSame(ArchiveWriter::DONE_OK, $this->getDoneFlagValue(1, 'week', '2019-12-09'));
         $this->assertSame(ArchiveWriter::DONE_OK, $this->getDoneFlagValue(1, 'month', '2019-12-01'));
         $this->assertSame(ArchiveWriter::DONE_OK, $this->getDoneFlagValue(1, 'year', '2019-01-01'));
-        $this->assertSame([], $this->getQueuedInvalidations(1, [1, 2, 3, 4]));
+        $this->assertSame([], $this->getWaitingInvalidations(1, [1, 2, 3, 4]));
     }
 
     public function provideContainerConfig()
@@ -250,12 +250,19 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         return $failures;
     }
 
-    private function getQueuedInvalidations(int $idSite, array $periods, string $name = 'done'): array
+    /**
+     * @param int|null $status only invalidations with this status, all not in progress if null
+     */
+    private function getWaitingInvalidations(int $idSite, array $periods, ?int $status = null, string $name = 'done'): array
     {
         $labels = array_flip(\Piwik\Piwik::$idPeriods);
+        $statuses = null === $status
+            ? [ArchiveInvalidator::INVALIDATION_STATUS_QUEUED, ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]
+            : [$status];
         $rows = Db::fetchAll(
             'SELECT period, date1, name FROM ' . Common::prefixTable('archive_invalidations') . '
-              WHERE idsite = ? AND name = ? AND status = 0 AND period IN (' . implode(',', array_map('intval', $periods)) . ')
+              WHERE idsite = ? AND name = ? AND status IN (' . implode(',', $statuses) . ')
+                AND period IN (' . implode(',', array_map('intval', $periods)) . ')
               ORDER BY period, date1',
             [$idSite, $name]
         );
