@@ -106,7 +106,7 @@ class ModelTest extends IntegrationTestCase
 
         $this->model->resetFailedArchivingJobs();
 
-        $idinvalidationStatus = Db::fetchAll('SELECT idinvalidation, idsite, status FROM ' . Common::prefixTable('archive_invalidations'));
+        $idinvalidationStatus = Db::fetchAll('SELECT idinvalidation, idsite, status FROM ' . Common::prefixTable('archive_invalidations') . ' ORDER BY idinvalidation');
 
         $expected = [
             ['idinvalidation' => 1, 'idsite' => 1, 'status' => 0],

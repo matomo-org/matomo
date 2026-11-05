@@ -60,17 +60,6 @@ class QueueConsumer
     private ArchiveFailures $archiveFailures;
 
     /**
-     * Invalidations skipped because of archive failures, see refreshInvalidationsBlockedByFailures().
-     */
-    private array $invalidationsBlockedByFailures = [];
-
-    private ?string $invalidationsBlockedByFailuresState = null;
-
-    private int $invalidationsBlockedByFailuresMaxId = 0;
-
-    private ?string $invalidationsBlockedByFailuresValidUntil = null;
-
-    /**
      * @var string[]
      */
     private $periodIdsToLabels;
@@ -187,9 +176,6 @@ class QueueConsumer
 
         $siteCreationTime = Date::factory(Site::getCreationDateFor($this->idSite));
 
-        // failures only change while jobs run, so checking once per batch is enough
-        $this->refreshInvalidationsBlockedByFailures((int) $this->idSite);
-
         // get archives to process simultaneously
         $archivesToProcess = [];
         while (count($archivesToProcess) < $this->countOfProcesses) {
@@ -218,6 +204,14 @@ class QueueConsumer
 
             if ($invalidatedArchive['segment'] === null) {
                 $this->logger->debug("Found archive for segment that is not auto archived, ignoring: $invalidationDesc");
+                $this->addInvalidationToExclude($invalidatedArchive);
+                continue;
+            }
+
+            // archives that failed recently or were given up, and the periods built from them, wait until a retry
+            $holdResult = $this->archiveFailures->holdIfBlocked($invalidatedArchive);
+            if (null !== $holdResult) {
+                $this->logger->debug("Invalidation {$holdResult} because a failed archive blocks it: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 continue;
             }
@@ -282,7 +276,7 @@ class QueueConsumer
 
             $started = $this->model->startArchive($invalidatedArchive);
             if (!$started) { // another process started on this archive, pull another one
-                $this->logger->debug("Archive invalidation is being handled by another process: $invalidationDesc");
+                $this->logger->debug("Archive invalidation is being handled by another process or failed recently: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
                 continue;
             }
@@ -347,7 +341,7 @@ class QueueConsumer
     {
         $iterations = 0;
         while ($iterations < 100) {
-            $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore, $this->invalidationsBlockedByFailures);
+            $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);
 
             $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->currentSiteArchivingStartTime, $invalidationsToExclude);
             if (empty($nextArchive)) {
@@ -534,40 +528,21 @@ class QueueConsumer
     }
 
     /**
-     * Reloads the invalidations to skip because of archive failures when a failure of the site was recorded or
-     * removed, also by another archiver, a new invalidation was added, or a retry delay passed. Processed (deleted)
-     * invalidations don't require a reload.
-     */
-    private function refreshInvalidationsBlockedByFailures(int $idSite): void
-    {
-        $failureState = $this->archiveFailures->getFailureState($idSite);
-        if (null === $failureState) {
-            $this->invalidationsBlockedByFailures = [];
-            $this->invalidationsBlockedByFailuresState = null;
-            return;
-        }
-
-        $state = $idSite . '|' . $failureState['failures'];
-        if (
-            $state === $this->invalidationsBlockedByFailuresState
-            && $failureState['maxIdInvalidation'] <= $this->invalidationsBlockedByFailuresMaxId
-            && (null === $this->invalidationsBlockedByFailuresValidUntil || $this->invalidationsBlockedByFailuresValidUntil > Date::now()->getDatetime())
-        ) {
-            return;
-        }
-
-        $blocked = $this->archiveFailures->getBlockedInvalidationIds($idSite);
-        $this->invalidationsBlockedByFailures = $blocked['ids'];
-        $this->invalidationsBlockedByFailuresValidUntil = $blocked['validUntil'];
-        $this->invalidationsBlockedByFailuresState = $state;
-        $this->invalidationsBlockedByFailuresMaxId = $failureState['maxIdInvalidation'];
-    }
-
-    /**
-     * Removes failures whose invalidations can no longer be processed (eg segment deleted, plugin deactivated), so
-     * those invalidations are no longer skipped and get removed when they are fetched, and logs the remaining ones.
+     * Removes failures whose invalidations can no longer be processed (eg segment deleted, plugin deactivated), and
+     * releases the invalidations on hold that no failure blocks anymore, eg because the retry delay passed. Those
+     * of removed failures get deleted when they are fetched.
      */
     private function cleanUpArchiveFailures(): void
+    {
+        $this->removeArchiveFailuresThatCanNotBeProcessed();
+
+        $released = $this->archiveFailures->releaseUnblockedInvalidations((int) $this->idSite);
+        if ($released > 0) {
+            $this->logger->info("Released {released} invalidations that were on hold because of failed archives.", ['released' => $released]);
+        }
+    }
+
+    private function removeArchiveFailuresThatCanNotBeProcessed(): void
     {
         $archiveFailures = $this->archiveFailures;
         $archiveFailures->deleteFailuresWithoutInvalidations($this->idSite);
@@ -612,7 +587,7 @@ class QueueConsumer
         $archiveFailures->deleteFailuresById($idFailuresToDelete);
 
         if ($skippedCounts[ArchiveFailures::STATE_WAITING] > 0 || $skippedCounts[ArchiveFailures::STATE_GIVEN_UP] > 0) {
-            $this->logger->info("Skipping {waiting} archives that failed recently and {givenUp} that were given up, along with the periods built from them. Run ./console core:archive-failures for details.", [
+            $this->logger->info("Holding back {waiting} archives that failed recently and {givenUp} that were given up, along with the periods built from them. Run ./console core:archive-failures for details.", [
                 'waiting' => $skippedCounts[ArchiveFailures::STATE_WAITING],
                 'givenUp' => $skippedCounts[ArchiveFailures::STATE_GIVEN_UP],
             ]);

@@ -16,7 +16,8 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 
 /**
- * Adds the table core:archive records failed archiving jobs in, so they are retried with a delay.
+ * Adds the table core:archive records failed archiving jobs in, so they are retried with a delay, and an index to
+ * skip the invalidations put on hold because of them.
  */
 class Updates_6_1_0_b2 extends Updates
 {
@@ -50,8 +51,14 @@ class Updates_6_1_0_b2 extends Updates
             ], 'idfailure'),
             $this->migration->db->addUniqueKey(
                 'archive_failures',
-                ['idsite', 'period', 'date1', 'date2', 'archive_hash'],
+                ['idsite', 'archive_hash', 'period', 'date1', 'date2'],
                 'unique_archive'
+            ),
+            // lets the archiving queue skip invalidations on hold without reading them
+            $this->migration->db->addIndex(
+                'archive_invalidations',
+                ['idsite', 'status', 'date1', 'period'],
+                'index_idsite_status_date1_period'
             ),
         ];
     }
