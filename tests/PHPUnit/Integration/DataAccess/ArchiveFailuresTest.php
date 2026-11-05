@@ -321,17 +321,45 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['day' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED, 'other site' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
     }
 
-    public function testHoldIfBlockedKeepsOneInvalidationPerArchive()
+    /**
+     * @dataProvider getOrdersOfHolding
+     */
+    public function testHoldIfBlockedKeepsOnlyTheNewestInvalidationOfAnArchive(array $order, array $expectedResults)
     {
         $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2020-01-15', 'date2' => '2020-01-15']), 'error');
         $ids = $this->insertInvalidations([
-            'first' => [1, '2020-01-15', '2020-01-15'],
-            'second' => [1, '2020-01-15', '2020-01-15'],
+            'older' => [1, '2020-01-15', '2020-01-15'],
+            'newer' => [1, '2020-01-15', '2020-01-15'],
         ]);
 
-        $this->assertSame('held', $this->archiveFailures->holdIfBlocked($this->getInvalidationRow($ids['first'])));
-        $this->assertSame('deleted', $this->archiveFailures->holdIfBlocked($this->getInvalidationRow($ids['second'])));
-        $this->assertSame(['first' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
+        $results = [];
+        foreach ($order as $label) {
+            $results[$label] = $this->archiveFailures->holdIfBlocked($this->getInvalidationRow($ids[$label]));
+        }
+
+        $this->assertSame($expectedResults, $results);
+        $this->assertSame(['newer' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
+    }
+
+    public function getOrdersOfHolding(): iterable
+    {
+        yield 'newer first, like the queue fetches them' => [['newer', 'older'], ['newer' => 'held', 'older' => 'deleted']];
+        yield 'older first, eg held in an earlier run' => [['older', 'newer'], ['older' => 'held', 'newer' => 'held']];
+    }
+
+    public function testCopiesHeldAtTheSameTimeByTwoArchiversEndUpAsOne()
+    {
+        $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2020-01-15', 'date2' => '2020-01-15']), 'error');
+        $ids = $this->insertInvalidations([
+            'older' => [1, '2020-01-15', '2020-01-15'],
+            'newer' => [1, '2020-01-15', '2020-01-15'],
+        ]);
+        // both archivers put their copy on hold before either looks for the other one
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = ?', [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = ? WHERE idinvalidation = ?', [ArchiveInvalidator::INVALIDATION_STATUS_QUEUED, $ids['older']]);
+        $this->archiveFailures->holdIfBlocked($this->getInvalidationRow($ids['older']));
+
+        $this->assertSame(['newer' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
     }
 
     public function testDuplicateOfAnInvalidationOnHoldIsNotDeletedIfNotBlocked()

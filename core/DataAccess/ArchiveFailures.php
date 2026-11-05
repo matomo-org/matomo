@@ -21,8 +21,9 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 
 /**
- * Archives that core:archive failed to process. Their invalidations stay queued, but are skipped, along with the
- * periods built from them, until the retry delay has passed, and for good once the maximum attempts are reached.
+ * Archives that core:archive failed to process. Their invalidations, and those of the periods built from them, are
+ * put on hold (ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD) until the retry delay has passed, and for good once
+ * the maximum attempts are reached.
  *
  * @internal
  */
@@ -267,6 +268,14 @@ class ArchiveFailures
             $invalidationBind = [$archive['name'], (string) ($archive['report'] ?? '')];
         }
 
+        $hasInvalidationsOnHold = (bool) Db::fetchOne(
+            "SELECT 1 FROM `$invalidationsTable` WHERE idsite = ? AND status = ?$invalidationCondition LIMIT 1",
+            array_merge([$idSite, ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $invalidationBind)
+        );
+        if (!$hasInvalidationsOnHold) {
+            return 0;
+        }
+
         $hasFailures = (bool) Db::fetchOne(
             "SELECT 1 FROM `" . self::getTable() . "` f WHERE f.idsite = ?$failureCondition LIMIT 1",
             array_merge([$idSite], $failureBind)
@@ -325,30 +334,38 @@ class ArchiveFailures
         $table = Common::prefixTable('archive_invalidations');
         [$blockedSql, $blockedBind] = $this->getBlockingFailureExistsCondition($invalidation);
 
-        $idHeldTwin = Db::fetchOne(
-            "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND period = ? AND date2 = ? AND name = ?
-                AND IFNULL(`report`, '') = ? AND status = ? AND idinvalidation != ? LIMIT 1",
-            [
-                $invalidation['idsite'], $invalidation['date1'], $invalidation['period'], $invalidation['date2'], $invalidation['name'],
-                (string) ($invalidation['report'] ?? ''), ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $invalidation['idinvalidation'],
-            ]
-        );
-
-        if ($idHeldTwin) {
-            $deleted = Db::query(
-                "DELETE FROM `$table` WHERE idinvalidation = ? AND status = ? AND $blockedSql",
-                array_merge([$invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_QUEUED], $blockedBind)
-            )->rowCount();
-
-            return $deleted > 0 ? 'deleted' : null;
-        }
-
         $held = Db::query(
             "UPDATE `$table` SET status = ? WHERE idinvalidation = ? AND status = ? AND $blockedSql",
             array_merge([ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_QUEUED], $blockedBind)
         )->rowCount();
 
-        return $held > 0 ? 'held' : null;
+        if ($held === 0) {
+            return null;
+        }
+
+        // only one invalidation per archive needs to wait: the newest, which the queue fetches first. Done in both
+        // directions, so archivers holding copies of the same archive at the same time keep the same one.
+        $twinCondition = "idsite = ? AND date1 = ? AND period = ? AND date2 = ? AND name = ? AND IFNULL(`report`, '') = ? AND status = ?";
+        $twinBind = [
+            $invalidation['idsite'], $invalidation['date1'], $invalidation['period'], $invalidation['date2'], $invalidation['name'],
+            (string) ($invalidation['report'] ?? ''), ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD,
+        ];
+
+        $hasNewerTwin = (bool) Db::fetchOne(
+            "SELECT 1 FROM `$table` WHERE $twinCondition AND idinvalidation > ? LIMIT 1",
+            array_merge($twinBind, [$invalidation['idinvalidation']])
+        );
+        if ($hasNewerTwin) {
+            Db::query(
+                "DELETE FROM `$table` WHERE idinvalidation = ? AND status = ?",
+                [$invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]
+            );
+            return 'deleted';
+        }
+
+        Db::query("DELETE FROM `$table` WHERE $twinCondition AND idinvalidation < ?", array_merge($twinBind, [$invalidation['idinvalidation']]));
+
+        return 'held';
     }
 
     /**

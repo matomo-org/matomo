@@ -545,11 +545,13 @@ class QueueConsumer
     private function removeArchiveFailuresThatCanNotBeProcessed(): void
     {
         $archiveFailures = $this->archiveFailures;
-        $archiveFailures->deleteFailuresWithoutInvalidations($this->idSite);
-
         $failures = $archiveFailures->getFailures([$this->idSite], false, false);
         if (empty($failures)) {
             return;
+        }
+
+        if ($archiveFailures->deleteFailuresWithoutInvalidations($this->idSite) > 0) {
+            $failures = $archiveFailures->getFailures([$this->idSite], false, false);
         }
 
         $siteCreationDate = Date::factory(Site::getCreationDateFor($this->idSite))->toString();
