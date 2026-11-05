@@ -47,7 +47,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(false);
     }
 
-    public function testDaysAndWeeksAreArchivedWhenMonthsAndYearsFail()
+    public function testDaysAndWeeksAreArchivedWhenMonthsAndYearsFail(): void
     {
         $this->trackVisits(1, ['2019-11-05', '2019-12-10', '2019-12-11']);
         $this->invalidateDays(1, ['2019-11-05', '2019-12-10', '2019-12-11']);
@@ -67,7 +67,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         $this->assertSame(['1 year 2019-01-01 done'], $this->getWaitingInvalidations(1, [4], ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD));
     }
 
-    public function testEverythingElseIsArchivedWhenTheYearFails()
+    public function testEverythingElseIsArchivedWhenTheYearFails(): void
     {
         $this->trackVisits(1, ['2019-11-05', '2019-12-10']);
         $this->invalidateDays(1, ['2019-11-05', '2019-12-10']);
@@ -83,7 +83,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         $this->assertSame(['1 year 2019-01-01 done'], $this->getFailures());
     }
 
-    public function testAllVisitsAndOtherSegmentsAreArchivedWhenASegmentFails()
+    public function testAllVisitsAndOtherSegmentsAreArchivedWhenASegmentFails(): void
     {
         $this->trackVisits(1, ['2019-12-10']);
         SegmentEditorAPI::getInstance()->add('failing', 'browserCode==FF', 1, true, true);
@@ -114,7 +114,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         $this->assertCount(4, $this->getWaitingInvalidations(1, [1, 2, 3, 4], ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $failingDoneFlag));
     }
 
-    public function testOtherSitesAreArchivedWhenASiteFails()
+    public function testOtherSitesAreArchivedWhenASiteFails(): void
     {
         $this->trackVisits(1, ['2019-12-10']);
         $this->trackVisits(2, ['2019-12-10']);
@@ -131,7 +131,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         $this->assertSame(['1 day 2019-12-10 done'], $this->getFailures());
     }
 
-    public function testManyFailingArchivesDoNotHoldBackTheOthers()
+    public function testManyFailingArchivesDoNotHoldBackTheOthers(): void
     {
         $days = [];
         for ($day = 1; $day <= 20; $day++) {
@@ -177,18 +177,21 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         $this->assertSame([], $this->getWaitingInvalidations(1, [1, 2, 3, 4]));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function provideContainerConfig()
     {
-        Date::$now = strtotime('2020-02-03 04:05:06');
+        Date::$now = (int) strtotime('2020-02-03 04:05:06');
 
         return [
             'observers.global' => \Piwik\DI::add([
                 ['CoreAdminHome.archiveReports.start', \Piwik\DI::value(function ($idSite, $period, $segment) {
-                    $patterns = json_decode((string) Option::get(self::FAIL_ARCHIVING_OPTION), true) ?: [];
+                    $patterns = json_decode((string) Option::get(self::FAIL_ARCHIVING_OPTION), true);
                     $job = $idSite . ' ' . $period->getLabel() . ' ' . $period->getDateStart()->toString() . ' ' . $segment->getString();
 
-                    foreach ($patterns as $pattern) {
-                        if (fnmatch($pattern, $job)) {
+                    foreach (is_array($patterns) ? $patterns : [] as $pattern) {
+                        if (is_string($pattern) && fnmatch($pattern, $job)) {
                             throw new \Exception('Simulated archiving failure');
                         }
                     }
@@ -197,17 +200,26 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         ];
     }
 
+    /**
+     * @return void
+     */
     protected static function configureFixture($fixture)
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
     }
 
+    /**
+     * @param list<string> $patterns fnmatch patterns of "idsite period date1 segment" of the jobs to fail
+     */
     private function failArchivesMatching(array $patterns): void
     {
-        Option::set(self::FAIL_ARCHIVING_OPTION, json_encode($patterns));
+        Option::set(self::FAIL_ARCHIVING_OPTION, json_encode($patterns, JSON_THROW_ON_ERROR));
     }
 
+    /**
+     * @param list<string> $days
+     */
     private function trackVisits(int $idSite, array $days): void
     {
         $tracker = Fixture::getTracker($idSite, $days[0] . ' 03:04:05');
@@ -219,6 +231,9 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         }
     }
 
+    /**
+     * @param list<string> $days
+     */
     private function invalidateDays(int $idSite, array $days, ?Segment $segment = null): void
     {
         /** @var ArchiveInvalidator $invalidator */
@@ -245,7 +260,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
     {
         $periods = array_flip(\Piwik\Piwik::$idPeriods);
         $failures = array_map(function ($failure) use ($periods) {
-            return $failure['idsite'] . ' ' . $periods[$failure['period']] . ' ' . $failure['date1'] . ' ' . $failure['name'];
+            return $failure['idsite'] . ' ' . $periods[(int) $failure['period']] . ' ' . $failure['date1'] . ' ' . $failure['name'];
         }, (new ArchiveFailures())->getFailures());
         sort($failures);
 
@@ -253,7 +268,9 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
     }
 
     /**
+     * @param list<int> $periods
      * @param int|null $status only invalidations with this status, all not in progress if null
+     * @return list<string> "idsite period date1 name" of each invalidation
      */
     private function getWaitingInvalidations(int $idSite, array $periods, ?int $status = null, string $name = 'done'): array
     {
@@ -270,7 +287,7 @@ class CronArchiveFailureIsolationTest extends IntegrationTestCase
         );
 
         return array_map(function ($row) use ($idSite, $labels) {
-            return $idSite . ' ' . $labels[$row['period']] . ' ' . $row['date1'] . ' ' . $row['name'];
+            return $idSite . ' ' . $labels[(int) $row['period']] . ' ' . $row['date1'] . ' ' . $row['name'];
         }, $rows);
     }
 

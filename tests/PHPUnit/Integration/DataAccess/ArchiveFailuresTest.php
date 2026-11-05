@@ -46,7 +46,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function testRecordFailureBacksOffAndGivesUp()
+    public function testRecordFailureBacksOffAndGivesUp(): void
     {
         $results = [];
         for ($i = 0; $i < 5; $i++) {
@@ -68,7 +68,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(ArchiveFailures::STATE_GIVEN_UP, $failures[0]['state']);
     }
 
-    public function testRetryDelaysAndMaxAttemptsCanBeConfiguredPerSite()
+    public function testRetryDelaysAndMaxAttemptsCanBeConfiguredPerSite(): void
     {
         Config::getInstance()->General_2 = ['archive_failure_retry_delays' => '10,20', 'archive_failure_max_attempts' => 3];
 
@@ -85,14 +85,17 @@ class ArchiveFailuresTest extends IntegrationTestCase
     /**
      * @dataProvider getInvalidRetryDelays
      */
-    public function testInvalidRetryDelaysFallBackToDefaults(string $delays)
+    public function testInvalidRetryDelaysFallBackToDefaults(string $delays): void
     {
-        Config::getInstance()->General['archive_failure_retry_delays'] = $delays;
+        Config::setSetting('General', 'archive_failure_retry_delays', $delays);
 
         $this->assertSame(3600, ArchiveFailures::getRetryDelay(1, 1));
         $this->assertSame(21600, ArchiveFailures::getRetryDelay(1, 2));
     }
 
+    /**
+     * @return iterable<string, array{string}>
+     */
     public function getInvalidRetryDelays(): iterable
     {
         yield 'units' => ['1h,6h'];
@@ -102,30 +105,30 @@ class ArchiveFailuresTest extends IntegrationTestCase
         yield 'empty' => [''];
     }
 
-    public function testRetryDelaysAreCappedAndMaxAttemptsClamped()
+    public function testRetryDelaysAreCappedAndMaxAttemptsClamped(): void
     {
-        Config::getInstance()->General['archive_failure_retry_delays'] = ' 60 , 99999999999999 ';
-        Config::getInstance()->General['archive_failure_max_attempts'] = 0;
+        Config::setSetting('General', 'archive_failure_retry_delays', ' 60 , 99999999999999 ');
+        Config::setSetting('General', 'archive_failure_max_attempts', 0);
 
         $this->assertSame(60, ArchiveFailures::getRetryDelay(1, 1));
         $this->assertSame(31536000, ArchiveFailures::getRetryDelay(1, 2));
         $this->assertSame(1, ArchiveFailures::getMaxAttempts(1));
     }
 
-    public function testRaisingTheMaximumAttemptsResumesRetrying()
+    public function testRaisingTheMaximumAttemptsResumesRetrying(): void
     {
-        Config::getInstance()->General['archive_failure_max_attempts'] = 1;
+        Config::setSetting('General', 'archive_failure_max_attempts', 1);
         $this->archiveFailures->recordFailure($this->getInvalidation(), 'error');
         $this->assertSame(ArchiveFailures::STATE_GIVEN_UP, $this->archiveFailures->getFailures()[0]['state']);
 
-        Config::getInstance()->General['archive_failure_max_attempts'] = 2;
+        Config::setSetting('General', 'archive_failure_max_attempts', 2);
         $this->assertSame(ArchiveFailures::STATE_WAITING, $this->archiveFailures->getFailures()[0]['state']);
 
         Date::$now = strtotime('2020-02-03 05:05:07');
         $this->assertSame(ArchiveFailures::STATE_RETRY_PENDING, $this->archiveFailures->getFailures()[0]['state']);
     }
 
-    public function testRecordFailureRemovesStackTraceAndLimitsTheErrorLength()
+    public function testRecordFailureRemovesStackTraceAndLimitsTheErrorLength(): void
     {
         $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2020-01-01', 'date2' => '2020-01-01']), "SQLSTATE[HY000]: General error #0 /core/Db.php(10): query() #1 {main}");
         $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2020-01-02', 'date2' => '2020-01-02']), str_repeat('ä', 1500));
@@ -137,7 +140,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame('Uncaught exception: out of memory', $errors[2]);
     }
 
-    public function testFailuresAreKeptPerArchive()
+    public function testFailuresAreKeptPerArchive(): void
     {
         $this->archiveFailures->recordFailure($this->getInvalidation(), 'error');
         $this->archiveFailures->recordFailure($this->getInvalidation(['report' => 'getKeywords']), 'error');
@@ -152,7 +155,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertCount(3, $this->archiveFailures->getFailures());
     }
 
-    public function testDeleteFailuresWithoutInvalidations()
+    public function testDeleteFailuresWithoutInvalidations(): void
     {
         $withInvalidation = $this->getInvalidation(['date1' => '2020-01-01', 'date2' => '2020-01-01']);
         $this->archiveFailures->recordFailure($withInvalidation, 'error');
@@ -172,7 +175,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         }, $remaining));
     }
 
-    public function testFailuresOfDeletedSitesAreIgnoredAndDeleted()
+    public function testFailuresOfDeletedSitesAreIgnoredAndDeleted(): void
     {
         $this->archiveFailures->recordFailure($this->getInvalidation(), 'error');
         $this->archiveFailures->recordFailure($this->getInvalidation(['idsite' => 99]), 'error');
@@ -186,7 +189,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertCount(1, $this->archiveFailures->getFailures());
     }
 
-    public function testFailureCountsUseTheMaximumAttemptsOfEachSite()
+    public function testFailureCountsUseTheMaximumAttemptsOfEachSite(): void
     {
         Config::getInstance()->General_2 = ['archive_failure_max_attempts' => 1];
         Date::$now = strtotime('2020-02-03 04:00:00');
@@ -198,7 +201,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['waiting' => 2, 'givenUp' => 1, 'oldestFailure' => '2020-02-03 04:00:00'], $this->archiveFailures->getFailureCounts());
     }
 
-    public function testStartingAnArchiveRespectsFailuresRecordedMeanwhile()
+    public function testStartingAnArchiveRespectsFailuresRecordedMeanwhile(): void
     {
         $ids = $this->insertInvalidations([
             'failed day' => [1, '2020-01-15', '2020-01-15'],
@@ -247,15 +250,14 @@ class ArchiveFailuresTest extends IntegrationTestCase
     /**
      * The SQL rule (holding a queued invalidation) and the PHP rule (releasing invalidations on hold) must agree.
      */
-    public function testHoldAndReleaseAgreeOnWhatAFailureBlocks()
+    public function testHoldAndReleaseAgreeOnWhatAFailureBlocks(): void
     {
         $this->recordMatrixFailures();
 
         $queued = $this->insertMatrixInvalidations(ArchiveInvalidator::INVALIDATION_STATUS_QUEUED);
         $heldBySql = [];
         foreach ($queued as $label => $idInvalidation) {
-            $invalidation = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$idInvalidation]);
-            if ('held' === $this->archiveFailures->holdIfBlocked($invalidation)) {
+            if ('held' === $this->archiveFailures->holdIfBlocked($this->getInvalidationRow($idInvalidation))) {
                 $heldBySql[] = $label;
             }
         }
@@ -283,7 +285,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame($expected, $stillHeldByPhp);
     }
 
-    public function testReleaseOnlyReleasesWhatNoOtherFailureBlocks()
+    public function testReleaseOnlyReleasesWhatNoOtherFailureBlocks(): void
     {
         $firstDay = $this->getInvalidation(['date1' => '2020-01-15', 'date2' => '2020-01-15']);
         $secondDay = $this->getInvalidation(['date1' => '2020-01-20', 'date2' => '2020-01-20']);
@@ -313,7 +315,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(0, $this->archiveFailures->deleteFailure($secondDay));
     }
 
-    public function testInvalidationsOnHoldWithoutFailureAreReleased()
+    public function testInvalidationsOnHoldWithoutFailureAreReleased(): void
     {
         $ids = $this->insertInvalidations(['day' => [1, '2020-01-15', '2020-01-15']]);
         $ids += $this->insertInvalidations(['other site' => [1, '2020-01-15', '2020-01-15']], 'done', 2);
@@ -325,8 +327,10 @@ class ArchiveFailuresTest extends IntegrationTestCase
 
     /**
      * @dataProvider getOrdersOfHolding
+     * @param list<string> $order
+     * @param array<string, string> $expectedResults
      */
-    public function testHoldIfBlockedKeepsOnlyTheNewestInvalidationOfAnArchive(array $order, array $expectedResults)
+    public function testHoldIfBlockedKeepsOnlyTheNewestInvalidationOfAnArchive(array $order, array $expectedResults): void
     {
         $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2020-01-15', 'date2' => '2020-01-15']), 'error');
         $ids = $this->insertInvalidations([
@@ -343,13 +347,16 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['newer' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
     }
 
+    /**
+     * @return iterable<string, array{list<string>, array<string, string>}>
+     */
     public function getOrdersOfHolding(): iterable
     {
         yield 'newer first, like the queue fetches them' => [['newer', 'older'], ['newer' => 'held', 'older' => 'deleted']];
         yield 'older first, eg held in an earlier run' => [['older', 'newer'], ['older' => 'held', 'newer' => 'held']];
     }
 
-    public function testCopiesHeldAtTheSameTimeByTwoArchiversEndUpAsOne()
+    public function testCopiesHeldAtTheSameTimeByTwoArchiversEndUpAsOne(): void
     {
         $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2020-01-15', 'date2' => '2020-01-15']), 'error');
         $ids = $this->insertInvalidations([
@@ -364,7 +371,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['newer' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
     }
 
-    public function testDuplicateOfAnInvalidationOnHoldIsNotDeletedIfNotBlocked()
+    public function testDuplicateOfAnInvalidationOnHoldIsNotDeletedIfNotBlocked(): void
     {
         $ids = $this->insertInvalidations([
             'held without failure' => [1, '2020-01-15', '2020-01-15'],
@@ -376,7 +383,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['held without failure' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, 'queued' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED], $this->getStatuses($ids));
     }
 
-    public function testFailedInvalidationIsPutOnHoldWithoutItsStartedState()
+    public function testFailedInvalidationIsPutOnHoldWithoutItsStartedState(): void
     {
         $ids = $this->insertInvalidations(['failed' => [1, '2020-01-15', '2020-01-15']]);
         Db::query(
@@ -392,7 +399,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
     /**
      * @dataProvider getStatusesOfTwins
      */
-    public function testFailedInvalidationIsDeletedIfItsArchiveIsAlreadyWaiting(int $twinStatus)
+    public function testFailedInvalidationIsDeletedIfItsArchiveIsAlreadyWaiting(int $twinStatus): void
     {
         $ids = $this->insertInvalidations(['failed' => [1, '2020-01-15', '2020-01-15'], 'twin' => [1, '2020-01-15', '2020-01-15']]);
         Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 1, ts_started = NOW() WHERE idinvalidation = ?', [$ids['failed']]);
@@ -403,13 +410,16 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['twin' => $twinStatus], $this->getStatuses($ids));
     }
 
+    /**
+     * @return iterable<string, array{int}>
+     */
     public function getStatusesOfTwins(): iterable
     {
         yield 'queued' => [ArchiveInvalidator::INVALIDATION_STATUS_QUEUED];
         yield 'on hold' => [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD];
     }
 
-    public function testReleasingAJobKeepsTheInvalidationOnHoldOfItsArchive()
+    public function testReleasingAJobKeepsTheInvalidationOnHoldOfItsArchive(): void
     {
         $ids = $this->insertInvalidations(['in progress' => [1, '2020-01-15', '2020-01-15'], 'on hold' => [1, '2020-01-15', '2020-01-15']]);
         Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 1, ts_started = NOW() WHERE idinvalidation = ?', [$ids['in progress']]);
@@ -420,7 +430,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['on hold' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
     }
 
-    public function testJobResetAfterACrashIsPutOnHoldWhenItsFailureWasRecorded()
+    public function testJobResetAfterACrashIsPutOnHoldWhenItsFailureWasRecorded(): void
     {
         $ids = $this->insertInvalidations(['crashed' => [1, '2020-01-15', '2020-01-15']]);
         Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . " SET status = 1, ts_started = '2020-01-01 00:00:00'");
@@ -486,15 +496,21 @@ class ArchiveFailuresTest extends IntegrationTestCase
                 'INSERT INTO ' . Common::prefixTable('archive_invalidations') . ' (name, idsite, date1, date2, period, report, ts_invalidated, status) VALUES (?, 1, ?, ?, ?, ?, ?, ?)',
                 [$row[3] ?? 'done', $row[1], $row[2], $row[0], $row[4] ?? null, Date::now()->getDatetime(), $status]
             );
-            $ids[$label] = (int) Db::get()->lastInsertId();
+            $ids[$label] = (int) Db::fetchOne('SELECT LAST_INSERT_ID()');
         }
 
         return $ids;
     }
 
+    /**
+     * @return array<array-key, string|int|float|null>
+     */
     private function getInvalidationRow(int $idInvalidation): array
     {
-        return Db::fetchRow('SELECT * FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$idInvalidation]);
+        $row = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$idInvalidation]);
+        $this->assertIsArray($row);
+
+        return $row;
     }
 
     /**
@@ -514,9 +530,9 @@ class ArchiveFailuresTest extends IntegrationTestCase
         return $statuses;
     }
 
-    public function testIterateFailuresLoadsAllFailuresInChunks()
+    public function testIterateFailuresLoadsAllFailuresInChunks(): void
     {
-        Config::getInstance()->General['archive_failure_max_attempts'] = 2;
+        Config::setSetting('General', 'archive_failure_max_attempts', 2);
         for ($day = 1; $day <= 5; $day++) {
             $invalidation = $this->getInvalidation(['date1' => "2020-01-0$day", 'date2' => "2020-01-0$day"]);
             $this->archiveFailures->recordFailure($invalidation, 'error');
@@ -537,6 +553,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
     }
 
     /**
+     * @param array<string, array{int, string, string}> $invalidations label => [period, date1, date2]
      * @return array<string, int> label => idinvalidation
      */
     private function insertInvalidations(array $invalidations, string $name = 'done', int $idSite = 1): array
@@ -547,12 +564,16 @@ class ArchiveFailuresTest extends IntegrationTestCase
                 'INSERT INTO ' . Common::prefixTable('archive_invalidations') . ' (name, idsite, date1, date2, period, ts_invalidated, status) VALUES (?, ?, ?, ?, ?, ?, 0)',
                 [$name, $idSite, $date1, $date2, $period, Date::now()->getDatetime()]
             );
-            $ids[$label] = (int) Db::get()->lastInsertId();
+            $ids[$label] = (int) Db::fetchOne('SELECT LAST_INSERT_ID()');
         }
 
         return $ids;
     }
 
+    /**
+     * @param array<string, string|int|null> $overrides
+     * @return array<string, string|int|null>
+     */
     private function getInvalidation(array $overrides = []): array
     {
         return array_merge([

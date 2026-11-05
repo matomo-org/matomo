@@ -27,6 +27,9 @@ use Piwik\Piwik;
  * put on hold (ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD) until the retry delay has passed, and for good once
  * the maximum attempts are reached.
  *
+ * @phpstan-type DbRow array<array-key, string|int|float|null>
+ * @phpstan-type BindValues list<string|int|float|null>
+ *
  * @internal
  */
 class ArchiveFailures
@@ -74,11 +77,13 @@ class ArchiveFailures
     public static function getRetryDelay(int $idSite, int $attempts): int
     {
         $configuredDelays = GeneralConfig::getConfigValue('archive_failure_retry_delays', $idSite);
-        $configuredDelays = is_array($configuredDelays) ? $configuredDelays : explode(',', (string) $configuredDelays);
+        if (!is_array($configuredDelays)) {
+            $configuredDelays = explode(',', is_scalar($configuredDelays) ? (string) $configuredDelays : '');
+        }
 
         $delays = [];
         foreach ($configuredDelays as $delay) {
-            $delay = trim((string) $delay);
+            $delay = is_scalar($delay) ? trim((string) $delay) : '';
             if (!ctype_digit($delay) || (int) $delay === 0) {
                 // an invalid list is ignored as a whole rather than misread, eg "1h" as 1 second
                 StaticContainer::get(LoggerInterface::class)->warning(
@@ -101,6 +106,7 @@ class ArchiveFailures
     /**
      * Records a failed attempt to process the archive of the given invalidation.
      *
+     * @param DbRow $invalidation
      * @return array{attempts: int, maxAttempts: int, retryAfter: string, givenUp: bool}|null null if failures can't be recorded yet
      */
     public function recordFailure(array $invalidation, string $error): ?array
@@ -152,6 +158,8 @@ class ArchiveFailures
 
     /**
      * Removes the failure record of the archive of the given invalidation, once that archive was processed.
+     *
+     * @param DbRow $invalidation
      */
     public function deleteFailure(array $invalidation): int
     {
@@ -168,7 +176,7 @@ class ArchiveFailures
     /**
      * @param int[] $idSites restricts the result to these sites, all sites if empty
      * @param bool $withError whether to include the last_error column
-     * @return array[] failure rows, oldest first, each with its 'state'
+     * @return list<DbRow> failure rows, oldest first, each with its 'state'
      */
     public function getFailures(array $idSites = [], bool $givenUpOnly = false, bool $withError = true): array
     {
@@ -208,7 +216,7 @@ class ArchiveFailures
      * bounded for any number of failures.
      *
      * @param int[] $idSites restricts the result to these sites, all sites if empty
-     * @return \Generator<array> failure rows, each with its 'state'
+     * @return \Generator<int, DbRow> failure rows, each with its 'state'
      */
     public function iterateFailures(array $idSites = [], bool $givenUpOnly = false, bool $withError = true, int $chunkSize = 1000): \Generator
     {
@@ -249,7 +257,7 @@ class ArchiveFailures
      * Releases invalidations put on hold because of a failure (status ON_HOLD back to QUEUED) once no failure blocks
      * them anymore: the retry delay passed, or the failure was removed (archive processed, reset, cleaned up).
      *
-     * @param array|null $archive only release what this archive held, after it was processed
+     * @param DbRow|null $archive only release what this archive held, after it was processed
      * @return int number of released invalidations
      */
     public function releaseUnblockedInvalidations(int $idSite, ?array $archive = null): int
@@ -325,6 +333,7 @@ class ArchiveFailures
      * Puts a queued invalidation on hold if a failure blocks it. If the same archive is already on hold, the
      * invalidation is deleted instead, so at most one invalidation per archive waits.
      *
+     * @param DbRow $invalidation
      * @return string|null 'held', 'deleted', or null if not blocked
      */
     public function holdIfBlocked(array $invalidation): ?string
@@ -374,7 +383,8 @@ class ArchiveFailures
      * SQL condition that is true if a failure blocks the given invalidation: its own archive or an archive it is built
      * from failed recently or was given up. Same rule as getBlockedPeriods() and isBlocked(), for a single row.
      *
-     * @return array{0: string, 1: array} SQL and bind
+     * @param DbRow $invalidation
+     * @return array{0: string, 1: BindValues} SQL and bind
      */
     public function getBlockingFailureExistsCondition(array $invalidation): array
     {
@@ -414,7 +424,7 @@ class ArchiveFailures
      * Periods blocked by the site's failures that are waiting or given up: their own period, and the periods built
      * from it. Ranges are matched by date.
      *
-     * @return array{0: array<string, array<string, true>>, 1: array<string, array>} blocked periods and range dates, by archive
+     * @return array{0: array<string, array<string, true>>, 1: array<string, list<array{string, string}>>} blocked periods and range dates, by archive
      */
     private function getBlockedPeriods(int $idSite, ?string $archiveHash): array
     {
@@ -450,13 +460,18 @@ class ArchiveFailures
             }
 
             if ((int) $failure['period'] !== Range::PERIOD_ID) {
-                $blockedRangeDates[$archiveKey][] = [$failure['date1'], $failure['date2']];
+                $blockedRangeDates[$archiveKey][] = [(string) $failure['date1'], (string) $failure['date2']];
             }
         }
 
         return [$blockedPeriods, $blockedRangeDates];
     }
 
+    /**
+     * @param DbRow $invalidation
+     * @param array<string, array<string, true>> $blockedPeriods
+     * @param array<string, list<array{string, string}>> $blockedRangeDates
+     */
     private function isBlocked(array $invalidation, array $blockedPeriods, array $blockedRangeDates): bool
     {
         $archiveKey = $invalidation['name'] . '|' . ($invalidation['report'] ?? '');
@@ -498,8 +513,9 @@ class ArchiveFailures
                 $counts['waiting'] += (int) $row['num'];
             }
 
-            if (null === $counts['oldestFailure'] || $row['oldest_failure'] < $counts['oldestFailure']) {
-                $counts['oldestFailure'] = $row['oldest_failure'];
+            $oldestFailure = (string) $row['oldest_failure'];
+            if (null === $counts['oldestFailure'] || $oldestFailure < $counts['oldestFailure']) {
+                $counts['oldestFailure'] = $oldestFailure;
             }
         }
 
@@ -540,7 +556,7 @@ class ArchiveFailures
             [$idSite]
         );
 
-        return $this->deleteFailuresById(array_column($idFailures, 'idfailure'));
+        return $this->deleteFailuresById(array_map('intval', array_column($idFailures, 'idfailure')));
     }
 
     public function deleteFailuresForDeletedSites(): void
@@ -555,6 +571,9 @@ class ArchiveFailures
         Db::query("DELETE f FROM `$table` f LEFT JOIN `$siteTable` s ON f.idsite = s.idsite WHERE s.idsite IS NULL");
     }
 
+    /**
+     * @param DbRow $failure
+     */
     public function getState(array $failure, string $now, ?int $maxAttempts = null): string
     {
         if ((int) $failure['attempts'] >= ($maxAttempts ?? self::getMaxAttempts((int) $failure['idsite']))) {
@@ -568,24 +587,31 @@ class ArchiveFailures
      * The failed period itself, for queued duplicates, and the periods archived from it as a subperiod: a week from
      * its days, a month from its days and the weeks within it, a year from its months. Ranges are matched by date.
      *
-     * @return array[] list of [period id, date1, date2]
+     * @param DbRow $failure
+     * @return list<array{int, string, string}> list of [period id, date1, date2]
      */
     private function getPeriodsBuiltFrom(array $failure): array
     {
         $period = (int) $failure['period'];
-        $periods = [[$period, $failure['date1'], $failure['date2']]];
+        $date1 = (string) $failure['date1'];
+        $date2 = (string) $failure['date2'];
+        $periods = [[$period, $date1, $date2]];
 
         $parentLabels = [];
         if ($period === Piwik::$idPeriods['day']) {
             $parentLabels = ['week', 'month', 'year'];
-        } elseif ($period === Piwik::$idPeriods['week'] && substr($failure['date1'], 0, 7) === substr($failure['date2'], 0, 7)) {
+        } elseif ($period === Piwik::$idPeriods['week'] && substr($date1, 0, 7) === substr($date2, 0, 7)) {
             $parentLabels = ['month', 'year'];
         } elseif ($period === Piwik::$idPeriods['month']) {
             $parentLabels = ['year'];
         }
 
         // plain date arithmetic, building period objects is too slow for many failures
-        $timestamp = strtotime($failure['date1'] . ' UTC');
+        $timestamp = strtotime($date1 . ' UTC');
+        if (false === $timestamp) {
+            return $periods;
+        }
+
         foreach ($parentLabels as $label) {
             if ($label === 'week') {
                 $weekStart = $timestamp - ((int) gmdate('N', $timestamp) - 1) * 86400;
@@ -608,7 +634,8 @@ class ArchiveFailures
     private function trimError(string $error): string
     {
         // error messages may contain a stack trace, on one line in API responses
-        $error = preg_split('/\s#0\s/', $error, 2)[0];
+        $parts = preg_split('/\s#0\s/', $error, 2);
+        $error = false === $parts ? $error : $parts[0];
 
         return mb_substr(trim($error), 0, self::MAX_ERROR_LENGTH);
     }
@@ -618,6 +645,10 @@ class ArchiveFailures
         return "idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND archive_hash = ?";
     }
 
+    /**
+     * @param DbRow $invalidation
+     * @return BindValues
+     */
     private function getArchiveBind(array $invalidation): array
     {
         return [
@@ -629,6 +660,9 @@ class ArchiveFailures
         ];
     }
 
+    /**
+     * @param DbRow $invalidation
+     */
     private function getArchiveHash(array $invalidation): string
     {
         return md5($invalidation['name'] . '|' . ($invalidation['report'] ?? ''));

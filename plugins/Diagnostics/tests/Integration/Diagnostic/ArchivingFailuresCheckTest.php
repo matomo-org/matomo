@@ -33,7 +33,7 @@ class ArchivingFailuresCheckTest extends IntegrationTestCase
         Fixture::loadAllTranslations();
         Fixture::createWebsite('2015-01-01 00:00:00');
         Date::$now = strtotime('2020-02-03 04:05:06');
-        Config::getInstance()->General['archive_failure_max_attempts'] = 2;
+        Config::setSetting('General', 'archive_failure_max_attempts', 2);
     }
 
     public function tearDown(): void
@@ -43,12 +43,12 @@ class ArchivingFailuresCheckTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function testNoResultWithoutFailures()
+    public function testNoResultWithoutFailures(): void
     {
         $this->assertSame([], $this->getCheck()->execute());
     }
 
-    public function testOkWhenFailuresAreWaitingForRetry()
+    public function testOkWhenFailuresAreWaitingForRetry(): void
     {
         $this->recordFailure('2020-01-01', 1);
 
@@ -59,7 +59,7 @@ class ArchivingFailuresCheckTest extends IntegrationTestCase
         $this->assertStringContainsString('<code>./console core:archive-failures</code>', $result->getItems()[0]->getComment());
     }
 
-    public function testWarningWhenFailuresWereGivenUp()
+    public function testWarningWhenFailuresWereGivenUp(): void
     {
         $this->recordFailure('2020-01-01', 2);
         $this->recordFailure('2020-01-02', 1);

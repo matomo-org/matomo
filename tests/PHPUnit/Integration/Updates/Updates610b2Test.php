@@ -80,6 +80,9 @@ class Updates610b2Test extends IntegrationTestCase
             MODIFY `report` VARCHAR(255) CHARACTER SET $charset COLLATE $reportCollation NULL");
     }
 
+    /**
+     * @return array<string, array{CHARACTER_SET_NAME: string, COLLATION_NAME: string}> by column name
+     */
     private function getStringColumns(string $table): array
     {
         $columns = Db::fetchAll(
@@ -88,6 +91,14 @@ class Updates610b2Test extends IntegrationTestCase
             [$table]
         );
 
-        return array_column($columns, null, 'COLUMN_NAME');
+        $columnsByName = [];
+        foreach ($columns as $column) {
+            $columnsByName[(string) $column['COLUMN_NAME']] = [
+                'CHARACTER_SET_NAME' => (string) $column['CHARACTER_SET_NAME'],
+                'COLLATION_NAME' => (string) $column['COLLATION_NAME'],
+            ];
+        }
+
+        return $columnsByName;
     }
 }
