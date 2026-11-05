@@ -116,11 +116,18 @@ class ExtractionTest extends IntegrationTestCase
     {
         $request = $this->buildRequest();
 
+        $value = $this->buildExtraction('urlparam', 'idsite')->extract($request);
+        $this->assertSame('54', $value);
+
         $value = $this->buildExtraction('urlparam', 'module')->extract($request);
         $this->assertSame('CoreHome', $value);
 
+        // Should not pick up "test2" from "secondaction" url param
         $value = $this->buildExtraction('urlparam', 'action')->extract($request);
         $this->assertSame('test', $value);
+
+        $value = $this->buildExtraction('urlparam', 'secondaction')->extract($request);
+        $this->assertSame('test2', $value);
 
         $value = $this->buildExtraction('urlparam', 'notExist')->extract($request);
         $this->assertNull($value);
@@ -260,7 +267,7 @@ class ExtractionTest extends IntegrationTestCase
 
     private function buildRequest()
     {
-        $url = 'http://www.example.com/test/index.php?idsite=54&module=CoreHome&action=test&camelCase=fooBarBaz';
+        $url = 'http://www.example.com/test/index.php?idsite=54&module=CoreHome&action=test&camelCase=fooBarBaz&secondaction=test2';
         $referrer = 'http://www.example.com/referrer';
         $actionName = 'My Test Title';
 
