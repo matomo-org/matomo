@@ -6,6 +6,7 @@
  */
 
 import { mount } from '@vue/test-utils';
+import jQuery from 'jquery';
 
 // read at module scope or on mount, so these have to exist before the import below
 vi.hoisted(() => {
@@ -15,6 +16,20 @@ vi.hoisted(() => {
   (window as unknown as { Mousetrap: unknown }).Mousetrap = { bind: () => {} };
   (window as unknown as { vueSanitize: unknown }).vueSanitize = (value: string) => value;
 });
+
+const reportingPages = vi.hoisted(() => ({ value: [] as unknown[] }));
+
+vi.mock('../ReportingPages/ReportingPages.store', () => ({
+  default: { pages: reportingPages },
+}));
+vi.mock('../ReportingMenu/ReportingMenu.store', () => ({
+  default: { fullMenu: { value: [] } },
+  DEFAULT_GROUP: 'General_Analytics',
+  getCategoryGroupIds: () => [],
+}));
+vi.mock('../MatomoUrl/MatomoUrl', () => ({
+  default: { parsed: { value: {} } },
+}));
 
 /* eslint-disable import/first */
 import QuickAccess from './QuickAccess.vue';
@@ -201,5 +216,96 @@ describe('CoreHome/QuickAccess', () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+
+  describe('searching reports within reporting pages', () => {
+    let leftMenu: HTMLElement;
+    let originalJQuery: unknown;
+
+    beforeEach(() => {
+      originalJQuery = (window as unknown as { $: unknown }).$;
+      (window as unknown as { $: unknown }).$ = jQuery;
+      // jsdom does not implement innerText, which is used to read the left menu category names
+      Object.defineProperty(HTMLElement.prototype, 'innerText', {
+        configurable: true,
+        get() { return this.textContent; },
+      });
+
+      leftMenu = document.createElement('div');
+      leftMenu.id = 'secondNavBar';
+      leftMenu.innerHTML = `
+        <ul>
+          <li class="menuTab">
+            <span class="item">Visitors</span>
+            <ul>
+              <li><a class="item" href="#?idSite=1&period=day&date=yesterday&category=General_Visitors&subcategory=General_Overview">Overview</a></li>
+              <li><a class="item" href="#?idSite=1&period=day&date=yesterday&category=General_Visitors&subcategory=UserCountry_SubmenuLocations">Locations</a></li>
+            </ul>
+          </li>
+        </ul>`;
+      document.body.appendChild(leftMenu);
+
+      reportingPages.value = [
+        {
+          category: { id: 'General_Visitors', name: 'Visitors' },
+          subcategory: { id: 'General_Overview', name: 'Overview' },
+          widgets: [{ name: 'Visits Overview' }],
+        },
+        {
+          category: { id: 'General_Visitors', name: 'Visitors' },
+          subcategory: { id: 'UserCountry_SubmenuLocations', name: 'Locations' },
+          widgets: [
+            { name: 'Visitor Map' },
+            {
+              name: 'Locations',
+              isContainer: true,
+              widgets: [{ name: 'Country' }, { name: 'Region' }, { name: 'City' }],
+            },
+          ],
+        },
+      ];
+    });
+
+    afterEach(() => {
+      leftMenu.remove();
+      reportingPages.value = [];
+      delete (HTMLElement.prototype as unknown as { innerText?: unknown }).innerText;
+      (window as unknown as { $: unknown }).$ = originalJQuery;
+    });
+
+    // calls the undebounced search directly, the instance one is wrapped in created()
+    function search(wrapper: ReturnType<typeof mountQuickAccess>, searchTerm: string) {
+      (QuickAccess as unknown as { methods: { searchMenu: (term: string) => void } })
+        .methods.searchMenu.call(wrapper.vm, searchTerm);
+
+      return wrapper.vm as unknown as {
+        menuItems: { title: string; items: { name: string }[] }[];
+        numMenuItems: number;
+      };
+    }
+
+    it('finds the reporting page a report is shown on by the name of that report', () => {
+      const wrapper = mountQuickAccess();
+
+      const vm = search(wrapper, 'Region');
+
+      expect(vm.numMenuItems).toBe(1);
+      expect(vm.menuItems).toEqual([
+        { title: 'Visitors', items: [expect.objectContaining({ name: 'Locations' })] },
+      ]);
+
+      wrapper.unmount();
+    });
+
+    it('does not find a reporting page when none of its reports match', () => {
+      const wrapper = mountQuickAccess();
+
+      const vm = search(wrapper, 'Browser');
+
+      expect(vm.numMenuItems).toBe(0);
+      expect(vm.menuItems).toEqual([]);
+
+      wrapper.unmount();
+    });
   });
 });

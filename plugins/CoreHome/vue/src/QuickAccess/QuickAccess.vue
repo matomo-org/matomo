@@ -110,6 +110,7 @@ import ReportingMenuStoreInstance, {
 } from '../ReportingMenu/ReportingMenu.store';
 import { getCategoryChildren } from '../ReportingMenu/Category';
 import { getSubcategoryChildren, Subcategory } from '../ReportingMenu/Subcategory';
+import { WidgetContainer } from '../Widget/types';
 
 const { ListingFormatter } = window;
 
@@ -126,6 +127,8 @@ interface SubMenuItem {
   menuIndex?: number;
   // present for reporting pages of other sections, navigated to via the SPA instead of a DOM click
   page?: ReportingPageRef;
+  // reporting page a rendered left menu entry links to, so it can be found by the reports it shows
+  reportingPage?: Omit<ReportingPageRef, 'group'>;
 }
 
 interface MenuItem {
@@ -148,6 +151,35 @@ interface QuickAccessState {
 
   sites: DeepReadonly<Site[]>;
   isLoading: boolean;
+}
+
+function getReportingPageKey(category: string, subcategory: string): string {
+  return `${category}\n${subcategory}`;
+}
+
+// left menu entries link to their page via the URL hash, e.g. "#?...&category=X&subcategory=Y"
+function getReportingPageFromHref(href: string|null): SubMenuItem['reportingPage'] {
+  const hashQuery = href?.split('#?')[1];
+  if (!hashQuery) {
+    return undefined;
+  }
+
+  const params = new URLSearchParams(hashQuery);
+  const category = params.get('category');
+  const subcategory = params.get('subcategory');
+
+  return category && subcategory ? { category, subcategory } : undefined;
+}
+
+function collectWidgetNames(widgets: DeepReadonly<WidgetContainer[]>, names: string[]) {
+  widgets.forEach((widget) => {
+    if (widget.name) {
+      names.push(widget.name.toLowerCase());
+    }
+    if (widget.widgets) {
+      collectWidgetNames(widget.widgets, names);
+    }
+  });
 }
 
 function isElementInViewport(element: HTMLElement) {
@@ -398,8 +430,16 @@ export default defineComponent({
         });
       }
 
+      // a reporting page also matches by the names of the reports on it (e.g. "Region" finds
+      // "Locations"), as reports often aren't named like the menu entry of their page
+      const reportNamesByPage = this.getReportNamesByPage();
+      const pageHasMatchingReport = (page?: SubMenuItem['reportingPage']) => !!page
+        && (reportNamesByPage[getReportingPageKey(page.category, page.subcategory)] || [])
+          .some((reportName) => reportName.indexOf(searchTerm) !== -1);
+
       const menuItemMatches = (i: SubMenuItem) => i.name.toLowerCase().indexOf(searchTerm) !== -1
-        || i.category.toLowerCase().indexOf(searchTerm) !== -1;
+        || i.category.toLowerCase().indexOf(searchTerm) !== -1
+        || pageHasMatchingReport(i.page || i.reportingPage);
 
       // get the menu items on first search since this component can be mounted
       // before the menus are
@@ -507,7 +547,12 @@ export default defineComponent({
         window.$(element).find('li .item').each((i, subElement) => {
           const text = subElement.textContent?.trim();
           if (text) {
-            leftMenuItems.push({ name: text, category, index: this.menuIndexCounter += 1 });
+            leftMenuItems.push({
+              name: text,
+              category,
+              index: this.menuIndexCounter += 1,
+              reportingPage: getReportingPageFromHref(subElement.getAttribute('href')),
+            });
             subElement.setAttribute('quick_access', `${this.menuIndexCounter}`);
           }
         });
@@ -533,6 +578,21 @@ export default defineComponent({
       });
 
       return segmentItems;
+    },
+    getReportNamesByPage(): Record<string, string[]> {
+      const reportNamesByPage: Record<string, string[]> = Object.create(null);
+
+      ReportingPagesStoreInstance.pages.value.forEach((page) => {
+        if (!page?.category?.id || !page.subcategory?.id) {
+          return;
+        }
+
+        const names: string[] = [];
+        collectWidgetNames(page.widgets || [], names);
+        reportNamesByPage[getReportingPageKey(page.category.id, `${page.subcategory.id}`)] = names;
+      });
+
+      return reportNamesByPage;
     },
     getReportingMenuItemsFromOtherGroups(): SubMenuItem[] {
       // only relevant in the reporting area, where the reporting pages have been loaded
