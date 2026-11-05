@@ -78,7 +78,7 @@ Usage examples:
             $idFailures = [];
             $affectedSites = [];
             foreach ($archiveFailures->iterateFailures($idSites, $givenUpOnly, false) as $failure) {
-                $idFailures[] = $failure['idfailure'];
+                $idFailures[] = (int) $failure['idfailure'];
                 $affectedSites[(int) $failure['idsite']] = true;
                 if (count($idFailures) >= 1000) {
                     $count += $archiveFailures->deleteFailuresById($idFailures);
@@ -133,7 +133,7 @@ Usage examples:
 
             $rows[] = [
                 $failure['idsite'],
-                $periods[$failure['period']] ?? $failure['period'],
+                $periods[(int) $failure['period']] ?? $failure['period'],
                 $failure['date1'],
                 $failure['date2'],
                 $failure['name'],
@@ -151,17 +151,20 @@ Usage examples:
         return self::SUCCESS;
     }
 
+    /**
+     * @return list<int>
+     */
     private function getIdSites(): array
     {
         $idSites = $this->getInput()->getOption('idsite');
 
-        if (empty($idSites)) {
+        if (!is_array($idSites) || empty($idSites)) {
             return [];
         }
 
         // an invalid value must not widen the selection to all sites
         try {
-            $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
+            $idSites = Site::getIdSitesFromIdSitesString(array_filter($idSites, 'is_string'), false, true);
         } catch (\Exception $e) {
             $idSites = [];
         }

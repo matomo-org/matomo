@@ -43,7 +43,7 @@ class ArchiveFailuresTest extends ConsoleCommandTestCase
         Db::query('DELETE FROM ' . ArchiveFailures::getTable());
 
         Date::$now = strtotime('2020-02-03 04:05:06');
-        Config::getInstance()->General['archive_failure_max_attempts'] = 2;
+        Config::setSetting('General', 'archive_failure_max_attempts', 2);
 
         $this->archiveFailures = new ArchiveFailures();
     }
@@ -55,7 +55,7 @@ class ArchiveFailuresTest extends ConsoleCommandTestCase
         parent::tearDown();
     }
 
-    public function testListsNothingWithoutFailures()
+    public function testListsNothingWithoutFailures(): void
     {
         $code = $this->applicationTester->run(['command' => 'core:archive-failures']);
 
@@ -63,7 +63,7 @@ class ArchiveFailuresTest extends ConsoleCommandTestCase
         $this->assertStringContainsString('No failed archives found.', $this->applicationTester->getDisplay());
     }
 
-    public function testListsFailures()
+    public function testListsFailures(): void
     {
         $this->recordFailures();
 
@@ -77,7 +77,7 @@ class ArchiveFailuresTest extends ConsoleCommandTestCase
         $this->assertStringContainsString(str_repeat('x', 100) . '...', $output);
     }
 
-    public function testFiltersFailures()
+    public function testFiltersFailures(): void
     {
         $this->recordFailures();
 
@@ -91,7 +91,7 @@ class ArchiveFailuresTest extends ConsoleCommandTestCase
         $this->assertStringContainsString('No failed archives found.', $this->applicationTester->getDisplay());
     }
 
-    public function testResetsMatchingFailures()
+    public function testResetsMatchingFailures(): void
     {
         $this->recordFailures();
 
@@ -102,7 +102,7 @@ class ArchiveFailuresTest extends ConsoleCommandTestCase
         $this->assertSame(['2'], array_map('strval', array_column($this->archiveFailures->getFailures(), 'idsite')));
     }
 
-    public function testResetReleasesTheInvalidationsOnHoldOfTheResetSitesOnly()
+    public function testResetReleasesTheInvalidationsOnHoldOfTheResetSitesOnly(): void
     {
         $this->recordFailures();
         $table = Common::prefixTable('archive_invalidations');
@@ -122,7 +122,7 @@ class ArchiveFailuresTest extends ConsoleCommandTestCase
         Db::query("DELETE FROM `$table`");
     }
 
-    public function testInvalidSiteDoesNotSelectAllSites()
+    public function testInvalidSiteDoesNotSelectAllSites(): void
     {
         $this->recordFailures();
 
