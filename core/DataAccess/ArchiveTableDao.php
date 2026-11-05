@@ -143,8 +143,11 @@ class ArchiveTableDao
             $d['Waiting'] = $waiting;
             $d['Started'] = $i['ts_started'];
             $d['Processing'] = $processing;
-            $d['Status'] = ($i['status'] == ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS ? 'Processing'
-                : ($i['status'] == ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD ? 'On hold' : 'Queued'));
+            $d['Status'] = match ((int) $i['status']) {
+                ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS => 'Processing',
+                ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD => 'On hold',
+                default => 'Queued',
+            };
             $data[] = $d;
         }
         return $data;
