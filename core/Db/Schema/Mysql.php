@@ -392,7 +392,8 @@ class Mysql implements SchemaInterface
                                             processing_host VARCHAR(100) NULL DEFAULT NULL,
                                             process_id VARCHAR(15) NULL DEFAULT NULL,
                                             PRIMARY KEY(idinvalidation),
-                                            INDEX index_idsite_dates_period_name(idsite, date1, period)
+                                            INDEX index_idsite_dates_period_name(idsite, date1, period),
+                                            INDEX index_idsite_status_date1_period(idsite, status, date1, period)
                                         ) $tableOptions
             ",
 
@@ -411,7 +412,7 @@ class Mysql implements SchemaInterface
                                             ts_last_failed DATETIME NOT NULL,
                                             ts_retry_after DATETIME NOT NULL,
                                             PRIMARY KEY(idfailure),
-                                            UNIQUE KEY unique_archive(idsite, period, date1, date2, archive_hash)
+                                            UNIQUE KEY unique_archive(idsite, archive_hash, period, date1, date2)
                                         ) $tableOptions
             ",
 

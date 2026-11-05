@@ -74,8 +74,10 @@ Usage examples:
         if ($this->getInput()->getOption('reset')) {
             $count = 0;
             $idFailures = [];
+            $affectedSites = [];
             foreach ($archiveFailures->iterateFailures($idSites, $givenUpOnly, false) as $failure) {
                 $idFailures[] = $failure['idfailure'];
+                $affectedSites[(int) $failure['idsite']] = true;
                 if (count($idFailures) >= 1000) {
                     $count += $archiveFailures->deleteFailuresById($idFailures);
                     $idFailures = [];
@@ -85,9 +87,15 @@ Usage examples:
 
             if ($count === 0) {
                 $this->getOutput()->writeln('No failed archives found.');
-            } else {
-                $this->getOutput()->writeln("Number of failed archives that were reset: $count. They will be processed in the next core:archive run.");
+                return self::SUCCESS;
             }
+
+            // the invalidations on hold because of them can be processed again
+            foreach (array_keys($affectedSites) as $idSite) {
+                $archiveFailures->releaseUnblockedInvalidations($idSite);
+            }
+
+            $this->getOutput()->writeln("Number of failed archives that were reset: $count. They will be processed in the next core:archive run.");
 
             return self::SUCCESS;
         }

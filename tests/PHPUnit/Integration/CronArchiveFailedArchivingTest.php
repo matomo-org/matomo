@@ -58,8 +58,8 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         Option::set(self::FAIL_ARCHIVING_OPTION, 'all');
         $output = $this->runArchiver();
 
-        // the failed day stays queued and the periods built from it are not attempted
-        $this->assertSame($invalidations, $this->getInvalidations());
+        // the failed day and the periods built from it are on hold, the periods are not attempted
+        $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
         $this->assertSame($this->getDoneFlags(ArchiveWriter::DONE_INVALIDATED), $this->getDoneFlagValues());
         $this->assertSame([['day', '2019-12-10', '1', '2020-02-03 05:05:06', 'Simulated archiving failure']], $this->getFailures());
         $this->assertStringContainsString('(attempt 1 of 5), it will be retried after 2020-02-03 05:05:06 UTC', $output);
@@ -74,8 +74,8 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         Option::delete(self::FAIL_ARCHIVING_OPTION);
         $output = $this->runArchiver();
 
-        $this->assertSame($invalidations, $this->getInvalidations());
-        $this->assertStringContainsString('Skipping 1 archives that failed recently and 0 that were given up', $output);
+        $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
+        $this->assertStringContainsString('Holding back 1 archives that failed recently and 0 that were given up', $output);
         $this->assertStringContainsString('Processed 0 archives.', $output);
 
         $this->setNow('2020-02-03 05:05:07');
@@ -107,9 +107,9 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->setNow('2020-02-10 04:05:06');
         $output = $this->runArchiver();
 
-        $this->assertSame($invalidations, $this->getInvalidations());
+        $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
         $this->assertSame($this->getDoneFlags(ArchiveWriter::DONE_INVALIDATED), $this->getDoneFlagValues());
-        $this->assertStringContainsString('Skipping 0 archives that failed recently and 1 that were given up', $output);
+        $this->assertStringContainsString('Holding back 0 archives that failed recently and 1 that were given up', $output);
         $this->assertStringContainsString('Processed 0 archives.', $output);
 
         // until the failure is reset
@@ -122,6 +122,55 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertStringContainsString('Processed 4 archives.', $output);
     }
 
+    public function testRetryThatFailsAgainPutsTheArchivesBackOnHold()
+    {
+        $invalidations = $this->archiveAndInvalidateDay();
+
+        Option::set(self::FAIL_ARCHIVING_OPTION, 'all');
+        $this->runArchiver();
+
+        // the retry releases the day and the periods built from it, the day is archived first and fails again
+        $this->setNow('2020-02-03 05:05:07');
+        $output = $this->runArchiver();
+
+        $this->assertStringContainsString('(attempt 2 of 5)', $output);
+        $this->assertStringNotContainsString('period=week', $output);
+        $this->assertStringNotContainsString('period=month', $output);
+        $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
+    }
+
+    public function testArchivesOnHoldAreRetriedAfterARunThatStoppedEarly()
+    {
+        $this->archiveAndInvalidateDay();
+
+        Option::set(self::FAIL_ARCHIVING_OPTION, 'all');
+        $this->runArchiver();
+
+        // a run that only processes one archive, the failed day
+        Option::delete(self::FAIL_ARCHIVING_OPTION);
+        $this->setNow('2020-02-03 05:05:07');
+        $output = $this->runArchiver(null, 1);
+        $this->assertStringContainsString('Processed 1 archives.', $output);
+        $this->assertSame([], $this->getFailures());
+
+        // the periods built from it were released and are archived in the next run
+        $output = $this->runArchiver();
+        $this->assertStringContainsString('Processed 3 archives.', $output);
+        $this->assertSame([], $this->getInvalidations());
+        $this->assertSame($this->getDoneFlags(ArchiveWriter::DONE_OK), $this->getDoneFlagValues());
+    }
+
+    public function testInvalidatingAnArchiveOnHoldAgainAddsNoInvalidation()
+    {
+        $invalidations = $this->archiveAndInvalidateDay();
+
+        Option::set(self::FAIL_ARCHIVING_OPTION, 'all');
+        $this->runArchiver();
+
+        $this->invalidateDay();
+        $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
+    }
+
     public function testEmptyResponseIsRecordedAsFailure()
     {
         $invalidations = $this->archiveAndInvalidateDay();
@@ -129,7 +178,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         Option::set(self::FAIL_ARCHIVING_OPTION, 'exit');
         $output = $this->runArchiver();
 
-        $this->assertSame($invalidations, $this->getInvalidations());
+        $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
         $this->assertSame([['day', '2019-12-10', '1', '2020-02-03 05:05:06', 'Empty response']], $this->getFailures());
         $this->assertStringContainsString('(attempt 1 of 5), it will be retried after', $output);
     }
@@ -149,10 +198,10 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
 
         $this->assertSame($this->getDoneFlags(ArchiveWriter::DONE_INVALIDATED), $this->getDoneFlagValues());
         $this->assertSame([
-            ['1', '2019-12-10', '0'],
-            ['2', '2019-12-09', '0'],
-            ['3', '2019-12-01', '0'],
-            ['4', '2019-01-01', '0'],
+            ['1', '2019-12-10', '2'],
+            ['2', '2019-12-09', '2'],
+            ['3', '2019-12-01', '2'],
+            ['4', '2019-01-01', '2'],
         ], array_map(function ($row) {
             return [(string) $row['period'], $row['date1'], (string) $row['status']];
         }, $this->getInvalidations()));
@@ -324,6 +373,14 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $fixture->createSuperUser = true;
     }
 
+    private function onHold(array $invalidations): array
+    {
+        return array_map(function ($invalidation) {
+            $invalidation['status'] = ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD;
+            return $invalidation;
+        }, $invalidations);
+    }
+
     private function runArchiverMain(): string
     {
         $logger = new FakeLogger();
@@ -362,7 +419,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $invalidator->markArchivesAsInvalidated([1], [$date], 'day', $segment);
     }
 
-    private function runArchiver(?int $concurrentRequests = null): string
+    private function runArchiver(?int $concurrentRequests = null, ?int $maxArchivesToProcess = null): string
     {
         $logger = new FakeLogger();
 
@@ -370,6 +427,9 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $archiver->skipInvalidatingRecentDates = true;
         if ($concurrentRequests) {
             $archiver->concurrentRequestsPerWebsite = $concurrentRequests;
+        }
+        if ($maxArchivesToProcess) {
+            $archiver->maxArchivesToProcess = $maxArchivesToProcess;
         }
         $archiver->init();
         $archiver->run();

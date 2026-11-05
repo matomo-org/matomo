@@ -9,9 +9,11 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveFailures;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
@@ -194,7 +196,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['waiting' => 2, 'givenUp' => 1, 'oldestFailure' => '2020-02-03 04:00:00'], $this->archiveFailures->getFailureCounts());
     }
 
-    public function testGetBlockedInvalidationIds()
+    public function testStartingAnArchiveRespectsFailuresRecordedMeanwhile()
     {
         $ids = $this->insertInvalidations([
             'failed day' => [1, '2020-01-15', '2020-01-15'],
@@ -202,8 +204,8 @@ class ArchiveFailuresTest extends IntegrationTestCase
             'month of day' => [3, '2020-01-01', '2020-01-31'],
             'year of day' => [4, '2020-01-01', '2020-12-31'],
             'range around day' => [5, '2020-01-10', '2020-01-20'],
-            'range not around day' => [5, '2020-01-16', '2020-01-20'],
             'other day' => [1, '2020-01-16', '2020-01-16'],
+            'range not around day' => [5, '2020-01-16', '2020-01-20'],
             'failed week straddling months' => [2, '2020-03-30', '2020-04-05'],
             'month not built from straddling week' => [3, '2020-04-01', '2020-04-30'],
             'failed week within month' => [2, '2020-06-08', '2020-06-14'],
@@ -211,27 +213,275 @@ class ArchiveFailuresTest extends IntegrationTestCase
             'failed day retry pending' => [1, '2021-02-02', '2021-02-02'],
             'week of day retry pending' => [2, '2021-02-01', '2021-02-07'],
         ]);
-        $this->insertInvalidations(['segment archive of failed day' => [1, '2020-01-15', '2020-01-15']], 'done' . md5('segment'));
+        $ids += $this->insertInvalidations(['segment archive of failed day' => [1, '2020-01-15', '2020-01-15']], 'done' . md5('segment'));
 
+        // eg recorded by another archiver after this one loaded the invalidations to skip
         $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2020-01-15', 'date2' => '2020-01-15']), 'error');
         $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 2, 'date1' => '2020-03-30', 'date2' => '2020-04-05']), 'error');
-        Date::$now = strtotime('2020-02-03 04:10:00');
         $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 2, 'date1' => '2020-06-08', 'date2' => '2020-06-14']), 'error');
         Date::$now = strtotime('2020-01-01 00:00:00');
         $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2021-02-02', 'date2' => '2021-02-02']), 'error');
         Date::$now = strtotime('2020-02-03 04:05:06');
 
-        $blocked = $this->archiveFailures->getBlockedInvalidationIds(1);
+        $model = new Model();
+        $started = [];
+        foreach ($ids as $label => $idInvalidation) {
+            $invalidation = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$idInvalidation]);
+            if ($model->startArchive($invalidation)) {
+                $started[] = $label;
+            }
+        }
 
-        $expected = array_map(function ($name) use ($ids) {
-            return $ids[$name];
-        }, [
+        $this->assertSame([
+            'other day',
+            'range not around day',
+            'month not built from straddling week',
+            'failed day retry pending',
+            'week of day retry pending',
+            'segment archive of failed day',
+        ], $started);
+    }
+
+    /**
+     * The SQL rule (holding a queued invalidation) and the PHP rule (releasing invalidations on hold) must agree.
+     */
+    public function testHoldAndReleaseAgreeOnWhatAFailureBlocks()
+    {
+        $this->recordMatrixFailures();
+
+        $queued = $this->insertMatrixInvalidations(ArchiveInvalidator::INVALIDATION_STATUS_QUEUED);
+        $heldBySql = [];
+        foreach ($queued as $label => $idInvalidation) {
+            $invalidation = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$idInvalidation]);
+            if ('held' === $this->archiveFailures->holdIfBlocked($invalidation)) {
+                $heldBySql[] = $label;
+            }
+        }
+        Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations'));
+
+        $onHold = $this->insertMatrixInvalidations(ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD);
+        $this->archiveFailures->releaseUnblockedInvalidations(1);
+        $stillHeldByPhp = [];
+        foreach ($onHold as $label => $idInvalidation) {
+            $status = (int) Db::fetchOne('SELECT status FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$idInvalidation]);
+            if ($status === ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD) {
+                $stillHeldByPhp[] = $label;
+            }
+        }
+
+        $expected = [
             'failed day', 'week of day', 'month of day', 'year of day', 'range around day',
-            'failed week straddling months', 'failed week within month', 'month of week within month',
+            'failed week straddling months',
+            'failed week within month', 'month of week within month',
+            'failed week straddling years',
+            'plugin report day', 'plugin report month',
+            'segment day', 'segment week',
+        ];
+        $this->assertSame($expected, $heldBySql);
+        $this->assertSame($expected, $stillHeldByPhp);
+    }
+
+    public function testReleaseOnlyReleasesWhatNoOtherFailureBlocks()
+    {
+        $firstDay = $this->getInvalidation(['date1' => '2020-01-15', 'date2' => '2020-01-15']);
+        $secondDay = $this->getInvalidation(['date1' => '2020-01-20', 'date2' => '2020-01-20']);
+        $this->archiveFailures->recordFailure($firstDay, 'error');
+        $this->archiveFailures->recordFailure($secondDay, 'error');
+        $ids = $this->insertInvalidations([
+            'month' => [3, '2020-01-01', '2020-01-31'],
+            'week of first day' => [2, '2020-01-13', '2020-01-19'],
+            'week of second day' => [2, '2020-01-20', '2020-01-26'],
         ]);
-        $this->assertEqualsCanonicalizing($expected, $blocked['ids']);
-        $this->assertSame('2020-02-03 05:05:06', $blocked['validUntil']);
-        $this->assertSame(['ids' => [], 'validUntil' => null], $this->archiveFailures->getBlockedInvalidationIds(2));
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = ?', [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]);
+
+        // the first day was archived: its week can go, the month still waits for the second day
+        $this->assertSame(1, $this->archiveFailures->deleteFailure($firstDay));
+        $this->assertSame(1, $this->archiveFailures->releaseUnblockedInvalidations(1, $firstDay));
+        $this->assertSame([
+            'month' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD,
+            'week of first day' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+            'week of second day' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD,
+        ], $this->getStatuses($ids));
+
+        $this->assertSame(1, $this->archiveFailures->deleteFailure($secondDay));
+        $this->assertSame(2, $this->archiveFailures->releaseUnblockedInvalidations(1, $secondDay));
+        $this->assertSame(array_fill_keys(array_keys($ids), ArchiveInvalidator::INVALIDATION_STATUS_QUEUED), $this->getStatuses($ids));
+
+        // nothing to delete, nothing to release
+        $this->assertSame(0, $this->archiveFailures->deleteFailure($secondDay));
+    }
+
+    public function testInvalidationsOnHoldWithoutFailureAreReleased()
+    {
+        $ids = $this->insertInvalidations(['day' => [1, '2020-01-15', '2020-01-15']]);
+        $ids += $this->insertInvalidations(['other site' => [1, '2020-01-15', '2020-01-15']], 'done', 2);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = ?', [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]);
+
+        $this->assertSame(1, $this->archiveFailures->releaseUnblockedInvalidations(1));
+        $this->assertSame(['day' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED, 'other site' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
+    }
+
+    public function testHoldIfBlockedKeepsOneInvalidationPerArchive()
+    {
+        $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2020-01-15', 'date2' => '2020-01-15']), 'error');
+        $ids = $this->insertInvalidations([
+            'first' => [1, '2020-01-15', '2020-01-15'],
+            'second' => [1, '2020-01-15', '2020-01-15'],
+        ]);
+
+        $this->assertSame('held', $this->archiveFailures->holdIfBlocked($this->getInvalidationRow($ids['first'])));
+        $this->assertSame('deleted', $this->archiveFailures->holdIfBlocked($this->getInvalidationRow($ids['second'])));
+        $this->assertSame(['first' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
+    }
+
+    public function testDuplicateOfAnInvalidationOnHoldIsNotDeletedIfNotBlocked()
+    {
+        $ids = $this->insertInvalidations([
+            'held without failure' => [1, '2020-01-15', '2020-01-15'],
+            'queued' => [1, '2020-01-15', '2020-01-15'],
+        ]);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = ? WHERE idinvalidation = ?', [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $ids['held without failure']]);
+
+        $this->assertNull($this->archiveFailures->holdIfBlocked($this->getInvalidationRow($ids['queued'])));
+        $this->assertSame(['held without failure' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, 'queued' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED], $this->getStatuses($ids));
+    }
+
+    public function testFailedInvalidationIsPutOnHoldWithoutItsStartedState()
+    {
+        $ids = $this->insertInvalidations(['failed' => [1, '2020-01-15', '2020-01-15']]);
+        Db::query(
+            'UPDATE ' . Common::prefixTable('archive_invalidations') . " SET status = 1, ts_started = '2020-02-03 04:00:00', processing_host = 'host', process_id = '123'"
+        );
+
+        (new Model())->holdFailedInvalidation($this->getInvalidationRow($ids['failed']));
+
+        $row = $this->getInvalidationRow($ids['failed']);
+        $this->assertSame([(string) ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, null, null, null], [(string) $row['status'], $row['ts_started'], $row['processing_host'], $row['process_id']]);
+    }
+
+    /**
+     * @dataProvider getStatusesOfTwins
+     */
+    public function testFailedInvalidationIsDeletedIfItsArchiveIsAlreadyWaiting(int $twinStatus)
+    {
+        $ids = $this->insertInvalidations(['failed' => [1, '2020-01-15', '2020-01-15'], 'twin' => [1, '2020-01-15', '2020-01-15']]);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 1, ts_started = NOW() WHERE idinvalidation = ?', [$ids['failed']]);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = ? WHERE idinvalidation = ?', [$twinStatus, $ids['twin']]);
+
+        (new Model())->holdFailedInvalidation($this->getInvalidationRow($ids['failed']));
+
+        $this->assertSame(['twin' => $twinStatus], $this->getStatuses($ids));
+    }
+
+    public function getStatusesOfTwins(): iterable
+    {
+        yield 'queued' => [ArchiveInvalidator::INVALIDATION_STATUS_QUEUED];
+        yield 'on hold' => [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD];
+    }
+
+    public function testReleasingAJobKeepsTheInvalidationOnHoldOfItsArchive()
+    {
+        $ids = $this->insertInvalidations(['in progress' => [1, '2020-01-15', '2020-01-15'], 'on hold' => [1, '2020-01-15', '2020-01-15']]);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 1, ts_started = NOW() WHERE idinvalidation = ?', [$ids['in progress']]);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 2 WHERE idinvalidation = ?', [$ids['on hold']]);
+
+        (new Model())->releaseInProgressInvalidations([$ids['in progress']]);
+
+        $this->assertSame(['on hold' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $this->getStatuses($ids));
+    }
+
+    public function testJobResetAfterACrashIsPutOnHoldWhenItsFailureWasRecorded()
+    {
+        $ids = $this->insertInvalidations(['crashed' => [1, '2020-01-15', '2020-01-15']]);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . " SET status = 1, ts_started = '2020-01-01 00:00:00'");
+        // the archiver recorded the failure, then died before putting the invalidation on hold
+        $this->archiveFailures->recordFailure($this->getInvalidationRow($ids['crashed']), 'error');
+
+        (new Model())->resetFailedArchivingJobs();
+        $this->assertSame(['crashed' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED], $this->getStatuses($ids));
+
+        $this->assertSame('held', $this->archiveFailures->holdIfBlocked($this->getInvalidationRow($ids['crashed'])));
+    }
+
+    private function recordMatrixFailures(): void
+    {
+        $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2020-01-15', 'date2' => '2020-01-15']), 'error');
+        $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 2, 'date1' => '2020-03-30', 'date2' => '2020-04-05']), 'error');
+        $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 2, 'date1' => '2020-06-08', 'date2' => '2020-06-14']), 'error');
+        $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 2, 'date1' => '2020-12-28', 'date2' => '2021-01-03']), 'error');
+        $this->archiveFailures->recordFailure($this->getInvalidation(['name' => 'done.Goals', 'report' => 'getMetrics', 'date1' => '2020-02-10', 'date2' => '2020-02-10']), 'error');
+        $this->archiveFailures->recordFailure($this->getInvalidation(['name' => 'done' . md5('segment'), 'date1' => '2020-02-11', 'date2' => '2020-02-11']), 'error');
+        Date::$now = strtotime('2020-01-01 00:00:00');
+        $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2021-02-02', 'date2' => '2021-02-02']), 'error');
+        Date::$now = strtotime('2020-02-03 04:05:06');
+    }
+
+    /**
+     * @return array<string, int> label => idinvalidation
+     */
+    private function insertMatrixInvalidations(int $status): array
+    {
+        $segment = 'done' . md5('segment');
+        $matrix = [
+            'failed day' => [1, '2020-01-15', '2020-01-15'],
+            'week of day' => [2, '2020-01-13', '2020-01-19'],
+            'month of day' => [3, '2020-01-01', '2020-01-31'],
+            'year of day' => [4, '2020-01-01', '2020-12-31'],
+            'range around day' => [5, '2020-01-10', '2020-01-20'],
+            'other day' => [1, '2020-01-16', '2020-01-16'],
+            'range not around day' => [5, '2020-01-16', '2020-01-20'],
+            'failed week straddling months' => [2, '2020-03-30', '2020-04-05'],
+            'month before straddling week' => [3, '2020-03-01', '2020-03-31'],
+            'month not built from straddling week' => [3, '2020-04-01', '2020-04-30'],
+            'failed week within month' => [2, '2020-06-08', '2020-06-14'],
+            'month of week within month' => [3, '2020-06-01', '2020-06-30'],
+            'failed week straddling years' => [2, '2020-12-28', '2021-01-03'],
+            'year after straddling week' => [4, '2021-01-01', '2021-12-31'],
+            'failed day retry pending' => [1, '2021-02-02', '2021-02-02'],
+            'week of day retry pending' => [2, '2021-02-01', '2021-02-07'],
+            'plugin report day' => [1, '2020-02-10', '2020-02-10', 'done.Goals', 'getMetrics'],
+            'plugin report month' => [3, '2020-02-01', '2020-02-29', 'done.Goals', 'getMetrics'],
+            'plugin other report day' => [1, '2020-02-10', '2020-02-10', 'done.Goals', 'getOther'],
+            'plugin day without report' => [1, '2020-02-10', '2020-02-10', 'done.Goals', null],
+            'all plugins day of plugin failure' => [1, '2020-02-10', '2020-02-10'],
+            'segment day' => [1, '2020-02-11', '2020-02-11', $segment],
+            'segment week' => [2, '2020-02-10', '2020-02-16', $segment],
+            'all visits day of segment failure' => [1, '2020-02-11', '2020-02-11'],
+            'all visits month without failure' => [3, '2020-02-01', '2020-02-29'],
+        ];
+
+        $ids = [];
+        foreach ($matrix as $label => $row) {
+            Db::query(
+                'INSERT INTO ' . Common::prefixTable('archive_invalidations') . ' (name, idsite, date1, date2, period, report, ts_invalidated, status) VALUES (?, 1, ?, ?, ?, ?, ?, ?)',
+                [$row[3] ?? 'done', $row[1], $row[2], $row[0], $row[4] ?? null, Date::now()->getDatetime(), $status]
+            );
+            $ids[$label] = (int) Db::get()->lastInsertId();
+        }
+
+        return $ids;
+    }
+
+    private function getInvalidationRow(int $idInvalidation): array
+    {
+        return Db::fetchRow('SELECT * FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$idInvalidation]);
+    }
+
+    /**
+     * @param array<string, int> $ids
+     * @return array<string, int> label => status of the invalidations that still exist
+     */
+    private function getStatuses(array $ids): array
+    {
+        $statuses = [];
+        foreach ($ids as $label => $idInvalidation) {
+            $status = Db::fetchOne('SELECT status FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$idInvalidation]);
+            if (false !== $status) {
+                $statuses[$label] = (int) $status;
+            }
+        }
+
+        return $statuses;
     }
 
     public function testIterateFailuresLoadsAllFailuresInChunks()
@@ -256,32 +506,16 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertSame(['2020-01-02', '2020-01-04'], $givenUp);
     }
 
-    public function testFailureStateChangesWithFailuresAndNewInvalidations()
-    {
-        $this->assertNull($this->archiveFailures->getFailureState(1));
-
-        $this->archiveFailures->recordFailure($this->getInvalidation(), 'error');
-        $state = $this->archiveFailures->getFailureState(1);
-        $this->assertNotNull($state);
-
-        $this->archiveFailures->recordFailure($this->getInvalidation(), 'error');
-        $this->assertNotSame($state['failures'], $this->archiveFailures->getFailureState(1)['failures']);
-
-        $ids = $this->insertInvalidations(['new invalidation' => [1, '2020-02-04', '2020-02-04']]);
-        $this->assertSame($ids['new invalidation'], $this->archiveFailures->getFailureState(1)['maxIdInvalidation']);
-        $this->assertNull($this->archiveFailures->getFailureState(2));
-    }
-
     /**
      * @return array<string, int> label => idinvalidation
      */
-    private function insertInvalidations(array $invalidations, string $name = 'done'): array
+    private function insertInvalidations(array $invalidations, string $name = 'done', int $idSite = 1): array
     {
         $ids = [];
         foreach ($invalidations as $label => [$period, $date1, $date2]) {
             Db::query(
-                'INSERT INTO ' . Common::prefixTable('archive_invalidations') . ' (name, idsite, date1, date2, period, ts_invalidated, status) VALUES (?, 1, ?, ?, ?, ?, 0)',
-                [$name, $date1, $date2, $period, Date::now()->getDatetime()]
+                'INSERT INTO ' . Common::prefixTable('archive_invalidations') . ' (name, idsite, date1, date2, period, ts_invalidated, status) VALUES (?, ?, ?, ?, ?, ?, 0)',
+                [$name, $idSite, $date1, $date2, $period, Date::now()->getDatetime()]
             );
             $ids[$label] = (int) Db::get()->lastInsertId();
         }

@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
+use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveFailures;
 use Piwik\Date;
@@ -96,6 +98,26 @@ class ArchiveFailuresTest extends ConsoleCommandTestCase
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
         $this->assertStringContainsString('Number of failed archives that were reset: 2.', $this->applicationTester->getDisplay());
         $this->assertSame(['2'], array_map('strval', array_column($this->archiveFailures->getFailures(), 'idsite')));
+    }
+
+    public function testResetReleasesTheInvalidationsOnHoldOfTheResetSitesOnly()
+    {
+        $this->recordFailures();
+        $table = Common::prefixTable('archive_invalidations');
+        foreach ([1, 2] as $idSite) {
+            Db::query(
+                "INSERT INTO `$table` (name, idsite, date1, date2, period, ts_invalidated, status) VALUES ('done', ?, '2020-01-01', '2020-01-01', 1, ?, ?)",
+                [$idSite, Date::now()->getDatetime(), ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]
+            );
+        }
+
+        $this->applicationTester->run(['command' => 'core:archive-failures', '--idsite' => ['1'], '--reset' => true]);
+
+        $this->assertEquals([
+            ['idsite' => 1, 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED],
+            ['idsite' => 2, 'status' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD],
+        ], Db::fetchAll("SELECT idsite, status FROM `$table` ORDER BY idsite"));
+        Db::query("DELETE FROM `$table`");
     }
 
     public function testInvalidSiteDoesNotSelectAllSites()

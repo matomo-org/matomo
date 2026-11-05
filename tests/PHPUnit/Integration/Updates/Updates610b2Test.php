@@ -34,6 +34,7 @@ class Updates610b2Test extends IntegrationTestCase
 
         try {
             Db::exec("DROP TABLE `$failuresTable`");
+            Db::exec("ALTER TABLE `$invalidationsTable` DROP INDEX index_idsite_status_date1_period");
             $this->changeInvalidationColumnCollations($charset, $otherCollation, $otherCollation);
 
             $this->runUpdate();
@@ -45,7 +46,10 @@ class Updates610b2Test extends IntegrationTestCase
             $this->assertSame($otherCollation, $columns['report']['COLLATION_NAME']);
 
             $uniqueKeyColumns = array_column(Db::fetchAll("SHOW INDEX FROM `$failuresTable` WHERE Key_name = 'unique_archive'"), 'Column_name');
-            $this->assertSame(['idsite', 'period', 'date1', 'date2', 'archive_hash'], $uniqueKeyColumns);
+            $this->assertSame(['idsite', 'archive_hash', 'period', 'date1', 'date2'], $uniqueKeyColumns);
+
+            $statusIndexColumns = array_column(Db::fetchAll("SHOW INDEX FROM `$invalidationsTable` WHERE Key_name = 'index_idsite_status_date1_period'"), 'Column_name');
+            $this->assertSame(['idsite', 'status', 'date1', 'period'], $statusIndexColumns);
         } finally {
             $this->changeInvalidationColumnCollations(
                 $charset,

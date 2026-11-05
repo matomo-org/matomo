@@ -9,6 +9,7 @@
 
 namespace Piwik\DataAccess;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -35,6 +36,8 @@ class ArchiveFailures
     private const DEFAULT_RETRY_DELAYS = [3600, 21600, 86400, 86400];
     private const MAX_RETRY_DELAY = 31536000;
     private const MAX_ERROR_LENGTH = 1000;
+    private const INVALIDATIONS_CHUNK_SIZE = 50000;
+    private const FAILURES_CHUNK_SIZE = 10000;
 
     private static bool $isAvailable = false;
 
@@ -147,16 +150,16 @@ class ArchiveFailures
     /**
      * Removes the failure record of the archive of the given invalidation, once that archive was processed.
      */
-    public function deleteFailure(array $invalidation): void
+    public function deleteFailure(array $invalidation): int
     {
         if (!self::isAvailable()) {
-            return;
+            return 0;
         }
 
-        Db::query(
+        return Db::query(
             "DELETE FROM `" . self::getTable() . "` WHERE " . $this->getArchiveWhere(),
             $this->getArchiveBind($invalidation)
-        );
+        )->rowCount();
     }
 
     /**
@@ -240,32 +243,189 @@ class ArchiveFailures
     }
 
     /**
-     * Returns the queued invalidations core:archive must skip for a site: those of archives that failed recently or
-     * were given up, and those of the periods built from them, which would re-archive the failed archive.
+     * Releases invalidations put on hold because of a failure (status ON_HOLD back to QUEUED) once no failure blocks
+     * them anymore: the retry delay passed, or the failure was removed (archive processed, reset, cleaned up).
      *
-     * @return array{ids: int[], validUntil: ?string} validUntil is when the next failure becomes retryable
+     * @param array|null $archive only release what this archive held, after it was processed
+     * @return int number of released invalidations
      */
-    public function getBlockedInvalidationIds(int $idSite): array
+    public function releaseUnblockedInvalidations(int $idSite, ?array $archive = null): int
     {
         if (!self::isAvailable()) {
-            return ['ids' => [], 'validUntil' => null];
+            return 0;
         }
 
-        $now = Date::now()->getDatetime();
+        $invalidationsTable = Common::prefixTable('archive_invalidations');
+        $failureCondition = '';
+        $failureBind = [];
+        $invalidationCondition = '';
+        $invalidationBind = [];
+        if (null !== $archive) {
+            $failureCondition = ' AND f.archive_hash = ?';
+            $failureBind = [$this->getArchiveHash($archive)];
+            $invalidationCondition = " AND name = ? AND IFNULL(`report`, '') = ?";
+            $invalidationBind = [$archive['name'], (string) ($archive['report'] ?? '')];
+        }
+
+        $hasFailures = (bool) Db::fetchOne(
+            "SELECT 1 FROM `" . self::getTable() . "` f WHERE f.idsite = ?$failureCondition LIMIT 1",
+            array_merge([$idSite], $failureBind)
+        );
+        if (!$hasFailures) {
+            // nothing can block them anymore
+            return Db::query(
+                "UPDATE `$invalidationsTable` SET status = ? WHERE idsite = ? AND status = ?$invalidationCondition",
+                array_merge([ArchiveInvalidator::INVALIDATION_STATUS_QUEUED, $idSite, ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $invalidationBind)
+            )->rowCount();
+        }
+
+        [$blockedPeriods, $blockedRangeDates] = $this->getBlockedPeriods($idSite, null === $archive ? null : $failureBind[0]);
+
+        $released = 0;
+        $lastIdInvalidation = 0;
+        do {
+            $invalidations = Db::fetchAll(
+                "SELECT idinvalidation, name, `report`, period, date1, date2 FROM `$invalidationsTable`
+                  WHERE idsite = ? AND status = ?$invalidationCondition AND idinvalidation > ?
+                  ORDER BY idinvalidation ASC LIMIT " . self::INVALIDATIONS_CHUNK_SIZE,
+                array_merge([$idSite, ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD], $invalidationBind, [$lastIdInvalidation])
+            );
+
+            $idsToRelease = [];
+            foreach ($invalidations as $invalidation) {
+                $lastIdInvalidation = (int) $invalidation['idinvalidation'];
+                if (!$this->isBlocked($invalidation, $blockedPeriods, $blockedRangeDates)) {
+                    $idsToRelease[] = $lastIdInvalidation;
+                }
+            }
+
+            if (!empty($idsToRelease)) {
+                $released += Db::query(
+                    "UPDATE `$invalidationsTable` SET status = ? WHERE status = ? AND idinvalidation IN (" . implode(',', $idsToRelease) . ")",
+                    [ArchiveInvalidator::INVALIDATION_STATUS_QUEUED, ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]
+                )->rowCount();
+            }
+        } while (count($invalidations) === self::INVALIDATIONS_CHUNK_SIZE);
+
+        return $released;
+    }
+
+    /**
+     * Puts a queued invalidation on hold if a failure blocks it. If the same archive is already on hold, the
+     * invalidation is deleted instead, so at most one invalidation per archive waits.
+     *
+     * @return string|null 'held', 'deleted', or null if not blocked
+     */
+    public function holdIfBlocked(array $invalidation): ?string
+    {
+        if (!self::isAvailable()) {
+            return null;
+        }
+
+        $table = Common::prefixTable('archive_invalidations');
+        [$blockedSql, $blockedBind] = $this->getBlockingFailureExistsCondition($invalidation);
+
+        $idHeldTwin = Db::fetchOne(
+            "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND period = ? AND date2 = ? AND name = ?
+                AND IFNULL(`report`, '') = ? AND status = ? AND idinvalidation != ? LIMIT 1",
+            [
+                $invalidation['idsite'], $invalidation['date1'], $invalidation['period'], $invalidation['date2'], $invalidation['name'],
+                (string) ($invalidation['report'] ?? ''), ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $invalidation['idinvalidation'],
+            ]
+        );
+
+        if ($idHeldTwin) {
+            $deleted = Db::query(
+                "DELETE FROM `$table` WHERE idinvalidation = ? AND status = ? AND $blockedSql",
+                array_merge([$invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_QUEUED], $blockedBind)
+            )->rowCount();
+
+            return $deleted > 0 ? 'deleted' : null;
+        }
+
+        $held = Db::query(
+            "UPDATE `$table` SET status = ? WHERE idinvalidation = ? AND status = ? AND $blockedSql",
+            array_merge([ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_QUEUED], $blockedBind)
+        )->rowCount();
+
+        return $held > 0 ? 'held' : null;
+    }
+
+    /**
+     * SQL condition that is true if a failure blocks the given invalidation: its own archive or an archive it is built
+     * from failed recently or was given up. Same rule as getBlockedPeriods() and isBlocked(), for a single row.
+     *
+     * @return array{0: string, 1: array} SQL and bind
+     */
+    public function getBlockingFailureExistsCondition(array $invalidation): array
+    {
+        $idSite = (int) $invalidation['idsite'];
+        $period = (int) $invalidation['period'];
+
+        $sql = "EXISTS (SELECT 1 FROM `" . self::getTable() . "` f WHERE f.idsite = ? AND f.archive_hash = ?
+                   AND (f.ts_retry_after > ? OR f.attempts >= ?)
+                   AND ((f.period = ? AND f.date1 = ? AND f.date2 = ?)";
+        $bind = [
+            $idSite,
+            $this->getArchiveHash($invalidation),
+            Date::now()->getDatetime(),
+            self::getMaxAttempts($idSite),
+            $period,
+            $invalidation['date1'],
+            $invalidation['date2'],
+        ];
+
+        if ($period !== Piwik::$idPeriods['day']) {
+            $sql .= " OR (f.period < ? AND f.date1 >= ? AND f.date2 <= ?";
+            array_push($bind, $period, $invalidation['date1'], $invalidation['date2']);
+
+            if ($period === Piwik::$idPeriods['year']) {
+                // years are built from months, which only contain weeks that lie within them
+                $sql .= " AND (f.period != ? OR DATE_FORMAT(f.date1, '%m') = DATE_FORMAT(f.date2, '%m'))";
+                $bind[] = Piwik::$idPeriods['week'];
+            }
+
+            $sql .= ")";
+        }
+
+        return [$sql . "))", $bind];
+    }
+
+    /**
+     * Periods blocked by the site's failures that are waiting or given up: their own period, and the periods built
+     * from it. Ranges are matched by date.
+     *
+     * @return array{0: array<string, array<string, true>>, 1: array<string, array>} blocked periods and range dates, by archive
+     */
+    private function getBlockedPeriods(int $idSite, ?string $archiveHash): array
+    {
         $blockedPeriods = [];
         $blockedRangeDates = [];
-        $validUntil = null;
 
-        foreach ($this->getFailures([$idSite], false, false) as $failure) {
+        if (null === $archiveHash) {
+            $failures = $this->iterateFailures([$idSite], false, false, self::FAILURES_CHUNK_SIZE);
+        } else {
+            // only the failures of one archive, served by the unique key
+            $failures = Db::fetchAll(
+                "SELECT idsite, name, period, date1, date2, `report`, attempts, ts_retry_after FROM `" . self::getTable() . "`
+                  WHERE idsite = ? AND archive_hash = ?",
+                [$idSite, $archiveHash]
+            );
+            $now = Date::now()->getDatetime();
+            $maxAttempts = self::getMaxAttempts($idSite);
+            foreach ($failures as &$failure) {
+                $failure['state'] = $this->getState($failure, $now, $maxAttempts);
+            }
+            unset($failure);
+        }
+
+        foreach ($failures as $failure) {
             if ($failure['state'] === self::STATE_RETRY_PENDING) {
                 continue;
             }
 
-            if ($failure['state'] === self::STATE_WAITING && (null === $validUntil || $failure['ts_retry_after'] < $validUntil)) {
-                $validUntil = $failure['ts_retry_after'];
-            }
-
             $archiveKey = $failure['name'] . '|' . $failure['report'];
+
             foreach ($this->getPeriodsBuiltFrom($failure) as [$period, $date1, $date2]) {
                 $blockedPeriods[$archiveKey][$period . '|' . $date1 . '|' . $date2] = true;
             }
@@ -275,70 +435,25 @@ class ArchiveFailures
             }
         }
 
-        if (empty($blockedPeriods)) {
-            return ['ids' => [], 'validUntil' => $validUntil];
+        return [$blockedPeriods, $blockedRangeDates];
+    }
+
+    private function isBlocked(array $invalidation, array $blockedPeriods, array $blockedRangeDates): bool
+    {
+        $archiveKey = $invalidation['name'] . '|' . ($invalidation['report'] ?? '');
+        if (isset($blockedPeriods[$archiveKey][$invalidation['period'] . '|' . $invalidation['date1'] . '|' . $invalidation['date2']])) {
+            return true;
         }
 
-        $names = array_unique(array_map(function ($archiveKey) {
-            return explode('|', $archiveKey, 2)[0];
-        }, array_keys($blockedPeriods)));
-
-        $invalidations = Db::fetchAll(
-            "SELECT idinvalidation, name, `report`, period, date1, date2 FROM `" . Common::prefixTable('archive_invalidations') . "`
-              WHERE idsite = ? AND name IN (" . Common::getSqlStringFieldsArray($names) . ")",
-            array_merge([$idSite], $names)
-        );
-
-        $ids = [];
-        foreach ($invalidations as $invalidation) {
-            $archiveKey = $invalidation['name'] . '|' . ($invalidation['report'] ?? '');
-            $periodKey = $invalidation['period'] . '|' . $invalidation['date1'] . '|' . $invalidation['date2'];
-
-            if (isset($blockedPeriods[$archiveKey][$periodKey])) {
-                $ids[] = (int) $invalidation['idinvalidation'];
-            } elseif ((int) $invalidation['period'] === Range::PERIOD_ID) {
-                foreach ($blockedRangeDates[$archiveKey] ?? [] as [$date1, $date2]) {
-                    if ($invalidation['date1'] <= $date1 && $invalidation['date2'] >= $date2) {
-                        $ids[] = (int) $invalidation['idinvalidation'];
-                        break;
-                    }
+        if ((int) $invalidation['period'] === Range::PERIOD_ID) {
+            foreach ($blockedRangeDates[$archiveKey] ?? [] as [$date1, $date2]) {
+                if ($invalidation['date1'] <= $date1 && $invalidation['date2'] >= $date2) {
+                    return true;
                 }
             }
         }
 
-        return ['ids' => $ids, 'validUntil' => $validUntil];
-    }
-
-    /**
-     * Tells when the invalidations blocked for a site need to be loaded again: 'failures' changes whenever a failure
-     * of the site is recorded, updated or removed, and 'maxIdInvalidation' grows when an invalidation is added.
-     *
-     * @return array{failures: string, maxIdInvalidation: int}|null null when the site has no failures
-     * @phpstan-impure reads the current database state
-     */
-    public function getFailureState(int $idSite): ?array
-    {
-        if (!self::isAvailable()) {
-            return null;
-        }
-
-        $row = Db::fetchRow(
-            "SELECT COUNT(*) AS num, SUM(attempts) AS attempts, MAX(ts_last_failed) AS last_failed, MAX(idfailure) AS max_id
-               FROM `" . self::getTable() . "` WHERE idsite = ?",
-            [$idSite]
-        );
-
-        if (empty($row['num'])) {
-            return null;
-        }
-
-        return [
-            'failures' => implode('|', $row),
-            'maxIdInvalidation' => (int) Db::fetchOne(
-                "SELECT MAX(idinvalidation) FROM `" . Common::prefixTable('archive_invalidations') . "` WHERE idsite = ?",
-                [$idSite]
-            ),
-        ];
+        return false;
     }
 
     /**
@@ -491,7 +606,12 @@ class ArchiveFailures
             (int) $invalidation['period'],
             $invalidation['date1'],
             $invalidation['date2'],
-            md5($invalidation['name'] . '|' . ($invalidation['report'] ?? '')),
+            $this->getArchiveHash($invalidation),
         ];
+    }
+
+    private function getArchiveHash(array $invalidation): string
+    {
+        return md5($invalidation['name'] . '|' . ($invalidation['report'] ?? ''));
     }
 }
