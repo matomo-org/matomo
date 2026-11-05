@@ -7715,6 +7715,11 @@ if (typeof window.Matomo !== 'object') {
                 configConsentGiven = false;
                 configMeasurementConsentRemembered = false;
                 deleteCookie(MEASUREMENT_CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+
+                // rememberConsentGiven() wrote this one too, so leaving it behind would keep any
+                // requireConsent() tracker in the same cookie scope reporting consent, and keep
+                // hasRememberedConsent() true for a banner keyed on it
+                deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 this.forgetCookieConsentGiven();
             };
 
@@ -7746,8 +7751,9 @@ if (typeof window.Matomo !== 'object') {
                 this.forgetCookieConsentGiven();
 
                 // remember that this is what required consent, so opting back in undoes exactly
-                // this and nothing the site set up for itself
-                configConsentRequiredByOptOut = !configConsentRequired;
+                // this and nothing the site set up for itself. Opting out twice must not lose
+                // that: by the second call the gate is already up, and it is still ours.
+                configConsentRequiredByOptOut = configConsentRequiredByOptOut || !configConsentRequired;
                 this.requireConsent(true);
             };
 
@@ -7760,15 +7766,16 @@ if (typeof window.Matomo !== 'object') {
                 // tracking is restored without reporting consent to being measured. We can't
                 // automatically enable cookies here either, as we don't know whether the visitor
                 // gave consent for those.
-                this.setConsentGiven(false, false);
-
-                // and the gate optUserOut() put up comes back down with it. One the site put up
-                // for itself stays, so a requireConsent() site still reports the consent the
-                // visitor is returning to, as it always has.
+                // The gate optUserOut() put up comes down first, because setConsentGiven() below
+                // releases anything queued while it was up and those requests read the gate as
+                // they go. One the site put up for itself stays, so a requireConsent() site
+                // still reports the consent the visitor is returning to, as it always has.
                 if (configConsentRequiredByOptOut) {
                     configConsentRequired = false;
                     configConsentRequiredByOptOut = false;
                 }
+
+                this.setConsentGiven(false, false);
             };
 
           /**
@@ -7989,9 +7996,20 @@ if (typeof window.Matomo !== 'object') {
                 for (i = 0; i < trackers.length; i++) {
                     tracker = trackers[i];
                     if (data.maq_opted_in) {
-                        tracker.rememberConsentGiven();
+                        // opting back in restores tracking, it does not answer whether the
+                        // visitor agrees to be measured beyond what a compliance policy allows.
+                        // Where the site does require consent, it is remembered as before so the
+                        // visitor is not gated again on the next page.
+                        tracker.forgetUserOptOut();
+
+                        if (tracker.isConsentRequired()) {
+                            tracker.rememberConsentGiven();
+                        }
                     } else {
-                        tracker.forgetConsentGiven();
+                        // a visitor opting out has to stop being measured, which on a site
+                        // measuring under a compliance exemption forgetConsentGiven() no longer
+                        // does on its own
+                        tracker.optUserOut();
                     }
                 }
 

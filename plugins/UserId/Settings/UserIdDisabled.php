@@ -4,6 +4,7 @@ namespace Piwik\Plugins\UserId\Settings;
 
 use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
@@ -68,11 +69,25 @@ class UserIdDisabled implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
+        // as for the campaign masking and referrer anonymisation settings: the consent-aware
+        // wording describes a site that measures consent-aware analytics, and a site that has
+        // not opted in treats every visitor the same
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoes2');
+        }
+
         return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
+        // as for the campaign masking and referrer anonymisation settings: the consent-aware
+        // wording describes a site that measures consent-aware analytics, and a site that has
+        // not opted in treats every visitor the same
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('UserId_UserIdDisabledSettingImpact2');
+        }
+
         return Piwik::translate('UserId_UserIdDisabledSettingImpact');
     }
 

@@ -751,16 +751,15 @@ abstract class Base extends VisitDimension
             Common::printDebug("No referrer attribution found for this user. Current user's visit referrer is used.");
         }
 
+        // The campaign reaching here can come from the attribution cookie, which outlives the
+        // visit, so the conversion may only report one the visit itself holds in the clear. A
+        // visit that was measured without consent holds the placeholder, and one the visitor
+        // arrived at directly holds no campaign at all: surfacing one against either would
+        // contradict the visit with detail gathered before the visitor consented.
         if (
             $type === Common::REFERRER_TYPE_CAMPAIGN
             && CampaignParameterValuesMasked::isEnabled($request->getIdSite())
-            && (
-                !$this->hasVisitorConsented($request, $visitor)
-                // the campaign reaching here can come from the attribution cookie, which outlives
-                // the visit. Where the visit itself holds no campaign, surfacing one against the
-                // conversion would contradict it with detail gathered before the visitor consented
-                || CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn('referer_name'))
-            )
+            && !$this->visitHoldsItsOwnCampaign($visitor)
         ) {
             $name = CampaignParameterValuesMasked::getPlaceholderValue();
             $keyword = CampaignParameterValuesMasked::getPlaceholderValue();
@@ -779,6 +778,18 @@ abstract class Base extends VisitDimension
         }
 
         return false;
+    }
+
+    /**
+     * Whether the visit holds a campaign of its own, recorded in the clear rather than withheld.
+     */
+    protected function visitHoldsItsOwnCampaign(Visitor $visitor): bool
+    {
+        if (Common::REFERRER_TYPE_CAMPAIGN != $visitor->getVisitorColumn('referer_type')) {
+            return false;
+        }
+
+        return !CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn('referer_name'));
     }
 
     /**
@@ -862,9 +873,15 @@ abstract class Base extends VisitDimension
     /**
      * Whether the visitor has given their consent, by this request or earlier in the visit.
      *
-     * Consent describes the visitor, not the request, so a later request that does not repeat the
-     * flag - one sent in a batch, or by a tracker that does not report it at all - is not treated
-     * as though the visitor had never consented.
+     * Consent describes the visitor, not the request, so for the campaign a later request that
+     * does not repeat the flag - one sent in a batch, or by a tracker that does not report it at
+     * all - is not treated as though the visitor had never consented.
+     *
+     * This is not how the User ID and the referrer anonymisation level are decided: both follow
+     * the flag on the request in front of them, so a request that omits it has its User ID
+     * withheld and its referrer anonymised even within a consented visit. The two rules disagree
+     * and only one of them should survive. Which is an open question for the epic rather than
+     * something to settle here, so the difference is stated rather than papered over.
      */
     protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
     {

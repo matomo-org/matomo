@@ -1041,6 +1041,60 @@ class CampaignConsentTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * The attribution cookie outlives the visit, so a consented conversion can carry a campaign
+     * the visit never had. A visit the visitor arrived at directly holds no campaign at all, and
+     * the conversion must not invent one for it.
+     */
+    public function testAConsentedConversionDoesNotReportACampaignADirectVisitNeverHad(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+        $this->trackPageView('other', $withCampaign = false, $consent = null);
+
+        $this->assertSame(
+            Common::REFERRER_TYPE_DIRECT_ENTRY,
+            (int) $this->fetchVisitColumn('referer_type'),
+            'the visit should have arrived as a direct entry'
+        );
+
+        $this->trackGoalConversion(self::CAMPAIGN_NAME, $consent = '1');
+
+        $this->assertNotSame(
+            self::CAMPAIGN_NAME,
+            $this->fetchConversionColumn('referer_name'),
+            'the conversion reported a campaign the visit never had'
+        );
+    }
+
+    /**
+     * An event records no page of its own, so like a ping it cannot start a visit - but it does
+     * name the page it was sent from. One sent from a page the visitor moved on to must not fold
+     * consent into the visit they arrived on, even where no page view recorded the move.
+     */
+    public function testAConsentingEventFromAnotherPageDoesNotConsentTheArrivalVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackConsentingEvent('other');
+
+        $this->assertSame(1, $this->countVisits(), 'an event cannot start a visit');
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'the event consented the arrival visit');
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name')
+        );
+    }
+
+    private function trackConsentingEvent(string $page): void
+    {
+        $this->prepareRequest($page, $withCampaign = false, $consent = '1');
+
+        Fixture::checkResponse($this->tracker->doTrackEvent('Consent', 'accepted'));
+    }
+
     private function setForcedCookielessTracking(bool $enabled): void
     {
         $config = new PrivacyManagerConfig();

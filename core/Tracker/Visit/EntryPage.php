@@ -92,18 +92,16 @@ class EntryPage
         // The lookup is cached on the action, so asking for them here costs the same queries only
         // sooner, and nothing in between changes the action they are derived from.
         $action->loadIdsFromLogActionTable();
-        $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
+
+        // A page view records a page of its own and moves the visitor to it. A ping, event,
+        // download or outlink does not - but each still names the page it was sent from, which
+        // is where the visitor is. That page is read from the action's own URL, since the entry
+        // and exit ids are deliberately left alone by anything that does not move the visitor.
+        $movesTheVisitor = !$isPing && !empty($action->getIdActionUrlForEntryAndExitIds());
+        $idActionUrl = $movesTheVisitor ? $action->getIdActionUrlForEntryAndExitIds() : $action->getIdActionUrl();
 
         if (empty($idActionUrl)) {
-            // A ping names the page it was sent from, so one whose page cannot be placed is a
-            // page this visit has no record of - the visitor is somewhere it has not seen, and
-            // the answer is unknown rather than the arrival page by default.
-            if ($isPing) {
-                return null;
-            }
-
-            // an event, download or outlink: it records no page of its own, so it does not move
-            // the visitor and says nothing about where they are beyond what the count already did
+            // nothing names a page, so the interaction count is all there is to go on
             return 1 === $interactions ? true : null;
         }
 
@@ -117,6 +115,8 @@ class EntryPage
             return true;
         }
 
-        return $isPing ? null : false;
+        // a request that does not move the visitor cannot start a visit of its own either, so it
+        // never answers that one should
+        return $movesTheVisitor ? false : null;
     }
 }
