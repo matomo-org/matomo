@@ -30,26 +30,45 @@ namespace Piwik\Tests\Unit\AssetManager {
     {
         public static $onWrite;
 
+        /**
+         * @var string
+         */
+        private $directory;
+
+        public function setUp(): void
+        {
+            parent::setUp();
+
+            $this->directory = PIWIK_INCLUDE_PATH . '/tmp/OnDiskUIAssetTest_' . uniqid();
+            Filesystem::mkdir($this->directory);
+        }
+
+        public function tearDown(): void
+        {
+            self::$onWrite = null;
+            Filesystem::unlinkRecursive($this->directory, true);
+
+            parent::tearDown();
+        }
+
         public function testWriteContentKeepsThePreviousFileReadableWhileWriting()
         {
-            $dir = PIWIK_INCLUDE_PATH . '/tmp/OnDiskUIAssetTest';
-            Filesystem::mkdir($dir);
-            $asset = new OnDiskUIAsset($dir, 'merged.css');
+            $asset = new OnDiskUIAsset($this->directory, 'merged.css');
             $asset->writeContent('old content');
 
+            $hookCalled = false;
             $seen = null;
-            self::$onWrite = function () use ($asset, &$seen) {
+            self::$onWrite = function () use ($asset, &$hookCalled, &$seen) {
+                $hookCalled = true;
                 $seen = @file_get_contents($asset->getAbsoluteLocation());
             };
-            try {
-                $asset->writeContent('new content');
-            } finally {
-                self::$onWrite = null;
-            }
 
+            $asset->writeContent('new content');
+
+            $this->assertTrue($hookCalled, 'writeContent() no longer calls fwrite(), update this test');
             $this->assertSame('old content', $seen);
             $this->assertSame('new content', $asset->getContent());
-            Filesystem::unlinkRecursive($dir, true);
+            $this->assertSame([], glob($this->directory . '/*.tmp'));
         }
     }
 }
