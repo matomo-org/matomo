@@ -13,6 +13,9 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\Marketplace\FeatureFlags\PluginRequests;
+use Piwik\Plugins\Marketplace\Emails\PluginRequestDecidedEmail;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\UserSettings;
 use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
@@ -101,9 +104,9 @@ class Request
             return; // not requested
         }
 
-        $numRequests = $this->storage->setFulfilled();
-        if ($numRequests > 0) {
-            $this->postDecidedEvent(RequestHistory::DECISION_APPROVED, $numRequests);
+        $decided = $this->storage->setFulfilled();
+        if ($decided !== null) {
+            $this->announceDecision($decided, RequestHistory::DECISION_APPROVED, null);
         }
     }
 
@@ -117,16 +120,26 @@ class Request
      */
     public function decide(string $decision, ?string $note = null, bool $requirePending = true): int
     {
-        $numRequests = $this->storage->setDecided($decision, $note, $requirePending);
-        if ($numRequests > 0) {
-            $this->postDecidedEvent($decision, $numRequests);
+        $decided = $this->storage->setDecided($decision, $note, $requirePending);
+        if ($decided === null) {
+            return 0;
         }
 
-        return $numRequests;
+        $this->announceDecision($decided, $decision, $note);
+
+        return $decided->numRequests;
     }
 
-    private function postDecidedEvent(string $decision, int $numRequests): void
+    /**
+     * Run once the decision is committed, so neither a failing email nor a failing observer undoes it
+     */
+    private function announceDecision(Decision $decided, string $decision, ?string $note): void
     {
+        // sent before the event is posted, so a failing observer cannot stop it; safeSend() logs a failed send rather than throwing
+        $this->sendDecisionEmails($decided, $decision, $note);
+
+        $numRequests = $decided->numRequests;
+
         /**
          * Triggered after a plugin's pending requests were approved or declined, so an audit trail can record it. A
          * plugin activated by any means approves its pending requests, with no super user logged in when activated
@@ -152,6 +165,45 @@ class Request
     public function wasRequested(): bool
     {
         return $this->storage->wasRequestedByCurrentUser();
+    }
+
+    /**
+     * Sends each requester who still has an account, and has not turned these emails off, one email about the decision
+     */
+    private function sendDecisionEmails(Decision $decided, string $decision, ?string $note): void
+    {
+        // activating a plugin approves its requests whether or not the flag is on, which only then tells the requesters
+        if (!StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(PluginRequests::class)) {
+            return;
+        }
+
+        $requesters = StaticContainer::get(RequestHistory::class)->getRequesterEmails($decided);
+        if (empty($requesters)) {
+            return;
+        }
+
+        $settings = StaticContainer::get(UserScopedSettingsAccessManager::class)
+            ->getValuesForAllUsers('Marketplace', [UserSettings::NOTIFY_ON_PLUGIN_REQUEST_DECISION]);
+
+        foreach ($requesters as $login => $emailAddress) {
+            if (!($settings[$login][UserSettings::NOTIFY_ON_PLUGIN_REQUEST_DECISION] ?? true)) {
+                continue;
+            }
+
+            $email = StaticContainer::getContainer()->make(
+                PluginRequestDecidedEmail::class,
+                [
+                    'login' => (string) $login,
+                    'emailAddress' => $emailAddress,
+                    'pluginName' => $this->pluginName,
+                    'pluginDisplayName' => $this->storage->getDisplayName(),
+                    'decision' => $decision,
+                    'note' => $note,
+                ]
+            );
+
+            $email->safeSend();
+        }
     }
 
     /**

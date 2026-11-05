@@ -18,6 +18,7 @@ use Piwik\Db;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\API;
+use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
@@ -719,6 +720,241 @@ class ApiTest extends IntegrationTestCase
         self::assertSame(['declined'], $this->getStoredDecisions());
     }
 
+    public function testGetMyPluginRequestsReturnsOnlyTheUsersOwnRequestsWithTheirStatus(): void
+    {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1', 'For our team');
+        $this->api->requestInstall('Barometer');
+        $this->setUser('otherUser');
+        $this->api->requestTrial('TreemapVisualization');
+
+        $this->setSuperUser();
+        $this->api->declinePluginRequest('Barometer', 'Not now');
+
+        $this->setUser();
+        $requests = $this->api->getMyPluginRequests();
+
+        self::assertSame(
+            [
+                ['Barometer', 'install', null, 'declined', 'Not now'],
+                ['PaidPlugin1', 'trial', 'For our team', 'pending', null],
+            ],
+            $this->sortedRows(array_map(fn ($request) => [
+                $request['pluginName'],
+                $request['requestType'],
+                $request['message'],
+                $request['status'],
+                $request['decisionNote'],
+            ], $requests))
+        );
+        self::assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $requests[0]['requestedAt']);
+    }
+
+    public function testGetMyPluginRequestsShowsNoNoteForAnApprovedRequest(): void
+    {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestInstall('Barometer');
+
+        $this->setSuperUser();
+        (new Storage('Barometer'))->setDecided(RequestHistory::DECISION_APPROVED, 'A note');
+
+        $this->setUser();
+        $requests = $this->api->getMyPluginRequests();
+
+        self::assertSame('approved', $requests[0]['status']);
+        self::assertNull($requests[0]['decisionNote']);
+    }
+
+    public function testGetMyPluginRequestsRequiresALoggedInUser(): void
+    {
+        $this->enablePluginRequests();
+        $this->setAnonymousUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('General_YouMustBeLoggedIn');
+
+        $this->api->getMyPluginRequests();
+    }
+
+    /**
+     * @dataProvider dataPluginRequestLists
+     */
+    public function testPluginRequestListsAreRejectedWhileTheFeatureFlagIsOff(string $method): void
+    {
+        $this->disablePluginRequests();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Plugin requests are not enabled');
+
+        $this->api->$method();
+    }
+
+    public function dataPluginRequestLists(): iterable
+    {
+        yield 'own requests' => ['getMyPluginRequests'];
+        yield 'pending' => ['getPendingPluginRequests'];
+        yield 'history' => ['getPluginRequestHistory'];
+    }
+
+    /**
+     * @dataProvider dataSuperUserPluginRequestLists
+     */
+    public function testSuperUserPluginRequestListsRequireSuperUserAccessIfUser(string $method): void
+    {
+        $this->enablePluginRequests();
+        $this->setUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->api->$method();
+    }
+
+    /**
+     * @dataProvider dataSuperUserPluginRequestLists
+     */
+    public function testSuperUserPluginRequestListsRequireSuperUserAccessIfAnonymous(string $method): void
+    {
+        $this->enablePluginRequests();
+        $this->setAnonymousUser();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess');
+
+        $this->api->$method();
+    }
+
+    public function dataSuperUserPluginRequestLists(): iterable
+    {
+        yield 'pending' => ['getPendingPluginRequests'];
+        yield 'history' => ['getPluginRequestHistory'];
+    }
+
+    public function testGetPendingPluginRequestsGroupsTheRequestsPerPluginWithTheirPrice(): void
+    {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1', 'For our team');
+        $this->setUser('otherUser');
+        $this->api->requestTrial('PaidPlugin1');
+        $this->api->requestInstall('Barometer', 'Please');
+
+        $this->setSuperUser();
+        $pending = $this->api->getPendingPluginRequests();
+
+        self::assertSame(['Barometer', 'PaidPlugin1'], $this->sortedRows(array_column($pending, 'pluginName')));
+        $byPlugin = array_column($pending, null, 'pluginName');
+
+        self::assertSame('Paid Plugin 1', $byPlugin['PaidPlugin1']['displayName']);
+        self::assertFalse($byPlugin['PaidPlugin1']['isFree']);
+        self::assertSame('150', $byPlugin['PaidPlugin1']['priceFrom']['price']);
+        self::assertSame('EUR', $byPlugin['PaidPlugin1']['priceFrom']['currency']);
+        self::assertSame(2, $byPlugin['PaidPlugin1']['numRequests']);
+        self::assertSame('trial', $byPlugin['PaidPlugin1']['requestType']);
+        self::assertSame(
+            [['aUser', 'For our team'], ['otherUser', null]],
+            $this->sortedRows(array_map(fn ($requester) => [$requester['login'], $requester['message']], $byPlugin['PaidPlugin1']['requesters']))
+        );
+
+        self::assertTrue($byPlugin['Barometer']['isFree']);
+        self::assertNull($byPlugin['Barometer']['priceFrom']);
+        self::assertSame(1, $byPlugin['Barometer']['numRequests']);
+        self::assertSame('install', $byPlugin['Barometer']['requestType']);
+    }
+
+    public function testGetPendingPluginRequestsAsksAnUnreachableMarketplaceOnce(): void
+    {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1');
+        $this->api->requestInstall('Barometer');
+
+        $this->setSuperUser();
+        // the requests above cached each plugin's info
+        StaticContainer::get(Client::class)->clearAllCacheEntries();
+        $numInfoRequests = 0;
+        $this->service->setOnDownloadCallback(static function () use (&$numInfoRequests) {
+            $numInfoRequests++;
+            throw new Exception('Marketplace unreachable');
+        });
+
+        $pending = $this->api->getPendingPluginRequests();
+
+        self::assertSame(1, $numInfoRequests);
+        self::assertSame(['Barometer', 'PaidPlugin1'], $this->sortedRows(array_column($pending, 'pluginName')));
+        foreach ($pending as $plugin) {
+            self::assertSame($plugin['pluginName'], $plugin['displayName']);
+            self::assertNull($plugin['isFree']);
+            self::assertNull($plugin['priceFrom']);
+        }
+    }
+
+    public function testGetPendingPluginRequestsLeavesOutDecidedRequests(): void
+    {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestInstall('Barometer');
+
+        $this->setSuperUser();
+        $this->api->declinePluginRequest('Barometer');
+
+        self::assertSame([], $this->api->getPendingPluginRequests());
+    }
+
+    public function testGetPluginRequestHistoryReturnsOnePageOfDecisionsNewestFirst(): void
+    {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+
+        foreach (['PaidPlugin1', 'Barometer', 'TreemapVisualization'] as $i => $pluginName) {
+            $this->setUser();
+            $this->api->requestTrial($pluginName);
+            $this->setSuperUser();
+            (new Storage($pluginName))->setDecided(RequestHistory::DECISION_DECLINED, 'Note ' . $i);
+        }
+
+        $page = $this->api->getPluginRequestHistory(1, 1);
+
+        self::assertSame(3, $page['total']);
+        self::assertCount(1, $page['decisions']);
+        self::assertSame('Barometer', $page['decisions'][0]['pluginName']);
+        self::assertSame(1, $page['decisions'][0]['numRequests']);
+        self::assertSame('declined', $page['decisions'][0]['decision']);
+        self::assertSame(FakeAccess::$superUserLogin, $page['decisions'][0]['decidedBy']);
+        self::assertSame('Note 1', $page['decisions'][0]['note']);
+        self::assertSame(
+            ['TreemapVisualization', 'Barometer', 'PaidPlugin1'],
+            array_column($this->api->getPluginRequestHistory(0, 100)['decisions'], 'pluginName')
+        );
+    }
+
+    /**
+     * @dataProvider dataInvalidHistoryPages
+     */
+    public function testGetPluginRequestHistoryRejectsAnInvalidPage(int $offset, int $limit): void
+    {
+        $this->enablePluginRequests();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('The offset must be 0 or more, and the limit between 1 and 100');
+
+        $this->api->getPluginRequestHistory($offset, $limit);
+    }
+
+    public function dataInvalidHistoryPages(): iterable
+    {
+        yield 'negative offset' => [-1, 20];
+        yield 'zero limit' => [0, 0];
+        yield 'limit over 100' => [0, 101];
+    }
+
     public function testSaveLicenseKeyRequiresSuperUserAccessIfUser()
     {
         $this->expectException(Exception::class);
@@ -924,12 +1160,12 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::clearAccess(true);
     }
 
-    protected function setUser()
+    protected function setUser(string $login = 'aUser')
     {
         FakeAccess::clearAccess(false);
         FakeAccess::$idSitesView = array(1);
         FakeAccess::$idSitesAdmin = array();
-        FakeAccess::$identity = 'aUser';
+        FakeAccess::$identity = $login;
     }
 
     protected function setAnonymousUser()
@@ -949,6 +1185,32 @@ class ApiTest extends IntegrationTestCase
     private function disablePluginRequests(): void
     {
         Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
+    }
+
+    /**
+     * Answers each plugin's info request with that plugin's fixture
+     */
+    private function returnPluginInfos(): void
+    {
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function ($url) use ($service) {
+            if (preg_match('/plugins\/(\w+)\/info/', (string) $url, $matches)) {
+                return $service->getFixtureContent('v2.0_plugins_' . $matches[1] . '_info.json');
+            }
+
+            return json_encode(['plugins' => []]);
+        });
+    }
+
+    /**
+     * @param list<mixed> $rows
+     * @return list<mixed>
+     */
+    private function sortedRows(array $rows): array
+    {
+        sort($rows);
+
+        return $rows;
     }
 
     private function returnPluginInfo(string $pluginName): void

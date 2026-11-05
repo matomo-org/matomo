@@ -334,6 +334,50 @@ class Client
     }
 
     /**
+     * Returns what the Marketplace lists about the given plugins, keyed by plugin name, from the cached overview lists
+     * where they hold a plugin. A plugin missing from them, or one the Marketplace does not know, is left out unless
+     * $fetchMissing asks the Marketplace about each of those on its own. The first of those requests to fail ends them,
+     * so an unreachable Marketplace delays the answer by one request timeout rather than one per plugin.
+     *
+     * @param string[] $pluginNames
+     * @return array<string, array<string, mixed>>
+     */
+    public function getInfoOfPlugins(array $pluginNames, bool $fetchMissing): array
+    {
+        if (empty($pluginNames)) {
+            return [];
+        }
+
+        $listed = $this->getListedPluginsByName();
+        $pluginDetails = [];
+
+        foreach (array_unique($pluginNames) as $name) {
+            if (isset($listed[$name])) {
+                $pluginDetails[$name] = $listed[$name];
+                continue;
+            }
+
+            if (!$fetchMissing) {
+                continue;
+            }
+
+            try {
+                $plugin = $this->getPluginInfo($name);
+            } catch (PhpException $e) {
+                $this->logger->error($e->getMessage());
+                $fetchMissing = false;
+                continue;
+            }
+
+            if (!empty($plugin)) {
+                $pluginDetails[$name] = $plugin;
+            }
+        }
+
+        return $pluginDetails;
+    }
+
+    /**
      * Returns what the Marketplace reports about the given plugins' updates, keyed by plugin name.
      *
      * Unlike {@link getInfoOfPluginsHavingUpdate()} this issues a single request instead of one more

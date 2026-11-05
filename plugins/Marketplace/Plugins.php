@@ -674,21 +674,30 @@ class Plugins
      */
     private function addPriceFrom(&$plugin): void
     {
+        $plugin['priceFrom'] = self::getPriceFrom($plugin);
+    }
+
+    /**
+     * Returns the shop variation the Marketplace flags as cheapest, else its first one, or null for a plugin not sold
+     *
+     * @param array<string, mixed> $plugin as the Marketplace returns it
+     * @return array<string, mixed>|null
+     */
+    public static function getPriceFrom(array $plugin): ?array
+    {
         $variations = $plugin['shop']['variations'] ?? [];
 
-        if (!count($variations)) {
-            $plugin['priceFrom'] = null;
-            return;
+        if (!is_array($variations) || !count($variations)) {
+            return null;
         }
-
-        $plugin['priceFrom'] = array_shift($variations); // use first as the default
 
         foreach ($variations as $variation) {
             if ($variation['cheapest'] ?? false) {
-                $plugin['priceFrom'] = $variation;
-                return;
+                return $variation;
             }
         }
+
+        return reset($variations); // use first as the default
     }
 
     /**

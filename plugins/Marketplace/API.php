@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace;
 
 use Exception;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\Plugins as MarketplacePlugins;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
@@ -36,6 +37,8 @@ class API extends \Piwik\Plugin\API
 {
     private const MAX_NOTE_LENGTH = 1000;
 
+    private const MAX_HISTORY_LIMIT = 100;
+
     private Client $marketplaceClient;
 
     private Service $marketplaceService;
@@ -50,6 +53,8 @@ class API extends \Piwik\Plugin\API
 
     private FeatureFlagManager $featureFlagManager;
 
+    private RequestHistory $requestHistory;
+
     public function __construct(
         Service $service,
         Client $client,
@@ -57,7 +62,8 @@ class API extends \Piwik\Plugin\API
         PluginManager $pluginManager,
         Environment $environment,
         PluginTrialService $pluginTrialService,
-        FeatureFlagManager $featureFlagManager
+        FeatureFlagManager $featureFlagManager,
+        RequestHistory $requestHistory
     ) {
         $this->marketplaceService = $service;
         $this->marketplaceClient  = $client;
@@ -66,6 +72,7 @@ class API extends \Piwik\Plugin\API
         $this->environment = $environment;
         $this->pluginTrialService = $pluginTrialService;
         $this->featureFlagManager = $featureFlagManager;
+        $this->requestHistory = $requestHistory;
     }
 
     /**
@@ -275,6 +282,148 @@ class API extends \Piwik\Plugin\API
     /**
      * Requests are also off when plugin_trial_request_expiration_in_days = -1, which stores none
      */
+    /**
+     * Returns the current user's plugin requests, newest first.
+     *
+     * @internal
+     * @return list<array{pluginName: string, displayName: string, requestType: string, requestedAt: string,
+     *                    message: string|null, status: string, decisionNote: string|null}>
+     *         requestedAt in UTC as `Y-m-d H:i:s`; status `pending`, `approved` or `declined`; decisionNote is the
+     *         Super User's note, only for a declined request
+     */
+    public function getMyPluginRequests(): array
+    {
+        Piwik::checkUserIsNotAnonymous();
+        $this->checkPluginRequestsActive();
+
+        $requests = $this->requestHistory->getRequestsOfLogin(Piwik::getCurrentUserLogin());
+        $displayNames = $this->getDisplayNames(array_column($requests, 'plugin_name'));
+
+        return array_map(fn (array $request) => [
+            'pluginName' => $request['plugin_name'],
+            'displayName' => $displayNames[$request['plugin_name']],
+            'requestType' => $request['request_type'],
+            'requestedAt' => $request['ts_requested'],
+            'message' => $request['message'],
+            'status' => $request['decision'] ?? 'pending',
+            'decisionNote' => $request['decision'] === RequestHistory::DECISION_DECLINED ? $request['note'] : null,
+        ], $requests);
+    }
+
+    /**
+     * Returns the pending plugin requests, one entry per plugin with the most recently requested first.
+     *
+     * @internal
+     * @return list<array{pluginName: string, displayName: string, isFree: bool|null, priceFrom: array<string, mixed>|null,
+     *                    requestType: string, numRequests: int, lastRequestedAt: string,
+     *                    requesters: list<array{login: string|null, email: string|null, requestedAt: string, message: string|null}>}>
+     *         isFree and priceFrom are null when the Marketplace cannot be reached; priceFrom is the shop variation the
+     *         plugin is sold from; requestType is that of the latest request; a deleted requester has no login or email;
+     *         dates in UTC as `Y-m-d H:i:s`
+     */
+    public function getPendingPluginRequests(): array
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkPluginRequestsActive();
+
+        $plugins = [];
+        foreach ($this->requestHistory->getPendingRequests() as $request) {
+            $pluginName = $request['plugin_name'];
+
+            // newest first, so the first request seen of a plugin is its latest
+            $plugins[$pluginName] ??= [
+                'pluginName' => $pluginName,
+                'requestType' => $request['request_type'],
+                'lastRequestedAt' => $request['ts_requested'],
+                'requesters' => [],
+            ];
+            $plugins[$pluginName]['requesters'][] = [
+                'login' => $request['login'],
+                'email' => $request['email'],
+                'requestedAt' => $request['ts_requested'],
+                'message' => $request['message'],
+            ];
+        }
+
+        $pluginInfos = $this->marketplaceClient->getInfoOfPlugins(array_keys($plugins), true);
+
+        $pending = [];
+        foreach ($plugins as $pluginName => $plugin) {
+            $pluginInfo = $pluginInfos[$pluginName] ?? null;
+
+            $pending[] = [
+                'pluginName' => $pluginName,
+                'displayName' => ($pluginInfo['displayName'] ?? '') ?: $pluginName,
+                'isFree' => $pluginInfo === null ? null : !empty($pluginInfo['isFree']),
+                'priceFrom' => $pluginInfo === null ? null : MarketplacePlugins::getPriceFrom($pluginInfo),
+                'requestType' => $plugin['requestType'],
+                'numRequests' => count($plugin['requesters']),
+                'lastRequestedAt' => $plugin['lastRequestedAt'],
+                'requesters' => $plugin['requesters'],
+            ];
+        }
+
+        usort($pending, fn (array $a, array $b) => strcmp($b['lastRequestedAt'], $a['lastRequestedAt']));
+
+        return $pending;
+    }
+
+    /**
+     * Returns one page of the decisions on plugin requests, newest first.
+     *
+     * @internal
+     * @param int $offset the number of decisions to skip
+     * @param int $limit the number of decisions to return, at most 100
+     * @return array{total: int, decisions: list<array{pluginName: string, displayName: string, numRequests: int,
+     *                                                 decision: string, decidedBy: string|null, note: string|null,
+     *                                                 decidedAt: string}>}
+     *         decidedBy is null for a decision Matomo made when the plugin was activated, or by a deleted user;
+     *         decidedAt in UTC as `Y-m-d H:i:s`
+     */
+    public function getPluginRequestHistory(int $offset = 0, int $limit = 20): array
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkPluginRequestsActive();
+
+        if ($offset < 0 || $limit < 1 || $limit > self::MAX_HISTORY_LIMIT) {
+            throw new Exception('The offset must be 0 or more, and the limit between 1 and ' . self::MAX_HISTORY_LIMIT);
+        }
+
+        $decisions = $this->requestHistory->getDecisions($offset, $limit);
+        $displayNames = $this->getDisplayNames(array_column($decisions, 'plugin_name'));
+
+        return [
+            'total' => $this->requestHistory->getNumDecisions(),
+            'decisions' => array_map(fn (array $decision) => [
+                'pluginName' => $decision['plugin_name'],
+                'displayName' => $displayNames[$decision['plugin_name']],
+                'numRequests' => (int) $decision['num_requests'],
+                'decision' => $decision['decision'],
+                'decidedBy' => $decision['decided_by'],
+                'note' => $decision['note'],
+                'decidedAt' => $decision['ts_decided'],
+            ], $decisions),
+        ];
+    }
+
+    /**
+     * Only uses the cached Marketplace lists, so a list of many plugins sends no request per plugin
+     *
+     * @param string[] $pluginNames
+     * @return array<string, string> keyed by plugin name, the plugin name itself when no display name is known
+     */
+    private function getDisplayNames(array $pluginNames): array
+    {
+        $pluginInfos = $this->marketplaceClient->getInfoOfPlugins($pluginNames, false);
+
+        $displayNames = [];
+        foreach ($pluginNames as $pluginName) {
+            $displayNames[$pluginName] = ($pluginInfos[$pluginName]['displayName'] ?? '') ?: $pluginName;
+        }
+
+        return $displayNames;
+    }
+
     private function checkPluginRequestsActive(): void
     {
         if (

@@ -170,18 +170,18 @@ class Storage
     /**
      * Ends the pending trial request because the plugin was installed or activated, which approves its requests
      *
-     * @return int the number of requests approved
+     * @return Decision|null null when no request was pending
      */
-    public function setFulfilled(): int
+    public function setFulfilled(): ?Decision
     {
-        $numRequests = 0;
+        $decided = null;
 
-        $this->writeWithHistory(function (RequestHistory $history) use (&$numRequests) {
-            $numRequests = $this->decidePendingRequests($history, RequestHistory::DECISION_APPROVED, null, null);
+        $this->writeWithHistory(function (RequestHistory $history) use (&$decided) {
+            $decided = $this->decidePendingRequests($history, RequestHistory::DECISION_APPROVED, null, null);
             $this->clearStorage();
         });
 
-        return $numRequests;
+        return $decided;
     }
 
     /**
@@ -189,31 +189,31 @@ class Storage
      * decision for the same plugin wait until this one is committed, and then find no request left.
      *
      * @param string $decision one of the RequestHistory::DECISION_* constants
-     * @param bool $requirePending false records nothing and returns 0 when no request is pending, instead of failing
-     * @return int the number of requests decided
+     * @param bool $requirePending false records nothing and returns null when no request is pending, instead of failing
+     * @return Decision|null null when no request was pending
      * @throws Exception when no request of the plugin is pending, so nothing is stored
      */
-    public function setDecided(string $decision, ?string $note = null, bool $requirePending = true): int
+    public function setDecided(string $decision, ?string $note = null, bool $requirePending = true): ?Decision
     {
-        $numRequests = 0;
+        $decided = null;
 
-        $this->writeWithHistory(function (RequestHistory $history) use ($decision, $note, $requirePending, &$numRequests) {
-            $numRequests = $this->decidePendingRequests($history, $decision, Piwik::getCurrentUserLogin(), $note);
-            if ($numRequests === 0 && $requirePending) {
+        $this->writeWithHistory(function (RequestHistory $history) use ($decision, $note, $requirePending, &$decided) {
+            $decided = $this->decidePendingRequests($history, $decision, Piwik::getCurrentUserLogin(), $note);
+            if ($decided === null && $requirePending) {
                 throw new Exception(Piwik::translate('Marketplace_PluginRequestAlreadyDecided'));
             }
 
             $this->clearStorage();
         });
 
-        return $numRequests;
+        return $decided;
     }
 
     /**
      * Locks the history before the option, in the order setRequested() writes them: a decision holding the option's row
      * lock while waiting for a request's uncommitted history row would deadlock with that request waiting for the option.
      */
-    private function decidePendingRequests(RequestHistory $history, string $decision, ?string $decidedBy, ?string $note): int
+    private function decidePendingRequests(RequestHistory $history, string $decision, ?string $decidedBy, ?string $note): ?Decision
     {
         $this->recordInHistory($history, $this->readStored());
 
@@ -277,7 +277,8 @@ class Storage
      */
     public function getDisplayName(): string
     {
-        return $this->storage['displayName'] ?: $this->pluginName;
+        // none is stored for a request made while a decision cleared the pending option, see hasPendingRequests()
+        return ($this->storage['displayName'] ?? '') ?: $this->pluginName;
     }
 
     /**
