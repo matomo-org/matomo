@@ -6,6 +6,7 @@
     <div class="contentForm loginForm confirmSecondFactorForm">
         {% embed 'contentBlock.twig' with {'title': ('Login_ConfirmSecondFactorToContinue'|translate)} %}
         {% block content %}
+            <p>{{ 'Login_ConfirmSecondFactorIntro'|translate }}</p>
 
             <div class="message_container">
                 {% if AccessErrorString %}
@@ -16,8 +17,7 @@
                     </div>
                 {% endif %}
             </div>
-
-            <p>{{ 'Login_ConfirmSecondFactorIntro'|translate }}</p>
+            <br>
 
             <form id="confirm_second_factor_form"
                   action="{{ linkTo({'module': confirmModule, 'action': 'confirmSecondFactor', 'secondFactorRequest': requestId})|e('html_attr') }}" method="post">
