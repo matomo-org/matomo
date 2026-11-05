@@ -629,9 +629,10 @@ class CronArchive
                 continue;
             }
 
-            if ($isErrorResponse && !preg_match(self::UNSUPPORTED_SEGMENT_PATTERN, (string) ($stats['message'] ?? ''))) {
+            $errorMessage = isset($stats['message']) && is_scalar($stats['message']) ? (string) $stats['message'] : null;
+            if ($isErrorResponse && !preg_match(self::UNSUPPORTED_SEGMENT_PATTERN, (string) $errorMessage)) {
                 // the error was already logged by checkResponse()
-                $this->handleFailedArchive($archive, (string) ($stats['message'] ?? $content), $queueConsumer);
+                $this->handleFailedArchive($archive, $errorMessage ?? (string) $content, $queueConsumer);
                 continue;
             }
 
@@ -666,6 +667,9 @@ class CronArchive
         return $successCount;
     }
 
+    /**
+     * @param array<array-key, string|int|float|null> $archive
+     */
     private function handleFailedArchive(array $archive, string $error, QueueConsumer $queueConsumer): void
     {
         try {
@@ -686,7 +690,8 @@ class CronArchive
 
         $this->model->holdFailedInvalidation($archive);
 
-        $description = "idSite = {$archive['idsite']}, period = {$this->periodIdsToLabels[$archive['period']]}, date = "
+        $period = $this->periodIdsToLabels[(int) $archive['period']];
+        $description = "idSite = {$archive['idsite']}, period = $period, date = "
             . "{$archive['date1']},{$archive['date2']}, segment = '" . ($archive['segment'] ?? '') . "'"
             . (!empty($archive['plugin']) ? ", plugin = {$archive['plugin']}" : '')
             . (!empty($archive['report']) ? ", report = {$archive['report']}" : '');
@@ -702,6 +707,8 @@ class CronArchive
 
     /**
      * Once an archive that had failed is processed, the archives that were on hold because of it can be processed.
+     *
+     * @param array<array-key, string|int|float|null> $archive
      */
     private function releaseArchivesHeldBy(array $archive): void
     {
@@ -714,7 +721,7 @@ class CronArchive
             $this->logger->debug("Released {released} invalidations that were on hold until {name} for {period} {date1},{date2} was archived.", [
                 'released' => $released,
                 'name' => $archive['name'],
-                'period' => $this->periodIdsToLabels[$archive['period']],
+                'period' => $this->periodIdsToLabels[(int) $archive['period']],
                 'date1' => $archive['date1'],
                 'date2' => $archive['date2'],
             ]);

@@ -163,7 +163,7 @@ class QueueConsumer
             // and then stop until the next hour.
             $this->cronArchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain($this->idSite);
 
-            $this->cleanUpArchiveFailures();
+            $this->cleanUpArchiveFailures((int) $this->idSite);
 
             $this->currentSiteArchivingStartTime = Date::now()->getDatetime();
         }
@@ -532,29 +532,29 @@ class QueueConsumer
      * releases the invalidations on hold that no failure blocks anymore, eg because the retry delay passed. Those
      * of removed failures get deleted when they are fetched.
      */
-    private function cleanUpArchiveFailures(): void
+    private function cleanUpArchiveFailures(int $idSite): void
     {
-        $this->removeArchiveFailuresThatCanNotBeProcessed();
+        $this->removeArchiveFailuresThatCanNotBeProcessed($idSite);
 
-        $released = $this->archiveFailures->releaseUnblockedInvalidations((int) $this->idSite);
+        $released = $this->archiveFailures->releaseUnblockedInvalidations($idSite);
         if ($released > 0) {
             $this->logger->info("Released {released} invalidations that were on hold because of failed archives.", ['released' => $released]);
         }
     }
 
-    private function removeArchiveFailuresThatCanNotBeProcessed(): void
+    private function removeArchiveFailuresThatCanNotBeProcessed(int $idSite): void
     {
         $archiveFailures = $this->archiveFailures;
-        $failures = $archiveFailures->getFailures([$this->idSite], false, false);
+        $failures = $archiveFailures->getFailures([$idSite], false, false);
         if (empty($failures)) {
             return;
         }
 
-        if ($archiveFailures->deleteFailuresWithoutInvalidations($this->idSite) > 0) {
-            $failures = $archiveFailures->getFailures([$this->idSite], false, false);
+        if ($archiveFailures->deleteFailuresWithoutInvalidations($idSite) > 0) {
+            $failures = $archiveFailures->getFailures([$idSite], false, false);
         }
 
-        $siteCreationDate = Date::factory(Site::getCreationDateFor($this->idSite))->toString();
+        $siteCreationDate = Date::factory(Site::getCreationDateFor($idSite))->toString();
         $idFailuresToDelete = [];
         $skippedCounts = [ArchiveFailures::STATE_WAITING => 0, ArchiveFailures::STATE_GIVEN_UP => 0];
         // the checks only depend on the period and the done flag, which many failures share
@@ -562,25 +562,28 @@ class QueueConsumer
         $isNameProcessable = [];
 
         foreach ($failures as $failure) {
-            $periodLabel = $this->periodIdsToLabels[$failure['period']] ?? null;
-            if (!isset($isPeriodProcessable[$failure['period']])) {
-                $isPeriodProcessable[$failure['period']] = !empty($periodLabel)
+            $period = (int) $failure['period'];
+            $name = (string) $failure['name'];
+
+            if (!isset($isPeriodProcessable[$period])) {
+                $periodLabel = $this->periodIdsToLabels[$period] ?? null;
+                $isPeriodProcessable[$period] = !empty($periodLabel)
                     && PeriodFactory::isPeriodEnabledForAPI($periodLabel)
                     && !PeriodFactory::isAnyLowerPeriodDisabledForAPI($periodLabel);
             }
 
-            if (!isset($isNameProcessable[$failure['name']])) {
+            if (!isset($isNameProcessable[$name])) {
                 $plugin = $this->getPluginNameForArchiveIfAny($failure);
-                $isNameProcessable[$failure['name']] = (empty($plugin) || Manager::getInstance()->isPluginActivated($plugin))
+                $isNameProcessable[$name] = (empty($plugin) || Manager::getInstance()->isPluginActivated($plugin))
                     && $this->findSegmentForArchive($failure);
             }
 
             if (
-                !$isPeriodProcessable[$failure['period']]
-                || !$isNameProcessable[$failure['name']]
+                !$isPeriodProcessable[$period]
+                || !$isNameProcessable[$name]
                 || $failure['date2'] < $siteCreationDate
             ) {
-                $idFailuresToDelete[] = $failure['idfailure'];
+                $idFailuresToDelete[] = (int) $failure['idfailure'];
             } elseif (isset($skippedCounts[$failure['state']])) {
                 ++$skippedCounts[$failure['state']];
             }

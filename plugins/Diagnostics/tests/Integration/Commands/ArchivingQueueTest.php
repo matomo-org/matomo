@@ -84,7 +84,9 @@ OUTPUT;
                 'command' => 'diagnostics:archiving-queue',
                 '--json' => true,
             ]);
-            $statuses = array_column(json_decode($this->applicationTester->getDisplay(), true), 'Status', 'Invalidation');
+            $rows = json_decode($this->applicationTester->getDisplay(), true);
+            $this->assertIsArray($rows);
+            $statuses = array_column($rows, 'Status', 'Invalidation');
         } finally {
             Db::query("UPDATE `$table` SET status = ? WHERE idinvalidation = 4", [ArchiveInvalidator::INVALIDATION_STATUS_QUEUED]);
         }
