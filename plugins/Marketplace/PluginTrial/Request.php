@@ -59,6 +59,24 @@ class Request
             $this->sendEmailToSuperUsers();
         }
 
+        if ($requestType === RequestHistory::REQUEST_TYPE_INSTALL) {
+            /**
+             * Triggered after the current user has asked for a free plugin to be installed, so an audit trail can
+             * record it.
+             *
+             * **Example**
+             *
+             *     Piwik::addAction('Marketplace.pluginInstallRequested', function ($pluginName, $pluginDisplayName) {
+             *         $this->logActivity(Piwik::getCurrentUserLogin(), 'requested to install ' . $pluginName);
+             *     });
+             *
+             * @param string $pluginName The name of the requested plugin.
+             * @param string $pluginDisplayName The plugin's display name, or an empty string when none was given.
+             */
+            Piwik::postEvent('Marketplace.pluginInstallRequested', [$this->pluginName, $pluginDisplayName]);
+            return;
+        }
+
         /**
          * Triggered after the current user has requested a trial of a plugin, so an audit trail can record it.
          *
@@ -93,13 +111,16 @@ class Request
      * Approves or declines all of the plugin's pending requests as the current super user
      *
      * @param string $decision one of the RequestHistory::DECISION_* constants
+     * @param bool $requirePending false returns 0 when another super user has already decided on them, instead of failing
      * @return int the number of requests decided
      * @throws Exception when another super user has already decided on them
      */
-    public function decide(string $decision, ?string $note = null): int
+    public function decide(string $decision, ?string $note = null, bool $requirePending = true): int
     {
-        $numRequests = $this->storage->setDecided($decision, $note);
-        $this->postDecidedEvent($decision, $numRequests);
+        $numRequests = $this->storage->setDecided($decision, $note, $requirePending);
+        if ($numRequests > 0) {
+            $this->postDecidedEvent($decision, $numRequests);
+        }
 
         return $numRequests;
     }
@@ -154,6 +175,7 @@ class Request
                     'login' => $login,
                     'pluginName' => $this->pluginName,
                     'pluginDisplayName' => $this->storage->getDisplayName(),
+                    'requestType' => $this->storage->getRequestType(),
                 ]
             );
 

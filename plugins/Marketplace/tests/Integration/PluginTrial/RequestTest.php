@@ -15,6 +15,7 @@ use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\PluginTrial\Request;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Plugins\Marketplace\UserSettings;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
@@ -92,6 +93,26 @@ class RequestTest extends IntegrationTestCase
         $storageMock->expects(self::once())->method('setRequested')->willReturn(Storage::REQUEST_ALREADY_RECORDED);
 
         (new Request('PremiumPlugin', $storageMock))->create('Premium Plugin');
+    }
+
+    public function testCreateAnInstallRequestPostsTheInstallEventOnly()
+    {
+        Piwik::addAction('Marketplace.pluginTrialRequested', function () {
+            self::fail('An install request was announced as a trial request');
+        });
+        Piwik::addAction('Marketplace.pluginInstallRequested', function (...$args) use (&$eventArgs) {
+            $eventArgs = $args;
+        });
+
+        $storageMock = self::createMock(Storage::class);
+        $storageMock->method('wasRequestedByCurrentUser')->willReturn(false);
+        $storageMock->expects(self::once())->method('setRequested')
+            ->with('Free Plugin', RequestHistory::REQUEST_TYPE_INSTALL, null)
+            ->willReturn(Storage::REQUEST_ADDED_TO_PENDING);
+
+        (new Request('FreePlugin', $storageMock))->create('Free Plugin', RequestHistory::REQUEST_TYPE_INSTALL);
+
+        self::assertSame(['FreePlugin', 'Free Plugin'], $eventArgs);
     }
 
     public function testCancel()

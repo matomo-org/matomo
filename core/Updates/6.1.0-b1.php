@@ -103,8 +103,9 @@ class Updates_6_1_0_b1 extends Updates
     }
 
     /**
-     * Only undecided requests made before the update are matched, so a request made while it runs stays pending, and
-     * a re-run after both statements succeeded records no decision twice.
+     * Only undecided requests made before the update are matched, so a request made while it runs stays pending. A
+     * re-run records no decision twice: after both statements succeeded no request is undecided, and after only the
+     * INSERT succeeded its decision is newer than the requests, which the UPDATE then links to it.
      *
      * @param list<string> $bind for $condition
      * @return Migration[]
@@ -120,6 +121,9 @@ class Updates_6_1_0_b1 extends Updates
                  SELECT r.plugin_name, 'approved', NULL, NULL, COUNT(*), ?
                  FROM `$requestTable` r
                  WHERE r.iddecision IS NULL AND r.ts_requested <= ? AND $condition
+                   AND NOT EXISTS (
+                       SELECT 1 FROM `$decisionTable` d WHERE d.plugin_name = r.plugin_name AND d.ts_decided >= r.ts_requested
+                   )
                  GROUP BY r.plugin_name",
                 array_merge([$decidedAt, $decidedAt], $bind)
             ),

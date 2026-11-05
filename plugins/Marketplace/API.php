@@ -173,6 +173,7 @@ class API extends \Piwik\Plugin\API
 
         $message = $this->checkNote($message);
         $pluginInfo = $this->getRequestablePluginInfo($pluginName);
+        $this->checkNotRequestedByCurrentUser($pluginInfo['name']);
 
         $this->pluginTrialService->request(
             $pluginInfo['name'],
@@ -214,6 +215,8 @@ class API extends \Piwik\Plugin\API
             throw new Exception('The plugin is already installed: ' . $pluginInfo['name']);
         }
 
+        $this->checkNotRequestedByCurrentUser($pluginInfo['name']);
+
         $this->pluginTrialService->request(
             $pluginInfo['name'],
             $pluginInfo['displayName'] ?: $pluginInfo['name'],
@@ -237,7 +240,7 @@ class API extends \Piwik\Plugin\API
         $this->checkPluginRequestsActive();
 
         $note = $this->checkNote($note);
-        $this->checkValidPluginName($pluginName);
+        $this->checkHasPendingRequests($pluginName);
 
         return $this->pluginTrialService->decide($pluginName, RequestHistory::DECISION_DECLINED, $note);
     }
@@ -253,21 +256,25 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkPluginRequestsActive();
-        $this->checkValidPluginName($pluginName);
-
         // checked first, so no trial is started for requests another super user has already decided on
-        if (!$this->pluginTrialService->hasPendingRequests($pluginName)) {
-            throw new Exception(Piwik::translate('Marketplace_PluginRequestAlreadyDecided'));
-        }
+        $this->checkHasPendingRequests($pluginName);
 
         $this->startFreeTrial($pluginName);
 
-        return $this->pluginTrialService->decide($pluginName, RequestHistory::DECISION_APPROVED);
+        // the trial is running now, so the requests another super user declined while it was started are left declined
+        // rather than reporting a failure for a trial that started
+        return $this->pluginTrialService->decide($pluginName, RequestHistory::DECISION_APPROVED, null, false);
     }
 
+    /**
+     * Requests are also off when plugin_trial_request_expiration_in_days = -1, which stores none
+     */
     private function checkPluginRequestsActive(): void
     {
-        if (!$this->featureFlagManager->isFeatureActive(PluginRequests::class)) {
+        if (
+            !$this->featureFlagManager->isFeatureActive(PluginRequests::class)
+            || !$this->pluginTrialService->isEnabled()
+        ) {
             throw new Exception('Plugin requests are not enabled');
         }
     }
@@ -276,6 +283,25 @@ class API extends \Piwik\Plugin\API
     {
         if (!$this->pluginManager->isValidPluginName($pluginName)) {
             throw new Exception('Invalid plugin name given ' . $pluginName);
+        }
+    }
+
+    private function checkHasPendingRequests(string $pluginName): void
+    {
+        $this->checkValidPluginName($pluginName);
+
+        if (!$this->pluginTrialService->hasPendingRequests($pluginName)) {
+            throw new Exception(Piwik::translate('Marketplace_NoPendingPluginRequests'));
+        }
+    }
+
+    /**
+     * A user requests each plugin once, also after their request was declined
+     */
+    private function checkNotRequestedByCurrentUser(string $pluginName): void
+    {
+        if ($this->pluginTrialService->wasRequested($pluginName)) {
+            throw new Exception(Piwik::translate('Marketplace_PluginAlreadyRequested'));
         }
     }
 

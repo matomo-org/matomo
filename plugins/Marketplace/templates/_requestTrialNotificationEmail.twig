@@ -4,11 +4,16 @@
 {% set pluginLinkClose = '</a>' %}
 
 <p>{{ 'General_HelloUser'|translate(login) }}</p>
+{% if isInstallRequest %}
+<p>{{ 'Marketplace_RequestInstallNotificationEmailIntro'|translate(pluginName) }}</p>
+<p>{{ 'Marketplace_RequestInstallNotificationEmailHowToInstallIntro'|translate }}</p>
+{% else %}
 <p>{{ 'Marketplace_RequestTrialNotificationEmailIntro'|translate(pluginName) }}</p>
 <p>{{ 'Marketplace_RequestTrialNotificationEmailHowToStartIntro'|translate }}</p>
+{% endif %}
 <ol>
     <li>{{ 'Marketplace_RequestTrialNotificationEmailHowToStartStep1'|translate(marketplaceLinkOpen, marketplaceLinkClose)|raw }}</li>
     <li>{{ 'Marketplace_RequestTrialNotificationEmailHowToStartStep2'|translate }}</li>
-    <li>{{ 'Marketplace_RequestTrialNotificationEmailHowToStartStep3'|translate }}</li>
+    <li>{{ (isInstallRequest ? 'Marketplace_RequestInstallNotificationEmailHowToInstallStep3' : 'Marketplace_RequestTrialNotificationEmailHowToStartStep3')|translate }}</li>
 </ol>
 <p>{{ 'Marketplace_RequestTrialNotificationEmailMoreInfo'|translate(pluginName|escape, pluginLinkOpen, pluginLinkClose)|raw }}</p>

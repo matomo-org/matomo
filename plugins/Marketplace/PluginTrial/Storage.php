@@ -102,6 +102,8 @@ class Storage
             $request = [
                 'requestTime' => $requestTime,
                 'displayName' => $pluginDisplayName,
+                // the request that made the plugin pending decides how super users are told about it
+                'requestType' => $requestType,
                 'dismissed' => [],
                 'requestedBy' => $login,
                 // filled by addSuperUsers() under the row lock, as a read here sees this transaction's first snapshot and
@@ -187,16 +189,17 @@ class Storage
      * decision for the same plugin wait until this one is committed, and then find no request left.
      *
      * @param string $decision one of the RequestHistory::DECISION_* constants
+     * @param bool $requirePending false records nothing and returns 0 when no request is pending, instead of failing
      * @return int the number of requests decided
      * @throws Exception when no request of the plugin is pending, so nothing is stored
      */
-    public function setDecided(string $decision, ?string $note = null): int
+    public function setDecided(string $decision, ?string $note = null, bool $requirePending = true): int
     {
         $numRequests = 0;
 
-        $this->writeWithHistory(function (RequestHistory $history) use ($decision, $note, &$numRequests) {
+        $this->writeWithHistory(function (RequestHistory $history) use ($decision, $note, $requirePending, &$numRequests) {
             $numRequests = $this->decidePendingRequests($history, $decision, Piwik::getCurrentUserLogin(), $note);
-            if ($numRequests === 0) {
+            if ($numRequests === 0 && $requirePending) {
                 throw new Exception(Piwik::translate('Marketplace_PluginRequestAlreadyDecided'));
             }
 
@@ -275,6 +278,17 @@ class Storage
     public function getDisplayName(): string
     {
         return $this->storage['displayName'] ?: $this->pluginName;
+    }
+
+    /**
+     * Returns the type of the request that made the plugin pending, one of the RequestHistory::REQUEST_TYPE_* constants.
+     * Requests stored before there were types were all for trials.
+     */
+    public function getRequestType(): string
+    {
+        return ($this->storage['requestType'] ?? null) === RequestHistory::REQUEST_TYPE_INSTALL
+            ? RequestHistory::REQUEST_TYPE_INSTALL
+            : RequestHistory::REQUEST_TYPE_TRIAL;
     }
 
     /**

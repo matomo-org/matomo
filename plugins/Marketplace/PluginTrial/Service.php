@@ -50,15 +50,16 @@ final class Service
      * Approves or declines all of a plugin's pending requests as the current super user
      *
      * @param string $decision one of the RequestHistory::DECISION_* constants
+     * @param bool $requirePending false returns 0 when none of the plugin's requests is pending, instead of failing
      * @return int the number of requests decided
      * @throws Exception when none of the plugin's requests is pending
      */
-    public function decide(string $pluginName, string $decision, ?string $note = null): int
+    public function decide(string $pluginName, string $decision, ?string $note = null, bool $requirePending = true): int
     {
         Piwik::checkUserHasSuperUserAccess();
 
         $request = new Request($pluginName, new Storage($pluginName));
-        $numRequests = $request->decide($decision, $note);
+        $numRequests = $request->decide($decision, $note, $requirePending);
 
         if (Session::isStarted()) {
             (new Notification($pluginName, new Storage($pluginName)))->removeFromSession();

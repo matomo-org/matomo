@@ -96,6 +96,24 @@ class Updates610b1Test extends IntegrationTestCase
         );
     }
 
+    public function testARerunAfterTheApprovalWasRecordedButNotLinkedRecordsItOnce(): void
+    {
+        $this->addRequest('ActivatedPlugin', 'alice', '2026-09-01 10:00:00');
+        $this->addRequest('ActivatedPlugin', 'bob', '2026-09-02 10:00:00');
+
+        $this->runUpdate();
+        // as if the update stopped after the INSERT, before the UPDATE linked the requests to the decision
+        Db::query('UPDATE ' . Common::prefixTable('plugin_trial_request') . ' SET iddecision = NULL');
+        $this->runUpdate();
+
+        $decisionIds = array_column(Db::fetchAll('SELECT iddecision FROM ' . Common::prefixTable('plugin_request_decision')), 'iddecision');
+        self::assertCount(1, $decisionIds);
+        self::assertSame(
+            [(int) $decisionIds[0], (int) $decisionIds[0]],
+            array_map('intval', array_column(Db::fetchAll('SELECT iddecision FROM ' . Common::prefixTable('plugin_trial_request')), 'iddecision'))
+        );
+    }
+
     private function addRequest(string $pluginName, ?string $login, string $requestedAt): void
     {
         Db::query(

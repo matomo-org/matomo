@@ -349,6 +349,70 @@ class ApiTest extends IntegrationTestCase
         self::assertSame([['Barometer', 'install', str_repeat('é', 1000)]], $this->getStoredRequests());
     }
 
+    public function testRequestInstallMailsSuperUsersAboutAnInstall(): void
+    {
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$sentMail) {
+            $sentMail = $mail;
+        });
+        Piwik::addAction('Marketplace.pluginTrialRequested', function () {
+            self::fail('An install request was announced as a trial request');
+        });
+        Piwik::addAction('Marketplace.pluginInstallRequested', function (...$args) use (&$eventArgs) {
+            $eventArgs = $args;
+        });
+
+        $this->enablePluginRequests();
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+
+        self::assertTrue($this->api->requestInstall('Barometer'));
+
+        self::assertSame(['Barometer', 'Barometer'], $eventArgs);
+        self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
+        self::assertSame('Marketplace_RequestInstallNotificationEmailSubject', $sentMail->getSubject());
+        self::assertStringContainsString('Marketplace_RequestInstallNotificationEmailIntro', $sentMail->getBodyHtml());
+        self::assertStringContainsString('Marketplace_RequestInstallNotificationEmailHowToInstallStep3', $sentMail->getBodyHtml());
+        self::assertStringNotContainsString('Marketplace_RequestTrialNotificationEmailIntro', $sentMail->getBodyHtml());
+        self::assertStringNotContainsString('Marketplace_RequestTrialNotificationEmailHowToStartStep3', $sentMail->getBodyHtml());
+    }
+
+    public function testRequestTrialIsRejectedWhenTheUserHasAlreadyRequestedThePlugin(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('TreemapVisualization');
+        $this->api->requestTrial('TreemapVisualization', 'First');
+
+        try {
+            $this->api->requestTrial('TreemapVisualization', 'Second');
+            self::fail('A second request by the same user was accepted');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_PluginAlreadyRequested', $e->getMessage());
+        }
+
+        self::assertSame([['TreemapVisualization', 'trial', 'First']], $this->getStoredRequests());
+    }
+
+    public function testRequestInstallIsRejectedWhenTheUsersRequestWasDeclined(): void
+    {
+        $this->enablePluginRequests();
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+        $this->api->requestInstall('Barometer');
+
+        $this->setSuperUser();
+        $this->api->declinePluginRequest('Barometer');
+
+        $this->setUser();
+        try {
+            $this->api->requestInstall('Barometer', 'Please reconsider');
+            self::fail('A request after a declined one by the same user was accepted');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_PluginAlreadyRequested', $e->getMessage());
+        }
+
+        self::assertSame([['Barometer', 'install', null]], $this->getStoredRequests());
+    }
+
     public function testRequestInstallIsRejectedWhileTheFeatureFlagIsOff(): void
     {
         $this->disablePluginRequests();
@@ -483,6 +547,51 @@ class ApiTest extends IntegrationTestCase
         $this->api->$method('Barometer');
     }
 
+    /**
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsSayWhenThePluginHasNoPendingRequests(string $method): void
+    {
+        $this->enablePluginRequests();
+        $this->service->setOnDownloadCallback(static function () {
+            self::fail('A trial was started');
+        });
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Marketplace_NoPendingPluginRequests');
+
+        $this->api->$method('PaidPlugin1');
+    }
+
+    /**
+     * @dataProvider dataRequestsDisabledMethods
+     */
+    public function testMethodsAreRejectedWhileRequestsAreDisabledInTheConfig(string $method, bool $asSuperUser): void
+    {
+        $this->enablePluginRequests();
+        $asSuperUser ? $this->setSuperUser() : $this->setUser();
+
+        $config = Config::getInstance();
+        $general = $config->General;
+        $config->General = array_merge($general, ['plugin_trial_request_expiration_in_days' => -1]);
+
+        try {
+            $this->api->$method('Barometer');
+            self::fail('The method ran while requests are disabled');
+        } catch (Exception $e) {
+            self::assertSame('Plugin requests are not enabled', $e->getMessage());
+        } finally {
+            $config->General = $general;
+        }
+    }
+
+    public function dataRequestsDisabledMethods(): iterable
+    {
+        yield 'request install' => ['requestInstall', false];
+        yield 'decline' => ['declinePluginRequest', true];
+        yield 'approve trial' => ['approvePluginTrial', true];
+    }
+
     public function dataDecisionMethods(): iterable
     {
         yield 'decline' => ['declinePluginRequest'];
@@ -528,17 +637,24 @@ class ApiTest extends IntegrationTestCase
         self::assertTrue((new Storage('PaidPlugin1'))->wasRequested());
     }
 
-    public function testApprovePluginTrialStartsNoTrialWithoutPendingRequests(): void
+    public function testApprovePluginTrialReportsNoFailureWhenAnotherSuperUserDeclinedWhileTheTrialStarted(): void
     {
         $this->enablePluginRequests();
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+        $this->api->requestTrial('PaidPlugin1');
+
+        $this->setSuperUser();
         $this->service->setOnDownloadCallback(static function () {
-            self::fail('A trial was started');
+            (new Storage('PaidPlugin1'))->setDecided(RequestHistory::DECISION_DECLINED);
+            Piwik::addAction('Marketplace.pluginRequestDecided', function () {
+                self::fail('An approval that ended no request posted the event');
+            });
+            return ['status' => 201, 'headers' => [], 'data' => ''];
         });
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Marketplace_PluginRequestAlreadyDecided');
-
-        $this->api->approvePluginTrial('PaidPlugin1');
+        self::assertSame(0, $this->api->approvePluginTrial('PaidPlugin1'));
+        self::assertSame(['declined'], $this->getStoredDecisions());
     }
 
     public function testSaveLicenseKeyRequiresSuperUserAccessIfUser()
