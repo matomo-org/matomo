@@ -11,7 +11,9 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Updater;
+use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 
@@ -33,26 +35,32 @@ class Updates_6_1_0_b2 extends Updates
         // name and report are compared with archive_invalidations, so they need the same collation
         $collations = $this->getInvalidationColumnCollations();
 
+        $nameCollation = $collations['name'] ?? '';
+        $reportCollation = $collations['report'] ?? '';
+        $table = Common::prefixTable('archive_failures');
+        $tableOptions = Schema::getInstance()->getTableCreateOptions();
+
         return [
-            $this->migration->db->createTable('archive_failures', [
-                'idfailure' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
-                'idsite' => 'INTEGER UNSIGNED NOT NULL',
-                'name' => 'VARCHAR(255)' . ($collations['name'] ?? '') . ' NOT NULL',
-                'period' => 'TINYINT UNSIGNED NOT NULL',
-                'date1' => 'DATE NOT NULL',
-                'date2' => 'DATE NOT NULL',
-                'report' => 'VARCHAR(255)' . ($collations['report'] ?? '') . " NOT NULL DEFAULT ''",
-                'archive_hash' => 'CHAR(32) NOT NULL',
-                'attempts' => 'SMALLINT UNSIGNED NOT NULL DEFAULT 0',
-                'last_error' => 'TEXT NULL',
-                'ts_first_failed' => 'DATETIME NOT NULL',
-                'ts_last_failed' => 'DATETIME NOT NULL',
-                'ts_retry_after' => 'DATETIME NOT NULL',
-            ], 'idfailure'),
-            $this->migration->db->addUniqueKey(
-                'archive_failures',
-                ['idsite', 'archive_hash', 'period', 'date1', 'date2'],
-                'unique_archive'
+            // one statement, so the unique key exists as soon as failures can be recorded
+            $this->migration->db->sql(
+                "CREATE TABLE `$table` (
+                    idfailure BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                    idsite INTEGER UNSIGNED NOT NULL,
+                    name VARCHAR(255)$nameCollation NOT NULL,
+                    period TINYINT UNSIGNED NOT NULL,
+                    date1 DATE NOT NULL,
+                    date2 DATE NOT NULL,
+                    `report` VARCHAR(255)$reportCollation NOT NULL DEFAULT '',
+                    archive_hash CHAR(32) NOT NULL,
+                    attempts SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+                    last_error TEXT NULL,
+                    ts_first_failed DATETIME NOT NULL,
+                    ts_last_failed DATETIME NOT NULL,
+                    ts_retry_after DATETIME NOT NULL,
+                    PRIMARY KEY(idfailure),
+                    UNIQUE KEY unique_archive(idsite, archive_hash, period, date1, date2)
+                ) $tableOptions",
+                Migration\Db::ERROR_CODE_TABLE_EXISTS
             ),
             // lets the archiving queue skip invalidations on hold without reading them
             $this->migration->db->addIndex(
