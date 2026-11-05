@@ -768,6 +768,7 @@ class Model
     {
         $table = Common::prefixTable('archive_invalidations');
 
+        // set archive value to in progress if not set already
         $sql = "UPDATE `$table` SET `status` = ?, `processing_host` = ?, `process_id` = ?, `ts_started` = NOW() WHERE `idinvalidation` = ? AND `status` = ?";
         $bind = [
             ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
@@ -784,7 +785,6 @@ class Model
             $bind = array_merge($bind, $blockedBind);
         }
 
-        // set archive value to in progress if not set already
         $statement = Db::query($sql, $bind);
 
         // if we updated, then we've marked the archive as started
@@ -1143,6 +1143,8 @@ class Model
     /**
      * Puts an invalidation whose archiving failed on hold, or deletes it if the same archive is already queued or on
      * hold, so at most one invalidation per archive waits.
+     *
+     * @param array<array-key, string|int|float|null> $invalidation
      */
     public function holdFailedInvalidation(array $invalidation): void
     {
@@ -1158,7 +1160,7 @@ class Model
             ]
         );
 
-        if ($idTwin) {
+        if (false !== $idTwin) {
             Db::query(
                 "DELETE FROM `$table` WHERE idinvalidation = ? AND status = ?",
                 [$invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]

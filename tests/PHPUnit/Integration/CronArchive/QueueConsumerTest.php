@@ -584,6 +584,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $processed = [];
         $next = $queueConsumer->getNextArchivesToProcess();
+        $this->assertIsArray($next);
         $processed[] = $next[0]['date1'];
         Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$next[0]['idinvalidation']]);
 
@@ -624,6 +625,8 @@ class QueueConsumerTest extends IntegrationTestCase
         // both archivers are working on the site, archiver B has already loaded what to skip
         $batchB = $archiverB->getNextArchivesToProcess();
         $batchA = $archiverA->getNextArchivesToProcess();
+        $this->assertIsArray($batchB);
+        $this->assertIsArray($batchA);
         $this->assertSame('2018-03-08', $batchB[0]['date1']);
         $this->assertSame('2018-03-07', $batchA[0]['date1']);
 
@@ -1096,6 +1099,9 @@ class QueueConsumerTest extends IntegrationTestCase
         }
     }
 
+    /**
+     * @param list<array{period: int, date1: string, date2: string, attempts: int, ts_retry_after: string}> $failures
+     */
     private function insertArchiveFailures(array $failures)
     {
         $table = Common::prefixTable('archive_failures');
