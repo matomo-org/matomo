@@ -73,6 +73,9 @@ class Updates_6_1_0_b2 extends Updates
         ];
     }
 
+    /**
+     * @return void
+     */
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
@@ -95,11 +98,11 @@ class Updates_6_1_0_b2 extends Updates
 
         $collations = [];
         foreach ($columns as $column) {
-            $charset = $column['CHARACTER_SET_NAME'] ?? '';
-            $collation = $column['COLLATION_NAME'] ?? '';
+            $charset = (string) ($column['CHARACTER_SET_NAME'] ?? '');
+            $collation = (string) ($column['COLLATION_NAME'] ?? '');
 
             if (preg_match('/^\w+$/', $charset) && preg_match('/^\w+$/', $collation)) {
-                $collations[$column['COLUMN_NAME']] = " CHARACTER SET $charset COLLATE $collation";
+                $collations[(string) $column['COLUMN_NAME']] = " CHARACTER SET $charset COLLATE $collation";
             }
         }
 

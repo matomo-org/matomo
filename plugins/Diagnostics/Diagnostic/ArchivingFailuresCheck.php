@@ -37,7 +37,8 @@ class ArchivingFailuresCheck implements Diagnostic
         }
 
         $counts = (new ArchiveFailures())->getFailureCounts();
-        if ($counts['waiting'] === 0 && $counts['givenUp'] === 0) {
+        // set whenever there is any failure
+        if (null === $counts['oldestFailure']) {
             return [];
         }
 

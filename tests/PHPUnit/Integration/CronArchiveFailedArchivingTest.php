@@ -53,7 +53,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
     }
 
-    public function testFailedArchiveIsRetriedAfterTheDelay()
+    public function testFailedArchiveIsRetriedAfterTheDelay(): void
     {
         $invalidations = $this->archiveAndInvalidateDay();
 
@@ -90,10 +90,10 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertStringContainsString(CronArchive::NO_ERROR, $output);
     }
 
-    public function testFailedArchiveIsGivenUpAfterTheMaximumAttempts()
+    public function testFailedArchiveIsGivenUpAfterTheMaximumAttempts(): void
     {
-        Config::getInstance()->General['archive_failure_max_attempts'] = 2;
-        Config::getInstance()->General['archive_failure_retry_delays'] = '60';
+        Config::setSetting('General', 'archive_failure_max_attempts', 2);
+        Config::setSetting('General', 'archive_failure_retry_delays', '60');
         $invalidations = $this->archiveAndInvalidateDay();
 
         Option::set(self::FAIL_ARCHIVING_OPTION, 'all');
@@ -116,7 +116,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
 
         // until the failure is reset
         $archiveFailures = new ArchiveFailures();
-        $archiveFailures->deleteFailuresById(array_column($archiveFailures->getFailures(), 'idfailure'));
+        $archiveFailures->deleteFailuresById(array_map('intval', array_column($archiveFailures->getFailures(), 'idfailure')));
         $output = $this->runArchiver();
 
         $this->assertSame([], $this->getInvalidations());
@@ -124,7 +124,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertStringContainsString('Processed 4 archives.', $output);
     }
 
-    public function testRetryThatFailsAgainPutsTheArchivesBackOnHold()
+    public function testRetryThatFailsAgainPutsTheArchivesBackOnHold(): void
     {
         $invalidations = $this->archiveAndInvalidateDay();
 
@@ -141,7 +141,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
     }
 
-    public function testArchivesOnHoldAreRetriedAfterARunThatStoppedEarly()
+    public function testArchivesOnHoldAreRetriedAfterARunThatStoppedEarly(): void
     {
         $this->archiveAndInvalidateDay();
 
@@ -162,7 +162,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertSame($this->getDoneFlags(ArchiveWriter::DONE_OK), $this->getDoneFlagValues());
     }
 
-    public function testInvalidatingAnArchiveOnHoldAgainAddsNoInvalidation()
+    public function testInvalidatingAnArchiveOnHoldAgainAddsNoInvalidation(): void
     {
         $invalidations = $this->archiveAndInvalidateDay();
 
@@ -173,7 +173,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
     }
 
-    public function testEmptyResponseIsRecordedAsFailure()
+    public function testEmptyResponseIsRecordedAsFailure(): void
     {
         $invalidations = $this->archiveAndInvalidateDay();
 
@@ -185,7 +185,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertStringContainsString('(attempt 1 of 5), it will be retried after', $output);
     }
 
-    public function testFailureDoesNotDeferArchivesNotBuiltFromTheFailedOne()
+    public function testFailureDoesNotDeferArchivesNotBuiltFromTheFailedOne(): void
     {
         $this->archiveAndInvalidateDay();
         $this->invalidateDay('2019-11-05');
@@ -209,7 +209,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         }, $this->getInvalidations()));
     }
 
-    public function testQueuedDuplicateOfFailedInvalidationIsNotRetried()
+    public function testQueuedDuplicateOfFailedInvalidationIsNotRetried(): void
     {
         $invalidations = $this->archiveAndInvalidateDay();
 
@@ -230,7 +230,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertCount(4, $this->getInvalidations());
     }
 
-    public function testFailureOfArchiveThatCanNoLongerBeProcessedIsRemoved()
+    public function testFailureOfArchiveThatCanNoLongerBeProcessedIsRemoved(): void
     {
         $idSegment = SegmentEditorAPI::getInstance()->add('segment', 'browserCode==FF', 1, true, true);
         $segmentDoneFlag = 'done' . (new Segment('browserCode==FF', [1]))->getHash();
@@ -250,7 +250,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertSame([], $this->getInvalidations($segmentDoneFlag));
     }
 
-    public function testUpdateDuringArchivingStopsWithoutRecordingFailures()
+    public function testUpdateDuringArchivingStopsWithoutRecordingFailures(): void
     {
         $this->archiveAndInvalidateDay();
         $this->invalidateDay('2019-11-05');
@@ -278,7 +278,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertSame($invalidations, $this->getInvalidations());
     }
 
-    public function testInvalidResponseIsRecordedAsFailure()
+    public function testInvalidResponseIsRecordedAsFailure(): void
     {
         $this->archiveAndInvalidateDay();
 
@@ -288,7 +288,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertSame([['day', '2019-12-10', '1', '2020-02-03 05:05:06', 'not a JSON response']], $this->getFailures());
     }
 
-    public function testArchivingStopsWithoutRecordingFailuresWhileAnUpdateIsPending()
+    public function testArchivingStopsWithoutRecordingFailuresWhileAnUpdateIsPending(): void
     {
         $invalidations = $this->archiveAndInvalidateDay();
         Option::set('version_core', '6.0.0');
@@ -313,7 +313,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertSame($invalidations, $this->getInvalidations());
     }
 
-    public function testFailureIsRemovedWhenThereIsNothingToArchive()
+    public function testFailureIsRemovedWhenThereIsNothingToArchive(): void
     {
         // a day without visits, its failure can be retried
         $this->invalidateDay('2019-12-11');
@@ -326,9 +326,12 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertSame([], $this->getFailures());
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function provideContainerConfig()
     {
-        Date::$now = strtotime(self::NOW);
+        Date::$now = (int) strtotime(self::NOW);
 
         return [
             'observers.global' => \Piwik\DI::add([
@@ -352,12 +355,19 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         ];
     }
 
+    /**
+     * @return void
+     */
     protected static function configureFixture($fixture)
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
     }
 
+    /**
+     * @param list<array<string, string|int|float|null>> $invalidations
+     * @return list<array<string, string|int|float|null>>
+     */
     private function onHold(array $invalidations): array
     {
         return array_map(function ($invalidation) {
@@ -368,9 +378,12 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
 
     private function setNow(string $now): void
     {
-        Date::$now = strtotime($now);
+        Date::$now = (int) strtotime($now);
     }
 
+    /**
+     * @return list<array<array-key, string|int|float|null>>
+     */
     private function archiveAndInvalidateDay(): array
     {
         // build the archives once, then invalidate them again
@@ -410,17 +423,23 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         return $logger->output;
     }
 
+    /**
+     * @return list<array<array-key, string|int|float|null>>
+     */
     private function getInvalidations(string $name = 'done'): array
     {
         $table = Common::prefixTable('archive_invalidations');
         return Db::fetchAll("SELECT idinvalidation, name, period, date1, date2, status FROM `$table` WHERE idsite = 1 AND name = ? ORDER BY idinvalidation", [$name]);
     }
 
+    /**
+     * @return list<list<string|int|float|null>> period, date1, attempts, retry after and error of each failure
+     */
     private function getFailures(): array
     {
         return array_map(function ($failure) {
             return [
-                ['1' => 'day', '2' => 'week', '3' => 'month', '4' => 'year'][$failure['period']] ?? $failure['period'],
+                [1 => 'day', 2 => 'week', 3 => 'month', 4 => 'year'][(int) $failure['period']] ?? $failure['period'],
                 $failure['date1'],
                 (string) $failure['attempts'],
                 $failure['ts_retry_after'],
@@ -429,11 +448,17 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         }, (new ArchiveFailures())->getFailures());
     }
 
+    /**
+     * @return array<string, int>
+     */
     private function getDoneFlags(int $value): array
     {
         return ['day' => $value, 'week' => $value, 'month' => $value, 'year' => $value];
     }
 
+    /**
+     * @return array<string, int>
+     */
     private function getDoneFlagValues(): array
     {
         $periods = [
