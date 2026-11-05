@@ -110,13 +110,18 @@ class OnDiskUIAsset extends UIAsset
             throw new Exception('The file : ' . $location . ' can not be opened in write mode.');
         }
 
-        fwrite($newFile, $content);
+        $written = fwrite($newFile, $content);
 
-        fclose($newFile);
+        $closed = fclose($newFile);
+
+        if ($written !== strlen($content) || !$closed) {
+            Filesystem::remove($tmpLocation, true);
+            throw new Exception('Unable to write merged file : ' . $location . '. Please check there is enough disk space and refresh');
+        }
 
         if (!@rename($tmpLocation, $location)) {
             Filesystem::remove($tmpLocation, true);
-            throw new Exception('The file : ' . $location . ' can not be opened in write mode.');
+            throw new Exception('Unable to replace merged file : ' . $location . '. Please delete the file and refresh');
         }
 
         // remove compressed versions of the previous content
