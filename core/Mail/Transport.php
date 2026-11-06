@@ -131,7 +131,7 @@ class Transport
 
         $phpMailer->isSMTP();
 
-        if (!empty($mailConfig['type'])) {
+        if (!empty($mailConfig['type']) && (!empty($mailConfig['username']) || !empty($mailConfig['password']))) {
             $phpMailer->SMTPAuth = true;
             $phpMailer->AuthType = strtoupper($mailConfig['type']);
         }
