@@ -186,9 +186,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
 
     public function testDayArchivedBeforeTheSettingWasOnGivesTheExactCount()
     {
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
-        $this->getVisitsSummary('day', '2024-03-01');
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+        $this->archiveFirstDayWithoutSketches();
 
         $row = $this->getVisitsSummary('month', '2024-03-01');
 
@@ -200,9 +198,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
 
     public function testRangeWithoutAnEstimateHidesUniquesAndIsNotArchivedAgain()
     {
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
-        $this->getVisitsSummary('day', '2024-03-01');
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+        $this->archiveFirstDayWithoutSketches();
 
         $countRangeArchives = function () {
             return (int) Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_numeric_2024_03') . " WHERE period = 5 AND name LIKE 'done%'");
@@ -269,58 +265,39 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertSame(1, $row["uniques_estimated$suffix"]);
     }
 
-    public function testEstimateFlagIsReturnedWhenRequestedByNameOnly()
+    /**
+     * @dataProvider getUniquesColumnsBySuffix
+     */
+    public function testEstimateFlagIsReturnedWhenRequestedByNameOnly(string $method, string $suffix)
     {
-        $columns = function (string $requested) {
-            $result = Request::processRequest('VisitsSummary.get', [
-                'idSite' => 1,
-                'period' => 'month',
-                'date' => '2024-03-01',
-                'columns' => $requested,
-            ]);
-            return $result->getFirstRow()->getColumns();
-        };
+        $this->assertArrayNotHasKey("uniques_estimated$suffix", $this->getMonthColumns($method, "nb_uniq_visitors$suffix"));
+        $this->assertSame(1, $this->getMonthColumns($method, "nb_uniq_visitors$suffix,uniques_estimated$suffix")["uniques_estimated$suffix"]);
+        $this->assertArrayNotHasKey("uniques_estimated$suffix", $this->getMonthColumns($method, "nb_visits$suffix"));
+    }
 
-        // one column keeps the single value shape
-        $this->assertSame(['nb_uniq_visitors'], array_keys($columns('nb_uniq_visitors')));
-        $this->assertSame(['nb_uniq_visitors', 'uniques_estimated'], array_keys($columns('nb_uniq_visitors,uniques_estimated')));
-        $this->assertSame(['nb_visits'], array_keys($columns('nb_visits')));
+    public function getUniquesColumnsBySuffix(): array
+    {
+        return [
+            'all visitors' => ['VisitsSummary.get', ''],
+            'new visitors' => ['VisitFrequency.get', '_new'],
+            'human visitors' => ['AIAgents.get', '_human'],
+        ];
     }
 
     public function testEstimateFlagRequestedByNameFromApiGet()
     {
-        $columns = function (string $requested) {
-            $result = Request::processRequest('API.get', [
-                'idSite' => 1,
-                'period' => 'month',
-                'date' => '2024-03-01',
-                'columns' => $requested,
-            ]);
-            return $result->getFirstRow() ? $result->getFirstRow()->getColumns() : [];
-        };
-
-        $this->assertSame(['uniques_estimated' => 1], $columns('uniques_estimated'));
-        $withVisits = $columns('nb_visits,uniques_estimated');
+        $this->assertSame(['uniques_estimated' => 1], $this->getMonthColumns('API.get', 'uniques_estimated'));
+        $withVisits = $this->getMonthColumns('API.get', 'nb_visits,uniques_estimated');
         $this->assertEqualsCanonicalizing(['nb_visits', 'uniques_estimated'], array_keys($withVisits));
         $this->assertSame(1, $withVisits['uniques_estimated']);
-        $this->assertSame(['uniques_estimated_new' => 1], $columns('uniques_estimated_new'));
+        $this->assertSame(['uniques_estimated_new' => 1], $this->getMonthColumns('API.get', 'uniques_estimated_new'));
     }
 
     public function testUsersAreKeptWhenRequestedWithoutUniqueVisitors()
     {
-        $columns = function (string $method, string $requested) {
-            $result = Request::processRequest($method, [
-                'idSite' => 1,
-                'period' => 'month',
-                'date' => '2024-03-01',
-                'columns' => $requested,
-            ]);
-            return $result->getFirstRow()->getColumns();
-        };
-
-        $this->assertArrayHasKey('nb_users', $columns('VisitsSummary.get', 'nb_visits,nb_users'));
-        $this->assertArrayHasKey('nb_users', $columns('API.get', 'nb_visits,nb_users'));
-        $this->assertArrayHasKey('nb_users_returning', $columns('VisitFrequency.get', 'nb_visits_returning,nb_users_returning'));
+        $this->assertArrayHasKey('nb_users', $this->getMonthColumns('VisitsSummary.get', 'nb_visits,nb_users'));
+        $this->assertArrayHasKey('nb_users', $this->getMonthColumns('API.get', 'nb_visits,nb_users'));
+        $this->assertArrayHasKey('nb_users_returning', $this->getMonthColumns('VisitFrequency.get', 'nb_visits_returning,nb_users_returning'));
     }
 
     public function testSingleUniquesMetricsAreEstimatedOnYears()
@@ -336,9 +313,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
 
     public function testYearWithoutAnEstimateHasNoUniquesAnywhere()
     {
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
-        $this->getVisitsSummary('day', '2024-03-01');
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+        $this->archiveFirstDayWithoutSketches();
 
         $visitors = Request::processRequest('VisitsSummary.getUniqueVisitors', ['idSite' => 1, 'period' => 'year', 'date' => '2024-03-01']);
         $users = Request::processRequest('VisitsSummary.getUsers', ['idSite' => 1, 'period' => 'year', 'date' => '2024-03-01']);
@@ -356,9 +331,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     public function testSparklinesShowNoUsersEvolutionWithoutAPreviousEstimate()
     {
         // the previous range, 2024-03-01 to 03, can't be estimated
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
-        $this->getVisitsSummary('day', '2024-03-01');
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+        $this->archiveFirstDayWithoutSketches();
 
         $evolutions = $this->getSparklineEvolutions('range', '2024-03-04,2024-03-06');
 
@@ -372,22 +345,13 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     public function testSparklinesShowTheUniquesOfAComparedYear(bool $hasEstimate, array $expected)
     {
         if (!$hasEstimate) {
-            $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
-            $this->getVisitsSummary('day', '2024-03-01');
-            $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+            $this->archiveFirstDayWithoutSketches();
         }
 
-        $html = $this->getSparklines('month', '2024-03-01', ['comparePeriods' => ['year'], 'compareDates' => ['2024-03-01']]);
-        preg_match('/ sparklines="(\{.*?\})"\s/', $html, $matches);
-
         $users = [];
-        foreach (json_decode($matches[1], true) as $sparklines) {
-            foreach ($sparklines as $sparkline) {
-                foreach ($sparkline['metrics'] as $metrics) {
-                    if ($metrics[0]['title'] === 'General_ColumnNbUsers') {
-                        $users[] = $metrics[0]['value'];
-                    }
-                }
+        foreach ($this->getSparklineMetrics('month', '2024-03-01', ['comparePeriods' => ['year'], 'compareDates' => ['2024-03-01']]) as [, $metric]) {
+            if ($metric['title'] === 'General_ColumnNbUsers') {
+                $users[] = $metric['value'];
             }
         }
 
@@ -544,33 +508,29 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     /**
      * @dataProvider getEvolutionGraphLabels
      */
-    public function testEvolutionGraphLabelsTheEstimate(string $period, string $date, string $label)
+    public function testEvolutionGraphLabelsTheEstimate(string $module, string $column, string $period, string $date, string $label)
     {
-        [$get, $request] = [$_GET, $_REQUEST];
-        $_GET = $_REQUEST = [
+        $html = $this->dispatch($module, 'getEvolutionGraph', [
             'idSite' => 1,
             'period' => $period,
             'date' => $date,
-            'columns' => 'nb_uniq_visitors',
+            'columns' => $column,
             'viewDataTable' => 'graphEvolution',
             'forceView' => 1,
-        ];
-        try {
-            $html = FrontController::getInstance()->fetchDispatch('VisitsSummary', 'getEvolutionGraph', [false, ['nb_uniq_visitors']]);
-        } finally {
-            [$_GET, $_REQUEST] = [$get, $request];
-        }
+        ], $module === 'VisitsSummary' ? [false, [$column]] : []);
 
         // the entry in the series picker
-        $this->assertStringContainsString('"column":"nb_uniq_visitors","translation":"' . $label . '"', html_entity_decode($html, ENT_QUOTES));
+        $this->assertStringContainsString('"column":"' . $column . '","translation":"' . $label . '"', html_entity_decode($html, ENT_QUOTES));
     }
 
     public function getEvolutionGraphLabels(): array
     {
         return [
-            'months, estimated' => ['month', '2024-03-01', 'VisitsSummary_ColumnNbUniqVisitorsEstimated'],
+            'months, estimated' => ['VisitsSummary', 'nb_uniq_visitors', 'month', '2024-03-01', 'VisitsSummary_ColumnNbUniqVisitorsEstimated'],
             // a range's graph plots its days, which are counted exactly
-            'range, plotting days' => ['range', '2024-03-01,2024-03-10', 'General_ColumnNbUniqVisitors'],
+            'range, plotting days' => ['VisitsSummary', 'nb_uniq_visitors', 'range', '2024-03-01,2024-03-10', 'General_ColumnNbUniqVisitors'],
+            'new visitors, estimated' => ['VisitFrequency', 'nb_uniq_visitors_new', 'month', '2024-03-01', 'VisitFrequency_ColumnUniqueNewVisitorsEstimated'],
+            'human visitors, estimated' => ['AIAgents', 'nb_uniq_visitors_human', 'month', '2024-03-01', 'AIAgents_ColumnHumanUniqueVisitorsEstimated'],
         ];
     }
 
@@ -598,9 +558,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
 
     public function testEvolutionGraphLeavesAGapForAYearWithoutAnEstimate()
     {
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
-        $this->getVisitsSummary('day', '2024-03-01');
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+        $this->archiveFirstDayWithoutSketches();
 
         $data = $this->getGraphData('VisitsSummary', 'getEvolutionGraph', 'year', '2024-03-01', 'nb_visits,nb_uniq_visitors', ['evolution_year_last_n' => 3]);
 
@@ -646,20 +604,14 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
 
     private function getGraphData(string $module, string $action, string $period, string $date, string $columns, array $extraParams = []): array
     {
-        [$get, $request] = [$_GET, $_REQUEST];
-        $_GET = $_REQUEST = $extraParams + [
+        $html = $this->dispatch($module, $action, $extraParams + [
             'idSite' => 1,
             'period' => $period,
             'date' => $date,
             'columns' => $columns,
             'viewDataTable' => 'graphEvolution',
             'forceView' => 1,
-        ];
-        try {
-            $html = FrontController::getInstance()->fetchDispatch($module, $action);
-        } finally {
-            [$_GET, $_REQUEST] = [$get, $request];
-        }
+        ]);
 
         $this->assertSame(1, preg_match('/data-data="([^"]*)"/', $html, $matches), 'graph data not found');
 
@@ -668,13 +620,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
 
     private function getSparklines(string $period, string $date, array $extraParams = []): string
     {
-        [$get, $request] = [$_GET, $_REQUEST];
-        $_GET = $_REQUEST = ['idSite' => 1, 'period' => $period, 'date' => $date] + $extraParams;
-        try {
-            $html = FrontController::getInstance()->fetchDispatch('VisitsSummary', 'getSparklines');
-        } finally {
-            [$_GET, $_REQUEST] = [$get, $request];
-        }
+        $html = $this->dispatch('VisitsSummary', 'getSparklines', ['idSite' => 1, 'period' => $period, 'date' => $date] + $extraParams);
 
         return html_entity_decode($html, ENT_QUOTES);
     }
@@ -684,17 +630,61 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
      */
     private function getSparklineEvolutions(string $period, string $date, array $extraParams = []): array
     {
-        preg_match('/ sparklines="(\{.*?\})"\s/', $this->getSparklines($period, $date, $extraParams), $matches);
         $evolutions = [];
+        foreach ($this->getSparklineMetrics($period, $date, $extraParams) as [$sparkline, $metric]) {
+            $evolutions[$metric['column']] = isset($sparkline['evolution']);
+        }
+
+        return $evolutions;
+    }
+
+    /**
+     * @return array<int, array{0: array, 1: array}> each sparkline with each of its metrics, in the order shown
+     */
+    private function getSparklineMetrics(string $period, string $date, array $extraParams = []): array
+    {
+        preg_match('/ sparklines="(\{.*?\})"\s/', $this->getSparklines($period, $date, $extraParams), $matches);
+        $result = [];
         foreach (json_decode($matches[1], true) as $sparklines) {
             foreach ($sparklines as $sparkline) {
                 foreach ($sparkline['metrics'] as $metrics) {
-                    $evolutions[$metrics[0]['column']] = isset($sparkline['evolution']);
+                    $result[] = [$sparkline, $metrics[0]];
                 }
             }
         }
 
-        return $evolutions;
+        return $result;
+    }
+
+    /**
+     * Dispatches a controller action with `$params` as the request, and returns its output.
+     */
+    private function dispatch(string $module, string $action, array $params, array $parameters = []): string
+    {
+        [$get, $request] = [$_GET, $_REQUEST];
+        $_GET = $_REQUEST = $params;
+        try {
+            return FrontController::getInstance()->fetchDispatch($module, $action, $parameters);
+        } finally {
+            [$_GET, $_REQUEST] = [$get, $request];
+        }
+    }
+
+    private function getMonthColumns(string $method, string $columns): array
+    {
+        $result = Request::processRequest($method, ['idSite' => 1, 'period' => 'month', 'date' => '2024-03-01', 'columns' => $columns]);
+
+        return $result->getFirstRow() ? $result->getFirstRow()->getColumns() : [];
+    }
+
+    /**
+     * Archives the first day as if before the setting was switched on, so it has no sketches.
+     */
+    private function archiveFirstDayWithoutSketches(): void
+    {
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
+        $this->getVisitsSummary('day', '2024-03-01');
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
     }
 
     private static function trackVisits(): void
