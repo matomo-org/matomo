@@ -20,3 +20,4 @@ export { default as PluginCard } from './PluginCard/PluginCard.vue';
 export { default as CategoryTabs } from './CategoryTabs/CategoryTabs.vue';
 export { default as MarketplaceHero } from './MarketplaceHero/MarketplaceHero.vue';
 export { default as SortMenu } from './SortMenu/SortMenu.vue';
+export { default as ManageRequests } from './ManageRequests/ManageRequests.vue';

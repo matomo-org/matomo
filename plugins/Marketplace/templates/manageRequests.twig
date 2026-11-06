@@ -1,0 +1,12 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'Marketplace_ManageRequests'|translate }}{% endset %}
+
+{% block content %}
+
+    <div
+        vue-entry="Marketplace.ManageRequests"
+        requests="{{ requests|json_encode }}"
+    ></div>
+
+{% endblock %}

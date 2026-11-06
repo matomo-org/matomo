@@ -69,6 +69,7 @@ export const CARD_CONTEXT: MarketplaceContext = {
   isMultiServerEnvironment: false,
   isValidConsumer: true,
   isAutoUpdatePossible: true,
+  arePluginRequestsActive: false,
   activateNonce: 'a',
   deactivateNonce: 'd',
   installNonce: 'i',

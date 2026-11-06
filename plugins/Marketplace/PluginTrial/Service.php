@@ -14,6 +14,8 @@ use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\Marketplace\FeatureFlags\PluginRequests;
 use Piwik\Session;
 use Piwik\Session\SessionNamespace;
 
@@ -248,5 +250,15 @@ final class Service
     public function isEnabled(): bool
     {
         return -1 !== GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
+    }
+
+    /**
+     * Returns if users can request free plugins and follow their requests: the PluginRequests feature is on, and
+     * requests are not turned off in the config
+     */
+    public function areRequestsActive(): bool
+    {
+        return $this->isEnabled()
+            && StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(PluginRequests::class);
     }
 }

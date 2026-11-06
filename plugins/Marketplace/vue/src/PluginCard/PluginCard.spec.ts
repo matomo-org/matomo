@@ -301,6 +301,101 @@ describe('Marketplace/PluginCard', () => {
       expect(actions(wrapper).text()).toContain('Marketplace_TrialRequested');
     });
 
+    describe('while plugin requests are active', () => {
+      const asUser = { isSuperUser: false, arePluginRequestsActive: true };
+      const premium = {
+        isFree: false, isPaid: true, isDownloadable: false, isEligibleForFreeTrial: true,
+      };
+      const viewRequestLink = (wrapper: VueWrapper) => wrapper.find('.ctaStatus__viewRequest');
+
+      it('offers a trial of a premium plugin that is not installed', () => {
+        const wrapper = mountCard({ ...premium, canTrialBeRequested: true }, asUser);
+        expect(actions(wrapper).text()).toContain('Marketplace_RequestTrial');
+        expect(actions(wrapper).text()).not.toContain('Marketplace_RequestInstall');
+      });
+
+      it('offers an install of a free plugin that is not installed', () => {
+        const wrapper = mountCard({ canInstallBeRequested: true }, asUser);
+        expect(actions(wrapper).text()).toContain('Marketplace_RequestInstall');
+      });
+
+      it('asks the page to open the request dialog for either', async () => {
+        const wrapper = mountCard({ canInstallBeRequested: true }, asUser);
+        await actions(wrapper).find('a.btn').trigger('click');
+        expect(wrapper.emitted('requestTrial')).toHaveLength(1);
+      });
+
+      it.each([
+        ['trial', 'pending', 'Marketplace_TrialRequested'],
+        ['install', 'pending', 'Marketplace_InstallRequested'],
+        ['trial', 'declined', 'Marketplace_TrialDeclined'],
+        ['install', 'declined', 'Marketplace_InstallDeclined'],
+        ['trial', 'approved', 'Marketplace_TrialApproved'],
+      ])('shows a %s request that is %s, with a link to it', (
+        requestType,
+        requestStatus,
+        label,
+      ) => {
+        const wrapper = mountCard({
+          ...premium,
+          canTrialBeRequested: true,
+          requestType: requestType as 'trial' | 'install',
+          requestStatus: requestStatus as 'pending' | 'approved' | 'declined',
+        }, asUser);
+
+        expect(actions(wrapper).text()).toContain(label);
+        expect(actions(wrapper).text()).not.toContain('Marketplace_RequestTrial');
+        expect(viewRequestLink(wrapper).text()).toBe('Marketplace_ViewRequest');
+        expect(viewRequestLink(wrapper).attributes('href'))
+          .toBe('?module=Marketplace&action=manageRequests&idSite=1');
+        expect(viewRequestLink(wrapper).attributes('target')).toBe('_blank');
+      });
+
+      it('shows a trial whose licence ended since it was approved as ended, with no link', () => {
+        const wrapper = mountCard({
+          ...premium,
+          isMissingLicense: true,
+          requestType: 'trial',
+          requestStatus: 'approved',
+        }, asUser);
+
+        expect(actions(wrapper).text()).toContain('Marketplace_TrialEnded');
+        expect(viewRequestLink(wrapper).exists()).toBe(false);
+      });
+
+      it('shows an installed plugin whose trial ended as ended rather than installed', () => {
+        const wrapper = mountCard({
+          ...premium,
+          isInstalled: true,
+          isMissingLicense: true,
+          requestType: 'trial',
+          requestStatus: 'approved',
+        }, asUser);
+
+        expect(actions(wrapper).text()).toContain('Marketplace_TrialEnded');
+        expect(actions(wrapper).text()).not.toContain('General_Installed');
+      });
+
+      it('shows an installed plugin as installed, also with an update, with no request', () => {
+        const wrapper = mountCard({
+          isInstalled: true,
+          isActivated: true,
+          canBeUpdated: true,
+          requestStatus: 'pending',
+          requestType: 'install',
+        }, asUser);
+
+        expect(actions(wrapper).text()).toContain('General_Installed');
+        expect(actions(wrapper).text()).not.toContain('Marketplace_InstallRequested');
+        expect(actions(wrapper).text()).not.toContain('CoreUpdater_UpdateTitle');
+      });
+
+      it('offers only more details when nothing can be requested', () => {
+        const wrapper = mountCard({}, asUser);
+        expect(actions(wrapper).text()).toBe('General_MoreDetails');
+      });
+    });
+
     it('keeps the action area present even when it renders nothing actionable, so cards in a row'
       + ' stay level', () => {
       const wrapper = mountCard({ isInstalled: true, isActivated: true }, { isSuperUser: false });

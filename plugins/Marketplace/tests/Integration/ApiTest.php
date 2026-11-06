@@ -493,6 +493,50 @@ class ApiTest extends IntegrationTestCase
         $this->api->requestInstall('Marketplace');
     }
 
+    /**
+     * The Super User is shown such a plugin as "Cannot install", so could not approve the request
+     *
+     * @dataProvider dataPluginInfosNoSuperUserCanInstall
+     */
+    public function testRequestInstallIsRejectedForAPluginNoSuperUserCouldInstall(callable $changeInfo): void
+    {
+        $this->enablePluginRequests();
+        $this->setUser();
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function () use ($service, $changeInfo) {
+            $info = json_decode($service->getFixtureContent('v2.0_plugins_Barometer_info.json'), true);
+
+            return json_encode($changeInfo($info));
+        });
+
+        try {
+            $this->api->requestInstall('Barometer');
+            self::fail('A plugin no Super User could install was requested');
+        } catch (Exception $e) {
+            self::assertStringContainsString('The plugin cannot be installed on this Matomo, so cannot be requested', $e->getMessage());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
+    public function dataPluginInfosNoSuperUserCanInstall(): iterable
+    {
+        yield 'missing requirements' => [static function (array $info): array {
+            foreach ($info['versions'] as &$version) {
+                $version['requires'] = ['php' => '>=99.0.0'];
+            }
+
+            return $info;
+        }];
+        yield 'no download link' => [static function (array $info): array {
+            foreach ($info['versions'] as &$version) {
+                unset($version['download']);
+            }
+
+            return $info;
+        }];
+    }
+
     public function testRequestInstallIsRejectedWhenPluginsCannotBeInstalled(): void
     {
         $this->enablePluginRequests();
@@ -503,6 +547,34 @@ class ApiTest extends IntegrationTestCase
         $this->expectExceptionMessage('Plugins cannot be installed on this Matomo');
 
         $this->api->requestInstall('Barometer');
+    }
+
+    /**
+     * The Super User is shown "Cannot install" without auto update, so could not approve the request
+     *
+     * @dataProvider dataConfigsWithoutAutoUpdate
+     */
+    public function testRequestInstallIsRejectedWhenAutoUpdateIsNotPossible(string $setting, int $value): void
+    {
+        $this->enablePluginRequests();
+        Config::getInstance()->General[$setting] = $value;
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+
+        try {
+            $this->api->requestInstall('Barometer');
+            self::fail('A plugin was requested where no Super User could install it');
+        } catch (Exception $e) {
+            self::assertStringContainsString('The plugin cannot be installed on this Matomo, so cannot be requested', $e->getMessage());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
+    public function dataConfigsWithoutAutoUpdate(): iterable
+    {
+        yield 'auto update disabled' => ['enable_auto_update', 0];
+        yield 'multi server environment' => ['multi_server_environment', 1];
     }
 
     public function testDeclinePluginRequestDeclinesAllPendingRequests(): void
@@ -802,6 +874,17 @@ class ApiTest extends IntegrationTestCase
             ], $requests))
         );
         self::assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $requests[0]['requestedAt']);
+    }
+
+    public function testGetMyPluginRequestsAsksTheMarketplaceForDisplayNamesItsCachedListsDoNotHold(): void
+    {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1');
+        StaticContainer::get(Client::class)->clearAllCacheEntries();
+
+        self::assertSame('Paid Plugin 1', $this->api->getMyPluginRequests()[0]['displayName']);
     }
 
     public function testGetMyPluginRequestsShowsNoNoteForAnApprovedRequest(): void
