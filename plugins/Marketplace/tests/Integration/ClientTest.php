@@ -90,7 +90,9 @@ class ClientTest extends IntegrationTestCase
         });
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects(self::never())->method('error');
-        $logger->expects(self::once())->method('warning');
+        // logged, not shown to a Super User as a notification
+        $logger->expects(self::once())->method('warning')
+            ->with(self::anything(), self::callback(static fn (array $context) => $context['ignoreInScreenWriter'] === true));
         $client = ClientBuilder::build($this->service, new Lazy(new ArrayCache()), $logger);
 
         self::assertSame([], $client->getInfoOfPlugins(['DelistedPlugin'], true));

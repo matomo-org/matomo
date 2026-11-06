@@ -384,6 +384,7 @@ class Client
                 $this->logger->warning('The Marketplace does not list the plugin {plugin}: {message}', [
                     'plugin' => $name,
                     'message' => $e->getMessage(),
+                    'ignoreInScreenWriter' => true,
                 ]);
                 $this->cache->save($notListedCacheId, true, self::CACHE_TIMEOUT_IN_SECONDS);
                 continue;
