@@ -163,6 +163,24 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertStringNotContainsString('(attempt ', $output);
     }
 
+    public function testJobTakenOverWhileItSucceedsIsArchivedAgain(): void
+    {
+        $invalidations = $this->archiveAndInvalidateDay();
+
+        Option::set(self::FAIL_ARCHIVING_OPTION, 'taken over while succeeding');
+        $this->runArchiver();
+
+        // kept and released, as invalidations added since were merged into it
+        $this->assertSame([], $this->getFailures());
+        $this->assertSame([$invalidations[0]], $this->getInvalidations());
+
+        // the day, and the periods built from it again
+        $output = $this->runArchiver();
+
+        $this->assertSame([], $this->getInvalidations());
+        $this->assertStringContainsString('Processed 4 archives.', $output);
+    }
+
     public function testFailedArchiveIsGivenUpAfterTheMaximumAttempts(): void
     {
         Config::setSetting('General', 'archive_failure_max_attempts', 2);
@@ -416,6 +434,16 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
                     if ($toFail === 'garbage') {
                         echo 'not a JSON response';
                         exit;
+                    }
+                    if ($toFail === 'taken over while succeeding' && $period->getLabel() === 'day') {
+                        Option::delete(self::FAIL_ARCHIVING_OPTION);
+                        // eg timed out and put on hold by another archiver, new invalidations are merged into it then
+                        $table = Common::prefixTable('archive_invalidations');
+                        $row = Db::fetchRow("SELECT * FROM `$table` WHERE status = ? AND period = 1", [ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]);
+                        if (is_array($row)) {
+                            (new ArchiveFailures())->recordFailure($row, 'Archiving did not finish');
+                            Db::query("UPDATE `$table` SET status = ? WHERE idinvalidation = ?", [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $row['idinvalidation']]);
+                        }
                     }
                     if ($toFail === 'taken over') {
                         // eg reset after timing out, and put on hold by another archiver
