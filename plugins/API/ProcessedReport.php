@@ -128,16 +128,19 @@ class ProcessedReport
         // Unique visitors / users can't be summed across days, so on non-day periods they only exist
         // for aggregate (dimensionless) reports where archiving computed them. Strip them from
         // per-dimension reports, and from unprocessed periods/scopes (year/range, multi-site).
-        $aggregateUniquesUnavailable =
-            !SettingsPiwik::isUniqueVisitorsEnabled($period)
-            || ($isMultiSiteRequest && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites());
+        $skipUniquesForMultipleSites = $isMultiSiteRequest && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();
+        $aggregateUniquesUnavailable = !SettingsPiwik::isUniqueVisitorsEnabled($period) || $skipUniquesForMultipleSites;
+        // the website's totals are also available when estimated
+        $siteTotalUniquesEstimated = SettingsPiwik::isUniqueVisitorsEstimated((string) $period) && !$skipUniquesForMultipleSites;
 
         $apiParameters = self::withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters);
 
         foreach ($reportsMetadata as $report) {
             $isPerDimensionReport = !empty($report['dimension']) || !empty($report['dimensions']);
+            $isSiteTotalReport = in_array($report['module'], ['VisitsSummary', 'API'], true) && $report['action'] === 'get';
+            $uniquesUnavailable = $aggregateUniquesUnavailable && !($siteTotalUniquesEstimated && $isSiteTotalReport);
 
-            if ($isNonDayPeriod && ($aggregateUniquesUnavailable || $isPerDimensionReport)) {
+            if ($isNonDayPeriod && ($uniquesUnavailable || $isPerDimensionReport)) {
                 unset($report['metrics']['nb_uniq_visitors'], $report['metrics']['nb_users']);
             }
             if (
@@ -381,6 +384,31 @@ class ProcessedReport
     }
 
     /**
+     * Main metrics (API.get) merges the other get reports, so it takes the labels they set for the period, eg
+     * "(estimated)" unique visitors.
+     */
+    private function useMergedReportLabelsForMainMetrics(array &$availableReports): void
+    {
+        $labels = [];
+        $mainMetricsIndex = null;
+        foreach ($availableReports as $index => $report) {
+            if ($report['action'] !== 'get' || !empty($report['parameters'])) {
+                continue;
+            }
+            if ($report['module'] === 'API') {
+                $mainMetricsIndex = $index;
+                continue;
+            }
+            $labels = array_merge($labels, $report['metrics'] ?? []);
+        }
+
+        if ($mainMetricsIndex !== null) {
+            $metrics = $availableReports[$mainMetricsIndex]['metrics'];
+            $availableReports[$mainMetricsIndex]['metrics'] = array_replace($metrics, array_intersect_key($labels, $metrics));
+        }
+    }
+
+    /**
      * Triggers a hook to ask plugins for available Reports.
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
@@ -412,6 +440,8 @@ class ProcessedReport
         foreach ($this->reportsProvider->getAllReports() as $report) {
             $report->configureReportMetadata($availableReports, $parameters);
         }
+
+        $this->useMergedReportLabelsForMainMetrics($availableReports);
 
         foreach ($availableReports as &$availableReport) {
             if ($hideMetricsDoc) {

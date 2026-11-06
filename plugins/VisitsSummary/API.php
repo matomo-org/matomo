@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Archive;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
@@ -50,12 +51,36 @@ class API extends \Piwik\Plugin\API
         $archive = Archive::build($idSite, $period, $date, $segment);
 
         $requestedColumns = Piwik::getArrayFromApiParameter($columns);
+        $columnsToFetch = $requestedColumns;
+        $isEstimated = SettingsPiwik::isUniqueVisitorsEstimated($period);
+        if ($isEstimated && array_intersect(['nb_uniq_visitors', 'nb_users', PluginsArchiver::UNIQUES_ESTIMATED_METRIC], $requestedColumns)) {
+            // the filter below needs these, and views read the flag before the columns that weren't requested go
+            $columnsToFetch = array_merge($requestedColumns, ['nb_visits', 'nb_uniq_visitors', PluginsArchiver::UNIQUES_ESTIMATED_METRIC]);
+        }
 
         /** @var Get $report */
         $report = ReportsProvider::factory('VisitsSummary', 'get');
-        $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $requestedColumns);
+        $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $columnsToFetch);
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
+
+        if ($isEstimated) {
+            $dataTable->filter(function (DataTable $table) {
+                $row = $table->getFirstRow();
+                if (!$row) {
+                    return;
+                }
+                // archives built before the flag existed have none, and were counted exactly
+                $row->setColumn(PluginsArchiver::UNIQUES_ESTIMATED_METRIC, (int) !empty($row->getColumn(PluginsArchiver::UNIQUES_ESTIMATED_METRIC)));
+
+                // no unique visitors for a period with visits means they weren't estimated or counted (eg a year whose
+                // days have no sketches, or a Roll-Up), so leave them out rather than show 0
+                if ($row->getColumn('nb_visits') && !$row->getColumn('nb_uniq_visitors')) {
+                    $row->deleteColumn('nb_uniq_visitors');
+                    $row->deleteColumn('nb_users');
+                }
+            });
+        }
 
         if (!empty($requestedColumns)) {
             $dataTable->queueFilter('ColumnDelete', [$columnsToRemove = [], $requestedColumns]);
@@ -77,10 +102,12 @@ class API extends \Piwik\Plugin\API
             'sum_visit_length',
             'max_actions',
         ];
-        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             $columns = array_merge(['nb_uniq_visitors', 'nb_users'], $columns);
         }
-        $columns = array_values($columns);
+        if (SettingsPiwik::isUniqueVisitorsEstimated($period)) {
+            $columns[] = PluginsArchiver::UNIQUES_ESTIMATED_METRIC;
+        }
         return $columns;
     }
 
@@ -138,9 +165,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getUniqueVisitors($idSite, string $period, string $date, $segment = false)
     {
-        $metric = 'nb_uniq_visitors';
-        $this->checkUniqueIsEnabledOrFail($period, $metric);
-        return $this->getNumeric($idSite, $period, $date, $segment, $metric);
+        return $this->getUniqueMetric($idSite, $period, $date, $segment, 'nb_uniq_visitors');
     }
 
     /**
@@ -162,9 +187,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getUsers($idSite, string $period, string $date, $segment = false)
     {
-        $metric = 'nb_users';
-        $this->checkUniqueIsEnabledOrFail($period, $metric);
-        return $this->getNumeric($idSite, $period, $date, $segment, $metric);
+        return $this->getUniqueMetric($idSite, $period, $date, $segment, 'nb_users');
     }
 
     /**
@@ -306,9 +329,25 @@ class API extends \Piwik\Plugin\API
         return $table;
     }
 
+    /**
+     * @param int|string|int[] $idSite
+     * @param string|false|null $segment
+     * @return DataTable|DataTable\Map
+     */
+    private function getUniqueMetric($idSite, string $period, string $date, $segment, string $metric)
+    {
+        $this->checkUniqueIsEnabledOrFail($period, $metric);
+        if (!SettingsPiwik::isUniqueVisitorsEstimated($period)) {
+            return $this->getNumeric($idSite, $period, $date, $segment, $metric);
+        }
+
+        // get() leaves the value out of periods that fell back to an exact count that isn't enabled
+        return $this->get($idSite, $period, $date, $segment, [$metric]);
+    }
+
     private function checkUniqueIsEnabledOrFail(string $period, string $metric): void
     {
-        if (!SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (!SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             throw new \Exception(
                 'The metric ' . $metric . ' is not enabled for the requested period. ' .
                 'Please see this FAQ: ' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_113/')

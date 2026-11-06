@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\VisitsSummary\Reports;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
@@ -30,6 +31,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\ViewDataTable\EstimatedUniques;
 use Piwik\Widget\WidgetsList;
 
 class Get extends \Piwik\Plugin\Report
@@ -55,7 +57,7 @@ class Get extends \Piwik\Plugin\Report
         );
 
         $period = Piwik::getPeriod('day');
-        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($period)) {
             $this->metrics = array_merge(['nb_uniq_visitors'], $this->metrics);
         }
 
@@ -84,15 +86,43 @@ class Get extends \Piwik\Plugin\Report
         );
     }
 
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $report = $this->buildReportMetadata();
+        if (empty($report)) {
+            return;
+        }
+
+        $period = (string) ($infos['period'] ?? '');
+        $report['metrics'] = EstimatedUniques::labelMetadataMetrics($report['metrics'], $period, EstimatedUniques::getMetricTranslations());
+        $availableReports[] = $report;
+    }
+
     public function configureView(ViewDataTable $view)
     {
+        $isEstimated = SettingsPiwik::isUniqueVisitorsEstimated(Common::getRequestVar('period', '', 'string'));
+
         if ($view->isViewDataTableId(Sparklines::ID)) {
             /** @var Sparklines $view */
             $view->requestConfig->apiMethodToRequestDataTable = 'API.get';
             $this->addSparklineColumns($view);
             $view->config->addTranslations($this->getSparklineTranslations());
 
+            if ($isEstimated) {
+                // requested only to pick the labels, and removed below before the sparklines are drawn
+                $view->config->addSparklineMetric([PluginsArchiver::UNIQUES_ESTIMATED_METRIC]);
+                EstimatedUniques::labelFromData($view, [
+                    'nb_uniq_visitors' => Piwik::translate('VisitsSummary_NbUniqueVisitorsEstimated'),
+                    'nb_users' => Piwik::translate('VisitsSummary_NbUsersEstimatedDescription'),
+                ], []);
+            }
+
             $view->config->filters[] = function (DataTable $table) use ($view) {
+                $view->config->removeSparklineMetric([PluginsArchiver::UNIQUES_ESTIMATED_METRIC]);
                 $firstRow = $table->getFirstRow();
 
                 if (!$firstRow->getColumn('avg_time_generation')) {
@@ -113,6 +143,10 @@ class Get extends \Piwik\Plugin\Report
                     $view->config->removeSparklineMetric(array('nb_actions'));
                 }
 
+                if (!is_numeric($firstRow->getColumn('nb_uniq_visitors'))) {
+                    $view->config->replaceSparklineMetric(['nb_visits', 'nb_uniq_visitors'], ['nb_visits']);
+                }
+
                 $nbUsers = $firstRow->getColumn('nb_users');
                 if (!is_numeric($nbUsers) || 0 >= $nbUsers) {
                     $view->config->replaceSparklineMetric(array('nb_users'), '');
@@ -131,10 +165,14 @@ class Get extends \Piwik\Plugin\Report
                 $previousData = Request::processRequest('API.get', ['date' => $lastPeriodDate, 'format_metrics' => '0']);
                 $previousDataRow = $previousData->getFirstRow();
 
-                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
+                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow, $isEstimated) {
                     $value = reset($columns);
                     $columnName = key($columns);
                     $pastValue = $previousDataRow ? $previousDataRow->getColumn($columnName) : 0;
+                    if ($pastValue === false && $isEstimated && in_array($columnName, ['nb_uniq_visitors', 'nb_users'], true)) {
+                        // the previous period's uniques weren't estimated: no evolution rather than one from 0
+                        return null;
+                    }
 
                     // Format
                     $formatter = new MetricFormatter();
@@ -186,6 +224,8 @@ class Get extends \Piwik\Plugin\Report
             $view->config->metrics_documentation['nb_pageviews'] = '';
             $view->config->metrics_documentation['nb_uniq_pageviews'] = '';
             $view->config->metrics_documentation['bounce_rate'] = '';
+        } elseif ($isEstimated) {
+            EstimatedUniques::labelFromData($view, EstimatedUniques::getMetricTranslations());
         }
     }
 
@@ -227,7 +267,7 @@ class Get extends \Piwik\Plugin\Report
         $currentPeriod = Common::getRequestVar('period');
         $currentIdSite = Common::getRequestVar('idSite');
         $currentDate   = Common::getRequestVar('date');
-        $displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
+        $displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsTotalAvailable($currentPeriod);
 
         $isActionPluginEnabled = Common::isActionsPluginEnabled();
 

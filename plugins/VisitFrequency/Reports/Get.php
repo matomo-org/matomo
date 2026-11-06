@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\VisitFrequency\Reports;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ActionsPerVisit;
@@ -19,6 +20,8 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\VisitFrequency\API;
 use Piwik\Plugins\VisitFrequency\Columns\Metrics\ReturningMetric;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\SettingsPiwik;
+use Piwik\ViewDataTable\EstimatedUniques;
 use Piwik\Widget\WidgetsList;
 
 class Get extends \Piwik\Plugin\Report
@@ -72,12 +75,45 @@ class Get extends \Piwik\Plugin\Report
         );
     }
 
+    /**
+     * Labels for the unique visitors and users columns of periods where they are estimated.
+     *
+     * @return array<string, string>
+     */
+    public static function getEstimatedMetricTranslations(): array
+    {
+        return [
+            'nb_uniq_visitors_returning' => Piwik::translate('VisitFrequency_ColumnUniqueReturningVisitorsEstimated'),
+            'nb_users_returning' => Piwik::translate('VisitFrequency_ColumnReturningUsersEstimated'),
+            'nb_uniq_visitors_new' => Piwik::translate('VisitFrequency_ColumnUniqueNewVisitorsEstimated'),
+            'nb_users_new' => Piwik::translate('VisitFrequency_ColumnNewUsersEstimated'),
+        ];
+    }
+
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $report = $this->buildReportMetadata();
+        if (empty($report)) {
+            return;
+        }
+
+        $period = (string) ($infos['period'] ?? '');
+        $report['metrics'] = EstimatedUniques::labelMetadataMetrics($report['metrics'], $period, self::getEstimatedMetricTranslations());
+        $availableReports[] = $report;
+    }
+
     public function configureView(ViewDataTable $view)
     {
         if ($view->isViewDataTableId(Sparklines::ID)) {
             $view->requestConfig->apiMethodToRequestDataTable = 'VisitFrequency.get';
             $this->addSparklineColumns($view);
             $view->config->addTranslations($this->getSparklineTranslations());
+        } elseif (SettingsPiwik::isUniqueVisitorsEstimated(Common::getRequestVar('period', '', 'string'))) {
+            EstimatedUniques::labelFromData($view, self::getEstimatedMetricTranslations());
         }
     }
 

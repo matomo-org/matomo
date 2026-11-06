@@ -22,6 +22,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\AIAgents\API;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\Request;
+use Piwik\SettingsPiwik;
+use Piwik\ViewDataTable\EstimatedUniques;
 use Piwik\Widget\WidgetsList;
 
 class Get extends Report
@@ -77,6 +80,37 @@ class Get extends Report
         );
     }
 
+    /**
+     * Labels for the unique visitors and users columns of periods where they are estimated.
+     *
+     * @return array<string, string>
+     */
+    public static function getEstimatedMetricTranslations(): array
+    {
+        return [
+            'nb_uniq_visitors_ai_agent' => Piwik::translate('AIAgents_ColumnAIAgentUniqueVisitorsEstimated'),
+            'nb_users_ai_agent' => Piwik::translate('AIAgents_ColumnAIAgentUsersEstimated'),
+            'nb_uniq_visitors_human' => Piwik::translate('AIAgents_ColumnHumanUniqueVisitorsEstimated'),
+            'nb_users_human' => Piwik::translate('AIAgents_ColumnHumanUsersEstimated'),
+        ];
+    }
+
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
+        $report = $this->buildReportMetadata();
+        if (empty($report)) {
+            return;
+        }
+
+        $period = (string) ($infos['period'] ?? '');
+        $report['metrics'] = EstimatedUniques::labelMetadataMetrics($report['metrics'], $period, self::getEstimatedMetricTranslations());
+        $availableReports[] = $report;
+    }
+
     public function configureView(ViewDataTable $view)
     {
         if ($view->isViewDataTableId(Sparklines::ID)) {
@@ -84,6 +118,8 @@ class Get extends Report
             $view->requestConfig->apiMethodToRequestDataTable = 'AIAgents.get';
             $this->addSparklineColumns($view);
             $view->config->addTranslations($this->getSparklineTranslations());
+        } elseif (SettingsPiwik::isUniqueVisitorsEstimated(Request::fromRequest()->getStringParameter('period', ''))) {
+            EstimatedUniques::labelFromData($view, self::getEstimatedMetricTranslations());
         }
     }
 

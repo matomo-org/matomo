@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\HyperLogLog;
 use Piwik\Cache as PiwikCache;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -334,6 +335,49 @@ class SettingsPiwik
         }
 
         return $result;
+    }
+
+    /**
+     * Returns true if day archives store the sketches that unique visitors and users of longer periods are
+     * estimated from.
+     */
+    public static function isUniqueVisitorsEstimateEnabled(): bool
+    {
+        return !empty(Config::getInstance()->General['enable_unique_visitors_estimate_site_totals']);
+    }
+
+    /**
+     * Returns true if a website's total unique visitors and users for the given period are estimated rather
+     * than counted. Days, and an empty period label, are always counted.
+     *
+     * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     */
+    public static function isUniqueVisitorsEstimated(string $periodLabel): bool
+    {
+        return in_array($periodLabel, ['week', 'month', 'year', 'range'], true) && self::isUniqueVisitorsEstimateEnabled();
+    }
+
+    /**
+     * Returns true if a website's total unique visitors and users are available for the given period, counted
+     * or estimated. Unique visitors in report rows still follow {@link isUniqueVisitorsEnabled()}.
+     *
+     * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     */
+    public static function isUniqueVisitorsTotalAvailable(string $periodLabel): bool
+    {
+        return self::isUniqueVisitorsEnabled($periodLabel) || self::isUniqueVisitorsEstimated($periodLabel);
+    }
+
+    /**
+     * Returns the configured precision of the unique visitors estimate, or 14 if it is out of range.
+     */
+    public static function getUniqueVisitorsEstimatePrecision(): int
+    {
+        $precision = filter_var(Config::getInstance()->General['unique_visitors_estimate_precision'] ?? null, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => HyperLogLog::MIN_PRECISION, 'max_range' => HyperLogLog::MAX_PRECISION],
+        ]);
+
+        return $precision === false ? 14 : $precision;
     }
 
     /**
