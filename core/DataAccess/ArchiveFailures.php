@@ -39,7 +39,7 @@ class ArchiveFailures
     public const STATE_GIVEN_UP = 'given up';
 
     private const DEFAULT_MAX_ATTEMPTS = 5;
-    private const DEFAULT_RETRY_DELAYS = [3600, 21600, 86400, 86400];
+    private const DEFAULT_RETRY_DELAYS = [3600, 21600, 86400];
     private const MAX_RETRY_DELAY = 31536000;
     private const MAX_ERROR_LENGTH = 1000;
     private const INVALIDATIONS_CHUNK_SIZE = 50000;
