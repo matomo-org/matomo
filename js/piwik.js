@@ -2507,7 +2507,7 @@ if (typeof window.Matomo !== 'object') {
                 configMeasurementConsentRemembered = false,
 
                 // whether optUserOut() is what required consent, rather than the site asking for
-                // it, so that opting back in undoes exactly what opting out did
+                // it, so that opting back in lowers only the gate opting out put up
                 configConsentRequiredByOptOut = false,
 
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
@@ -7762,8 +7762,8 @@ if (typeof window.Matomo !== 'object') {
 
                 this.forgetCookieConsentGiven();
 
-                // remember that this is what required consent, so opting back in undoes exactly
-                // this and nothing the site set up for itself. Opting out twice must not lose
+                // remember that this is what required consent, so opting back in lowers exactly
+                // this gate and nothing the site set up for itself. Opting out twice must not lose
                 // that: by the second call the gate is already up, and it is still ours.
                 configConsentRequiredByOptOut = configConsentRequiredByOptOut || !configConsentRequired;
                 this.requireConsent(true);
