@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
+use Piwik\Config;
 use Piwik\Plugins\CorePluginsAdmin\API as CorePluginsAdminApi;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -27,21 +28,36 @@ class UserSettingsTest extends IntegrationTestCase
         Fixture::createWebsite('2012-01-01 00:00:00');
     }
 
-    public function testSuperUsersSeeThePluginRequestSetting()
+    public function testSuperUsersSeeOnlyThePluginRequestSetting()
     {
+        $this->setPluginRequestsFlag('enabled');
         FakeAccess::$superUser = true;
         FakeAccess::$identity = 'superUserLogin';
 
-        self::assertContains('Marketplace', $this->getPluginsWithUserSettings());
+        self::assertSame(['notifyOnPluginRequest'], $this->getMarketplaceSettingNames());
     }
 
-    public function testOtherUsersDoNotSeeThePluginRequestSetting()
+    public function testOtherUsersSeeOnlyTheDecisionSetting()
+    {
+        $this->setPluginRequestsFlag('enabled');
+        $this->setViewUser();
+
+        self::assertSame(['notifyOnPluginRequestDecision'], $this->getMarketplaceSettingNames());
+    }
+
+    public function testOtherUsersSeeNoSettingWhilePluginRequestsAreDisabled()
+    {
+        $this->setPluginRequestsFlag('disabled');
+        $this->setViewUser();
+
+        self::assertSame([], $this->getMarketplaceSettingNames());
+    }
+
+    private function setViewUser(): void
     {
         FakeAccess::$superUser = false;
         FakeAccess::$identity = 'viewUser';
         FakeAccess::$idSitesView = [1];
-
-        self::assertNotContains('Marketplace', $this->getPluginsWithUserSettings());
     }
 
     public function provideContainerConfig()
@@ -52,10 +68,24 @@ class UserSettingsTest extends IntegrationTestCase
     }
 
     /**
-     * @return string[]
+     * The local config may set the flag, so each test sets it itself
      */
-    private function getPluginsWithUserSettings(): array
+    private function setPluginRequestsFlag(string $value): void
     {
-        return array_column(CorePluginsAdminApi::getInstance()->getUserSettings(), 'pluginName');
+        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => $value];
+    }
+
+    /**
+     * @return string[] the names of the Marketplace user settings the current user can see
+     */
+    private function getMarketplaceSettingNames(): array
+    {
+        foreach (CorePluginsAdminApi::getInstance()->getUserSettings() as $pluginSettings) {
+            if ($pluginSettings['pluginName'] === 'Marketplace') {
+                return array_column($pluginSettings['settings'], 'name');
+            }
+        }
+
+        return [];
     }
 }

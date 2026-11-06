@@ -71,9 +71,9 @@ class RequestHistory
      *
      * @param string $decision one of the DECISION_* constants
      * @param string|null $decidedBy the deciding super user, or null for a decision Matomo made itself
-     * @return int the number of requests decided, 0 when none was pending or the 6.1.0-b1 update has not yet run
+     * @return Decision|null null when no request was pending or the 6.1.0-b1 update has not yet run
      */
-    public function addDecision(string $pluginName, string $decision, ?string $decidedBy, ?string $note, int $decisionTime): int
+    public function addDecision(string $pluginName, string $decision, ?string $decidedBy, ?string $note, int $decisionTime): ?Decision
     {
         $this->requestedPluginsByLogin = [];
 
@@ -90,11 +90,11 @@ class RequestHistory
                 throw $e;
             }
 
-            return 0;
+            return null;
         }
 
         if (empty($requestIds)) {
-            return 0;
+            return null;
         }
 
         Db::get()->query(
@@ -109,7 +109,80 @@ class RequestHistory
             array_merge([$idDecision], $requestIds)
         );
 
-        return count($requestIds);
+        return new Decision($idDecision, count($requestIds));
+    }
+
+    /**
+     * Returns the login's requests with the decision that ended each, newest first
+     *
+     * @return list<array{plugin_name: string, request_type: string, message: string|null, ts_requested: string,
+     *                    decision: string|null, note: string|null}> decision and note are null while pending
+     */
+    public function getRequestsOfLogin(string $login): array
+    {
+        return $this->readDecisionAware(
+            'SELECT r.plugin_name, r.request_type, r.message, r.ts_requested, d.decision, d.note'
+            . ' FROM ' . $this->getTable() . ' r'
+            . ' LEFT JOIN ' . Common::prefixTable(self::DECISION_TABLE_NAME) . ' d ON d.iddecision = r.iddecision'
+            . ' WHERE r.login = ? ORDER BY r.ts_requested DESC, r.idrequest DESC',
+            [$login]
+        );
+    }
+
+    /**
+     * Returns all pending requests with the requester's email, by plugin and newest first. A requester deleted since
+     * has neither login nor email.
+     *
+     * @return list<array{plugin_name: string, request_type: string, message: string|null, ts_requested: string,
+     *                    login: string|null, email: string|null}>
+     */
+    public function getPendingRequests(): array
+    {
+        return $this->readDecisionAware(
+            'SELECT r.plugin_name, r.request_type, r.message, r.ts_requested, r.login, u.email'
+            . ' FROM ' . $this->getTable() . ' r'
+            . ' LEFT JOIN ' . Common::prefixTable('user') . ' u ON u.login = r.login'
+            . ' WHERE r.iddecision IS NULL ORDER BY r.plugin_name, r.ts_requested DESC, r.idrequest DESC',
+            []
+        );
+    }
+
+    /**
+     * Returns one page of decisions, newest first
+     *
+     * @return list<array{plugin_name: string, decision: string, decided_by: string|null, note: string|null,
+     *                    num_requests: int|string, ts_decided: string}>
+     */
+    public function getDecisions(int $offset, int $limit): array
+    {
+        return $this->readDecisionAware(
+            'SELECT plugin_name, decision, decided_by, note, num_requests, ts_decided'
+            . ' FROM ' . Common::prefixTable(self::DECISION_TABLE_NAME)
+            . ' ORDER BY ts_decided DESC, iddecision DESC LIMIT ' . $offset . ', ' . $limit,
+            []
+        );
+    }
+
+    public function getNumDecisions(): int
+    {
+        $rows = $this->readDecisionAware('SELECT COUNT(*) AS num FROM ' . Common::prefixTable(self::DECISION_TABLE_NAME), []);
+
+        return (int) ($rows[0]['num'] ?? 0);
+    }
+
+    /**
+     * Returns the requesters a decision ended requests of who still have an account
+     *
+     * @return array<string, string> email addresses keyed by login
+     */
+    public function getRequesterEmails(Decision $decision): array
+    {
+        return array_column(Db::get()->fetchAll(
+            'SELECT u.login, u.email FROM ' . $this->getTable() . ' r'
+            . ' JOIN ' . Common::prefixTable('user') . ' u ON u.login = r.login'
+            . ' WHERE r.iddecision = ?',
+            [$decision->id]
+        ), 'email', 'login');
     }
 
     /**
@@ -282,6 +355,28 @@ class RequestHistory
             }
 
             return null;
+        }
+    }
+
+    /**
+     * Reads nothing until the 6.1.0-b1 update has added the decisions
+     *
+     * @param list<mixed> $bind
+     * @return list<array<string, mixed>>
+     */
+    private function readDecisionAware(string $sql, array $bind): array
+    {
+        try {
+            return Db::get()->fetchAll($sql, $bind);
+        } catch (\Exception $e) {
+            if (
+                !Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)
+                && !Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_UNKNOWN_COLUMN)
+            ) {
+                throw $e;
+            }
+
+            return [];
         }
     }
 

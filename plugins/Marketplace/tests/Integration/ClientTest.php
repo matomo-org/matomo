@@ -9,9 +9,11 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Api;
 
+use Matomo\Cache\Backend\ArrayCache;
 use Matomo\Cache\Backend\NullCache;
 use Matomo\Cache\Lazy;
 use Piwik\Filesystem;
+use Piwik\Log\LoggerInterface;
 use Piwik\Log\NullLogger;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -57,6 +59,57 @@ class ClientTest extends IntegrationTestCase
 
         $this->assertStringStartsWith(PIWIK_INCLUDE_PATH . '/tmp/latest/plugins/', $file);
         $this->assertStringEndsWith('.zip', $file);
+    }
+
+    public function testGetInfoOfPluginsAsksAboutTheOtherPluginsAfterOneTheMarketplaceDoesNotList(): void
+    {
+        $service = $this->service;
+        $askedAbout = [];
+        $this->service->setOnDownloadCallback(static function ($action) use ($service, &$askedAbout) {
+            $askedAbout[] = $action;
+            if ($action === 'plugins/PaidPlugin1/info') {
+                return $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
+            }
+
+            return $service->getFixtureContent('v2.0_plugins_CustomPlugin1_info-access_token-notexistingtoken.json');
+        });
+
+        $infos = $this->client->getInfoOfPlugins(['DelistedPlugin', 'PaidPlugin1'], true);
+
+        self::assertSame(['plugins/DelistedPlugin/info', 'plugins/PaidPlugin1/info'], $askedAbout);
+        self::assertSame(['PaidPlugin1'], array_keys($infos));
+    }
+
+    public function testGetInfoOfPluginsAsksAboutAPluginTheMarketplaceDoesNotListOnlyOnceWhileCachedAndWarns(): void
+    {
+        $service = $this->service;
+        $numRequests = 0;
+        $this->service->setOnDownloadCallback(static function () use ($service, &$numRequests) {
+            $numRequests++;
+            return $service->getFixtureContent('v2.0_plugins_CustomPlugin1_info-access_token-notexistingtoken.json');
+        });
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::never())->method('error');
+        // logged, not shown to a Super User as a notification
+        $logger->expects(self::once())->method('warning')
+            ->with(self::anything(), self::callback(static fn (array $context) => $context['ignoreInScreenWriter'] === true));
+        $client = ClientBuilder::build($this->service, new Lazy(new ArrayCache()), $logger);
+
+        self::assertSame([], $client->getInfoOfPlugins(['DelistedPlugin'], true));
+        self::assertSame([], $client->getInfoOfPlugins(['DelistedPlugin'], true));
+        self::assertSame(1, $numRequests);
+    }
+
+    public function testGetInfoOfPluginsStopsAskingOnceTheMarketplaceIsUnreachable(): void
+    {
+        $numRequests = 0;
+        $this->service->setOnDownloadCallback(static function () use (&$numRequests) {
+            $numRequests++;
+            throw new \Exception('Marketplace unreachable');
+        });
+
+        self::assertSame([], $this->client->getInfoOfPlugins(['PaidPlugin1', 'Barometer'], true));
+        self::assertSame(1, $numRequests);
     }
 
     public function testGetPluginInfoShouldThrowExceptionIfNotAllowedToRequestPlugin()

@@ -334,6 +334,71 @@ class Client
     }
 
     /**
+     * Returns what the Marketplace lists about the given plugins, keyed by plugin name, from the cached overview lists
+     * where they hold a plugin. A plugin missing from them is left out unless $fetchMissing asks the Marketplace about
+     * each of those on its own. A plugin the Marketplace does not list, eg one delisted since, is left out, and not asked
+     * about again for {@link CACHE_TIMEOUT_IN_SECONDS}. The first request that does not reach the Marketplace ends them,
+     * so an unreachable Marketplace delays the answer by one request timeout rather than one per plugin.
+     *
+     * @param string[] $pluginNames
+     * @return array<string, array<string, mixed>>
+     */
+    public function getInfoOfPlugins(array $pluginNames, bool $fetchMissing): array
+    {
+        if (empty($pluginNames)) {
+            return [];
+        }
+
+        $listed = $this->getListedPluginsByName();
+        $pluginDetails = [];
+
+        foreach (array_unique($pluginNames) as $name) {
+            if (isset($listed[$name])) {
+                $pluginDetails[$name] = $listed[$name];
+                continue;
+            }
+
+            if (!$fetchMissing) {
+                continue;
+            }
+
+            // the Marketplace's answer about a plugin it does not list is cached, as only the info it returns is
+            $notListedCacheId = $this->getCacheKey(
+                sprintf('plugins/%s/info', $name),
+                Http::buildQuery($this->withEnvironmentParams([]))
+            ) . '.notListed';
+            if ($this->cache->contains($notListedCacheId)) {
+                continue;
+            }
+
+            try {
+                $plugin = $this->getPluginInfo($name);
+            } catch (PhpException $e) {
+                if ($e->getCode() !== Service\Exception::API_ERROR) {
+                    $this->logger->error($e->getMessage());
+                    $fetchMissing = false;
+                    continue;
+                }
+
+                // the Marketplace answered, only not about this plugin, so it is asked about the others
+                $this->logger->warning('The Marketplace does not list the plugin {plugin}: {message}', [
+                    'plugin' => $name,
+                    'message' => $e->getMessage(),
+                    'ignoreInScreenWriter' => true,
+                ]);
+                $this->cache->save($notListedCacheId, true, self::CACHE_TIMEOUT_IN_SECONDS);
+                continue;
+            }
+
+            if (!empty($plugin)) {
+                $pluginDetails[$name] = $plugin;
+            }
+        }
+
+        return $pluginDetails;
+    }
+
+    /**
      * Returns what the Marketplace reports about the given plugins' updates, keyed by plugin name.
      *
      * Unlike {@link getInfoOfPluginsHavingUpdate()} this issues a single request instead of one more
