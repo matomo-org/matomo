@@ -53,10 +53,10 @@ class API extends \Piwik\Plugin\API
         $requestedColumns = Piwik::getArrayFromApiParameter($columns);
         $columnsToFetch = $requestedColumns;
         $isEstimated = SettingsPiwik::isUniqueVisitorsEstimated($period);
-        if ($isEstimated && array_intersect(['nb_uniq_visitors', 'nb_users'], $requestedColumns)) {
-            $requestedColumns[] = PluginsArchiver::UNIQUES_ESTIMATED_METRIC;
-            // the filter below needs both to tell a missing value from a count, even when they weren't requested
-            $columnsToFetch = array_merge($requestedColumns, ['nb_visits', 'nb_uniq_visitors']);
+        if ($isEstimated && array_intersect(['nb_uniq_visitors', 'nb_users', PluginsArchiver::UNIQUES_ESTIMATED_METRIC], $requestedColumns)) {
+            // the filter below needs these to tell a missing value from a count, and views read the flag before the
+            // columns that weren't requested are removed, so it's only returned when requested by name
+            $columnsToFetch = array_merge($requestedColumns, ['nb_visits', 'nb_uniq_visitors', PluginsArchiver::UNIQUES_ESTIMATED_METRIC]);
         }
 
         /** @var Get $report */
