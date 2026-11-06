@@ -81,6 +81,7 @@ class UserCountry extends \Piwik\Plugin
      *
      * @param string $continent The continent code.
      * @return array
+     * @deprecated since Matomo 6.1.0, will be removed in Matomo 7. The Continent segment no longer uses it.
      */
     public static function getCountriesForContinent($continent)
     {
