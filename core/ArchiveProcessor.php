@@ -320,12 +320,9 @@ class ArchiveProcessor
     }
 
     /**
-     * Merges the unique visitors or users sketches of the subperiods this archive aggregates. Returns null when
-     * they can't be merged into a reliable estimate:
-     * - a sketch is damaged;
-     * - `$requiredForEveryVisit` is set and a subperiod with visits has no sketch (eg it was archived before the
-     *   estimate was enabled), so the estimate is left out rather than undercounted;
-     * - an `ArchiveProcessor.ComputeNbUniques.getIdSites` listener counts other sites than this one.
+     * Merges the sketches of the subperiods this archive aggregates. Returns null if a sketch is damaged, if
+     * `$requiredForEveryVisit` is set and a subperiod with visits has none, or if an
+     * `ArchiveProcessor.ComputeNbUniques.getIdSites` listener adds other sites.
      *
      * @internal
      */

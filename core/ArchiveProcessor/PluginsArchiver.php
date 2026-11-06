@@ -322,8 +322,13 @@ class PluginsArchiver
         $metrics = $this->convertMetricsIdToName($data);
         $this->archiveProcessor->insertNumericRecords($metrics);
 
-        // days stay exact, but store the sketches longer periods estimate their unique visitors and users from
-        if (SettingsPiwik::isUniqueVisitorsEstimateEnabled() && $this->canEstimateUniqueVisitors($metrics)) {
+        // days stay exact but store the sketches longer periods are estimated from. Not for several sites (eg
+        // Roll-Ups): the sketch counts visitor IDs, while uniques across sites are counted by fingerprint
+        if (
+            SettingsPiwik::isUniqueVisitorsEstimateEnabled()
+            && !empty($metrics['nb_visits'])
+            && count($this->params->getIdSites()) === 1
+        ) {
             $logAggregator = $this->archiveProcessor->getLogAggregator();
             $precision = SettingsPiwik::getUniqueVisitorsEstimatePrecision();
 
@@ -367,8 +372,7 @@ class PluginsArchiver
     }
 
     /**
-     * Estimates unique visitors and users from the sub-periods' sketches instead of counting them in the logs.
-     * Returns null when the sketches are missing or damaged, so they are counted as usual.
+     * Estimates unique visitors and users from the sub-periods' sketches, or returns null to count them as usual.
      */
     private function aggregateMultipleVisitsMetricsWithEstimates(array $toSum): ?array
     {
@@ -405,14 +409,6 @@ class PluginsArchiver
         }
 
         return $metrics;
-    }
-
-    private function canEstimateUniqueVisitors(array $metrics): bool
-    {
-        // not for archives covering several sites (eg roll-ups) yet: the sketch counts visitor IDs, while unique
-        // visitors across sites are counted by fingerprint
-        return !empty($metrics['nb_visits'])
-            && count($this->params->getIdSites()) === 1;
     }
 
     private function insertSketch(string $recordName, HyperLogLog $sketch): void

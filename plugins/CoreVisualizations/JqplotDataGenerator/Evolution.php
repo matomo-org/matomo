@@ -228,7 +228,7 @@ class Evolution extends JqplotDataGenerator
                 // 0.0 values continue to flow through as plain int 0 (downstream consumers
                 // doing `=== 0` rely on it). The hasColumnValue check below tracks the
                 // separate "real 0 vs missing" distinction the forecast builder needs.
-                // Missing estimated uniques are the exception: they stay null, so the line breaks there.
+                // Missing estimated uniques stay null instead, so the line breaks there.
                 $hasValue = $this->hasColumnValue($value);
                 if (!$hasValue && $this->isShownAsGapWhenMissing($columnName)) {
                     $seriesData[] = null;

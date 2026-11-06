@@ -101,13 +101,8 @@ class Get extends \Piwik\Plugin\Report
             return;
         }
 
-        if (SettingsPiwik::isUniqueVisitorsEstimated((string) ($infos['period'] ?? ''))) {
-            $report['metrics'] = array_replace(
-                $report['metrics'],
-                array_intersect_key(self::getEstimatedMetricTranslations(), $report['metrics'])
-            );
-        }
-
+        $period = (string) ($infos['period'] ?? '');
+        $report['metrics'] = EstimatedUniques::labelMetadataMetrics($report['metrics'], $period, self::getEstimatedMetricTranslations());
         $availableReports[] = $report;
     }
 

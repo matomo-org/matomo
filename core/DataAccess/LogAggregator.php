@@ -725,8 +725,7 @@ class LogAggregator
     {
         $tableName = self::LOG_VISIT_TABLE;
 
-        // User IDs are compared by the column's collation when counted exactly, so 'Alice' and 'alice' are one
-        // user; hashing their collation weight keeps that. Visitor IDs are binary
+        // hash the collation weight, so 'Alice' and 'alice' are one user, as in the exact count
         $value = $column === 'user_id' ? "WEIGHT_STRING($tableName.$column)" : "$tableName.$column";
 
         // first 64 bits of MD5, so IDs supplied by users (cid, uid) are spread evenly too
@@ -736,9 +735,8 @@ class LogAggregator
         $where = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, "%s.$column IS NOT NULL");
         $query = $this->generateQuery("$hash AS h", [$tableName], $where, '', '');
 
-        // hash each visit once in a derived table; the LIMIT stops MySQL merging it into the outer query and
-        // hashing twice. Visits repeated by a segment join don't change MIN(). The precision is inlined, as binds
-        // would break segment queries
+        // the LIMIT stops MySQL merging the derived table and hashing each visit twice. Visits repeated by a
+        // segment join don't change MIN(). The precision is inlined, as binds break segment queries
         $sql = 'SELECT (h & ' . ((1 << $precision) - 1) . ") AS bucket, MIN(h >> $precision) AS remainder_min"
             . ' FROM (' . $query['sql'] . ' LIMIT 18446744073709551615) AS hashed GROUP BY bucket';
         $cursor = $this->getDb()->query($sql, $query['bind']);

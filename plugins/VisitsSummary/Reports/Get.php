@@ -97,13 +97,8 @@ class Get extends \Piwik\Plugin\Report
             return;
         }
 
-        if (SettingsPiwik::isUniqueVisitorsEstimated((string) ($infos['period'] ?? ''))) {
-            $report['metrics'] = array_replace(
-                $report['metrics'],
-                array_intersect_key(EstimatedUniques::getMetricTranslations(), $report['metrics'])
-            );
-        }
-
+        $period = (string) ($infos['period'] ?? '');
+        $report['metrics'] = EstimatedUniques::labelMetadataMetrics($report['metrics'], $period, EstimatedUniques::getMetricTranslations());
         $availableReports[] = $report;
     }
 
@@ -120,7 +115,10 @@ class Get extends \Piwik\Plugin\Report
             if ($isEstimated) {
                 // requested only to pick the labels, and removed below before the sparklines are drawn
                 $view->config->addSparklineMetric([PluginsArchiver::UNIQUES_ESTIMATED_METRIC]);
-                EstimatedUniques::labelFromData($view, $this->getEstimatedSparklineTranslations(), []);
+                EstimatedUniques::labelFromData($view, [
+                    'nb_uniq_visitors' => Piwik::translate('VisitsSummary_NbUniqueVisitorsEstimated'),
+                    'nb_users' => Piwik::translate('VisitsSummary_NbUsersEstimatedDescription'),
+                ], []);
             }
 
             $view->config->filters[] = function (DataTable $table) use ($view) {
@@ -262,17 +260,6 @@ class Get extends \Piwik\Plugin\Report
         }
 
         return $translations;
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private function getEstimatedSparklineTranslations(): array
-    {
-        return [
-            'nb_uniq_visitors' => Piwik::translate('VisitsSummary_NbUniqueVisitorsEstimated'),
-            'nb_users' => Piwik::translate('VisitsSummary_NbUsersEstimatedDescription'),
-        ];
     }
 
     private function addSparklineColumns(Sparklines $view)
