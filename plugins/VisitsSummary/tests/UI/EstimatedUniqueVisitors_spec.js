@@ -9,11 +9,11 @@ describe('EstimatedUniqueVisitors', function () {
   // a fixture that is not archived up front, so the archives are built with the estimate switched on
   this.fixture = 'Piwik\\Tests\\Fixtures\\VisitsOverSeveralDays';
 
-  async function openOverview(period) {
+  async function openOverview(period, date = '2010-12-14') {
     // the same URL with a hash would only scroll the page that is already open, so leave it first
     await page.goto('about:blank');
-    await page.goto(`?module=CoreHome&action=index&idSite=1&period=${period}&date=2010-12-14`
-      + `#?idSite=1&period=${period}&date=2010-12-14&category=General_Visitors&subcategory=General_Overview`);
+    await page.goto(`?module=CoreHome&action=index&idSite=1&period=${period}&date=${date}`
+      + `#?idSite=1&period=${period}&date=${date}&category=General_Visitors&subcategory=General_Overview`);
     await page.waitForSelector('.sparkline');
     await page.waitForNetworkIdle();
   }
@@ -43,6 +43,16 @@ describe('EstimatedUniqueVisitors', function () {
     expect(await getPickerEntries()).to.include.members(['Unique visitors (estimated)', 'Users (estimated)']);
   });
 
+  it('should label only the range as estimated when its graph plots days', async function () {
+    testEnvironment.configOverride.General = { enable_unique_visitors_estimate_site_totals: 1 };
+    testEnvironment.save();
+
+    await openOverview('range', '2010-12-10,2010-12-20');
+
+    expect(await getSparklineText()).to.include('unique visitors (estimated)');
+    expect(await getPickerEntries()).to.include('Unique visitors').and.not.include('Unique visitors (estimated)');
+  });
+
   it('should keep the exact labels on a day when it is on', async function () {
     testEnvironment.configOverride.General = { enable_unique_visitors_estimate_site_totals: 1 };
     testEnvironment.save();
@@ -58,5 +68,16 @@ describe('EstimatedUniqueVisitors', function () {
 
     expect(await getSparklineText()).not.to.include('unique visitors');
     expect(await getPickerEntries()).not.to.include('Unique visitors');
+  });
+
+  it('should keep the exact labels on a month archived before it was on', async function () {
+    await openOverview('month', '2011-01-15');
+
+    testEnvironment.configOverride.General = { enable_unique_visitors_estimate_site_totals: 1 };
+    testEnvironment.save();
+
+    await openOverview('month', '2011-01-15');
+
+    expect(await getSparklineText()).to.include('unique visitors').and.not.match(/estimated/i);
   });
 });

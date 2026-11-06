@@ -1565,7 +1565,8 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             c.markerRenderer.init();
 
             var position = series.gridData[tick];
-            if (typeof position !== 'undefined') {
+            // a missing value is a gap in the graph, so there is no point to highlight
+            if (typeof position !== 'undefined' && position[1] !== null) {
                 c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
 
                 var forecastValues = plot.options.forecastData && plot.options.forecastData[i];
@@ -2359,8 +2360,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         let move = true;
 
         for (let i = 0; i < points.length; i++) {
-            // skip to the first non-null point and move to it.
-            if (null === points[i][0] && null === points[i][1]) {
+            // skip missing points and start a new line after them, so the gap shows
+            if (null === points[i][0] || null === points[i][1]) {
+                move = true;
                 continue;
             }
 
@@ -2396,8 +2398,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         move = true;
 
         for (let i = 0; i < points.length; i++) {
-            // skip to the first non-null point and move to it.
-            if (points[i][0] === null && points[i][1] === null) {
+            // skip missing points and start a new line after them, so the gap shows
+            if (points[i][0] === null || points[i][1] === null) {
+                move = true;
                 continue;
             }
 
@@ -2462,8 +2465,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 let move = true;
 
                 for (let i = 0; i < points.length; i++) {
-                    // skip to the first non-null point and move to it.
-                    if (points[i][0] === null && points[i][1] === null) {
+                    // skip missing points and start a new line after them, so the gap shows
+                    if (points[i][0] === null || points[i][1] === null) {
+                        move = true;
                         continue;
                     }
 
