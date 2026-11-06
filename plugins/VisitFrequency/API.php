@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\VisitFrequency;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -72,6 +73,8 @@ class API extends \Piwik\Plugin\API
             $resultSet = new DataTable\Simple();
         }
 
+        $flagsToRemove = [];
+
         foreach ($visitTypes as $columnSuffix => $visitorTypeSegment) {
             $modifiedSegment = Segment::combine($segment ?? '', SegmentExpression::AND_DELIMITER, $visitorTypeSegment);
 
@@ -81,6 +84,12 @@ class API extends \Piwik\Plugin\API
             // should fetch all columns) or if one of the columns that was passed in is for this visitor type
             if (!empty($columns) && empty($columnsForVisitType)) {
                 continue;
+            }
+
+            // the graphs label the uniques from the flag, so fetch it and remove it once they have read it
+            if (array_intersect(['nb_uniq_visitors', 'nb_users'], $columnsForVisitType) && !in_array(PluginsArchiver::UNIQUES_ESTIMATED_METRIC, $columnsForVisitType, true)) {
+                $columnsForVisitType[] = PluginsArchiver::UNIQUES_ESTIMATED_METRIC;
+                $flagsToRemove[] = PluginsArchiver::UNIQUES_ESTIMATED_METRIC . $columnSuffix;
             }
 
             $params = array(
@@ -99,6 +108,10 @@ class API extends \Piwik\Plugin\API
 
             $merger = new MergeDataTables();
             $merger->mergeDataTables($resultSet, $response);
+        }
+
+        if (!empty($flagsToRemove)) {
+            $resultSet->queueFilter('ColumnDelete', [$flagsToRemove]);
         }
 
         return $resultSet;
