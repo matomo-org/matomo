@@ -1015,7 +1015,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         try {
             $code = $this->applicationTester->run([
                 'command' => 'core:invalidate-report-data',
-                '--dates' => ['2019-01-01'],
+                '--dates' => ['2019-06-01'],
                 '--periods' => 'day',
                 '--sites' => '1,2',
             ]);
