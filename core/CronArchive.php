@@ -14,7 +14,6 @@ use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti\Process;
-use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ArchiveFilter;
 use Piwik\CronArchive\FixedSiteIds;
@@ -668,19 +667,15 @@ class CronArchive
      */
     private function handleFailedArchive(array $archive, string $error, QueueConsumer $queueConsumer): void
     {
-        // recorded before the invalidation is put on hold, so the failure is known when it can be picked up again
-        $failure = $this->recordFailure($archive, $error);
-
         $queueConsumer->ignoreIdInvalidation($archive['idinvalidation']);
         ++$this->failedArchivesCount;
 
-        if (null === $failure) {
+        if (!ArchiveFailures::isAvailable()) {
             $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
             return;
         }
 
-        $this->model->holdFailedInvalidation($archive);
-        $this->logFailedArchive($archive, $failure);
+        $this->recordFailureOfHeldJob($archive, $error);
     }
 
     /**
@@ -704,37 +699,39 @@ class CronArchive
         ]);
 
         foreach ($timedOutJobs as $job) {
-            // put on hold first, so only one archiver records the failure, and none if the job finished meanwhile
-            if (!$this->model->holdFailedInvalidation($job)) {
-                continue;
-            }
-
-            $failure = $this->recordFailure($job, sprintf(
+            $this->recordFailureOfHeldJob($job, sprintf(
                 'Archiving did not finish within %d seconds (started %s UTC on host %s, process %s)',
-                GeneralConfig::getIntegerConfigValue('archive_failure_recovery_timeout', 86400, (int) $job['idsite']),
+                $job['recovery_timeout'],
                 $job['ts_started'],
                 $job['processing_host'] ?? '',
                 $job['process_id'] ?? ''
             ));
-
-            // without a failure, the invalidation is released again when its site is processed
-            if (null !== $failure) {
-                $this->logFailedArchive($job, $failure);
-            }
         }
     }
 
     /**
+     * Puts the invalidation of a failed job on hold, then records the failure. Holding it first makes sure a failure is
+     * counted once, eg when a job that timed out and was reset by another archiver fails later, and not at all if the
+     * job finished meanwhile.
+     *
      * @param array<array-key, string|int|float|null> $archive
-     * @return array{attempts: int, maxAttempts: int, retryAfter: string, givenUp: bool}|null null if not recorded
      */
-    private function recordFailure(array $archive, string $error): ?array
+    private function recordFailureOfHeldJob(array $archive, string $error): void
     {
+        if (!$this->model->holdFailedInvalidation($archive)) {
+            return;
+        }
+
         try {
-            return $this->archiveFailures->recordFailure($archive, $error);
+            $failure = $this->archiveFailures->recordFailure($archive, $error);
         } catch (\Exception $e) {
+            // the invalidation is released again when its site is processed
             $this->logError("Could not record the failed archive of invalidation {$archive['idinvalidation']}: " . $e->getMessage());
-            return null;
+            return;
+        }
+
+        if (null !== $failure) {
+            $this->logFailedArchive($archive, $failure);
         }
     }
 

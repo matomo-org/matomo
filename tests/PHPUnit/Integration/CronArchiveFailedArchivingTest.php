@@ -150,6 +150,19 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertCount(1, $this->getFailures());
     }
 
+    public function testFailureOfAJobAnotherArchiverTookOverIsNotCountedAgain(): void
+    {
+        $invalidations = $this->archiveAndInvalidateDay();
+
+        Option::set(self::FAIL_ARCHIVING_OPTION, 'taken over');
+        $output = $this->runArchiver();
+
+        // the other archiver records the failure of the jobs it took over
+        $this->assertSame([], $this->getFailures());
+        $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
+        $this->assertStringNotContainsString('(attempt ', $output);
+    }
+
     public function testFailedArchiveIsGivenUpAfterTheMaximumAttempts(): void
     {
         Config::setSetting('General', 'archive_failure_max_attempts', 2);
@@ -403,6 +416,13 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
                     if ($toFail === 'garbage') {
                         echo 'not a JSON response';
                         exit;
+                    }
+                    if ($toFail === 'taken over') {
+                        // eg reset after timing out, and put on hold by another archiver
+                        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = ? WHERE status = ?', [
+                            ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                        ]);
+                        throw new \Exception('Simulated archiving failure');
                     }
                     if ($toFail === 'update') {
                         throw new \Exception('Piwik and/or some plugins have been upgraded to a new version.');

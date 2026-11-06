@@ -1258,7 +1258,7 @@ class Model
      * Invalidations in progress for longer than [General] archive_failure_recovery_timeout, eg because the job hangs
      * or the archiver running it died.
      *
-     * @return list<array<array-key, string|int|float|null>>
+     * @return list<array<array-key, string|int|float|null>> including the timeout applied, as 'recovery_timeout'
      */
     public function getTimedOutArchivingJobs(): array
     {
@@ -1268,6 +1268,7 @@ class Model
             $archiveFailureRecoveryTimeout = GeneralConfig::getIntegerConfigValue('archive_failure_recovery_timeout', 86400, (int) $invalidation['idsite']);
 
             if (empty($invalidation['ts_started']) || Date::factory($invalidation['ts_started'])->getTimestamp() < Date::now()->getTimestamp() - $archiveFailureRecoveryTimeout) {
+                $invalidation['recovery_timeout'] = $archiveFailureRecoveryTimeout;
                 $timedOutJobs[] = $invalidation;
             }
         }
