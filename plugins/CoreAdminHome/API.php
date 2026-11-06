@@ -22,6 +22,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
+use Piwik\DataAccess\ArchiveFailures;
 use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Metrics\Formatter;
@@ -213,6 +214,11 @@ class API extends \Piwik\Plugin\API
         if ($invalidDates) {
             $output[] = 'Warning: some of the Dates to invalidate were invalid: \'' .
                 implode("', '", $invalidDates) . "'. Matomo simply ignored those and proceeded with the others.";
+        }
+
+        $givenUpWarning = (new ArchiveFailures())->getGivenUpWarning($idSites, $dates, $period ?: 'day');
+        if (null !== $givenUpWarning) {
+            $output[] = $givenUpWarning;
         }
 
         return $output;

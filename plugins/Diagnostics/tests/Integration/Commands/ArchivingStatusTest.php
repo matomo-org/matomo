@@ -66,6 +66,7 @@ Archiving Metrics
 | Total Invalidation Count             | 4                   |
 | In Progress Invalidation Count       | 0                   |
 | Scheduled Invalidation Count         | 4                   |
+| On Hold Invalidation Count           | 0                   |
 | Earliest invalidation ts_started     |                     |
 | Latest invalidation ts_started       |                     |
 | Earliest invalidation ts_invalidated | 2010-03-07 01:00:00 |
@@ -146,6 +147,7 @@ Archiving Metrics
 | Total Invalidation Count             | 4                   |
 | In Progress Invalidation Count       | 0                   |
 | Scheduled Invalidation Count         | 4                   |
+| On Hold Invalidation Count           | 0                   |
 | Earliest invalidation ts_started     |                     |
 | Latest invalidation ts_started       |                     |
 | Earliest invalidation ts_invalidated | 2010-03-07 01:00:00 |

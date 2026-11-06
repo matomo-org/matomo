@@ -6,6 +6,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### New APIs
+* `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
+
+### New commands
+* `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
+
+### New config.ini.php settings
+* `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
+
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
