@@ -6,9 +6,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
-### Breaking Changes
-* `TwoFactorAuth.resetTwoFactorAuth` can no longer reset your own two-factor authentication; turn it off in your personal security settings instead.
-
 ### New APIs
 * Controller actions can ask the user to confirm with their second factor, e.g. a two-factor authentication code, by calling `Piwik\Plugins\Login\SecondFactorVerifier::requireSecondFactorConfirmed()`. Each confirmation can be used once, for that action only.
 * Plugins that provide a second factor answer the new events `Login.userRequiresSecondFactorConfirmation` and `Login.verifySecondFactor`.
@@ -17,7 +14,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
 ### Other changes
-* The `userLogin` parameter of `TwoFactorAuth.resetTwoFactorAuth` now also accepts an email address.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
 ## Matomo 6.0.0
