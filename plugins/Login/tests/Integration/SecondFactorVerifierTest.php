@@ -32,6 +32,8 @@ class SecondFactorVerifierTest extends IntegrationTestCase
 {
     private const USER_WITH_SECOND_FACTOR = 'userWithSecondFactor';
     private const USER_WITHOUT_SECOND_FACTOR = 'userWithoutSecondFactor';
+    // its provider answers with 1 instead of true
+    private const USER_WITH_LOOSE_PROVIDER = 'userWithLooseProvider';
     private const VALID_CODE = 'valid-code';
 
     private SecondFactorVerifier $verifier;
@@ -79,13 +81,17 @@ class SecondFactorVerifierTest extends IntegrationTestCase
             // a second factor provider, as e.g. TwoFactorAuth implements it
             'observers.global' => DI::add([
                 ['Login.userRequiresSecondFactorConfirmation', DI::value(function (bool &$required, string $login): void {
-                    if ($login !== self::USER_WITHOUT_SECOND_FACTOR) {
+                    if ($login === self::USER_WITH_LOOSE_PROVIDER) {
+                        $required = 1;
+                    } elseif ($login !== self::USER_WITHOUT_SECOND_FACTOR) {
                         $required = true;
                     }
                 })],
                 ['Login.verifySecondFactor', DI::value(function (bool &$isValid, string $login, string $code): void {
                     $this->verifiedCodes[] = $code;
-                    if ($login !== self::USER_WITHOUT_SECOND_FACTOR && $code === self::VALID_CODE) {
+                    if ($login === self::USER_WITH_LOOSE_PROVIDER && $code === self::VALID_CODE) {
+                        $isValid = 1;
+                    } elseif ($login !== self::USER_WITHOUT_SECOND_FACTOR && $code === self::VALID_CODE) {
                         $isValid = true;
                     }
                 })],
@@ -161,6 +167,23 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         }
 
         $this->assertStringContainsString('module=TwoFactorAuth&action=confirmSecondFactor', $message);
+    }
+
+    public function testATruthyRequirementFromAProviderRequiresTheSecondFactor(): void
+    {
+        FakeAccess::$identity = self::USER_WITH_LOOSE_PROVIDER;
+
+        $this->assertTrue($this->verifier->isSecondFactorRequired(self::USER_WITH_LOOSE_PROVIDER));
+        $this->assertFalse($this->verifier->requireSecondFactorConfirmed($this->getActionParams()));
+    }
+
+    public function testOnlyTrueFromAProviderAcceptsTheCode(): void
+    {
+        FakeAccess::$identity = self::USER_WITH_LOOSE_PROVIDER;
+        $requestId = $this->verifier->requestConfirmation($this->getActionParams());
+
+        $this->assertNull($this->verifier->confirmSecondFactor($requestId, self::VALID_CODE));
+        $this->assertCount(1, $this->bruteForceDetection->getAll());
     }
 
     public function testRequireSecondFactorConfirmedFailsWithoutConfirmation(): void

@@ -118,7 +118,8 @@ class SecondFactorVerifier
          */
         Piwik::postEvent('Login.userRequiresSecondFactorConfirmation', [&$requiresSecondFactor, $login]);
 
-        return $requiresSecondFactor;
+        /** @var mixed $requiresSecondFactor set by reference in the event; any truthy value requires it */
+        return (bool) $requiresSecondFactor;
     }
 
     /**
@@ -255,12 +256,14 @@ class SecondFactorVerifier
          */
         Piwik::postEvent('Login.verifySecondFactor', [&$isValid, $login, $code]);
 
-        /** @var bool $isValid set by reference in the event */
-        if (!$isValid && $isBruteForceDetectionEnabled) {
+        /** @var mixed $isValid set by reference in the event; only true accepts the code */
+        $isAccepted = $isValid === true;
+
+        if (!$isAccepted && $isBruteForceDetectionEnabled) {
             $bruteForce->addFailedAttempt($ip, $login);
         }
 
-        return $isValid;
+        return $isAccepted;
     }
 
     /**
