@@ -90,6 +90,66 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertStringContainsString(CronArchive::NO_ERROR, $output);
     }
 
+    public function testJobThatDidNotFinishInTimeIsRecordedAsFailure(): void
+    {
+        $invalidations = $this->archiveAndInvalidateDay();
+        // eg hanging since two days in another archiver
+        Db::query(
+            'UPDATE ' . Common::prefixTable('archive_invalidations') . " SET status = ?, ts_started = '2020-02-01 04:05:06',
+                    processing_host = 'otherhost', process_id = '1234' WHERE period = 1",
+            [ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]
+        );
+
+        $output = $this->runArchiver();
+
+        $this->assertStringContainsString('Found 1 archiving jobs that did not finish within [General] archive_failure_recovery_timeout.', $output);
+        $this->assertStringContainsString(
+            'Archiving failed for idSite = 1, period = day, date = 2019-12-10,2019-12-10, name = done (attempt 1 of 5), it will be retried after 2020-02-03 05:05:06 UTC.',
+            $output
+        );
+        $this->assertSame([[
+            'day', '2019-12-10', '1', '2020-02-03 05:05:06',
+            'Archiving did not finish within 86400 seconds (started 2020-02-01 04:05:06 UTC on host otherhost, process 1234)',
+        ]], $this->getFailures());
+        // neither the day nor the periods built from it are started again until the retry
+        $this->assertSame($this->onHold($invalidations), $this->getInvalidations());
+        $this->assertStringContainsString('Processed 0 archives.', $output);
+
+        $this->setNow('2020-02-03 05:05:07');
+        $output = $this->runArchiver();
+
+        $this->assertSame([], $this->getInvalidations());
+        $this->assertSame([], $this->getFailures());
+        $this->assertSame($this->getDoneFlags(ArchiveWriter::DONE_OK), $this->getDoneFlagValues());
+        $this->assertStringContainsString('Processed 4 archives.', $output);
+    }
+
+    public function testJobThatDidNotFinishInTimeIsDroppedWhileACopyIsInProgress(): void
+    {
+        $this->archiveAndInvalidateDay();
+        $table = Common::prefixTable('archive_invalidations');
+        Db::query(
+            "UPDATE `$table` SET status = ?, ts_invalidated = '2020-01-31 00:00:00', ts_started = '2020-02-01 04:05:06' WHERE period = 1",
+            [ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]
+        );
+        // the archive was invalidated again, and another archiver is processing it right now
+        Db::query(
+            "INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, ts_started, status)
+                  SELECT idarchive, name, idsite, date1, date2, period, '2020-02-02 00:00:00', '2020-02-03 04:00:00', ? FROM `$table` WHERE period = 1",
+            [ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]
+        );
+
+        $this->runArchiver();
+
+        $this->assertSame(
+            [['2020-02-03 04:00:00', ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]],
+            array_map(function ($row) {
+                return [$row['ts_started'], (int) $row['status']];
+            }, Db::fetchAll("SELECT ts_started, status FROM `$table` WHERE period = 1"))
+        );
+        $this->assertCount(1, $this->getFailures());
+    }
+
     public function testFailedArchiveIsGivenUpAfterTheMaximumAttempts(): void
     {
         Config::setSetting('General', 'archive_failure_max_attempts', 2);

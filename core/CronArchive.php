@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti\Process;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ArchiveFilter;
 use Piwik\CronArchive\FixedSiteIds;
@@ -423,12 +424,7 @@ class CronArchive
             $this->invalidator->applyScheduledReArchiving();
         });
 
-        $failedJobs = $this->model->resetFailedArchivingJobs();
-        if ($failedJobs) {
-            $this->logger->info("Found {failed} failed jobs (ts_invalidated older than 1 day), resetting status to try them again.", [
-                'failed' => $failedJobs,
-            ]);
-        }
+        $this->handleTimedOutArchivingJobs();
 
         $countOfProcesses = $this->getMaxConcurrentApiRequests();
 
@@ -672,13 +668,8 @@ class CronArchive
      */
     private function handleFailedArchive(array $archive, string $error, QueueConsumer $queueConsumer): void
     {
-        try {
-            // recorded before the invalidation is put on hold, so the failure is known when it can be picked up again
-            $failure = $this->archiveFailures->recordFailure($archive, $error);
-        } catch (\Exception $e) {
-            $this->logError("Could not record the failed archive of invalidation {$archive['idinvalidation']}: " . $e->getMessage());
-            $failure = null;
-        }
+        // recorded before the invalidation is put on hold, so the failure is known when it can be picked up again
+        $failure = $this->recordFailure($archive, $error);
 
         $queueConsumer->ignoreIdInvalidation($archive['idinvalidation']);
         ++$this->failedArchivesCount;
@@ -689,10 +680,74 @@ class CronArchive
         }
 
         $this->model->holdFailedInvalidation($archive);
+        $this->logFailedArchive($archive, $failure);
+    }
 
+    /**
+     * Jobs still in progress after archive_failure_recovery_timeout count as failed, so a job that hangs every time
+     * doesn't block another archiver each day.
+     */
+    private function handleTimedOutArchivingJobs(): void
+    {
+        if (!ArchiveFailures::isAvailable()) {
+            $this->model->resetFailedArchivingJobs();
+            return;
+        }
+
+        $timedOutJobs = $this->model->getTimedOutArchivingJobs();
+        if (empty($timedOutJobs)) {
+            return;
+        }
+
+        $this->logger->info("Found {count} archiving jobs that did not finish within [General] archive_failure_recovery_timeout.", [
+            'count' => count($timedOutJobs),
+        ]);
+
+        foreach ($timedOutJobs as $job) {
+            // put on hold first, so only one archiver records the failure, and none if the job finished meanwhile
+            if (!$this->model->holdFailedInvalidation($job)) {
+                continue;
+            }
+
+            $failure = $this->recordFailure($job, sprintf(
+                'Archiving did not finish within %d seconds (started %s UTC on host %s, process %s)',
+                GeneralConfig::getIntegerConfigValue('archive_failure_recovery_timeout', 86400, (int) $job['idsite']),
+                $job['ts_started'],
+                $job['processing_host'] ?? '',
+                $job['process_id'] ?? ''
+            ));
+
+            // without a failure, the invalidation is released again when its site is processed
+            if (null !== $failure) {
+                $this->logFailedArchive($job, $failure);
+            }
+        }
+    }
+
+    /**
+     * @param array<array-key, string|int|float|null> $archive
+     * @return array{attempts: int, maxAttempts: int, retryAfter: string, givenUp: bool}|null null if not recorded
+     */
+    private function recordFailure(array $archive, string $error): ?array
+    {
+        try {
+            return $this->archiveFailures->recordFailure($archive, $error);
+        } catch (\Exception $e) {
+            $this->logError("Could not record the failed archive of invalidation {$archive['idinvalidation']}: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * @param array<array-key, string|int|float|null> $archive
+     * @param array{attempts: int, maxAttempts: int, retryAfter: string, givenUp: bool} $failure
+     */
+    private function logFailedArchive(array $archive, array $failure): void
+    {
         $period = $this->periodIdsToLabels[(int) $archive['period']];
-        $description = "idSite = {$archive['idsite']}, period = $period, date = "
-            . "{$archive['date1']},{$archive['date2']}, segment = '" . ($archive['segment'] ?? '') . "'"
+        // jobs that timed out are read from the database, without the segment definition
+        $description = "idSite = {$archive['idsite']}, period = $period, date = {$archive['date1']},{$archive['date2']}"
+            . (array_key_exists('segment', $archive) ? ", segment = '" . $archive['segment'] . "'" : ", name = {$archive['name']}")
             . (!empty($archive['plugin']) ? ", plugin = {$archive['plugin']}" : '')
             . (!empty($archive['report']) ? ", report = {$archive['report']}" : '');
 
