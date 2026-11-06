@@ -80,15 +80,20 @@ class EntryPage
         // A ping records no page of its own, so it leaves the visitor wherever the visit already was
         $isPing = $request !== null && $request->getParam('ping') == 1;
 
-        if (empty($action)) {
-            return 1 === $interactions ? true : null;
-        }
+        // Only an action that records a page of its own moves the visitor to it, and only those
+        // answer this with anything other than false - the same rule that decides whether the
+        // visit's entry and exit ids follow the action at all. A manual goal conversion records
+        // no action whatsoever and so moves nobody either.
+        $movesTheVisitor = !empty($action)
+            && !$isPing
+            && false !== $action->getIdActionUrlForEntryAndExitIds();
 
         if ($interactions > 1) {
-            // A ping cannot start a visit of its own, so it never answers that one should. It is
-            // not merely that the visit would be wrong: the request is abandoned once it turns
-            // out to be a new visit, so the ping would be dropped rather than recorded at all.
-            return $isPing ? null : false;
+            // Nothing that leaves the visitor where they are can start a visit of its own, so it
+            // never answers that one should. For a ping that is not merely a question of the
+            // visit being wrong: the request is abandoned once it turns out to be a new visit, so
+            // the ping would be dropped rather than recorded at all.
+            return $movesTheVisitor ? false : null;
         }
 
         $entryIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_entry_idaction_url');
@@ -96,11 +101,6 @@ class EntryPage
         if (empty($entryIdActionUrl)) {
             return null;
         }
-
-        // Only an action that records a page of its own moves the visitor to it, and only those
-        // answer this with anything other than false - the same rule that decides whether the
-        // visit's entry and exit ids follow the action at all.
-        $movesTheVisitor = !$isPing && false !== $action->getIdActionUrlForEntryAndExitIds();
 
         if ($movesTheVisitor) {
             // the ids of the current action are resolved a few statements later, when it is
@@ -110,19 +110,19 @@ class EntryPage
 
             $idActionUrl = (int) $action->getIdActionUrlForEntryAndExitIds();
 
-            if (empty($idActionUrl)) {
-                // nothing names a page, so the interaction count is all there is to go on
-                return 1 === $interactions ? true : null;
+            if (!empty($idActionUrl)) {
+                return $entryIdActionUrl === $idActionUrl;
             }
 
-            return $entryIdActionUrl === $idActionUrl;
+            // a site search deliberately records no page of its own, so it is placed by the page
+            // it names, like everything else below
         }
 
-        // Everything else leaves the visitor where they were, and what it does name under its own
-        // action type is not the page it happened on: a download names the file, an outlink the
-        // link, an event the page but recorded as an event rather than as a page, so none of them
-        // can be compared against the page the visit arrived on. The page is read from the request
-        // instead, and looked up as a page view would have stored it.
+        // What is left names no page that can be compared against the one the visit arrived on: a
+        // download names the file, an outlink the link, an event its page but recorded as an event
+        // rather than as a page, and a ping, a site search or a manual goal conversion no page at
+        // all. Each still says which page it was sent from, so that is read from the request and
+        // looked up as a page view would have stored it.
         $idActionUrl = $request === null ? null : self::lookUpPageIdActionUrl($request);
 
         if (null === $idActionUrl) {
@@ -130,8 +130,8 @@ class EntryPage
             return null;
         }
 
-        // a request that does not move the visitor cannot start a visit of its own either, so it
-        // never answers that one should
+        // nothing reaching here could have started a visit of its own either, so it never answers
+        // that one should
         return $entryIdActionUrl === $idActionUrl ? true : null;
     }
 

@@ -1115,6 +1115,69 @@ class CampaignConsentTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * A manual goal conversion records no action at all, so it names no page of its own. It still
+     * says which page it was triggered from, and that is the only thing that can place it.
+     */
+    public function testAConsentingManualGoalFromAnotherPageDoesNotConsentTheArrivalVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackConsentingGoal('other');
+
+        $this->assertSame(1, $this->countVisits(), 'a manual goal cannot start a visit');
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'the goal consented the arrival visit');
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name')
+        );
+    }
+
+    public function testAConsentingManualGoalOnTheArrivalPageConsentsTheVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackConsentingGoal('landing', $withCampaign = true);
+
+        $this->assertSame(1, $this->countVisits(), 'a manual goal cannot start a visit');
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent'), 'consent was not recorded on the visit');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+    }
+
+    /**
+     * A site search deliberately records no page URL of its own, so it cannot be compared against
+     * the page the visit arrived on either and falls to the same lookup.
+     */
+    public function testAConsentingSiteSearchFromAnotherPageDoesNotConsentTheArrivalVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->trackConsentingSiteSearch('other');
+
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'the site search consented the arrival visit');
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name')
+        );
+    }
+
+    private function trackConsentingGoal(string $page, bool $withCampaign = false): void
+    {
+        $this->prepareRequest($page, $withCampaign, $consent = '1');
+
+        Fixture::checkResponse($this->tracker->doTrackGoal(self::$idGoal));
+    }
+
+    private function trackConsentingSiteSearch(string $page): void
+    {
+        $this->prepareRequest($page, $withCampaign = false, $consent = '1');
+
+        Fixture::checkResponse($this->tracker->doTrackSiteSearch('a keyword'));
+    }
+
     private function trackConsentingEvent(string $page, bool $withCampaign = false): void
     {
         $this->prepareRequest($page, $withCampaign, $consent = '1');

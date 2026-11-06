@@ -5733,9 +5733,10 @@ if ($mysql) {
         tracker.forgetUserOptOut();
         ok(!tracker.isUserOptedOut(), 'the visitor is tracked again');
 
-        // opting out is what turned them off, so opting back in has to turn them back on, or the
-        // visitor is left in a state they chose and cannot undo
-        strictEqual(true, tracker.areCookiesEnabled(), 'opting back in left cookies turned off');
+        // this site withholds cookies until consent, so they were already off before the visitor
+        // opted out. Opting back in gives back what opting out took away and nothing more, so
+        // they stay off rather than being turned on for a site that never asked about them
+        strictEqual(false, tracker.areCookiesEnabled(), 'opting back in turned on cookies the site had never enabled');
 
         tracker.trackRequest('myFoo=afterOptBackIn');
 
@@ -5747,6 +5748,24 @@ if ($mysql) {
             deleteCookies();
             start();
         }, 3000);
+    });
+
+    test("Test API - opting back in restores the cookies opting out took away", function() {
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'optoutcookiestate');
+
+        ok(tracker.areCookiesEnabled(), 'a site that has not turned cookies off starts with them on');
+
+        tracker.optUserOut();
+        strictEqual(false, tracker.areCookiesEnabled(), 'opting out turned cookies off');
+
+        tracker.forgetUserOptOut();
+        strictEqual(true, tracker.areCookiesEnabled(), 'opting back in left off the cookies opting out had turned off');
+
+        deleteCookies();
     });
 
     // no expect() here: the surrounding consent tests finish on their own timers, so a fixed

@@ -2510,6 +2510,10 @@ if (typeof window.Matomo !== 'object') {
                 // it, so that opting back in undoes exactly what opting out did
                 configConsentRequiredByOptOut = false,
 
+                // whether opting out is what turned cookies off, so that opting back in restores that
+                // and nothing the site chose for itself
+                configCookiesDisabledByOptOut = false,
+
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = null, // initialized below
@@ -7759,6 +7763,12 @@ if (typeof window.Matomo !== 'object') {
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 deleteCookie(MEASUREMENT_CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                 setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+
+                // remember whether opting out is what takes cookies away, so that opting back in
+                // gives back exactly that. A site that had them off already - disableCookies(),
+                // requireCookieConsent() before the visitor accepted, requireConsentForRestrictedData()
+                // - chose that for itself, and opting back in is not an answer to that question.
+                configCookiesDisabledByOptOut = configCookiesDisabledByOptOut || !configCookiesDisabled;
                 this.forgetCookieConsentGiven();
 
                 // remember that this is what required consent, so opting back in undoes exactly
@@ -7775,9 +7785,9 @@ if (typeof window.Matomo !== 'object') {
                 // Opting back in answers whether the visitor wants to be tracked at all, not
                 // whether they agree to be measured beyond what a compliance policy allows, so
                 // tracking is restored without reporting consent to being measured.
-                // Cookies are enabled again because opting out is what disabled them, and this
-                // undoes opting out - leaving them off would make opting back in something the
-                // visitor cannot reverse.
+                // What opting out took away is given back, and only that: cookies come back on
+                // where opting out is what turned them off, and stay off for a site that never
+                // had them, which did not ask the visitor about cookies in the first place.
                 // The gate optUserOut() put up comes down first, because setConsentGiven() below
                 // releases anything queued while it was up and those requests read the gate as
                 // they go. One the site put up for itself stays, so a requireConsent() site
@@ -7787,7 +7797,10 @@ if (typeof window.Matomo !== 'object') {
                     configConsentRequiredByOptOut = false;
                 }
 
-                this.setConsentGiven(true, false);
+                var restoreCookies = configCookiesDisabledByOptOut;
+                configCookiesDisabledByOptOut = false;
+
+                this.setConsentGiven(restoreCookies, false);
             };
 
           /**
