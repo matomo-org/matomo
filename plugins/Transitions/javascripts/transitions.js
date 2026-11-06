@@ -578,15 +578,27 @@ Piwik_Transitions_Model.prototype.roundPercentage = function (value) {
 // --------------------------------------
 
 function Piwik_Transitions_Ajax() {
+    this.requests = [];
 }
 
+/** Not aborted with the report: it is fired once per page, and later reports wait on it too. */
 Piwik_Transitions_Ajax.prototype.loadTotalNbPageviews = function (callback) {
     this.callApi('Actions.get', {
         columns: 'nb_pageviews'
     }, function (response) {
         var value = typeof response.value != 'undefined' ? response.value : false;
         callback(value);
-    });
+    }, true);
+};
+
+/** Aborts the requests still in flight, so a report that is no longer shown frees its connections. */
+Piwik_Transitions_Ajax.prototype.abort = function () {
+    var requests = this.requests;
+    this.requests = [];
+
+    for (var i = 0; i < requests.length; i++) {
+        requests[i].abort();
+    }
 };
 
 /**
@@ -598,7 +610,7 @@ Piwik_Transitions_Ajax.prototype.setErrorCallback = function (callback) {
     this.errorCallback = callback;
 };
 
-Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
+Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback, keepOnAbort) {
     var self = this;
 
     params.format = 'JSON';
@@ -631,6 +643,9 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
             var message = xhr.responseJSON && xhr.responseJSON.message;
             self.errorCallback(message || _pk_translate('General_ErrorRequest', ['', '']), params);
         });
+    }
+    if (!keepOnAbort) {
+        this.requests.push(ajaxRequest);
     }
     ajaxRequest.send();
 };

@@ -346,6 +346,65 @@ describe('Transitions/popover mount point', () => {
     });
   });
 
+  describe('aborting requests', () => {
+    let sent: { params: Record<string, unknown>; aborted: boolean }[];
+
+    beforeEach(() => {
+      sent = [];
+      (window as unknown as Record<string, unknown>).ajaxHelper = function FakeAjaxHelper(
+        this: Record<string, unknown>,
+      ) {
+        const request = { params: {}, aborted: false };
+        this.addParams = (params: Record<string, unknown>) => {
+          request.params = params;
+        };
+        this.useCallbackInCaseOfError = () => undefined;
+        this.setCallback = () => undefined;
+        this.setErrorCallback = () => undefined;
+        this.send = () => sent.push(request);
+        this.abort = () => {
+          request.aborted = true;
+        };
+      };
+    });
+
+    function newAjax() {
+      const Ajax = (window as unknown as Record<string, unknown>)
+        .Piwik_Transitions_Ajax as new () => {
+          callApi(method: string, params: Record<string, unknown>, callback: () => void): void;
+          loadTotalNbPageviews(callback: () => void): void;
+          abort(): void;
+        };
+      return new Ajax();
+    }
+
+    it('should abort the report requests but let the site total finish', () => {
+      const ajax = newAjax();
+      ajax.callApi('Transitions.getTransitionsForAction', { parts: 'internalReferrers' }, () => undefined);
+      ajax.loadTotalNbPageviews(() => undefined);
+      ajax.callApi('Transitions.getTransitionsForAction', { parts: 'followingActions' }, () => undefined);
+
+      ajax.abort();
+
+      expect(sent.map((request) => [request.params.method, request.aborted])).toEqual([
+        ['Transitions.getTransitionsForAction', true],
+        ['Actions.get', false],
+        ['Transitions.getTransitionsForAction', true],
+      ]);
+    });
+
+    it('should not abort a request twice', () => {
+      const ajax = newAjax();
+      ajax.callApi('Transitions.getTransitionsForAction', {}, () => undefined);
+      ajax.abort();
+      sent[0].aborted = false;
+
+      ajax.abort();
+
+      expect(sent[0].aborted).toBe(false);
+    });
+  });
+
   describe('total pageviews queue', () => {
     let Model: TotalModelStatic;
 

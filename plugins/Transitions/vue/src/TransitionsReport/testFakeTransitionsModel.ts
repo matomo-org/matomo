@@ -41,6 +41,8 @@ export interface FakeTransitionsBackend {
   totalWaiterCount(): number;
   /** How many loads have been started. */
   loadCount(): number;
+  /** How many times the report aborted the requests of a load. */
+  abortCount(): number;
   /** What each load was asked for, so a spec can pin what reaches the model. */
   loads: { actionType: string; actionName: string; overrideParams: Record<string, string>|null }[];
   /** Report to serve; may be swapped between loads. */
@@ -92,6 +94,7 @@ function settleAll(load: PendingLoad|undefined) {
 /** Loads do not resolve on their own, so a spec can interleave several and order the finishes. */
 export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTransitionsBackend {
   let loads = 0;
+  let aborts = 0;
   const loadArgs: FakeTransitionsBackend['loads'] = [];
   const queue: PendingLoad[] = [];
   const dropSettled = () => {
@@ -110,6 +113,7 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
   const backend: FakeTransitionsBackend = {
     report,
     loadCount: () => loads,
+    abortCount: () => aborts,
     loads: loadArgs,
     respond() {
       settleAll(queue.shift());
@@ -145,6 +149,11 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
     setErrorCallback(callback: (errorName: string, params: Record<string, unknown>) => void) {
       this.errorCallback = callback;
       liveAjax = this;
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    abort() {
+      aborts += 1;
     }
   }
 

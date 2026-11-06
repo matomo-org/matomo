@@ -262,6 +262,8 @@ declare global {
   }
 
   interface TransitionsAjax {
+    /** Aborts the report requests still in flight; the site total request is left to finish. */
+    abort(): void;
     /** Diverts API errors to a callback, so a caller can display them itself. */
     setErrorCallback(
       callback: (errorName: string, params: Record<string, unknown>) => void,

@@ -39,9 +39,17 @@ export function useTransitionsData() {
 
   let requestId = 0;
   let disposed = false;
+  let currentAjax: TransitionsAjax|null = null;
+
+  // Requests of a report that is no longer shown would only hold on to connections.
+  const abortCurrent = () => {
+    currentAjax?.abort();
+    currentAjax = null;
+  };
 
   onBeforeUnmount(() => {
     disposed = true;
+    abortCurrent();
   });
 
   const isCurrent = (id: number) => !disposed && id === requestId;
@@ -53,7 +61,9 @@ export function useTransitionsData() {
     isLoading.value = true;
     error.value = null;
 
+    abortCurrent();
     const ajax = new window.Piwik_Transitions_Ajax();
+    currentAjax = ajax;
     const model = new window.Piwik_Transitions_Model(ajax);
     let pendingParts = [...PARTS];
     let failed = false;
@@ -73,6 +83,7 @@ export function useTransitionsData() {
       }
 
       failed = true;
+      abortCurrent();
       isLoading.value = false;
       report.value = null;
       error.value = resolveError(errorName, actionName);

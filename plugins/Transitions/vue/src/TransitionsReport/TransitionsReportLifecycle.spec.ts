@@ -150,6 +150,35 @@ describe('Transitions/TransitionsReport lifecycle', () => {
     });
   });
 
+  describe('aborting superseded requests', () => {
+    it('should abort the requests of the previous load when another action is loaded', async () => {
+      const wrapper = mountTransitionsReport();
+      expect(backend.abortCount()).toBe(0);
+
+      await wrapper.setProps({ actionName: 'http://example.org/second' });
+
+      expect(backend.abortCount()).toBe(1);
+    });
+
+    it('should abort the requests still in flight when it unmounts', () => {
+      const wrapper = mountTransitionsReport();
+      backend.respondPart('internalReferrers');
+
+      wrapper.unmount();
+
+      expect(backend.abortCount()).toBe(1);
+    });
+
+    it('should abort the remaining parts once one of them fails', async () => {
+      mountTransitionsReport();
+
+      backend.fail('NoDataForAction');
+      await flushRibbons();
+
+      expect(backend.abortCount()).toBe(1);
+    });
+  });
+
   describe('unmount', () => {
     it('should not post events when a response lands after unmount', async () => {
       useSynchronousFrames();
