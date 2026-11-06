@@ -930,7 +930,10 @@ abstract class Base extends VisitDimension
         // The type alone does not identify the referrer - two search engines share one - so the
         // name has to match as well, or a different referrer of the same kind would have its URL
         // and keyword written onto this visit. A discarded campaign has no name left to compare,
-        // and is kept apart by its own placeholder rules instead.
+        // and is kept apart by its own placeholder rules instead. The only anonymisation level
+        // that clears a name outright is also the strictest one an admin can set, where their own
+        // value leaves nothing to relax, so a name that cannot be compared under it is never one
+        // there was anything to complete.
         $storedName = (string) $visitor->getImmutableVisitorColumn('referer_name');
 
         if (
@@ -951,6 +954,11 @@ abstract class Base extends VisitDimension
      * without being able to start one of its own - a ping, which records no page. Its consent
      * belongs to the visit that the next request able to start one will create, so it must not
      * relax what is written to the earlier visit. A request that reports no consent is unaffected.
+     *
+     * Callers abandon the whole hook on a false rather than only the parts that complete withheld
+     * detail, which is deliberate: the referrer information this request carries was read with its
+     * consent already applied, so none of it may reach a visit the consent does not belong to -
+     * not even an upgrade from direct entry that would otherwise be ordinary tracking.
      *
      * @param Action|null $action
      */

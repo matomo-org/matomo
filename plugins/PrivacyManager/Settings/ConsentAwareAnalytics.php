@@ -92,6 +92,11 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
 
         $siteAttributes = TrackerCache::getCacheWebsiteAttributes($idSite);
 
+        // The enforced value is the whole of this one, unlike the two below, because the
+        // measurable form of the setting is not registered anywhere and so cannot be set: what
+        // is cached here only ever comes from a policy. Were it ever exposed, the admin's own
+        // value would have to be kept apart from the policy's the way the others are, since
+        // consent lifts what a policy imposes and not what the admin chose for themselves.
         if (true === ($siteAttributes[CampaignParameterValuesMasked::class] ?? false)) {
             return true;
         }

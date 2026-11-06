@@ -4902,6 +4902,12 @@ if (typeof window.Matomo !== 'object') {
              */
             function logLink(url, linkType, customData, callback, sourceElement) {
 
+                // purify() below reads the consent state, and getRequest() further down is what
+                // would otherwise refresh it first. Consent remembered on an earlier page view
+                // lives only in the cookie until then, so without this a link clicked before
+                // anything else was sent would have its campaign parameters stripped.
+                refreshConsentStatus();
+
                 var linkParams = linkType + '=' + encodeWrapper(purify(url));
 
                 var interaction = getContentInteractionToRequestIfPossible(sourceElement, 'click', url);
@@ -7685,7 +7691,12 @@ if (typeof window.Matomo !== 'object') {
                 var now = new Date().getTime();
                 setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 setCookie(MEASUREMENT_CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
-                configMeasurementConsentRemembered = true;
+
+                // Only watch for that cookie going away if it was stored in the first place.
+                // Where the site's cookie settings stop it being written, the consent was still
+                // reported and has to keep being reported for this page view - reading the
+                // missing cookie as a withdrawal would silently drop a consent nobody withdrew.
+                configMeasurementConsentRemembered = !!getCookie(MEASUREMENT_CONSENT_COOKIE_NAME);
             };
 
             /**
@@ -7763,9 +7774,10 @@ if (typeof window.Matomo !== 'object') {
             this.forgetUserOptOut = function () {
                 // Opting back in answers whether the visitor wants to be tracked at all, not
                 // whether they agree to be measured beyond what a compliance policy allows, so
-                // tracking is restored without reporting consent to being measured. We can't
-                // automatically enable cookies here either, as we don't know whether the visitor
-                // gave consent for those.
+                // tracking is restored without reporting consent to being measured.
+                // Cookies are enabled again because opting out is what disabled them, and this
+                // undoes opting out - leaving them off would make opting back in something the
+                // visitor cannot reverse.
                 // The gate optUserOut() put up comes down first, because setConsentGiven() below
                 // releases anything queued while it was up and those requests read the gate as
                 // they go. One the site put up for itself stays, so a requireConsent() site
@@ -7775,7 +7787,7 @@ if (typeof window.Matomo !== 'object') {
                     configConsentRequiredByOptOut = false;
                 }
 
-                this.setConsentGiven(false, false);
+                this.setConsentGiven(true, false);
             };
 
           /**

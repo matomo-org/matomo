@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace Piwik\Tracker\Visit;
 
 use Piwik\Tracker\Action;
+use Piwik\Tracker\Model;
+use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
@@ -36,8 +38,10 @@ class EntryPage
      * request would otherwise, so calling this is not free of side effects.
      *
      * @param Action|null $action the action this request records, if it records one
-     * @param Request|null $request omitting it skips the ping check, which changes the answer for
-     *                              a ping, so pass it wherever it is available
+     * @param Request|null $request a request that records no page of its own is placed by the
+     *                              page it names, which is read from here, as is the ping check,
+     *                              so omitting it leaves both unanswered - pass it wherever it
+     *                              is available
      * @return bool|null null where the answer cannot be determined
      */
     public static function isRequestOnEntryPage(Visitor $visitor, $action, ?Request $request = null): ?bool
@@ -73,10 +77,7 @@ class EntryPage
         // rise, so returning to the page the visit arrived on does not reopen it.
         $interactions = (int) $visitor->getImmutableVisitorColumn('visit_total_interactions');
 
-        // A ping records no page, so it leaves the visitor wherever the visit already was - but
-        // it still carries an action here, dropped later in the request, and that says which
-        // page it was sent from. Where that page can be read it is compared like any other;
-        // where it cannot, the answer is unknown rather than assumed from the count alone.
+        // A ping records no page of its own, so it leaves the visitor wherever the visit already was
         $isPing = $request !== null && $request->getParam('ping') == 1;
 
         if (empty($action)) {
@@ -84,25 +85,10 @@ class EntryPage
         }
 
         if ($interactions > 1) {
-            // a ping cannot start a visit of its own, so it never answers that one should
+            // A ping cannot start a visit of its own, so it never answers that one should. It is
+            // not merely that the visit would be wrong: the request is abandoned once it turns
+            // out to be a new visit, so the ping would be dropped rather than recorded at all.
             return $isPing ? null : false;
-        }
-
-        // the ids of the current action are resolved a few statements later, when it is recorded.
-        // The lookup is cached on the action, so asking for them here costs the same queries only
-        // sooner, and nothing in between changes the action they are derived from.
-        $action->loadIdsFromLogActionTable();
-
-        // A page view records a page of its own and moves the visitor to it. A ping, event,
-        // download or outlink does not - but each still names the page it was sent from, which
-        // is where the visitor is. That page is read from the action's own URL, since the entry
-        // and exit ids are deliberately left alone by anything that does not move the visitor.
-        $movesTheVisitor = !$isPing && !empty($action->getIdActionUrlForEntryAndExitIds());
-        $idActionUrl = $movesTheVisitor ? $action->getIdActionUrlForEntryAndExitIds() : $action->getIdActionUrl();
-
-        if (empty($idActionUrl)) {
-            // nothing names a page, so the interaction count is all there is to go on
-            return 1 === $interactions ? true : null;
         }
 
         $entryIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_entry_idaction_url');
@@ -111,12 +97,87 @@ class EntryPage
             return null;
         }
 
-        if ($entryIdActionUrl === (int) $idActionUrl) {
-            return true;
+        // Only an action that records a page of its own moves the visitor to it, and only those
+        // answer this with anything other than false - the same rule that decides whether the
+        // visit's entry and exit ids follow the action at all.
+        $movesTheVisitor = !$isPing && false !== $action->getIdActionUrlForEntryAndExitIds();
+
+        if ($movesTheVisitor) {
+            // the ids of the current action are resolved a few statements later, when it is
+            // recorded. The lookup is cached on the action, so asking for them here costs the same
+            // queries only sooner, and nothing in between changes the action they are derived from.
+            $action->loadIdsFromLogActionTable();
+
+            $idActionUrl = (int) $action->getIdActionUrlForEntryAndExitIds();
+
+            if (empty($idActionUrl)) {
+                // nothing names a page, so the interaction count is all there is to go on
+                return 1 === $interactions ? true : null;
+            }
+
+            return $entryIdActionUrl === $idActionUrl;
+        }
+
+        // Everything else leaves the visitor where they were, and what it does name under its own
+        // action type is not the page it happened on: a download names the file, an outlink the
+        // link, an event the page but recorded as an event rather than as a page, so none of them
+        // can be compared against the page the visit arrived on. The page is read from the request
+        // instead, and looked up as a page view would have stored it.
+        $idActionUrl = $request === null ? null : self::lookUpPageIdActionUrl($request);
+
+        if (null === $idActionUrl) {
+            // this site has never recorded that page, so the visitor cannot be placed by it
+            return null;
         }
 
         // a request that does not move the visitor cannot start a visit of its own either, so it
         // never answers that one should
-        return $movesTheVisitor ? false : null;
+        return $entryIdActionUrl === $idActionUrl ? true : null;
+    }
+
+    /**
+     * Looks up the page the request was sent from, as a page view would have recorded it.
+     *
+     * Deliberately a lookup and not a write: a page this site has never recorded is reported as
+     * unknown rather than created, so that answering this question cannot add rows of its own.
+     * Reached only by a request that records no page of its own, and only while the visit is
+     * still on its first interaction, so what it costs does not grow with the length of a visit.
+     *
+     * @return int|null null where the page is not one this site has recorded
+     */
+    private static function lookUpPageIdActionUrl(Request $request): ?int
+    {
+        $url = $request->getParam('url');
+
+        if (empty($url)) {
+            return null;
+        }
+
+        // the same cleaning a page view applies before storing the URL, so that what is looked up
+        // here is the name a page view would have written
+        $url = PageUrl::excludeQueryParametersFromUrl($url, $request->getIdSite());
+        $url = PageUrl::getUrlIfLookValid($url);
+
+        if (empty($url)) {
+            return null;
+        }
+
+        $url = PageUrl::normalizeUrl($url);
+
+        $rows = (new Model())->getIdsAction([
+            ['name' => $url['url'], 'type' => Action::TYPE_PAGE_URL],
+        ]);
+
+        if (empty($rows)) {
+            return null;
+        }
+
+        foreach ($rows as $row) {
+            if ((int) $row['type'] === Action::TYPE_PAGE_URL) {
+                return (int) $row['idaction'];
+            }
+        }
+
+        return null;
     }
 }

@@ -1073,6 +1073,33 @@ class CampaignConsentTest extends IntegrationTestCase
      * name the page it was sent from. One sent from a page the visitor moved on to must not fold
      * consent into the visit they arrived on, even where no page view recorded the move.
      */
+    /**
+     * The flow the setting exists for: the visitor is measured before consenting, the banner
+     * records the acceptance as an event rather than as a page view, and that event arrives while
+     * they are still on the page the visit started on. An event names its page under its own
+     * action type rather than as a page, so the page it was sent from has to be read from the
+     * request for the visit to be completed with the campaign it arrived with.
+     */
+    public function testAConsentingEventOnTheArrivalPageConsentsTheVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchVisitColumn('referer_name'),
+            'the campaign should be discarded until the visitor consents'
+        );
+
+        $this->trackConsentingEvent('landing', $withCampaign = true);
+
+        $this->assertSame(1, $this->countVisits(), 'an event must not start a second visit');
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent'), 'consent was not recorded on the visit');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+        $this->assertSame(self::CAMPAIGN_KEYWORD, $this->fetchVisitColumn('referer_keyword'));
+    }
+
     public function testAConsentingEventFromAnotherPageDoesNotConsentTheArrivalVisit(): void
     {
         $this->enforceCampaignMasking();
@@ -1088,9 +1115,9 @@ class CampaignConsentTest extends IntegrationTestCase
         );
     }
 
-    private function trackConsentingEvent(string $page): void
+    private function trackConsentingEvent(string $page, bool $withCampaign = false): void
     {
-        $this->prepareRequest($page, $withCampaign = false, $consent = '1');
+        $this->prepareRequest($page, $withCampaign, $consent = '1');
 
         Fixture::checkResponse($this->tracker->doTrackEvent('Consent', 'accepted'));
     }

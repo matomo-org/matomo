@@ -5728,9 +5728,14 @@ if ($mysql) {
 
         tracker.optUserOut();
         ok(tracker.isUserOptedOut(), 'the visitor is opted out');
+        strictEqual(false, tracker.areCookiesEnabled(), 'opting out turned cookies off');
 
         tracker.forgetUserOptOut();
         ok(!tracker.isUserOptedOut(), 'the visitor is tracked again');
+
+        // opting out is what turned them off, so opting back in has to turn them back on, or the
+        // visitor is left in a state they chose and cannot undo
+        strictEqual(true, tracker.areCookiesEnabled(), 'opting back in left cookies turned off');
 
         tracker.trackRequest('myFoo=afterOptBackIn');
 
@@ -5738,6 +5743,38 @@ if ($mysql) {
             var requests = fetchTrackedRequests(getConsentToken() + 'optbackin');
             strictEqual(true, requests.indexOf('myFoo=afterOptBackIn') > 0, "the visitor is measured again after opting back in");
             strictEqual(0, (requests.match(/consent=1/g) || []).length, "opting back in was reported as consent to being measured");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent keeps being reported when its cookie cannot be stored", function() {
+        stop();
+
+        deleteCookies();
+
+        // A cookiePath the page is not under is taken as given - setCookieDomain() refuses a
+        // domain it cannot write to, setCookiePath() has no such guard - so the cookie that
+        // remembers the consent goes somewhere this page cannot read back. The visitor gave the
+        // consent all the same, so it has to keep being reported rather than be read back as a
+        // withdrawal that never happened.
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'unreadablecookie');
+        tracker.requireConsentForRestrictedData();
+        tracker.setCookiePath('/this-page-is-not-under-here/');
+
+        tracker.rememberConsentGiven();
+
+        tracker.trackRequest('myFoo=unreadableConsentCookie');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'unreadablecookie');
+            strictEqual(true, requests.indexOf('myFoo=unreadableConsentCookie') > 0, "the request was sent");
+            ok((requests.match(/consent=1/g) || []).length > 0, "the consent stopped being reported once its cookie could not be read back");
 
             deleteCookies();
             start();
