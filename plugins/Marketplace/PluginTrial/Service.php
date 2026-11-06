@@ -111,6 +111,19 @@ final class Service
     }
 
     /**
+     * Returns if any user has ever requested the plugin, whether the request is still pending or was decided
+     */
+    public function hasRequests(string $pluginName): bool
+    {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
+        return (new Storage($pluginName))->wasRequested()
+            || StaticContainer::get(RequestHistory::class)->getRequests($pluginName) !== [];
+    }
+
+    /**
      * Creates notifications for all available plugin trial requests if any
      *
      * @throws Exception
