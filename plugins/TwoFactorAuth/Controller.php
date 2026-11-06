@@ -12,6 +12,7 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Http\BadRequestException;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -24,7 +25,6 @@ use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionNamespace;
 use Piwik\Url;
 use Piwik\View;
-use Exception;
 use Piwik\Plugins\CoreAdminHome\Emails\RecoveryCodesShowedEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\TwoFactorAuthEnabledEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\TwoFactorAuthDisabledEmail;
@@ -160,7 +160,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->validator->checkVerified2FA();
 
         if ($this->twoFa->isUserRequiredToHaveTwoFactorEnabled()) {
-            throw new Exception('Two-factor authentication cannot be disabled as it is enforced');
+            throw new BadRequestException('Two-factor authentication cannot be disabled as it is enforced');
         }
 
         // only consumed once 2FA is turned off
@@ -223,7 +223,7 @@ class Controller extends \Piwik\Plugin\Controller
         $params = ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth'];
         if (!$this->secondFactorVerifier->requireSecondFactorConfirmed($params)) {
             // should usually not go in here but redirect instead
-            throw new Exception('You have to confirm your authentication code first.');
+            throw new NoPrivilegesException('You have to confirm your authentication code first.');
         }
     }
 
@@ -277,7 +277,7 @@ class Controller extends \Piwik\Plugin\Controller
             $redirectParams = array('module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth');
             if (!$this->passwordVerify->requirePasswordVerified($redirectParams)) {
                 // should usually not go in here but redirect instead
-                throw new Exception('You have to verify your password first.');
+                throw new NoPrivilegesException('You have to verify your password first.');
             }
         }
 
@@ -292,7 +292,7 @@ class Controller extends \Piwik\Plugin\Controller
             // keeps the password confirmation valid until the code is submitted
             $redirectParams = array('module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth');
             if (!$this->passwordVerify->requirePasswordVerifiedRecently($redirectParams)) {
-                throw new Exception('You have to verify your password first.');
+                throw new NoPrivilegesException('You have to verify your password first.');
             }
         }
 
@@ -429,7 +429,7 @@ class Controller extends \Piwik\Plugin\Controller
                 || !$this->secondFactorVerifier->requireSecondFactorConfirmed($redirectParams)
             ) {
                 // should usually not go in here but redirect instead
-                throw new Exception('You have to verify your password and authentication code first.');
+                throw new NoPrivilegesException('You have to verify your password and authentication code first.');
             }
         }
 

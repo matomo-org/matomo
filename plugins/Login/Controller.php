@@ -308,7 +308,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         if (!Url::isValidHost()) {
-            throw new Exception("Cannot confirm second factor with untrusted hostname!");
+            throw new BadRequestException("Cannot confirm second factor with untrusted hostname!");
         }
 
         $nonceKey = 'confirmSecondFactor';
