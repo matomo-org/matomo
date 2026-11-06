@@ -102,6 +102,31 @@ class TransitionsTest extends SystemTestCase
                 'pageTitle'          => 'page title - page/one.html',
             ),
         ));
+
+        // following actions alone include reloads unless they are excluded
+        $return[] = array('Transitions.getTransitionsForAction', array(
+            'idSite'                 => self::$fixture->idSite,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day'),
+            'testSuffix'             => '_followingActions',
+            'otherRequestParameters' => array(
+                'actionType'         => 'url',
+                'actionName'         => 'http://example.org/page/one.html',
+                'parts'              => 'followingActions',
+            ),
+        ));
+        $return[] = array('Transitions.getTransitionsForAction', array(
+            'idSite'                 => self::$fixture->idSite,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day'),
+            'testSuffix'             => '_followingActionsExcludeLoops',
+            'otherRequestParameters' => array(
+                'actionType'         => 'url',
+                'actionName'         => 'http://example.org/page/one.html',
+                'parts'              => 'followingActions',
+                'excludeLoops'       => '1',
+            ),
+        ));
         return $return;
     }
 

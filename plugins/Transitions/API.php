@@ -99,6 +99,9 @@ class API extends \Piwik\Plugin\API
      * @param int|string $limitBeforeGrouping Maximum number of transition rows to keep before grouping the
      *                                        remainder.
      * @param string $parts Comma-separated list of transition report parts to include, or `all`.
+     * @param bool $excludeLoops Whether to leave transitions from the action to itself out of the
+     *                           following actions. They are always left out when internal referrers
+     *                           are included, which report them as loops.
      * @return array Transition metrics and related referrer/action tables for the requested action.
      */
     public function getTransitionsForAction(
@@ -109,7 +112,8 @@ class API extends \Piwik\Plugin\API
         string $date,
         $segment = false,
         $limitBeforeGrouping = 0,
-        $parts = 'all'
+        $parts = 'all',
+        bool $excludeLoops = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -152,7 +156,7 @@ class API extends \Piwik\Plugin\API
                 $this->addInternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
             }
             if ($parts == 'all' || in_array('followingActions', $partsArray)) {
-                $includeLoops = $parts != 'all' && !in_array('internalReferrers', $partsArray);
+                $includeLoops = !$excludeLoops && $parts != 'all' && !in_array('internalReferrers', $partsArray);
                 $this->addFollowingActions($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops);
             }
             if ($parts == 'all' || in_array('externalReferrers', $partsArray)) {
