@@ -18,6 +18,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
@@ -520,6 +521,57 @@ class ArchiveFailures
         }
 
         return $counts;
+    }
+
+    /**
+     * Warns that re-invalidating archives doesn't get them processed if they, or archives they are built from, were
+     * given up: core:archive skips them until they are reset. Matched by site and dates only.
+     *
+     * @param int[] $idSites
+     * @param array<Date|string> $dates as passed to ArchiveInvalidator::markArchivesAsInvalidated()
+     * @param string $period the period of the dates, 'range' for range strings
+     */
+    public function getGivenUpWarning(array $idSites, array $dates, string $period): ?string
+    {
+        if (empty($idSites) || empty($dates) || !self::isAvailable()) {
+            return null;
+        }
+
+        // invalidating a date invalidates its year too, a range is built from what it contains
+        $startDate = null;
+        $endDate = null;
+        foreach ($dates as $date) {
+            $invalidatedPeriod = Factory::build($period === 'range' ? 'range' : 'year', $date instanceof Date ? $date->toString() : $date);
+            $startDate = min($startDate ?? $invalidatedPeriod->getDateStart()->toString(), $invalidatedPeriod->getDateStart()->toString());
+            $endDate = max($endDate ?? $invalidatedPeriod->getDateEnd()->toString(), $invalidatedPeriod->getDateEnd()->toString());
+        }
+
+        $rows = Db::fetchAll(
+            "SELECT idsite, attempts, COUNT(*) AS num FROM `" . self::getTable() . "`
+              WHERE idsite IN (" . implode(',', array_map('intval', $idSites)) . ") AND date1 <= ? AND date2 >= ?
+           GROUP BY idsite, attempts",
+            [$endDate, $startDate]
+        );
+
+        $count = 0;
+        $sites = [];
+        foreach ($rows as $row) {
+            $idSite = (int) $row['idsite'];
+            if ((int) $row['attempts'] >= self::getMaxAttempts($idSite)) {
+                $count += (int) $row['num'];
+                $sites[$idSite] = $idSite;
+            }
+        }
+
+        if ($count === 0) {
+            return null;
+        }
+
+        sort($sites);
+
+        return "Warning: $count archives between $startDate and $endDate (site IDs: " . implode(', ', $sites) . ") were given up "
+            . "after failing repeatedly. core:archive does not process them, nor the periods built from them, until they "
+            . "are reset. Run ./console core:archive-failures --given-up to list them, and add --reset to retry them.";
     }
 
     /**

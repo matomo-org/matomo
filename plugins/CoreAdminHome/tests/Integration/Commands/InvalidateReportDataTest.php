@@ -1003,6 +1003,33 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ];
     }
 
+    public function testCommandWarnsAboutGivenUpArchives()
+    {
+        $table = Common::prefixTable('archive_failures');
+        Db::query(
+            "INSERT INTO `$table` (idsite, period, date1, date2, archive_hash, name, `report`, attempts, last_error, ts_first_failed, ts_last_failed, ts_retry_after)
+                  VALUES (1, 1, '2019-03-05', '2019-03-05', ?, 'done', '', 5, 'error', NOW(), NOW(), NOW())",
+            [md5('done|')]
+        );
+
+        try {
+            $code = $this->applicationTester->run([
+                'command' => 'core:invalidate-report-data',
+                '--dates' => ['2019-01-01'],
+                '--periods' => 'day',
+                '--sites' => '1,2',
+            ]);
+        } finally {
+            Db::query("DELETE FROM `$table`");
+        }
+
+        $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+        self::assertStringContainsString(
+            'Warning: 1 archives between 2019-01-01 and 2019-12-31 (site IDs: 1) were given up after failing repeatedly.',
+            $this->getLogOutput()
+        );
+    }
+
     public function testCommandInvalidateDateRange()
     {
         $code = $this->applicationTester->run([

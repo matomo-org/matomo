@@ -189,6 +189,42 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertCount(1, $this->archiveFailures->getFailures());
     }
 
+    public function testGivenUpWarningCountsGivenUpArchivesOfTheInvalidatedYearsOrRange(): void
+    {
+        Config::setSetting('General', 'archive_failure_max_attempts', 2);
+        $givenUp = [
+            $this->getInvalidation(['date1' => '2019-03-05', 'date2' => '2019-03-05']),
+            $this->getInvalidation(['period' => 3, 'date1' => '2019-11-01', 'date2' => '2019-11-30']),
+            $this->getInvalidation(['idsite' => 2, 'date1' => '2019-06-01', 'date2' => '2019-06-01']),
+            $this->getInvalidation(['date1' => '2021-01-01', 'date2' => '2021-01-01']),
+        ];
+        foreach ($givenUp as $invalidation) {
+            $this->archiveFailures->recordFailure($invalidation, 'error');
+            $this->archiveFailures->recordFailure($invalidation, 'error');
+        }
+        // waiting for a retry
+        $this->archiveFailures->recordFailure($this->getInvalidation(['date1' => '2019-07-07', 'date2' => '2019-07-07']), 'error');
+
+        // invalidating a day invalidates its year, which waits for all given up archives of that year
+        $this->assertSame(
+            'Warning: 3 archives between 2019-01-01 and 2019-12-31 (site IDs: 1, 2) were given up after failing repeatedly. '
+            . 'core:archive does not process them, nor the periods built from them, until they are reset. '
+            . 'Run ./console core:archive-failures --given-up to list them, and add --reset to retry them.',
+            $this->archiveFailures->getGivenUpWarning([1, 2], [Date::factory('2019-12-24')], 'day')
+        );
+        $this->assertStringStartsWith(
+            'Warning: 2 archives between 2019-01-01 and 2019-12-31 (site IDs: 1) ',
+            (string) $this->archiveFailures->getGivenUpWarning([1], ['2019-12-24'], 'week')
+        );
+        $this->assertStringStartsWith(
+            'Warning: 1 archives between 2019-03-01 and 2019-03-10 (site IDs: 1) ',
+            (string) $this->archiveFailures->getGivenUpWarning([1, 2], ['2019-03-01,2019-03-10'], 'range')
+        );
+        $this->assertNull($this->archiveFailures->getGivenUpWarning([1, 2], ['2019-04-01,2019-05-10'], 'range'));
+        $this->assertNull($this->archiveFailures->getGivenUpWarning([1, 2], [Date::factory('2020-02-01')], 'day'));
+        $this->assertNull($this->archiveFailures->getGivenUpWarning([], [Date::factory('2019-02-01')], 'day'));
+    }
+
     public function testFailureCountsUseTheMaximumAttemptsOfEachSite(): void
     {
         Config::getInstance()->General_2 = ['archive_failure_max_attempts' => 1];
