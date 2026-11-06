@@ -224,6 +224,12 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertNull($this->archiveFailures->getGivenUpWarning([1, 2], [Date::factory('2020-02-01')], 'day'));
         $this->assertNull($this->archiveFailures->getGivenUpWarning([], [Date::factory('2019-02-01')], 'day'));
 
+        // a week across the new year is blocked by the days of both years, so 2019 counts for a date in 2020
+        $this->assertStringStartsWith(
+            'Warning: 2 archives between 2019-01-01 and 2020-12-31 (site IDs: 1) ',
+            (string) $this->archiveFailures->getGivenUpWarning([1], ['2020-01-02'], 'week')
+        );
+
         // also when years can't be requested
         Config::setSetting('General', 'enabled_periods_API', 'day,week,month,range');
         $this->assertNotNull($this->archiveFailures->getGivenUpWarning([1], ['2019-12-24'], 'day'));

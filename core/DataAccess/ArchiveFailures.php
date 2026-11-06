@@ -536,8 +536,8 @@ class ArchiveFailures
             return null;
         }
 
-        // invalidating a date invalidates its year too, a range is built from what it contains. Plain date math, as
-        // periods can't be built for periods disabled in the API
+        // invalidating a date invalidates its week and year too, weeks can span two years, a range is built from what it
+        // contains. Plain date math, as periods can't be built for periods disabled in the API
         $startDate = null;
         $endDate = null;
         foreach ($dates as $date) {
@@ -548,8 +548,8 @@ class ArchiveFailures
                 }
                 [$start, $end] = array_map(fn (string $rangeDate) => Date::factory(trim($rangeDate))->toString(), $rangeDates);
             } else {
-                $year = ($date instanceof Date ? $date : Date::factory($date))->toString('Y');
-                [$start, $end] = ["$year-01-01", "$year-12-31"];
+                $date = $date instanceof Date ? $date : Date::factory($date);
+                [$start, $end] = [$date->subDay(6)->toString('Y') . '-01-01', $date->addDay(6)->toString('Y') . '-12-31'];
             }
 
             $startDate = null === $startDate ? $start : min($startDate, $start);
