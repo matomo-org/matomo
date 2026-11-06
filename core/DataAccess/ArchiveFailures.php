@@ -18,7 +18,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
@@ -537,13 +536,28 @@ class ArchiveFailures
             return null;
         }
 
-        // invalidating a date invalidates its year too, a range is built from what it contains
+        // invalidating a date invalidates its year too, a range is built from what it contains. Plain date math, as
+        // periods can't be built for periods disabled in the API
         $startDate = null;
         $endDate = null;
         foreach ($dates as $date) {
-            $invalidatedPeriod = Factory::build($period === 'range' ? 'range' : 'year', $date instanceof Date ? $date->toString() : $date);
-            $startDate = min($startDate ?? $invalidatedPeriod->getDateStart()->toString(), $invalidatedPeriod->getDateStart()->toString());
-            $endDate = max($endDate ?? $invalidatedPeriod->getDateEnd()->toString(), $invalidatedPeriod->getDateEnd()->toString());
+            if ($period === 'range') {
+                $rangeDates = explode(',', $date instanceof Date ? $date->toString() : $date);
+                if (count($rangeDates) !== 2) {
+                    continue;
+                }
+                [$start, $end] = array_map(fn (string $rangeDate) => Date::factory(trim($rangeDate))->toString(), $rangeDates);
+            } else {
+                $year = ($date instanceof Date ? $date : Date::factory($date))->toString('Y');
+                [$start, $end] = ["$year-01-01", "$year-12-31"];
+            }
+
+            $startDate = null === $startDate ? $start : min($startDate, $start);
+            $endDate = null === $endDate ? $end : max($endDate, $end);
+        }
+
+        if (null === $startDate || null === $endDate) {
+            return null;
         }
 
         $rows = Db::fetchAll(

@@ -223,6 +223,10 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertNull($this->archiveFailures->getGivenUpWarning([1, 2], ['2019-04-01,2019-05-10'], 'range'));
         $this->assertNull($this->archiveFailures->getGivenUpWarning([1, 2], [Date::factory('2020-02-01')], 'day'));
         $this->assertNull($this->archiveFailures->getGivenUpWarning([], [Date::factory('2019-02-01')], 'day'));
+
+        // also when years can't be requested
+        Config::setSetting('General', 'enabled_periods_API', 'day,week,month,range');
+        $this->assertNotNull($this->archiveFailures->getGivenUpWarning([1], ['2019-12-24'], 'day'));
     }
 
     public function testFailureCountsUseTheMaximumAttemptsOfEachSite(): void
