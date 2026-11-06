@@ -303,13 +303,14 @@ class API extends \Piwik\Plugin\API
         $this->checkValidPluginName($pluginName);
 
         // requests Matomo did not approve on activation, eg as Matomo before 6.1 still served it, are approved now,
-        // which the super user deciding on them is told rather than that there were none
-        if (
-            $this->pluginManager->isPluginActivated($pluginName)
-            && $this->pluginTrialService->hasPendingRequests($pluginName)
-        ) {
+        // which the super user deciding on them is told rather than that there were none. Over HTTP the Request.dispatch
+        // handler usually approved them before this runs, so any request of the plugin counts, not only a pending one.
+        if ($this->pluginManager->isPluginActivated($pluginName)) {
             $this->pluginTrialService->cancelRequest($pluginName);
-            throw new Exception(Piwik::translate('Marketplace_PluginAlreadyActiveRequestsApproved'));
+
+            if ($this->pluginTrialService->hasRequests($pluginName)) {
+                throw new Exception(Piwik::translate('Marketplace_PluginAlreadyActiveRequestsApproved'));
+            }
         }
 
         if (!$this->pluginTrialService->hasPendingRequests($pluginName)) {
