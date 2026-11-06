@@ -92,11 +92,22 @@ class ManageRequestsTest extends IntegrationTestCase
         self::assertSame([false], array_unique(array_column($installed, 'canInstallBeRequested')));
     }
 
-    public function testInstallsAreNotRequestableWhenPluginsCannotBeInstalled(): void
+    /**
+     * @dataProvider dataConfigsWherePluginsCannotBeInstalled
+     */
+    public function testInstallsAreNotRequestableWhenPluginsCannotBeInstalled(string $setting, int $value): void
     {
-        Config::getInstance()->General['enable_plugins_admin'] = 0;
+        Config::getInstance()->General[$setting] = $value;
 
         self::assertFalse($this->searchPlugins()['Barometer']['canInstallBeRequested']);
+    }
+
+    public function dataConfigsWherePluginsCannotBeInstalled(): iterable
+    {
+        yield 'plugins admin disabled' => ['enable_plugins_admin', 0];
+        // the Super User is shown "Cannot install" without auto update
+        yield 'auto update disabled' => ['enable_auto_update', 0];
+        yield 'multi server environment' => ['multi_server_environment', 1];
     }
 
     /**

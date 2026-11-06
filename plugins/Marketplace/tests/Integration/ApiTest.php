@@ -549,6 +549,34 @@ class ApiTest extends IntegrationTestCase
         $this->api->requestInstall('Barometer');
     }
 
+    /**
+     * The Super User is shown "Cannot install" without auto update, so could not approve the request
+     *
+     * @dataProvider dataConfigsWithoutAutoUpdate
+     */
+    public function testRequestInstallIsRejectedWhenAutoUpdateIsNotPossible(string $setting, int $value): void
+    {
+        $this->enablePluginRequests();
+        Config::getInstance()->General[$setting] = $value;
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+
+        try {
+            $this->api->requestInstall('Barometer');
+            self::fail('A plugin was requested where no Super User could install it');
+        } catch (Exception $e) {
+            self::assertStringContainsString('The plugin cannot be installed on this Matomo, so cannot be requested', $e->getMessage());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
+    public function dataConfigsWithoutAutoUpdate(): iterable
+    {
+        yield 'auto update disabled' => ['enable_auto_update', 0];
+        yield 'multi server environment' => ['multi_server_environment', 1];
+    }
+
     public function testDeclinePluginRequestDeclinesAllPendingRequests(): void
     {
         $this->enablePluginRequests();
