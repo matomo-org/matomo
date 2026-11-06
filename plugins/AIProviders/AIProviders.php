@@ -108,6 +108,7 @@ class AIProviders extends Plugin
         $translations[] = 'AIProviders_BedrockUseFipsEndpoint';
         $translations[] = 'AIProviders_ClickTestConnectionToShowAvailableModels';
         $translations[] = 'AIProviders_ConfigurationIntro';
+        $translations[] = 'AIProviders_CustomEndpointUrlHelp';
         $translations[] = 'AIProviders_CustomProviderDescription';
         $translations[] = 'AIProviders_DefaultBadge';
         $translations[] = 'AIProviders_DefaultCapabilityLevel';

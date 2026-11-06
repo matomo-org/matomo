@@ -13,6 +13,8 @@ namespace Piwik\Plugins\AIProviders\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\EgressBlockedException;
+use Piwik\Http\EgressHostValidator;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\AIProviders\AIProvidersList;
@@ -1162,6 +1164,26 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertContains('Authorization: Bearer managed-custom-key', $capturedHeaders);
     }
 
+    public function testPrivateEndpointUrlIsRefusedBeforeTheRequestIsSent(): void
+    {
+        $capturedUrl = null;
+        $capturedHeaders = null;
+        $this->mockModelListingResponse($capturedUrl, $capturedHeaders);
+
+        try {
+            $this->api->testConnection(
+                'custom-provider',
+                (string) json_encode(['endpointUrl' => 'http://169.254.169.254/v1'])
+            );
+            $this->fail('Expected the private endpoint URL to be refused.');
+        } catch (AIProviderClientException $e) {
+            $this->assertInstanceOf(EgressBlockedException::class, $e->getPrevious());
+            $this->assertStringContainsString('allowed_private_egress_ranges', $e->getMessage());
+        }
+
+        $this->assertNull($capturedUrl);
+    }
+
     public function testASubmittedApiKeyStillMayNotTestADifferentEndpointUrl(): void
     {
         $this->useManagedCustomProviderCredentials();
@@ -1933,6 +1955,8 @@ class ConfigurationTest extends IntegrationTestCase
     {
         return [
             'Piwik\Access' => new FakeAccess(),
+            // the *.example.test hosts don't resolve, so pretend every DNS name is public
+            EgressHostValidator::class => new EgressHostValidator(fn() => ['93.184.215.14'], []),
         ];
     }
 }
