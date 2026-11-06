@@ -884,6 +884,19 @@ class Request
         return $this->getParam('cid');
     }
 
+    /**
+     * Whether the visitor had given their consent when this request was sent.
+     *
+     * The JavaScript tracker sets this when consent is in use and has been granted, either for
+     * tracking as a whole or for cookies. A request without the parameter is not a refusal, it
+     * only means the site is not signalling consent, so nothing may be relaxed on the strength of
+     * its absence.
+     */
+    public function hasConsent(): bool
+    {
+        return '1' === Common::getRequestVar('consent', '', 'string', $this->params);
+    }
+
     public function getPlugins()
     {
         static $pluginsInOrder = array('fla', 'java', 'qt', 'realp', 'pdf', 'wma', 'ag', 'cookie');

@@ -2486,6 +2486,12 @@ if (typeof window.Matomo !== 'object') {
                 // whether requireConsent() was called or not
                 configConsentRequired = false,
 
+                // whether requireCookieConsent() was called or not. Kept apart from the above
+                // because the two mechanisms are independent: requireConsent() holds every
+                // request back until consent, requireCookieConsent() only gates cookies and lets
+                // tracking continue without them.
+                configCookieConsentRequired = false,
+
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = null, // initialized below
@@ -3207,6 +3213,26 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
+             * Whether the visitor has given consent, through either of the two consent mechanisms.
+             *
+             * This is what lets the server know a request may carry data that a compliance policy
+             * would otherwise withhold, such as campaign parameters under the CNIL configuration.
+             * Both mechanisms count: requireConsent() holds requests back until consent is given,
+             * while requireCookieConsent() keeps tracking a visitor without cookies and gains
+             * consent later, which is the usual shape of consent-exempt measurement.
+             */
+            function hasGivenConsent() {
+                if (configConsentRequired && configHasConsent) {
+                    return true;
+                }
+
+                // cookies are re-enabled by setCookieConsentGiven(), so their state is the signal
+                // here - but only once requireCookieConsent() has established that consent is the
+                // reason they were off in the first place
+                return configCookieConsentRequired && !configCookiesDisabled;
+            }
+
+            /*
              * Check first-party cookies and update the <code>configHasConsent</code> value.  Ensures that any
              * change to the user opt-in/out status in another browser window will be respected.
              */
@@ -3302,7 +3328,7 @@ if (typeof window.Matomo !== 'object') {
                 hasSentTrackingRequestYet = true;
 
                 if (!configDoNotTrack && request) {
-                    if (configConsentRequired && configHasConsent) { // send a consent=1 when explicit consent is given for the apache logs
+                    if (hasGivenConsent()) { // send a consent=1 when explicit consent is given for the apache logs
                         request += '&consent=1';
                     }
 
@@ -6515,6 +6541,9 @@ if (typeof window.Matomo !== 'object') {
              * will be detected automatically through cookies.
              */
             this.requireCookieConsent = function() {
+                // recorded before the early return so a visitor whose consent is already
+                // remembered is still reported to the server as having consented
+                configCookieConsentRequired = true;
                 if (this.getRememberedCookieConsent()) {
                     return false;
                 }

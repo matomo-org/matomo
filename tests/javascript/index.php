@@ -5331,6 +5331,41 @@ if ($mysql) {
         tracker.forgetCookieConsentGiven();
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - cookie consent is reported to the tracker", function() {
+        stop();
+
+        deleteCookies();
+
+        var consenting = Piwik.getTracker();
+        consenting.disableBrowserFeatureDetection();
+        consenting.setCustomData('token', getCookieConsentToken() + 'given');
+        consenting.requireCookieConsent();
+        consenting.trackRequest('myFoo=beforeCookieConsent');
+        consenting.setCookieConsentGiven();
+        consenting.trackRequest('myFoo=afterCookieConsent');
+
+        var refusing = Piwik.getTracker();
+        refusing.disableBrowserFeatureDetection();
+        refusing.setCustomData('token', getCookieConsentToken() + 'withheld');
+        refusing.requireCookieConsent();
+        refusing.trackRequest('myFoo=neverConsented');
+
+        setTimeout(function () {
+            var given = fetchTrackedRequests(getCookieConsentToken() + 'given');
+            strictEqual(true, given.indexOf('myFoo=beforeCookieConsent') > 0, "the visitor is tracked before cookie consent is given");
+            strictEqual(true, given.indexOf('myFoo=afterCookieConsent') > 0, "the visitor is still tracked after cookie consent is given");
+            ok((given.match(/consent=1/g) || []).length > 0, "consent=1 is sent once cookie consent has been given");
+
+            var withheld = fetchTrackedRequests(getCookieConsentToken() + 'withheld');
+            strictEqual(0, (withheld.match(/consent=1/g) || []).length, "consent=1 is not sent while cookie consent is still being asked for");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 
