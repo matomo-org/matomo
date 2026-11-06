@@ -269,7 +269,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertSame(1, $row["uniques_estimated$suffix"]);
     }
 
-    public function testEstimateFlagComesWithTheRequestedUniquesOnly()
+    public function testEstimateFlagIsReturnedWhenRequestedByNameOnly()
     {
         $columns = function (string $requested) {
             $result = Request::processRequest('VisitsSummary.get', [
@@ -281,8 +281,29 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
             return $result->getFirstRow()->getColumns();
         };
 
-        $this->assertSame(['nb_uniq_visitors', 'uniques_estimated'], array_keys($columns('nb_uniq_visitors')));
+        // one column keeps the single value shape
+        $this->assertSame(['nb_uniq_visitors'], array_keys($columns('nb_uniq_visitors')));
+        $this->assertSame(['nb_uniq_visitors', 'uniques_estimated'], array_keys($columns('nb_uniq_visitors,uniques_estimated')));
         $this->assertSame(['nb_visits'], array_keys($columns('nb_visits')));
+    }
+
+    public function testEstimateFlagRequestedByNameFromApiGet()
+    {
+        $columns = function (string $requested) {
+            $result = Request::processRequest('API.get', [
+                'idSite' => 1,
+                'period' => 'month',
+                'date' => '2024-03-01',
+                'columns' => $requested,
+            ]);
+            return $result->getFirstRow() ? $result->getFirstRow()->getColumns() : [];
+        };
+
+        $this->assertSame(['uniques_estimated' => 1], $columns('uniques_estimated'));
+        $withVisits = $columns('nb_visits,uniques_estimated');
+        $this->assertEqualsCanonicalizing(['nb_visits', 'uniques_estimated'], array_keys($withVisits));
+        $this->assertSame(1, $withVisits['uniques_estimated']);
+        $this->assertSame(['uniques_estimated_new' => 1], $columns('uniques_estimated_new'));
     }
 
     public function testUsersAreKeptWhenRequestedWithoutUniqueVisitors()
@@ -330,6 +351,66 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     public function testSparklinesShowTheEstimateOnYears()
     {
         $this->assertStringContainsString('VisitsSummary_NbUniqueVisitorsEstimated', $this->getSparklines('year', '2024-03-01'));
+    }
+
+    public function testSparklinesShowNoUsersEvolutionWithoutAPreviousEstimate()
+    {
+        // the previous range, 2024-03-01 to 03, can't be estimated
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
+        $this->getVisitsSummary('day', '2024-03-01');
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+
+        $evolutions = $this->getSparklineEvolutions('range', '2024-03-04,2024-03-06');
+
+        $this->assertTrue($evolutions['nb_visits']);
+        $this->assertFalse($evolutions['nb_users']);
+    }
+
+    /**
+     * @dataProvider getComparedYears
+     */
+    public function testSparklinesShowTheUniquesOfAComparedYear(bool $hasEstimate, array $expected)
+    {
+        if (!$hasEstimate) {
+            $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
+            $this->getVisitsSummary('day', '2024-03-01');
+            $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+        }
+
+        $html = $this->getSparklines('month', '2024-03-01', ['comparePeriods' => ['year'], 'compareDates' => ['2024-03-01']]);
+        preg_match('/ sparklines="(\{.*?\})"\s/', $html, $matches);
+
+        $users = [];
+        foreach (json_decode($matches[1], true) as $sparklines) {
+            foreach ($sparklines as $sparkline) {
+                foreach ($sparkline['metrics'] as $metrics) {
+                    if ($metrics[0]['title'] === 'General_ColumnNbUsers') {
+                        $users[] = $metrics[0]['value'];
+                    }
+                }
+            }
+        }
+
+        // the month, then the year it's compared with
+        $this->assertSame($expected, $users);
+    }
+
+    public function getComparedYears(): array
+    {
+        return [
+            'estimated' => [true, [25, 25]],
+            'not estimated' => [false, [25, '-']],
+        ];
+    }
+
+    public function testSparklinesKeepTheEvolutionOfMetricsLeftOutOfTheRequestedColumns()
+    {
+        // the previous period is fetched with the same columns, so it has no pageviews to compare with
+        $evolutions = $this->getSparklineEvolutions('day', '2024-03-02', ['columns' => 'nb_visits,nb_actions']);
+
+        $this->assertTrue($evolutions['nb_visits']);
+        $this->assertTrue($evolutions['nb_pageviews']);
+        $this->assertTrue($evolutions['avg_time_on_site']);
     }
 
     public function getSplitColumns(): array
@@ -585,10 +666,10 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         return json_decode(html_entity_decode($matches[1], ENT_QUOTES), true);
     }
 
-    private function getSparklines(string $period, string $date): string
+    private function getSparklines(string $period, string $date, array $extraParams = []): string
     {
         [$get, $request] = [$_GET, $_REQUEST];
-        $_GET = $_REQUEST = ['idSite' => 1, 'period' => $period, 'date' => $date];
+        $_GET = $_REQUEST = ['idSite' => 1, 'period' => $period, 'date' => $date] + $extraParams;
         try {
             $html = FrontController::getInstance()->fetchDispatch('VisitsSummary', 'getSparklines');
         } finally {
@@ -596,6 +677,24 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         }
 
         return html_entity_decode($html, ENT_QUOTES);
+    }
+
+    /**
+     * @return array<string, bool> whether each sparkline metric shows an evolution
+     */
+    private function getSparklineEvolutions(string $period, string $date, array $extraParams = []): array
+    {
+        preg_match('/ sparklines="(\{.*?\})"\s/', $this->getSparklines($period, $date, $extraParams), $matches);
+        $evolutions = [];
+        foreach (json_decode($matches[1], true) as $sparklines) {
+            foreach ($sparklines as $sparkline) {
+                foreach ($sparkline['metrics'] as $metrics) {
+                    $evolutions[$metrics[0]['column']] = isset($sparkline['evolution']);
+                }
+            }
+        }
+
+        return $evolutions;
     }
 
     private static function trackVisits(): void

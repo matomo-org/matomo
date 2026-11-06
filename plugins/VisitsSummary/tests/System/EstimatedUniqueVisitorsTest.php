@@ -10,7 +10,7 @@
 namespace Piwik\Plugins\VisitsSummary\tests\System;
 
 use Piwik\Config;
-use Piwik\Tests\Fixtures\VisitsOverSeveralDays;
+use Piwik\Plugins\VisitsSummary\tests\Fixtures\VisitsOverSeveralDaysWithFixedVisitorIds;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 class EstimatedUniqueVisitorsTest extends SystemTestCase
 {
     /**
-     * @var VisitsOverSeveralDays
+     * @var VisitsOverSeveralDaysWithFixedVisitorIds
      */
     public static $fixture = null; // initialized below class definition
 
@@ -65,4 +65,4 @@ class EstimatedUniqueVisitorsTest extends SystemTestCase
     }
 }
 
-EstimatedUniqueVisitorsTest::$fixture = new VisitsOverSeveralDays();
+EstimatedUniqueVisitorsTest::$fixture = new VisitsOverSeveralDaysWithFixedVisitorIds();

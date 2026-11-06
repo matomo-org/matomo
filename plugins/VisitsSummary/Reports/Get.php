@@ -167,10 +167,14 @@ class Get extends \Piwik\Plugin\Report
                 $previousData = Request::processRequest('API.get', ['date' => $lastPeriodDate, 'format_metrics' => '0']);
                 $previousDataRow = $previousData->getFirstRow();
 
-                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
+                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow, $isEstimated) {
                     $value = reset($columns);
                     $columnName = key($columns);
                     $pastValue = $previousDataRow ? $previousDataRow->getColumn($columnName) : 0;
+                    if ($pastValue === false && $isEstimated && in_array($columnName, ['nb_uniq_visitors', 'nb_users'], true)) {
+                        // the previous period's uniques weren't estimated: no evolution rather than one from 0
+                        return null;
+                    }
 
                     // Format
                     $formatter = new MetricFormatter();
