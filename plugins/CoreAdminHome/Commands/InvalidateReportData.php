@@ -161,7 +161,8 @@ class InvalidateReportData extends ConsoleCommand
             ? (new ArchiveFailures())->getGivenUpWarning($sites, $ranges, 'range')
             : (new ArchiveFailures())->getGivenUpWarning($sites, $dates, 'day');
         if (null !== $warning) {
-            $this->logger->warning($warning);
+            // a warning would make the command exit with an error, though the invalidation succeeded
+            $this->logger->notice($warning);
         }
     }
 
