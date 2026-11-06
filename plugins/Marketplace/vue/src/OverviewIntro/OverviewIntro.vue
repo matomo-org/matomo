@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div v-content-intro>
+  <div>
     <Marketplace
       :default-sort="defaultSort"
       :install-all-paid-plugins-visible="installAllPaidPluginsVisible"
@@ -32,10 +32,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import {
-  AjaxHelper,
-  ContentIntro,
-} from 'CoreHome';
+import { AjaxHelper } from 'CoreHome';
 import Marketplace from '../Marketplace/Marketplace.vue';
 
 import { TObject } from '../types';
@@ -96,9 +93,6 @@ export default defineComponent({
   },
   components: {
     Marketplace,
-  },
-  directives: {
-    ContentIntro,
   },
   data(): OverviewIntroState {
     return {

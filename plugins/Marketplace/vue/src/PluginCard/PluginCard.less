@@ -32,14 +32,13 @@
   flex-direction: column;
   padding: @marketplace-card-padding;
   min-height: @marketplace-card-height;
-  border: 1px solid @theme-color-border;
+  border: 0.5px solid @theme-color-border;
   border-radius: @marketplace-card-radius;
   background: @theme-color-background-contrast;
   cursor: pointer;
-  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.2s ease-out;
+  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 
   &:hover {
-    border-color: @theme-color-border-brand;
     box-shadow: @theme-shadow-overlay;
     transform: translateY(-2px);
   }
@@ -99,7 +98,7 @@
   flex-wrap: wrap;
   align-items: safe center;
   gap: @marketplace-card-chip-gap;
-  margin-top: 12px;
+  margin-top: 16px;
 }
 
 .pluginCard__chipItem {
@@ -112,7 +111,7 @@
   border-radius: (@marketplace-card-chip-height / 2);
   font-size: 12px;
   line-height: 1;
-  color: @theme-color-text;
+  color: @theme-color-text-lighter;
 }
 
 .pluginCard__chipItem--matomo {
@@ -127,16 +126,16 @@
 }
 
 .pluginCard__title {
-  margin: 10px 0 0;
-  font-size: 16px;
-  line-height: 20px;
+  margin: 12px 0 0;
+  font-size: 18px;
+  line-height: 24px;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-// The card carries the whole hover affordance - border, shadow, lift and the shot's scale - so the
+// The card carries the whole hover affordance - shadow, lift and the shot's scale - so the
 // title holds its colour throughout; the link is here for the deep link, not for link styling.
 .pluginCard__titleLink {
   color: @theme-color-text;
@@ -156,7 +155,7 @@
   @_lines: 3;
   @_lineHeight: 20px;
 
-  margin: 6px 0 0;
+  margin: 4px 0 0;
   padding-bottom: 0;
   font-size: 14px;
   line-height: @_lineHeight;
@@ -182,28 +181,29 @@
   justify-content: space-between;
   gap: 8px;
   margin-top: auto;
-  padding-top: 8px;
-  font-size: 11px;
+  padding-top: 12px;
+  font-size: 12px;
+  line-height: 14px;
   color: @theme-color-text-lighter;
 }
 
 .pluginCard__updated {
   display: flex;
   align-items: safe center;
-  gap: 8px;
+  gap: 6px;
   flex: none;
   white-space: nowrap;
 }
 
 .pluginCard__updatedIcon {
-  font-size: 11px;
+  font-size: 16px;
   line-height: 1;
 }
 
 .pluginCard__seats {
   display: flex;
   align-items: safe center;
-  gap: 8px;
+  gap: 4px;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -211,7 +211,7 @@
 }
 
 .pluginCard__seatsIcon {
-  font-size: 11px;
+  font-size: 20px;
   line-height: 1;
   flex: none;
   color: @theme-color-brand;
@@ -227,40 +227,38 @@
 .pluginCard__actions {
   position: relative;
   z-index: 1;
-  padding-top: 15px;
-  min-height: 32px;
+  padding-top: 16px;
+  min-height: 36px;
 
-  // override: Materialize .btn draws no focus ring of its own, and the marketplace has always
-  // lifted these on hover. Both used to arrive through the legacy .cta-container wrapper class.
+  // override: Materialize's .btn shadow and Morpheus's legacy click outline; keyboard focus keeps
+  // the `a:focus-visible` ring
   .btn.btn-block {
-    &:hover,
-    &:focus {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
+    box-shadow: none;
 
-    &:focus {
-      outline: thin dotted;
+    &:focus:not(:focus-visible) {
+      outline: none;
     }
   }
 
   // override: the CTAs are Materialize buttons rendered by CTAContainer, and their sizing,
   // uppercasing and colours all come from .btn. Resizing them to the card is only possible here.
   .btn {
-    height: 32px;
-    line-height: 32px;
-    padding: 0 12px;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 400;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 20px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
     text-transform: none;
     letter-spacing: 0;
+    transition: background-color 0.2s ease-out, filter 0.2s ease-out;
   }
 
   // override: the secondary CTA reads as an outline button. Materialize's .btn colour wins on
   // specificity alone, so the text colour needs !important.
   .btn.btn-block:not(.purchaseable):not(.addToCartLink) {
     border: 1px solid @theme-color-brand;
-    line-height: 30px; // 32px, less the border
+    line-height: 34px; // 36px, less the border
     background: @theme-color-background-contrast;
     color: @theme-color-text-brand !important;
 
