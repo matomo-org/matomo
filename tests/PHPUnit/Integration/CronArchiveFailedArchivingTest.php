@@ -154,7 +154,7 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
     {
         $invalidations = $this->archiveAndInvalidateDay();
 
-        Option::set(self::FAIL_ARCHIVING_OPTION, 'taken over');
+        Option::set(self::FAIL_ARCHIVING_OPTION, 'taken over and failing');
         $output = $this->runArchiver();
 
         // the other archiver records the failure of the jobs it took over
@@ -163,18 +163,32 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
         $this->assertStringNotContainsString('(attempt ', $output);
     }
 
-    public function testJobTakenOverWhileItSucceedsIsArchivedAgain(): void
+    public function testJobTakenOverWhileItSucceedsIsDone(): void
+    {
+        $this->archiveAndInvalidateDay();
+
+        Option::set(self::FAIL_ARCHIVING_OPTION, 'taken over');
+        $output = $this->runArchiver();
+
+        $this->assertSame([], $this->getFailures());
+        $this->assertSame([], $this->getInvalidations());
+        $this->assertSame($this->getDoneFlags(ArchiveWriter::DONE_OK), $this->getDoneFlagValues());
+        $this->assertStringContainsString('Processed 4 archives.', $output);
+    }
+
+    public function testJobTakenOverWhileItSucceedsIsArchivedAgainIfInvalidatedSince(): void
     {
         $invalidations = $this->archiveAndInvalidateDay();
 
-        Option::set(self::FAIL_ARCHIVING_OPTION, 'taken over while succeeding');
+        Option::set(self::FAIL_ARCHIVING_OPTION, 'taken over and invalidated');
         $this->runArchiver();
 
-        // kept and released, as invalidations added since were merged into it
+        // kept and released, as the new invalidation was merged into it
         $this->assertSame([], $this->getFailures());
         $this->assertSame([$invalidations[0]], $this->getInvalidations());
 
         // the day, and the periods built from it again
+        $this->setNow('2020-02-03 05:00:01');
         $output = $this->runArchiver();
 
         $this->assertSame([], $this->getInvalidations());
@@ -435,17 +449,23 @@ class CronArchiveFailedArchivingTest extends IntegrationTestCase
                         echo 'not a JSON response';
                         exit;
                     }
-                    if ($toFail === 'taken over while succeeding' && $period->getLabel() === 'day') {
+                    if (in_array($toFail, ['taken over', 'taken over and invalidated'], true) && $period->getLabel() === 'day') {
                         Option::delete(self::FAIL_ARCHIVING_OPTION);
-                        // eg timed out and put on hold by another archiver, new invalidations are merged into it then
+                        // eg timed out and put on hold by another archiver
                         $table = Common::prefixTable('archive_invalidations');
                         $row = Db::fetchRow("SELECT * FROM `$table` WHERE status = ? AND period = 1", [ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]);
                         if (is_array($row)) {
                             (new ArchiveFailures())->recordFailure($row, 'Archiving did not finish');
                             Db::query("UPDATE `$table` SET status = ? WHERE idinvalidation = ?", [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $row['idinvalidation']]);
                         }
+                        if ($toFail === 'taken over and invalidated') {
+                            // eg a visit tracked into that day later on, merged into the invalidation on hold
+                            Date::$now = (int) strtotime('2020-02-03 05:00:00');
+                            StaticContainer::get(ArchiveInvalidator::class)->markArchivesAsInvalidated([1], ['2019-12-10'], 'day');
+                            Date::$now = (int) strtotime(self::NOW);
+                        }
                     }
-                    if ($toFail === 'taken over') {
+                    if ($toFail === 'taken over and failing') {
                         // eg reset after timing out, and put on hold by another archiver
                         Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = ? WHERE status = ?', [
                             ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
