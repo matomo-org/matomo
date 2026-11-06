@@ -31,8 +31,8 @@ const VALUE_MARKER = '\u0001';
 interface GroupDefinition {
   name: string;
   side: TransitionsSide;
-  /** The API part the group's numbers come from. */
-  part: TransitionsPart;
+  /** The API parts the group's numbers come from. */
+  parts: TransitionsPart[];
   titleKey: string;
   /** Inline label carrying a %s placeholder for the formatted metric value. */
   inlineKey: string;
@@ -52,7 +52,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'previousPages',
     side: 'incoming',
-    part: 'internalReferrers',
+    parts: ['internalReferrers'],
     titleKey: 'Transitions_FromPreviousPages',
     inlineKey: 'Transitions_FromPreviousPagesInline',
     countKey: 'Transitions_NumPageviews',
@@ -62,7 +62,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'previousSiteSearches',
     side: 'incoming',
-    part: 'internalReferrers',
+    parts: ['internalReferrers'],
     titleKey: 'Transitions_FromPreviousSiteSearches',
     inlineKey: 'Transitions_FromPreviousSiteSearchesInline',
     countKey: 'Transitions_NumPageviews',
@@ -72,7 +72,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'searchEngines',
     side: 'incoming',
-    part: 'externalReferrers',
+    parts: ['externalReferrers'],
     titleKey: 'Transitions_FromSearchEngines',
     inlineKey: 'Referrers_TypeSearchEngines',
     countKey: 'Transitions_NumPageviews',
@@ -82,7 +82,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'socialNetworks',
     side: 'incoming',
-    part: 'externalReferrers',
+    parts: ['externalReferrers'],
     titleKey: 'Transitions_FromSocialNetworks',
     inlineKey: 'Referrers_TypeSocialNetworks',
     countKey: 'Transitions_NumPageviews',
@@ -92,7 +92,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'aiAssistants',
     side: 'incoming',
-    part: 'externalReferrers',
+    parts: ['externalReferrers'],
     titleKey: 'Transitions_FromAIAssistants',
     inlineKey: 'Referrers_TypeAIAssistants',
     countKey: 'Transitions_NumPageviews',
@@ -102,7 +102,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'websites',
     side: 'incoming',
-    part: 'externalReferrers',
+    parts: ['externalReferrers'],
     titleKey: 'Transitions_FromWebsites',
     inlineKey: 'Referrers_TypeWebsites',
     countKey: 'Transitions_NumPageviews',
@@ -112,7 +112,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'campaigns',
     side: 'incoming',
-    part: 'externalReferrers',
+    parts: ['externalReferrers'],
     titleKey: 'Transitions_FromCampaigns',
     inlineKey: 'Referrers_TypeCampaigns',
     countKey: 'Transitions_NumPageviews',
@@ -122,7 +122,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'directEntries',
     side: 'incoming',
-    part: 'externalReferrers',
+    parts: ['externalReferrers'],
     titleKey: 'Transitions_DirectEntries',
     inlineKey: 'Referrers_TypeDirectEntries',
     countKey: 'Transitions_NumPageviews',
@@ -132,7 +132,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'followingPages',
     side: 'outgoing',
-    part: 'followingActions',
+    parts: ['followingActions'],
     titleKey: 'Transitions_ToFollowingPages',
     inlineKey: 'Transitions_ToFollowingPagesInline',
     countKey: 'Transitions_NumPageviews',
@@ -142,7 +142,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'followingSiteSearches',
     side: 'outgoing',
-    part: 'followingActions',
+    parts: ['followingActions'],
     titleKey: 'Transitions_ToFollowingSiteSearches',
     inlineKey: 'Transitions_ToFollowingSiteSearchesInline',
     countKey: 'Transitions_NumPageviews',
@@ -152,7 +152,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'downloads',
     side: 'outgoing',
-    part: 'followingActions',
+    parts: ['followingActions'],
     titleKey: 'General_Downloads',
     inlineKey: 'Transitions_NumDownloads',
     countKey: 'Transitions_NumDownloads',
@@ -162,7 +162,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'outlinks',
     side: 'outgoing',
-    part: 'followingActions',
+    parts: ['followingActions'],
     titleKey: 'General_Outlinks',
     inlineKey: 'Transitions_NumOutlinks',
     countKey: 'Transitions_NumOutlinks',
@@ -172,8 +172,8 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'exits',
     side: 'outgoing',
-    // derived from both page parts; internalReferrers is always in once the report renders
-    part: 'followingActions',
+    // derived from the pageviews, loops and following pages
+    parts: ['internalReferrers', 'followingActions'],
     titleKey: 'General_ColumnExits',
     inlineKey: 'Transitions_ExitsInline',
     countKey: 'Transitions_NumPageviews',
@@ -370,7 +370,7 @@ export function buildReport(
   const loadingSides: Record<TransitionsSide, boolean> = { incoming: false, outgoing: false };
 
   TRANSITIONS_GROUPS.forEach((group) => {
-    const isLoading = pendingParts.includes(group.part);
+    const isLoading = group.parts.some((part) => pendingParts.includes(part));
     if (isLoading) {
       loadingSides[group.side] = true;
     }
@@ -418,6 +418,9 @@ export function buildReport(
     });
   });
 
+  // Every share and both page lines are relative to the pageviews.
+  const pageviewsLoading = pendingParts.includes('internalReferrers');
+
   return {
     actionName,
     title: actionType === 'url' ? shortenUrl(actionName, true) : actionName,
@@ -435,7 +438,10 @@ export function buildReport(
       'Transitions_NumPageviews',
       NumberFormatter.formatNumber(model.pageviews),
     ),
-    pageviewsTooltip: buildPageviewsTooltip(model, model.getTotalNbPageviews()),
+    pageviewsLoading,
+    pageviewsTooltip: pageviewsLoading
+      ? ''
+      : buildPageviewsTooltip(model, model.getTotalNbPageviews()),
     incomingTotal,
     outgoingTotal,
     loadingSides,

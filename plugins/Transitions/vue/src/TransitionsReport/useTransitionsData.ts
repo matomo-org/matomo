@@ -19,8 +19,8 @@ import {
 const REPORT_API_METHOD = 'Transitions.getTransitionsForAction';
 
 /**
- * Requested in parallel. The report renders once internalReferrers is in, since it carries the
- * pageviews every share is relative to; the others fill in as they land.
+ * Requested in parallel. Until internalReferrers is in, the report is only its layout: it carries
+ * the pageviews every share is relative to, so the other parts wait for it before they show.
  */
 const PARTS: TransitionsPart[] = ['internalReferrers', 'followingActions', 'externalReferrers'];
 
@@ -33,7 +33,6 @@ const PARTS: TransitionsPart[] = ['internalReferrers', 'followingActions', 'exte
  * and later parts of that load are dropped.
  */
 export function useTransitionsData() {
-  const isLoading = ref(false);
   const error = ref<TransitionsError|null>(null);
   const report = ref<TransitionsReportData|null>(null);
 
@@ -58,7 +57,6 @@ export function useTransitionsData() {
     requestId += 1;
     const id = requestId;
 
-    isLoading.value = true;
     error.value = null;
 
     abortCurrent();
@@ -84,12 +82,15 @@ export function useTransitionsData() {
 
       failed = true;
       abortCurrent();
-      isLoading.value = false;
       report.value = null;
       error.value = resolveError(errorName, actionName);
     });
 
     seedGroupTitles(model);
+
+    // The layout, with every number still loading, so the page is on screen straight away.
+    report.value = buildReport(model, actionType, actionName, pendingParts);
+    let hasData = false;
 
     const onPartLoaded = (part: TransitionsPart) => {
       if (!isCurrent(id) || failed) {
@@ -102,12 +103,11 @@ export function useTransitionsData() {
         return;
       }
 
-      const isFirstRender = isLoading.value;
-      isLoading.value = false;
-      error.value = null;
+      const isFirstData = !hasData;
+      hasData = true;
       report.value = buildReport(model, actionType, actionName, pendingParts);
 
-      if (isFirstRender) {
+      if (isFirstData) {
         // Still in flight on the first report, so fill the tooltip in when it lands. A report
         // rebuilt by a later part picks the total up from the model itself.
         model.whenTotalNbPageviewsLoaded((totalNbPageviews) => {
@@ -132,7 +132,6 @@ export function useTransitionsData() {
   }
 
   return {
-    isLoading,
     error,
     report,
     load,

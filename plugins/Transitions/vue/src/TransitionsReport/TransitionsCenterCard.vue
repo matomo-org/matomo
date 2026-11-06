@@ -24,7 +24,8 @@
         {{ report.title }}
       </span>
       <span class="transitionsCenterCard__pageviews" :title="report.pageviewsTooltip">
-        {{ report.pageviewsLabel }}
+        <MatomoLoader v-if="report.pageviewsLoading" />
+        <template v-else>{{ report.pageviewsLabel }}</template>
       </span>
     </div>
 

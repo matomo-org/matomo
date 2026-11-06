@@ -92,6 +92,8 @@ export interface TransitionsReportData {
   loopsLabel: string;
   loopsTooltip: string;
   pageviewsLabel: string;
+  /** Set until the part carrying the pageviews is in; until then the report is only its layout. */
+  pageviewsLoading: boolean;
   pageviewsTooltip: string;
   incomingTotal: number;
   outgoingTotal: number;
