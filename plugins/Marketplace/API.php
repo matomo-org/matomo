@@ -286,9 +286,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Requests are also off when plugin_trial_request_expiration_in_days = -1, which stores none
-     */
-    /**
      * Returns the current user's plugin requests, newest first.
      *
      * @internal
@@ -323,9 +320,9 @@ class API extends \Piwik\Plugin\API
      * @return list<array{pluginName: string, displayName: string, isFree: bool|null, priceFrom: array<string, mixed>|null,
      *                    requestType: string, numRequests: int, lastRequestedAt: string,
      *                    requesters: list<array{login: string|null, email: string|null, requestedAt: string, message: string|null}>}>
-     *         isFree and priceFrom are null when the Marketplace cannot be reached; priceFrom is the shop variation the
-     *         plugin is sold from; requestType is that of the latest request; a deleted requester has no login or email;
-     *         dates in UTC as `Y-m-d H:i:s`
+     *         isFree and priceFrom are null when the Marketplace cannot be reached or does not list the plugin;
+     *         priceFrom is the shop variation the plugin is sold from; requestType is that of the latest request; a
+     *         deleted requester has no login or email; dates in UTC as `Y-m-d H:i:s`
      */
     public function getPendingPluginRequests(): array
     {
@@ -430,6 +427,9 @@ class API extends \Piwik\Plugin\API
         return $displayNames;
     }
 
+    /**
+     * Requests are also off when plugin_trial_request_expiration_in_days = -1, which stores none
+     */
     private function checkPluginRequestsActive(): void
     {
         if (

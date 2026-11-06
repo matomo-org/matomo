@@ -335,9 +335,10 @@ class Client
 
     /**
      * Returns what the Marketplace lists about the given plugins, keyed by plugin name, from the cached overview lists
-     * where they hold a plugin. A plugin missing from them, or one the Marketplace does not know, is left out unless
-     * $fetchMissing asks the Marketplace about each of those on its own. The first of those requests to fail ends them,
-     * so an unreachable Marketplace delays the answer by one request timeout rather than one per plugin.
+     * where they hold a plugin. A plugin missing from them is left out unless $fetchMissing asks the Marketplace about
+     * each of those on its own. A plugin the Marketplace does not list, eg one delisted since, is left out. The first
+     * request that does not reach the Marketplace ends them, so an unreachable Marketplace delays the answer by one
+     * request timeout rather than one per plugin.
      *
      * @param string[] $pluginNames
      * @return array<string, array<string, mixed>>
@@ -365,7 +366,8 @@ class Client
                 $plugin = $this->getPluginInfo($name);
             } catch (PhpException $e) {
                 $this->logger->error($e->getMessage());
-                $fetchMissing = false;
+                // the Marketplace answered, only not about this plugin, so it is asked about the others
+                $fetchMissing = $e->getCode() === Service\Exception::API_ERROR;
                 continue;
             }
 

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace\PluginTrial;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
@@ -135,8 +136,16 @@ class Request
      */
     private function announceDecision(Decision $decided, string $decision, ?string $note): void
     {
-        // sent before the event is posted, so a failing observer cannot stop it; safeSend() logs a failed send rather than throwing
-        $this->sendDecisionEmails($decided, $decision, $note);
+        // sent before the event is posted, so a failing observer cannot stop it. The decision is saved by now, so a
+        // failure to email it is logged rather than stopping the event, the answer to the decision or an activation
+        try {
+            $this->sendDecisionEmails($decided, $decision, $note);
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->error(
+                'Could not email the requesters of {plugin} about the decision: {exception}',
+                ['plugin' => $this->pluginName, 'exception' => $e]
+            );
+        }
 
         $numRequests = $decided->numRequests;
 

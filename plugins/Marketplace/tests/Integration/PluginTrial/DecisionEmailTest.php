@@ -117,6 +117,34 @@ class DecisionEmailTest extends IntegrationTestCase
     }
 
     /**
+     * @dataProvider dataDecisions
+     */
+    public function testADecisionIsAnnouncedWhenItsEmailsCannotBePrepared(string $decision): void
+    {
+        $this->requestAs('alice', 'PremiumPlugin');
+        $settings = $this->createMock(UserScopedSettingsAccessManager::class);
+        $settings->method('getValuesForAllUsers')->willThrowException(new \Exception('Settings unreadable'));
+        StaticContainer::getContainer()->set(UserScopedSettingsAccessManager::class, $settings);
+        Piwik::addAction('Marketplace.pluginRequestDecided', function (...$args) use (&$announced) {
+            $announced = $args;
+        });
+
+        FakeAccess::clearAccess(true);
+        FakeAccess::$identity = FakeAccess::$superUserLogin;
+        $numDecided = (new Service())->decide('PremiumPlugin', $decision);
+
+        self::assertSame(1, $numDecided);
+        self::assertSame(['PremiumPlugin', $decision, 1], $announced);
+        self::assertSame([], $this->sentEmails);
+    }
+
+    public function dataDecisions(): iterable
+    {
+        yield 'declined' => [RequestHistory::DECISION_DECLINED];
+        yield 'approved' => [RequestHistory::DECISION_APPROVED];
+    }
+
+    /**
      * @return string[]
      */
     private function getRecipients(): array

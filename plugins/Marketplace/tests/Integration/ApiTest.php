@@ -743,7 +743,7 @@ class ApiTest extends IntegrationTestCase
         $this->api->requestTrial('PaidPlugin1', 'For our team');
         $this->api->requestInstall('Barometer');
         $this->setUser('otherUser');
-        $this->api->requestTrial('TreemapVisualization');
+        $this->api->requestInstall('TreemapVisualization');
 
         $this->setSuperUser();
         $this->api->declinePluginRequest('Barometer', 'Not now');
@@ -928,11 +928,13 @@ class ApiTest extends IntegrationTestCase
         $this->enablePluginRequests();
         $this->returnPluginInfos();
 
-        foreach (['PaidPlugin1', 'Barometer', 'TreemapVisualization'] as $i => $pluginName) {
+        $requestMethods = ['PaidPlugin1' => 'requestTrial', 'Barometer' => 'requestInstall', 'TreemapVisualization' => 'requestInstall'];
+        $i = 0;
+        foreach ($requestMethods as $pluginName => $requestMethod) {
             $this->setUser();
-            $this->api->requestTrial($pluginName);
+            $this->api->$requestMethod($pluginName);
             $this->setSuperUser();
-            (new Storage($pluginName))->setDecided(RequestHistory::DECISION_DECLINED, 'Note ' . $i);
+            (new Storage($pluginName))->setDecided(RequestHistory::DECISION_DECLINED, 'Note ' . $i++);
         }
 
         $page = $this->api->getPluginRequestHistory(1, 1);
