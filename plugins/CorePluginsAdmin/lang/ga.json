@@ -34,6 +34,7 @@
         "LicenseHomepage": "Leathanach Baile an Cheadúnais",
         "LikeThisPlugin": "Cosúil leis an mbreiseán seo?",
         "MenuPlatform": "Ardán",
+        "MissingRequirementsNotYetCompatibleNotice": "Níl an breiseán seo comhoiriúnach le %1$s %2$s go fóill. Leaganacha tacaithe: %1$s %3$s. Fan le do thoil go mbeidh nuashonrú ar an mbreiseán ar fáil.",
         "MissingRequirementsNotice": "Nuashonraigh %1$s%2$s chuig leagan níos nuaí, tá %1$s%3$s ag teastáil.",
         "MissingRequirementsPleaseInstallNotice": "Suiteáil %1$s%2$s mar tá sé ag teastáil ó %3$s.",
         "NUpdatesAvailable": "%1$s Nuashonrú(í) ar fáil",
