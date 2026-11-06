@@ -163,8 +163,9 @@
   </template>
 
   <template v-else-if="arePluginRequestsActive">
+    <!-- an approved trial is installed, and stays so once it ended -->
     <CTAStatus
-      v-if="plugin.isInstalled"
+      v-if="plugin.isInstalled && !isTrialEnded"
       tone="success"
       :label="translate('General_Installed')"
       :in-modal="inModal"
@@ -246,6 +247,7 @@ import MarketplaceButton from '../MarketplaceButton/MarketplaceButton.vue';
 import CTAStatus from './CTAStatus.vue';
 import DownloadButton from './DownloadButton.vue';
 import MoreDetailsAction from './MoreDetailsAction.vue';
+import manageRequestsUrl from '../ManageRequests/manageRequestsUrl';
 
 export default defineComponent({
   props: {
@@ -339,17 +341,8 @@ export default defineComponent({
 
       return label ? translate(label[this.isInstallRequest ? 1 : 0]) : '';
     },
-    /** Without the Marketplace's own parameters, which would only clutter that page's URL. */
     manageRequestsUrl(): string {
-      const { idSite, period, date } = MatomoUrl.urlParsed.value;
-
-      return `?${MatomoUrl.stringify({
-        module: 'Marketplace',
-        action: 'manageRequests',
-        idSite: idSite || MatomoUrl.parsed.value.idSite,
-        period,
-        date,
-      })}`;
+      return manageRequestsUrl();
     },
     /** The one case DownloadButton renders anything: an update it cannot apply for you. */
     isDownloadableWithoutAutoUpdate(): boolean {

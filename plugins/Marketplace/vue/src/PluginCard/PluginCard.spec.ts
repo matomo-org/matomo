@@ -363,6 +363,19 @@ describe('Marketplace/PluginCard', () => {
         expect(viewRequestLink(wrapper).exists()).toBe(false);
       });
 
+      it('shows an installed plugin whose trial ended as ended rather than installed', () => {
+        const wrapper = mountCard({
+          ...premium,
+          isInstalled: true,
+          isMissingLicense: true,
+          requestType: 'trial',
+          requestStatus: 'approved',
+        }, asUser);
+
+        expect(actions(wrapper).text()).toContain('Marketplace_TrialEnded');
+        expect(actions(wrapper).text()).not.toContain('General_Installed');
+      });
+
       it('shows an installed plugin as installed, also with an update, with no request', () => {
         const wrapper = mountCard({
           isInstalled: true,

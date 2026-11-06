@@ -1,36 +1,34 @@
-.manageRequests {
-  &__intro {
-    margin-bottom: 16px;
-  }
+.manageRequests__intro {
+  margin-bottom: 16px;
+}
 
-  // a long note would stretch its row, so it is cut after two lines and shown in full on hover
-  &__note {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    max-width: 320px;
-    overflow-wrap: anywhere;
-  }
+// a long note would stretch its row, so it is cut after two lines and shown in full on hover
+.manageRequests__note {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 320px;
+  overflow-wrap: anywhere;
+}
 
-  &__status {
-    font-weight: bold;
+.manageRequests__status {
+  font-weight: bold;
+}
 
-    &--approved {
-      color: @theme-color-success;
-    }
+.manageRequests__status--approved {
+  color: @theme-color-success;
+}
 
-    &--declined {
-      color: @theme-color-warning;
-    }
-  }
+.manageRequests__status--declined {
+  color: @theme-color-warning;
+}
 
-  &__empty {
-    padding: 32px 0;
-    text-align: center;
-  }
+.manageRequests__empty {
+  padding: 32px 0;
+  text-align: center;
+}
 
-  &__emptyTitle {
-    margin-top: 0;
-  }
+.manageRequests__emptyTitle {
+  margin-top: 0;
 }

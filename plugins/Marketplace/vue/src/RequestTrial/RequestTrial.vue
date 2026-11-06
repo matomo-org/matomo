@@ -55,6 +55,7 @@ import {
   translate,
 } from 'CoreHome';
 import { PluginCard } from '../types';
+import manageRequestsUrl from '../ManageRequests/manageRequestsUrl';
 
 export default defineComponent({
   props: {
@@ -131,7 +132,7 @@ export default defineComponent({
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
           message: this.arePluginRequestsActive
-            ? translate('Marketplace_PluginRequestSent')
+            ? translate('Marketplace_PluginRequestSent', `<a href="${manageRequestsUrl()}">`, '</a>')
             : translate('Marketplace_RequestTrialSubmitted', plugin.displayName),
           context: 'success',
           id: 'requestTrialSuccess',

@@ -161,7 +161,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserIsNotAnonymous();
 
         if (!$this->getPluginTrialService()->areRequestsActive()) {
-            throw new Exception('Plugin requests are not enabled');
+            // a feature that is off, as a report that is not enabled, rather than an error
+            throw new NoPrivilegesException('Plugin requests are not enabled', 403);
         }
 
         $requests = ApiRequest::processRequest('Marketplace.getMyPluginRequests', [], []);
@@ -177,7 +178,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Returns the current user's request of each plugin, or null while users cannot request plugins
      *
-     * @return array<string, array{request_type: string, decision: string|null}>|null keyed by plugin name
+     * @return array<string, array{plugin_name: string, request_type: string, message: string|null, ts_requested: string,
+     *                             decision: string|null, note: string|null}>|null the rows of
+     *                             RequestHistory::getRequestsOfLogin(), keyed by plugin name
      */
     private function getPluginRequestsOfCurrentUser(): ?array
     {
@@ -383,7 +386,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $plugin['canInstallBeRequested'] = $request === null
                     && !empty($plugin['isFree'])
                     && empty($plugin['isInstalled'])
-                    && CorePluginsAdmin::isPluginsAdminEnabled();
+                    && Plugins::canBeInstalledFromMarketplace($plugin);
             }
 
             $plugin = $this->keepPluginCardFields($plugin);

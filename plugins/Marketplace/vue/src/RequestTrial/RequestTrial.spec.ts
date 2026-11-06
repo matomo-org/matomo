@@ -112,7 +112,9 @@ describe('Marketplace/RequestTrial', () => {
         { module: 'API', method: 'Marketplace.requestTrial' },
         { pluginName: 'Funnels', message: 'We need it for the videos' },
       );
-      expect(showNotification.mock.calls[0][0].message).toBe('Marketplace_PluginRequestSent');
+      expect(showNotification.mock.calls[0][0].message).toBe(
+        'Marketplace_PluginRequestSent:<a href="?module=Marketplace&action=manageRequests&idSite=1">,</a>',
+      );
       expect(wrapper.emitted('trialRequested')).toHaveLength(1);
       expect(closeModal).toHaveBeenCalledWith('close');
     });

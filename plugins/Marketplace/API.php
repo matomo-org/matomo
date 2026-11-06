@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Plugins as MarketplacePlugins;
 use Piwik\Plugin\Manager as PluginManager;
@@ -226,6 +227,12 @@ class API extends \Piwik\Plugin\API
 
         if ($this->pluginManager->isPluginInstalled($pluginInfo['name'], true)) {
             throw new Exception('The plugin is already installed: ' . $pluginInfo['name']);
+        }
+
+        // a Super User is shown such a plugin as "Cannot install", so could not approve the request
+        $plugin = StaticContainer::get(MarketplacePlugins::class)->getPluginInfo($pluginInfo['name']);
+        if (!MarketplacePlugins::canBeInstalledFromMarketplace($plugin)) {
+            throw new Exception('The plugin cannot be installed on this Matomo, so cannot be requested: ' . $pluginInfo['name']);
         }
 
         $this->checkNotRequestedByCurrentUser($pluginInfo['name']);

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Plugins\Marketplace\Controller;
@@ -38,6 +39,11 @@ class ManageRequestsTest extends IntegrationTestCase
      * @var array<string, mixed>
      */
     private array $originalGet = [];
+
+    /**
+     * @var array<string, string>|null what the Marketplace says Barometer requires, null for the fixture's
+     */
+    private static ?array $barometerRequires = null;
 
     public function setUp(): void
     {
@@ -94,6 +100,23 @@ class ManageRequestsTest extends IntegrationTestCase
     }
 
     /**
+     * The Super User is shown such a plugin as "Cannot install", so could not approve the request
+     */
+    public function testInstallsAreNotRequestableForAPluginWhoseRequirementsAreMissing(): void
+    {
+        self::$barometerRequires = ['php' => '>=99.0.0'];
+
+        try {
+            $card = $this->searchPlugins()['Barometer'];
+        } finally {
+            self::$barometerRequires = null;
+        }
+
+        self::assertNotEmpty($card['missingRequirements']);
+        self::assertFalse($card['canInstallBeRequested']);
+    }
+
+    /**
      * @dataProvider dataUsersWithoutRequestState
      */
     public function testCardsCarryNoRequestStateForSuperUsersOrWhileRequestsAreOff(bool $isSuperUser, bool $areRequestsOn): void
@@ -130,7 +153,9 @@ class ManageRequestsTest extends IntegrationTestCase
     {
         $this->setPluginRequests(false);
 
-        $this->expectException(\Exception::class);
+        // answered with 403 as a feature that is off, not 500
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
         $this->expectExceptionMessage('Plugin requests are not enabled');
 
         // called directly, as a dispatch that fails leaves its output buffer open
@@ -205,7 +230,16 @@ class ManageRequestsTest extends IntegrationTestCase
         $service = new Service();
         $service->setOnDownloadCallback(static function ($action) use ($service) {
             if ($action === 'plugins') {
-                return $service->getFixtureContent('v2.0_plugins.json');
+                $plugins = json_decode($service->getFixtureContent('v2.0_plugins.json'), true);
+                foreach ($plugins['plugins'] as &$plugin) {
+                    if ($plugin['name'] === 'Barometer' && self::$barometerRequires !== null) {
+                        foreach ($plugin['versions'] as &$version) {
+                            $version['requires'] = self::$barometerRequires;
+                        }
+                    }
+                }
+
+                return json_encode($plugins);
             }
             if ($action === 'themes') {
                 return $service->getFixtureContent('v2.0_themes.json');
