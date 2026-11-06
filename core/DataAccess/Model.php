@@ -220,6 +220,13 @@ class Model
 
         $existingInvalidations = $this->getExistingInvalidations($idSites, $periodCondition, $nameCondition);
 
+        // invalidations on hold count as existing, they absorb the new ones and must not be dropped as already processed
+        Db::query(
+            "UPDATE `" . Common::prefixTable('archive_invalidations') . "` SET ts_invalidated = ?
+              WHERE idsite IN (" . implode(',', array_map('intval', $idSites)) . ") AND status = ? $periodCondition AND $nameCondition",
+            [$now, ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]
+        );
+
         $hashesOfAllSegmentsToArchiveInCoreArchive = Rules::getSegmentsToProcess($idSites);
         $hashesOfAllSegmentsToArchiveInCoreArchive = array_map(function ($definition) {
             return Segment::getSegmentHash($definition);
@@ -893,17 +900,21 @@ class Model
     }
 
     /**
-     * Deletes the invalidation of an archive that was processed. An invalidation another archiver took over meanwhile,
-     * eg put on hold after the job timed out, is kept: invalidations added since are merged into it, so it must be
-     * processed again.
+     * Deletes the invalidation of an archive that was processed. If another archiver put it on hold meanwhile, eg after
+     * the job timed out, it is kept when the archive was invalidated again since, as that invalidation was merged into
+     * it, so it is processed again.
      *
      * @param array<array-key, string|int|float|null> $invalidation
      */
     public function deleteProcessedInvalidation(array $invalidation): void
     {
         Db::query(
-            'DELETE FROM `' . Common::prefixTable('archive_invalidations') . '` WHERE idinvalidation = ? AND status = ?',
-            [$invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]
+            'DELETE FROM `' . Common::prefixTable('archive_invalidations') . '`
+              WHERE idinvalidation = ? AND (status = ? OR (status = ? AND ts_invalidated = ?))',
+            [
+                $invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $invalidation['ts_invalidated'] ?? null,
+            ]
         );
     }
 
