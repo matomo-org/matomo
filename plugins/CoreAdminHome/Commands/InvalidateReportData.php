@@ -144,18 +144,22 @@ class InvalidateReportData extends ConsoleCommand
     private function warnAboutGivenUpArchives(array $sites, array $periodTypes, array $dateRanges): void
     {
         $dates = [];
+        $ranges = [];
         foreach ($periodTypes as $periodType) {
             foreach ($dateRanges as $dateRange) {
-                // skipped when invalidating, see invalidateRangePeriods()
-                if ($periodType === 'range' && !Period::isMultiplePeriod($dateRange, 'day')) {
-                    continue;
+                if ($periodType !== 'range') {
+                    array_push($dates, ...$this->getPeriodDates($periodType, $dateRange));
+                } elseif (Period::isMultiplePeriod($dateRange, 'day')) { // others are skipped, see invalidateRangePeriods()
+                    [$startDate, $endDate] = $this->getPeriodDates('range', $dateRange);
+                    $ranges[] = $startDate->toString() . ',' . $endDate->toString();
                 }
-
-                array_push($dates, ...$this->getPeriodDates($periodType, $dateRange));
             }
         }
 
-        $warning = (new ArchiveFailures())->getGivenUpWarning($sites, $dates, 'day');
+        // the years around other periods include the ranges of the same dates
+        $warning = empty($dates)
+            ? (new ArchiveFailures())->getGivenUpWarning($sites, $ranges, 'range')
+            : (new ArchiveFailures())->getGivenUpWarning($sites, $dates, 'day');
         if (null !== $warning) {
             $this->logger->warning($warning);
         }
