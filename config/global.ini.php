@@ -395,7 +395,7 @@ archive_failure_recovery_timeout = 86400
 ; core:archive skips an archive that failed, and the periods built from it, until this many seconds have passed.
 ; One comma separated value per failed attempt, the last one is used for any further attempt. Each value is capped at
 ; one year, an invalid list is ignored in favour of the default.
-archive_failure_retry_delays = "3600,21600,86400,86400"
+archive_failure_retry_delays = "3600,21600,86400"
 
 ; After this many failed attempts core:archive stops retrying an archive (minimum 1).
 ; Use ./console core:archive-failures to list failed archives and retry them.
