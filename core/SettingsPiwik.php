@@ -348,7 +348,7 @@ class SettingsPiwik
 
     /**
      * Returns true if a website's total unique visitors and users for the given period are estimated rather
-     * than counted. Days are always counted, and so is an empty period label, which callers use when there's no period.
+     * than counted. Days, and an empty period label, are always counted.
      *
      * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
      */

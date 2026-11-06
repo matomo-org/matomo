@@ -166,8 +166,7 @@ class HyperLogLog
         }
         $z += $m * self::sigma($counts[0] / $m);
 
-        // only reachable with a broken hash or sketch (eg every register in the top rank): don't divide by
-        // zero or overflow the int
+        // only a broken sketch gets here (eg every register at the top rank): don't divide by zero or overflow
         if ($z == 0) {
             return PHP_INT_MAX;
         }
