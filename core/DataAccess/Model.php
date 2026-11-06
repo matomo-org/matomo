@@ -892,6 +892,21 @@ class Model
         }
     }
 
+    /**
+     * Deletes the invalidation of an archive that was processed. An invalidation another archiver took over meanwhile,
+     * eg put on hold after the job timed out, is kept: invalidations added since are merged into it, so it must be
+     * processed again.
+     *
+     * @param array<array-key, string|int|float|null> $invalidation
+     */
+    public function deleteProcessedInvalidation(array $invalidation): void
+    {
+        Db::query(
+            'DELETE FROM `' . Common::prefixTable('archive_invalidations') . '` WHERE idinvalidation = ? AND status = ?',
+            [$invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]
+        );
+    }
+
     public function deleteInvalidations($archiveInvalidations)
     {
         $ids = array_column($archiveInvalidations, 'idinvalidation');
@@ -1065,7 +1080,7 @@ class Model
      * To avoid duplicate invalidations in the database, the method is also meant to prevent having duplicates after a reset
      * Therefor below code will check if any of the invalidations to be reset should be removed instead
      * An invalidation can be safely removed
-     *  - if there exists another queued invalidation with the same parameters
+     *  - if there exists another queued or on hold invalidation with the same parameters
      *  - if there is another running invalidation, that had been started after the current one was invalidated
      * Otherwise the invalidation will be reset
      *
