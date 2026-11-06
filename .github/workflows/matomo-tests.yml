@@ -62,15 +62,15 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         environment: &php-environments
-          - php: '8.1'
+          - php: '8.6'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mysql'
             mysql-version: '8.0'
-          - php: '8.2'
+          - php: '8.6'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mariadb'
             mysql-version: '10.6'
-          - php: '8.5'
+          - php: '8.6'
             adapter: 'MYSQLI'
             mysql-engine: 'Mysql'
             mysql-version: '8.0'
@@ -400,7 +400,7 @@ jobs:
         with:
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
-          php-version: '8.1'
+          php-version: '8.6'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
           node-version: '24'
@@ -437,7 +437,7 @@ jobs:
             --core-tests-only --num-test-groups=${{ strategy.job-total }}
             --test-group=${{ strategy.job-index }}
           test-type: 'UI'
-          php-version: '8.1'
+          php-version: '8.6'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
           node-version: '24'
