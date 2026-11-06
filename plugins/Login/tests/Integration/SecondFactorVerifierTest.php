@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Plugins\Login\tests\Integration;
 
 use Piwik\Auth;
@@ -32,20 +34,14 @@ class SecondFactorVerifierTest extends IntegrationTestCase
     private const USER_WITHOUT_SECOND_FACTOR = 'userWithoutSecondFactor';
     private const VALID_CODE = 'valid-code';
 
-    /**
-     * @var SecondFactorVerifier
-     */
-    private $verifier;
+    private SecondFactorVerifier $verifier;
 
-    /**
-     * @var BruteForceDetection
-     */
-    private $bruteForceDetection;
+    private BruteForceDetection $bruteForceDetection;
 
     /**
      * @var string[]
      */
-    private $verifiedCodes = [];
+    private array $verifiedCodes = [];
 
     public function setUp(): void
     {
@@ -73,18 +69,21 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         parent::tearDown();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function provideContainerConfig()
     {
         return [
             'Piwik\Access' => new FakeAccess(),
             // a second factor provider, as e.g. TwoFactorAuth implements it
             'observers.global' => DI::add([
-                ['Login.userRequiresSecondFactorConfirmation', DI::value(function (&$required, $login) {
+                ['Login.userRequiresSecondFactorConfirmation', DI::value(function (bool &$required, string $login): void {
                     if ($login !== self::USER_WITHOUT_SECOND_FACTOR) {
                         $required = true;
                     }
                 })],
-                ['Login.verifySecondFactor', DI::value(function (&$isValid, $login, $code) {
+                ['Login.verifySecondFactor', DI::value(function (bool &$isValid, string $login, string $code): void {
                     $this->verifiedCodes[] = $code;
                     if ($login !== self::USER_WITHOUT_SECOND_FACTOR && $code === self::VALID_CODE) {
                         $isValid = true;
@@ -94,7 +93,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         ];
     }
 
-    public function testRequireSecondFactorConfirmedPassesWithoutConfirmationForUsersWithoutSecondFactor()
+    public function testRequireSecondFactorConfirmedPassesWithoutConfirmationForUsersWithoutSecondFactor(): void
     {
         FakeAccess::$identity = self::USER_WITHOUT_SECOND_FACTOR;
 
@@ -102,7 +101,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertTrue($this->verifier->requireSecondFactorConfirmed($this->getActionParams()));
     }
 
-    public function testRequireSecondFactorConfirmedRedirectsToTheConfirmationOfANewRequest()
+    public function testRequireSecondFactorConfirmedRedirectsToTheConfirmationOfANewRequest(): void
     {
         $this->assertTrue($this->verifier->isSecondFactorRequired(self::USER_WITH_SECOND_FACTOR));
 
@@ -124,7 +123,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertTrue($verifier->hasConfirmationBeenRequested($matches[1]));
     }
 
-    public function testConfirmationPageFallsBackToLoginWhenTheLoginPluginInUseDoesNotProvideIt()
+    public function testConfirmationPageFallsBackToLoginWhenTheLoginPluginInUseDoesNotProvideIt(): void
     {
         $auth = $this->createMock(Auth::class);
         $auth->method('getName')->willReturn('LoginPluginWithoutConfirmationPage');
@@ -140,7 +139,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertStringContainsString('module=Login&action=confirmSecondFactor', $message);
     }
 
-    public function testConfirmationPageIsShownByThePluginOfTheActionWhenLoginIsNotActivated()
+    public function testConfirmationPageIsShownByThePluginOfTheActionWhenLoginIsNotActivated(): void
     {
         $auth = $this->createMock(Auth::class);
         $auth->method('getName')->willReturn('Login');
@@ -164,12 +163,12 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertStringContainsString('module=TwoFactorAuth&action=confirmSecondFactor', $message);
     }
 
-    public function testRequireSecondFactorConfirmedFailsWithoutConfirmation()
+    public function testRequireSecondFactorConfirmedFailsWithoutConfirmation(): void
     {
         $this->assertFalse($this->verifier->requireSecondFactorConfirmed($this->getActionParams()));
     }
 
-    public function testConfirmSecondFactorFailsForUnknownRequest()
+    public function testConfirmSecondFactorFailsForUnknownRequest(): void
     {
         $this->verifier->requestConfirmation($this->getActionParams());
 
@@ -178,7 +177,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertSame([], $this->verifiedCodes);
     }
 
-    public function testConfirmSecondFactorRejectsInvalidCodeAndRecordsFailedAttempt()
+    public function testConfirmSecondFactorRejectsInvalidCodeAndRecordsFailedAttempt(): void
     {
         $requestId = $this->verifier->requestConfirmation($this->getActionParams());
 
@@ -190,7 +189,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertSame(self::USER_WITH_SECOND_FACTOR, $attempts[0]['login']);
     }
 
-    public function testConfirmSecondFactorRedirectsToTheActionWithAConfirmationToken()
+    public function testConfirmSecondFactorRedirectsToTheActionWithAConfirmationToken(): void
     {
         $requestId = $this->verifier->requestConfirmation(['module' => 'MyPlugin', 'action' => 'myAction', 'value' => 'a&b=c']);
 
@@ -204,7 +203,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertFalse($this->verifier->hasConfirmationBeenRequested($requestId));
     }
 
-    public function testConfirmationCanBeUsedOnlyOnce()
+    public function testConfirmationCanBeUsedOnlyOnce(): void
     {
         $this->confirm($this->getActionParams());
 
@@ -212,7 +211,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertFalse($this->verifier->requireSecondFactorConfirmed($this->getActionParams()));
     }
 
-    public function testConfirmationRequiresItsToken()
+    public function testConfirmationRequiresItsToken(): void
     {
         $this->confirm($this->getActionParams());
 
@@ -223,7 +222,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertFalse($this->verifier->requireSecondFactorConfirmed($this->getActionParams()));
     }
 
-    public function testConfirmingOneRequestDoesNotConfirmAnotherRequestInTheSameSession()
+    public function testConfirmingOneRequestDoesNotConfirmAnotherRequestInTheSameSession(): void
     {
         $otherParams = ['module' => 'MyPlugin', 'action' => 'otherAction'];
         $otherRequestId = $this->verifier->requestConfirmation($otherParams);
@@ -234,7 +233,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertFalse($this->verifier->requireSecondFactorConfirmed($otherParams));
     }
 
-    public function testConfirmationIsOnlyValidForTheRequestedAction()
+    public function testConfirmationIsOnlyValidForTheRequestedAction(): void
     {
         $this->confirm($this->getActionParams());
 
@@ -242,7 +241,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertFalse($this->verifier->requireSecondFactorConfirmed(['module' => 'OtherPlugin', 'action' => 'myAction']));
     }
 
-    public function testConfirmationIsOnlyValidForTheUserWhoConfirmed()
+    public function testConfirmationIsOnlyValidForTheUserWhoConfirmed(): void
     {
         $this->confirm($this->getActionParams());
 
@@ -250,7 +249,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertFalse($this->verifier->requireSecondFactorConfirmed($this->getActionParams()));
     }
 
-    public function testConfirmationExpires()
+    public function testConfirmationExpires(): void
     {
         $this->confirm($this->getActionParams());
 
@@ -259,7 +258,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertFalse($this->verifier->requireSecondFactorConfirmed($this->getActionParams()));
     }
 
-    public function testRequestExpires()
+    public function testRequestExpires(): void
     {
         $requestId = $this->verifier->requestConfirmation($this->getActionParams());
 
@@ -269,7 +268,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertNull($this->verifier->confirmSecondFactor($requestId, self::VALID_CODE));
     }
 
-    public function testRequestIsOnlyValidForTheUserWhoRequestedIt()
+    public function testRequestIsOnlyValidForTheUserWhoRequestedIt(): void
     {
         $requestId = $this->verifier->requestConfirmation($this->getActionParams());
 
@@ -279,7 +278,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->assertNull($this->verifier->confirmSecondFactor($requestId, self::VALID_CODE));
     }
 
-    public function testConfirmSecondFactorIsRefusedWhenIpIsBlocked()
+    public function testConfirmSecondFactorIsRefusedWhenIpIsBlocked(): void
     {
         $requestId = $this->verifier->requestConfirmation($this->getActionParams());
 
@@ -295,7 +294,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->verifier->confirmSecondFactor($requestId, self::VALID_CODE);
     }
 
-    public function testConfirmSecondFactorIsRefusedWhenUserLoginIsBlocked()
+    public function testConfirmSecondFactorIsRefusedWhenUserLoginIsBlocked(): void
     {
         $requestId = $this->verifier->requestConfirmation($this->getActionParams());
 
@@ -314,7 +313,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         $this->verifier->confirmSecondFactor($requestId, self::VALID_CODE);
     }
 
-    public function testConfirmSecondFactorNeitherChecksNorRecordsAttemptsWhenBruteForceDetectionIsDisabled()
+    public function testConfirmSecondFactorNeitherChecksNorRecordsAttemptsWhenBruteForceDetectionIsDisabled(): void
     {
         $settings = new SystemSettings();
         $this->setBruteForceDetectionEnabled($settings, false);
@@ -336,7 +335,7 @@ class SecondFactorVerifierTest extends IntegrationTestCase
         }
     }
 
-    public function testPendingRequestsAreCapped()
+    public function testPendingRequestsAreCapped(): void
     {
         $firstRequestId = $this->verifier->requestConfirmation($this->getActionParams());
         for ($i = 0; $i < 10; $i++) {

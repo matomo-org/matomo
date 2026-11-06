@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Plugins\Login;
 
 use Piwik\Container\StaticContainer;
@@ -45,26 +47,28 @@ use Piwik\Url;
 class SecondFactorVerifier
 {
     /**
-     * The query parameter identifying a pending confirmation request on the confirmation page.
+     * Query parameter identifying a pending request on the confirmation page.
      */
     public const REQUEST_ID_PARAMETER = 'secondFactorRequest';
 
     /**
-     * The query parameter carrying a confirmation back to the action.
+     * Query parameter carrying a confirmation back to the action.
      */
     public const CONFIRMATION_TOKEN_PARAMETER = 'secondFactorToken';
 
     /**
-     * How long the user has to confirm the second factor after it was requested.
+     * Minutes the user has to confirm a request.
      */
     public const REQUEST_VALID_FOR_MINUTES = 30;
 
     /**
-     * How long a confirmation can be used once given. Only covers the redirect back to the action.
+     * Minutes a confirmation stays usable; it only needs to cover the redirect back to the action.
      */
     public const CONFIRMATION_VALID_FOR_MINUTES = 5;
 
-    private const MAX_PENDING_ENTRIES = 10;
+    private const MAX_ENTRIES = 10;
+    private const REQUESTS = 'secondFactorRequests';
+    private const CONFIRMATIONS = 'secondFactorConfirmations';
 
     private ?Date $now = null;
 
@@ -162,15 +166,13 @@ class SecondFactorVerifier
     {
         $requestId = $this->generateRandomId();
 
-        $session = $this->getSession();
-        $requests = $this->withoutExpiredEntries($session->secondFactorRequests, self::REQUEST_VALID_FOR_MINUTES);
+        $requests = $this->getEntries(self::REQUESTS, self::REQUEST_VALID_FOR_MINUTES);
         $requests[$requestId] = [
             'login' => Piwik::getCurrentUserLogin(),
             'params' => $redirectParams,
             'time' => $this->getNow()->getTimestamp(),
         ];
-        $session->secondFactorRequests = array_slice($requests, -self::MAX_PENDING_ENTRIES, null, true);
-        $session->setExpirationSeconds(self::REQUEST_VALID_FOR_MINUTES * 60, 'secondFactorRequests');
+        $this->setEntries(self::REQUESTS, $requests, self::REQUEST_VALID_FOR_MINUTES);
 
         return $requestId;
     }
@@ -197,13 +199,27 @@ class SecondFactorVerifier
     ): ?string {
         $request = $this->getPendingRequest($requestId);
 
-        if ($request === null) {
+        if ($request === null || !$this->verifyCode($request['login'], $code)) {
             return null;
         }
 
-        $login = $request['login'];
+        $requests = $this->getEntries(self::REQUESTS, self::REQUEST_VALID_FOR_MINUTES);
+        unset($requests[$requestId]);
+        $this->setEntries(self::REQUESTS, $requests, self::REQUEST_VALID_FOR_MINUTES);
 
-        // checked here rather than through the Login plugin's events, which are not posted while it is deactivated
+        $params = $request['params'];
+        $params[self::CONFIRMATION_TOKEN_PARAMETER] = $this->storeConfirmation($request['login'], $params);
+        $params = array_map(static fn ($value): string => rawurlencode((string) $value), $params);
+
+        return 'index.php' . Url::getCurrentQueryStringWithParametersModified($params);
+    }
+
+    private function verifyCode(
+        string $login,
+        #[\SensitiveParameter]
+        string $code
+    ): bool {
+        // not through the Login plugin's events, which are not posted while it is deactivated
         $bruteForce = StaticContainer::get(BruteForceDetection::class);
         $isBruteForceDetectionEnabled = $bruteForce->isEnabled();
         $ip = IP::getIpFromHeader();
@@ -240,41 +256,70 @@ class SecondFactorVerifier
         Piwik::postEvent('Login.verifySecondFactor', [&$isValid, $login, $code]);
 
         /** @var bool $isValid set by reference in the event */
-        if (!$isValid) {
-            if ($isBruteForceDetectionEnabled) {
-                $bruteForce->addFailedAttempt($ip, $login);
-            }
+        if (!$isValid && $isBruteForceDetectionEnabled) {
+            $bruteForce->addFailedAttempt($ip, $login);
+        }
 
+        return $isValid;
+    }
+
+    /**
+     * @param array<string, string|int> $params
+     */
+    private function storeConfirmation(string $login, array $params): string
+    {
+        $token = $this->generateRandomId();
+
+        $confirmations = $this->getEntries(self::CONFIRMATIONS, self::CONFIRMATION_VALID_FOR_MINUTES);
+        $confirmations[$token] = [
+            'login' => $login,
+            'module' => (string) ($params['module'] ?? ''),
+            'action' => (string) ($params['action'] ?? ''),
+            'time' => $this->getNow()->getTimestamp(),
+        ];
+        $this->setEntries(self::CONFIRMATIONS, $confirmations, self::CONFIRMATION_VALID_FOR_MINUTES);
+
+        return $token;
+    }
+
+    /**
+     * @param array<string, string|int> $redirectParams
+     */
+    private function consumeConfirmation(string $token, string $login, array $redirectParams): bool
+    {
+        $confirmations = $this->getEntries(self::CONFIRMATIONS, self::CONFIRMATION_VALID_FOR_MINUTES);
+        $confirmation = $confirmations[$token] ?? null;
+
+        if (
+            $confirmation === null
+            || ($confirmation['login'] ?? null) !== $login
+            || ($confirmation['module'] ?? null) !== (string) ($redirectParams['module'] ?? '')
+            || ($confirmation['action'] ?? null) !== (string) ($redirectParams['action'] ?? '')
+        ) {
+            return false;
+        }
+
+        unset($confirmations[$token]);
+        $this->setEntries(self::CONFIRMATIONS, $confirmations, self::CONFIRMATION_VALID_FOR_MINUTES);
+
+        return true;
+    }
+
+    /**
+     * @return array{login: string, params: array<string, string|int>}|null
+     */
+    private function getPendingRequest(string $requestId): ?array
+    {
+        $request = $this->getEntries(self::REQUESTS, self::REQUEST_VALID_FOR_MINUTES)[$requestId] ?? null;
+        $login = $request['login'] ?? null;
+        $params = $request['params'] ?? null;
+
+        if (!is_string($login) || $login !== Piwik::getCurrentUserLogin() || !is_array($params)) {
             return null;
         }
 
-        $session = $this->getSession();
-
-        $requests = $session->secondFactorRequests;
-        unset($requests[$requestId]);
-        $session->secondFactorRequests = $requests;
-
-        $token = $this->generateRandomId();
-        $confirmations = $this->withoutExpiredEntries(
-            $session->secondFactorConfirmations,
-            self::CONFIRMATION_VALID_FOR_MINUTES
-        );
-        $confirmations[$token] = [
-            'login' => $login,
-            'module' => (string) ($request['params']['module'] ?? ''),
-            'action' => (string) ($request['params']['action'] ?? ''),
-            'time' => $this->getNow()->getTimestamp(),
-        ];
-        $session->secondFactorConfirmations = array_slice($confirmations, -self::MAX_PENDING_ENTRIES, null, true);
-        $session->setExpirationSeconds(self::CONFIRMATION_VALID_FOR_MINUTES * 60, 'secondFactorConfirmations');
-
-        $params = $request['params'];
-        $params[self::CONFIRMATION_TOKEN_PARAMETER] = $token;
-        $params = array_map(function ($value) {
-            return rawurlencode((string) $value);
-        }, $params);
-
-        return 'index.php' . Url::getCurrentQueryStringWithParametersModified($params);
+        /** @var array<string, string|int> $params only written by requestConfirmation() */
+        return ['login' => $login, 'params' => $params];
     }
 
     /**
@@ -286,7 +331,7 @@ class SecondFactorVerifier
      */
     private function getConfirmationModule(array $redirectParams): string
     {
-        $loginPlugin = Piwik::getLoginPluginName();
+        $loginPlugin = (string) Piwik::getLoginPluginName();
         if ($this->isPluginActivated($loginPlugin) && $this->providesConfirmationPage($loginPlugin)) {
             return $loginPlugin;
         }
@@ -323,71 +368,38 @@ class SecondFactorVerifier
     }
 
     /**
-     * @return array{login: string, params: array<string, string|int>, time: int}|null
+     * Returns the unexpired entries stored under the given session key.
+     *
+     * @return array<array<mixed>>
      */
-    private function getPendingRequest(string $requestId): ?array
+    private function getEntries(string $key, int $validForMinutes): array
     {
-        $requests = $this->getSession()->secondFactorRequests;
-        $request = is_array($requests) ? ($requests[$requestId] ?? null) : null;
+        $entries = $this->getSession()->$key;
 
-        if (
-            !is_array($request)
-            || ($request['login'] ?? null) !== Piwik::getCurrentUserLogin()
-            || !is_array($request['params'] ?? null)
-            || $this->isExpired($request['time'] ?? null, self::REQUEST_VALID_FOR_MINUTES)
-        ) {
-            return null;
-        }
-
-        return $request;
-    }
-
-    /**
-     * @param array<string, string|int> $redirectParams
-     */
-    private function consumeConfirmation(string $token, string $login, array $redirectParams): bool
-    {
-        $session = $this->getSession();
-        $confirmations = $session->secondFactorConfirmations;
-        $confirmation = is_array($confirmations) ? ($confirmations[$token] ?? null) : null;
-
-        if (
-            !is_array($confirmation)
-            || ($confirmation['login'] ?? null) !== $login
-            || ($confirmation['module'] ?? null) !== (string) ($redirectParams['module'] ?? '')
-            || ($confirmation['action'] ?? null) !== (string) ($redirectParams['action'] ?? '')
-            || $this->isExpired($confirmation['time'] ?? null, self::CONFIRMATION_VALID_FOR_MINUTES)
-        ) {
-            return false;
-        }
-
-        unset($confirmations[$token]);
-        $session->secondFactorConfirmations = $confirmations;
-
-        return true;
-    }
-
-    /**
-     * @param mixed $entries
-     * @return array<string, array<string, mixed>>
-     */
-    private function withoutExpiredEntries($entries, int $validForMinutes): array
-    {
         if (!is_array($entries)) {
             return [];
         }
 
-        return array_filter($entries, function ($entry) use ($validForMinutes) {
-            return is_array($entry) && !$this->isExpired($entry['time'] ?? null, $validForMinutes);
-        });
+        $oldestValidTime = $this->getNow()->getTimestamp() - $validForMinutes * 60;
+
+        return array_filter(
+            $entries,
+            static fn (mixed $entry): bool => is_array($entry)
+                && is_int($entry['time'] ?? null)
+                && $entry['time'] >= $oldestValidTime
+        );
     }
 
     /**
-     * @param mixed $timestamp
+     * Stores the newest entries under the given session key, which expires with them.
+     *
+     * @param array<array<mixed>> $entries
      */
-    private function isExpired($timestamp, int $validForMinutes): bool
+    private function setEntries(string $key, array $entries, int $validForMinutes): void
     {
-        return !is_int($timestamp) || $this->getNow()->getTimestamp() > $timestamp + $validForMinutes * 60;
+        $session = $this->getSession();
+        $session->$key = array_slice($entries, -self::MAX_ENTRIES, null, true);
+        $session->setExpirationSeconds($validForMinutes * 60, $key);
     }
 
     private function generateRandomId(): string

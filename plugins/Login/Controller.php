@@ -293,10 +293,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     /**
      * Asks the user to confirm a sensitive action with their second factor, see {@link SecondFactorVerifier}.
-     *
-     * @return string|void
      */
-    public function confirmSecondFactor()
+    public function confirmSecondFactor(): string
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
@@ -305,7 +303,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $requestId = Request::fromRequest()->getStringParameter(SecondFactorVerifier::REQUEST_ID_PARAMETER, '');
 
         if (!$secondFactorVerifier->hasConfirmationBeenRequested($requestId)) {
-            // eg after the confirmation was completed or expired, so there is nothing left to confirm
+            // completed or expired, nothing left to confirm
             Url::redirectToUrl('index.php');
         }
 
@@ -337,7 +335,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'nonce'             => Nonce::getNonce($nonceKey),
             'requestId'         => $requestId,
             'AccessErrorString' => $messageNoAccess,
-            // the page may be shown by another plugin's action, see SecondFactorVerifier
+            // the page can be served by another plugin's action, see SecondFactorVerifier
             'confirmModule'     => Piwik::getModule() ?: $this->pluginName,
             'whatsNewChanges'   => $this->getWhatsNewChanges(),
         ]);

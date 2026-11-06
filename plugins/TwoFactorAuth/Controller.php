@@ -38,6 +38,8 @@ class Controller extends \Piwik\Plugin\Controller
     public const REGENERATE_CODES_2FA_NONCE = 'TwoFactorAuth.regenerateCodes';
     public const VERIFY_PASSWORD_NONCE = 'TwoFactorAuth.verifyPassword';
 
+    private const SETUP_SECRET_VALID_FOR_SECONDS = 900;
+
     private SystemSettings $settings;
 
     private RecoveryCodeDao $recoveryCodeDao;
@@ -147,11 +149,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderTemplate('userSettings', array(
             'isEnabled' => TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin()),
             'isForced' => $this->twoFa->isUserRequiredToHaveTwoFactorEnabled(),
-            // valid as long as the confirmations it covers
-            'disableNonce' => Nonce::getNonce(
-                self::DISABLE_2FA_NONCE,
-                SecondFactorVerifier::REQUEST_VALID_FOR_MINUTES * 60
-            ),
+            'disableNonce' => $this->getDisableNonce(),
         ));
     }
 
@@ -165,7 +163,7 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('Two-factor authentication cannot be disabled as it is enforced');
         }
 
-        // the nonce is only consumed once 2FA is turned off; each step extends it for the next confirmation
+        // only consumed once 2FA is turned off
         $nonce = Request::fromRequest()->getStringParameter('disableNonce', '');
         if (!Nonce::verifyNonce(self::DISABLE_2FA_NONCE, $nonce)) {
             throw new BadRequestException(Piwik::translate('General_ExceptionSecurityCheckFailed'));
@@ -174,10 +172,7 @@ class Controller extends \Piwik\Plugin\Controller
         $params = [
             'module' => 'TwoFactorAuth',
             'action' => 'disableTwoFactorAuth',
-            'disableNonce' => Nonce::getNonce(
-                self::DISABLE_2FA_NONCE,
-                SecondFactorVerifier::REQUEST_VALID_FOR_MINUTES * 60
-            ),
+            'disableNonce' => $this->getDisableNonce(),
         ];
 
         if (
@@ -206,9 +201,27 @@ class Controller extends \Piwik\Plugin\Controller
         ));
     }
 
+    /**
+     * Shows the second-factor confirmation if neither the login plugin in use nor Login can, see
+     * {@link SecondFactorVerifier}.
+     */
+    public function confirmSecondFactor(): string
+    {
+        return StaticContainer::get(\Piwik\Plugins\Login\Controller::class)->confirmSecondFactor();
+    }
+
+    /**
+     * The nonce stays valid as long as the confirmations it covers.
+     */
+    private function getDisableNonce(): string
+    {
+        return Nonce::getNonce(self::DISABLE_2FA_NONCE, SecondFactorVerifier::REQUEST_VALID_FOR_MINUTES * 60);
+    }
+
     private function requireSetupConfirmed(): void
     {
-        if (!$this->secondFactorVerifier->requireSecondFactorConfirmed(['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth'])) {
+        $params = ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth'];
+        if (!$this->secondFactorVerifier->requireSecondFactorConfirmed($params)) {
             // should usually not go in here but redirect instead
             throw new Exception('You have to confirm your authentication code first.');
         }
@@ -216,23 +229,12 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function setSetupSecretExpiration(SessionNamespace $session): void
     {
-        $session->setExpirationSeconds(60 * 15, 'secret');
-        $session->setExpirationSeconds(60 * 15, 'secretLogin');
-        $session->setExpirationSeconds(60 * 15, 'secretConfirmed');
+        foreach (['secret', 'secretLogin', 'secretConfirmed'] as $key) {
+            $session->setExpirationSeconds(self::SETUP_SECRET_VALID_FOR_SECONDS, $key);
+        }
     }
 
-    /**
-     * Shows the second-factor confirmation if neither the login plugin in use nor Login can, see
-     * {@link SecondFactorVerifier}.
-     *
-     * @return string|void
-     */
-    public function confirmSecondFactor()
-    {
-        return StaticContainer::get(\Piwik\Plugins\Login\Controller::class)->confirmSecondFactor();
-    }
-
-    private function make2faSession()
+    private function make2faSession(): SessionNamespace
     {
         return new SessionNamespace('TwoFactorAuthenticator');
     }
@@ -283,14 +285,11 @@ class Controller extends \Piwik\Plugin\Controller
         $authCode = $request->getStringParameter('authCode', '');
         $authCodeNonce = $request->getStringParameter('authCodeNonce', '');
         $hasSubmittedForm = !empty($authCodeNonce) || !empty($authCode);
-        // the nonce is only handed out by a rendered setup page, which needed a confirmation when replacing a device
+        // the nonce only comes from a rendered setup page, which needed a confirmation when replacing a device
         $hasSubmittedCode = !empty($authCode) && Nonce::verifyNonce(self::AUTH_CODE_NONCE, $authCodeNonce);
 
         if (!$standalone && !$hasSubmittedCode) {
-            // the user has not posted the form... at least not with a valid nonce... we make sure the password verify
-            // is valid for at least another 15 minutes and if not, ask for another password confirmation to avoid
-            // the user may be posting a valid auth code after rendering this screen but the password verify is invalid
-            // by then.
+            // keeps the password confirmation valid until the code is submitted
             $redirectParams = array('module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth');
             if (!$this->passwordVerify->requirePasswordVerifiedRecently($redirectParams)) {
                 throw new Exception('You have to verify your password first.');
@@ -299,8 +298,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $session = $this->make2faSession();
         $currentLogin = Piwik::getCurrentUserLogin();
-        // replacing a configured device shows its recovery codes and lets a new device take over, so every view
-        // of it needs a confirmation, except the answer to a code submitted from such a view
+        // replacing a device shows the recovery codes, so every view needs a confirmation, except the answer to a
+        // code submitted from a confirmed view
         $isReplacingDevice = !$standalone && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($currentLogin);
         $isConfirmed = false;
 
@@ -319,8 +318,7 @@ class Controller extends \Piwik\Plugin\Controller
             $session->secretConfirmed = $isConfirmed;
             $this->setSetupSecretExpiration($session);
         } elseif (!$isReplacingDevice) {
-            // keeps a first setup going while the user works through it; a replacement ends 15 minutes after
-            // its confirmation
+            // a first setup stays open while in use; a replacement ends 15 minutes after its confirmation
             $this->setSetupSecretExpiration($session);
         }
 
@@ -420,7 +418,7 @@ class Controller extends \Piwik\Plugin\Controller
             // regenerating is covered by the nonce above, which only a confirmed page view hands out
             $redirectParams = array('module' => 'TwoFactorAuth', 'action' => 'showRecoveryCodes');
             if (!$postedValidNonce && !empty($regenerateNonce)) {
-                // eg the page was open longer than the nonce is valid; reported once the page is confirmed again
+                // eg the nonce expired; reported once the page is confirmed again
                 $session = $this->make2faSession();
                 $session->regenerateFailed = Piwik::getCurrentUserLogin();
                 $session->setExpirationSeconds(SecondFactorVerifier::REQUEST_VALID_FOR_MINUTES * 60, 'regenerateFailed');

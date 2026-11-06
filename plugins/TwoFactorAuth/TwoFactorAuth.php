@@ -184,7 +184,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         $isValid = $twoFa->validateAuthCode($login, $twoFa->normalizeAuthCode($code));
     }
 
-    private function getTwoFa()
+    private function getTwoFa(): TwoFactorAuthentication
     {
         return StaticContainer::get(TwoFactorAuthentication::class);
     }
