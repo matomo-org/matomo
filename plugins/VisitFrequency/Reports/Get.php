@@ -21,6 +21,7 @@ use Piwik\Plugins\VisitFrequency\API;
 use Piwik\Plugins\VisitFrequency\Columns\Metrics\ReturningMetric;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\SettingsPiwik;
+use Piwik\ViewDataTable\EstimatedUniques;
 use Piwik\Widget\WidgetsList;
 
 class Get extends \Piwik\Plugin\Report
@@ -112,14 +113,12 @@ class Get extends \Piwik\Plugin\Report
 
     public function configureView(ViewDataTable $view)
     {
-        if (SettingsPiwik::isUniqueVisitorsEstimated(Common::getRequestVar('period', '', 'string'))) {
-            $view->config->addTranslations(self::getEstimatedMetricTranslations());
-        }
-
         if ($view->isViewDataTableId(Sparklines::ID)) {
             $view->requestConfig->apiMethodToRequestDataTable = 'VisitFrequency.get';
             $this->addSparklineColumns($view);
             $view->config->addTranslations($this->getSparklineTranslations());
+        } elseif (SettingsPiwik::isUniqueVisitorsEstimated(Common::getRequestVar('period', '', 'string'))) {
+            EstimatedUniques::labelFromData($view, self::getEstimatedMetricTranslations());
         }
     }
 

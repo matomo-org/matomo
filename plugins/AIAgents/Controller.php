@@ -12,10 +12,10 @@ namespace Piwik\Plugins\AIAgents;
 use Piwik\Piwik;
 use Piwik\Plugin\Controller as PluginController;
 use Piwik\Plugins\AIAgents\Reports\Get;
-use Piwik\Plugins\VisitsSummary\Reports\Get as VisitsSummaryGet;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 class Controller extends PluginController
 {
@@ -74,7 +74,7 @@ class Controller extends PluginController
         }
 
         if (SettingsPiwik::isUniqueVisitorsEstimated($period)) {
-            $view->config->addTranslations(Get::getEstimatedMetricTranslations() + VisitsSummaryGet::getEstimatedMetricTranslations());
+            EstimatedUniques::labelFromData($view, Get::getEstimatedMetricTranslations() + EstimatedUniques::getMetricTranslations());
         }
 
         // Some plugins (e.g. Bandwidth) might have added new selectable columns to our

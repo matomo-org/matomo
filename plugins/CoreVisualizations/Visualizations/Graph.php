@@ -296,7 +296,7 @@ abstract class Graph extends Visualization
         );
     }
 
-    private function removeUnavailableMetrics($metrics)
+    protected function removeUnavailableMetrics($metrics)
     {
         $currentPeriod = Common::getRequestVar('period', false);
 

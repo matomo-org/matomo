@@ -14,9 +14,9 @@ use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\VisitFrequency\Reports\Get;
-use Piwik\Plugins\VisitsSummary\Reports\Get as VisitsSummaryGet;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -84,7 +84,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if (SettingsPiwik::isUniqueVisitorsEstimated((string) $period)) {
-            $view->config->addTranslations(Get::getEstimatedMetricTranslations() + VisitsSummaryGet::getEstimatedMetricTranslations());
+            EstimatedUniques::labelFromData($view, Get::getEstimatedMetricTranslations() + EstimatedUniques::getMetricTranslations());
         }
 
         return $this->renderView($view);

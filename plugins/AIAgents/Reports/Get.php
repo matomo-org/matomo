@@ -24,6 +24,7 @@ use Piwik\Plugins\AIAgents\API;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
+use Piwik\ViewDataTable\EstimatedUniques;
 use Piwik\Widget\WidgetsList;
 
 class Get extends Report
@@ -117,15 +118,13 @@ class Get extends Report
 
     public function configureView(ViewDataTable $view)
     {
-        if (SettingsPiwik::isUniqueVisitorsEstimated(Request::fromRequest()->getStringParameter('period', ''))) {
-            $view->config->addTranslations(self::getEstimatedMetricTranslations());
-        }
-
         if ($view->isViewDataTableId(Sparklines::ID)) {
             /** @var Sparklines $view */
             $view->requestConfig->apiMethodToRequestDataTable = 'AIAgents.get';
             $this->addSparklineColumns($view);
             $view->config->addTranslations($this->getSparklineTranslations());
+        } elseif (SettingsPiwik::isUniqueVisitorsEstimated(Request::fromRequest()->getStringParameter('period', ''))) {
+            EstimatedUniques::labelFromData($view, self::getEstimatedMetricTranslations());
         }
     }
 

@@ -11,10 +11,12 @@ namespace Piwik\Tests\Integration\ArchiveProcessor;
 
 use Piwik\API\Request;
 use Piwik\Archive;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\FrontController;
@@ -458,13 +460,16 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertEqualsWithDelta($this->countExact('user_id', 1, 10), $row['nb_users'], 2);
     }
 
-    public function testEvolutionGraphLabelsTheEstimate()
+    /**
+     * @dataProvider getEvolutionGraphLabels
+     */
+    public function testEvolutionGraphLabelsTheEstimate(string $period, string $date, string $label)
     {
         [$get, $request] = [$_GET, $_REQUEST];
         $_GET = $_REQUEST = [
             'idSite' => 1,
-            'period' => 'month',
-            'date' => '2024-03-01',
+            'period' => $period,
+            'date' => $date,
             'columns' => 'nb_uniq_visitors',
             'viewDataTable' => 'graphEvolution',
             'forceView' => 1,
@@ -475,7 +480,109 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
             [$_GET, $_REQUEST] = [$get, $request];
         }
 
-        $this->assertStringContainsString('"label":"VisitsSummary_ColumnNbUniqVisitorsEstimated"', html_entity_decode($html, ENT_QUOTES));
+        // the entry in the series picker
+        $this->assertStringContainsString('"column":"nb_uniq_visitors","translation":"' . $label . '"', html_entity_decode($html, ENT_QUOTES));
+    }
+
+    public function getEvolutionGraphLabels(): array
+    {
+        return [
+            'months, estimated' => ['month', '2024-03-01', 'VisitsSummary_ColumnNbUniqVisitorsEstimated'],
+            // a range's graph plots its days, which are counted exactly
+            'range, plotting days' => ['range', '2024-03-01,2024-03-10', 'General_ColumnNbUniqVisitors'],
+        ];
+    }
+
+    /**
+     * @dataProvider getEvolutionGraphSeries
+     */
+    public function testEvolutionGraphPlotsTheUniquesOfWebsiteTotals(string $module, string $action, string $period, string $date, bool $estimate, array $expected)
+    {
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', (int) $estimate);
+
+        $this->assertSame($expected, $this->getPlottedSeries($module, $action, $period, $date, 'nb_visits,nb_uniq_visitors'));
+    }
+
+    public function getEvolutionGraphSeries(): array
+    {
+        return [
+            'year, estimated' => ['VisitsSummary', 'getEvolutionGraph', 'year', '2024-03-01', true, ['General_ColumnNbVisits', 'VisitsSummary_ColumnNbUniqVisitorsEstimated']],
+            // a range's graph plots its days, which are counted exactly
+            'range, plotting days' => ['VisitsSummary', 'getEvolutionGraph', 'range', '2024-03-01,2024-03-10', true, ['General_ColumnNbVisits', 'General_ColumnNbUniqVisitors']],
+            'year, setting off' => ['VisitsSummary', 'getEvolutionGraph', 'year', '2024-03-01', false, ['General_ColumnNbVisits']],
+            // report rows aren't estimated
+            'year, report rows' => ['Referrers', 'getReferrerType', 'year', '2024-03-01', true, ['Referrers_DirectEntry (General_ColumnNbVisits)']],
+        ];
+    }
+
+    public function testEvolutionGraphLeavesAGapForAYearWithoutAnEstimate()
+    {
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
+        $this->getVisitsSummary('day', '2024-03-01');
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+
+        $data = $this->getGraphData('VisitsSummary', 'getEvolutionGraph', 'year', '2024-03-01', 'nb_visits,nb_uniq_visitors', ['evolution_year_last_n' => 3]);
+
+        // years without visits are a real 0, the year with visits but no estimate is a gap
+        $this->assertSame([[0, 0, 200], [0, 0, null]], $data['data']);
+        $this->assertTrue($data['params']['series'][1]['breakOnNull']);
+    }
+
+    /**
+     * @dataProvider getSplitUniquesColumns
+     */
+    public function testSplitEvolutionGraphsLeaveAGapForAYearWithoutAnEstimate(string $module, string $columns)
+    {
+        // a day of each visitor type's segment without sketches, as if archived before the setting was on
+        Request::processRequest($module . '.get', ['idSite' => 1, 'period' => 'day', 'date' => '2024-03-01']);
+        Db::query(
+            'DELETE FROM ' . Common::prefixTable('archive_blob_2024_03') . ' WHERE name IN (?, ?) AND date1 = ? AND period = 1',
+            [PluginsArchiver::UNIQUE_VISITORS_SKETCH_RECORD, PluginsArchiver::USERS_SKETCH_RECORD, '2024-03-01']
+        );
+        // browser archiving of a segment re-applies the fixture's invalidations, which would rebuild the sketches
+        StaticContainer::get(ArchiveInvalidator::class)->forgetRememberedArchivedReportsToInvalidateForSite(1);
+
+        $data = $this->getGraphData($module, 'getEvolutionGraph', 'year', '2024-03-01', $columns, ['evolution_year_last_n' => 3]);
+
+        $this->assertSame([0, 0, null], $data['data'][1]);
+        $this->assertTrue($data['params']['series'][1]['breakOnNull']);
+    }
+
+    public function getSplitUniquesColumns(): array
+    {
+        return [
+            'new visitors' => ['VisitFrequency', 'nb_visits_new,nb_uniq_visitors_new'],
+            'human users' => ['AIAgents', 'nb_visits_human,nb_users_human'],
+        ];
+    }
+
+    private function getPlottedSeries(string $module, string $action, string $period, string $date, string $columns): array
+    {
+        $data = $this->getGraphData($module, $action, $period, $date, $columns);
+
+        return array_column($data['params']['series'], 'label');
+    }
+
+    private function getGraphData(string $module, string $action, string $period, string $date, string $columns, array $extraParams = []): array
+    {
+        [$get, $request] = [$_GET, $_REQUEST];
+        $_GET = $_REQUEST = $extraParams + [
+            'idSite' => 1,
+            'period' => $period,
+            'date' => $date,
+            'columns' => $columns,
+            'viewDataTable' => 'graphEvolution',
+            'forceView' => 1,
+        ];
+        try {
+            $html = FrontController::getInstance()->fetchDispatch($module, $action);
+        } finally {
+            [$_GET, $_REQUEST] = [$get, $request];
+        }
+
+        $this->assertSame(1, preg_match('/data-data="([^"]*)"/', $html, $matches), 'graph data not found');
+
+        return json_decode(html_entity_decode($matches[1], ENT_QUOTES), true);
     }
 
     private function getSparklines(string $period, string $date): string
