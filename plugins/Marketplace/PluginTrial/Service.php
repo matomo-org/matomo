@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace\PluginTrial;
 
 use Exception;
 use Piwik\Config\GeneralConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Session;
@@ -105,6 +106,19 @@ final class Service
         }
 
         return (new Storage($pluginName))->hasPendingRequests();
+    }
+
+    /**
+     * Returns if any user has ever requested the plugin, whether the request is still pending or was decided
+     */
+    public function hasRequests(string $pluginName): bool
+    {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
+        return (new Storage($pluginName))->wasRequested()
+            || StaticContainer::get(RequestHistory::class)->getRequests($pluginName) !== [];
     }
 
     /**

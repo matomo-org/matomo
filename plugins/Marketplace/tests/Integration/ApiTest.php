@@ -23,6 +23,7 @@ use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Tests\Framework\Fixture;
@@ -690,6 +691,42 @@ class ApiTest extends IntegrationTestCase
 
         self::assertSame(['approved'], $this->getStoredDecisions());
         self::assertFalse((new Storage('Marketplace'))->hasPendingRequests());
+    }
+
+    /**
+     * Over HTTP the Request.dispatch handler approves an activated plugin's requests before the API method runs
+     *
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsSayAnActivatedPluginsRequestsWereApprovedOnceTheyAre(string $method): void
+    {
+        $this->enablePluginRequests();
+        $this->setUser();
+        (new Storage('Marketplace'))->setRequested('Marketplace');
+        $this->setSuperUser();
+        StaticContainer::get(PluginTrialService::class)->createNotificationsIfNeeded();
+        self::assertSame(['approved'], $this->getStoredDecisions());
+
+        try {
+            $this->api->$method('Marketplace');
+            self::fail('A decision was made for an activated plugin');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_PluginAlreadyActiveRequestsApproved', $e->getMessage());
+        }
+
+        self::assertSame(['approved'], $this->getStoredDecisions());
+    }
+
+    /**
+     * @dataProvider dataDecisionMethods
+     */
+    public function testDecisionsSayAnActivatedPluginNobodyRequestedHasNoPendingRequests(string $method): void
+    {
+        $this->enablePluginRequests();
+        $this->setSuperUser();
+
+        $this->expectExceptionMessage('Marketplace_NoPendingPluginRequests');
+        $this->api->$method('Marketplace');
     }
 
     public function testApprovePluginTrialKeepsTheRequestsPendingWhenTheTrialFails(): void
