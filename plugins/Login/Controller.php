@@ -292,6 +292,56 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
+     * Asks the user to confirm a sensitive action with their second factor, see {@link SecondFactorVerifier}.
+     */
+    public function confirmSecondFactor(): string
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
+        $secondFactorVerifier = StaticContainer::get(SecondFactorVerifier::class);
+        $requestId = Request::fromRequest()->getStringParameter(SecondFactorVerifier::REQUEST_ID_PARAMETER, '');
+
+        if (!$secondFactorVerifier->hasConfirmationBeenRequested($requestId)) {
+            // completed or expired, nothing left to confirm
+            Url::redirectToUrl('index.php');
+        }
+
+        if (!Url::isValidHost()) {
+            throw new BadRequestException("Cannot confirm second factor with untrusted hostname!");
+        }
+
+        $nonceKey = 'confirmSecondFactor';
+        $messageNoAccess = '';
+        $request = Request::fromPost();
+
+        if ($request->getParameters() !== []) {
+            $nonce = $request->getStringParameter('nonce', '');
+            $code = trim($request->getStringParameter('code', ''));
+            $errorMessage = Nonce::verifyNonceWithErrorMessage($nonceKey, $nonce);
+            if ($errorMessage !== '') {
+                $messageNoAccess = $errorMessage;
+            } else {
+                $redirectUrl = $code === '' ? null : $secondFactorVerifier->confirmSecondFactor($requestId, $code);
+                if ($redirectUrl !== null) {
+                    Url::redirectToUrl($redirectUrl);
+                }
+
+                $messageNoAccess = Piwik::translate('Login_WrongSecondFactorCode');
+            }
+        }
+
+        return $this->renderTemplate('@Login/confirmSecondFactor', [
+            'nonce'             => Nonce::getNonce($nonceKey),
+            'requestId'         => $requestId,
+            'AccessErrorString' => $messageNoAccess,
+            // the page can be served by another plugin's action, see SecondFactorVerifier
+            'confirmModule'     => Piwik::getModule() ?: $this->pluginName,
+            'whatsNewChanges'   => $this->getWhatsNewChanges(),
+        ]);
+    }
+
+    /**
      * Form-less login
      * @see how to use it on https://matomo.org/faq/how-to/faq_30
      * @throws Exception

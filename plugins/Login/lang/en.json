@@ -16,6 +16,8 @@
         "ConfirmPasswordResetIntro": "Please type your new password to confirm you really requested having your password changed.",
         "ConfirmPasswordResetWrongPassword": "The entered password does not match your newly made one. Reset your password again if you don't remember it. Don't do anything to keep your password if you didn't request changing it.",
         "ConfirmPasswordToContinue": "Confirm your password to continue",
+        "ConfirmSecondFactorIntro": "Enter a code from your two-factor authentication, for example from your authenticator app, to confirm this action.",
+        "ConfirmSecondFactorToContinue": "Confirm with two-factor authentication to continue",
         "ConfirmationLinkPossiblySent": "If the provided details are associated with an account, you will receive an email to confirm the password reset.",
         "ContactAdmin": "Possible reason: your host may have disabled the mail() function. <br \/>Please contact your Matomo administrator.",
         "CreatePasswordDescription": "Make sure you remember this password and keep it in a safe place.",
@@ -83,6 +85,7 @@
         "PleaseNote": "Please note",
         "PluginDescription": "Provides username and password login as well as password reset functionality. The login method can be changed by using another login plugin such as LoginLdap available on the marketplace.",
         "RememberMe": "Remember Me",
+        "SecondFactorCode": "Authentication code",
         "SecurityTip": "Security Tip",
         "SettingBruteForceBlacklistIp": "Always block these IPs from logging in",
         "SettingBruteForceEnable": "Enable Brute-force Detection",
@@ -105,6 +108,7 @@
         "TokenAuthenticationFailed": "Unable to authenticate with the provided token. It is either invalid or expired.",
         "TokenAuthenticationFailedInsecure": "Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter or in the HTTP Authorization header. If the token was created with the 'Only allow secure requests' option, it must be sent as a POST parameter or in the HTTP Authorization header.",
         "UnblockAllIPs": "Unblock all blocked IPs",
-        "WrongPasswordEntered": "Please enter your password."
+        "WrongPasswordEntered": "Please enter your password.",
+        "WrongSecondFactorCode": "The authentication code is not correct. Please try again."
     }
 }

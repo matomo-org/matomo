@@ -11,11 +11,9 @@ namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Access;
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
-use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Controller as LoginController;
 use Piwik\Request\AuthenticationToken;
@@ -44,6 +42,8 @@ class TwoFactorAuth extends \Piwik\Plugin
             'Template.userSecurity.afterPassword' => 'render2FaUserSettings',
             'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Login.userRequiresSecondFactorConfirmation' => 'userRequiresSecondFactorConfirmation',
+            'Login.verifySecondFactor' => 'verifySecondFactor',
         );
     }
 
@@ -149,7 +149,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         if (Piwik::getModule() === 'Login' && Piwik::getAction() === 'logme' && $login) {
             // we allow user to send an "authCode" along logme to directly log in... if not, user will see the
             // auth code verification screen after logme
-            $authCode = Common::getRequestVar('authCode', '', 'string');
+            $authCode = \Piwik\Request::fromRequest()->getStringParameter('authCode', '');
             $twoFa = $this->getTwoFa();
 
             if ($authCode && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
@@ -157,13 +157,34 @@ class TwoFactorAuth extends \Piwik\Plugin
                     $sessionFingerprint = new SessionFingerprint();
                     $sessionFingerprint->setTwoFactorAuthenticationVerified($login);
                 } else {
-                    $this->recordFailedTwoFactorAttempt($login);
+                    $twoFa->recordFailedAuthAttempt($login);
                 }
             }
         }
     }
 
-    private function getTwoFa()
+    public function userRequiresSecondFactorConfirmation(bool &$requiresSecondFactor, string $login): void
+    {
+        if (TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
+            $requiresSecondFactor = true;
+        }
+    }
+
+    public function verifySecondFactor(
+        bool &$isValid,
+        string $login,
+        #[\SensitiveParameter]
+        string $code
+    ): void {
+        if ($isValid || !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
+            return;
+        }
+
+        $twoFa = $this->getTwoFa();
+        $isValid = $twoFa->validateAuthCode($login, $twoFa->normalizeAuthCode($code));
+    }
+
+    private function getTwoFa(): TwoFactorAuthentication
     {
         return StaticContainer::get(TwoFactorAuthentication::class);
     }
@@ -197,11 +218,11 @@ class TwoFactorAuth extends \Piwik\Plugin
                 // we only return an error when the login/password combo was correct. otherwise you could brute force
                 // auth tokens
                 if (!$authCode) {
-                    $this->recordFailedTwoFactorAttempt($login);
+                    $twoFa->recordFailedAuthAttempt($login);
                     throw new NoPrivilegesException(Piwik::translate('TwoFactorAuth_MissingAuthCodeAPI'));
                 }
                 if (!$twoFa->validateAuthCode($login, $authCode)) {
-                    $this->recordFailedTwoFactorAttempt($login);
+                    $twoFa->recordFailedAuthAttempt($login);
                     throw new NoPrivilegesException(Piwik::translate('TwoFactorAuth_InvalidAuthCode'));
                 }
             } elseif (
@@ -210,21 +231,6 @@ class TwoFactorAuth extends \Piwik\Plugin
             ) {
                 throw new Exception(Piwik::translate('TwoFactorAuth_RequiredAuthCodeNotConfiguredAPI'));
             }
-        }
-    }
-
-    /**
-     * Records a failed login attempt so the existing brute-force protection can engage.
-     */
-    private function recordFailedTwoFactorAttempt(string $login): void
-    {
-        try {
-            $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
-            if ($bruteForce->isEnabled()) {
-                $bruteForce->addFailedAttempt(IP::getIpFromHeader(), $login);
-            }
-        } catch (Exception $e) {
-            // ignore error eg if login plugin is disabled
         }
     }
 

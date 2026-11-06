@@ -10,9 +10,12 @@
 namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\IP;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\UsersManager\Model;
@@ -264,5 +267,31 @@ class TwoFactorAuthentication
     private function makeAuthenticator(): \TwoFactorAuthenticator
     {
         return new \TwoFactorAuthenticator();
+    }
+
+    /**
+     * Normalises a code as users may enter it: recovery codes are shown in groups separated by dashes and are
+     * stored upper case, app codes are only numbers.
+     */
+    public function normalizeAuthCode(
+        #[\SensitiveParameter]
+        string $authCode
+    ): string {
+        return trim(strtoupper(str_replace('-', '', $authCode)));
+    }
+
+    /**
+     * Records a failed attempt for the brute force detection, if it is enabled.
+     */
+    public function recordFailedAuthAttempt(string $login): void
+    {
+        try {
+            $bruteForce = StaticContainer::get(BruteForceDetection::class);
+            if ($bruteForce->isEnabled()) {
+                $bruteForce->addFailedAttempt(IP::getIpFromHeader(), $login);
+            }
+        } catch (Exception $e) {
+            // recording is best effort and must not fail the request it belongs to
+        }
     }
 }
