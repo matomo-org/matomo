@@ -342,9 +342,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // get() leaves the value out of periods that fell back to an exact count that isn't enabled
-        $table = $this->get($idSite, $period, $date, $segment, [$metric]);
-        $table->queueFilter('ColumnDelete', [[PluginsArchiver::UNIQUES_ESTIMATED_METRIC]]);
-        return $table;
+        return $this->get($idSite, $period, $date, $segment, [$metric]);
     }
 
     private function checkUniqueIsEnabledOrFail(string $period, string $metric): void
