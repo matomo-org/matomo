@@ -1141,57 +1141,73 @@ class Model
     }
 
     /**
-     * Puts an invalidation whose archiving failed on hold, or deletes it if the same archive is already queued or on
-     * hold, so at most one invalidation per archive waits.
+     * Puts an invalidation whose archiving failed on hold, or deletes it if the same archive is already queued, on
+     * hold, or started after it was invalidated, so at most one invalidation per archive waits.
      *
      * @param array<array-key, string|int|float|null> $invalidation
+     * @return bool false if it was no longer in progress
      */
-    public function holdFailedInvalidation(array $invalidation): void
+    public function holdFailedInvalidation(array $invalidation): bool
     {
         $table = Common::prefixTable('archive_invalidations');
 
         $idTwin = Db::fetchOne(
             "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND period = ? AND date2 = ? AND name = ?
-                AND IFNULL(`report`, '') = ? AND status IN (?, ?) AND idinvalidation != ? LIMIT 1",
+                AND IFNULL(`report`, '') = ? AND (status IN (?, ?) OR (status = ? AND ts_started > ?)) AND idinvalidation != ? LIMIT 1",
             [
                 $invalidation['idsite'], $invalidation['date1'], $invalidation['period'], $invalidation['date2'], $invalidation['name'],
                 (string) ($invalidation['report'] ?? ''), ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-                ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $invalidation['idinvalidation'],
+                ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                $invalidation['ts_invalidated'] ?? null, $invalidation['idinvalidation'],
             ]
         );
 
         if (false !== $idTwin) {
-            Db::query(
+            return Db::query(
                 "DELETE FROM `$table` WHERE idinvalidation = ? AND status = ?",
                 [$invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]
-            );
-            return;
+            )->rowCount() > 0;
         }
 
-        Db::query(
+        return Db::query(
             "UPDATE `$table` SET status = ?, ts_started = NULL, processing_host = NULL, process_id = NULL WHERE idinvalidation = ? AND status = ?",
             [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]
-        );
+        )->rowCount() > 0;
     }
 
+    /**
+     * @return int number of reset invalidations
+     */
     public function resetFailedArchivingJobs()
     {
-        $invalidationsInProgress = $this->getInvalidationsInProgress();
-        $idsToReset = [];
-
-        foreach ($invalidationsInProgress as $invalidation) {
-            $archiveFailureRecoveryTimeout = GeneralConfig::getConfigValue('archive_failure_recovery_timeout', $invalidation['idsite']);
-
-            if (empty($invalidation['ts_started']) || Date::factory($invalidation['ts_started'])->getTimestamp() < Date::now()->getTimestamp() - $archiveFailureRecoveryTimeout) {
-                $idsToReset[] = $invalidation['idinvalidation'];
-            }
-        }
+        $idsToReset = array_column($this->getTimedOutArchivingJobs(), 'idinvalidation');
 
         if (empty($idsToReset)) {
             return 0;
         }
 
         return $this->releaseInProgressInvalidations($idsToReset);
+    }
+
+    /**
+     * Invalidations in progress for longer than [General] archive_failure_recovery_timeout, eg because the job hangs
+     * or the archiver running it died.
+     *
+     * @return list<array<array-key, string|int|float|null>>
+     */
+    public function getTimedOutArchivingJobs(): array
+    {
+        $timedOutJobs = [];
+
+        foreach ($this->getInvalidationsInProgress() as $invalidation) {
+            $archiveFailureRecoveryTimeout = GeneralConfig::getIntegerConfigValue('archive_failure_recovery_timeout', 86400, (int) $invalidation['idsite']);
+
+            if (empty($invalidation['ts_started']) || Date::factory($invalidation['ts_started'])->getTimestamp() < Date::now()->getTimestamp() - $archiveFailureRecoveryTimeout) {
+                $timedOutJobs[] = $invalidation;
+            }
+        }
+
+        return $timedOutJobs;
     }
 
     public function getRecordsContainedInArchives(Date $archiveStartDate, array $idArchives, $requestedRecords): array

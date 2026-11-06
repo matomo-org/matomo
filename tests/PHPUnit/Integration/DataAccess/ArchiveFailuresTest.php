@@ -390,10 +390,14 @@ class ArchiveFailuresTest extends IntegrationTestCase
             'UPDATE ' . Common::prefixTable('archive_invalidations') . " SET status = 1, ts_started = '2020-02-03 04:00:00', processing_host = 'host', process_id = '123'"
         );
 
-        (new Model())->holdFailedInvalidation($this->getInvalidationRow($ids['failed']));
+        $inProgress = $this->getInvalidationRow($ids['failed']);
+        $this->assertTrue((new Model())->holdFailedInvalidation($inProgress));
 
         $row = $this->getInvalidationRow($ids['failed']);
         $this->assertSame([(string) ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, null, null, null], [(string) $row['status'], $row['ts_started'], $row['processing_host'], $row['process_id']]);
+
+        // eg another archiver that found the same timed out job
+        $this->assertFalse((new Model())->holdFailedInvalidation($inProgress));
     }
 
     /**
@@ -408,6 +412,34 @@ class ArchiveFailuresTest extends IntegrationTestCase
         (new Model())->holdFailedInvalidation($this->getInvalidationRow($ids['failed']));
 
         $this->assertSame(['twin' => $twinStatus], $this->getStatuses($ids));
+    }
+
+    /**
+     * @dataProvider getStartTimesOfTwinsInProgress
+     * @param array<string, int> $expectedStatuses
+     */
+    public function testFailedInvalidationIsOnlyDeletedIfACopyStartedAfterItWasInvalidated(string $twinStarted, array $expectedStatuses): void
+    {
+        $ids = $this->insertInvalidations(['failed' => [1, '2020-01-15', '2020-01-15'], 'twin' => [1, '2020-01-15', '2020-01-15']]);
+        $table = Common::prefixTable('archive_invalidations');
+        Db::query("UPDATE `$table` SET status = 1, ts_invalidated = '2020-02-03 03:00:00', ts_started = '2020-02-03 03:30:00' WHERE idinvalidation = ?", [$ids['failed']]);
+        Db::query("UPDATE `$table` SET status = 1, ts_started = ? WHERE idinvalidation = ?", [$twinStarted, $ids['twin']]);
+
+        (new Model())->holdFailedInvalidation($this->getInvalidationRow($ids['failed']));
+
+        $this->assertSame($expectedStatuses, $this->getStatuses($ids));
+    }
+
+    /**
+     * @return iterable<string, array{string, array<string, int>}>
+     */
+    public function getStartTimesOfTwinsInProgress(): iterable
+    {
+        yield 'started after, it covers the failed one' => ['2020-02-03 04:00:00', ['twin' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]];
+        yield 'started before' => ['2020-02-03 02:00:00', [
+            'failed' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD,
+            'twin' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+        ]];
     }
 
     /**
