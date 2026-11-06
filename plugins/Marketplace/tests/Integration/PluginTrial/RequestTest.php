@@ -15,6 +15,7 @@ use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\PluginTrial\Request;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Plugins\Marketplace\UserSettings;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
@@ -94,11 +95,41 @@ class RequestTest extends IntegrationTestCase
         (new Request('PremiumPlugin', $storageMock))->create('Premium Plugin');
     }
 
+    public function testCreateAnInstallRequestPostsTheInstallEventOnly()
+    {
+        Piwik::addAction('Marketplace.pluginTrialRequested', function () {
+            self::fail('An install request was announced as a trial request');
+        });
+        Piwik::addAction('Marketplace.pluginInstallRequested', function (...$args) use (&$eventArgs) {
+            $eventArgs = $args;
+        });
+
+        $storageMock = self::createMock(Storage::class);
+        $storageMock->method('wasRequestedByCurrentUser')->willReturn(false);
+        $storageMock->expects(self::once())->method('setRequested')
+            ->with('Free Plugin', RequestHistory::REQUEST_TYPE_INSTALL, null)
+            ->willReturn(Storage::REQUEST_ADDED_TO_PENDING);
+
+        (new Request('FreePlugin', $storageMock))->create('Free Plugin', RequestHistory::REQUEST_TYPE_INSTALL);
+
+        self::assertSame(['FreePlugin', 'Free Plugin'], $eventArgs);
+    }
+
     public function testCancel()
     {
         $storageMock = self::createMock(Storage::class);
-        $storageMock->method('wasRequested')->willReturn(true);
+        $storageMock->method('hasPendingRequests')->willReturn(true);
         $storageMock->expects(self::once())->method('setFulfilled');
+
+        $request = new Request('PremiumPlugin', $storageMock);
+        $request->cancel();
+    }
+
+    public function testCancelDoesNothingWithoutPendingRequests()
+    {
+        $storageMock = self::createMock(Storage::class);
+        $storageMock->method('hasPendingRequests')->willReturn(false);
+        $storageMock->expects(self::never())->method('setFulfilled');
 
         $request = new Request('PremiumPlugin', $storageMock);
         $request->cancel();

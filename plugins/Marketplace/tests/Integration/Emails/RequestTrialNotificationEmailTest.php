@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Marketplace\tests\Integration\Emails;
 use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -51,6 +52,17 @@ class RequestTrialNotificationEmailTest extends IntegrationTestCase
         );
         self::assertStringContainsString('To unsubscribe from plugin request email notifications, please follow this link:', $body);
         self::assertStringNotContainsString('To unsubscribe from this report', $body);
+    }
+
+    public function testAnInstallRequestAsksToInstallThePlugin()
+    {
+        $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'FreePlugin', 'Free Plugin', RequestHistory::REQUEST_TYPE_INSTALL);
+        $body = html_entity_decode($email->getBodyHtml());
+
+        self::assertSame('Matomo user request: install the Free Plugin plugin', $email->getSubject());
+        self::assertStringContainsString('has requested to install the Free Plugin plugin.', $body);
+        self::assertStringContainsString('Click on "Install"', $body);
+        self::assertStringNotContainsString('free trial', strtolower($body));
     }
 
     public function testScheduledReportFooterKeepsTheReportWording()

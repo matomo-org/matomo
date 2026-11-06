@@ -15,11 +15,18 @@ use Piwik\Db;
 use Piwik\Updater\Migration;
 
 /**
- * Keeps every trial request, unlike Storage, which only holds the one currently pending per plugin.
+ * Keeps every plugin request and the decisions ending them, unlike Storage, which only holds the one currently pending per plugin.
  */
 class RequestHistory
 {
     public const TABLE_NAME = 'plugin_trial_request';
+    public const DECISION_TABLE_NAME = 'plugin_request_decision';
+
+    public const REQUEST_TYPE_TRIAL = 'trial';
+    public const REQUEST_TYPE_INSTALL = 'install';
+
+    public const DECISION_APPROVED = 'approved';
+    public const DECISION_DECLINED = 'declined';
 
     /**
      * @var array<string, string[]|null> the plugins each login has requested, so the Marketplace catalogue checks
@@ -31,12 +38,78 @@ class RequestHistory
      * Returns false when the login has already requested the plugin: each user's request is recorded once, which the
      * unique key enforces even for two requests made at the same moment.
      */
-    public function add(string $pluginName, string $login, int $requestTime): bool
-    {
+    public function add(
+        string $pluginName,
+        string $login,
+        int $requestTime,
+        string $requestType = self::REQUEST_TYPE_TRIAL,
+        ?string $message = null
+    ): bool {
+        $requestedAt = Date::factory($requestTime)->getDatetime();
+
+        try {
+            return $this->write(
+                'INSERT INTO ' . $this->getTable() . ' (plugin_name, login, ts_requested, request_type, message) VALUES (?, ?, ?, ?, ?)',
+                [$pluginName, $login, $requestedAt, $requestType, $message]
+            );
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_UNKNOWN_COLUMN)) {
+                throw $e;
+            }
+        }
+
+        // until the 6.1.0-b1 update adds the columns, a request is stored as every request was before
         return $this->write(
             'INSERT INTO ' . $this->getTable() . ' (plugin_name, login, ts_requested) VALUES (?, ?, ?)',
-            [$pluginName, $login, Date::factory($requestTime)->getDatetime()]
+            [$pluginName, $login, $requestedAt]
         );
+    }
+
+    /**
+     * Ends all of the plugin's pending requests with one decision. Run inside the transaction of the pending option's
+     * row lock, so two decisions for the same plugin wait for each other and the second finds nothing left to decide.
+     *
+     * @param string $decision one of the DECISION_* constants
+     * @param string|null $decidedBy the deciding super user, or null for a decision Matomo made itself
+     * @return int the number of requests decided, 0 when none was pending or the 6.1.0-b1 update has not yet run
+     */
+    public function addDecision(string $pluginName, string $decision, ?string $decidedBy, ?string $note, int $decisionTime): int
+    {
+        $this->requestedPluginsByLogin = [];
+
+        try {
+            $requestIds = array_column(Db::get()->fetchAll(
+                'SELECT idrequest FROM ' . $this->getTable() . ' WHERE plugin_name = ? AND iddecision IS NULL FOR UPDATE',
+                [$pluginName]
+            ), 'idrequest');
+        } catch (\Exception $e) {
+            if (
+                !Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)
+                && !Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_UNKNOWN_COLUMN)
+            ) {
+                throw $e;
+            }
+
+            return 0;
+        }
+
+        if (empty($requestIds)) {
+            return 0;
+        }
+
+        Db::get()->query(
+            'INSERT INTO ' . Common::prefixTable(self::DECISION_TABLE_NAME)
+            . ' (plugin_name, decision, decided_by, note, num_requests, ts_decided) VALUES (?, ?, ?, ?, ?, ?)',
+            [$pluginName, $decision, $decidedBy, $note, count($requestIds), Date::factory($decisionTime)->getDatetime()]
+        );
+        $idDecision = (int) Db::get()->lastInsertId();
+
+        Db::get()->query(
+            'UPDATE ' . $this->getTable() . ' SET iddecision = ? WHERE idrequest IN (' . Common::getSqlStringFieldsArray($requestIds) . ')',
+            array_merge([$idDecision], $requestIds)
+        );
+
+        return count($requestIds);
     }
 
     /**
@@ -103,11 +176,34 @@ class RequestHistory
     }
 
     /**
-     * Keeps the requests so they still count, but forgets who made them.
+     * Returns whether any of the plugin's requests has not been decided yet, false until the 6.1.0-b1 update has run
+     */
+    public function hasPendingRequests(string $pluginName): bool
+    {
+        try {
+            return (bool) Db::fetchOne(
+                'SELECT 1 FROM ' . $this->getTable() . ' WHERE plugin_name = ? AND iddecision IS NULL LIMIT 1',
+                [$pluginName]
+            );
+        } catch (\Exception $e) {
+            if (
+                !Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)
+                && !Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_UNKNOWN_COLUMN)
+            ) {
+                throw $e;
+            }
+
+            return false;
+        }
+    }
+
+    /**
+     * Keeps the requests and decisions so they still count, but forgets who made them.
      */
     public function anonymizeLogin(string $login): void
     {
         $this->write('UPDATE ' . $this->getTable() . ' SET login = NULL WHERE login = ?', [$login]);
+        $this->write('UPDATE ' . Common::prefixTable(self::DECISION_TABLE_NAME) . ' SET decided_by = NULL WHERE decided_by = ?', [$login]);
     }
 
     /**
@@ -116,7 +212,7 @@ class RequestHistory
     public function getDeletedLogins(): array
     {
         try {
-            return array_column(Db::get()->fetchAll(
+            $deletedLogins = array_column(Db::get()->fetchAll(
                 'SELECT DISTINCT login FROM ' . $this->getTable() . ' WHERE login IS NOT NULL'
                 . ' AND login NOT IN (SELECT login FROM ' . Common::prefixTable('user') . ')'
             ), 'login');
@@ -127,6 +223,21 @@ class RequestHistory
 
             return [];
         }
+
+        try {
+            $deletedDeciders = array_column(Db::get()->fetchAll(
+                'SELECT DISTINCT decided_by FROM ' . Common::prefixTable(self::DECISION_TABLE_NAME) . ' WHERE decided_by IS NOT NULL'
+                . ' AND decided_by NOT IN (SELECT login FROM ' . Common::prefixTable('user') . ')'
+            ), 'decided_by');
+        } catch (\Exception $e) {
+            if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
+                throw $e;
+            }
+
+            $deletedDeciders = [];
+        }
+
+        return array_values(array_unique(array_merge($deletedLogins, $deletedDeciders)));
     }
 
     /**

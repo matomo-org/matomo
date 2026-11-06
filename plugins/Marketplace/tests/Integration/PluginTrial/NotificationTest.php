@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
 use Piwik\Notification\Manager;
 use Piwik\Plugins\Marketplace\PluginTrial\Notification;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -72,6 +73,22 @@ class NotificationTest extends IntegrationTestCase
         $notification->createNotificationIfNeeded();
 
         $this->checkNotificationWasCreated();
+    }
+
+    public function testCreateNotificationIfNeededAsksToInstallAPluginRequestedForInstall()
+    {
+        $storageMock = self::createMock(Storage::class);
+        $storageMock->method('wasRequested')->willReturn(true);
+        $storageMock->method('isNotificationDismissed')->willReturn(false);
+        $storageMock->method('getDisplayName')->willReturn('Free Plugin');
+        $storageMock->method('getRequestType')->willReturn(RequestHistory::REQUEST_TYPE_INSTALL);
+
+        (new Notification('PremiumPlugin', $storageMock))->createNotificationIfNeeded();
+
+        $this->checkNotificationWasCreated();
+        $message = current(Manager::getPendingInMemoryNotifications())->message;
+        self::assertStringContainsString('Marketplace_InstallRequestedNotification', $message);
+        self::assertStringNotContainsString('Marketplace_TrialRequestedNotification1', $message);
     }
 
     public function testSetNotificationDismissed()

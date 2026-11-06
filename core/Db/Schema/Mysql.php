@@ -433,9 +433,25 @@ class Mysql implements SchemaInterface
                                       `plugin_name` VARCHAR(60) NOT NULL,
                                       `login` VARCHAR(100) NULL,
                                       `ts_requested` DATETIME NOT NULL,
+                                      `request_type` VARCHAR(10) NOT NULL DEFAULT 'trial',
+                                      `message` TEXT NULL,
+                                      `iddecision` INTEGER UNSIGNED NULL,
                                       PRIMARY KEY(`idrequest`),
                                       INDEX index_plugin_name_ts_requested (`plugin_name`, `ts_requested`),
-                                      UNIQUE INDEX index_login_plugin_name (`login`, `plugin_name`)
+                                      UNIQUE INDEX index_login_plugin_name (`login`, `plugin_name`),
+                                      INDEX index_iddecision_plugin_name (`iddecision`, `plugin_name`)
+                                  ) $tableOptions
+            ",
+            'plugin_request_decision' => "CREATE TABLE `{$prefixTables}plugin_request_decision` (
+                                      `iddecision` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `plugin_name` VARCHAR(60) NOT NULL,
+                                      `decision` VARCHAR(10) NOT NULL,
+                                      `decided_by` VARCHAR(100) NULL,
+                                      `note` TEXT NULL,
+                                      `num_requests` INTEGER UNSIGNED NOT NULL,
+                                      `ts_decided` DATETIME NOT NULL,
+                                      PRIMARY KEY(`iddecision`),
+                                      INDEX index_ts_decided (`ts_decided`)
                                   ) $tableOptions
             ",
             'changes'             => "CREATE TABLE `{$prefixTables}changes` (

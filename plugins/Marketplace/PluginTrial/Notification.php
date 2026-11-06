@@ -55,7 +55,9 @@ class Notification
         // kept in the session between checks, so it carries only the site of the request that happened to build it
         $link = sprintf('<a href="%s">', (new SiteAwareLinks())->getOverviewUrl($this->pluginName));
         $message = '<b>' . Piwik::translate(
-            'Marketplace_TrialRequestedNotification1',
+            $this->storage->getRequestType() === RequestHistory::REQUEST_TYPE_INSTALL
+                ? 'Marketplace_InstallRequestedNotification'
+                : 'Marketplace_TrialRequestedNotification1',
             [htmlentities($this->storage->getDisplayName()), $link, '</a>']
         ) . '</b><br><br>';
         $message .= Piwik::translate('Marketplace_TrialRequestedNotification2', [htmlentities($this->storage->getDisplayName()), $link, '</a>']);
