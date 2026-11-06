@@ -111,6 +111,57 @@ class CronArchiveTest extends IntegrationTestCase
                 ],
             ],
 
+            // day with the month on hold, which still counts as existing
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 3, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00', 'status' => 2],
+                ],
+                ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'report' => null, 'ts_invalidated' => '2020-03-04 01:00:00'],
+                [
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '1',
+                        'date1' => '2020-03-04',
+                        'date2' => '2020-03-04',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => '1',
+                        'idsite' => '1',
+                        'period' => '3',
+                        'date1' => '2020-03-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => null,
+                        'idsite' => '1',
+                        'period' => '2',
+                        'date1' => '2020-03-02',
+                        'date2' => '2020-03-08',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => null,
+                        'idsite' => '1',
+                        'period' => '4',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                ],
+            ],
+
             // week with nothing else
             [
                 [
