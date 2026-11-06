@@ -5750,7 +5750,7 @@ if ($mysql) {
         }, 3000);
     });
 
-    test("Test API - opting back in restores the cookies opting out took away", function() {
+    test("Test API - opting back in does not turn cookies on by itself", function() {
         deleteCookies();
 
         var tracker = Piwik.getTracker();
@@ -5763,7 +5763,11 @@ if ($mysql) {
         strictEqual(false, tracker.areCookiesEnabled(), 'opting out turned cookies off');
 
         tracker.forgetUserOptOut();
-        strictEqual(true, tracker.areCookiesEnabled(), 'opting back in left off the cookies opting out had turned off');
+
+        // Whether cookies were on because the visitor accepted them or only because nothing had
+        // turned them off is not recorded anywhere, so opting back in cannot tell the two apart
+        // and does not try. Turning them on here would grant a consent nobody gave.
+        strictEqual(false, tracker.areCookiesEnabled(), 'opting back in turned cookies on by itself');
 
         deleteCookies();
     });

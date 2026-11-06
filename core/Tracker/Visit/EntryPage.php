@@ -46,11 +46,10 @@ class EntryPage
      */
     public static function isRequestOnEntryPage(Visitor $visitor, $action, ?Request $request = null): ?bool
     {
-        // The action a ping carries is dropped part way through the request, so a later caller
-        // would have nothing left to place the visitor by and would fall back to the interaction
-        // count - which, for a page the visit never recorded, reads as the arrival page. The
-        // answer cannot change within a request, so the one reached while the action was still
-        // there is the one everybody gets.
+        // The answer cannot change within a request, and a dozen dimensions ask for it, so it is
+        // reached once and kept. Keeping it also settles the ping: the action a ping carries is
+        // dropped part way through the request, so the answer reached while it was still there is
+        // the one every later caller gets.
         $answered = $request === null ? null : $request->getMetadata('CoreHome', self::REQUEST_METADATA);
 
         if (is_array($answered)) {
@@ -59,7 +58,7 @@ class EntryPage
 
         $answer = self::determineForRequest($visitor, $action, $request);
 
-        if ($request !== null && !empty($action)) {
+        if ($request !== null) {
             $request->setMetadata('CoreHome', self::REQUEST_METADATA, [$answer]);
         }
 
