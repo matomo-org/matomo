@@ -199,10 +199,11 @@ class Get extends Base
             }
 
             // Add evolution values to sparklines
-            [$lastPeriodDate, $ignore] = Range::getLastDate();
+            $timezone = Site::getTimezoneFor($idSite);
+            [$lastPeriodDate, $ignore] = Range::getLastDate(false, false, $timezone);
             if ($lastPeriodDate !== false) {
                 // Using a filter here ensures the additional request is only performed when the view is rendered
-                $view->config->filters[] = function ($datatable) use ($view, $lastPeriodDate, $idSite) {
+                $view->config->filters[] = function ($datatable) use ($view, $lastPeriodDate, $idSite, $timezone) {
                     /** @var DataTable $previousData */
                     $previousData    = Request::processRequest(
                         'Goals.get',
@@ -210,7 +211,12 @@ class Get extends Base
                     );
                     $previousDataRow = $previousData->getFirstRow();
 
-                    $currentPeriod     = PeriodFactory::build(Piwik::getPeriod(), Common::getRequestVar('date'));
+                    // Resolved as the archive resolves it, so it names the day the current values are from.
+                    $currentPeriod     = PeriodFactory::makePeriodFromQueryParams(
+                        $timezone,
+                        Piwik::getPeriod(),
+                        Common::getRequestVar('date')
+                    );
                     $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString(
                     ) : $currentPeriod->getPrettyString());
                     $lastPeriod        = PeriodFactory::build(Piwik::getPeriod(), $lastPeriodDate);

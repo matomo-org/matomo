@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Insights;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\DataTable;
+use Piwik\Date;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
 use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
@@ -53,15 +55,32 @@ class Model
         return $table;
     }
 
-    public function getLastDate($date, $period, $comparedToXPeriods)
+    /**
+     * @param string|false $timezone The timezone a relative $date such as 'today' is resolved in;
+     *                               an empty value means UTC.
+     */
+    public function getLastDate($date, $period, $comparedToXPeriods, $timezone = false)
     {
-        $pastDate = Range::getDateXPeriodsAgo(abs($comparedToXPeriods), $date, $period);
+        $pastDate = Range::getDateXPeriodsAgo(abs($comparedToXPeriods), $date, $period, $timezone);
 
         if (empty($pastDate[0])) {
             throw new \Exception('Not possible to compare this date/period combination');
         }
 
         return $pastDate[0];
+    }
+
+    /**
+     * Returns $date with a relative date such as 'today' or 'last7' resolved on the days the archive
+     * resolves it, so it names the same days as {@link getLastDate()}. An empty $timezone means UTC.
+     */
+    public function getCurrentDate(string $date, string $period, string|false $timezone = false): string
+    {
+        if ($period === 'range') {
+            return PeriodFactory::makePeriodFromQueryParams($timezone, $period, $date)->getRangeString();
+        }
+
+        return Date::resolveRelativeInTimezone($date, $timezone)?->toString() ?? $date;
     }
 
     /**
