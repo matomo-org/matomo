@@ -293,10 +293,10 @@ class ApiTest extends IntegrationTestCase
         $service = $this->service;
 
         $this->service->setOnDownloadCallback(static function ($action, $params, $postData) use ($service) {
-            return $service->getFixtureContent('v2.0_plugins_TreemapVisualization_info.json');
+            return $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
         });
 
-        self::assertTrue($this->api->requestTrial('TreemapVisualization'));
+        self::assertTrue($this->api->requestTrial('PaidPlugin1'));
 
         self::assertNotNull($sentMail);
         self::assertInstanceOf(RequestTrialNotificationEmail::class, $sentMail);
@@ -316,20 +316,20 @@ class ApiTest extends IntegrationTestCase
     public function testRequestTrialStoresTheNote(): void
     {
         $this->setUser();
-        $this->returnPluginInfo('TreemapVisualization');
+        $this->returnPluginInfo('PaidPlugin1');
 
-        self::assertTrue($this->api->requestTrial('TreemapVisualization', '  We need this  '));
+        self::assertTrue($this->api->requestTrial('PaidPlugin1', '  We need this  '));
 
-        self::assertSame([['TreemapVisualization', 'trial', 'We need this']], $this->getStoredRequests());
+        self::assertSame([['PaidPlugin1', 'trial', 'We need this']], $this->getStoredRequests());
     }
 
     public function testRequestTrialRejectsANoteOver1000Characters(): void
     {
         $this->setUser();
-        $this->returnPluginInfo('TreemapVisualization');
+        $this->returnPluginInfo('PaidPlugin1');
 
         try {
-            $this->api->requestTrial('TreemapVisualization', str_repeat('é', 1001));
+            $this->api->requestTrial('PaidPlugin1', str_repeat('é', 1001));
             self::fail('A note over 1000 characters was accepted');
         } catch (Exception $e) {
             self::assertSame('General_ValidatorErrorCharacterTooLong', $e->getMessage());
@@ -376,20 +376,35 @@ class ApiTest extends IntegrationTestCase
         self::assertStringNotContainsString('Marketplace_RequestTrialNotificationEmailHowToStartStep3', $sentMail->getBodyHtml());
     }
 
+    public function testRequestTrialRefusesAFreePlugin(): void
+    {
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+
+        try {
+            $this->api->requestTrial('Barometer');
+            self::fail('A trial of a free plugin was requested');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_FreePluginHasNoTrial', $e->getMessage());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
     public function testRequestTrialIsRejectedWhenTheUserHasAlreadyRequestedThePlugin(): void
     {
         $this->setUser();
-        $this->returnPluginInfo('TreemapVisualization');
-        $this->api->requestTrial('TreemapVisualization', 'First');
+        $this->returnPluginInfo('PaidPlugin1');
+        $this->api->requestTrial('PaidPlugin1', 'First');
 
         try {
-            $this->api->requestTrial('TreemapVisualization', 'Second');
+            $this->api->requestTrial('PaidPlugin1', 'Second');
             self::fail('A second request by the same user was accepted');
         } catch (Exception $e) {
             self::assertSame('Marketplace_PluginAlreadyRequested', $e->getMessage());
         }
 
-        self::assertSame([['TreemapVisualization', 'trial', 'First']], $this->getStoredRequests());
+        self::assertSame([['PaidPlugin1', 'trial', 'First']], $this->getStoredRequests());
     }
 
     public function testRequestInstallIsRejectedWhenTheUsersRequestWasDeclined(): void
@@ -617,12 +632,12 @@ class ApiTest extends IntegrationTestCase
     /**
      * @dataProvider dataFreePluginRequestTypes
      */
-    public function testApprovePluginTrialRefusesAFreePluginWithoutStartingATrial(string $requestMethod): void
+    public function testApprovePluginTrialRefusesAFreePluginWithoutStartingATrial(string $requestType): void
     {
         $this->enablePluginRequests();
         $this->setUser();
-        $this->returnPluginInfo('Barometer');
-        $this->api->$requestMethod('Barometer');
+        // stored directly, as requestTrial() refuses a free plugin, which a request made before it did is not
+        (new Storage('Barometer'))->setRequested('Barometer', $requestType);
 
         $this->setSuperUser();
         $service = $this->service;
@@ -646,8 +661,8 @@ class ApiTest extends IntegrationTestCase
 
     public function dataFreePluginRequestTypes(): iterable
     {
-        yield 'install request' => ['requestInstall'];
-        yield 'trial request' => ['requestTrial'];
+        yield 'install request' => [RequestHistory::REQUEST_TYPE_INSTALL];
+        yield 'trial request' => [RequestHistory::REQUEST_TYPE_TRIAL];
     }
 
     /**
@@ -669,7 +684,7 @@ class ApiTest extends IntegrationTestCase
             $this->api->$method('Marketplace');
             self::fail('A decision was made for an activated plugin');
         } catch (Exception $e) {
-            self::assertSame('Marketplace_NoPendingPluginRequests', $e->getMessage());
+            self::assertSame('Marketplace_PluginAlreadyActiveRequestsApproved', $e->getMessage());
         }
 
         self::assertSame(['approved'], $this->getStoredDecisions());
