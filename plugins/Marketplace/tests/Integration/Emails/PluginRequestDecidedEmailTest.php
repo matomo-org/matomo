@@ -52,7 +52,7 @@ class PluginRequestDecidedEmailTest extends IntegrationTestCase
         self::assertStringContainsString('The Super User added this message:', $body);
         self::assertStringContainsString('Not this year &lt;b&gt;sorry&lt;/b&gt;<br />', $body);
         self::assertStringContainsString('index.php?module=UsersManager&action=userSettings', html_entity_decode($body));
-        self::assertStringContainsString('To stop receiving emails about your plugin requests', $body);
+        self::assertStringContainsString('>Unsubscribe</a> from emails about your plugin requests in your personal settings.', $body);
     }
 
     public function testADeclinedRequestWithoutANoteShowsNoMessage(): void

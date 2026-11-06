@@ -180,6 +180,12 @@ class API extends \Piwik\Plugin\API
 
         $message = $this->checkNote($message);
         $pluginInfo = $this->getRequestablePluginInfo($pluginName);
+
+        // a request no super user could approve, as only a paid plugin has a trial to start
+        if (!empty($pluginInfo['isFree'])) {
+            throw new Exception(Piwik::translate('Marketplace_FreePluginHasNoTrial'));
+        }
+
         $this->checkNotRequestedByCurrentUser($pluginInfo['name']);
 
         $this->pluginTrialService->request(
@@ -280,9 +286,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Requests are also off when plugin_trial_request_expiration_in_days = -1, which stores none
-     */
-    /**
      * Returns the current user's plugin requests, newest first.
      *
      * @internal
@@ -318,9 +321,9 @@ class API extends \Piwik\Plugin\API
      * @return list<array{pluginName: string, displayName: string, isFree: bool|null, priceFrom: array<string, mixed>|null,
      *                    requestType: string, numRequests: int, lastRequestedAt: string,
      *                    requesters: list<array{login: string|null, email: string|null, requestedAt: string, message: string|null}>}>
-     *         isFree and priceFrom are null when the Marketplace cannot be reached; priceFrom is the shop variation the
-     *         plugin is sold from; requestType is that of the latest request; a deleted requester has no login or email;
-     *         dates in UTC as `Y-m-d H:i:s`
+     *         isFree and priceFrom are null when the Marketplace cannot be reached or does not list the plugin;
+     *         priceFrom is the shop variation the plugin is sold from; requestType is that of the latest request; a
+     *         deleted requester has no login or email; dates in UTC as `Y-m-d H:i:s`
      */
     public function getPendingPluginRequests(): array
     {
@@ -425,6 +428,9 @@ class API extends \Piwik\Plugin\API
         return $displayNames;
     }
 
+    /**
+     * Requests are also off when plugin_trial_request_expiration_in_days = -1, which stores none
+     */
     private function checkPluginRequestsActive(): void
     {
         if (
@@ -446,9 +452,14 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkValidPluginName($pluginName);
 
-        // requests Matomo did not approve on activation, eg as Matomo before 6.1 still served it, are approved now
-        if ($this->pluginManager->isPluginActivated($pluginName)) {
+        // requests Matomo did not approve on activation, eg as Matomo before 6.1 still served it, are approved now,
+        // which the super user deciding on them is told rather than that there were none
+        if (
+            $this->pluginManager->isPluginActivated($pluginName)
+            && $this->pluginTrialService->hasPendingRequests($pluginName)
+        ) {
             $this->pluginTrialService->cancelRequest($pluginName);
+            throw new Exception(Piwik::translate('Marketplace_PluginAlreadyActiveRequestsApproved'));
         }
 
         if (!$this->pluginTrialService->hasPendingRequests($pluginName)) {

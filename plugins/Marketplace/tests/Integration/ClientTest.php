@@ -59,6 +59,37 @@ class ClientTest extends IntegrationTestCase
         $this->assertStringEndsWith('.zip', $file);
     }
 
+    public function testGetInfoOfPluginsAsksAboutTheOtherPluginsAfterOneTheMarketplaceDoesNotList(): void
+    {
+        $service = $this->service;
+        $askedAbout = [];
+        $this->service->setOnDownloadCallback(static function ($action) use ($service, &$askedAbout) {
+            $askedAbout[] = $action;
+            if ($action === 'plugins/PaidPlugin1/info') {
+                return $service->getFixtureContent('v2.0_plugins_PaidPlugin1_info.json');
+            }
+
+            return $service->getFixtureContent('v2.0_plugins_CustomPlugin1_info-access_token-notexistingtoken.json');
+        });
+
+        $infos = $this->client->getInfoOfPlugins(['DelistedPlugin', 'PaidPlugin1'], true);
+
+        self::assertSame(['plugins/DelistedPlugin/info', 'plugins/PaidPlugin1/info'], $askedAbout);
+        self::assertSame(['PaidPlugin1'], array_keys($infos));
+    }
+
+    public function testGetInfoOfPluginsStopsAskingOnceTheMarketplaceIsUnreachable(): void
+    {
+        $numRequests = 0;
+        $this->service->setOnDownloadCallback(static function () use (&$numRequests) {
+            $numRequests++;
+            throw new \Exception('Marketplace unreachable');
+        });
+
+        self::assertSame([], $this->client->getInfoOfPlugins(['PaidPlugin1', 'Barometer'], true));
+        self::assertSame(1, $numRequests);
+    }
+
     public function testGetPluginInfoShouldThrowExceptionIfNotAllowedToRequestPlugin()
     {
         $this->expectException(\Piwik\Plugins\Marketplace\Api\Exception::class);
