@@ -79,9 +79,12 @@
             >{{ translate('Marketplace_NumDownloads', String(plugin.numDownloadsPretty)) }}</span>
 
             <span
-              class="marketplacePluginDetails__fact"
+              class="marketplacePluginDetails__fact marketplacePluginDetails__fact--updated"
               v-if="plugin.lastUpdated && !plugin.isBundle"
-            >{{ translate('Marketplace_UpdatedOn', plugin.lastUpdated) }}</span>
+            >
+              <span class="icon-clock" aria-hidden="true" />
+              {{ translate('Marketplace_UpdatedOn', plugin.lastUpdated) }}
+            </span>
           </div>
         </div>
       </section>

@@ -70,7 +70,7 @@ p {
 // `:where()` adds no specificity, so nothing else about this rule changes - and an entry for
 // a component that is not installed matches nothing and costs nothing, which is why naming
 // them here is cheaper than every such component carrying its own `#content` override.
-#content p:where(:not(.productPromotion__text, .productPromotion__reason)) {
+#content p:where(:not(.productPromotion__text, .productPromotion__reason, .marketplaceHero__subtitle, .marketplacePluginDetails__lede, .pluginCard__description, .marketplacePluginDetails__readme p)) {
   margin-left: 0;
   margin-right: 0;
   .font-default(13px, 18px);
