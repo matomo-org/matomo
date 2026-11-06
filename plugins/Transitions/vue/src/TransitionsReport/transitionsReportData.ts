@@ -19,6 +19,7 @@ import {
   TransitionsError,
   TransitionsGroupData,
   TransitionsMetricData,
+  TransitionsPart,
   TransitionsReportData,
   TransitionsRowData,
   TransitionsSide,
@@ -30,6 +31,8 @@ const VALUE_MARKER = '\u0001';
 interface GroupDefinition {
   name: string;
   side: TransitionsSide;
+  /** The API part the group's numbers come from. */
+  part: TransitionsPart;
   titleKey: string;
   /** Inline label carrying a %s placeholder for the formatted metric value. */
   inlineKey: string;
@@ -49,6 +52,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'previousPages',
     side: 'incoming',
+    part: 'internalReferrers',
     titleKey: 'Transitions_FromPreviousPages',
     inlineKey: 'Transitions_FromPreviousPagesInline',
     countKey: 'Transitions_NumPageviews',
@@ -58,6 +62,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'previousSiteSearches',
     side: 'incoming',
+    part: 'internalReferrers',
     titleKey: 'Transitions_FromPreviousSiteSearches',
     inlineKey: 'Transitions_FromPreviousSiteSearchesInline',
     countKey: 'Transitions_NumPageviews',
@@ -67,6 +72,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'searchEngines',
     side: 'incoming',
+    part: 'externalReferrers',
     titleKey: 'Transitions_FromSearchEngines',
     inlineKey: 'Referrers_TypeSearchEngines',
     countKey: 'Transitions_NumPageviews',
@@ -76,6 +82,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'socialNetworks',
     side: 'incoming',
+    part: 'externalReferrers',
     titleKey: 'Transitions_FromSocialNetworks',
     inlineKey: 'Referrers_TypeSocialNetworks',
     countKey: 'Transitions_NumPageviews',
@@ -85,6 +92,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'aiAssistants',
     side: 'incoming',
+    part: 'externalReferrers',
     titleKey: 'Transitions_FromAIAssistants',
     inlineKey: 'Referrers_TypeAIAssistants',
     countKey: 'Transitions_NumPageviews',
@@ -94,6 +102,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'websites',
     side: 'incoming',
+    part: 'externalReferrers',
     titleKey: 'Transitions_FromWebsites',
     inlineKey: 'Referrers_TypeWebsites',
     countKey: 'Transitions_NumPageviews',
@@ -103,6 +112,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'campaigns',
     side: 'incoming',
+    part: 'externalReferrers',
     titleKey: 'Transitions_FromCampaigns',
     inlineKey: 'Referrers_TypeCampaigns',
     countKey: 'Transitions_NumPageviews',
@@ -112,6 +122,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'directEntries',
     side: 'incoming',
+    part: 'externalReferrers',
     titleKey: 'Transitions_DirectEntries',
     inlineKey: 'Referrers_TypeDirectEntries',
     countKey: 'Transitions_NumPageviews',
@@ -121,6 +132,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'followingPages',
     side: 'outgoing',
+    part: 'followingActions',
     titleKey: 'Transitions_ToFollowingPages',
     inlineKey: 'Transitions_ToFollowingPagesInline',
     countKey: 'Transitions_NumPageviews',
@@ -130,6 +142,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'followingSiteSearches',
     side: 'outgoing',
+    part: 'followingActions',
     titleKey: 'Transitions_ToFollowingSiteSearches',
     inlineKey: 'Transitions_ToFollowingSiteSearchesInline',
     countKey: 'Transitions_NumPageviews',
@@ -139,6 +152,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'downloads',
     side: 'outgoing',
+    part: 'followingActions',
     titleKey: 'General_Downloads',
     inlineKey: 'Transitions_NumDownloads',
     countKey: 'Transitions_NumDownloads',
@@ -148,6 +162,7 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'outlinks',
     side: 'outgoing',
+    part: 'followingActions',
     titleKey: 'General_Outlinks',
     inlineKey: 'Transitions_NumOutlinks',
     countKey: 'Transitions_NumOutlinks',
@@ -157,6 +172,8 @@ const TRANSITIONS_GROUPS: GroupDefinition[] = [
   {
     name: 'exits',
     side: 'outgoing',
+    // derived from both page parts; internalReferrers is always in once the report renders
+    part: 'followingActions',
     titleKey: 'General_ColumnExits',
     inlineKey: 'Transitions_ExitsInline',
     countKey: 'Transitions_NumPageviews',
@@ -335,19 +352,30 @@ function buildSummaryRow(
   };
 }
 
+/**
+ * `pendingParts` are the API parts still in flight: their groups are flagged as loading and left
+ * out of the side totals.
+ */
 export function buildReport(
   model: TransitionsModel,
   actionType: string,
   actionName: string,
+  pendingParts: TransitionsPart[] = [],
 ): TransitionsReportData {
   const groups: TransitionsGroupData[] = [];
   const metrics: TransitionsMetricData[] = [];
 
   let incomingTotal = 0;
   let outgoingTotal = 0;
+  const loadingSides: Record<TransitionsSide, boolean> = { incoming: false, outgoing: false };
 
   TRANSITIONS_GROUPS.forEach((group) => {
-    const value = (model[metricName(group)] as number) || 0;
+    const isLoading = pendingParts.includes(group.part);
+    if (isLoading) {
+      loadingSides[group.side] = true;
+    }
+
+    const value = isLoading ? 0 : (model[metricName(group)] as number) || 0;
     const share = model.getPercentage(metricName(group)) as number;
     // Formatted once, so the summary row's pill and the card's tooltip cannot round the same
     // share to two different numbers. The model rounds to whole percent above 10% and to one
@@ -367,6 +395,7 @@ export function buildReport(
       title,
       nbTransitions: value,
       canExpand: group.canExpand,
+      isLoading,
       countLabel: translate(group.countKey, NumberFormatter.formatNumber(value)),
       rows: buildRows(model, group, actionType, share),
       summaryRow: buildSummaryRow(group, title, value, share, shareLabel),
@@ -385,6 +414,7 @@ export function buildReport(
       // left one off there too.
       tooltip: value > 0 ? translate('Transitions_XOfAllPageviews', shareLabel) : '',
       canExpand: group.canExpand,
+      isLoading,
     });
   });
 
@@ -408,6 +438,7 @@ export function buildReport(
     pageviewsTooltip: buildPageviewsTooltip(model, model.getTotalNbPageviews()),
     incomingTotal,
     outgoingTotal,
+    loadingSides,
     groups,
     metrics,
   };

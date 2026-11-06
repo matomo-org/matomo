@@ -7,7 +7,7 @@
 
 import { onBeforeUnmount, ref } from 'vue';
 import { Matomo } from 'CoreHome';
-import { TransitionsError, TransitionsReportData } from './types';
+import { TransitionsError, TransitionsPart, TransitionsReportData } from './types';
 import {
   buildPageviewsTooltip,
   buildReport,
@@ -19,11 +19,18 @@ import {
 const REPORT_API_METHOD = 'Transitions.getTransitionsForAction';
 
 /**
- * Loads one action and owns the loading/error state. The request and parsing stay in the legacy
- * Piwik_Transitions_Model/Ajax pair, so the wire contract is unchanged.
+ * Requested in parallel. The report renders once internalReferrers is in, since it carries the
+ * pageviews every share is relative to; the others fill in as they land.
+ */
+const PARTS: TransitionsPart[] = ['internalReferrers', 'followingActions', 'externalReferrers'];
+
+/**
+ * Loads one action and owns the loading/error state. The requests and parsing stay in the legacy
+ * Piwik_Transitions_Model/Ajax pair.
  *
  * Last-request-wins: a response is dropped once a newer load has started or the component has
- * unmounted, so fast switching cannot paint stale data.
+ * unmounted, so fast switching cannot paint stale data. A failing part fails the whole report,
+ * and later parts of that load are dropped.
  */
 export function useTransitionsData() {
   const isLoading = ref(false);
@@ -48,6 +55,8 @@ export function useTransitionsData() {
 
     const ajax = new window.Piwik_Transitions_Ajax();
     const model = new window.Piwik_Transitions_Model(ajax);
+    let pendingParts = [...PARTS];
+    let failed = false;
 
     ajax.setErrorCallback((errorName, params) => {
       // The site total shares this ajax instance, so its failures arrive here too. Only the
@@ -59,10 +68,11 @@ export function useTransitionsData() {
         return;
       }
 
-      if (!isCurrent(id)) {
+      if (!isCurrent(id) || failed) {
         return;
       }
 
+      failed = true;
       isLoading.value = false;
       report.value = null;
       error.value = resolveError(errorName, actionName);
@@ -70,27 +80,43 @@ export function useTransitionsData() {
 
     seedGroupTitles(model);
 
-    model.loadData(actionType, actionName, overrideParams, () => {
-      if (!isCurrent(id)) {
+    const onPartLoaded = (part: TransitionsPart) => {
+      if (!isCurrent(id) || failed) {
         return;
       }
 
+      pendingParts = pendingParts.filter((pending) => pending !== part);
+
+      if (pendingParts.includes('internalReferrers')) {
+        return;
+      }
+
+      const isFirstRender = isLoading.value;
       isLoading.value = false;
       error.value = null;
-      report.value = buildReport(model, actionType, actionName);
+      report.value = buildReport(model, actionType, actionName, pendingParts);
 
-      // Still in flight on the first report, so fill the tooltip in when it lands.
-      model.whenTotalNbPageviewsLoaded((totalNbPageviews) => {
-        if (!isCurrent(id) || !report.value) {
-          return;
-        }
+      if (isFirstRender) {
+        // Still in flight on the first report, so fill the tooltip in when it lands. A report
+        // rebuilt by a later part picks the total up from the model itself.
+        model.whenTotalNbPageviewsLoaded((totalNbPageviews) => {
+          if (!isCurrent(id) || !report.value) {
+            return;
+          }
 
-        // In place, not a new object: replacing it would re-lay-out both ribbon layers for the
-        // sake of one tooltip string.
-        report.value.pageviewsTooltip = buildPageviewsTooltip(model, totalNbPageviews);
-      });
+          // In place, not a new object: replacing it would re-lay-out both ribbon layers for the
+          // sake of one tooltip string.
+          report.value.pageviewsTooltip = buildPageviewsTooltip(model, totalNbPageviews);
+        });
+      }
 
-      Matomo.postEvent('Transitions.dataChanged', { actionType, actionName });
+      if (!pendingParts.length) {
+        Matomo.postEvent('Transitions.dataChanged', { actionType, actionName });
+      }
+    };
+
+    PARTS.forEach((part) => {
+      model.loadPart(part, actionType, actionName, overrideParams, () => onPartLoaded(part));
     });
   }
 

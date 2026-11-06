@@ -429,4 +429,112 @@ describe('Transitions/TransitionsReport', () => {
     expect(backend.totalWaiterCount()).toBe(0);
     expect(wrapper.find('.transitionsCenterCard__pageviews').attributes('title')).toBe('');
   });
+
+  describe('progressive loading', () => {
+    function columnLoaders(wrapper: VueWrapper): boolean[] {
+      return wrapper.findAll('.transitionsReport__column')
+        .map((column) => column.find('.transitionsColumn__loader').exists());
+    }
+
+    function metricLabel(wrapper: VueWrapper, prefix: string) {
+      return wrapper.findAll('.transitionsCenterCard__metric')
+        .find((metric) => metric.text().startsWith(prefix));
+    }
+
+    it('should render once the internal referrers are in, with the other parts loading', async () => {
+      const wrapper = mountTransitionsReport();
+      backend.respondPart('internalReferrers');
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
+      expect(wrapper.find('.transitionsCenterCard__pageviews').text())
+        .toBe('Transitions_NumPageviews:100');
+      expect(columnLoaders(wrapper)).toEqual([true, true]);
+
+      // Only the groups that are in get rows; the outgoing side has none yet.
+      const titles = wrapper.findAll('.transitionsSection__title').map((node) => node.text());
+      expect(titles).toEqual(['Transitions_FromPreviousPages']);
+
+      // A pending metric and both side totals show a spinner instead of a number.
+      expect(metricLabel(wrapper, 'Referrers_TypeSearchEngines')!.find('.matomo-loader').exists())
+        .toBe(true);
+      expect(metricLabel(wrapper, 'Transitions_ExitsInline')!.find('.matomo-loader').exists())
+        .toBe(true);
+      expect(metricLabel(wrapper, 'Transitions_FromPreviousPagesInline')!.text())
+        .toBe('Transitions_FromPreviousPagesInline:40');
+      expect(wrapper.findAll('.transitionsCenterCard__metricTotal .matomo-loader')).toHaveLength(2);
+    });
+
+    it('should fill each side in as its part lands', async () => {
+      const wrapper = mountTransitionsReport();
+      backend.respondPart('internalReferrers');
+      backend.respondPart('externalReferrers');
+      await flushRibbons();
+
+      expect(columnLoaders(wrapper)).toEqual([false, true]);
+      expect(wrapper.findAll('.transitionsCenterCard__metricTotal').map((n) => n.text()))
+        .toEqual(['80', '']);
+
+      backend.respondPart('followingActions');
+      await flushRibbons();
+
+      expect(columnLoaders(wrapper)).toEqual([false, false]);
+      expect(wrapper.findAll('.transitionsCenterCard__metricTotal').map((n) => n.text()))
+        .toEqual(['80', '55']);
+      expect(wrapper.find('.matomo-loader').exists()).toBe(false);
+    });
+
+    it('should wait for the internal referrers before rendering parts that land first', async () => {
+      const wrapper = mountTransitionsReport();
+      backend.respondPart('followingActions');
+      backend.respondPart('externalReferrers');
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(false);
+
+      backend.respondPart('internalReferrers');
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
+      expect(columnLoaders(wrapper)).toEqual([false, false]);
+    });
+
+    it('should post Transitions.dataChanged only once every part is in', async () => {
+      mountTransitionsReport();
+      backend.respondPart('internalReferrers');
+      backend.respondPart('followingActions');
+      await flushRibbons();
+
+      expect(postEvent).not.toHaveBeenCalledWith('Transitions.dataChanged', expect.anything());
+
+      backend.respondPart('externalReferrers');
+      await flushRibbons();
+
+      expect(postEvent).toHaveBeenCalledTimes(1);
+      expect(postEvent).toHaveBeenCalledWith(
+        'Transitions.dataChanged',
+        { actionType: 'url', actionName: 'http://example.org/page' },
+      );
+    });
+
+    it('should fail the report when a later part fails, and ignore the parts after it', async () => {
+      const wrapper = mountTransitionsReport();
+      backend.respondPart('internalReferrers');
+      await flushRibbons();
+
+      backend.failPart('followingActions', 'PeriodNotAllowed');
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(false);
+      expect(wrapper.find('.transitionsReport__errorTitle').text())
+        .toContain('Transitions_PeriodNotAllowed');
+
+      backend.respondPart('externalReferrers');
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(false);
+      expect(wrapper.find('.transitionsReport__error').exists()).toBe(true);
+      expect(postEvent).not.toHaveBeenCalledWith('Transitions.dataChanged', expect.anything());
+    });
+  });
 });

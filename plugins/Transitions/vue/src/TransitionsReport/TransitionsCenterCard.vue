@@ -33,9 +33,13 @@
       :class="{ 'transitionsCenterCard__metricGroup--divided': side === 'outgoing' }"
       v-for="side in sides"
       :key="side"
+      :aria-busy="report.loadingSides[side] ? 'true' : undefined"
     >
       <span class="transitionsCenterCard__metricHeading">{{ headingFor(side) }}</span>
-      <span class="transitionsCenterCard__metricTotal">{{ totalFor(side) }}</span>
+      <span class="transitionsCenterCard__metricTotal">
+        <MatomoLoader v-if="report.loadingSides[side]" />
+        <template v-else>{{ totalFor(side) }}</template>
+      </span>
 
       <div class="transitionsCenterCard__metricList">
         <component
@@ -53,7 +57,13 @@
           <span class="transitionsCenterCard__dot" :class="dotClass(metric)"></span>
           <span class="transitionsCenterCard__metricLabel"
             >{{ metric.labelBefore
-            }}<strong class="transitionsCenterCard__metricValue">{{ metric.valueLabel }}</strong
+          }}<MatomoLoader
+            v-if="metric.isLoading"
+            class="transitionsCenterCard__valueLoader"
+          /><strong
+            v-else
+            class="transitionsCenterCard__metricValue"
+          >{{ metric.valueLabel }}</strong
             >{{ metric.labelAfter }}</span
           >
         </component>
@@ -68,7 +78,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { translate, NumberFormatter } from 'CoreHome';
+import { translate, MatomoLoader, NumberFormatter } from 'CoreHome';
 import { TransitionsMetricData, TransitionsReportData, TransitionsSide } from './types';
 
 export default defineComponent({
@@ -81,6 +91,9 @@ export default defineComponent({
       type: String,
       default: '',
     },
+  },
+  components: {
+    MatomoLoader,
   },
   emits: ['open', 'highlight', 'unhighlight'],
   computed: {

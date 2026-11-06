@@ -11,6 +11,9 @@ export type TransitionsSide = 'incoming'|'outgoing';
 /** Where the report is mounted. The two differ in how a previous/following page row navigates. */
 export type TransitionsContext = 'embedded'|'popover';
 
+/** The parts of Transitions.getTransitionsForAction, which the report requests in parallel. */
+export type TransitionsPart = 'internalReferrers'|'followingActions'|'externalReferrers';
+
 /** `action` rows are the open group's detail rows; `summary` rows stand for a closed group. */
 export type TransitionsRowKind = 'action'|'summary';
 
@@ -40,6 +43,8 @@ export interface TransitionsGroupData {
   nbTransitions: number;
   /** Direct entries and exits have no detail rows to open. */
   canExpand: boolean;
+  /** Set while the part this group comes from is still being requested. */
+  isLoading: boolean;
   countLabel: string;
   rows: TransitionsRowData[];
   summaryRow: TransitionsRowData;
@@ -67,6 +72,7 @@ export interface TransitionsMetricData {
   valueLabel: string;
   tooltip: string;
   canExpand: boolean;
+  isLoading: boolean;
 }
 
 /** The error contract of Transitions.getTransitionsForAction, resolved to displayable text. */
@@ -89,6 +95,8 @@ export interface TransitionsReportData {
   pageviewsTooltip: string;
   incomingTotal: number;
   outgoingTotal: number;
+  /** Whether a side still waits for some of its groups; its total is then incomplete. */
+  loadingSides: Record<TransitionsSide, boolean>;
   groups: TransitionsGroupData[];
   metrics: TransitionsMetricData[];
 }

@@ -15,6 +15,7 @@
 export function coreHomeMock(postEvent: (...args: unknown[]) => void) {
   return {
     ActivityIndicator: { template: '<div class="activityIndicator" />', props: ['loading'] },
+    MatomoLoader: { template: '<span class="matomo-loader" />' },
     Matomo: {
       postEvent: (...args: unknown[]) => postEvent(...args),
       helper: {

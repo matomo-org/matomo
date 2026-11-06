@@ -239,6 +239,14 @@ declare global {
       overrideParams: Record<string, string>|null,
       callback: () => void,
     ): void;
+    /** Loads one part of the report into the model; exits are derived once both page parts are in. */
+    loadPart(
+      part: 'internalReferrers'|'followingActions'|'externalReferrers',
+      actionType: string,
+      actionName: string,
+      overrideParams: Record<string, string>|null,
+      callback: () => void,
+    ): void;
     getTotalNbPageviews(): number|false;
     /** Calls back with the site's total pageviews, now or once it arrives. `false` when there is none. */
     whenTotalNbPageviewsLoaded(callback: (nbPageviews: number|false) => void): void;

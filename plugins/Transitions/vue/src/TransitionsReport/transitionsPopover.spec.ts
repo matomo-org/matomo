@@ -254,6 +254,98 @@ describe('Transitions/popover mount point', () => {
     expect(rowAction.openPopover).not.toHaveBeenCalled();
   });
 
+  describe('part loading', () => {
+    interface PartModel {
+      loadPart(
+        part: string,
+        actionType: string,
+        actionName: string,
+        overrideParams: Record<string, string>|null,
+        callback: () => void,
+      ): void;
+      exits: number;
+      followingPagesNbTransitions: number;
+      searchEnginesNbTransitions: number;
+    }
+
+    let calls: { params: Record<string, unknown>; respond: (report: unknown) => void }[];
+    let model: PartModel;
+
+    const RESPONSES: Record<string, unknown> = {
+      internalReferrers: {
+        date: 'Aug 9, 2012',
+        pageMetrics: { pageviews: 100, loops: 10 },
+        previousPages: [{ url: 'http://example.org/a', referrals: 40 }],
+        previousSiteSearches: [],
+      },
+      followingActions: {
+        date: 'Aug 9, 2012',
+        followingPages: [{ url: 'http://example.org/c', referrals: 35 }],
+        followingSiteSearches: [{ label: 'term', referrals: 5 }],
+        downloads: [{ url: 'http://example.org/file.zip', referrals: 3 }],
+        outlinks: [],
+      },
+      externalReferrers: {
+        date: 'Aug 9, 2012',
+        referrers: [{
+          shortName: 'search',
+          label: 'Search',
+          visits: 25,
+          details: [],
+        }],
+      },
+    };
+
+    beforeEach(() => {
+      calls = [];
+      const ajax = {
+        callApi: (method: string, params: Record<string, unknown>, done: (r: unknown) => void) => {
+          calls.push({ params: { ...params, method }, respond: done });
+        },
+        loadTotalNbPageviews: () => undefined,
+      };
+      const Model = (window as unknown as Record<string, unknown>)
+        .Piwik_Transitions_Model as new (transitionsAjax: unknown) => PartModel;
+      model = new Model(ajax);
+
+      ['internalReferrers', 'followingActions', 'externalReferrers'].forEach((part) => {
+        model.loadPart(part, 'url', 'http://example.org/page', { segment: 'x' }, () => undefined);
+      });
+    });
+
+    function respond(part: string) {
+      calls.find((call) => call.params.parts === part)!.respond(RESPONSES[part]);
+    }
+
+    it('should request each part on its own, leaving reloads out of the following actions', () => {
+      expect(calls.map((call) => [call.params.parts, call.params.excludeLoops])).toEqual([
+        ['internalReferrers', undefined],
+        ['followingActions', 1],
+        ['externalReferrers', undefined],
+      ]);
+      expect(calls[0].params).toMatchObject({
+        method: 'Transitions.getTransitionsForAction',
+        actionType: 'url',
+        actionName: 'http://example.org/page',
+        segment: 'x',
+      });
+    });
+
+    it('should derive the exits once both page parts are in, whichever lands first', () => {
+      respond('followingActions');
+      respond('externalReferrers');
+      expect(model.exits).toBe(0);
+
+      respond('internalReferrers');
+
+      // 100 pageviews - 35 following pages - 5 following searches - 10 loops; the download
+      // ends the visit, so it is an exit too.
+      expect(model.exits).toBe(50);
+      expect(model.followingPagesNbTransitions).toBe(35);
+      expect(model.searchEnginesNbTransitions).toBe(25);
+    });
+  });
+
   describe('total pageviews queue', () => {
     let Model: TotalModelStatic;
 

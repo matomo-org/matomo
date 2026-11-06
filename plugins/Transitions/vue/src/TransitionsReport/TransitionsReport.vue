@@ -29,6 +29,7 @@
       <div class="transitionsReport__column" ref="incomingColumn">
         <TransitionsColumn
           :sections="incomingSections"
+          :loading="report.loadingSides.incoming"
           :highlighted-keys="highlightedKeys"
           @open="onOpen('incoming', $event)"
           @highlight="onRowHighlight"
@@ -71,6 +72,7 @@
       <div class="transitionsReport__column" ref="outgoingColumn">
         <TransitionsColumn
           :sections="outgoingSections"
+          :loading="report.loadingSides.outgoing"
           :highlighted-keys="highlightedKeys"
           @open="onOpen('outgoing', $event)"
           @highlight="onRowHighlight"
@@ -229,7 +231,7 @@ export default defineComponent({
     },
     groupsFor(side: TransitionsSide): TransitionsGroupData[] {
       return (this.report?.groups || [])
-        .filter((group) => group.side === side && group.nbTransitions > 0);
+        .filter((group) => group.side === side && !group.isLoading && group.nbTransitions > 0);
     },
     /**
      * A column holds at most two blocks: the open group, listed row by row under its own title,
@@ -273,8 +275,8 @@ export default defineComponent({
           side,
           title: translate(openGroup ? otherKey : allKey),
           // Only the incoming block gets a badge: on the outgoing side this would phrase summed
-          // downloads and outlinks as pageviews.
-          badge: side === 'incoming'
+          // downloads and outlinks as pageviews. Nor while groups are loading: it would fall short.
+          badge: side === 'incoming' && !this.report?.loadingSides[side]
             ? translate('Transitions_NumPageviews', NumberFormatter.formatNumber(total))
             : '',
           rows: rest.map((group) => group.summaryRow),

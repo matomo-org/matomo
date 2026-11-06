@@ -299,10 +299,66 @@ function Piwik_Transitions_Model(ajax) {
     this.ajax = ajax;
 
     this.groupTitles = {};
+
+    this.reset();
 }
 
 Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, overrideParams, callback) {
     var self = this;
+
+    this.reset();
+
+    this.ajax.callApi('Transitions.getTransitionsForAction', this.buildParams(actionType, actionName, overrideParams),
+        function (report) {
+            self.applyInternalReferrers(report);
+            self.applyFollowingActions(report);
+            self.applyExternalReferrers(report);
+            self.exits = report.pageMetrics.exits;
+
+            self.loadTotalNbPageviewsOnce();
+
+            callback();
+        });
+};
+
+/**
+ * Loads one part of the report (internalReferrers, followingActions or externalReferrers), so a
+ * caller can show each part as it lands. A model holds one report, so use a new one per report.
+ * Exits are derived once both internalReferrers and followingActions are in.
+ */
+Piwik_Transitions_Model.prototype.loadPart = function (part, actionType, actionName, overrideParams, callback) {
+    var self = this;
+
+    var params = this.buildParams(actionType, actionName, overrideParams);
+    params.parts = part;
+    if (part === 'followingActions') {
+        // reloads are reported as loops by internalReferrers
+        params.excludeLoops = 1;
+    }
+
+    this.ajax.callApi('Transitions.getTransitionsForAction', params, function (report) {
+        if (part === 'internalReferrers') {
+            self.applyInternalReferrers(report);
+            self.loadTotalNbPageviewsOnce();
+        } else if (part === 'followingActions') {
+            self.applyFollowingActions(report);
+        } else if (part === 'externalReferrers') {
+            self.applyExternalReferrers(report);
+        }
+
+        self.loadedParts[part] = true;
+        if (self.loadedParts.internalReferrers && self.loadedParts.followingActions) {
+            // downloads and outlinks end the visit, so they count as exits
+            self.exits = self.pageviews - self.followingPagesNbTransitions
+                - self.followingSiteSearchesNbTransitions - self.loops;
+        }
+
+        callback();
+    });
+};
+
+Piwik_Transitions_Model.prototype.reset = function () {
+    this.loadedParts = {};
 
     this.pageviews = 0;
     this.exits = 0;
@@ -344,7 +400,9 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, o
     this.followingSiteSearches = [];
 
     this.date = '';
+};
 
+Piwik_Transitions_Model.prototype.buildParams = function (actionType, actionName, overrideParams) {
     var params = {
         actionType: actionType,
         actionName: actionName,
@@ -354,60 +412,68 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, o
         $.extend(params, overrideParams);
     }
 
-    this.ajax.callApi('Transitions.getTransitionsForAction', params,
-        function (report) {
-            self.date = report.date;
+    return params;
+};
 
-            // load page metrics
-            self.pageviews = report.pageMetrics.pageviews;
-            self.loops = report.pageMetrics.loops;
-            self.exits = report.pageMetrics.exits;
+Piwik_Transitions_Model.prototype.applyInternalReferrers = function (report) {
+    this.date = report.date;
+    this.pageviews = report.pageMetrics.pageviews;
+    this.loops = report.pageMetrics.loops;
 
-            // load referrers: split direct entries and others
-            for (var i = 0; i < report.referrers.length; i++) {
-                var referrer = report.referrers[i];
-                if (referrer.shortName == 'direct') {
-                    self.directEntries = referrer.visits;
-                } else if (referrer.shortName == 'search') {
-                    self.searchEnginesNbTransitions = referrer.visits;
-                    self.searchEngines = referrer.details;
-                    self.groupTitles.searchEngines = referrer.label;
-                } else if (referrer.shortName == 'social') {
-                    self.socialNetworksNbTransitions = referrer.visits;
-                    self.socialNetworks = referrer.details;
-                    self.groupTitles.socialNetworks = referrer.label;
-                } else if (referrer.shortName == 'ai') {
-                    self.aiAssistantsNbTransitions = referrer.visits;
-                    self.aiAssistants = referrer.details;
-                    self.groupTitles.aiAssistants = referrer.label;
-                } else if (referrer.shortName == 'website') {
-                    self.websitesNbTransitions = referrer.visits;
-                    self.websites = referrer.details;
-                    self.groupTitles.websites = referrer.label;
-                } else if (referrer.shortName == 'campaign') {
-                    self.campaignsNbTransitions = referrer.visits;
-                    self.campaigns = referrer.details;
-                    self.groupTitles.campaigns = referrer.label;
-                }
-            }
+    this.loadAndSumReport(report, 'previousPages');
+    this.loadAndSumReport(report, 'previousSiteSearches');
+};
 
-            self.loadAndSumReport(report, 'previousPages');
-            self.loadAndSumReport(report, 'previousSiteSearches');
-            self.loadAndSumReport(report, 'followingPages');
-            self.loadAndSumReport(report, 'followingSiteSearches');
-            self.loadAndSumReport(report, 'downloads');
-            self.loadAndSumReport(report, 'outlinks');
+Piwik_Transitions_Model.prototype.applyFollowingActions = function (report) {
+    this.loadAndSumReport(report, 'followingPages');
+    this.loadAndSumReport(report, 'followingSiteSearches');
+    this.loadAndSumReport(report, 'downloads');
+    this.loadAndSumReport(report, 'outlinks');
+};
 
-            if (typeof Piwik_Transitions_Model.totalNbPageviews == 'undefined') {
-                Piwik_Transitions_Model.totalNbPageviews = false;
-                self.ajax.loadTotalNbPageviews(function (nbPageviews) {
-                    Piwik_Transitions_Model.totalNbPageviews = nbPageviews;
-                    self.notifyTotalNbPageviewsLoaded(nbPageviews);
-                });
-            }
+/** Splits the referrers into direct entries and the groups with detail rows. */
+Piwik_Transitions_Model.prototype.applyExternalReferrers = function (report) {
+    for (var i = 0; i < report.referrers.length; i++) {
+        var referrer = report.referrers[i];
+        if (referrer.shortName == 'direct') {
+            this.directEntries = referrer.visits;
+        } else if (referrer.shortName == 'search') {
+            this.searchEnginesNbTransitions = referrer.visits;
+            this.searchEngines = referrer.details;
+            this.groupTitles.searchEngines = referrer.label;
+        } else if (referrer.shortName == 'social') {
+            this.socialNetworksNbTransitions = referrer.visits;
+            this.socialNetworks = referrer.details;
+            this.groupTitles.socialNetworks = referrer.label;
+        } else if (referrer.shortName == 'ai') {
+            this.aiAssistantsNbTransitions = referrer.visits;
+            this.aiAssistants = referrer.details;
+            this.groupTitles.aiAssistants = referrer.label;
+        } else if (referrer.shortName == 'website') {
+            this.websitesNbTransitions = referrer.visits;
+            this.websites = referrer.details;
+            this.groupTitles.websites = referrer.label;
+        } else if (referrer.shortName == 'campaign') {
+            this.campaignsNbTransitions = referrer.visits;
+            this.campaigns = referrer.details;
+            this.groupTitles.campaigns = referrer.label;
+        }
+    }
+};
 
-            callback();
-        });
+/** Fires the site total request once per page; it is still in flight on the first report. */
+Piwik_Transitions_Model.prototype.loadTotalNbPageviewsOnce = function () {
+    var self = this;
+
+    if (typeof Piwik_Transitions_Model.totalNbPageviews != 'undefined') {
+        return;
+    }
+
+    Piwik_Transitions_Model.totalNbPageviews = false;
+    this.ajax.loadTotalNbPageviews(function (nbPageviews) {
+        Piwik_Transitions_Model.totalNbPageviews = nbPageviews;
+        self.notifyTotalNbPageviewsLoaded(nbPageviews);
+    });
 };
 
 Piwik_Transitions_Model.prototype.loadAndSumReport = function (apiData, reportName) {
