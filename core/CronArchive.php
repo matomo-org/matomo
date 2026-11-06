@@ -563,7 +563,7 @@ class CronArchive
                 $archiveWriter->finalizeArchive();
 
                 // site is using the tracker, but there are no visits for this period, so just delete the archive and move on
-                $this->deleteInvalidatedArchives($archive);
+                $this->model->deleteProcessedInvalidation($archive);
                 $this->releaseArchivesHeldBy($archive);
                 continue;
             }
@@ -644,7 +644,7 @@ class CronArchive
                 $peakMemory
             );
 
-            $this->deleteInvalidatedArchives($archive);
+            $this->model->deleteProcessedInvalidation($archive);
             $this->releaseArchivesHeldBy($archive);
 
             $this->repairInvalidationsIfNeeded($archive);
