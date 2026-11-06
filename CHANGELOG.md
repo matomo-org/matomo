@@ -9,6 +9,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
+### HTTP API
+* `prettyDate` of `API.getProcessedReport` now names the period the report's rows were archived for:
+  * For a relative date such as `today`, `yesterday`, `lastN` or `previousN` with the period `day`, `week`, `month` or `year` on a single site whose day differs from UTC's, it names the site's days instead of UTC's, and so do the date line and file name of the scheduled reports generated from it.
+  * A relative `range` is still resolved as before, not on the site's days, and is labelled on the days its rows are archived for.
+  * A module that selects its own set of sites, such as `MultiSites.getAll`, is labelled on the days its rows cover, which are UTC's days when it covers more than one site.
+  * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
+
 ### Other changes
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
