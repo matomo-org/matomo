@@ -1,0 +1,92 @@
+// the modal the dialog is moved into: compact, on the card surface, with outlined Cancel and filled Send request
+// the modal the dialog is moved into, as designed: 600px wide, 32px padding and 24px between its parts
+.requestPluginModal.modal {
+  width: 600px;
+  max-width: 90%;
+  padding: 32px;
+  gap: 24px;
+  border-radius: 12px;
+  background: @theme-color-background-contrast;
+  // the shadow of Matomo's own modals (Morpheus ui/_modal.less)
+  box-shadow: @_modal_box-shadow;
+
+  .inDarkMode({
+    box-shadow: @_modal_box-shadow-dark;
+  });
+
+  .btn-close {
+    top: 24px;
+    right: 24px;
+  }
+
+  .modal-content {
+    padding: 0;
+    .vertical-scroll-shadows(@theme-color-background-contrast);
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    height: auto;
+    padding: 0;
+    background: @theme-color-background-contrast;
+
+    .modal-action {
+      float: none;
+      height: 36px;
+      margin: 0;
+      line-height: 34px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .btn-flat {
+      color: @theme-color-brand;
+      border: 1px solid @theme-color-brand;
+      border-radius: 3px;
+    }
+  }
+}
+
+// only the dialog with a message: the confirmation shown while requests are off keeps its centred text
+.requestPluginModal .requestPlugin {
+  // the modal's padding is the only one: Dashboard pads every .ui-confirm
+  padding: 0;
+
+  h2 {
+    // room for the close button
+    padding-right: 24px;
+    margin: 0 0 24px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+  }
+
+  p {
+    margin: 0 0 24px;
+    color: @theme-color-text-lighter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+  }
+
+  &__message {
+
+    label {
+      display: block;
+    }
+  }
+
+  // one underlined line, as the other fields
+  &__messageInput.materialize-textarea {
+    min-height: 0;
+    height: 2.5rem;
+    margin: 0;
+    padding: 8px 0;
+    background: none;
+    resize: none;
+  }
+}

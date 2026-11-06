@@ -752,6 +752,17 @@ class ApiTest extends IntegrationTestCase
         self::assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $requests[0]['requestedAt']);
     }
 
+    public function testGetMyPluginRequestsAsksTheMarketplaceForDisplayNamesItsCachedListsDoNotHold(): void
+    {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1');
+        StaticContainer::get(Client::class)->clearAllCacheEntries();
+
+        self::assertSame('Paid Plugin 1', $this->api->getMyPluginRequests()[0]['displayName']);
+    }
+
     public function testGetMyPluginRequestsShowsNoNoteForAnApprovedRequest(): void
     {
         $this->enablePluginRequests();

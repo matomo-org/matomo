@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Marketplace;
 use Exception;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
+use Piwik\API\Request as ApiRequest;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\PluginNotFoundException;
@@ -32,6 +33,7 @@ use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
@@ -149,6 +151,48 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->renderTemplate('@Marketplace/manageLicenseKey', array(
             'hasValidLicenseKey' => $this->licenseKey->has() && $this->consumer->isValidConsumer(),
         ));
+    }
+
+    /**
+     * Lists the plugins the current user requested, and what became of each request
+     */
+    public function manageRequests(): string
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        if (!$this->getPluginTrialService()->areRequestsActive()) {
+            throw new Exception('Plugin requests are not enabled');
+        }
+
+        $requests = ApiRequest::processRequest('Marketplace.getMyPluginRequests', [], []);
+        foreach ($requests as &$request) {
+            $request['requestedAtPretty'] = $this->getPrettyLongDate($request['requestedAt']);
+        }
+
+        return $this->renderTemplate('@Marketplace/manageRequests', [
+            'requests' => $requests,
+        ]);
+    }
+
+    /**
+     * Returns the current user's request of each plugin, or null while users cannot request plugins
+     *
+     * @return array<string, array{request_type: string, decision: string|null}>|null keyed by plugin name
+     */
+    private function getPluginRequestsOfCurrentUser(): ?array
+    {
+        if (Piwik::hasUserSuperUserAccess() || !$this->getPluginTrialService()->areRequestsActive()) {
+            return null;
+        }
+
+        $requests = StaticContainer::get(RequestHistory::class)->getRequestsOfLogin(Piwik::getCurrentUserLogin());
+
+        return array_column($requests, null, 'plugin_name');
+    }
+
+    private function getPluginTrialService(): PluginTrialService
+    {
+        return StaticContainer::get(PluginTrialService::class);
     }
 
     #[JsonResponse]
@@ -272,6 +316,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->uploadLimit = SettingsServer::getPostMaxUploadSize();
         $view->inReportingMenu = (bool) Common::getRequestVar('embed', 0, 'int');
         $view->numUsers = $this->environment->getNumUsers();
+        $view->arePluginRequestsActive = !$view->isSuperUser && $this->getPluginTrialService()->areRequestsActive();
 
         return $view->render();
     }
@@ -313,6 +358,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Plugins::CAMPAIGN_MEDIUM_OVERVIEW
         );
 
+        $requestsOfUser = $this->getPluginRequestsOfCurrentUser();
+
         foreach ($plugins as &$plugin) {
             if ($plugin['isDownloadable']) {
                 $plugin['downloadNonce'] = Nonce::getNonce(static::DOWNLOAD_NONCE_PREFIX . $plugin['name']);
@@ -326,6 +373,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
                 $plugin['isTrialPending'] = StaticContainer::get(PluginTrialService::class)->isPending($plugin['name']);
                 $plugin['canTrialBeRequested'] = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0) !== -1;
+            }
+
+            if ($requestsOfUser !== null) {
+                $request = $requestsOfUser[$plugin['name']] ?? null;
+                $plugin['requestType'] = $request['request_type'] ?? null;
+                $plugin['requestStatus'] = $request === null ? null : ($request['decision'] ?? 'pending');
+                // as Marketplace.requestInstall accepts it
+                $plugin['canInstallBeRequested'] = $request === null
+                    && !empty($plugin['isFree'])
+                    && empty($plugin['isInstalled'])
+                    && CorePluginsAdmin::isPluginsAdminEnabled();
             }
 
             $plugin = $this->keepPluginCardFields($plugin);
@@ -425,6 +483,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'isTrialRequested',
             'isTrialPending',
             'canTrialBeRequested',
+            'canInstallBeRequested',
+            'requestType',
+            'requestStatus',
             'missingRequirements',
             'numDownloads',
             'numDownloadsPretty',

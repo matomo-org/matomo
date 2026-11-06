@@ -297,7 +297,8 @@ class API extends \Piwik\Plugin\API
         $this->checkPluginRequestsActive();
 
         $requests = $this->requestHistory->getRequestsOfLogin(Piwik::getCurrentUserLogin());
-        $displayNames = $this->getDisplayNames(array_column($requests, 'plugin_name'));
+        // a user requests few plugins, and the cached lists expire, or are not kept at all in development mode
+        $displayNames = $this->getDisplayNames(array_column($requests, 'plugin_name'), true);
 
         return array_map(fn (array $request) => [
             'pluginName' => $request['plugin_name'],
@@ -407,14 +408,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Only uses the cached Marketplace lists, so a list of many plugins sends no request per plugin
-     *
      * @param string[] $pluginNames
+     * @param bool $fetchMissing also asks the Marketplace about plugins its cached lists do not hold, which a list of
+     *                           many plugins must not, as that is one request per plugin
      * @return array<string, string> keyed by plugin name, the plugin name itself when no display name is known
      */
-    private function getDisplayNames(array $pluginNames): array
+    private function getDisplayNames(array $pluginNames, bool $fetchMissing = false): array
     {
-        $pluginInfos = $this->marketplaceClient->getInfoOfPlugins($pluginNames, false);
+        $pluginInfos = $this->marketplaceClient->getInfoOfPlugins($pluginNames, $fetchMissing);
 
         $displayNames = [];
         foreach ($pluginNames as $pluginName) {

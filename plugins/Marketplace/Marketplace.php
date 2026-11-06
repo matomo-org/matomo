@@ -172,6 +172,8 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/PluginDetails.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/PluginDetailsSkeleton.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/ShopPricing.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/ManageRequests/ManageRequests.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/RequestTrial/RequestTrial.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -265,6 +267,32 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_RequestTrialConfirmEmailWarning';
         $translationKeys[] = 'Marketplace_RequestTrialConfirmTitle';
         $translationKeys[] = 'Marketplace_RequestTrialSubmitted';
+        $translationKeys[] = 'Marketplace_RequestInstall';
+        $translationKeys[] = 'Marketplace_InstallRequested';
+        $translationKeys[] = 'Marketplace_TrialApproved';
+        $translationKeys[] = 'Marketplace_InstallApproved';
+        $translationKeys[] = 'Marketplace_TrialDeclined';
+        $translationKeys[] = 'Marketplace_InstallDeclined';
+        $translationKeys[] = 'Marketplace_TrialEnded';
+        $translationKeys[] = 'Marketplace_ViewRequest';
+        $translationKeys[] = 'Marketplace_RequestTrialTitle';
+        $translationKeys[] = 'Marketplace_RequestInstallTitle';
+        $translationKeys[] = 'Marketplace_RequestTrialIntro';
+        $translationKeys[] = 'Marketplace_RequestInstallIntro';
+        $translationKeys[] = 'Marketplace_RequestMessageLabel';
+        $translationKeys[] = 'Marketplace_RequestMessagePlaceholder';
+        $translationKeys[] = 'Marketplace_SendRequest';
+        $translationKeys[] = 'Marketplace_PluginRequestSent';
+        $translationKeys[] = 'Marketplace_ManageRequests';
+        $translationKeys[] = 'Marketplace_ManageRequestsIntro';
+        $translationKeys[] = 'Marketplace_RequestedOn';
+        $translationKeys[] = 'Marketplace_YourNote';
+        $translationKeys[] = 'Marketplace_SuperUserNote';
+        $translationKeys[] = 'Marketplace_RequestStatusPending';
+        $translationKeys[] = 'Marketplace_RequestStatusApproved';
+        $translationKeys[] = 'Marketplace_RequestStatusDeclined';
+        $translationKeys[] = 'Marketplace_NoPluginRequestsYet';
+        $translationKeys[] = 'Marketplace_NoPluginRequestsYetHelp';
         $translationKeys[] = 'Marketplace_ResetFilters';
         $translationKeys[] = 'Marketplace_OneResultFoundFor';
         $translationKeys[] = 'Marketplace_ResultsFoundFor';

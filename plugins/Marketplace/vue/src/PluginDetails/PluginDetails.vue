@@ -257,6 +257,7 @@
                 :update-nonce="updateNonce"
                 :plugin="plugin"
                 :in-modal="true"
+                :are-plugin-requests-active="arePluginRequestsActive"
                 :shop-variation-url="selectedShopVariationUrl"
                 @requestTrial="$emit('requestTrial', plugin)"
               />
@@ -533,6 +534,10 @@ export default defineComponent({
     numUsers: {
       type: Number,
       required: true,
+    },
+    arePluginRequestsActive: {
+      type: Boolean,
+      default: false,
     },
   },
   data(): PluginDetailsState {

@@ -23,6 +23,7 @@
       :update-nonce="updateNonce"
       :has-some-admin-access="hasSomeAdminAccess"
       :num-users="numUsers"
+      :are-plugin-requests-active="arePluginRequestsActive"
       @triggerUpdate="updateOverviewData()"
       @startTrialStart="disableInstallAllPlugins(true)"
       @startTrialStop="disableInstallAllPlugins(false)"
@@ -93,6 +94,7 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    arePluginRequestsActive: Boolean,
   },
   components: {
     Marketplace,
