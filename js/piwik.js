@@ -2177,7 +2177,7 @@ if (typeof window.Matomo !== 'object') {
                 return true;
             }
 
-            if (isDefined(frameElement)) {
+            if (frameElement !== null && isDefined(frameElement)) {
                 return (frameElement && String(frameElement.nodeName).toLowerCase() === 'iframe') ? true : false;
             }
 
