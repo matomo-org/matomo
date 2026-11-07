@@ -498,9 +498,9 @@ class Proxy
                 $type = $parameter['type'];
                 $request = new \Piwik\Request($parametersRequest);
 
-                if (in_array($name, ['segment', 'password', 'passwordConfirmation']) && !empty($parametersRequest[$name])) {
+                if (in_array($name, ['segment', 'intersectSegment', 'password', 'passwordConfirmation']) && !empty($parametersRequest[$name])) {
                     // special handling for some parameters:
-                    // segment: we do not want to sanitize user input as it would break the segment encoding
+                    // segment / intersectSegment: we do not want to sanitize user input as it would break the segment encoding
                     // password / passwordConfirmation: sanitizing this parameters might change special chars in passwords, breaking login and confirmation boxes
                     $requestValue = ($parametersRequest[$name]);
                 } elseif ($defaultValue instanceof NoDefaultValue) {
