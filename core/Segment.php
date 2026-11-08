@@ -345,9 +345,9 @@ class Segment
      * A segment computed from the columns of the visit only, e.g. `HOUR(log_visit.visit_last_action_time)`,
      * has a single value per visit, so its negation can filter the visits directly, without a subquery.
      */
-    private function readsOnlyVisitColumns($sqlSegment): bool
+    private function readsOnlyVisitColumns(?string $sqlSegment): bool
     {
-        if (!is_string($sqlSegment) || $sqlSegment === '') {
+        if ($sqlSegment === null || $sqlSegment === '') {
             return false;
         }
 
