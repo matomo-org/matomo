@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\BotTracking\BotTrackingMethod;
 
 use Piwik\Piwik;
-use Piwik\Url;
+use Piwik\View;
 
 class HttpTrackingApi extends BotTrackingMethodAbstract
 {
@@ -43,14 +43,10 @@ class HttpTrackingApi extends BotTrackingMethodAbstract
 
     public static function renderInstructionsTab(): string
     {
-        $knowledgeBaseLink = Url::getExternalLinkTag('https://matomo.org/docs/tracking-api/');
-        $referenceLink     = Url::getExternalLinkTag('https://developer.matomo.org/api-reference/tracking-api');
-
-        $description = Piwik::translate(
-            'BotTracking_NoDataHttpTrackingApiDescription',
-            [$knowledgeBaseLink, '</a>', $referenceLink, '</a>']
-        );
-
-        return '<p>' . $description . '</p>';
+        $view = new View('@BotTracking/_noDataHttpTrackingApi');
+        $view->sendHeadersWhenRendering = false;
+        $view->urlKnowledgeBase = 'https://matomo.org/faq/how-to/install-ai-chatbot-tracking';
+        $view->urlApiReference = 'https://developer.matomo.org/api-reference/tracking-api';
+        return $view->render();
     }
 }
