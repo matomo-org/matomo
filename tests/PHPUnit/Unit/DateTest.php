@@ -538,6 +538,63 @@ class DateTest extends \PHPUnit\Framework\TestCase
             ['lastyear', 'UTC+5', '2011-12-31 00:00:00', '2012-12-31 14:00:00'],
             ['last year', 'UTC+5', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
             ['last-year', 'Antarctica/Mawson', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
+
+            // The last-* keywords are matched case-insensitively and URL-decoded.
+            ['last%20week', 'UTC+5', '2012-12-25 00:00:00', '2012-12-31 19:00:00'],
+            ['LAST-WEEK', 'UTC+5', '2012-12-25 00:00:00', '2012-12-31 19:00:00'],
+            ['last%20month', 'UTC+5', '2012-12-01 00:00:00', '2012-12-31 19:00:00'],
+            ['Last%20Year', 'UTC+5', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForResolveRelativeInTimezone
+     */
+    public function testResolveRelativeInTimezone($dateString, $expectedKeyword)
+    {
+        Date::$now = strtotime('2020-12-24 16:37:00');
+
+        $resolved = Date::resolveRelativeInTimezone($dateString, 'UTC+12');
+
+        if ($expectedKeyword === null) {
+            $this->assertNull($resolved);
+        } else {
+            $this->assertSame(
+                Date::factoryInTimezone($expectedKeyword, 'UTC+12')->getDatetime(),
+                $resolved->getDatetime()
+            );
+        }
+    }
+
+    public function getTestDataForResolveRelativeInTimezone()
+    {
+        return [
+            ['now', 'now'],
+            ['today', 'today'],
+            // Only the last-* keywords are matched case-insensitively.
+            ['TODAY', null],
+            // Period\Factory does not trim, so a padded keyword is not a relative date.
+            [' today ', null],
+            ['yesterday', 'yesterday'],
+            ['yesterdaySameTime', 'yesterdaySameTime'],
+            ['YesterdaySameTime', null],
+            ['lastWeek', 'last-week'],
+            ['last week', 'last-week'],
+            ['last-week', 'last-week'],
+            ['last%20week', 'last-week'],
+            ['LAST%20WEEK', 'last-week'],
+            ['last month', 'last-month'],
+            ['last-year', 'last-year'],
+
+            // Anything else is an absolute date and belongs in factory().
+            ['2012-02-03', null],
+            ['last7', null],
+            ['previous30', null],
+            ['2012-02-03,today', null],
+            ['tomorrow', null],
+            ['', null],
+            [1356998400, null],
+            [null, null],
         ];
     }
 
@@ -547,6 +604,14 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('Date::factoryInTimezone() should not be used with');
 
         Date::factoryInTimezone('2012-02-03', 'America/Toronto');
+    }
+
+    public function testFactoryInTimezoneDoesNotWorkWithAnUppercaseToday()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Date::factoryInTimezone() should not be used with');
+
+        Date::factoryInTimezone('TODAY', 'America/Toronto');
     }
 
     public function testFactoryInTimezoneDoesNotWorkWithTimestamps()
