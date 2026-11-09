@@ -18,7 +18,9 @@ use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Http\BadRequestException;
 use Piwik\Log\LoggerInterface;
 use Piwik\Nonce;
 use Piwik\Notification;
@@ -385,7 +387,7 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * The "User Security" admin UI screen view
+     * Deletes one or all of the current user's auth tokens
      */
     public function deleteToken()
     {
@@ -395,28 +397,32 @@ class Controller extends ControllerAdmin
         $postRequestHasData = count($postRequest->getParameters());
 
         // after a password confirmation the action arrives as a GET, without a post body
-        $idTokenAuth = $postRequestHasData
-            ? $postRequest->getStringParameter('idtokenauth', '')
-            : \Piwik\Request::fromGet()->getStringParameter('idtokenauth', '');
+        $request = $postRequestHasData ? $postRequest : \Piwik\Request::fromGet();
+        $idTokenAuth = $request->getStringParameter('idtokenauth', '');
 
         if (!empty($idTokenAuth)) {
             // the forms only submit 'all' or a token id
             if ($idTokenAuth !== 'all' && !ctype_digit($idTokenAuth)) {
-                throw new Exception('Invalid idtokenauth');
+                throw new BadRequestException('Invalid idtokenauth');
             }
 
-            $params = array(
+            $nonce = $request->getStringParameter('nonce', '');
+            if (!Nonce::verifyNonce(self::NONCE_DELETE_AUTH_TOKEN, $nonce)) {
+                throw new BadRequestException(Piwik::translate('General_ExceptionSecurityCheckFailed'));
+            }
+
+            $params = [
                 'module' => 'UsersManager',
                 'action' => 'deleteToken',
                 'idtokenauth' => $idTokenAuth,
                 'nonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
-            );
+            ];
 
             if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-                throw new Exception('Not allowed');
+                throw new NoPrivilegesException('Not allowed');
             }
 
-            Nonce::checkNonce(self::NONCE_DELETE_AUTH_TOKEN);
+            Nonce::checkNonce(self::NONCE_DELETE_AUTH_TOKEN, $nonce);
 
             if ($idTokenAuth === 'all') {
                 $this->userModel->deleteAllTokensForUser(Piwik::getCurrentUserLogin());
@@ -426,12 +432,12 @@ class Controller extends ControllerAdmin
                 Notification\Manager::notify('successdeletetokens', $notification);
 
                 $container = StaticContainer::getContainer();
-                $email = $container->make(TokenAuthDeletedEmail::class, array(
+                $email = $container->make(TokenAuthDeletedEmail::class, [
                     'login' => Piwik::getCurrentUserLogin(),
                     'emailAddress' => Piwik::getCurrentUserEmail(),
                     'tokenDescription' => '',
                     'all' => true,
-                ));
+                ]);
                 $email->safeSend();
             } else {
                 $description = $this->userModel->getUserTokenDescriptionByIdTokenAuth($idTokenAuth, Piwik::getCurrentUserLogin());
@@ -442,11 +448,11 @@ class Controller extends ControllerAdmin
                 Notification\Manager::notify('successdeletetoken', $notification);
 
                 $container = StaticContainer::getContainer();
-                $email = $container->make(TokenAuthDeletedEmail::class, array(
+                $email = $container->make(TokenAuthDeletedEmail::class, [
                     'login' => Piwik::getCurrentUserLogin(),
                     'emailAddress' => Piwik::getCurrentUserEmail(),
                     'tokenDescription' => $description,
-                ));
+                ]);
                 $email->safeSend();
             }
 
@@ -457,7 +463,7 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * The "User Security" admin UI screen view
+     * Shows the form for a new auth token and creates the token when the form is submitted
      */
     public function addNewToken()
     {
@@ -466,7 +472,7 @@ class Controller extends ControllerAdmin
         $params = ['module' => 'UsersManager', 'action' => 'addNewToken'];
 
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-            throw new Exception('Not allowed');
+            throw new NoPrivilegesException('Not allowed');
         }
 
         $postRequest = \Piwik\Request::fromPost();

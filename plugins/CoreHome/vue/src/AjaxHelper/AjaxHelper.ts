@@ -381,6 +381,36 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     }
   }
 
+  /**
+   * Returns the API error a request failed with, eg an exception answered with a 4xx status, so it
+   * is handled like one answered with status 200. A custom error callback set without
+   * useCallbackInCaseOfError() keeps receiving it instead.
+   */
+  private getApiErrorResponse(xhr: jqXHR|null|undefined): ErrorResponse|null {
+    const hasCustomErrorCallback = this.errorCallback !== null
+      && this.errorCallback !== defaultErrorCallback
+      && !this.useRegularCallbackInCaseOfError;
+
+    if (hasCustomErrorCallback || !xhr) {
+      return null;
+    }
+
+    if (xhr.status < 400 || xhr.status >= 500 || xhr.status === 429) {
+      return null;
+    }
+
+    if (xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1') {
+      return null;
+    }
+
+    const response = xhr.responseJSON as ErrorResponse|undefined;
+    if (!response || response.result !== 'error' || typeof response.message !== 'string') {
+      return null;
+    }
+
+    return response;
+  }
+
   private handleApiErrorResponseOrCallback(
     response: any, // eslint-disable-line @typescript-eslint/no-explicit-any
     status: string,
@@ -985,6 +1015,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           return;
         }
 
+        const apiError = this.getApiErrorResponse(xhr);
+        if (apiError) {
+          resolve(this.resolveWithHelper ? this as unknown as (T | ErrorResponse) : apiError);
+          return;
+        }
+
         console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
 
         reject(xhr);
@@ -1021,6 +1057,16 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       error: function errorCallback(...args: any[]) { // eslint-disable-line
         if (self.abortable) {
           window.globalAjaxQueue.active -= 1;
+        }
+
+        const apiError = self.getApiErrorResponse(args[0]);
+        if (apiError) {
+          self.handleApiErrorResponseOrCallback(apiError, args[1], args[0]);
+
+          if (Matomo.ajaxRequestFinished) {
+            Matomo.ajaxRequestFinished();
+          }
+          return;
         }
 
         if (self.errorCallback) {

@@ -146,6 +146,11 @@ class InsightReport
         $minDecreaseDisappeared = $this->getMinVisits($totalValue, $minDisappearedPercent);
 
         $dataTable = new DataTable();
+        // growth_percent holds strings like '100%', and neither growth column has a meaningful total
+        $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, [
+            'growth_percent' => 'skip',
+            'growth_percent_numeric' => 'skip',
+        ]);
         $dataTable->filter(
             'Piwik\Plugins\Insights\DataTable\Filter\Insight',
             array(

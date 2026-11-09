@@ -15,8 +15,27 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\Plugins\UserId\Settings\UserIdDisabled::shouldDiscardUserId()` decides whether a request's User ID has to be discarded, given the site's tracker cache and whether the request reports consent. A compliance policy requiring User ID collection to be off no longer withholds it from a visitor who has consented, while a site that turned the setting on itself still has it applied. The tracker cache gains a matching `UserId.userIdDisabledConfiguredValue` entry holding the configured value.
 * `Piwik\Plugins\PrivacyManager\Config::getConfiguredValue()` returns the value an admin configured for a privacy setting themselves, without the stricter requirement a compliance policy may be enforcing on top of it. It reads the tracker cache rather than the option table, so it is safe to call while tracking. The tracker cache gains a matching `PrivacyManager.anonymizeReferrerConfiguredValue` entry.
 
+### New config.ini.php settings
+* `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
+
+### New APIs
+* The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
+* The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
+* The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
+
 ### Deprecations
+* The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
+
+### HTTP API
+* `prettyDate` of `API.getProcessedReport` now names the period the report's rows were archived for:
+  * For a relative date such as `today`, `yesterday`, `lastN` or `previousN` with the period `day`, `week`, `month` or `year` on a single site whose day differs from UTC's, it names the site's days instead of UTC's, and so do the date line and file name of the scheduled reports generated from it.
+  * A relative `range` is still resolved as before, not on the site's days, and is labelled on the days its rows are archived for.
+  * A module that selects its own set of sites, such as `MultiSites.getAll`, is labelled on the days its rows cover, which are UTC's days when it covers more than one site.
+  * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
+
+### Other changes
+* The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
 ## Matomo 6.0.0
 
@@ -90,6 +109,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\Plugins\AIProviders\AIRequestDecision::reportUsage()` lets an `AIProviders.checkFeatureAllowed` listener that allows an action still report the used, limit and remaining figures, which `getUsed()`, `getLimit()` and `getRemaining()` previously returned only after `deny()`. It is ignored once the decision is denied. With several listeners the report with the least remaining wins, and a report without a remaining figure (unlimited) never replaces one that has it.
 * The `Archiver.filterRecordBuilders` event now also receives the `ArchiveProcessor` of the archive being built, so a listener can restrict or replace RecordBuilders for a specific site, period or segment. The RecordBuilder instances are shared by every archive built in the same request, so a listener should replace or remove entries rather than modify an instance. Existing listeners that take only `$recordBuilders` are unaffected.
 * The new `Marketplace.pluginTrialRequested` event is posted after a user requests a trial of a plugin, with the plugin's name and display name, so an audit trail can record it. The requesting user is the current user.
+* Each requirement returned by `Piwik\Plugin\Dependency::getMissingDependencies()` and `Piwik\Plugin::getMissingDependencies()` now carries a boolean `actualVersionTooNew` key, `true` when no version newer than the installed one satisfies it, so a UI can say the plugin is not yet compatible instead of asking for an update.
 * The new `Marketplace.trialRequestEmailsUnsubscribed` event is posted with a user's login after they turn off plugin trial request emails from the link in one of those emails, so an audit trail can record it. The current user may be anonymous or someone other than that user, and a link that repeats the state the user is already in posts nothing.
 
 ### Deprecations

@@ -267,6 +267,10 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
             'minMoversPercent' => 2,
             'minNewPercent' => 4,
             'minDisappearedPercent' => 8,
+            'column_aggregation_ops' => [
+                'growth_percent' => 'skip',
+                'growth_percent_numeric' => 'skip',
+            ],
         );
 
         self::assertIsArray($metadata['report']);

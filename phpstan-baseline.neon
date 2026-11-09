@@ -979,50 +979,8 @@ parameters:
 			path: core/Plugin.php
 
 		-
-			message: '#^Call to function is_null\(\) with Piwik\\Site will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Call to function property_exists\(\) with Piwik\\ViewDataTable\\Config and ''selectable_columns'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Default value of the parameter \#3 \$columnsToDisplay \(false\) of method Piwik\\Plugin\\Controller\:\:getLastUnitGraphAcrossPlugins\(\) is incompatible with type array\.$#'
-			identifier: parameter.defaultValue
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Instanceof between Piwik\\Site and Piwik\\Site will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
 			message: '#^Parameter \#2 \$action of method Piwik\\FrontController\:\:dispatch\(\) expects string\|null, false given\.$#'
 			identifier: argument.type
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Property Piwik\\Plugin\\Controller\:\:\$site \(Piwik\\Site\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 2
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Right side of && is always true\.$#'
-			identifier: booleanAnd.rightAlwaysTrue
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between array and false will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: core/Plugin/Controller.php
 
@@ -2417,12 +2375,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: plugins/CoreHome/Columns/VisitorReturning.php
-
-		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: plugins/CoreHome/Controller.php
 
 		-
 			message: '#^Property Piwik\\Plugins\\CoreHome\\Controller\:\:\$translator is never read, only written\.$#'
