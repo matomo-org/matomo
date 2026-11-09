@@ -619,6 +619,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 0], 'nb_uniq_visitors'));
         $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 5, 'nb_uniq_visitors' => 3], 'nb_uniq_visitors'));
         $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 5], 'nb_actions'));
+        $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits_percent_of_total' => 5], 'nb_users_percent_of_total'));
 
         $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
         $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 5], 'nb_uniq_visitors'));

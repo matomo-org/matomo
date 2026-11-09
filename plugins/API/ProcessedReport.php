@@ -1023,11 +1023,6 @@ class ProcessedReport
     }
 
     /**
-     * Removes metrics from the list of columns and the report meta data if they are marked empty
-     * in the data table meta data, then drops the percent of the report total columns left
-     * without the metric they belong to.
-     */
-    /**
      * A single period whose unique visitors were left out, eg a year without an estimate, shows no such column
      * rather than one the report renderers would fill with 0.
      */
@@ -1051,6 +1046,11 @@ class ProcessedReport
         }
     }
 
+    /**
+     * Removes metrics from the list of columns and the report meta data if they are marked empty
+     * in the data table meta data, then drops the percent of the report total columns left
+     * without the metric they belong to.
+     */
     private function removeEmptyColumns(&$columns, &$reportMetadata, $dataTable)
     {
         $emptyColumns = $dataTable->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
@@ -1183,8 +1183,8 @@ class ProcessedReport
 
             // add missing metrics
             foreach ($metadataColumns as $id => $name) {
-                // unique visitors left out for want of an estimate are unknown, not 0
-                if (!isset($rowMetrics[$id]) && !EstimatedUniques::isLeftOut($rowMetrics, (string) $id)) {
+                // the site total unique visitors left out for want of an estimate are unknown, not 0
+                if (!isset($rowMetrics[$id]) && ($hasDimension || !EstimatedUniques::isLeftOut($rowMetrics, (string) $id))) {
                     $row->setColumn($id, 0);
                     $rowMetrics[$id] = 0;
                 }

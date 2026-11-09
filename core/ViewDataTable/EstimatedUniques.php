@@ -30,7 +30,8 @@ final class EstimatedUniques
      */
     public static function getColumnSuffix(string $columnName): ?string
     {
-        if (!preg_match('/^nb_(?:uniq_visitors|users)(_[a-z_]+)?$/', $columnName, $matches)) {
+        // a percent of the report total isn't a count of its own
+        if (!preg_match('/^nb_(?:uniq_visitors|users)(?!.*_percent_of_total$)(_[a-z_]+)?$/', $columnName, $matches)) {
             return null;
         }
 
