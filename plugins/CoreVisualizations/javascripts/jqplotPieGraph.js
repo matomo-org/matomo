@@ -71,7 +71,7 @@
             $(element).tooltip({
                 track:   true,
                 items:   '*',
-                content: '<h3>' + label + '</h3>' + text,
+                content: '<h3>' + piwikHelper.htmlEntities(String(label)) + '</h3>' + text,
                 show: false,
                 hide: false
             }).trigger('mouseover');
