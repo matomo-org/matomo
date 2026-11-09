@@ -8,6 +8,8 @@
  * without a backend.
  */
 
+import { TransitionsPart } from './types';
+
 export interface FakeReport {
   date?: string;
   pageviews?: number;
@@ -20,19 +22,17 @@ export interface FakeReport {
     referrals: number; }[] }>;
 }
 
-type FakePart = 'internalReferrers'|'followingActions'|'externalReferrers';
-
 export interface FakeTransitionsBackend {
   /** Resolves every outstanding part of the oldest pending load with the configured report. */
   respond(): void;
   /** Resolves every outstanding part of the newest pending load, leaving older ones outstanding. */
   respondNewest(): void;
   /** Resolves one part of the oldest pending load. */
-  respondPart(part: FakePart): void;
+  respondPart(part: TransitionsPart): void;
   /** Fails the oldest pending load with an API exception name, via its internalReferrers part. */
   fail(errorName: string): void;
   /** Fails one part of the oldest pending load, leaving its other parts outstanding. */
-  failPart(part: FakePart, errorName: string): void;
+  failPart(part: TransitionsPart, errorName: string): void;
   /** Fails a request other than the report's own, the way the parallel total-pageviews one can. */
   failOtherRequest(errorName: string, method: string): void;
   /** Lands the total that `totalNbPageviews: false` leaves in flight. */
@@ -55,13 +55,13 @@ function roundPercentage(share: number): number {
 }
 
 /** The groups each part fills, as Piwik_Transitions_Model splits a response. */
-const GROUPS_BY_PART: Record<FakePart, string[]> = {
+const GROUPS_BY_PART: Record<TransitionsPart, string[]> = {
   internalReferrers: ['previousPages', 'previousSiteSearches'],
   followingActions: ['followingPages', 'followingSiteSearches', 'downloads', 'outlinks'],
   externalReferrers: ['searchEngines', 'socialNetworks', 'aiAssistants', 'websites', 'campaigns'],
 };
 
-const PART_ORDER: FakePart[] = ['internalReferrers', 'followingActions', 'externalReferrers'];
+const PART_ORDER: TransitionsPart[] = ['internalReferrers', 'followingActions', 'externalReferrers'];
 
 interface PendingPart {
   resolve: () => void;
@@ -70,10 +70,10 @@ interface PendingPart {
 
 /** The part requests one model was asked for, i.e. one load of the report. */
 interface PendingLoad {
-  parts: Partial<Record<FakePart, PendingPart>>;
+  parts: Partial<Record<TransitionsPart, PendingPart>>;
 }
 
-function settle(load: PendingLoad|undefined, part: FakePart, errorName?: string) {
+function settle(load: PendingLoad|undefined, part: TransitionsPart, errorName?: string) {
   const pending = load?.parts[part];
   if (!load || !pending) {
     return;
@@ -121,14 +121,14 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
     respondNewest() {
       settleAll(queue.pop());
     },
-    respondPart(part: FakePart) {
+    respondPart(part: TransitionsPart) {
       settle(queue[0], part);
       dropSettled();
     },
     fail(errorName: string) {
       settle(queue.shift(), 'internalReferrers', errorName);
     },
-    failPart(part: FakePart, errorName: string) {
+    failPart(part: TransitionsPart, errorName: string) {
       settle(queue[0], part, errorName);
       dropSettled();
     },
@@ -180,7 +180,7 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
       this.ajax = ajax;
     }
 
-    private apply(part: FakePart) {
+    private apply(part: TransitionsPart) {
       const data = backend.report;
       if (part === 'internalReferrers') {
         this.date = data.date ?? '2012-08-09';
@@ -198,7 +198,7 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
     }
 
     loadPart(
-      part: FakePart,
+      part: TransitionsPart,
       actionType: string,
       actionName: string,
       overrideParams: Record<string, string>|null,

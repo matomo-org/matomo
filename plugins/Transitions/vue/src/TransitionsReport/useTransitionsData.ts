@@ -90,7 +90,6 @@ export function useTransitionsData() {
 
     // The layout, with every number still loading, so the page is on screen straight away.
     report.value = buildReport(model, actionType, actionName, pendingParts);
-    let hasData = false;
 
     const onPartLoaded = (part: TransitionsPart) => {
       if (!isCurrent(id) || failed) {
@@ -103,13 +102,11 @@ export function useTransitionsData() {
         return;
       }
 
-      const isFirstData = !hasData;
-      hasData = true;
       report.value = buildReport(model, actionType, actionName, pendingParts);
 
-      if (isFirstData) {
-        // Still in flight on the first report, so fill the tooltip in when it lands. A report
-        // rebuilt by a later part picks the total up from the model itself.
+      if (part === 'internalReferrers') {
+        // The first report with data. The site total may still be in flight, so fill the tooltip
+        // in when it lands; a report rebuilt by a later part picks it up from the model itself.
         model.whenTotalNbPageviewsLoaded((totalNbPageviews) => {
           if (!isCurrent(id) || !report.value) {
             return;

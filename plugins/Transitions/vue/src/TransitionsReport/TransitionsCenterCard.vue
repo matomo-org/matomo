@@ -34,7 +34,6 @@
       :class="{ 'transitionsCenterCard__metricGroup--divided': side === 'outgoing' }"
       v-for="side in sides"
       :key="side"
-      :aria-busy="report.loadingSides[side] ? 'true' : undefined"
     >
       <span class="transitionsCenterCard__metricHeading">{{ headingFor(side) }}</span>
       <span class="transitionsCenterCard__metricTotal">
