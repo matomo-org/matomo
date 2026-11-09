@@ -330,11 +330,8 @@ Piwik_Transitions_Model.prototype.loadPart = function (part, actionType, actionN
     var self = this;
 
     var params = this.buildParams(actionType, actionName, overrideParams);
-    params.parts = part;
-    if (part === 'followingActions') {
-        // reloads are reported as loops by internalReferrers
-        params.excludeLoops = 1;
-    }
+    // reloads are reported as loops by internalReferrers
+    params.parts = part === 'followingActions' ? 'followingActionsWithoutLoops' : part;
 
     this.ajax.callApi('Transitions.getTransitionsForAction', params, function (report) {
         if (part === 'internalReferrers') {

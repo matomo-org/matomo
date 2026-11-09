@@ -314,14 +314,15 @@ describe('Transitions/popover mount point', () => {
     });
 
     function respond(part: string) {
-      calls.find((call) => call.params.parts === part)!.respond(RESPONSES[part]);
+      const sent = part === 'followingActions' ? 'followingActionsWithoutLoops' : part;
+      calls.find((call) => call.params.parts === sent)!.respond(RESPONSES[part]);
     }
 
     it('should request each part on its own, leaving reloads out of the following actions', () => {
-      expect(calls.map((call) => [call.params.parts, call.params.excludeLoops])).toEqual([
-        ['internalReferrers', undefined],
-        ['followingActions', 1],
-        ['externalReferrers', undefined],
+      expect(calls.map((call) => call.params.parts)).toEqual([
+        'internalReferrers',
+        'followingActionsWithoutLoops',
+        'externalReferrers',
       ]);
       expect(calls[0].params).toMatchObject({
         method: 'Transitions.getTransitionsForAction',

@@ -119,12 +119,11 @@ class TransitionsTest extends SystemTestCase
             'idSite'                 => self::$fixture->idSite,
             'date'                   => self::$fixture->dateTime,
             'periods'                => array('day'),
-            'testSuffix'             => '_followingActionsExcludeLoops',
+            'testSuffix'             => '_followingActionsWithoutLoops',
             'otherRequestParameters' => array(
                 'actionType'         => 'url',
                 'actionName'         => 'http://example.org/page/one.html',
-                'parts'              => 'followingActions',
-                'excludeLoops'       => '1',
+                'parts'              => 'followingActionsWithoutLoops',
             ),
         ));
         return $return;
