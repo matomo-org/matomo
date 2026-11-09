@@ -84,7 +84,8 @@ describe("Live_ConsentedVisits", function () {
 
     it('should list visits with a notice in the real-time widget of the policy site', async function () {
         await load(widgetUrl('widget', policySite));
-        await page.waitForSelector('#visitsLive', { visible: true });
+        // the fixture has no visit today, so the list is rendered empty: wait for it to exist, not to be visible
+        await page.waitForSelector('#visitsLive');
 
         expect(await noticeTexts()).to.deep.equal([notice]);
         expect(await page.evaluate(() => $('.visitsLiveFooter').length)).to.equal(1);
@@ -92,7 +93,8 @@ describe("Live_ConsentedVisits", function () {
 
     it('should show no notice in the real-time widget of a site without policy', async function () {
         await load(widgetUrl('widget', otherSite));
-        await page.waitForSelector('#visitsLive', { visible: true });
+        // the fixture has no visit today, so the list is rendered empty: wait for it to exist, not to be visible
+        await page.waitForSelector('#visitsLive');
 
         expect(await noticeTexts()).to.deep.equal([]);
     });
