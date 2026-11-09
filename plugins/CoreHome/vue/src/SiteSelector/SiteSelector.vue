@@ -37,39 +37,20 @@
       :title="selectorLinkTitle"
     >
       <span
-        v-if="displayedModelValue?.name || !placeholder"
         class="mtm-selector__label"
-        :class="{ 'mtm-selector__label--alignStart': alignLabelStart }"
-      >
-        <span
-          class="siteSelector__name"
-          :class="{ 'siteSelector__name--unbounded': fullWidth }"
-          v-text="displayedModelValue?.name || firstSiteName"
-        />
-      </span>
-      <span
-        v-else
-        class="mtm-selector__label mtm-selector__label--placeholder"
-        :class="{ 'mtm-selector__label--alignStart': alignLabelStart }"
-      >
-        <span
-          class="siteSelector__name"
-          :class="{ 'siteSelector__name--unbounded': fullWidth }"
-        >{{ placeholder }}</span>
-      </span>
+        :class="{
+          'mtm-selector__label--placeholder': !displayedModelValue?.name && placeholder,
+          'mtm-selector__label--alignStart': alignLabelStart,
+          siteSelector__label: !fullWidth,
+        }"
+        v-text="displayedModelValue?.name || placeholder || firstSiteName"
+      />
       <span
         v-if="hasMultipleSites"
         class="mtm-selector__rightIcon"
         aria-hidden="true"
       >
-        <span
-          v-if="isLoading && showSitesList"
-          class="siteSelector__loading"
-        />
-        <span
-          v-else
-          class="icon-chevron-down"
-        />
+        <span class="icon-chevron-down" />
       </span>
     </a>
     <div
