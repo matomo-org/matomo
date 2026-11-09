@@ -897,6 +897,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         // Such a row can only sit at the visit's latest second before the hit, so comparing two
         // maximums finds it without a nested NOT EXISTS, which is cubic in the visit's length.
         // The overlap check comes first, as a filter, so the maximums only run for hits it leaves.
+        // Written as NOT EXISTS, MySQL would run it last as an anti-join.
         $spanCovered = "
                  AND NOT IFNULL((
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
