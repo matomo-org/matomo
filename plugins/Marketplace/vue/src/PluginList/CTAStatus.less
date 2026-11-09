@@ -48,18 +48,24 @@
   color: @theme-color-danger;
 }
 
-// Label and action share the row equally, as in the design. With two buttons (More Details and
-// Download) they wrap inside this half and each takes its full width.
+// Sized to its buttons and right-aligned, so a longer translation keeps its button on one line.
+// It may shrink to the row, so two buttons (More Details and Download) wrap rather than overflow
+// the card, and the whole action drops under the label when the row is too narrow for both.
 .ctaStatus__action {
   display: flex;
-  flex: 1 1 0;
+  flex: 0 1 auto;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 8px;
-  min-width: 0;
+  max-width: 100%;
+  margin-left: auto;
 
+  // override: Materialize sizes .btn-block to the full row; a status line only wants the label's
+  // width, with enough room that the button does not resize as its label changes
   .btn.btn-block {
-    flex: 1 1 auto;
     width: auto;
+    min-width: 110px;
+    white-space: nowrap;
   }
 }
 
