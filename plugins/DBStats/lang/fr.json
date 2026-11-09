@@ -6,7 +6,7 @@
         "EstimatedSize": "Taille estimée",
         "IndexSize": "Taille de l'index",
         "LearnMore": "Pour en apprendre plus à propos de la manière dont Matomo traite les données et sur comment faire fonctionner Matomo correctement pour les sites à moyen et fort trafic, consultez la documentation %s.",
-        "MainDescription": "Matomo stocke toutes vos donnés de statistiques web dans la base de données MySQL. En ce moment les tables de Matomo utilisent %s.",
+        "MainDescription": "Matomo stocke toutes vos données de statistiques web dans une base de données MySQL. En ce moment, les tables de Matomo occupent %s d'espace.",
         "MetricDataByYear": "Tables de métriques par année",
         "MetricTables": "Tables de métriques",
         "OtherTables": "Autres tables",
@@ -14,7 +14,7 @@
         "ReportDataByYear": "Tables de rapports par année",
         "ReportTables": "Tables de rapport",
         "RowCount": "Nombre de lignes",
-        "Table": "Tableau",
+        "Table": "Table",
         "TotalSize": "Taille totale",
         "TrackerTables": "Tables de suivi"
     }

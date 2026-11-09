@@ -37,6 +37,8 @@
         "RecommendedPrivateDirectories": "Empfohlene private Verzeichnisse",
         "RequiredPrivateDirectories": "Verzeichnisse, welche privat sein müssen",
         "Sections": "Abschnitte",
+        "SessionStorageFormat": "Speicherformat der Sitzungen",
+        "SessionStorageFormatWarning": "Sitzungen werden als %1$s gespeichert, weil session.serialize_handler nicht auf php_serialize gesetzt werden konnte. Dadurch können Änderungen verloren gehen, die zwei gleichzeitige Anfragen vornehmen. Setzen Sie den Wert in Ihrer php.ini auf php_serialize.",
         "UrlsAccessibleViaBrowser": "Wir haben die obenstehenden URLs gefunden, welche über den Browser erreichbar sind, aber wir empfehlen, das zu unterbinden. Wenn möglich, schränken Sie bitte den Zugriff auf sie ein."
     }
 }

@@ -89,6 +89,25 @@ class ControllerTest extends IntegrationTestCase
         yield 'not a number' => ['abc'];
     }
 
+    public function testAPageAnswersWithBadRequestForAPeriodNotAllowedInTheUi(): void
+    {
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage('Period must be one of: ');
+
+        $_GET = [
+            'module' => 'CoreHome',
+            'action' => 'index',
+            'idSite' => (string) $this->idSite,
+            'period' => 'decade',
+            'date'   => 'today',
+        ];
+
+        Access::doAsSuperUser(static function () {
+            return FrontController::getInstance()->dispatch('CoreHome', 'index');
+        });
+    }
+
     /**
      * @param array<string, string> $params
      */

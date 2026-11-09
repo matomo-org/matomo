@@ -236,10 +236,17 @@ class DataTableGenericFilter
                 }
             }
 
-            if (!$exceptionRaised) {
-                $datatable->filter($filterName, $filterParameters);
-                $filterApplied = true;
+            if ($exceptionRaised) {
+                continue;
             }
+
+            $searchFilter = $this->getReportSearchFilter($filterName, $filterParameters);
+            if (null !== $searchFilter) {
+                $datatable->filter($searchFilter);
+            } else {
+                $datatable->filter($filterName, $filterParameters);
+            }
+            $filterApplied = true;
         }
 
         if (!$rowLimitingFiltersReached) {
@@ -247,6 +254,26 @@ class DataTableGenericFilter
         }
 
         return $filterApplied;
+    }
+
+    /**
+     * Returns the report's own filter for a label search, see {@link Report::getSearchFilter()}.
+     *
+     * @param string $filterName
+     * @param array $filterParameters
+     */
+    private function getReportSearchFilter($filterName, $filterParameters): ?callable
+    {
+        if (
+            null === $this->report
+            || !in_array($filterName, ['Pattern', 'PatternRecursive'], true)
+            || $filterParameters[0] !== 'label'
+            || $filterParameters[1] === ''
+        ) {
+            return null;
+        }
+
+        return $this->report->getSearchFilter($filterParameters[1]);
     }
 
     private function invokeCallbackBeforeRowLimitingFilters(DataTable $datatable): void
