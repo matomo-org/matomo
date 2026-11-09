@@ -102,7 +102,7 @@ class API extends \Piwik\Plugin\API
      *                      `internalReferrers`, `followingActions`, `followingActionsWithoutLoops` and
      *                      `externalReferrers`. Requested without `internalReferrers`, `followingActions`
      *                      counts reloads of the action as following actions; `followingActionsWithoutLoops`
-     *                      leaves them out, as the full report does.
+     *                      leaves them out, as the full report does, and wins if both are requested.
      * @return array Transition metrics and related referrer/action tables for the requested action.
      */
     public function getTransitionsForAction(
