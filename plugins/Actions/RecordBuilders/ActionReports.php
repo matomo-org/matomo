@@ -383,7 +383,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     }
 
     /**
-     * @return array<string, DataTable|int|float|string>
+     * @return array<string, DataTable|int|float>
      */
     private function aggregateLegacyHierarchical(ArchiveProcessor $archiveProcessor): array
     {
@@ -896,8 +896,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         //
         // Such a row can only sit at the visit's latest second before the hit, so comparing two
         // maximums finds it without a nested NOT EXISTS, which is cubic in the visit's length.
-        // The overlap check is a scalar filter rather than NOT EXISTS so it runs first and skips
-        // the maximums for the hits it already covers; as an anti-join it would run after them.
+        // The overlap check comes first, as a filter, so the maximums only run for hits it leaves.
         $spanCovered = "
                  AND NOT IFNULL((
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
