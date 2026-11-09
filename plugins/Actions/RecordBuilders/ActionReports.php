@@ -896,8 +896,10 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         //
         // Such a row can only sit at the visit's latest second before the hit, so comparing two
         // maximums finds it without a nested NOT EXISTS, which is cubic in the visit's length.
+        // The overlap check is a scalar filter rather than NOT EXISTS so it runs first and skips
+        // the maximums for the hits it already covers; as an anti-join it would run after them.
         $spanCovered = "
-                 AND NOT EXISTS (
+                 AND NOT IFNULL((
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
                          WHERE pvt.idvisit = log_link_visit_action.idvisit
                            AND pvt.%1\$s = log_link_visit_action.%2\$s
@@ -905,7 +907,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                            AND log_link_visit_action.server_time
                                    - INTERVAL log_link_visit_action.time_spent_ref_action SECOND
                                < pvt.server_time + INTERVAL pvt.time_spent SECOND
-                     )
+                         LIMIT 1
+                     ), 0)
                  AND NOT IFNULL((
                         SELECT MAX(pvt_closed.server_time) FROM `$pageViewTimeTable` AS pvt_closed
                          WHERE pvt_closed.idvisit = log_link_visit_action.idvisit
