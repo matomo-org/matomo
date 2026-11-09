@@ -316,11 +316,11 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     {
         $this->archiveFirstDayWithoutSketches();
 
-        $visitors = Request::processRequest('VisitsSummary.getUniqueVisitors', ['idSite' => 1, 'period' => 'year', 'date' => '2024-03-01']);
-        $users = Request::processRequest('VisitsSummary.getUsers', ['idSite' => 1, 'period' => 'year', 'date' => '2024-03-01']);
-
-        $this->assertFalse($visitors->getFirstRow() ? $visitors->getFirstRow()->getColumn('nb_uniq_visitors') : false);
-        $this->assertFalse($users->getFirstRow() ? $users->getFirstRow()->getColumn('nb_users') : false);
+        $this->assertSame([], $this->getYearColumns('VisitsSummary.getUniqueVisitors'));
+        $this->assertSame([], $this->getYearColumns('VisitsSummary.getUsers'));
+        // the flag fetched with the uniques must not be left as the only column, where it reads as 0 visitors
+        $this->assertSame([], $this->getYearColumns('VisitsSummary.get', 'nb_uniq_visitors'));
+        $this->assertSame([], $this->getYearColumns('VisitsSummary.get', 'nb_uniq_visitors,nb_users'));
         $this->assertStringNotContainsString('VisitsSummary_NbUniqueVisitorsEstimated', $this->getSparklines('year', '2024-03-01'));
     }
 
@@ -730,6 +730,17 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     private function getMonthColumns(string $method, string $columns): array
     {
         $result = Request::processRequest($method, ['idSite' => 1, 'period' => 'month', 'date' => '2024-03-01', 'columns' => $columns]);
+
+        return $result->getFirstRow() ? $result->getFirstRow()->getColumns() : [];
+    }
+
+    private function getYearColumns(string $method, string $columns = ''): array
+    {
+        $params = ['idSite' => 1, 'period' => 'year', 'date' => '2024-03-01'];
+        if ($columns !== '') {
+            $params['columns'] = $columns;
+        }
+        $result = Request::processRequest($method, $params);
 
         return $result->getFirstRow() ? $result->getFirstRow()->getColumns() : [];
     }
