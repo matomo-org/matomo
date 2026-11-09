@@ -347,6 +347,71 @@ describe('Transitions/popover mount point', () => {
     });
   });
 
+  describe('full report loading', () => {
+    it('should fill the model from one full report and take its exits from the server', () => {
+      const Model = (window as unknown as Record<string, unknown>)
+        .Piwik_Transitions_Model as (new (transitionsAjax: unknown) => {
+          loadData(
+            actionType: string,
+            actionName: string,
+            overrideParams: Record<string, string>|null,
+            callback: () => void,
+          ): void;
+          exits: number;
+          followingPagesNbTransitions: number;
+          searchEnginesNbTransitions: number;
+        }) & { totalNbPageviews?: number|false };
+      // Static, so a previous test may have set it already.
+      delete Model.totalNbPageviews;
+
+      const calls: { params: Record<string, unknown>; respond: (report: unknown) => void }[] = [];
+      const ajax = {
+        callApi: (method: string, params: Record<string, unknown>, done: (r: unknown) => void) => {
+          calls.push({ params: { ...params, method }, respond: done });
+        },
+        loadTotalNbPageviews: vi.fn(),
+      };
+      const model = new Model(ajax);
+      const callback = vi.fn();
+
+      model.loadData('url', 'http://example.org/page', { segment: 'x' }, callback);
+
+      expect(calls).toHaveLength(1);
+      expect(calls[0].params).toMatchObject({
+        method: 'Transitions.getTransitionsForAction',
+        actionType: 'url',
+        actionName: 'http://example.org/page',
+        segment: 'x',
+      });
+      expect(calls[0].params.parts).toBeUndefined();
+
+      calls[0].respond({
+        date: 'Aug 9, 2012',
+        pageMetrics: { pageviews: 100, loops: 10, exits: 42 },
+        previousPages: [{ url: 'http://example.org/a', referrals: 40 }],
+        previousSiteSearches: [],
+        followingPages: [{ url: 'http://example.org/c', referrals: 35 }],
+        followingSiteSearches: [],
+        downloads: [],
+        outlinks: [],
+        referrers: [{
+          shortName: 'search',
+          label: 'Search',
+          visits: 25,
+          details: [],
+        }],
+      });
+
+      expect(model.exits).toBe(42);
+      expect(model.followingPagesNbTransitions).toBe(35);
+      expect(model.searchEnginesNbTransitions).toBe(25);
+      expect(ajax.loadTotalNbPageviews).toHaveBeenCalledTimes(1);
+      expect(callback).toHaveBeenCalledTimes(1);
+
+      delete Model.totalNbPageviews;
+    });
+  });
+
   describe('aborting requests', () => {
     let sent: { params: Record<string, unknown>; aborted: boolean }[];
 
