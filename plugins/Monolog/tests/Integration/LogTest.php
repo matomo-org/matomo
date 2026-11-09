@@ -274,6 +274,9 @@ class LogTest extends IntegrationTestCase
         $newEnv = new Environment('test', array(
             'ini.log.log_writers' => array($backend),
             'ini.log.log_level' => $level,
+            'ini.log.log_format' => 'text',
+            'ini.log.log_format_file' => '',
+            'ini.log.log_format_database' => '',
             'ini.log.string_message_format' => self::STRING_MESSAGE_FORMAT,
             'ini.log.string_message_format_trace' => self::STRING_MESSAGE_FORMAT,
             'ini.log.logger_file_path' => self::getLogFileLocation(),
