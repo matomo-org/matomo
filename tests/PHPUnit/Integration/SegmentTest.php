@@ -1193,6 +1193,21 @@ class SegmentTest extends IntegrationTestCase
         );
     }
 
+    public function testGetSelectQueryKeepsTheVisitsWithANullValueWhenANegatedSegmentValueIsFilteredToZero()
+    {
+        $segment = new Segment('visitorType!=new', [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false, []);
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $expected = [
+            'sql'  => " SELECT log_visit.* FROM $logVisitTable AS log_visit
+                        WHERE ( log_visit.visitor_returning IS NULL OR log_visit.visitor_returning <> ? ) ",
+            'bind' => [0],
+        ];
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function testGetSelectQueryKeepsTheSubQueryForANegatedSegmentStartingWithAVisitColumnButReadingAnActionColumn()
     {
         $segment = new Segment('customVisitAndActionSegment!=5', [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
