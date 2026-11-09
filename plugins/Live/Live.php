@@ -13,6 +13,8 @@ use Piwik\Cache;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\CoreHome\CoreHome;
+use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Policy\PolicyEnforcementBypass;
 use Piwik\Site;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;
@@ -49,9 +51,30 @@ class Live extends \Piwik\Plugin
         $out .= "
         piwik.visitorLogEnabled = " . json_encode(self::isVisitorLogAvailable()) . ";
         piwik.visitorProfileEnabled = " . json_encode(self::isVisitorProfileAvailable()) . ";
-        piwik.visitorLogConsentedVisitsOnly = " . json_encode(!self::isVisitorLogEnabled() && self::isVisitorLogAvailable()) . ";
+        piwik.visitorLogUnavailableSegments = " . json_encode(self::getSegmentsUnavailableToTheVisitorLog()) . ";
         piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
         ";
+    }
+
+    /**
+     * Returns the segments the visits log of the requested site cannot filter by while it only lists the visits of
+     * visitors who gave consent, as the visitor profile is not enabled and the compliance policy may limit segments
+     *
+     * @return string[]
+     */
+    private static function getSegmentsUnavailableToTheVisitorLog(): array
+    {
+        $idSite = (int) Common::getRequestVar('idSite', 0, 'int');
+        if ($idSite <= 0 || !self::isVisitorLogLimitedToConsentedVisits($idSite)) {
+            return [];
+        }
+
+        $segments = ['userId', 'visitorId'];
+        if (LimitSegments::getInstance($idSite)->getValue()) {
+            $segments = array_merge($segments, array_column(CoreHome::SEGMENTS_REMOVED_BY_LIMIT_SEGMENTS, 1));
+        }
+
+        return array_values(array_unique($segments));
     }
 
     /**
