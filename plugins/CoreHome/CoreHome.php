@@ -32,6 +32,25 @@ use Piwik\Tracker\Model as TrackerModel;
 class CoreHome extends \Piwik\Plugin
 {
     /**
+     * The segments, by category, that are not offered when the "Limit segments" setting is enabled
+     */
+    public const SEGMENTS_REMOVED_BY_LIMIT_SEGMENTS = [
+        ['General_Visitors', 'userId'],
+        ['General_Visitors', 'visitIp'],
+        ['General_Visitors', 'visitId'],
+        ['General_Visitors', 'visitorId'],
+        ['General_Visitors', 'fingerprint'],
+        ['Referrers_Referrers', 'campaignId'],
+        ['General_Actions', 'actionServerHour'],
+        ['General_Actions', 'actionServerMinute'],
+        ['General_Visitors', 'visitServerHour'],
+        ['General_Visitors', 'visitEndServerMinute'],
+        ['General_Visitors', 'visitEndServerSecond'],
+        ['General_Visitors', 'visitStartServerHour'],
+        ['General_Visitors', 'visitStartServerMinute'],
+    ];
+
+    /**
      * Defines a widget container layout that will display all widgets within a container inside a "tab" menu
      * where on the left side a link is shown for each widget and on the right side the selected widget.
      * @api
@@ -476,19 +495,9 @@ class CoreHome extends \Piwik\Plugin
             }
         }
         if ($limitSegmentsSettingEnabled) {
-            $list->remove('General_Visitors', 'userId');
-            $list->remove('General_Visitors', 'visitIp');
-            $list->remove('General_Visitors', 'visitId');
-            $list->remove('General_Visitors', 'visitorId');
-            $list->remove('General_Visitors', 'fingerprint');
-            $list->remove('Referrers_Referrers', 'campaignId');
-            $list->remove('General_Actions', 'actionServerHour');
-            $list->remove('General_Actions', 'actionServerMinute');
-            $list->remove('General_Visitors', 'visitServerHour');
-            $list->remove('General_Visitors', 'visitEndServerMinute');
-            $list->remove('General_Visitors', 'visitEndServerSecond');
-            $list->remove('General_Visitors', 'visitStartServerHour');
-            $list->remove('General_Visitors', 'visitStartServerMinute');
+            foreach (self::SEGMENTS_REMOVED_BY_LIMIT_SEGMENTS as [$category, $segment]) {
+                $list->remove($category, $segment);
+            }
         }
     }
 }

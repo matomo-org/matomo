@@ -18,6 +18,24 @@
         return $(tr).attr('data-segment-filter');
     }
 
+    /**
+     * Whether the row segment uses a segment the visits log cannot filter by, such as userId when only the visits of
+     * visitors who gave consent are listed
+     */
+    function usesUnavailableSegment(rawSegment)
+    {
+        var unavailableSegments = piwik.visitorLogUnavailableSegments || [];
+        if (!unavailableSegments.length) {
+            return false;
+        }
+
+        return rawSegment.split(/[;,]/).some(function (condition) {
+            // segment names are never encoded, unlike their values
+            var match = condition.match(/^([a-zA-Z0-9_.]+)(==|!=|<=|>=|=@|!@|=\^|=\$|<|>)/);
+            return !!match && unavailableSegments.indexOf(match[1]) !== -1;
+        });
+    }
+
     function getDataTableFromApiMethod(apiMethod)
     {
         var div = $(require('piwik/UI').DataTable.getDataTableByReport(apiMethod));
@@ -196,14 +214,12 @@
         ],
 
         isAvailableOnReport: function (dataTableParams, undefined) {
-            // a row segment may use a segment that is not available when only the visits of visitors who gave
-            // consent are listed, such as userId or visitorId
-            return !!piwik.visitorLogEnabled && !piwik.visitorLogConsentedVisitsOnly;
+            return !!piwik.visitorLogEnabled;
         },
 
         isAvailableOnRow: function (dataTableParams, tr) {
             var value = getRawSegmentValueFromRow(tr);
-            if ('undefined' === (typeof value)) {
+            if ('undefined' === (typeof value) || usesUnavailableSegment(value)) {
                 return false;
             }
 

@@ -237,6 +237,37 @@ class ConsentedVisitsTest extends IntegrationTestCase
         API::getInstance()->getVisitorProfile($this->policySite, $this->getVisitorId('alice'));
     }
 
+    public function testTheVisitsLogOfThePolicySiteTellsTheSegmentsItCannotFilterBy(): void
+    {
+        $this->assertSame([], $this->getUnavailableSegmentsGlobal($this->otherSite));
+
+        // userId and visitorId, plus the segments the policy removes by limiting segments
+        $segments = $this->getUnavailableSegmentsGlobal($this->policySite);
+        $this->assertSame(['userId', 'visitorId'], array_slice($segments, 0, 2));
+        $this->assertContains('visitIp', $segments);
+        $this->assertNotContains('browserCode', $segments);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getUnavailableSegmentsGlobal(int $idSite): array
+    {
+        $get = $_GET;
+        $_GET['idSite'] = $idSite;
+
+        try {
+            $out = '';
+            (new Live())->addJsGlobalVariables($out);
+        } finally {
+            $_GET = $get;
+        }
+
+        $this->assertSame(1, preg_match('/piwik\.visitorLogUnavailableSegments = (.*);/', $out, $matches));
+
+        return json_decode($matches[1], true);
+    }
+
     public function testThePolicyDoesNotLimitTheVisitsLogWhileItsEnforcementIsBypassed(): void
     {
         $this->assertFalse(PolicyEnforcementBypass::run(function () {
@@ -333,7 +364,8 @@ class ConsentedVisitsTest extends IntegrationTestCase
         $this->assertSame(3, (int) $model->getNumActions($this->policySite, 30, false));
 
         // while the real-time list only holds the consented one
-        $this->assertSame(1, API::getInstance()->getLastVisitsDetails($this->policySite, 'day', 'today')->getRowsCount());
+        // a range, so a visit tracked just before midnight is still found
+        $this->assertSame(1, API::getInstance()->getLastVisitsDetails($this->policySite, 'range', 'last2')->getRowsCount());
     }
 
     public function testSegmentValuesAreOnlySuggestedFromConsentedVisitsOnThePolicySite(): void

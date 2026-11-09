@@ -164,8 +164,10 @@ class VisitorLog extends Visualization
 
         $idSite = (int) Common::getRequestVar('idSite', 0, 'int');
         if ($idSite > 0 && Live::isVisitorLogLimitedToConsentedVisits($idSite)) {
-            // a header message, as it is shown even when the visits log has no visit to list
-            $this->config->show_header_message = '<div vue-entry="CoreHome.Alert" severity="info">'
+            // a header message, as it is shown even when the visits log has no visit to list, after any message
+            // already set for this visits log
+            $this->config->show_header_message = $this->config->show_header_message
+                . '<div vue-entry="CoreHome.Alert" severity="info">'
                 . Common::sanitizeInputValue(Piwik::translate('Live_OnlyConsentedVisitsShown'))
                 . '</div>';
         }
