@@ -523,15 +523,14 @@ describe('Transitions/TransitionsReport', () => {
       expect(wrapper.find('.transitionsSection').exists()).toBe(false);
     });
 
-    it('should post Transitions.dataChanged only once every part is in', async () => {
+    it('should post Transitions.dataChanged once, when the first data is on screen', async () => {
       mountTransitionsReport();
-      backend.respondPart('internalReferrers');
       backend.respondPart('followingActions');
       await flushRibbons();
 
       expect(postEvent).not.toHaveBeenCalledWith('Transitions.dataChanged', expect.anything());
 
-      backend.respondPart('externalReferrers');
+      backend.respondPart('internalReferrers');
       await flushRibbons();
 
       expect(postEvent).toHaveBeenCalledTimes(1);
@@ -539,6 +538,11 @@ describe('Transitions/TransitionsReport', () => {
         'Transitions.dataChanged',
         { actionType: 'url', actionName: 'http://example.org/page' },
       );
+
+      backend.respondPart('externalReferrers');
+      await flushRibbons();
+
+      expect(postEvent).toHaveBeenCalledTimes(1);
     });
 
     it('should fail the report when a later part fails, and ignore the parts after it', async () => {
@@ -558,7 +562,8 @@ describe('Transitions/TransitionsReport', () => {
 
       expect(wrapper.find('.transitionsReport__grid').exists()).toBe(false);
       expect(wrapper.find('.transitionsReport__error').exists()).toBe(true);
-      expect(postEvent).not.toHaveBeenCalledWith('Transitions.dataChanged', expect.anything());
+      // Only the post for the first data on screen, none for the parts after the failure.
+      expect(postEvent).toHaveBeenCalledTimes(1);
     });
   });
 });

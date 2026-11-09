@@ -116,9 +116,8 @@ export function useTransitionsData() {
           // sake of one tooltip string.
           report.value.pageviewsTooltip = buildPageviewsTooltip(model, totalNbPageviews);
         });
-      }
 
-      if (!pendingParts.length) {
+        // The action is on screen now, so its export can be offered.
         Matomo.postEvent('Transitions.dataChanged', { actionType, actionName });
       }
     };
