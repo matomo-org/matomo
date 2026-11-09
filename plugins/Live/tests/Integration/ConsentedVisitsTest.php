@@ -11,13 +11,18 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Live\tests\Integration;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\Live\API;
 use Piwik\Plugins\Live\Live;
+use Piwik\Plugins\CoreHome\Columns\VisitGoalBuyer;
 use Piwik\Plugins\Live\MeasurableSettings;
+use Piwik\Plugins\Live\Model;
+use Piwik\Plugins\Live\SystemSettings;
+use Piwik\Policy\PolicyEnforcementBypass;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -34,6 +39,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class ConsentedVisitsTest extends IntegrationTestCase
 {
     private const FIREFOX = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0';
+    private const SAFARI = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15';
     private const CHROME = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
     /**
@@ -229,6 +235,145 @@ class ConsentedVisitsTest extends IntegrationTestCase
         $this->expectExceptionMessage('Visitor profile is deactivated in website settings');
 
         API::getInstance()->getVisitorProfile($this->policySite, $this->getVisitorId('alice'));
+    }
+
+    public function testThePolicyDoesNotLimitTheVisitsLogWhileItsEnforcementIsBypassed(): void
+    {
+        $this->assertFalse(PolicyEnforcementBypass::run(function () {
+            return Live::isVisitorLogLimitedToConsentedVisits($this->policySite);
+        }));
+    }
+
+    public function testTheModelOnlyKeepsTheConsentedVisitsOfThePolicySiteWhenQueryingSeveralSites(): void
+    {
+        $visits = (new Model())->queryLogVisits(
+            [$this->policySite, $this->otherSite],
+            'day',
+            '2024-03-01',
+            false,
+            0,
+            100,
+            false,
+            false,
+            'DESC'
+        );
+
+        $idVisits = array_map('intval', array_column($visits, 'idvisit'));
+        sort($idVisits);
+
+        $this->assertSame($this->getVisitIds([
+            'policy:alice:1', 'policy:bob:1',
+            'other:alice:none', 'other:alice:0', 'other:alice:1',
+            'other:bob:none', 'other:bob:0', 'other:bob:1',
+            'other:carol:none', 'other:carol:0',
+        ]), $idVisits);
+    }
+
+    public function testTheEcommerceLogOnlyListsConsentedVisitsOnThePolicySite(): void
+    {
+        Db::query(
+            'UPDATE ' . Common::prefixTable('log_visit') . ' SET visit_goal_buyer = ? WHERE idvisit IN (?, ?, ?)',
+            [VisitGoalBuyer::TYPE_BUYER_ORDERED, $this->visits['policy:alice:none'], $this->visits['policy:alice:0'], $this->visits['policy:alice:1']]
+        );
+
+        // the segment the Ecommerce log adds to list the visits with ecommerce activity
+        $this->assertSame(
+            $this->getVisitIds(['policy:alice:1']),
+            $this->getLastVisitIds($this->policySite, 'visitEcommerceStatus!=none')
+        );
+    }
+
+    public function testGetVisitorProfileWithoutVisitorIdShowsTheMostRecentConsentedVisitor(): void
+    {
+        $profile = API::getInstance()->getVisitorProfile($this->policySite);
+
+        $this->assertSame([$this->visits['policy:bob:1']], $profile['lastVisits']->getColumn('idVisit'));
+    }
+
+    public function testTheSystemVisitsLogSettingStillDisablesTheVisitsLogOfThePolicySite(): void
+    {
+        $settings = new SystemSettings();
+        $settings->disableVisitorLog->setValue(true);
+        $settings->save();
+        Fixture::clearInMemoryCaches();
+
+        $this->assertFalse(Live::isVisitorLogLimitedToConsentedVisits($this->policySite));
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Visits log is deactivated globally');
+
+        API::getInstance()->getLastVisitsDetails($this->policySite, 'day', '2024-03-01');
+    }
+
+    public function testTheSystemVisitorProfileSettingStillDisablesTheVisitorProfileOfThePolicySite(): void
+    {
+        $settings = new SystemSettings();
+        $settings->disableVisitorProfile->setValue(true);
+        $settings->save();
+        Fixture::clearInMemoryCaches();
+
+        // the visits log still lists the consented visits
+        $this->assertSame($this->getVisitIds(['policy:alice:1', 'policy:bob:1']), $this->getLastVisitIds($this->policySite));
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Visitor profile is deactivated globally');
+
+        API::getInstance()->getVisitorProfile($this->policySite, $this->getVisitorId('alice'));
+    }
+
+    public function testTheRealTimeCountersStillCountEveryVisitOfThePolicySite(): void
+    {
+        $this->trackRecentVisit($this->policySite, self::FIREFOX, 1);
+        $this->trackRecentVisit($this->policySite, self::SAFARI, 0);
+        $this->trackRecentVisit($this->policySite, self::SAFARI, null);
+
+        // the counters behind Live.getCounters, which the policy then rounds, include the visits without consent
+        $model = new Model();
+        $this->assertSame(3, (int) $model->getNumVisits($this->policySite, 30, false));
+        $this->assertSame(3, (int) $model->getNumActions($this->policySite, 30, false));
+
+        // while the real-time list only holds the consented one
+        $this->assertSame(1, API::getInstance()->getLastVisitsDetails($this->policySite, 'day', 'today')->getRowsCount());
+    }
+
+    public function testSegmentValuesAreOnlySuggestedFromConsentedVisitsOnThePolicySite(): void
+    {
+        $this->trackRecentVisit($this->policySite, self::FIREFOX, 1);
+        $this->trackRecentVisit($this->policySite, self::SAFARI, 0);
+        $this->trackRecentVisit($this->otherSite, self::FIREFOX, 1);
+        $this->trackRecentVisit($this->otherSite, self::SAFARI, 0);
+
+        $this->assertSame(['FF'], $this->getSuggestedBrowserCodes($this->policySite));
+        $this->assertSame(['FF', 'SF'], $this->getSuggestedBrowserCodes($this->otherSite));
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getSuggestedBrowserCodes(int $idSite): array
+    {
+        $values = Request::processRequest('API.getSuggestedValuesForSegment', [
+            'segmentName' => 'browserCode',
+            'idSite' => $idSite,
+        ]);
+        sort($values);
+
+        return $values;
+    }
+
+    private function trackRecentVisit(int $idSite, string $userAgent, ?int $consent): void
+    {
+        $tracker = Fixture::getTracker($idSite, Date::now()->subPeriod(5, 'minute')->getDatetime(), true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        $tracker->setUserAgent($userAgent);
+        $tracker->setNewVisitorId();
+        $tracker->setForceNewVisit();
+        Fixture::checkResponse($tracker->doTrackPageView('recent page'));
+
+        Db::query(
+            'UPDATE ' . Common::prefixTable('log_visit') . ' SET consent = ? WHERE idvisit = ?',
+            [$consent, (int) Db::fetchOne('SELECT MAX(idvisit) FROM ' . Common::prefixTable('log_visit'))]
+        );
     }
 
     /**

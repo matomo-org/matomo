@@ -196,7 +196,9 @@
         ],
 
         isAvailableOnReport: function (dataTableParams, undefined) {
-            return !!piwik.visitorLogEnabled;
+            // a row segment may use a segment that is not available when only the visits of visitors who gave
+            // consent are listed, such as userId or visitorId
+            return !!piwik.visitorLogEnabled && !piwik.visitorLogConsentedVisitsOnly;
         },
 
         isAvailableOnRow: function (dataTableParams, tr) {

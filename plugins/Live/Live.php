@@ -13,6 +13,7 @@ use Piwik\Cache;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Policy\PolicyEnforcementBypass;
 use Piwik\Site;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;
 
@@ -48,6 +49,7 @@ class Live extends \Piwik\Plugin
         $out .= "
         piwik.visitorLogEnabled = " . json_encode(self::isVisitorLogAvailable()) . ";
         piwik.visitorProfileEnabled = " . json_encode(self::isVisitorProfileAvailable()) . ";
+        piwik.visitorLogConsentedVisitsOnly = " . json_encode(!self::isVisitorLogEnabled() && self::isVisitorLogAvailable()) . ";
         piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
         ";
     }
@@ -199,6 +201,11 @@ class Live extends \Piwik\Plugin
      */
     public static function isVisitorLogLimitedToConsentedVisits(int $idSite): bool
     {
+        if (PolicyEnforcementBypass::isActive()) {
+            // the policy does not apply, as for the visits log setting itself
+            return false;
+        }
+
         return VisitorLogDisabledSetting::isEnforced($idSite)
             && true !== VisitorLogDisabledSetting::getSystemValue()
             && true !== VisitorLogDisabledSetting::getMeasurableValue($idSite);

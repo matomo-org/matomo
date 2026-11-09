@@ -53,6 +53,13 @@ describe("Live_ConsentedVisits", function () {
         expect(Array.from(new Set(badges))).to.deep.equal(['Consented']);
     });
 
+    it('should show the notice on the policy site even when the visits log has no visit to list', async function () {
+        await load(widgetUrl('getLastVisitsDetails', policySite).replace('period=year&date=2017-01-02', 'period=day&date=2015-01-01'));
+
+        expect(await page.evaluate(() => $('.pk-emptyDataTable').length)).to.equal(1);
+        expect(await noticeTexts()).to.deep.equal([notice]);
+    });
+
     it('should show every visit with its consent badge and no notice on a site without policy', async function () {
         await load(widgetUrl('getLastVisitsDetails', otherSite));
 

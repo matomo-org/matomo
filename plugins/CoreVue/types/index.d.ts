@@ -182,6 +182,7 @@ declare global {
     apiBulkRequestLimit: number;
 
     visitorLogEnabled: boolean;
+    visitorLogConsentedVisitsOnly: boolean;
     updatePeriodParamsFromUrl(): void;
     updateTitle(date: string, period: string, c: string, s: string, segment?: string): void;
     hasUserCapability(capability: string): boolean;
