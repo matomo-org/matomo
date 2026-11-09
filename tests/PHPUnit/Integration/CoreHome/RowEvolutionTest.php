@@ -62,6 +62,34 @@ class RowEvolutionTest extends IntegrationTestCase
     }
 
     /**
+     * @dataProvider getFractionDigitsData
+     */
+    public function testGetFractionDigitsShortensLongFloatsButKeepsSmallValuesVisible($value, int $expected): void
+    {
+        $rowEvolution = (new \ReflectionClass(RowEvolution::class))->newInstanceWithoutConstructor();
+        $method = new \ReflectionMethod(RowEvolution::class, 'getFractionDigits');
+
+        $this->assertSame($expected, $method->invoke($rowEvolution, $value));
+    }
+
+    public function getFractionDigitsData(): array
+    {
+        return [
+            [42, 0],
+            ['7.5', 1],
+            [7.66, 2],
+            [1.234, 3],
+            [7.664999999991, 2],
+            [0.33333333333333, 2],
+            [0.004, 3],
+            [0.0043333333333, 4],
+            [-0.0043333333333, 4],
+            [0.00005, 5],
+            [0.0000123456789, 6],
+        ];
+    }
+
+    /**
      * A plugin whose report configureView adds an identifier to
      * request_parameters_to_modify (as plugin-CustomReports does with
      * idCustomReport) must still see that identifier reach the export URL

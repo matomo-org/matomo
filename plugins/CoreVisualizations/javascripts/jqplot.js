@@ -911,8 +911,9 @@ function applyFooterLegendRowLimit($dataTable)
         },
 
         setYTicksForAxis: function (axisName, axis) {
-            // calculate maximum y value of all data sets
+            // calculate maximum and minimum y value of all data sets
             var maxDataValue = 0;
+            var minDataValue = 0;
             for (var i = 0; i < this.data.length; i++) {
                 if (this.jqplotParams.series[i].yaxis == axisName) {
                     var maxValue = Math.max.apply(Math, this.data[i]);
@@ -920,6 +921,11 @@ function applyFooterLegendRowLimit($dataTable)
                         maxDataValue = maxValue;
                     }
                     maxDataValue = parseFloat(maxDataValue);
+
+                    var minValue = Math.min.apply(Math, this.data[i]);
+                    if (minValue < minDataValue) {
+                        minDataValue = parseFloat(minValue);
+                    }
                 }
             }
 
@@ -930,35 +936,51 @@ function applyFooterLegendRowLimit($dataTable)
             var forecastExceedsData = maxForecastValue > maxDataValue;
             var maxCrossDataSets = forecastExceedsData ? maxForecastValue : maxDataValue;
 
-            // add little padding on top
-            maxCrossDataSets += Math.max(1, Math.round(maxCrossDataSets * .03));
+            // add a little padding, then round to the nearest multiple of ten
+            var padAndRound = function (value) {
+                value += Math.max(1, Math.round(value * .03));
+                if (value > 15) {
+                    value = value + 10 - value % 10;
+                }
+                return value;
+            };
 
-            // round to the nearest multiple of ten
-            if (maxCrossDataSets > 15) {
-                maxCrossDataSets = maxCrossDataSets + 10 - maxCrossDataSets % 10;
-            }
+            maxCrossDataSets = padAndRound(maxCrossDataSets);
 
             if (maxCrossDataSets == 0) {
                 maxCrossDataSets = 1;
             }
 
-            // make sure percent axes don't go above 100%
+            // make sure percent axes don't go above 100%, unless a value or forecast does
+            var maxTick = Infinity;
             if (
               axis.tickOptions
               && axis.tickOptions.formatString
               && axis.tickOptions.formatString.endsWith('%')
-              && maxCrossDataSets > 100
+              && Math.max(maxDataValue, maxForecastValue) <= 100
             ) {
-                maxCrossDataSets = 100;
+                maxTick = 100;
             }
+            maxCrossDataSets = Math.min(maxCrossDataSets, maxTick);
 
             // calculate y-values for ticks
             var ticks = [];
             var numberOfTicks = 2;
             var tickDistance = Math.ceil(maxCrossDataSets / numberOfTicks);
-            for (var i = 0; i <= numberOfTicks; i++) {
-                ticks.push(i * tickDistance);
+            var ticksAboveZero = numberOfTicks;
+            var ticksBelowZero = 0;
+            if (minDataValue < 0) {
+                // without ticks below zero, a negative value is drawn off the graph
+                var minCrossDataSets = padAndRound(-minDataValue);
+                tickDistance = Math.max(tickDistance, Math.ceil(minCrossDataSets / numberOfTicks));
+                ticksAboveZero = Math.ceil(maxCrossDataSets / tickDistance);
+                ticksBelowZero = Math.ceil(minCrossDataSets / tickDistance);
             }
+            for (var i = 0; i <= ticksBelowZero + ticksAboveZero; i++) {
+                ticks.push((i - ticksBelowZero) * tickDistance);
+            }
+            // a step sized for large negative values can overshoot 100% at the top
+            ticks[ticks.length - 1] = Math.min(ticks[ticks.length - 1], maxTick);
             axis.ticks = ticks;
 
             if (forecastExceedsData) {
