@@ -126,6 +126,18 @@ class TransitionsTest extends SystemTestCase
                 'parts'              => 'followingActionsWithoutLoops',
             ),
         ));
+        // without reloads wins when both following action values are requested
+        $return[] = array('Transitions.getTransitionsForAction', array(
+            'idSite'                 => self::$fixture->idSite,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day'),
+            'testSuffix'             => '_followingActionsBothValues',
+            'otherRequestParameters' => array(
+                'actionType'         => 'url',
+                'actionName'         => 'http://example.org/page/one.html',
+                'parts'              => 'followingActions,followingActionsWithoutLoops',
+            ),
+        ));
         return $return;
     }
 
