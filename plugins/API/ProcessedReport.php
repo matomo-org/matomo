@@ -34,6 +34,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Tracker\GoalManager;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * @phpstan-type ProcessedReportData array{
@@ -919,6 +920,9 @@ class ProcessedReport
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
+            if (!$hasDimension) {
+                $this->removeLeftOutUniquesColumns($columns, $reportMetadata, $dataTable);
+            }
             [$newReport, $rowsMetadata] = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
             $newReport->setAllTableMetadata($dataTable->getAllTableMetadata());
 
@@ -1023,6 +1027,30 @@ class ProcessedReport
      * in the data table meta data, then drops the percent of the report total columns left
      * without the metric they belong to.
      */
+    /**
+     * A single period whose unique visitors were left out, eg a year without an estimate, shows no such column
+     * rather than one the report renderers would fill with 0.
+     */
+    private function removeLeftOutUniquesColumns(array &$columns, array &$reportMetadata, DataTable $dataTable): void
+    {
+        $row = $dataTable->getFirstRow();
+        if (!$row) {
+            return;
+        }
+
+        $rowColumns = $row->getColumns();
+        foreach (array_keys($columns) as $column) {
+            if (EstimatedUniques::isLeftOut($rowColumns, (string) $column)) {
+                unset(
+                    $columns[$column],
+                    $reportMetadata['metrics'][$column],
+                    $reportMetadata['metricsDocumentation'][$column],
+                    $reportMetadata['metricTypes'][$column]
+                );
+            }
+        }
+    }
+
     private function removeEmptyColumns(&$columns, &$reportMetadata, $dataTable)
     {
         $emptyColumns = $dataTable->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
@@ -1155,7 +1183,8 @@ class ProcessedReport
 
             // add missing metrics
             foreach ($metadataColumns as $id => $name) {
-                if (!isset($rowMetrics[$id])) {
+                // unique visitors left out for want of an estimate are unknown, not 0
+                if (!isset($rowMetrics[$id]) && !EstimatedUniques::isLeftOut($rowMetrics, (string) $id)) {
                     $row->setColumn($id, 0);
                     $rowMetrics[$id] = 0;
                 }

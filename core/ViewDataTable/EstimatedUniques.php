@@ -38,6 +38,22 @@ final class EstimatedUniques
     }
 
     /**
+     * Returns true if a unique visitors or users column is missing from a row because its period has visits but
+     * no count or estimate, as VisitsSummary.get leaves it out. Its value is unknown, not 0.
+     *
+     * @param array<string, mixed> $rowColumns
+     */
+    public static function isLeftOut(array $rowColumns, string $columnName): bool
+    {
+        $suffix = self::getColumnSuffix($columnName);
+
+        return $suffix !== null
+            && !isset($rowColumns[$columnName])
+            && !empty($rowColumns['nb_visits' . $suffix])
+            && SettingsPiwik::isUniqueVisitorsEstimateEnabled();
+    }
+
+    /**
      * Labels for the unique visitors and users columns of periods where they are estimated.
      *
      * @return array<string, string>

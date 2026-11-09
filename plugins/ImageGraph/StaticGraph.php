@@ -362,6 +362,9 @@ abstract class StaticGraph extends BaseFactory
         $maxHeight = 0;
         foreach ($values as $data) {
             foreach ($data as $value) {
+                if ($value === VOID) {
+                    continue;
+                }
                 [$valueWidth, $valueHeight] = $this->getTextWidthHeight($value);
 
                 if ($valueWidth > $maxWidth) {

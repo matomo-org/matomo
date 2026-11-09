@@ -26,6 +26,7 @@ use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * @group Core
@@ -565,6 +566,62 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         // years without visits are a real 0, the year with visits but no estimate is a gap
         $this->assertSame([[0, 0, 200], [0, 0, null]], $data['data']);
         $this->assertTrue($data['params']['series'][1]['breakOnNull']);
+    }
+
+    /**
+     * @dataProvider getSiteTotalReports
+     */
+    public function testProcessedReportLeavesOutTheUniquesOfAYearWithoutAnEstimate(string $module): void
+    {
+        $this->archiveFirstDayWithoutSketches();
+
+        $report = Request::processRequest('API.getProcessedReport', [
+            'idSite' => 1, 'period' => 'year', 'date' => '2024-03-01',
+            'apiModule' => $module, 'apiAction' => 'get', 'format_metrics' => 0,
+        ]);
+
+        $row = $report['reportData']->getFirstRow()->getColumns();
+        $this->assertGreaterThan(0, $row['nb_visits']);
+        foreach (['nb_uniq_visitors', 'nb_users'] as $column) {
+            $this->assertArrayNotHasKey($column, $row);
+            $this->assertArrayNotHasKey($column, $report['columns']);
+            $this->assertArrayNotHasKey($column, $report['metadata']['metrics']);
+        }
+    }
+
+    public function getSiteTotalReports(): array
+    {
+        return ['visits summary' => ['VisitsSummary'], 'main metrics' => ['API']];
+    }
+
+    public function testProcessedReportLeavesOutTheUniquesOfOnlyThePeriodsWithoutAnEstimate(): void
+    {
+        // weeks without an estimate then have no exact count to fall back to, like years
+        $this->setGeneralConfig('enable_processing_unique_visitors_week', 0);
+        $this->archiveFirstDayWithoutSketches();
+
+        $report = Request::processRequest('API.getProcessedReport', [
+            'idSite' => 1, 'period' => 'week', 'date' => '2024-02-26,2024-03-10',
+            'apiModule' => 'VisitsSummary', 'apiAction' => 'get', 'format_metrics' => 0,
+        ]);
+        $this->setGeneralConfig('enable_processing_unique_visitors_week', 1);
+
+        [$weekWithoutEstimate, $estimatedWeek] = array_values($report['reportData']->getDataTables());
+        $this->assertArrayHasKey('nb_uniq_visitors', $report['columns']);
+        $this->assertArrayNotHasKey('nb_uniq_visitors', $weekWithoutEstimate->getFirstRow()->getColumns());
+        $this->assertGreaterThan(0, $estimatedWeek->getFirstRow()->getColumn('nb_uniq_visitors'));
+    }
+
+    public function testUniquesAreLeftOutOnlyFromPeriodsWithVisits(): void
+    {
+        $this->assertTrue(EstimatedUniques::isLeftOut(['nb_visits' => 5], 'nb_uniq_visitors'));
+        $this->assertTrue(EstimatedUniques::isLeftOut(['nb_visits_returning' => 5], 'nb_users_returning'));
+        $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 0], 'nb_uniq_visitors'));
+        $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 5, 'nb_uniq_visitors' => 3], 'nb_uniq_visitors'));
+        $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 5], 'nb_actions'));
+
+        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
+        $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 5], 'nb_uniq_visitors'));
     }
 
     /**
