@@ -19,4 +19,9 @@ class CliMultiProcessSymfony implements FeatureFlagInterface
     {
         return 'CliMultiProcessSymfony';
     }
+
+    public function allowsCookieOverwrite(): bool
+    {
+        return false;
+    }
 }
