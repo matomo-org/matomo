@@ -13,6 +13,7 @@ use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
@@ -261,6 +262,15 @@ class Evolution extends JqplotGraph
 
         $idSite = $idSite ?? Common::getRequestVar('idSite');
         $site = new Site($idSite);
+
+        // periods after today have no data, so never let the graph end in the future
+        // (e.g. "Change period" from year to month passes the last day of the year as end date)
+        if (str_contains($endDate, '-')) {
+            $today = Date::factoryInTimezone('today', $site->getTimezone());
+            if (Date::factory($endDate)->isLater($today)) {
+                $endDate = $today->toString();
+            }
+        }
 
         $dateRange = Range::getRelativeToEndDate($period, 'last' . $lastN, $endDate, $site);
 
