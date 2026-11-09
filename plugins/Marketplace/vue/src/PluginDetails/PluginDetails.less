@@ -317,6 +317,8 @@ section.marketplacePluginDetails__card {
 .marketplacePluginDetails__readme {
   // Morpheus colours every p itself, so the lists and the rest take the same colour from here
   color: @theme-color-text;
+  // fixed, or the paragraphs inherit Materialize's viewport-based root size (14-15px)
+  font-size: 14px;
   // readme headings and links carry long unbroken words - class names, URLs - that would otherwise
   // run past the card on a narrow screen
   overflow-wrap: anywhere;
