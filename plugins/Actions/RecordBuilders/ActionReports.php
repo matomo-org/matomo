@@ -103,11 +103,17 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $records;
     }
 
+    /**
+     * @return string[]|null
+     */
     public function flatRowToUrlHierarchyPath(Row $flatRow): ?array
     {
         return $this->flatRowToHierarchyPath($flatRow, Action::TYPE_PAGE_URL);
     }
 
+    /**
+     * @return string[]|null
+     */
     public function flatRowToTitleHierarchyPath(Row $flatRow): ?array
     {
         return $this->flatRowToHierarchyPath($flatRow, Action::TYPE_PAGE_TITLE);
@@ -278,6 +284,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $this->finalizeBuiltFromFlatHierarchyTable($archiveProcessor, $hierarchicalTable, $recordName);
     }
 
+    /**
+     * @return string[]|null
+     */
     private function flatRowToHierarchyPath(Row $flatRow, int $actionType): ?array
     {
         $label = $flatRow->getColumn('label');
@@ -365,11 +374,17 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         );
     }
 
+    /**
+     * @return array<int, int>
+     */
     private function getDefaultHierarchyRowColumns(): array
     {
         return array_fill_keys(ArchivingHelper::getHierarchyRowColumnOrder(), 0);
     }
 
+    /**
+     * @return array<string, DataTable|int|float|string>
+     */
     private function aggregateLegacyHierarchical(ArchiveProcessor $archiveProcessor): array
     {
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
@@ -461,6 +476,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $dataTable->deleteColumns($columnsToDelete);
     }
 
+    /**
+     * @return array<int, DataTable>
+     */
     private function makeReportTables(): array
     {
         $result = [];
@@ -486,6 +504,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $result;
     }
 
+    /**
+     * @return array<int, DataTable>
+     */
     private function makeFlatPageTables(): array
     {
         $tables = [];
@@ -500,6 +521,11 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $tables;
     }
 
+    /**
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param int[] $actionTypes
+     * @param array<int, string> $tableModesByType
+     */
     protected function archiveDayActions(
         ArchiveProcessor $archiveProcessor,
         int $rankingQueryLimit,
@@ -542,7 +568,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         $siteSearchEnabled = $archiveProcessor->getParams()->getSite()->isSiteSearchEnabled();
 
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn(array('idaction', 'name'));
@@ -595,10 +621,14 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     /**
      * Entry actions for Page URLs and Page names
+     *
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     * @return void
      */
     protected function archiveDayEntryActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
@@ -667,10 +697,14 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     /**
      * Exit actions
+     *
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     * @return list<mixed>
      */
     protected function archiveDayExitActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
@@ -735,6 +769,10 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     /**
      * Time per action.
+     *
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     * @return void
      */
     protected function archiveDayActionsTime(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
@@ -742,9 +780,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $this->archiveDayActionsTimeLegacy($logAggregator, $actionsTablesByType, $rankingQueryLimit, $tableModesByType);
     }
 
+    /**
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     */
     private function archiveDayActionsTimeAccurate(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
     {
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
@@ -804,9 +846,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         );
     }
 
+    /**
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     */
     private function archiveDayActionsTimeLegacy(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
     {
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
@@ -906,6 +952,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         );
     }
 
+    /**
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param string|array<string|array{table: string, tableAlias?: string, joinOn?: string}> $from
+     * @param string|false $orderBy
+     * @param array<int|string, array{aggregation: string|false, query: string}> $metricsConfig
+     * @param array<int, string> $tableModesByType
+     */
     protected function archiveDayQueryProcess(
         LogAggregator $logAggregator,
         array $actionsTablesByType,
@@ -943,6 +996,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         );
     }
 
+    /**
+     * @param array<string|array{table: string, tableAlias?: string, joinOn?: string}> $from
+     */
     protected function updateQuerySelectFromForSiteSearch(string &$select, array &$from): void
     {
         $selectFlagNoResultKeywords = ",
@@ -964,6 +1020,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             . $selectPageIsFollowingSiteSearch;
     }
 
+    /**
+     * @param array<int|string, array{aggregation: string|false, query: string}> $metricsConfig
+     */
     private function addMetricsToRankingQuery(RankingQuery $rankingQuery, array $metricsConfig): void
     {
         foreach ($metricsConfig as $metric => $config) {
@@ -975,6 +1034,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         }
     }
 
+    /**
+     * @param array<int|string, array{aggregation: string|false, query: string}> $metricsConfig
+     */
     private function addMetricsToSelect(string $select, array $metricsConfig): string
     {
         if (!empty($metricsConfig)) {
