@@ -58,10 +58,10 @@
           <span class="transitionsCenterCard__dot" :class="dotClass(metric)"></span>
           <span class="transitionsCenterCard__metricLabel"
             >{{ metric.labelBefore
-          }}<MatomoLoader
+          }}<span
             v-if="metric.isLoading"
             class="transitionsCenterCard__valueLoader"
-          /><strong
+          ><MatomoLoader /></span><strong
             v-else
             class="transitionsCenterCard__metricValue"
           >{{ metric.valueLabel }}</strong
