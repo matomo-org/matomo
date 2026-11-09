@@ -494,7 +494,8 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         }
         $download = $this->insertLogAction('example.org/file.zip', Action::TYPE_DOWNLOAD, 2);
 
-        $idVisit = (int) (new LogHelper())->insertVisit([
+        $logHelper = new LogHelper();
+        $idVisit = (int) $logHelper->insertVisit([
             'idsite'                  => $this->idSite,
             'visit_first_action_time' => date('Y-m-d H:i:s', $start),
             'visit_last_action_time'  => date('Y-m-d H:i:s', $start + 590),
@@ -503,11 +504,11 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         // [second, page viewed or null for a download, credited page, time_spent_ref_action,
         //  time_spent of the page's row or null when the row is missing]
         $hits = [
-            // Worked example: row A is closed, nothing lies between A and the next two hits.
+            // Worked example: a's row is closed and no row lies between it and the next two hits.
             [0, 'a', null, 0, 5],
             [30, null, 'a', 10, null],
             [40, 'b', 'a', 10, 0],
-            // Row b now lies between A and this hit, so it counts.
+            // b's row now lies in between, so this hit counts.
             [60, null, 'a', 10, null],
             // b is unclosed, so it covers nothing.
             [100, 'c', 'b', 60, 3],
@@ -526,15 +527,20 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
             [400, 'h', 'g', 90, 50],
             [420, 'i', 'h', 20, 0],
             [430, null, 'h', 10, null],
+            [500, 'r', 'i', 70, 10],
         ];
         // Repeated views of one URL; the fifth view's row is missing and the last one is unclosed.
-        for ($k = 0; $k < 10; $k++) {
-            $hits[] = [500 + 10 * $k, 'r', $k ? 'r' : 'i', $k ? 10 : 70, $k === 4 ? null : ($k === 9 ? 0 : 10)];
+        for ($k = 1; $k < 10; $k++) {
+            $hits[] = [500 + 10 * $k, 'r', 'r', 10, match ($k) {
+                4 => null,
+                9 => 0,
+                default => 10,
+            }];
         }
 
         foreach ($hits as [$second, $page, $creditedPage, $timeSpentRef, $rowTimeSpent]) {
             $serverTime = date('Y-m-d H:i:s', $start + $second);
-            (new LogHelper())->insertVisitAction($idVisit, [
+            $logHelper->insertVisitAction($idVisit, [
                 'idsite'                => $this->idSite,
                 'server_time'           => $serverTime,
                 'idaction_url'          => $page ? $actions[$page]['url'] : $download,
@@ -543,12 +549,13 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
                 'idaction_name_ref'     => $creditedPage ? $actions[$creditedPage]['title'] : null,
                 'time_spent_ref_action' => $timeSpentRef,
             ]);
+            $idLinkVa = (int) Db::get()->lastInsertId();
             if ($page !== null && $rowTimeSpent !== null) {
                 Db::query(
                     'INSERT INTO ' . Common::prefixTable('log_page_view_time')
                     . ' (idsite, idvisit, idlink_va, idaction_url, idaction_name, server_time, time_spent)'
-                    . ' VALUES (?, ?, LAST_INSERT_ID(), ?, ?, ?, ?)',
-                    [$this->idSite, $idVisit, $actions[$page]['url'], $actions[$page]['title'], $serverTime, $rowTimeSpent]
+                    . ' VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    [$this->idSite, $idVisit, $idLinkVa, $actions[$page]['url'], $actions[$page]['title'], $serverTime, $rowTimeSpent]
                 );
             }
         }

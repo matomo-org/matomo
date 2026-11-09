@@ -848,9 +848,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         // that follows it with no other row between, as that hit is the one the writer closed
         // it with. A row that was never closed spans nothing.
         //
-        // Such a closed row can only sit at the visit's latest second before the hit, so the
-        // second check compares two maximums. Looking for the row with a nested NOT EXISTS
-        // instead scans the visit once per earlier row, which is cubic in its length.
+        // Such a row can only sit at the visit's latest second before the hit, so comparing two
+        // maximums finds it without a nested NOT EXISTS, which is cubic in the visit's length.
         $spanCovered = "
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
