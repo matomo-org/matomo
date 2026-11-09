@@ -84,6 +84,8 @@ class HomepageAnalyzer
      */
     private $crawlStats = self::EMPTY_CRAWL_STATS;
 
+    private ?string $lastFailureReason = null;
+
     private const EMPTY_CRAWL_STATS = [
         'blockedPages' => 0,
         'failedFetches' => 0,
@@ -108,6 +110,8 @@ class HomepageAnalyzer
         $url = Site::getMainUrlFor($idSite);
 
         if (empty($url)) {
+            $this->crawlStats = self::EMPTY_CRAWL_STATS;
+            $this->lastFailureReason = 'No homepage URL is configured.';
             return null;
         }
 
@@ -120,14 +124,17 @@ class HomepageAnalyzer
     public function analyzeUrl(string $url, ?int $idSite = null, int $timeout = 5): ?array
     {
         $this->crawlStats = self::EMPTY_CRAWL_STATS;
+        $this->lastFailureReason = null;
         $startUrl = $this->normalizeCrawlUrl($url);
         if ($startUrl === null) {
+            $this->lastFailureReason = 'The homepage URL is invalid or does not use HTTP(S).';
             return null;
         }
 
         $response = $this->usableResponse($this->fetchHomepage($startUrl, $timeout), $startUrl);
 
         if ($response === null) {
+            $this->lastFailureReason = $this->lastFailureReason ?? 'The homepage request returned no response.';
             return null;
         }
 
@@ -135,6 +142,7 @@ class HomepageAnalyzer
         $html = $response['data'] ?? '';
 
         if ($html === '') {
+            $this->lastFailureReason = 'The homepage returned an empty body (HTTP ' . $status . ').';
             $this->getLogger()->debug(
                 'Goals recommendations: empty homepage body for {url} (HTTP status {status}).',
                 ['url' => $startUrl, 'status' => $status]
@@ -151,6 +159,7 @@ class HomepageAnalyzer
 
         $host = $this->getUrlAuthority($startUrl);
         if ($host === '') {
+            $this->lastFailureReason = 'The homepage URL has no host.';
             return null;
         }
 
@@ -162,6 +171,9 @@ class HomepageAnalyzer
         };
         $manualSignals = $this->aggregateManualSignals($pages);
         $manualSignals['outlinkHosts'] = array_filter($manualSignals['outlinkHosts'], $isExternal, ARRAY_FILTER_USE_KEY);
+
+        // Failed secondary requests do not make the scan itself a failure.
+        $this->lastFailureReason = null;
 
         $this->getLogger()->debug(
             'Goals recommendations: analysed {url} '
@@ -295,6 +307,7 @@ class HomepageAnalyzer
     {
         // Respect the same internet-features kill switch SiteContentDetector honours.
         if (0 === GeneralConfig::getIntegerConfigValue('enable_internet_features', 0)) {
+            $this->lastFailureReason = 'Internet features are disabled.';
             $this->getLogger()->debug(
                 'Goals recommendations: internet features are disabled; skipping homepage fetch.'
             );
@@ -319,14 +332,15 @@ class HomepageAnalyzer
                 true // $validateEgressIp: SSRF-safe fetch (public-IP only, per-redirect revalidation, pinned)
             );
         } catch (EgressBlockedException $e) {
-            // admin-fixable rejection, not a transient network error, so it must clear the default WARN level
-            $this->getLogger()->warning(
+            $this->lastFailureReason = 'Homepage request refused: ' . $this->getSafeExceptionMessage($e);
+            $this->getLogger()->debug(
                 'Goals recommendations: homepage fetch for {url} was refused: {message}',
                 // host only, so a configured URL carrying userinfo keeps credentials out of the log
                 ['url' => UrlHelper::getHostFromUrl($url), 'message' => $e->getMessage()]
             );
             return null;
         } catch (\Exception $e) {
+            $this->lastFailureReason = 'Homepage request failed: ' . $this->getSafeExceptionMessage($e);
             ++$this->crawlStats['failedFetches'];
             $this->getLogger()->debug(
                 'Goals recommendations: homepage fetch failed for {url}: {message}',
@@ -363,6 +377,12 @@ class HomepageAnalyzer
                 && stripos($contentType, 'application/xhtml+xml') === false
             )
         ) {
+            $this->lastFailureReason = !is_int($status)
+                ? 'The homepage returned no valid HTTP status.'
+                : 'The homepage returned HTTP ' . $status . '.';
+            if (is_int($status) && $status >= 200 && $status < 300) {
+                $this->lastFailureReason = 'The homepage returned non-HTML content (HTTP ' . $status . ').';
+            }
             if (in_array($status, self::BLOCKED_STATUSES, true)) {
                 ++$this->crawlStats['blockedPages'];
             } else {
@@ -392,6 +412,24 @@ class HomepageAnalyzer
     public function getLastCrawlStats(): array
     {
         return $this->crawlStats;
+    }
+
+    /**
+     * Reason the last analyze() or analyzeUrl() call returned null, or null after a successful scan.
+     * Suitable for production logs: excludes URLs that could contain credentials or query parameters.
+     */
+    public function getLastFailureReason(): ?string
+    {
+        return $this->lastFailureReason;
+    }
+
+    private function getSafeExceptionMessage(\Exception $exception): string
+    {
+        // Transport errors can include the requested URL or a redirect target.
+        $message = preg_replace('~https?://[^\s<>"\']+~i', '[redacted URL]', $exception->getMessage());
+        $message = preg_replace('/[\r\n\t]+/', ' ', (string) $message);
+
+        return get_class($exception) . ': ' . substr((string) $message, 0, 1000);
     }
 
     protected function getCrawlDeadlineSeconds(): int
