@@ -89,6 +89,27 @@ describe("Live_ConsentedVisits", function () {
         expect(Array.from(new Set(badges))).to.deep.equal(['Consented']);
     });
 
+    async function hasSegmentedVisitorLogRowAction(report)
+    {
+        await load('?module=Widgetize&action=iframe&moduleToWidgetize=VisitTime&actionToWidgetize=' + report
+            + '&idSite=' + policySite + '&period=year&date=2017-01-02&viewDataTable=table');
+
+        await (await page.jQuery('table.dataTable tbody tr:first td.label')).hover();
+        await page.waitForSelector('.dataTableRowActions', {visible: true});
+
+        return !!(await page.$('.dataTableRowActions .actionSegmentVisitorLog'));
+    }
+
+    it('should offer the segmented visits log on a row segmented by a segment kept on the policy site', async function () {
+        // segmented by visitLocalHour
+        expect(await hasSegmentedVisitorLogRowAction('getVisitInformationPerLocalTime')).to.equal(true);
+    });
+
+    it('should not offer the segmented visits log on a row segmented by a segment the policy removes', async function () {
+        // segmented by visitStartServerHour, which the visits log cannot filter by on the policy site
+        expect(await hasSegmentedVisitorLogRowAction('getVisitInformationPerServerTime')).to.equal(false);
+    });
+
     it('should list visits with a notice in the real-time widget of the policy site', async function () {
         await load(widgetUrl('widget', policySite));
         // the fixture has no visit today, so the list is rendered empty: wait for it to exist, not to be visible
