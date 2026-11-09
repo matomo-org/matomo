@@ -18,6 +18,8 @@ use Piwik\Plugins\Actions\API as ActionsAPI;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tests\Framework\TestDataHelper\LogHelper;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Cache;
 
 /**
@@ -472,6 +474,127 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
 
         // Capped at visit_standard_length, not 1800 + the 300s legacy value on top.
         $this->assertSame(1800, (int) ($rows['https://example.org/long']['sum_time_spent'] ?? -1));
+    }
+
+    /**
+     * Pins which legacy hits a visit's rows cover: overlap, a closed row with no row between it
+     * and the hit, same-second ties, unclosed and missing rows, and repeated views of one URL.
+     */
+    public function testLegacyHitsCoveredByPageViewTimeRowsAreNotCountedTwice(): void
+    {
+        $day = '2026-07-15';
+        $start = strtotime($day . ' 10:00:00');
+
+        $actions = [];
+        foreach (['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'r'] as $page) {
+            $actions[$page] = [
+                'url'   => $this->insertLogAction('example.org/' . $page, Action::TYPE_PAGE_URL, 2),
+                'title' => $this->insertLogAction('Page ' . strtoupper($page), Action::TYPE_PAGE_TITLE),
+            ];
+        }
+        $download = $this->insertLogAction('example.org/file.zip', Action::TYPE_DOWNLOAD, 2);
+
+        $idVisit = (int) (new LogHelper())->insertVisit([
+            'idsite'                  => $this->idSite,
+            'visit_first_action_time' => date('Y-m-d H:i:s', $start),
+            'visit_last_action_time'  => date('Y-m-d H:i:s', $start + 590),
+        ])['idvisit'];
+
+        // [second, page viewed or null for a download, credited page, time_spent_ref_action,
+        //  time_spent of the page's row or null when the row is missing]
+        $hits = [
+            // Worked example: row A is closed, nothing lies between A and the next two hits.
+            [0, 'a', null, 0, 5],
+            [30, null, 'a', 10, null],
+            [40, 'b', 'a', 10, 0],
+            // Row b now lies between A and this hit, so it counts.
+            [60, null, 'a', 10, null],
+            // b is unclosed, so it covers nothing.
+            [100, 'c', 'b', 60, 3],
+            // Same-second tie: the row at 120 is not earlier than the hit at 120.
+            [120, 'd', 'c', 7, 0],
+            [120, null, 'c', 11, null],
+            [200, 'e', 'd', 80, 4],
+            // Two rows at the latest earlier second: one closed, one unclosed.
+            [200, 'f', 'e', 0, 0],
+            [210, null, 'e', 6, null],
+            [212, null, 'f', 12, null],
+            // g's row is missing.
+            [300, 'g', 'f', 88, null],
+            [310, null, 'g', 10, null],
+            // h's row spans 400-450 and overlaps both following hits.
+            [400, 'h', 'g', 90, 50],
+            [420, 'i', 'h', 20, 0],
+            [430, null, 'h', 10, null],
+        ];
+        // Repeated views of one URL; the fifth view's row is missing and the last one is unclosed.
+        for ($k = 0; $k < 10; $k++) {
+            $hits[] = [500 + 10 * $k, 'r', $k ? 'r' : 'i', $k ? 10 : 70, $k === 4 ? null : ($k === 9 ? 0 : 10)];
+        }
+
+        foreach ($hits as [$second, $page, $creditedPage, $timeSpentRef, $rowTimeSpent]) {
+            $serverTime = date('Y-m-d H:i:s', $start + $second);
+            (new LogHelper())->insertVisitAction($idVisit, [
+                'idsite'                => $this->idSite,
+                'server_time'           => $serverTime,
+                'idaction_url'          => $page ? $actions[$page]['url'] : $download,
+                'idaction_name'         => $page ? $actions[$page]['title'] : null,
+                'idaction_url_ref'      => $creditedPage ? $actions[$creditedPage]['url'] : 0,
+                'idaction_name_ref'     => $creditedPage ? $actions[$creditedPage]['title'] : null,
+                'time_spent_ref_action' => $timeSpentRef,
+            ]);
+            if ($page !== null && $rowTimeSpent !== null) {
+                Db::query(
+                    'INSERT INTO ' . Common::prefixTable('log_page_view_time')
+                    . ' (idsite, idvisit, idlink_va, idaction_url, idaction_name, server_time, time_spent)'
+                    . ' VALUES (?, ?, LAST_INSERT_ID(), ?, ?, ?, ?)',
+                    [$this->idSite, $idVisit, $actions[$page]['url'], $actions[$page]['title'], $serverTime, $rowTimeSpent]
+                );
+            }
+        }
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
+
+        // Row time plus the legacy time of the hits it does not cover.
+        $expected = [
+            'a' => 5 + 10,
+            'b' => 0 + 60,
+            'c' => 3,
+            'd' => 0 + 80,
+            'e' => 4,
+            'f' => 0 + 12 + 88,
+            'g' => 10 + 90,
+            'h' => 50,
+            'i' => 0 + 70,
+            'r' => 8 * 10,
+        ];
+
+        $urlRows = $this->readPageUrlRows('day', $day);
+        $titleRows = $this->readPageTitleRows('day', $day);
+        foreach ($expected as $page => $sumTimeSpent) {
+            $this->assertSame($sumTimeSpent, $urlRows['https://example.org/' . $page]['sum_time_spent'] ?? -1, "url /$page");
+            $this->assertSame($sumTimeSpent, $titleRows['Page ' . strtoupper($page)] ?? -1, "title $page");
+        }
+    }
+
+    private function insertLogAction(string $name, int $type, ?int $urlPrefix = null): int
+    {
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type, url_prefix) VALUES (?, CRC32(?), ?, ?)',
+            [$name, $name, $type, $urlPrefix]
+        );
+        return (int) Db::get()->lastInsertId();
+    }
+
+    private function readPageTitleRows(string $period, string $date): array
+    {
+        $report = ActionsAPI::getInstance()->getPageTitles($this->idSite, $period, $date, false, false, false, true);
+        $out = [];
+        foreach ($report->getRows() as $row) {
+            $out[trim((string) $row->getColumn('label'))] = (int) $row->getColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT);
+        }
+        return $out;
     }
 
     private function readPageUrlRows(string $period, string $date, $segment = false): array

@@ -847,24 +847,31 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         // cap cut short spans less than the view lasted, so a closed row also covers the hit
         // that follows it with no other row between, as that hit is the one the writer closed
         // it with. A row that was never closed spans nothing.
+        //
+        // Such a closed row can only sit at the visit's latest second before the hit, so the
+        // second check compares two maximums. Looking for the row with a nested NOT EXISTS
+        // instead scans the visit once per earlier row, which is cubic in its length.
         $spanCovered = "
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
                          WHERE pvt.idvisit = log_link_visit_action.idvisit
-                           AND pvt.%s = log_link_visit_action.%s
+                           AND pvt.%1\$s = log_link_visit_action.%2\$s
                            AND pvt.server_time < log_link_visit_action.server_time
-                           AND (
-                               log_link_visit_action.server_time
+                           AND log_link_visit_action.server_time
                                    - INTERVAL log_link_visit_action.time_spent_ref_action SECOND
-                                   < pvt.server_time + INTERVAL pvt.time_spent SECOND
-                               OR pvt.time_spent > 0 AND NOT EXISTS (
-                                   SELECT 1 FROM `$pageViewTimeTable` AS pvt_next
-                                    WHERE pvt_next.idvisit = pvt.idvisit
-                                      AND pvt_next.server_time > pvt.server_time
-                                      AND pvt_next.server_time < log_link_visit_action.server_time
-                               )
-                           )
-                     )";
+                               < pvt.server_time + INTERVAL pvt.time_spent SECOND
+                     )
+                 AND NOT IFNULL((
+                        SELECT MAX(pvt_closed.server_time) FROM `$pageViewTimeTable` AS pvt_closed
+                         WHERE pvt_closed.idvisit = log_link_visit_action.idvisit
+                           AND pvt_closed.%1\$s = log_link_visit_action.%2\$s
+                           AND pvt_closed.time_spent > 0
+                           AND pvt_closed.server_time < log_link_visit_action.server_time
+                     ) = (
+                        SELECT MAX(pvt_prev.server_time) FROM `$pageViewTimeTable` AS pvt_prev
+                         WHERE pvt_prev.idvisit = log_link_visit_action.idvisit
+                           AND pvt_prev.server_time < log_link_visit_action.server_time
+                     ), 0)";
 
         $whereUrl = $whereBase . sprintf($spanCovered, 'idaction_url', 'idaction_url_ref');
         $whereName = $whereBase . sprintf($spanCovered, 'idaction_name', 'idaction_name_ref');
