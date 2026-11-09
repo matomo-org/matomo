@@ -107,8 +107,13 @@ class ClientTest extends IntegrationTestCase
             $numRequests++;
             throw new \Exception('Marketplace unreachable');
         });
+        // logged, not shown to the user who opened Manage Requests as a notification
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::once())->method('error')
+            ->with(self::anything(), self::callback(static fn (array $context) => $context['ignoreInScreenWriter'] === true));
+        $client = ClientBuilder::build($this->service, null, $logger);
 
-        self::assertSame([], $this->client->getInfoOfPlugins(['PaidPlugin1', 'Barometer'], true));
+        self::assertSame([], $client->getInfoOfPlugins(['PaidPlugin1', 'Barometer'], true));
         self::assertSame(1, $numRequests);
     }
 

@@ -9,8 +9,10 @@
 
 namespace Piwik\Plugins\Marketplace;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -24,6 +26,15 @@ class Menu extends \Piwik\Plugin\Menu
                 $this->urlForAction('overview', array_merge($idSiteParameter, ['activated' => '', 'mode' => 'admin', 'type' => '', 'show' => ''])),
                 5
             );
+        }
+
+        // super users decide on requests rather than make them, on a page of their own
+        if (
+            !Piwik::isUserIsAnonymous()
+            && !Piwik::hasUserSuperUserAccess()
+            && StaticContainer::get(PluginTrialService::class)->areRequestsActive()
+        ) {
+            $menu->addPersonalItem('Marketplace_ManageRequests', $this->urlForAction('manageRequests', $idSiteParameter), 30);
         }
 
         if (Piwik::hasUserSuperUserAccess()) {

@@ -162,6 +162,61 @@
     </template>
   </template>
 
+  <template v-else-if="arePluginRequestsActive">
+    <!-- not a plugin without a licence, which the Super User is shown as such: an ended trial is still installed -->
+    <CTAStatus
+      v-if="plugin.isInstalled && !plugin.isMissingLicense"
+      tone="success"
+      :label="translate('General_Installed')"
+      :in-modal="inModal"
+      :has-action="!inModal"
+    >
+      <MoreDetailsAction
+        :show-as-button="true"
+        :label="translate('General_MoreDetails')"
+        @action="$emit('openDetailsModal')"
+      />
+    </CTAStatus>
+
+    <CTAStatus
+      v-else-if="requestStatusLabel"
+      :tone="plugin.requestStatus === 'declined' || isTrialEnded ? 'warning' : 'success'"
+      :label="requestStatusLabel"
+      :in-modal="inModal"
+      :has-action="!isTrialEnded"
+    >
+      <a
+        class="ctaContainer__viewRequest"
+        :href="manageRequestsUrl"
+        target="_blank"
+        rel="noopener"
+      >{{
+        translate('Marketplace_ViewRequest')
+      }}</a>
+    </CTAStatus>
+
+    <a v-else-if="plugin.canTrialBeRequested && !plugin.isMissingLicense"
+       class="btn btn-block purchaseable"
+       href=""
+       @click.prevent="$emit('requestTrial');"
+       :title="translate('Marketplace_RequestTrial')"
+    >{{ translate('Marketplace_RequestTrial') }}</a>
+
+    <a v-else-if="plugin.canInstallBeRequested"
+       class="btn btn-block"
+       href=""
+       @click.prevent="$emit('requestTrial');"
+       :title="translate('Marketplace_RequestInstall')"
+    >{{ translate('Marketplace_RequestInstall') }}</a>
+
+    <MoreDetailsAction
+      v-else-if="!inModal"
+      :show-as-button="true"
+      :label="translate('General_MoreDetails')"
+      @action="$emit('openDetailsModal')"
+    />
+  </template>
+
   <a v-else-if="plugin.isTrialRequested"
      class="btn btn-block purchaseable disabled"
      href=""
@@ -192,6 +247,7 @@ import MarketplaceButton from '../MarketplaceButton/MarketplaceButton.vue';
 import CTAStatus from './CTAStatus.vue';
 import DownloadButton from './DownloadButton.vue';
 import MoreDetailsAction from './MoreDetailsAction.vue';
+import manageRequestsUrl from '../ManageRequests/manageRequestsUrl';
 
 export default defineComponent({
   props: {
@@ -239,6 +295,11 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    /** Users who are not super users request trials and installs, and follow them on a page. */
+    arePluginRequestsActive: {
+      type: Boolean,
+      default: false,
+    },
     shopVariationUrl: {
       type: String,
       required: false,
@@ -256,6 +317,33 @@ export default defineComponent({
     MoreDetailsAction,
   },
   computed: {
+    isInstallRequest(): boolean {
+      return this.plugin.requestType === 'install';
+    },
+    /** An approved trial whose licence is gone again, so the plugin is no longer usable. */
+    isTrialEnded(): boolean {
+      return this.plugin.requestStatus === 'approved'
+        && !this.isInstallRequest
+        && this.plugin.isMissingLicense;
+    },
+    /** The current user's request of the plugin, if they made one. */
+    requestStatusLabel(): string {
+      if (this.isTrialEnded) {
+        return translate('Marketplace_TrialEnded');
+      }
+
+      const labels: Record<string, [string, string]> = {
+        pending: ['Marketplace_TrialRequested', 'Marketplace_InstallRequested'],
+        approved: ['Marketplace_TrialApproved', 'Marketplace_InstallApproved'],
+        declined: ['Marketplace_TrialDeclined', 'Marketplace_InstallDeclined'],
+      };
+      const label = labels[this.plugin.requestStatus];
+
+      return label ? translate(label[this.isInstallRequest ? 1 : 0]) : '';
+    },
+    manageRequestsUrl(): string {
+      return manageRequestsUrl();
+    },
     /** The one case DownloadButton renders anything: an update it cannot apply for you. */
     isDownloadableWithoutAutoUpdate(): boolean {
       return this.plugin.missingRequirements.length === 0

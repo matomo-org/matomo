@@ -27,6 +27,7 @@
             upload-limit="{{ uploadLimit|default(null)|json_encode }}"
             default-sort="{{ defaultSort|json_encode }}"
             num-users="{{ numUsers|json_encode }}"
+            are-plugin-requests-active="{{ arePluginRequestsActive|default(false)|json_encode }}"
         ></div>
 
         <div class="footer-message center">

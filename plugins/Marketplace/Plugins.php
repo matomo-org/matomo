@@ -15,9 +15,11 @@ use Piwik\NumberFormatter;
 use Piwik\ProfessionalServices\Advertising;
 use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Plugin;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -365,6 +367,20 @@ class Plugins
         }
 
         return $this->pluginManager->isPluginInstalled($pluginName, true);
+    }
+
+    /**
+     * Returns whether a Super User could install the plugin from the Marketplace on this Matomo, as its Install button
+     * shows, so users are not offered to request a plugin the Super User is shown as "Cannot install"
+     *
+     * @param array<string, mixed> $plugin as enriched by {@link getPluginInfo()} or {@link searchPlugins()}
+     */
+    public static function canBeInstalledFromMarketplace(array $plugin): bool
+    {
+        return CorePluginsAdmin::isPluginsAdminEnabled()
+            && SettingsPiwik::isAutoUpdatePossible()
+            && empty($plugin['missingRequirements'])
+            && !empty($plugin['hasDownloadLink']);
     }
 
     private function enrichPluginInformation($plugin, ?string $campaignMedium = null)

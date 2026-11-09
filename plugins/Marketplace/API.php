@@ -10,14 +10,15 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Exception;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\Exception\ThingNotFoundException;
+use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Plugins as MarketplacePlugins;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Api\Service;
-use Piwik\Plugins\Marketplace\FeatureFlags\PluginRequests;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
@@ -51,9 +52,9 @@ class API extends \Piwik\Plugin\API
 
     private PluginTrialService $pluginTrialService;
 
-    private FeatureFlagManager $featureFlagManager;
-
     private RequestHistory $requestHistory;
+
+    private MarketplacePlugins $marketplacePlugins;
 
     public function __construct(
         Service $service,
@@ -62,8 +63,8 @@ class API extends \Piwik\Plugin\API
         PluginManager $pluginManager,
         Environment $environment,
         PluginTrialService $pluginTrialService,
-        FeatureFlagManager $featureFlagManager,
-        RequestHistory $requestHistory
+        RequestHistory $requestHistory,
+        MarketplacePlugins $marketplacePlugins
     ) {
         $this->marketplaceService = $service;
         $this->marketplaceClient  = $client;
@@ -71,8 +72,8 @@ class API extends \Piwik\Plugin\API
         $this->pluginManager = $pluginManager;
         $this->environment = $environment;
         $this->pluginTrialService = $pluginTrialService;
-        $this->featureFlagManager = $featureFlagManager;
         $this->requestHistory = $requestHistory;
+        $this->marketplacePlugins = $marketplacePlugins;
     }
 
     /**
@@ -175,7 +176,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
 
         if (Piwik::hasUserSuperUserAccess()) {
-            throw new Exception('Cannot request trial as a super user');
+            throw new BadRequestException('Cannot request trial as a super user');
         }
 
         $message = $this->checkNote($message);
@@ -183,7 +184,7 @@ class API extends \Piwik\Plugin\API
 
         // a request no super user could approve, as only a paid plugin has a trial to start
         if (!empty($pluginInfo['isFree'])) {
-            throw new Exception(Piwik::translate('Marketplace_FreePluginHasNoTrial'));
+            throw new BadRequestException(Piwik::translate('Marketplace_FreePluginHasNoTrial'));
         }
 
         $this->checkNotRequestedByCurrentUser($pluginInfo['name']);
@@ -210,22 +211,28 @@ class API extends \Piwik\Plugin\API
         $this->checkPluginRequestsActive();
 
         if (Piwik::hasUserSuperUserAccess()) {
-            throw new Exception('Cannot request install as a super user');
+            throw new BadRequestException('Cannot request install as a super user');
         }
 
         if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
-            throw new Exception('Plugins cannot be installed on this Matomo, so cannot be requested');
+            throw new BadRequestException('Plugins cannot be installed on this Matomo, so cannot be requested');
         }
 
         $message = $this->checkNote($message);
-        $pluginInfo = $this->getRequestablePluginInfo($pluginName);
+        // with what the Super User's Install button needs, so the plugin is asked about once
+        $pluginInfo = $this->getRequestablePluginInfo($pluginName, true);
 
         if (empty($pluginInfo['isFree'])) {
-            throw new Exception('Only free plugins can be requested for install: ' . $pluginInfo['name']);
+            throw new BadRequestException('Only free plugins can be requested for install: ' . $pluginInfo['name']);
         }
 
         if ($this->pluginManager->isPluginInstalled($pluginInfo['name'], true)) {
-            throw new Exception('The plugin is already installed: ' . $pluginInfo['name']);
+            throw new BadRequestException('The plugin is already installed: ' . $pluginInfo['name']);
+        }
+
+        // a Super User is shown such a plugin as "Cannot install", so could not approve the request
+        if (!MarketplacePlugins::canBeInstalledFromMarketplace($pluginInfo)) {
+            throw new BadRequestException('The plugin cannot be installed on this Matomo, so cannot be requested: ' . $pluginInfo['name']);
         }
 
         $this->checkNotRequestedByCurrentUser($pluginInfo['name']);
@@ -275,7 +282,7 @@ class API extends \Piwik\Plugin\API
         // free plugins have no trial, and are installed instead
         $pluginInfo = $this->marketplaceClient->getPluginInfo($pluginName);
         if (!empty($pluginInfo['isFree'])) {
-            throw new Exception(Piwik::translate('Marketplace_FreePluginHasNoTrial'));
+            throw new BadRequestException(Piwik::translate('Marketplace_FreePluginHasNoTrial'));
         }
 
         $this->startFreeTrial($pluginName);
@@ -300,7 +307,8 @@ class API extends \Piwik\Plugin\API
         $this->checkPluginRequestsActive();
 
         $requests = $this->requestHistory->getRequestsOfLogin(Piwik::getCurrentUserLogin());
-        $displayNames = $this->getDisplayNames(array_column($requests, 'plugin_name'));
+        // a user requests few plugins, and the cached lists expire, or are not kept at all in development mode
+        $displayNames = $this->getDisplayNames(array_column($requests, 'plugin_name'), true);
 
         return array_map(fn (array $request) => [
             'pluginName' => $request['plugin_name'],
@@ -389,7 +397,7 @@ class API extends \Piwik\Plugin\API
         $this->checkPluginRequestsActive();
 
         if ($offset < 0 || $limit < 1 || $limit > self::MAX_HISTORY_LIMIT) {
-            throw new Exception('The offset must be 0 or more, and the limit between 1 and ' . self::MAX_HISTORY_LIMIT);
+            throw new BadRequestException('The offset must be 0 or more, and the limit between 1 and ' . self::MAX_HISTORY_LIMIT);
         }
 
         $decisions = $this->requestHistory->getDecisions($offset, $limit);
@@ -410,14 +418,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Only uses the cached Marketplace lists, so a list of many plugins sends no request per plugin
-     *
      * @param string[] $pluginNames
+     * @param bool $fetchMissing also asks the Marketplace about plugins its cached lists do not hold, which a list of
+     *                           many plugins must not, as that is one request per plugin
      * @return array<string, string> keyed by plugin name, the plugin name itself when no display name is known
      */
-    private function getDisplayNames(array $pluginNames): array
+    private function getDisplayNames(array $pluginNames, bool $fetchMissing = false): array
     {
-        $pluginInfos = $this->marketplaceClient->getInfoOfPlugins($pluginNames, false);
+        $pluginInfos = $this->marketplaceClient->getInfoOfPlugins($pluginNames, $fetchMissing);
 
         $displayNames = [];
         foreach ($pluginNames as $pluginName) {
@@ -432,18 +440,16 @@ class API extends \Piwik\Plugin\API
      */
     private function checkPluginRequestsActive(): void
     {
-        if (
-            !$this->featureFlagManager->isFeatureActive(PluginRequests::class)
-            || !$this->pluginTrialService->isEnabled()
-        ) {
-            throw new Exception('Plugin requests are not enabled');
+        // a feature that is off, as the Manage Requests page answers it
+        if (!$this->pluginTrialService->areRequestsActive()) {
+            throw new NoPrivilegesException('Plugin requests are not enabled', 403);
         }
     }
 
     private function checkValidPluginName(string $pluginName): void
     {
         if (!$this->pluginManager->isValidPluginName($pluginName)) {
-            throw new Exception('Invalid plugin name given ' . $pluginName);
+            throw new BadRequestException('Invalid plugin name given ' . $pluginName);
         }
     }
 
@@ -458,12 +464,12 @@ class API extends \Piwik\Plugin\API
             $this->pluginTrialService->cancelRequest($pluginName);
 
             if ($this->pluginTrialService->hasRequests($pluginName)) {
-                throw new Exception(Piwik::translate('Marketplace_PluginAlreadyActiveRequestsApproved'));
+                throw new BadRequestException(Piwik::translate('Marketplace_PluginAlreadyActiveRequestsApproved'));
             }
         }
 
         if (!$this->pluginTrialService->hasPendingRequests($pluginName)) {
-            throw new Exception(Piwik::translate('Marketplace_NoPendingPluginRequests'));
+            throw new BadRequestException(Piwik::translate('Marketplace_NoPendingPluginRequests'));
         }
     }
 
@@ -473,21 +479,24 @@ class API extends \Piwik\Plugin\API
     private function checkNotRequestedByCurrentUser(string $pluginName): void
     {
         if ($this->pluginTrialService->wasRequested($pluginName)) {
-            throw new Exception(Piwik::translate('Marketplace_PluginAlreadyRequested'));
+            throw new BadRequestException(Piwik::translate('Marketplace_PluginAlreadyRequested'));
         }
     }
 
     /**
+     * @param bool $enriched also with what Matomo derives from it, eg whether it can be installed here
      * @return array<string, mixed>
      */
-    private function getRequestablePluginInfo(string $pluginName): array
+    private function getRequestablePluginInfo(string $pluginName, bool $enriched = false): array
     {
         $this->checkValidPluginName($pluginName);
 
-        $pluginInfo = $this->marketplaceClient->getPluginInfo($pluginName);
+        $pluginInfo = $enriched
+            ? $this->marketplacePlugins->getPluginInfo($pluginName)
+            : $this->marketplaceClient->getPluginInfo($pluginName);
 
         if (empty($pluginInfo['name'])) {
-            throw new Exception('Unable to find plugin with given name: ' . $pluginName);
+            throw new ThingNotFoundException('Unable to find plugin with given name: ' . $pluginName);
         }
 
         return $pluginInfo;

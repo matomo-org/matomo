@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
 use Exception;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
@@ -263,6 +264,7 @@ class ApiTest extends IntegrationTestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Cannot request trial as a super user');
+        $this->expectExceptionCode(400);
 
         $this->api->requestTrial('testPlugin');
     }
@@ -276,10 +278,30 @@ class ApiTest extends IntegrationTestCase
         $this->api->requestTrial('testPlugin');
     }
 
+    /**
+     * A plugin the Marketplace does not know, eg after a stale page
+     */
+    public function testRequestTrialAnswersAPluginTheMarketplaceDoesNotKnowWithNotFound(): void
+    {
+        $this->enablePluginRequests();
+        $this->setUser();
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function () use ($service) {
+            return $service->getFixtureContent('emptyObjectResponse.json');
+        });
+
+        $this->expectException(ThingNotFoundException::class);
+        $this->expectExceptionCode(404);
+        $this->expectExceptionMessage('Unable to find plugin with given name: UnknownPlugin');
+
+        $this->api->requestTrial('UnknownPlugin');
+    }
+
     public function testRequestTrialRequiresValidPluginName(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid plugin name given');
+        $this->expectExceptionCode(400);
 
         $this->setUser();
         $this->api->requestTrial('this/is/not/valid');
@@ -388,6 +410,7 @@ class ApiTest extends IntegrationTestCase
             self::fail('A trial of a free plugin was requested');
         } catch (Exception $e) {
             self::assertSame('Marketplace_FreePluginHasNoTrial', $e->getMessage());
+            self::assertSame(400, $e->getCode());
         }
 
         self::assertSame([], $this->getStoredRequests());
@@ -404,6 +427,7 @@ class ApiTest extends IntegrationTestCase
             self::fail('A second request by the same user was accepted');
         } catch (Exception $e) {
             self::assertSame('Marketplace_PluginAlreadyRequested', $e->getMessage());
+            self::assertSame(400, $e->getCode());
         }
 
         self::assertSame([['PaidPlugin1', 'trial', 'First']], $this->getStoredRequests());
@@ -425,6 +449,7 @@ class ApiTest extends IntegrationTestCase
             self::fail('A request after a declined one by the same user was accepted');
         } catch (Exception $e) {
             self::assertSame('Marketplace_PluginAlreadyRequested', $e->getMessage());
+            self::assertSame(400, $e->getCode());
         }
 
         self::assertSame([['Barometer', 'install', null]], $this->getStoredRequests());
@@ -437,6 +462,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Plugin requests are not enabled');
+        $this->expectExceptionCode(403);
 
         $this->api->requestInstall('Barometer');
     }
@@ -447,6 +473,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Cannot request install as a super user');
+        $this->expectExceptionCode(400);
 
         $this->api->requestInstall('Barometer');
     }
@@ -470,6 +497,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Only free plugins can be requested for install');
+        $this->expectExceptionCode(400);
 
         $this->api->requestInstall('PaidPlugin1');
     }
@@ -489,8 +517,54 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('The plugin is already installed: Marketplace');
+        $this->expectExceptionCode(400);
 
         $this->api->requestInstall('Marketplace');
+    }
+
+    /**
+     * The Super User is shown such a plugin as "Cannot install", so could not approve the request
+     *
+     * @dataProvider dataPluginInfosNoSuperUserCanInstall
+     */
+    public function testRequestInstallIsRejectedForAPluginNoSuperUserCouldInstall(callable $changeInfo): void
+    {
+        $this->enablePluginRequests();
+        $this->setUser();
+        $service = $this->service;
+        $this->service->setOnDownloadCallback(static function () use ($service, $changeInfo) {
+            $info = json_decode($service->getFixtureContent('v2.0_plugins_Barometer_info.json'), true);
+
+            return json_encode($changeInfo($info));
+        });
+
+        try {
+            $this->api->requestInstall('Barometer');
+            self::fail('A plugin no Super User could install was requested');
+        } catch (Exception $e) {
+            self::assertStringContainsString('The plugin cannot be installed on this Matomo, so cannot be requested', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
+    public function dataPluginInfosNoSuperUserCanInstall(): iterable
+    {
+        yield 'missing requirements' => [static function (array $info): array {
+            foreach ($info['versions'] as &$version) {
+                $version['requires'] = ['php' => '>=99.0.0'];
+            }
+
+            return $info;
+        }];
+        yield 'no download link' => [static function (array $info): array {
+            foreach ($info['versions'] as &$version) {
+                unset($version['download']);
+            }
+
+            return $info;
+        }];
     }
 
     public function testRequestInstallIsRejectedWhenPluginsCannotBeInstalled(): void
@@ -501,8 +575,38 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Plugins cannot be installed on this Matomo');
+        $this->expectExceptionCode(400);
 
         $this->api->requestInstall('Barometer');
+    }
+
+    /**
+     * The Super User is shown "Cannot install" without auto update, so could not approve the request
+     *
+     * @dataProvider dataConfigsWithoutAutoUpdate
+     */
+    public function testRequestInstallIsRejectedWhenAutoUpdateIsNotPossible(string $setting, int $value): void
+    {
+        $this->enablePluginRequests();
+        Config::getInstance()->General[$setting] = $value;
+        $this->setUser();
+        $this->returnPluginInfo('Barometer');
+
+        try {
+            $this->api->requestInstall('Barometer');
+            self::fail('A plugin was requested where no Super User could install it');
+        } catch (Exception $e) {
+            self::assertStringContainsString('The plugin cannot be installed on this Matomo, so cannot be requested', $e->getMessage());
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([], $this->getStoredRequests());
+    }
+
+    public function dataConfigsWithoutAutoUpdate(): iterable
+    {
+        yield 'auto update disabled' => ['enable_auto_update', 0];
+        yield 'multi server environment' => ['multi_server_environment', 1];
     }
 
     public function testDeclinePluginRequestDeclinesAllPendingRequests(): void
@@ -560,6 +664,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Plugin requests are not enabled');
+        $this->expectExceptionCode(403);
 
         $this->api->$method('Barometer');
     }
@@ -576,6 +681,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Marketplace_NoPendingPluginRequests');
+        $this->expectExceptionCode(400);
 
         $this->api->$method('PaidPlugin1');
     }
@@ -597,6 +703,7 @@ class ApiTest extends IntegrationTestCase
             self::fail('The method ran while requests are disabled');
         } catch (Exception $e) {
             self::assertSame('Plugin requests are not enabled', $e->getMessage());
+            self::assertSame(403, $e->getCode());
         } finally {
             $config->General = $general;
         }
@@ -655,6 +762,7 @@ class ApiTest extends IntegrationTestCase
             self::fail('A free plugin was approved for a trial');
         } catch (Exception $e) {
             self::assertSame('Marketplace_FreePluginHasNoTrial', $e->getMessage());
+            self::assertSame(400, $e->getCode());
         }
 
         self::assertSame([], $this->getStoredDecisions());
@@ -687,6 +795,7 @@ class ApiTest extends IntegrationTestCase
             self::fail('A decision was made for an activated plugin');
         } catch (Exception $e) {
             self::assertSame('Marketplace_PluginAlreadyActiveRequestsApproved', $e->getMessage());
+            self::assertSame(400, $e->getCode());
         }
 
         self::assertSame(['approved'], $this->getStoredDecisions());
@@ -712,6 +821,7 @@ class ApiTest extends IntegrationTestCase
             self::fail('A decision was made for an activated plugin');
         } catch (Exception $e) {
             self::assertSame('Marketplace_PluginAlreadyActiveRequestsApproved', $e->getMessage());
+            self::assertSame(400, $e->getCode());
         }
 
         self::assertSame(['approved'], $this->getStoredDecisions());
@@ -726,6 +836,7 @@ class ApiTest extends IntegrationTestCase
         $this->setSuperUser();
 
         $this->expectExceptionMessage('Marketplace_NoPendingPluginRequests');
+        $this->expectExceptionCode(400);
         $this->api->$method('Marketplace');
     }
 
@@ -804,6 +915,17 @@ class ApiTest extends IntegrationTestCase
         self::assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $requests[0]['requestedAt']);
     }
 
+    public function testGetMyPluginRequestsAsksTheMarketplaceForDisplayNamesItsCachedListsDoNotHold(): void
+    {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestTrial('PaidPlugin1');
+        StaticContainer::get(Client::class)->clearAllCacheEntries();
+
+        self::assertSame('Paid Plugin 1', $this->api->getMyPluginRequests()[0]['displayName']);
+    }
+
     public function testGetMyPluginRequestsShowsNoNoteForAnApprovedRequest(): void
     {
         $this->enablePluginRequests();
@@ -841,6 +963,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Plugin requests are not enabled');
+        $this->expectExceptionCode(403);
 
         $this->api->$method();
     }
@@ -998,6 +1121,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('The offset must be 0 or more, and the limit between 1 and 100');
+        $this->expectExceptionCode(400);
 
         $this->api->getPluginRequestHistory($offset, $limit);
     }
