@@ -13,6 +13,7 @@ namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Http\BadRequestException;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -53,7 +54,7 @@ class Consent extends VisitDimension
             ];
 
             if (!in_array($matchType, $supportedMatchTypes, true)) {
-                throw new \Exception("This match type $matchType is not available for the consentState segment.");
+                throw new BadRequestException("This match type $matchType is not available for the consentState segment.");
             }
 
             // anything but an exact state name maps to no state, so == matches no visit
