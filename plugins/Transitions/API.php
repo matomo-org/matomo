@@ -113,7 +113,7 @@ class API extends \Piwik\Plugin\API
         string $date,
         $segment = false,
         $limitBeforeGrouping = 0,
-        $parts = 'all'
+        string $parts = 'all'
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -748,11 +748,11 @@ class API extends \Piwik\Plugin\API
     /**
      * Check if a period is allowed by config settings
      *
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
+     * @param int $idSite The numeric ID of the website the Transitions report is for.
+     * @param string $period The period to check, e.g. 'day' or 'range'.
+     * @param string $date The date or date range of the period.
      */
-    public function isPeriodAllowed($idSite, $period, $date): bool
+    public function isPeriodAllowed(int $idSite, string $period, string $date): bool
     {
         Piwik::checkUserHasViewAccess($idSite);
 

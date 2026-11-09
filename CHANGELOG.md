@@ -27,6 +27,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
 
 ### Other changes
+* `Piwik\Plugins\Transitions\API` now declares native parameter types: `string $parts` on `getTransitionsForAction()`, and `int $idSite`, `string $period` and `string $date` on `isPeriodAllowed()`.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
 ## Matomo 6.0.0
