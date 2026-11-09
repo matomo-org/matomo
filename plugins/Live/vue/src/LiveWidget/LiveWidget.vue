@@ -7,6 +7,9 @@
 
 <template>
   <div>
+    <Alert v-if="consentedVisitsOnly" severity="info">
+      {{ translate('Live_OnlyConsentedVisitsShown') }}
+    </Alert>
     <div v-if="isInitialLoading" class="live-widget-loading">
       <MatomoLoader />
     </div>
@@ -54,6 +57,7 @@
 import { defineComponent } from 'vue';
 import {
   AjaxHelper,
+  Alert,
   Matomo,
   MatomoLoader,
   MatomoUrl,
@@ -72,8 +76,10 @@ export default defineComponent({
     liveRefreshAfterMs: Number,
     disableLink: Boolean,
     aggregatedOnly: Boolean,
+    consentedVisitsOnly: Boolean,
   },
   components: {
+    Alert,
     MatomoLoader,
   },
   data() {

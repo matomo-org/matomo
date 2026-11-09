@@ -20,6 +20,7 @@ use Piwik\DbHelper;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
 use Piwik\Segment;
 use Piwik\Site;
@@ -594,6 +595,12 @@ class Model
         $from = "log_visit";
         $where = "log_visit.idsite = ? AND log_visit.idvisitor <> ? AND visit_last_action_time >= ? and visit_last_action_time <= ?";
         $whereBind = array($idSite, @Common::hex2bin($visitorId), $dateOneDayAgo->toString('Y-m-d H:i:s'), $dateOneDayInFuture->toString('Y-m-d H:i:s'));
+
+        [$consentCondition, $consentBind] = $this->getConsentedVisitsOnlyCondition([$idSite]);
+        if ($consentCondition !== '') {
+            $where .= ' AND ' . $consentCondition;
+            $whereBind = array_merge($whereBind, $consentBind);
+        }
         $orderBy = "MAX(log_visit.visit_last_action_time) $orderByDir";
         $groupBy = "log_visit.idvisitor";
 
@@ -842,6 +849,12 @@ class Model
         }
         $whereBind = $bindIdSites;
 
+        [$consentCondition, $consentBind] = $this->getConsentedVisitsOnlyCondition($bindIdSites);
+        if ($consentCondition !== '') {
+            $where[] = $consentCondition;
+            $whereBind = array_merge($whereBind, $consentBind);
+        }
+
         if (!empty($visitorId)) {
             $where[] = "log_visit.idvisitor = ? ";
             $whereBind[] = @Common::hex2bin($visitorId);
@@ -870,6 +883,36 @@ class Model
             $where = false;
         }
         return array($whereBind, $where);
+    }
+
+    /**
+     * Returns the condition that keeps, on the given websites whose visits log may only list the visits of visitors
+     * who gave consent (see {@link Live::isVisitorLogLimitedToConsentedVisits()}), only those visits, so no caller
+     * can list another visit of such a website, whatever the segment it passes.
+     *
+     * @param array<int|string> $idSites
+     * @return array{0: string, 1: array<int|string>} The SQL condition, empty if no website is limited, and its bind
+     */
+    private function getConsentedVisitsOnlyCondition(array $idSites): array
+    {
+        $limitedIdSites = array_values(array_filter($idSites, function ($idSite) {
+            return Live::isVisitorLogLimitedToConsentedVisits((int) $idSite);
+        }));
+
+        if (empty($limitedIdSites)) {
+            return ['', []];
+        }
+
+        if (count($limitedIdSites) === count($idSites)) {
+            return ['log_visit.consent = ?', [Consent::CONSENTED]];
+        }
+
+        $limitedIdSitesBind = Common::getSqlStringFieldsArray($limitedIdSites);
+
+        return [
+            "(log_visit.idsite NOT IN ($limitedIdSitesBind) OR log_visit.consent = ?)",
+            array_merge($limitedIdSites, [Consent::CONSENTED]),
+        ];
     }
 
     private function getLiveQueryMaxExecutionTime()

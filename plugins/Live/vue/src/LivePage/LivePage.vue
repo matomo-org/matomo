@@ -15,6 +15,7 @@
         :live-refresh-after-ms="liveRefreshAfterMs"
         :disable-link="disableLink"
         :aggregated-only="aggregatedOnly"
+        :consented-visits-only="consentedVisitsOnly"
       />
     </component>
   </div>
@@ -34,6 +35,7 @@ export default defineComponent({
     liveRefreshAfterMs: Number,
     isWidgetized: Boolean,
     aggregatedOnly: Boolean,
+    consentedVisitsOnly: Boolean,
   },
   components: {
     LiveWidget,

@@ -6,6 +6,9 @@
          data-next-visitor="{{ visitorData.nextVisitorId }}"
          data-prev-visitor="{{ visitorData.previousVisitorId }}"
          tabindex="0">
+        {% if consentedVisitsOnly|default(false) %}
+            <div vue-entry="CoreHome.Alert" severity="info">{{ 'Live_OnlyConsentedVisitsShown'|translate }}</div>
+        {% endif %}
         <div class="visitor-profile-options">
             <a href class="visitor-profile-close" title="{{ 'General_Close'|translate }} "></a>
             <a href="{{ 'https://matomo.org/docs/user-profile/'|trackmatomolink }}" class="visitor-profile-help" rel="noreferrer"
@@ -69,7 +72,7 @@
                     </ol>
                 </div>
                 <div class="visitor-profile-more-info">
-                    {% if visitorData.lastVisits.getRowsCount() >= constant("Piwik\\Plugins\\Live\\VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW") %}
+                    {% if visitorData.lastVisits.getRowsCount() >= constant("Piwik\\Plugins\\Live\\VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW") and not consentedVisitsOnly %}
                         <a href="#">{{ 'Live_LoadMoreVisits'|translate }}</a>
                         <span class="loadingPiwik" style="display:none;">
                             {% include "@CoreHome/_loader.twig" %}

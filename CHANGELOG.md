@@ -11,10 +11,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New APIs
 * The new API method `PrivacyManager.getDataSubjectSearchScope` describes whether the GDPR tools can search the requested websites, and whether only the visits of visitors who gave consent can be found on any of them.
+* `Piwik\Plugins\Live\Live::isVisitorLogAvailable()` and `Piwik\Plugins\Live\Live::isVisitorProfileAvailable()`, and their `checkIs…()` variants, tell whether the visits log and the visitor profile can show visits, all of them or only those of visitors who gave consent (`Piwik\Plugins\Live\Live::isVisitorLogLimitedToConsentedVisits()`). `isVisitorLogEnabled()` and `isVisitorProfileEnabled()` are unchanged.
 
 ### Other changes
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 * On a website whose compliance policy disables the visits log, `PrivacyManager.findDataSubjects` now returns the visits of visitors who gave consent instead of nothing, and `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` reject any other visit of such a website. Each visit returned by `PrivacyManager.findDataSubjects` now includes a `consent` column.
+* On a website whose compliance policy disables the visits log, `Live.getLastVisitsDetails`, `Live.getVisitorProfile`, `Live.getMostRecentVisitorId` and `Live.getFirstVisitForVisitorId` now return the visits of visitors who gave consent instead of an error, when asked for that website alone; a request for several websites still skips it. The JavaScript globals `piwik.visitorLogEnabled` and `piwik.visitorProfileEnabled` are `true` on such a website. Each visit returned by the Live API now includes a `consentState` column: `consented` or `refused`, and none when no decision is stored.
 
 ## Matomo 6.0.0
 

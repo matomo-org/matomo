@@ -28,7 +28,7 @@ class GetRealtimeMap extends \Piwik\Widget\Widget
         if (
             !PluginManager::getInstance()->isPluginActivated('UserCountry') ||
             !PluginManager::getInstance()->isPluginActivated('Live') ||
-            !Live::isVisitorLogEnabled()
+            !Live::isVisitorLogAvailable()
         ) {
             $config->disable();
         }
