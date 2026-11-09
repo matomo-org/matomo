@@ -12,15 +12,15 @@
         class="btn-close modal-close"
         :aria-label="translate('General_Close')"
       ><span class="icon-close"></span></button>
-      <h2>{{ translate(
+      <h2 class="requestPlugin__title">{{ translate(
         isInstallRequest ? 'Marketplace_RequestInstallTitle' : 'Marketplace_RequestTrialTitle',
         plugin?.displayName,
       ) }}</h2>
-      <p>{{ translate(
+      <p class="requestPlugin__intro">{{ translate(
         isInstallRequest ? 'Marketplace_RequestInstallIntro' : 'Marketplace_RequestTrialIntro',
       ) }}</p>
       <div class="requestPlugin__message">
-        <label for="requestPluginMessage">{{ translate('Marketplace_RequestMessageLabel') }}</label>
+        <label class="requestPlugin__label" for="requestPluginMessage">{{ translate('Marketplace_RequestMessageLabel') }}</label>
         <textarea
           id="requestPluginMessage"
           class="materialize-textarea requestPlugin__messageInput"

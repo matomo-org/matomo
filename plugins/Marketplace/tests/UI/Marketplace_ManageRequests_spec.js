@@ -89,7 +89,7 @@ describe('Marketplace_ManageRequests', function () {
   });
 
   it('should show the request on the card with a link to it', async function () {
-    await page.waitForSelector('.pluginCard__actions .ctaStatus__viewRequest', { visible: true });
+    await page.waitForSelector('.pluginCard__actions .ctaContainer__viewRequest', { visible: true });
 
     const actions = await page.evaluate(() => document.querySelector('.pluginCard__actions').textContent);
     expect(actions).to.contain('Trial requested');
@@ -98,7 +98,7 @@ describe('Marketplace_ManageRequests', function () {
 
   it('should open Manage Requests from View request and list the request', async function () {
     const link = await page.evaluate(() => {
-      const viewRequest = document.querySelector('.pluginCard__actions .ctaStatus__viewRequest');
+      const viewRequest = document.querySelector('.pluginCard__actions .ctaContainer__viewRequest');
       return { href: viewRequest.getAttribute('href'), target: viewRequest.getAttribute('target') };
     });
     // in a new tab, so the Marketplace stays where the user left it

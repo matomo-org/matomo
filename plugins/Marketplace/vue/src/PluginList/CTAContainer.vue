@@ -163,9 +163,9 @@
   </template>
 
   <template v-else-if="arePluginRequestsActive">
-    <!-- an approved trial is installed, and stays so once it ended -->
+    <!-- not a plugin without a licence, which the Super User is shown as such: an ended trial is still installed -->
     <CTAStatus
-      v-if="plugin.isInstalled && !isTrialEnded"
+      v-if="plugin.isInstalled && !plugin.isMissingLicense"
       tone="success"
       :label="translate('General_Installed')"
       :in-modal="inModal"
@@ -186,7 +186,7 @@
       :has-action="!isTrialEnded"
     >
       <a
-        class="ctaStatus__viewRequest"
+        class="ctaContainer__viewRequest"
         :href="manageRequestsUrl"
         target="_blank"
         rel="noopener"

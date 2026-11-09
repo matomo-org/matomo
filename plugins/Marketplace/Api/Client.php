@@ -375,7 +375,8 @@ class Client
                 $plugin = $this->getPluginInfo($name);
             } catch (PhpException $e) {
                 if ($e->getCode() !== Service\Exception::API_ERROR) {
-                    $this->logger->error($e->getMessage());
+                    // users who are not super users reach this through Manage Requests, and are not shown it
+                    $this->logger->error($e->getMessage(), ['ignoreInScreenWriter' => true]);
                     $fetchMissing = false;
                     continue;
                 }

@@ -1,6 +1,5 @@
-// the modal the dialog is moved into: compact, on the card surface, with outlined Cancel and filled Send request
 // the modal the dialog is moved into, as designed: 600px wide, 32px padding and 24px between its parts
-.requestPluginModal.modal {
+.requestPluginModal {
   width: 600px;
   max-width: 90%;
   padding: 32px;
@@ -53,33 +52,33 @@
 .requestPluginModal .requestPlugin {
   // the modal's padding is the only one: Dashboard pads every .ui-confirm
   padding: 0;
-
-  h2 {
-    // room for the close button
-    padding-right: 24px;
-    margin: 0 0 24px;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 24px;
-    text-align: left;
-  }
-
-  p {
-    margin: 0 0 24px;
-    color: @theme-color-text-lighter;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    text-align: left;
-  }
 }
 
-.requestPluginModal .requestPlugin__message label {
+.requestPluginModal .requestPlugin__title {
+  // room for the close button
+  padding-right: 24px;
+  margin: 0 0 24px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+}
+
+.requestPluginModal .requestPlugin__intro {
+  margin: 0 0 24px;
+  color: @theme-color-text-lighter;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+}
+
+.requestPluginModal .requestPlugin__label {
   display: block;
 }
 
 // one underlined line, as the other fields
-.requestPluginModal .requestPlugin__messageInput.materialize-textarea {
+.requestPluginModal .requestPlugin__messageInput {
   min-height: 0;
   height: 2.5rem;
   margin: 0;

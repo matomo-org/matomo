@@ -306,7 +306,7 @@ describe('Marketplace/PluginCard', () => {
       const premium = {
         isFree: false, isPaid: true, isDownloadable: false, isEligibleForFreeTrial: true,
       };
-      const viewRequestLink = (wrapper: VueWrapper) => wrapper.find('.ctaStatus__viewRequest');
+      const viewRequestLink = (wrapper: VueWrapper) => wrapper.find('.ctaContainer__viewRequest');
 
       it('offers a trial of a premium plugin that is not installed', () => {
         const wrapper = mountCard({ ...premium, canTrialBeRequested: true }, asUser);
@@ -361,6 +361,13 @@ describe('Marketplace/PluginCard', () => {
 
         expect(actions(wrapper).text()).toContain('Marketplace_TrialEnded');
         expect(viewRequestLink(wrapper).exists()).toBe(false);
+      });
+
+      it('shows no one installed a plugin whose licence is missing, as the Super User is shown', () => {
+        const wrapper = mountCard({ ...premium, isInstalled: true, isMissingLicense: true }, asUser);
+
+        expect(actions(wrapper).text()).not.toContain('General_Installed');
+        expect(actions(wrapper).text()).toContain('General_MoreDetails');
       });
 
       it('shows an installed plugin whose trial ended as ended rather than installed', () => {
