@@ -235,11 +235,29 @@ describe('CoreHome/SiteSelector', () => {
       .toContain('mtm-selector--fullWidthOnSmallScreen');
   });
 
-  it('fills its container with the name at the start when placed as a form field', async () => {
+  it('caps the name width, unless placed as a form field', async () => {
+    expect((await mountSelector()).find('.mtm-selector__label').classes()).toContain('siteSelector__label');
+
     const wrapper = await mountSelector({ fullWidth: true, alignLabelStart: true });
+    const label = wrapper.find('.mtm-selector__label');
 
     expect(wrapper.classes()).toContain('mtm-selector--fullWidth');
-    expect(wrapper.find('.mtm-selector__label').classes()).toContain('mtm-selector__label--alignStart');
-    expect(wrapper.find('.siteSelector__name').classes()).toContain('siteSelector__name--unbounded');
+    expect(label.classes()).toContain('mtm-selector__label--alignStart');
+    expect(label.classes()).not.toContain('siteSelector__label');
+  });
+
+  it('shows the placeholder while no website is selected', async () => {
+    const { piwik } = window as unknown as TestWindow;
+    piwik.idSite = '';
+
+    try {
+      const wrapper = await mountSelector({ placeholder: 'Select a website' });
+      const label = wrapper.find('.mtm-selector__label');
+
+      expect(label.text()).toBe('Select a website');
+      expect(label.classes()).toContain('mtm-selector__label--placeholder');
+    } finally {
+      piwik.idSite = '1';
+    }
   });
 });

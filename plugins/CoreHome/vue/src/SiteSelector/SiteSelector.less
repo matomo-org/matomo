@@ -1,23 +1,10 @@
 // The control is the generic `.mtm-selector`, and its dropdown the generic `.mtm-dropdownPanel`
 // and `.mtm-searchInput` blocks. Only what is particular to a website name belongs here.
 
-// Single classes: `.siteSelector` stays on the root for plugins to read, and carries no styles.
-.siteSelector__name {
-  display: block;
+// Site names are free text: cut a long one short, except in a form field, which has the width for it.
+// A single class: `.siteSelector` stays on the root for plugins to read, and carries no styles.
+.siteSelector__label {
   max-width: 161px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.siteSelector__name--unbounded {
-  max-width: none;
-}
-
-.siteSelector__loading {
-  display: block;
-  width: 12px;
-  height: 12px;
-  background: url(plugins/Morpheus/images/loading.svg) no-repeat center / contain;
 }
 
 #content {
