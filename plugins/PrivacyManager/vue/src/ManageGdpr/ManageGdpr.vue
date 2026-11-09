@@ -59,6 +59,7 @@
               <SegmentGenerator
                 v-model="segment_filter"
                 :visit-segments-only="true"
+                :for-data-subject-search="true"
                 :idsite="site.id"
                 :show-segment-editor="true"
               />
@@ -126,6 +127,7 @@
             <th>{{ translate('General_VisitorID') }}</th>
             <th>{{ translate('General_VisitorIP') }}</th>
             <th>{{ translate('General_UserId') }}</th>
+            <th class="consent">{{ translate('CoreHome_ConsentState') }}</th>
             <th>{{ translate('General_Details') }}</th>
             <th v-show="profileEnabled">{{ translate('General_Action') }}</th>
 
@@ -133,7 +135,7 @@
         </thead>
         <tbody>
           <tr v-show="dataSubjects.length > 400">
-            <td colspan="8">{{ translate('PrivacyManager_ResultTruncated', '400') }}</td>
+            <td colspan="9">{{ translate('PrivacyManager_ResultTruncated', '400') }}</td>
           </tr>
           <tr
             :title="`${translate('PrivacyManager_LastAction')}: ${dataSubject.lastActionDateTime}`"
@@ -174,6 +176,7 @@
                 @click="addFilter('userId', dataSubject.userId || '')"
               >{{ dataSubject.userId }}</a>
             </td>
+            <td class="consent">{{ consentLabel(dataSubject.consent) }}</td>
             <td>
               <span
                 :title="`${dataSubject.deviceType} ${dataSubject.deviceModel}`"
@@ -213,6 +216,7 @@
             </td>
             <td v-show="profileEnabled">
               <a
+                v-if="!isConsentedVisitsOnlySite(dataSubject.idSite)"
                 class="visitorLogTooltip"
                 title="View visitor profile"
                 @click="showProfile(dataSubject.visitorId, dataSubject.idSite)"
@@ -240,6 +244,10 @@
       >
       </SaveButton>
     </div>
+    <p
+      v-if="hasSearched && searchedConsentedVisitsOnlySite"
+      class="consentedVisitsOnlyNote"
+    >{{ translate('PrivacyManager_OnlyConsentedVisitsCanBeFound') }}</p>
     <div
       class="ui-confirm"
       id="confirmDeleteDataSubject"
@@ -293,6 +301,7 @@ interface DataSubject {
   region: string|null;
   siteName: string;
   userId: string|null;
+  consent: number|'';
   visitIp: string;
   visitorId: string;
 }
@@ -309,10 +318,14 @@ interface ManageGdprState {
   dataSubjectsActive: boolean[];
   isVisitorLogAndProfileEnabled: boolean;
   allWebsitesContainsDisabledSite: boolean;
+  searchedConsentedVisitsOnlySite: boolean;
+  consentedVisitsOnlyIdSites: number[]|null;
 }
 
-interface VisitorLogProfileEnabledState {
-  value: boolean;
+interface DataSubjectSearchScope {
+  available: boolean;
+  consentedVisitsOnly: boolean;
+  consentedVisitsOnlyIdSites: number[];
 }
 
 export default defineComponent({
@@ -342,6 +355,8 @@ export default defineComponent({
       dataSubjectsActive: [],
       isVisitorLogAndProfileEnabled: true,
       allWebsitesContainsDisabledSite: false,
+      searchedConsentedVisitsOnlySite: false,
+      consentedVisitsOnlyIdSites: [],
     };
   },
   created() {
@@ -358,11 +373,11 @@ export default defineComponent({
       // always reset the search status on site change
       this.dataSubjects = [];
       this.hasSearched = false;
-      AjaxHelper.fetch<VisitorLogProfileEnabledState>({
-        method: 'Live.isVisitorProfileEnabled',
+      AjaxHelper.fetch<DataSubjectSearchScope>({
+        method: 'PrivacyManager.getDataSubjectSearchScope',
         idSite: newSite.id,
-      }).then((isEnabled) => {
-        this.isVisitorLogAndProfileEnabled = isEnabled.value;
+      }).then((scope) => {
+        this.isVisitorLogAndProfileEnabled = scope.available;
       }).finally(() => {
         this.isLoading = false;
       });
@@ -382,20 +397,20 @@ export default defineComponent({
   },
   methods: {
     changeSite(newValue: SiteRef) {
-      AjaxHelper.fetch(
+      AjaxHelper.fetch<DataSubjectSearchScope>(
         {
           module: 'API',
-          method: 'Live.isVisitorProfileEnabled',
+          method: 'PrivacyManager.getDataSubjectSearchScope',
           filter_limit: -1,
           idSite: newValue.id,
         },
         {
           createErrorNotification: false, // don't show errors from this API in UI
         },
-      ).then((response) => {
-        if (!response.value && this.segment_filter === 'userId==') {
+      ).then((scope) => {
+        if (!scope.available && this.segment_filter === 'userId==') {
           this.segment_filter = 'visitId==';
-        } else if (response.value && this.segment_filter === 'visitId==') {
+        } else if (scope.available && this.segment_filter === 'visitId==') {
           this.segment_filter = 'userId==';
         }
       }).catch(() => {
@@ -467,6 +482,26 @@ export default defineComponent({
         },
       });
     },
+    isConsentedVisitsOnlySite(idSite: string|number): boolean {
+      // the visitor profile of such a website is not available, only the GDPR tools can find its visits
+      return this.consentedVisitsOnlyIdSites === null
+        || this.consentedVisitsOnlyIdSites.includes(Number(idSite));
+    },
+    consentLabel(consent: number|string|null): string {
+      if (consent === null || consent === '') {
+        return '';
+      }
+
+      if (`${consent}` === '1') {
+        return translate('CoreHome_ConsentStateConsented');
+      }
+
+      if (`${consent}` === '0') {
+        return translate('CoreHome_ConsentStateRefused');
+      }
+
+      return '';
+    },
     addFilter(segment: string, value: string) {
       this.segment_filter += `,${segment}==${value}`;
       this.findDataSubjects();
@@ -474,6 +509,8 @@ export default defineComponent({
     findDataSubjects() {
       this.dataSubjects = [];
       this.dataSubjectsActive = [];
+      // until the scope of this search is known, no row links to a visitor profile
+      this.consentedVisitsOnlyIdSites = null;
       this.isLoading = true;
       this.toggleAll = true;
       this.hasSearched = false;
@@ -489,12 +526,14 @@ export default defineComponent({
           }
         }
 
-        // API returns false if at least one sites logs/profiles are disabled
-        AjaxHelper.fetch<VisitorLogProfileEnabledState>({
-          method: 'Live.isVisitorProfileEnabled',
+        // available is false if at least one site cannot be searched
+        AjaxHelper.fetch<DataSubjectSearchScope>({
+          method: 'PrivacyManager.getDataSubjectSearchScope',
           idSite: siteIds,
-        }).then((isEnabled) => {
-          this.allWebsitesContainsDisabledSite = !isEnabled.value;
+        }).then((scope) => {
+          this.allWebsitesContainsDisabledSite = !scope.available;
+          this.searchedConsentedVisitsOnlySite = scope.consentedVisitsOnly;
+          this.consentedVisitsOnlyIdSites = scope.consentedVisitsOnlyIdSites;
         });
 
         AjaxHelper.fetch<DataSubject[]>({

@@ -9,8 +9,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Deprecations
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
+### New APIs
+* The new API method `PrivacyManager.getDataSubjectSearchScope` describes whether the GDPR tools can search the requested websites, and whether only the visits of visitors who gave consent can be found on any of them.
+
 ### Other changes
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
+* On a website whose compliance policy disables the visits log, `PrivacyManager.findDataSubjects` now returns the visits of visitors who gave consent instead of nothing, and `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` reject any other visit of such a website. Each visit returned by `PrivacyManager.findDataSubjects` now includes a `consent` column.
 
 ## Matomo 6.0.0
 

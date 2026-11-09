@@ -19,6 +19,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -39,6 +40,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -59,6 +61,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -79,6 +82,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -99,6 +103,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -119,6 +124,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -139,6 +145,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -159,6 +166,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -179,6 +187,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>5</idSite>
@@ -199,6 +208,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -219,6 +229,7 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -239,5 +250,6 @@
 		<country>China</country>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region />
+		<consent />
 	</row>
 </result>

@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\Live\Live;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Segment\SegmentsList;
 use Piwik\Columns\DimensionSegmentFactory;
 
@@ -49,7 +50,9 @@ class VisitorId extends VisitDimension
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
         try {
-            $visitorProfileEnabled = Live::isVisitorProfileEnabled();
+            $visitorProfileEnabled = Live::isVisitorProfileEnabled()
+                // or for the GDPR tools where a compliance policy limits it to the visits of visitors who gave consent
+                || PrivacyManager::canDataSubjectSearchUseVisitorSegments();
         } catch (\Zend_Db_Exception $e) {
             // when running tests the db might not yet be set up when fetching available segments
             if (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE) {
