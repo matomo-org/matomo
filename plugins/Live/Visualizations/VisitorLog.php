@@ -123,7 +123,7 @@ class VisitorLog extends Visualization
         $this->config->custom_parameters['hideProfileLink'] = (int)(1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
 
-        if (!Live::isVisitorProfileEnabled()) {
+        if (!Live::isVisitorProfileAvailable()) {
             $this->config->custom_parameters['hideProfileLink'] = 1;
         }
 
@@ -161,6 +161,9 @@ class VisitorLog extends Visualization
         }
 
         $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
+
+        $idSite = (int) Common::getRequestVar('idSite', 0, 'int');
+        $this->assignTemplateVar('consentedVisitsOnly', $idSite > 0 && Live::isVisitorLogLimitedToConsentedVisits($idSite));
 
         $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);
         if ($enableAddNewSegment) {

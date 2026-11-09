@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreHome;
 
 use Piwik\Metrics\Formatter;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\CoreHome\Columns\VisitGoalBuyer;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
 
@@ -31,6 +32,25 @@ class VisitorDetails extends VisitorDetailsAbstract
         $visitor['secondsSinceLastEcommerceOrder'] = $this->getSecondsSinceLastEcommerceOrder();
         $visitor['visitDuration']               = $this->getVisitLength();
         $visitor['visitDurationPretty']         = $this->getVisitLengthPretty();
+
+        $consentState = $this->getConsentState();
+        if ($consentState !== null) {
+            $visitor['consentState'] = $consentState;
+        }
+    }
+
+    /**
+     * @return 'consented'|'refused'|null null when no consent decision is stored for the visit
+     */
+    protected function getConsentState(): ?string
+    {
+        $consent = $this->details['consent'] ?? null;
+
+        if ($consent === null || $consent === '') {
+            return null;
+        }
+
+        return (int) $consent === Consent::CONSENTED ? 'consented' : 'refused';
     }
 
     protected function getVisitEcommerceStatusIcon()

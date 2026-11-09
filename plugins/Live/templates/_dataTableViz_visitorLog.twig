@@ -1,5 +1,9 @@
 {% set displayVisitorsInOwnColumn = (isWidget ? false : true) %}
 
+{% if consentedVisitsOnly|default(false) %}
+    <div vue-entry="CoreHome.Alert" severity="info">{{ 'Live_OnlyConsentedVisitsShown'|translate }}</div>
+{% endif %}
+
 {% set cycleIndex=0 %}
 {% for visitor in dataTable.getRows() %}
     {% set visitorRow %}
