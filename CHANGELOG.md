@@ -7,13 +7,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.1.0
 
 ### Breaking Changes
-* The website selector (`CoreHome.SiteSelector`) now renders the generic `.mtm-selector` control instead of `.piwikSelector`. Its `loading`, `disabled`, `placeholder`, `iconHidden` and `collapsed` states and the `icon` class on its arrow are removed, and the `.piwikSelector__dropdown` rules now only apply inside a `.piwikSelector`.
+* The website selector (`CoreHome.SiteSelector`) now renders the generic `.mtm-selector`: plugins styling or querying its `piwikSelector`, `borderedControl`, `loading`, `disabled`, `placeholder`, `iconHidden`, `collapsed` or `icon` classes must use the `mtm-selector` classes instead.
 
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 
 ### New APIs
-* The `CoreHome.SiteSelector` Vue component takes the `full-width`, `full-width-on-small-screen` and `align-label-start` props.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
