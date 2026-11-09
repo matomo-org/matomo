@@ -31,6 +31,7 @@
         "OncePluginIsInstalledYouMayActivateHere": "Once a plugin is installed, you may activate it or deactivate it here.",
         "MenuPlatform": "Platform",
         "MissingRequirementsNotice": "Please update %1$s %2$s to a newer version, %1$s %3$s is required.",
+        "MissingRequirementsNotYetCompatibleNotice": "This plugin is not yet compatible with %1$s %2$s. Supported versions: %1$s %3$s. Please wait for a plugin update.",
         "MissingRequirementsPleaseInstallNotice": "Please install %1$s %2$s as it is required by %3$s.",
         "NoZipFileSelected": "Please select a ZIP file.",
         "FileExceedsUploadLimit": "The selected file exceeds the upload limit of your server.",

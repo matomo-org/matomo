@@ -1,0 +1,157 @@
+{% extends 'layout.twig' %}
+
+{% set title %}{{ components[component] }} · {{ 'CoreAdminHome_ComponentLibrary'|translate }}{% endset %}
+
+{% block head %}
+    {{ parent() }}
+
+    <style>
+        .componentLibrary {
+            display: grid;
+            grid-template-columns: 200px minmax(0, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        .componentLibrary .componentLibrary__navTitle {
+            margin: 0 0 16px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .componentLibrary .componentLibrary__navList {
+            margin: 0 0 24px;
+            padding: 0;
+            list-style: none;
+        }
+        .componentLibrary .componentLibrary__list {
+            margin: 0 0 16px;
+            padding-left: 20px;
+        }
+        .componentLibrary .componentLibrary__list li {
+            list-style: disc;
+            margin-bottom: 4px;
+        }
+        .componentLibrary .componentLibrary__navLink {
+            display: block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--theme-color-text);
+            text-decoration: none;
+        }
+        .componentLibrary .componentLibrary__navLink--active {
+            background-color: var(--theme-color-background-lowContrast);
+            font-weight: bold;
+        }
+        .componentLibrary .componentLibrary__title {
+            margin: 0 0 8px;
+        }
+        .componentLibrary .componentLibrary__summary {
+            margin: 0 0 24px;
+            font-size: 16px;
+            line-height: 24px;
+        }
+        .componentLibrary .componentLibrary__section {
+            margin: 0 0 48px;
+        }
+        .componentLibrary .componentLibrary__sectionTitle {
+            margin: 0 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--theme-color-border);
+        }
+        .componentLibrary .componentLibrary__table {
+            width: 100%;
+            margin: 0 0 16px;
+            border-collapse: collapse;
+        }
+        .componentLibrary .componentLibrary__table th,
+        .componentLibrary .componentLibrary__table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--theme-color-border);
+            text-align: left;
+            vertical-align: top;
+        }
+        .componentLibrary .componentLibrary__example {
+            margin: 0 0 24px;
+            border: 1px solid var(--theme-color-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .componentLibrary .componentLibrary__exampleHeader {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--theme-color-border);
+        }
+        .componentLibrary .componentLibrary__exampleTitle {
+            margin: 0;
+            font-size: 15px;
+            font-weight: bold;
+        }
+        .componentLibrary .componentLibrary__exampleNote {
+            margin: 4px 0 0;
+        }
+        /* Padding wide enough for the focus rings, which are drawn outside a control. */
+        .componentLibrary .componentLibrary__preview {
+            display: flow-root;
+            padding: 24px;
+            background-color: var(--theme-color-background-contrast);
+        }
+        .componentLibrary .componentLibrary__preview--tall {
+            min-height: 220px;
+        }
+        /* Several examples side by side, aligned on their top edge so an open panel hangs freely. */
+        .componentLibrary .componentLibrary__preview--row {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+        }
+        .componentLibrary .componentLibrary__preview--spread {
+            justify-content: space-between;
+        }
+        .componentLibrary .componentLibrary__code {
+            margin: 0;
+            padding: 12px 16px;
+            border-top: 1px solid var(--theme-color-border);
+            background-color: var(--theme-color-background-tinyContrast);
+            color: var(--theme-color-text);
+            font-size: 13px;
+            line-height: 20px;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        /* Matomo styles every `code` as an inline chip; a block of code is plain text. */
+        .componentLibrary .componentLibrary__codeText {
+            padding: 0;
+            background: none;
+            color: inherit;
+            font-size: inherit;
+        }
+        @media (max-width: 920px) {
+            .componentLibrary {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block root %}
+<div class="componentLibrary">
+    <aside class="componentLibrary__nav">
+        <p class="componentLibrary__navTitle">{{ 'CoreAdminHome_ComponentLibrary'|translate }}</p>
+        <ul class="componentLibrary__navList">
+            {% for id, name in components %}
+                <li>
+                    <a
+                        class="componentLibrary__navLink{% if id == component %} componentLibrary__navLink--active{% endif %}"
+                        href="{{ linkTo({'component': id}) }}"
+                    >{{ name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ linkTo({'action': 'demo', 'component': null}) }}">{{ 'CoreAdminHome_UiDemo'|translate }}</a>
+    </aside>
+
+    <main class="componentLibrary__page">
+        {% block componentPage %}{% endblock %}
+    </main>
+</div>
+{% endblock %}

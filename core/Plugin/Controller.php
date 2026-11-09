@@ -133,7 +133,7 @@ abstract class Controller
     /**
      * The Site object created with {@link $idSite}.
      *
-     * @var Site
+     * @var Site|null
      * @api
      */
     protected $site = null;
@@ -154,6 +154,9 @@ abstract class Controller
         $this->init();
     }
 
+    /**
+     * @return void
+     */
     protected function init()
     {
         $aPluginName = explode('\\', get_class($this));
@@ -218,7 +221,7 @@ abstract class Controller
 
     /**
      * Returns values that are enabled for the parameter &period=
-     * @return array eg. array('day', 'week', 'month', 'year', 'range')
+     * @return string[] eg. array('day', 'week', 'month', 'year', 'range')
      */
     protected static function getEnabledPeriodsInUI()
     {
@@ -227,7 +230,7 @@ abstract class Controller
     }
 
     /**
-     * @return array
+     * @return array<string, array{singular: string, plural: string}>
      */
     private static function getEnabledPeriodsNames()
     {
@@ -301,7 +304,7 @@ abstract class Controller
      *                           the template within the plugin folder. For instance 'myTemplate' will result in
      *                           '@$pluginName/myTemplate.twig'. Alternatively you can include the full path:
      *                           '@anyOtherFolder/otherTemplate'. The trailing '.twig' is not needed.
-     * @param array $variables   For instance array('myViewVar' => 'myValue'). In template you can use {{ myViewVar }}
+     * @param array<string, mixed> $variables For instance array('myViewVar' => 'myValue'). In template you can use {{ myViewVar }}
      * @return string
      * @since 2.5.0
      * @api
@@ -314,8 +317,8 @@ abstract class Controller
     /**
      * @see {self::renderTemplate()}
      *
-     * @param $template
-     * @param array $variables
+     * @param string $template
+     * @param array<string, mixed> $variables
      * @param string|null $viewType 'basic' or 'admin'. If null, determined based on the controller instance type.
      * @return string
      * @throws Exception
@@ -441,10 +444,10 @@ abstract class Controller
      * @param string $currentModuleName The name of the current plugin.
      * @param string $currentControllerAction The name of the action that renders the desired
      *                                        report.
-     * @param array $columnsToDisplay The value to use for the ViewDataTable's columns_to_display config
-     *                                property.
-     * @param array $selectableColumns The value to use for the ViewDataTable's selectable_columns config
-     *                                 property.
+     * @param string[]|false $columnsToDisplay The value to use for the ViewDataTable's columns_to_display config
+     *                                        property.
+     * @param string[] $selectableColumns The value to use for the ViewDataTable's selectable_columns config
+     *                                    property.
      * @param bool|string $reportDocumentation The value to use for the ViewDataTable's documentation config
      *                                         property.
      * @param string $apiMethod The API method that the ViewDataTable will use to get graph data.
@@ -484,9 +487,7 @@ abstract class Controller
             $view->config->columns_to_display = $columnsToDisplay;
         }
 
-        if (property_exists($view->config, 'selectable_columns')) {
-            $view->config->selectable_columns = array_merge($view->config->selectable_columns ? : array(), $selectableColumns);
-        }
+        $view->config->selectable_columns = array_merge($view->config->selectable_columns ? : array(), $selectableColumns);
 
         $view->config->translations += $translations;
 
@@ -507,9 +508,9 @@ abstract class Controller
      * - date: YYYY-MM-DD, today, yesterday
      * - period: day, week, month, year
      *
-     * @param array $paramsToSet array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
+     * @param array<string, mixed> $paramsToSet array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
      * @throws \Piwik\NoAccessException
-     * @return array
+     * @return array<string, mixed>
      */
     protected function getGraphParamsModified($paramsToSet = array())
     {
@@ -558,8 +559,8 @@ abstract class Controller
      * The current site ID and period will be used.
      *
      * @param string $action Method name of the controller that serves the report.
-     * @param array $customParameters The array of query parameter name/value pairs that
-     *                                should be set in result URL.
+     * @param array<string, mixed> $customParameters The array of query parameter name/value pairs that
+     *                                              should be set in result URL.
      * @return string The generated URL.
      * @api
      */
@@ -586,6 +587,7 @@ abstract class Controller
      *
      * @param Date $minDate The min date.
      * @param View $view The view that contains the period selector.
+     * @return void
      * @api
      */
     protected function setMinDateView(Date $minDate, $view)
@@ -601,6 +603,7 @@ abstract class Controller
      *
      * @param Date $maxDate The max date.
      * @param View $view The view that contains the period selector.
+     * @return void
      * @api
      */
     protected function setMaxDateView(Date $maxDate, $view)
@@ -641,6 +644,11 @@ abstract class Controller
         $this->setGeneralVariablesViewAs($view, $viewType = null);
     }
 
+    /**
+     * @param View $view
+     * @param string|null $viewType 'basic' or 'admin'. If null, determined based on the controller instance type.
+     * @return void
+     */
     protected function setGeneralVariablesViewAs($view, $viewType)
     {
         $this->checkViewType($viewType);
@@ -782,7 +790,7 @@ abstract class Controller
         return version_compare($branch, '8.2', '<');
     }
 
-    private function getValidDate(Date $date, Date $minDate, Date $maxDate)
+    private function getValidDate(Date $date, Date $minDate, Date $maxDate): Date
     {
         if ($date->isEarlier($minDate)) {
             $date = $minDate;
@@ -799,6 +807,7 @@ abstract class Controller
      * Needed when a controller extends ControllerAdmin but you don't want to call the controller admin basic variables
      * view. Solves a problem when a controller has regular controller and admin controller views.
      * @param View $view
+     * @return void
      */
     protected function setBasicVariablesNoneAdminView($view)
     {
@@ -889,6 +898,7 @@ abstract class Controller
      * Also calls {@link setHostValidationVariablesView()}.
      *
      * @param View $view
+     * @return void
      * @api
      */
     protected function setBasicVariablesView($view)
@@ -896,6 +906,11 @@ abstract class Controller
         $this->setBasicVariablesViewAs($view);
     }
 
+    /**
+     * @param View $view
+     * @param string|null $viewType 'basic' or 'admin'. Only checked, the variables are the same for both.
+     * @return void
+     */
     protected function setBasicVariablesViewAs($view, $viewType = null)
     {
         $this->checkViewType($viewType); // param is not used here, but the check can be useful for a developer
@@ -903,6 +918,10 @@ abstract class Controller
         $this->setBasicVariablesNoneAdminView($view);
     }
 
+    /**
+     * @param View $view
+     * @return void
+     */
     protected function addCustomLogoInfo($view)
     {
         $customLogo = new CustomLogo();
@@ -946,6 +965,7 @@ abstract class Controller
      *                       if host is invalid)
      *
      * @param View $view
+     * @return void
      * @api
      */
     public static function setHostValidationVariablesView($view)
@@ -1030,7 +1050,8 @@ abstract class Controller
      * - **periodsNames** - List of available periods mapped to their singular and plural translations.
      *
      * @param View $view
-     * @throws Exception if the current period is invalid.
+     * @return void
+     * @throws BadRequestException if the current period is invalid.
      * @api
      */
     public static function setPeriodVariablesView($view)
@@ -1045,7 +1066,7 @@ abstract class Controller
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
-            throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
+            throw new BadRequestException("Period must be one of: " . implode(", ", $availablePeriods));
         }
 
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
@@ -1069,7 +1090,8 @@ abstract class Controller
      * @param int|null $websiteId The new idSite query parameter, eg, `1`.
      * @param string|null $defaultPeriod The new period query parameter, eg, `'day'`.
      * @param string|null $defaultDate The new date query parameter, eg, `'today'`.
-     * @param array $parameters Other query parameters to append to the URL.
+     * @param array<string, mixed> $parameters Other query parameters to append to the URL.
+     * @return void
      * @api
      */
     public function redirectToIndex(
@@ -1125,6 +1147,7 @@ abstract class Controller
      *
      * **The token_auth should never appear in the browser's address bar.**
      *
+     * @return void
      * @throws \Piwik\NoAccessException If the token doesn't match.
      * @api
      */
@@ -1163,8 +1186,8 @@ abstract class Controller
     /**
      * Returns the pretty date representation
      *
-     * @param $date string
-     * @param $period string
+     * @param string $date
+     * @param string $period
      * @return string Pretty date
      */
     public static function getPrettyDate($date, $period)
@@ -1172,24 +1195,29 @@ abstract class Controller
         return self::getCalendarPrettyDate(Period\Factory::build($period, Date::factory($date)));
     }
 
+    /**
+     * @return void
+     * @throws BadRequestException if the request has no idSite.
+     */
     protected function checkSitePermission()
     {
         if (!empty($this->idSite)) {
             Access::getInstance()->checkUserHasViewAccess($this->idSite);
             new Site($this->idSite);
-        } elseif (empty($this->site) || empty($this->idSite)) {
+        } else {
             throw new BadRequestException("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Matomo and have permission to access the specified website.");
         }
     }
 
     /**
-     * @param $moduleToRedirect
-     * @param $actionToRedirect
-     * @param $websiteId
-     * @param $defaultPeriod
-     * @param $defaultDate
-     * @param $parameters
+     * @param string $moduleToRedirect
+     * @param string $actionToRedirect
+     * @param int|string|null $websiteId
+     * @param string|null $defaultPeriod
+     * @param string|null $defaultDate
+     * @param array<string, mixed> $parameters
+     * @return void
      * @throws Exception
      */
     private function doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters)
@@ -1207,7 +1235,10 @@ abstract class Controller
         Url::redirectToUrl($url);
     }
 
-    private function checkViewType($viewType)
+    /**
+     * @param string|null $viewType
+     */
+    private function checkViewType($viewType): void
     {
         if ($viewType === 'admin' && !($this instanceof ControllerAdmin)) {
             throw new Exception("'admin' view type is only allowed with ControllerAdmin class.");
