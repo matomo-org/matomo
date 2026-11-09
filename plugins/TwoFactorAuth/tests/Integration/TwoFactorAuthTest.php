@@ -310,6 +310,46 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertSame($newSecret, $user['twofactor_secret']);
     }
 
+    public function testSetupTwoFactorAuthReplacesTheDeviceThroughTheWholeConfirmationFlow()
+    {
+        $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth']);
+        $_GET['idSite'] = $this->createWebsiteAsSuperUser();
+
+        // opening the setup page asks for the configured device first
+        $message = '';
+        try {
+            StaticContainer::get(Controller::class)->setupTwoFactorAuth();
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
+        $this->assertMatchesRegularExpression('/secondFactorRequest=([0-9a-f]{32})/', $message);
+        preg_match('/secondFactorRequest=([0-9a-f]{32})/', $message, $matches);
+
+        // confirming with it leads back to the setup page, which shows the new secret
+        $url = StaticContainer::get(SecondFactorVerifier::class)->confirmSecondFactor(
+            $matches[1],
+            $this->generateValidAuthCode($this->user2faSecret)
+        );
+        parse_str((string) parse_url((string) $url, PHP_URL_QUERY), $query);
+        $_GET[SecondFactorVerifier::CONFIRMATION_TOKEN_PARAMETER] = $query[SecondFactorVerifier::CONFIRMATION_TOKEN_PARAMETER];
+
+        $html = StaticContainer::get(Controller::class)->setupTwoFactorAuth();
+
+        $newSecret = (new SessionNamespace('TwoFactorAuthenticator'))->secret;
+        $this->assertNotEmpty($newSecret);
+        $this->assertNotSame($this->user2faSecret, $newSecret);
+        $this->assertStringContainsString($newSecret, $html);
+
+        // the form on that page submits a code for the new device, with the used token still in the URL
+        $_GET['authCode'] = $this->generateValidAuthCode($newSecret);
+        $_GET['authCodeNonce'] = Nonce::getNonce(Controller::AUTH_CODE_NONCE);
+
+        StaticContainer::get(Controller::class)->setupTwoFactorAuth();
+
+        $user = (new Model())->getUser($this->userWith2Fa);
+        $this->assertSame($newSecret, $user['twofactor_secret']);
+    }
+
     public function testSetupTwoFactorAuthShowsAWrongCodeForTheNewDeviceWithoutAnotherConfirmation()
     {
         $this->setUpVerifiedPassword($this->userWith2Fa, ['module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth']);
