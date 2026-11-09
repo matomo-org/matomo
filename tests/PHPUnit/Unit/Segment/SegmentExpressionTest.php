@@ -85,6 +85,8 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
 
             ['A=@B_', ['where' => "A LIKE ?", 'bind' => ['%B\_%']]],
             ['A!@B%', ['where' => "( A IS NULL OR A NOT LIKE ? )", 'bind' => ['%B\%%']]],
+            ['A!=0', ['where' => "( A IS NULL OR A <> ? )", 'bind' => ['0']]],
+            ['A!@0', ['where' => "( A IS NULL OR A NOT LIKE ? )", 'bind' => ['%0%']]],
             ['A=$B%', ['where' => "A LIKE ?", 'bind' => ['%B\%']]],
             ['A=^B%', ['where' => "A LIKE ?", 'bind' => ['B\%%']]],
 

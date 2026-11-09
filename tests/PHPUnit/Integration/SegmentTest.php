@@ -1166,6 +1166,12 @@ class SegmentTest extends IntegrationTestCase
             ['50'],
         ];
 
+        yield 'is not zero' => [
+            'daysSinceLastEcommerceOrder!=0',
+            '( FLOOR(log_visit.visitor_seconds_since_order / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_order / 86400) <> ? )',
+            ['0'],
+        ];
+
         yield 'does not contain' => [
             'visitLocalHour!@5',
             '( HOUR(log_visit.visitor_localtime) IS NULL OR HOUR(log_visit.visitor_localtime) NOT LIKE ? )',
