@@ -724,8 +724,10 @@ class API extends \Piwik\Plugin\API
 
                 $processedReport['segment'] = $segment;
 
-                // TODO add static method getPrettyDate($period, $date) in Period
-                $prettyDate = $processedReport['prettyDate'];
+                // MultiSites may resolve a relative date on UTC's days, so site reports take precedence.
+                if ($prettyDate === '' || $apiModule !== 'MultiSites') {
+                    $prettyDate = $processedReport['prettyDate'];
+                }
 
                 $processedReports[] = $processedReport;
             }
