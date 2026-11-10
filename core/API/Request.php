@@ -496,6 +496,7 @@ class Request
         // Empty and anonymous tokens are skipped: neither can grant superuser, and resetting would clobber
         // deliberate caller state such as CliMulti's --superuser observer.
         $hadAmbientSuperUserAccess = Access::getInstance()->hasSuperUserAccess();
+        $wasAmbientAuthSuperUser = $hadAmbientSuperUserAccess && !Access::getInstance()->isSuperUserAccessGrantedByCode();
         $ambientLogin = Access::getInstance()->getLogin();
         $ambientTokenAuth = Access::getInstance()->getTokenAuth();
         $ambientAuth = Access::getInstance()->getAuth();
@@ -544,7 +545,7 @@ class Request
                     Access::getInstance()->restoreAmbientIdentity(
                         $ambientLogin,
                         $ambientTokenAuth,
-                        $hadAmbientSuperUserAccess
+                        $wasAmbientAuthSuperUser
                     );
                     Access::getInstance()->setSuperUserAccess(true);
                 }
