@@ -5478,6 +5478,7 @@ if ($mysql) {
         var consenting = Piwik.getTracker();
         consenting.disableBrowserFeatureDetection();
         consenting.setCustomData('token', getConsentToken() + 'exempt');
+        consenting.requireConsentForRestrictedData();
         consenting.trackRequest('myFoo=beforeConsent');
         consenting.setConsentGiven();
         consenting.trackRequest('myFoo=afterConsent');
@@ -5486,7 +5487,13 @@ if ($mysql) {
             var requests = fetchTrackedRequests(getConsentToken() + 'exempt');
             strictEqual(true, requests.indexOf('myFoo=beforeConsent') > 0, "the visitor is tracked before consent is given");
             strictEqual(true, requests.indexOf('myFoo=afterConsent') > 0, "the visitor is still tracked after consent is given");
-            strictEqual(1, (requests.match(/consent=1/g) || []).length, "only the request sent after consent carries the flag, without requireConsent");
+
+            // the gate withholds cookies until consent, so giving it turns them back on and
+            // sends a ping of its own - what matters is which side of the consent each request
+            // falls on, not how many there are
+            var ordered = fetchTrackedRequests(getConsentToken() + 'exempt', true);
+            strictEqual(true, ordered[0].indexOf('consent=1') === -1, "the request sent before consent carried the flag");
+            strictEqual(true, ordered[ordered.length - 1].indexOf('consent=1') !== -1, "the request sent after consent did not carry the flag");
 
             deleteCookies();
             start();
@@ -5532,11 +5539,13 @@ if ($mysql) {
         // setConsentGiven() again and the remembered-consent cookie is the only thing saying so
         var remembering = Piwik.getTracker();
         remembering.disableBrowserFeatureDetection();
+        remembering.requireConsentForRestrictedData();
         remembering.rememberConsentGiven();
 
         var tracker = Piwik.getTracker();
         tracker.disableBrowserFeatureDetection();
         tracker.setCustomData('token', getConsentToken() + 'remembered');
+        tracker.requireConsentForRestrictedData();
         tracker.trackRequest('myFoo=remembered');
 
         setTimeout(function () {
@@ -5555,23 +5564,27 @@ if ($mysql) {
 
         deleteCookies();
 
-        // a site measuring under a compliance exemption tracks without cookies, so the consent
-        // cookie is the only record of the visitor having consented on an earlier page view and
-        // has to stay readable even though the rest do not
+        // A tracker that turned cookies off does not read the remembered consent. That cookie
+        // records an answer which allows more to be collected, so unlike the opt-out cookie it
+        // must not override a site's own choice to use none; such a site reports the consent on
+        // each page view instead. The exemption gate itself withholds cookies only until consent
+        // is given and turns them back on then, so the usual flow still remembers it.
         var remembering = Piwik.getTracker();
         remembering.disableBrowserFeatureDetection();
+        remembering.requireConsentForRestrictedData();
         remembering.rememberConsentGiven();
 
         var tracker = Piwik.getTracker();
         tracker.disableBrowserFeatureDetection();
         tracker.setCustomData('token', getConsentToken() + 'cookieless');
+        tracker.requireConsentForRestrictedData();
         tracker.disableCookies();
         tracker.trackRequest('myFoo=cookieless');
 
         setTimeout(function () {
             var requests = fetchTrackedRequests(getConsentToken() + 'cookieless');
             strictEqual(true, requests.indexOf('myFoo=cookieless') > 0, "the visitor is tracked without cookies");
-            strictEqual(1, (requests.match(/consent=1/g) || []).length, "the remembered consent is reported with cookies off");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "a consent that no cookie could be read for was reported anyway");
 
             deleteCookies();
             start();
@@ -5581,10 +5594,13 @@ if ($mysql) {
     // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
     // assertion count for this test is not stable
     test("Test API - disable CampaignParameters keeps them once consent is given", function() {
-        // disableCampaignParameters() is documented as applying unless consent is given, and
-        // consent does not have to arrive through requireConsent() for that to hold
+        // Consent lifts disableCampaignParameters() only where the site asked for consent under
+        // a compliance exemption. Everywhere else the call stays unconditional, as the developer
+        // documentation and the tracking-code help have always described it - the first attempt
+        // at this feature read a stale docblock instead and was reverted for it.
         var tracker = Piwik.getTracker();
         tracker.setCustomData('token', getCampaignParamToken() + '3');
+        tracker.requireConsentForRestrictedData();
         tracker.disableCampaignParameters();
         tracker.setCustomUrl('http://localhost.localdomain/?mtm_campaign=something&mtm_kwd=keyword');
 
@@ -5770,6 +5786,55 @@ if ($mysql) {
         strictEqual(false, tracker.areCookiesEnabled(), 'opting back in turned cookies on by itself');
 
         deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - a site that never asked for exemption consent is left alone", function() {
+        stop();
+
+        deleteCookies();
+
+        // The per-site opt-in lives on the server and the tracker cannot see it, so nothing the
+        // consent-exemption work added may change anything for a site that has not called
+        // requireConsentForRestrictedData(). The first attempt at this feature was reverted
+        // because it did: disableCampaignParameters() stopped stripping once any site called
+        // setConsentGiven(), the campaign reappeared mid-visit and the visit was split.
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'plainsite');
+        tracker.disableCampaignParameters();
+        tracker.setCustomUrl('http://example.org/landing?pk_campaign=Spring&pk_kwd=blue');
+
+        tracker.setConsentGiven();
+        tracker.rememberConsentGiven();
+
+        strictEqual(
+            false,
+            /mtm_measurement_consent/.test(document.cookie),
+            'rememberConsentGiven() wrote the measurement consent cookie on a site that never asked for it'
+        );
+
+        tracker.trackPageView('Landing');
+        tracker.trackEvent('Consent', 'accepted');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'plainsite');
+
+            strictEqual(
+                0,
+                (requests.match(/pk_campaign/g) || []).length,
+                'campaign parameters were sent even though disableCampaignParameters() is in use'
+            );
+            strictEqual(
+                0,
+                (requests.match(/consent=1/g) || []).length,
+                'consent was reported for a site that never asked for consent under an exemption'
+            );
+
+            deleteCookies();
+            start();
+        }, 3000);
     });
 
     // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
