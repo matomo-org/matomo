@@ -1251,7 +1251,7 @@ abstract class AIProvider
                     throw new AIProviderClientException(
                         Piwik::translate(
                             'AIProviders_ErrorEndpointEgressBlocked',
-                            [$this->getName(), $e->getMessage(), $this->getId() . 'EndpointUrl']
+                            [$this->getName(), $this->getId() . 'EndpointUrl']
                         ),
                         0,
                         $e
