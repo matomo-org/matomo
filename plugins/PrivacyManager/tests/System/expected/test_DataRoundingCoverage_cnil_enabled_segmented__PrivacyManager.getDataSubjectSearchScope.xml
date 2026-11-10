@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<available>1</available>
+	<consentedVisitsOnly>1</consentedVisitsOnly>
+	<consentedVisitsOnlyIdSites>
+		<row>1</row>
+	</consentedVisitsOnlyIdSites>
+</result>

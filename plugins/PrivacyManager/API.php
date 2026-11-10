@@ -13,13 +13,15 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\Http\BadRequestException;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\Live\Live;
+use Piwik\Plugins\Live\Settings\VisitorLogDisabled;
 use Piwik\Plugins\PrivacyManager\Compliance\ComplianceSettingsProvider;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\GranularPrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
@@ -43,6 +45,16 @@ use Piwik\Validators\BaseValidator;
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * One more than the 400 visits the GDPR tools list, so that they can tell when there are more.
+     */
+    private const DATA_SUBJECTS_LIMIT = 401;
+
+    /**
+     * The value of log_visit.consent for a visit whose visitor gave consent.
+     */
+    private const CONSENT_GIVEN = 1;
+
     private DataSubjects $gdpr;
 
     private LogDataAnonymizations $logDataAnonymizations;
@@ -68,17 +80,94 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Checks the visits given to export or delete, and returns them with their website and visit ids as integers.
+     *
+     * On a website whose compliance policy disables the visitor log, only visits whose visitor gave consent may be
+     * exported or deleted, so the whole request is refused when any other visit of such a website is given.
+     *
      * @param array<int, VisitDescriptor> $visits
+     * @return array<int, VisitDescriptor>
      */
-    private function checkDataSubjectVisits(array $visits): void
+    private function checkDataSubjectVisits(array $visits): array
     {
         BaseValidator::check('visits', $visits, [new VisitsDataSubject()]);
 
-        $idSites = [];
-        foreach ($visits as $visit) {
-            $idSites[] = $visit['idsite'];
+        foreach ($visits as $index => $visit) {
+            $visits[$index]['idsite'] = $this->getPositiveIntegerId($visit['idsite'], 'idsite', $index);
+            $visits[$index]['idvisit'] = $this->getPositiveIntegerId($visit['idvisit'], 'idvisit', $index);
         }
-        Piwik::checkUserHasAdminAccess($idSites);
+
+        Piwik::checkUserHasAdminAccess(array_values(array_unique(array_column($visits, 'idsite'))));
+
+        $this->checkVisitsOfConsentedVisitsOnlySitesHaveConsent($visits);
+
+        return $visits;
+    }
+
+    /**
+     * @param mixed $id
+     * @param int|string $index The visit's key in the request, which a client may send as a string.
+     */
+    private function getPositiveIntegerId($id, string $key, $index): int
+    {
+        if (is_int($id) && $id > 0) {
+            return $id;
+        }
+
+        if (is_string($id) && ctype_digit($id) && (int) $id > 0) {
+            return (int) $id;
+        }
+
+        throw new BadRequestException('Invalid ' . $key . ' for visit at index ' . $index);
+    }
+
+    /**
+     * @param array<int, VisitDescriptor> $visits
+     */
+    private function checkVisitsOfConsentedVisitsOnlySitesHaveConsent(array $visits): void
+    {
+        $visitsToCheck = [];
+        foreach ($visits as $visit) {
+            if ($this->isConsentedVisitsOnlySite($visit['idsite'])) {
+                $visitsToCheck[] = $visit;
+            }
+        }
+
+        if (empty($visitsToCheck)) {
+            return;
+        }
+
+        $consentOfVisits = $this->gdpr->getConsentOfVisits(array_column($visitsToCheck, 'idvisit'));
+
+        foreach ($visitsToCheck as $visit) {
+            $stored = $consentOfVisits[$visit['idvisit']] ?? null;
+
+            // a visit that does not exist, or belongs to another website, is refused the same way, so the
+            // message does not tell whether it exists
+            if (
+                null === $stored
+                || $stored['idsite'] !== $visit['idsite']
+                || $stored['consent'] !== self::CONSENT_GIVEN
+            ) {
+                throw new NoPrivilegesException(
+                    Piwik::translate('PrivacyManager_OnlyConsentedVisitsCanBeExportedOrDeleted'),
+                    403
+                );
+            }
+        }
+    }
+
+    /**
+     * Whether the compliance policy disables the visitor log of the website, in which case the GDPR tools only
+     * export or delete the visits of visitors who gave consent.
+     *
+     * Unlike {@link \Piwik\Plugins\Live\Live::isVisitorProfileLimitedToConsentedVisits()}, which decides whether such a website can be
+     * searched, this does not look at the visitor profile settings: a visit of the website that was not found by a
+     * search must still not be exported or deleted without consent.
+     */
+    private function isConsentedVisitsOnlySite(int $idSite): bool
+    {
+        return VisitorLogDisabled::isEnforced($idSite);
     }
 
     /**
@@ -86,13 +175,16 @@ class API extends \Piwik\Plugin\API
      *
      * @param array<int, VisitDescriptor> $visits Data subject visit descriptors to delete.
      *                                            Each entry must contain `idsite` and `idvisit`.
+     *                                            On a website whose compliance policy disables the visitor
+     *                                            log, every given visit must have been tracked with the
+     *                                            visitor's consent, or nothing is deleted.
      * @return array<string, int> Deletion counts keyed by storage area (e.g. log table or plugin name).
      */
     public function deleteDataSubjects(array $visits): array
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $this->checkDataSubjectVisits($visits);
+        $visits = $this->checkDataSubjectVisits($visits);
 
         return $this->gdpr->deleteDataSubjects($visits);
     }
@@ -102,6 +194,9 @@ class API extends \Piwik\Plugin\API
      *
      * @param array<int, VisitDescriptor> $visits Data subject visit descriptors to export.
      *                                            Each entry must contain `idsite` and `idvisit`.
+     *                                            On a website whose compliance policy disables the visitor
+     *                                            log, every given visit must have been tracked with the
+     *                                            visitor's consent, or nothing is exported.
      * @return array<string, array<int, array<string, mixed>>> Export payload grouped by log table name, each
      *                                                         containing an array of row data.
      */
@@ -109,14 +204,16 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $this->checkDataSubjectVisits($visits);
+        $visits = $this->checkDataSubjectVisits($visits);
 
         return $this->gdpr->exportDataSubjects($visits);
     }
 
     /**
      * Finds data subjects matching a segment across the requested websites. Only returns results for sites
-     * that have visitor logs or profiles enabled. Returns at most 401 matching visits.
+     * that have visitor logs or profiles enabled, and for sites whose compliance policy disables the visitor log,
+     * where only the visits of visitors who gave consent are returned to a user with admin access to the site.
+     * Returns at most 401 matching visits, the most recent first.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                                 Accepts comma-separated IDs, "all", numeric IDs as strings, or ["all"].
@@ -124,7 +221,9 @@ class API extends \Piwik\Plugin\API
      *                        Example: "referrerName==example.com"
      *                        Supports AND (;) and OR (,) operators.
      * @return array{}|DataTable Matching visitor details with a reduced column set (identity, device,
-     *                           location, and browser info). Returns an empty array when no sites qualify.
+     *                           location, and browser info), and the consent stored for the visit (1 when the
+     *                           visitor consented, 0 when they refused, empty when none is stored). Returns an
+     *                           empty array when no sites qualify.
      */
     public function findDataSubjects($idSite, string $segment)
     {
@@ -134,39 +233,43 @@ class API extends \Piwik\Plugin\API
             return [];
         }
 
-        $siteIds = Site::getIdSitesFromIdSitesString($idSite, false, true);
-        $siteIdsWithVisitorLogsOrProfilesEnabled = [];
+        $sites = PrivacyManager::getIdSitesByDataSubjectSearchScope($idSite);
 
-        /*
-         * Only retrieve data from sites that have visitor logs or profiles enabled.
-         * Live::isVisitorProfileEnabled returns false if either logs or profiles
-         * are disabled.
-         */
-        foreach ($siteIds as $siteId) {
-            if (!Piwik::isUserHasViewAccess($siteId)) {
-                continue;
-            }
-
-            $isVisitorProfileEnabled = Live::isVisitorProfileEnabled($siteId);
-
-            if ($isVisitorProfileEnabled) {
-                $siteIdsWithVisitorLogsOrProfilesEnabled[] = $siteId;
-            }
-        }
-
-        if (empty($siteIdsWithVisitorLogsOrProfilesEnabled)) {
+        if (empty($sites['all']) && empty($sites['consentedVisitsOnly'])) {
             return [];
         }
 
-        /** @var DataTable $result */
-        $result = Request::processRequest('Live.getLastVisitsDetails', [
-            'segment' => $segment,
-            'idSite' => $siteIdsWithVisitorLogsOrProfilesEnabled,
-            'period' => 'range',
-            'date' => '1998-01-01,today',
-            'filter_limit' => 401,
-            'doNotFetchActions' => 1,
-        ]);
+        $result = null;
+
+        if (!empty($sites['all'])) {
+            $result = $this->getVisitsOfDataSubjects($sites['all'], $segment);
+        }
+
+        if (!empty($sites['consentedVisitsOnly'])) {
+            // The consent condition is intersected with the visits rather than appended to the segment, so that
+            // no segment given here can widen it. It is part of the query, so the visits of visitors who did not
+            // consent do not count towards the limit either.
+            $consentedVisits = $this->getVisitsOfDataSubjects(
+                $sites['consentedVisitsOnly'],
+                $segment,
+                'consentState==consented'
+            );
+
+            if (null === $result) {
+                $result = $consentedVisits;
+            } else {
+                // Live disables the sort and limit filters on the tables it returns, so the visits of both are
+                // merged into a new one
+                $visits = new DataTable();
+                $visits->addRowsFromArray($result->getRows());
+                $visits->addRowsFromArray($consentedVisits->getRows());
+                $visits->filter('Sort', ['lastActionTimestamp', 'desc']);
+                $visits->filter('Limit', [0, self::DATA_SUBJECTS_LIMIT]);
+                $result = $visits;
+            }
+        }
+
+        $this->addConsentOfVisits($result, $sites['consentedVisitsOnly']);
 
         $columnsToKeep = [
             'lastActionDateTime',
@@ -176,6 +279,7 @@ class API extends \Piwik\Plugin\API
             'visitorId',
             'visitIp',
             'userId',
+            'consent',
             'deviceType',
             'deviceModel',
             'deviceTypeIcon',
@@ -197,6 +301,85 @@ class API extends \Piwik\Plugin\API
 
         // Note: Datatable PostProcessor is disabled for this method in PrivacyManager::shouldDisablePostProcessing
         return $result;
+    }
+
+    /**
+     * Describes how the GDPR tools can search the requested websites for data subjects.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to check.
+     *                                 Accepts comma-separated IDs, "all", numeric IDs as strings, or ["all"].
+     * @return array{available: bool, consentedVisitsOnly: bool, consentedVisitsOnlyIdSites: int[]} `available` is
+     *         true when every requested website the user can view can be searched. `consentedVisitsOnly` is true
+     *         when, for at least one of them, only the visits of visitors who gave consent can be found, and
+     *         `consentedVisitsOnlyIdSites` lists those websites.
+     */
+    public function getDataSubjectSearchScope($idSite): array
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        if (!Manager::getInstance()->isPluginActivated('Live')) {
+            return ['available' => false, 'consentedVisitsOnly' => false, 'consentedVisitsOnlyIdSites' => []];
+        }
+
+        $sites = PrivacyManager::getIdSitesByDataSubjectSearchScope($idSite);
+
+        return [
+            'available' => empty($sites['none']) && (!empty($sites['all']) || !empty($sites['consentedVisitsOnly'])),
+            'consentedVisitsOnly' => !empty($sites['consentedVisitsOnly']),
+            'consentedVisitsOnlyIdSites' => $sites['consentedVisitsOnly'],
+        ];
+    }
+
+    /**
+     * @param int[] $idSites
+     * @param string|false $intersectSegment
+     */
+    private function getVisitsOfDataSubjects(array $idSites, string $segment, $intersectSegment = false): DataTable
+    {
+        $parameters = [
+            'segment' => $segment,
+            'idSite' => $idSites,
+            'period' => 'range',
+            'date' => '1998-01-01,today',
+            'filter_limit' => self::DATA_SUBJECTS_LIMIT,
+            'doNotFetchActions' => 1,
+        ];
+
+        if (false !== $intersectSegment) {
+            $parameters['intersectSegment'] = $intersectSegment;
+        }
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('Live.getLastVisitsDetails', $parameters);
+
+        return $visits;
+    }
+
+    /**
+     * Adds the consent stored for each visit, and drops any visit of a website where only the visits of visitors
+     * who gave consent may be found that is not stored with consent, whatever the query returned.
+     *
+     * @param int[] $consentedVisitsOnlyIdSites
+     */
+    private function addConsentOfVisits(DataTable $visits, array $consentedVisitsOnlyIdSites): void
+    {
+        $consentOfVisits = $this->gdpr->getConsentOfVisits($visits->getColumn('idVisit'));
+
+        foreach ($visits->getRows() as $id => $row) {
+            $stored = $consentOfVisits[(int) $row->getColumn('idVisit')] ?? null;
+            $consent = null === $stored ? null : $stored['consent'];
+
+            if (
+                in_array((int) $row->getColumn('idSite'), $consentedVisitsOnlyIdSites, true)
+                && $consent !== self::CONSENT_GIVEN
+            ) {
+                $visits->deleteRow($id);
+                continue;
+            }
+
+            // empty when no consent is stored, so that every row has the column
+            $row->setColumn('consent', $consent ?? '');
+        }
     }
 
     /**

@@ -30,6 +30,7 @@ class SegmentGeneratorStore {
   loadSegments(
     siteId?: string|number,
     visitSegmentsOnly?: boolean,
+    forDataSubjectSearch?: boolean,
   ): Promise<DeepReadonly<SegmentMetadata[]>> {
     // Do not cache the in-flight promise. AjaxHelper silently swallows
     // aborts (when globalAjaxQueue.abort() fires during navigation), which
@@ -55,6 +56,8 @@ class SegmentGeneratorStore {
       _hideImplementationData: 0,
       idSites,
       idSite,
+      // the GDPR tools can search by segments a compliance policy otherwise removes
+      ...(forDataSubjectSearch ? { forDataSubjectSearch: 1 } : {}),
     }, {
       // Stay out of globalAjaxQueue so a navigation-triggered
       // globalAjaxQueue.abort() (e.g. when the panel close re-renders

@@ -251,6 +251,7 @@ export default defineComponent({
   props: {
     addInitialCondition: Boolean,
     visitSegmentsOnly: Boolean,
+    forDataSubjectSearch: Boolean,
     idsite: {
       type: [String, Number],
       default: () => Matomo.idSite,
@@ -294,7 +295,7 @@ export default defineComponent({
       }
     },
     idsite(newVal) {
-      this.reloadSegments(newVal, this.visitSegmentsOnly);
+      this.reloadSegments(newVal, this.visitSegmentsOnly, this.forDataSubjectSearch);
     },
   },
   created() {
@@ -302,11 +303,19 @@ export default defineComponent({
     this.setSegmentString(this.modelValue);
     this.segmentDefinition = this.modelValue;
 
-    this.reloadSegments(this.idsite, this.visitSegmentsOnly);
+    this.reloadSegments(this.idsite, this.visitSegmentsOnly, this.forDataSubjectSearch);
   },
   methods: {
-    reloadSegments(idsite?: string|number, visitSegmentsOnly?: boolean) {
-      SegmentGeneratorStore.loadSegments(idsite, visitSegmentsOnly).then((segments) => {
+    reloadSegments(
+      idsite?: string|number,
+      visitSegmentsOnly?: boolean,
+      forDataSubjectSearch?: boolean,
+    ) {
+      SegmentGeneratorStore.loadSegments(
+        idsite,
+        visitSegmentsOnly,
+        forDataSubjectSearch,
+      ).then((segments) => {
         this.queriedSegments = segments.map((s) => ({
           ...s,
           category: s.category || 'Others',

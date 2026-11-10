@@ -230,6 +230,8 @@
         "SegmentedDataRoundingSettingWhatItDoes": "Count-based metrics in segmented reports, exports, and API responses are rounded to the nearest 10. Any non-zero value below 10 is displayed as 10. Unsegmented reports continue to show exact totals.<br><br>This protects visitor anonymity when reports are filtered into small subsets where low counts could reveal an individual.",
         "SegmentedDataRoundingSettingImpact": "Count-based metrics in segmented results are approximate.<br><br>Segmented values may not add up to the corresponding unsegmented total.",
         "NoDataSubjectsFound": "No data subjects found",
+        "OnlyConsentedVisitsCanBeExportedOrDeleted": "Only visits from visitors who gave consent can be exported or deleted on this website.",
+        "OnlyConsentedVisitsCanBeFound": "Only consented visits can be found on this website. Visits tracked without consent hold no identifier that could link them to a person, so they fall outside access and erasure requests.",
         "DeleteVisitsConfirm": "Are you sure you want to delete the selected visits? This action cannot be undone.",
         "ResultTruncated": "More than %1$s results were found and the result was truncated to the first %1$s visits.",
         "AddVisitorIdToSearch": "Click to add this visitorID to the search",

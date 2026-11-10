@@ -24,6 +24,7 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
@@ -43,6 +44,11 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 
 class PrivacyManager extends Plugin
 {
+    /**
+     * The parameter with which the GDPR tools ask API.getSegmentsMetadata for the segments they can search by.
+     */
+    public const DATA_SUBJECT_SEARCH_SEGMENTS_PARAMETER = 'forDataSubjectSearch';
+
     public const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
     public const OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS = "lastDelete_piwik_unused_log_actions";
     public const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
@@ -255,6 +261,129 @@ class PrivacyManager extends Plugin
     public function isTrackerPlugin()
     {
         return true;
+    }
+
+    /**
+     * Whether the request being served is the GDPR tools searching for data subjects, or listing the segments they
+     * can search by, for a user with admin access to at least one website.
+     *
+     * Only the root request counts, as for the visits log check in Live's API, so a search sent within a bulk
+     * request does not.
+     */
+    public static function isDataSubjectSearchRequest(): bool
+    {
+        $rootApiMethod = \Piwik\API\Request::getRootApiRequestMethod();
+
+        if ($rootApiMethod === 'PrivacyManager.findDataSubjects') {
+            return Piwik::isUserHasSomeAdminAccess();
+        }
+
+        return $rootApiMethod === 'API.getSegmentsMetadata'
+            && 1 === Request::fromRequest()->getIntegerParameter(self::DATA_SUBJECT_SEARCH_SEGMENTS_PARAMETER, 0)
+            && Piwik::isUserHasSomeAdminAccess();
+    }
+
+    /**
+     * Whether the GDPR tools, in the request being served, may find the visits of visitors who gave consent on a
+     * website whose compliance policy limits the visitor profile to them (see
+     * {@link \Piwik\Plugins\Live\Live::isVisitorProfileLimitedToConsentedVisits()}), by the segments that identify
+     * a visitor, which the policy otherwise removes. Only a user with admin access to the website may, as only they
+     * can answer its visitors' requests to access or erase their data.
+     */
+    public static function isConsentedVisitsOnlySiteOfDataSubjectSearch(int $idSite): bool
+    {
+        return $idSite > 0
+            && self::isDataSubjectSearchRequest()
+            && Piwik::isUserHasAdminAccess($idSite)
+            && Live::isVisitorProfileLimitedToConsentedVisits($idSite);
+    }
+
+    /**
+     * Whether the GDPR tools, in the request being served, may search every requested website by the segments that
+     * identify a visitor: none of the websites the user can view is one the GDPR tools cannot search (see
+     * {@link getIdSitesByDataSubjectSearchScope()}).
+     *
+     * Every site list the request holds must qualify, whether given as idSite or idSites, in the query or the body,
+     * as the segments list may read any of them.
+     */
+    public static function canDataSubjectSearchUseVisitorSegments(): bool
+    {
+        if (!self::isDataSubjectSearchRequest()) {
+            return false;
+        }
+
+        $siteLists = [];
+        foreach ([Request::fromGet(), Request::fromPost()] as $request) {
+            foreach (['idSite', 'idSites'] as $name) {
+                $siteList = $request->getParameter($name, '');
+                if ('' !== $siteList && [] !== $siteList) {
+                    $siteLists[] = $siteList;
+                }
+            }
+        }
+
+        if (empty($siteLists)) {
+            return false;
+        }
+
+        // asked once for every segment that identifies a visitor, so the answer is kept for the request
+        $cache = \Piwik\Cache::getTransientCache();
+        $cacheKey = 'PrivacyManager.canDataSubjectSearchUseVisitorSegments.'
+            . md5(Piwik::getCurrentUserLogin() . (json_encode($siteLists) ?: ''));
+
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
+        }
+
+        $canUse = true;
+        foreach ($siteLists as $siteList) {
+            $sites = self::getIdSitesByDataSubjectSearchScope($siteList);
+
+            if (!empty($sites['none']) || (empty($sites['all']) && empty($sites['consentedVisitsOnly']))) {
+                $canUse = false;
+                break;
+            }
+        }
+
+        $cache->save($cacheKey, $canUse);
+
+        return $canUse;
+    }
+
+    /**
+     * Sorts the requested websites the user can view by which of their visits the GDPR tools can find: all of them,
+     * only those of visitors who gave consent, or none.
+     *
+     * @internal
+     * @param int|string|array<int|string> $idSite Website ID(s), as accepted by {@link Site::getIdSitesFromIdSitesString()}.
+     * @return array{all: int[], consentedVisitsOnly: int[], none: int[]}
+     */
+    public static function getIdSitesByDataSubjectSearchScope($idSite): array
+    {
+        $sites = ['all' => [], 'consentedVisitsOnly' => [], 'none' => []];
+
+        foreach (Site::getIdSitesFromIdSitesString($idSite, false, true) as $siteId) {
+            if (!Piwik::isUserHasViewAccess($siteId)) {
+                continue;
+            }
+
+            $siteId = (int) $siteId;
+
+            if (Live::isVisitorProfileEnabled($siteId)) {
+                // returns false if either logs or profiles are disabled
+                $scope = 'all';
+            } elseif (Live::isVisitorProfileLimitedToConsentedVisits($siteId) && Piwik::isUserHasAdminAccess($siteId)) {
+                // the policy disables the visits log, while the settings keep the visitor profile enabled. Only a
+                // user with admin access to the website answers its visitors' requests to access or erase their data
+                $scope = 'consentedVisitsOnly';
+            } else {
+                $scope = 'none';
+            }
+
+            $sites[$scope][] = $siteId;
+        }
+
+        return $sites;
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -473,7 +602,11 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ReportsDataSavedEstimate';
         $translationKeys[] = 'PrivacyManager_ReportsNeverRemoved';
         $translationKeys[] = 'PrivacyManager_ReportsRemovedAfter';
+        $translationKeys[] = 'PrivacyManager_OnlyConsentedVisitsCanBeFound';
         $translationKeys[] = 'PrivacyManager_ResultIncludesAllVisits';
+        $translationKeys[] = 'CoreHome_ConsentState';
+        $translationKeys[] = 'CoreHome_ConsentStateConsented';
+        $translationKeys[] = 'CoreHome_ConsentStateRefused';
         $translationKeys[] = 'PrivacyManager_ResultTruncated';
         $translationKeys[] = 'PrivacyManager_SaveSettingsBeforePurge';
         $translationKeys[] = 'PrivacyManager_SearchForDataSubject';

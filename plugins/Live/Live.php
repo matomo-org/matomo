@@ -113,7 +113,18 @@ class Live extends \Piwik\Plugin
     public static function checkIsVisitorProfileEnabled($idSite = null): void
     {
         self::checkIsVisitorLogEnabled($idSite); // visitor log is required for visitor profile
+        self::checkIsVisitorProfileSettingEnabled($idSite);
+    }
 
+    /**
+     * Throws an exception if visitor profile is disabled by the system or website settings, without looking at
+     * whether the visitor log is enabled
+     *
+     * @param int|string|int[]|null $idSite
+     * @throws \Exception
+     */
+    public static function checkIsVisitorProfileSettingEnabled($idSite = null): void
+    {
         $systemSettings = new SystemSettings();
 
         if ($systemSettings->disableVisitorProfile->getValue() === true) {
@@ -151,6 +162,37 @@ class Live extends \Piwik\Plugin
         }
 
         return true;
+    }
+
+    /**
+     * Returns whether visitor profile is enabled by the system and website settings (for the given site), without
+     * looking at whether the visitor log is enabled
+     *
+     * @param int|string|int[]|null $idSite
+     */
+    public static function isVisitorProfileSettingEnabled($idSite = null): bool
+    {
+        try {
+            self::checkIsVisitorProfileSettingEnabled($idSite);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns whether only the visits of visitors who gave consent may be looked at one by one on the given site:
+     * its compliance policy disables the visits log, while neither its own settings nor the system settings disable
+     * the visits log or the visitor profile. Those visits may hold identifying data, such as a User ID, so they must
+     * stay reachable to answer their visitors' requests to access or erase their data.
+     */
+    public static function isVisitorProfileLimitedToConsentedVisits(int $idSite): bool
+    {
+        return VisitorLogDisabledSetting::isEnforced($idSite)
+            && true !== VisitorLogDisabledSetting::getSystemValue()
+            && true !== VisitorLogDisabledSetting::getMeasurableValue($idSite)
+            && self::isVisitorProfileSettingEnabled($idSite);
     }
 
     public function getStylesheetFiles(&$stylesheets)
