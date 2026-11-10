@@ -329,7 +329,13 @@ class QueueConsumer
         while ($iterations < 100) {
             $invalidationsToExclude = array_merge($this->invalidationsToExclude, $extraInvalidationsToIgnore);
 
-            $nextArchive = $this->model->getNextInvalidatedArchive($idSite, $this->currentSiteArchivingStartTime, $invalidationsToExclude);
+            $nextArchive = $this->model->getNextInvalidatedArchive(
+                $idSite,
+                $this->currentSiteArchivingStartTime,
+                $invalidationsToExclude,
+                true,
+                $this->archiveFilter
+            );
             if (empty($nextArchive)) {
                 break;
             }
