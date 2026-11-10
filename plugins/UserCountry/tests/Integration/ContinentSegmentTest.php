@@ -153,6 +153,21 @@ class ContinentSegmentTest extends IntegrationTestCase
         $this->assertSame(0, $this->getVisitsInSegment('continentCode=='));
     }
 
+    public function testTheLegacyTibetCodeIsInAsia(): void
+    {
+        $tracker = Fixture::getTracker($this->idSite, $this->date . ' 20:00:00');
+        $tracker->setIp('10.0.0.100');
+        Fixture::checkResponse($tracker->doTrackPageView('/tibet'));
+
+        // current geolocation no longer stores the legacy code, older visits may hold it
+        $logVisit = Common::prefixTable('log_visit');
+        Db::query("UPDATE `$logVisit` SET location_country = 'ti' WHERE idvisit = ?", [Db::fetchOne("SELECT MAX(idvisit) FROM `$logVisit`")]);
+
+        $this->assertSame(2, $this->getVisitsInSegment('continentCode==asi'));
+        $this->assertSame(7, $this->getVisitsInSegment('continentCode!=asi'));
+        $this->assertSame(2, $this->getVisitsInSegment('continentCode==unk'));
+    }
+
     private function getVisitsInSegment(string $segment): int
     {
         /** @var DataTable $table */
