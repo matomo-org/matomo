@@ -103,11 +103,17 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $records;
     }
 
+    /**
+     * @return string[]|null
+     */
     public function flatRowToUrlHierarchyPath(Row $flatRow): ?array
     {
         return $this->flatRowToHierarchyPath($flatRow, Action::TYPE_PAGE_URL);
     }
 
+    /**
+     * @return string[]|null
+     */
     public function flatRowToTitleHierarchyPath(Row $flatRow): ?array
     {
         return $this->flatRowToHierarchyPath($flatRow, Action::TYPE_PAGE_TITLE);
@@ -278,6 +284,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $this->finalizeBuiltFromFlatHierarchyTable($archiveProcessor, $hierarchicalTable, $recordName);
     }
 
+    /**
+     * @return string[]|null
+     */
     private function flatRowToHierarchyPath(Row $flatRow, int $actionType): ?array
     {
         $label = $flatRow->getColumn('label');
@@ -365,11 +374,17 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         );
     }
 
+    /**
+     * @return array<int, int>
+     */
     private function getDefaultHierarchyRowColumns(): array
     {
         return array_fill_keys(ArchivingHelper::getHierarchyRowColumnOrder(), 0);
     }
 
+    /**
+     * @return array<string, DataTable|int|float>
+     */
     private function aggregateLegacyHierarchical(ArchiveProcessor $archiveProcessor): array
     {
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
@@ -461,6 +476,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $dataTable->deleteColumns($columnsToDelete);
     }
 
+    /**
+     * @return array<int, DataTable>
+     */
     private function makeReportTables(): array
     {
         $result = [];
@@ -486,6 +504,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $result;
     }
 
+    /**
+     * @return array<int, DataTable>
+     */
     private function makeFlatPageTables(): array
     {
         $tables = [];
@@ -500,6 +521,11 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $tables;
     }
 
+    /**
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param int[] $actionTypes
+     * @param array<int, string> $tableModesByType
+     */
     protected function archiveDayActions(
         ArchiveProcessor $archiveProcessor,
         int $rankingQueryLimit,
@@ -542,7 +568,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         $siteSearchEnabled = $archiveProcessor->getParams()->getSite()->isSiteSearchEnabled();
 
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn(array('idaction', 'name'));
@@ -595,10 +621,14 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     /**
      * Entry actions for Page URLs and Page names
+     *
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     * @return void
      */
     protected function archiveDayEntryActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
@@ -667,10 +697,14 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     /**
      * Exit actions
+     *
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     * @return list<mixed>
      */
     protected function archiveDayExitActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
@@ -735,6 +769,10 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     /**
      * Time per action.
+     *
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     * @return void
      */
     protected function archiveDayActionsTime(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
@@ -742,9 +780,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $this->archiveDayActionsTimeLegacy($logAggregator, $actionsTablesByType, $rankingQueryLimit, $tableModesByType);
     }
 
+    /**
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     */
     private function archiveDayActionsTimeAccurate(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
     {
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
@@ -804,9 +846,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         );
     }
 
+    /**
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param array<int, string> $tableModesByType
+     */
     private function archiveDayActionsTimeLegacy(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
     {
-        $rankingQuery = false;
+        $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
@@ -847,24 +893,33 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         // cap cut short spans less than the view lasted, so a closed row also covers the hit
         // that follows it with no other row between, as that hit is the one the writer closed
         // it with. A row that was never closed spans nothing.
+        //
+        // Such a row can only sit at the visit's latest second before the hit, so comparing two
+        // maximums finds it without a nested NOT EXISTS, which is cubic in the visit's length.
+        // The overlap check comes first, as a filter, so the maximums only run for hits it leaves.
+        // Written as NOT EXISTS, MySQL would run it last as an anti-join.
         $spanCovered = "
-                 AND NOT EXISTS (
+                 AND NOT IFNULL((
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
                          WHERE pvt.idvisit = log_link_visit_action.idvisit
-                           AND pvt.%s = log_link_visit_action.%s
+                           AND pvt.%1\$s = log_link_visit_action.%2\$s
                            AND pvt.server_time < log_link_visit_action.server_time
-                           AND (
-                               log_link_visit_action.server_time
+                           AND log_link_visit_action.server_time
                                    - INTERVAL log_link_visit_action.time_spent_ref_action SECOND
-                                   < pvt.server_time + INTERVAL pvt.time_spent SECOND
-                               OR pvt.time_spent > 0 AND NOT EXISTS (
-                                   SELECT 1 FROM `$pageViewTimeTable` AS pvt_next
-                                    WHERE pvt_next.idvisit = pvt.idvisit
-                                      AND pvt_next.server_time > pvt.server_time
-                                      AND pvt_next.server_time < log_link_visit_action.server_time
-                               )
-                           )
-                     )";
+                               < pvt.server_time + INTERVAL pvt.time_spent SECOND
+                         LIMIT 1
+                     ), 0)
+                 AND NOT IFNULL((
+                        SELECT MAX(pvt_closed.server_time) FROM `$pageViewTimeTable` AS pvt_closed
+                         WHERE pvt_closed.idvisit = log_link_visit_action.idvisit
+                           AND pvt_closed.%1\$s = log_link_visit_action.%2\$s
+                           AND pvt_closed.time_spent > 0
+                           AND pvt_closed.server_time < log_link_visit_action.server_time
+                     ) = (
+                        SELECT MAX(pvt_prev.server_time) FROM `$pageViewTimeTable` AS pvt_prev
+                         WHERE pvt_prev.idvisit = log_link_visit_action.idvisit
+                           AND pvt_prev.server_time < log_link_visit_action.server_time
+                     ), 0)";
 
         $whereUrl = $whereBase . sprintf($spanCovered, 'idaction_url', 'idaction_url_ref');
         $whereName = $whereBase . sprintf($spanCovered, 'idaction_name', 'idaction_name_ref');
@@ -900,6 +955,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         );
     }
 
+    /**
+     * @param array<int, DataTable> $actionsTablesByType
+     * @param string|array<string|array{table: string, tableAlias?: string, joinOn?: string}> $from
+     * @param string|false $orderBy
+     * @param array<int|string, array{aggregation: string|false, query: string}> $metricsConfig
+     * @param array<int, string> $tableModesByType
+     */
     protected function archiveDayQueryProcess(
         LogAggregator $logAggregator,
         array $actionsTablesByType,
@@ -937,6 +999,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         );
     }
 
+    /**
+     * @param array<string|array{table: string, tableAlias?: string, joinOn?: string}> $from
+     */
     protected function updateQuerySelectFromForSiteSearch(string &$select, array &$from): void
     {
         $selectFlagNoResultKeywords = ",
@@ -958,6 +1023,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             . $selectPageIsFollowingSiteSearch;
     }
 
+    /**
+     * @param array<int|string, array{aggregation: string|false, query: string}> $metricsConfig
+     */
     private function addMetricsToRankingQuery(RankingQuery $rankingQuery, array $metricsConfig): void
     {
         foreach ($metricsConfig as $metric => $config) {
@@ -969,6 +1037,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         }
     }
 
+    /**
+     * @param array<int|string, array{aggregation: string|false, query: string}> $metricsConfig
+     */
     private function addMetricsToSelect(string $select, array $metricsConfig): string
     {
         if (!empty($metricsConfig)) {

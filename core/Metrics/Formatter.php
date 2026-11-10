@@ -64,6 +64,8 @@ class Formatter
 
         // Display 01:45:17 time format
         if ($displayTimeAsSentence === false) {
+            // Round once so seconds and centiseconds share one value and a carry reaches the seconds.
+            $numberOfSeconds = round($numberOfSeconds, 6);
             $days    = floor($numberOfSeconds / 86400);
             $hours   = floor(($reminder = ($numberOfSeconds - $days * 86400)) / 3600);
             $minutes = floor(($reminder = ($reminder - $hours * 3600)) / 60);
@@ -73,7 +75,7 @@ class Formatter
             } else {
                 $time    = sprintf(Piwik::translate('Intl_NDays'), $days) . " " . sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
             }
-            $centiSeconds = intval($numberOfSeconds * 100) % 100;
+            $centiSeconds = intval(round($numberOfSeconds * 100, 6)) % 100;
             if ($centiSeconds) {
                 $time .= '.' . sprintf("%02s", $centiSeconds);
             }
@@ -82,6 +84,9 @@ class Formatter
             }
             return $time;
         }
+        // Round before splitting into units so a remainder like 59.999s carries over instead of rendering as 60s.
+        $numberOfSeconds = round($numberOfSeconds, $numberOfSeconds > 0 && $numberOfSeconds < 0.01 ? 3 : 2);
+
         $secondsInYear = 86400 * 365.25;
 
         $years      = floor($numberOfSeconds / $secondsInYear);

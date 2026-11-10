@@ -18,10 +18,10 @@
         "IncomingTraffic": "Trafic entrant",
         "LoadingTransitionsFor": "Chargement des transitions pour %s",
         "LoopsInline": "%s rechargements de pages",
-        "NoDataForAction": "Aucune données pour %s",
+        "NoDataForAction": "Aucune donnée pour %s",
         "NoDataForActionDetails": "Soit l'action n'a généré aucune vue de page pendant la période, soit elle est invalide.",
         "NumDownloads": "%s téléchargements",
-        "NumOutlinks": "%s liens sortant",
+        "NumOutlinks": "%s liens sortants",
         "NumPageviews": "%s pages vues",
         "OtherDestinations": "Autres destinations",
         "OtherSources": "Autres sources",
@@ -29,7 +29,7 @@
         "PageURLTransitions": "Transitions d'URL de page",
         "PeriodNotAllowed": "Sélectionnez une période valide",
         "PeriodNotAllowedDetails": "Essayez de sélectionner une période plus courte pour cette fonctionnalité.",
-        "PluginDescription": "Rapporte les actions précédentes et suivantes pour chacune des URL's de page dans un nouveau rapport de Transitions, disponible depuis le rapports des Actions via un nouvel icône.",
+        "PluginDescription": "Rapporte les actions précédentes et suivantes pour chaque URL de page dans un nouveau rapport « Transitions », disponible depuis les rapports « Actions » via une nouvelle icône.",
         "ShareOfAllPageviews": "Cette page a eu %1$s affichages (%2$s de tous les affichages)",
         "ToFollowingPages": "Vers des pages internes",
         "ToFollowingPagesInline": "%s vers des pages internes",
@@ -39,6 +39,6 @@
         "Transitions": "Transitions",
         "TransitionsSubcategoryHelp1": "Le rapport « Transitions » présente les actions de vos visiteurs juste avant et juste après la consultation d'une page. Cette page explique comment accéder à ce rapport, le comprendre et l'utiliser.",
         "TransitionsSubcategoryHelp2": "Plus de détails",
-        "XOfAllPageviews": "%s de toutes les pages vues"
+        "XOfAllPageviews": "%s de toutes les vues de cette page"
     }
 }

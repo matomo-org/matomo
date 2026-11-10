@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Plugins\Monolog\Formatter;
+
+use Monolog\LogRecord;
+use Piwik\ExceptionHandler;
+use Piwik\Plugins\Monolog\Processor\TokenProcessor;
+
+/**
+ * Applies the redactions of the text log format to the context a structured formatter writes as well.
+ *
+ * The processors only redact the message: token_auth values are removed from it and an exception is
+ * folded into it with its sensitive values and the document root replaced. Structured formatters
+ * additionally write the raw context, so the same is applied to its strings, to the normalized
+ * exception (a Throwable or the fatal error array) and to the backtrace of a PHP error.
+ */
+trait RedactSensitiveValuesTrait
+{
+    protected function normalizeRecord(LogRecord $record): array
+    {
+        $normalized = parent::normalizeRecord($record);
+
+        array_walk_recursive($normalized, function (&$value) {
+            if (is_string($value)) {
+                $value = TokenProcessor::removeTokenAuth($value);
+            }
+        });
+
+        // an empty context is a stdClass in the json formatter
+        if (!is_array($normalized['context'] ?? null)) {
+            return $normalized;
+        }
+
+        // the fatal error array is not a Throwable, so normalizeException() does not redact it
+        if (is_array($record->context['exception'] ?? null) && is_array($normalized['context']['exception'] ?? null)) {
+            $normalized['context']['exception'] = self::redactException($normalized['context']['exception']);
+        }
+
+        if (is_array($normalized['context']['trace'] ?? null)) {
+            // besides the file, closure and anonymous class names can contain the path since PHP 8.4
+            array_walk_recursive($normalized['context']['trace'], function (&$value) {
+                if (is_string($value)) {
+                    $value = str_replace(PIWIK_DOCUMENT_ROOT, '', $value);
+                }
+            });
+        }
+
+        return $normalized;
+    }
+
+    protected function normalize(mixed $data, int $depth = 0): mixed
+    {
+        $normalized = parent::normalize($data, $depth);
+
+        // the json formatter leaves objects to json_encode, decode them so their strings are redacted as well
+        if (is_object($normalized)) {
+            /** @var array<array<mixed>|scalar|null>|scalar|null $normalized */
+            $normalized = json_decode($this->toJson($normalized, true), true);
+        }
+
+        return $normalized;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    protected function normalizeException(\Throwable $e, int $depth = 0): array
+    {
+        // previous exceptions are normalized, and so redacted, through this method as well
+        return self::redactException(parent::normalizeException($e, $depth));
+    }
+
+    /**
+     * @param array<mixed> $exception
+     * @return array<mixed>
+     */
+    private static function redactException(array $exception): array
+    {
+        foreach (['message', 'file', 'backtrace'] as $key) {
+            if (isset($exception[$key]) && is_string($exception[$key])) {
+                $exception[$key] = ExceptionHandler::replaceSensitiveValues($exception[$key]);
+            }
+        }
+
+        if (isset($exception['trace']) && is_array($exception['trace'])) {
+            foreach ($exception['trace'] as &$frame) {
+                if (is_string($frame)) {
+                    $frame = ExceptionHandler::replaceSensitiveValues($frame);
+                }
+            }
+            unset($frame);
+        }
+
+        return $exception;
+    }
+}

@@ -5,7 +5,7 @@
         "UserId": "Benutzer-ID",
         "UserIdDisabledSettingImpact": "Benutzer-ID-Werte werden nicht gesammelt. Benutzer-ID-Berichte, -Segmente und -Analysen über mehrere Besuche hinweg sind nicht verfügbar.",
         "UserIdDisabledSettingRequirementNote": "Die Erfassung der Benutzer-ID während der Aufzeichnung muss deaktiviert werden.",
-        "UserIdDisabledSettingTitle": "Benutzer-ID deaktiviert",
+        "UserIdDisabledSettingTitle": "Tracking der Benutzer-ID deaktiviert",
         "UserIdDisabledSettingWhatItDoes": "Benutzer-ID-Tracking ist deaktiviert. Tracking-Implementierungen dürfen Benutzer-IDs nicht über setUserId oder äquivalente Methoden übersenden.<br><br>Dies verhindert, dass Benutzer direkt identifiziert und mit anderen Besuchen oder Geräten in Verbindung gebracht werden.",
         "UserIdSegmentHelp": "jeder nicht leere einzigartige String, der den Benutzer identifiziert (wie eine E-Mail-Adresse oder ein Benutzername).",
         "UserReportDocumentation": "Zeigt Besuche und andere allgemeine Metriken für jede individuelle Benutzer-ID.",
