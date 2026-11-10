@@ -1,19 +1,21 @@
 <?php
+
 /**
- * Naive round-robin test bucketing for Matomo's PHPUnit suites.
+ * Time-balanced test bucketing for Matomo's PHPUnit suites.
  *
  * Reads tests/PHPUnit/phpunit.xml.dist, expands the requested testsuite's
  * <directory> globs against the live filesystem (so newly added test files
  * are picked up automatically), removes anything matched by the suite's
- * <exclude> rules, sorts alphabetically for a stable bucketing, then keeps
- * files where index % bucket-count == bucket-index.
+ * <exclude> rules, then spreads the files across the buckets by their
+ * recorded run time in .github/test-timings.json (see update-test-timings.php).
  *
  * Two output modes:
  *   --list                 print the bucket's file paths to stdout
  *   --write-xml=<path>     write a self-contained phpunit XML mirroring
  *                          phpunit.xml.dist with a single
  *                          <testsuite name="Bucket"> listing this bucket's
- *                          files as <file> entries
+ *                          files as <file> entries, and BucketTimingListener
+ *                          writing each class's run time to <path minus .xml>-timings.tsv
  *
  * Supported suites: IntegrationTestsCore, IntegrationTestsPlugins,
  * SystemTestsPlugins. The script rejects others so a typo in the workflow
@@ -81,11 +83,12 @@ $files = collect_files($phpunitDir, $target);
 sort($files, SORT_STRING);
 
 $bucket = [];
-foreach ($files as $i => $f) {
-    if ($i % $bucketCount === $bucketIndex) {
-        $bucket[] = $f;
+foreach (assign_buckets($files, load_timings($repoRoot, $suite), $repoRoot, $bucketCount) as $i => $assigned) {
+    if ($assigned === $bucketIndex) {
+        $bucket[] = $files[$i];
     }
 }
+sort($bucket, SORT_STRING);
 
 if ($mode === '--list') {
     foreach ($bucket as $f) {
@@ -115,6 +118,60 @@ if (str_starts_with($mode, '--write-xml=')) {
 }
 
 fail("unknown mode '$mode'");
+
+/**
+ * @return array<string, float> seconds per repo-relative test file, from .github/test-timings.json
+ */
+function load_timings(string $repoRoot, string $suite): array
+{
+    $path = $repoRoot . '/.github/test-timings.json';
+    if (!is_file($path)) {
+        return [];
+    }
+    $timings = json_decode((string) file_get_contents($path), true);
+    if (!is_array($timings)) {
+        fail("$path is not valid JSON");
+    }
+    return is_array($timings[$suite] ?? null) ? $timings[$suite] : [];
+}
+
+/**
+ * Longest first, each file goes to the bucket with the least time so far. Every job computes the
+ * same assignment from the same inputs, so the buckets never overlap or miss a file. A file with
+ * no recorded timing, eg a new test, is weighted as the median file.
+ *
+ * @param string[] $files sorted absolute paths
+ * @param array<string, float> $timings
+ * @return int[] bucket index per entry of $files
+ */
+function assign_buckets(array $files, array $timings, string $repoRoot, int $bucketCount): array
+{
+    $weights = [];
+    $known = [];
+    foreach ($files as $i => $file) {
+        $weights[$i] = $timings[substr($file, strlen($repoRoot) + 1)] ?? null;
+        if ($weights[$i] !== null) {
+            $known[] = (float) $weights[$i];
+        }
+    }
+    sort($known);
+    $default = $known ? $known[intdiv(count($known), 2)] : 1.0;
+    foreach ($weights as $i => $weight) {
+        $weights[$i] = $weight === null ? $default : (float) $weight;
+    }
+    uksort($weights, function ($a, $b) use ($weights) {
+        return $weights[$b] <=> $weights[$a] ?: $a <=> $b;
+    });
+
+    $loads = array_fill(0, $bucketCount, 0.0);
+    $assigned = [];
+    foreach ($weights as $i => $weight) {
+        $target = array_keys($loads, min($loads), true)[0];
+        $assigned[$i] = $target;
+        $loads[$target] += $weight;
+    }
+    return $assigned;
+}
 
 /**
  * Walks the suite's <directory> entries and gathers every *Test.php file
@@ -227,6 +284,17 @@ function write_bucket_xml(string $sourceConfig, string $outPath, array $files): 
         $rel = make_relative($outDirReal, $absoluteFile);
         $bucketSuite->appendChild($dom->createElement('file', $rel));
     }
+
+    $arguments = $dom->createElement('arguments');
+    $arguments->appendChild($dom->createElement('string', $outDirReal . '/' . basename($outPath, '.xml') . '-timings.tsv'));
+    $arguments->appendChild($dom->createElement('string', (string) realpath(__DIR__ . '/../..')));
+    $listener = $dom->createElement('listener');
+    $listener->setAttribute('class', 'Matomo\\CI\\BucketTimingListener');
+    $listener->setAttribute('file', __DIR__ . '/BucketTimingListener.php');
+    $listener->appendChild($arguments);
+    $listeners = $dom->createElement('listeners');
+    $listeners->appendChild($listener);
+    $dom->documentElement->appendChild($listeners);
 
     if ($dom->save($outPath) === false) {
         fail("failed to write $outPath");

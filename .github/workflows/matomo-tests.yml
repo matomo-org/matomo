@@ -168,6 +168,10 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Print per-class timings
+        if: always()
+        working-directory: matomo
+        run: f=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}-timings.tsv; [ ! -f "$f" ] || cat "$f"
   PHP-integration-plugins:
     name: PHP (IntegrationTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -210,6 +214,10 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Print per-class timings
+        if: always()
+        working-directory: matomo
+        run: f=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}-timings.tsv; [ ! -f "$f" ] || cat "$f"
   PHP-system-plugins:
     name: PHP (SystemTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -255,6 +263,10 @@ jobs:
           upload-artifacts: false
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Print per-class timings
+        if: always()
+        working-directory: matomo
+        run: f=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}-timings.tsv; [ ! -f "$f" ] || cat "$f"
       - name: Upload bucket processed-files for aggregation
         if: ${{ always() && matrix.environment.php == '8.1' }}
         uses: actions/upload-artifact@v7
