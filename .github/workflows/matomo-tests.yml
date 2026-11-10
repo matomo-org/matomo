@@ -159,6 +159,7 @@ jobs:
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
+            --log-junit ${{ github.workspace }}/bucket-timings.xml
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -168,6 +169,10 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Print per-class timings
+        if: always()
+        working-directory: matomo
+        run: php .github/scripts/print-junit-timings.php "${{ github.workspace }}/bucket-timings.xml" "$PWD"
   PHP-integration-plugins:
     name: PHP (IntegrationTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -201,6 +206,7 @@ jobs:
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
+            --log-junit ${{ github.workspace }}/bucket-timings.xml
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -210,6 +216,10 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Print per-class timings
+        if: always()
+        working-directory: matomo
+        run: php .github/scripts/print-junit-timings.php "${{ github.workspace }}/bucket-timings.xml" "$PWD"
   PHP-system-plugins:
     name: PHP (SystemTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -243,6 +253,7 @@ jobs:
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
+            --log-junit ${{ github.workspace }}/bucket-timings.xml
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -255,6 +266,10 @@ jobs:
           upload-artifacts: false
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Print per-class timings
+        if: always()
+        working-directory: matomo
+        run: php .github/scripts/print-junit-timings.php "${{ github.workspace }}/bucket-timings.xml" "$PWD"
       - name: Upload bucket processed-files for aggregation
         if: ${{ always() && matrix.environment.php == '8.1' }}
         uses: actions/upload-artifact@v7
