@@ -1178,10 +1178,37 @@ class ConfigurationTest extends IntegrationTestCase
             $this->fail('Expected the private endpoint URL to be refused.');
         } catch (AIProviderClientException $e) {
             $this->assertInstanceOf(EgressBlockedException::class, $e->getPrevious());
-            $this->assertStringContainsString('allowed_private_egress_ranges', $e->getMessage());
+            $this->assertStringContainsString('custom-providerEndpointUrl', $e->getMessage());
         }
 
         $this->assertNull($capturedUrl);
+    }
+
+    public function testPrivateEndpointUrlFromTheServerConfigurationIsNotRefused(): void
+    {
+        Config::getInstance()->AIProviders = ['custom-providerEndpointUrl' => 'http://127.0.0.1:11434/v1'];
+
+        $capturedUrl = null;
+        $capturedHeaders = null;
+        $this->mockModelListingResponse($capturedUrl, $capturedHeaders);
+
+        $response = $this->api->testConnection('custom-provider');
+
+        $this->assertSame(['model-a'], $response['models']);
+        $this->assertSame('http://127.0.0.1:11434/v1/models', $capturedUrl);
+    }
+
+    public function testHostedProviderIsStillReachedThroughAConfiguredProxy(): void
+    {
+        Config::getInstance()->proxy = ['host' => 'proxy.example.test', 'port' => '3128'] + Config::getInstance()->proxy;
+
+        $capturedUrl = null;
+        $capturedHeaders = null;
+        $this->mockModelListingResponse($capturedUrl, $capturedHeaders);
+
+        $this->api->testConnection('openai', (string) json_encode(['apiKey' => 'secret-openai-key']));
+
+        $this->assertSame('https://api.openai.com/v1/models', $capturedUrl);
     }
 
     public function testASubmittedApiKeyStillMayNotTestADifferentEndpointUrl(): void
