@@ -93,6 +93,12 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
             ['(UNIX_TIMESTAMP(log_visit.A)-log_visit.B)==3', ['where' => '(UNIX_TIMESTAMP(log_visit.A)-log_visit.B) = ?', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']],
             ['(UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`)==3', ['where' => '(UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`) = ?', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']],
             ['(UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`)==3', ['where' => '(UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`) = ?', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']],
+
+            // excluding 0 keeps NULL rows only for an expression over visit columns that does not start with one
+            ['HOUR(log_visit.A)!=0', ['where' => '( HOUR(log_visit.A) IS NULL OR HOUR(log_visit.A) <> ? )', 'bind' => ['0']], [], ['log_visit']],
+            ['log_visit.A/60!=0', ['where' => 'log_visit.A/60 <> ?', 'bind' => ['0']], [], ['log_visit']],
+            ['log_visit.A!=0', ['where' => 'log_visit.A <> ?', 'bind' => ['0']], [], ['log_visit']],
+            ['HOUR(log_link_visit_action.A)!=0', ['where' => 'HOUR(log_link_visit_action.A) <> ?', 'bind' => ['0']], [], ['log_link_visit_action']],
         ];
     }
 

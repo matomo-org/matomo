@@ -1184,6 +1184,64 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    /**
+     * @dataProvider getNotEqualsSegmentsWithDates
+     */
+    public function testGetSelectQueryWhenUsingNotEqualsWithDates(string $segment, string $expectedWhere, array $expectedBind)
+    {
+        $segment = new Segment($segment, $idSites = array(1), Date::factory('2020-02-02 12:00:00'), Date::factory('2020-02-05 09:00:00'));
+
+        $query = $segment->getSelectQuery('log_visit.idvisit', 'log_visit', false, array());
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $expectedWhere = str_replace(
+            ['{log_visit}', '{log_link_visit_action}'],
+            [$logVisitTable, Common::prefixTable('log_link_visit_action')],
+            $expectedWhere
+        );
+        $expected = array(
+            'sql'  => "SELECT log_visit.idvisit FROM $logVisitTable AS log_visit WHERE $expectedWhere",
+            'bind' => $expectedBind,
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function getNotEqualsSegmentsWithDates(): iterable
+    {
+        // an expression over visit columns has one value per visit, so it is compared directly
+        // rather than through an idvisit subquery, and still matches visits where it is NULL
+        yield 'expression over a visit column' => [
+            'visitServerHour!=5',
+            '( HOUR(log_visit.visit_last_action_time) IS NULL OR HOUR(log_visit.visit_last_action_time) <> ? )',
+            array('5'),
+        ];
+
+        yield 'expression over a visit column compared with 0' => [
+            'daysSinceLastEcommerceOrder!=0',
+            '( FLOOR(log_visit.visitor_seconds_since_order / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_order / 86400) <> ? )',
+            array('0'),
+        ];
+
+        // a plain visit column keeps the comparison it always had
+        yield 'plain visit column' => [
+            'visitCount!=0',
+            'log_visit.visitor_count_visits <> ?',
+            array('0'),
+        ];
+
+        // an expression over action columns can have several values per visit, so it still
+        // excludes the visits that have a matching action
+        yield 'expression over an action column' => [
+            'actionServerHour!=5',
+            '( log_visit.idvisit NOT IN ( SELECT log_visit.idvisit FROM {log_visit} AS log_visit '
+                . 'LEFT JOIN {log_link_visit_action} AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit '
+                . 'WHERE ( log_visit.idsite IN (?) AND log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) '
+                . 'AND ( HOUR(log_link_visit_action.server_time) = ? )) )',
+            array(1, '2020-02-02 12:00:00', '2020-02-05 09:00:00', '5'),
+        ];
+    }
+
     public function testGetSelectQueryWhenJoinConversionOnLogLinkVisitActionSegmentUsesPageUrl()
     {
         $this->insertPageUrlAsAction('example.com/anypage');

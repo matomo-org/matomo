@@ -317,7 +317,11 @@ class SegmentExpression
         }
 
         // We match NULL values when rows are excluded only when we are not doing a
-        $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
+        // comparison with an empty value. An expression over visit columns that does not start
+        // with one (eg HOUR(log_visit.x)) always matches them, as it did when it was resolved
+        // through an idvisit subquery.
+        $alsoMatchNULLValues = $alsoMatchNULLValues
+            && (!empty($value) || (!str_starts_with($field, 'log_visit.') && self::isVisitExpression($field)));
 
         if (
             $matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS
@@ -363,6 +367,33 @@ class SegmentExpression
         }
 
         return array($sqlExpression, $value);
+    }
+
+    /**
+     * Whether a segment's SQL expression only reads columns of the log_visit table, so that it
+     * has a single value per visit, eg `log_visit.visitor_returning` or `HOUR(log_visit.visit_last_action_time)`.
+     *
+     * @internal
+     */
+    public static function isVisitExpression(string $sqlSegment): bool
+    {
+        if (str_starts_with($sqlSegment, 'log_visit.')) {
+            return true;
+        }
+
+        $columns = self::parseColumnsFromSqlExpr($sqlSegment);
+
+        if (empty($columns)) {
+            return false;
+        }
+
+        foreach ($columns as $column) {
+            if (!str_starts_with($column, 'log_visit.')) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
