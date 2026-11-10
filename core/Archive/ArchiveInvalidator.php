@@ -61,6 +61,8 @@ class ArchiveInvalidator
     public const INVALIDATION_STATUS_QUEUED = 0;
     public const INVALIDATION_STATUS_IN_PROGRESS = 1;
 
+    private const REARCHIVE_LIST_REMOVAL_BATCH_SIZE = 100;
+
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
 
     private Model $model;
@@ -581,32 +583,44 @@ class ArchiveInvalidator
         $reArchiveList = new ReArchiveList($this->logger);
         $items = $reArchiveList->getAll();
 
-        foreach ($items as $item) {
-            try {
-                $entry = @json_decode($item, true);
-                if (empty($entry)) {
-                    continue;
+        // the whole list is rewritten on each removal, so the applied entries are removed in batches
+        $appliedItems = [];
+        try {
+            foreach ($items as $item) {
+                try {
+                    $entry = @json_decode($item, true);
+                    if (empty($entry)) {
+                        continue;
+                    }
+
+                    $idSites = Site::getIdSitesFromIdSitesString($entry['idSites']);
+
+                    $this->reArchiveReport(
+                        $idSites,
+                        $entry['pluginName'],
+                        $entry['report'],
+                        !empty($entry['startDate']) ? Date::factory((int) $entry['startDate']) : null,
+                        !empty($entry['segment']) ? new Segment($entry['segment'], $idSites) : null
+                    );
+                } catch (\Throwable $ex) {
+                    $this->logger->info("Failed to create invalidations for report re-archiving (idSites = {idSites}, pluginName = {pluginName}, report = {report}, startDate = {startDateTs}): {ex}", [
+                        'idSites' => json_encode($entry['idSites']),
+                        'pluginName' => $entry['pluginName'],
+                        'report' => $entry['report'],
+                        'startDateTs' => $entry['startDate'],
+                        'ex' => $ex,
+                    ]);
+                } finally {
+                    $appliedItems[] = $item;
+                    if (count($appliedItems) >= self::REARCHIVE_LIST_REMOVAL_BATCH_SIZE) {
+                        $reArchiveList->remove($appliedItems);
+                        $appliedItems = [];
+                    }
                 }
-
-                $idSites = Site::getIdSitesFromIdSitesString($entry['idSites']);
-
-                $this->reArchiveReport(
-                    $idSites,
-                    $entry['pluginName'],
-                    $entry['report'],
-                    !empty($entry['startDate']) ? Date::factory((int) $entry['startDate']) : null,
-                    !empty($entry['segment']) ? new Segment($entry['segment'], $idSites) : null
-                );
-            } catch (\Throwable $ex) {
-                $this->logger->info("Failed to create invalidations for report re-archiving (idSites = {idSites}, pluginName = {pluginName}, report = {report}, startDate = {startDateTs}): {ex}", [
-                    'idSites' => json_encode($entry['idSites']),
-                    'pluginName' => $entry['pluginName'],
-                    'report' => $entry['report'],
-                    'startDateTs' => $entry['startDate'],
-                    'ex' => $ex,
-                ]);
-            } finally {
-                $reArchiveList->remove([$item]);
+            }
+        } finally {
+            if (!empty($appliedItems)) {
+                $reArchiveList->remove($appliedItems);
             }
         }
     }

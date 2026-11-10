@@ -2022,6 +2022,30 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals([1,2,3,4,5,6,7,8,9,10], $invalidationSites);
     }
 
+    public function testApplyScheduledReArchivingAppliesAndRemovesEveryEntryOfALongList()
+    {
+        Date::$now = strtotime('2020-06-16 12:00:00');
+
+        // more entries than a removal batch holds, and one that cannot be read
+        $items = ['not an entry'];
+        for ($i = 0; $i < 250; $i++) {
+            $items[] = json_encode([
+                'idSites' => [1],
+                'pluginName' => 'VisitsSummary',
+                'report' => 'report' . $i,
+                'startDate' => Date::factory('2020-06-15')->getTimestamp(),
+                'segment' => null,
+            ]);
+        }
+        $reArchiveList = new ReArchiveList();
+        $reArchiveList->setAll($items);
+
+        $this->invalidator->applyScheduledReArchiving();
+
+        $this->assertSame([], $reArchiveList->getAll());
+        $this->assertEquals(250, Db::fetchOne("SELECT COUNT(DISTINCT report) FROM " . Common::prefixTable('archive_invalidations')));
+    }
+
     public function testReArchiveReportCreatesCorrectInvalidationEntriesIfReArchivingSegments()
     {
         Date::$now = strtotime('2020-06-16 12:00:00');
