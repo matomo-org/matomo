@@ -192,6 +192,11 @@ class Controller extends ControllerAdmin
 
             $mail['encryption'] =  $request->getStringParameter('mailEncryption', '');
 
+            // the form has no fields for the OAuth settings, keep what is set in the config file
+            foreach (['oauth_token_url', 'oauth_client_id', 'oauth_client_secret', 'oauth_scope'] as $oauthSetting) {
+                $mail[$oauthSetting] = Config::getInstance()->mail[$oauthSetting] ?? '';
+            }
+
             Config::getInstance()->mail = $mail;
 
             $general = Config::getInstance()->General;

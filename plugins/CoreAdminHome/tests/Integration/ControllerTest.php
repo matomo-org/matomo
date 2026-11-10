@@ -125,6 +125,27 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame('Acme <Team> & "post"', Config::getInstance()->General['noreply_email_name']);
     }
 
+    public function testSetMailSettingsKeepsTheOAuthSettingsFromTheConfigFile(): void
+    {
+        $oauthSettings = [
+            'oauth_token_url'     => 'https://login.example.test/token',
+            'oauth_client_id'     => 'the-client-id',
+            'oauth_client_secret' => 'the-client-secret',
+            'oauth_scope'         => 'https://mail.example.test/.default',
+        ];
+        Config::getInstance()->mail = $oauthSettings + Config::getInstance()->mail;
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('post.example.test');
+
+        $this->getControllerSkippingTokenCheck()->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $mailConfig = Config::getInstance()->mail;
+        $this->assertSame('post.example.test', $mailConfig['host']);
+        $this->assertSame($oauthSettings, array_intersect_key($mailConfig, $oauthSettings));
+    }
+
     public function testSetMailSettingsRejectsIncorrectPasswordConfirmation(): void
     {
         $originalHost = Config::getInstance()->mail['host'];
