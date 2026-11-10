@@ -161,7 +161,7 @@ class Segment
      * "new" to 0, 'returning' to 1 and any other value to '2'. You can either define a callable or a closure. There
      * will be only one value passed to the closure or callable which contains the value a user has set for this
      * segment. This callback is called shortly before {@link setSqlFilter()}.
-     * @param string|array $sqlFilterValue
+     * @param string|array|callable $sqlFilterValue
      * @api
      */
     public function setSqlFilterValue($sqlFilterValue)
