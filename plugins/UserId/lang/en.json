@@ -9,7 +9,9 @@
         "ThereIsNoDataForThisReportHelp": "%1$sRead the user guide to learn how to generate data for this report.%2$s",
         "UserIdDisabledSettingTitle": "User ID Tracking Disabled",
         "UserIdDisabledSettingWhatItDoes": "User ID tracking is disabled. Tracking implementations must not send User IDs using setUserId or equivalent methods.<br><br>This prevents visitors from being directly identified and associated across visits or devices.",
+        "UserIdDisabledSettingWhatItDoes2": "User ID tracking is disabled for visitors who have not given their consent. Tracking implementations must not send User IDs using setUserId or equivalent methods for them.<br><br>This prevents those visitors from being directly identified and associated across visits or devices. Where a visitor has given their consent, their User ID is collected as it was sent.",
         "UserIdDisabledSettingImpact": "User ID values are not collected. User ID reports, segments, and cross-visit analysis based on User ID are unavailable.",
+        "UserIdDisabledSettingImpact2": "For visitors who have not given their consent, User ID values are not collected, and User ID reports, segments, and cross-visit analysis are unavailable for them.",
         "UserIdDisabledSettingRequirementNote": "Collection of User ID while tracking must be disabled."
     }
 }

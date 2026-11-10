@@ -40,7 +40,20 @@ class ReferrerName extends Base
 
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
+        if (!$this->mayRelaxForThisVisit($request, $visitor, $action)) {
+            return false;
+        }
+
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
+
+        // A campaign the policy discarded is a marker for "not collected", not a referrer the
+        // visitor actually arrived from. When a request in the same visit is allowed to carry the
+        // real value - because the visitor has since consented - record it instead of keeping the
+        // placeholder. Nothing is held back to make this work: the value arrives on that request.
+        if ($this->shouldCompleteDiscardedCampaign($visitor, $information, 'referer_name', $action, $request)) {
+            return $information['referer_name'];
+        }
+
         if (
             $this->isCurrentReferrerDirectEntry($visitor)
             && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY
