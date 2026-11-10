@@ -89,8 +89,8 @@ class ApiTest extends SystemTestCase
             'evolutionDifference' => -9,
             'totals' => [
                 'nb_visits' => 42,
-                'growth_percent' => 0,
-                'growth_percent_numeric' => 354.20000000000005,
+                'growth_percent' => null,
+                'growth_percent_numeric' => null,
                 'grown' => 0,
                 'value_old' => 38,
                 'value_new' => 30,
@@ -103,8 +103,8 @@ class ApiTest extends SystemTestCase
             ],
             'totalsUnformatted' => [
                 'nb_visits' => 42,
-                'growth_percent' => 0,
-                'growth_percent_numeric' => 354.20000000000005,
+                'growth_percent' => null,
+                'growth_percent_numeric' => null,
                 'grown' => 0,
                 'value_old' => 38,
                 'value_new' => 30,
@@ -115,6 +115,10 @@ class ApiTest extends SystemTestCase
                 'isMover' => 0,
                 'isMoverAndShaker' => 0,
             ],
+            'column_aggregation_ops' => [
+                'growth_percent' => 'skip',
+                'growth_percent_numeric' => 'skip',
+            ],
         );
 
         self::assertIsArray($metadata['report']);
@@ -122,6 +126,9 @@ class ApiTest extends SystemTestCase
         $this->assertEquals('getPageUrls', $metadata['report']['action']);
         unset($metadata['report']);
 
+        // assertEqualsWithDelta() would accept 0 for null
+        $this->assertNull($metadata['totals']['growth_percent']);
+        $this->assertNull($metadata['totals']['growth_percent_numeric']);
         $this->assertEqualsWithDelta($expectedMetadata, $metadata, 0.0001);
     }
 

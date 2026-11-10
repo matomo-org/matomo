@@ -39,6 +39,14 @@
                     {% elseif success is defined %}
                         <p class="message">{{ 'Marketplace_RequestTrialUnsubscribeSuccess'|translate }}</p>
                     {% else %}
+                        {% if nonceError is defined %}
+                            <div vue-entry="CoreHome.Notification"
+                                 noclear="true"
+                                 context="&quot;error&quot;">
+                                {# Nonce's messages are translations carrying their own links, as on the Login forms #}
+                                <strong>{{ 'General_Error'|translate }}</strong>: {{ nonceError|raw }}<br/>
+                            </div>
+                        {% endif %}
                         <form method="POST">
                             <div class="row">
                                 <div class="col s12">

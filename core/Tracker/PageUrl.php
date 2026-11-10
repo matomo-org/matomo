@@ -32,6 +32,28 @@ class PageUrl
     );
 
     /**
+     * Returns the site's main URL and aliases, asked for once per request.
+     *
+     * @param int $idSite
+     * @return list<string>
+     * @internal
+     */
+    public static function getSiteUrls($idSite): array
+    {
+        $cache = Cache::getTransientCache();
+        $cacheKeySiteUrls = CacheId::siteAware('siteurls', [$idSite]);
+
+        $siteUrls = $cache->fetch($cacheKeySiteUrls);
+
+        if (empty($siteUrls)) {
+            $siteUrls = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
+            $cache->save($cacheKeySiteUrls, $siteUrls);
+        }
+
+        return $siteUrls;
+    }
+
+    /**
      * Given the Input URL, will exclude all query parameters set for this site
      *
      * @static
@@ -357,20 +379,12 @@ class PageUrl
     {
         $cache = Cache::getTransientCache();
 
-        $cacheKeySiteUrls = CacheId::siteAware('siteurls', [$idSite]);
         $cacheKeyHttpsForHost = CacheId::siteAware(sprintf('shouldusehttps-%s', $host), [$idSite]);
-
-        $siteUrlCache = $cache->fetch($cacheKeySiteUrls);
-
-        if (empty($siteUrlCache)) {
-            $siteUrlCache = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
-            $cache->save($cacheKeySiteUrls, $siteUrlCache);
-        }
 
         if (!$cache->contains($cacheKeyHttpsForHost)) {
             $hostSiteCache = false;
 
-            foreach ($siteUrlCache as $siteUrl) {
+            foreach (self::getSiteUrls($idSite) as $siteUrl) {
                 if (str_starts_with(mb_strtolower($siteUrl), mb_strtolower('https://' . $host))) {
                     $hostSiteCache = true;
                     break;

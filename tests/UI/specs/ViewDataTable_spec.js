@@ -115,6 +115,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     it("should change the number of rows when new limit selected", async function () {
         await page.click('.limitSelection [data-limit="10"]');
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10); // make sure no row is highlighted
         expect(await page.screenshot({ fullPage: true })).to.matchImage('10_change_limit');
     });
 

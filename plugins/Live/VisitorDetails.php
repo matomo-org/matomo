@@ -258,14 +258,18 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     private function getVisitorProfileVisitSummary($visit, Site $site): array
     {
-        $today = Date::factory('today', $site->getTimezone());
+        $today = Date::factoryInTimezone('today', $site->getTimezone());
         $firstActionTimestamp = $visit->getColumn('firstActionTimestamp');
         $firstActionDate = Date::factory($firstActionTimestamp, $site->getTimezone());
+        // Count the days between the two calendar days, not the hours since the visit itself:
+        // a visit at 10:00 two days ago is 1.58 days back and would otherwise truncate to one.
+        $startOfVisitDay = $firstActionDate->getStartOfDay();
+        $daysAgo = Date::secondsToDays($today->getTimestamp() - $startOfVisitDay->getTimestamp());
 
         return [
             'date'            => $firstActionTimestamp,
             'prettyDate'      => $firstActionDate->getLocalized(Date::DATE_FORMAT_LONG),
-            'daysAgo'         => (int) Date::secondsToDays($today->getTimestamp() - $firstActionDate->getTimestamp()),
+            'daysAgo'         => (int) $daysAgo,
             'referrerType'    => $visit->getColumn('referrerType'),
             'referrerUrl'     => $visit->getColumn('referrerUrl') ?: '',
             'referralSummary' => self::getReferrerSummaryForVisit($visit),

@@ -26,6 +26,8 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Diagnostics\Diagnostics;
+use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
+use Piwik\Plugins\Live\Model as LiveModel;
 use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Segment;
 use Piwik\SettingsServer;
@@ -58,11 +60,18 @@ class SegmentEditor extends \Piwik\Plugin
             'API.getPagesComparisonsDisabledFor'         => 'getPagesComparisonsDisabledFor',
         );
     }
+    /**
+     * @param string[] $pages
+     * @return void
+     */
     public function getPagesComparisonsDisabledFor(&$pages)
     {
         $pages[] = 'General_Visitors.CoreHome_Segments';
     }
 
+    /**
+     * @param int $idSite
+     */
     public function onDeleteSite($idSite): void
     {
         $model = new Model();
@@ -83,6 +92,9 @@ class SegmentEditor extends \Piwik\Plugin
         $allTablesInstalled[] = Common::prefixTable('segment');
     }
 
+    /**
+     * @param SystemSummary\Item[] $systemSummary
+     */
     public function addSystemSummaryItems(&$systemSummary): void
     {
         $storedSegments = StaticContainer::get('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService');
@@ -118,6 +130,9 @@ class SegmentEditor extends \Piwik\Plugin
         $out .= $selector->render();
     }
 
+    /**
+     * @param array<string> $segments
+     */
     public function getKnownSegmentsToArchiveAllSites(&$segments): void
     {
         $this->getKnownSegmentsToArchiveForSite($segments, $idSite = false);
@@ -205,7 +220,13 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        $segmentInfo = $this->getSegmentIfIsUnprocessed();
+        try {
+            $segmentInfo = $this->getSegmentIfIsUnprocessed();
+        } catch (MaxExecutionTimeExceededException $e) {
+            // the notice is only a hint, so skip it rather than fail the report
+            return;
+        }
+
         if (empty($segmentInfo)) {
             return;
         }
@@ -238,7 +259,7 @@ class SegmentEditor extends \Piwik\Plugin
     }
 
     /**
-     * @return array{0: Segment, 1: array|null, 2: bool, 3: bool}|null
+     * @return array{0: Segment, 1: array<string, mixed>|null, 2: bool, 3: bool}|null
      */
     private function getSegmentIfIsUnprocessed(): ?array
     {
@@ -292,8 +313,7 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // if no visits recorded, data will not appear, so don't show the message
-        $liveModel = new \Piwik\Plugins\Live\Model();
-        $visits = $liveModel->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, false, false, 'ASC');
+        $visits = StaticContainer::get(LiveModel::class)->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, false, false, 'ASC');
         if (empty($visits)) {
             return null;
         }
@@ -320,7 +340,7 @@ class SegmentEditor extends \Piwik\Plugin
         //get the request end period
         $endDate = $period->getDateEnd();
         $canBeArchived = true;
-        if (!empty($earliestDateToRearchive) && !empty($endDate)) {
+        if (!empty($earliestDateToRearchive)) {
             //if the rearchive won't trigger
             if ($earliestDateToRearchive->isLater($endDate)) {
                 $canBeArchived = false;
@@ -335,12 +355,18 @@ class SegmentEditor extends \Piwik\Plugin
         Model::install();
     }
 
+    /**
+     * @param string[] $jsFiles
+     */
     public function getJsFiles(&$jsFiles): void
     {
         $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
         $jsFiles[] = "plugins/SegmentEditor/javascripts/manageSegmentsPage.js";
     }
 
+    /**
+     * @param string[] $stylesheets
+     */
     public function getStylesheetFiles(&$stylesheets): void
     {
         $stylesheets[] = "plugins/SegmentEditor/stylesheets/segmentation.less";
@@ -363,6 +389,9 @@ class SegmentEditor extends \Piwik\Plugin
         return GeneralConfig::getConfigValue('enable_create_realtime_segments') == 1;
     }
 
+    /**
+     * @param string[] $translationKeys
+     */
     public function getClientSideTranslationKeys(&$translationKeys): void
     {
         $translationKeys[] = 'SegmentEditor_CustomSegment';

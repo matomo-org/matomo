@@ -430,6 +430,8 @@
         "PasswordStrengthValidationSpecialChar": "包含一個特殊字元",
         "PasswordStrengthValidationUppercase": "包含一個大寫字母",
         "Period": "期間",
+        "PhpCriticalSecurityUpdateRequired": "你的伺服器回報的 PHP 版本為 %1$s，這個版本受到重大安全性漏洞影響。請立即聯絡你的伺服器管理員或主機服務供應商，升級 PHP 或確認已套用廠商的安全性修補程式。僅更新 Matomo 並無法修正這些漏洞。%2$s閱讀 Matomo 公告%3$s或%4$s查看 PHP 安全性公告%5$s。",
+        "PhpCriticalSecurityUpdateRequiredTitle": "PHP 需要緊急安全性更新",
         "Piechart": "圓餅圖",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s 可用。請通知 %2$sMatomo 管理員%3$s。",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s 已釋出。%2$s請立即更新！%3$s（查看%4$s更新內容%5$s）。",
