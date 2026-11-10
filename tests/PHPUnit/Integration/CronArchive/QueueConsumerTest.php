@@ -881,6 +881,80 @@ class QueueConsumerTest extends IntegrationTestCase
         ];
     }
 
+    /**
+     * @dataProvider getTestDataForFilteredRun
+     */
+    public function testFilteredRunFetchesFirstMatchingInvalidationDirectly(array $filterOptions, int $expectedIdArchive)
+    {
+        Date::$now = strtotime('2020-06-01 01:00:00');
+
+        Fixture::createWebsite('2015-02-03');
+
+        Rules::setBrowserTriggerArchiving(false);
+        $idSegment = API::getInstance()->add('testsegment', 'browserCode==FF', null, true);
+        Rules::setBrowserTriggerArchiving(true);
+        $segmentHash = (new Segment('browserCode==FF', [1]))->getHash();
+
+        // newer invalidations that none of the filters match
+        $invalidations = [];
+        $date = Date::factory('2020-01-01');
+        for ($i = 0; $i < 100; $i++) {
+            $invalidations[] = ['name' => 'done', 'idsite' => 1, 'date1' => $date->toString(), 'date2' => $date->toString(), 'period' => Day::PERIOD_ID];
+            $date = $date->addDay(1);
+        }
+        $invalidations[] = ['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2019-01-01', 'date2' => '2019-01-31', 'period' => Month::PERIOD_ID];
+        $invalidations[] = ['idarchive' => 2, 'name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-01-15', 'date2' => '2018-01-15', 'period' => Day::PERIOD_ID];
+        $this->insertInvalidations($invalidations);
+
+        $archiveFilter = new CronArchive\ArchiveFilter();
+        $archiveFilter->setRestrictToDateRange($filterOptions['dateRange'] ?? false);
+        $archiveFilter->setRestrictToPeriods($filterOptions['periods'] ?? '');
+        if (!empty($filterOptions['forceSegment'])) {
+            $archiveFilter->setSegmentsToForceFromSegmentIds([$idSegment]);
+        }
+
+        $model = new class extends Model {
+            public int $fetchCount = 0;
+
+            public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true, ?CronArchive\ArchiveFilter $archiveFilter = null)
+            {
+                ++$this->fetchCount;
+                return parent::getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude, $useLimit, $archiveFilter);
+            }
+        };
+
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+
+        $queueConsumer = new QueueConsumer(
+            new NullLogger(),
+            new FixedSiteIds([1]),
+            1,
+            24,
+            $model,
+            new SegmentArchiving(),
+            $cronArchive,
+            $archiveFilter
+        );
+
+        $next = $queueConsumer->getNextArchivesToProcess();
+
+        $this->assertCount(1, $next);
+        $this->assertEquals($expectedIdArchive, $next[0]['idarchive']);
+        $this->assertSame(1, $model->fetchCount);
+
+        // non-matching invalidations are left untouched
+        $queued = Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE status = 0');
+        $this->assertEquals(101, $queued);
+    }
+
+    public function getTestDataForFilteredRun(): iterable
+    {
+        yield 'date range' => [['dateRange' => '2019-01-01,2019-01-31'], 1];
+        yield 'periods' => [['periods' => 'month'], 1];
+        yield 'segments' => [['forceSegment' => true], 2];
+    }
+
     public function testMaxWebsitesToProcess()
     {
         Fixture::createWebsite('2021-11-16');
