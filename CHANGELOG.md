@@ -8,6 +8,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
+* `[mail] oauth_token_url`, `[mail] oauth_client_id`, `[mail] oauth_client_secret` and `[mail] oauth_scope` configure OAuth 2.0 authentication for SMTP. They are used when `[mail] type` is set to the new value `Xoauth2`: Matomo then requests an access token with the client credentials flow and authenticates against the SMTP server with XOAUTH2, using `[mail] username` as the mailbox that sends the emails. This works with Microsoft 365 (Exchange Online), where password-based SMTP authentication is being switched off.
 
 ### New APIs
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
