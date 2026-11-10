@@ -1169,6 +1169,17 @@ abstract class AIProvider
     }
 
     /**
+     * Only an endpoint a superuser typed into the settings form is untrusted.
+     * Fixed provider hosts and an endpoint from the server configuration are
+     * the instance owner's choice, so they may be private or behind a proxy.
+     */
+    private function isEndpointEnteredInSettings(): bool
+    {
+        return $this->supportsCustomEndpoint()
+            && !StaticContainer::get(Configuration::class)->isEndpointUrlSuppliedCentrally($this);
+    }
+
+    /**
      * Performs the actual HTTP exchange, retrying transient errors and
      * classifying failures. Shared by {@link sendJsonRequest()} and
      * {@link sendGetRequest()}.
@@ -1198,6 +1209,7 @@ abstract class AIProvider
 
         $host = parse_url($url, PHP_URL_HOST);
         $checkHostIsAllowed = !is_string($host) || !$this->isTrustedRequestHost($host);
+        $validateEgressIp = $checkHostIsAllowed && $this->isEndpointEnteredInSettings();
 
         for ($attempt = 0; $attempt <= count($retryDelays); $attempt++) {
             $attemptStartedAt = microtime(true);
@@ -1230,14 +1242,17 @@ abstract class AIProvider
                     $requestHeaders,
                     null,
                     $checkHostIsAllowed,
-                    true
+                    $validateEgressIp
                 );
             } catch (Exception $e) {
                 $this->logProviderTransportDebugMetadata($method, $url, $timeoutSeconds, $attempt + 1, $e);
 
                 if ($e instanceof EgressBlockedException) {
                     throw new AIProviderClientException(
-                        Piwik::translate('AIProviders_ErrorEndpointEgressBlocked', [$this->getName(), $e->getMessage()]),
+                        Piwik::translate(
+                            'AIProviders_ErrorEndpointEgressBlocked',
+                            [$this->getName(), $e->getMessage(), $this->getId() . 'EndpointUrl']
+                        ),
                         0,
                         $e
                     );

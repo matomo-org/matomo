@@ -684,8 +684,10 @@ class Configuration
      *
      * Providers without an endpoint field are never affected, so a value supplied
      * for one of them stays ignored rather than locking their settings.
+     *
+     * @internal
      */
-    private function isEndpointUrlSuppliedCentrally(AIProvider $provider): bool
+    public function isEndpointUrlSuppliedCentrally(AIProvider $provider): bool
     {
         if (!$provider->supportsCustomEndpoint()) {
             return false;
