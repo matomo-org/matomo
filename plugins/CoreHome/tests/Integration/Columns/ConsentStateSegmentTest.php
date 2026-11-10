@@ -44,7 +44,7 @@ class ConsentStateSegmentTest extends IntegrationTestCase
         Fixture::createSuperUser();
         $this->idSite = Fixture::createWebsite('2026-01-01 00:00:00');
 
-        // the stored value is set directly so every state is present: consented, refused, never reported
+        // the stored value is set directly: consented, a refusal (not recorded by the tracker, so it reads as unknown), never reported
         $this->trackVisitsWithConsent($this->idSite, [1, 0, null]);
     }
 
@@ -65,22 +65,22 @@ class ConsentStateSegmentTest extends IntegrationTestCase
     public function getSegmentsAndMatchingConsent(): iterable
     {
         yield 'consented' => ['consentState==consented', [1]];
-        yield 'refused' => ['consentState==refused', [0]];
-        yield 'unknown' => ['consentState==unknown', [null]];
+        yield 'unknown' => ['consentState==unknown', [0, null]];
         yield 'not consented' => ['consentState!=consented', [0, null]];
-        yield 'not refused keeps unknown' => ['consentState!=refused', [1, null]];
-        yield 'not unknown' => ['consentState!=unknown', [1, 0]];
-        yield 'consented or unknown' => ['consentState==consented,consentState==unknown', [1, null]];
-        yield 'combined with another segment' => ['visitorType==new;consentState!=refused', [1, null]];
+        yield 'not unknown' => ['consentState!=unknown', [1]];
+        yield 'consented or unknown' => ['consentState==consented,consentState==unknown', [1, 0, null]];
+        yield 'combined with another segment' => ['visitorType==new;consentState!=consented', [0, null]];
 
         // an empty value means no state was reported, as for any other segment
-        yield 'empty value' => ['consentState==', [null]];
-        yield 'not empty value' => ['consentState!=', [1, 0]];
+        yield 'empty value' => ['consentState==', [0, null]];
+        yield 'not empty value' => ['consentState!=', [1]];
 
-        // no other value may be read as one of the three states
+        // no other value may be read as one of the states
         yield 'unrecognised value' => ['consentState==yes', []];
         yield 'stored value for consented' => ['consentState==1', []];
-        yield 'stored value for refused' => ['consentState==0', []];
+        yield 'stored value 0' => ['consentState==0', []];
+        yield 'refusal is not a state' => ['consentState==refused', []];
+        yield 'not a refusal matches all' => ['consentState!=refused', [1, 0, null]];
         yield 'internal value for unknown' => ['consentState==-1', []];
         yield 'different case' => ['consentState==Consented', []];
         yield 'leading space' => ['consentState==%20consented', []];
@@ -126,13 +126,13 @@ class ConsentStateSegmentTest extends IntegrationTestCase
 
         $this->assertCount(1, $segment);
         $this->assertSame('Consent state', $segment[0]['name']);
-        $this->assertSame('consented, refused, unknown', $segment[0]['acceptedValues']);
+        $this->assertSame('consented, unknown', $segment[0]['acceptedValues']);
 
         $suggestedValues = Request::processRequest('API.getSuggestedValuesForSegment', [
             'segmentName' => 'consentState',
             'idSite' => $this->idSite,
         ]);
-        $this->assertSame(['consented', 'refused', 'unknown'], $suggestedValues);
+        $this->assertSame(['consented', 'unknown'], $suggestedValues);
     }
 
     public function testNoMetricIsDerivedFromConsent(): void
@@ -156,10 +156,9 @@ class ConsentStateSegmentTest extends IntegrationTestCase
     public function getValuesAndLabels(): iterable
     {
         yield 'stored consented' => [1, 'Consented'];
-        yield 'stored refused' => [0, 'Refused'];
+        yield 'stored refusal' => [0, 'Unknown'];
         yield 'nothing stored' => [null, 'Unknown'];
         yield 'consented' => ['consented', 'Consented'];
-        yield 'refused' => ['refused', 'Refused'];
         yield 'unknown' => ['', 'Unknown'];
     }
 
