@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naive round-robin test bucketing for Matomo's PHPUnit suites.
  *
@@ -227,6 +228,17 @@ function write_bucket_xml(string $sourceConfig, string $outPath, array $files): 
         $rel = make_relative($outDirReal, $absoluteFile);
         $bucketSuite->appendChild($dom->createElement('file', $rel));
     }
+
+    $arguments = $dom->createElement('arguments');
+    $arguments->appendChild($dom->createElement('string', $outDirReal . '/' . basename($outPath, '.xml') . '-timings.tsv'));
+    $arguments->appendChild($dom->createElement('string', (string) realpath(__DIR__ . '/../..')));
+    $listener = $dom->createElement('listener');
+    $listener->setAttribute('class', 'Matomo\\CI\\BucketTimingListener');
+    $listener->setAttribute('file', __DIR__ . '/BucketTimingListener.php');
+    $listener->appendChild($arguments);
+    $listeners = $dom->createElement('listeners');
+    $listeners->appendChild($listener);
+    $dom->documentElement->appendChild($listeners);
 
     if ($dom->save($outPath) === false) {
         fail("failed to write $outPath");
