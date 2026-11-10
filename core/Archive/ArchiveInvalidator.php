@@ -583,7 +583,8 @@ class ArchiveInvalidator
         $reArchiveList = new ReArchiveList($this->logger);
         $items = $reArchiveList->getAll();
 
-        // the whole list is rewritten on each removal, so the applied entries are removed in batches
+        // the whole list is rewritten on each removal, so the applied entries are removed in batches;
+        // if the process is killed, the entries of the current batch are applied again, which only requeues invalidations
         $appliedItems = [];
         try {
             foreach ($items as $item) {

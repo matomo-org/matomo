@@ -161,6 +161,18 @@ class Updates610b1Test extends IntegrationTestCase
         self::assertSame(['continentCode!=ams'], array_column($this->getReArchiveEntries(), 'segment'));
     }
 
+    public function testASegmentOfADeletedSiteIsSkipped(): void
+    {
+        // segments of a site deleted before Matomo 4 were left in place
+        $this->createSegment('continentCode!=eur', 99);
+        $notAsia = $this->createSegment('continentCode!=asi', 2);
+
+        self::assertSame(
+            ["./console core:invalidate-report-data --sites=2 --dates=2026-03-01,today --segment=$notAsia"],
+            array_map('strval', (new Updates_6_1_0_b1())->getMigrations(new Updater()))
+        );
+    }
+
     public function testASegmentOfEverySiteValidOnlyOnSomeSitesIsRearchivedOnEachOfThem(): void
     {
         Fixture::createWebsite('2015-01-01 00:00:00');

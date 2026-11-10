@@ -46,13 +46,11 @@ class Updates_6_1_0_b1 extends Updates
             return [];
         }
 
-        $earliestDateToRearchive = Piwik::getEarliestDateToRearchive();
-        if (empty($earliestDateToRearchive)) {
+        if (empty(Piwik::getEarliestDateToRearchive())) {
             return [];
         }
 
         $startOfMonth = Date::factory(Date::now()->toString('Y-m') . '-01');
-        $earliestStartDate = $earliestDateToRearchive->isLater($startOfMonth) ? $earliestDateToRearchive : $startOfMonth;
 
         $segments = Db::fetchAll(
             sprintf('SELECT idsegment, definition, enable_only_idsite, auto_archive, ts_created, ts_last_edit FROM `%s` WHERE deleted = 0 AND definition LIKE ? ORDER BY idsegment', $table),
@@ -62,6 +60,7 @@ class Updates_6_1_0_b1 extends Updates
         /** @var SegmentArchiving $segmentArchiving */
         $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
 
+        $allIdSites = $this->getAllIdSites();
         $segmentsToRearchive = [];
         foreach ($segments as $segment) {
             $idSegment = (int) $segment['idsegment'];
@@ -82,7 +81,16 @@ class Updates_6_1_0_b1 extends Updates
             }
 
             $idSites = empty($segment['enable_only_idsite']) ? 'all' : [(int) $segment['enable_only_idsite']];
-            $startDate = $this->getStartDate($segmentArchiving, $segment, $earliestStartDate);
+            // a segment of a site deleted before segments were deleted with their site
+            if (is_array($idSites) && !in_array($idSites[0], $allIdSites, true)) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'Segment {idSegment} is on a site that no longer exists, its reports are not rearchived',
+                    ['idSegment' => $idSegment]
+                );
+                continue;
+            }
+
+            $startDate = $this->getStartDate($segmentArchiving, $segment, $startOfMonth);
             $isAutoArchived = $segmentArchiving->isAutoArchivingEnabledFor($segment);
 
             // the same definition saved by several users, encoded or not, shares its archives, so it is rearchived once,
@@ -142,11 +150,11 @@ class Updates_6_1_0_b1 extends Updates
      * The segment is rearchived from where it would be when its definition is edited, see
      * process_new_segments_from, but not before the start of the current month.
      */
-    private function getStartDate(SegmentArchiving $segmentArchiving, array $segment, Date $earliestStartDate): Date
+    private function getStartDate(SegmentArchiving $segmentArchiving, array $segment, Date $startOfMonth): Date
     {
         $startDate = $segmentArchiving->getReArchiveSegmentStartDate($segment);
-        if (empty($startDate) || $startDate->isEarlier($earliestStartDate)) {
-            return $earliestStartDate;
+        if (empty($startDate) || $startDate->isEarlier($startOfMonth)) {
+            return $startOfMonth;
         }
 
         return Date::factory($startDate->toString());
