@@ -34,20 +34,9 @@ class Continent extends Dimension
         // Set on the segment only: the dimension itself still groups by country, see groupValue()
         $segment = new Segment();
         $segment->setSqlSegment($this->getContinentOfCountrySql());
-        $segment->setSqlFilterValue([self::class, 'toContinentCode']);
+        // the continent codes are lower case, whatever the collation of the database
+        $segment->setSqlFilterValue(fn ($value) => strtolower((string) $value));
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
-    }
-
-    /**
-     * Lower-cases a segment value, as the continent codes are lower case whatever the collation of the database.
-     *
-     * @internal
-     * @param string $value
-     * @return string
-     */
-    public static function toContinentCode($value)
-    {
-        return strtolower((string) $value);
     }
 
     /**
