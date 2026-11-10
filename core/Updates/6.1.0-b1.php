@@ -13,6 +13,9 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\ReArchiveList;
+use Piwik\CronArchive\SegmentArchiving;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Log\LoggerInterface;
@@ -31,8 +34,8 @@ class Updates_6_1_0_b1 extends Updates
     /**
      * A Continent segment now applies its operator to the continent of the visit country, where it used to
      * match the countries of the continent it names whatever the operator, so `!=` matched the very continent
-     * it excludes. Its saved segments keep their definition, so the reports archived for them are rearchived,
-     * as far back as `rearchive_reports_in_past_last_n_months` allows.
+     * it excludes. Its saved segments keep their definition, so the reports archived for them since the start
+     * of the current month are rearchived, or only invalidated for the segments `core:archive` does not archive.
      *
      * @return Migration[]
      */
@@ -43,18 +46,23 @@ class Updates_6_1_0_b1 extends Updates
             return [];
         }
 
-        $startDate = Piwik::getEarliestDateToRearchive();
-        if (empty($startDate)) {
+        $earliestDateToRearchive = Piwik::getEarliestDateToRearchive();
+        if (empty($earliestDateToRearchive)) {
             return [];
         }
 
+        $startOfMonth = Date::factory(Date::now()->toString('Y-m') . '-01');
+        $earliestStartDate = $earliestDateToRearchive->isLater($startOfMonth) ? $earliestDateToRearchive : $startOfMonth;
+
         $segments = Db::fetchAll(
-            sprintf('SELECT idsegment, definition, enable_only_idsite FROM `%s` WHERE deleted = 0 AND definition LIKE ? ORDER BY idsegment', $table),
+            sprintf('SELECT idsegment, definition, enable_only_idsite, auto_archive, ts_created, ts_last_edit FROM `%s` WHERE deleted = 0 AND definition LIKE ? ORDER BY idsegment', $table),
             ['%continentCode%']
         );
 
-        $migrations = [];
-        $scheduledSegments = [];
+        /** @var SegmentArchiving $segmentArchiving */
+        $segmentArchiving = StaticContainer::get(SegmentArchiving::class);
+
+        $segmentsToRearchive = [];
         foreach ($segments as $segment) {
             $idSegment = (int) $segment['idsegment'];
             $definition = $segment['definition'];
@@ -74,13 +82,47 @@ class Updates_6_1_0_b1 extends Updates
             }
 
             $idSites = empty($segment['enable_only_idsite']) ? 'all' : [(int) $segment['enable_only_idsite']];
+            $startDate = $this->getStartDate($segmentArchiving, $segment, $earliestStartDate);
+            $isAutoArchived = $segmentArchiving->isAutoArchivingEnabledFor($segment);
 
-            // the same definition saved by several users, encoded or not, is rearchived once
-            $scheduledSegmentKey = urldecode($definition) . '|' . json_encode($idSites);
-            if (isset($scheduledSegments[$scheduledSegmentKey])) {
+            // the same definition saved by several users, encoded or not, shares its archives, so it is rearchived once,
+            // from the earliest start date of its copies
+            $key = urldecode($definition) . '|' . json_encode($idSites);
+            if (isset($segmentsToRearchive[$key])) {
+                $segmentToRearchive = &$segmentsToRearchive[$key];
+                $segmentToRearchive['startDate'] = $startDate->isEarlier($segmentToRearchive['startDate']) ? $startDate : $segmentToRearchive['startDate'];
+                $segmentToRearchive['isAutoArchived'] = $segmentToRearchive['isAutoArchived'] || $isAutoArchived;
+                unset($segmentToRearchive);
                 continue;
             }
-            $scheduledSegments[$scheduledSegmentKey] = true;
+
+            $segmentsToRearchive[$key] = [
+                'idSegment' => $idSegment,
+                'definition' => $definition,
+                'idSites' => $idSites,
+                'startDate' => $startDate,
+                'isAutoArchived' => $isAutoArchived,
+            ];
+        }
+
+        $migrations = [];
+        foreach ($segmentsToRearchive as $segmentToRearchive) {
+            ['idSegment' => $idSegment, 'definition' => $definition, 'idSites' => $idSites, 'startDate' => $startDate] = $segmentToRearchive;
+
+            // reports are rearchived up to yesterday, as today's are archived again anyway
+            if (!$startDate->isEarlier(Date::today())) {
+                continue;
+            }
+
+            if (!$segmentToRearchive['isAutoArchived']) {
+                // core:archive never archives this segment and would only drop its invalidations,
+                // so its archives are marked as invalidated, to be archived again when viewed
+                $migrations[] = new CustomMigration(function () use ($idSegment, $definition, $idSites, $startDate) {
+                    $this->invalidateArchives($idSegment, $definition, $idSites, $startDate);
+                }, '');
+                continue;
+            }
+
             $migrationHint = sprintf(
                 './console core:invalidate-report-data --sites=%s --dates=%s,today --segment=%d',
                 is_array($idSites) ? implode(',', $idSites) : $idSites,
@@ -88,24 +130,96 @@ class Updates_6_1_0_b1 extends Updates
                 $idSegment
             );
 
-            $migrations[] = new CustomMigration(function () use ($idSegment, $definition, $idSites) {
-                $segmentsToRearchive = $this->getSegmentsToRearchive($definition, $idSites);
-                if (empty($segmentsToRearchive)) {
-                    StaticContainer::get(LoggerInterface::class)->warning(
-                        'Segment {idSegment} is no longer valid on any of its sites, its reports are not rearchived',
-                        ['idSegment' => $idSegment]
-                    );
-                    return;
-                }
-
-                $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-                foreach ($segmentsToRearchive as [$sites, $segment]) {
-                    $invalidator->scheduleReArchiving($sites, null, null, null, $segment);
-                }
+            $migrations[] = new CustomMigration(function () use ($idSegment, $definition, $idSites, $startDate) {
+                $this->scheduleReArchiving($idSegment, $definition, $idSites, $startDate);
             }, $migrationHint);
         }
 
         return $migrations;
+    }
+
+    /**
+     * The segment is rearchived from where it would be when its definition is edited, see
+     * process_new_segments_from, but not before the start of the current month.
+     */
+    private function getStartDate(SegmentArchiving $segmentArchiving, array $segment, Date $earliestStartDate): Date
+    {
+        $startDate = $segmentArchiving->getReArchiveSegmentStartDate($segment);
+        if (empty($startDate) || $startDate->isEarlier($earliestStartDate)) {
+            return $earliestStartDate;
+        }
+
+        return Date::factory($startDate->toString());
+    }
+
+    /**
+     * @param 'all'|int[] $idSites
+     */
+    private function scheduleReArchiving(int $idSegment, string $definition, $idSites, Date $startDate): void
+    {
+        $segmentsToRearchive = $this->getSegmentsToRearchive($idSegment, $definition, $idSites);
+        if (empty($segmentsToRearchive)) {
+            return;
+        }
+
+        // the entries ArchiveInvalidator::scheduleReArchiving() adds, added at once as the list is rewritten on each addition
+        $items = [];
+        foreach ($segmentsToRearchive as [$sites, $segment]) {
+            $items[] = json_encode([
+                'idSites' => $sites,
+                'pluginName' => null,
+                'report' => null,
+                'startDate' => $startDate->getTimestamp(),
+                'segment' => $segment->getOriginalString(),
+            ]);
+        }
+
+        try {
+            (new ReArchiveList())->add($items);
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'The reports of segment {idSegment} could not be scheduled for rearchiving: {exception}',
+                ['idSegment' => $idSegment, 'exception' => $e->getMessage()]
+            );
+        }
+    }
+
+    /**
+     * @param 'all'|int[] $idSites
+     */
+    private function invalidateArchives(int $idSegment, string $definition, $idSites, Date $startDate): void
+    {
+        $segmentsToRearchive = $this->getSegmentsToRearchive($idSegment, $definition, $idSites);
+        if (empty($segmentsToRearchive)) {
+            return;
+        }
+
+        $dates = [];
+        for ($date = $startDate; $date->isEarlier(Date::today()); $date = $date->addDay(1)) {
+            $dates[] = $date;
+        }
+
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        foreach ($segmentsToRearchive as [$sites, $segment]) {
+            try {
+                $invalidator->markArchivesAsInvalidated(
+                    is_array($sites) ? $sites : $this->getAllIdSites(),
+                    $dates,
+                    'day',
+                    $segment,
+                    $cascadeDown = false,
+                    $forceInvalidateNonexistentRanges = false,
+                    $name = null,
+                    $ignorePurgeLogDataDate = false,
+                    $doNotCreateInvalidations = true
+                );
+            } catch (\Throwable $e) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'The reports of segment {idSegment} could not be invalidated: {exception}',
+                    ['idSegment' => $idSegment, 'exception' => $e->getMessage()]
+                );
+            }
+        }
     }
 
     /**
@@ -115,26 +229,39 @@ class Updates_6_1_0_b1 extends Updates
      * @param 'all'|int[] $idSites
      * @return array<array{0: 'all'|int[], 1: Segment}>
      */
-    private function getSegmentsToRearchive(string $definition, $idSites): array
+    private function getSegmentsToRearchive(int $idSegment, string $definition, $idSites): array
     {
         $segment = $this->createSegment($definition, is_array($idSites) ? $idSites : []);
         if ($segment) {
             return [[$idSites, $segment]];
         }
 
-        if (is_array($idSites)) {
-            return [];
-        }
-
         $segmentsToRearchive = [];
-        foreach (array_column(Db::fetchAll(sprintf('SELECT idsite FROM `%s`', Common::prefixTable('site'))), 'idsite') as $idSite) {
-            $segment = $this->createSegment($definition, [(int) $idSite]);
-            if ($segment) {
-                $segmentsToRearchive[] = [[(int) $idSite], $segment];
+        if (!is_array($idSites)) {
+            foreach ($this->getAllIdSites() as $idSite) {
+                $segment = $this->createSegment($definition, [$idSite]);
+                if ($segment) {
+                    $segmentsToRearchive[] = [[$idSite], $segment];
+                }
             }
         }
 
+        if (empty($segmentsToRearchive)) {
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'Segment {idSegment} is no longer valid on any of its sites, its reports are not rearchived',
+                ['idSegment' => $idSegment]
+            );
+        }
+
         return $segmentsToRearchive;
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getAllIdSites(): array
+    {
+        return array_map('intval', array_column(Db::fetchAll(sprintf('SELECT idsite FROM `%s`', Common::prefixTable('site'))), 'idsite'));
     }
 
     /**
@@ -150,7 +277,8 @@ class Updates_6_1_0_b1 extends Updates
     }
 
     /**
-     * Only `==` on a continent matches the same visits as before, any other Continent condition changed.
+     * Only `==` on a continent matches the same visits as before, any other Continent condition changed,
+     * except an empty value, as the tracker always stores a country, `xx` when it is unknown.
      * The legacy Tibet code, now counted in Asia, is left aside: current geolocation no longer sets it.
      */
     private function hasAChangedContinentCondition(array $conditions): bool
@@ -161,8 +289,10 @@ class Updates_6_1_0_b1 extends Updates
                     continue;
                 }
 
-                $isSameAsBefore = $condition[SegmentExpression::INDEX_OPERAND_OPERATOR] === SegmentExpression::MATCH_EQUAL
-                    && in_array(strtolower((string) $condition[SegmentExpression::INDEX_OPERAND_VALUE]), self::CONTINENT_CODES, true);
+                $operator = $condition[SegmentExpression::INDEX_OPERAND_OPERATOR];
+                $isSameAsBefore = in_array($operator, [SegmentExpression::MATCH_IS_NULL_OR_EMPTY, SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY], true)
+                    || ($operator === SegmentExpression::MATCH_EQUAL
+                        && in_array(strtolower((string) $condition[SegmentExpression::INDEX_OPERAND_VALUE]), self::CONTINENT_CODES, true));
                 if (!$isSameAsBefore) {
                     return true;
                 }
