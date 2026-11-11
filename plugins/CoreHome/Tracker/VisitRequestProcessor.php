@@ -22,6 +22,7 @@ use Piwik\Tracker\Visit\VisitProperties;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tracker\VisitorRecognizer;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 
 /**
  * Encapsulates core tracking logic related to visits.
@@ -199,7 +200,7 @@ class VisitRequestProcessor extends RequestProcessor
             return true;
         }
 
-        if (!$this->lastUserIdWasSetAndDoesMatch($visitProperties, $request)) {
+        if (!$this->lastUserIdWasSetAndDoesMatch($visitProperties, $request, $lastKnownVisit)) {
             Common::printDebug("Visitor detected, but last user_id does not match...");
             return true;
         }
@@ -281,15 +282,32 @@ class VisitRequestProcessor extends RequestProcessor
      * Returns true if the last user_id did not change.
      * @return bool
      */
-    protected function lastUserIdWasSetAndDoesMatch(VisitProperties $visitProperties, Request $request)
-    {
+    protected function lastUserIdWasSetAndDoesMatch(
+        VisitProperties $visitProperties,
+        Request $request,
+        $lastKnownVisit = null
+    ) {
         $lastUserId = $visitProperties->getProperty('user_id');
 
         if (empty($lastUserId)) {
             return true;
         }
 
-        $currentUserId = $request->getForcedUserId();
+        // Read against the consent the visit holds, which is the same answer that decides
+        // whether the User ID is recorded. Judging it on this request's own flag instead would
+        // withhold the User ID here while the dimension went on to store it, so a request
+        // naming a different person would be taken for the same one and relabel their visit.
+        //
+        // It is read from the row the recognizer found rather than from the visit properties:
+        // only idvisitor and user_id have been copied into those by this point, the rest
+        // arriving later with updateVisitPropertiesFromLastVisitRow().
+        $visitHasConsent = $request->hasConsent()
+            || (
+                $request->measuresConsentAwareAnalytics()
+                && Consent::CONSENT_GIVEN === (int) ($lastKnownVisit['consent'] ?? 0)
+            );
+
+        $currentUserId = $request->getForcedUserId($visitHasConsent);
 
         if (empty($currentUserId)) {
             return true;

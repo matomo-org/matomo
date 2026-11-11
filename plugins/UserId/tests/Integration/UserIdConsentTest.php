@@ -174,6 +174,45 @@ class UserIdConsentTest extends IntegrationTestCase
     }
 
     /**
+     * The guard against carrying a withheld User ID's hash into the next visit applies only
+     * where the consent does not. A forced new visit that does carry consent is entitled to the
+     * User ID, so it keeps the identifier derived from it.
+     */
+    public function testAForcedNewVisitWithConsentStillCarriesTheUserIdHash(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView('1', 'landing');
+
+        $this->forceNewVisitWithConsent();
+
+        $this->assertSame(2, $this->countVisits(), 'a new visit should have been forced');
+        $this->assertSame(
+            self::USER_ID,
+            $this->fetchVisitColumn('user_id', 1),
+            'the consented visit should hold the User ID'
+        );
+        $this->assertSame(
+            substr(sha1(self::USER_ID), 0, 16),
+            bin2hex((string) $this->fetchVisitColumn('idvisitor', 1)),
+            'a visit that consented was denied the identifier its own User ID gives it'
+        );
+    }
+
+    private function forceNewVisitWithConsent(): void
+    {
+        $this->testDate = $this->testDate->addPeriod(1, 'minute');
+        $this->tracker->setForceVisitDateTime($this->testDate->getDatetime());
+        $this->tracker->clearCustomTrackingParameters();
+        $this->tracker->setUserId(self::USER_ID);
+        $this->tracker->setCustomTrackingParameter('consent', '1');
+        $this->tracker->setCustomTrackingParameter('new_visit', '1');
+        $this->tracker->setUrl('http://example.com/forced');
+
+        Fixture::checkResponse($this->tracker->doTrackPageView('Forced'));
+    }
+
+    /**
      * Baseline: declining to carry that one identifier over must not stop a returning visitor
      * being recognised. Where no User ID is in play there is nothing for the policy to withhold,
      * so the visitor keeps the identifier they arrived with.
@@ -195,6 +234,65 @@ class UserIdConsentTest extends IntegrationTestCase
             bin2hex((string) $this->fetchVisitColumn('idvisitor', 1)),
             'the returning visitor stopped being recognised'
         );
+    }
+
+    /**
+     * Two people must not become one visit.
+     *
+     * Consent lets the User ID be recorded, and the same answer has to decide whether a request
+     * names the same person. Judged on this request's own flag the User ID is withheld, so a
+     * request naming someone else looks like a request naming nobody, joins the consented visit
+     * and relabels it - two people's browsing stored as one person's.
+     */
+    public function testARequestNamingAnotherUserStartsItsOwnVisitEvenWithoutTheFlag(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView('1', 'landing');
+
+        $this->assertSame(self::USER_ID, $this->fetchVisitColumn('user_id'));
+
+        $this->trackPageViewAsUser('someone-else@example.com', $consent = null, 'other');
+
+        $this->assertSame(2, $this->countVisits(), 'the second person was folded into the first visit');
+        $this->assertSame(
+            self::USER_ID,
+            $this->fetchVisitColumn('user_id'),
+            'the first visit was relabelled as the second person'
+        );
+    }
+
+    /**
+     * Baseline: a site that never opted in decides this the way it always did, so a flagless
+     * request naming someone else is judged on the request's own User ID as before.
+     */
+    public function testARequestNamingAnotherUserOnASiteNotOptedInBehavesAsBefore(): void
+    {
+        $this->disableConsentAwareAnalytics();
+        $this->enforcePolicy();
+
+        $this->trackPageView('1', 'landing');
+        $this->trackPageViewAsUser('someone-else@example.com', $consent = null, 'other');
+
+        // the policy withholds the User ID throughout, so neither visit holds one and the
+        // requests are indistinguishable by user - exactly as before this feature
+        $this->assertSame('', (string) $this->fetchVisitColumn('user_id'));
+    }
+
+    private function trackPageViewAsUser(string $userId, ?string $consent, string $page): void
+    {
+        $this->testDate = $this->testDate->addPeriod(1, 'minute');
+        $this->tracker->setForceVisitDateTime($this->testDate->getDatetime());
+        $this->tracker->clearCustomTrackingParameters();
+        $this->tracker->setUserId($userId);
+
+        if (null !== $consent) {
+            $this->tracker->setCustomTrackingParameter('consent', $consent);
+        }
+
+        $this->tracker->setUrl('http://example.com/' . $page);
+
+        Fixture::checkResponse($this->tracker->doTrackPageView(ucfirst($page)));
     }
 
     /**
