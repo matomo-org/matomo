@@ -556,6 +556,10 @@ login_allowlist_apply_to_reporting_api_requests = 1
 ; You can enable that by setting this to "1". See https://matomo.org/faq/how-to/faq_30/ for more details
 login_allow_logme = 0
 
+; By default the login page shows a "What's new in Matomo" panel next to the login form. Uncomment the next line
+; and set it to "0" to hide the panel.
+;login_whats_new_panel_enabled = 0
+
 ; Set to 1 to disable the framebuster on standard Non-widgets pages (a click-jacking countermeasure).
 ; Default is 0 (i.e., bust frames on all non Widget pages such as Login, API, Widgets, Email reports, etc.).
 enable_framed_pages = 0
