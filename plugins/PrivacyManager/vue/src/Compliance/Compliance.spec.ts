@@ -42,6 +42,7 @@ import { Field } from 'CorePluginsAdmin';
 import Compliance from './Compliance.vue';
 import ComplianceOverview from './ComplianceOverview.vue';
 import GranularComplianceOverview from './GranularComplianceOverview.vue';
+import HybridTracking from './HybridTracking.vue';
 
 async function createWrapper(urlParams = {}, props = {}) {
   (MatomoUrl.urlParsed as { value: Record<string, unknown> }).value = urlParams;
@@ -139,5 +140,22 @@ describe('PrivacyManager/Compliance', () => {
 
     expect(wrapper.findComponent(ComplianceOverview).exists()).toBe(false);
     expect(wrapper.findComponent(GranularComplianceOverview).props('idSite')).toEqual('all');
+  });
+
+  it('shows hybrid tracking for the chosen scope with the granular dashboard only', async () => {
+    const granular = await createWrapper({ idSite: '2', complianceScope: 'site' }, { granularComplianceEnabled: true });
+    expect(granular.findComponent(HybridTracking).props('idSite')).toEqual('2');
+
+    const legacy = await createWrapper({ idSite: 'all' });
+    expect(legacy.findComponent(HybridTracking).exists()).toBe(false);
+  });
+
+  it('waits for a website to be picked before showing hybrid tracking', async () => {
+    const wrapper = await createWrapper({ idSite: '1' }, { granularComplianceEnabled: true });
+
+    await scopeField(wrapper).vm.$emit('update:modelValue', 'site');
+    await flushPromises();
+
+    expect(wrapper.findComponent(HybridTracking).exists()).toBe(false);
   });
 });

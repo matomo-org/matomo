@@ -216,6 +216,54 @@
     }
   }
 
+  .hybridTrackingRequirements {
+    list-style: disc;
+    margin: 0 0 1rem 1.5rem;
+
+    li {
+      list-style: disc;
+    }
+  }
+
+  .hybridTrackingToggle {
+    display: flex;
+    align-items: safe center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid @theme-color-background-tinyContrast;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1rem 0;
+
+    h3 {
+      .font-default(15px, 22px);
+      font-weight: bold;
+      margin: 0 0 0.5rem;
+
+      label {
+        font-size: inherit;
+        color: inherit;
+      }
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .hybridTrackingEnabledForAllWebsites {
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    .switch {
+      flex-shrink: 0;
+    }
+  }
+
+  .hybridTrackingSaveNotifications {
+    margin: 1rem 0;
+  }
+
   .granularComplianceExternalTitle {
     .font-default(15px, 22px);
     font-weight: bold;
@@ -247,6 +295,11 @@
     .granularComplianceEnforceAll {
       flex-direction: column;
       align-items: stretch;
+    }
+
+    .hybridTrackingToggle {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 }
