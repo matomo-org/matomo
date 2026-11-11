@@ -220,12 +220,6 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
-     * The shape a consent platform actually produces: the visitor is measured without cookies,
-     * consents on the landing page, and the tracker reports it with a ping rather than a second
-     * page view. The ping carries the same page URL, so the campaign can be completed from it
-     * without recording an extra action.
-     */
-    /**
      * Time is the other half of the rule. Staying on the arrival page only continues the same
      * visit while that visit is still open, and what decides that is Matomo's own visit length -
      * so whatever an instance is configured to is respected, and this feature introduces no
@@ -253,6 +247,12 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->assertSame(1, (int) $this->fetchVisitColumn('consent', 1));
     }
 
+    /**
+     * The shape a consent platform actually produces: the visitor is measured without cookies,
+     * consents on the landing page, and the tracker reports it with a ping rather than a second
+     * page view. The ping carries the same page URL, so the campaign can be completed from it
+     * without recording an extra action.
+     */
     public function testCampaignIsRecordedWhenConsentArrivesWithAPing(): void
     {
         $this->enforceCampaignMasking();
@@ -986,6 +986,33 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * The level the referrer is anonymised to follows the consent the visit holds, not the flag
+     * on the request carrying the referrer. A visitor who arrived directly and consented, whose
+     * referrer only turns up on a later request, keeps the detail that visit earned.
+     */
+    public function testAReferrerArrivingLaterIsAnonymisedToTheLevelTheVisitEarned(): void
+    {
+        $this->enforceCampaignMasking();
+        $this->setAdminReferrerAnonymisation(ReferrerAnonymizer::EXCLUDE_NONE);
+
+        $this->tracker->setUrlReferrer('');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(1, (int) $this->fetchVisitColumn('consent'), 'the visit should have consented');
+
+        // the referrer turns up on a later request in that visit, without the flag repeated
+        $this->tracker->setUrlReferrer('https://www.ecosia.org/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+
+        $this->assertSame(1, $this->countVisits(), 'the later request must not start a visit');
+        $this->assertStringContainsString(
+            'q=running+shoes',
+            (string) $this->fetchVisitColumn('referer_url'),
+            'the referrer was anonymised to the policy level although the visit had consented'
+        );
+    }
+
+    /**
      * The admin's own anonymisation is not relaxed by consent, so there is nothing to complete
      * beyond what they configured for themselves.
      */
@@ -1140,11 +1167,6 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
-     * An event records no page of its own, so like a ping it cannot start a visit - but it does
-     * name the page it was sent from. One sent from a page the visitor moved on to must not fold
-     * consent into the visit they arrived on, even where no page view recorded the move.
-     */
-    /**
      * The flow the setting exists for: the visitor is measured before consenting, the banner
      * records the acceptance as an event rather than as a page view, and that event arrives while
      * they are still on the page the visit started on. An event names its page under its own
@@ -1171,6 +1193,11 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->assertSame(self::CAMPAIGN_KEYWORD, $this->fetchVisitColumn('referer_keyword'));
     }
 
+    /**
+     * An event records no page of its own, so like a ping it cannot start a visit - but it does
+     * name the page it was sent from. One sent from a page the visitor moved on to must not fold
+     * consent into the visit they arrived on, even where no page view recorded the move.
+     */
     public function testAConsentingEventFromAnotherPageDoesNotConsentTheArrivalVisit(): void
     {
         $this->enforceCampaignMasking();

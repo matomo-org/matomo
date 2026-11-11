@@ -40,13 +40,6 @@ class RequestProcessor extends Tracker\RequestProcessor
     }
 
     /**
-     * Resolves how far the referrer of this request needs to be anonymised.
-     *
-     * Consent only lifts what a compliance policy imposed. The measure the admin configured
-     * themselves still applies, so a consented request is anonymised down to that level rather
-     * than to the stricter level a policy may be enforcing on top of it.
-     */
-    /**
      * The level this request's referrer is anonymised to.
      *
      * Consent lifts the level a compliance policy enforces back to the one the admin configured,

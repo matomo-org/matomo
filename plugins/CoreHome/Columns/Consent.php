@@ -117,9 +117,6 @@ class Consent extends VisitDimension
     }
 
     /**
-     * Whether consent was already recorded for this visit, as stored before the current request.
-     */
-    /**
      * Whether the visit this request is being recorded against has the visitor's consent, given
      * by this request or earlier in the same visit.
      *
@@ -147,6 +144,9 @@ class Consent extends VisitDimension
         return $request->measuresConsentAwareAnalytics() && self::hasVisitConsented($visitor);
     }
 
+    /**
+     * Whether consent was already recorded for this visit, as stored before the current request.
+     */
     public static function hasVisitConsented(Visitor $visitor): bool
     {
         return self::CONSENT_GIVEN === (int) $visitor->getImmutableVisitorColumn('consent');

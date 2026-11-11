@@ -979,7 +979,6 @@ abstract class Base extends VisitDimension
      *
      * @param Action|null $action
      */
-
     protected function mayRelaxForThisVisit(Request $request, Visitor $visitor, $action = null): bool
     {
         return !$request->hasConsent() || Consent::appliesToVisit($request, $visitor, $action);

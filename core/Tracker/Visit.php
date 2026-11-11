@@ -600,10 +600,6 @@ class Visit implements VisitInterface
     }
 
     /**
-     * Whether the consent this request reports may relax what is written to the visit it is being
-     * recorded against. A request that reports none is unaffected.
-     */
-    /**
      * Whether the identifier the recognised visit carries is one derived from a User ID that the
      * visit being created now may not hold.
      *
@@ -645,6 +641,10 @@ class Visit implements VisitInterface
         return Common::hex2bin($this->request->getUserIdHashed($userId)) === $idVisitor;
     }
 
+    /**
+     * Whether the consent this request reports may relax what is written to the visit it is being
+     * recorded against. A request that reports none is unaffected.
+     */
     private function mayUseTheReportedConsent(): bool
     {
         if (!$this->request->hasConsent()) {
