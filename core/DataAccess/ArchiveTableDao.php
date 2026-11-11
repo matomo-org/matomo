@@ -9,6 +9,7 @@
 
 namespace Piwik\DataAccess;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
@@ -142,7 +143,11 @@ class ArchiveTableDao
             $d['Waiting'] = $waiting;
             $d['Started'] = $i['ts_started'];
             $d['Processing'] = $processing;
-            $d['Status'] = ($i['status'] == 1 ? 'Processing' : 'Queued');
+            $d['Status'] = match ((int) $i['status']) {
+                ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS => 'Processing',
+                ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD => 'On hold',
+                default => 'Queued',
+            };
             $data[] = $d;
         }
         return $data;

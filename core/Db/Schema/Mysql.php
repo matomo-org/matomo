@@ -392,7 +392,27 @@ class Mysql implements SchemaInterface
                                             processing_host VARCHAR(100) NULL DEFAULT NULL,
                                             process_id VARCHAR(15) NULL DEFAULT NULL,
                                             PRIMARY KEY(idinvalidation),
-                                            INDEX index_idsite_dates_period_name(idsite, date1, period)
+                                            INDEX index_idsite_dates_period_name(idsite, date1, period),
+                                            INDEX index_idsite_status_date1_period(idsite, status, date1, period)
+                                        ) $tableOptions
+            ",
+
+            'archive_failures' => "CREATE TABLE `{$prefixTables}archive_failures` (
+                                            idfailure BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                            idsite INTEGER UNSIGNED NOT NULL,
+                                            name VARCHAR(255) NOT NULL,
+                                            period TINYINT UNSIGNED NOT NULL,
+                                            date1 DATE NOT NULL,
+                                            date2 DATE NOT NULL,
+                                            `report` VARCHAR(255) NOT NULL DEFAULT '',
+                                            archive_hash CHAR(32) NOT NULL,
+                                            attempts SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+                                            last_error TEXT NULL,
+                                            ts_first_failed DATETIME NOT NULL,
+                                            ts_last_failed DATETIME NOT NULL,
+                                            ts_retry_after DATETIME NOT NULL,
+                                            PRIMARY KEY(idfailure),
+                                            UNIQUE KEY unique_archive(idsite, archive_hash, period, date1, date2)
                                         ) $tableOptions
             ",
 

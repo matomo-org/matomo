@@ -22,6 +22,7 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive\QueueConsumer;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\CronArchive\StopArchiverException;
+use Piwik\DataAccess\ArchiveFailures;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
@@ -88,6 +89,12 @@ class CronArchive
      * @var Model
      */
     private $model;
+
+    private ArchiveFailures $archiveFailures;
+
+    private int $failedArchivesCount = 0;
+
+    private bool $isUpdatedWhileArchiving = false;
 
     private $lastSuccessRunTimestamp = false;
     private $errors = [];
@@ -249,6 +256,9 @@ class CronArchive
     private const STEP_SCHEDULED_TASKS = 3;
     private const STEP_FINISH = 4;
 
+    private const UNSUPPORTED_SEGMENT_PATTERN = "/Segment (.*?) is not a supported segment/i";
+    private const UPDATE_REQUIRED_PATTERN = "/some plugins have been upgraded to a new version|Database Upgrade Required\\. Your Matomo database is out-of-date/";
+
     public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
@@ -259,6 +269,7 @@ class CronArchive
         $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
 
         $this->model = StaticContainer::get(Model::class);
+        $this->archiveFailures = new ArchiveFailures();
 
         $this->periodIdsToLabels = array_flip(Piwik::$idPeriods);
 
@@ -412,12 +423,7 @@ class CronArchive
             $this->invalidator->applyScheduledReArchiving();
         });
 
-        $failedJobs = $this->model->resetFailedArchivingJobs();
-        if ($failedJobs) {
-            $this->logger->info("Found {failed} failed jobs (ts_invalidated older than 1 day), resetting status to try them again.", [
-                'failed' => $failedJobs,
-            ]);
-        }
+        $this->handleTimedOutArchivingJobs();
 
         $countOfProcesses = $this->getMaxConcurrentApiRequests();
 
@@ -468,6 +474,10 @@ class CronArchive
 
             $successCount = $this->launchArchivingFor($archivesToProcess, $queueConsumer);
             $numArchivesFinished += $successCount;
+
+            if ($this->isUpdatedWhileArchiving) {
+                break;
+            }
             if ($this->maxArchivesToProcess && $numArchivesFinished >= $this->maxArchivesToProcess) {
                 $this->logger->info("Maximum number of archives to process per execution has been reached.");
                 break;
@@ -485,6 +495,7 @@ class CronArchive
 
         $this->logSection("SUMMARY");
         $this->logger->info("Processed $numArchivesFinished archives.");
+        $this->logArchiveFailuresSummary();
         $this->logger->info("Total API requests: {$this->requests}");
 
         $this->logger->info("done: " . $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " . (empty($this->errors)
@@ -552,7 +563,8 @@ class CronArchive
                 $archiveWriter->finalizeArchive();
 
                 // site is using the tracker, but there are no visits for this period, so just delete the archive and move on
-                $this->deleteInvalidatedArchives($archive);
+                $this->model->deleteProcessedInvalidation($archive);
+                $this->releaseArchivesHeldBy($archive);
                 continue;
             }
 
@@ -576,31 +588,46 @@ class CronArchive
         $timers = $this->cliMultiHandler->getTimers();
         $successCount = 0;
 
+        $isUpdateRequired = false;
+
         foreach ($urls as $index => $url) {
             $content = array_key_exists($index, $responses) ? $responses[$index] : null;
+            $archive = $archivesBeingQueried[$index];
 
-            if (null !== $this->signal && empty($content)) {
+            $stats = json_decode((string) $content, $assoc = true);
+            $isErrorResponse = !is_array($stats) || ($stats['result'] ?? null) === 'error';
+
+            if (null !== $this->signal && $isErrorResponse) {
                 // processes killed by system
-                $idinvalidation = $archivesBeingQueried[$index]['idinvalidation'];
+                $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
+                $this->logger->info('Archiving process killed, reset invalidation with id ' . $archive['idinvalidation']);
 
-                $this->model->releaseInProgressInvalidations([$idinvalidation]);
-                $this->logger->info('Archiving process killed, reset invalidation with id ' . $idinvalidation);
+                continue;
+            }
+
+            if ($isErrorResponse && preg_match(self::UPDATE_REQUIRED_PATTERN, (string) $content)) {
+                // Matomo was updated while archiving, the archive itself did not fail
+                $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
+                $isUpdateRequired = true;
 
                 continue;
             }
 
             $checkInvalid = $this->checkResponse($content, $url);
 
-            $stats = json_decode($content, $assoc = true);
             if (!is_array($stats)) {
                 $this->logger->info(var_export($content, true));
 
-                $idinvalidation = $archivesBeingQueried[$index]['idinvalidation'];
-                $this->model->releaseInProgressInvalidations([$idinvalidation]);
-
-                $queueConsumer->ignoreIdInvalidation($idinvalidation);
+                $this->handleFailedArchive($archive, empty($content) ? 'Empty response' : (string) $content, $queueConsumer);
 
                 $this->logError("Error unserializing the following response from $url: '" . $content . "'");
+                continue;
+            }
+
+            $errorMessage = isset($stats['message']) && is_scalar($stats['message']) ? (string) $stats['message'] : null;
+            if ($isErrorResponse && !preg_match(self::UNSUPPORTED_SEGMENT_PATTERN, (string) $errorMessage)) {
+                // the error was already logged by checkResponse()
+                $this->handleFailedArchive($archive, $errorMessage ?? (string) $content, $queueConsumer);
                 continue;
             }
 
@@ -611,22 +638,161 @@ class CronArchive
                 $url,
                 $timers[$index],
                 $visitsForPeriod,
-                $archivesBeingQueried[$index]['plugin'],
-                $archivesBeingQueried[$index]['report'],
+                $archive['plugin'],
+                $archive['report'],
                 !$checkInvalid,
                 $peakMemory
             );
 
-            $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
+            $this->model->deleteProcessedInvalidation($archive);
+            $this->releaseArchivesHeldBy($archive);
 
-            $this->repairInvalidationsIfNeeded($archivesBeingQueried[$index]);
+            $this->repairInvalidationsIfNeeded($archive);
 
             ++$successCount;
+        }
+
+        if ($isUpdateRequired) {
+            $this->isUpdatedWhileArchiving = true;
+            $this->logError("Archiving stopped because Matomo or plugins were updated while archiving. Run ./console core:update before archiving again.");
         }
 
         $this->requests += count($urls);
 
         return $successCount;
+    }
+
+    /**
+     * @param array<array-key, string|int|float|null> $archive
+     */
+    private function handleFailedArchive(array $archive, string $error, QueueConsumer $queueConsumer): void
+    {
+        $queueConsumer->ignoreIdInvalidation($archive['idinvalidation']);
+        ++$this->failedArchivesCount;
+
+        if (!ArchiveFailures::isAvailable()) {
+            $this->model->releaseInProgressInvalidations([$archive['idinvalidation']]);
+            return;
+        }
+
+        $this->recordFailureOfHeldJob($archive, $error);
+    }
+
+    /**
+     * Jobs still in progress after archive_failure_recovery_timeout count as failed, so a job that hangs every time
+     * doesn't block another archiver each day.
+     */
+    private function handleTimedOutArchivingJobs(): void
+    {
+        if (!ArchiveFailures::isAvailable()) {
+            $this->model->resetFailedArchivingJobs();
+            return;
+        }
+
+        $timedOutJobs = $this->model->getTimedOutArchivingJobs();
+        if (empty($timedOutJobs)) {
+            return;
+        }
+
+        $this->logger->info("Found {count} archiving jobs that did not finish within [General] archive_failure_recovery_timeout.", [
+            'count' => count($timedOutJobs),
+        ]);
+
+        foreach ($timedOutJobs as $job) {
+            $this->recordFailureOfHeldJob($job, sprintf(
+                'Archiving did not finish within %d seconds (started %s UTC on host %s, process %s)',
+                $job['recovery_timeout'],
+                $job['ts_started'],
+                $job['processing_host'] ?? '',
+                $job['process_id'] ?? ''
+            ));
+        }
+    }
+
+    /**
+     * Puts the invalidation of a failed job on hold, then records the failure. Holding it first makes sure a failure is
+     * counted once, eg when a job that timed out and was reset by another archiver fails later, and not at all if the
+     * job finished meanwhile.
+     *
+     * @param array<array-key, string|int|float|null> $archive
+     */
+    private function recordFailureOfHeldJob(array $archive, string $error): void
+    {
+        if (!$this->model->holdFailedInvalidation($archive)) {
+            return;
+        }
+
+        try {
+            $failure = $this->archiveFailures->recordFailure($archive, $error);
+        } catch (\Exception $e) {
+            // the invalidation is released again when its site is processed
+            $this->logError("Could not record the failed archive of invalidation {$archive['idinvalidation']}: " . $e->getMessage());
+            return;
+        }
+
+        if (null !== $failure) {
+            $this->logFailedArchive($archive, $failure);
+        }
+    }
+
+    /**
+     * @param array<array-key, string|int|float|null> $archive
+     * @param array{attempts: int, maxAttempts: int, retryAfter: string, givenUp: bool} $failure
+     */
+    private function logFailedArchive(array $archive, array $failure): void
+    {
+        $period = $this->periodIdsToLabels[(int) $archive['period']];
+        // jobs that timed out are read from the database, without the segment definition
+        $description = "idSite = {$archive['idsite']}, period = $period, date = {$archive['date1']},{$archive['date2']}"
+            . (array_key_exists('segment', $archive) ? ", segment = '" . $archive['segment'] . "'" : ", name = {$archive['name']}")
+            . (!empty($archive['plugin']) ? ", plugin = {$archive['plugin']}" : '')
+            . (!empty($archive['report']) ? ", report = {$archive['report']}" : '');
+
+        if ($failure['givenUp']) {
+            $this->logger->info("Archiving failed for $description (attempt {$failure['attempts']} of {$failure['maxAttempts']}), giving up. "
+                . "Run ./console core:archive-failures to list failed archives and retry them.");
+        } else {
+            $this->logger->info("Archiving failed for $description (attempt {$failure['attempts']} of {$failure['maxAttempts']}), "
+                . "it will be retried after {$failure['retryAfter']} UTC.");
+        }
+    }
+
+    /**
+     * Once an archive that had failed is processed, the archives that were on hold because of it can be processed.
+     *
+     * @param array<array-key, string|int|float|null> $archive
+     */
+    private function releaseArchivesHeldBy(array $archive): void
+    {
+        if ($this->archiveFailures->deleteFailure($archive) === 0) {
+            return;
+        }
+
+        $released = $this->archiveFailures->releaseUnblockedInvalidations((int) $archive['idsite'], $archive);
+        if ($released > 0) {
+            $this->logger->debug("Released {released} invalidations that were on hold until {name} for {period} {date1},{date2} was archived.", [
+                'released' => $released,
+                'name' => $archive['name'],
+                'period' => $this->periodIdsToLabels[(int) $archive['period']],
+                'date1' => $archive['date1'],
+                'date2' => $archive['date2'],
+            ]);
+        }
+    }
+
+    private function logArchiveFailuresSummary(): void
+    {
+        if (!ArchiveFailures::isAvailable()) {
+            return;
+        }
+
+        $counts = $this->archiveFailures->getFailureCounts();
+        if ($this->failedArchivesCount === 0 && $counts['waiting'] === 0 && $counts['givenUp'] === 0) {
+            return;
+        }
+
+        $this->logger->info("Archiving failed for {$this->failedArchivesCount} archives in this run. {$counts['waiting']} failed archives are "
+            . "waiting for a retry and {$counts['givenUp']} were given up. Run ./console core:archive-failures for details.");
     }
 
     private function deleteInvalidatedArchives($archive)
@@ -834,7 +1000,7 @@ class CronArchive
     private function logNetworkError($url, $response)
     {
 
-        if (preg_match("/Segment (.*?) is not a supported segment/i", $response, $match)) {
+        if (preg_match(self::UNSUPPORTED_SEGMENT_PATTERN, $response, $match)) {
             $this->logger->info($match[0]);
             return false;
         }
@@ -1213,7 +1379,8 @@ class CronArchive
         }
 
         $sql = "SELECT DISTINCT period FROM `$table`
-                 WHERE idsite = ? AND name = ? AND period > ? AND ? >= date1 AND date2 >= ? AND status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . " $reportClause";
+                 WHERE idsite = ? AND name = ? AND period > ? AND ? >= date1 AND date2 >= ?
+                   AND status IN (" . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . ", " . ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD . ") $reportClause";
 
         $higherPeriods = Db::fetchAll($sql, $bind);
         $higherPeriods = array_column($higherPeriods, 'period');

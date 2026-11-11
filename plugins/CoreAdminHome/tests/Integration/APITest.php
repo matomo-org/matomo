@@ -11,8 +11,10 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
 use Piwik\API\Request;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -60,6 +62,26 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->setSuperUser();
         $this->api->getTrackingFailures();
         $this->assertSame(array(), $this->api->getTrackingFailures());
+    }
+
+    public function testInvalidateArchivedReportsWarnsAboutGivenUpArchives()
+    {
+        $this->setSuperUser();
+        Db::query(
+            'INSERT INTO `' . Common::prefixTable('archive_failures') . "` (idsite, period, date1, date2, archive_hash, name, `report`, attempts,
+                    last_error, ts_first_failed, ts_last_failed, ts_retry_after)
+                  VALUES (1, 3, '2019-03-01', '2019-03-31', ?, 'done', '', 5, 'error', NOW(), NOW(), NOW())",
+            [md5('done|')]
+        );
+
+        $output = $this->api->invalidateArchivedReports('1', '2019-12-01', 'day');
+
+        $this->assertStringStartsWith('Warning: 1 archives between 2019-01-01 and 2019-12-31 (site IDs: 1) were given up', (string) end($output));
+        $this->assertNotContains(
+            end($output),
+            $this->api->invalidateArchivedReports('2', '2019-12-01', 'day'),
+            'archives of other sites are not mentioned'
+        );
     }
 
     public function testDeleteAllTrackingFailuresFailsForViewUser()

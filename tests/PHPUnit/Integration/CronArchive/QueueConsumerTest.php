@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration\CronArchive;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
@@ -24,6 +25,7 @@ use Piwik\CronArchive;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\QueueConsumer;
 use Piwik\CronArchive\SegmentArchiving;
+use Piwik\DataAccess\ArchiveFailures;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
@@ -528,6 +530,172 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals($uniqueInvalidationDescs, $invalidationDescs, "Found duplicate archives being processed.");
     }
 
+    public function testInvalidationsOfFailedArchivesAndPeriodsBuiltFromThemAreSkipped()
+    {
+        Fixture::createWebsite('2015-02-03');
+
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('testegment', 'browserCode==IE', 1, true);
+        Rules::setBrowserTriggerArchiving(true);
+        $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
+
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+
+        $queueConsumer = new QueueConsumer(
+            new NullLogger(),
+            new FixedSiteIds([1]),
+            1,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            $cronArchive
+        );
+
+        $waitingUntil = Date::now()->addHour(1)->getDatetime();
+        $retryPendingSince = Date::now()->subHour(1)->getDatetime();
+        $this->insertArchiveFailures([
+            // waiting for a retry
+            ['date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'attempts' => 1, 'ts_retry_after' => $waitingUntil],
+            ['date1' => '2018-05-07', 'date2' => '2018-05-13', 'period' => Week::PERIOD_ID, 'attempts' => 2, 'ts_retry_after' => $waitingUntil],
+            ['date1' => '2018-04-01', 'date2' => '2018-04-10', 'period' => Range::PERIOD_ID, 'attempts' => 1, 'ts_retry_after' => $waitingUntil],
+            // given up
+            ['date1' => '2018-06-05', 'date2' => '2018-06-05', 'period' => Day::PERIOD_ID, 'attempts' => 5, 'ts_retry_after' => $retryPendingSince],
+            // retry delay passed
+            ['date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID, 'attempts' => 1, 'ts_retry_after' => $retryPendingSince],
+        ]);
+
+        $this->insertInvalidations([
+            // skipped: duplicates of failed archives and periods built from them
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-05', 'date2' => '2018-03-11', 'period' => Week::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-01-01', 'date2' => '2018-12-31', 'period' => Year::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-10', 'period' => Range::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-05-07', 'date2' => '2018-05-13', 'period' => Week::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-05-01', 'date2' => '2018-05-31', 'period' => Month::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-04-01', 'date2' => '2018-04-10', 'period' => Range::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-06-05', 'date2' => '2018-06-05', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-06-01', 'date2' => '2018-06-30', 'period' => Month::PERIOD_ID],
+
+            // processed: not built from a failed archive, or its retry delay passed
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-02-26', 'date2' => '2018-03-04', 'period' => Week::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-04-30', 'date2' => '2018-05-06', 'period' => Week::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-04-01', 'date2' => '2018-04-20', 'period' => Range::PERIOD_ID],
+            ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => 'testReport'],
+            ['name' => 'done' . $segmentHash, 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID],
+        ]);
+
+        $processed = [];
+        while (null !== ($next = $queueConsumer->getNextArchivesToProcess())) {
+            foreach ($next as $item) {
+                $processed[] = implode(' ', [$item['name'], $item['period'], $item['date1'], $item['date2']]);
+
+                // simulate a finished job, so it doesn't block higher periods as in progress
+                Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$item['idinvalidation']]);
+            }
+        }
+
+        sort($processed);
+        $this->assertSame([
+            'done 1 2018-03-07 2018-03-07',
+            'done 1 2018-03-08 2018-03-08',
+            'done 2 2018-02-26 2018-03-04',
+            'done 2 2018-04-30 2018-05-06',
+            'done 5 2018-04-01 2018-04-20',
+            'done.Actions 1 2018-03-06 2018-03-06',
+            'done' . $segmentHash . ' 1 2018-03-06 2018-03-06',
+        ], $processed);
+
+        // skipped invalidations are kept on hold for a later run
+        $this->assertEquals(10, Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE status = ?', [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]));
+        $this->assertEquals(0, Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE status = ?', [ArchiveInvalidator::INVALIDATION_STATUS_QUEUED]));
+    }
+
+    public function testInvalidationAddedDuringTheRunForAFailedArchiveIsSkipped()
+    {
+        Fixture::createWebsite('2015-02-03');
+
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+        $queueConsumer = new QueueConsumer(new NullLogger(), new FixedSiteIds([1]), 1, 24, new Model(), new SegmentArchiving(), $cronArchive);
+
+        $this->insertArchiveFailures([
+            ['date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'attempts' => 1, 'ts_retry_after' => Date::now()->addHour(1)->getDatetime()],
+        ]);
+        $this->insertInvalidations([
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => Day::PERIOD_ID],
+        ]);
+
+        $processed = [];
+        $next = $queueConsumer->getNextArchivesToProcess();
+        $this->assertIsArray($next);
+        $processed[] = $next[0]['date1'];
+        Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$next[0]['idinvalidation']]);
+
+        // eg invalidated again by a user while archiving runs
+        $this->insertInvalidations([
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID],
+        ]);
+
+        while (null !== ($next = $queueConsumer->getNextArchivesToProcess())) {
+            foreach ($next as $item) {
+                $processed[] = $item['date1'];
+                Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$item['idinvalidation']]);
+            }
+        }
+
+        // the new invalidation is dropped, the archive already waits on hold
+        $this->assertSame(['2018-03-08', '2018-03-07'], $processed);
+        $this->assertEquals([['status' => ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]], Db::fetchAll('SELECT status FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE date1 = ?', ['2018-03-06']));
+    }
+
+    public function testFailureRecordedByAnotherArchiverIsRespected()
+    {
+        Fixture::createWebsite('2015-02-03');
+
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+        $archiverA = new QueueConsumer(new NullLogger(), new FixedSiteIds([1]), 1, 24, new Model(), new SegmentArchiving(), $cronArchive);
+        $archiverB = new QueueConsumer(new NullLogger(), new FixedSiteIds([1]), 1, 25, new Model(), new SegmentArchiving(), $cronArchive);
+
+        $this->insertInvalidations([
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-05', 'date2' => '2018-03-11', 'period' => Week::PERIOD_ID],
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID],
+        ]);
+
+        // both archivers are working on the site, archiver B has already loaded what to skip
+        $batchB = $archiverB->getNextArchivesToProcess();
+        $batchA = $archiverA->getNextArchivesToProcess();
+        $this->assertIsArray($batchB);
+        $this->assertIsArray($batchA);
+        $this->assertSame('2018-03-08', $batchB[0]['date1']);
+        $this->assertSame('2018-03-07', $batchA[0]['date1']);
+
+        // archiver A fails, records the failure and releases the invalidation
+        (new ArchiveFailures())->recordFailure($batchA[0], 'error');
+        (new Model())->releaseInProgressInvalidations([$batchA[0]['idinvalidation']]);
+
+        // archiver B finishes its job and continues: it must neither retry the failed day nor archive the periods built from it
+        Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$batchB[0]['idinvalidation']]);
+        $processed = [];
+        while (null !== ($next = $archiverB->getNextArchivesToProcess())) {
+            foreach ($next as $item) {
+                $processed[] = $item['period'] . ' ' . $item['date1'];
+                Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$item['idinvalidation']]);
+            }
+        }
+
+        $this->assertSame(['1 2018-03-06'], $processed);
+    }
+
     public function testPluginInvalidationDeletedIfUsableArchiveExists()
     {
         Fixture::createWebsite('2015-02-03');
@@ -1010,6 +1178,21 @@ class QueueConsumerTest extends IntegrationTestCase
             ];
             Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_invalidated, report, status, ts_started)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", $bind);
+        }
+    }
+
+    /**
+     * @param list<array{period: int, date1: string, date2: string, attempts: int, ts_retry_after: string}> $failures
+     */
+    private function insertArchiveFailures(array $failures)
+    {
+        $table = Common::prefixTable('archive_failures');
+        foreach ($failures as $failure) {
+            Db::query(
+                "INSERT INTO `$table` (idsite, name, period, date1, date2, archive_hash, attempts, ts_first_failed, ts_last_failed, ts_retry_after)
+                      VALUES (1, 'done', ?, ?, ?, ?, ?, ?, ?, ?)",
+                [$failure['period'], $failure['date1'], $failure['date2'], md5('done|'), $failure['attempts'], Date::now()->getDatetime(), Date::now()->getDatetime(), $failure['ts_retry_after']]
+            );
         }
     }
 
