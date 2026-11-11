@@ -780,6 +780,77 @@ describe("PrivacyManager", function () {
       expect(await page.$('table.granularCompliance')).to.equal(null);
     });
 
+    async function hybridTrackingState()
+    {
+        return await page.evaluate(() => {
+            const block = document.querySelector('.hybridTracking');
+            const toggle = document.querySelector('#hybridTrackingEnabled');
+            const note = document.querySelector('.hybridTrackingEnabledForAllWebsites');
+            const guideLink = document.querySelector('.hybridTrackingRequirements a');
+
+            const policyTable = document.querySelector('table.granularCompliance');
+
+            return {
+                // the block sits between the scope selector and the policy tables
+                isBeforePolicies: !!block && !!policyTable
+                  && !!(block.compareDocumentPosition(policyTable) & Node.DOCUMENT_POSITION_FOLLOWING),
+                checked: toggle ? toggle.checked : null,
+                disabled: toggle ? toggle.disabled : null,
+                hasSaveButton: !!document.querySelector('.hybridTrackingSave'),
+                note: note ? note.innerText.trim() : null,
+                hasGuideLink: !!guideLink,
+            };
+        });
+    }
+
+    async function toggleHybridTrackingAndSave()
+    {
+        await page.click('.hybridTracking .switch .lever');
+        await page.waitForTimeout(150);
+        await (await page.jQuery('.hybridTrackingSave input')).click();
+        await page.waitForTimeout(150);
+        await confirmPassword();
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(250);
+    }
+
+    it('should turn hybrid tracking on for all websites, which every website then inherits', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+
+      let state = await hybridTrackingState();
+      expect(state.isBeforePolicies).to.equal(true);
+      expect(state.hasGuideLink).to.equal(true);
+      expect(state.checked).to.equal(false);
+      expect(state.disabled).to.equal(false);
+
+      await toggleHybridTrackingAndSave();
+
+      state = await hybridTrackingState();
+      expect(state.checked).to.equal(true);
+      expect(await page.evaluate(() => $('.hybridTrackingSaveNotifications .notification-success').length)).to.equal(1);
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site'
+        + '&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+
+      state = await hybridTrackingState();
+      expect(state.checked).to.equal(true);
+      expect(state.disabled).to.equal(true);
+      expect(state.hasSaveButton).to.equal(false);
+      expect(state.note).to.equal('Hybrid tracking is enabled for all websites.');
+
+      // turn it back off, so the rest of the suite measures without it
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+      await toggleHybridTrackingAndSave();
+
+      expect((await hybridTrackingState()).checked).to.equal(false);
+    });
+
     after(async function () {
       // leave no config overrides or pending page state behind for later tests
       delete testEnvironment.configOverride.FeatureFlags;

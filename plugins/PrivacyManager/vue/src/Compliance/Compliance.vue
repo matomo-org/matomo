@@ -46,6 +46,7 @@
 
   <template v-if="siteId">
     <template v-if="granularComplianceEnabled">
+      <HybridTracking :id-site="siteId" />
       <GranularComplianceOverview
         v-for="type in complianceTypes"
         :key="type.id"
@@ -86,6 +87,7 @@ import { Field } from 'CorePluginsAdmin';
 import { fetchCompliancePolicies, CompliancePolicy } from './Compliance.store';
 import ComplianceOverview from './ComplianceOverview.vue';
 import GranularComplianceOverview from './GranularComplianceOverview.vue';
+import HybridTracking from './HybridTracking.vue';
 
 const SCOPE_ALL_WEBSITES = 'all';
 const SCOPE_SINGLE_WEBSITE = 'site';
@@ -102,6 +104,7 @@ export default defineComponent({
     ComplianceOverview,
     Field,
     GranularComplianceOverview,
+    HybridTracking,
     SiteSelector,
   },
   setup() {

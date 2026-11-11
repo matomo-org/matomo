@@ -15,7 +15,9 @@ use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
-use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
+use Piwik\Settings\Interfaces\SystemSettingInterface;
+use Piwik\Settings\Interfaces\Traits\Setters\MeasurableSetterTrait;
+use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
 use Piwik\Tracker\Cache as TrackerCache;
 
 /**
@@ -25,16 +27,36 @@ use Piwik\Tracker\Cache as TrackerCache;
  * same, whether or not they consented. While it is on, a visitor who consents is measured without
  * the restrictions the policy imposes for those who have not.
  *
- * It is set per site rather than for the instance, so it can be rolled out a site at a time.
+ * It is set on the Compliance page, for the whole instance or for a website. A website measures
+ * consent-aware analytics when either is on, so it can be rolled out a website at a time.
  *
+ * @implements SystemSettingInterface<bool>
  * @implements MeasurableSettingInterface<bool>
  */
-class ConsentAwareAnalytics implements MeasurableSettingInterface
+class ConsentAwareAnalytics implements SystemSettingInterface, MeasurableSettingInterface
 {
-    /** @use MeasurableGetterTrait<bool> */
-    use MeasurableGetterTrait;
+    /** @use SystemSetterTrait<bool> */
+    use SystemSetterTrait;
+
+    /** @use MeasurableSetterTrait<bool> */
+    use MeasurableSetterTrait;
 
     public const TRACKER_CACHE_KEY = 'PrivacyManager.consentAwareAnalytics';
+
+    protected static function getSystemName(): string
+    {
+        return 'consent_aware_analytics';
+    }
+
+    protected static function getSystemType(): string
+    {
+        return FieldConfig::TYPE_BOOL;
+    }
+
+    protected static function getSystemDefaultValue()
+    {
+        return false;
+    }
 
     protected static function getMeasurableName(): string
     {
@@ -52,11 +74,35 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
     }
 
     /**
-     * The value as configured, for writing into the tracker cache.
+     * Whether it is on for the whole instance.
+     */
+    public static function isEnabledForInstance(): bool
+    {
+        return (bool) self::getSystemValue();
+    }
+
+    /**
+     * Whether this site measures consent-aware analytics, as configured for the instance or for
+     * the site, for writing into the tracker cache.
      */
     public static function isEnabledForSite(int $idSite): bool
     {
-        return (bool) self::getMeasurableValue($idSite);
+        return self::isEnabledForInstance() || (bool) self::getMeasurableValue($idSite);
+    }
+
+    /**
+     * Turns it on or off for the whole instance, or for a site when one is given.
+     */
+    public static function setEnabled(bool $enabled, ?int $idSite = null): void
+    {
+        if (null === $idSite) {
+            self::setSystemValue($enabled);
+        } else {
+            self::setMeasurableValue($idSite, $enabled);
+        }
+
+        // every site inherits the instance value, so every site's tracker cache is stale
+        TrackerCache::deleteTrackerCache();
     }
 
     /**

@@ -25,6 +25,7 @@ use Piwik\Plugins\PrivacyManager\FeatureFlags\GranularPrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Policy\CompliancePolicy;
@@ -919,6 +920,132 @@ class API extends \Piwik\Plugin\API
         $this->postCompliancePolicySettingsUpdated($policy, $idSite, $before, $after);
 
         return $after;
+    }
+
+    /**
+     * Returns whether consent-aware analytics (hybrid tracking) is turned on.
+     *
+     * @param int|string $idSite Site ID to inspect, or `all` for the instance-wide value.
+     * @return array{enabled: bool, enabledForAllWebsites: bool, isWritable: bool} `enabled` is the
+     *         value set for the given scope only, `enabledForAllWebsites` whether it is on for the
+     *         whole instance, and `isWritable` whether the value of that scope can be changed.
+     * @internal
+     */
+    public function getConsentAwareAnalytics($idSite): array
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkGranularComplianceFeatureIsEnabled();
+
+        $idSite = $this->resolveCompliancePolicyIdSite($idSite);
+
+        return $this->getConsentAwareAnalyticsPayload($idSite);
+    }
+
+    /**
+     * Turns consent-aware analytics (hybrid tracking) on or off for the whole instance or for a website.
+     *
+     * A website measures consent-aware analytics when it is on for the instance or for the website.
+     *
+     * @param int|string $idSite Site ID to update, or `all` for the instance-wide value.
+     * @param bool|int|string $enabled Whether to turn it on.
+     * @param string|null $passwordConfirmation Current user password confirmation when required.
+     * @return array{enabled: bool, enabledForAllWebsites: bool, isWritable: bool} The updated
+     *         payload, as returned by {@link getConsentAwareAnalytics()}.
+     * @internal
+     */
+    public function setConsentAwareAnalytics(
+        $idSite,
+        $enabled,
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation = null
+    ): array {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkGranularComplianceFeatureIsEnabled();
+
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
+
+        $idSite = $this->resolveCompliancePolicyIdSite($idSite);
+
+        $enabled = filter_var($enabled, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if (is_null($enabled)) {
+            throw new Exception('Invalid value for the parameter "enabled"');
+        }
+
+        $before = $this->getConsentAwareAnalyticsPayload($idSite);
+        if (!$before['isWritable']) {
+            throw new Exception(Piwik::translate(
+                'CoreAdminHome_PluginSettingChangeNotAllowed',
+                [ConsentAwareAnalytics::getSystemSetting()->getName(), 'PrivacyManager']
+            ));
+        }
+
+        ConsentAwareAnalytics::setEnabled($enabled, $idSite);
+
+        $after = $this->getConsentAwareAnalyticsPayload($idSite);
+
+        if ($before['enabled'] !== $after['enabled']) {
+            $this->postConsentAwareAnalyticsUpdated($idSite, $after['enabled'], $before['enabled']);
+        }
+
+        return $after;
+    }
+
+    /**
+     * @return array{enabled: bool, enabledForAllWebsites: bool, isWritable: bool}
+     */
+    private function getConsentAwareAnalyticsPayload(?int $idSite): array
+    {
+        $enabledForAllWebsites = ConsentAwareAnalytics::isEnabledForInstance();
+
+        return [
+            'enabled' => null === $idSite
+                ? $enabledForAllWebsites
+                : (bool) ConsentAwareAnalytics::getMeasurableValue($idSite),
+            'enabledForAllWebsites' => $enabledForAllWebsites,
+            // only the instance value can be pinned in config.ini.php
+            'isWritable' => null !== $idSite
+                || ConsentAwareAnalytics::getSystemSetting()->isWritableByCurrentUser(),
+        ];
+    }
+
+    private function postConsentAwareAnalyticsUpdated(?int $idSite, bool $enabled, bool $previousEnabled): void
+    {
+        /**
+         * Triggered after a request turned consent-aware analytics (hybrid tracking) on or off,
+         * for the whole instance or for a website, for example through the privacy compliance page.
+         *
+         * The event is only triggered when the value actually changed.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('PrivacyManager.consentAwareAnalyticsUpdated', function ($update) {
+         *         Log::info('Consent-aware analytics is now ' . ($update['enabled'] ? 'on' : 'off'));
+         *     });
+         *
+         * @param array $update Details of the change, containing the following data:
+         *
+         *                      - **idSite**: The website it was changed for, or `null` when the
+         *                                    instance-wide value was changed.
+         *                      - **enabled**: Whether it is on for that scope after the change.
+         *                      - **previousEnabled**: Whether it was on for that scope before.
+         */
+        try {
+            Piwik::postEvent('PrivacyManager.consentAwareAnalyticsUpdated', [[
+                'idSite' => $idSite,
+                'enabled' => $enabled,
+                'previousEnabled' => $previousEnabled,
+            ]]);
+        } catch (\Throwable $e) {
+            // the value is already written, see postCompliancePolicySettingsUpdated()
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'A listener of PrivacyManager.consentAwareAnalyticsUpdated failed: {message}',
+                ['message' => $e->getMessage(), 'exception' => $e]
+            );
+        }
     }
 
     /**
