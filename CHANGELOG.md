@@ -18,7 +18,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
 
 ### Deprecations
-* The `title`, `expanded` and `piwikSelector__dropdown` classes are kept on the website selector for plugins, without styles, and will be removed in Matomo 7; use the `mtm-selector` classes instead.
+* The `title`, `expanded` and `piwikSelector__dropdown` classes on the website selector are deprecated and will be removed in Matomo 7; use the `mtm-selector` classes instead.
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
