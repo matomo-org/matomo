@@ -752,17 +752,21 @@ abstract class Base extends VisitDimension
         }
 
         // The campaign reaching here can come from the attribution cookie, which outlives the
-        // visit, so the conversion may only report one the visit itself holds in the clear. A
-        // visit that was measured without consent holds the placeholder, and one the visitor
-        // arrived at directly holds no campaign at all: surfacing one against either would
-        // contradict the visit with detail gathered before the visitor consented.
+        // visit and is not subject to the policy while it sits in the browser, so the conversion
+        // may only report what the visit itself holds in the clear. Each value is judged on its
+        // own, because a visit can hold its campaign name and still have had the keyword
+        // withheld.
         if (
             $type === Common::REFERRER_TYPE_CAMPAIGN
             && CampaignParameterValuesMasked::isEnabled($request->getIdSite())
-            && !$this->visitHoldsItsOwnCampaign($visitor)
         ) {
-            $name = CampaignParameterValuesMasked::getPlaceholderValue();
-            $keyword = CampaignParameterValuesMasked::getPlaceholderValue();
+            if (!$this->conversionMayReportCampaignValue($request, $visitor, 'referer_name', $name)) {
+                $name = CampaignParameterValuesMasked::getPlaceholderValue();
+            }
+
+            if (!$this->conversionMayReportCampaignValue($request, $visitor, 'referer_keyword', $keyword)) {
+                $keyword = CampaignParameterValuesMasked::getPlaceholderValue();
+            }
         }
 
         $this->setCampaignValuesToLowercase($type, $name, $keyword);
@@ -781,15 +785,45 @@ abstract class Base extends VisitDimension
     }
 
     /**
-     * Whether the visit holds a campaign of its own, recorded in the clear rather than withheld.
+     * Whether a conversion may report one of the campaign values it carries, rather than the
+     * placeholder the policy would otherwise write.
+     *
+     * It may only where the visitor consented and where the value is the one the visit itself
+     * holds in the clear. The campaign on a conversion comes from the attribution cookie, which
+     * outlives the visit and may name an older campaign than the one the visit was started by,
+     * so neither the consent nor the match may be assumed from the visit holding some campaign.
+     *
+     * @param string $column the visit column holding the value this one would be reported against
+     * @param mixed $value the value the conversion carries
      */
-    protected function visitHoldsItsOwnCampaign(Visitor $visitor): bool
-    {
+    protected function conversionMayReportCampaignValue(
+        Request $request,
+        Visitor $visitor,
+        string $column,
+        $value
+    ): bool {
+        // The visit is only measured as a consenting visitor's where the site measures
+        // consent-aware analytics, so a site that never opted in, or one switched back off part
+        // way through a visit, masks as it did before.
+        if (!$this->hasVisitorConsented($request, $visitor)) {
+            return false;
+        }
+
         if (Common::REFERRER_TYPE_CAMPAIGN != $visitor->getVisitorColumn('referer_type')) {
             return false;
         }
 
-        return !CampaignParameterValuesMasked::isPlaceholderValue($visitor->getVisitorColumn('referer_name'));
+        $held = (string) $visitor->getVisitorColumn($column);
+
+        // a visit measured before the visitor consented holds the placeholder, and reporting
+        // anything against that would contradict it with detail gathered beforehand
+        if ('' === $held || CampaignParameterValuesMasked::isPlaceholderValue($held)) {
+            return false;
+        }
+
+        // the campaign the cookie carries may be an older one than the visit was started by, so
+        // it is reported only where it is the same. Stored values are lowercased when written.
+        return mb_strtolower($held) === mb_strtolower((string) $value);
     }
 
     /**

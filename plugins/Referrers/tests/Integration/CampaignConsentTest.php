@@ -721,6 +721,77 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * Baseline: a site that never opted in must mask exactly as it did before this feature. The
+     * visit arrives before the policy is enforced, so it holds its campaign in the clear, and a
+     * conversion inside that same visit then carries a different one from the attribution
+     * cookie. Nothing here involves consent, so nothing here may escape the policy.
+     */
+    public function testAConversionOnASiteNotOptedInReportsThePlaceholder(): void
+    {
+        $this->disableConsentAwareAnalytics();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+
+        $this->assertSame(
+            self::CAMPAIGN_NAME,
+            $this->fetchVisitColumn('referer_name'),
+            'the visit should hold its campaign, having arrived before the policy'
+        );
+
+        $this->enforceCampaignMasking();
+
+        $this->trackGoalConversion('autumn sale', $consent = null);
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchConversionColumn('referer_name'),
+            'an enforced policy was bypassed on a site that never opted in'
+        );
+    }
+
+    /**
+     * Baseline: switching the opt-in back off part way through a visit returns it to the
+     * treatment the policy requires, including for a conversion in the visit already open.
+     */
+    public function testAConversionAfterTheOptInIsSwitchedOffReportsThePlaceholder(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->disableConsentAwareAnalytics();
+
+        $this->trackGoalConversion('autumn sale', $consent = null);
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchConversionColumn('referer_name'),
+            'the visit kept lifting the policy after the site was switched back off'
+        );
+    }
+
+    /**
+     * The attribution cookie outlives the visit, so it can name a campaign the visitor arrived
+     * on an earlier occasion. Consent does not make that one reportable against this visit.
+     */
+    public function testAConversionCarryingADifferentCampaignReportsThePlaceholder(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+
+        $this->trackGoalConversion('autumn sale', $consent = '1');
+
+        $this->assertSame(
+            CampaignParameterValuesMasked::getPlaceholderValue(),
+            $this->fetchConversionColumn('referer_name'),
+            'the conversion reported a campaign the visit does not hold'
+        );
+    }
+
+    /**
      * Where the visit does hold its campaign, the conversion reports the same one.
      */
     public function testAConversionReportsTheCampaignTheVisitHolds(): void
