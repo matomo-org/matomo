@@ -24,6 +24,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A relative `range` is still resolved as before, not on the site's days, and is labelled on the days its rows are archived for.
   * A module that selects its own set of sites, such as `MultiSites.getAll`, is labelled on the days its rows cover, which are UTC's days when it covers more than one site.
   * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
+* `Insights.getInsights` accepts a new optional `comparedToDate` parameter, a date of the same period type to compare the report with. When set, `comparedToXPeriods` is ignored.
 
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.

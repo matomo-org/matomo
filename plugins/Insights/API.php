@@ -259,6 +259,8 @@ class API extends \Piwik\Plugin\API
      * @param int $minGrowthPercent Minimum growth threshold in percent compared to the previous period.
      * @param int $comparedToXPeriods Number of past periods to compare against.
      * @param 'absolute'|'relative'|'importance' $orderBy Row ordering mode.
+     * @param string $comparedToDate Date of the same period type to compare against, for example `2025-05-06` or
+     *                               `2025-05-01,2025-05-31`. When set, `$comparedToXPeriods` is ignored.
      * @return DataTable Insight rows for the requested report.
      */
     public function getInsights(
@@ -273,7 +275,8 @@ class API extends \Piwik\Plugin\API
         $minImpactPercent = 2,
         $minGrowthPercent = 20,
         $comparedToXPeriods = 1,
-        string $orderBy = 'absolute'
+        string $orderBy = 'absolute',
+        string $comparedToDate = ''
     ) {
         Piwik::checkUserHasViewAccess(array($idSite));
 
@@ -289,7 +292,7 @@ class API extends \Piwik\Plugin\API
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($currentReport);
 
-        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
+        $lastDate       = $comparedToDate !== '' ? $comparedToDate : $this->model->getLastDate($date, $period, $comparedToXPeriods);
         $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric, $segment);
         $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($lastReport);
