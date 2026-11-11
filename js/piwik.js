@@ -2443,7 +2443,10 @@ if (typeof window.Matomo !== 'object') {
                 // Guard to prevent empty visits see #6415. If there is a new visitor and the first 2 (or 3 or 4)
                 // tracking requests are at nearly same time (eg trackPageView and trackContentImpression) 2 or more
                 // visits will be created
-                timeNextTrackingRequestCanBeExecutedImmediately = false,
+                firstTrackingRequestSent = false,
+                firstTrackingRequestPending = false,
+                firstTrackingRequestCallbacks = [],
+                firstTrackingRequestTimeout = null,
 
                 // Guard against installing the link tracker more than once per Tracker instance
                 linkTrackingInstalled = false,
@@ -3176,34 +3179,59 @@ if (typeof window.Matomo !== 'object') {
                 });
             }
 
-            function makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(callback)
-            {
-                var now     = new Date();
-                var timeNow = now.getTime();
+            function rethrowTrackingCallbackError(error) {
+                setTimeout(function () {
+                    throw error;
+                }, 0);
+            }
 
-                lastTrackerRequestTime = timeNow;
-
-                if (timeNextTrackingRequestCanBeExecutedImmediately && timeNow < timeNextTrackingRequestCanBeExecutedImmediately) {
-                    // we are in the time frame shortly after the first request. we have to delay this request a bit to make sure
-                    // a visitor has been created meanwhile.
-
-                    var timeToWait = timeNextTrackingRequestCanBeExecutedImmediately - timeNow;
-
-                    setTimeout(callback, timeToWait);
-                    setExpireDateTime(timeToWait + 50); // set timeout is not necessarily executed at timeToWait so delay a bit more
-                    timeNextTrackingRequestCanBeExecutedImmediately += 50; // delay next tracking request by further 50ms to next execute them at same time
-
+            function releaseFirstTrackingRequest() {
+                if (!firstTrackingRequestPending) {
                     return;
                 }
 
-                if (timeNextTrackingRequestCanBeExecutedImmediately === false) {
-                    // it is the first request, we want to execute this one directly and delay all the next one(s) within a delay.
-                    // All requests after this delay can be executed as usual again
-                    var delayInMs = 800;
-                    timeNextTrackingRequestCanBeExecutedImmediately = timeNow + delayInMs;
+                firstTrackingRequestPending = false;
+                clearTimeout(firstTrackingRequestTimeout);
+                delete plugins['FirstTrackingRequest' + uniqueTrackerId];
+
+                var callbacks = firstTrackingRequestCallbacks, i;
+                firstTrackingRequestCallbacks = [];
+
+                for (i = 0; i < callbacks.length; i++) {
+                    try {
+                        callbacks[i]();
+                    } catch (error) {
+                        // One user callback must not discard the remaining pending requests.
+                        rethrowTrackingCallbackError(error);
+                    }
+                }
+            }
+
+            function waitForFirstTrackingRequest(callback) {
+                if (firstTrackingRequestPending && !isPageUnloading) {
+                    firstTrackingRequestCallbacks.push(callback);
+                    return true;
+                }
+                return false;
+            }
+
+            function makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(callback) {
+                lastTrackerRequestTime = new Date().getTime();
+
+                if (firstTrackingRequestSent || isPageUnloading) {
+                    callback();
+                    return;
                 }
 
-                callback();
+                firstTrackingRequestSent = true;
+                firstTrackingRequestPending = true;
+                // A fixed delay cannot guarantee that the initial visit has been persisted.
+                // A bounded wait also lets tracking continue if the initial response never arrives.
+                firstTrackingRequestTimeout = setTimeout(releaseFirstTrackingRequest, 10000);
+                plugins['FirstTrackingRequest' + uniqueTrackerId] = {
+                    unload: releaseFirstTrackingRequest
+                };
+                callback(releaseFirstTrackingRequest);
             }
 
             /*
@@ -3288,6 +3316,12 @@ if (typeof window.Matomo !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
+                if (waitForFirstTrackingRequest(function () {
+                    sendRequest(request, delay, callback);
+                })) {
+                    return;
+                }
+
                 refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push([request, callback]);
@@ -3308,16 +3342,30 @@ if (typeof window.Matomo !== 'object') {
 
                     request = injectBrowserFeaturesAndClientHints(request);
 
-                    makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback, true)) {
+                    makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function (onFirstRequestCompleted) {
+                        var requestCallback = callback;
+                        if (onFirstRequestCompleted) {
+                            requestCallback = function (result) {
+                                try {
+                                    if (typeof callback === 'function') {
+                                        callback(result);
+                                    }
+                                } finally {
+                                    onFirstRequestCompleted();
+                                }
+                            };
+                        }
+
+                        // sendBeacon only acknowledges queueing, so it cannot establish the initial visit.
+                        if (!onFirstRequestCompleted && configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, requestCallback, true)) {
                             setExpireDateTime(100);
                             return;
                         }
 
                         if (shouldForcePost(request)) {
-                            sendXmlHttpRequest(request, callback);
+                            sendXmlHttpRequest(request, requestCallback);
                         } else {
-                            getImage(request, callback);
+                            getImage(request, requestCallback);
                         }
 
                         setExpireDateTime(delay);
@@ -3373,21 +3421,28 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
+                if (requests.length > 50) {
+                    var chunks = arrayChunk(requests, 50), i;
+                    for (i = 0; i < chunks.length; i++) {
+                        sendBulkRequest(chunks[i], delay);
+                    }
+                    return;
+                }
+
+                if (waitForFirstTrackingRequest(function () {
+                    sendBulkRequest(requests, delay);
+                })) {
+                    return;
+                }
+
                 hasSentTrackingRequestYet = true;
 
-                makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                    var chunks = arrayChunk(requests, 50);
-
-                    var i = 0, bulk;
-                    for (i; i < chunks.length; i++) {
-                        bulk = '{"requests":["?' + injectBrowserFeaturesAndClientHints(chunks[i]).join('","?') + '"],"send_image":0}';
-                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
-                            // makes sure to load the next page faster by not waiting as long
-                            // we apply this once we know send beacon works
-                            setExpireDateTime(100);
-                        } else {
-                            sendXmlHttpRequest(bulk, null, false);
-                        }
+                var bulk = '{"requests":["?' + injectBrowserFeaturesAndClientHints(requests).join('","?') + '"],"send_image":0}';
+                makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function (onFirstRequestCompleted) {
+                    if (!onFirstRequestCompleted && configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
+                        setExpireDateTime(100);
+                    } else {
+                        sendXmlHttpRequest(bulk, onFirstRequestCompleted, false);
                     }
 
                     setExpireDateTime(delay);
@@ -6629,6 +6684,8 @@ if (typeof window.Matomo !== 'object') {
              * In case you are setting a callback method when issuing a tracking request, the callback method will
              *  be executed as soon as the tracking request was sent through "sendBeacon" and not after the tracking
              *  request finished as it is not possible to find out when the request finished.
+             * The first tracking request uses an image or XHR response to establish the visit before later
+             * requests are sent. Pending requests are flushed through sendBeacon if the page unloads first.
              * Send beacon will only be used if the browser actually supports it.
              */
             this.alwaysUseSendBeacon = function () {
