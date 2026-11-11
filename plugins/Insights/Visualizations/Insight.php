@@ -28,6 +28,10 @@ class Insight extends Visualization
 
     public function beforeLoadDataTable()
     {
+        // Insights compares the report with another date itself, so the API must not run it through the comparison
+        // filter even when supportsComparison() is true
+        $this->config->disable_comparison = true;
+
         if (!self::canDisplayViewDataTable($this)) {
             return;
         }
@@ -50,6 +54,7 @@ class Insight extends Visualization
             'minImpactPercent' => $this->requestConfig->min_impact_percent,
             'minGrowthPercent' => $this->requestConfig->min_growth_percent,
             'comparedToXPeriods' => $this->getComparedToXPeriodsAgo(),
+            'comparedToDate' => $this->getComparedDate() ?? '',
             'orderBy'  => $this->requestConfig->order_by,
             'filterBy' => $this->requestConfig->filter_by,
             'pivotBy' => false,
@@ -57,6 +62,35 @@ class Insight extends Visualization
             'limitIncreaser' => $this->getLimitIncrease(),
             'limitDecreaser' => $this->getLimitDecrease(),
         );
+    }
+
+    /**
+     * Insights supports a comparison of the report with another date of the same period type, as selected in the date
+     * selector, but not with other segments.
+     */
+    public function supportsComparison()
+    {
+        return null !== $this->getComparedDate() && empty($this->requestConfig->compareSegments);
+    }
+
+    /**
+     * Returns the date selected in the date selector to compare the report with, or null when there is none Insights
+     * can compare with: Insights compares with a single date of the same period type.
+     */
+    private function getComparedDate(): ?string
+    {
+        $compareDates = array_values($this->requestConfig->compareDates);
+        $comparePeriods = array_values($this->requestConfig->comparePeriods);
+
+        if (count($compareDates) !== 1 || count($comparePeriods) !== 1) {
+            return null;
+        }
+
+        if ($comparePeriods[0] !== Common::getRequestVar('period', null, 'string')) {
+            return null;
+        }
+
+        return $compareDates[0];
     }
 
     private function getComparedToXPeriodsAgo()
@@ -132,6 +166,7 @@ class Insight extends Visualization
 
         $period = Common::getRequestVar('period', null, 'string');
         $this->assignTemplateVar('period', $period);
+        $this->assignTemplateVar('isComparedToSelectedDate', null !== $this->getComparedDate());
     }
 
     public static function canDisplayViewDataTable(ViewDataTable $view)
