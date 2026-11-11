@@ -461,6 +461,10 @@ export default defineComponent({
         exportUrlParams.filter_pattern_recursive = dataTable.param.filter_pattern_recursive;
       }
 
+      if (typeof dataTable.param.secondaryDimension !== 'undefined') {
+        exportUrlParams.secondaryDimension = dataTable.param.secondaryDimension;
+      }
+
       if (window.$.isPlainObject(requestParams)) {
         Object.entries(requestParams).forEach(([index, param]) => {
           let value = param;
