@@ -19,7 +19,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Deprecations
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
-* `Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent()` is deprecated and will be removed in Matomo 7, as the Continent segment no longer uses it.
+* `Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent()` is deprecated and will be removed in Matomo 7; use `Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()` instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
 ### HTTP API
