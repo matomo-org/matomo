@@ -14,8 +14,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Exception\DI\DependencyException;
-use Piwik\Exception\DI\NotFoundException;
 use Piwik\Mail;
 use Piwik\Mail\OAuth\AccessTokenProvider;
 use Piwik\Mail\OAuth\TokenRequestFailedException;
@@ -28,9 +26,6 @@ class Transport
      * Sends the given mail
      *
      * @return bool
-     * @throws DependencyException
-     * @throws PHPMailerException
-     * @throws NotFoundException
      */
     public function send(Mail $mail)
     {
@@ -107,16 +102,25 @@ class Transport
             }
         }
 
-        if (defined('PIWIK_TEST_MODE')) { // hack
-            /**
-             * @ignore
-             * @internal
-             */
-            Piwik::postTestEvent("Test.Mail.send", array($phpMailer));
-            return true;
-        }
+        try {
+            if (defined('PIWIK_TEST_MODE')) { // hack
+                /**
+                 * @ignore
+                 * @internal
+                 */
+                Piwik::postTestEvent("Test.Mail.send", array($phpMailer));
+                return true;
+            }
 
-        return $phpMailer->send();
+            return $phpMailer->send();
+        } catch (PHPMailerException $e) {
+            if ($phpMailer->AuthType === 'XOAUTH2') {
+                // the mail server may have rejected the access token, so the next email requests a new one
+                StaticContainer::get(AccessTokenProvider::class)->forgetAccessToken();
+            }
+
+            throw $e;
+        }
     }
 
     /**

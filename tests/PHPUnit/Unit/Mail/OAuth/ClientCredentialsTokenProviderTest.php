@@ -11,9 +11,12 @@ declare(strict_types=1);
 
 namespace Piwik\Tests\Unit\Mail\OAuth;
 
+use Matomo\Cache\Backend\ArrayCache;
+use Matomo\Cache\Backend\Chained;
 use Matomo\Cache\Lazy;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Piwik\Date;
 use Piwik\Mail\OAuth\ClientCredentialsTokenProvider;
 use Piwik\Mail\OAuth\TokenRequestFailedException;
 
@@ -30,6 +33,8 @@ class ClientCredentialsTokenProviderTest extends TestCase
         'oauth_scope'         => 'https://mail.example.test/.default',
     ];
 
+    private const NOW = 1700000000;
+
     /**
      * @var Lazy&MockObject
      */
@@ -41,6 +46,15 @@ class ClientCredentialsTokenProviderTest extends TestCase
 
         $this->cache = $this->createMock(Lazy::class);
         $this->cache->method('fetch')->willReturn(false);
+
+        Date::$now = self::NOW;
+    }
+
+    protected function tearDown(): void
+    {
+        Date::$now = null;
+
+        parent::tearDown();
     }
 
     public function testRequestsATokenWithTheClientCredentials(): void
@@ -57,25 +71,21 @@ class ClientCredentialsTokenProviderTest extends TestCase
                 'scope'         => 'https://mail.example.test/.default',
             ],
         ]], $provider->requests);
-    }
 
-    public function testLeavesOutAnEmptyScope(): void
-    {
-        $provider = $this->getProvider(
-            ['status' => 200, 'data' => '{"access_token":"the-token"}'],
-            ['oauth_scope' => '']
-        );
-
-        $provider->getAccessToken();
-
-        $this->assertArrayNotHasKey('scope', $provider->requests[0][1]);
+        $withoutScope = $this->getProvider(['status' => 200, 'data' => '{"access_token":"the-token"}'], ['oauth_scope' => '']);
+        $withoutScope->getAccessToken();
+        $this->assertArrayNotHasKey('scope', $withoutScope->requests[0][1]);
     }
 
     public function testCachesTheTokenUntilShortlyBeforeItExpires(): void
     {
         $this->cache->expects($this->once())
             ->method('save')
-            ->with($this->stringStartsWith('MailOAuthAccessToken_'), 'the-token', 3540);
+            ->with(
+                $this->stringStartsWith('MailOAuthAccessToken_'),
+                ['token' => 'the-token', 'expires' => self::NOW + 3540],
+                3540
+            );
 
         $this->getProvider(['status' => 200, 'data' => '{"access_token":"the-token","expires_in":3600}'])->getAccessToken();
     }
@@ -96,18 +106,6 @@ class ClientCredentialsTokenProviderTest extends TestCase
         yield 'lifetime shorter than the margin' => ['{"access_token":"the-token","expires_in":30}'];
     }
 
-    public function testUsesTheCachedTokenWithoutARequest(): void
-    {
-        $cache = $this->createMock(Lazy::class);
-        $cache->method('fetch')->willReturn('the-cached-token');
-        $cache->expects($this->never())->method('save');
-
-        $provider = new FakeHttpClientCredentialsTokenProvider($cache, self::MAIL_CONFIG, []);
-
-        $this->assertSame('the-cached-token', $provider->getAccessToken());
-        $this->assertSame([], $provider->requests);
-    }
-
     public function testUsesADifferentCacheEntryWhenASettingChanges(): void
     {
         $cacheIds = [];
@@ -125,31 +123,107 @@ class ClientCredentialsTokenProviderTest extends TestCase
         $this->assertStringNotContainsString('secret', implode('', $cacheIds));
     }
 
-    public function testFailsWithTheReasonGivenByTheProvider(): void
+    public function testUsesTheCachedTokenUntilItIsForgotten(): void
     {
-        $provider = $this->getProvider([
-            'status' => 401,
-            'data'   => '{"error":"invalid_client","error_description":"Invalid client secret provided.\r\nTrace ID: 1"}',
-        ]);
+        $fetchedId = null;
+        $cache = $this->createMock(Lazy::class);
+        $cache->method('fetch')->willReturnCallback(function ($id) use (&$fetchedId) {
+            $fetchedId = $id;
+
+            return ['token' => 'cached-token', 'expires' => self::NOW + 10];
+        });
+        $deletedIds = [];
+        $cache->method('delete')->willReturnCallback(function ($id) use (&$deletedIds) {
+            $deletedIds[] = $id;
+
+            return true;
+        });
+
+        $provider = new FakeHttpClientCredentialsTokenProvider($cache, self::MAIL_CONFIG, ['status' => 200]);
+
+        $this->assertSame('cached-token', $provider->getAccessToken());
+        $this->assertSame([], $provider->requests);
+
+        $provider->forgetAccessToken();
+
+        $this->assertSame([$fetchedId, $fetchedId . '_failed'], $deletedIds);
+    }
+
+    public function testRequestsANewTokenOnceTheCachedOneExpiredEvenIfTheCacheStillHasIt(): void
+    {
+        // the array backend, which is part of the default chained cache, never removes an entry
+        $cache = new Lazy(new Chained([new ArrayCache()]));
+
+        $response = ['status' => 200, 'data' => '{"access_token":"the-token","expires_in":3600}'];
+        $provider = new FakeHttpClientCredentialsTokenProvider($cache, self::MAIL_CONFIG, $response);
+
+        $provider->getAccessToken();
+        Date::$now = self::NOW + 3539;
+        $provider->getAccessToken();
+        $this->assertCount(1, $provider->requests);
+
+        Date::$now = self::NOW + 3540;
+        $provider->getAccessToken();
+        $this->assertCount(2, $provider->requests);
+    }
+
+    public function testDoesNotRepeatAFailedRequestForAShortTime(): void
+    {
+        $cache = new Lazy(new ArrayCache());
+
+        $response = ['status' => 401, 'data' => '{"error":"invalid_client"}'];
+        $provider = new FakeHttpClientCredentialsTokenProvider($cache, self::MAIL_CONFIG, $response);
+
+        foreach ([1, 2] as $attempt) {
+            try {
+                $provider->getAccessToken();
+                $this->fail('Expected exception was not thrown');
+            } catch (TokenRequestFailedException $e) {
+                $this->assertSame('The SMTP OAuth token request failed with HTTP status 401.', $e->getMessage());
+                $this->assertSame('invalid_client', $e->getDetail());
+            }
+        }
+
+        $this->assertCount(1, $provider->requests);
+
+        Date::$now = self::NOW + 60;
 
         try {
             $provider->getAccessToken();
             $this->fail('Expected exception was not thrown');
         } catch (TokenRequestFailedException $e) {
-            $this->assertSame(
-                'The SMTP OAuth token request failed with HTTP status 401'
-                . ' (invalid_client: Invalid client secret provided. Trace ID: 1).',
-                $e->getMessage()
-            );
+            $this->assertCount(2, $provider->requests);
         }
     }
 
-    public function testFailsWithTheStatusAloneWhenThereIsNoResponseBody(): void
+    /**
+     * @dataProvider getFailedResponses
+     * @param array{status: ?int, data?: ?string}|\Exception $response
+     */
+    public function testKeepsTheReasonGivenByTheProviderOutOfTheMessage($response, string $message, string $detail): void
     {
-        $this->expectException(TokenRequestFailedException::class);
-        $this->expectExceptionMessage('The SMTP OAuth token request failed with HTTP status 400.');
+        try {
+            $this->getProvider($response)->getAccessToken();
+            $this->fail('Expected exception was not thrown');
+        } catch (TokenRequestFailedException $e) {
+            $this->assertSame($message, $e->getMessage());
+            $this->assertSame($detail, $e->getDetail());
+        }
+    }
 
-        $this->getProvider(['status' => 400])->getAccessToken();
+    public function getFailedResponses(): iterable
+    {
+        yield 'with a reason' => [
+            ['status' => 401, 'data' => '{"error":"invalid_client","error_description":"Invalid client secret provided.\r\nTrace ID: 1"}'],
+            'The SMTP OAuth token request failed with HTTP status 401.',
+            'invalid_client: Invalid client secret provided. Trace ID: 1',
+        ];
+        yield 'no response body' => [['status' => 400], 'The SMTP OAuth token request failed with HTTP status 400.', ''];
+        yield 'endpoint not reached' => [
+            new \Exception('Unable to open https://login.example.test/token'),
+            'The SMTP OAuth token endpoint could not be reached.',
+            'Unable to open https://login.example.test/token',
+        ];
     }
 
     /**
@@ -157,7 +231,7 @@ class ClientCredentialsTokenProviderTest extends TestCase
      */
     public function testFailsWhenTheResponseHasNoAccessToken(string $responseBody): void
     {
-        $this->cache->expects($this->never())->method('save');
+        $this->cache->expects($this->once())->method('save')->with($this->stringEndsWith('_failed'));
 
         $this->expectException(TokenRequestFailedException::class);
         $this->expectExceptionMessage('The SMTP OAuth token response did not contain an access token.');
@@ -197,7 +271,10 @@ class ClientCredentialsTokenProviderTest extends TestCase
         yield 'token URL is not https' => [['oauth_token_url' => 'http://login.example.test/token'], 'has to start with https://'];
     }
 
-    private function getProvider(array $response, array $settings = []): FakeHttpClientCredentialsTokenProvider
+    /**
+     * @param array{status: ?int, data?: ?string}|\Exception $response
+     */
+    private function getProvider($response, array $settings = []): FakeHttpClientCredentialsTokenProvider
     {
         return new FakeHttpClientCredentialsTokenProvider($this->cache, $settings + self::MAIL_CONFIG, $response);
     }
@@ -216,11 +293,14 @@ class FakeHttpClientCredentialsTokenProvider extends ClientCredentialsTokenProvi
     private $mailConfig;
 
     /**
-     * @var array{status: ?int, data?: ?string}
+     * @var array{status: ?int, data?: ?string}|\Exception
      */
     private $response;
 
-    public function __construct(Lazy $cache, array $mailConfig, array $response)
+    /**
+     * @param array{status: ?int, data?: ?string}|\Exception $response
+     */
+    public function __construct(Lazy $cache, array $mailConfig, $response)
     {
         parent::__construct($cache);
 
@@ -236,6 +316,10 @@ class FakeHttpClientCredentialsTokenProvider extends ClientCredentialsTokenProvi
     protected function sendTokenRequest(string $tokenUrl, array $requestBody): array
     {
         $this->requests[] = [$tokenUrl, $requestBody];
+
+        if ($this->response instanceof \Exception) {
+            throw $this->response;
+        }
 
         return $this->response;
     }
