@@ -13,13 +13,14 @@ use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 
 /**
  * The "What's New" entries shown on the login layout (`@Login/loginLayout.twig`, shared by Login
- * and TwoFactorAuth).
+ * and TwoFactorAuth). An admin can hide them with `[General] login_whats_new_panel_enabled = 0`.
  *
  * Takes the three most recent changes and keeps a link only when a logged out visitor could follow
  * it. An entry always keeps its title and description; only the link goes. Any failure is logged
@@ -64,11 +65,19 @@ class WhatsNewProvider
      * Returns the processed What's New entries for the login layout.
      *
      * @return array<int, array<string, mixed>> Each entry has: title, description, plugin_name,
-     *                                           showPluginPrefix, link, link_name. Empty on any failure.
+     *                                           showPluginPrefix, link, link_name. Empty on any failure,
+     *                                           or when the panel is turned off in the config.
      */
     public function getChanges(): array
     {
         if ($this->changes !== null) {
+            return $this->changes;
+        }
+
+        // Checked before the cache, so turning the panel off takes effect on the next request.
+        if (!GeneralConfig::getBoolConfigValue('login_whats_new_panel_enabled', true)) {
+            $this->changes = [];
+
             return $this->changes;
         }
 
