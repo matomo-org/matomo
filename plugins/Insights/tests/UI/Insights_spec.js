@@ -27,13 +27,13 @@ describe("Insights", function () {
         it("should compare with the previous month by default", async function () {
             await page.goto(monthUrl);
 
-            expect(await title()).to.contain('July 2012');
+            expect(await title()).to.contain('Jul 2012');
         });
 
         it("should compare with the month selected in the date selector", async function () {
             await page.goto(monthUrl + '&compareDates[]=2011-08-09&comparePeriods[]=month');
 
-            expect(await title()).to.contain('August 2011');
+            expect(await title()).to.contain('Aug 2011');
             // the comparison is the one of the date selector, so neither the control choosing it nor the message
             // saying the visualization ignores the comparison is shown
             expect(await page.evaluate(() => $('select[name=comparedToXPeriodsAgo]').length)).to.equal(0);
@@ -43,7 +43,7 @@ describe("Insights", function () {
         it("should keep comparing with the selected month when another segment is compared too", async function () {
             await page.goto(monthUrl + '&compareDates[]=2011-08-09&comparePeriods[]=month&compareSegments[]=' + encodeURIComponent('browserCode==FF'));
 
-            expect(await title()).to.contain('August 2011');
+            expect(await title()).to.contain('Aug 2011');
         });
     });
 
