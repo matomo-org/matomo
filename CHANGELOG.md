@@ -51,6 +51,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
 * For estimated periods, `VisitsSummary.get`, `VisitFrequency.get`, `AIAgents.get` and `API.get` return estimated `nb_uniq_visitors` and `nb_users`, and a new `uniques_estimated` column (`1` when estimated). `VisitFrequency.get` and `AIAgents.get` return it per visitor type, for example `uniques_estimated_returning`. A period without a unique count now leaves out `nb_uniq_visitors` and `nb_users` instead of returning `0`, also in `API.getProcessedReport`, `ImageGraph` and `VisitsSummary.getUniqueVisitors` / `getUsers`.
+* `Insights.getInsights` accepts a new optional `comparedToDate` parameter, a date of the same period type to compare the report with. When set, `comparedToXPeriods` is ignored.
 
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
