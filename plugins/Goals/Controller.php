@@ -110,7 +110,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idGoal = $idGoal;
         // forwarded to the segmented visitor log so it is not limited to the goal segment only
         $view->currentSegment = \Piwik\Request::fromRequest()->getStringParameter('segment', '');
-        $view->visitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogEnabled($this->idSite);
+        $view->visitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogAvailable($this->idSite);
 
         return $view->render();
     }

@@ -45,6 +45,9 @@ class LocationSummary extends ProfileSummaryAbstract
             Common::getRequestVar('showMap', 1) == 1
             && !empty($view->visitorData['hasLatLong'])
             && \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountryMap')
+            // the map finds the visits by the visitorId segment, not available when the profile is limited to
+            // visitors who gave consent
+            && Live\Live::isVisitorProfileEnabled()
         ) {
             $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();
         }

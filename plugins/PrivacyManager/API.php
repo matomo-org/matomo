@@ -19,6 +19,7 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled;
@@ -53,7 +54,7 @@ class API extends \Piwik\Plugin\API
     /**
      * The value of log_visit.consent for a visit whose visitor gave consent.
      */
-    private const CONSENT_GIVEN = 1;
+    private const CONSENT_GIVEN = Consent::CONSENTED;
 
     private DataSubjects $gdpr;
 

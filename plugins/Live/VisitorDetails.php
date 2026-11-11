@@ -131,7 +131,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderVisitorDetails($visitorDetails)
     {
         $view            = new View('@Live/_visitorDetails.twig');
-        $view->isProfileEnabled = Live::isVisitorProfileEnabled();
+        $view->isProfileEnabled = Live::isVisitorProfileAvailable();
         $view->sendHeadersWhenRendering = false;
         $view->visitInfo = $visitorDetails;
         return [[ 0, $view->render() ]];
@@ -140,7 +140,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderIcons($visitorDetails)
     {
         $view          = new View('@Live/_visitorLogIcons.twig');
-        $view->isProfileEnabled = Live::isVisitorProfileEnabled();
+        $view->isProfileEnabled = Live::isVisitorProfileAvailable();
         $view->sendHeadersWhenRendering = false;
         $view->visitor = $visitorDetails;
         return $view->render();

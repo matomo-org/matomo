@@ -48,6 +48,6 @@ class GetLastVisitsDetails extends Base
 
     public function isEnabled()
     {
-        return Live::isVisitorLogEnabled();
+        return Live::isVisitorLogAvailable();
     }
 }
