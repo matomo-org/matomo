@@ -411,6 +411,38 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testRedirectIsNotFollowedWhenDisabled($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=1',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = true,
+            $httpMethod = 'POST',
+            $httpUsername = null,
+            $httpPassword = null,
+            $requestBody = ['secret' => 'value'],
+            $additionalHeaders = [],
+            $forcePost = null,
+            $checkHostIsAllowed = true,
+            $validateEgressIp = false,
+            $followRedirects = false
+        );
+
+        $this->assertSame(302, $result['status']);
+        $this->assertStringNotContainsString('redirects=0', (string) $result['data']);
+    }
+
     public function getRedirectUrls()
     {
         return [
@@ -473,6 +505,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
             'validateEgressIp' => false,
+            'followRedirects' => true,
         ), null, null, array()), $params);
 
         $this->assertNotEmpty($params2[4]);// headers
@@ -489,7 +522,43 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
             'validateEgressIp' => false,
+            'followRedirects' => true,
         ), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
+    }
+
+    public function testHttpPostsEventWithFollowRedirectsDisabled()
+    {
+        $params = null;
+        Piwik::addAction('Http.sendHttpRequest', function ($url, $args, &$response, &$status) use (&$params) {
+            $params = $args;
+            $response = '';
+            $status = 200;
+        });
+
+        Http::sendHttpRequestBy(
+            Http::getTransportMethod(),
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'GET',
+            $httpUsername = null,
+            $httpPassword = null,
+            $requestBody = null,
+            $additionalHeaders = [],
+            $forcePost = null,
+            $checkHostIsAllowed = true,
+            $validateEgressIp = false,
+            $followRedirects = false
+        );
+
+        $this->assertFalse($params['followRedirects']);
     }
 
     public function testHttpReturnsResultOfPostedEvent()

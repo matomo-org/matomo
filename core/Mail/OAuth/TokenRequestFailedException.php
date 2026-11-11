@@ -16,4 +16,25 @@ namespace Piwik\Mail\OAuth;
  */
 class TokenRequestFailedException extends \RuntimeException
 {
+    /**
+     * @var string
+     */
+    private $detail;
+
+    /**
+     * @param string $detail why the request failed, for example what the token endpoint answered. It is kept out
+     *                       of the message because the message can be shown to visitors who are not logged in, for
+     *                       example on the password reset form.
+     */
+    public function __construct(string $message, string $detail = '')
+    {
+        parent::__construct($message);
+
+        $this->detail = $detail;
+    }
+
+    public function getDetail(): string
+    {
+        return $this->detail;
+    }
 }

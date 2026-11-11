@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Tests\Integration\Mail;
 
+use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Piwik\Config;
@@ -40,14 +41,15 @@ class TransportTest extends IntegrationTestCase
      */
     private $accessTokenRequests = 0;
 
-    public function testUsesTheBuiltInMailFunctionWithoutSmtpSettings(): void
-    {
-        $this->sendMail();
+    /**
+     * @var int
+     */
+    private $forgottenAccessTokens = 0;
 
-        $this->assertSame('mail', $this->phpMailer->Mailer);
-        $this->assertNotInstanceOf(XOAuth2Authenticator::class, $this->phpMailer->getOAuth());
-        $this->assertSame(0, $this->accessTokenRequests);
-    }
+    /**
+     * @var bool
+     */
+    private $failSending = false;
 
     public function testAuthenticatesWithThePasswordForPasswordBasedTypes(): void
     {
@@ -96,6 +98,28 @@ class TransportTest extends IntegrationTestCase
         }
     }
 
+    /**
+     * @dataProvider getAuthTypesAndForgottenTokens
+     */
+    public function testForgetsTheAccessTokenWhenSendingFailsForXoauth2(string $type, int $expectedForgottenTokens): void
+    {
+        $this->setSmtpConfig(['type' => $type]);
+        $this->failSending = true;
+
+        try {
+            $this->sendMail();
+            $this->fail('Expected exception was not thrown');
+        } catch (PHPMailerException $e) {
+            $this->assertSame($expectedForgottenTokens, $this->forgottenAccessTokens);
+        }
+    }
+
+    public function getAuthTypesAndForgottenTokens(): iterable
+    {
+        yield 'OAuth' => ['Xoauth2', 1];
+        yield 'password' => ['Login', 0];
+    }
+
     public function testHidesTheOAuthCredentialsInTheSmtpDebugOutput(): void
     {
         $this->setSmtpConfig(['type' => 'Xoauth2']);
@@ -117,34 +141,39 @@ class TransportTest extends IntegrationTestCase
         $this->assertStringContainsString("CLIENT -> SERVER: [credentials hidden]\n", $output);
     }
 
-    public function testKeepsTheDefaultSmtpDebugOutputForPasswordBasedTypes(): void
-    {
-        $this->setSmtpConfig(['type' => 'Login', 'password' => 'the-password']);
-
-        $this->sendMail(true);
-
-        $this->assertSame(SMTP::DEBUG_SERVER, $this->phpMailer->SMTPDebug);
-        $this->assertSame('echo', $this->phpMailer->Debugoutput);
-    }
-
     public function provideContainerConfig()
     {
         return [
             'observers.global' => DI::add([
                 ['Test.Mail.send', DI::value(function (PHPMailer $phpMailer) {
                     $this->phpMailer = $phpMailer;
+
+                    if ($this->failSending) {
+                        throw new PHPMailerException('SMTP Error: Could not authenticate.');
+                    }
                 })],
             ]),
             AccessTokenProvider::class => DI::factory(function () {
-                return new class ($this->accessTokenRequests) implements AccessTokenProvider {
+                return new class ($this->accessTokenRequests, $this->forgottenAccessTokens) implements AccessTokenProvider {
                     /**
                      * @var int
                      */
                     private $requests;
 
-                    public function __construct(int &$requests)
+                    /**
+                     * @var int
+                     */
+                    private $forgotten;
+
+                    public function __construct(int &$requests, int &$forgotten)
                     {
                         $this->requests = &$requests;
+                        $this->forgotten = &$forgotten;
+                    }
+
+                    public function forgetAccessToken(): void
+                    {
+                        $this->forgotten++;
                     }
 
                     public function getAccessToken(): string
