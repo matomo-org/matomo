@@ -66,9 +66,9 @@ class CampaignParameterValuesMasked implements
     public static function getWhatItDoes(?int $idSite = null): string
     {
         // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+        // does. It is off by default, and where it is not turned on every visitor is treated the
+        // same, so the plain wording is what is true there. Without a site, it is the instance's
+        if (null === $idSite ? ConsentAwareAnalytics::isEnabledForInstance() : ConsentAwareAnalytics::isEnabledForSite($idSite)) {
             return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoes2');
         }
 
@@ -78,9 +78,9 @@ class CampaignParameterValuesMasked implements
     public static function getImpact(?int $idSite = null): string
     {
         // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+        // does. It is off by default, and where it is not turned on every visitor is treated the
+        // same, so the plain wording is what is true there. Without a site, it is the instance's
+        if (null === $idSite ? ConsentAwareAnalytics::isEnabledForInstance() : ConsentAwareAnalytics::isEnabledForSite($idSite)) {
             return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingImpact2');
         }
 
