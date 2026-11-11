@@ -911,29 +911,12 @@ abstract class Base extends VisitDimension
      * does not repeat the flag - one sent in a batch, or by a tracker that does not report it at
      * all - is not treated as though the visitor had never consented.
      *
-     * This is not how the User ID and the referrer anonymisation level are decided: both follow
-     * the flag on the request in front of them, so a request that omits it has its User ID
-     * withheld and its referrer anonymised even within a consented visit. The two rules disagree
-     * and only one of them should survive. Which is an open question for the epic rather than
-     * something to settle here, so the difference is stated rather than papered over.
+     * The User ID and the referrer anonymisation level follow the same rule, through the same
+     * answer, so that one visit is measured one way throughout.
      */
     protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
     {
-        if ($request->hasConsent()) {
-            return true;
-        }
-
-        // a visit being created now does not inherit the consent of the one before it: the
-        // recognised visit's columns are still loaded at this point, and the consent recorded
-        // against that visit says nothing about this one
-        if ($request->getMetadata('CoreHome', 'isNewVisit')) {
-            return false;
-        }
-
-        // and consent recorded against the visit stops counting once the site stops measuring
-        // consent-aware analytics, so turning the setting off - or forcing cookieless tracking -
-        // takes effect for visits that had already consented rather than only for new ones
-        return $request->measuresConsentAwareAnalytics() && Consent::hasVisitConsented($visitor);
+        return Consent::visitHasConsent($request, $visitor);
     }
 
     /**

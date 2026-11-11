@@ -17,6 +17,8 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tracker\Visit\VisitProperties;
+use Piwik\Tracker\Visitor;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 
 class RequestProcessor extends Tracker\RequestProcessor
 {
@@ -44,9 +46,22 @@ class RequestProcessor extends Tracker\RequestProcessor
      * themselves still applies, so a consented request is anonymised down to that level rather
      * than to the stricter level a policy may be enforcing on top of it.
      */
-    private function getReferrerAnonymisation(Request $request): string
+    /**
+     * The level this request's referrer is anonymised to.
+     *
+     * Consent lifts the level a compliance policy enforces back to the one the admin configured,
+     * and that consent belongs to the visit rather than to the request: a later request in a
+     * visit that consented is not anonymised more strictly just because it does not repeat the
+     * flag. Where the visit is not known - a request handled before one is - the request's own
+     * answer is all there is.
+     */
+    private function getReferrerAnonymisation(Request $request, ?VisitProperties $visitProperties = null): string
     {
-        if (!$request->hasConsent()) {
+        $hasConsent = null === $visitProperties
+            ? $request->hasConsent()
+            : Consent::visitHasConsent($request, Visitor::makeFromVisitProperties($visitProperties, $request));
+
+        if (!$hasConsent) {
             return $this->config->anonymizeReferrer;
         }
 
@@ -77,7 +92,7 @@ class RequestProcessor extends Tracker\RequestProcessor
     public function onNewVisit(VisitProperties $visitProperties, Request $request)
     {
         $this->provideIdSiteToPrivacyManagerConfig($request);
-        $anonymisation = $this->getReferrerAnonymisation($request);
+        $anonymisation = $this->getReferrerAnonymisation($request, $visitProperties);
 
         $type = $visitProperties->getProperty('referer_type');
 
@@ -99,7 +114,7 @@ class RequestProcessor extends Tracker\RequestProcessor
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
         $this->provideIdSiteToPrivacyManagerConfig($request);
-        $anonymisation = $this->getReferrerAnonymisation($request);
+        $anonymisation = $this->getReferrerAnonymisation($request, $visitProperties);
 
         if (isset($valuesToUpdate['referer_type'])) {
             $type = $valuesToUpdate['referer_type'];

@@ -119,6 +119,34 @@ class Consent extends VisitDimension
     /**
      * Whether consent was already recorded for this visit, as stored before the current request.
      */
+    /**
+     * Whether the visit this request is being recorded against has the visitor's consent, given
+     * by this request or earlier in the same visit.
+     *
+     * Consent describes the visitor rather than the request, so a later request that does not
+     * repeat the flag - one sent in a batch, by a second tracker on the page, or by a server
+     * side call - is not treated as though the visitor had never consented. Everything the
+     * consent governs follows this, so that one visit is measured one way throughout.
+     */
+    public static function visitHasConsent(Request $request, Visitor $visitor): bool
+    {
+        if ($request->hasConsent()) {
+            return true;
+        }
+
+        // a visit being created now does not inherit the consent of the one before it: the
+        // recognised visit's columns are still loaded at this point, and the consent recorded
+        // against that visit says nothing about this one
+        if ($request->getMetadata('CoreHome', 'isNewVisit')) {
+            return false;
+        }
+
+        // and consent recorded against the visit stops counting once the site stops measuring
+        // consent-aware analytics, so turning the setting off - or forcing cookieless tracking -
+        // takes effect for visits that had already consented rather than only for new ones
+        return $request->measuresConsentAwareAnalytics() && self::hasVisitConsented($visitor);
+    }
+
     public static function hasVisitConsented(Visitor $visitor): bool
     {
         return self::CONSENT_GIVEN === (int) $visitor->getImmutableVisitorColumn('consent');

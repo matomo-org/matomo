@@ -574,7 +574,10 @@ class Visit implements VisitInterface
         // route either: while enable_userid_overwrites_visitorid is on it replaces the visit's
         // idvisitor with a hash of the User ID, which identifies the visitor as surely as the
         // column would have. It may only do so where the consent reported applies to this visit.
-        $hasConsent = $this->mayUseTheReportedConsent() ? null : false;
+        // the visit's consent, not the flag on this one request, so that the identifier does not
+        // switch back and forth between the User ID hash and the cookie id as requests arrive
+        $hasConsent = $this->mayUseTheReportedConsent()
+            && Consent::visitHasConsent($this->request, $this->makeVisitorFacade());
 
         $visitorId = $this->request->getVisitorId($hasConsent);
         if ($visitorId && strlen($visitorId) === Tracker::LENGTH_BINARY_ID) {

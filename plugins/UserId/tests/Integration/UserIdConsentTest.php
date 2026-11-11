@@ -197,6 +197,39 @@ class UserIdConsentTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * Consent belongs to the visit, so a later request that does not repeat the flag - one sent
+     * in a batch, by a second tracker on the page, or by a server side call - is still part of a
+     * visit that consented.
+     *
+     * The identifier is where that shows: while enable_userid_overwrites_visitorid is on, a
+     * consented request sets the visit's idvisitor to the User ID hash, and a request judged on
+     * its own flag would set it straight back to the cookie id, rewriting the visit and its
+     * action rows each time one arrived without the flag.
+     */
+    public function testALaterRequestWithoutTheFlagDoesNotChangeTheIdentifierOfAConsentedVisit(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView('1', 'landing');
+
+        $afterConsent = bin2hex((string) $this->fetchVisitColumn('idvisitor'));
+        $this->assertSame(
+            substr(sha1(self::USER_ID), 0, 16),
+            $afterConsent,
+            'the consented visit should hold the User ID hash for this test to mean anything'
+        );
+
+        $this->trackPageView(null, 'other');
+
+        $this->assertSame(1, $this->countVisits(), 'the request should not have started a visit');
+        $this->assertSame(
+            $afterConsent,
+            bin2hex((string) $this->fetchVisitColumn('idvisitor')),
+            'the identifier changed within the visit because one request did not repeat the flag'
+        );
+    }
+
     private function forceNewVisitWithoutConsent(): void
     {
         $this->testDate = $this->testDate->addPeriod(1, 'minute');
