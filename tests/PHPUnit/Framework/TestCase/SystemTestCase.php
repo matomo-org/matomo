@@ -82,6 +82,23 @@ abstract class SystemTestCase extends TestCase
 
     private static $shouldFilterApiResponse = false;
 
+    /**
+     * restoreDbTables() baseline: each table's state right after the last restore.
+     *
+     * @var array<string, array{state: string, writes: int}>|null
+     */
+    protected static $tableStatesAfterRestore = null;
+
+    /**
+     * The snapshot the baseline was taken against; a different snapshot forces a full reset.
+     *
+     * @var array|null
+     */
+    protected static $tableStatesSnapshot = null;
+
+    /** @var bool|null null until an insert has been seen to move the counters */
+    private static $canUseTableStates = null;
+
     public function setGroups(array $groups): void
     {
         $pluginName = explode('\\', get_class($this));
@@ -786,8 +803,8 @@ abstract class SystemTestCase extends TestCase
     }
 
     /**
-     * Truncates all tables then inserts the data in $tables into each
-     * mapped table.
+     * Truncates the tables that changed since $tables was last restored, then refills them from
+     * $tables. Set MATOMO_TESTS_TRUNCATE_ALL=1 to truncate every table instead.
      *
      * @param array $tables Array mapping table names with arrays of row data.
      */
@@ -798,7 +815,34 @@ abstract class SystemTestCase extends TestCase
             Db::exec("USE " . Config::getInstance()->database_tests['dbname']);
         }
 
-        DbHelper::truncateAllTables();
+        $statesBeforeInsert = null;
+        if (getenv('MATOMO_TESTS_TRUNCATE_ALL')) {
+            DbHelper::truncateAllTables();
+            $tablesToReset = null;
+        } else {
+            $existingTables = self::fetchFirstColumn('SHOW TABLES');
+            $states = null;
+            if (self::$tableStatesAfterRestore !== null && self::$tableStatesSnapshot === $tables) {
+                $states = self::getTableStates();
+            }
+            if ($states !== null) {
+                $tablesToReset = array_values(array_filter($existingTables, function ($table) use ($states) {
+                    return !isset($states[$table], self::$tableStatesAfterRestore[$table])
+                        || $states[$table]['state'] !== self::$tableStatesAfterRestore[$table]['state'];
+                }));
+            } else {
+                $tablesToReset = self::getTablesChangedSinceSnapshot($tables, $existingTables);
+            }
+            foreach ($tablesToReset as $table) {
+                Db::query("TRUNCATE `$table`");
+            }
+            // a dropped archive table from the snapshot is recreated below and must be refilled
+            $tablesToReset = array_flip(array_merge($tablesToReset, array_diff(array_keys($tables), $existingTables)));
+
+            if (self::$canUseTableStates === null) {
+                $statesBeforeInsert = self::getTableStates();
+            }
+        }
 
         // insert data
         $archiveTables = Db::fetchAll("SHOW TABLES LIKE '%archive_%'");
@@ -815,7 +859,7 @@ abstract class SystemTestCase extends TestCase
                 Db::query($createSql);
             }
 
-            if (empty($rows)) {
+            if (empty($rows) || ($tablesToReset !== null && !isset($tablesToReset[$table]))) {
                 continue;
             }
 
@@ -851,6 +895,109 @@ abstract class SystemTestCase extends TestCase
                 }
             }
         }
+
+        if ($tablesToReset !== null && self::$canUseTableStates !== false) {
+            $statesAfterInsert = self::getTableStates();
+            if (self::$canUseTableStates === null && $statesBeforeInsert !== null && $statesAfterInsert !== null) {
+                // trust the counters only once an insert has been seen to move one, as performance_schema
+                // can be on yet not instrumenting this schema or connection
+                foreach (array_keys($tablesToReset) as $table) {
+                    if (!empty($tables[$table]) && isset($statesBeforeInsert[$table], $statesAfterInsert[$table])) {
+                        self::$canUseTableStates = $statesAfterInsert[$table]['writes'] > $statesBeforeInsert[$table]['writes'];
+                        break;
+                    }
+                }
+            }
+            self::$tableStatesAfterRestore = self::$canUseTableStates ? $statesAfterInsert : null;
+            self::$tableStatesSnapshot = $tables;
+        }
+    }
+
+    /**
+     * Per-table state that changes whenever a table is written, truncated or recreated: the InnoDB table
+     * ID (new after TRUNCATE or DROP/CREATE) and the performance_schema write counter, which sees writes
+     * from every connection (tracker, HTTP requests, LOAD DATA). A table missing here, including one
+     * performance_schema has no instance for, is treated as changed.
+     *
+     * @return array<string, array{state: string, writes: int}>|null null where unsupported (eg MariaDB)
+     */
+    private static function getTableStates(): ?array
+    {
+        try {
+            $rows = Db::fetchAll(
+                "SELECT SUBSTRING(t.NAME, LENGTH(DATABASE()) + 2) AS name, t.TABLE_ID AS id, p.COUNT_WRITE AS writes
+                   FROM information_schema.INNODB_TABLES t
+                   JOIN performance_schema.table_io_waits_summary_by_table p
+                     ON p.OBJECT_TYPE = 'TABLE' AND p.OBJECT_SCHEMA = DATABASE()
+                    AND p.OBJECT_NAME = SUBSTRING(t.NAME, LENGTH(DATABASE()) + 2)
+                  WHERE LEFT(t.NAME, LENGTH(DATABASE()) + 1) = CONCAT(DATABASE(), '/')"
+            );
+        } catch (\Exception $e) {
+            self::$canUseTableStates = false;
+            return null;
+        }
+
+        $states = [];
+        foreach ($rows as $row) {
+            $states[$row['name']] = ['state' => $row['id'] . ':' . $row['writes'], 'writes' => (int) $row['writes']];
+        }
+        return $states;
+    }
+
+    /**
+     * @return string[]
+     */
+    private static function fetchFirstColumn(string $sql): array
+    {
+        return array_map(function ($row) {
+            return reset($row);
+        }, Db::fetchAll($sql));
+    }
+
+    /**
+     * Fallback when performance_schema is unavailable (eg MariaDB's default). Tables with snapshot rows
+     * are always reset, since an UPDATE leaves no cheap trace. Any other table is reset only if it now
+     * has a row or its AUTO_INCREMENT moved (insert-then-delete).
+     *
+     * @param string[] $existingTables
+     * @return string[]
+     */
+    private static function getTablesChangedSinceSnapshot(array $snapshot, array $existingTables): array
+    {
+        $changed = [];
+        $candidates = [];
+        foreach ($existingTables as $table) {
+            if (!empty($snapshot[$table])) {
+                $changed[] = $table;
+            } else {
+                $candidates[] = $table;
+            }
+        }
+        if (empty($candidates)) {
+            return $changed;
+        }
+
+        $selects = array_map(function ($table) {
+            return "(SELECT '$table' FROM `$table` LIMIT 1)";
+        }, $candidates);
+        $withRows = self::fetchFirstColumn(implode(' UNION ALL ', $selects));
+
+        $hasStatsExpiry = false;
+        try {
+            // MySQL 8 otherwise serves AUTO_INCREMENT from a 24h stats cache; MariaDB has no such variable
+            Db::exec('SET SESSION information_schema_stats_expiry = 0');
+            $hasStatsExpiry = true;
+        } catch (\Exception $e) {
+            // read AUTO_INCREMENT live as it is
+        }
+        $movedAutoIncrement = self::fetchFirstColumn(
+            'SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND AUTO_INCREMENT > 1'
+        );
+        if ($hasStatsExpiry) {
+            Db::exec('SET SESSION information_schema_stats_expiry = DEFAULT');
+        }
+
+        return array_merge($changed, array_values(array_intersect($candidates, array_merge($withRows, $movedAutoIncrement))));
     }
 
     /**

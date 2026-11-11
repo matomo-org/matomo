@@ -39,8 +39,8 @@ abstract class IntegrationTestCase extends SystemTestCase
      *
      * To increase speed of tests, database setup is done once in setUpBeforeClass.
      * Afterwards, the content of the tables is stored in a static class variable,
-     * self::$tableData. Before each individual test, the database tables are
-     * truncated and the data in self::$tableData is restored.
+     * self::$tableData. Before each individual test, the tables the previous test
+     * changed are truncated and their data in self::$tableData is restored.
      *
      * If your test modifies table columns, you will need to recreate the database
      * completely. This can be accomplished by:
@@ -63,11 +63,15 @@ abstract class IntegrationTestCase extends SystemTestCase
         static::beforeTableDataCached();
 
         self::$tableData = self::getDbTablesWithData();
+        self::$tableStatesAfterRestore = null;
+        self::$tableStatesSnapshot = null;
     }
 
     public static function tearDownAfterClass(): void
     {
         self::$tableData = array();
+        self::$tableStatesAfterRestore = null;
+        self::$tableStatesSnapshot = null;
 
         parent::tearDownAfterClass();
     }
