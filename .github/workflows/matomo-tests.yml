@@ -97,6 +97,12 @@ jobs:
             | sudo tee /etc/mysql/conf.d/matomo.cnf > /dev/null
           sudo systemctl start mysql
           mysql -h127.0.0.1 -uroot -proot -e "ALTER USER 'root'@'localhost' IDENTIFIED BY ''; CREATE DATABASE matomo_tests"
+      - &service-images
+        name: Fetch service images
+        uses: ./matomo/.github/actions/service-images
+        with:
+          mariadb-version: ${{ matrix.environment.mysql-engine == 'Mariadb' && matrix.environment.mysql-version || '' }}
+          redis: true
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -130,6 +136,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - *runner-mysql
+      - *service-images
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -162,6 +169,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - *runner-mysql
+      - *service-images
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -206,6 +214,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - *runner-mysql
+      - *service-images
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -250,6 +259,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - *runner-mysql
+      - *service-images
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -407,6 +417,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - *runner-mysql
+      - *service-images
       - name: Limit LFS fetch to this plugin's screenshots
         working-directory: matomo
         env:
@@ -451,6 +462,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - *runner-mysql
+      - *service-images
       - name: Limit LFS fetch to core screenshots
         working-directory: matomo
         run: |
