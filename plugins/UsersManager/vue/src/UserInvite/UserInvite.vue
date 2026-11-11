@@ -51,7 +51,11 @@
             :disabled="isInvitingUser"
             uicontrol="site"
             name="user_site"
-            :ui-control-attributes="{ onlySitesWithAdminAccess: true }"
+            :ui-control-attributes="{
+              onlySitesWithAdminAccess: true,
+              fullWidth: true,
+              alignLabelStart: true,
+            }"
             :title="translate('UsersManager_FirstWebsitePermission')"
             :inline-help="translate('UsersManager_FirstSiteInlineHelp')"
           />
