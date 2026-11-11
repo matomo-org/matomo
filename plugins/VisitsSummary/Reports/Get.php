@@ -104,7 +104,9 @@ class Get extends \Piwik\Plugin\Report
 
     public function configureView(ViewDataTable $view)
     {
-        $isEstimated = SettingsPiwik::isUniqueVisitorsEstimated(Common::getRequestVar('period', '', 'string'));
+        // the period shown, and the periods it is compared with
+        $periods = array_merge([Common::getRequestVar('period', '', 'string')], Common::getRequestVar('comparePeriods', [], 'array'));
+        $isEstimated = array_filter($periods, [SettingsPiwik::class, 'isUniqueVisitorsEstimated']) !== [];
 
         if ($view->isViewDataTableId(Sparklines::ID)) {
             /** @var Sparklines $view */
@@ -123,7 +125,7 @@ class Get extends \Piwik\Plugin\Report
                 // the card of a metric shown on its own is titled with the metric's name, not with the label above
                 $view->config->filters[] = [function (DataTable $table) use ($view) {
                     $row = $table->getFirstRow();
-                    if ($row && $row->getColumn(PluginsArchiver::UNIQUES_ESTIMATED_METRIC)) {
+                    if ($row && EstimatedUniques::isEstimated($row, 'nb_users')) {
                         $view->config->metric_titles = EstimatedUniques::getMetricTranslations();
                     }
                 }, [], true];

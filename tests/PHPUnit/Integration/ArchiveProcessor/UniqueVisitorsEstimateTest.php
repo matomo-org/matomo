@@ -472,6 +472,18 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertSame('General_ColumnNbUsers', $this->getSparklineTitles('month', '2024-03-01')['nb_users']);
     }
 
+    public function testSparklinesLabelACountedMonthComparedWithAnEstimatedYear()
+    {
+        // the month is counted, so only the year it's compared with is estimated
+        $this->setEstimatedPeriods(['year']);
+        $compare = ['comparePeriods' => ['year'], 'compareDates' => ['2024-03-01']];
+
+        $compared = $this->getSparklines('month', '2024-03-01', $compare);
+        $this->assertStringContainsString('VisitsSummary_ColumnNbUsersEstimated', $compared);
+        $this->assertStringContainsString('VisitsSummary_NbUniqueVisitorsEstimated', $compared);
+        $this->assertStringNotContainsString('Estimated', $this->getSparklines('month', '2024-03-01'));
+    }
+
     public function testSparklinesShowNoUsersEvolutionWithoutAPreviousEstimate()
     {
         // the previous range, 2024-03-01 to 03, can't be estimated
@@ -497,7 +509,8 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
 
         $users = [];
         foreach ($this->getSparklineMetrics('month', '2024-03-01', ['comparePeriods' => ['year'], 'compareDates' => ['2024-03-01']]) as [, $metric]) {
-            if ($metric['title'] === 'General_ColumnNbUsers') {
+            // the card is titled as estimated when the year was
+            if (in_array($metric['title'], ['General_ColumnNbUsers', 'VisitsSummary_ColumnNbUsersEstimated'])) {
                 $users[] = $metric['value'];
             }
         }

@@ -104,9 +104,29 @@ final class EstimatedUniques
             }
 
             $view->config->addTranslations(array_filter($estimated, function ($column) use ($row) {
-                $flag = PluginsArchiver::UNIQUES_ESTIMATED_METRIC . self::getColumnSuffix($column);
-                return !empty($row->getColumn($flag));
+                return self::isEstimated($row, $column);
             }, ARRAY_FILTER_USE_KEY));
         }, [], true];
+    }
+
+    /**
+     * Returns true if a unique visitors or users column of a row was estimated, for the row's own period or for
+     * one of the periods it is compared with.
+     */
+    public static function isEstimated(DataTable\Row $row, string $columnName): bool
+    {
+        $flag = PluginsArchiver::UNIQUES_ESTIMATED_METRIC . self::getColumnSuffix($columnName);
+        if (!empty($row->getColumn($flag))) {
+            return true;
+        }
+
+        $comparisons = $row->getComparisons();
+        foreach ($comparisons ? $comparisons->getRows() : [] as $comparedRow) {
+            if (!empty($comparedRow->getColumn($flag))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
