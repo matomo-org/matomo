@@ -343,6 +343,8 @@ class SettingsPiwik
     /**
      * Returns true if at least one period is estimated, so day archives store the sketches the estimates are
      * built from.
+     *
+     * @internal
      */
     public static function isUniqueVisitorsEstimateEnabled(): bool
     {
@@ -355,6 +357,8 @@ class SettingsPiwik
      * period label, are always counted.
      *
      * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     *
+     * @internal
      */
     public static function isUniqueVisitorsEstimated(string $periodLabel): bool
     {
@@ -366,6 +370,8 @@ class SettingsPiwik
      * that estimate is built from.
      *
      * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     *
+     * @internal
      */
     public static function isUniqueVisitorsSketchNeeded(string $periodLabel): bool
     {
@@ -392,6 +398,8 @@ class SettingsPiwik
      * or estimated. Unique visitors in report rows still follow {@link isUniqueVisitorsEnabled()}.
      *
      * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     *
+     * @internal
      */
     public static function isUniqueVisitorsTotalAvailable(string $periodLabel): bool
     {
@@ -400,6 +408,8 @@ class SettingsPiwik
 
     /**
      * Returns the configured precision of the unique visitors estimate, or 14 if it is out of range.
+     *
+     * @internal
      */
     public static function getUniqueVisitorsEstimatePrecision(): int
     {
