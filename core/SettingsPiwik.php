@@ -23,6 +23,9 @@ class SettingsPiwik
 {
     public const OPTION_PIWIK_URL = 'piwikUrl';
 
+    // shortest first: a period's estimate is built from the sketches of the shorter ones
+    private const PERIODS_THAT_CAN_BE_ESTIMATED = ['week', 'month', 'year', 'range'];
+
     /**
      * Get salt from [General] section. Should ONLY be used as a seed to create hashes
      *
@@ -338,23 +341,50 @@ class SettingsPiwik
     }
 
     /**
-     * Returns true if day archives store the sketches that unique visitors and users of longer periods are
-     * estimated from.
+     * Returns true if at least one period is estimated, so day archives store the sketches the estimates are
+     * built from.
      */
     public static function isUniqueVisitorsEstimateEnabled(): bool
     {
-        return !empty(Config::getInstance()->General['enable_unique_visitors_estimate_site_totals']);
+        return self::getUniqueVisitorsEstimatedPeriods() !== [];
     }
 
     /**
      * Returns true if a website's total unique visitors and users for the given period are estimated rather
-     * than counted. Days, and an empty period label, are always counted.
+     * than counted: the period is listed in `[General] unique_visitors_estimate_periods`. Days, and an empty
+     * period label, are always counted.
      *
      * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
      */
     public static function isUniqueVisitorsEstimated(string $periodLabel): bool
     {
-        return in_array($periodLabel, ['week', 'month', 'year', 'range'], true) && self::isUniqueVisitorsEstimateEnabled();
+        return in_array($periodLabel, self::getUniqueVisitorsEstimatedPeriods(), true);
+    }
+
+    /**
+     * Returns true if a longer period than the given one is estimated, so the given one has to store the sketch
+     * that estimate is built from.
+     *
+     * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
+     */
+    public static function isUniqueVisitorsSketchNeeded(string $periodLabel): bool
+    {
+        $position = array_search($periodLabel, self::PERIODS_THAT_CAN_BE_ESTIMATED, true);
+        $longerPeriods = array_slice(self::PERIODS_THAT_CAN_BE_ESTIMATED, $position === false ? 0 : $position + 1);
+
+        return array_intersect($longerPeriods, self::getUniqueVisitorsEstimatedPeriods()) !== [];
+    }
+
+    /**
+     * @return string[]
+     */
+    private static function getUniqueVisitorsEstimatedPeriods(): array
+    {
+        $periods = Config::getInstance()->General['unique_visitors_estimate_periods'] ?? '';
+        $periods = is_array($periods) ? $periods : explode(',', (string) $periods);
+        $periods = array_map('strtolower', array_map('trim', $periods));
+
+        return array_values(array_intersect(self::PERIODS_THAT_CAN_BE_ESTIMATED, $periods));
     }
 
     /**

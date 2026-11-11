@@ -41,6 +41,10 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     private const USER_POOL = 25;
     // the last day has no logged-in users
     private const LAST_DAY_WITH_USERS = 9;
+    private const ESTIMATED_PERIODS = ['week', 'month', 'year', 'range'];
+    // enable_processing_unique_visitors_... of a period that isn't estimated: its default in global.ini.php
+    // (estimated periods are not counted in these tests unless a test says so)
+    private const EXACT_PERIOD_DEFAULTS = ['week' => 1, 'month' => 1, 'year' => 0, 'range' => 0];
 
     public static function beforeTableDataCached(): void
     {
@@ -53,12 +57,12 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+        $this->setEstimatedPeriods(self::ESTIMATED_PERIODS);
     }
 
-    public function testSettingOffKeepsTheExactCountsAndStoresNoSketch()
+    public function testNoEstimatedPeriodKeepsTheExactCountsAndStoresNoSketch()
     {
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
+        $this->setEstimatedPeriods([]);
 
         $row = $this->getVisitsSummary('month', '2024-03-01');
 
@@ -81,8 +85,6 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     }
 
     /**
-     * Year and range are estimated although enable_processing_unique_visitors_year and _range are off by default.
-     *
      * @dataProvider getLongerPeriods
      */
     public function testLongerPeriodsAreEstimatedWithoutTheVisitLogs(string $period, string $date, int $firstDay, int $lastDay)
@@ -185,16 +187,145 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         ];
     }
 
-    public function testDayArchivedBeforeTheSettingWasOnGivesTheExactCount()
+    public function testDayArchivedBeforeAPeriodWasEstimatedLeavesTheUniquesOut()
     {
         $this->archiveFirstDayWithoutSketches();
 
         $row = $this->getVisitsSummary('month', '2024-03-01');
 
-        $this->assertSame($this->countExact('idvisitor', 1, 10), (int) $row['nb_uniq_visitors']);
-        $this->assertSame($this->countExact('user_id', 1, 10), (int) $row['nb_users']);
+        // the month isn't set to be counted either
+        $this->assertGreaterThan(0, $row['nb_visits']);
+        $this->assertArrayNotHasKey('nb_uniq_visitors', $row);
+        $this->assertArrayNotHasKey('nb_users', $row);
         $this->assertNull($this->getStoredSketch('month', '2024-03-01'));
         $this->assertSame(0, $row['uniques_estimated']);
+    }
+
+    public function testEachPeriodFollowsItsOwnSetting()
+    {
+        $this->setEstimatedPeriods(['month', 'year']);
+
+        $week = $this->getVisitsSummary('week', '2024-03-04');
+        $month = $this->getVisitsSummary('month', '2024-03-01');
+        $year = $this->getVisitsSummary('year', '2024-03-01');
+        $range = $this->getVisitsSummary('range', '2024-03-02,2024-03-08');
+
+        $this->assertSame($this->countExact('idvisitor', 4, 10), (int) $week['nb_uniq_visitors']);
+        $this->assertSame($this->countExact('user_id', 4, 10), (int) $week['nb_users']);
+        $this->assertArrayNotHasKey('uniques_estimated', $week);
+        $this->assertSame(1, $month['uniques_estimated']);
+        $this->assertSame(1, $year['uniques_estimated']);
+        // ranges are off, as by default
+        $this->assertArrayNotHasKey('nb_uniq_visitors', $range);
+        $this->assertArrayNotHasKey('uniques_estimated', $range);
+    }
+
+    public function testEstimatedYearIsBuiltFromMonthsCountedExactly()
+    {
+        $this->setEstimatedPeriods(['year']);
+
+        $month = $this->getVisitsSummary('month', '2024-03-01');
+        $year = $this->getVisitsSummary('year', '2024-03-01');
+
+        $this->assertSame($this->countExact('idvisitor', 1, 10), (int) $month['nb_uniq_visitors']);
+        $this->assertArrayNotHasKey('uniques_estimated', $month);
+        // the month is counted, but stores the sketch the year needs
+        $this->assertNotNull($this->getStoredSketch('month', '2024-03-01'));
+        $this->assertEqualsWithDelta($this->countExact('idvisitor', 1, 10), $year['nb_uniq_visitors'], 2);
+        $this->assertSame(1, $year['uniques_estimated']);
+    }
+
+    public function testPeriodThatIsAlsoCountedFallsBackToTheExactCountWithoutSketches()
+    {
+        $this->setEstimatedPeriods(self::ESTIMATED_PERIODS, ['month']);
+        $this->archiveFirstDayWithoutSketches(['month']);
+
+        $row = $this->getVisitsSummary('month', '2024-03-01');
+
+        $this->assertSame($this->countExact('idvisitor', 1, 10), (int) $row['nb_uniq_visitors']);
+        $this->assertSame($this->countExact('user_id', 1, 10), (int) $row['nb_users']);
+        $this->assertSame(0, $row['uniques_estimated']);
+    }
+
+    public function testPeriodThatIsAlsoCountedIsEstimatedWhenItHasSketches()
+    {
+        $this->setEstimatedPeriods(['month'], ['month']);
+
+        $row = $this->getVisitsSummary('month', '2024-03-01');
+
+        // other reports that count unique visitors themselves still follow the exact setting
+        $this->assertTrue(SettingsPiwik::isUniqueVisitorsEnabled('month'));
+        $this->assertEqualsWithDelta($this->countExact('idvisitor', 1, 10), $row['nb_uniq_visitors'], 2);
+        $this->assertSame(1, $row['uniques_estimated']);
+    }
+
+    /**
+     * @dataProvider getStoredSketchPeriods
+     */
+    public function testSketchesAreOnlyStoredWhereALongerEstimatedPeriodReadsThem(array $estimatedPeriods, array $periodsWithSketch)
+    {
+        $this->setEstimatedPeriods($estimatedPeriods);
+
+        $this->getVisitsSummary('year', '2024-03-01');
+        $this->getVisitsSummary('range', '2024-03-02,2024-03-08');
+
+        $stored = [];
+        foreach (['day' => '2024-03-05', 'week' => '2024-03-04', 'month' => '2024-03-01', 'year' => '2024-03-01'] as $period => $date) {
+            if ($this->getStoredSketch($period, $date) !== null) {
+                $stored[] = $period;
+            }
+        }
+
+        $this->assertSame($periodsWithSketch, $stored);
+    }
+
+    public function getStoredSketchPeriods(): array
+    {
+        return [
+            'weeks' => [['week'], ['day']],
+            'months' => [['month'], ['day', 'week']],
+            'years' => [['year'], ['day', 'week', 'month']],
+            'ranges' => [['range'], ['day', 'week', 'month', 'year']],
+            'weeks and months' => [['week', 'month'], ['day', 'week']],
+        ];
+    }
+
+    /**
+     * @dataProvider getPeriodSettings
+     * @param mixed $exactSetting
+     * @param mixed $estimatedPeriods
+     */
+    public function testSettingsSelectOffCountedOrEstimated(string $period, $exactSetting, $estimatedPeriods, bool $counted, bool $estimated)
+    {
+        $this->setGeneralConfig("enable_processing_unique_visitors_$period", $exactSetting);
+        $this->setGeneralConfig('unique_visitors_estimate_periods', $estimatedPeriods);
+
+        $this->assertSame($counted, SettingsPiwik::isUniqueVisitorsEnabled($period));
+        $this->assertSame($estimated, SettingsPiwik::isUniqueVisitorsEstimated($period));
+        $this->assertSame($counted || $estimated, SettingsPiwik::isUniqueVisitorsTotalAvailable($period));
+    }
+
+    public function getPeriodSettings(): array
+    {
+        return [
+            'off' => ['month', 0, '', false, false],
+            'counted' => ['month', 1, '', true, false],
+            'estimated' => ['month', 0, 'month', false, true],
+            'counted and estimated' => ['month', 1, 'month', true, true],
+            'another period is estimated' => ['month', 1, 'year', true, false],
+            'one of several, with spaces and capitals' => ['year', 0, 'month, Year ', false, true],
+            'unknown period' => ['month', 0, 'months', false, false],
+            'the old value 2 is not an estimate' => ['month', 2, '', false, false],
+            'days are counted, never estimated' => ['day', 1, 'day,week', true, false],
+        ];
+    }
+
+    public function testNoSketchIsStoredWhenOnlyUnknownPeriodsAreListed()
+    {
+        $this->setGeneralConfig('unique_visitors_estimate_periods', 'day,months');
+
+        $this->assertFalse(SettingsPiwik::isUniqueVisitorsEstimateEnabled());
+        $this->assertFalse(SettingsPiwik::isUniqueVisitorsSketchNeeded('day'));
     }
 
     public function testRangeWithoutAnEstimateHidesUniquesAndIsNotArchivedAgain()
@@ -218,7 +349,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertSame(0, $row['uniques_estimated']);
     }
 
-    public function testDamagedSketchFallsBackToTheExactCount()
+    public function testDamagedSketchLeavesTheUniquesOut()
     {
         $this->getVisitsSummary('day', '2024-03-04,2024-03-10');
         Db::query(
@@ -229,7 +360,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $week = $this->getVisitsSummary('week', '2024-03-04');
 
         $this->assertSame(self::VISITS_PER_DAY * 7, (int) $week['nb_visits']);
-        $this->assertSame($this->countExact('idvisitor', 4, 10), (int) $week['nb_uniq_visitors']);
+        $this->assertArrayNotHasKey('nb_uniq_visitors', $week);
         $this->assertNull($this->getStoredSketch('week', '2024-03-04'));
         $this->assertSame(0, $week['uniques_estimated']);
     }
@@ -329,6 +460,18 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertStringContainsString('VisitsSummary_NbUniqueVisitorsEstimated', $this->getSparklines('year', '2024-03-01'));
     }
 
+    public function testSparklinesTitleTheUsersCardAsEstimatedOnYears()
+    {
+        $this->assertSame('VisitsSummary_ColumnNbUsersEstimated', $this->getSparklineTitles('year', '2024-03-01')['nb_users']);
+    }
+
+    public function testSparklinesKeepTheUsersCardTitleWhenThePeriodWasCountedExactly()
+    {
+        $this->archiveFirstDayWithoutSketches(['month']);
+
+        $this->assertSame('General_ColumnNbUsers', $this->getSparklineTitles('month', '2024-03-01')['nb_users']);
+    }
+
     public function testSparklinesShowNoUsersEvolutionWithoutAPreviousEstimate()
     {
         // the previous range, 2024-03-01 to 03, can't be estimated
@@ -348,6 +491,9 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         if (!$hasEstimate) {
             $this->archiveFirstDayWithoutSketches();
         }
+
+        // the month is counted, so only the year depends on the sketches
+        $this->setEstimatedPeriods(['year']);
 
         $users = [];
         foreach ($this->getSparklineMetrics('month', '2024-03-01', ['comparePeriods' => ['year'], 'compareDates' => ['2024-03-01']]) as [, $metric]) {
@@ -540,7 +686,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
      */
     public function testEvolutionGraphPlotsTheUniquesOfWebsiteTotals(string $module, string $action, string $period, string $date, bool $estimate, array $expected)
     {
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', (int) $estimate);
+        $this->setEstimatedPeriods($estimate ? self::ESTIMATED_PERIODS : []);
 
         $this->assertSame($expected, $this->getPlottedSeries($module, $action, $period, $date, 'nb_visits,nb_uniq_visitors'));
     }
@@ -596,15 +742,12 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
 
     public function testProcessedReportLeavesOutTheUniquesOfOnlyThePeriodsWithoutAnEstimate(): void
     {
-        // weeks without an estimate then have no exact count to fall back to, like years
-        $this->setGeneralConfig('enable_processing_unique_visitors_week', 0);
         $this->archiveFirstDayWithoutSketches();
 
         $report = Request::processRequest('API.getProcessedReport', [
             'idSite' => 1, 'period' => 'week', 'date' => '2024-02-26,2024-03-10',
             'apiModule' => 'VisitsSummary', 'apiAction' => 'get', 'format_metrics' => 0,
         ]);
-        $this->setGeneralConfig('enable_processing_unique_visitors_week', 1);
 
         [$weekWithoutEstimate, $estimatedWeek] = array_values($report['reportData']->getDataTables());
         $this->assertArrayHasKey('nb_uniq_visitors', $report['columns']);
@@ -621,7 +764,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 5], 'nb_actions'));
         $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits_percent_of_total' => 5], 'nb_users_percent_of_total'));
 
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
+        $this->setEstimatedPeriods([]);
         $this->assertFalse(EstimatedUniques::isLeftOut(['nb_visits' => 5], 'nb_uniq_visitors'));
     }
 
@@ -697,11 +840,25 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     }
 
     /**
+     * @return array<string, string> the card title of each sparkline metric
+     */
+    private function getSparklineTitles(string $period, string $date): array
+    {
+        $titles = [];
+        foreach ($this->getSparklineMetrics($period, $date) as [, $metric]) {
+            $titles[$metric['column']] = $metric['title'];
+        }
+
+        return $titles;
+    }
+
+    /**
      * @return array<int, array{0: array, 1: array}> each sparkline with each of its metrics, in the order shown
      */
     private function getSparklineMetrics(string $period, string $date, array $extraParams = []): array
     {
-        preg_match('/ sparklines="(\{.*?\})"\s/', $this->getSparklines($period, $date, $extraParams), $matches);
+        $html = $this->getSparklines($period, $date, $extraParams);
+        $this->assertSame(1, preg_match('/ sparklines="([\[{].*?[\]}])"\s/', $html, $matches), 'sparklines not found in: ' . substr($html, 0, 1500));
         $result = [];
         foreach (json_decode($matches[1], true) as $sparklines) {
             foreach ($sparklines as $sparkline) {
@@ -747,13 +904,32 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     }
 
     /**
-     * Archives the first day as if before the setting was switched on, so it has no sketches.
+     * Archives the first day as if before any period was estimated, so it has no sketches.
+     *
+     * @param string[] $alsoCounted
      */
-    private function archiveFirstDayWithoutSketches(): void
+    private function archiveFirstDayWithoutSketches(array $alsoCounted = []): void
     {
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 0);
+        $this->setEstimatedPeriods([]);
         $this->getVisitsSummary('day', '2024-03-01');
-        $this->setGeneralConfig('enable_unique_visitors_estimate_site_totals', 1);
+        $this->setEstimatedPeriods(self::ESTIMATED_PERIODS, $alsoCounted);
+    }
+
+    /**
+     * Lists `$periods` in unique_visitors_estimate_periods. Their exact count is off unless they are in
+     * `$alsoCounted`; the other periods keep their default.
+     *
+     * @param string[] $periods
+     * @param string[] $alsoCounted
+     */
+    private function setEstimatedPeriods(array $periods, array $alsoCounted = []): void
+    {
+        $this->setGeneralConfig('unique_visitors_estimate_periods', implode(',', $periods));
+
+        foreach (self::EXACT_PERIOD_DEFAULTS as $period => $default) {
+            $counted = in_array($period, $periods, true) ? (int) in_array($period, $alsoCounted, true) : $default;
+            $this->setGeneralConfig("enable_processing_unique_visitors_$period", $counted);
+        }
     }
 
     private static function trackVisits(): void

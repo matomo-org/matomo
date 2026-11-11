@@ -247,14 +247,18 @@ enable_processing_unique_visitors_range = 0
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
 
-; when set to 1, a website's total Unique Visitors and Users for weeks, months, years and ranges are estimated instead of counted, which
-; avoids querying the logs again for long periods and segments. days are still counted exactly, and store the data the estimates are built from.
-; years and ranges get them too, even when enable_processing_unique_visitors_year and _range are 0.
-; at the default precision the estimate is usually within 2% of the exact count, and Users are near exact below about 40,000.
-; it covers the totals in Visits Overview, Visits Frequency and AI Agents only. unique visitors in report rows, such as per country, are unchanged.
-; archives covering several websites, such as Roll-Ups, and periods whose days were archived before it was enabled are processed as if it were off.
-; to estimate reports archived before it was enabled, invalidate them with ./console core:invalidate-report-data
-enable_unique_visitors_estimate_site_totals = 0
+; comma separated list of the periods whose Unique Visitors and Unique users are estimated instead of counted from the logs,
+; out of week, month, year and range. eg "month,year". empty (the default) estimates nothing. days are always counted.
+; an estimate is built from data stored in the day archives, which avoids querying the logs again for long periods and segments.
+; at the default precision it is usually within 2% of the exact count.
+; it covers each website's totals in Visits Overview, Visits Frequency and AI Agents only, and a listed period's totals are estimated
+; whether enable_processing_unique_visitors_... is 0 or 1 for it. that setting then decides two things for a listed period:
+; - whether other reports that count Unique Visitors themselves, such as Cohorts and Custom Reports, do so (1) or not (0).
+; - what happens when the period can't be estimated, because some of its days were archived before any period was listed:
+;   with 1 it is counted from the logs as before, with 0 it has no Unique Visitors until those days are invalidated
+;   with ./console core:invalidate-report-data
+; archives covering several websites, such as Roll-Ups, are not estimated.
+unique_visitors_estimate_periods = ""
 
 ; precision of the estimate, from 4 to 18. each step up makes it more accurate and doubles its storage.
 ; the default 14 uses up to about 7 KB per archive for Unique Visitors, and as much again for Users on websites that use User ID.

@@ -70,7 +70,7 @@ class API extends \Piwik\Plugin\API
                 if (!$row) {
                     return;
                 }
-                // archives built before the flag existed have none, and were counted exactly
+                // archives built before the period was estimated have no flag, and were counted exactly
                 $row->setColumn(PluginsArchiver::UNIQUES_ESTIMATED_METRIC, (int) !empty($row->getColumn(PluginsArchiver::UNIQUES_ESTIMATED_METRIC)));
 
                 // no unique visitors for a period with visits means they weren't estimated or counted (eg a year whose
@@ -341,7 +341,7 @@ class API extends \Piwik\Plugin\API
             return $this->getNumeric($idSite, $period, $date, $segment, $metric);
         }
 
-        // get() leaves the value out of periods that fell back to an exact count that isn't enabled
+        // get() leaves the value out of periods that could neither be estimated nor counted
         return $this->get($idSite, $period, $date, $segment, [$metric]);
     }
 

@@ -29,7 +29,7 @@ class EstimatedUniqueVisitorsTest extends SystemTestCase
     {
         parent::setUpBeforeClass();
 
-        Config::getInstance()->General['enable_unique_visitors_estimate_site_totals'] = 1;
+        Config::getInstance()->General['unique_visitors_estimate_periods'] = 'week,month,year,range';
     }
 
     public function getApiForTesting()

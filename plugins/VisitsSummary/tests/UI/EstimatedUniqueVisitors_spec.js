@@ -9,6 +9,10 @@ describe('EstimatedUniqueVisitors', function () {
   // a fixture that is not archived up front, so the archives are built with the estimate switched on
   this.fixture = 'Piwik\\Tests\\Fixtures\\VisitsOverSeveralDays';
 
+  const estimatedPeriods = {
+    unique_visitors_estimate_periods: 'week,month,year,range',
+  };
+
   async function openOverview(period, date = '2010-12-14') {
     // the same URL with a hash would only scroll the page that is already open, so leave it first
     await page.goto('about:blank');
@@ -34,7 +38,7 @@ describe('EstimatedUniqueVisitors', function () {
   });
 
   it('should label unique visitors as estimated on a year when it is on', async function () {
-    testEnvironment.configOverride.General = { enable_unique_visitors_estimate_site_totals: 1 };
+    testEnvironment.configOverride.General = estimatedPeriods;
     testEnvironment.save();
 
     await openOverview('year');
@@ -44,7 +48,7 @@ describe('EstimatedUniqueVisitors', function () {
   });
 
   it('should label only the range as estimated when its graph plots days', async function () {
-    testEnvironment.configOverride.General = { enable_unique_visitors_estimate_site_totals: 1 };
+    testEnvironment.configOverride.General = estimatedPeriods;
     testEnvironment.save();
 
     await openOverview('range', '2010-12-10,2010-12-20');
@@ -54,7 +58,7 @@ describe('EstimatedUniqueVisitors', function () {
   });
 
   it('should keep the exact labels on a day when it is on', async function () {
-    testEnvironment.configOverride.General = { enable_unique_visitors_estimate_site_totals: 1 };
+    testEnvironment.configOverride.General = estimatedPeriods;
     testEnvironment.save();
 
     await openOverview('day');
@@ -73,7 +77,7 @@ describe('EstimatedUniqueVisitors', function () {
   it('should keep the exact labels on a month archived before it was on', async function () {
     await openOverview('month', '2011-01-15');
 
-    testEnvironment.configOverride.General = { enable_unique_visitors_estimate_site_totals: 1 };
+    testEnvironment.configOverride.General = estimatedPeriods;
     testEnvironment.save();
 
     await openOverview('month', '2011-01-15');

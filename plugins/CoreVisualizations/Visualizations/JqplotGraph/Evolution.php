@@ -363,7 +363,7 @@ class Evolution extends JqplotGraph
 
     /**
      * Returns true if the graph plots the website's estimated unique visitors and users. They can be missing for
-     * periods with visits (eg a year whose days were archived before the estimate was turned on).
+     * periods with visits (eg a year whose days were archived before the year was estimated).
      */
     public function isPlottingEstimatedUniques(): bool
     {

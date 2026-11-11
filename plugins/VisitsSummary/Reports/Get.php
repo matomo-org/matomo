@@ -119,6 +119,14 @@ class Get extends \Piwik\Plugin\Report
                     'nb_uniq_visitors' => Piwik::translate('VisitsSummary_NbUniqueVisitorsEstimated'),
                     'nb_users' => Piwik::translate('VisitsSummary_NbUsersEstimatedDescription'),
                 ], []);
+
+                // the card of a metric shown on its own is titled with the metric's name, not with the label above
+                $view->config->filters[] = [function (DataTable $table) use ($view) {
+                    $row = $table->getFirstRow();
+                    if ($row && $row->getColumn(PluginsArchiver::UNIQUES_ESTIMATED_METRIC)) {
+                        $view->config->metric_titles = EstimatedUniques::getMetricTranslations();
+                    }
+                }, [], true];
             }
 
             $view->config->filters[] = function (DataTable $table) use ($view) {

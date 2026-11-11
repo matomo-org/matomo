@@ -493,6 +493,10 @@ class Sparklines extends ViewDataTable
      */
     private function resolveMetricTitle($column, $description, array $metricTranslations)
     {
+        if (isset($this->config->metric_titles[$column])) {
+            return $this->config->metric_titles[$column];
+        }
+
         if ($this->config->use_metric_labels_as_titles) {
             return $this->config->translations[$column] ?? $metricTranslations[$column] ?? $description;
         }
