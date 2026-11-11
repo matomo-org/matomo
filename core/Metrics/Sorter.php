@@ -130,26 +130,40 @@ class Sorter
     /**
      * Detect the column to be used for sorting
      *
-     * @param string|int $columnToSort  column name or column id
-     * @return string|int
+     * @param int|string $columnToSort column name or column id
      */
-    public function getPrimaryColumnToSort(DataTable $table, $columnToSort)
+    public function getPrimaryColumnToSort(DataTable $table, int|string $columnToSort): int|string
     {
-        // we fallback to nb_visits in case columnToSort does not exist
         $columnsToCheck = array($columnToSort, 'nb_visits');
-
-        $row = $table->getFirstRow();
+        $rows = $table->getRowsWithoutSummaryRow();
 
         foreach ($columnsToCheck as $column) {
-            $column = Metric::getActualMetricColumn($table, $column);
+            $resolvedColumn = Metric::getActualMetricColumn($table, $column);
 
-            if ($row->hasColumn($column)) {
-                // since getActualMetricColumn() returns a default value, we need to make sure it actually has that column
+            if ($this->anyDataRowHasColumn($rows, $resolvedColumn)) {
+                return $resolvedColumn;
+            }
+
+            if ($resolvedColumn !== $column && $this->anyDataRowHasColumn($rows, $column)) {
                 return $column;
             }
         }
 
         return $columnToSort;
+    }
+
+    /**
+     * @param Row[] $rows
+     */
+    private function anyDataRowHasColumn(array $rows, int|string $column): bool
+    {
+        foreach ($rows as $row) {
+            if ($row->hasColumn($column)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
