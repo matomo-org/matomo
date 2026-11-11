@@ -141,6 +141,28 @@ class ApiTest extends SystemTestCase
         $this->assertEquals('2010-12-11', $metadata['lastDate']);
     }
 
+    public function testGetInsightsShouldCompareWithTheGivenDateInsteadOfGoingBackInPast()
+    {
+        $insights = $this->requestInsights(['comparedToXPeriods' => 3, 'comparedToDate' => self::$fixture->date2]);
+
+        $this->assertEquals(self::$fixture->date2, $insights->getMetadata('lastDate'));
+        $this->assertEquals(59, $insights->getMetadata('lastTotalValue'));
+    }
+
+    public function testGetInsightsShouldListEveryRowAsNewWhenTheGivenDateHasNoVisit()
+    {
+        $insights = $this->requestInsights([
+            'comparedToDate' => '2009-12-14',
+            'minImpactPercent' => 0,
+            'minGrowthPercent' => 0,
+        ]);
+
+        $this->assertEquals('2009-12-14', $insights->getMetadata('lastDate'));
+        $this->assertEquals(0, $insights->getMetadata('lastTotalValue'));
+        $this->assertGreaterThan(0, $insights->getRowsCount());
+        $this->assertEquals([1], array_values(array_unique($insights->getColumn('isNew'))));
+    }
+
     public function testGetInsightsShouldGoBackInPastDependingOnPeriod()
     {
         $insights = $this->requestInsights(array('period' => 'month'));
