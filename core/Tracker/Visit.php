@@ -18,6 +18,8 @@ use Piwik\Plugin\LogTablesProvider;
 use Piwik\Plugins\Actions\Tracker\ActionsRequestProcessor;
 use Piwik\Tracker;
 use Piwik\Plugins\CoreHome\Columns\Consent;
+use Piwik\Plugins\UserId\Settings\UserIdDisabled;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -304,6 +306,20 @@ class Visit implements VisitInterface
      */
     protected function getVisitorIdcookie()
     {
+        if ($this->recognisedVisitorIdCameFromAWithheldUserId()) {
+            // The recognised visit's identifier is a hash of a User ID this visit may not hold,
+            // and the recognizer has already copied it over whatever the request arrived with,
+            // so neither that property nor the branches below may be trusted here. The request's
+            // own identifier stands in, and a fresh one where it has none.
+            $ownIdVisitor = $this->request->getVisitorId(false);
+
+            if (!empty($ownIdVisitor) && Tracker::LENGTH_BINARY_ID == strlen($ownIdVisitor)) {
+                return $ownIdVisitor;
+            }
+
+            return Common::hex2bin($this->generateUniqueVisitorId());
+        }
+
         $isKnown = $this->request->getMetadata('CoreHome', 'isVisitorKnown');
         if ($isKnown) {
             return $this->visitProperties->getProperty('idvisitor');
@@ -584,6 +600,48 @@ class Visit implements VisitInterface
      * Whether the consent this request reports may relax what is written to the visit it is being
      * recorded against. A request that reports none is unaffected.
      */
+    /**
+     * Whether the identifier the recognised visit carries is one derived from a User ID that the
+     * visit being created now may not hold.
+     *
+     * While enable_userid_overwrites_visitorid is on, a User ID replaces a visit's idvisitor with
+     * a hash of itself, which identifies the visitor as surely as the column would. A visit
+     * created now has its own consent or none - it does not inherit the consent of the one
+     * before it - so where the policy withholds the User ID for this request, that hash may not
+     * be carried over either. Any other identifier is left alone: refusing to recognise the
+     * visitor at all would be a far larger change than the one this guards against.
+     */
+    private function recognisedVisitorIdCameFromAWithheldUserId(): bool
+    {
+        if ($this->request->hasConsent()) {
+            return false;
+        }
+
+        $idSite = $this->request->getIdSiteIfExists();
+
+        if (empty($idSite)) {
+            return false;
+        }
+
+        if (!TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $idSite)) {
+            return false;
+        }
+
+        if (!UserIdDisabled::shouldDiscardUserId(TrackerCache::getCacheWebsiteAttributes($idSite), false)) {
+            // the site collects User IDs regardless, so the identifier is not one a policy withheld
+            return false;
+        }
+
+        $userId = $this->visitProperties->getProperty('user_id');
+        $idVisitor = $this->visitProperties->getProperty('idvisitor');
+
+        if (empty($userId) || empty($idVisitor)) {
+            return false;
+        }
+
+        return Common::hex2bin($this->request->getUserIdHashed($userId)) === $idVisitor;
+    }
+
     private function mayUseTheReportedConsent(): bool
     {
         if (!$this->request->hasConsent()) {
