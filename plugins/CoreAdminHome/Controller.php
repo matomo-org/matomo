@@ -125,12 +125,18 @@ class Controller extends ControllerAdmin
         $view->pathUserLogoSmall     = CustomLogo::getPathUserLogoSmall();
         $view->pathUserLogoSVG       = CustomLogo::getPathUserSvgLogo();
         $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
-        $view->mailTypes = array(
+        $mailTypes = array(
             '' => '',
             'Plain' => 'Plain',
             'Login' => 'Login',
             'Cram-md5' => 'Cram-md5',
         );
+        $mailType = (string) (Config::getInstance()->mail['type'] ?? '');
+        if (strtolower($mailType) === 'xoauth2') {
+            // there is no form for the OAuth settings yet, so the option is only there to show what is configured
+            $mailTypes[$mailType] = 'OAuth 2.0 (set up in config.ini.php)';
+        }
+        $view->mailTypes = $mailTypes;
         $view->mailEncryptions = array(
             '' => 'auto',
             'ssl' => 'SSL',
@@ -195,6 +201,11 @@ class Controller extends ControllerAdmin
             // the form has no fields for the OAuth settings, keep what is set in the config file
             foreach (['oauth_token_url', 'oauth_client_id', 'oauth_client_secret', 'oauth_scope'] as $oauthSetting) {
                 $mail[$oauthSetting] = Config::getInstance()->mail[$oauthSetting] ?? '';
+            }
+
+            if (Config::getInstance()->mail['host'] !== $mail['host']) {
+                // like the password, the client secret is not kept for another host
+                $mail['oauth_client_secret'] = '';
             }
 
             Config::getInstance()->mail = $mail;
@@ -361,6 +372,7 @@ class Controller extends ControllerAdmin
         $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
         $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
         $mail['password'] = !empty($mail['password']) ? '*****' : '';
+        $mail['oauth_client_secret'] = !empty($mail['oauth_client_secret']) ? '*****' : '';
         $view->mail = $mail;
     }
 

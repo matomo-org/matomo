@@ -13,6 +13,7 @@ namespace Piwik\Mail\OAuth;
 
 use Matomo\Cache\Lazy;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Http;
 
 /**
@@ -22,6 +23,7 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
 {
     private const TIMEOUT_IN_SECONDS = 10;
     private const EXPIRY_MARGIN_IN_SECONDS = 60;
+    private const FAILURE_LIFETIME_IN_SECONDS = 60;
     private const MAX_ERROR_DETAIL_LENGTH = 500;
 
     /**
@@ -36,12 +38,7 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
 
     public function getAccessToken(): string
     {
-        $mailConfig = $this->getMailConfig();
-
-        $tokenUrl = trim((string) ($mailConfig['oauth_token_url'] ?? ''));
-        $clientId = trim((string) ($mailConfig['oauth_client_id'] ?? ''));
-        $clientSecret = (string) ($mailConfig['oauth_client_secret'] ?? '');
-        $scope = trim((string) ($mailConfig['oauth_scope'] ?? ''));
+        [$tokenUrl, $clientId, $clientSecret, $scope] = $this->getSettings();
 
         if ($tokenUrl === '' || $clientId === '' || $clientSecret === '') {
             throw new TokenRequestFailedException(
@@ -54,11 +51,17 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
             throw new TokenRequestFailedException('The SMTP OAuth token URL has to start with https://.');
         }
 
-        $cacheId = 'MailOAuthAccessToken_' . hash('sha256', implode("\n", [$tokenUrl, $clientId, $clientSecret, $scope]));
+        $cacheId = $this->getCacheId();
 
-        $cachedToken = $this->cache->fetch($cacheId);
-        if (is_string($cachedToken) && $cachedToken !== '') {
-            return $cachedToken;
+        $cachedToken = $this->fetchUnexpired($cacheId);
+        if ($cachedToken !== null) {
+            return (string) $cachedToken['token'];
+        }
+
+        // a failed request is remembered for a short time, so a batch of emails does not wait for each of them
+        $failure = $this->fetchUnexpired($this->getFailureCacheId());
+        if ($failure !== null) {
+            throw new TokenRequestFailedException((string) $failure['message'], (string) $failure['detail']);
         }
 
         $requestBody = [
@@ -70,14 +73,101 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
             $requestBody['scope'] = $scope;
         }
 
-        $token = $this->parseResponse($this->sendTokenRequest($tokenUrl, $requestBody));
+        try {
+            $token = $this->requestToken($tokenUrl, $requestBody);
+        } catch (TokenRequestFailedException $e) {
+            $this->saveWithExpiry(
+                $this->getFailureCacheId(),
+                ['message' => $e->getMessage(), 'detail' => $e->getDetail()],
+                self::FAILURE_LIFETIME_IN_SECONDS
+            );
+
+            throw $e;
+        }
 
         $lifetime = (int) ($token['expires_in'] ?? 0) - self::EXPIRY_MARGIN_IN_SECONDS;
         if ($lifetime > 0) {
-            $this->cache->save($cacheId, $token['access_token'], $lifetime);
+            $this->saveWithExpiry($cacheId, ['token' => $token['access_token']], $lifetime);
         }
 
         return $token['access_token'];
+    }
+
+    public function forgetAccessToken(): void
+    {
+        $this->cache->delete($this->getCacheId());
+        $this->cache->delete($this->getFailureCacheId());
+    }
+
+    /**
+     * The time an entry expires is stored with it, because not every cache backend removes an entry after its
+     * lifetime. The array backend keeps it for as long as the process runs.
+     *
+     * @param array<string, string> $entry
+     */
+    private function saveWithExpiry(string $cacheId, array $entry, int $lifetime): void
+    {
+        $entry['expires'] = Date::getNowTimestamp() + $lifetime;
+
+        $this->cache->save($cacheId, $entry, $lifetime);
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function fetchUnexpired(string $cacheId): ?array
+    {
+        $entry = $this->cache->fetch($cacheId);
+
+        if (!is_array($entry) || (int) ($entry['expires'] ?? 0) <= Date::getNowTimestamp()) {
+            return null;
+        }
+
+        return $entry;
+    }
+
+    /**
+     * @param array<string, string> $requestBody
+     * @return array{access_token: string, expires_in?: mixed}
+     */
+    private function requestToken(
+        string $tokenUrl,
+        #[\SensitiveParameter]
+        array $requestBody
+    ): array {
+        try {
+            $response = $this->sendTokenRequest($tokenUrl, $requestBody);
+        } catch (\Exception $e) {
+            // the reason can name the token URL, so it is kept out of the message
+            throw new TokenRequestFailedException('The SMTP OAuth token endpoint could not be reached.', $e->getMessage());
+        }
+
+        return $this->parseResponse($response);
+    }
+
+    /**
+     * @return array{string, string, string, string} token URL, client ID, client secret and scope
+     */
+    private function getSettings(): array
+    {
+        $mailConfig = $this->getMailConfig();
+
+        return [
+            trim((string) ($mailConfig['oauth_token_url'] ?? '')),
+            trim((string) ($mailConfig['oauth_client_id'] ?? '')),
+            (string) ($mailConfig['oauth_client_secret'] ?? ''),
+            trim((string) ($mailConfig['oauth_scope'] ?? '')),
+        ];
+    }
+
+    private function getCacheId(): string
+    {
+        return 'MailOAuthAccessToken_' . hash('sha256', implode("\n", $this->getSettings()));
+    }
+
+    private function getFailureCacheId(): string
+    {
+        return $this->getCacheId() . '_failed';
     }
 
     /**
@@ -97,28 +187,29 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
         #[\SensitiveParameter]
         array $requestBody
     ): array {
-        try {
-            return Http::sendHttpRequestBy(
-                Http::getTransportMethod(),
-                $tokenUrl,
-                self::TIMEOUT_IN_SECONDS,
-                $userAgent = null,
-                $destinationPath = null,
-                $file = null,
-                $followDepth = 0,
-                $acceptLanguage = false,
-                $acceptInvalidSslCertificate = false,
-                $byteRange = false,
-                $getExtendedInfo = true,
-                $httpMethod = 'POST',
-                $httpUsername = null,
-                $httpPassword = null,
-                $requestBody,
-                $additionalHeaders = ['Accept: application/json']
-            );
-        } catch (\Exception $e) {
-            throw new TokenRequestFailedException('The SMTP OAuth token request failed: ' . $e->getMessage(), 0, $e);
-        }
+        return Http::sendHttpRequestBy(
+            Http::getTransportMethod(),
+            $tokenUrl,
+            self::TIMEOUT_IN_SECONDS,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = true,
+            $httpMethod = 'POST',
+            $httpUsername = null,
+            $httpPassword = null,
+            $requestBody,
+            $additionalHeaders = ['Accept: application/json'],
+            $forcePost = null,
+            $checkHostIsAllowed = true,
+            $validateEgressIp = false,
+            // the request carries the client secret, which must never be sent on to another URL
+            $followRedirects = false
+        );
     }
 
     /**
@@ -132,7 +223,8 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
 
         if ($status !== 200) {
             throw new TokenRequestFailedException(
-                'The SMTP OAuth token request failed with HTTP status ' . $status . $this->getErrorDetail($data) . '.'
+                'The SMTP OAuth token request failed with HTTP status ' . $status . '.',
+                $this->getErrorDetail($data)
             );
         }
 
@@ -163,6 +255,6 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
             return '';
         }
 
-        return ' (' . rtrim(mb_substr(implode(': ', $details), 0, self::MAX_ERROR_DETAIL_LENGTH), '.') . ')';
+        return mb_substr(implode(': ', $details), 0, self::MAX_ERROR_DETAIL_LENGTH);
     }
 }

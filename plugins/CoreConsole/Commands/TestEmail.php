@@ -11,8 +11,10 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Config;
 use Piwik\Mail;
+use Piwik\Mail\OAuth\TokenRequestFailedException;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 
 class TestEmail extends ConsoleCommand
 {
@@ -38,7 +40,17 @@ class TestEmail extends ConsoleCommand
         $mail->setFrom($config->General['noreply_email_address'], $config->General['noreply_email_name']);
         $mail->setSubject($subject);
         $mail->setWrappedHtmlBody($body);
-        $mail->send();
+
+        try {
+            $mail->send();
+        } catch (TokenRequestFailedException $e) {
+            if ($e->getDetail() !== '') {
+                $this->getOutput()->writeln('Reason: ' . OutputFormatter::escape($e->getDetail()));
+            }
+
+            throw $e;
+        }
+
         $this->getOutput()->writeln('Message sent to ' . $email);
 
         return self::SUCCESS;

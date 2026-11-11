@@ -18,8 +18,10 @@ namespace Piwik\Mail\OAuth;
  */
 interface AccessTokenProvider
 {
-    /**
-     * @throws TokenRequestFailedException if no access token could be obtained
-     */
     public function getAccessToken(): string;
+
+    /**
+     * Drops a cached access token, so the next email requests a new one.
+     */
+    public function forgetAccessToken(): void;
 }
