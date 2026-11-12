@@ -438,6 +438,17 @@ class Mysql implements SchemaInterface
                                       UNIQUE INDEX index_login_plugin_name (`login`, `plugin_name`)
                                   ) $tableOptions
             ",
+            'transitions_preprocessed_page' => "CREATE TABLE `{$prefixTables}transitions_preprocessed_page` (
+                                      `idpage` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `idsite` INTEGER UNSIGNED NOT NULL,
+                                      `url` TEXT NOT NULL,
+                                      `url_hash` CHAR(40) NOT NULL,
+                                      `created_date` DATETIME NOT NULL,
+                                      `created_by` VARCHAR(100) NULL,
+                                      PRIMARY KEY(`idpage`),
+                                      UNIQUE INDEX index_idsite_url_hash (`idsite`, `url_hash`)
+                                  ) $tableOptions
+            ",
             'changes'             => "CREATE TABLE `{$prefixTables}changes` (
                                       `idchange` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
                                       `created_time` DATETIME NOT NULL,
