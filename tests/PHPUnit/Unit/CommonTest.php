@@ -46,6 +46,7 @@ class CommonTest extends TestCase
         try {
             $this->assertFalse(Common::safe_unserialize(''));
             $this->assertFalse(Common::safe_unserialize(null));
+            $this->assertFalse(Common::safe_unserialize(false));
         } finally {
             restore_error_handler();
         }
