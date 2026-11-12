@@ -398,6 +398,10 @@ class TrackerCodeGenerator
 
             $referrerParsed = parse_url($site_url);
 
+            if (isset($referrerParsed['host'])) {
+                $referrerParsed['host'] = self::stripWwwPrefix($referrerParsed['host']);
+            }
+
             if (!isset($firstHost) && isset($referrerParsed['host'])) {
                 $firstHost = $referrerParsed['host'];
             }
@@ -434,6 +438,15 @@ class TrackerCodeGenerator
                 ) . ']);' . "\n";
         }
         return $options;
+    }
+
+    private static function stripWwwPrefix(string $host): string
+    {
+        if (preg_match('/^www\.(.+\..+)$/i', $host, $matches)) {
+            return $matches[1];
+        }
+
+        return $host;
     }
 
     /**
