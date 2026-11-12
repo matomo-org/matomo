@@ -144,6 +144,8 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
             $value = $numeric === Records::DAYS ? 1.0 : 0.0;
             $expected[] = ['name' => Records::getRecordName($idAction, $numeric), 'value' => $value];
         }
+        // the website had visits that day
+        $expected[] = ['name' => Records::DAYS_WITH_VISITS, 'value' => 1.0];
         usort($expected, fn($a, $b) => strcmp($a['name'], $b['name']));
 
         self::assertSame($expected, $numerics);

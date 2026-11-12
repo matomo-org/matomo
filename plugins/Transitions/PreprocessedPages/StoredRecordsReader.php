@@ -17,7 +17,6 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Period;
-use Piwik\Period\Day;
 use Piwik\Period\Range;
 use Piwik\Plugins\SegmentEditor\UnprocessedSegmentException;
 use Piwik\Segment;
@@ -26,15 +25,12 @@ use Piwik\Site;
 /**
  * Reads the stored records of a pre-processed page from existing archives. It never launches archiving.
  *
- * The records of a period are used only if they cover every day of it that has visits: the page's `days` counter must
- * equal the number of days whose `nb_visits` is above 0, read from the day archives of the same segment. A day without
- * an archive counts as a day without visits, as archiving skips those, so the visits of the days must add up to the
- * period's `nb_visits`. Otherwise a day archive is missing or outdated, and the records are not used.
+ * A day is covered when the page's records exist. A longer period is covered when, in its own archive, the page's
+ * `days` counter equals {@link Records::DAYS_WITH_VISITS}, the days of the period that had visits, both recorded when
+ * the period was archived. A range is covered when each of its subperiods is.
  */
 final class StoredRecordsReader
 {
-    private const VISITS = 'nb_visits';
-
     /**
      * Reads the page's records for the period. A range is summed from its subperiods.
      *
@@ -79,6 +75,7 @@ final class StoredRecordsReader
 
         $archives = [];
         $pageRows = [];
+        $siteRows = [];
         foreach ($this->groupByLabel($periods) as $label => $periodsOfLabel) {
             $archive = $this->buildArchive($idSite, $periodsOfLabel, $segment);
             if ($archive === null) {
@@ -87,35 +84,49 @@ final class StoredRecordsReader
 
             $archives[$label] = $archive;
             $pageRows += $this->getNumericRows($archive, array_values($numericNames));
-        }
-
-        $coveredPeriods = [];
-        foreach ($periods as $period) {
-            if ($this->getValue($pageRows, $period, $numericNames[Records::DAYS]) > 0) {
-                $coveredPeriods[$period->getRangeString()] = $period;
+            if ($label !== 'day') {
+                $siteRows += $this->getNumericRows($archive, [Records::DAYS_WITH_VISITS]);
             }
         }
 
-        if (empty($coveredPeriods) || !$this->isEveryDayWithVisitsCovered($idSite, $periods, $segment, $archives, $pageRows, $numericNames[Records::DAYS])) {
+        $site = new Site($idSite);
+        $coveredPeriods = [];
+        $tsArchived = null;
+        foreach ($periods as $period) {
+            $rangeString = $period->getRangeString();
+            if (!isset($pageRows[$rangeString][$numericNames[Records::PAGEVIEWS]])) {
+                if ($this->isOutsideOfSiteLifetime($site, $period)) {
+                    // never archived, as there can't be visits
+                    continue;
+                }
+
+                return null;
+            }
+
+            if ($period->getLabel() !== 'day') {
+                if (
+                    !isset($siteRows[$rangeString][Records::DAYS_WITH_VISITS])
+                    || $this->getValue($siteRows, $period, Records::DAYS_WITH_VISITS) !== $this->getValue($pageRows, $period, $numericNames[Records::DAYS])
+                ) {
+                    return null;
+                }
+
+                $tsArchived = $this->getOlderTsArchived($siteRows[$rangeString], $tsArchived);
+            }
+
+            $tsArchived = $this->getOlderTsArchived($pageRows[$rangeString], $tsArchived);
+            $coveredPeriods[$rangeString] = $period;
+        }
+
+        if (empty($coveredPeriods) || $tsArchived === null) {
             return null;
         }
 
         $numerics = array_fill_keys(Records::NUMERICS, 0);
-        $tsArchived = null;
         foreach ($coveredPeriods as $period) {
             foreach ($numericNames as $part => $name) {
                 $numerics[$part] += (int) $this->getValue($pageRows, $period, $name);
             }
-
-            $metadata = $pageRows[$period->getRangeString()][DataCollection::METADATA_CONTAINER_ROW_KEY] ?? [];
-            $ts = is_array($metadata) ? ($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME] ?? null) : null;
-            if (is_string($ts) && ($tsArchived === null || strcmp($ts, $tsArchived) < 0)) {
-                $tsArchived = $ts;
-            }
-        }
-
-        if ($tsArchived === null) {
-            return null;
         }
 
         $tables = [];
@@ -126,82 +137,35 @@ final class StoredRecordsReader
                 $result = $part === Records::REFERRERS ? $archive->getDataTableExpanded($name) : $archive->getDataTable($name);
                 foreach ($this->getTablesByPeriod($result) as $rangeString => $table) {
                     if (isset($coveredPeriods[$rangeString])) {
-                        $tablesOfPeriods[] = $table;
+                        $tablesOfPeriods[$rangeString] = $table;
                     }
                 }
             }
 
-            $tables[$part] = $this->sumTables($tablesOfPeriods);
+            // reports purged from old archives can leave the numeric records behind
+            if (count($tablesOfPeriods) !== count($coveredPeriods)) {
+                return null;
+            }
+
+            $tables[$part] = $this->sumTables(array_values($tablesOfPeriods));
         }
 
         return new StoredRecords($numerics, $tables, $tsArchived);
     }
 
     /**
-     * @param list<Period> $periods
-     * @param array<string, Archive> $archives by period label
-     * @param array<string, array<mixed>> $pageRows
+     * @param array<mixed> $row a numeric row of {@link getNumericRows()}
      */
-    private function isEveryDayWithVisitsCovered(int $idSite, array $periods, Segment $segment, array $archives, array $pageRows, string $daysName): bool
+    private function getOlderTsArchived(array $row, ?string $tsArchived): ?string
     {
-        $periodVisits = [];
-        foreach ($archives as $archive) {
-            $periodVisits += $this->getNumericRows($archive, [self::VISITS]);
-        }
+        $metadata = $row[DataCollection::METADATA_CONTAINER_ROW_KEY] ?? [];
+        $ts = is_array($metadata) ? ($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME] ?? null) : null;
 
-        $days = [];
-        foreach ($periods as $period) {
-            foreach ($this->getDays($period) as $day) {
-                $days[$day->getRangeString()] = $day;
-            }
-        }
-
-        if (count($archives) === 1 && isset($archives['day'])) {
-            $dayVisits = $periodVisits;
-        } else {
-            $dayArchive = $this->buildArchive($idSite, array_values($days), $segment);
-            if ($dayArchive === null) {
-                return false;
-            }
-            $dayVisits = $this->getNumericRows($dayArchive, [self::VISITS]);
-        }
-
-        $site = new Site($idSite);
-        foreach ($periods as $period) {
-            if (!isset($periodVisits[$period->getRangeString()][self::VISITS])) {
-                if ($this->isOutsideOfSiteLifetime($site, $period)) {
-                    // never archived, as there can't be visits
-                    continue;
-                }
-
-                return false;
-            }
-
-            $visitDays = 0;
-            $visitsOfDays = 0;
-            foreach ($this->getDays($period) as $day) {
-                $visits = (int) $this->getValue($dayVisits, $day, self::VISITS);
-                if ($visits > 0) {
-                    $visitDays++;
-                    $visitsOfDays += $visits;
-                }
-            }
-
-            // a day archive is missing, or was built after the period's archive
-            if ($visitsOfDays !== (int) $this->getValue($periodVisits, $period, self::VISITS)) {
-                return false;
-            }
-
-            if ((int) $this->getValue($pageRows, $period, $daysName) !== $visitDays) {
-                return false;
-            }
-        }
-
-        return true;
+        return is_string($ts) && ($tsArchived === null || strcmp($ts, $tsArchived) < 0) ? $ts : $tsArchived;
     }
 
     /**
-     * Archive skips the same periods when it launches archiving.
+     * The periods `Archive` skips when it launches archiving (core/Archive.php, cacheArchiveIdsAfterLaunching()).
      */
     private function isOutsideOfSiteLifetime(Site $site, Period $period): bool
     {
@@ -258,7 +222,7 @@ final class StoredRecordsReader
 
     /**
      * @param DataTable|DataTable\Map $result
-     * @return array<string, DataTable> by period range string
+     * @return array<string, DataTable> the tables found in an archive, by period range string
      */
     private function getTablesByPeriod($result): array
     {
@@ -266,7 +230,8 @@ final class StoredRecordsReader
         $candidates = $result instanceof DataTable\Map ? $result->getDataTables() : [$result];
         foreach ($candidates as $table) {
             $period = $table instanceof DataTable ? $table->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX) : null;
-            if ($table instanceof DataTable && $period instanceof Period) {
+            // only a table read from an archive has the time it was archived
+            if ($table instanceof DataTable && $period instanceof Period && $table->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME)) {
                 $tables[$period->getRangeString()] = $table;
             }
         }
@@ -303,23 +268,5 @@ final class StoredRecordsReader
         }
 
         return $groups;
-    }
-
-    /**
-     * @return list<Period>
-     */
-    private function getDays(Period $period): array
-    {
-        if ($period->getLabel() === 'day') {
-            return [$period];
-        }
-
-        $days = [];
-        $end = $period->getDateEnd();
-        for ($date = $period->getDateStart(); !$date->isLater($end); $date = $date->addDay(1)) {
-            $days[] = new Day($date);
-        }
-
-        return $days;
     }
 }

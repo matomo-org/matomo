@@ -19,9 +19,12 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Db;
+use Piwik\EventDispatcher;
 use Piwik\NoAccessException;
 use Piwik\Plugins\Overlay\API as OverlayAPI;
+use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Plugins\Transitions\API;
+use Piwik\Plugins\Transitions\PreprocessedPages\Dao;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
 use Piwik\Plugins\Transitions\Transitions;
@@ -186,24 +189,50 @@ class PreprocessedReportTest extends IntegrationTestCase
         $this->request('day', self::DAY);
     }
 
-    public function testTheFlagIsRenderedInXmlAndJson(): void
+    /**
+     * @dataProvider getFormats
+     */
+    public function testEachFormatRendersTheStoredResponseAsTheRawOne(string $format): void
     {
-        $rawJson = $this->requestFormat('json');
-        $rawXml = $this->requestFormat('xml');
+        // all rows, so no tie at a cut-off
+        $raw = $this->requestFormat($format, 100);
+        self::assertStringNotContainsString('preprocessed', $raw);
 
         $this->archive($this->selectPage(self::PAGE_URL), 'day', self::DAY);
+        $stored = $this->requestFormat($format, 100);
 
-        $json = json_decode($this->requestFormat('json'), true);
-        self::assertSame(1, $json['preprocessed']);
-        self::assertSame(array_keys(json_decode($rawJson, true)), array_slice(array_keys($json), 0, -2));
-        self::assertStringNotContainsString('preprocessed', $rawJson . $rawXml);
-
-        $xml = $this->requestFormat('xml');
-        self::assertStringContainsString('<preprocessed>1</preprocessed>', $xml);
-        self::assertMatchesRegularExpression('/<preprocessedAt>\d{4}-\d\d-\d\d \d\d:\d\d:\d\d<\/preprocessedAt>/', $xml);
+        if ($format === 'json') {
+            $storedJson = json_decode($stored, true);
+            self::assertIsArray($storedJson);
+            self::assertSame(1, $storedJson['preprocessed']);
+            self::assertMatchesRegularExpression('/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/', $storedJson['preprocessedAt']);
+            unset($storedJson['preprocessed'], $storedJson['preprocessedAt']);
+            self::assertSame(json_decode($raw, true), $storedJson);
+        } elseif ($format === 'xml') {
+            $flags = '/\t<preprocessed>1<\/preprocessed>\n\t<preprocessedAt>\d{4}-\d\d-\d\d \d\d:\d\d:\d\d<\/preprocessedAt>\n/';
+            self::assertMatchesRegularExpression($flags, $stored);
+            self::assertSame($raw, preg_replace($flags, '', $stored));
+        } else {
+            // the report's nested arrays are not convertible to these formats, with or without the flag
+            self::assertStringContainsString('Data structure returned is not convertible in the requested format', $raw);
+            self::assertSame($raw, $stored);
+        }
     }
 
-    private function requestFormat(string $format): string
+    /**
+     * @return array<string, array{string}>
+     */
+    public function getFormats(): array
+    {
+        $formats = [];
+        foreach (['json', 'xml', 'csv', 'tsv', 'html'] as $format) {
+            $formats[$format] = [$format];
+        }
+
+        return $formats;
+    }
+
+    private function requestFormat(string $format, int $limit): string
     {
         Cache::getTransientCache()->flushAll();
         $response = Request::processRequest('Transitions.getTransitionsForPageUrl', [
@@ -211,6 +240,7 @@ class PreprocessedReportTest extends IntegrationTestCase
             'idSite' => 1,
             'period' => 'day',
             'date' => self::DAY,
+            'limitBeforeGrouping' => $limit,
             'format' => $format,
         ]);
         self::assertIsString($response);
@@ -367,6 +397,135 @@ class PreprocessedReportTest extends IntegrationTestCase
         self::assertSame($archiveRows, $this->countArchiveRows());
     }
 
+    public function testALongerPeriodIsServedFromItsOwnArchiveOnly(): void
+    {
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->archive($idAction, 'month', self::DAY);
+        $stored = $this->request('month', self::DAY);
+
+        // a day archive rebuilt with other visits, and another one gone
+        Db::query(
+            'UPDATE ' . Common::prefixTable('archive_numeric_2010_03') . " SET value = value + 5 WHERE period = 1 AND date1 = ? AND name = 'nb_visits'",
+            [self::DAY]
+        );
+        Db::query('DELETE FROM ' . Common::prefixTable('archive_numeric_2010_03') . ' WHERE period = 1 AND date1 = ?', [self::LATER_DAY]);
+
+        self::assertSame($this->toArray($stored), $this->toArray($this->withoutLogTables(fn() => $this->request('month', self::DAY))));
+    }
+
+    public function testStoredMonthsAreServedAfterOldDayReportsArePurged(): void
+    {
+        $rawDay = $this->toArray($this->request('day', self::DAY));
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->archive($idAction, 'month', self::DAY);
+        $month = $this->request('month', self::DAY);
+
+        // keeps the month and year reports, deletes the day and week ones with their visits
+        (new ReportsPurger(1, false, [3, 4], false, [], 1000))->purgeData();
+
+        self::assertSame($this->toArray($month), $this->toArray($this->withoutLogTables(fn() => $this->request('month', self::DAY))));
+        self::assertSame($rawDay, $this->toArray($this->request('day', self::DAY)));
+    }
+
+    public function testADayWhoseListsArePurgedIsAnsweredFromTheLogs(): void
+    {
+        $rawDay = $this->toArray($this->request('day', self::DAY));
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->archive($idAction, 'month', self::DAY);
+
+        // a plugin can keep more metrics, here the page's numeric records, while the reports are deleted
+        $metricsToKeep = ['nb_visits'];
+        foreach (Records::NUMERICS as $part) {
+            $metricsToKeep[] = Records::getRecordName($idAction, $part);
+        }
+        (new ReportsPurger(1, true, [3, 4], false, $metricsToKeep, 1000))->purgeData();
+        self::assertSame(1.0, $this->getDaysCounter($idAction, self::DAY));
+
+        self::assertSame($rawDay, $this->toArray($this->request('day', self::DAY)));
+        self::assertSame(1, $this->request('month', self::DAY)['preprocessed']);
+    }
+
+    public function testSubperiodsBeforeTheSiteWasCreatedNeedNoRecords(): void
+    {
+        $range = '2010-02-27,2010-03-14';
+        $raw = $this->request('range', $range);
+
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->archive($idAction, 'range', $range);
+
+        $this->assertStoredEqualsRaw($raw, $this->request('range', $range));
+    }
+
+    public function testWeeksOfSitesArchivedWithoutVisitsAreServed(): void
+    {
+        EventDispatcher::getInstance()->addObserver('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
+            $idSites[] = 1;
+        });
+        $raw = $this->request('week', self::LATER_DAY);
+
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->archive($idAction, 'week', self::LATER_DAY);
+        // a day without visits got the page's records too
+        self::assertNull($this->getDaysCounter($idAction, '2010-03-09'));
+        self::assertSame(0.0, $this->getStoredNumeric($idAction, Records::PAGEVIEWS, '2010-03-09'));
+
+        $this->assertStoredEqualsRaw($raw, $this->request('week', self::LATER_DAY));
+        $this->expectExceptionMessage('NoDataForAction');
+        $this->withoutLogTables(fn() => $this->request('day', '2010-03-09'));
+    }
+
+    /**
+     * @dataProvider getUnnamedReferrerVisits
+     */
+    public function testUnnamedReferrersAreLeftOutOfTheDetailsAsByTheLogQuery(int $unnamedVisits): void
+    {
+        $pageUrl = 'http://example.org/landing.html';
+        $visitor = 0;
+        foreach (['http://a.example/x' => 3, 'http://b.example/y' => 2, 'http://unnamed.example/z' => $unnamedVisits] as $referrer => $visits) {
+            for ($i = 0; $i < $visits; $i++) {
+                $visitor++;
+                $tracker = Fixture::getTracker(1, self::DAY . ' 18:00:00', $defaultInit = true);
+                $tracker->setIp('10.0.0.' . $visitor);
+                $tracker->setNewVisitorId();
+                $tracker->setUrlReferrer($referrer);
+                $tracker->setUrl($pageUrl);
+                Fixture::checkResponse($tracker->doTrackPageView('landing'));
+            }
+        }
+        // as with the referrer anonymised entirely
+        Db::query('UPDATE ' . Common::prefixTable('log_visit') . " SET referer_url = '' WHERE referer_url LIKE 'http://unnamed.example/%'");
+        $raw = $this->request('day', self::DAY, '', 2, 'externalReferrers', $pageUrl);
+
+        $this->archive($this->selectPage($pageUrl), 'day', self::DAY);
+
+        $stored = $this->request('day', self::DAY, '', 2, 'externalReferrers', $pageUrl);
+        self::assertSame(1, $stored['preprocessed']);
+        self::assertSame($raw['referrers'], $stored['referrers']);
+    }
+
+    /**
+     * @return array<string, array{int}>
+     */
+    public function getUnnamedReferrerVisits(): array
+    {
+        return ['below the named ones' => [1], 'above the named ones' => [4]];
+    }
+
+    public function testTheSiteHasNoPagesWithoutTheTable(): void
+    {
+        $this->selectPage(self::PAGE_URL);
+        $dao = StaticContainer::get(Dao::class);
+        self::assertTrue($dao->hasPagesForSite(1));
+
+        $table = Common::prefixTable(Dao::TABLE_NAME);
+        Db::query('RENAME TABLE ' . $table . ' TO ' . $table . '_hidden');
+        try {
+            self::assertFalse($dao->hasPagesForSite(1));
+        } finally {
+            Db::query('RENAME TABLE ' . $table . '_hidden TO ' . $table);
+        }
+    }
+
     public function testAPageWithoutPageviewsHasNoDataFromStoredData(): void
     {
         // tracked on the first day only
@@ -459,6 +618,16 @@ class PreprocessedReportTest extends IntegrationTestCase
         } finally {
             unset($_GET['idSite']);
         }
+    }
+
+    private function getStoredNumeric(int $idAction, string $part, string $day): ?float
+    {
+        $value = Db::fetchOne(
+            'SELECT value FROM ' . Common::prefixTable('archive_numeric_2010_03') . ' WHERE idsite = 1 AND period = 1 AND date1 = ? AND name = ?',
+            [$day, Records::getRecordName($idAction, $part)]
+        );
+
+        return $value === false ? null : (float) $value;
     }
 
     private function getDaysCounter(int $idAction, string $day): ?float

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Transitions\RecordBuilders;
 
+use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\ArchiveProcessor\RecordBuilder;
@@ -19,6 +20,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\Period\Day;
 use Piwik\Plugins\Transitions\Model;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
@@ -51,7 +53,7 @@ class PageTransitions extends RecordBuilder
     {
         $maxRows = $this->getMaxRows($archiveProcessor);
 
-        $records = [];
+        $records = [Record::make(Record::TYPE_NUMERIC, Records::DAYS_WITH_VISITS)];
         foreach ($this->getIdActions($archiveProcessor) as $idAction) {
             foreach ($this->getPageRecords($idAction, $maxRows) as $record) {
                 $records[] = $record;
@@ -93,6 +95,41 @@ class PageTransitions extends RecordBuilder
         if (!empty($numericRecordNames)) {
             $archiveProcessor->aggregateNumericMetrics($numericRecordNames);
         }
+
+        $archiveProcessor->insertNumericRecord(Records::DAYS_WITH_VISITS, $this->countDaysWithVisits($archiveProcessor));
+    }
+
+    /**
+     * Counts the days of the period with visits in their archives, also the days archived before a page was selected.
+     * The days are archived before the period, and a day without visits has no archive.
+     */
+    private function countDaysWithVisits(ArchiveProcessor $archiveProcessor): int
+    {
+        $params = $archiveProcessor->getParams();
+        $period = $params->getPeriod();
+
+        $days = [];
+        $end = $period->getDateEnd();
+        for ($date = $period->getDateStart(); !$date->isLater($end); $date = $date->addDay(1)) {
+            $days[] = new Day($date);
+        }
+
+        $archive = Archive::factory($params->getSegment(), $days, [$this->getIdSite($archiveProcessor)], false, true);
+        if (!$archive instanceof Archive) {
+            return 0;
+        }
+        $archive->forceFetchingWithoutLaunchingArchiving();
+
+        $visitsByDay = $archive->getNumeric('nb_visits');
+        $daysWithVisits = 0;
+        foreach (is_array($visitsByDay) ? $visitsByDay : [] as $row) {
+            $visits = is_array($row) ? ($row['nb_visits'] ?? 0) : 0;
+            if (is_numeric($visits) && $visits > 0) {
+                $daysWithVisits++;
+            }
+        }
+
+        return $daysWithVisits;
     }
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
@@ -107,13 +144,17 @@ class PageTransitions extends RecordBuilder
         $followingActions = $model->queryFollowingActionsOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW);
         $externalReferrers = $model->queryExternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW);
 
-        $records = [];
+        // a website can be archived without visits
+        $hasVisits = $archiveProcessor->getNumberOfVisits() > 0;
+
+        $records = [Records::DAYS_WITH_VISITS => $hasVisits ? 1 : 0];
         foreach ($idActions as $idAction) {
             $records = array_merge($records, $this->makePageRecords(
                 $idAction,
                 $internalReferrers[$idAction] ?? [],
                 $followingActions[$idAction] ?? [],
-                $externalReferrers[$idAction] ?? []
+                $externalReferrers[$idAction] ?? [],
+                $hasVisits
             ));
         }
 
@@ -126,7 +167,7 @@ class PageTransitions extends RecordBuilder
      * @param array<mixed> $externalReferrers rows of the page's ranking query by referrer type
      * @return array<string, DataTable|int>
      */
-    private function makePageRecords(int $idAction, array $internalReferrers, array $followingActions, array $externalReferrers): array
+    private function makePageRecords(int $idAction, array $internalReferrers, array $followingActions, array $externalReferrers, bool $hasVisits): array
     {
         $records = [];
         $partitions = $this->toArray($internalReferrers['result'] ?? []);
@@ -169,7 +210,9 @@ class PageTransitions extends RecordBuilder
         $records[Records::getRecordName($idAction, Records::LOOPS)] = $loops;
         $records[Records::getRecordName($idAction, Records::ENTRIES)] = $entries;
         $records[Records::getRecordName($idAction, Records::EXITS)] = $pageviews - $transitionsToFollowingActions - $loops;
-        $records[Records::getRecordName($idAction, Records::DAYS)] = 1;
+        if ($hasVisits) {
+            $records[Records::getRecordName($idAction, Records::DAYS)] = 1;
+        }
 
         return $records;
     }

@@ -21,7 +21,8 @@ use Piwik\Config\GeneralConfig;
  * periods). The referrers record holds one row per referrer type (label =
  * `Common::REFERRER_TYPE_*`, visits in `Metrics::INDEX_NB_VISITS`) with a subtable of the referrers of that type
  * (same columns, plus a summary row). The numeric records are written for every archived page, also when 0.
- * `days` counts the days whose records were built from the logs: 1 in a day archive, summed for longer periods.
+ * `days` counts the days with visits whose records were built from the logs: 1 in a day archive with visits, summed for
+ * longer periods.
  */
 final class Records
 {
@@ -58,6 +59,12 @@ final class Records
         self::EXITS,
         self::DAYS,
     ];
+
+    /**
+     * Number of days of the archive's period that had visits, in every Transitions archive of a website with selected
+     * pages: a period is covered for a page when its `days` counter equals this.
+     */
+    public const DAYS_WITH_VISITS = 'Transitions_daysWithVisits';
 
     /**
      * Label of search engines without a name in the referrers subtable; the report shows it as `General_Unknown`.
