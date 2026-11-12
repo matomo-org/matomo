@@ -399,6 +399,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Nonce::discardNonce('Login.login');
 
         $this->auth->setLogin($login);
+        $this->auth->setTokenAuth(null); // ensure authentication happens on password
         if ($passwordHashed === false) {
             $this->auth->setPassword($password);
         } else {
