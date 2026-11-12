@@ -16,10 +16,7 @@ namespace Piwik\Mail\OAuth;
  */
 class TokenRequestFailedException extends \RuntimeException
 {
-    /**
-     * @var string
-     */
-    private $detail;
+    private string $detail;
 
     /**
      * @param string $detail why the request failed, for example what the token endpoint answered. It is kept out

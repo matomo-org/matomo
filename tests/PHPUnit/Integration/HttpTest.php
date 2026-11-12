@@ -420,23 +420,10 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             $method,
             Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=1',
             30,
-            $userAgent = null,
-            $destinationPath = null,
-            $file = null,
-            $followDepth = 0,
-            $acceptLanguage = false,
-            $acceptInvalidSslCertificate = false,
-            $byteRange = false,
-            $getExtendedInfo = true,
-            $httpMethod = 'POST',
-            $httpUsername = null,
-            $httpPassword = null,
-            $requestBody = ['secret' => 'value'],
-            $additionalHeaders = [],
-            $forcePost = null,
-            $checkHostIsAllowed = true,
-            $validateEgressIp = false,
-            $followRedirects = false
+            getExtendedInfo: true,
+            httpMethod: 'POST',
+            requestBody: ['secret' => 'value'],
+            followRedirects: false
         );
 
         $this->assertSame(302, $result['status']);
@@ -539,23 +526,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             Http::getTransportMethod(),
             Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
             30,
-            $userAgent = null,
-            $destinationPath = null,
-            $file = null,
-            $followDepth = 0,
-            $acceptLanguage = false,
-            $acceptInvalidSslCertificate = false,
-            $byteRange = false,
-            $getExtendedInfo = false,
-            $httpMethod = 'GET',
-            $httpUsername = null,
-            $httpPassword = null,
-            $requestBody = null,
-            $additionalHeaders = [],
-            $forcePost = null,
-            $checkHostIsAllowed = true,
-            $validateEgressIp = false,
-            $followRedirects = false
+            followRedirects: false
         );
 
         $this->assertFalse($params['followRedirects']);

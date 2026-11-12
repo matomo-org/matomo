@@ -26,10 +26,7 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
     private const FAILURE_LIFETIME_IN_SECONDS = 60;
     private const MAX_ERROR_DETAIL_LENGTH = 500;
 
-    /**
-     * @var Lazy
-     */
-    private $cache;
+    private Lazy $cache;
 
     public function __construct(Lazy $cache)
     {
@@ -191,24 +188,12 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
             Http::getTransportMethod(),
             $tokenUrl,
             self::TIMEOUT_IN_SECONDS,
-            $userAgent = null,
-            $destinationPath = null,
-            $file = null,
-            $followDepth = 0,
-            $acceptLanguage = false,
-            $acceptInvalidSslCertificate = false,
-            $byteRange = false,
-            $getExtendedInfo = true,
-            $httpMethod = 'POST',
-            $httpUsername = null,
-            $httpPassword = null,
-            $requestBody,
-            $additionalHeaders = ['Accept: application/json'],
-            $forcePost = null,
-            $checkHostIsAllowed = true,
-            $validateEgressIp = false,
+            getExtendedInfo: true,
+            httpMethod: 'POST',
+            requestBody: $requestBody,
+            additionalHeaders: ['Accept: application/json'],
             // the request carries the client secret, which must never be sent on to another URL
-            $followRedirects = false
+            followRedirects: false
         );
     }
 
@@ -247,12 +232,9 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
         $details = [];
         foreach (['error', 'error_description'] as $key) {
             if (!empty($data[$key]) && is_string($data[$key])) {
-                $details[] = trim((string) preg_replace('/\s+/', ' ', $data[$key]));
+                // the detail is printed on the command line, so control characters are removed
+                $details[] = trim((string) preg_replace('/[\s\x00-\x1F\x7F]+/', ' ', $data[$key]));
             }
-        }
-
-        if (empty($details)) {
-            return '';
         }
 
         return mb_substr(implode(': ', $details), 0, self::MAX_ERROR_DETAIL_LENGTH);

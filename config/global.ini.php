@@ -1238,10 +1238,10 @@ password = ; SMTP password. Not used when type is Xoauth2
 ; The oauth_ settings are used when type is Xoauth2. Matomo requests an access token with the OAuth 2.0 client credentials flow.
 ; For Microsoft 365: oauth_token_url = "https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token"
 ; and oauth_scope = "https://outlook.office365.com/.default"
-oauth_token_url = ; URL of the OAuth 2.0 token endpoint, has to start with https://
-oauth_client_id = ; OAuth 2.0 client ID (application ID)
-oauth_client_secret = ; OAuth 2.0 client secret
-oauth_scope = ; OAuth 2.0 scope to request the access token for
+oauth_token_url = "" ; URL of the OAuth 2.0 token endpoint, has to start with https://
+oauth_client_id = "" ; OAuth 2.0 client ID (application ID)
+oauth_client_secret = "" ; OAuth 2.0 client secret
+oauth_scope = "" ; OAuth 2.0 scope to request the access token for
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
 ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert (not recommended)
 ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)

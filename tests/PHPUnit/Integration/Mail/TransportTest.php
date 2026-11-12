@@ -29,27 +29,10 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class TransportTest extends IntegrationTestCase
 {
-    private const ACCESS_TOKEN = 'the-access-token';
-
-    /**
-     * @var PHPMailer|null
-     */
-    private $phpMailer;
-
-    /**
-     * @var int
-     */
-    private $accessTokenRequests = 0;
-
-    /**
-     * @var int
-     */
-    private $forgottenAccessTokens = 0;
-
-    /**
-     * @var bool
-     */
-    private $failSending = false;
+    private ?PHPMailer $phpMailer = null;
+    private int $accessTokenRequests = 0;
+    private int $forgottenAccessTokens = 0;
+    private bool $failSending = false;
 
     public function testAuthenticatesWithThePasswordForPasswordBasedTypes(): void
     {
@@ -80,7 +63,7 @@ class TransportTest extends IntegrationTestCase
         $authenticator = $this->phpMailer->getOAuth();
         $this->assertInstanceOf(XOAuth2Authenticator::class, $authenticator);
         $this->assertSame(
-            "user=reports@example.test\001auth=Bearer " . self::ACCESS_TOKEN . "\001\001",
+            "user=reports@example.test\001auth=Bearer the-access-token\001\001",
             base64_decode($authenticator->getOauth64(), true)
         );
     }
@@ -155,15 +138,8 @@ class TransportTest extends IntegrationTestCase
             ]),
             AccessTokenProvider::class => DI::factory(function () {
                 return new class ($this->accessTokenRequests, $this->forgottenAccessTokens) implements AccessTokenProvider {
-                    /**
-                     * @var int
-                     */
-                    private $requests;
-
-                    /**
-                     * @var int
-                     */
-                    private $forgotten;
+                    private int $requests;
+                    private int $forgotten;
 
                     public function __construct(int &$requests, int &$forgotten)
                     {
