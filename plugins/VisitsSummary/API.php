@@ -162,6 +162,8 @@ class API extends \Piwik\Plugin\API
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the number of unique visitors.
+     *                                 For a period estimated with `enable_processing_estimated_unique_visitors_...`,
+     *                                 this is an estimate.
      */
     public function getUniqueVisitors($idSite, string $period, string $date, $segment = false)
     {
@@ -184,6 +186,8 @@ class API extends \Piwik\Plugin\API
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the number of users.
+     *                                 For a period estimated with `enable_processing_estimated_unique_visitors_...`,
+     *                                 this is an estimate.
      */
     public function getUsers($idSite, string $period, string $date, $segment = false)
     {
