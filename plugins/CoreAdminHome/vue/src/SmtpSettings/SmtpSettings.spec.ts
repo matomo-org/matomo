@@ -34,7 +34,7 @@ vi.mock('CorePluginsAdmin', () => ({
 
 import SmtpSettings from './SmtpSettings.vue';
 
-function mountWithStoredOAuthSettings(type = 'Xoauth2') {
+function mountWithStoredOAuthSettings(type = 'Xoauth2', storedMail: Record<string, string> = {}) {
   return mount(SmtpSettings, {
     props: {
       mail: {
@@ -51,6 +51,7 @@ function mountWithStoredOAuthSettings(type = 'Xoauth2') {
         noreply_email_address: 'noreply@example.test',
         noreply_email_name: 'Matomo',
         encryption: 'tls',
+        ...storedMail,
       },
       mailTypes: {},
       mailEncryptions: {},
@@ -85,6 +86,17 @@ describe('CoreAdminHome/SmtpSettings.vue', () => {
     expect((await save(wrapper)).mailOAuthClientSecret).toBe('a-new-secret');
   });
 
+  it('does not send a client secret entered before switching to the certificate', async () => {
+    const wrapper = mountWithStoredOAuthSettings();
+
+    await wrapper.find('[name="mailOAuthClientSecret"]').setValue('a-new-secret');
+    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('certificate');
+    const posted = await save(wrapper);
+
+    expect(posted.mailOAuthCredentialType).toBe('certificate');
+    expect(posted).not.toHaveProperty('mailOAuthClientSecret');
+  });
+
   it('drops the stored client secret when the SMTP server changes', async () => {
     const wrapper = mountWithStoredOAuthSettings();
 
@@ -93,8 +105,24 @@ describe('CoreAdminHome/SmtpSettings.vue', () => {
     expect((await save(wrapper)).mailOAuthClientSecret).toBe('');
   });
 
+  it.each([
+    ['secret', {}],
+    ['secret', { oauth_credential_type: 'secret' }],
+    ['certificate', { oauth_credential_type: ' Certificate ' }],
+  ])('posts the credential type %s stored as %j', async (expected, storedMail) => {
+    const posted = await save(mountWithStoredOAuthSettings('Xoauth2', storedMail));
+
+    expect(posted.mailOAuthCredentialType).toBe(expected);
+  });
+
   it('only shows what applies to the selected authentication method', () => {
-    const oauthFields = ['mailOAuthTokenUrl', 'mailOAuthClientId', 'mailOAuthClientSecret', 'mailOAuthScope'];
+    const oauthFields = [
+      'mailOAuthTokenUrl',
+      'mailOAuthClientId',
+      'mailOAuthCredentialType',
+      'mailOAuthClientSecret',
+      'mailOAuthScope',
+    ];
     const password = mountWithStoredOAuthSettings('Login');
     const oauth = mountWithStoredOAuthSettings('Xoauth2');
     const fields = (wrapper: typeof oauth) => wrapper

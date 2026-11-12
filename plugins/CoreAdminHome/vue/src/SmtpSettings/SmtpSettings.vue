@@ -100,6 +100,7 @@
           id="smtpOAuthSettings"
           v-model="oauthSettings"
           :has-stored-client-secret="!!mail.oauth_client_secret"
+          :certificate-path="mail.oauth_certificate_path"
         />
       </div>
 
@@ -162,6 +163,8 @@ interface MailProperty {
   oauth_client_id: string;
   oauth_client_secret: string;
   oauth_scope: string;
+  oauth_credential_type?: string;
+  oauth_certificate_path?: string;
   noreply_email_address: string;
   noreply_email_name: string;
   encryption: string;
@@ -198,6 +201,9 @@ export default defineComponent({
         tokenUrl: mail.oauth_token_url,
         clientId: mail.oauth_client_id,
         scope: mail.oauth_scope,
+        credentialType: (mail.oauth_credential_type || '').trim().toLowerCase() === 'certificate'
+          ? 'certificate'
+          : 'secret',
       },
       mailFromAddress: mail.noreply_email_address,
       mailFromName: mail.noreply_email_name,
@@ -270,6 +276,7 @@ export default defineComponent({
         mailOAuthTokenUrl: this.oauthSettings.tokenUrl,
         mailOAuthClientId: this.oauthSettings.clientId,
         mailOAuthScope: this.oauthSettings.scope,
+        mailOAuthCredentialType: this.oauthSettings.credentialType,
         passwordConfirmation: password,
       };
 
@@ -277,7 +284,8 @@ export default defineComponent({
         mailSettings.mailPassword = this.mailPassword;
       }
 
-      if (this.oauthSettings.clientSecret !== undefined) {
+      // a secret entered before switching to the certificate is not used, so it isn't stored either
+      if (this.oauthSettings.clientSecret !== undefined && this.oauthSettings.credentialType === 'secret') {
         mailSettings.mailOAuthClientSecret = this.oauthSettings.clientSecret;
       }
 
