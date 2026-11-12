@@ -39,6 +39,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Other changes
 * Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
+* The tracking endpoint now answers server errors, such as a `TypeError` or a failing `Tracker.newHandler` listener, with `500` and logs them, and no longer writes `4xx` rejections to PHP's error log.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
 ## Matomo 6.0.0
