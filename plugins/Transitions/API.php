@@ -24,13 +24,12 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Live\Model;
+use Piwik\Plugins\Transitions\Model as TransitionsModel;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service as PreprocessedPagesService;
-use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\TableLogAction;
 
 /**
@@ -350,81 +349,15 @@ class API extends \Piwik\Plugin\API
         int $limitBeforeGrouping = 0,
         bool $includeLoops = false
     ): array {
-        $types       = [];
-
-        if ($actionType != 'title') {
-            // specific setup for page urls
-            $types[Action::TYPE_PAGE_URL] = 'followingPages';
-            $dimension = 'if ( %1$s.idaction_url IS NULL, %1$s.idaction_name, %1$s.idaction_url )';
-            $dimension = sprintf($dimension, 'log_link_visit_action');
-            // site search referrers are logged with url=NULL
-            // when we find one, we have to join on name
-            $joinLogActionColumn = $dimension;
-            $selects = ['log_action.name', 'log_action.url_prefix', 'log_action.type'];
-        } else {
-            // specific setup for page titles:
-            $types[Action::TYPE_PAGE_TITLE] = 'followingPages';
-            // join log_action on name and url and pick depending on url type
-            // the table joined on url is log_action1
-            $joinLogActionColumn = ['idaction_url', 'idaction_name'];
-            $dimension = '
-				CASE
-					' /* following site search */ . '
-					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.idaction
-					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Action::TYPE_PAGE_URL . ' THEN log_action2.idaction
-					' /* following download or outlink: use url */ . '
-					ELSE log_action1.idaction
-				END
-			';
-            $selects             = [
-                'CASE
-					' /* following site search */ . '
-					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.name
-					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Action::TYPE_PAGE_URL . ' THEN log_action2.name
-					' /* following download or outlink: use url */ . '
-					ELSE log_action1.name
-				END AS `name`',
-                'CASE
-                    ' /* following site search */ . '
-					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.type
-					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Action::TYPE_PAGE_URL . ' THEN log_action2.type
-					' /* following download or outlink: use url */ . '
-					ELSE log_action1.type
-				END AS `type`',
-                'NULL AS `url_prefix`',
-            ];
-        }
-
-        // these types are available for both titles and urls
-        $types[Action::TYPE_SITE_SEARCH] = 'followingSiteSearches';
-        $types[Action::TYPE_OUTLINK] = 'outlinks';
-        $types[Action::TYPE_DOWNLOAD] = 'downloads';
-
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
-        $rankingQuery->setOthersLabel('Others');
-        $rankingQuery->addLabelColumn(['name', 'url_prefix']);
-        $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($types));
-
-        $type = $this->getColumnTypeSuffix($actionType);
-        $where = 'log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction);
-        if (!$includeLoops) {
-            $where .= ' AND (log_link_visit_action.idaction_' . $type . ' IS NULL OR '
-                . 'log_link_visit_action.idaction_' . $type . ' != ' . intval($idaction) . ')';
-        }
-
-        $metrics = [Metrics::INDEX_NB_ACTIONS];
-        $data = $logAggregator->queryActionsByDimension(
-            [$dimension],
-            $where,
-            $selects,
-            $metrics,
-            $rankingQuery,
-            $joinLogActionColumn,
-            $secondaryOrderBy = "`name`",
-            GeneralConfig::getConfigValue('live_query_max_execution_time')
+        $model = StaticContainer::get(TransitionsModel::class);
+        $types = $model->getFollowingActionTypes($actionType);
+        $data = $model->queryFollowingActions(
+            $logAggregator,
+            $idaction,
+            $actionType,
+            $limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping,
+            $includeLoops,
+            $this->getLiveQueryTimeLimit()
         );
 
         $dataTables = $this->makeDataTablesFollowingActions($types, $data);
@@ -440,41 +373,13 @@ class API extends \Piwik\Plugin\API
     protected function queryExternalReferrers(int $idaction, string $actionType, LogAggregator $logAggregator, int $limitBeforeGrouping = 0): DataTable
     {
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ?: $this->limitBeforeGrouping);
-        $rankingQuery->setOthersLabel('Others');
-
-        // we generate a single column that contains the interesting data for each referrer.
-        // the reason we cannot group by referer_* becomes clear when we look at search engine keywords.
-        // referer_url contains the url from the search engine, referer_keyword the keyword we want to
-        // group by. when we group by both, we don't get a single column for the keyword but instead
-        // one column per keyword + search engine url. this way, we could not get the top keywords using
-        // the ranking query.
-        $dimensions = [
-            'referrer_data' => 'CASE log_visit.referer_type
-				WHEN ' . Common::REFERRER_TYPE_DIRECT_ENTRY . ' THEN \'\'
-				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_name
-				WHEN ' . Common::REFERRER_TYPE_SOCIAL_NETWORK . ' THEN log_visit.referer_name
-				WHEN ' . Common::REFERRER_TYPE_AI_ASSISTANT . ' THEN log_visit.referer_name
-				WHEN ' . Common::REFERRER_TYPE_WEBSITE . ' THEN log_visit.referer_url
-				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT_WS(\' \', log_visit.referer_name, log_visit.referer_keyword)
-			END', 'referer_type',
-        ];
-        $rankingQuery->addLabelColumn('referrer_data');
-
-        // get one limited group per referrer type
-        $rankingQuery->partitionResultIntoMultipleGroups('referer_type', [
-            Common::REFERRER_TYPE_DIRECT_ENTRY,
-            Common::REFERRER_TYPE_SEARCH_ENGINE,
-            Common::REFERRER_TYPE_SOCIAL_NETWORK,
-            Common::REFERRER_TYPE_AI_ASSISTANT,
-            Common::REFERRER_TYPE_WEBSITE,
-            Common::REFERRER_TYPE_CAMPAIGN,
-        ]);
-
-        $type    = $this->getColumnTypeSuffix($actionType);
-        $where   = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
-        $metrics = [Metrics::INDEX_NB_VISITS];
-        $data    = $logAggregator->queryVisitsByDimension($dimensions, $where, [], $metrics, $rankingQuery, false, GeneralConfig::getConfigValue('live_query_max_execution_time'));
+        $data = StaticContainer::get(TransitionsModel::class)->queryExternalReferrers(
+            $logAggregator,
+            $idaction,
+            $actionType,
+            $limitBeforeGrouping ?: $this->limitBeforeGrouping,
+            $this->getLiveQueryTimeLimit()
+        );
 
         // array is prefilled with available keys and empty values are removed in the end to ensure the order is static
         $referrerData    = [
@@ -523,57 +428,15 @@ class API extends \Piwik\Plugin\API
      */
     protected function queryInternalReferrers(int $idaction, string $actionType, LogAggregator $logAggregator, int $limitBeforeGrouping = 0): array
     {
-        $keyIsOther = 0;
-        $keyIsPageUrlAction = 1;
-        $keyIsSiteSearchAction = 2;
+        $keyIsPageUrlAction = TransitionsModel::PARTITION_PAGE;
+        $keyIsSiteSearchAction = TransitionsModel::PARTITION_SITE_SEARCH;
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
-        $rankingQuery->setOthersLabel('Others');
-        $rankingQuery->addLabelColumn(['name', 'url_prefix']);
-        $rankingQuery->setColumnToMarkExcludedRows('is_self');
-        $rankingQuery->partitionResultIntoMultipleGroups('action_partition', [$keyIsOther, $keyIsPageUrlAction, $keyIsSiteSearchAction]);
-
-        $type = $this->getColumnTypeSuffix($actionType);
-        $mainActionType = Action::TYPE_PAGE_URL;
-        $dimension = 'idaction_url_ref';
-
-        if ($actionType == 'title') {
-            $mainActionType = Action::TYPE_PAGE_TITLE;
-            $dimension = 'idaction_name_ref';
-        }
-
-        $selects = [
-            'log_action.name',
-            'log_action.url_prefix',
-            'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS `is_self`',
-            'CASE
-                WHEN log_action.type = ' . $mainActionType . ' THEN ' . $keyIsPageUrlAction . '
-                        WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN ' . $keyIsSiteSearchAction . '
-                        ELSE ' . $keyIsOther . '
-                    END AS `action_partition`',
-        ];
-
-        $where = ' log_link_visit_action.idaction_' . $type . ' = ' . intval($idaction);
-
-        if ($dimension == 'idaction_url_ref') {
-            // site search referrers are logged with url_ref=NULL
-            // when we find one, we have to join on name_ref
-            $dimension = 'if ( %1$s.idaction_url_ref IS NULL, %1$s.idaction_name_ref, %1$s.idaction_url_ref )';
-            $dimension = sprintf($dimension, 'log_link_visit_action');
-            $joinLogActionOn = $dimension;
-        } else {
-            $joinLogActionOn = $dimension;
-        }
-        $metrics = [Metrics::INDEX_NB_ACTIONS];
-        $data = $logAggregator->queryActionsByDimension(
-            [$dimension],
-            $where,
-            $selects,
-            $metrics,
-            $rankingQuery,
-            $joinLogActionOn,
-            $secondaryOrderBy = "`name`",
-            GeneralConfig::getConfigValue('live_query_max_execution_time')
+        $data = StaticContainer::get(TransitionsModel::class)->queryInternalReferrers(
+            $logAggregator,
+            $idaction,
+            $actionType,
+            $limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping,
+            $this->getLiveQueryTimeLimit()
         );
 
         $loops = 0;
@@ -632,30 +495,12 @@ class API extends \Piwik\Plugin\API
      */
     private function getPageLabel(&$pageRecord, $type)
     {
-        if ($type == Action::TYPE_PAGE_TITLE) {
-            $label = $pageRecord['name'];
-            if (empty($label)) {
-                $label = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_TITLE);
-            }
-            return $label;
-        }
-
-        if ($type == Action::TYPE_OUTLINK || $type == Action::TYPE_DOWNLOAD) {
-            return PageUrl::reconstructNormalizedUrl($pageRecord['name'], $pageRecord['url_prefix']);
-        }
-
-        return $pageRecord['name'];
+        return StaticContainer::get(TransitionsModel::class)->getActionLabel($pageRecord, (int) $type);
     }
 
-    /**
-     * @param string $actionType
-     */
-    private function getColumnTypeSuffix($actionType): string
+    private function getLiveQueryTimeLimit(): float
     {
-        if ($actionType == 'title') {
-            return 'name';
-        }
-        return 'url';
+        return (float) GeneralConfig::getConfigValue('live_query_max_execution_time');
     }
 
     private int $limitBeforeGrouping = 5;
