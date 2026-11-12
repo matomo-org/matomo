@@ -40,29 +40,6 @@
     padding: @_trackPaddingY 0;
   }
 
-  // override: ActivityIndicator's .loadingPiwik markup puts spinner and message on one line. Other
-  // row actions centre the spinner above a larger message in a popover, so match that.
-  .transitionsReport__loader--prominent {
-    .loadingPiwik {
-      display: flex;
-      flex-direction: column;
-      align-items: safe center;
-      gap: 20px;
-      // The message ends in the action name, and a long URL has nowhere to break.
-      padding: 50px 40px 65px;
-      overflow-wrap: anywhere;
-      color: @theme-color-text;
-      font-size: 16px;
-      line-height: 20px;
-      text-align: center;
-    }
-
-    // the base rule spaces the spinner from a message beside it; here it sits above one
-    .matomo-loader {
-      margin-right: 0;
-    }
-  }
-
   // Spaced by a gap rather than by the paragraphs' own margins: the embedded report sits inside a
   // card, and Materialize's `.card .card-content p` zeroes every margin in there at a specificity
   // one class name higher than ours, so margins would apply in the popover and vanish on the page.

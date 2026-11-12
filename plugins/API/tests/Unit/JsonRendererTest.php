@@ -399,6 +399,20 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('[[]]', $result);
     }
 
+    public function testRenderArrayShouldKeepTheObjectOfAnAssociativeArrayHoldingDataTables()
+    {
+        $dataTable = new DataTable();
+        $dataTable->addRowsFromSimpleArray([['label' => 'page', 'referrals' => 3]]);
+        $input = ['date' => 'Mar 6', 'followingPages' => $dataTable];
+
+        $result = $this->jsonBuilder->renderArray($input);
+
+        $this->assertSame(
+            ['date' => 'Mar 6', 'followingPages' => [['label' => 'page', 'referrals' => 3]]],
+            json_decode($result, true)
+        );
+    }
+
     private function makeBuilder($request)
     {
         return new Json($request);
