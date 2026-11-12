@@ -15,6 +15,7 @@ use Piwik\Archive;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
@@ -268,30 +269,34 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         }
     }
 
-    public function testARebuildRequestBuildsOnlyTheRequestedPage(): void
+    /**
+     * @dataProvider getSegments
+     */
+    public function testARebuildRequestBuildsOnlyTheRequestedPage(string $segment): void
     {
         $idAction = $this->selectPage(self::PAGE_URL);
         $otherIdAction = $this->selectPage(self::OTHER_PAGE_URL);
-        $this->archive('day', self::DAY);
+        $this->archive('day', self::DAY, $segment);
 
         // as core:archive runs a scheduled rebuild
         $_GET['trigger'] = 'archivephp';
         $_GET['pluginOnly'] = '1';
         $_GET['requestedReport'] = Records::getRebuildReportName($idAction);
         foreach (['day', 'week'] as $period) {
-            $params = new Parameters(new Site(1), PeriodFactory::build($period, self::DAY), new Segment('', [1]));
+            $params = new Parameters(new Site(1), PeriodFactory::build($period, self::DAY), new Segment($segment, [1]));
             $params->setRequestedPlugin('Transitions');
             $params->setArchiveOnlyReport(Records::getRebuildReportName($idAction));
             (new Loader($params))->prepareArchive('Transitions');
         }
 
+        $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin(new Segment($segment, [1]), 'Transitions');
         $periodIds = ['day' => 1, 'week' => 2];
         $dates = ['day' => self::DAY, 'week' => '2010-03-01'];
         foreach ($periodIds as $period => $periodId) {
             $idArchive = (int) Db::fetchOne(
                 'SELECT idarchive FROM ' . Common::prefixTable('archive_numeric_2010_03')
                 . ' WHERE idsite = 1 AND period = ? AND date1 = ? AND name = ? AND value = ?',
-                [$periodId, $dates[$period], 'done.Transitions', ArchiveWriter::DONE_PARTIAL]
+                [$periodId, $dates[$period], $doneFlag, ArchiveWriter::DONE_PARTIAL]
             );
             self::assertGreaterThan(0, $idArchive, $period);
             self::assertSame($this->getExpectedRecordNames($idAction), $this->getStoredRecordNames($periodId, $dates[$period], $idArchive), $period);
@@ -299,6 +304,23 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
         self::assertNotEmpty(array_intersect($this->getExpectedRecordNames($otherIdAction), $this->getStoredRecordNames(1, self::DAY)));
         self::assertEmpty(array_intersect($this->getExpectedRecordNames($otherIdAction), $this->getStoredRecordNames(2, '2010-03-01')));
+        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 2, '2010-03-01'));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public function getSegments(): array
+    {
+        return ['all visits' => [''], 'segment' => [self::SEGMENT]];
+    }
+
+    public function testLongerPeriodsOfASegmentEqualTheRawLogQuery(): void
+    {
+        $idAction = $this->selectPage(self::PAGE_URL);
+
+        self::assertSame($this->getRawReport('month', self::DAY, self::SEGMENT), $this->getStoredReport($idAction, 'month', self::DAY, self::SEGMENT));
+        self::assertSame($this->getRawReport('week', self::DAY, self::SEGMENT), $this->getStoredReport($idAction, 'week', self::DAY, self::SEGMENT));
     }
 
     public function testARemovedPageIsNoLongerArchived(): void
