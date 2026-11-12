@@ -69,6 +69,7 @@ $tracker    = new Tracker();
 $requestSet = new RequestSet();
 
 ob_start();
+$outputBufferLevel = ob_get_level();
 
 try {
     $handler  = Handler\Factory::make();
@@ -78,9 +79,17 @@ try {
         echo $response;
     }
 
-} catch (Exception $e) {
-    echo "Error:" . $e->getMessage();
-    exit(1);
+} catch (Throwable $e) {
+    // drop partial output of the failed handler, but keep it when debugging
+    $isDebugModeEnabled = $tracker->isDebugModeEnabled();
+    while (ob_get_level() > $outputBufferLevel) {
+        $isDebugModeEnabled ? ob_end_flush() : ob_end_clean();
+    }
+    if (!$isDebugModeEnabled) {
+        ob_clean();
+    }
+
+    $tracker->handleUncaughtError($e);
 }
 
 if (ob_get_level() > 1) {

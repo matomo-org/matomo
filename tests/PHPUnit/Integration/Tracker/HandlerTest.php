@@ -9,9 +9,11 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Log\LoggerInterface;
 use Piwik\NoAccessException;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Tracker\Response;
@@ -145,6 +147,21 @@ class HandlerTest extends IntegrationTestCase
     {
         $this->executeOnException(new PluginDeactivatedException('Goals'));
         $this->assertSame(500, $this->response->statusCode);
+    }
+
+    public function testOnExceptionShouldStillOutputExceptionIfLoggerFails()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->method('error')->willThrowException(new \UnexpectedValueException('log file not writable'));
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+
+        $handler = new Handler();
+        $handler->setResponse($this->response);
+        $handler->onException($this->tracker, $this->requestSet, new Exception('MyMessage'));
+
+        $this->assertTrue($this->response->isExceptionOutput);
+        $this->assertSame(500, $this->response->statusCode);
+        $this->assertSame('MyMessage', $this->response->exception->getMessage());
     }
 
     public function testOnExceptionShouldNotRethrowExceptionToExitTrackerImmediately()

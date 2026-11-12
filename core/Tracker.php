@@ -9,6 +9,7 @@
 
 namespace Piwik;
 
+use ErrorException;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
@@ -20,10 +21,13 @@ use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Handler;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestSet;
+use Piwik\Tracker\Response;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Log\LoggerInterface;
+use Psr\Log\LogLevel;
+use Throwable;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -44,6 +48,8 @@ class Tracker
     public const LENGTH_BINARY_ID = 8;
 
     public static $initTrackerMode = false;
+
+    private static bool $isFatalErrorHandlerRegistered = false;
 
     private $countOfLoggedRequests = 0;
     protected $isInstalled = null;
@@ -111,6 +117,8 @@ class Tracker
 
     public function main(Handler $handler, RequestSet $requestSet)
     {
+        $isExceptionReported = false;
+
         try {
             $this->init();
 
@@ -126,13 +134,24 @@ class Tracker
             $handler->init($this, $requestSet);
 
             $this->track($handler, $requestSet);
-        } catch (Exception $e) {
-            $this->logger->debug("Tracker encountered an exception: {ex}", [$e]);
+        } catch (Throwable $e) {
+            $this->log(LogLevel::DEBUG, 'Tracker encountered an exception: {exception}', $e);
 
-            $handler->onException($this, $requestSet, $e);
+            $handler->onException($this, $requestSet, self::toException($e));
+            $isExceptionReported = true;
         }
 
-        Piwik::postEvent('Tracker.end');
+        try {
+            Piwik::postEvent('Tracker.end');
+        } catch (Throwable $e) {
+            if ($isExceptionReported || $this->hasLoggedRequests()) {
+                // the response already reports an error, or keeps its success status as clients resend failed requests
+                $this->logServerError($e);
+            } else {
+                $handler->onException($this, $requestSet, self::toException($e));
+            }
+        }
+
         $response = $handler->finish($this, $requestSet);
 
         $this->disconnectDatabase();
@@ -365,13 +384,86 @@ class Tracker
 
     private function handleFatalErrors()
     {
+        if (self::$isFatalErrorHandlerRegistered) {
+            return;
+        }
+        self::$isFatalErrorHandlerRegistered = true;
+
         register_shutdown_function(function () {
-            // TODO: add a log here
             $lastError = error_get_last();
             if (!empty($lastError) && $lastError['type'] == E_ERROR) {
                 Common::sendResponseCode(500);
+
+                $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
+                    . ErrorHandler::getFatalErrorPartialBacktrace();
+
+                // PHP writes the fatal error to its own error log
+                $this->log(LogLevel::ERROR, 'Fatal error encountered: {exception}', $lastError, ['ignoreInScreenWriter' => true]);
             }
         });
+    }
+
+    /**
+     * Answers an error thrown outside the tracking handler, eg while the handler is created, with
+     * its status code only, as there is no handler to format a response for the request.
+     *
+     * @internal
+     */
+    public function handleUncaughtError(Throwable $e): void
+    {
+        $statusCode = Handler::getStatusCodeForException($e);
+
+        if ($statusCode >= 500) {
+            $this->logServerError($e);
+        } else {
+            $this->log(LogLevel::DEBUG, 'Exception: {exception}', $e);
+        }
+
+        // a recorded request keeps its success status, as clients resend failed requests
+        if (!$this->hasLoggedRequests()) {
+            Common::sendResponseCode($statusCode);
+        }
+    }
+
+    /**
+     * Handler::onException() only accepts an Exception, so errors like a TypeError are wrapped.
+     */
+    private static function toException(Throwable $e): Exception
+    {
+        if ($e instanceof Exception) {
+            return $e;
+        }
+
+        return new ErrorException(
+            get_class($e) . ': ' . $e->getMessage(),
+            (int) $e->getCode(),
+            E_ERROR,
+            $e->getFile(),
+            $e->getLine(),
+            $e
+        );
+    }
+
+    /**
+     * Logs an error that is not reported through the tracking handler's response.
+     */
+    private function logServerError(Throwable $e): void
+    {
+        $this->log(LogLevel::ERROR, 'Exception: {exception}', $e);
+        Response::logErrorToErrorLog($e);
+    }
+
+    /**
+     * @param Throwable|array{message: string, file: string, line: int, backtrace?: string} $error
+     * @param array<string, mixed> $context
+     */
+    private function log(string $level, string $message, Throwable|array $error, array $context = []): void
+    {
+        try {
+            $this->logger->log($level, $message, ['exception' => $error] + $context);
+        } catch (Throwable) {
+            // a failing log writer must not replace the response
+        }
     }
 
     private static function isDebugEnabled()

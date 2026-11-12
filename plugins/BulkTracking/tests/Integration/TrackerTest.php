@@ -188,6 +188,43 @@ class TrackerTest extends BulkTrackingTestCase
         $this->assertEmpty($this->getIdVisit(2));
     }
 
+    public function testMainRollsBackAndAnswersWithOneErrorResponseWhenAPhpErrorIsThrown()
+    {
+        EventDispatcher::getInstance()->addObserver('Tracker.isExcludedVisit', function (&$excluded, Tracker\Request $request) {
+            if ($request->getIdSite() === 2) {
+                throw new \TypeError('my type error');
+            }
+        });
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertSame('error', json_decode($response, true)['status'] ?? null, 'Expected a single JSON error response: ' . $response);
+        $this->assertEmpty($this->getIdVisit(1), 'The request tracked before the error must be rolled back too');
+        $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    public function testMainKeepsSuccessResponseWhenTrackerEndFailsAfterTheCommit()
+    {
+        EventDispatcher::getInstance()->addObserver('Tracker.end', function () {
+            throw new \RuntimeException('end failed');
+        });
+
+        $errorLogFile = tempnam(sys_get_temp_dir(), 'tracker_error_log');
+        $previousErrorLog = ini_set('error_log', $errorLogFile);
+        try {
+            $response = $this->trackBulkRequest();
+            $errorLog = (string) file_get_contents($errorLogFile);
+        } finally {
+            ini_set('error_log', (string) $previousErrorLog);
+            unlink($errorLogFile);
+        }
+
+        $this->assertSame('{"status":"success","tracked":2,"invalid":0}', $response);
+        $this->assertNotEmpty($this->getIdVisit(1));
+        $this->assertNotEmpty($this->getIdVisit(2));
+        $this->assertStringContainsString('Error in Matomo (tracker): RuntimeException: end failed', $errorLog);
+    }
+
     private function raiseErrorWhenTrackingSite(int $idSite, int $errorNumber, string $message, bool $isCaught): void
     {
         EventDispatcher::getInstance()->addObserver(
