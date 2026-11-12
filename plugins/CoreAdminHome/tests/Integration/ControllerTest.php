@@ -284,17 +284,122 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame('', $mailConfig['oauth_private_key_password']);
     }
 
-    public function testSetMailSettingsRejectsTheCertificateTypeWithoutACertificate(): void
+    /**
+     * @dataProvider getCredentialTypesToSwitchTo
+     */
+    public function testSetMailSettingsSavesTheCredentialTypeChosenInTheForm(string $storedType, string $postedType): void
     {
         $this->setStoredOAuthSettings();
-        Config::getInstance()->mail = ['oauth_credential_type' => 'certificate', 'oauth_certificate_path' => ''] + Config::getInstance()->mail;
+        Config::getInstance()->mail = [
+            'oauth_credential_type'  => $storedType,
+            'oauth_certificate_path' => '/etc/matomo/smtp.crt',
+        ] + Config::getInstance()->mail;
+
+        $request = ['mailOAuthCredentialType' => $postedType] + $this->getOAuthMailSettingsRequest();
+        unset($request['mailOAuthClientSecret']);
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = $this->getOAuthMailSettingsRequest();
+        $_POST = $request;
+
+        $response = json_decode($this->getControllerSkippingTokenCheck()->setMailSettings(), true);
+        $this->mailSettingsSaved = true;
+
+        $this->assertSame('success', $response['result']);
+        $this->assertSame(strtolower($postedType), Config::getInstance()->mail['oauth_credential_type']);
+        $this->assertSame('/etc/matomo/smtp.crt', Config::getInstance()->mail['oauth_certificate_path']);
+    }
+
+    public function getCredentialTypesToSwitchTo(): iterable
+    {
+        yield 'secret to certificate' => ['secret', 'certificate'];
+        yield 'certificate to secret' => ['certificate', 'secret'];
+        yield 'any case' => ['secret', 'Certificate'];
+    }
+
+    public function testSetMailSettingsKeepsTheStoredCredentialTypeForAnUnknownOne(): void
+    {
+        $this->setStoredOAuthSettings();
+        Config::getInstance()->mail = [
+            'oauth_credential_type'  => 'certificate',
+            'oauth_certificate_path' => '/etc/matomo/smtp.crt',
+        ] + Config::getInstance()->mail;
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = ['mailOAuthCredentialType' => 'unknown'] + $this->getOAuthMailSettingsRequest();
+
+        $this->getControllerSkippingTokenCheck()->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $this->assertSame('certificate', Config::getInstance()->mail['oauth_credential_type']);
+    }
+
+    public function testSetMailSettingsNeverTakesTheCertificateSettingsFromTheRequest(): void
+    {
+        $this->setStoredOAuthSettings();
+        Config::getInstance()->mail = [
+            'oauth_certificate_path'     => '/etc/matomo/smtp.crt',
+            'oauth_private_key_path'     => '',
+            'oauth_private_key_password' => '',
+        ] + Config::getInstance()->mail;
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = [
+            'mailOAuthCredentialType'    => 'certificate',
+            'mailOAuthCertificatePath'   => '/etc/ssl/certs/server.pem',
+            'mailOAuthPrivateKeyPath'    => '/etc/ssl/private/server.key',
+            'oauth_certificate_path'     => '/etc/ssl/certs/server.pem',
+            'oauth_private_key_password' => 'a-password',
+        ] + $this->getOAuthMailSettingsRequest();
+
+        $this->getControllerSkippingTokenCheck()->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $mailConfig = Config::getInstance()->mail;
+        $this->assertSame('/etc/matomo/smtp.crt', $mailConfig['oauth_certificate_path']);
+        $this->assertSame('', $mailConfig['oauth_private_key_path']);
+        $this->assertSame('', $mailConfig['oauth_private_key_password']);
+    }
+
+    /**
+     * @dataProvider getInvalidCertificateMailSettings
+     */
+    public function testSetMailSettingsRejectsTheCertificateTypeWithoutAUsableCertificate(
+        string $storedCertificatePath,
+        array $settings,
+        string $expectedMessage
+    ): void {
+        $this->setStoredOAuthSettings();
+        Config::getInstance()->mail = ['oauth_certificate_path' => $storedCertificatePath] + Config::getInstance()->mail;
+        $storedMail = Config::getInstance()->mail;
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $settings + ['mailOAuthCredentialType' => 'certificate'] + $this->getOAuthMailSettingsRequest();
 
         $response = json_decode($this->getControllerSkippingTokenCheck()->setMailSettings(), true);
 
         $this->assertSame('error', $response['result']);
+        $this->assertStringStartsWith($expectedMessage, $response['message']);
+        $this->assertSame($storedMail, Config::getInstance()->mail);
+    }
+
+    public function getInvalidCertificateMailSettings(): iterable
+    {
+        yield 'no certificate set up' => [
+            '',
+            [],
+            'To use a certificate, please set oauth_certificate_path in the [mail] section of config.ini.php first.',
+        ];
+
+        $changed = 'The certificate is set up for the current SMTP server, token URL, client ID and scope. '
+            . 'To change them, please change them in the [mail] section of config.ini.php together with the certificate.';
+        yield 'token URL changed' => ['/etc/matomo/smtp.crt', ['mailOAuthTokenUrl' => 'https://another.example.test/token'], $changed];
+        yield 'SMTP server changed' => ['/etc/matomo/smtp.crt', ['mailHost' => 'another.example.test'], $changed];
+
+        yield 'no username' => [
+            '/etc/matomo/smtp.crt',
+            ['mailUsername' => ''],
+            'To use OAuth 2.0 with a certificate, please enter the SMTP username, the token URL and the client ID.',
+        ];
     }
 
     public function testGeneralSettingsDoesNotSendTheOAuthSecretsToThePage(): void
