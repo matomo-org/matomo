@@ -33,7 +33,7 @@ class Controller extends ControllerAdmin
 
         return $this->renderTemplate('manage', [
             'maxPages' => StaticContainer::get(Service::class)->getMaxPages($idSite),
-            'rearchiveMonths' => RebuildWindow::getMonths(),
+            'rearchiveMonths' => RebuildWindow::getMonthsProcessed(),
         ]);
     }
 }

@@ -553,7 +553,7 @@ class API extends \Piwik\Plugin\API
      * @return array{selected: bool, idPage: int|null, used: int, limit: int, rearchiveMonths: int} `idPage` is the ID
      *         to pass to `removePreprocessedPage`, or null when the page is not selected. `used` is the number of
      *         selected pages and `limit` the maximum for the website. `rearchiveMonths` is how many past months of
-     *         data `core:archive` processes for an added page; 0 means only new data.
+     *         data `core:archive` processes for an added page; 0 means only new data, as without cron archiving.
      */
     public function getPreprocessedPageStatus(int $idSite, string $pageUrl): array
     {
@@ -574,7 +574,7 @@ class API extends \Piwik\Plugin\API
             'idPage' => $page['idpage'] ?? null,
             'used' => $dao->getNumPagesForSite($idSite),
             'limit' => $service->getMaxPages($idSite),
-            'rearchiveMonths' => RebuildWindow::getMonths(),
+            'rearchiveMonths' => RebuildWindow::getMonthsProcessed(),
         ];
     }
 

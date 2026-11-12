@@ -46,6 +46,8 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
         Fixture::createWebsite('2010-01-01 00:00:00', 0, 'Site 2', 'http://example.org');
 
         $this->api = API::getInstance();
+        // with cron archiving, which processes the past of an added page
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
     }
 
     public function tearDown(): void
@@ -243,7 +245,20 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
             'invalid' => ['all', 0],
             'trailing characters' => ['6x', 6],
             'lastN with trailing characters' => ['last6x', 6],
+            'fraction' => ['1.5', 2],
+            'half' => ['0.5', 1],
         ];
+    }
+
+    public function testWithoutCronArchivingOnlyNewDataIsProcessed(): void
+    {
+        $this->setRole('admin', 1);
+        $_GET['idSite'] = '1';
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        self::assertGreaterThan(0, RebuildWindow::getMonths());
+
+        self::assertSame(0, $this->api->getPreprocessedPageStatus(1, 'https://example.com/a')['rearchiveMonths']);
+        self::assertStringContainsString('rearchive-months="0"', FrontController::getInstance()->fetchDispatch('Transitions', 'manage'));
     }
 
     /**

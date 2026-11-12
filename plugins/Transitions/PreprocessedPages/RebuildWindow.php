@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 
 /**
@@ -31,8 +32,18 @@ final class RebuildWindow
             return 0;
         }
 
-        $months = (int) (is_numeric($value) ? $value : str_replace('last', '', (string) $value));
+        // a fraction of a month starts the window a month earlier, as core does
+        $months = is_numeric($value) ? (int) ceil((float) $value) : (int) str_replace('last', '', (string) $value);
 
         return max(0, $months);
+    }
+
+    /**
+     * The months of past data that an added page gets processed, as {@link getMonths()} with cron archiving. Without
+     * cron archiving, nothing archives the past, so only new data is processed (0).
+     */
+    public static function getMonthsProcessed(): int
+    {
+        return Rules::isBrowserTriggerEnabled() ? 0 : self::getMonths();
     }
 }
