@@ -187,9 +187,14 @@ export default defineComponent({
         ? parseFloat(pastValueUnformatted.value)
         : pastValueUnformatted.value as number;
 
-      const evolution = Matomo.helper.calculateEvolution(currentValue, pastValue);
+      // the helper rounds to one decimal of a percent, which toFixed(2) would show as 38.20 %
+      const evolution = pastValue === 0
+        ? Matomo.helper.calculateEvolution(currentValue, pastValue)
+        : (currentValue - pastValue) / pastValue;
 
-      return `${(evolution * 100).toFixed(2)} %`;
+      const percent = evolution * 100;
+      // toFixed keeps the sign of a negative number that rounds to zero, eg "-0.00"
+      return `${(Math.abs(percent) < 0.005 ? 0 : percent).toFixed(2)} %`;
     });
 
     const pastValue = computed(() => {

@@ -368,7 +368,9 @@ class RowEvolution
             $change = isset($metricData['change']) ? $metricData['change'] : false;
 
             [$first, $last] = $this->getFirstAndLastDataPointsForMetric($metric);
-            $fractionDigits = max($this->getFractionDigits($first), $this->getFractionDigits($last));
+            $max = isset($metricData['max']) ? $metricData['max'] : 0;
+            $min = isset($metricData['min']) ? $metricData['min'] : 0;
+            $fractionDigits = max(array_map([$this, 'getFractionDigits'], [$first, $last, $min, $max]));
 
             $details = Piwik::translate('RowEvolution_MetricBetweenText', array(
                 NumberFormatter::getInstance()->format($first, $fractionDigits) . $unit,
@@ -396,8 +398,6 @@ class RowEvolution
             }
 
             // set metric min/max text (used as tooltip for details)
-            $max = isset($metricData['max']) ? $metricData['max'] : 0;
-            $min = isset($metricData['min']) ? $metricData['min'] : 0;
             $minmax = Piwik::translate('RowEvolution_MetricMinMax', array(
                 $metricData['name'],
                 NumberFormatter::getInstance()->formatNumber($min, $fractionDigits, $fractionDigits) . $unit,
@@ -522,8 +522,24 @@ class RowEvolution
     private function getFractionDigits($value): int
     {
         $value = (string) $value;
+        if (stripos($value, 'e') !== false) {
+            // PHP casts a float below 0.0001 to exponent form, eg "5.0E-5"
+            $value = rtrim(sprintf('%.15F', (float) $value), '0');
+        }
         $fraction = substr(strrchr($value, ".") ?: '', 1);
-        return strlen($fraction);
+        $digits = strlen($fraction);
+        // core stores some averages, eg page generation time, with 3 decimals
+        if ($digits <= 3) {
+            return $digits;
+        }
+
+        // a value computed at request time, such as a ratio, can have a float's full tail of digits.
+        // Two decimals would show a small one such as 0.004 as 0, so keep two significant digits.
+        $absolute = abs((float) $value);
+        if ($absolute >= 1 || $absolute == 0) {
+            return 2;
+        }
+        return min($digits, max(2, 1 - (int) floor(log10($absolute))));
     }
 
     /**

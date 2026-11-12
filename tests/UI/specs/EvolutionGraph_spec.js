@@ -689,6 +689,48 @@ describe("EvolutionGraph", function () {
             });
         });
 
+        // No fixture has a percentage above 100% or a negative value, so set every point of one
+        // series to `value` and its 4th point to `peak`, then read back the ticks of its axis
+        const getTicksForSeries = async function (series, value, peak) {
+            await page.goto(visitsAndBounceRateUrl);
+            await page.waitForNetworkIdle();
+
+            return page.evaluate((series, value, peak) => {
+                const dataTable = $('.dataTable:has(.piwik-graph)').data('uiControlObject');
+                dataTable.data[series] = dataTable.data[series].map((v, i) => (i === 3 ? peak : value));
+                dataTable.setYTicks();
+                return dataTable.jqplotParams.axes[series === 0 ? 'yaxis' : 'y2axis'].ticks;
+            }, series, value, peak);
+        };
+
+        it("should extend a percentage axis past 100% when a value is above it", async function () {
+            const ticks = await getTicksForSeries(1, 50, 250);
+            expect(ticks[ticks.length - 1]).to.be.at.least(250);
+        });
+
+        it("should keep a percentage axis at 100% when no value is above it", async function () {
+            const ticks = await getTicksForSeries(1, 50, 99);
+            expect(ticks[ticks.length - 1]).to.equal(100);
+        });
+
+        it("should add ticks below zero for a negative value", async function () {
+            const ticks = await getTicksForSeries(0, 0, -740);
+            expect(ticks[0]).to.be.at.most(-740);
+            expect(ticks).to.include(0);
+        });
+
+        it("should keep a percentage axis at 100% when a large negative value sets the tick step", async function () {
+            const ticks = await getTicksForSeries(1, 50, -740);
+            expect(ticks[0]).to.be.at.most(-740);
+            expect(ticks[ticks.length - 1]).to.equal(100);
+        });
+
+        it("should start the axis at zero when no value is negative", async function () {
+            const ticks = await getTicksForSeries(0, 40, 50);
+            // Object.is, as a -0 tick can be formatted as "-0"
+            expect(Object.is(ticks[0], 0)).to.equal(true);
+        });
+
         it("should show complete month labels on a monthly graph", async function () {
             await page.goto(visitsAndBounceRateUrl.replace('period=day', 'period=month')
                 .replace('evolution_day_last_n=30', 'evolution_month_last_n=12'));
@@ -820,5 +862,25 @@ describe("EvolutionGraph", function () {
             expect(ink.y2axisRightEdge, 'the right-axis label is drawn where it is on screen')
                 .to.be.within(y2axisRightEdge - 2, y2axisRightEdge + 1);
         });
+    });
+
+    it("should close the data point tooltip when the page changes while hovering the graph", async function () {
+        const hash = "#?idSite=1&period=day&date=2012-01-31&category=";
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=day&date=2012-01-31"
+            + hash + "General_Visitors&subcategory=General_Overview");
+        await page.waitForSelector('.jqplot-event-canvas');
+        await page.waitForNetworkIdle();
+
+        const box = await (await page.$('.jqplot-event-canvas')).boundingBox();
+        await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5, { steps: 5 });
+        await page.waitForSelector('.ui-tooltip', { visible: true });
+
+        // a hash change, eg from a swipe back, swaps the page in place with the mouse still over the graph
+        await page.evaluate((newHash) => { window.location.hash = newHash; }, hash + "General_Actions&subcategory=General_Pages");
+        await page.waitForFunction(() => !document.querySelector('.jqplot-event-canvas'));
+        await page.waitForNetworkIdle();
+        await page.mouse.move(5, 5, { steps: 5 });
+
+        expect(await page.evaluate(() => $('.ui-tooltip:visible').length)).to.equal(0);
     });
 });
