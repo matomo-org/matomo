@@ -694,7 +694,7 @@ class CronArchive
             return;
         }
 
-        $this->logger->info("Found {count} archiving jobs that did not finish within [General] archive_failure_recovery_timeout.", [
+        $this->logger->warning("Found {count} archiving jobs that did not finish within [General] archive_failure_recovery_timeout.", [
             'count' => count($timedOutJobs),
         ]);
 
@@ -749,7 +749,7 @@ class CronArchive
             . (!empty($archive['report']) ? ", report = {$archive['report']}" : '');
 
         if ($failure['givenUp']) {
-            $this->logger->info("Archiving failed for $description (attempt {$failure['attempts']} of {$failure['maxAttempts']}), giving up. "
+            $this->logger->warning("Archiving failed for $description (attempt {$failure['attempts']} of {$failure['maxAttempts']}), giving up. "
                 . "Run ./console core:archive-failures to list failed archives and retry them.");
         } else {
             $this->logger->info("Archiving failed for $description (attempt {$failure['attempts']} of {$failure['maxAttempts']}), "
