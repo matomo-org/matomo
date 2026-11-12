@@ -424,6 +424,8 @@ class PreprocessedReportTest extends IntegrationTestCase
         (new ReportsPurger(1, false, [3, 4], false, [], 1000))->purgeData();
 
         self::assertSame($this->toArray($month), $this->toArray($this->withoutLogTables(fn() => $this->request('month', self::DAY))));
+        // with cron archiving; without it, a single day is built again in the request
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         self::assertSame($rawDay, $this->toArray($this->request('day', self::DAY)));
     }
 
@@ -670,6 +672,7 @@ class PreprocessedReportTest extends IntegrationTestCase
             if ($value instanceof DataTable) {
                 self::assertInstanceOf(DataTable::class, $stored[$key]);
                 self::assertSame($this->ignoreTies($this->getRows($value)), $this->ignoreTies($this->getRows($stored[$key])), $key);
+                $this->assertRankedAsTheLogQuery($this->getRows($stored[$key]), $key);
             } elseif ($key === 'referrers') {
                 self::assertSame(count($value), count($stored[$key]));
                 foreach ($value as $i => $referrer) {
@@ -680,12 +683,34 @@ class PreprocessedReportTest extends IntegrationTestCase
                     if (isset($referrer['details'])) {
                         $rows = fn(array $details) => array_map(fn(array $detail) => [$detail['label'], (int) $detail['referrals']], $details);
                         self::assertSame($this->ignoreTies($rows($referrer['details'])), $this->ignoreTies($rows($storedReferrer['details'])), $referrer['label']);
+                        $this->assertRankedAsTheLogQuery($rows($storedReferrer['details']), $referrer['label']);
                     }
                 }
             } else {
                 self::assertSame($value, $stored[$key], $key);
             }
         }
+    }
+
+    /**
+     * The rows come by count, highest first, and `Others` last.
+     *
+     * @param list<array{0: mixed, 1: mixed}> $rows
+     */
+    private function assertRankedAsTheLogQuery(array $rows, string $message): void
+    {
+        $counts = [];
+        foreach ($rows as $index => [$label, $count]) {
+            if ($label === 'Others') {
+                self::assertSame(count($rows) - 1, $index, $message);
+            } else {
+                $counts[] = (int) $count;
+            }
+        }
+
+        $sorted = $counts;
+        rsort($sorted);
+        self::assertSame($sorted, $counts, $message);
     }
 
     /**

@@ -56,6 +56,26 @@ var path = require('path');
         it('is not available beyond the period limit for page titles, which are never pre-processed', function () {
             expect(isAvailable('getPageTitles', 'year', 'month', true)).to.equal(false);
         });
+
+        it('applies the period limit to ranges by their number of days', function () {
+            window.CoreHome = window.CoreHome || {};
+            window.CoreHome.Periods = {
+                parse: function () {
+                    return { getDayCount: function () { return 60; } };
+                }
+            };
+
+            expect(isAvailable('getPageUrls', 'range', 'month', false)).to.equal(false);
+            expect(isAvailable('getPageUrls', 'range', 'month', true)).to.equal(true);
+            expect(isAvailable('getPageUrls', 'range', 'year', false)).to.equal(true);
+        });
+
+        it('keeps the period limit where the flag is not printed', function () {
+            window.piwik.transitionsMaxPeriodAllowed = 'month';
+            delete window.piwik.transitionsHasPreprocessedPages;
+
+            expect(rowAction.isAvailableOnReport({ module: 'Actions', action: 'getPageUrls', period: 'year' })).to.equal(false);
+        });
     });
 
     describe('Transitions model', function () {
