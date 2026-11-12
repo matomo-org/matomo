@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Transitions;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Transitions\PreprocessedPages\Dao as PreprocessedPagesDao;
 
 class Transitions extends \Piwik\Plugin
 {
@@ -25,7 +27,27 @@ class Transitions extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
             'Template.jsGlobalVariables'             => 'addJsGlobalVariables',
+            'UsersManager.deleteUser'                => 'anonymizePreprocessedPagesCreatedBy',
+            'SitesManager.deleteSite.end'            => 'deletePreprocessedPagesForSite',
         );
+    }
+
+    /**
+     * Catches up on users and websites deleted while the plugin was deactivated.
+     */
+    public function activate()
+    {
+        StaticContainer::get(PreprocessedPagesDao::class)->cleanUpDeletedUsersAndSites();
+    }
+
+    public function anonymizePreprocessedPagesCreatedBy(string $userLogin): void
+    {
+        StaticContainer::get(PreprocessedPagesDao::class)->anonymizeCreatedBy($userLogin);
+    }
+
+    public function deletePreprocessedPagesForSite(int $idSite): void
+    {
+        StaticContainer::get(PreprocessedPagesDao::class)->deletePagesForSite($idSite);
     }
 
     public function getPagesComparisonsDisabledFor(&$pages)

@@ -1660,4 +1660,9 @@ recommendation_max_crawl_pages = 50
 ; Set to 0 for no limit. Useful for managed environments to cap AI provider usage.
 recommendation_ai_daily_scan_limit = 0
 
+[Transitions]
+; Maximum number of page URLs per website whose Transitions report is pre-processed during archiving.
+; Override it for one website in a [Transitions_<idSite>] section. Lowering it keeps pages already selected.
+max_preprocessed_pages = 20
+
 ; NOTE: do not directly edit this file! See notice at the top

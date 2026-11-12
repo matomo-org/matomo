@@ -13,6 +13,7 @@ use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
@@ -23,6 +24,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Live\Model;
+use Piwik\Plugins\Transitions\PreprocessedPages\Service as PreprocessedPagesService;
 use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
@@ -32,7 +34,8 @@ use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\TableLogAction;
 
 /**
- * Provides API methods for transition reports around a specific page action.
+ * Provides API methods for transition reports around a specific page action, and manages the pages whose
+ * transition report is pre-processed.
  *
  * @method static \Piwik\Plugins\Transitions\API getInstance()
  */
@@ -205,6 +208,54 @@ class API extends \Piwik\Plugin\API
         }
 
         return $report;
+    }
+
+    /**
+     * Returns the page URLs of a website whose Transitions report is pre-processed during archiving.
+     * Requires admin access to the website.
+     *
+     * @param int $idSite The numeric ID of the website.
+     * @return list<array{idpage: int, url: string, created_date: string, created_by: string|null}> The selected pages,
+     *         newest first. `created_date` is the UTC time the page was added (`YYYY-MM-DD HH:MM:SS`), `created_by`
+     *         the login that added it, or null once that user has been deleted.
+     */
+    public function getPreprocessedPages(int $idSite): array
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+
+        return StaticContainer::get(PreprocessedPagesService::class)->getPages($idSite);
+    }
+
+    /**
+     * Adds a page URL whose Transitions report is pre-processed during archiving. Its past data is processed by the
+     * next archiving runs. Requires admin access to the website.
+     *
+     * @param int $idSite The numeric ID of the website.
+     * @param string $pageUrl The page URL, starting with http:// or https://. Protocol and `www.` variants, and query
+     *                        parameters the website excludes, count as the same page.
+     * @return array{idpage: int, url: string, created_date: string, created_by: string|null} The added page, as
+     *         returned by `getPreprocessedPages`.
+     */
+    public function addPreprocessedPage(int $idSite, string $pageUrl): array
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+        new Site($idSite);
+
+        return StaticContainer::get(PreprocessedPagesService::class)->addPage($idSite, $pageUrl);
+    }
+
+    /**
+     * Removes a page from the pre-processed pages of a website. Data already processed for it stays available.
+     * Removing a page that is not selected for this website does nothing. Requires admin access to the website.
+     *
+     * @param int $idSite The numeric ID of the website.
+     * @param int $idPage The ID of the page, as returned by `getPreprocessedPages`.
+     */
+    public function removePreprocessedPage(int $idSite, int $idPage): void
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+
+        StaticContainer::get(PreprocessedPagesService::class)->removePage($idSite, $idPage);
     }
 
     /**
