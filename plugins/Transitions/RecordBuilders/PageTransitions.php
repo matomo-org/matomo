@@ -20,7 +20,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
-use Piwik\Period\Day;
 use Piwik\Plugins\Transitions\Model;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
@@ -33,6 +32,11 @@ use Piwik\Tracker\Action;
 class PageTransitions extends RecordBuilder
 {
     /**
+     * MAX_EXECUTION_TIME of the log queries in seconds, none if not positive.
+     */
+    private static float $timeLimit = -1;
+
+    /**
      * @var \WeakMap<ArchiveProcessor, list<int>>
      */
     private \WeakMap $idActionsByArchive;
@@ -42,6 +46,23 @@ class PageTransitions extends RecordBuilder
         parent::__construct();
 
         $this->idActionsByArchive = new \WeakMap();
+    }
+
+    /**
+     * Runs a build whose log queries stop after the time limit, as builds within a report request do.
+     *
+     * @param float $timeLimit seconds, none if not positive
+     */
+    public static function executeWithTimeLimit(float $timeLimit, callable $build): void
+    {
+        $previousTimeLimit = self::$timeLimit;
+        self::$timeLimit = $timeLimit;
+
+        try {
+            $build();
+        } finally {
+            self::$timeLimit = $previousTimeLimit;
+        }
     }
 
     public function isEnabled(ArchiveProcessor $archiveProcessor): bool
@@ -96,36 +117,41 @@ class PageTransitions extends RecordBuilder
             $archiveProcessor->aggregateNumericMetrics($numericRecordNames);
         }
 
-        $archiveProcessor->insertNumericRecord(Records::DAYS_WITH_VISITS, $this->countDaysWithVisits($archiveProcessor));
+        $daysWithVisits = $this->sumDaysWithVisits($archiveProcessor);
+        if ($daysWithVisits !== null) {
+            $archiveProcessor->insertNumericRecord(Records::DAYS_WITH_VISITS, $daysWithVisits);
+        }
     }
 
     /**
-     * Counts the days of the period with visits in their archives, also the days archived before a page was selected.
-     * The days are archived before the period, and a day without visits has no archive.
+     * Sums the days with visits of the subperiods, as their page `days` counters are summed. A subperiod with visits
+     * archived before any page was selected has no count, so the period gets none and is never served as covered.
+     * A subperiod without an archive, or without visits, counts no days.
      */
-    private function countDaysWithVisits(ArchiveProcessor $archiveProcessor): int
+    private function sumDaysWithVisits(ArchiveProcessor $archiveProcessor): ?int
     {
         $params = $archiveProcessor->getParams();
-        $period = $params->getPeriod();
+        $subperiods = array_values($params->getPeriod()->getSubperiods());
 
-        $days = [];
-        $end = $period->getDateEnd();
-        for ($date = $period->getDateStart(); !$date->isLater($end); $date = $date->addDay(1)) {
-            $days[] = new Day($date);
-        }
-
-        $archive = Archive::factory($params->getSegment(), $days, [$this->getIdSite($archiveProcessor)], false, true);
+        $archive = Archive::factory($params->getSegment(), $subperiods, [$this->getIdSite($archiveProcessor)], false, true);
         if (!$archive instanceof Archive) {
-            return 0;
+            return null;
         }
         $archive->forceFetchingWithoutLaunchingArchiving();
 
-        $visitsByDay = $archive->getNumeric('nb_visits');
+        // read apart, as a value missing next to another is returned as 0
+        $counts = $archive->getNumeric([Records::DAYS_WITH_VISITS]);
+        $visits = $archive->getNumeric(['nb_visits']);
+
         $daysWithVisits = 0;
-        foreach (is_array($visitsByDay) ? $visitsByDay : [] as $row) {
-            $visits = is_array($row) ? ($row['nb_visits'] ?? 0) : 0;
-            if (is_numeric($visits) && $visits > 0) {
-                $daysWithVisits++;
+        foreach ($subperiods as $subperiod) {
+            $rangeString = $subperiod->getRangeString();
+            $count = is_array($counts) ? $this->toArray($counts[$rangeString] ?? null)[Records::DAYS_WITH_VISITS] ?? null : null;
+            $visitsOfSubperiod = is_array($visits) ? $this->toArray($visits[$rangeString] ?? null)['nb_visits'] ?? 0 : 0;
+            if (is_numeric($count)) {
+                $daysWithVisits += (int) $count;
+            } elseif (is_numeric($visitsOfSubperiod) && $visitsOfSubperiod > 0) {
+                return null;
             }
         }
 
@@ -139,10 +165,10 @@ class PageTransitions extends RecordBuilder
         $logAggregator = $archiveProcessor->getLogAggregator();
         $model = StaticContainer::get(Model::class);
 
-        $internalReferrers = $model->queryInternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW);
+        $internalReferrers = $model->queryInternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW, self::$timeLimit);
         // reloads are counted in loops, not as following pages
-        $followingActions = $model->queryFollowingActionsOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW);
-        $externalReferrers = $model->queryExternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW);
+        $followingActions = $model->queryFollowingActionsOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW, self::$timeLimit);
+        $externalReferrers = $model->queryExternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW, self::$timeLimit);
 
         // a website can be archived without visits
         $hasVisits = $archiveProcessor->getNumberOfVisits() > 0;

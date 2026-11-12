@@ -273,7 +273,7 @@ class PreprocessedReportTest extends IntegrationTestCase
         $raw = $this->request('month', self::DAY, '', 3);
         $this->archive($this->selectPage(self::PAGE_URL), 'month', self::DAY);
 
-        // the records keep 100 rows, but the current limit is lower
+        // a lower limit than the reports were stored with
         Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 2;
 
         self::assertSame($this->toArray($raw), $this->toArray($this->request('month', self::DAY, '', 3)));
@@ -427,6 +427,42 @@ class PreprocessedReportTest extends IntegrationTestCase
         // with cron archiving; without it, a single day is built again in the request
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         self::assertSame($rawDay, $this->toArray($this->request('day', self::DAY)));
+    }
+
+    public function testAYearArchivedAfterOldDayReportsArePurgedIsServed(): void
+    {
+        $raw = $this->request('year', self::DAY);
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->archive($idAction, 'month', self::DAY);
+
+        // keeps the month and year reports, deletes the day and week ones with their visits
+        (new ReportsPurger(1, false, [3, 4], false, [], 1000))->purgeData();
+        $this->archive($idAction, 'year', self::DAY);
+
+        $this->assertStoredEqualsRaw($raw, $this->withoutLogTables(fn() => $this->request('year', self::DAY)));
+    }
+
+    public function testTheRowsServedAreValidatedAndCappedByTheStoredRows(): void
+    {
+        self::assertSame(100, Records::getMaxRowsServed(1));
+
+        Config::setSetting('Transitions', 'preprocessed_max_rows_served', '50');
+        Config::setSetting('Transitions_1', 'preprocessed_max_rows_served', 20);
+        self::assertSame(20, Records::getMaxRowsServed(1));
+        self::assertSame(50, Records::getMaxRowsServed(2));
+
+        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 10;
+        self::assertSame(10, Records::getMaxRowsServed(1));
+
+        foreach (['0', 'many', '-3', '1.5'] as $value) {
+            Config::setSetting('Transitions_1', 'preprocessed_max_rows_served', $value);
+            try {
+                Records::getMaxRowsServed(1);
+                self::fail('Expected an exception for ' . $value);
+            } catch (\Exception $e) {
+                self::assertSame('Invalid value for [Transitions_1] preprocessed_max_rows_served: expected an integer >= 1.', $e->getMessage());
+            }
+        }
     }
 
     public function testADayWhoseListsArePurgedIsAnsweredFromTheLogs(): void

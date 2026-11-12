@@ -323,7 +323,7 @@ class Model
      * @param list<int> $idActions
      * @return array<int, array{result: array<int, array<mixed>>, excludedFromLimit: array<mixed>}> by idaction
      */
-    public function queryInternalReferrersOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel): array
+    public function queryInternalReferrersOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel, float $timeLimit = -1): array
     {
         $partitions = [self::PARTITION_OTHER, self::PARTITION_PAGE, self::PARTITION_SITE_SEARCH];
         $dimension = sprintf('if ( %1$s.idaction_url_ref IS NULL, %1$s.idaction_name_ref, %1$s.idaction_url_ref )', 'log_link_visit_action');
@@ -350,7 +350,8 @@ class Model
                 [Metrics::INDEX_NB_ACTIONS],
                 $rankingQuery,
                 $dimension,
-                '`name`'
+                '`name`',
+                $timeLimit
             );
             $data = is_array($data) ? $data : [];
 
@@ -380,7 +381,7 @@ class Model
      * @param list<int> $idActions
      * @return array<int, array<int, array<mixed>>> rows by action type by idaction
      */
-    public function queryFollowingActionsOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel): array
+    public function queryFollowingActionsOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel, float $timeLimit = -1): array
     {
         $types = array_keys($this->getFollowingActionTypes('url'));
         $dimension = sprintf('if ( %1$s.idaction_url IS NULL, %1$s.idaction_name, %1$s.idaction_url )', 'log_link_visit_action');
@@ -399,7 +400,8 @@ class Model
                 [Metrics::INDEX_NB_ACTIONS],
                 $rankingQuery,
                 $dimension,
-                '`name`'
+                '`name`',
+                $timeLimit
             );
 
             $pages += $this->splitPagePartitions($chunk, is_array($data) ? $data : []);
@@ -414,7 +416,7 @@ class Model
      * @param list<int> $idActions
      * @return array<int, array<int, array<mixed>>> rows by referrer type by idaction
      */
-    public function queryExternalReferrersOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel): array
+    public function queryExternalReferrersOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel, float $timeLimit = -1): array
     {
         $pages = [];
         foreach ($this->chunkPages($idActions, count(self::REFERRER_TYPES)) as $chunk) {
@@ -431,7 +433,9 @@ class Model
                 'log_visit.visit_entry_idaction_url IN (' . implode(',', $chunk) . ')',
                 [],
                 [Metrics::INDEX_NB_VISITS],
-                $rankingQuery
+                $rankingQuery,
+                false,
+                $timeLimit
             );
 
             $pages += $this->splitPagePartitions($chunk, is_array($data) ? $data : []);

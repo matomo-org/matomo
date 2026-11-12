@@ -116,17 +116,36 @@ final class Records
      */
     public static function getMaxRowsServed(int $idSite): int
     {
+        return min(self::getConfigValue($idSite, 'preprocessed_max_rows_served', self::DEFAULT_MAX_ROWS_SERVED, 1), self::getMaxRows($idSite));
+    }
+
+    /**
+     * An integer of at least `$min` from the website's `[Transitions_<idSite>]` section, else from `[Transitions]`,
+     * else the default.
+     *
+     * @throws \Exception naming the setting if its value is not such an integer
+     */
+    public static function getConfigValue(int $idSite, string $name, int $default, int $min = 0): int
+    {
         $config = Config::getInstance();
         $siteSection = 'Transitions_' . $idSite;
 
-        $maxRowsServed = self::DEFAULT_MAX_ROWS_SERVED;
-        foreach ([$config->$siteSection, $config->Transitions] as $section) {
-            if (is_array($section) && isset($section['preprocessed_max_rows_served']) && is_numeric($section['preprocessed_max_rows_served'])) {
-                $maxRowsServed = (int) $section['preprocessed_max_rows_served'];
-                break;
+        foreach ([$siteSection => $config->$siteSection, 'Transitions' => $config->Transitions] as $sectionName => $section) {
+            if (!is_array($section) || !array_key_exists($name, $section)) {
+                continue;
             }
+
+            $value = $section[$name];
+            if (is_string($value) && ctype_digit($value)) {
+                $value = (int) $value;
+            }
+            if (is_int($value) && $value >= $min) {
+                return $value;
+            }
+
+            throw new \Exception('Invalid value for [' . $sectionName . '] ' . $name . ': expected an integer >= ' . $min . '.');
         }
 
-        return min(max(1, $maxRowsServed), self::getMaxRows($idSite));
+        return $default;
     }
 }

@@ -15,7 +15,6 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\Exception\ThingNotFoundException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -132,6 +131,16 @@ class Service
 
         $idAction = $page['idaction'] ?? $this->getIdActionForUrl($page['url']);
         if ($idAction !== null) {
+            $this->removePendingRebuild($idSite, $idAction);
+        }
+    }
+
+    /**
+     * Another listed page tracked under the same idaction still needs the rebuild.
+     */
+    private function removePendingRebuild(int $idSite, int $idAction): void
+    {
+        if (!in_array($idAction, $this->getStoredIdActionsForSite($idSite), true)) {
             $this->invalidator->removeInvalidationsSafely([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
         }
     }
@@ -229,7 +238,7 @@ class Service
         }
 
         if ($previousIdAction !== null && $previousIdAction !== $idAction) {
-            $this->invalidator->removeInvalidationsSafely([$idSite], 'Transitions', Records::getRebuildReportName($previousIdAction));
+            $this->removePendingRebuild($idSite, $previousIdAction);
         }
         $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
     }
@@ -239,7 +248,7 @@ class Service
      */
     public function getMaxPages(int $idSite): int
     {
-        return $this->getSiteConfigValue($idSite, 'max_preprocessed_pages', self::DEFAULT_MAX_PAGES);
+        return Records::getConfigValue($idSite, 'max_preprocessed_pages', self::DEFAULT_MAX_PAGES);
     }
 
     /**
@@ -248,35 +257,7 @@ class Service
      */
     public function getRefreshAfter(int $idSite): int
     {
-        return $this->getSiteConfigValue($idSite, 'preprocessed_refresh_after', self::DEFAULT_REFRESH_AFTER);
-    }
-
-    /**
-     * An integer >= 0 from the website's section, else from `[Transitions]`, else the default.
-     */
-    private function getSiteConfigValue(int $idSite, string $name, int $default): int
-    {
-        $config = Config::getInstance();
-        $siteSection = 'Transitions_' . $idSite;
-
-        foreach ([$siteSection => $config->$siteSection, 'Transitions' => $config->Transitions] as $sectionName => $section) {
-            if (!is_array($section) || !array_key_exists($name, $section)) {
-                continue;
-            }
-
-            $value = $section[$name];
-            if (is_int($value) && $value >= 0) {
-                return $value;
-            }
-
-            if (is_string($value) && ctype_digit($value)) {
-                return (int) $value;
-            }
-
-            throw new \Exception('Invalid value for [' . $sectionName . '] ' . $name . ': expected an integer >= 0.');
-        }
-
-        return $default;
+        return Records::getConfigValue($idSite, 'preprocessed_refresh_after', self::DEFAULT_REFRESH_AFTER);
     }
 
     /**
