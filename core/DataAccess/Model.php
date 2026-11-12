@@ -47,6 +47,8 @@ class Model
      * Returns the archives IDs that have already been invalidated and have been since re-processed.
      *
      * These archives { archive name (includes segment hash) , idsite, date, period } will be deleted.
+     * Partial archives of a plugin that a newer usable archive for all plugins replaces are returned too, once that
+     * archive for all plugins has been archived again.
      *
      * @param string $archiveTable
      * @param bool $setGroupContentMaxLen for tests only
@@ -71,9 +73,14 @@ class Model
               GROUP BY idsite, date1, date2, period, name HAVING count(*) > 1";
 
         $archiveIds = array();
+        $reArchivedAllPluginsArchives = [];
 
         $rows = Db::fetchAll($sql);
         foreach ($rows as $row) {
+            if (!str_contains($row['name'], '.')) {
+                $reArchivedAllPluginsArchives[] = [$row['idsite'], $row['date1'], $row['date2'], $row['period']];
+            }
+
             $duplicateArchives = explode(',', $row['archives']);
 
             // do not consider purging partial archives, if they are the latest archive,
@@ -107,34 +114,48 @@ class Model
             }
         }
 
-        return array_values(array_unique(array_merge($archiveIds, $this->getPartialArchiveIdsOlderThanUsableFullArchive($archiveTable))));
+        $partialArchiveIds = $this->getPartialArchiveIdsOlderThanUsableFullArchive($archiveTable, $reArchivedAllPluginsArchives);
+
+        return array_values(array_unique(array_merge($archiveIds, $partialArchiveIds)));
     }
 
     /**
      * Partial archives of a plugin (done<hash>.<Plugin>) are read only until a newer usable archive for all plugins
      * (done<hash>) exists for the same site, period and segment, see ArchiveSelector. Older ones are never read again.
      *
+     * Only the given site and period combinations are looked at, those whose archive for all plugins was archived again,
+     * so the archive table isn't scanned a second time.
+     *
+     * @param array<array{0: int|string, 1: string, 2: string, 3: int|string}> $sitePeriods idsite, date1, date2, period
      * @return string[]
      */
-    private function getPartialArchiveIdsOlderThanUsableFullArchive(string $archiveTable): array
+    private function getPartialArchiveIdsOlderThanUsableFullArchive(string $archiveTable, array $sitePeriods): array
     {
         $usableValues = implode(',', [ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY, ArchiveWriter::DONE_INVALIDATED]);
 
-        $sql = "SELECT DISTINCT partial.idarchive
-                  FROM `$archiveTable` partial
-                  JOIN `$archiveTable` fullarchive
-                    ON fullarchive.idsite = partial.idsite
-                   AND fullarchive.date1 = partial.date1
-                   AND fullarchive.date2 = partial.date2
-                   AND fullarchive.period = partial.period
-                   AND fullarchive.name = SUBSTRING_INDEX(partial.name, '.', 1)
-                   AND fullarchive.value IN ($usableValues)
-                   AND fullarchive.ts_archived > partial.ts_archived
-                   AND fullarchive.idarchive > partial.idarchive
-                 WHERE partial.name LIKE 'done%.%'
-                   AND partial.value = " . ArchiveWriter::DONE_PARTIAL;
+        $archiveIds = [];
+        foreach (array_chunk(array_unique($sitePeriods, SORT_REGULAR), 500) as $chunk) {
+            $sql = "SELECT DISTINCT partial.idarchive
+                      FROM `$archiveTable` partial
+                      JOIN `$archiveTable` fullarchive
+                        ON fullarchive.idsite = partial.idsite
+                       AND fullarchive.date1 = partial.date1
+                       AND fullarchive.date2 = partial.date2
+                       AND fullarchive.period = partial.period
+                       AND fullarchive.name = SUBSTRING_INDEX(partial.name, '.', 1)
+                       AND fullarchive.value IN ($usableValues)
+                       AND fullarchive.ts_archived > partial.ts_archived
+                       AND fullarchive.idarchive > partial.idarchive
+                     WHERE (partial.idsite, partial.date1, partial.date2, partial.period) IN ("
+                        . implode(', ', array_fill(0, count($chunk), '(?, ?, ?, ?)')) . ")
+                       AND partial.name LIKE 'done%.%'
+                       AND partial.value = " . ArchiveWriter::DONE_PARTIAL;
 
-        return array_map('strval', array_column(Db::fetchAll($sql), 'idarchive'));
+            $rows = Db::fetchAll($sql, array_merge(...$chunk));
+            $archiveIds = array_merge($archiveIds, array_map('strval', array_column($rows, 'idarchive')));
+        }
+
+        return $archiveIds;
     }
 
     public function updateArchiveAsInvalidated(
