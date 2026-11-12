@@ -176,6 +176,10 @@ class QueueConsumer
 
         $siteCreationTime = Date::factory(Site::getCreationDateFor($this->idSite));
 
+        // checked per batch: a failure recorded meanwhile is seen by the next one, and startArchive() refuses the
+        // archives it blocks anyway
+        $siteHasArchiveFailures = $this->archiveFailures->hasFailures((int) $this->idSite);
+
         // get archives to process simultaneously
         $archivesToProcess = [];
         while (count($archivesToProcess) < $this->countOfProcesses) {
@@ -209,7 +213,7 @@ class QueueConsumer
             }
 
             // archives that failed recently or were given up, and the periods built from them, wait until a retry
-            $holdResult = $this->archiveFailures->holdIfBlocked($invalidatedArchive);
+            $holdResult = $siteHasArchiveFailures ? $this->archiveFailures->holdIfBlocked($invalidatedArchive) : null;
             if (null !== $holdResult) {
                 $this->logger->debug("Invalidation {$holdResult} because a failed archive blocks it: $invalidationDesc");
                 $this->addInvalidationToExclude($invalidatedArchive);
