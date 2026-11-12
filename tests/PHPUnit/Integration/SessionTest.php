@@ -33,8 +33,10 @@ class SessionTest extends IntegrationTestCase
     /**
      * PHP builds the session cookie it sends on start and regenerate from these settings.
      *
+     * Runs on its own because it starts a real session. Global state stays preserved so the
+     * child process inherits the already loaded dependencies rather than reloading them.
+     *
      * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
     public function testStartConfiguresPhpsSessionCookieAndIdHandling()
     {
