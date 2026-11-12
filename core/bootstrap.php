@@ -19,16 +19,12 @@ $errorLevel = E_ALL;
 
 // Matomo and several of its dependencies still declare implicitly nullable parameters, which PHP 8.4
 // deprecates. Keep deprecations silent there until those declarations are migrated.
-if (version_compare(PHP_VERSION, '8.4.0-dev', '>=') && version_compare(PHP_VERSION, '8.6.0-dev', '<')) {
+if (version_compare(PHP_VERSION, '8.4.0-dev', '>=')) {
     $errorLevel = E_ALL & ~E_DEPRECATED;
 }
 
 error_reporting($errorLevel);
 @ini_set('display_errors', defined('PIWIK_DISPLAY_ERRORS') ? PIWIK_DISPLAY_ERRORS : @ini_get('display_errors'));
-// TEMPORARY: keep deprecations out of test output, they are collected from the PHP error log instead
-if (version_compare(PHP_VERSION, '8.6.0-dev', '>=') && PHP_SAPI === 'cli') {
-    @ini_set('display_errors', '0');
-}
 @ini_set('xdebug.show_exception_trace', 0);
 
 if (!defined('PIWIK_VENDOR_PATH')) {

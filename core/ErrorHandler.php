@@ -154,19 +154,13 @@ class ErrorHandler
                 $backtrace = ExceptionHandler::shouldPrintBackTraceWithMessage() ? $e->getTraceAsString() : '';
                 $message = self::getHtmlMessage($errno, $errstr, $errfile, $errline, $backtrace);
                 throw new ErrorException($message, 0, $errno, $errfile, $errline);
-            case E_DEPRECATED:
-            case E_USER_DEPRECATED:
-                // TEMPORARY: collect deprecations in the PHP error log instead of the response
-                if (PHP_VERSION_ID >= 80600) {
-                    error_log(self::createLogMessage($errno, $errstr, $errfile, $errline));
-                    break;
-                }
-                // no break
             case E_WARNING:
             case E_NOTICE:
             case E_USER_WARNING:
             case E_USER_NOTICE:
             case E_RECOVERABLE_ERROR:
+            case E_DEPRECATED:
+            case E_USER_DEPRECATED:
             default:
                 $context = array('trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 15));
                 try {

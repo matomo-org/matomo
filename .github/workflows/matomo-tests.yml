@@ -95,13 +95,6 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
-      - name: Summarize PHP deprecations (temporary)
-        if: ${{ always() && matrix.environment.php == '8.6' }}
-        shell: bash
-        run: &summarize-deprecations |
-          cat "$GITHUB_WORKSPACE/php-errors.log" matomo/tmp/error.log matomo/tmp/logs/*.log 2>/dev/null \
-            | grep -oE "Deprecated:? .*|[^ ]+\([0-9]+\): (User )?Deprecated - .*" \
-            | sed -E 's/ - Matomo [0-9].*$//' | sort | uniq -c | sort -rn | head -500 || true
   PHP-extra:
     name: PHP (${{ matrix.type }}, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -133,10 +126,6 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
-      - name: Summarize PHP deprecations (temporary)
-        if: ${{ always() && matrix.environment.php == '8.6' }}
-        shell: bash
-        run: *summarize-deprecations
   PHP-integration-core:
     name: PHP (IntegrationTestsCore, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -179,10 +168,6 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
-      - name: Summarize PHP deprecations (temporary)
-        if: ${{ always() && matrix.environment.php == '8.6' }}
-        shell: bash
-        run: *summarize-deprecations
   PHP-integration-plugins:
     name: PHP (IntegrationTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -225,10 +210,6 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
-      - name: Summarize PHP deprecations (temporary)
-        if: ${{ always() && matrix.environment.php == '8.6' }}
-        shell: bash
-        run: *summarize-deprecations
   PHP-system-plugins:
     name: PHP (SystemTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
@@ -274,10 +255,6 @@ jobs:
           upload-artifacts: false
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
-      - name: Summarize PHP deprecations (temporary)
-        if: ${{ always() && matrix.environment.php == '8.6' }}
-        shell: bash
-        run: *summarize-deprecations
       - name: Upload bucket processed-files for aggregation
         if: ${{ always() && matrix.environment.php == '8.1' }}
         uses: actions/upload-artifact@v7
@@ -431,10 +408,6 @@ jobs:
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
-      - name: Summarize PHP deprecations (temporary)
-        if: ${{ always() }}
-        shell: bash
-        run: *summarize-deprecations
   UI-core:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -472,10 +445,6 @@ jobs:
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
-      - name: Summarize PHP deprecations (temporary)
-        if: ${{ always() }}
-        shell: bash
-        run: *summarize-deprecations
   ci-required:
     name: All required tests passed
     if: ${{ always() }}
