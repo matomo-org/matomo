@@ -27,6 +27,8 @@ use Piwik\NoAccessException;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\Transitions\API;
+use Piwik\Plugins\Transitions\PreprocessedPages\Dao;
+use Piwik\Plugins\Transitions\PreprocessedPages\PreprocessedPagesBusyException;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
@@ -320,10 +322,98 @@ class PreprocessedPagesTest extends IntegrationTestCase
 
     public function testRejectsUnknownSites(): void
     {
-        $this->expectException(UnexpectedWebsiteFoundException::class);
-
-        $this->api->addPreprocessedPage(99, 'https://example.com/a');
+        foreach (
+            [
+                fn() => $this->api->getPreprocessedPages(99),
+                fn() => $this->api->addPreprocessedPage(99, 'https://example.com/a'),
+            ] as $call
+        ) {
+            try {
+                $call();
+                $this->fail('Expected an UnexpectedWebsiteFoundException');
+            } catch (UnexpectedWebsiteFoundException $e) {
+                $this->addToAssertionCount(1);
+            }
+        }
     }
+
+    public function testAddRemovesItsPageWhenTheSiteIsDeletedMeanwhile(): void
+    {
+        $dao = new class extends Dao {
+            public function addPage(int $idSite, string $url, string $urlHash, string $createdDate, ?string $createdBy): bool
+            {
+                $added = parent::addPage($idSite, $url, $urlHash, $createdDate, $createdBy);
+                // as if SitesManager.deleteSite ran, cleanup included, between the site check and the insert
+                Db::query('DELETE FROM ' . Common::prefixTable('site') . ' WHERE idsite = ?', [$idSite]);
+
+                return $added;
+            }
+        };
+        $service = new Service($dao, StaticContainer::get(ArchiveInvalidator::class), StaticContainer::get(LockBackend::class));
+
+        try {
+            $service->addPage(2, 'https://example.org/a');
+            $this->fail('Expected an UnexpectedWebsiteFoundException');
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // expected
+        }
+
+        self::assertSame([], $dao->getPagesForSite(2));
+    }
+
+    /**
+     * @dataProvider getInvalidLimits
+     */
+    public function testRejectsInvalidLimitsNamingTheSetting(string $section, $value): void
+    {
+        Config::getInstance()->$section = ['max_preprocessed_pages' => $value];
+
+        $this->expectExceptionMessage('Invalid value for [' . $section . '] max_preprocessed_pages: expected an integer >= 0.');
+
+        $this->api->addPreprocessedPage(1, 'https://example.com/a');
+    }
+
+    /**
+     * @return array<string, array{string, mixed}>
+     */
+    public function getInvalidLimits(): array
+    {
+        return [
+            'site, not a number' => ['Transitions_1', '20a'],
+            'site, negative' => ['Transitions_1', -1],
+            'site, negative string' => ['Transitions_1', '-5'],
+            'site, decimal' => ['Transitions_1', '2.5'],
+            'site, empty' => ['Transitions_1', ''],
+            'general, not a number' => ['Transitions', 'twenty'],
+            'general, negative' => ['Transitions', -3],
+        ];
+    }
+
+    public function testAcceptsLimitsGivenAsNumericStrings(): void
+    {
+        Config::getInstance()->Transitions_1 = ['max_preprocessed_pages' => '1'];
+
+        $this->api->addPreprocessedPage(1, 'https://example.com/a');
+        $this->assertAddFails(1, 'https://example.com/b', 'You can select at most 1 pages for pre-processed Transitions.');
+    }
+
+    public function testMeasuresTheLengthOfUrlsSentOverHttpBeforeEncoding(): void
+    {
+        $url = 'https://example.com/a?' . str_repeat('&', Service::MAX_URL_LENGTH - 22);
+        self::assertSame(Service::MAX_URL_LENGTH, mb_strlen($url));
+
+        Request::processRequest('Transitions.addPreprocessedPage', ['idSite' => 1, 'pageUrl' => $url]);
+        self::assertCount(1, $this->api->getPreprocessedPages(1));
+
+        try {
+            Request::processRequest('Transitions.addPreprocessedPage', ['idSite' => 1, 'pageUrl' => $url . 'b']);
+            $this->fail('Expected a URL over the limit to be rejected');
+        } catch (\Exception $e) {
+            // the response builder rethrows API errors as a plain exception
+            self::assertStringStartsWith('The page URL is too long. Use at most 4096 characters.', $e->getMessage());
+        }
+    }
+
 
     public function testRemovingAPageOfAnotherSiteOrAnUnknownPageIsNotFound(): void
     {
@@ -346,8 +436,12 @@ class PreprocessedPagesTest extends IntegrationTestCase
         try {
             $this->api->addPreprocessedPage(1, 'https://example.com/a');
             $this->fail('Expected adding to fail while the site lock is held');
-        } catch (\Exception $e) {
-            self::assertSame('Could not get the lock for ID: 1', $e->getMessage());
+        } catch (PreprocessedPagesBusyException $e) {
+            self::assertSame(
+                'Another change to the pre-processed pages of this website is in progress. Please try again.',
+                $e->getMessage()
+            );
+            self::assertSame(409, $e->getCode());
         } finally {
             $lock->unlock();
         }
@@ -387,6 +481,32 @@ class PreprocessedPagesTest extends IntegrationTestCase
 
         self::assertSame(['https://example.com/a'], $this->getUrls(1));
         self::assertSame(0, (int) Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('transitions_preprocessed_page') . ' WHERE idsite = 2'));
+    }
+
+    public function testActivatingThePluginClearsLoginsRegisteredAgainAfterThePageWasAdded(): void
+    {
+        UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
+        UsersManagerAPI::getInstance()->addUser('bob', 'secret-password-2', 'bob@example.com');
+        FakeAccess::clearAccess(false, [1], [], 'alice');
+        $this->api->addPreprocessedPage(1, 'https://example.com/a');
+        FakeAccess::clearAccess(false, [1], [], 'bob');
+        $this->api->addPreprocessedPage(1, 'https://example.com/b');
+        $this->setRole('superuser', 1);
+
+        // alice was deleted while the plugin was deactivated, and someone registered the same login later
+        Db::query(
+            'UPDATE ' . Common::prefixTable('transitions_preprocessed_page') . ' SET created_date = ?',
+            ['2025-01-01 00:00:00']
+        );
+        Db::query('UPDATE ' . Common::prefixTable('user') . ' SET date_registered = ? WHERE login = ?', ['2025-06-01 00:00:00', 'alice']);
+        Db::query('UPDATE ' . Common::prefixTable('user') . ' SET date_registered = ? WHERE login = ?', ['2024-06-01 00:00:00', 'bob']);
+
+        PluginManager::getInstance()->getLoadedPlugin('Transitions')->activate();
+
+        self::assertSame(
+            ['https://example.com/b' => 'bob', 'https://example.com/a' => null],
+            array_column($this->api->getPreprocessedPages(1), 'created_by', 'url')
+        );
     }
 
     public function testActivatingThePluginCatchesUpOnDeletedUsersAndSites(): void

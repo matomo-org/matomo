@@ -12,11 +12,13 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Exception\ThingNotFoundException;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
 use Piwik\Segment\SegmentExpression;
@@ -33,7 +35,7 @@ class Service
     public const DEFAULT_MAX_PAGES = 20;
 
     /**
-     * Longest URL accepted, the length of `log_action`.`name`.
+     * Longest URL accepted. Like the tracker, normalization then truncates it to `[Tracker] page_maximum_length`.
      */
     public const MAX_URL_LENGTH = 4096;
 
@@ -75,7 +77,9 @@ class Service
 
         // concurrent adds must not both pass the limit check
         $lock = new Lock($this->lockBackend, self::LOCK_NAMESPACE);
-        $lock->execute((string) $idSite, function () use ($idSite, $url, $urlHash, $createdBy): void {
+        $this->acquireLock($lock, $idSite);
+
+        try {
             if ($this->dao->getPageByUrlHash($idSite, $urlHash) !== null) {
                 throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
             }
@@ -88,7 +92,15 @@ class Service
             if (!$this->dao->addPage($idSite, $url, $urlHash, Date::now()->getDatetime(), $createdBy)) {
                 throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
             }
-        });
+
+            // the website may have been deleted since it was checked, after its pages were cleaned up
+            if (!$this->dao->siteExists($idSite)) {
+                $this->dao->deletePagesForSite($idSite);
+                throw new UnexpectedWebsiteFoundException('The requested website id = ' . $idSite . ' couldn\'t be found');
+            }
+        } finally {
+            $lock->unlock();
+        }
 
         // a URL not tracked yet has no records to build
         $idAction = $this->getIdActionForUrl($url);
@@ -158,10 +170,21 @@ class Service
         $config = Config::getInstance();
         $siteSection = 'Transitions_' . $idSite;
 
-        foreach ([$config->$siteSection, $config->Transitions] as $section) {
-            if (is_array($section) && isset($section['max_preprocessed_pages']) && is_numeric($section['max_preprocessed_pages'])) {
-                return max(0, (int) $section['max_preprocessed_pages']);
+        foreach ([$siteSection => $config->$siteSection, 'Transitions' => $config->Transitions] as $sectionName => $section) {
+            if (!is_array($section) || !array_key_exists('max_preprocessed_pages', $section)) {
+                continue;
             }
+
+            $value = $section['max_preprocessed_pages'];
+            if (is_int($value) && $value >= 0) {
+                return $value;
+            }
+
+            if (is_string($value) && ctype_digit($value)) {
+                return (int) $value;
+            }
+
+            throw new \Exception('Invalid value for [' . $sectionName . '] max_preprocessed_pages: expected an integer >= 0.');
         }
 
         return self::DEFAULT_MAX_PAGES;
@@ -175,7 +198,8 @@ class Service
     {
         $pageUrl = trim($pageUrl);
 
-        if (mb_strlen($pageUrl) > self::MAX_URL_LENGTH) {
+        // API parameters arrive HTML-encoded, which would count `&` as five characters
+        if (mb_strlen(Common::unsanitizeInputValue($pageUrl)) > self::MAX_URL_LENGTH) {
             throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageUrlTooLong', [(string) self::MAX_URL_LENGTH]));
         }
 
@@ -186,6 +210,20 @@ class Service
         }
 
         return $url;
+    }
+
+    /**
+     * Waits up to 5 seconds, as `Lock::execute()` does.
+     */
+    private function acquireLock(Lock $lock, int $idSite): void
+    {
+        for ($attempt = 0; !$lock->acquireLock((string) $idSite); $attempt++) {
+            if ($attempt >= 50) {
+                throw new PreprocessedPagesBusyException();
+            }
+
+            usleep(100 * 1000);
+        }
     }
 
     /**

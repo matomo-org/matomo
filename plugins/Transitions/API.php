@@ -221,6 +221,7 @@ class API extends \Piwik\Plugin\API
     public function getPreprocessedPages(int $idSite): array
     {
         Piwik::checkUserHasAdminAccess($idSite);
+        new Site($idSite);
 
         return StaticContainer::get(PreprocessedPagesService::class)->getPages($idSite);
     }
@@ -230,8 +231,9 @@ class API extends \Piwik\Plugin\API
      * next archiving runs. Requires admin access to the website.
      *
      * @param int $idSite The numeric ID of the website.
-     * @param string $pageUrl The page URL, starting with http:// or https://. Protocol and `www.` variants, and query
-     *                        parameters the website excludes, count as the same page.
+     * @param string $pageUrl The page URL, starting with http:// or https://, at most 4096 characters. Protocol and
+     *                        `www.` variants, and query parameters the website excludes, count as the same page. It is
+     *                        stored as the tracker stores page URLs, truncated to `[Tracker] page_maximum_length`.
      * @return array{idpage: int, url: string, created_date: string, created_by: string|null} The added page, as
      *         returned by `getPreprocessedPages`.
      */

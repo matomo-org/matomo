@@ -99,6 +99,14 @@ class Dao
         Db::query('DELETE FROM ' . $this->getTable() . ' WHERE idsite = ? AND idpage = ?', [$idSite, $idPage]);
     }
 
+    /**
+     * Reads the site table directly, bypassing the site cache.
+     */
+    public function siteExists(int $idSite): bool
+    {
+        return (bool) Db::fetchOne('SELECT 1 FROM ' . Common::prefixTable('site') . ' WHERE idsite = ?', [$idSite]);
+    }
+
     public function deletePagesForSite(int $idSite): void
     {
         $this->writeIfTableExists('DELETE FROM ' . $this->getTable() . ' WHERE idsite = ?', [$idSite]);
@@ -117,6 +125,12 @@ class Dao
         $this->writeIfTableExists(
             'UPDATE ' . $this->getTable() . ' SET created_by = NULL WHERE created_by IS NOT NULL'
             . ' AND created_by NOT IN (SELECT login FROM ' . Common::prefixTable('user') . ')',
+            []
+        );
+        // a login created again after the page was added belongs to someone else
+        $this->writeIfTableExists(
+            'UPDATE ' . $this->getTable() . ' p JOIN ' . Common::prefixTable('user') . ' u ON u.login = p.created_by'
+            . ' SET p.created_by = NULL WHERE u.date_registered > p.created_date',
             []
         );
         $this->writeIfTableExists(

@@ -29,6 +29,7 @@
         "PreprocessedPageAlreadySelected": "This page is already selected.",
         "PreprocessedPageInvalidUrl": "Please enter a valid page URL starting with http:// or https://.",
         "PreprocessedPageNotSelected": "This page is not selected for pre-processed Transitions.",
+        "PreprocessedPagesBusy": "Another change to the pre-processed pages of this website is in progress. Please try again.",
         "PreprocessedPagesLimitReached": "You can select at most %s pages for pre-processed Transitions.",
         "PreprocessedPageUrlTooLong": "The page URL is too long. Use at most %s characters.",
         "OtherDestinations": "Other destinations",
