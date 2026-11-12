@@ -670,6 +670,10 @@ datatable_archiving_maximum_rows_ai_chatbot_content = 50000
 ; (these span the full human page-URL set, matching the content reports cap)
 datatable_archiving_maximum_rows_ai_chatbot_favoured_pages = 50000
 
+; maximum number of rows kept for each list of a page whose Transitions report is pre-processed (previous and
+; following pages, site searches, outlinks, downloads, and the referrers of each type); the rest is grouped into "Others"
+datatable_archiving_maximum_rows_transitions = 100
+
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
 

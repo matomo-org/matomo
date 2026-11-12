@@ -27,6 +27,7 @@ use Piwik\NoAccessException;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\Transitions\API;
+use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Tests\Framework\Fixture;
@@ -413,7 +414,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
         $this->api->addPreprocessedPage(1, 'https://www.example.com/tracked');
 
         self::assertSame(
-            [['idSites' => [1], 'pluginName' => 'Transitions', 'report' => 'Transitions_' . $idAction]],
+            [['idSites' => [1], 'pluginName' => 'Transitions', 'report' => Records::getRebuildReportName($idAction)]],
             array_map(
                 fn($entry) => array_intersect_key(json_decode($entry, true), ['idSites' => 0, 'pluginName' => 0, 'report' => 0]),
                 (new ReArchiveList())->getAll()
@@ -423,7 +424,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
         StaticContainer::get(ArchiveInvalidator::class)->applyScheduledReArchiving();
 
         $invalidations = Db::fetchAll('SELECT DISTINCT idsite, name, report FROM ' . Common::prefixTable('archive_invalidations'));
-        self::assertSame([['idsite' => 1, 'name' => 'done.Transitions', 'report' => 'Transitions_' . $idAction]], $invalidations);
+        self::assertSame([['idsite' => 1, 'name' => 'done.Transitions', 'report' => Records::getRebuildReportName($idAction)]], $invalidations);
     }
 
     public function testAddingAnUntrackedPageSchedulesNothing(): void
@@ -441,12 +442,12 @@ class PreprocessedPagesTest extends IntegrationTestCase
         $idPageA = $this->api->addPreprocessedPage(1, 'http://example.com/a')['idpage'];
         $this->api->addPreprocessedPage(1, 'http://example.com/b');
         StaticContainer::get(ArchiveInvalidator::class)->applyScheduledReArchiving();
-        self::assertGreaterThan(0, $this->countInvalidations('Transitions_' . $idActionA));
+        self::assertGreaterThan(0, $this->countInvalidations(Records::getRebuildReportName($idActionA)));
 
         $this->api->removePreprocessedPage(1, $idPageA);
 
-        self::assertSame(0, $this->countInvalidations('Transitions_' . $idActionA));
-        self::assertGreaterThan(0, $this->countInvalidations('Transitions_' . $idActionB));
+        self::assertSame(0, $this->countInvalidations(Records::getRebuildReportName($idActionA)));
+        self::assertGreaterThan(0, $this->countInvalidations(Records::getRebuildReportName($idActionB)));
     }
 
     public function testRemovingAPageClearsItsQueuedReArchiving(): void

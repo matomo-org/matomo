@@ -55,15 +55,6 @@ class Service
     }
 
     /**
-     * Name of the report that archives the Transitions records of one page; re-archiving is scheduled and cleared
-     * under this name.
-     */
-    public static function getRecordPrefix(int $idAction): string
-    {
-        return 'Transitions_' . $idAction;
-    }
-
-    /**
      * @return list<PreprocessedPageEntry> newest first
      */
     public function getPages(int $idSite): array
@@ -102,7 +93,7 @@ class Service
         // a URL not tracked yet has no records to build
         $idAction = $this->getIdActionForUrl($url);
         if ($idAction !== null) {
-            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', self::getRecordPrefix($idAction));
+            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
         }
 
         $page = $this->dao->getPageByUrlHash($idSite, $urlHash);
@@ -127,7 +118,7 @@ class Service
 
         $idAction = $this->getIdActionForUrl($page['url']);
         if ($idAction !== null) {
-            $this->invalidator->removeInvalidationsSafely([$idSite], 'Transitions', self::getRecordPrefix($idAction));
+            $this->invalidator->removeInvalidationsSafely([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
         }
     }
 
