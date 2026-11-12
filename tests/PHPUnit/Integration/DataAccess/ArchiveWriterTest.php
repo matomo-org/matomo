@@ -105,7 +105,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $expected = [
             ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-02 03:44:44'],
             ['idarchive' => 2, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 03:44:44'],
-            ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => 5, 'ts_archived' => '2020-04-05 03:00:00'],
+            ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done.ExamplePlugin', 'value' => 5, 'ts_archived' => '2020-04-05 03:00:00'],
             ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'nb_visits', 'value' => 5, 'ts_archived' => '2020-04-05 03:00:00'],
         ];
         $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
@@ -123,12 +123,36 @@ class ArchiveWriterTest extends IntegrationTestCase
         $writer->insertRecord('nb_visits', 5);
         $writer->flushSpools();
 
+        $doneFlag = $isPartial ? 'done.ExamplePlugin' : 'done';
         $numericTable = ArchiveTableCreator::getNumericTable(Date::factory($date), true);
-        (new Model())->updateArchiveStatus($numericTable, $writer->getIdArchive(), 'done', ArchiveWriter::DONE_ERROR_INVALIDATED);
+        (new Model())->updateArchiveStatus($numericTable, $writer->getIdArchive(), $doneFlag, ArchiveWriter::DONE_ERROR_INVALIDATED);
 
         $writer->finalizeArchive();
 
-        $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', $expectedValue);
+        $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, $doneFlag, $expectedValue);
+    }
+
+    /**
+     * @dataProvider getTestDataForPartialArchiveDoneFlag
+     */
+    public function testPartialArchiveIsWrittenUnderTheDoneFlagOfItsPlugin(string $segment)
+    {
+        $date = '2019-08-29';
+        $expectedDoneFlag = 'done' . (new Segment($segment, []))->getHash() . '.ExamplePlugin';
+
+        $writer = $this->buildWriter('day', $date, $isPartial = true, $segment);
+        $writer->initNewArchive();
+        $writer->insertRecord('ExamplePlugin_report', 5);
+        $writer->finalizeArchive();
+
+        $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, $expectedDoneFlag, ArchiveWriter::DONE_PARTIAL);
+        $this->assertNumericArchiveNotExists(Day::PERIOD_ID, $date, 'done');
+    }
+
+    public function getTestDataForPartialArchiveDoneFlag(): iterable
+    {
+        yield 'all visits' => [''];
+        yield 'segment' => ['browserCode==FF'];
     }
 
     public function getTestDataForFinalizeArchiveInvalidatedDuringArchiving(): iterable

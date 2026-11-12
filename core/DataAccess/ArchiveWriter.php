@@ -140,7 +140,10 @@ class ArchiveWriter
         $this->parameters = $params;
 
         $idSites = [$this->idSite];
-        $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
+        // a partial archive holds reports of the requested plugin only, so it must never look like an archive of all plugins
+        $this->doneFlag = $params->isPartialArchive()
+            ? Rules::getDoneFlagArchiveContainsOnePlugin($this->segment, $params->getRequestedPlugin())
+            : Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
 
         $this->dateStart = $this->period->getDateStart();
     }
