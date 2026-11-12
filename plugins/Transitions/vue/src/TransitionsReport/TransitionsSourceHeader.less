@@ -1,0 +1,97 @@
+.transitionsSourceHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0 0;
+
+  .transitionsSourceHeader__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
+    justify-content: space-between;
+    gap: 8px 16px;
+  }
+
+  .transitionsSourceHeader__badge {
+    display: inline-flex;
+    align-items: safe center;
+    gap: 6px;
+    padding: 2px 9px;
+    border: 1px solid @theme-color-border;
+    border-radius: 999px;
+    color: @theme-color-text-light;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .transitionsSourceHeader__badge::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .transitionsSourceHeader__badge--preprocessed {
+    border-color: @theme-color-success;
+    color: @theme-color-success;
+    cursor: help;
+  }
+
+  .transitionsSourceHeader__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
+    gap: 8px 12px;
+  }
+
+  .transitionsSourceHeader__usage {
+    color: @theme-color-text-light;
+    font-size: 12px;
+  }
+
+  .transitionsSourceHeader__manageLink {
+    color: @theme-color-link;
+    font-size: 13px;
+  }
+
+  .transitionsSourceHeader__confirm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    padding: 10px 12px;
+    border: 1px solid @theme-color-border;
+    border-radius: 6px;
+    background: @theme-color-background-tinyContrast;
+  }
+
+  .transitionsSourceHeader__confirmText {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    color: @theme-color-text;
+  }
+
+  .transitionsSourceHeader__confirmActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .transitionsSourceHeader__message,
+  .transitionsSourceHeader__error {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  .transitionsSourceHeader__message {
+    color: @theme-color-text-light;
+  }
+
+  .transitionsSourceHeader__error {
+    color: @theme-color-negative;
+  }
+}

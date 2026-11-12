@@ -233,6 +233,11 @@ declare global {
     exits: number;
     directEntries: number;
     groupTitles: Record<string, string>;
+    /** Per loaded part: whether stored data of a pre-processed page served it, and when it was built (UTC). */
+    partSources: Partial<Record<
+      'internalReferrers'|'followingActions'|'externalReferrers',
+      { preprocessed: boolean; preprocessedAt: string }
+    >>;
     loadData(
       actionType: string,
       actionName: string,

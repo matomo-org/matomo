@@ -1,0 +1,168 @@
+.managePreprocessedPages {
+  .managePreprocessedPages__intro {
+    max-width: 75ch;
+  }
+
+  .managePreprocessedPages__usage {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 360px;
+    margin: 16px 0;
+  }
+
+  .managePreprocessedPages__meter {
+    height: 6px;
+    overflow: hidden;
+    border: 1px solid @theme-color-border;
+    border-radius: 99px;
+    background: @theme-color-background-tinyContrast;
+  }
+
+  .managePreprocessedPages__meterFill {
+    display: block;
+    height: 100%;
+    background: @theme-color-brand;
+  }
+
+  .managePreprocessedPages__limitMessage {
+    color: @theme-color-text;
+    font-weight: bold;
+  }
+
+  .managePreprocessedPages__error {
+    margin: 0;
+    color: @theme-color-negative;
+  }
+
+  .managePreprocessedPages__url {
+    overflow-wrap: anywhere;
+  }
+
+  .managePreprocessedPages__date {
+    white-space: nowrap;
+  }
+
+  .managePreprocessedPages__unknownUser {
+    border-bottom: 1px dotted @theme-color-text-light;
+    color: @theme-color-text-light;
+    cursor: help;
+  }
+
+  .managePreprocessedPages__actionColumn {
+    width: 1%;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .managePreprocessedPages__row--confirming {
+    background: @theme-color-background-tinyContrast;
+  }
+
+  .managePreprocessedPages__confirm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .managePreprocessedPages__confirmText {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .managePreprocessedPages__confirmActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .managePreprocessedPages__addForm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
+    gap: 8px 16px;
+    margin-top: 24px;
+  }
+
+  .managePreprocessedPages__field {
+    flex: auto;
+    min-width: 0;
+    max-width: 720px;
+  }
+
+  .managePreprocessedPages__suggestions {
+    overflow: hidden;
+    border: 1px solid @theme-color-border;
+    border-radius: 6px;
+    background: @theme-color-background-base;
+    box-shadow: @theme-shadow-overlay;
+  }
+
+  .managePreprocessedPages__suggestionsHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 10px;
+    background: @theme-color-background-tinyContrast;
+    color: @theme-color-text-light;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  .managePreprocessedPages__suggestionList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .managePreprocessedPages__suggestionItem {
+    border-top: 1px solid @theme-color-border;
+  }
+
+  .managePreprocessedPages__suggestion {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 6px 10px;
+    border: 0;
+    background: transparent;
+    color: @theme-color-text;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .managePreprocessedPages__suggestion:hover,
+  .managePreprocessedPages__suggestion:focus-visible {
+    background: @theme-color-background-brand-lowContrast;
+  }
+
+  .managePreprocessedPages__suggestionUrl {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .managePreprocessedPages__suggestionPageviews {
+    color: @theme-color-text-light;
+    white-space: nowrap;
+  }
+
+  .managePreprocessedPages__addError {
+    margin-top: 8px;
+  }
+
+  .managePreprocessedPages__duplicateHelp {
+    margin: 4px 0 0;
+    color: @theme-color-text-light;
+  }
+
+  .managePreprocessedPages__hint {
+    margin-top: 16px;
+    color: @theme-color-text-light;
+  }
+}

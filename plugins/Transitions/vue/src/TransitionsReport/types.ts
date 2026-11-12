@@ -82,6 +82,16 @@ export interface TransitionsError {
   backLabel: string;
 }
 
+/** Where the numbers of the parts loaded so far come from. */
+export interface TransitionsDataSource {
+  /** Whether any part has been served yet. */
+  loaded: boolean;
+  /** Every part served so far came from the stored data of a pre-processed page. */
+  preprocessed: boolean;
+  /** The oldest build time (UTC) among those parts; empty unless `preprocessed`. */
+  preprocessedAt: string;
+}
+
 /** Everything the renderer needs for one action. */
 export interface TransitionsReportData {
   actionName: string;
@@ -101,4 +111,5 @@ export interface TransitionsReportData {
   loadingSides: Record<TransitionsSide, boolean>;
   groups: TransitionsGroupData[];
   metrics: TransitionsMetricData[];
+  source: TransitionsDataSource;
 }

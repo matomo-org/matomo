@@ -66,6 +66,8 @@ class Transitions extends \Piwik\Plugin
         $stylesheets[] = 'plugins/Transitions/vue/src/TransitionsReport/TransitionsRow.less';
         $stylesheets[] = 'plugins/Transitions/vue/src/TransitionsReport/TransitionsCenterCard.less';
         $stylesheets[] = 'plugins/Transitions/vue/src/TransitionsReport/TransitionsRibbons.less';
+        $stylesheets[] = 'plugins/Transitions/vue/src/TransitionsReport/TransitionsSourceHeader.less';
+        $stylesheets[] = 'plugins/Transitions/vue/src/ManagePreprocessedPages/ManagePreprocessedPages.less';
     }
 
     public function getJsFiles(&$jsFiles)
@@ -141,6 +143,41 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_PeriodNotAllowed';
         $translationKeys[] = 'Transitions_PeriodNotAllowedDetails';
         $translationKeys[] = 'Transitions_ErrorBack';
+
+        // Pre-processed pages: the report's source badge and toggle, and the admin page.
+        $translationKeys[] = 'Transitions_PreprocessedBadge';
+        $translationKeys[] = 'Transitions_PreprocessedBadgeTooltip';
+        $translationKeys[] = 'Transitions_RawDataBadge';
+        $translationKeys[] = 'Transitions_PreprocessThisPage';
+        $translationKeys[] = 'Transitions_StopPreprocessing';
+        $translationKeys[] = 'Transitions_StopPreprocessingConfirm';
+        $translationKeys[] = 'Transitions_StopPreprocessingHelp';
+        $translationKeys[] = 'Transitions_PreprocessedPagesUsageShort';
+        $translationKeys[] = 'Transitions_PreprocessedPagesLimitReachedHelp';
+        $translationKeys[] = 'Transitions_ManagePreprocessedPages';
+        $translationKeys[] = 'Transitions_PreprocessedPageAddedRebuild';
+        $translationKeys[] = 'Transitions_PreprocessedPageAddedNewDataOnly';
+        $translationKeys[] = 'Transitions_PreprocessedTransitions';
+        $translationKeys[] = 'Transitions_PreprocessedPagesIntro';
+        $translationKeys[] = 'Transitions_PreprocessedPagesUsage';
+        $translationKeys[] = 'Transitions_PreprocessedPagesEmpty';
+        $translationKeys[] = 'Transitions_PreprocessedPagesLimitReached';
+        $translationKeys[] = 'Transitions_PreprocessedPagesOverLimit';
+        $translationKeys[] = 'Transitions_PreprocessedPageAlreadySelected';
+        $translationKeys[] = 'Transitions_PreprocessedPageDuplicateHelp';
+        $translationKeys[] = 'Transitions_PreprocessedPagesRebuildHint';
+        $translationKeys[] = 'Transitions_PreprocessedPagesNewDataOnlyHint';
+        $translationKeys[] = 'Transitions_PreprocessedPagesSuggestions';
+        $translationKeys[] = 'Transitions_AddPageUrl';
+        $translationKeys[] = 'Transitions_AddPage';
+        $translationKeys[] = 'Transitions_ColumnDateAdded';
+        $translationKeys[] = 'Transitions_ColumnAddedBy';
+        $translationKeys[] = 'Transitions_UnknownUserHelp';
+        $translationKeys[] = 'Actions_ColumnPageURL';
+        $translationKeys[] = 'General_ColumnPageviews';
+        $translationKeys[] = 'General_Remove';
+        $translationKeys[] = 'General_Cancel';
+        $translationKeys[] = 'General_Unknown';
     }
 
     public function addJsGlobalVariables(&$out)

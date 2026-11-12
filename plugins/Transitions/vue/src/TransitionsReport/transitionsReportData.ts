@@ -16,6 +16,7 @@
 
 import { translate, Matomo, NumberFormatter } from 'CoreHome';
 import {
+  TransitionsDataSource,
   TransitionsError,
   TransitionsGroupData,
   TransitionsMetricData,
@@ -249,6 +250,26 @@ export function resolveError(errorName: string, actionName: string): Transitions
 }
 
 /**
+ * A report counts as pre-processed only while every part served so far was: one raw part means the
+ * numbers on screen are not all from stored data. Its age is that of the oldest stored part.
+ */
+export function resolveDataSource(
+  partSources: TransitionsModel['partSources'] = {},
+): TransitionsDataSource {
+  const sources = Object.values(partSources)
+    .filter((source): source is NonNullable<typeof source> => !!source);
+  const preprocessed = sources.length > 0 && sources.every((source) => source.preprocessed);
+
+  return {
+    loaded: sources.length > 0,
+    preprocessed,
+    preprocessedAt: preprocessed
+      ? sources.map((source) => source.preprocessedAt).sort()[0] ?? ''
+      : '',
+  };
+}
+
+/**
  * The share-of-all-pageviews tooltip. Empty until the site total is known, since the share is the
  * whole point of it.
  */
@@ -447,6 +468,7 @@ export function buildReport(
     loadingSides,
     groups,
     metrics,
+    source: resolveDataSource(model.partSources),
   };
 }
 

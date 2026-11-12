@@ -57,4 +57,40 @@ var path = require('path');
             expect(isAvailable('getPageTitles', 'year', 'month', true)).to.equal(false);
         });
     });
+
+    describe('Transitions model', function () {
+
+        function loadPart(part, response) {
+            var ajax = {
+                callApi: function (method, params, callback) {
+                    callback(response);
+                }
+            };
+            var model = new window.Piwik_Transitions_Model(ajax);
+            model.loadTotalNbPageviewsOnce = function () {};
+            model.loadPart(part, 'url', 'http://example.org/', {}, function () {});
+
+            return model;
+        }
+
+        it('records which parts were served from the stored data of a pre-processed page', function () {
+            var model = loadPart('externalReferrers', {
+                referrers: [],
+                preprocessed: 1,
+                preprocessedAt: '2025-03-10 04:05:06'
+            });
+
+            expect(model.partSources).to.deep.equal({
+                externalReferrers: { preprocessed: true, preprocessedAt: '2025-03-10 04:05:06' }
+            });
+        });
+
+        it('records a part without the flag as raw data', function () {
+            var model = loadPart('externalReferrers', { referrers: [] });
+
+            expect(model.partSources).to.deep.equal({
+                externalReferrers: { preprocessed: false, preprocessedAt: '' }
+            });
+        });
+    });
 })();

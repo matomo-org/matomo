@@ -19,6 +19,18 @@
     </div>
 
     <div
+      class="transitionsReport__sourceHeader"
+      v-if="report && !error"
+    >
+      <TransitionsSourceHeader
+        :source="report.source"
+        :action-type="actionType"
+        :action-name="actionName"
+        :id-site="idSite"
+      />
+    </div>
+
+    <div
       class="transitionsReport__grid"
       v-if="report && !error"
       :aria-busy="isBusy ? 'true' : undefined"
@@ -87,6 +99,7 @@ import { Matomo, NumberFormatter, translate } from 'CoreHome';
 import TransitionsCenterCard from './TransitionsCenterCard.vue';
 import TransitionsColumn from './TransitionsColumn.vue';
 import TransitionsRibbons from './TransitionsRibbons.vue';
+import TransitionsSourceHeader from './TransitionsSourceHeader.vue';
 import { useTransitionsData } from './useTransitionsData';
 import { RibbonSource } from './useRibbonGeometry';
 import {
@@ -139,6 +152,7 @@ export default defineComponent({
     TransitionsCenterCard,
     TransitionsColumn,
     TransitionsRibbons,
+    TransitionsSourceHeader,
   },
   setup: () => useTransitionsData(),
   data(): TransitionsReportState {
@@ -168,6 +182,10 @@ export default defineComponent({
     },
   },
   computed: {
+    /** The website the report is fetched for. */
+    idSite(): string|number {
+      return this.overrideParams.idSite || Matomo.idSite;
+    },
     incomingSections(): TransitionsSectionData[] {
       return this.sectionsFor('incoming');
     },

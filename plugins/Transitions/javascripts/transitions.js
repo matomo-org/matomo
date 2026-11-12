@@ -347,6 +347,12 @@ Piwik_Transitions_Model.prototype.loadPart = function (part, actionType, actionN
             self.applyExternalReferrers(report);
         }
 
+        // whether stored data of a pre-processed page served the part, and when it was built (UTC)
+        self.partSources[part] = {
+            preprocessed: !!report.preprocessed,
+            preprocessedAt: report.preprocessedAt || ''
+        };
+
         self.loadedParts[part] = true;
         if (self.loadedParts.internalReferrers && self.loadedParts.followingActions) {
             // downloads and outlinks end the visit, so they count as exits
@@ -360,6 +366,7 @@ Piwik_Transitions_Model.prototype.loadPart = function (part, actionType, actionN
 
 Piwik_Transitions_Model.prototype.reset = function () {
     this.loadedParts = {};
+    this.partSources = {};
 
     this.pageviews = 0;
     this.exits = 0;
