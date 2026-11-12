@@ -222,6 +222,16 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'General_GiveUsYourFeedback';
         $translationKeys[] = 'CoreAdminHome_CustomLogoFeedbackInfo';
         $translationKeys[] = 'CoreAdminHome_EmailServerSettings';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthAuthenticationHelp';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthClientId';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthClientIdHelp';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthClientSecret';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthClientSecretHelp';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthScope';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthScopeHelp';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthTokenUrl';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthTokenUrlHelp';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthUsernameHelp';
         $translationKeys[] = 'General_UseSMTPServerForEmail';
         $translationKeys[] = 'General_SelectYesIfYouWantToSendEmailsViaServer';
         $translationKeys[] = 'General_SmtpServerAddress';

@@ -39,32 +39,11 @@
 
         <Field
           uicontrol="select"
-          name="mailType"
-          v-model="mailType"
-          :title="translate('General_AuthenticationMethodSmtp')"
-          :options="mailTypes"
-          :inline-help="translate('General_OnlyUsedIfUserPwdIsSet')"
-        />
-
-        <Field
-          uicontrol="text"
-          name="mailUsername"
-          v-model="mailUsername"
-          :title="translate('General_SmtpUsername')"
-          :inline-help="translate('General_OnlyEnterIfRequired')"
-          :autocomplete="'off'"
-        />
-
-        <Field
-          uicontrol="password"
-          name="mailPassword"
-          :model-value="mailPassword"
-          @update:model-value="onMailPasswordChange($event)"
-          @click="!passwordChanged && $event.target.select();"
-          :title="translate('General_SmtpPassword')"
-          :inline-help="passwordHelp"
-          :autocomplete="'off'"
-          v-auto-clear-password
+          name="mailEncryption"
+          v-model="mailEncryption"
+          :title="translate('General_SmtpEncryption')"
+          :options="mailEncryptions"
+          :inline-help="translate('General_EncryptedSmtpTransport')"
         />
 
         <Field
@@ -87,11 +66,40 @@
 
         <Field
           uicontrol="select"
-          name="mailEncryption"
-          v-model="mailEncryption"
-          :title="translate('General_SmtpEncryption')"
-          :options="mailEncryptions"
-          :inline-help="translate('General_EncryptedSmtpTransport')"
+          name="mailType"
+          v-model="mailType"
+          :title="translate('General_AuthenticationMethodSmtp')"
+          :options="mailTypes"
+          :inline-help="mailTypeHelp"
+        />
+
+        <Field
+          uicontrol="text"
+          name="mailUsername"
+          v-model="mailUsername"
+          :title="translate('General_SmtpUsername')"
+          :inline-help="usernameHelp"
+          :autocomplete="'off'"
+        />
+
+        <Field
+          v-if="!isOAuth"
+          uicontrol="password"
+          name="mailPassword"
+          :model-value="mailPassword"
+          @update:model-value="onMailPasswordChange($event)"
+          @click="!passwordChanged && $event.target.select();"
+          :title="translate('General_SmtpPassword')"
+          :inline-help="passwordHelp"
+          :autocomplete="'off'"
+          v-auto-clear-password
+        />
+
+        <SmtpOAuthClientCredentials
+          v-else
+          id="smtpOAuthSettings"
+          v-model="oauthSettings"
+          :has-stored-client-secret="!!mail.oauth_client_secret"
         />
       </div>
 
@@ -123,6 +131,9 @@ import {
   Field,
   PasswordConfirmation,
 } from 'CorePluginsAdmin';
+import SmtpOAuthClientCredentials, {
+  SmtpOAuthClientCredentialsSettings,
+} from './SmtpOAuthClientCredentials.vue';
 
 interface SmtpSettingsState {
   isLoading: boolean;
@@ -134,6 +145,7 @@ interface SmtpSettingsState {
   mailType: string;
   mailUsername: string;
   mailPassword: string;
+  oauthSettings: SmtpOAuthClientCredentialsSettings;
   mailFromAddress: string;
   mailFromName: string;
   mailEncryption: string;
@@ -146,6 +158,10 @@ interface MailProperty {
   type: string;
   username: string;
   password: string;
+  oauth_token_url: string;
+  oauth_client_id: string;
+  oauth_client_secret: string;
+  oauth_scope: string;
   noreply_email_address: string;
   noreply_email_name: string;
   encryption: string;
@@ -178,6 +194,11 @@ export default defineComponent({
       mailType: mail.type,
       mailUsername: mail.username,
       mailPassword: mail.password ? '******' : '',
+      oauthSettings: {
+        tokenUrl: mail.oauth_token_url,
+        clientId: mail.oauth_client_id,
+        scope: mail.oauth_scope,
+      },
       mailFromAddress: mail.noreply_email_address,
       mailFromName: mail.noreply_email_name,
       mailEncryption: mail.encryption,
@@ -188,12 +209,26 @@ export default defineComponent({
     Field,
     SaveButton,
     PasswordConfirmation,
+    SmtpOAuthClientCredentials,
   },
   directives: {
     Form,
     AutoClearPassword,
   },
   computed: {
+    isOAuth() {
+      return this.mailType === 'Xoauth2';
+    },
+    mailTypeHelp() {
+      return translate(
+        this.isOAuth ? 'CoreAdminHome_SmtpOAuthAuthenticationHelp' : 'General_OnlyUsedIfUserPwdIsSet',
+      );
+    },
+    usernameHelp() {
+      return translate(
+        this.isOAuth ? 'CoreAdminHome_SmtpOAuthUsernameHelp' : 'General_OnlyEnterIfRequired',
+      );
+    },
     passwordHelp() {
       const part1 = `${translate('General_OnlyEnterIfRequiredPassword')}<br/>`;
       const part2 = `${translate('General_WarningPasswordStored', '<strong>', '</strong>')}<br/>`;
@@ -203,6 +238,11 @@ export default defineComponent({
   methods: {
     onUpdateMailHost(newValue: string) {
       this.mailHost = newValue;
+
+      // neither the stored client secret nor the stored password may be used with another server
+      if (this.oauthSettings.clientSecret === undefined) {
+        this.oauthSettings = { ...this.oauthSettings, clientSecret: '' };
+      }
 
       if (this.passwordChanged) {
         return;
@@ -227,11 +267,18 @@ export default defineComponent({
         mailFromAddress: this.mailFromAddress,
         mailFromName: this.mailFromName,
         mailEncryption: this.mailEncryption,
+        mailOAuthTokenUrl: this.oauthSettings.tokenUrl,
+        mailOAuthClientId: this.oauthSettings.clientId,
+        mailOAuthScope: this.oauthSettings.scope,
         passwordConfirmation: password,
       };
 
       if (this.passwordChanged) {
         mailSettings.mailPassword = this.mailPassword;
+      }
+
+      if (this.oauthSettings.clientSecret !== undefined) {
+        mailSettings.mailOAuthClientSecret = this.oauthSettings.clientSecret;
       }
 
       AjaxHelper.post(
