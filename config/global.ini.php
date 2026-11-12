@@ -671,9 +671,9 @@ datatable_archiving_maximum_rows_ai_chatbot_content = 50000
 datatable_archiving_maximum_rows_ai_chatbot_favoured_pages = 50000
 
 ; maximum number of rows kept for each list of a page whose Transitions report is pre-processed (previous and
-; following pages, site searches, outlinks, downloads, and the referrers of each type), in every period; the rest is
-; grouped into "Others". Weeks, months and years are summed from shorter periods, so more rows than a report shows keep
-; their top rows accurate for busy pages. [Transitions] preprocessed_max_rows_served limits the rows a report shows.
+; following pages, site searches, outlinks, downloads, referrers of each type); the rest is grouped into "Others".
+; Weeks, months and years are summed from shorter periods, so keeping more rows than a report shows keeps their top
+; rows accurate. [Transitions] preprocessed_max_rows_served sets the rows a report shows.
 datatable_archiving_maximum_rows_transitions = 1000
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
@@ -1668,17 +1668,17 @@ recommendation_ai_daily_scan_limit = 0
 
 [Transitions]
 ; Maximum number of page URLs per website whose Transitions report is pre-processed during archiving.
-; Override it for one website in a [Transitions_<idSite>] section. Lowering it keeps pages already selected.
+; Lowering it keeps the pages already selected. Override it for one website in a [Transitions_idSite] section.
 max_preprocessed_pages = 20
 
-; Seconds after which the pre-processed Transitions data of a selected page for today, or for yesterday until it is
-; archived again, is rebuilt for that page when the report is requested. Data of periods archived after they ended is
-; never rebuilt in a request. Override it for one website in a [Transitions_<idSite>] section. Set to 0 to turn it off.
+; Seconds after which the pre-processed data of a selected page for today, or for yesterday until it is archived
+; again, is rebuilt for that page when its Transitions report is requested. 0 turns this off.
+; Override it for one website in a [Transitions_idSite] section.
 preprocessed_refresh_after = 900
 
-; Most rows a Transitions report served from pre-processed data shows per list. Requests for more rows
-; (limitBeforeGrouping) are answered from the raw logs. At most datatable_archiving_maximum_rows_transitions.
-; Override it for one website in a [Transitions_<idSite>] section.
+; Most rows per list a Transitions report served from pre-processed data shows, at most
+; datatable_archiving_maximum_rows_transitions. Requests for more rows use the raw logs.
+; Override it for one website in a [Transitions_idSite] section.
 preprocessed_max_rows_served = 100
 
 ; NOTE: do not directly edit this file! See notice at the top

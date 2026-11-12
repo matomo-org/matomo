@@ -510,8 +510,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Adds a page URL whose Transitions report is pre-processed during archiving. Its past data is processed by the
-     * next archiving runs. Requires admin access to the website.
+     * Adds a page URL whose Transitions report is pre-processed during archiving. Requires admin access to the website.
+     *
+     * The next `core:archive` runs process its data of the past months set by
+     * `[General] rearchive_reports_in_past_last_n_months`. Without cron archiving, past data is not processed.
      *
      * @param int $idSite The numeric ID of the website.
      * @param string $pageUrl The page URL, starting with http:// or https://, at most 4096 characters. Protocol and
@@ -551,7 +553,7 @@ class API extends \Piwik\Plugin\API
      * @return array{selected: bool, idPage: int|null, used: int, limit: int, rearchiveMonths: int} `idPage` is the ID
      *         to pass to `removePreprocessedPage`, or null when the page is not selected. `used` is the number of
      *         selected pages and `limit` the maximum for the website. `rearchiveMonths` is how many past months of
-     *         data an added page gets processed for; 0 means only new data.
+     *         data `core:archive` processes for an added page; 0 means only new data.
      */
     public function getPreprocessedPageStatus(int $idSite, string $pageUrl): array
     {
