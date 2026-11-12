@@ -9,14 +9,15 @@ import { mount } from '@vue/test-utils';
 
 vi.mock('CoreHome', () => ({
   AutoClearPassword: {},
-  translate: (key: string) => key,
+  Matomo: { helper: { htmlEntities: (value: string) => value.replace(/</g, '&lt;') } },
+  translate: (key: string, ...params: string[]) => [key, ...params].join(' '),
 }));
 
 vi.mock('CorePluginsAdmin', () => ({
   Field: {
-    props: ['name', 'modelValue'],
+    props: ['name', 'modelValue', 'inlineHelp'],
     emits: ['update:modelValue'],
-    template: '<input :name="name" :value="modelValue"'
+    template: '<input :name="name" :value="modelValue" :data-help="inlineHelp"'
       + ' @input="$emit(\'update:modelValue\', $event.target.value)" />',
   },
 }));
@@ -27,13 +28,18 @@ const storedSettings = {
   tokenUrl: 'https://login.example.test/token',
   clientId: 'the-client-id',
   scope: 'https://mail.example.test/.default',
+  credentialType: 'secret',
 };
 
-function mountWith(modelValue: Record<string, string>, hasStoredClientSecret = true) {
+function mountWith(modelValue: Record<string, string>, hasStoredClientSecret = true, certificatePath = '') {
   return mount(SmtpOAuthClientCredentials, {
-    props: { modelValue, hasStoredClientSecret },
+    props: { modelValue, hasStoredClientSecret, certificatePath },
     global: { config: { globalProperties: { translate: (key: string) => key } as never } },
   });
+}
+
+function getCredentialTypeHelp(wrapper: ReturnType<typeof mountWith>) {
+  return wrapper.find('[name="mailOAuthCredentialType"]').attributes('data-help');
 }
 
 function getValue(wrapper: ReturnType<typeof mountWith>, name: string) {
@@ -87,5 +93,52 @@ describe('CoreAdminHome/SmtpOAuthClientCredentials.vue', () => {
     expect(wrapper.emitted('update:modelValue')).toEqual([
       [{ ...storedSettings, tokenUrl: 'https://another.example.test/token', clientSecret: 'a-new-secret' }],
     ]);
+  });
+
+  it('reports the chosen credential type', async () => {
+    const wrapper = mountWith(storedSettings);
+
+    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('certificate');
+
+    expect(wrapper.emitted('update:modelValue')).toEqual([
+      [{ ...storedSettings, credentialType: 'certificate' }],
+    ]);
+  });
+
+  it('shows the certificate set up in the config file instead of the client secret', () => {
+    const wrapper = mountWith({ ...storedSettings, credentialType: 'certificate' }, true, '/etc/matomo/smtp.crt');
+
+    expect(wrapper.find('[name="mailOAuthClientSecret"]').exists()).toBe(false);
+    expect(getCredentialTypeHelp(wrapper))
+      .toBe('CoreAdminHome_SmtpOAuthCertificateConfigured /etc/matomo/smtp.crt');
+  });
+
+  it('escapes the certificate path, as the status is shown as HTML', () => {
+    const wrapper = mountWith({ ...storedSettings, credentialType: 'certificate' }, true, '/etc/<b>.crt');
+
+    expect(getCredentialTypeHelp(wrapper))
+      .toBe('CoreAdminHome_SmtpOAuthCertificateConfigured /etc/&lt;b>.crt');
+  });
+
+  it('says when no certificate is set up', () => {
+    const wrapper = mountWith({ ...storedSettings, credentialType: 'certificate' });
+
+    expect(getCredentialTypeHelp(wrapper)).toBe('CoreAdminHome_SmtpOAuthCertificateNotConfigured');
+  });
+
+  it('says the client secret is used for the client secret type', () => {
+    const wrapper = mountWith(storedSettings, true, '/etc/matomo/smtp.crt');
+
+    expect(getCredentialTypeHelp(wrapper)).toBe('CoreAdminHome_SmtpOAuthClientSecretUsed');
+  });
+
+  it('updates the help when the credential type changes', async () => {
+    const wrapper = mountWith(storedSettings);
+
+    await wrapper.setProps({ modelValue: { ...storedSettings, credentialType: 'certificate' } });
+    expect(getCredentialTypeHelp(wrapper)).toBe('CoreAdminHome_SmtpOAuthCertificateNotConfigured');
+
+    await wrapper.setProps({ modelValue: storedSettings });
+    expect(getCredentialTypeHelp(wrapper)).toBe('CoreAdminHome_SmtpOAuthClientSecretUsed');
   });
 });

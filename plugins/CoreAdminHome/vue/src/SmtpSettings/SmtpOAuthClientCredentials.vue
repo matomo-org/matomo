@@ -28,6 +28,17 @@
     />
 
     <Field
+      uicontrol="radio"
+      name="mailOAuthCredentialType"
+      :model-value="modelValue.credentialType"
+      @update:model-value="update({ credentialType: $event })"
+      :title="translate('CoreAdminHome_SmtpOAuthCredentialType')"
+      :options="credentialTypeOptions"
+      :inline-help="credentialTypeHelp"
+    />
+
+    <Field
+      v-if="!isCertificate"
       uicontrol="password"
       name="mailOAuthClientSecret"
       :model-value="clientSecret"
@@ -53,7 +64,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { translate, AutoClearPassword } from 'CoreHome';
+import { translate, AutoClearPassword, Matomo } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
 /**
@@ -64,6 +75,7 @@ export interface SmtpOAuthClientCredentialsSettings {
   tokenUrl: string;
   clientId: string;
   scope: string;
+  credentialType: string;
   clientSecret?: string;
 }
 
@@ -74,6 +86,10 @@ export default defineComponent({
       required: true,
     },
     hasStoredClientSecret: Boolean,
+    certificatePath: {
+      type: String,
+      default: '',
+    },
   },
   emits: ['update:modelValue'],
   components: {
@@ -83,6 +99,31 @@ export default defineComponent({
     AutoClearPassword,
   },
   computed: {
+    isCertificate() {
+      return this.modelValue.credentialType === 'certificate';
+    },
+    credentialTypeOptions() {
+      return {
+        secret: translate('CoreAdminHome_SmtpOAuthClientSecret'),
+        certificate: translate('CoreAdminHome_SmtpOAuthCertificate'),
+      };
+    },
+    // shown as HTML. It is never empty: Field only fills the help box when it is already shown,
+    // so a box that disappears for one type would come back empty
+    credentialTypeHelp() {
+      if (!this.isCertificate) {
+        return translate('CoreAdminHome_SmtpOAuthClientSecretUsed');
+      }
+
+      if (this.certificatePath) {
+        return translate(
+          'CoreAdminHome_SmtpOAuthCertificateConfigured',
+          Matomo.helper.htmlEntities(this.certificatePath),
+        );
+      }
+
+      return translate('CoreAdminHome_SmtpOAuthCertificateNotConfigured');
+    },
     clientSecretChanged() {
       return this.modelValue.clientSecret !== undefined;
     },
