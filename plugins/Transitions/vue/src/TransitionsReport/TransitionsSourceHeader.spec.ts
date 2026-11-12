@@ -15,6 +15,7 @@ const state = vi.hoisted(() => ({
     idSite: 1 as string|number,
     hasSuperUserAccess: false,
     userCurrentRole: 'admin',
+    transitionsHasPreprocessedPages: true,
   },
 }));
 
@@ -109,6 +110,7 @@ describe('Transitions/TransitionsSourceHeader', () => {
     state.matomo.idSite = 1;
     state.matomo.hasSuperUserAccess = false;
     state.matomo.userCurrentRole = 'admin';
+    state.matomo.transitionsHasPreprocessedPages = true;
     state.fetch.mockResolvedValue(status());
   });
 
@@ -158,6 +160,41 @@ describe('Transitions/TransitionsSourceHeader', () => {
       expect(badge.text()).toBe('Transitions_RawDataBadge');
       expect(badge.attributes('title')).toBeUndefined();
     });
+  });
+
+  describe('websites without pre-processed pages', () => {
+    beforeEach(() => {
+      state.matomo.transitionsHasPreprocessedPages = false;
+    });
+
+    it('should show viewers no badge row for raw data', async () => {
+      state.matomo.userCurrentRole = 'view';
+      const wrapper = await mountHeader({ source: RAW });
+
+      expect(wrapper.find('.transitionsSourceHeader').exists()).toBe(false);
+    });
+
+    it('should still point out stored data, eg of a page removed since', async () => {
+      state.matomo.userCurrentRole = 'view';
+      const wrapper = await mountHeader({ source: STORED });
+
+      expect(wrapper.find('.transitionsSourceHeader__badge').text()).toBe('Transitions_PreprocessedBadge');
+    });
+
+    it('should give admins the toggle without a raw data badge', async () => {
+      const wrapper = await mountHeader({ source: RAW });
+
+      expect(wrapper.find('.transitionsSourceHeader__badge').exists()).toBe(false);
+      expect(wrapper.find('.transitionsSourceHeader__toggle').text())
+        .toContain('Transitions_PreprocessThisPage');
+    });
+  });
+
+  it('should not point out raw data of another website than the one in the URL', async () => {
+    state.matomo.userCurrentRole = 'view';
+    const wrapper = await mountHeader({ source: RAW, idSite: 2 });
+
+    expect(wrapper.find('.transitionsSourceHeader').exists()).toBe(false);
   });
 
   describe('access', () => {

@@ -6,10 +6,13 @@
 -->
 
 <template>
-  <div class="transitionsSourceHeader">
+  <div
+    v-if="hasContent"
+    class="transitionsSourceHeader"
+  >
     <div class="transitionsSourceHeader__bar">
       <span
-        v-if="source.loaded"
+        v-if="showBadge"
         class="transitionsSourceHeader__badge"
         :class="{
           'transitionsSourceHeader__badge--preprocessed': source.preprocessed,
@@ -209,6 +212,21 @@ export default defineComponent({
       }
 
       return Matomo.userCurrentRole === 'admin' && `${this.idSite}` === `${Matomo.idSite}`;
+    },
+    /**
+     * Raw data is what every report shows without the feature, so it is only pointed out on
+     * websites that have pre-processed pages. Stored data is always pointed out.
+     */
+    showBadge(): boolean {
+      if (!this.source.loaded) {
+        return false;
+      }
+
+      return this.source.preprocessed
+        || (!!Matomo.transitionsHasPreprocessedPages && `${this.idSite}` === `${Matomo.idSite}`);
+    },
+    hasContent(): boolean {
+      return this.showBadge || !!this.status || !!this.message || !!this.error;
     },
     badgeTooltip(): string {
       if (!this.source.preprocessed || !this.source.preprocessedAt) {

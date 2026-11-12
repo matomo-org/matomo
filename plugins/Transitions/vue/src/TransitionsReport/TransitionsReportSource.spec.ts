@@ -7,7 +7,17 @@
 
 vi.mock('CoreHome', async () => {
   const { coreHomeMock } = await import('./testCoreHomeMock');
-  return coreHomeMock(() => undefined);
+  const mock = coreHomeMock(() => undefined);
+  // a viewer on a website that has pre-processed pages
+  return {
+    ...mock,
+    Matomo: {
+      ...mock.Matomo,
+      idSite: 1,
+      userCurrentRole: 'view',
+      transitionsHasPreprocessedPages: true,
+    },
+  };
 });
 
 import { flushRibbons, mountTransitionsReport } from './testTransitionsReportHarness';

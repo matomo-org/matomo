@@ -180,6 +180,8 @@ declare global {
     requiresPasswordConfirmation: boolean;
     disableTrackingMatomoAppLinks: boolean;
     apiBulkRequestLimit: number;
+    /** Set by Transitions: whether the website in the URL has pre-processed pages. */
+    transitionsHasPreprocessedPages?: boolean;
 
     visitorLogEnabled: boolean;
     updatePeriodParamsFromUrl(): void;
