@@ -1008,6 +1008,111 @@ class AccessTest extends IntegrationTestCase
         $this->assertSame('view', $access->getRoleForSite($idSite));
     }
 
+    public function testIsSuperUserAccessGrantedByCodeIsFalseForAuthenticatedSuperUser()
+    {
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($this->createAuthMockWithAuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE)));
+
+        $this->assertTrue($access->hasSuperUserAccess());
+        $this->assertFalse($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testIsSuperUserAccessGrantedByCodeIsFalseWithoutSuperUserAccess()
+    {
+        $access = $this->getAccess();
+        $this->assertFalse($access->isSuperUserAccessGrantedByCode());
+
+        $this->assertTrue($access->reloadAccess($this->createAuthMockWithAuthResult(AuthResult::SUCCESS)));
+        $this->assertFalse($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testIsSuperUserAccessGrantedByCodeIsTrueWithoutAuth()
+    {
+        $access = $this->getAccess();
+        $access->setSuperUserAccess(true);
+
+        $this->assertTrue($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testIsSuperUserAccessGrantedByCodeIsTrueForElevatedRegularUser()
+    {
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($this->createAuthMockWithAuthResult(AuthResult::SUCCESS)));
+        $access->setSuperUserAccess(true);
+
+        $this->assertTrue($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testIsSuperUserAccessGrantedByCodeIsTrueForElevatedSuperUserWithRestrictedToken()
+    {
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->once())
+            ->method('authenticate')
+            ->willReturn(new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'login', 'token', ['token_access_level' => 'view']));
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($authMock));
+        $this->assertFalse($access->hasSuperUserAccess());
+        $this->assertFalse($access->isSuperUserAccessGrantedByCode());
+
+        $access->setSuperUserAccess(true);
+        $this->assertTrue($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testReauthenticateDropsSuperUserAccessTheUserNoLongerHas()
+    {
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->exactly(2))
+            ->method('authenticate')
+            ->willReturnOnConsecutiveCalls(
+                new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'login', 'token'),
+                new AuthResult(AuthResult::SUCCESS, 'login', 'token')
+            );
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($authMock));
+        $this->assertTrue($access->hasSuperUserAccess());
+
+        $this->assertTrue($access->reauthenticate());
+        $this->assertFalse($access->hasSuperUserAccess());
+        $this->assertSame('login', $access->getLogin());
+    }
+
+    public function testReauthenticateFailsWhenAuthenticationNoLongerSucceeds()
+    {
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->exactly(2))
+            ->method('authenticate')
+            ->willReturnOnConsecutiveCalls(
+                new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'login', 'token'),
+                new AuthResult(AuthResult::FAILURE, 'login', 'token')
+            );
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($authMock));
+
+        $this->assertFalse($access->reauthenticate());
+        $this->assertFalse($access->hasSuperUserAccess());
+        $this->assertNull($access->getLogin());
+    }
+
+    public function testReauthenticateFailsWhenAnotherUserIsAuthenticated()
+    {
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->exactly(2))
+            ->method('authenticate')
+            ->willReturnOnConsecutiveCalls(
+                new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'login', 'token'),
+                new AuthResult(AuthResult::SUCCESS, 'anonymous', 'anonymous')
+            );
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($authMock));
+
+        $this->assertFalse($access->reauthenticate());
+        $this->assertFalse($access->hasSuperUserAccess());
+    }
+
     public function testReloadAccessClampsRoleFromTokenRowWhenAuthPluginOmitsAuthContext()
     {
         $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
