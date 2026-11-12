@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Mail;
+use Piwik\Mail\OAuth\AccessTokenProvider;
 use Piwik\Mail\OAuth\TokenRequestFailedException;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
@@ -40,6 +42,11 @@ class TestEmail extends ConsoleCommand
         $mail->setFrom($config->General['noreply_email_address'], $config->General['noreply_email_name']);
         $mail->setSubject($subject);
         $mail->setWrappedHtmlBody($body);
+
+        if (strtolower((string) ($config->mail['type'] ?? '')) === 'xoauth2') {
+            // always test with a new access token, not with a cached token or a remembered failure
+            StaticContainer::get(AccessTokenProvider::class)->forgetAccessToken();
+        }
 
         try {
             $mail->send();
