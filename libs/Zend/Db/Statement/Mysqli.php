@@ -355,6 +355,10 @@ class Zend_Db_Statement_Mysqli extends Zend_Db_Statement
         if (!$this->_adapter) {
             return false;
         }
+        // as of PHP 8.6 the connection no longer reports the rows of a SELECT, the statement still does
+        if ($this->_stmt) {
+            return $this->_stmt->affected_rows;
+        }
         $mysqli = $this->_adapter->getConnection();
         return $mysqli->affected_rows;
     }
