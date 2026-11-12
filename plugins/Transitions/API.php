@@ -19,6 +19,7 @@ use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Db;
+use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -26,6 +27,7 @@ use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Live\Model;
 use Piwik\Plugins\Transitions\Model as TransitionsModel;
 use Piwik\Plugins\Transitions\PreprocessedPages\Dao as PreprocessedPagesDao;
+use Piwik\Plugins\Transitions\PreprocessedPages\RebuildWindow;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service as PreprocessedPagesService;
 use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsReader;
@@ -511,6 +513,40 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasAdminAccess($idSite);
 
         StaticContainer::get(PreprocessedPagesService::class)->removePage($idSite, $idPage);
+    }
+
+    /**
+     * Returns whether a page URL is selected for pre-processed Transitions, with the website's usage of its limit.
+     * The URL is matched as `addPreprocessedPage` matches duplicates. Requires admin access to the website.
+     *
+     * @param int $idSite The numeric ID of the website.
+     * @param string $pageUrl The page URL. A URL that `addPreprocessedPage` would reject is reported as not selected.
+     * @return array{selected: bool, idPage: int|null, used: int, limit: int, rearchiveMonths: int} `idPage` is the ID
+     *         to pass to `removePreprocessedPage`, or null when the page is not selected. `used` is the number of
+     *         selected pages and `limit` the maximum for the website. `rearchiveMonths` is how many past months of
+     *         data an added page gets processed for; 0 means only new data.
+     */
+    public function getPreprocessedPageStatus(int $idSite, string $pageUrl): array
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+        new Site($idSite);
+
+        $service = StaticContainer::get(PreprocessedPagesService::class);
+        $dao = StaticContainer::get(PreprocessedPagesDao::class);
+
+        try {
+            $page = $dao->getPageByUrlHash($idSite, $service::getUrlHash($service->normalizeUrl($idSite, $pageUrl)));
+        } catch (BadRequestException $e) {
+            $page = null;
+        }
+
+        return [
+            'selected' => $page !== null,
+            'idPage' => $page['idpage'] ?? null,
+            'used' => $dao->getNumPagesForSite($idSite),
+            'limit' => $service->getMaxPages($idSite),
+            'rearchiveMonths' => RebuildWindow::getMonths(),
+        ];
     }
 
     /**
