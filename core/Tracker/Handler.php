@@ -16,6 +16,7 @@ use Piwik\NoAccessException;
 use Piwik\Tracker;
 use Exception;
 use Piwik\Log\LoggerInterface;
+use Throwable;
 
 class Handler
 {
@@ -88,28 +89,41 @@ class Handler
 
     public function onException(Tracker $tracker, RequestSet $requestSet, Exception $e)
     {
-        $statusCode = 500;
-        // checked first, as NoAccessException is also an InvalidRequestParameterException
-        if ($e instanceof NoAccessException && in_array($e->getCode(), [401, 403], true)) {
-            $statusCode = $e->getCode();
-        } elseif ($e instanceof UnexpectedWebsiteFoundException) {
-            $statusCode = 400;
-        } elseif ($e instanceof InvalidRequestParameterException) {
-            $statusCode = 400;
-        }
+        $statusCode = self::getStatusCodeForException($e);
 
         // if an internal server error, log as a real error, otherwise it's just malformed input
-        if ($statusCode == 500) {
-            $this->logger->error('Exception: {exception}', [
-                'exception' => $e,
-            ]);
-        } else {
-            $this->logger->debug('Exception: {exception}', [
-                'exception' => $e,
-            ]);
+        try {
+            if ($statusCode == 500) {
+                $this->logger->error('Exception: {exception}', [
+                    'exception' => $e,
+                ]);
+            } else {
+                $this->logger->debug('Exception: {exception}', [
+                    'exception' => $e,
+                ]);
+            }
+        } catch (Throwable) {
+            // a failing log writer must not replace the response
         }
 
         $this->response->outputException($tracker, $e, $statusCode);
+    }
+
+    /**
+     * @internal
+     */
+    public static function getStatusCodeForException(Throwable $e): int
+    {
+        // checked first, as NoAccessException is also an InvalidRequestParameterException
+        if ($e instanceof NoAccessException && in_array($e->getCode(), [401, 403], true)) {
+            return $e->getCode();
+        }
+
+        if ($e instanceof UnexpectedWebsiteFoundException || $e instanceof InvalidRequestParameterException) {
+            return 400;
+        }
+
+        return 500;
     }
 
     public function finish(Tracker $tracker, RequestSet $requestSet)
