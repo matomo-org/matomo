@@ -149,11 +149,11 @@ class Dao
             return [];
         }
 
-        $hashes = array_values(array_unique(array_map('crc32', $names)));
+        // MySQL computes the hash as the tracker stores it; PHP's crc32() is signed on 32-bit builds
         $rows = Db::fetchAll(
             'SELECT idaction, name FROM ' . Common::prefixTable('log_action') . ' WHERE type = ? AND hash IN ('
-            . Common::getSqlStringFieldsArray($hashes) . ') ORDER BY idaction ASC',
-            array_merge([Action::TYPE_PAGE_URL], $hashes)
+            . implode(', ', array_fill(0, count($names), 'CRC32(?)')) . ') ORDER BY idaction ASC',
+            array_merge([Action::TYPE_PAGE_URL], $names)
         );
 
         $wanted = array_flip($names);
@@ -201,7 +201,7 @@ class Dao
             . ' AND created_by NOT IN (SELECT login FROM ' . Common::prefixTable('user') . ')',
             []
         );
-        // a login created again after the page was added belongs to someone else
+        // a login created again after the page was added belongs to someone else; both dates are written as UTC strings
         $this->writeIfTableExists(
             'UPDATE ' . $this->getTable() . ' p JOIN ' . Common::prefixTable('user') . ' u ON u.login = p.created_by'
             . ' SET p.created_by = NULL WHERE u.date_registered > p.created_date',
