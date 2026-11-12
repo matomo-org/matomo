@@ -19,19 +19,19 @@ use Piwik\Config;
 final class RebuildWindow
 {
     /**
-     * Returns `[General] rearchive_reports_in_past_last_n_months` read as `Piwik::getEarliestDateToRearchive()` reads
-     * it (`6` or `last6`); 0 means only new data is processed.
+     * Returns `[General] rearchive_reports_in_past_last_n_months` parsed as `Piwik::getEarliestDateToRearchive()` parses
+     * it (`6`, `last6`); a value it ignores gives 0, which means only new data is processed.
      */
     public static function getMonths(): int
     {
         $general = Config::getInstance()->General;
         $value = is_array($general) ? $general['rearchive_reports_in_past_last_n_months'] ?? 0 : 0;
 
-        if (is_string($value)) {
-            $value = str_replace('last', '', $value);
+        if (!is_scalar($value)) {
+            return 0;
         }
 
-        $months = is_numeric($value) ? (int) $value : 0;
+        $months = (int) (is_numeric($value) ? $value : str_replace('last', '', (string) $value));
 
         return max(0, $months);
     }

@@ -241,6 +241,8 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
             'empty' => ['', 0],
             'negative' => ['-1', 0],
             'invalid' => ['all', 0],
+            'trailing characters' => ['6x', 6],
+            'lastN with trailing characters' => ['last6x', 6],
         ];
     }
 
