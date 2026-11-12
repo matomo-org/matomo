@@ -400,7 +400,7 @@ jobs:
         with:
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
-          php-version: '8.6'
+          php-version: '8.1'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
           node-version: '24'
@@ -437,7 +437,7 @@ jobs:
             --core-tests-only --num-test-groups=${{ strategy.job-total }}
             --test-group=${{ strategy.job-index }}
           test-type: 'UI'
-          php-version: '8.6'
+          php-version: '8.1'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
           node-version: '24'
