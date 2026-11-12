@@ -11,6 +11,12 @@ on:
       - '[0-9]+.[0-9]+.x-dev'
       - 'next_release'
   workflow_dispatch:
+    inputs:
+      report_deprecations:
+        description: 'Report PHP deprecations that are hidden by default on PHP 8.4 and later'
+        type: boolean
+        required: false
+        default: false
   workflow_call:
     inputs:
       is_preview:
@@ -85,6 +91,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'UnitTests'
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
@@ -116,6 +123,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
@@ -155,6 +163,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'IntegrationTestsCore'
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
@@ -197,6 +206,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'IntegrationTestsPlugins'
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
@@ -239,6 +249,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'SystemTestsPlugins'
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
@@ -315,6 +326,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'JS'
           php-version: '8.1'
           node-version: '24'
@@ -332,6 +344,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          report-deprecations: ${{ inputs.report_deprecations == true }}
           test-type: 'Client'
           node-version: '24'
           mysql-service: false
@@ -398,6 +411,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          report-deprecations: ${{ inputs.report_deprecations == true }}
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
           php-version: '8.1'
@@ -433,6 +447,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          report-deprecations: ${{ inputs.report_deprecations == true }}
           ui-test-options: >-
             --core-tests-only --num-test-groups=${{ strategy.job-total }}
             --test-group=${{ strategy.job-index }}

@@ -18,8 +18,9 @@ if (!defined('PIWIK_USER_PATH')) {
 $errorLevel = E_ALL;
 
 // Matomo and several of its dependencies still declare implicitly nullable parameters, which PHP 8.4
-// deprecates. Keep deprecations silent there until those declarations are migrated.
-if (version_compare(PHP_VERSION, '8.4.0-dev', '>=')) {
+// deprecates. Keep deprecations silent there until those declarations are migrated, unless
+// MATOMO_REPORT_DEPRECATIONS is set, which lets CI surface them on demand for a new PHP version.
+if (version_compare(PHP_VERSION, '8.4.0-dev', '>=') && !getenv('MATOMO_REPORT_DEPRECATIONS')) {
     $errorLevel = E_ALL & ~E_DEPRECATED;
 }
 
