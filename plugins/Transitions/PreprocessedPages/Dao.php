@@ -75,6 +75,16 @@ class Dao
     }
 
     /**
+     * Returns the `log_action` name of an action, for a page URL the URL without protocol.
+     */
+    public function getActionName(int $idAction): ?string
+    {
+        $name = Db::fetchOne('SELECT name FROM ' . Common::prefixTable('log_action') . ' WHERE idaction = ?', [$idAction]);
+
+        return $name === false || $name === null ? null : (string) $name;
+    }
+
+    /**
      * @return bool false when the website already has a page with this hash
      */
     public function addPage(int $idSite, string $url, string $urlHash, string $createdDate, ?string $createdBy): bool
