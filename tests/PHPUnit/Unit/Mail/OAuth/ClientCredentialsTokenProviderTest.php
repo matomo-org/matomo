@@ -74,6 +74,51 @@ class ClientCredentialsTokenProviderTest extends TestCase
         $this->assertArrayNotHasKey('scope', $withoutScope->requests[0][1]);
     }
 
+    public function testRequestsATokenWithAnAssertionSignedWithTheCertificate(): void
+    {
+        $certificate = new CertificateFiles();
+
+        try {
+            $provider = $this->getProvider(['status' => 200, 'data' => '{"access_token":"the-token"}'], [
+                'oauth_credential_type'  => ' Certificate ',
+                'oauth_certificate_path' => $certificate->certificatePath,
+                'oauth_private_key_path' => $certificate->privateKeyPath,
+            ]);
+
+            $this->assertSame('the-token', $provider->getAccessToken());
+        } finally {
+            $certificate->delete();
+        }
+
+        $requestBody = $provider->requests[0][1];
+        $this->assertArrayNotHasKey('client_secret', $requestBody);
+        $this->assertSame('urn:ietf:params:oauth:client-assertion-type:jwt-bearer', $requestBody['client_assertion_type']);
+        $this->assertCount(3, explode('.', $requestBody['client_assertion']));
+        $this->assertSame(
+            ['grant_type' => 'client_credentials', 'client_id' => 'the-client-id', 'scope' => 'https://mail.example.test/.default'],
+            array_diff_key($requestBody, ['client_assertion_type' => 1, 'client_assertion' => 1])
+        );
+    }
+
+    public function testRemembersThatTheCertificateCouldNotBeUsed(): void
+    {
+        $cache = new Lazy(new ArrayCache());
+        $settings = ['oauth_credential_type' => 'certificate', 'oauth_certificate_path' => '/does/not/exist.pem'];
+        $provider = new FakeHttpClientCredentialsTokenProvider($cache, $settings + self::MAIL_CONFIG, ['status' => 200]);
+
+        foreach ([1, 2] as $attempt) {
+            try {
+                $provider->getAccessToken();
+                $this->fail('Expected exception was not thrown');
+            } catch (TokenRequestFailedException $e) {
+                $this->assertSame('The SMTP OAuth certificate or private key could not be used.', $e->getMessage());
+                $this->assertStringContainsString('/does/not/exist.pem', $e->getDetail());
+            }
+        }
+
+        $this->assertSame([], $provider->requests);
+    }
+
     public function testCachesTheTokenUntilShortlyBeforeItExpires(): void
     {
         $this->cache->expects($this->once())
@@ -116,7 +161,18 @@ class ClientCredentialsTokenProviderTest extends TestCase
         $this->getProvider($response, ['oauth_client_secret' => 'another-secret'])->getAccessToken();
         $this->getProvider($response, ['oauth_scope' => 'another-scope'])->getAccessToken();
 
-        $this->assertCount(3, array_unique($cacheIds));
+        $certificate = new CertificateFiles();
+        try {
+            $this->getProvider($response, [
+                'oauth_credential_type'  => 'certificate',
+                'oauth_certificate_path' => $certificate->certificatePath,
+                'oauth_private_key_path' => $certificate->privateKeyPath,
+            ])->getAccessToken();
+        } finally {
+            $certificate->delete();
+        }
+
+        $this->assertCount(4, array_unique($cacheIds));
         $this->assertStringNotContainsString('secret', implode('', $cacheIds));
     }
 
@@ -269,7 +325,12 @@ class ClientCredentialsTokenProviderTest extends TestCase
     {
         yield 'no token URL' => [['oauth_token_url' => ''], 'settings are incomplete'];
         yield 'no client ID' => [['oauth_client_id' => ''], 'settings are incomplete'];
-        yield 'no client secret' => [['oauth_client_secret' => ''], 'settings are incomplete'];
+        yield 'no client secret' => [['oauth_client_secret' => ''], 'oauth_token_url, oauth_client_id and oauth_client_secret'];
+        yield 'no certificate' => [
+            ['oauth_credential_type' => 'certificate', 'oauth_client_secret' => 'the-client-secret'],
+            'oauth_token_url, oauth_client_id and oauth_certificate_path',
+        ];
+        yield 'unknown credential type' => [['oauth_credential_type' => 'password'], 'has to be either "secret" or "certificate"'];
         yield 'token URL is not https' => [['oauth_token_url' => 'http://login.example.test/token'], 'has to start with https://'];
     }
 
