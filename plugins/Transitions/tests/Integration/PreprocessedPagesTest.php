@@ -414,7 +414,6 @@ class PreprocessedPagesTest extends IntegrationTestCase
         }
     }
 
-
     public function testRemovingAPageOfAnotherSiteOrAnUnknownPageIsNotFound(): void
     {
         $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/a')['idpage'];
@@ -566,6 +565,21 @@ class PreprocessedPagesTest extends IntegrationTestCase
 
         $service->getIdActionsForSite(1);
         self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
+    }
+
+    public function testAPageFoundUnderANewIdActionDropsThePendingRebuildOfTheOldOne(): void
+    {
+        $idAction = $this->trackPageview('http://example.com/moved');
+        $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/moved')['idpage'];
+        // as if the action had been deleted and tracked again under a new idaction
+        $staleIdAction = $idAction + 1000;
+        Db::query('UPDATE ' . Common::prefixTable('transitions_preprocessed_page') . ' SET idaction = ? WHERE idpage = ?', [$staleIdAction, $idPage]);
+        StaticContainer::get(ArchiveInvalidator::class)->scheduleReArchiving([1], 'Transitions', Records::getRebuildReportName($staleIdAction));
+
+        StaticContainer::get(Service::class)->getIdActionsForSite(1);
+
+        self::assertSame([Records::getRebuildReportName($idAction)], array_values(array_unique($this->getScheduledReports())));
+        self::assertSame($idAction, StaticContainer::get(Dao::class)->getPage(1, $idPage)['idaction']);
     }
 
     public function testAddingATrackedPageStoresItsIdAction(): void

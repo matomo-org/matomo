@@ -110,7 +110,7 @@ class Service
         // a URL not tracked yet is rebuilt once archiving finds it
         $idAction = $this->getIdActionForUrl($url);
         if ($idAction !== null) {
-            $this->storeIdAction($idSite, $page['idpage'], $idAction);
+            $this->storeIdAction($idSite, $page['idpage'], $idAction, $page['idaction']);
         }
 
         return $this->toEntry($page);
@@ -153,9 +153,26 @@ class Service
             }
 
             if ($idAction !== $page['idaction']) {
-                $this->storeIdAction($idSite, $page['idpage'], $idAction);
+                $this->storeIdAction($idSite, $page['idpage'], $idAction, $page['idaction']);
             }
             $idActions[$page['idpage']] = $idAction;
+        }
+
+        return $idActions;
+    }
+
+    /**
+     * Returns the idaction last found for each listed page, without looking them up.
+     *
+     * @return array<int, int> idaction by idpage
+     */
+    public function getStoredIdActionsForSite(int $idSite): array
+    {
+        $idActions = [];
+        foreach ($this->dao->getPagesForSite($idSite) as $page) {
+            if ($page['idaction'] !== null) {
+                $idActions[$page['idpage']] = $page['idaction'];
+            }
         }
 
         return $idActions;
@@ -200,13 +217,19 @@ class Service
     }
 
     /**
-     * Rebuilds the page's data within the re-archiving window when its idaction is new.
+     * Rebuilds the page's data within the re-archiving window when its idaction is new, instead of a rebuild still
+     * pending for the previous one.
      */
-    private function storeIdAction(int $idSite, int $idPage, int $idAction): void
+    private function storeIdAction(int $idSite, int $idPage, int $idAction, ?int $previousIdAction): void
     {
-        if ($this->dao->setIdAction($idPage, $idAction)) {
-            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
+        if (!$this->dao->setIdAction($idPage, $idAction)) {
+            return;
         }
+
+        if ($previousIdAction !== null && $previousIdAction !== $idAction) {
+            $this->invalidator->removeInvalidationsSafely([$idSite], 'Transitions', Records::getRebuildReportName($previousIdAction));
+        }
+        $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
     }
 
     /**

@@ -76,7 +76,7 @@ class PageTransitions extends RecordBuilder
                     continue;
                 }
 
-                // Truncate keeps the rows with the highest counts, and of equal counts the lowest labels
+                // Truncate keeps the rows with the highest counts; it decides ties at the row limit
                 $columnsAggregationOperation = null;
                 $archiveProcessor->aggregateDataTableRecords(
                     $record->getName(),
@@ -288,14 +288,19 @@ class PageTransitions extends RecordBuilder
     }
 
     /**
-     * The selected pages of the website that have been tracked, resolved once per archive.
+     * The selected pages of the website that have been tracked, once per archive. Days look them up in the logs,
+     * longer periods, which only sum days, use the idactions the days found.
      *
      * @return list<int>
      */
     private function getIdActions(ArchiveProcessor $archiveProcessor): array
     {
         if (!isset($this->idActionsByArchive[$archiveProcessor])) {
-            $idActions = StaticContainer::get(Service::class)->getIdActionsForSite($this->getIdSite($archiveProcessor));
+            $service = StaticContainer::get(Service::class);
+            $idSite = $this->getIdSite($archiveProcessor);
+            $idActions = $archiveProcessor->getParams()->getPeriod()->getLabel() === 'day'
+                ? $service->getIdActionsForSite($idSite)
+                : $service->getStoredIdActionsForSite($idSite);
             $this->idActionsByArchive[$archiveProcessor] = array_values(array_unique($idActions));
         }
 
