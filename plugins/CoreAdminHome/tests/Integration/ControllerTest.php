@@ -129,10 +129,14 @@ class ControllerTest extends IntegrationTestCase
     public function testSetMailSettingsKeepsTheOAuthSettingsFromTheConfigFile(): void
     {
         $oauthSettings = [
-            'oauth_token_url'     => 'https://login.example.test/token',
-            'oauth_client_id'     => 'the-client-id',
-            'oauth_client_secret' => 'the-client-secret',
-            'oauth_scope'         => 'https://mail.example.test/.default',
+            'oauth_token_url'            => 'https://login.example.test/token',
+            'oauth_client_id'            => 'the-client-id',
+            'oauth_scope'                => 'https://mail.example.test/.default',
+            'oauth_credential_type'      => 'certificate',
+            'oauth_client_secret'        => 'the-client-secret',
+            'oauth_certificate_path'     => '/etc/matomo/smtp.crt',
+            'oauth_private_key_path'     => '/etc/matomo/smtp.key',
+            'oauth_private_key_password' => 'the-key-password',
         ];
         Config::getInstance()->mail = $oauthSettings + ['host' => 'post.example.test'] + Config::getInstance()->mail;
 
@@ -147,12 +151,16 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame($oauthSettings, array_intersect_key($mailConfig, $oauthSettings));
     }
 
-    public function testSetMailSettingsDoesNotKeepTheOAuthClientSecretWhenTheHostChanges(): void
+    public function testSetMailSettingsDoesNotKeepTheOAuthCredentialsWhenTheHostChanges(): void
     {
         Config::getInstance()->mail = [
-            'host'                => 'old.example.test',
-            'oauth_client_id'     => 'the-client-id',
-            'oauth_client_secret' => 'the-client-secret',
+            'host'                       => 'old.example.test',
+            'oauth_client_id'            => 'the-client-id',
+            'oauth_credential_type'      => 'certificate',
+            'oauth_client_secret'        => 'the-client-secret',
+            'oauth_certificate_path'     => '/etc/matomo/smtp.crt',
+            'oauth_private_key_path'     => '/etc/matomo/smtp.key',
+            'oauth_private_key_password' => 'the-key-password',
         ] + Config::getInstance()->mail;
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -164,17 +172,26 @@ class ControllerTest extends IntegrationTestCase
         $mailConfig = Config::getInstance()->mail;
         $this->assertSame('post.example.test', $mailConfig['host']);
         $this->assertSame('the-client-id', $mailConfig['oauth_client_id']);
+        $this->assertSame('certificate', $mailConfig['oauth_credential_type']);
         $this->assertSame('', $mailConfig['oauth_client_secret']);
+        $this->assertSame('', $mailConfig['oauth_certificate_path']);
+        $this->assertSame('', $mailConfig['oauth_private_key_path']);
+        $this->assertSame('', $mailConfig['oauth_private_key_password']);
     }
 
-    public function testGeneralSettingsDoesNotSendTheOAuthClientSecretToThePage(): void
+    public function testGeneralSettingsDoesNotSendTheOAuthSecretsToThePage(): void
     {
-        Config::getInstance()->mail = ['oauth_client_secret' => 'the-client-secret'] + Config::getInstance()->mail;
+        Config::getInstance()->mail = [
+            'oauth_client_secret'        => 'the-client-secret',
+            'oauth_private_key_password' => 'the-key-password',
+        ] + Config::getInstance()->mail;
 
         $page = StaticContainer::get(Controller::class)->generalSettings();
 
         $this->assertStringNotContainsString('the-client-secret', $page);
+        $this->assertStringNotContainsString('the-key-password', $page);
         $this->assertStringContainsString('oauth_client_secret&quot;:&quot;*****&quot;', $page);
+        $this->assertStringContainsString('oauth_private_key_password&quot;:&quot;*****&quot;', $page);
     }
 
     public function testGeneralSettingsListsOAuthAsAuthenticationTypeWhenItIsConfigured(): void

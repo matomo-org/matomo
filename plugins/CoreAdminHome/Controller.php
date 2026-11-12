@@ -199,13 +199,19 @@ class Controller extends ControllerAdmin
             $mail['encryption'] =  $request->getStringParameter('mailEncryption', '');
 
             // the form has no fields for the OAuth settings, keep what is set in the config file
-            foreach (['oauth_token_url', 'oauth_client_id', 'oauth_client_secret', 'oauth_scope'] as $oauthSetting) {
+            $oauthSettings = [
+                'oauth_token_url', 'oauth_client_id', 'oauth_scope', 'oauth_credential_type', 'oauth_client_secret',
+                'oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password',
+            ];
+            foreach ($oauthSettings as $oauthSetting) {
                 $mail[$oauthSetting] = Config::getInstance()->mail[$oauthSetting] ?? '';
             }
 
             if (Config::getInstance()->mail['host'] !== $mail['host']) {
-                // like the password, the client secret is not kept for another host
-                $mail['oauth_client_secret'] = '';
+                // like the password, the OAuth credentials are not kept for another host
+                foreach (['oauth_client_secret', 'oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password'] as $credential) {
+                    $mail[$credential] = '';
+                }
             }
 
             Config::getInstance()->mail = $mail;
@@ -373,6 +379,7 @@ class Controller extends ControllerAdmin
         $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
         $mail['password'] = !empty($mail['password']) ? '*****' : '';
         $mail['oauth_client_secret'] = !empty($mail['oauth_client_secret']) ? '*****' : '';
+        $mail['oauth_private_key_password'] = !empty($mail['oauth_private_key_password']) ? '*****' : '';
         $view->mail = $mail;
     }
 

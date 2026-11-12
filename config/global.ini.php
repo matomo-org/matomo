@@ -1236,12 +1236,14 @@ type = ; SMTP Auth type. By default: NONE. For example: LOGIN. Use Xoauth2 to au
 username = ; SMTP username. When type is Xoauth2: the address of the mailbox that sends the emails
 password = ; SMTP password. Not used when type is Xoauth2
 ; The oauth_ settings are used when type is Xoauth2. Matomo requests an access token with the OAuth 2.0 client credentials flow.
-; For Microsoft 365: oauth_token_url = "https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token"
-; and oauth_scope = "https://outlook.office365.com/.default"
 oauth_token_url = "" ; URL of the OAuth 2.0 token endpoint, has to start with https://
 oauth_client_id = "" ; OAuth 2.0 client ID (application ID)
-oauth_client_secret = "" ; OAuth 2.0 client secret
 oauth_scope = "" ; OAuth 2.0 scope to request the access token for
+oauth_credential_type = "secret" ; secret or certificate
+oauth_client_secret = "" ; OAuth 2.0 client secret, used when oauth_credential_type is secret
+oauth_certificate_path = "" ; absolute path to the PEM certificate registered for the client, used when oauth_credential_type is certificate
+oauth_private_key_path = "" ; absolute path to the PEM private key of the certificate. Leave empty when it is in the certificate file
+oauth_private_key_password = "" ; passphrase of the private key, if it has one
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
 ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert (not recommended)
 ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)
