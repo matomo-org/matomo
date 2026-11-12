@@ -290,9 +290,14 @@ class Common
      */
     public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)  // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
+        // PHP 8.6 warns about an empty string, earlier versions silently returned false
+        if ($string === null || $string === '') {
+            return false;
+        }
+
         try {
             // phpcs:ignore Generic.PHP.ForbiddenFunctions
-            return unserialize($string ?? '', ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
         } catch (\Throwable $e) {
             if ($rethrow) {
                 throw $e;
