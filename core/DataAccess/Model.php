@@ -16,10 +16,12 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\ArchiveFilter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\SettingsServer;
@@ -850,8 +852,9 @@ class Model
      * @param string $archivingStartTime
      * @param int[]|null $idInvalidationsToExclude
      * @param bool $useLimit Whether to limit the result set to one result or not. Used in tests only.
+     * @param ArchiveFilter|null $archiveFilter If set, invalidations the filter cannot match are not returned.
      */
-    public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true)
+    public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true, ?ArchiveFilter $archiveFilter = null)
     {
         $table = Common::prefixTable('archive_invalidations');
         $sql = "SELECT *
@@ -862,6 +865,14 @@ class Model
             ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
             $archivingStartTime,
         ];
+
+        if ($archiveFilter !== null) {
+            [$filterConditions, $filterBind] = $this->getArchiveFilterConditions($archiveFilter, (int) $idSite);
+            foreach ($filterConditions as $condition) {
+                $sql .= " AND $condition";
+            }
+            $bind = array_merge($bind, $filterBind);
+        }
 
         if (!empty($idInvalidationsToExclude)) {
             $idInvalidationsToExclude = array_map('intval', $idInvalidationsToExclude);
@@ -878,6 +889,60 @@ class Model
         } else {
             return Db::fetchAll($sql, $bind);
         }
+    }
+
+    /**
+     * SQL counterpart of ArchiveFilter::filterArchive(), so non-matching invalidations are never fetched.
+     * Conditions may be looser than filterArchive(), but never stricter.
+     *
+     * @return array{0: string[], 1: string[]}
+     */
+    private function getArchiveFilterConditions(ArchiveFilter $archiveFilter, int $idSite): array
+    {
+        $conditions = [];
+        $bind = [];
+
+        $periods = $archiveFilter->getRestrictToPeriods();
+        if (!empty($periods)) {
+            $periodIds = array_map(fn($period) => (int) Piwik::$idPeriods[$period], $periods);
+            $conditions[] = 'period IN (' . implode(',', $periodIds) . ')';
+        }
+
+        $dateRange = $archiveFilter->getRestrictToDateRange();
+        if (!empty($dateRange)) {
+            $conditions[] = 'date2 >= ? AND date1 <= ?';
+            $bind[] = $dateRange[0]->toString();
+            $bind[] = $dateRange[1]->toString();
+        }
+
+        if ($archiveFilter->isDisableSegmentsArchiving()) {
+            $conditions[] = "(name = 'done' OR name LIKE 'done.%')";
+        }
+
+        $segmentHashes = $archiveFilter->getSegmentHashesToForce($idSite);
+        if ($segmentHashes !== null) {
+            if (empty($segmentHashes)) {
+                $conditions[] = '0 = 1';
+            } else {
+                $nameConditions = [];
+                foreach ($segmentHashes as $hash) {
+                    $nameConditions[] = 'name = ? OR name LIKE ?';
+                    $bind[] = 'done' . $hash;
+                    $bind[] = 'done' . addcslashes($hash, '%_\\') . '.%';
+                }
+                $conditions[] = '(' . implode(' OR ', $nameConditions) . ')';
+            }
+        }
+
+        $forceReport = $archiveFilter->getForceReport();
+        if ($forceReport !== null && str_contains($forceReport, '.')) {
+            [$plugin, $report] = explode('.', $forceReport, 2);
+            $conditions[] = 'report = ? AND name LIKE ?';
+            $bind[] = $report;
+            $bind[] = 'done%.' . addcslashes($plugin, '%_\\');
+        }
+
+        return [$conditions, $bind];
     }
 
     public function deleteInvalidations($archiveInvalidations)
