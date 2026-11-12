@@ -25,8 +25,8 @@ if (version_compare(PHP_VERSION, '8.4.0-dev', '>=') && version_compare(PHP_VERSI
 
 error_reporting($errorLevel);
 @ini_set('display_errors', defined('PIWIK_DISPLAY_ERRORS') ? PIWIK_DISPLAY_ERRORS : @ini_get('display_errors'));
-// TEMPORARY: keep deprecations out of test output, they are collected from the PHP error log instead
-if (version_compare(PHP_VERSION, '8.6.0-dev', '>=') && PHP_SAPI === 'cli') {
+// TEMPORARY: keep deprecations out of test output and responses, they are collected from the PHP error log instead
+if (version_compare(PHP_VERSION, '8.6.0-dev', '>=')) {
     @ini_set('display_errors', '0');
 }
 @ini_set('xdebug.show_exception_trace', 0);
