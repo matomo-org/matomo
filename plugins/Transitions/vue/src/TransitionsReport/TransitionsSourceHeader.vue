@@ -36,7 +36,7 @@
         <button
           v-if="status.selected"
           type="button"
-          class="btn-flat transitionsSourceHeader__toggle"
+          class="transitionsSourceHeader__toggle"
           :disabled="isSaving || isConfirming"
           @click="confirmStop"
         >
@@ -51,7 +51,7 @@
           >
             <button
               type="button"
-              class="btn-flat transitionsSourceHeader__toggle"
+              class="transitionsSourceHeader__toggle"
               :disabled="isSaving || isLimitReached"
               :aria-describedby="isLimitReached ? limitHelpId : undefined"
               @click="add"

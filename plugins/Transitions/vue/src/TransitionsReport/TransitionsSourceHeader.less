@@ -47,6 +47,30 @@
     gap: 8px 12px;
   }
 
+  // a quiet text button, as the header belongs to the report rather than to a form
+  .transitionsSourceHeader__toggle {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: @theme-color-link;
+    font: inherit;
+    font-size: 13px;
+    line-height: 20px;
+    text-transform: none;
+    cursor: pointer;
+  }
+
+  .transitionsSourceHeader__toggle:hover,
+  .transitionsSourceHeader__toggle:focus-visible {
+    text-decoration: underline;
+  }
+
+  .transitionsSourceHeader__toggle:disabled {
+    color: @theme-color-text-light;
+    text-decoration: none;
+    cursor: not-allowed;
+  }
+
   .transitionsSourceHeader__usage {
     color: @theme-color-text-light;
     font-size: 12px;

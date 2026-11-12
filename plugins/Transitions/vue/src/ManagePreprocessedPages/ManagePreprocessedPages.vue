@@ -111,7 +111,7 @@
             <td class="managePreprocessedPages__actionColumn">
               <button
                 type="button"
-                class="btn-flat managePreprocessedPages__remove"
+                class="managePreprocessedPages__remove"
                 :disabled="removingId !== null"
                 @click="confirmRemove(page)"
               >{{ translate('General_Remove') }}</button>
