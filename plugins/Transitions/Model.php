@@ -46,10 +46,11 @@ class Model
 			END';
 
     /**
-     * The batched queries rank each page and partition separately in a partition `idaction * 16 + partition`.
+     * The batched queries rank each page and partition separately in a partition `position of the page in the chunk *
+     * 256 + partition`. Partitions are action or referrer types, which fit in a TINYINT, so no two pages overlap.
      */
     private const PAGE_PARTITION_COLUMN = 'transitions_page_partition';
-    private const PAGE_PARTITION_FACTOR = 16;
+    private const PAGE_PARTITION_FACTOR = 256;
 
     /**
      * RankingQuery joins one table per partition, and MySQL joins at most 61 tables.
@@ -326,13 +327,14 @@ class Model
     {
         $partitions = [self::PARTITION_OTHER, self::PARTITION_PAGE, self::PARTITION_SITE_SEARCH];
         $dimension = sprintf('if ( %1$s.idaction_url_ref IS NULL, %1$s.idaction_name_ref, %1$s.idaction_url_ref )', 'log_link_visit_action');
-        $pagePartition = '(log_link_visit_action.idaction_url * ' . self::PAGE_PARTITION_FACTOR . ' + CASE
+        $partition = 'CASE
             WHEN log_action.type = ' . Action::TYPE_PAGE_URL . ' THEN ' . self::PARTITION_PAGE . '
             WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN ' . self::PARTITION_SITE_SEARCH . '
-            ELSE ' . self::PARTITION_OTHER . ' END)';
+            ELSE ' . self::PARTITION_OTHER . ' END';
 
         $pages = [];
         foreach ($this->chunkPages($idActions, count($partitions)) as $chunk) {
+            $pagePartition = $this->getPagePartitionExpression('log_link_visit_action.idaction_url', $chunk, $partition);
             $rankingQuery = $this->makePagesRankingQuery($chunk, $partitions, $limit, $othersLabel);
             $rankingQuery->addLabelColumn(['name', 'url_prefix']);
             $rankingQuery->setColumnToMarkExcludedRows('is_self');
@@ -352,21 +354,19 @@ class Model
             );
             $data = is_array($data) ? $data : [];
 
-            foreach ($chunk as $idAction) {
-                $pages[$idAction] = ['result' => [], 'excludedFromLimit' => []];
-            }
-            foreach ($this->splitPagePartitions(is_array($data['result'] ?? null) ? $data['result'] : []) as $idAction => $rowsByPartition) {
-                if (isset($pages[$idAction])) {
-                    $pages[$idAction]['result'] = $rowsByPartition;
-                }
-            }
+            $excludedRowsByPage = array_fill_keys($chunk, []);
             foreach (is_array($data['excludedFromLimit'] ?? null) ? $data['excludedFromLimit'] : [] as $row) {
                 $idAction = is_array($row) && is_numeric($row[self::PAGE_PARTITION_COLUMN] ?? null)
-                    ? intdiv((int) $row[self::PAGE_PARTITION_COLUMN], self::PAGE_PARTITION_FACTOR)
+                    ? ($chunk[intdiv((int) $row[self::PAGE_PARTITION_COLUMN], self::PAGE_PARTITION_FACTOR)] ?? null)
                     : null;
-                if ($idAction !== null && isset($pages[$idAction])) {
-                    $pages[$idAction]['excludedFromLimit'][] = $row;
+                if ($idAction !== null) {
+                    $excludedRowsByPage[$idAction][] = $row;
                 }
+            }
+
+            $rowsByPage = $this->splitPagePartitions($chunk, is_array($data['result'] ?? null) ? $data['result'] : []);
+            foreach ($chunk as $idAction) {
+                $pages[$idAction] = ['result' => $rowsByPage[$idAction] ?? [], 'excludedFromLimit' => $excludedRowsByPage[$idAction] ?? []];
             }
         }
 
@@ -384,10 +384,9 @@ class Model
     {
         $types = array_keys($this->getFollowingActionTypes('url'));
         $dimension = sprintf('if ( %1$s.idaction_url IS NULL, %1$s.idaction_name, %1$s.idaction_url )', 'log_link_visit_action');
-        $pagePartition = '(log_link_visit_action.idaction_url_ref * ' . self::PAGE_PARTITION_FACTOR . ' + log_action.type)';
-
         $pages = [];
         foreach ($this->chunkPages($idActions, count($types)) as $chunk) {
+            $pagePartition = $this->getPagePartitionExpression('log_link_visit_action.idaction_url_ref', $chunk, 'log_action.type');
             $rankingQuery = $this->makePagesRankingQuery($chunk, $types, $limit, $othersLabel);
             $rankingQuery->addLabelColumn(['name', 'url_prefix']);
 
@@ -403,8 +402,7 @@ class Model
                 '`name`'
             );
 
-            $pages += array_fill_keys($chunk, []);
-            $pages = array_replace($pages, $this->splitPagePartitions(is_array($data) ? $data : []));
+            $pages += $this->splitPagePartitions($chunk, is_array($data) ? $data : []);
         }
 
         return $pages;
@@ -418,14 +416,13 @@ class Model
      */
     public function queryExternalReferrersOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel): array
     {
-        $dimensions = [
-            'referrer_data' => self::REFERRER_DATA_DIMENSION,
-            'referer_type',
-            self::PAGE_PARTITION_COLUMN => '(log_visit.visit_entry_idaction_url * ' . self::PAGE_PARTITION_FACTOR . ' + log_visit.referer_type)',
-        ];
-
         $pages = [];
         foreach ($this->chunkPages($idActions, count(self::REFERRER_TYPES)) as $chunk) {
+            $dimensions = [
+                'referrer_data' => self::REFERRER_DATA_DIMENSION,
+                'referer_type',
+                self::PAGE_PARTITION_COLUMN => $this->getPagePartitionExpression('log_visit.visit_entry_idaction_url', $chunk, 'log_visit.referer_type'),
+            ];
             $rankingQuery = $this->makePagesRankingQuery($chunk, self::REFERRER_TYPES, $limit, $othersLabel);
             $rankingQuery->addLabelColumn('referrer_data');
 
@@ -437,8 +434,7 @@ class Model
                 $rankingQuery
             );
 
-            $pages += array_fill_keys($chunk, []);
-            $pages = array_replace($pages, $this->splitPagePartitions(is_array($data) ? $data : []));
+            $pages += $this->splitPagePartitions($chunk, is_array($data) ? $data : []);
         }
 
         return $pages;
@@ -462,9 +458,9 @@ class Model
     private function makePagesRankingQuery(array $idActions, array $partitions, int $limit, string $othersLabel): RankingQuery
     {
         $values = [];
-        foreach ($idActions as $idAction) {
+        foreach (array_keys($idActions) as $position) {
             foreach ($partitions as $partition) {
-                $values[] = $idAction * self::PAGE_PARTITION_FACTOR + $partition;
+                $values[] = $position * self::PAGE_PARTITION_FACTOR + $partition;
             }
         }
 
@@ -476,15 +472,31 @@ class Model
     }
 
     /**
-     * @param array<mixed> $rowsByPagePartition
-     * @return array<int, array<int, array<mixed>>> rows by partition by idaction
+     * @param list<int> $idActions the pages of the chunk
      */
-    private function splitPagePartitions(array $rowsByPagePartition): array
+    private function getPagePartitionExpression(string $pageColumn, array $idActions, string $partition): string
     {
-        $pages = [];
+        $position = 'CASE ' . $pageColumn;
+        foreach ($idActions as $index => $idAction) {
+            $position .= ' WHEN ' . $idAction . ' THEN ' . $index;
+        }
+
+        return '(' . $position . ' END * ' . self::PAGE_PARTITION_FACTOR . ' + ' . $partition . ')';
+    }
+
+    /**
+     * @param list<int> $idActions the pages of the chunk
+     * @param array<mixed> $rowsByPagePartition
+     * @return array<int, array<int, array<mixed>>> rows by partition by idaction, for every page of the chunk
+     */
+    private function splitPagePartitions(array $idActions, array $rowsByPagePartition): array
+    {
+        $pages = array_fill_keys($idActions, []);
         foreach ($rowsByPagePartition as $pagePartition => $rows) {
-            $pagePartition = (int) $pagePartition;
-            $pages[intdiv($pagePartition, self::PAGE_PARTITION_FACTOR)][$pagePartition % self::PAGE_PARTITION_FACTOR] = is_array($rows) ? $rows : [];
+            $idAction = $idActions[intdiv((int) $pagePartition, self::PAGE_PARTITION_FACTOR)] ?? null;
+            if ($idAction !== null) {
+                $pages[$idAction][(int) $pagePartition % self::PAGE_PARTITION_FACTOR] = is_array($rows) ? $rows : [];
+            }
         }
 
         return $pages;

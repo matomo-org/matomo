@@ -36,6 +36,7 @@ use Piwik\Site;
 use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Action;
 
 /**
  * @group Transitions
@@ -213,6 +214,53 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         self::assertSame($this->getRawReport('month', self::DAY), $this->getStoredReport($idAction, 'month', self::DAY));
         self::assertSame($this->getRawReport('year', self::DAY), $this->getStoredReport($idAction, 'year', self::DAY));
         self::assertSame($this->getRawReport('week', self::LATER_DAY), $this->getStoredReport($idAction, 'week', self::LATER_DAY));
+        self::assertSame($this->getRawReport('range', '2010-03-05,2010-03-14'), $this->getStoredReport($idAction, 'range', '2010-03-05,2010-03-14'));
+    }
+
+    public function testListsOfSeveralPagesKeepTheirOwnRowsAndOthers(): void
+    {
+        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 1;
+        $pageUrls = [self::PAGE_URL, 'http://example.org/the/third_page.html?foo=bar'];
+        $raw = [];
+        foreach ($pageUrls as $pageUrl) {
+            // before archiving, so it comes from the logs
+            $raw[$pageUrl] = $this->getRawReport('day', self::DAY, '', $pageUrl, 1);
+        }
+
+        $idActions = [];
+        foreach ($pageUrls as $pageUrl) {
+            $idActions[$pageUrl] = $this->selectPage($pageUrl);
+        }
+
+        foreach ($pageUrls as $pageUrl) {
+            self::assertSame($raw[$pageUrl], $this->getStoredReport($idActions[$pageUrl], 'day', self::DAY), $pageUrl);
+            self::assertArrayHasKey('Others', $raw[$pageUrl]['previousPages'], $pageUrl);
+        }
+    }
+
+    public function testActionsOfCustomTypesDoNotMixUpPages(): void
+    {
+        // a plugin's action type above the ones the report uses, next to two pages with consecutive idactions
+        $idActionA = $this->insertAction('example.org/custom/a', Action::TYPE_PAGE_URL);
+        $idActionB = $this->insertAction('example.org/custom/b', Action::TYPE_PAGE_URL);
+        $idActionCustom = $this->insertAction('custom-17', 17);
+        self::assertSame($idActionA + 1, $idActionB);
+        $idActionOne = StaticContainer::get(Service::class)->getIdActionForUrl(self::PAGE_URL);
+        $this->insertActionAfter($idActionOne, $idActionA);
+        $this->insertActionAfter($idActionA, $idActionCustom);
+        $this->insertActionAfter($idActionA, $idActionB);
+
+        $pageUrls = ['http://example.org/custom/a', 'http://example.org/custom/b'];
+        $raw = [];
+        foreach ($pageUrls as $pageUrl) {
+            $raw[$pageUrl] = $this->getRawReport('day', self::DAY, '', $pageUrl);
+        }
+        self::assertSame($idActionA, $this->selectPage($pageUrls[0]));
+        self::assertSame($idActionB, $this->selectPage($pageUrls[1]));
+
+        self::assertSame($raw[$pageUrls[0]], $this->getStoredReport($idActionA, 'day', self::DAY));
+        self::assertSame($raw[$pageUrls[1]], $this->getStoredReport($idActionB, 'day', self::DAY));
+        self::assertSame([], $raw[$pageUrls[1]]['followingPages']);
     }
 
     public function testLongerPeriodsAreSummedFromTheStoredDays(): void
@@ -338,6 +386,30 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
         self::assertSame($this->getExpectedRecordNames($idAction), $this->getStoredRecordNames(1, self::DAY));
         self::assertNotSame($idAction, $otherIdAction);
+    }
+
+    private function insertAction(string $name, int $type): int
+    {
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type, url_prefix) VALUES (?, CRC32(?), ?, NULL)',
+            [$name, $name, $type]
+        );
+
+        return (int) Db::get()->lastInsertId();
+    }
+
+    /**
+     * Adds an action to a visit of the fixture's first day, following the given action.
+     */
+    private function insertActionAfter(int $idActionRef, int $idAction): void
+    {
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable('log_link_visit_action')
+            . ' (idsite, idvisitor, idvisit, idaction_url_ref, idaction_name_ref, server_time, idaction_url, idaction_name)'
+            . ' SELECT idsite, idvisitor, idvisit, ?, NULL, server_time, ?, NULL FROM ' . Common::prefixTable('log_link_visit_action')
+            . ' WHERE idsite = 1 AND server_time >= ? AND server_time < ? ORDER BY idlink_va LIMIT 1',
+            [$idActionRef, $idAction, self::DAY . ' 00:00:00', self::DAY . ' 23:59:59']
+        );
     }
 
     private function trackPageview(string $dateTime, string $url): void
@@ -469,13 +541,15 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
     }
 
     /**
-     * The raw-log report with every row, as label => count.
+     * The raw-log report, as label => count. By default with a row limit above the stored one, so the logs are queried,
+     * and every row of the fixture.
      *
      * @return array<string, mixed>
      */
-    private function getRawReport(string $period, string $date, string $segment = '', string $pageUrl = self::PAGE_URL): array
+    private function getRawReport(string $period, string $date, string $segment = '', string $pageUrl = self::PAGE_URL, ?int $limit = null): array
     {
-        $raw = API::getInstance()->getTransitionsForAction($pageUrl, 'url', 1, $period, $date, $segment, 100);
+        $raw = API::getInstance()->getTransitionsForAction($pageUrl, 'url', 1, $period, $date, $segment, $limit ?? Records::getMaxRows(1) + 1);
+        self::assertArrayNotHasKey('preprocessed', $raw);
 
         $report = ['pageMetrics' => array_map('intval', $raw['pageMetrics'])];
         foreach (Records::ACTION_LISTS as $list) {
