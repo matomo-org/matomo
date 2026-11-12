@@ -534,9 +534,14 @@ class Model
 
         $blobTable = ArchiveTableCreator::getBlobTable($dateStart, false);
 
-        $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived <= ? AND idarchive < ?";
+        // the older archives of the same name, and the partial archives of its plugins (`<name>.<Plugin>`), which
+        // readers ignore once a newer archive of all their plugins exists
+        $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ?
+                   AND (name = ? OR (name LIKE ? AND value = " . ArchiveWriter::DONE_PARTIAL . "))
+                   AND ts_archived <= ? AND idarchive < ?";
+        $partialNamePattern = addcslashes($name, '%_\\') . '.%';
 
-        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->getDatetime(), $dateEnd->getDatetime(), $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
+        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->getDatetime(), $dateEnd->getDatetime(), $params->getPeriod()->getId(), $name, $partialNamePattern, $tsArchived, $idArchive]);
         $idArchives = array_column($idArchives, 'idarchive');
         if (empty($idArchives)) {
             return;
