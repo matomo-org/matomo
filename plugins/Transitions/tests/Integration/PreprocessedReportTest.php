@@ -24,6 +24,7 @@ use Piwik\Plugins\Overlay\API as OverlayAPI;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
+use Piwik\Plugins\Transitions\Transitions;
 use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -444,12 +445,36 @@ class PreprocessedReportTest extends IntegrationTestCase
         self::assertSame($raw, $stored);
     }
 
+    public function testTheJsGlobalTellsWhetherTheSiteHasPreprocessedPages(): void
+    {
+        $_GET['idSite'] = 1;
+        try {
+            self::assertStringContainsString('piwik.transitionsHasPreprocessedPages = false;', $this->getJsGlobals());
+
+            $this->selectPage(self::PAGE_URL);
+            self::assertStringContainsString('piwik.transitionsHasPreprocessedPages = true;', $this->getJsGlobals());
+
+            FakeAccess::clearAccess(false, [], [], 'anonymous');
+            self::assertStringContainsString('piwik.transitionsHasPreprocessedPages = false;', $this->getJsGlobals());
+        } finally {
+            unset($_GET['idSite']);
+        }
+    }
+
     private function getDaysCounter(int $idAction, string $day): ?float
     {
         $name = Records::getRecordName($idAction, Records::DAYS);
         $values = Archive::build(1, 'day', $day)->getNumeric([$name]);
 
         return is_array($values) && isset($values[$name]) ? (float) $values[$name] : null;
+    }
+
+    private function getJsGlobals(): string
+    {
+        $out = '';
+        (new Transitions())->addJsGlobalVariables($out);
+
+        return $out;
     }
 
     /**

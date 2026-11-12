@@ -218,7 +218,11 @@ DataTable_RowActions_Registry.register({
 
     isAvailableOnReport: function (dataTableParams) {
 
-        if (piwik.transitionsMaxPeriodAllowed && dataTableParams['period']) {
+        // pre-processed pages are served beyond the period limit, so page URLs keep the row action
+        var isPeriodLimitSkipped = piwik.transitionsHasPreprocessedPages
+            && DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams['module'], dataTableParams['action']);
+
+        if (piwik.transitionsMaxPeriodAllowed && dataTableParams['period'] && !isPeriodLimitSkipped) {
 
             if (dataTableParams['period'] === 'range') {
 

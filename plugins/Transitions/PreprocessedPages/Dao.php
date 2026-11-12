@@ -75,6 +75,22 @@ class Dao
     }
 
     /**
+     * Runs on every page load, which can happen before the 6.1.0-b1 update has created the table.
+     */
+    public function hasPagesForSite(int $idSite): bool
+    {
+        try {
+            return (bool) Db::fetchOne('SELECT 1 FROM ' . $this->getTable() . ' WHERE idsite = ? LIMIT 1', [$idSite]);
+        } catch (\Exception $e) {
+            if ($this->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
+                return false;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
      * Returns the `log_action` name of an action, for a page URL the URL without protocol.
      */
     public function getActionName(int $idAction): ?string

@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Transitions;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 use Piwik\Plugins\Transitions\PreprocessedPages\Dao as PreprocessedPagesDao;
 
 class Transitions extends \Piwik\Plugin
@@ -148,6 +149,11 @@ class Transitions extends \Piwik\Plugin
         $maxPeriodAllowed = self::getPeriodAllowedConfig($idSite);
 
         $out .= '    piwik.transitionsMaxPeriodAllowed = "' . ($maxPeriodAllowed ? $maxPeriodAllowed : 'all') . '"' . "\n";
+
+        // pre-processed pages can be served beyond the period limit; only whether there are any is exposed
+        $hasPreprocessedPages = Piwik::isUserHasViewAccess($idSite)
+            && StaticContainer::get(PreprocessedPagesDao::class)->hasPagesForSite($idSite);
+        $out .= '    piwik.transitionsHasPreprocessedPages = ' . ($hasPreprocessedPages ? 'true' : 'false') . ';' . "\n";
     }
 
     /**
