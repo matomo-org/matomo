@@ -31,6 +31,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 
 ### Other changes
+* The tracking endpoint now answers server errors, such as a `TypeError` or a failing `Tracker.newHandler` listener, with `500` and logs them, and no longer writes `4xx` rejections to PHP's error log.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
 ## Matomo 6.0.0
