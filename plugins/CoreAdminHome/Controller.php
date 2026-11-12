@@ -14,8 +14,11 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Http\JsonResponse;
 use Piwik\Mail;
+use Piwik\Mail\OAuth\AccessTokenProvider;
+use Piwik\Mail\OAuth\ClientCredentialsTokenProvider;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -41,6 +44,14 @@ use Piwik\Plugins\UsersManager\UserPreferences;
 
 class Controller extends ControllerAdmin
 {
+    private const MAIL_TYPES = [
+        '' => '',
+        'Plain' => 'Plain',
+        'Login' => 'Login',
+        'Cram-md5' => 'Cram-md5',
+        'Xoauth2' => 'OAuth 2.0',
+    ];
+
     private Translator $translator;
 
     private OptOutManager $optOutManager;
@@ -125,18 +136,7 @@ class Controller extends ControllerAdmin
         $view->pathUserLogoSmall     = CustomLogo::getPathUserLogoSmall();
         $view->pathUserLogoSVG       = CustomLogo::getPathUserSvgLogo();
         $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
-        $mailTypes = array(
-            '' => '',
-            'Plain' => 'Plain',
-            'Login' => 'Login',
-            'Cram-md5' => 'Cram-md5',
-        );
-        $mailType = (string) (Config::getInstance()->mail['type'] ?? '');
-        if (strtolower($mailType) === 'xoauth2') {
-            // there is no form for the OAuth settings yet, so the option is only there to show what is configured
-            $mailTypes[$mailType] = 'OAuth 2.0 (set up in config.ini.php)';
-        }
-        $view->mailTypes = $mailTypes;
+        $view->mailTypes = self::MAIL_TYPES;
         $view->mailEncryptions = array(
             '' => 'auto',
             'ssl' => 'SSL',
@@ -198,19 +198,46 @@ class Controller extends ControllerAdmin
 
             $mail['encryption'] =  $request->getStringParameter('mailEncryption', '');
 
-            // the form has no fields for the OAuth settings, keep what is set in the config file
-            $oauthSettings = [
-                'oauth_token_url', 'oauth_client_id', 'oauth_scope', 'oauth_credential_type', 'oauth_client_secret',
-                'oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password',
-            ];
-            foreach ($oauthSettings as $oauthSetting) {
+            $mail['oauth_token_url'] = trim($request->getStringParameter('mailOAuthTokenUrl', ''));
+            $mail['oauth_client_id'] = trim($request->getStringParameter('mailOAuthClientId', ''));
+            $mail['oauth_client_secret'] = $request->getStringParameter('mailOAuthClientSecret', '');
+            $mail['oauth_scope'] = trim($request->getStringParameter('mailOAuthScope', ''));
+
+            // the form has no fields for the certificate settings, keep what is set in the config file
+            $certificateSettings = ['oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password'];
+            foreach (array_merge(['oauth_credential_type'], $certificateSettings) as $oauthSetting) {
                 $mail[$oauthSetting] = Config::getInstance()->mail[$oauthSetting] ?? '';
             }
 
-            if (Config::getInstance()->mail['host'] !== $mail['host']) {
-                // like the password, the OAuth credentials are not kept for another host
-                foreach (['oauth_client_secret', 'oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password'] as $credential) {
-                    $mail[$credential] = '';
+            $areOAuthCredentialsStillValid = $this->areOAuthCredentialsStillValidFor($mail);
+
+            if (!array_key_exists('mailOAuthClientSecret', $request->getParameters()) && $areOAuthCredentialsStillValid) {
+                $mail['oauth_client_secret'] = Config::getInstance()->mail['oauth_client_secret'];
+            }
+
+            if (!$areOAuthCredentialsStillValid) {
+                foreach ($certificateSettings as $certificateSetting) {
+                    $mail[$certificateSetting] = '';
+                }
+            }
+
+            if ($mail['transport'] === 'smtp' && strtoupper($mail['type']) === 'XOAUTH2') {
+                $isCertificate = strtolower(trim((string) $mail['oauth_credential_type'])) === ClientCredentialsTokenProvider::CREDENTIAL_TYPE_CERTIFICATE;
+
+                if (
+                    $mail['username'] === ''
+                    || $mail['oauth_token_url'] === ''
+                    || $mail['oauth_client_id'] === ''
+                    || ($isCertificate ? $mail['oauth_certificate_path'] : $mail['oauth_client_secret']) === ''
+                ) {
+                    throw new Exception(Piwik::translate('CoreAdminHome_ErrorSmtpOAuthSettingsIncomplete'));
+                }
+
+                if (
+                    stripos($mail['oauth_token_url'], 'https://') !== 0
+                    || filter_var($mail['oauth_token_url'], FILTER_VALIDATE_URL) === false
+                ) {
+                    throw new Exception(Piwik::translate('CoreAdminHome_ErrorSmtpOAuthTokenUrlNotValid'));
                 }
             }
 
@@ -231,12 +258,34 @@ class Controller extends ControllerAdmin
 
             Config::getInstance()->forceSave();
 
+            // an access token requested before a change at the provider would otherwise be reused until it expires
+            StaticContainer::get(AccessTokenProvider::class)->forgetAccessToken();
+
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
 
         return $toReturn;
+    }
+
+    /**
+     * The stored client secret and certificate may only be reused as long as nothing changed that decides where the
+     * secret, or an access token requested with them, is sent to and what that token gives access to.
+     *
+     * @param array<string, string> $mail the mail settings about to be saved
+     */
+    private function areOAuthCredentialsStillValidFor(array $mail): bool
+    {
+        $storedMail = Config::getInstance()->mail;
+
+        foreach (['host', 'oauth_token_url', 'oauth_client_id', 'oauth_scope'] as $setting) {
+            if (trim((string) ($storedMail[$setting] ?? '')) !== trim($mail[$setting])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -380,6 +429,15 @@ class Controller extends ControllerAdmin
         $mail['password'] = !empty($mail['password']) ? '*****' : '';
         $mail['oauth_client_secret'] = !empty($mail['oauth_client_secret']) ? '*****' : '';
         $mail['oauth_private_key_password'] = !empty($mail['oauth_private_key_password']) ? '*****' : '';
+
+        // the config may spell the type in any case, the form only matches its options' exact spelling
+        foreach (array_keys(self::MAIL_TYPES) as $mailType) {
+            if (strcasecmp((string) $mailType, (string) ($mail['type'] ?? '')) === 0) {
+                $mail['type'] = $mailType;
+                break;
+            }
+        }
+
         $view->mail = $mail;
     }
 
