@@ -20,6 +20,7 @@ use Piwik\Config\GeneralConfig;
  * summary row for the actions beyond the row limit. The referrers record holds one row per referrer type (label =
  * `Common::REFERRER_TYPE_*`, visits in `Metrics::INDEX_NB_VISITS`) with a subtable of the referrers of that type
  * (same columns, plus a summary row). The numeric records are written for every archived page, also when 0.
+ * `days` counts the days whose records were built from the logs: 1 in a day archive, summed for longer periods.
  */
 final class Records
 {
@@ -35,6 +36,7 @@ final class Records
     public const LOOPS = 'loops';
     public const ENTRIES = 'entries';
     public const EXITS = 'exits';
+    public const DAYS = 'days';
 
     /**
      * Lists of actions; the following actions leave out reloads of the page, which are counted in `loops`.
@@ -53,6 +55,7 @@ final class Records
         self::LOOPS,
         self::ENTRIES,
         self::EXITS,
+        self::DAYS,
     ];
 
     /**

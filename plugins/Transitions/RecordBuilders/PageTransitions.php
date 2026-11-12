@@ -170,6 +170,7 @@ class PageTransitions extends RecordBuilder
         $records[Records::getRecordName($idAction, Records::LOOPS)] = $loops;
         $records[Records::getRecordName($idAction, Records::ENTRIES)] = $entries;
         $records[Records::getRecordName($idAction, Records::EXITS)] = $pageviews - $transitionsToFollowingActions - $loops;
+        $records[Records::getRecordName($idAction, Records::DAYS)] = 1;
 
         return $records;
     }

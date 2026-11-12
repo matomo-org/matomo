@@ -112,11 +112,39 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         );
         $expected = [];
         foreach (Records::NUMERICS as $numeric) {
-            $expected[] = ['name' => Records::getRecordName($idAction, $numeric), 'value' => 0.0];
+            // the day was archived for the page, although it has no data
+            $value = $numeric === Records::DAYS ? 1.0 : 0.0;
+            $expected[] = ['name' => Records::getRecordName($idAction, $numeric), 'value' => $value];
         }
         usort($expected, fn($a, $b) => strcmp($a['name'], $b['name']));
 
         self::assertSame($expected, $numerics);
+    }
+
+    public function testTheDaysCounterCountsTheDaysWithRecords(): void
+    {
+        $this->trackEntryFromWebsite('2010-03-05 15:00:00', 'http://a.example/x');
+        $idAction = $this->selectPage(self::PAGE_URL);
+
+        $this->archive('week', self::DAY);
+
+        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 1, '2010-03-05'));
+        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 1, self::DAY));
+        // no visits on that day, so nothing was archived
+        self::assertNull($this->getStoredNumeric($idAction, Records::DAYS, 1, '2010-03-07'));
+        self::assertSame(2.0, $this->getStoredNumeric($idAction, Records::DAYS, 2, '2010-03-01'));
+    }
+
+    public function testTheDaysCounterLeavesOutDaysArchivedBeforeThePageWasSelected(): void
+    {
+        $this->archive('day', self::DAY);
+        $idAction = $this->selectPage(self::PAGE_URL);
+
+        $this->archive('month', self::DAY);
+
+        self::assertNull($this->getStoredNumeric($idAction, Records::DAYS, 1, self::DAY));
+        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 1, self::LATER_DAY));
+        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 3, '2010-03-01'));
     }
 
     public function testMonthAndYearEqualTheRawLogQuery(): void
@@ -254,6 +282,17 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         Cache::getTransientCache()->flushAll();
         // reading any record of the plugin archives it
         Archive::build(1, $period, $date, $segment)->getNumeric(Records::getRebuildReportName(1));
+    }
+
+    private function getStoredNumeric(int $idAction, string $numeric, int $periodId, string $date1): ?float
+    {
+        $value = Db::fetchOne(
+            'SELECT value FROM ' . Common::prefixTable('archive_numeric_2010_03')
+            . ' WHERE idsite = 1 AND period = ? AND date1 = ? AND name = ? ORDER BY ts_archived DESC',
+            [$periodId, $date1, Records::getRecordName($idAction, $numeric)]
+        );
+
+        return $value === false ? null : (float) $value;
     }
 
     /**
