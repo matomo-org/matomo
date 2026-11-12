@@ -353,7 +353,7 @@ class SettingsPiwik
 
     /**
      * Returns true if a website's total unique visitors and users for the given period are estimated rather
-     * than counted: the period is listed in `[General] unique_visitors_estimate_periods`. Days, and an empty
+     * than counted: `[General] enable_processing_estimated_unique_visitors_<period>` is 1. Days, and an empty
      * period label, are always counted.
      *
      * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
@@ -386,11 +386,11 @@ class SettingsPiwik
      */
     private static function getUniqueVisitorsEstimatedPeriods(): array
     {
-        $periods = Config::getInstance()->General['unique_visitors_estimate_periods'] ?? '';
-        $periods = is_array($periods) ? $periods : explode(',', (string) $periods);
-        $periods = array_map('strtolower', array_map('trim', $periods));
+        $general = Config::getInstance()->General;
 
-        return array_values(array_intersect(self::PERIODS_THAT_CAN_BE_ESTIMATED, $periods));
+        return array_values(array_filter(self::PERIODS_THAT_CAN_BE_ESTIMATED, function ($period) use ($general) {
+            return ($general['enable_processing_estimated_unique_visitors_' . $period] ?? 0) == 1;
+        }));
     }
 
     /**

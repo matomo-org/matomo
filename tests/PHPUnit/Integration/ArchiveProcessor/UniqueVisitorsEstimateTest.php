@@ -293,12 +293,12 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     /**
      * @dataProvider getPeriodSettings
      * @param mixed $exactSetting
-     * @param mixed $estimatedPeriods
+     * @param mixed $estimateSetting
      */
-    public function testSettingsSelectOffCountedOrEstimated(string $period, $exactSetting, $estimatedPeriods, bool $counted, bool $estimated)
+    public function testSettingsSelectOffCountedOrEstimated(string $period, $exactSetting, $estimateSetting, bool $counted, bool $estimated)
     {
         $this->setGeneralConfig("enable_processing_unique_visitors_$period", $exactSetting);
-        $this->setGeneralConfig('unique_visitors_estimate_periods', $estimatedPeriods);
+        $this->setGeneralConfig("enable_processing_estimated_unique_visitors_$period", $estimateSetting);
 
         $this->assertSame($counted, SettingsPiwik::isUniqueVisitorsEnabled($period));
         $this->assertSame($estimated, SettingsPiwik::isUniqueVisitorsEstimated($period));
@@ -308,21 +308,21 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     public function getPeriodSettings(): array
     {
         return [
-            'off' => ['month', 0, '', false, false],
-            'counted' => ['month', 1, '', true, false],
-            'estimated' => ['month', 0, 'month', false, true],
-            'counted and estimated' => ['month', 1, 'month', true, true],
-            'another period is estimated' => ['month', 1, 'year', true, false],
-            'one of several, with spaces and capitals' => ['year', 0, 'month, Year ', false, true],
-            'unknown period' => ['month', 0, 'months', false, false],
-            'the old value 2 is not an estimate' => ['month', 2, '', false, false],
-            'days are counted, never estimated' => ['day', 1, 'day,week', true, false],
+            'off' => ['month', 0, 0, false, false],
+            'counted' => ['month', 1, 0, true, false],
+            'estimated' => ['month', 0, 1, false, true],
+            'counted and estimated' => ['month', 1, 1, true, true],
+            'estimated, set as a string' => ['year', 0, '1', false, true],
+            'the old value 2 is not an estimate' => ['month', 2, 0, false, false],
+            'only 1 estimates' => ['month', 0, 2, false, false],
+            'days are counted, never estimated' => ['day', 1, 1, true, false],
         ];
     }
 
-    public function testNoSketchIsStoredWhenOnlyUnknownPeriodsAreListed()
+    public function testNoSketchIsStoredWhenOnlyDaysAreSetToBeEstimated()
     {
-        $this->setGeneralConfig('unique_visitors_estimate_periods', 'day,months');
+        $this->setEstimatedPeriods([]);
+        $this->setGeneralConfig('enable_processing_estimated_unique_visitors_day', 1);
 
         $this->assertFalse(SettingsPiwik::isUniqueVisitorsEstimateEnabled());
         $this->assertFalse(SettingsPiwik::isUniqueVisitorsSketchNeeded('day'));
@@ -929,7 +929,7 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     }
 
     /**
-     * Lists `$periods` in unique_visitors_estimate_periods. Their exact count is off unless they are in
+     * Estimates `$periods` and no other period. Their exact count is off unless they are in
      * `$alsoCounted`; the other periods keep their default.
      *
      * @param string[] $periods
@@ -937,7 +937,9 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
      */
     private function setEstimatedPeriods(array $periods, array $alsoCounted = []): void
     {
-        $this->setGeneralConfig('unique_visitors_estimate_periods', implode(',', $periods));
+        foreach (['week', 'month', 'year', 'range'] as $period) {
+            $this->setGeneralConfig("enable_processing_estimated_unique_visitors_$period", (int) in_array($period, $periods, true));
+        }
 
         foreach (self::EXACT_PERIOD_DEFAULTS as $period => $default) {
             $counted = in_array($period, $periods, true) ? (int) in_array($period, $alsoCounted, true) : $default;

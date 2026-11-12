@@ -247,21 +247,18 @@ enable_processing_unique_visitors_range = 0
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
 
-; comma separated list of the periods whose Unique Visitors and Unique users are estimated instead of counted from the logs,
-; out of week, month, year and range. eg "month,year". empty (the default) estimates nothing. days are always counted.
-; an estimate is built from data stored in the day archives, which avoids querying the logs again for long periods and segments.
-; at the default precision it is usually within 2% of the exact count.
-; it covers each website's totals in Visits Overview, Visits Frequency and AI Agents only, and a listed period's totals are estimated
-; whether enable_processing_unique_visitors_... is 0 or 1 for it. that setting then decides two things for a listed period:
-; - whether other reports that count Unique Visitors themselves, such as Cohorts and Custom Reports, do so (1) or not (0).
-; - what happens when the period can't be estimated, because some of its days were archived before any period was listed:
-;   with 1 it is counted from the logs as before, with 0 it has no Unique Visitors until those days are invalidated
-;   with ./console core:invalidate-report-data
-; archives covering several websites, such as Roll-Ups, are not estimated.
-unique_visitors_estimate_periods = ""
+; set to 1 to estimate a website's total Unique Visitors and Users for that period instead of counting them from the logs.
+; much faster for long periods and segments, and usually within 2% of the exact count. days are always counted.
+; covers the totals in Visits Overview, Visits Frequency and AI Agents. Roll-Ups are not estimated.
+; if a period can't be estimated (its days were archived before this was turned on), it is counted exactly when
+; enable_processing_unique_visitors_... is 1 for it, and has no Unique Visitors otherwise.
+; to estimate past reports, invalidate them with ./console core:invalidate-report-data
+enable_processing_estimated_unique_visitors_week = 0
+enable_processing_estimated_unique_visitors_month = 0
+enable_processing_estimated_unique_visitors_year = 0
+enable_processing_estimated_unique_visitors_range = 0
 
-; precision of the estimate, from 4 to 18. each step up makes it more accurate and doubles its storage.
-; the default 14 uses up to about 7 KB per archive for Unique Visitors, and as much again for Users on websites that use User ID.
+; precision of the estimates, from 4 to 18. higher is more accurate and uses more storage (14 uses up to about 7 KB per archive).
 unique_visitors_estimate_precision = 14
 
 ; The list of periods that are available in the Matomo calendar

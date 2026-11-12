@@ -10,7 +10,10 @@ describe('EstimatedUniqueVisitors', function () {
   this.fixture = 'Piwik\\Tests\\Fixtures\\VisitsOverSeveralDays';
 
   const estimatedPeriods = {
-    unique_visitors_estimate_periods: 'week,month,year,range',
+    enable_processing_estimated_unique_visitors_week: 1,
+    enable_processing_estimated_unique_visitors_month: 1,
+    enable_processing_estimated_unique_visitors_year: 1,
+    enable_processing_estimated_unique_visitors_range: 1,
   };
 
   async function openOverview(period, date = '2010-12-14') {

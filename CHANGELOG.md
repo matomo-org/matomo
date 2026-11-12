@@ -8,6 +8,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
+* `[General] enable_processing_estimated_unique_visitors_week`, `_month`, `_year` and `_range` (default `0`) estimate each website's unique visitors and users for that period instead of counting them from the visit logs. A period that can't be estimated is counted exactly when its `enable_processing_unique_visitors_...` setting is `1`, and has no value otherwise. Periods already archived keep their values until they are invalidated.
+* `[General] unique_visitors_estimate_precision` (default `14`, from `4` to `18`) sets the accuracy of the estimate.
+* Plugins reading `nb_uniq_visitors` or `nb_users` from the `VisitsSummary` archive of an estimated period get the estimate. The archive's `uniques_estimated` record is `1` when the value was estimated.
 
 ### New APIs
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
@@ -26,6 +29,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A module that selects its own set of sites, such as `MultiSites.getAll`, is labelled on the days its rows cover, which are UTC's days when it covers more than one site.
   * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
+* For a period estimated with `[General] enable_processing_estimated_unique_visitors_...`, `VisitsSummary.get`, `VisitFrequency.get`, `AIAgents.get` and `API.get` now return estimated `nb_uniq_visitors` and `nb_users`, and a new `uniques_estimated` column (`1` when estimated, `0` when counted exactly or when there is no value). With `columns`, it is only returned when requested. A period with no unique count now leaves `nb_uniq_visitors` and `nb_users` out instead of returning `0`, also in `API.getProcessedReport` and the `ImageGraph` graphs.
 
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
