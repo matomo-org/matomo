@@ -367,7 +367,7 @@ class API extends \Piwik\Plugin\API
                 continue;
             }
 
-            // referrers without a name are not stored; the log query counts them in Others when they rank below the limit
+            // referrers without a name are not stored, only counted in the visits of their type
             $unnamedVisits = $visits;
             foreach ($storedReferrers->getRows() as $storedReferrer) {
                 $unnamedVisits -= $this->getStoredCount($storedReferrer, Metrics::INDEX_NB_VISITS);
@@ -397,18 +397,26 @@ class API extends \Piwik\Plugin\API
      * of the log query keeps them: at most `$limit` rows, then `Others` with the rest and the stored summary row.
      *
      * @param list<array{label: string|int, count: int}> $extraRows rows to rank with the stored ones
-     * @param int $unstoredCount count left out of the stored rows, added to `Others`
+     * @param int $unnamedCount count of rows without a label, which are not stored: ranked as one row, which the log
+     *                          query leaves out of the top rows and counts in `Others` below them
      * @return list<array{label: string|int, count: int}>
      */
-    private function getTopStoredRows(DataTable $stored, int $column, int $limit, array $extraRows = [], int $unstoredCount = 0): array
+    private function getTopStoredRows(DataTable $stored, int $column, int $limit, array $extraRows = [], int $unnamedCount = 0): array
     {
-        $rows = $extraRows;
+        $rows = [];
+        foreach ($extraRows as $row) {
+            $rows[] = $row + ['unnamed' => false];
+        }
         foreach ($stored->getRowsWithoutSummaryRow() as $row) {
             $label = $row->getColumn('label');
             $rows[] = [
                 'label' => is_int($label) ? $label : (is_scalar($label) ? (string) $label : ''),
                 'count' => $this->getStoredCount($row, $column),
+                'unnamed' => false,
             ];
+        }
+        if ($unnamedCount > 0) {
+            $rows[] = ['label' => '', 'count' => $unnamedCount, 'unnamed' => true];
         }
 
         usort($rows, function (array $a, array $b): int {
@@ -424,9 +432,14 @@ class API extends \Piwik\Plugin\API
             $others = ($others ?? 0) + $row['count'];
         }
 
-        $topRows = array_slice($rows, 0, $limit);
+        $topRows = [];
+        foreach (array_slice($rows, 0, $limit) as $row) {
+            if (!$row['unnamed']) {
+                $topRows[] = ['label' => $row['label'], 'count' => $row['count']];
+            }
+        }
         if ($others !== null) {
-            $topRows[] = ['label' => TransitionsModel::OTHERS_LABEL, 'count' => $others + max(0, $unstoredCount)];
+            $topRows[] = ['label' => TransitionsModel::OTHERS_LABEL, 'count' => $others];
         }
 
         return $topRows;
