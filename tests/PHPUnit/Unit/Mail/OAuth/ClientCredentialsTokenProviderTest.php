@@ -35,10 +35,7 @@ class ClientCredentialsTokenProviderTest extends TestCase
 
     private const NOW = 1700000000;
 
-    /**
-     * @var Lazy&MockObject
-     */
-    private $cache;
+    private Lazy&MockObject $cache;
 
     protected function setUp(): void
     {
@@ -217,6 +214,11 @@ class ClientCredentialsTokenProviderTest extends TestCase
             ['status' => 401, 'data' => '{"error":"invalid_client","error_description":"Invalid client secret provided.\r\nTrace ID: 1"}'],
             'The SMTP OAuth token request failed with HTTP status 401.',
             'invalid_client: Invalid client secret provided. Trace ID: 1',
+        ];
+        yield 'with control characters in the reason' => [
+            ['status' => 401, 'data' => '{"error":"invalid\u001b[31m_client\u0007"}'],
+            'The SMTP OAuth token request failed with HTTP status 401.',
+            'invalid [31m_client',
         ];
         yield 'no response body' => [['status' => 400], 'The SMTP OAuth token request failed with HTTP status 400.', ''];
         yield 'endpoint not reached' => [
