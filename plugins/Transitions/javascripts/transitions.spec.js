@@ -31,6 +31,18 @@ var path = require('path');
             });
         });
 
+        var originalCoreHome;
+
+        beforeEach(function () {
+            originalCoreHome = window.CoreHome;
+        });
+
+        afterEach(function () {
+            window.CoreHome = originalCoreHome;
+            delete window.piwik.transitionsMaxPeriodAllowed;
+            delete window.piwik.transitionsHasPreprocessedPages;
+        });
+
         function isAvailable(action, period, maxPeriodAllowed, hasPreprocessedPages) {
             window.piwik.transitionsMaxPeriodAllowed = maxPeriodAllowed;
             window.piwik.transitionsHasPreprocessedPages = hasPreprocessedPages;
@@ -58,12 +70,13 @@ var path = require('path');
         });
 
         it('applies the period limit to ranges by their number of days', function () {
-            window.CoreHome = window.CoreHome || {};
-            window.CoreHome.Periods = {
-                parse: function () {
-                    return { getDayCount: function () { return 60; } };
+            window.CoreHome = Object.assign({}, originalCoreHome, {
+                Periods: {
+                    parse: function () {
+                        return { getDayCount: function () { return 60; } };
+                    }
                 }
-            };
+            });
 
             expect(isAvailable('getPageUrls', 'range', 'month', false)).to.equal(false);
             expect(isAvailable('getPageUrls', 'range', 'month', true)).to.equal(true);
