@@ -246,7 +246,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Removes a page from the pre-processed pages of a website. Data already processed for it stays available.
-     * Removing a page that is not selected for this website does nothing. Requires admin access to the website.
+     * Fails with a not-found error when the page is not selected for this website. Requires admin access to the website.
      *
      * @param int $idSite The numeric ID of the website.
      * @param int $idPage The ID of the page, as returned by `getPreprocessedPages`.

@@ -12,8 +12,11 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Concurrency\Lock;
+use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
 use Piwik\Segment\SegmentExpression;
@@ -34,16 +37,21 @@ class Service
      */
     public const MAX_URL_LENGTH = 4096;
 
+    public const LOCK_NAMESPACE = 'Transitions.addPreprocessedPage';
+
     private const NON_USER_LOGINS = ['anonymous', 'super user was set'];
 
     private Dao $dao;
 
     private ArchiveInvalidator $invalidator;
 
-    public function __construct(Dao $dao, ArchiveInvalidator $invalidator)
+    private LockBackend $lockBackend;
+
+    public function __construct(Dao $dao, ArchiveInvalidator $invalidator, LockBackend $lockBackend)
     {
         $this->dao = $dao;
         $this->invalidator = $invalidator;
+        $this->lockBackend = $lockBackend;
     }
 
     /**
@@ -71,21 +79,25 @@ class Service
         $url = $this->normalizeUrl($idSite, $pageUrl);
         $urlHash = self::getUrlHash($url);
 
-        if ($this->dao->getPageByUrlHash($idSite, $urlHash) !== null) {
-            throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
-        }
-
-        $maxPages = $this->getMaxPages($idSite);
-        if ($this->dao->getNumPagesForSite($idSite) >= $maxPages) {
-            throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPagesLimitReached', [(string) $maxPages]));
-        }
-
         $login = Piwik::getCurrentUserLogin();
         $createdBy = in_array($login, self::NON_USER_LOGINS, true) ? null : $login;
 
-        if (!$this->dao->addPage($idSite, $url, $urlHash, Date::now()->getDatetime(), $createdBy)) {
-            throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
-        }
+        // concurrent adds must not both pass the limit check
+        $lock = new Lock($this->lockBackend, self::LOCK_NAMESPACE);
+        $lock->execute((string) $idSite, function () use ($idSite, $url, $urlHash, $createdBy): void {
+            if ($this->dao->getPageByUrlHash($idSite, $urlHash) !== null) {
+                throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
+            }
+
+            $maxPages = $this->getMaxPages($idSite);
+            if ($this->dao->getNumPagesForSite($idSite) >= $maxPages) {
+                throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPagesLimitReached', [(string) $maxPages]));
+            }
+
+            if (!$this->dao->addPage($idSite, $url, $urlHash, Date::now()->getDatetime(), $createdBy)) {
+                throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
+            }
+        });
 
         // a URL not tracked yet has no records to build
         $idAction = $this->getIdActionForUrl($url);
@@ -102,13 +114,13 @@ class Service
     }
 
     /**
-     * Removing a page that does not exist, or belongs to another website, does nothing.
+     * A page that does not exist and one of another website are rejected alike.
      */
     public function removePage(int $idSite, int $idPage): void
     {
         $page = $this->dao->getPage($idSite, $idPage);
         if ($page === null) {
-            return;
+            throw new ThingNotFoundException(Piwik::translate('Transitions_PreprocessedPageNotSelected'));
         }
 
         $this->dao->removePage($idSite, $idPage);
@@ -172,9 +184,8 @@ class Service
     {
         $pageUrl = trim($pageUrl);
 
-        $length = mb_strlen($pageUrl);
-        if ($length > self::MAX_URL_LENGTH) {
-            throw new BadRequestException(Piwik::translate('General_ValidatorErrorCharacterTooLong', [(string) $length, (string) self::MAX_URL_LENGTH]));
+        if (mb_strlen($pageUrl) > self::MAX_URL_LENGTH) {
+            throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageUrlTooLong', [(string) self::MAX_URL_LENGTH]));
         }
 
         $url = preg_match('~^https?://~i', $pageUrl) ? PageUrl::excludeQueryParametersFromUrl($pageUrl, $idSite) : false;

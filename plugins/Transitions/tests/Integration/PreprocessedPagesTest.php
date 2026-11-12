@@ -14,10 +14,13 @@ namespace Piwik\Plugins\Transitions\tests\Integration;
 use Piwik\API\Request;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
+use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ReArchiveList;
 use Piwik\Db;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Http\BadRequestException;
 use Piwik\NoAccessException;
@@ -274,7 +277,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
      */
     public function testRejectsInvalidUrls(string $url): void
     {
-        $this->assertAddFails(1, $url, 'Enter a page URL that starts with http:// or https://.');
+        $this->assertAddFails(1, $url, 'Please enter a valid page URL starting with http:// or https://.');
         self::assertSame([], $this->api->getPreprocessedPages(1));
     }
 
@@ -298,11 +301,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
     {
         $url = 'https://example.com/' . str_repeat('a', Service::MAX_URL_LENGTH);
 
-        $this->assertAddFails(
-            1,
-            $url,
-            'The value contains "' . mb_strlen($url) . '" characters but should contain at most ' . Service::MAX_URL_LENGTH . ' characters.'
-        );
+        $this->assertAddFails(1, $url, 'The page URL is too long. Use at most 4096 characters.');
 
         self::assertSame([], $this->api->getPreprocessedPages(1));
     }
@@ -325,15 +324,37 @@ class PreprocessedPagesTest extends IntegrationTestCase
         $this->api->addPreprocessedPage(99, 'https://example.com/a');
     }
 
-    public function testRemovingAPageOfAnotherSiteDoesNothing(): void
+    public function testRemovingAPageOfAnotherSiteOrAnUnknownPageIsNotFound(): void
     {
         $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/a')['idpage'];
 
         $this->setRole('admin of site 2', 2);
-        $this->api->removePreprocessedPage(2, $idPage);
-        $this->api->removePreprocessedPage(2, 12345);
+        $this->assertRemoveNotFound(2, $idPage);
+        $this->assertRemoveNotFound(2, 12345);
 
         $this->setRole('superuser', 1);
+        $this->api->removePreprocessedPage(1, $idPage);
+        $this->assertRemoveNotFound(1, $idPage);
+    }
+
+    public function testAddWaitsForTheSiteLockAndFailsWithoutAddingWhenItIsNotReleased(): void
+    {
+        $lock = new Lock(StaticContainer::get(LockBackend::class), Service::LOCK_NAMESPACE);
+        self::assertTrue($lock->acquireLock('1'));
+
+        try {
+            $this->api->addPreprocessedPage(1, 'https://example.com/a');
+            $this->fail('Expected adding to fail while the site lock is held');
+        } catch (\Exception $e) {
+            self::assertSame('Could not get the lock for ID: 1', $e->getMessage());
+        } finally {
+            $lock->unlock();
+        }
+
+        self::assertSame([], $this->api->getPreprocessedPages(1));
+        // another site is not blocked by the lock of site 1
+        $this->api->addPreprocessedPage(2, 'https://example.org/a');
+        $this->api->addPreprocessedPage(1, 'https://example.com/a');
         self::assertSame(['https://example.com/a'], $this->getUrls(1));
     }
 
@@ -484,6 +505,17 @@ class PreprocessedPagesTest extends IntegrationTestCase
         } catch (BadRequestException $e) {
             self::assertSame($expectedMessage, $e->getMessage());
             self::assertSame(400, $e->getCode());
+        }
+    }
+
+    private function assertRemoveNotFound(int $idSite, int $idPage): void
+    {
+        try {
+            $this->api->removePreprocessedPage($idSite, $idPage);
+            $this->fail('Expected removing page ' . $idPage . ' of site ' . $idSite . ' to fail');
+        } catch (ThingNotFoundException $e) {
+            self::assertSame('This page is not selected for pre-processed Transitions.', $e->getMessage());
+            self::assertSame(404, $e->getCode());
         }
     }
 
