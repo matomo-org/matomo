@@ -219,6 +219,7 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
     public function testListsOfSeveralPagesKeepTheirOwnRowsAndOthers(): void
     {
+        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions_day'] = 1;
         Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 1;
         $pageUrls = [self::PAGE_URL, 'http://example.org/the/third_page.html?foo=bar'];
         $raw = [];
@@ -288,33 +289,45 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
     public function testListsKeepTheConfiguredNumberOfRowsPlusOthers(): void
     {
+        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions_day'] = 2;
         Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 1;
         $this->trackEntryFromWebsite(self::DAY . ' 15:00:00', 'http://a.example/x');
         $this->trackEntryFromWebsite(self::DAY . ' 16:00:00', 'http://b.example/y');
         $this->trackEntryFromWebsite(self::LATER_DAY . ' 15:00:00', 'http://a.example/x');
         $idAction = $this->selectPage(self::PAGE_URL);
-        $raw = $this->getRawReport('day', self::DAY);
-        $rawMonth = $this->getRawReport('month', self::DAY);
+        $raw = ['day' => $this->getRawReport('day', self::DAY), 'month' => $this->getRawReport('month', self::DAY)];
 
-        foreach (['day', 'month'] as $period) {
+        // days keep more rows than the periods summed from them
+        foreach (['day' => 2, 'month' => 1] as $period => $maxRows) {
             $this->archive($period, self::DAY);
             $archive = Archive::build(1, $period, self::DAY);
-            $expected = $period === 'day' ? $raw : $rawMonth;
 
             $previousPages = $archive->getDataTable(Records::getRecordName($idAction, Records::PREVIOUS_PAGES));
-            self::assertSame(1, $previousPages->getRowsCountWithoutSummaryRow(), $period);
-            self::assertSame(
-                array_sum($expected['previousPages']) - max($expected['previousPages']),
-                (int) $previousPages->getSummaryRow()->getColumn(Metrics::INDEX_NB_ACTIONS),
-                $period
-            );
-            self::assertSame(max($expected['previousPages']), (int) $previousPages->getFirstRow()->getColumn(Metrics::INDEX_NB_ACTIONS));
+            $this->assertTruncatedAt($maxRows, $raw[$period]['previousPages'], $previousPages, Metrics::INDEX_NB_ACTIONS, $period);
 
             $referrers = $archive->getDataTableExpanded(Records::getRecordName($idAction, Records::REFERRERS));
             $websites = $referrers->getRowFromLabel(Common::REFERRER_TYPE_WEBSITE)->getSubtable();
-            self::assertSame(1, $websites->getRowsCountWithoutSummaryRow(), $period);
-            self::assertSame($expected['referrers']['website']['visits'], $this->getTotal($websites, Metrics::INDEX_NB_VISITS), $period);
+            $this->assertTruncatedAt($maxRows, $raw[$period]['referrers']['website']['details'], $websites, Metrics::INDEX_NB_VISITS, $period);
         }
+    }
+
+    /**
+     * @param array<string, int> $rawCounts every row of the raw report
+     */
+    private function assertTruncatedAt(int $maxRows, array $rawCounts, DataTable $table, int $column, string $period): void
+    {
+        self::assertGreaterThan($maxRows, count($rawCounts), $period);
+        rsort($rawCounts);
+        $topCounts = array_slice($rawCounts, 0, $maxRows);
+
+        $storedCounts = [];
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
+            $storedCounts[] = (int) $row->getColumn($column);
+        }
+        rsort($storedCounts);
+
+        self::assertSame($topCounts, $storedCounts, $period);
+        self::assertSame(array_sum($rawCounts) - array_sum($topCounts), (int) $table->getSummaryRow()->getColumn($column), $period);
     }
 
     /**

@@ -49,7 +49,7 @@ class PageTransitions extends RecordBuilder
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
-        $maxRows = Records::getMaxRows($this->getIdSite($archiveProcessor));
+        $maxRows = $this->getMaxRows($archiveProcessor);
 
         $records = [];
         foreach ($this->getIdActions($archiveProcessor) as $idAction) {
@@ -98,7 +98,7 @@ class PageTransitions extends RecordBuilder
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $idActions = $this->getIdActionsToBuild($archiveProcessor);
-        $maxRows = Records::getMaxRows($this->getIdSite($archiveProcessor));
+        $maxRows = $this->getMaxRows($archiveProcessor);
         $logAggregator = $archiveProcessor->getLogAggregator();
         $model = StaticContainer::get(Model::class);
 
@@ -305,6 +305,18 @@ class PageTransitions extends RecordBuilder
         }
 
         return $this->idActionsByArchive[$archiveProcessor];
+    }
+
+    /**
+     * Days keep more rows than the longer periods summed from them.
+     */
+    private function getMaxRows(ArchiveProcessor $archiveProcessor): int
+    {
+        $idSite = $this->getIdSite($archiveProcessor);
+
+        return $archiveProcessor->getParams()->getPeriod()->getLabel() === 'day'
+            ? Records::getMaxDayRows($idSite)
+            : Records::getMaxRows($idSite);
     }
 
     private function getIdSite(ArchiveProcessor $archiveProcessor): int

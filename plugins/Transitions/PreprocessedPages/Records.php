@@ -17,7 +17,8 @@ use Piwik\Config\GeneralConfig;
  * Names and layout of the archive records of a pre-processed page, `Transitions_<idaction>_<part>`.
  *
  * The list records hold one row per action, with the label and the count in `Metrics::INDEX_NB_ACTIONS`, plus a
- * summary row for the actions beyond the row limit. The referrers record holds one row per referrer type (label =
+ * summary row for the actions beyond the row limit ({@link getMaxDayRows()} for days, {@link getMaxRows()} for longer
+ * periods). The referrers record holds one row per referrer type (label =
  * `Common::REFERRER_TYPE_*`, visits in `Metrics::INDEX_NB_VISITS`) with a subtable of the referrers of that type
  * (same columns, plus a summary row). The numeric records are written for every archived page, also when 0.
  * `days` counts the days whose records were built from the logs: 1 in a day archive, summed for longer periods.
@@ -64,6 +65,7 @@ final class Records
     public const UNKNOWN_SEARCH_ENGINE_LABEL = '';
 
     public const DEFAULT_MAX_ROWS = 100;
+    public const DEFAULT_MAX_DAY_ROWS = 1000;
 
     public static function getRecordName(int $idAction, string $part): string
     {
@@ -92,10 +94,23 @@ final class Records
     }
 
     /**
-     * Number of rows each list keeps, besides the summary row: `[General] datatable_archiving_maximum_rows_transitions`.
+     * Number of rows each list of a week, month or year keeps, besides the summary row, and the most rows a report
+     * served from the records can have: `[General] datatable_archiving_maximum_rows_transitions`.
      */
     public static function getMaxRows(int $idSite): int
     {
         return max(1, GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_transitions', self::DEFAULT_MAX_ROWS, $idSite));
+    }
+
+    /**
+     * Number of rows each list of a day keeps, besides the summary row, so the longer periods summed from days rank
+     * their rows on more than the top of each day: `[General] datatable_archiving_maximum_rows_transitions_day`, at
+     * least {@link getMaxRows()}.
+     */
+    public static function getMaxDayRows(int $idSite): int
+    {
+        $maxDayRows = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_transitions_day', self::DEFAULT_MAX_DAY_ROWS, $idSite);
+
+        return max(self::getMaxRows($idSite), $maxDayRows);
     }
 }
