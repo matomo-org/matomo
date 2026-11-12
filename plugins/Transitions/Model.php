@@ -34,6 +34,29 @@ class Model
     public const PARTITION_SITE_SEARCH = 2;
 
     /**
+     * The referrer of a visit: search engine, social network, AI assistant, website URL or campaign and keyword.
+     */
+    private const REFERRER_DATA_DIMENSION = 'CASE log_visit.referer_type
+				WHEN ' . Common::REFERRER_TYPE_DIRECT_ENTRY . ' THEN \'\'
+				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_name
+				WHEN ' . Common::REFERRER_TYPE_SOCIAL_NETWORK . ' THEN log_visit.referer_name
+				WHEN ' . Common::REFERRER_TYPE_AI_ASSISTANT . ' THEN log_visit.referer_name
+				WHEN ' . Common::REFERRER_TYPE_WEBSITE . ' THEN log_visit.referer_url
+				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT_WS(\' \', log_visit.referer_name, log_visit.referer_keyword)
+			END';
+
+    /**
+     * The batched queries rank each page and partition separately in a partition `idaction * 16 + partition`.
+     */
+    private const PAGE_PARTITION_COLUMN = 'transitions_page_partition';
+    private const PAGE_PARTITION_FACTOR = 16;
+
+    /**
+     * RankingQuery joins one table per partition, and MySQL joins at most 61 tables.
+     */
+    private const MAX_PARTITIONS_PER_QUERY = 50;
+
+    /**
      * Referrer types, in the order the report lists them.
      */
     public const REFERRER_TYPES = [
@@ -278,14 +301,7 @@ class Model
         // one column per keyword + search engine url. this way, we could not get the top keywords using
         // the ranking query.
         $dimensions = [
-            'referrer_data' => 'CASE log_visit.referer_type
-				WHEN ' . Common::REFERRER_TYPE_DIRECT_ENTRY . ' THEN \'\'
-				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_name
-				WHEN ' . Common::REFERRER_TYPE_SOCIAL_NETWORK . ' THEN log_visit.referer_name
-				WHEN ' . Common::REFERRER_TYPE_AI_ASSISTANT . ' THEN log_visit.referer_name
-				WHEN ' . Common::REFERRER_TYPE_WEBSITE . ' THEN log_visit.referer_url
-				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT_WS(\' \', log_visit.referer_name, log_visit.referer_keyword)
-			END', 'referer_type',
+            'referrer_data' => self::REFERRER_DATA_DIMENSION, 'referer_type',
         ];
         $rankingQuery->addLabelColumn('referrer_data');
 
@@ -298,6 +314,180 @@ class Model
         $data    = $logAggregator->queryVisitsByDimension($dimensions, $where, [], $metrics, $rankingQuery, false, $timeLimit);
 
         return is_array($data) ? $data : [];
+    }
+
+    /**
+     * Like {@link queryInternalReferrers()} for several page URLs at once, with one log scan per chunk of pages.
+     *
+     * @param list<int> $idActions
+     * @return array<int, array{result: array<int, array<mixed>>, excludedFromLimit: array<mixed>}> by idaction
+     */
+    public function queryInternalReferrersOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel): array
+    {
+        $partitions = [self::PARTITION_OTHER, self::PARTITION_PAGE, self::PARTITION_SITE_SEARCH];
+        $dimension = sprintf('if ( %1$s.idaction_url_ref IS NULL, %1$s.idaction_name_ref, %1$s.idaction_url_ref )', 'log_link_visit_action');
+        $pagePartition = '(log_link_visit_action.idaction_url * ' . self::PAGE_PARTITION_FACTOR . ' + CASE
+            WHEN log_action.type = ' . Action::TYPE_PAGE_URL . ' THEN ' . self::PARTITION_PAGE . '
+            WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN ' . self::PARTITION_SITE_SEARCH . '
+            ELSE ' . self::PARTITION_OTHER . ' END)';
+
+        $pages = [];
+        foreach ($this->chunkPages($idActions, count($partitions)) as $chunk) {
+            $rankingQuery = $this->makePagesRankingQuery($chunk, $partitions, $limit, $othersLabel);
+            $rankingQuery->addLabelColumn(['name', 'url_prefix']);
+            $rankingQuery->setColumnToMarkExcludedRows('is_self');
+
+            $data = $logAggregator->queryActionsByDimension(
+                [$dimension, self::PAGE_PARTITION_COLUMN => $pagePartition],
+                'log_link_visit_action.idaction_url IN (' . implode(',', $chunk) . ')',
+                [
+                    'log_action.name',
+                    'log_action.url_prefix',
+                    'CASE WHEN log_link_visit_action.idaction_url_ref = log_link_visit_action.idaction_url THEN 1 ELSE 0 END AS `is_self`',
+                ],
+                [Metrics::INDEX_NB_ACTIONS],
+                $rankingQuery,
+                $dimension,
+                '`name`'
+            );
+            $data = is_array($data) ? $data : [];
+
+            foreach ($chunk as $idAction) {
+                $pages[$idAction] = ['result' => [], 'excludedFromLimit' => []];
+            }
+            foreach ($this->splitPagePartitions(is_array($data['result'] ?? null) ? $data['result'] : []) as $idAction => $rowsByPartition) {
+                if (isset($pages[$idAction])) {
+                    $pages[$idAction]['result'] = $rowsByPartition;
+                }
+            }
+            foreach (is_array($data['excludedFromLimit'] ?? null) ? $data['excludedFromLimit'] : [] as $row) {
+                $idAction = is_array($row) && is_numeric($row[self::PAGE_PARTITION_COLUMN] ?? null)
+                    ? intdiv((int) $row[self::PAGE_PARTITION_COLUMN], self::PAGE_PARTITION_FACTOR)
+                    : null;
+                if ($idAction !== null && isset($pages[$idAction])) {
+                    $pages[$idAction]['excludedFromLimit'][] = $row;
+                }
+            }
+        }
+
+        return $pages;
+    }
+
+    /**
+     * Like {@link queryFollowingActions()} without reloads for several page URLs at once, with one log scan per chunk
+     * of pages.
+     *
+     * @param list<int> $idActions
+     * @return array<int, array<int, array<mixed>>> rows by action type by idaction
+     */
+    public function queryFollowingActionsOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel): array
+    {
+        $types = array_keys($this->getFollowingActionTypes('url'));
+        $dimension = sprintf('if ( %1$s.idaction_url IS NULL, %1$s.idaction_name, %1$s.idaction_url )', 'log_link_visit_action');
+        $pagePartition = '(log_link_visit_action.idaction_url_ref * ' . self::PAGE_PARTITION_FACTOR . ' + log_action.type)';
+
+        $pages = [];
+        foreach ($this->chunkPages($idActions, count($types)) as $chunk) {
+            $rankingQuery = $this->makePagesRankingQuery($chunk, $types, $limit, $othersLabel);
+            $rankingQuery->addLabelColumn(['name', 'url_prefix']);
+
+            $data = $logAggregator->queryActionsByDimension(
+                [$dimension, self::PAGE_PARTITION_COLUMN => $pagePartition],
+                'log_link_visit_action.idaction_url_ref IN (' . implode(',', $chunk) . ')'
+                    . ' AND (log_link_visit_action.idaction_url IS NULL'
+                    . ' OR log_link_visit_action.idaction_url != log_link_visit_action.idaction_url_ref)',
+                ['log_action.name', 'log_action.url_prefix'],
+                [Metrics::INDEX_NB_ACTIONS],
+                $rankingQuery,
+                $dimension,
+                '`name`'
+            );
+
+            $pages += array_fill_keys($chunk, []);
+            $pages = array_replace($pages, $this->splitPagePartitions(is_array($data) ? $data : []));
+        }
+
+        return $pages;
+    }
+
+    /**
+     * Like {@link queryExternalReferrers()} for several page URLs at once, with one log scan per chunk of pages.
+     *
+     * @param list<int> $idActions
+     * @return array<int, array<int, array<mixed>>> rows by referrer type by idaction
+     */
+    public function queryExternalReferrersOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel): array
+    {
+        $dimensions = [
+            'referrer_data' => self::REFERRER_DATA_DIMENSION,
+            'referer_type',
+            self::PAGE_PARTITION_COLUMN => '(log_visit.visit_entry_idaction_url * ' . self::PAGE_PARTITION_FACTOR . ' + log_visit.referer_type)',
+        ];
+
+        $pages = [];
+        foreach ($this->chunkPages($idActions, count(self::REFERRER_TYPES)) as $chunk) {
+            $rankingQuery = $this->makePagesRankingQuery($chunk, self::REFERRER_TYPES, $limit, $othersLabel);
+            $rankingQuery->addLabelColumn('referrer_data');
+
+            $data = $logAggregator->queryVisitsByDimension(
+                $dimensions,
+                'log_visit.visit_entry_idaction_url IN (' . implode(',', $chunk) . ')',
+                [],
+                [Metrics::INDEX_NB_VISITS],
+                $rankingQuery
+            );
+
+            $pages += array_fill_keys($chunk, []);
+            $pages = array_replace($pages, $this->splitPagePartitions(is_array($data) ? $data : []));
+        }
+
+        return $pages;
+    }
+
+    /**
+     * @param list<int> $idActions
+     * @return list<list<int>>
+     */
+    private function chunkPages(array $idActions, int $partitionsPerPage): array
+    {
+        return array_chunk($idActions, max(1, intdiv(self::MAX_PARTITIONS_PER_QUERY, $partitionsPerPage)));
+    }
+
+    /**
+     * Ranks the rows of each page and partition separately, see {@link PAGE_PARTITION_COLUMN}.
+     *
+     * @param list<int> $idActions
+     * @param list<int> $partitions
+     */
+    private function makePagesRankingQuery(array $idActions, array $partitions, int $limit, string $othersLabel): RankingQuery
+    {
+        $values = [];
+        foreach ($idActions as $idAction) {
+            foreach ($partitions as $partition) {
+                $values[] = $idAction * self::PAGE_PARTITION_FACTOR + $partition;
+            }
+        }
+
+        $rankingQuery = new RankingQuery($limit);
+        $rankingQuery->setOthersLabel($othersLabel);
+        $rankingQuery->partitionResultIntoMultipleGroups(self::PAGE_PARTITION_COLUMN, $values);
+
+        return $rankingQuery;
+    }
+
+    /**
+     * @param array<mixed> $rowsByPagePartition
+     * @return array<int, array<int, array<mixed>>> rows by partition by idaction
+     */
+    private function splitPagePartitions(array $rowsByPagePartition): array
+    {
+        $pages = [];
+        foreach ($rowsByPagePartition as $pagePartition => $rows) {
+            $pagePartition = (int) $pagePartition;
+            $pages[intdiv($pagePartition, self::PAGE_PARTITION_FACTOR)][$pagePartition % self::PAGE_PARTITION_FACTOR] = is_array($rows) ? $rows : [];
+        }
+
+        return $pages;
     }
 
     private function getColumnTypeSuffix(string $actionType): string

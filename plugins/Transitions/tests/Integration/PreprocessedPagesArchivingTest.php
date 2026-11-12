@@ -101,6 +101,29 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         self::assertNotSame($this->getStoredReport($idAction, 'day', self::DAY), $stored);
     }
 
+    public function testDayRecordsEqualTheRawLogQueryForMorePagesThanOneQueryTakes(): void
+    {
+        // one visit through 17 pages, more than each query takes at once
+        $pageUrls = [];
+        $tracker = Fixture::getTracker(1, self::DAY . ' 15:00:00', $defaultInit = true);
+        $tracker->setUrlReferrer('http://a.example/x');
+        for ($i = 0; $i < 17; $i++) {
+            $pageUrls[$i] = 'http://example.org/many/' . $i . '.html';
+            $tracker->setForceVisitDateTime(Date::factory(self::DAY . ' 15:00:00')->addPeriod($i, 'minute')->getDatetime());
+            $tracker->setUrl($pageUrls[$i]);
+            Fixture::checkResponse($tracker->doTrackPageView('many ' . $i));
+        }
+
+        $idActions = [];
+        foreach ($pageUrls as $i => $pageUrl) {
+            $idActions[$i] = $this->selectPage($pageUrl);
+        }
+
+        foreach ([0, 8, 12, 16] as $i) {
+            self::assertSame($this->getRawReport('day', self::DAY, '', $pageUrls[$i]), $this->getStoredReport($idActions[$i], 'day', self::DAY), $pageUrls[$i]);
+        }
+    }
+
     public function testNumericRecordsAreWrittenWhenThePageHasNoData(): void
     {
         // tracked on the first day only, while the website has visits on the later day too
@@ -428,9 +451,9 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
      *
      * @return array<string, mixed>
      */
-    private function getRawReport(string $period, string $date, string $segment = ''): array
+    private function getRawReport(string $period, string $date, string $segment = '', string $pageUrl = self::PAGE_URL): array
     {
-        $raw = API::getInstance()->getTransitionsForAction(self::PAGE_URL, 'url', 1, $period, $date, $segment, 100);
+        $raw = API::getInstance()->getTransitionsForAction($pageUrl, 'url', 1, $period, $date, $segment, 100);
 
         $report = ['pageMetrics' => array_map('intval', $raw['pageMetrics'])];
         foreach (Records::ACTION_LISTS as $list) {

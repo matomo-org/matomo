@@ -16,7 +16,6 @@ use Piwik\ArchiveProcessor\Record;
 use Piwik\ArchiveProcessor\RecordBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
@@ -98,26 +97,38 @@ class PageTransitions extends RecordBuilder
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
+        $idActions = $this->getIdActionsToBuild($archiveProcessor);
         $maxRows = Records::getMaxRows($this->getIdSite($archiveProcessor));
         $logAggregator = $archiveProcessor->getLogAggregator();
+        $model = StaticContainer::get(Model::class);
+
+        $internalReferrers = $model->queryInternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW);
+        // reloads are counted in loops, not as following pages
+        $followingActions = $model->queryFollowingActionsOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW);
+        $externalReferrers = $model->queryExternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW);
 
         $records = [];
-        foreach ($this->getIdActionsToBuild($archiveProcessor) as $idAction) {
-            $records = array_merge($records, $this->aggregatePage($logAggregator, $idAction, $maxRows));
+        foreach ($idActions as $idAction) {
+            $records = array_merge($records, $this->makePageRecords(
+                $idAction,
+                $internalReferrers[$idAction] ?? [],
+                $followingActions[$idAction] ?? [],
+                $externalReferrers[$idAction] ?? []
+            ));
         }
 
         return $records;
     }
 
     /**
+     * @param array<mixed> $internalReferrers rows of the page's ranking query: `result` by partition, `excludedFromLimit`
+     * @param array<mixed> $followingActions rows of the page's ranking query by action type
+     * @param array<mixed> $externalReferrers rows of the page's ranking query by referrer type
      * @return array<string, DataTable|int>
      */
-    private function aggregatePage(LogAggregator $logAggregator, int $idAction, int $maxRows): array
+    private function makePageRecords(int $idAction, array $internalReferrers, array $followingActions, array $externalReferrers): array
     {
-        $model = StaticContainer::get(Model::class);
         $records = [];
-
-        $internalReferrers = $model->queryInternalReferrers($logAggregator, $idAction, 'url', $maxRows, -1, RankingQuery::LABEL_SUMMARY_ROW);
         $partitions = $this->toArray($internalReferrers['result'] ?? []);
 
         $loops = 0;
@@ -140,10 +151,8 @@ class PageTransitions extends RecordBuilder
             $pageviews += $this->getCount($this->toArray($row), Metrics::INDEX_NB_ACTIONS);
         }
 
-        // reloads are counted in loops, not as following pages
-        $followingActions = $model->queryFollowingActions($logAggregator, $idAction, 'url', $maxRows, false, -1, RankingQuery::LABEL_SUMMARY_ROW);
         $transitionsToFollowingActions = 0;
-        foreach ($model->getFollowingActionTypes('url') as $type => $list) {
+        foreach (StaticContainer::get(Model::class)->getFollowingActionTypes('url') as $type => $list) {
             $total = 0;
             $records[Records::getRecordName($idAction, $list)] = $this->makeActionsTable($followingActions[$type] ?? [], $type, $total);
 
@@ -154,10 +163,7 @@ class PageTransitions extends RecordBuilder
         }
 
         $entries = 0;
-        $records[Records::getRecordName($idAction, Records::REFERRERS)] = $this->makeReferrersTable(
-            $model->queryExternalReferrers($logAggregator, $idAction, 'url', $maxRows, -1, RankingQuery::LABEL_SUMMARY_ROW),
-            $entries
-        );
+        $records[Records::getRecordName($idAction, Records::REFERRERS)] = $this->makeReferrersTable($externalReferrers, $entries);
 
         $records[Records::getRecordName($idAction, Records::PAGEVIEWS)] = $pageviews;
         $records[Records::getRecordName($idAction, Records::LOOPS)] = $loops;
