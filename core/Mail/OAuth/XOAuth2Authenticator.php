@@ -20,15 +20,8 @@ use PHPMailer\PHPMailer\OAuthTokenProvider;
  */
 class XOAuth2Authenticator implements OAuthTokenProvider
 {
-    /**
-     * @var string
-     */
-    private $mailbox;
-
-    /**
-     * @var string
-     */
-    private $accessToken;
+    private string $mailbox;
+    private string $accessToken;
 
     public function __construct(
         string $mailbox,
