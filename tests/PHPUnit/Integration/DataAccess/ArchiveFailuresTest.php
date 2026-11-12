@@ -235,6 +235,16 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->assertNotNull($this->archiveFailures->getGivenUpWarning([1], ['2019-12-24'], 'day'));
     }
 
+    public function testHasFailuresIsPerSite(): void
+    {
+        $this->assertFalse($this->archiveFailures->hasFailures(1));
+
+        $this->archiveFailures->recordFailure($this->getInvalidation(['idsite' => 2]), 'error');
+
+        $this->assertFalse($this->archiveFailures->hasFailures(1));
+        $this->assertTrue($this->archiveFailures->hasFailures(2));
+    }
+
     public function testFailureCountsUseTheMaximumAttemptsOfEachSite(): void
     {
         Config::getInstance()->General_2 = ['archive_failure_max_attempts' => 1];

@@ -253,6 +253,15 @@ class ArchiveFailures
         } while (count($rows) === $chunkSize);
     }
 
+    public function hasFailures(int $idSite): bool
+    {
+        if (!self::isAvailable()) {
+            return false;
+        }
+
+        return (bool) Db::fetchOne('SELECT 1 FROM `' . self::getTable() . '` WHERE idsite = ? LIMIT 1', [$idSite]);
+    }
+
     /**
      * Releases invalidations put on hold because of a failure (status ON_HOLD back to QUEUED) once no failure blocks
      * them anymore: the retry delay passed, or the failure was removed (archive processed, reset, cleaned up).
