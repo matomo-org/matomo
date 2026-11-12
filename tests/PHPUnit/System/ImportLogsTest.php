@@ -212,8 +212,6 @@ class ImportLogsTest extends SystemTestCase
         $testingEnvironment = new TestingEnvironmentVariables();
         if ($testingEnvironment->_triggerTrackerFailure) {
             $observers[] = array('Tracker.newHandler', \Piwik\DI::value(function () {
-                @http_response_code(500);
-
                 throw new \Exception("injected exception");
             }));
         }
