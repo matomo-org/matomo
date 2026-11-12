@@ -17,6 +17,7 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Plugins\SegmentEditor\UnprocessedSegmentException;
 use Piwik\Segment;
@@ -66,6 +67,30 @@ final class StoredRecordsReader
         } catch (UnprocessedSegmentException $e) {
             return [];
         }
+    }
+
+    /**
+     * Returns the visits of the days from their archives, without launching archiving.
+     *
+     * @param list<Period> $days
+     * @return array<string, int|null> by period range string; null for a day without an archive
+     */
+    public function getVisits(int $idSite, array $days, Segment $segment): array
+    {
+        try {
+            $archive = $this->buildArchive($idSite, $days, $segment);
+            $rows = $archive === null ? [] : $this->getNumericRows($archive, ['nb_visits']);
+        } catch (UnprocessedSegmentException $e) {
+            $rows = [];
+        }
+
+        $visits = [];
+        foreach ($days as $day) {
+            $value = $rows[$day->getRangeString()]['nb_visits'] ?? null;
+            $visits[$day->getRangeString()] = is_numeric($value) ? (int) $value : null;
+        }
+
+        return $visits;
     }
 
     /**
@@ -291,6 +316,10 @@ final class StoredRecordsReader
                 foreach ($tables as $table) {
                     $sum->addDataTable($table);
                 }
+
+                // as archiving truncates the lists it sums, so many periods don't make the sum grow without a bound
+                $column = $isExpanded ? Metrics::INDEX_NB_VISITS : Metrics::INDEX_NB_ACTIONS;
+                $sum->filter('Truncate', [Records::getMaxRows($idSite), DataTable::LABEL_SUMMARY_ROW, $column, true]);
 
                 foreach ($result instanceof DataTable\Map ? $result->getDataTables() : [$result] as $table) {
                     Common::destroy($table);

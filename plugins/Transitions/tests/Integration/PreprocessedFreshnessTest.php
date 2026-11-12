@@ -22,11 +22,16 @@ use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log\LoggerInterface;
+use Piwik\Metrics;
+use Piwik\Period\Day;
+use Piwik\EventDispatcher;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
 use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsLoader;
 use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsReader;
+use Piwik\Segment;
 use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -52,6 +57,7 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     private const OTHER_PAGE_URL = 'http://example.org/sub/dir/page2.html';
     private const DAY = '2010-03-06';
     private const TODAY = '2010-03-14';
+    private const SEGMENT = 'referrerType==direct';
 
     private int $visitors = 0;
 
@@ -232,13 +238,7 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
         $this->setNow(self::TODAY . ' 12:20:00');
 
-        StaticContainer::getContainer()->set(StoredRecordsLoader::class, new StoredRecordsLoader(
-            StaticContainer::get(StoredRecordsReader::class),
-            StaticContainer::get(Service::class),
-            StaticContainer::get(LockBackend::class),
-            StaticContainer::get(LoggerInterface::class),
-            200
-        ));
+        $this->setLoader(200);
         $lock = new Lock(StaticContainer::get(LockBackend::class), 'Transitions.buildPreprocessedDay.');
         self::assertTrue($lock->acquireLock('1.' . $idAction . '.' . self::TODAY . '.'));
 
@@ -348,13 +348,183 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         self::assertSame($this->toArray($raw), $this->toArray($week));
     }
 
+    public function testAWeekWithTodayAndDaysWithoutVisitsIsSummedFromItsDays(): void
+    {
+        // the days before today have no visits, so archiving skips them
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->setNow(self::TODAY . ' 12:00:00');
+        $this->archive($idAction, 'week', self::TODAY);
+        $week = $this->request('week', self::TODAY);
+
+        $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
+        $this->setNow(self::TODAY . ' 12:20:00');
+
+        foreach (['week' => self::TODAY, 'range' => '2010-03-08,' . self::TODAY] as $period => $date) {
+            $report = $this->request($period, $date);
+            self::assertSame($week['pageMetrics']['pageviews'] + 2, $report['pageMetrics']['pageviews'], $period);
+            self::assertSame(self::TODAY . ' 12:20:00', $report['preprocessedAt'], $period);
+        }
+        self::assertSame(1, $this->countPartialArchives(self::TODAY));
+    }
+
+    public function testThePreProcessedSegmentOfTodayIsRebuilt(): void
+    {
+        $this->addPreProcessedSegment();
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->trackPageviews(self::TODAY . ' 09:00:00', 1);
+        $this->setNow(self::TODAY . ' 12:00:00');
+        $this->archive($idAction, 'day', self::TODAY, self::SEGMENT);
+        $report = $this->request('day', self::TODAY, self::PAGE_URL, self::SEGMENT);
+
+        $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
+        $this->setNow(self::TODAY . ' 12:20:00');
+
+        $refreshed = $this->request('day', self::TODAY, self::PAGE_URL, self::SEGMENT);
+        self::assertSame($report['pageMetrics']['pageviews'] + 2, $refreshed['pageMetrics']['pageviews']);
+        self::assertSame(self::TODAY . ' 12:20:00', $refreshed['preprocessedAt']);
+    }
+
+    public function testNoSegmentIsBuiltWhenSegmentsArentArchivedForTransitions(): void
+    {
+        $this->addPreProcessedSegment();
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->trackPageviews(self::TODAY . ' 09:00:00', 1);
+        $this->setNow(self::TODAY . ' 12:00:00');
+        $this->archive($idAction, 'day', self::TODAY, self::SEGMENT);
+        $report = $this->request('day', self::TODAY, self::PAGE_URL, self::SEGMENT);
+
+        Config::getInstance()->General['disable_archiving_segment_for_plugins'] = 'Transitions';
+        $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
+        $this->setNow(self::TODAY . ' 12:20:00');
+
+        self::assertSame($this->toArray($report), $this->toArray($this->request('day', self::TODAY, self::PAGE_URL, self::SEGMENT)));
+        self::assertSame(0, $this->countPartialArchives(self::TODAY));
+    }
+
+    public function testAFailedBuildIsNotRetriedRightAway(): void
+    {
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->setNow(self::TODAY . ' 12:00:00');
+        $this->archive($idAction, 'day', self::TODAY);
+        $report = $this->request('day', self::TODAY);
+        $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
+        $this->setNow(self::TODAY . ' 12:20:00');
+
+        $fail = true;
+        $builds = 0;
+        EventDispatcher::getInstance()->addObserver('ArchiveProcessor.shouldAggregateFromRawData', function () use (&$fail, &$builds) {
+            $builds++;
+            if ($fail) {
+                throw new \Exception('archiving failed');
+            }
+        });
+
+        self::assertSame($this->toArray($report), $this->toArray($this->request('day', self::TODAY)));
+        $fail = false;
+        self::assertSame($this->toArray($report), $this->toArray($this->request('day', self::TODAY)));
+        self::assertSame(1, $builds);
+        self::assertTrue(Cache::getLazyCache()->contains($this->getAttemptCacheId($idAction, self::TODAY)));
+
+        // once the failure is forgotten
+        Cache::getLazyCache()->delete($this->getAttemptCacheId($idAction, self::TODAY));
+        self::assertSame($report['pageMetrics']['pageviews'] + 2, $this->request('day', self::TODAY)['pageMetrics']['pageviews']);
+        self::assertFalse(Cache::getLazyCache()->contains($this->getAttemptCacheId($idAction, self::TODAY)));
+    }
+
+    public function testWithoutCronADayWithoutVisitsIsBuiltOnce(): void
+    {
+        $this->addPreProcessedSegment();
+        $this->selectPage(self::PAGE_URL);
+
+        // the website, and so the segment, has no visits that day
+        foreach ([['2010-03-09', ''], ['2010-03-09', self::SEGMENT]] as [$date, $segment]) {
+            for ($i = 0; $i < 2; $i++) {
+                try {
+                    $this->request('day', $date, self::PAGE_URL, $segment);
+                    self::fail('NoDataForAction expected');
+                } catch (\Exception $e) {
+                    self::assertSame('NoDataForAction', $e->getMessage());
+                }
+            }
+        }
+
+        // one per segment, not one per request
+        self::assertSame(2, $this->countPartialArchives('2010-03-09'));
+    }
+
+    public function testWithoutCronTooManyPeriodsAreAnsweredFromTheLogs(): void
+    {
+        $days = ['2010-03-08', '2010-03-09', '2010-03-10', '2010-03-11', '2010-03-12', '2010-03-13', self::TODAY];
+        foreach ($days as $day) {
+            $this->trackPageviews($day . ' 10:00:00', 1, self::OTHER_PAGE_URL);
+        }
+        $raw = $this->request('week', self::TODAY);
+        $this->selectPage(self::PAGE_URL);
+        foreach ($days as $day) {
+            $this->buildDay($day);
+        }
+        self::assertSame(1, $this->request('week', self::TODAY)['preprocessed']);
+
+        // at most 6 periods are summed
+        $this->setLoader(200, 6);
+        self::assertSame($this->toArray($raw), $this->toArray($this->request('week', self::TODAY)));
+    }
+
+    public function testWithoutCronTheSumOfManyDaysIsTruncatedToTheStoredRows(): void
+    {
+        // a visit from the page to another page each day
+        $days = [];
+        for ($index = 0; $index < 7; $index++) {
+            $days[] = Date::factory('2010-03-08')->addDay($index)->toString();
+            $tracker = Fixture::getTracker(1, $days[$index] . ' 10:00:00', $defaultInit = true);
+            $tracker->setIp('10.2.0.' . $index);
+            $tracker->setNewVisitorId();
+            $tracker->setUrl(self::OTHER_PAGE_URL);
+            Fixture::checkResponse($tracker->doTrackPageView('other'));
+            $tracker->setForceVisitDateTime($days[$index] . ' 10:01:00');
+            $tracker->setUrl('http://example.org/day/' . $index . '.html');
+            Fixture::checkResponse($tracker->doTrackPageView('day ' . $index));
+        }
+        $idAction = $this->selectPage(self::OTHER_PAGE_URL);
+        foreach ($days as $day) {
+            $this->buildDay($day, self::OTHER_PAGE_URL);
+        }
+
+        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 2;
+        $periods = array_map(fn(string $day) => new Day(Date::factory($day)), $days);
+        $records = StaticContainer::get(StoredRecordsReader::class)->readSum(1, $periods, new Segment('', [1]), $idAction, [Records::FOLLOWING_PAGES]);
+
+        self::assertNotNull($records);
+        $followingPages = $records->getTable(Records::FOLLOWING_PAGES);
+        self::assertSame(2, $followingPages->getRowsCountWithoutSummaryRow());
+        self::assertSame(5, (int) $followingPages->getSummaryRow()->getColumn(Metrics::INDEX_NB_ACTIONS));
+    }
+
+    public function testWithoutCronDaysAreNotSummedBeyondThePeriodLimit(): void
+    {
+        $days = ['2010-03-08', '2010-03-09', '2010-03-10', '2010-03-11', '2010-03-12', '2010-03-13', self::TODAY];
+        foreach ($days as $day) {
+            $this->trackPageviews($day . ' 10:00:00', 1, self::OTHER_PAGE_URL);
+        }
+        $this->selectPage(self::PAGE_URL);
+        foreach ($days as $day) {
+            $this->buildDay($day);
+        }
+        self::assertSame(1, $this->request('week', self::TODAY)['preprocessed']);
+
+        Config::setSetting('Transitions', 'max_period_allowed', 'day');
+
+        $this->expectExceptionMessage('PeriodNotAllowed');
+        $this->request('week', self::TODAY);
+    }
+
     /**
      * Requests a day as the report does without cron archiving, which builds the page's records.
      */
-    private function buildDay(string $date): void
+    private function buildDay(string $date, string $pageUrl = self::PAGE_URL): void
     {
         try {
-            $this->request('day', $date);
+            $this->request('day', $date, $pageUrl);
         } catch (\Exception $e) {
             // the page had no pageviews that day
             self::assertSame('NoDataForAction', $e->getMessage());
@@ -396,14 +566,14 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     /**
      * Archives the period as browser archiving does, with the page's records and the visits.
      */
-    private function archive(int $idAction, string $period, string $date): void
+    private function archive(int $idAction, string $period, string $date, string $segment = ''): void
     {
         $general = Config::getInstance()->General;
         $this->setBrowserArchiving(true);
         Cache::getTransientCache()->flushAll();
 
         try {
-            Archive::build(1, $period, $date)->getNumeric(['nb_visits', Records::getRebuildReportName($idAction)]);
+            Archive::build(1, $period, $date, $segment)->getNumeric(['nb_visits', Records::getRebuildReportName($idAction)]);
         } finally {
             Config::getInstance()->General = $general;
             Cache::getTransientCache()->flushAll();
@@ -413,11 +583,11 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     /**
      * @return array<string, mixed>
      */
-    private function request(string $period, string $date, string $pageUrl = self::PAGE_URL): array
+    private function request(string $period, string $date, string $pageUrl = self::PAGE_URL, string $segment = '', int $limit = 0): array
     {
         Cache::getTransientCache()->flushAll();
 
-        return API::getInstance()->getTransitionsForAction($pageUrl, 'url', 1, $period, $date);
+        return API::getInstance()->getTransitionsForAction($pageUrl, 'url', 1, $period, $date, $segment, $limit);
     }
 
     /**
@@ -446,6 +616,39 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
             . " WHERE idsite = 1 AND period = ? AND date1 = ? AND name LIKE 'done%.Transitions' AND value = ?",
             [$periodId, $date1, ArchiveWriter::DONE_PARTIAL]
         );
+    }
+
+    private function setLoader(int $maxLockWaitMilliseconds, int $maxSummedPeriods = StoredRecordsLoader::MAX_SUMMED_PERIODS): void
+    {
+        StaticContainer::getContainer()->set(StoredRecordsLoader::class, new StoredRecordsLoader(
+            StaticContainer::get(StoredRecordsReader::class),
+            StaticContainer::get(Service::class),
+            StaticContainer::get(LockBackend::class),
+            StaticContainer::get(LoggerInterface::class),
+            $maxLockWaitMilliseconds,
+            $maxSummedPeriods
+        ));
+    }
+
+    private function addPreProcessedSegment(): void
+    {
+        // a segment can only be pre-processed with cron archiving
+        $general = Config::getInstance()->General;
+        $this->setBrowserArchiving(false);
+        try {
+            SegmentEditorAPI::getInstance()->add('direct', self::SEGMENT, 1, true);
+        } finally {
+            Config::getInstance()->General = $general;
+        }
+        Cache::getTransientCache()->flushAll();
+        Cache::getEagerCache()->flushAll();
+    }
+
+    private function getAttemptCacheId(int $idAction, string $date, string $segment = ''): string
+    {
+        $hash = $segment === '' ? '' : (new Segment($segment, [1]))->getHash();
+
+        return 'Transitions_buildPreprocessedDay_' . md5('1.' . $idAction . '.' . $date . '.' . $hash);
     }
 
     /**

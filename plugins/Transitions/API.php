@@ -205,7 +205,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Builds the report from the records stored for a pre-processed page, or returns null when they don't cover the
-     * request, which is then answered from the logs. As no logs are read, `max_period_allowed` does not apply.
+     * request, which is then answered from the logs. As at most single days are read from the logs,
+     * `max_period_allowed` does not apply.
      *
      * @param string|null|false $segment
      * @param int|string $limitBeforeGrouping
@@ -265,12 +266,13 @@ class API extends \Piwik\Plugin\API
                 $periodObject->getDateTimeEnd()->setTimezone($site->getTimezone())
             );
             $dateLabel = Period\Factory::build($periodObject->getLabel(), $date)->getLocalizedShortString();
+            $isPeriodAllowed = $this->isPeriodAllowed($idSite, $period, $date);
         } catch (\Exception $e) {
             // invalid input is reported by the log query, after the period check
             return null;
         }
 
-        $records = StaticContainer::get(StoredRecordsLoader::class)->load($idSite, $periodObject, $segmentObject, $idaction, $tableParts);
+        $records = StaticContainer::get(StoredRecordsLoader::class)->load($idSite, $periodObject, $segmentObject, $idaction, $tableParts, $isPeriodAllowed);
         if ($records === null) {
             return null;
         }
