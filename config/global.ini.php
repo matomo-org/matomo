@@ -1676,4 +1676,9 @@ max_preprocessed_pages = 20
 ; never rebuilt in a request. Override it for one website in a [Transitions_<idSite>] section. Set to 0 to turn it off.
 preprocessed_refresh_after = 900
 
+; Most rows a Transitions report served from pre-processed data shows per list. Requests for more rows
+; (limitBeforeGrouping) are answered from the raw logs. At most datatable_archiving_maximum_rows_transitions.
+; Override it for one website in a [Transitions_<idSite>] section.
+preprocessed_max_rows_served = 100
+
 ; NOTE: do not directly edit this file! See notice at the top
