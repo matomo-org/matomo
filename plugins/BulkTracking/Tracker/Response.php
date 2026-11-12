@@ -39,7 +39,10 @@ class Response extends Tracker\Response
         $this->isExceptionOutput = true;
         Common::sendResponseCode($statusCode);
 
-        $this->logExceptionToErrorLog($e);
+        // client errors are not server problems, so keep them out of PHP's error log
+        if ($statusCode >= 500) {
+            $this->logExceptionToErrorLog($e);
+        }
 
         $result = $this->formatException($tracker, $e);
 
