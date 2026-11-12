@@ -153,7 +153,10 @@
                 class="managePreprocessedPages__suggestion"
                 @click="pickSuggestion(suggestion.url)"
               >
-                <span class="managePreprocessedPages__suggestionUrl">{{ suggestion.url }}</span>
+                <span
+                  class="managePreprocessedPages__suggestionUrl"
+                  :title="suggestion.url"
+                >{{ suggestion.url }}</span>
                 <span class="managePreprocessedPages__suggestionPageviews">
                   {{ formatNumber(suggestion.nb_hits) }}
                 </span>
@@ -198,6 +201,7 @@ import {
   translate,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
+import apiErrorText from '../apiErrorText';
 
 /** An entry of Transitions.getPreprocessedPages. */
 export interface PreprocessedPage {
@@ -229,18 +233,17 @@ export interface ManagePreprocessedPagesState {
 
 const MAX_SUGGESTIONS = 10;
 
-/** API errors arrive HTML-escaped; they are shown as text. */
-function errorText(error: unknown): string {
-  const message = error instanceof Error ? error.message : '';
-  return message ? Matomo.helper.htmlDecode(message) : translate('General_ErrorRequest', '', '');
+/** Shorter input would match most of a large site's pages, so it isn't worth a report request. */
+const MIN_SUGGESTION_CHARS = 3;
+
+/** The report's URLs are matched whatever their protocol. */
+function withoutScheme(text: string): string {
+  return text.trim().replace(/^https?:\/\/(www\.)?/i, '');
 }
 
-/** The typed text is matched literally against the report's URLs, whatever their protocol. */
+/** The typed text is matched literally; the API wraps the pattern in slashes and escapes those. */
 function toUrlPattern(text: string): string {
-  return text.trim()
-    .replace(/^https?:\/\/(www\.)?/i, '')
-    // the API wraps the pattern in slashes and escapes those itself
-    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return withoutScheme(text).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 export default defineComponent({
@@ -348,7 +351,7 @@ export default defineComponent({
       ).then((pages) => {
         this.pages = pages;
       }).catch((error) => {
-        this.listError = errorText(error);
+        this.listError = apiErrorText(error);
       }).finally(() => {
         this.isLoading = false;
       });
@@ -369,8 +372,7 @@ export default defineComponent({
       this.suggestionsAbort.controller?.abort();
       this.suggestionsAbort.controller = null;
 
-      const pattern = toUrlPattern(text);
-      if (!pattern) {
+      if (withoutScheme(text).length < MIN_SUGGESTION_CHARS) {
         this.suggestions = [];
         return;
       }
@@ -387,7 +389,7 @@ export default defineComponent({
           segment: '',
           flat: 1,
           filter_column: 'url',
-          filter_pattern: pattern,
+          filter_pattern: toUrlPattern(text),
           filter_sort_column: 'nb_hits',
           filter_sort_order: 'desc',
           filter_limit: MAX_SUGGESTIONS,
@@ -433,7 +435,7 @@ export default defineComponent({
         this.suggestions = [];
         return this.loadPages(false);
       }).catch((error) => {
-        this.addError = errorText(error);
+        this.addError = apiErrorText(error);
         this.isDuplicateError = this.addError
           === translate('Transitions_PreprocessedPageAlreadySelected');
       }).finally(() => {
@@ -462,7 +464,7 @@ export default defineComponent({
         this.confirmingId = null;
         return this.loadPages(false);
       }).catch((error) => {
-        this.listError = errorText(error);
+        this.listError = apiErrorText(error);
       }).finally(() => {
         this.removingId = null;
       });

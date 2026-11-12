@@ -286,6 +286,8 @@ describe('Transitions/ManagePreprocessedPages', () => {
         suggestion.find('.managePreprocessedPages__suggestionUrl').text(),
         suggestion.find('.managePreprocessedPages__suggestionPageviews').text(),
       ])).toEqual([['https://example.org/a', '4812'], ['https://example.org/a/b', '12']]);
+      expect(suggestions[0].find('.managePreprocessedPages__suggestionUrl').attributes('title'))
+        .toBe('https://example.org/a');
 
       await suggestions[1].trigger('click');
       await flushPromises();
@@ -294,11 +296,11 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(false);
     });
 
-    it('should not ask for suggestions for an empty field', async () => {
+    it.each(['   ', 'ab', 'https://www.ab'])('should not ask for suggestions for "%s"', async (text) => {
       answer(() => []);
       const wrapper = await mountPage();
 
-      await typeUrl(wrapper, '   ');
+      await typeUrl(wrapper, text);
 
       expect(state.fetch.mock.calls.some(([params]) => params.method === 'Actions.getPageUrls')).toBe(false);
     });

@@ -151,6 +151,11 @@ describe('Transitions/TransitionsSourceHeader', () => {
       expect(badge.text()).toBe('Transitions_PreprocessedBadge');
       expect(badge.classes()).toContain('transitionsSourceHeader__badge--preprocessed');
       expect(badge.attributes('title')).toBe('Transitions_PreprocessedBadgeTooltip:2025-03-10 04:05:06');
+
+      // reachable by keyboard and described to screen readers
+      expect(badge.attributes('tabindex')).toBe('0');
+      const description = wrapper.find(`#${badge.attributes('aria-describedby')}`);
+      expect(description.text()).toBe('Transitions_PreprocessedBadgeTooltip:2025-03-10 04:05:06');
     });
 
     it('should show raw data without a tooltip', async () => {
@@ -159,6 +164,7 @@ describe('Transitions/TransitionsSourceHeader', () => {
 
       expect(badge.text()).toBe('Transitions_RawDataBadge');
       expect(badge.attributes('title')).toBeUndefined();
+      expect(badge.attributes('tabindex')).toBeUndefined();
     });
   });
 
@@ -354,6 +360,89 @@ describe('Transitions/TransitionsSourceHeader', () => {
       const confirm = wrapper.find('.transitionsSourceHeader__confirm');
       expect(confirm.text()).toContain('example.org/<img src=x onerror=alert(1)>');
       expect(confirm.find('img').exists()).toBe(false);
+    });
+
+    it('should send a page URL without a scheme with http://, which matches https too', async () => {
+      state.fetch.mockResolvedValue(status({ selected: false }));
+      state.post.mockResolvedValue({ idpage: 7 });
+      const wrapper = await mountHeader({ actionName: 'example.org/deep/page' });
+
+      expect(statusRequests()[0][0]).toMatchObject({ pageUrl: 'http://example.org/deep/page' });
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await flushPromises();
+
+      expect(state.post.mock.calls[0][1]).toEqual({ pageUrl: 'http://example.org/deep/page' });
+    });
+
+    it('should drop an add that finishes after another page was opened', async () => {
+      let finishAdd: (entry: { idpage: number }) => void = () => undefined;
+      state.post.mockReturnValue(new Promise((resolve) => {
+        finishAdd = resolve;
+      }));
+      const wrapper = await mountHeader();
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+
+      state.fetch.mockResolvedValue(status({ selected: true, idPage: 9, used: 13 }));
+      await wrapper.setProps({ actionName: 'https://example.org/other' });
+      await flushPromises();
+
+      finishAdd({ idpage: 7 });
+      await flushPromises();
+
+      expect(wrapper.find('.transitionsSourceHeader__message').exists()).toBe(false);
+      expect(wrapper.find('.transitionsSourceHeader__toggle').attributes('disabled')).toBeUndefined();
+
+      // stopping now removes the other page's entry, not the one just added
+      state.post.mockReset();
+      state.post.mockResolvedValue({});
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await wrapper.find('.transitionsSourceHeader__stop').trigger('click');
+      await flushPromises();
+
+      expect(state.post.mock.calls[0][1]).toEqual({ idPage: 9 });
+    });
+
+    it('should drop a failed add once another page was opened', async () => {
+      let failAdd: (error: Error) => void = () => undefined;
+      state.post.mockReturnValue(new Promise((resolve, reject) => {
+        failAdd = reject;
+      }));
+      const wrapper = await mountHeader();
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await wrapper.setProps({ actionName: 'https://example.org/other' });
+      await flushPromises();
+
+      failAdd(new Error('This page is already selected.'));
+      await flushPromises();
+
+      expect(wrapper.find('.transitionsSourceHeader__error').exists()).toBe(false);
+    });
+
+    it('should drop a stop that finishes after another page was opened', async () => {
+      state.fetch.mockResolvedValue(status({ selected: true, idPage: 3 }));
+      let finishStop: (value: unknown) => void = () => undefined;
+      state.post.mockReturnValue(new Promise((resolve) => {
+        finishStop = resolve;
+      }));
+      const wrapper = await mountHeader();
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await wrapper.find('.transitionsSourceHeader__stop').trigger('click');
+
+      state.fetch.mockResolvedValue(status({ selected: true, idPage: 9, used: 12 }));
+      await wrapper.setProps({ actionName: 'https://example.org/other' });
+      await flushPromises();
+
+      finishStop({});
+      await flushPromises();
+
+      const toggle = wrapper.find('.transitionsSourceHeader__toggle');
+      expect(toggle.text()).toContain('Transitions_StopPreprocessing');
+      expect(toggle.attributes('disabled')).toBeUndefined();
+      expect(wrapper.find('.transitionsSourceHeader__confirm').exists()).toBe(false);
     });
 
     it('should ask again for the status of another page', async () => {

@@ -19,8 +19,15 @@
           'transitionsSourceHeader__badge--raw': !source.preprocessed,
         }"
         :title="badgeTooltip || undefined"
+        :tabindex="badgeTooltip ? 0 : undefined"
+        :aria-describedby="badgeTooltip ? badgeHelpId : undefined"
       >{{ translate(source.preprocessed
         ? 'Transitions_PreprocessedBadge' : 'Transitions_RawDataBadge') }}</span>
+      <span
+        v-if="showBadge && badgeTooltip"
+        :id="badgeHelpId"
+        class="u-visuallyHidden"
+      >{{ badgeTooltip }}</span>
 
       <div
         v-if="status"
@@ -120,6 +127,7 @@ import {
   translate,
 } from 'CoreHome';
 import { TransitionsDataSource } from './types';
+import apiErrorText from '../apiErrorText';
 
 /** Transitions.getPreprocessedPageStatus */
 export interface PreprocessedPageStatus {
@@ -139,12 +147,6 @@ export interface TransitionsSourceHeaderState {
 }
 
 let instanceCount = 0;
-
-/** API errors arrive HTML-escaped; they are shown as text. */
-function errorText(error: unknown): string {
-  const message = error instanceof Error ? error.message : '';
-  return message ? Matomo.helper.htmlDecode(message) : translate('General_ErrorRequest', '', '');
-}
 
 /**
  * The report's source badge, shown to everyone, and for admins of the website the control that
@@ -181,7 +183,10 @@ export default defineComponent({
   },
   setup() {
     instanceCount += 1;
-    return { limitHelpId: `transitionsSourceHeaderLimit${instanceCount}` };
+    return {
+      limitHelpId: `transitionsSourceHeaderLimit${instanceCount}`,
+      badgeHelpId: `transitionsSourceHeaderBadge${instanceCount}`,
+    };
   },
   created() {
     this.loadStatus();
@@ -251,6 +256,13 @@ export default defineComponent({
         NumberFormatter.formatNumber(this.status?.limit ?? 0),
       );
     },
+    /**
+     * A page opened from a report row may come without its scheme; the API wants one, and matches
+     * http and https alike.
+     */
+    pageUrl(): string {
+      return /^https?:\/\//i.test(this.actionName) ? this.actionName : `http://${this.actionName}`;
+    },
     confirmLabel(): string {
       return translate(
         'Transitions_StopPreprocessingConfirm',
@@ -268,8 +280,13 @@ export default defineComponent({
     },
   },
   methods: {
+    /** Whether a response still belongs to the page on screen; the embedded report reuses this. */
+    isCurrent(actionName: string, idSite: string|number): boolean {
+      return actionName === this.actionName && idSite === this.idSite;
+    },
     loadStatus() {
       this.status = null;
+      this.isSaving = false;
       this.isConfirming = false;
       this.message = '';
       this.error = '';
@@ -278,16 +295,16 @@ export default defineComponent({
         return;
       }
 
-      const { actionName, idSite } = this;
+      const { actionName, idSite, pageUrl } = this;
       AjaxHelper.fetch<PreprocessedPageStatus>(
         {
           method: 'Transitions.getPreprocessedPageStatus',
           idSite,
-          pageUrl: actionName,
+          pageUrl,
         },
         { createErrorNotification: false },
       ).then((status) => {
-        if (actionName === this.actionName && idSite === this.idSite) {
+        if (this.isCurrent(actionName, idSite)) {
           this.status = status;
         }
       }).catch(() => {
@@ -299,16 +316,17 @@ export default defineComponent({
         return;
       }
 
+      const { actionName, idSite, pageUrl } = this;
       this.isSaving = true;
       this.message = '';
       this.error = '';
 
       AjaxHelper.post<{ idpage: number }>(
-        { method: 'Transitions.addPreprocessedPage', idSite: this.idSite },
-        { pageUrl: this.actionName },
+        { method: 'Transitions.addPreprocessedPage', idSite },
+        { pageUrl },
         { createErrorNotification: false },
       ).then((entry) => {
-        if (!this.status) {
+        if (!this.isCurrent(actionName, idSite) || !this.status) {
           return;
         }
 
@@ -322,9 +340,13 @@ export default defineComponent({
           ? translate('Transitions_PreprocessedPageAddedRebuild', `${this.status.rearchiveMonths}`)
           : translate('Transitions_PreprocessedPageAddedNewDataOnly');
       }).catch((error) => {
-        this.error = errorText(error);
+        if (this.isCurrent(actionName, idSite)) {
+          this.error = apiErrorText(error);
+        }
       }).finally(() => {
-        this.isSaving = false;
+        if (this.isCurrent(actionName, idSite)) {
+          this.isSaving = false;
+        }
       });
     },
     /** The toggle is disabled while the choice is open, so the focus moves to the choice. */
@@ -342,16 +364,17 @@ export default defineComponent({
         return;
       }
 
+      const { actionName, idSite } = this;
       this.isSaving = true;
       this.message = '';
       this.error = '';
 
       AjaxHelper.post(
-        { method: 'Transitions.removePreprocessedPage', idSite: this.idSite },
+        { method: 'Transitions.removePreprocessedPage', idSite },
         { idPage: this.status.idPage },
         { createErrorNotification: false },
       ).then(() => {
-        if (!this.status) {
+        if (!this.isCurrent(actionName, idSite) || !this.status) {
           return;
         }
 
@@ -363,9 +386,13 @@ export default defineComponent({
         };
         this.isConfirming = false;
       }).catch((error) => {
-        this.error = errorText(error);
+        if (this.isCurrent(actionName, idSite)) {
+          this.error = apiErrorText(error);
+        }
       }).finally(() => {
-        this.isSaving = false;
+        if (this.isCurrent(actionName, idSite)) {
+          this.isSaving = false;
+        }
       });
     },
   },
