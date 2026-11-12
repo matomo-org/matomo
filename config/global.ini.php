@@ -671,12 +671,10 @@ datatable_archiving_maximum_rows_ai_chatbot_content = 50000
 datatable_archiving_maximum_rows_ai_chatbot_favoured_pages = 50000
 
 ; maximum number of rows kept for each list of a page whose Transitions report is pre-processed (previous and
-; following pages, site searches, outlinks, downloads, and the referrers of each type); the rest is grouped into "Others"
-; this applies to weeks, months and years, and is the most rows a report served from this data can show
-datatable_archiving_maximum_rows_transitions = 100
-; the same for days, from which the longer periods are summed; more rows per day keep the top rows of long periods
-; accurate for busy pages (never less than datatable_archiving_maximum_rows_transitions)
-datatable_archiving_maximum_rows_transitions_day = 1000
+; following pages, site searches, outlinks, downloads, and the referrers of each type), in every period; the rest is
+; grouped into "Others". Weeks, months and years are summed from shorter periods, so more rows than a report shows keep
+; their top rows accurate for busy pages. [Transitions] preprocessed_max_rows_served limits the rows a report shows.
+datatable_archiving_maximum_rows_transitions = 1000
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500

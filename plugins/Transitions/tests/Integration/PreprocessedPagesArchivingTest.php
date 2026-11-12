@@ -221,7 +221,6 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
     public function testListsOfSeveralPagesKeepTheirOwnRowsAndOthers(): void
     {
-        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions_day'] = 1;
         Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 1;
         $pageUrls = [self::PAGE_URL, 'http://example.org/the/third_page.html?foo=bar'];
         $raw = [];
@@ -291,7 +290,6 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
     public function testListsKeepTheConfiguredNumberOfRowsPlusOthers(): void
     {
-        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions_day'] = 2;
         Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 1;
         $this->trackEntryFromWebsite(self::DAY . ' 15:00:00', 'http://a.example/x');
         $this->trackEntryFromWebsite(self::DAY . ' 16:00:00', 'http://b.example/y');
@@ -299,8 +297,7 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         $idAction = $this->selectPage(self::PAGE_URL);
         $raw = ['day' => $this->getRawReport('day', self::DAY), 'month' => $this->getRawReport('month', self::DAY)];
 
-        // days keep more rows than the periods summed from them
-        foreach (['day' => 2, 'month' => 1] as $period => $maxRows) {
+        foreach (['day' => 1, 'month' => 1] as $period => $maxRows) {
             $this->archive($period, self::DAY);
             $archive = Archive::build(1, $period, self::DAY);
 
