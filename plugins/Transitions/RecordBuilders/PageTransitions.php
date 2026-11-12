@@ -77,23 +77,16 @@ class PageTransitions extends RecordBuilder
                     continue;
                 }
 
-                $columnToSortBy = (string) $record->getColumnToSortByBeforeTruncation();
+                // Truncate keeps the rows with the highest counts, and of equal counts the lowest labels
                 $columnsAggregationOperation = null;
                 $archiveProcessor->aggregateDataTableRecords(
                     $record->getName(),
                     $record->getMaxRowsInTable(),
                     $record->getMaxRowsInSubtable(),
-                    $columnToSortBy,
+                    (string) $record->getColumnToSortByBeforeTruncation(),
                     $columnsAggregationOperation,
                     null,
-                    false,
-                    [],
-                    // ties at the row limit are cut by label
-                    static function (DataTable $table) use ($columnToSortBy): void {
-                        $table->filter('Sort', [$columnToSortBy, 'desc', false, true, static function (): string {
-                            return 'label';
-                        }]);
-                    }
+                    false
                 );
             }
         }

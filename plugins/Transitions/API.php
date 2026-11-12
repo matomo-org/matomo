@@ -502,7 +502,7 @@ class API extends \Piwik\Plugin\API
 
     private function getLiveQueryTimeLimit(): float
     {
-        return (float) GeneralConfig::getConfigValue('live_query_max_execution_time');
+        return GeneralConfig::getFloatConfigValue('live_query_max_execution_time', -1.0);
     }
 
     private int $limitBeforeGrouping = 5;

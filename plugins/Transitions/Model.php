@@ -109,7 +109,7 @@ class Model
             $rankingQuery,
             $joinLogActionOn,
             $secondaryOrderBy = "`name`",
-            $timeLimit // @phpstan-ignore argument.type (seconds, may be fractional)
+            $timeLimit
         );
 
         return is_array($data) ? $data : [];
@@ -197,7 +197,7 @@ class Model
             $rankingQuery,
             $joinLogActionColumn,
             $secondaryOrderBy = "`name`",
-            $timeLimit // @phpstan-ignore argument.type (seconds, may be fractional)
+            $timeLimit
         );
 
         return is_array($data) ? $data : [];
@@ -244,7 +244,7 @@ class Model
 
         if ($type == Action::TYPE_OUTLINK || $type == Action::TYPE_DOWNLOAD) {
             $urlPrefix = isset($row['url_prefix']) && is_numeric($row['url_prefix']) ? (int) $row['url_prefix'] : null;
-            return PageUrl::reconstructNormalizedUrl($name ?? '', $urlPrefix);
+            return PageUrl::reconstructNormalizedUrl($name, $urlPrefix);
         }
 
         return $name;
@@ -295,7 +295,6 @@ class Model
         $type    = $this->getColumnTypeSuffix($actionType);
         $where   = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
         $metrics = [Metrics::INDEX_NB_VISITS];
-        // @phpstan-ignore argument.type (the time limit is in seconds and may be fractional)
         $data    = $logAggregator->queryVisitsByDimension($dimensions, $where, [], $metrics, $rankingQuery, false, $timeLimit);
 
         return is_array($data) ? $data : [];
