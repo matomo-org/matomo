@@ -14,12 +14,13 @@ namespace Piwik\Plugins\Transitions\PreprocessedPages;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Db\AdapterInterface;
+use Piwik\Tracker\Action;
 use Piwik\Updater\Migration;
 
 /**
  * Stores the page URLs of each website whose Transitions report is pre-processed.
  *
- * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, created_date: string, created_by: string|null}
+ * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, idaction: int|null, created_date: string, created_by: string|null}
  */
 class Dao
 {
@@ -31,7 +32,7 @@ class Dao
     public function getPagesForSite(int $idSite): array
     {
         $rows = Db::fetchAll(
-            'SELECT idpage, idsite, url, url_hash, created_date, created_by FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, idaction, created_date, created_by FROM ' . $this->getTable()
             . ' WHERE idsite = ? ORDER BY created_date DESC, idpage DESC',
             [$idSite]
         );
@@ -45,7 +46,7 @@ class Dao
     public function getPage(int $idSite, int $idPage): ?array
     {
         $row = Db::fetchRow(
-            'SELECT idpage, idsite, url, url_hash, created_date, created_by FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, idaction, created_date, created_by FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND idpage = ?',
             [$idSite, $idPage]
         );
@@ -60,7 +61,7 @@ class Dao
     public function getPageByUrlHash(int $idSite, string $urlHash): ?array
     {
         $row = Db::fetchRow(
-            'SELECT idpage, idsite, url, url_hash, created_date, created_by FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, idaction, created_date, created_by FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND url_hash = ?',
             [$idSite, $urlHash]
         );
@@ -92,6 +93,53 @@ class Dao
         }
 
         return true;
+    }
+
+    /**
+     * Stores the idaction the page URL has been tracked under.
+     *
+     * @return bool false when the page has this idaction already, so only one caller acts on a change
+     */
+    public function setIdAction(int $idPage, int $idAction): bool
+    {
+        $statement = Db::query(
+            'UPDATE ' . $this->getTable() . ' SET idaction = ? WHERE idpage = ? AND (idaction IS NULL OR idaction <> ?)',
+            [$idAction, $idPage, $idAction]
+        );
+
+        return $statement->rowCount() > 0;
+    }
+
+    /**
+     * Looks up page URL actions by their `log_action` name in one query.
+     *
+     * @param list<string> $names
+     * @return array<string, int> the lowest idaction by name, for the names that exist
+     */
+    public function getPageUrlIdActions(array $names): array
+    {
+        $names = array_values(array_unique($names));
+        if (empty($names)) {
+            return [];
+        }
+
+        $hashes = array_values(array_unique(array_map('crc32', $names)));
+        $rows = Db::fetchAll(
+            'SELECT idaction, name FROM ' . Common::prefixTable('log_action') . ' WHERE type = ? AND hash IN ('
+            . Common::getSqlStringFieldsArray($hashes) . ') ORDER BY idaction ASC',
+            array_merge([Action::TYPE_PAGE_URL], $hashes)
+        );
+
+        $wanted = array_flip($names);
+        $idActions = [];
+        foreach ($rows as $row) {
+            $name = (string) $row['name'];
+            if (isset($wanted[$name]) && !isset($idActions[$name])) {
+                $idActions[$name] = (int) $row['idaction'];
+            }
+        }
+
+        return $idActions;
     }
 
     public function removePage(int $idSite, int $idPage): void
@@ -173,6 +221,7 @@ class Dao
             'idsite' => (int) $row['idsite'],
             'url' => (string) $row['url'],
             'url_hash' => (string) $row['url_hash'],
+            'idaction' => isset($row['idaction']) ? (int) $row['idaction'] : null,
             'created_date' => (string) $row['created_date'],
             'created_by' => isset($row['created_by']) ? (string) $row['created_by'] : null,
         ];

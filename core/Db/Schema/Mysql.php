@@ -443,6 +443,7 @@ class Mysql implements SchemaInterface
                                       `idsite` INTEGER UNSIGNED NOT NULL,
                                       `url` TEXT NOT NULL,
                                       `url_hash` CHAR(40) NOT NULL,
+                                      `idaction` INTEGER UNSIGNED NULL,
                                       `created_date` DATETIME NOT NULL,
                                       `created_by` VARCHAR(100) NULL,
                                       PRIMARY KEY(`idpage`),

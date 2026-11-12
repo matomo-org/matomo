@@ -21,7 +21,7 @@ use Piwik\Exception\ThingNotFoundException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
-use Piwik\Segment\SegmentExpression;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\TableLogAction;
 
@@ -102,15 +102,15 @@ class Service
             $lock->unlock();
         }
 
-        // a URL not tracked yet has no records to build
-        $idAction = $this->getIdActionForUrl($url);
-        if ($idAction !== null) {
-            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
-        }
-
         $page = $this->dao->getPageByUrlHash($idSite, $urlHash);
         if ($page === null) {
             throw new \Exception('The added page could not be read back.');
+        }
+
+        // a URL not tracked yet is rebuilt once archiving finds it
+        $idAction = $this->getIdActionForUrl($url);
+        if ($idAction !== null) {
+            $this->storeIdAction($idSite, $page['idpage'], $idAction);
         }
 
         return $this->toEntry($page);
@@ -128,25 +128,34 @@ class Service
 
         $this->dao->removePage($idSite, $idPage);
 
-        $idAction = $this->getIdActionForUrl($page['url']);
+        $idAction = $page['idaction'] ?? $this->getIdActionForUrl($page['url']);
         if ($idAction !== null) {
             $this->invalidator->removeInvalidationsSafely([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
         }
     }
 
     /**
-     * Returns the idaction of each listed page that has been tracked, resolved now.
+     * Returns the idaction of each listed page that has been tracked, resolved now in one query. A page found under a
+     * new idaction, such as one tracked for the first time since it was added, gets its data rebuilt like a new page.
      *
      * @return array<int, int> idaction by idpage
      */
     public function getIdActionsForSite(int $idSite): array
     {
+        $pages = $this->dao->getPagesForSite($idSite);
+        $resolvedIdActions = $this->getIdActionsForUrls(array_column($pages, 'url'));
+
         $idActions = [];
-        foreach ($this->dao->getPagesForSite($idSite) as $page) {
-            $idAction = $this->getIdActionForUrl($page['url']);
-            if ($idAction !== null) {
-                $idActions[$page['idpage']] = $idAction;
+        foreach ($pages as $page) {
+            $idAction = $resolvedIdActions[$page['url']] ?? null;
+            if ($idAction === null) {
+                continue;
             }
+
+            if ($idAction !== $page['idaction']) {
+                $this->storeIdAction($idSite, $page['idpage'], $idAction);
+            }
+            $idActions[$page['idpage']] = $idAction;
         }
 
         return $idActions;
@@ -157,9 +166,47 @@ class Service
      */
     public function getIdActionForUrl(string $url): ?int
     {
-        $idAction = TableLogAction::getIdActionFromSegment($url, 'idaction_url', SegmentExpression::MATCH_EQUAL, 'pageUrl');
+        return $this->getIdActionsForUrls([$url])[$url] ?? null;
+    }
 
-        return is_numeric($idAction) && $idAction > 0 ? (int) $idAction : null;
+    /**
+     * Looks the URLs up like `TableLogAction::getIdActionFromSegment()` does for `pageUrl==`: by the URL without protocol
+     * and `www.`, decoded, then as given.
+     *
+     * @param list<string> $urls
+     * @return array<string, int> idaction by URL, for the URLs that have been tracked
+     */
+    private function getIdActionsForUrls(array $urls): array
+    {
+        $namesByUrl = [];
+        foreach ($urls as $url) {
+            $name = TableLogAction::removeProtocolIfSegmentStoredWithoutIt($url, Action::TYPE_PAGE_URL, 'pageUrl');
+            $namesByUrl[$url] = array_values(array_unique([Common::unsanitizeInputValue($name), $name]));
+        }
+
+        $idActionsByName = $this->dao->getPageUrlIdActions(array_merge([], ...array_values($namesByUrl)));
+
+        $idActions = [];
+        foreach ($namesByUrl as $url => $names) {
+            foreach ($names as $name) {
+                if (isset($idActionsByName[$name])) {
+                    $idActions[$url] = $idActionsByName[$name];
+                    break;
+                }
+            }
+        }
+
+        return $idActions;
+    }
+
+    /**
+     * Rebuilds the page's data within the re-archiving window when its idaction is new.
+     */
+    private function storeIdAction(int $idSite, int $idPage, int $idAction): void
+    {
+        if ($this->dao->setIdAction($idPage, $idAction)) {
+            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
+        }
     }
 
     /**

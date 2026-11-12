@@ -12,14 +12,17 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Transitions\tests\Integration;
 
 use Piwik\Archive;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Period\Factory as PeriodFactory;
@@ -147,6 +150,38 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 3, '2010-03-01'));
     }
 
+    public function testAPageTrackedAfterItWasAddedGetsItsEarlierDaysRebuiltWithZeros(): void
+    {
+        $earlierDay = Date::factory('today')->subDay(3)->toString();
+        $laterDay = Date::factory('today')->subDay(1)->toString();
+        $pageUrl = 'http://example.org/launched-later.html';
+        $this->trackPageview($earlierDay . ' 10:00:00', 'http://example.org/page/one.html');
+        API::getInstance()->addPreprocessedPage(1, $pageUrl);
+
+        // not tracked yet, so not archived
+        $this->archive('day', $earlierDay);
+
+        $this->trackPageview($laterDay . ' 10:00:00', $pageUrl);
+        $this->archive('day', $laterDay);
+        $idAction = StaticContainer::get(Service::class)->getIdActionForUrl($pageUrl);
+        self::assertNotNull($idAction);
+        self::assertNull($this->getStoredNumeric($idAction, Records::DAYS, 1, $earlierDay));
+        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::PAGEVIEWS, 1, $laterDay));
+
+        // finding the idaction scheduled a rebuild, which core:archive runs
+        StaticContainer::get(ArchiveInvalidator::class)->applyScheduledReArchiving();
+        $_GET['trigger'] = 'archivephp';
+        $_GET['pluginOnly'] = '1';
+        $_GET['requestedReport'] = Records::getRebuildReportName($idAction);
+        $params = new Parameters(new Site(1), PeriodFactory::build('day', $earlierDay), new Segment('', [1]));
+        $params->setRequestedPlugin('Transitions');
+        $params->setArchiveOnlyReport(Records::getRebuildReportName($idAction));
+        (new Loader($params))->prepareArchive('Transitions');
+
+        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 1, $earlierDay));
+        self::assertSame(0.0, $this->getStoredNumeric($idAction, Records::PAGEVIEWS, 1, $earlierDay));
+    }
+
     public function testMonthAndYearEqualTheRawLogQuery(): void
     {
         $idAction = $this->selectPage(self::PAGE_URL);
@@ -260,6 +295,13 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         self::assertNotSame($idAction, $otherIdAction);
     }
 
+    private function trackPageview(string $dateTime, string $url): void
+    {
+        $tracker = Fixture::getTracker(1, $dateTime, $defaultInit = true);
+        $tracker->setUrl($url);
+        Fixture::checkResponse($tracker->doTrackPageView('title'));
+    }
+
     private function trackEntryFromWebsite(string $dateTime, string $referrerUrl): void
     {
         $tracker = Fixture::getTracker(1, $dateTime, $defaultInit = true);
@@ -287,7 +329,7 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
     private function getStoredNumeric(int $idAction, string $numeric, int $periodId, string $date1): ?float
     {
         $value = Db::fetchOne(
-            'SELECT value FROM ' . Common::prefixTable('archive_numeric_2010_03')
+            'SELECT value FROM ' . ArchiveTableCreator::getNumericTable(Date::factory($date1), false)
             . ' WHERE idsite = 1 AND period = ? AND date1 = ? AND name = ? ORDER BY ts_archived DESC',
             [$periodId, $date1, Records::getRecordName($idAction, $numeric)]
         );

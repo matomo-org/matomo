@@ -554,6 +554,31 @@ class PreprocessedPagesTest extends IntegrationTestCase
         self::assertSame([], (new ReArchiveList())->getAll());
     }
 
+    public function testAPageTrackedAfterItWasAddedIsRebuiltOnceWhenItsIdActionIsFound(): void
+    {
+        $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/later')['idpage'];
+        $idAction = $this->trackPageview('http://www.example.com/later');
+        $service = StaticContainer::get(Service::class);
+
+        self::assertSame([$idPage => $idAction], $service->getIdActionsForSite(1));
+        self::assertSame($idAction, StaticContainer::get(Dao::class)->getPage(1, $idPage)['idaction']);
+        self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
+
+        $service->getIdActionsForSite(1);
+        self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
+    }
+
+    public function testAddingATrackedPageStoresItsIdAction(): void
+    {
+        $idAction = $this->trackPageview('http://example.com/tracked');
+
+        $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/tracked')['idpage'];
+
+        self::assertSame($idAction, StaticContainer::get(Dao::class)->getPage(1, $idPage)['idaction']);
+        StaticContainer::get(Service::class)->getIdActionsForSite(1);
+        self::assertCount(1, $this->getScheduledReports());
+    }
+
     public function testRemovingAPageClearsOnlyItsPendingReArchiving(): void
     {
         $idActionA = $this->trackPageview('http://example.com/a');
@@ -600,6 +625,14 @@ class PreprocessedPagesTest extends IntegrationTestCase
         return (int) Db::fetchOne(
             'SELECT idaction_url FROM ' . Common::prefixTable('log_link_visit_action') . ' ORDER BY idlink_va DESC LIMIT 1'
         );
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function getScheduledReports(): array
+    {
+        return array_map(fn($entry) => json_decode($entry, true)['report'], (new ReArchiveList())->getAll());
     }
 
     private function countInvalidations(string $report): int
