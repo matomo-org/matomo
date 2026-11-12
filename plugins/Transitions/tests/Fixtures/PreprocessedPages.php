@@ -15,6 +15,7 @@ use Piwik\Archive;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Plugins\Actions\Archiver as ActionsArchiver;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\PreprocessedPages\Dao;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
@@ -23,7 +24,8 @@ use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 
 /**
  * Selects two page URLs for pre-processed Transitions and archives the first one's day, so the report can be served
- * from its stored data. The entries get fixed dates and creators, as the admin page shows them.
+ * from its stored data, together with the page URLs the report offers. The entries get fixed dates and creators, as
+ * the admin page shows them.
  */
 class PreprocessedPages extends SomeVisitsManyPageviewsWithTransitions
 {
@@ -44,7 +46,10 @@ class PreprocessedPages extends SomeVisitsManyPageviewsWithTransitions
             throw new \Exception('The page to archive was not tracked.');
         }
 
-        Archive::build($this->idSite, 'day', self::DAY)->getNumeric(['nb_visits', Records::getRebuildReportName($idAction)]);
+        // the UI spec runs without browser archiving, so the reports it opens are archived here
+        $archive = Archive::build($this->idSite, 'day', self::DAY);
+        $archive->getNumeric(['nb_visits', 'nb_pageviews', Records::getRebuildReportName($idAction)]);
+        $archive->getDataTable(ActionsArchiver::PAGE_URLS_RECORD_NAME);
     }
 
     private function selectPage(string $url, string $createdDate, ?string $createdBy): void

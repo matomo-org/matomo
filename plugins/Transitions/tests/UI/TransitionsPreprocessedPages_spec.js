@@ -10,6 +10,22 @@
 describe("TransitionsPreprocessedPages", function () {
     this.fixture = "Piwik\\Plugins\\Transitions\\tests\\Fixtures\\PreprocessedPages";
 
+    // cron archiving, the main setup: an added page gets its past months rebuilt. The fixture has
+    // archived what the reports below read; the raw-data page is served from the logs anyway.
+    before(function () {
+        testEnvironment.overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        testEnvironment.optionsOverride = {
+            enableBrowserTriggerArchiving: '0',
+        };
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.configOverride.General.enable_browser_archiving_triggering;
+        testEnvironment.optionsOverride = {};
+        testEnvironment.save();
+    });
+
     var generalParams = 'idSite=1&period=day&date=2010-03-06',
         manageUrl = '?module=Transitions&action=manage&' + generalParams,
         reportUrl = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams
