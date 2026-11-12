@@ -1671,4 +1671,9 @@ recommendation_ai_daily_scan_limit = 0
 ; Override it for one website in a [Transitions_<idSite>] section. Lowering it keeps pages already selected.
 max_preprocessed_pages = 20
 
+; Seconds after which the pre-processed Transitions data of a selected page for today, or for yesterday until it is
+; archived again, is rebuilt for that page when the report is requested. Data of periods archived after they ended is
+; never rebuilt in a request. Override it for one website in a [Transitions_<idSite>] section. Set to 0 to turn it off.
+preprocessed_refresh_after = 900
+
 ; NOTE: do not directly edit this file! See notice at the top

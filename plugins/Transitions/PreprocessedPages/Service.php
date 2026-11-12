@@ -39,6 +39,8 @@ class Service
      */
     public const MAX_URL_LENGTH = 4096;
 
+    public const DEFAULT_REFRESH_AFTER = 900;
+
     public const LOCK_NAMESPACE = 'Transitions.addPreprocessedPage';
 
     private const NON_USER_LOGINS = ['anonymous', 'super user was set'];
@@ -237,15 +239,32 @@ class Service
      */
     public function getMaxPages(int $idSite): int
     {
+        return $this->getSiteConfigValue($idSite, 'max_preprocessed_pages', self::DEFAULT_MAX_PAGES);
+    }
+
+    /**
+     * Seconds after which stored data built before its period ended is rebuilt in a request, 0 for never:
+     * `[Transitions_<idSite>] preprocessed_refresh_after` overrides `[Transitions] preprocessed_refresh_after`.
+     */
+    public function getRefreshAfter(int $idSite): int
+    {
+        return $this->getSiteConfigValue($idSite, 'preprocessed_refresh_after', self::DEFAULT_REFRESH_AFTER);
+    }
+
+    /**
+     * An integer >= 0 from the website's section, else from `[Transitions]`, else the default.
+     */
+    private function getSiteConfigValue(int $idSite, string $name, int $default): int
+    {
         $config = Config::getInstance();
         $siteSection = 'Transitions_' . $idSite;
 
         foreach ([$siteSection => $config->$siteSection, 'Transitions' => $config->Transitions] as $sectionName => $section) {
-            if (!is_array($section) || !array_key_exists('max_preprocessed_pages', $section)) {
+            if (!is_array($section) || !array_key_exists($name, $section)) {
                 continue;
             }
 
-            $value = $section['max_preprocessed_pages'];
+            $value = $section[$name];
             if (is_int($value) && $value >= 0) {
                 return $value;
             }
@@ -254,10 +273,10 @@ class Service
                 return (int) $value;
             }
 
-            throw new \Exception('Invalid value for [' . $sectionName . '] max_preprocessed_pages: expected an integer >= 0.');
+            throw new \Exception('Invalid value for [' . $sectionName . '] ' . $name . ': expected an integer >= 0.');
         }
 
-        return self::DEFAULT_MAX_PAGES;
+        return $default;
     }
 
     /**

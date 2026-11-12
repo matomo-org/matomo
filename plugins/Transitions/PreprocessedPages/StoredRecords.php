@@ -21,12 +21,13 @@ final class StoredRecords
     /**
      * @param array<string, int> $numerics by part, see {@link Records::NUMERICS}
      * @param array<string, DataTable> $tables by part, the lists and the referrers that were read
-     * @param string $tsArchived UTC time the oldest of the archives was built, `YYYY-MM-DD HH:MM:SS`
+     * @param array<string, string> $tsArchivedByPeriod by period range string, the UTC time (`YYYY-MM-DD HH:MM:SS`)
+     *                                                  the oldest archive of the period's records was built
      */
     public function __construct(
         private readonly array $numerics,
         private readonly array $tables,
-        private readonly string $tsArchived
+        private readonly array $tsArchivedByPeriod
     ) {
     }
 
@@ -40,8 +41,19 @@ final class StoredRecords
         return $this->tables[$part] ?? new DataTable();
     }
 
+    /**
+     * The UTC time the oldest of the archives was built, `YYYY-MM-DD HH:MM:SS`.
+     */
     public function getTsArchived(): string
     {
-        return $this->tsArchived;
+        return empty($this->tsArchivedByPeriod) ? '' : min($this->tsArchivedByPeriod);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getTsArchivedByPeriod(): array
+    {
+        return $this->tsArchivedByPeriod;
     }
 }

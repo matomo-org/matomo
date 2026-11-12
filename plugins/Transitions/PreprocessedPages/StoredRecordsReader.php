@@ -14,10 +14,10 @@ namespace Piwik\Plugins\Transitions\PreprocessedPages;
 use Piwik\Archive;
 use Piwik\Archive\DataCollection;
 use Piwik\Archive\DataTableFactory;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Period;
-use Piwik\Period\Range;
 use Piwik\Plugins\SegmentEditor\UnprocessedSegmentException;
 use Piwik\Segment;
 use Piwik\Site;
@@ -27,22 +27,11 @@ use Piwik\Site;
  *
  * A day is covered when the page's records exist. A longer period is covered when, in its own archive, the page's
  * `days` counter equals {@link Records::DAYS_WITH_VISITS}, the days of the period that had visits, both recorded when
- * the period was archived. A range is covered when each of its subperiods is.
+ * the period was archived. Several periods, like the subperiods of a range, are covered when each of them is.
  */
 final class StoredRecordsReader
 {
-    /**
-     * Reads the page's records for the period. A range is summed from its subperiods.
-     *
-     * @param list<string> $tableParts the lists and the referrers to read, see {@link Records}
-     * @return StoredRecords|null null unless the records cover the whole period
-     */
-    public function read(int $idSite, Period $period, Segment $segment, int $idAction, array $tableParts): ?StoredRecords
-    {
-        $periods = $period instanceof Range ? array_values($period->getSubperiods()) : [$period];
-
-        return $this->readSum($idSite, $periods, $segment, $idAction, $tableParts);
-    }
+    private const PERIODS_PER_READ = 31;
 
     /**
      * Sums the page's records of several periods in memory, for example the subperiods of a range or the days of a
@@ -63,10 +52,72 @@ final class StoredRecordsReader
     }
 
     /**
+     * Tells which of the periods the page's records cover, without reading their lists.
+     *
+     * @param list<Period> $periods periods other than ranges
+     * @return array<string, string|null> by period range string, for the covered periods: the UTC time the oldest of
+     *                                    their archives was built, or null for a period without visits as it lies
+     *                                    outside the website's lifetime
+     */
+    public function getCoverage(int $idSite, array $periods, Segment $segment, int $idAction): array
+    {
+        try {
+            return $this->readNumerics($idSite, $periods, $segment, $idAction)['coverage'] ?? [];
+        } catch (UnprocessedSegmentException $e) {
+            return [];
+        }
+    }
+
+    /**
      * @param list<Period> $periods
      * @param list<string> $tableParts
      */
     private function readSumOfPeriods(int $idSite, array $periods, Segment $segment, int $idAction, array $tableParts): ?StoredRecords
+    {
+        $numerics = $this->readNumerics($idSite, $periods, $segment, $idAction);
+        if ($numerics === null || count($numerics['coverage']) !== count($periods)) {
+            return null;
+        }
+
+        $tsArchivedByPeriod = array_filter($numerics['coverage'], 'is_string');
+        if (empty($tsArchivedByPeriod)) {
+            return null;
+        }
+
+        $sums = array_fill_keys(Records::NUMERICS, 0);
+        foreach (array_keys($tsArchivedByPeriod) as $rangeString) {
+            foreach (Records::NUMERICS as $part) {
+                $value = $numerics['pageRows'][$rangeString][Records::getRecordName($idAction, $part)] ?? 0;
+                $sums[$part] += is_numeric($value) ? (int) $value : 0;
+            }
+        }
+
+        $coveredPeriods = [];
+        foreach ($periods as $period) {
+            if (isset($tsArchivedByPeriod[$period->getRangeString()])) {
+                $coveredPeriods[] = $period;
+            }
+        }
+
+        $tables = [];
+        foreach ($tableParts as $part) {
+            $table = $this->readTableSum($idSite, $coveredPeriods, $segment, Records::getRecordName($idAction, $part), $part === Records::REFERRERS, $numerics['archives']);
+            // reports purged from old archives can leave the numeric records behind
+            if ($table === null) {
+                return null;
+            }
+
+            $tables[$part] = $table;
+        }
+
+        return new StoredRecords($sums, $tables, $tsArchivedByPeriod);
+    }
+
+    /**
+     * @param list<Period> $periods
+     * @return array{archives: array<string, Archive>, pageRows: array<string, array<mixed>>, coverage: array<string, string|null>}|null
+     */
+    private function readNumerics(int $idSite, array $periods, Segment $segment, int $idAction): ?array
     {
         $numericNames = [];
         foreach (Records::NUMERICS as $part) {
@@ -90,67 +141,35 @@ final class StoredRecordsReader
         }
 
         $site = new Site($idSite);
-        $coveredPeriods = [];
-        $tsArchived = null;
+        $coverage = [];
         foreach ($periods as $period) {
             $rangeString = $period->getRangeString();
             if (!isset($pageRows[$rangeString][$numericNames[Records::PAGEVIEWS]])) {
                 if ($this->isOutsideOfSiteLifetime($site, $period)) {
                     // never archived, as there can't be visits
-                    continue;
+                    $coverage[$rangeString] = null;
                 }
-
-                return null;
+                continue;
             }
 
+            $tsArchived = $this->getOlderTsArchived($pageRows[$rangeString], null);
             if ($period->getLabel() !== 'day') {
                 if (
                     !isset($siteRows[$rangeString][Records::DAYS_WITH_VISITS])
                     || $this->getValue($siteRows, $period, Records::DAYS_WITH_VISITS) !== $this->getValue($pageRows, $period, $numericNames[Records::DAYS])
                 ) {
-                    return null;
+                    continue;
                 }
 
                 $tsArchived = $this->getOlderTsArchived($siteRows[$rangeString], $tsArchived);
             }
 
-            $tsArchived = $this->getOlderTsArchived($pageRows[$rangeString], $tsArchived);
-            $coveredPeriods[$rangeString] = $period;
-        }
-
-        if (empty($coveredPeriods) || $tsArchived === null) {
-            return null;
-        }
-
-        $numerics = array_fill_keys(Records::NUMERICS, 0);
-        foreach ($coveredPeriods as $period) {
-            foreach ($numericNames as $part => $name) {
-                $numerics[$part] += (int) $this->getValue($pageRows, $period, $name);
+            if ($tsArchived !== null) {
+                $coverage[$rangeString] = $tsArchived;
             }
         }
 
-        $tables = [];
-        foreach ($tableParts as $part) {
-            $name = Records::getRecordName($idAction, $part);
-            $tablesOfPeriods = [];
-            foreach ($archives as $archive) {
-                $result = $part === Records::REFERRERS ? $archive->getDataTableExpanded($name) : $archive->getDataTable($name);
-                foreach ($this->getTablesByPeriod($result) as $rangeString => $table) {
-                    if (isset($coveredPeriods[$rangeString])) {
-                        $tablesOfPeriods[$rangeString] = $table;
-                    }
-                }
-            }
-
-            // reports purged from old archives can leave the numeric records behind
-            if (count($tablesOfPeriods) !== count($coveredPeriods)) {
-                return null;
-            }
-
-            $tables[$part] = $this->sumTables(array_values($tablesOfPeriods));
-        }
-
-        return new StoredRecords($numerics, $tables, $tsArchived);
+        return ['archives' => $archives, 'pageRows' => $pageRows, 'coverage' => $coverage];
     }
 
     /**
@@ -240,20 +259,46 @@ final class StoredRecordsReader
     }
 
     /**
-     * @param list<DataTable> $tables
+     * Sums a list of the periods. Many periods are read a few at a time, so their tables don't all stay in memory.
+     *
+     * @param list<Period> $periods
+     * @param array<string, Archive> $archives the archives of all the periods by label, used when few enough
+     * @return DataTable|null null unless every period has the list
      */
-    private function sumTables(array $tables): DataTable
+    private function readTableSum(int $idSite, array $periods, Segment $segment, string $name, bool $isExpanded, array $archives): ?DataTable
     {
-        if (count($tables) === 1) {
-            return $tables[0];
+        $sum = null;
+        $found = 0;
+        foreach ($this->groupByLabel($periods) as $label => $periodsOfLabel) {
+            foreach (array_chunk($periodsOfLabel, self::PERIODS_PER_READ) as $chunk) {
+                $archive = count($periodsOfLabel) <= self::PERIODS_PER_READ && isset($archives[$label])
+                    ? $archives[$label]
+                    : $this->buildArchive($idSite, $chunk, $segment);
+                if ($archive === null) {
+                    return null;
+                }
+
+                $result = $isExpanded ? $archive->getDataTableExpanded($name) : $archive->getDataTable($name);
+                $rangeStrings = array_flip(array_map(fn(Period $period) => $period->getRangeString(), $chunk));
+                $tables = array_intersect_key($this->getTablesByPeriod($result), $rangeStrings);
+                $found += count($tables);
+
+                if (count($periods) === 1) {
+                    return array_values($tables)[0] ?? null;
+                }
+
+                $sum = $sum ?? new DataTable();
+                foreach ($tables as $table) {
+                    $sum->addDataTable($table);
+                }
+
+                foreach ($result instanceof DataTable\Map ? $result->getDataTables() : [$result] as $table) {
+                    Common::destroy($table);
+                }
+            }
         }
 
-        $sum = new DataTable();
-        foreach ($tables as $table) {
-            $sum->addDataTable($table);
-        }
-
-        return $sum;
+        return $found === count($periods) ? $sum : null;
     }
 
     /**

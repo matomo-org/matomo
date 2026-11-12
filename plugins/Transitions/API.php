@@ -30,7 +30,7 @@ use Piwik\Plugins\Transitions\PreprocessedPages\Dao as PreprocessedPagesDao;
 use Piwik\Plugins\Transitions\PreprocessedPages\RebuildWindow;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service as PreprocessedPagesService;
-use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsReader;
+use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsLoader;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
@@ -167,21 +167,19 @@ class API extends \Piwik\Plugin\API
         ];
 
         try {
-            $partsArray = explode(',', $parts);
-            if ($parts == 'all' || in_array('internalReferrers', $partsArray)) {
+            $requestedParts = $this->parseParts($parts);
+            if ($requestedParts['internalReferrers']) {
                 $this->addInternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
             }
-            $withoutLoops = in_array('followingActionsWithoutLoops', $partsArray);
-            if ($parts == 'all' || $withoutLoops || in_array('followingActions', $partsArray)) {
-                $includeLoops = !$withoutLoops && $parts != 'all' && !in_array('internalReferrers', $partsArray);
-                $this->addFollowingActions($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops);
+            if ($requestedParts['followingActions']) {
+                $this->addFollowingActions($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping, $requestedParts['includeLoops']);
             }
-            if ($parts == 'all' || in_array('externalReferrers', $partsArray)) {
+            if ($requestedParts['externalReferrers']) {
                 $this->addExternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
             }
 
             // derive the number of exits from the other metrics
-            if ($parts == 'all') {
+            if ($requestedParts['all']) {
                 $report['pageMetrics']['exits'] = $report['pageMetrics']['pageviews']
                     - $this->getTotalTransitionsToFollowingActions()
                     - $report['pageMetrics']['loops'];
@@ -229,26 +227,22 @@ class API extends \Piwik\Plugin\API
             return null;
         }
 
-        // the stored lists keep the rows up to the configured limit
+        // reports served from the stored lists show at most the configured rows
         $limit = (int) $limitBeforeGrouping ?: $this->limitBeforeGrouping;
-        if ($limit < 1 || $limit > Records::getMaxRows($idSite)) {
+        if ($limit < 1 || $limit > Records::getMaxRowsServed($idSite)) {
             return null;
         }
 
-        $partsArray = explode(',', $parts);
-        $withInternalReferrers = $parts == 'all' || in_array('internalReferrers', $partsArray);
-        $withoutLoops = in_array('followingActionsWithoutLoops', $partsArray);
-        $withFollowingActions = $parts == 'all' || $withoutLoops || in_array('followingActions', $partsArray);
-        $withExternalReferrers = $parts == 'all' || in_array('externalReferrers', $partsArray);
+        $requestedParts = $this->parseParts($parts);
 
         $tableParts = [];
-        if ($withInternalReferrers) {
+        if ($requestedParts['internalReferrers']) {
             $tableParts = [Records::PREVIOUS_PAGES, Records::PREVIOUS_SITE_SEARCHES];
         }
-        if ($withFollowingActions) {
+        if ($requestedParts['followingActions']) {
             $tableParts = array_merge($tableParts, array_values(StaticContainer::get(TransitionsModel::class)->getFollowingActionTypes('url')));
         }
-        if ($withExternalReferrers) {
+        if ($requestedParts['externalReferrers']) {
             $tableParts[] = Records::REFERRERS;
         }
 
@@ -276,14 +270,14 @@ class API extends \Piwik\Plugin\API
             return null;
         }
 
-        $records = StaticContainer::get(StoredRecordsReader::class)->read($idSite, $periodObject, $segmentObject, $idaction, $tableParts);
+        $records = StaticContainer::get(StoredRecordsLoader::class)->load($idSite, $periodObject, $segmentObject, $idaction, $tableParts);
         if ($records === null) {
             return null;
         }
 
         $report = ['date' => $dateLabel];
 
-        if ($withInternalReferrers) {
+        if ($requestedParts['internalReferrers']) {
             if ($records->getNumeric(Records::PAGEVIEWS) == 0) {
                 throw new Exception('NoDataForAction');
             }
@@ -294,12 +288,11 @@ class API extends \Piwik\Plugin\API
             $report['pageMetrics']['pageviews'] = $records->getNumeric(Records::PAGEVIEWS);
         }
 
-        if ($withFollowingActions) {
-            $includeLoops = !$withoutLoops && $parts != 'all' && !in_array('internalReferrers', $partsArray);
+        if ($requestedParts['followingActions']) {
             foreach (StaticContainer::get(TransitionsModel::class)->getFollowingActionTypes('url') as $type => $list) {
                 // the stored following pages leave out reloads, which the log query counts as the page itself
                 $extraRows = [];
-                if ($includeLoops && $type == Action::TYPE_PAGE_URL && $records->getNumeric(Records::LOOPS) > 0) {
+                if ($requestedParts['includeLoops'] && $type == Action::TYPE_PAGE_URL && $records->getNumeric(Records::LOOPS) > 0) {
                     $extraRows[] = [
                         'label' => (string) StaticContainer::get(PreprocessedPagesDao::class)->getActionName($idaction),
                         'count' => $records->getNumeric(Records::LOOPS),
@@ -310,11 +303,11 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        if ($withExternalReferrers) {
+        if ($requestedParts['externalReferrers']) {
             $this->addReferrers($report, $this->makeStoredReferrersTable($records->getTable(Records::REFERRERS), $limit));
         }
 
-        if ($parts == 'all') {
+        if ($requestedParts['all']) {
             $report['pageMetrics']['exits'] = $records->getNumeric(Records::EXITS);
         }
 
@@ -324,6 +317,27 @@ class API extends \Piwik\Plugin\API
         $report['preprocessedAt'] = $records->getTsArchived();
 
         return $report;
+    }
+
+    /**
+     * Which parts of the report the `parts` parameter requests. Following actions requested without internal
+     * referrers count reloads of the action, unless `followingActionsWithoutLoops` is requested.
+     *
+     * @return array{all: bool, internalReferrers: bool, followingActions: bool, includeLoops: bool, externalReferrers: bool}
+     */
+    private function parseParts(string $parts): array
+    {
+        $all = $parts == 'all';
+        $partsArray = explode(',', $parts);
+        $withoutLoops = in_array('followingActionsWithoutLoops', $partsArray);
+
+        return [
+            'all'               => $all,
+            'internalReferrers' => $all || in_array('internalReferrers', $partsArray),
+            'followingActions'  => $all || $withoutLoops || in_array('followingActions', $partsArray),
+            'includeLoops'      => !$withoutLoops && !$all && !in_array('internalReferrers', $partsArray),
+            'externalReferrers' => $all || in_array('externalReferrers', $partsArray),
+        ];
     }
 
     /**
