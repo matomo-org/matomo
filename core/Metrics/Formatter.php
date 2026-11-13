@@ -260,7 +260,7 @@ class Formatter
                 $size = $size / 1024;
             } elseif ($unit && $unit === $currentUnit) {
                 break;
-            } elseif ($size >= 1024 && $idx != $numUnits) {
+            } elseif (round($size, $precision) >= 1024 && $idx != $numUnits) {
                 $size = $size / 1024;
             } else {
                 break;
