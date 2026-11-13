@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\BlobTableAggregator;
+use Piwik\ArchiveProcessor\HyperLogLog;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
@@ -316,6 +317,57 @@ class ArchiveProcessor
 
         // returns the array of records once summed
         return $metrics;
+    }
+
+    /**
+     * Merges the sketches of the subperiods this archive aggregates. Returns null if a sketch is damaged, if
+     * `$requiredForEveryVisit` is set and a subperiod with visits has none, or if an
+     * `ArchiveProcessor.ComputeNbUniques.getIdSites` listener adds other sites.
+     *
+     * @internal
+     */
+    public function aggregateUniqueVisitorsSketch(string $recordName, bool $requiredForEveryVisit = true): ?HyperLogLog
+    {
+        if (array_map('intval', $this->getIdSitesToComputeNbUniques()) !== [(int) $this->getParams()->getSite()->getId()]) {
+            return null;
+        }
+
+        // merge() lowers the precision when a stored sketch has a lower one
+        $merged = new HyperLogLog(SettingsPiwik::getUniqueVisitorsEstimatePrecision());
+        $sketchCount = 0;
+
+        foreach ($this->getArchive()->querySingleBlob($recordName) as $row) {
+            try {
+                $merged->merge(HyperLogLog::fromString($row['value']));
+            } catch (\InvalidArgumentException $e) {
+                // a damaged sketch counts as missing: no estimate rather than a wrong one
+                StaticContainer::get(LoggerInterface::class)->info(
+                    'Damaged unique visitors sketch {record} ignored, no estimate stored for {params}: {error}',
+                    ['record' => $recordName, 'params' => (string) $this->getParams(), 'error' => $e->getMessage()]
+                );
+                return null;
+            }
+            $sketchCount++;
+        }
+
+        if (!$requiredForEveryVisit) {
+            return $merged;
+        }
+
+        $visits = $this->getArchive()->getDataTableFromNumeric('nb_visits');
+        $subPeriodsWithVisits = 0;
+        $visits->filter(function (DataTable $table) use (&$subPeriodsWithVisits) {
+            $row = $table->getFirstRow();
+            if ($row && $row->getColumn('nb_visits') > 0) {
+                $subPeriodsWithVisits++;
+            }
+        });
+
+        if ($sketchCount === 0 || $sketchCount < $subPeriodsWithVisits) {
+            return null;
+        }
+
+        return $merged;
     }
 
     public function getNumberOfVisits()

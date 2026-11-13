@@ -23,6 +23,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Request as PiwikRequest;
 use Piwik\SettingsServer;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Matomo report.
@@ -494,6 +495,10 @@ class API extends \Piwik\Plugin\API
 
                         foreach ($ordinateColumns as $column) {
                             if (!isset($rowData[$column])) {
+                                // a gap keeps the later periods under their own labels
+                                if (EstimatedUniques::isLeftOut($rowData, $column)) {
+                                    $ordinateSeries[$column][] = VOID;
+                                }
                                 continue;
                             }
                             $ordinateValue = $rowData[$column];

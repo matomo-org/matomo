@@ -12,6 +12,7 @@ namespace Piwik\Plugins\API;
 use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
 use Piwik\CacheId;
@@ -36,6 +37,7 @@ use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Measurable\Type\TypeManager;
 use Piwik\Version;
+use Piwik\ViewDataTable\EstimatedUniques;
 use Piwik\Widget\WidgetsList;
 
 /**
@@ -435,6 +437,13 @@ class API extends \Piwik\Plugin\API
                         || empty($columnsMap)
                     ) {
                         $columnsByPlugin[$plugin][] = $column;
+                    }
+
+                    // the estimate flag isn't a metric, so it is fetched from the report of the uniques it describes
+                    $uniquesSuffix = EstimatedUniques::getColumnSuffix($column);
+                    $flag = PluginsArchiver::UNIQUES_ESTIMATED_METRIC . $uniquesSuffix;
+                    if ($uniquesSuffix !== null && isset($columnsMap[$flag]) && !in_array($flag, $columnsByPlugin[$plugin] ?? [], true)) {
+                        $columnsByPlugin[$plugin][] = $flag;
                     }
                 }
             }

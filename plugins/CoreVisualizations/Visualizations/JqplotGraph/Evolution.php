@@ -19,6 +19,8 @@ use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\EvolutionPeriodSelector;
+use Piwik\Request;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 
 /**
@@ -346,5 +348,28 @@ class Evolution extends JqplotGraph
 
         // Use a sensible default if the columns_to_display is empty
         $this->config->columns_to_display = $columnsToDisplay ? : array('nb_visits');
+    }
+
+    // Website totals are estimated for periods that aren't counted exactly, report rows aren't yet.
+    // Remove this override once rows are estimated too, and let Graph check isUniqueVisitorsTotalAvailable().
+    protected function removeUnavailableMetrics($metrics)
+    {
+        if ($this->isPlottingEstimatedUniques()) {
+            return $metrics;
+        }
+
+        return parent::removeUnavailableMetrics($metrics);
+    }
+
+    /**
+     * Returns true if the graph plots the website's estimated unique visitors and users. They can be missing for
+     * periods with visits (eg a year whose days were archived before the year was estimated).
+     */
+    public function isPlottingEstimatedUniques(): bool
+    {
+        $period = Request::fromRequest()->getStringParameter('period', '');
+        $method = $this->requestConfig->getApiModuleToRequest() . '.' . $this->requestConfig->getApiMethodToRequest();
+
+        return SettingsPiwik::isUniqueVisitorsEstimated($period) && in_array($method, ['API.get', 'VisitsSummary.get'], true);
     }
 }

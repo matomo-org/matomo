@@ -247,6 +247,20 @@ enable_processing_unique_visitors_range = 0
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
 
+; set to 1 to estimate a website's total Unique Visitors and Users for that period instead of counting them from the logs.
+; much faster for long periods and segments, and usually within 2% of the exact count. days are always counted.
+; covers the totals in Visits Overview, Visits Frequency and AI Agents. Roll-Ups are not estimated.
+; if a period can't be estimated (its days were archived before this was turned on), it is counted exactly when
+; enable_processing_unique_visitors_... is 1 for it, and has no Unique Visitors otherwise.
+; to estimate past reports, invalidate them with ./console core:invalidate-report-data
+enable_processing_estimated_unique_visitors_week = 0
+enable_processing_estimated_unique_visitors_month = 0
+enable_processing_estimated_unique_visitors_year = 0
+enable_processing_estimated_unique_visitors_range = 0
+
+; precision of the estimates, from 4 to 18. higher is more accurate and uses more storage (14 uses up to about 7 KB per archive).
+unique_visitors_estimate_precision = 14
+
 ; The list of periods that are available in the Matomo calendar
 ; Example use case: custom date range requests are processed in real time,
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period

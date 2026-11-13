@@ -87,6 +87,20 @@ class SparklinesTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    public function testResolveMetricTitlePrefersATitleSetForTheMetric(): void
+    {
+        $reflection = new \ReflectionClass(Sparklines::class);
+        $sparklines = $reflection->newInstanceWithoutConstructor();
+        $sparklines->config = new Sparklines\Config();
+        $sparklines->config->metric_titles = ['nb_users' => 'Users (estimated)'];
+
+        $method = $reflection->getMethod('resolveMetricTitle');
+        $method->setAccessible(true);
+
+        $this->assertSame('Users (estimated)', $method->invoke($sparklines, 'nb_users', 'users', ['nb_users' => 'Users']));
+        $this->assertSame('Visits', $method->invoke($sparklines, 'nb_visits', 'visits', ['nb_visits' => 'Visits']));
+    }
+
     /**
      * @dataProvider getResolveMetricTitleData
      */

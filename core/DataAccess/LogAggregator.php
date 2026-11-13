@@ -9,6 +9,7 @@
 
 namespace Piwik\DataAccess;
 
+use Piwik\ArchiveProcessor\HyperLogLog;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
 use Piwik\Config;
@@ -699,6 +700,53 @@ class LogAggregator
         }
 
         return $this->getDb()->query($query['sql'], $query['bind']);
+    }
+
+    /**
+     * Builds a HyperLogLog sketch of the visitors in this archive's visits, for estimating unique visitors.
+     */
+    public function queryUniqueVisitorsSketch(int $precision): HyperLogLog
+    {
+        return $this->querySketch($precision, 'idvisitor');
+    }
+
+    /**
+     * Builds a HyperLogLog sketch of the users (User IDs) in this archive's visits, for estimating users.
+     */
+    public function queryUsersSketch(int $precision): HyperLogLog
+    {
+        return $this->querySketch($precision, 'user_id');
+    }
+
+    /**
+     * The query returns at most 2^precision rows: per bucket, the minimum of the remaining hash bits.
+     */
+    private function querySketch(int $precision, string $column): HyperLogLog
+    {
+        $tableName = self::LOG_VISIT_TABLE;
+
+        // hash the collation weight, so 'Alice' and 'alice' are one user, as in the exact count
+        $value = $column === 'user_id' ? "WEIGHT_STRING($tableName.$column)" : "$tableName.$column";
+
+        // first 64 bits of MD5, so IDs supplied by users (cid, uid) are spread evenly too
+        $hash = "CAST(CONV(SUBSTRING(MD5($value), 1, 16), 16, 10) AS UNSIGNED)";
+
+        // visits without a User ID have none to count
+        $where = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, "%s.$column IS NOT NULL");
+        $query = $this->generateQuery("$hash AS h", [$tableName], $where, '', '');
+
+        // the LIMIT stops MySQL merging the derived table and hashing each visit twice. Visits repeated by a
+        // segment join don't change MIN(). The precision is inlined, as binds break segment queries
+        $sql = 'SELECT (h & ' . ((1 << $precision) - 1) . ") AS bucket, MIN(h >> $precision) AS remainder_min"
+            . ' FROM (' . $query['sql'] . ' LIMIT 18446744073709551615) AS hashed GROUP BY bucket';
+        $cursor = $this->getDb()->query($sql, $query['bind']);
+
+        // read row by row: at high precisions the result has hundreds of thousands of rows
+        return HyperLogLog::fromBucketMinimums($precision, (function () use ($cursor) {
+            while ($row = $cursor->fetch()) {
+                yield [$row['bucket'], $row['remainder_min']];
+            }
+        })());
     }
 
     /**

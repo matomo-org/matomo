@@ -2,6 +2,8 @@
     "VisitsSummary": {
         "AverageGenerationTime": "average generation time",
         "AverageVisitDuration": "average visit duration",
+        "ColumnNbUniqVisitorsEstimated": "Unique visitors (estimated)",
+        "ColumnNbUsersEstimated": "Users (estimated)",
         "GenerateQueries": "%s queries executed",
         "GenerateTime": "%s seconds to generate the page",
         "MaxNbActions": "max actions in one visit",
@@ -16,7 +18,9 @@
         "NbUniqueOutlinksDescription": "unique outlinks",
         "NbUniquePageviewsDescription": "unique pageviews",
         "NbUniqueVisitors": "unique visitors",
+        "NbUniqueVisitorsEstimated": "unique visitors (estimated)",
         "NbUsersDescription": "users",
+        "NbUsersEstimatedDescription": "users (estimated)",
         "NbVisitsDescription": "visits",
         "NbVisitsBounced": "visits have bounced (left the website after one page)",
         "PluginDescription": "Reports general analytics metrics: visits, unique visitors, number of actions, bounce rate, etc.",
