@@ -36,25 +36,9 @@ $(function () {
                 return isPageUrlReport(dataTableParams) && tr.find('> td:first span.label').parent().is('a');
             },
             trigger: function (tr, e, subTableLabel, originalRow) {
-                var overrideParams = $.extend({}, $(originalRow || tr).data('param-override'));
-                if (typeof overrideParams !== 'object') {
-                    overrideParams = {};
-                }
-
-                tr = getRealRowIfComparisonRow(tr);
-
                 var link = getLinkForTransitionAndOverlayPopover(tr);
-                var popoverUrl = 'url:' + link;
 
-                Object.keys(overrideParams).forEach(function (paramName) {
-                    if (!overrideParams[paramName]) {
-                        return;
-                    }
-
-                    popoverUrl += ':' + encodeURIComponent(paramName) + ':' + encodeURIComponent(overrideParams[paramName]);
-                });
-
-                this.openPopover(popoverUrl);
+                this.openPopover(this.addComparisonRowParams('url:' + link, originalRow || tr));
             }
         });
 
@@ -65,8 +49,8 @@ $(function () {
             isAvailableOnRow: function (dataTableParams, tr) {
                 return isPageTitleReport(dataTableParams);
             },
-            trigger: function (tr, e, subTableLabel) {
-                DataTable_RowAction.prototype.trigger.apply(this, [tr, e, subTableLabel]);
+            trigger: function (tr, e, subTableLabel, originalRow) {
+                DataTable_RowAction.prototype.trigger.apply(this, [tr, e, subTableLabel, originalRow]);
             }
         });
     }
