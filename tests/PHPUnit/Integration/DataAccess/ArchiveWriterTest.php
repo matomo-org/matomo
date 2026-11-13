@@ -96,6 +96,8 @@ class ArchiveWriterTest extends IntegrationTestCase
             ['idarchive' => 3, 'name' => $segmentFlag . '.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-02 03:44:44'] + $row,
             // built after the new archive started
             ['idarchive' => 4, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-04-05 03:00:01'] + $row,
+            // built in the same second, which readers comparing ts_archived still take
+            ['idarchive' => 5, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-04-05 03:00:00'] + $row,
         ]);
         $blobTable = ArchiveTableCreator::getBlobTable(Date::factory($date), true);
         Db::query(
@@ -110,7 +112,7 @@ class ArchiveWriterTest extends IntegrationTestCase
 
         $remaining = array_values(array_unique(array_column($this->getAllColsOfAllNumericRows($date), 'idarchive')));
         sort($remaining);
-        $this->assertEquals([2, 3, 4, 5], $remaining);
+        $this->assertEquals([2, 3, 4, 5, 6], $remaining);
         $this->assertEquals(0, Db::fetchOne("SELECT COUNT(*) FROM `$blobTable` WHERE idarchive = 1"));
     }
 
@@ -121,9 +123,10 @@ class ArchiveWriterTest extends IntegrationTestCase
         $period = 'day';
         $date = '2019-08-29';
 
+        // the archives of the plugin a partial archive is written for
         $initialArchiveData = [
-            ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-02 03:44:44'],
-            ['idarchive' => 2, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 03:44:44'],
+            ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-02 03:44:44'],
+            ['idarchive' => 2, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 03:44:44'],
         ];
 
         $this->insertArchiveData($initialArchiveData);
@@ -137,8 +140,8 @@ class ArchiveWriterTest extends IntegrationTestCase
         $writer->finalizeArchive();
 
         $expected = [
-            ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-02 03:44:44'],
-            ['idarchive' => 2, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 03:44:44'],
+            ['idarchive' => 1, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-02 03:44:44'],
+            ['idarchive' => 2, 'idsite' => $this->idSite, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 03:44:44'],
             ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'done.ExamplePlugin', 'value' => 5, 'ts_archived' => '2020-04-05 03:00:00'],
             ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'nb_visits', 'value' => 5, 'ts_archived' => '2020-04-05 03:00:00'],
         ];

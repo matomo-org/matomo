@@ -537,12 +537,13 @@ class Model
 
         // the older archives of the same name, and the partial archives of its plugins (`<name>.<Plugin>`), which
         // readers ignore once a newer archive of all their plugins exists
+        // a partial of the same second is kept, as readers that compare ts_archived still take it
         $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ?
-                   AND (name = ? OR (name LIKE ? AND value = " . ArchiveWriter::DONE_PARTIAL . "))
-                   AND ts_archived <= ? AND idarchive < ?";
+                   AND ((name = ? AND ts_archived <= ?) OR (name LIKE ? AND value = " . ArchiveWriter::DONE_PARTIAL . " AND ts_archived < ?))
+                   AND idarchive < ?";
         $partialNamePattern = addcslashes($name, '%_\\') . '.%';
 
-        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->getDatetime(), $dateEnd->getDatetime(), $params->getPeriod()->getId(), $name, $partialNamePattern, $tsArchived, $idArchive]);
+        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->getDatetime(), $dateEnd->getDatetime(), $params->getPeriod()->getId(), $name, $tsArchived, $partialNamePattern, $tsArchived, $idArchive]);
         $idArchives = array_column($idArchives, 'idarchive');
         if (empty($idArchives)) {
             return;
