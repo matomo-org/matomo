@@ -75,7 +75,11 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
             );
 
             // the message stays generic because it can be shown to visitors, so the reason is only logged
-            $this->logger->warning('{message} Reason: {detail}', ['message' => $e->getMessage(), 'detail' => $e->getDetail()]);
+            $this->logger->warning('{message} Reason: {detail}', [
+                'message' => $e->getMessage(),
+                'detail' => $e->getDetail(),
+                'ignoreInScreenWriter' => true,
+            ]);
 
             throw $e;
         }

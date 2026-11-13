@@ -256,7 +256,11 @@ class ClientCredentialsTokenProviderTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->once())->method('warning')->with(
             '{message} Reason: {detail}',
-            ['message' => 'The SMTP OAuth token request failed with HTTP status 401.', 'detail' => 'invalid_client']
+            [
+                'message' => 'The SMTP OAuth token request failed with HTTP status 401.',
+                'detail' => 'invalid_client',
+                'ignoreInScreenWriter' => true,
+            ]
         );
 
         $response = ['status' => 401, 'data' => '{"error":"invalid_client"}'];
