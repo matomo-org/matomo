@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\Insights\Visualizations;
 
 use Piwik\Common;
+use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\Insights\API;
@@ -66,12 +68,13 @@ class Insight extends Visualization
     }
 
     /**
-     * Insights supports a comparison of the report with another date of the same period type, as selected in the date
-     * selector, but not with other segments.
+     * Insights handle every comparison themselves: they compare with the date selected in the date selector when they
+     * can, and otherwise say which comparison they ignore, instead of the generic message of the visualizations that do
+     * not support comparison.
      */
     public function supportsComparison()
     {
-        return null !== $this->getComparedDate() && empty($this->requestConfig->compareSegments);
+        return true;
     }
 
     /**
@@ -186,6 +189,36 @@ class Insight extends Visualization
         $period = Common::getRequestVar('period', null, 'string');
         $this->assignTemplateVar('period', $period);
         $this->assignTemplateVar('isComparedToSelectedDate', null !== $this->getComparedDate());
+
+        $this->addIgnoredComparisonMessages();
+    }
+
+    private function addIgnoredComparisonMessages(): void
+    {
+        $messages = [];
+
+        if (!empty($this->requestConfig->compareSegments)) {
+            $messages[] = Piwik::translate('Insights_ComparedSegmentsIgnored');
+        }
+
+        $isComparingDates = !empty($this->requestConfig->compareDates) || !empty($this->requestConfig->comparePeriods);
+        $lastDate = $this->dataTable ? $this->dataTable->getMetadata('lastDate') : null;
+        $lastPeriod = $this->dataTable ? $this->dataTable->getMetadata('period') : null;
+
+        if ($isComparingDates && null === $this->getComparedDate() && $lastDate && $lastPeriod) {
+            $comparedPeriod = Period\Factory::build($lastPeriod, $lastDate)->getLocalizedShortString();
+            $messages[] = Piwik::translate('Insights_SelectedComparisonIgnored', Common::sanitizeInputValue($comparedPeriod));
+        }
+
+        if (empty($messages)) {
+            return;
+        }
+
+        if (!empty($this->config->show_footer_message)) {
+            array_unshift($messages, $this->config->show_footer_message);
+        }
+
+        $this->config->show_footer_message = implode('<br/>', $messages);
     }
 
     public static function canDisplayViewDataTable(ViewDataTable $view)
