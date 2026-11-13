@@ -12,6 +12,7 @@ namespace Piwik\Plugins\BulkTracking\tests\Integration;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\EventDispatcher;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker\Response;
 use Piwik\Plugins\BulkTracking\tests\Framework\TestCase\BulkTrackingTestCase;
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
@@ -184,6 +185,21 @@ class TrackerTest extends BulkTrackingTestCase
         $response = $this->trackBulkRequest();
 
         $this->assertStringStartsWith('{"status":"success"', $response);
+        $this->assertNotEmpty($this->getIdVisit(1));
+        $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    public function testMainCountsARequestRejectedWithAClientErrorStatusAsInvalid()
+    {
+        EventDispatcher::getInstance()->addObserver('Tracker.isExcludedVisit', function (&$excluded, Tracker\Request $request) {
+            if ($request->getIdSite() === 2) {
+                throw new ThingNotFoundException('Form not found');
+            }
+        });
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertSame('{"status":"success","tracked":1,"invalid":1}', $response);
         $this->assertNotEmpty($this->getIdVisit(1));
         $this->assertEmpty($this->getIdVisit(2));
     }

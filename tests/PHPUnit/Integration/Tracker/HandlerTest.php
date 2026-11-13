@@ -12,7 +12,10 @@ namespace Piwik\Tests\Integration\Tracker;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\PluginDeactivatedException;
+use Piwik\Exception\PluginNotFoundException;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Http\BadRequestException;
 use Piwik\Log\LoggerInterface;
 use Piwik\NoAccessException;
 use Piwik\Tests\Framework\Fixture;
@@ -143,10 +146,60 @@ class HandlerTest extends IntegrationTestCase
         $this->assertSame(400, $this->response->statusCode);
     }
 
-    public function testOnExceptionShouldSendStatusCode500IfOtherHttpCodeExceptionWithForbiddenCode()
+    public function testOnExceptionShouldSendStatusCode500IfPluginIsDeactivated()
     {
         $this->executeOnException(new PluginDeactivatedException('Goals'));
         $this->assertSame(500, $this->response->statusCode);
+    }
+
+    public function testOnExceptionShouldSendTheCodeOfAnHttpCodeExceptionAndOnlyLogItAtDebugLevel()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->never())->method('error');
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+
+        $handler = new Handler();
+        $handler->setResponse($this->response);
+        $handler->onException($this->tracker, $this->requestSet, new ThingNotFoundException('Form not found'));
+
+        $this->assertSame(404, $this->response->statusCode);
+    }
+
+    public function testOnExceptionShouldLogAServiceUnavailableHttpCodeExceptionAsError()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('error');
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+
+        $handler = new Handler();
+        $handler->setResponse($this->response);
+        $handler->onException($this->tracker, $this->requestSet, new BadRequestException('Try again later', 503));
+
+        $this->assertSame(503, $this->response->statusCode);
+    }
+
+    /**
+     * @dataProvider getExceptionsWithStatusCode
+     */
+    public function testGetStatusCodeForException(\Throwable $exception, int $expectedStatusCode)
+    {
+        $this->assertSame($expectedStatusCode, Handler::getStatusCodeForException($exception));
+    }
+
+    public function getExceptionsWithStatusCode(): iterable
+    {
+        yield 'bad request' => [new BadRequestException('bad'), 400];
+        yield 'not found' => [new ThingNotFoundException('not found'), 404];
+        yield 'too many requests' => [new BadRequestException('slow down', 429), 429];
+        yield 'unsupported client error code' => [new BadRequestException('conflict', 409), 400];
+        yield 'service unavailable' => [new BadRequestException('later', 503), 503];
+        yield 'other server error code' => [new BadRequestException('gateway', 502), 500];
+        yield 'no access without code' => [new NoAccessException('no access', 0), 400];
+        yield 'plugin deactivated' => [new PluginDeactivatedException('Goals'), 500];
+        yield 'plugin not found' => [new PluginNotFoundException('Goals'), 500];
+        yield 'invalid parameter' => [new InvalidRequestParameterException('invalid'), 400];
+        yield 'generic exception' => [new Exception('failed', 404), 500];
+        yield 'php error' => [new \TypeError('type'), 500];
     }
 
     public function testOnExceptionShouldStillOutputExceptionIfLoggerFails()
