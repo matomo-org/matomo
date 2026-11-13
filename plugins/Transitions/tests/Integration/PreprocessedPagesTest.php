@@ -19,7 +19,6 @@ use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ReArchiveList;
-use Piwik\Date;
 use Piwik\Db;
 use Piwik\Exception\ThingNotFoundException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -642,53 +641,6 @@ class PreprocessedPagesTest extends IntegrationTestCase
 
         $this->api->removePreprocessedPage(1, $idPageB);
         self::assertFalse(StaticContainer::get(Dao::class)->hasPagesForSite(1));
-    }
-
-    public function testOnlyTheNewestRemovedPagesAreKept(): void
-    {
-        Config::getInstance()->Transitions_1 = ['max_removed_pages_kept' => 2];
-        $idPages = [];
-        foreach (['a', 'b', 'c', 'd'] as $index => $path) {
-            $idPages[$path] = $this->api->addPreprocessedPage(1, 'https://example.com/' . $path)['idpage'];
-            Db::query(
-                'UPDATE ' . Common::prefixTable('transitions_preprocessed_page') . ' SET created_date = ? WHERE idpage = ?',
-                ['2025-01-0' . ($index + 1) . ' 00:00:00', $idPages[$path]]
-            );
-        }
-        $this->api->addPreprocessedPage(2, 'https://example.org/a');
-        Config::getInstance()->Transitions_2 = ['max_removed_pages_kept' => 0];
-
-        $service = StaticContainer::get(Service::class);
-        foreach (['b', 'a', 'd'] as $second => $path) {
-            Date::$now = strtotime('2025-02-01 00:00:0' . $second);
-            $this->api->removePreprocessedPage(1, $idPages[$path]);
-        }
-        Date::$now = null;
-
-        // the oldest removed page is deleted, and its records are no longer served
-        self::assertNull($service->getPageForReport(1, 'https://example.com/b'));
-        self::assertSame($idPages['a'], $service->getPageForReport(1, 'https://example.com/a')['idpage'] ?? null);
-        self::assertSame($idPages['d'], $service->getPageForReport(1, 'https://example.com/d')['idpage'] ?? null);
-        self::assertSame(['https://example.com/c'], $this->getUrls(1));
-
-        // other websites keep their own
-        $this->api->removePreprocessedPage(2, $this->api->getPreprocessedPages(2)[0]['idpage']);
-        self::assertNull($service->getPageForReport(2, 'https://example.org/a'));
-        self::assertSame($idPages['a'], $service->getPageForReport(1, 'https://example.com/a')['idpage'] ?? null);
-    }
-
-    public function testAnInvalidNumberOfRemovedPagesKeptFailsBeforeRemoving(): void
-    {
-        $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/a')['idpage'];
-        Config::getInstance()->Transitions = ['max_removed_pages_kept' => -1];
-
-        try {
-            $this->api->removePreprocessedPage(1, $idPage);
-            $this->fail('Expected the setting to be rejected');
-        } catch (\Exception $e) {
-            self::assertSame('Invalid value for [Transitions] max_removed_pages_kept: expected an integer >= 0.', $e->getMessage());
-        }
-        self::assertSame(['https://example.com/a'], $this->getUrls(1));
     }
 
     public function testRemovedPagesDontCountTowardsTheLimit(): void

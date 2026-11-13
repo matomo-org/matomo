@@ -19,8 +19,8 @@ use Piwik\Updater\Migration;
 
 /**
  * Stores the page URLs of each website whose Transitions report is pre-processed. A removed page keeps its row, with
- * `removed_date` set, so its stored records can still be found by URL, up to a number of removed rows per website. Rows
- * are only added by admins, one per URL, and the reads of a website's pages use the (idsite, removed_date) index.
+ * `removed_date` set, so its stored records can still be found by URL. Rows are only added by admins, one per URL, and
+ * the reads of a website's pages use the (idsite, removed_date) index, so removed rows don't slow them down.
  *
  * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, created_date: string, created_by: string|null, removed_date: string|null}
  */
@@ -196,27 +196,6 @@ class Dao
         Db::query(
             'UPDATE ' . $this->getTable() . ' SET removed_date = ? WHERE idsite = ? AND idpage = ? AND removed_date IS NULL',
             [$removedDate, $idSite, $idPage]
-        );
-    }
-
-    /**
-     * Deletes the oldest removed pages of the website beyond the newest `$keep`.
-     */
-    public function deleteRemovedPagesBeyond(int $idSite, int $keep): void
-    {
-        $rows = Db::fetchAll(
-            'SELECT idpage FROM ' . $this->getTable() . ' WHERE idsite = ? AND removed_date IS NOT NULL'
-            . ' ORDER BY removed_date DESC, idpage DESC LIMIT ' . $keep . ', 1000',
-            [$idSite]
-        );
-        $idPages = array_map(fn(array $row): int => (int) $row['idpage'], $rows);
-        if (empty($idPages)) {
-            return;
-        }
-
-        Db::query(
-            'DELETE FROM ' . $this->getTable() . ' WHERE idsite = ? AND idpage IN (' . implode(',', $idPages) . ')',
-            [$idSite]
         );
     }
 

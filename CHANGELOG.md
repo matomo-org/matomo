@@ -12,8 +12,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `[Transitions] preprocessed_refresh_after` (default `900` seconds, `0` turns it off) sets when the pre-processed Transitions data of today or yesterday is rebuilt in a request.
 * `[Transitions] preprocessed_max_rows_served` (default `100`) sets the most rows per list a Transitions report served from pre-processed data shows; larger `limitBeforeGrouping` values use the raw logs.
 * `[General] datatable_archiving_maximum_rows_transitions` (default `1000`) sets the rows kept per list of a pre-processed Transitions page.
-* `[Transitions] max_removed_pages_kept` (default `500`) limits the removed pages per website whose pre-processed Transitions data stays available.
-* The four `[Transitions]` settings above can be overridden for one website in a `[Transitions_idSite]` section.
+* The three `[Transitions]` settings above can be overridden for one website in a `[Transitions_idSite]` section.
 
 ### New APIs
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.

@@ -1682,9 +1682,4 @@ preprocessed_refresh_after = 900
 ; Override it for one website in a [Transitions_idSite] section.
 preprocessed_max_rows_served = 100
 
-; Most removed pages per website whose pre-processed data stays available. Removing a page beyond it deletes the
-; oldest removed pages, whose pre-processed data is then no longer used.
-; Override it for one website in a [Transitions_idSite] section.
-max_removed_pages_kept = 500
-
 ; NOTE: do not directly edit this file! See notice at the top
