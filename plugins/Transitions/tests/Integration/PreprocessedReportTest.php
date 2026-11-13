@@ -531,6 +531,20 @@ class PreprocessedReportTest extends IntegrationTestCase
         self::assertSame($this->toArray($variantRaw), $this->toArray($this->request('day', self::DAY, '', 0, 'all', $variantUrl)));
     }
 
+    public function testAUrlWithoutProtocolIsServedLikeTheSelectedPage(): void
+    {
+        $variantUrl = 'example.org/page/one.html?ref=newsletter';
+        $this->trackPageview(self::DAY . ' 20:00:00', 'http://' . $variantUrl);
+        $variantRaw = $this->request('day', self::DAY, '', 0, 'all', $variantUrl);
+
+        SitesManagerAPI::getInstance()->updateSite(1, excludedQueryParameters: 'ref');
+        $this->archive($this->selectPage(self::PAGE_URL), 'day', self::DAY);
+        $stored = $this->request('day', self::DAY);
+
+        self::assertSame($this->toArray($stored), $this->toArray($this->request('day', self::DAY, '', 0, 'all', 'example.org/page/one.html')));
+        self::assertSame($this->toArray($variantRaw), $this->toArray($this->request('day', self::DAY, '', 0, 'all', $variantUrl)));
+    }
+
     public function testAUrlWithAFragmentNoLongerKeptIsAnsweredFromTheLogs(): void
     {
         SitesManagerAPI::getInstance()->updateSite(1, keepURLFragments: 1);

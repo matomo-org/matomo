@@ -228,6 +228,12 @@ class Service
      */
     public function getPageForReport(int $idSite, string $pageUrl): ?array
     {
+        // the report also requests URLs as stored in `log_action`, without protocol, which doesn't tell pages apart
+        $pageUrl = trim($pageUrl);
+        if (!preg_match('~^https?://~i', $pageUrl)) {
+            $pageUrl = 'http://' . $pageUrl;
+        }
+
         try {
             $url = $this->normalizeUrl($idSite, $pageUrl);
         } catch (BadRequestException $e) {
