@@ -24,6 +24,7 @@ use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Log\LoggerInterface;
 use Piwik\NoAccessException;
+use Piwik\Option;
 use Piwik\Plugins\Overlay\API as OverlayAPI;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -88,6 +89,8 @@ class PreprocessedReportTest extends IntegrationTestCase
         $tracker = Fixture::getTracker(1, '2010-03-07 10:00:00', $defaultInit = true);
         $tracker->setUrl(self::OTHER_PAGE_URL);
         Fixture::checkResponse($tracker->doTrackPageView('page title - sub/dir/page2.html'));
+        // tracked before anything was archived, so there is nothing to invalidate
+        Option::deleteLike('%report\_to\_invalidate\_%');
     }
 
     /**

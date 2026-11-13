@@ -12,21 +12,24 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Transitions\tests\Integration;
 
 use Piwik\Archive;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\DataAccess\LogAggregator;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
+use Piwik\Option;
 use Piwik\Period\Day;
 use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
+use Piwik\Plugins\PrivacyManager\API as PrivacyManagerAPI;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\Model;
@@ -317,6 +320,63 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         self::assertSame(1, $this->countPartialArchives(self::DAY));
     }
 
+    public function testRecordsOfAnInvalidatedArchiveAreNotServed(): void
+    {
+        $this->setBrowserArchiving(false);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'month', self::DAY);
+        $day = $this->request('day', self::DAY);
+        $month = $this->request('month', self::DAY);
+        self::assertSame(1, $day['preprocessed']);
+        self::assertSame(1, $month['preprocessed']);
+
+        // the stored values of the day and the month no longer match the logs, which only an invalidation tells
+        Db::query(
+            'UPDATE ' . Common::prefixTable('archive_numeric_2010_03') . ' SET value = value + 1000 WHERE idsite = 1 AND period IN (1, 3) AND date1 IN (?, ?) AND name = ?',
+            [self::DAY, '2010-03-01', Records::getRecordName($idPage, Records::PAGEVIEWS)]
+        );
+        StaticContainer::get(ArchiveInvalidator::class)->markArchivesAsInvalidated([1], [Date::factory(self::DAY)], 'day');
+
+        // a past day isn't built in a request with cron archiving, so the logs answer it
+        $raw = $this->request('day', self::DAY);
+        self::assertArrayNotHasKey('preprocessed', $raw);
+        unset($day['preprocessed'], $day['preprocessedAt']);
+        self::assertSame($this->toArray($day), $this->toArray($raw));
+
+        // the month isn't used either, and the day is one of its subperiods
+        self::assertArrayNotHasKey('preprocessed', $this->request('month', self::DAY));
+
+        // once the day is archived again, the month is summed from its subperiods
+        $this->archive($idPage, 'day', self::DAY);
+        $summed = $this->request('month', self::DAY);
+        self::assertSame(1, $summed['preprocessed']);
+        self::assertSame($month['pageMetrics'], $summed['pageMetrics']);
+    }
+
+    public function testDeletingAVisitIsReflectedInADayBuiltWithoutCron(): void
+    {
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $built = $this->request('day', self::DAY);
+        self::assertSame(1, $built['preprocessed']);
+
+        $idVisit = Db::fetchOne(
+            'SELECT idvisit FROM ' . Common::prefixTable('log_link_visit_action') . ' WHERE idsite = 1 AND server_time >= ? AND server_time < ?'
+            . ' AND idaction_url = (SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE name = ? AND type = 1) LIMIT 1',
+            [self::DAY . ' 00:00:00', self::DAY . ' 23:59:59', 'example.org/page/one.html']
+        );
+        PrivacyManagerAPI::getInstance()->deleteDataSubjects([['idsite' => 1, 'idvisit' => $idVisit]]);
+
+        $rebuilt = $this->request('day', self::DAY);
+        self::assertSame(1, $rebuilt['preprocessed']);
+        self::assertLessThan($built['pageMetrics']['pageviews'], $rebuilt['pageMetrics']['pageviews']);
+        unset($rebuilt['preprocessed'], $rebuilt['preprocessedAt']);
+        // a limit above the stored rows asks the logs
+        $raw = $this->request('day', self::DAY, self::PAGE_URL, '', Records::getMaxRowsServed(1) + 1);
+        self::assertSame($this->toArray($raw)['pageMetrics'], $this->toArray($rebuilt)['pageMetrics']);
+        self::assertSame(1, $this->countPartialArchives(self::DAY));
+        self::assertArrayNotHasKey(self::DAY, StaticContainer::get(ArchiveInvalidator::class)->getRememberedArchivedReportsThatShouldBeInvalidated(1));
+    }
+
     public function testADayBuildThatTimesOutIsAnsweredFromTheLogsAndNotTriedAgainAtOnce(): void
     {
         Config::getInstance()->General['live_query_max_execution_time'] = 7.5;
@@ -597,6 +657,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
             $tracker->setUrl($url);
             Fixture::checkResponse($tracker->doTrackPageView('title'));
         }
+
+        // the tracker runs at the real time, in which the faked today is in the past, so it remembers to invalidate it
+        Option::deleteLike('%report\_to\_invalidate\_%');
     }
 
     private function selectPage(string $url): int

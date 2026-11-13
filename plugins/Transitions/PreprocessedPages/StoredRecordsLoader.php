@@ -11,15 +11,22 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Config\GeneralConfig;
+use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Log\LoggerInterface;
 use Piwik\Period;
+use Piwik\Period\Day;
 use Piwik\Period\Range;
 use Piwik\Plugins\Transitions\RecordBuilders\PageTransitions;
 use Piwik\Segment;
@@ -33,6 +40,9 @@ use Piwik\Site;
  *   a day is summed from its subperiods instead of its own archive.
  * - Without cron archiving, a requested single day without records is built for a selected page, and a longer period
  *   without records is summed from the stored records of its subperiods, down to days. Nothing else is built.
+ * - Records read from an invalidated archive are never used: a longer period is summed from its subperiods instead,
+ *   and a day is built where one of the above allows it. With browser archiving, the invalidations remembered for the
+ *   days of the request, for example by the deletion of a data subject's visits, are applied first.
  *
  * Records are built as a partial archive of the page's records only, for all visits and pre-processed segments. At
  * most {@link MAX_SUMMED_PERIODS} periods are summed for a request.
@@ -86,6 +96,7 @@ final class StoredRecordsLoader
             return null;
         }
         $site = new Site($idSite);
+        $this->applyRememberedInvalidations($site, $periods);
 
         $records = $this->reader->readSum($idSite, $periods, $segment, $idPage, $tableParts);
         if ($records !== null && !$this->hasOutdatedPeriod($site, $periods, $records->getTsArchivedByPeriod())) {
@@ -93,8 +104,13 @@ final class StoredRecordsLoader
         }
 
         $isWithoutCron = ArchivingMode::isWithoutCron($idSite);
+        $mayBuildMissing = $isWithoutCron;
         if ($records === null && (!$isWithoutCron || !$isPeriodAllowed)) {
-            return null;
+            // only invalidated records are replaced then
+            if (empty($this->reader->getCoverageAndInvalidated($idSite, $periods, $segment, $idPage)['invalidated'])) {
+                return null;
+            }
+            $mayBuildMissing = false;
         }
 
         // removed pages keep their stored records, which are never rebuilt
@@ -108,9 +124,9 @@ final class StoredRecordsLoader
         }
 
         $mayRefresh = $canBuild && $this->getRefreshAfter($idSite) > 0;
-        $mayBuildDay = $isWithoutCron && $canBuild && !$period instanceof Range && $period->getLabel() === 'day';
+        $mayBuildDay = $mayBuildMissing && $canBuild && !$period instanceof Range && $period->getLabel() === 'day';
 
-        $resolved = $this->resolve($site, $periods, $segment, $idPage, $mayRefresh, $mayBuildDay, $isWithoutCron, false);
+        $resolved = $this->resolve($site, $periods, $segment, $idPage, $mayRefresh, $mayBuildDay, $mayBuildMissing, false);
         if ($resolved === null) {
             return $records;
         }
@@ -141,16 +157,32 @@ final class StoredRecordsLoader
             return null;
         }
 
-        $coverage = $this->reader->getCoverage((int) $site->getId(), $periods, $segment, $idPage);
+        [
+            'coverage' => $coverage,
+            'invalidated' => $invalidatedRangeStrings,
+        ] = $this->reader->getCoverageAndInvalidated((int) $site->getId(), $periods, $segment, $idPage);
+        $invalidatedRangeStrings = array_flip($invalidatedRangeStrings);
 
         $resolved = [];
         $outdated = [];
+        $invalidated = [];
         $uncovered = [];
         $uncoveredDays = [];
         foreach ($periods as $period) {
             $isDay = $period->getLabel() === 'day';
 
-            if (array_key_exists($period->getRangeString(), $coverage)) {
+            if (isset($invalidatedRangeStrings[$period->getRangeString()])) {
+                if (!$isDay) {
+                    $invalidated[] = $period;
+                    continue;
+                }
+
+                $mayBuild = $mayBuildDay || ($mayRefresh && $this->isTodayOrYesterday($site, $period));
+                if (!$mayBuild || !$this->buildDay($site, $period, $segment, $idPage, false)) {
+                    return null;
+                }
+                $resolved[] = $period;
+            } elseif (array_key_exists($period->getRangeString(), $coverage)) {
                 $tsArchived = $coverage[$period->getRangeString()];
                 if ($mayRefresh && $tsArchived !== null && $this->isOutdated($site, $period, $tsArchived)) {
                     if ($isDay) {
@@ -197,6 +229,20 @@ final class StoredRecordsLoader
             $resolved = array_merge($resolved, $subperiods);
         }
 
+        if (!empty($invalidated)) {
+            // summed from their subperiods, never used as they are
+            $subperiods = $this->getSubperiods($invalidated);
+            if (count($resolved) + count($subperiods) > $this->maxSummedPeriods) {
+                return null;
+            }
+
+            $subperiods = $this->resolve($site, $subperiods, $segment, $idPage, $mayRefresh, false, $mayDecompose, true);
+            if ($subperiods === null) {
+                return null;
+            }
+            $resolved = array_merge($resolved, $subperiods);
+        }
+
         if (!empty($outdated)) {
             // summed from their subperiods as far as they are stored, else used as they are
             $subperiods = $this->getSubperiods($outdated);
@@ -235,6 +281,64 @@ final class StoredRecordsLoader
         }
 
         return $resolved;
+    }
+
+    /**
+     * Applies the invalidations remembered for the days of the periods, for example after a data subject's visits were
+     * deleted, as browser archiving does before it reads archives. They are applied for all segments, as `core:archive`
+     * does, so they are forgotten afterwards. Core doesn't invalidate partial archives, so the Transitions day records
+     * built from the previous data are deleted, and are built again where allowed.
+     *
+     * @param list<Period> $periods
+     */
+    private function applyRememberedInvalidations(Site $site, array $periods): void
+    {
+        if (!Rules::isBrowserTriggerEnabled()) {
+            return;
+        }
+
+        $idSite = (int) $site->getId();
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+
+        $dates = [];
+        foreach (array_keys($invalidator->getRememberedArchivedReportsThatShouldBeInvalidated($idSite)) as $dateString) {
+            $date = Date::factory((string) $dateString);
+            foreach ($periods as $period) {
+                if (!$date->isEarlier($period->getDateStart()) && !$date->isLater($period->getDateEnd())) {
+                    $dates[$date->toString()] = $date;
+                    break;
+                }
+            }
+        }
+        if (empty($dates)) {
+            return;
+        }
+
+        try {
+            $invalidator->markArchivesAsInvalidated([$idSite], array_values($dates), false);
+        } finally {
+            Site::clearCache();
+        }
+
+        foreach ($dates as $date) {
+            $numericTable = ArchiveTableCreator::getNumericTable($date, false);
+            if (empty($numericTable)) {
+                continue;
+            }
+
+            $idArchives = Db::fetchAll(
+                'SELECT idarchive FROM ' . $numericTable . ' WHERE idsite = ? AND period = ' . Day::PERIOD_ID
+                . " AND date1 = ? AND name LIKE 'done%.Transitions' AND value = " . ArchiveWriter::DONE_PARTIAL,
+                [$idSite, $date->toString()]
+            );
+            if (!empty($idArchives)) {
+                StaticContainer::get(Model::class)->deleteArchiveIds(
+                    $numericTable,
+                    ArchiveTableCreator::getBlobTable($date, false) ?: null,
+                    array_column($idArchives, 'idarchive')
+                );
+            }
+        }
     }
 
     /**
