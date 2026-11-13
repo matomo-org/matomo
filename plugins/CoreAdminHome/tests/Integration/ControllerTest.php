@@ -389,6 +389,11 @@ class ControllerTest extends IntegrationTestCase
             [],
             'To use a certificate, please set oauth_certificate_path in the [mail] section of config.ini.php first.',
         ];
+        yield 'only spaces as the certificate path' => [
+            '   ',
+            [],
+            'To use a certificate, please set oauth_certificate_path in the [mail] section of config.ini.php first.',
+        ];
 
         $changed = 'The certificate is set up for the current SMTP server, token URL, client ID and scope. '
             . 'To change them, please change them in the [mail] section of config.ini.php together with the certificate.';
