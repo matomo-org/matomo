@@ -13,6 +13,8 @@ namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
 use Piwik\Config;
 use Piwik\Config\GeneralConfig;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 
 /**
  * Names and layout of the archive records of a pre-processed page, `Transitions_<idpage>_<part>`. They are keyed by the
@@ -115,6 +117,42 @@ final class Records
         }
 
         return $maxRows;
+    }
+
+    /**
+     * Keeps the rows with the highest counts, of equal counts those with the lowest labels as the day records' queries
+     * order them, and sums the others into the summary row; in subtables too. As Truncate, it keeps one more row when
+     * there is no summary row yet.
+     */
+    public static function truncate(DataTable $table, int $maxRows, int $column): void
+    {
+        foreach ($table->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if ($subtable instanceof DataTable) {
+                self::truncate($subtable, $maxRows, $column);
+            }
+        }
+
+        if ($table->getRowsCount() <= $maxRows + 1) {
+            return;
+        }
+
+        // case-insensitive, not natural, like the collation of `log_action`.`name`
+        $table->filter('Sort', [$column, 'desc', $naturalSort = false, $recursiveSort = false, fn() => 'label']);
+
+        $aggregationOperations = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+        $aggregationOperations = is_array($aggregationOperations) ? $aggregationOperations : null;
+        $summaryRow = new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW]]);
+        foreach (array_slice(array_values($table->getRowsWithoutSummaryRow()), $maxRows) as $row) {
+            $summaryRow->sumRow($row, false, $aggregationOperations);
+        }
+        $previousSummaryRow = $table->getSummaryRow();
+        if ($previousSummaryRow) {
+            $summaryRow->sumRow($previousSummaryRow, false, $aggregationOperations);
+        }
+
+        $table->filter('Limit', [0, $maxRows]);
+        $table->addSummaryRow($summaryRow);
     }
 
     /**

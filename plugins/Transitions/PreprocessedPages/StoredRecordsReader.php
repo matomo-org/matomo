@@ -319,7 +319,7 @@ final class StoredRecordsReader
 
                 // as archiving truncates the lists it sums, so many periods don't make the sum grow without a bound
                 $column = $isExpanded ? Metrics::INDEX_NB_VISITS : Metrics::INDEX_NB_ACTIONS;
-                $sum->filter('Truncate', [Records::getMaxRows($idSite), DataTable::LABEL_SUMMARY_ROW, $column, true]);
+                Records::truncate($sum, Records::getMaxRows($idSite), $column);
 
                 foreach ($result instanceof DataTable\Map ? $result->getDataTables() : [$result] as $table) {
                     Common::destroy($table);

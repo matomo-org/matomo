@@ -178,8 +178,8 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
     public function testAPageNotTrackedYetGetsZeroRecordsUntilItIsTracked(): void
     {
-        $earlierDay = Date::factory('today')->subDay(3)->toString();
-        $laterDay = Date::factory('today')->subDay(1)->toString();
+        $earlierDay = '2010-03-08';
+        $laterDay = '2010-03-09';
         $pageUrl = 'http://example.org/launched-later.html';
         $this->trackPageview($earlierDay . ' 10:00:00', 'http://example.org/page/one.html');
         $idPage = $this->selectPage($pageUrl);
@@ -200,7 +200,58 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         self::assertSame($this->getRawReport('month', self::DAY), $this->getStoredReport($idPage, 'month', self::DAY));
         self::assertSame($this->getRawReport('year', self::DAY), $this->getStoredReport($idPage, 'year', self::DAY));
         self::assertSame($this->getRawReport('week', self::LATER_DAY), $this->getStoredReport($idPage, 'week', self::LATER_DAY));
-        self::assertSame($this->getRawReport('range', '2010-03-05,2010-03-14'), $this->getStoredReport($idPage, 'range', '2010-03-05,2010-03-14'));
+    }
+
+    /**
+     * @dataProvider getTiedLabelOrders
+     *
+     * @param list<string> $labels
+     */
+    public function testOfEqualCountsALongerPeriodKeepsTheLowestLabels(array $labels): void
+    {
+        $idPage = $this->selectPage('http://example.org/tie.html');
+        foreach ($labels as $index => $label) {
+            $tracker = Fixture::getTracker(1, Date::factory('2010-03-08')->addDay($index)->toString() . ' 10:00:00', $defaultInit = true);
+            $tracker->setUrl('http://example.org/tie.html');
+            Fixture::checkResponse($tracker->doTrackPageView('tie'));
+            $tracker->setForceVisitDateTime(Date::factory('2010-03-08')->addDay($index)->toString() . ' 10:01:00');
+            $tracker->setUrl('http://example.org/tie/' . $label . '.html');
+            Fixture::checkResponse($tracker->doTrackPageView($label));
+        }
+        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 2;
+
+        $this->archive('week', '2010-03-08');
+
+        $table = Archive::build(1, 'week', '2010-03-08')->getDataTable(Records::getRecordName($idPage, Records::FOLLOWING_PAGES));
+        self::assertInstanceOf(DataTable::class, $table);
+        // case-insensitive, as the day records' queries order them
+        self::assertSame(
+            ['example.org/tie/a.html', 'example.org/tie/B.html'],
+            array_values(array_map(fn($row) => $row->getColumn('label'), $table->getRowsWithoutSummaryRow()))
+        );
+        self::assertSame(2, (int) $table->getSummaryRow()->getColumn(Metrics::INDEX_NB_ACTIONS));
+    }
+
+    /**
+     * @return array<string, array{list<string>}>
+     */
+    public function getTiedLabelOrders(): array
+    {
+        return [
+            'lowest first' => [['a', 'B', 'C', 'd']],
+            'lowest last' => [['d', 'C', 'B', 'a']],
+        ];
+    }
+
+    public function testRangesAreNotArchived(): void
+    {
+        $idPage = $this->selectPage(self::PAGE_URL);
+
+        // reports sum a range from the records of its subperiods
+        $this->archive('range', '2010-03-05,2010-03-14');
+
+        self::assertSame([], $this->getStoredRecordNames(5, '2010-03-05'));
+        self::assertNotEmpty(array_intersect($this->getExpectedRecordNames($idPage), $this->getStoredRecordNames(1, self::DAY)));
     }
 
     public function testListsOfSeveralPagesKeepTheirOwnRowsAndOthers(): void

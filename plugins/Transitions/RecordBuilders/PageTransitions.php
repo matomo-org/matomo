@@ -21,6 +21,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
+use Piwik\Period\Range;
 use Piwik\Plugins\Transitions\Model;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
@@ -75,11 +76,12 @@ class PageTransitions extends RecordBuilder
     }
 
     /**
-     * An invalid row limit only stops the Transitions records from being archived, not the other plugins' reports.
+     * Ranges aren't archived: reports sum them from their subperiods. An invalid row limit only stops the Transitions
+     * records from being archived, not the other plugins' reports.
      */
     public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
-        if (empty($this->getIdPagesToBuild($archiveProcessor))) {
+        if ($archiveProcessor->getParams()->getPeriod() instanceof Range || empty($this->getIdPagesToBuild($archiveProcessor))) {
             return false;
         }
 
@@ -135,16 +137,19 @@ class PageTransitions extends RecordBuilder
                     continue;
                 }
 
-                // Truncate keeps the rows with the highest counts; it decides ties at the row limit
+                // truncated before core's Truncate, which would decide ties at the row limit by itself
+                $column = (int) $record->getColumnToSortByBeforeTruncation();
                 $columnsAggregationOperation = null;
                 $archiveProcessor->aggregateDataTableRecords(
                     $record->getName(),
                     $record->getMaxRowsInTable(),
                     $record->getMaxRowsInSubtable(),
-                    (string) $record->getColumnToSortByBeforeTruncation(),
+                    (string) $column,
                     $columnsAggregationOperation,
                     null,
-                    false
+                    false,
+                    [],
+                    fn(DataTable $table) => Records::truncate($table, $maxRows, $column)
                 );
             }
         }
