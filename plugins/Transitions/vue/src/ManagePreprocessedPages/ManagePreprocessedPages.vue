@@ -131,7 +131,10 @@
       class="managePreprocessedPages__addForm"
       @submit.prevent="add"
     >
-      <div class="managePreprocessedPages__field">
+      <div
+        class="managePreprocessedPages__field"
+        @focusin="loadSuggestions"
+      >
         <Field
           uicontrol="text"
           name="preprocessedPageUrl"
@@ -203,7 +206,6 @@ import {
   ContentTable,
   Matomo,
   NumberFormatter,
-  debounce,
   translate,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
@@ -237,22 +239,21 @@ export interface ManagePreprocessedPagesState {
   isDuplicateError: boolean;
   confirmingId: number|null;
   removingId: number|null;
-  suggestions: PageUrlSuggestion[];
+  suggestionPool: PageUrlSuggestion[]|null;
+  isSuggestionPoolRequested: boolean;
 }
 
 const MAX_SUGGESTIONS = 10;
 
-/** Shorter input would match most of a large site's pages, so it isn't worth a report request. */
+/** The most viewed pages are read once per page view and matched as the admin types. */
+const SUGGESTION_POOL_SIZE = 500;
+
+/** Shorter input matches too many pages to be a useful suggestion. */
 const MIN_SUGGESTION_CHARS = 3;
 
-/** The report's URLs are matched whatever their protocol. */
-function withoutScheme(text: string): string {
-  return text.trim().replace(/^https?:\/\/(www\.)?/i, '');
-}
-
-/** The typed text is matched literally; the API wraps the pattern in slashes and escapes those. */
-function toUrlPattern(text: string): string {
-  return withoutScheme(text).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+/** URLs are matched whatever their protocol and `www.`, and case-insensitively. */
+function matchKey(text: string): string {
+  return text.trim().replace(/^(https?:\/\/)?(www\.)?/i, '').toLowerCase();
 }
 
 export default defineComponent({
@@ -287,21 +288,31 @@ export default defineComponent({
       isDuplicateError: false,
       confirmingId: null,
       removingId: null,
-      suggestions: [],
+      suggestionPool: null,
+      isSuggestionPoolRequested: false,
     };
   },
   setup() {
     return {
-      suggestionsAbort: { controller: null as AbortController|null },
       // the newest list request wins, so a slower earlier reload can't bring back a stale list
       listLoads: { latest: 0 },
     };
   },
   created() {
-    this.fetchSuggestions = debounce(this.fetchSuggestions.bind(this), 300);
     this.loadPages();
   },
   computed: {
+    suggestions(): PageUrlSuggestion[] {
+      const typed = matchKey(this.pageUrl);
+      if (!this.suggestionPool || this.pageUrl === this.pickedUrl
+        || typed.length < MIN_SUGGESTION_CHARS) {
+        return [];
+      }
+
+      return this.suggestionPool
+        .filter((row) => matchKey(this.displayUrl(row.url)).includes(typed))
+        .slice(0, MAX_SUGGESTIONS);
+    },
     usageLabel(): string {
       return translate(
         'Transitions_PreprocessedPagesUsage',
@@ -388,25 +399,19 @@ export default defineComponent({
       this.addError = '';
       this.isDuplicateError = false;
 
-      if (this.pageUrl === this.pickedUrl) {
-        return;
+      if (this.pageUrl !== this.pickedUrl) {
+        this.pickedUrl = '';
       }
 
-      this.pickedUrl = '';
-      this.fetchSuggestions(this.pageUrl);
+      this.loadSuggestions();
     },
-    fetchSuggestions(text: string) {
-      this.suggestionsAbort.controller?.abort();
-      this.suggestionsAbort.controller = null;
-
-      if (withoutScheme(text).length < MIN_SUGGESTION_CHARS) {
-        this.suggestions = [];
+    /** The pool is sorted by pageviews, so the first matches are the most viewed ones. */
+    loadSuggestions() {
+      if (this.isSuggestionPoolRequested) {
         return;
       }
 
-      const abortController = new AbortController();
-      this.suggestionsAbort.controller = abortController;
-
+      this.isSuggestionPoolRequested = true;
       AjaxHelper.fetch<PageUrlSuggestion[]>(
         {
           method: 'Actions.getPageUrls',
@@ -415,33 +420,22 @@ export default defineComponent({
           date: 'last30',
           segment: '',
           flat: 1,
-          filter_column: 'url',
-          filter_pattern: toUrlPattern(text),
           filter_sort_column: 'nb_hits',
           filter_sort_order: 'desc',
-          filter_limit: MAX_SUGGESTIONS,
+          filter_limit: SUGGESTION_POOL_SIZE,
           showColumns: 'label,nb_hits,url',
         },
-        { createErrorNotification: false, abortController },
+        { createErrorNotification: false },
       ).then((rows) => {
-        if (this.suggestionsAbort.controller !== abortController) {
-          return;
-        }
-
-        this.suggestions = (rows || []).filter((row) => !!row.url);
+        this.suggestionPool = (rows || []).filter((row) => !!row.url);
       }).catch(() => {
         // suggestions are optional; any URL can still be typed
-        if (this.suggestionsAbort.controller === abortController) {
-          this.suggestions = [];
-        }
+        this.suggestionPool = [];
       });
     },
     pickSuggestion(url: string) {
       this.pickedUrl = url;
       this.pageUrl = url;
-      this.suggestions = [];
-      this.suggestionsAbort.controller?.abort();
-      this.suggestionsAbort.controller = null;
     },
     add() {
       if (this.isAddDisabled) {
@@ -459,7 +453,6 @@ export default defineComponent({
       ).then(() => {
         this.pageUrl = '';
         this.pickedUrl = '';
-        this.suggestions = [];
         return this.loadPages(false);
       }).catch((error) => {
         this.addError = apiErrorText(error);

@@ -250,10 +250,27 @@ export default defineComponent({
     isLimitReached(): boolean {
       return !!this.status && !this.status.selected && this.status.used >= this.status.limit;
     },
+    /** Why the page can't be added, worded as on the admin page. */
     limitReachedHelp(): string {
+      const used = this.status?.used ?? 0;
+      const limit = this.status?.limit ?? 0;
+
+      if (limit <= 0) {
+        return translate('Transitions_PreprocessedPagesAddingDisabled');
+      }
+
+      if (used > limit) {
+        return translate(
+          'Transitions_PreprocessedPagesOverLimit',
+          NumberFormatter.formatNumber(used),
+          NumberFormatter.formatNumber(limit),
+          NumberFormatter.formatNumber(used - limit + 1),
+        );
+      }
+
       return translate(
         'Transitions_PreprocessedPagesLimitReachedHelp',
-        NumberFormatter.formatNumber(this.status?.limit ?? 0),
+        NumberFormatter.formatNumber(limit),
       );
     },
     usageLabel(): string {

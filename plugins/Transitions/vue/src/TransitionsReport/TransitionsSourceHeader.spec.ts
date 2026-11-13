@@ -298,6 +298,20 @@ describe('Transitions/TransitionsSourceHeader', () => {
       expect(link.attributes('href')).toBe('?module=Transitions&action=manage&idSite=1&period=year&date=2025-01-01');
     });
 
+    it.each([
+      [{ used: 0, limit: 0 }, 'Transitions_PreprocessedPagesAddingDisabled'],
+      [{ used: 3, limit: 0 }, 'Transitions_PreprocessedPagesAddingDisabled'],
+      [{ used: 25, limit: 20 }, 'Transitions_PreprocessedPagesOverLimit:25|20|6'],
+    ])('should explain why adding is disabled (%o)', async (counts, help) => {
+      state.fetch.mockResolvedValue(status(counts));
+      const wrapper = await mountHeader();
+
+      expect(wrapper.find('.transitionsSourceHeader__toggle').attributes('disabled')).toBeDefined();
+      expect(wrapper.find('.transitionsSourceHeader__toggleWrap').attributes('title')).toBe(help);
+      const describedBy = wrapper.find('.transitionsSourceHeader__toggle').attributes('aria-describedby');
+      expect(wrapper.find(`#${describedBy}`).text()).toBe(help);
+    });
+
     it('should add the page and say how far back it is prepared', async () => {
       state.post.mockResolvedValue({ idpage: 7 });
       const wrapper = await mountHeader();

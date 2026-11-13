@@ -338,27 +338,46 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect(wrapper.find('.managePreprocessedPages__duplicateHelp').exists()).toBe(false);
     });
 
-    it('should suggest the most viewed matching pages of the last 30 days', async () => {
-      answer(() => [], [
-        { label: '/a', nb_hits: 4812, url: 'https://example.org/a' },
-        { label: '/a?q', nb_hits: 13, url: 'https://example.org/a?q=&lt;b&gt;' },
-        { label: '/a/b', nb_hits: '12', url: 'https://example.org/a/b' },
-      ]);
+    const POOL = [
+      { label: '/a', nb_hits: 4812, url: 'https://example.org/a' },
+      { label: '/a?q', nb_hits: 13, url: 'https://example.org/a?q=&lt;b&gt;' },
+      { label: '/a/b', nb_hits: '12', url: 'http://www.example.org/A/b' },
+      { label: '/c', nb_hits: 11, url: 'https://example.org/c' },
+    ];
+
+    function poolRequests() {
+      return state.fetch.mock.calls.filter(([params]) => params.method === 'Actions.getPageUrls');
+    }
+
+    it('should read the most viewed pages of the last 30 days once, when the field is first used', async () => {
+      answer(() => [], POOL);
       const wrapper = await mountPage();
+      expect(poolRequests()).toHaveLength(0);
 
-      await typeUrl(wrapper, 'https://www.example.org/a?(x)');
+      await wrapper.find('.managePreprocessedPages__field').trigger('focusin');
+      await flushPromises();
+      await typeUrl(wrapper, 'example.org/a');
+      await typeUrl(wrapper, 'example.org/c');
+      await wrapper.find('.managePreprocessedPages__field').trigger('focusin');
 
-      const request = state.fetch.mock.calls.find(([params]) => params.method === 'Actions.getPageUrls')![0];
-      expect(request).toMatchObject({
+      expect(poolRequests()).toHaveLength(1);
+      expect(poolRequests()[0][0]).toMatchObject({
         idSite: 1,
         period: 'range',
         date: 'last30',
         flat: 1,
-        filter_column: 'url',
-        filter_pattern: 'example\\.org/a\\?\\(x\\)',
         filter_sort_column: 'nb_hits',
         filter_sort_order: 'desc',
+        filter_limit: 500,
       });
+      expect(poolRequests()[0][0]).not.toHaveProperty('filter_pattern');
+    });
+
+    it('should suggest the matching pages in pageviews order, whatever their scheme and case', async () => {
+      answer(() => [], POOL);
+      const wrapper = await mountPage();
+
+      await typeUrl(wrapper, 'https://www.example.org/a');
 
       expect(wrapper.find('.managePreprocessedPages__suggestionsHeader').text())
         .toContain('Transitions_PreprocessedPagesSuggestions');
@@ -369,7 +388,7 @@ describe('Transitions/ManagePreprocessedPages', () => {
       ])).toEqual([
         ['https://example.org/a', '4812'],
         ['https://example.org/a?q=<b>', '13'],
-        ['https://example.org/a/b', '12'],
+        ['http://www.example.org/A/b', '12'],
       ]);
       expect(suggestions[1].find('.managePreprocessedPages__suggestionUrl').attributes('title'))
         .toBe('https://example.org/a?q=<b>');
@@ -382,13 +401,48 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(false);
     });
 
-    it.each(['   ', 'ab', 'https://www.ab'])('should not ask for suggestions for "%s"', async (text) => {
-      answer(() => []);
+    it('should match typed special characters against the decoded URL', async () => {
+      answer(() => [], POOL);
+      const wrapper = await mountPage();
+
+      await typeUrl(wrapper, 'a?q=<b');
+
+      expect(wrapper.findAll('.managePreprocessedPages__suggestionUrl').map((url) => url.text()))
+        .toEqual(['https://example.org/a?q=<b>']);
+    });
+
+    it('should show at most 10 suggestions', async () => {
+      answer(() => [], Array.from({ length: 30 }, (_, index) => ({
+        label: `/p${index}`, nb_hits: 100 - index, url: `https://example.org/p${index}`,
+      })));
+      const wrapper = await mountPage();
+
+      await typeUrl(wrapper, 'example.org/p');
+
+      expect(wrapper.findAll('.managePreprocessedPages__suggestion')).toHaveLength(10);
+    });
+
+    it.each(['   ', 'ab', 'https://www.ab'])('should not suggest anything for "%s"', async (text) => {
+      answer(() => [], POOL);
       const wrapper = await mountPage();
 
       await typeUrl(wrapper, text);
 
-      expect(state.fetch.mock.calls.some(([params]) => params.method === 'Actions.getPageUrls')).toBe(false);
+      expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(false);
+    });
+
+    it('should still accept typed URLs when the suggestions fail to load', async () => {
+      state.fetch.mockImplementation((params: Record<string, unknown>) => (
+        params.method === 'Actions.getPageUrls'
+          ? Promise.reject(new Error('failed'))
+          : Promise.resolve([])
+      ));
+      const wrapper = await mountPage();
+
+      await typeUrl(wrapper, 'https://example.org/new');
+
+      expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(false);
+      expect(wrapper.find('.managePreprocessedPages__add').attributes('disabled')).toBeUndefined();
     });
 
     it.each([
