@@ -10,6 +10,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 
 ### New APIs
+* Controller actions can ask the user to confirm with their second factor, e.g. a two-factor authentication code, by calling `Piwik\Plugins\Login\SecondFactorVerifier::requireSecondFactorConfirmed()`. Each confirmation can be used once, for that action only.
+* Plugins that provide a second factor answer the new events `Login.userRequiresSecondFactorConfirmation` and `Login.verifySecondFactor`.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
