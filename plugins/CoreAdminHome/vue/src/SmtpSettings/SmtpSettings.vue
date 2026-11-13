@@ -99,7 +99,7 @@
           v-else
           id="smtpOAuthSettings"
           v-model="oauthSettings"
-          :has-stored-client-secret="!!mail.oauth_client_secret"
+          :has-stored-client-secret="savedOAuthSettings.hasClientSecret"
           :certificate-path="savedOAuthSettings.certificatePath"
         />
       </div>
@@ -143,6 +143,7 @@ interface SavedOAuthSettings {
   clientId: string;
   scope: string;
   certificatePath: string;
+  hasClientSecret: boolean;
 }
 
 interface SmtpSettingsState {
@@ -221,6 +222,7 @@ export default defineComponent({
         clientId: mail.oauth_client_id,
         scope: mail.oauth_scope,
         certificatePath: mail.oauth_certificate_path || '',
+        hasClientSecret: !!mail.oauth_client_secret,
       },
       mailFromAddress: mail.noreply_email_address,
       mailFromName: mail.noreply_email_name,
@@ -278,7 +280,7 @@ export default defineComponent({
       this.mailPassword = newValue;
       this.passwordChanged = true;
     },
-    updateSavedOAuthSettings() {
+    updateSavedOAuthSettings(postedClientSecret?: string) {
       const saved = this.savedOAuthSettings;
       const current = {
         host: this.mailHost,
@@ -289,8 +291,18 @@ export default defineComponent({
       const changed = (Object.keys(current) as (keyof typeof current)[])
         .some((key) => `${saved[key] || ''}`.trim() !== `${current[key] || ''}`.trim());
 
-      // like the server, which drops the certificate settings when one of these changed
-      this.savedOAuthSettings = { ...current, certificatePath: changed ? '' : saved.certificatePath };
+      // like the server, which drops the certificate settings and the client secret when one of
+      // these changed, unless a client secret was sent
+      this.savedOAuthSettings = {
+        ...current,
+        certificatePath: changed ? '' : saved.certificatePath,
+        hasClientSecret: postedClientSecret !== undefined
+          ? postedClientSecret !== ''
+          : !changed && saved.hasClientSecret,
+      };
+
+      // the saved client secret must be entered again before it is sent to another token URL
+      this.oauthSettings = { ...this.oauthSettings, clientSecret: undefined };
     },
     save(password: string) {
       this.isLoading = true;
@@ -325,7 +337,7 @@ export default defineComponent({
         mailSettings,
         { withTokenInUrl: true },
       ).then(() => {
-        this.updateSavedOAuthSettings();
+        this.updateSavedOAuthSettings(mailSettings.mailOAuthClientSecret as string | undefined);
 
         const notificationInstanceId = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
