@@ -102,6 +102,8 @@ describe("TransitionsPreprocessedPages", function () {
         ]);
         expect(await textOf('.managePreprocessedPages__unknownUser')).to.equal('Unknown');
 
+        // no row or button under the mouse, so no hover state in the capture
+        await page.mouse.move(-10, -10);
         expect(await page.screenshotSelector('.managePreprocessedPages')).to.matchImage('admin_page');
     });
 
@@ -175,6 +177,8 @@ describe("TransitionsPreprocessedPages", function () {
             expect(layout.cancelVisible).to.equal(true);
             expect(layout.stopVisible).to.equal(true);
 
+            // no row or button under the mouse, so no hover state in the capture
+            await page.mouse.move(-10, -10);
             expect(await page.screenshotSelector('.managePreprocessedPages')).to.matchImage('admin_page_phone');
         } finally {
             await page.webpage.setViewport({ width: 1350, height: 768 });
@@ -190,6 +194,8 @@ describe("TransitionsPreprocessedPages", function () {
         expect(await textOf('.transitionsSourceHeader__badge')).to.equal('Pre-processed');
         expect(await textOf('.transitionsSourceHeader__toggle')).to.contain('Stop pre-processing');
 
+        // no row or button under the mouse, so no hover state in the capture
+        await page.mouse.move(-10, -10);
         expect(await page.screenshotSelector('.transitionsSourceHeader')).to.matchImage('report_header');
     });
 
