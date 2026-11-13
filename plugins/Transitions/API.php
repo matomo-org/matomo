@@ -540,7 +540,8 @@ class API extends \Piwik\Plugin\API
      * Adds a page URL whose Transitions report is pre-processed during archiving. Requires admin access to the website.
      *
      * The next `core:archive` runs process its data of the past months set by
-     * `[General] rearchive_reports_in_past_last_n_months`. Without cron archiving, past data is not processed.
+     * `[General] rearchive_reports_in_past_last_n_months`. For a website not archived by cron, past data is not
+     * processed.
      *
      * @param int $idSite The numeric ID of the website.
      * @param string $pageUrl The page URL, starting with http:// or https://, at most 4096 characters. Protocol and
@@ -548,6 +549,10 @@ class API extends \Piwik\Plugin\API
      *                        stored as the tracker stores page URLs, truncated to `[Tracker] page_maximum_length`.
      * @return array{idpage: int, url: string, created_date: string, created_by: string|null, created_by_superuser: bool}
      *         The added page, as returned by `getPreprocessedPages`.
+     * @throws \Piwik\Http\BadRequestException (400) for an invalid or too long URL, a page that is already
+     *                                           selected, and when the website's limit of pages is reached
+     * @throws \Piwik\Plugins\Transitions\PreprocessedPages\PreprocessedPagesBusyException (409) while another page
+     *                                                                                    is added to the website
      */
     public function addPreprocessedPage(int $idSite, string $pageUrl): array
     {
@@ -567,6 +572,7 @@ class API extends \Piwik\Plugin\API
     public function removePreprocessedPage(int $idSite, int $idPage): void
     {
         Piwik::checkUserHasAdminAccess($idSite);
+        new Site($idSite);
 
         StaticContainer::get(PreprocessedPagesService::class)->removePage($idSite, $idPage);
     }

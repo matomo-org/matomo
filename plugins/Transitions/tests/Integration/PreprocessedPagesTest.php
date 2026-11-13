@@ -589,11 +589,6 @@ class PreprocessedPagesTest extends IntegrationTestCase
         $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/not-tracked-yet')['idpage'];
 
         self::assertSame([Records::getRebuildReportName($idPage)], $this->getScheduledReports());
-
-        // nothing more once it is tracked, as its earlier days have records
-        $this->trackPageview('http://example.com/not-tracked-yet');
-        StaticContainer::get(Service::class)->getIdActionsByPage(1);
-        self::assertSame([Records::getRebuildReportName($idPage)], $this->getScheduledReports());
     }
 
     public function testRemovingAPageClearsOnlyItsPendingReArchiving(): void

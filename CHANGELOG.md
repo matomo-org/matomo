@@ -37,7 +37,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Archiving
 * The Transitions report of a pre-processed page rebuilds that page's records of today and yesterday within the request, also when browser archiving is disabled or `browser_archiving_disabled_enforce = 1`.
 * A partial archive, one written for `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()`, is now always stored under the done flag of its plugin, also outside `core:archive`.
-* Partial archives of a plugin are deleted once a newer archive for all plugins of the same site, period and segment exists, as reports no longer read them.
+* Partial archives of a plugin are deleted when an archive for all plugins of the same site, period and segment is finished after them, as reports no longer read them.
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 
 ### Other changes
