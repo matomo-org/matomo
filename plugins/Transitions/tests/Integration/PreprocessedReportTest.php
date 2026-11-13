@@ -38,6 +38,8 @@ use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 
 /**
  * Serving the Transitions report from the stored records of pre-processed pages.
@@ -543,6 +545,61 @@ class PreprocessedReportTest extends IntegrationTestCase
 
         self::assertSame($this->toArray($stored), $this->toArray($this->request('day', self::DAY, '', 0, 'all', 'example.org/page/one.html')));
         self::assertSame($this->toArray($variantRaw), $this->toArray($this->request('day', self::DAY, '', 0, 'all', $variantUrl)));
+    }
+
+    /**
+     * @dataProvider getUrlsServedFromStoredData
+     */
+    public function testUrlsWithSpecialCharactersOrAKeptFragmentAreServedFromStoredData(string $pageUrl, bool $keepsFragments): void
+    {
+        if ($keepsFragments) {
+            SitesManagerAPI::getInstance()->updateSite(1, keepURLFragments: 1);
+        }
+        $this->trackPageview(self::DAY . ' 20:00:00', $pageUrl);
+        // as the report requests it: the name the tracker stored
+        $requestedUrl = 'http://' . Db::fetchOne(
+            'SELECT name FROM ' . Common::prefixTable('log_action') . ' WHERE type = ? AND name LIKE ? ORDER BY idaction DESC LIMIT 1',
+            [Action::TYPE_PAGE_URL, PageUrl::normalizeUrl((string) strtok($pageUrl, '?#'))['url'] . '%']
+        );
+        $raw = $this->request('day', self::DAY, '', 0, 'all', $requestedUrl);
+        self::assertArrayNotHasKey('preprocessed', $raw);
+
+        $this->archive($this->selectPage($pageUrl), 'day', self::DAY);
+
+        $stored = $this->request('day', self::DAY, '', 0, 'all', $requestedUrl);
+        self::assertSame(1, $stored['preprocessed']);
+        unset($stored['preprocessed'], $stored['preprocessedAt']);
+        self::assertSame($this->toArray($raw), $this->toArray($stored));
+    }
+
+    /**
+     * @return array<string, array{string, bool}>
+     */
+    public function getUrlsServedFromStoredData(): array
+    {
+        return [
+            'special characters in the query' => ["http://example.org/special.html?id=<x>&n='a'", false],
+            'kept fragment' => ['http://example.org/page/one.html#section', true],
+        ];
+    }
+
+    public function testTheReloadsOfAPageWhoseActionWasDeletedAreLabelledWithItsUrl(): void
+    {
+        $pageUrl = 'http://example.org/reloaded.html?a=1&b=<x>';
+        $tracker = Fixture::getTracker(1, self::DAY . ' 20:00:00', $defaultInit = true);
+        $tracker->setUrl($pageUrl);
+        Fixture::checkResponse($tracker->doTrackPageView('reloaded'));
+        $tracker->setForceVisitDateTime(self::DAY . ' 20:01:00');
+        Fixture::checkResponse($tracker->doTrackPageView('reloaded'));
+        $this->archive($this->selectPage($pageUrl), 'day', self::DAY);
+
+        $stored = $this->toArray($this->request('day', self::DAY, '', 0, 'followingActions', $pageUrl));
+        self::assertSame([['example.org/reloaded.html?a=1&b=&lt;x&gt;', 1]], $stored['followingPages']);
+
+        $this->deleteLogsAndUnusedActions();
+        self::assertNull(StaticContainer::get(Service::class)->getIdActionForUrl($pageUrl));
+
+        self::assertSame($stored, $this->toArray($this->request('day', self::DAY, '', 0, 'followingActions', $pageUrl)));
     }
 
     public function testAUrlWithAFragmentNoLongerKeptIsAnsweredFromTheLogs(): void

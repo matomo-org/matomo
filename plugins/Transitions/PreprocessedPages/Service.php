@@ -222,13 +222,15 @@ class Service
      * The page whose stored records answer a report of the page URL: the page the URL is the same as, also a removed
      * one. None for a URL that normalizing changes beyond its protocol, `www.` and the case of its host, for example
      * by removing query parameters or a fragment the website no longer keeps, or by truncating it to a lower
-     * `page_maximum_length`: it may have been tracked as another page before.
+     * `page_maximum_length`: it may have been tracked as another page before. A URL without protocol is read as
+     * `http://…`.
      *
      * @return PreprocessedPage|null
      */
     public function getPageForReport(int $idSite, string $pageUrl): ?array
     {
-        // the report also requests URLs as stored in `log_action`, without protocol, which doesn't tell pages apart
+        // the report's page switcher sends the name stored in `log_action`, without protocol, which doesn't tell
+        // pages apart
         $pageUrl = trim($pageUrl);
         if (!preg_match('~^https?://~i', $pageUrl)) {
             $pageUrl = 'http://' . $pageUrl;
