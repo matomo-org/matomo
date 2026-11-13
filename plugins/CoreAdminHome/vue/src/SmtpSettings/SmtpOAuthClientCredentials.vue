@@ -42,10 +42,10 @@
       uicontrol="password"
       name="mailOAuthClientSecret"
       :model-value="clientSecret"
-      @update:model-value="onClientSecretChange($event)"
+      @update:model-value="update({ clientSecret: $event })"
       @click="!clientSecretChanged && $event.target.select();"
       :title="translate('CoreAdminHome_SmtpOAuthClientSecret')"
-      :inline-help="clientSecretHelp"
+      :inline-help="translate('CoreAdminHome_SmtpOAuthClientSecretHelp', '<strong>', '</strong>')"
       :autocomplete="'off'"
       v-auto-clear-password
     />
@@ -56,7 +56,7 @@
       :model-value="modelValue.scope"
       @update:model-value="updateSettingTiedToSecret({ scope: $event })"
       :title="translate('CoreAdminHome_SmtpOAuthScope')"
-      :inline-help="scopeHelp"
+      :inline-help="translate('CoreAdminHome_SmtpOAuthScopeHelp', 'https://outlook.office365.com/.default')"
       :autocomplete="'off'"
     />
   </div>
@@ -134,17 +134,12 @@ export default defineComponent({
 
       return this.hasStoredClientSecret ? '******' : '';
     },
+    // the example is in a computed property, Vue would decode its &lt; in the template
     tokenUrlHelp() {
       return translate(
         'CoreAdminHome_SmtpOAuthTokenUrlHelp',
         'https://login.microsoftonline.com/&lt;tenant-id&gt;/oauth2/v2.0/token',
       );
-    },
-    clientSecretHelp() {
-      return translate('CoreAdminHome_SmtpOAuthClientSecretHelp', '<strong>', '</strong>');
-    },
-    scopeHelp() {
-      return translate('CoreAdminHome_SmtpOAuthScopeHelp', 'https://outlook.office365.com/.default');
     },
   },
   methods: {
@@ -160,9 +155,6 @@ export default defineComponent({
       // the stored client secret must not be sent to another token URL,
       // or be used with another client ID or scope
       this.update({ ...changes, clientSecret: '' });
-    },
-    onClientSecretChange(clientSecret: string) {
-      this.update({ clientSecret });
     },
   },
 });
