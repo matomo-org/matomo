@@ -230,9 +230,9 @@ class Controller extends ControllerAdmin
             if ($mail['transport'] === 'smtp' && strtoupper($mail['type']) === 'XOAUTH2') {
                 $isCertificate = strtolower(trim((string) $mail['oauth_credential_type'])) === ClientCredentialsTokenProvider::CREDENTIAL_TYPE_CERTIFICATE;
 
-                if ($isCertificate && $mail['oauth_certificate_path'] === '') {
+                if ($isCertificate && trim($mail['oauth_certificate_path']) === '') {
                     // a certificate set up for other settings is dropped above, those settings have to change with it
-                    $hasStoredCertificate = (Config::getInstance()->mail['oauth_certificate_path'] ?? '') !== '';
+                    $hasStoredCertificate = trim((string) (Config::getInstance()->mail['oauth_certificate_path'] ?? '')) !== '';
                     throw new Exception(Piwik::translate(
                         $hasStoredCertificate ? 'CoreAdminHome_ErrorSmtpOAuthCertificateSettingsChanged' : 'CoreAdminHome_ErrorSmtpOAuthCertificateNotSetUp'
                     ));

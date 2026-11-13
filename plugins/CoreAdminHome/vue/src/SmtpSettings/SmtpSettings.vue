@@ -100,7 +100,7 @@
           id="smtpOAuthSettings"
           v-model="oauthSettings"
           :has-stored-client-secret="!!mail.oauth_client_secret"
-          :certificate-path="mail.oauth_certificate_path"
+          :certificate-path="savedOAuthSettings.certificatePath"
         />
       </div>
 
@@ -136,6 +136,15 @@ import SmtpOAuthClientCredentials, {
   SmtpOAuthClientCredentialsSettings,
 } from './SmtpOAuthClientCredentials.vue';
 
+// what the config file holds since the page was loaded or last saved
+interface SavedOAuthSettings {
+  host: string;
+  tokenUrl: string;
+  clientId: string;
+  scope: string;
+  certificatePath: string;
+}
+
 interface SmtpSettingsState {
   isLoading: boolean;
   showPasswordConfirmation: boolean;
@@ -147,6 +156,7 @@ interface SmtpSettingsState {
   mailUsername: string;
   mailPassword: string;
   oauthSettings: SmtpOAuthClientCredentialsSettings;
+  savedOAuthSettings: SavedOAuthSettings;
   mailFromAddress: string;
   mailFromName: string;
   mailEncryption: string;
@@ -205,6 +215,13 @@ export default defineComponent({
           ? 'certificate'
           : 'secret',
       },
+      savedOAuthSettings: {
+        host: mail.host,
+        tokenUrl: mail.oauth_token_url,
+        clientId: mail.oauth_client_id,
+        scope: mail.oauth_scope,
+        certificatePath: mail.oauth_certificate_path || '',
+      },
       mailFromAddress: mail.noreply_email_address,
       mailFromName: mail.noreply_email_name,
       mailEncryption: mail.encryption,
@@ -261,6 +278,20 @@ export default defineComponent({
       this.mailPassword = newValue;
       this.passwordChanged = true;
     },
+    updateSavedOAuthSettings() {
+      const saved = this.savedOAuthSettings;
+      const current = {
+        host: this.mailHost,
+        tokenUrl: this.oauthSettings.tokenUrl,
+        clientId: this.oauthSettings.clientId,
+        scope: this.oauthSettings.scope,
+      };
+      const changed = (Object.keys(current) as (keyof typeof current)[])
+        .some((key) => `${saved[key] || ''}`.trim() !== `${current[key] || ''}`.trim());
+
+      // like the server, which drops the certificate settings when one of these changed
+      this.savedOAuthSettings = { ...current, certificatePath: changed ? '' : saved.certificatePath };
+    },
     save(password: string) {
       this.isLoading = true;
 
@@ -294,6 +325,8 @@ export default defineComponent({
         mailSettings,
         { withTokenInUrl: true },
       ).then(() => {
+        this.updateSavedOAuthSettings();
+
         const notificationInstanceId = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           type: 'transient',

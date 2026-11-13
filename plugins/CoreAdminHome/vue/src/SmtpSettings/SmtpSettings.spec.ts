@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { mount } from '@vue/test-utils';
+import { flushPromises, mount } from '@vue/test-utils';
 
 const { post } = vi.hoisted(() => ({ post: vi.fn(() => Promise.resolve()) }));
 
@@ -13,6 +13,7 @@ vi.mock('CoreHome', () => ({
   AjaxHelper: { post },
   AutoClearPassword: {},
   ContentBlock: { template: '<div><slot></slot></div>' },
+  Matomo: { helper: { htmlEntities: (value: string) => value } },
   NotificationsStore: { show: vi.fn(), scrollToNotification: vi.fn() },
   translate: (key: string) => key,
 }));
@@ -103,6 +104,21 @@ describe('CoreAdminHome/SmtpSettings.vue', () => {
     await wrapper.find('[name="mailHost"]').setValue('another.example.test');
 
     expect((await save(wrapper)).mailOAuthClientSecret).toBe('');
+  });
+
+  it.each([
+    ['keeps', 'the settings are unchanged', 'https://mail.example.test/.default', 'CoreAdminHome_SmtpOAuthCertificateConfigured'],
+    ['forgets', 'the scope changed', 'https://other.example.test/.default', 'CoreAdminHome_SmtpOAuthCertificateNotConfigured'],
+  ])('%s the stored certificate after a save when %s', async (_action, _reason, scope, expectedHelp) => {
+    const wrapper = mountWithStoredOAuthSettings('Xoauth2', { oauth_certificate_path: '/etc/matomo/cert.pem' });
+
+    await wrapper.find('[name="mailOAuthScope"]').setValue(scope);
+    await wrapper.find('[name="mailOAuthClientSecret"]').setValue('a-new-secret');
+    await save(wrapper);
+    await flushPromises();
+    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('certificate');
+
+    expect(wrapper.find('[name="mailOAuthCredentialType"]').attributes('data-help')).toBe(expectedHelp);
   });
 
   it.each([
