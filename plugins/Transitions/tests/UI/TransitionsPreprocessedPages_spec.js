@@ -139,6 +139,48 @@ describe("TransitionsPreprocessedPages", function () {
         ]);
     });
 
+    it('should fit a phone screen with the remove confirmation open', async function () {
+        await page.webpage.setViewport({ width: 375, height: 812 });
+
+        try {
+            await page.goto(manageUrl);
+            await page.waitForNetworkIdle();
+            await page.waitForSelector('.managePreprocessedPages__row');
+
+            await page.click('.managePreprocessedPages__remove');
+            await page.waitForSelector('.managePreprocessedPages__confirm');
+
+            const layout = await page.evaluate(() => {
+                const isVisible = (selector) => {
+                    const element = document.querySelector(selector);
+                    if (!element) {
+                        return false;
+                    }
+
+                    const rect = element.getBoundingClientRect();
+                    const style = window.getComputedStyle(element);
+                    return rect.width > 0 && rect.height > 0 && style.visibility !== 'hidden'
+                        && rect.left >= 0 && rect.right <= window.innerWidth;
+                };
+
+                return {
+                    scrollWidth: document.documentElement.scrollWidth,
+                    innerWidth: window.innerWidth,
+                    cancelVisible: isVisible('.managePreprocessedPages__cancel'),
+                    stopVisible: isVisible('.managePreprocessedPages__stop'),
+                };
+            });
+
+            expect(layout.scrollWidth).to.be.at.most(layout.innerWidth);
+            expect(layout.cancelVisible).to.equal(true);
+            expect(layout.stopVisible).to.equal(true);
+
+            expect(await page.screenshotSelector('.managePreprocessedPages')).to.matchImage('admin_page_phone');
+        } finally {
+            await page.webpage.setViewport({ width: 1350, height: 768 });
+        }
+    });
+
     it('should show the pre-processed badge in the report of an archived page', async function () {
         await page.goto(reportUrl);
         await page.waitForNetworkIdle();
