@@ -447,7 +447,8 @@ class Mysql implements SchemaInterface
                                       `created_by` VARCHAR(100) NULL,
                                       `removed_date` DATETIME NULL,
                                       PRIMARY KEY(`idpage`),
-                                      UNIQUE INDEX index_idsite_url_hash (`idsite`, `url_hash`)
+                                      UNIQUE INDEX index_idsite_url_hash (`idsite`, `url_hash`),
+                                      INDEX index_idsite_removed_date (`idsite`, `removed_date`)
                                   ) $tableOptions
             ",
             'changes'             => "CREATE TABLE `{$prefixTables}changes` (

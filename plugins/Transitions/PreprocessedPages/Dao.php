@@ -19,7 +19,8 @@ use Piwik\Updater\Migration;
 
 /**
  * Stores the page URLs of each website whose Transitions report is pre-processed. A removed page keeps its row, with
- * `removed_date` set, so its stored records can still be found by URL.
+ * `removed_date` set, so its stored records can still be found by URL. Rows are only added by admins, one per URL, and
+ * the reads of a website's pages use the (idsite, removed_date) index, so removed rows don't slow them down.
  *
  * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, created_date: string, created_by: string|null, removed_date: string|null}
  */
@@ -28,15 +29,18 @@ class Dao
     public const TABLE_NAME = 'transitions_preprocessed_page';
 
     /**
+     * Reads run in archiving and reports, which can happen before the 6.1.0-b1 update has created the table; they find
+     * no pages then.
+     *
      * @return list<PreprocessedPage> the pages not removed, newest first
      */
     public function getPagesForSite(int $idSite): array
     {
-        $rows = Db::fetchAll(
+        $rows = $this->readIfTableExists(fn() => Db::fetchAll(
             'SELECT idpage, idsite, url, url_hash, created_date, created_by, removed_date FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND removed_date IS NULL ORDER BY created_date DESC, idpage DESC',
             [$idSite]
-        );
+        ), []);
 
         return array_map([$this, 'castRow'], $rows);
     }
@@ -61,34 +65,32 @@ class Dao
      */
     public function getPageByUrlHash(int $idSite, string $urlHash): ?array
     {
-        $row = Db::fetchRow(
+        $row = $this->readIfTableExists(fn() => Db::fetchRow(
             'SELECT idpage, idsite, url, url_hash, created_date, created_by, removed_date FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND url_hash = ?',
             [$idSite, $urlHash]
-        );
+        ), false);
 
         return empty($row) ? null : $this->castRow($row);
     }
 
     public function getNumPagesForSite(int $idSite): int
     {
-        return (int) Db::fetchOne('SELECT COUNT(*) FROM ' . $this->getTable() . ' WHERE idsite = ? AND removed_date IS NULL', [$idSite]);
+        return (int) $this->readIfTableExists(
+            fn() => Db::fetchOne('SELECT COUNT(*) FROM ' . $this->getTable() . ' WHERE idsite = ? AND removed_date IS NULL', [$idSite]),
+            0
+        );
     }
 
     /**
-     * Runs on every page load, which can happen before the 6.1.0-b1 update has created the table.
+     * Runs on every page load, also before the 6.1.0-b1 update has created the table.
      */
     public function hasPagesForSite(int $idSite): bool
     {
-        try {
-            return (bool) Db::fetchOne('SELECT 1 FROM ' . $this->getTable() . ' WHERE idsite = ? AND removed_date IS NULL LIMIT 1', [$idSite]);
-        } catch (\Exception $e) {
-            if ($this->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
-                return false;
-            }
-
-            throw $e;
-        }
+        return (bool) $this->readIfTableExists(
+            fn() => Db::fetchOne('SELECT 1 FROM ' . $this->getTable() . ' WHERE idsite = ? AND removed_date IS NULL LIMIT 1', [$idSite]),
+            false
+        );
     }
 
     /**
@@ -250,6 +252,25 @@ class Dao
             if (!$this->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 throw $e;
             }
+        }
+    }
+
+    /**
+     * @template T
+     * @param callable(): T $read
+     * @param T $default
+     * @return T
+     */
+    private function readIfTableExists(callable $read, $default)
+    {
+        try {
+            return $read();
+        } catch (\Exception $e) {
+            if ($this->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
+                return $default;
+            }
+
+            throw $e;
         }
     }
 

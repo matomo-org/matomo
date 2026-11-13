@@ -44,6 +44,7 @@ class Updates_6_1_0_b1 extends Updates
                 'removed_date' => 'DATETIME NULL',
             ], ['idpage']),
             $this->migration->db->addUniqueKey('transitions_preprocessed_page', ['idsite', 'url_hash'], 'index_idsite_url_hash'),
+            $this->migration->db->addIndex('transitions_preprocessed_page', ['idsite', 'removed_date'], 'index_idsite_removed_date'),
         ];
     }
 

@@ -799,16 +799,26 @@ class PreprocessedReportTest extends IntegrationTestCase
         return ['below the named ones' => [1], 'above the named ones' => [4]];
     }
 
-    public function testTheSiteHasNoPagesWithoutTheTable(): void
+    public function testWithoutThePageTableTheSiteHasNoPagesAndReportsAndArchivingWork(): void
     {
+        $raw = $this->request('day', self::DAY);
         $this->selectPage(self::PAGE_URL);
         $dao = StaticContainer::get(Dao::class);
         self::assertTrue($dao->hasPagesForSite(1));
 
+        // as before the update that creates it has run
         $table = Common::prefixTable(Dao::TABLE_NAME);
         Db::query('RENAME TABLE ' . $table . ' TO ' . $table . '_hidden');
         try {
             self::assertFalse($dao->hasPagesForSite(1));
+            self::assertSame(0, StaticContainer::get(Service::class)->getPageStatus(1, self::PAGE_URL)['used']);
+
+            Cache::getTransientCache()->flushAll();
+            $archive = Archive::build(1, 'day', self::LATER_DAY);
+            self::assertGreaterThan(0, $archive->getNumeric('nb_visits'));
+            self::assertEquals(0, $archive->getNumeric(Records::DAYS_WITH_VISITS));
+
+            self::assertSame($this->toArray($raw), $this->toArray($this->request('day', self::DAY)));
         } finally {
             Db::query('RENAME TABLE ' . $table . '_hidden TO ' . $table);
         }
