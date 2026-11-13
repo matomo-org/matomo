@@ -256,18 +256,28 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
     public function testCronArchivingIsDetectedPerWebsiteWithBrowserArchivingEnabled(): void
     {
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        $this->api->addPreprocessedPage(1, 'https://example.com/selected');
         // not gone through by core:archive yet
         self::assertSame(0, $this->getRearchiveMonths(1));
 
-        // core:archive went through website 1 only
+        // core:archive went through both websites; it is recorded only for website 1, which has selected pages
         Piwik::postEvent('CronArchive.archiveSingleSite.finish', [1, '4711']);
+        Piwik::postEvent('CronArchive.archiveSingleSite.finish', [2, '4711']);
         self::assertSame(RebuildWindow::getMonths(), $this->getRearchiveMonths(1));
+        $this->api->addPreprocessedPage(2, 'https://example.org/selected');
         self::assertSame(0, $this->getRearchiveMonths(2));
 
-        // not gone through for longer
-        Date::$now = Date::now()->getTimestamp() + ArchivingMode::CRON_RECENT_SECONDS + 3600;
+        $start = Date::now()->getTimestamp();
         try {
+            // a run within the hour isn't recorded again, so the record expires from the first run
+            Date::$now = $start + 1800;
+            Piwik::postEvent('CronArchive.archiveSingleSite.finish', [1, '4712']);
+            Date::$now = $start + ArchivingMode::CRON_RECENT_SECONDS + 60;
             self::assertSame(0, $this->getRearchiveMonths(1));
+
+            // a later run is
+            Piwik::postEvent('CronArchive.archiveSingleSite.finish', [1, '4713']);
+            self::assertSame(RebuildWindow::getMonths(), $this->getRearchiveMonths(1));
         } finally {
             Date::$now = null;
         }

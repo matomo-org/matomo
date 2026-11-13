@@ -316,9 +316,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
 
     public function testWithCronArchivingNoDayIsBuiltAlsoWithBrowserArchivingEnabled(): void
     {
-        ArchivingMode::rememberCronArchiving(1);
         $raw = $this->request('day', self::DAY);
         $this->selectPage(self::PAGE_URL);
+        ArchivingMode::rememberCronArchiving(1);
 
         self::assertSame($this->toArray($raw), $this->toArray($this->request('day', self::DAY)));
         self::assertSame(0, $this->countPartialArchives(self::DAY));

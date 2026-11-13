@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 
@@ -28,9 +29,15 @@ final class ArchivingMode
     private const OPTION_PREFIX = 'Transitions.lastCronArchiving_';
 
     /**
+     * A more recent record isn't written again, so frequent `core:archive` runs don't write it every time.
+     */
+    private const REWRITE_AFTER_SECONDS = 3600;
+
+    /**
      * Browser requests archive, and `core:archive` hasn't gone through the website recently. Browser triggering alone
-     * says nothing, as installs with cron archiving often keep it on, and cron may archive only some websites. A
-     * website cron hasn't gone through since this was recorded counts as archived without cron.
+     * says nothing, as installs with cron archiving often keep it on, and cron may archive only some websites. It is
+     * recorded only for websites with selected pages, so a website counts as archived without cron until cron goes
+     * through it after its first page was added.
      */
     public static function isWithoutCron(int $idSite): bool
     {
@@ -48,7 +55,17 @@ final class ArchivingMode
      */
     public static function rememberCronArchiving(int $idSite): void
     {
-        Option::set(self::OPTION_PREFIX . $idSite, (string) Date::now()->getTimestamp());
+        if (!StaticContainer::get(Dao::class)->hasPagesForSite($idSite)) {
+            return;
+        }
+
+        $now = Date::now()->getTimestamp();
+        $lastArchived = Option::get(self::OPTION_PREFIX . $idSite);
+        if (is_numeric($lastArchived) && $now - (int) $lastArchived < self::REWRITE_AFTER_SECONDS) {
+            return;
+        }
+
+        Option::set(self::OPTION_PREFIX . $idSite, (string) $now);
     }
 
     public static function forgetSite(int $idSite): void
