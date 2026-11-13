@@ -27,7 +27,8 @@ use Piwik\Tracker\TableLogAction;
 /**
  * Manages the pages of a website whose Transitions report is pre-processed during archiving.
  *
- * @phpstan-type PreprocessedPageEntry array{idpage: int, url: string, created_date: string, created_by: string|null}
+ * @phpstan-import-type PreprocessedPage from Dao
+ * @phpstan-type PreprocessedPageEntry array{idpage: int, url: string, created_date: string, created_by: string|null, created_by_superuser: bool}
  */
 class Service
 {
@@ -62,7 +63,15 @@ class Service
      */
     public function getPages(int $idSite): array
     {
-        return array_map([$this, 'toEntry'], $this->dao->getPagesForSite($idSite));
+        $pages = $this->dao->getPagesForSite($idSite);
+        $superUserLogins = $this->dao->getSuperUserLogins(array_values(array_filter(array_column($pages, 'created_by'), 'is_string')));
+
+        $entries = [];
+        foreach ($pages as $page) {
+            $entries[] = $this->toEntry($page, $superUserLogins);
+        }
+
+        return $entries;
     }
 
     /**
@@ -114,7 +123,7 @@ class Service
             $this->storeIdAction($idSite, $page['idpage'], $idAction, $page['idaction']);
         }
 
-        return $this->toEntry($page);
+        return $this->toEntry($page, $this->dao->getSuperUserLogins($page['created_by'] === null ? [] : [$page['created_by']]));
     }
 
     /**
@@ -228,8 +237,9 @@ class Service
     }
 
     /**
-     * Rebuilds the page's data within the re-archiving window when its idaction is new, instead of a rebuild still
-     * pending for the previous one.
+     * Rebuilds the page's data within the re-archiving window when it is tracked for the first time. A page tracked
+     * again under a new idaction, after its `log_action` row was deleted with the unused actions, keeps the records of
+     * the previous one, which are still read; its logs are gone, so they aren't rebuilt.
      */
     private function storeIdAction(int $idSite, int $idPage, int $idAction, ?int $previousIdAction): void
     {
@@ -237,10 +247,56 @@ class Service
             return;
         }
 
-        if ($previousIdAction !== null && $previousIdAction !== $idAction) {
+        if ($previousIdAction === null) {
+            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
+        } elseif ($previousIdAction !== $idAction) {
             $this->removePendingRebuild($idSite, $previousIdAction);
         }
-        $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
+    }
+
+    /**
+     * The idactions stored for a selected page URL, the current one first, then the previous one. They let records be
+     * read after the URL's `log_action` row was deleted with the unused actions.
+     *
+     * @return list<int>
+     */
+    public function getStoredIdActionsForUrl(int $idSite, string $pageUrl): array
+    {
+        $page = $this->findPage($idSite, $pageUrl);
+
+        return $page === null ? [] : array_values(array_filter([$page['idaction'], $page['previous_idaction']], 'is_int'));
+    }
+
+    /**
+     * @return array{selected: bool, idPage: int|null, used: int, limit: int, rearchiveMonths: int}
+     */
+    public function getPageStatus(int $idSite, string $pageUrl): array
+    {
+        $page = $this->findPage($idSite, $pageUrl);
+
+        return [
+            'selected' => $page !== null,
+            'idPage' => $page['idpage'] ?? null,
+            'used' => $this->dao->getNumPagesForSite($idSite),
+            'limit' => $this->getMaxPages($idSite),
+            'rearchiveMonths' => RebuildWindow::getMonthsProcessed(),
+        ];
+    }
+
+    /**
+     * Finds the selected page a URL matches as a duplicate when added; a URL that can't be added matches none.
+     *
+     * @return PreprocessedPage|null
+     */
+    private function findPage(int $idSite, string $pageUrl): ?array
+    {
+        try {
+            $urlHash = self::getUrlHash($this->normalizeUrl($idSite, $pageUrl));
+        } catch (BadRequestException $e) {
+            return null;
+        }
+
+        return $this->dao->getPageByUrlHash($idSite, $urlHash);
     }
 
     /**
@@ -306,15 +362,20 @@ class Service
 
     /**
      * @param array{idpage: int, url: string, created_date: string, created_by: string|null} $page
+     * @param list<string> $superUserLogins
      * @return PreprocessedPageEntry
      */
-    private function toEntry(array $page): array
+    private function toEntry(array $page, array $superUserLogins): array
     {
+        $isCreatedBySuperUser = $page['created_by'] !== null && in_array($page['created_by'], $superUserLogins, true);
+
         return [
             'idpage' => $page['idpage'],
             'url' => $page['url'],
             'created_date' => $page['created_date'],
-            'created_by' => $page['created_by'],
+            // as UsersManager, only super users see the logins of super users
+            'created_by' => $isCreatedBySuperUser && !Piwik::hasUserSuperUserAccess() ? null : $page['created_by'],
+            'created_by_superuser' => $isCreatedBySuperUser,
         ];
     }
 }

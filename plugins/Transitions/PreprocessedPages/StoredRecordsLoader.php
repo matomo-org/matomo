@@ -77,12 +77,23 @@ final class StoredRecordsLoader
      * @param list<string> $tableParts the lists and the referrers to read, see {@link Records}
      * @param bool $isPeriodAllowed whether `max_period_allowed` allows the period; if not, only stored data that covers
      *                              it directly or is refreshed is used, so the logs refuse the rest early
+     * @param bool $mayBuildDays whether a day without records may be built when archiving runs without cron
      * @return StoredRecords|null null unless stored records cover the whole period
      */
-    public function load(int $idSite, Period $period, Segment $segment, int $idAction, array $tableParts, bool $isPeriodAllowed = true): ?StoredRecords
-    {
+    public function load(
+        int $idSite,
+        Period $period,
+        Segment $segment,
+        int $idAction,
+        array $tableParts,
+        bool $isPeriodAllowed = true,
+        bool $mayBuildDays = true
+    ): ?StoredRecords {
         $this->pageSettings = null;
         $periods = $period instanceof Range ? array_values($period->getSubperiods()) : [$period];
+        if (count($periods) > $this->maxSummedPeriods) {
+            return null;
+        }
         $site = new Site($idSite);
 
         $records = $this->reader->readSum($idSite, $periods, $segment, $idAction, $tableParts);
@@ -106,7 +117,7 @@ final class StoredRecordsLoader
         }
 
         $mayRefresh = $canBuild && $this->getRefreshAfter($idSite) > 0;
-        $mayBuildDay = $isWithoutCron && $canBuild && !$period instanceof Range && $period->getLabel() === 'day';
+        $mayBuildDay = $mayBuildDays && $isWithoutCron && $canBuild && !$period instanceof Range && $period->getLabel() === 'day';
 
         $resolved = $this->resolve($site, $periods, $segment, $idAction, $mayRefresh, $mayBuildDay, $isWithoutCron, false);
         if ($resolved === null) {

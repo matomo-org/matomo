@@ -61,8 +61,9 @@ final class Records
     ];
 
     /**
-     * Number of days of the archive's period that had visits, in every Transitions archive of a website with selected
-     * pages: a period is covered for a page when its `days` counter equals this.
+     * Number of days of the archive's period that had visits, in the Transitions archives of a website with selected
+     * pages: a period is covered for a page when its `days` counter equals this. A longer period has none when one of
+     * its subperiods with visits has none, so it is never covered.
      */
     public const DAYS_WITH_VISITS = 'Transitions_daysWithVisits';
 
@@ -107,7 +108,12 @@ final class Records
      */
     public static function getMaxRows(int $idSite): int
     {
-        return max(1, GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_transitions', self::DEFAULT_MAX_ROWS, $idSite));
+        $maxRows = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_transitions', self::DEFAULT_MAX_ROWS, $idSite);
+        if ($maxRows < 1) {
+            throw new \Exception('Invalid value for [General] datatable_archiving_maximum_rows_transitions: expected an integer >= 1.');
+        }
+
+        return $maxRows;
     }
 
     /**
@@ -121,9 +127,7 @@ final class Records
 
     /**
      * An integer of at least `$min` from the website's `[Transitions_<idSite>]` section, else from `[Transitions]`,
-     * else the default.
-     *
-     * @throws \Exception naming the setting if its value is not such an integer
+     * else the default. Any other value throws an exception naming the setting.
      */
     public static function getConfigValue(int $idSite, string $name, int $default, int $min = 0): int
     {

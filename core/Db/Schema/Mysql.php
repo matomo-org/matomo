@@ -444,6 +444,7 @@ class Mysql implements SchemaInterface
                                       `url` TEXT NOT NULL,
                                       `url_hash` CHAR(40) NOT NULL,
                                       `idaction` INTEGER UNSIGNED NULL,
+                                      `previous_idaction` INTEGER UNSIGNED NULL,
                                       `created_date` DATETIME NOT NULL,
                                       `created_by` VARCHAR(100) NULL,
                                       PRIMARY KEY(`idpage`),

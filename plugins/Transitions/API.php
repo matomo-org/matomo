@@ -19,7 +19,6 @@ use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Db;
-use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -27,7 +26,6 @@ use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Live\Model;
 use Piwik\Plugins\Transitions\Model as TransitionsModel;
 use Piwik\Plugins\Transitions\PreprocessedPages\Dao as PreprocessedPagesDao;
-use Piwik\Plugins\Transitions\PreprocessedPages\RebuildWindow;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service as PreprocessedPagesService;
 use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsLoader;
@@ -35,6 +33,7 @@ use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\TableLogAction;
 
 /**
@@ -205,13 +204,15 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Builds the report from the records stored for a pre-processed page, or returns null when they don't cover the
-     * request, which is then answered from the logs. As at most single days are read from the logs,
-     * `max_period_allowed` does not apply.
+     * request, which is then answered from the logs. `max_period_allowed` doesn't apply to stored records that cover
+     * the period, or are refreshed; beyond it, nothing is summed from shorter periods or built.
+     *
+     * A page URL whose `log_action` row was deleted with unused actions is read under the idaction stored with the
+     * selected page, and records a page has under its previous idaction are read when the current one has none.
      *
      * @param string|null|false $segment
      * @param int|string $limitBeforeGrouping
      * @return array<string, mixed>|null
-     * @throws Exception NoDataForAction if the page had no pageviews
      */
     private function getPreprocessedReport(
         string $actionName,
@@ -228,9 +229,17 @@ class API extends \Piwik\Plugin\API
             return null;
         }
 
-        // reports served from the stored lists show at most the configured rows
+        // reports served from the stored lists show at most the configured rows; an invalid setting only fails
+        // requests that stored records would answer
         $limit = (int) $limitBeforeGrouping ?: $this->limitBeforeGrouping;
-        if ($limit < 1 || $limit > Records::getMaxRowsServed($idSite)) {
+        try {
+            $maxRowsServed = Records::getMaxRowsServed($idSite);
+            $configError = null;
+        } catch (\Exception $e) {
+            $maxRowsServed = $limit;
+            $configError = $e;
+        }
+        if ($limit < 1 || $limit > $maxRowsServed) {
             return null;
         }
 
@@ -251,11 +260,6 @@ class API extends \Piwik\Plugin\API
             return null;
         }
 
-        $idaction = $this->deriveIdAction($actionName, $actionType);
-        if ($idaction === null) {
-            return null;
-        }
-
         try {
             $site = new Site($idSite);
             $periodObject = Period\Factory::build($period, $date);
@@ -272,9 +276,39 @@ class API extends \Piwik\Plugin\API
             return null;
         }
 
-        $records = StaticContainer::get(StoredRecordsLoader::class)->load($idSite, $periodObject, $segmentObject, $idaction, $tableParts, $isPeriodAllowed);
+        // days are built for the tracked idaction only once no stored idaction has records
+        $loader = StaticContainer::get(StoredRecordsLoader::class);
+        $trackedIdAction = $this->deriveIdAction($actionName, $actionType);
+        $storedIdActions = array_values(array_diff(
+            StaticContainer::get(PreprocessedPagesService::class)->getStoredIdActionsForUrl($idSite, $actionName),
+            [$trackedIdAction]
+        ));
+        $candidates = [];
+        if ($trackedIdAction !== null) {
+            $candidates[] = [$trackedIdAction, empty($storedIdActions)];
+        }
+        foreach ($storedIdActions as $storedIdAction) {
+            $candidates[] = [$storedIdAction, false];
+        }
+        if ($trackedIdAction !== null && !empty($storedIdActions)) {
+            $candidates[] = [$trackedIdAction, true];
+        }
+
+        $records = null;
+        $idaction = 0;
+        foreach ($candidates as [$idaction, $mayBuildDays]) {
+            $records = $loader->load($idSite, $periodObject, $segmentObject, $idaction, $tableParts, $isPeriodAllowed, $mayBuildDays);
+            if ($records !== null) {
+                break;
+            }
+        }
+
         if ($records === null) {
             return null;
+        }
+
+        if ($configError !== null) {
+            throw $configError;
         }
 
         $report = ['date' => $dateLabel];
@@ -296,7 +330,8 @@ class API extends \Piwik\Plugin\API
                 $extraRows = [];
                 if ($requestedParts['includeLoops'] && $type == Action::TYPE_PAGE_URL && $records->getNumeric(Records::LOOPS) > 0) {
                     $extraRows[] = [
-                        'label' => (string) StaticContainer::get(PreprocessedPagesDao::class)->getActionName($idaction),
+                        'label' => StaticContainer::get(PreprocessedPagesDao::class)->getActionName($idaction)
+                            ?? PageUrl::normalizeUrl(Common::unsanitizeInputValue($actionName))['url'],
                         'count' => $records->getNumeric(Records::LOOPS),
                     ];
                 }
@@ -499,9 +534,10 @@ class API extends \Piwik\Plugin\API
      * Requires admin access to the website.
      *
      * @param int $idSite The numeric ID of the website.
-     * @return list<array{idpage: int, url: string, created_date: string, created_by: string|null}> The selected pages,
-     *         newest first. `created_date` is the UTC time the page was added (`YYYY-MM-DD HH:MM:SS`), `created_by`
-     *         the login that added it, or null once that user has been deleted.
+     * @return list<array{idpage: int, url: string, created_date: string, created_by: string|null, created_by_superuser: bool}>
+     *         The selected pages, newest first. `created_date` is the UTC time the page was added
+     *         (`YYYY-MM-DD HH:MM:SS`), `created_by` the login that added it, or null once that user has been deleted,
+     *         and for users without super user access when a super user added it, which `created_by_superuser` tells.
      */
     public function getPreprocessedPages(int $idSite): array
     {
@@ -521,8 +557,8 @@ class API extends \Piwik\Plugin\API
      * @param string $pageUrl The page URL, starting with http:// or https://, at most 4096 characters. Protocol and
      *                        `www.` variants, and query parameters the website excludes, count as the same page. It is
      *                        stored as the tracker stores page URLs, truncated to `[Tracker] page_maximum_length`.
-     * @return array{idpage: int, url: string, created_date: string, created_by: string|null} The added page, as
-     *         returned by `getPreprocessedPages`.
+     * @return array{idpage: int, url: string, created_date: string, created_by: string|null, created_by_superuser: bool}
+     *         The added page, as returned by `getPreprocessedPages`.
      */
     public function addPreprocessedPage(int $idSite, string $pageUrl): array
     {
@@ -562,22 +598,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasAdminAccess($idSite);
         new Site($idSite);
 
-        $service = StaticContainer::get(PreprocessedPagesService::class);
-        $dao = StaticContainer::get(PreprocessedPagesDao::class);
-
-        try {
-            $page = $dao->getPageByUrlHash($idSite, $service::getUrlHash($service->normalizeUrl($idSite, $pageUrl)));
-        } catch (BadRequestException $e) {
-            $page = null;
-        }
-
-        return [
-            'selected' => $page !== null,
-            'idPage' => $page['idpage'] ?? null,
-            'used' => $dao->getNumPagesForSite($idSite),
-            'limit' => $service->getMaxPages($idSite),
-            'rearchiveMonths' => RebuildWindow::getMonthsProcessed(),
-        ];
+        return StaticContainer::get(PreprocessedPagesService::class)->getPageStatus($idSite, $pageUrl);
     }
 
     /**

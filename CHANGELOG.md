@@ -12,6 +12,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `[Transitions] preprocessed_refresh_after` (default `900` seconds, `0` turns it off) sets when the pre-processed Transitions data of today or yesterday is rebuilt in a request.
 * `[Transitions] preprocessed_max_rows_served` (default `100`) sets the most rows per list a Transitions report served from pre-processed data shows; larger `limitBeforeGrouping` values use the raw logs.
 * `[General] datatable_archiving_maximum_rows_transitions` (default `1000`) sets the rows kept per list of a pre-processed Transitions page.
+* The three `[Transitions]` settings above can be overridden for one website in a `[Transitions_idSite]` section.
 
 ### New APIs
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
@@ -34,6 +35,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
 
 ### Archiving
+* The Transitions report of a pre-processed page rebuilds that page's records of today and yesterday within the request, also when browser archiving is disabled or `browser_archiving_disabled_enforce = 1`.
 * A partial archive, one written for `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()`, is now always stored under the done flag of its plugin, also outside `core:archive`.
 * Partial archives of a plugin are deleted once a newer archive for all plugins of the same site, period and segment exists, as reports no longer read them.
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.

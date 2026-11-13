@@ -32,6 +32,7 @@ use Piwik\Plugins\Transitions\PreprocessedPages\PreprocessedPagesBusyException;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -126,7 +127,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
 
         $added = $this->api->addPreprocessedPage(1, 'https://example.com/a');
 
-        self::assertSame(['idpage', 'url', 'created_date', 'created_by'], array_keys($added));
+        self::assertSame(['idpage', 'url', 'created_date', 'created_by', 'created_by_superuser'], array_keys($added));
         self::assertSame('https://example.com/a', $added['url']);
         self::assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $added['created_date']);
         self::assertSame($expectedCreatedBy, $added['created_by']);
@@ -471,6 +472,27 @@ class PreprocessedPagesTest extends IntegrationTestCase
         );
     }
 
+    public function testOnlySuperUsersSeeTheLoginsOfSuperUsers(): void
+    {
+        UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
+        UsersManagerAPI::getInstance()->addUser('root', 'secret-password-2', 'root@example.com');
+        (new UsersModel())->setSuperUserAccess('root', true);
+
+        FakeAccess::clearAccess(false, [1], [], 'alice');
+        $this->api->addPreprocessedPage(1, 'https://example.com/a');
+        FakeAccess::clearAccess(true, [], [], 'root');
+        $this->api->addPreprocessedPage(1, 'https://example.com/b');
+
+        $creators = fn() => array_map(
+            fn($page) => [$page['url'], $page['created_by'], $page['created_by_superuser']],
+            $this->api->getPreprocessedPages(1)
+        );
+        self::assertSame([['https://example.com/b', 'root', true], ['https://example.com/a', 'alice', false]], $creators());
+
+        FakeAccess::clearAccess(false, [1], [], 'alice');
+        self::assertSame([['https://example.com/b', null, true], ['https://example.com/a', 'alice', false]], $creators());
+    }
+
     public function testDeletingASiteRemovesItsPages(): void
     {
         $this->api->addPreprocessedPage(1, 'https://example.com/a');
@@ -567,7 +589,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
         self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
     }
 
-    public function testAPageFoundUnderANewIdActionDropsThePendingRebuildOfTheOldOne(): void
+    public function testAPageFoundUnderANewIdActionKeepsTheOldOneWithoutRebuilding(): void
     {
         $idAction = $this->trackPageview('http://example.com/moved');
         $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/moved')['idpage'];
@@ -578,8 +600,11 @@ class PreprocessedPagesTest extends IntegrationTestCase
 
         StaticContainer::get(Service::class)->getIdActionsForSite(1);
 
-        self::assertSame([Records::getRebuildReportName($idAction)], array_values(array_unique($this->getScheduledReports())));
-        self::assertSame($idAction, StaticContainer::get(Dao::class)->getPage(1, $idPage)['idaction']);
+        // only the rebuild scheduled when the page was added remains: the logs of the old idaction are gone
+        self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
+        $page = StaticContainer::get(Dao::class)->getPage(1, $idPage);
+        self::assertSame($idAction, $page['idaction']);
+        self::assertSame($staleIdAction, $page['previous_idaction']);
     }
 
     public function testAddingATrackedPageStoresItsIdAction(): void

@@ -20,7 +20,7 @@ use Piwik\Updater\Migration;
 /**
  * Stores the page URLs of each website whose Transitions report is pre-processed.
  *
- * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, idaction: int|null, created_date: string, created_by: string|null}
+ * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, idaction: int|null, previous_idaction: int|null, created_date: string, created_by: string|null}
  */
 class Dao
 {
@@ -32,7 +32,7 @@ class Dao
     public function getPagesForSite(int $idSite): array
     {
         $rows = Db::fetchAll(
-            'SELECT idpage, idsite, url, url_hash, idaction, created_date, created_by FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by FROM ' . $this->getTable()
             . ' WHERE idsite = ? ORDER BY created_date DESC, idpage DESC',
             [$idSite]
         );
@@ -46,7 +46,7 @@ class Dao
     public function getPage(int $idSite, int $idPage): ?array
     {
         $row = Db::fetchRow(
-            'SELECT idpage, idsite, url, url_hash, idaction, created_date, created_by FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND idpage = ?',
             [$idSite, $idPage]
         );
@@ -61,7 +61,7 @@ class Dao
     public function getPageByUrlHash(int $idSite, string $urlHash): ?array
     {
         $row = Db::fetchRow(
-            'SELECT idpage, idsite, url, url_hash, idaction, created_date, created_by FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND url_hash = ?',
             [$idSite, $urlHash]
         );
@@ -122,14 +122,15 @@ class Dao
     }
 
     /**
-     * Stores the idaction the page URL has been tracked under.
+     * Stores the idaction the page URL has been tracked under, and keeps the one it replaces as the previous one.
      *
      * @return bool false when the page has this idaction already, so only one caller acts on a change
      */
     public function setIdAction(int $idPage, int $idAction): bool
     {
+        // MySQL assigns from left to right, so the previous idaction gets the replaced value
         $statement = Db::query(
-            'UPDATE ' . $this->getTable() . ' SET idaction = ? WHERE idpage = ? AND (idaction IS NULL OR idaction <> ?)',
+            'UPDATE ' . $this->getTable() . ' SET previous_idaction = idaction, idaction = ? WHERE idpage = ? AND (idaction IS NULL OR idaction <> ?)',
             [$idAction, $idPage, $idAction]
         );
 
@@ -166,6 +167,26 @@ class Dao
         }
 
         return $idActions;
+    }
+
+    /**
+     * @param list<string> $logins
+     * @return list<string> the logins of super users among them
+     */
+    public function getSuperUserLogins(array $logins): array
+    {
+        $logins = array_values(array_unique($logins));
+        if (empty($logins)) {
+            return [];
+        }
+
+        $rows = Db::fetchAll(
+            'SELECT login FROM ' . Common::prefixTable('user') . ' WHERE superuser_access = 1 AND login IN ('
+            . Common::getSqlStringFieldsArray($logins) . ')',
+            $logins
+        );
+
+        return array_map(fn(array $row): string => (string) $row['login'], $rows);
     }
 
     public function removePage(int $idSite, int $idPage): void
@@ -248,6 +269,7 @@ class Dao
             'url' => (string) $row['url'],
             'url_hash' => (string) $row['url_hash'],
             'idaction' => isset($row['idaction']) ? (int) $row['idaction'] : null,
+            'previous_idaction' => isset($row['previous_idaction']) ? (int) $row['previous_idaction'] : null,
             'created_date' => (string) $row['created_date'],
             'created_by' => isset($row['created_by']) ? (string) $row['created_by'] : null,
         ];

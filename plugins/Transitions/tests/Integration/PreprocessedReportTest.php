@@ -15,11 +15,15 @@ use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\ReArchiveList;
+use Piwik\DataAccess\RawLogDao;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\EventDispatcher;
+use Piwik\Log\LoggerInterface;
 use Piwik\NoAccessException;
 use Piwik\Plugins\Overlay\API as OverlayAPI;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
@@ -27,6 +31,8 @@ use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\PreprocessedPages\Dao;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
+use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsLoader;
+use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsReader;
 use Piwik\Plugins\Transitions\Transitions;
 use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 use Piwik\Tests\Framework\Fixture;
@@ -54,7 +60,7 @@ class PreprocessedReportTest extends IntegrationTestCase
     // a day, a day and a week, all with visits
     private const RANGE = '2010-03-06,2010-03-14';
     private const SEGMENT = 'referrerType==website';
-    private const LOG_TABLES = ['log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item'];
+    private const LOG_TABLES = ['log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item', 'log_page_view_time'];
 
     protected static function configureFixture($fixture)
     {
@@ -463,6 +469,79 @@ class PreprocessedReportTest extends IntegrationTestCase
                 self::assertSame('Invalid value for [Transitions_1] preprocessed_max_rows_served: expected an integer >= 1.', $e->getMessage());
             }
         }
+    }
+
+    public function testAPageWhoseActionWasDeletedAsUnusedIsServedUnderItsStoredIdActions(): void
+    {
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->archive($idAction, 'day', self::DAY);
+        $stored = $this->request('day', self::DAY);
+
+        // raw data deleted, then the actions no log row uses any more
+        foreach (self::LOG_TABLES as $table) {
+            Db::query('DELETE FROM ' . Common::prefixTable($table) . ' WHERE idsite = 1');
+        }
+        StaticContainer::get(RawLogDao::class)->deleteUnusedLogActions();
+        $service = StaticContainer::get(Service::class);
+        self::assertNull($service->getIdActionForUrl(self::PAGE_URL));
+
+        self::assertSame($this->toArray($stored), $this->toArray($this->request('day', self::DAY)));
+
+        // tracked again under a new idaction
+        $tracker = Fixture::getTracker(1, self::LATER_DAY . ' 20:00:00', $defaultInit = true);
+        $tracker->setUrl(self::PAGE_URL);
+        Fixture::checkResponse($tracker->doTrackPageView('again'));
+        $newIdAction = $service->getIdActionForUrl(self::PAGE_URL);
+        self::assertNotNull($newIdAction);
+        self::assertNotSame($idAction, $newIdAction);
+        $this->archive($newIdAction, 'day', self::LATER_DAY);
+
+        // the earlier records are read under the previous idaction, the new ones under the new one
+        self::assertSame($this->toArray($stored), $this->toArray($this->request('day', self::DAY)));
+        self::assertSame(1, $this->request('day', self::LATER_DAY)['preprocessed']);
+        // its logs are gone, so the past isn't rebuilt under the new idaction
+        self::assertSame([], array_filter((new ReArchiveList())->getAll(), fn($entry) => str_contains((string) $entry, 'Transitions_' . $newIdAction . '_')));
+    }
+
+    public function testRangesOfMorePeriodsThanSummedAreAnsweredFromTheLogs(): void
+    {
+        $raw = $this->request('range', self::RANGE);
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->archive($idAction, 'range', self::RANGE);
+        self::assertSame(1, $this->request('range', self::RANGE)['preprocessed']);
+
+        // the range has 3 subperiods
+        StaticContainer::getContainer()->set(StoredRecordsLoader::class, new StoredRecordsLoader(
+            StaticContainer::get(StoredRecordsReader::class),
+            StaticContainer::get(Service::class),
+            StaticContainer::get(LockBackend::class),
+            StaticContainer::get(LoggerInterface::class),
+            200,
+            2
+        ));
+
+        self::assertSame($this->toArray($raw), $this->toArray($this->request('range', self::RANGE)));
+    }
+
+    public function testAnInvalidRowsServedSettingOnlyFailsStoredReports(): void
+    {
+        $rawOther = $this->request('day', self::DAY, '', 0, 'all', self::OTHER_PAGE_URL);
+        $this->archive($this->selectPage(self::PAGE_URL), 'day', self::DAY);
+        Config::setSetting('Transitions', 'preprocessed_max_rows_served', 'many');
+
+        self::assertSame($this->toArray($rawOther), $this->toArray($this->request('day', self::DAY, '', 0, 'all', self::OTHER_PAGE_URL)));
+        self::assertNotEmpty($this->getRows(OverlayAPI::getInstance()->getFollowingPages(self::OTHER_PAGE_URL, 1, 'day', self::DAY)));
+
+        $this->expectExceptionMessage('Invalid value for [Transitions] preprocessed_max_rows_served: expected an integer >= 1.');
+        $this->request('day', self::DAY);
+    }
+
+    public function testAStorageRowLimitBelowOneIsRejected(): void
+    {
+        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 0;
+
+        $this->expectExceptionMessage('Invalid value for [General] datatable_archiving_maximum_rows_transitions: expected an integer >= 1.');
+        Records::getMaxRows(1);
     }
 
     public function testADayWhoseListsArePurgedIsAnsweredFromTheLogs(): void
