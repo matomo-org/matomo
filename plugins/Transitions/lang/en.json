@@ -54,7 +54,7 @@
         "PreprocessedPagesRebuildHintOneMonth": "Newly added pages are prepared for the past month during the next archiving runs. Until then, the report uses raw data.",
         "PreprocessedPagesSuggestions": "Most viewed matching pages · last month",
         "PreprocessedPagesUsage": "%1$s of %2$s pages selected",
-        "PreprocessedPagesUsageShort": "%1$s of %2$s used",
+        "PreprocessedPagesUsageShort": "%1$s of %2$s pages used",
         "PreprocessedPageUrlTooLong": "The page URL is too long. Use at most %s characters.",
         "PreprocessedTransitions": "Pre-processed Transitions",
         "PreprocessThisPage": "Pre-process this page",

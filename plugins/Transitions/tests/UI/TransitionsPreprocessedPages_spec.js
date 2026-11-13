@@ -206,7 +206,7 @@ describe("TransitionsPreprocessedPages", function () {
         await waitForText('.transitionsSourceHeader__toggle', 'Pre-process this page');
 
         expect(await textOf('.transitionsSourceHeader__badge')).to.equal('Raw data');
-        expect(await textOf('.transitionsSourceHeader__usage')).to.equal('2 of 20 used');
+        expect(await textOf('.transitionsSourceHeader__usage')).to.equal('2 of 20 pages used');
 
         await page.click('.transitionsSourceHeader__toggle');
         await waitForText('.transitionsSourceHeader__toggle', 'Stop pre-processing');
@@ -217,6 +217,6 @@ describe("TransitionsPreprocessedPages", function () {
         await page.waitForSelector('.transitionsSourceHeader__confirm');
         await page.click('.transitionsSourceHeader__stop');
         await waitForText('.transitionsSourceHeader__toggle', 'Pre-process this page');
-        expect(await textOf('.transitionsSourceHeader__usage')).to.equal('2 of 20 used');
+        expect(await textOf('.transitionsSourceHeader__usage')).to.equal('2 of 20 pages used');
     });
 });
