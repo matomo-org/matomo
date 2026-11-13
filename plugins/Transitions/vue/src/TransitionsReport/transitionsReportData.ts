@@ -228,14 +228,16 @@ function metricName(group: GroupDefinition): string {
 export function resolveError(errorName: string, actionName: string): TransitionsError {
   // In development mode the API appends a stack trace to the exception message, so match on the
   // leading exception name rather than on the whole message.
-  const [name] = errorName.split(/\s/, 1);
-  const keys = ERROR_TRANSLATIONS[errorName] ?? ERROR_TRANSLATIONS[name];
+  const [leadingName] = errorName.split(/\s/, 1);
+  const name = ERROR_TRANSLATIONS[errorName] ? errorName : leadingName;
+  const keys = ERROR_TRANSLATIONS[name];
 
   if (!keys) {
     // An exception we have no translation for, so the name is all there is to show. The back link
     // still has to read as a link: every translated error uses Transitions_ErrorBack for it.
     // The API sends exception messages HTML-escaped.
     return {
+      name: '',
       title: Matomo.helper.htmlDecode(errorName),
       message: '',
       backLabel: translate('Transitions_ErrorBack'),
@@ -243,6 +245,7 @@ export function resolveError(errorName: string, actionName: string): Transitions
   }
 
   return {
+    name,
     title: translate(keys.title, actionName),
     message: translate(keys.details),
     backLabel: translate('Transitions_ErrorBack'),

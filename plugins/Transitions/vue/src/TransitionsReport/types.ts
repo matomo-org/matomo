@@ -77,6 +77,8 @@ export interface TransitionsMetricData {
 
 /** The error contract of Transitions.getTransitionsForAction, resolved to displayable text. */
 export interface TransitionsError {
+  /** The exception name the API threw, or '' for one without a translation. */
+  name: string;
   title: string;
   message: string;
   backLabel: string;

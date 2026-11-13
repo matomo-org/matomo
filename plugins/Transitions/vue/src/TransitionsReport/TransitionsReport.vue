@@ -7,6 +7,18 @@
 
 <template>
   <div class="transitionsReport">
+    <div
+      class="transitionsReport__sourceHeader"
+      v-if="hasSourceHeader"
+    >
+      <TransitionsSourceHeader
+        :source="report?.source ?? NOT_LOADED"
+        :action-type="actionType"
+        :action-name="actionName"
+        :id-site="idSite"
+      />
+    </div>
+
     <div class="transitionsReport__error" v-if="error">
       <p class="transitionsReport__errorTitle">{{ error.title }}</p>
       <p class="transitionsReport__errorMessage" v-if="error.message">{{ error.message }}</p>
@@ -16,18 +28,6 @@
         href="#"
         @click.prevent="goBack"
       >{{ error.backLabel }}</a>
-    </div>
-
-    <div
-      class="transitionsReport__sourceHeader"
-      v-if="report && !error"
-    >
-      <TransitionsSourceHeader
-        :source="report.source"
-        :action-type="actionType"
-        :action-name="actionName"
-        :id-site="idSite"
-      />
     </div>
 
     <div
@@ -104,6 +104,7 @@ import { useTransitionsData } from './useTransitionsData';
 import { RibbonSource } from './useRibbonGeometry';
 import {
   TransitionsContext,
+  TransitionsDataSource,
   TransitionsGroupData,
   TransitionsSectionData,
   TransitionsSide,
@@ -119,6 +120,9 @@ function ribbonRows(sections: TransitionsSectionData[]): RibbonSource[] {
     (section) => section.rows.map((row) => ({ key: row.key, share: row.share })),
   );
 }
+
+/** The source of a report that has no data on screen. */
+const NOT_LOADED: TransitionsDataSource = { loaded: false, preprocessed: false, preprocessedAt: '' };
 
 export interface TransitionsReportState {
   openGroups: Record<TransitionsSide, string>;
@@ -154,7 +158,10 @@ export default defineComponent({
     TransitionsRibbons,
     TransitionsSourceHeader,
   },
-  setup: () => useTransitionsData(),
+  setup: () => ({
+    ...useTransitionsData(),
+    NOT_LOADED,
+  }),
   data(): TransitionsReportState {
     return {
       openGroups: {
@@ -182,6 +189,13 @@ export default defineComponent({
     },
   },
   computed: {
+    /**
+     * Shown with the report, and also with the period limit error: a page with stored data is
+     * served beyond the limit, so an admin can add it from here.
+     */
+    hasSourceHeader(): boolean {
+      return this.error ? this.error.name === 'PeriodNotAllowed' : !!this.report;
+    },
     /** The website the report is fetched for. */
     idSite(): string|number {
       return this.overrideParams.idSite || Matomo.idSite;
