@@ -38,18 +38,20 @@ describe("Insights", function () {
             // saying the visualization ignores the comparison is shown
             expect(await page.evaluate(() => $('select[name=comparedToXPeriodsAgo]').length)).to.equal(0);
             expect(await page.evaluate(() => $('.datatableFooterMessage:contains("does not support")').length)).to.equal(0);
+            expect(await page.evaluate(() => $('.datatableFooterMessage:contains("cannot use the comparison")').length)).to.equal(0);
         });
 
-        async function hasComparisonNotSupportedMessage()
+        async function footerMessage()
         {
-            return page.evaluate(() => $('.datatableFooterMessage:contains("does not support")').length > 0);
+            return page.evaluate(() => $('.datatableFooterMessage').text());
         }
 
         it("should keep comparing with the selected month when another segment is compared too", async function () {
             await page.goto(monthUrl + '&compareDates[]=2011-08-09&comparePeriods[]=month&compareSegments[]=' + encodeURIComponent('browserCode==FF'));
 
             expect(await title()).to.contain('Aug 2011');
-            expect(await hasComparisonNotSupportedMessage()).to.equal(true);
+            expect(await footerMessage()).to.contain('The compared segments are ignored.');
+            expect(await footerMessage()).not.to.contain('cannot use the comparison');
         });
 
         [
@@ -62,7 +64,7 @@ describe("Insights", function () {
 
                 expect(await title()).to.contain('Jul 2012');
                 expect(await page.evaluate(() => $('select[name=comparedToXPeriodsAgo]').length)).to.equal(1);
-                expect(await hasComparisonNotSupportedMessage()).to.equal(true);
+                expect(await footerMessage()).to.contain('cannot use the comparison selected in the date selector, so they compare with Jul 2012 instead');
             });
         });
 
@@ -73,7 +75,7 @@ describe("Insights", function () {
                 await page.goto(rangeUrl + '&compareDates[]=2011-08-01,2011-08-31&comparePeriods[]=range');
 
                 expect(await title()).to.contain('2011');
-                expect(await hasComparisonNotSupportedMessage()).to.equal(false);
+                expect(await footerMessage()).not.to.contain('cannot use the comparison');
             });
 
             it("should compare with the previous range when the selected range has another length", async function () {
@@ -81,7 +83,7 @@ describe("Insights", function () {
 
                 expect(await title()).to.contain('Jul');
                 expect(await title()).not.to.contain('2011');
-                expect(await hasComparisonNotSupportedMessage()).to.equal(true);
+                expect(await footerMessage()).to.contain('cannot use the comparison selected in the date selector, so they compare with Jul');
             });
         });
     });

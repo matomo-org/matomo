@@ -1,6 +1,7 @@
 {
     "Insights": {
         "PluginDescription": "Provides Insights about your traffic. Insights are available as dashboard widgets as well as a new icon in reports, letting you see most important trends in your data.",
+        "ComparedSegmentsIgnored": "Insights show the selected segment only. The compared segments are ignored.",
         "ControlComparedToDescription": "Growth compared to the",
         "ControlFilterByDescription": "Show all, only movers, only new or only disappeared",
         "DatePeriodCombinationNotSupported": "It is not possible to generate insights for this date and period combination.",
@@ -20,6 +21,7 @@
         "MoversAndShakersWidgetTitle": "Movers and Shakers",
         "NoResultMatchesCriteria": "No rows match the criteria",
         "OverviewWidgetTitle": "Insights Overview",
+        "SelectedComparisonIgnored": "Insights cannot use the comparison selected in the date selector, so they compare with %s instead.",
         "TitleConsideredInsightsChanges": "The rows increased or decreased by at least %1$s visits (%2$s%% of %3$s total visits).",
         "TitleConsideredInsightsGrowth": "The following rows have a growth of at least %1$s%% compared to %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Considered movers only if they grew by more than %1$s%% visits or shrank by less than %2$s%% visits, new entries only if they increased by more than %3$s%% visits (%4$s), and disappeared rows if they shrank by less than %5$s%% visits (%6$s).",
