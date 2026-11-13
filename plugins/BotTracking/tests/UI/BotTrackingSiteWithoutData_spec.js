@@ -115,6 +115,20 @@ describe('BotTrackingSiteWithoutData', function () {
         )
     });
 
+    it('should show the step-by-step guide for the HTTP Tracking API', async function () {
+        const details = '.tracking-method-details[data-method="HttpTrackingApi"]';
+
+        await page.click('.tracking-method-list a[href="#httptrackingapi"]');
+        await page.waitForSelector(details);
+
+        expect((await page.$$(`${details} ol li`)).length).to.equal(3);
+        expect(await page.$(`${details} a[href^="https://matomo.org/faq/how-to/install-ai-chatbot-tracking?"]`)).to.be.ok;
+        expect(await page.$(`${details} a[href^="https://developer.matomo.org/api-reference/tracking-api"]`)).to.be.ok;
+
+        await page.click('.tracking-method-back');
+        await page.waitForSelector('.tracking-method-list');
+    });
+
     it('should link back to the overview', async function () {
         await page.click('.tracking-method-skip a');
         await page.waitForSelector('.matomo-widget');
