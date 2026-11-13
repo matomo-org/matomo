@@ -115,6 +115,8 @@ return [
     'Piwik\Translation\Loader\LoaderInterface' => Piwik\DI::autowire('Piwik\Translation\Loader\LoaderCache')
         ->constructorParameter('loader', Piwik\DI::get('Piwik\Translation\Loader\JsonFileLoader')),
 
+    \Piwik\Mail\OAuth\AccessTokenProvider::class => Piwik\DI::autowire(\Piwik\Mail\OAuth\ClientCredentialsTokenProvider::class),
+
     'DeviceDetector\Cache\Cache' => Piwik\DI::autowire('Piwik\DeviceDetector\DeviceDetectorCache')->constructor(86400),
 
     // specify plugins to load on demand via DI config. mostly for tests.
@@ -276,5 +278,5 @@ return [
 
     \Piwik\Segment\SegmentsList::class => function () {
         return \Piwik\Segment\SegmentsList::get();
-    }
+    },
 ];

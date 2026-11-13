@@ -1232,9 +1232,25 @@ defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org ; default Email @hos
 transport = ; smtp (using the configuration below) or empty (using built-in mail() function)
 port = ; optional; defaults to 25 when security is none or tls; 465 for ssl
 host = ; SMTP server address
-type = ; SMTP Auth type. By default: NONE. For example: LOGIN
-username = ; SMTP username
-password = ; SMTP password
+type = ; SMTP Auth type. By default: NONE. For example: LOGIN. Use Xoauth2 to authenticate with OAuth 2.0 (see the oauth_ settings below)
+username = ; SMTP username. When type is Xoauth2: the address of the mailbox that sends the emails
+password = ; SMTP password. Not used when type is Xoauth2
+; Used when type is Xoauth2: the https:// URL Matomo requests access tokens from
+oauth_token_url = ""
+; Used when type is Xoauth2: the client ID (application ID) of the app registered with your email provider
+oauth_client_id = ""
+; Used when type is Xoauth2: the scope the access token is requested for
+oauth_scope = ""
+; Used when type is Xoauth2: "secret" to sign in with oauth_client_secret, or "certificate" to sign in with the certificate in oauth_certificate_path
+oauth_credential_type = "secret"
+; The client secret of the registered app. Only used when oauth_credential_type is "secret"
+oauth_client_secret = ""
+; Absolute path to the PEM certificate uploaded to the registered app. Only used when oauth_credential_type is "certificate"
+oauth_certificate_path = ""
+; Absolute path to the PEM private key of the certificate. Leave empty when the key is in the certificate file
+oauth_private_key_path = ""
+; Passphrase of the private key. Leave empty when the key has none
+oauth_private_key_password = ""
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
 ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert (not recommended)
 ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)

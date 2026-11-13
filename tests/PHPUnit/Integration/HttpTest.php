@@ -411,6 +411,25 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testRedirectIsNotFollowedWhenDisabled($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=1',
+            30,
+            getExtendedInfo: true,
+            httpMethod: 'POST',
+            requestBody: ['secret' => 'value'],
+            followRedirects: false
+        );
+
+        $this->assertSame(302, $result['status']);
+        $this->assertStringNotContainsString('redirects=0', (string) $result['data']);
+    }
+
     public function getRedirectUrls()
     {
         return [
@@ -473,6 +492,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
             'validateEgressIp' => false,
+            'followRedirects' => true,
         ), null, null, array()), $params);
 
         $this->assertNotEmpty($params2[4]);// headers
@@ -489,7 +509,27 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'verifySsl' => true,
             'destinationPath' => $destinationPath,
             'validateEgressIp' => false,
+            'followRedirects' => true,
         ), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
+    }
+
+    public function testHttpPostsEventWithFollowRedirectsDisabled()
+    {
+        $params = null;
+        Piwik::addAction('Http.sendHttpRequest', function ($url, $args, &$response, &$status) use (&$params) {
+            $params = $args;
+            $response = '';
+            $status = 200;
+        });
+
+        Http::sendHttpRequestBy(
+            Http::getTransportMethod(),
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
+            30,
+            followRedirects: false
+        );
+
+        $this->assertFalse($params['followRedirects']);
     }
 
     public function testHttpReturnsResultOfPostedEvent()

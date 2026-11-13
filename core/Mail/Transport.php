@@ -14,9 +14,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Exception\DI\DependencyException;
-use Piwik\Exception\DI\NotFoundException;
 use Piwik\Mail;
+use Piwik\Mail\OAuth\AccessTokenProvider;
+use Piwik\Mail\OAuth\TokenRequestFailedException;
+use Piwik\Mail\OAuth\XOAuth2Authenticator;
 use Piwik\Piwik;
 
 class Transport
@@ -25,9 +26,6 @@ class Transport
      * Sends the given mail
      *
      * @return bool
-     * @throws DependencyException
-     * @throws PHPMailerException
-     * @throws NotFoundException
      */
     public function send(Mail $mail)
     {
@@ -53,6 +51,7 @@ class Transport
 
         if ($mail->isSmtpDebugEnabled()) {
             $phpMailer->SMTPDebug = SMTP::DEBUG_SERVER;
+            $this->hideOAuthCredentialsInDebugOutput($phpMailer);
         }
 
         $phpMailer->Subject = $mail->getSubject();
@@ -103,16 +102,25 @@ class Transport
             }
         }
 
-        if (defined('PIWIK_TEST_MODE')) { // hack
-            /**
-             * @ignore
-             * @internal
-             */
-            Piwik::postTestEvent("Test.Mail.send", array($phpMailer));
-            return true;
-        }
+        try {
+            if (defined('PIWIK_TEST_MODE')) { // hack
+                /**
+                 * @ignore
+                 * @internal
+                 */
+                Piwik::postTestEvent("Test.Mail.send", array($phpMailer));
+                return true;
+            }
 
-        return $phpMailer->send();
+            return $phpMailer->send();
+        } catch (PHPMailerException $e) {
+            if ($phpMailer->AuthType === 'XOAUTH2') {
+                // the mail server may have rejected the access token, so the next email requests a new one
+                StaticContainer::get(AccessTokenProvider::class)->forgetAccessToken();
+            }
+
+            throw $e;
+        }
     }
 
     /**
@@ -140,7 +148,9 @@ class Transport
             $phpMailer->Username = $mailConfig['username'];
         }
 
-        if (!empty($mailConfig['password'])) {
+        if ($phpMailer->AuthType === 'XOAUTH2') {
+            $this->initOAuth($phpMailer);
+        } elseif (!empty($mailConfig['password'])) {
             $phpMailer->Password = $mailConfig['password'];
         }
 
@@ -157,5 +167,48 @@ class Transport
         }
 
         $phpMailer->Host = trim($mailConfig['host']);
+    }
+
+    /**
+     * The access token is requested here, and not when PHPMailer authenticates, because PHPMailer
+     * would replace the reason for a failed token request with a generic authentication error.
+     */
+    private function initOAuth(PHPMailer $phpMailer): void
+    {
+        if ($phpMailer->Username === '') {
+            throw new TokenRequestFailedException(
+                'The SMTP OAuth settings are incomplete. Please set username in the [mail] section of the config file'
+                . ' to the address of the mailbox that sends the emails.'
+            );
+        }
+
+        $accessToken = StaticContainer::get(AccessTokenProvider::class)->getAccessToken();
+
+        $phpMailer->setOAuth(new XOAuth2Authenticator($phpMailer->Username, $accessToken));
+    }
+
+    /**
+     * PHPMailer only hides passwords in the debug output, not the OAuth credentials.
+     */
+    private function hideOAuthCredentialsInDebugOutput(PHPMailer $phpMailer): void
+    {
+        $authenticator = $phpMailer->getOAuth();
+
+        if (!$authenticator instanceof XOAuth2Authenticator) {
+            return;
+        }
+
+        $credentials = $authenticator->getOauth64();
+        $isCli = strpos(PHP_SAPI, 'cli') !== false;
+
+        $phpMailer->Debugoutput = static function ($message) use ($credentials, $isCli): void {
+            $message = trim(str_replace($credentials, '[credentials hidden]', (string) $message));
+
+            if ($isCli) {
+                echo gmdate('Y-m-d H:i:s') . "\t" . $message . "\n";
+            } else {
+                echo gmdate('Y-m-d H:i:s') . ' ' . htmlentities($message, ENT_QUOTES, 'UTF-8') . "<br>\n";
+            }
+        };
     }
 }
