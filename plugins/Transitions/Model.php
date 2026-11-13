@@ -53,6 +53,13 @@ class Model
     private const PAGE_PARTITION_FACTOR = 256;
 
     /**
+     * The archived lists keep, of equal counts at the row limit, the lowest labels, whatever order the database
+     * returns tied rows in. The live report's queries keep their order.
+     */
+    private const ACTIONS_TIE_ORDER = '`name`, `url_prefix`';
+    private const REFERRERS_ORDER = '`' . Metrics::INDEX_NB_VISITS . '` DESC, `referrer_data`';
+
+    /**
      * RankingQuery joins one table per partition, and MySQL joins at most 61 tables.
      */
     private const MAX_PARTITIONS_PER_QUERY = 50;
@@ -350,7 +357,7 @@ class Model
                 [Metrics::INDEX_NB_ACTIONS],
                 $rankingQuery,
                 $dimension,
-                '`name`',
+                self::ACTIONS_TIE_ORDER,
                 $timeLimit
             );
             $data = is_array($data) ? $data : [];
@@ -400,7 +407,7 @@ class Model
                 [Metrics::INDEX_NB_ACTIONS],
                 $rankingQuery,
                 $dimension,
-                '`name`',
+                self::ACTIONS_TIE_ORDER,
                 $timeLimit
             );
 
@@ -434,7 +441,7 @@ class Model
                 [],
                 [Metrics::INDEX_NB_VISITS],
                 $rankingQuery,
-                false,
+                self::REFERRERS_ORDER,
                 $timeLimit
             );
 

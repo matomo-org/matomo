@@ -21,10 +21,10 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\EventDispatcher;
 use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
 use Piwik\Period\Day;
-use Piwik\EventDispatcher;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
@@ -472,7 +472,7 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
 
     public function testWithoutCronTheSumOfManyDaysIsTruncatedToTheStoredRows(): void
     {
-        // a visit from the page to another page each day
+        // a visit from the page to another page each day, the later days to the lower labels
         $days = [];
         for ($index = 0; $index < 7; $index++) {
             $days[] = Date::factory('2010-03-08')->addDay($index)->toString();
@@ -482,7 +482,7 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
             $tracker->setUrl(self::OTHER_PAGE_URL);
             Fixture::checkResponse($tracker->doTrackPageView('other'));
             $tracker->setForceVisitDateTime($days[$index] . ' 10:01:00');
-            $tracker->setUrl('http://example.org/day/' . $index . '.html');
+            $tracker->setUrl('http://example.org/day/' . (6 - $index) . '.html');
             Fixture::checkResponse($tracker->doTrackPageView('day ' . $index));
         }
         $idAction = $this->selectPage(self::OTHER_PAGE_URL);
@@ -498,6 +498,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         $followingPages = $records->getTable(Records::FOLLOWING_PAGES);
         self::assertSame(2, $followingPages->getRowsCountWithoutSummaryRow());
         self::assertSame(5, (int) $followingPages->getSummaryRow()->getColumn(Metrics::INDEX_NB_ACTIONS));
+        // of equal counts, the lowest labels are kept, whatever order they were summed in
+        $labels = array_map(fn($row) => $row->getColumn('label'), array_values($followingPages->getRowsWithoutSummaryRow()));
+        self::assertSame(['example.org/day/0.html', 'example.org/day/1.html'], $labels);
     }
 
     public function testWithoutCronDaysAreNotSummedBeyondThePeriodLimit(): void
