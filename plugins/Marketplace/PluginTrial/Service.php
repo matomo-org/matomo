@@ -26,6 +26,8 @@ final class Service
     // bounds how long a notification the session dropped, or one built for another site or language, can stay so
     private const MAX_SECONDS_BETWEEN_CHECKS = 600;
 
+    private ?string $pluginBeingApproved = null;
+
     public function __construct()
     {
     }
@@ -63,12 +65,42 @@ final class Service
 
         $request = new Request($pluginName, new Storage($pluginName));
         $numRequests = $request->decide($decision, $note, $requirePending);
+        $this->removeNotificationFromSession($pluginName);
 
+        return $numRequests;
+    }
+
+    /**
+     * Activates a requested plugin, and approves its pending requests as the current super user once it is active, so
+     * requests stay pending when activating fails
+     *
+     * @return int the number of requesters emailed about the approval
+     * @throws Exception when the plugin cannot be activated
+     */
+    public function activateAndApprove(string $pluginName): int
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        // activating approves the requests on its own, with no super user named, see cancelRequest()
+        $this->pluginBeingApproved = $pluginName;
+        try {
+            Manager::getInstance()->activatePlugin($pluginName);
+        } finally {
+            $this->pluginBeingApproved = null;
+        }
+
+        $request = new Request($pluginName, new Storage($pluginName));
+        $request->decide(RequestHistory::DECISION_APPROVED, null, false);
+        $this->removeNotificationFromSession($pluginName);
+
+        return $request->getNumNotified();
+    }
+
+    private function removeNotificationFromSession(string $pluginName): void
+    {
         if (Session::isStarted()) {
             (new Notification($pluginName, new Storage($pluginName)))->removeFromSession();
         }
-
-        return $numRequests;
     }
 
 
@@ -230,6 +262,10 @@ final class Service
      */
     public function cancelRequest(string $pluginName): void
     {
+        if ($pluginName === $this->pluginBeingApproved) {
+            return;
+        }
+
         $request = new Request($pluginName, new Storage($pluginName));
         $request->cancel();
 

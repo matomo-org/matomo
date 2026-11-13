@@ -17,16 +17,20 @@ use Piwik\Date;
 use Piwik\DI;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
+use Piwik\Mail;
 use Piwik\Nonce;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\MetadataLoader;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstallResults;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
 use Piwik\Plugins\Marketplace\Controller;
+use Piwik\Plugins\Marketplace\Emails\PluginRequestDecidedEmail;
 use Piwik\Plugins\Marketplace\LicenseKey;
+use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Plugins\Marketplace\UserSettings;
@@ -70,6 +74,11 @@ class ControllerTest extends IntegrationTestCase
      * @var string[] the plugins the installer was asked to install or update, in order
      */
     private $installedPlugins = [];
+
+    /**
+     * @var PluginRequestDecidedEmail[]
+     */
+    private $decisionEmails = [];
 
     public function setUp(): void
     {
@@ -298,6 +307,212 @@ class ControllerTest extends IntegrationTestCase
         $this->expectExceptionCode(403);
 
         $this->dispatchUntilRedirect('download');
+    }
+
+    public function testInstallRequestedPluginsIsForbiddenWhenPluginsAdminIsDisabled()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        Config::getInstance()->General['enable_plugins_admin'] = 0;
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+
+        $this->dispatchInstallRequested('TreemapVisualization');
+    }
+
+    public function testInstallRequestedPluginsIsForbiddenWhilePluginRequestsAreOff()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+
+        $this->dispatchInstallRequested('TreemapVisualization');
+    }
+
+    public function testInstallRequestedPluginsRejectsAnInvalidNonce()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+
+        try {
+            $this->dispatchInstallRequested('TreemapVisualization', 'invalid');
+            self::fail('The action accepted an invalid nonce');
+        } catch (\Exception $e) {
+            self::assertSame(Piwik::translate('General_ExceptionSecurityCheckFailed'), $e->getMessage());
+        }
+
+        self::assertFalse(PluginManager::getInstance()->isPluginActivated('TreemapVisualization'));
+        self::assertCount(1, StaticContainer::get(RequestHistory::class)->getPendingRequests());
+    }
+
+    public function testInstallRequestedPluginsActivatesThePluginAndApprovesItsRequestsAsTheSuperUser()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        $this->requestPlugin('TreemapVisualization', 'bob');
+
+        $redirectUrl = $this->dispatchInstallRequested('TreemapVisualization');
+
+        self::assertStringContainsString('action=manageRequests', $redirectUrl);
+        self::assertStringNotContainsString('nonce=', $redirectUrl);
+        self::assertTrue(PluginManager::getInstance()->isPluginActivated('TreemapVisualization'));
+        self::assertSame([], $this->installedPlugins, 'A plugin already on disk is activated without downloading it');
+        self::assertSame([], StaticContainer::get(RequestHistory::class)->getPendingRequests());
+
+        $decisions = StaticContainer::get(RequestHistory::class)->getDecisions(0, 10);
+        self::assertCount(1, $decisions);
+        self::assertSame(RequestHistory::DECISION_APPROVED, $decisions[0]['decision']);
+        self::assertSame(Piwik::getCurrentUserLogin(), $decisions[0]['decided_by']);
+
+        self::assertSame(['alice@example.org', 'bob@example.org'], $this->getDecisionEmailRecipients());
+        self::assertSame(
+            [Piwik::translate('Marketplace_RequestedPluginInstalled', ['Treemap Visualization', 2])],
+            $this->getNotificationMessages()
+        );
+    }
+
+    public function testInstallRequestedPluginsCountsOnlyTheEmailsThatWereSent()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        Piwik::addAction('Mail.shouldSend', function (&$shouldSend) {
+            $shouldSend = false;
+        });
+
+        $this->dispatchInstallRequested('TreemapVisualization');
+
+        self::assertSame(
+            [Piwik::translate('Marketplace_RequestedPluginInstalled', ['Treemap Visualization', 0])],
+            $this->getNotificationMessages()
+        );
+    }
+
+    public function testInstallRequestedPluginsKeepsTheRequestsPendingWhenThePluginCannotBeActivated()
+    {
+        // the mocked installer downloads nothing, so activating the plugin fails as a broken download would
+        $this->requestPlugin('Barometer', 'alice');
+
+        $this->dispatchInstallRequested('Barometer');
+
+        self::assertSame(['Barometer'], $this->installedPlugins);
+        self::assertCount(1, StaticContainer::get(RequestHistory::class)->getPendingRequests());
+        self::assertSame([], StaticContainer::get(RequestHistory::class)->getDecisions(0, 10));
+        self::assertSame([], $this->getDecisionEmailRecipients());
+        self::assertCount(1, $this->getNotificationMessages());
+        self::assertStringContainsString('Barometer', $this->getNotificationMessages()[0]);
+    }
+
+    public function testInstallRequestedPluginsRefusesAPaidPlugin()
+    {
+        $this->pluginInfoAnswers['PaidPlugin1'] = 'v2.0_plugins_PaidPlugin1_info.json';
+        $this->requestPlugin('PaidPlugin1', 'alice');
+
+        $this->dispatchInstallRequested('PaidPlugin1');
+
+        self::assertSame([], $this->installedPlugins);
+        self::assertCount(1, StaticContainer::get(RequestHistory::class)->getPendingRequests());
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_RequestedPluginCannotBeInstalled', 'Paid Plugin 1'),
+            implode(' ', $this->getNotificationMessages())
+        );
+    }
+
+    public function testInstallRequestedPluginsInstallsNothingForAPluginWithNoPendingRequest()
+    {
+        $this->requestPlugin('Barometer', 'alice');
+
+        $this->dispatchInstallRequested('PaidPlugin1');
+
+        self::assertSame([], $this->installedPlugins);
+        self::assertCount(1, StaticContainer::get(RequestHistory::class)->getPendingRequests());
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_NoPendingPluginRequests'),
+            implode(' ', $this->getNotificationMessages())
+        );
+    }
+
+    public function testInstallAllRequestedPluginsSkipsPaidPluginsAndApprovesOnlyThoseThatEndUpActive()
+    {
+        $this->pluginInfoAnswers['PaidPlugin1'] = 'v2.0_plugins_PaidPlugin1_info.json';
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        $this->requestPlugin('Barometer', 'alice');
+        $this->requestPlugin('PaidPlugin1', 'bob');
+
+        $this->dispatchInstallRequested(null);
+
+        self::assertSame(['Barometer'], $this->installedPlugins);
+        self::assertTrue(PluginManager::getInstance()->isPluginActivated('TreemapVisualization'));
+
+        $pending = array_column(StaticContainer::get(RequestHistory::class)->getPendingRequests(), 'plugin_name');
+        sort($pending);
+        self::assertSame(['Barometer', 'PaidPlugin1'], $pending);
+        self::assertSame(['alice@example.org'], $this->getDecisionEmailRecipients());
+
+        $messages = $this->getNotificationMessages();
+        self::assertCount(2, $messages, 'One success and one failure, and nothing about the skipped paid plugin');
+        self::assertContains(
+            Piwik::translate('Marketplace_RequestedPluginInstalledOneUserNotified', ['Treemap Visualization', 1]),
+            $messages
+        );
+    }
+
+    private function requestPlugin(string $pluginName, string $login): void
+    {
+        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
+
+        // active in the test environment, where a request for it could never be pending
+        if (PluginManager::getInstance()->isPluginActivated($pluginName)) {
+            PluginManager::getInstance()->deactivatePlugin($pluginName);
+        }
+
+        if (!(new UsersModel())->userExists($login)) {
+            (new UsersModel())->addUser($login, 'password', $login . '@example.org', Date::now()->getDatetime());
+        }
+
+        $this->pluginInfoAnswers['TreemapVisualization'] = 'v2.0_plugins_TreemapVisualization_info.json';
+        $this->pluginInfoAnswers['Barometer'] = 'v2.0_plugins_Barometer_info.json';
+
+        StaticContainer::get(RequestHistory::class)
+            ->add($pluginName, $login, time(), RequestHistory::REQUEST_TYPE_INSTALL);
+    }
+
+    /**
+     * @return string the URL the action redirects to
+     */
+    private function dispatchInstallRequested(?string $pluginName, ?string $nonce = null): string
+    {
+        $this->createWebsiteForAdminPages();
+
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'installRequestedPlugins',
+            'nonce' => $nonce ?? Nonce::getNonce(Controller::INSTALL_REQUESTED_NONCE),
+        ];
+        if ($pluginName !== null) {
+            $_GET['pluginName'] = $pluginName;
+        }
+
+        $this->decisionEmails = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) {
+            if ($mail instanceof PluginRequestDecidedEmail) {
+                $this->decisionEmails[] = $mail;
+            }
+        });
+
+        return $this->dispatchUntilRedirect('installRequestedPlugins');
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getDecisionEmailRecipients(): array
+    {
+        $recipients = [];
+        foreach ($this->decisionEmails as $email) {
+            $recipients = array_merge($recipients, array_keys($email->getRecipients()));
+        }
+        sort($recipients);
+
+        return $recipients;
     }
 
     public function testUpdatePluginUpdatesTheRemainingPluginsWhenAnInfoRequestFails()

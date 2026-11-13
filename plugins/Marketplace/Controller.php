@@ -50,6 +50,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const INSTALL_NONCE = 'Marketplace.installPlugin';
     public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
     public const UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE = 'Marketplace.unsubscribeTrialRequestEmails';
+    public const INSTALL_REQUESTED_NONCE = 'Marketplace.installRequestedPlugins';
 
     private const FAILURE_SUMMARY_NOTIFICATION_ID = 'Marketplace_PluginsCouldNotBeUpdated';
 
@@ -754,6 +755,110 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     'nonce' => null,
                 ]));
         }
+    }
+
+    /**
+     * Installs and activates the requested free plugin given, or every requested free plugin when none is given, and
+     * approves the requests of each plugin that ends up active
+     */
+    public function installRequestedPlugins(): void
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        if (!$this->getPluginTrialService()->areRequestsActive()) {
+            throw new NoPrivilegesException('Plugin requests are not enabled', 403);
+        }
+
+        $this->dieIfPluginsAdminIsDisabled();
+
+        $pluginName = Request::fromRequest()->getStringParameter('pluginName', '');
+        $params = [
+            'module' => 'Marketplace',
+            'action' => 'installRequestedPlugins',
+            'pluginName' => $pluginName,
+            'nonce' => Request::fromRequest()->getStringParameter('nonce', ''),
+        ];
+        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            return;
+        }
+
+        Nonce::checkNonce(static::INSTALL_REQUESTED_NONCE);
+
+        $pendingPluginNames = array_unique(array_column(
+            StaticContainer::get(RequestHistory::class)->getPendingRequests(),
+            'plugin_name'
+        ));
+
+        if ($pluginName !== '') {
+            if (!in_array($pluginName, $pendingPluginNames, true)) {
+                // eg another super user decided on them in the meantime
+                $this->notifyAboutFailedInstallOrUpdate(
+                    $pluginName,
+                    [],
+                    new Exception(Piwik::translate('Marketplace_NoPendingPluginRequests'))
+                );
+                $this->redirectToManageRequests();
+                return;
+            }
+
+            $pendingPluginNames = [$pluginName];
+        }
+
+        foreach ($pendingPluginNames as $name) {
+            $this->installRequestedPlugin($name, $pluginName !== '');
+        }
+
+        $this->redirectToManageRequests();
+    }
+
+    /**
+     * @param bool $wasChosen false when installing all of them, which skips a plugin that is not free rather than failing
+     */
+    private function installRequestedPlugin(string $pluginName, bool $wasChosen): void
+    {
+        $pluginInfo = [];
+
+        try {
+            $pluginInfo = $this->plugins->getPluginInfoPreferringList($pluginName);
+            $displayName = ($pluginInfo['displayName'] ?? '') ?: $pluginName;
+
+            if (empty($pluginInfo['isFree'])) {
+                if ($wasChosen) {
+                    throw new Exception(Piwik::translate('Marketplace_RequestedPluginCannotBeInstalled', $displayName));
+                }
+
+                return;
+            }
+
+            $isInFilesystem = $this->pluginManager->isPluginInFilesystem($pluginName);
+            if (
+                !empty($pluginInfo['missingRequirements'])
+                || (!$isInFilesystem && !Plugins::canBeInstalledFromMarketplace($pluginInfo))
+            ) {
+                throw new Exception(Piwik::translate('Marketplace_RequestedPluginCannotBeInstalled', $displayName));
+            }
+
+            if (!$isInFilesystem) {
+                $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+            }
+
+            $numNotified = $this->getPluginTrialService()->activateAndApprove($pluginName);
+        } catch (\Exception $e) {
+            $this->notifyAboutFailedInstallOrUpdate($pluginName, $pluginInfo, $e);
+            return;
+        }
+
+        $notification = new Notification(Piwik::translate(
+            $numNotified === 1 ? 'Marketplace_RequestedPluginInstalledOneUserNotified' : 'Marketplace_RequestedPluginInstalled',
+            [$displayName, $numNotified]
+        ));
+        $notification->context = Notification::CONTEXT_SUCCESS;
+        Notification\Manager::notify('Marketplace_RequestedPluginInstalled' . $pluginName, $notification);
+    }
+
+    private function redirectToManageRequests(): void
+    {
+        Piwik::redirectToModule('Marketplace', 'manageRequests', ['pluginName' => null, 'nonce' => null]);
     }
 
     public function updatePlugin()
