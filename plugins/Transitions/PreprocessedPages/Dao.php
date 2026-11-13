@@ -184,26 +184,6 @@ class Dao
         return $idActions;
     }
 
-    /**
-     * @param list<string> $logins
-     * @return list<string> the logins of super users among them
-     */
-    public function getSuperUserLogins(array $logins): array
-    {
-        $logins = array_values(array_unique($logins));
-        if (empty($logins)) {
-            return [];
-        }
-
-        $rows = Db::fetchAll(
-            'SELECT login FROM ' . Common::prefixTable('user') . ' WHERE superuser_access = 1 AND login IN ('
-            . Common::getSqlStringFieldsArray($logins) . ')',
-            $logins
-        );
-
-        return array_map(fn(array $row): string => (string) $row['login'], $rows);
-    }
-
     public function removePage(int $idSite, int $idPage, string $removedDate): void
     {
         Db::query(

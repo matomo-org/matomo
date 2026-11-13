@@ -20,6 +20,7 @@ use Piwik\Exception\ThingNotFoundException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\TableLogAction;
@@ -66,7 +67,7 @@ class Service
     public function getPages(int $idSite): array
     {
         $pages = $this->dao->getPagesForSite($idSite);
-        $superUserLogins = $this->dao->getSuperUserLogins(array_values(array_filter(array_column($pages, 'created_by'), 'is_string')));
+        $superUserLogins = $this->getSuperUserLogins(array_values(array_filter(array_column($pages, 'created_by'), 'is_string')));
 
         $entries = [];
         foreach ($pages as $page) {
@@ -132,7 +133,7 @@ class Service
         // archiving skipped meanwhile
         $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($page['idpage']));
 
-        return $this->toEntry($page, $this->dao->getSuperUserLogins($page['created_by'] === null ? [] : [$page['created_by']]));
+        return $this->toEntry($page, $this->getSuperUserLogins($page['created_by'] === null ? [] : [$page['created_by']]));
     }
 
     /**
@@ -378,6 +379,22 @@ class Service
 
             usleep(100 * 1000);
         }
+    }
+
+    /**
+     * @param list<string> $logins
+     * @return list<string> the logins of super users among them
+     */
+    private function getSuperUserLogins(array $logins): array
+    {
+        if (empty($logins)) {
+            return [];
+        }
+
+        $superUsers = (new UsersModel())->getUsersHavingSuperUserAccess();
+        $superUserLogins = array_map(fn($user): string => is_array($user) && is_scalar($user['login'] ?? null) ? (string) $user['login'] : '', $superUsers);
+
+        return array_values(array_intersect(array_unique($logins), $superUserLogins));
     }
 
     /**
