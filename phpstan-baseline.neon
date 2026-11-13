@@ -2365,12 +2365,6 @@ parameters:
 			path: plugins/CoreHome/Columns/Metrics/EvolutionMetric.php
 
 		-
-			message: '#^Parameter \#1 \$sqlFilterValue of method Piwik\\Plugin\\Segment\:\:setSqlFilterValue\(\) expects array\|string, Closure given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CoreHome/Columns/VisitorDaysSinceFirst.php
-
-		-
 			message: '#^Property Piwik\\Columns\\Dimension\:\:\$sqlFilterValue \(array\|string\) does not accept Closure\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -2645,18 +2639,6 @@ parameters:
 			identifier: empty.variable
 			count: 2
 			path: plugins/CustomDimensions/Tracker/CustomDimensionsRequestProcessor.php
-
-		-
-			message: '#^Parameter \#1 \$sqlFilterValue of method Piwik\\Plugin\\Segment\:\:setSqlFilterValue\(\) expects array\|string, Closure given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/DevicesDetection/Columns/BrowserName.php
-
-		-
-			message: '#^Parameter \#1 \$sqlFilterValue of method Piwik\\Plugin\\Segment\:\:setSqlFilterValue\(\) expects array\|string, Closure given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/DevicesDetection/Columns/Os.php
 
 		-
 			message: '#^Variable \$label in empty\(\) always exists and is not falsy\.$#'
@@ -3617,12 +3599,6 @@ parameters:
 			identifier: isset.offset
 			count: 1
 			path: plugins/UserCountry/API.php
-
-		-
-			message: '#^Parameter \#1 \$sqlFilterValue of method Piwik\\Plugin\\Segment\:\:setSqlFilterValue\(\) expects array\|string, Closure given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/UserCountry/Columns/Country.php
 
 		-
 			message: '#^If condition is always false\.$#'

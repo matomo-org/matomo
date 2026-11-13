@@ -10,8 +10,13 @@
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Columns\Dimension;
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Metrics\Formatter;
+use Piwik\Plugin\Segment;
+use Piwik\Segment\SegmentsList;
 
 class Continent extends Dimension
 {
@@ -22,8 +27,46 @@ class Continent extends Dimension
     protected $nameSingular = 'UserCountry_Continent';
     protected $namePlural = 'UserCountry_Continents';
     protected $segmentName = 'continentCode';
-    protected $acceptValues = 'eur, asi, amc, amn, ams, afr, ant, oce';
-    protected $sqlFilter = 'Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent';
+    protected $acceptValues = 'eur, asi, amc, amn, ams, afr, ant, oce, unk';
+
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
+    {
+        // Set on the segment only: the dimension itself still groups by country, see groupValue()
+        $segment = new Segment();
+        $segment->setSqlSegment($this->getContinentOfCountrySql());
+        // the continent codes are lower case, whatever the collation of the database
+        $segment->setSqlFilterValue(fn ($value) => strtolower((string) $value));
+        $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
+    }
+
+    /**
+     * Maps the visit country to its continent code the way {@see Common::getContinent()} does for the
+     * Continent report, so every segment operator applies to the continent code itself.
+     */
+    private function getContinentOfCountrySql(): string
+    {
+        /** @var RegionDataProvider $regionDataProvider */
+        $regionDataProvider = StaticContainer::get(RegionDataProvider::class);
+
+        $countriesByContinent = [];
+        foreach ($regionDataProvider->getCountryList() as $countryCode => $continentCode) {
+            // the codes are written into the SQL, so only plain codes are kept
+            if (!preg_match('/^[a-z]{2}$/', (string) $countryCode) || !preg_match('/^[a-z]{3}$/', (string) $continentCode)) {
+                continue;
+            }
+            $countriesByContinent[$continentCode][] = $countryCode;
+        }
+        // Common::getContinent() counts the legacy Tibet code as China
+        $countriesByContinent[Common::getContinent('ti')][] = 'ti';
+
+        $column = $this->dbTableName . '.' . $this->columnName;
+        $sql = 'CASE';
+        foreach ($countriesByContinent as $continentCode => $countryCodes) {
+            $sql .= sprintf(" WHEN %s IN ('%s') THEN '%s'", $column, implode("', '", $countryCodes), $continentCode);
+        }
+
+        return $sql . " ELSE 'unk' END";
+    }
 
     public function groupValue($value, $idSite)
     {

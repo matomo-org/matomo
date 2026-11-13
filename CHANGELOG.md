@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### Breaking Changes
+* The `continentCode` segment now applies its operator to the continent of the visit's country, so `!=` and `!@` exclude the continent instead of matching it, and it accepts `unk` for an unknown country. Its `sqlSegment` is now a `CASE` expression on `log_visit.location_country` instead of a column.
+
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 
@@ -18,6 +21,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Deprecations
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
+* `Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent()` is deprecated and will be removed in Matomo 7; use `Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()` instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
 ### HTTP API
