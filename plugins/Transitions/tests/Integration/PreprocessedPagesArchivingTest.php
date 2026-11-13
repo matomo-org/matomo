@@ -368,6 +368,24 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         self::assertSame($this->getRawReport('week', self::DAY, self::SEGMENT), $this->getStoredReport($idPage, 'week', self::DAY, self::SEGMENT));
     }
 
+    public function testAnInvalidRowLimitOnlySkipsTheTransitionsRecords(): void
+    {
+        $this->selectPage(self::PAGE_URL);
+        Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 0;
+
+        Cache::getTransientCache()->flushAll();
+        $archive = Archive::build(1, 'day', self::DAY);
+        $visits = $archive->getNumeric('nb_visits');
+        $archive->getDataTable('Actions_actions_url');
+
+        self::assertGreaterThan(0, $visits);
+        self::assertSame([], $this->getStoredRecordNames(1, self::DAY));
+        self::assertGreaterThan(0, (int) Db::fetchOne(
+            'SELECT COUNT(*) FROM ' . Common::prefixTable('archive_blob_2010_03') . ' WHERE idsite = 1 AND period = 1 AND date1 = ? AND name = ?',
+            [self::DAY, 'Actions_actions_url']
+        ));
+    }
+
     public function testARemovedPageIsNoLongerArchived(): void
     {
         $idPage = $this->selectPage(self::PAGE_URL);

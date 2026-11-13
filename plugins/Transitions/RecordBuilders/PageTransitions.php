@@ -19,6 +19,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
 use Piwik\Plugins\Transitions\Model;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
@@ -41,6 +42,13 @@ class PageTransitions extends RecordBuilder
      * @var \WeakMap<ArchiveProcessor, list<int>>
      */
     private \WeakMap $idPagesByArchive;
+
+    /**
+     * Websites whose invalid row limit was logged, so it is logged once per process.
+     *
+     * @var array<int, true>
+     */
+    private static array $loggedConfigErrors = [];
 
     public function __construct()
     {
@@ -66,14 +74,41 @@ class PageTransitions extends RecordBuilder
         }
     }
 
+    /**
+     * An invalid row limit only stops the Transitions records from being archived, not the other plugins' reports.
+     */
     public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
-        return !empty($this->getIdPagesToBuild($archiveProcessor));
+        if (empty($this->getIdPagesToBuild($archiveProcessor))) {
+            return false;
+        }
+
+        $idSite = $this->getIdSite($archiveProcessor);
+        try {
+            Records::getMaxRows($idSite);
+        } catch (\Exception $e) {
+            if (!isset(self::$loggedConfigErrors[$idSite])) {
+                self::$loggedConfigErrors[$idSite] = true;
+                StaticContainer::get(LoggerInterface::class)->error(
+                    'The pre-processed Transitions pages of website {idSite} are not archived: {message}',
+                    ['idSite' => $idSite, 'message' => $e->getMessage()]
+                );
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
-        $maxRows = Records::getMaxRows($this->getIdSite($archiveProcessor));
+        try {
+            $maxRows = Records::getMaxRows($this->getIdSite($archiveProcessor));
+        } catch (\Exception $e) {
+            // nothing is built then, see isEnabled()
+            $maxRows = Records::DEFAULT_MAX_ROWS;
+        }
 
         $records = [Record::make(Record::TYPE_NUMERIC, Records::DAYS_WITH_VISITS)];
         foreach ($this->getIdPages($archiveProcessor) as $idPage) {
