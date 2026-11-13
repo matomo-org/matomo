@@ -19,6 +19,8 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Date;
 use Piwik\Mail\OAuth\ClientCredentialsTokenProvider;
 use Piwik\Mail\OAuth\TokenRequestFailedException;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * @group Core
@@ -249,6 +251,27 @@ class ClientCredentialsTokenProviderTest extends TestCase
         }
     }
 
+    public function testLogsTheReasonOfAFailedRequestOnce(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('warning')->with(
+            '{message} Reason: {detail}',
+            ['message' => 'The SMTP OAuth token request failed with HTTP status 401.', 'detail' => 'invalid_client']
+        );
+
+        $response = ['status' => 401, 'data' => '{"error":"invalid_client"}'];
+        $provider = new FakeHttpClientCredentialsTokenProvider(new Lazy(new ArrayCache()), self::MAIL_CONFIG, $response, $logger);
+
+        foreach ([1, 2] as $attempt) {
+            try {
+                $provider->getAccessToken();
+                $this->fail('Expected exception was not thrown');
+            } catch (TokenRequestFailedException $e) {
+                // the second attempt is answered from the remembered failure, which was already logged
+            }
+        }
+    }
+
     /**
      * @dataProvider getFailedResponses
      * @param array{status: ?int, data?: ?string}|\Exception $response
@@ -363,9 +386,9 @@ class FakeHttpClientCredentialsTokenProvider extends ClientCredentialsTokenProvi
     /**
      * @param array{status: ?int, data?: ?string}|\Exception $response
      */
-    public function __construct(Lazy $cache, array $mailConfig, $response)
+    public function __construct(Lazy $cache, array $mailConfig, $response, ?LoggerInterface $logger = null)
     {
-        parent::__construct($cache);
+        parent::__construct($cache, $logger ?? new NullLogger());
 
         $this->mailConfig = $mailConfig;
         $this->response = $response;

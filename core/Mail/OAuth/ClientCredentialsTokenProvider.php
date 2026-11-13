@@ -15,6 +15,7 @@ use Matomo\Cache\Lazy;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Http;
+use Psr\Log\LoggerInterface;
 
 /**
  * Gets an access token with the OAuth 2.0 client credentials flow, using the `[mail] oauth_*` config settings.
@@ -32,9 +33,12 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
 
     private Lazy $cache;
 
-    public function __construct(Lazy $cache)
+    private LoggerInterface $logger;
+
+    public function __construct(Lazy $cache, LoggerInterface $logger)
     {
         $this->cache = $cache;
+        $this->logger = $logger;
     }
 
     public function getAccessToken(): string
@@ -69,6 +73,9 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
                 ['message' => $e->getMessage(), 'detail' => $e->getDetail()],
                 self::FAILURE_LIFETIME_IN_SECONDS
             );
+
+            // the message stays generic because it can be shown to visitors, so the reason is only logged
+            $this->logger->warning('{message} Reason: {detail}', ['message' => $e->getMessage(), 'detail' => $e->getDetail()]);
 
             throw $e;
         }

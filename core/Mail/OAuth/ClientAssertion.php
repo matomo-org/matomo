@@ -30,6 +30,13 @@ class ClientAssertion
         string $privateKeyPassword,
         int $now
     ): string {
+        if (!extension_loaded('openssl')) {
+            throw new TokenRequestFailedException(
+                'The SMTP OAuth certificate or private key could not be used.',
+                'The openssl PHP extension is needed to use a certificate.'
+            );
+        }
+
         // drop errors left over from earlier openssl calls, so they don't end up in the detail
         self::getOpenSslErrors();
 
