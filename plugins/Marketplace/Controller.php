@@ -36,7 +36,6 @@ use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
-use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\ProxyHttp;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
@@ -525,18 +524,36 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $login = $request->getStringParameter('login', '');
         $token = $request->getStringParameter('token', '');
 
-        if (
-            !StaticContainer::get(UnsubscribeToken::class)->isValid($login, $token)
-            || empty((new UsersModel())->getUser($login))
-        ) {
+        if (!StaticContainer::get(UnsubscribeToken::class)->isValid($login, $token)) {
             $view->error = Piwik::translate('Marketplace_RequestTrialUnsubscribeInvalidLink');
             return $view->render();
         }
 
         if ($request->getStringParameter('confirm', '') !== '') {
-            Nonce::checkNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+            $nonce = $request->getStringParameter('nonce', '');
+            $nonceError = Nonce::verifyNonceWithErrorMessage(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE, $nonce);
+
+            // as Nonce::checkNonce() does, so a request without a nonce cannot expire a form open in another tab
+            if (!empty($nonce)) {
+                Nonce::discardNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+            }
+
             $settings = StaticContainer::get(UserScopedSettingsAccessManager::class);
             $wasOn = (bool) $settings->get('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, true);
+
+            if ($nonceError !== '') {
+                // a refresh or a second open tab resubmits a nonce the first confirm consumed, so show the outcome
+                // when there is one; the token already authorised $login
+                if (!$wasOn) {
+                    $view->success = true;
+                } else {
+                    $view->nonceError = $nonceError;
+                    $view->nonce = Nonce::getNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+                }
+
+                return $view->render();
+            }
+
             $settings->set('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
 
             if ($wasOn) {

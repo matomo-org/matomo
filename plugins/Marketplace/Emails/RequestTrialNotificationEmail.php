@@ -26,12 +26,17 @@ class RequestTrialNotificationEmail extends Mail
 
     private string $login;
 
+    private ?string $unsubscribeToken;
+
     private string $pluginName;
     private string $pluginDisplayName;
 
     private bool $isInstallRequest;
 
     /**
+     * @param string|null $unsubscribeToken always passed by core; null is kept for backward compatibility
+     *                                      and signs one for `$login`, or leaves out the unsubscribe line if
+     *                                      there is no such user
      * @param string $requestType one of the RequestHistory::REQUEST_TYPE_* constants
      */
     public function __construct(
@@ -39,6 +44,7 @@ class RequestTrialNotificationEmail extends Mail
         string $emailAddress,
         string $pluginName,
         string $pluginDisplayName,
+        ?string $unsubscribeToken = null,
         string $requestType = RequestHistory::REQUEST_TYPE_TRIAL
     ) {
         parent::__construct();
@@ -47,6 +53,8 @@ class RequestTrialNotificationEmail extends Mail
 
         $this->emailAddress = $emailAddress;
         $this->login = $login;
+        $this->unsubscribeToken = $unsubscribeToken
+            ?? StaticContainer::get(UnsubscribeToken::class)->generate($login);
         $this->pluginName = $pluginName;
         $this->pluginDisplayName = $pluginDisplayName;
 
@@ -96,13 +104,20 @@ class RequestTrialNotificationEmail extends Mail
         ));
     }
 
-    private function getUnsubscribeLink(): string
+    /**
+     * @return string|null null when there is no user to sign a token for, so the footer leaves the line out
+     */
+    private function getUnsubscribeLink(): ?string
     {
+        if ($this->unsubscribeToken === null) {
+            return null;
+        }
+
         return SettingsPiwik::getPiwikUrl() . 'index.php?' . http_build_query([
             'module' => 'Marketplace',
             'action' => 'unsubscribeTrialRequestEmails',
             'login' => $this->login,
-            'token' => StaticContainer::get(UnsubscribeToken::class)->generate($this->login),
+            'token' => $this->unsubscribeToken,
         ]);
     }
 }

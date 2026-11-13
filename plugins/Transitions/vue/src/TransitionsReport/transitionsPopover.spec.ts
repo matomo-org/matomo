@@ -254,6 +254,223 @@ describe('Transitions/popover mount point', () => {
     expect(rowAction.openPopover).not.toHaveBeenCalled();
   });
 
+  describe('part loading', () => {
+    interface PartModel {
+      loadPart(
+        part: string,
+        actionType: string,
+        actionName: string,
+        overrideParams: Record<string, string>|null,
+        callback: () => void,
+      ): void;
+      exits: number;
+      followingPagesNbTransitions: number;
+      searchEnginesNbTransitions: number;
+    }
+
+    let calls: { params: Record<string, unknown>; respond: (report: unknown) => void }[];
+    let model: PartModel;
+
+    const RESPONSES: Record<string, unknown> = {
+      internalReferrers: {
+        date: 'Aug 9, 2012',
+        pageMetrics: { pageviews: 100, loops: 10 },
+        previousPages: [{ url: 'http://example.org/a', referrals: 40 }],
+        previousSiteSearches: [],
+      },
+      followingActions: {
+        date: 'Aug 9, 2012',
+        followingPages: [{ url: 'http://example.org/c', referrals: 35 }],
+        followingSiteSearches: [{ label: 'term', referrals: 5 }],
+        downloads: [{ url: 'http://example.org/file.zip', referrals: 3 }],
+        outlinks: [],
+      },
+      externalReferrers: {
+        date: 'Aug 9, 2012',
+        referrers: [{
+          shortName: 'search',
+          label: 'Search',
+          visits: 25,
+          details: [],
+        }],
+      },
+    };
+
+    beforeEach(() => {
+      calls = [];
+      const ajax = {
+        callApi: (method: string, params: Record<string, unknown>, done: (r: unknown) => void) => {
+          calls.push({ params: { ...params, method }, respond: done });
+        },
+        loadTotalNbPageviews: () => undefined,
+      };
+      const Model = (window as unknown as Record<string, unknown>)
+        .Piwik_Transitions_Model as new (transitionsAjax: unknown) => PartModel;
+      model = new Model(ajax);
+
+      ['internalReferrers', 'followingActions', 'externalReferrers'].forEach((part) => {
+        model.loadPart(part, 'url', 'http://example.org/page', { segment: 'x' }, () => undefined);
+      });
+    });
+
+    function respond(part: string) {
+      const sent = part === 'followingActions' ? 'followingActionsWithoutLoops' : part;
+      calls.find((call) => call.params.parts === sent)!.respond(RESPONSES[part]);
+    }
+
+    it('should request each part on its own, leaving reloads out of the following actions', () => {
+      expect(calls.map((call) => call.params.parts)).toEqual([
+        'internalReferrers',
+        'followingActionsWithoutLoops',
+        'externalReferrers',
+      ]);
+      expect(calls[0].params).toMatchObject({
+        method: 'Transitions.getTransitionsForAction',
+        actionType: 'url',
+        actionName: 'http://example.org/page',
+        segment: 'x',
+      });
+    });
+
+    it('should derive the exits once both page parts are in, whichever lands first', () => {
+      respond('followingActions');
+      respond('externalReferrers');
+      expect(model.exits).toBe(0);
+
+      respond('internalReferrers');
+
+      // 100 pageviews - 35 following pages - 5 following searches - 10 loops; the download
+      // ends the visit, so it is an exit too.
+      expect(model.exits).toBe(50);
+      expect(model.followingPagesNbTransitions).toBe(35);
+      expect(model.searchEnginesNbTransitions).toBe(25);
+    });
+  });
+
+  describe('full report loading', () => {
+    it('should fill the model from one full report and take its exits from the server', () => {
+      const Model = (window as unknown as Record<string, unknown>)
+        .Piwik_Transitions_Model as (new (transitionsAjax: unknown) => {
+          loadData(
+            actionType: string,
+            actionName: string,
+            overrideParams: Record<string, string>|null,
+            callback: () => void,
+          ): void;
+          exits: number;
+          followingPagesNbTransitions: number;
+          searchEnginesNbTransitions: number;
+        }) & { totalNbPageviews?: number|false };
+      // Static, so a previous test may have set it already.
+      delete Model.totalNbPageviews;
+
+      const calls: { params: Record<string, unknown>; respond: (report: unknown) => void }[] = [];
+      const ajax = {
+        callApi: (method: string, params: Record<string, unknown>, done: (r: unknown) => void) => {
+          calls.push({ params: { ...params, method }, respond: done });
+        },
+        loadTotalNbPageviews: vi.fn(),
+      };
+      const model = new Model(ajax);
+      const callback = vi.fn();
+
+      model.loadData('url', 'http://example.org/page', { segment: 'x' }, callback);
+
+      expect(calls).toHaveLength(1);
+      expect(calls[0].params).toMatchObject({
+        method: 'Transitions.getTransitionsForAction',
+        actionType: 'url',
+        actionName: 'http://example.org/page',
+        segment: 'x',
+      });
+      expect(calls[0].params.parts).toBeUndefined();
+
+      calls[0].respond({
+        date: 'Aug 9, 2012',
+        pageMetrics: { pageviews: 100, loops: 10, exits: 42 },
+        previousPages: [{ url: 'http://example.org/a', referrals: 40 }],
+        previousSiteSearches: [],
+        followingPages: [{ url: 'http://example.org/c', referrals: 35 }],
+        followingSiteSearches: [],
+        downloads: [],
+        outlinks: [],
+        referrers: [{
+          shortName: 'search',
+          label: 'Search',
+          visits: 25,
+          details: [],
+        }],
+      });
+
+      expect(model.exits).toBe(42);
+      expect(model.followingPagesNbTransitions).toBe(35);
+      expect(model.searchEnginesNbTransitions).toBe(25);
+      expect(ajax.loadTotalNbPageviews).toHaveBeenCalledTimes(1);
+      expect(callback).toHaveBeenCalledTimes(1);
+
+      delete Model.totalNbPageviews;
+    });
+  });
+
+  describe('aborting requests', () => {
+    let sent: { params: Record<string, unknown>; aborted: boolean }[];
+
+    beforeEach(() => {
+      sent = [];
+      (window as unknown as Record<string, unknown>).ajaxHelper = function FakeAjaxHelper(
+        this: Record<string, unknown>,
+      ) {
+        const request = { params: {}, aborted: false };
+        this.addParams = (params: Record<string, unknown>) => {
+          request.params = params;
+        };
+        this.useCallbackInCaseOfError = () => undefined;
+        this.setCallback = () => undefined;
+        this.setErrorCallback = () => undefined;
+        this.send = () => sent.push(request);
+        this.abort = () => {
+          request.aborted = true;
+        };
+      };
+    });
+
+    function newAjax() {
+      const Ajax = (window as unknown as Record<string, unknown>)
+        .Piwik_Transitions_Ajax as new () => {
+          callApi(method: string, params: Record<string, unknown>, callback: () => void): void;
+          loadTotalNbPageviews(callback: () => void): void;
+          abort(): void;
+        };
+      return new Ajax();
+    }
+
+    it('should abort the report requests but let the site total finish', () => {
+      const ajax = newAjax();
+      ajax.callApi('Transitions.getTransitionsForAction', { parts: 'internalReferrers' }, () => undefined);
+      ajax.loadTotalNbPageviews(() => undefined);
+      ajax.callApi('Transitions.getTransitionsForAction', { parts: 'followingActions' }, () => undefined);
+
+      ajax.abort();
+
+      expect(sent.map((request) => [request.params.method, request.aborted])).toEqual([
+        ['Transitions.getTransitionsForAction', true],
+        ['Actions.get', false],
+        ['Transitions.getTransitionsForAction', true],
+      ]);
+    });
+
+    it('should not abort a request twice', () => {
+      const ajax = newAjax();
+      ajax.callApi('Transitions.getTransitionsForAction', {}, () => undefined);
+      ajax.abort();
+      sent[0].aborted = false;
+
+      ajax.abort();
+
+      expect(sent[0].aborted).toBe(false);
+    });
+  });
+
   describe('total pageviews queue', () => {
     let Model: TotalModelStatic;
 

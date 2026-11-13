@@ -108,6 +108,10 @@
         "SiteWithoutDataOtherInstallMethodsIntro": "Nabízíme několik způsobů sledování – vyberte ten, který odpovídá vašemu nastavení.",
         "SiteWithoutDataRecommendationText": "Zjistili jsme, že váš web používá %1$s, takže můžete sledování AI chatbotů nastavit pomocí naší oficiální integrace pro %1$s.",
         "SiteWithoutDataStepByStepGuide": "Návod krok za krokem",
-        "TopPageUrlsLast30MinutesDocumentation": "Zobrazuje URL stránek požadované AI chatboty během posledních 30 minut, seřazené podle počtu požadavků chatbotů."
+        "TopPageUrlsLast30MinutesDocumentation": "Zobrazuje URL stránek požadované AI chatboty během posledních 30 minut, seřazené podle počtu požadavků chatbotů.",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "Poměr požadavků AI chatbotů k zobrazením stránek",
+        "ColumnAIChatbotTrafficRatioDocumentation": "Poměr požadavků AI chatbotů k zobrazením stránek lidmi, ať už přímo, nebo prostřednictvím AI agentů. Hodnota 2,0× znamená, že požadavků AI chatbotů bylo dvakrát více než zobrazení stránek."
     }
 }

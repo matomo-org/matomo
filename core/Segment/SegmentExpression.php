@@ -316,8 +316,8 @@ class SegmentExpression
                 break;
         }
 
-        // We match NULL values when rows are excluded only when we are not doing a
-        $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
+        // Do not use empty() here: '0' is a value to exclude, e.g. `!=0` must keep the rows where the field is NULL
+        $alsoMatchNULLValues = $alsoMatchNULLValues && $value !== null && $value !== '';
 
         if (
             $matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS

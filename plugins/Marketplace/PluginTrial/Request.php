@@ -229,16 +229,32 @@ class Request
                 continue;
             }
 
-            $email = StaticContainer::getContainer()->make(
-                RequestTrialNotificationEmail::class,
-                [
-                    'emailAddress' => $email,
-                    'login' => $login,
-                    'pluginName' => $this->pluginName,
-                    'pluginDisplayName' => $this->storage->getDisplayName(),
-                    'requestType' => $this->storage->getRequestType(),
-                ]
-            );
+            // like safeSend(), a failure for one recipient is logged so it cannot stop the others or the event
+            try {
+                // null when the user was deleted since the lookup above
+                $unsubscribeToken = StaticContainer::get(UnsubscribeToken::class)->generate((string) $login);
+                if ($unsubscribeToken === null) {
+                    continue;
+                }
+
+                $email = StaticContainer::getContainer()->make(
+                    RequestTrialNotificationEmail::class,
+                    [
+                        'emailAddress' => $email,
+                        'login' => $login,
+                        'unsubscribeToken' => $unsubscribeToken,
+                        'pluginName' => $this->pluginName,
+                        'pluginDisplayName' => $this->storage->getDisplayName(),
+                        'requestType' => $this->storage->getRequestType(),
+                    ]
+                );
+            } catch (Exception $e) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'Could not prepare the plugin trial request email for {login}: {exception}',
+                    ['login' => $login, 'exception' => $e]
+                );
+                continue;
+            }
 
             $email->safeSend();
         }

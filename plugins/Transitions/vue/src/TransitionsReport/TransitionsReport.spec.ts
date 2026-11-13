@@ -256,16 +256,26 @@ describe('Transitions/TransitionsReport', () => {
       .toContain('Transitions_ShareOfAllPageviews');
   });
 
-  it('should name what it is loading in the popover', () => {
-    // The legacy popover's own loading state said "Loading Transitions for <page>"; the embedded
-    // report's inline loader said the generic thing, so the message follows the context.
-    const popover = mountTransitionsReport({ context: 'popover' });
-    expect(popover.find('.activityIndicator').attributes('loading-message'))
-      .toBe('Transitions_LoadingTransitionsFor:http://example.org/page');
+  it('should show the layout with the page and loaders before any data is in', async () => {
+    const wrapper = mountTransitionsReport();
+    await flushRibbons();
 
-    const embedded = mountTransitionsReport();
-    expect(embedded.find('.activityIndicator').attributes('loading-message'))
-      .toBe('General_LoadingData');
+    expect(wrapper.find('.transitionsReport__grid').attributes('aria-busy')).toBe('true');
+    expect(wrapper.find('.transitionsCenterCard__title').text()).toBe('/page');
+    expect(wrapper.find('.transitionsCenterCard__pageviews .matomo-loader').exists()).toBe(true);
+    expect(wrapper.find('.transitionsCenterCard__pageviews').attributes('title')).toBe('');
+    // Every metric is listed, each waiting for its number.
+    expect(wrapper.findAll('.transitionsCenterCard__metricLabel .matomo-loader')).toHaveLength(13);
+    expect(wrapper.findAll('.transitionsColumn__loader')).toHaveLength(2);
+    expect(wrapper.find('.transitionsSection').exists()).toBe(false);
+    expect(wrapper.find('.transitionsCenterCard__loops').exists()).toBe(false);
+  });
+
+  it('should no longer mark the report busy once every part is in', async () => {
+    const wrapper = await mountLoaded();
+
+    expect(wrapper.find('.transitionsReport__grid').attributes('aria-busy')).toBeUndefined();
+    expect(wrapper.find('.matomo-loader').exists()).toBe(false);
   });
 
   it('should post Transitions.dataChanged once the data is in', async () => {
@@ -428,5 +438,132 @@ describe('Transitions/TransitionsReport', () => {
 
     expect(backend.totalWaiterCount()).toBe(0);
     expect(wrapper.find('.transitionsCenterCard__pageviews').attributes('title')).toBe('');
+  });
+
+  describe('progressive loading', () => {
+    function columnLoaders(wrapper: VueWrapper): boolean[] {
+      return wrapper.findAll('.transitionsReport__column')
+        .map((column) => column.find('.transitionsColumn__loader').exists());
+    }
+
+    function metricLabel(wrapper: VueWrapper, prefix: string) {
+      return wrapper.findAll('.transitionsCenterCard__metric')
+        .find((metric) => metric.text().startsWith(prefix));
+    }
+
+    it('should render once the internal referrers are in, with the other parts loading', async () => {
+      const wrapper = mountTransitionsReport();
+      backend.respondPart('internalReferrers');
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
+      expect(wrapper.find('.transitionsCenterCard__pageviews').text())
+        .toBe('Transitions_NumPageviews:100');
+      expect(columnLoaders(wrapper)).toEqual([true, true]);
+
+      // Only the groups that are in get rows; the outgoing side has none yet.
+      const titles = wrapper.findAll('.transitionsSection__title').map((node) => node.text());
+      expect(titles).toEqual(['Transitions_FromPreviousPages']);
+
+      // A pending metric and both side totals show a spinner instead of a number.
+      expect(metricLabel(wrapper, 'Referrers_TypeSearchEngines')!.find('.matomo-loader').exists())
+        .toBe(true);
+      expect(metricLabel(wrapper, 'Transitions_ExitsInline')!.find('.matomo-loader').exists())
+        .toBe(true);
+      expect(metricLabel(wrapper, 'Transitions_FromPreviousPagesInline')!.text())
+        .toBe('Transitions_FromPreviousPagesInline:40');
+      expect(wrapper.findAll('.transitionsCenterCard__metricTotal .matomo-loader')).toHaveLength(2);
+    });
+
+    it('should fill each side in as its part lands', async () => {
+      const wrapper = mountTransitionsReport();
+      backend.respondPart('internalReferrers');
+      backend.respondPart('externalReferrers');
+      await flushRibbons();
+
+      expect(columnLoaders(wrapper)).toEqual([false, true]);
+      expect(wrapper.findAll('.transitionsCenterCard__metricTotal').map((n) => n.text()))
+        .toEqual(['80', '']);
+
+      backend.respondPart('followingActions');
+      await flushRibbons();
+
+      expect(columnLoaders(wrapper)).toEqual([false, false]);
+      expect(wrapper.findAll('.transitionsCenterCard__metricTotal').map((n) => n.text()))
+        .toEqual(['80', '55']);
+      expect(wrapper.find('.matomo-loader').exists()).toBe(false);
+    });
+
+    it('should wait for the internal referrers before rendering parts that land first', async () => {
+      const wrapper = mountTransitionsReport();
+      backend.respondPart('followingActions');
+      backend.respondPart('externalReferrers');
+      await flushRibbons();
+
+      // Their shares are relative to the pageviews, so the layout keeps waiting.
+      expect(wrapper.find('.transitionsSection').exists()).toBe(false);
+      expect(columnLoaders(wrapper)).toEqual([true, true]);
+
+      backend.respondPart('internalReferrers');
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
+      expect(columnLoaders(wrapper)).toEqual([false, false]);
+    });
+
+    it('should switch straight to the layout of the next page when another one is loaded', async () => {
+      const wrapper = await mountLoaded();
+
+      await wrapper.setProps({ actionName: 'http://example.org/next' });
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(true);
+      expect(wrapper.find('.transitionsCenterCard__title').text()).toBe('/next');
+      expect(wrapper.find('.transitionsCenterCard__pageviews .matomo-loader').exists()).toBe(true);
+      expect(wrapper.find('.transitionsSection').exists()).toBe(false);
+    });
+
+    it('should post Transitions.dataChanged once, when the first data is on screen', async () => {
+      mountTransitionsReport();
+      backend.respondPart('followingActions');
+      await flushRibbons();
+
+      expect(postEvent).not.toHaveBeenCalledWith('Transitions.dataChanged', expect.anything());
+
+      backend.respondPart('internalReferrers');
+      await flushRibbons();
+
+      expect(postEvent).toHaveBeenCalledTimes(1);
+      expect(postEvent).toHaveBeenCalledWith(
+        'Transitions.dataChanged',
+        { actionType: 'url', actionName: 'http://example.org/page' },
+      );
+
+      backend.respondPart('externalReferrers');
+      await flushRibbons();
+
+      expect(postEvent).toHaveBeenCalledTimes(1);
+    });
+
+    it('should fail the report when a later part fails, and ignore the parts after it', async () => {
+      const wrapper = mountTransitionsReport();
+      backend.respondPart('internalReferrers');
+      await flushRibbons();
+
+      backend.failPart('followingActions', 'PeriodNotAllowed');
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(false);
+      expect(wrapper.find('.transitionsReport__errorTitle').text())
+        .toContain('Transitions_PeriodNotAllowed');
+
+      backend.respondPart('externalReferrers');
+      await flushRibbons();
+
+      expect(wrapper.find('.transitionsReport__grid').exists()).toBe(false);
+      expect(wrapper.find('.transitionsReport__error').exists()).toBe(true);
+      // Only the post for the first data on screen, none for the parts after the failure.
+      expect(postEvent).toHaveBeenCalledTimes(1);
+    });
   });
 });
