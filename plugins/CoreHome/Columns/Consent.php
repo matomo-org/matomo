@@ -12,14 +12,143 @@ declare(strict_types=1);
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit\EntryPage;
+use Piwik\Tracker\Visitor;
 
 /**
- * Reserved for upcoming consent tracking. Nothing writes to this column yet.
+ * Whether the visitor had given their consent during this visit.
+ *
+ * Consent is reported per request, but it describes the visitor rather than the request, so it is
+ * recorded once for the visit and kept. A visit with no value never reported consent, which is not
+ * the same as refusing it: a site that does not signal consent at all looks exactly the same.
  */
 class Consent extends VisitDimension
 {
     public const COLUMN_TYPE = 'TINYINT(1) UNSIGNED NULL';
+    public const CONSENT_GIVEN = 1;
 
     protected $columnName = 'consent';
     protected $columnType = self::COLUMN_TYPE;
+
+    /**
+     * @param Action|null $action
+     * @return int|false
+     */
+    public function onNewVisit(Request $request, Visitor $visitor, $action)
+    {
+        return $request->hasConsent() ? self::CONSENT_GIVEN : false;
+    }
+
+    /**
+     * @param Action|null $action
+     * @return int|false
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        if (self::hasVisitConsented($visitor) || !self::appliesToVisit($request, $visitor, $action)) {
+            return false;
+        }
+
+        // consent given part way through a visit applies to the visit, so later requests do not
+        // have to repeat the flag for it to be known
+        return self::CONSENT_GIVEN;
+    }
+
+    /**
+     * Whether the consent this request reports applies to the visit it is being recorded against.
+     *
+     * A request can report consent and still land on a visit that was measured before any was
+     * given: a ping, for one, records no page and so cannot start a visit of its own. Nothing it
+     * carries may be measured as a consented visitor's, because the visit it would be written to
+     * is not that visitor's consented visit - the next request that can start one is. Marking it
+     * otherwise would hand the earlier browsing the treatment consent buys, and leave the visit
+     * reading as consented so that nothing split it afterwards.
+     *
+     * @param Action|null $action
+     */
+    public static function appliesToVisit(Request $request, Visitor $visitor, $action = null): bool
+    {
+        if (!$request->hasConsent()) {
+            return false;
+        }
+
+        // Nothing is being withheld for consent to lift, so there is no earlier treatment to
+        // keep this request away from. Ordinary tracking - a referrer detected part way through
+        // a visit, say - must not be held back by a question that makes no difference here.
+        if (!ConsentAwareAnalytics::hasRelaxableRestriction((int) $request->getIdSiteIfExists())) {
+            return true;
+        }
+
+        if (self::hasVisitConsented($visitor)) {
+            return true;
+        }
+
+        // null means it could not be told, and the visit is left as it was
+        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+    }
+
+    /**
+     * Consent reaching a visit that did not have it starts a new visit, unless the visitor is
+     * still on the page they arrived on.
+     *
+     * A visit measured before consent was measured under a compliance policy's restrictions. Where
+     * the visitor is still on their arrival page the same visit is continued and filled in, since
+     * it is the same landing and the data for it is still in the request. Once they have moved on
+     * the two are kept apart, and consent begins a visit of its own.
+     */
+    public function shouldForceNewVisit(Request $request, Visitor $visitor, ?Action $action = null)
+    {
+        if (!$request->hasConsent() || self::hasVisitConsented($visitor)) {
+            return false;
+        }
+
+        // Splitting the visit is what keeps browsing measured under a restriction apart from
+        // browsing measured without it. Where no such restriction is in force there is nothing to
+        // keep apart, and splitting would only count one visitor as two.
+        if (!ConsentAwareAnalytics::hasRelaxableRestriction((int) $request->getIdSiteIfExists())) {
+            return false;
+        }
+
+        // null means it could not be told, and a visit is not split on a guess
+        return false === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+    }
+
+    /**
+     * Whether the visit this request is being recorded against has the visitor's consent, given
+     * by this request or earlier in the same visit.
+     *
+     * Consent describes the visitor rather than the request, so a later request that does not
+     * repeat the flag - one sent in a batch, by a second tracker on the page, or by a server
+     * side call - is not treated as though the visitor had never consented. Everything the
+     * consent governs follows this, so that one visit is measured one way throughout.
+     */
+    public static function visitHasConsent(Request $request, Visitor $visitor): bool
+    {
+        if ($request->hasConsent()) {
+            return true;
+        }
+
+        // a visit being created now does not inherit the consent of the one before it: the
+        // recognised visit's columns are still loaded at this point, and the consent recorded
+        // against that visit says nothing about this one
+        if ($request->getMetadata('CoreHome', 'isNewVisit')) {
+            return false;
+        }
+
+        // and consent recorded against the visit stops counting once the site stops measuring
+        // consent-aware analytics, so turning the setting off - or forcing cookieless tracking -
+        // takes effect for visits that had already consented rather than only for new ones
+        return $request->measuresConsentAwareAnalytics() && self::hasVisitConsented($visitor);
+    }
+
+    /**
+     * Whether consent was already recorded for this visit, as stored before the current request.
+     */
+    public static function hasVisitConsented(Visitor $visitor): bool
+    {
+        return self::CONSENT_GIVEN === (int) $visitor->getImmutableVisitorColumn('consent');
+    }
 }

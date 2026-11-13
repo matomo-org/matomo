@@ -5437,6 +5437,471 @@ if ($mysql) {
         tracker.forgetCookieConsentGiven();
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - cookie consent is not reported as consent to being tracked", function() {
+        stop();
+
+        deleteCookies();
+
+        // accepting cookies says the visitor agreed to being recognised across page views, not
+        // that they agreed to being measured, so it must not relax what a compliance policy
+        // withholds. Only setConsentGiven() does that.
+        var cookieConsenting = Piwik.getTracker();
+        cookieConsenting.disableBrowserFeatureDetection();
+        cookieConsenting.setCustomData('token', getCookieConsentToken() + 'cookiesonly');
+        cookieConsenting.requireCookieConsent();
+        cookieConsenting.trackRequest('myFoo=beforeCookieConsent');
+        cookieConsenting.setCookieConsentGiven();
+        cookieConsenting.trackRequest('myFoo=afterCookieConsent');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getCookieConsentToken() + 'cookiesonly');
+            strictEqual(true, requests.indexOf('myFoo=beforeCookieConsent') > 0, "the visitor is tracked before cookie consent is given");
+            strictEqual(true, requests.indexOf('myFoo=afterCookieConsent') > 0, "the visitor is still tracked after cookie consent is given");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "cookie consent was reported as consent to being tracked");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent is reported without requireConsent being used", function() {
+        stop();
+
+        deleteCookies();
+
+        // a site measuring under a compliance exemption tracks from the first page view and only
+        // reports consent once it is given, so it never calls requireConsent()
+        var consenting = Piwik.getTracker();
+        consenting.disableBrowserFeatureDetection();
+        consenting.setCustomData('token', getConsentToken() + 'exempt');
+        consenting.requireConsentForRestrictedData();
+        consenting.trackRequest('myFoo=beforeConsent');
+        consenting.setConsentGiven();
+        consenting.trackRequest('myFoo=afterConsent');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'exempt');
+            strictEqual(true, requests.indexOf('myFoo=beforeConsent') > 0, "the visitor is tracked before consent is given");
+            strictEqual(true, requests.indexOf('myFoo=afterConsent') > 0, "the visitor is still tracked after consent is given");
+
+            // the gate withholds cookies until consent, so giving it turns them back on and
+            // sends a ping of its own - what matters is which side of the consent each request
+            // falls on, not how many there are
+            var ordered = fetchTrackedRequests(getConsentToken() + 'exempt', true);
+            strictEqual(true, ordered[0].indexOf('consent=1') === -1, "the request sent before consent carried the flag");
+            strictEqual(true, ordered[ordered.length - 1].indexOf('consent=1') !== -1, "the request sent after consent did not carry the flag");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent is reported on every request released from the queue", function() {
+        stop();
+
+        deleteCookies();
+
+        // requireConsent() holds requests back and releases them together once consent arrives,
+        // so the flag has to be put on each of them rather than on the batch
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'queued');
+        tracker.requireConsent();
+        tracker.trackRequest('myFoo=queuedOne');
+        tracker.trackRequest('myFoo=queuedTwo');
+        tracker.setConsentGiven();
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'queued');
+            strictEqual(true, requests.indexOf('myFoo=queuedOne') > 0, "the first held request is sent once consent is given");
+            strictEqual(true, requests.indexOf('myFoo=queuedTwo') > 0, "the second held request is sent once consent is given");
+            strictEqual(2, (requests.match(/consent=1/g) || []).length, "each request released from the queue carries the flag");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent remembered on an earlier page view is reported", function() {
+        stop();
+
+        deleteCookies();
+
+        // the visitor consented on a previous page view, so the site does not call
+        // setConsentGiven() again and the remembered-consent cookie is the only thing saying so
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.requireConsentForRestrictedData();
+        remembering.rememberConsentGiven();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'remembered');
+        tracker.requireConsentForRestrictedData();
+        tracker.trackRequest('myFoo=remembered');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'remembered');
+            strictEqual(1, (requests.match(/consent=1/g) || []).length, "the remembered consent is reported");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent remembered on an earlier page view is reported while cookies are off", function() {
+        stop();
+
+        deleteCookies();
+
+        // A tracker that turned cookies off does not read the remembered consent. That cookie
+        // records an answer which allows more to be collected, so unlike the opt-out cookie it
+        // must not override a site's own choice to use none; such a site reports the consent on
+        // each page view instead. The exemption gate itself withholds cookies only until consent
+        // is given and turns them back on then, so the usual flow still remembers it.
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.requireConsentForRestrictedData();
+        remembering.rememberConsentGiven();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'cookieless');
+        tracker.requireConsentForRestrictedData();
+        tracker.disableCookies();
+        tracker.trackRequest('myFoo=cookieless');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'cookieless');
+            strictEqual(true, requests.indexOf('myFoo=cookieless') > 0, "the visitor is tracked without cookies");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "a consent that no cookie could be read for was reported anyway");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - disable CampaignParameters keeps them once consent is given", function() {
+        // Consent lifts disableCampaignParameters() only where the site asked for consent under
+        // a compliance exemption. Everywhere else the call stays unconditional, as the developer
+        // documentation and the tracking-code help have always described it - the first attempt
+        // at this feature read a stale docblock instead and was reverted for it.
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData('token', getCampaignParamToken() + '3');
+        tracker.requireConsentForRestrictedData();
+        tracker.disableCampaignParameters();
+        tracker.setCustomUrl('http://localhost.localdomain/?mtm_campaign=something&mtm_kwd=keyword');
+
+        tracker.trackRequest('foo=beforeConsent');
+        tracker.setConsentGiven();
+        tracker.trackRequest('foo=afterConsent');
+
+        stop();
+
+        setTimeout(function() {
+            var results = fetchTrackedRequests(getCampaignParamToken() + '3', true);
+            strictEqual(true, results[0].indexOf('mtm_campaign%3Dsomething') === -1, "campaign parameters were kept before consent was given");
+            strictEqual(false, results[1].indexOf('mtm_campaign%3Dsomething') === -1, "campaign parameters were stripped after consent was given");
+
+            start();
+        }, 2000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - opting back in through the opt-out form is not consent to being measured", function() {
+        stop();
+
+        deleteCookies();
+
+        // the standalone opt-out script writes mtm_consent directly when a visitor opts back in.
+        // That answers "do you want to be tracked at all", not "may we measure you beyond what
+        // the compliance policy allows", so it must not be reported as the latter
+        document.cookie = 'mtm_consent=' + new Date().getTime() + ';path=/';
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'optedbackin');
+        tracker.trackRequest('myFoo=optedBackIn');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'optedbackin');
+            strictEqual(true, requests.indexOf('myFoo=optedBackIn') > 0, "the visitor is tracked after opting back in");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "opting back in was reported as consent to being measured");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - requireConsentForRestrictedData tracks before consent and reports it after", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'restricted');
+        tracker.requireConsentForRestrictedData();
+
+        ok(!tracker.areCookiesEnabled(), 'cookies are withheld until consent is given');
+        tracker.trackRequest('myFoo=beforeConsent');
+
+        tracker.rememberConsentGiven();
+        ok(tracker.areCookiesEnabled(), 'cookies are enabled once consent is given');
+        tracker.trackRequest('myFoo=afterConsent');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'restricted');
+            strictEqual(true, requests.indexOf('myFoo=beforeConsent') > 0, "the visitor is tracked before consent is given");
+            strictEqual(true, requests.indexOf('myFoo=afterConsent') > 0, "the visitor is tracked after consent is given");
+            // the request sent after consent, and the ping setCookieConsentGiven() fires by
+            // itself once cookies are enabled - the one before consent is the only one without
+            strictEqual(2, (requests.match(/consent=1/g) || []).length, "the request sent before consent carries the flag");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - withdrawing consent returns the visitor to the exempt measurement", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData('token', getConsentToken() + 'withdrawn');
+        tracker.requireConsentForRestrictedData();
+        tracker.rememberConsentGiven();
+
+        // withdrawing is not opting out: the exemption does not depend on consent, so the
+        // visitor keeps being measured, just without what consent had lifted
+        tracker.forgetConsentGiven();
+
+        ok(!tracker.areCookiesEnabled(), 'cookies are withheld again once consent is withdrawn');
+        ok(!tracker.isUserOptedOut(), 'withdrawing consent is not opting out');
+
+        tracker.trackRequest('myFoo=afterWithdrawal');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'withdrawn');
+            strictEqual(true, requests.indexOf('myFoo=afterWithdrawal') > 0, "the visitor is still measured after withdrawing consent");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "consent is still reported after it was withdrawn");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - requireConsent overrides requireConsentForRestrictedData", function() {
+        deleteCookies();
+
+        // the two contradict each other, and withholding everything is the stricter of the two
+        var tracker = Piwik.getTracker();
+        tracker.requireConsentForRestrictedData();
+        tracker.requireConsent();
+
+        ok(tracker.isConsentRequired(), 'requireConsent() stands');
+
+        tracker.trackRequest('myFoo=shouldBeHeld');
+        strictEqual(1, tracker.getConsentRequestsQueue().length, 'the request is held back rather than sent');
+
+        deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - opting back in through the tracker form is not consent to being measured", function() {
+        stop();
+
+        deleteCookies();
+
+        // optUserOut()/forgetUserOptOut() answer whether the visitor wants to be tracked at all.
+        // The existing opt-out coverage only exercised the cookie form, which is how this got
+        // through review once already
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'optbackin');
+        tracker.requireConsentForRestrictedData();
+
+        tracker.optUserOut();
+        ok(tracker.isUserOptedOut(), 'the visitor is opted out');
+        strictEqual(false, tracker.areCookiesEnabled(), 'opting out turned cookies off');
+
+        tracker.forgetUserOptOut();
+        ok(!tracker.isUserOptedOut(), 'the visitor is tracked again');
+
+        // this site withholds cookies until consent, so they were already off before the visitor
+        // opted out. Opting back in gives back what opting out took away and nothing more, so
+        // they stay off rather than being turned on for a site that never asked about them
+        strictEqual(false, tracker.areCookiesEnabled(), 'opting back in turned on cookies the site had never enabled');
+
+        tracker.trackRequest('myFoo=afterOptBackIn');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'optbackin');
+            strictEqual(true, requests.indexOf('myFoo=afterOptBackIn') > 0, "the visitor is measured again after opting back in");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "opting back in was reported as consent to being measured");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    test("Test API - opting back in does not turn cookies on by itself", function() {
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'optoutcookiestate');
+
+        ok(tracker.areCookiesEnabled(), 'a site that has not turned cookies off starts with them on');
+
+        tracker.optUserOut();
+        strictEqual(false, tracker.areCookiesEnabled(), 'opting out turned cookies off');
+
+        tracker.forgetUserOptOut();
+
+        // Whether cookies were on because the visitor accepted them or only because nothing had
+        // turned them off is not recorded anywhere, so opting back in cannot tell the two apart
+        // and does not try. Turning them on here would grant a consent nobody gave.
+        strictEqual(false, tracker.areCookiesEnabled(), 'opting back in turned cookies on by itself');
+
+        deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - a site that never asked for exemption consent is left alone", function() {
+        stop();
+
+        deleteCookies();
+
+        // The per-site opt-in lives on the server and the tracker cannot see it, so nothing the
+        // consent-exemption work added may change anything for a site that has not called
+        // requireConsentForRestrictedData(). The first attempt at this feature was reverted
+        // because it did: disableCampaignParameters() stopped stripping once any site called
+        // setConsentGiven(), the campaign reappeared mid-visit and the visit was split.
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'plainsite');
+        tracker.disableCampaignParameters();
+        tracker.setCustomUrl('http://example.org/landing?pk_campaign=Spring&pk_kwd=blue');
+
+        tracker.setConsentGiven();
+        tracker.rememberConsentGiven();
+
+        strictEqual(
+            false,
+            /mtm_measurement_consent/.test(document.cookie),
+            'rememberConsentGiven() wrote the measurement consent cookie on a site that never asked for it'
+        );
+
+        tracker.trackPageView('Landing');
+        tracker.trackEvent('Consent', 'accepted');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'plainsite');
+
+            strictEqual(
+                0,
+                (requests.match(/pk_campaign/g) || []).length,
+                'campaign parameters were sent even though disableCampaignParameters() is in use'
+            );
+            strictEqual(
+                0,
+                (requests.match(/consent=1/g) || []).length,
+                'consent was reported for a site that never asked for consent under an exemption'
+            );
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent keeps being reported when its cookie cannot be stored", function() {
+        stop();
+
+        deleteCookies();
+
+        // A cookiePath the page is not under is taken as given - setCookieDomain() refuses a
+        // domain it cannot write to, setCookiePath() has no such guard - so the cookie that
+        // remembers the consent goes somewhere this page cannot read back. The visitor gave the
+        // consent all the same, so it has to keep being reported rather than be read back as a
+        // withdrawal that never happened.
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'unreadablecookie');
+        tracker.requireConsentForRestrictedData();
+        tracker.setCookiePath('/this-page-is-not-under-here/');
+
+        tracker.rememberConsentGiven();
+
+        tracker.trackRequest('myFoo=unreadableConsentCookie');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'unreadablecookie');
+            strictEqual(true, requests.indexOf('myFoo=unreadableConsentCookie') > 0, "the request was sent");
+            ok((requests.match(/consent=1/g) || []).length > 0, "the consent stopped being reported once its cookie could not be read back");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent withdrawn in another window stops being reported", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'otherwindow');
+        tracker.requireConsentForRestrictedData();
+        tracker.rememberConsentGiven();
+
+        // a second tracker stands in for another window: withdrawing there deletes the cookie
+        // this one read its consent from, so it has to stop reporting it rather than keep going
+        // until a reload
+        var otherWindow = Piwik.getTracker();
+        otherWindow.disableBrowserFeatureDetection();
+        otherWindow.requireConsentForRestrictedData();
+        otherWindow.forgetConsentGiven();
+
+        tracker.trackRequest('myFoo=afterOtherWindowWithdrew');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'otherwindow');
+            strictEqual(true, requests.indexOf('myFoo=afterOtherWindowWithdrew') > 0, "the visitor is still measured");
+            strictEqual(0, (requests.match(/consent=1/g) || []).length, "consent is still reported after another window withdrew it");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 

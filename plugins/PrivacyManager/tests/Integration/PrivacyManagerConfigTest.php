@@ -216,6 +216,28 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->anonymizeReferrer);
     }
 
+    /**
+     * The tracker needs the value the admin configured themselves as well as the one being
+     * enforced, and must get it without querying - hence from the tracker cache rather than from
+     * ReferrerAnonymisation::getCustomValue().
+     */
+    public function testGetConfiguredValueReturnsTheAdminsOwnValueWhileAPolicyEnforcesAStricterOne()
+    {
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_QUERY;
+
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->anonymizeReferrer, 'the policy should be enforced');
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_QUERY, $this->config->getConfiguredValue('anonymizeReferrer'));
+    }
+
+    public function testGetConfiguredValueRejectsASettingItIsNotCachedFor()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The configured value of anonymizeUserId is not available to the tracker');
+
+        $this->config->getConfiguredValue('anonymizeUserId');
+    }
 
     public function testSetTrackerCacheContent()
     {
@@ -230,6 +252,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
             'PrivacyManager.anonymizeUserId'     => false,
             'PrivacyManager.anonymizeOrderId'    => false,
             'PrivacyManager.anonymizeReferrer'   => '',
+            'PrivacyManager.anonymizeReferrerConfiguredValue' => '',
             'PrivacyManager.useAnonymizedIpForVisitEnrichment' => false,
             'PrivacyManager.forceCookielessTracking' => false,
             'PrivacyManager.randomizeConfigId' => false,
