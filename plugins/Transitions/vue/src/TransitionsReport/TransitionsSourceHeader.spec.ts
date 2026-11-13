@@ -79,9 +79,13 @@ function status(overrides: Partial<PreprocessedPageStatus> = {}): PreprocessedPa
   };
 }
 
-async function mountHeader(props: Record<string, unknown> = {}): Promise<VueWrapper> {
+async function mountHeader(
+  props: Record<string, unknown> = {},
+  attachTo: HTMLElement|undefined = undefined,
+): Promise<VueWrapper> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const wrapper = mount(TransitionsSourceHeader as any, {
+    attachTo,
     props: {
       source: RAW,
       actionType: 'url',
@@ -154,12 +158,12 @@ describe('Transitions/TransitionsSourceHeader', () => {
 
       expect(badge.text()).toBe('Transitions_PreprocessedBadge');
       expect(badge.classes()).toContain('transitionsSourceHeader__badge--preprocessed');
-      expect(badge.attributes('title')).toBe('Transitions_PreprocessedBadgeTooltip:2025-03-10 04:05:06');
+      expect(badge.attributes('title')).toBe('Transitions_PreprocessedBadgeTooltip:Transitions_DateTimeUtc:2025-03-10 04:05');
 
       // reachable by keyboard and described to screen readers
       expect(badge.attributes('tabindex')).toBe('0');
       const description = wrapper.find(`#${badge.attributes('aria-describedby')}`);
-      expect(description.text()).toBe('Transitions_PreprocessedBadgeTooltip:2025-03-10 04:05:06');
+      expect(description.text()).toBe('Transitions_PreprocessedBadgeTooltip:Transitions_DateTimeUtc:2025-03-10 04:05');
     });
 
     it('should show raw data without a tooltip', async () => {
@@ -191,7 +195,7 @@ describe('Transitions/TransitionsSourceHeader', () => {
       expect(wrapper.find('.transitionsSourceHeader__badge').text()).toBe('Transitions_PreprocessedBadge');
     });
 
-    it('should point out raw data once the first page was added, and stop after the last', async () => {
+    it('should point out raw data once the first page was added, also after it is removed again', async () => {
       state.fetch.mockResolvedValue(status({ used: 0 }));
       state.post.mockResolvedValue({ idpage: 7 });
       const wrapper = await mountHeader({ source: RAW });
@@ -203,12 +207,22 @@ describe('Transitions/TransitionsSourceHeader', () => {
       expect(wrapper.find('.transitionsSourceHeader__badge').text()).toBe('Transitions_RawDataBadge');
       expect(state.matomo.transitionsHasPreprocessedPages).toBe(true);
 
+      // the data stored for a removed page is still served, also beyond the period limit
       await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
       await wrapper.find('.transitionsSourceHeader__stop').trigger('click');
       await flushPromises();
 
-      expect(wrapper.find('.transitionsSourceHeader__badge').exists()).toBe(false);
-      expect(state.matomo.transitionsHasPreprocessedPages).toBe(false);
+      expect(wrapper.find('.transitionsSourceHeader__badge').text()).toBe('Transitions_RawDataBadge');
+      expect(state.matomo.transitionsHasPreprocessedPages).toBe(true);
+    });
+
+    it('should not take back the flag of the page globals when no page is selected', async () => {
+      state.matomo.transitionsHasPreprocessedPages = true;
+      state.fetch.mockResolvedValue(status({ used: 0 }));
+      const wrapper = await mountHeader({ source: RAW });
+
+      expect(wrapper.find('.transitionsSourceHeader__badge').text()).toBe('Transitions_RawDataBadge');
+      expect(state.matomo.transitionsHasPreprocessedPages).toBe(true);
     });
 
     it('should give admins the toggle without a raw data badge', async () => {
@@ -331,6 +345,18 @@ describe('Transitions/TransitionsSourceHeader', () => {
       expect(wrapper.find('.transitionsSourceHeader__badge').text()).toBe('Transitions_RawDataBadge');
     });
 
+    it('should say when only the past month is prepared', async () => {
+      state.fetch.mockResolvedValue(status({ rearchiveMonths: 1 }));
+      state.post.mockResolvedValue({ idpage: 7 });
+      const wrapper = await mountHeader();
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await flushPromises();
+
+      expect(wrapper.find('.transitionsSourceHeader__message').text())
+        .toBe('Transitions_PreprocessedPageAddedRebuildOneMonth');
+    });
+
     it('should say only new data is prepared when the rebuild window is 0', async () => {
       state.fetch.mockResolvedValue(status({ rearchiveMonths: 0 }));
       state.post.mockResolvedValue({ idpage: 7 });
@@ -354,6 +380,85 @@ describe('Transitions/TransitionsSourceHeader', () => {
       expect(error.text()).toBe('This page is <b>already</b> selected.');
       expect(error.find('b').exists()).toBe(false);
       expect(wrapper.find('.transitionsSourceHeader__toggle').text()).toContain('Transitions_PreprocessThisPage');
+    });
+
+    it('should read the status again when adding fails, eg as another admin reached the limit', async () => {
+      state.post.mockRejectedValue(new Error('You can select at most 20 pages for pre-processed Transitions.'));
+      const wrapper = await mountHeader();
+
+      state.fetch.mockResolvedValue(status({ used: 20 }));
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await flushPromises();
+
+      expect(statusRequests()).toHaveLength(2);
+      expect(wrapper.find('.transitionsSourceHeader__error').text())
+        .toBe('You can select at most 20 pages for pre-processed Transitions.');
+      expect(wrapper.find('.transitionsSourceHeader__toggle').attributes('disabled')).toBeDefined();
+      expect(wrapper.find('.transitionsSourceHeader__manageLink').exists()).toBe(true);
+    });
+
+    it('should read the status again when adding fails, eg as another admin added the page', async () => {
+      state.post.mockRejectedValue(new Error('This page is already selected.'));
+      const wrapper = await mountHeader();
+
+      state.fetch.mockResolvedValue(status({ selected: true, idPage: 4, used: 13 }));
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await flushPromises();
+
+      expect(wrapper.find('.transitionsSourceHeader__error').text()).toBe('This page is already selected.');
+      const toggle = wrapper.find('.transitionsSourceHeader__toggle');
+      expect(toggle.text()).toContain('Transitions_StopPreprocessing');
+      expect(toggle.attributes('disabled')).toBeUndefined();
+    });
+
+    it('should read the status again when stopping fails, eg as another admin removed the page', async () => {
+      state.fetch.mockResolvedValue(status({ selected: true, idPage: 3 }));
+      state.post.mockRejectedValue(new Error('This page is not selected for pre-processed Transitions.'));
+      const wrapper = await mountHeader();
+
+      state.fetch.mockResolvedValue(status({ used: 11 }));
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await wrapper.find('.transitionsSourceHeader__stop').trigger('click');
+      await flushPromises();
+
+      expect(statusRequests()).toHaveLength(2);
+      expect(wrapper.find('.transitionsSourceHeader__error').text())
+        .toBe('This page is not selected for pre-processed Transitions.');
+      expect(wrapper.find('.transitionsSourceHeader__confirm').exists()).toBe(false);
+      expect(wrapper.find('.transitionsSourceHeader__toggle').text()).toContain('Transitions_PreprocessThisPage');
+      expect(wrapper.find('.transitionsSourceHeader__usage').text())
+        .toBe('Transitions_PreprocessedPagesUsageShort:11|20');
+    });
+
+    it('should show the URL of the confirmation decoded, as the page selector sends it encoded', async () => {
+      state.fetch.mockResolvedValue(status({ selected: true, idPage: 3 }));
+      const wrapper = await mountHeader({ actionName: 'https://www.example.org/a?b=1&amp;c=&lt;d&gt;' });
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+
+      expect(wrapper.find('.transitionsSourceHeader__confirm strong').text())
+        .toBe('Transitions_StopPreprocessingConfirm:example.org/a?b=1&c=<d>');
+    });
+
+    it('should move the focus back to the toggle when the confirmation closes', async () => {
+      state.fetch.mockResolvedValue(status({ selected: true, idPage: 3 }));
+      state.post.mockResolvedValue({});
+      const wrapper = await mountHeader({}, document.body);
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await flushPromises();
+      expect(document.activeElement?.className).toContain('transitionsSourceHeader__cancel');
+
+      await wrapper.find('.transitionsSourceHeader__cancel').trigger('click');
+      await flushPromises();
+      expect(document.activeElement?.className).toContain('transitionsSourceHeader__toggle');
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await wrapper.find('.transitionsSourceHeader__stop').trigger('click');
+      await flushPromises();
+      expect(document.activeElement?.textContent).toContain('Transitions_PreprocessThisPage');
+
+      wrapper.unmount();
     });
 
     it('should ask for confirmation before it stops pre-processing', async () => {

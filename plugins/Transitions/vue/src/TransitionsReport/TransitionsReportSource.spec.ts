@@ -54,11 +54,11 @@ describe('Transitions/TransitionsReport data source', () => {
     backend.respondPart('internalReferrers');
     await flushRibbons();
     expect(badge(wrapper).text()).toBe('Transitions_PreprocessedBadge');
-    expect(badge(wrapper).attributes('title')).toBe('Transitions_PreprocessedBadgeTooltip:2025-03-10 04:05:06');
+    expect(badge(wrapper).attributes('title')).toBe('Transitions_PreprocessedBadgeTooltip:Transitions_DateTimeUtc:2025-03-10 04:05');
 
     backend.respondPart('followingActions');
     await flushRibbons();
-    expect(badge(wrapper).attributes('title')).toBe('Transitions_PreprocessedBadgeTooltip:2025-03-10 03:00:00');
+    expect(badge(wrapper).attributes('title')).toBe('Transitions_PreprocessedBadgeTooltip:Transitions_DateTimeUtc:2025-03-10 03:00');
 
     // the referrers part was served from raw data, eg after the page's records were outdated
     backend.respondPart('externalReferrers');

@@ -80,9 +80,13 @@ function answer(list: () => PreprocessedPage[], suggestions: unknown[] = []) {
   });
 }
 
-async function mountPage(props: Record<string, unknown> = {}): Promise<VueWrapper> {
+async function mountPage(
+  props: Record<string, unknown> = {},
+  attachTo: HTMLElement|undefined = undefined,
+): Promise<VueWrapper> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const wrapper = mount(ManagePreprocessedPages as any, {
+    attachTo,
     props: { maxPages: 20, rearchiveMonths: 6, ...props },
     global: {
       config: {
@@ -134,6 +138,10 @@ describe('Transitions/ManagePreprocessedPages', () => {
       const unknown = rows[1].find('.managePreprocessedPages__unknownUser');
       expect(unknown.text()).toBe('General_Unknown');
       expect(unknown.attributes('title')).toBe('Transitions_UnknownUserHelp');
+      // reachable by keyboard and described to screen readers
+      expect(unknown.attributes('tabindex')).toBe('0');
+      expect(wrapper.find(`#${unknown.attributes('aria-describedby')}`).text())
+        .toBe('Transitions_UnknownUserHelp');
 
       expect(wrapper.find('.managePreprocessedPages__limitMessage').exists()).toBe(false);
       expect(wrapper.find('.managePreprocessedPages__empty').exists()).toBe(false);
@@ -277,6 +285,11 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect(wrapper.find('.managePreprocessedPages__limitMessage').text())
         .toBe('Transitions_PreprocessedPagesOverLimit:25|20|6');
       expect(wrapper.find('.managePreprocessedPages__add').attributes('disabled')).toBeDefined();
+
+      // a progress bar can't go past its maximum
+      const meter = wrapper.find('.managePreprocessedPages__meter');
+      expect(meter.attributes('aria-valuenow')).toBe('20');
+      expect(meter.attributes('aria-valuemax')).toBe('20');
     });
   });
 
@@ -307,7 +320,7 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect((wrapper.find('.fieldInput').element as HTMLInputElement).value).toBe('');
     });
 
-    it('should explain a duplicate inline and keep the list', async () => {
+    it('should explain a duplicate inline and read the list again', async () => {
       answer(() => [page(1)]);
       state.post.mockRejectedValue(new Error('Transitions_PreprocessedPageAlreadySelected'));
       const wrapper = await mountPage();
@@ -320,8 +333,30 @@ describe('Transitions/ManagePreprocessedPages', () => {
         .toBe('Transitions_PreprocessedPageAlreadySelected');
       expect(wrapper.find('.managePreprocessedPages__duplicateHelp').text())
         .toBe('Transitions_PreprocessedPageDuplicateHelp');
-      expect(listRequests()).toHaveLength(1);
+      expect(listRequests()).toHaveLength(2);
       expect(wrapper.findAll('.managePreprocessedPages__row')).toHaveLength(1);
+    });
+
+    it('should show the pages another admin added meanwhile when adding fails', async () => {
+      let list = pages(19);
+      answer(() => list);
+      state.post.mockImplementation(() => {
+        list = pages(20);
+        return Promise.reject(new Error('You can select at most 20 pages for pre-processed Transitions.'));
+      });
+      const wrapper = await mountPage();
+
+      await typeUrl(wrapper, 'https://example.org/new');
+      await wrapper.find('form').trigger('submit');
+      await flushPromises();
+
+      expect(wrapper.find('.managePreprocessedPages__addError').text())
+        .toBe('You can select at most 20 pages for pre-processed Transitions.');
+      expect(wrapper.findAll('.managePreprocessedPages__row')).toHaveLength(20);
+      expect(wrapper.find('.managePreprocessedPages__usageLabel').text())
+        .toBe('Transitions_PreprocessedPagesUsage:20|20');
+      expect(wrapper.find('.managePreprocessedPages__add').attributes('disabled')).toBeDefined();
+      expect((wrapper.find('.fieldInput').element as HTMLInputElement).value).toBe('https://example.org/new');
     });
 
     it('should show other API errors without the duplicate note', async () => {
@@ -349,7 +384,7 @@ describe('Transitions/ManagePreprocessedPages', () => {
       return state.fetch.mock.calls.filter(([params]) => params.method === 'Actions.getPageUrls');
     }
 
-    it('should read the most viewed pages of the last 30 days once, when the field is first used', async () => {
+    it('should read the most viewed pages of last month once, when the field is first used', async () => {
       answer(() => [], POOL);
       const wrapper = await mountPage();
       expect(poolRequests()).toHaveLength(0);
@@ -363,14 +398,30 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect(poolRequests()).toHaveLength(1);
       expect(poolRequests()[0][0]).toMatchObject({
         idSite: 1,
-        period: 'range',
-        date: 'last30',
+        period: 'month',
+        date: 'lastMonth',
         flat: 1,
         filter_sort_column: 'nb_hits',
         filter_sort_order: 'desc',
         filter_limit: 500,
       });
       expect(poolRequests()[0][0]).not.toHaveProperty('filter_pattern');
+    });
+
+    it.each([
+      ['the list is loaded', () => new Promise<PreprocessedPage[]>(() => { /* never answered */ }), {}],
+      ['a page can be added', () => Promise.resolve(pages(20)), {}],
+      ['adding is turned on', () => Promise.resolve([]), { maxPages: 0 }],
+    ])('should not read the suggestions before %s', async (_, list, props) => {
+      state.fetch.mockImplementation((params: Record<string, unknown>) => (
+        params.method === 'Transitions.getPreprocessedPages' ? list() : Promise.resolve(POOL)
+      ));
+      const wrapper = await mountPage(props);
+
+      await wrapper.find('.managePreprocessedPages__field').trigger('focusin');
+      await typeUrl(wrapper, 'example.org/a');
+
+      expect(poolRequests()).toHaveLength(0);
     });
 
     it('should suggest the matching pages in pageviews order, whatever their scheme and case', async () => {
@@ -399,6 +450,87 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect((wrapper.find('.fieldInput').element as HTMLInputElement).value)
         .toBe('https://example.org/a?q=<b>');
       expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(false);
+    });
+
+    it('should leave out selected pages, whatever their scheme and host case', async () => {
+      let list = [page(1, { url: 'http://EXAMPLE.org/a' })];
+      answer(() => list, POOL);
+      state.post.mockImplementation(() => {
+        list = [page(2, { url: 'https://example.org/a?q=&lt;b&gt;' }), ...list];
+        return Promise.resolve(list[0]);
+      });
+      const wrapper = await mountPage();
+
+      await typeUrl(wrapper, 'example.org/a');
+      expect(wrapper.findAll('.managePreprocessedPages__suggestionUrl').map((url) => url.text()))
+        .toEqual(['https://example.org/a?q=<b>', 'http://www.example.org/A/b']);
+
+      // an added page is left out as well
+      await typeUrl(wrapper, 'https://example.org/a?q=<b>');
+      await wrapper.find('form').trigger('submit');
+      await flushPromises();
+      await typeUrl(wrapper, 'example.org/a');
+
+      expect(wrapper.findAll('.managePreprocessedPages__suggestionUrl').map((url) => url.text()))
+        .toEqual(['http://www.example.org/A/b']);
+    });
+
+    it.each(['café', 'caf%C3%A9', 'CAFÉ'])('should match "%s" against percent-encoded URLs', async (typed) => {
+      answer(() => [], [
+        { label: '/caf%C3%A9', nb_hits: 3, url: 'https://example.org/caf%C3%A9' },
+        { label: '/cafe', nb_hits: 2, url: 'https://example.org/cafe' },
+      ]);
+      const wrapper = await mountPage();
+
+      await typeUrl(wrapper, typed);
+
+      expect(wrapper.findAll('.managePreprocessedPages__suggestionUrl').map((url) => url.text()))
+        .toEqual(['https://example.org/caf%C3%A9']);
+    });
+
+    it('should keep a malformed percent sign as typed', async () => {
+      answer(() => [], [{ label: '/100%', nb_hits: 3, url: 'https://example.org/100%' }]);
+      const wrapper = await mountPage();
+
+      await typeUrl(wrapper, '/100%');
+
+      expect(wrapper.findAll('.managePreprocessedPages__suggestionUrl').map((url) => url.text()))
+        .toEqual(['https://example.org/100%']);
+    });
+
+    it('should close the suggestions on Escape and when the focus leaves the field', async () => {
+      answer(() => [], POOL);
+      const wrapper = await mountPage();
+      const field = wrapper.find('.managePreprocessedPages__field');
+
+      await typeUrl(wrapper, 'example.org/a');
+      await field.trigger('keydown', { key: 'Escape' });
+      expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(false);
+
+      await typeUrl(wrapper, 'example.org/a/');
+      expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(true);
+
+      // to a suggestion, the list stays
+      const suggestion = wrapper.find('.managePreprocessedPages__suggestion').element;
+      await field.trigger('focusout', { relatedTarget: suggestion });
+      expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(true);
+
+      await field.trigger('focusout', { relatedTarget: wrapper.find('.managePreprocessedPages__add').element });
+      expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(false);
+    });
+
+    it('should keep the focus in the field when a suggestion is picked', async () => {
+      answer(() => [], POOL);
+      const wrapper = await mountPage({}, document.body);
+
+      await typeUrl(wrapper, 'example.org/c');
+      const suggestion = wrapper.find('.managePreprocessedPages__suggestion');
+      (suggestion.element as HTMLElement).focus();
+      await suggestion.trigger('click');
+      await flushPromises();
+
+      expect(document.activeElement).toBe(wrapper.find('.fieldInput').element);
+      wrapper.unmount();
     });
 
     it('should match typed special characters against the decoded URL', async () => {
@@ -447,6 +579,7 @@ describe('Transitions/ManagePreprocessedPages', () => {
 
     it.each([
       [6, 'Transitions_PreprocessedPagesRebuildHint:6'],
+      [1, 'Transitions_PreprocessedPagesRebuildHintOneMonth'],
       [0, 'Transitions_PreprocessedPagesNewDataOnlyHint'],
     ])('should say how far back an added page is prepared (%s months)', async (months, hint) => {
       answer(() => []);
@@ -485,6 +618,70 @@ describe('Transitions/ManagePreprocessedPages', () => {
         { idPage: 1 },
         { createErrorNotification: false },
       );
+      expect(wrapper.findAll('.managePreprocessedPages__row')).toHaveLength(1);
+      expect(wrapper.find('.managePreprocessedPages__usageLabel').text())
+        .toBe('Transitions_PreprocessedPagesUsage:1|20');
+    });
+
+    it('should move the focus back to the remove button, or to the one now in its place', async () => {
+      let list = [page(3), page(2), page(1)];
+      answer(() => list);
+      state.post.mockImplementation(() => {
+        list = [page(3), page(1)];
+        return Promise.resolve({});
+      });
+      const wrapper = await mountPage({}, document.body);
+      const removeButtons = () => wrapper.findAll('.managePreprocessedPages__remove');
+
+      await removeButtons()[1].trigger('click');
+      await flushPromises();
+      expect(document.activeElement).toBe(wrapper.find('.managePreprocessedPages__cancel').element);
+
+      await wrapper.find('.managePreprocessedPages__cancel').trigger('click');
+      await flushPromises();
+      expect(document.activeElement).toBe(removeButtons()[1].element);
+
+      await removeButtons()[1].trigger('click');
+      await wrapper.find('.managePreprocessedPages__stop').trigger('click');
+      await flushPromises();
+      expect(wrapper.findAll('.managePreprocessedPages__row')).toHaveLength(2);
+      expect(document.activeElement).toBe(removeButtons()[1].element);
+
+      wrapper.unmount();
+    });
+
+    it('should move the focus to the URL field once the last page is removed', async () => {
+      let list = [page(1)];
+      answer(() => list);
+      state.post.mockImplementation(() => {
+        list = [];
+        return Promise.resolve({});
+      });
+      const wrapper = await mountPage({}, document.body);
+
+      await wrapper.find('.managePreprocessedPages__remove').trigger('click');
+      await wrapper.find('.managePreprocessedPages__stop').trigger('click');
+      await flushPromises();
+
+      expect(document.activeElement).toBe(wrapper.find('.fieldInput').element);
+      wrapper.unmount();
+    });
+
+    it('should show the list without a page another admin removed meanwhile', async () => {
+      let list = [page(2), page(1)];
+      answer(() => list);
+      state.post.mockImplementation(() => {
+        list = [page(2)];
+        return Promise.reject(new Error('This page is not selected for pre-processed Transitions.'));
+      });
+      const wrapper = await mountPage();
+
+      await wrapper.findAll('.managePreprocessedPages__remove')[1].trigger('click');
+      await wrapper.find('.managePreprocessedPages__stop').trigger('click');
+      await flushPromises();
+
+      expect(wrapper.find('.managePreprocessedPages__error').text())
+        .toBe('This page is not selected for pre-processed Transitions.');
       expect(wrapper.findAll('.managePreprocessedPages__row')).toHaveLength(1);
       expect(wrapper.find('.managePreprocessedPages__usageLabel').text())
         .toBe('Transitions_PreprocessedPagesUsage:1|20');

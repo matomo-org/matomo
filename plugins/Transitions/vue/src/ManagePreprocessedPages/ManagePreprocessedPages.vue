@@ -24,7 +24,7 @@
         role="progressbar"
         aria-valuemin="0"
         :aria-valuemax="maxPages"
-        :aria-valuenow="pages.length"
+        :aria-valuenow="meterValue"
         :aria-label="usageLabel"
       >
         <span
@@ -81,7 +81,7 @@
           >
             <div class="managePreprocessedPages__confirm">
               <div class="managePreprocessedPages__confirmText">
-                <strong>{{ confirmLabel(displayUrl(page.url)) }}</strong>
+                <strong>{{ confirmLabel(page.url) }}</strong>
                 {{ translate('Transitions_StopPreprocessingHelp') }}
               </div>
               <div class="managePreprocessedPages__confirmActions">
@@ -89,7 +89,7 @@
                   type="button"
                   class="btn-flat managePreprocessedPages__cancel"
                   :disabled="removingId !== null"
-                  @click="confirmingId = null"
+                  @click="cancelRemove(page)"
                 >{{ translate('General_Cancel') }}</button>
                 <button
                   type="button"
@@ -110,7 +110,9 @@
               <span
                 v-else-if="page.created_by === null"
                 class="managePreprocessedPages__unknownUser"
+                tabindex="0"
                 :title="translate('Transitions_UnknownUserHelp')"
+                :aria-describedby="unknownUserHelpId"
               >{{ translate('General_Unknown') }}</span>
               <template v-else>{{ page.created_by }}</template>
             </td>
@@ -126,6 +128,10 @@
         </tr>
       </tbody>
     </table>
+    <span
+      :id="unknownUserHelpId"
+      class="u-visuallyHidden"
+    >{{ translate('Transitions_UnknownUserHelp') }}</span>
 
     <form
       class="managePreprocessedPages__addForm"
@@ -134,6 +140,8 @@
       <div
         class="managePreprocessedPages__field"
         @focusin="loadSuggestions"
+        @focusout="onFieldFocusOut"
+        @keydown.esc="areSuggestionsOpen = false"
       >
         <Field
           uicontrol="text"
@@ -160,12 +168,13 @@
               <button
                 type="button"
                 class="managePreprocessedPages__suggestion"
-                @click="pickSuggestion(displayUrl(suggestion.url))"
+                @mousedown.prevent
+                @click="pickSuggestion(suggestion.url)"
               >
                 <span
                   class="managePreprocessedPages__suggestionUrl"
-                  :title="displayUrl(suggestion.url)"
-                >{{ displayUrl(suggestion.url) }}</span>
+                  :title="suggestion.url"
+                >{{ suggestion.url }}</span>
                 <span class="managePreprocessedPages__suggestionPageviews">
                   {{ formatNumber(suggestion.nb_hits) }}
                 </span>
@@ -210,6 +219,13 @@ import {
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import apiErrorText from '../apiErrorText';
+import {
+  displayUrl,
+  formatUtcDateTime,
+  matchKey,
+  pageKey,
+  stopConfirmLabel,
+} from '../preprocessedPageUrls';
 
 /** An entry of Transitions.getPreprocessedPages. */
 export interface PreprocessedPage {
@@ -227,19 +243,27 @@ export interface PageUrlSuggestion {
   nb_hits: number|string;
 }
 
+/** A suggestion with its URL decoded, and the keys it is matched by worked out once. */
+export interface SuggestionEntry {
+  url: string;
+  nb_hits: number|string;
+  matchKey: string;
+  pageKey: string;
+}
+
 export interface ManagePreprocessedPagesState {
   pages: PreprocessedPage[];
   hasLoaded: boolean;
   isLoading: boolean;
   listError: string;
   pageUrl: string;
-  pickedUrl: string;
+  areSuggestionsOpen: boolean;
   isAdding: boolean;
   addError: string;
   isDuplicateError: boolean;
   confirmingId: number|null;
   removingId: number|null;
-  suggestionPool: PageUrlSuggestion[]|null;
+  suggestionPool: SuggestionEntry[]|null;
   isSuggestionPoolRequested: boolean;
 }
 
@@ -251,10 +275,7 @@ const SUGGESTION_POOL_SIZE = 500;
 /** Shorter input matches too many pages to be a useful suggestion. */
 const MIN_SUGGESTION_CHARS = 3;
 
-/** URLs are matched whatever their protocol and `www.`, and case-insensitively. */
-function matchKey(text: string): string {
-  return text.trim().replace(/^(https?:\/\/)?(www\.)?/i, '').toLowerCase();
-}
+let instanceCount = 0;
 
 export default defineComponent({
   props: {
@@ -282,7 +303,7 @@ export default defineComponent({
       isLoading: false,
       listError: '',
       pageUrl: '',
-      pickedUrl: '',
+      areSuggestionsOpen: false,
       isAdding: false,
       addError: '',
       isDuplicateError: false,
@@ -293,7 +314,9 @@ export default defineComponent({
     };
   },
   setup() {
+    instanceCount += 1;
     return {
+      unknownUserHelpId: `managePreprocessedPagesUnknownUser${instanceCount}`,
       // the newest list request wins, so a slower earlier reload can't bring back a stale list
       listLoads: { latest: 0 },
     };
@@ -302,15 +325,17 @@ export default defineComponent({
     this.loadPages();
   },
   computed: {
-    suggestions(): PageUrlSuggestion[] {
+    /** Selected pages are left out: picking one could only be refused as a duplicate. */
+    suggestions(): SuggestionEntry[] {
       const typed = matchKey(this.pageUrl);
-      if (!this.suggestionPool || this.pageUrl === this.pickedUrl
-        || typed.length < MIN_SUGGESTION_CHARS) {
+      if (!this.suggestionPool || !this.areSuggestionsOpen || typed.length < MIN_SUGGESTION_CHARS) {
         return [];
       }
 
+      const selected = new Set(this.pages.map((page) => pageKey(displayUrl(page.url))));
+
       return this.suggestionPool
-        .filter((row) => matchKey(this.displayUrl(row.url)).includes(typed))
+        .filter((row) => !selected.has(row.pageKey) && row.matchKey.includes(typed))
         .slice(0, MAX_SUGGESTIONS);
     },
     usageLabel(): string {
@@ -326,6 +351,10 @@ export default defineComponent({
       }
 
       return Math.min(100, Math.round((this.pages.length / this.maxPages) * 100));
+    },
+    /** A progress bar can't go past its maximum; the label tells how far over the limit it is. */
+    meterValue(): number {
+      return Math.min(this.pages.length, Math.max(0, this.maxPages));
     },
     isLimitReached(): boolean {
       return this.pages.length >= this.maxPages;
@@ -359,18 +388,28 @@ export default defineComponent({
       return !this.hasLoaded || this.isAdding || this.isLimitReached || !this.pageUrl.trim();
     },
     rebuildHint(): string {
-      return this.rearchiveMonths > 0
-        ? translate('Transitions_PreprocessedPagesRebuildHint', `${this.rearchiveMonths}`)
-        : translate('Transitions_PreprocessedPagesNewDataOnlyHint');
+      if (this.rearchiveMonths <= 0) {
+        return translate('Transitions_PreprocessedPagesNewDataOnlyHint');
+      }
+
+      return this.rearchiveMonths === 1
+        ? translate('Transitions_PreprocessedPagesRebuildHintOneMonth')
+        : translate(
+          'Transitions_PreprocessedPagesRebuildHint',
+          NumberFormatter.formatNumber(this.rearchiveMonths),
+        );
     },
   },
   methods: {
-    /** A reload after a change keeps the list on screen until the new one is in. */
-    loadPages(isInitialLoad = true) {
+    /**
+     * A reload after a change keeps the list on screen until the new one is in. A reload after a
+     * failed change keeps that change's error, unless the reload fails too.
+     */
+    loadPages(isInitialLoad = true, error = '') {
       this.listLoads.latest += 1;
       const load = this.listLoads.latest;
       this.isLoading = isInitialLoad;
-      this.listError = '';
+      this.listError = error;
 
       return AjaxHelper.fetch<PreprocessedPage[]>(
         {
@@ -384,9 +423,9 @@ export default defineComponent({
           this.pages = pages;
           this.hasLoaded = true;
         }
-      }).catch((error) => {
+      }).catch((loadError) => {
         if (load === this.listLoads.latest) {
-          this.listError = apiErrorText(error);
+          this.listError = apiErrorText(loadError);
         }
       }).finally(() => {
         if (load === this.listLoads.latest) {
@@ -398,16 +437,26 @@ export default defineComponent({
       this.pageUrl = value ?? '';
       this.addError = '';
       this.isDuplicateError = false;
-
-      if (this.pageUrl !== this.pickedUrl) {
-        this.pickedUrl = '';
-      }
+      this.areSuggestionsOpen = true;
 
       this.loadSuggestions();
     },
-    /** The pool is sorted by pageviews, so the first matches are the most viewed ones. */
+    /** The list closes once the focus leaves the field and its suggestions. */
+    onFieldFocusOut(event: FocusEvent) {
+      const field = event.currentTarget as HTMLElement;
+      const next = event.relatedTarget as Node|null;
+
+      if (!next || !field.contains(next)) {
+        this.areSuggestionsOpen = false;
+      }
+    },
+    /**
+     * The most viewed pages of last month: a finished month, which archiving has already processed
+     * and keeps. The pool is sorted by pageviews, so the first matches are the most viewed ones.
+     * Nothing is read until a page could be added.
+     */
     loadSuggestions() {
-      if (this.isSuggestionPoolRequested) {
+      if (this.isSuggestionPoolRequested || !this.hasLoaded || this.isLimitReached) {
         return;
       }
 
@@ -416,8 +465,8 @@ export default defineComponent({
         {
           method: 'Actions.getPageUrls',
           idSite: Matomo.idSite,
-          period: 'range',
-          date: 'last30',
+          period: 'month',
+          date: 'lastMonth',
           segment: '',
           flat: 1,
           filter_sort_column: 'nb_hits',
@@ -427,16 +476,34 @@ export default defineComponent({
         },
         { createErrorNotification: false },
       ).then((rows) => {
-        this.suggestionPool = (rows || []).filter((row) => !!row.url);
+        this.suggestionPool = (rows || []).filter((row) => !!row.url).map((row) => {
+          const url = displayUrl(row.url);
+          return {
+            url,
+            nb_hits: row.nb_hits,
+            matchKey: matchKey(url),
+            pageKey: pageKey(url),
+          };
+        });
       }).catch(() => {
         // suggestions are optional; any URL can still be typed
         this.suggestionPool = [];
       });
     },
+    /** A suggestion picked by keyboard goes away with the list; the focus returns to the field. */
     pickSuggestion(url: string) {
-      this.pickedUrl = url;
       this.pageUrl = url;
+      this.areSuggestionsOpen = false;
+      this.focusField();
     },
+    focusField() {
+      this.$nextTick(() => {
+        (this.$el as HTMLElement).querySelector<HTMLElement>(
+          '.managePreprocessedPages__field input',
+        )?.focus();
+      });
+    },
+    /** A failed add may be due to another admin's change, so the list is read again. */
     add() {
       if (this.isAddDisabled) {
         return;
@@ -452,12 +519,12 @@ export default defineComponent({
         { createErrorNotification: false },
       ).then(() => {
         this.pageUrl = '';
-        this.pickedUrl = '';
         return this.loadPages(false);
       }).catch((error) => {
         this.addError = apiErrorText(error);
         this.isDuplicateError = this.addError
           === translate('Transitions_PreprocessedPageAlreadySelected');
+        return this.loadPages(false);
       }).finally(() => {
         this.isAdding = false;
       });
@@ -472,7 +539,32 @@ export default defineComponent({
         cancel?.focus();
       });
     },
+    cancelRemove(page: PreprocessedPage) {
+      this.confirmingId = null;
+      this.focusRemoveButton(this.pages.indexOf(page));
+    },
+    /** The button at the given row, or the last one; the URL field when the list is empty. */
+    focusRemoveButton(index: number) {
+      this.$nextTick(() => {
+        const buttons = (this.$el as HTMLElement).querySelectorAll<HTMLElement>(
+          '.managePreprocessedPages__remove',
+        );
+        const button = buttons[Math.min(index, buttons.length - 1)];
+
+        if (button) {
+          button.focus();
+          return;
+        }
+
+        this.focusField();
+      });
+    },
+    /**
+     * The list is read again also after a failure, which may be due to another admin's change. The
+     * choice goes away either way, so the focus moves to the remove button now in the row's place.
+     */
     remove(page: PreprocessedPage) {
+      const index = this.pages.indexOf(page);
       this.removingId = page.idpage;
       this.listError = '';
 
@@ -480,27 +572,25 @@ export default defineComponent({
         { method: 'Transitions.removePreprocessedPage', idSite: Matomo.idSite },
         { idPage: page.idpage },
         { createErrorNotification: false },
-      ).then(() => {
+      ).then(
+        () => '',
+        (error) => apiErrorText(error),
+      ).then((error) => {
         this.confirmingId = null;
-        return this.loadPages(false);
-      }).catch((error) => {
-        this.listError = apiErrorText(error);
-      }).finally(() => {
+        return this.loadPages(false, error);
+      }).then(() => {
         this.removingId = null;
+        this.focusRemoveButton(index);
       });
     },
     confirmLabel(url: string): string {
-      return translate(
-        'Transitions_StopPreprocessingConfirm',
-        url.replace(/^https?:\/\/(www\.)?/i, ''),
-      );
+      return stopConfirmLabel(url);
     },
     formatDate(date: string): string {
-      return translate('Transitions_DateTimeUtc', date.substring(0, 16));
+      return formatUtcDateTime(date);
     },
-    /** URLs come as the tracker stores them, with query values HTML-encoded; shown as text. */
     displayUrl(url: string): string {
-      return Matomo.helper.htmlDecode(url);
+      return displayUrl(url);
     },
     formatNumber(value: number|string): string {
       return NumberFormatter.formatNumber(Number(value));

@@ -93,7 +93,7 @@
           type="button"
           class="btn-flat transitionsSourceHeader__cancel"
           :disabled="isSaving"
-          @click="isConfirming = false"
+          @click="cancelStop"
         >{{ translate('General_Cancel') }}</button>
         <button
           type="button"
@@ -128,6 +128,7 @@ import {
 } from 'CoreHome';
 import { TransitionsDataSource } from './types';
 import apiErrorText from '../apiErrorText';
+import { formatUtcDateTime, stopConfirmLabel } from '../preprocessedPageUrls';
 
 /** Transitions.getPreprocessedPageStatus */
 export interface PreprocessedPageStatus {
@@ -245,7 +246,10 @@ export default defineComponent({
         return '';
       }
 
-      return translate('Transitions_PreprocessedBadgeTooltip', this.source.preprocessedAt);
+      return translate(
+        'Transitions_PreprocessedBadgeTooltip',
+        formatUtcDateTime(this.source.preprocessedAt),
+      );
     },
     isLimitReached(): boolean {
       return !!this.status && !this.status.selected && this.status.used >= this.status.limit;
@@ -288,10 +292,18 @@ export default defineComponent({
       return /^https?:\/\//i.test(this.actionName) ? this.actionName : `http://${this.actionName}`;
     },
     confirmLabel(): string {
-      return translate(
-        'Transitions_StopPreprocessingConfirm',
-        this.actionName.replace(/^https?:\/\/(www\.)?/i, ''),
-      );
+      return stopConfirmLabel(this.actionName);
+    },
+    addedMessage(): string {
+      const months = this.status?.rearchiveMonths ?? 0;
+
+      if (months <= 0) {
+        return translate('Transitions_PreprocessedPageAddedNewDataOnly');
+      }
+
+      return months === 1
+        ? translate('Transitions_PreprocessedPageAddedRebuildOneMonth')
+        : translate('Transitions_PreprocessedPageAddedRebuild', NumberFormatter.formatNumber(months));
     },
     manageUrl(): string {
       return `?${MatomoUrl.stringify({
@@ -311,14 +323,17 @@ export default defineComponent({
     isCurrent(load: number): boolean {
       return load === this.statusLoads.latest;
     },
-    /** Keeps the raw data badge, and the row action's period check, in step with the list. */
+    /**
+     * Keeps the raw data badge, and the row action's period check, in step with an added page. The
+     * stored data of removed pages is still served, so removing the last page changes neither.
+     */
     updateSiteHasPages(used: number) {
-      if (!this.isSiteInUrl) {
+      if (!this.isSiteInUrl || used <= 0) {
         return;
       }
 
-      this.siteHasPages = used > 0;
-      Matomo.transitionsHasPreprocessedPages = used > 0;
+      this.siteHasPages = true;
+      Matomo.transitionsHasPreprocessedPages = true;
     },
     loadStatus() {
       this.statusLoads.latest += 1;
@@ -333,8 +348,11 @@ export default defineComponent({
         return;
       }
 
+      this.fetchStatus(load);
+    },
+    fetchStatus(load: number) {
       const { idSite, pageUrl } = this;
-      AjaxHelper.fetch<PreprocessedPageStatus>(
+      return AjaxHelper.fetch<PreprocessedPageStatus>(
         {
           method: 'Transitions.getPreprocessedPageStatus',
           idSite,
@@ -377,13 +395,15 @@ export default defineComponent({
           used: this.status.used + 1,
         };
         this.updateSiteHasPages(this.status.used);
-        this.message = this.status.rearchiveMonths > 0
-          ? translate('Transitions_PreprocessedPageAddedRebuild', `${this.status.rearchiveMonths}`)
-          : translate('Transitions_PreprocessedPageAddedNewDataOnly');
+        this.message = this.addedMessage;
       }).catch((error) => {
+        // eg the limit was reached, or the page added, by another admin meanwhile
         if (this.isCurrent(load)) {
           this.error = apiErrorText(error);
+          return this.fetchStatus(load);
         }
+
+        return undefined;
       }).finally(() => {
         if (this.isCurrent(load)) {
           this.isSaving = false;
@@ -398,6 +418,17 @@ export default defineComponent({
           '.transitionsSourceHeader__cancel',
         );
         cancel?.focus();
+      });
+    },
+    cancelStop() {
+      this.isConfirming = false;
+      this.focusToggle();
+    },
+    focusToggle() {
+      this.$nextTick(() => {
+        (this.$el as HTMLElement).querySelector<HTMLElement>(
+          '.transitionsSourceHeader__toggle',
+        )?.focus();
       });
     },
     stop() {
@@ -426,12 +457,21 @@ export default defineComponent({
           idPage: null,
           used: Math.max(0, this.status.used - 1),
         };
-        this.updateSiteHasPages(this.status.used);
         this.isConfirming = false;
+        this.isSaving = false;
+        this.focusToggle();
       }).catch((error) => {
+        // eg the page was removed by another admin meanwhile
         if (this.isCurrent(load)) {
           this.error = apiErrorText(error);
+          this.isConfirming = false;
+          return this.fetchStatus(load).then(() => {
+            this.isSaving = false;
+            this.focusToggle();
+          });
         }
+
+        return undefined;
       }).finally(() => {
         if (this.isCurrent(load)) {
           this.isSaving = false;
