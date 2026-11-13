@@ -123,6 +123,11 @@ class Service
             throw new \Exception('The added page could not be read back.');
         }
 
+        // the user may have been deleted while this waited for the lock, and the deletion cleaned up before the write
+        if ($page['created_by'] !== null && $this->dao->clearCreatedByOfDeletedUser($page['idpage'])) {
+            $page['created_by'] = null;
+        }
+
         // also for a URL not tracked yet, whose days then hold zero records, and for a removed page added again, which
         // archiving skipped meanwhile
         $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($page['idpage']));

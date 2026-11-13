@@ -123,6 +123,9 @@ class PreprocessedPagesTest extends IntegrationTestCase
      */
     public function testAdminsAndSuperUsersCanListAddAndRemovePages(string $role, ?string $expectedCreatedBy): void
     {
+        if ($expectedCreatedBy !== null && !(new UsersModel())->userExists($expectedCreatedBy)) {
+            UsersManagerAPI::getInstance()->addUser($expectedCreatedBy, 'secret-password-1', $expectedCreatedBy . '@example.com');
+        }
         $this->setRole($role, 1);
 
         $added = $this->api->addPreprocessedPage(1, 'https://example.com/a');
@@ -469,6 +472,18 @@ class PreprocessedPagesTest extends IntegrationTestCase
         self::assertSame(
             [['https://example.com/b', 'bob'], ['https://example.com/a', null]],
             array_map(fn($page) => [$page['url'], $page['created_by']], $this->api->getPreprocessedPages(1))
+        );
+    }
+
+    public function testALoginDeletedBeforeTheAddWasWrittenIsCleared(): void
+    {
+        // as if the user was deleted while the add waited for the lock
+        FakeAccess::clearAccess(false, [1], [], 'deletedMeanwhile');
+
+        self::assertNull($this->api->addPreprocessedPage(1, 'https://example.com/a')['created_by']);
+        self::assertSame(
+            [['created_by' => null]],
+            Db::fetchAll('SELECT created_by FROM ' . Common::prefixTable('transitions_preprocessed_page'))
         );
     }
 

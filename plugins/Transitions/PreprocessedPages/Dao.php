@@ -231,6 +231,23 @@ class Dao
     }
 
     /**
+     * Clears the login that added the page if the user was deleted meanwhile, whose deletion may have cleaned up before
+     * the page was written.
+     *
+     * @return bool whether it was cleared
+     */
+    public function clearCreatedByOfDeletedUser(int $idPage): bool
+    {
+        $statement = Db::query(
+            'UPDATE ' . $this->getTable() . ' SET created_by = NULL WHERE idpage = ? AND created_by IS NOT NULL'
+            . ' AND created_by NOT IN (SELECT login FROM ' . Common::prefixTable('user') . ')',
+            [$idPage]
+        );
+
+        return $statement->rowCount() > 0;
+    }
+
+    /**
      * Catches up on users and websites deleted while the Transitions plugin was deactivated.
      */
     public function cleanUpDeletedUsersAndSites(): void
