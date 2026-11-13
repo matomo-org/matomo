@@ -842,6 +842,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
             }
 
+            // another super user may have declined them while the plugin was looked up or downloaded
+            if (!$this->getPluginTrialService()->hasPendingRequests($pluginName)) {
+                throw new Exception(Piwik::translate('Marketplace_NoPendingPluginRequests'));
+            }
+
             $numNotified = $this->getPluginTrialService()->activateAndApprove($pluginName);
         } catch (\Exception $e) {
             $this->notifyAboutFailedInstallOrUpdate($pluginName, $pluginInfo, $e);

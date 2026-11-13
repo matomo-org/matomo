@@ -31,6 +31,7 @@ use Piwik\Plugins\Marketplace\Controller;
 use Piwik\Plugins\Marketplace\Emails\PluginRequestDecidedEmail;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Plugins\Marketplace\UserSettings;
@@ -74,6 +75,11 @@ class ControllerTest extends IntegrationTestCase
      * @var string[] the plugins the installer was asked to install or update, in order
      */
     private $installedPlugins = [];
+
+    /**
+     * @var callable|null runs before a plugin's info request is answered
+     */
+    private $onPluginInfoRequest = null;
 
     /**
      * @var PluginRequestDecidedEmail[]
@@ -399,6 +405,24 @@ class ControllerTest extends IntegrationTestCase
         self::assertSame([], $this->getDecisionEmailRecipients());
         self::assertCount(1, $this->getNotificationMessages());
         self::assertStringContainsString('Barometer', $this->getNotificationMessages()[0]);
+    }
+
+    public function testInstallRequestedPluginsDoesNotActivateAPluginDeclinedWhileItWasLookedUp()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        $this->onPluginInfoRequest = function (string $pluginName) {
+            StaticContainer::get(PluginTrialService::class)->decide($pluginName, RequestHistory::DECISION_DECLINED);
+        };
+
+        $this->dispatchInstallRequested('TreemapVisualization');
+
+        self::assertFalse(PluginManager::getInstance()->isPluginActivated('TreemapVisualization'));
+        $decisions = StaticContainer::get(RequestHistory::class)->getDecisions(0, 10);
+        self::assertSame([RequestHistory::DECISION_DECLINED], array_column($decisions, 'decision'));
+        self::assertStringContainsString(
+            Piwik::translate('Marketplace_NoPendingPluginRequests'),
+            implode(' ', $this->getNotificationMessages())
+        );
     }
 
     public function testInstallRequestedPluginsRefusesAPaidPlugin()
@@ -1050,6 +1074,10 @@ class ControllerTest extends IntegrationTestCase
             foreach ($this->pluginInfoAnswers as $pluginName => $answer) {
                 if ($action !== sprintf('plugins/%s/info', $pluginName)) {
                     continue;
+                }
+
+                if ($this->onPluginInfoRequest !== null) {
+                    ($this->onPluginInfoRequest)($pluginName);
                 }
 
                 if ($answer instanceof \Exception) {
