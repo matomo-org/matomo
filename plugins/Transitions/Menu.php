@@ -25,9 +25,16 @@ class Menu extends \Piwik\Plugin\Menu
      */
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
-        if ($idSite < 1) {
+        $request = Request::fromRequest();
+        if (($request->getParameters()['idSite'] ?? null) === null) {
             $idSite = (int) (new UserPreferences())->getDefaultWebsiteId();
+        } else {
+            try {
+                $idSite = $request->getIntegerParameter('idSite');
+            } catch (\InvalidArgumentException $e) {
+                // the admin page would reject it too
+                return;
+            }
         }
 
         if ($idSite > 0 && Piwik::isUserHasAdminAccess($idSite)) {

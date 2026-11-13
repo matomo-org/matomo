@@ -18,12 +18,14 @@ use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
+use Piwik\Option;
 use Piwik\Period\Day;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Plugins\Transitions\API;
@@ -311,6 +313,16 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         // read from then on
         $this->request('day', self::DAY);
         self::assertSame(1, $this->countPartialArchives(self::DAY));
+    }
+
+    public function testWithCronArchivingNoDayIsBuiltAlsoWithBrowserArchivingEnabled(): void
+    {
+        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, time());
+        $raw = $this->request('day', self::DAY);
+        $this->selectPage(self::PAGE_URL);
+
+        self::assertSame($this->toArray($raw), $this->toArray($this->request('day', self::DAY)));
+        self::assertSame(0, $this->countPartialArchives(self::DAY));
     }
 
     public function testWithCronNoDayIsBuilt(): void

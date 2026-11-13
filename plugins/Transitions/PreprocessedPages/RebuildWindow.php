@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 
 /**
@@ -44,6 +43,6 @@ final class RebuildWindow
      */
     public static function getMonthsProcessed(): int
     {
-        return Rules::isBrowserTriggerEnabled() ? 0 : self::getMonths();
+        return ArchivingMode::isWithoutCron() ? 0 : self::getMonths();
     }
 }

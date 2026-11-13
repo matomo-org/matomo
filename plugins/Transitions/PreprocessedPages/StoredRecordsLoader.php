@@ -90,7 +90,7 @@ final class StoredRecordsLoader
             return $records;
         }
 
-        $isWithoutCron = Rules::isBrowserTriggerEnabled();
+        $isWithoutCron = ArchivingMode::isWithoutCron();
         if ($records === null && (!$isWithoutCron || !$isPeriodAllowed)) {
             return null;
         }

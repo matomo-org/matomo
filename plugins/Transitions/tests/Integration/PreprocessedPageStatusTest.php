@@ -14,10 +14,13 @@ namespace Piwik\Plugins\Transitions\tests\Integration;
 use Piwik\API\Request;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive;
+use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\FrontController;
 use Piwik\Menu\MenuAdmin;
 use Piwik\NoAccessException;
+use Piwik\Option;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\Controller;
 use Piwik\Plugins\Transitions\Menu;
@@ -250,6 +253,18 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
         ];
     }
 
+    public function testCronArchivingIsDetectedWithBrowserArchivingEnabled(): void
+    {
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+
+        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, Date::now()->getTimestamp() - 3600);
+        self::assertSame(RebuildWindow::getMonths(), $this->api->getPreprocessedPageStatus(1, 'https://example.com/a')['rearchiveMonths']);
+
+        // not run for longer
+        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, Date::now()->getTimestamp() - 4 * 86400);
+        self::assertSame(0, $this->api->getPreprocessedPageStatus(1, 'https://example.com/a')['rearchiveMonths']);
+    }
+
     public function testWithoutCronArchivingOnlyNewDataIsProcessed(): void
     {
         $this->setRole('admin', 1);
@@ -269,6 +284,31 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
         $this->setRole($role, 1);
         $_GET['idSite'] = '1';
 
+        $expected = [['Transitions_PreprocessedTransitions', ['action' => 'manage', 'module' => 'Transitions']]];
+        self::assertSame($isShown ? $expected : [], $this->getMenuItems());
+    }
+
+    public function testTheMenuEntryIsForTheDefaultWebsiteWithoutOne(): void
+    {
+        $this->setRole('admin', 1);
+        unset($_GET['idSite']);
+
+        self::assertSame([['Transitions_PreprocessedTransitions', ['action' => 'manage', 'module' => 'Transitions']]], $this->getMenuItems());
+    }
+
+    public function testNoMenuEntryForAnInvalidWebsite(): void
+    {
+        $this->setRole('superuser', 1);
+        $_GET['idSite'] = '1abc';
+
+        self::assertSame([], $this->getMenuItems());
+    }
+
+    /**
+     * @return list<array{string, mixed}>
+     */
+    private function getMenuItems(): array
+    {
         $menu = new class extends MenuAdmin {
             /** @var list<array{string, mixed}> */
             public array $items = [];
@@ -285,8 +325,7 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
         };
         (new Menu())->configureAdminMenu($menu);
 
-        $expected = [['Transitions_PreprocessedTransitions', ['action' => 'manage', 'module' => 'Transitions']]];
-        self::assertSame($isShown ? $expected : [], $menu->items);
+        return $menu->items;
     }
 
     /**
