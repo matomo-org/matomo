@@ -35,6 +35,25 @@ class CommonTest extends TestCase
         $this->assertEquals(getmypid(), Common::getProcessId());
     }
 
+    public function testSafeUnserializeReturnsFalseForNothingToUnserializeWithoutAWarning()
+    {
+        $errors = [];
+        set_error_handler(function ($errno, $errstr) use (&$errors) {
+            $errors[] = $errstr;
+            return true;
+        });
+
+        try {
+            $this->assertFalse(Common::safe_unserialize(''));
+            $this->assertFalse(Common::safe_unserialize(null));
+            $this->assertFalse(Common::safe_unserialize(false));
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
+    }
+
     public function testHashEquals()
     {
         $this->assertFalse(Common::hashEquals('foo', 'bar'));
