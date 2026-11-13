@@ -114,7 +114,7 @@ class Model
             }
         }
 
-        // finalizing a full archive deletes the older partials already; this catches those a finalize missed
+        // partials of the periods archived again, also those finished after a finalize deleted the older ones
         $partialArchiveIds = $this->getPartialArchiveIdsOlderThanUsableFullArchive($archiveTable, $reArchivedAllPluginsArchives);
 
         return array_values(array_unique(array_merge($archiveIds, $partialArchiveIds)));

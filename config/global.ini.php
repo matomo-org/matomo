@@ -304,7 +304,7 @@ anonymous_user_enable_use_segments_API = 1
 ; if browser trigger archiving is disabled, API requests with a &segment= parameter will still trigger archiving.
 ; You can force the browser archiving to be disabled in most cases by setting this setting to 1
 ; The browser will still trigger archiving when requesting a custom date range that is not pre-processed yet, and when
-; the Transitions report of a pre-processed page refreshes today's data ([Transitions] preprocessed_refresh_after)
+; the Transitions report of a pre-processed page refreshes today's or yesterday's data ([Transitions] preprocessed_refresh_after)
 browser_archiving_disabled_enforce = 0
 
 ; Add custom currencies to Sites Manager.

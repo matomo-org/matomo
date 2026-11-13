@@ -120,9 +120,9 @@ final class Records
     }
 
     /**
-     * Keeps the rows with the highest counts, of equal counts those with the lowest labels as the day records' queries
-     * order them, and sums the others into the summary row; in subtables too. As Truncate, it keeps one more row when
-     * there is no summary row yet.
+     * Keeps the rows with the highest counts, of equal counts those with the lowest labels (case-insensitive for ASCII
+     * only, so ties can be ordered differently than by the log queries), and sums the others into the summary row; in
+     * subtables too. As Truncate, it keeps one more row when there is no summary row yet.
      */
     public static function truncate(DataTable $table, int $maxRows, int $column): void
     {
@@ -137,7 +137,7 @@ final class Records
             return;
         }
 
-        // case-insensitive, not natural, like the collation of `log_action`.`name`
+        // case-insensitive, not natural
         $table->filter('Sort', [$column, 'desc', $naturalSort = false, $recursiveSort = false, fn() => 'label']);
 
         $aggregationOperations = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);

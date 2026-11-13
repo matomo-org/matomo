@@ -433,8 +433,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * The rows of a stored list with the highest counts, and of equal counts the lowest labels, as the ranking query
-     * of the log query keeps them: at most `$limit` rows, then `Others` with the rest and the stored summary row.
+     * The rows of a stored list with the highest counts, and of equal counts the lowest labels: at most `$limit` rows,
+     * then `Others` with the rest and the stored summary row. Rows of equal counts can be ordered differently than by
+     * the ranking query of the log query.
      *
      * @param list<array{label: string|int, count: int}> $extraRows rows to rank with the stored ones
      * @param int $unnamedCount count of rows without a label, which are not stored: ranked as one row, which the log
