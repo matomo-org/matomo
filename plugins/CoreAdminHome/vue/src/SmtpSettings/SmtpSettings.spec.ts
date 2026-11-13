@@ -107,6 +107,45 @@ describe('CoreAdminHome/SmtpSettings.vue', () => {
   });
 
   it.each([
+    ['mailHost', 'another.example.test'],
+    ['mailOAuthTokenUrl', 'https://another.example.test/token'],
+    ['mailOAuthClientId', 'another-client-id'],
+    ['mailOAuthScope', 'https://another.example.test/.default'],
+  ])('does not send a saved client secret again after %s changed', async (field, value) => {
+    const wrapper = mountWithStoredOAuthSettings();
+
+    await wrapper.find('[name="mailOAuthClientSecret"]').setValue('a-new-secret');
+    await save(wrapper);
+    await flushPromises();
+    await wrapper.find(`[name="${field}"]`).setValue(value);
+
+    expect((await save(wrapper)).mailOAuthClientSecret).toBe('');
+  });
+
+  it('shows a client secret as stored once it was saved', async () => {
+    const wrapper = mountWithStoredOAuthSettings('Xoauth2', { oauth_client_secret: '' });
+
+    await wrapper.find('[name="mailOAuthClientSecret"]').setValue('a-new-secret');
+    await save(wrapper);
+    await flushPromises();
+
+    expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('******');
+    expect(await save(wrapper)).not.toHaveProperty('mailOAuthClientSecret');
+  });
+
+  it('does not show a client secret as stored after the server dropped it', async () => {
+    const wrapper = mountWithStoredOAuthSettings();
+
+    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('certificate');
+    await wrapper.find('[name="mailOAuthScope"]').setValue('https://another.example.test/.default');
+    await save(wrapper);
+    await flushPromises();
+    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('secret');
+
+    expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('');
+  });
+
+  it.each([
     ['keeps', 'the settings are unchanged', 'https://mail.example.test/.default', 'CoreAdminHome_SmtpOAuthCertificateConfigured'],
     ['forgets', 'the scope changed', 'https://other.example.test/.default', 'CoreAdminHome_SmtpOAuthCertificateNotConfigured'],
   ])('%s the stored certificate after a save when %s', async (_action, _reason, scope, expectedHelp) => {
