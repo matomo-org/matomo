@@ -11,12 +11,16 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
+use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\PluginsArchiver;
+use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\LogAggregator;
 
 /**
  * Archives a day within a report request, whose query of the day's visits gets a time limit like the report's own
- * log queries.
+ * log queries. A segment is queried without the segment cache, whose filling of a temporary table can't be time
+ * limited.
  */
 final class TimeLimitedPluginsArchiver extends PluginsArchiver
 {
@@ -27,8 +31,12 @@ final class TimeLimitedPluginsArchiver extends PluginsArchiver
      */
     public function __construct(Parameters $params, float $timeLimit)
     {
-        parent::__construct($params);
+        $archiveWriter = new ArchiveWriter($params);
+        parent::__construct($params, $archiveWriter);
 
+        $logAggregator = new LogAggregator($params);
+        $logAggregator->setQueryOriginHint('Transitions');
+        $this->archiveProcessor = new ArchiveProcessor($params, $archiveWriter, $logAggregator);
         $this->timeLimit = $timeLimit;
     }
 

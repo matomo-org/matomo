@@ -18,6 +18,7 @@ use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
@@ -25,8 +26,10 @@ use Piwik\EventDispatcher;
 use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
 use Piwik\Period\Day;
+use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Plugins\Transitions\API;
+use Piwik\Plugins\Transitions\Model;
 use Piwik\Plugins\Transitions\PreprocessedPages\ArchivingMode;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
@@ -312,6 +315,34 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         // read from then on
         $this->request('day', self::DAY);
         self::assertSame(1, $this->countPartialArchives(self::DAY));
+    }
+
+    public function testADayBuildThatTimesOutIsAnsweredFromTheLogsAndNotTriedAgainAtOnce(): void
+    {
+        Config::getInstance()->General['live_query_max_execution_time'] = 7.5;
+        $raw = $this->request('day', self::DAY);
+        $this->selectPage(self::PAGE_URL);
+        $model = new class extends Model {
+            /**
+             * @var list<float>
+             */
+            public array $timeLimits = [];
+
+            public function queryInternalReferrersOfPages(LogAggregator $logAggregator, array $idActions, int $limit, string $othersLabel, float $timeLimit = -1): array
+            {
+                $this->timeLimits[] = $timeLimit;
+                throw new MaxExecutionTimeExceededException('The query took too long.');
+            }
+        };
+        StaticContainer::getContainer()->set(Model::class, $model);
+
+        self::assertSame($this->toArray($raw), $this->toArray($this->request('day', self::DAY)));
+        self::assertSame([7.5], $model->timeLimits);
+        self::assertSame(0, $this->countPartialArchives(self::DAY));
+
+        // the next request doesn't try again
+        $this->request('day', self::DAY);
+        self::assertSame([7.5], $model->timeLimits);
     }
 
     public function testWithCronArchivingNoDayIsBuiltAlsoWithBrowserArchivingEnabled(): void
