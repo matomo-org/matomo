@@ -266,10 +266,6 @@ class Controller extends ControllerAdmin
         return $toReturn;
     }
 
-    /**
-     * @param array<string, string> $mail the mail settings about to be saved
-     * @return array<string, string>
-     */
     private function addOAuthMailSettings(array $mail, Request $request): array
     {
         $storedMail = Config::getInstance()->mail;
@@ -299,9 +295,6 @@ class Controller extends ControllerAdmin
         return $mail;
     }
 
-    /**
-     * @param array<string, string> $mail the mail settings about to be saved
-     */
     private function checkOAuthMailSettings(array $mail): void
     {
         if ($mail['transport'] !== 'smtp' || strtoupper($mail['type']) !== 'XOAUTH2') {
@@ -337,12 +330,7 @@ class Controller extends ControllerAdmin
         }
     }
 
-    /**
-     * The stored client secret and certificate may only be reused as long as nothing changed that decides where the
-     * secret, or an access token requested with them, is sent to and what that token gives access to.
-     *
-     * @param array<string, string> $mail the mail settings about to be saved
-     */
+    // these settings decide where the stored secret is sent and what the token gives access to
     private function areOAuthCredentialsStillValidFor(array $mail): bool
     {
         $storedMail = Config::getInstance()->mail;
