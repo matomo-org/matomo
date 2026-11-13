@@ -38,7 +38,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if ($idSite > 0 && Piwik::isUserHasAdminAccess($idSite)) {
-            $menu->addMeasurableItem('Transitions_PreprocessedTransitions', $this->urlForAction('manage'), 42);
+            $menu->addMeasurableItem('Transitions_PreprocessedTransitions', $this->urlForAction('manage', ['idSite' => $idSite]), 42);
         }
     }
 }

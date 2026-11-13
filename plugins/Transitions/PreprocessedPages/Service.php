@@ -291,7 +291,7 @@ class Service
             'idPage' => $page['idpage'] ?? null,
             'used' => $this->dao->getNumPagesForSite($idSite),
             'limit' => $this->getMaxPages($idSite),
-            'rearchiveMonths' => RebuildWindow::getMonthsProcessed(),
+            'rearchiveMonths' => RebuildWindow::getMonthsProcessed($idSite),
         ];
     }
 

@@ -14,16 +14,16 @@ namespace Piwik\Plugins\Transitions\tests\Integration;
 use Piwik\API\Request;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\FrontController;
 use Piwik\Menu\MenuAdmin;
 use Piwik\NoAccessException;
-use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\Controller;
 use Piwik\Plugins\Transitions\Menu;
+use Piwik\Plugins\Transitions\PreprocessedPages\ArchivingMode;
 use Piwik\Plugins\Transitions\PreprocessedPages\RebuildWindow;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -253,16 +253,24 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
         ];
     }
 
-    public function testCronArchivingIsDetectedWithBrowserArchivingEnabled(): void
+    public function testCronArchivingIsDetectedPerWebsiteWithBrowserArchivingEnabled(): void
     {
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        // not gone through by core:archive yet
+        self::assertSame(0, $this->getRearchiveMonths(1));
 
-        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, Date::now()->getTimestamp() - 3600);
-        self::assertSame(RebuildWindow::getMonths(), $this->api->getPreprocessedPageStatus(1, 'https://example.com/a')['rearchiveMonths']);
+        // core:archive went through website 1 only
+        Piwik::postEvent('CronArchive.archiveSingleSite.finish', [1, '4711']);
+        self::assertSame(RebuildWindow::getMonths(), $this->getRearchiveMonths(1));
+        self::assertSame(0, $this->getRearchiveMonths(2));
 
-        // not run for longer
-        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, Date::now()->getTimestamp() - 4 * 86400);
-        self::assertSame(0, $this->api->getPreprocessedPageStatus(1, 'https://example.com/a')['rearchiveMonths']);
+        // not gone through for longer
+        Date::$now = Date::now()->getTimestamp() + ArchivingMode::CRON_RECENT_SECONDS + 3600;
+        try {
+            self::assertSame(0, $this->getRearchiveMonths(1));
+        } finally {
+            Date::$now = null;
+        }
     }
 
     public function testWithoutCronArchivingOnlyNewDataIsProcessed(): void
@@ -284,7 +292,7 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
         $this->setRole($role, 1);
         $_GET['idSite'] = '1';
 
-        $expected = [['Transitions_PreprocessedTransitions', ['action' => 'manage', 'module' => 'Transitions']]];
+        $expected = [['Transitions_PreprocessedTransitions', ['idSite' => 1, 'action' => 'manage', 'module' => 'Transitions']]];
         self::assertSame($isShown ? $expected : [], $this->getMenuItems());
     }
 
@@ -293,7 +301,8 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
         $this->setRole('admin', 1);
         unset($_GET['idSite']);
 
-        self::assertSame([['Transitions_PreprocessedTransitions', ['action' => 'manage', 'module' => 'Transitions']]], $this->getMenuItems());
+        // the admin page needs the website in its URL
+        self::assertSame([['Transitions_PreprocessedTransitions', ['idSite' => 1, 'action' => 'manage', 'module' => 'Transitions']]], $this->getMenuItems());
     }
 
     public function testNoMenuEntryForAnInvalidWebsite(): void
@@ -302,6 +311,11 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
         $_GET['idSite'] = '1abc';
 
         self::assertSame([], $this->getMenuItems());
+    }
+
+    private function getRearchiveMonths(int $idSite): int
+    {
+        return $this->api->getPreprocessedPageStatus($idSite, 'https://example.com/a')['rearchiveMonths'];
     }
 
     /**

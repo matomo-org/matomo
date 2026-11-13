@@ -18,17 +18,16 @@ use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
-use Piwik\Option;
 use Piwik\Period\Day;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Plugins\Transitions\API;
+use Piwik\Plugins\Transitions\PreprocessedPages\ArchivingMode;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
 use Piwik\Plugins\Transitions\PreprocessedPages\Service;
 use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsLoader;
@@ -317,7 +316,7 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
 
     public function testWithCronArchivingNoDayIsBuiltAlsoWithBrowserArchivingEnabled(): void
     {
-        Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, time());
+        ArchivingMode::rememberCronArchiving(1);
         $raw = $this->request('day', self::DAY);
         $this->selectPage(self::PAGE_URL);
 

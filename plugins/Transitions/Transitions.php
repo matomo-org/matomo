@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Plugins\Transitions\PreprocessedPages\ArchivingMode;
 use Piwik\Plugins\Transitions\PreprocessedPages\Dao as PreprocessedPagesDao;
 
 class Transitions extends \Piwik\Plugin
@@ -30,6 +31,7 @@ class Transitions extends \Piwik\Plugin
             'Template.jsGlobalVariables'             => 'addJsGlobalVariables',
             'UsersManager.deleteUser'                => 'anonymizePreprocessedPagesCreatedBy',
             'SitesManager.deleteSite.end'            => 'deletePreprocessedPagesForSite',
+            'CronArchive.archiveSingleSite.finish'   => 'rememberCronArchiving',
         );
     }
 
@@ -49,6 +51,15 @@ class Transitions extends \Piwik\Plugin
     public function deletePreprocessedPagesForSite(int $idSite): void
     {
         StaticContainer::get(PreprocessedPagesDao::class)->deletePagesForSite($idSite);
+        ArchivingMode::forgetSite($idSite);
+    }
+
+    /**
+     * @param int|string $idSite
+     */
+    public function rememberCronArchiving($idSite): void
+    {
+        ArchivingMode::rememberCronArchiving((int) $idSite);
     }
 
     public function getPagesComparisonsDisabledFor(&$pages)

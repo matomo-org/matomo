@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
 use Piwik\ArchiveProcessor\Parameters;
-use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache;
 use Piwik\Concurrency\Lock;
@@ -93,7 +92,7 @@ final class StoredRecordsLoader
             return $records;
         }
 
-        $isWithoutCron = ArchivingMode::isWithoutCron();
+        $isWithoutCron = ArchivingMode::isWithoutCron($idSite);
         if ($records === null && (!$isWithoutCron || !$isPeriodAllowed)) {
             return null;
         }
@@ -356,9 +355,10 @@ final class StoredRecordsLoader
         $params->setRequestedPlugin('Transitions');
         $params->setArchiveOnlyReport(Records::getRebuildReportName($idPage));
 
-        // the queries get the time limit of the report's log queries
-        PageTransitions::executeWithTimeLimit(GeneralConfig::getFloatConfigValue('live_query_max_execution_time', -1.0), function () use ($params): void {
-            $archiver = new PluginsArchiver($params);
+        // all queries, the visits of the day too, get the time limit of the report's log queries
+        $timeLimit = GeneralConfig::getFloatConfigValue('live_query_max_execution_time', -1.0);
+        PageTransitions::executeWithTimeLimit($timeLimit, function () use ($params, $timeLimit): void {
+            $archiver = new TimeLimitedPluginsArchiver($params, $timeLimit);
             $metrics = $archiver->callAggregateCoreMetrics();
             // a day without visits gets records too, so it counts as covered
             $archiver->callAggregateAllPlugins($metrics['nb_visits'], $metrics['nb_visits_converted'], true);

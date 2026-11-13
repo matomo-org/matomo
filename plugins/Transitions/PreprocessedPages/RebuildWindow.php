@@ -39,10 +39,10 @@ final class RebuildWindow
 
     /**
      * The months of past data that an added page gets processed, as {@link getMonths()} with cron archiving. Without
-     * cron archiving, nothing archives the past, so only new data is processed (0).
+     * cron archiving for the website, nothing archives the past, so only new data is processed (0).
      */
-    public static function getMonthsProcessed(): int
+    public static function getMonthsProcessed(int $idSite): int
     {
-        return ArchivingMode::isWithoutCron() ? 0 : self::getMonths();
+        return ArchivingMode::isWithoutCron($idSite) ? 0 : self::getMonths();
     }
 }
