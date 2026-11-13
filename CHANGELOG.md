@@ -7,6 +7,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.1.0
 
 ### New config.ini.php settings
+* `[General] login_whats_new_panel_enabled = 0` hides the "What's new in Matomo" panel on the login page. It is shown by default.
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 
 ### New APIs
