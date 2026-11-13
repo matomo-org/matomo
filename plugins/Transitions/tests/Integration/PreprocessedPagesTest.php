@@ -641,7 +641,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
         self::assertNull($status['idPage']);
         self::assertSame(1, $status['used']);
         // its stored records are still served
-        self::assertSame($idPageA, $service->getPageIdForReport(1, 'http://example.com/a'));
+        self::assertSame($idPageA, $service->getPageForReport(1, 'http://example.com/a')['idpage'] ?? null);
         $this->assertRemoveNotFound(1, $idPageA);
 
         $this->api->removePreprocessedPage(1, $idPageB);

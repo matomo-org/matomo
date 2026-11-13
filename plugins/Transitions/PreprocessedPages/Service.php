@@ -23,6 +23,7 @@ use Piwik\Piwik;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\TableLogAction;
+use Piwik\Tracker\TrackerConfig;
 use Piwik\UrlHelper;
 
 /**
@@ -218,11 +219,14 @@ class Service
     }
 
     /**
-     * The idpage whose stored records answer a report of the page URL: the page the URL is the same as, also a removed
-     * one. None for a URL that has query parameters the website excludes now, as it may have been tracked as another
-     * page before they were excluded.
+     * The page whose stored records answer a report of the page URL: the page the URL is the same as, also a removed
+     * one. None for a URL that normalizing changes beyond its protocol, `www.` and the case of its host, for example
+     * by removing query parameters or a fragment the website no longer keeps, or by truncating it to a lower
+     * `page_maximum_length`: it may have been tracked as another page before.
+     *
+     * @return PreprocessedPage|null
      */
-    public function getPageIdForReport(int $idSite, string $pageUrl): ?int
+    public function getPageForReport(int $idSite, string $pageUrl): ?array
     {
         try {
             $url = $this->normalizeUrl($idSite, $pageUrl);
@@ -230,31 +234,38 @@ class Service
             return null;
         }
 
-        if ($this->hasExcludedParameters($idSite, $pageUrl, $url)) {
+        if ($this->isChangedByNormalizing($pageUrl, $url)) {
             return null;
         }
 
-        return $this->dao->getPageByUrlHash($idSite, self::getUrlHash($url))['idpage'] ?? null;
+        return $this->dao->getPageByUrlHash($idSite, self::getUrlHash($url));
+    }
+
+    private function isChangedByNormalizing(string $pageUrl, string $normalizedUrl): bool
+    {
+        // as PageUrl::cleanupUrl(), without truncating
+        $url = str_replace(["\n", "\r", "\0"], '', trim(Common::unsanitizeInputValue(trim($pageUrl))));
+        if (strlen($url) > TrackerConfig::getIntegerConfigValue('page_maximum_length', PHP_INT_MAX)) {
+            return true;
+        }
+
+        return self::getComparableUrl(PageUrl::convertMatrixUrl($url)) !== self::getComparableUrl($normalizedUrl);
     }
 
     /**
-     * Whether normalizing the URL removed query parameters, beyond what the tracker changes in every URL.
+     * The URL without protocol and `www.`, with a lowercase host and without the HTML encoding the tracker gives query
+     * values.
      */
-    private function hasExcludedParameters(int $idSite, string $pageUrl, string $normalizedUrl): bool
+    private static function getComparableUrl(string $url): string
     {
-        $parsedUrl = @parse_url(PageUrl::cleanupUrl(trim($pageUrl))) ?: [];
-        $parsedNormalizedUrl = parse_url($normalizedUrl) ?: [];
-
-        // without a query string, the parameters of the fragment are excluded, if the website keeps fragments
-        $component = empty($parsedUrl['query']) ? 'fragment' : 'query';
-        if (empty($parsedUrl[$component]) || ($component === 'fragment' && PageUrl::shouldRemoveURLFragmentFor($idSite))) {
-            return false;
+        $url = Common::unsanitizeInputValue($url);
+        $parsedUrl = @parse_url($url);
+        if (is_array($parsedUrl) && !empty($parsedUrl['host'])) {
+            $parsedUrl['host'] = mb_strtolower($parsedUrl['host']);
+            $url = (string) UrlHelper::getParseUrlReverse($parsedUrl);
         }
 
-        $parameters = UrlHelper::getArrayFromQueryString((string) $parsedUrl[$component]);
-        $normalizedParameters = UrlHelper::getArrayFromQueryString((string) ($parsedNormalizedUrl[$component] ?? ''));
-
-        return count($normalizedParameters) < count($parameters);
+        return (string) PageUrl::normalizeUrl($url)['url'];
     }
 
     /**

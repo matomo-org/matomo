@@ -531,6 +531,61 @@ class PreprocessedReportTest extends IntegrationTestCase
         self::assertSame($this->toArray($variantRaw), $this->toArray($this->request('day', self::DAY, '', 0, 'all', $variantUrl)));
     }
 
+    public function testAUrlWithAFragmentNoLongerKeptIsAnsweredFromTheLogs(): void
+    {
+        SitesManagerAPI::getInstance()->updateSite(1, keepURLFragments: 1);
+        $variantUrl = self::PAGE_URL . '#section';
+        $this->trackPageview(self::DAY . ' 20:00:00', $variantUrl);
+        $variantRaw = $this->request('day', self::DAY, '', 0, 'all', $variantUrl);
+
+        SitesManagerAPI::getInstance()->updateSite(1, keepURLFragments: 2);
+        $this->archive($this->selectPage(self::PAGE_URL), 'day', self::DAY);
+        self::assertSame(1, $this->request('day', self::DAY)['preprocessed']);
+
+        self::assertSame($this->toArray($variantRaw), $this->toArray($this->request('day', self::DAY, '', 0, 'all', $variantUrl)));
+    }
+
+    public function testAUrlLongerThanTheLoweredLengthLimitIsAnsweredFromTheLogs(): void
+    {
+        $variantUrl = self::PAGE_URL . '-continued';
+        $this->trackPageview(self::DAY . ' 20:00:00', $variantUrl);
+        $variantRaw = $this->request('day', self::DAY, '', 0, 'all', $variantUrl);
+
+        // the variant is now truncated to the selected page's URL
+        Config::getInstance()->Tracker['page_maximum_length'] = strlen(self::PAGE_URL);
+        $this->archive($this->selectPage(self::PAGE_URL), 'day', self::DAY);
+        self::assertSame(1, $this->request('day', self::DAY)['preprocessed']);
+
+        self::assertSame($this->toArray($variantRaw), $this->toArray($this->request('day', self::DAY, '', 0, 'all', $variantUrl)));
+    }
+
+    /**
+     * @dataProvider getPartsOfUntrackedPages
+     */
+    public function testASelectedPageThatIsNotTrackedHasNoDataForAnyParts(string $parts): void
+    {
+        $pageUrl = 'http://example.org/not-tracked.html';
+        $this->assertNoDataForAction(fn() => $this->request('day', self::DAY, '', 0, $parts, $pageUrl));
+
+        $idPage = $this->selectPage($pageUrl);
+        $this->archive($idPage, 'day', self::DAY);
+        self::assertSame(1.0, $this->getDaysCounter($idPage, self::DAY));
+
+        $this->assertNoDataForAction(fn() => $this->withoutLogTables(fn() => $this->request('day', self::DAY, '', 0, $parts, $pageUrl)));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public function getPartsOfUntrackedPages(): array
+    {
+        return [
+            'all' => ['all'],
+            'following actions' => ['followingActions'],
+            'external referrers' => ['externalReferrers'],
+        ];
+    }
+
     public function testARemovedPageIsServedAfterItsActionIsDeletedAsUnused(): void
     {
         $idPage = $this->selectPage(self::PAGE_URL);
@@ -950,6 +1005,16 @@ class PreprocessedReportTest extends IntegrationTestCase
         return API::getInstance()->getTransitionsForAction($pageUrl, 'url', 1, $period, $date, $segment, $limit, $parts);
     }
 
+    private function assertNoDataForAction(callable $request): void
+    {
+        try {
+            $request();
+            self::fail('Expected NoDataForAction');
+        } catch (\Exception $e) {
+            self::assertSame('NoDataForAction', $e->getMessage());
+        }
+    }
+
     /**
      * Deletes the raw data of the website, then the actions no log row uses any more, as the scheduled log deletion does.
      */
@@ -1001,15 +1066,22 @@ class PreprocessedReportTest extends IntegrationTestCase
      */
     private function withoutLogTables(callable $request)
     {
+        $hide = $restore = [];
         foreach (self::LOG_TABLES as $table) {
-            Db::query('RENAME TABLE ' . Common::prefixTable($table) . ' TO ' . Common::prefixTable($table . '_hidden'));
+            $hide[] = Common::prefixTable($table) . ' TO ' . Common::prefixTable($table . '_hidden');
+            $restore[] = Common::prefixTable($table . '_hidden') . ' TO ' . Common::prefixTable($table);
         }
 
+        // one statement each way, so the tables are never left half renamed
+        $isHidden = false;
         try {
+            Db::query('RENAME TABLE ' . implode(', ', $hide));
+            $isHidden = true;
+
             return $request();
         } finally {
-            foreach (self::LOG_TABLES as $table) {
-                Db::query('RENAME TABLE ' . Common::prefixTable($table . '_hidden') . ' TO ' . Common::prefixTable($table));
+            if ($isHidden) {
+                Db::query('RENAME TABLE ' . implode(', ', $restore));
             }
         }
     }

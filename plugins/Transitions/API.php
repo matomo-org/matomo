@@ -208,8 +208,9 @@ class API extends \Piwik\Plugin\API
      * the period, or are refreshed; beyond it, nothing is summed from shorter periods or built.
      *
      * The records are found by the page URL, without `log_action`, so they are served also for a page that was removed
-     * or whose action was deleted as unused. A URL with query parameters the website excludes now is answered from the
-     * logs, as it may have been tracked as another page.
+     * or whose action was deleted as unused. A URL that the tracker's normalization changes now, for example by removing
+     * query parameters or a fragment, or by truncating it, is answered from the logs, as it may have been tracked as
+     * another page.
      *
      * @param string|null|false $segment
      * @param int|string $limitBeforeGrouping
@@ -277,18 +278,23 @@ class API extends \Piwik\Plugin\API
             return null;
         }
 
-        $idPage = StaticContainer::get(PreprocessedPagesService::class)->getPageIdForReport($idSite, $actionName);
-        if ($idPage === null) {
+        $page = StaticContainer::get(PreprocessedPagesService::class)->getPageForReport($idSite, $actionName);
+        if ($page === null) {
             return null;
         }
 
-        $records = StaticContainer::get(StoredRecordsLoader::class)->load($idSite, $periodObject, $segmentObject, $idPage, $tableParts, $isPeriodAllowed);
+        $records = StaticContainer::get(StoredRecordsLoader::class)->load($idSite, $periodObject, $segmentObject, $page['idpage'], $tableParts, $isPeriodAllowed);
         if ($records === null) {
             return null;
         }
 
         if ($configError !== null) {
             throw $configError;
+        }
+
+        // as the log query, for a URL that isn't tracked, whichever parts are requested
+        if ($records->getNumeric(Records::PAGEVIEWS) == 0 && $this->deriveIdAction($actionName, $actionType) === null) {
+            throw new Exception('NoDataForAction');
         }
 
         $report = ['date' => $dateLabel];
@@ -311,9 +317,10 @@ class API extends \Piwik\Plugin\API
                 if ($requestedParts['includeLoops'] && $type == Action::TYPE_PAGE_URL && $records->getNumeric(Records::LOOPS) > 0) {
                     $idaction = $this->deriveIdAction($actionName, $actionType);
                     $extraRows[] = [
-                        // the name the log query labels it with; HTML-encoded like it, for a deleted action
+                        // the name the log query labels it with; for a deleted action, the page's URL as the tracker
+                        // stores it
                         'label' => ($idaction === null ? null : StaticContainer::get(PreprocessedPagesDao::class)->getActionName($idaction))
-                            ?? Common::sanitizeInputValue(PageUrl::normalizeUrl(Common::unsanitizeInputValue($actionName))['url']),
+                            ?? PageUrl::normalizeUrl($page['url'])['url'],
                         'count' => $records->getNumeric(Records::LOOPS),
                     ];
                 }
