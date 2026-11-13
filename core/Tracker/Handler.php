@@ -11,8 +11,10 @@ namespace Piwik\Tracker;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\Exception\PluginDeactivatedException;
+use Piwik\Exception\PluginNotFoundException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\NoAccessException;
+use Piwik\Http\HttpCodeException;
 use Piwik\Tracker;
 use Exception;
 use Piwik\Log\LoggerInterface;
@@ -93,7 +95,7 @@ class Handler
 
         // if an internal server error, log as a real error, otherwise it's just malformed input
         try {
-            if ($statusCode == 500) {
+            if ($statusCode >= 500) {
                 $this->logger->error('Exception: {exception}', [
                     'exception' => $e,
                 ]);
@@ -114,9 +116,20 @@ class Handler
      */
     public static function getStatusCodeForException(Throwable $e): int
     {
-        // checked first, as NoAccessException is also an InvalidRequestParameterException
-        if ($e instanceof NoAccessException && in_array($e->getCode(), [401, 403], true)) {
-            return $e->getCode();
+        // checked first, as eg NoAccessException is also an InvalidRequestParameterException
+        if (
+            $e instanceof HttpCodeException
+            // these describe the server's plugin setup, eg when tracking code calls an API internally
+            && !($e instanceof PluginDeactivatedException)
+            && !($e instanceof PluginNotFoundException)
+        ) {
+            $code = (int) $e->getCode();
+            if (in_array($code, [400, 401, 403, 404, 429, 503], true)) {
+                return $code;
+            }
+            if ($code >= 400 && $code < 500) {
+                return 400;
+            }
         }
 
         if ($e instanceof UnexpectedWebsiteFoundException || $e instanceof InvalidRequestParameterException) {
