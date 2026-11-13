@@ -322,6 +322,19 @@ class DbTableTest extends IntegrationTestCase
         $this->assertSame($session, $merger->decode($this->rawStored('phpwritten')));
     }
 
+    public function testCreateSidCreatesANewSessionIdEachTime()
+    {
+        $id = $this->testInstance->create_sid();
+
+        $this->assertRegExp('/^[0-9a-zA-Z,-]{22,}$/', $id);
+        $this->assertNotSame($id, $this->testInstance->create_sid());
+    }
+
+    public function testValidateIdAcceptsSessionIdsThatWereNeverStored()
+    {
+        $this->assertTrue($this->testInstance->validateId('neverstored'));
+    }
+
     /**
      * Builds a payload the way the session handler really receives one: Matomo forces
      * session.serialize_handler to php_serialize, so PHP hands write() serialize() of the

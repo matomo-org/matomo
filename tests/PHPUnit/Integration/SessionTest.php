@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Config;
 use Piwik\EventDispatcher;
 use Piwik\Http;
 use Piwik\Session;
@@ -27,6 +28,30 @@ class SessionTest extends IntegrationTestCase
         $url = Fixture::getRootUrl() . '/tests/resources/sessionStarter.php';
         $result = Http::sendHttpRequest($url, 5);
         $this->assertSame('ok', trim($result));
+    }
+
+    /**
+     * PHP builds the session cookie it sends on start and regenerate from these settings.
+     *
+     * Runs on its own because it starts a real session. Global state stays preserved so the
+     * child process inherits the already loaded dependencies rather than reloading them.
+     *
+     * @runInSeparateProcess
+     */
+    public function testStartConfiguresPhpsSessionCookieAndIdHandling()
+    {
+        $_SERVER['HTTPS'] = 'on';
+        Config::getInstance()->General['enable_framed_pages'] = 1;
+
+        Session::start();
+
+        $this->assertTrue(Session::isSessionStarted());
+        $this->assertSame('0', ini_get('session.use_strict_mode'));
+
+        // PHP 7.2 has no SameSite setting, there the session cookie is rewritten after regenerating the id
+        if (PHP_VERSION_ID >= 70300) {
+            $this->assertSame('None', ini_get('session.cookie_samesite'));
+        }
     }
 
     /**

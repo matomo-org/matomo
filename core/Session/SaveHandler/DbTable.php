@@ -434,6 +434,30 @@ class DbTable implements \SessionHandlerInterface
         return true;
     }
 
+    /**
+     * Creates a new session id the way PHP does by default. Only used as of PHP 8.6.
+     */
+    public function create_sid(): string // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    {
+        $id = session_create_id();
+
+        if ($id === false) {
+            throw new Exception('Unable to create a session id.');
+        }
+
+        return $id;
+    }
+
+    /**
+     * Accepts every session id, as PHP does for handlers without this method. Only used as of PHP 8.6.
+     *
+     * @param string $id
+     */
+    public function validateId($id): bool
+    {
+        return true;
+    }
+
     private function migrateToDbSessionTable()
     {
         // happens when updating from Piwik 1.4 or earlier to Matomo 3.7+
