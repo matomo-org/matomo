@@ -48,7 +48,7 @@ class PreprocessedPages extends SomeVisitsManyPageviewsWithTransitions
 
         // the UI spec runs without browser archiving, so the reports it opens are archived here
         $archive = Archive::build($this->idSite, 'day', self::DAY);
-        $archive->getNumeric(['nb_visits', 'nb_pageviews', Records::getRebuildReportName($idAction)]);
+        $archive->getNumeric(['nb_visits', ActionsArchiver::METRIC_PAGEVIEWS_RECORD_NAME, Records::getRebuildReportName($idAction)]);
         $archive->getDataTable(ActionsArchiver::PAGE_URLS_RECORD_NAME);
     }
 
