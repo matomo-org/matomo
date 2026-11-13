@@ -198,64 +198,8 @@ class Controller extends ControllerAdmin
 
             $mail['encryption'] =  $request->getStringParameter('mailEncryption', '');
 
-            $mail['oauth_token_url'] = trim($request->getStringParameter('mailOAuthTokenUrl', ''));
-            $mail['oauth_client_id'] = trim($request->getStringParameter('mailOAuthClientId', ''));
-            $mail['oauth_client_secret'] = $request->getStringParameter('mailOAuthClientSecret', '');
-            $mail['oauth_scope'] = trim($request->getStringParameter('mailOAuthScope', ''));
-
-            $credentialTypes = [ClientCredentialsTokenProvider::CREDENTIAL_TYPE_SECRET, ClientCredentialsTokenProvider::CREDENTIAL_TYPE_CERTIFICATE];
-            $mail['oauth_credential_type'] = strtolower(trim($request->getStringParameter('mailOAuthCredentialType', '')));
-            if (!in_array($mail['oauth_credential_type'], $credentialTypes, true)) {
-                $mail['oauth_credential_type'] = Config::getInstance()->mail['oauth_credential_type'] ?? '';
-            }
-
-            // the certificate settings are only set in the config file, so the form can't make Matomo read any other file
-            $certificateSettings = ['oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password'];
-            foreach ($certificateSettings as $certificateSetting) {
-                $mail[$certificateSetting] = Config::getInstance()->mail[$certificateSetting] ?? '';
-            }
-
-            $areOAuthCredentialsStillValid = $this->areOAuthCredentialsStillValidFor($mail);
-
-            if (!array_key_exists('mailOAuthClientSecret', $request->getParameters()) && $areOAuthCredentialsStillValid) {
-                $mail['oauth_client_secret'] = Config::getInstance()->mail['oauth_client_secret'];
-            }
-
-            if (!$areOAuthCredentialsStillValid) {
-                foreach ($certificateSettings as $certificateSetting) {
-                    $mail[$certificateSetting] = '';
-                }
-            }
-
-            if ($mail['transport'] === 'smtp' && strtoupper($mail['type']) === 'XOAUTH2') {
-                $isCertificate = strtolower(trim((string) $mail['oauth_credential_type'])) === ClientCredentialsTokenProvider::CREDENTIAL_TYPE_CERTIFICATE;
-
-                if ($isCertificate && trim($mail['oauth_certificate_path']) === '') {
-                    // a certificate set up for other settings is dropped above, those settings have to change with it
-                    $hasStoredCertificate = trim((string) (Config::getInstance()->mail['oauth_certificate_path'] ?? '')) !== '';
-                    throw new Exception(Piwik::translate(
-                        $hasStoredCertificate ? 'CoreAdminHome_ErrorSmtpOAuthCertificateSettingsChanged' : 'CoreAdminHome_ErrorSmtpOAuthCertificateNotSetUp'
-                    ));
-                }
-
-                if (
-                    $mail['username'] === ''
-                    || $mail['oauth_token_url'] === ''
-                    || $mail['oauth_client_id'] === ''
-                    || (!$isCertificate && $mail['oauth_client_secret'] === '')
-                ) {
-                    throw new Exception(Piwik::translate(
-                        $isCertificate ? 'CoreAdminHome_ErrorSmtpOAuthCertificateSettingsIncomplete' : 'CoreAdminHome_ErrorSmtpOAuthSettingsIncomplete'
-                    ));
-                }
-
-                if (
-                    stripos($mail['oauth_token_url'], 'https://') !== 0
-                    || filter_var($mail['oauth_token_url'], FILTER_VALIDATE_URL) === false
-                ) {
-                    throw new Exception(Piwik::translate('CoreAdminHome_ErrorSmtpOAuthTokenUrlNotValid'));
-                }
-            }
+            $mail = $this->addOAuthMailSettings($mail, $request);
+            $this->checkOAuthMailSettings($mail);
 
             Config::getInstance()->mail = $mail;
 
@@ -283,6 +227,77 @@ class Controller extends ControllerAdmin
         }
 
         return $toReturn;
+    }
+
+    /**
+     * @param array<string, string> $mail the mail settings about to be saved
+     * @return array<string, string>
+     */
+    private function addOAuthMailSettings(array $mail, Request $request): array
+    {
+        $storedMail = Config::getInstance()->mail;
+
+        $mail['oauth_token_url'] = trim($request->getStringParameter('mailOAuthTokenUrl', ''));
+        $mail['oauth_client_id'] = trim($request->getStringParameter('mailOAuthClientId', ''));
+        $mail['oauth_client_secret'] = $request->getStringParameter('mailOAuthClientSecret', '');
+        $mail['oauth_scope'] = trim($request->getStringParameter('mailOAuthScope', ''));
+
+        $credentialTypes = [ClientCredentialsTokenProvider::CREDENTIAL_TYPE_SECRET, ClientCredentialsTokenProvider::CREDENTIAL_TYPE_CERTIFICATE];
+        $mail['oauth_credential_type'] = strtolower(trim($request->getStringParameter('mailOAuthCredentialType', '')));
+        if (!in_array($mail['oauth_credential_type'], $credentialTypes, true)) {
+            $mail['oauth_credential_type'] = $storedMail['oauth_credential_type'] ?? '';
+        }
+
+        $areOAuthCredentialsStillValid = $this->areOAuthCredentialsStillValidFor($mail);
+
+        if (!array_key_exists('mailOAuthClientSecret', $request->getParameters()) && $areOAuthCredentialsStillValid) {
+            $mail['oauth_client_secret'] = $storedMail['oauth_client_secret'];
+        }
+
+        // the certificate settings are only set in the config file, so the form can't make Matomo read any other file
+        foreach (['oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password'] as $certificateSetting) {
+            $mail[$certificateSetting] = $areOAuthCredentialsStillValid ? ($storedMail[$certificateSetting] ?? '') : '';
+        }
+
+        return $mail;
+    }
+
+    /**
+     * @param array<string, string> $mail the mail settings about to be saved
+     */
+    private function checkOAuthMailSettings(array $mail): void
+    {
+        if ($mail['transport'] !== 'smtp' || strtoupper($mail['type']) !== 'XOAUTH2') {
+            return;
+        }
+
+        $isCertificate = strtolower(trim((string) $mail['oauth_credential_type'])) === ClientCredentialsTokenProvider::CREDENTIAL_TYPE_CERTIFICATE;
+
+        if ($isCertificate && trim($mail['oauth_certificate_path']) === '') {
+            // a certificate set up for other settings was dropped, those settings have to change with it
+            $hasStoredCertificate = trim((string) (Config::getInstance()->mail['oauth_certificate_path'] ?? '')) !== '';
+            throw new Exception(Piwik::translate(
+                $hasStoredCertificate ? 'CoreAdminHome_ErrorSmtpOAuthCertificateSettingsChanged' : 'CoreAdminHome_ErrorSmtpOAuthCertificateNotSetUp'
+            ));
+        }
+
+        if (
+            $mail['username'] === ''
+            || $mail['oauth_token_url'] === ''
+            || $mail['oauth_client_id'] === ''
+            || (!$isCertificate && $mail['oauth_client_secret'] === '')
+        ) {
+            throw new Exception(Piwik::translate(
+                $isCertificate ? 'CoreAdminHome_ErrorSmtpOAuthCertificateSettingsIncomplete' : 'CoreAdminHome_ErrorSmtpOAuthSettingsIncomplete'
+            ));
+        }
+
+        if (
+            stripos($mail['oauth_token_url'], 'https://') !== 0
+            || filter_var($mail['oauth_token_url'], FILTER_VALIDATE_URL) === false
+        ) {
+            throw new Exception(Piwik::translate('CoreAdminHome_ErrorSmtpOAuthTokenUrlNotValid'));
+        }
     }
 
     /**
