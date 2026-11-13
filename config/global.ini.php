@@ -1235,15 +1235,22 @@ host = ; SMTP server address
 type = ; SMTP Auth type. By default: NONE. For example: LOGIN. Use Xoauth2 to authenticate with OAuth 2.0 (see the oauth_ settings below)
 username = ; SMTP username. When type is Xoauth2: the address of the mailbox that sends the emails
 password = ; SMTP password. Not used when type is Xoauth2
-; The oauth_ settings are used when type is Xoauth2. Matomo requests an access token with the OAuth 2.0 client credentials flow.
-oauth_token_url = "" ; URL of the OAuth 2.0 token endpoint, has to start with https://
-oauth_client_id = "" ; OAuth 2.0 client ID (application ID)
-oauth_scope = "" ; OAuth 2.0 scope to request the access token for
-oauth_credential_type = "secret" ; secret or certificate
-oauth_client_secret = "" ; OAuth 2.0 client secret, used when oauth_credential_type is secret
-oauth_certificate_path = "" ; absolute path to the PEM certificate registered for the client, used when oauth_credential_type is certificate
-oauth_private_key_path = "" ; absolute path to the PEM private key of the certificate. Leave empty when it is in the certificate file
-oauth_private_key_password = "" ; passphrase of the private key, if it has one
+; Used when type is Xoauth2: the https:// URL Matomo requests access tokens from
+oauth_token_url = ""
+; Used when type is Xoauth2: the client ID (application ID) of the app registered with your email provider
+oauth_client_id = ""
+; Used when type is Xoauth2: the scope the access token is requested for
+oauth_scope = ""
+; Used when type is Xoauth2: "secret" to sign in with oauth_client_secret, or "certificate" to sign in with the certificate in oauth_certificate_path
+oauth_credential_type = "secret"
+; The client secret of the registered app. Only used when oauth_credential_type is "secret"
+oauth_client_secret = ""
+; Absolute path to the PEM certificate uploaded to the registered app. Only used when oauth_credential_type is "certificate"
+oauth_certificate_path = ""
+; Absolute path to the PEM private key of the certificate. Leave empty when the key is in the certificate file
+oauth_private_key_path = ""
+; Passphrase of the private key. Leave empty when the key has none
+oauth_private_key_password = ""
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
 ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert (not recommended)
 ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)
