@@ -104,8 +104,11 @@
             <td class="managePreprocessedPages__url">{{ displayUrl(page.url) }}</td>
             <td class="managePreprocessedPages__date">{{ formatDate(page.created_date) }}</td>
             <td class="managePreprocessedPages__addedBy">
+              <template v-if="page.created_by === null && page.created_by_superuser">
+                {{ translate('Transitions_AddedBySuperUser') }}
+              </template>
               <span
-                v-if="page.created_by === null"
+                v-else-if="page.created_by === null"
                 class="managePreprocessedPages__unknownUser"
                 :title="translate('Transitions_UnknownUserHelp')"
               >{{ translate('General_Unknown') }}</span>
@@ -211,7 +214,9 @@ export interface PreprocessedPage {
   idpage: number;
   url: string;
   created_date: string;
+  /** Null for a deleted user, and for a super user when the viewer isn't one. */
   created_by: string|null;
+  created_by_superuser?: boolean;
 }
 
 /** A row of the flat page URLs report the suggestions come from. */

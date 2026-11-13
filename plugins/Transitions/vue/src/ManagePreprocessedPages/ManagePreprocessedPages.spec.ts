@@ -139,6 +139,21 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect(wrapper.find('.managePreprocessedPages__empty').exists()).toBe(false);
     });
 
+    it('should name a super user creator that the viewer may not see, and a deleted one Unknown', async () => {
+      answer(() => [
+        page(3, { created_by: null, created_by_superuser: true }),
+        page(2, { created_by: null, created_by_superuser: false }),
+        page(1, { created_by: 'admin', created_by_superuser: false }),
+      ]);
+      const wrapper = await mountPage();
+
+      const cells = wrapper.findAll('.managePreprocessedPages__addedBy');
+      expect(cells[0].text()).toBe('Transitions_AddedBySuperUser');
+      expect(cells[0].find('.managePreprocessedPages__unknownUser').exists()).toBe(false);
+      expect(cells[1].find('.managePreprocessedPages__unknownUser').text()).toBe('General_Unknown');
+      expect(cells[2].text()).toBe('admin');
+    });
+
     it('should render URLs with markup as text', async () => {
       answer(() => [page(1, { url: 'https://example.org/"><img src=x onerror=alert(1)>' })]);
       const wrapper = await mountPage();

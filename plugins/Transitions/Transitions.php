@@ -175,6 +175,7 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_ColumnDateAdded';
         $translationKeys[] = 'Transitions_ColumnAddedBy';
         $translationKeys[] = 'Transitions_UnknownUserHelp';
+        $translationKeys[] = 'Transitions_AddedBySuperUser';
         $translationKeys[] = 'Actions_ColumnPageURL';
         $translationKeys[] = 'General_ColumnPageviews';
         $translationKeys[] = 'General_Remove';

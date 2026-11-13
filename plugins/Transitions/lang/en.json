@@ -2,6 +2,7 @@
     "Transitions": {
         "AddPage": "Add page",
         "AddPageUrl": "Add a page URL",
+        "AddedBySuperUser": "Superuser",
         "DirectEntries": "Direct entries",
         "Transitions": "Transitions",
         "ErrorBack": "Go back to the previous action",
