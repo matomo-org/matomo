@@ -122,6 +122,10 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public function rowCount($queryResult)
     {
+        if ($queryResult instanceof \Zend_Db_Statement_Mysqli) {
+            return $queryResult->rowCount();
+        }
+
         return mysqli_affected_rows($this->_connection);
     }
 

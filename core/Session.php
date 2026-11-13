@@ -74,6 +74,9 @@ class Session extends Zend_Session
         // advise browser that session cookie should only be accessible through the HTTP protocol (i.e., not JavaScript)
         @ini_set('session.cookie_httponly', '1');
 
+        // the session cookie PHP sends itself, on start and on regenerate, needs Matomo's SameSite value too
+        @ini_set('session.cookie_samesite', self::getSameSiteCookieValue());
+
         // don't use the default: PHPSESSID
         @ini_set('session.name', self::$sessionName);
 
@@ -112,6 +115,10 @@ class Session extends Zend_Session
             }
 
             $config = self::getDbTableConfig();
+
+            // DbTable accepts every session id, so strict mode (default as of PHP 8.6) would only make
+            // session_regenerate_id() treat each new id as a collision
+            @ini_set('session.use_strict_mode', '0');
 
             $saveHandler = new DbTable($config);
             if ($saveHandler) {
