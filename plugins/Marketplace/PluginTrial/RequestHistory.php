@@ -130,6 +130,35 @@ class RequestHistory
     }
 
     /**
+     * Returns the decisions on the login's requests made after the given one, oldest first
+     *
+     * @return list<array{plugin_name: string, iddecision: int|string, decision: string}>
+     */
+    public function getDecisionsOfLogin(string $login, int $afterIdDecision): array
+    {
+        return $this->readDecisionAware(
+            'SELECT r.plugin_name, d.iddecision, d.decision'
+            . ' FROM ' . $this->getTable() . ' r'
+            . ' JOIN ' . Common::prefixTable(self::DECISION_TABLE_NAME) . ' d ON d.iddecision = r.iddecision'
+            . ' WHERE r.login = ? AND r.iddecision > ? ORDER BY r.iddecision',
+            [$login, $afterIdDecision]
+        );
+    }
+
+    /**
+     * Returns the newest decision's ID, 0 when none was made yet, or null before the decision table exists
+     */
+    public function getLastDecisionId(): ?int
+    {
+        $rows = $this->readDecisionAware(
+            'SELECT MAX(iddecision) AS iddecision FROM ' . Common::prefixTable(self::DECISION_TABLE_NAME),
+            []
+        );
+
+        return $rows === [] ? null : (int) $rows[0]['iddecision'];
+    }
+
+    /**
      * Returns all pending requests with the requester's email, by plugin and newest first. A requester deleted since
      * has neither login nor email.
      *
