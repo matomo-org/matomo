@@ -163,6 +163,8 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_PreprocessedPagesEmpty';
         $translationKeys[] = 'Transitions_PreprocessedPagesLimitReached';
         $translationKeys[] = 'Transitions_PreprocessedPagesOverLimit';
+        $translationKeys[] = 'Transitions_PreprocessedPagesAddingDisabled';
+        $translationKeys[] = 'Transitions_DateTimeUtc';
         $translationKeys[] = 'Transitions_PreprocessedPageAlreadySelected';
         $translationKeys[] = 'Transitions_PreprocessedPageDuplicateHelp';
         $translationKeys[] = 'Transitions_PreprocessedPagesRebuildHint';

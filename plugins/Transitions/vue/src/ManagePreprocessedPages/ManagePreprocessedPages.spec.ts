@@ -127,7 +127,8 @@ describe('Transitions/ManagePreprocessedPages', () => {
       const rows = wrapper.findAll('.managePreprocessedPages__row');
       expect(rows.map((row) => row.find('.managePreprocessedPages__url').text()))
         .toEqual(['https://example.org/b', 'https://example.org/a']);
-      expect(rows[0].find('.managePreprocessedPages__date').text()).toBe('2025-03-10 09:14 UTC');
+      expect(rows[0].find('.managePreprocessedPages__date').text())
+        .toBe('Transitions_DateTimeUtc:2025-03-10 09:14');
       expect(rows[0].find('.managePreprocessedPages__addedBy').text()).toBe('admin');
 
       const unknown = rows[1].find('.managePreprocessedPages__unknownUser');
@@ -169,10 +170,74 @@ describe('Transitions/ManagePreprocessedPages', () => {
       const wrapper = await mountPage();
 
       expect(wrapper.find('.managePreprocessedPages__error').text()).toBe('You can\'t access this resource');
+
+      // nothing is known about the list, so it isn't shown as empty and nothing can be added
+      expect(wrapper.find('.managePreprocessedPages__usage').exists()).toBe(false);
+      expect(wrapper.find('.managePreprocessedPages__table').isVisible()).toBe(false);
+      await typeUrl(wrapper, 'https://example.org/new');
+      expect(wrapper.find('.managePreprocessedPages__add').attributes('disabled')).toBeDefined();
+    });
+
+    it('should show stored URLs decoded, as text', async () => {
+      answer(() => [page(1, { url: 'https://example.org/a?b=&lt;x&gt;&amp;c=1' })]);
+      const wrapper = await mountPage();
+
+      expect(wrapper.find('.managePreprocessedPages__url').text()).toBe('https://example.org/a?b=<x>&c=1');
+      expect(wrapper.find('x').exists()).toBe(false);
+
+      await wrapper.find('.managePreprocessedPages__remove').trigger('click');
+      expect(wrapper.find('.managePreprocessedPages__confirmText').text())
+        .toContain('Transitions_StopPreprocessingConfirm:example.org/a?b=<x>&c=1');
+    });
+
+    it('should keep the newest list when reloads finish out of order', async () => {
+      const pending: ((list: PreprocessedPage[]) => void)[] = [];
+      state.fetch.mockImplementation((params: Record<string, unknown>) => {
+        if (params.method !== 'Transitions.getPreprocessedPages') {
+          return Promise.resolve([]);
+        }
+
+        if (!state.post.mock.calls.length) {
+          return Promise.resolve([page(1)]);
+        }
+
+        return new Promise((resolve) => {
+          pending.push(resolve);
+        });
+      });
+      state.post.mockResolvedValue({});
+      const wrapper = await mountPage();
+
+      // an add, then a remove, each followed by a reload
+      await typeUrl(wrapper, 'https://example.org/page-2');
+      await wrapper.find('form').trigger('submit');
+      await flushPromises();
+      await wrapper.find('.managePreprocessedPages__remove').trigger('click');
+      await wrapper.find('.managePreprocessedPages__stop').trigger('click');
+      await flushPromises();
+      expect(pending).toHaveLength(2);
+
+      // the newer reload lands first
+      pending[1]([page(2)]);
+      await flushPromises();
+      pending[0]([page(2), page(1)]);
+      await flushPromises();
+
+      expect(wrapper.findAll('.managePreprocessedPages__row')).toHaveLength(1);
     });
   });
 
   describe('limit', () => {
+    it('should say that adding is turned off with a limit of 0', async () => {
+      answer(() => pages(2));
+      const wrapper = await mountPage({ maxPages: 0 });
+      await typeUrl(wrapper, 'https://example.org/new');
+
+      expect(wrapper.find('.managePreprocessedPages__limitMessage').text())
+        .toBe('Transitions_PreprocessedPagesAddingDisabled');
+      expect(wrapper.find('.managePreprocessedPages__add').attributes('disabled')).toBeDefined();
+    });
+
     it('should block adding when the limit is reached', async () => {
       answer(() => pages(20));
       const wrapper = await mountPage();
@@ -261,6 +326,7 @@ describe('Transitions/ManagePreprocessedPages', () => {
     it('should suggest the most viewed matching pages of the last 30 days', async () => {
       answer(() => [], [
         { label: '/a', nb_hits: 4812, url: 'https://example.org/a' },
+        { label: '/a?q', nb_hits: 13, url: 'https://example.org/a?q=&lt;b&gt;' },
         { label: '/a/b', nb_hits: '12', url: 'https://example.org/a/b' },
       ]);
       const wrapper = await mountPage();
@@ -285,14 +351,19 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect(suggestions.map((suggestion) => [
         suggestion.find('.managePreprocessedPages__suggestionUrl').text(),
         suggestion.find('.managePreprocessedPages__suggestionPageviews').text(),
-      ])).toEqual([['https://example.org/a', '4812'], ['https://example.org/a/b', '12']]);
-      expect(suggestions[0].find('.managePreprocessedPages__suggestionUrl').attributes('title'))
-        .toBe('https://example.org/a');
+      ])).toEqual([
+        ['https://example.org/a', '4812'],
+        ['https://example.org/a?q=<b>', '13'],
+        ['https://example.org/a/b', '12'],
+      ]);
+      expect(suggestions[1].find('.managePreprocessedPages__suggestionUrl').attributes('title'))
+        .toBe('https://example.org/a?q=<b>');
 
       await suggestions[1].trigger('click');
       await flushPromises();
 
-      expect((wrapper.find('.fieldInput').element as HTMLInputElement).value).toBe('https://example.org/a/b');
+      expect((wrapper.find('.fieldInput').element as HTMLInputElement).value)
+        .toBe('https://example.org/a?q=<b>');
       expect(wrapper.find('.managePreprocessedPages__suggestions').exists()).toBe(false);
     });
 

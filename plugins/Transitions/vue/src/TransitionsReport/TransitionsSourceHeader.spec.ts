@@ -40,6 +40,10 @@ vi.mock('CoreHome', async () => {
 
         return state.matomo[name as keyof typeof state.matomo];
       },
+      set(target, name: string, value) {
+        (state.matomo as Record<string, unknown>)[name] = value;
+        return true;
+      },
     }),
     MatomoUrl: {
       parsed: { value: { period: 'year', date: '2025-01-01' } },
@@ -187,7 +191,28 @@ describe('Transitions/TransitionsSourceHeader', () => {
       expect(wrapper.find('.transitionsSourceHeader__badge').text()).toBe('Transitions_PreprocessedBadge');
     });
 
+    it('should point out raw data once the first page was added, and stop after the last', async () => {
+      state.fetch.mockResolvedValue(status({ used: 0 }));
+      state.post.mockResolvedValue({ idpage: 7 });
+      const wrapper = await mountHeader({ source: RAW });
+      expect(wrapper.find('.transitionsSourceHeader__badge').exists()).toBe(false);
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await flushPromises();
+
+      expect(wrapper.find('.transitionsSourceHeader__badge').text()).toBe('Transitions_RawDataBadge');
+      expect(state.matomo.transitionsHasPreprocessedPages).toBe(true);
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await wrapper.find('.transitionsSourceHeader__stop').trigger('click');
+      await flushPromises();
+
+      expect(wrapper.find('.transitionsSourceHeader__badge').exists()).toBe(false);
+      expect(state.matomo.transitionsHasPreprocessedPages).toBe(false);
+    });
+
     it('should give admins the toggle without a raw data badge', async () => {
+      state.fetch.mockResolvedValue(status({ used: 0 }));
       const wrapper = await mountHeader({ source: RAW });
 
       expect(wrapper.find('.transitionsSourceHeader__badge').exists()).toBe(false);
@@ -402,6 +427,31 @@ describe('Transitions/TransitionsSourceHeader', () => {
       await flushPromises();
 
       expect(state.post.mock.calls[0][1]).toEqual({ idPage: 9 });
+    });
+
+    it('should drop an add that finishes after leaving the page and coming back', async () => {
+      let finishAdd: (entry: { idpage: number }) => void = () => undefined;
+      state.post.mockReturnValue(new Promise((resolve) => {
+        finishAdd = resolve;
+      }));
+      const wrapper = await mountHeader();
+
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      await wrapper.setProps({ actionName: 'https://example.org/other' });
+      state.fetch.mockResolvedValue(status({ selected: true, idPage: 7, used: 13 }));
+      await wrapper.setProps({ actionName: PAGE_URL });
+      await flushPromises();
+
+      finishAdd({ idpage: 7 });
+      await flushPromises();
+
+      // the status read after coming back already counts the page
+      expect(wrapper.find('.transitionsSourceHeader__message').exists()).toBe(false);
+      expect(wrapper.find('.transitionsSourceHeader__toggle').text()).toContain('Transitions_StopPreprocessing');
+      await wrapper.find('.transitionsSourceHeader__toggle').trigger('click');
+      expect(wrapper.find('.transitionsSourceHeader__confirm').exists()).toBe(true);
+      await wrapper.find('.transitionsSourceHeader__cancel').trigger('click');
+      expect(wrapper.find('.transitionsSourceHeader__usage').exists()).toBe(false);
     });
 
     it('should drop a failed add once another page was opened', async () => {

@@ -14,7 +14,10 @@
       {{ translate('Transitions_PreprocessedPagesIntro') }}
     </p>
 
-    <div class="managePreprocessedPages__usage">
+    <div
+      v-if="hasLoaded"
+      class="managePreprocessedPages__usage"
+    >
       <span class="managePreprocessedPages__usageLabel">{{ usageLabel }}</span>
       <div
         class="managePreprocessedPages__meter"
@@ -32,7 +35,7 @@
     </div>
 
     <p
-      v-if="limitMessage"
+      v-if="hasLoaded && limitMessage"
       class="managePreprocessedPages__limitMessage"
     >{{ limitMessage }}</p>
 
@@ -45,7 +48,7 @@
     <ActivityIndicator :loading="isLoading" />
 
     <table
-      v-show="!isLoading"
+      v-show="hasLoaded"
       class="managePreprocessedPages__table"
       v-content-table
     >
@@ -78,7 +81,7 @@
           >
             <div class="managePreprocessedPages__confirm">
               <div class="managePreprocessedPages__confirmText">
-                <strong>{{ confirmLabel(page.url) }}</strong>
+                <strong>{{ confirmLabel(displayUrl(page.url)) }}</strong>
                 {{ translate('Transitions_StopPreprocessingHelp') }}
               </div>
               <div class="managePreprocessedPages__confirmActions">
@@ -98,7 +101,7 @@
             </div>
           </td>
           <template v-else>
-            <td class="managePreprocessedPages__url">{{ page.url }}</td>
+            <td class="managePreprocessedPages__url">{{ displayUrl(page.url) }}</td>
             <td class="managePreprocessedPages__date">{{ formatDate(page.created_date) }}</td>
             <td class="managePreprocessedPages__addedBy">
               <span
@@ -151,12 +154,12 @@
               <button
                 type="button"
                 class="managePreprocessedPages__suggestion"
-                @click="pickSuggestion(suggestion.url)"
+                @click="pickSuggestion(displayUrl(suggestion.url))"
               >
                 <span
                   class="managePreprocessedPages__suggestionUrl"
-                  :title="suggestion.url"
-                >{{ suggestion.url }}</span>
+                  :title="displayUrl(suggestion.url)"
+                >{{ displayUrl(suggestion.url) }}</span>
                 <span class="managePreprocessedPages__suggestionPageviews">
                   {{ formatNumber(suggestion.nb_hits) }}
                 </span>
@@ -219,6 +222,7 @@ export interface PageUrlSuggestion {
 
 export interface ManagePreprocessedPagesState {
   pages: PreprocessedPage[];
+  hasLoaded: boolean;
   isLoading: boolean;
   listError: string;
   pageUrl: string;
@@ -268,6 +272,7 @@ export default defineComponent({
   data(): ManagePreprocessedPagesState {
     return {
       pages: [],
+      hasLoaded: false,
       isLoading: false,
       listError: '',
       pageUrl: '',
@@ -281,7 +286,11 @@ export default defineComponent({
     };
   },
   setup() {
-    return { suggestionsAbort: { controller: null as AbortController|null } };
+    return {
+      suggestionsAbort: { controller: null as AbortController|null },
+      // the newest list request wins, so a slower earlier reload can't bring back a stale list
+      listLoads: { latest: 0 },
+    };
   },
   created() {
     this.fetchSuggestions = debounce(this.fetchSuggestions.bind(this), 300);
@@ -308,6 +317,10 @@ export default defineComponent({
     limitMessage(): string {
       const used = this.pages.length;
 
+      if (this.maxPages <= 0) {
+        return translate('Transitions_PreprocessedPagesAddingDisabled');
+      }
+
       if (used > this.maxPages) {
         return translate(
           'Transitions_PreprocessedPagesOverLimit',
@@ -327,7 +340,7 @@ export default defineComponent({
       return '';
     },
     isAddDisabled(): boolean {
-      return this.isLoading || this.isAdding || this.isLimitReached || !this.pageUrl.trim();
+      return !this.hasLoaded || this.isAdding || this.isLimitReached || !this.pageUrl.trim();
     },
     rebuildHint(): string {
       return this.rearchiveMonths > 0
@@ -338,6 +351,8 @@ export default defineComponent({
   methods: {
     /** A reload after a change keeps the list on screen until the new one is in. */
     loadPages(isInitialLoad = true) {
+      this.listLoads.latest += 1;
+      const load = this.listLoads.latest;
       this.isLoading = isInitialLoad;
       this.listError = '';
 
@@ -349,11 +364,18 @@ export default defineComponent({
         },
         { createErrorNotification: false },
       ).then((pages) => {
-        this.pages = pages;
+        if (load === this.listLoads.latest) {
+          this.pages = pages;
+          this.hasLoaded = true;
+        }
       }).catch((error) => {
-        this.listError = apiErrorText(error);
+        if (load === this.listLoads.latest) {
+          this.listError = apiErrorText(error);
+        }
       }).finally(() => {
-        this.isLoading = false;
+        if (load === this.listLoads.latest) {
+          this.isLoading = false;
+        }
       });
     },
     onPageUrlInput(value: string) {
@@ -476,7 +498,11 @@ export default defineComponent({
       );
     },
     formatDate(date: string): string {
-      return `${date.substring(0, 16)} UTC`;
+      return translate('Transitions_DateTimeUtc', date.substring(0, 16));
+    },
+    /** URLs come as the tracker stores them, with query values HTML-encoded; shown as text. */
+    displayUrl(url: string): string {
+      return Matomo.helper.htmlDecode(url);
     },
     formatNumber(value: number|string): string {
       return NumberFormatter.formatNumber(Number(value));

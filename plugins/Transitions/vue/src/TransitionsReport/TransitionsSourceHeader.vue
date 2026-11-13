@@ -144,6 +144,7 @@ export interface TransitionsSourceHeaderState {
   isConfirming: boolean;
   message: string;
   error: string;
+  siteHasPages: boolean;
 }
 
 let instanceCount = 0;
@@ -179,6 +180,7 @@ export default defineComponent({
       isConfirming: false,
       message: '',
       error: '',
+      siteHasPages: !!Matomo.transitionsHasPreprocessedPages,
     };
   },
   setup() {
@@ -186,6 +188,8 @@ export default defineComponent({
     return {
       limitHelpId: `transitionsSourceHeaderLimit${instanceCount}`,
       badgeHelpId: `transitionsSourceHeaderBadge${instanceCount}`,
+      // each status load starts a generation; a response of an older one is dropped
+      statusLoads: { latest: 0 },
     };
   },
   created() {
@@ -227,8 +231,11 @@ export default defineComponent({
         return false;
       }
 
-      return this.source.preprocessed
-        || (!!Matomo.transitionsHasPreprocessedPages && `${this.idSite}` === `${Matomo.idSite}`);
+      return this.source.preprocessed || (this.siteHasPages && this.isSiteInUrl);
+    },
+    /** The page's globals describe the website in the URL only. */
+    isSiteInUrl(): boolean {
+      return `${this.idSite}` === `${Matomo.idSite}`;
     },
     hasContent(): boolean {
       return this.showBadge || !!this.status || !!this.message || !!this.error;
@@ -280,11 +287,25 @@ export default defineComponent({
     },
   },
   methods: {
-    /** Whether a response still belongs to the page on screen; the embedded report reuses this. */
-    isCurrent(actionName: string, idSite: string|number): boolean {
-      return actionName === this.actionName && idSite === this.idSite;
+    /**
+     * Whether a response still belongs to the page on screen. The embedded report reuses this
+     * component, also for a page it showed before.
+     */
+    isCurrent(load: number): boolean {
+      return load === this.statusLoads.latest;
+    },
+    /** Keeps the raw data badge, and the row action's period check, in step with the list. */
+    updateSiteHasPages(used: number) {
+      if (!this.isSiteInUrl) {
+        return;
+      }
+
+      this.siteHasPages = used > 0;
+      Matomo.transitionsHasPreprocessedPages = used > 0;
     },
     loadStatus() {
+      this.statusLoads.latest += 1;
+      const load = this.statusLoads.latest;
       this.status = null;
       this.isSaving = false;
       this.isConfirming = false;
@@ -295,7 +316,7 @@ export default defineComponent({
         return;
       }
 
-      const { actionName, idSite, pageUrl } = this;
+      const { idSite, pageUrl } = this;
       AjaxHelper.fetch<PreprocessedPageStatus>(
         {
           method: 'Transitions.getPreprocessedPageStatus',
@@ -304,8 +325,9 @@ export default defineComponent({
         },
         { createErrorNotification: false },
       ).then((status) => {
-        if (this.isCurrent(actionName, idSite)) {
+        if (this.isCurrent(load)) {
           this.status = status;
+          this.updateSiteHasPages(status.used);
         }
       }).catch(() => {
         // without the status there is nothing to toggle; the report itself is unaffected
@@ -316,7 +338,8 @@ export default defineComponent({
         return;
       }
 
-      const { actionName, idSite, pageUrl } = this;
+      const { idSite, pageUrl } = this;
+      const load = this.statusLoads.latest;
       this.isSaving = true;
       this.message = '';
       this.error = '';
@@ -326,7 +349,7 @@ export default defineComponent({
         { pageUrl },
         { createErrorNotification: false },
       ).then((entry) => {
-        if (!this.isCurrent(actionName, idSite) || !this.status) {
+        if (!this.isCurrent(load) || !this.status) {
           return;
         }
 
@@ -336,15 +359,16 @@ export default defineComponent({
           idPage: entry.idpage,
           used: this.status.used + 1,
         };
+        this.updateSiteHasPages(this.status.used);
         this.message = this.status.rearchiveMonths > 0
           ? translate('Transitions_PreprocessedPageAddedRebuild', `${this.status.rearchiveMonths}`)
           : translate('Transitions_PreprocessedPageAddedNewDataOnly');
       }).catch((error) => {
-        if (this.isCurrent(actionName, idSite)) {
+        if (this.isCurrent(load)) {
           this.error = apiErrorText(error);
         }
       }).finally(() => {
-        if (this.isCurrent(actionName, idSite)) {
+        if (this.isCurrent(load)) {
           this.isSaving = false;
         }
       });
@@ -364,7 +388,8 @@ export default defineComponent({
         return;
       }
 
-      const { actionName, idSite } = this;
+      const { idSite } = this;
+      const load = this.statusLoads.latest;
       this.isSaving = true;
       this.message = '';
       this.error = '';
@@ -374,7 +399,7 @@ export default defineComponent({
         { idPage: this.status.idPage },
         { createErrorNotification: false },
       ).then(() => {
-        if (!this.isCurrent(actionName, idSite) || !this.status) {
+        if (!this.isCurrent(load) || !this.status) {
           return;
         }
 
@@ -384,13 +409,14 @@ export default defineComponent({
           idPage: null,
           used: Math.max(0, this.status.used - 1),
         };
+        this.updateSiteHasPages(this.status.used);
         this.isConfirming = false;
       }).catch((error) => {
-        if (this.isCurrent(actionName, idSite)) {
+        if (this.isCurrent(load)) {
           this.error = apiErrorText(error);
         }
       }).finally(() => {
-        if (this.isCurrent(actionName, idSite)) {
+        if (this.isCurrent(load)) {
           this.isSaving = false;
         }
       });
