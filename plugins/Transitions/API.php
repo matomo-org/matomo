@@ -563,7 +563,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Removes a page from the pre-processed pages of a website. Data already processed for it stays available.
+     * Removes a page from the pre-processed pages of a website. Data already processed for it stays available, for up to
+     * `[Transitions] max_removed_pages_kept` removed pages of the website.
      * Fails with a not-found error when the page is not selected for this website. Requires admin access to the website.
      *
      * @param int $idSite The numeric ID of the website.

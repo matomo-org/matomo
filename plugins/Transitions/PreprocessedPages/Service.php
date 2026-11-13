@@ -36,6 +36,8 @@ class Service
 {
     public const DEFAULT_MAX_PAGES = 20;
 
+    public const DEFAULT_MAX_REMOVED_PAGES_KEPT = 500;
+
     /**
      * Longest URL accepted. Like the tracker, normalization then truncates it to `[Tracker] page_maximum_length`.
      */
@@ -140,8 +142,11 @@ class Service
             throw new ThingNotFoundException(Piwik::translate('Transitions_PreprocessedPageNotSelected'));
         }
 
-        // the row is kept, so the page's stored records stay readable by URL
+        // the row is kept, so the page's stored records stay readable by URL; beyond the limit, the oldest removed
+        // rows are deleted, and their records are no longer used
+        $maxRemovedPagesKept = $this->getMaxRemovedPagesKept($idSite);
         $this->dao->removePage($idSite, $idPage, Date::now()->getDatetime());
+        $this->dao->deleteRemovedPagesBeyond($idSite, $maxRemovedPagesKept);
 
         $this->invalidator->removeInvalidationsSafely([$idSite], 'Transitions', Records::getRebuildReportName($idPage));
     }
@@ -310,6 +315,14 @@ class Service
         }
 
         return $this->dao->getPageByUrlHash($idSite, $urlHash);
+    }
+
+    /**
+     * `[Transitions_<idSite>] max_removed_pages_kept` overrides `[Transitions] max_removed_pages_kept`.
+     */
+    public function getMaxRemovedPagesKept(int $idSite): int
+    {
+        return Records::getConfigValue($idSite, 'max_removed_pages_kept', self::DEFAULT_MAX_REMOVED_PAGES_KEPT);
     }
 
     /**
