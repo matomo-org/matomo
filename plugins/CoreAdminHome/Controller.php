@@ -15,6 +15,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\BadRequestException;
 use Piwik\Http\JsonResponse;
 use Piwik\Log\LoggerInterface;
 use Piwik\Mail;
@@ -306,7 +307,7 @@ class Controller extends ControllerAdmin
         if ($isCertificate && trim($mail['oauth_certificate_path']) === '') {
             // a certificate set up for other settings was dropped, those settings have to change with it
             $hasStoredCertificate = trim((string) (Config::getInstance()->mail['oauth_certificate_path'] ?? '')) !== '';
-            throw new Exception(Piwik::translate(
+            throw new BadRequestException(Piwik::translate(
                 $hasStoredCertificate ? 'CoreAdminHome_ErrorSmtpOAuthCertificateSettingsChanged' : 'CoreAdminHome_ErrorSmtpOAuthCertificateNotSetUp'
             ));
         }
@@ -317,7 +318,7 @@ class Controller extends ControllerAdmin
             || $mail['oauth_client_id'] === ''
             || (!$isCertificate && $mail['oauth_client_secret'] === '')
         ) {
-            throw new Exception(Piwik::translate(
+            throw new BadRequestException(Piwik::translate(
                 $isCertificate ? 'CoreAdminHome_ErrorSmtpOAuthCertificateSettingsIncomplete' : 'CoreAdminHome_ErrorSmtpOAuthSettingsIncomplete'
             ));
         }
@@ -326,7 +327,7 @@ class Controller extends ControllerAdmin
             stripos($mail['oauth_token_url'], 'https://') !== 0
             || filter_var($mail['oauth_token_url'], FILTER_VALIDATE_URL) === false
         ) {
-            throw new Exception(Piwik::translate('CoreAdminHome_ErrorSmtpOAuthTokenUrlNotValid'));
+            throw new BadRequestException(Piwik::translate('CoreAdminHome_ErrorSmtpOAuthTokenUrlNotValid'));
         }
     }
 
