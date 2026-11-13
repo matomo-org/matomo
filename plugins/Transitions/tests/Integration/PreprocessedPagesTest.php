@@ -472,6 +472,22 @@ class PreprocessedPagesTest extends IntegrationTestCase
         );
     }
 
+    public function testDeletingAUserClearsTheLoginOfRemovedPages(): void
+    {
+        UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
+        FakeAccess::clearAccess(false, [1], [], 'alice');
+        $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/a')['idpage'];
+        $this->api->removePreprocessedPage(1, $idPage);
+
+        $this->setRole('superuser', 1);
+        UsersManagerAPI::getInstance()->deleteUser('alice');
+
+        self::assertSame(
+            [['created_by' => null]],
+            Db::fetchAll('SELECT created_by FROM ' . Common::prefixTable('transitions_preprocessed_page') . ' WHERE idpage = ?', [$idPage])
+        );
+    }
+
     public function testOnlySuperUsersSeeTheLoginsOfSuperUsers(): void
     {
         UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
@@ -643,6 +659,69 @@ class PreprocessedPagesTest extends IntegrationTestCase
         $this->api->removePreprocessedPage(1, $idPage);
 
         self::assertSame([], (new ReArchiveList())->getAll());
+    }
+
+    public function testRemovedPagesAreNeitherListedNorCountedNorArchived(): void
+    {
+        $idActionA = $this->trackPageview('http://example.com/a');
+        $idActionB = $this->trackPageview('http://example.com/b');
+        $idPageA = $this->api->addPreprocessedPage(1, 'http://example.com/a')['idpage'];
+        $idPageB = $this->api->addPreprocessedPage(1, 'http://example.com/b')['idpage'];
+
+        $this->api->removePreprocessedPage(1, $idPageA);
+
+        self::assertSame(['http://example.com/b'], $this->getUrls(1));
+        $service = StaticContainer::get(Service::class);
+        self::assertSame([$idPageB => $idActionB], $service->getIdActionsForSite(1));
+        self::assertSame([$idPageB => $idActionB], $service->getStoredIdActionsForSite(1));
+        $status = $this->api->getPreprocessedPageStatus(1, 'http://example.com/a');
+        self::assertFalse($status['selected']);
+        self::assertNull($status['idPage']);
+        self::assertSame(1, $status['used']);
+        // its idaction stays known, to read its stored records
+        self::assertSame([$idActionA], $service->getStoredIdActionsForUrl(1, 'http://example.com/a'));
+        $this->assertRemoveNotFound(1, $idPageA);
+
+        $this->api->removePreprocessedPage(1, $idPageB);
+        self::assertFalse(StaticContainer::get(Dao::class)->hasPagesForSite(1));
+    }
+
+    public function testRemovedPagesDontCountTowardsTheLimit(): void
+    {
+        Config::getInstance()->Transitions = ['max_preprocessed_pages' => 2];
+        $idPageA = $this->api->addPreprocessedPage(1, 'https://example.com/a')['idpage'];
+        $this->api->addPreprocessedPage(1, 'https://example.com/b');
+        $this->api->removePreprocessedPage(1, $idPageA);
+
+        $this->api->addPreprocessedPage(1, 'https://example.com/c');
+
+        $this->assertAddFails(1, 'https://example.com/d', 'You can select at most 2 pages for pre-processed Transitions.');
+        $this->assertAddFails(1, 'https://example.com/a', 'You can select at most 2 pages for pre-processed Transitions.');
+    }
+
+    public function testAddingARemovedPageAgainRestoresIt(): void
+    {
+        UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
+        $idAction = $this->trackPageview('http://example.com/a');
+        $idPage = $this->api->addPreprocessedPage(1, 'http://example.com/a')['idpage'];
+        $this->api->removePreprocessedPage(1, $idPage);
+        self::assertSame([], $this->getScheduledReports());
+        Db::query('UPDATE ' . Common::prefixTable('transitions_preprocessed_page') . ' SET created_date = ?', ['2025-01-01 00:00:00']);
+
+        FakeAccess::clearAccess(false, [1], [], 'alice');
+        $added = $this->api->addPreprocessedPage(1, 'http://example.com/a');
+
+        self::assertSame($idPage, $added['idpage']);
+        self::assertSame('alice', $added['created_by']);
+        self::assertNotSame('2025-01-01 00:00:00', $added['created_date']);
+        self::assertSame([$added], $this->api->getPreprocessedPages(1));
+        $page = StaticContainer::get(Dao::class)->getPage(1, $idPage);
+        self::assertNotNull($page);
+        self::assertSame($idAction, $page['idaction']);
+        self::assertNull($page['removed_date']);
+        // archiving skipped it while it was removed
+        self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
+        $this->assertAddFails(1, 'http://example.com/a', 'This page is already selected.');
     }
 
     public function testResolvesTheIdActionsOfTrackedPages(): void

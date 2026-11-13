@@ -90,7 +90,8 @@ class Service
         $this->acquireLock($lock, $idSite);
 
         try {
-            if ($this->dao->getPageByUrlHash($idSite, $urlHash) !== null) {
+            $existing = $this->dao->getPageByUrlHash($idSite, $urlHash);
+            if ($existing !== null && $existing['removed_date'] === null) {
                 throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
             }
 
@@ -99,7 +100,10 @@ class Service
                 throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPagesLimitReached', [(string) $maxPages]));
             }
 
-            if (!$this->dao->addPage($idSite, $url, $urlHash, Date::now()->getDatetime(), $createdBy)) {
+            $isAdded = $existing === null
+                ? $this->dao->addPage($idSite, $url, $urlHash, Date::now()->getDatetime(), $createdBy)
+                : $this->dao->restorePage($existing['idpage'], Date::now()->getDatetime(), $createdBy);
+            if (!$isAdded) {
                 throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
             }
 
@@ -119,8 +123,12 @@ class Service
 
         // a URL not tracked yet is rebuilt once archiving finds it
         $idAction = $this->getIdActionForUrl($url);
-        if ($idAction !== null) {
+        if ($idAction !== null && $existing === null) {
             $this->storeIdAction($idSite, $page['idpage'], $idAction, $page['idaction']);
+        } elseif ($idAction !== null) {
+            // archiving skipped the page while it was removed
+            $this->dao->setIdAction($page['idpage'], $idAction);
+            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
         }
 
         return $this->toEntry($page, $this->dao->getSuperUserLogins($page['created_by'] === null ? [] : [$page['created_by']]));
@@ -136,7 +144,8 @@ class Service
             throw new ThingNotFoundException(Piwik::translate('Transitions_PreprocessedPageNotSelected'));
         }
 
-        $this->dao->removePage($idSite, $idPage);
+        // the row is kept, so the page's stored records stay readable by URL
+        $this->dao->removePage($idSite, $idPage, Date::now()->getDatetime());
 
         $idAction = $page['idaction'] ?? $this->getIdActionForUrl($page['url']);
         if ($idAction !== null) {
@@ -255,8 +264,8 @@ class Service
     }
 
     /**
-     * The idactions stored for a selected page URL, the current one first, then the previous one. They let records be
-     * read after the URL's `log_action` row was deleted with the unused actions.
+     * The idactions stored for a page URL, also a removed one, the current one first, then the previous one. They let
+     * records be read after the URL's `log_action` row was deleted with the unused actions.
      *
      * @return list<int>
      */
@@ -273,6 +282,9 @@ class Service
     public function getPageStatus(int $idSite, string $pageUrl): array
     {
         $page = $this->findPage($idSite, $pageUrl);
+        if ($page !== null && $page['removed_date'] !== null) {
+            $page = null;
+        }
 
         return [
             'selected' => $page !== null,
@@ -284,7 +296,8 @@ class Service
     }
 
     /**
-     * Finds the selected page a URL matches as a duplicate when added; a URL that can't be added matches none.
+     * Finds the page a URL matches as a duplicate when added, also a removed one; a URL that can't be added matches
+     * none.
      *
      * @return PreprocessedPage|null
      */

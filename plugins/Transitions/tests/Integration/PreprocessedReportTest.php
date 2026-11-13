@@ -503,6 +503,26 @@ class PreprocessedReportTest extends IntegrationTestCase
         self::assertSame([], array_filter((new ReArchiveList())->getAll(), fn($entry) => str_contains((string) $entry, 'Transitions_' . $newIdAction . '_')));
     }
 
+    public function testARemovedPageIsServedAfterItsActionIsDeletedAsUnused(): void
+    {
+        $idAction = $this->selectPage(self::PAGE_URL);
+        $this->archive($idAction, 'day', self::DAY);
+        $stored = $this->request('day', self::DAY);
+        self::assertSame(1, $stored['preprocessed']);
+
+        foreach (self::LOG_TABLES as $table) {
+            Db::query('DELETE FROM ' . Common::prefixTable($table) . ' WHERE idsite = 1');
+        }
+        $service = StaticContainer::get(Service::class);
+        foreach ($service->getPages(1) as $page) {
+            $service->removePage(1, $page['idpage']);
+        }
+        StaticContainer::get(RawLogDao::class)->deleteUnusedLogActions();
+        self::assertNull($service->getIdActionForUrl(self::PAGE_URL));
+
+        self::assertSame($this->toArray($stored), $this->toArray($this->request('day', self::DAY)));
+    }
+
     public function testRangesOfMorePeriodsThanSummedAreAnsweredFromTheLogs(): void
     {
         $raw = $this->request('range', self::RANGE);

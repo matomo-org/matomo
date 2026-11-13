@@ -18,22 +18,23 @@ use Piwik\Tracker\Action;
 use Piwik\Updater\Migration;
 
 /**
- * Stores the page URLs of each website whose Transitions report is pre-processed.
+ * Stores the page URLs of each website whose Transitions report is pre-processed. A removed page keeps its row, with
+ * `removed_date` set, so its stored records can still be found by URL.
  *
- * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, idaction: int|null, previous_idaction: int|null, created_date: string, created_by: string|null}
+ * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, idaction: int|null, previous_idaction: int|null, created_date: string, created_by: string|null, removed_date: string|null}
  */
 class Dao
 {
     public const TABLE_NAME = 'transitions_preprocessed_page';
 
     /**
-     * @return list<PreprocessedPage> newest first
+     * @return list<PreprocessedPage> the pages not removed, newest first
      */
     public function getPagesForSite(int $idSite): array
     {
         $rows = Db::fetchAll(
-            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by FROM ' . $this->getTable()
-            . ' WHERE idsite = ? ORDER BY created_date DESC, idpage DESC',
+            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by, removed_date FROM ' . $this->getTable()
+            . ' WHERE idsite = ? AND removed_date IS NULL ORDER BY created_date DESC, idpage DESC',
             [$idSite]
         );
 
@@ -41,13 +42,13 @@ class Dao
     }
 
     /**
-     * @return PreprocessedPage|null
+     * @return PreprocessedPage|null null also for a removed page
      */
     public function getPage(int $idSite, int $idPage): ?array
     {
         $row = Db::fetchRow(
-            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by FROM ' . $this->getTable()
-            . ' WHERE idsite = ? AND idpage = ?',
+            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by, removed_date FROM ' . $this->getTable()
+            . ' WHERE idsite = ? AND idpage = ? AND removed_date IS NULL',
             [$idSite, $idPage]
         );
 
@@ -55,13 +56,13 @@ class Dao
     }
 
     /**
-     * @return PreprocessedPage|null
+     * @return PreprocessedPage|null also a removed page
      * @phpstan-impure
      */
     public function getPageByUrlHash(int $idSite, string $urlHash): ?array
     {
         $row = Db::fetchRow(
-            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by, removed_date FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND url_hash = ?',
             [$idSite, $urlHash]
         );
@@ -71,7 +72,7 @@ class Dao
 
     public function getNumPagesForSite(int $idSite): int
     {
-        return (int) Db::fetchOne('SELECT COUNT(*) FROM ' . $this->getTable() . ' WHERE idsite = ?', [$idSite]);
+        return (int) Db::fetchOne('SELECT COUNT(*) FROM ' . $this->getTable() . ' WHERE idsite = ? AND removed_date IS NULL', [$idSite]);
     }
 
     /**
@@ -80,7 +81,7 @@ class Dao
     public function hasPagesForSite(int $idSite): bool
     {
         try {
-            return (bool) Db::fetchOne('SELECT 1 FROM ' . $this->getTable() . ' WHERE idsite = ? LIMIT 1', [$idSite]);
+            return (bool) Db::fetchOne('SELECT 1 FROM ' . $this->getTable() . ' WHERE idsite = ? AND removed_date IS NULL LIMIT 1', [$idSite]);
         } catch (\Exception $e) {
             if ($this->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 return false;
@@ -119,6 +120,21 @@ class Dao
         }
 
         return true;
+    }
+
+    /**
+     * Selects a removed page again, as added now; its idactions are kept.
+     *
+     * @return bool false when the page isn't removed
+     */
+    public function restorePage(int $idPage, string $createdDate, ?string $createdBy): bool
+    {
+        $statement = Db::query(
+            'UPDATE ' . $this->getTable() . ' SET removed_date = NULL, created_date = ?, created_by = ? WHERE idpage = ? AND removed_date IS NOT NULL',
+            [$createdDate, $createdBy, $idPage]
+        );
+
+        return $statement->rowCount() > 0;
     }
 
     /**
@@ -189,9 +205,12 @@ class Dao
         return array_map(fn(array $row): string => (string) $row['login'], $rows);
     }
 
-    public function removePage(int $idSite, int $idPage): void
+    public function removePage(int $idSite, int $idPage, string $removedDate): void
     {
-        Db::query('DELETE FROM ' . $this->getTable() . ' WHERE idsite = ? AND idpage = ?', [$idSite, $idPage]);
+        Db::query(
+            'UPDATE ' . $this->getTable() . ' SET removed_date = ? WHERE idsite = ? AND idpage = ? AND removed_date IS NULL',
+            [$removedDate, $idSite, $idPage]
+        );
     }
 
     /**
@@ -272,6 +291,7 @@ class Dao
             'previous_idaction' => isset($row['previous_idaction']) ? (int) $row['previous_idaction'] : null,
             'created_date' => (string) $row['created_date'],
             'created_by' => isset($row['created_by']) ? (string) $row['created_by'] : null,
+            'removed_date' => isset($row['removed_date']) ? (string) $row['removed_date'] : null,
         ];
     }
 

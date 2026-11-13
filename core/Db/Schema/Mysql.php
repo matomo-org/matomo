@@ -447,6 +447,7 @@ class Mysql implements SchemaInterface
                                       `previous_idaction` INTEGER UNSIGNED NULL,
                                       `created_date` DATETIME NOT NULL,
                                       `created_by` VARCHAR(100) NULL,
+                                      `removed_date` DATETIME NULL,
                                       PRIMARY KEY(`idpage`),
                                       UNIQUE INDEX index_idsite_url_hash (`idsite`, `url_hash`)
                                   ) $tableOptions

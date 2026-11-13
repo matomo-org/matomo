@@ -43,6 +43,7 @@ class Updates_6_1_0_b1 extends Updates
                 'previous_idaction' => 'INTEGER UNSIGNED NULL',
                 'created_date' => 'DATETIME NOT NULL',
                 'created_by' => 'VARCHAR(100) NULL',
+                'removed_date' => 'DATETIME NULL',
             ], ['idpage']),
             $this->migration->db->addUniqueKey('transitions_preprocessed_page', ['idsite', 'url_hash'], 'index_idsite_url_hash'),
         ];
