@@ -14,11 +14,13 @@ namespace Piwik\Plugins\Transitions\tests\Integration;
 use Piwik\API\Request;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\FrontController;
 use Piwik\Menu\MenuAdmin;
 use Piwik\NoAccessException;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\Controller;
@@ -257,23 +259,34 @@ class PreprocessedPageStatusTest extends IntegrationTestCase
     {
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
         $this->api->addPreprocessedPage(1, 'https://example.com/selected');
-        // not gone through by core:archive yet
+        // core:archive never ran
         self::assertSame(0, $this->getRearchiveMonths(1));
-
-        // core:archive went through both websites; it is recorded only for website 1, which has selected pages
-        Piwik::postEvent('CronArchive.archiveSingleSite.finish', [1, '4711']);
-        Piwik::postEvent('CronArchive.archiveSingleSite.finish', [2, '4711']);
-        self::assertSame(RebuildWindow::getMonths(), $this->getRearchiveMonths(1));
-        $this->api->addPreprocessedPage(2, 'https://example.org/selected');
-        self::assertSame(0, $this->getRearchiveMonths(2));
 
         $start = Date::now()->getTimestamp();
         try {
-            // a run within the hour isn't recorded again, so the record expires from the first run
+            // until core:archive went through a website with pages, the last run of the install counts
+            Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, (string) $start);
+            self::assertSame(RebuildWindow::getMonths(), $this->getRearchiveMonths(1));
+            self::assertSame(RebuildWindow::getMonths(), $this->getRearchiveMonths(2));
+            Date::$now = $start + ArchivingMode::CRON_RECENT_SECONDS + 60;
+            self::assertSame(0, $this->getRearchiveMonths(1));
+            Date::$now = null;
+
+            // it is recorded only for website 1, which has selected pages
+            Piwik::postEvent('CronArchive.archiveSingleSite.finish', [1, '4711']);
+            Piwik::postEvent('CronArchive.archiveSingleSite.finish', [2, '4711']);
+            Option::delete(CronArchive::OPTION_ARCHIVING_FINISHED_TS);
+            self::assertSame(RebuildWindow::getMonths(), $this->getRearchiveMonths(1));
+            self::assertSame(0, $this->getRearchiveMonths(2));
+
+            // a run within the hour isn't recorded again, so the record expires from the first run; once a website has a
+            // record, the install's last run doesn't count for it
             Date::$now = $start + 1800;
             Piwik::postEvent('CronArchive.archiveSingleSite.finish', [1, '4712']);
             Date::$now = $start + ArchivingMode::CRON_RECENT_SECONDS + 60;
+            Option::set(CronArchive::OPTION_ARCHIVING_FINISHED_TS, (string) Date::$now);
             self::assertSame(0, $this->getRearchiveMonths(1));
+            self::assertSame(RebuildWindow::getMonths(), $this->getRearchiveMonths(2));
 
             // a later run is
             Piwik::postEvent('CronArchive.archiveSingleSite.finish', [1, '4713']);
