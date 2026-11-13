@@ -26,6 +26,9 @@ final class Service
     // bounds how long a notification the session dropped, or one built for another site or language, can stay so
     private const MAX_SECONDS_BETWEEN_CHECKS = 600;
 
+    // a check finding a different list replaces the notice, and a page can still display any of the last few
+    private const MAX_REMEMBERED_NOTICES = 5;
+
     public function __construct()
     {
     }
@@ -66,6 +69,8 @@ final class Service
 
         if (Session::isStarted()) {
             (new Notification($pluginName, new Storage($pluginName)))->removeFromSession();
+            // rebuilt without the decided plugin on the next page view
+            RequestsNotification::removeFromSession();
         }
 
         return $numRequests;
@@ -124,18 +129,21 @@ final class Service
     }
 
     /**
-     * Creates notifications for all available plugin trial requests if any
+     * Creates the notifications of plugin requests for super users, and while requests are active, of decisions for
+     * the users who requested
      *
      * @throws Exception
      */
     public function createNotificationsIfNeeded(): void
     {
-        if (!$this->isEnabled()) {
+        if (!$this->isEnabled() || Piwik::isUserIsAnonymous()) {
             return;
         }
 
-        if (!Piwik::hasUserSuperUserAccess()) {
-            return; // only super users can see and dismiss those notifications
+        $isSuperUser = Piwik::hasUserSuperUserAccess();
+        $requestsActive = $this->areRequestsActive();
+        if (!$isSuperUser && !$requestsActive) {
+            return; // requesters are only told of decisions while requests are active
         }
 
         // this runs on every request, so it is skipped while no request has changed since this session last checked
@@ -145,6 +153,9 @@ final class Service
             $session !== null
             && $session->checkedMarker === $changeMarker
             && $session->checkedLogin === Piwik::getCurrentUserLogin()
+            // turning requests on or off, or a promotion, changes which notices are due without changing a request
+            && $session->checkedRequestsActive === $requestsActive
+            && $session->checkedIsSuperUser === $isSuperUser
             && $session->checkedAt > time() - self::MAX_SECONDS_BETWEEN_CHECKS
             // activating a plugin outside the plugin manager, eg in the config, changes no request
             && !array_filter((array) $session->checkedPlugins, [Manager::getInstance(), 'isPluginActivated'])
@@ -160,27 +171,61 @@ final class Service
         $allChecked = true;
         $checkedPlugins = [];
 
-        foreach (Storage::getAllInStorage() as $pluginName => $storage) {
-            if (Manager::getInstance()->isPluginActivated($pluginName)) {
-                try {
-                    $this->cancelRequest($pluginName);
-                } catch (\Throwable $e) {
-                    // retried on the next page view, and must not hide the other plugins' notifications
-                    $allChecked = false;
+        if ($isSuperUser) {
+            $requested = [];
+
+            foreach (Storage::getAllInStorage() as $pluginName => $storage) {
+                if (Manager::getInstance()->isPluginActivated($pluginName)) {
+                    try {
+                        $this->cancelRequest($pluginName);
+                    } catch (\Throwable $e) {
+                        // retried on the next page view, and must not hide the other plugins' notifications
+                        $allChecked = false;
+                    }
+                    continue;
                 }
-                continue;
+
+                $checkedPlugins[] = $pluginName;
+
+                $trialRequest = new Notification($pluginName, $storage);
+                if (!$requestsActive) {
+                    $trialRequest->createNotificationIfNeeded($getSuperUsers);
+                    continue;
+                }
+
+                // one shown before requests were active
+                $trialRequest->removeFromSession();
+                if ($storage->wasRequested() && !$storage->isNotificationDismissed($getSuperUsers)) {
+                    $requested[$pluginName] = $storage->getDisplayName();
+                }
             }
 
-            $checkedPlugins[] = $pluginName;
+            if (!$requestsActive) {
+                // its link leads to a page that is off now
+                RequestsNotification::removeFromSession();
+            } else {
+                $noticeId = RequestsNotification::notify($requested);
+                if ($session !== null && $noticeId !== null) {
+                    // dismissing a notice dismisses only the plugins it listed, not one requested since
+                    $lists = is_array($session->notifiedLists) ? $session->notifiedLists : [];
+                    unset($lists[$noticeId]);
+                    $lists[$noticeId] = array_keys($requested);
+                    $session->notifiedLists = array_slice($lists, -self::MAX_REMEMBERED_NOTICES, null, true);
+                }
+            }
+        }
 
-            $trialRequest = new Notification($pluginName, $storage);
-            $trialRequest->createNotificationIfNeeded($getSuperUsers);
+        // a transient notice made without a session would be lost before any page displays it
+        if ($requestsActive && $session !== null) {
+            DecisionNotifications::createIfNeeded();
         }
 
         // a check that needed the current super users can change with them, and demoting one changes no request
         if ($session !== null && $allChecked && $superUsers === null) {
             $session->checkedMarker = $changeMarker;
             $session->checkedLogin = Piwik::getCurrentUserLogin();
+            $session->checkedRequestsActive = $requestsActive;
+            $session->checkedIsSuperUser = $isSuperUser;
             $session->checkedPlugins = $checkedPlugins;
             $session->checkedAt = time();
         }
@@ -200,6 +245,11 @@ final class Service
 
         if (!Piwik::hasUserSuperUserAccess()) {
             return; // only super users can see and dismiss those notifications
+        }
+
+        if (RequestsNotification::isOwnId($notificationId)) {
+            $this->dismissRequestsNotification($notificationId);
+            return;
         }
 
         if (!str_starts_with($notificationId, 'Marketplace_PluginTrialRequest_')) {
@@ -223,6 +273,30 @@ final class Service
         $pluginTrial->setNotificationDismissed();
     }
 
+    private function dismissRequestsNotification(string $notificationId): void
+    {
+        $session = self::isSessionEnabled() ? new SessionNamespace(self::SESSION_NAMESPACE) : null;
+        if ($session === null) {
+            // without a session the notice was built by the request that displayed it, from what is pending now
+            $pluginNames = Storage::getPluginsInStorage();
+        } else {
+            // a check since the page was displayed, eg on an AJAX request, can have replaced the notice
+            $lists = is_array($session->notifiedLists) ? $session->notifiedLists : [];
+            $pluginNames = $lists[$notificationId] ?? [];
+            unset($lists[$notificationId]);
+            $session->notifiedLists = $lists;
+        }
+
+        foreach ($pluginNames as $pluginName) {
+            $storage = new Storage($pluginName);
+            if ($storage->wasRequested() && !$storage->isNotificationDismissed()) {
+                $storage->setNotificationDismissed();
+            }
+        }
+
+        RequestsNotification::removeFromSession();
+    }
+
     /**
      * Cancels a plugin trial request
      *
@@ -236,6 +310,7 @@ final class Service
         if (Piwik::hasUserSuperUserAccess() && Session::isStarted()) {
             $notification = new Notification($pluginName, new Storage($pluginName));
             $notification->removeFromSession();
+            RequestsNotification::removeFromSession();
         }
     }
 

@@ -14,6 +14,7 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
+use Piwik\Plugins\Marketplace\PluginTrial\DecisionNotifications;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
@@ -431,6 +432,9 @@ class Marketplace extends \Piwik\Plugin
         // each step catches its own failure, so one cannot skip the others, nor the UsersManager.deleteUser observers after this one
         $this->runTrialRequestCleanup(function () use ($userLogin) {
             StaticContainer::get(RequestHistory::class)->anonymizeLogin($userLogin);
+        });
+        $this->runTrialRequestCleanup(function () use ($userLogin) {
+            DecisionNotifications::forgetLogin($userLogin);
         });
         $this->runTrialRequestCleanup(function () use ($userLogin) {
             foreach (Storage::getPluginsInStorage() as $pluginName) {
