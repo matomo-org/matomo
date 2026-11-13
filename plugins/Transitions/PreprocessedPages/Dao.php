@@ -94,6 +94,19 @@ class Dao
     }
 
     /**
+     * @return list<int> the idpages of the website's pages removed at or after the given UTC time
+     */
+    public function getPageIdsRemovedSince(int $idSite, string $removedSince): array
+    {
+        $rows = $this->readIfTableExists(fn() => Db::fetchAll(
+            'SELECT idpage FROM ' . $this->getTable() . ' WHERE idsite = ? AND removed_date >= ?',
+            [$idSite, $removedSince]
+        ), []);
+
+        return array_map(fn(array $row): int => (int) $row['idpage'], $rows);
+    }
+
+    /**
      * Returns the `log_action` name of an action, for a page URL the URL without protocol.
      */
     public function getActionName(int $idAction): ?string

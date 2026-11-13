@@ -157,6 +157,16 @@ class Service
     }
 
     /**
+     * The idpages of the website's pages removed at or after the given time.
+     *
+     * @return list<int>
+     */
+    public function getPageIdsRemovedSince(int $idSite, Date $removedSince): array
+    {
+        return $this->dao->getPageIdsRemovedSince($idSite, $removedSince->getDatetime());
+    }
+
+    /**
      * The idaction each page that isn't removed is tracked under now, resolved in one query; null for a URL that isn't
      * tracked, or whose `log_action` row was deleted with the unused actions.
      *

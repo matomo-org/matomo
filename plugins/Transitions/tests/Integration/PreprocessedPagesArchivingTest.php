@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Transitions\tests\Integration;
 
 use Piwik\Archive;
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
@@ -452,6 +453,37 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
         self::assertSame($this->getExpectedRecordNames($idPage), $this->getStoredRecordNames(1, self::DAY));
         self::assertNotSame($idPage, $otherIdPage);
+    }
+
+    public function testArchivingALongerPeriodAgainKeepsTheRecordsOfAPageRemovedSince(): void
+    {
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $month = $this->getStoredReport($idPage, 'month', self::DAY);
+        StaticContainer::get(Service::class)->removePage(1, $idPage);
+
+        StaticContainer::get(ArchiveInvalidator::class)->markArchivesAsInvalidated([1], [Date::factory(self::DAY)], 'month');
+        $this->archive('month', self::DAY);
+
+        self::assertSame($this->getExpectedRecordNames($idPage), $this->getStoredRecordNames(3, '2010-03-01', $this->getLatestIdArchive(3, '2010-03-01')));
+        self::assertSame($month, $this->getStoredReport($idPage, 'month', self::DAY));
+
+        $served = API::getInstance()->getTransitionsForAction(self::PAGE_URL, 'url', 1, 'month', self::DAY);
+        self::assertSame(1, $served['preprocessed']);
+        self::assertSame($month['pageMetrics'], array_map('intval', $served['pageMetrics']));
+
+        // a period that started after the removal is archived without it
+        Db::query('UPDATE ' . Common::prefixTable('transitions_preprocessed_page') . " SET removed_date = '2010-03-07 00:00:00'");
+        StaticContainer::get(ArchiveInvalidator::class)->markArchivesAsInvalidated([1], [Date::factory(self::LATER_DAY)], 'week');
+        $this->archive('week', self::LATER_DAY);
+        self::assertSame([], $this->getStoredRecordNames(2, '2010-03-08', $this->getLatestIdArchive(2, '2010-03-08')));
+    }
+
+    private function getLatestIdArchive(int $periodId, string $date1): int
+    {
+        return (int) Db::fetchOne(
+            'SELECT MAX(idarchive) FROM ' . Common::prefixTable('archive_numeric_2010_03') . " WHERE idsite = 1 AND period = ? AND date1 = ? AND name = 'done'",
+            [$periodId, $date1]
+        );
     }
 
     private function insertAction(string $name, int $type): int

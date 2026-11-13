@@ -384,7 +384,7 @@ class PageTransitions extends RecordBuilder
     }
 
     /**
-     * The pages to build: all pages of the website, or the pages of the requested records.
+     * The pages to build: all pages of {@link getIdPages()}, or the pages of the requested records.
      *
      * @return list<int>
      */
@@ -406,14 +406,24 @@ class PageTransitions extends RecordBuilder
     }
 
     /**
-     * The selected pages of the website that aren't removed, once per archive.
+     * The selected pages of the website that aren't removed, once per archive. A longer period also sums the records of
+     * the pages removed since it started, so archiving it again doesn't drop the records of their days.
      *
      * @return list<int>
      */
     private function getIdPages(ArchiveProcessor $archiveProcessor): array
     {
         if (!isset($this->idPagesByArchive[$archiveProcessor])) {
-            $this->idPagesByArchive[$archiveProcessor] = StaticContainer::get(Service::class)->getPageIds($this->getIdSite($archiveProcessor));
+            $idSite = $this->getIdSite($archiveProcessor);
+            $service = StaticContainer::get(Service::class);
+            $params = $archiveProcessor->getParams();
+
+            $idPages = $service->getPageIds($idSite);
+            if ($params->getPeriod()->getLabel() !== 'day') {
+                $idPages = array_values(array_unique(array_merge($idPages, $service->getPageIdsRemovedSince($idSite, $params->getDateTimeStart()))));
+            }
+
+            $this->idPagesByArchive[$archiveProcessor] = $idPages;
         }
 
         return $this->idPagesByArchive[$archiveProcessor];
