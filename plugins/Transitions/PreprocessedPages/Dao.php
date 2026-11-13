@@ -21,7 +21,7 @@ use Piwik\Updater\Migration;
  * Stores the page URLs of each website whose Transitions report is pre-processed. A removed page keeps its row, with
  * `removed_date` set, so its stored records can still be found by URL.
  *
- * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, idaction: int|null, previous_idaction: int|null, created_date: string, created_by: string|null, removed_date: string|null}
+ * @phpstan-type PreprocessedPage array{idpage: int, idsite: int, url: string, url_hash: string, created_date: string, created_by: string|null, removed_date: string|null}
  */
 class Dao
 {
@@ -33,7 +33,7 @@ class Dao
     public function getPagesForSite(int $idSite): array
     {
         $rows = Db::fetchAll(
-            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by, removed_date FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, created_date, created_by, removed_date FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND removed_date IS NULL ORDER BY created_date DESC, idpage DESC',
             [$idSite]
         );
@@ -47,7 +47,7 @@ class Dao
     public function getPage(int $idSite, int $idPage): ?array
     {
         $row = Db::fetchRow(
-            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by, removed_date FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, created_date, created_by, removed_date FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND idpage = ? AND removed_date IS NULL',
             [$idSite, $idPage]
         );
@@ -62,7 +62,7 @@ class Dao
     public function getPageByUrlHash(int $idSite, string $urlHash): ?array
     {
         $row = Db::fetchRow(
-            'SELECT idpage, idsite, url, url_hash, idaction, previous_idaction, created_date, created_by, removed_date FROM ' . $this->getTable()
+            'SELECT idpage, idsite, url, url_hash, created_date, created_by, removed_date FROM ' . $this->getTable()
             . ' WHERE idsite = ? AND url_hash = ?',
             [$idSite, $urlHash]
         );
@@ -123,7 +123,7 @@ class Dao
     }
 
     /**
-     * Selects a removed page again, as added now; its idactions are kept.
+     * Selects a removed page again, as added now; it keeps its idpage and so its stored records.
      *
      * @return bool false when the page isn't removed
      */
@@ -132,22 +132,6 @@ class Dao
         $statement = Db::query(
             'UPDATE ' . $this->getTable() . ' SET removed_date = NULL, created_date = ?, created_by = ? WHERE idpage = ? AND removed_date IS NOT NULL',
             [$createdDate, $createdBy, $idPage]
-        );
-
-        return $statement->rowCount() > 0;
-    }
-
-    /**
-     * Stores the idaction the page URL has been tracked under, and keeps the one it replaces as the previous one.
-     *
-     * @return bool false when the page has this idaction already, so only one caller acts on a change
-     */
-    public function setIdAction(int $idPage, int $idAction): bool
-    {
-        // MySQL assigns from left to right, so the previous idaction gets the replaced value
-        $statement = Db::query(
-            'UPDATE ' . $this->getTable() . ' SET previous_idaction = idaction, idaction = ? WHERE idpage = ? AND (idaction IS NULL OR idaction <> ?)',
-            [$idAction, $idPage, $idAction]
         );
 
         return $statement->rowCount() > 0;
@@ -287,8 +271,6 @@ class Dao
             'idsite' => (int) $row['idsite'],
             'url' => (string) $row['url'],
             'url_hash' => (string) $row['url_hash'],
-            'idaction' => isset($row['idaction']) ? (int) $row['idaction'] : null,
-            'previous_idaction' => isset($row['previous_idaction']) ? (int) $row['previous_idaction'] : null,
             'created_date' => (string) $row['created_date'],
             'created_by' => isset($row['created_by']) ? (string) $row['created_by'] : null,
             'removed_date' => isset($row['removed_date']) ? (string) $row['removed_date'] : null,

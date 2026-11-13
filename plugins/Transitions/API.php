@@ -207,8 +207,9 @@ class API extends \Piwik\Plugin\API
      * request, which is then answered from the logs. `max_period_allowed` doesn't apply to stored records that cover
      * the period, or are refreshed; beyond it, nothing is summed from shorter periods or built.
      *
-     * A page URL whose `log_action` row was deleted with unused actions is read under the idaction stored with the
-     * selected page, and records a page has under its previous idaction are read when the current one has none.
+     * The records are found by the page URL, without `log_action`, so they are served also for a page that was removed
+     * or whose action was deleted as unused. A URL with query parameters the website excludes now is answered from the
+     * logs, as it may have been tracked as another page.
      *
      * @param string|null|false $segment
      * @param int|string $limitBeforeGrouping
@@ -276,33 +277,12 @@ class API extends \Piwik\Plugin\API
             return null;
         }
 
-        // days are built for the tracked idaction only once no stored idaction has records
-        $loader = StaticContainer::get(StoredRecordsLoader::class);
-        $trackedIdAction = $this->deriveIdAction($actionName, $actionType);
-        $storedIdActions = array_values(array_diff(
-            StaticContainer::get(PreprocessedPagesService::class)->getStoredIdActionsForUrl($idSite, $actionName),
-            [$trackedIdAction]
-        ));
-        $candidates = [];
-        if ($trackedIdAction !== null) {
-            $candidates[] = [$trackedIdAction, empty($storedIdActions)];
-        }
-        foreach ($storedIdActions as $storedIdAction) {
-            $candidates[] = [$storedIdAction, false];
-        }
-        if ($trackedIdAction !== null && !empty($storedIdActions)) {
-            $candidates[] = [$trackedIdAction, true];
+        $idPage = StaticContainer::get(PreprocessedPagesService::class)->getPageIdForReport($idSite, $actionName);
+        if ($idPage === null) {
+            return null;
         }
 
-        $records = null;
-        $idaction = 0;
-        foreach ($candidates as [$idaction, $mayBuildDays]) {
-            $records = $loader->load($idSite, $periodObject, $segmentObject, $idaction, $tableParts, $isPeriodAllowed, $mayBuildDays);
-            if ($records !== null) {
-                break;
-            }
-        }
-
+        $records = StaticContainer::get(StoredRecordsLoader::class)->load($idSite, $periodObject, $segmentObject, $idPage, $tableParts, $isPeriodAllowed);
         if ($records === null) {
             return null;
         }
@@ -329,9 +309,11 @@ class API extends \Piwik\Plugin\API
                 // the stored following pages leave out reloads, which the log query counts as the page itself
                 $extraRows = [];
                 if ($requestedParts['includeLoops'] && $type == Action::TYPE_PAGE_URL && $records->getNumeric(Records::LOOPS) > 0) {
+                    $idaction = $this->deriveIdAction($actionName, $actionType);
                     $extraRows[] = [
-                        'label' => StaticContainer::get(PreprocessedPagesDao::class)->getActionName($idaction)
-                            ?? PageUrl::normalizeUrl(Common::unsanitizeInputValue($actionName))['url'],
+                        // the name the log query labels it with; HTML-encoded like it, for a deleted action
+                        'label' => ($idaction === null ? null : StaticContainer::get(PreprocessedPagesDao::class)->getActionName($idaction))
+                            ?? Common::sanitizeInputValue(PageUrl::normalizeUrl(Common::unsanitizeInputValue($actionName))['url']),
                         'count' => $records->getNumeric(Records::LOOPS),
                     ];
                 }

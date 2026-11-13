@@ -23,6 +23,7 @@ use Piwik\Piwik;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\TableLogAction;
+use Piwik\UrlHelper;
 
 /**
  * Manages the pages of a website whose Transitions report is pre-processed during archiving.
@@ -121,15 +122,9 @@ class Service
             throw new \Exception('The added page could not be read back.');
         }
 
-        // a URL not tracked yet is rebuilt once archiving finds it
-        $idAction = $this->getIdActionForUrl($url);
-        if ($idAction !== null && $existing === null) {
-            $this->storeIdAction($idSite, $page['idpage'], $idAction, $page['idaction']);
-        } elseif ($idAction !== null) {
-            // archiving skipped the page while it was removed
-            $this->dao->setIdAction($page['idpage'], $idAction);
-            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
-        }
+        // also for a URL not tracked yet, whose days then hold zero records, and for a removed page added again, which
+        // archiving skipped meanwhile
+        $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($page['idpage']));
 
         return $this->toEntry($page, $this->dao->getSuperUserLogins($page['created_by'] === null ? [] : [$page['created_by']]));
     }
@@ -147,61 +142,38 @@ class Service
         // the row is kept, so the page's stored records stay readable by URL
         $this->dao->removePage($idSite, $idPage, Date::now()->getDatetime());
 
-        $idAction = $page['idaction'] ?? $this->getIdActionForUrl($page['url']);
-        if ($idAction !== null) {
-            $this->removePendingRebuild($idSite, $idAction);
-        }
+        $this->invalidator->removeInvalidationsSafely([$idSite], 'Transitions', Records::getRebuildReportName($idPage));
     }
 
     /**
-     * Another listed page tracked under the same idaction still needs the rebuild.
-     */
-    private function removePendingRebuild(int $idSite, int $idAction): void
-    {
-        if (!in_array($idAction, $this->getStoredIdActionsForSite($idSite), true)) {
-            $this->invalidator->removeInvalidationsSafely([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
-        }
-    }
-
-    /**
-     * Returns the idaction of each listed page that has been tracked, resolved now in one query. A page found under a
-     * new idaction, such as one tracked for the first time since it was added, gets its data rebuilt like a new page.
+     * The idpages of the website's pages that aren't removed.
      *
-     * @return array<int, int> idaction by idpage
+     * @return list<int>
      */
-    public function getIdActionsForSite(int $idSite): array
+    public function getPageIds(int $idSite): array
+    {
+        return array_column($this->dao->getPagesForSite($idSite), 'idpage');
+    }
+
+    /**
+     * The idaction each page that isn't removed is tracked under now, resolved in one query; null for a URL that isn't
+     * tracked, or whose `log_action` row was deleted with the unused actions.
+     *
+     * @param list<int>|null $idPages only these pages, else all
+     * @return array<int, int|null> idaction by idpage
+     */
+    public function getIdActionsByPage(int $idSite, ?array $idPages = null): array
     {
         $pages = $this->dao->getPagesForSite($idSite);
+        if ($idPages !== null) {
+            $pages = array_values(array_filter($pages, fn(array $page): bool => in_array($page['idpage'], $idPages, true)));
+        }
+
         $resolvedIdActions = $this->getIdActionsForUrls(array_column($pages, 'url'));
 
         $idActions = [];
         foreach ($pages as $page) {
-            $idAction = $resolvedIdActions[$page['url']] ?? null;
-            if ($idAction === null) {
-                continue;
-            }
-
-            if ($idAction !== $page['idaction']) {
-                $this->storeIdAction($idSite, $page['idpage'], $idAction, $page['idaction']);
-            }
-            $idActions[$page['idpage']] = $idAction;
-        }
-
-        return $idActions;
-    }
-
-    /**
-     * Returns the idaction last found for each listed page, without looking them up.
-     *
-     * @return array<int, int> idaction by idpage
-     */
-    public function getStoredIdActionsForSite(int $idSite): array
-    {
-        $idActions = [];
-        foreach ($this->dao->getPagesForSite($idSite) as $page) {
-            if ($page['idaction'] !== null) {
-                $idActions[$page['idpage']] = $page['idaction'];
-            }
+            $idActions[$page['idpage']] = $resolvedIdActions[$page['url']] ?? null;
         }
 
         return $idActions;
@@ -246,34 +218,43 @@ class Service
     }
 
     /**
-     * Rebuilds the page's data within the re-archiving window when it is tracked for the first time. A page tracked
-     * again under a new idaction, after its `log_action` row was deleted with the unused actions, keeps the records of
-     * the previous one, which are still read; its logs are gone, so they aren't rebuilt.
+     * The idpage whose stored records answer a report of the page URL: the page the URL is the same as, also a removed
+     * one. None for a URL that has query parameters the website excludes now, as it may have been tracked as another
+     * page before they were excluded.
      */
-    private function storeIdAction(int $idSite, int $idPage, int $idAction, ?int $previousIdAction): void
+    public function getPageIdForReport(int $idSite, string $pageUrl): ?int
     {
-        if (!$this->dao->setIdAction($idPage, $idAction)) {
-            return;
+        try {
+            $url = $this->normalizeUrl($idSite, $pageUrl);
+        } catch (BadRequestException $e) {
+            return null;
         }
 
-        if ($previousIdAction === null) {
-            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($idAction));
-        } elseif ($previousIdAction !== $idAction) {
-            $this->removePendingRebuild($idSite, $previousIdAction);
+        if ($this->hasExcludedParameters($idSite, $pageUrl, $url)) {
+            return null;
         }
+
+        return $this->dao->getPageByUrlHash($idSite, self::getUrlHash($url))['idpage'] ?? null;
     }
 
     /**
-     * The idactions stored for a page URL, also a removed one, the current one first, then the previous one. They let
-     * records be read after the URL's `log_action` row was deleted with the unused actions.
-     *
-     * @return list<int>
+     * Whether normalizing the URL removed query parameters, beyond what the tracker changes in every URL.
      */
-    public function getStoredIdActionsForUrl(int $idSite, string $pageUrl): array
+    private function hasExcludedParameters(int $idSite, string $pageUrl, string $normalizedUrl): bool
     {
-        $page = $this->findPage($idSite, $pageUrl);
+        $parsedUrl = @parse_url(PageUrl::cleanupUrl(trim($pageUrl))) ?: [];
+        $parsedNormalizedUrl = parse_url($normalizedUrl) ?: [];
 
-        return $page === null ? [] : array_values(array_filter([$page['idaction'], $page['previous_idaction']], 'is_int'));
+        // without a query string, the parameters of the fragment are excluded, if the website keeps fragments
+        $component = empty($parsedUrl['query']) ? 'fragment' : 'query';
+        if (empty($parsedUrl[$component]) || ($component === 'fragment' && PageUrl::shouldRemoveURLFragmentFor($idSite))) {
+            return false;
+        }
+
+        $parameters = UrlHelper::getArrayFromQueryString((string) $parsedUrl[$component]);
+        $normalizedParameters = UrlHelper::getArrayFromQueryString((string) ($parsedNormalizedUrl[$component] ?? ''));
+
+        return count($normalizedParameters) < count($parameters);
     }
 
     /**

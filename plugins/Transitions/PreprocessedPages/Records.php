@@ -15,14 +15,15 @@ use Piwik\Config;
 use Piwik\Config\GeneralConfig;
 
 /**
- * Names and layout of the archive records of a pre-processed page, `Transitions_<idaction>_<part>`.
+ * Names and layout of the archive records of a pre-processed page, `Transitions_<idpage>_<part>`. They are keyed by the
+ * page's row, so they outlive the page URL's `log_action` row and a removal of the page.
  *
  * The list records hold one row per action, with the label and the count in `Metrics::INDEX_NB_ACTIONS`, plus a
  * summary row for the actions beyond {@link getMaxRows()}. The referrers record holds one row per referrer type (label =
  * `Common::REFERRER_TYPE_*`, visits in `Metrics::INDEX_NB_VISITS`) with a subtable of the referrers of that type
- * (same columns, plus a summary row). The numeric records are written for every archived page, also when 0.
- * `days` counts the days with visits whose records were built from the logs: 1 in a day archive with visits, summed for
- * longer periods.
+ * (same columns, plus a summary row). The numeric records are written for every archived page, also when 0, and
+ * also when the URL isn't tracked. `days` counts the days with visits whose records were built from the logs: 1 in a
+ * day archive with visits, summed for longer periods.
  */
 final class Records
 {
@@ -75,24 +76,24 @@ final class Records
     public const DEFAULT_MAX_ROWS = 1000;
     public const DEFAULT_MAX_ROWS_SERVED = 100;
 
-    public static function getRecordName(int $idAction, string $part): string
+    public static function getRecordName(int $idPage, string $part): string
     {
-        return 'Transitions_' . $idAction . '_' . $part;
+        return 'Transitions_' . $idPage . '_' . $part;
     }
 
     /**
      * Name under which a rebuild of all records of the page is scheduled. It is one of the page's records, so
      * archiving can tell whether an archive holds it.
      */
-    public static function getRebuildReportName(int $idAction): string
+    public static function getRebuildReportName(int $idPage): string
     {
-        return self::getRecordName($idAction, self::PAGEVIEWS);
+        return self::getRecordName($idPage, self::PAGEVIEWS);
     }
 
     /**
-     * Returns the idaction of the page a record belongs to, or null for another record.
+     * Returns the idpage of the page a record belongs to, or null for another record.
      */
-    public static function getIdActionOfRecord(string $recordName): ?int
+    public static function getIdPageOfRecord(string $recordName): ?int
     {
         if (!preg_match('/^Transitions_(\d+)_[a-zA-Z]+$/', $recordName, $matches)) {
             return null;

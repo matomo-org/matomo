@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Piwik\Plugins\Transitions\tests\Integration;
 
 use Piwik\Archive;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
@@ -79,28 +78,28 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
     public function testDayRecordsAreBuiltForSelectedPagesOnly(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
 
         $this->archive('day', self::DAY);
 
-        self::assertSame($this->getExpectedRecordNames($idAction), $this->getStoredRecordNames(1, self::DAY));
+        self::assertSame($this->getExpectedRecordNames($idPage), $this->getStoredRecordNames(1, self::DAY));
     }
 
     public function testDayRecordsEqualTheRawLogQuery(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
 
-        self::assertSame($this->getRawReport('day', self::DAY), $this->getStoredReport($idAction, 'day', self::DAY));
+        self::assertSame($this->getRawReport('day', self::DAY), $this->getStoredReport($idPage, 'day', self::DAY));
     }
 
     public function testDayRecordsOfASegmentEqualTheRawLogQuery(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
 
-        $stored = $this->getStoredReport($idAction, 'day', self::DAY, self::SEGMENT);
+        $stored = $this->getStoredReport($idPage, 'day', self::DAY, self::SEGMENT);
 
         self::assertSame($this->getRawReport('day', self::DAY, self::SEGMENT), $stored);
-        self::assertNotSame($this->getStoredReport($idAction, 'day', self::DAY), $stored);
+        self::assertNotSame($this->getStoredReport($idPage, 'day', self::DAY), $stored);
     }
 
     public function testDayRecordsEqualTheRawLogQueryForMorePagesThanOneQueryTakes(): void
@@ -116,20 +115,20 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
             Fixture::checkResponse($tracker->doTrackPageView('many ' . $i));
         }
 
-        $idActions = [];
+        $idPages = [];
         foreach ($pageUrls as $i => $pageUrl) {
-            $idActions[$i] = $this->selectPage($pageUrl);
+            $idPages[$i] = $this->selectPage($pageUrl);
         }
 
         foreach ([0, 8, 12, 16] as $i) {
-            self::assertSame($this->getRawReport('day', self::DAY, '', $pageUrls[$i]), $this->getStoredReport($idActions[$i], 'day', self::DAY), $pageUrls[$i]);
+            self::assertSame($this->getRawReport('day', self::DAY, '', $pageUrls[$i]), $this->getStoredReport($idPages[$i], 'day', self::DAY), $pageUrls[$i]);
         }
     }
 
     public function testNumericRecordsAreWrittenWhenThePageHasNoData(): void
     {
         // tracked on the first day only, while the website has visits on the later day too
-        $idAction = $this->selectPage('http://example.org/page3.html');
+        $idPage = $this->selectPage('http://example.org/page3.html');
 
         $this->archive('day', self::LATER_DAY);
 
@@ -142,7 +141,7 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         foreach (Records::NUMERICS as $numeric) {
             // the day was archived for the page, although it has no data
             $value = $numeric === Records::DAYS ? 1.0 : 0.0;
-            $expected[] = ['name' => Records::getRecordName($idAction, $numeric), 'value' => $value];
+            $expected[] = ['name' => Records::getRecordName($idPage, $numeric), 'value' => $value];
         }
         // the website had visits that day
         $expected[] = ['name' => Records::DAYS_WITH_VISITS, 'value' => 1.0];
@@ -154,69 +153,54 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
     public function testTheDaysCounterCountsTheDaysWithRecords(): void
     {
         $this->trackEntryFromWebsite('2010-03-05 15:00:00', 'http://a.example/x');
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
 
         $this->archive('week', self::DAY);
 
-        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 1, '2010-03-05'));
-        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 1, self::DAY));
+        self::assertSame(1.0, $this->getStoredNumeric($idPage, Records::DAYS, 1, '2010-03-05'));
+        self::assertSame(1.0, $this->getStoredNumeric($idPage, Records::DAYS, 1, self::DAY));
         // no visits on that day, so nothing was archived
-        self::assertNull($this->getStoredNumeric($idAction, Records::DAYS, 1, '2010-03-07'));
-        self::assertSame(2.0, $this->getStoredNumeric($idAction, Records::DAYS, 2, '2010-03-01'));
+        self::assertNull($this->getStoredNumeric($idPage, Records::DAYS, 1, '2010-03-07'));
+        self::assertSame(2.0, $this->getStoredNumeric($idPage, Records::DAYS, 2, '2010-03-01'));
     }
 
     public function testTheDaysCounterLeavesOutDaysArchivedBeforeThePageWasSelected(): void
     {
         $this->archive('day', self::DAY);
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
 
         $this->archive('month', self::DAY);
 
-        self::assertNull($this->getStoredNumeric($idAction, Records::DAYS, 1, self::DAY));
-        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 1, self::LATER_DAY));
-        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 3, '2010-03-01'));
+        self::assertNull($this->getStoredNumeric($idPage, Records::DAYS, 1, self::DAY));
+        self::assertSame(1.0, $this->getStoredNumeric($idPage, Records::DAYS, 1, self::LATER_DAY));
+        self::assertSame(1.0, $this->getStoredNumeric($idPage, Records::DAYS, 3, '2010-03-01'));
     }
 
-    public function testAPageTrackedAfterItWasAddedGetsItsEarlierDaysRebuiltWithZeros(): void
+    public function testAPageNotTrackedYetGetsZeroRecordsUntilItIsTracked(): void
     {
         $earlierDay = Date::factory('today')->subDay(3)->toString();
         $laterDay = Date::factory('today')->subDay(1)->toString();
         $pageUrl = 'http://example.org/launched-later.html';
         $this->trackPageview($earlierDay . ' 10:00:00', 'http://example.org/page/one.html');
-        API::getInstance()->addPreprocessedPage(1, $pageUrl);
+        $idPage = $this->selectPage($pageUrl);
 
-        // not tracked yet, so not archived
         $this->archive('day', $earlierDay);
-
         $this->trackPageview($laterDay . ' 10:00:00', $pageUrl);
         $this->archive('day', $laterDay);
-        $idAction = StaticContainer::get(Service::class)->getIdActionForUrl($pageUrl);
-        self::assertNotNull($idAction);
-        self::assertNull($this->getStoredNumeric($idAction, Records::DAYS, 1, $earlierDay));
-        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::PAGEVIEWS, 1, $laterDay));
 
-        // finding the idaction scheduled a rebuild, which core:archive runs
-        StaticContainer::get(ArchiveInvalidator::class)->applyScheduledReArchiving();
-        $_GET['trigger'] = 'archivephp';
-        $_GET['pluginOnly'] = '1';
-        $_GET['requestedReport'] = Records::getRebuildReportName($idAction);
-        $params = new Parameters(new Site(1), PeriodFactory::build('day', $earlierDay), new Segment('', [1]));
-        $params->setRequestedPlugin('Transitions');
-        $params->setArchiveOnlyReport(Records::getRebuildReportName($idAction));
-        (new Loader($params))->prepareArchive('Transitions');
-
-        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 1, $earlierDay));
-        self::assertSame(0.0, $this->getStoredNumeric($idAction, Records::PAGEVIEWS, 1, $earlierDay));
+        self::assertSame(1.0, $this->getStoredNumeric($idPage, Records::DAYS, 1, $earlierDay));
+        self::assertSame(0.0, $this->getStoredNumeric($idPage, Records::PAGEVIEWS, 1, $earlierDay));
+        self::assertSame(1.0, $this->getStoredNumeric($idPage, Records::PAGEVIEWS, 1, $laterDay));
     }
 
     public function testMonthAndYearEqualTheRawLogQuery(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
 
-        self::assertSame($this->getRawReport('month', self::DAY), $this->getStoredReport($idAction, 'month', self::DAY));
-        self::assertSame($this->getRawReport('year', self::DAY), $this->getStoredReport($idAction, 'year', self::DAY));
-        self::assertSame($this->getRawReport('week', self::LATER_DAY), $this->getStoredReport($idAction, 'week', self::LATER_DAY));
-        self::assertSame($this->getRawReport('range', '2010-03-05,2010-03-14'), $this->getStoredReport($idAction, 'range', '2010-03-05,2010-03-14'));
+        self::assertSame($this->getRawReport('month', self::DAY), $this->getStoredReport($idPage, 'month', self::DAY));
+        self::assertSame($this->getRawReport('year', self::DAY), $this->getStoredReport($idPage, 'year', self::DAY));
+        self::assertSame($this->getRawReport('week', self::LATER_DAY), $this->getStoredReport($idPage, 'week', self::LATER_DAY));
+        self::assertSame($this->getRawReport('range', '2010-03-05,2010-03-14'), $this->getStoredReport($idPage, 'range', '2010-03-05,2010-03-14'));
     }
 
     public function testListsOfSeveralPagesKeepTheirOwnRowsAndOthers(): void
@@ -229,13 +213,13 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
             $raw[$pageUrl] = $this->getRawReport('day', self::DAY, '', $pageUrl, 1);
         }
 
-        $idActions = [];
+        $idPages = [];
         foreach ($pageUrls as $pageUrl) {
-            $idActions[$pageUrl] = $this->selectPage($pageUrl);
+            $idPages[$pageUrl] = $this->selectPage($pageUrl);
         }
 
         foreach ($pageUrls as $pageUrl) {
-            self::assertSame($raw[$pageUrl], $this->getStoredReport($idActions[$pageUrl], 'day', self::DAY), $pageUrl);
+            self::assertSame($raw[$pageUrl], $this->getStoredReport($idPages[$pageUrl], 'day', self::DAY), $pageUrl);
             self::assertArrayHasKey('Others', $raw[$pageUrl]['previousPages'], $pageUrl);
         }
     }
@@ -257,27 +241,28 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         foreach ($pageUrls as $pageUrl) {
             $raw[$pageUrl] = $this->getRawReport('day', self::DAY, '', $pageUrl);
         }
-        self::assertSame($idActionA, $this->selectPage($pageUrls[0]));
-        self::assertSame($idActionB, $this->selectPage($pageUrls[1]));
+        $idPageA = $this->selectPage($pageUrls[0]);
+        $idPageB = $this->selectPage($pageUrls[1]);
+        self::assertSame([$idPageB => $idActionB, $idPageA => $idActionA], StaticContainer::get(Service::class)->getIdActionsByPage(1));
 
-        self::assertSame($raw[$pageUrls[0]], $this->getStoredReport($idActionA, 'day', self::DAY));
-        self::assertSame($raw[$pageUrls[1]], $this->getStoredReport($idActionB, 'day', self::DAY));
+        self::assertSame($raw[$pageUrls[0]], $this->getStoredReport($idPageA, 'day', self::DAY));
+        self::assertSame($raw[$pageUrls[1]], $this->getStoredReport($idPageB, 'day', self::DAY));
         self::assertSame([], $raw[$pageUrls[1]]['followingPages']);
     }
 
     public function testLongerPeriodsAreSummedFromTheStoredDays(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $firstDay = $this->getStoredReport($idAction, 'day', self::DAY);
-        $laterDay = $this->getStoredReport($idAction, 'day', self::LATER_DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $firstDay = $this->getStoredReport($idPage, 'day', self::DAY);
+        $laterDay = $this->getStoredReport($idPage, 'day', self::LATER_DAY);
 
         // only the stored days can account for this
         Db::query(
             'UPDATE ' . Common::prefixTable('archive_numeric_2010_03') . ' SET value = value + 1000 WHERE period = 1 AND date1 = ? AND name = ?',
-            [self::DAY, Records::getRecordName($idAction, Records::PAGEVIEWS)]
+            [self::DAY, Records::getRecordName($idPage, Records::PAGEVIEWS)]
         );
 
-        $month = $this->getStoredReport($idAction, 'month', self::DAY);
+        $month = $this->getStoredReport($idPage, 'month', self::DAY);
 
         self::assertSame($firstDay['pageMetrics']['pageviews'] + $laterDay['pageMetrics']['pageviews'] + 1000, $month['pageMetrics']['pageviews']);
         foreach (['loops', 'entries', 'exits'] as $metric) {
@@ -294,17 +279,17 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         $this->trackEntryFromWebsite(self::DAY . ' 15:00:00', 'http://a.example/x');
         $this->trackEntryFromWebsite(self::DAY . ' 16:00:00', 'http://b.example/y');
         $this->trackEntryFromWebsite(self::LATER_DAY . ' 15:00:00', 'http://a.example/x');
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $raw = ['day' => $this->getRawReport('day', self::DAY), 'month' => $this->getRawReport('month', self::DAY)];
 
         foreach (['day' => 1, 'month' => 1] as $period => $maxRows) {
             $this->archive($period, self::DAY);
             $archive = Archive::build(1, $period, self::DAY);
 
-            $previousPages = $archive->getDataTable(Records::getRecordName($idAction, Records::PREVIOUS_PAGES));
+            $previousPages = $archive->getDataTable(Records::getRecordName($idPage, Records::PREVIOUS_PAGES));
             $this->assertTruncatedAt($maxRows, $raw[$period]['previousPages'], $previousPages, Metrics::INDEX_NB_ACTIONS, $period);
 
-            $referrers = $archive->getDataTableExpanded(Records::getRecordName($idAction, Records::REFERRERS));
+            $referrers = $archive->getDataTableExpanded(Records::getRecordName($idPage, Records::REFERRERS));
             $websites = $referrers->getRowFromLabel(Common::REFERRER_TYPE_WEBSITE)->getSubtable();
             $this->assertTruncatedAt($maxRows, $raw[$period]['referrers']['website']['details'], $websites, Metrics::INDEX_NB_VISITS, $period);
         }
@@ -334,18 +319,18 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
      */
     public function testARebuildRequestBuildsOnlyTheRequestedPage(string $segment): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $otherIdAction = $this->selectPage(self::OTHER_PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $otherIdPage = $this->selectPage(self::OTHER_PAGE_URL);
         $this->archive('day', self::DAY, $segment);
 
         // as core:archive runs a scheduled rebuild
         $_GET['trigger'] = 'archivephp';
         $_GET['pluginOnly'] = '1';
-        $_GET['requestedReport'] = Records::getRebuildReportName($idAction);
+        $_GET['requestedReport'] = Records::getRebuildReportName($idPage);
         foreach (['day', 'week'] as $period) {
             $params = new Parameters(new Site(1), PeriodFactory::build($period, self::DAY), new Segment($segment, [1]));
             $params->setRequestedPlugin('Transitions');
-            $params->setArchiveOnlyReport(Records::getRebuildReportName($idAction));
+            $params->setArchiveOnlyReport(Records::getRebuildReportName($idPage));
             (new Loader($params))->prepareArchive('Transitions');
         }
 
@@ -359,12 +344,12 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
                 [$periodId, $dates[$period], $doneFlag, ArchiveWriter::DONE_PARTIAL]
             );
             self::assertGreaterThan(0, $idArchive, $period);
-            self::assertSame($this->getExpectedRecordNames($idAction), $this->getStoredRecordNames($periodId, $dates[$period], $idArchive), $period);
+            self::assertSame($this->getExpectedRecordNames($idPage), $this->getStoredRecordNames($periodId, $dates[$period], $idArchive), $period);
         }
 
-        self::assertNotEmpty(array_intersect($this->getExpectedRecordNames($otherIdAction), $this->getStoredRecordNames(1, self::DAY)));
-        self::assertEmpty(array_intersect($this->getExpectedRecordNames($otherIdAction), $this->getStoredRecordNames(2, '2010-03-01')));
-        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, 2, '2010-03-01'));
+        self::assertNotEmpty(array_intersect($this->getExpectedRecordNames($otherIdPage), $this->getStoredRecordNames(1, self::DAY)));
+        self::assertEmpty(array_intersect($this->getExpectedRecordNames($otherIdPage), $this->getStoredRecordNames(2, '2010-03-01')));
+        self::assertSame(1.0, $this->getStoredNumeric($idPage, Records::DAYS, 2, '2010-03-01'));
     }
 
     /**
@@ -377,16 +362,16 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
     public function testLongerPeriodsOfASegmentEqualTheRawLogQuery(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
 
-        self::assertSame($this->getRawReport('month', self::DAY, self::SEGMENT), $this->getStoredReport($idAction, 'month', self::DAY, self::SEGMENT));
-        self::assertSame($this->getRawReport('week', self::DAY, self::SEGMENT), $this->getStoredReport($idAction, 'week', self::DAY, self::SEGMENT));
+        self::assertSame($this->getRawReport('month', self::DAY, self::SEGMENT), $this->getStoredReport($idPage, 'month', self::DAY, self::SEGMENT));
+        self::assertSame($this->getRawReport('week', self::DAY, self::SEGMENT), $this->getStoredReport($idPage, 'week', self::DAY, self::SEGMENT));
     }
 
     public function testARemovedPageIsNoLongerArchived(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $otherIdAction = $this->selectPage(self::OTHER_PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $otherIdPage = $this->selectPage(self::OTHER_PAGE_URL);
         $service = StaticContainer::get(Service::class);
         foreach ($service->getPages(1) as $page) {
             if ($page['url'] === self::OTHER_PAGE_URL) {
@@ -396,8 +381,8 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
         $this->archive('day', self::DAY);
 
-        self::assertSame($this->getExpectedRecordNames($idAction), $this->getStoredRecordNames(1, self::DAY));
-        self::assertNotSame($idAction, $otherIdAction);
+        self::assertSame($this->getExpectedRecordNames($idPage), $this->getStoredRecordNames(1, self::DAY));
+        self::assertNotSame($idPage, $otherIdPage);
     }
 
     private function insertAction(string $name, int $type): int
@@ -413,14 +398,14 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
     /**
      * Adds an action to a visit of the fixture's first day, following the given action.
      */
-    private function insertActionAfter(int $idActionRef, int $idAction): void
+    private function insertActionAfter(int $idActionRef, int $idPage): void
     {
         Db::query(
             'INSERT INTO ' . Common::prefixTable('log_link_visit_action')
             . ' (idsite, idvisitor, idvisit, idaction_url_ref, idaction_name_ref, server_time, idaction_url, idaction_name)'
             . ' SELECT idsite, idvisitor, idvisit, ?, NULL, server_time, ?, NULL FROM ' . Common::prefixTable('log_link_visit_action')
             . ' WHERE idsite = 1 AND server_time >= ? AND server_time < ? ORDER BY idlink_va LIMIT 1',
-            [$idActionRef, $idAction, self::DAY . ' 00:00:00', self::DAY . ' 23:59:59']
+            [$idActionRef, $idPage, self::DAY . ' 00:00:00', self::DAY . ' 23:59:59']
         );
     }
 
@@ -441,11 +426,7 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
 
     private function selectPage(string $url): int
     {
-        API::getInstance()->addPreprocessedPage(1, $url);
-        $idAction = StaticContainer::get(Service::class)->getIdActionForUrl($url);
-        self::assertNotNull($idAction);
-
-        return $idAction;
+        return API::getInstance()->addPreprocessedPage(1, $url)['idpage'];
     }
 
     private function archive(string $period, string $date, string $segment = ''): void
@@ -455,12 +436,12 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
         Archive::build(1, $period, $date, $segment)->getNumeric(Records::getRebuildReportName(1));
     }
 
-    private function getStoredNumeric(int $idAction, string $numeric, int $periodId, string $date1): ?float
+    private function getStoredNumeric(int $idPage, string $numeric, int $periodId, string $date1): ?float
     {
         $value = Db::fetchOne(
             'SELECT value FROM ' . ArchiveTableCreator::getNumericTable(Date::factory($date1), false)
             . ' WHERE idsite = 1 AND period = ? AND date1 = ? AND name = ? ORDER BY ts_archived DESC',
-            [$periodId, $date1, Records::getRecordName($idAction, $numeric)]
+            [$periodId, $date1, Records::getRecordName($idPage, $numeric)]
         );
 
         return $value === false ? null : (float) $value;
@@ -469,11 +450,11 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
     /**
      * @return list<string>
      */
-    private function getExpectedRecordNames(int $idAction): array
+    private function getExpectedRecordNames(int $idPage): array
     {
         $names = [];
         foreach (array_merge(Records::ACTION_LISTS, [Records::REFERRERS], Records::NUMERICS) as $part) {
-            $names[] = Records::getRecordName($idAction, $part);
+            $names[] = Records::getRecordName($idPage, $part);
         }
         sort($names);
 
@@ -496,7 +477,7 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
                 $bind[] = $idArchive;
             }
             foreach (Db::fetchAll($sql, $bind) as $row) {
-                if (Records::getIdActionOfRecord($row['name']) !== null) {
+                if (Records::getIdPageOfRecord($row['name']) !== null) {
                     $names[] = $row['name'];
                 }
             }
@@ -512,14 +493,14 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
      *
      * @return array<string, mixed>
      */
-    private function getStoredReport(int $idAction, string $period, string $date, string $segment = ''): array
+    private function getStoredReport(int $idPage, string $period, string $date, string $segment = ''): array
     {
         $this->archive($period, $date, $segment);
         $archive = Archive::build(1, $period, $date, $segment);
 
         $numericNames = [];
         foreach (Records::NUMERICS as $numeric) {
-            $numericNames[$numeric] = Records::getRecordName($idAction, $numeric);
+            $numericNames[$numeric] = Records::getRecordName($idPage, $numeric);
         }
         $numerics = $archive->getNumeric(array_values($numericNames));
 
@@ -528,11 +509,11 @@ class PreprocessedPagesArchivingTest extends IntegrationTestCase
             $report['pageMetrics'][$metric] = (int) $numerics[$numericNames[$metric]];
         }
         foreach (Records::ACTION_LISTS as $list) {
-            $report[$list] = $this->getCounts($archive->getDataTable(Records::getRecordName($idAction, $list)), Metrics::INDEX_NB_ACTIONS);
+            $report[$list] = $this->getCounts($archive->getDataTable(Records::getRecordName($idPage, $list)), Metrics::INDEX_NB_ACTIONS);
         }
 
         $report['referrers'] = [];
-        $referrers = $archive->getDataTableExpanded(Records::getRecordName($idAction, Records::REFERRERS));
+        $referrers = $archive->getDataTableExpanded(Records::getRecordName($idPage, Records::REFERRERS));
         foreach ($referrers->getRows() as $row) {
             $subtable = $row->getSubtable();
             $details = $subtable ? $this->getCounts($subtable, Metrics::INDEX_NB_VISITS) : [];

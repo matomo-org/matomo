@@ -27,7 +27,8 @@ use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 
 /**
- * Archives the Transitions report of each page a website pre-processes, see {@link Records} for the records.
+ * Archives the Transitions report of each page a website pre-processes, see {@link Records} for the records. A day
+ * archive looks up the idaction each page URL is tracked under now; a URL that isn't tracked gets zero records.
  */
 class PageTransitions extends RecordBuilder
 {
@@ -39,13 +40,13 @@ class PageTransitions extends RecordBuilder
     /**
      * @var \WeakMap<ArchiveProcessor, list<int>>
      */
-    private \WeakMap $idActionsByArchive;
+    private \WeakMap $idPagesByArchive;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->idActionsByArchive = new \WeakMap();
+        $this->idPagesByArchive = new \WeakMap();
     }
 
     /**
@@ -67,7 +68,7 @@ class PageTransitions extends RecordBuilder
 
     public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
-        return !empty($this->getIdActionsToBuild($archiveProcessor));
+        return !empty($this->getIdPagesToBuild($archiveProcessor));
     }
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -75,8 +76,8 @@ class PageTransitions extends RecordBuilder
         $maxRows = Records::getMaxRows($this->getIdSite($archiveProcessor));
 
         $records = [Record::make(Record::TYPE_NUMERIC, Records::DAYS_WITH_VISITS)];
-        foreach ($this->getIdActions($archiveProcessor) as $idAction) {
-            foreach ($this->getPageRecords($idAction, $maxRows) as $record) {
+        foreach ($this->getIdPages($archiveProcessor) as $idPage) {
+            foreach ($this->getPageRecords($idPage, $maxRows) as $record) {
                 $records[] = $record;
             }
         }
@@ -92,8 +93,8 @@ class PageTransitions extends RecordBuilder
         $maxRows = Records::getMaxRows($this->getIdSite($archiveProcessor));
 
         $numericRecordNames = [];
-        foreach ($this->getIdActionsToBuild($archiveProcessor) as $idAction) {
-            foreach ($this->getPageRecords($idAction, $maxRows) as $record) {
+        foreach ($this->getIdPagesToBuild($archiveProcessor) as $idPage) {
+            foreach ($this->getPageRecords($idPage, $maxRows) as $record) {
                 if ($record->getType() === Record::TYPE_NUMERIC) {
                     $numericRecordNames[] = $record->getName();
                     continue;
@@ -160,26 +161,34 @@ class PageTransitions extends RecordBuilder
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
-        $idActions = $this->getIdActionsToBuild($archiveProcessor);
-        $maxRows = Records::getMaxRows($this->getIdSite($archiveProcessor));
-        $logAggregator = $archiveProcessor->getLogAggregator();
-        $model = StaticContainer::get(Model::class);
-
-        $internalReferrers = $model->queryInternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW, self::$timeLimit);
-        // reloads are counted in loops, not as following pages
-        $followingActions = $model->queryFollowingActionsOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW, self::$timeLimit);
-        $externalReferrers = $model->queryExternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW, self::$timeLimit);
+        $idSite = $this->getIdSite($archiveProcessor);
+        $idActionsByPage = StaticContainer::get(Service::class)->getIdActionsByPage($idSite, $this->getIdPagesToBuild($archiveProcessor));
+        // pages with the same URL action are queried once
+        $idActions = array_values(array_unique(array_filter($idActionsByPage, 'is_int')));
 
         // a website can be archived without visits
         $hasVisits = $archiveProcessor->getNumberOfVisits() > 0;
 
+        $internalReferrers = $followingActions = $externalReferrers = [];
+        if (!empty($idActions)) {
+            $maxRows = Records::getMaxRows($idSite);
+            $logAggregator = $archiveProcessor->getLogAggregator();
+            $model = StaticContainer::get(Model::class);
+
+            $internalReferrers = $model->queryInternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW, self::$timeLimit);
+            // reloads are counted in loops, not as following pages
+            $followingActions = $model->queryFollowingActionsOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW, self::$timeLimit);
+            $externalReferrers = $model->queryExternalReferrersOfPages($logAggregator, $idActions, $maxRows, RankingQuery::LABEL_SUMMARY_ROW, self::$timeLimit);
+        }
+
         $records = [Records::DAYS_WITH_VISITS => $hasVisits ? 1 : 0];
-        foreach ($idActions as $idAction) {
+        foreach ($idActionsByPage as $idPage => $idAction) {
+            // a URL that isn't tracked, or whose action was deleted as unused, had no pageviews
             $records = array_merge($records, $this->makePageRecords(
-                $idAction,
-                $internalReferrers[$idAction] ?? [],
-                $followingActions[$idAction] ?? [],
-                $externalReferrers[$idAction] ?? [],
+                $idPage,
+                $idAction === null ? [] : $this->toArray($internalReferrers[$idAction] ?? []),
+                $idAction === null ? [] : $this->toArray($followingActions[$idAction] ?? []),
+                $idAction === null ? [] : $this->toArray($externalReferrers[$idAction] ?? []),
                 $hasVisits
             ));
         }
@@ -193,7 +202,7 @@ class PageTransitions extends RecordBuilder
      * @param array<mixed> $externalReferrers rows of the page's ranking query by referrer type
      * @return array<string, DataTable|int>
      */
-    private function makePageRecords(int $idAction, array $internalReferrers, array $followingActions, array $externalReferrers, bool $hasVisits): array
+    private function makePageRecords(int $idPage, array $internalReferrers, array $followingActions, array $externalReferrers, bool $hasVisits): array
     {
         $records = [];
         $partitions = $this->toArray($internalReferrers['result'] ?? []);
@@ -204,12 +213,12 @@ class PageTransitions extends RecordBuilder
         }
 
         $pageviews = $loops;
-        $records[Records::getRecordName($idAction, Records::PREVIOUS_PAGES)] = $this->makeActionsTable(
+        $records[Records::getRecordName($idPage, Records::PREVIOUS_PAGES)] = $this->makeActionsTable(
             $partitions[Model::PARTITION_PAGE] ?? [],
             Action::TYPE_PAGE_URL,
             $pageviews
         );
-        $records[Records::getRecordName($idAction, Records::PREVIOUS_SITE_SEARCHES)] = $this->makeActionsTable(
+        $records[Records::getRecordName($idPage, Records::PREVIOUS_SITE_SEARCHES)] = $this->makeActionsTable(
             $partitions[Model::PARTITION_SITE_SEARCH] ?? [],
             Action::TYPE_SITE_SEARCH,
             $pageviews
@@ -221,7 +230,7 @@ class PageTransitions extends RecordBuilder
         $transitionsToFollowingActions = 0;
         foreach (StaticContainer::get(Model::class)->getFollowingActionTypes('url') as $type => $list) {
             $total = 0;
-            $records[Records::getRecordName($idAction, $list)] = $this->makeActionsTable($followingActions[$type] ?? [], $type, $total);
+            $records[Records::getRecordName($idPage, $list)] = $this->makeActionsTable($followingActions[$type] ?? [], $type, $total);
 
             // downloads and outlinks don't end a visit
             if ($type === Action::TYPE_PAGE_URL || $type === Action::TYPE_SITE_SEARCH) {
@@ -230,14 +239,14 @@ class PageTransitions extends RecordBuilder
         }
 
         $entries = 0;
-        $records[Records::getRecordName($idAction, Records::REFERRERS)] = $this->makeReferrersTable($externalReferrers, $entries);
+        $records[Records::getRecordName($idPage, Records::REFERRERS)] = $this->makeReferrersTable($externalReferrers, $entries);
 
-        $records[Records::getRecordName($idAction, Records::PAGEVIEWS)] = $pageviews;
-        $records[Records::getRecordName($idAction, Records::LOOPS)] = $loops;
-        $records[Records::getRecordName($idAction, Records::ENTRIES)] = $entries;
-        $records[Records::getRecordName($idAction, Records::EXITS)] = $pageviews - $transitionsToFollowingActions - $loops;
+        $records[Records::getRecordName($idPage, Records::PAGEVIEWS)] = $pageviews;
+        $records[Records::getRecordName($idPage, Records::LOOPS)] = $loops;
+        $records[Records::getRecordName($idPage, Records::ENTRIES)] = $entries;
+        $records[Records::getRecordName($idPage, Records::EXITS)] = $pageviews - $transitionsToFollowingActions - $loops;
         if ($hasVisits) {
-            $records[Records::getRecordName($idAction, Records::DAYS)] = 1;
+            $records[Records::getRecordName($idPage, Records::DAYS)] = 1;
         }
 
         return $records;
@@ -313,22 +322,22 @@ class PageTransitions extends RecordBuilder
     /**
      * @return list<Record>
      */
-    private function getPageRecords(int $idAction, int $maxRows): array
+    private function getPageRecords(int $idPage, int $maxRows): array
     {
         $records = [];
         foreach (Records::ACTION_LISTS as $list) {
-            $records[] = Record::make(Record::TYPE_BLOB, Records::getRecordName($idAction, $list))
+            $records[] = Record::make(Record::TYPE_BLOB, Records::getRecordName($idPage, $list))
                 // the limit applies to the rows besides the summary row
                 ->setMaxRowsInTable($maxRows + 1)
                 ->setColumnToSortByBeforeTruncation(Metrics::INDEX_NB_ACTIONS);
         }
 
-        $records[] = Record::make(Record::TYPE_BLOB, Records::getRecordName($idAction, Records::REFERRERS))
+        $records[] = Record::make(Record::TYPE_BLOB, Records::getRecordName($idPage, Records::REFERRERS))
             ->setMaxRowsInSubtable($maxRows + 1)
             ->setColumnToSortByBeforeTruncation(Metrics::INDEX_NB_VISITS);
 
         foreach (Records::NUMERICS as $numeric) {
-            $records[] = Record::make(Record::TYPE_NUMERIC, Records::getRecordName($idAction, $numeric));
+            $records[] = Record::make(Record::TYPE_NUMERIC, Records::getRecordName($idPage, $numeric));
         }
 
         return $records;
@@ -339,41 +348,35 @@ class PageTransitions extends RecordBuilder
      *
      * @return list<int>
      */
-    private function getIdActionsToBuild(ArchiveProcessor $archiveProcessor): array
+    private function getIdPagesToBuild(ArchiveProcessor $archiveProcessor): array
     {
-        $idActions = $this->getIdActions($archiveProcessor);
+        $idPages = $this->getIdPages($archiveProcessor);
 
         $requestedReports = $archiveProcessor->getParams()->getArchiveOnlyReportAsArray();
         if (empty($requestedReports)) {
-            return $idActions;
+            return $idPages;
         }
 
-        $requestedIdActions = [];
+        $requestedIdPages = [];
         foreach ($requestedReports as $requestedReport) {
-            $requestedIdActions[] = Records::getIdActionOfRecord((string) $requestedReport);
+            $requestedIdPages[] = Records::getIdPageOfRecord((string) $requestedReport);
         }
 
-        return array_values(array_intersect($idActions, $requestedIdActions));
+        return array_values(array_intersect($idPages, $requestedIdPages));
     }
 
     /**
-     * The selected pages of the website that have been tracked, once per archive. Days look them up in the logs,
-     * longer periods, which only sum days, use the idactions the days found.
+     * The selected pages of the website that aren't removed, once per archive.
      *
      * @return list<int>
      */
-    private function getIdActions(ArchiveProcessor $archiveProcessor): array
+    private function getIdPages(ArchiveProcessor $archiveProcessor): array
     {
-        if (!isset($this->idActionsByArchive[$archiveProcessor])) {
-            $service = StaticContainer::get(Service::class);
-            $idSite = $this->getIdSite($archiveProcessor);
-            $idActions = $archiveProcessor->getParams()->getPeriod()->getLabel() === 'day'
-                ? $service->getIdActionsForSite($idSite)
-                : $service->getStoredIdActionsForSite($idSite);
-            $this->idActionsByArchive[$archiveProcessor] = array_values(array_unique($idActions));
+        if (!isset($this->idPagesByArchive[$archiveProcessor])) {
+            $this->idPagesByArchive[$archiveProcessor] = StaticContainer::get(Service::class)->getPageIds($this->getIdSite($archiveProcessor));
         }
 
-        return $this->idActionsByArchive[$archiveProcessor];
+        return $this->idPagesByArchive[$archiveProcessor];
     }
 
     private function getIdSite(ArchiveProcessor $archiveProcessor): int

@@ -97,10 +97,10 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     public function testOutdatedRecordsOfTodayAreRebuiltForTheRequestedPageOnly(bool $withBrowserArchiving): void
     {
         $this->setBrowserArchiving($withBrowserArchiving);
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $otherIdAction = $this->selectPage(self::OTHER_PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $otherIdPage = $this->selectPage(self::OTHER_PAGE_URL);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'day', self::TODAY);
+        $this->archive($idPage, 'day', self::TODAY);
         $pageviews = $this->request('day', self::TODAY)['pageMetrics']['pageviews'];
 
         $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
@@ -121,8 +121,8 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         // one partial archive with the requested page's records only
         self::assertSame(1, $this->countPartialArchives(self::TODAY));
         $names = $this->getPartialArchiveRecordNames(self::TODAY);
-        self::assertContains(Records::getRecordName($idAction, Records::PAGEVIEWS), $names);
-        self::assertEmpty(preg_grep('/^Transitions_' . $otherIdAction . '_/', $names));
+        self::assertContains(Records::getRecordName($idPage, Records::PAGEVIEWS), $names);
+        self::assertEmpty(preg_grep('/^Transitions_' . $otherIdPage . '_/', $names));
 
         // served from the rebuilt records from now on
         self::assertSame($this->toArray($report), $this->toArray($this->request('day', self::TODAY)));
@@ -140,9 +140,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     public function testNothingIsRebuiltWhenTheRefreshIsTurnedOff(): void
     {
         Config::setSetting('Transitions', 'preprocessed_refresh_after', 0);
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'day', self::TODAY);
+        $this->archive($idPage, 'day', self::TODAY);
         $report = $this->request('day', self::TODAY);
 
         $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
@@ -169,9 +169,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
 
     public function testYesterdayIsRebuiltUntilItIsArchivedAgainAfterItEnded(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->setNow(self::TODAY . ' 23:00:00');
-        $this->archive($idAction, 'day', self::TODAY);
+        $this->archive($idPage, 'day', self::TODAY);
         $pageviews = $this->request('day', self::TODAY)['pageMetrics']['pageviews'];
         $this->trackPageviews(self::TODAY . ' 23:30:00', 1);
 
@@ -191,9 +191,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     public function testPeriodsArchivedAfterTheyEndedAreNeverRebuilt(): void
     {
         Config::setSetting('Transitions', 'preprocessed_refresh_after', 1);
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'week', self::DAY);
+        $this->archive($idPage, 'week', self::DAY);
         $day = $this->request('day', self::DAY);
         $week = $this->request('week', self::DAY);
 
@@ -211,10 +211,10 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         foreach (['2010-03-08', '2010-03-09', '2010-03-10', '2010-03-11', '2010-03-12', '2010-03-13'] as $day) {
             $this->trackPageviews($day . ' 10:00:00', 1, self::OTHER_PAGE_URL);
         }
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'week', self::TODAY);
-        $this->archive($idAction, 'month', self::TODAY);
+        $this->archive($idPage, 'week', self::TODAY);
+        $this->archive($idPage, 'month', self::TODAY);
         $week = $this->request('week', self::TODAY);
         $month = $this->request('month', self::TODAY);
 
@@ -233,16 +233,16 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
 
     public function testARequestServesTheStoredRecordsWhileAnotherOneBuildsThem(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'day', self::TODAY);
+        $this->archive($idPage, 'day', self::TODAY);
         $report = $this->request('day', self::TODAY);
         $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
         $this->setNow(self::TODAY . ' 12:20:00');
 
         $this->setLoader(200);
         $lock = new Lock(StaticContainer::get(LockBackend::class), 'Transitions.buildPreprocessedDay.');
-        self::assertTrue($lock->acquireLock('1.' . $idAction . '.' . self::TODAY . '.'));
+        self::assertTrue($lock->acquireLock('1.' . $idPage . '.' . self::TODAY . '.'));
 
         try {
             self::assertSame($this->toArray($report), $this->toArray($this->request('day', self::TODAY)));
@@ -256,9 +256,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
 
     public function testARemovedPageIsNotRebuilt(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'day', self::TODAY);
+        $this->archive($idPage, 'day', self::TODAY);
         $report = $this->request('day', self::TODAY);
 
         $service = StaticContainer::get(Service::class);
@@ -275,9 +275,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     public function testAPartialArchiveIsDeletedOnceTheDayIsArchivedAgain(): void
     {
         $this->setBrowserArchiving(false);
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'day', self::TODAY);
+        $this->archive($idPage, 'day', self::TODAY);
         $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
         $this->setNow(self::TODAY . ' 12:20:00');
         $refreshed = $this->request('day', self::TODAY);
@@ -285,7 +285,7 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
 
         // as core:archive archives today again, which replaces the older archives
         $this->setNow(self::TODAY . ' 12:40:00');
-        $this->archive($idAction, 'day', self::TODAY);
+        $this->archive($idPage, 'day', self::TODAY);
 
         self::assertSame(0, $this->countPartialArchives(self::TODAY));
         self::assertSame(0, (int) Db::fetchOne(
@@ -300,7 +300,7 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     public function testWithoutCronASingleRequestedDayIsBuilt(): void
     {
         $raw = $this->request('day', self::DAY);
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
 
         $built = $this->request('day', self::DAY);
 
@@ -308,7 +308,7 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         unset($built['preprocessed'], $built['preprocessedAt']);
         self::assertSame($this->toArray($raw), $this->toArray($built));
         self::assertSame(1, $this->countPartialArchives(self::DAY));
-        self::assertSame(1.0, $this->getStoredNumeric($idAction, Records::DAYS, self::DAY));
+        self::assertSame(1.0, $this->getStoredNumeric($idPage, Records::DAYS, self::DAY));
 
         // read from then on
         $this->request('day', self::DAY);
@@ -363,9 +363,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     public function testAWeekWithTodayAndDaysWithoutVisitsIsSummedFromItsDays(): void
     {
         // the days before today have no visits, so archiving skips them
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'week', self::TODAY);
+        $this->archive($idPage, 'week', self::TODAY);
         $week = $this->request('week', self::TODAY);
 
         $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
@@ -382,10 +382,10 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     public function testThePreProcessedSegmentOfTodayIsRebuilt(): void
     {
         $this->addPreProcessedSegment();
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->trackPageviews(self::TODAY . ' 09:00:00', 1);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'day', self::TODAY, self::SEGMENT);
+        $this->archive($idPage, 'day', self::TODAY, self::SEGMENT);
         $report = $this->request('day', self::TODAY, self::PAGE_URL, self::SEGMENT);
 
         $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
@@ -399,10 +399,10 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
     public function testNoSegmentIsBuiltWhenSegmentsArentArchivedForTransitions(): void
     {
         $this->addPreProcessedSegment();
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->trackPageviews(self::TODAY . ' 09:00:00', 1);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'day', self::TODAY, self::SEGMENT);
+        $this->archive($idPage, 'day', self::TODAY, self::SEGMENT);
         $report = $this->request('day', self::TODAY, self::PAGE_URL, self::SEGMENT);
 
         Config::getInstance()->General['disable_archiving_segment_for_plugins'] = 'Transitions';
@@ -415,9 +415,9 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
 
     public function testAFailedBuildIsNotRetriedRightAway(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
+        $idPage = $this->selectPage(self::PAGE_URL);
         $this->setNow(self::TODAY . ' 12:00:00');
-        $this->archive($idAction, 'day', self::TODAY);
+        $this->archive($idPage, 'day', self::TODAY);
         $report = $this->request('day', self::TODAY);
         $this->trackPageviews(self::TODAY . ' 13:00:00', 2);
         $this->setNow(self::TODAY . ' 12:20:00');
@@ -435,12 +435,12 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         $fail = false;
         self::assertSame($this->toArray($report), $this->toArray($this->request('day', self::TODAY)));
         self::assertSame(1, $builds);
-        self::assertTrue(Cache::getLazyCache()->contains($this->getAttemptCacheId($idAction, self::TODAY)));
+        self::assertTrue(Cache::getLazyCache()->contains($this->getAttemptCacheId($idPage, self::TODAY)));
 
         // once the failure is forgotten
-        Cache::getLazyCache()->delete($this->getAttemptCacheId($idAction, self::TODAY));
+        Cache::getLazyCache()->delete($this->getAttemptCacheId($idPage, self::TODAY));
         self::assertSame($report['pageMetrics']['pageviews'] + 2, $this->request('day', self::TODAY)['pageMetrics']['pageviews']);
-        self::assertFalse(Cache::getLazyCache()->contains($this->getAttemptCacheId($idAction, self::TODAY)));
+        self::assertFalse(Cache::getLazyCache()->contains($this->getAttemptCacheId($idPage, self::TODAY)));
     }
 
     public function testWithoutCronADayWithoutVisitsIsBuiltOnce(): void
@@ -497,14 +497,14 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
             $tracker->setUrl('http://example.org/day/' . (6 - $index) . '.html');
             Fixture::checkResponse($tracker->doTrackPageView('day ' . $index));
         }
-        $idAction = $this->selectPage(self::OTHER_PAGE_URL);
+        $idPage = $this->selectPage(self::OTHER_PAGE_URL);
         foreach ($days as $day) {
             $this->buildDay($day, self::OTHER_PAGE_URL);
         }
 
         Config::getInstance()->General['datatable_archiving_maximum_rows_transitions'] = 2;
         $periods = array_map(fn(string $day) => new Day(Date::factory($day)), $days);
-        $records = StaticContainer::get(StoredRecordsReader::class)->readSum(1, $periods, new Segment('', [1]), $idAction, [Records::FOLLOWING_PAGES]);
+        $records = StaticContainer::get(StoredRecordsReader::class)->readSum(1, $periods, new Segment('', [1]), $idPage, [Records::FOLLOWING_PAGES]);
 
         self::assertNotNull($records);
         $followingPages = $records->getTable(Records::FOLLOWING_PAGES);
@@ -571,24 +571,20 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
 
     private function selectPage(string $url): int
     {
-        API::getInstance()->addPreprocessedPage(1, $url);
-        $idAction = StaticContainer::get(Service::class)->getIdActionForUrl($url);
-        self::assertNotNull($idAction);
-
-        return $idAction;
+        return API::getInstance()->addPreprocessedPage(1, $url)['idpage'];
     }
 
     /**
      * Archives the period as browser archiving does, with the page's records and the visits.
      */
-    private function archive(int $idAction, string $period, string $date, string $segment = ''): void
+    private function archive(int $idPage, string $period, string $date, string $segment = ''): void
     {
         $general = Config::getInstance()->General;
         $this->setBrowserArchiving(true);
         Cache::getTransientCache()->flushAll();
 
         try {
-            Archive::build(1, $period, $date, $segment)->getNumeric(['nb_visits', Records::getRebuildReportName($idAction)]);
+            Archive::build(1, $period, $date, $segment)->getNumeric(['nb_visits', Records::getRebuildReportName($idPage)]);
         } finally {
             Config::getInstance()->General = $general;
             Cache::getTransientCache()->flushAll();
@@ -659,11 +655,11 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         Cache::getEagerCache()->flushAll();
     }
 
-    private function getAttemptCacheId(int $idAction, string $date, string $segment = ''): string
+    private function getAttemptCacheId(int $idPage, string $date, string $segment = ''): string
     {
         $hash = $segment === '' ? '' : (new Segment($segment, [1]))->getHash();
 
-        return 'Transitions_buildPreprocessedDay_' . md5('1.' . $idAction . '.' . $date . '.' . $hash);
+        return 'Transitions_buildPreprocessedDay_' . md5('1.' . $idPage . '.' . $date . '.' . $hash);
     }
 
     /**
@@ -687,12 +683,12 @@ class PreprocessedFreshnessTest extends IntegrationTestCase
         return $names;
     }
 
-    private function getStoredNumeric(int $idAction, string $part, string $date1): ?float
+    private function getStoredNumeric(int $idPage, string $part, string $date1): ?float
     {
         $value = Db::fetchOne(
             'SELECT value FROM ' . Common::prefixTable('archive_numeric_2010_03') . ' WHERE idsite = 1 AND period = 1 AND date1 = ? AND name = ?'
             . ' ORDER BY ts_archived DESC',
-            [$date1, Records::getRecordName($idAction, $part)]
+            [$date1, Records::getRecordName($idPage, $part)]
         );
 
         return $value === false ? null : (float) $value;

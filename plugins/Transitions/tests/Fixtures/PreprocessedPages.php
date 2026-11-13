@@ -13,13 +13,11 @@ namespace Piwik\Plugins\Transitions\tests\Fixtures;
 
 use Piwik\Archive;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Plugins\Actions\Archiver as ActionsArchiver;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\PreprocessedPages\Dao;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
-use Piwik\Plugins\Transitions\PreprocessedPages\Service;
 use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
 
 /**
@@ -37,22 +35,17 @@ class PreprocessedPages extends SomeVisitsManyPageviewsWithTransitions
     {
         parent::setUp();
 
-        $this->selectPage(self::ARCHIVED_PAGE_URL, '2026-11-02 09:14:00', 'superUserLogin');
+        $idPage = $this->selectPage(self::ARCHIVED_PAGE_URL, '2026-11-02 09:14:00', 'superUserLogin');
         // added by a user who has since been deleted
         $this->selectPage(self::OTHER_PAGE_URL, '2026-10-02 14:51:00', null);
 
-        $idAction = StaticContainer::get(Service::class)->getIdActionForUrl(self::ARCHIVED_PAGE_URL);
-        if ($idAction === null) {
-            throw new \Exception('The page to archive was not tracked.');
-        }
-
         // the UI spec runs without browser archiving, so the reports it opens are archived here
         $archive = Archive::build($this->idSite, 'day', self::DAY);
-        $archive->getNumeric(['nb_visits', ActionsArchiver::METRIC_PAGEVIEWS_RECORD_NAME, Records::getRebuildReportName($idAction)]);
+        $archive->getNumeric(['nb_visits', ActionsArchiver::METRIC_PAGEVIEWS_RECORD_NAME, Records::getRebuildReportName($idPage)]);
         $archive->getDataTable(ActionsArchiver::PAGE_URLS_RECORD_NAME);
     }
 
-    private function selectPage(string $url, string $createdDate, ?string $createdBy): void
+    private function selectPage(string $url, string $createdDate, ?string $createdBy): int
     {
         $entry = API::getInstance()->addPreprocessedPage($this->idSite, $url);
 
@@ -60,5 +53,7 @@ class PreprocessedPages extends SomeVisitsManyPageviewsWithTransitions
             'UPDATE ' . Common::prefixTable(Dao::TABLE_NAME) . ' SET created_date = ?, created_by = ? WHERE idpage = ?',
             [$createdDate, $createdBy, $entry['idpage']]
         );
+
+        return $entry['idpage'];
     }
 }

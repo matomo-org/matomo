@@ -77,18 +77,10 @@ final class StoredRecordsLoader
      * @param list<string> $tableParts the lists and the referrers to read, see {@link Records}
      * @param bool $isPeriodAllowed whether `max_period_allowed` allows the period; if not, only stored data that covers
      *                              it directly or is refreshed is used, so the logs refuse the rest early
-     * @param bool $mayBuildDays whether a day without records may be built when archiving runs without cron
      * @return StoredRecords|null null unless stored records cover the whole period
      */
-    public function load(
-        int $idSite,
-        Period $period,
-        Segment $segment,
-        int $idAction,
-        array $tableParts,
-        bool $isPeriodAllowed = true,
-        bool $mayBuildDays = true
-    ): ?StoredRecords {
+    public function load(int $idSite, Period $period, Segment $segment, int $idPage, array $tableParts, bool $isPeriodAllowed = true): ?StoredRecords
+    {
         $this->pageSettings = null;
         $periods = $period instanceof Range ? array_values($period->getSubperiods()) : [$period];
         if (count($periods) > $this->maxSummedPeriods) {
@@ -96,7 +88,7 @@ final class StoredRecordsLoader
         }
         $site = new Site($idSite);
 
-        $records = $this->reader->readSum($idSite, $periods, $segment, $idAction, $tableParts);
+        $records = $this->reader->readSum($idSite, $periods, $segment, $idPage, $tableParts);
         if ($records !== null && !$this->hasOutdatedPeriod($site, $periods, $records->getTsArchivedByPeriod())) {
             return $records;
         }
@@ -107,7 +99,7 @@ final class StoredRecordsLoader
         }
 
         // removed pages keep their stored records, which are never rebuilt
-        if (!$this->isListed($idSite, $idAction)) {
+        if (!$this->isListed($idSite, $idPage)) {
             return $records;
         }
 
@@ -117,14 +109,14 @@ final class StoredRecordsLoader
         }
 
         $mayRefresh = $canBuild && $this->getRefreshAfter($idSite) > 0;
-        $mayBuildDay = $mayBuildDays && $isWithoutCron && $canBuild && !$period instanceof Range && $period->getLabel() === 'day';
+        $mayBuildDay = $isWithoutCron && $canBuild && !$period instanceof Range && $period->getLabel() === 'day';
 
-        $resolved = $this->resolve($site, $periods, $segment, $idAction, $mayRefresh, $mayBuildDay, $isWithoutCron, false);
+        $resolved = $this->resolve($site, $periods, $segment, $idPage, $mayRefresh, $mayBuildDay, $isWithoutCron, false);
         if ($resolved === null) {
             return $records;
         }
 
-        return $this->reader->readSum($idSite, $resolved, $segment, $idAction, $tableParts) ?? $records;
+        return $this->reader->readSum($idSite, $resolved, $segment, $idPage, $tableParts) ?? $records;
     }
 
     /**
@@ -140,7 +132,7 @@ final class StoredRecordsLoader
         Site $site,
         array $periods,
         Segment $segment,
-        int $idAction,
+        int $idPage,
         bool $mayRefresh,
         bool $mayBuildDay,
         bool $mayDecompose,
@@ -150,7 +142,7 @@ final class StoredRecordsLoader
             return null;
         }
 
-        $coverage = $this->reader->getCoverage((int) $site->getId(), $periods, $segment, $idAction);
+        $coverage = $this->reader->getCoverage((int) $site->getId(), $periods, $segment, $idPage);
 
         $resolved = [];
         $outdated = [];
@@ -163,7 +155,7 @@ final class StoredRecordsLoader
                 $tsArchived = $coverage[$period->getRangeString()];
                 if ($mayRefresh && $tsArchived !== null && $this->isOutdated($site, $period, $tsArchived)) {
                     if ($isDay) {
-                        $this->buildDay($site, $period, $segment, $idAction, true);
+                        $this->buildDay($site, $period, $segment, $idPage, true);
                     } else {
                         $outdated[] = $period;
                         continue;
@@ -172,7 +164,7 @@ final class StoredRecordsLoader
 
                 $resolved[] = $period;
             } elseif ($isDay && $mayBuildDay) {
-                if (!$this->buildDay($site, $period, $segment, $idAction, false)) {
+                if (!$this->buildDay($site, $period, $segment, $idPage, false)) {
                     return null;
                 }
                 $resolved[] = $period;
@@ -186,7 +178,7 @@ final class StoredRecordsLoader
         }
 
         if (!empty($uncoveredDays)) {
-            $days = $this->resolveUncoveredDays($site, $uncoveredDays, $segment, $idAction, $mayRefresh);
+            $days = $this->resolveUncoveredDays($site, $uncoveredDays, $segment, $idPage, $mayRefresh);
             if ($days === null) {
                 return null;
             }
@@ -199,7 +191,7 @@ final class StoredRecordsLoader
                 return null;
             }
 
-            $subperiods = $this->resolve($site, $subperiods, $segment, $idAction, $mayRefresh, false, $mayDecompose, $isWithinOutdatedPeriod);
+            $subperiods = $this->resolve($site, $subperiods, $segment, $idPage, $mayRefresh, false, $mayDecompose, $isWithinOutdatedPeriod);
             if ($subperiods === null) {
                 return null;
             }
@@ -210,7 +202,7 @@ final class StoredRecordsLoader
             // summed from their subperiods as far as they are stored, else used as they are
             $subperiods = $this->getSubperiods($outdated);
             if (count($resolved) + count($subperiods) <= $this->maxSummedPeriods) {
-                $subperiods = $this->resolve($site, $subperiods, $segment, $idAction, true, false, $mayDecompose, true);
+                $subperiods = $this->resolve($site, $subperiods, $segment, $idPage, true, false, $mayDecompose, true);
             } else {
                 $subperiods = null;
             }
@@ -227,14 +219,14 @@ final class StoredRecordsLoader
      * @param list<Period> $days
      * @return list<Period>|null the days to sum, or null if a day with visits has no records
      */
-    private function resolveUncoveredDays(Site $site, array $days, Segment $segment, int $idAction, bool $mayRefresh): ?array
+    private function resolveUncoveredDays(Site $site, array $days, Segment $segment, int $idPage, bool $mayRefresh): ?array
     {
         $visits = $this->reader->getVisits((int) $site->getId(), $days, $segment);
 
         $resolved = [];
         foreach ($days as $day) {
             if ($this->isTodayOrYesterday($site, $day)) {
-                if (!$mayRefresh || !$this->buildDay($site, $day, $segment, $idAction, false)) {
+                if (!$mayRefresh || !$this->buildDay($site, $day, $segment, $idPage, false)) {
                     return null;
                 }
                 $resolved[] = $day;
@@ -302,16 +294,16 @@ final class StoredRecordsLoader
      * @param bool $isRefresh whether existing records are rebuilt, else missing ones are built
      * @return bool whether the records exist now
      */
-    private function buildDay(Site $site, Period $day, Segment $segment, int $idAction, bool $isRefresh): bool
+    private function buildDay(Site $site, Period $day, Segment $segment, int $idPage, bool $isRefresh): bool
     {
         $idSite = (int) $site->getId();
         $today = Date::factory('now', $site->getTimezone())->toString();
-        if (!$this->isListed($idSite, $idAction) || $day->getDateStart()->toString() > $today) {
+        if (!$this->isListed($idSite, $idPage) || $day->getDateStart()->toString() > $today) {
             return false;
         }
 
         $lock = new Lock($this->lockBackend, self::LOCK_NAMESPACE);
-        $lockId = $idSite . '.' . $idAction . '.' . $day->getDateStart()->toString() . '.' . $segment->getHash();
+        $lockId = $idSite . '.' . $idPage . '.' . $day->getDateStart()->toString() . '.' . $segment->getHash();
         if (!$this->acquireLock($lock, $lockId)) {
             return $isRefresh;
         }
@@ -321,7 +313,7 @@ final class StoredRecordsLoader
 
         try {
             // another request may have built them while this one waited
-            $coverage = $this->reader->getCoverage($idSite, [$day], $segment, $idAction);
+            $coverage = $this->reader->getCoverage($idSite, [$day], $segment, $idPage);
             $tsArchived = $coverage[$day->getRangeString()] ?? null;
             if ($tsArchived !== null && (!$isRefresh || !$this->isOutdated($site, $day, $tsArchived))) {
                 return true;
@@ -333,7 +325,7 @@ final class StoredRecordsLoader
             }
             $cache->save($attemptId, 1, max(self::MIN_RETRY_AFTER_SECONDS, $this->getRefreshAfter($idSite)));
 
-            $this->archiveDay($site, $day, $segment, $idAction);
+            $this->archiveDay($site, $day, $segment, $idPage);
             $cache->delete($attemptId);
         } catch (\Throwable $e) {
             // the stored records, if any, are served as they are
@@ -350,7 +342,7 @@ final class StoredRecordsLoader
     /**
      * Writes a partial archive with the page's day records, built from the logs.
      */
-    private function archiveDay(Site $site, Period $day, Segment $segment, int $idAction): void
+    private function archiveDay(Site $site, Period $day, Segment $segment, int $idPage): void
     {
         $idSite = (int) $site->getId();
         $daySegment = new Segment(
@@ -362,7 +354,7 @@ final class StoredRecordsLoader
 
         $params = new Parameters($site, $day, $daySegment);
         $params->setRequestedPlugin('Transitions');
-        $params->setArchiveOnlyReport(Records::getRebuildReportName($idAction));
+        $params->setArchiveOnlyReport(Records::getRebuildReportName($idPage));
 
         // the queries get the time limit of the report's log queries
         PageTransitions::executeWithTimeLimit(GeneralConfig::getFloatConfigValue('live_query_max_execution_time', -1.0), function () use ($params): void {
@@ -401,9 +393,9 @@ final class StoredRecordsLoader
             || (Rules::isSegmentPreProcessed([$idSite], $segment) && !Rules::isSegmentPluginArchivingDisabled('Transitions', $idSite));
     }
 
-    private function isListed(int $idSite, int $idAction): bool
+    private function isListed(int $idSite, int $idPage): bool
     {
-        return $this->getPageSettings($idSite, $idAction)['listed'];
+        return $this->getPageSettings($idSite, $idPage)['listed'];
     }
 
     private function getRefreshAfter(int $idSite): int
@@ -418,11 +410,11 @@ final class StoredRecordsLoader
     /**
      * @return array{listed: bool, refreshAfter: int}
      */
-    private function getPageSettings(int $idSite, int $idAction): array
+    private function getPageSettings(int $idSite, int $idPage): array
     {
         if ($this->pageSettings === null) {
             $this->pageSettings = [
-                'listed' => in_array($idAction, $this->service->getStoredIdActionsForSite($idSite), true),
+                'listed' => in_array($idPage, $this->service->getPageIds($idSite), true),
                 'refreshAfter' => $this->service->getRefreshAfter($idSite),
             ];
         }

@@ -262,7 +262,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
 
         // the tracker encodes query parameter values, but not the path
         self::assertSame(['https://example.com/<a>?b=1&c=&lt;x&gt;'], $this->getUrls(1));
-        self::assertSame([$idPage => $idAction], StaticContainer::get(Service::class)->getIdActionsForSite(1));
+        self::assertSame([$idPage => $idAction], StaticContainer::get(Service::class)->getIdActionsByPage(1));
     }
 
     public function testKeepsMarkupAndMultibyteCharactersAsGiven(): void
@@ -318,7 +318,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
         $added = $this->api->addPreprocessedPage(1, $url);
 
         self::assertSame(substr($url, 0, (int) Config::getInstance()->Tracker['page_maximum_length']), $added['url']);
-        self::assertSame([$added['idpage'] => $idAction], StaticContainer::get(Service::class)->getIdActionsForSite(1));
+        self::assertSame([$added['idpage'] => $idAction], StaticContainer::get(Service::class)->getIdActionsByPage(1));
     }
 
     public function testRejectsUnknownSites(): void
@@ -564,14 +564,14 @@ class PreprocessedPagesTest extends IntegrationTestCase
         self::assertSame(0, (int) Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('transitions_preprocessed_page') . ' WHERE idsite = 2'));
     }
 
-    public function testAddingATrackedPageSchedulesReArchivingOfOnlyThatPage(): void
+    public function testAddingAPageSchedulesReArchivingOfOnlyThatPage(): void
     {
-        $idAction = $this->trackPageview('http://example.com/tracked');
+        $this->trackPageview('http://example.com/tracked');
 
-        $this->api->addPreprocessedPage(1, 'https://www.example.com/tracked');
+        $idPage = $this->api->addPreprocessedPage(1, 'https://www.example.com/tracked')['idpage'];
 
         self::assertSame(
-            [['idSites' => [1], 'pluginName' => 'Transitions', 'report' => Records::getRebuildReportName($idAction)]],
+            [['idSites' => [1], 'pluginName' => 'Transitions', 'report' => Records::getRebuildReportName($idPage)]],
             array_map(
                 fn($entry) => array_intersect_key(json_decode($entry, true), ['idSites' => 0, 'pluginName' => 0, 'report' => 0]),
                 (new ReArchiveList())->getAll()
@@ -581,73 +581,35 @@ class PreprocessedPagesTest extends IntegrationTestCase
         StaticContainer::get(ArchiveInvalidator::class)->applyScheduledReArchiving();
 
         $invalidations = Db::fetchAll('SELECT DISTINCT idsite, name, report FROM ' . Common::prefixTable('archive_invalidations'));
-        self::assertSame([['idsite' => 1, 'name' => 'done.Transitions', 'report' => Records::getRebuildReportName($idAction)]], $invalidations);
+        self::assertSame([['idsite' => 1, 'name' => 'done.Transitions', 'report' => Records::getRebuildReportName($idPage)]], $invalidations);
     }
 
-    public function testAddingAnUntrackedPageSchedulesNothing(): void
+    public function testAddingAnUntrackedPageSchedulesItsZeroRecords(): void
     {
-        $this->api->addPreprocessedPage(1, 'https://example.com/not-tracked-yet');
+        $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/not-tracked-yet')['idpage'];
 
-        self::assertSame([], (new ReArchiveList())->getAll());
-    }
+        self::assertSame([Records::getRebuildReportName($idPage)], $this->getScheduledReports());
 
-    public function testAPageTrackedAfterItWasAddedIsRebuiltOnceWhenItsIdActionIsFound(): void
-    {
-        $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/later')['idpage'];
-        $idAction = $this->trackPageview('http://www.example.com/later');
-        $service = StaticContainer::get(Service::class);
-
-        self::assertSame([$idPage => $idAction], $service->getIdActionsForSite(1));
-        self::assertSame($idAction, StaticContainer::get(Dao::class)->getPage(1, $idPage)['idaction']);
-        self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
-
-        $service->getIdActionsForSite(1);
-        self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
-    }
-
-    public function testAPageFoundUnderANewIdActionKeepsTheOldOneWithoutRebuilding(): void
-    {
-        $idAction = $this->trackPageview('http://example.com/moved');
-        $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/moved')['idpage'];
-        // as if the action had been deleted and tracked again under a new idaction
-        $staleIdAction = $idAction + 1000;
-        Db::query('UPDATE ' . Common::prefixTable('transitions_preprocessed_page') . ' SET idaction = ? WHERE idpage = ?', [$staleIdAction, $idPage]);
-        StaticContainer::get(ArchiveInvalidator::class)->scheduleReArchiving([1], 'Transitions', Records::getRebuildReportName($staleIdAction));
-
-        StaticContainer::get(Service::class)->getIdActionsForSite(1);
-
-        // only the rebuild scheduled when the page was added remains: the logs of the old idaction are gone
-        self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
-        $page = StaticContainer::get(Dao::class)->getPage(1, $idPage);
-        self::assertSame($idAction, $page['idaction']);
-        self::assertSame($staleIdAction, $page['previous_idaction']);
-    }
-
-    public function testAddingATrackedPageStoresItsIdAction(): void
-    {
-        $idAction = $this->trackPageview('http://example.com/tracked');
-
-        $idPage = $this->api->addPreprocessedPage(1, 'https://example.com/tracked')['idpage'];
-
-        self::assertSame($idAction, StaticContainer::get(Dao::class)->getPage(1, $idPage)['idaction']);
-        StaticContainer::get(Service::class)->getIdActionsForSite(1);
-        self::assertCount(1, $this->getScheduledReports());
+        // nothing more once it is tracked, as its earlier days have records
+        $this->trackPageview('http://example.com/not-tracked-yet');
+        StaticContainer::get(Service::class)->getIdActionsByPage(1);
+        self::assertSame([Records::getRebuildReportName($idPage)], $this->getScheduledReports());
     }
 
     public function testRemovingAPageClearsOnlyItsPendingReArchiving(): void
     {
-        $idActionA = $this->trackPageview('http://example.com/a');
-        $idActionB = $this->trackPageview('http://example.com/b');
+        $this->trackPageview('http://example.com/a');
+        $this->trackPageview('http://example.com/b');
 
         $idPageA = $this->api->addPreprocessedPage(1, 'http://example.com/a')['idpage'];
-        $this->api->addPreprocessedPage(1, 'http://example.com/b');
+        $idPageB = $this->api->addPreprocessedPage(1, 'http://example.com/b')['idpage'];
         StaticContainer::get(ArchiveInvalidator::class)->applyScheduledReArchiving();
-        self::assertGreaterThan(0, $this->countInvalidations(Records::getRebuildReportName($idActionA)));
+        self::assertGreaterThan(0, $this->countInvalidations(Records::getRebuildReportName($idPageA)));
 
         $this->api->removePreprocessedPage(1, $idPageA);
 
-        self::assertSame(0, $this->countInvalidations(Records::getRebuildReportName($idActionA)));
-        self::assertGreaterThan(0, $this->countInvalidations(Records::getRebuildReportName($idActionB)));
+        self::assertSame(0, $this->countInvalidations(Records::getRebuildReportName($idPageA)));
+        self::assertGreaterThan(0, $this->countInvalidations(Records::getRebuildReportName($idPageB)));
     }
 
     public function testRemovingAPageClearsItsQueuedReArchiving(): void
@@ -663,7 +625,7 @@ class PreprocessedPagesTest extends IntegrationTestCase
 
     public function testRemovedPagesAreNeitherListedNorCountedNorArchived(): void
     {
-        $idActionA = $this->trackPageview('http://example.com/a');
+        $this->trackPageview('http://example.com/a');
         $idActionB = $this->trackPageview('http://example.com/b');
         $idPageA = $this->api->addPreprocessedPage(1, 'http://example.com/a')['idpage'];
         $idPageB = $this->api->addPreprocessedPage(1, 'http://example.com/b')['idpage'];
@@ -672,14 +634,14 @@ class PreprocessedPagesTest extends IntegrationTestCase
 
         self::assertSame(['http://example.com/b'], $this->getUrls(1));
         $service = StaticContainer::get(Service::class);
-        self::assertSame([$idPageB => $idActionB], $service->getIdActionsForSite(1));
-        self::assertSame([$idPageB => $idActionB], $service->getStoredIdActionsForSite(1));
+        self::assertSame([$idPageB], $service->getPageIds(1));
+        self::assertSame([$idPageB => $idActionB], $service->getIdActionsByPage(1));
         $status = $this->api->getPreprocessedPageStatus(1, 'http://example.com/a');
         self::assertFalse($status['selected']);
         self::assertNull($status['idPage']);
         self::assertSame(1, $status['used']);
-        // its idaction stays known, to read its stored records
-        self::assertSame([$idActionA], $service->getStoredIdActionsForUrl(1, 'http://example.com/a'));
+        // its stored records are still served
+        self::assertSame($idPageA, $service->getPageIdForReport(1, 'http://example.com/a'));
         $this->assertRemoveNotFound(1, $idPageA);
 
         $this->api->removePreprocessedPage(1, $idPageB);
@@ -702,7 +664,6 @@ class PreprocessedPagesTest extends IntegrationTestCase
     public function testAddingARemovedPageAgainRestoresIt(): void
     {
         UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
-        $idAction = $this->trackPageview('http://example.com/a');
         $idPage = $this->api->addPreprocessedPage(1, 'http://example.com/a')['idpage'];
         $this->api->removePreprocessedPage(1, $idPage);
         self::assertSame([], $this->getScheduledReports());
@@ -715,12 +676,9 @@ class PreprocessedPagesTest extends IntegrationTestCase
         self::assertSame('alice', $added['created_by']);
         self::assertNotSame('2025-01-01 00:00:00', $added['created_date']);
         self::assertSame([$added], $this->api->getPreprocessedPages(1));
-        $page = StaticContainer::get(Dao::class)->getPage(1, $idPage);
-        self::assertNotNull($page);
-        self::assertSame($idAction, $page['idaction']);
-        self::assertNull($page['removed_date']);
+        self::assertNotNull(StaticContainer::get(Dao::class)->getPage(1, $idPage));
         // archiving skipped it while it was removed
-        self::assertSame([Records::getRebuildReportName($idAction)], $this->getScheduledReports());
+        self::assertSame([Records::getRebuildReportName($idPage)], $this->getScheduledReports());
         $this->assertAddFails(1, 'http://example.com/a', 'This page is already selected.');
     }
 
@@ -728,9 +686,10 @@ class PreprocessedPagesTest extends IntegrationTestCase
     {
         $idAction = $this->trackPageview('http://example.com/tracked');
         $idPageTracked = $this->api->addPreprocessedPage(1, 'https://www.example.com/tracked')['idpage'];
-        $this->api->addPreprocessedPage(1, 'https://example.com/not-tracked-yet');
+        $idPageNotTracked = $this->api->addPreprocessedPage(1, 'https://example.com/not-tracked-yet')['idpage'];
 
-        self::assertSame([$idPageTracked => $idAction], StaticContainer::get(Service::class)->getIdActionsForSite(1));
+        self::assertSame([$idPageNotTracked => null, $idPageTracked => $idAction], StaticContainer::get(Service::class)->getIdActionsByPage(1));
+        self::assertSame([$idPageTracked => $idAction], StaticContainer::get(Service::class)->getIdActionsByPage(1, [$idPageTracked]));
     }
 
     private function trackPageview(string $url): int

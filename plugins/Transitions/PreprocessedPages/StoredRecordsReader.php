@@ -42,10 +42,10 @@ final class StoredRecordsReader
      * @param list<string> $tableParts the lists and the referrers to read, see {@link Records}
      * @return StoredRecords|null null unless the records cover every period
      */
-    public function readSum(int $idSite, array $periods, Segment $segment, int $idAction, array $tableParts): ?StoredRecords
+    public function readSum(int $idSite, array $periods, Segment $segment, int $idPage, array $tableParts): ?StoredRecords
     {
         try {
-            return $this->readSumOfPeriods($idSite, $periods, $segment, $idAction, $tableParts);
+            return $this->readSumOfPeriods($idSite, $periods, $segment, $idPage, $tableParts);
         } catch (UnprocessedSegmentException $e) {
             // posted for an HTTP API request of a segment to pre-process that has no archives yet
             return null;
@@ -60,10 +60,10 @@ final class StoredRecordsReader
      *                                    their archives was built, or null for a period without visits as it lies
      *                                    outside the website's lifetime
      */
-    public function getCoverage(int $idSite, array $periods, Segment $segment, int $idAction): array
+    public function getCoverage(int $idSite, array $periods, Segment $segment, int $idPage): array
     {
         try {
-            return $this->readNumerics($idSite, $periods, $segment, $idAction)['coverage'] ?? [];
+            return $this->readNumerics($idSite, $periods, $segment, $idPage)['coverage'] ?? [];
         } catch (UnprocessedSegmentException $e) {
             return [];
         }
@@ -97,9 +97,9 @@ final class StoredRecordsReader
      * @param list<Period> $periods
      * @param list<string> $tableParts
      */
-    private function readSumOfPeriods(int $idSite, array $periods, Segment $segment, int $idAction, array $tableParts): ?StoredRecords
+    private function readSumOfPeriods(int $idSite, array $periods, Segment $segment, int $idPage, array $tableParts): ?StoredRecords
     {
-        $numerics = $this->readNumerics($idSite, $periods, $segment, $idAction);
+        $numerics = $this->readNumerics($idSite, $periods, $segment, $idPage);
         if ($numerics === null || count($numerics['coverage']) !== count($periods)) {
             return null;
         }
@@ -112,7 +112,7 @@ final class StoredRecordsReader
         $sums = array_fill_keys(Records::NUMERICS, 0);
         foreach (array_keys($tsArchivedByPeriod) as $rangeString) {
             foreach (Records::NUMERICS as $part) {
-                $value = $numerics['pageRows'][$rangeString][Records::getRecordName($idAction, $part)] ?? 0;
+                $value = $numerics['pageRows'][$rangeString][Records::getRecordName($idPage, $part)] ?? 0;
                 $sums[$part] += is_numeric($value) ? (int) $value : 0;
             }
         }
@@ -126,7 +126,7 @@ final class StoredRecordsReader
 
         $tables = [];
         foreach ($tableParts as $part) {
-            $table = $this->readTableSum($idSite, $coveredPeriods, $segment, Records::getRecordName($idAction, $part), $part === Records::REFERRERS, $numerics['archives']);
+            $table = $this->readTableSum($idSite, $coveredPeriods, $segment, Records::getRecordName($idPage, $part), $part === Records::REFERRERS, $numerics['archives']);
             // reports purged from old archives can leave the numeric records behind
             if ($table === null) {
                 return null;
@@ -142,11 +142,11 @@ final class StoredRecordsReader
      * @param list<Period> $periods
      * @return array{archives: array<string, Archive>, pageRows: array<string, array<mixed>>, coverage: array<string, string|null>}|null
      */
-    private function readNumerics(int $idSite, array $periods, Segment $segment, int $idAction): ?array
+    private function readNumerics(int $idSite, array $periods, Segment $segment, int $idPage): ?array
     {
         $numericNames = [];
         foreach (Records::NUMERICS as $part) {
-            $numericNames[$part] = Records::getRecordName($idAction, $part);
+            $numericNames[$part] = Records::getRecordName($idPage, $part);
         }
 
         $archives = [];

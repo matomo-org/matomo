@@ -18,7 +18,6 @@ use Piwik\Common;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\CronArchive\ReArchiveList;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\DataTable;
 use Piwik\Db;
@@ -27,6 +26,7 @@ use Piwik\Log\LoggerInterface;
 use Piwik\NoAccessException;
 use Piwik\Plugins\Overlay\API as OverlayAPI;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\Transitions\API;
 use Piwik\Plugins\Transitions\PreprocessedPages\Dao;
 use Piwik\Plugins\Transitions\PreprocessedPages\Records;
@@ -95,8 +95,8 @@ class PreprocessedReportTest extends IntegrationTestCase
     {
         $raw = $this->request($period, $date, '', $limit);
 
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, $period, $date);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, $period, $date);
 
         $this->assertStoredEqualsRaw($raw, $this->request($period, $date, '', $limit));
     }
@@ -123,8 +123,8 @@ class PreprocessedReportTest extends IntegrationTestCase
     {
         $raw = $this->request($period, $date, self::SEGMENT);
 
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, $period, $date, self::SEGMENT);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, $period, $date, self::SEGMENT);
 
         $stored = $this->request($period, $date, self::SEGMENT);
         $this->assertStoredEqualsRaw($raw, $stored);
@@ -146,8 +146,8 @@ class PreprocessedReportTest extends IntegrationTestCase
     {
         $raw = $this->request($period, self::DAY, '', 0, $parts);
 
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, $period, self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, $period, self::DAY);
 
         $stored = $this->request($period, self::DAY, '', 0, $parts);
         $this->assertStoredEqualsRaw($raw, $stored);
@@ -295,9 +295,9 @@ class PreprocessedReportTest extends IntegrationTestCase
 
         // the first day is archived before the page is selected, so it has no records of the page
         $this->archive(1, 'day', self::DAY);
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, $period, $date);
-        self::assertSame(1.0, $this->getDaysCounter($idAction, self::LATER_DAY));
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, $period, $date);
+        self::assertSame(1.0, $this->getDaysCounter($idPage, self::LATER_DAY));
 
         self::assertSame($this->toArray($raw), $this->toArray($this->request($period, $date)));
     }
@@ -333,8 +333,8 @@ class PreprocessedReportTest extends IntegrationTestCase
 
     public function testARemovedPageIsStillServedFromStoredData(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'month', self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'month', self::DAY);
         $stored = $this->request('month', self::DAY);
 
         $service = StaticContainer::get(Service::class);
@@ -347,8 +347,8 @@ class PreprocessedReportTest extends IntegrationTestCase
 
     public function testStoredDataIsServedAfterTheLogsAreDeleted(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'day', self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'day', self::DAY);
         $stored = $this->request('day', self::DAY);
 
         foreach (self::LOG_TABLES as $table) {
@@ -366,8 +366,8 @@ class PreprocessedReportTest extends IntegrationTestCase
      */
     public function testNoLogTableIsReadWhenServedFromStoredData(string $period, string $date): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, $period, $date);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, $period, $date);
         $stored = $this->request($period, $date);
 
         $served = $this->withoutLogTables(fn() => $this->request($period, $date));
@@ -390,8 +390,8 @@ class PreprocessedReportTest extends IntegrationTestCase
 
     public function testNoArchivingIsLaunched(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'day', self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'day', self::DAY);
         $archiveRows = $this->countArchiveRows();
 
         // stored for the day, not archived for the month, so answered from the logs
@@ -405,8 +405,8 @@ class PreprocessedReportTest extends IntegrationTestCase
 
     public function testALongerPeriodIsServedFromItsOwnArchiveOnly(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'month', self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'month', self::DAY);
         $stored = $this->request('month', self::DAY);
 
         // a day archive rebuilt with other visits, and another one gone
@@ -422,8 +422,8 @@ class PreprocessedReportTest extends IntegrationTestCase
     public function testStoredMonthsAreServedAfterOldDayReportsArePurged(): void
     {
         $rawDay = $this->toArray($this->request('day', self::DAY));
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'month', self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'month', self::DAY);
         $month = $this->request('month', self::DAY);
 
         // keeps the month and year reports, deletes the day and week ones with their visits
@@ -438,12 +438,12 @@ class PreprocessedReportTest extends IntegrationTestCase
     public function testAYearArchivedAfterOldDayReportsArePurgedIsServed(): void
     {
         $raw = $this->request('year', self::DAY);
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'month', self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'month', self::DAY);
 
         // keeps the month and year reports, deletes the day and week ones with their visits
         (new ReportsPurger(1, false, [3, 4], false, [], 1000))->purgeData();
-        $this->archive($idAction, 'year', self::DAY);
+        $this->archive($idPage, 'year', self::DAY);
 
         $this->assertStoredEqualsRaw($raw, $this->withoutLogTables(fn() => $this->request('year', self::DAY)));
     }
@@ -471,53 +471,78 @@ class PreprocessedReportTest extends IntegrationTestCase
         }
     }
 
-    public function testAPageWhoseActionWasDeletedAsUnusedIsServedUnderItsStoredIdActions(): void
+    public function testAPageWhoseActionWasDeletedAsUnusedGetsZeroRecordsAfterwards(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'day', self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'day', self::DAY);
         $stored = $this->request('day', self::DAY);
 
-        // raw data deleted, then the actions no log row uses any more
-        foreach (self::LOG_TABLES as $table) {
-            Db::query('DELETE FROM ' . Common::prefixTable($table) . ' WHERE idsite = 1');
-        }
-        StaticContainer::get(RawLogDao::class)->deleteUnusedLogActions();
-        $service = StaticContainer::get(Service::class);
-        self::assertNull($service->getIdActionForUrl(self::PAGE_URL));
-
+        $this->deleteLogsAndUnusedActions();
+        self::assertNull(StaticContainer::get(Service::class)->getIdActionForUrl(self::PAGE_URL));
         self::assertSame($this->toArray($stored), $this->toArray($this->request('day', self::DAY)));
 
-        // tracked again under a new idaction
-        $tracker = Fixture::getTracker(1, self::LATER_DAY . ' 20:00:00', $defaultInit = true);
-        $tracker->setUrl(self::PAGE_URL);
-        Fixture::checkResponse($tracker->doTrackPageView('again'));
-        $newIdAction = $service->getIdActionForUrl(self::PAGE_URL);
-        self::assertNotNull($newIdAction);
-        self::assertNotSame($idAction, $newIdAction);
-        $this->archive($newIdAction, 'day', self::LATER_DAY);
+        // a later day with visits, but none to the page
+        $this->trackPageview(self::LATER_DAY . ' 20:00:00', self::OTHER_PAGE_URL);
+        $this->archive($idPage, 'month', self::DAY);
 
-        // the earlier records are read under the previous idaction, the new ones under the new one
-        self::assertSame($this->toArray($stored), $this->toArray($this->request('day', self::DAY)));
-        self::assertSame(1, $this->request('day', self::LATER_DAY)['preprocessed']);
-        // its logs are gone, so the past isn't rebuilt under the new idaction
-        self::assertSame([], array_filter((new ReArchiveList())->getAll(), fn($entry) => str_contains((string) $entry, 'Transitions_' . $newIdAction . '_')));
+        self::assertSame(0.0, $this->getStoredNumeric($idPage, Records::PAGEVIEWS, self::LATER_DAY));
+        self::assertSame(1.0, $this->getDaysCounter($idPage, self::LATER_DAY));
+        $month = $this->request('month', self::DAY);
+        self::assertSame(1, $month['preprocessed']);
+        self::assertSame($this->withoutDates($stored), $this->withoutDates($month));
+    }
+
+    public function testThePagesOfEveryIdActionAPageWasTrackedUnderAreServed(): void
+    {
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'day', self::DAY);
+        $first = $this->request('day', self::DAY);
+
+        // tracked again twice, each time after its logs and its action were deleted
+        $this->deleteLogsAndUnusedActions();
+        $this->trackPageview(self::LATER_DAY . ' 20:00:00', self::PAGE_URL);
+        $secondIdAction = StaticContainer::get(Service::class)->getIdActionForUrl(self::PAGE_URL);
+        $this->archive($idPage, 'day', self::LATER_DAY);
+        $second = $this->request('day', self::LATER_DAY);
+        self::assertSame(1, $second['pageMetrics']['pageviews']);
+
+        $this->deleteLogsAndUnusedActions();
+        $this->trackPageview('2010-03-20 20:00:00', self::PAGE_URL);
+        self::assertNotSame($secondIdAction, StaticContainer::get(Service::class)->getIdActionForUrl(self::PAGE_URL));
+        $this->archive($idPage, 'month', self::DAY);
+
+        self::assertSame($this->toArray($first), $this->toArray($this->request('day', self::DAY)));
+        self::assertSame($this->toArray($second), $this->toArray($this->request('day', self::LATER_DAY)));
+        $month = $this->request('month', self::DAY);
+        self::assertSame(1, $month['preprocessed']);
+        self::assertSame($first['pageMetrics']['pageviews'] + 2, $month['pageMetrics']['pageviews']);
+    }
+
+    public function testAUrlWithParametersExcludedSinceItWasTrackedIsAnsweredFromTheLogs(): void
+    {
+        $variantUrl = self::PAGE_URL . '?ref=newsletter';
+        $this->trackPageview(self::DAY . ' 20:00:00', $variantUrl);
+        $variantRaw = $this->request('day', self::DAY, '', 0, 'all', $variantUrl);
+
+        SitesManagerAPI::getInstance()->updateSite(1, null, null, null, null, null, null, null, 'ref');
+        $this->archive($this->selectPage(self::PAGE_URL), 'day', self::DAY);
+        self::assertSame(1, $this->request('day', self::DAY)['preprocessed']);
+
+        self::assertSame($this->toArray($variantRaw), $this->toArray($this->request('day', self::DAY, '', 0, 'all', $variantUrl)));
     }
 
     public function testARemovedPageIsServedAfterItsActionIsDeletedAsUnused(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'day', self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'day', self::DAY);
         $stored = $this->request('day', self::DAY);
         self::assertSame(1, $stored['preprocessed']);
 
-        foreach (self::LOG_TABLES as $table) {
-            Db::query('DELETE FROM ' . Common::prefixTable($table) . ' WHERE idsite = 1');
-        }
         $service = StaticContainer::get(Service::class);
         foreach ($service->getPages(1) as $page) {
             $service->removePage(1, $page['idpage']);
         }
-        StaticContainer::get(RawLogDao::class)->deleteUnusedLogActions();
+        $this->deleteLogsAndUnusedActions();
         self::assertNull($service->getIdActionForUrl(self::PAGE_URL));
 
         self::assertSame($this->toArray($stored), $this->toArray($this->request('day', self::DAY)));
@@ -526,8 +551,8 @@ class PreprocessedReportTest extends IntegrationTestCase
     public function testRangesOfMorePeriodsThanSummedAreAnsweredFromTheLogs(): void
     {
         $raw = $this->request('range', self::RANGE);
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'range', self::RANGE);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'range', self::RANGE);
         self::assertSame(1, $this->request('range', self::RANGE)['preprocessed']);
 
         // the range has 3 subperiods
@@ -567,16 +592,16 @@ class PreprocessedReportTest extends IntegrationTestCase
     public function testADayWhoseListsArePurgedIsAnsweredFromTheLogs(): void
     {
         $rawDay = $this->toArray($this->request('day', self::DAY));
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'month', self::DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'month', self::DAY);
 
         // a plugin can keep more metrics, here the page's numeric records, while the reports are deleted
         $metricsToKeep = ['nb_visits'];
         foreach (Records::NUMERICS as $part) {
-            $metricsToKeep[] = Records::getRecordName($idAction, $part);
+            $metricsToKeep[] = Records::getRecordName($idPage, $part);
         }
         (new ReportsPurger(1, true, [3, 4], false, $metricsToKeep, 1000))->purgeData();
-        self::assertSame(1.0, $this->getDaysCounter($idAction, self::DAY));
+        self::assertSame(1.0, $this->getDaysCounter($idPage, self::DAY));
 
         self::assertSame($rawDay, $this->toArray($this->request('day', self::DAY)));
         self::assertSame(1, $this->request('month', self::DAY)['preprocessed']);
@@ -587,8 +612,8 @@ class PreprocessedReportTest extends IntegrationTestCase
         $range = '2010-02-27,2010-03-14';
         $raw = $this->request('range', $range);
 
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'range', $range);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'range', $range);
 
         $this->assertStoredEqualsRaw($raw, $this->request('range', $range));
     }
@@ -600,11 +625,11 @@ class PreprocessedReportTest extends IntegrationTestCase
         });
         $raw = $this->request('week', self::LATER_DAY);
 
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'week', self::LATER_DAY);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'week', self::LATER_DAY);
         // a day without visits got the page's records too
-        self::assertNull($this->getDaysCounter($idAction, '2010-03-09'));
-        self::assertSame(0.0, $this->getStoredNumeric($idAction, Records::PAGEVIEWS, '2010-03-09'));
+        self::assertNull($this->getDaysCounter($idPage, '2010-03-09'));
+        self::assertSame(0.0, $this->getStoredNumeric($idPage, Records::PAGEVIEWS, '2010-03-09'));
 
         $this->assertStoredEqualsRaw($raw, $this->request('week', self::LATER_DAY));
         $this->expectExceptionMessage('NoDataForAction');
@@ -667,9 +692,9 @@ class PreprocessedReportTest extends IntegrationTestCase
     {
         // tracked on the first day only
         $pageUrl = 'http://example.org/page3.html';
-        $idAction = $this->selectPage($pageUrl);
-        $this->archive($idAction, 'day', self::LATER_DAY);
-        self::assertSame(1.0, $this->getDaysCounter($idAction, self::LATER_DAY));
+        $idPage = $this->selectPage($pageUrl);
+        $this->archive($idPage, 'day', self::LATER_DAY);
+        self::assertSame(1.0, $this->getDaysCounter($idPage, self::LATER_DAY));
 
         $this->expectExceptionMessage('NoDataForAction');
         $this->withoutLogTables(fn() => $this->request('day', self::LATER_DAY, '', 0, 'all', $pageUrl));
@@ -677,9 +702,9 @@ class PreprocessedReportTest extends IntegrationTestCase
 
     public function testThePeriodLimitAppliesOnlyToTheLogQuery(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'year', self::DAY);
-        $this->archive($idAction, 'range', self::RANGE);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'year', self::DAY);
+        $this->archive($idPage, 'range', self::RANGE);
         Config::setSetting('Transitions_1', 'max_period_allowed', 'day');
 
         self::assertFalse(API::getInstance()->isPeriodAllowed(1, 'year', self::DAY));
@@ -705,8 +730,8 @@ class PreprocessedReportTest extends IntegrationTestCase
 
     public function testPreprocessedAtIsTheTimeOfTheOldestArchive(): void
     {
-        $idAction = $this->selectPage(self::PAGE_URL);
-        $this->archive($idAction, 'range', self::RANGE);
+        $idPage = $this->selectPage(self::PAGE_URL);
+        $this->archive($idPage, 'range', self::RANGE);
 
         // the week of the later day is one of the range's subperiods
         Db::query(
@@ -757,19 +782,19 @@ class PreprocessedReportTest extends IntegrationTestCase
         }
     }
 
-    private function getStoredNumeric(int $idAction, string $part, string $day): ?float
+    private function getStoredNumeric(int $idPage, string $part, string $day): ?float
     {
         $value = Db::fetchOne(
             'SELECT value FROM ' . Common::prefixTable('archive_numeric_2010_03') . ' WHERE idsite = 1 AND period = 1 AND date1 = ? AND name = ?',
-            [$day, Records::getRecordName($idAction, $part)]
+            [$day, Records::getRecordName($idPage, $part)]
         );
 
         return $value === false ? null : (float) $value;
     }
 
-    private function getDaysCounter(int $idAction, string $day): ?float
+    private function getDaysCounter(int $idPage, string $day): ?float
     {
-        $name = Records::getRecordName($idAction, Records::DAYS);
+        $name = Records::getRecordName($idPage, Records::DAYS);
         $values = Archive::build(1, 'day', $day)->getNumeric([$name]);
 
         return is_array($values) && isset($values[$name]) ? (float) $values[$name] : null;
@@ -925,22 +950,47 @@ class PreprocessedReportTest extends IntegrationTestCase
         return API::getInstance()->getTransitionsForAction($pageUrl, 'url', 1, $period, $date, $segment, $limit, $parts);
     }
 
+    /**
+     * Deletes the raw data of the website, then the actions no log row uses any more, as the scheduled log deletion does.
+     */
+    private function deleteLogsAndUnusedActions(): void
+    {
+        foreach (self::LOG_TABLES as $table) {
+            Db::query('DELETE FROM ' . Common::prefixTable($table) . ' WHERE idsite = 1');
+        }
+        StaticContainer::get(RawLogDao::class)->deleteUnusedLogActions();
+    }
+
+    private function trackPageview(string $dateTime, string $url): void
+    {
+        $tracker = Fixture::getTracker(1, $dateTime, $defaultInit = true);
+        $tracker->setUrl($url);
+        Fixture::checkResponse($tracker->doTrackPageView('title'));
+    }
+
+    /**
+     * @param array<string, mixed> $report
+     * @return array<string, mixed>
+     */
+    private function withoutDates(array $report): array
+    {
+        unset($report['date'], $report['preprocessedAt']);
+
+        return $this->toArray($report);
+    }
+
     private function selectPage(string $url): int
     {
-        API::getInstance()->addPreprocessedPage(1, $url);
-        $idAction = StaticContainer::get(Service::class)->getIdActionForUrl($url);
-        self::assertNotNull($idAction);
-
-        return $idAction;
+        return API::getInstance()->addPreprocessedPage(1, $url)['idpage'];
     }
 
     /**
      * Archives the period as browser archiving does, with the page's records and the visits.
      */
-    private function archive(int $idAction, string $period, string $date, string $segment = ''): void
+    private function archive(int $idPage, string $period, string $date, string $segment = ''): void
     {
         Cache::getTransientCache()->flushAll();
-        Archive::build(1, $period, $date, $segment)->getNumeric(['nb_visits', Records::getRebuildReportName($idAction)]);
+        Archive::build(1, $period, $date, $segment)->getNumeric(['nb_visits', Records::getRebuildReportName($idPage)]);
         Cache::getTransientCache()->flushAll();
     }
 
