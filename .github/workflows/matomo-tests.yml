@@ -82,10 +82,26 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - &runner-mysql
+        name: Start MySQL
+        if: ${{ (matrix.environment.mysql-engine || 'Mysql') == 'Mysql' }}
+        run: |
+          set -eu
+          mysqld --version | grep -q ' 8\.0\.' || { echo "::error::the runner's MySQL is not 8.0: $(mysqld --version)"; exit 1; }
+          sudo systemctl stop mysql
+          sudo mv /var/lib/mysql /var/lib/mysql-disk
+          sudo mkdir /var/lib/mysql
+          sudo mount -t tmpfs -o size=6g tmpfs /var/lib/mysql
+          sudo cp -a /var/lib/mysql-disk/. /var/lib/mysql/
+          printf '[mysqld]\nsql_mode = NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES\nwait_timeout = 36000\nmax_allowed_packet = 134209536\nlocal_infile = 1\n' \
+            | sudo tee /etc/mysql/conf.d/matomo.cnf > /dev/null
+          sudo systemctl start mysql
+          mysql -h127.0.0.1 -uroot -proot -e "ALTER USER 'root'@'localhost' IDENTIFIED BY ''; CREATE DATABASE matomo_tests"
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'UnitTests'
+          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -113,10 +129,12 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *runner-mysql
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
           test-type: ${{ matrix.type }}
+          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -143,6 +161,7 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *runner-mysql
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -156,6 +175,7 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'IntegrationTestsCore'
+          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
@@ -185,6 +205,7 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *runner-mysql
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -198,6 +219,7 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'IntegrationTestsPlugins'
+          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
@@ -227,6 +249,7 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *runner-mysql
       - name: Generate bucket phpunit config
         working-directory: matomo
         shell: bash
@@ -240,6 +263,7 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'SystemTestsPlugins'
+          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
           phpunit-test-options: >-
             --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
             --testsuite Bucket
@@ -382,6 +406,7 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *runner-mysql
       - name: Limit LFS fetch to this plugin's screenshots
         working-directory: matomo
         env:
@@ -400,6 +425,7 @@ jobs:
         with:
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
+          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
           php-version: '8.1'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
@@ -424,6 +450,7 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - *runner-mysql
       - name: Limit LFS fetch to core screenshots
         working-directory: matomo
         run: |
@@ -437,6 +464,7 @@ jobs:
             --core-tests-only --num-test-groups=${{ strategy.job-total }}
             --test-group=${{ strategy.job-index }}
           test-type: 'UI'
+          mysql-service: ${{ (matrix.environment.mysql-engine || 'Mysql') != 'Mysql' }}
           php-version: '8.1'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
