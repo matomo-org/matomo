@@ -8,6 +8,8 @@
         "HoursAgo": "%s tuntia sitten",
         "MinutesAgo": "%s minuuttia sitten",
         "NoVisit": "Ei käyntejä",
+        "NoVisitsInfo": "Käyntejä ei näytetä, koska millään tämän ajanjakson käynnillä ei ole oikeita maantieteellisiä sijaintitietoja (leveys- ja pituusaste).",
+        "NoVisitsInfo2": "Ratkaise ongelma käyttämällä GeoIP-sijainninmääritystoimintoa ja GeoIP-kaupunkitietokantaa. (Vaikka se on epätodennäköistä) joidenkin IP-osoitteiden sijaintia ei ehkä silti voida määrittää.",
         "None": "Ei mitään",
         "PluginDescription": "Tarjoaa \"Visitor Map\"- ja \"Real-time Map\" -vimpaimet. Vaatii \"UserCountry\"-liitännäisen.",
         "RealTimeMap": "Reaaliaikainen kartta",
