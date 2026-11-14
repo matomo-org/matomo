@@ -15,7 +15,9 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Http;
+use Piwik\Http\EgressBlockedException;
 use Piwik\Log\LoggerInterface;
+use Piwik\Piwik;
 use Piwik\Plugins\AIProviders\AIConversationRequest;
 use Piwik\Plugins\AIProviders\AIConversationResponse;
 use Piwik\Plugins\AIProviders\AIProviderResponse;
@@ -185,6 +187,12 @@ abstract class AIProvider
     public function getEndpointFieldPlaceholder(): string
     {
         return 'AIProviders_EndpointUrlPlaceholder';
+    }
+
+    /** Translation key for the endpoint field's inline help in the admin UI, empty for none. */
+    public function getEndpointFieldHelp(): string
+    {
+        return '';
     }
 
     /**
@@ -1019,6 +1027,7 @@ abstract class AIProvider
      *     defaultEndpointUrl: string,
      *     endpointFieldTitle: string,
      *     endpointFieldPlaceholder: string,
+     *     endpointFieldHelp: string,
      *     defaultModel: string
      * }
      */
@@ -1033,6 +1042,7 @@ abstract class AIProvider
             'defaultEndpointUrl' => $this->getDefaultEndpointUrl(),
             'endpointFieldTitle' => $this->getEndpointFieldTitle(),
             'endpointFieldPlaceholder' => $this->getEndpointFieldPlaceholder(),
+            'endpointFieldHelp' => $this->getEndpointFieldHelp(),
             'defaultModel' => $this->getDefaultModel(),
         ];
     }
@@ -1159,6 +1169,17 @@ abstract class AIProvider
     }
 
     /**
+     * Only an endpoint a superuser typed into the settings form is untrusted.
+     * Fixed provider hosts and an endpoint from the server configuration are
+     * the instance owner's choice, so they may be private or behind a proxy.
+     */
+    private function isEndpointEnteredInSettings(): bool
+    {
+        return $this->supportsCustomEndpoint()
+            && !StaticContainer::get(Configuration::class)->isEndpointUrlSuppliedCentrally($this);
+    }
+
+    /**
      * Performs the actual HTTP exchange, retrying transient errors and
      * classifying failures. Shared by {@link sendJsonRequest()} and
      * {@link sendGetRequest()}.
@@ -1188,6 +1209,7 @@ abstract class AIProvider
 
         $host = parse_url($url, PHP_URL_HOST);
         $checkHostIsAllowed = !is_string($host) || !$this->isTrustedRequestHost($host);
+        $validateEgressIp = $checkHostIsAllowed && $this->isEndpointEnteredInSettings();
 
         for ($attempt = 0; $attempt <= count($retryDelays); $attempt++) {
             $attemptStartedAt = microtime(true);
@@ -1219,10 +1241,22 @@ abstract class AIProvider
                     $requestBody,
                     $requestHeaders,
                     null,
-                    $checkHostIsAllowed
+                    $checkHostIsAllowed,
+                    $validateEgressIp
                 );
             } catch (Exception $e) {
                 $this->logProviderTransportDebugMetadata($method, $url, $timeoutSeconds, $attempt + 1, $e);
+
+                if ($e instanceof EgressBlockedException) {
+                    throw new AIProviderClientException(
+                        Piwik::translate(
+                            'AIProviders_ErrorEndpointEgressBlocked',
+                            [$this->getName(), $this->getId() . 'EndpointUrl']
+                        ),
+                        0,
+                        $e
+                    );
+                }
 
                 throw new AIProviderException(sprintf(
                     'Could not connect to %s.',
