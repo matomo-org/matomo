@@ -83,6 +83,7 @@
         "PleaseNote": "Merk",
         "PluginDescription": "Gir autentisering med brukernavn og passord i tillegg til funksjonalitet for å gjenopprette passord. Autentiseringsmetoden kan endres ved å bruke et annet innloggingstillegg som LoginLdap, som er tilgjengelig via Markedsplassen.",
         "RememberMe": "Husk meg",
+        "SecondFactorCode": "Identitetsbekreftelseskode",
         "SecurityTip": "Sikkerhetstips",
         "SettingBruteForceBlacklistIp": "Alltid blokker disse IP-ene fra innlogging",
         "SettingBruteForceEnable": "Skru på oppdaging av brute force-angrep",
