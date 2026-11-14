@@ -16,6 +16,8 @@
         "ConfirmPasswordResetIntro": "Clóscríobh do phasfhocal nua le do thoil chun a dheimhniú gur iarr tú gur athraigh do phasfhocal.",
         "ConfirmPasswordResetWrongPassword": "Ní mheaitseálann an pasfhocal a iontráladh do cheann nuadhéanta. Athshocraigh do phasfhocal arís mura gcuimhníonn tú air. Ná déan aon rud chun do phasfhocal a choinneáil mura n-iarrann tú é a athrú.",
         "ConfirmPasswordToContinue": "Deimhnigh do phasfhocal chun leanúint ar aghaidh",
+        "ConfirmSecondFactorIntro": "Cuir isteach cód ó d’fhíordheimhniú dhá fhachtóir, mar shampla ó d’aip fíordheimhnitheora, chun an gníomh seo a dheimhniú.",
+        "ConfirmSecondFactorToContinue": "Deimhnigh le fíordheimhniú dhá fhachtóir chun leanúint ar aghaidh",
         "ConfirmationLinkPossiblySent": "Má bhaineann na sonraí a cuireadh ar fáil le cuntas, gheobhaidh tú ríomhphost chun an t-athshocrú pasfhocail a dheimhniú.",
         "ContactAdmin": "Fáth a d'fhéadfadh a bheith ann: seans gur dhíchumasaigh d'óstach an fheidhm ríomhphoist(). <br>Déan teagmháil le do riarthóir Matomo, le do thoil.",
         "CreatePasswordDescription": "Déan cinnte go gcuimhníonn tú ar an bpasfhocal seo agus coinnigh in áit shábháilte é.",
@@ -83,6 +85,7 @@
         "PleaseNote": "Tabhair faoi deara le do thoil",
         "PluginDescription": "Soláthraíonn ainm úsáideora agus logáil isteach phasfhocal chomh maith le feidhmiúlacht athshocrú phasfhocal. Is féidir an modh logála isteach a athrú trí bhreiseán logála isteach eile a úsáid, mar shampla LoginLdap atá ar fáil ar an margadh.",
         "RememberMe": "Cuimhnigh orm",
+        "SecondFactorCode": "Cód fíordheimhnithe",
         "SecurityTip": "Leid Slándála",
         "SettingBruteForceBlacklistIp": "Cuir bac ar na IPanna seo i gcónaí ó logáil isteach",
         "SettingBruteForceEnable": "Cumasaigh Brath Brute-force",
@@ -105,6 +108,7 @@
         "TokenAuthenticationFailed": "Ní féidir fíordheimhniú a dhéanamh leis an gcomhartha a cuireadh ar fáil. Tá sé neamhbhailí nó imithe in éag.",
         "TokenAuthenticationFailedInsecure": "Ní féidir fíordheimhniú a dhéanamh leis an gcomhartha a cuireadh ar fáil. Tá sé neamhbhailí, imithe in éag nó caithfear é a sheoladh mar pharaiméadar POST nó sa cheanntásc Údaraithe HTTP. Má cruthaíodh an comhartha leis an rogha 'Ní cheadaítear ach iarratais shlána', ní mór é a sheoladh mar pharaiméadar POST nó sa cheanntásc Údaraithe HTTP.",
         "UnblockAllIPs": "Díbhlocáil gach IPanna bactha",
-        "WrongPasswordEntered": "Cuir isteach do phasfhocal, le do thoil."
+        "WrongPasswordEntered": "Cuir isteach do phasfhocal, le do thoil.",
+        "WrongSecondFactorCode": "Níl an cód fíordheimhnithe ceart. Bain triail as arís, le do thoil."
     }
 }

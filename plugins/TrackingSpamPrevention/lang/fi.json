@@ -1,5 +1,36 @@
 {
     "TrackingSpamPrevention": {
-        "SettingMaxActionsTitle": "Talletettavien toimintojen enimmäismäärä per käynti"
+        "BanIpNotificationMailSubject": "IP-osoite estettiin liian monen toiminnon luomisen vuoksi.",
+        "BlockCloudNoteInternetDisabled": "Koska internet on poistettu käytöstä Matomon asetuksissa, tämä ominaisuus ei toimi.",
+        "PluginDescription": "Tämä lisäosa tarjoaa erilaisia vaihtoehtoja, joilla estetään roskapostittajia ja botteja vääristämästä tietojasi, jotta voit taas luottaa tietoihisi.",
+        "SettingBlockCloudIpRangesHelp": "Estä seurantapyynnöt käyttämällä ylläpidettyä luetteloa tunnetuista pilvipalveluntarjoajien IP-alueista. Tämä kattaa lisäksi pilvipalveluntarjoajien liikennettä, jota määritettyjen GeoIP-organisaationimien luettelo ei ehkä tunnista. Pilvipalveluntarjoajien IP-alueluettelo päivittyy automaattisesti 24 tunnin välein.",
+        "SettingBlockCloudIpRangesTitle": "Estä liikennepyynnöt pilvipalveluntarjoajien IP-alueilta",
+        "SettingBlockHeadlessDescription": "Nämä ovat selaimia ilman käyttöliittymää, ja niitä käytetään enimmäkseen automaatioon. Tämän asetuksen ottaminen käyttöön on todennäköisesti turvallista, jos sinulla on vain tavallisia verkkosivustoja tai sovelluksia. Se voi estää lisää botteja ja roskapostipyyntöjä, joita ei muuten havaittaisi.",
+        "SettingBlockHeadlessTitle": "Estä headless-selaimet",
+        "SettingBlockSdksAndLibrariesHelp": "Ota tämä vaihtoehto käyttöön vain, jos seuranta tehdään JavaScript-seurantaohjelmalla tai Matomo Tag Managerilla. Se estää HTTP-asiakasohjelmien ja muiden kuin JavaScript-seurantakirjastojen lähettämät seurantapyynnöt, mukaan lukien työkalut, kuten cURL, Guzzle ja Postman.%3$s%1$sHuomaa:%2$s Älä ota tätä vaihtoehtoa käyttöön, jos lähetät seurantatietoja Matomon PHP-seuranta-SDK:lla, Java SDK:lla, Python SDK:lla, Android SDK:lla, iOS SDK:lla tai muilla kuin JavaScript-seurantakirjastoilla.",
+        "SettingBlockSdksAndLibrariesTitle": "Estä liikenne SDK:ista ja palvelinpuolen kirjastoista",
+        "SettingCloudBlockingModeHelp": "Valitse, miten Matomon pitäisi käsitellä pilvipalveluntarjoajilta tulevia seurantapyyntöjä. Voit poistaa eston kokonaan käytöstä, käyttää Matomon oletusarvoista palveluntarjoajaluetteloa tai ylläpitää omaa mukautettua luetteloa. Matomon luetteloa voidaan päivittää ajan mittaan, kun palveluntarjoajia lisätään tai muutetaan.",
+        "SettingCloudBlockingModeOptionCustomList": "Käytä mukautettua organisaatioluetteloa",
+        "SettingCloudBlockingModeOptionDefaultList": "Käytä Matomon oletusarvoista palveluntarjoajaluetteloa (suositus)",
+        "SettingCloudBlockingModeOptionOff": "Älä estä pilvipalveluntarjoajia",
+        "SettingCloudBlockingModeTitle": "Estä seurantapyynnöt pilvipalveluntarjoajilta",
+        "SettingCustomOrganisationBlockListHelp": "Estä seurantapyynnöt, kun kävijän IP-osoite kuuluu määritettyyn organisaatioon, kuten hosting- tai pilvipalveluntarjoajaan. Syötä yksi organisaatio riville. Käytä tarkkoja nimiä välttääksesi tahattomia osumia. Kaikki organisaatiot, joiden nimi sisältää syöttämäsi arvon, täsmäävät. Matomo käyttää tätä luetteloa oletusarvoisen palveluntarjoajaluettelonsa sijaan.",
+        "SettingDefaultOrganisationBlockListHelp": "Tämä on Matomon ylläpitämä nykyinen oletusarvoinen organisaatioluettelo. Luetteloa voidaan päivittää ajan mittaan, kun palveluntarjoajia lisätään tai muutetaan.",
+        "SettingDefaultOrganisationBlockListTitle": "Estettyjen organisaatioiden oletusluettelo",
+        "SettingExcludedCountriesDescription": "Älä seuraa kävijöitä näistä maista. Kohdealueesi ulkopuolelta tulevat kävijät ovat todennäköisesti botteja tai roskapostittajia, tai voit käyttää tätä välttääksesi muiden lainkäyttöalueiden tietosuojalait.",
+        "SettingExcludedCountriesTitle": "Sulje maita pois",
+        "SettingIncludedCountriesDescription": "Tämä sulkee pois kaikki muut maat. Lisätietoja on asetuksessa \"Sulje maita pois\".",
+        "SettingIncludedCountriesTitle": "Seuraa vain kävijöitä näistä maista",
+        "SettingIpAllowListHelp": "Määritä IP-osoitteet tai CIDR-alueet, jotka saavat lähettää seurantapyyntöjä. Syötä yksi arvo riville.",
+        "SettingIpAllowListTitle": "Sallittujen IP-osoitteiden luettelo",
+        "SettingIpBlockListHelp": "Määritä IP-osoitteet tai CIDR-alueet, joilta seurantapyyntöjen lähettäminen estetään. Syötä yksi arvo riville. Matomo voi estää automaattisesti muitakin IP-osoitteita, jotka eivät näy tässä luettelossa, kuten päivittäin haettavat pilvipalveluntarjoajien IP-alueet, kun \"Estä liikennepyynnöt pilvipalveluntarjoajien IP-alueilta\" on käytössä, tai IP-osoitteet, jotka on estetty tilapäisesti toimintojen enimmäismäärän ylittämisen vuoksi.",
+        "SettingIpBlockListTitle": "Estettyjen IP-osoitteiden luettelo",
+        "SettingMaxActionsDescription": "Oletusarvo \"0\" tallentaa kaikki toiminnot. Useimmissa sivustoissa on yleensä enintään 100–300 toimintoa. Muun toiminnan voi todennäköisesti olettaa olevan seurantaroskapostia, botti tai hyökkäys. Matomo lopettaa uusien toimintojen tallentamisen ja estää niiden IP-osoitteet enintään 24 tunniksi palvelimen kuormituksen vähentämiseksi ja tietojen tarkkuuden säilyttämiseksi.",
+        "SettingMaxActionsTitle": "Talletettavien toimintojen enimmäismäärä per käynti",
+        "SettingNotificationEmailDescription": "Tähän sähköpostiosoitteeseen lähetetään ilmoitus aina, kun IP-osoite estetään liian monen toiminnon vuoksi. Tulevaisuudessa ilmoitusten syitä voidaan lisätä.",
+        "SettingNotificationEmailTitle": "Ilmoitussähköposti",
+        "SettingOrganisationBlockListPlaceholder": "Pilvipalveluntarjoaja A%1$sPilvipalveluntarjoaja B",
+        "SettingOrganisationBlockListTitle": "Estettyjen organisaatioiden luettelo",
+        "SettingsIntroduction": "Roskaposti- ja bottiliikenne voi paisuttaa seurantapyyntöjen määrää ja tuoda raportteihisi ei-toivottuja tietoja. Määritä nämä asetukset vähentääksesi tätä liikennettä ennen kuin se vaikuttaa analytiikkaasi."
     }
 }

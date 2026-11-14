@@ -1,9 +1,30 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "Tekoälychatbottien pyynnöt",
+        "AiChatbotsSegmentationTooltip": "Segmentointi ei ole käytettävissä tälle mittarille, koska tekoälychatbottien pyyntöjä (kuten ChatGPT:n pyyntöjä) ei liitetä tavallisiin käynteihin tai kävijöihin.",
+        "AllWebsitesDashboardDocumentation": "Tämä raportti antaa yleiskatsauksen kustakin verkkosivustostasi ja sisältää yleisimmät kävijöitäsi koskevat mittarit.",
+        "AllWebsitesDashboardErrorMessage": "Tiedot eivät ole tällä hetkellä saatavilla. Syynä voi olla tilapäinen palvelinongelma tai se, että raportissa on liikaa tietoja. Yritä myöhemmin uudelleen. Jos ongelma jatkuu, pyydä apua Matomon järjestelmänvalvojalta.",
         "AllWebsitesDashboardTitle": "Kaikki sivustot",
         "Evolution": "Kehitys",
+        "EvolutionComparisonIncomplete": "Valittu ajanjakso on tällä hetkellä %1$s valmis.",
+        "EvolutionFromPreviousDay": "Edellisestä päivästä",
+        "EvolutionFromPreviousMonth": "Edellisestä kuukaudesta",
+        "EvolutionFromPreviousPeriod": "Edellisestä ajanjaksosta",
+        "EvolutionFromPreviousWeek": "Edellisestä viikosta",
+        "EvolutionFromPreviousYear": "Edellisestä vuodesta",
+        "HitsIncludingAiTooltip": "Sisältää kaikki ihmisten osumat ja tekoälychatbottien pyynnöt",
         "LoadingWebsites": "Ladataan sivustoja",
+        "MetricDocumentationAiChatbotsRequests": "Tälle verkkosivustolle tallennettujen tekoälychatbottien pyyntöjen kokonaismäärä.",
+        "MetricDocumentationEvolution": "Tämän mittarin prosentuaalinen muutos tällä verkkosivustolla edelliseen ajanjaksoon verrattuna. Positiivinen arvo osoittaa kasvua ja negatiivinen arvo laskua.",
+        "MetricDocumentationHits": "Tälle verkkosivustolle tallennettujen toimintojen kokonaismäärä, mukaan lukien sivukatselut, lataukset ja lähtevät linkit.",
+        "MetricDocumentationHitsIncludingAi": "Tälle verkkosivustolle tallennettujen toimintojen kokonaismäärä, mukaan lukien sivukatselut, lataukset, lähtevät linkit ja tekoälychatbottien pyynnöt.",
+        "MetricDocumentationPageviews": "Tällä verkkosivustolla katseltujen sivujen kokonaismäärä. Tähän sisältyvät saman kävijän useat katselut samasta sivusta.",
+        "MetricDocumentationRevenue": "Tälle verkkosivustolle seurattujen tulojen kokonaismäärä. Tämä mittari on käytettävissä, jos verkkokaupan seuranta on käytössä, ja se kuvastaa ostoksia tai tavoitteisiin perustuvia tuloja.",
+        "MetricDocumentationVisits": "Tälle verkkosivustolle tallennettujen käyntien kokonaismäärä. Käynti alkaa, kun käyttäjä avaa sivuston, ja päättyy tietyn passiivisuusjakson jälkeen tai kun istunto vanhenee.",
+        "MetricDocumentationWebsite": "Työpöydällä näytettävä luettelo seuratuista verkkosivustoista. Jokainen rivi edustaa erillistä verkkosivustoa ja sen analytiikkatietoja.",
         "PluginDescription": "Katso ja vertaile kaikkia sivustojasi ja sovelluksia tällä \"Kaikki sivustot\"-työpöydällä.",
+        "SegmentationNotSupported": "Segmentointia ei tueta",
+        "SingleWebsitesDashboardDocumentation": "Tämä raportti antaa yleiskatsauksen tietystä verkkosivustosta ja sisältää yleisimmät kävijöitäsi koskevat mittarit.",
         "TopLinkTooltip": "Vertaile eri sivustojen tilastoja."
     }
 }

@@ -82,6 +82,7 @@
         "PleaseNote": "Observera",
         "PluginDescription": "Tillhandahåller inloggningsfunktion samt återställa användarnamn och lösenord. Inloggningsmetoden kan anpassas med ett annat plugin som t.ex. LoginLdap från marknadsplatsen.",
         "RememberMe": "Kom ihåg mig",
+        "SecondFactorCode": "Kod för autentisering",
         "SecurityTip": "Säkerhetstips",
         "SettingBruteForceBlacklistIp": "Tillåt aldrig följande IP-adresser att logga in",
         "SettingBruteForceEnable": "Aktivera totalsöknings-detektion (eng. Brute force)",

@@ -16,7 +16,6 @@
         "FromSocialNetworks": "來自社群網站",
         "FromWebsites": "來自網站",
         "IncomingTraffic": "進站流量",
-        "LoadingTransitionsFor": "正在載入 %s 的行為流程",
         "LoopsInline": "%s 次網頁重新載入",
         "NoDataForAction": "%s 沒有資料",
         "NoDataForActionDetails": "這個活動在所選期間內沒有瀏覽數，或是它無效。",

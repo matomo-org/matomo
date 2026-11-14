@@ -53,6 +53,7 @@
         "PasswordsDoNotMatch": "Le password non corrispondono.",
         "PluginDescription": "Fornisce il login con nome utente e password e la funzionalità di reimpostazione della password. Il metodo di accesso può essere cambiato utilizzando un altro plugin di accesso, come LoginLdap, disponibile sul mercato.",
         "RememberMe": "Ricordami",
+        "SecondFactorCode": "Codice di autenticazione",
         "SettingBruteForceBlacklistIp": "Blocca sempre l'accesso a questi IP",
         "SettingBruteForceEnable": "Abilita il rilevamento della forza bruta",
         "SettingBruteForceEnableHelp": "Disconnette per un certo periodo di tempo gli utenti che indovinano un numero eccessivo di password in un determinato intervallo di tempo. In questo modo si impedisce a chiunque di provare tutte le combinazioni. Il blocco di un IP condiviso blocca anche gli altri utenti.",

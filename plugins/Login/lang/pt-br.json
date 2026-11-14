@@ -75,6 +75,7 @@
         "PasswordsDoNotMatch": "Senhas não conferem.",
         "PluginDescription": "Fornece login de nome de usuário e senha, bem como funcionalidade de redefinição de senha. O método de login pode ser alterado usando outro plugin de login, como o LoginLdap, disponível na loja de aplicativos.",
         "RememberMe": "Lembrar de mim",
+        "SecondFactorCode": "Código de autenticação",
         "SettingBruteForceBlacklistIp": "Sempre bloquear estes IPs de fazer login",
         "SettingBruteForceEnable": "Ativar detecção de força bruta",
         "SettingBruteForceEnableHelp": "Desconecta os usuários que adivinham muitas senhas em um período de tempo. Isso impede que alguém teste todas as combinações. Obtendo um IP compartilhado bloqueado também bloqueia seus outros usuários.",

@@ -10,6 +10,7 @@
         "ClickHereToOptIn": "Trykk her for å delta.",
         "ClickHereToOptOut": "Trykk her for å ikke delta.",
         "CloudflareDescription": "Sjekk %1$sdenne veiledningen%2$s hvis nettsiden din vertstjenes på Cloudflare.",
+        "ComponentLibrary": "Komponentbibliotek",
         "ConfirmDeleteAllTrackingFailures": "Slett alle sporingsfeil?",
         "ConfirmDeleteThisTrackingFailure": "Slett denne sporingsfeilen?",
         "Cors": "CORS",

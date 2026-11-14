@@ -32,6 +32,7 @@
         "PasswordsDoNotMatch": "Las contraseñas no coinciden.",
         "PluginDescription": "Ofrece autenticación vía nombre de usuario y contraseña, así como función de restablecimiento de contraseña. El método de autenticación se puede cambiar al usar otro plugin de inicio de sesión, como LoginLdap, disponible en el mercado.",
         "RememberMe": "Recordarme",
+        "SecondFactorCode": "Código de autenticación",
         "SettingBruteForceBlacklistIp": "Siempre bloquear estas direcciones IP para iniciar sesión",
         "SettingBruteForceEnable": "Habilitar detección de fuerza bruta",
         "SettingBruteForceEnableHelp": "La detección de fuerza bruta es una importante función de seguridad usada para proteger tus datos de accesos no autorizados. En lugar de permitirle a cualquier usuario probar miles o millones de combinaciones posibles en un muy corto período de tiempo, sólo se le permitirá una cantidad específica de inicios de sesión fallidos dentro de un corto período de tiempo. Si se dan muchos intentos fallidos de inicio de sesión en ese margen de tiempo, el usuario no podrá iniciar sesión pasado un tiempo. Por favor, tené en cuenta que si se bloquea una dirección IP, cada usuario que use esa misma dirección IP será también impedido de iniciar sesión.",

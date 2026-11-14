@@ -51,6 +51,7 @@
         "PasswordsDoNotMatch": "Paroles nesakrīt.",
         "PluginDescription": "Nodrošina lietotājvārda un paroles pieteikšanās, kā arī paroles atiestatīšanas funkcionalitāti. Pieteikšanās metodi var mainīt, izmantojot citu pieteikšanās spraudni, piemēram, \"LoginLdap\", kas pieejams veikalā.",
         "RememberMe": "Atcerēties mani",
+        "SecondFactorCode": "Autentifikācijas kods",
         "SettingBruteForceBlacklistIp": "Vienmēr bloķēt pieslēgšanos šīm IP adresēm",
         "SettingBruteForceEnable": "Iespējot spēka pielietošanas (\"Brute-force\") noteikšanu",
         "SettingBruteForceEnableHelp": "Atsakās no lietotājiem, kas noteiktā laika periodā veic pārāk daudz paroles minējumu. Tas liedz jebkuram testēt visas kombinācijas. Koplietojamas IP bloķēšana bloķē arī citus tās lietotājus.",
