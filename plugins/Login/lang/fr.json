@@ -83,6 +83,7 @@
         "PleaseNote": "Veuillez noter",
         "PluginDescription": "Fournit une connexion via nom d'utilisateur et mot de passe ainsi qu'une fonctionnalité de réinitialisation du mot de passe. La méthode d'authentification peut être changée en utilisant un autre plugin de connexion comme LoginLdap, disponible sur la marketplace.",
         "RememberMe": "Se souvenir de moi",
+        "SecondFactorCode": "Code d'authentification",
         "SecurityTip": "Conseil de sécurité",
         "SettingBruteForceBlacklistIp": "Toujours empêcher ces IP de se connecter",
         "SettingBruteForceEnable": "Activer la détection d'attaque par Force Brute",
