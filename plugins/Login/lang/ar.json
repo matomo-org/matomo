@@ -8,6 +8,7 @@
         "LostYourPassword": "فقدت كلمة المرور؟",
         "PasswordRepeat": "كلمة المرور(كرّرها)",
         "PasswordsDoNotMatch": "كلمتي المرور غير متطابقتين.",
-        "RememberMe": "تذكرني"
+        "RememberMe": "تذكرني",
+        "SecondFactorCode": "رمز المصادقة"
     }
 }
