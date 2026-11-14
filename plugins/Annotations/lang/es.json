@@ -9,6 +9,7 @@
         "ClickToStarOrUnstar": "Haz clic para destacar o quitar destacado a esta anotación.",
         "CreateNewAnnotation": "Crear una nueva anotación…",
         "EnterAnnotationText": "Escriba su nota…",
+        "HideAnnotations": "Ocultar las anotaciones",
         "HideAnnotationsFor": "Ocultar anotaciones para %s…",
         "IconDesc": "Ver las notas en este rango de fechas.",
         "IconDescHideNotes": "Ocultar las notas en este rango de fechas.",
@@ -16,6 +17,7 @@
         "LoginToAnnotate": "Inicia sesión para crear una anotación.",
         "NoAnnotations": "No existen anotaciones en este rango de fechas.",
         "PluginDescription": "Le permite adjuntar notas en diferentes días para señalar cambios que haya realizado en su sitio de internet, guardar los análisis que haya realizado sobre los datos y compartir sus ideas con sus colegas. Al agregar anotaciones a sus datos se asegurará recordar el por qué de sus datos se vean de ese modo.",
+        "ShowAnnotations": "Mostrar las anotaciones",
         "ViewAndAddAnnotations": "Ver y añadir anotaciones para %s…",
         "YouCannotModifyThisNote": "No puede modificar esta anotación debido a que ni la creó ni posee privilegios de administrador en este sitio."
     }

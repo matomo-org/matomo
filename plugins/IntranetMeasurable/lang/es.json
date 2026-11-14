@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "Intranet del sitio web",
         "IntranetDescription": "Una intranet medible es como un sitio web pero alojado en una red interna.",
+        "IntranetLongDescription": "Haga el seguimiento de sitios internos a los que solo se puede acceder desde la red de su organización. Matomo usa cookies propias para identificar con más precisión a los visitantes únicos en entornos de intranet.",
         "Intranets": "Intranet de sitios web"
     }
 }
