@@ -83,6 +83,7 @@
         "PleaseNote": "Lütfen unutmayın",
         "PluginDescription": "Kullanıcı adı ve parola ile oturum açma ve parola sıfırlama işlemlerini yapar. Oturum açma yöntemi, mağazadan alınabilecek LoginLdap gibi başka bir oturum açma eklentisi kullanılarak değiştirilebilir.",
         "RememberMe": "Bilgilerim hatırlansın",
+        "SecondFactorCode": "Kimlik doğrulama kodu",
         "SecurityTip": "Güvenlik ipucu",
         "SettingBruteForceBlacklistIp": "Her zaman engellenecek IP adresleri",
         "SettingBruteForceEnable": "Kaba kuvvet saldırıları algılansın",
