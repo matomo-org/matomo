@@ -30,10 +30,15 @@
     line-height: 24px !important;
     color: #212121 !important;
     cursor: pointer;
+
+    .inDarkMode({
+      color: #ccc !important;
+    });
   }
 
+  // top-aligns the icon with the top of the title text
   &:before {
-    margin-top: -3px;
+    margin-top: 4px;
   }
 
   &.notification-success {
