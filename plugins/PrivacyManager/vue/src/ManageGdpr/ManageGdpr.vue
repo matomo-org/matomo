@@ -488,19 +488,8 @@ export default defineComponent({
         || this.consentedVisitsOnlyIdSites.includes(Number(idSite));
     },
     consentLabel(consent: number|string|null): string {
-      if (consent === null || consent === '') {
-        return '';
-      }
-
-      if (`${consent}` === '1') {
-        return translate('CoreHome_ConsentStateConsented');
-      }
-
-      if (`${consent}` === '0') {
-        return translate('CoreHome_ConsentStateRefused');
-      }
-
-      return '';
+      // consent is the only recorded state, anything else shows no state
+      return `${consent}` === '1' ? translate('CoreHome_ConsentStateConsented') : '';
     },
     addFilter(segment: string, value: string) {
       this.segment_filter += `,${segment}==${value}`;

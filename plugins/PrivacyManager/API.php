@@ -19,6 +19,7 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled;
@@ -49,11 +50,6 @@ class API extends \Piwik\Plugin\API
      * One more than the 400 visits the GDPR tools list, so that they can tell when there are more.
      */
     private const DATA_SUBJECTS_LIMIT = 401;
-
-    /**
-     * The value of log_visit.consent for a visit whose visitor gave consent.
-     */
-    private const CONSENT_GIVEN = 1;
 
     private DataSubjects $gdpr;
 
@@ -147,7 +143,7 @@ class API extends \Piwik\Plugin\API
             if (
                 null === $stored
                 || $stored['idsite'] !== $visit['idsite']
-                || $stored['consent'] !== self::CONSENT_GIVEN
+                || $stored['consent'] !== Consent::CONSENT_GIVEN
             ) {
                 throw new NoPrivilegesException(
                     Piwik::translate('PrivacyManager_OnlyConsentedVisitsCanBeExportedOrDeleted'),
@@ -222,7 +218,7 @@ class API extends \Piwik\Plugin\API
      *                        Supports AND (;) and OR (,) operators.
      * @return array{}|DataTable Matching visitor details with a reduced column set (identity, device,
      *                           location, and browser info), and the consent stored for the visit (1 when the
-     *                           visitor consented, 0 when they refused, empty when none is stored). Returns an
+     *                           visitor consented, otherwise the stored value or empty when none is stored). Returns an
      *                           empty array when no sites qualify.
      */
     public function findDataSubjects($idSite, string $segment)
@@ -371,7 +367,7 @@ class API extends \Piwik\Plugin\API
 
             if (
                 in_array((int) $row->getColumn('idSite'), $consentedVisitsOnlyIdSites, true)
-                && $consent !== self::CONSENT_GIVEN
+                && $consent !== Consent::CONSENT_GIVEN
             ) {
                 $visits->deleteRow($id);
                 continue;

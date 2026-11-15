@@ -96,7 +96,6 @@ describe("PrivacyManager_GdprConsent", function () {
 
         const cells = await consentCells();
         expect(cells).to.include('Consented');
-        expect(cells).to.include('Refused');
         expect(cells).to.include('');
         expect(await isConsentedVisitsOnlyNoteShown()).to.equal(false);
         expect(await page.evaluate(() => $('.manageGdpr tbody .visitorLogTooltip').length)).to.be.greaterThan(0);

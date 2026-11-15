@@ -16,7 +16,7 @@ use Piwik\Policy\CnilPolicy;
 /**
  * The visits of MultipleSitesMultipleVisitsFixture, with the CNIL policy enforced for site 5 and a consent stored on
  * some visits: on site 5, the visits with an even id are consented and the others hold none; on site 1, the visits
- * with an even id are consented, those with an id divisible by 3 refused, and the others hold none.
+ * with an even id are consented, those with an id divisible by 3 hold 0, and the others hold none.
  *
  * The consent is written directly, as tracking only records it on a site measuring consent-aware analytics.
  */

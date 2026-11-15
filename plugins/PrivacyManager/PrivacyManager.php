@@ -607,7 +607,6 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ResultIncludesAllVisits';
         $translationKeys[] = 'CoreHome_ConsentState';
         $translationKeys[] = 'CoreHome_ConsentStateConsented';
-        $translationKeys[] = 'CoreHome_ConsentStateRefused';
         $translationKeys[] = 'PrivacyManager_ResultTruncated';
         $translationKeys[] = 'PrivacyManager_SaveSettingsBeforePurge';
         $translationKeys[] = 'PrivacyManager_SearchForDataSubject';
