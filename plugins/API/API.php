@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\API;
 
+use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
@@ -23,6 +24,7 @@ use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
 use Piwik\Http\BadRequestException;
 use Piwik\IP;
+use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
@@ -538,6 +540,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Performs multiple API requests at once and returns every result.
      *
+     * The caller is authenticated again before each request after the first. If that fails, the remaining
+     * requests are not run and an error is returned instead; changes made by earlier requests are kept.
+     *
      * @param string[] $urls API query strings to execute.
      * @return array<int, mixed>
      * @unsanitized
@@ -561,8 +566,21 @@ class API extends \Piwik\Plugin\API
         $rootIsSessionToken = $authToken->isSessionToken();
         $rootTokenAuth = $authToken->getAuthToken();
 
+        // Access is cached per request, so each sub-request authenticates again to pick up changes made
+        // meanwhile. Access granted by code has no credential to check and is kept.
+        $access = Access::getInstance();
+        $shouldReauthenticate = $access->getAuth() !== null
+            && $access->getLogin() !== null
+            && !$access->isSuperUserAccessGrantedByCode();
+
         $result = [];
+        $isFirstRequest = true;
         foreach ($urls as $url) {
+            if (!$isFirstRequest && $shouldReauthenticate && !$access->reauthenticate()) {
+                throw new NoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
+            }
+            $isFirstRequest = false;
+
             $nestedRequest = \Piwik\Request::fromQueryString($url);
 
             $this->checkNestedRequestAuthMatchesRoot($nestedRequest, $rootIsSessionToken, $rootTokenAuth);

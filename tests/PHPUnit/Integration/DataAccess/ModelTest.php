@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\CronArchive\ArchiveFilter;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
@@ -22,6 +23,7 @@ use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
+use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\DataAccess\Model;
@@ -721,6 +723,64 @@ class ModelTest extends IntegrationTestCase
         }
 
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider getTestDataForGetNextInvalidatedArchiveAppliesArchiveFilter
+     */
+    public function testGetNextInvalidatedArchiveAppliesArchiveFilter(array $filterOptions, array $expectedIdInvalidations)
+    {
+        Fixture::createWebsite('2014-01-01 00:00:00');
+
+        $ffHash = (new Segment('browserCode==ff', [1]))->getHash();
+        $ieHash = (new Segment('browserCode==ie', [1]))->getHash();
+
+        $this->insertInvalidations([
+            ['date1' => '2020-01-10', 'date2' => '2020-01-10', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2020-01-10', 'date2' => '2020-01-10', 'period' => Day::PERIOD_ID, 'name' => 'done' . $ffHash],
+            ['date1' => '2020-01-10', 'date2' => '2020-01-10', 'period' => Day::PERIOD_ID, 'name' => 'done' . $ieHash],
+            ['date1' => '2020-01-06', 'date2' => '2020-01-12', 'period' => Week::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2020-01-01', 'date2' => '2020-01-31', 'period' => Month::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2019-12-31', 'date2' => '2019-12-31', 'period' => Day::PERIOD_ID, 'name' => 'done'],
+            ['date1' => '2019-12-31', 'date2' => '2019-12-31', 'period' => Day::PERIOD_ID, 'name' => 'done' . $ffHash . '.Goals', 'report' => 'getMetrics'],
+            ['date1' => '2019-12-31', 'date2' => '2019-12-31', 'period' => Day::PERIOD_ID, 'name' => 'done.Goals', 'report' => 'getMetrics'],
+            ['date1' => '2019-12-31', 'date2' => '2019-12-31', 'period' => Day::PERIOD_ID, 'name' => 'done.Actions', 'report' => 'getPageUrls'],
+            ['date1' => '2019-01-01', 'date2' => '2019-12-31', 'period' => Year::PERIOD_ID, 'name' => 'done'],
+        ]);
+
+        $archiveFilter = new ArchiveFilter();
+        $archiveFilter->setRestrictToPeriods($filterOptions['periods'] ?? '');
+        $archiveFilter->setRestrictToDateRange($filterOptions['dateRange'] ?? false);
+        $archiveFilter->setDisableSegmentsArchiving($filterOptions['skipAllSegments'] ?? false);
+        $archiveFilter->setSegmentsToForce($filterOptions['segments'] ?? []);
+        $archiveFilter->setForceReport($filterOptions['forceReport'] ?? null);
+
+        $invalidations = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null, false, $archiveFilter);
+        $this->assertEqualsCanonicalizing($expectedIdInvalidations, array_column($invalidations, 'idinvalidation'));
+
+        if (!empty($expectedIdInvalidations)) {
+            $next = $this->model->getNextInvalidatedArchive(1, '2030-01-01 00:00:00', null, true, $archiveFilter);
+            $this->assertSame($invalidations[0], $next);
+        }
+    }
+
+    public function getTestDataForGetNextInvalidatedArchiveAppliesArchiveFilter(): iterable
+    {
+        yield 'no restriction' => [[], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]];
+        yield 'periods' => [['periods' => 'week,month'], [4, 5]];
+        yield 'date range in the past' => [['dateRange' => '2019-12-01,2019-12-31'], [6, 7, 8, 9, 10]];
+        yield 'date range overlapping periods' => [['dateRange' => '2020-01-11,2020-01-31'], [4, 5]];
+        yield 'date range with time' => [['dateRange' => '2019-12-31 10:00:00,2019-12-31'], [6, 7, 8, 9, 10]];
+        yield 'skip all segments' => [['skipAllSegments' => true], [1, 4, 5, 6, 8, 9, 10]];
+        yield 'one segment' => [['segments' => ['browserCode==ff']], [2, 7]];
+        yield 'urlencoded segment' => [['segments' => ['browserCode%3D%3Dff']], [2, 7]];
+        yield 'two segments' => [['segments' => ['browserCode==ff', 'browserCode==ie']], [2, 3, 7]];
+        yield 'segment not available for site' => [['segments' => ['notASegment==1']], []];
+        yield 'report' => [['forceReport' => 'Goals.getMetrics'], [7, 8]];
+        yield 'combined' => [
+            ['periods' => 'day', 'dateRange' => '2019-12-31,2019-12-31', 'segments' => ['browserCode==ff']],
+            [7],
+        ];
     }
 
     public function testDeleteInvalidationsForDeletedSites()

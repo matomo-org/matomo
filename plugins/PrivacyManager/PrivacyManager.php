@@ -22,7 +22,6 @@ use Piwik\Option;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
@@ -624,8 +623,6 @@ class PrivacyManager extends Plugin
         $config->setTrackerCache($cacheContent);
 
         PolicyManager::storePolicySettingValuesInTrackerCache($cacheContent, $idSite);
-
-        $cacheContent[ConsentAwareAnalytics::TRACKER_CACHE_KEY] = ConsentAwareAnalytics::isEnabledForSite($idSite);
     }
 
     public function getStylesheetFiles(&$stylesheets)

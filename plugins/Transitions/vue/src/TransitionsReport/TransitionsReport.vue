@@ -7,14 +7,7 @@
 
 <template>
   <div class="transitionsReport">
-    <div
-      class="transitionsReport__loader"
-      :class="{ 'transitionsReport__loader--prominent': context === 'popover' }"
-    >
-      <ActivityIndicator :loading="isLoading" :loading-message="loadingMessage" />
-    </div>
-
-    <div class="transitionsReport__error" v-if="error && !isLoading">
+    <div class="transitionsReport__error" v-if="error">
       <p class="transitionsReport__errorTitle">{{ error.title }}</p>
       <p class="transitionsReport__errorMessage" v-if="error.message">{{ error.message }}</p>
       <a
@@ -25,10 +18,15 @@
       >{{ error.backLabel }}</a>
     </div>
 
-    <div class="transitionsReport__grid" v-if="report && !isLoading && !error">
+    <div
+      class="transitionsReport__grid"
+      v-if="report && !error"
+      :aria-busy="isBusy ? 'true' : undefined"
+    >
       <div class="transitionsReport__column" ref="incomingColumn">
         <TransitionsColumn
           :sections="incomingSections"
+          :loading="report.loadingSides.incoming"
           :highlighted-keys="highlightedKeys"
           @open="onOpen('incoming', $event)"
           @highlight="onRowHighlight"
@@ -71,6 +69,7 @@
       <div class="transitionsReport__column" ref="outgoingColumn">
         <TransitionsColumn
           :sections="outgoingSections"
+          :loading="report.loadingSides.outgoing"
           :highlighted-keys="highlightedKeys"
           @open="onOpen('outgoing', $event)"
           @highlight="onRowHighlight"
@@ -84,12 +83,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import {
-  ActivityIndicator,
-  Matomo,
-  NumberFormatter,
-  translate,
-} from 'CoreHome';
+import { Matomo, NumberFormatter, translate } from 'CoreHome';
 import TransitionsCenterCard from './TransitionsCenterCard.vue';
 import TransitionsColumn from './TransitionsColumn.vue';
 import TransitionsRibbons from './TransitionsRibbons.vue';
@@ -142,7 +136,6 @@ export default defineComponent({
     },
   },
   components: {
-    ActivityIndicator,
     TransitionsCenterCard,
     TransitionsColumn,
     TransitionsRibbons,
@@ -187,20 +180,10 @@ export default defineComponent({
     outgoingRibbonRows(): RibbonSource[] {
       return ribbonRows(this.outgoingSections);
     },
-    /**
-     * The popover names what it is fetching, the way the legacy renderer's own loading state did.
-     * The embedded report keeps the generic message, which is what its inline loader showed.
-     *
-     * One key holding the whole sentence rather than a fragment with the name appended: locales
-     * put the name elsewhere in the sentence, and an appended right-to-left name would need its
-     * own isolation.
-     */
-    loadingMessage(): string {
-      if (this.context !== 'popover') {
-        return translate('General_LoadingData');
-      }
-
-      return translate('Transitions_LoadingTransitionsFor', this.actionName);
+    /** The grid is on screen from the start, so it says when parts of it are still loading. */
+    isBusy(): boolean {
+      return !!this.report && (this.report.pageviewsLoading
+        || this.report.loadingSides.incoming || this.report.loadingSides.outgoing);
     },
     /** Ribbon keys belonging to the highlighted group, so its bands can be emphasised. */
     highlightedKeys(): string[] {
@@ -229,7 +212,7 @@ export default defineComponent({
     },
     groupsFor(side: TransitionsSide): TransitionsGroupData[] {
       return (this.report?.groups || [])
-        .filter((group) => group.side === side && group.nbTransitions > 0);
+        .filter((group) => group.side === side && !group.isLoading && group.nbTransitions > 0);
     },
     /**
      * A column holds at most two blocks: the open group, listed row by row under its own title,
@@ -273,8 +256,8 @@ export default defineComponent({
           side,
           title: translate(openGroup ? otherKey : allKey),
           // Only the incoming block gets a badge: on the outgoing side this would phrase summed
-          // downloads and outlinks as pageviews.
-          badge: side === 'incoming'
+          // downloads and outlinks as pageviews. Nor while groups are loading: it would fall short.
+          badge: side === 'incoming' && !this.report?.loadingSides[side]
             ? translate('Transitions_NumPageviews', NumberFormatter.formatNumber(total))
             : '',
           rows: rest.map((group) => group.summaryRow),
