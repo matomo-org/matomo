@@ -53,6 +53,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private const FAILURE_SUMMARY_NOTIFICATION_ID = 'Marketplace_PluginsCouldNotBeUpdated';
 
+    private const REQUEST_HISTORY_PAGE_SIZE = 5;
+
     private LicenseKey $licenseKey;
     private Plugins $plugins;
 
@@ -153,15 +155,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Lists the plugins the current user requested, and what became of each request
+     * Lists the plugins the current user requested, and what became of each request. A super user gets the pending
+     * requests of all users to decide on, and the decisions made so far.
      */
     public function manageRequests(): string
     {
         Piwik::checkUserIsNotAnonymous();
+        $this->checkPluginRequestsActive();
 
-        if (!$this->getPluginTrialService()->areRequestsActive()) {
-            // a feature that is off, as a report that is not enabled, rather than an error
-            throw new NoPrivilegesException('Plugin requests are not enabled', 403);
+        if (Piwik::hasUserSuperUserAccess()) {
+            return $this->renderTemplate('@Marketplace/manageRequestsSuperUser', [
+                'pendingRequests' => $this->getPendingPluginRequests(),
+                'history' => $this->getPluginRequestHistory(0),
+                'historyPageSize' => self::REQUEST_HISTORY_PAGE_SIZE,
+                'isValidConsumer' => $this->consumer->isValidConsumer(),
+                'currentUserEmail' => Piwik::getCurrentUserEmail(),
+            ]);
         }
 
         $requests = ApiRequest::processRequest('Marketplace.getMyPluginRequests', [], []);
@@ -172,6 +181,61 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->renderTemplate('@Marketplace/manageRequests', [
             'requests' => $requests,
         ]);
+    }
+
+    /**
+     * Returns one page of the decisions on plugin requests, for the History tab of a super user's Manage Requests page
+     */
+    #[JsonResponse]
+    public function getPluginRequestHistoryPage(): string
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkPluginRequestsActive();
+
+        $offset = Request::fromRequest()->getIntegerParameter('offset', 0);
+
+        return json_encode($this->getPluginRequestHistory($offset));
+    }
+
+    private function checkPluginRequestsActive(): void
+    {
+        if (!$this->getPluginTrialService()->areRequestsActive()) {
+            // a feature that is off, as a report that is not enabled, rather than an error
+            throw new NoPrivilegesException('Plugin requests are not enabled', 403);
+        }
+    }
+
+    /**
+     * @return list<array<string, mixed>> the rows of API::getPendingPluginRequests(), with their dates formatted
+     */
+    private function getPendingPluginRequests(): array
+    {
+        $plugins = ApiRequest::processRequest('Marketplace.getPendingPluginRequests', [], []);
+        foreach ($plugins as &$plugin) {
+            $plugin['lastRequestedAtPretty'] = $this->getPrettyLongDate($plugin['lastRequestedAt']);
+            foreach ($plugin['requesters'] as &$requester) {
+                $requester['requestedAtPretty'] = $this->getPrettyLongDate($requester['requestedAt']);
+            }
+        }
+
+        return $plugins;
+    }
+
+    /**
+     * @return array{total: int, decisions: list<array<string, mixed>>} the result of API::getPluginRequestHistory(),
+     *                                                                   with the dates formatted
+     */
+    private function getPluginRequestHistory(int $offset): array
+    {
+        $history = ApiRequest::processRequest('Marketplace.getPluginRequestHistory', [
+            'offset' => $offset,
+            'limit' => self::REQUEST_HISTORY_PAGE_SIZE,
+        ], []);
+        foreach ($history['decisions'] as &$decision) {
+            $decision['decidedAtPretty'] = $this->getPrettyLongDate($decision['decidedAt']);
+        }
+
+        return $history;
     }
 
     /**

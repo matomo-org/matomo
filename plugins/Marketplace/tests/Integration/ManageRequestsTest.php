@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
 use Piwik\Menu\MenuAdmin;
+use Piwik\NoAccessException;
 use Piwik\Plugins\Marketplace\Controller;
 use Piwik\Plugins\Marketplace\Menu;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
@@ -25,7 +26,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * What users who are not super users see of their plugin requests: the state of each plugin card, the Manage Requests
- * page and its menu item
+ * page and its menu item. Also the Manage Requests page of super users, with the requests to decide on and the decisions.
  *
  * @group Marketplace
  * @group PluginTrial
@@ -173,20 +174,98 @@ class ManageRequestsTest extends IntegrationTestCase
         StaticContainer::get(Controller::class)->manageRequests();
     }
 
-    public function testManageRequestsIsUnderPersonalForUsersWhileRequestsAreOn(): void
+    /**
+     * @dataProvider dataIsSuperUser
+     */
+    public function testManageRequestsIsUnderPersonalWhileRequestsAreOn(bool $isSuperUser): void
     {
+        $isSuperUser ? FakeAccess::clearAccess(true) : $this->setUser();
+
         self::assertStringContainsString('Marketplace_ManageRequests', $this->getAdminMenu());
     }
 
     /**
-     * @dataProvider dataUsersWithoutRequestState
+     * @dataProvider dataIsSuperUser
      */
-    public function testManageRequestsIsNotInTheMenuOfSuperUsersOrWhileRequestsAreOff(bool $isSuperUser, bool $areRequestsOn): void
+    public function testManageRequestsIsNotInTheMenuWhileRequestsAreOff(bool $isSuperUser): void
     {
         $isSuperUser ? FakeAccess::clearAccess(true) : $this->setUser();
-        $this->setPluginRequests($areRequestsOn);
+        $this->setPluginRequests(false);
 
         self::assertStringNotContainsString('Marketplace_ManageRequests', $this->getAdminMenu());
+    }
+
+    public function dataIsSuperUser(): iterable
+    {
+        yield 'user' => [false];
+        yield 'super user' => [true];
+    }
+
+    public function testManageRequestsListsThePendingRequestsAndDecisionsForSuperUsers(): void
+    {
+        FakeAccess::clearAccess(true);
+        $requestHistory = StaticContainer::get(RequestHistory::class);
+        $requestHistory->add('PaidPlugin1', 'aUser', time() - 60, RequestHistory::REQUEST_TYPE_TRIAL, 'For <b>videos</b>');
+        $requestHistory->add('PaidPlugin1', 'anotherUser', time(), RequestHistory::REQUEST_TYPE_TRIAL);
+        $requestHistory->add('Barometer', 'aUser', time(), RequestHistory::REQUEST_TYPE_INSTALL);
+        $requestHistory->addDecision('Barometer', RequestHistory::DECISION_DECLINED, 'superUserLogin', 'Not now', time());
+
+        $html = $this->dispatch('manageRequests');
+
+        self::assertStringContainsString('vue-entry="Marketplace.ManageRequestsSuperUser"', $html);
+        self::assertStringNotContainsString('vue-entry="Marketplace.ManageRequests"', $html);
+
+        $pending = $this->getVueProp($html, 'pending-requests');
+        self::assertSame(['PaidPlugin1'], array_column($pending, 'pluginName'));
+        self::assertSame(2, $pending[0]['numRequests']);
+        self::assertNotEmpty($pending[0]['lastRequestedAtPretty']);
+        self::assertSame(['anotherUser', 'aUser'], array_column($pending[0]['requesters'], 'login'));
+        self::assertSame('For <b>videos</b>', $pending[0]['requesters'][1]['message']);
+        self::assertNotEmpty($pending[0]['requesters'][0]['requestedAtPretty']);
+
+        $history = $this->getVueProp($html, 'history');
+        self::assertSame(1, $history['total']);
+        self::assertSame('Barometer', $history['decisions'][0]['pluginName']);
+        self::assertSame('Not now', $history['decisions'][0]['note']);
+        self::assertNotEmpty($history['decisions'][0]['decidedAtPretty']);
+
+        self::assertSame(5, $this->getVueProp($html, 'history-page-size'));
+    }
+
+    public function testRequestHistoryIsPagedByFive(): void
+    {
+        FakeAccess::clearAccess(true);
+        $requestHistory = StaticContainer::get(RequestHistory::class);
+        foreach (['Barometer', 'PaidPlugin1', 'PaidPlugin2', 'PaidPlugin3', 'TreemapVisualization', 'Funnels'] as $i => $pluginName) {
+            $requestHistory->add($pluginName, 'aUser', time() - 600 + $i, RequestHistory::REQUEST_TYPE_TRIAL);
+            $requestHistory->addDecision($pluginName, RequestHistory::DECISION_DECLINED, 'superUserLogin', null, time() - 600 + $i);
+        }
+
+        $_GET['offset'] = '5';
+        $history = json_decode(StaticContainer::get(Controller::class)->getPluginRequestHistoryPage(), true);
+
+        self::assertSame(6, $history['total']);
+        self::assertCount(1, $history['decisions']);
+        self::assertNotEmpty($history['decisions'][0]['decidedAtPretty']);
+    }
+
+    public function testRequestHistoryPageIsRefusedToUsers(): void
+    {
+        $this->expectException(NoAccessException::class);
+
+        StaticContainer::get(Controller::class)->getPluginRequestHistoryPage();
+    }
+
+    public function testRequestHistoryPageIsRefusedWhileRequestsAreOff(): void
+    {
+        FakeAccess::clearAccess(true);
+        $this->setPluginRequests(false);
+
+        $this->expectException(NoPrivilegesException::class);
+        $this->expectExceptionCode(403);
+        $this->expectExceptionMessage('Plugin requests are not enabled');
+
+        StaticContainer::get(Controller::class)->getPluginRequestHistoryPage();
     }
 
     /**
@@ -196,6 +275,16 @@ class ManageRequestsTest extends IntegrationTestCase
     private function getRequestFields(array $card): array
     {
         return [$card['requestType'], $card['requestStatus'], $card['canInstallBeRequested']];
+    }
+
+    /**
+     * @return mixed the JSON value of the Vue entry's attribute
+     */
+    private function getVueProp(string $html, string $attribute)
+    {
+        self::assertSame(1, preg_match('/ ' . preg_quote($attribute, '/') . '="([^"]*)"/', $html, $matches), $attribute);
+
+        return json_decode(html_entity_decode($matches[1]), true);
     }
 
     /**

@@ -1,0 +1,237 @@
+.manageRequestsSuperUser__title {
+  margin: 0 0 12px;
+  padding: 0;
+  font-size: 24px;
+  line-height: 26px;
+  color: @theme-color-headline-alternative;
+}
+
+.manageRequestsSuperUser__tabList {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid @theme-color-border;
+}
+
+.manageRequestsSuperUser__tabItem {
+  position: relative;
+  height: 40px;
+  padding: 8px 16px 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 19px;
+  white-space: nowrap;
+  color: @theme-color-text-lighter;
+}
+
+.manageRequestsSuperUser__tabItem--active {
+  font-weight: 600;
+  color: @theme-color-text-brand;
+
+  // sits over the tab list's 1px bottom border
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    border-radius: 16px;
+    background: @theme-color-text-brand;
+  }
+}
+
+.manageRequestsSuperUser__panel {
+  max-width: 1200px;
+  padding: 20px;
+  border: 1px solid @theme-color-border;
+  border-radius: 8px;
+  background: @theme-color-background-contrast;
+}
+
+.manageRequestsSuperUser__tableScroll {
+  overflow-x: auto;
+}
+
+.manageRequestsSuperUser__table {
+  width: 100%;
+}
+
+.manageRequestsSuperUser__headRow {
+  border-bottom: 1px solid @theme-color-border;
+}
+
+.manageRequestsSuperUser__headCell {
+  padding: 14px 16px;
+  background: @theme-color-background-base;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+  color: @theme-color-text-contrast;
+}
+
+.manageRequestsSuperUser__headCell--indented {
+  padding-left: 40px;
+}
+
+.manageRequestsSuperUser__headCell--alignEnd {
+  text-align: right;
+}
+
+.manageRequestsSuperUser__row,
+.manageRequestsSuperUser__decision {
+  border-bottom: 1px solid @theme-color-background-tinyContrast;
+}
+
+.manageRequestsSuperUser__cell {
+  height: 60px;
+  padding: 0 16px;
+  font-size: 13px;
+  line-height: 16px;
+  vertical-align: middle;
+  color: @theme-color-text;
+}
+
+.manageRequestsSuperUser__cell--flushStart {
+  padding-left: 0;
+}
+
+.manageRequestsSuperUser__toggle {
+  display: inline-flex;
+  align-items: safe center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+// override: Materialize (`button:focus` teal background) and Morpheus (`button:focus` 1px outline)
+// style every focused button, even after a mouse click, and both outrank the single-class rules of
+// these text-like buttons; the focus ring is kept for keyboard focus only
+.manageRequestsSuperUser__toggle:focus,
+.manageRequestsSuperUser__decline:focus,
+.manageRequestsSuperUser__tabItem:focus {
+  outline: none;
+  background: none;
+}
+
+.manageRequestsSuperUser__toggle:focus-visible,
+.manageRequestsSuperUser__decline:focus-visible {
+  outline: 2px solid @theme-color-focus-ring;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.manageRequestsSuperUser__tabItem:focus-visible {
+  outline: 2px solid @theme-color-focus-ring;
+  outline-offset: -2px;
+}
+
+.manageRequestsSuperUser__toggleIcon {
+  flex: none;
+  width: 40px;
+  text-align: center;
+  color: @theme-color-text-lighter;
+}
+
+.manageRequestsSuperUser__actionList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: safe center;
+  gap: 24px;
+}
+
+.manageRequestsSuperUser__decline {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 16px;
+  text-decoration: underline;
+  color: @theme-color-link;
+}
+
+.manageRequestsSuperUser__startTrial {
+  white-space: nowrap;
+}
+
+.manageRequestsSuperUser__requesterPanelCell {
+  padding: 0 16px 16px 40px;
+}
+
+.manageRequestsSuperUser__requesterTable {
+  width: 100%;
+}
+
+.manageRequestsSuperUser__requesterHeadRow,
+.manageRequestsSuperUser__requesterRow {
+  border-bottom: 1px solid @theme-color-background-tinyContrast;
+}
+
+.manageRequestsSuperUser__requesterHeadCell {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+  text-align: left;
+  color: @theme-color-text-contrast;
+}
+
+.manageRequestsSuperUser__requesterCell {
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 16px;
+  vertical-align: top;
+  color: @theme-color-text;
+}
+
+.manageRequestsSuperUser__email {
+  display: block;
+  color: @theme-color-text-lighter;
+}
+
+// a long note would stretch its row, so it is cut after two lines and shown in full on hover
+.manageRequestsSuperUser__note {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 320px;
+  overflow-wrap: anywhere;
+}
+
+.manageRequestsSuperUser__status {
+  font-weight: bold;
+}
+
+.manageRequestsSuperUser__status--approved {
+  color: @theme-color-success;
+}
+
+.manageRequestsSuperUser__status--declined {
+  color: @theme-color-warning;
+}
+
+.manageRequestsSuperUser__pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: safe center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.manageRequestsSuperUser__empty {
+  padding: 32px 0;
+  text-align: center;
+}

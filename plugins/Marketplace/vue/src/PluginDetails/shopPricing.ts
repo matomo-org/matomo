@@ -5,6 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { NumberFormatter } from 'CoreHome';
 import { IPluginShopVariation, PluginDetails } from '../types';
 
 export const PERIOD_ANNUAL = 'year';
@@ -50,6 +51,17 @@ export function variationPrice(variation?: IPluginShopVariation): number | null 
   const price = Number(raw);
 
   return Number.isFinite(price) && price >= 0 ? price : null;
+}
+
+/**
+ * A price normalised to a month rarely divides evenly, so allow decimals without forcing
+ * them onto amounts that are already whole. An amount with cents shows both digits, as money
+ * does: 43.80 rather than 43.8.
+ */
+export function formatAmount(amount: number): string {
+  const rounded = Math.round(amount * 100) / 100;
+
+  return NumberFormatter.formatNumber(rounded, 2, Number.isInteger(rounded) ? 0 : 2);
 }
 
 /**

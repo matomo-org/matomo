@@ -173,6 +173,7 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/PluginDetailsSkeleton.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/PluginDetails/ShopPricing.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/ManageRequests/ManageRequests.less";
+        $stylesheets[] = "plugins/Marketplace/vue/src/ManageRequestsSuperUser/ManageRequestsSuperUser.less";
         $stylesheets[] = "plugins/Marketplace/vue/src/RequestTrial/RequestTrial.less";
     }
 
@@ -294,6 +295,34 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_RequestStatusDeclined';
         $translationKeys[] = 'Marketplace_NoPluginRequestsYet';
         $translationKeys[] = 'Marketplace_NoPluginRequestsYetHelp';
+        $translationKeys[] = 'Marketplace_PendingRequestsTab';
+        $translationKeys[] = 'Marketplace_Requests';
+        $translationKeys[] = 'Marketplace_LastRequested';
+        $translationKeys[] = 'Marketplace_RequestedBy';
+        $translationKeys[] = 'Marketplace_Decision';
+        $translationKeys[] = 'Marketplace_DecidedBy';
+        $translationKeys[] = 'Marketplace_Decline';
+        $translationKeys[] = 'Marketplace_StartTrial30Days';
+        $translationKeys[] = 'Marketplace_PendingRequestsEmpty';
+        $translationKeys[] = 'Marketplace_NoPluginRequestDecisions';
+        $translationKeys[] = 'Marketplace_DeclineRequestTitle';
+        $translationKeys[] = 'Marketplace_DeclineRequestTextOne';
+        $translationKeys[] = 'Marketplace_DeclineRequestTextMany';
+        $translationKeys[] = 'Marketplace_MessageToRequesters';
+        $translationKeys[] = 'Marketplace_MessageToRequestersPlaceholder';
+        $translationKeys[] = 'Marketplace_DeclineRequest';
+        $translationKeys[] = 'Marketplace_RequestDeclinedOne';
+        $translationKeys[] = 'Marketplace_RequestDeclinedMany';
+        $translationKeys[] = 'CorePluginsAdmin_History';
+        $translationKeys[] = 'General_Action';
+        $translationKeys[] = 'General_Price';
+        $translationKeys[] = 'General_Note';
+        $translationKeys[] = 'General_Date';
+        $translationKeys[] = 'General_Cancel';
+        $translationKeys[] = 'General_Next';
+        $translationKeys[] = 'General_Previous';
+        $translationKeys[] = 'General_Pagination';
+        $translationKeys[] = 'General_Unknown';
         $translationKeys[] = 'Marketplace_ResetFilters';
         $translationKeys[] = 'Marketplace_OneResultFoundFor';
         $translationKeys[] = 'Marketplace_ResultsFoundFor';
