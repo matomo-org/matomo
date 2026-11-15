@@ -108,6 +108,10 @@
         "TopPageUrlsLast30MinutesDocumentation": "Viser side-URL-ar som KI-chatbotar har bede om dei siste 30 minutta, sorterte etter førespurnader frå chatbotar.",
         "TopPageUrlsLast30MinutesTitle": "Mest førespurde side-URL-ar – siste 30 minutt",
         "TopPageUrlsLast8HoursDocumentation": "Viser side-URL-ar som KI-chatbotar har bede om dei siste 8 timane, sorterte etter førespurnader frå chatbotar.",
-        "TopPageUrlsLast8HoursTitle": "Mest førespurde side-URL-ar – siste 8 timar"
+        "TopPageUrlsLast8HoursTitle": "Mest førespurde side-URL-ar – siste 8 timar",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "Trafikkforhold for KI-chatbotar",
+        "ColumnAIChatbotTrafficRatioDocumentation": "Forholdet mellom førespurnader frå KI-chatbotar og sidevisingar frå menneske, direkte eller via KI-agentar. Ein verdi på 2.0× tyder at det var dobbelt så mange førespurnader frå KI-chatbotar som sidevisingar."
     }
 }

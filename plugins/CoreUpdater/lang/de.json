@@ -2,6 +2,7 @@
     "CoreUpdater": {
         "AlreadyUpToDate": "Alles ist bereits aktuell.",
         "CheckingForPluginUpdates": "Suche nach neuen Plugin-Aktualisierungen",
+        "CheckingForPluginUpdatesFailed": "Die Suche nach Plugin-Updates ist fehlgeschlagen: %1$s",
         "ClickHereToViewSqlQueries": "Klicken Sie hier, um die Liste der auszuführenden SQL-Abfragen und Konsolenkommandos anzuzeigen und zu kopieren",
         "CloudHosting": "Cloud-Hosting",
         "ConsoleCommandDescription": "Löst das Update aus. Benutze es, nachdem Matomo oder ein Plugin aktualisert wurde. Hänge --yes an, um Rückfragen automatisch zu bestätigen.",
@@ -90,6 +91,7 @@
         "UpdateUsingHttpsFailedForceHttpInfo": "Aus Sicherheitsgründen hat Matomo das Update nicht über eine unsichere HTTP-Verbindung heruntergeladen. Bitte stellen Sie sicher, dass HTTPS in Ihrer Umgebung funktioniert, und versuchen Sie es erneut. Nur wenn Sie sicher sind, dass die Verbindung geschützt ist, sollten Sie Updates über HTTP zulassen, indem Sie die Konfigurationsoption %1$sforce_matomo_http_request%2$s aktivieren.",
         "UpdateUsingHttpsFailedHelp": "Warum hat das nicht funktioniert? Das Herunterladen der aktuellen Matomo-Version (über eine sichere HTTPS-Verbindung) kann aus verschiedenen Gründen misslingen, zum Beispiel wegen einem Netzwerkfehler, langsamer Internetverbindung oder falscher Systemkonfiguration. Beachten Sie, dass Ihr Server auch Ziel eines Man-in-the-Middle-Angriffs sein könnte und jemand versucht, das Update mit einer schadhaften Version von Matomo zu ersetzen.",
         "Updating": "Aktualisiere",
+        "UpdatingPluginXFailedY": "Das Plugin %1$s konnte nicht aktualisiert werden: %2$s",
         "UpdatingPluginXToVersionY": "Aktualisiere Plugin %1$s auf Version %2$s",
         "UpgradeComplete": "Aktualisierung abgeschlossen!",
         "UpgradePiwik": "Matomo aktualisieren",

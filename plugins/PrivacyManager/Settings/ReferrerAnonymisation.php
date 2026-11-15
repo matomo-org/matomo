@@ -66,11 +66,25 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
+        // the consent-aware wording describes what a site measuring consent-aware analytics
+        // does. It is off by default, and a site that has not opted in treats every visitor the
+        // same, so the plain wording is what is true there
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingWhatItDoes2');
+        }
+
         return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
+        // the consent-aware wording describes what a site measuring consent-aware analytics
+        // does. It is off by default, and a site that has not opted in treats every visitor the
+        // same, so the plain wording is what is true there
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingImpact2');
+        }
+
         return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingImpact');
     }
 

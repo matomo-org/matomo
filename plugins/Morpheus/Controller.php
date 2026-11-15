@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Morpheus;
 
 use Piwik\Development;
 use Piwik\Piwik;
+use Piwik\Request;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -904,6 +905,27 @@ export default defineComponent({
         return $this->renderTemplate('demo', [
             'snippets' => $snippets,
             'icons' => $icons,
+        ]);
+    }
+
+    public function componentLibrary()
+    {
+        if (! Development::isEnabled() || !Piwik::isUserHasSomeAdminAccess()) {
+            return;
+        }
+
+        $components = [
+            'selector' => 'Selector',
+        ];
+
+        $component = Request::fromRequest()->getStringParameter('component', 'selector');
+        if (!array_key_exists($component, $components)) {
+            $component = 'selector';
+        }
+
+        return $this->renderTemplate('componentLibrary/' . $component, [
+            'components' => $components,
+            'component' => $component,
         ]);
     }
 

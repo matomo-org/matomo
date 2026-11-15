@@ -115,7 +115,7 @@
 		<category>Visitors</category>
 		<name>Consent state</name>
 		<segment>consentState</segment>
-		<acceptedValues>consented, refused, unknown</acceptedValues>
+		<acceptedValues>consented, unknown</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
