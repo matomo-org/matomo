@@ -4,7 +4,6 @@ namespace Piwik\Plugins\UserId\Settings;
 
 use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
-use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
@@ -28,12 +27,6 @@ class UserIdDisabled implements
 
     /** @use MeasurableGetterTrait<bool> */
     use MeasurableGetterTrait;
-
-    /**
-     * Tracker cache key holding the value an admin set for this themselves, kept alongside the one
-     * a compliance policy resolves to, which is stored under the class name.
-     */
-    public const CONFIGURED_VALUE_CACHE_KEY = 'UserId.userIdDisabledConfiguredValue';
 
     private bool $value;
 
@@ -69,25 +62,11 @@ class UserIdDisabled implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        // as for the campaign masking and referrer anonymisation settings: the consent-aware
-        // wording describes a site that measures consent-aware analytics, and a site that has
-        // not opted in treats every visitor the same
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoes2');
-        }
-
         return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
-        // as for the campaign masking and referrer anonymisation settings: the consent-aware
-        // wording describes a site that measures consent-aware analytics, and a site that has
-        // not opted in treats every visitor the same
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('UserId_UserIdDisabledSettingImpact2');
-        }
-
         return Piwik::translate('UserId_UserIdDisabledSettingImpact');
     }
 
@@ -145,21 +124,6 @@ class UserIdDisabled implements
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * Whether the User ID this request carries has to be discarded.
-     *
-     * Consent lifts what a compliance policy required of the site, never what the admin turned on
-     * themselves, so a consenting visitor is measured at the level the site is configured for.
-     *
-     * @param array $siteAttributes the tracker cache for the site, as site attributes
-     */
-    public static function shouldDiscardUserId(array $siteAttributes, bool $hasConsent): bool
-    {
-        $key = $hasConsent ? self::CONFIGURED_VALUE_CACHE_KEY : self::class;
-
-        return true === ($siteAttributes[$key] ?? false);
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string

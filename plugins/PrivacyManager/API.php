@@ -19,7 +19,6 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled;
@@ -50,6 +49,11 @@ class API extends \Piwik\Plugin\API
      * One more than the 400 visits the GDPR tools list, so that they can tell when there are more.
      */
     private const DATA_SUBJECTS_LIMIT = 401;
+
+    /**
+     * The value of log_visit.consent for a visit whose visitor gave consent.
+     */
+    private const CONSENT_GIVEN = 1;
 
     private DataSubjects $gdpr;
 
@@ -143,7 +147,7 @@ class API extends \Piwik\Plugin\API
             if (
                 null === $stored
                 || $stored['idsite'] !== $visit['idsite']
-                || $stored['consent'] !== Consent::CONSENT_GIVEN
+                || $stored['consent'] !== self::CONSENT_GIVEN
             ) {
                 throw new NoPrivilegesException(
                     Piwik::translate('PrivacyManager_OnlyConsentedVisitsCanBeExportedOrDeleted'),
@@ -367,7 +371,7 @@ class API extends \Piwik\Plugin\API
 
             if (
                 in_array((int) $row->getColumn('idSite'), $consentedVisitsOnlyIdSites, true)
-                && $consent !== Consent::CONSENT_GIVEN
+                && $consent !== self::CONSENT_GIVEN
             ) {
                 $visits->deleteRow($id);
                 continue;

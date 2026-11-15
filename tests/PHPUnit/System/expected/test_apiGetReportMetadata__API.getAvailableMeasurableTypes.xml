@@ -281,28 +281,6 @@ https://www.example.org/</placeholder>
 				</settings>
 			</row>
 			<row>
-				<pluginName>PrivacyManager</pluginName>
-				<title>PrivacyManager</title>
-				<settings>
-					<row>
-						<name>consent_aware_analytics</name>
-						<title>Measure consent-aware analytics for this site</title>
-						<value>0</value>
-						<defaultValue>0</defaultValue>
-						<type>boolean</type>
-						<uiControl>checkbox</uiControl>
-						<uiControlAttributes>
-						</uiControlAttributes>
-						<availableValues />
-						<description />
-						<inlineHelp>A visitor who gives their consent is measured as if the compliance policy were not enforced for them. Visitors who have not given their consent keep the treatment the policy requires.</inlineHelp>
-						<introduction />
-						<condition />
-						<fullWidth>0</fullWidth>
-					</row>
-				</settings>
-			</row>
-			<row>
 				<pluginName>ExampleSettingsPlugin</pluginName>
 				<title>ExampleSettingsPlugin</title>
 				<settings>
@@ -604,28 +582,6 @@ https://www.example.org/</placeholder>
 						<inlineHelp>All visits-log related features always function.</inlineHelp>
 						<introduction />
 						<condition>disable_visitor_log==0</condition>
-						<fullWidth>0</fullWidth>
-					</row>
-				</settings>
-			</row>
-			<row>
-				<pluginName>PrivacyManager</pluginName>
-				<title>PrivacyManager</title>
-				<settings>
-					<row>
-						<name>consent_aware_analytics</name>
-						<title>Measure consent-aware analytics for this site</title>
-						<value>0</value>
-						<defaultValue>0</defaultValue>
-						<type>boolean</type>
-						<uiControl>checkbox</uiControl>
-						<uiControlAttributes>
-						</uiControlAttributes>
-						<availableValues />
-						<description />
-						<inlineHelp>A visitor who gives their consent is measured as if the compliance policy were not enforced for them. Visitors who have not given their consent keep the treatment the policy requires.</inlineHelp>
-						<introduction />
-						<condition />
 						<fullWidth>0</fullWidth>
 					</row>
 				</settings>

@@ -98,7 +98,11 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @param int|string $limitBeforeGrouping Maximum number of transition rows to keep before grouping the
      *                                        remainder.
-     * @param string $parts Comma-separated list of transition report parts to include, or `all`.
+     * @param string $parts Comma-separated list of transition report parts to include, or `all`:
+     *                      `internalReferrers`, `followingActions`, `followingActionsWithoutLoops` and
+     *                      `externalReferrers`. Requested without `internalReferrers`, `followingActions`
+     *                      counts reloads of the action as following actions; `followingActionsWithoutLoops`
+     *                      leaves them out, as the full report does, and wins if both are requested.
      * @return array Transition metrics and related referrer/action tables for the requested action.
      */
     public function getTransitionsForAction(
@@ -109,7 +113,7 @@ class API extends \Piwik\Plugin\API
         string $date,
         $segment = false,
         $limitBeforeGrouping = 0,
-        $parts = 'all'
+        string $parts = 'all'
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -151,8 +155,9 @@ class API extends \Piwik\Plugin\API
             if ($parts == 'all' || in_array('internalReferrers', $partsArray)) {
                 $this->addInternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
             }
-            if ($parts == 'all' || in_array('followingActions', $partsArray)) {
-                $includeLoops = $parts != 'all' && !in_array('internalReferrers', $partsArray);
+            $withoutLoops = in_array('followingActionsWithoutLoops', $partsArray);
+            if ($parts == 'all' || $withoutLoops || in_array('followingActions', $partsArray)) {
+                $includeLoops = !$withoutLoops && $parts != 'all' && !in_array('internalReferrers', $partsArray);
                 $this->addFollowingActions($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops);
             }
             if ($parts == 'all' || in_array('externalReferrers', $partsArray)) {
@@ -743,11 +748,11 @@ class API extends \Piwik\Plugin\API
     /**
      * Check if a period is allowed by config settings
      *
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
+     * @param int $idSite The numeric ID of the website the Transitions report is for.
+     * @param string $period The period to check, e.g. 'day' or 'range'.
+     * @param string $date The date or date range of the period.
      */
-    public function isPeriodAllowed($idSite, $period, $date): bool
+    public function isPeriodAllowed(int $idSite, string $period, string $date): bool
     {
         Piwik::checkUserHasViewAccess($idSite);
 
