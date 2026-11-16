@@ -260,7 +260,8 @@ class API extends \Piwik\Plugin\API
      * @param int $comparedToXPeriods Number of past periods to compare against.
      * @param 'absolute'|'relative'|'importance' $orderBy Row ordering mode.
      * @param string $comparedToDate Date of the same period type to compare against, for example `2025-05-06` or
-     *                               `2025-05-01,2025-05-31`. A date range must have the same length as `$date`.
+     *                               `2025-05-01,2025-05-31`. A date range must have the same length as `$date`,
+     *                               or be the same days in another year.
      *                               When set, `$comparedToXPeriods` is ignored.
      * @return DataTable Insight rows for the requested report.
      */
@@ -294,7 +295,7 @@ class API extends \Piwik\Plugin\API
         $this->checkReportIsValid($currentReport);
 
         if ($comparedToDate !== '' && !$this->model->isComparableDate($period, $date, $comparedToDate)) {
-            throw new \Exception('The comparedToDate parameter must be a single date of the same period type, or for a date range, a range of the same length.');
+            throw new \Exception('The comparedToDate parameter must be a single date of the same period type, or for a date range, a range of the same length or the same days in another year.');
         }
 
         $lastDate       = $comparedToDate !== '' ? $comparedToDate : $this->model->getLastDate($date, $period, $comparedToXPeriods);

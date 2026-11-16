@@ -68,7 +68,7 @@ class Model
 
     /**
      * Whether insights can compare the given date with $comparedDate: a single date of the same period type, or for a
-     * date range, a range of the same length.
+     * date range, a range of the same length or the same days in another year.
      */
     public function isComparableDate(string $period, string $date, string $comparedDate): bool
     {
@@ -79,12 +79,32 @@ class Model
                 return !Period::isMultiplePeriod($comparedDate, $period);
             }
 
+            $range = new Range('day', $date);
+            $comparedRange = new Range('day', $comparedDate);
+
             // ranges of different lengths would make most rows look like strong movers only because one is longer
-            return (new Range('day', $date))->getNumberOfSubperiods()
-                === (new Range('day', $comparedDate))->getNumberOfSubperiods();
+            return $range->getNumberOfSubperiods() === $comparedRange->getNumberOfSubperiods()
+                || $this->isSameRangeInAnotherYear($range, $comparedRange);
         } catch (\Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * The date selector compares with the previous year by moving both ends of the range one year back, so a range
+     * crossing 29 February is one day longer or shorter than the range it is compared with.
+     */
+    private function isSameRangeInAnotherYear(Range $range, Range $comparedRange): bool
+    {
+        $start = $range->getDateStart();
+        $end = $range->getDateEnd();
+        $comparedStart = $comparedRange->getDateStart();
+        $comparedEnd = $comparedRange->getDateEnd();
+
+        return $start->toString('m-d') === $comparedStart->toString('m-d')
+            && $end->toString('m-d') === $comparedEnd->toString('m-d')
+            && (int) $start->toString('Y') - (int) $comparedStart->toString('Y')
+                === (int) $end->toString('Y') - (int) $comparedEnd->toString('Y');
     }
 
     /**
