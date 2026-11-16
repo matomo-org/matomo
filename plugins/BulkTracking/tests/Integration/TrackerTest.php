@@ -230,6 +230,7 @@ class TrackerTest extends BulkTrackingTestCase
 
     public function getStatusCodesThatFailTheBatch(): iterable
     {
+        yield 'request timeout' => [408, 'HTTP/1.1 408 Request Timeout'];
         yield 'too many requests' => [429, 'HTTP/1.1 429 Too Many Requests'];
         yield 'service unavailable' => [503, 'HTTP/1.1 503 Service Unavailable'];
     }
