@@ -451,7 +451,10 @@ class ArchiveInvalidator
 
         foreach ($idSites as $idSite) {
             foreach ($dates as $dateRange) {
-                $this->forgetRememberedArchivedReportsToInvalidate($idSite, $dateRange[0]);
+                // an invalidation of a single plugin or report doesn't archive the other plugins' reports again
+                if (empty($name)) {
+                    $this->forgetRememberedArchivedReportsToInvalidate($idSite, $dateRange[0]);
+                }
                 $invalidationInfo->processedDates[] = $dateRange[0];
             }
         }
