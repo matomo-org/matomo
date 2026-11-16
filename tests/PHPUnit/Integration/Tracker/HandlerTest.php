@@ -191,9 +191,10 @@ class HandlerTest extends IntegrationTestCase
         yield 'bad request' => [new BadRequestException('bad'), 400];
         yield 'not found' => [new ThingNotFoundException('not found'), 404];
         yield 'too many requests' => [new BadRequestException('slow down', 429), 429];
-        yield 'unsupported client error code' => [new BadRequestException('conflict', 409), 400];
+        yield 'other client error code' => [new BadRequestException('conflict', 409), 409];
         yield 'service unavailable' => [new BadRequestException('later', 503), 503];
-        yield 'other server error code' => [new BadRequestException('gateway', 502), 500];
+        yield 'other server error code' => [new BadRequestException('gateway', 502), 502];
+        yield 'code that is no error status' => [new BadRequestException('redirect', 302), 500];
         yield 'no access without code' => [new NoAccessException('no access', 0), 400];
         yield 'plugin deactivated' => [new PluginDeactivatedException('Goals'), 500];
         yield 'plugin not found' => [new PluginNotFoundException('Goals'), 500];

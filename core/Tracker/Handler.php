@@ -122,14 +122,10 @@ class Handler
             // these describe the server's plugin setup, eg when tracking code calls an API internally
             && !($e instanceof PluginDeactivatedException)
             && !($e instanceof PluginNotFoundException)
+            && $e->getCode() >= 400
+            && $e->getCode() < 600
         ) {
-            $code = (int) $e->getCode();
-            if (in_array($code, [400, 401, 403, 404, 429, 503], true)) {
-                return $code;
-            }
-            if ($code >= 400 && $code < 500) {
-                return 400;
-            }
+            return (int) $e->getCode();
         }
 
         if ($e instanceof UnexpectedWebsiteFoundException || $e instanceof InvalidRequestParameterException) {

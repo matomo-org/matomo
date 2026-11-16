@@ -42,7 +42,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
 * The tracking endpoint now answers server errors, such as a `TypeError` or a failing `Tracker.newHandler` listener, with `500` and logs them only through the configured log writers instead of also writing client and server errors to PHP's error log directly. With only the default `screen` writer, which tracking requests can't use, they log to PHP's error log.
 * Log records written during tracking requests no longer include the request's query string, as it holds visitor data.
-* An exception implementing `Piwik\Http\HttpCodeException` thrown while tracking, except `PluginDeactivatedException` and `PluginNotFoundException`, is now answered with its status code (`400`, `401`, `403`, `404`, `429` or `503`; other `4xx` codes with `400`) instead of `500`; with a `4xx` code other than `429` it is counted as invalid in a bulk request.
+* An exception implementing `Piwik\Http\HttpCodeException` thrown while tracking, except `PluginDeactivatedException` and `PluginNotFoundException`, is now answered with its `4xx` or `5xx` status code instead of `500`; with a `4xx` code other than `408` and `429` it is counted as invalid in a bulk request.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
 ## Matomo 6.0.0
