@@ -17,6 +17,7 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Log;
+use Piwik\SettingsServer;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
 /**
@@ -89,6 +90,31 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertStringMatchesFormat($expected['message'], $result['message']);
         $this->assertEquals($expected['context'], $result['context']);
+    }
+
+    public function testItShouldNotAddTheQueryOfATrackingRequest()
+    {
+        $processor = new ExceptionToTextProcessor();
+        Log::$debugBacktraceForTests = '[message and stack trace]';
+        $_SERVER['QUERY_STRING'] = 'idsite=1&url=https%3A%2F%2Fexample.org%2Fprivate';
+        SettingsServer::setIsTrackerApiRequest();
+
+        try {
+            $result = $processor(new LogRecord(
+                new DateTimeImmutable(),
+                'logger',
+                Level::Error,
+                'Exception: {exception}',
+                ['exception' => new \Exception('Hello world')],
+                []
+            ));
+        } finally {
+            SettingsServer::setIsNotTrackerApiRequest();
+            unset($_SERVER['QUERY_STRING']);
+        }
+
+        $this->assertStringEndsWith('[message and stack trace] [Tracking request, CLI mode: 1]', $result['message']);
+        $this->assertStringNotContainsString('example.org', $result['message']);
     }
 
     public function testItShouldFormatPhpErrorsLikeExceptions()
