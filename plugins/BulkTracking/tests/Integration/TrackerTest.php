@@ -11,9 +11,11 @@ namespace Piwik\Plugins\BulkTracking\tests\Integration;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
 use Piwik\Exception\ThingNotFoundException;
 use Piwik\Http\BadRequestException;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker\Response;
 use Piwik\Plugins\BulkTracking\tests\Framework\TestCase\BulkTrackingTestCase;
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
@@ -21,6 +23,7 @@ use Piwik\Tests\Framework\DbErrorRaiser;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
+use Psr\Log\LogLevel;
 
 /**
  * @group TrackerTest
@@ -252,20 +255,22 @@ class TrackerTest extends BulkTrackingTestCase
             throw new \RuntimeException('end failed');
         });
 
-        $errorLogFile = tempnam(sys_get_temp_dir(), 'tracker_error_log');
-        $previousErrorLog = ini_set('error_log', $errorLogFile);
-        try {
-            $response = $this->trackBulkRequest();
-            $errorLog = (string) file_get_contents($errorLogFile);
-        } finally {
-            ini_set('error_log', (string) $previousErrorLog);
-            unlink($errorLogFile);
-        }
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('log')->with(
+            LogLevel::ERROR,
+            'Exception: {exception}',
+            $this->callback(function (array $context) {
+                return $context['exception'] instanceof \RuntimeException && $context['exception']->getMessage() === 'end failed';
+            })
+        );
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+        $this->tracker = new Tracker();
+
+        $response = $this->trackBulkRequest();
 
         $this->assertSame('{"status":"success","tracked":2,"invalid":0}', $response);
         $this->assertNotEmpty($this->getIdVisit(1));
         $this->assertNotEmpty($this->getIdVisit(2));
-        $this->assertStringContainsString('Error in Matomo (tracker): RuntimeException: end failed', $errorLog);
     }
 
     private function raiseErrorWhenTrackingSite(int $idSite, int $errorNumber, string $message, bool $isCaught): void

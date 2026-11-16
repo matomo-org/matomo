@@ -2,10 +2,13 @@
 
 use Piwik\Container\Container;
 
-function isTrackerDebugEnabled(Container $c)
-{
-    $trackerDebug = $c->get("ini.Tracker.debug");
-    return ($trackerDebug == 1 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']));
+// the config file is loaded again for each tracker environment built in the same process
+if (!function_exists('isTrackerDebugEnabled')) {
+    function isTrackerDebugEnabled(Container $c)
+    {
+        $trackerDebug = $c->get("ini.Tracker.debug");
+        return ($trackerDebug == 1 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']));
+    }
 }
 
 return array(
@@ -27,6 +30,13 @@ return array(
             && isTrackerDebugEnabled($c)
         ) {
             $previous['screen'] = 'Piwik\Plugins\Monolog\Handler\EchoHandler';
+        } elseif (
+            isset($previous['screen'], $previous['errorlog'])
+            && $c->has('ini.log.log_writers')
+            && array_values(array_unique(array_map('trim', (array) $c->get('ini.log.log_writers')))) === ['screen']
+        ) {
+            // tracking requests have no screen, and would log nowhere otherwise
+            $previous['screen'] = $previous['errorlog'];
         } else {
             unset($previous['screen']);
         }
