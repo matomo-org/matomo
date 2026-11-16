@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Marketplace\PluginTrial;
 use Exception;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
@@ -136,6 +137,16 @@ final class Service
      */
     public function createNotificationsIfNeeded(): void
     {
+        // a timed out session keeps its data, so the next person on that browser, even anonymous, inherits its notices
+        $session = self::isSessionEnabled() ? new SessionNamespace(self::SESSION_NAMESPACE) : null;
+        if ($session !== null && $session->notifiedLogin !== Piwik::getCurrentUserLogin()) {
+            self::removeNoticesFromSession();
+            DecisionNotifications::removeFromSession($session);
+            $session->notifiedLists = [];
+            $session->notifiedLogin = Piwik::getCurrentUserLogin();
+            $session->checkedLogin = null;
+        }
+
         if (!$this->isEnabled() || Piwik::isUserIsAnonymous()) {
             return;
         }
@@ -148,7 +159,6 @@ final class Service
 
         // this runs on every request, so it is skipped while no request has changed since this session last checked
         $changeMarker = Storage::getChangeMarker();
-        $session = self::isSessionEnabled() ? new SessionNamespace(self::SESSION_NAMESPACE) : null;
         if (
             $session !== null
             && $session->checkedMarker === $changeMarker
@@ -217,7 +227,7 @@ final class Service
 
         // a transient notice made without a session would be lost before any page displays it
         if ($requestsActive && $session !== null) {
-            DecisionNotifications::createIfNeeded();
+            DecisionNotifications::createIfNeeded($session);
         }
 
         // a check that needed the current super users can change with them, and demoting one changes no request
@@ -271,6 +281,22 @@ final class Service
 
         $pluginTrial = new Notification($pluginName, new Storage($pluginName));
         $pluginTrial->setNotificationDismissed();
+    }
+
+    private static function removeNoticesFromSession(): void
+    {
+        $prefixes = [
+            'Marketplace_PluginTrialRequest_',
+            'Marketplace_PluginRequests_',
+        ];
+        foreach (array_keys(NotificationManager::getAllNotificationsToDisplay()) as $id) {
+            foreach ($prefixes as $prefix) {
+                if (str_starts_with((string) $id, $prefix)) {
+                    NotificationManager::cancel($id);
+                    break;
+                }
+            }
+        }
     }
 
     private function dismissRequestsNotification(string $notificationId): void

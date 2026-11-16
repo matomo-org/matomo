@@ -15,6 +15,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\SiteAwareLinks;
+use Piwik\Session\SessionNamespace;
 
 /**
  * Tells a requester, once, that their requests were approved or declined
@@ -24,12 +25,13 @@ final class DecisionNotifications
     private const SEEN_OPTION_NAME = 'Marketplace.PluginRequestDecisionsSeen.%s';
     private const BASELINE_OPTION_NAME = 'Marketplace.PluginRequestDecisionsBaseline';
     public const APPROVED_ID_PREFIX = 'Marketplace_PluginRequestsApproved_';
+    public const DECLINED_ID_PREFIX = 'Marketplace_PluginRequestDeclined_';
 
     /**
      * Shows the decisions on the current user's requests made since they were last shown any. Transient notices are
      * kept in the session until a page displays them, so the caller must only call this while the session is writable.
      */
-    public static function createIfNeeded(): void
+    public static function createIfNeeded(?SessionNamespace $session): void
     {
         $login = Piwik::getCurrentUserLogin();
         $optionName = sprintf(self::SEEN_OPTION_NAME, $login);
@@ -47,6 +49,12 @@ final class DecisionNotifications
             return;
         }
 
+        // while an earlier notice is undisplayed, removing it has to bring back its decisions too
+        if ($session !== null && ($session->decisionsLogin !== $login || self::getQueuedIds() === [])) {
+            $session->decisionsLogin = $login;
+            $session->decisionsSeenBefore = (string) $seen;
+        }
+
         $displayNames = self::getDisplayNames(array_column($decisions, 'plugin_name'));
         $approved = [];
         $lastApprovedId = 0;
@@ -61,7 +69,7 @@ final class DecisionNotifications
             }
 
             self::notify(
-                'Marketplace_PluginRequestDeclined_' . $decision['plugin_name'],
+                self::DECLINED_ID_PREFIX . $decision['plugin_name'],
                 Piwik::translate('Marketplace_PluginRequestDeclinedNotification', [
                     $displayName,
                     sprintf('<a href="%s">', (new SiteAwareLinks())->getActionUrl('manageRequests')),
@@ -104,6 +112,45 @@ final class DecisionNotifications
         }
 
         return $baseline;
+    }
+
+    /**
+     * Removes the notices no page has displayed yet, and marks their decisions as not shown, so their requester is
+     * told on their next page view
+     */
+    public static function removeFromSession(SessionNamespace $session): void
+    {
+        $queuedIds = self::getQueuedIds();
+        foreach ($queuedIds as $id) {
+            MatomoNotification\Manager::cancel($id);
+        }
+
+        $login = $session->decisionsLogin;
+        $seenBefore = $session->decisionsSeenBefore;
+        $session->decisionsLogin = null;
+        $session->decisionsSeenBefore = null;
+        if ($queuedIds === [] || !is_string($login) || !is_string($seenBefore)) {
+            return;
+        }
+
+        $optionName = sprintf(self::SEEN_OPTION_NAME, $login);
+        // a deleted user's option is gone, and reads as 0, so it is not recreated
+        if ((int) Option::get($optionName) > (int) $seenBefore) {
+            Option::set($optionName, $seenBefore);
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    private static function getQueuedIds(): array
+    {
+        return array_values(array_filter(
+            array_map('strval', array_keys(MatomoNotification\Manager::getAllNotificationsToDisplay())),
+            function (string $id): bool {
+                return str_starts_with($id, self::DECLINED_ID_PREFIX) || str_starts_with($id, self::APPROVED_ID_PREFIX);
+            }
+        ));
     }
 
     public static function forgetLogin(string $login): void

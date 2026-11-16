@@ -549,6 +549,144 @@ class ServiceTest extends IntegrationTestCase
         self::assertArrayHasKey('Marketplace_PluginRequestDeclined_PremiumPlugin2', Manager::getPendingInMemoryNotifications());
     }
 
+    public function testAnotherUserLoggingInToTheSameSessionIsNotShownTheSuperUsersNotice()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->createNotificationsIfNeeded();
+        $this->getOnlyRequestsNoticeId();
+
+        $this->switchTo('bob');
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertCount(0, Manager::getAllNotificationsToDisplay());
+    }
+
+    public function testAnotherUserLoggingInToTheSameSessionIsNotShownTheRequestersNotice()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+        self::assertArrayHasKey('Marketplace_PluginRequestDeclined_PremiumPlugin', Manager::getAllNotificationsToDisplay());
+
+        $this->switchTo('bob');
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertCount(0, Manager::getAllNotificationsToDisplay());
+    }
+
+    public function testARequesterIsToldAgainOfADecisionWhoseNoticeAnotherUserOfTheSessionRemoved()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+
+        $this->switchTo('anonymous');
+        (new Service())->createNotificationsIfNeeded();
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertSame(
+            ['Marketplace_PluginRequestDeclined_PremiumPlugin'],
+            array_keys(Manager::getAllNotificationsToDisplay())
+        );
+    }
+
+    public function testARequesterIsToldAgainOfAllDecisionsQueuedOverSeveralChecksOnceAnotherUserOfTheSessionRemovesThem()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        $this->requestAs('alice', 'PremiumPlugin2');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+        $this->switchToSuperUser();
+        (new Service())->decide('PremiumPlugin2', RequestHistory::DECISION_APPROVED);
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+
+        $this->switchTo('anonymous');
+        (new Service())->createNotificationsIfNeeded();
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertNotNull($this->findApprovedNoticeId());
+        self::assertArrayHasKey('Marketplace_PluginRequestDeclined_PremiumPlugin', Manager::getAllNotificationsToDisplay());
+    }
+
+    public function testRemovingTheNoticesOfADeletedRequesterKeepsNothingForThem()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+        $this->switchToSuperUser();
+        UsersManagerAPI::getInstance()->deleteUser('alice');
+
+        $this->switchTo('anonymous');
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertCount(0, Manager::getAllNotificationsToDisplay());
+        self::assertFalse(Option::get('Marketplace.PluginRequestDecisionsSeen.alice'));
+    }
+
+    public function testARequesterIsNotToldAgainOfADecisionWhoseNoticeWasDisplayed()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+        Manager::cancelAllNonPersistent();
+
+        $this->switchTo('bob');
+        (new Service())->createNotificationsIfNeeded();
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertCount(0, Manager::getAllNotificationsToDisplay());
+    }
+
+    public function testAnAnonymousViewerOfTheSameSessionIsNotShownTheSuperUsersNotice()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->createNotificationsIfNeeded();
+        $this->getOnlyRequestsNoticeId();
+
+        $this->switchTo('anonymous');
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertCount(0, Manager::getAllNotificationsToDisplay());
+    }
+
+    public function testAnotherUserLoggingInToTheSameSessionIsNotShownTheSuperUsersNoticeOnceRequestsAreDisabled()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->createNotificationsIfNeeded();
+        $this->getOnlyRequestsNoticeId();
+
+        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', -1);
+        $this->switchTo('bob');
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertCount(0, Manager::getAllNotificationsToDisplay());
+    }
+
     public function testARequesterIsNotToldWithoutASession()
     {
         $this->enablePluginRequests();
@@ -704,7 +842,7 @@ class ServiceTest extends IntegrationTestCase
     {
         Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
         // on an instance the first page view does this, long before a request is decided
-        DecisionNotifications::createIfNeeded();
+        DecisionNotifications::createIfNeeded(null);
     }
 
     private function requestAs(string $login, string $pluginName): void
