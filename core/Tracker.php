@@ -146,7 +146,7 @@ class Tracker
         } catch (Throwable $e) {
             if ($isExceptionReported || $this->hasLoggedRequests()) {
                 // the response already reports an error, or keeps its success status as clients resend failed requests
-                $this->logServerError($e);
+                $this->logError($e);
             } else {
                 $handler->onException($this, $requestSet, self::toException($e));
             }
@@ -411,17 +411,11 @@ class Tracker
      */
     public function handleUncaughtError(Throwable $e): void
     {
-        $statusCode = Handler::getStatusCodeForException($e);
-
-        if ($statusCode >= 500) {
-            $this->logServerError($e);
-        } else {
-            $this->log(LogLevel::DEBUG, 'Exception: {exception}', $e);
-        }
+        $this->logError($e);
 
         // a recorded request keeps its success status, as clients resend failed requests
         if (!$this->hasLoggedRequests()) {
-            Common::sendResponseCode($statusCode);
+            Common::sendResponseCode(Handler::getStatusCodeForException($e));
         }
     }
 
@@ -445,10 +439,15 @@ class Tracker
     }
 
     /**
-     * Logs an error that is not reported through the tracking handler's response.
+     * Logs an error that is not reported through the tracking handler's response, client errors at debug level only.
      */
-    private function logServerError(Throwable $e): void
+    private function logError(Throwable $e): void
     {
+        if (Handler::getStatusCodeForException($e) < 500) {
+            $this->log(LogLevel::DEBUG, 'Exception: {exception}', $e);
+            return;
+        }
+
         $this->log(LogLevel::ERROR, 'Exception: {exception}', $e);
         Response::logErrorToErrorLog($e);
     }

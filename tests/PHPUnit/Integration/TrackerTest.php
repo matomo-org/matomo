@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Log\LoggerInterface;
 use Piwik\NoAccessException;
 use Piwik\Option;
@@ -462,6 +463,23 @@ class TrackerTest extends IntegrationTestCase
         $this->assertTrue($response->isResponseOutput);
         $this->assertSame([[LogLevel::ERROR, $endException]], $logger->errors);
         $this->assertStringContainsString('Error in Matomo (tracker): RuntimeException: end failed', $errorLog);
+    }
+
+    public function testMainShouldOnlyDebugLogAClientErrorOfATrackerEndListenerIfRequestsWereRecorded()
+    {
+        $logger = $this->useRecordingLogger();
+        Piwik::addAction('Tracker.end', function () {
+            throw new ThingNotFoundException('not found');
+        });
+
+        $response = new Response();
+        $errorLog = $this->captureErrorLog(function () use ($response) {
+            (new TestTracker())->main($this->getHandlerWithResponse($response), $this->getRequestSetWithRequests());
+        });
+
+        $this->assertFalse($response->isExceptionOutput);
+        $this->assertSame([], $logger->errors);
+        $this->assertSame('', $errorLog);
     }
 
     public function testHandleUncaughtErrorShouldAnswerWithServerErrorWithoutBodyAndLogIt()
