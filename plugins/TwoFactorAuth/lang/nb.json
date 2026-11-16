@@ -26,6 +26,7 @@
         "RequireTwoFAForAllInformation": "Krever at andre brukere også logger inn med 2FA ved hjelp av en OTP-app på mobilen. (For å kunne skru på dette må du selv bruke 2FA.)",
         "RequiredAuthCodeNotConfiguredAPI": "Det kreves at du setter opp tofaktor-autentisering. Logg inn på kontoen din.",
         "RequiredToSetUpTwoFactorAuthentication": "Du må sette opp tofaktor-autentisering før du logger inn.",
+        "ResetOwnTwoFactorAuthNotAllowed": "Bruk de personlige sikkerhetsinnstillingene dine for å slå av tofaktor-autentisering for din egen konto.",
         "SetUpTwoFactorAuthentication": "Sett opp tofaktor-autentisering (2FA)",
         "SetupAuthenticatorOnDevice": "Sett opp en OTP-app på enheten din",
         "SetupAuthenticatorOnDeviceStep1": "Installer en OTP-app, for eksempel:",

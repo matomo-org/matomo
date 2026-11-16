@@ -712,10 +712,6 @@ class RowEvolution
                     $value = $this->getNumericColumnValue($row, (string)$column);
                 }
 
-                if ($value == '') {
-                    $value = 0;
-                }
-
                 $newLabel = (string)$column . '_' . (int)$labelIdx;
                 $newRow->addColumn($newLabel, $value);
             }

@@ -83,6 +83,7 @@
         "PleaseNote": "請注意",
         "PluginDescription": "提供使用者名稱和密碼登入以及重設密碼功能。登入方法可以透過使用市集中的其他登入外掛如 LoginLdap 來變更。",
         "RememberMe": "記住我",
+        "SecondFactorCode": "認證代碼",
         "SecurityTip": "安全性提示",
         "SettingBruteForceBlacklistIp": "永遠封鎖這些 IP 登入",
         "SettingBruteForceEnable": "啟用暴力破解偵測",

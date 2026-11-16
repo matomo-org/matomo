@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Todos los directorios privados son inaccesibles desde Internet.",
+        "BrowserAndAutoArchivingEnabledComment": "Parece que tanto el archivado desde el navegador como el archivado automático están activados. El archivado automático se inició por última vez hace %3$s. Si el %1$sarchivado automático%2$s está activado, debe desactivar el archivado desde el navegador en «Configuración general».",
+        "BrowserAndAutoArchivingEnabledLabel": "Archivado desde el navegador y archivado automático activados",
         "BrowserTriggeredArchivingEnabled": "Para un rendimiento óptimo y un Matomo veloz, se recomienda configurar un crontab para archivar automáticamente sus informes y deshabilitar la activación del navegador en la configuración de Matomo. %1$sAprender más.%2$s",
         "ConfigFileIntroduction": "Aquí puede ver la configuración de Matomo. Si está ejecutando Matomo en un ambiente balanceado puede que la página sea diferente sea por el servidor que la esté cargando. Las filas con un color de fondo diferente son valores de configuración modificados que son especificados por ejemplo en el archivo %1$s.",
         "ConfigFileTitle": "Archivo de configuración",
@@ -10,9 +12,16 @@
         "CronArchivingLastRunCheck": "Último archivado completado con éxito",
         "CronArchivingRanSuccessfullyXAgo": "El proceso de archivado se completó exitosamente hace %1$s.",
         "CronArchivingRunDetails": "Verifique que haya configurado un crontab llamando al comando %1$s de la consola, y que haya configurado un %2$s para recibir los errores por correo electrónico si falla el archivado. También puede intentar ejecutar el comando de la consola para archivar sus informes manualmente: %3$s. %4$sPara saber más.%5$s",
+        "DatabaseCollationCharset": "La intercalación predeterminada para el juego de caracteres configurado es: <code>%1$s</code>",
+        "DatabaseCollationConnection": "La intercalación de conexión que usa actualmente es: <code>%1$s</code>",
+        "DatabaseCollationNotConfigured": "La conexión a su base de datos está configurada sin una intercalación explícita. Actualice <code>[database] collation = ''</code> en el archivo «config/config.ini.php» con la intercalación que se debe usar, para que todas las funciones de la base de datos funcionen como se espera.",
         "DatabaseReaderConnection": "Conexión con el lector de la base de datos",
+        "DatabaseUtf8Requirement": "Es necesario para poder almacenar caracteres UTF8 de 4 bytes. Si utf8mb4 no está disponible, los caracteres especiales, como los emojis, los caracteres menos comunes de las lenguas asiáticas, diversas escrituras históricas o los símbolos matemáticos, se sustituirán por %1$s. Puede leer más detalles sobre este tema en %2$sestas preguntas frecuentes%3$s.",
+        "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Su base de datos admite el juego de caracteres utf8mb4, pero las tablas de su base de datos todavía no se han convertido. Puede hacerlo ejecutando el comando %1$s o activando la conversión automática en la Configuración general.",
+        "EnableRequiredDirectoriesDiagnostic": "Esta comprobación se ha omitido porque está desactivada en la configuración. Para activarla, defina [General] enable_required_directories_diagnostic = 1 en el archivo «config/config.ini.php».",
         "HideUnchanged": "Si desea ver solo los valores modificados puede %1$socultar todos los valores no modificados%2$s.",
         "HtaccessWarningNginx": "Para garantizar que no se pueda acceder directamente a los archivos sensibles, se recomienda configurar el servidor web para restringir el acceso a determinados directorios. Para más información, consulte la %1$s configuración oficial del servidor nginx %2$s",
+        "MariaDbNotConfigured": "La versión de su base de datos indica que podría estar usando un servidor MariaDb. Si es así, defina <code>[database] schema = Mariadb</code> en el archivo «config/config.ini.php» para que todas las funciones de la base de datos funcionen como se espera.",
         "MysqlMaxPacketSize": "Tamaño máximo del paquete",
         "MysqlMaxPacketSizeWarning": "Es recomendable configurar un tamaño de al menos %3$sen '%1$smax_allowed_packet%2$s' en su base de datos MySQL. Actualmente está configurada en %4$s.",
         "MysqlTemporaryTablesWarning": "Se necesita el permiso de MySQL CREATE TEMPORARY TABLES para que Matomo funcione correctamente.",
@@ -22,7 +31,14 @@
         "PHPFPMWarningGeneric": "PHP FPM puede ignorar las reglas .htaccess para archivos .php. Para asegurar que los archivos sensibles no puedan ser accedidos directamente se recomienda configurar su servidor web para excluir el directorio /config de ser manejado por PHP FPM.",
         "PHPFPMWarningNginx": "PHP FPM ignorará las reglas .htaccess para archivos .php. Para asegurar que archivos sensibles no puedan ser accedidos directamente se recomienda excluir ciertos directorios de ser manejados por PHP FPM. Para más información por favor vea la %1$s configuración oficial del servidor nginx %2$s",
         "PrivateDirectoryCantCheckUrl": "Error al comprobar la URL %1$s: %2$s",
+        "PrivateDirectoryInternetDisabled": "No hemos podido comprobar si las siguientes URL son accesibles porque las funciones de Internet están desactivadas en este Matomo.",
+        "PrivateDirectoryIsAccessible": "Hemos detectado que las URL anteriores son accesibles desde el navegador, pero NO deberían serlo. Permitir el acceso a ellas puede suponer un riesgo de seguridad, ya que su contenido puede revelar información sobre su servidor y, posiblemente, sobre sus usuarios. Restrinja el acceso a ellas.",
+        "PrivateDirectoryManualCheck": "Abra las URL manualmente en un navegador para ver si puede acceder a ellas. Si puede, es posible que tenga que modificar la configuración de su servidor, ya que estos archivos o directorios no deberían ser accesibles con un navegador desde Internet o una intranet.",
+        "RecommendedPrivateDirectories": "Directorios privados recomendados",
+        "RequiredPrivateDirectories": "Directorios privados necesarios",
         "Sections": "Secciones",
+        "SessionStorageFormat": "Formato de almacenamiento de las sesiones",
+        "SessionStorageFormatWarning": "Las sesiones se almacenan como %1$s porque session.serialize_handler no se ha podido definir como php_serialize, por lo que pueden perderse los cambios que hagan dos solicitudes al mismo tiempo. Defínalo como php_serialize en su php.ini.",
         "UrlsAccessibleViaBrowser": "Hemos comprobado que las URL anteriores son accesibles a través del navegador, pero recomendamos que no lo sean. Si es posible, restrinja el acceso a las mismas."
     }
 }

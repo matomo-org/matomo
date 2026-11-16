@@ -269,7 +269,7 @@ class ScheduledReports extends \Piwik\Plugin
     // based on https://www.php.net/manual/en/filter.filters.validate.php -> FILTER_VALIDATE_BOOLEAN
     private static function valueIsTrue($value)
     {
-        return $value == 'true' || $value == 1 || $value == '1' || $value === true;
+        return $value == 'true' || $value == 1 || $value == '1';
     }
 
     public function getReportMetadata(&$reportMetadata, $reportType, $idSite)
