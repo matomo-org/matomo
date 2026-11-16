@@ -512,8 +512,7 @@ class RowEvolution
         );
 
         if (empty($reportMetadata)) {
-            throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite "
-                . "not found in the list of available reports. \n");
+            throw new Exception(ProcessedReport::getReportNotFoundMessage($idSite, $apiModule, $apiAction, $apiParameters));
         }
 
         $reportMetadata = reset($reportMetadata);

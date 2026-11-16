@@ -34,6 +34,7 @@
     {% include "@CoreHome/_topScreen.twig" %}
 
     {% set hasSidebar = showMenu is not defined or showMenu %}
+    {% set hasTopControls = showTopControls is not defined or showTopControls %}
 
     <div class="layoutWithSidebar{% if hasSidebar %} layoutWithSidebar--hasSidebar{% endif %}">
         {% if hasSidebar %}
@@ -42,13 +43,15 @@
             {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, collapsibleMenu, isSuperUser, true) }}
         {% endif %}
 
-        <div class="layoutWithSidebarContent">
-            <div class="top_controls">
-                {% block topcontrols %}
-                {% endblock %}
+        <div class="layoutWithSidebarContent{% if not hasTopControls %} layoutWithSidebarContent--noTopControls{% endif %}">
+            {% if hasTopControls %}
+                <div class="top_controls">
+                    {% block topcontrols %}
+                    {% endblock %}
 
-                {% include "@CoreHome/_headerMessage.twig" %}
-            </div>
+                    {% include "@CoreHome/_headerMessage.twig" %}
+                </div>
+            {% endif %}
 
             <div class="page">
                 <div class="pageWrap">

@@ -1,5 +1,22 @@
 {
     "Overlay": {
-        "Location": "Plass"
+        "Clicks": "%s klikk",
+        "ClicksFromXLinks": "%1$s klikk frå ei av %2$s lenkjer",
+        "Domain": "Domene",
+        "ErrorNoSiteUrls": "ÅTVARING: Denne nettstaden har ingen nettstad-URL-ar definerte i Matomo. Det kan gjere at overlegg og andre funksjonar sluttar å fungere eller oppfører seg rart. For å rette dette legg du til ein URL i innstillingane for nettstaden under Administrasjon i Matomo.",
+        "ErrorNotLoading": "Økta for sideoverlegg kunne ikkje startast enno.",
+        "ErrorNotLoadingDetails": "Kanskje har ikkje sida som er lasta til høgre, sporingskoden til Matomo. Prøv i så fall å starte overlegget for ei anna side frå siderapporten.",
+        "ErrorNotLoadingDetailsSSL": "Sidan du brukar Matomo over https, er den mest sannsynlege årsaka at nettstaden din ikkje støttar SSL. Prøv å bruke Matomo over http.",
+        "ErrorNotLoadingLink": "Klikk her for fleire tips om feilsøking",
+        "Link": "Lenkje",
+        "Location": "Plass",
+        "NoData": "Det finst ingen data for denne sida i den valde perioden.",
+        "OneClick": "1 klikk",
+        "OpenFullScreen": "Fullskjerm (utan sidepanel)",
+        "Overlay": "Sideoverlegg",
+        "PluginDescription": "Sjå analysedataa dine som eit overlegg på den faktiske nettstaden din. Sjå kor mange gonger brukarane har klikka på kvar lenkje. Merk: Krev at innstikket Transitions er skrudd på.",
+        "RedirectUrlError": "Du prøver å opne sideoverlegg for URL-en «%1$s». %2$s Ingen av domena i innstillingane til Matomo samsvarer med lenkja.",
+        "RedirectUrlErrorAdmin": "Du kan leggje til domenet som ein ekstra URL %1$si innstillingane%2$s.",
+        "RedirectUrlErrorUser": "Be administratoren din om å leggje til domenet som ein ekstra URL."
     }
 }

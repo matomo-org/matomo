@@ -5,7 +5,6 @@
         "CronArchivingHasNotRunInAWhile": "Arkistointi suoritettiin onnistuneesti viimeksi %1$s, eli %2$s sitten.",
         "CronArchivingLastRunCheck": "Viimeisin onnistunut arkistointi",
         "CronArchivingRanSuccessfullyXAgo": "Arkistointiprosessi suoritettiin onnistuneesti %1$s sitten.",
-        "DatabaseUtf8mb4CharsetRecommended": "Tietokantasi ei tue vielä utf8mb4-merkistöä.",
         "MysqlMaxPacketSize": "Paketin enimmäiskoko",
         "NoDataForReportArchivingNotRun": "Raporttiesi arkistointia ei ole suoritettu hetkeen. %1$sLue lisää kuinka luoda raportteja.%2$s",
         "Sections": "Osiot"

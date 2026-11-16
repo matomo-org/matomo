@@ -1,7 +1,6 @@
 {
     "Live": {
         "ActionsAndDuration": "%1$s akcí za %2$s",
-        "AggregatedRealtimeReportsEnabledPolicySettingTitle": "Agregované přehledy v reálném čase zapnuty",
         "AveragePageGenerationTime": "Pro tohoto návštěvníka se každá stránka načetla v průměru za %1$s.",
         "CalculatedOverNPageViews": "Vypočítáno na základě %1$s posledních zobrazení stránek tohoto návštěvníka.",
         "ClickToSeeAllContents": "Kliknutím zobrazíte každou interakci s obsahem a každé zobrazení obsahu",
@@ -11,14 +10,9 @@
         "DisableVisitorProfile": "Vypnout profily návštěvníků",
         "DisableVisitorProfileDescription": "Všechny funkce související s protokolem návštěv budou nadále fungovat.",
         "DisableVisitsLogAndProfile": "Vypnout protokol návštěv a profily návštěvníků",
-        "DisableVisitsLogAndProfileDescription": "Odstraní také funkce, které na nich závisí, například protokol e-commerce, segmentovaný protokol návštěv, mapu v reálném čase nebo widget v reálném čase. Může to být nutné kvůli dodržení místních zákonů či pokynů na ochranu soukromí.",
+        "DisableVisitsLogAndProfileDescription2": "Odstraní také funkce, které na nich závisejí, například protokol e-commerce, segmentovaný protokol návštěv nebo mapu v reálném čase. Widget v reálném čase bude zobrazovat jen agregované počty návštěv. To může být nutné pro dodržení místních zákonů či pokynů na ochranu soukromí.",
         "DisableVisitsLogAndProfileImpact": "<strong>Návštěvníci &gt; Protokol návštěv</strong> ani zobrazení profilů návštěvníků nejsou dostupné.",
         "DisableVisitsLogAndProfileWhatItDoes": "Funkce protokolu návštěv a profilu návštěvníka jsou vypnuté.<br><br>Tím se zabrání rekonstrukci cesty konkrétního návštěvníka při procházení webu a jeho podrobného chování v rámci návštěvy.",
-        "EnableAggregatedRealtimeReports": "Zapnout agregované přehledy v reálném čase",
-        "EnableAggregatedRealtimeReportsDescription": "Zobrazuje agregované metriky šetrné k soukromí pro období „Posledních 24 hodin“ a „Posledních 30 minut“. Nezobrazují se žádné informace o jednotlivých návštěvnících, návštěvách, relacích ani akcích.",
-        "EnableAggregatedRealtimeReportsImpact": "V přehledu <strong>Návštěvníci &gt; Návštěvy v reálném čase</strong> se zobrazují pouze zaokrouhlené souhrnné počty.",
-        "EnableAggregatedRealtimeReportsPolicySettingRequirementNote": "Agregované přehledy v reálném čase musí být zapnuté.",
-        "EnableAggregatedRealtimeReportsWhatItDoes": "Agregované přehledy v reálném čase zůstávají dostupné i při vypnutém protokolu návštěv.<br><br>Zobrazují se pouze zaokrouhlené souhrnné počty za období „Posledních 24 hodin“ a „Posledních 30 minut“, takže nejsou zpřístupněny žádné informace na úrovni jednotlivého návštěvníka, návštěvy, relace ani akce.",
         "ExportThisDatasetToXml": "Exportovat tuto datovou sadu do XML",
         "FirstVisit": "První návštěva",
         "GoalType": "Typ",

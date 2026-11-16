@@ -10,6 +10,8 @@
 namespace Piwik;
 
 use Exception;
+use Matomo\Cache\Transient;
+use Piwik\Access\TransientCacheOverlay;
 use Piwik\Access\CapabilitiesProvider;
 use Piwik\Access\Capability;
 use Piwik\Access\Role\Admin;
@@ -56,6 +58,13 @@ class Access
      * @var array
      */
     protected $idsitesByAccess = null;
+
+    /**
+     * Site IDs with at least view access, as keys, built from $idsitesByAccess on first use
+     *
+     * @var array<int|string, int>|null
+     */
+    private $viewAccessLookup = null;
 
     /**
      * Login of the current user
@@ -139,6 +148,7 @@ class Access
     private function resetSites()
     {
         $this->idsitesByAccess = $this->getEmptyRoleSiteIds();
+        $this->viewAccessLookup = null;
     }
 
     /**
@@ -355,6 +365,7 @@ class Access
                     $allSitesId = array();
                 }
                 $this->idsitesByAccess['superuser'] = $allSitesId;
+                $this->viewAccessLookup = null;
             }
         } elseif (isset($this->login)) {
             if (
@@ -413,6 +424,7 @@ class Access
                 Piwik::postEvent('Access.modifyUserAccess', [&$this->idsitesByAccess, $this->login]);
 
                 $this->applyTokenAccessLevelRestrictionToLoadedSites();
+                $this->viewAccessLookup = null;
             }
         }
     }
@@ -761,6 +773,34 @@ class Access
     }
 
     /**
+     * Whether super user access was granted by code (eg doAsSuperUser(), CLI, installer) rather than by
+     * authenticating a super user.
+     *
+     * @internal
+     */
+    public function isSuperUserAccessGrantedByCode(): bool
+    {
+        return $this->hasSuperUserAccess()
+            && !($this->isCurrentAuthSuperUser && !$this->isSuperUserRestrictedByTokenAccessLevel());
+    }
+
+    /**
+     * Authenticates the current Auth again, so access reflects the stored user instead of what was
+     * loaded earlier in the request. Super user access granted by code is dropped as well.
+     *
+     * @internal
+     * @return bool false if the authentication no longer succeeds for the same user
+     */
+    public function reauthenticate(): bool
+    {
+        $login = $this->login;
+        $this->setSuperUserAccess(false);
+
+        // a failed session falls back to the anonymous user
+        return $this->reloadAccess() && $this->login === $login;
+    }
+
+    /**
      * Puts back the identity a caller arrived with, which {@see reloadAccess()} clears before authenticating
      * and does not restore on failure.
      *
@@ -815,6 +855,17 @@ class Access
     }
 
     /**
+     * Identifies who the current access is for, so request-level memos can tell whether the data
+     * they hold was built for someone else, eg. inside {@link doAsSuperUser()}.
+     *
+     * @internal
+     */
+    public function getCacheScopeKey(): string
+    {
+        return ($this->hasSuperUserAccess() ? 'superuser' : 'user') . ':' . $this->getLogin();
+    }
+
+    /**
      * Returns the token_auth used to authenticate this user in the API
      *
      * @return string|null
@@ -856,6 +907,21 @@ class Access
             $this->idsitesByAccess['admin'],
             $this->idsitesByAccess['superuser']
         ));
+    }
+
+    /**
+     * @return array<int|string, int>
+     */
+    private function getViewAccessLookup(): array
+    {
+        // loading the sites resets the lookup, so load them first
+        $this->loadSitesIfNeeded();
+
+        if ($this->viewAccessLookup === null) {
+            $this->viewAccessLookup = array_flip($this->getSitesIdWithAtLeastViewAccess());
+        }
+
+        return $this->viewAccessLookup;
     }
 
     /**
@@ -1043,10 +1109,10 @@ class Access
         }
 
         $idSites = $this->getIdSites($idSites);
-        $idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
+        $idSitesAccessible = $this->getViewAccessLookup();
 
         foreach ($idSites as $idsite) {
-            if (!in_array($idsite, $idSitesAccessible)) {
+            if (!isset($idSitesAccessible[$idsite])) {
                 $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
             }
         }
@@ -1142,9 +1208,11 @@ class Access
      *
      * Use this method with care, as it might open up attack vectors
      *
+     * Keys the callback saves or deletes through {@link Cache::getTransientCache()} are removed from
+     * the caller's cache when it returns. Keep per-request data that depends on the user there.
+     *
      * @param callable $function The callback to execute. Should accept no arguments.
      * @return mixed The result of `$function`.
-     * @throws Exception rethrows any exceptions thrown by `$function`.
      * @api
      */
     public static function doAsSuperUser($function)
@@ -1160,9 +1228,17 @@ class Access
         $shouldResetLogin = empty($login); // make sure to reset login if a login was set by "makeSureLoginNameIsSet()"
         $access->setSuperUserAccess(true);
 
+        // keep anything the callback caches out of the caller's cache
+        $container = StaticContainer::getContainer();
+        $callerCache = Cache::getTransientCache();
+        $callbackCache = new TransientCacheOverlay($callerCache);
+        $container->set(Transient::class, $callbackCache);
+
         try {
             $result = $function();
         } catch (\Throwable $ex) {
+            $container->set(Transient::class, $callerCache);
+            $callbackCache->applyInvalidationsTo($callerCache);
             $access->setSuperUserAccess($isSuperUser);
             if ($shouldResetLogin) {
                 $access->login = null;
@@ -1174,6 +1250,8 @@ class Access
         if ($shouldResetLogin) {
             $access->login = null;
         }
+        $container->set(Transient::class, $callerCache);
+        $callbackCache->applyInvalidationsTo($callerCache);
         $access->setSuperUserAccess($isSuperUser);
 
         return $result;

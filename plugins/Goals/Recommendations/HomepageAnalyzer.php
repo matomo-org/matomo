@@ -19,6 +19,7 @@ use Piwik\Http\EgressBlockedException;
 use Piwik\Site;
 use Piwik\SiteContentDetector;
 use Piwik\UrlHelper;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Psr\Log\LoggerInterface;
 
@@ -33,6 +34,10 @@ class HomepageAnalyzer
     public const MAX_LINKS = 500;
 
     private const MAX_PAGES = 50;
+
+    private const MAX_REDIRECT_PROBES = 25;
+    /** Probes only need the status and final URL, not the body. */
+    private const REDIRECT_PROBE_BYTES = 1024;
     /** Same-origin links queued for crawling per page (best discovery score first). */
     private const MAX_QUEUED_LINKS_PER_PAGE = 40;
 
@@ -151,6 +156,12 @@ class HomepageAnalyzer
 
         $pages = $this->crawlSameOriginPages($startUrl, $host, $html, $timeout);
         $links = $this->rankLinks($pages);
+        $internalHosts = $this->getInternalHosts($idSite, $html, $timeout);
+        $isExternal = function (string $linkHost) use ($internalHosts): bool {
+            return !$this->isInternalHost($linkHost, $internalHosts);
+        };
+        $manualSignals = $this->aggregateManualSignals($pages);
+        $manualSignals['outlinkHosts'] = array_filter($manualSignals['outlinkHosts'], $isExternal, ARRAY_FILTER_USE_KEY);
 
         $this->getLogger()->debug(
             'Goals recommendations: analysed {url} '
@@ -170,14 +181,108 @@ class HomepageAnalyzer
             'forms' => $this->rankForms($pages),
             'downloads' => $this->rankDownloads($pages),
             'contactLinks' => $this->rankContactLinks($pages),
-            'externalLinks' => $this->rankExternalLinks($pages),
+            'externalLinks' => $this->rankExternalLinks($pages, $internalHosts),
+            'internalHosts' => $internalHosts,
+            'internalHostLinks' => $this->rankInternalHostLinks($pages, $internalHosts),
             'technologies' => $this->detectTechnologies($idSite, $html, $response['headers'] ?? []),
             'platform' => $this->detectEcommercePlatform($html),
             'pages' => $this->summarizePages($pages),
             'pagesCrawled' => count($pages),
             'crawl' => $this->crawlStats,
-            'manualSignals' => $this->aggregateManualSignals($pages),
+            'manualSignals' => $manualSignals,
         ];
+    }
+
+    /**
+     * Hosts the Matomo tracker records as the site itself, so links to them are no
+     * outlinks: setDomains of the tracking code (inline or in the Tag Manager container)
+     * and the site's URLs, whose pages track into this site.
+     *
+     * @return string[] lowercase hosts without "www.", "*.example.com" for a subdomain wildcard
+     */
+    private function getInternalHosts(?int $idSite, string $html, int $timeout): array
+    {
+        $domains = $this->getTrackerDomains($html, $timeout);
+        if ($idSite !== null) {
+            try {
+                $domains = array_merge($domains, SitesManagerAPI::getInstance()->getSiteUrlsFromId($idSite));
+            } catch (\Exception $e) {
+                // without access to the site's URLs the tracker domains still apply
+            }
+        }
+
+        $hosts = [];
+        foreach ($domains as $domain) {
+            // "https://www.example.com/shop", ".example.com" and "*.example.com" alike
+            $domain = strtolower(trim(str_replace('\\/', '/', (string) $domain)));
+            // strip scheme, path/query/fragment and port, turn a leading "." into "*.", drop "www."
+            $domain = (string) preg_replace(['#^[a-z]+://#', '#[/?\#].*$#', '#:\d+$#', '#^\.#', '#^www\.#'], ['', '', '', '*.', ''], $domain);
+            // keep only a plain host like "example.com" or "*.example.com"
+            if (preg_match('#^(\*\.)?[a-z0-9-]+(\.[a-z0-9-]+)+$#', $domain)) {
+                $hosts[$domain] = true;
+            }
+        }
+
+        return array_keys($hosts);
+    }
+
+    /**
+     * setDomains values of an inline tracking code, else the domains of the first Tag
+     * Manager container the page loads.
+     *
+     * @return string[]
+     */
+    private function getTrackerDomains(string $html, int $timeout): array
+    {
+        // _paq.push(['setDomains', [...]]) or tracker.setDomains([...])
+        if (preg_match_all('#setDomains(?:[\'"]\s*,|\()\s*(\[[^\]]*\]|[\'"][^\'"]+[\'"])#', $html, $matches)) {
+            return $this->quotedStrings(implode(',', $matches[1]));
+        }
+
+        // a Tag Manager container script URL, e.g. "//cdn.example.com/js/container_AbC123.js"
+        if (!preg_match('#(?:https?:)?//[a-z0-9.:-]+/[^\s\'"<>]*?container_[a-z0-9_]+\.js#i', $html, $container)) {
+            return [];
+        }
+        $response = $this->fetchHomepage(preg_replace('#^//#', 'https://', $container[0]), $timeout);
+        $status = $response['status'] ?? null;
+        // the container config's domain list, e.g. "domains":["example.com","*.example.org"]
+        if (!is_int($status) || $status < 200 || $status >= 300 || !preg_match_all('#"domains":(\[[^\]]*\])#', (string) ($response['data'] ?? ''), $matches)) {
+            return [];
+        }
+
+        return $this->quotedStrings(implode(',', $matches[1]));
+    }
+
+    /**
+     * @return string[]
+     */
+    private function quotedStrings(string $value): array
+    {
+        preg_match_all('#[\'"]([^\'"]+)[\'"]#', $value, $matches);
+
+        return $matches[1];
+    }
+
+    /**
+     * Same matching as the tracker: exact host, or any subdomain for "*.example.com".
+     *
+     * @param string[] $internalHosts see getInternalHosts()
+     */
+    private function isInternalHost(string $host, array $internalHosts): bool
+    {
+        $host = (string) preg_replace('/^www\./', '', strtolower($host));
+        foreach ($internalHosts as $internalHost) {
+            if (strpos($internalHost, '*.') === 0) {
+                $domain = substr($internalHost, 2);
+                if ($host === $domain || substr($host, -strlen('.' . $domain)) === '.' . $domain) {
+                    return true;
+                }
+            } elseif ($host === $internalHost) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -186,7 +291,7 @@ class HomepageAnalyzer
      *
      * @return array{status?: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string}|null
      */
-    protected function fetchHomepage(string $url, int $timeout): ?array
+    protected function fetchHomepage(string $url, int $timeout, int $maxBytes = self::MAX_RESPONSE_BYTES): ?array
     {
         // Respect the same internet-features kill switch SiteContentDetector honours.
         if (0 === GeneralConfig::getIntegerConfigValue('enable_internet_features', 0)) {
@@ -205,7 +310,7 @@ class HomepageAnalyzer
                 null,
                 0,
                 false,
-                [0, self::MAX_RESPONSE_BYTES], // $byteRange: Range hint to keep responses small
+                [0, $maxBytes], // $byteRange: Range hint to keep responses small
                 true, // $getExtendedInfo: returns ['status', 'headers', 'data']
                 'GET',
                 null,
@@ -381,6 +486,7 @@ class HomepageAnalyzer
         $queued = [rtrim($startUrl, '/') => true];
         $visited = [];
         $pages = [];
+        $redirects = [];
         $htmlByUrl = [$startUrl => $homepageHtml];
         $deadline = microtime(true) + $this->getCrawlDeadlineSeconds();
         $maxPages = $this->getMaxPages();
@@ -399,6 +505,11 @@ class HomepageAnalyzer
             if ($html === null) {
                 $response = $this->usableResponse($this->fetchHomepage($currentUrl, $timeout), $currentUrl);
                 $html = is_array($response) ? (string) ($response['data'] ?? '') : '';
+
+                $redirectedTo = $this->getRedirectTarget($currentUrl, (string) ($response['effectiveUrl'] ?? ''), $host);
+                if ($redirectedTo !== null) {
+                    $redirects[$this->pathKey($currentUrl)] = $redirectedTo;
+                }
 
                 $pageHost = is_array($response)
                     ? $this->getUrlAuthority((string) ($response['effectiveUrl'] ?? ''))
@@ -467,7 +578,98 @@ class HomepageAnalyzer
 
         $this->crawlStats['deadlineReached'] = !empty($queue) && count($pages) < $maxPages && microtime(true) >= $deadline;
 
-        return $pages;
+        $redirects += $this->probeUncrawledLinks($pages, $visited, $host, $timeout, $deadline);
+
+        return $this->applyRedirects($pages, $redirects);
+    }
+
+    /**
+     * Fetches the best ranked linked pages the crawl did not reach, to learn whether they redirect.
+     * Shares the crawl's deadline, so probing never extends the request.
+     *
+     * @param array<int, array{url: string, links: array<int, array{
+     *   linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
+     * }>}> $pages
+     * @param array<string, bool> $visited
+     * @return array<string, string> path key => final URL
+     */
+    private function probeUncrawledLinks(array $pages, array $visited, string $host, int $timeout, float $deadline): array
+    {
+        $redirects = [];
+        $probes = 0;
+        // probe failures do not count as crawl failures
+        $failedFetches = $this->crawlStats['failedFetches'];
+        foreach ($this->rankLinks($pages) as $ranked) {
+            $url = $ranked['exampleUrls'][0];
+            if (isset($visited[rtrim($url, '/')])) {
+                continue;
+            }
+            if (++$probes > self::MAX_REDIRECT_PROBES || microtime(true) >= $deadline) {
+                break;
+            }
+
+            $response = $this->fetchHomepage($url, $timeout, self::REDIRECT_PROBE_BYTES);
+            // a redirect to an error page is no page to recommend
+            $status = is_array($response) ? ($response['status'] ?? null) : null;
+            if (!is_int($status) || $status < 200 || $status >= 300) {
+                continue;
+            }
+            $redirectedTo = $this->getRedirectTarget($url, (string) ($response['effectiveUrl'] ?? ''), $host);
+            if ($redirectedTo !== null) {
+                $redirects[$this->pathKey($url)] = $redirectedTo;
+            }
+        }
+        $this->crawlStats['failedFetches'] = $failedFetches;
+
+        return $redirects;
+    }
+
+    /**
+     * The URL a page redirected to, '' when it left the host, null when it did not move.
+     */
+    private function getRedirectTarget(string $requestedUrl, string $effectiveUrl, string $host): ?string
+    {
+        if ($effectiveUrl === '') {
+            return null;
+        }
+        if (strcasecmp($this->getUrlAuthority($effectiveUrl), $host) !== 0) {
+            return '';
+        }
+
+        return $this->pathKey($effectiveUrl) !== $this->pathKey($requestedUrl) ? $effectiveUrl : null;
+    }
+
+    private function pathKey(string $url): string
+    {
+        return strtolower(rtrim((string) parse_url($url, PHP_URL_PATH), '/'));
+    }
+
+    /**
+     * Points links at the page they redirect to. Links to a redirect that lands on the homepage or another host are dropped.
+     *
+     * @param array<int, array<string, mixed>> $pages
+     * @param array<string, string> $redirects path key => final URL
+     * @return array<int, array<string, mixed>>
+     */
+    private function applyRedirects(array $pages, array $redirects): array
+    {
+        return array_map(function (array $page) use ($redirects): array {
+            $links = [];
+            foreach ($page['links'] as $link) {
+                $finalUrl = $redirects[strtolower($link['linkTarget'])] ?? null;
+                if ($finalUrl === null) {
+                    $links[] = $link;
+                    continue;
+                }
+
+                $target = rtrim((string) parse_url($finalUrl, PHP_URL_PATH), '/');
+                if ($target !== '') {
+                    $links[] = ['linkTarget' => $target, 'url' => $finalUrl, 'sourceTarget' => $link['linkTarget']] + $link;
+                }
+            }
+
+            return ['links' => $links] + $page;
+        }, $pages);
     }
 
     /**
@@ -476,7 +678,8 @@ class HomepageAnalyzer
      * @param array<int, array{
      *   url: string,
      *   links: array<int, array{
-     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int
+     *     linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, isHero: bool, weight: int,
+     *     sourceTarget?: string
      *   }>
      * }> $pages
      * @return array<int, array{
@@ -494,6 +697,7 @@ class HomepageAnalyzer
                 if (!isset($buckets[$target])) {
                     $buckets[$target] = [
                         'linkTarget' => $target,
+                        'sourceTargets' => [],
                         'labels' => [],
                         'areas' => [],
                         'areaCounts' => [],
@@ -503,6 +707,11 @@ class HomepageAnalyzer
                         'buttonLikeCount' => 0,
                         'heroCount' => 0,
                     ];
+                }
+
+                $source = $link['sourceTarget'] ?? null;
+                if ($source !== null) {
+                    $buckets[$target]['sourceTargets'][$source] = ($buckets[$target]['sourceTargets'][$source] ?? 0) + 1;
                 }
 
                 $labelKey = strtolower($link['linkText']);
@@ -532,9 +741,14 @@ class HomepageAnalyzer
         foreach ($buckets as $bucket) {
             $pageCount = count($bucket['pageUrls']);
             $labelSamples = array_values($bucket['labels']);
+            // the most linked source wins, alphabetical on ties, so crawl order does not matter
+            $sourceTargets = $bucket['sourceTargets'];
+            ksort($sourceTargets);
+            arsort($sourceTargets);
             $ranked[] = [
                 'linkText' => implode(' / ', array_slice($labelSamples, 0, 3)),
                 'linkTarget' => $bucket['linkTarget'],
+                'sourceTarget' => empty($sourceTargets) ? null : (string) array_key_first($sourceTargets),
                 'score' => $this->recommendationScore($bucket),
                 'pageCount' => $pageCount,
                 'occurrenceCount' => $bucket['occurrenceCount'],
@@ -1136,14 +1350,42 @@ class HomepageAnalyzer
     }
 
     /**
+     * Outlinks, one per host. Links to the site's own hosts are left out, see rankInternalHostLinks().
+     *
      * @param array<int, array{url: string, signals?: array<string, mixed>}> $pages
+     * @param string[] $internalHosts see getInternalHosts()
      * @return array<int, array<string, mixed>>
      */
-    private function rankExternalLinks(array $pages): array
+    private function rankExternalLinks(array $pages, array $internalHosts): array
     {
-        return $this->rankSignalItems($pages, 'externalLinks', 'host', function (array $bucket): int {
+        $links = $this->rankSignalItems($pages, 'externalLinks', 'host', function (array $bucket): int {
             return (int) $bucket['count'] * 4 + count($bucket['sourcePages']) * 3;
         });
+
+        return array_values(array_filter($links, function (array $link) use ($internalHosts): bool {
+            return !$this->isInternalHost((string) $link['host'], $internalHosts);
+        }));
+    }
+
+    /**
+     * Links to the site's other hosts, one per URL: their pages are pageviews of this site.
+     *
+     * @param array<int, array{url: string, signals?: array<string, mixed>}> $pages
+     * @param string[] $internalHosts see getInternalHosts()
+     * @return array<int, array<string, mixed>>
+     */
+    private function rankInternalHostLinks(array $pages, array $internalHosts): array
+    {
+        if (empty($internalHosts)) {
+            return [];
+        }
+        $links = $this->rankSignalItems($pages, 'externalLinks', 'href', function (array $bucket): int {
+            return (int) $bucket['count'] * 4 + count($bucket['sourcePages']) * 3;
+        });
+
+        return array_values(array_filter($links, function (array $link) use ($internalHosts): bool {
+            return $this->isInternalHost((string) $link['host'], $internalHosts);
+        }));
     }
 
     /**
@@ -1170,11 +1412,15 @@ class HomepageAnalyzer
                         'labels' => [],
                         'examples' => [],
                         'sourcePages' => [],
+                        'areas' => [],
                         'count' => 0,
                     ];
                 }
                 ++$buckets[$key]['count'];
                 $buckets[$key]['sourcePages'][$page['url']] = true;
+                if (!empty($item['area'])) {
+                    $buckets[$key]['areas'][(string) $item['area']] = true;
+                }
                 $this->addUniqueSample($buckets[$key]['labels'], (string) ($item['label'] ?? ''), 4);
                 $this->addUniqueSample($buckets[$key]['examples'], (string) ($item['href'] ?? ''), 4);
             }
@@ -1192,6 +1438,7 @@ class HomepageAnalyzer
         $ranked = [];
         foreach ($buckets as $bucket) {
             $bucket['sourcePages'] = array_slice(array_keys($bucket['sourcePages'] ?? []), 0, 6);
+            $bucket['areas'] = array_keys($bucket['areas'] ?? []);
             $bucket['score'] = $scoreCallback($bucket);
             $ranked[] = $bucket;
         }

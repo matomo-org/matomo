@@ -13,6 +13,7 @@ namespace Piwik\Plugins\AIProviders\tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\AIProviders\AIConversationRequest;
+use Piwik\Plugins\AIProviders\AIRequest;
 use Piwik\Plugins\AIProviders\Provider\OpenAI;
 
 /**
@@ -432,6 +433,48 @@ class OpenAIConverseTest extends TestCase
 
         $this->assertNull($response->getInputTokens());
         $this->assertNull($response->getOutputTokens());
+    }
+
+    public function testCachedPromptTokensAreReportedAsCacheReadsAndNotAsInput(): void
+    {
+        $openAI = new RecordingOpenAI();
+        $openAI->cannedResponse = [
+            'choices' => [['message' => ['content' => 'Hi.'], 'finish_reason' => 'stop']],
+            'usage' => [
+                'prompt_tokens' => 1200,
+                'completion_tokens' => 30,
+                'prompt_tokens_details' => ['cached_tokens' => 1024],
+            ],
+        ];
+
+        $response = $openAI->converse($this->simpleRequest(), self::CONFIGURATION);
+
+        $this->assertSame(176, $response->getInputTokens());
+        $this->assertSame(1024, $response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+        $this->assertSame(30, $response->getOutputTokens());
+    }
+
+    public function testChatCompletionReportsCachedPromptTokensAsCacheReadsAndNotAsInput(): void
+    {
+        $openAI = new RecordingOpenAI();
+        $openAI->cannedResponse = [
+            'choices' => [['message' => ['content' => 'Hi.'], 'finish_reason' => 'stop']],
+            'usage' => [
+                'prompt_tokens' => 1200,
+                'completion_tokens' => 30,
+                'prompt_tokens_details' => ['cached_tokens' => 1024],
+            ],
+        ];
+
+        $response = $openAI->complete(new AIRequest('Hello', 'Test'), self::CONFIGURATION);
+
+        $this->assertSame('https://api.openai.com/v1/chat/completions', $openAI->sentUrl);
+        $this->assertSame(176, $response->getInputTokens());
+        $this->assertSame(1024, $response->getCacheReadTokens());
+        $this->assertNull($response->getCacheWriteTokens());
+        $this->assertSame(30, $response->getOutputTokens());
+        $this->assertNull($response->getCost());
     }
 
     public function testOpenAISupportsConversations(): void

@@ -17,8 +17,8 @@ if (!defined('PIWIK_USER_PATH')) {
 
 $errorLevel = E_ALL;
 
-// We cannot enable deprecations for PHP 8.4 until we are able to update php-di/php-di to a version compatible
-// with PHP 8.4. Otherwise deprecation notices would be triggered at a point where they break Matomo completely.
+// Matomo and several of its dependencies still declare implicitly nullable parameters, which PHP 8.4
+// deprecates. Keep deprecations silent there until those declarations are migrated.
 if (version_compare(PHP_VERSION, '8.4.0-dev', '>=')) {
     $errorLevel = E_ALL & ~E_DEPRECATED;
 }

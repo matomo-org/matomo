@@ -69,6 +69,8 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         }
         $ranges = $this->getBlockedIpRanges();
         $cache[BlockedIpRanges::OPTION_KEY] = $ranges->getBlockedRanges();
+        // not via SystemSettings: building it here would read the general cache that is being built
+        $cache[SystemSettings::TRACKER_CACHE_KEY_PREDATES_SPLIT] = SystemSettings::readInstallPredatesSplit();
     }
 
     public function isExcludedVisit(&$excluded, Request $request)

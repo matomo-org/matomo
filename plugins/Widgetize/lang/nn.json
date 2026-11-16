@@ -1,5 +1,21 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Opne i nytt vindage"
+        "DirectLink": "› Direktelenkje",
+        "DisplayDashboardInIframe": "Du kan òg vise heile oversiktspanelet i Matomo i applikasjonen eller på nettstaden din i ein IFRAME (%1$ssjå døme%2$s). Datoparameteren kan setjast til ein bestemt kalenderdato, «today» eller «yesterday». Periodeparameteren kan setjast til «day», «week», «month» eller «year». Språkparameteren kan setjast til språkkoden for ei omsetjing, til dømes language=fr. For idSite=1 og date=yesterday kan du til dømes skrive:",
+        "DisplayDashboardInIframeAllSites": "Du kan òg gjere oversiktspanelet for alle nettstader om til eit småprogram i ein IFRAME (%1$ssjå døme%2$s)",
+        "EmbedIframe": "&rsaquo; Bygg inn iframe",
+        "ErrorTokenAuthFailed": "Denne URL-en til småprogrammet kunne ikkje autentiserast med den oppgitte <code>token_auth</code>. URL-ar til småprogram fungerer berre med token som er oppretta utan kryss for «Tillat berre sikre førespurnader». Opprett eit token som kan brukast i URL-ar, på sida %1$sTryggleik%2$s, eller gi %3$sden anonyme brukaren visingstilgang%4$s for å byggje inn småprogrammet utan token.",
+        "ErrorTokenAuthFailedDisabledByPolicy": "Denne URL-en til småprogrammet kunne ikkje autentiserast, fordi tenarreglane i denne Matomo-instansen har skrudd av URL-basert <code>token_auth</code>. Gi %1$sden anonyme brukaren visingstilgang%2$s, eller hent småprogrammet gjennom ein proxy på tenarsida som sender tokenet via POST.",
+        "Intro": "Med Matomo kan du %1$seksportere nettanalyserapportane dine%2$s til bloggen, nettstaden eller oversiktspanelet på intranettet … med eitt klikk.",
+        "OpenInNewWindow": "Opne i nytt vindage",
+        "PluginDescription": "Vis kva Matomo-rapport som helst på nettstaden eller i appen din med ein enkel HTML-tagg for innbygging.",
+        "Reports": "Gjer rapportar om til småprogram",
+        "SelectAReport": "Vel ein rapport, og kopier og lim inn innbyggingskoden under småprogrammet på sida di:",
+        "TooHighAccessLevel": "Denne brukaren har superbrukartilgang. Det er ikkje tillate å byggje inn småprogram med autentiseringstoken for superbrukarar. %1$sSjå FAQ-en for meir informasjon.%2$s",
+        "TopLinkTooltip": "Eksporter Matomo-rapportar som småprogram og bygg inn oversiktspanelet i appen din som ein iframe.",
+        "UrlTokensDisabledByPolicy": "Tenarreglane i denne Matomo-instansen har skrudd av URL-basert <code>token_auth</code> (<code>only_allow_secure_auth_tokens</code> er skrudd på). URL-ar til småprogram kan ikkje autentiserast med ein tokenparameter. For å publisere desse småprogramma på ei passordverna side gir du %1$sden anonyme brukaren visingstilgang%2$s, eller hentar småprogramma gjennom ein proxy på tenarsida som sender tokenet via POST.",
+        "ViewAccessRequired": "Denne brukaren har minst noko skrivetilgang. Berre token frå brukarar som berre har visingstilgang, kan brukast. Sjå %1$s for meir informasjon.",
+        "ViewableAnonymously": "Viss du vil at alle skal kunne sjå småprogramma dine, må du først gi den anonyme brukaren visingsløyve («view») under %1$sBrukaradministrasjon%2$s. <br>Viss du publiserer småprogram på ei passordverna eller privat side, treng du ikkje nødvendigvis la «anonymous» sjå rapportane dine. Då kan du leggje til den hemmelege parameteren <code>token_auth</code> i URL-en til småprogrammet. Du kan administrere autentiseringstokena dine på sida %3$sTryggleik%4$s.",
+        "ViewableAnonymouslyUrlTokenRequirement": "Berre token som er oppretta utan kryss for «Tillat berre sikre førespurnader», kan brukast som URL-parameter. Token som er merkte som berre sikre, må sendast via POST og autentiserer ikkje ein URL til eit småprogram."
     }
 }

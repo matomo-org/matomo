@@ -121,8 +121,8 @@ class Updater
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
 
         if (!empty($responses)) {
-            $responseCliMulti = array_shift($responses);
-            $responseCliMulti = @json_decode($responseCliMulti, $assoc = true);
+            $rawResponseCliMulti = array_shift($responses);
+            $responseCliMulti = @json_decode($rawResponseCliMulti, $assoc = true);
             if (is_array($responseCliMulti)) {
                 // we expect a json encoded array response from oneClickUpdatePartTwo. Otherwise something went wrong.
                 $messages = array_merge($messages, $responseCliMulti);
@@ -135,12 +135,13 @@ class Updater
                     if (!empty($response) && is_array($response)) {
                         $messages = array_merge($messages, $response);
                     }
-                } catch (Exception $e) {
+                } catch (\Throwable $e) {
                     // ignore any error should this fail too. this might be the case eg if
                     // the user upgrades from one major version to another major version
-                    if (is_string($responseCliMulti)) {
+                    $reason = is_string($rawResponseCliMulti) ? trim(strip_tags($rawResponseCliMulti)) : '';
+                    if ($reason !== '') {
                         // show why the original request failed eg invalid ssl certificate
-                        $messages[] = self::MESSAGE_FAILED_PREFIX . $responseCliMulti;
+                        $messages[] = self::MESSAGE_FAILED_PREFIX . mb_substr($reason, 0, 500);
                     }
                 }
             }

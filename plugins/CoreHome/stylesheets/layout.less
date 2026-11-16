@@ -22,7 +22,7 @@ ul.browser-default {
   }
 
   .nav-wrapper {
-    border-bottom: 1px solid @theme-color-border-alternative;
+    border-bottom: 1px solid @theme-color-border;
   }
 
   .brand-logo {
@@ -245,6 +245,11 @@ ul.browser-default {
     display: flex;
     flex-direction: column;
     width: 100%;
+  }
+
+  // stands in for the top margin .top_controls would have given
+  .layoutWithSidebarContent--noTopControls {
+    padding-top: 24px;
   }
 
   & .top_controls {

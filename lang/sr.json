@@ -192,7 +192,6 @@
         "ExceptionFileIntegrity": "Provera integriteta nije uspela: %s",
         "ExceptionFileToDelete": "Fajl za brisanje: %s",
         "ExceptionFilesizeMismatch": "Veličina datoteke se ne poklapa: %1$s (očekivana veličina: %2$s, zatečena: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Vaša %1$s klijentska verzija je %2$s što je nekompatibilno sa serverskom verzijom %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Format '%1$s' nije validan. Pokušajte neki od ovih: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Vreme mora biti predstavljeno brojem sekundi koje je veće od nule.",
         "ExceptionInvalidDateFormat": "Oblik datima mora da bude: %1$s ili bilo koja ključna reč podržana od strane funkcije %2$s (pogledajte %3$s za više informacija)",

@@ -280,6 +280,26 @@ class Mysql implements SchemaInterface
                                         ) $tableOptions
             ",
 
+            'log_page_view_time' => "CREATE TABLE {$prefixTables}log_page_view_time (
+                                        idpageviewtime BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                        idsite INTEGER(10) UNSIGNED NOT NULL,
+                                        idvisit BIGINT(10) UNSIGNED NOT NULL,
+                                        idlink_va BIGINT(10) UNSIGNED NOT NULL,
+                                        idpageview CHAR(6) CHARACTER SET ascii COLLATE ascii_bin NULL DEFAULT NULL,
+                                        idaction_url INTEGER(10) UNSIGNED NULL DEFAULT NULL,
+                                        idaction_name INTEGER(10) UNSIGNED NULL DEFAULT NULL,
+                                        server_time DATETIME NOT NULL,
+                                        time_spent INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+                                          PRIMARY KEY(idpageviewtime),
+                                          UNIQUE KEY unique_idvisit_idlink_va (idvisit, idlink_va),
+                                          INDEX index_idvisit_idpageview (idvisit, idpageview),
+                                          INDEX index_idvisit_server_time (idvisit, server_time),
+                                          INDEX index_idsite_server_time (idsite, server_time),
+                                          INDEX index_idvisit_idaction_url_time (idvisit, idaction_url, time_spent),
+                                          INDEX index_idvisit_idaction_name_time (idvisit, idaction_name, time_spent)
+                                        ) $tableOptions
+            ",
+
             'log_profiling'   => "CREATE TABLE {$prefixTables}log_profiling (
                                   query TEXT NOT NULL,
                                   count INTEGER UNSIGNED NULL,
@@ -372,7 +392,27 @@ class Mysql implements SchemaInterface
                                             processing_host VARCHAR(100) NULL DEFAULT NULL,
                                             process_id VARCHAR(15) NULL DEFAULT NULL,
                                             PRIMARY KEY(idinvalidation),
-                                            INDEX index_idsite_dates_period_name(idsite, date1, period)
+                                            INDEX index_idsite_dates_period_name(idsite, date1, period),
+                                            INDEX index_idsite_status_date1_period(idsite, status, date1, period)
+                                        ) $tableOptions
+            ",
+
+            'archive_failures' => "CREATE TABLE `{$prefixTables}archive_failures` (
+                                            idfailure BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                            idsite INTEGER UNSIGNED NOT NULL,
+                                            name VARCHAR(255) NOT NULL,
+                                            period TINYINT UNSIGNED NOT NULL,
+                                            date1 DATE NOT NULL,
+                                            date2 DATE NOT NULL,
+                                            `report` VARCHAR(255) NOT NULL DEFAULT '',
+                                            archive_hash CHAR(32) NOT NULL,
+                                            attempts SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+                                            last_error TEXT NULL,
+                                            ts_first_failed DATETIME NOT NULL,
+                                            ts_last_failed DATETIME NOT NULL,
+                                            ts_retry_after DATETIME NOT NULL,
+                                            PRIMARY KEY(idfailure),
+                                            UNIQUE KEY unique_archive(idsite, archive_hash, period, date1, date2)
                                         ) $tableOptions
             ",
 
@@ -406,6 +446,16 @@ class Mysql implements SchemaInterface
                                       `value` VARCHAR(255) NULL DEFAULT NULL,
                                       `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
                                       PRIMARY KEY (`key`)
+                                  ) $tableOptions
+            ",
+            'plugin_trial_request'    => "CREATE TABLE `{$prefixTables}plugin_trial_request` (
+                                      `idrequest` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `plugin_name` VARCHAR(60) NOT NULL,
+                                      `login` VARCHAR(100) NULL,
+                                      `ts_requested` DATETIME NOT NULL,
+                                      PRIMARY KEY(`idrequest`),
+                                      INDEX index_plugin_name_ts_requested (`plugin_name`, `ts_requested`),
+                                      UNIQUE INDEX index_login_plugin_name (`login`, `plugin_name`)
                                   ) $tableOptions
             ",
             'changes'             => "CREATE TABLE `{$prefixTables}changes` (
@@ -806,16 +856,8 @@ class Mysql implements SchemaInterface
 
     public function isOptimizeInnoDBSupported(): bool
     {
-        $version = strtolower($this->getVersion());
-
-        // Note: This check for MariaDb is here on purpose, so it's working correctly for people
-        // having MySQL still configured, when using MariaDb
-        if (!str_contains($version, "mariadb")) {
-            return false;
-        }
-
-        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
-        return version_compare($semanticVersion, '10.1.1', '>=');
+        // MariaDB supports it; this also covers MariaDB running with the MySQL schema configured
+        return str_contains(strtolower($this->getVersion()), 'mariadb');
     }
 
     public function supportsRankingRollupWithoutExtraSorting(): bool

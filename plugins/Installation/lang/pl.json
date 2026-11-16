@@ -129,7 +129,6 @@
         "SystemCheckUpdateHttps": "Aktualizacja przez HTTPS",
         "SystemCheckViewFullSystemCheck": "Przeglądaj pełny raport ze sprawdzenia systemu",
         "SystemCheckWarnDomHelp": "Rozszerzenie \"dom\" winno być włączone (np., instalując pakiety \"php-dom\" i/lub pakiet \"php-xml\").",
-        "SystemCheckWarnJsonHelp": "Należy aktywować rozszerzenie \"JSON\" (np. poprzez zainstalowanie pakietu \"php-json\").",
         "SystemCheckWarnLibXmlHelp": "Rozszerzenie \"libxml\" winno być włączone (np., instalując pakiet \"php-libxml\") tak jak jest to wymagane przez inne rozszerzenia jądra PHP.",
         "SystemCheckWarnOpensslHelp": "Należy aktywować rozszerzenie \"OpenSSL\", aby umożliwić bezpieczne aktualizacje.",
         "SystemCheckWarnSimpleXMLHelp": "Rozszerzenie \"SimpleXML\" winno być włączone (np., instalując pakiety \"php-simplexml\" i/lub \"php-xml\").",

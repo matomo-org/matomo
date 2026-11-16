@@ -65,7 +65,6 @@
         "ExceptionDatabaseVersion": "თქვენი %1$s ვერსია არის %2$s, მაგრამ Matomo მოითხოვს არანაკლებ %3$s.",
         "ExceptionFileIntegrity": "მთლიანობის შემოწმების შეცდომა: %s",
         "ExceptionFilesizeMismatch": "ფაილის ზომა არ ემთხვევა: %1$s (მოითხოვებოდა ზომა: %2$s, არის: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "თქვენი %1$s კლიენტის ვერსია არის %2$s, რაც არ არის თავსებადი სერვერის ვერსიასთან %3$s.",
         "ExceptionInvalidArchiveTimeToLive": "დღეს არქივის სიცოცხლის დროის წამების რაოდენობა მეტი უნდა იყოს ნულზე",
         "ExceptionInvalidDateFormat": "თარიღის ფორმატი უნდა იყოს: %1$s ან რაიმე საკვანძო სიტყვა, რომელსაც %2$s ფუნქციის მხარდაჭერა აქვს (დამატებითი ინფორმაციისთვის იხ. %3$s)",
         "ExceptionInvalidDateRange": "თარიღი '%1$s' არ არის კორექტულად მითითებული. მას უნდა ქონდეს ასეთი ფორმატი: %2$s.",

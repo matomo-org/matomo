@@ -140,6 +140,233 @@ describe('Live/SegmentVisitorLog row action', () => {
     );
   });
 
+  describe('on a comparison row', () => {
+    const REPORT_SEGMENT = 'countryCode==it';
+    const COMPARED_SEGMENT = 'countryCode==de';
+
+    // Comparison rows carry their series' segment (none for "All visits"), period and date in
+    // data-param-override, rendered by CoreVisualizations/templates/_dataTableViz_htmlTable_comparisons.twig
+    const setUpComparisonRow = (seriesSegment: string | null, suffix: string, rowFilter = CATEGORY_ROW_SEGMENT) => {
+      const paramOverride: Record<string, string> = {
+        period: 'month',
+        comparePeriods: '',
+        date: '2026-07-15',
+        compareDates: '',
+      };
+      if (seriesSegment) {
+        paramOverride.segment = seriesSegment;
+        paramOverride.compareSegments = '';
+      }
+      window.$('#segment-row')
+        .addClass('comparisonRow')
+        .attr('data-segment-filter', rowFilter)
+        .attr('data-param-override', JSON.stringify(paramOverride));
+
+      rowActionInstance = (window as any).DataTable_RowActions_Registry.getActionByName('SegmentVisitorLog').createInstance({
+        param: {
+          module: 'Goals',
+          action: 'getReferrerType',
+          segment: REPORT_SEGMENT,
+          date: '2026-08-15',
+          period: 'month',
+          idSite: 1,
+        },
+        props: {
+          segmented_visitor_log_segment_suffix: suffix,
+        },
+      });
+      openPopoverSpy = vi.spyOn(rowActionInstance, 'openPopover').mockImplementation(() => undefined);
+    };
+
+    // The report row the comparison rows belong to, with the filter it has once the report's queued
+    // filters ran (Referrers prepends referrerType==campaign after the comparison rows are built)
+    const CAMPAIGN_ROW_SEGMENT = 'referrerName==Google';
+    const CAMPAIGN_REPORT_ROW_SEGMENT = `referrerType==campaign;${CAMPAIGN_ROW_SEGMENT}`;
+    const addReportRow = (reportRowFilter: string, comparisonRowsInBetween = 0) => {
+      const row = window.$('#segment-row');
+      row.before(`<tr class="parentComparisonRow" data-segment-filter="${reportRowFilter}"></tr>`);
+      for (let i = 0; i < comparisonRowsInBetween; i += 1) {
+        const filter = `${COMPARED_SEGMENT};${CAMPAIGN_ROW_SEGMENT}`;
+        row.before(`<tr class="comparisonRow" data-segment-filter="${filter}"></tr>`);
+      }
+    };
+
+    it('should keep the visitor log suffix instead of letting the row override replace the segment', () => {
+      setUpComparisonRow(REPORT_SEGMENT, SUFFIX_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        `${REPORT_SEGMENT};${SUFFIX_SEGMENT}`,
+        expect.objectContaining({
+          intersectSegment: CATEGORY_ROW_SEGMENT,
+        }),
+      );
+      expect(openPopoverSpy.mock.calls[0][2]).not.toHaveProperty('segment');
+    });
+
+    it('should use the segment of a compared series instead of the report segment', () => {
+      setUpComparisonRow(COMPARED_SEGMENT, SUFFIX_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        `${COMPARED_SEGMENT};${SUFFIX_SEGMENT}`,
+        expect.objectContaining({
+          intersectSegment: CATEGORY_ROW_SEGMENT,
+        }),
+      );
+    });
+
+    it('should not apply the report segment to a row of the "All visits" series', () => {
+      setUpComparisonRow(null, '');
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        CATEGORY_ROW_SEGMENT,
+        expect.not.objectContaining({
+          intersectSegment: expect.anything(),
+        }),
+      );
+    });
+
+    it('should use only the suffix as the main segment for a row of the "All visits" series', () => {
+      setUpComparisonRow(null, SUFFIX_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        SUFFIX_SEGMENT,
+        expect.objectContaining({
+          intersectSegment: CATEGORY_ROW_SEGMENT,
+        }),
+      );
+    });
+
+    it('should pass an encoded series segment through without decoding it again', () => {
+      const encodedSeriesSegment = 'countryName==United%2520States';
+      setUpComparisonRow(encodedSeriesSegment, '');
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        encodedSeriesSegment,
+        expect.objectContaining({
+          intersectSegment: CATEGORY_ROW_SEGMENT,
+        }),
+      );
+    });
+
+    it('should send the filter of the report row instead of the comparison row filter', () => {
+      // The comparison row filter starts with the series segment and misses referrerType==campaign
+      setUpComparisonRow(COMPARED_SEGMENT, '', `${COMPARED_SEGMENT};${CAMPAIGN_ROW_SEGMENT}`);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        COMPARED_SEGMENT,
+        expect.objectContaining({
+          intersectSegment: CAMPAIGN_REPORT_ROW_SEGMENT,
+        }),
+      );
+    });
+
+    it('should send the filter of the report row and still keep the suffix', () => {
+      setUpComparisonRow(COMPARED_SEGMENT, SUFFIX_SEGMENT, `${COMPARED_SEGMENT};${CAMPAIGN_ROW_SEGMENT}`);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        `${COMPARED_SEGMENT};${SUFFIX_SEGMENT}`,
+        expect.objectContaining({
+          intersectSegment: CAMPAIGN_REPORT_ROW_SEGMENT,
+        }),
+      );
+    });
+
+    it('should send the filter of the report row for a row of the "All visits" series', () => {
+      setUpComparisonRow(null, '', CAMPAIGN_ROW_SEGMENT);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        CAMPAIGN_REPORT_ROW_SEGMENT,
+        expect.not.objectContaining({
+          intersectSegment: expect.anything(),
+        }),
+      );
+    });
+
+    it('should find the report row from a comparison row further down the series', () => {
+      setUpComparisonRow(COMPARED_SEGMENT, '', `${COMPARED_SEGMENT};${CAMPAIGN_ROW_SEGMENT}`);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT, 2);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        COMPARED_SEGMENT,
+        expect.objectContaining({
+          intersectSegment: CAMPAIGN_REPORT_ROW_SEGMENT,
+        }),
+      );
+    });
+
+    it('should keep the comparison row filter when there is no report row filter to use', () => {
+      setUpComparisonRow(COMPARED_SEGMENT, '', COMPARED_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        COMPARED_SEGMENT,
+        expect.objectContaining({
+          intersectSegment: COMPARED_SEGMENT,
+        }),
+      );
+    });
+
+    it('should not take the filter of an earlier report row when its own report row has none', () => {
+      // e.g. a "not defined" row, which renders an empty filter
+      setUpComparisonRow(COMPARED_SEGMENT, '', COMPARED_SEGMENT);
+      addReportRow(CAMPAIGN_REPORT_ROW_SEGMENT);
+      addReportRow('');
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy).toHaveBeenCalledWith(
+        'Goals.getReferrerType',
+        COMPARED_SEGMENT,
+        expect.objectContaining({
+          intersectSegment: COMPARED_SEGMENT,
+        }),
+      );
+    });
+
+    it('should still open the period of the clicked comparison row', () => {
+      setUpComparisonRow(REPORT_SEGMENT, SUFFIX_SEGMENT);
+
+      rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+      expect(openPopoverSpy.mock.calls[0][2]).toEqual(expect.objectContaining({
+        date: '2026-07-15',
+        period: 'month',
+      }));
+    });
+  });
+
   it('should preserve intersectSegment through the popover URL round-trip and pass it to the visitor log', () => {
     // The cases above stop at openPopover, before doOpenPopover() re-parses the serialized payload
     // and runs it through the allowlist filter. This drives the full round-trip to prove

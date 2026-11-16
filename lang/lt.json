@@ -113,7 +113,6 @@
         "ExceptionFileIntegrity": "Nesėkminga vientisumo patikra: %s",
         "ExceptionFileToDelete": "Failas, kurį ištrinti: %s",
         "ExceptionFilesizeMismatch": "Nesutampa failo dydis: %1$s (turi būti: %2$s, rasta: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Jūsų %1$s kliento versija yra %2$s, kuri yra nesuderinama su serverio %3$s versija.",
         "ExceptionInvalidArchiveTimeToLive": "Šiandienos archyvo saugojimo laikas turi būti nurodytas sekundėmis ir reikšme didesne už nulį",
         "ExceptionInvalidDateFormat": "Datos formatas turi būti: %1$s ar bet kuris raktažodis palaikomas %2$s funkcijos (žiūrėkite %3$s išsamesnei informacijai gauti)",
         "ExceptionInvalidDateRange": "Data '%1$s' yra iš klaidingo diapazono. Ji turi būti šio formato: %2$s.",

@@ -1,72 +1,87 @@
-.inlineHelp {
-    display: none;
-}
-
+// Everything stays in the inline flow: the title wraps over the whole width and the icons bar
+// follows its last word, taking room from that line alone. Laid over the row instead, the icons
+// ended up under the controls beside the heading.
+//
+// A last word too long to share a line with the bar, eg. "Bildschirmauflösungen" in a narrow
+// dashboard column, leaves the bar on a line of its own: breaking inside the word reads worse.
 .enrichedHeadline {
     min-height: 22px;
 
-    // Not `.title`: that is the hook this component and SegmentedVisitorLog read the text
-    // from, and it is shared with the non-editable case.
-    .enrichedHeadline__editableTitle {
+    .enrichedHeadline__title {
+        // Inline rather than inline-block, which would push the bar onto a line of its own.
+        display: inline;
+    }
+
+    .enrichedHeadline__title--editable {
         cursor: pointer;
-        // an editable title still takes the colour of its heading, not the link colour
         color: inherit;
     }
 
-    .title {
-        display: inline-block;
-    }
-
-    .inlineHelp {
+    // Spaced here rather than on the panel, which a host may render elsewhere.
+    .enrichedHeadline__help {
         display: block;
-        background: @theme-color-background-base;
-        font-size: 12px;
-        line-height: 1.1;
-        font-weight: normal;
-        border: 1px solid @theme-color-border-alternative;
-        margin: 10px 0 10px 0;
-        padding: 10px;
-        border-radius: 2px;
+        margin: 10px 0;
 
-        .readMore {
-            margin-top: 10px;
-            display: inline-block;
-            font-weight: bold;
+        // empty while the panel is closed, and for good once a host has taken it
+        &:empty {
+            display: none;
         }
     }
 
-    .iconsBar {
-        line-height: 1 !important;
+    // Keeps the bar on the title's last word, so it never sits alone on a line at rest: the word
+    // joiner forbids a break before the bar, `nowrap` one inside it. A space between the title
+    // and the glue is still a break opportunity.
+    .enrichedHeadline__iconsGlue {
+        display: inline;
+        white-space: nowrap;
+    }
+
+    // Generated, so it stays out of the heading's text, which code reads the report name from.
+    // The empty alternative text hides it from assistive technologies; an engine that does not
+    // know that syntax keeps the first declaration.
+    .enrichedHeadline__iconsGlue::before {
+        content: "\2060";
+        content: ~'"\2060" / ""';
+    }
+
+    // Hidden rather than taken out of the flow, so the title does not move when the icons show.
+    .enrichedHeadline__iconsBar {
         display: inline-flex;
         align-items: center;
+        // One line tall and aligned to its top, so the icons centre on the line without growing
+        // it, which the 22px rating icons would on the baseline.
+        height: 1lh;
+        vertical-align: top;
+        visibility: hidden;
     }
 
-    .ratingIcons {
-        display: inline-block;
-        vertical-align: middle;
+    .enrichedHeadline__iconsBar--visible {
+        visibility: visible;
+    }
+
+    // Line height 1 here and on the help icon: with the title's, the rating icons sit 6px high.
+    .enrichedHeadline__ratingIcons {
         margin-left: 6px;
-
-        img {
-          filter: @theme-filter-on-illustration;
-        }
+        line-height: 1;
     }
 
-    .helpIcon {
+    .enrichedHeadline__helpIcon {
         cursor: pointer;
-        display: inline-block;
-        margin-bottom: -1px;
         margin-left: 8px;
         opacity: 0.4;
         font-size: 16px;
+        line-height: 1;
+        // `!important` here and below: in a card title, _cards.less forces the text colour on
+        // every link with an `!important` of its own.
         color: @theme-color-text-light !important;
         text-decoration: none;
+    }
 
-        &:hover, &.active {
-            color: @theme-color-link !important;
-            opacity: 0.9;
-            text-decoration: none;
-        }
+    // Same specificity as the rule above, so it has to stay below it to win.
+    .enrichedHeadline__helpIcon:hover,
+    .enrichedHeadline__helpIcon--active {
+        color: @theme-color-link !important;
+        opacity: 0.9;
+        text-decoration: none;
     }
 }
-
-

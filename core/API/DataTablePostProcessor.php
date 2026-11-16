@@ -370,7 +370,6 @@ class DataTablePostProcessor
                 !empty($goalsToProcess)
                 && count($goalsToProcess) == 1
                 && $goalsToProcess[0] !== '0'
-                && $goalsToProcess[0] !== 0
             ) {
                 $defaultIdGoal = $goalsToProcess[0];
             } else {
@@ -571,7 +570,7 @@ class DataTablePostProcessor
      * (ie, label=...) or array (ie, label[]=...).
      *
      * @param array $request
-     * @return array
+     * @return array<mixed>|string
      */
     public static function getLabelFromRequest($request)
     {

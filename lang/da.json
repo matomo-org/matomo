@@ -201,7 +201,6 @@
         "ExceptionFileIntegrity": "Integritetstjek mislykkedes: %s",
         "ExceptionFileToDelete": "Slet fil: %s",
         "ExceptionFilesizeMismatch": "Fil størrelse passer ikke: %1$s (forventet længde: %2$s, fundet: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "%1$s klient version er %2$s, som er uforenelig med server version %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Sammenfattende rapportformat '%1$s' ikke gyldigt. Prøv en af følgende i stedet: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Levetiden på \"I dag arkiv\" skal være et antal sekunder større end nul",
         "ExceptionInvalidDateBeforeFirstWebsite": "Datoen '%1$s' er en dato før hjemmesiden gik i luften. Forsøg med en dato efter %2$s (tidsstempel %3$s).",

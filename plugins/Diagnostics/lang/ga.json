@@ -18,7 +18,6 @@
         "DatabaseReaderConnection": "Nasc Léitheoir Bunachar Sonraí",
         "DatabaseUtf8Requirement": "Ní mór é seo a bheith in ann carachtair 4-bheart UTF8 a stóráil. Mura bhfuil utf8mb4 ar fáil cuirfear %1$s in ionad carachtair speisialta ar nós emojis, carachtair as teangacha Áiseacha nach bhfuil chomh coitianta, scripteanna stairiúla éagsúla nó siombailí matamaitice. Is féidir leat tuilleadh sonraí a léamh faoin ábhar seo i %2$s na Ceisteanna Coitianta seo%3$s.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Tacaíonn do bhunachar sonraí le tacar charn utf8mb4, ach níor tiontaíodh táblaí do bhunachar sonraí fós. Is féidir leat é seo a dhéanamh tríd an ordú %1$s a rith nó an tiontú uathoibríoch sna Socruithe Ginearálta a ghníomhachtú.",
-        "DatabaseUtf8mb4CharsetRecommended": "Ní thacaíonn do bhunachar sonraí le tacar carachtair utf8mb4 fós.",
         "EnableRequiredDirectoriesDiagnostic": "Léiríodh an tseiceáil seo toisc go bhfuil an tseiceáil seo díchumasaithe sa chumraíocht. Chun an tseiceáil seo a chumasú, leag [Ginearálta] enable_required_directories_diagnostic = 1 sa chomhad \"config/config.ini.php\".",
         "HideUnchanged": "Mura dteastaíonn uait ach luachanna athraithe a fheiceáil is féidir leat %1$s gach luach gan athrú %2$s a cheilt.",
         "HtaccessWarningNginx": "Chun a chinntiú nach féidir teacht ar chomhaid íogair go díreach, moltar do fhreastalaí gréasáin a chumrú chun rochtain ar eolairí áirithe a shrianadh. Le haghaidh tuilleadh eolais, féach cumraíocht oifigiúil freastalaí nginx %1$s %2$s",

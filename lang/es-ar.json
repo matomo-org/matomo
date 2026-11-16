@@ -191,7 +191,6 @@
         "ExceptionFileIntegrity": "Falló la verificación de integridad: %s",
         "ExceptionFileToDelete": "Archivo a eliminar: %s",
         "ExceptionFilesizeMismatch": "Tamaño de archivo incorrecto: %1$s (se esperaba %2$s, se encontró: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "La versión de tu cliente %1$s %2$s es incompatible con la versión del servidor %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "El formato de informes de agregado \";%1$s\"; no es válido. Probá alguno de los siguientes en su lugar: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "El archivo de hoy debe tener un tiempo de vida en segundos mayor a cero",
         "ExceptionInvalidDateBeforeFirstWebsite": "La fecha \"%1$s\" es anterior al primer sitio web en línea. Intentá con una fecha que sea posterior a %2$s (estampa de tiempo %3$s).",

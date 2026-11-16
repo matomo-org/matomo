@@ -195,8 +195,7 @@ class SettingsServer
     /**
      * Get php memory_limit (in Megabytes)
      *
-     * Prior to PHP 5.2.1, or on Windows, --enable-memory-limit is not a
-     * compile-time default, so ini_get('memory_limit') may return false.
+     * ini_get('memory_limit') may return false when no limit is configured.
      *
      * @return int|float|string|false  memory limit in megabytes, or false if there is no limit
      */

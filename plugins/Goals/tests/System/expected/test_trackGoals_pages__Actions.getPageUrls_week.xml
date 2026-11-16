@@ -4,7 +4,7 @@
 		<label>page_A</label>
 		<nb_visits>12</nb_visits>
 		<nb_hits>14</nb_hits>
-		<sum_time_spent>4320</sum_time_spent>
+		<sum_time_spent>5040</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -50,7 +50,7 @@
 		<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
 		<entry_nb_actions_percent_of_total>100%</entry_nb_actions_percent_of_total>
 		<exit_nb_visits_percent_of_total>28.6%</exit_nb_visits_percent_of_total>
-		<avg_time_on_page>309</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>17%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage_A</segment>
@@ -59,7 +59,7 @@
 				<label>/index.html</label>
 				<nb_visits>7</nb_visits>
 				<nb_hits>9</nb_hits>
-				<sum_time_spent>2880</sum_time_spent>
+				<sum_time_spent>3240</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -106,7 +106,7 @@
 				<entry_nb_visits_percent_of_total>100%</entry_nb_visits_percent_of_total>
 				<entry_nb_actions_percent_of_total>100%</entry_nb_actions_percent_of_total>
 				<exit_nb_visits_percent_of_total>14.3%</exit_nb_visits_percent_of_total>
-				<avg_time_on_page>320</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>14%</exit_rate>
 				<url>http://example.org/page_A/index.html</url>
@@ -116,7 +116,7 @@
 				<label>/Z</label>
 				<nb_visits>3</nb_visits>
 				<nb_hits>3</nb_hits>
-				<sum_time_spent>720</sum_time_spent>
+				<sum_time_spent>1080</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -147,7 +147,7 @@
 				<nb_visits_percent_of_total>14.3%</nb_visits_percent_of_total>
 				<nb_hits_percent_of_total>12%</nb_hits_percent_of_total>
 				<exit_nb_visits_percent_of_total>14.3%</exit_nb_visits_percent_of_total>
-				<avg_time_on_page>240</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
 				<url>http://example.org/page_A/Z</url>
@@ -266,7 +266,7 @@
 		<label>/page_C</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>6</nb_hits>
-		<sum_time_spent>720</sum_time_spent>
+		<sum_time_spent>2880</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -299,7 +299,7 @@
 		<nb_visits_percent_of_total>19%</nb_visits_percent_of_total>
 		<nb_hits_percent_of_total>24%</nb_hits_percent_of_total>
 		<exit_nb_visits_percent_of_total>57.1%</exit_nb_visits_percent_of_total>
-		<avg_time_on_page>120</avg_time_on_page>
+		<avg_time_on_page>480</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/page_C</url>

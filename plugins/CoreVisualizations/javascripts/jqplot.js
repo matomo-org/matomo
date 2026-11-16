@@ -51,7 +51,12 @@ function updateLegendFooterStacking($legendFooter)
     // 0 when the footer isn't laid out yet (e.g. display:none); skip so we don't flip-flop
     var width = $legendFooter[0].clientWidth;
     if (width > 0) {
-        $legendFooter.toggleClass('is-narrow', width < FOOTER_STACK_MAX_WIDTH);
+        var isNarrow = width < FOOTER_STACK_MAX_WIDTH;
+        $legendFooter.toggleClass('is-narrow', isNarrow);
+        // The picker is a shared selector, so the layout that knows it is stacked is what puts
+        // the modifier on it. Styling it from the footer would reach into another block.
+        $legendFooter.find('.jqplot-legend-picker .mtm-selector')
+            .toggleClass('mtm-selector--fullWidth', isNarrow);
     }
 }
 
@@ -330,11 +335,16 @@ function applyFooterLegendRowLimit($dataTable)
                 },
                 axesDefaults: {
                     pad: 1.0,
-                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    // DOM labels rather than canvas ones: canvas ticks are sized from a rounded-down
+                    // text width and a box one font-size tall, which cuts off label edges on
+                    // scaled displays and in the exported image
+                    tickRenderer: $.jqplot.AxisTickRenderer,
                     tickOptions: {
                         showMark: false,
                         fontSize: '11px',
-                        fontFamily: getLabelFontFamily()
+                        fontFamily: getLabelFontFamily(),
+                        // bar graph ticks are report row labels, so insert them as text, not HTML
+                        escapeHTML: true
                     },
                     rendererOptions: {
                         drawBaseline: false
@@ -700,15 +710,11 @@ function applyFooterLegendRowLimit($dataTable)
 
             for (var i = 0; i < canvases.length; i++) {
                 var canvas = canvases.eq(i);
-                var position = canvas.position();
-                var parent = canvas.parent();
-                if (parent.hasClass('jqplot-axis')) {
-                    var addPosition = parent.position();
-                    position.left += addPosition.left;
-                    position.top += addPosition.top + parseInt(parent.css('marginTop'), 10);
-                }
+                var position = this.getExportPosition(canvas);
                 exportCtx.drawImage(canvas[0], Math.round(position.left * pixelRatio), Math.round(position.top * pixelRatio));
             }
+
+            this.drawAxisTicksForExport(exportCtx, container, pixelRatio);
 
             if (hasFooterLegend) {
                 this.drawLegendForExport(
@@ -749,6 +755,50 @@ function applyFooterLegendRowLimit($dataTable)
                 close: function (event, ui) {
                     $(this).dialog("destroy").remove();
                 }
+            });
+        },
+
+        // Position of an element inside the plot container. Axis children are positioned
+        // within their axis div, so add the axis's own offset and margins, which position() leaves out.
+        getExportPosition: function ($element) {
+            var position = $element.position();
+            var $parent = $element.parent();
+            if ($parent.hasClass('jqplot-axis')) {
+                var parentPosition = $parent.position();
+                position.left += parentPosition.left + (parseInt($parent.css('marginLeft'), 10) || 0);
+                position.top += parentPosition.top + (parseInt($parent.css('marginTop'), 10) || 0);
+            }
+            return position;
+        },
+
+        // Axis tick labels are DOM text, so they are not among the copied canvases. Redraw
+        // each one onto the export canvas with the position, font and colour it has on screen.
+        drawAxisTicksForExport: function (ctx, container, pixelRatio) {
+            var self = this;
+            container.find('.jqplot-axis').children().each(function () {
+                var $tick = $(this);
+                var text = $tick.text();
+                // skip canvases (already copied) and the ticks _checkTicksWidth() blanked out
+                if (this.tagName === 'CANVAS' || !$.trim(text)) {
+                    return;
+                }
+
+                var position = self.getExportPosition($tick);
+                var fontSize = parseFloat($tick.css('font-size')) || 11;
+                var alignRight = $tick.css('text-align') === 'right';
+
+                ctx.save();
+                ctx.font = Math.round(fontSize * pixelRatio) + 'px '
+                    + ($tick.css('font-family') || require('piwik/UI').getLabelFontFamily());
+                ctx.fillStyle = $tick.css('color') || '#666666';
+                ctx.textAlign = alignRight ? 'right' : 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(
+                    text,
+                    (position.left + (alignRight ? $tick.outerWidth() : 0)) * pixelRatio,
+                    (position.top + $tick.outerHeight() / 2) * pixelRatio
+                );
+                ctx.restore();
             });
         },
 
@@ -1678,6 +1728,13 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             $pickerSlot.empty().append(this.domElem);
             $legendFooter.addClass('has-picker');
             updateLegendFooterStacking($legendFooter);
+        });
+
+        // Again once the picker has drawn itself: the event above fires before its Vue app
+        // mounts, so the selector that carries the stacked layout is not in the DOM yet.
+        $(seriesPicker).bind('seriesPickerRendered', function () {
+            var $dataTable = $(plot.targetId).closest('.dataTable');
+            updateLegendFooterStacking(getOrCreateLegendFooter($dataTable));
         });
 
         // handle seriesPicked event

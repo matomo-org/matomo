@@ -175,8 +175,7 @@ class ControllerTest extends IntegrationTestCase
         @$document->loadHTML($html);
         $xpath = new \DOMXPath($document);
 
-        // The management table renders sparklines through the sparkline() Twig helper.
-        // refreshSparklines() honors the img width/height as the display size, so the helper
+        // refreshSparklines() honors the img width/height as the display size, so the table
         // must keep requesting the compact 100x25 size here (see PR #24927).
         $sparklineImages = $xpath->query('//td[contains(@class,"entityTable_Sparkline")]//img');
         $this->assertNotFalse($sparklineImages);
@@ -189,6 +188,11 @@ class ControllerTest extends IntegrationTestCase
             $this->assertNotNull($heightNode);
             $this->assertSame('100', $widthNode->nodeValue);
             $this->assertSame('25', $heightNode->nodeValue);
+
+            // manageSegmentsPage.js sets data-src one row at a time.
+            $this->assertNull($sparklineImage->attributes->getNamedItem('src'));
+            $this->assertNull($sparklineImage->attributes->getNamedItem('data-src'));
+            $this->assertNotEmpty($sparklineImage->attributes->getNamedItem('data-segment-sparkline-src')->nodeValue ?? '');
         }
     }
 

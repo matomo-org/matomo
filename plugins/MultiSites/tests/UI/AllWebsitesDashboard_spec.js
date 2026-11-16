@@ -152,7 +152,7 @@ describe('AllWebsitesDashboard', function () {
             await page.goto(dashboardUrl);
             await page.waitForNetworkIdle();
 
-            await page.hover('.kpiCardContainer .kpiCard:first-child .kpiCardValue');
+            await page.hover('.kpiCardContainer .kpiCard:first-child .kpiCard__value');
             await page.waitForSelector('.ui-tooltip', { visible: true });
 
            expect(await page.screenshotSelector('.kpiCardContainer')).to.matchImage('dashboard_badge_tooltip');
@@ -176,8 +176,8 @@ describe('AllWebsitesDashboard', function () {
             await page.click('.move-period-next');
             await page.waitForNetworkIdle();
 
-            await page.waitForSelector('.kpiCardBadge');
-            await page.hover('.kpiCardBadge');
+            await page.waitForSelector('.kpiCard__badge:not(.kpiCard__badge--empty)');
+            await page.hover('.kpiCard__badge:not(.kpiCard__badge--empty)');
             await page.waitForSelector('.ui-tooltip', { visible: true });
 
             expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_badge_tooltip_badge');
@@ -472,6 +472,92 @@ describe('AllWebsitesDashboard', function () {
             await page.webpage.setViewport({ width: 352, height: 1024 });
 
             expect(await page.screenshotSelector('#main')).to.matchImage('dashboard_mobile_no_revenue');
+        });
+    });
+
+    describe('KPI layout', function () {
+        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
+
+        after(function () {
+            delete testEnvironment.pluginsToUnload;
+            testEnvironment.save();
+        });
+
+        async function loadWithout(plugins) {
+            testEnvironment.pluginsToUnload = plugins;
+            testEnvironment.save();
+
+            await page.goto(dashboardUrl);
+            await page.waitForNetworkIdle();
+        }
+
+        // How many cards share each row, top to bottom: [5] is one row, [3, 2] wraps after three.
+        async function kpiRowsAt(width) {
+            await page.webpage.setViewport({ width, height: 1024 });
+
+            return page.evaluate(() => {
+                const rows = [];
+                let lastTop = null;
+                document.querySelectorAll('.kpiCardContainer .kpiCard').forEach((card) => {
+                    const top = Math.round(card.getBoundingClientRect().top);
+                    if (top === lastTop) {
+                        rows[rows.length - 1] += 1;
+                    } else {
+                        rows.push(1);
+                        lastTop = top;
+                    }
+                });
+                return rows;
+            });
+        }
+
+        it('should keep five KPIs on one row from 1024px up and wrap them 3 + 2 at 768px', async function () {
+            await loadWithout([]);
+
+            for (const width of [1024, 1280, 1440]) {
+                expect(await kpiRowsAt(width), `at ${width}px`).to.deep.equal([5]);
+            }
+            expect(await kpiRowsAt(768), 'at 768px').to.deep.equal([3, 2]);
+        });
+
+        it('should stack five KPIs one per row at 600px and below', async function () {
+            for (const width of [600, 375]) {
+                expect(await kpiRowsAt(width), `at ${width}px`).to.deep.equal([1, 1, 1, 1, 1]);
+            }
+        });
+
+        it('should show every card in full at 375px', async function () {
+            await kpiRowsAt(375);
+
+            const clipped = await page.evaluate(() => {
+                const found = [];
+                document.querySelectorAll('.kpiCardContainer .kpiCard').forEach((card) => {
+                    const edge = card.getBoundingClientRect().right;
+                    card.querySelectorAll('.kpiCard__title, .kpiCard__value, .kpiCard__evolution').forEach((part) => {
+                        if (part.scrollWidth > part.clientWidth || part.getBoundingClientRect().right > edge + 0.5) {
+                            found.push(part.className);
+                        }
+                    });
+                });
+                return found;
+            });
+            expect(clipped).to.deep.equal([]);
+        });
+
+        it('should stack four KPIs one per row at 600px and below', async function () {
+            await loadWithout(['Goals']);
+
+            for (const width of [600, 375]) {
+                expect(await kpiRowsAt(width), `at ${width}px`).to.deep.equal([1, 1, 1, 1]);
+            }
+        });
+
+        it('should stack three KPIs one per row at 600px and below', async function () {
+            await loadWithout(['Goals', 'BotTracking']);
+
+            for (const width of [600, 375]) {
+                expect(await kpiRowsAt(width), `at ${width}px`).to.deep.equal([1, 1, 1]);
+            }
         });
     });
 });

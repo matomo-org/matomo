@@ -53,6 +53,25 @@ class AIProviderResponse
     private $outputTokens;
 
     /**
+     * Number of input tokens served from the provider's prompt cache, or null
+     * when the provider does not report cache usage. Not part of
+     * {@link $inputTokens}: providers that cache report the two separately
+     * because a cache read is billed at a reduced rate.
+     *
+     * @var int|null
+     */
+    private $cacheReadTokens;
+
+    /**
+     * Number of input tokens written into the provider's prompt cache, or null
+     * when the provider does not report cache usage. Not part of
+     * {@link $inputTokens}, and billed at a premium rate.
+     *
+     * @var int|null
+     */
+    private $cacheWriteTokens;
+
+    /**
      * Provider reasoning level that was actually applied.
      *
      * @var string
@@ -90,6 +109,25 @@ class AIProviderResponse
      */
     private $cost;
 
+    /**
+     * Calls billed at a fixed price per call (for example 1 for a per-call
+     * priced API), or 0 for token-billed providers.
+     *
+     * @var int
+     */
+    private $flatFeeCalls;
+
+    /**
+     * Extra provider-specific data for the `AIProviders.usage` event, without
+     * prompt or response content.
+     *
+     * @var array<string, mixed>
+     */
+    private $providerMeta;
+
+    /**
+     * @param array<string, mixed> $providerMeta
+     */
     public function __construct(
         string $providerId,
         string $providerName,
@@ -101,7 +139,11 @@ class AIProviderResponse
         ?int $executionTimeMs = null,
         ?string $stopReason = null,
         ?WebSearchUsage $webSearch = null,
-        ?float $cost = null
+        ?float $cost = null,
+        ?int $cacheReadTokens = null,
+        ?int $cacheWriteTokens = null,
+        int $flatFeeCalls = 0,
+        array $providerMeta = []
     ) {
         $this->providerId = $providerId;
         $this->providerName = $providerName;
@@ -114,6 +156,10 @@ class AIProviderResponse
         $this->stopReason = $stopReason;
         $this->webSearch = $webSearch ?? WebSearchUsage::none();
         $this->cost = $cost;
+        $this->cacheReadTokens = $cacheReadTokens;
+        $this->cacheWriteTokens = $cacheWriteTokens;
+        $this->flatFeeCalls = $flatFeeCalls;
+        $this->providerMeta = $providerMeta;
     }
 
     public function getText(): string
@@ -134,6 +180,16 @@ class AIProviderResponse
     public function getOutputTokens(): ?int
     {
         return $this->outputTokens;
+    }
+
+    public function getCacheReadTokens(): ?int
+    {
+        return $this->cacheReadTokens;
+    }
+
+    public function getCacheWriteTokens(): ?int
+    {
+        return $this->cacheWriteTokens;
     }
 
     public function getReasoningLevel(): string
@@ -198,6 +254,19 @@ class AIProviderResponse
         return $this->cost;
     }
 
+    public function getFlatFeeCalls(): int
+    {
+        return $this->flatFeeCalls;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getProviderMeta(): array
+    {
+        return $this->providerMeta;
+    }
+
     /**
      * Returns the response text decoded as a JSON array/object, or null when the
      * text is not valid JSON. Intended for requests made with
@@ -234,6 +303,8 @@ class AIProviderResponse
             'text' => $this->text,
             'inputTokens' => $this->inputTokens,
             'outputTokens' => $this->outputTokens,
+            'cacheReadTokens' => $this->cacheReadTokens,
+            'cacheWriteTokens' => $this->cacheWriteTokens,
             'reasoningLevel' => $this->reasoningLevel,
             'webSearchUsed' => $this->wasWebSearchUsed(),
             'webSearchRequestCount' => $this->webSearch->getRequestCount(),

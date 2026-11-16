@@ -91,18 +91,6 @@ parameters:
 			path: core/API/DataTablePostProcessor.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between non\-falsy\-string and ''0'' will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between non\-falsy\-string and 0 will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
 			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -323,12 +311,6 @@ parameters:
 			identifier: booleanAnd.leftAlwaysTrue
 			count: 1
 			path: core/Changes/Model.php
-
-		-
-			message: '#^Variable \$response in empty\(\) always exists and is always falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: core/CliMulti.php
 
 		-
 			message: '#^Call to function is_string\(\) with non\-falsy\-string will always evaluate to true\.$#'
@@ -997,62 +979,8 @@ parameters:
 			path: core/Plugin.php
 
 		-
-			message: '#^Call to function is_null\(\) with Piwik\\Site will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Call to function property_exists\(\) with Piwik\\ViewDataTable\\Config and ''selectable_columns'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Default value of the parameter \#3 \$columnsToDisplay \(false\) of method Piwik\\Plugin\\Controller\:\:getLastUnitGraphAcrossPlugins\(\) is incompatible with type array\.$#'
-			identifier: parameter.defaultValue
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Instanceof between Piwik\\Site and Piwik\\Site will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
 			message: '#^Parameter \#2 \$action of method Piwik\\FrontController\:\:dispatch\(\) expects string\|null, false given\.$#'
 			identifier: argument.type
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Property Piwik\\Plugin\\Controller\:\:\$site \(Piwik\\Site\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 2
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Property Piwik\\Plugin\\Controller\:\:\$site \(Piwik\\Site\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Result of && is always true\.$#'
-			identifier: booleanAnd.alwaysTrue
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Right side of && is always true\.$#'
-			identifier: booleanAnd.rightAlwaysTrue
-			count: 2
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between array and false will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: core/Plugin/Controller.php
 
@@ -1083,12 +1011,6 @@ parameters:
 		-
 			message: '#^Right side of \|\| is always false\.$#'
 			identifier: booleanOr.rightAlwaysFalse
-			count: 1
-			path: core/Plugin/Manager.php
-
-		-
-			message: '#^Variable \$plugin in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
 			count: 1
 			path: core/Plugin/Manager.php
 
@@ -1135,39 +1057,9 @@ parameters:
 			path: core/Plugin/ViewDataTable.php
 
 		-
-			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Instanceof between Piwik\\DataTable\|null and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 2
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Instanceof between null and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
 			message: '#^Parameter \#1 \$dataTable of method Piwik\\Plugin\\ViewDataTable\:\:setDataTable\(\) expects Piwik\\DataTable\|Piwik\\DataTable\\Map, Piwik\\DataTable\\DataTableInterface given\.$#'
 			identifier: argument.type
 			count: 2
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Parameter \#2 \$return of function print_r expects bool, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Ternary operator condition is always true\.$#'
-			identifier: ternary.alwaysTrue
-			count: 1
 			path: core/Plugin/Visualization.php
 
 		-
@@ -2101,12 +1993,6 @@ parameters:
 			path: plugins/Actions/Actions/ActionSiteSearch.php
 
 		-
-			message: '#^Variable \$keywordParameterRaw might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: plugins/Actions/Actions/ActionSiteSearch.php
-
-		-
 			message: '#^Call to function is_null\(\) with Piwik\\DataTable\\Row will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 2
@@ -2491,22 +2377,10 @@ parameters:
 			path: plugins/CoreHome/Columns/VisitorReturning.php
 
 		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: plugins/CoreHome/Controller.php
-
-		-
 			message: '#^Property Piwik\\Plugins\\CoreHome\\Controller\:\:\$translator is never read, only written\.$#'
 			identifier: property.onlyWritten
 			count: 1
 			path: plugins/CoreHome/Controller.php
-
-		-
-			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
 			message: '#^Instanceof between Piwik\\DataTable\\Map and Piwik\\DataTable\\DataTableInterface will always evaluate to true\.$#'
@@ -2515,25 +2389,7 @@ parameters:
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
-			message: '#^Instanceof between Piwik\\Date and Piwik\\Date will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(mixed\)\: bool\)\|null, ''strlen'' given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between array\|int\|Piwik\\Date\|string and false will always evaluate to true\.$#'
+			message: '#^Strict comparison using \!\=\= between array\|int\|string and false will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
@@ -2593,12 +2449,6 @@ parameters:
 			path: plugins/CorePluginsAdmin/PluginInstaller.php
 
 		-
-			message: '#^Variable \$setting in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: plugins/CorePluginsAdmin/SettingsMetadata.php
-
-		-
 			message: '#^Right side of && is always true\.$#'
 			identifier: booleanAnd.rightAlwaysTrue
 			count: 1
@@ -2613,12 +2463,6 @@ parameters:
 		-
 			message: '#^Class Piwik\\Plugins\\Marketplace\\Api\\Exception referenced with incorrect case\: Piwik\\Plugins\\Marketplace\\API\\Exception\.$#'
 			identifier: class.nameCase
-			count: 1
-			path: plugins/CoreUpdater/Updater.php
-
-		-
-			message: '#^Parameter \#1 \$exception of class Piwik\\Plugins\\CoreUpdater\\UpdaterException constructor expects Exception, Throwable given\.$#'
-			identifier: argument.type
 			count: 1
 			path: plugins/CoreUpdater/Updater.php
 
@@ -2659,12 +2503,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Cloud.php
 
 		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Graph.php
-
-		-
 			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable\\Map will always evaluate to false\.$#'
 			identifier: instanceof.alwaysFalse
 			count: 1
@@ -2683,12 +2521,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
 
 		-
-			message: '#^Property Piwik\\Plugin\\Visualization\:\:\$report \(Piwik\\Plugin\\Report\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 2
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
-
-		-
 			message: '#^Property Piwik\\ViewDataTable\\RequestConfig\:\:\$filter_excludelowpop_value \(Closure\|string\) does not accept false\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -2703,12 +2535,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Piwik\\DataTable\\DataTableInterface\:\:getMetadata\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
-
-		-
-			message: '#^Instanceof between Piwik\\DataTable\|null and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
 
@@ -3199,12 +3025,6 @@ parameters:
 			path: plugins/Insights/DataTable/Filter/OrderBy.php
 
 		-
-			message: '#^Call to an undefined method Piwik\\Db\|Piwik\\Db\\AdapterInterface\|Piwik\\Tracker\\Db\:\:checkClientVersion\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: plugins/Installation/Controller.php
-
-		-
 			message: '#^Expression on left side of \?\? is not nullable\.$#'
 			identifier: nullCoalesce.expr
 			count: 1
@@ -3223,10 +3043,22 @@ parameters:
 			path: plugins/Installation/FormDatabaseSetup.php
 
 		-
+			message: '#^Constructor of class Piwik\\Plugins\\Installation\\FormDatabaseSetup has an unused parameter \$attributes\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: plugins/Installation/FormDatabaseSetup.php
+
+		-
 			message: '#^Call to an undefined method HTML_QuickForm2_Node\:\:loadOptions\(\)\.$#'
 			identifier: method.notFound
 			count: 2
 			path: plugins/Installation/FormFirstWebsiteSetup.php
+
+		-
+			message: '#^Constructor of class Piwik\\Plugins\\Installation\\FormSuperUser has an unused parameter \$attributes\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: plugins/Installation/FormSuperUser.php
 
 		-
 			message: '#^Instanceof between Exception and Exception will always evaluate to true\.$#'
@@ -3266,12 +3098,6 @@ parameters:
 
 		-
 			message: '#^Parameter &\$languages by\-ref type of method Piwik\\Plugins\\LanguagesManager\\API\:\:enableDevelopmentLanguageInDevEnvironment\(\) expects list\<string\>, array\<int\<0, max\>, string\> given\.$#'
-			identifier: parameterByRef.type
-			count: 1
-			path: plugins/LanguagesManager/API.php
-
-		-
-			message: '#^Parameter &\$languages by\-ref type of method Piwik\\Plugins\\LanguagesManager\\API\:\:enableDevelopmentLanguageInDevEnvironment\(\) expects list\<string\>, non\-empty\-array\<int\<0, max\>, string\> given\.$#'
 			identifier: parameterByRef.type
 			count: 1
 			path: plugins/LanguagesManager/API.php
@@ -3487,12 +3313,6 @@ parameters:
 			path: plugins/Monolog/Handler/WebNotificationHandler.php
 
 		-
-			message: '#^Instanceof between Exception and Exception will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 2
-			path: plugins/Monolog/Processor/ExceptionToTextProcessor.php
-
-		-
 			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -3688,12 +3508,6 @@ parameters:
 			message: '#^Parameter &\$segments by\-ref type of method Piwik\\Plugins\\SegmentEditor\\SegmentEditor\:\:getKnownSegmentsToArchiveForSite\(\) expects array\<string\>, array given\.$#'
 			identifier: parameterByRef.type
 			count: 2
-			path: plugins/SegmentEditor/SegmentEditor.php
-
-		-
-			message: '#^Variable \$endDate in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
 			path: plugins/SegmentEditor/SegmentEditor.php
 
 		-

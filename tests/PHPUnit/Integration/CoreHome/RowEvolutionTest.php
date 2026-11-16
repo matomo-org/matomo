@@ -9,10 +9,15 @@
 
 namespace Piwik\Tests\Integration\CoreHome;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Map;
+use Piwik\Http\BadRequestException;
+use Piwik\NoAccessException;
+use Piwik\Plugins\CoreHome\Controller;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution\Config as EvolutionVizConfig;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\View;
 
@@ -26,6 +31,7 @@ class RowEvolutionTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        FakeAccess::clearAccess($superUser = true);
         Fixture::createWebsite('2014-01-01 00:00:00');
         $_GET['idSite'] = 1;
         $_GET['date'] = '2014-01-01';
@@ -34,7 +40,7 @@ class RowEvolutionTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        unset($_GET['idSite'], $_GET['date'], $_GET['period']);
+        unset($_GET['idSite'], $_GET['date'], $_GET['period'], $_GET['apiMethod'], $_GET['label']);
         parent::tearDown();
     }
 
@@ -123,6 +129,66 @@ class RowEvolutionTest extends IntegrationTestCase
         $this->assertInstanceOf(EvolutionVizConfig::class, $view->config);
         $this->assertFalse($view->config->show_forecast);
         $this->assertTrue($view->config->disable_forecast);
+    }
+
+    public function testRowEvolutionPopoverRequiresViewAccessForTheSite(): void
+    {
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [], $identity = 'aUser');
+        $_GET['apiMethod'] = 'Actions.getPageUrls';
+        $_GET['label'] = 'index';
+
+        $this->expectException(NoAccessException::class);
+
+        $this->makeController()->getRowEvolutionPopover();
+    }
+
+    public function testRowEvolutionPopoverLetsAUserWithViewAccessPassTheAccessCheck(): void
+    {
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [1], $identity = 'aUser');
+        $_GET['label'] = 'index';
+
+        // the missing apiMethod is only reported once the access check passed
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage('Parameter apiMethod not set.');
+
+        $this->makeController()->getRowEvolutionPopover();
+    }
+
+    /**
+     * @dataProvider getMalformedRowEvolutionRequests
+     *
+     * @param array<string, mixed> $params
+     */
+    public function testRowEvolutionPopoverAnswersWithBadRequestForAMalformedRequest(array $params, string $message): void
+    {
+        $_GET = array_merge($_GET, ['apiMethod' => 'Actions.getPageUrls', 'label' => 'index'], $params);
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage($message);
+
+        $this->makeController()->getRowEvolutionPopover();
+    }
+
+    public static function getMalformedRowEvolutionRequests(): iterable
+    {
+        yield 'missing apiMethod' => [['apiMethod' => ''], 'Parameter apiMethod not set.'];
+        yield 'missing label' => [['label' => ''], 'Expected label to be an array'];
+        yield 'empty label' => [['label' => ['']], 'Parameter label not set.'];
+        yield 'invalid date' => [['date' => 'garbage'], 'Expected date to be an instance of \\Piwik\\Date'];
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'Piwik\Access' => new FakeAccess(),
+        ];
+    }
+
+    private function makeController(): Controller
+    {
+        // the controller reads idSite and date from the request when it is created
+        return StaticContainer::getContainer()->make(Controller::class);
     }
 
     private function setProperty(object $instance, string $propertyName, $value): void

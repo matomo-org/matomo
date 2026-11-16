@@ -573,21 +573,22 @@
      * @param {Element} graphElem The evolution graph's datatable element.
      */
     var placeEvolutionIcons = function (annotations, graphElem) {
-        var canvases = $('.piwik-graph .jqplot-xaxis canvas', graphElem),
+        // by class, as the ticks are text elements rather than canvases
+        var ticks = $('.piwik-graph .jqplot-xaxis-tick', graphElem),
             noteSize = 16;
 
         // if no graph available, hide all icons
-        if (!canvases || canvases.length == 0) {
+        if (!ticks || ticks.length == 0) {
             $('span[data-date]', annotations).hide();
             return true;
         }
 
         // set position of each individual icon
         $('span[data-date]', annotations).each(function (i) {
-            var canvas = $(canvases[i]),
-                canvasCenterX = canvas.position().left + (canvas.width() / 2);
+            var tick = $(ticks[i]),
+                tickCenterX = tick.position().left + (tick.width() / 2);
             $(this).css({
-                left: canvasCenterX - noteSize / 2,
+                left: tickCenterX - noteSize / 2,
                 // show if there are annotations for this x-axis tick
                 opacity: +$(this).attr('data-count') > 0 ? 1 : 0
             });

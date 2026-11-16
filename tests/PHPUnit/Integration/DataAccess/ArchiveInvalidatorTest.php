@@ -936,6 +936,24 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEqualsSorted($expectedEntries, $invalidatedArchiveTableEntries);
     }
 
+    public function testMarkArchivesAsInvalidatedDoesNotInvalidatePartialRangeArchives()
+    {
+        $this->insertArchiveRow(1, '2020-03-02,2020-03-04', 'range', ArchiveWriter::DONE_OK, false, false);
+        $this->insertArchiveRow(1, '2020-03-02,2020-03-04', 'range', ArchiveWriter::DONE_PARTIAL, 'Actions', false);
+        $this->insertArchiveRow(1, '2020-03-02,2020-03-04', 'range', ArchiveWriter::DONE_PARTIAL, 'Actions', false);
+
+        $this->invalidator->markArchivesAsInvalidated([1], ['2020-03-03'], 'day');
+
+        $range = ['idsite' => 1, 'date1' => '2020-03-02', 'date2' => '2020-03-04', 'period' => 5];
+        $this->assertEquals([
+            '2020_03' => [
+                $range + ['name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
+                $range + ['name' => 'done.Actions', 'value' => ArchiveWriter::DONE_PARTIAL],
+                $range + ['name' => 'done.Actions', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ],
+        ], $this->getAvailableArchives());
+    }
+
     public function testMarkArchivesAsInvalidatedAddsInvalidationEntriesButDoesNotMarkArchivesAsInvalidatedIfArchiveIsPartial()
     {
         // insert some partial archives

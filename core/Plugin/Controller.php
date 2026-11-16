@@ -25,9 +25,11 @@ use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\FrontController;
+use Piwik\Http\BadRequestException;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\NoAccessException;
+use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Period\Month;
 use Piwik\Period;
@@ -78,6 +80,25 @@ use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 abstract class Controller
 {
     /**
+     * First upstream release of each PHP branch that fixes the critical vulnerabilities announced on 2026-10-21.
+     * Older branches get no upstream fix, newer branches were never affected.
+     */
+    private const PHP_SECURITY_ADVISORY_2026_10_21_FIXED_RELEASES = [
+        '8.2' => 35,
+        '8.3' => 36,
+        '8.4' => 27,
+        '8.5' => 12,
+    ];
+
+    private const PHP_SECURITY_ADVISORY_2026_10_21_ADVISORY_URL = 'https://www.php.net/archive/2026.php#2026-10-21-5';
+
+    private const PHP_SECURITY_ADVISORY_2026_10_21_ANNOUNCEMENT_URL = 'https://matomo.org/blog/2026/10/critical-php-security-vulnerabilities-important-update-for-matomo-users/';
+
+    private const PHP_SECURITY_ADVISORY_2026_10_21_NOTIFICATION_ID = 'PhpSecurityAdvisory_2026_10_21';
+
+    private const LEGACY_PHP_SECURITY_ADVISORY_2026_10_21_NOTIFICATION_ID = 'PHPCriticalSecurityVulnerabilityCheck';
+
+    /**
      * The plugin name, eg. `'Referrers'`.
      *
      * @var string
@@ -112,7 +133,7 @@ abstract class Controller
     /**
      * The Site object created with {@link $idSite}.
      *
-     * @var Site
+     * @var Site|null
      * @api
      */
     protected $site = null;
@@ -133,6 +154,9 @@ abstract class Controller
         $this->init();
     }
 
+    /**
+     * @return void
+     */
     protected function init()
     {
         $aPluginName = explode('\\', get_class($this));
@@ -197,7 +221,7 @@ abstract class Controller
 
     /**
      * Returns values that are enabled for the parameter &period=
-     * @return array eg. array('day', 'week', 'month', 'year', 'range')
+     * @return string[] eg. array('day', 'week', 'month', 'year', 'range')
      */
     protected static function getEnabledPeriodsInUI()
     {
@@ -206,7 +230,7 @@ abstract class Controller
     }
 
     /**
-     * @return array
+     * @return array<string, array{singular: string, plural: string}>
      */
     private static function getEnabledPeriodsNames()
     {
@@ -280,7 +304,7 @@ abstract class Controller
      *                           the template within the plugin folder. For instance 'myTemplate' will result in
      *                           '@$pluginName/myTemplate.twig'. Alternatively you can include the full path:
      *                           '@anyOtherFolder/otherTemplate'. The trailing '.twig' is not needed.
-     * @param array $variables   For instance array('myViewVar' => 'myValue'). In template you can use {{ myViewVar }}
+     * @param array<string, mixed> $variables For instance array('myViewVar' => 'myValue'). In template you can use {{ myViewVar }}
      * @return string
      * @since 2.5.0
      * @api
@@ -293,8 +317,8 @@ abstract class Controller
     /**
      * @see {self::renderTemplate()}
      *
-     * @param $template
-     * @param array $variables
+     * @param string $template
+     * @param array<string, mixed> $variables
      * @param string|null $viewType 'basic' or 'admin'. If null, determined based on the controller instance type.
      * @return string
      * @throws Exception
@@ -420,10 +444,10 @@ abstract class Controller
      * @param string $currentModuleName The name of the current plugin.
      * @param string $currentControllerAction The name of the action that renders the desired
      *                                        report.
-     * @param array $columnsToDisplay The value to use for the ViewDataTable's columns_to_display config
-     *                                property.
-     * @param array $selectableColumns The value to use for the ViewDataTable's selectable_columns config
-     *                                 property.
+     * @param string[]|false $columnsToDisplay The value to use for the ViewDataTable's columns_to_display config
+     *                                        property.
+     * @param string[] $selectableColumns The value to use for the ViewDataTable's selectable_columns config
+     *                                    property.
      * @param bool|string $reportDocumentation The value to use for the ViewDataTable's documentation config
      *                                         property.
      * @param string $apiMethod The API method that the ViewDataTable will use to get graph data.
@@ -463,9 +487,7 @@ abstract class Controller
             $view->config->columns_to_display = $columnsToDisplay;
         }
 
-        if (property_exists($view->config, 'selectable_columns')) {
-            $view->config->selectable_columns = array_merge($view->config->selectable_columns ? : array(), $selectableColumns);
-        }
+        $view->config->selectable_columns = array_merge($view->config->selectable_columns ? : array(), $selectableColumns);
 
         $view->config->translations += $translations;
 
@@ -486,9 +508,9 @@ abstract class Controller
      * - date: YYYY-MM-DD, today, yesterday
      * - period: day, week, month, year
      *
-     * @param array $paramsToSet array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
+     * @param array<string, mixed> $paramsToSet array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
      * @throws \Piwik\NoAccessException
-     * @return array
+     * @return array<string, mixed>
      */
     protected function getGraphParamsModified($paramsToSet = array())
     {
@@ -537,8 +559,8 @@ abstract class Controller
      * The current site ID and period will be used.
      *
      * @param string $action Method name of the controller that serves the report.
-     * @param array $customParameters The array of query parameter name/value pairs that
-     *                                should be set in result URL.
+     * @param array<string, mixed> $customParameters The array of query parameter name/value pairs that
+     *                                              should be set in result URL.
      * @return string The generated URL.
      * @api
      */
@@ -565,6 +587,7 @@ abstract class Controller
      *
      * @param Date $minDate The min date.
      * @param View $view The view that contains the period selector.
+     * @return void
      * @api
      */
     protected function setMinDateView(Date $minDate, $view)
@@ -580,6 +603,7 @@ abstract class Controller
      *
      * @param Date $maxDate The max date.
      * @param View $view The view that contains the period selector.
+     * @return void
      * @api
      */
     protected function setMaxDateView(Date $maxDate, $view)
@@ -620,6 +644,11 @@ abstract class Controller
         $this->setGeneralVariablesViewAs($view, $viewType = null);
     }
 
+    /**
+     * @param View $view
+     * @param string|null $viewType 'basic' or 'admin'. If null, determined based on the controller instance type.
+     * @return void
+     */
     protected function setGeneralVariablesViewAs($view, $viewType)
     {
         $this->checkViewType($viewType);
@@ -697,12 +726,71 @@ abstract class Controller
 
         $notifications = $view->notifications;
         if (empty($notifications)) {
+            self::notifyWhenPhpIsAffectedBySecurityAdvisory20261021();
+
             $view->notifications = NotificationManager::getAllNotificationsToDisplay();
             NotificationManager::cancelAllNonPersistent();
         }
     }
 
-    private function getValidDate(Date $date, Date $minDate, Date $maxDate)
+    /**
+     * @internal temporary warning, will be removed again, together with the legacy notification ID.
+     *           Admins can hide it with [General] disabled_notifications[] = PhpSecurityAdvisory_2026_10_21
+     */
+    protected static function notifyWhenPhpIsAffectedBySecurityAdvisory20261021(): void
+    {
+        if (defined('PIWIK_TEST_MODE')) { // to avoid changing every UI test
+            return;
+        }
+
+        // a token_auth request is likely an embedded page shown to the public, not a signed-in user
+        if (Piwik::isUserIsAnonymous() || StaticContainer::get(AuthenticationToken::class)->getAuthToken() !== '') {
+            return;
+        }
+
+        // sessions may still hold the warning under the ID it had before it was renamed
+        NotificationManager::cancel(self::LEGACY_PHP_SECURITY_ADVISORY_2026_10_21_NOTIFICATION_ID);
+
+        if (
+            NotificationManager::isDisabled(self::PHP_SECURITY_ADVISORY_2026_10_21_NOTIFICATION_ID)
+            || !self::isPhpAffectedBySecurityAdvisory20261021(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION)
+        ) {
+            // persistent notifications stay in the session, so drop it once PHP has been fixed or the warning is turned off
+            NotificationManager::cancel(self::PHP_SECURITY_ADVISORY_2026_10_21_NOTIFICATION_ID);
+            return;
+        }
+
+        $message = Piwik::translate('General_PhpCriticalSecurityUpdateRequired', [
+            PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION,
+            Url::getExternalLinkTag(self::PHP_SECURITY_ADVISORY_2026_10_21_ANNOUNCEMENT_URL),
+            '</a>',
+            Url::getExternalLinkTag(self::PHP_SECURITY_ADVISORY_2026_10_21_ADVISORY_URL),
+            '</a>',
+        ]);
+
+        $notification = new Notification($message);
+        $notification->raw = true;
+        $notification->title = Piwik::translate('General_PhpCriticalSecurityUpdateRequiredTitle');
+        $notification->priority = Notification::PRIORITY_MAX;
+        $notification->context = Notification::CONTEXT_WARNING;
+        // persistent, so the reporting UI doesn't clear it when it renders a report like it does with transient ones
+        $notification->type = Notification::TYPE_PERSISTENT;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        NotificationManager::notify(self::PHP_SECURITY_ADVISORY_2026_10_21_NOTIFICATION_ID, $notification);
+    }
+
+    private static function isPhpAffectedBySecurityAdvisory20261021(int $major, int $minor, int $release): bool
+    {
+        $branch = $major . '.' . $minor;
+
+        if (isset(self::PHP_SECURITY_ADVISORY_2026_10_21_FIXED_RELEASES[$branch])) {
+            return $release < self::PHP_SECURITY_ADVISORY_2026_10_21_FIXED_RELEASES[$branch];
+        }
+
+        return version_compare($branch, '8.2', '<');
+    }
+
+    private function getValidDate(Date $date, Date $minDate, Date $maxDate): Date
     {
         if ($date->isEarlier($minDate)) {
             $date = $minDate;
@@ -719,6 +807,7 @@ abstract class Controller
      * Needed when a controller extends ControllerAdmin but you don't want to call the controller admin basic variables
      * view. Solves a problem when a controller has regular controller and admin controller views.
      * @param View $view
+     * @return void
      */
     protected function setBasicVariablesNoneAdminView($view)
     {
@@ -733,8 +822,6 @@ abstract class Controller
 
         if (!Piwik::isUserIsAnonymous()) {
             $this->showWhatIsNew($view);
-
-            $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
 
             // for BC only. Use contactEmail instead
             $view->emailSuperUser = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
@@ -766,7 +853,7 @@ abstract class Controller
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
-            || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
+            || !empty($general['enable_framed_logins']);
         $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') === 'Widgetize');
         if (!$view->enableFrames && !$embeddedAsIframe) {
             $view->setXFrameOptions('sameorigin');
@@ -785,7 +872,7 @@ abstract class Controller
             return count($allSites) === 1;
         });
 
-        if (isset($this->site) && is_object($this->site) && $this->site instanceof Site) {
+        if ($this->site instanceof Site) {
             $view->siteName = $this->site->getName();
         }
 
@@ -811,6 +898,7 @@ abstract class Controller
      * Also calls {@link setHostValidationVariablesView()}.
      *
      * @param View $view
+     * @return void
      * @api
      */
     protected function setBasicVariablesView($view)
@@ -818,6 +906,11 @@ abstract class Controller
         $this->setBasicVariablesViewAs($view);
     }
 
+    /**
+     * @param View $view
+     * @param string|null $viewType 'basic' or 'admin'. Only checked, the variables are the same for both.
+     * @return void
+     */
     protected function setBasicVariablesViewAs($view, $viewType = null)
     {
         $this->checkViewType($viewType); // param is not used here, but the check can be useful for a developer
@@ -825,6 +918,10 @@ abstract class Controller
         $this->setBasicVariablesNoneAdminView($view);
     }
 
+    /**
+     * @param View $view
+     * @return void
+     */
     protected function addCustomLogoInfo($view)
     {
         $customLogo = new CustomLogo();
@@ -868,6 +965,7 @@ abstract class Controller
      *                       if host is invalid)
      *
      * @param View $view
+     * @return void
      * @api
      */
     public static function setHostValidationVariablesView($view)
@@ -952,7 +1050,8 @@ abstract class Controller
      * - **periodsNames** - List of available periods mapped to their singular and plural translations.
      *
      * @param View $view
-     * @throws Exception if the current period is invalid.
+     * @return void
+     * @throws BadRequestException if the current period is invalid.
      * @api
      */
     public static function setPeriodVariablesView($view)
@@ -967,7 +1066,7 @@ abstract class Controller
         $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
 
         if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
-            throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
+            throw new BadRequestException("Period must be one of: " . implode(", ", $availablePeriods));
         }
 
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
@@ -991,7 +1090,8 @@ abstract class Controller
      * @param int|null $websiteId The new idSite query parameter, eg, `1`.
      * @param string|null $defaultPeriod The new period query parameter, eg, `'day'`.
      * @param string|null $defaultDate The new date query parameter, eg, `'today'`.
-     * @param array $parameters Other query parameters to append to the URL.
+     * @param array<string, mixed> $parameters Other query parameters to append to the URL.
+     * @return void
      * @api
      */
     public function redirectToIndex(
@@ -1047,6 +1147,7 @@ abstract class Controller
      *
      * **The token_auth should never appear in the browser's address bar.**
      *
+     * @return void
      * @throws \Piwik\NoAccessException If the token doesn't match.
      * @api
      */
@@ -1085,8 +1186,8 @@ abstract class Controller
     /**
      * Returns the pretty date representation
      *
-     * @param $date string
-     * @param $period string
+     * @param string $date
+     * @param string $period
      * @return string Pretty date
      */
     public static function getPrettyDate($date, $period)
@@ -1094,24 +1195,29 @@ abstract class Controller
         return self::getCalendarPrettyDate(Period\Factory::build($period, Date::factory($date)));
     }
 
+    /**
+     * @return void
+     * @throws BadRequestException if the request has no idSite.
+     */
     protected function checkSitePermission()
     {
         if (!empty($this->idSite)) {
             Access::getInstance()->checkUserHasViewAccess($this->idSite);
             new Site($this->idSite);
-        } elseif (empty($this->site) || empty($this->idSite)) {
-            throw new Exception("The requested website idSite is not found in the request, or is invalid.
+        } else {
+            throw new BadRequestException("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Matomo and have permission to access the specified website.");
         }
     }
 
     /**
-     * @param $moduleToRedirect
-     * @param $actionToRedirect
-     * @param $websiteId
-     * @param $defaultPeriod
-     * @param $defaultDate
-     * @param $parameters
+     * @param string $moduleToRedirect
+     * @param string $actionToRedirect
+     * @param int|string|null $websiteId
+     * @param string|null $defaultPeriod
+     * @param string|null $defaultDate
+     * @param array<string, mixed> $parameters
+     * @return void
      * @throws Exception
      */
     private function doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters)
@@ -1129,7 +1235,10 @@ abstract class Controller
         Url::redirectToUrl($url);
     }
 
-    private function checkViewType($viewType)
+    /**
+     * @param string|null $viewType
+     */
+    private function checkViewType($viewType): void
     {
         if ($viewType === 'admin' && !($this instanceof ControllerAdmin)) {
             throw new Exception("'admin' view type is only allowed with ControllerAdmin class.");

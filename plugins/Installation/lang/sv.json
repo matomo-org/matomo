@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "Uppdatera över HTTPS",
         "SystemCheckViewFullSystemCheck": "Visa full systemrapport",
         "SystemCheckWarnDomHelp": "Du bör aktivera tillägget \"dom\" (t.ex., installera paketet \"php-dom\" och/eller \"php-xml\").",
-        "SystemCheckWarnJsonHelp": "Du borde aktivera \"JSON\", med andra ord installera paketet \"php-json\".",
         "SystemCheckWarnLibXmlHelp": "Du bör aktivera tillägget \"libxml\" (t.ex., installera paketet \"php-libxml\") eftersom det krävs av andra grundläggande PHP-tillägg.",
         "SystemCheckWarnOpensslHelp": "Du borde aktivera tillägget \"OpenSSL\" för att tillåta säkerhetsuppdateringar.",
         "SystemCheckWarnSimpleXMLHelp": "Du bör aktivera tillägget \"SimpleXML\" (t.ex., installera paketet \"php-simplexml\" och/eller \"php-xml\").",

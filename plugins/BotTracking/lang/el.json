@@ -24,7 +24,7 @@
         "ColumnClickThroughRateDocumentation": "Μερίδιο των αιτήσεων από chatbot ΤΝ που είχαν ως αποτέλεσμα σε επισκέψεις που αποκτήθηκαν (αποκτημένες επισκέψεις ÷ αιτήσεις).",
         "DocumentUrl": "Διεύθυνση URL εγγράφου",
         "SegmentNotSupported": "Η αναφορά δεν υποστηρίζει τμηματοποίηση. Τα δεδομένα που εμφανίζονται είναι τα πρότυπα, χωρίς τμηματοποίηση δεδομένα αναφοράς.",
-        "NoDataHttpTrackingApi": "HTTP API Παρακολούθησης",
+        "NoDataHttpTrackingApi": "HTTP API Ιχνηλάτησης",
         "SiteWithoutDataBackToMatomo": "Επιστροφή στο Matomo",
         "SiteWithoutDataInstallWithX": "Εγκατάσταση με %1$s",
         "SiteWithoutDataStepByStepGuide": "Οδηγός βήμα-βήμα",

@@ -24,9 +24,6 @@
         "MetricDocumentationWebsite": "Lista de sites rastreados exibidos no painel. Cada linha representa um site separado com seus dados analíticos correspondentes.",
         "PluginDescription": "Veja e compare todos os seus sites e aplicações neste útil painel 'Todos os sites'.",
         "SingleWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de um site específico, contendo as métricas mais gerais sobre os seus visitantes.",
-        "TopLinkTooltip": "Compare as estatísticas de todos os seus sites.",
-        "TotalHits": "Total de requisições",
-        "TotalPageviews": "Total de visualizações de páginas",
-        "TotalVisits": "Total de visitas"
+        "TopLinkTooltip": "Compare as estatísticas de todos os seus sites."
     }
 }

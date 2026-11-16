@@ -15,7 +15,6 @@ use Piwik\Url;
 class CnilPolicy extends CompliancePolicy
 {
     private const CONSENT_EXEMPTION_FAQ_URL = 'https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/';
-    private const CLOUD_DPA_URL = 'https://matomo.org/matomo-cloud-dpa/';
 
     public static function getName(): string
     {
@@ -29,20 +28,10 @@ class CnilPolicy extends CompliancePolicy
 
     protected static function generateGranularDescription(): string
     {
-        $description = Piwik::translate(
+        return Piwik::translate(
             'General_ComplianceCNILGranularDescription2',
             array_merge(self::getFaqLinkParameters(), [self::getGranularStatusLegend()])
         );
-
-        // the DPA only covers Matomo Cloud, so on-premise instances must not be pointed at it
-        if (static::getPluginManagerInstance()->isPluginActivated('Cloud')) {
-            $description .= '<br/><br/>' . Piwik::translate('General_ComplianceCNILCloudDpa', [
-                self::getLinkOpeningTag(self::CLOUD_DPA_URL),
-                '</a>',
-            ]);
-        }
-
-        return $description;
     }
 
     /**

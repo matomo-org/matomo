@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
@@ -26,6 +27,7 @@ use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -433,7 +435,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $cacheKey = (int)$idSite . '.' . (string)$period . '.' . (int)$idReport . '.' . (int)$ifSuperUserReturnOnlySuperUserReports;
+        $cacheKey = Access::getInstance()->getCacheScopeKey() . '.' . (int)$idSite . '.' . (string)$period . '.' . (int)$idReport . '.' . (int)$ifSuperUserReturnOnlySuperUserReports;
         if (isset(self::$cache[$cacheKey])) {
             return self::$cache[$cacheKey];
         }
@@ -722,8 +724,10 @@ class API extends \Piwik\Plugin\API
 
                 $processedReport['segment'] = $segment;
 
-                // TODO add static method getPrettyDate($period, $date) in Period
-                $prettyDate = $processedReport['prettyDate'];
+                // MultiSites may resolve a relative date on UTC's days, so site reports take precedence.
+                if ($prettyDate === '' || $apiModule !== 'MultiSites') {
+                    $prettyDate = $processedReport['prettyDate'];
+                }
 
                 $processedReports[] = $processedReport;
             }
@@ -880,7 +884,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (empty($date)) {
-            $date = Date::now()->subPeriod(1, $report['period'])->toString();
+            $date = ReportSchedule::getToday((string) $report['period'], (int) $report['idsite'])->subPeriod(1, $report['period'])->toString();
         }
 
         Context::changeIdSite($report['idsite'], function () use ($report, $idReport, $date, $force) {
@@ -1085,12 +1089,14 @@ class API extends \Piwik\Plugin\API
         }
 
         foreach ($requestedReports as $report) {
-            if (!in_array($report, $availableReportIds)) {
+            [$resolvedReport] = ProcessedReport::getRenamedReportUniqueIds([$report], $availableReportIds);
+
+            if (!in_array($resolvedReport, $availableReportIds)) {
                 throw new Exception("Report $report is unknown or not available for report type '$reportType'.");
             }
         }
 
-        return (string)json_encode($requestedReports);
+        return (string)json_encode(ProcessedReport::getRenamedReportUniqueIds($requestedReports, $availableReportIds));
     }
 
     /**

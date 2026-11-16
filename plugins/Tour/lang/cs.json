@@ -2,6 +2,8 @@
     "Tour": {
         "AddAnnotation": "Přidat anotaci",
         "AddAnotherWebsite": "Přidat další web",
+        "AddRecommendedGoals": "Přidat doporučené cíle",
+        "AddRecommendedGoalsDescription": "Projděte si doporučení cílů pro svůj web a vytvořte cíle, které vám vyhovují.",
         "AddReport": "Přidat naplánované hlášení",
         "AddSegment": "Přidat segment",
         "BecomeMatomoExpert": "Staňte se expertem na Matomo",

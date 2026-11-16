@@ -63,26 +63,14 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $dbSettings   = new Db\Settings();
         $charset      = $dbSettings->getUsedCharset();
 
-        if (DbHelper::getDefaultCharset() === 'utf8mb4' && $charset === 'utf8mb4') {
+        if ($charset === 'utf8mb4') {
             return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, 'UTF8mb4 charset');
-        }
-
-        if (DbHelper::getDefaultCharset() === 'utf8mb4') {
-            return new DiagnosticResultItem(
-                DiagnosticResult::STATUS_WARNING,
-                'UTF8mb4 charset<br/><br/>' .
-                $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetAvailableButNotUsed', '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>') .
-                '<br/><br/>' .
-                $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�',
-                    Url::getExternalLinkTag('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/'), '</a>']) .
-                '<br/>'
-            );
         }
 
         return new DiagnosticResultItem(
             DiagnosticResult::STATUS_WARNING,
             'UTF8mb4 charset<br/><br/>' .
-            $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetRecommended') .
+            $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetAvailableButNotUsed', '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>') .
             '<br/><br/>' .
             $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�',
                 Url::getExternalLinkTag('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/'), '</a>']) .

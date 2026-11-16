@@ -14,10 +14,12 @@ use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
 use Piwik\Common;
+use Piwik\Cache;
 use Piwik\Db;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
@@ -1006,6 +1008,111 @@ class AccessTest extends IntegrationTestCase
         $this->assertSame('view', $access->getRoleForSite($idSite));
     }
 
+    public function testIsSuperUserAccessGrantedByCodeIsFalseForAuthenticatedSuperUser()
+    {
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($this->createAuthMockWithAuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE)));
+
+        $this->assertTrue($access->hasSuperUserAccess());
+        $this->assertFalse($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testIsSuperUserAccessGrantedByCodeIsFalseWithoutSuperUserAccess()
+    {
+        $access = $this->getAccess();
+        $this->assertFalse($access->isSuperUserAccessGrantedByCode());
+
+        $this->assertTrue($access->reloadAccess($this->createAuthMockWithAuthResult(AuthResult::SUCCESS)));
+        $this->assertFalse($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testIsSuperUserAccessGrantedByCodeIsTrueWithoutAuth()
+    {
+        $access = $this->getAccess();
+        $access->setSuperUserAccess(true);
+
+        $this->assertTrue($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testIsSuperUserAccessGrantedByCodeIsTrueForElevatedRegularUser()
+    {
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($this->createAuthMockWithAuthResult(AuthResult::SUCCESS)));
+        $access->setSuperUserAccess(true);
+
+        $this->assertTrue($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testIsSuperUserAccessGrantedByCodeIsTrueForElevatedSuperUserWithRestrictedToken()
+    {
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->once())
+            ->method('authenticate')
+            ->willReturn(new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'login', 'token', ['token_access_level' => 'view']));
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($authMock));
+        $this->assertFalse($access->hasSuperUserAccess());
+        $this->assertFalse($access->isSuperUserAccessGrantedByCode());
+
+        $access->setSuperUserAccess(true);
+        $this->assertTrue($access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testReauthenticateDropsSuperUserAccessTheUserNoLongerHas()
+    {
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->exactly(2))
+            ->method('authenticate')
+            ->willReturnOnConsecutiveCalls(
+                new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'login', 'token'),
+                new AuthResult(AuthResult::SUCCESS, 'login', 'token')
+            );
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($authMock));
+        $this->assertTrue($access->hasSuperUserAccess());
+
+        $this->assertTrue($access->reauthenticate());
+        $this->assertFalse($access->hasSuperUserAccess());
+        $this->assertSame('login', $access->getLogin());
+    }
+
+    public function testReauthenticateFailsWhenAuthenticationNoLongerSucceeds()
+    {
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->exactly(2))
+            ->method('authenticate')
+            ->willReturnOnConsecutiveCalls(
+                new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'login', 'token'),
+                new AuthResult(AuthResult::FAILURE, 'login', 'token')
+            );
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($authMock));
+
+        $this->assertFalse($access->reauthenticate());
+        $this->assertFalse($access->hasSuperUserAccess());
+        $this->assertNull($access->getLogin());
+    }
+
+    public function testReauthenticateFailsWhenAnotherUserIsAuthenticated()
+    {
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->exactly(2))
+            ->method('authenticate')
+            ->willReturnOnConsecutiveCalls(
+                new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'login', 'token'),
+                new AuthResult(AuthResult::SUCCESS, 'anonymous', 'anonymous')
+            );
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($authMock));
+
+        $this->assertFalse($access->reauthenticate());
+        $this->assertFalse($access->hasSuperUserAccess());
+    }
+
     public function testReloadAccessClampsRoleFromTokenRowWhenAuthPluginOmitsAuthContext()
     {
         $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
@@ -1574,6 +1681,149 @@ class AccessTest extends IntegrationTestCase
         $this->assertEquals(24, $result);
     }
 
+    public function testSiteDataCachedInsideDoAsSuperUserIsOnlyReturnedForSitesTheUserCanView()
+    {
+        [$idSite, $otherIdSite] = $this->setUpViewUserForOneOfTwoSites();
+
+        Access::doAsSuperUser(function () use ($idSite, $otherIdSite) {
+            Site::getNameFor($idSite);
+            Site::getNameFor($otherIdSite);
+        });
+
+        $this->assertSame(Fixture::DEFAULT_SITE_NAME, Site::getNameFor($idSite));
+
+        $this->expectException(NoAccessException::class);
+        Site::getNameFor($otherIdSite);
+    }
+
+    public function testSiteCachedInsideDoAsSuperUserIsNotCreatedForAUserWithoutViewAccess()
+    {
+        [, $otherIdSite] = $this->setUpViewUserForOneOfTwoSites();
+
+        Access::doAsSuperUser(function () use ($otherIdSite) {
+            Site::getSite($otherIdSite);
+        });
+
+        $this->expectException(NoAccessException::class);
+        new Site($otherIdSite);
+    }
+
+    public function testCachedSitesOnlyIncludeSitesTheUserCanView()
+    {
+        [$idSite, $otherIdSite] = $this->setUpViewUserForOneOfTwoSites();
+
+        Access::doAsSuperUser(function () use ($idSite, $otherIdSite) {
+            Site::getSite($idSite);
+            Site::getSite($otherIdSite);
+        });
+
+        $this->assertSame([$idSite], array_keys(Site::getSites()));
+    }
+
+    public function testDoAsSuperUserDiscardsTransientCacheEntriesSavedByTheCallback()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+        $cache->save('savedBefore', 'caller value');
+
+        Access::doAsSuperUser(function () {
+            $cache = Cache::getTransientCache();
+            $this->assertSame('caller value', $cache->fetch('savedBefore'));
+            $cache->save('savedInside', 'callback value');
+            $this->assertSame('callback value', $cache->fetch('savedInside'));
+        });
+
+        $this->assertSame($cache, Cache::getTransientCache());
+        $this->assertFalse($cache->contains('savedInside'));
+        $this->assertSame('caller value', $cache->fetch('savedBefore'));
+    }
+
+    public function testDoAsSuperUserDiscardsTransientCacheEntriesSavedByTheCallbackIfExceptionThrown()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+
+        try {
+            Access::doAsSuperUser(function () {
+                Cache::getTransientCache()->save('savedInside', 'callback value');
+                throw new Exception();
+            });
+
+            $this->fail("Exception was not propagated by doAsSuperUser.");
+        } catch (Exception $ex) {
+            // pass
+        }
+
+        $this->assertSame($cache, Cache::getTransientCache());
+        $this->assertFalse($cache->contains('savedInside'));
+    }
+
+    public function testDoAsSuperUserRemovesCallerTransientCacheEntriesTheCallbackChanged()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+        $cache->save('overwritten', 'caller value');
+        $cache->save('deleted', 'caller value');
+        $cache->save('untouched', 'caller value');
+
+        Access::doAsSuperUser(function () {
+            $cache = Cache::getTransientCache();
+            $cache->save('overwritten', 'callback value');
+            $cache->delete('deleted');
+            $this->assertFalse($cache->contains('deleted'));
+        });
+
+        $this->assertFalse($cache->contains('overwritten'));
+        $this->assertFalse($cache->contains('deleted'));
+        $this->assertSame('caller value', $cache->fetch('untouched'));
+    }
+
+    public function testDoAsSuperUserFlushesCallerTransientCacheIfTheCallbackFlushedIt()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+        $cache->save('savedBefore', 'caller value');
+
+        Access::doAsSuperUser(function () {
+            Cache::getTransientCache()->flushAll();
+            $this->assertFalse(Cache::getTransientCache()->contains('savedBefore'));
+        });
+
+        $this->assertFalse($cache->contains('savedBefore'));
+    }
+
+    public function testNestedDoAsSuperUserDiscardsEntriesSavedByTheInnerCallback()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $cache = Cache::getTransientCache();
+
+        Access::doAsSuperUser(function () {
+            Access::doAsSuperUser(function () {
+                Cache::getTransientCache()->save('savedInside', 'inner value');
+            });
+
+            $this->assertSame('inner value', Cache::getTransientCache()->fetch('savedInside'));
+            $this->assertTrue(Access::getInstance()->hasSuperUserAccess());
+        });
+
+        $this->assertSame($cache, Cache::getTransientCache());
+        $this->assertFalse($cache->contains('savedInside'));
+        $this->assertFalse(Access::getInstance()->hasSuperUserAccess());
+    }
+
+    public function testGetCacheScopeKeyChangesInsideDoAsSuperUser()
+    {
+        $this->setUpViewUserForOneOfTwoSites();
+        $scope = Access::getInstance()->getCacheScopeKey();
+
+        $scopeInside = Access::doAsSuperUser(function () {
+            return Access::getInstance()->getCacheScopeKey();
+        });
+
+        $this->assertNotSame($scope, $scopeInside);
+        $this->assertSame($scope, Access::getInstance()->getCacheScopeKey());
+    }
+
     public function testReloadAccessDoesNotRemoveSuperUserAccessIfUsedInDoAsSuperUser()
     {
         Access::getInstance()->setSuperUserAccess(false);
@@ -1677,6 +1927,23 @@ class AccessTest extends IntegrationTestCase
 
         $this->assertEquals(200, $responseInfo["http_code"]);
         self::assertStringContainsString('<result>' . Version::VERSION . '</result>', $response);
+    }
+
+    /**
+     * @return int[] the site the user can view, and a site the user has no access to
+     */
+    private function setUpViewUserForOneOfTwoSites(): array
+    {
+        $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
+        $otherIdSite = Fixture::createWebsite('2010-01-02 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'view', $idSite);
+
+        $this->switchUser('testuser');
+        Access::getInstance()->setSuperUserAccess(false);
+        Site::clearCache();
+
+        return [(int) $idSite, (int) $otherIdSite];
     }
 
     private function switchUser($user)

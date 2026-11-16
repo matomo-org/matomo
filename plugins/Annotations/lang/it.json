@@ -9,6 +9,7 @@
         "ClickToStarOrUnstar": "Segna questa annotazione.",
         "CreateNewAnnotation": "Crea una nuova annotazione…",
         "EnterAnnotationText": "Inserisci annotazione…",
+        "HideAnnotations": "Nascondi le annotazioni",
         "HideAnnotationsFor": "Nascondi annotazioni per %s…",
         "IconDesc": "Visualizza le annotazioni per questo intervallo di date.",
         "IconDescHideNotes": "Nascondi le annotazioni in questo intervallo di date.",
@@ -16,6 +17,7 @@
         "LoginToAnnotate": "Accedi per creare un'annotazione.",
         "NoAnnotations": "Non ci sono annotazioni per questo intervallo di date.",
         "PluginDescription": "Vi permette di associare delle note a vari giorni per segnare i cambiamenti fatti al vostro sito, salvare le analisi da voi fatte sui vostri dati e condividere i vostri pensieri con i colleghi.",
+        "ShowAnnotations": "Mostra le annotazioni",
         "ViewAndAddAnnotations": "Visualizza ed aggiungi annotazioni per %s…",
         "YouCannotModifyThisNote": "Non potete modificare questa annotazione perché non l'avete creata voi, e non avete i privilegi di amministratore per questo sito."
     }

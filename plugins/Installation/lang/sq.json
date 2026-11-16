@@ -143,7 +143,6 @@
         "SystemCheckUpdateHttps": "Përditësoje përmes HTTPS-je",
         "SystemCheckViewFullSystemCheck": "Shihni raportin e plotë të kontrollit të sistemit",
         "SystemCheckWarnDomHelp": "Duhet të aktivizoni zgjerimin “dom” (p.sh., instaloni paketën “php-dom” dhe/ose “php-xml”).",
-        "SystemCheckWarnJsonHelp": "Duhet të aktivizoni zgjerimin “JSON” (p.sh., instaloni paketën “php-json”) për punim më të mirë.",
         "SystemCheckWarnLibXmlHelp": "Duhet të aktivizonit zgjerimin “libxml” (p.sh., paketën “install the php-libxml” ), meqë është i domosdoshme nga zgjerime të tjera bazë të PHP-së.",
         "SystemCheckWarnOpensslHelp": "Duhet të aktivizoni zgjerimin “OpenSSL”, që të lejohen përditësime të siguruara.",
         "SystemCheckWarnSimpleXMLHelp": "Duhet të aktivizoni zgjerimin “SimpleXML” (p.sh., instaloni paketën “php-simplexml” dhe/ose “php-xml”).",

@@ -8,8 +8,8 @@
 <template>
   <ContentBlock
     v-if="shouldShowRecommendations"
-    :content-title="translate('Goals_RecommendedGoals')"
-    :feature="translate('Goals_RecommendedGoals')"
+    :content-title="translate('Goals_GoalRecommendation')"
+    :feature="translate('Goals_GoalRecommendation')"
     :help-text="translate('Goals_RecommendedGoalsIntro')"
     class="recommendGoals"
   >
@@ -22,11 +22,19 @@
         :class="'recommendGoals-notice--' + scanWarning.severity"
         role="status"
       >
-        <span :class="scanWarning.severity === 'warning' ? 'icon-warning' : 'icon-info'"></span>
+        <span :class="scanWarning.severity === 'warning' ? 'icon-warning' : 'icon-info'" />
         <span>{{ scanWarning.message }}</span>
       </div>
 
-      <div v-if="recommendations.length">
+      <p
+        v-if="isCompleted"
+        class="recommendGoals-notice recommendGoals-notice--success"
+        role="status"
+      >
+        <span class="icon-ok" />
+        <span>{{ translate('Goals_RecommendAllCreated') }}</span>
+      </p>
+      <div v-else-if="recommendations.length">
         <div class="recommendGoals-list">
           <RecommendGoalCard
             v-for="rec in visibleRecommendations"
@@ -76,7 +84,7 @@
 
       <details class="recommendGoals-manual" v-if="manualGoals.length">
         <summary>
-          <span class="icon-chevron-right"></span>
+          <span class="icon-chevron-right" />
           {{ translate('Goals_RecommendManualTitle') }} ({{ manualGoals.length }})
         </summary>
         <p class="recommendGoals-intro">{{ translate('Goals_RecommendManualIntro') }}</p>
@@ -88,7 +96,7 @@
             </div>
             <button
               type="button"
-              class="btn-flat"
+              class="btn btn-outline"
               @click="$emit('prefill', rec)"
               :disabled="isBusy"
             >
@@ -101,7 +109,7 @@
       <!-- TEMPORARY (ID-277 debugging): development mode only, remove before merge -->
       <details class="recommendGoals-debug" v-if="debug">
         <summary>
-          <span class="icon-chevron-right"></span>
+          <span class="icon-chevron-right" />
           Debug: crawl input and candidates (this will be removed before deployment)
         </summary>
         <p class="recommendGoals-intro">
@@ -220,7 +228,7 @@
           @click="recommend()"
           :disabled="isBusy"
         >
-          <span class="icon-search"></span>
+          <span class="icon-search" />
           {{ scanButtonLabel }}
         </button>
         <div class="switch recommendGoals-aiSwitch" v-if="isAiAvailable">
@@ -229,8 +237,9 @@
               type="checkbox"
               v-model="useAi"
               :disabled="isBusy"
+              @change="rememberUseAi"
             />
-            <span class="lever"></span>
+            <span class="lever" />
             {{ translate('Goals_RecommendUseAi') }}
           </label>
         </div>
@@ -241,6 +250,12 @@
         >
           {{ aiUnavailableLabel }}
         </span>
+        <a
+          v-if="aiAvailability === 'notPermitted'"
+          class="recommendGoals-privacyLink recommendGoals-aiProcessingLink"
+          :href="aiProcessingSettingsUrl"
+          @click="onAiProcessingLinkClick"
+        >{{ translate('Goals_RecommendAiAllowProcessing') }}</a>
         <button
           v-if="isAiAvailable"
           type="button"
@@ -265,16 +280,19 @@
 import { computed, ref } from 'vue';
 import {
   Matomo,
+  MatomoUrl,
   AjaxHelper,
   translate,
   ContentBlock,
   ActivityIndicator,
   Alert,
   Progressbar,
+  NotificationsStore,
 } from 'CoreHome';
 import RecommendGoalCard from './RecommendGoalCard.vue';
 import useScanProgress from './useScanProgress';
 import type {
+  AddRecommendedGoalsResponse,
   RecommendedGoal,
   RecommendedManualGoal,
   RecommendationsResponse,
@@ -286,8 +304,10 @@ const props = withDefaults(defineProps<{
   // structural type so ManageGoals' Record<string, Goal> assigns under 6.x's stricter TS
   goals?: Record<string, { pattern?: unknown, match_attribute?: unknown }>;
   userCanEditGoals?: boolean;
+  aiAvailability?: string;
 }>(), {
   goals: () => ({}),
+  aiAvailability: '',
 });
 
 /* eslint-disable func-call-spacing, no-spaced-func */
@@ -297,7 +317,14 @@ const emit = defineEmits<{
 }>();
 /* eslint-enable func-call-spacing, no-spaced-func */
 
-const useAi = ref(false);
+const useAiKey = 'Goals.RecommendGoals.UseAi';
+
+function getStoredUseAi(): boolean {
+  try { return localStorage.getItem(useAiKey) !== '0'; } catch { return true; }
+}
+
+// on whenever AI is available, unless the user switched it off in this browser
+const useAi = ref(getStoredUseAi());
 const lastRunUsedAi = ref(false);
 const isLoading = ref(false);
 const isLoadingSaved = ref(false);
@@ -320,7 +347,7 @@ const debug = ref<RecommendationDebug|null>(null);
 const generatedAt = ref<number|null>(null);
 const remainingAiScans = ref<number|null>(null);
 const providerName = ref<string>(translate('Goals_RecommendAiProviderFallback'));
-const aiAvailability = ref<string>('available');
+const aiAvailability = ref<string>(props.aiAvailability);
 const serverPrivacyNote = ref<string>('');
 const createdRecommendationKeys = ref<string[]>([]);
 
@@ -338,7 +365,8 @@ const shouldShowRecommendations = computed(() => props.userCanEditGoals);
 const isAiAvailable = computed(() => aiAvailability.value === 'available');
 
 // 'disabled' stays silent: nobody on the instance can enable AI, so there is
-// nothing to act on. The other two states differ in what needs doing.
+// nothing to act on. 'notPermitted' only shows the AI processing link below.
+// The other two states differ in what needs doing.
 const aiUnavailableLabel = computed(() => {
   if (aiAvailability.value === 'notActivated') {
     return translate('Goals_RecommendAiNotActivated');
@@ -352,6 +380,33 @@ const aiUnavailableLabel = computed(() => {
 const aiUnavailableHelp = computed(() => (aiAvailability.value === 'notActivated'
   ? translate('Goals_RecommendAiNotActivatedHelp')
   : translate('Goals_RecommendAiNotConfiguredHelp')));
+
+// only a superuser can allow AI processing (returnTo shows a back link there)
+const aiProcessingSettingsUrl = computed(() => (Matomo.hasSuperUserAccess
+  ? `?${MatomoUrl.stringify({
+    ...MatomoUrl.urlParsed.value,
+    module: 'AIProviders',
+    action: 'aiProcessing',
+    returnTo: `index.php${window.location.search}${window.location.hash}`,
+  })}`
+  : '#'));
+
+// other users still see the link, but are told to ask a superuser
+function onAiProcessingLinkClick(event: MouseEvent) {
+  if (Matomo.hasSuperUserAccess) {
+    return;
+  }
+
+  event.preventDefault();
+  const notificationInstanceId = NotificationsStore.show({
+    id: 'RecommendGoals.aiProcessingNotAllowed',
+    message: translate('Goals_RecommendAiAllowProcessingNoPermission'),
+    context: 'error',
+    type: 'toast',
+  });
+  // the notification renders at the top of the page, far above the link
+  NotificationsStore.scrollToNotification(notificationInstanceId);
+}
 
 const isBusy = computed(() => isLoading.value
   || isCreatingAll.value
@@ -390,6 +445,11 @@ function isAccepted(rec: RecommendedGoal): boolean {
 
 const pendingRecommendations = computed(
   () => recommendations.value.filter((rec) => !isAccepted(rec)),
+);
+
+// every suggestion is now a goal, so the cards give way to one confirmation
+const isCompleted = computed(
+  () => recommendations.value.length > 0 && pendingRecommendations.value.length === 0,
 );
 
 // the strongest suggestions are shown first, the ranked rest on request
@@ -457,6 +517,10 @@ const privacyNote = computed(
     || translate('Goals_RecommendAiToggleHelp', providerName.value),
 );
 
+function rememberUseAi() {
+  try { localStorage.setItem(useAiKey, useAi.value ? '1' : '0'); } catch { /* hi */ }
+}
+
 function loadSavedRecommendations() {
   isLoadingSaved.value = true;
 
@@ -487,7 +551,6 @@ function loadSavedRecommendations() {
     warnings.value = response.warnings || [];
     recommendationMode.value = response.mode || null;
     generatedAt.value = response.generatedAt;
-    useAi.value = !!response.useAi;
     lastRunUsedAi.value = !!response.useAi;
     hasRun.value = true;
   }).catch(() => {
@@ -546,59 +609,52 @@ function recommend() {
   });
 }
 
-function addGoalRequest(rec: RecommendedGoal): Promise<{ value?: number }> {
-  return AjaxHelper.fetch({
-    method: 'Goals.addGoal',
-    idSite: idSite.value,
-    name: rec.name,
-    matchAttribute: rec.matchAttribute || 'url',
-    pattern: rec.pattern,
-    patternType: rec.patternType || 'contains',
-    caseSensitive: rec.caseSensitive ? 1 : 0,
-    allowMultipleConversionsPerVisit: rec.allowMultipleConversionsPerVisit ? 1 : 0,
-    revenue: rec.revenue || 0,
-    description: rec.description || rec.reason || '',
-    useEventValueAsRevenue: rec.useEventValueAsRevenue ? 1 : 0,
-    createdFromRecommendedGoal: 1,
-  }, { createErrorNotification: false });
+// one request per click, so "Create all" is distinguishable server side
+function createRecommendedGoals(recs: RecommendedGoal[]): Promise<void> {
+  createError.value = null;
+
+  return AjaxHelper.post<AddRecommendedGoalsResponse>(
+    { method: 'Goals.addRecommendedGoals', idSite: idSite.value },
+    { recommendationIds: recs.map((rec) => rec.id || '') },
+    { createErrorNotification: false },
+  ).then((response) => {
+    const created = (response && response.goals) || [];
+    created.forEach((goal) => createdRecommendationKeys.value.push(goal.recommendationId));
+    if (created.length < recs.length) {
+      createError.value = translate('Goals_RecommendCreateError');
+    }
+    if (created.length) {
+      emit('created', created.map((goal) => goal.idGoal));
+    }
+  }).catch(() => {
+    createError.value = translate('Goals_RecommendCreateError');
+  });
 }
 
 function createOne(rec: RecommendedGoal) {
   creatingId.value = recKey(rec);
-  createError.value = null;
-  addGoalRequest(rec).then((response) => {
-    if (response && response.value) {
-      createdRecommendationKeys.value.push(recKey(rec));
-    }
-    emit('created', response && response.value ? [response.value] : []);
-  }).catch(() => {
-    createError.value = translate('Goals_RecommendCreateError');
-  }).finally(() => {
+  createRecommendedGoals([rec]).finally(() => {
     creatingId.value = null;
   });
 }
 
 function createAll() {
   isCreatingAll.value = true;
-  createError.value = null;
-  const createdIds: number[] = [];
-
-  pendingRecommendations.value.reduce(
-    (promise, rec) => promise.then(() => addGoalRequest(rec)).then((response) => {
-      if (response && response.value) {
-        createdRecommendationKeys.value.push(recKey(rec));
-        createdIds.push(response.value);
-      }
-    }),
-    Promise.resolve(),
-  ).catch(() => {
-    createError.value = translate('Goals_RecommendCreateError');
-  }).finally(() => {
+  createRecommendedGoals(pendingRecommendations.value).finally(() => {
     isCreatingAll.value = false;
-    if (createdIds.length) {
-      emit('created', createdIds);
-    }
   });
+}
+
+function clearScan() {
+  hasRun.value = false;
+  recommendations.value = [];
+  manualGoals.value = [];
+  warnings.value = [];
+  aiError.value = null;
+  createError.value = null;
+  recommendationMode.value = null;
+  lastRunUsedAi.value = false;
+  generatedAt.value = null;
 }
 
 function dismiss() {
@@ -606,17 +662,7 @@ function dismiss() {
   AjaxHelper.fetch({
     method: 'Goals.dismissRecommendedGoals',
     idSite: idSite.value,
-  }).then(() => {
-    hasRun.value = false;
-    recommendations.value = [];
-    manualGoals.value = [];
-    warnings.value = [];
-    aiError.value = null;
-    createError.value = null;
-    recommendationMode.value = null;
-    lastRunUsedAi.value = false;
-    generatedAt.value = null;
-  }).finally(() => {
+  }).then(clearScan).finally(() => {
     isDismissing.value = false;
   });
 }
@@ -635,12 +681,13 @@ function dismissOne(rec: RecommendedGoal) {
       return;
     }
 
-    recommendations.value = recommendations.value.filter((other) => other !== rec);
-    if (!recommendations.value.length && !manualGoals.value.length) {
-      hasRun.value = false;
-      recommendationMode.value = null;
-      generatedAt.value = null;
+    // the server drops the scan after the last dismiss
+    if (recommendations.value.length === 1) {
+      clearScan();
+      return;
     }
+
+    recommendations.value = recommendations.value.filter((other) => other !== rec);
   }).catch(() => {
     createError.value = translate('Goals_RecommendDismissError');
   }).finally(() => {

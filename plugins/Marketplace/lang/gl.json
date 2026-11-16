@@ -1,6 +1,8 @@
 {
     "Marketplace": {
         "ActivateLicenseKey": "Activar",
+        "CategoryEcommerce": "Comercio electrónico",
+        "CategorySecurity": "Seguridade",
         "PluginKeywords": "Palabras clave"
     }
 }

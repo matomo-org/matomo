@@ -10,7 +10,6 @@
         "DisableVisitorProfile": "Desactivar perfiles de visitantes",
         "DisableVisitorProfileDescription": "Todas las funciones relacionadas con el registro de visitas siempre funcionan.",
         "DisableVisitsLogAndProfile": "Desactivar el registro de visitas y los perfiles de visitantes",
-        "DisableVisitsLogAndProfileDescription": "También elimina funciones que dependen de éstas, como el registro de comercio electrónico, el registro de visitas segmentadas, el mapa en tiempo real o el widget en tiempo real. Puede ser necesario para cumplir con las leyes/directrices de privacidad locales.",
         "ExportThisDatasetToXml": "Exporta este conjunto de datos a XML",
         "FirstVisit": "Primer visita",
         "GoalType": "Tipo",

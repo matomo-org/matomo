@@ -5,10 +5,10 @@
         "UserId": "UserId",
         "UserIdDisabledSettingImpact": "Les valeurs d'ID utilisateur ne sont pas collectées. Les rapports d'identification de l'utilisateur, les segments et l'analyse croisée basée sur l'ID utilisateur ne sont pas disponibles.",
         "UserIdDisabledSettingRequirementNote": "La collecte de l’identifiant utilisateur pendant le suivi doit être désactivée.",
-        "UserIdDisabledSettingTitle": "Identifiant utilisateur désactivé",
-        "UserIdDisabledSettingWhatItDoes": "Le suivi de l'ID utilisateur est désactivé. Les implémentations de suivi ne doivent pas envoyer les identifiants d'utilisateur à l'aide de méthodes setUserId ou équivalentes..<br><br> Cela empêche les visiteurs d'être directement identifiés et associés dans les visites ou appareils.",
+        "UserIdDisabledSettingTitle": "Suivi de l'identifiant utilisateur désactivé",
+        "UserIdDisabledSettingWhatItDoes": "Le suivi de l'ID utilisateur est désactivé. Les implémentations de suivi ne doivent pas envoyer les identifiants d'utilisateur à l'aide de méthodes setUserId ou équivalentes.<br><br>Cela empêche les visiteurs d'être directement identifiés et associés d'une visite ou d'un appareil à l'autre.",
         "UserIdSegmentHelp": "N’importe quelle chaîne non vide et unique identifiant l’utilisateur (comme une adresse e-mail ou un nom d’utilisateur).",
-        "UserReportDocumentation": "Affiche les visites et d'autres mesures générales pour chaque identifiant d'utilisateur individuel.",
+        "UserReportDocumentation": "Affiche les visites et d'autres métriques générales pour chaque identifiant d'utilisateur individuel.",
         "UserReportTitle": "ID Utilisateur",
         "VisitorsUserSubcategoryHelp": "Le rapport sur l'ID utilisateur affiche les visites associées à tous vos utilisateurs enregistrés et connectés. Comprenez l'utilisation du site Web par ses utilisateurs spécifiques et découvrez qui sont vos utilisateurs les plus et les moins actifs."
     }

@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Nastavitve prikaza",
         "AlsoSendReportToTheseEmails": "Poročila pošlji tudi na sledeče emaile (en email v vsako vrstico):",
         "AreYouSureDeleteReport": "Ste prepričani, da želite izbrisati to poročilo in urnik?",
         "CreateReport": "Ustvari poročilo",

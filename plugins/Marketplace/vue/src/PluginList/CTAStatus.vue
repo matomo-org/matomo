@@ -6,13 +6,12 @@
 -->
 
 <template>
-  <div
-    v-if="inModal"
-    class="alert alert-no-background"
-    :class="alertClass"
-  >
-    {{ label }}
-    <span v-if="hasAction" style="white-space:nowrap">(<slot />)</span>
+  <div v-if="inModal" class="ctaStatus ctaStatus--stacked">
+    <div class="alert alert-no-background" :class="alertClass">
+      {{ label }}
+      <span v-if="hasAction && !actionAsButton" class="ctaStatus__alertAction">(<slot />)</span>
+    </div>
+    <div v-if="hasAction && actionAsButton" class="ctaStatus__actionButton"><slot /></div>
   </div>
 
   <div v-else class="ctaStatus" :class="toneClass">
@@ -31,11 +30,13 @@ import { defineComponent } from 'vue';
  * A plugin's non-actionable state - installed, cannot install, license missing - with whatever
  * action remains beside it.
  *
- * Two renderings: the modal keeps the alert banner it has always had, with the action in brackets;
- * a card draws one row, state then action, since the alert's padding and border will not fit.
+ * Two renderings: the modal keeps the alert banner it has always had, with the action in brackets
+ * or, with `actionAsButton`, as a button under it; a card draws one row, state then action, since
+ * the alert's padding and border will not fit. Success takes the brand alert rather than the green
+ * one, as the page around it is drawn in the brand colour.
  */
 const ALERT_CLASSES: Record<string, string> = {
-  success: 'alert-success',
+  success: 'alert-brand',
   warning: 'alert-warning',
   danger: 'alert-danger',
 };
@@ -63,6 +64,14 @@ export default defineComponent({
     },
     /** The slot is a function either way, so the caller says, or the brackets render empty. */
     hasAction: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * In the modal, draw the action as a button under the alert rather than as a link in brackets
+     * inside it. For an action the card draws as a button too, so the two look the same.
+     */
+    actionAsButton: {
       type: Boolean,
       default: false,
     },

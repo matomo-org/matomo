@@ -1,5 +1,6 @@
 {
     "Referrers": {
+        "AIAssistants": "Tekoälyavustajat",
         "Acquisition": "Saapumiset",
         "AllReferrersReportDocumentation": "Tämä raportti näyttää kaikki viittaukset yhdessä raportissa, listaten kaikki sivustot, hakusanat ja kampanjat, joita kävijäsi käyttivät löytääkseen sivustosi.",
         "CampaignContent": "Kampanjan sisältö",
@@ -10,6 +11,7 @@
         "CampaignSource": "Kampanjan lähde",
         "Campaigns": "Kampanjat",
         "CampaignsDocumentation": "Kävijät, jotka tulivat sivullesi kampanjan mukana. %1$s Katso %2$s raportista lisätietoja.",
+        "ColumnAIAssistant": "Tekoälyavustaja",
         "ColumnCampaign": "Kampanja",
         "ColumnSearchEngine": "Hakukone",
         "ColumnSocial": "Sosiaalinen verkosto",
@@ -55,6 +57,7 @@
         "UsingNDistinctUrls": "(käytetään %s yksilöllistä osoitetta)",
         "ViewAllReferrers": "Näytä kaikki viittaukset",
         "ViewReferrersBy": "Näytä viittaukset %s mukaan",
+        "VisitorsFromAIAssistants": "Kävijöitä tekoälyavustajilta",
         "VisitorsFromCampaigns": "Kävijöitä kamppanjoista",
         "VisitorsFromDirectEntry": "Kävijöitä suoraan",
         "VisitorsFromSearchEngines": "Kävijöitä hakukoneista",
@@ -63,6 +66,7 @@
         "Websites": "Sivustot",
         "WebsitesDocumentation": "Kävijä tuli sivullesi seuraamalla linkkiä toiselta sivulta. %1$s Katso %2$s raportista lisätietoja.",
         "WebsitesReportDocumentation": "Tässä taulussa on lista sivuista, joiden kautta käyttäjiä tuli sinun sivullesi. %s Näet lähdesivun URL:n klikkaamalla taulun riviä.",
+        "WidgetAIAssistants": "Lista tekoälyavustajista",
         "WidgetExternalWebsites": "Lista ulkoisista verkkosivuista",
         "WidgetGetAll": "Kaikki kanavat",
         "WidgetSocials": "Sosiaalisten verkostojen lista",

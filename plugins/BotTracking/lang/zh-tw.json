@@ -108,6 +108,10 @@
         "TopPageUrlsLast30MinutesDocumentation": "顯示最近 30 分鐘內 AI 聊天機器人請求過的網頁網址，並依機器人請求數排序。",
         "TopPageUrlsLast30MinutesTitle": "熱門網頁網址：最近 30 分鐘",
         "TopPageUrlsLast8HoursDocumentation": "顯示最近 8 小時內 AI 聊天機器人請求過的網頁網址，並依機器人請求數排序。",
-        "TopPageUrlsLast8HoursTitle": "熱門網頁網址：最近 8 小時"
+        "TopPageUrlsLast8HoursTitle": "熱門網頁網址：最近 8 小時",
+        "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
+        "AIChatbotTrafficRatioValue": "%1$s×",
+        "ColumnAIChatbotTrafficRatio": "AI 聊天機器人流量比率",
+        "ColumnAIChatbotTrafficRatioDocumentation": "AI 聊天機器人請求數相對於真人（直接或透過 AI 代理）所產生瀏覽數的比率。數值為 2.0× 代表 AI 聊天機器人請求數是瀏覽數的兩倍。"
     }
 }

@@ -67,6 +67,21 @@
   });
 }
 
+// The success state in the theme's brand colour, for pages drawn in it rather than in the fixed
+// green of .alert-success.
+.alert-brand {
+  background-color: @theme-color-background-brand-lowContrast;
+  border-color: @theme-color-brand;
+  &::before {
+    content: "\e63d";
+    color: @theme-color-brand;
+  }
+
+  .inDarkMode({
+    background-color: transparent;
+  });
+}
+
 .alert-info {
   background-color: #ecf7fe;
   border-color: #0d94e3;

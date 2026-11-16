@@ -15,8 +15,11 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\AIProviders\AIRequestDecision;
 use Piwik\Plugins\AIProviders\Exception\AIProviderClientException;
+use Piwik\Plugins\AIProviders\Exception\AIQuotaExceededException;
 use Piwik\Plugins\AIProviders\Exception\AIProviderServerException;
+use Piwik\Plugins\AIProviders\Model\AIProcessingSettings;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Recommendations\AiRecommender;
 use Piwik\Plugins\Goals\Recommendations\DeterministicRecommender;
@@ -25,6 +28,7 @@ use Piwik\Plugins\Goals\Recommendations\HomepageAnalyzer;
 use Piwik\Plugins\Goals\Recommendations\ManualSuggestionRecommender;
 use Piwik\Plugins\Goals\Recommendations\RecommendationStore;
 use Piwik\Plugins\Goals\Recommendations\ScanAlreadyRunningException;
+use Piwik\Request;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -62,6 +66,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
         self::$aiProviderStatuses = [];
         $this->idSite = Fixture::createWebsite('2024-01-01 00:00:00');
         Config::getInstance()->FeatureFlags = ['GoalRecommendations_feature' => 'enabled'];
+        $this->setAiProcessingCategories([AIProcessingSettings::CATEGORY_NON_ANALYTICS]);
     }
 
     public function tearDown(): void
@@ -99,6 +104,43 @@ class GoalRecommendationsTest extends IntegrationTestCase
                 Piwik::translate('Goals_RecommendAiProviderFallback')
             ),
         ], $result);
+    }
+
+    public function testAiIsNotPermittedUntilNonAnalyticsProcessingIsAllowed()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+        $this->setAiProcessingCategories([AIProcessingSettings::CATEGORY_AGGREGATED_ANALYTICS]);
+
+        $this->assertSame('notPermitted', $this->api->getSavedRecommendedGoals($this->idSite)['aiAvailability']);
+
+        $this->setAiProcessingCategories([AIProcessingSettings::CATEGORY_NON_ANALYTICS]);
+
+        $this->assertSame('available', $this->api->getSavedRecommendedGoals($this->idSite)['aiAvailability']);
+    }
+
+    public function testRevokedAiProcessingFallsBackToRuleBasedRecommendations()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+        $this->setAiProcessingCategories([]);
+
+        $aiRecommender = $this->createMock(AiRecommender::class);
+        $aiRecommender->expects($this->never())->method('recommend');
+
+        $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+
+        $this->assertSame('deterministic', $result['mode']);
+        $this->assertSame(Piwik::translate('Goals_RecommendationAiNotPermitted'), $result['aiError']);
+        $this->assertSame(0, (new RecommendationStore())->countAiScansToday($this->idSite));
+    }
+
+    public function testRecommendationsAreListedUnderNonAnalyticsProcessing()
+    {
+        $features = StaticContainer::get(AIProcessingSettings::class)->getFeaturesByCategory();
+
+        $this->assertSame(
+            [Piwik::translate('Goals_GoalRecommendation')],
+            array_column($features[AIProcessingSettings::CATEGORY_NON_ANALYTICS], 'name')
+        );
     }
 
     public function testGetSavedRecommendedGoalsReturnsPersistedScan()
@@ -166,6 +208,100 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->saveScan([$this->makeRecommendation()]);
 
         $this->assertCount(1, $this->api->getSavedRecommendedGoals($this->idSite)['goals']);
+    }
+
+    public function testDismissingTheLastRecommendationRemovesSavedScan()
+    {
+        $this->saveScan([$this->makeRecommendation(), $this->makePricingRecommendation()]);
+
+        $this->api->dismissRecommendedGoal($this->idSite, 'url:contact');
+        $this->assertIsInt($this->api->getSavedRecommendedGoals($this->idSite)['generatedAt']);
+
+        $response = $this->api->dismissRecommendedGoal($this->idSite, 'url:pricing');
+
+        $this->assertSame(['success' => true], $response);
+        $this->assertNull($this->api->getSavedRecommendedGoals($this->idSite)['generatedAt']);
+    }
+
+    public function testAddRecommendedGoalsCreatesASingleGoalFromTheSavedScan()
+    {
+        $this->saveScan([$this->makeRecommendation(), $this->makePricingRecommendation()]);
+
+        $result = $this->api->addRecommendedGoals($this->idSite, ['url:contact']);
+
+        $goals = $this->api->getGoals($this->idSite);
+        $this->assertCount(1, $goals);
+        $goal = reset($goals);
+        $this->assertSame([
+            'mode' => 'ai',
+            'goals' => [['recommendationId' => 'url:contact', 'idGoal' => (int) $goal['idgoal']]],
+        ], $result);
+        $this->assertSame('Visited contact page', $goal['name']);
+        $this->assertSame('/contact', $goal['pattern']);
+        $this->assertSame('Contact page goal', $goal['description']);
+    }
+
+    public function testAddRecommendedGoalsCreatesAllRequestedAndSkipsDismissedAndUnknownIds()
+    {
+        $this->saveScan([
+            $this->makeRecommendation(),
+            $this->makePricingRecommendation(),
+            $this->makeRecommendation(['id' => 'url:jobs', 'name' => 'Visited jobs page', 'pattern' => '/jobs']),
+        ]);
+        $this->api->dismissRecommendedGoal($this->idSite, 'url:jobs');
+
+        $result = $this->api->addRecommendedGoals($this->idSite, ['url:contact', 'url:pricing', 'url:jobs', 'url:unknown']);
+
+        $this->assertSame(['url:contact', 'url:pricing'], array_column($result['goals'], 'recommendationId'));
+        $this->assertSame(
+            ['Visited contact page', 'Visited pricing page'],
+            array_column($this->api->getGoals($this->idSite), 'name')
+        );
+    }
+
+    public function testAddRecommendedGoalsRunsAddGoalListenersWithTheRecommendationFlag()
+    {
+        $this->saveScan([$this->makeRecommendation()]);
+        $flags = [];
+        Piwik::addAction('API.Goals.addGoal.end', function () use (&$flags) {
+            $flags[] = Request::fromRequest()->getIntegerParameter('createdFromRecommendedGoal', 0);
+        });
+
+        $this->api->addRecommendedGoals($this->idSite, ['url:contact']);
+
+        $this->assertSame([1], $flags);
+    }
+
+    public function testAddRecommendedGoalsContinuesAfterAGoalFailsValidation()
+    {
+        $this->saveScan([
+            $this->makeRecommendation(['id' => 'visit_duration:abc', 'matchAttribute' => 'visit_duration', 'pattern' => 'abc']),
+            $this->makePricingRecommendation(),
+        ]);
+
+        $result = $this->api->addRecommendedGoals($this->idSite, ['visit_duration:abc', 'url:pricing']);
+
+        $this->assertSame(['url:pricing'], array_column($result['goals'], 'recommendationId'));
+        $this->assertSame(['Visited pricing page'], array_column($this->api->getGoals($this->idSite), 'name'));
+    }
+
+    public function testAddRecommendedGoalsIgnoresNonScalarIds()
+    {
+        $this->saveScan([$this->makeRecommendation()]);
+
+        $result = $this->api->addRecommendedGoals($this->idSite, [['url:contact'], 'url:contact']);
+
+        $this->assertSame(['url:contact'], array_column($result['goals'], 'recommendationId'));
+    }
+
+    public function testAddRecommendedGoalsRequiresWriteAccess()
+    {
+        $this->saveScan([$this->makeRecommendation()]);
+        $this->setViewOnlyUser();
+
+        $this->expectException(\Exception::class);
+
+        $this->api->addRecommendedGoals($this->idSite, ['url:contact']);
     }
 
     public function testDismissRecommendedGoalRequiresWriteAccess()
@@ -342,6 +478,30 @@ class GoalRecommendationsTest extends IntegrationTestCase
 
         $this->assertSame('deterministic', $result['mode']);
         $this->assertSame(Piwik::translate('Goals_RecommendationAiProviderIssue'), $result['aiError']);
+    }
+
+    public function testAiUsageLimitShowsTheLimitMessageToNonSuperusersAndConsumesNoQuota()
+    {
+        self::$aiProviderStatuses = [['isDefault' => true, 'isConfigured' => true]];
+        $this->setWriteUser();
+
+        $aiRecommender = $this->createMock(AiRecommender::class);
+        $aiRecommender->method('recommend')
+            ->willThrowException(new AIQuotaExceededException('The AI usage limit has been reached.', new AIRequestDecision()));
+
+        Fixture::loadAllTranslations();
+        try {
+            $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+        } finally {
+            Fixture::resetTranslations();
+        }
+
+        $this->assertSame('deterministic', $result['mode']);
+        $this->assertSame(
+            'The AI usage limit has been reached. Rule-based suggestions are shown instead.',
+            $result['aiError']
+        );
+        $this->assertSame(0, (new RecommendationStore())->countAiScansToday($this->idSite));
     }
 
     public function testAiTransientErrorShowsRawMessageToSuperusers()
@@ -530,6 +690,22 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'description' => 'Contact page goal',
             'source' => 'ai',
         ], $overrides);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function makePricingRecommendation(): array
+    {
+        return $this->makeRecommendation(['id' => 'url:pricing', 'name' => 'Visited pricing page', 'pattern' => '/pricing']);
+    }
+
+    /**
+     * @param list<string> $categories
+     */
+    private function setAiProcessingCategories(array $categories): void
+    {
+        StaticContainer::get(AIProcessingSettings::class)->setEnabledCategories($categories);
     }
 
     private function setViewOnlyUser(): void

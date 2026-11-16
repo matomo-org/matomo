@@ -27,10 +27,10 @@ describe('AIAgents', function () {
   it('should display the list of supported evolution metrics', async function () {
     // the picker options are always present in the DOM (the dropdown is only hidden
     // until the toggle is clicked), so the checked state can be read without opening it
-    const selectedMetrics = await page.$$('.metrics-picker__options input:checked');
+    const selectedMetrics = await page.$$('.series-picker-wrapper [aria-checked="true"]');
     expect(selectedMetrics.length).to.equal(1);
 
-    const selectedMetricLabel = await page.$('.metrics-picker__options input:checked ~ .metrics-picker__title');
+    const selectedMetricLabel = await page.$('.series-picker-wrapper [aria-checked="true"] .mtm-dropdownPanel__menuLabel');
     expect(await selectedMetricLabel.getProperty('textContent')).to.match(/AI Agent Visits/);
   });
 
@@ -54,10 +54,10 @@ describe('AIAgents', function () {
     await sparklines[humanVisitsIndex].click();
     await page.waitForNetworkIdle();
 
-    const selectedMetrics = await page.$$('.metrics-picker__options input:checked');
+    const selectedMetrics = await page.$$('.series-picker-wrapper [aria-checked="true"]');
     expect(selectedMetrics.length).to.equal(1);
 
-    const selectedMetricLabel = await page.$('.metrics-picker__options input:checked ~ .metrics-picker__title');
+    const selectedMetricLabel = await page.$('.series-picker-wrapper [aria-checked="true"] .mtm-dropdownPanel__menuLabel');
     expect(await selectedMetricLabel.getProperty('textContent')).to.match(/Human Visits/);
   });
 
@@ -65,24 +65,24 @@ describe('AIAgents', function () {
     let metricLabels;
 
     // add "AI Agent Visits" (the dropdown must be open to click an option label)
-    await page.click('.metrics-picker__toggle');
-    await page.waitForSelector('.metrics-picker__options label');
-    metricLabels = await page.$$('.metrics-picker__options label');
+    await page.click('.series-picker-wrapper .mtm-selector__trigger');
+    await page.waitForSelector('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
+    metricLabels = await page.$$('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
 
     await metricLabels[0].click();
     await page.waitForNetworkIdle();
 
     // add "Visits"
-    await page.click('.metrics-picker__toggle');
-    await page.waitForSelector('.metrics-picker__options label');
-    metricLabels = await page.$$('.metrics-picker__options label');
+    await page.click('.series-picker-wrapper .mtm-selector__trigger');
+    await page.waitForSelector('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
+    metricLabels = await page.$$('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
 
     await metricLabels[12].click();
     await page.waitForNetworkIdle();
 
     // check three metrics are selected/visible (picker rebuilt closed after the
     // last selection, so the checked count can be read without reopening it)
-    const selectedMetrics = await page.$$('.metrics-picker__options input:checked');
+    const selectedMetrics = await page.$$('.series-picker-wrapper [aria-checked="true"]');
     expect(selectedMetrics.length).to.equal(3);
 
     await page.mouse.move(-10, -10);

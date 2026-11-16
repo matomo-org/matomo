@@ -15,6 +15,8 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
+use Piwik\Plugins\Live\Model as LiveModel;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
@@ -274,6 +276,33 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         }
     }
 
+    public function testNoDataNotificationIsSkippedWhenTheVisitsQueryTimesOut()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        (new Model())->createSegment([
+            'name' => 'Preprocessed segment',
+            'definition' => self::TEST_SEGMENT,
+            'login' => 'superUserLogin',
+            'enable_all_users' => 1,
+            'enable_only_idsite' => self::$fixture->idSite,
+            'auto_archive' => 1,
+            'deleted' => 0,
+        ]);
+
+        $this->assertArrayHasKey(SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID, $this->getNoDataNotifications(self::TEST_SEGMENT));
+
+        $liveModel = $this->createMock(LiveModel::class);
+        $liveModel->method('queryLogVisits')->willThrowException(new MaxExecutionTimeExceededException('timeout'));
+        StaticContainer::getContainer()->set(LiveModel::class, $liveModel);
+
+        try {
+            $this->assertArrayNotHasKey(SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID, $this->getNoDataNotifications(self::TEST_SEGMENT));
+        } finally {
+            StaticContainer::getContainer()->set(LiveModel::class, new LiveModel());
+        }
+    }
+
     public function testAddRealTimeEnabledInApiWhenRealTimeDisabledInConfig()
     {
         $this->expectExceptionMessage('Real time segments are disabled. You need to enable auto archiving.');
@@ -322,6 +351,17 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
 
     private function getNoDataNotificationMessage(string $segment): string
     {
+        $notifications = $this->getNoDataNotifications($segment);
+
+        $this->assertArrayHasKey(SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID, $notifications);
+        return $notifications[SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID]->message;
+    }
+
+    /**
+     * @return array<string, \Piwik\Notification>
+     */
+    private function getNoDataNotifications(string $segment): array
+    {
         $backupGet = $_GET;
         $backupQueryString = $_SERVER['QUERY_STRING'] ?? null;
 
@@ -342,8 +382,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
             $_SERVER['QUERY_STRING'] = $backupQueryString;
         }
 
-        $this->assertArrayHasKey(SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID, $view->notifications);
-        return $view->notifications[SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID]->message;
+        return $view->notifications;
     }
 
     private function clearLogData()

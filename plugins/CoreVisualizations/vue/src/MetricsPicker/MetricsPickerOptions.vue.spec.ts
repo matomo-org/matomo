@@ -7,9 +7,10 @@
 
 import { mount } from '@vue/test-utils';
 
-// translate just echoes the key.
+// translate just echoes the key; activateMenuItem clicks the entry a key press landed on.
 vi.mock('CoreHome', () => ({
   translate: (key: string) => key,
+  activateMenuItem: (event: KeyboardEvent) => (event.currentTarget as HTMLElement)?.click(),
 }));
 
 import MetricsPickerOptions from './MetricsPickerOptions.vue';
@@ -40,7 +41,7 @@ describe('CoreVisualizations/MetricsPickerOptions.vue', () => {
   it('in single-select mode, picking an option clears any other selection and emits just that one', async () => {
     const wrapper = mountOptions({ multiselect: false, selectedColumns: ['nb_visits'] });
 
-    await wrapper.findAll('.metrics-picker__row')[0].find('input').trigger('change');
+    await wrapper.findAll('.metricsPickerRow')[0].trigger('click');
 
     expect(lastSelect(wrapper)).toEqual({ columns: [], rows: ['Row 1'] });
   });
@@ -48,8 +49,8 @@ describe('CoreVisualizations/MetricsPickerOptions.vue', () => {
   it('in multiselect mode, selections accumulate across columns and rows', async () => {
     const wrapper = mountOptions({ multiselect: true, selectedColumns: ['nb_visits'] });
 
-    await wrapper.findAll('.metrics-picker__column')[1].find('input').trigger('change');
-    await wrapper.findAll('.metrics-picker__row')[0].find('input').trigger('change');
+    await wrapper.findAll('.metricsPickerColumn')[1].trigger('click');
+    await wrapper.findAll('.metricsPickerRow')[0].trigger('click');
 
     expect(lastSelect(wrapper)).toEqual({
       columns: ['nb_visits', 'nb_uniq_visitors'],
@@ -60,7 +61,7 @@ describe('CoreVisualizations/MetricsPickerOptions.vue', () => {
   it('in multiselect mode, clicking a selected option toggles it off', async () => {
     const wrapper = mountOptions({ multiselect: true, selectedColumns: ['nb_visits'] });
 
-    await wrapper.findAll('.metrics-picker__column')[0].find('input').trigger('change');
+    await wrapper.findAll('.metricsPickerColumn')[0].trigger('click');
 
     expect(lastSelect(wrapper)).toEqual({ columns: [], rows: [] });
   });
