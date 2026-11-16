@@ -82,6 +82,7 @@
         "PleaseNote": "Si us plau, tingueu en compte",
         "PluginDescription": "Proporciona el nom d'usuari i la contrasenya d'inici de sessió, així com la funcionalitat de restabliment de la contrasenya. El mètode d'inici de sessió es pot canviar mitjançant un altre connector d'inici de sessió, com ara LoginLdap, disponible al mercat.",
         "RememberMe": "Recorda'm",
+        "SecondFactorCode": "Codi d'autenticació",
         "SecurityTip": "Consell de seguretat",
         "SettingBruteForceBlacklistIp": "Bloquegeu sempre que aquestes IP puguin iniciar sessió",
         "SettingBruteForceEnable": "Activa la detecció de força bruta",
