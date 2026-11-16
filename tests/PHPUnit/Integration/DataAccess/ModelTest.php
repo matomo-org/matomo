@@ -90,6 +90,75 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $ids);
     }
 
+    public function testGetInvalidatedArchiveIdsSafeToDeletePurgesPartialArchivesOlderThanAUsableAllPluginsArchive()
+    {
+        $day = ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID];
+        $this->insertArchiveData([
+            // 1: replaced by the all plugins archive 5
+            $day + ['name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-02-04 00:00:00'],
+            // 2, 3: older than the usable all plugins archive 5
+            $day + ['name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 01:00:00'],
+            $day + ['name' => 'done.OtherPlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 02:00:00'],
+            // 4: another segment
+            $day + ['name' => 'done3736b708e4d20cfc10610e816a1b2341.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 02:00:00'],
+            $day + ['name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-04 03:00:00'],
+            // 6: newer than the all plugins archive, so it is still read
+            $day + ['name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-04 04:00:00'],
+            // 7, 8, 9: a failed all plugins archive does not replace the partial archive
+            ['date1' => '2020-02-04', 'date2' => '2020-02-04', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-05 00:00:00'],
+            ['date1' => '2020-02-04', 'date2' => '2020-02-04', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-05 01:00:00'],
+            ['date1' => '2020-02-04', 'date2' => '2020-02-04', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR, 'ts_archived' => '2020-02-05 02:00:00'],
+            // 10, 11, 12: an invalidated all plugins archive is still read instead of older archives
+            ['date1' => '2020-02-01', 'date2' => '2020-02-29', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-03-01 00:00:00'],
+            ['date1' => '2020-02-01', 'date2' => '2020-02-29', 'period' => Month::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-03-01 01:00:00'],
+            ['date1' => '2020-02-01', 'date2' => '2020-02-29', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED, 'ts_archived' => '2020-03-01 02:00:00'],
+            // 13, 14: a complete archive of a single plugin doesn't replace the partial archive
+            ['date1' => '2020-02-05', 'date2' => '2020-02-05', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-06 01:00:00'],
+            ['date1' => '2020-02-05', 'date2' => '2020-02-05', 'period' => Day::PERIOD_ID, 'name' => 'done.OtherPlugin', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-06 02:00:00'],
+            // 15, 16: also when the newer archive for all plugins is the only one, as when it was finished while the
+            // partial archive was still being built
+            ['date1' => '2020-02-06', 'date2' => '2020-02-06', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-07 01:00:00'],
+            ['date1' => '2020-02-06', 'date2' => '2020-02-06', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-07 02:00:00'],
+            // 17, 18: also when both were archived in the same second
+            ['date1' => '2020-02-07', 'date2' => '2020-02-07', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-08 01:00:00'],
+            ['date1' => '2020-02-07', 'date2' => '2020-02-07', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-08 01:00:00'],
+        ]);
+
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'), false);
+        $ids = $this->model->getInvalidatedArchiveIdsSafeToDelete($table);
+        sort($ids);
+
+        $this->assertEquals(['1', '2', '3', '10', '11', '15', '17'], $ids);
+    }
+
+    public function testGetInvalidatedArchiveIdsSafeToDeletePurgesPartialArchivesOfAllSitesInChunks()
+    {
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'), true);
+
+        // more sites than one chunk holds, with sparse IDs
+        $idSites = array_merge(range(1, 149, 2), range(1000, 1074), [1000000]);
+        $expected = [];
+        $idArchive = 0;
+        foreach ($idSites as $idSite) {
+            foreach ([['done.Plugin', ArchiveWriter::DONE_PARTIAL, '2020-02-04 01:00:00'], ['done', ArchiveWriter::DONE_OK, '2020-02-04 02:00:00']] as [$name, $value, $tsArchived]) {
+                ++$idArchive;
+                Db::query(
+                    "INSERT INTO `$table` (idarchive, idsite, date1, date2, period, `name`, `value`, ts_archived) VALUES (?, ?, '2020-02-03', '2020-02-03', ?, ?, ?, ?)",
+                    [$idArchive, $idSite, Day::PERIOD_ID, $name, $value, $tsArchived]
+                );
+                if ($value === ArchiveWriter::DONE_PARTIAL) {
+                    $expected[] = (string) $idArchive;
+                }
+            }
+        }
+
+        $ids = $this->model->getInvalidatedArchiveIdsSafeToDelete($table);
+        sort($ids);
+        sort($expected);
+
+        $this->assertSame($expected, $ids);
+    }
+
     public function testResetFailedArchivingJobsUpdatesCorrectStatuses()
     {
         Date::$now = strtotime('2020-03-03 04:00:00');
