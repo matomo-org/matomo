@@ -327,9 +327,11 @@ class ArchiveInvalidator
         $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
         $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
 
+        // an invalidation of a single plugin or report doesn't archive the other plugins' reports again
         if (
             $isInvalidatingDays
             && $isNotInvalidatingSegment
+            && empty($name)
         ) {
             $hasDeletedAny = false;
 

@@ -755,6 +755,31 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($expected, $reports);
     }
 
+    public function testMarkArchivesAsInvalidatedForAPluginOrReportKeepsTheRememberedDates()
+    {
+        $this->rememberReport(1, '2014-04-05');
+
+        $this->invalidator->markArchivesAsInvalidated([1], [Date::factory('2014-04-05')], 'day', null, false, false, 'ExamplePlugin');
+        $this->invalidator->markArchivesAsInvalidated([1], [Date::factory('2014-04-05')], 'day', null, false, false, 'ExamplePlugin.ExampleReport');
+
+        $this->assertSameReports(['2014-04-05' => [1]], $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
+
+        // an invalidation for all plugins applies and forgets them
+        $this->invalidator->markArchivesAsInvalidated([1], [Date::factory('2014-04-05')], 'day');
+        $this->assertSame([], $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
+    }
+
+    public function testReArchiveReportKeepsTheRememberedDates()
+    {
+        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        $yesterday = Date::factory('yesterday');
+        $this->rememberReport(1, $yesterday->toString());
+
+        $this->invalidator->reArchiveReport([1], 'ExamplePlugin', 'ExampleReport');
+
+        $this->assertSameReports([$yesterday->toString() => [1]], $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
+    }
+
     private function rememberReport($idSite, $date)
     {
         $date = Date::factory($date);
