@@ -10,8 +10,11 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\CronArchive;
+use Piwik\DataAccess\ArchiveFailures;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
@@ -69,6 +72,11 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         $this->assertStringNotContainsStringIgnoringCase('Got invalid response from API request', $this->logger->output);
         $this->assertStringContainsString("Skipped Archiving website id 1", $this->logger->output);
         $this->assertStringContainsString('no error', $this->logger->output);
+
+        // invalidations for the unsupported segment are dropped, not retried
+        $table = Common::prefixTable('archive_invalidations');
+        $this->assertSame([], Db::fetchAll("SELECT idinvalidation FROM `$table` WHERE name != 'done'"));
+        $this->assertSame([], (new ArchiveFailures())->getFailures());
     }
 
     public function testOutputInvalidSegmentWhenPluginIsNotActive()

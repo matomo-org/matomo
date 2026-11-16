@@ -10,6 +10,7 @@
         "ClickHereToOptIn": "Haga clic aquí para optar.",
         "ClickHereToOptOut": "Haga clic aquí para no ser seguido.",
         "CloudflareDescription": "Si su página web está alojado en Cloudflare, consulte %1$sesta guía%2$s.",
+        "ComponentLibrary": "Biblioteca de componentes",
         "ConfirmDeleteAllTrackingFailures": "Está seguro que desea eliminar todos los fallos de seguimiento?",
         "ConfirmDeleteThisTrackingFailure": "¿Está seguro que desea eliminar este fallo de seguimiento?",
         "Cors": "El Intercambio de Recursos de Origen Cruzado",

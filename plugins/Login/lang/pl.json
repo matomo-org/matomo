@@ -19,6 +19,7 @@
         "PasswordsDoNotMatch": "Hasła nie pasują.",
         "PluginDescription": "Dostarcza funkcjonalności autentykacji przy pomocy nazwy użytkownika i hasła jak również resetu hasła. Metoda autentykacji może być zmieniona przy wykorzystaniu dodatkowej wtyczki Logowania jak choćby LoginLdap dostępnej w Sklepie.",
         "RememberMe": "Zapamiętaj mnie",
+        "SecondFactorCode": "Kod autoryzujący",
         "SettingBruteForceEnable": "Włącz Wykrywanie Brute Force",
         "SettingBruteForceMaxFailedLogins": "Liczba dopuszczalnych prób logowania w określonym czasie",
         "SettingBruteForceMaxFailedLoginsHelp": "Jeśli liczba ustawionych tu nieudanych prób logowania odnotowanych w ustalonym poniżej przedziale czasu zostanie przekroczona, adres IP zostanie zablokowany.",

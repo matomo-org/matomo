@@ -16,7 +16,7 @@ use Piwik\Theme;
 abstract class UIAssetFetcher
 {
     /**
-     * @var UIAssetCatalog
+     * @var UIAssetCatalog|null
      */
     protected $catalog;
 
