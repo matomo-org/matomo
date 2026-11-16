@@ -62,6 +62,18 @@ class ArchiveFilter
      */
     private $forceReport = null;
 
+    /**
+     * If set, only invalidations of a single report (true) or only the others (false) are processed.
+     * @var bool|null
+     */
+    private $singleReportInvalidations = null;
+
+    /**
+     * With $singleReportInvalidations false, the single reports invalidated up to this time are processed too.
+     * @var string|null
+     */
+    private $singleReportInvalidationsUpTo = null;
+
     public function __construct()
     {
         $this->setRestrictToPeriods('');
@@ -127,6 +139,14 @@ class ArchiveFilter
                 || $archive['plugin'] . '.' . $archive['report'] != $this->forceReport)
         ) {
             return "report is not the same as value specified in --force-report";
+        }
+
+        if (
+            $this->singleReportInvalidations !== null
+            && in_array($archive['report'] ?? null, [null, ''], true) === $this->singleReportInvalidations
+            && !$this->isSingleReportInvalidatedUpTo($archive)
+        ) {
+            return $this->singleReportInvalidations ? 'not a single report' : 'single reports are archived after the other archives';
         }
 
         return false;
@@ -253,6 +273,34 @@ class ArchiveFilter
     public function getForceReport(): ?string
     {
         return $this->forceReport ?: null;
+    }
+
+    /**
+     * @param bool|null $singleReportInvalidations true for invalidations of a single report only, false for the others
+     *                                             only, null for all
+     * @param string|null $upTo with false, the single reports invalidated up to this time (UTC) are processed too
+     */
+    public function setSingleReportInvalidations(?bool $singleReportInvalidations, ?string $upTo = null): void
+    {
+        $this->singleReportInvalidations = $singleReportInvalidations;
+        $this->singleReportInvalidationsUpTo = $singleReportInvalidations === false ? $upTo : null;
+    }
+
+    public function getSingleReportInvalidations(): ?bool
+    {
+        return $this->singleReportInvalidations;
+    }
+
+    public function getSingleReportInvalidationsUpTo(): ?string
+    {
+        return $this->singleReportInvalidationsUpTo;
+    }
+
+    private function isSingleReportInvalidatedUpTo(array $archive): bool
+    {
+        return $this->singleReportInvalidationsUpTo !== null
+            && isset($archive['ts_invalidated'])
+            && $archive['ts_invalidated'] <= $this->singleReportInvalidationsUpTo;
     }
 
     /**

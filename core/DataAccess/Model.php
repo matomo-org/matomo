@@ -33,6 +33,8 @@ use Piwik\Log\LoggerInterface;
  */
 class Model
 {
+    private const SINGLE_REPORT_INVALIDATION_CONDITION = '(report IS NOT NULL AND LENGTH(report) > 0)';
+
     /**
      * @var LoggerInterface
      */
@@ -892,6 +894,22 @@ class Model
     }
 
     /**
+     * Returns the sites with invalidations of a single report left to process, see
+     * ArchiveFilter::setSingleReportInvalidations().
+     *
+     * @return int[]
+     */
+    public function getSitesWithSingleReportInvalidations(string $archivingStartTime): array
+    {
+        $table = Common::prefixTable('archive_invalidations');
+        $sql = "SELECT DISTINCT idsite FROM `$table` WHERE status != ? AND ts_invalidated <= ? AND " . self::SINGLE_REPORT_INVALIDATION_CONDITION;
+
+        $rows = Db::fetchAll($sql, [ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS, $archivingStartTime]);
+
+        return array_map('intval', array_column($rows, 'idsite'));
+    }
+
+    /**
      * SQL counterpart of ArchiveFilter::filterArchive(), so non-matching invalidations are never fetched.
      * Conditions may be looser than filterArchive(), but never stricter.
      *
@@ -940,6 +958,19 @@ class Model
             $conditions[] = 'report = ? AND name LIKE ?';
             $bind[] = $report;
             $bind[] = 'done%.' . addcslashes($plugin, '%_\\');
+        }
+
+        $singleReportInvalidations = $archiveFilter->getSingleReportInvalidations();
+        if ($singleReportInvalidations !== null) {
+            // LENGTH, as trailing spaces are ignored by the comparison in some collations
+            if ($singleReportInvalidations) {
+                $conditions[] = self::SINGLE_REPORT_INVALIDATION_CONDITION;
+            } elseif ($archiveFilter->getSingleReportInvalidationsUpTo() !== null) {
+                $conditions[] = '(report IS NULL OR LENGTH(report) = 0 OR ts_invalidated <= ?)';
+                $bind[] = $archiveFilter->getSingleReportInvalidationsUpTo();
+            } else {
+                $conditions[] = '(report IS NULL OR LENGTH(report) = 0)';
+            }
         }
 
         return [$conditions, $bind];
