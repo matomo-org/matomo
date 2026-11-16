@@ -1487,9 +1487,9 @@ class LoaderTest extends IntegrationTestCase
         $this->assertEquals($expected, $reportsToInvalidate);
     }
 
-    public function testARequestWithoutSegmentAppliesARememberedDateToTheArchivesOfAllSegments()
+    public function testARequestWithoutSegmentAppliesARememberedDateToTheArchivesOfAllSegments(): void
     {
-        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        Config::setSetting('General', 'enable_browser_archiving_triggering', 1);
         $day = Factory::build('day', '2013-04-05');
         $segment = new Segment('browserCode==ff', [1]);
         $this->insertArchive(new Parameters(new Site(1), $day, $segment));
@@ -1505,9 +1505,9 @@ class LoaderTest extends IntegrationTestCase
         $this->assertSame(ArchiveWriter::DONE_INVALIDATED, $this->getDoneFlagValue('2013-04-05', $segment));
     }
 
-    public function testARequestWithSegmentAppliesARememberedDateToThatSegmentOnly()
+    public function testARequestWithSegmentAppliesARememberedDateToThatSegmentOnly(): void
     {
-        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        Config::setSetting('General', 'enable_browser_archiving_triggering', 1);
         $day = Factory::build('day', '2013-04-05');
         $allVisits = new Segment('', [1]);
         $otherSegment = new Segment('browserCode==ch', [1]);

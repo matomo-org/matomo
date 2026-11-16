@@ -483,7 +483,7 @@ class Loader
         return $sitesPerDays;
     }
 
-    private function invalidatedReportsIfNeeded()
+    private function invalidatedReportsIfNeeded(): void
     {
         $sitesPerDays = $this->getReportsToInvalidate();
         if (empty($sitesPerDays)) {
