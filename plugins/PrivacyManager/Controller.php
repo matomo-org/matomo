@@ -106,7 +106,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // only show months when it is more than 90 days...
             $months = floor($purgeDataSettings['delete_logs_older_than'] / 30.4);
             $daysLeft = round($purgeDataSettings['delete_logs_older_than'] - ($months * 30.4));
-            $rawDataRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth') . ' ';
+            $rawDataRetention .= $months . ' ' . Piwik::translate('Intl_PeriodMonths') . ' ';
 
             if ($daysLeft > 0) {
                 $rawDataRetention .= $daysLeft . ' ' . Piwik::translate($daysLeft > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');

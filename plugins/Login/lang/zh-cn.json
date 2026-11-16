@@ -51,6 +51,7 @@
         "PasswordsDoNotMatch": "密码不匹配。",
         "PluginDescription": "提供用户名和密码登录以及密码重置功能。可以使用其他登录插件（例如市场上提供的 LoginLdap）来更改登录方法。",
         "RememberMe": "记住登录信息",
+        "SecondFactorCode": "二次登录认证验证码",
         "SettingBruteForceBlacklistIp": "始终阻止这些IP登录",
         "SettingBruteForceEnable": "启用暴力检测",
         "SettingBruteForceEnableHelp": "暂时注销在一段时间内尝试过多密码的用户。 这可以防止某些人测试所有组合。 阻止共享 IP 也会阻止其其他用户。",

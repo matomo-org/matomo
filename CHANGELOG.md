@@ -8,6 +8,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
+* `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
 
 ### New APIs
 * Controller actions can ask the user to confirm with their second factor, e.g. a two-factor authentication code, by calling `Piwik\Plugins\Login\SecondFactorVerifier::requireSecondFactorConfirmed()`. Each confirmation can be used once, for that action only.
@@ -16,6 +17,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
 * The new API method `PrivacyManager.getDataSubjectSearchScope` describes whether the GDPR tools can search the requested websites, and whether only the visits of visitors who gave consent can be found on any of them.
+* `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
+
+### New commands
+* `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
 
 ### Deprecations
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.

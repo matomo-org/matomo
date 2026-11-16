@@ -16,7 +16,6 @@
         "FromSocialNetworks": "Από κοινωνικά δίκτυα",
         "FromWebsites": "Από ιστοσελίδες",
         "IncomingTraffic": "Εισερχόμενη κίνηση",
-        "LoadingTransitionsFor": "Γίνεται φόρτωση των Μεταβάσεων για το %s",
         "LoopsInline": "%s ανανεώσεις σελίδας",
         "NoDataForAction": "Χωρίς δεδομένα για %s",
         "NoDataForActionDetails": "Είτε η ενέργεια δεν είχε προβολές σελίδας (pageviews) κατά τη διάρκεια της περιόδου ή είναι άκυρη.",

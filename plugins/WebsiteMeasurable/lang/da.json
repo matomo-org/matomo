@@ -1,6 +1,8 @@
 {
     "WebsiteMeasurable": {
         "Website": "Hjemmeside",
+        "WebsiteDescription": "En hjemmeside består af websider, der typisk leveres fra et enkelt domæne på nettet.",
+        "WebsiteLongDescription": "Spor besøgendes interaktioner som sidevisninger, klik, filhentninger og hændelser på en offentligt tilgængelig hjemmeside. En enkelt målbar kan omfatte flere domæner og underdomæner, eller du kan oprette separate målbare for hvert af dem.",
         "Websites": "Hjemmesider"
     }
 }
