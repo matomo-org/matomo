@@ -441,7 +441,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertSame(500, $response->statusCode);
         $this->assertSame('TypeError: first error', $response->exception->getMessage());
         $this->assertSame([[LogLevel::ERROR, $response->exception], [LogLevel::ERROR, $endException]], $logger->errors);
-        $this->assertStringContainsString('Error in Matomo (tracker): RuntimeException: end failed', $errorLog);
+        $this->assertSame('', $errorLog, 'Tracker errors only go to the configured log writers');
     }
 
     public function testMainShouldKeepSuccessResponseAndLogTrackerEndErrorIfRequestsWereRecorded()
@@ -462,7 +462,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertFalse($response->isExceptionOutput);
         $this->assertTrue($response->isResponseOutput);
         $this->assertSame([[LogLevel::ERROR, $endException]], $logger->errors);
-        $this->assertStringContainsString('Error in Matomo (tracker): RuntimeException: end failed', $errorLog);
+        $this->assertSame('', $errorLog, 'Tracker errors only go to the configured log writers');
     }
 
     public function testMainShouldOnlyDebugLogAClientErrorOfATrackerEndListenerIfRequestsWereRecorded()
@@ -497,7 +497,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertSame('', $output);
         $this->assertSame('HTTP/1.1 500 Internal Server Error', $this->getLastSentStatusLine());
         $this->assertSame([[LogLevel::ERROR, $error]], $logger->errors);
-        $this->assertStringContainsString('Error in Matomo (tracker): TypeError: handler failed', $errorLog);
+        $this->assertSame('', $errorLog, 'Tracker errors only go to the configured log writers');
     }
 
     public function testHandleUncaughtErrorShouldKeepTheStatusCodeOfAClientErrorWithoutLoggingIt()
@@ -526,7 +526,7 @@ class TrackerTest extends IntegrationTestCase
         });
 
         $this->assertSame('HTTP/1.1 500 Internal Server Error', $this->getLastSentStatusLine());
-        $this->assertStringContainsString('Error in Matomo (tracker): RuntimeException: handler failed', $errorLog);
+        $this->assertSame('', $errorLog, 'Tracker errors only go to the configured log writers');
     }
 
     public function testHandleUncaughtErrorShouldKeepSuccessStatusIfRequestsWereRecorded()

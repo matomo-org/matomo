@@ -21,7 +21,6 @@ use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Handler;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestSet;
-use Piwik\Tracker\Response;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit;
 use Piwik\Plugin\Manager as PluginManager;
@@ -449,7 +448,6 @@ class Tracker
         }
 
         $this->log(LogLevel::ERROR, 'Exception: {exception}', $e);
-        Response::logErrorToErrorLog($e);
     }
 
     /**

@@ -22,6 +22,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
 
 ### Deprecations
+* `Piwik\Tracker\Response::logExceptionToErrorLog()` is deprecated and will be removed in Matomo 7, as tracker errors are logged through the configured log writers.
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
@@ -39,7 +40,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Other changes
 * Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
-* The tracking endpoint now answers server errors, such as a `TypeError` or a failing `Tracker.newHandler` listener, with `500` and logs them, and no longer writes `4xx` rejections to PHP's error log.
+* The tracking endpoint now answers server errors, such as a `TypeError` or a failing `Tracker.newHandler` listener, with `500` and logs them only through the configured log writers instead of also writing client and server errors to PHP's error log directly. With only the default `screen` writer, which tracking requests can't use, they log to PHP's error log.
 * An exception implementing `Piwik\Http\HttpCodeException` thrown while tracking, except `PluginDeactivatedException` and `PluginNotFoundException`, is now answered with its status code (`400`, `401`, `403`, `404`, `429` or `503`; other `4xx` codes with `400`) instead of `500`; with a `4xx` code other than `429` it is counted as invalid in a bulk request.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 

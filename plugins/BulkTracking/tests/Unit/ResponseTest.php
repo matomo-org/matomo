@@ -45,18 +45,10 @@ class ResponseTest extends UnitTestCase
         $this->assertEquals('{"status":"error","tracked":5,"invalid":0}', $content);
     }
 
-    public function testOutputExceptionShouldWriteServerErrorsToErrorLog()
-    {
-        $this->response->expects($this->once())->method('logExceptionToErrorLog');
-
-        $this->response->outputException($this->getTrackerWithCountedRequests(), new Exception('My Custom Message'), 500);
-        $this->response->getOutput();
-    }
-
     /**
-     * @dataProvider getClientErrorStatusCodes
+     * @dataProvider getStatusCodes
      */
-    public function testOutputExceptionShouldNotWriteClientErrorsToErrorLog(int $statusCode)
+    public function testOutputExceptionShouldNotWriteToPhpErrorLog(int $statusCode)
     {
         $this->response->expects($this->never())->method('logExceptionToErrorLog');
 
@@ -64,11 +56,11 @@ class ResponseTest extends UnitTestCase
         $this->response->getOutput();
     }
 
-    public function getClientErrorStatusCodes(): iterable
+    public function getStatusCodes(): iterable
     {
         yield 'bad request' => [400];
-        yield 'unauthorized' => [401];
         yield 'forbidden' => [403];
+        yield 'server error' => [500];
     }
 
     public function testOutputExceptionShouldOutputDebugMessageIfEnabled()

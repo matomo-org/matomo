@@ -17,12 +17,9 @@ use Piwik\Timer;
 use Piwik\Tracker;
 use Piwik\Tracker\Db as TrackerDb;
 use Piwik\Url;
-use Throwable;
 
 class Response
 {
-    private const DB_ACCESS_DENIED_MESSAGE = 'Error while connecting to the Matomo database - please check your credentials in config/config.ini.php file';
-
     private $timer;
 
     private $content;
@@ -61,11 +58,6 @@ class Response
         // not once the request was recorded, as matomo.js resends a request answered with an error
         $this->keepExceptionResponse = !$tracker->hasLoggedRequests();
         Common::sendResponseCode($statusCode);
-
-        // client errors are not server problems, so keep them out of PHP's error log
-        if ($statusCode >= 500) {
-            $this->logExceptionToErrorLog($e);
-        }
 
         if ($tracker->isDebugModeEnabled()) {
             echo "\nAn exception occurred: " . $this->getMessageFromException($e) . "\n\n";
@@ -224,8 +216,10 @@ class Response
      */
     protected function getMessageFromException($e)
     {
-        if (self::isDbAccessDenied($e)) {
-            return self::DB_ACCESS_DENIED_MESSAGE;
+        // Note: duplicated from FormDatabaseSetup.isAccessDenied
+        // Avoid leaking the username/db name when access denied
+        if ($e->getCode() == 1044 || $e->getCode() == 42000) {
+            return "Error while connecting to the Matomo database - please check your credentials in config/config.ini.php file";
         }
 
         if (Common::isPhpCliMode()) {
@@ -235,33 +229,14 @@ class Response
         return $e->getMessage();
     }
 
-    protected function logExceptionToErrorLog($e)
-    {
-        self::writeErrorLog($this->getMessageFromException($e), $e);
-    }
-
     /**
-     * Writes an error the tracker does not report through a response to PHP's error log.
-     *
-     * @internal
+     * @deprecated since Matomo 6.1.0, will be removed in Matomo 7. Tracker errors are logged by
+     *             {@link Handler::onException()} through the configured log writers.
      */
-    public static function logErrorToErrorLog(Throwable $e): void
-    {
-        self::writeErrorLog(self::isDbAccessDenied($e) ? self::DB_ACCESS_DENIED_MESSAGE : get_class($e) . ': ' . $e->getMessage(), $e);
-    }
-
-    private static function isDbAccessDenied(Throwable $e): bool
-    {
-        // Note: duplicated from FormDatabaseSetup.isAccessDenied
-        // Avoid leaking the username/db name when access denied
-        return $e->getCode() == 1044 || $e->getCode() == 42000;
-    }
-
-    private static function writeErrorLog(string $message, Throwable $e): void
+    protected function logExceptionToErrorLog($e)
     {
         $hostname = Url::getRFCValidHostname();
         $hostStr = $hostname ? "[$hostname]" : '-';
-        $message .= ' in ' . $e->getFile() . ':' . $e->getLine();
-        error_log(sprintf("$hostStr Error in Matomo (tracker): %s", str_replace(["\r", "\n"], " ", $message)));
+        error_log(sprintf("$hostStr Error in Matomo (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
     }
 }

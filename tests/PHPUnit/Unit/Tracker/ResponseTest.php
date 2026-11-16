@@ -60,19 +60,10 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         Fixture::checkResponse($this->response->getOutput());
     }
 
-    public function testOutputExceptionShouldWriteServerErrorsToErrorLog()
-    {
-        $this->response->init($this->getTracker());
-        $this->response->outputException($this->getTracker(), new Exception('My Custom Message'), 500);
-
-        Fixture::checkResponse($this->response->getOutput());
-        $this->assertSame(1, $this->response->numErrorLogWrites);
-    }
-
     /**
-     * @dataProvider getClientErrorStatusCodes
+     * @dataProvider getStatusCodes
      */
-    public function testOutputExceptionShouldNotWriteClientErrorsToErrorLog(int $statusCode)
+    public function testOutputExceptionShouldNotWriteToPhpErrorLog(int $statusCode)
     {
         $this->response->init($this->getTracker());
         $this->response->outputException($this->getTracker(), new Exception('My Custom Message'), $statusCode);
@@ -81,11 +72,11 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(0, $this->response->numErrorLogWrites);
     }
 
-    public function getClientErrorStatusCodes(): iterable
+    public function getStatusCodes(): iterable
     {
         yield 'bad request' => [400];
-        yield 'unauthorized' => [401];
         yield 'forbidden' => [403];
+        yield 'server error' => [500];
     }
 
     public function testOutputExceptionShouldOutputDebugMessageIfEnabled()
@@ -212,38 +203,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testLogErrorToErrorLogShouldWriteErrorWithItsLocation()
-    {
-        $error = new \TypeError('My Type Error');
-        $errorLog = $this->captureErrorLog(function () use ($error) {
-            Response::logErrorToErrorLog($error);
-        });
-
-        self::assertStringContainsString(
-            'Error in Matomo (tracker): TypeError: My Type Error in ' . $error->getFile() . ':' . $error->getLine(),
-            $errorLog
-        );
-    }
-
-    /**
-     * @dataProvider getDbAccessDeniedCodes
-     */
-    public function testLogErrorToErrorLogShouldNotWriteDbCredentials(int $code)
-    {
-        $errorLog = $this->captureErrorLog(function () use ($code) {
-            Response::logErrorToErrorLog(new Exception("Access denied for user 'matomo_user' to database 'matomo_db'", $code));
-        });
-
-        self::assertStringContainsString('Error while connecting to the Matomo database', $errorLog);
-        self::assertStringNotContainsString('matomo_user', $errorLog);
-    }
-
-    public function getDbAccessDeniedCodes(): iterable
-    {
-        yield [1044];
-        yield [42000];
-    }
-
     public function testGetMessageFromExceptionShouldNotOutputAnyDetailsIfErrorContainsDbCredentials()
     {
         $message = $this->response->getMessageFromException(new Exception('Test Message', 1044));
@@ -324,21 +283,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
 
         // Compare the hash of the response with the file hash
         $this->assertSame($md5Response, $md5File);
-    }
-
-    private function captureErrorLog(callable $callback): string
-    {
-        $errorLogFile = tempnam(sys_get_temp_dir(), 'tracker_error_log');
-        $previousErrorLog = ini_set('error_log', $errorLogFile);
-
-        try {
-            $callback();
-
-            return (string) file_get_contents($errorLogFile);
-        } finally {
-            ini_set('error_log', (string) $previousErrorLog);
-            unlink($errorLogFile);
-        }
     }
 
     private function getSentStatusLines(): array
