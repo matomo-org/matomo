@@ -40,17 +40,17 @@ class VisitorDetails extends VisitorDetailsAbstract
     }
 
     /**
-     * @return 'consented'|'refused'|null null when no consent decision is stored for the visit
+     * @return 'consented'|null null when the visit holds no consent, as a refusal is not recorded
      */
     protected function getConsentState(): ?string
     {
         $consent = $this->details['consent'] ?? null;
 
-        if ($consent === null || $consent === '') {
+        if ($consent === null || $consent === '' || (int) $consent !== Consent::CONSENTED) {
             return null;
         }
 
-        return (int) $consent === Consent::CONSENTED ? 'consented' : 'refused';
+        return 'consented';
     }
 
     protected function getVisitEcommerceStatusIcon()

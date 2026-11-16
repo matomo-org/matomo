@@ -82,10 +82,10 @@
     </span>
     {% endif %}
 
-    {% if visitor.getColumn('consentState') in ['consented', 'refused'] %}
+    {% if visitor.getColumn('consentState') == 'consented' %}
     <span class="visitorType">
-        <span class="visitorLogTooltip consentState consentState-{{ visitor.getColumn('consentState') }}" title="{{ 'CoreHome_ConsentState'|translate }}">
-            {%- if visitor.getColumn('consentState') == 'consented' %}{{ 'CoreHome_ConsentStateConsented'|translate }}{% else %}{{ 'CoreHome_ConsentStateRefused'|translate }}{% endif -%}
+        <span class="visitorLogTooltip consentState consentState-consented" title="{{ 'CoreHome_ConsentState'|translate }}">
+            {{- 'CoreHome_ConsentStateConsented'|translate -}}
         </span>
     </span>
     {% endif %}

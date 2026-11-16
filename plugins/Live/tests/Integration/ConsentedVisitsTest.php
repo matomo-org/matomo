@@ -171,10 +171,10 @@ class ConsentedVisitsTest extends IntegrationTestCase
         $statesByVisit = array_combine($visits->getColumn('idVisit'), $visits->getColumn('consentState'));
         ksort($statesByVisit);
 
-        // a visit without a stored decision has no consent state
+        // a visit without consent has no consent state, whatever it holds, as a refusal is not recorded
         $this->assertSame([
             $this->visits['other:alice:none'] => false,
-            $this->visits['other:alice:0'] => 'refused',
+            $this->visits['other:alice:0'] => false,
             $this->visits['other:alice:1'] => 'consented',
         ], $statesByVisit);
     }

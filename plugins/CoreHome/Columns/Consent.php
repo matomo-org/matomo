@@ -35,11 +35,6 @@ class Consent extends VisitDimension
      */
     public const CONSENTED = 1;
 
-    /**
-     * The stored value of a visit whose visitor refused consent
-     */
-    public const REFUSED = 0;
-
     private const SEGMENT_VALUES = [
         'consented' => 'consented',
         'unknown' => '',

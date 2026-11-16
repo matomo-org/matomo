@@ -68,9 +68,9 @@ describe("Live_ConsentedVisits", function () {
 
         const rows = await page.evaluate(() => $('.dataTableVizVisitorLog .card.row').length);
         const badges = await consentBadges('.dataTableVizVisitorLog');
-        // visits without a stored decision have no badge
+        // visits without consent have no badge
         expect(badges.length).to.be.below(rows);
-        expect(Array.from(new Set(badges)).sort()).to.deep.equal(['Consented', 'Refused']);
+        expect(Array.from(new Set(badges))).to.deep.equal(['Consented']);
     });
 
     it('should show the consent badge in a visits log row', async function () {
