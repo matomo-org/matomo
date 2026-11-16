@@ -985,7 +985,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     public function testMarkArchivesAsInvalidatedOfASingleReportLeavesTheRangeArchives(?string $name, int $expectedValue)
     {
         $this->insertArchiveRow(1, '2020-03-02,2020-03-04', 'range', ArchiveWriter::DONE_OK, false, false);
-        $this->insertArchiveRow(1, '2020-03-02,2020-03-04', 'range', ArchiveWriter::DONE_OK, 'Actions', false);
+        $this->insertArchiveRow(1, '2020-03-02,2020-03-04', 'range', ArchiveWriter::DONE_OK, 'ExamplePlugin', false);
 
         $this->invalidator->markArchivesAsInvalidated([1], ['2020-03-03'], 'day', null, false, false, $name);
 
@@ -993,7 +993,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals([
             '2020_03' => [
                 $range + ['name' => 'done', 'value' => $expectedValue],
-                $range + ['name' => 'done.Actions', 'value' => $expectedValue],
+                $range + ['name' => 'done.ExamplePlugin', 'value' => $expectedValue],
             ],
         ], $this->getAvailableArchives());
     }

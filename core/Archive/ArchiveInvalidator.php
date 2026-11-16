@@ -705,6 +705,9 @@ class ArchiveInvalidator
     ) {
         $idSites = array_map('intval', $idSites);
 
+        // a single report (`Plugin.report`) marks no archive, so it leaves the ranges alone too
+        $report = explode('.', (string) $name, 2)[1] ?? '';
+
         $yearMonths = [];
 
         foreach ($dates as $tableDate => $datesForTable) {
@@ -715,8 +718,8 @@ class ArchiveInvalidator
 
             $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistentRanges, $name, $doNotCreateInvalidations);
 
-            if ($removeRanges && !empty($table)) {
-                $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $name);
+            if ($removeRanges && $report === '' && !empty($table)) {
+                $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             }
         }
 
