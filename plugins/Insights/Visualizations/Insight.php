@@ -10,12 +10,13 @@
 namespace Piwik\Plugins\Insights\Visualizations;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Period;
-use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\Insights\API;
+use Piwik\Plugins\Insights\Model;
 
 /**
  * InsightsVisualization Visualization.
@@ -79,8 +80,7 @@ class Insight extends Visualization
 
     /**
      * Returns the date selected in the date selector to compare the report with, or null when there is none Insights
-     * can compare with: Insights compares with a single date of the same period type, and a date range with a range of
-     * the same length.
+     * can compare with, see Model::isComparableDate().
      */
     private function getComparedDate(): ?string
     {
@@ -97,22 +97,13 @@ class Insight extends Visualization
             return null;
         }
 
-        // ranges of different lengths would make most rows look like strong movers only because one is longer
-        if ($period === 'range' && !$this->areRangesOfSameLength(Common::getRequestVar('date', null, 'string'), $compareDates[0])) {
+        $date = Common::getRequestVar('date', null, 'string');
+
+        if (!StaticContainer::get(Model::class)->isComparableDate($period, $date, $compareDates[0])) {
             return null;
         }
 
         return $compareDates[0];
-    }
-
-    private function areRangesOfSameLength(string $date, string $comparedDate): bool
-    {
-        try {
-            return (new Range('day', $date))->getNumberOfSubperiods()
-                === (new Range('day', $comparedDate))->getNumberOfSubperiods();
-        } catch (\Exception $e) {
-            return false;
-        }
     }
 
     private function getComparedToXPeriodsAgo()

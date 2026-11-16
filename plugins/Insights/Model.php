@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Insights;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\DataTable;
+use Piwik\Date;
+use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
@@ -62,6 +64,27 @@ class Model
         }
 
         return $pastDate[0];
+    }
+
+    /**
+     * Whether insights can compare the given date with $comparedDate: a single date of the same period type, or for a
+     * date range, a range of the same length.
+     */
+    public function isComparableDate(string $period, string $date, string $comparedDate): bool
+    {
+        try {
+            if ($period !== 'range') {
+                Date::factory($comparedDate);
+
+                return !Period::isMultiplePeriod($comparedDate, $period);
+            }
+
+            // ranges of different lengths would make most rows look like strong movers only because one is longer
+            return (new Range('day', $date))->getNumberOfSubperiods()
+                === (new Range('day', $comparedDate))->getNumberOfSubperiods();
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

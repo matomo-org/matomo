@@ -163,6 +163,30 @@ class ApiTest extends SystemTestCase
         $this->assertEquals([1], array_values(array_unique($insights->getColumn('isNew'))));
     }
 
+    /**
+     * @dataProvider getDatesNotComparable
+     */
+    public function testGetInsightsShouldRefuseADateItCannotCompareWith(array $params)
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The comparedToDate parameter must be a single date of the same period type');
+
+        $this->requestInsights($params);
+    }
+
+    public function getDatesNotComparable(): array
+    {
+        return [
+            'a date range for a single period type' => [['comparedToDate' => '2010-12-12,2010-12-13']],
+            'several periods' => [['comparedToDate' => 'last7']],
+            'a range of another length' => [[
+                'period' => 'range',
+                'date' => '2010-12-13,2010-12-14',
+                'comparedToDate' => '2010-12-10,2010-12-12',
+            ]],
+        ];
+    }
+
     public function testGetInsightsShouldGoBackInPastDependingOnPeriod()
     {
         $insights = $this->requestInsights(array('period' => 'month'));
