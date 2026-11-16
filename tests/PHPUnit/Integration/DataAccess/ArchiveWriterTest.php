@@ -96,7 +96,7 @@ class ArchiveWriterTest extends IntegrationTestCase
             ['idarchive' => 3, 'name' => $segmentFlag . '.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-02 03:44:44'] + $row,
             // built after the new archive started
             ['idarchive' => 4, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-04-05 03:00:01'] + $row,
-            // started before the new archive, in the same second
+            // in the same second as the new archive, which readers comparing ts_archived still read
             ['idarchive' => 5, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-04-05 03:00:00'] + $row,
         ]);
         $blobTable = ArchiveTableCreator::getBlobTable(Date::factory($date), true);
@@ -108,11 +108,19 @@ class ArchiveWriterTest extends IntegrationTestCase
         $writer = $this->buildWriter('day', $date);
         $writer->initNewArchive();
         $writer->insertRecord('nb_visits', 5);
+
+        // started after the new archive, which readers ordering by idarchive still read
+        $numericTable = ArchiveTableCreator::getNumericTable(Date::factory($date), true);
+        Db::query(
+            "INSERT INTO `$numericTable` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, 1, ?, ?, 'done.ExamplePlugin', ?, '2020-02-02 03:44:44')",
+            [$writer->getIdArchive() + 1, $this->idSite, $date, $date, ArchiveWriter::DONE_PARTIAL]
+        );
+
         $writer->finalizeArchive();
 
         $remaining = array_values(array_unique(array_column($this->getAllColsOfAllNumericRows($date), 'idarchive')));
         sort($remaining);
-        $this->assertEquals([2, 3, 4, 6], $remaining);
+        $this->assertEquals([2, 3, 4, 5, 6, 7], $remaining);
         $this->assertEquals(0, Db::fetchOne("SELECT COUNT(*) FROM `$blobTable` WHERE idarchive = 1"));
     }
 

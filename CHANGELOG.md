@@ -31,7 +31,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
-* Partial archives of a plugin that are older than a finished archive for all plugins of the same site, period and segment are now deleted, when that archive is finished or by the archive purge, as reports no longer read them.
+* Partial archives that a newer archive for all plugins of the same site, period and segment replaces are now deleted.
 
 ### Other changes
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
