@@ -38,7 +38,7 @@ class Model
         $this->table = Common::prefixTable(self::$rawPrefix);
     }
 
-    private function getNextIdGoal($idSite)
+    protected function getNextIdGoal($idSite)
     {
         $db     = $this->getDb();
         $idGoal = $db->fetchOne("SELECT max(idgoal) + 1 FROM `" . $this->table . "`
@@ -53,15 +53,23 @@ class Model
 
     public function createGoalForSite($idSite, $goal)
     {
-        $db     = $this->getDb();
-        $goalId = $this->getNextIdGoal($idSite);
-
-        $goal['idgoal'] = $goalId;
+        $db = $this->getDb();
         $goal['idsite'] = $idSite;
 
-        $db->insert($this->table, $goal);
+        for ($attempt = 0; $attempt < 10; ++$attempt) {
+            $goalId = $this->getNextIdGoal($idSite);
+            $goal['idgoal'] = $goalId;
 
-        return $goalId;
+            try {
+                $db->insert($this->table, $goal);
+                return $goalId;
+            } catch (\Exception $e) {
+                if ($attempt === 9 || !$db->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_DUPLICATE_ENTRY)) {
+                    throw $e;
+                }
+                // Another request may have inserted this ID since we read the maximum.
+            }
+        }
     }
 
     public function updateGoal($idSite, $idGoal, $goal)
