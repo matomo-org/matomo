@@ -287,6 +287,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PluginRequestSent';
         $translationKeys[] = 'Marketplace_ManageRequests';
         $translationKeys[] = 'Marketplace_ManageRequestsIntro';
+        $translationKeys[] = 'Marketplace_ManageRequestsSuperUserIntro';
         $translationKeys[] = 'Marketplace_RequestedOn';
         $translationKeys[] = 'Marketplace_YourNote';
         $translationKeys[] = 'Marketplace_SuperUserNote';
@@ -298,6 +299,8 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_PendingRequestsTab';
         $translationKeys[] = 'Marketplace_Requests';
         $translationKeys[] = 'Marketplace_LastRequested';
+        $translationKeys[] = 'Marketplace_PriceFrom';
+        $translationKeys[] = 'Marketplace_ShowPluginRequesters';
         $translationKeys[] = 'Marketplace_RequestedBy';
         $translationKeys[] = 'Marketplace_Decision';
         $translationKeys[] = 'Marketplace_DecidedBy';

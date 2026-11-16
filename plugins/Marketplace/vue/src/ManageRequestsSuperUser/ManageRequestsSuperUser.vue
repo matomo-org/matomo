@@ -8,6 +8,7 @@
 <template>
   <div class="manageRequestsSuperUser">
     <h2 class="manageRequestsSuperUser__title">{{ translate('Marketplace_ManageRequests') }}</h2>
+    <p class="manageRequestsSuperUser__intro">{{ translate('Marketplace_ManageRequestsSuperUserIntro') }}</p>
 
     <div class="manageRequestsSuperUser__tabList" role="tablist">
       <button
@@ -51,19 +52,25 @@
           <template v-for="plugin in pending" :key="plugin.pluginName">
             <tr class="manageRequestsSuperUser__row" :data-plugin="plugin.pluginName">
               <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__cell--flushStart">
-                <button
-                  type="button"
-                  class="manageRequestsSuperUser__toggle"
-                  :aria-expanded="isExpanded(plugin) ? 'true' : 'false'"
-                  @click="toggleRequesters(plugin)"
-                >
-                  <span
-                    class="manageRequestsSuperUser__toggleIcon"
-                    :class="isExpanded(plugin) ? 'icon-chevron-down' : 'icon-chevron-right'"
-                    aria-hidden="true"
-                  />
-                  {{ plugin.displayName }}
-                </button>
+                <div class="manageRequestsSuperUser__pluginName">
+                  <button
+                    type="button"
+                    class="manageRequestsSuperUser__toggle"
+                    :aria-expanded="isExpanded(plugin) ? 'true' : 'false'"
+                    :aria-label="translate('Marketplace_ShowPluginRequesters', plugin.displayName)"
+                    @click="toggleRequesters(plugin)"
+                  >
+                    <span
+                      class="manageRequestsSuperUser__toggleIcon"
+                      :class="isExpanded(plugin) ? 'icon-chevron-down' : 'icon-chevron-right'"
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <a
+                    class="manageRequestsSuperUser__pluginLink"
+                    v-plugin-name="{ pluginName: plugin.pluginName }"
+                  >{{ plugin.displayName }}</a>
+                </div>
               </td>
               <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__numRequests">
                 {{ plugin.numRequests }}
@@ -91,50 +98,63 @@
               </td>
             </tr>
             <tr
-              v-if="isExpanded(plugin)"
+              v-if="isExpanded(plugin) || isClosing(plugin)"
               class="manageRequestsSuperUser__requesterPanel"
               :data-plugin="plugin.pluginName"
             >
               <td colspan="5" class="manageRequestsSuperUser__requesterPanelCell">
-                <table class="manageRequestsSuperUser__requesterTable">
-                  <thead>
-                  <tr class="manageRequestsSuperUser__requesterHeadRow">
-                    <th class="manageRequestsSuperUser__requesterHeadCell">
-                      {{ translate('Marketplace_RequestedBy') }}
-                    </th>
-                    <th class="manageRequestsSuperUser__requesterHeadCell">
-                      {{ translate('Marketplace_RequestedOn') }}
-                    </th>
-                    <th class="manageRequestsSuperUser__requesterHeadCell">
-                      {{ translate('General_Note') }}
-                    </th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr
-                    v-for="(requester, index) in plugin.requesters"
-                    :key="index"
-                    class="manageRequestsSuperUser__requesterRow"
-                  >
-                    <td class="manageRequestsSuperUser__requesterCell">
-                      <span>{{ requester.login || translate('General_Unknown') }}</span>
-                      <span
-                        v-if="requester.email"
-                        class="manageRequestsSuperUser__email"
-                      >{{ requester.email }}</span>
-                    </td>
-                    <td class="manageRequestsSuperUser__requesterCell manageRequestsSuperUser__date">
-                      {{ requester.requestedAtPretty }}
-                    </td>
-                    <td class="manageRequestsSuperUser__requesterCell">
-                      <span
-                        class="manageRequestsSuperUser__note"
-                        :title="requester.message || undefined"
-                      >{{ requester.message || '-' }}</span>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
+                <Transition
+                  appear
+                  enter-from-class="manageRequestsSuperUser__requesterReveal--collapsed"
+                  enter-active-class="manageRequestsSuperUser__requesterReveal--sliding"
+                  leave-active-class="manageRequestsSuperUser__requesterReveal--sliding"
+                  leave-to-class="manageRequestsSuperUser__requesterReveal--collapsed"
+                  @after-leave="onRequestersClosed(plugin)"
+                >
+                  <div v-if="isExpanded(plugin)" class="manageRequestsSuperUser__requesterReveal">
+                    <div class="manageRequestsSuperUser__requesterRevealContent">
+                      <table class="manageRequestsSuperUser__requesterTable">
+                        <thead>
+                        <tr class="manageRequestsSuperUser__requesterHeadRow">
+                          <th class="manageRequestsSuperUser__requesterHeadCell">
+                            {{ translate('Marketplace_RequestedBy') }}
+                          </th>
+                          <th class="manageRequestsSuperUser__requesterHeadCell">
+                            {{ translate('Marketplace_RequestedOn') }}
+                          </th>
+                          <th class="manageRequestsSuperUser__requesterHeadCell">
+                            {{ translate('General_Note') }}
+                          </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr
+                          v-for="(requester, index) in plugin.requesters"
+                          :key="index"
+                          class="manageRequestsSuperUser__requesterRow"
+                        >
+                          <td class="manageRequestsSuperUser__requesterCell">
+                            <span>{{ requester.login || translate('General_Unknown') }}</span>
+                            <span
+                              v-if="requester.email"
+                              class="manageRequestsSuperUser__email"
+                            >{{ requester.email }}</span>
+                          </td>
+                          <td class="manageRequestsSuperUser__requesterCell manageRequestsSuperUser__date">
+                            {{ requester.requestedAtPretty }}
+                          </td>
+                          <td class="manageRequestsSuperUser__requesterCell">
+                            <span
+                              class="manageRequestsSuperUser__note"
+                              :title="requester.message || undefined"
+                            >{{ requester.message || '-' }}</span>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </Transition>
               </td>
             </tr>
           </template>
@@ -211,21 +231,21 @@
       </template>
     </div>
 
-    <div class="ui-confirm requestPlugin" ref="declineDialog">
+    <div class="ui-confirm manageRequestsSuperUser__declineDialog" ref="declineDialog">
       <button
         type="button"
         class="btn-close modal-close"
         :aria-label="translate('General_Close')"
       ><span class="icon-close"></span></button>
-      <h2 class="requestPlugin__title">{{ translate('Marketplace_DeclineRequestTitle') }}</h2>
-      <p class="requestPlugin__intro">{{ declineText }}</p>
-      <div class="requestPlugin__message">
-        <label class="requestPlugin__label" for="declineRequestNote">
+      <h2 class="manageRequestsSuperUser__declineTitle">{{ translate('Marketplace_DeclineRequestTitle') }}</h2>
+      <p class="manageRequestsSuperUser__declineIntro">{{ declineText }}</p>
+      <div class="manageRequestsSuperUser__declineMessage">
+        <label class="manageRequestsSuperUser__declineLabel" for="declineRequestNote">
           {{ translate('Marketplace_MessageToRequesters') }}
         </label>
         <textarea
           id="declineRequestNote"
-          class="materialize-textarea requestPlugin__messageInput"
+          class="materialize-textarea manageRequestsSuperUser__declineInput"
           maxlength="1000"
           :placeholder="translate('Marketplace_MessageToRequestersPlaceholder')"
           v-model="declineNote"
@@ -253,6 +273,7 @@ import {
   NotificationsStore,
   translate,
 } from 'CoreHome';
+import { PluginName } from 'CorePluginsAdmin';
 import { IPluginShopVariation } from '../types';
 import {
   PERIOD_MONTHLY,
@@ -304,6 +325,7 @@ interface ManageRequestsSuperUserState {
   activeTab: Tab;
   pending: PendingPluginRequest[];
   expandedPlugins: string[];
+  closingPlugins: string[];
   historyPage: PluginRequestHistory;
   historyOffset: number;
   isLoadingHistory: boolean;
@@ -340,11 +362,15 @@ export default defineComponent({
   components: {
     StartFreeTrial,
   },
+  directives: {
+    PluginName,
+  },
   data(): ManageRequestsSuperUserState {
     return {
       activeTab: 'pending',
       pending: [...this.pendingRequests],
       expandedPlugins: [],
+      closingPlugins: [],
       historyPage: this.history,
       historyOffset: 0,
       isLoadingHistory: false,
@@ -381,10 +407,21 @@ export default defineComponent({
     isExpanded(plugin: PendingPluginRequest): boolean {
       return this.expandedPlugins.includes(plugin.pluginName);
     },
+    isClosing(plugin: PendingPluginRequest): boolean {
+      return this.closingPlugins.includes(plugin.pluginName);
+    },
     toggleRequesters(plugin: PendingPluginRequest) {
-      this.expandedPlugins = this.isExpanded(plugin)
-        ? this.expandedPlugins.filter((name) => name !== plugin.pluginName)
-        : [...this.expandedPlugins, plugin.pluginName];
+      if (this.isExpanded(plugin)) {
+        this.expandedPlugins = this.expandedPlugins.filter((name) => name !== plugin.pluginName);
+        this.closingPlugins = [...this.closingPlugins, plugin.pluginName];
+        return;
+      }
+
+      this.closingPlugins = this.closingPlugins.filter((name) => name !== plugin.pluginName);
+      this.expandedPlugins = [...this.expandedPlugins, plugin.pluginName];
+    },
+    onRequestersClosed(plugin: PendingPluginRequest) {
+      this.closingPlugins = this.closingPlugins.filter((name) => name !== plugin.pluginName);
     },
     priceLabel(plugin: PendingPluginRequest): string {
       if (plugin.isFree) {
@@ -402,7 +439,7 @@ export default defineComponent({
         plugin.priceFrom.currency,
       );
 
-      return `${formatAmount(price)} ${amountPeriod}`;
+      return translate('Marketplace_PriceFrom', `${formatAmount(price)} ${amountPeriod}`);
     },
     decisionLabel(decision: string): string {
       return DECISION_LABELS[decision] ? translate(DECISION_LABELS[decision]) : decision;
@@ -410,6 +447,7 @@ export default defineComponent({
     removePending(pluginName: string) {
       this.pending = this.pending.filter((plugin) => plugin.pluginName !== pluginName);
       this.expandedPlugins = this.expandedPlugins.filter((name) => name !== pluginName);
+      this.closingPlugins = this.closingPlugins.filter((name) => name !== pluginName);
     },
     loadHistory(offset: number): Promise<void> {
       this.isLoadingHistory = true;
@@ -445,7 +483,7 @@ export default defineComponent({
             this.decliningPlugin = null;
           },
           focusSelector: '#declineRequestNote',
-          classes: 'requestPluginModal',
+          classes: 'manageRequestsSuperUser__declineModal',
         },
       );
     },

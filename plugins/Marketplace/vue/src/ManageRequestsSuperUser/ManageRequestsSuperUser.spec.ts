@@ -33,7 +33,14 @@ vi.mock('CoreHome', async () => ({
   },
 }));
 
-vi.mock('CorePluginsAdmin', () => ({ Field: { template: '<div/>' } }));
+vi.mock('CorePluginsAdmin', () => ({
+  Field: { template: '<div/>' },
+  PluginName: {
+    mounted(element: HTMLElement, binding: { value: { pluginName: string } }) {
+      element.setAttribute('matomo-plugin-name', binding.value.pluginName);
+    },
+  },
+}));
 
 /* eslint-disable import/first */
 import ManageRequestsSuperUser, {
@@ -57,20 +64,20 @@ function makePending(overrides: Partial<PendingPluginRequest> = {}): PendingPlug
     requestType: 'trial',
     numRequests: 2,
     lastRequestedAt: '2026-11-08 10:00:00',
-    lastRequestedAtPretty: 'Sunday, November 8, 2026',
+    lastRequestedAtPretty: '2026-11-08',
     requesters: [
       {
         login: 'jane',
         email: 'jane@example.test',
         requestedAt: '2026-11-08 10:00:00',
-        requestedAtPretty: 'Sunday, November 8, 2026',
+        requestedAtPretty: '2026-11-08',
         message: 'For the checkout',
       },
       {
         login: 'joe',
         email: 'joe@example.test',
         requestedAt: '2026-11-01 10:00:00',
-        requestedAtPretty: 'Sunday, November 1, 2026',
+        requestedAtPretty: '2026-11-01',
         message: null,
       },
     ],
@@ -87,7 +94,7 @@ function makeDecision(overrides: Partial<PluginRequestDecision> = {}): PluginReq
     decidedBy: 'admin',
     note: 'We use another tool',
     decidedAt: '2026-10-26 10:00:00',
-    decidedAtPretty: 'Monday, October 26, 2026',
+    decidedAtPretty: '2026-10-26',
     ...overrides,
   };
 }
@@ -114,6 +121,7 @@ const StartFreeTrialStub = {
 function mountPage(
   pendingRequests: PendingPluginRequest[] = [makePending()],
   history: PluginRequestHistory = makeHistory(1),
+  stubs: Record<string, unknown> = {},
 ) {
   return mount(ManageRequestsSuperUser, {
     props: {
@@ -125,7 +133,7 @@ function mountPage(
     },
     global: {
       mocks: { translate: translateStub },
-      stubs: { StartFreeTrial: StartFreeTrialStub },
+      stubs: { StartFreeTrial: StartFreeTrialStub, ...stubs },
     },
   });
 }
@@ -160,6 +168,11 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
     ajaxPost.mockReset();
     ajaxFetch.mockReset();
     ajaxFetch.mockResolvedValue(makeHistory(1));
+  });
+
+  it('introduces the page', () => {
+    expect(mountPage().find('.manageRequestsSuperUser__intro').text())
+      .toBe('Marketplace_ManageRequestsSuperUserIntro');
   });
 
   describe('tabs', () => {
@@ -201,9 +214,22 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       expect(cells(wrapper, 'Funnels').slice(0, 4)).toEqual([
         'Funnels',
         '2',
-        'Sunday, November 8, 2026',
-        '239 Marketplace_PerYearWithCurrency:USD',
+        '2026-11-08',
+        'Marketplace_PriceFrom:239 Marketplace_PerYearWithCurrency:USD',
       ]);
+    });
+
+    it('links the plugin name to the plugin details', () => {
+      const link = row(mountPage(), 'Funnels').find('.manageRequestsSuperUser__pluginLink');
+
+      expect(link.text()).toBe('Funnels');
+      expect(link.attributes('matomo-plugin-name')).toBe('Funnels');
+    });
+
+    it('names the toggle of the requesters after the plugin', () => {
+      const toggle = row(mountPage(), 'Funnels').find('.manageRequestsSuperUser__toggle');
+
+      expect(toggle.attributes('aria-label')).toBe('Marketplace_ShowPluginRequesters:Funnels');
     });
 
     it('prices a monthly variation per month', () => {
@@ -211,7 +237,7 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
         priceFrom: { price: '19.5', currency: 'EUR', period: 'month' } as IPluginShopVariation,
       })]);
 
-      expect(cells(wrapper, 'Funnels')[3]).toBe('19.50 Marketplace_PerMonthWithCurrency:EUR');
+      expect(cells(wrapper, 'Funnels')[3]).toBe('Marketplace_PriceFrom:19.50 Marketplace_PerMonthWithCurrency:EUR');
     });
 
     it('offers a decline and a trial for a premium plugin', () => {
@@ -239,7 +265,7 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
     });
 
     it('shows the requesters of a plugin when its row is expanded', async () => {
-      const wrapper = mountPage();
+      const wrapper = mountPage(undefined, undefined, { transition: false });
       const toggle = row(wrapper, 'Funnels').find('.manageRequestsSuperUser__toggle');
 
       expect(wrapper.find('.manageRequestsSuperUser__requesterPanel').exists()).toBe(false);
@@ -253,14 +279,51 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       const requesters = wrapper.findAll('.manageRequestsSuperUser__requesterRow')
         .map((requester) => requester.findAll('td').map((cell) => cell.text()));
       expect(requesters).toEqual([
-        ['janejane@example.test', 'Sunday, November 8, 2026', 'For the checkout'],
-        ['joejoe@example.test', 'Sunday, November 1, 2026', '-'],
+        ['janejane@example.test', '2026-11-08', 'For the checkout'],
+        ['joejoe@example.test', '2026-11-01', '-'],
       ]);
       expect(wrapper.find('.manageRequestsSuperUser__email').text()).toBe('jane@example.test');
 
       await toggle.trigger('click');
 
-      expect(wrapper.find('.manageRequestsSuperUser__requesterPanel').exists()).toBe(false);
+      expect(toggle.attributes('aria-expanded')).toBe('false');
+      await vi.waitFor(() => {
+        expect(wrapper.find('.manageRequestsSuperUser__requesterPanel').exists()).toBe(false);
+      });
+    });
+
+    it('keeps the requesters row until the requesters have slid closed', async () => {
+      const wrapper = mountPage(undefined, undefined, { transition: false });
+      const toggle = row(wrapper, 'Funnels').find('.manageRequestsSuperUser__toggle');
+
+      await toggle.trigger('click');
+      await vi.waitFor(() => {
+        expect(wrapper.find('.manageRequestsSuperUser__requesterReveal--sliding').exists()).toBe(false);
+      });
+      await toggle.trigger('click');
+
+      expect(wrapper.find('.manageRequestsSuperUser__requesterPanel').exists()).toBe(true);
+      expect(wrapper.find('.manageRequestsSuperUser__requesterReveal--collapsed').exists()).toBe(false);
+      expect(wrapper.find('.manageRequestsSuperUser__requesterReveal--sliding').exists()).toBe(true);
+      await vi.waitFor(() => {
+        expect(wrapper.find('.manageRequestsSuperUser__requesterPanel').exists()).toBe(false);
+      });
+    });
+
+    it('opens the requesters again when they are reopened while they slide closed', async () => {
+      const wrapper = mountPage(undefined, undefined, { transition: false });
+      const toggle = row(wrapper, 'Funnels').find('.manageRequestsSuperUser__toggle');
+
+      await toggle.trigger('click');
+      await toggle.trigger('click');
+      await toggle.trigger('click');
+
+      expect(toggle.attributes('aria-expanded')).toBe('true');
+      await vi.waitFor(() => {
+        expect(wrapper.find('.manageRequestsSuperUser__requesterReveal--sliding').exists()).toBe(false);
+      });
+      expect(wrapper.findAll('.manageRequestsSuperUser__requesterPanel')).toHaveLength(1);
+      expect(wrapper.findAll('.manageRequestsSuperUser__requesterRow')).toHaveLength(2);
     });
 
     it('shows a deleted requester as unknown', async () => {
@@ -270,7 +333,7 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
           login: null,
           email: null,
           requestedAt: '2026-11-02 10:00:00',
-          requestedAtPretty: 'Monday, November 2, 2026',
+          requestedAtPretty: '2026-11-02',
           message: null,
         }],
       })]);
@@ -300,7 +363,7 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       expect(modalConfirm).toHaveBeenCalledTimes(1);
       expect(modalConfirm.mock.calls[0][2]).toMatchObject({
         focusSelector: '#declineRequestNote',
-        classes: 'requestPluginModal',
+        classes: 'manageRequestsSuperUser__declineModal',
       });
       expect(dialog.find('h2').text()).toBe('Marketplace_DeclineRequestTitle');
       expect(dialog.find('p').text()).toBe('Marketplace_DeclineRequestTextMany:2');
@@ -463,7 +526,7 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
           'Marketplace_RequestStatusDeclined',
           'admin',
           'We use another tool',
-          'Monday, October 26, 2026',
+          '2026-10-26',
         ]);
     });
 

@@ -204,11 +204,12 @@ class ManageRequestsTest extends IntegrationTestCase
     public function testManageRequestsListsThePendingRequestsAndDecisionsForSuperUsers(): void
     {
         FakeAccess::clearAccess(true);
+        $now = time();
         $requestHistory = StaticContainer::get(RequestHistory::class);
-        $requestHistory->add('PaidPlugin1', 'aUser', time() - 60, RequestHistory::REQUEST_TYPE_TRIAL, 'For <b>videos</b>');
-        $requestHistory->add('PaidPlugin1', 'anotherUser', time(), RequestHistory::REQUEST_TYPE_TRIAL);
-        $requestHistory->add('Barometer', 'aUser', time(), RequestHistory::REQUEST_TYPE_INSTALL);
-        $requestHistory->addDecision('Barometer', RequestHistory::DECISION_DECLINED, 'superUserLogin', 'Not now', time());
+        $requestHistory->add('PaidPlugin1', 'aUser', $now - 60, RequestHistory::REQUEST_TYPE_TRIAL, 'For <b>videos</b>');
+        $requestHistory->add('PaidPlugin1', 'anotherUser', $now, RequestHistory::REQUEST_TYPE_TRIAL);
+        $requestHistory->add('Barometer', 'aUser', $now, RequestHistory::REQUEST_TYPE_INSTALL);
+        $requestHistory->addDecision('Barometer', RequestHistory::DECISION_DECLINED, 'superUserLogin', 'Not now', $now);
 
         $html = $this->dispatch('manageRequests');
 
@@ -218,16 +219,17 @@ class ManageRequestsTest extends IntegrationTestCase
         $pending = $this->getVueProp($html, 'pending-requests');
         self::assertSame(['PaidPlugin1'], array_column($pending, 'pluginName'));
         self::assertSame(2, $pending[0]['numRequests']);
-        self::assertNotEmpty($pending[0]['lastRequestedAtPretty']);
+        self::assertSame(gmdate('Y-m-d', $now), $pending[0]['lastRequestedAtPretty']);
         self::assertSame(['anotherUser', 'aUser'], array_column($pending[0]['requesters'], 'login'));
         self::assertSame('For <b>videos</b>', $pending[0]['requesters'][1]['message']);
-        self::assertNotEmpty($pending[0]['requesters'][0]['requestedAtPretty']);
+        self::assertSame(gmdate('Y-m-d', $now), $pending[0]['requesters'][0]['requestedAtPretty']);
+        self::assertSame(gmdate('Y-m-d', $now - 60), $pending[0]['requesters'][1]['requestedAtPretty']);
 
         $history = $this->getVueProp($html, 'history');
         self::assertSame(1, $history['total']);
         self::assertSame('Barometer', $history['decisions'][0]['pluginName']);
         self::assertSame('Not now', $history['decisions'][0]['note']);
-        self::assertNotEmpty($history['decisions'][0]['decidedAtPretty']);
+        self::assertSame(gmdate('Y-m-d', $now), $history['decisions'][0]['decidedAtPretty']);
 
         self::assertSame(5, $this->getVueProp($html, 'history-page-size'));
     }
@@ -235,10 +237,11 @@ class ManageRequestsTest extends IntegrationTestCase
     public function testRequestHistoryIsPagedByFive(): void
     {
         FakeAccess::clearAccess(true);
+        $now = time();
         $requestHistory = StaticContainer::get(RequestHistory::class);
         foreach (['Barometer', 'PaidPlugin1', 'PaidPlugin2', 'PaidPlugin3', 'TreemapVisualization', 'Funnels'] as $i => $pluginName) {
-            $requestHistory->add($pluginName, 'aUser', time() - 600 + $i, RequestHistory::REQUEST_TYPE_TRIAL);
-            $requestHistory->addDecision($pluginName, RequestHistory::DECISION_DECLINED, 'superUserLogin', null, time() - 600 + $i);
+            $requestHistory->add($pluginName, 'aUser', $now - 600 + $i, RequestHistory::REQUEST_TYPE_TRIAL);
+            $requestHistory->addDecision($pluginName, RequestHistory::DECISION_DECLINED, 'superUserLogin', null, $now - 600 + $i);
         }
 
         $_GET['offset'] = '5';
@@ -246,7 +249,7 @@ class ManageRequestsTest extends IntegrationTestCase
 
         self::assertSame(6, $history['total']);
         self::assertCount(1, $history['decisions']);
-        self::assertNotEmpty($history['decisions'][0]['decidedAtPretty']);
+        self::assertSame(gmdate('Y-m-d', $now - 600), $history['decisions'][0]['decidedAtPretty']);
     }
 
     public function testRequestHistoryPageIsRefusedToUsers(): void

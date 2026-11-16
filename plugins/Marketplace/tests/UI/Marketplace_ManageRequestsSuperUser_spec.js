@@ -33,7 +33,7 @@ describe('Marketplace_ManageRequestsSuperUser', function () {
   async function fixDates() {
     await page.evaluate(() => {
       document.querySelectorAll('.manageRequestsSuperUser__date').forEach((cell) => {
-        cell.textContent = 'Thursday, November 5, 2026';
+        cell.textContent = '2026-11-05';
       });
     });
   }
@@ -87,6 +87,7 @@ describe('Marketplace_ManageRequestsSuperUser', function () {
 
     await page.click('.manageRequestsSuperUser__toggle');
     await page.waitForSelector('.manageRequestsSuperUser__requesterRow', { visible: true });
+    await page.waitForSelector('.manageRequestsSuperUser__requesterReveal:not(.manageRequestsSuperUser__requesterReveal--sliding)');
 
     const requesters = await page.evaluate(() => Array.from(
       document.querySelectorAll('.manageRequestsSuperUser__requesterRow'),

@@ -212,9 +212,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $plugins = ApiRequest::processRequest('Marketplace.getPendingPluginRequests', [], []);
         foreach ($plugins as &$plugin) {
-            $plugin['lastRequestedAtPretty'] = $this->getPrettyLongDate($plugin['lastRequestedAt']);
+            $plugin['lastRequestedAtPretty'] = $this->getIsoDate($plugin['lastRequestedAt']);
             foreach ($plugin['requesters'] as &$requester) {
-                $requester['requestedAtPretty'] = $this->getPrettyLongDate($requester['requestedAt']);
+                $requester['requestedAtPretty'] = $this->getIsoDate($requester['requestedAt']);
             }
         }
 
@@ -232,7 +232,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'limit' => self::REQUEST_HISTORY_PAGE_SIZE,
         ], []);
         foreach ($history['decisions'] as &$decision) {
-            $decision['decidedAtPretty'] = $this->getPrettyLongDate($decision['decidedAt']);
+            $decision['decidedAtPretty'] = $this->getIsoDate($decision['decidedAt']);
         }
 
         return $history;
@@ -283,6 +283,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return Date::factory($date)->getLocalized(Date::DATE_FORMAT_LONG);
+    }
+
+    private function getIsoDate(?string $date): string
+    {
+        if (empty($date)) {
+            return '';
+        }
+
+        return Date::factory($date)->toString();
     }
 
     public function pluginDetails()
