@@ -85,7 +85,7 @@ try {
     while (ob_get_level() > $outputBufferLevel) {
         $isDebugModeEnabled ? ob_end_flush() : ob_end_clean();
     }
-    if (!$isDebugModeEnabled) {
+    if (!$isDebugModeEnabled && ob_get_level() >= $outputBufferLevel) {
         ob_clean();
     }
 

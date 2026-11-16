@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\EventDispatcher;
 use Piwik\Exception\ThingNotFoundException;
+use Piwik\Http\BadRequestException;
 use Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker\Response;
 use Piwik\Plugins\BulkTracking\tests\Framework\TestCase\BulkTrackingTestCase;
 use Piwik\Plugins\BulkTracking\Tracker\Handler;
@@ -202,6 +203,32 @@ class TrackerTest extends BulkTrackingTestCase
         $this->assertSame('{"status":"success","tracked":1,"invalid":1}', $response);
         $this->assertNotEmpty($this->getIdVisit(1));
         $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    /**
+     * @dataProvider getStatusCodesThatFailTheBatch
+     */
+    public function testMainFailsTheBatchSoItIsRetriedForAnHttpCodeExceptionWithStatusCode(int $code, string $statusLine)
+    {
+        EventDispatcher::getInstance()->addObserver('Tracker.isExcludedVisit', function (&$excluded, Tracker\Request $request) use ($code) {
+            if ($request->getIdSite() === 2) {
+                throw new BadRequestException('Try again later', $code);
+            }
+        });
+        Common::$headersSentInTests = [];
+
+        $response = $this->trackBulkRequest();
+
+        $this->assertSame('error', json_decode($response, true)['status'] ?? null, 'Expected a single JSON error response: ' . $response);
+        $this->assertArrayHasKey($statusLine, Common::$headersSentInTests);
+        $this->assertEmpty($this->getIdVisit(1), 'The request tracked before the error must be rolled back too');
+        $this->assertEmpty($this->getIdVisit(2));
+    }
+
+    public function getStatusCodesThatFailTheBatch(): iterable
+    {
+        yield 'too many requests' => [429, 'HTTP/1.1 429 Too Many Requests'];
+        yield 'service unavailable' => [503, 'HTTP/1.1 503 Service Unavailable'];
     }
 
     public function testMainRollsBackAndAnswersWithOneErrorResponseWhenAPhpErrorIsThrown()

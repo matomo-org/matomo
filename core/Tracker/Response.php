@@ -262,6 +262,6 @@ class Response
         $hostname = Url::getRFCValidHostname();
         $hostStr = $hostname ? "[$hostname]" : '-';
         $message .= ' in ' . $e->getFile() . ':' . $e->getLine();
-        error_log(sprintf("$hostStr Error in Matomo (tracker): %s", str_replace("\n", " ", $message)));
+        error_log(sprintf("$hostStr Error in Matomo (tracker): %s", str_replace(["\r", "\n"], " ", $message)));
     }
 }
