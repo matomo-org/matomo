@@ -33,8 +33,6 @@ use Piwik\Log\LoggerInterface;
  */
 class Model
 {
-    private const SITES_PER_PARTIAL_ARCHIVE_SCAN = 100;
-
     /**
      * @var LoggerInterface
      */
@@ -110,7 +108,7 @@ class Model
             }
         }
 
-        // also those finished after the finalize of the newer archive for all plugins deleted the older ones
+        // also those the finalize of the newer archive did not delete, e.g. ones still being built then
         $partialArchiveIds = $this->getPartialArchiveIdsOlderThanUsableFullArchive($archiveTable);
 
         return array_values(array_unique(array_merge($archiveIds, $partialArchiveIds)));
@@ -118,11 +116,7 @@ class Model
 
     /**
      * Partial archives of a plugin (done<hash>.<Plugin>) are read only until a newer usable archive for all plugins
-     * (done<hash>) exists for the same site, period and segment, see ArchiveSelector. Older ones are never read again.
-     * A partial archive with a lower idarchive started before the archive for all plugins, so one of the same second
-     * is older too.
-     *
-     * The table is read for some of its sites at a time, so only the archives to delete are held in memory.
+     * (done<hash>) exists for the same site, period and segment, see ArchiveSelector. Older ones are not read again.
      *
      * @return string[]
      */
@@ -130,30 +124,21 @@ class Model
     {
         $usableValues = implode(',', [ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY, ArchiveWriter::DONE_INVALIDATED]);
 
-        $idSites = array_map('intval', array_column(Db::fetchAll("SELECT DISTINCT idsite FROM `$archiveTable`"), 'idsite'));
+        $sql = "SELECT DISTINCT partial.idarchive
+                  FROM `$archiveTable` partial
+                  JOIN `$archiveTable` fullarchive
+                    ON fullarchive.idsite = partial.idsite
+                   AND fullarchive.date1 = partial.date1
+                   AND fullarchive.date2 = partial.date2
+                   AND fullarchive.period = partial.period
+                   AND fullarchive.name = SUBSTRING_INDEX(partial.name, '.', 1)
+                   AND fullarchive.value IN ($usableValues)
+                   AND fullarchive.ts_archived > partial.ts_archived
+                   AND fullarchive.idarchive > partial.idarchive
+                 WHERE partial.name LIKE 'done%.%'
+                   AND partial.value = " . ArchiveWriter::DONE_PARTIAL;
 
-        $archiveIds = [];
-        foreach (array_chunk($idSites, self::SITES_PER_PARTIAL_ARCHIVE_SCAN) as $idSitesOfChunk) {
-            $sql = "SELECT DISTINCT partial.idarchive
-                      FROM `$archiveTable` partial
-                      JOIN `$archiveTable` fullarchive
-                        ON fullarchive.idsite = partial.idsite
-                       AND fullarchive.date1 = partial.date1
-                       AND fullarchive.date2 = partial.date2
-                       AND fullarchive.period = partial.period
-                       AND fullarchive.name = SUBSTRING_INDEX(partial.name, '.', 1)
-                       AND fullarchive.value IN ($usableValues)
-                       AND fullarchive.ts_archived >= partial.ts_archived
-                       AND fullarchive.idarchive > partial.idarchive
-                     WHERE partial.idsite IN (" . implode(',', $idSitesOfChunk) . ")
-                       AND partial.name LIKE 'done%.%'
-                       AND partial.value = " . ArchiveWriter::DONE_PARTIAL;
-
-            $rows = Db::fetchAll($sql);
-            $archiveIds = array_merge($archiveIds, array_map('strval', array_column($rows, 'idarchive')));
-        }
-
-        return $archiveIds;
+        return array_map('strval', array_column(Db::fetchAll($sql), 'idarchive'));
     }
 
     public function updateArchiveAsInvalidated(
@@ -534,9 +519,8 @@ class Model
 
         // the older archives of the same name, and the partial archives of its plugins (`<name>.<Plugin>`), which
         // readers ignore once a newer archive of all their plugins exists
-        // a partial of the same second is older too, as its idarchive is lower
         $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ?
-                   AND ((name = ? AND ts_archived <= ?) OR (name LIKE ? AND value = " . ArchiveWriter::DONE_PARTIAL . " AND ts_archived <= ?))
+                   AND ((name = ? AND ts_archived <= ?) OR (name LIKE ? AND value = " . ArchiveWriter::DONE_PARTIAL . " AND ts_archived < ?))
                    AND idarchive < ?";
         $partialNamePattern = addcslashes($name, '%_\\') . '.%';
 
