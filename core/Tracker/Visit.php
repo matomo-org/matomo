@@ -573,9 +573,9 @@ class Visit implements VisitInterface
         // A User ID a compliance policy would have withheld must not reach this visit by another
         // route either: while enable_userid_overwrites_visitorid is on it replaces the visit's
         // idvisitor with a hash of the User ID, which identifies the visitor as surely as the
-        // column would have. It may only do so where the consent reported applies to this visit.
-        // the visit's consent, not the flag on this one request, so that the identifier does not
-        // switch back and forth between the User ID hash and the cookie id as requests arrive
+        // column would have. It may only do so where the visit holds consent: the visit's consent
+        // decides, not the flag on this one request, so that the identifier does not switch back
+        // and forth between the User ID hash and the cookie id as requests arrive.
         $hasConsent = $this->mayUseTheReportedConsent()
             && Consent::visitHasConsent($this->request, $this->makeVisitorFacade());
 
@@ -613,6 +613,20 @@ class Visit implements VisitInterface
     private function recognisedVisitorIdCameFromAWithheldUserId(): bool
     {
         if ($this->request->hasConsent()) {
+            return false;
+        }
+
+        // The identifier can only be a hash of a withheld User ID where the visit carrying it
+        // was consented, so the stored consent decides rather than whether the site measures
+        // consent now. A site that never opted in is left alone, and one that opted out after a
+        // consented visit is still guarded, which asking the setting would not do.
+        //
+        // It is read from the request metadata because the recognised visit's columns are not
+        // copied into the visit properties on the path that creates a visit.
+        $lastKnownVisit = $this->request->getMetadata('CoreHome', 'lastKnownVisit');
+        $lastVisitConsent = is_array($lastKnownVisit) ? ($lastKnownVisit['consent'] ?? 0) : 0;
+
+        if (Consent::CONSENT_GIVEN !== (int) $lastVisitConsent) {
             return false;
         }
 

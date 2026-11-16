@@ -199,6 +199,66 @@ class UserIdConsentTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * Baseline: a site that opted in to nothing must not notice this guard at all. Where a visit
+     * was identified by a User ID hash before the policy was enforced, the visitor keeps that
+     * identifier: no consent was ever reported, so nothing was withheld for consent to lift.
+     */
+    public function testASiteThatNeverOptedInKeepsAnIdentifierStoredBeforeThePolicy(): void
+    {
+        $this->disableConsentAwareAnalytics();
+
+        // stored while nothing withheld the User ID, so the visit is identified by its hash
+        $this->trackPageView(null, 'landing');
+
+        $this->assertSame(
+            substr(sha1(self::USER_ID), 0, 16),
+            bin2hex((string) $this->fetchVisitColumn('idvisitor')),
+            'the first visit should hold the User ID hash for this test to mean anything'
+        );
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'nothing consented here');
+
+        $this->enforcePolicy();
+
+        $this->forceNewVisitWithoutConsent();
+
+        $this->assertSame(2, $this->countVisits(), 'a new visit should have been forced');
+        $this->assertSame(
+            substr(sha1(self::USER_ID), 0, 16),
+            bin2hex((string) $this->fetchVisitColumn('idvisitor', 1)),
+            'a site that opted in to nothing had its visitor identifier changed'
+        );
+    }
+
+    /**
+     * The other side of it: a site that stops measuring consent-aware analytics still holds
+     * visits that consented, and their identifier is still a hash of a User ID the policy
+     * withholds now. Turning the setting off must not carry that hash into the next visit.
+     */
+    public function testASiteThatStoppedMeasuringConsentStillGuardsAConsentedIdentifier(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView('1', 'landing');
+
+        $this->assertSame(
+            substr(sha1(self::USER_ID), 0, 16),
+            bin2hex((string) $this->fetchVisitColumn('idvisitor')),
+            'the consented visit should hold the User ID hash for this test to mean anything'
+        );
+
+        $this->disableConsentAwareAnalytics();
+
+        $this->forceNewVisitWithoutConsent();
+
+        $this->assertSame(2, $this->countVisits(), 'a new visit should have been forced');
+        $this->assertNotSame(
+            substr(sha1(self::USER_ID), 0, 16),
+            bin2hex((string) $this->fetchVisitColumn('idvisitor', 1)),
+            'the withheld User ID hash was carried into a visit that may not hold it'
+        );
+    }
+
     private function forceNewVisitWithConsent(): void
     {
         $this->testDate = $this->testDate->addPeriod(1, 'minute');

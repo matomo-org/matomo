@@ -6761,7 +6761,11 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Prevent campaign parameters being sent to the tracker, unless consent given.
+             * Prevent campaign parameters being sent to the tracker.
+             *
+             * They are kept while requireConsent() is in use, and, where the site called
+             * requireConsentForRestrictedData(), once consent has been given. Otherwise they
+             * are stripped.
              */
             this.disableCampaignParameters = function () {
               configEnableCampaignParameters = false;

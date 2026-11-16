@@ -31,6 +31,7 @@ use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
@@ -1015,7 +1016,7 @@ class Request
             return $this->measuresConsentCache = false;
         }
 
-        $privacyConfig = new \Piwik\Plugins\PrivacyManager\Config((int) $idSite);
+        $privacyConfig = new PrivacyManagerConfig((int) $idSite);
 
         return $this->measuresConsentCache = !$privacyConfig->forceCookielessTracking;
     }
