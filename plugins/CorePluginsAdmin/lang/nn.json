@@ -34,6 +34,7 @@
         "LicenseHomepage": "Lisensen til innstikket",
         "LikeThisPlugin": "Liker du dette innstikket?",
         "MenuPlatform": "Plattform",
+        "MissingRequirementsNotYetCompatibleNotice": "Dette innstikket er ikkje kompatibelt med %1$s %2$s enno. Støtta versjonar: %1$s %3$s. Vent på ei oppdatering av innstikket.",
         "MissingRequirementsNotice": "Oppdater %1$s %2$s til ein nyare versjon. %1$s %3$s er påkravd.",
         "MissingRequirementsPleaseInstallNotice": "Installer %1$s %2$s, fordi det trengst for %3$s.",
         "NUpdatesAvailable": "%1$s oppdatering(ar) tilgjengeleg(e)",

@@ -83,6 +83,7 @@
         "PleaseNote": "Upozornění",
         "PluginDescription": "Zajišťuje přihlašování uživatelským jménem a heslem i možnost obnovit heslo. Způsob přihlašování lze změnit pomocí jiného přihlašovacího pluginu, například LoginLdap dostupného v Marketplace.",
         "RememberMe": "Zapamatovat si mě",
+        "SecondFactorCode": "Ověřovací kód",
         "SecurityTip": "Bezpečnostní doporučení",
         "SettingBruteForceBlacklistIp": "Přihlášení z těchto IP adres vždy blokovat",
         "SettingBruteForceEnable": "Povolit detekci útoků hrubou silou",

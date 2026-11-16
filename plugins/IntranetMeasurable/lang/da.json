@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "Intranet hjemmeside",
         "IntranetDescription": "En intranet webstatistik er det samme som for Internet-hjemmesider, blot hostet på et internt netværk.",
+        "IntranetLongDescription": "Spor interne websteder, der kun er tilgængelige i din organisations netværk. Matomo bruger førstepartscookies til mere præcist at identificere unikke besøgende i intranetmiljøer.",
         "Intranets": "Intranet hjemmeside"
     }
 }

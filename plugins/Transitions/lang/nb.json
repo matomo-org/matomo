@@ -16,7 +16,6 @@
         "FromSocialNetworks": "Fra sosiale nettverk",
         "FromWebsites": "Fra nettsteder",
         "IncomingTraffic": "Innkommende trafikk",
-        "LoadingTransitionsFor": "Laster inn overganger for %s",
         "LoopsInline": "%s innlastinger av side på nytt",
         "NoDataForAction": "Ingen data for %s",
         "NoDataForActionDetails": "Enten hadde handlingen ingen sidevisninger i perioden, eller så er den ugyldig.",

@@ -2,6 +2,7 @@
     "CoreUpdater": {
         "AlreadyUpToDate": "Todo ya está actualizado.",
         "CheckingForPluginUpdates": "Verificando nuevas actualizaciones del complemento",
+        "CheckingForPluginUpdatesFailed": "No se han podido buscar actualizaciones de complementos: %1$s",
         "ClickHereToViewSqlQueries": "Haz clic aquí para ver y copiar la lista de consultas SQL y comandos de consola que se ejecutarán",
         "CloudHosting": "Alojamiento en la nube",
         "ConsoleCommandDescription": "Desencadena actualizaciones. Úselo después que Matomo core o cualquier complemento haya sido actualizado. Agregue la opción --yes para actualizar sin confirmaciones.",
@@ -87,8 +88,10 @@
         "UpdateSuccessTitle": "¡Matomo se ha actualizado correctamente!",
         "UpdateTitle": "Actualizar",
         "UpdateUsingHttpsFailed": "La descarga de la más reciente versión de Matomo sobre una conexión segura HTTPS no fue exitosa, debido al siguiente error:",
+        "UpdateUsingHttpsFailedForceHttpInfo": "Por motivos de seguridad, Matomo no ha descargado la actualización a través de una conexión HTTP no segura. Asegúrese de que HTTPS funciona en su entorno e inténtelo de nuevo. Solo si está seguro de que la conexión es segura, permita las actualizaciones por HTTP activando la opción de configuración %1$sforce_matomo_http_request%2$s.",
         "UpdateUsingHttpsFailedHelp": "¿Por qué falló? La descarga de la última versión de Matomo (sobre una conexión segura HTTPS) puede fallar por diversas razones, por ejemplo, debido a un error de red, una baja velocidad de la misma o una configuración equivocada en su sistema. También puede que su servidor sea el objetivo de un ataque MITM y alguien está tratando de reemplazar la actualización con una versión maliciosa de Matomo.",
         "Updating": "Actualizando",
+        "UpdatingPluginXFailedY": "No se ha podido actualizar el complemento %1$s: %2$s",
         "UpdatingPluginXToVersionY": "Actualizando complemento %1$s a la versiòn %2$s",
         "UpgradeComplete": "¡Actualización completa!",
         "UpgradePiwik": "Actualizar Matomo",

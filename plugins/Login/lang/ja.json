@@ -83,6 +83,7 @@
         "PleaseNote": "ご注意ください",
         "PluginDescription": "ユーザー名とパスワードのログイン、およびパスワードのリセット機能を提供します。 ログイン方法は、マーケットプレイスで入手可能な LoginLdap などの別のログイン プラグインを使用して変更できます。",
         "RememberMe": "次回の入力を省略",
+        "SecondFactorCode": "認証コード",
         "SecurityTip": "セキュリティのヒント",
         "SettingBruteForceBlacklistIp": "これらの IP によるログインを常にブロックする",
         "SettingBruteForceEnable": "Brute Force 検出を有効にする",
