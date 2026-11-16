@@ -371,10 +371,12 @@ class RowEvolution
             $max = isset($metricData['max']) ? $metricData['max'] : 0;
             $min = isset($metricData['min']) ? $metricData['min'] : 0;
             $fractionDigits = max(array_map([$this, 'getFractionDigits'], [$first, $last, $min, $max]));
+            $column = $this->getColumnForMetric((string) $metric);
 
+            // the template prints details raw, as it holds the change markup below
             $details = Piwik::translate('RowEvolution_MetricBetweenText', array(
-                NumberFormatter::getInstance()->format($first, $fractionDigits) . $unit,
-                NumberFormatter::getInstance()->format($last, $fractionDigits) . $unit,
+                htmlspecialchars($this->formatMetricValue($first, $column, $unit, $fractionDigits, false), ENT_QUOTES, 'UTF-8'),
+                htmlspecialchars($this->formatMetricValue($last, $column, $unit, $fractionDigits, false), ENT_QUOTES, 'UTF-8'),
             ));
 
             if ($change !== false) {
@@ -400,8 +402,8 @@ class RowEvolution
             // set metric min/max text (used as tooltip for details)
             $minmax = Piwik::translate('RowEvolution_MetricMinMax', array(
                 $metricData['name'],
-                NumberFormatter::getInstance()->formatNumber($min, $fractionDigits, $fractionDigits) . $unit,
-                NumberFormatter::getInstance()->formatNumber($max, $fractionDigits, $fractionDigits) . $unit,
+                $this->formatMetricValue($min, $column, $unit, $fractionDigits, true),
+                $this->formatMetricValue($max, $column, $unit, $fractionDigits, true),
             ));
 
             $newMetric = array(
@@ -514,6 +516,32 @@ class RowEvolution
             }
         }
         return $rowLabel;
+    }
+
+    /**
+     * The report column a metric toggle shows the values of.
+     */
+    protected function getColumnForMetric(string $metric): string
+    {
+        return $metric;
+    }
+
+    /**
+     * @param int|float $value
+     */
+    private function formatMetricValue($value, string $metric, string $unit, int $fractionDigits, bool $keepTrailingZeros): string
+    {
+        $formatted = Metrics::getFormattedEvolutionValue($value, $metric, (int) $this->idSite);
+        if ($formatted !== null) {
+            return $formatted;
+        }
+
+        $numberFormatter = NumberFormatter::getInstance();
+        $number = $keepTrailingZeros
+            ? $numberFormatter->formatNumber($value, $fractionDigits, $fractionDigits)
+            : $numberFormatter->format($value, $fractionDigits);
+
+        return $number . $unit;
     }
 
     /**

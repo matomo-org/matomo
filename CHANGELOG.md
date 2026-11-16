@@ -16,6 +16,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A module that selects its own set of sites, such as `MultiSites.getAll`, is labelled on the days its rows cover, which are UTC's days when it covers more than one site.
   * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
 
+### New PHP events
+* New event `Metrics.formatEvolutionValue` that lets plugins format their metric values in the row evolution popover.
+
 ### Other changes
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
