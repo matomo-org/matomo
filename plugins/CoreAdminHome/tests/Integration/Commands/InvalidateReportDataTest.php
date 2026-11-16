@@ -1023,7 +1023,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         self::assertStringContainsString("Invalidating range periods overlapping 2019-01-01,2019-01-09 for site = [ 1 ], segment = [ dimension1==test ]", $this->getLogOutput());
     }
 
-    public function testCommandForAPluginKeepsTheRememberedDates()
+    public function testCommandForAPluginKeepsTheRememberedDates(): void
     {
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->rememberToInvalidateArchivedReportsLater(1, Date::factory('2019-01-01'));

@@ -755,7 +755,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSameReports($expected, $reports);
     }
 
-    public function testMarkArchivesAsInvalidatedForAPluginOrReportKeepsTheRememberedDates()
+    public function testMarkArchivesAsInvalidatedForAPluginOrReportKeepsTheRememberedDates(): void
     {
         $this->rememberReport(1, '2014-04-05');
 
@@ -769,9 +769,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSame([], $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated());
     }
 
-    public function testReArchiveReportKeepsTheRememberedDates()
+    public function testReArchiveReportKeepsTheRememberedDates(): void
     {
-        Config::getInstance()->General['rearchive_reports_in_past_last_n_months'] = 'last1';
+        Config::setSetting('General', 'rearchive_reports_in_past_last_n_months', 'last1');
         $yesterday = Date::factory('yesterday');
         $this->rememberReport(1, $yesterday->toString());
 
@@ -982,7 +982,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     /**
      * @dataProvider getNamesForRangeInvalidations
      */
-    public function testMarkArchivesAsInvalidatedOfASingleReportLeavesTheRangeArchives(?string $name, int $expectedValue)
+    public function testMarkArchivesAsInvalidatedOfASingleReportLeavesTheRangeArchives(?string $name, int $expectedValue): void
     {
         $this->insertArchiveRow(1, '2020-03-02,2020-03-04', 'range', ArchiveWriter::DONE_OK, false, false);
         $this->insertArchiveRow(1, '2020-03-02,2020-03-04', 'range', ArchiveWriter::DONE_OK, 'ExamplePlugin', false);
@@ -998,6 +998,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         ], $this->getAvailableArchives());
     }
 
+    /**
+     * @return iterable<string, array{?string, int}>
+     */
     public function getNamesForRangeInvalidations(): iterable
     {
         yield 'all plugins' => [null, ArchiveWriter::DONE_INVALIDATED];

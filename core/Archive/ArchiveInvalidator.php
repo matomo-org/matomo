@@ -702,7 +702,7 @@ class ArchiveInvalidator
         bool $forceInvalidateNonexistentRanges = false,
         ?string $name = null,
         bool $doNotCreateInvalidations = false
-    ) {
+    ): void {
         $idSites = array_map('intval', $idSites);
 
         // a single report (`Plugin.report`) marks no archive, so it leaves the ranges alone too
