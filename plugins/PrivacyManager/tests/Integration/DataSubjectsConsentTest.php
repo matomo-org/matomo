@@ -509,6 +509,32 @@ class DataSubjectsConsentTest extends IntegrationTestCase
         $this->assertNotContains('visitorId', $segments);
     }
 
+    public function testOnlyTheIdentifyingSegmentsAreListedAgainForTheGdprToolsOnThePolicySite(): void
+    {
+        $parameters = [
+            'idSites' => $this->policySite,
+            'idSite' => $this->policySite,
+            'filter_limit' => -1,
+            'forDataSubjectSearch' => 1,
+        ];
+        $this->setRequestParameters($parameters);
+
+        try {
+            $segments = array_column($this->processRootRequest('API.getSegmentsMetadata', $parameters), 'segment');
+        } finally {
+            $this->setRequestParameters([]);
+        }
+
+        foreach (['userId', 'visitorId', 'visitId', 'visitIp'] as $segment) {
+            $this->assertContains($segment, $segments);
+        }
+
+        // the other segments the policy removes stay removed
+        foreach (['fingerprint', 'campaignId', 'visitServerHour', 'visitStartServerHour', 'actionServerHour'] as $segment) {
+            $this->assertNotContains($segment, $segments);
+        }
+    }
+
     /**
      * The request being served, which the segment list reads its websites and parameters from.
      *

@@ -22,7 +22,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ThemeStyles;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 use Piwik\SettingsPiwik;
@@ -466,12 +465,6 @@ class CoreHome extends \Piwik\Plugin
             $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
         } else {
             foreach ($idSites as $idsite) {
-                // the GDPR tools can still find the visits of visitors who gave consent by the segments that
-                // identify a visitor, where a compliance policy limits the visitor profile to those visits
-                if (PrivacyManager::isConsentedVisitsOnlySiteOfDataSubjectSearch((int) $idsite)) {
-                    continue;
-                }
-
                 $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
             }
         }

@@ -17,7 +17,6 @@ use Piwik\Metrics;
 use Piwik\Plugin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\Live\Live;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -52,12 +51,8 @@ class UserId extends VisitDimension
 
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
-        // Configure userId segment only if visitor profile is available, or for the GDPR tools where a compliance
-        // policy limits it to the visits of visitors who gave consent
-        if (
-            Live::isVisitorProfileEnabled()
-            || PrivacyManager::canDataSubjectSearchUseVisitorSegments()
-        ) {
+        // Configure userId segment only if visitor profile is available
+        if (Live::isVisitorProfileEnabled()) {
             parent::configureSegments($segmentsList, $dimensionSegmentFactory);
         }
     }
