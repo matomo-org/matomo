@@ -725,6 +725,12 @@ describe("EvolutionGraph", function () {
             expect(ticks[ticks.length - 1]).to.equal(100);
         });
 
+        it("should end an axis at zero when every value is negative", async function () {
+            const ticks = await getTicksForSeries(1, -229, -800);
+            expect(ticks[0]).to.be.at.most(-800);
+            expect(ticks[ticks.length - 1]).to.equal(0);
+        });
+
         it("should start the axis at zero when no value is negative", async function () {
             const ticks = await getTicksForSeries(0, 40, 50);
             // Object.is, as a -0 tick can be formatted as "-0"

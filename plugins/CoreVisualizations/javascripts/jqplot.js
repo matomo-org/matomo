@@ -973,7 +973,10 @@ function applyFooterLegendRowLimit($dataTable)
                 // without ticks below zero, a negative value is drawn off the graph
                 var minCrossDataSets = padAndRound(-minDataValue);
                 tickDistance = Math.max(tickDistance, Math.ceil(minCrossDataSets / numberOfTicks));
-                ticksAboveZero = Math.ceil(maxCrossDataSets / tickDistance);
+                // the padding gives an all-negative axis a positive maximum, so skip the tick it would add
+                ticksAboveZero = Math.max(maxDataValue, maxForecastValue) <= 0
+                    ? 0
+                    : Math.ceil(maxCrossDataSets / tickDistance);
                 ticksBelowZero = Math.ceil(minCrossDataSets / tickDistance);
             }
             for (var i = 0; i <= ticksBelowZero + ticksAboveZero; i++) {

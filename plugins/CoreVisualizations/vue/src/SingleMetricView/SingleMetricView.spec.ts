@@ -38,12 +38,12 @@ import SingleMetricView from './SingleMetricView.vue';
 
 describe('CoreVisualizations/SingleMetricView', () => {
   it.each([
-    ['from unrounded values', 8, 11, '-27.27 %'],
-    ['from values the API returns as strings', '8', '11', '-27.27 %'],
-    ['as zero for a decrease too small to show', 99999, 100000, '0.00 %'],
-    ['as 100% from a past value of zero', 5, 0, '100.00 %'],
-    ['as zero when both values are zero', 0, 0, '0.00 %'],
-  ])('shows the change between periods %s', async (_, current, past, expected) => {
+    ['from unrounded values', 8, 11, '-27.27 %', 'evolution-down'],
+    ['from values the API returns as strings', '8', '11', '-27.27 %', 'evolution-down'],
+    ['as zero for a decrease too small to show', 99999, 100000, '0.00 %', 'evolution-down'],
+    ['as 100% from a past value of zero', 5, 0, '100.00 %', 'evolution-up'],
+    ['as zero when both values are zero', 0, 0, '0.00 %', null],
+  ])('shows the change between periods %s', async (_, current, past, expected, arrowClass) => {
     // formatted current, raw current, raw past, formatted past
     const values = [current, current, past, past];
     vi.mocked(AjaxHelper.fetch).mockImplementation(
@@ -61,6 +61,13 @@ describe('CoreVisualizations/SingleMetricView', () => {
     await flushPromises();
 
     expect(view.find('.metricEvolution').text()).toBe(expected);
+    const arrowClasses = view.find('.metricEvolution > span').classes();
+    if (arrowClass) {
+      expect(arrowClasses).toContain(arrowClass);
+    } else {
+      expect(arrowClasses).not.toContain('evolution-up');
+      expect(arrowClasses).not.toContain('evolution-down');
+    }
     view.unmount();
   });
 });
