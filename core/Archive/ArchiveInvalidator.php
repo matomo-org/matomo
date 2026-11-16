@@ -461,7 +461,9 @@ class ArchiveInvalidator
 
     /**
      * Schedule rearchiving of reports for a single plugin or single report for N months in the past. The next time
-     * core:archive is run, they will be processed.
+     * core:archive is run, they will be processed. Those of a single report are processed after the other invalidations
+     * of the websites that run archives; if it stops before, or doesn't archive their website, period or report, by
+     * the website's next turn of a later run.
      *
      * @param int[]|string $idSites A list of idSites or 'all'
      * @throws \Exception

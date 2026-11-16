@@ -30,6 +30,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
 
 ### Archiving
+* `core:archive` processes invalidations of a single report, such as those of `ArchiveInvalidator::reArchiveReport()` with a report, queued since the previous run started to process the queue after the other invalidations of the websites it archives and after their `CronArchive.archiveSingleSite.finish` event, unless `--force-report` is used; older ones are processed in their website's turn, so those of a run that stopped before in the website's next turn.
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 
 ### Other changes

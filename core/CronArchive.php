@@ -67,6 +67,14 @@ class CronArchive
     // Name of option used to store starting timestamp
     public const OPTION_ARCHIVING_STARTED_TS = "LastFullArchivingStartTime";
 
+    /**
+     * The time (UTC) the last run started to process the invalidation queue, after applying the scheduled
+     * re-archiving.
+     *
+     * @internal
+     */
+    public const OPTION_QUEUE_PROCESSING_STARTED = 'LastArchivingQueueProcessingStart';
+
     // Show only first N characters from Piwik API output in case of errors
     public const TRUNCATE_ERROR_MESSAGE_SUMMARY = 6000;
 
@@ -412,6 +420,13 @@ class CronArchive
             $this->invalidator->applyScheduledReArchiving();
         });
 
+        // single report invalidations queued since the time the previous run got here are deferred to the end of the
+        // run; without a previous run, as after an upgrade, none are
+        $now = Date::now()->getDatetime();
+        Option::clearCachedOption(self::OPTION_QUEUE_PROCESSING_STARTED);
+        $previousQueueProcessingStart = Option::get(self::OPTION_QUEUE_PROCESSING_STARTED);
+        Option::set(self::OPTION_QUEUE_PROCESSING_STARTED, $now);
+
         $failedJobs = $this->model->resetFailedArchivingJobs();
         if ($failedJobs) {
             $this->logger->info("Found {failed} failed jobs (ts_invalidated older than 1 day), resetting status to try them again.", [
@@ -433,6 +448,9 @@ class CronArchive
         );
 
         $queueConsumer->setMaxSitesToProcess($this->maxSitesToProcess);
+        $queueConsumer->setPreviousRunQueueProcessingStart(
+            is_string($previousQueueProcessingStart) && $previousQueueProcessingStart !== '' ? $previousQueueProcessingStart : $now
+        );
 
         while (true) {
             if (null !== $this->signal) {

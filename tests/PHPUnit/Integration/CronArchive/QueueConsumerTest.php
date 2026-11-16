@@ -24,11 +24,13 @@ use Piwik\CronArchive;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\QueueConsumer;
 use Piwik\CronArchive\SegmentArchiving;
+use Piwik\CronArchive\SharedSiteIds;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
@@ -382,6 +384,13 @@ class QueueConsumerTest extends IntegrationTestCase
             ],
             [],
             [], // end of idsite=1
+            [ // end of idsite=2, whose single report is archived after the other archives of all sites
+            ],
+            [ // end of idsite=3
+            ],
+            // the single reports of idsite=1 wait for the archives of their periods in progress
+            [],
+            [],
             [
                 [
                     'idarchive' => '1',
@@ -399,9 +408,7 @@ class QueueConsumerTest extends IntegrationTestCase
                     'process_id' => null,
                 ],
             ],
-            [ // end of idsite=2
-            ],
-            [ // end of idsite=3
+            [ // end of the single reports of idsite=2
             ],
         ];
 
@@ -457,23 +464,23 @@ class QueueConsumerTest extends IntegrationTestCase
             $iteratedInvalidations[] = $next;
         }
 
+        $actionsDay = [
+            'idarchive' => '1',
+            'idsite' => '1',
+            'date1' => '2018-03-06',
+            'date2' => '2018-03-06',
+            'period' => '1',
+            'name' => 'done.Actions',
+            'report' => 'testReport',
+            'plugin' => 'Actions',
+            'segment' => '',
+            'ts_started' => null,
+            'status' => '0',
+            'processing_host' => null,
+            'process_id' => null,
+        ];
         $expectedInvalidationsFound = [
             [
-                [
-                    'idarchive' => '1',
-                    'idsite' => '1',
-                    'date1' => '2018-03-06',
-                    'date2' => '2018-03-06',
-                    'period' => '1',
-                    'name' => 'done.Actions',
-                    'report' => 'testReport',
-                    'plugin' => 'Actions',
-                    'segment' => '',
-                    'ts_started' => null,
-                    'status' => '0',
-                    'processing_host' => null,
-                    'process_id' => null,
-                ],
                 [
                     'idarchive' => '1',
                     'idsite' => '1',
@@ -511,6 +518,10 @@ class QueueConsumerTest extends IntegrationTestCase
             [], // end of idsite=1
             [], // end of idsite=2
             [], // end of idsite=3
+            // the single report's week and month wait for its day
+            [$actionsDay],
+            [],
+            [], // end of the single reports of idsite=1
         ];
 
         $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations);
@@ -1150,6 +1161,313 @@ class QueueConsumerTest extends IntegrationTestCase
             $archiveFilter->setSkipSegmentsForToday(true);
         }
         return $archiveFilter;
+    }
+
+    /**
+     * @dataProvider getMaxSitesToProcess
+     */
+    public function testSingleReportsAreProcessedAfterTheOtherInvalidationsOfAllSites(?int $maxSitesToProcess, array $expected)
+    {
+        Fixture::createWebsite('2015-02-03');
+        Fixture::createWebsite('2015-02-03');
+        Fixture::createWebsite('2015-02-03');
+
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+
+        $queueConsumer = new QueueConsumer(
+            new NullLogger(),
+            new FixedSiteIds([1, 2, 3]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            $cronArchive,
+            $this->makeTestArchiveFilter()
+        );
+        $queueConsumer->setMaxSitesToProcess($maxSitesToProcess);
+
+        $this->insertInvalidations([
+            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID, 'report' => 'testReport'],
+            ['idarchive' => 2, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 3, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => 'testReport'],
+            ['idarchive' => 4, 'name' => 'done', 'idsite' => 2, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 5, 'name' => 'done.Actions', 'idsite' => 2, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => 'testReport'],
+            ['idarchive' => 6, 'name' => 'done.Actions', 'idsite' => 3, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+        ]);
+
+        $processed = [];
+        for ($i = 0; $i < 100; $i++) {
+            $next = $queueConsumer->getNextArchivesToProcess();
+            if ($next === null) {
+                break;
+            }
+
+            foreach ($next as $item) {
+                $processed[] = (int) $item['idarchive'];
+                // finished
+                Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$item['idinvalidation']]);
+            }
+        }
+
+        $this->assertSame($expected, $processed);
+    }
+
+    public function getMaxSitesToProcess(): iterable
+    {
+        yield 'all sites' => [null, [2, 4, 6, 1, 3, 5]];
+        // the single reports of the sites processed still follow
+        yield 'one site' => [1, [2, 1, 3]];
+    }
+
+    /**
+     * Runs of core:archive one after the other, each with its own process's list of sites: the rest of an earlier run's
+     * shared list or a new one, or always the whole list with FixedSiteIds. A run stopped by --max-archives-to-process,
+     * a signal or maintenance mode leaves its unprocessed invalidations queued, as these stop before fetching the next
+     * archives. Single reports queued since the previous run started wait for the end of the run; older ones are
+     * processed in their site's turn, also by runs that never get to the end of their list.
+     *
+     * @dataProvider getRunsStoppedEarly
+     * @param array<array{previousRunAfterQueued: bool, maxArchives?: int, maxSites?: int, add?: array, expected: int[]}> $runs
+     */
+    public function testSingleReportsDeferredOnceAreProcessedInTheirSiteTurn(bool $isSharedList, array $runs)
+    {
+        if ($isSharedList && !SharedSiteIds::isSupported()) {
+            $this->markTestSkipped('SharedSiteIds is not supported');
+        }
+
+        foreach ([1, 2, 3] as $idSite) {
+            Fixture::createWebsite('2015-02-03');
+        }
+
+        $queuedAt = Date::now()->subSeconds(3600);
+        $this->insertInvalidations($this->withTsInvalidated($this->getInvalidationsOfThreeSites(), $queuedAt));
+
+        $optionName = 'SharedSiteIdsToArchive_QueueConsumerTest';
+        try {
+            foreach ($runs as $index => $run) {
+                $this->insertInvalidations($run['add'] ?? []);
+
+                $queueConsumer = $this->makeConsumerOfThreeSites($isSharedList ? new SharedSiteIds([1, 2, 3], $optionName) : new FixedSiteIds([1, 2, 3]));
+                $queueConsumer->setMaxSitesToProcess($run['maxSites'] ?? null);
+                $queueConsumer->setPreviousRunQueueProcessingStart($run['previousRunAfterQueued'] ? $queuedAt->getDatetime() : $queuedAt->subSeconds(1)->getDatetime());
+
+                $this->assertSame($run['expected'], $this->consumeInvalidations($queueConsumer, $run['maxArchives'] ?? null), "run $index");
+            }
+        } finally {
+            Option::delete($optionName);
+            Option::delete($optionName . SharedSiteIds::KEY_TIMESTAMP);
+        }
+
+        $this->assertEquals(0, Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations')));
+    }
+
+    public function getRunsStoppedEarly(): iterable
+    {
+        // a later invalidation of site 3 for all plugins, as each run invalidates today and yesterday again
+        $siteThreeAgain = [['idarchive' => 7, 'name' => 'done', 'idsite' => 3, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => Day::PERIOD_ID, 'report' => null]];
+
+        yield 'one run' => [true, [
+            ['previousRunAfterQueued' => false, 'expected' => [2, 4, 6, 1, 3, 5]],
+        ]];
+
+        yield 'one run, after a run that deferred the single reports' => [true, [
+            ['previousRunAfterQueued' => true, 'expected' => [1, 2, 3, 4, 5, 6]],
+        ]];
+
+        yield 'shared list whose last site uses up the limit' => [true, [
+            ['previousRunAfterQueued' => false, 'maxArchives' => 2, 'expected' => [2, 4]],
+            ['previousRunAfterQueued' => true, 'maxArchives' => 1, 'expected' => [6]],
+            // a new list
+            ['previousRunAfterQueued' => true, 'maxArchives' => 2, 'add' => $siteThreeAgain, 'expected' => [1, 3]],
+            ['previousRunAfterQueued' => true, 'maxArchives' => 2, 'expected' => [5, 7]],
+        ]];
+
+        yield 'whole list each run, none gets to its end' => [false, [
+            ['previousRunAfterQueued' => false, 'maxArchives' => 2, 'expected' => [2, 4]],
+            ['previousRunAfterQueued' => true, 'maxArchives' => 2, 'expected' => [1, 3]],
+            ['previousRunAfterQueued' => true, 'maxArchives' => 2, 'add' => $siteThreeAgain, 'expected' => [5, 7]],
+            ['previousRunAfterQueued' => true, 'expected' => [6]],
+        ]];
+
+        yield 'website limit' => [true, [
+            // the single reports of the sites of the run only
+            ['previousRunAfterQueued' => false, 'maxSites' => 1, 'expected' => [2, 1, 3]],
+            ['previousRunAfterQueued' => false, 'maxSites' => 1, 'expected' => [4, 5]],
+            ['previousRunAfterQueued' => false, 'maxSites' => 1, 'expected' => [6]],
+        ]];
+
+        yield 'website limit, single reports deferred by a run stopped early' => [true, [
+            ['previousRunAfterQueued' => false, 'maxArchives' => 1, 'expected' => [2]],
+            ['previousRunAfterQueued' => true, 'maxSites' => 1, 'expected' => [4, 5]],
+            ['previousRunAfterQueued' => true, 'maxSites' => 1, 'expected' => [6]],
+            // a new list
+            ['previousRunAfterQueued' => true, 'maxSites' => 1, 'expected' => [1, 3]],
+        ]];
+    }
+
+    /**
+     * A site whose single report fails in every run holds back neither the single reports of the other sites of the
+     * run, nor those of the sites of later runs, also with --max-websites-to-process.
+     */
+    public function testASingleReportFailingInEveryRunHoldsBackOnlyItsOwnSite()
+    {
+        if (!SharedSiteIds::isSupported()) {
+            $this->markTestSkipped('SharedSiteIds is not supported');
+        }
+
+        foreach ([1, 2] as $idSite) {
+            Fixture::createWebsite('2015-02-03');
+        }
+
+        $queuedAt = Date::now()->subSeconds(3600);
+        $this->insertInvalidations($this->withTsInvalidated([
+            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => 'Actions_hits'],
+            ['idarchive' => 2, 'name' => 'done.Actions', 'idsite' => 2, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => 'Actions_hits'],
+        ], $queuedAt));
+
+        $optionName = 'SharedSiteIdsToArchive_QueueConsumerTest';
+        $runs = [
+            // site 1 at the end of the run
+            [false, [1]],
+            // site 2 at the end of the run
+            [false, [2]],
+            // a new list: site 1 in its turn
+            [true, [1]],
+        ];
+        try {
+            foreach ($runs as $index => [$previousRunAfterQueued, $expected]) {
+                $queueConsumer = $this->makeConsumerOfThreeSites(new SharedSiteIds([1, 2], $optionName));
+                $queueConsumer->setMaxSitesToProcess(1);
+                $queueConsumer->setPreviousRunQueueProcessingStart($previousRunAfterQueued ? $queuedAt->getDatetime() : $queuedAt->subSeconds(1)->getDatetime());
+
+                $this->assertSame($expected, $this->consumeInvalidations($queueConsumer, null, [1]), "run $index");
+            }
+        } finally {
+            Option::delete($optionName);
+            Option::delete($optionName . SharedSiteIds::KEY_TIMESTAMP);
+        }
+
+        $this->assertEquals([1], array_map('intval', array_column(Db::fetchAll('SELECT idarchive FROM ' . Common::prefixTable('archive_invalidations')), 'idarchive')));
+    }
+
+    /**
+     * Processes sharing a list process the single reports of the sites they archived, each once.
+     */
+    public function testProcessesSharingAListProcessTheSingleReportsOfTheirOwnSites()
+    {
+        if (!SharedSiteIds::isSupported()) {
+            $this->markTestSkipped('SharedSiteIds is not supported');
+        }
+
+        foreach ([1, 2, 3] as $idSite) {
+            Fixture::createWebsite('2015-02-03');
+        }
+
+        $this->insertInvalidations($this->getInvalidationsOfThreeSites());
+
+        $optionName = 'SharedSiteIdsToArchive_QueueConsumerTest';
+        try {
+            $consumers = [
+                'first' => $this->makeConsumerOfThreeSites(new SharedSiteIds([1, 2, 3], $optionName)),
+                'second' => $this->makeConsumerOfThreeSites(new SharedSiteIds([1, 2, 3], $optionName)),
+            ];
+
+            $processed = ['first' => [], 'second' => []];
+            $finished = [];
+            for ($i = 0; $i < 100 && count($finished) < 2; $i++) {
+                foreach ($consumers as $name => $queueConsumer) {
+                    if (isset($finished[$name])) {
+                        continue;
+                    }
+
+                    $next = $queueConsumer->getNextArchivesToProcess();
+                    if ($next === null) {
+                        $finished[$name] = true;
+                        continue;
+                    }
+
+                    foreach ($next as $item) {
+                        $processed[$name][] = (int) $item['idarchive'];
+                        Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$item['idinvalidation']]);
+                    }
+                }
+            }
+        } finally {
+            Option::delete($optionName);
+            Option::delete($optionName . SharedSiteIds::KEY_TIMESTAMP);
+        }
+
+        $this->assertSame(['first' => [2, 6, 1, 3], 'second' => [4, 5]], $processed);
+        $this->assertEquals(0, Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations')));
+    }
+
+    private function getInvalidationsOfThreeSites(): array
+    {
+        return [
+            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-08', 'date2' => '2018-03-08', 'period' => Day::PERIOD_ID, 'report' => 'Actions_hits'],
+            ['idarchive' => 2, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 3, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => 'Actions_hits'],
+            ['idarchive' => 4, 'name' => 'done', 'idsite' => 2, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 5, 'name' => 'done.Transitions', 'idsite' => 2, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => 'Transitions_1_pageviews'],
+            ['idarchive' => 6, 'name' => 'done.Actions', 'idsite' => 3, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => null],
+        ];
+    }
+
+    private function withTsInvalidated(array $invalidations, Date $tsInvalidated): array
+    {
+        return array_map(fn(array $invalidation): array => $invalidation + ['ts_invalidated' => $tsInvalidated->getDatetime()], $invalidations);
+    }
+
+    private function makeConsumerOfThreeSites($websiteIdArchiveList): QueueConsumer
+    {
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+
+        return new QueueConsumer(
+            new NullLogger(),
+            $websiteIdArchiveList,
+            1,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            $cronArchive,
+            $this->makeTestArchiveFilter()
+        );
+    }
+
+    /**
+     * Fetches archives as core:archive does, finishing each before the next fetch, until no site is left or the limit
+     * of archives is reached.
+     *
+     * @param int[] $failingIdArchives the invalidations whose archiving fails, which are released as core:archive does
+     * @return int[] the idarchive of the processed invalidations
+     */
+    private function consumeInvalidations(QueueConsumer $queueConsumer, ?int $maxArchives, array $failingIdArchives = []): array
+    {
+        $processed = [];
+        for ($i = 0; $i < 100; $i++) {
+            $next = $queueConsumer->getNextArchivesToProcess();
+            if ($next === null) {
+                return $processed;
+            }
+
+            foreach ($next as $item) {
+                $processed[] = (int) $item['idarchive'];
+                if (in_array((int) $item['idarchive'], $failingIdArchives, true)) {
+                    (new Model())->releaseInProgressInvalidations([$item['idinvalidation']]);
+                    $queueConsumer->ignoreIdInvalidation($item['idinvalidation']);
+                } else {
+                    Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$item['idinvalidation']]);
+                }
+            }
+
+            if ($maxArchives && count($processed) >= $maxArchives) {
+                return $processed;
+            }
+        }
+
+        $this->fail('Consumer did not finish');
     }
 
     /**
