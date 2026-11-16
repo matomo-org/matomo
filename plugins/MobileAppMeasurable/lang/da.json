@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobilapp",
         "MobileAppDescription": "En mobil app bygget til iOS, Android eller andre mobile operativ systemer",
+        "MobileAppLongDescription": "Spor brugeraktivitet i native iOS- og Android-applikationer. De indsamlede data kan omfatte skærmvisninger, hændelser i appen, enhedsoplysninger og brugersessioner. Denne målbare er designet til apps, der bruger Matomos mobile SDK'er.",
         "MobileApps": "Apps til mobil"
     }
 }
