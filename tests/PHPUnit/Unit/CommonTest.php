@@ -691,4 +691,44 @@ class CommonTest extends TestCase
         yield 'Mix of levels in an array' => [[1, [[2]], [[[3]]], 4], [1, 2, 3, 4]];
         yield 'Mix of numeric and assoc arrays' => [[1, [['a' => 2]], [[['b' => 3]]], 'd' => 4], [1, 2, 3, 4]];
     }
+
+    /**
+     * @dataProvider getResponseCodesWithStatusLine
+     * @param int|string $code
+     */
+    public function testSendResponseCodeSendsTheStatusLine($code, string $expectedStatusLine)
+    {
+        Common::$headersSentInTests = [];
+
+        Common::sendResponseCode($code);
+
+        $this->assertSame([$expectedStatusLine], array_keys(Common::$headersSentInTests));
+    }
+
+    public function getResponseCodesWithStatusLine(): iterable
+    {
+        yield 'known code' => [404, 'HTTP/1.1 404 Not Found'];
+        yield 'code as string' => ['409', 'HTTP/1.1 409 Conflict'];
+        yield 'code without a registered reason phrase' => [499, 'HTTP/1.1 499'];
+    }
+
+    /**
+     * @dataProvider getInvalidResponseCodes
+     * @param mixed $code
+     */
+    public function testSendResponseCodeRejectsAnInvalidCode($code)
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Response code not supported');
+
+        Common::sendResponseCode($code);
+    }
+
+    public function getInvalidResponseCodes(): iterable
+    {
+        yield 'too low' => [99];
+        yield 'too high' => [600];
+        yield 'not a number' => ['abc'];
+        yield 'not an integer' => [404.5];
+    }
 }

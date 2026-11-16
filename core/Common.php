@@ -1165,32 +1165,67 @@ class Common
     }
 
     /**
-     * Sends the given response code if supported.
+     * Sends the given response code.
      *
-     * @param int $code  Eg 204
+     * @param int|string $code  Eg 204
      *
-     * @throws Exception
+     * @throws Exception if the code is not a valid HTTP status code
      */
     public static function sendResponseCode($code)
     {
         $messages = array(
             200 => 'Ok',
+            201 => 'Created',
+            202 => 'Accepted',
             204 => 'No Response',
             301 => 'Moved Permanently',
             302 => 'Found',
+            303 => 'See Other',
             304 => 'Not Modified',
+            307 => 'Temporary Redirect',
+            308 => 'Permanent Redirect',
             400 => 'Bad Request',
             401 => 'Unauthorized',
+            402 => 'Payment Required',
             403 => 'Forbidden',
             404 => 'Not Found',
+            405 => 'Method Not Allowed',
+            406 => 'Not Acceptable',
+            408 => 'Request Timeout',
+            409 => 'Conflict',
+            410 => 'Gone',
+            411 => 'Length Required',
+            412 => 'Precondition Failed',
+            413 => 'Content Too Large',
+            414 => 'URI Too Long',
+            415 => 'Unsupported Media Type',
+            416 => 'Range Not Satisfiable',
+            417 => 'Expectation Failed',
+            421 => 'Misdirected Request',
+            422 => 'Unprocessable Content',
+            423 => 'Locked',
+            424 => 'Failed Dependency',
+            425 => 'Too Early',
+            426 => 'Upgrade Required',
+            428 => 'Precondition Required',
             429 => 'Too Many Requests',
+            431 => 'Request Header Fields Too Large',
+            451 => 'Unavailable For Legal Reasons',
             500 => 'Internal Server Error',
+            501 => 'Not Implemented',
+            502 => 'Bad Gateway',
             503 => 'Service Unavailable',
+            504 => 'Gateway Timeout',
+            505 => 'HTTP Version Not Supported',
+            507 => 'Insufficient Storage',
+            508 => 'Loop Detected',
+            511 => 'Network Authentication Required',
         );
 
-        if (!array_key_exists($code, $messages)) {
+        if (!is_numeric($code) || (int) $code != $code || $code < 100 || $code > 599) {
             throw new Exception('Response code not supported: ' . $code);
         }
+        $code = (int) $code;
 
         if (!str_contains(PHP_SAPI, '-fcgi')) {
             $key = 'HTTP/1.1';
@@ -1207,8 +1242,9 @@ class Common
             $key = 'Status:';
         }
 
-        $message = $messages[$code];
-        Common::sendHeader($key . ' ' . $code . ' ' . $message);
+        // the reason phrase is optional, so an unregistered code is sent without one
+        $message = $messages[$code] ?? '';
+        Common::sendHeader(rtrim($key . ' ' . $code . ' ' . $message));
     }
 
     /**
