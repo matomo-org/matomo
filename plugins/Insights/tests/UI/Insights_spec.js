@@ -28,6 +28,8 @@ describe("Insights", function () {
             await page.goto(monthUrl);
 
             expect(await title()).to.contain('Jul 2012');
+            expect(await page.evaluate(() => $('select[name=comparedToXPeriodsAgo]').length)).to.equal(1);
+            expect(await page.evaluate(() => $('.datatableFooterMessage:contains("cannot use the comparison")').length)).to.equal(0);
         });
 
         it("should compare with the month selected in the date selector", async function () {
