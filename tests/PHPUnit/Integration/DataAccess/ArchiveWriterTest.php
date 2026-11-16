@@ -80,7 +80,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
     }
 
-    public function testFinalizeArchiveRemovesTheOlderPartialArchivesOfItsPlugins()
+    public function testFinalizeArchiveRemovesTheOlderPartialArchivesOfItsPlugins(): void
     {
         Date::$now = strtotime('2020-04-05 03:00:00');
         $date = '2019-08-29';

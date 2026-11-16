@@ -90,7 +90,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($expected, $ids);
     }
 
-    public function testGetInvalidatedArchiveIdsSafeToDeletePurgesPartialArchivesOlderThanAUsableAllPluginsArchive()
+    public function testGetInvalidatedArchiveIdsSafeToDeletePurgesPartialArchivesOlderThanAUsableAllPluginsArchive(): void
     {
         $day = ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID];
         $this->insertArchiveData([
@@ -133,6 +133,7 @@ class ModelTest extends IntegrationTestCase
         ]);
 
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'), false);
+        $this->assertNotNull($table);
         $ids = $this->model->getInvalidatedArchiveIdsSafeToDelete($table);
         sort($ids);
 

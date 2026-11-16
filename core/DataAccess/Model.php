@@ -51,7 +51,7 @@ class Model
      *
      * @param string $archiveTable
      * @param bool $setGroupContentMaxLen for tests only
-     * @return array
+     * @return string[]
      * @throws Exception
      */
     public function getInvalidatedArchiveIdsSafeToDelete($archiveTable, $setGroupContentMaxLen = true)
@@ -505,6 +505,12 @@ class Model
         return $deletedRows;
     }
 
+    /**
+     * @param string $name done flag of the finished archive
+     * @param string $tsArchived its ts_archived
+     * @param int $idArchive its idarchive
+     * @return void
+     */
     public function deleteOlderArchives(Parameters $params, $name, $tsArchived, $idArchive)
     {
         $dateStart = $params->getPeriod()->getDateStart();
