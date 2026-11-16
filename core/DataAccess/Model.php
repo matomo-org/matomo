@@ -335,11 +335,13 @@ class Model
      * @param string $archiveTable Prefixed table name
      * @param int[] $idSites
      * @param Period[] $allPeriodsToInvalidate
+     * @param string|null $name the invalidated plugin, or `Plugin.report`, which marks no archive, as in
+     *                          updateArchiveAsInvalidated()
      * @throws Exception
      */
-    public function updateRangeArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, ?Segment $segment = null): void
+    public function updateRangeArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, ?Segment $segment = null, ?string $name = null): void
     {
-        if (empty($idSites)) {
+        if (empty($idSites) || !empty(explode('.', (string) $name, 2)[1] ?? null)) {
             return;
         }
 

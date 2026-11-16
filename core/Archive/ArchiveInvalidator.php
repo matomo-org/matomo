@@ -713,7 +713,7 @@ class ArchiveInvalidator
             $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistentRanges, $name, $doNotCreateInvalidations);
 
             if ($removeRanges && !empty($table)) {
-                $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
+                $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $name);
             }
         }
 
