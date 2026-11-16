@@ -11,6 +11,7 @@ describe("Live_ConsentedVisits", function () {
     this.fixture = "Piwik\\Plugins\\PrivacyManager\\tests\\Fixtures\\ConsentedVisitsFixture";
 
     const policySite = 5;
+    const realTimePolicySite = 6;
     const otherSite = 1;
     const notice = 'Showing consented visitors only — CNIL compliance mode is active.';
 
@@ -112,11 +113,20 @@ describe("Live_ConsentedVisits", function () {
 
     it('should list visits with a notice in the real-time widget of the policy site', async function () {
         await load(widgetUrl('widget', policySite));
-        // the fixture has no visit today, so the list is rendered empty: wait for it to exist, not to be visible
+        // site 5 has no visit today, so the list is rendered empty: wait for it to exist, not to be visible
         await page.waitForSelector('#visitsLive');
 
         expect(await noticeTexts()).to.deep.equal([notice]);
         expect(await page.evaluate(() => $('.visitsLiveFooter').length)).to.equal(1);
+    });
+
+    it('should only list the consented visit of today in the real-time widget of the policy site', async function () {
+        // the site has one consented, one refused and one undecided visit today
+        await load(widgetUrl('widget', realTimePolicySite));
+        await page.waitForSelector('#visitsLive li.visit');
+
+        expect(await noticeTexts()).to.deep.equal([notice]);
+        expect(await page.evaluate(() => $('#visitsLive li.visit').length)).to.equal(1);
     });
 
     it('should show no notice in the real-time widget of a site without policy', async function () {

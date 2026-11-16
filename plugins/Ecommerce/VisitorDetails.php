@@ -145,8 +145,16 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
-        $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
-        $lifeTimeStats = $this->getDb()->fetchAll($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        // where the visits log only lists the visits of visitors who gave consent, the totals of a visitor only
+        // count those visits too, or they would reveal what the visitor did in the visits they did not consent to
+        [$consentCondition, $consentBind] = (new Model())->getConsentedVisitsOnlyCondition([$idSite]);
+
+        $sql  = $consentCondition === ''
+            ? $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal()
+            : $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoalWhere($consentCondition);
+        $bind = array_merge(array($idSite, @Common::hex2bin($idVisitor)), $consentBind);
+
+        $lifeTimeStats = $this->getDb()->fetchAll($sql, $bind);
 
         $defaultStats = array_fill_keys([GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER], self::DEFAULT_LIFETIME_STAT);
 
@@ -177,6 +185,14 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal()
     {
+        return $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoalWhere('');
+    }
+
+    /**
+     * @param string $extraCondition an SQL condition on log_visit added to the WHERE clause, or an empty string
+     */
+    private function getSqlEcommerceConversionsLifeTimeMetricsForIdGoalWhere(string $extraCondition): string
+    {
         $sql = "SELECT
                     idgoal,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as lifeTimeRevenue,
@@ -189,6 +205,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					        log_visit.idsite = ?
 					    AND log_visit.idvisitor = ?
 						AND log_conversion.idgoal IN ( " . GoalManager::IDGOAL_CART . ", " . GoalManager::IDGOAL_ORDER . " )
+						" . ($extraCondition === '' ? '' : 'AND ' . $extraCondition) . "
                     GROUP BY idgoal
         ";
         return $sql;

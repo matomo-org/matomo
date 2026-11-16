@@ -171,6 +171,7 @@ declare global {
     cacheBuster: string;
     numbers: Record<string, any>;
     visitorProfileEnabled: boolean;
+    visitorProfileAvailable: boolean;
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
     userLogin?: string;

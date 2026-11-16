@@ -50,7 +50,8 @@ class Live extends \Piwik\Plugin
         $actionsToDisplayCollapsed = (int)StaticContainer::get('Live.pageViewActionsToDisplayCollapsed');
         $out .= "
         piwik.visitorLogEnabled = " . json_encode(self::isVisitorLogAvailable()) . ";
-        piwik.visitorProfileEnabled = " . json_encode(self::isVisitorProfileAvailable()) . ";
+        piwik.visitorProfileEnabled = " . json_encode(self::isVisitorProfileEnabled()) . ";
+        piwik.visitorProfileAvailable = " . json_encode(self::isVisitorProfileAvailable()) . ";
         piwik.visitorLogUnavailableSegments = " . json_encode(self::getSegmentsUnavailableToTheVisitorLog()) . ";
         piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
         ";

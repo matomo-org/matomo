@@ -19,6 +19,9 @@ use Piwik\Db;
 use Piwik\Plugins\Live\API;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\CoreHome\Columns\VisitGoalBuyer;
+use Piwik\Plugins\Ecommerce\Widgets\GetEcommerceLog;
+use Piwik\Plugins\UserCountryMap\Widgets\GetRealtimeMap;
+use Piwik\Widget\WidgetConfig;
 use Piwik\Plugins\Live\MeasurableSettings;
 use Piwik\Plugins\Live\Model;
 use Piwik\Plugins\Live\SystemSettings;
@@ -182,11 +185,16 @@ class ConsentedVisitsTest extends IntegrationTestCase
 
         $this->assertSame([$this->visits['policy:alice:1']], $profile['lastVisits']->getColumn('idVisit'));
         $this->assertSame(1, $profile['totalVisits']);
+    }
 
-        // the adjacent visitors are consented ones, or none
-        foreach (['previousVisitorId', 'nextVisitorId'] as $adjacentVisitor) {
-            $this->assertContains($profile[$adjacentVisitor], [false, $this->getVisitorId('bob')]);
-        }
+    public function testTheAdjacentVisitorsInTheProfileAreConsentedOnesOnThePolicySite(): void
+    {
+        // bob visited between alice, who consented, and carol, who did not: carol would be his neighbour
+        // if the visitors without consent were not left out
+        $profile = API::getInstance()->getVisitorProfile($this->policySite, $this->getVisitorId('bob'));
+
+        $this->assertSame($this->getVisitorId('alice'), $profile['nextVisitorId']);
+        $this->assertFalse($profile['previousVisitorId']);
     }
 
     public function testGetVisitorProfileIsEmptyForAVisitorWhoNeverConsented(): void
@@ -248,10 +256,32 @@ class ConsentedVisitsTest extends IntegrationTestCase
         $this->assertNotContains('browserCode', $segments);
     }
 
+    public function testTheProfileGlobalsTellEnabledForEveryVisitorApartFromAvailableForConsentedOnes(): void
+    {
+        // the profile cannot open for every visitor of the policy site, so the actions offered on every row of a
+        // report, such as the User ID one, must not show, while the visits log can still open consented visitors
+        $this->assertFalse($this->getJsGlobal($this->policySite, 'visitorProfileEnabled'));
+        $this->assertTrue($this->getJsGlobal($this->policySite, 'visitorProfileAvailable'));
+
+        $this->assertTrue($this->getJsGlobal($this->otherSite, 'visitorProfileEnabled'));
+        $this->assertTrue($this->getJsGlobal($this->otherSite, 'visitorProfileAvailable'));
+
+        // and the enabled global agrees with the API
+        $this->assertFalse(API::getInstance()->isVisitorProfileEnabled($this->policySite));
+    }
+
     /**
      * @return string[]
      */
     private function getUnavailableSegmentsGlobal(int $idSite): array
+    {
+        return $this->getJsGlobal($idSite, 'visitorLogUnavailableSegments');
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getJsGlobal(int $idSite, string $name)
     {
         $get = $_GET;
         $_GET['idSite'] = $idSite;
@@ -263,9 +293,113 @@ class ConsentedVisitsTest extends IntegrationTestCase
             $_GET = $get;
         }
 
-        $this->assertSame(1, preg_match('/piwik\.visitorLogUnavailableSegments = (.*);/', $out, $matches));
+        $this->assertSame(1, preg_match('/piwik\.' . preg_quote($name, '/') . ' = (.*);/', $out, $matches));
 
         return json_decode($matches[1], true);
+    }
+
+    public function testVisitorEcommerceTotalsOnlyCountTheConsentedVisitsOnThePolicySite(): void
+    {
+        $idSite = $this->createEcommercePolicySite();
+
+        // dave orders in a visit without consent, then in a consented one
+        CnilPolicy::setActiveStatus($idSite, false);
+        $this->trackVisitWithOrder($idSite, 'dave', 'order-refused', 100, 0);
+        $this->trackVisitWithOrder($idSite, 'dave', 'order-consented', 10, 1);
+        CnilPolicy::setActiveStatus($idSite, true);
+        Fixture::clearInMemoryCaches();
+
+        $profile = API::getInstance()->getVisitorProfile($idSite, $this->getVisitorId('dave'));
+        $visit = $profile['lastVisits']->getFirstRow();
+
+        $this->assertSame(1, $profile['totalVisits']);
+        $this->assertEquals(10, $visit->getColumn('totalEcommerceRevenue'));
+        $this->assertEquals(1, $visit->getColumn('totalEcommerceConversions'));
+
+        // without the policy, every order of the visitor counts
+        CnilPolicy::setActiveStatus($idSite, false);
+        Fixture::clearInMemoryCaches();
+
+        $profile = API::getInstance()->getVisitorProfile($idSite, $this->getVisitorId('dave'));
+        $this->assertEquals(110, $profile['lastVisits']->getFirstRow()->getColumn('totalEcommerceRevenue'));
+    }
+
+    public function testCheckingWhetherASegmentMatchesAnyVisitAlsoCountsTheVisitsWithoutConsent(): void
+    {
+        // the only visit of the day has no consent, as when the "processed later" notice checks a segment
+        $this->trackRecentVisit($this->policySite, self::SAFARI, 0);
+        $date = Date::now()->subPeriod(5, 'minute')->toString();
+
+        $model = new Model();
+        $this->assertSame([], $model->queryLogVisits([$this->policySite], 'day', $date, false, 0, 1, false, false, 'ASC'));
+        $this->assertCount(1, $model->withoutConsentFilter()->queryLogVisits([$this->policySite], 'day', $date, false, 0, 1, false, false, 'ASC'));
+
+        // and the copy leaves the model it came from filtered
+        $this->assertSame([], $model->queryLogVisits([$this->policySite], 'day', $date, false, 0, 1, false, false, 'ASC'));
+    }
+
+    public function testTheRealTimeMapAndTheEcommerceLogAreOfferedOnThePolicySite(): void
+    {
+        $idSite = $this->createEcommercePolicySite();
+
+        $this->assertTrue($this->isWidgetEnabled(GetRealtimeMap::class, $idSite));
+        $this->assertTrue($this->isWidgetEnabled(GetEcommerceLog::class, $idSite));
+
+        // but not once the site's own setting disables the visits log
+        $settings = new MeasurableSettings($idSite);
+        $settings->disableVisitorLog->setValue(true);
+        $settings->save();
+        Fixture::clearInMemoryCaches();
+
+        $this->assertFalse($this->isWidgetEnabled(GetRealtimeMap::class, $idSite));
+        $this->assertFalse($this->isWidgetEnabled(GetEcommerceLog::class, $idSite));
+    }
+
+    /**
+     * @param class-string<\Piwik\Widget\Widget> $widgetClass
+     */
+    private function isWidgetEnabled(string $widgetClass, int $idSite): bool
+    {
+        $get = $_GET;
+        $_GET['idSite'] = $idSite;
+
+        try {
+            $config = new WidgetConfig();
+            $widgetClass::configure($config);
+        } finally {
+            $_GET = $get;
+        }
+
+        return $config->isEnabled();
+    }
+
+    private function createEcommercePolicySite(): int
+    {
+        $idSite = Fixture::createWebsite('2020-01-01 00:00:00', $ecommerce = 1);
+        CnilPolicy::setActiveStatus($idSite, true);
+        Fixture::clearInMemoryCaches();
+
+        return $idSite;
+    }
+
+    private function trackVisitWithOrder(int $idSite, string $userId, string $orderId, float $revenue, int $consent): void
+    {
+        $this->time = $this->time->addHour(1);
+
+        $tracker = Fixture::getTracker($idSite, $this->time->getDatetime(), true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        $tracker->setUserAgent(self::FIREFOX);
+        $tracker->setUserId($userId);
+        $tracker->setForceNewVisit();
+        Fixture::checkResponse($tracker->doTrackPageView('page'));
+
+        $tracker->setForceVisitDateTime($this->time->addPeriod(1, 'minute')->getDatetime());
+        Fixture::checkResponse($tracker->doTrackEcommerceOrder($orderId, $revenue));
+
+        Db::query(
+            'UPDATE ' . Common::prefixTable('log_visit') . ' SET consent = ? WHERE idvisit = ?',
+            [$consent, (int) Db::fetchOne('SELECT MAX(idvisit) FROM ' . Common::prefixTable('log_visit'))]
+        );
     }
 
     public function testThePolicyDoesNotLimitTheVisitsLogWhileItsEnforcementIsBypassed(): void

@@ -34,6 +34,11 @@ class Model
     public $queryAndWhereSleepTestsOnly = false;
 
     /**
+     * @see withoutConsentFilter()
+     */
+    private bool $limitToConsentedVisits = true;
+
+    /**
      * @param int|list<int>|string $idSite
      * @param string|false $period
      * @param string|false $date
@@ -886,6 +891,20 @@ class Model
     }
 
     /**
+     * Returns a copy of this model whose queries also return the visits of visitors who did not give consent on
+     * websites whose visits log may only list consented visits.
+     *
+     * Only for callers that never show the visits they get, such as checking whether a segment matches any visit.
+     */
+    public function withoutConsentFilter(): self
+    {
+        $model = clone $this;
+        $model->limitToConsentedVisits = false;
+
+        return $model;
+    }
+
+    /**
      * Returns the condition that keeps, on the given websites whose visits log may only list the visits of visitors
      * who gave consent (see {@link Live::isVisitorLogLimitedToConsentedVisits()}), only those visits, so no caller
      * can list another visit of such a website, whatever the segment it passes.
@@ -893,8 +912,12 @@ class Model
      * @param array<int|string> $idSites
      * @return array{0: string, 1: array<int|string>} The SQL condition, empty if no website is limited, and its bind
      */
-    private function getConsentedVisitsOnlyCondition(array $idSites): array
+    public function getConsentedVisitsOnlyCondition(array $idSites): array
     {
+        if (!$this->limitToConsentedVisits) {
+            return ['', []];
+        }
+
         $limitedIdSites = array_values(array_filter($idSites, function ($idSite) {
             return Live::isVisitorLogLimitedToConsentedVisits((int) $idSite);
         }));
