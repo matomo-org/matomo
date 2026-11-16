@@ -16,6 +16,8 @@
         "ConfirmPasswordResetIntro": "Skriv inn det nye passordet ditt for å bekrefte at du virkelig har bedt om å endre passordet.",
         "ConfirmPasswordResetWrongPassword": "Passordet du skrev inn, samsvarer ikke med det nye passordet ditt. Tilbakestill passordet på nytt hvis du ikke husker det. Hvis du ikke ba om å endre passordet, trenger du ikke gjøre noe for å beholde det.",
         "ConfirmPasswordToContinue": "Bekreft passordet ditt for å fortsette",
+        "ConfirmSecondFactorIntro": "Skriv inn en kode fra tofaktor-autentiseringen din, for eksempel fra autentiseringsappen din, for å bekrefte denne handlingen.",
+        "ConfirmSecondFactorToContinue": "Bekreft med tofaktor-autentisering for å fortsette",
         "ConfirmationLinkPossiblySent": "Hvis opplysningene hører til en konto, får du en e-post for å bekrefte tilbakestillingen av passordet.",
         "ContactAdmin": "Mulig årsak: Verten din kan ha skrudd av mail()-funksjonen. <br>Kontakt Matomo-administratoren din.",
         "CreatePasswordDescription": "Sørg for at du husker dette passordet, og oppbevar det på et trygt sted.",
@@ -83,6 +85,7 @@
         "PleaseNote": "Merk",
         "PluginDescription": "Gir autentisering med brukernavn og passord i tillegg til funksjonalitet for å gjenopprette passord. Autentiseringsmetoden kan endres ved å bruke et annet innloggingstillegg som LoginLdap, som er tilgjengelig via Markedsplassen.",
         "RememberMe": "Husk meg",
+        "SecondFactorCode": "Identitetsbekreftelseskode",
         "SecurityTip": "Sikkerhetstips",
         "SettingBruteForceBlacklistIp": "Alltid blokker disse IP-ene fra innlogging",
         "SettingBruteForceEnable": "Skru på oppdaging av brute force-angrep",
@@ -105,6 +108,7 @@
         "TokenAuthenticationFailed": "Kunne ikke autentisere med tokenet som ble oppgitt. Det er enten ugyldig eller utløpt.",
         "TokenAuthenticationFailedInsecure": "Kunne ikke autentisere med tokenet som ble oppgitt. Det er enten ugyldig, utløpt eller må sendes som en POST-parameter eller i HTTP Authorization-hodet. Hvis tokenet ble opprettet med valget «Tillat bare sikre forespørsler», må det sendes som en POST-parameter eller i HTTP Authorization-hodet.",
         "UnblockAllIPs": "Avblokker alle blokkerte IP-er",
-        "WrongPasswordEntered": "Skriv inn passordet ditt."
+        "WrongPasswordEntered": "Skriv inn passordet ditt.",
+        "WrongSecondFactorCode": "Autentiseringskoden er ikke riktig. Prøv igjen."
     }
 }
