@@ -199,6 +199,21 @@ class RequestTest extends IntegrationTestCase
         Request::reloadAuthUsingTokenAuth(['token_auth' => 'undefined']);
 
         $this->assertTrue($this->access->hasSuperUserAccess());
+        $this->assertTrue($this->access->isSuperUserAccessGrantedByCode());
+    }
+
+    public function testReloadAuthKeepsAuthenticatedSuperUserWhenTokenAuthenticatesNothing()
+    {
+        $this->access->restoreAmbientIdentity('login1', 'token', true);
+        $this->access->setSuperUserAccess(true);
+        $this->assertFalse($this->access->isSuperUserAccessGrantedByCode());
+
+        $this->replaceContainerAuthWithResult(new AuthResult(AuthResult::FAILURE, null, 'undefined'));
+
+        Request::reloadAuthUsingTokenAuth(['token_auth' => 'undefined']);
+
+        $this->assertTrue($this->access->hasSuperUserAccess());
+        $this->assertFalse($this->access->isSuperUserAccessGrantedByCode());
     }
 
     public function testReloadAuthKeepsSuperUserPermissionClearedWhenTokenAuthenticates()

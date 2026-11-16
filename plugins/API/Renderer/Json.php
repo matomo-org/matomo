@@ -63,8 +63,9 @@ class Json extends ApiRenderer
         } else {
             $result = parent::renderDataTable($array);
 
-            // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable
-            if (!empty($array) && Piwik::isAssociativeArray($array)) {
+            // if $array is a simple associative array, remove the JSON root array that is added by renderDataTable.
+            // One holding objects such as DataTables is not wrapped, so its output is already the JSON object.
+            if (!empty($array) && Piwik::isAssociativeArray($array) && str_starts_with($result, '[')) {
                 $result = substr($result, 1, strlen($result) - 2);
             }
         }

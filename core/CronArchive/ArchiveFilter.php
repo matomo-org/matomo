@@ -69,6 +69,8 @@ class ArchiveFilter
     }
 
     /**
+     * Model::getArchiveFilterConditions() applies these rules in SQL and must never be stricter.
+     *
      * @param array $archive
      * @return string|false
      */
@@ -246,6 +248,35 @@ class ArchiveFilter
     public function setForceReport($forceReport)
     {
         $this->forceReport = $forceReport;
+    }
+
+    public function getForceReport(): ?string
+    {
+        return $this->forceReport ?: null;
+    }
+
+    /**
+     * Returns the segment hashes of the forced segments for a site, computed the same way
+     * SegmentArchiving::findSegmentForHash() does. Segments not available for the site are left out.
+     *
+     * @return string[]|null null if segments are not restricted
+     */
+    public function getSegmentHashesToForce(int $idSite): ?array
+    {
+        if (empty($this->segmentsToForce)) {
+            return null;
+        }
+
+        $hashes = [];
+        foreach ($this->segmentsToForce as $definition) {
+            try {
+                $hashes[] = (new Segment($definition, [$idSite]))->getHash();
+            } catch (\Exception $e) {
+                // not available for this site, so filterArchive() can never match it either
+            }
+        }
+
+        return array_values(array_unique($hashes));
     }
 
     /**

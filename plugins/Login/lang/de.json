@@ -83,6 +83,7 @@
         "PleaseNote": "Bitte beachten Sie",
         "PluginDescription": "Unterstützt Benutzername-und-Passwort-Anmeldungen sowie eine Funktionalität zum Zurücksetzen des Passworts. Die Anmeldemethode kann durch ein anderes Login-Plugin wie LoginLdap (verfügbar im Marktplatz) geändert werden.",
         "RememberMe": "Angemeldet bleiben",
+        "SecondFactorCode": "Authentifizierungscode",
         "SecurityTip": "Sicherheitstipp",
         "SettingBruteForceBlacklistIp": "Diese IPs immer vom Anmelden abhalten",
         "SettingBruteForceEnable": "Brute-Force-Erkennung aktivieren",

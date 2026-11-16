@@ -1,1 +1,5 @@
-{}
+{
+    "ArchivingMetrics": {
+        "PluginDescription": "Registrerer målinger om arkiveringens ydelse."
+    }
+}

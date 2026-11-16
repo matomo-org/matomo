@@ -16,7 +16,6 @@
         "FromSocialNetworks": "Aus sozialen Netzwerken",
         "FromWebsites": "Von Webseiten",
         "IncomingTraffic": "Eingehender Datenverkehr",
-        "LoadingTransitionsFor": "Übergänge für %s werden geladen",
         "LoopsInline": "%s Seite erneut geladen",
         "NoDataForAction": "Keine Daten für %s verfügbar",
         "NoDataForActionDetails": "Entweder hatte diese Aktion während des Zeitraums keine Seitenansichten oder sie ist ungültig.",
