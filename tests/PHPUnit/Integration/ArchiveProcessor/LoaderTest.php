@@ -1487,6 +1487,27 @@ class LoaderTest extends IntegrationTestCase
         $this->assertEquals($expected, $reportsToInvalidate);
     }
 
+    public function testARequestWithoutSegmentAppliesARememberedDateToTheArchivesOfAllSegments()
+    {
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+        $day = Factory::build('day', '2013-04-05');
+        $segment = new Segment('browserCode==ff', [1]);
+        $this->insertArchive(new Parameters(new Site(1), $day, new Segment('', [1])));
+        $this->insertArchive(new Parameters(new Site(1), $day, $segment));
+
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->rememberToInvalidateArchivedReportsLater(1, Date::factory('2013-04-05'));
+
+        $loader = new Loader(new Parameters(new Site(1), $day, new Segment('', [1])), $invalidateBeforeArchiving = true);
+        $loader->prepareArchive('VisitsSummary');
+
+        $this->assertSame([], $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated(1));
+        $this->assertEquals(ArchiveWriter::DONE_INVALIDATED, Db::fetchOne(
+            'SELECT value FROM ' . ArchiveTableCreator::getNumericTable(Date::factory('2013-04-05'), true) . ' WHERE name = ?',
+            [Rules::getDoneFlagArchiveContainsAllPlugins($segment)]
+        ));
+    }
+
     public function getTestDataForGetReportsToInvalidate()
     {
         return [

@@ -490,9 +490,12 @@ class Loader
             return;
         }
 
+        // without a segment, the remembered date is forgotten for all segments, so it is applied to all of them
+        $segment = $this->params->getSegment()->isEmpty() ? null : $this->params->getSegment();
+
         foreach ($sitesPerDays as $date => $siteIds) {
             try {
-                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $this->params->getSegment());
+                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $segment);
             } catch (\Exception $e) {
                 Site::clearCache();
                 throw $e;
