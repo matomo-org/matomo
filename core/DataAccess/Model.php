@@ -108,7 +108,7 @@ class Model
             }
         }
 
-        // also those the finalize of the newer archive did not delete, e.g. ones still being built then
+        // and the partial archives that a newer archive for all plugins replaces
         $partialArchiveIds = $this->getPartialArchiveIdsOlderThanUsableFullArchive($archiveTable);
 
         return array_values(array_unique(array_merge($archiveIds, $partialArchiveIds)));
@@ -505,12 +505,6 @@ class Model
         return $deletedRows;
     }
 
-    /**
-     * @param string $name done flag of the finished archive
-     * @param string $tsArchived its ts_archived
-     * @param int $idArchive its idarchive
-     * @return void
-     */
     public function deleteOlderArchives(Parameters $params, $name, $tsArchived, $idArchive)
     {
         $dateStart = $params->getPeriod()->getDateStart();
@@ -523,14 +517,9 @@ class Model
 
         $blobTable = ArchiveTableCreator::getBlobTable($dateStart, false);
 
-        // the older archives of the same name, and the partial archives of its plugins (`<name>.<Plugin>`), which
-        // readers ignore once a newer archive of all their plugins exists
-        $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ?
-                   AND ((name = ? AND ts_archived <= ?) OR (name LIKE ? AND value = " . ArchiveWriter::DONE_PARTIAL . " AND ts_archived < ?))
-                   AND idarchive < ?";
-        $partialNamePattern = addcslashes($name, '%_\\') . '.%';
+        $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived <= ? AND idarchive < ?";
 
-        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->getDatetime(), $dateEnd->getDatetime(), $params->getPeriod()->getId(), $name, $tsArchived, $partialNamePattern, $tsArchived, $idArchive]);
+        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->getDatetime(), $dateEnd->getDatetime(), $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
         $idArchives = array_column($idArchives, 'idarchive');
         if (empty($idArchives)) {
             return;

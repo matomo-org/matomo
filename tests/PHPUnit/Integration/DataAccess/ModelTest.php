@@ -115,7 +115,7 @@ class ModelTest extends IntegrationTestCase
             // 13, 14: a complete archive of a single plugin doesn't replace the partial archive
             ['date1' => '2020-02-05', 'date2' => '2020-02-05', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-06 01:00:00'],
             ['date1' => '2020-02-05', 'date2' => '2020-02-05', 'period' => Day::PERIOD_ID, 'name' => 'done.OtherPlugin', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-06 02:00:00'],
-            // 15, 16: also when the newer archive for all plugins is the only one, i.e. its finalize didn't delete it
+            // 15, 16: also when the newer archive for all plugins is the only other archive
             ['date1' => '2020-02-06', 'date2' => '2020-02-06', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-07 01:00:00'],
             ['date1' => '2020-02-06', 'date2' => '2020-02-06', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-07 02:00:00'],
             // 17, 18: not when both were archived in the same second, as readers comparing ts_archived still read it

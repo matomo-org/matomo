@@ -80,50 +80,6 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
     }
 
-    public function testFinalizeArchiveRemovesTheOlderPartialArchivesOfItsPlugins(): void
-    {
-        Date::$now = strtotime('2020-04-05 03:00:00');
-        $date = '2019-08-29';
-        $segmentFlag = 'done' . (new Segment('browserCode==FF', []))->getHash();
-        $row = ['idsite' => $this->idSite, 'date1' => $date, 'date2' => $date, 'period' => 1];
-
-        $this->insertArchiveData([
-            // replaced by the new archive
-            ['idarchive' => 1, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-02 03:44:44'] + $row,
-            // a complete archive of one plugin
-            ['idarchive' => 2, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-02 03:44:44'] + $row,
-            // another segment
-            ['idarchive' => 3, 'name' => $segmentFlag . '.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-02 03:44:44'] + $row,
-            // built after the new archive started
-            ['idarchive' => 4, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-04-05 03:00:01'] + $row,
-            // in the same second as the new archive, which readers comparing ts_archived still read
-            ['idarchive' => 5, 'name' => 'done.ExamplePlugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-04-05 03:00:00'] + $row,
-        ]);
-        $blobTable = ArchiveTableCreator::getBlobTable(Date::factory($date), true);
-        Db::query(
-            "INSERT INTO `$blobTable` (idarchive, name, idsite, date1, date2, period, ts_archived, value) VALUES (1, 'ExamplePlugin_report', ?, ?, ?, 1, '2020-02-02 03:44:44', 'x')",
-            [$this->idSite, $date, $date]
-        );
-
-        $writer = $this->buildWriter('day', $date);
-        $writer->initNewArchive();
-        $writer->insertRecord('nb_visits', 5);
-
-        // started after the new archive, which readers ordering by idarchive still read
-        $numericTable = ArchiveTableCreator::getNumericTable(Date::factory($date), true);
-        Db::query(
-            "INSERT INTO `$numericTable` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, 1, ?, ?, 'done.ExamplePlugin', ?, '2020-02-02 03:44:44')",
-            [$writer->getIdArchive() + 1, $this->idSite, $date, $date, ArchiveWriter::DONE_PARTIAL]
-        );
-
-        $writer->finalizeArchive();
-
-        $remaining = array_values(array_unique(array_column($this->getAllColsOfAllNumericRows($date), 'idarchive')));
-        sort($remaining);
-        $this->assertEquals([2, 3, 4, 5, 6, 7], $remaining);
-        $this->assertEquals(0, Db::fetchOne("SELECT COUNT(*) FROM `$blobTable` WHERE idarchive = 1"));
-    }
-
     public function testFinalizeArchiveDoesNotRemoveOldArchivesIfPartial()
     {
         Date::$now = strtotime('2020-04-05 03:00:00');
