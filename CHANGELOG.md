@@ -38,6 +38,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 
 ### Other changes
+* Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
 ## Matomo 6.0.0
@@ -148,7 +149,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * The tracking endpoint answers `503` instead of `200` while Matomo is not installed yet.
   * An array passed for a numeric tracking parameter, such as `revenue[]=1`, now falls back to the parameter's default like any other wrongly typed value, instead of failing the request with `500`.
 * A tracking request whose custom timestamp `cdt` (after applying `cdo`) is more than one day in the future or more than 20 years in the past, or cannot be parsed, is now rejected with `400`, and counted as invalid in a bulk request. Previously such a request was tracked with the current time instead, or failed with `500` for values outside the integer range. A `cdt` up to one day in the future is still tracked with the current time, so a client clock running fast does not lose hits.
-* Names stored in the `log_action` table, such as event categories, actions and names, content names and pieces, and product names, SKUs and categories, are now cut to the 4096 characters of its `name` column. A longer name used to be lost: with MySQL's strict mode (the default) the tracking request failed with a database error, and without it the name was dropped from the tracked action. It is now tracked with the shortened name, so names that only differ after the first 4096 characters are reported as one.
 
 ### Internal Changes
 * `./console vue:build` no longer emits the unminified `plugins/<Plugin>/vue/dist/<Plugin>.umd.js` bundle. Only the minified `<Plugin>.umd.min.js` was ever loaded by Matomo, and development mode uses the `<Plugin>.development.umd.js` produced by `./console vue:build --watch`. Plugin authors can delete the committed `vue/dist/<Plugin>.umd.js` file from their repository and add `/vue/dist/*.umd.js` to their `.gitignore`. Nothing else needs to change; the file is simply no longer regenerated.
