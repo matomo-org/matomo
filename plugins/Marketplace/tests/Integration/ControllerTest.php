@@ -141,8 +141,6 @@ class ControllerTest extends IntegrationTestCase
             'isNewBundle',
             'isPaid',
             'isTheme',
-            'isTrialPending',
-            'isTrialRequested',
             'keywords',
             'lastUpdated',
             'lastUpdatedRaw',
@@ -333,7 +331,7 @@ class ControllerTest extends IntegrationTestCase
     public function testInstallRequestedPluginsIsForbiddenWhilePluginRequestsAreOff()
     {
         $this->requestPlugin('TreemapVisualization', 'alice');
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = -1;
 
         $this->expectException(NoPrivilegesException::class);
         $this->expectExceptionCode(403);
@@ -595,8 +593,6 @@ class ControllerTest extends IntegrationTestCase
 
     private function requestPlugin(string $pluginName, string $login): void
     {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
-
         // active in the test environment, where a request for it could never be pending
         if (PluginManager::getInstance()->isPluginActivated($pluginName)) {
             PluginManager::getInstance()->deactivatePlugin($pluginName);

@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
-use Piwik\Config;
 use Piwik\Config\GeneralConfig;
+use Piwik\Notification;
 use Piwik\Notification\Manager;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
@@ -41,8 +41,6 @@ class ServiceTest extends IntegrationTestCase
         Fixture::createSuperUser();
         Fixture::loadAllTranslations();
         $this->switchToSuperUser();
-        // the local config may turn the flag on, so the tests of it being on say so themselves
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
         \Zend_Session::$_unitTestEnabled = true;
         $_SESSION = [];
         $this->sessionWasEnabled = \Zend_Session::isWritable() && \Zend_Session::isReadable();
@@ -119,28 +117,6 @@ class ServiceTest extends IntegrationTestCase
         self::assertSame(['alice', 'bob'], $logins);
     }
 
-    public function testIsPendingForEveryUserUntilTheRequestEnds()
-    {
-        $service = new Service();
-        FakeAccess::$identity = 'alice';
-        self::assertFalse($service->isPending('PremiumPlugin'));
-        $service->request('PremiumPlugin', 'Pretty Premium Plugin');
-
-        FakeAccess::$identity = 'bob';
-        self::assertTrue($service->isPending('PremiumPlugin'));
-
-        $service->cancelRequest('PremiumPlugin');
-        self::assertFalse($service->isPending('PremiumPlugin'));
-    }
-
-    public function testIsPendingDisabled()
-    {
-        $this->setRequested();
-        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', -1);
-
-        self::assertFalse((new Service())->isPending('PremiumPlugin'));
-    }
-
     public function testCancelEndsThePendingRequestButEachUsersRequestStaysPermanent()
     {
         $service = new Service();
@@ -162,26 +138,18 @@ class ServiceTest extends IntegrationTestCase
         $this->assertRequested(true);
     }
 
-    public function testCreateAndDismissNotifications()
+    public function testDismissingAPerPluginNoticeLeftFromBeforeTheUpdateDismissesItsPlugin()
     {
         $service = new Service();
         $service->request('PremiumPlugin', 'Pretty Premium Plugin');
         $service->request('PremiumPlugin2', 'Pretty Premium Plugin 2');
 
-        $service->createNotificationsIfNeeded();
-
-        $notifications = Manager::getPendingInMemoryNotifications();
-
-        self::assertCount(2, $notifications);
-
-        Manager::cancelAllNotifications();
-
         $service->dismissNotification('Marketplace_PluginTrialRequest_' . md5(FakeAccess::$superUserLogin) . '_PremiumPlugin2');
         $service->createNotificationsIfNeeded();
 
-        $notifications = Manager::getPendingInMemoryNotifications();
-
-        self::assertCount(1, $notifications);
+        $message = $this->getOnlyRequestsNoticeMessage();
+        self::assertStringContainsString('<b>Pretty Premium Plugin</b>.', $message);
+        self::assertStringNotContainsString('Pretty Premium Plugin 2', $message);
     }
 
     public function testCreateNotificationsEndsARequestForAPluginAlreadyActivated()
@@ -227,7 +195,7 @@ class ServiceTest extends IntegrationTestCase
 
         $service->request('PremiumPlugin2', 'Pretty Premium Plugin 2');
         $service->createNotificationsIfNeeded();
-        self::assertCount(2, Manager::getPendingInMemoryNotifications());
+        self::assertCount(1, Manager::getPendingInMemoryNotifications());
     }
 
     public function testCreateNotificationsChecksAgainOnceTheLastCheckIsTenMinutesOld()
@@ -316,7 +284,7 @@ class ServiceTest extends IntegrationTestCase
         }
 
         $message = array_values(Manager::getPendingInMemoryNotifications())[0]->message;
-        self::assertStringContainsString('href="?idSite=1&module=Marketplace&action=overview#?showPlugin=PremiumPlugin"', $message);
+        self::assertStringContainsString('href="?idSite=1&module=Marketplace&action=manageRequests"', $message);
     }
 
     public function testCreateNotificationsChecksAgainAfterEndingARequestFailed()
@@ -352,7 +320,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testSuperUsersGetOneNoticeNamingTheRequestedPlugin()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $service = new Service();
         $service->request('PremiumPlugin', 'Pretty Premium Plugin');
 
@@ -366,7 +334,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testSuperUsersGetOneNoticeListingAllRequestedPlugins()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $service = new Service();
         $service->request('PremiumPlugin', 'Plugin A');
         $service->request('PremiumPlugin2', 'Plugin B');
@@ -382,7 +350,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testDismissingTheNoticeHidesItUntilAnotherPluginIsRequested()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $service = new Service();
         $service->request('PremiumPlugin', 'Plugin A');
@@ -403,7 +371,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testDismissingTheNoticeKeepsAPluginRequestedSinceItWasShown()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $service = new Service();
         $service->request('PremiumPlugin', 'Plugin A');
@@ -420,7 +388,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testDismissingTheNoticeWithoutASessionDismissesWhatIsPending()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $service = new Service();
         $service->request('PremiumPlugin', 'Plugin A');
         $service->createNotificationsIfNeeded();
@@ -434,7 +402,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testARequesterIsToldOnceThatTheRequestWasApproved()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
@@ -457,7 +425,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testARequesterGetsOneNoticeForAllApprovedRequests()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         $this->requestAs('alice', 'PremiumPlugin2');
@@ -477,7 +445,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testARequesterIsToldOnceThatTheRequestWasDeclined()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED, 'Not this year');
@@ -498,7 +466,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testDeletingARequesterForgetsWhichDecisionsTheyWereShown()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
@@ -514,7 +482,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testOnlyTheRequesterIsToldOfADecision()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         UsersManagerAPI::getInstance()->addUser('bob', 'secret-password-2', 'bob@example.com');
@@ -528,7 +496,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testARequesterIsNotCheckedAgainUntilARequestChanges()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         $this->requestAs('alice', 'PremiumPlugin2');
@@ -551,7 +519,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testAnotherUserLoggingInToTheSameSessionIsNotShownTheSuperUsersNotice()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->createNotificationsIfNeeded();
@@ -565,7 +533,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testAnotherUserLoggingInToTheSameSessionIsNotShownTheRequestersNotice()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
@@ -581,7 +549,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testARequesterIsToldAgainOfADecisionWhoseNoticeAnotherUserOfTheSessionRemoved()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
@@ -601,7 +569,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testARequesterIsToldAgainOfAllDecisionsQueuedOverSeveralChecksOnceAnotherUserOfTheSessionRemovesThem()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         $this->requestAs('alice', 'PremiumPlugin2');
@@ -624,7 +592,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testRemovingTheNoticesOfADeletedRequesterKeepsNothingForThem()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
@@ -642,7 +610,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testARequesterIsNotToldAgainOfADecisionWhoseNoticeWasDisplayed()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
@@ -660,7 +628,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testAnAnonymousViewerOfTheSameSessionIsNotShownTheSuperUsersNotice()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->createNotificationsIfNeeded();
@@ -674,7 +642,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testAnotherUserLoggingInToTheSameSessionIsNotShownTheSuperUsersNoticeOnceRequestsAreDisabled()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->createNotificationsIfNeeded();
@@ -689,7 +657,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testARequesterIsNotToldWithoutASession()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
 
@@ -702,51 +670,36 @@ class ServiceTest extends IntegrationTestCase
         self::assertNotNull($this->findApprovedNoticeId());
     }
 
-    public function testARequesterIsNotToldWhileRequestsAreNotActive()
+    public function testARequesterIsNotToldWhileRequestsAreDisabled()
     {
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
 
+        GeneralConfig::setConfigValue('plugin_trial_request_expiration_in_days', -1);
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
 
         self::assertCount(0, Manager::getPendingInMemoryNotifications());
     }
 
-    public function testTurningRequestsOnReplacesTheNoticesShownPerPlugin()
+    public function testThePerPluginNoticeShownBeforeTheUpdateIsReplaced()
     {
         $this->setSessionEnabled(true);
         $service = new Service();
         $service->request('PremiumPlugin', 'Plugin A');
-        $service->createNotificationsIfNeeded();
-        self::assertCount(1, Manager::getPendingInMemoryNotifications());
+        $perPluginId = 'Marketplace_PluginTrialRequest_' . md5(FakeAccess::$superUserLogin) . '_PremiumPlugin';
+        Manager::notify($perPluginId, new Notification('A user has requested to start a trial of the Plugin A plugin.'));
 
-        $this->enablePluginRequests();
         $service->createNotificationsIfNeeded();
 
         $this->getOnlyRequestsNoticeMessage();
     }
 
-    public function testTurningRequestsOffReplacesTheCombinedNotice()
-    {
-        $this->enablePluginRequests();
-        $this->setSessionEnabled(true);
-        $service = new Service();
-        $service->request('PremiumPlugin', 'Plugin A');
-        $service->createNotificationsIfNeeded();
-
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
-        $service->createNotificationsIfNeeded();
-
-        $notifications = Manager::getPendingInMemoryNotifications();
-        self::assertCount(1, $notifications);
-        self::assertFalse(RequestsNotification::isOwnId((string) array_key_first($notifications)));
-    }
-
     public function testDecidingARequestRemovesTheCombinedNotice()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $service = new Service();
         $service->request('PremiumPlugin', 'Plugin A');
         $service->createNotificationsIfNeeded();
@@ -764,7 +717,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testAUserPromotedToSuperUserIsCheckedAgain()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
         // a request is only shown to the super users it was made under
@@ -784,7 +737,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testDismissingANoticeKeepsAPluginOnlyALaterCheckListed()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $service = new Service();
         $service->request('PremiumPlugin', 'Plugin A');
@@ -804,7 +757,7 @@ class ServiceTest extends IntegrationTestCase
 
     public function testAnApprovalFoundByALaterCheckKeepsOneNotYetDisplayed()
     {
-        $this->enablePluginRequests();
+        $this->recordDecisionBaseline();
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         $this->requestAs('alice', 'PremiumPlugin2');
@@ -831,16 +784,14 @@ class ServiceTest extends IntegrationTestCase
         // like the approvals the 6.1.0-b1 update records for every earlier request
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
 
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
 
         self::assertCount(0, Manager::getPendingInMemoryNotifications());
     }
 
-    private function enablePluginRequests(): void
+    private function recordDecisionBaseline(): void
     {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
         // on an instance the first page view does this, long before a request is decided
         DecisionNotifications::createIfNeeded(null);
     }

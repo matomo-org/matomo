@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
-use Piwik\Config;
 use Piwik\Plugins\CorePluginsAdmin\API as CorePluginsAdminApi;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -30,7 +29,6 @@ class UserSettingsTest extends IntegrationTestCase
 
     public function testSuperUsersSeeOnlyThePluginRequestSetting()
     {
-        $this->setPluginRequestsFlag('enabled');
         FakeAccess::$superUser = true;
         FakeAccess::$identity = 'superUserLogin';
 
@@ -39,25 +37,11 @@ class UserSettingsTest extends IntegrationTestCase
 
     public function testOtherUsersSeeOnlyTheDecisionSetting()
     {
-        $this->setPluginRequestsFlag('enabled');
-        $this->setViewUser();
-
-        self::assertSame(['notifyOnPluginRequestDecision'], $this->getMarketplaceSettingNames());
-    }
-
-    public function testOtherUsersSeeNoSettingWhilePluginRequestsAreDisabled()
-    {
-        $this->setPluginRequestsFlag('disabled');
-        $this->setViewUser();
-
-        self::assertSame([], $this->getMarketplaceSettingNames());
-    }
-
-    private function setViewUser(): void
-    {
         FakeAccess::$superUser = false;
         FakeAccess::$identity = 'viewUser';
         FakeAccess::$idSitesView = [1];
+
+        self::assertSame(['notifyOnPluginRequestDecision'], $this->getMarketplaceSettingNames());
     }
 
     public function provideContainerConfig()
@@ -65,14 +49,6 @@ class UserSettingsTest extends IntegrationTestCase
         return [
             'Piwik\Access' => new FakeAccess(),
         ];
-    }
-
-    /**
-     * The local config may set the flag, so each test sets it itself
-     */
-    private function setPluginRequestsFlag(string $value): void
-    {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => $value];
     }
 
     /**

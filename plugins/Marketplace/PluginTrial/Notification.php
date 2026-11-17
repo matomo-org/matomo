@@ -13,7 +13,6 @@ use Exception;
 use Piwik\Notification as MatomoNotification;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\Marketplace\SiteAwareLinks;
 
 class Notification
 {
@@ -38,36 +37,6 @@ class Notification
     {
         $this->storage->setNotificationDismissed();
         $this->removeFromSession();
-    }
-
-    /**
-     * Creates a plugin trial notification for the current user if needed
-     *
-     * @param (callable(): string[])|null $getCurrentSuperUsers see Storage::isNotificationDismissed()
-     * @throws Exception
-     */
-    public function createNotificationIfNeeded(?callable $getCurrentSuperUsers = null): void
-    {
-        if (!$this->storage->wasRequested() || $this->storage->isNotificationDismissed($getCurrentSuperUsers)) {
-            return; // not requested, dismissed by the current user, or made before they were a super user
-        }
-
-        // kept in the session between checks, so it carries only the site of the request that happened to build it
-        $link = sprintf('<a href="%s">', (new SiteAwareLinks())->getOverviewUrl($this->pluginName));
-        $message = '<b>' . Piwik::translate(
-            $this->storage->getRequestType() === RequestHistory::REQUEST_TYPE_INSTALL
-                ? 'Marketplace_InstallRequestedNotification'
-                : 'Marketplace_TrialRequestedNotification1',
-            [htmlentities($this->storage->getDisplayName()), $link, '</a>']
-        ) . '</b><br><br>';
-        $message .= Piwik::translate('Marketplace_TrialRequestedNotification2', [htmlentities($this->storage->getDisplayName()), $link, '</a>']);
-
-        $notification = new MatomoNotification($message);
-        $notification->raw = true;
-        $notification->context = MatomoNotification::CONTEXT_INFO;
-        $notification->type = MatomoNotification::TYPE_PERSISTENT;
-        MatomoNotification\Manager::cancel($this->getNotificationId());
-        MatomoNotification\Manager::notify($this->getNotificationId(), $notification);
     }
 
     /**

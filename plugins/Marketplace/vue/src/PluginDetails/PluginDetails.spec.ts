@@ -58,7 +58,6 @@ const cardRow = {
   hasExceededLicense: false,
   isMissingLicense: false,
   isEligibleForFreeTrial: false,
-  isTrialRequested: false,
   canTrialBeRequested: false,
   missingRequirements: [],
   numDownloads: 12,

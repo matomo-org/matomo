@@ -144,7 +144,7 @@ class ManageRequestsTest extends IntegrationTestCase
     public function dataUsersWithoutRequestState(): iterable
     {
         yield 'super user' => [true, true];
-        yield 'flag off' => [false, false];
+        yield 'requests off' => [false, false];
     }
 
     public function testManageRequestsListsTheUsersRequests(): void
@@ -329,7 +329,7 @@ class ManageRequestsTest extends IntegrationTestCase
 
     private function setPluginRequests(bool $isOn): void
     {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => $isOn ? 'enabled' : 'disabled'];
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = $isOn ? 28 : -1;
     }
 
     public function provideContainerConfig()

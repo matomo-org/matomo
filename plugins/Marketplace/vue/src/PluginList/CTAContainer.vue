@@ -217,19 +217,6 @@
     />
   </template>
 
-  <a v-else-if="plugin.isTrialRequested"
-     class="btn btn-block purchaseable disabled"
-     href=""
-     :title="translate('Marketplace_TrialRequested')"
-  >{{ translate('Marketplace_TrialRequested') }}</a>
-
-  <a v-else-if="plugin.canTrialBeRequested && !plugin.isMissingLicense"
-     class="btn btn-block purchaseable"
-     href=""
-     @click.prevent="$emit('requestTrial');"
-     :title="translate('Marketplace_RequestTrial')"
-  >{{ translate('Marketplace_RequestTrial') }}</a>
-
   <template v-else>
     <MoreDetailsAction
       v-if="!inModal"

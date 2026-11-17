@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Mail;
@@ -41,7 +40,6 @@ class DecisionEmailTest extends IntegrationTestCase
         parent::setUp();
 
         Fixture::createSuperUser();
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
 
         $usersModel = new UsersModel();
         foreach (['alice', 'bob', 'carol'] as $login) {
@@ -103,17 +101,6 @@ class DecisionEmailTest extends IntegrationTestCase
         $this->decideAsSuperUser('PremiumPlugin', RequestHistory::DECISION_DECLINED);
 
         self::assertSame(['alice@example.org'], $this->getRecipients());
-    }
-
-    public function testNoEmailIsSentWhileTheFeatureFlagIsOff(): void
-    {
-        $this->requestAs('alice', 'PremiumPlugin');
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
-
-        FakeAccess::clearAccess(true);
-        (new Service())->cancelRequest('PremiumPlugin');
-
-        self::assertSame([], $this->sentEmails);
     }
 
     /**
