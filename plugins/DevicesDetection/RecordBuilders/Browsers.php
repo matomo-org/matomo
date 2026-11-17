@@ -16,5 +16,7 @@ class Browsers extends Base
     public function __construct()
     {
         parent::__construct(Archiver::BROWSER_RECORD_NAME, Archiver::BROWSER_FIELD, true);
+
+        $this->estimateRowUniqueVisitors();
     }
 }

@@ -25,10 +25,7 @@ abstract class Base extends RecordBuilder
 
     private bool $enrichWithConversionMetrics;
 
-    /**
-     * Set by reports whose rows get estimated unique visitors on the periods set to be estimated.
-     */
-    protected ?RowUniqueVisitorsEstimate $rowUniqueVisitorsEstimate = null;
+    private ?RowUniqueVisitorsEstimate $rowUniqueVisitorsEstimate = null;
 
     public function __construct(string $recordName, string $labelSql, bool $enrichWithConversionMetrics = false)
     {
@@ -41,6 +38,15 @@ abstract class Base extends RecordBuilder
         $this->maxRowsInSubtable = $this->maxRowsInTable;
         $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
         $this->enrichWithConversionMetrics = $enrichWithConversionMetrics;
+    }
+
+    /**
+     * Gives the report's rows estimated unique visitors on the periods set to be estimated. Only for reports whose
+     * label is a plain log_visit column, so the sketches' labels are the report's labels.
+     */
+    protected function estimateRowUniqueVisitors(): void
+    {
+        $this->rowUniqueVisitorsEstimate = new RowUniqueVisitorsEstimate($this->recordName, 'log_visit.' . $this->labelSql);
     }
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array

@@ -49,17 +49,44 @@ class RowUniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->setEstimatedPeriods(['week', 'month', 'year']);
     }
 
-    public function testEstimatedWeekGivesEachRowItsUniqueVisitors()
+    /**
+     * @dataProvider getEstimatedReports
+     */
+    public function testEstimatedWeekGivesEachRowItsUniqueVisitors(string $recordName, string $column)
     {
-        $rows = $this->getDeviceTypeRows('week', '2024-03-04');
+        $rows = $this->getRows($recordName, 'week', '2024-03-04');
 
         $this->assertGreaterThan(1, count($rows));
-        foreach ($rows as $deviceType => $columns) {
-            $exact = $this->countExact($deviceType, 4, 10);
-            $this->assertEqualsWithDelta($exact, $columns[Metrics::INDEX_NB_UNIQ_VISITORS], 1, "device type $deviceType");
+        foreach ($rows as $label => $columns) {
+            $exact = $this->countExact($column, $label, 4, 10);
+            $this->assertEqualsWithDelta($exact, $columns[Metrics::INDEX_NB_UNIQ_VISITORS], 1, "$recordName $label");
             $this->assertLessThanOrEqual($columns[Metrics::INDEX_NB_VISITS], $columns[Metrics::INDEX_NB_UNIQ_VISITORS]);
             $this->assertArrayHasKey(Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS, $columns);
         }
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public function getEstimatedReports(): array
+    {
+        return [
+            'device types' => [Archiver::DEVICE_TYPE_RECORD_NAME, Archiver::DEVICE_TYPE_FIELD],
+            'browsers' => [Archiver::BROWSER_RECORD_NAME, Archiver::BROWSER_FIELD],
+            'operating systems' => [Archiver::OS_RECORD_NAME, Archiver::OS_FIELD],
+        ];
+    }
+
+    public function testSegmentedWeekEstimatesTheRowsFromTheSegmentsOwnSketches()
+    {
+        $rows = $this->getRows(Archiver::DEVICE_TYPE_RECORD_NAME, 'week', '2024-03-04', 'browserCode==MF');
+
+        $this->assertCount(2, $rows); // Mobile Safari on iPhone and iPad
+        foreach ($rows as $deviceType => $columns) {
+            $exact = $this->countExact(Archiver::DEVICE_TYPE_FIELD, $deviceType, 4, 10, "config_browser_name = 'MF'");
+            $this->assertEqualsWithDelta($exact, $columns[Metrics::INDEX_NB_UNIQ_VISITORS], 1, "device type $deviceType");
+        }
+        $this->assertNotNull($this->getStoredSketches('day', '2024-03-04', 'browserCode==MF'));
     }
 
     public function testEstimatedYearIsBuiltFromTheMonthsSketches()
@@ -67,7 +94,7 @@ class RowUniqueVisitorsEstimateTest extends IntegrationTestCase
         $rows = $this->getDeviceTypeRows('year', '2024-03-01');
 
         foreach ($rows as $deviceType => $columns) {
-            $this->assertEqualsWithDelta($this->countExact($deviceType, 1, 10), $columns[Metrics::INDEX_NB_UNIQ_VISITORS], 1);
+            $this->assertEqualsWithDelta($this->countExact(Archiver::DEVICE_TYPE_FIELD, $deviceType, 1, 10), $columns[Metrics::INDEX_NB_UNIQ_VISITORS], 1);
         }
         $this->assertNotNull($this->getStoredSketches('month', '2024-03-01'));
     }
@@ -117,7 +144,15 @@ class RowUniqueVisitorsEstimateTest extends IntegrationTestCase
      */
     private function getDeviceTypeRows(string $period, string $date): array
     {
-        $table = Archive::build(1, $period, $date)->getDataTable(Archiver::DEVICE_TYPE_RECORD_NAME);
+        return $this->getRows(Archiver::DEVICE_TYPE_RECORD_NAME, $period, $date);
+    }
+
+    /**
+     * @return array<string, array<int|string, mixed>> the record's columns by label
+     */
+    private function getRows(string $recordName, string $period, string $date, string $segment = ''): array
+    {
+        $table = Archive::build(1, $period, $date, $segment)->getDataTable($recordName);
         $this->assertInstanceOf(DataTable::class, $table);
 
         $rows = [];
@@ -127,22 +162,22 @@ class RowUniqueVisitorsEstimateTest extends IntegrationTestCase
         return $rows;
     }
 
-    private function getStoredSketches(string $period, string $date): ?string
+    private function getStoredSketches(string $period, string $date, string $segment = ''): ?string
     {
         /** @var Archive $archive */
-        $archive = Archive::build(1, $period, $date);
+        $archive = Archive::build(1, $period, $date, $segment);
         foreach ($archive->querySingleBlob(self::SKETCHES_RECORD) as $row) {
             return $row['value'];
         }
         return null;
     }
 
-    private function countExact(string $deviceType, int $firstDay, int $lastDay): int
+    private function countExact(string $column, string $value, int $firstDay, int $lastDay, string $andWhere = '1 = 1'): int
     {
         return (int) Db::fetchOne(
             'SELECT COUNT(DISTINCT idvisitor) FROM ' . Common::prefixTable('log_visit')
-            . ' WHERE idsite = 1 AND config_device_type = ? AND visit_last_action_time BETWEEN ? AND ?',
-            [$deviceType, sprintf('2024-03-%02d 00:00:00', $firstDay), sprintf('2024-03-%02d 23:59:59', $lastDay)]
+            . " WHERE idsite = 1 AND $column = ? AND $andWhere AND visit_last_action_time BETWEEN ? AND ?",
+            [$value, sprintf('2024-03-%02d 00:00:00', $firstDay), sprintf('2024-03-%02d 23:59:59', $lastDay)]
         );
     }
 
