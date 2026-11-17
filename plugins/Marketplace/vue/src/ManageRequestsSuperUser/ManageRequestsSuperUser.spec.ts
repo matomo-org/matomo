@@ -448,6 +448,40 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
         .toBe('Funnels');
     });
 
+    it('disables the actions of the row until the decline is done', async () => {
+      let answer: (value: { value: number }) => void = () => undefined;
+      ajaxPost.mockReturnValue(new Promise((resolve) => { answer = resolve; }));
+      const wrapper = mountPage([makePending(), makePending({ pluginName: 'Cohorts' })]);
+
+      (await openDeclineDialog(wrapper, 'Funnels'))();
+      await flushPromises();
+
+      const actions = row(wrapper, 'Funnels').findAll('.manageRequestsSuperUser__actionList button');
+      expect(actions.map((button) => button.attributes('disabled'))).toEqual(['', '']);
+      expect(row(wrapper, 'Cohorts').find('.manageRequestsSuperUser__decline').attributes('disabled'))
+        .toBeUndefined();
+
+      await row(wrapper, 'Funnels').find('.manageRequestsSuperUser__decline').trigger('click');
+      expect(modalConfirm).toHaveBeenCalledTimes(1);
+
+      answer({ value: 2 });
+      await flushPromises();
+
+      expect(ajaxPost).toHaveBeenCalledTimes(1);
+      expect(row(wrapper, 'Funnels').exists()).toBe(false);
+    });
+
+    it('enables the actions again when the decline fails', async () => {
+      ajaxPost.mockRejectedValue(new Error('Another Super User has already responded'));
+      const wrapper = mountPage();
+
+      (await openDeclineDialog(wrapper, 'Funnels'))();
+      await flushPromises();
+
+      const actions = row(wrapper, 'Funnels').findAll('.manageRequestsSuperUser__actionList button');
+      expect(actions.map((button) => button.attributes('disabled'))).toEqual([undefined, undefined]);
+    });
+
     it('keeps the row when the decline fails', async () => {
       ajaxPost.mockRejectedValue(new Error('Another Super User has already responded'));
       const wrapper = mountPage();

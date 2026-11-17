@@ -86,12 +86,14 @@
                   <button
                     type="button"
                     class="manageRequestsSuperUser__decline"
+                    :disabled="busyPluginName === plugin.pluginName"
                     @click="openDeclineDialog(plugin)"
                   >{{ translate('Marketplace_Decline') }}</button>
                   <button
                     v-if="plugin.isFree === false"
                     type="button"
                     class="btn btn-outline manageRequestsSuperUser__startTrial"
+                    :disabled="busyPluginName === plugin.pluginName"
                     @click="startTrial(plugin)"
                   >{{ translate('Marketplace_StartTrial30Days') }}</button>
                 </div>
@@ -330,6 +332,7 @@ interface ManageRequestsSuperUserState {
   historyOffset: number;
   isLoadingHistory: boolean;
   decliningPlugin: PendingPluginRequest | null;
+  busyPluginName: string | null;
   declineNote: string;
   trialPlugin: { name: string, displayName: string } | null;
   trialPluginName: string | null;
@@ -375,6 +378,7 @@ export default defineComponent({
       historyOffset: 0,
       isLoadingHistory: false,
       decliningPlugin: null,
+      busyPluginName: null,
       declineNote: '',
       trialPlugin: null,
       trialPluginName: null,
@@ -488,6 +492,8 @@ export default defineComponent({
       );
     },
     decline(plugin: PendingPluginRequest, note: string) {
+      this.busyPluginName = plugin.pluginName;
+
       AjaxHelper.post<{ value: number }>(
         {
           module: 'API',
@@ -516,6 +522,8 @@ export default defineComponent({
         return this.loadHistory(0);
       }).catch(() => {
         // AjaxHelper already shows the error, and the row stays for another try
+      }).finally(() => {
+        this.busyPluginName = null;
       });
     },
     startTrial(plugin: PendingPluginRequest) {
