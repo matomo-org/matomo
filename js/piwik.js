@@ -6590,6 +6590,8 @@ if (typeof window.Matomo !== 'object') {
 
             /**
              * Enables cookies if they were disabled previously.
+             *
+             * @returns {boolean} whether a ping request was sent to carry the change to the server
              */
             this.setCookieConsentGiven = function () {
                 if (configCookiesDisabled && !configDoNotTrack) {
@@ -6608,8 +6610,12 @@ if (typeof window.Matomo !== 'object') {
                         // a tracking request afterwards
                         var request = getRequest('ping=1', null, 'ping');
                         sendRequest(request, configTrackerPause);
+
+                        return true;
                     }
                 }
+
+                return false;
             };
 
             /**
@@ -7649,8 +7655,26 @@ if (typeof window.Matomo !== 'object') {
                 // If the user calls setConsentGiven before sending any tracking request (which usually is the case) then
                 // nothing will need to be done as it only enables cookies and the next tracking request will set the cookies
                 // etc.
+                var sentConsentPing = false;
                 if (!isDefined(setCookieConsent) || setCookieConsent) {
-                    this.setCookieConsentGiven();
+                    sentConsentPing = this.setCookieConsentGiven();
+                }
+
+                // A site measuring under a compliance exemption has to reach the server while
+                // the visitor is still on the page they arrived on, or the consent arrives with
+                // the next page view, by which time a new visit has begun and the landing visit
+                // keeps the treatment it was measured under. The call above sends that request
+                // only where it had cookies to enable, so where it did not, one is sent here.
+                // Only a site that asked for this sends it: for every other site this method
+                // makes no request of its own, exactly as before.
+                if (
+                    configRestrictedDataConsentRequired
+                    && configConsentGiven
+                    && !sentConsentPing
+                    && configTrackerSiteId
+                    && hasSentTrackingRequestYet
+                ) {
+                    sendRequest(getRequest('ping=1', null, 'ping'), configTrackerPause);
                 }
             };
 
