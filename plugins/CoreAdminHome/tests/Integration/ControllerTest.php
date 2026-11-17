@@ -15,7 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Mail\OAuth\AccessTokenProvider;
+use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CoreAdminHome\OptOutManager;
@@ -178,9 +178,9 @@ class ControllerTest extends IntegrationTestCase
 
     public function testSetMailSettingsForgetsTheCachedOAuthAccessToken(): void
     {
-        $provider = $this->createMock(AccessTokenProvider::class);
+        $provider = $this->createMock(SmtpTokenProvider::class);
         $provider->expects($this->once())->method('forgetAccessToken');
-        StaticContainer::getContainer()->set(AccessTokenProvider::class, $provider);
+        StaticContainer::getContainer()->set(SmtpTokenProvider::class, $provider);
 
         $this->postMailSettings($this->getOAuthMailSettingsRequest());
     }

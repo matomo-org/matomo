@@ -17,9 +17,9 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Http\BadRequestException;
 use Piwik\Http\JsonResponse;
+use Piwik\Http\OAuth\ClientCredentials;
 use Piwik\Mail;
-use Piwik\Mail\OAuth\AccessTokenProvider;
-use Piwik\Mail\OAuth\ClientCredentialsTokenProvider;
+use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -220,7 +220,7 @@ class Controller extends ControllerAdmin
             Config::getInstance()->forceSave();
 
             // an access token requested before a change at the provider would otherwise be reused until it expires
-            StaticContainer::get(AccessTokenProvider::class)->forgetAccessToken();
+            StaticContainer::get(SmtpTokenProvider::class)->forgetAccessToken();
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
@@ -239,7 +239,7 @@ class Controller extends ControllerAdmin
         $mail['oauth_client_secret'] = $request->getStringParameter('mailOAuthClientSecret', '');
         $mail['oauth_scope'] = trim($request->getStringParameter('mailOAuthScope', ''));
 
-        $credentialTypes = [ClientCredentialsTokenProvider::CREDENTIAL_TYPE_SECRET, ClientCredentialsTokenProvider::CREDENTIAL_TYPE_CERTIFICATE];
+        $credentialTypes = [ClientCredentials::CREDENTIAL_TYPE_SECRET, ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE];
         $mail['oauth_credential_type'] = strtolower(trim($request->getStringParameter('mailOAuthCredentialType', '')));
         if (!in_array($mail['oauth_credential_type'], $credentialTypes, true)) {
             $mail['oauth_credential_type'] = $storedMail['oauth_credential_type'] ?? '';
@@ -265,7 +265,7 @@ class Controller extends ControllerAdmin
             return;
         }
 
-        $isCertificate = strtolower(trim((string) $mail['oauth_credential_type'])) === ClientCredentialsTokenProvider::CREDENTIAL_TYPE_CERTIFICATE;
+        $isCertificate = strtolower(trim((string) $mail['oauth_credential_type'])) === ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE;
 
         if ($isCertificate && trim($mail['oauth_certificate_path']) === '') {
             // a certificate set up for other settings was dropped, those settings have to change with it
