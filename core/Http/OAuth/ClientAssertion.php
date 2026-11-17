@@ -20,9 +20,6 @@ class ClientAssertion
 {
     public const ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer';
 
-    /**
-     * @param string $privateKeyPath when empty, the private key is read from the certificate file
-     */
     public static function create(
         string $clientId,
         string $tokenUrl,

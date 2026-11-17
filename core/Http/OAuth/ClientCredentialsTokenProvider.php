@@ -17,8 +17,7 @@ use Piwik\Http;
 use Psr\Log\LoggerInterface;
 
 /**
- * Gets an access token with the OAuth 2.0 client credentials flow. A subclass provides the settings of its
- * connection, and the token is cached until shortly before it expires.
+ * Gets an access token with the OAuth 2.0 client credentials flow and caches it until shortly before it expires.
  *
  * @internal
  */
@@ -40,8 +39,7 @@ abstract class ClientCredentialsTokenProvider implements AccessTokenProvider
     }
 
     /**
-     * Returns the settings to request the token with. They are read on every call, so a token requested after
-     * the settings changed uses the new ones.
+     * Called on every request, so changed settings are used right away.
      */
     abstract protected function getClientCredentials(): ClientCredentials;
 
@@ -117,8 +115,7 @@ abstract class ClientCredentialsTokenProvider implements AccessTokenProvider
     }
 
     /**
-     * The time an entry expires is stored with it, because not every cache backend removes an entry after its
-     * lifetime. The array backend keeps it for as long as the process runs.
+     * The expiry is stored with the entry, because not every cache backend removes expired entries.
      *
      * @param array<string, string> $entry
      */
@@ -262,10 +259,7 @@ abstract class ClientCredentialsTokenProvider implements AccessTokenProvider
         return $data;
     }
 
-    /**
-     * @param mixed $data the decoded response body, if there was any
-     */
-    private function getErrorDetail($data): string
+    private function getErrorDetail(mixed $data): string
     {
         if (!is_array($data)) {
             return '';

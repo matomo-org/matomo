@@ -12,8 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Http\OAuth;
 
 /**
- * The settings a client uses to request an access token from an OAuth 2.0 token endpoint.
- * The client authenticates with either a client secret or a certificate.
+ * The settings to request an OAuth 2.0 access token with, using either a client secret or a certificate.
  *
  * @internal
  */
