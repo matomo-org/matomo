@@ -130,6 +130,9 @@ class ModelTest extends IntegrationTestCase
             // 23, 24: a segment's partial archive older than the archive for all plugins of that segment
             ['date1' => '2020-02-10', 'date2' => '2020-02-10', 'period' => Day::PERIOD_ID, 'name' => 'done3736b708e4d20cfc10610e816a1b2341.Plugin', 'value' => ArchiveWriter::DONE_PARTIAL, 'ts_archived' => '2020-02-11 01:00:00'],
             ['date1' => '2020-02-10', 'date2' => '2020-02-10', 'period' => Day::PERIOD_ID, 'name' => 'done3736b708e4d20cfc10610e816a1b2341', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-11 02:00:00'],
+            // 25, 26: not a complete archive of a single plugin older than the archive for all plugins
+            ['date1' => '2020-02-11', 'date2' => '2020-02-11', 'period' => Day::PERIOD_ID, 'name' => 'done.Plugin', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-12 01:00:00'],
+            ['date1' => '2020-02-11', 'date2' => '2020-02-11', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2020-02-12 02:00:00'],
         ]);
 
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'), false);
