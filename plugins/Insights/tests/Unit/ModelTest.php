@@ -29,6 +29,15 @@ class ModelTest extends BaseUnitTest
         $this->assertSame($expected, $model->isComparableDate($period, $date, $comparedDate));
     }
 
+    public function testIsComparableDateShouldLetAnInvalidDateRangeRaiseItsOwnError()
+    {
+        $model = new Model($this->createMock(ProcessedReport::class));
+
+        $this->expectException(\Exception::class);
+
+        $model->isComparableDate('range', '2012-08-09', '2011-08-01,2011-08-31');
+    }
+
     public function getComparableDates(): array
     {
         return [

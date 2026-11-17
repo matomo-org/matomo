@@ -167,11 +167,12 @@ class ApiTest extends SystemTestCase
     {
         $insights = $this->requestInsights([
             'period' => 'range',
-            'date' => '2010-12-13,2010-12-14',
-            'comparedToDate' => '2010-12-11,2010-12-12',
+            'date' => '2010-12-14,2010-12-15',
+            'comparedToDate' => '2010-12-12,2010-12-13',
         ]);
 
-        $this->assertEquals('2010-12-11,2010-12-12', $insights->getMetadata('lastDate'));
+        $this->assertEquals('2010-12-12,2010-12-13', $insights->getMetadata('lastDate'));
+        $this->assertEquals(59, $insights->getMetadata('lastTotalValue'));
     }
 
     public function testGetInsightsShouldGoBackInPastWhenTheGivenDateIsBlank()

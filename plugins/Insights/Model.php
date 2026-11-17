@@ -72,18 +72,25 @@ class Model
      */
     public function isComparableDate(string $period, string $date, string $comparedDate): bool
     {
-        try {
-            if ($period !== 'range') {
+        if ($period !== 'range') {
+            try {
                 Date::factory($comparedDate);
-
-                return !Period::isMultiplePeriod($comparedDate, $period);
+            } catch (\Exception $e) {
+                return false;
             }
 
-            $range = new Range('day', $date);
-            $comparedRange = new Range('day', $comparedDate);
+            return !Period::isMultiplePeriod($comparedDate, $period);
+        }
+
+        // outside the try, so an invalid $date raises its own error instead of blaming $comparedDate
+        $range = new Range('range', $date);
+        $dayCount = $range->getDayCount();
+
+        try {
+            $comparedRange = new Range('range', $comparedDate);
 
             // ranges of different lengths would make most rows look like strong movers only because one is longer
-            return $range->getNumberOfSubperiods() === $comparedRange->getNumberOfSubperiods()
+            return $comparedRange->getDayCount() === $dayCount
                 || $this->isSameRangeInAnotherYear($range, $comparedRange);
         } catch (\Exception $e) {
             return false;

@@ -35,10 +35,6 @@ class Insight extends Visualization
 
     public function beforeLoadDataTable()
     {
-        // Insights compares the report with another date itself, so the API must not run it through the comparison
-        // filter even when supportsComparison() is true
-        $this->config->disable_comparison = true;
-
         if (!self::canDisplayViewDataTable($this)) {
             return;
         }
@@ -79,6 +75,15 @@ class Insight extends Visualization
     public function supportsComparison()
     {
         return true;
+    }
+
+    /**
+     * Insights compares the report with another date itself, so the API must not run it through the comparison filter
+     * even though supportsComparison() is true.
+     */
+    public function isComparing()
+    {
+        return false;
     }
 
     /**
@@ -223,11 +228,13 @@ class Insight extends Visualization
             return;
         }
 
-        if (!empty($this->config->show_footer_message)) {
-            array_unshift($messages, $this->config->show_footer_message);
+        $footerMessage = $this->config->show_footer_message ?: '';
+
+        if ($footerMessage !== '' && !str_ends_with($footerMessage, '<br/>')) {
+            $footerMessage .= '<br/>';
         }
 
-        $this->config->show_footer_message = implode('<br/>', $messages);
+        $this->config->show_footer_message = $footerMessage . implode('<br/>', $messages);
     }
 
     public static function canDisplayViewDataTable(ViewDataTable $view)
