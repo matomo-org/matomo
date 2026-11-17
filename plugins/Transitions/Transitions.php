@@ -11,6 +11,9 @@ namespace Piwik\Plugins\Transitions;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Transitions\PreprocessedPages\ArchivingMode;
+use Piwik\Plugins\Transitions\PreprocessedPages\Dao as PreprocessedPagesDao;
 
 class Transitions extends \Piwik\Plugin
 {
@@ -25,7 +28,38 @@ class Transitions extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
             'Template.jsGlobalVariables'             => 'addJsGlobalVariables',
+            'UsersManager.deleteUser'                => 'anonymizePreprocessedPagesCreatedBy',
+            'SitesManager.deleteSite.end'            => 'deletePreprocessedPagesForSite',
+            'CronArchive.archiveSingleSite.finish'   => 'rememberCronArchiving',
         );
+    }
+
+    /**
+     * Catches up on users and websites deleted while the plugin was deactivated.
+     */
+    public function activate()
+    {
+        StaticContainer::get(PreprocessedPagesDao::class)->cleanUpDeletedUsersAndSites();
+        ArchivingMode::forgetDeletedSites();
+    }
+
+    public function anonymizePreprocessedPagesCreatedBy(string $userLogin): void
+    {
+        StaticContainer::get(PreprocessedPagesDao::class)->anonymizeCreatedBy($userLogin);
+    }
+
+    public function deletePreprocessedPagesForSite(int $idSite): void
+    {
+        StaticContainer::get(PreprocessedPagesDao::class)->deletePagesForSite($idSite);
+        ArchivingMode::forgetSite($idSite);
+    }
+
+    /**
+     * @param int|string $idSite
+     */
+    public function rememberCronArchiving($idSite): void
+    {
+        ArchivingMode::rememberCronArchiving((int) $idSite);
     }
 
     public function getPagesComparisonsDisabledFor(&$pages)

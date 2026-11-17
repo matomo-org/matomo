@@ -303,7 +303,8 @@ anonymous_user_enable_use_segments_API = 1
 
 ; if browser trigger archiving is disabled, API requests with a &segment= parameter will still trigger archiving.
 ; You can force the browser archiving to be disabled in most cases by setting this setting to 1
-; The only time that the browser will still trigger archiving is when requesting a custom date range that is not pre-processed yet
+; The browser will still trigger archiving when requesting a custom date range that is not pre-processed yet, and when
+; the Transitions report of a pre-processed page refreshes today's or yesterday's data ([Transitions] preprocessed_refresh_after)
 browser_archiving_disabled_enforce = 0
 
 ; Add custom currencies to Sites Manager.
@@ -678,6 +679,12 @@ datatable_archiving_maximum_rows_ai_chatbot_content = 50000
 ; maximum number of page URLs listed in the Human-Favoured / AI-Favoured Pages reports
 ; (these span the full human page-URL set, matching the content reports cap)
 datatable_archiving_maximum_rows_ai_chatbot_favoured_pages = 50000
+
+; maximum number of rows kept for each list of a page whose Transitions report is pre-processed (previous and
+; following pages, site searches, outlinks, downloads, referrers of each type); the rest is grouped into "Others".
+; Weeks, months and years are summed from shorter periods, so keeping more rows than a report shows keeps their top
+; rows accurate. [Transitions] preprocessed_max_rows_served sets the rows a report shows.
+datatable_archiving_maximum_rows_transitions = 1000
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
@@ -1668,5 +1675,20 @@ recommendation_max_crawl_pages = 50
 ; Maximum number of AI-assisted goal recommendation scans allowed per site and day.
 ; Set to 0 for no limit. Useful for managed environments to cap AI provider usage.
 recommendation_ai_daily_scan_limit = 0
+
+[Transitions]
+; Maximum number of page URLs per website whose Transitions report is pre-processed during archiving.
+; Lowering it keeps the pages already selected. Override it for one website in a [Transitions_idSite] section.
+max_preprocessed_pages = 20
+
+; Seconds after which the pre-processed data of a selected page for today, or for yesterday until it is archived
+; again, is rebuilt for that page when its Transitions report is requested. 0 turns this off.
+; Override it for one website in a [Transitions_idSite] section.
+preprocessed_refresh_after = 900
+
+; Most rows per list a Transitions report served from pre-processed data shows, at most
+; datatable_archiving_maximum_rows_transitions. Requests for more rows use the raw logs.
+; Override it for one website in a [Transitions_idSite] section.
+preprocessed_max_rows_served = 500
 
 ; NOTE: do not directly edit this file! See notice at the top
