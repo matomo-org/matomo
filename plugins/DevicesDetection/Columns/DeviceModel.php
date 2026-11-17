@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\DevicesDetection\DevicesDetection;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -30,6 +31,32 @@ class DeviceModel extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
+        return $this->detectDeviceModel($request, Consent::visitHasConsent($request, $visitor));
+    }
+
+    /**
+     * Replaces the generic device stored for a visit measured without consent with the model
+     * detected from the request that brings the visitor's consent to it.
+     *
+     * @param Action|null $action
+     * @return string|false
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        $idSite = $request->getIdSiteIfExists();
+
+        if (
+            !DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($idSite)
+            || !$this->isFirstConsentedRequest($request, $visitor, $action)
+        ) {
+            return false;
+        }
+
+        return $this->detectDeviceModel($request, true);
+    }
+
+    private function detectDeviceModel(Request $request, bool $hasConsent): string
+    {
         $parser = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
         $genericDevice = '';
 
@@ -41,7 +68,7 @@ class DeviceModel extends Base
         }
 
         // in privacy compliance mode, we can only detect/return generic device type, but not the model
-        if (DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($request->getIdSiteIfExists())) {
+        if (DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($request->getIdSiteIfExists(), $hasConsent)) {
             return $genericDevice;
         }
 

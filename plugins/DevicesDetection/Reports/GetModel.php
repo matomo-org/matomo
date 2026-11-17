@@ -12,7 +12,10 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\DevicesDetection\Columns\DeviceModel;
+use Piwik\Plugins\DevicesDetection\DevicesDetection;
 use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
+use Piwik\Request;
+use Piwik\Site;
 
 class GetModel extends Base
 {
@@ -36,7 +39,41 @@ class GetModel extends Base
 
     public function isEnabled()
     {
-        // Metadata visibility is global-only here, so check the instance-wide setting state.
-        return !DeviceModelDetectionDisabled::getInstance()->getValue();
+        return $this->isEnabledForSites(Request::fromRequest()->getParameter('idSite', ''));
+    }
+
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        // report metadata describes the site it is asked for, which need not be the one in the
+        // request, as when a scheduled report is sent
+        if (!$this->isEnabledForSites($infos['idSite'] ?? '')) {
+            return;
+        }
+
+        $report = $this->buildReportMetadata();
+
+        if (!empty($report)) {
+            $availableReports[] = $report;
+        }
+    }
+
+    /**
+     * @param mixed $idSites as accepted by Site::getIdSitesFromIdSitesString()
+     */
+    private function isEnabledForSites($idSites): bool
+    {
+        // the report is offered wherever the instance-wide setting leaves device model detection on
+        if (!DeviceModelDetectionDisabled::getInstance()->getValue()) {
+            return true;
+        }
+
+        // a site storing the device model for consented visitors has a report to offer
+        foreach (Site::getIdSitesFromIdSitesString($idSites) as $idSite) {
+            if (DevicesDetection::isDeviceModelStoredForConsentedVisits((int) $idSite)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

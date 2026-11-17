@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\DevicesDetection\DevicesDetection;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -30,13 +31,39 @@ class BrowserVersion extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
+        return $this->detectBrowserVersion($request, Consent::visitHasConsent($request, $visitor));
+    }
+
+    /**
+     * Replaces the major-only version stored for a visit measured without consent with the full
+     * version detected from the request that brings the visitor's consent to it.
+     *
+     * @param Action|null $action
+     * @return string|false
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        $idSite = $request->getIdSiteIfExists();
+
+        if (
+            !DevicesDetection::shouldOnlyStoreMajorVersions($idSite)
+            || !$this->isFirstConsentedRequest($request, $visitor, $action)
+        ) {
+            return false;
+        }
+
+        return $this->detectBrowserVersion($request, true);
+    }
+
+    private function detectBrowserVersion(Request $request, bool $hasConsent): string
+    {
         $parser    = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
 
         $aBrowserInfo = $parser->getClient();
 
         if (!empty($aBrowserInfo['version'])) {
             $version = substr($aBrowserInfo['version'], 0, 20);
-            if (DevicesDetection::shouldOnlyStoreMajorVersions($request->getIdSiteIfExists())) {
+            if (DevicesDetection::shouldOnlyStoreMajorVersions($request->getIdSiteIfExists(), $hasConsent)) {
                 return explode('.', $version, 2)[0];
             }
             return $version;
