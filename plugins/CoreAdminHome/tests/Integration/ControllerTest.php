@@ -161,6 +161,53 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame($originalHost, Config::getInstance()->mail['host']);
     }
 
+    public function testSetMailSettingsPostsEventWithSavedSettingsAndWithoutPassword(): void
+    {
+        $postedSettings = [];
+        Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function ($settings) use (&$postedSettings) {
+            $postedSettings[] = $settings;
+        });
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('event.example.test');
+        $_REQUEST = $_POST;
+
+        $controller = $this->getControllerSkippingTokenCheck();
+
+        $controller->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $this->assertSame([[
+            'transport' => 'smtp',
+            'host' => 'event.example.test',
+            'port' => '25',
+            'type' => '',
+            'username' => 'smtp-user-event',
+            'encryption' => 'none',
+            'noreply_email_name' => 'Acme <Team> & "event"',
+            'noreply_email_address' => 'mail-event@example.test',
+            'password_set' => true,
+        ]], $postedSettings);
+    }
+
+    public function testSetMailSettingsDoesNotPostEventWhenSaveFails(): void
+    {
+        $eventCount = 0;
+        Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function () use (&$eventCount) {
+            $eventCount++;
+        });
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('reject.example.test');
+        $_REQUEST = $_POST;
+
+        $controller = $this->getControllerSkippingTokenCheck($passwordCorrect = false);
+
+        $controller->setMailSettings();
+
+        $this->assertSame(0, $eventCount);
+    }
+
     public function testWhatIsNewDoesNotPrefixBundledPluginsAndPrefixesThirdPartyPlugins(): void
     {
         $this->deleteAllChanges();
