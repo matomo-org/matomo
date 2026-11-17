@@ -16,5 +16,7 @@ class OperatingSystems extends Base
     public function __construct()
     {
         parent::__construct(Archiver::OS_RECORD_NAME, Archiver::OS_FIELD);
+
+        $this->estimateRowUniqueVisitors();
     }
 }

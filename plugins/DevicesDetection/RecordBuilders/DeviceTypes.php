@@ -16,5 +16,7 @@ class DeviceTypes extends Base
     public function __construct()
     {
         parent::__construct(Archiver::DEVICE_TYPE_RECORD_NAME, Archiver::DEVICE_TYPE_FIELD, true);
+
+        $this->estimateRowUniqueVisitors();
     }
 }
