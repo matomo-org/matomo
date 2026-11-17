@@ -261,7 +261,7 @@ class API extends \Piwik\Plugin\API
      * @param 'absolute'|'relative'|'importance' $orderBy Row ordering mode.
      * @param string $comparedToDate Date of the same period type to compare against, for example `2025-05-06` or
      *                               `2025-05-01,2025-05-31`. A date range must have the same length as `$date`,
-     *                               or be the same days in another year.
+     *                               or be the same days in another year. Accepts the same formats as `$date`.
      *                               When set, `$comparedToXPeriods` is ignored.
      * @return DataTable Insight rows for the requested report.
      */

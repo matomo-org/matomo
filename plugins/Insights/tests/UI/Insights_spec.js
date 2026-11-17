@@ -16,7 +16,7 @@ describe("Insights", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');
     });
 
-    describe('when comparing with the previous year in the date selector', function () {
+    describe('with a comparison in the date selector', function () {
         const monthUrl = url.replace('period=year', 'period=month');
 
         async function title()
