@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Tests\Unit\Mail\OAuth;
+namespace Piwik\Tests\Unit\Http\OAuth;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\Mail\OAuth\ClientAssertion;
-use Piwik\Mail\OAuth\TokenRequestFailedException;
+use Piwik\Http\OAuth\ClientAssertion;
+use Piwik\Http\OAuth\TokenRequestFailedException;
 
 /**
  * @group Core
@@ -149,7 +149,7 @@ class ClientAssertionTest extends TestCase
         try {
             $create();
         } catch (TokenRequestFailedException $e) {
-            $this->assertSame('The SMTP OAuth certificate or private key could not be used.', $e->getMessage());
+            $this->assertSame('The OAuth certificate or private key could not be used.', $e->getMessage());
             $this->assertStringStartsWith($detail, $e->getDetail());
 
             return $e;

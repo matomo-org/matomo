@@ -9,10 +9,12 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Mail\OAuth;
+namespace Piwik\Http\OAuth;
 
 /**
  * Builds the signed JWT a client sends instead of a client secret when it authenticates with a certificate.
+ *
+ * @internal
  */
 class ClientAssertion
 {
@@ -32,7 +34,7 @@ class ClientAssertion
     ): string {
         if (!extension_loaded('openssl')) {
             throw new TokenRequestFailedException(
-                'The SMTP OAuth certificate or private key could not be used.',
+                'The OAuth certificate or private key could not be used.',
                 'The openssl PHP extension is needed to use a certificate.'
             );
         }
@@ -47,7 +49,7 @@ class ClientAssertion
 
         $privateKey = @openssl_pkey_get_private('file://' . ($privateKeyPath ?: $certificatePath), $privateKeyPassword);
         if ($privateKey === false) {
-            self::fail('Could not read the private key. Check that it is PEM encoded and that oauth_private_key_password is correct.');
+            self::fail('Could not read the private key. Check that it is PEM encoded and that the private key password is correct.');
         }
 
         if (!openssl_x509_check_private_key($certificate, $privateKey)) {
@@ -85,7 +87,7 @@ class ClientAssertion
 
         // the message can be shown to visitors who are not logged in, so the reason only goes in the detail
         throw new TokenRequestFailedException(
-            'The SMTP OAuth certificate or private key could not be used.',
+            'The OAuth certificate or private key could not be used.',
             $reason . ($openSslErrors !== '' ? ' (' . $openSslErrors . ')' : '')
         );
     }

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Tests\Unit\Mail\OAuth;
+namespace Piwik\Tests\Unit\Http\OAuth;
 
 use Matomo\Cache\Backend\ArrayCache;
 use Matomo\Cache\Backend\Chained;
@@ -17,8 +17,8 @@ use Matomo\Cache\Lazy;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Piwik\Date;
-use Piwik\Mail\OAuth\ClientCredentialsTokenProvider;
-use Piwik\Mail\OAuth\TokenRequestFailedException;
+use Piwik\Http\OAuth\TokenRequestFailedException;
+use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -126,7 +126,7 @@ class ClientCredentialsTokenProviderTest extends TestCase
         $this->cache->expects($this->once())
             ->method('save')
             ->with(
-                $this->stringStartsWith('MailOAuthAccessToken_'),
+                $this->stringStartsWith('OAuthAccessToken_'),
                 ['token' => 'the-token', 'expires' => self::NOW + 3540],
                 3540
             );
@@ -370,7 +370,7 @@ class ClientCredentialsTokenProviderTest extends TestCase
     }
 }
 
-class FakeHttpClientCredentialsTokenProvider extends ClientCredentialsTokenProvider
+class FakeHttpClientCredentialsTokenProvider extends SmtpTokenProvider
 {
     /**
      * @var array<int, array{0: string, 1: array<string, string>}>

@@ -14,9 +14,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\OAuth\TokenRequestFailedException;
 use Piwik\Mail;
-use Piwik\Mail\OAuth\AccessTokenProvider;
-use Piwik\Mail\OAuth\TokenRequestFailedException;
+use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Piwik\Mail\OAuth\XOAuth2Authenticator;
 use Piwik\Piwik;
 
@@ -116,7 +116,7 @@ class Transport
         } catch (PHPMailerException $e) {
             if ($phpMailer->AuthType === 'XOAUTH2') {
                 // the mail server may have rejected the access token, so the next email requests a new one
-                StaticContainer::get(AccessTokenProvider::class)->forgetAccessToken();
+                StaticContainer::get(SmtpTokenProvider::class)->forgetAccessToken();
             }
 
             throw $e;
@@ -182,7 +182,7 @@ class Transport
             );
         }
 
-        $accessToken = StaticContainer::get(AccessTokenProvider::class)->getAccessToken();
+        $accessToken = StaticContainer::get(SmtpTokenProvider::class)->getAccessToken();
 
         $phpMailer->setOAuth(new XOAuth2Authenticator($phpMailer->Username, $accessToken));
     }

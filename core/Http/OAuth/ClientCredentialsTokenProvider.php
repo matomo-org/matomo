@@ -9,23 +9,21 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Mail\OAuth;
+namespace Piwik\Http\OAuth;
 
 use Matomo\Cache\Lazy;
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\Http;
 use Psr\Log\LoggerInterface;
 
 /**
- * Gets an access token with the OAuth 2.0 client credentials flow, using the `[mail] oauth_*` config settings.
- * The client authenticates with either a client secret or a certificate.
+ * Gets an access token with the OAuth 2.0 client credentials flow. A subclass provides the settings of its
+ * connection, and the token is cached until shortly before it expires.
+ *
+ * @internal
  */
-class ClientCredentialsTokenProvider implements AccessTokenProvider
+abstract class ClientCredentialsTokenProvider implements AccessTokenProvider
 {
-    public const CREDENTIAL_TYPE_SECRET = 'secret';
-    public const CREDENTIAL_TYPE_CERTIFICATE = 'certificate';
-
     private const TIMEOUT_IN_SECONDS = 10;
     private const EXPIRY_MARGIN_IN_SECONDS = 60;
     private const FAILURE_LIFETIME_IN_SECONDS = 60;
@@ -41,35 +39,48 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
         $this->logger = $logger;
     }
 
+    /**
+     * Returns the settings to request the token with. They are read on every call, so a token requested after
+     * the settings changed uses the new ones.
+     */
+    abstract protected function getClientCredentials(): ClientCredentials;
+
+    /**
+     * Names the connection in error messages, for example "SMTP".
+     */
+    abstract protected function getConnectionName(): string;
+
     public function getAccessToken(): string
     {
-        $settings = $this->getSettings();
-        $tokenUrl = $settings['token_url'];
+        $credentials = $this->getClientCredentials();
+        $tokenUrl = $credentials->getTokenUrl();
 
-        $this->checkSettingsAreComplete($settings);
-
-        if (stripos($tokenUrl, 'https://') !== 0) {
-            throw new TokenRequestFailedException('The SMTP OAuth token URL has to start with https://.');
+        if (!$credentials->hasValidCredentialType() || !$credentials->isComplete()) {
+            throw new TokenRequestFailedException($this->getMessage('The %s OAuth settings are incomplete.'));
         }
 
-        $cacheId = $this->getCacheId();
+        if (stripos($tokenUrl, 'https://') !== 0) {
+            throw new TokenRequestFailedException($this->getMessage('The %s OAuth token URL has to start with https://.'));
+        }
+
+        $cacheId = $this->getCacheId($credentials);
 
         $cachedToken = $this->fetchUnexpired($cacheId);
         if ($cachedToken !== null) {
             return (string) $cachedToken['token'];
         }
 
-        // a failed request is remembered for a short time, so a batch of emails does not wait for each of them
-        $failure = $this->fetchUnexpired($this->getFailureCacheId());
+        // a failed request is remembered for a short time, so a batch of calls does not wait for each of them
+        $failure = $this->fetchUnexpired($this->getFailureCacheId($credentials));
         if ($failure !== null) {
             throw new TokenRequestFailedException((string) $failure['message'], (string) $failure['detail']);
         }
 
         try {
-            $token = $this->requestToken($tokenUrl, $this->getRequestBody($settings));
+            $token = $this->requestToken($tokenUrl, $this->getRequestBody($credentials));
         } catch (TokenRequestFailedException $e) {
             $this->saveWithExpiry(
-                $this->getFailureCacheId(),
+                $this->getFailureCacheId($credentials),
                 ['message' => $e->getMessage(), 'detail' => $e->getDetail()],
                 self::FAILURE_LIFETIME_IN_SECONDS
             );
@@ -94,8 +105,15 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
 
     public function forgetAccessToken(): void
     {
-        $this->cache->delete($this->getCacheId());
-        $this->cache->delete($this->getFailureCacheId());
+        try {
+            $credentials = $this->getClientCredentials();
+        } catch (TokenRequestFailedException $e) {
+            // no token was cached for settings that cannot be used
+            return;
+        }
+
+        $this->cache->delete($this->getCacheId($credentials));
+        $this->cache->delete($this->getFailureCacheId($credentials));
     }
 
     /**
@@ -138,104 +156,65 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
             $response = $this->sendTokenRequest($tokenUrl, $requestBody);
         } catch (\Exception $e) {
             // the reason can name the token URL, so it is kept out of the message
-            throw new TokenRequestFailedException('The SMTP OAuth token endpoint could not be reached.', $e->getMessage());
+            throw new TokenRequestFailedException($this->getMessage('The %s OAuth token endpoint could not be reached.'), $e->getMessage());
         }
 
         return $this->parseResponse($response);
     }
 
     /**
-     * @return array{token_url: string, client_id: string, scope: string, credential_type: string,
-     *     client_secret: string, certificate_path: string, private_key_path: string, private_key_password: string}
-     */
-    private function getSettings(): array
-    {
-        $mailConfig = $this->getMailConfig();
-
-        return [
-            'token_url'            => trim((string) ($mailConfig['oauth_token_url'] ?? '')),
-            'client_id'            => trim((string) ($mailConfig['oauth_client_id'] ?? '')),
-            'scope'                => trim((string) ($mailConfig['oauth_scope'] ?? '')),
-            'credential_type'      => strtolower(trim((string) ($mailConfig['oauth_credential_type'] ?? ''))) ?: self::CREDENTIAL_TYPE_SECRET,
-            'client_secret'        => (string) ($mailConfig['oauth_client_secret'] ?? ''),
-            'certificate_path'     => trim((string) ($mailConfig['oauth_certificate_path'] ?? '')),
-            'private_key_path'     => trim((string) ($mailConfig['oauth_private_key_path'] ?? '')),
-            'private_key_password' => (string) ($mailConfig['oauth_private_key_password'] ?? ''),
-        ];
-    }
-
-    /**
-     * @param array<string, string> $settings
-     */
-    private function checkSettingsAreComplete(array $settings): void
-    {
-        $credentialSetting = [
-            self::CREDENTIAL_TYPE_SECRET      => 'client_secret',
-            self::CREDENTIAL_TYPE_CERTIFICATE => 'certificate_path',
-        ][$settings['credential_type']] ?? null;
-
-        if ($credentialSetting === null) {
-            throw new TokenRequestFailedException('The SMTP OAuth setting oauth_credential_type has to be either "secret" or "certificate".');
-        }
-
-        if ($settings['token_url'] === '' || $settings['client_id'] === '' || $settings[$credentialSetting] === '') {
-            throw new TokenRequestFailedException(
-                'The SMTP OAuth settings are incomplete. Please set oauth_token_url, oauth_client_id and oauth_'
-                . $credentialSetting . ' in the [mail] section of the config file.'
-            );
-        }
-    }
-
-    /**
-     * @param array<string, string> $settings
      * @return array<string, string>
      */
-    private function getRequestBody(
-        #[\SensitiveParameter]
-        array $settings
-    ): array {
+    private function getRequestBody(ClientCredentials $credentials): array
+    {
         $requestBody = [
             'grant_type' => 'client_credentials',
-            'client_id'  => $settings['client_id'],
+            'client_id'  => $credentials->getClientId(),
         ];
 
-        if ($settings['credential_type'] === self::CREDENTIAL_TYPE_CERTIFICATE) {
+        if ($credentials->isCertificate()) {
+            try {
+                $assertion = ClientAssertion::create(
+                    $credentials->getClientId(),
+                    $credentials->getTokenUrl(),
+                    $credentials->getCertificatePath(),
+                    $credentials->getPrivateKeyPath(),
+                    $credentials->getPrivateKeyPassword(),
+                    Date::getNowTimestamp()
+                );
+            } catch (TokenRequestFailedException $e) {
+                throw new TokenRequestFailedException(
+                    $this->getMessage('The %s OAuth certificate or private key could not be used.'),
+                    $e->getDetail()
+                );
+            }
+
             $requestBody['client_assertion_type'] = ClientAssertion::ASSERTION_TYPE;
-            $requestBody['client_assertion'] = ClientAssertion::create(
-                $settings['client_id'],
-                $settings['token_url'],
-                $settings['certificate_path'],
-                $settings['private_key_path'],
-                $settings['private_key_password'],
-                Date::getNowTimestamp()
-            );
+            $requestBody['client_assertion'] = $assertion;
         } else {
-            $requestBody['client_secret'] = $settings['client_secret'];
+            $requestBody['client_secret'] = $credentials->getClientSecret();
         }
 
-        if ($settings['scope'] !== '') {
-            $requestBody['scope'] = $settings['scope'];
+        if ($credentials->getScope() !== '') {
+            $requestBody['scope'] = $credentials->getScope();
         }
 
         return $requestBody;
     }
 
-    private function getCacheId(): string
+    private function getCacheId(ClientCredentials $credentials): string
     {
-        return 'MailOAuthAccessToken_' . hash('sha256', implode("\n", $this->getSettings()));
+        return 'OAuthAccessToken_' . $credentials->getHash();
     }
 
-    private function getFailureCacheId(): string
+    private function getFailureCacheId(ClientCredentials $credentials): string
     {
-        return $this->getCacheId() . '_failed';
+        return $this->getCacheId($credentials) . '_failed';
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    protected function getMailConfig(): array
+    private function getMessage(string $message): string
     {
-        return Config::getInstance()->mail;
+        return sprintf($message, $this->getConnectionName());
     }
 
     /**
@@ -271,13 +250,13 @@ class ClientCredentialsTokenProvider implements AccessTokenProvider
 
         if ($status !== 200) {
             throw new TokenRequestFailedException(
-                'The SMTP OAuth token request failed with HTTP status ' . $status . '.',
+                $this->getMessage('The %s OAuth token request failed with HTTP status ' . $status . '.'),
                 $this->getErrorDetail($data)
             );
         }
 
         if (!is_array($data) || empty($data['access_token']) || !is_string($data['access_token'])) {
-            throw new TokenRequestFailedException('The SMTP OAuth token response did not contain an access token.');
+            throw new TokenRequestFailedException($this->getMessage('The %s OAuth token response did not contain an access token.'));
         }
 
         return $data;

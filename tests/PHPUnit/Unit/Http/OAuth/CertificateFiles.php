@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Tests\Unit\Mail\OAuth;
+namespace Piwik\Tests\Unit\Http\OAuth;
 
 /**
  * Writes a freshly generated self-signed certificate and its private key to temporary files.
