@@ -13,6 +13,7 @@ use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
@@ -23,7 +24,11 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Live\Model;
-use Piwik\RankingQuery;
+use Piwik\Plugins\Transitions\Model as TransitionsModel;
+use Piwik\Plugins\Transitions\PreprocessedPages\Dao as PreprocessedPagesDao;
+use Piwik\Plugins\Transitions\PreprocessedPages\Records;
+use Piwik\Plugins\Transitions\PreprocessedPages\Service as PreprocessedPagesService;
+use Piwik\Plugins\Transitions\PreprocessedPages\StoredRecordsLoader;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
@@ -32,7 +37,8 @@ use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\TableLogAction;
 
 /**
- * Provides API methods for transition reports around a specific page action.
+ * Provides API methods for transition reports around a specific page action, and manages the pages whose
+ * transition report is pre-processed.
  *
  * @method static \Piwik\Plugins\Transitions\API getInstance()
  */
@@ -75,7 +81,9 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @param int|string $limitBeforeGrouping Maximum number of transition rows to keep before grouping the
      *                                        remainder.
-     * @return array Transition metrics and related referrer/action tables for the requested page URL.
+     * @return array Transition metrics and related referrer/action tables for the requested page URL. When the
+     *               report is served from the pre-processed data of the page, it also has `preprocessed` = 1 and
+     *               `preprocessedAt`, the UTC time (`YYYY-MM-DD HH:MM:SS`) the oldest data used was processed.
      */
     public function getTransitionsForPageUrl(string $pageUrl, int $idSite, string $period, string $date, $segment = false, $limitBeforeGrouping = 0)
     {
@@ -103,7 +111,9 @@ class API extends \Piwik\Plugin\API
      *                      `externalReferrers`. Requested without `internalReferrers`, `followingActions`
      *                      counts reloads of the action as following actions; `followingActionsWithoutLoops`
      *                      leaves them out, as the full report does, and wins if both are requested.
-     * @return array Transition metrics and related referrer/action tables for the requested action.
+     * @return array Transition metrics and related referrer/action tables for the requested action. When the
+     *               report is served from the pre-processed data of a page URL, it also has `preprocessed` = 1 and
+     *               `preprocessedAt`, the UTC time (`YYYY-MM-DD HH:MM:SS`) the oldest data used was processed.
      */
     public function getTransitionsForAction(
         string $actionName,
@@ -116,6 +126,11 @@ class API extends \Piwik\Plugin\API
         string $parts = 'all'
     ) {
         Piwik::checkUserHasViewAccess($idSite);
+
+        $preprocessedReport = $this->getPreprocessedReport($actionName, $actionType, $idSite, $period, $date, $segment, $limitBeforeGrouping, $parts);
+        if ($preprocessedReport !== null) {
+            return $preprocessedReport;
+        }
 
         if (!$this->isPeriodAllowed($idSite, $period, $date)) {
             throw new Exception('PeriodNotAllowed');
@@ -151,21 +166,19 @@ class API extends \Piwik\Plugin\API
         ];
 
         try {
-            $partsArray = explode(',', $parts);
-            if ($parts == 'all' || in_array('internalReferrers', $partsArray)) {
+            $requestedParts = $this->parseParts($parts);
+            if ($requestedParts['internalReferrers']) {
                 $this->addInternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
             }
-            $withoutLoops = in_array('followingActionsWithoutLoops', $partsArray);
-            if ($parts == 'all' || $withoutLoops || in_array('followingActions', $partsArray)) {
-                $includeLoops = !$withoutLoops && $parts != 'all' && !in_array('internalReferrers', $partsArray);
-                $this->addFollowingActions($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops);
+            if ($requestedParts['followingActions']) {
+                $this->addFollowingActions($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping, $requestedParts['includeLoops']);
             }
-            if ($parts == 'all' || in_array('externalReferrers', $partsArray)) {
+            if ($requestedParts['externalReferrers']) {
                 $this->addExternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
             }
 
             // derive the number of exits from the other metrics
-            if ($parts == 'all') {
+            if ($requestedParts['all']) {
                 $report['pageMetrics']['exits'] = $report['pageMetrics']['pageviews']
                     - $this->getTotalTransitionsToFollowingActions()
                     - $report['pageMetrics']['loops'];
@@ -184,8 +197,311 @@ class API extends \Piwik\Plugin\API
             throw $e;
         }
 
+        $this->replaceColumnNames($report);
 
-        // replace column names in the data tables
+        return $report;
+    }
+
+    /**
+     * Builds the report from the records stored for a pre-processed page, or returns null when they don't cover the
+     * request, which is then answered from the logs. `max_period_allowed` doesn't apply to stored records that cover
+     * the period, nor to those that replace outdated or invalidated ones, from shorter stored periods or, without cron,
+     * by building days; beyond it, records missing for other reasons are neither summed nor built.
+     *
+     * The records are found by the page URL, without `log_action`, so they are served also for a page that was removed
+     * or whose action was deleted as unused. A URL that the tracker's normalization changes now, for example by removing
+     * query parameters or a fragment, or by truncating it, is answered from the logs, as it may have been tracked as
+     * another page.
+     *
+     * @param string|null|false $segment
+     * @param int|string $limitBeforeGrouping
+     * @return array<string, mixed>|null
+     */
+    private function getPreprocessedReport(
+        string $actionName,
+        string $actionType,
+        int $idSite,
+        string $period,
+        string $date,
+        $segment,
+        $limitBeforeGrouping,
+        string $parts
+    ): ?array {
+        // page titles are not pre-processed; invalid limits are reported by the log query
+        if ($actionType !== 'url' || ($limitBeforeGrouping && !is_numeric($limitBeforeGrouping))) {
+            return null;
+        }
+
+        // reports served from the stored lists show at most the configured rows; an invalid setting only fails
+        // requests that stored records would answer under the default settings, others use the logs as before
+        $limit = (int) $limitBeforeGrouping ?: $this->limitBeforeGrouping;
+        try {
+            $maxRowsServed = Records::getMaxRowsServed($idSite);
+            $configError = null;
+        } catch (\Exception $e) {
+            $maxRowsServed = min(Records::DEFAULT_MAX_ROWS_SERVED, Records::DEFAULT_MAX_ROWS);
+            $configError = $e;
+        }
+        if ($limit < 1 || $limit > $maxRowsServed) {
+            return null;
+        }
+
+        $requestedParts = $this->parseParts($parts);
+
+        $tableParts = [];
+        if ($requestedParts['internalReferrers']) {
+            $tableParts = [Records::PREVIOUS_PAGES, Records::PREVIOUS_SITE_SEARCHES];
+        }
+        if ($requestedParts['followingActions']) {
+            $tableParts = array_merge($tableParts, array_values(StaticContainer::get(TransitionsModel::class)->getFollowingActionTypes('url')));
+        }
+        if ($requestedParts['externalReferrers']) {
+            $tableParts[] = Records::REFERRERS;
+        }
+
+        if (empty($tableParts)) {
+            return null;
+        }
+
+        try {
+            $site = new Site($idSite);
+            $periodObject = Period\Factory::build($period, $date);
+            $segmentObject = new Segment(
+                $segment ?: '',
+                [$idSite],
+                $periodObject->getDateTimeStart()->setTimezone($site->getTimezone()),
+                $periodObject->getDateTimeEnd()->setTimezone($site->getTimezone())
+            );
+            $dateLabel = Period\Factory::build($periodObject->getLabel(), $date)->getLocalizedShortString();
+            $isPeriodAllowed = $this->isPeriodAllowed($idSite, $period, $date);
+        } catch (\Exception $e) {
+            // invalid input is reported by the log query, after the period check
+            return null;
+        }
+
+        $page = StaticContainer::get(PreprocessedPagesService::class)->getPageForReport($idSite, $actionName);
+        if ($page === null) {
+            return null;
+        }
+
+        $records = StaticContainer::get(StoredRecordsLoader::class)->load($idSite, $periodObject, $segmentObject, $page['idpage'], $tableParts, $isPeriodAllowed);
+        if ($records === null) {
+            return null;
+        }
+
+        if ($configError !== null) {
+            throw $configError;
+        }
+
+        // as the log query, for a URL that isn't tracked, whichever parts are requested
+        if ($records->getNumeric(Records::PAGEVIEWS) == 0 && $this->deriveIdAction($actionName, $actionType) === null) {
+            throw new Exception('NoDataForAction');
+        }
+
+        $report = ['date' => $dateLabel];
+
+        if ($requestedParts['internalReferrers']) {
+            if ($records->getNumeric(Records::PAGEVIEWS) == 0) {
+                throw new Exception('NoDataForAction');
+            }
+
+            $report['previousPages'] = $this->makeStoredActionsTable($records->getTable(Records::PREVIOUS_PAGES), $limit);
+            $report['previousSiteSearches'] = $this->makeStoredActionsTable($records->getTable(Records::PREVIOUS_SITE_SEARCHES), $limit);
+            $report['pageMetrics']['loops'] = $records->getNumeric(Records::LOOPS);
+            $report['pageMetrics']['pageviews'] = $records->getNumeric(Records::PAGEVIEWS);
+        }
+
+        if ($requestedParts['followingActions']) {
+            foreach (StaticContainer::get(TransitionsModel::class)->getFollowingActionTypes('url') as $type => $list) {
+                // the stored following pages leave out reloads, which the log query counts as the page itself
+                $extraRows = [];
+                if ($requestedParts['includeLoops'] && $type == Action::TYPE_PAGE_URL && $records->getNumeric(Records::LOOPS) > 0) {
+                    $idaction = $this->deriveIdAction($actionName, $actionType);
+                    $extraRows[] = [
+                        // the name the log query labels it with; for a deleted action, the page's URL as the tracker
+                        // stores it
+                        'label' => ($idaction === null ? null : StaticContainer::get(PreprocessedPagesDao::class)->getActionName($idaction))
+                            ?? PageUrl::normalizeUrl($page['url'])['url'],
+                        'count' => $records->getNumeric(Records::LOOPS),
+                    ];
+                }
+
+                $report[$list] = $this->makeStoredActionsTable($records->getTable($list), $limit, $extraRows);
+            }
+        }
+
+        if ($requestedParts['externalReferrers']) {
+            $this->addReferrers($report, $this->makeStoredReferrersTable($records->getTable(Records::REFERRERS), $limit));
+        }
+
+        if ($requestedParts['all']) {
+            $report['pageMetrics']['exits'] = $records->getNumeric(Records::EXITS);
+        }
+
+        $this->replaceColumnNames($report);
+
+        $report['preprocessed'] = 1;
+        $report['preprocessedAt'] = $records->getTsArchived();
+
+        return $report;
+    }
+
+    /**
+     * Which parts of the report the `parts` parameter requests. Following actions requested without internal
+     * referrers count reloads of the action, unless `followingActionsWithoutLoops` is requested.
+     *
+     * @return array{all: bool, internalReferrers: bool, followingActions: bool, includeLoops: bool, externalReferrers: bool}
+     */
+    private function parseParts(string $parts): array
+    {
+        $all = $parts == 'all';
+        $partsArray = explode(',', $parts);
+        $withoutLoops = in_array('followingActionsWithoutLoops', $partsArray);
+
+        return [
+            'all'               => $all,
+            'internalReferrers' => $all || in_array('internalReferrers', $partsArray),
+            'followingActions'  => $all || $withoutLoops || in_array('followingActions', $partsArray),
+            'includeLoops'      => !$withoutLoops && !$all && !in_array('internalReferrers', $partsArray),
+            'externalReferrers' => $all || in_array('externalReferrers', $partsArray),
+        ];
+    }
+
+    /**
+     * A stored list as the log query returns it: the top rows, then `Others` with the rest.
+     *
+     * @param list<array{label: string|int, count: int}> $extraRows
+     */
+    private function makeStoredActionsTable(DataTable $stored, int $limit, array $extraRows = []): DataTable
+    {
+        $table = new DataTable();
+        foreach ($this->getTopStoredRows($stored, Metrics::INDEX_NB_ACTIONS, $limit, $extraRows) as $row) {
+            $table->addRow(new Row([Row::COLUMNS => [
+                'label'                   => $row['label'],
+                Metrics::INDEX_NB_ACTIONS => $row['count'],
+            ]]));
+        }
+
+        return $table;
+    }
+
+    /**
+     * The stored referrers as {@link queryExternalReferrers()} returns them.
+     */
+    private function makeStoredReferrersTable(DataTable $stored, int $limit): DataTable
+    {
+        $table = new DataTable();
+        foreach (TransitionsModel::REFERRER_TYPES as $referrerType) {
+            $storedRow = $stored->getRowFromLabel((string) $referrerType);
+            if (!$storedRow) {
+                continue;
+            }
+
+            $visits = $this->getStoredCount($storedRow, Metrics::INDEX_NB_VISITS);
+            $row = $table->addRow(new Row([Row::COLUMNS => [
+                'label'                  => $referrerType,
+                Metrics::INDEX_NB_VISITS => $visits,
+            ]]));
+
+            $storedReferrers = $storedRow->getSubtable();
+            if (!$storedReferrers) {
+                continue;
+            }
+
+            // referrers without a name are not stored, only counted in the visits of their type
+            $unnamedVisits = $visits;
+            foreach ($storedReferrers->getRows() as $storedReferrer) {
+                $unnamedVisits -= $this->getStoredCount($storedReferrer, Metrics::INDEX_NB_VISITS);
+            }
+
+            $referrers = new DataTable();
+            foreach ($this->getTopStoredRows($storedReferrers, Metrics::INDEX_NB_VISITS, $limit, [], $unnamedVisits) as $referrer) {
+                $label = $referrer['label'];
+                if ($referrerType == Common::REFERRER_TYPE_SEARCH_ENGINE && $label === Records::UNKNOWN_SEARCH_ENGINE_LABEL) {
+                    $label = Piwik::translate('General_Unknown');
+                }
+
+                // the log query returns these counts as strings
+                $referrers->addRow(new Row([Row::COLUMNS => [
+                    'label'                  => $label,
+                    Metrics::INDEX_NB_VISITS => (string) $referrer['count'],
+                ]]));
+            }
+            $row->setSubtable($referrers);
+        }
+
+        return $table;
+    }
+
+    /**
+     * The rows of a stored list with the highest counts, and of equal counts the lowest labels, case-insensitively as
+     * archiving truncates the lists: at most `$limit` rows,
+     * then `Others` with the rest and the stored summary row. Rows of equal counts can be ordered differently than by
+     * the ranking query of the log query.
+     *
+     * @param list<array{label: string|int, count: int}> $extraRows rows to rank with the stored ones
+     * @param int $unnamedCount count of rows without a label, which are not stored: ranked as one row, which the log
+     *                          query leaves out of the top rows and counts in `Others` below them
+     * @return list<array{label: string|int, count: int}>
+     */
+    private function getTopStoredRows(DataTable $stored, int $column, int $limit, array $extraRows = [], int $unnamedCount = 0): array
+    {
+        $rows = [];
+        foreach ($extraRows as $row) {
+            $rows[] = $row + ['unnamed' => false];
+        }
+        foreach ($stored->getRowsWithoutSummaryRow() as $row) {
+            $label = $row->getColumn('label');
+            $rows[] = [
+                'label' => is_int($label) ? $label : (is_scalar($label) ? (string) $label : ''),
+                'count' => $this->getStoredCount($row, $column),
+                'unnamed' => false,
+            ];
+        }
+        if ($unnamedCount > 0) {
+            $rows[] = ['label' => '', 'count' => $unnamedCount, 'unnamed' => true];
+        }
+
+        usort($rows, function (array $a, array $b): int {
+            return $b['count'] <=> $a['count'] ?: strcasecmp((string) $a['label'], (string) $b['label']);
+        });
+
+        $others = null;
+        $summaryRow = $stored->getSummaryRow();
+        if ($summaryRow) {
+            $others = $this->getStoredCount($summaryRow, $column);
+        }
+        foreach (array_slice($rows, $limit) as $row) {
+            $others = ($others ?? 0) + $row['count'];
+        }
+
+        $topRows = [];
+        foreach (array_slice($rows, 0, $limit) as $row) {
+            if (!$row['unnamed']) {
+                $topRows[] = ['label' => $row['label'], 'count' => $row['count']];
+            }
+        }
+        if ($others !== null) {
+            $topRows[] = ['label' => TransitionsModel::OTHERS_LABEL, 'count' => $others];
+        }
+
+        return $topRows;
+    }
+
+    private function getStoredCount(Row $row, int $column): int
+    {
+        $count = $row->getColumn($column);
+
+        return is_numeric($count) ? (int) $count : 0;
+    }
+
+    /**
+     * Replaces the count column of the action lists by `referrals`.
+     *
+     * @param array<string, mixed> $report
+     */
+    private function replaceColumnNames(array &$report): void
+    {
         $reportNames = [
             'previousPages'         => true,
             'previousSiteSearches'  => false,
@@ -203,8 +519,90 @@ class API extends \Piwik\Plugin\API
                 $report[$reportName]->filter('ReplaceColumnNames', [$columnNames]);
             }
         }
+    }
 
-        return $report;
+    /**
+     * Returns the page URLs of a website whose Transitions report is pre-processed during archiving.
+     * Requires admin access to the website.
+     *
+     * @param int $idSite The numeric ID of the website.
+     * @return list<array{idpage: int, url: string, created_date: string, created_by: string|null, created_by_superuser: bool}>
+     *         The selected pages, newest first. `created_date` is the UTC time the page was added
+     *         (`YYYY-MM-DD HH:MM:SS`), `created_by` the login that added it, or null once that user has been deleted,
+     *         and for users without super user access when a super user added it, which `created_by_superuser` tells.
+     */
+    public function getPreprocessedPages(int $idSite): array
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+        new Site($idSite);
+
+        return StaticContainer::get(PreprocessedPagesService::class)->getPages($idSite);
+    }
+
+    /**
+     * Adds a page URL whose Transitions report is pre-processed during archiving. Requires admin access to the website.
+     *
+     * The next `core:archive` runs process its data of the past months set by
+     * `[General] rearchive_reports_in_past_last_n_months`. For a website not archived by cron, past data is not
+     * processed.
+     *
+     * @param int $idSite The numeric ID of the website.
+     * @param string $pageUrl The page URL, starting with http:// or https://, at most 4096 characters. Protocol and
+     *                        `www.` variants, and query parameters the website excludes, count as the same page. It is
+     *                        stored as the tracker stores page URLs, truncated to `[Tracker] page_maximum_length`.
+     * @return array{idpage: int, url: string, created_date: string, created_by: string|null, created_by_superuser: bool}
+     *         The added page, as returned by `getPreprocessedPages`.
+     * @throws \Piwik\Http\BadRequestException (400) for an invalid or too long URL, a page that is already
+     *                                           selected, and when the website's limit of pages is reached
+     * @throws \Piwik\Plugins\Transitions\PreprocessedPages\PreprocessedPagesBusyException (409) while another page
+     *                                                                                    of the website is added or
+     *                                                                                    removed
+     */
+    public function addPreprocessedPage(int $idSite, string $pageUrl): array
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+        new Site($idSite);
+
+        return StaticContainer::get(PreprocessedPagesService::class)->addPage($idSite, $pageUrl);
+    }
+
+    /**
+     * Removes a page from the pre-processed pages of a website. Data already processed for it stays available.
+     * Fails with a not-found error when the page is not selected for this website. Requires admin access to the website.
+     *
+     * @param int $idSite The numeric ID of the website.
+     * @param int $idPage The ID of the page, as returned by `getPreprocessedPages`.
+     * @return array{idpage: int, url: string, created_date: string, created_by: string|null, created_by_superuser: bool}
+     *         The removed page as it was before, as returned by `getPreprocessedPages`.
+     * @throws \Piwik\Plugins\Transitions\PreprocessedPages\PreprocessedPagesBusyException (409) while another page
+     *                                                                                    of the website is added or
+     *                                                                                    removed
+     */
+    public function removePreprocessedPage(int $idSite, int $idPage): array
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+        new Site($idSite);
+
+        return StaticContainer::get(PreprocessedPagesService::class)->removePage($idSite, $idPage);
+    }
+
+    /**
+     * Returns whether a page URL is selected for pre-processed Transitions, with the website's usage of its limit.
+     * The URL is matched as `addPreprocessedPage` matches duplicates. Requires admin access to the website.
+     *
+     * @param int $idSite The numeric ID of the website.
+     * @param string $pageUrl The page URL. A URL that `addPreprocessedPage` would reject is reported as not selected.
+     * @return array{selected: bool, idPage: int|null, used: int, limit: int, rearchiveMonths: int} `idPage` is the ID
+     *         to pass to `removePreprocessedPage`, or null when the page is not selected. `used` is the number of
+     *         selected pages and `limit` the maximum for the website. `rearchiveMonths` is how many past months of
+     *         data `core:archive` processes for an added page; 0 means only new data, as without cron archiving.
+     */
+    public function getPreprocessedPageStatus(int $idSite, string $pageUrl): array
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+        new Site($idSite);
+
+        return StaticContainer::get(PreprocessedPagesService::class)->getPageStatus($idSite, $pageUrl);
     }
 
     /**
@@ -299,81 +697,15 @@ class API extends \Piwik\Plugin\API
         int $limitBeforeGrouping = 0,
         bool $includeLoops = false
     ): array {
-        $types       = [];
-
-        if ($actionType != 'title') {
-            // specific setup for page urls
-            $types[Action::TYPE_PAGE_URL] = 'followingPages';
-            $dimension = 'if ( %1$s.idaction_url IS NULL, %1$s.idaction_name, %1$s.idaction_url )';
-            $dimension = sprintf($dimension, 'log_link_visit_action');
-            // site search referrers are logged with url=NULL
-            // when we find one, we have to join on name
-            $joinLogActionColumn = $dimension;
-            $selects = ['log_action.name', 'log_action.url_prefix', 'log_action.type'];
-        } else {
-            // specific setup for page titles:
-            $types[Action::TYPE_PAGE_TITLE] = 'followingPages';
-            // join log_action on name and url and pick depending on url type
-            // the table joined on url is log_action1
-            $joinLogActionColumn = ['idaction_url', 'idaction_name'];
-            $dimension = '
-				CASE
-					' /* following site search */ . '
-					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.idaction
-					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Action::TYPE_PAGE_URL . ' THEN log_action2.idaction
-					' /* following download or outlink: use url */ . '
-					ELSE log_action1.idaction
-				END
-			';
-            $selects             = [
-                'CASE
-					' /* following site search */ . '
-					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.name
-					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Action::TYPE_PAGE_URL . ' THEN log_action2.name
-					' /* following download or outlink: use url */ . '
-					ELSE log_action1.name
-				END AS `name`',
-                'CASE
-                    ' /* following site search */ . '
-					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.type
-					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Action::TYPE_PAGE_URL . ' THEN log_action2.type
-					' /* following download or outlink: use url */ . '
-					ELSE log_action1.type
-				END AS `type`',
-                'NULL AS `url_prefix`',
-            ];
-        }
-
-        // these types are available for both titles and urls
-        $types[Action::TYPE_SITE_SEARCH] = 'followingSiteSearches';
-        $types[Action::TYPE_OUTLINK] = 'outlinks';
-        $types[Action::TYPE_DOWNLOAD] = 'downloads';
-
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
-        $rankingQuery->setOthersLabel('Others');
-        $rankingQuery->addLabelColumn(['name', 'url_prefix']);
-        $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($types));
-
-        $type = $this->getColumnTypeSuffix($actionType);
-        $where = 'log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction);
-        if (!$includeLoops) {
-            $where .= ' AND (log_link_visit_action.idaction_' . $type . ' IS NULL OR '
-                . 'log_link_visit_action.idaction_' . $type . ' != ' . intval($idaction) . ')';
-        }
-
-        $metrics = [Metrics::INDEX_NB_ACTIONS];
-        $data = $logAggregator->queryActionsByDimension(
-            [$dimension],
-            $where,
-            $selects,
-            $metrics,
-            $rankingQuery,
-            $joinLogActionColumn,
-            $secondaryOrderBy = "`name`",
-            GeneralConfig::getConfigValue('live_query_max_execution_time')
+        $model = StaticContainer::get(TransitionsModel::class);
+        $types = $model->getFollowingActionTypes($actionType);
+        $data = $model->queryFollowingActions(
+            $logAggregator,
+            $idaction,
+            $actionType,
+            $limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping,
+            $includeLoops,
+            $this->getLiveQueryTimeLimit()
         );
 
         $dataTables = $this->makeDataTablesFollowingActions($types, $data);
@@ -389,41 +721,13 @@ class API extends \Piwik\Plugin\API
     protected function queryExternalReferrers(int $idaction, string $actionType, LogAggregator $logAggregator, int $limitBeforeGrouping = 0): DataTable
     {
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ?: $this->limitBeforeGrouping);
-        $rankingQuery->setOthersLabel('Others');
-
-        // we generate a single column that contains the interesting data for each referrer.
-        // the reason we cannot group by referer_* becomes clear when we look at search engine keywords.
-        // referer_url contains the url from the search engine, referer_keyword the keyword we want to
-        // group by. when we group by both, we don't get a single column for the keyword but instead
-        // one column per keyword + search engine url. this way, we could not get the top keywords using
-        // the ranking query.
-        $dimensions = [
-            'referrer_data' => 'CASE log_visit.referer_type
-				WHEN ' . Common::REFERRER_TYPE_DIRECT_ENTRY . ' THEN \'\'
-				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_name
-				WHEN ' . Common::REFERRER_TYPE_SOCIAL_NETWORK . ' THEN log_visit.referer_name
-				WHEN ' . Common::REFERRER_TYPE_AI_ASSISTANT . ' THEN log_visit.referer_name
-				WHEN ' . Common::REFERRER_TYPE_WEBSITE . ' THEN log_visit.referer_url
-				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT_WS(\' \', log_visit.referer_name, log_visit.referer_keyword)
-			END', 'referer_type',
-        ];
-        $rankingQuery->addLabelColumn('referrer_data');
-
-        // get one limited group per referrer type
-        $rankingQuery->partitionResultIntoMultipleGroups('referer_type', [
-            Common::REFERRER_TYPE_DIRECT_ENTRY,
-            Common::REFERRER_TYPE_SEARCH_ENGINE,
-            Common::REFERRER_TYPE_SOCIAL_NETWORK,
-            Common::REFERRER_TYPE_AI_ASSISTANT,
-            Common::REFERRER_TYPE_WEBSITE,
-            Common::REFERRER_TYPE_CAMPAIGN,
-        ]);
-
-        $type    = $this->getColumnTypeSuffix($actionType);
-        $where   = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
-        $metrics = [Metrics::INDEX_NB_VISITS];
-        $data    = $logAggregator->queryVisitsByDimension($dimensions, $where, [], $metrics, $rankingQuery, false, GeneralConfig::getConfigValue('live_query_max_execution_time'));
+        $data = StaticContainer::get(TransitionsModel::class)->queryExternalReferrers(
+            $logAggregator,
+            $idaction,
+            $actionType,
+            $limitBeforeGrouping ?: $this->limitBeforeGrouping,
+            $this->getLiveQueryTimeLimit()
+        );
 
         // array is prefilled with available keys and empty values are removed in the end to ensure the order is static
         $referrerData    = [
@@ -472,57 +776,15 @@ class API extends \Piwik\Plugin\API
      */
     protected function queryInternalReferrers(int $idaction, string $actionType, LogAggregator $logAggregator, int $limitBeforeGrouping = 0): array
     {
-        $keyIsOther = 0;
-        $keyIsPageUrlAction = 1;
-        $keyIsSiteSearchAction = 2;
+        $keyIsPageUrlAction = TransitionsModel::PARTITION_PAGE;
+        $keyIsSiteSearchAction = TransitionsModel::PARTITION_SITE_SEARCH;
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
-        $rankingQuery->setOthersLabel('Others');
-        $rankingQuery->addLabelColumn(['name', 'url_prefix']);
-        $rankingQuery->setColumnToMarkExcludedRows('is_self');
-        $rankingQuery->partitionResultIntoMultipleGroups('action_partition', [$keyIsOther, $keyIsPageUrlAction, $keyIsSiteSearchAction]);
-
-        $type = $this->getColumnTypeSuffix($actionType);
-        $mainActionType = Action::TYPE_PAGE_URL;
-        $dimension = 'idaction_url_ref';
-
-        if ($actionType == 'title') {
-            $mainActionType = Action::TYPE_PAGE_TITLE;
-            $dimension = 'idaction_name_ref';
-        }
-
-        $selects = [
-            'log_action.name',
-            'log_action.url_prefix',
-            'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS `is_self`',
-            'CASE
-                WHEN log_action.type = ' . $mainActionType . ' THEN ' . $keyIsPageUrlAction . '
-                        WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN ' . $keyIsSiteSearchAction . '
-                        ELSE ' . $keyIsOther . '
-                    END AS `action_partition`',
-        ];
-
-        $where = ' log_link_visit_action.idaction_' . $type . ' = ' . intval($idaction);
-
-        if ($dimension == 'idaction_url_ref') {
-            // site search referrers are logged with url_ref=NULL
-            // when we find one, we have to join on name_ref
-            $dimension = 'if ( %1$s.idaction_url_ref IS NULL, %1$s.idaction_name_ref, %1$s.idaction_url_ref )';
-            $dimension = sprintf($dimension, 'log_link_visit_action');
-            $joinLogActionOn = $dimension;
-        } else {
-            $joinLogActionOn = $dimension;
-        }
-        $metrics = [Metrics::INDEX_NB_ACTIONS];
-        $data = $logAggregator->queryActionsByDimension(
-            [$dimension],
-            $where,
-            $selects,
-            $metrics,
-            $rankingQuery,
-            $joinLogActionOn,
-            $secondaryOrderBy = "`name`",
-            GeneralConfig::getConfigValue('live_query_max_execution_time')
+        $data = StaticContainer::get(TransitionsModel::class)->queryInternalReferrers(
+            $logAggregator,
+            $idaction,
+            $actionType,
+            $limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping,
+            $this->getLiveQueryTimeLimit()
         );
 
         $loops = 0;
@@ -581,30 +843,12 @@ class API extends \Piwik\Plugin\API
      */
     private function getPageLabel(&$pageRecord, $type)
     {
-        if ($type == Action::TYPE_PAGE_TITLE) {
-            $label = $pageRecord['name'];
-            if (empty($label)) {
-                $label = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_TITLE);
-            }
-            return $label;
-        }
-
-        if ($type == Action::TYPE_OUTLINK || $type == Action::TYPE_DOWNLOAD) {
-            return PageUrl::reconstructNormalizedUrl($pageRecord['name'], $pageRecord['url_prefix']);
-        }
-
-        return $pageRecord['name'];
+        return StaticContainer::get(TransitionsModel::class)->getActionLabel($pageRecord, (int) $type);
     }
 
-    /**
-     * @param string $actionType
-     */
-    private function getColumnTypeSuffix($actionType): string
+    private function getLiveQueryTimeLimit(): float
     {
-        if ($actionType == 'title') {
-            return 'name';
-        }
-        return 'url';
+        return GeneralConfig::getFloatConfigValue('live_query_max_execution_time', -1.0);
     }
 
     private int $limitBeforeGrouping = 5;
@@ -635,6 +879,16 @@ class API extends \Piwik\Plugin\API
             $limitBeforeGrouping
         );
 
+        $this->addReferrers($report, $data);
+    }
+
+    /**
+     * Adds the referrers returned by {@link queryExternalReferrers()} and the number of entries to the report.
+     *
+     * @param array<string, mixed> $report
+     */
+    private function addReferrers(array &$report, DataTable $data): void
+    {
         $report['pageMetrics']['entries'] = 0;
         $report['referrers'] = [];
         foreach ($data->getRows() as $row) {

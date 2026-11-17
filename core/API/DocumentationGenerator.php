@@ -301,6 +301,9 @@ class DocumentationGenerator
             'deleteGoal',
             //Marketplace
             'deleteLicenseKey',
+            //Transitions
+            'addPreprocessedPage',
+            'removePreprocessedPage',
         );
 
         if (in_array($methodName, $doNotPrintExampleForTheseMethods)) {

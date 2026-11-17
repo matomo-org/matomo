@@ -14,6 +14,7 @@ use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\EventDispatcher;
+use Piwik\Plugins\Transitions\API as TransitionsAPI;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -78,6 +79,14 @@ class DocumentationGeneratorTest extends TestCase
             }
         );
         $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), false);
+    }
+
+    public function testNoExampleLinksForMethodsThatChangeState()
+    {
+        $documentationGenerator = new DocumentationGenerator();
+
+        self::assertFalse($documentationGenerator->getExampleUrl(TransitionsAPI::class, 'addPreprocessedPage'));
+        self::assertFalse($documentationGenerator->getExampleUrl(TransitionsAPI::class, 'removePreprocessedPage'));
     }
 
     public function testAddExamplesUsesTheRequestedPeriodAndDate()
