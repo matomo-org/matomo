@@ -456,6 +456,62 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
         .toBe('Funnels');
     });
 
+    it('disables the actions of the row until the decline is done', async () => {
+      let answer: (value: { value: number }) => void = () => undefined;
+      ajaxPost.mockReturnValue(new Promise((resolve) => { answer = resolve; }));
+      const wrapper = mountPage([makePending(), makePending({ pluginName: 'Cohorts' })]);
+
+      (await openDeclineDialog(wrapper, 'Funnels'))();
+      await flushPromises();
+
+      const actions = row(wrapper, 'Funnels').findAll('.manageRequestsSuperUser__actionList button');
+      expect(actions.map((button) => button.attributes('disabled'))).toEqual(['', '']);
+      expect(row(wrapper, 'Cohorts').find('.manageRequestsSuperUser__decline').attributes('disabled'))
+        .toBeUndefined();
+
+      await row(wrapper, 'Funnels').find('.manageRequestsSuperUser__decline').trigger('click');
+      expect(modalConfirm).toHaveBeenCalledTimes(1);
+
+      answer({ value: 2 });
+      await flushPromises();
+
+      expect(ajaxPost).toHaveBeenCalledTimes(1);
+      expect(row(wrapper, 'Funnels').exists()).toBe(false);
+    });
+
+    it('enables the actions again when the decline fails', async () => {
+      ajaxPost.mockRejectedValue(new Error('Another Super User has already responded'));
+      const wrapper = mountPage();
+
+      (await openDeclineDialog(wrapper, 'Funnels'))();
+      await flushPromises();
+
+      const actions = row(wrapper, 'Funnels').findAll('.manageRequestsSuperUser__actionList button');
+      expect(actions.map((button) => button.attributes('disabled'))).toEqual([undefined, undefined]);
+    });
+
+    it('disables Approve & Install until the decline is done', async () => {
+      let fail: (reason: Error) => void = () => undefined;
+      ajaxPost.mockReturnValue(new Promise((resolve, reject) => { fail = reject; }));
+      const wrapper = mountPage([makePending({ isFree: true, priceFrom: null })]);
+
+      (await openDeclineDialog(wrapper, 'Funnels'))();
+      await flushPromises();
+
+      const approve = row(wrapper, 'Funnels').find('.manageRequestsSuperUser__approveAndInstall');
+      expect(approve.classes()).toContain('disabled');
+      expect(approve.attributes('aria-disabled')).toBe('true');
+      const click = new MouseEvent('click', { cancelable: true });
+      approve.element.dispatchEvent(click);
+      expect(click.defaultPrevented).toBe(true);
+
+      fail(new Error('Another Super User has already responded'));
+      await flushPromises();
+
+      expect(approve.classes()).not.toContain('disabled');
+      expect(approve.attributes('aria-disabled')).toBeUndefined();
+    });
+
     it('keeps the row when the decline fails', async () => {
       ajaxPost.mockRejectedValue(new Error('Another Super User has already responded'));
       const wrapper = mountPage();

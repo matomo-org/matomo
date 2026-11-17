@@ -134,7 +134,7 @@ describe('Marketplace_ManageRequestsSuperUser', function () {
     await page.waitForSelector('.notification-success', { visible: true });
 
     const notification = await page.evaluate(() => document.querySelector('.notification-success').textContent);
-    expect(notification).to.contain('Request declined. 2 users notified by email.');
+    expect(notification).to.contain('Request declined for 2 users. They\'ll be notified by email where possible.');
 
     await page.waitForSelector('.manageRequestsSuperUser__empty', { visible: true });
     const tab = await page.evaluate(() => document.querySelector('[data-tab="pending"]').textContent);
