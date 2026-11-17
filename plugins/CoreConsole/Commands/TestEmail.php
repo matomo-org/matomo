@@ -11,9 +11,9 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\OAuth\TokenRequestFailedException;
 use Piwik\Mail;
-use Piwik\Mail\OAuth\AccessTokenProvider;
-use Piwik\Mail\OAuth\TokenRequestFailedException;
+use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
 use Symfony\Component\Console\Formatter\OutputFormatter;
@@ -45,7 +45,7 @@ class TestEmail extends ConsoleCommand
 
         if (strtolower((string) ($config->mail['type'] ?? '')) === 'xoauth2') {
             // always test with a new access token, not with a cached token or a remembered failure
-            StaticContainer::get(AccessTokenProvider::class)->forgetAccessToken();
+            StaticContainer::get(SmtpTokenProvider::class)->forgetAccessToken();
         }
 
         try {

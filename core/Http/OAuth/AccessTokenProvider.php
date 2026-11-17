@@ -9,19 +9,21 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Mail\OAuth;
+namespace Piwik\Http\OAuth;
 
 /**
- * Provides the OAuth 2.0 access token used to authenticate against the SMTP server.
+ * Provides an OAuth 2.0 access token for a connection to another service.
  *
- * Each OAuth flow gets its own implementation. Which one is used is decided in the DI config.
+ * Callers only ask for a token, so a connection can switch to another OAuth flow without changing them.
+ *
+ * @internal
  */
 interface AccessTokenProvider
 {
     public function getAccessToken(): string;
 
     /**
-     * Drops a cached access token, so the next email requests a new one.
+     * Drops a cached access token, so the next call requests a new one.
      */
     public function forgetAccessToken(): void;
 }

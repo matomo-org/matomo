@@ -16,9 +16,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Piwik\Config;
 use Piwik\DI;
+use Piwik\Http\OAuth\TokenRequestFailedException;
 use Piwik\Mail;
-use Piwik\Mail\OAuth\AccessTokenProvider;
-use Piwik\Mail\OAuth\TokenRequestFailedException;
+use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Piwik\Mail\OAuth\XOAuth2Authenticator;
 use Piwik\Mail\Transport;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -136,8 +136,8 @@ class TransportTest extends IntegrationTestCase
                     }
                 })],
             ]),
-            AccessTokenProvider::class => DI::factory(function () {
-                return new class ($this->accessTokenRequests, $this->forgottenAccessTokens) implements AccessTokenProvider {
+            SmtpTokenProvider::class => DI::factory(function () {
+                return new class ($this->accessTokenRequests, $this->forgottenAccessTokens) extends SmtpTokenProvider {
                     private int $requests;
                     private int $forgotten;
 

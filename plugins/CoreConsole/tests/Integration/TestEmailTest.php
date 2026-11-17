@@ -13,7 +13,7 @@ namespace Piwik\Plugins\CoreConsole\tests\Integration;
 
 use Piwik\Config;
 use Piwik\DI;
-use Piwik\Mail\OAuth\AccessTokenProvider;
+use Piwik\Mail\OAuth\SmtpTokenProvider;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
 /**
@@ -65,8 +65,12 @@ class TestEmailTest extends ConsoleCommandTestCase
     public function provideContainerConfig()
     {
         return [
-            AccessTokenProvider::class => DI::factory(function () {
-                return new class () implements AccessTokenProvider {
+            SmtpTokenProvider::class => DI::factory(function () {
+                return new class () extends SmtpTokenProvider {
+                    public function __construct()
+                    {
+                    }
+
                     public function forgetAccessToken(): void
                     {
                         TestEmailTest::$accessTokenCalls[] = 'forget';

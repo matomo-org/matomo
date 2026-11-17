@@ -9,10 +9,12 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Mail\OAuth;
+namespace Piwik\Http\OAuth;
 
 /**
- * Thrown when no OAuth 2.0 access token could be obtained for sending emails.
+ * Thrown when no OAuth 2.0 access token could be obtained.
+ *
+ * @internal
  */
 class TokenRequestFailedException extends \RuntimeException
 {
