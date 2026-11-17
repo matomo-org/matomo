@@ -1561,12 +1561,6 @@ parameters:
 			path: core/Tracker/Model.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between int and null will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: core/Tracker/PageUrl.php
-
-		-
 			message: '#^Variable \$parametersToExclude in empty\(\) always exists and is not falsy\.$#'
 			identifier: empty.variable
 			count: 1

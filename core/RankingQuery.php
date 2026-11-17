@@ -217,7 +217,7 @@ class RankingQuery
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
      * @param array $bind Bindings for the inner query.
-     * @param int $timeLimit      Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimit > 0
+     * @param int|float $timeLimit Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimit > 0
      *                            for more details see {@link DbHelper::addMaxExecutionTimeHintToQuery}
      * @return array              The format depends on which methods have been used
      *                            to configure the ranking query.

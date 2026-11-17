@@ -662,7 +662,7 @@ class LogAggregator
      *                                   A pre-configured ranking query instance that will be used to limit the result.
      *                                   If set, the return value is the array returned by {@link \Piwik\RankingQuery::execute()}.
      * @param bool|string $orderBy       Order By clause to add (e.g. user_id ASC)
-     * @param int $timeLimit             Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimit > 0
+     * @param int|float $timeLimit       Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimit > 0
      *                                   for more details see {@link DbHelper::addMaxExecutionTimeHintToQuery}
      *
      * @param bool $rankingQueryGenerate if `true`, generates a SQL query / bind array pair and returns it. If false, the
@@ -710,7 +710,7 @@ class LogAggregator
      * @param bool|array                $metrics
      * @param bool|\Piwik\RankingQuery  $rankingQuery
      * @param bool|string               $orderBy
-     * @param int                       $timeLimit
+     * @param int|float                 $timeLimit
      * @param bool                      $rankingQueryGenerate
      *
      * @return array
@@ -1112,7 +1112,7 @@ class LogAggregator
      *                                           If a string is used for this parameter, the table alias is not
      *                                           suffixed (since there is only one column).
      * @param string $secondaryOrderBy      A secondary order by clause for the ranking query
-     * @param int $timeLimit                Adds a MAX_EXECUTION_TIME hint to the query if $timeLimit > 0
+     * @param int|float $timeLimit          Adds a MAX_EXECUTION_TIME hint to the query if $timeLimit > 0
      *                                      for more details see {@link DbHelper::addMaxExecutionTimeHintToQuery}
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryEcommerceItems-result-set)

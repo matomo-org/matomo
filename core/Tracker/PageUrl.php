@@ -341,9 +341,9 @@ class PageUrl
     /**
      * Build the full URL from the prefix ID and the rest.
      *
-     * @param string $url
-     * @param integer $prefixId
-     * @return string
+     * @param string|null $url
+     * @param integer|null $prefixId
+     * @return string|null null if the URL is null and there is no prefix
      */
     public static function reconstructNormalizedUrl($url, $prefixId)
     {
