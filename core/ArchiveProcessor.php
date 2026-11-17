@@ -354,6 +354,90 @@ class ArchiveProcessor
             return $merged;
         }
 
+        if ($sketchCount === 0 || $sketchCount < $this->countSubPeriodsWithVisits()) {
+            return null;
+        }
+
+        return $merged;
+    }
+
+    /**
+     * Merges, label by label, the sketches of each report row that the subperiods stored in `$recordName` (see
+     * {@link encodeUniqueVisitorsSketchesByLabel()}). Returns null under the same conditions as
+     * {@link aggregateUniqueVisitorsSketch()}. A label missing from a subperiod had no visits in it.
+     *
+     * @return array<string, HyperLogLog>|null
+     *
+     * @internal
+     */
+    public function aggregateUniqueVisitorsSketchesByLabel(string $recordName): ?array
+    {
+        if (array_map('intval', $this->getIdSitesToComputeNbUniques()) !== [(int) $this->getParams()->getSite()->getId()]) {
+            return null;
+        }
+
+        $precision = SettingsPiwik::getUniqueVisitorsEstimatePrecision();
+        $merged = [];
+        $blobCount = 0;
+
+        foreach ($this->getArchive()->querySingleBlob($recordName) as $row) {
+            try {
+                foreach (self::decodeUniqueVisitorsSketchesByLabel($row['value']) as $label => $sketch) {
+                    $merged[$label] = $merged[$label] ?? new HyperLogLog($precision);
+                    $merged[$label]->merge($sketch);
+                }
+            } catch (\InvalidArgumentException $e) {
+                StaticContainer::get(LoggerInterface::class)->info(
+                    'Damaged unique visitors sketches {record} ignored, no estimate stored for {params}: {error}',
+                    ['record' => $recordName, 'params' => (string) $this->getParams(), 'error' => $e->getMessage()]
+                );
+                return null;
+            }
+            $blobCount++;
+        }
+
+        if ($blobCount === 0 || $blobCount < $this->countSubPeriodsWithVisits()) {
+            return null;
+        }
+
+        return $merged;
+    }
+
+    /**
+     * @param array<string, HyperLogLog> $sketches
+     *
+     * @internal
+     */
+    public static function encodeUniqueVisitorsSketchesByLabel(array $sketches): string
+    {
+        return serialize(array_map(function (HyperLogLog $sketch) {
+            return $sketch->toString();
+        }, $sketches));
+    }
+
+    /**
+     * @return array<string, HyperLogLog>
+     * @throws \InvalidArgumentException if the value is damaged
+     */
+    private static function decodeUniqueVisitorsSketchesByLabel(string $value): array
+    {
+        $encoded = Common::safe_unserialize($value, []);
+        if (!is_array($encoded)) {
+            throw new \InvalidArgumentException('Invalid sketches by label');
+        }
+
+        $sketches = [];
+        foreach ($encoded as $label => $sketch) {
+            if (!is_string($sketch)) {
+                throw new \InvalidArgumentException('Invalid sketch for label ' . $label);
+            }
+            $sketches[(string) $label] = HyperLogLog::fromString($sketch);
+        }
+        return $sketches;
+    }
+
+    private function countSubPeriodsWithVisits(): int
+    {
         $visits = $this->getArchive()->getDataTableFromNumeric('nb_visits');
         $subPeriodsWithVisits = 0;
         $visits->filter(function (DataTable $table) use (&$subPeriodsWithVisits) {
@@ -362,12 +446,7 @@ class ArchiveProcessor
                 $subPeriodsWithVisits++;
             }
         });
-
-        if ($sketchCount === 0 || $sketchCount < $subPeriodsWithVisits) {
-            return null;
-        }
-
-        return $merged;
+        return $subPeriodsWithVisits;
     }
 
     public function getNumberOfVisits()

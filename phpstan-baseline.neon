@@ -2011,12 +2011,6 @@ parameters:
 			path: plugins/Actions/ArchivingHelper.php
 
 		-
-			message: '#^Parameter \#1 \$name of method Piwik\\DataTable\\Row\:\:setColumn\(\) expects string, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/Actions/ArchivingHelper.php
-
-		-
 			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(string\)\: bool\)\|null, ''strlen'' given\.$#'
 			identifier: argument.type
 			count: 1

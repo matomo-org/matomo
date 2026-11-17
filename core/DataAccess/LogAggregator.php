@@ -719,9 +719,51 @@ class LogAggregator
     }
 
     /**
+     * Builds a HyperLogLog sketch of the visitors for each value of a dimension, for estimating the unique
+     * visitors of each report row. Returns the sketches by label; visits whose label is NULL are under ''.
+     *
+     * @param string $labelSql SQL expression of the label, eg `log_visit.config_device_type`
+     * @return array<string, HyperLogLog>
+     *
+     * @internal
+     */
+    public function queryUniqueVisitorsSketchesByDimension(string $labelSql, int $precision): array
+    {
+        $query = $this->buildSketchQuery($precision, 'idvisitor', $labelSql);
+        $cursor = $this->getDb()->query($query['sql'], $query['bind']);
+
+        $bucketMinimumsByLabel = [];
+        while ($row = $cursor->fetch()) {
+            $bucketMinimumsByLabel[(string) $row['label']][] = [$row['bucket'], $row['remainder_min']];
+        }
+
+        $sketches = [];
+        foreach ($bucketMinimumsByLabel as $label => $bucketMinimums) {
+            $sketches[$label] = HyperLogLog::fromBucketMinimums($precision, $bucketMinimums);
+        }
+        return $sketches;
+    }
+
+    /**
      * The query returns at most 2^precision rows: per bucket, the minimum of the remaining hash bits.
      */
     private function querySketch(int $precision, string $column): HyperLogLog
+    {
+        $query = $this->buildSketchQuery($precision, $column);
+        $cursor = $this->getDb()->query($query['sql'], $query['bind']);
+
+        // read row by row: at high precisions the result has hundreds of thousands of rows
+        return HyperLogLog::fromBucketMinimums($precision, (function () use ($cursor) {
+            while ($row = $cursor->fetch()) {
+                yield [$row['bucket'], $row['remainder_min']];
+            }
+        })());
+    }
+
+    /**
+     * @return array{sql: string, bind: array}
+     */
+    private function buildSketchQuery(int $precision, string $column, ?string $labelSql = null): array
     {
         $tableName = self::LOG_VISIT_TABLE;
 
@@ -730,23 +772,22 @@ class LogAggregator
 
         // first 64 bits of MD5, so IDs supplied by users (cid, uid) are spread evenly too
         $hash = "CAST(CONV(SUBSTRING(MD5($value), 1, 16), 16, 10) AS UNSIGNED)";
+        $select = "$hash AS h";
+        if ($labelSql !== null) {
+            $select = "$labelSql AS label, $select";
+        }
 
         // visits without a User ID have none to count
         $where = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, "%s.$column IS NOT NULL");
-        $query = $this->generateQuery("$hash AS h", [$tableName], $where, '', '');
+        $query = $this->generateQuery($select, [$tableName], $where, '', '');
 
         // the LIMIT stops MySQL merging the derived table and hashing each visit twice. Visits repeated by a
         // segment join don't change MIN(). The precision is inlined, as binds break segment queries
-        $sql = 'SELECT (h & ' . ((1 << $precision) - 1) . ") AS bucket, MIN(h >> $precision) AS remainder_min"
-            . ' FROM (' . $query['sql'] . ' LIMIT 18446744073709551615) AS hashed GROUP BY bucket';
-        $cursor = $this->getDb()->query($sql, $query['bind']);
+        $label = $labelSql === null ? '' : 'label, ';
+        $sql = "SELECT $label(h & " . ((1 << $precision) - 1) . ") AS bucket, MIN(h >> $precision) AS remainder_min"
+            . ' FROM (' . $query['sql'] . " LIMIT 18446744073709551615) AS hashed GROUP BY {$label}bucket";
 
-        // read row by row: at high precisions the result has hundreds of thousands of rows
-        return HyperLogLog::fromBucketMinimums($precision, (function () use ($cursor) {
-            while ($row = $cursor->fetch()) {
-                yield [$row['bucket'], $row['remainder_min']];
-            }
-        })());
+        return ['sql' => $sql, 'bind' => $query['bind']];
     }
 
     /**

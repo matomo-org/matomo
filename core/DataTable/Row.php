@@ -351,7 +351,7 @@ class Row extends \ArrayObject
     /**
      * Set the value `$value` to the column called `$name`.
      *
-     * @param string $name name of the column to set.
+     * @param string|int $name name of the column to set, or a `Metrics::INDEX_*` constant in archived rows.
      * @param mixed $value value of the column to set.
      */
     public function setColumn($name, $value)

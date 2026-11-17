@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection\RecordBuilders;
 
+use Piwik\ArchiveProcessor\RowUniqueVisitorsEstimate;
 use Piwik\Plugins\DevicesDetection\Archiver;
 
 class DeviceTypes extends Base
@@ -16,5 +17,10 @@ class DeviceTypes extends Base
     public function __construct()
     {
         parent::__construct(Archiver::DEVICE_TYPE_RECORD_NAME, Archiver::DEVICE_TYPE_FIELD, true);
+
+        $this->rowUniqueVisitorsEstimate = new RowUniqueVisitorsEstimate(
+            Archiver::DEVICE_TYPE_RECORD_NAME,
+            'log_visit.' . Archiver::DEVICE_TYPE_FIELD
+        );
     }
 }

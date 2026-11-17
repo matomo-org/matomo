@@ -12,6 +12,7 @@ namespace Piwik\Plugins\DevicesDetection\RecordBuilders;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\ArchiveProcessor\RecordBuilder;
+use Piwik\ArchiveProcessor\RowUniqueVisitorsEstimate;
 use Piwik\Config as PiwikConfig;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -23,6 +24,11 @@ abstract class Base extends RecordBuilder
     private string $labelSql;
 
     private bool $enrichWithConversionMetrics;
+
+    /**
+     * Set by reports whose rows get estimated unique visitors on the periods set to be estimated.
+     */
+    protected ?RowUniqueVisitorsEstimate $rowUniqueVisitorsEstimate = null;
 
     public function __construct(string $recordName, string $labelSql, bool $enrichWithConversionMetrics = false)
     {
@@ -39,9 +45,16 @@ abstract class Base extends RecordBuilder
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
-        return [
-            Record::make(Record::TYPE_BLOB, $this->recordName),
-        ];
+        $record = Record::make(Record::TYPE_BLOB, $this->recordName);
+
+        if ($this->rowUniqueVisitorsEstimate !== null) {
+            $estimate = $this->rowUniqueVisitorsEstimate;
+            $record->setAggregatedRecordTransform(function (DataTable $table, ArchiveProcessor $archiveProcessor) use ($estimate): void {
+                $estimate->transformAggregatedRecord($table, $archiveProcessor);
+            });
+        }
+
+        return [$record];
     }
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
@@ -65,6 +78,8 @@ abstract class Base extends RecordBuilder
 
             $report->sumRowWithLabel($row['label'] ?? '', $columns);
         }
+
+        $this->rowUniqueVisitorsEstimate?->storeDaySketches($archiveProcessor);
 
         if ($this->enrichWithConversionMetrics) {
             $labelSql = str_replace('log_visit.', 'log_conversion.', $this->labelSql);
