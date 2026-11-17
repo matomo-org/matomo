@@ -290,13 +290,15 @@ class API extends \Piwik\Plugin\API
             throw new \Exception('A report having the ID ' . $reportUniqueId .  ' does not exist');
         }
 
-        $totalValue     = $this->model->getTotalValue($idSite, $period, $date, $metric, $segment);
-        $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
-        $this->checkReportIsValid($currentReport);
+        $comparedToDate = trim($comparedToDate);
 
         if ($comparedToDate !== '' && !$this->model->isComparableDate($period, $date, $comparedToDate)) {
             throw new \Exception('The comparedToDate parameter must be a single date of the same period type, or for a date range, a range of the same length or the same days in another year.');
         }
+
+        $totalValue     = $this->model->getTotalValue($idSite, $period, $date, $metric, $segment);
+        $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
+        $this->checkReportIsValid($currentReport);
 
         $lastDate       = $comparedToDate !== '' ? $comparedToDate : $this->model->getLastDate($date, $period, $comparedToXPeriods);
         $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric, $segment);
