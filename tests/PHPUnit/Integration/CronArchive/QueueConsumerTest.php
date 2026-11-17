@@ -1321,6 +1321,111 @@ class QueueConsumerTest extends IntegrationTestCase
     }
 
     /**
+     * Invalidations a killed process left in progress hold back only the longer periods of their own report. Once timed
+     * out, they are released here as core:archive does without the archive failures table, and processed like the others.
+     */
+    public function testSingleReportsLeftInProgressByAKilledProcess()
+    {
+        Fixture::createWebsite('2015-02-03');
+
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+
+        $this->insertInvalidations([
+            // killed just now
+            ['idarchive' => 1, 'name' => 'done.Transitions', 'idsite' => 1, 'date1' => '2018-03-06', 'date2' => '2018-03-06', 'period' => Day::PERIOD_ID, 'report' => 'Transitions_1_pageviews', 'status' => 1, 'ts_started' => Date::now()->getDatetime()],
+            ['idarchive' => 2, 'name' => 'done.Transitions', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => 'Transitions_1_pageviews'],
+            ['idarchive' => 3, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => 'Actions_hits'],
+            // killed two days ago
+            ['idarchive' => 4, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-07', 'date2' => '2018-03-07', 'period' => Day::PERIOD_ID, 'report' => 'Actions_hits', 'status' => 1, 'ts_started' => Date::now()->subDay(2)->getDatetime()],
+            ['idarchive' => 5, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-01', 'date2' => '2018-03-31', 'period' => Month::PERIOD_ID, 'report' => null],
+        ]);
+
+        $model = new Model();
+        $this->assertEquals(1, $model->resetFailedArchivingJobs());
+
+        $queueConsumer = new QueueConsumer(
+            new NullLogger(),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            $model,
+            new SegmentArchiving(),
+            $cronArchive,
+            $this->makeTestArchiveFilter()
+        );
+
+        $this->assertSame([4, 5, 3], $this->consumeInvalidations($queueConsumer));
+        $this->assertEquals(
+            ['1', '2'],
+            array_column(Db::fetchAll('SELECT idarchive FROM ' . Common::prefixTable('archive_invalidations') . ' ORDER BY idarchive'), 'idarchive')
+        );
+    }
+
+    /**
+     * The archive of a period with today built for all plugins before a single report's days were archived again
+     * holds the report's previous data of these days.
+     */
+    public function testASingleReportOfAPeriodWithTodayIsArchivedAgainAlthoughARecentArchiveExists()
+    {
+        Fixture::createWebsite('2015-02-03');
+
+        // force archiving so we don't skip those without visits
+        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
+            $idSites[] = 1;
+        });
+
+        $cronArchive = $this->getMockCronArchive();
+        $cronArchive->init();
+
+        Date::$now = strtotime('2018-03-04 01:00:00');
+
+        $this->insertInvalidations([
+            ['idarchive' => 1, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => null],
+            ['idarchive' => 2, 'name' => 'done.Actions', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'report' => 'Actions_hits'],
+        ]);
+        $this->insertArchive(['idarchive' => 1, 'name' => 'done', 'idsite' => 1, 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => Day::PERIOD_ID, 'ts_archived' => Date::now()->getDatetime(), 'value' => 3.0]);
+
+        $queueConsumer = new QueueConsumer(
+            new NullLogger(),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            $cronArchive,
+            $this->makeTestArchiveFilter()
+        );
+
+        // the plugin's invalidation is deleted, as before
+        $this->assertSame([2], $this->consumeInvalidations($queueConsumer));
+        $this->assertEquals(0, Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations')));
+    }
+
+    /**
+     * Fetches archives as core:archive does, finishing each before the next fetch, until no site is left.
+     *
+     * @return int[] the idarchive of the processed invalidations
+     */
+    private function consumeInvalidations(QueueConsumer $queueConsumer): array
+    {
+        $processed = [];
+        for ($i = 0; $i < 100; $i++) {
+            $next = $queueConsumer->getNextArchivesToProcess();
+            if ($next === null) {
+                return $processed;
+            }
+
+            foreach ($next as $item) {
+                $processed[] = (int) $item['idarchive'];
+                Db::query('DELETE FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idinvalidation = ?', [$item['idinvalidation']]);
+            }
+        }
+
+        $this->fail('Consumer did not finish');
+    }
+
+    /**
      * Runs a consumer until the site is done and returns the tags (idarchive) of the processed invalidations.
      *
      * @return int[]
@@ -1738,6 +1843,63 @@ class QueueConsumerTest extends IntegrationTestCase
 
     public function getTestDataForShouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(): iterable
     {
+        yield 'a single report in progress does not hold back the archive of all plugins of a period containing it' => [
+            'existingInvalidations' => [
+                ['name' => 'done.Actions', 'report' => 'testReport', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
+            'expected' => null,
+        ];
+
+        yield 'a single report in progress does not hold back the archive of a plugin of the same period' => [
+            'existingInvalidations' => [
+                ['name' => 'done.Actions', 'report' => 'testReport', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
+            'expected' => null,
+        ];
+
+        yield 'a single report in progress holds back the same report of a period containing it' => [
+            'existingInvalidations' => [
+                ['name' => 'done.Actions', 'report' => 'testReport', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done.Actions', 'report' => 'testReport', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
+        ];
+
+        // for example a crashed one, which is only released after archive_failure_recovery_timeout
+        yield 'a single report in progress does not hold back another report of a period containing it' => [
+            'existingInvalidations' => [
+                ['name' => 'done.Actions', 'report' => 'testReport', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done.Actions', 'report' => 'otherReport', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
+            'expected' => null,
+        ];
+
+        yield 'a single report in progress does not hold back the same report of another plugin' => [
+            'existingInvalidations' => [
+                ['name' => 'done.Transitions', 'report' => 'testReport', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done.Actions', 'report' => 'testReport', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
+            'expected' => null,
+        ];
+
+        yield 'an archive of a plugin in progress holds back a single report of a period containing it' => [
+            'existingInvalidations' => [
+                ['name' => 'done.Transitions', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done.Actions', 'report' => 'testReport', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
+        ];
+
+        yield 'an archive of all plugins in progress holds back a single report of a period containing it' => [
+            'existingInvalidations' => [
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done.Actions', 'report' => 'testReport', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
+        ];
+
         yield 'different period and different idSite should not be detected as intersecting' => [
             'existingInvalidations' => [
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],

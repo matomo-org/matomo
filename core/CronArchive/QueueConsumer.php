@@ -242,7 +242,11 @@ class QueueConsumer
                 continue;
             }
 
-            [$isUsableExists, $archivedTime] = $this->usableArchiveExists($invalidatedArchive);
+            // a single report's archive of a period with today is built again, as the recent archive of the period
+            // may have been built from that report's previous data of its days
+            [$isUsableExists, $archivedTime] = empty($invalidatedArchive['report'])
+                ? $this->usableArchiveExists($invalidatedArchive)
+                : [false, null];
             if ($isUsableExists) {
                 $now = Date::now()->getDatetime();
                 $this->addInvalidationToExclude($invalidatedArchive);
@@ -408,6 +412,20 @@ class QueueConsumer
         foreach ($inProgressArchives as $archiveBeingProcessed) {
             // archives of different segments, incl. "all visits", don't use each other's data
             if ($this->getSegmentDoneFlag($archiveBeingProcessed) !== $segmentDoneFlag) {
+                continue;
+            }
+
+            // a single report is archived again for its own invalidations of the longer periods, which wait for it
+            if (empty($archiveToProcess['report']) && !empty($archiveBeingProcessed['report'])) {
+                continue;
+            }
+
+            // and a single report waits only for its own archives and those of other invalidations
+            if (
+                !empty($archiveToProcess['report'])
+                && !empty($archiveBeingProcessed['report'])
+                && ($archiveToProcess['name'] !== $archiveBeingProcessed['name'] || $archiveToProcess['report'] !== $archiveBeingProcessed['report'])
+            ) {
                 continue;
             }
 
