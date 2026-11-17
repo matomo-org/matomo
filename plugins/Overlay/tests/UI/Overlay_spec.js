@@ -168,7 +168,9 @@ describe("Overlay", function () {
                 });
 
                 await removeOptOutIframe(page);
-                expect(await page.screenshot({fullPage: true})).to.matchImage('transitions');
+                // the view user gets no pre-processing toggle in the report header
+                expect(await page.screenshot({fullPage: true}))
+                    .to.matchImage('transitions' + (useTokenAuth ? '_view_user' : ''));
             });
 
             it("should load an overlay with segment" + descAppendix, async function () {
