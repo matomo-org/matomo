@@ -249,9 +249,7 @@ class Http
      * @param bool $validateEgressIp when true, the request is served over the SSRF-safe path: public-IP validation,
      *                               manual per-hop redirect re-validation and connection pinning. See
      *                               {@see sendHttpRequest()} for the full contract.
-     * @param bool $followRedirects when false, a redirect is not followed and the redirect response itself is
-     *                              returned. Use this for requests that carry a secret which must not be sent to
-     *                              another URL.
+     * @param bool $followRedirects when false, the redirect response is returned, so a secret is not sent to another URL
      *
      * @return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string} : string|false) : bool)
      */

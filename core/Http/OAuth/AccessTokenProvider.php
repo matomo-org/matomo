@@ -14,8 +14,6 @@ namespace Piwik\Http\OAuth;
 /**
  * Provides an OAuth 2.0 access token for a connection to another service.
  *
- * Callers only ask for a token, so a connection can switch to another OAuth flow without changing them.
- *
  * @internal
  */
 interface AccessTokenProvider

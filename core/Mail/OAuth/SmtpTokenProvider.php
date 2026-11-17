@@ -17,8 +17,7 @@ use Piwik\Http\OAuth\ClientCredentialsTokenProvider;
 use Piwik\Http\OAuth\TokenRequestFailedException;
 
 /**
- * Gets the access token for the SMTP server with the client credentials flow, using the `[mail] oauth_*`
- * config settings.
+ * Gets the SMTP access token with the `[mail] oauth_*` config settings.
  *
  * @internal
  */

@@ -16,8 +16,6 @@ use PHPMailer\PHPMailer\OAuthTokenProvider;
 /**
  * Builds the SMTP XOAUTH2 credentials for a mailbox from an access token.
  *
- * It does not care which OAuth flow the access token came from.
- *
  * @internal
  */
 class XOAuth2Authenticator implements OAuthTokenProvider
