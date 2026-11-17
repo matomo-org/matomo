@@ -74,10 +74,10 @@ final class Service
      * Activates a requested plugin, and approves its pending requests as the current super user once it is active, so
      * requests stay pending when activating fails
      *
-     * @return int the number of requesters emailed about the approval
-     * @throws Exception when the plugin cannot be activated
+     * @return int|null the number of requesters emailed about the approval, or null when another super user decided on
+     *                  the requests while the plugin was being activated
      */
-    public function activateAndApprove(string $pluginName): int
+    public function activateAndApprove(string $pluginName): ?int
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -90,8 +90,11 @@ final class Service
         }
 
         $request = new Request($pluginName, new Storage($pluginName));
-        $request->decide(RequestHistory::DECISION_APPROVED, null, false);
+        $numDecided = $request->decide(RequestHistory::DECISION_APPROVED, null, false);
         $this->removeNotificationFromSession($pluginName);
+        if ($numDecided === 0) {
+            return null;
+        }
 
         return $request->getNumNotified();
     }

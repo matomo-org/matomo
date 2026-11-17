@@ -18,7 +18,9 @@ use Piwik\DI;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
 use Piwik\Mail;
+use Piwik\NoAccessException;
 use Piwik\Nonce;
+use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
@@ -66,8 +68,8 @@ class ControllerTest extends IntegrationTestCase
     private $invalidLicensesCacheKey = 'Marketplace_ExpiredPlugins';
 
     /**
-     * @var array<string, string|\Exception> what a plugin's info request is answered with, either
-     *      the name of a fixture or the exception the request fails with
+     * @var array<string, string|array<string, mixed>|\Exception> what a plugin's info request is answered with:
+     *      the name of a fixture, the decoded answer itself, or the exception the request fails with
      */
     private $pluginInfoAnswers = [];
 
@@ -75,6 +77,8 @@ class ControllerTest extends IntegrationTestCase
      * @var string[] the plugins the installer was asked to install or update, in order
      */
     private $installedPlugins = [];
+
+    private ?\Exception $installFailure = null;
 
     /**
      * @var callable|null runs before a plugin's info request is answered
@@ -420,9 +424,119 @@ class ControllerTest extends IntegrationTestCase
         $decisions = StaticContainer::get(RequestHistory::class)->getDecisions(0, 10);
         self::assertSame([RequestHistory::DECISION_DECLINED], array_column($decisions, 'decision'));
         self::assertStringContainsString(
-            Piwik::translate('Marketplace_NoPendingPluginRequests'),
+            Piwik::translate('Marketplace_NoPendingRequestsForPlugin', 'Treemap Visualization'),
             implode(' ', $this->getNotificationMessages())
         );
+    }
+
+    public function testInstallRequestedPluginsReportsAPluginDeclinedWhileItWasActivated()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        Piwik::addAction('PluginManager.pluginActivated', function (string $pluginName) {
+            StaticContainer::get(PluginTrialService::class)->decide($pluginName, RequestHistory::DECISION_DECLINED);
+        });
+
+        $this->dispatchInstallRequested('TreemapVisualization');
+
+        $decisions = StaticContainer::get(RequestHistory::class)->getDecisions(0, 10);
+        self::assertSame([RequestHistory::DECISION_DECLINED], array_column($decisions, 'decision'));
+        $notifications = array_values(NotificationManager::getAllNotificationsToDisplay());
+        self::assertSame(
+            [Piwik::translate('Marketplace_RequestedPluginActivatedAlreadyDecided', 'Treemap Visualization')],
+            array_column($notifications, 'message')
+        );
+        self::assertSame(Notification::CONTEXT_WARNING, $notifications[0]->context);
+    }
+
+    public function testInstallRequestedPluginsRefusesAPluginWhoseRequirementsAreNotMet()
+    {
+        $this->requestPlugin('Barometer', 'alice');
+        $info = json_decode($this->service->getFixtureContent('v2.0_plugins_Barometer_info.json'), true);
+        foreach ($info['versions'] as &$version) {
+            $version['requires'] = ['matomo' => '>=99.0.0'];
+        }
+        unset($version);
+        $this->pluginInfoAnswers['Barometer'] = $info;
+
+        $this->dispatchInstallRequested('Barometer');
+
+        self::assertSame([], $this->installedPlugins);
+        self::assertCount(1, StaticContainer::get(RequestHistory::class)->getPendingRequests());
+        self::assertSame(
+            [Piwik::translate('Marketplace_RequestedPluginCannotBeInstalled', 'Barometer')],
+            $this->getNotificationMessages()
+        );
+    }
+
+    public function testInstallRequestedPluginsReportsAFailureThatHitsEveryPluginOnce()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        $this->requestPlugin('Barometer', 'alice');
+        $outage = new ServiceException('The Marketplace is unavailable', ServiceException::HTTP_ERROR);
+        $this->pluginInfoAnswers['TreemapVisualization'] = $outage;
+        $this->pluginInfoAnswers['Barometer'] = $outage;
+
+        $this->dispatchInstallRequested(null);
+
+        self::assertSame(['The Marketplace is unavailable'], $this->getNotificationMessages());
+        self::assertCount(2, StaticContainer::get(RequestHistory::class)->getPendingRequests());
+    }
+
+    public function testInstallRequestedPluginsReportsAnInstallerErrorForEachPluginItHits()
+    {
+        $info = json_decode($this->service->getFixtureContent('v2.0_plugins_Barometer_info.json'), true);
+        $info['name'] = 'SecondBarometer';
+        $this->pluginInfoAnswers['SecondBarometer'] = $info;
+        $this->requestPlugin('Barometer', 'alice');
+        $this->requestPlugin('SecondBarometer', 'alice');
+        $this->installFailure = new \Exception('This plugin was not found in the Marketplace.');
+
+        $this->dispatchInstallRequested(null);
+
+        self::assertSame(['Barometer', 'SecondBarometer'], $this->installedPlugins);
+        self::assertCount(2, $this->getNotificationMessages());
+    }
+
+    public function testInstallRequestedPluginsRejectsAnInvalidPluginName()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid plugin name given');
+
+        $this->dispatchInstallRequested('a-b');
+    }
+
+    public function testInstallRequestedPluginsReportsAMarketplaceAnswerForEachPluginItHits()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        $this->requestPlugin('Barometer', 'alice');
+        $unknown = new ServiceException('Requested plugin does not exist.', ServiceException::API_ERROR);
+        $this->pluginInfoAnswers['TreemapVisualization'] = $unknown;
+        $this->pluginInfoAnswers['Barometer'] = $unknown;
+
+        $this->dispatchInstallRequested(null);
+
+        self::assertCount(2, $this->getNotificationMessages());
+    }
+
+    public function testInstallRequestedPluginsIsForbiddenForAUserWithoutSuperUserAccess()
+    {
+        $this->requestPlugin('TreemapVisualization', 'alice');
+        $_GET = [
+            'module' => 'Marketplace',
+            'action' => 'installRequestedPlugins',
+            'pluginName' => 'TreemapVisualization',
+        ];
+        Access::getInstance()->setSuperUserAccess(false);
+
+        try {
+            // called directly: the front controller answers the exception with the login page
+            StaticContainer::get(Controller::class)->installRequestedPlugins();
+            self::fail('A user without super user access reached the action');
+        } catch (NoAccessException $e) {
+            self::assertFalse(PluginManager::getInstance()->isPluginActivated('TreemapVisualization'));
+        }
     }
 
     public function testInstallRequestedPluginsRefusesAPaidPlugin()
@@ -449,7 +563,7 @@ class ControllerTest extends IntegrationTestCase
         self::assertSame([], $this->installedPlugins);
         self::assertCount(1, StaticContainer::get(RequestHistory::class)->getPendingRequests());
         self::assertStringContainsString(
-            Piwik::translate('Marketplace_NoPendingPluginRequests'),
+            Piwik::translate('Marketplace_NoPendingRequestsForPlugin', 'PaidPlugin1'),
             implode(' ', $this->getNotificationMessages())
         );
     }
@@ -1084,6 +1198,10 @@ class ControllerTest extends IntegrationTestCase
                     throw $answer;
                 }
 
+                if (is_array($answer)) {
+                    return $answer;
+                }
+
                 return json_decode($this->service->getFixtureContent($answer), true);
             }
 
@@ -1095,6 +1213,9 @@ class ControllerTest extends IntegrationTestCase
         $installer->method('installOrUpdatePluginFromMarketplace')->willReturnCallback(
             function ($pluginName) {
                 $this->installedPlugins[] = $pluginName;
+                if ($this->installFailure !== null) {
+                    throw $this->installFailure;
+                }
             }
         );
 

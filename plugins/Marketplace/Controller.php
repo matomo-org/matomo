@@ -29,6 +29,7 @@ use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstallResults;
 use Piwik\Plugins\Login\PasswordVerifier;
+use Piwik\Plugins\Marketplace\Api\Service\Exception as ServiceException;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
@@ -55,6 +56,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private const FAILURE_SUMMARY_NOTIFICATION_ID = 'Marketplace_PluginsCouldNotBeUpdated';
 
     private const REQUEST_HISTORY_PAGE_SIZE = 5;
+
+    // plans for more users are set up by the sales team, and the Marketplace gives no limit of its own
+    private const SHOP_USER_LIMIT = 50;
 
     private LicenseKey $licenseKey;
     private Plugins $plugins;
@@ -171,6 +175,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'historyPageSize' => self::REQUEST_HISTORY_PAGE_SIZE,
                 'isValidConsumer' => $this->consumer->isValidConsumer(),
                 'currentUserEmail' => Piwik::getCurrentUserEmail(),
+                'isPluginsAdminEnabled' => CorePluginsAdmin::isPluginsAdminEnabled(),
+                'installRequestedNonce' => Nonce::getNonce(static::INSTALL_REQUESTED_NONCE),
+                'numUsers' => $this->environment->getNumUsers(),
+                'shopUserLimit' => self::SHOP_USER_LIMIT,
             ]);
         }
 
@@ -764,14 +772,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function installRequestedPlugins(): void
     {
         Piwik::checkUserHasSuperUserAccess();
-
-        if (!$this->getPluginTrialService()->areRequestsActive()) {
-            throw new NoPrivilegesException('Plugin requests are not enabled', 403);
-        }
-
+        $this->checkPluginRequestsActive();
         $this->dieIfPluginsAdminIsDisabled();
 
         $pluginName = Request::fromRequest()->getStringParameter('pluginName', '');
+        if ($pluginName !== '' && !$this->pluginManager->isValidPluginName($pluginName)) {
+            throw new Exception('Invalid plugin name given');
+        }
+
         $params = [
             'module' => 'Marketplace',
             'action' => 'installRequestedPlugins',
@@ -783,6 +791,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         Nonce::checkNonce(static::INSTALL_REQUESTED_NONCE);
+        $this->displayWarningIfConfigFileNotWritable();
 
         $pendingPluginNames = array_unique(array_column(
             StaticContainer::get(RequestHistory::class)->getPendingRequests(),
@@ -795,7 +804,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $this->notifyAboutFailedInstallOrUpdate(
                     $pluginName,
                     [],
-                    new Exception(Piwik::translate('Marketplace_NoPendingPluginRequests'))
+                    new Exception(Piwik::translate('Marketplace_NoPendingRequestsForPlugin', $pluginName))
                 );
                 $this->redirectToManageRequests();
                 return;
@@ -804,8 +813,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $pendingPluginNames = [$pluginName];
         }
 
+        $notifiedFailures = [];
         foreach ($pendingPluginNames as $name) {
-            $this->installRequestedPlugin($name, $pluginName !== '');
+            $this->installRequestedPlugin($name, $pluginName !== '', $notifiedFailures);
         }
 
         $this->redirectToManageRequests();
@@ -813,8 +823,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     /**
      * @param bool $wasChosen false when installing all of them, which skips a plugin that is not free rather than failing
+     * @param string[] $notifiedFailures the failures already shown, so a Marketplace outage is reported once
      */
-    private function installRequestedPlugin(string $pluginName, bool $wasChosen): void
+    private function installRequestedPlugin(string $pluginName, bool $wasChosen, array &$notifiedFailures): void
     {
         $pluginInfo = [];
 
@@ -844,12 +855,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             // another super user may have declined them while the plugin was looked up or downloaded
             if (!$this->getPluginTrialService()->hasPendingRequests($pluginName)) {
-                throw new Exception(Piwik::translate('Marketplace_NoPendingPluginRequests'));
+                throw new Exception(Piwik::translate('Marketplace_NoPendingRequestsForPlugin', $displayName));
             }
 
             $numNotified = $this->getPluginTrialService()->activateAndApprove($pluginName);
         } catch (\Exception $e) {
-            $this->notifyAboutFailedInstallOrUpdate($pluginName, $pluginInfo, $e);
+            // an outage hits every plugin alike, while the Marketplace's own answer or a later error is about the one plugin
+            $isOutage = $pluginInfo === [] && $e->getCode() !== ServiceException::API_ERROR;
+            if (!$isOutage || !in_array($e->getMessage(), $notifiedFailures, true)) {
+                $notifiedFailures[] = $e->getMessage();
+                $this->notifyAboutFailedInstallOrUpdate($pluginName, $pluginInfo, $e);
+            }
+            return;
+        }
+
+        if ($numNotified === null) {
+            $notification = new Notification(Piwik::translate('Marketplace_RequestedPluginActivatedAlreadyDecided', $displayName));
+            $notification->context = Notification::CONTEXT_WARNING;
+            Notification\Manager::notify('Marketplace_RequestedPluginInstalled' . $pluginName, $notification);
             return;
         }
 

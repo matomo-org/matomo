@@ -25,6 +25,8 @@ vi.mock('CoreHome', async () => ({
   Matomo: { helper: { modalConfirm } },
   AjaxHelper: { post: ajaxPost, fetch: ajaxFetch },
   NotificationsStore: { show: showNotification, scrollToNotification: vi.fn() },
+  externalRawLink: (url: string) => `${url}?mtm_campaign=test`,
+  Alert: { props: ['severity'], template: '<div class="alertStub"><slot /></div>' },
   NumberFormatter: {
     formatNumber: (value: number, max: number, min: number) => Number(value).toLocaleString(
       'en-US',
@@ -122,6 +124,7 @@ function mountPage(
   pendingRequests: PendingPluginRequest[] = [makePending()],
   history: PluginRequestHistory = makeHistory(1),
   stubs: Record<string, unknown> = {},
+  props: Record<string, unknown> = {},
 ) {
   return mount(ManageRequestsSuperUser, {
     props: {
@@ -130,6 +133,11 @@ function mountPage(
       historyPageSize: 5,
       isValidConsumer: true,
       currentUserEmail: 'admin@example.test',
+      isPluginsAdminEnabled: true,
+      installRequestedNonce: 'theNonce',
+      numUsers: 3,
+      shopUserLimit: 50,
+      ...props,
     },
     global: {
       mocks: { translate: translateStub },
@@ -497,6 +505,97 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       await flushPromises();
 
       expect(row(wrapper, 'Funnels').exists()).toBe(true);
+    });
+  });
+
+  describe('Approve & Install', () => {
+    const free = makePending({
+      pluginName: 'InvalidateReports', displayName: 'Invalidate Reports', isFree: true, priceFrom: null,
+    });
+    const premium = makePending();
+    const installLinks = (wrapper: Page) => wrapper
+      .findAll('.manageRequestsSuperUser__approveAndInstall, .manageRequestsSuperUser__installAllFree')
+      .map((link) => new URLSearchParams(link.attributes('href')!.slice(1)));
+
+    it('links a free plugin row, and Install all free, to the install action with its nonce', () => {
+      const wrapper = mountPage([free, premium]);
+
+      expect(row(wrapper, 'Funnels').find('.manageRequestsSuperUser__approveAndInstall').exists())
+        .toBe(false);
+      const [rowLink, allLink] = [
+        row(wrapper, 'InvalidateReports').find('.manageRequestsSuperUser__approveAndInstall'),
+        wrapper.find('.manageRequestsSuperUser__installAllFree'),
+      ].map((link) => Object.fromEntries(new URLSearchParams(link.attributes('href')!.slice(1))));
+
+      expect(rowLink).toEqual({
+        idSite: '1',
+        module: 'Marketplace',
+        action: 'installRequestedPlugins',
+        nonce: 'theNonce',
+        pluginName: 'InvalidateReports',
+      });
+      expect(allLink).toEqual({
+        idSite: '1', module: 'Marketplace', action: 'installRequestedPlugins', nonce: 'theNonce',
+      });
+    });
+
+    it('installs every free plugin from Install all free even when the page URL names one', async () => {
+      const { MatomoUrl } = await import('CoreHome');
+      MatomoUrl.urlParsed.value = {
+        module: 'Marketplace', action: 'manageRequests', pluginName: 'Funnels', token_auth: 'secret',
+      };
+      try {
+        const href = mountPage([free]).find('.manageRequestsSuperUser__installAllFree').attributes('href')!;
+        const params = new URLSearchParams(href.slice(1));
+
+        expect(params.has('pluginName')).toBe(false);
+        expect(params.has('token_auth')).toBe(false);
+      } finally {
+        MatomoUrl.urlParsed.value = {};
+      }
+    });
+
+    it('offers no install without a pending free plugin', () => {
+      const wrapper = mountPage([premium, makePending({ pluginName: 'Unknown', isFree: null })]);
+
+      expect(installLinks(wrapper)).toEqual([]);
+    });
+
+    it('offers no install while plugins admin is disabled', () => {
+      const wrapper = mountPage([free], makeHistory(1), {}, { isPluginsAdminEnabled: false });
+
+      expect(installLinks(wrapper)).toEqual([]);
+    });
+  });
+
+  describe('More users than the shop sells plans for', () => {
+    it('explains why, and offers Contact sales instead of a trial', () => {
+      const wrapper = mountPage([makePending()], makeHistory(1), {}, { numUsers: 51 });
+
+      expect(wrapper.find('.manageRequestsSuperUser__userLimit').text())
+        .toBe('Marketplace_ShopUserLimitExceeded:51,50');
+      const contactSales = row(wrapper, 'Funnels').find('.manageRequestsSuperUser__contactSales');
+      expect(contactSales.attributes()).toMatchObject({
+        href: 'https://matomo.org/contact-sales/?mtm_campaign=test',
+        target: '_blank',
+        rel: 'noreferrer noopener',
+      });
+      expect(row(wrapper, 'Funnels').find('.manageRequestsSuperUser__startTrial').exists()).toBe(false);
+    });
+
+    it('keeps the trial up to the limit', () => {
+      const wrapper = mountPage([makePending()], makeHistory(1), {}, { numUsers: 50 });
+
+      expect(wrapper.find('.manageRequestsSuperUser__userLimit').exists()).toBe(false);
+      expect(row(wrapper, 'Funnels').find('.manageRequestsSuperUser__contactSales').exists()).toBe(false);
+      expect(row(wrapper, 'Funnels').find('.manageRequestsSuperUser__startTrial').exists()).toBe(true);
+    });
+
+    it('explains nothing while only free plugins are pending', () => {
+      const free = makePending({ isFree: true, priceFrom: null });
+      const wrapper = mountPage([free], makeHistory(1), {}, { numUsers: 51 });
+
+      expect(wrapper.find('.manageRequestsSuperUser__userLimit').exists()).toBe(false);
     });
   });
 
