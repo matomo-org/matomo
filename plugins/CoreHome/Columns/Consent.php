@@ -28,20 +28,29 @@ use Piwik\Tracker\Visitor;
  * Whether the visitor had given their consent during this visit.
  *
  * Consent is reported per request, but it describes the visitor rather than the request, so it is
- * recorded once for the visit and kept. A visit with no value never reported consent, which is not
- * the same as refusing it: a site that does not signal consent at all looks exactly the same.
+ * recorded once for the visit and kept. A visit holds 1 where the visitor consented, 0 where they
+ * refused, and no value where neither was ever signalled - which is what a site that does not
+ * signal consent at all looks like. A refusal is recorded and nothing more: it is read the same
+ * as no value while tracking, so it never changes what is measured.
  *
  * The consentState segment compares the state name, with unknown as an empty string, so that a visit without
  * consent can be matched as unknown and an empty segment value (consentState==) matches unknown as it does for
- * any other segment. A refusal is not recorded, so it is not offered as a state of its own.
+ * any other segment.
  */
 class Consent extends VisitDimension
 {
     public const COLUMN_TYPE = 'TINYINT(1) UNSIGNED NULL';
     public const CONSENT_GIVEN = 1;
 
+    /**
+     * Recorded so that a refusal can be told apart from no signal. While tracking, everything
+     * that reads the column treats it the same as no value.
+     */
+    public const CONSENT_REFUSED = 0;
+
     private const SEGMENT_VALUES = [
         'consented' => 'consented',
+        'refused' => 'refused',
         'unknown' => '',
     ];
 
@@ -49,8 +58,8 @@ class Consent extends VisitDimension
     protected $columnType = self::COLUMN_TYPE;
     protected $segmentName = 'consentState';
     protected $nameSingular = 'CoreHome_ConsentState';
-    protected $sqlSegment = "CASE log_visit.consent WHEN 1 THEN 'consented' ELSE '' END";
-    protected $acceptValues = 'consented, unknown';
+    protected $sqlSegment = "CASE log_visit.consent WHEN 1 THEN 'consented' WHEN 0 THEN 'refused' ELSE '' END";
+    protected $acceptValues = 'consented, refused, unknown';
     protected $type = self::TYPE_ENUM;
 
     public function __construct()
@@ -79,7 +88,9 @@ class Consent extends VisitDimension
     {
         if ($value === 1 || $value === '1' || $value === 'consented') {
             return Piwik::translate('CoreHome_ConsentStateConsented');
-        } elseif ($value === null || $value === '' || $value === 0 || $value === '0' || $value === 'unknown') {
+        } elseif ($value === 0 || $value === '0' || $value === 'refused') {
+            return Piwik::translate('CoreHome_ConsentStateRefused');
+        } elseif ($value === null || $value === '' || $value === 'unknown') {
             return Piwik::translate('General_Unknown');
         }
 
@@ -97,7 +108,11 @@ class Consent extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        return $request->hasConsent() ? self::CONSENT_GIVEN : false;
+        if ($request->hasConsent()) {
+            return self::CONSENT_GIVEN;
+        }
+
+        return $request->hasRefusedConsent() ? self::CONSENT_REFUSED : false;
     }
 
     /**
@@ -106,13 +121,26 @@ class Consent extends VisitDimension
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        if (self::hasVisitConsented($visitor) || !self::appliesToVisit($request, $visitor, $action)) {
+        if (self::hasVisitConsented($visitor)) {
             return false;
         }
 
-        // consent given part way through a visit applies to the visit, so later requests do not
-        // have to repeat the flag for it to be known
-        return self::CONSENT_GIVEN;
+        if (self::appliesToVisit($request, $visitor, $action)) {
+            // consent given part way through a visit applies to the visit, so later requests do
+            // not have to repeat the flag for it to be known
+            return self::CONSENT_GIVEN;
+        }
+
+        // A refusal only fills in a visit that has no answer yet, so a recorded one is kept.
+        // The raw column is read because hasVisitConsented() cannot tell a refusal from no value.
+        // It relaxes nothing, so unlike consent it needs no check that the visitor is still on
+        // the page they arrived on. Like any visit column, the last of two requests sent at the
+        // same time is the one stored.
+        if ($request->hasRefusedConsent() && null === $visitor->getImmutableVisitorColumn('consent')) {
+            return self::CONSENT_REFUSED;
+        }
+
+        return false;
     }
 
     /**

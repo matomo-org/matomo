@@ -84,6 +84,75 @@ class RequestConsentTest extends IntegrationTestCase
         $this->assertFalse($this->buildRequest(['consent' => '1'])->hasConsent());
     }
 
+    /**
+     * A refusal is `consent=0` exactly, and like consent it only counts where the site measures
+     * consent-aware analytics. Anything else is no signal.
+     *
+     * @dataProvider getRefusalCases
+     */
+    public function testARefusalIsOnlyReportedForAnExplicitZeroOnAnOptedInSite(
+        array $params,
+        bool $optedIn,
+        bool $expectedRefusal
+    ): void {
+        if ($optedIn) {
+            $this->optIn();
+        }
+
+        $request = $this->buildRequest($params);
+
+        $this->assertSame($expectedRefusal, $request->hasRefusedConsent());
+        $this->assertSame(
+            $optedIn && ($params['consent'] ?? null) === '1',
+            $request->hasConsent(),
+            'a refusal must never be read as consent'
+        );
+    }
+
+    public function getRefusalCases(): iterable
+    {
+        yield 'explicit refusal on an opted-in site' => [['consent' => '0'], true, true];
+        yield 'explicit refusal on a site not opted in' => [['consent' => '0'], false, false];
+        yield 'consent given' => [['consent' => '1'], true, false];
+        yield 'no parameter' => [[], true, false];
+        yield 'empty value' => [['consent' => ''], true, false];
+        yield 'yes' => [['consent' => 'yes'], true, false];
+        yield 'another number' => [['consent' => '2'], true, false];
+        yield 'zero padded' => [['consent' => '00'], true, false];
+        yield 'negative zero' => [['consent' => '-0'], true, false];
+        yield 'leading space' => [['consent' => ' 0'], true, false];
+        yield 'an array' => [['consent' => ['0']], true, false];
+    }
+
+    public function testARefusalIsNotReportedWithoutASite(): void
+    {
+        $this->optIn();
+
+        $request = new Request(['idsite' => '0', 'rec' => '1', 'consent' => '0']);
+
+        $this->assertFalse($request->hasRefusedConsent());
+    }
+
+    public function testForcedCookielessTrackingReportsNoRefusal(): void
+    {
+        $this->optIn();
+        $this->setForcedCookielessTracking(true);
+
+        $this->assertFalse($this->buildRequest(['consent' => '0'])->hasRefusedConsent());
+    }
+
+    public function testChangingTheParameterChangesTheRefusal(): void
+    {
+        $this->optIn();
+
+        $request = $this->buildRequest(['consent' => '0']);
+        $this->assertTrue($request->hasRefusedConsent());
+
+        $request->setParam('consent', '1');
+        $this->assertFalse($request->hasRefusedConsent());
+        $this->assertTrue($request->hasConsent());
+    }
+
     private function buildRequest(array $params): Request
     {
         return new Request(array_merge(['idsite' => (string) $this->idSite, 'rec' => '1'], $params));

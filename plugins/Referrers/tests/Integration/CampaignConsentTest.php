@@ -695,6 +695,175 @@ class CampaignConsentTest extends IntegrationTestCase
     }
 
     /**
+     * A refusal is recorded on the visit so it can be told apart from a site that never asks,
+     * and it changes nothing about what is measured: the campaign is discarded exactly as it is
+     * for a visit that signals nothing.
+     */
+    public function testARefusalIsRecordedButMeasuredLikeNoSignal(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '0');
+        $this->advanceBeyondTheVisitLength();
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+
+        $this->assertSame(2, $this->countVisits());
+        $this->assertSame(0, $this->fetchConsent(), 'the refusal was not recorded');
+        $this->assertNull($this->fetchConsent(1), 'a visit that signalled nothing recorded a value');
+        $this->assertSame(CampaignParameterValuesMasked::getPlaceholderValue(), $this->fetchVisitColumn('referer_name'));
+        $this->assertSame(
+            $this->fetchVisitColumn('referer_name', 1),
+            $this->fetchVisitColumn('referer_name'),
+            'a refusal changed what was measured'
+        );
+    }
+
+    /**
+     * Only `consent=0` is a refusal. Any other value says nothing, and nothing is recorded.
+     *
+     * @dataProvider getValuesThatAreNoSignal
+     */
+    public function testAValueOtherThanZeroOrOneRecordsNothing(?string $consent): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent);
+
+        $this->assertNull($this->fetchConsent());
+        $this->assertSame(CampaignParameterValuesMasked::getPlaceholderValue(), $this->fetchVisitColumn('referer_name'));
+    }
+
+    public function getValuesThatAreNoSignal(): iterable
+    {
+        yield 'no parameter' => [null];
+        yield 'empty' => [''];
+        yield 'yes' => ['yes'];
+        yield 'another number' => ['2'];
+        yield 'zero padded' => ['00'];
+        yield 'negative zero' => ['-0'];
+        yield 'leading space' => [' 0'];
+    }
+
+    /**
+     * Neither a site that has not opted in nor one forcing cookieless tracking measures consent,
+     * so a refusal sent to either records nothing, as it did before.
+     */
+    public function testARefusalRecordsNothingOnASiteNotMeasuringConsent(): void
+    {
+        $this->disableConsentAwareAnalytics();
+        $this->trackPageView('landing', $withCampaign = true, $consent = '0');
+        $this->assertNull($this->fetchConsent(), 'recorded on a site that has not opted in');
+
+        $this->enableConsentAwareAnalytics();
+        $this->setForcedCookielessTracking(true);
+        $this->advanceBeyondTheVisitLength();
+        $this->trackPageView('landing', $withCampaign = true, $consent = '0');
+        $this->assertNull($this->fetchConsent(1), 'recorded on a site forcing cookieless tracking');
+    }
+
+    /**
+     * Consent arriving after a refusal, still on the arrival page, consents the same visit and
+     * restores the campaign the refusal left discarded.
+     */
+    public function testConsentAfterARefusalOnTheArrivalPageConsentsTheVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '0');
+        $this->ping('landing', $withCampaign = true, $consent = null);
+        $this->assertSame(0, $this->fetchConsent(), 'a request without the parameter cleared the refusal');
+        $this->assertSame(CampaignParameterValuesMasked::getPlaceholderValue(), $this->fetchVisitColumn('referer_name'));
+
+        $this->ping('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits());
+        $this->assertSame(1, $this->fetchConsent());
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+    }
+
+    /**
+     * After navigating, consent following a refusal starts a consented visit of its own, exactly
+     * as it does after no signal. The earlier visit keeps its refusal.
+     */
+    public function testConsentAfterARefusalOnALaterPageStartsItsOwnVisit(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '0');
+        $this->trackPageView('other', $withCampaign = false, $consent = '1');
+
+        $this->assertSame(2, $this->countVisits());
+        $this->assertSame(0, $this->fetchConsent());
+        $this->assertSame(1, $this->fetchConsent(1));
+    }
+
+    /**
+     * A refusal never takes back consent already recorded on the visit.
+     */
+    public function testARefusalDoesNotOverwriteConsent(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        $this->trackPageView('other', $withCampaign = false, $consent = '0');
+
+        $this->assertSame(1, $this->countVisits());
+        $this->assertSame(1, $this->fetchConsent());
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name'));
+    }
+
+    /**
+     * A refusal reported part way through a visit that had signalled nothing is recorded, by any
+     * kind of request and from any page, without splitting the visit: it relaxes nothing, so
+     * there is no earlier treatment to keep apart.
+     *
+     * @dataProvider getLaterRefusals
+     */
+    public function testARefusalLaterInTheVisitIsRecordedWithoutSplittingIt(string $requestType): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = null);
+        $this->assertNull($this->fetchConsent());
+
+        if ('ping' === $requestType) {
+            $this->ping('other', $withCampaign = false, $consent = '0');
+        } else {
+            $this->trackPageView('other', $withCampaign = false, $consent = '0');
+        }
+
+        $this->assertSame(1, $this->countVisits(), 'the refusal split the visit');
+        $this->assertSame(0, $this->fetchConsent());
+        $this->assertSame(CampaignParameterValuesMasked::getPlaceholderValue(), $this->fetchVisitColumn('referer_name'));
+    }
+
+    public function getLaterRefusals(): iterable
+    {
+        yield 'ping' => ['ping'];
+        yield 'page view' => ['pageview'];
+    }
+
+    /**
+     * Each request in a bulk request is handled on its own, so a refusal carried by its items
+     * is recorded the same way.
+     */
+    public function testARefusalInABulkRequestIsRecorded(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->tracker->enableBulkTracking();
+        $this->prepareRequest('landing', $withCampaign = true, $consent = '0');
+        $this->tracker->doTrackPageView('Landing');
+        $this->prepareRequest('landing', $withCampaign = true, $consent = '0');
+        $this->tracker->doPing();
+        Fixture::checkBulkTrackingResponse($this->tracker->doBulkTrack());
+
+        $this->assertSame(1, $this->countVisits());
+        $this->assertSame(0, $this->fetchConsent());
+        $this->assertSame(CampaignParameterValuesMasked::getPlaceholderValue(), $this->fetchVisitColumn('referer_name'));
+    }
+
+    /**
      * A conversion is attributed from the attribution cookie, which outlives the visit. Where the
      * visit's own campaign was discarded, the conversion must not report one either - otherwise
      * the Goals and Referrers reports disagree about the same visit.
@@ -1434,6 +1603,17 @@ class CampaignConsentTest extends IntegrationTestCase
             . ' WHERE idsite = ? ORDER BY idvisit ASC LIMIT 1 OFFSET ' . $offset,
             [$this->idSite]
         );
+    }
+
+    /**
+     * The stored consent as an int, or null where none was stored. Database adapters return the
+     * column as an int or a string, and a plain cast would read no value as a refusal.
+     */
+    private function fetchConsent(int $offset = 0): ?int
+    {
+        $consent = $this->fetchVisitColumn('consent', $offset);
+
+        return null === $consent ? null : (int) $consent;
     }
 
     /**

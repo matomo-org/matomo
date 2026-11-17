@@ -971,10 +971,11 @@ class Request
      * Consent-aware measurement is opt-in per site, so this is false for every site that has not
      * been opted in, whatever the request reports.
      *
-     * The JavaScript tracker reports consent when it is in use and has been granted, either for
-     * tracking as a whole or for cookies. A request without the parameter is not a refusal, it
-     * only means the site is not signalling consent, so nothing may be relaxed on the strength of
-     * its absence.
+     * The JavaScript tracker reports consent where the site asked for it and it has been given;
+     * consent to cookies alone is not reported as consent. A request without the parameter only
+     * means the site is not signalling consent, so nothing may be relaxed on the strength of its
+     * absence. A refusal is reported as `consent=0` and is never consent: see
+     * {@link hasRefusedConsent()}.
      */
     public function hasConsent(): bool
     {
@@ -993,6 +994,23 @@ class Request
         }
 
         return $this->hasConsentCache = $this->measuresConsentAwareAnalytics();
+    }
+
+    /**
+     * Whether this request reports that the visitor refused their consent.
+     *
+     * A refusal is `consent=0` exactly; any other value, and its absence, is no signal. It is only
+     * recorded, so that a refusal can be told apart from a site that does not ask, and it never
+     * changes what is measured. Like consent it only means something on a site that measures
+     * consent-aware analytics.
+     */
+    public function hasRefusedConsent(): bool
+    {
+        if ('0' !== $this->getParam('consent')) {
+            return false;
+        }
+
+        return $this->measuresConsentAwareAnalytics();
     }
 
     /**

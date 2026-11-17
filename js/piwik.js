@@ -73,7 +73,7 @@
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, requireConsentForRestrictedData, getRememberedConsent, hasRememberedConsent, isConsentRequired, isRestrictedDataConsentRequired,
-    setConsentGiven, rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
+    setConsentGiven, rememberConsentGiven, forgetConsentGiven, setConsentRefused, unload, hasConsent,
     discardHashTag, alwaysUseSendBeacon, disableAlwaysUseSendBeacon, isUsingAlwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
@@ -2498,6 +2498,10 @@ if (typeof window.Matomo !== 'object') {
                 // without it, and a site measuring under a compliance exemption does exactly that
                 configConsentGiven = false,
 
+                // whether the site reported that the visitor refused consent to being tracked. It
+                // is only reported, never acted on, and giving consent replaces it
+                configConsentRefused = false,
+
                 // whether the site measures under a compliance exemption and is asking for
                 // consent only to lift the restrictions that exemption imposes
                 configRestrictedDataConsentRequired = false,
@@ -2881,6 +2885,25 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 return configConsentRequired && configHasConsent;
+            }
+
+            /*
+             * The consent parameter to append to a tracking request: consent=1 where consent was
+             * given, consent=0 where the site reported a refusal and consent was not given since,
+             * and nothing where the site reported neither.
+             */
+            function getConsentParameter() {
+                if (hasGivenConsent()) {
+                    return '&consent=1';
+                }
+
+                // consent given since outranks a refusal, whichever order the two calls were
+                // applied in, even where consent itself is not reported
+                if (configConsentRefused && !configConsentGiven) {
+                    return '&consent=0';
+                }
+
+                return '';
             }
 
             /*
@@ -3377,9 +3400,8 @@ if (typeof window.Matomo !== 'object') {
                 hasSentTrackingRequestYet = true;
 
                 if (!configDoNotTrack && request) {
-                    if (hasGivenConsent()) { // send a consent=1 when explicit consent is given for the apache logs
-                        request += '&consent=1';
-                    }
+                    // report consent, or its refusal, also for the apache logs
+                    request += getConsentParameter();
 
                     request = injectBrowserFeaturesAndClientHints(request);
 
@@ -3454,14 +3476,15 @@ if (typeof window.Matomo !== 'object') {
 
                 hasSentTrackingRequestYet = true;
 
-                if (hasGivenConsent()) {
+                var consentParameter = getConsentParameter();
+                if (consentParameter) {
                     // each request in the batch is handled on its own by the server, so the
                     // consent has to travel with every one of them rather than with the batch
-                    var consented = [], requestIndex;
+                    var withConsent = [], requestIndex;
                     for (requestIndex = 0; requestIndex < requests.length; requestIndex++) {
-                        consented.push(requests[requestIndex] + '&consent=1');
+                        withConsent.push(requests[requestIndex] + consentParameter);
                     }
-                    requests = consented;
+                    requests = withConsent;
                 }
 
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
@@ -7613,6 +7636,20 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Call this method when the visitor refuses consent, to record the refusal against their visit
+             * rather than leave it looking like a visit on which consent was never asked for.
+             *
+             * It only reports the refusal: it changes nothing that is tracked or collected, and nothing is
+             * sent that would not be sent otherwise. Every request sent from then on carries it, until
+             * {@link setConsentGiven()} or {@link rememberConsentGiven()} is called. It is not remembered
+             * across page views, so call it on each page view the refusal applies to. It does not withdraw
+             * consent already given; call {@link forgetConsentGiven()} for that.
+             */
+            this.setConsentRefused = function () {
+                configConsentRefused = true;
+            };
+
+            /**
              * Call this method once the user has given consent. This will cause all tracking requests from this
              * page view to be sent. Please note that the given consent won't be remembered across page views. If you
              * want to remember consent across page views, call {@link rememberConsentGiven()} instead.
@@ -7629,6 +7666,7 @@ if (typeof window.Matomo !== 'object') {
                 // passes nothing and is reporting that consent, which is the whole point of it.
                 if (false !== isMeasurementConsent) {
                     configConsentGiven = true;
+                    configConsentRefused = false;
                 }
                 if (!configBrowserFeatureDetection) {
                     this.enableBrowserFeatureDetection();
@@ -7914,7 +7952,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'requireConsentForRestrictedData', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setReferrerUrlMaxLength', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
+        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'requireConsentForRestrictedData', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setReferrerUrlMaxLength', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentRefused', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

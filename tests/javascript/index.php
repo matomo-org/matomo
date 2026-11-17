@@ -2102,7 +2102,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(125);
+        expect(126);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2235,6 +2235,7 @@ function PiwikTest() {
         equal( typeof tracker.setConsentGiven, 'function', 'setConsentGiven' );
         equal( typeof tracker.rememberConsentGiven, 'function', 'rememberConsentGiven' );
         equal( typeof tracker.forgetConsentGiven, 'function', 'forgetConsentGiven' );
+        equal( typeof tracker.setConsentRefused, 'function', 'setConsentRefused' );
         // opt out (via consent)
         equal( typeof tracker.isUserOptedOut, 'function', 'isUserOptedOut' );
         equal( typeof tracker.optUserOut, 'function', 'optUserOut' );
@@ -5982,6 +5983,228 @@ if ($mysql) {
             var requests = fetchTrackedRequests(getConsentToken() + 'otherwindow');
             strictEqual(true, requests.indexOf('myFoo=afterOtherWindowWithdrew') > 0, "the visitor is still measured");
             strictEqual(0, (requests.match(/consent=1/g) || []).length, "consent is still reported after another window withdrew it");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - a tracker that reports no refusal sends no consent parameter", function() {
+        stop();
+
+        deleteCookies();
+
+        // setConsentRefused() changes what every tracker sends once called, so a tracker that
+        // never calls it - on a site using the consent API or not - must send what it sent before
+        var plain = Piwik.getTracker();
+        plain.disableBrowserFeatureDetection();
+        plain.setCustomData('token', getConsentToken() + 'norefusalplain');
+        plain.setRequestQueueInterval(1000);
+        plain.trackRequest('myFoo=single');
+        plain.queueRequest('myFoo=queuedOne');
+        plain.queueRequest('myFoo=queuedTwo');
+
+        var restricted = Piwik.getTracker();
+        restricted.disableBrowserFeatureDetection();
+        restricted.setCustomData('token', getConsentToken() + 'norefusalrestricted');
+        restricted.setRequestQueueInterval(1000);
+        restricted.requireConsentForRestrictedData();
+        restricted.trackRequest('myFoo=single');
+        restricted.queueRequest('myFoo=queuedOne');
+        restricted.queueRequest('myFoo=queuedTwo');
+
+        setTimeout(function () {
+            var tokens = ['norefusalplain', 'norefusalrestricted'], i, requests;
+            for (i = 0; i < tokens.length; i++) {
+                requests = fetchTrackedRequests(getConsentToken() + tokens[i]);
+                strictEqual(true, requests.indexOf('myFoo=single') > 0, tokens[i] + ": the single request is sent");
+                strictEqual(true, requests.indexOf('myFoo=queuedTwo') > 0, tokens[i] + ": the batched requests are sent");
+                strictEqual(0, (requests.match(/consent=/g) || []).length, tokens[i] + ": a consent parameter was sent although neither consent nor a refusal was reported");
+            }
+
+            deleteCookies();
+            start();
+        }, 4000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - a refusal is reported on every request, batched ones included", function() {
+        stop();
+
+        deleteCookies();
+
+        // the refusal is reported whichever way the site measures, since it changes nothing
+        // that is collected
+        var restricted = Piwik.getTracker();
+        restricted.disableBrowserFeatureDetection();
+        restricted.setCustomData('token', getConsentToken() + 'refusedrestricted');
+        restricted.setRequestQueueInterval(1000);
+        restricted.requireConsentForRestrictedData();
+
+        var plain = Piwik.getTracker();
+        plain.disableBrowserFeatureDetection();
+        plain.setCustomData('token', getConsentToken() + 'refusedplain');
+        plain.setRequestQueueInterval(1000);
+
+        // a refusal is not remembered across page views, so reporting one stores nothing
+        var cookiesBefore = document.cookie;
+        restricted.setConsentRefused();
+        plain.setConsentRefused();
+        strictEqual(document.cookie, cookiesBefore, 'reporting a refusal wrote a cookie');
+
+        restricted.trackRequest('myFoo=single');
+        restricted.queueRequest('myFoo=queuedOne');
+        restricted.queueRequest('myFoo=queuedTwo');
+
+        plain.trackRequest('myFoo=single');
+        plain.queueRequest('myFoo=queuedOne');
+        plain.queueRequest('myFoo=queuedTwo');
+
+        setTimeout(function () {
+            var tokens = ['refusedrestricted', 'refusedplain'], i, requests;
+            for (i = 0; i < tokens.length; i++) {
+                requests = fetchTrackedRequests(getConsentToken() + tokens[i], true);
+                strictEqual(3, requests.length, tokens[i] + ": the single and both batched requests are sent");
+                strictEqual(3, requests.filter(function (request) {
+                    return /[?&]consent=0(&|$)/.test(request);
+                }).length, tokens[i] + ": a request was sent without the refusal");
+                strictEqual(0, requests.filter(function (request) {
+                    return /consent=1/.test(request);
+                }).length, tokens[i] + ": a refusal was reported as consent");
+            }
+
+            deleteCookies();
+            start();
+        }, 4000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - giving consent ends a reported refusal", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'refusedthengiven');
+        tracker.requireConsentForRestrictedData();
+        tracker.setConsentRefused();
+        tracker.trackRequest('myFoo=beforeConsent');
+        tracker.setConsentGiven();
+        tracker.trackRequest('myFoo=afterConsent');
+
+        // a refusal arriving after consent, as when queued calls are applied out of order, does
+        // not take the consent back: forgetConsentGiven() is what withdraws it
+        var reordered = Piwik.getTracker();
+        reordered.disableBrowserFeatureDetection();
+        reordered.setCustomData('token', getConsentToken() + 'giventhenrefused');
+        reordered.requireConsentForRestrictedData();
+        reordered.setConsentGiven();
+        reordered.setConsentRefused();
+        reordered.trackRequest('myFoo=afterBoth');
+
+        // and on a site that does not report consent, giving it still ends the refusal
+        var plain = Piwik.getTracker();
+        plain.disableBrowserFeatureDetection();
+        plain.setCustomData('token', getConsentToken() + 'refusedthengivenplain');
+        plain.setConsentRefused();
+        plain.setConsentGiven();
+        plain.trackRequest('myFoo=afterConsent');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'refusedthengiven', true);
+            var before = requests.filter(function (request) { return request.indexOf('myFoo=beforeConsent') !== -1; });
+            var after = requests.filter(function (request) { return request.indexOf('myFoo=afterConsent') !== -1; });
+            strictEqual(1, before.length, "the request sent before consent is sent");
+            strictEqual(true, /[?&]consent=0(&|$)/.test(before[0]), "the request sent before consent does not carry the refusal");
+            strictEqual(1, after.length, "the request sent after consent is sent");
+            strictEqual(true, /[?&]consent=1(&|$)/.test(after[0]), "the request sent after consent does not carry the consent");
+            strictEqual(false, /consent=0/.test(after[0]), "the refusal is still reported after consent was given");
+
+            var reorderedRequests = fetchTrackedRequests(getConsentToken() + 'giventhenrefused');
+            strictEqual(true, reorderedRequests.indexOf('myFoo=afterBoth') > 0, "the request is sent");
+            strictEqual(0, (reorderedRequests.match(/consent=0/g) || []).length, "a refusal applied after consent took the consent back");
+
+            var plainRequests = fetchTrackedRequests(getConsentToken() + 'refusedthengivenplain');
+            strictEqual(true, plainRequests.indexOf('myFoo=afterConsent') > 0, "the request is sent");
+            strictEqual(0, (plainRequests.match(/consent=0/g) || []).length, "the refusal is still reported after consent was given");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - a refusal is not reported on requests held until consent", function() {
+        stop();
+
+        deleteCookies();
+
+        // requireConsent() holds every request back until consent, which ends the refusal, so the
+        // requests it releases carry the consent and never the refusal
+        var queued = Piwik.getTracker();
+        queued.disableBrowserFeatureDetection();
+        queued.setCustomData('token', getConsentToken() + 'refusedqueued');
+        queued.requireConsent();
+        queued.setConsentRefused();
+        queued.trackRequest('myFoo=queuedOne');
+        queued.trackRequest('myFoo=queuedTwo');
+        queued.setConsentGiven();
+
+        // and remembering consent ends a refusal just as giving it does
+        var remembered = Piwik.getTracker();
+        remembered.disableBrowserFeatureDetection();
+        remembered.setCustomData('token', getConsentToken() + 'refusedremembered');
+        remembered.requireConsentForRestrictedData();
+        remembered.setConsentRefused();
+        remembered.rememberConsentGiven();
+        remembered.trackRequest('myFoo=afterRemembering');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'refusedqueued');
+            strictEqual(true, requests.indexOf('myFoo=queuedTwo') > 0, "the held requests are sent once consent is given");
+            strictEqual(2, (requests.match(/consent=1/g) || []).length, "each released request carries the consent");
+            strictEqual(0, (requests.match(/consent=0/g) || []).length, "a released request carried the refusal");
+
+            var rememberedRequests = fetchTrackedRequests(getConsentToken() + 'refusedremembered', true);
+            var sent = rememberedRequests.filter(function (request) { return request.indexOf('myFoo=afterRemembering') !== -1; });
+            strictEqual(1, sent.length, "the request is sent");
+            strictEqual(true, /[?&]consent=1(&|$)/.test(sent[0]), "the request sent after remembering consent does not carry it");
+            strictEqual(0, rememberedRequests.filter(function (request) { return /consent=0/.test(request); }).length, "the refusal is still reported after consent was remembered");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - opting back in does not end a reported refusal", function() {
+        stop();
+
+        deleteCookies();
+
+        // forgetUserOptOut() restores tracking without reporting consent to being measured, so
+        // it must not end a refusal either
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'refusedoptedback');
+        tracker.requireConsentForRestrictedData();
+        tracker.setConsentRefused();
+        tracker.optUserOut();
+        tracker.forgetUserOptOut();
+        tracker.trackRequest('myFoo=afterOptingBackIn');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'refusedoptedback', true);
+            var sent = requests.filter(function (request) { return request.indexOf('myFoo=afterOptingBackIn') !== -1; });
+            strictEqual(1, sent.length, "the visitor is tracked again after opting back in");
+            strictEqual(true, /[?&]consent=0(&|$)/.test(sent[0]), "the refusal stopped being reported after opting back in");
 
             deleteCookies();
             start();
