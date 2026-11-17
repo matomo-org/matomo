@@ -45,7 +45,7 @@ class HttpTrackingApi extends BotTrackingMethodAbstract
     {
         $view = new View('@BotTracking/_noDataHttpTrackingApi');
         $view->sendHeadersWhenRendering = false;
-        $view->urlKnowledgeBase = 'https://matomo.org/faq/how-to/install-ai-chatbot-tracking';
+        $view->urlKnowledgeBase = 'https://matomo.org/faq/how-to/set-up-ai-chatbot-tracking-with-the-http-tracking-api/';
         $view->urlApiReference = 'https://developer.matomo.org/api-reference/tracking-api';
         return $view->render();
     }
