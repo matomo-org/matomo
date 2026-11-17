@@ -83,7 +83,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@id-309-redis-version-tag
         with:
           test-type: 'UnitTests'
           mysql-driver: ${{ matrix.environment.adapter }}
@@ -114,7 +114,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@id-309-redis-version-tag
         with:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.environment.adapter }}
@@ -153,7 +153,7 @@ jobs:
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@id-309-redis-version-tag
         with:
           test-type: 'IntegrationTestsCore'
           phpunit-test-options: >-
@@ -195,7 +195,7 @@ jobs:
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@id-309-redis-version-tag
         with:
           test-type: 'IntegrationTestsPlugins'
           phpunit-test-options: >-
@@ -237,7 +237,7 @@ jobs:
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@id-309-redis-version-tag
         with:
           test-type: 'SystemTestsPlugins'
           phpunit-test-options: >-
@@ -313,7 +313,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@id-309-redis-version-tag
         with:
           test-type: 'JS'
           php-version: '7.2'
@@ -330,7 +330,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@id-309-redis-version-tag
         with:
           test-type: 'Client'
           node-version: '16'
@@ -396,7 +396,7 @@ jobs:
             git -C "plugins/$PLUGIN" lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
           fi
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@id-309-redis-version-tag
         with:
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
@@ -429,7 +429,7 @@ jobs:
           git config lfs.fetchinclude "tests/UI/expected-screenshots/*"
           git lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@id-309-redis-version-tag
         with:
           ui-test-options: >-
             --core-tests-only --num-test-groups=${{ strategy.job-total }}
