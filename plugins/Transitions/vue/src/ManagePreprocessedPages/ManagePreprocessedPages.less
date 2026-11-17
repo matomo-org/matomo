@@ -1,0 +1,225 @@
+.managePreprocessedPages {
+  .managePreprocessedPages__intro {
+    max-width: 75ch;
+  }
+
+  .managePreprocessedPages__usage {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 360px;
+    margin: 16px 0;
+  }
+
+  .managePreprocessedPages__meter {
+    height: 6px;
+    overflow: hidden;
+    border: 1px solid @theme-color-border;
+    border-radius: 99px;
+    background: @theme-color-background-tinyContrast;
+  }
+
+  .managePreprocessedPages__meterFill {
+    display: block;
+    height: 100%;
+    background: @theme-color-brand;
+  }
+
+  .managePreprocessedPages__limitMessage,
+  .managePreprocessedPages__listError {
+    max-width: 75ch;
+  }
+
+  .managePreprocessedPages__url {
+    overflow-wrap: anywhere;
+  }
+
+  .managePreprocessedPages__addedBy {
+    overflow-wrap: anywhere;
+  }
+
+  .managePreprocessedPages__date {
+    white-space: nowrap;
+  }
+
+  // shown on a phone, where the column headers are hidden
+  .managePreprocessedPages__cellLabel {
+    display: none;
+  }
+
+  .managePreprocessedPages__unknownUser {
+    border-bottom: 1px dotted @theme-color-text-light;
+    color: @theme-color-text-light;
+    cursor: help;
+  }
+
+  .managePreprocessedPages__actionColumn {
+    width: 1%;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  // on a phone each page is a block: the URL and its remove button, then when and by whom
+  @media (max-width: 600px) {
+    .managePreprocessedPages__table,
+    .managePreprocessedPages__body,
+    .managePreprocessedPages__emptyRow,
+    .managePreprocessedPages__empty {
+      display: block;
+    }
+
+    .managePreprocessedPages__head {
+      display: none;
+    }
+
+    .managePreprocessedPages__row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: safe center;
+      column-gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid @theme-color-background-tinyContrast;
+    }
+
+    // the content table draws each cell's border with !important; the row draws it here
+    .managePreprocessedPages__url,
+    .managePreprocessedPages__date,
+    .managePreprocessedPages__addedBy,
+    .managePreprocessedPages__actionColumn {
+      display: block;
+      width: auto;
+      border-bottom: 0 !important;
+    }
+
+    .managePreprocessedPages__url,
+    .managePreprocessedPages__date,
+    .managePreprocessedPages__addedBy {
+      padding: 0 20px;
+    }
+
+    .managePreprocessedPages__actionColumn {
+      grid-row: 1;
+      grid-column: 2;
+    }
+
+    .managePreprocessedPages__url {
+      grid-row: 1;
+      grid-column: 1;
+    }
+
+    .managePreprocessedPages__date,
+    .managePreprocessedPages__addedBy {
+      grid-column: ~"1 / -1";
+      color: @theme-color-text-light;
+      font-size: 12px;
+      white-space: normal;
+    }
+
+    .managePreprocessedPages__cellLabel {
+      display: inline;
+      margin-right: 4px;
+      font-weight: bold;
+    }
+
+    // the add button wraps under the field
+    .managePreprocessedPages__hint {
+      margin-top: 12px;
+    }
+  }
+
+  .managePreprocessedPages__addForm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
+    gap: 0 16px;
+    margin-top: 8px;
+  }
+
+  .managePreprocessedPages__field {
+    position: relative;
+    flex: auto;
+    min-width: 0;
+    max-width: 720px;
+  }
+
+  // a dropdown over what follows, so the field and button stay in place; placed under the input
+  .managePreprocessedPages__suggestions {
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    border: 1px solid @theme-color-border;
+    border-radius: 6px;
+    background: @theme-color-background-base;
+    box-shadow: @theme-shadow-overlay;
+  }
+
+  .managePreprocessedPages__suggestionsHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 10px;
+    background: @theme-color-background-tinyContrast;
+    color: @theme-color-text-light;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  .managePreprocessedPages__suggestionList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .managePreprocessedPages__suggestionItem {
+    border-top: 1px solid @theme-color-border;
+  }
+
+  .managePreprocessedPages__suggestion {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 6px 10px;
+    border: 0;
+    background: transparent;
+    color: @theme-color-text;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .managePreprocessedPages__suggestion:hover,
+  .managePreprocessedPages__suggestion:focus-visible {
+    background: @theme-color-background-brand-lowContrast;
+  }
+
+  .managePreprocessedPages__suggestionUrl {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .managePreprocessedPages__suggestionPageviews {
+    color: @theme-color-text-light;
+    white-space: nowrap;
+  }
+
+  .managePreprocessedPages__addError {
+    max-width: 75ch;
+    margin: 0 0 16px;
+  }
+
+  .managePreprocessedPages__duplicateHelp {
+    margin-top: 4px;
+  }
+
+  .managePreprocessedPages__hint {
+    color: @theme-color-text-light;
+  }
+}
+
+// Matomo's confirmation dialog moves its content to the body, out of the block
+.managePreprocessedPages__dialogTitle {
+  overflow-wrap: anywhere;
+}

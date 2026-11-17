@@ -1,0 +1,105 @@
+.transitionsSourceHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0 0;
+
+  .transitionsSourceHeader__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
+    gap: 8px 16px;
+  }
+
+  .transitionsSourceHeader__badge {
+    display: inline-flex;
+    align-items: safe center;
+    gap: 6px;
+    padding: 2px 9px;
+    border: 1px solid @theme-color-border;
+    border-radius: 999px;
+    color: @theme-color-text-light;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .transitionsSourceHeader__badge::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .transitionsSourceHeader__badge--preprocessed {
+    border-color: @theme-color-success;
+    color: @theme-color-success;
+    cursor: help;
+  }
+
+  .transitionsSourceHeader__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: safe center;
+    gap: 8px 12px;
+  }
+
+  // a quiet text button, as the header belongs to the report rather than to a form
+  .transitionsSourceHeader__toggle {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: @theme-color-link;
+    font: inherit;
+    font-size: 13px;
+    line-height: 20px;
+    text-transform: none;
+    cursor: pointer;
+  }
+
+  .transitionsSourceHeader__toggle:hover,
+  .transitionsSourceHeader__toggle:focus-visible {
+    text-decoration: underline;
+  }
+
+  .transitionsSourceHeader__toggle:disabled {
+    color: @theme-color-text-light;
+    text-decoration: none;
+    cursor: not-allowed;
+  }
+
+  .transitionsSourceHeader__usage {
+    color: @theme-color-text-light;
+    font-size: 12px;
+  }
+
+  // in the toggle's place, muted; its tooltip says why
+  .transitionsSourceHeader__limit {
+    border-bottom: 1px dotted @theme-color-text-light;
+    color: @theme-color-text-light;
+    font-size: 13px;
+    line-height: 20px;
+    cursor: help;
+  }
+
+  .transitionsSourceHeader__message,
+  .transitionsSourceHeader__error {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  .transitionsSourceHeader__message {
+    color: @theme-color-text-light;
+  }
+
+  .transitionsSourceHeader__error {
+    color: @theme-color-danger;
+  }
+}
+
+// Matomo's confirmation dialog moves its content to the body, out of the block
+.transitionsSourceHeader__dialogTitle {
+  overflow-wrap: anywhere;
+}

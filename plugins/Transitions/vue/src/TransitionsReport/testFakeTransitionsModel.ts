@@ -10,6 +10,12 @@
 
 import { TransitionsPart } from './types';
 
+/** As Piwik_Transitions_Model records it for each loaded part. */
+export interface FakePartSource {
+  preprocessed: boolean;
+  preprocessedAt: string;
+}
+
 export interface FakeReport {
   date?: string;
   pageviews?: number;
@@ -20,6 +26,8 @@ export interface FakeReport {
   /** Per-group totals and detail rows, keyed by group name. */
   groups?: Record<string, { total: number; details?: { label?: string; url?: string;
     referrals: number; }[] }>;
+  /** The pre-processed flag and time each part is served with; a part left out is raw data. */
+  sources?: Partial<Record<TransitionsPart, FakePartSource>>;
 }
 
 export interface FakeTransitionsBackend {
@@ -164,6 +172,8 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
 
     groupTitles: Record<string, string> = {};
 
+    partSources: Partial<Record<TransitionsPart, FakePartSource>> = {};
+
     date = '';
 
     pageviews = 0;
@@ -195,6 +205,8 @@ export function installFakeTransitionsBackend(report: FakeReport = {}): FakeTran
       GROUPS_BY_PART[part].forEach((name) => {
         this[`${name}NbTransitions`] = data.groups?.[name]?.total ?? 0;
       });
+
+      this.partSources[part] = data.sources?.[part] ?? { preprocessed: false, preprocessedAt: '' };
     }
 
     loadPart(

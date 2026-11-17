@@ -16,6 +16,7 @@
 
 import { translate, Matomo, NumberFormatter } from 'CoreHome';
 import {
+  TransitionsDataSource,
   TransitionsError,
   TransitionsGroupData,
   TransitionsMetricData,
@@ -227,14 +228,16 @@ function metricName(group: GroupDefinition): string {
 export function resolveError(errorName: string, actionName: string): TransitionsError {
   // In development mode the API appends a stack trace to the exception message, so match on the
   // leading exception name rather than on the whole message.
-  const [name] = errorName.split(/\s/, 1);
-  const keys = ERROR_TRANSLATIONS[errorName] ?? ERROR_TRANSLATIONS[name];
+  const [leadingName] = errorName.split(/\s/, 1);
+  const name = ERROR_TRANSLATIONS[errorName] ? errorName : leadingName;
+  const keys = ERROR_TRANSLATIONS[name];
 
   if (!keys) {
     // An exception we have no translation for, so the name is all there is to show. The back link
     // still has to read as a link: every translated error uses Transitions_ErrorBack for it.
     // The API sends exception messages HTML-escaped.
     return {
+      name: '',
       title: Matomo.helper.htmlDecode(errorName),
       message: '',
       backLabel: translate('Transitions_ErrorBack'),
@@ -242,9 +245,30 @@ export function resolveError(errorName: string, actionName: string): Transitions
   }
 
   return {
+    name,
     title: translate(keys.title, actionName),
     message: translate(keys.details),
     backLabel: translate('Transitions_ErrorBack'),
+  };
+}
+
+/**
+ * A report counts as pre-processed only while every part served so far was: one raw part means the
+ * numbers on screen are not all from stored data. Its age is that of the oldest stored part.
+ */
+export function resolveDataSource(
+  partSources: TransitionsModel['partSources'] = {},
+): TransitionsDataSource {
+  const sources = Object.values(partSources)
+    .filter((source): source is NonNullable<typeof source> => !!source);
+  const preprocessed = sources.length > 0 && sources.every((source) => source.preprocessed);
+
+  return {
+    loaded: sources.length > 0,
+    preprocessed,
+    preprocessedAt: preprocessed
+      ? sources.map((source) => source.preprocessedAt).sort()[0] ?? ''
+      : '',
   };
 }
 
@@ -447,6 +471,7 @@ export function buildReport(
     loadingSides,
     groups,
     metrics,
+    source: resolveDataSource(model.partSources),
   };
 }
 

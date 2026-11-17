@@ -8,8 +8,9 @@
 import { mount, VueWrapper } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import TransitionsReport from './TransitionsReport.vue';
+import { translateStub } from './testCoreHomeMock';
 
-/** Mounts the report with the sanitize helpers Matomo installs globally. */
+/** Mounts the report with the sanitize and translate helpers Matomo installs globally. */
 export function mountTransitionsReport(
   props = {},
   options: Record<string, unknown> = {},
@@ -27,6 +28,7 @@ export function mountTransitionsReport(
           $sanitize: (value: string) => value,
           // stands in for DOMPurify.isValidAttribute: rejects anything not http(s)
           $sanitizeUrl: (url: string) => (/^https?:\/\//i.test(url) ? url : ''),
+          translate: translateStub,
         },
       },
     },

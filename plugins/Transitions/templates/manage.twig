@@ -1,0 +1,15 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'Transitions_PreprocessedTransitions'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+{% endblock %}
+
+{% block content %}
+    <div
+        vue-entry="Transitions.ManagePreprocessedPages"
+        max-pages="{{ maxPages|json_encode }}"
+        rearchive-months="{{ rearchiveMonths|json_encode }}"
+    ></div>
+{% endblock %}

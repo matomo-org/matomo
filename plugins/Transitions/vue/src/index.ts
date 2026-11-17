@@ -10,3 +10,4 @@ export { default as TransitionSwitcher } from './TransitionSwitcher/TransitionSw
 export { default as TransitionsPage } from './TransitionsPage/TransitionsPage.vue';
 export { default as TransitionExporterLink } from './TransitionExporter/TransitionExporterLink.vue';
 export { default as TransitionsReport } from './TransitionsReport/TransitionsReport.vue';
+export { default as ManagePreprocessedPages } from './ManagePreprocessedPages/ManagePreprocessedPages.vue';
