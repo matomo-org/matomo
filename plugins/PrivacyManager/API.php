@@ -972,7 +972,7 @@ class API extends \Piwik\Plugin\API
         $idSite = $this->resolveCompliancePolicyIdSite($idSite);
 
         // an empty value would otherwise read as false and silently turn it off
-        $enabled = is_string($enabled) && '' === trim($enabled)
+        $enabled = null === $enabled || (is_string($enabled) && '' === trim($enabled))
             ? null
             : filter_var($enabled, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
         if (is_null($enabled)) {

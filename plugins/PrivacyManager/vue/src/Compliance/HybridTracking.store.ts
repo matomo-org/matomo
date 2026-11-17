@@ -114,7 +114,7 @@ export function createHybridTrackingStore(): HybridTrackingStore {
   }
 
   function save(password: string): Promise<boolean> {
-    if (!hasUnsavedChanges.value) {
+    if (!hasUnsavedChanges.value || state.saving) {
       return Promise.resolve(false);
     }
 
@@ -141,6 +141,10 @@ export function createHybridTrackingStore(): HybridTrackingStore {
       if (state.idSite === requestedIdSite) {
         applyPayload(payload);
         state.saveSuccess = true;
+      } else {
+        // the new scope may have been fetched before this save landed, e.g. its value
+        // inherited from all websites
+        fetch();
       }
 
       return true;

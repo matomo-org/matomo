@@ -52,10 +52,11 @@
       />
       <GranularComplianceOverview
         v-for="type in complianceTypes"
-        :key="`${type.id}-${policiesReloadCount}`"
+        :key="type.id"
         :id-site="siteId"
         :compliance-type="type.id"
         :title="type.title"
+        :reload-count="policiesReloadCount"
       />
     </template>
     <template v-else>

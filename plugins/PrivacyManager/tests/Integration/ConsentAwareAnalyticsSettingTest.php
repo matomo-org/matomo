@@ -21,6 +21,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
+use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation;
+use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -83,25 +85,38 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
         $this->assertTrue(ConsentAwareAnalytics::isEnabled($this->otherIdSite));
     }
 
-    public function testTheAllWebsitesViewDescribesTheConsentAwareBehaviourWhenItIsOnForTheInstance(): void
-    {
+    /**
+     * @dataProvider getTextsThatDependOnConsentAwareAnalytics
+     */
+    public function testTheAllWebsitesViewDescribesTheConsentAwareBehaviourWhenItIsOnForTheInstance(
+        callable $getText,
+        string $plainKey
+    ): void {
         ConsentAwareAnalytics::setEnabled(true, $this->idSite);
 
-        $this->assertSame(
-            'PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoes',
-            CampaignParameterValuesMasked::getWhatItDoes(null)
-        );
-        $this->assertSame(
-            'PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoesConsentAware',
-            CampaignParameterValuesMasked::getWhatItDoes($this->idSite)
-        );
+        $this->assertSame($plainKey, $getText(null));
+        $this->assertSame($plainKey . 'ConsentAware', $getText($this->idSite));
+        $this->assertSame($plainKey, $getText($this->otherIdSite));
 
         ConsentAwareAnalytics::setEnabled(true);
 
-        $this->assertSame(
-            'PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoesConsentAware',
-            CampaignParameterValuesMasked::getWhatItDoes(null)
-        );
+        $this->assertSame($plainKey . 'ConsentAware', $getText(null));
+        $this->assertSame($plainKey . 'ConsentAware', $getText($this->otherIdSite));
+    }
+
+    public function getTextsThatDependOnConsentAwareAnalytics(): iterable
+    {
+        $settings = [
+            CampaignParameterValuesMasked::class => 'PrivacyManager_CampaignParameterValuesMaskedSetting',
+            ReferrerAnonymisation::class => 'PrivacyManager_ReferrerAnonymizationSetting',
+            UserIdDisabled::class => 'UserId_UserIdDisabledSetting',
+        ];
+
+        foreach ($settings as $class => $keyPrefix) {
+            $name = substr($class, strrpos($class, '\\') + 1);
+            yield $name . ' what it does' => [[$class, 'getWhatItDoes'], $keyPrefix . 'WhatItDoes'];
+            yield $name . ' impact' => [[$class, 'getImpact'], $keyPrefix . 'Impact'];
+        }
     }
 
     public function testGetReturnsTheValueOfTheScopeAndWhetherItIsOnForEveryWebsite(): void
@@ -179,12 +194,19 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
         yield 'empty' => [''];
         yield 'blank' => [' '];
         yield 'an array' => [[]];
+        yield 'null' => [null];
     }
 
-    public function testSetThrowsForAnUnknownSite(): void
+    public function testGetAndSetThrowForAnUnknownSite(): void
     {
-        $this->expectException(UnexpectedWebsiteFoundException::class);
+        try {
+            $this->api->getConsentAwareAnalytics(99999);
+            $this->fail('An unknown site was read');
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // expected
+        }
 
+        $this->expectException(UnexpectedWebsiteFoundException::class);
         $this->api->setConsentAwareAnalytics(99999, '1');
     }
 
@@ -293,11 +315,38 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
         $this->api->setConsentAwareAnalytics($this->idSite, '1');
         $this->api->setConsentAwareAnalytics($this->idSite, '1');
         $this->api->setConsentAwareAnalytics('all', '1');
+        $this->api->setConsentAwareAnalytics($this->idSite, '0');
 
         $this->assertSame([
             ['idSite' => $this->idSite, 'enabled' => true, 'previousEnabled' => false],
             ['idSite' => null, 'enabled' => true, 'previousEnabled' => false],
+            ['idSite' => $this->idSite, 'enabled' => false, 'previousEnabled' => true],
         ], $updates);
+    }
+
+    public function testARefusedChangeIsNotAnnounced(): void
+    {
+        $updates = [];
+        Piwik::addAction('PrivacyManager.consentAwareAnalyticsUpdated', static function ($update) use (&$updates): void {
+            $updates[] = $update;
+        });
+
+        try {
+            $this->api->setConsentAwareAnalytics($this->idSite, 'egg');
+            $this->fail('An invalid value was accepted');
+        } catch (Exception $e) {
+            $this->assertSame('Invalid value for the parameter "enabled"', $e->getMessage());
+        }
+
+        Config::getInstance()->PrivacyManager = ['consent_aware_analytics' => 1];
+        try {
+            $this->api->setConsentAwareAnalytics('all', '0');
+            $this->fail('The instance value set in the config was changed');
+        } catch (Exception $e) {
+            $this->assertSame('CoreAdminHome_PluginSettingChangeNotAllowed', $e->getMessage());
+        }
+
+        $this->assertSame([], $updates);
     }
 
     public function testAFailingListenerDoesNotFailTheChange(): void

@@ -890,13 +890,15 @@ describe("PrivacyManager", function () {
     after(async function () {
       // a hybrid tracking test that failed part way would leave it on for later tests. The API
       // needs the feature flag, so this runs before the flag is removed
-      for (const idSite of ['all', 1, 2]) {
-        await testEnvironment.callApi('PrivacyManager.setConsentAwareAnalytics', { idSite, enabled: 0 });
+      try {
+        for (const idSite of ['all', 1, 2]) {
+          await testEnvironment.callApi('PrivacyManager.setConsentAwareAnalytics', { idSite, enabled: 0 });
+        }
+      } finally {
+        // leave no config overrides or pending page state behind for later tests
+        delete testEnvironment.configOverride.FeatureFlags;
+        delete testEnvironment.configOverride.CnilPolicy;
+        testEnvironment.save();
       }
-
-      // leave no config overrides or pending page state behind for later tests
-      delete testEnvironment.configOverride.FeatureFlags;
-      delete testEnvironment.configOverride.CnilPolicy;
-      testEnvironment.save();
     });
   });

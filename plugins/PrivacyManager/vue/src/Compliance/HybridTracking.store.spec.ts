@@ -108,7 +108,7 @@ describe('PrivacyManager/HybridTracking.store', () => {
     expect(store.hasUnsavedChanges.value).toBe(true);
   });
 
-  it('clears the save outcome and ignores a late response when the site changes', async () => {
+  it('clears the save outcome and ignores a late fetch response when the site changes', async () => {
     const store = await createLoadedStore();
     postMock.mockResolvedValueOnce(payload({ enabled: true }));
     store.toggle();
@@ -161,5 +161,57 @@ describe('PrivacyManager/HybridTracking.store', () => {
     resolveSave(payload({ enabled: true }));
     await saving;
     expect(store.state.saving).toBe(false);
+  });
+
+  it('posts once when saved again while a save is in progress', async () => {
+    const store = await createLoadedStore();
+    let resolveSave: (value: HybridTrackingPayload) => void = () => {};
+    postMock.mockReturnValueOnce(new Promise((resolve) => { resolveSave = resolve; }));
+
+    store.toggle();
+    const first = store.save('secret');
+    expect(await store.save('secret')).toBe(false);
+
+    resolveSave(payload({ enabled: true }));
+    expect(await first).toBe(true);
+    expect(postMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('fetches the new scope again when a save lands after the site changed', async () => {
+    const store = await createLoadedStore({}, 'all');
+    let resolveSave: (value: HybridTrackingPayload) => void = () => {};
+    postMock.mockReturnValueOnce(new Promise((resolve) => { resolveSave = resolve; }));
+    // fetched before the save of all websites lands, then after it
+    fetchMock.mockResolvedValueOnce(payload({ enabledForAllWebsites: false }));
+    fetchMock.mockResolvedValueOnce(payload({ enabledForAllWebsites: true }));
+
+    store.toggle();
+    const saving = store.save('secret');
+    store.setIdSite('2');
+    await new Promise(process.nextTick);
+    expect(store.state.enabledForAllWebsites).toBe(false);
+
+    resolveSave(payload({ enabled: true }));
+    await saving;
+    await new Promise(process.nextTick);
+
+    expect(fetchMock).toHaveBeenLastCalledWith(
+      { idSite: '2', method: 'PrivacyManager.getConsentAwareAnalytics' },
+      { createErrorNotification: false },
+    );
+    expect(store.state.enabled).toBe(false);
+    expect(store.state.saveSuccess).toBe(false);
+    expect(store.state.enabledForAllWebsites).toBe(true);
+  });
+
+  it('records the error when fetching fails', async () => {
+    fetchMock.mockRejectedValueOnce(new Error('offline'));
+    const store = createHybridTrackingStore();
+
+    store.setIdSite('1');
+    await new Promise(process.nextTick);
+
+    expect(store.state.fetchError).toBe('offline');
+    expect(store.state.loading).toBe(false);
   });
 });

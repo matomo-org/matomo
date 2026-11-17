@@ -161,13 +161,15 @@ describe('PrivacyManager/Compliance', () => {
 
   it('reloads the policy tables once hybrid tracking is saved', async () => {
     const wrapper = await createWrapper({ idSite: 'all' }, { granularComplianceEnabled: true });
-    const before = wrapper.findComponent(GranularComplianceOverview).vm;
+    const before = wrapper.findComponent(GranularComplianceOverview);
+    expect(before.props('reloadCount')).toBe(0);
 
     await wrapper.findComponent(HybridTracking).vm.$emit('saved');
     await flushPromises();
 
+    // reloaded in place, so toggles not saved yet in the tables are kept
     const after = wrapper.findComponent(GranularComplianceOverview);
-    expect(after.exists()).toBe(true);
-    expect(after.vm).not.toBe(before);
+    expect(after.vm).toBe(before.vm);
+    expect(after.props('reloadCount')).toBe(1);
   });
 });
