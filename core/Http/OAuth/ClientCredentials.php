@@ -106,14 +106,6 @@ class ClientCredentials
         return in_array($this->credentialType, [self::CREDENTIAL_TYPE_SECRET, self::CREDENTIAL_TYPE_CERTIFICATE], true);
     }
 
-    /**
-     * Returns the name of the setting that holds the credential, the client secret or the certificate path.
-     */
-    public function getCredentialSettingName(): string
-    {
-        return $this->isCertificate() ? 'certificate_path' : 'client_secret';
-    }
-
     public function isComplete(): bool
     {
         $credential = $this->isCertificate() ? $this->certificatePath : $this->clientSecret;

@@ -46,7 +46,7 @@ class SmtpTokenProvider extends ClientCredentialsTokenProvider
         if (!$credentials->isComplete()) {
             throw new TokenRequestFailedException(
                 'The SMTP OAuth settings are incomplete. Please set oauth_token_url, oauth_client_id and oauth_'
-                . $credentials->getCredentialSettingName() . ' in the [mail] section of the config file.'
+                . ($credentials->isCertificate() ? 'certificate_path' : 'client_secret') . ' in the [mail] section of the config file.'
             );
         }
 
