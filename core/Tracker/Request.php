@@ -830,17 +830,20 @@ class Request
      * or from a Visitor ID from 3rd party (optional) cookies,
      * or from a given Visitor Id from 1st party?
      *
-     * @param bool|null $hasConsent overrides what the request reports, for a caller that knows
-     *                              the consent does not apply to the visit being recorded
      * @throws Exception
      */
-    public function getVisitorId(?bool $hasConsent = null)
+    public function getVisitorId()
     {
         $found = false;
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->getIdSiteIfExists())) {
-            // If User ID is set it takes precedence
-            $userId = $this->getForcedUserId($hasConsent);
+            // If User ID is set it takes precedence. The consent a request reports is
+            // deliberately not considered here: a visitor's identifier may not change with it,
+            // or the same person in the same browser is one visitor on a request that reports
+            // consent and another on a request that does not, and a visit is split, merged or
+            // missed accordingly. Where a policy withholds the User ID it is withheld here
+            // too, whatever the request says.
+            $userId = $this->getForcedUserId(false);
             if ($userId) {
                 $userIdHashed = $this->getUserIdHashed($userId);
                 $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
