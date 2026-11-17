@@ -8,6 +8,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
+* `[Transitions] max_preprocessed_pages` (default `20`) limits the pages per website whose Transitions report is pre-processed.
+* `[Transitions] preprocessed_refresh_after` (default `900` seconds, `0` turns it off) sets when the pre-processed Transitions data of today or yesterday is rebuilt in a request.
+* `[Transitions] preprocessed_max_rows_served` (default `500`) sets the most rows per list a Transitions report served from pre-processed data shows; larger `limitBeforeGrouping` values use the raw logs.
+* `[General] datatable_archiving_maximum_rows_transitions` (default `1000`) sets the rows kept per list of a pre-processed Transitions page.
+* The three `[Transitions]` settings above can be overridden for one website in a `[Transitions_idSite]` section.
 * `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
 
 ### New APIs
@@ -27,6 +32,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### HTTP API
 * The `parts` parameter of `Transitions.getTransitionsForAction` accepts the new value `followingActionsWithoutLoops`: the following actions without page reloads, as in the full report.
+* The new methods `Transitions.getPreprocessedPages`, `Transitions.addPreprocessedPage`, `Transitions.removePreprocessedPage` and `Transitions.getPreprocessedPageStatus` let website admins manage the pages whose Transitions report is pre-processed during archiving.
+* `Transitions.getTransitionsForAction` and `Transitions.getTransitionsForPageUrl` answered from pre-processed data add the keys `preprocessed` (`1`) and `preprocessedAt` (UTC time), and `[Transitions] max_period_allowed` does not apply to them.
 * `prettyDate` of `API.getProcessedReport` now names the period the report's rows were archived for:
   * For a relative date such as `today`, `yesterday`, `lastN` or `previousN` with the period `day`, `week`, `month` or `year` on a single site whose day differs from UTC's, it names the site's days instead of UTC's, and so do the date line and file name of the scheduled reports generated from it.
   * A relative `range` is still resolved as before, not on the site's days, and is labelled on the days its rows are archived for.
@@ -35,6 +42,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
 
 ### Archiving
+* The Transitions report of a pre-processed page rebuilds that page's records of today and yesterday within the request, also when browser archiving is disabled or `browser_archiving_disabled_enforce = 1`.
+* A partial archive, one written for `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()`, is now always stored under the done flag of its plugin, also outside `core:archive`.
+* Archives of other invalidations, and of other single reports, no longer wait for a single report's archive in progress.
+* A single report of a period with today is archived again also when a recent archive of the period exists.
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 
 ### Other changes
