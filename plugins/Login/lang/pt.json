@@ -79,6 +79,7 @@
         "PasswordsDoNotMatch": "Senhas incompatíveis.",
         "PluginDescription": "Fornece autenticação via nome de utilizador e palavra-passe bem como a funcionalidade de reposição de palavra-passe. O método de autenticação pode ser alterado utilizando outra extensão de autenticação, como o LoginLdap disponível na loja.",
         "RememberMe": "Recordar-me",
+        "SecondFactorCode": "Código de autenticação",
         "SecurityTip": "Dica de Segurança",
         "SettingBruteForceBlacklistIp": "Impedir sempre estes endereços de IP de iniciar sessão",
         "SettingBruteForceEnable": "Ativar detecção de força bruta",

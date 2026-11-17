@@ -11,11 +11,18 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `[General] enable_processing_estimated_unique_visitors_week`, `_month`, `_year` and `_range` (default `0`) estimate each website's unique visitors and users for that period instead of counting them from the visit logs. A period that can't be estimated is counted exactly when its `enable_processing_unique_visitors_...` setting is `1`, and has no value otherwise. Periods already archived keep their values until they are invalidated.
 * `[General] unique_visitors_estimate_precision` (default `14`, from `4` to `18`) sets the accuracy of the estimate.
 * Plugins reading `nb_uniq_visitors` or `nb_users` from the `VisitsSummary` archive of an estimated period get the estimate. The archive's `uniques_estimated` record is `1` when the value was estimated.
+* `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
 
 ### New APIs
+* Controller actions can ask the user to confirm with their second factor, e.g. a two-factor authentication code, by calling `Piwik\Plugins\Login\SecondFactorVerifier::requireSecondFactorConfirmed()`. Each confirmation can be used once, for that action only.
+* Plugins that provide a second factor answer the new events `Login.userRequiresSecondFactorConfirmation` and `Login.verifySecondFactor`.
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
+* `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
+
+### New commands
+* `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
 
 ### Deprecations
 * The `disabled` class on a `.mtm-selector` is deprecated and will be removed in Matomo 7; use the `mtm-selector--disabled` modifier instead.
