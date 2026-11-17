@@ -30,6 +30,9 @@ class Insight extends Visualization
     public const FOOTER_ICON_TITLE = 'Insights';
     public const FOOTER_ICON       = 'icon-insights';
 
+    private bool $isComparedDateResolved = false;
+    private ?string $comparedDate = null;
+
     public function beforeLoadDataTable()
     {
         // Insights compares the report with another date itself, so the API must not run it through the comparison
@@ -84,10 +87,25 @@ class Insight extends Visualization
      */
     private function getComparedDate(): ?string
     {
+        if (!$this->isComparedDateResolved) {
+            $this->comparedDate = $this->resolveComparedDate();
+            $this->isComparedDateResolved = true;
+        }
+
+        return $this->comparedDate;
+    }
+
+    private function resolveComparedDate(): ?string
+    {
         $compareDates = array_values($this->requestConfig->compareDates);
         $comparePeriods = array_values($this->requestConfig->comparePeriods);
 
         if (count($compareDates) !== 1 || count($comparePeriods) !== 1) {
+            return null;
+        }
+
+        // a malformed URL can send nested arrays, such as compareDates[0][]=...
+        if (!is_string($compareDates[0]) || !is_string($comparePeriods[0])) {
             return null;
         }
 

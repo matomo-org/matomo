@@ -163,6 +163,24 @@ class ApiTest extends SystemTestCase
         $this->assertEquals([1], array_values(array_unique($insights->getColumn('isNew'))));
     }
 
+    public function testGetInsightsShouldCompareARangeWithTheGivenRangeOfTheSameLength()
+    {
+        $insights = $this->requestInsights([
+            'period' => 'range',
+            'date' => '2010-12-13,2010-12-14',
+            'comparedToDate' => '2010-12-11,2010-12-12',
+        ]);
+
+        $this->assertEquals('2010-12-11,2010-12-12', $insights->getMetadata('lastDate'));
+    }
+
+    public function testGetInsightsShouldGoBackInPastWhenTheGivenDateIsBlank()
+    {
+        $insights = $this->requestInsights(['comparedToDate' => ' ']);
+
+        $this->assertEquals(self::$fixture->date2, $insights->getMetadata('lastDate'));
+    }
+
     /**
      * @dataProvider getDatesNotComparable
      */
