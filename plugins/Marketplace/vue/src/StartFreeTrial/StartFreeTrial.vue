@@ -93,15 +93,22 @@ export interface StartFreeTrialState {
   loadingModalCloseCallback: undefined | (() => void);
 }
 
+type TrialPlugin = Pick<PluginCard, 'name' | 'displayName'>;
+
 export default defineComponent({
   components: { Field },
   props: {
     modelValue: {
-      type: Object as PropType<PluginCard | null>,
+      type: Object as PropType<TrialPlugin | null>,
       default: () => null,
     },
     currentUserEmail: String,
     isValidConsumer: Boolean,
+    /** The API method that starts the trial, which is given the plugin's name. */
+    apiMethod: {
+      type: String,
+      default: 'Marketplace.startFreeTrial',
+    },
   },
   data(): StartFreeTrialState {
     return {
@@ -145,8 +152,8 @@ export default defineComponent({
     },
   },
   computed: {
-    plugin(): PluginCard {
-      return this.modelValue as PluginCard;
+    plugin(): TrialPlugin {
+      return this.modelValue as TrialPlugin;
     },
     trialStartNoLicenseAddHereText() {
       const link = `?${MatomoUrl.stringify({
@@ -289,7 +296,7 @@ export default defineComponent({
       AjaxHelper.post(
         {
           module: 'API',
-          method: 'Marketplace.startFreeTrial',
+          method: this.apiMethod,
         },
         {
           pluginName: this.plugin.name,

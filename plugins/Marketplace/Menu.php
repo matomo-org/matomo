@@ -28,12 +28,7 @@ class Menu extends \Piwik\Plugin\Menu
             );
         }
 
-        // super users decide on requests rather than make them, on a page of their own
-        if (
-            !Piwik::isUserIsAnonymous()
-            && !Piwik::hasUserSuperUserAccess()
-            && StaticContainer::get(PluginTrialService::class)->areRequestsActive()
-        ) {
+        if (!Piwik::isUserIsAnonymous() && StaticContainer::get(PluginTrialService::class)->areRequestsActive()) {
             $menu->addPersonalItem('Marketplace_ManageRequests', $this->urlForAction('manageRequests', $idSiteParameter), 30);
         }
 
