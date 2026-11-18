@@ -616,6 +616,35 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertSame(20, (int) $rows['aaaaaa']['time_spent']);
     }
 
+    public function testClosingHeartbeatSentBeforeTheNextPageViewExtendsTheRow()
+    {
+        // The JavaScript tracker sends one more heartbeat for a page it already pinged for
+        // just before it tracks the next page view.
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 20, true);
+        $this->trackPing($tracker, 320, true);
+        $this->trackPageB($tracker, 320);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(320, (int) $rows['aaaaaa']['time_spent']);
+        $this->assertSame(1, (int) $rows['aaaaaa']['has_heartbeat']);
+    }
+
+    public function testClosingHeartbeatArrivingAfterTheNextPageViewStillExtendsTheRow()
+    {
+        // Both requests leave the browser back to back, so the server can receive them in either order.
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 20, true);
+        $this->trackPageB($tracker, 320);
+        $tracker->setPageviewId('aaaaaa');
+        $this->trackPing($tracker, 320, true);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(320, (int) $rows['aaaaaa']['time_spent']);
+        $this->assertSame(1, (int) $rows['aaaaaa']['has_heartbeat']);
+        $this->assertSame(0, (int) $rows['bbbbbb']['time_spent']);
+    }
+
     public function testOutOfOrderHeartbeatMarksTheRowWithoutLoweringIt()
     {
         $tracker = $this->trackPageA();

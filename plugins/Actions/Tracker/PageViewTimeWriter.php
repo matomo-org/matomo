@@ -49,7 +49,9 @@ use Piwik\Tracker\Visit\VisitProperties;
  *    row's own pv_id grow it from then on. A visitor who comes back to the page and navigates
  *    before the tracker sends another heartbeat therefore keeps the last value reported, which
  *    is shorter than the time the tab was open. This includes time spent in an embedded iframe,
- *    as focusing one blurs the page.
+ *    as focusing one blurs the page. The JavaScript tracker limits this by sending one more
+ *    heartbeat for such a page when it unloads or when the next page view is tracked; an older
+ *    cached tracker or another client that does not do so still leaves the last value.
  */
 class PageViewTimeWriter
 {
