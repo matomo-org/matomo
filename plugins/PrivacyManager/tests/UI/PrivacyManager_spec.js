@@ -799,6 +799,10 @@ describe("PrivacyManager", function () {
                 hasSaveButton: !!document.querySelector('.hybridTrackingSave'),
                 note: note ? note.innerText.trim() : null,
                 hasGuideLink: !!guideLink,
+                // the policy tables switch to the consent-aware wording without a page reload
+                tablesDescribeConsent: !!policyTable && policyTable.innerText.includes(
+                  'masked before storage for visitors who have not given their consent'
+                ),
             };
         });
     }
@@ -824,11 +828,13 @@ describe("PrivacyManager", function () {
       expect(state.hasGuideLink).to.equal(true);
       expect(state.checked).to.equal(false);
       expect(state.disabled).to.equal(false);
+      expect(state.tablesDescribeConsent).to.equal(false);
 
       await toggleHybridTrackingAndSave();
 
       state = await hybridTrackingState();
       expect(state.checked).to.equal(true);
+      expect(state.tablesDescribeConsent).to.equal(true);
       expect(await page.evaluate(() => $('.hybridTrackingSaveNotifications .notification-success').length)).to.equal(1);
 
       await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site'

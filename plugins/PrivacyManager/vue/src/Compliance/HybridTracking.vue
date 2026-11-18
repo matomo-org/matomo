@@ -44,7 +44,7 @@
             <p>{{ toggleHelp }}</p>
             <p
               class="hybridTrackingEnabledForAllWebsites"
-              v-if="isInheritedFromAllWebsites"
+              v-if="showEnabledForAllWebsitesNote"
             >
               {{ translate('PrivacyManager_ComplianceHybridTrackingEnabledForAllWebsites') }}
             </p>
@@ -54,15 +54,15 @@
               <input
                 type="checkbox"
                 id="hybridTrackingEnabled"
-                :checked="isToggledOn"
-                :disabled="!canToggle || state.saving"
+                :checked="state.localEnabled"
+                :disabled="!state.isWritable || state.saving"
                 @change="toggle()"
               />
               <span class="lever"></span>
             </label>
           </div>
         </div>
-        <template v-if="canToggle">
+        <template v-if="state.isWritable">
           <SaveButton
             class="hybridTrackingSave"
             :disabled="!hasUnsavedChanges"
@@ -142,11 +142,9 @@ export default defineComponent({
     // a website measures hybrid tracking when it is on for every website or for itself. The
     // switch shows and changes the website's own value, which applies again once it is turned off
     // for every website, and the note explains why the website is measured whatever it says
-    const isInheritedFromAllWebsites = computed(
+    const showEnabledForAllWebsitesNote = computed(
       () => !isAllWebsites.value && store.state.enabledForAllWebsites,
     );
-    const isToggledOn = computed(() => store.state.localEnabled);
-    const canToggle = computed(() => store.state.isWritable);
 
     const toggleHelp = computed(() => translate(isAllWebsites.value
       ? 'PrivacyManager_ComplianceHybridTrackingToggleHelpAllWebsites'
@@ -163,9 +161,7 @@ export default defineComponent({
       hasUnsavedChanges: store.hasUnsavedChanges,
       toggle: store.toggle,
       save: store.save,
-      isInheritedFromAllWebsites,
-      isToggledOn,
-      canToggle,
+      showEnabledForAllWebsitesNote,
       toggleHelp,
       requirementConsent,
       showPasswordConfirmation: ref(false),

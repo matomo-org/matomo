@@ -130,7 +130,7 @@ export function createHybridTrackingStore(): HybridTrackingStore {
         method: 'PrivacyManager.setConsentAwareAnalytics',
       },
       {
-        // a boolean would be posted as the string "false", which PHP reads as true
+        // posted as 1 or 0, like the compliance policy settings
         enabled: state.localEnabled ? 1 : 0,
         passwordConfirmation: password,
       },
@@ -142,8 +142,8 @@ export function createHybridTrackingStore(): HybridTrackingStore {
         applyPayload(payload);
         state.saveSuccess = true;
       } else {
-        // the new scope may have been fetched before this save landed, e.g. its value
-        // inherited from all websites
+        // the new scope may have been fetched before this save landed, e.g. whether it is on
+        // for all websites
         fetch();
       }
 

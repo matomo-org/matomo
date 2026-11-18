@@ -993,7 +993,12 @@ class API extends \Piwik\Plugin\API
         $after = $this->getConsentAwareAnalyticsPayload($idSite);
 
         if ($before['enabled'] !== $after['enabled']) {
-            $this->postConsentAwareAnalyticsUpdated($idSite, $after['enabled'], $before['enabled']);
+            $this->postConsentAwareAnalyticsUpdated(
+                $idSite,
+                $after['enabled'],
+                $before['enabled'],
+                $after['enabledForAllWebsites']
+            );
         }
 
         return $after;
@@ -1018,8 +1023,12 @@ class API extends \Piwik\Plugin\API
         ];
     }
 
-    private function postConsentAwareAnalyticsUpdated(?int $idSite, bool $enabled, bool $previousEnabled): void
-    {
+    private function postConsentAwareAnalyticsUpdated(
+        ?int $idSite,
+        bool $enabled,
+        bool $previousEnabled,
+        bool $enabledForAllWebsites
+    ): void {
         /**
          * Triggered after a request turned consent-aware analytics (hybrid tracking) on or off,
          * for the whole instance or for a website, for example through the privacy compliance page.
@@ -1036,14 +1045,19 @@ class API extends \Piwik\Plugin\API
          *
          *                      - **idSite**: The website it was changed for, or `null` when the
          *                                    instance-wide value was changed.
-         *                      - **enabled**: Whether it is on for that scope after the change.
-         *                      - **previousEnabled**: Whether it was on for that scope before.
+         *                      - **enabled**: The value set for that scope after the change. For
+         *                                     a website, this is its own value only.
+         *                      - **previousEnabled**: The value set for that scope before.
+         *                      - **enabledForAllWebsites**: Whether it is on for the whole
+         *                                                   instance. A website is measured while
+         *                                                   either this or its own value is on.
          */
         try {
             Piwik::postEvent('PrivacyManager.consentAwareAnalyticsUpdated', [[
                 'idSite' => $idSite,
                 'enabled' => $enabled,
                 'previousEnabled' => $previousEnabled,
+                'enabledForAllWebsites' => $enabledForAllWebsites,
             ]]);
         } catch (\Throwable $e) {
             // the value is already written, see postCompliancePolicySettingsUpdated()

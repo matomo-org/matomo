@@ -230,6 +230,17 @@ describe('PrivacyManager/GranularCompliance.store', () => {
     expect(store.dirtySettingIds.value).toEqual(['A.One']);
   });
 
+  it('does not reload while a save is in progress', async () => {
+    const store = await createLoadedStore([setting({ id: 'A.One', enforced: false })]);
+    postMock.mockReturnValueOnce(new Promise(() => {}));
+
+    store.toggleSetting('A.One');
+    store.save('secret');
+    store.reload();
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it('records the error when fetching fails', async () => {
     fetchMock.mockRejectedValueOnce(new Error('offline'));
     const store = createGranularComplianceStore('cnil_v1');

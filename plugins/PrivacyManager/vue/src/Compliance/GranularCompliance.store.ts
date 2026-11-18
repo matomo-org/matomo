@@ -147,6 +147,11 @@ export function createGranularComplianceStore(policy: string): GranularComplianc
 
   // fetches the texts again, e.g. once hybrid tracking changes them, and keeps unsaved toggles
   function reload() {
+    // a reload answered before an ongoing save would bring the values from before it back
+    if (state.saving) {
+      return;
+    }
+
     fetchSettings(true);
   }
 

@@ -318,9 +318,10 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
         $this->api->setConsentAwareAnalytics($this->idSite, '0');
 
         $this->assertSame([
-            ['idSite' => $this->idSite, 'enabled' => true, 'previousEnabled' => false],
-            ['idSite' => null, 'enabled' => true, 'previousEnabled' => false],
-            ['idSite' => $this->idSite, 'enabled' => false, 'previousEnabled' => true],
+            ['idSite' => $this->idSite, 'enabled' => true, 'previousEnabled' => false, 'enabledForAllWebsites' => false],
+            ['idSite' => null, 'enabled' => true, 'previousEnabled' => false, 'enabledForAllWebsites' => true],
+            // the website's own value is off, but it is still measured as it is on for all websites
+            ['idSite' => $this->idSite, 'enabled' => false, 'previousEnabled' => true, 'enabledForAllWebsites' => true],
         ], $updates);
     }
 

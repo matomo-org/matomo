@@ -94,8 +94,8 @@ class ConsentAwareAnalytics implements SystemSettingInterface, MeasurableSetting
     }
 
     /**
-     * Whether it is on for the given scope: the website when one is given, the whole instance
-     * otherwise.
+     * Whether the given scope measures it: for a website, when it is on for the whole instance or
+     * for that website; without a website, when it is on for the whole instance.
      */
     public static function isEnabledForScope(?int $idSite): bool
     {

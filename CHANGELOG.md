@@ -17,7 +17,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Where `enable_userid_overwrites_visitorid` is on, a User ID that a policy withholds is never used for `idvisitor`, even with consent, so `nb_uniq_visitors` keeps counting browsers.
 
 ### New config.ini.php settings
-* `[PrivacyManager] consent_aware_analytics` sets consent-aware measurement for the whole instance and locks that value on the *Privacy → Compliance* page. It does not lock the websites: each one can still turn it on or off for itself, and a website measures it when either the instance or the website has it on.
+* `[PrivacyManager] consent_aware_analytics` sets consent-aware measurement for the whole instance and locks that value on the *Privacy → Compliance* page. It does not lock the websites: each one keeps its own value, which takes effect while the instance value is off. A website measures it when either the instance or the website has it on.
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 * `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
 
