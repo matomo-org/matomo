@@ -482,22 +482,40 @@ class TrackerTest extends IntegrationTestCase
         $this->assertSame('', $errorLog);
     }
 
-    public function testHandleUncaughtErrorShouldAnswerWithServerErrorWithoutBodyAndLogIt()
+    public function testHandleUncaughtErrorShouldAnswerATrackingPixelWithServerErrorAndTheTrackingImageAndLogIt()
     {
         $logger = $this->useRecordingLogger();
         Common::$headersSentInTests = [];
         $error = new \TypeError('handler failed');
 
-        ob_start();
-        $errorLog = $this->captureErrorLog(function () use ($error) {
-            (new TestTracker())->handleUncaughtError($error);
-        });
-        $output = ob_get_clean();
+        $output = $this->handleUncaughtErrorForRequest($error, 'GET', []);
+
+        Fixture::checkResponse($output);
+        $this->assertSame('HTTP/1.1 500 Internal Server Error', $this->getLastSentStatusLine());
+        $this->assertSame([[LogLevel::ERROR, $error]], $logger->errors);
+    }
+
+    /**
+     * @dataProvider getRequestsWithoutTrackingImage
+     * @param array<string, string> $get
+     */
+    public function testHandleUncaughtErrorShouldAnswerWithServerErrorWithoutBodyIfNoImageIsRequested(string $method, array $get)
+    {
+        $logger = $this->useRecordingLogger();
+        Common::$headersSentInTests = [];
+        $error = new \TypeError('handler failed');
+
+        $output = $this->handleUncaughtErrorForRequest($error, $method, $get);
 
         $this->assertSame('', $output);
         $this->assertSame('HTTP/1.1 500 Internal Server Error', $this->getLastSentStatusLine());
         $this->assertSame([[LogLevel::ERROR, $error]], $logger->errors);
-        $this->assertSame('', $errorLog, 'Tracker errors only go to the configured log writers');
+    }
+
+    public function getRequestsWithoutTrackingImage(): iterable
+    {
+        yield 'POST, eg a bulk request' => ['POST', []];
+        yield 'GET with send_image=0' => ['GET', ['send_image' => '0']];
     }
 
     public function testHandleUncaughtErrorShouldKeepTheStatusCodeOfAClientErrorWithoutLoggingIt()
@@ -506,7 +524,7 @@ class TrackerTest extends IntegrationTestCase
         Common::$headersSentInTests = [];
 
         $errorLog = $this->captureErrorLog(function () {
-            (new TestTracker())->handleUncaughtError(new NoAccessException('no access', 403));
+            $this->handleUncaughtErrorForRequest(new NoAccessException('no access', 403), 'POST', []);
         });
 
         $this->assertSame('HTTP/1.1 403 Forbidden', $this->getLastSentStatusLine());
@@ -522,7 +540,7 @@ class TrackerTest extends IntegrationTestCase
         Common::$headersSentInTests = [];
 
         $errorLog = $this->captureErrorLog(function () {
-            (new TestTracker())->handleUncaughtError(new \RuntimeException('handler failed'));
+            $this->handleUncaughtErrorForRequest(new \RuntimeException('handler failed'), 'POST', []);
         });
 
         $this->assertSame('HTTP/1.1 500 Internal Server Error', $this->getLastSentStatusLine());
@@ -537,10 +555,9 @@ class TrackerTest extends IntegrationTestCase
         $tracker = new TestTracker();
         $tracker->setCountOfLoggedRequests(2);
 
-        $this->captureErrorLog(function () use ($tracker, $error) {
-            $tracker->handleUncaughtError($error);
-        });
+        $output = $this->handleUncaughtErrorForRequest($error, 'GET', [], $tracker);
 
+        Fixture::checkResponse($output);
         $this->assertNull($this->getLastSentStatusLine());
         $this->assertSame([[LogLevel::ERROR, $error]], $logger->errors);
     }
@@ -624,6 +641,32 @@ class TrackerTest extends IntegrationTestCase
         StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
 
         return $logger;
+    }
+
+    /**
+     * @param array<string, string> $get
+     */
+    private function handleUncaughtErrorForRequest(\Throwable $error, string $method, array $get, ?Tracker $tracker = null): string
+    {
+        $previousMethod = $_SERVER['REQUEST_METHOD'] ?? null;
+        $previousGet = $_GET;
+        $_SERVER['REQUEST_METHOD'] = $method;
+        $_GET = $get;
+
+        ob_start();
+        try {
+            ($tracker ?? new TestTracker())->handleUncaughtError($error);
+        } finally {
+            $output = ob_get_clean();
+            $_GET = $previousGet;
+            if ($previousMethod === null) {
+                unset($_SERVER['REQUEST_METHOD']);
+            } else {
+                $_SERVER['REQUEST_METHOD'] = $previousMethod;
+            }
+        }
+
+        return (string) $output;
     }
 
     private function captureErrorLog(callable $callback): string
