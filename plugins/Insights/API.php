@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Insights;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\DataTable;
+use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
 
 /**
@@ -293,7 +294,7 @@ class API extends \Piwik\Plugin\API
         $comparedToDate = trim($comparedToDate);
 
         if ($comparedToDate !== '' && !$this->model->isComparableDate($period, $date, $comparedToDate)) {
-            throw new \Exception('The comparedToDate parameter must be a single date of the same period type, or for a date range, a range of the same length or the same days in another year.');
+            throw new BadRequestException('The comparedToDate parameter must be a single date of the same period type, or for a date range, a range of the same length or the same days in another year.');
         }
 
         $totalValue     = $this->model->getTotalValue($idSite, $period, $date, $metric, $segment);

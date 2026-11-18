@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Insights\tests\Integration;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Cache as PiwikCache;
 use Piwik\DataTable;
+use Piwik\Http\BadRequestException;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
 use Piwik\Tests\Framework\Fixture;
@@ -187,10 +188,17 @@ class ApiTest extends SystemTestCase
      */
     public function testGetInsightsShouldRefuseADateItCannotCompareWith(array $params)
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(BadRequestException::class);
         $this->expectExceptionMessage('The comparedToDate parameter must be a single date of the same period type');
 
-        $this->requestInsights($params);
+        // Called directly: in tests, the API request layer rethrows every error as a plain exception
+        $this->api->getInsights(
+            idSite: self::$fixture->idSite,
+            period: $params['period'] ?? 'day',
+            date: $params['date'] ?? self::$fixture->date1,
+            reportUniqueId: 'Actions_getPageUrls',
+            comparedToDate: $params['comparedToDate']
+        );
     }
 
     public function getDatesNotComparable(): array
