@@ -34,6 +34,7 @@
         "LicenseHomepage": "Lisensside",
         "LikeThisPlugin": "Liker du dette tillegget?",
         "MenuPlatform": "Platform",
+        "MissingRequirementsNotYetCompatibleNotice": "Dette tillegget er ikke kompatibelt med %1$s %2$s ennå. Støttede versjoner: %1$s %3$s. Vent på en oppdatering av tillegget.",
         "MissingRequirementsNotice": "Vennligst oppdater %1$s %2$s til en nyere versjon, %1$s %3$s er påkrevd.",
         "MissingRequirementsPleaseInstallNotice": "Vennligst installer %1$s %2$s da dette er påkrevd av %3$s.",
         "NUpdatesAvailable": "%1$s oppgradering(er) tilgjengelig",

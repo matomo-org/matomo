@@ -70,7 +70,7 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
         // does. It is off by default, and a site that has not opted in treats every visitor the
         // same, so the plain wording is what is true there
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingWhatItDoes2');
+            return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingWhatItDoesConsentAware');
         }
 
         return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingWhatItDoes');
@@ -82,7 +82,7 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
         // does. It is off by default, and a site that has not opted in treats every visitor the
         // same, so the plain wording is what is true there
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingImpact2');
+            return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingImpactConsentAware');
         }
 
         return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingImpact');

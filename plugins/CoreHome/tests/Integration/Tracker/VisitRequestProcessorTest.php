@@ -180,12 +180,36 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         $this->assertTrue($result);
     }
 
+    public function testIsVisitNewStillWorksWhenAPluginOverridesTheUserIdCheck()
+    {
+        $this->setDimensionsWithOnNewVisit([false, false, false]);
+
+        /** @var LegacyOverrideVisitRequestProcessor $visit */
+        /** @var VisitProperties $visitProperties */
+        /** @var Request $request */
+        [$visit, $visitProperties, $request] = $this->makeVisitorAndAction(
+            $lastActionTime = '2012-01-02 08:08:34',
+            $thisActionTime = '2012-01-02 08:12:45',
+            $isVisitorKnown = true,
+            [],
+            [],
+            LegacyOverrideVisitRequestProcessor::class
+        );
+
+        $visitProperties->setProperty('user_id', 'foo_different');
+        $request->setParam('uid', 'foo');
+
+        $this->assertTrue($visit->isVisitNew($visitProperties, $request, null));
+        $this->assertTrue($visit->lastUserIdWasChecked, 'the plugin override was not called');
+    }
+
     private function makeVisitorAndAction(
         $lastActionTimestamp,
         $currentActionTime,
         $isVisitorKnown = false,
         $processorParams = [],
-        $extraRequestParams = []
+        $extraRequestParams = [],
+        $processorClass = VisitRequestProcessor::class
     ) {
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
 
@@ -193,7 +217,8 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         [$visit, $request] = $this->prepareVisitWithRequest(
             array_merge(['idsite' => $idsite], $extraRequestParams),
             $currentActionTime,
-            $processorParams
+            $processorParams,
+            $processorClass
         );
 
         $visitProperties = new VisitProperties();
@@ -219,12 +244,24 @@ class VisitRequestProcessorTest extends IntegrationTestCase
         Visit::$dimensions = null;
     }
 
-    private function prepareVisitWithRequest($requestParams, $requestDate, $params = [])
-    {
+    private function prepareVisitWithRequest(
+        $requestParams,
+        $requestDate,
+        $params = [],
+        $processorClass = VisitRequestProcessor::class
+    ) {
         $request = new Request($requestParams);
         $request->setCurrentTimestamp(Date::factory($requestDate)->getTimestamp());
 
-        $visit = self::$fixture->piwikEnvironment->getContainer()->make('Piwik\Plugins\CoreHome\Tracker\VisitRequestProcessor', $params);
+        if ($processorClass !== VisitRequestProcessor::class) {
+            // the container binds these two for the processor itself, not for a subclass of it
+            $params += [
+                'visitStandardLength' => Config::getInstance()->Tracker['visit_standard_length'],
+                'trackerAlwaysNewVisitor' => false,
+            ];
+        }
+
+        $visit = self::$fixture->piwikEnvironment->getContainer()->make($processorClass, $params);
 
         return [$visit, $request];
     }

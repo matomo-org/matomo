@@ -16,10 +16,12 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\ArchiveFilter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\SettingsServer;
@@ -220,6 +222,13 @@ class Model
 
         $existingInvalidations = $this->getExistingInvalidations($idSites, $periodCondition, $nameCondition);
 
+        // invalidations on hold count as existing, they absorb the new ones and must not be dropped as already processed
+        Db::query(
+            "UPDATE `" . Common::prefixTable('archive_invalidations') . "` SET ts_invalidated = ?
+              WHERE idsite IN (" . implode(',', array_map('intval', $idSites)) . ") AND status = ? $periodCondition AND $nameCondition",
+            [$now, ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD]
+        );
+
         $hashesOfAllSegmentsToArchiveInCoreArchive = Rules::getSegmentsToProcess($idSites);
         $hashesOfAllSegmentsToArchiveInCoreArchive = array_map(function ($definition) {
             return Segment::getSegmentHash($definition);
@@ -311,7 +320,8 @@ class Model
         $idSites = array_map('intval', $idSites);
 
         $sql = "SELECT idsite, date1, date2, period, name, report, COUNT(*) as `count` FROM `$table`
-                 WHERE idsite IN (" . implode(',', $idSites) . ") AND status = " . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . "
+                 WHERE idsite IN (" . implode(',', $idSites) . ")
+                       AND status IN (" . ArchiveInvalidator::INVALIDATION_STATUS_QUEUED . ", " . ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD . ")
                        $periodCondition AND $nameCondition
               GROUP BY idsite, date1, date2, period, name";
         $rows = Db::fetchAll($sql);
@@ -768,13 +778,23 @@ class Model
         $table = Common::prefixTable('archive_invalidations');
 
         // set archive value to in progress if not set already
-        $statement = Db::query("UPDATE `$table` SET `status` = ?, `processing_host` = ?, `process_id` = ?, `ts_started` = NOW() WHERE `idinvalidation` = ? AND `status` = ?", [
+        $sql = "UPDATE `$table` SET `status` = ?, `processing_host` = ?, `process_id` = ?, `ts_started` = NOW() WHERE `idinvalidation` = ? AND `status` = ?";
+        $bind = [
             ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
             gethostname() ?: null,
             Common::getProcessId(),
             $invalidation['idinvalidation'],
             ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-        ]);
+        ];
+
+        // checked in the same statement, so a failure another archiver just recorded can't be missed
+        if (ArchiveFailures::isAvailable()) {
+            [$blockedSql, $blockedBind] = (new ArchiveFailures())->getBlockingFailureExistsCondition($invalidation);
+            $sql .= " AND NOT $blockedSql";
+            $bind = array_merge($bind, $blockedBind);
+        }
+
+        $statement = Db::query($sql, $bind);
 
         // if we updated, then we've marked the archive as started
         return $statement->rowCount() > 0;
@@ -850,18 +870,28 @@ class Model
      * @param string $archivingStartTime
      * @param int[]|null $idInvalidationsToExclude
      * @param bool $useLimit Whether to limit the result set to one result or not. Used in tests only.
+     * @param ArchiveFilter|null $archiveFilter If set, invalidations the filter cannot match are not returned.
      */
-    public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true)
+    public function getNextInvalidatedArchive($idSite, $archivingStartTime, $idInvalidationsToExclude = null, $useLimit = true, ?ArchiveFilter $archiveFilter = null)
     {
         $table = Common::prefixTable('archive_invalidations');
+        // invalidations on hold are skipped until a failure allows a retry
         $sql = "SELECT *
                   FROM `$table`
-                 WHERE idsite = ? AND status != ? AND ts_invalidated <= ?";
+                 WHERE idsite = ? AND status = ? AND ts_invalidated <= ?";
         $bind = [
             $idSite,
-            ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+            ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
             $archivingStartTime,
         ];
+
+        if ($archiveFilter !== null) {
+            [$filterConditions, $filterBind] = $this->getArchiveFilterConditions($archiveFilter, (int) $idSite);
+            foreach ($filterConditions as $condition) {
+                $sql .= " AND $condition";
+            }
+            $bind = array_merge($bind, $filterBind);
+        }
 
         if (!empty($idInvalidationsToExclude)) {
             $idInvalidationsToExclude = array_map('intval', $idInvalidationsToExclude);
@@ -878,6 +908,79 @@ class Model
         } else {
             return Db::fetchAll($sql, $bind);
         }
+    }
+
+    /**
+     * SQL counterpart of ArchiveFilter::filterArchive(), so non-matching invalidations are never fetched.
+     * Conditions may be looser than filterArchive(), but never stricter.
+     *
+     * @return array{0: string[], 1: string[]}
+     */
+    private function getArchiveFilterConditions(ArchiveFilter $archiveFilter, int $idSite): array
+    {
+        $conditions = [];
+        $bind = [];
+
+        $periods = $archiveFilter->getRestrictToPeriods();
+        if (!empty($periods)) {
+            $periodIds = array_map(fn($period) => (int) Piwik::$idPeriods[$period], $periods);
+            $conditions[] = 'period IN (' . implode(',', $periodIds) . ')';
+        }
+
+        $dateRange = $archiveFilter->getRestrictToDateRange();
+        if (!empty($dateRange)) {
+            $conditions[] = 'date2 >= ? AND date1 <= ?';
+            $bind[] = $dateRange[0]->toString();
+            $bind[] = $dateRange[1]->toString();
+        }
+
+        if ($archiveFilter->isDisableSegmentsArchiving()) {
+            $conditions[] = "(name = 'done' OR name LIKE 'done.%')";
+        }
+
+        $segmentHashes = $archiveFilter->getSegmentHashesToForce($idSite);
+        if ($segmentHashes !== null) {
+            if (empty($segmentHashes)) {
+                $conditions[] = '0 = 1';
+            } else {
+                $nameConditions = [];
+                foreach ($segmentHashes as $hash) {
+                    $nameConditions[] = 'name = ? OR name LIKE ?';
+                    $bind[] = 'done' . $hash;
+                    $bind[] = 'done' . addcslashes($hash, '%_\\') . '.%';
+                }
+                $conditions[] = '(' . implode(' OR ', $nameConditions) . ')';
+            }
+        }
+
+        $forceReport = $archiveFilter->getForceReport();
+        if ($forceReport !== null && str_contains($forceReport, '.')) {
+            [$plugin, $report] = explode('.', $forceReport, 2);
+            $conditions[] = 'report = ? AND name LIKE ?';
+            $bind[] = $report;
+            $bind[] = 'done%.' . addcslashes($plugin, '%_\\');
+        }
+
+        return [$conditions, $bind];
+    }
+
+    /**
+     * Deletes the invalidation of an archive that was processed. If another archiver put it on hold meanwhile, eg after
+     * the job timed out, it is kept when the archive was invalidated again since, as that invalidation was merged into
+     * it, so it is processed again.
+     *
+     * @param array<array-key, string|int|float|null> $invalidation
+     */
+    public function deleteProcessedInvalidation(array $invalidation): void
+    {
+        Db::query(
+            'DELETE FROM `' . Common::prefixTable('archive_invalidations') . '`
+              WHERE idinvalidation = ? AND (status = ? OR (status = ? AND ts_invalidated = ?))',
+            [
+                $invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $invalidation['ts_invalidated'] ?? null,
+            ]
+        );
     }
 
     public function deleteInvalidations($archiveInvalidations)
@@ -1053,7 +1156,7 @@ class Model
      * To avoid duplicate invalidations in the database, the method is also meant to prevent having duplicates after a reset
      * Therefor below code will check if any of the invalidations to be reset should be removed instead
      * An invalidation can be safely removed
-     *  - if there exists another queued invalidation with the same parameters
+     *  - if there exists another queued or on hold invalidation with the same parameters
      *  - if there is another running invalidation, that had been started after the current one was invalidated
      * Otherwise the invalidation will be reset
      *
@@ -1073,7 +1176,7 @@ class Model
         foreach ($invalidations as $invalidation) {
             // Look for other identical invalidations that are either not started or started after the current one had been invalidated
             $query = "SELECT COUNT(*) FROM `$table` WHERE name = ? AND idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND "
-                   . "(status = ? OR (status = ? AND ts_started > ?)) AND idinvalidation != ?";
+                   . "(status IN (?, ?) OR (status = ? AND ts_started > ?)) AND idinvalidation != ?";
             $bind = [
                 $invalidation['name'],
                 $invalidation['idsite'],
@@ -1081,6 +1184,7 @@ class Model
                 $invalidation['date2'],
                 $invalidation['period'],
                 ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD,
                 ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
                 $invalidation['ts_invalidated'],
                 $invalidation['idinvalidation'],
@@ -1127,24 +1231,75 @@ class Model
         return $changedCount;
     }
 
+    /**
+     * Puts an invalidation whose archiving failed on hold, or deletes it if the same archive is already queued, on
+     * hold, or started after it was invalidated, so at most one invalidation per archive waits.
+     *
+     * @param array<array-key, string|int|float|null> $invalidation
+     * @return bool false if it was no longer in progress
+     */
+    public function holdFailedInvalidation(array $invalidation): bool
+    {
+        $table = Common::prefixTable('archive_invalidations');
+
+        $idTwin = Db::fetchOne(
+            "SELECT idinvalidation FROM `$table` WHERE idsite = ? AND date1 = ? AND period = ? AND date2 = ? AND name = ?
+                AND IFNULL(`report`, '') = ? AND (status IN (?, ?) OR (status = ? AND ts_started > ?)) AND idinvalidation != ? LIMIT 1",
+            [
+                $invalidation['idsite'], $invalidation['date1'], $invalidation['period'], $invalidation['date2'], $invalidation['name'],
+                (string) ($invalidation['report'] ?? ''), ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
+                ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
+                $invalidation['ts_invalidated'] ?? null, $invalidation['idinvalidation'],
+            ]
+        );
+
+        if (false !== $idTwin) {
+            return Db::query(
+                "DELETE FROM `$table` WHERE idinvalidation = ? AND status = ?",
+                [$invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]
+            )->rowCount() > 0;
+        }
+
+        return Db::query(
+            "UPDATE `$table` SET status = ?, ts_started = NULL, processing_host = NULL, process_id = NULL WHERE idinvalidation = ? AND status = ?",
+            [ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD, $invalidation['idinvalidation'], ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS]
+        )->rowCount() > 0;
+    }
+
+    /**
+     * @return int number of reset invalidations
+     */
     public function resetFailedArchivingJobs()
     {
-        $invalidationsInProgress = $this->getInvalidationsInProgress();
-        $idsToReset = [];
-
-        foreach ($invalidationsInProgress as $invalidation) {
-            $archiveFailureRecoveryTimeout = GeneralConfig::getConfigValue('archive_failure_recovery_timeout', $invalidation['idsite']);
-
-            if (empty($invalidation['ts_started']) || Date::factory($invalidation['ts_started'])->getTimestamp() < Date::now()->getTimestamp() - $archiveFailureRecoveryTimeout) {
-                $idsToReset[] = $invalidation['idinvalidation'];
-            }
-        }
+        $idsToReset = array_column($this->getTimedOutArchivingJobs(), 'idinvalidation');
 
         if (empty($idsToReset)) {
             return 0;
         }
 
         return $this->releaseInProgressInvalidations($idsToReset);
+    }
+
+    /**
+     * Invalidations in progress for longer than [General] archive_failure_recovery_timeout, eg because the job hangs
+     * or the archiver running it died.
+     *
+     * @return list<array<array-key, string|int|float|null>> including the timeout applied, as 'recovery_timeout'
+     */
+    public function getTimedOutArchivingJobs(): array
+    {
+        $timedOutJobs = [];
+
+        foreach ($this->getInvalidationsInProgress() as $invalidation) {
+            $archiveFailureRecoveryTimeout = GeneralConfig::getIntegerConfigValue('archive_failure_recovery_timeout', 86400, (int) $invalidation['idsite']);
+
+            if (empty($invalidation['ts_started']) || Date::factory($invalidation['ts_started'])->getTimestamp() < Date::now()->getTimestamp() - $archiveFailureRecoveryTimeout) {
+                $invalidation['recovery_timeout'] = $archiveFailureRecoveryTimeout;
+                $timedOutJobs[] = $invalidation;
+            }
+        }
+
+        return $timedOutJobs;
     }
 
     public function getRecordsContainedInArchives(Date $archiveStartDate, array $idArchives, $requestedRecords): array

@@ -81,6 +81,7 @@
         "PleaseNote": "Harap diperhatikan",
         "PluginDescription": "Menyediakan login nama pengguna dan kata sandi serta fungsi pengaturan ulang kata sandi. Metode login dapat diubah dengan menggunakan plugin login lain seperti LoginLdap yang tersedia di marketplace.",
         "RememberMe": "Ingat Saya",
+        "SecondFactorCode": "Kode autentikasi",
         "SecurityTip": "Tips Keamanan",
         "SettingBruteForceBlacklistIp": "Selalu blokir IP ini agar tidak dapat log masuk",
         "SettingBruteForceEnable": "Aktifkan Deteksi Paksaan",

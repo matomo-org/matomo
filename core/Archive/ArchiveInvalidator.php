@@ -61,6 +61,11 @@ class ArchiveInvalidator
     public const INVALIDATION_STATUS_QUEUED = 0;
     public const INVALIDATION_STATUS_IN_PROGRESS = 1;
 
+    /**
+     * Not processed until a failure of its archive, or of an archive it is built from, can be retried.
+     */
+    public const INVALIDATION_STATUS_ON_HOLD = 2;
+
     private $rememberArchivedReportIdStart = 'report_to_invalidate_';
 
     private Model $model;

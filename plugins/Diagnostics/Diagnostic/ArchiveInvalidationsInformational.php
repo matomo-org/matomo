@@ -36,6 +36,7 @@ class ArchiveInvalidationsInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('Total Invalidation Count', $invalidationCounts['all'] ?? '0');
             $results[] = DiagnosticResult::informationalResult('In Progress Invalidation Count', $invalidationCounts[ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS] ?? '0');
             $results[] = DiagnosticResult::informationalResult('Scheduled Invalidation Count', $invalidationCounts[ArchiveInvalidator::INVALIDATION_STATUS_QUEUED] ?? '0');
+            $results[] = DiagnosticResult::informationalResult('On Hold Invalidation Count', $invalidationCounts[ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD] ?? '0');
 
             $minMaxes = $this->getInvalidationMinMaxes();
             $results[] = DiagnosticResult::informationalResult('Earliest invalidation ts_started', $minMaxes['min_ts_started']);

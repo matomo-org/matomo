@@ -10,6 +10,8 @@
         "DisableVisitorProfile": "Desactivar perfiles de visitantes",
         "DisableVisitorProfileDescription": "Todas las funciones relacionadas con el registro de visitas siempre funcionan.",
         "DisableVisitsLogAndProfile": "Desactivar el registro de visitas y los perfiles de visitantes",
+        "DisableVisitsLogAndProfileDescription2": "También elimina las funciones que dependen de ellas, como el registro de comercio electrónico, el registro de visitas segmentado o el mapa en tiempo real. El widget en tiempo real solo muestra los recuentos agregados de visitas. Puede ser necesario para cumplir las leyes o directrices locales de privacidad.",
+        "DisableVisitsLogAndProfileWhatItDoes": "Las funciones Registro de visitas y Perfil del visitante están desactivadas.<br><br>Así se impide reconstruir el recorrido de navegación de un visitante concreto y su comportamiento detallado en cada visita.",
         "ExportThisDatasetToXml": "Exporta este conjunto de datos a XML",
         "FirstVisit": "Primer visita",
         "GoalType": "Tipo",
@@ -62,9 +64,11 @@
         "VisitorLogSubcategoryHelp2": "Si bien otros informes de Matomo muestran el comportamiento de tus visitantes a nivel general, el registro de visitas proporciona información detallada. También puedes usar segmentos para filtrar por tipos específicos de visitas y así comprender mejor a tus visitantes.",
         "VisitorLogSubcategoryHelp3": "Obtén más información en la guía del registro de visitas.",
         "VisitorProfile": "Perfil de visitante",
+        "VisitorProfileNotFound": "No se ha encontrado a este visitante. Es posible que se hayan eliminado los datos de sus visitas.",
         "VisitorsInRealTime": "Visitas en tiempo real",
         "VisitorsLastVisit": "Además visitado %s días anteriores.",
         "VisitsFrom": "%1$s%2$s visitas%3$s desde",
-        "VisitsLog": "Registro de visitas"
+        "VisitsLog": "Registro de visitas",
+        "VisitsLogAndProfileDisabledPolicySettingTitle": "Registro de visitas y perfiles de visitantes desactivados"
     }
 }

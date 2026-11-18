@@ -73,7 +73,7 @@ class UserIdDisabled implements
         // wording describes a site that measures consent-aware analytics, and a site that has
         // not opted in treats every visitor the same
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoes2');
+            return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoesConsentAware');
         }
 
         return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoes');
@@ -85,7 +85,7 @@ class UserIdDisabled implements
         // wording describes a site that measures consent-aware analytics, and a site that has
         // not opted in treats every visitor the same
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('UserId_UserIdDisabledSettingImpact2');
+            return Piwik::translate('UserId_UserIdDisabledSettingImpactConsentAware');
         }
 
         return Piwik::translate('UserId_UserIdDisabledSettingImpact');
