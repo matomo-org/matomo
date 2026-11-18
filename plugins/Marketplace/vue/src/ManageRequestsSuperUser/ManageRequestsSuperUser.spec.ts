@@ -471,6 +471,34 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       expect(row(wrapper, 'Funnels').exists()).toBe(false);
     });
 
+    it('keeps the actions of each declining row disabled until its own decline is done', async () => {
+      const answers: Record<string, (value: { value: number }) => void> = {};
+      ajaxPost.mockImplementation((_query, { pluginName }: { pluginName: string }) => new Promise((resolve) => {
+        answers[pluginName] = resolve;
+      }));
+      const wrapper = mountPage([makePending(), makePending({ pluginName: 'Cohorts' })]);
+      const isDisabled = (plugin: string) => row(wrapper, plugin)
+        .find('.manageRequestsSuperUser__decline').attributes('disabled') !== undefined;
+
+      (await openDeclineDialog(wrapper, 'Funnels'))();
+      (await openDeclineDialog(wrapper, 'Cohorts'))();
+      await flushPromises();
+
+      expect([isDisabled('Funnels'), isDisabled('Cohorts')]).toEqual([true, true]);
+
+      answers.Cohorts({ value: 1 });
+      await flushPromises();
+
+      expect(row(wrapper, 'Cohorts').exists()).toBe(false);
+      expect(isDisabled('Funnels')).toBe(true);
+
+      answers.Funnels({ value: 2 });
+      await flushPromises();
+
+      expect(ajaxPost).toHaveBeenCalledTimes(2);
+      expect(row(wrapper, 'Funnels').exists()).toBe(false);
+    });
+
     it('enables the actions again when the decline fails', async () => {
       ajaxPost.mockRejectedValue(new Error('Another Super User has already responded'));
       const wrapper = mountPage();

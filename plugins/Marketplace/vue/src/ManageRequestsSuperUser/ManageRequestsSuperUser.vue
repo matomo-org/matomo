@@ -86,14 +86,14 @@
                   <button
                     type="button"
                     class="manageRequestsSuperUser__decline"
-                    :disabled="busyPluginName === plugin.pluginName"
+                    :disabled="isBusy(plugin)"
                     @click="openDeclineDialog(plugin)"
                   >{{ translate('Marketplace_Decline') }}</button>
                   <button
                     v-if="plugin.isFree === false"
                     type="button"
                     class="btn btn-outline manageRequestsSuperUser__startTrial"
-                    :disabled="busyPluginName === plugin.pluginName"
+                    :disabled="isBusy(plugin)"
                     @click="startTrial(plugin)"
                   >{{ translate('Marketplace_StartTrial30Days') }}</button>
                 </div>
@@ -332,7 +332,7 @@ interface ManageRequestsSuperUserState {
   historyOffset: number;
   isLoadingHistory: boolean;
   decliningPlugin: PendingPluginRequest | null;
-  busyPluginName: string | null;
+  busyPlugins: string[];
   declineNote: string;
   trialPlugin: { name: string, displayName: string } | null;
   trialPluginName: string | null;
@@ -378,7 +378,7 @@ export default defineComponent({
       historyOffset: 0,
       isLoadingHistory: false,
       decliningPlugin: null,
-      busyPluginName: null,
+      busyPlugins: [],
       declineNote: '',
       trialPlugin: null,
       trialPluginName: null,
@@ -410,6 +410,9 @@ export default defineComponent({
   methods: {
     isExpanded(plugin: PendingPluginRequest): boolean {
       return this.expandedPlugins.includes(plugin.pluginName);
+    },
+    isBusy(plugin: PendingPluginRequest): boolean {
+      return this.busyPlugins.includes(plugin.pluginName);
     },
     isClosing(plugin: PendingPluginRequest): boolean {
       return this.closingPlugins.includes(plugin.pluginName);
@@ -492,7 +495,7 @@ export default defineComponent({
       );
     },
     decline(plugin: PendingPluginRequest, note: string) {
-      this.busyPluginName = plugin.pluginName;
+      this.busyPlugins = [...this.busyPlugins, plugin.pluginName];
 
       AjaxHelper.post<{ value: number }>(
         {
@@ -523,7 +526,7 @@ export default defineComponent({
       }).catch(() => {
         // AjaxHelper already shows the error, and the row stays for another try
       }).finally(() => {
-        this.busyPluginName = null;
+        this.busyPlugins = this.busyPlugins.filter((name) => name !== plugin.pluginName);
       });
     },
     startTrial(plugin: PendingPluginRequest) {
