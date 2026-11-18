@@ -208,6 +208,41 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame(0, $eventCount);
     }
 
+    public function testSetMailSettingsPostsPasswordSetForPasswordZero(): void
+    {
+        $postedSettings = [];
+        Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function ($settings) use (&$postedSettings) {
+            $postedSettings[] = $settings;
+        });
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = array_merge($this->getMailSettingsRequest('zero.example.test'), ['mailPassword' => '0']);
+        $_REQUEST = $_POST;
+
+        $this->getControllerSkippingTokenCheck()->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $this->assertCount(1, $postedSettings);
+        $this->assertTrue($postedSettings[0]['password_set']);
+    }
+
+    public function testSetMailSettingsReportsSuccessWhenListenerFails(): void
+    {
+        Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function () {
+            throw new \Exception('listener failed');
+        });
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('listener.example.test');
+        $_REQUEST = $_POST;
+
+        $response = $this->getControllerSkippingTokenCheck()->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $this->assertStringContainsString('success', $response);
+        $this->assertSame('listener.example.test', Config::getInstance()->mail['host']);
+    }
+
     public function testWhatIsNewDoesNotPrefixBundledPluginsAndPrefixesThirdPartyPlugins(): void
     {
         $this->deleteAllChanges();

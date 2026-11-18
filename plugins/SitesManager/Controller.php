@@ -13,7 +13,9 @@ use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Http\JsonResponse;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Policy\PolicyManager;
@@ -144,8 +146,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $saveException = $e;
         }
 
-        try {
-            if ($settingsBeforeSave !== null) {
+        if ($settingsBeforeSave !== null) {
+            try {
                 $settingsAfterSave = $this->getGlobalSettingValues();
 
                 if ($saveException === null || $settingsAfterSave !== $settingsBeforeSave) {
@@ -170,9 +172,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                      */
                     Piwik::postEvent('SitesManager.globalSettingsUpdated', [$settingsAfterSave]);
                 }
+            } catch (\Throwable $e) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'A listener of SitesManager.globalSettingsUpdated failed: {message}',
+                    ['message' => $e->getMessage(), 'exception' => $e]
+                );
             }
-        } catch (Exception $e) {
-            $saveException = $saveException ?? $e;
         }
 
         if ($saveException !== null) {

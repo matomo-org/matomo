@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Controller;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Fixture;
@@ -165,6 +166,20 @@ class ControllerTest extends IntegrationTestCase
 
         self::assertStringContainsString('error', $response);
         self::assertSame(0, $eventCount);
+    }
+
+    public function testSetGlobalSettingsReportsSuccessWhenListenerFails()
+    {
+        Piwik::addAction('SitesManager.globalSettingsUpdated', function () {
+            throw new \Exception('listener failed');
+        });
+
+        $_POST = $this->getGlobalSettingsRequest();
+
+        $response = $this->getControllerSkippingTokenCheck()->setGlobalSettings();
+
+        self::assertStringContainsString('success', $response);
+        self::assertSame('Europe/Berlin', API::getInstance()->getDefaultTimezone());
     }
 
     public function provideContainerConfig()

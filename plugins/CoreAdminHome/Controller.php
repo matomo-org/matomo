@@ -14,7 +14,9 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Http\JsonResponse;
+use Piwik\Log\LoggerInterface;
 use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -209,34 +211,41 @@ class Controller extends ControllerAdmin
 
             Config::getInstance()->forceSave();
 
-            /**
-             * Triggered after the email server settings were saved on the general settings page.
-             *
-             * The event is posted once for each save, also if no value changed. It is not posted when
-             * the save fails. It never contains the password.
-             *
-             * **Example**
-             *
-             *     Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function ($settings) {
-             *         Log::info('SMTP host: ' . $settings['host']);
-             *     });
-             *
-             * @param array $settings The saved settings: `transport`, `host`, `port`, `type`, `username` and
-             *                        `encryption` of the `[mail]` config section, `noreply_email_name` and
-             *                        `noreply_email_address` of the `[General]` config section, and
-             *                        `password_set`, which is `true` if a password is stored.
-             */
-            Piwik::postEvent('CoreAdminHome.mailSettingsUpdated', [[
-                'transport' => $mail['transport'],
-                'host' => $mail['host'],
-                'port' => $mail['port'],
-                'type' => $mail['type'],
-                'username' => $mail['username'],
-                'encryption' => $mail['encryption'],
-                'noreply_email_name' => $general['noreply_email_name'],
-                'noreply_email_address' => $general['noreply_email_address'],
-                'password_set' => !empty($mail['password']),
-            ]]);
+            try {
+                /**
+                 * Triggered after the email server settings were saved on the general settings page.
+                 *
+                 * The event is posted once for each save, also if no value changed. It is not posted when
+                 * the save fails. It never contains the password.
+                 *
+                 * **Example**
+                 *
+                 *     Piwik::addAction('CoreAdminHome.mailSettingsUpdated', function ($settings) {
+                 *         Log::info('SMTP host: ' . $settings['host']);
+                 *     });
+                 *
+                 * @param array $settings The saved settings: `transport`, `host`, `port`, `type`, `username` and
+                 *                        `encryption` of the `[mail]` config section, `noreply_email_name` and
+                 *                        `noreply_email_address` of the `[General]` config section, and
+                 *                        `password_set`, which is `true` if a password is stored.
+                 */
+                Piwik::postEvent('CoreAdminHome.mailSettingsUpdated', [[
+                    'transport' => $mail['transport'],
+                    'host' => $mail['host'],
+                    'port' => $mail['port'],
+                    'type' => $mail['type'],
+                    'username' => $mail['username'],
+                    'encryption' => $mail['encryption'],
+                    'noreply_email_name' => $general['noreply_email_name'],
+                    'noreply_email_address' => $general['noreply_email_address'],
+                    'password_set' => (string) $mail['password'] !== '',
+                ]]);
+            } catch (\Throwable $e) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'A listener of CoreAdminHome.mailSettingsUpdated failed: {message}',
+                    ['message' => $e->getMessage(), 'exception' => $e]
+                );
+            }
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
