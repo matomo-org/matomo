@@ -97,18 +97,10 @@ class Get extends Report
 
     public function configureReportMetadata(&$availableReports, $infos)
     {
-        if (!$this->isEnabled()) {
-            return;
-        }
+        $reports = [];
+        parent::configureReportMetadata($reports, $infos);
 
-        $report = $this->buildReportMetadata();
-        if (empty($report)) {
-            return;
-        }
-
-        $period = (string) ($infos['period'] ?? '');
-        $report['metrics'] = EstimatedUniques::labelMetadataMetrics($report['metrics'], $period, self::getEstimatedMetricTranslations());
-        $availableReports[] = $report;
+        $availableReports = array_merge($availableReports, EstimatedUniques::labelReportsMetadata($reports, $infos, self::getEstimatedMetricTranslations()));
     }
 
     public function configureView(ViewDataTable $view)

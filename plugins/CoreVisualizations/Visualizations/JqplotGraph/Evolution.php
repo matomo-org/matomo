@@ -354,11 +354,17 @@ class Evolution extends JqplotGraph
     // Remove this override once rows are estimated too, and let Graph check isUniqueVisitorsTotalAvailable().
     protected function removeUnavailableMetrics($metrics)
     {
-        if ($this->isPlottingEstimatedUniques()) {
+        $period = Request::fromRequest()->getStringParameter('period', '');
+        if (!SettingsPiwik::isUniqueVisitorsEstimated($period) || !$this->isPlottingWebsiteTotals()) {
+            return parent::removeUnavailableMetrics($metrics);
+        }
+
+        // a range is plotted as shorter periods, which can have no unique visitors when the range has them
+        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($this->getPlottedPeriod())) {
             return $metrics;
         }
 
-        return parent::removeUnavailableMetrics($metrics);
+        return array_diff($metrics, ['nb_uniq_visitors', 'nb_users']);
     }
 
     /**
@@ -367,9 +373,34 @@ class Evolution extends JqplotGraph
      */
     public function isPlottingEstimatedUniques(): bool
     {
-        $period = Request::fromRequest()->getStringParameter('period', '');
+        return SettingsPiwik::isUniqueVisitorsEstimated($this->getPlottedPeriod()) && $this->isPlottingWebsiteTotals();
+    }
+
+    private function isPlottingWebsiteTotals(): bool
+    {
         $method = $this->requestConfig->getApiModuleToRequest() . '.' . $this->requestConfig->getApiMethodToRequest();
 
-        return SettingsPiwik::isUniqueVisitorsEstimated($period) && in_array($method, ['API.get', 'VisitsSummary.get'], true);
+        return in_array($method, ['API.get', 'VisitsSummary.get'], true);
+    }
+
+    /**
+     * The period of the points in the graph. A range is plotted as days, weeks, months or years.
+     */
+    private function getPlottedPeriod(): string
+    {
+        if (!empty($this->requestConfig->request_parameters_to_modify['period'])) {
+            return (string) $this->requestConfig->request_parameters_to_modify['period'];
+        }
+
+        $request = Request::fromRequest();
+        $period = $request->getStringParameter('period', '');
+        $date = $request->getStringParameter('date', '');
+
+        // the metrics are first checked before beforeLoadDataTable() has picked the period
+        if ($period === 'range' && $date !== '') {
+            return StaticContainer::get(EvolutionPeriodSelector::class)->getHighestPeriodInCommon(Factory::build($period, $date), []);
+        }
+
+        return $period;
     }
 }

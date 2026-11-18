@@ -20,6 +20,7 @@ use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * Provides reporting API methods for distinguishing AI agent traffic from human traffic.
@@ -91,8 +92,7 @@ class API extends PluginAPI
             }
 
             // the graphs label the uniques from the flag, so fetch it and remove it once they have read it
-            if (array_intersect(['nb_uniq_visitors', 'nb_users'], $columnsForClientType) && !in_array(PluginsArchiver::UNIQUES_ESTIMATED_METRIC, $columnsForClientType, true)) {
-                $columnsForClientType[] = PluginsArchiver::UNIQUES_ESTIMATED_METRIC;
+            if (EstimatedUniques::addFlagToRequestedColumns($columnsForClientType)) {
                 $flagsToRemove[] = PluginsArchiver::UNIQUES_ESTIMATED_METRIC . $columnSuffix;
             }
 

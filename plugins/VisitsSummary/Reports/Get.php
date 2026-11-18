@@ -88,24 +88,18 @@ class Get extends \Piwik\Plugin\Report
 
     public function configureReportMetadata(&$availableReports, $infos)
     {
-        if (!$this->isEnabled()) {
-            return;
-        }
+        $reports = [];
+        parent::configureReportMetadata($reports, $infos);
 
-        $report = $this->buildReportMetadata();
-        if (empty($report)) {
-            return;
-        }
-
-        $period = (string) ($infos['period'] ?? '');
-        $report['metrics'] = EstimatedUniques::labelMetadataMetrics($report['metrics'], $period, EstimatedUniques::getMetricTranslations());
-        $availableReports[] = $report;
+        $availableReports = array_merge($availableReports, EstimatedUniques::labelReportsMetadata($reports, $infos, EstimatedUniques::getMetricTranslations()));
     }
 
     public function configureView(ViewDataTable $view)
     {
         // the period shown, and the periods it is compared with
-        $periods = array_merge([Common::getRequestVar('period', '', 'string')], Common::getRequestVar('comparePeriods', [], 'array'));
+        $request = \Piwik\Request::fromRequest();
+        $periods = array_merge([$request->getStringParameter('period', '')], $request->getArrayParameter('comparePeriods', []));
+        $periods = array_filter($periods, 'is_string');
         $isEstimated = array_filter($periods, [SettingsPiwik::class, 'isUniqueVisitorsEstimated']) !== [];
 
         if ($view->isViewDataTableId(Sparklines::ID)) {

@@ -87,4 +87,37 @@ describe('EstimatedUniqueVisitors', function () {
 
     expect(await getSparklineText()).to.include('unique visitors').and.not.match(/estimated/i);
   });
+
+  it('should leave a gap in the evolution graph for a year that could not be estimated', async function () {
+    // the test above archived the days of 2011 without sketches, so 2011 has visits but no estimate
+    testEnvironment.configOverride.General = estimatedPeriods;
+    testEnvironment.save();
+
+    await page.goto('about:blank');
+    await page.goto('?module=Widgetize&action=iframe&idSite=1&period=year&date=2011-01-15&evolution_year_last_n=3'
+      + '&moduleToWidgetize=VisitsSummary&actionToWidgetize=getEvolutionGraph&columns=nb_visits,nb_uniq_visitors');
+    await page.waitForSelector('.piwik-graph canvas');
+    await page.waitForNetworkIdle();
+
+    const uniques = await page.evaluate(() => $('.piwik-graph').data('data').data[1]);
+    expect(uniques[1]).to.be.above(0);
+    expect(uniques[2]).to.equal(null);
+
+    // keep the mouse off the graph, so no tooltip is in the screenshot
+    await page.mouse.move(0, 0);
+
+    expect(await page.screenshot({ fullPage: true })).to.matchImage('evolution_graph_gap');
+  });
+
+  it('should leave the same gap in the image graph', async function () {
+    testEnvironment.configOverride.General = estimatedPeriods;
+    testEnvironment.save();
+
+    await page.goto('about:blank');
+    await page.goto('index.php?module=API&method=ImageGraph.get&idSite=1&width=500&height=250'
+      + '&apiModule=VisitsSummary&apiAction=get&graphType=evolution&period=year&date=2009-01-15,2011-01-15'
+      + '&columns=nb_visits,nb_uniq_visitors');
+
+    expect(await page.screenshot({ fullPage: true })).to.matchImage('image_graph_gap');
+  });
 });

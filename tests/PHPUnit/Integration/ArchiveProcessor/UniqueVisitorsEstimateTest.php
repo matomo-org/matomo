@@ -23,6 +23,7 @@ use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -150,17 +151,18 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
     {
         // two users, written differently from visit to visit and day to day
         Db::query(
-            'UPDATE ' . Common::prefixTable('log_visit') . ' SET user_id = ELT((DAY(visit_last_action_time) + HOUR(visit_last_action_time)) % 6 + 1, ?, ?, ?, ?, ?, ?)'
+            'UPDATE ' . Common::prefixTable('log_visit') . ' SET user_id = ELT((DAY(visit_last_action_time) + HOUR(visit_last_action_time)) % 7 + 1, ?, ?, ?, ?, ?, ?, ?)'
             . ' WHERE user_id IS NOT NULL',
-            ['Alice', 'alice', 'ALICE', 'José', 'Jose', 'JOSÉ']
+            ['Alice', 'alice', 'ALICE', 'José', 'Jose', 'JOSÉ', 'alice ']
         );
-        // the exact count follows the column's case and accent insensitive collation
-        $this->assertSame(2, $this->countExact('user_id', 4, 10));
+        // the exact count follows the column's collation: no case or accents, and trailing spaces as it treats them
+        $exact = $this->countExact('user_id', 4, 10);
+        $this->assertContains($exact, [2, 3]);
 
         $week = $this->getVisitsSummary('week', '2024-03-04');
 
         $this->assertSame(1, $week['uniques_estimated']);
-        $this->assertSame(2, (int) $week['nb_users']);
+        $this->assertSame($exact, (int) $week['nb_users']);
     }
 
     /**
@@ -443,6 +445,15 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertEqualsWithDelta($this->countExact('user_id', 1, 10), $users->getFirstRow()->getColumn('nb_users'), 2);
     }
 
+    public function testSingleUniquesMetricsReturnOnlyTheMetricWhenCalledDirectly()
+    {
+        $visitors = VisitsSummaryAPI::getInstance()->getUniqueVisitors(1, 'year', '2024-03-01');
+        $users = VisitsSummaryAPI::getInstance()->getUsers(1, 'year', '2024-03-01');
+
+        $this->assertSame(['nb_uniq_visitors'], array_keys($visitors->getFirstRow()->getColumns()));
+        $this->assertSame(['nb_users'], array_keys($users->getFirstRow()->getColumns()));
+    }
+
     public function testYearWithoutAnEstimateHasNoUniquesAnywhere()
     {
         $this->archiveFirstDayWithoutSketches();
@@ -605,6 +616,22 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         $this->assertNull($this->getStoredSketch('month', '2024-03-01', PluginsArchiver::UNIQUE_VISITORS_SKETCH_RECORD, $idRollUp));
     }
 
+    public function testUniquesComputedAcrossOtherSitesAreNotEstimated()
+    {
+        $idOtherSite = Fixture::createWebsite('2024-01-01', 0, 'Other', 'https://other.example.com');
+        Piwik::addAction('ArchiveProcessor.ComputeNbUniques.getIdSites', function (&$idSites) use ($idOtherSite) {
+            $idSites[] = $idOtherSite;
+        });
+
+        $row = $this->getVisitsSummary('month', '2024-03-01');
+
+        // the sketches only cover this site. As with the setting off, uniques across several sites are not processed
+        $this->assertSame(self::VISITS_PER_DAY * 10, (int) $row['nb_visits']);
+        $this->assertArrayNotHasKey('nb_uniq_visitors', $row);
+        $this->assertSame(0, $row['uniques_estimated']);
+        $this->assertNull($this->getStoredSketch('month', '2024-03-01', PluginsArchiver::UNIQUE_VISITORS_SKETCH_RECORD));
+    }
+
     /**
      * @dataProvider getLabelledReports
      */
@@ -716,6 +743,20 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         ];
     }
 
+    public function testEvolutionGraphOfARangeOffersNoUniquesWhenItsPointsHaveNone()
+    {
+        // the range is estimated, but it is plotted as months, which are neither estimated nor counted
+        $this->setEstimatedPeriods(['range']);
+        foreach (['week', 'month', 'year'] as $period) {
+            $this->setGeneralConfig("enable_processing_unique_visitors_$period", 0);
+        }
+
+        $this->assertSame(
+            ['General_ColumnNbVisits'],
+            $this->getPlottedSeries('VisitsSummary', 'getEvolutionGraph', 'range', '2023-01-01,2024-12-31', 'nb_visits,nb_uniq_visitors')
+        );
+    }
+
     public function testEvolutionGraphLeavesAGapForAYearWithoutAnEstimate()
     {
         $this->archiveFirstDayWithoutSketches();
@@ -725,6 +766,22 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         // years without visits are a real 0, the year with visits but no estimate is a gap
         $this->assertSame([[0, 0, 200], [0, 0, null]], $data['data']);
         $this->assertTrue($data['params']['series'][1]['breakOnNull']);
+    }
+
+    public function testComparedEvolutionGraphOnlyLeavesAGapWhereThePeriodHasVisits()
+    {
+        $this->archiveFirstDayWithoutSketches();
+
+        // both years are plotted as weeks: 2022 has no visits, the first week of visits in 2024 has no estimate
+        $compare = ['comparePeriods' => ['year'], 'compareDates' => ['2024-03-01']];
+        $data = $this->getGraphData('VisitsSummary', 'getEvolutionGraph', 'year', '2022-03-01', 'nb_uniq_visitors', $compare);
+
+        [$uniques2022, $uniques2024] = $data['data'];
+        $this->assertSame([0], array_values(array_unique($uniques2022)));
+        // 0 where there were no visits, a gap for the week with visits and no estimate, then an estimated week
+        $this->assertSame([8 => null], array_filter($uniques2024, 'is_null'));
+        $this->assertGreaterThan(0, $uniques2024[9]);
+        $this->assertSame(0, array_sum(array_slice($uniques2024, 0, 8)) + array_sum(array_slice($uniques2024, 10)));
     }
 
     /**

@@ -23,6 +23,7 @@ use Piwik\Metrics;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\RankingQuery;
 use Piwik\Segment;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Log\LoggerInterface;
@@ -707,7 +708,7 @@ class LogAggregator
      */
     public function queryUniqueVisitorsSketch(int $precision): HyperLogLog
     {
-        return $this->querySketch($precision, 'idvisitor');
+        return $this->querySketch($precision, self::LOG_VISIT_TABLE, self::VISIT_DATETIME_FIELD, self::LOG_VISIT_TABLE . '.idvisitor');
     }
 
     /**
@@ -715,24 +716,28 @@ class LogAggregator
      */
     public function queryUsersSketch(int $precision): HyperLogLog
     {
-        return $this->querySketch($precision, 'user_id');
+        // hash the collation weight, so 'Alice' and 'alice' are one user, as in the exact count. trailing spaces
+        // are dropped where the collation ignores them, as the weight keeps them
+        $userId = self::LOG_VISIT_TABLE . '.user_id';
+        $value = "WEIGHT_STRING(IF($userId = CONCAT($userId, ' '), RTRIM($userId), $userId))";
+
+        return $this->querySketch($precision, self::LOG_VISIT_TABLE, self::VISIT_DATETIME_FIELD, $value);
     }
 
     /**
-     * The query returns at most 2^precision rows: per bucket, the minimum of the remaining hash bits.
+     * Builds a sketch of the distinct values of `$value`, an SQL expression on `$tableName`. Rows where it is
+     * NULL are not counted. The query returns at most 2^precision rows: per bucket, the minimum of the remaining
+     * hash bits.
      */
-    private function querySketch(int $precision, string $column): HyperLogLog
+    private function querySketch(int $precision, string $tableName, string $datetimeField, string $value): HyperLogLog
     {
-        $tableName = self::LOG_VISIT_TABLE;
-
-        // hash the collation weight, so 'Alice' and 'alice' are one user, as in the exact count
-        $value = $column === 'user_id' ? "WEIGHT_STRING($tableName.$column)" : "$tableName.$column";
+        // keyed with the salt, so the stored sketch can't be tested against a known ID without it
+        $key = sha1(SettingsPiwik::getSalt() . 'unique-visitors-sketch');
 
         // first 64 bits of MD5, so IDs supplied by users (cid, uid) are spread evenly too
-        $hash = "CAST(CONV(SUBSTRING(MD5($value), 1, 16), 16, 10) AS UNSIGNED)";
+        $hash = "CAST(CONV(SUBSTRING(MD5(CONCAT(0x$key, $value)), 1, 16), 16, 10) AS UNSIGNED)";
 
-        // visits without a User ID have none to count
-        $where = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, "%s.$column IS NOT NULL");
+        $where = $this->getWhereStatement($tableName, $datetimeField, "$value IS NOT NULL");
         $query = $this->generateQuery("$hash AS h", [$tableName], $where, '', '');
 
         // the LIMIT stops MySQL merging the derived table and hashing each visit twice. Visits repeated by a

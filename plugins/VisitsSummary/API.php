@@ -163,7 +163,8 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the number of unique visitors.
      *                                 For a period estimated with `enable_processing_estimated_unique_visitors_...`,
-     *                                 this is an estimate.
+     *                                 this is an estimate, and the row has no value when the period could neither
+     *                                 be estimated nor counted.
      */
     public function getUniqueVisitors($idSite, string $period, string $date, $segment = false)
     {
@@ -187,7 +188,8 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the number of users.
      *                                 For a period estimated with `enable_processing_estimated_unique_visitors_...`,
-     *                                 this is an estimate.
+     *                                 this is an estimate, and the row has no value when the period could neither
+     *                                 be estimated nor counted.
      */
     public function getUsers($idSite, string $period, string $date, $segment = false)
     {
@@ -346,7 +348,12 @@ class API extends \Piwik\Plugin\API
         }
 
         // get() leaves the value out of periods that could neither be estimated nor counted
-        return $this->get($idSite, $period, $date, $segment, [$metric]);
+        $dataTable = $this->get($idSite, $period, $date, $segment, [$metric]);
+
+        // get() only queues this, and a plugin calling this method directly never runs queued filters
+        $dataTable->filter('ColumnDelete', [$columnsToRemove = [], [$metric]]);
+
+        return $dataTable;
     }
 
     private function checkUniqueIsEnabledOrFail(string $period, string $metric): void

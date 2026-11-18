@@ -320,8 +320,8 @@ class ArchiveProcessor
     }
 
     /**
-     * Merges the sketches of the subperiods this archive aggregates. Returns null if a sketch is damaged, if
-     * `$requiredForEveryVisit` is set and a subperiod with visits has none, or if an
+     * Merges the unique visitors or users sketches of the subperiods this archive aggregates. Returns null if a
+     * sketch is damaged, if `$requiredForEveryVisit` is set and a subperiod with visits has none, or if an
      * `ArchiveProcessor.ComputeNbUniques.getIdSites` listener adds other sites.
      *
      * @internal
@@ -332,25 +332,10 @@ class ArchiveProcessor
             return null;
         }
 
-        // merge() lowers the precision when a stored sketch has a lower one
-        $merged = new HyperLogLog(SettingsPiwik::getUniqueVisitorsEstimatePrecision());
         $sketchCount = 0;
+        $merged = $this->aggregateSketchRecord($recordName, $sketchCount);
 
-        foreach ($this->getArchive()->querySingleBlob($recordName) as $row) {
-            try {
-                $merged->merge(HyperLogLog::fromString($row['value']));
-            } catch (\InvalidArgumentException $e) {
-                // a damaged sketch counts as missing: no estimate rather than a wrong one
-                StaticContainer::get(LoggerInterface::class)->info(
-                    'Damaged unique visitors sketch {record} ignored, no estimate stored for {params}: {error}',
-                    ['record' => $recordName, 'params' => (string) $this->getParams(), 'error' => $e->getMessage()]
-                );
-                return null;
-            }
-            $sketchCount++;
-        }
-
-        if (!$requiredForEveryVisit) {
+        if ($merged === null || !$requiredForEveryVisit) {
             return $merged;
         }
 
@@ -365,6 +350,35 @@ class ArchiveProcessor
 
         if ($sketchCount === 0 || $sketchCount < $subPeriodsWithVisits) {
             return null;
+        }
+
+        return $merged;
+    }
+
+    /**
+     * Merges the sketches stored as `$recordName` in the subperiods this archive aggregates, and sets
+     * `$sketchCount` to how many there were. Returns null if one of them is damaged.
+     *
+     * @internal
+     */
+    public function aggregateSketchRecord(string $recordName, int &$sketchCount = 0): ?HyperLogLog
+    {
+        // merge() lowers the precision when a stored sketch has a lower one
+        $merged = new HyperLogLog(SettingsPiwik::getUniqueVisitorsEstimatePrecision());
+        $sketchCount = 0;
+
+        foreach ($this->getArchive()->querySingleBlob($recordName) as $row) {
+            try {
+                $merged->merge(HyperLogLog::fromString($row['value']));
+            } catch (\InvalidArgumentException $e) {
+                // a damaged sketch counts as missing: no estimate rather than a wrong one
+                StaticContainer::get(LoggerInterface::class)->info(
+                    'Damaged sketch {record} ignored, no estimate stored for {params}: {error}',
+                    ['record' => $recordName, 'params' => (string) $this->getParams(), 'error' => $e->getMessage()]
+                );
+                return null;
+            }
+            $sketchCount++;
         }
 
         return $merged;

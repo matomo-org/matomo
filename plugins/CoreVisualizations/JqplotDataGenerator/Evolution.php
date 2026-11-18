@@ -496,7 +496,12 @@ class Evolution extends JqplotDataGenerator
     private function getComparisonPointValue(DataTable\Row $row, string $columnName)
     {
         $value = $row->getColumn($columnName);
-        if (!$this->hasColumnValue($value) && $this->isShownAsGapWhenMissing($columnName)) {
+        // only a period with visits can be missing its uniques, without visits they are 0
+        if (
+            !$this->hasColumnValue($value)
+            && $this->isShownAsGapWhenMissing($columnName)
+            && EstimatedUniques::isLeftOut($row->getColumns(), $columnName)
+        ) {
             return null;
         }
         return $value;

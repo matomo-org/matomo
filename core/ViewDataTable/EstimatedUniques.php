@@ -85,6 +85,45 @@ final class EstimatedUniques
     }
 
     /**
+     * Labels the metrics of the report metadata a report has just built.
+     *
+     * @param array<int, array<string, mixed>> $reports
+     * @param array<string, mixed> $infos as passed to `Report::configureReportMetadata()`
+     * @param array<string, string> $estimated the label of each estimated metric
+     * @return array<int, array<string, mixed>>
+     */
+    public static function labelReportsMetadata(array $reports, array $infos, array $estimated): array
+    {
+        $period = (string) ($infos['period'] ?? '');
+
+        foreach ($reports as &$report) {
+            $report['metrics'] = self::labelMetadataMetrics($report['metrics'], $period, $estimated);
+        }
+
+        return $reports;
+    }
+
+    /**
+     * Adds the flag to the columns requested from `VisitsSummary.get` when they include a unique count, so views
+     * can label it. Returns true if it was added, and the caller has to remove it from its result again.
+     *
+     * @param string[] $columns
+     */
+    public static function addFlagToRequestedColumns(array &$columns): bool
+    {
+        if (
+            !array_intersect(['nb_uniq_visitors', 'nb_users'], $columns)
+            || in_array(PluginsArchiver::UNIQUES_ESTIMATED_METRIC, $columns, true)
+        ) {
+            return false;
+        }
+
+        $columns[] = PluginsArchiver::UNIQUES_ESTIMATED_METRIC;
+
+        return true;
+    }
+
+    /**
      * Labels each unique visitors and users column of a view with `$estimated` when at least one of its periods
      * has the matching `uniques_estimated` flag set, and with `$counted` otherwise.
      *
