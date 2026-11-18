@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Live\tests\Integration;
 
+use Piwik\API\Request;
 use Piwik\Date;
 use Piwik\Plugins\Live\API;
 use Piwik\Plugins\Live\MeasurableSettings;
@@ -77,6 +78,27 @@ class APITest extends IntegrationTestCase
             '2012-01-01 10:00:01',
             $withIntersect->getFirstRow()->getColumn('visit_last_action_time')
         );
+    }
+
+    /**
+     * A range row (e.g. "6-7 pages") sends a filter with comparison operators as intersectSegment. Through an
+     * API request it has to reach the Segment class as it was sent, not HTML encoded.
+     */
+    public function testGetLastVisitsDetailsAcceptsRangeIntersectSegmentFromApiRequest()
+    {
+        $this->trackVisitWithActions('2012-01-01 10:00:00', ['https://example.org/a', 'https://example.org/b']);
+        $this->trackVisitWithActions('2012-01-01 11:00:00', ['https://example.org/a']);
+
+        $visits = Request::processRequest('Live.getLastVisitsDetails', [
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => '2012-01-01',
+            'segment' => 'pageUrl=@example.org',
+            'intersectSegment' => 'actions>=2;actions<=3',
+        ]);
+
+        $this->assertSame(1, $visits->getRowsCount());
+        $this->assertSame(2, (int) $visits->getFirstRow()->getColumn('actions'));
     }
 
     /**
