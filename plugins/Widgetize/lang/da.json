@@ -1,7 +1,20 @@
 {
     "Widgetize": {
+        "DirectLink": "› Direkte link",
+        "DisplayDashboardInIframe": "Du kan også vise hele Matomo-kontrolpanelet i din applikation eller på din hjemmeside i en IFRAME (%1$sse eksempel%2$s). Parameteren date kan sættes til en bestemt kalenderdato, \"today\" eller \"yesterday\". Parameteren period kan sættes til \"day\", \"week\", \"month\" eller \"year\". Parameteren language kan sættes til sprogkoden for en oversættelse, f.eks. language=fr. For eksempel kan du for idSite=1 og date=yesterday skrive:",
+        "DisplayDashboardInIframeAllSites": "Du kan også vise kontrolpanelet for alle hjemmesider som widget i en IFRAME (%1$sse eksempel%2$s)",
+        "EmbedIframe": "&rsaquo; Indlejr iframe",
+        "ErrorTokenAuthFailed": "Denne widget-URL kunne ikke godkendes med det angivne <code>token_auth</code>. Widget-URL'er virker kun med tokens, der er oprettet uden markering i 'Tillad kun sikre anmodninger'. Opret et token, der kan bruges i URL'er, på din %1$ssikkerhedsside%2$s, eller giv %3$sden anonyme bruger visningsadgang%4$s for at indlejre denne widget uden et token.",
+        "ErrorTokenAuthFailedDisabledByPolicy": "Denne widget-URL kunne ikke godkendes, fordi URL-baseret <code>token_auth</code> er deaktiveret af en serverpolitik på denne Matomo-instans. Giv %1$sden anonyme bruger visningsadgang%2$s, eller hent widgetten via en proxy på serversiden, der sender tokenet via POST.",
+        "Intro": "Med Matomo kan du %1$seksportere dine webanalyserapporter%2$s til din blog, din hjemmeside eller dit intranet-kontrolpanel… med ét klik.",
         "OpenInNewWindow": "Åbn i et nyt vindue",
         "PluginDescription": "Viser alle Matomo rapport på webstedet eller app med et simpel indlejrings HTML-tag.",
-        "TopLinkTooltip": "Eksporter Matomo rapporter som moduler og indlejre dit kontrolpanel i din applikation som en iframe."
+        "SelectAReport": "Vælg en rapport, og kopiér indlejringskoden under widgetten ind på din side:",
+        "TooHighAccessLevel": "Denne bruger har superbrugeradgang. Det er ikke tilladt at indlejre widgets med godkendelse via en superbrugers token. %1$sSe FAQ'en for at få flere oplysninger.%2$s",
+        "TopLinkTooltip": "Eksporter Matomo rapporter som moduler og indlejre dit kontrolpanel i din applikation som en iframe.",
+        "UrlTokensDisabledByPolicy": "URL-baseret <code>token_auth</code> er deaktiveret af en serverpolitik på denne Matomo-instans (<code>only_allow_secure_auth_tokens</code> er aktiveret). Widget-URL'er kan ikke godkendes med en token-parameter. For at udgive disse widgets på en adgangskodebeskyttet side skal du give %1$sden anonyme bruger visningsadgang%2$s eller hente widgettene via en proxy på serversiden, der sender tokenet via POST.",
+        "ViewAccessRequired": "Denne bruger har i det mindste en vis skriveadgang. Kun tokens fra brugere, der udelukkende har visningsadgang, kan bruges. Se %1$s for at få flere oplysninger.",
+        "ViewableAnonymously": "Hvis du vil have, at alle kan se dine widgets, skal du først give den anonyme bruger 'se'-adgang i %1$ssektionen Brugeradministration%2$s. <br>Hvis du udgiver widgets på en adgangskodebeskyttet eller privat side, behøver du ikke nødvendigvis at tillade 'anonymous' at se dine rapporter. I så fald kan du tilføje den hemmelige parameter <code>token_auth</code> i widgettens URL. Du kan administrere dine autentificeringstokens på din %3$ssikkerhedsside%4$s.",
+        "ViewableAnonymouslyUrlTokenRequirement": "Kun tokens, der er oprettet uden markering i 'Tillad kun sikre anmodninger', kan bruges som URL-parameter. Tokens, der kun er markeret som sikre, skal sendes via POST og kan ikke godkende en widget-URL."
     }
 }

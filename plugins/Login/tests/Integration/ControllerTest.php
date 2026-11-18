@@ -22,11 +22,13 @@ use Piwik\Http\BadRequestException;
 use Piwik\Plugins\Login\Controller;
 use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Plugins\Login\PasswordVerifier;
+use Piwik\Plugins\Login\SecondFactorVerifier;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Date;
+use Piwik\DI;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Session\SessionInitializer;
@@ -65,6 +67,9 @@ class ControllerTest extends IntegrationTestCase
     {
         parent::tearDown();
         $_POST = $this->post;
+        // pending confirmations live in the session, which later tests share
+        $_SESSION = [];
+        unset($_GET[SecondFactorVerifier::REQUEST_ID_PARAMETER]);
     }
 
     private function setupPostStateWithPassword(string $password)
@@ -233,6 +238,77 @@ class ControllerTest extends IntegrationTestCase
         }
 
         $this->assertStringContainsString('name="password"', $html);
+    }
+
+    public function testConfirmSecondFactorRedirectsToTheDashboardWithoutAPendingConfirmation()
+    {
+        $this->expectExceptionMessage('Matomo would redirect you to this URL: index.php');
+
+        $this->controller->confirmSecondFactor();
+    }
+
+    public function testConfirmSecondFactorShowsTheFormWhileAConfirmationIsPending()
+    {
+        Fixture::createWebsite('2024-01-01 00:00:00');
+        $requestId = $this->requestSecondFactorConfirmation();
+
+        $html = $this->controller->confirmSecondFactor();
+
+        $this->assertStringContainsString('name="code"', $html);
+        $this->assertStringContainsString($requestId, $html);
+        $this->assertStringNotContainsString('Login_WrongSecondFactorCode', $html);
+    }
+
+    public function testConfirmSecondFactorShowsAnErrorForAWrongCode()
+    {
+        Fixture::createWebsite('2024-01-01 00:00:00');
+        $requestId = $this->requestSecondFactorConfirmation();
+
+        $_POST['nonce'] = Nonce::getNonce('confirmSecondFactor');
+        $_POST['code'] = 'wrong-code';
+
+        $html = $this->controller->confirmSecondFactor();
+
+        $this->assertStringContainsString('Login_WrongSecondFactorCode', $html);
+        $this->assertTrue(StaticContainer::get(SecondFactorVerifier::class)->hasConfirmationBeenRequested($requestId));
+    }
+
+    public function testConfirmSecondFactorRedirectsBackToTheActionForAValidCode()
+    {
+        $this->requestSecondFactorConfirmation();
+
+        $_POST['nonce'] = Nonce::getNonce('confirmSecondFactor');
+        $_POST['code'] = 'valid-code';
+
+        $this->expectExceptionMessageMatches(
+            '/would redirect you to this URL: index\.php\?.*module=UsersManager&action=userSecurity&secondFactorToken=[0-9a-f]{32}/'
+        );
+
+        $this->controller->confirmSecondFactor();
+    }
+
+    private function requestSecondFactorConfirmation(): string
+    {
+        $verifier = new SecondFactorVerifier();
+        $requestId = $verifier->requestConfirmation(['module' => 'UsersManager', 'action' => 'userSecurity']);
+        $_GET[SecondFactorVerifier::REQUEST_ID_PARAMETER] = $requestId;
+
+        return $requestId;
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            // every user has a second factor, as e.g. TwoFactorAuth provides it
+            'observers.global' => DI::add([
+                ['Login.userRequiresSecondFactorConfirmation', DI::value(function (&$required) {
+                    $required = true;
+                })],
+                ['Login.verifySecondFactor', DI::value(function (&$isValid, $login, $code) {
+                    $isValid = $code === 'valid-code';
+                })],
+            ]),
+        ];
     }
 
     public function testDeclineInvitationWithoutTokenIsABadRequestWithoutRecordingAFailedAttempt()

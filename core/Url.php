@@ -863,7 +863,7 @@ class Url
             }
         }
 
-        if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)) {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
             return 'https';
         }
 

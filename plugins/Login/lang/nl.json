@@ -82,6 +82,7 @@
         "PleaseNote": "Let op",
         "PluginDescription": "Maakt zowel inloggen via gebruikersnaam en wachtwoord als het resetten van het wachtwoord mogelijk. De inlogmethode kan worden aangepast door het gebruik van een andere plugin zoals LoginLdap, die u kan vinden in de marktplaats.",
         "RememberMe": "Onthoud mij",
+        "SecondFactorCode": "Authenticatiecode",
         "SecurityTip": "Veiligheidstip",
         "SettingBruteForceBlacklistIp": "Blokkeer altijd deze IP's om in te loggen",
         "SettingBruteForceEnable": "Schakel brute-force detectie in",
