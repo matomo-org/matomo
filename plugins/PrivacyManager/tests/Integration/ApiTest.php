@@ -19,6 +19,7 @@ use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Settings\PolicyEnforcementState;
 use Piwik\Plugins\PrivacyManager\API;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Tests\Framework\Fixture;
@@ -655,6 +656,45 @@ class ApiTest extends IntegrationTestCase
         }
 
         $this->assertCount(0, $updates);
+    }
+
+    /**
+     * @return iterable<string, array{0: bool, 1: string}>
+     */
+    public function getIpSettingWordingCases(): iterable
+    {
+        yield 'a site that has not opted in keeps the plain wording' => [false, ''];
+        yield 'an opted-in site says consent lifts the anonymisation' => [true, '2'];
+    }
+
+    /**
+     * @dataProvider getIpSettingWordingCases
+     */
+    public function testGetCompliancePolicySettingsDescribesIpAnonymisationByTheSitesConsentAwareness(bool $optedIn, string $keySuffix): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        if ($optedIn) {
+            $measurable = ConsentAwareAnalytics::getMeasurableSetting($this->siteId);
+            $measurable->setValue(true);
+            $measurable->save();
+        }
+
+        $settings = $this->getSettingsById($this->api->getCompliancePolicySettings($this->siteId, 'cnil_v1'));
+
+        $ipAnonymisation = $settings['PrivacyManager.IPAnonymisation'];
+        $this->assertSame(Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingWhatItDoes' . $keySuffix), $ipAnonymisation['whatItDoes']);
+        $this->assertSame(Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingImpact' . $keySuffix), $ipAnonymisation['impact']);
+
+        $maskLength = $settings['PrivacyManager.IpAddressMaskLength'];
+        $this->assertSame(
+            Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoes' . $keySuffix, [2, 2]),
+            $maskLength['whatItDoes']
+        );
+        $this->assertSame(
+            Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingImpact' . $keySuffix, [2]),
+            $maskLength['impact']
+        );
     }
 
     /**
