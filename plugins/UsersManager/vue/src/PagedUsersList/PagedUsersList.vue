@@ -197,14 +197,17 @@
             >
               <span class="icon-help"/>
             </a>
-            <div>
+            <div class="pagedUsersList__siteFilter">
               <Field
                   class="permissions-for-selector"
+                  full-width
                   :model-value="permissionsForSite"
                   @update:model-value="onPermissionsForUpdate($event);"
                   uicontrol="site"
                   :ui-control-attributes="{
                     onlySitesWithAdminAccess: currentUserRole !== 'superuser',
+                    fullWidth: true,
+                    alignLabelStart: true,
                   }"
               />
             </div>

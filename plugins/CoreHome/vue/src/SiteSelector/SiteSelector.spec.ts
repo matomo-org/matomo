@@ -30,6 +30,7 @@ const mocked = vi.hoisted(() => {
       { idsite: '2', name: 'Another Site' },
     ],
     loadSite: vi.fn(),
+    setInitialSites: (() => undefined) as (sites: { idsite: string, name: string }[]) => void,
   };
 });
 
@@ -37,6 +38,7 @@ vi.mock('./SitesStore', async () => {
   const { computed, ref } = await import('vue');
   const initialSites = ref(mocked.sites);
   const initialSitesFiltered = ref([]);
+  mocked.setInitialSites = (sites) => { initialSites.value = sites; };
 
   return {
     default: {
@@ -63,6 +65,10 @@ describe('CoreHome/SiteSelector', () => {
     mocked.loadSite.mockClear();
   });
 
+  afterEach(() => {
+    mocked.setInitialSites(mocked.sites);
+  });
+
   async function mountSelector(props: Record<string, unknown> = {}) {
     const wrapper = mount(SiteSelector, {
       props,
@@ -82,7 +88,7 @@ describe('CoreHome/SiteSelector', () => {
   it('renders the dropdown as a generic dropdown panel', async () => {
     const wrapper = await mountSelector();
 
-    expect(wrapper.find('.piwikSelector__dropdown .mtm-dropdownPanel').exists()).toBe(true);
+    expect(wrapper.find('.mtm-selector__dropdown .mtm-dropdownPanel').exists()).toBe(true);
     expect(wrapper.find('.mtm-dropdownPanel__menu--scrollable').exists()).toBe(true);
     expect(wrapper.find('.mtm-dropdownPanel__menu--gutter').exists()).toBe(true);
     expect(wrapper.find('.dropdown').exists()).toBe(false);
@@ -151,7 +157,7 @@ describe('CoreHome/SiteSelector', () => {
   it('keeps the panel open when the no-result row is clicked', async () => {
     const wrapper = await mountSelector();
 
-    await wrapper.find('.title').trigger('click');
+    await wrapper.find('.mtm-selector__trigger').trigger('click');
     await flushPromises();
     expect(wrapper.classes()).toContain('expanded');
 
@@ -172,7 +178,7 @@ describe('CoreHome/SiteSelector', () => {
   it('switches to all websites when the all websites entry is clicked', async () => {
     const wrapper = await mountSelector({ showSelectedSite: true, allSitesText: 'All Websites' });
 
-    await wrapper.find('.title').trigger('click');
+    await wrapper.find('.mtm-selector__trigger').trigger('click');
     await flushPromises();
     expect(wrapper.classes()).toContain('expanded');
 
@@ -195,5 +201,63 @@ describe('CoreHome/SiteSelector', () => {
     const labels = wrapper.findAll('.mtm-dropdownPanel__menuLabel').map((el) => el.text());
 
     expect(labels[0]).toBe('All Websites');
+  });
+
+  it('opens and closes the list on Enter', async () => {
+    const wrapper = await mountSelector();
+    const trigger = wrapper.find('.mtm-selector__trigger');
+
+    await trigger.trigger('keydown', { key: 'Enter' });
+    await flushPromises();
+    expect(wrapper.classes()).toContain('mtm-selector--expanded');
+
+    await trigger.trigger('keydown', { key: 'Enter' });
+    expect(wrapper.classes()).not.toContain('mtm-selector--expanded');
+  });
+
+  it('shows a single website read-only, and opens nothing on click or Enter', async () => {
+    mocked.setInitialSites([mocked.sites[0]]);
+
+    const wrapper = await mountSelector();
+    const trigger = wrapper.find('.mtm-selector__trigger');
+
+    expect(wrapper.classes()).toContain('mtm-selector--readOnly');
+    expect(wrapper.find('.mtm-selector__rightIcon').exists()).toBe(false);
+
+    await trigger.trigger('click');
+    await trigger.trigger('keydown', { key: 'Enter' });
+    expect(wrapper.classes()).not.toContain('mtm-selector--expanded');
+  });
+
+  it('fills the row on a small screen only when asked to', async () => {
+    expect((await mountSelector()).classes()).not.toContain('mtm-selector--fullWidthOnSmallScreen');
+    expect((await mountSelector({ fullWidthOnSmallScreen: true })).classes())
+      .toContain('mtm-selector--fullWidthOnSmallScreen');
+  });
+
+  it('caps the name width, unless placed as a form field', async () => {
+    expect((await mountSelector()).find('.mtm-selector__label').classes()).toContain('siteSelector__label');
+
+    const wrapper = await mountSelector({ fullWidth: true, alignLabelStart: true });
+    const label = wrapper.find('.mtm-selector__label');
+
+    expect(wrapper.classes()).toContain('mtm-selector--fullWidth');
+    expect(label.classes()).toContain('mtm-selector__label--alignStart');
+    expect(label.classes()).not.toContain('siteSelector__label');
+  });
+
+  it('shows the placeholder while no website is selected', async () => {
+    const { piwik } = window as unknown as TestWindow;
+    piwik.idSite = '';
+
+    try {
+      const wrapper = await mountSelector({ placeholder: 'Select a website' });
+      const label = wrapper.find('.mtm-selector__label');
+
+      expect(label.text()).toBe('Select a website');
+      expect(label.classes()).toContain('mtm-selector__label--placeholder');
+    } finally {
+      piwik.idSite = '1';
+    }
   });
 });
