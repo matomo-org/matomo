@@ -31,18 +31,24 @@ return array(
         ) {
             $previous['screen'] = 'Piwik\Plugins\Monolog\Handler\EchoHandler';
         } elseif (
-            isset($previous['screen'], $previous['errorlog'])
+            isset($previous['screen'])
+            && !\Piwik\Common::isPhpCliMode()
             && $c->has('ini.log.log_writers')
             && array_values(array_unique(array_map('trim', (array) $c->get('ini.log.log_writers')))) === ['screen']
         ) {
-            // tracking requests have no screen, and would log nowhere otherwise
-            $previous['screen'] = $previous['errorlog'];
+            // web tracking requests have no screen, and would log nowhere otherwise
+            $previous['screen'] = 'Piwik\Plugins\Monolog\Handler\TrackerErrorLogHandler';
         } else {
             unset($previous['screen']);
         }
 
         return $previous;
     }),
+
+    // configured like the screen writer it stands in for, which always writes text
+    'Piwik\Plugins\Monolog\Handler\TrackerErrorLogHandler' => Piwik\DI::autowire()
+        ->constructorParameter('level', Piwik\DI::get('log.level.screen'))
+        ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
 
     'log.level' => Piwik\DI::decorate(function ($previous, Container $c) {
         if (isTrackerDebugEnabled($c)) {

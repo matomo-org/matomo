@@ -493,6 +493,8 @@ class TrackerTest extends IntegrationTestCase
         Fixture::checkResponse($output);
         $this->assertSame('HTTP/1.1 500 Internal Server Error', $this->getLastSentStatusLine());
         $this->assertSame([[LogLevel::ERROR, $error]], $logger->errors);
+        // lets the stand-in for the screen writer write it to PHP's error log
+        $this->assertTrue($logger->errorContexts[0]['trackerError'] ?? false);
     }
 
     /**
@@ -631,10 +633,14 @@ class TrackerTest extends IntegrationTestCase
             /** @var array<int, array{0: string, 1: mixed}> */
             public array $errors = [];
 
+            /** @var array<int, array<string, mixed>> */
+            public array $errorContexts = [];
+
             public function log($level, $message, array $context = []): void
             {
                 if ($level === LogLevel::ERROR) {
                     $this->errors[] = [$level, $context['exception'] ?? null];
+                    $this->errorContexts[] = $context;
                 }
             }
         };
