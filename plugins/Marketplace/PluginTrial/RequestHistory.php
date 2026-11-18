@@ -167,13 +167,19 @@ class RequestHistory
      */
     public function getPendingRequests(): array
     {
-        return $this->readDecisionAware(
-            'SELECT r.plugin_name, r.request_type, r.message, r.ts_requested, r.login, u.email'
-            . ' FROM ' . $this->getTable() . ' r'
-            . ' LEFT JOIN ' . Common::prefixTable('user') . ' u ON u.login = r.login'
-            . ' WHERE r.iddecision IS NULL ORDER BY r.plugin_name, r.ts_requested DESC, r.idrequest DESC',
+        $requests = $this->readDecisionAware(
+            'SELECT plugin_name, request_type, message, ts_requested, login FROM ' . $this->getTable()
+            . ' WHERE iddecision IS NULL ORDER BY plugin_name, ts_requested DESC, idrequest DESC',
             []
         );
+
+        $emails = $this->getEmailsOfExistingUsers(array_column($requests, 'login'));
+        foreach ($requests as &$request) {
+            $request['email'] = $emails[$request['login']] ?? null;
+        }
+        unset($request);
+
+        return $requests;
     }
 
     /**
@@ -206,12 +212,34 @@ class RequestHistory
      */
     public function getRequesterEmails(Decision $decision): array
     {
-        return array_column(Db::get()->fetchAll(
-            'SELECT u.login, u.email FROM ' . $this->getTable() . ' r'
-            . ' JOIN ' . Common::prefixTable('user') . ' u ON u.login = r.login'
-            . ' WHERE r.iddecision = ?',
+        return $this->getEmailsOfExistingUsers(array_column(Db::get()->fetchAll(
+            'SELECT login FROM ' . $this->getTable() . ' WHERE iddecision = ?',
             [$decision->id]
-        ), 'email', 'login');
+        ), 'login'));
+    }
+
+    /**
+     * Looked up apart from this plugin's tables, as comparing their login columns with the user table's fails when
+     * the tables were created with different collations
+     *
+     * @param array<string|null> $logins
+     * @return array<string, string> email addresses keyed by login
+     */
+    private function getEmailsOfExistingUsers(array $logins): array
+    {
+        $emails = [];
+        foreach (array_chunk(array_values(array_unique(array_filter($logins))), 500) as $chunk) {
+            $rows = Db::get()->fetchAll(
+                'SELECT login, email FROM ' . Common::prefixTable('user')
+                . ' WHERE login IN (' . Common::getSqlStringFieldsArray($chunk) . ')',
+                $chunk
+            );
+            foreach ($rows as $row) {
+                $emails[$row['login']] = $row['email'];
+            }
+        }
+
+        return $emails;
     }
 
     /**
@@ -314,9 +342,8 @@ class RequestHistory
     public function getDeletedLogins(): array
     {
         try {
-            $deletedLogins = array_column(Db::get()->fetchAll(
+            $recordedLogins = array_column(Db::get()->fetchAll(
                 'SELECT DISTINCT login FROM ' . $this->getTable() . ' WHERE login IS NOT NULL'
-                . ' AND login NOT IN (SELECT login FROM ' . Common::prefixTable('user') . ')'
             ), 'login');
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
@@ -327,19 +354,24 @@ class RequestHistory
         }
 
         try {
-            $deletedDeciders = array_column(Db::get()->fetchAll(
+            $recordedLogins = array_merge($recordedLogins, array_column(Db::get()->fetchAll(
                 'SELECT DISTINCT decided_by FROM ' . Common::prefixTable(self::DECISION_TABLE_NAME) . ' WHERE decided_by IS NOT NULL'
-                . ' AND decided_by NOT IN (SELECT login FROM ' . Common::prefixTable('user') . ')'
-            ), 'decided_by');
+            ), 'decided_by'));
         } catch (\Exception $e) {
             if (!Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 throw $e;
             }
-
-            $deletedDeciders = [];
         }
 
-        return array_values(array_unique(array_merge($deletedLogins, $deletedDeciders)));
+        $recordedLogins = array_values(array_unique($recordedLogins));
+        // the user table can match a login case-insensitively, and a login it still has must never be anonymized
+        $existingLogins = array_map(function ($login): string {
+            return mb_strtolower((string) $login);
+        }, array_keys($this->getEmailsOfExistingUsers($recordedLogins)));
+
+        return array_values(array_filter($recordedLogins, function (string $login) use ($existingLogins): bool {
+            return !in_array(mb_strtolower($login), $existingLogins, true);
+        }));
     }
 
     /**
