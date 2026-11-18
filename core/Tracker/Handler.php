@@ -98,6 +98,8 @@ class Handler
             if ($statusCode >= 500) {
                 $this->logger->error('Exception: {exception}', [
                     'exception' => $e,
+                    // lets the tracker's stand-in for the screen writer write it to PHP's error log
+                    'trackerError' => true,
                 ]);
             } else {
                 $this->logger->debug('Exception: {exception}', [
