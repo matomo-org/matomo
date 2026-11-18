@@ -129,7 +129,7 @@
         "RequestInstallNotificationEmailHowToInstallStep3": "Click on \"Install\"",
         "RequestInstallNotificationEmailSubject": "Matomo user request: install the %s plugin",
         "RequestedPluginCannotBeInstalled": "The %1$s plugin cannot be installed on this Matomo.",
-        "RequestedPluginActivatedAlreadyDecided": "%1$s was activated, but another Super User had already responded to its requests.",
+        "RequestedPluginActivatedAlreadyDecided": "%1$s was activated, but its requests had already been responded to.",
         "RequestedPluginInstalled": "%1$s installed. %2$s users notified by email.",
         "RequestedPluginInstalledOneUserNotified": "%1$s installed. 1 user notified by email.",
         "NotifyOnPluginRequest": "Notify me when a user requests a plugin.",

@@ -41,7 +41,10 @@
         <div v-if="canInstallFreePlugins" class="manageRequestsSuperUser__toolbar">
           <a
             class="btn manageRequestsSuperUser__installAllFree"
+            :class="{ disabled: busyPlugins.length > 0 }"
+            :aria-disabled="busyPlugins.length > 0 ? 'true' : undefined"
             :href="installLink()"
+            @click="busyPlugins.length > 0 && $event.preventDefault()"
           >{{ translate('Marketplace_InstallAllFree') }}</a>
         </div>
 
