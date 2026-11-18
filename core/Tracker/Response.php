@@ -109,6 +109,22 @@ class Response
         }
     }
 
+    /**
+     * Outputs the tracking image for a GET request that doesn't disable it, so a tracking pixel doesn't
+     * show a broken image even if the request failed before a tracking handler could answer it.
+     *
+     * @internal
+     */
+    public function outputTrackingImage(Tracker $tracker): void
+    {
+        $request = $_GET + $_POST;
+        if (!$this->isHttpGetRequest() || (isset($request['send_image']) && $request['send_image'] === '0')) {
+            return;
+        }
+
+        $this->outputApiResponse($tracker);
+    }
+
     private function outputAccessControlHeaders()
     {
         if (!$this->isHttpGetRequest()) {

@@ -21,6 +21,7 @@ use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Handler;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestSet;
+use Piwik\Tracker\Response;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit;
 use Piwik\Plugin\Manager as PluginManager;
@@ -398,13 +399,16 @@ class Tracker
 
                 // PHP writes the fatal error to its own error log
                 $this->log(LogLevel::ERROR, 'Fatal error encountered: {exception}', $lastError, ['ignoreInScreenWriter' => true]);
+
+                $this->outputTrackingImage();
             }
         });
     }
 
     /**
-     * Answers an error thrown outside the tracking handler, eg while the handler is created, with
-     * its status code only, as there is no handler to format a response for the request.
+     * Answers an error thrown outside the tracking handler, eg while the handler is created, with its
+     * status code, and the tracking image for a tracking pixel. Other requests get no body, as there is
+     * no handler to format one.
      *
      * @internal
      */
@@ -415,6 +419,20 @@ class Tracker
         // a recorded request keeps its success status, as clients resend failed requests
         if (!$this->hasLoggedRequests()) {
             Common::sendResponseCode(Handler::getStatusCodeForException($e));
+        }
+
+        $this->outputTrackingImage();
+    }
+
+    /**
+     * So a tracking pixel doesn't show a broken image for a request that failed before it got a response.
+     */
+    private function outputTrackingImage(): void
+    {
+        try {
+            (new Response())->outputTrackingImage($this);
+        } catch (Throwable) {
+            // a custom image that cannot be read must not replace the status code
         }
     }
 
