@@ -3182,7 +3182,8 @@ if (typeof window.Matomo !== 'object') {
 
             function wasHeartBeatSentForCurrentPageView() {
                 // once the server received a heartbeat for a page view, only requests of that page view extend
-                // its time. so we always send another one when the visitor leaves it, even shortly after refocusing
+                // its time. so we send another one when the visitor leaves it, even shortly after refocusing.
+                // it is still skipped when another request was sent less than configHeartBeatDelay ago
                 return !!configIdPageView && heartBeatSentForIdPageView === configIdPageView;
             }
 
@@ -4492,9 +4493,14 @@ if (typeof window.Matomo !== 'object') {
              * Log the page view / visit
              */
             function logPageView(customTitle, customData, callback) {
-                if (heartBeatSetUp && wasHeartBeatSentForCurrentPageView()) {
-                    // eg a route change in a single page app: report the time of the page view that ends now
+                // a manually set page view id is reused by the next page view, the ping could not be told apart
+                if (heartBeatSetUp && !configIdPageViewSetManually && wasHeartBeatSentForCurrentPageView()) {
+                    // eg a route change in a single page app: report the time of the page view that ends now.
+                    // performance timings that are waiting to be sent belong to the next page view
+                    var wasPerformanceTracked = performanceTracked;
+                    performanceTracked = true;
                     heartBeatPingIfActivityAlias();
+                    performanceTracked = wasPerformanceTracked;
                 }
 
                 if (!configIdPageViewSetManually) {
