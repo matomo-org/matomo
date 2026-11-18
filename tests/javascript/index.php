@@ -4661,7 +4661,7 @@ if ($mysql) {
 
     // heartbeat tests
     test("trackingHeartBeat", function () {
-        expect(13);
+        expect(14);
 
         var tokenBase = getHeartbeatToken();
 
@@ -4739,6 +4739,7 @@ if ($mysql) {
 
             requests = fetchTrackedRequests(token = 5 + tokenBase, true);
             ok(/ping=1/.test(requests[0]), "[token = 5] ping request sent on blur");
+            ok(/hb=1/.test(requests[0]), "[token = 5] heartbeat ping is marked with hb=1");
             equal(requests.length, 1, "[token = 5] one request is sent if window is blurred");
 
             requests = fetchTrackedRequests(token = 6 + tokenBase, true);
@@ -5316,7 +5317,7 @@ if ($mysql) {
     });
 
     test("Test API - consent", function() {
-        expect(34);
+        expect(35);
 
         var queue;
         var tracker = Piwik.getTracker();
@@ -5384,6 +5385,7 @@ if ($mysql) {
                 strictEqual(true, results.indexOf('myFoo=bar&baz=1') > 0, "setConsentGiven does replay all queued requests" );
                 strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
                 strictEqual(true, results.indexOf('ping=1') > 0, "setConsentGiven does replay all queued requests" );// sent when enabling cookies as part of setConsentGiven. Called twice in total
+                strictEqual(-1, results.indexOf('hb=1'), "the consent ping is not marked as a heartbeat" );
                 strictEqual(4, (results.match(/consent=1/g) || []).length, "consent=1 parameter appears in URL when explicit consent given");
 
                 var results2 = fetchTrackedRequests(getConsentToken() + '2');
