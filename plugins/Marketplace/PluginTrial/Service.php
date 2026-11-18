@@ -141,10 +141,16 @@ final class Service
         $session = self::isSessionEnabled() ? new SessionNamespace(self::SESSION_NAMESPACE) : null;
         if ($session !== null && $session->notifiedLogin !== Piwik::getCurrentUserLogin()) {
             self::removeNoticesFromSession();
-            DecisionNotifications::removeFromSession($session);
+            DecisionNotifications::removeFromSession();
             $session->notifiedLists = [];
             $session->notifiedLogin = Piwik::getCurrentUserLogin();
             $session->checkedLogin = null;
+        }
+
+        $requestsActive = $this->areRequestsActive();
+        if ($session !== null && !$requestsActive) {
+            // persistent, so one shown while requests were active would otherwise stay
+            DecisionNotifications::removeFromSession();
         }
 
         if (!$this->isEnabled() || Piwik::isUserIsAnonymous()) {
@@ -152,7 +158,6 @@ final class Service
         }
 
         $isSuperUser = Piwik::hasUserSuperUserAccess();
-        $requestsActive = $this->areRequestsActive();
         if (!$isSuperUser && !$requestsActive) {
             return; // requesters are only told of decisions while requests are active
         }
@@ -225,9 +230,9 @@ final class Service
             }
         }
 
-        // a transient notice made without a session would be lost before any page displays it
+        // without a session no page displays the notices
         if ($requestsActive && $session !== null) {
-            DecisionNotifications::createIfNeeded($session);
+            DecisionNotifications::createIfNeeded();
         }
 
         // a check that needed the current super users can change with them, and demoting one changes no request
@@ -253,8 +258,12 @@ final class Service
             return;
         }
 
+        if (!Piwik::isUserIsAnonymous() && DecisionNotifications::dismiss($notificationId)) {
+            return;
+        }
+
         if (!Piwik::hasUserSuperUserAccess()) {
-            return; // only super users can see and dismiss those notifications
+            return; // only super users can see and dismiss the other notifications
         }
 
         if (RequestsNotification::isOwnId($notificationId)) {
