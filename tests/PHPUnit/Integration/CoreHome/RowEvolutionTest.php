@@ -10,10 +10,13 @@
 namespace Piwik\Tests\Integration\CoreHome;
 
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\Http\BadRequestException;
 use Piwik\NoAccessException;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\Controller;
+use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution\Config as EvolutionVizConfig;
 use Piwik\Tests\Framework\Fixture;
@@ -41,6 +44,7 @@ class RowEvolutionTest extends IntegrationTestCase
     public function tearDown(): void
     {
         unset($_GET['idSite'], $_GET['date'], $_GET['period'], $_GET['apiMethod'], $_GET['label']);
+        Fixture::resetTranslations();
         parent::tearDown();
     }
 
@@ -87,6 +91,81 @@ class RowEvolutionTest extends IntegrationTestCase
             [0.00005, 5],
             [0.0000123456789, 6],
         ];
+    }
+
+    public function testFormatMetricValueKeepsTheDefaultFormattingWhenNoPluginFormatsTheMetric(): void
+    {
+        $this->assertSame('7.66%', $this->formatMetricValue(7.664999, 'bounce_rate', '%', 2, false));
+        $this->assertSame('6.00€', $this->formatMetricValue(6, 'revenue', '€', 2, true));
+        $this->assertSame('6€', $this->formatMetricValue(6, 'revenue', '€', 2, false));
+    }
+
+    public function testFormatMetricValueUsesThePluginFormattingWithoutTheUnit(): void
+    {
+        Piwik::addAction('Metrics.formatEvolutionValue', function (&$formatted, $value, $column, $idSite) {
+            if ($column === 'custom_metric_1' && $idSite === 1) {
+                $formatted = number_format($value * 100) . ' %';
+            }
+        });
+
+        $this->assertSame('80 %', $this->formatMetricValue(0.8, 'custom_metric_1', '%', 2, false));
+        $this->assertSame('0.80%', $this->formatMetricValue(0.8, 'custom_metric_2', '%', 2, true));
+    }
+
+    public function testMultiRowEvolutionEscapesThePluginFormattingAndPassesTheRequestedColumn(): void
+    {
+        Fixture::loadAllTranslations();
+        Piwik::addAction('Metrics.formatEvolutionValue', function (&$formatted, $value, $column) {
+            if ($column === 'custom_metric_1') {
+                $formatted = '<b>' . $value . '</b> &';
+            }
+        });
+
+        $rowEvolution = new class extends MultiRowEvolution {
+            public function __construct()
+            {
+            }
+
+            protected function getSparkline($metric)
+            {
+                return '';
+            }
+        };
+        $this->setProperty($rowEvolution, 'idSite', 1);
+        $this->setProperty($rowEvolution, 'metric', 'custom_metric_1');
+        $this->setProperty($rowEvolution, 'availableMetrics', [
+            'custom_metric_1_0' => ['name' => 'Row A', 'min' => 1, 'max' => 2],
+        ]);
+        $this->setProperty($rowEvolution, 'dataTable', $this->makeEvolutionMap('custom_metric_1_0', 1, 2));
+
+        $method = new \ReflectionMethod(RowEvolution::class, 'getMetricsToggles');
+        $toggle = $method->invoke($rowEvolution)[0];
+
+        $this->assertStringContainsString('&lt;b&gt;1&lt;/b&gt; &amp;', $toggle['details']);
+        $this->assertStringContainsString('&lt;b&gt;2&lt;/b&gt; &amp;', $toggle['details']);
+        $this->assertStringContainsString('<b>1</b> &', $toggle['minmax']);
+    }
+
+    private function makeEvolutionMap(string $metric, int $first, int $last): Map
+    {
+        $map = new Map();
+        foreach (['2014-01-01' => $first, '2014-01-02' => $last] as $date => $value) {
+            $table = new DataTable();
+            $table->addRowFromSimpleArray(['label' => 'Row A', $metric => $value]);
+            $map->addTable($table, $date);
+        }
+
+        return $map;
+    }
+
+    private function formatMetricValue($value, string $metric, string $unit, int $fractionDigits, bool $keepTrailingZeros): string
+    {
+        Fixture::loadAllTranslations();
+        $rowEvolution = (new \ReflectionClass(RowEvolution::class))->newInstanceWithoutConstructor();
+        $this->setProperty($rowEvolution, 'idSite', 1);
+        $method = new \ReflectionMethod(RowEvolution::class, 'formatMetricValue');
+
+        return $method->invoke($rowEvolution, $value, $metric, $unit, $fractionDigits, $keepTrailingZeros);
     }
 
     /**
