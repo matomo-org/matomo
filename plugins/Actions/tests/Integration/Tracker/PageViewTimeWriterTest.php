@@ -42,6 +42,8 @@ use Piwik\Tracker\Visit\VisitProperties;
  *  - Inside a tracker transaction (bulk / queued tracking) the same rows are written
  *  - The first hit of a new visit does not query for a row to close or update
  *  - A writer error fails a tracker transaction, but is only logged for a single request
+ *  - A row its own heartbeat ping (ping=1&hb=1) measured is not raised by a later pageview, while
+ *    manual and cookie-consent pings (ping=1 alone) leave the navigation close as it was
  *
  * @group Actions
  * @group PageViewTime
@@ -525,6 +527,131 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertSame(40, (int) $rows[0]['time_spent']);
     }
 
+    public function testHeartbeatRowIsNotRaisedByALaterPageview()
+    {
+        // The tab reported 14s when it lost focus or closed. A pageview 5 minutes later, e.g. in a
+        // new tab, must not turn that into 300s.
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 14, true);
+        $this->trackPageB($tracker, 300);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(14, (int) $rows['aaaaaa']['time_spent']);
+        $this->assertSame(1, (int) $rows['aaaaaa']['has_heartbeat']);
+        $this->assertSame(0, (int) $rows['bbbbbb']['has_heartbeat']);
+    }
+
+    public function testPingWithoutHeartbeatMarkerStillLetsTheNextPageviewCloseTheRow()
+    {
+        // tracker.ping() and the ping sent when cookie consent is given say nothing about the
+        // visitor leaving the page, so the navigation gap still applies.
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 5, false);
+        $this->trackPageB($tracker, 60);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(60, (int) $rows['aaaaaa']['time_spent']);
+        $this->assertSame(0, (int) $rows['aaaaaa']['has_heartbeat']);
+    }
+
+    public function testHeartbeatMarkerWithoutPingIsIgnored()
+    {
+        $tracker = $this->trackPageA();
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 5));
+        $tracker->setDebugStringAppend('&hb=1');
+        Fixture::checkResponse($tracker->doTrackEvent('Engagement', 'scroll'));
+        $tracker->setDebugStringAppend('');
+        $this->trackPageB($tracker, 60);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(60, (int) $rows['aaaaaa']['time_spent']);
+        $this->assertSame(0, (int) $rows['aaaaaa']['has_heartbeat']);
+    }
+
+    public function testEventThenNextPageviewStillClosesTheRowWithTheGap()
+    {
+        $tracker = $this->trackPageA();
+        $this->trackEvent($tracker, 5);
+        $this->trackPageB($tracker, 60);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(60, (int) $rows['aaaaaa']['time_spent']);
+    }
+
+    public function testEventInTheSameSecondAsTheHeartbeatDoesNotReopenTheRow()
+    {
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 14, true);
+        $this->trackEvent($tracker, 14);
+        $this->trackPageB($tracker, 300);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(14, (int) $rows['aaaaaa']['time_spent']);
+        $this->assertSame(1, (int) $rows['aaaaaa']['has_heartbeat']);
+    }
+
+    public function testEventAfterTheHeartbeatGrowsTheRowButTheNextPageviewDoesNot()
+    {
+        // The visitor came back and did something at 40s. No heartbeat followed before they
+        // moved on, so 40s is the last the page itself reported.
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 14, true);
+        $this->trackEvent($tracker, 40);
+        $this->trackPageB($tracker, 90);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(40, (int) $rows['aaaaaa']['time_spent']);
+        $this->assertSame(1, (int) $rows['aaaaaa']['has_heartbeat']);
+    }
+
+    public function testHeartbeatRowKeepsItsValueWhenTheVisitorReturnsAndNavigatesWithoutANewHeartbeat()
+    {
+        // Accepted limitation: the page lost focus at 20s (another window, an embedded iframe),
+        // the visitor came back and clicked a link before the tracker sent another heartbeat.
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 20, true);
+        $this->trackPageB($tracker, 320);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(20, (int) $rows['aaaaaa']['time_spent']);
+    }
+
+    public function testOutOfOrderHeartbeatMarksTheRowWithoutLoweringIt()
+    {
+        $tracker = $this->trackPageA();
+        $this->trackEvent($tracker, 30);
+        $this->trackPing($tracker, 10, true);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(30, (int) $rows['aaaaaa']['time_spent']);
+        $this->assertSame(1, (int) $rows['aaaaaa']['has_heartbeat']);
+    }
+
+    public function testEventWithoutPvIdDoesNotRaiseAHeartbeatRow()
+    {
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 14, true);
+
+        $tracker->setPageviewId('');
+        $this->trackEvent($tracker, 100);
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(14, (int) $rows['aaaaaa']['time_spent']);
+    }
+
+    public function testKillSwitchIgnoresHeartbeats()
+    {
+        $config = Config::getInstance();
+        $config->Tracker_1 = ['record_accurate_page_view_time' => 0];
+        Cache::deleteTrackerCache();
+
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 14, true);
+        $this->trackPageB($tracker, 300);
+
+        $this->assertSame([], $this->fetchPageViewTimeRows());
+    }
+
     public function testKillSwitchDisablesAllWrites()
     {
         $config = Config::getInstance();
@@ -689,6 +816,38 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         return (int) Tracker::getDatabase()->fetchRow("SHOW SESSION STATUS LIKE 'Com_select'")['Value'];
     }
 
+    private function trackPageA(): \MatomoTracker
+    {
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('aaaaaa');
+        $tracker->setUrl('https://example.org/page-a');
+        Fixture::checkResponse($tracker->doTrackPageView('Page A'));
+
+        return $tracker;
+    }
+
+    private function trackPageB(\MatomoTracker $tracker, int $secondsAfterBase): void
+    {
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, $secondsAfterBase));
+        $tracker->setPageviewId('bbbbbb');
+        $tracker->setUrl('https://example.org/page-b');
+        Fixture::checkResponse($tracker->doTrackPageView('Page B'));
+    }
+
+    private function trackPing(\MatomoTracker $tracker, int $secondsAfterBase, bool $isHeartbeat): void
+    {
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, $secondsAfterBase));
+        $tracker->setDebugStringAppend($isHeartbeat ? '&ping=1&hb=1' : '&ping=1');
+        Fixture::checkResponse($tracker->doTrackPageView('Page A'));
+        $tracker->setDebugStringAppend('');
+    }
+
+    private function trackEvent(\MatomoTracker $tracker, int $secondsAfterBase): void
+    {
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, $secondsAfterBase));
+        Fixture::checkResponse($tracker->doTrackEvent('Engagement', 'scroll'));
+    }
+
     private function getTracker(string $timestamp): \MatomoTracker
     {
         $tracker = Fixture::getTracker(1, $timestamp, $defaultInit = true, $useLocalTracker = true);
@@ -704,7 +863,8 @@ class PageViewTimeWriterTest extends IntegrationTestCase
     private function fetchPageViewTimeRows(): array
     {
         return Db::fetchAll(
-            'SELECT idpageviewtime, idpageview, idlink_va, idaction_url, idaction_name, server_time, time_spent
+            'SELECT idpageviewtime, idpageview, idlink_va, idaction_url, idaction_name, server_time, time_spent,
+                    has_heartbeat
              FROM ' . Common::prefixTable('log_page_view_time') . '
              ORDER BY idpageviewtime ASC'
         );
