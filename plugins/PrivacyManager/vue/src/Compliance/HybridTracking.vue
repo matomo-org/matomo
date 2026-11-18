@@ -139,17 +139,14 @@ export default defineComponent({
 
     const isAllWebsites = computed(() => props.idSite === 'all');
 
-    // a website measures hybrid tracking when it is on for every website, and cannot turn it
-    // off for itself then
+    // a website measures hybrid tracking when it is on for every website or for itself. The
+    // switch shows and changes the website's own value, which applies again once it is turned off
+    // for every website, and the note explains why the website is measured whatever it says
     const isInheritedFromAllWebsites = computed(
       () => !isAllWebsites.value && store.state.enabledForAllWebsites,
     );
-    const isToggledOn = computed(
-      () => isInheritedFromAllWebsites.value || store.state.localEnabled,
-    );
-    const canToggle = computed(
-      () => store.state.isWritable && !isInheritedFromAllWebsites.value,
-    );
+    const isToggledOn = computed(() => store.state.localEnabled);
+    const canToggle = computed(() => store.state.isWritable);
 
     const toggleHelp = computed(() => translate(isAllWebsites.value
       ? 'PrivacyManager_ComplianceHybridTrackingToggleHelpAllWebsites'

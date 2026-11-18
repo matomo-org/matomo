@@ -30,6 +30,9 @@ use Piwik\Tracker\Cache as TrackerCache;
  * It is set on the Compliance page, for the whole instance or for a website. A website measures
  * consent-aware analytics when either is on, so it can be rolled out a website at a time.
  *
+ * `[PrivacyManager] consent_aware_analytics` in the config sets the instance value and locks it,
+ * as for any system setting. It does not lock the websites, which keep their own value.
+ *
  * @implements SystemSettingInterface<bool>
  * @implements MeasurableSettingInterface<bool>
  */

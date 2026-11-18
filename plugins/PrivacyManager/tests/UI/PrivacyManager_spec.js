@@ -814,7 +814,7 @@ describe("PrivacyManager", function () {
         await page.waitForTimeout(250);
     }
 
-    it('should turn hybrid tracking on for all websites, which every website then inherits', async function() {
+    it('should turn hybrid tracking on for all websites, which every website then measures', async function() {
       await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
       await page.waitForNetworkIdle();
       await page.waitForSelector('.hybridTracking .switch', { visible: true });
@@ -836,10 +836,11 @@ describe("PrivacyManager", function () {
       await page.waitForNetworkIdle();
       await page.waitForSelector('.hybridTracking .switch', { visible: true });
 
+      // the switch keeps showing the website's own value, which is still off
       state = await hybridTrackingState();
-      expect(state.checked).to.equal(true);
-      expect(state.disabled).to.equal(true);
-      expect(state.hasSaveButton).to.equal(false);
+      expect(state.checked).to.equal(false);
+      expect(state.disabled).to.equal(false);
+      expect(state.hasSaveButton).to.equal(true);
       expect(state.note).to.equal('Hybrid tracking is enabled for all websites.');
 
       // turn it back off, so the rest of the suite measures without it

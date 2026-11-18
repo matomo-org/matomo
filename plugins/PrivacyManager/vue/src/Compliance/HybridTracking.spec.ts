@@ -75,15 +75,21 @@ describe('PrivacyManager/HybridTracking', () => {
     expect(toggle(wrapper).element.disabled).toBe(false);
   });
 
-  it('shows a website as on, and not changeable, when it is on for every website', async () => {
-    const wrapper = await mountHybridTracking('1', { enabledForAllWebsites: true });
+  it.each([false, true])(
+    'shows and changes the website value (%s) when it is on for every website',
+    async (enabled) => {
+      const wrapper = await mountHybridTracking('1', { enabled, enabledForAllWebsites: true });
 
-    expect(toggle(wrapper).element.checked).toBe(true);
-    expect(toggle(wrapper).element.disabled).toBe(true);
-    expect(wrapper.find('.hybridTrackingEnabledForAllWebsites').text())
-      .toBe('PrivacyManager_ComplianceHybridTrackingEnabledForAllWebsites');
-    expect(wrapper.findComponent({ name: 'SaveButtonStub' }).exists()).toBe(false);
-  });
+      expect(toggle(wrapper).element.checked).toBe(enabled);
+      expect(toggle(wrapper).element.disabled).toBe(false);
+      expect(wrapper.find('.hybridTrackingEnabledForAllWebsites').text())
+        .toBe('PrivacyManager_ComplianceHybridTrackingEnabledForAllWebsites');
+      expect(wrapper.findComponent({ name: 'SaveButtonStub' }).exists()).toBe(true);
+
+      await toggle(wrapper).trigger('change');
+      expect(wrapper.vm.hasUnsavedChanges).toBe(true);
+    },
+  );
 
   it('cannot be changed when the instance value is set in the config', async () => {
     const wrapper = await mountHybridTracking('all', { enabled: true, enabledForAllWebsites: true, isWritable: false });
