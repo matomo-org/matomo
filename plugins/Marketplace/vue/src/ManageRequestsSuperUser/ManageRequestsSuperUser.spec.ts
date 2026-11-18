@@ -518,6 +518,28 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       expect(actions.map((button) => button.attributes('disabled'))).toEqual([undefined, undefined]);
     });
 
+    it('disables Approve & Install until the decline is done', async () => {
+      let fail: (reason: Error) => void = () => undefined;
+      ajaxPost.mockReturnValue(new Promise((resolve, reject) => { fail = reject; }));
+      const wrapper = mountPage([makePending({ isFree: true, priceFrom: null })]);
+
+      (await openDeclineDialog(wrapper, 'Funnels'))();
+      await flushPromises();
+
+      const approve = row(wrapper, 'Funnels').find('.manageRequestsSuperUser__approveAndInstall');
+      expect(approve.classes()).toContain('disabled');
+      expect(approve.attributes('aria-disabled')).toBe('true');
+      const click = new MouseEvent('click', { cancelable: true });
+      approve.element.dispatchEvent(click);
+      expect(click.defaultPrevented).toBe(true);
+
+      fail(new Error('Another Super User has already responded'));
+      await flushPromises();
+
+      expect(approve.classes()).not.toContain('disabled');
+      expect(approve.attributes('aria-disabled')).toBeUndefined();
+    });
+
     it('keeps the row when the decline fails', async () => {
       ajaxPost.mockRejectedValue(new Error('Another Super User has already responded'));
       const wrapper = mountPage();

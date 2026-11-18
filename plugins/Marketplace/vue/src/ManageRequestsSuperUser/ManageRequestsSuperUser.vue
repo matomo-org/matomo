@@ -104,7 +104,10 @@
                     <a
                       v-if="plugin.isFree === true && isPluginsAdminEnabled"
                       class="btn manageRequestsSuperUser__approveAndInstall"
+                      :class="{ disabled: isBusy(plugin) }"
+                      :aria-disabled="isBusy(plugin) ? 'true' : undefined"
                       :href="installLink(plugin.pluginName)"
+                      @click="isBusy(plugin) && $event.preventDefault()"
                     >{{ translate('Marketplace_ApproveAndInstall') }}</a>
                     <a
                       v-else-if="plugin.isFree === false && isOverShopUserLimit"
