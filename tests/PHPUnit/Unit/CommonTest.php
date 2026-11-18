@@ -727,6 +727,7 @@ class CommonTest extends TestCase
     public function getInvalidResponseCodes(): iterable
     {
         yield 'too low' => [99];
+        yield 'interim status' => [101];
         yield 'too high' => [600];
         yield 'not a number' => ['abc'];
         yield 'not an integer' => [404.5];

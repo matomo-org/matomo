@@ -1168,8 +1168,6 @@ class Common
      * Sends the given response code.
      *
      * @param int|string $code  Eg 204
-     *
-     * @throws Exception if the code is not a valid HTTP status code
      */
     public static function sendResponseCode($code)
     {
@@ -1222,7 +1220,7 @@ class Common
             511 => 'Network Authentication Required',
         );
 
-        if (!is_numeric($code) || (int) $code != $code || $code < 100 || $code > 599) {
+        if (!is_numeric($code) || (int) $code != $code || $code < 200 || $code > 599) {
             throw new Exception('Response code not supported: ' . $code);
         }
         $code = (int) $code;
