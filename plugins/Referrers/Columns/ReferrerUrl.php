@@ -67,6 +67,12 @@ class ReferrerUrl extends Base
             return $this->trimUrl($information['referer_url']);
         }
 
+        // the campaign the tracker withheld until consent is the one this visit arrived through,
+        // so it replaces whatever the arrival was attributed to without it
+        if ($this->shouldCompleteWithheldCampaign($visitor, $information, $request, $action)) {
+            return $this->trimUrl($information['referer_url']);
+        }
+
         if (
             $this->isCurrentReferrerDirectEntry($visitor)
             && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY

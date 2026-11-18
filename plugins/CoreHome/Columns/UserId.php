@@ -89,7 +89,7 @@ class UserId extends VisitDimension
             $hasConsent = false;
         }
 
-        $value = $request->getForcedUserId($hasConsent);
+        $value = $request->getForcedUserIdForConsent($hasConsent);
 
         return empty($value) ? $value : mb_substr($value, 0, self::MAXLENGTH);
     }

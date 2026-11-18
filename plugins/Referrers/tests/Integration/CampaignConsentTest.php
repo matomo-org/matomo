@@ -137,6 +137,86 @@ class CampaignConsentTest extends IntegrationTestCase
         $this->assertSame('', (string) $this->fetchVisitColumn('consent'));
     }
 
+    /**
+     * Raised in review: the visitor arrives from another site on a campaign URL the tracker had
+     * stripped, so the visit is stored as that site. Consent then brings the campaign back, and
+     * the campaign differing from the stored referrer was forcing a new visit - which a request
+     * that cannot start one is dropped for, losing the consent with it.
+     *
+     * @dataProvider getConsentCarriersOnTheArrivalPage
+     */
+    public function testConsentCompletesAVisitThatArrivedFromAnotherSite(string $carrier): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->tracker->setUrlReferrer('https://www.facebook.com/');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+
+        $storedType = (int) $this->fetchVisitColumn('referer_type');
+        $this->assertNotSame(
+            Common::REFERRER_TYPE_CAMPAIGN,
+            $storedType,
+            'the visit should not already hold a campaign for this test to mean anything'
+        );
+        $this->assertNotSame(
+            Common::REFERRER_TYPE_DIRECT_ENTRY,
+            $storedType,
+            'a direct entry is already completed rather than split, so this test needs another referrer'
+        );
+
+        $this->tracker->setUrlReferrer('');
+
+        switch ($carrier) {
+            case 'ping':
+                $this->ping('landing', $withCampaign = true, $consent = '1');
+                break;
+            case 'event':
+                $this->prepareRequest('landing', $withCampaign = true, $consent = '1');
+                Fixture::checkResponse($this->tracker->doTrackEvent('Consent', 'Given'));
+                break;
+            default:
+                $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+        }
+
+        $this->assertSame(1, $this->countVisits(), 'consent on the arrival page should not have split the visit');
+        $this->assertSame('1', (string) $this->fetchVisitColumn('consent'), 'the consent never reached the visit');
+        $this->assertSame(
+            self::CAMPAIGN_NAME,
+            $this->fetchVisitColumn('referer_name'),
+            'the campaign the visitor arrived through was not recorded'
+        );
+    }
+
+    public function getConsentCarriersOnTheArrivalPage(): array
+    {
+        return [['ping'], ['event'], ['pageview']];
+    }
+
+    /**
+     * Raised in review: a visit can begin with an event - a consent banner impression, or one sent
+     * by a tag manager - and then has no entry page until the first page view arrives. That page
+     * view is the arrival, so consent it carries belongs to this visit rather than a second one.
+     */
+    public function testConsentOnTheFirstPageViewOfAVisitThatBeganWithAnEvent(): void
+    {
+        $this->enforceCampaignMasking();
+
+        $this->trackEvent('landing', 'Consent', 'Shown');
+
+        $this->assertSame(1, $this->countVisits(), 'the event should have started the visit');
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'nothing consented yet');
+
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(1, $this->countVisits(), 'the first page view should not have started a second visit');
+        $this->assertSame('1', (string) $this->fetchVisitColumn('consent'), 'the consent never reached the visit');
+        $this->assertSame(
+            self::CAMPAIGN_NAME,
+            $this->fetchVisitColumn('referer_name'),
+            'the campaign the visitor arrived through was not recorded'
+        );
+    }
+
     private function disableConsentAwareAnalytics(): void
     {
         $measurable = ConsentAwareAnalyticsSetting::getMeasurableSetting($this->idSite);
