@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Kopier kontrolpanel til bruger",
         "CreateNewDashboard": "Opret nyt kontrolpanel",
         "Dashboard": "Kontrolpanel",
+        "DashboardCategoryHelp": "Dette er en kontrolpanelside. Kontrolpaneler er en samling af Matomos moduler, som du selv tilføjer, så de passer til dine specifikke behov. Kombiner frit alle Matomos moduler for med et enkelt blik at få de data, %1$s*du*%2$s har brug for.",
         "DashboardCopied": "Aktuelt kontrolpanel blev succesfuldt kopieret til den valgte bruger.",
         "DashboardEmptyNotification": "Kontrolpanelet indeholder ikke nogen moduler. Start med at tilføje nogle moduler eller nulstille kontrolpanel til standard.",
         "DashboardName": "Kontrolpanel navn:",
@@ -13,6 +14,7 @@
         "DefaultDashboard": "Standard kontrolpanel - Bruger standard moduler og udformning",
         "DeleteWidgetConfirm": "Bekræft fjernelse af modul fra kontrolpanelet?",
         "EmptyDashboard": "Tomt kontrolpanel - Vælg favorit moduler",
+        "ExportThisDashboard": "Eksporter kontrolpanel",
         "LoadingWidget": "Indlæser modul, vent…",
         "ManageDashboard": "Administrer kontrolpanel",
         "Maximise": "Maksimer",
@@ -31,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Skal de nuværende modul udvælgelser og kontrolpanel udformning bruges som standard kontrolpanel skabelon?",
         "SetAsDefaultWidgetsConfirmHelp": "Modul udvælgelse og kontrolpanelets udformning vil blive brugt når en bruger opretter et nyt kontrolpanel, eller når \"%s\" -funktionen bruges.",
         "TopLinkTooltip": "Vis webanalyse-rapporter for %s.",
+        "TopMenuTitle": "Analyse",
         "WidgetNotFound": "Fandt ikke modul",
         "WidgetPreview": "Forhåndsvisning af modul"
     }

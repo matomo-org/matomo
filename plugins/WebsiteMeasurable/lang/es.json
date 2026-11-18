@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Sitio de internet",
         "WebsiteDescription": "Un sitio web se compone de páginas web, normalmente servidas desde un único dominio en la web.",
+        "WebsiteLongDescription": "Haga el seguimiento de las interacciones de los visitantes, como páginas vistas, clics, descargas y eventos, en un sitio web público. Un solo medible puede incluir varios dominios y subdominios, o puede crear medibles distintos para cada uno.",
         "Websites": "Sitios de internet"
     }
 }

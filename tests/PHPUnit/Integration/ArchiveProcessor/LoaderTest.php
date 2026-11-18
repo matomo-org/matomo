@@ -1487,6 +1487,55 @@ class LoaderTest extends IntegrationTestCase
         $this->assertEquals($expected, $reportsToInvalidate);
     }
 
+    public function testARequestWithoutSegmentAppliesARememberedDateToTheArchivesOfAllSegments(): void
+    {
+        Config::setSetting('General', 'enable_browser_archiving_triggering', 1);
+        $day = Factory::build('day', '2013-04-05');
+        $segment = new Segment('browserCode==ff', [1]);
+        $this->insertArchive(new Parameters(new Site(1), $day, $segment));
+
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->rememberToInvalidateArchivedReportsLater(1, Date::factory('2013-04-05'));
+
+        $loader = new Loader(new Parameters(new Site(1), $day, new Segment('', [1])), $invalidateBeforeArchiving = true);
+        $loader->prepareArchive('VisitsSummary');
+
+        // the date is forgotten for all segments, so it must be applied to all of them
+        $this->assertSame([], $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated(1));
+        $this->assertSame(ArchiveWriter::DONE_INVALIDATED, $this->getDoneFlagValue('2013-04-05', $segment));
+    }
+
+    public function testARequestWithSegmentAppliesARememberedDateToThatSegmentOnly(): void
+    {
+        Config::setSetting('General', 'enable_browser_archiving_triggering', 1);
+        $day = Factory::build('day', '2013-04-05');
+        $allVisits = new Segment('', [1]);
+        $otherSegment = new Segment('browserCode==ch', [1]);
+        $this->insertArchive(new Parameters(new Site(1), $day, $allVisits));
+        $this->insertArchive(new Parameters(new Site(1), $day, $otherSegment));
+
+        $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $invalidator->rememberToInvalidateArchivedReportsLater(1, Date::factory('2013-04-05'));
+
+        $loader = new Loader(new Parameters(new Site(1), $day, new Segment('browserCode==ff', [1])), $invalidateBeforeArchiving = true);
+        $loader->prepareArchive('VisitsSummary');
+
+        // still to be applied to the other segments
+        $this->assertSame(['2013-04-05' => [1]], $invalidator->getRememberedArchivedReportsThatShouldBeInvalidated(1));
+        $this->assertSame(ArchiveWriter::DONE_OK, $this->getDoneFlagValue('2013-04-05', $allVisits));
+        $this->assertSame(ArchiveWriter::DONE_OK, $this->getDoneFlagValue('2013-04-05', $otherSegment));
+
+        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2013-04-05'));
+    }
+
+    private function getDoneFlagValue(string $date, Segment $segment): int
+    {
+        return (int) Db::fetchOne(
+            'SELECT value FROM ' . ArchiveTableCreator::getNumericTable(Date::factory($date), true) . ' WHERE name = ?',
+            [Rules::getDoneFlagArchiveContainsAllPlugins($segment)]
+        );
+    }
+
     public function getTestDataForGetReportsToInvalidate()
     {
         return [

@@ -105,7 +105,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
                     $type = PDO::PARAM_BOOL;
                 } elseif ($variable === null) {
                     $type = PDO::PARAM_NULL;
-                } elseif (is_integer($variable)) {
+                } elseif (is_int($variable)) {
                     $type = PDO::PARAM_INT;
                 } else {
                     $type = PDO::PARAM_STR;

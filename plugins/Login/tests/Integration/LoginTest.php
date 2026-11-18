@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Login\tests\Integration;
 
 use Piwik\AuthResult;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Plugins\Login\Auth;
@@ -323,6 +324,32 @@ class LoginTest extends IntegrationTestCase
         // Check that the token auth is correct in the result
         $this->assertEquals(32, strlen($rc->getTokenAuth()));
         $this->assertTrue(ctype_xdigit($rc->getTokenAuth()));
+    }
+
+    /**
+     * @dataProvider provideWrongPasswords
+     */
+    public function testAuthenticateWithWrongPasswordFailsEvenWithValidTokenAuth(string $password)
+    {
+        // lets short passwords through to authentication instead of failing the strength check
+        Config::getInstance()->General['disable_checks_usernames_attributes'] = 1;
+
+        $user = $this->setUpUser();
+        $this->auth->setLogin($user['login']);
+        $this->auth->setTokenAuth($user['tokenAuth']); // valid token
+        $this->auth->setPassword($password);
+
+        $rc = $this->auth->authenticate();
+        $this->assertFailedLogin($rc);
+    }
+
+    public function provideWrongPasswords(): array
+    {
+        return [
+            'wrong password' => ['foo bar'],
+            'one character' => ['x'],
+            'zero' => ['0'],
+        ];
     }
 
     /**

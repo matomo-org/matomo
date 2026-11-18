@@ -1,11 +1,33 @@
 {
     "VisitTime": {
+        "ColumnLocalHour": "Lokaltid — time (start af besøg)",
+        "ColumnLocalMinute": "Lokaltid — minut (start af besøg)",
         "ColumnLocalTime": "Lokaltid",
+        "ColumnServerHour": "Servertid — time",
+        "ColumnSiteHour": "Hjemmesidens tid — time",
+        "ColumnUTCMinute": "Tid i UTC — minut",
+        "ColumnVisitEndSiteHour": "Hjemmesidens tid — time (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCDate": "Tid i UTC — dato (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCDayOfMonth": "Tid i UTC — dag i måneden (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCDayOfWeek": "Tid i UTC — ugedag (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCDayOfYear": "Tid i UTC — dag i året (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCMinute": "Tid i UTC — minut (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCMonth": "Tid i UTC — måned (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCQuarter": "Tid i UTC — kvartal (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCSecond": "Tid i UTC — sekund (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCWeekOfYear": "Tid i UTC — uge i året (tidspunkt for sidste handling)",
+        "ColumnVisitEndUTCYear": "Tid i UTC — år (tidspunkt for sidste handling)",
+        "ColumnVisitStartSiteHour": "Hjemmesidens tid — time (start af besøg)",
+        "ColumnVisitStartUTCMinute": "Tid i UTC — minut (start af besøg)",
         "DayOfWeek": "Dag i ugen",
         "LocalTime": "Besøg pr. lokaltid",
+        "PluginDescription": "Rapporterer lokaltiden og servertiden for, hvornår dine besøgende ser din hjemmeside eller app.",
+        "SiteTime": "Besøg pr. time i hjemmesidens tidszone",
         "SubmenuTimes": "Klokkeslæt",
+        "TimesSubcategoryHelp": "Sektionen \"Klokkeslæt\" viser, hvornår folk besøger din hjemmeside. Populære lokale tidspunkter hjælper dig med at tilpasse din hjemmeside til deres hverdag. De mest populære servertidspunkter afslører den tekniske efterspørgsel.",
         "VisitsByDayOfWeek": "Besøg efter ugedag",
         "WidgetByDayOfWeekDocumentation": "Denne graf viser antallet af besøg hjemmesiden har modtaget på hver dag i ugen.",
-        "WidgetLocalTimeDocumentation": "Diagrammet viser, hvad klokken var i %1$s besøgendes tidszone %2$s under deres besøg."
+        "WidgetLocalTimeDocumentation": "Diagrammet viser, hvad klokken var i %1$s besøgendes tidszone %2$s under deres besøg.",
+        "WidgetSiteTimeDocumentation": "Diagrammet viser, hvad klokken var i %1$s hjemmesidens tidszone %2$s under besøgene."
     }
 }
