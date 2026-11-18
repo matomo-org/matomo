@@ -57,7 +57,7 @@
           <li
             :class="{active: activeTab === '2fa'}"
             class="menuUserTwoFa"
-            v-if="currentUserRole === 'superuser' && theUser.uses_2fa"
+            v-if="currentUserRole === 'superuser' && theUser.uses_2fa && !isCurrentUser"
           >
             <a
               href=""

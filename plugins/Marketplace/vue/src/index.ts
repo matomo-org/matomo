@@ -21,3 +21,4 @@ export { default as CategoryTabs } from './CategoryTabs/CategoryTabs.vue';
 export { default as MarketplaceHero } from './MarketplaceHero/MarketplaceHero.vue';
 export { default as SortMenu } from './SortMenu/SortMenu.vue';
 export { default as ManageRequests } from './ManageRequests/ManageRequests.vue';
+export { default as ManageRequestsSuperUser } from './ManageRequestsSuperUser/ManageRequestsSuperUser.vue';

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Emails;
 
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Email\ContentGenerator;
@@ -64,6 +65,44 @@ class RequestTrialNotificationEmailTest extends IntegrationTestCase
         self::assertStringContainsString('has requested to install the Free Plugin plugin.', $body);
         self::assertStringContainsString('Click on "Install"', $body);
         self::assertStringNotContainsString('free trial', strtolower($body));
+    }
+
+    public function testATrialRequestLinksToManageRequestsWhenPluginRequestsAreOn()
+    {
+        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
+
+        $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'PremiumPlugin', 'Premium Plugin', 'abc123');
+        $body = html_entity_decode($email->getBodyHtml());
+
+        self::assertStringContainsString('index.php?module=Marketplace&action=manageRequests">your Matomo instance</a>', $body);
+        self::assertStringContainsString('Find the Premium Plugin plugin on the Pending tab', $body);
+        self::assertStringContainsString('Click on "Start 30-day trial"', $body);
+        self::assertStringNotContainsString('Go to the Marketplace', $body);
+    }
+
+    public function testATrialRequestLinksToTheMarketplaceWhenPluginRequestsAreOff()
+    {
+        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
+
+        $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'PremiumPlugin', 'Premium Plugin', 'abc123');
+        $body = html_entity_decode($email->getBodyHtml());
+
+        self::assertStringContainsString('index.php?module=Marketplace&action=overview">your Matomo instance</a>', $body);
+        self::assertStringContainsString('Go to the Marketplace', $body);
+        self::assertStringContainsString('Click on "Start free trial"', $body);
+        self::assertStringNotContainsString('action=manageRequests', $body);
+    }
+
+    public function testAnInstallRequestLinksToTheMarketplaceWhenPluginRequestsAreOn()
+    {
+        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
+
+        $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'FreePlugin', 'Free Plugin', 'abc123', RequestHistory::REQUEST_TYPE_INSTALL);
+        $body = html_entity_decode($email->getBodyHtml());
+
+        self::assertStringContainsString('index.php?module=Marketplace&action=overview">your Matomo instance</a>', $body);
+        self::assertStringContainsString('Go to the Marketplace', $body);
+        self::assertStringNotContainsString('action=manageRequests', $body);
     }
 
     public function testBodySignsTheUnsubscribeLinkWhenNoTokenIsPassed()

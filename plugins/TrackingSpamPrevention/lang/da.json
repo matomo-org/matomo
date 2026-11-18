@@ -1,1 +1,25 @@
-{}
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "En IP-adresse blev spærret for at generere for mange handlinger.",
+        "BlockCloudNoteInternetDisabled": "Da internetadgang er slået fra i din Matomo-konfiguration, virker denne funktion ikke.",
+        "SettingBlockHeadlessDescription": "Det er browsere uden brugergrænseflade, som mest bruges til automatisering. Det bør være sikkert at slå dette til, hvis du kun har almindelige hjemmesider eller apps. Det kan blokere yderligere bots og spamanmodninger, som ellers ikke ville blive registreret.",
+        "SettingBlockHeadlessTitle": "Bloker headless browsere",
+        "SettingBlockSdksAndLibrariesHelp": "Aktivér kun denne indstilling, hvis sporingen udføres med JavaScript-trackeren eller Matomo Tag Manager. Den blokerer sporingsanmodninger sendt af HTTP-klienter og sporingsbiblioteker, der ikke er JavaScript, herunder værktøjer som cURL, Guzzle og Postman.%3$s%1$sBemærk:%2$s Aktivér ikke denne indstilling, hvis du sender sporingsdata med Matomo PHP Tracking SDK, Java SDK, Python SDK, Android SDK, iOS SDK eller andre sporingsbiblioteker, der ikke er JavaScript.",
+        "SettingBlockSdksAndLibrariesTitle": "Bloker trafik fra SDK'er og serverside-biblioteker",
+        "SettingExcludedCountriesDescription": "Spor ikke besøgende fra disse lande. Besøgende uden for dit målområde er sandsynligvis bots eller spammere, eller du kan bruge det til at undgå privatlivslovgivning i andre jurisdiktioner.",
+        "SettingExcludedCountriesTitle": "Udeluk lande",
+        "SettingIncludedCountriesDescription": "Dette udelukker alle andre lande. Indstillingen \"udeluk lande\" har flere oplysninger.",
+        "SettingIncludedCountriesTitle": "Spor kun besøgende fra disse lande",
+        "SettingIpAllowListHelp": "Angiv de IP-adresser eller CIDR-intervaller, der må sende sporingsanmodninger. Angiv én værdi pr. linje.",
+        "SettingIpAllowListTitle": "Liste over tilladte IP-adresser",
+        "SettingIpBlockListHelp": "Angiv de IP-adresser eller CIDR-intervaller, der skal blokeres fra at sende sporingsanmodninger. Angiv én værdi pr. linje. Matomo kan automatisk blokere yderligere IP-adresser, som ikke vises på denne liste, f.eks. IP-intervaller fra cloududbydere, der hentes dagligt, når \"Bloker sporingsanmodninger fra cloududbyderes IP-intervaller\" er aktiveret, eller IP-adresser, der er spærret midlertidigt for at overskride grænsen for maks. antal handlinger.",
+        "SettingIpBlockListTitle": "Liste over blokerede IP-adresser",
+        "SettingMaxActionsDescription": "Standardværdien \"0\" registrerer alle handlinger. De fleste hjemmesider har som regel ikke mere end 100 til 300. Det kan være rimeligt at antage, at anden aktivitet er sporingsspam, en bot eller et angreb. Matomo holder op med at registrere yderligere handlinger og blokerer deres IP-adresser i op til 24 timer for at reducere belastningen af serveren og bevare datanøjagtigheden.",
+        "SettingMaxActionsTitle": "Maks. antal handlinger, der registreres pr. besøg",
+        "SettingNotificationEmailDescription": "Denne e-mailadresse får besked, hver gang en IP-adresse spærres for at have for mange handlinger. Fremover kan der blive tilføjet flere årsager til notifikationer.",
+        "SettingNotificationEmailTitle": "E-mail til notifikationer",
+        "SettingOrganisationBlockListPlaceholder": "Cloud-hostingudbyder A%1$sCloud-hostingudbyder B",
+        "SettingOrganisationBlockListTitle": "Liste over blokerede organisationer",
+        "SettingsIntroduction": "Spam- og bottrafik kan puste antallet af sporingsanmodninger op og tilføje uønskede data til dine rapporter. Konfigurer disse indstillinger for at reducere denne trafik, før den påvirker dine analyser."
+    }
+}
