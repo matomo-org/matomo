@@ -74,43 +74,96 @@ class ComplianceSettingsProvider
     }
 
     /**
-     * Compares two payloads of {@link getPolicySettings()} and returns the settings whose
-     * enforcement state or compliance status differs between them.
+     * A view of a policy's enforcement state for comparing what a request changed.
      *
-     * Settings are matched on their stable identifier. One that is missing from either
-     * payload is left out: the set of settings a policy controls only changes when plugins
-     * are activated or deactivated, which is not a compliance change anyone performed here.
+     * Unlike {@link getPolicySettings()} this carries the stored enforcement state as well as the
+     * resolved one, and leaves out the translated copy the dashboard needs, so it is cheap enough
+     * to take on both sides of a write.
      *
-     * @param array<string, mixed> $before payload taken before the settings were written
-     * @param array<string, mixed> $after payload taken after the settings were written
+     * The stored state has to be carried because the resolved one hides a real change: while a
+     * policy is active, a setting with no stored state of its own already resolves to enforced,
+     * so pinning it writes `true` over `null` without the resolved state or the status moving.
+     *
+     * @param class-string<CompliancePolicy> $policyClass
+     * @return array{policyEnforced: bool, settings: array<string, array{name: string, enforced: bool|null, storedEnforced: bool|null, status: string}>}
+     */
+    public function getPolicyEnforcementSnapshot(string $policyClass, ?int $idSite): array
+    {
+        $settings = [];
+        $toggleableCount = 0;
+        $allToggleablesEnforced = true;
+
+        foreach (PolicyManager::getAllControlledSettings($policyClass, $idSite) as $settingClass) {
+            $id = $settingClass::getPolicySettingId();
+
+            if ($settingClass::isExternallyManagedByPolicyPage()) {
+                // managed outside the compliance page, so it stores no enforcement state of its own
+                $settings[$id] = [
+                    'name' => $settingClass::getTitle(),
+                    'enforced' => null,
+                    'storedEnforced' => null,
+                    'status' => $this->computeExternallyManagedStatus($policyClass, $settingClass, $idSite),
+                ];
+                continue;
+            }
+
+            $toggleableCount++;
+            $enforced = $settingClass::isEnforced($idSite);
+            $allToggleablesEnforced = $allToggleablesEnforced && $enforced;
+
+            $settings[$id] = [
+                'name' => $settingClass::getTitle(),
+                'enforced' => $enforced,
+                'storedEnforced' => $settingClass::getStoredEnforcementState($idSite),
+                'status' => $this->computeStatus($policyClass, $settingClass, $idSite, $enforced),
+            ];
+        }
+
+        return [
+            'policyEnforced' => $toggleableCount > 0 && $allToggleablesEnforced,
+            'settings' => $settings,
+        ];
+    }
+
+    /**
+     * Compares two snapshots of {@link getPolicyEnforcementSnapshot()} and returns the settings
+     * whose enforcement state or compliance status differs between them.
+     *
+     * A setting counts as changed when its stored enforcement state moved, even if the resolved
+     * state and the status did not, so pinning a setting a policy was already enforcing is still
+     * reported. What the entry carries is the resolved state, since that is what the compliance
+     * page shows.
+     *
+     * Settings are matched on their stable identifier. One that is missing from either snapshot
+     * is left out: the set of settings a policy controls only changes when plugins are activated
+     * or deactivated, which is not a compliance change anyone performed here.
+     *
+     * @param array<string, mixed> $before snapshot taken before the settings were written
+     * @param array<string, mixed> $after snapshot taken after the settings were written
      * @return array<int, array{id: string, name: string, enforced: bool|null, previousEnforced: bool|null, status: string, previousStatus: string}>
      */
     public function diffPolicySettings(array $before, array $after): array
     {
-        $previousById = [];
-
-        foreach ($before['settings'] ?? [] as $setting) {
-            $previousById[$setting['id']] = $setting;
-        }
-
+        $previousById = $before['settings'] ?? [];
         $changes = [];
 
-        foreach ($after['settings'] ?? [] as $setting) {
-            if (!array_key_exists($setting['id'], $previousById)) {
+        foreach ($after['settings'] ?? [] as $id => $setting) {
+            if (!array_key_exists($id, $previousById)) {
                 continue;
             }
 
-            $previous = $previousById[$setting['id']];
+            $previous = $previousById[$id];
 
             if (
                 $previous['enforced'] === $setting['enforced']
+                && $previous['storedEnforced'] === $setting['storedEnforced']
                 && $previous['status'] === $setting['status']
             ) {
                 continue;
             }
 
             $changes[] = [
-                'id' => $setting['id'],
+                'id' => $id,
                 'name' => $setting['name'],
                 'enforced' => $setting['enforced'],
                 'previousEnforced' => $previous['enforced'],
@@ -135,22 +188,12 @@ class ComplianceSettingsProvider
                 continue;
             }
 
-            // reflect the raw configuration: these settings are managed outside the
-            // dashboard, so an active policy must not mask a non-compliant config
-            $compliantOnItsOwn = PolicyEnforcementBypass::run(
-                function () use ($settingClass, $policyClass, $idSite): bool {
-                    return $settingClass::isCompliant($policyClass, $idSite);
-                }
-            );
-
             $settings[] = [
                 'id' => $settingClass::getPolicySettingId(),
                 'name' => $settingClass::getTitle(),
                 'whatItDoes' => $settingClass::getWhatItDoes($idSite),
                 'impact' => $settingClass::getImpact($idSite),
-                'status' => $compliantOnItsOwn
-                    ? self::STATUS_ON_BY_DEFAULT
-                    : self::STATUS_NON_COMPLIANT,
+                'status' => $this->computeExternallyManagedStatus($policyClass, $settingClass, $idSite),
                 'enforced' => null,
                 'toggleable' => false,
                 'section' => self::SECTION_EXTERNAL,
@@ -171,6 +214,24 @@ class ComplianceSettingsProvider
         }
 
         return $settings;
+    }
+
+    /**
+     * The status of a setting managed outside the compliance page. It reflects the raw
+     * configuration, because an active policy must not mask a non-compliant config.
+     *
+     * @param class-string<CompliancePolicy> $policyClass
+     * @param class-string<PolicyComparisonInterface<mixed>> $settingClass
+     */
+    private function computeExternallyManagedStatus(string $policyClass, string $settingClass, ?int $idSite): string
+    {
+        $compliantOnItsOwn = PolicyEnforcementBypass::run(
+            function () use ($settingClass, $policyClass, $idSite): bool {
+                return $settingClass::isCompliant($policyClass, $idSite);
+            }
+        );
+
+        return $compliantOnItsOwn ? self::STATUS_ON_BY_DEFAULT : self::STATUS_NON_COMPLIANT;
     }
 
     /**
