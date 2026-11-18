@@ -453,7 +453,7 @@ class DeviceConsentTest extends IntegrationTestCase
     private function assertComplianceWording(): void
     {
         $expected = [
-            $this->idSite => '2',
+            $this->idSite => 'ConsentAware',
             $this->idSiteOther => '',
         ];
 
@@ -478,19 +478,19 @@ class DeviceConsentTest extends IntegrationTestCase
     public function testTheComplianceWordingDescribesConsentOnlyForASiteThatHasOptedIn(): void
     {
         $this->assertSame(
-            'DevicesDetection_DeviceModelDetectionDisabledWhatItDoes2',
+            'DevicesDetection_DeviceModelDetectionDisabledWhatItDoesConsentAware',
             $this->translationKey(DeviceModelDetectionDisabled::getWhatItDoes($this->idSite))
         );
         $this->assertSame(
-            'DevicesDetection_DeviceModelDetectionDisabledImpact2',
+            'DevicesDetection_DeviceModelDetectionDisabledImpactConsentAware',
             $this->translationKey(DeviceModelDetectionDisabled::getImpact($this->idSite))
         );
         $this->assertSame(
-            'DevicesDetection_OnlyMajorVersionsSettingWhatItDoes2',
+            'DevicesDetection_OnlyMajorVersionsSettingWhatItDoesConsentAware',
             $this->translationKey(OnlyMajorVersions::getWhatItDoes($this->idSite))
         );
         $this->assertSame(
-            'DevicesDetection_OnlyMajorVersionsSettingImpact2',
+            'DevicesDetection_OnlyMajorVersionsSettingImpactConsentAware',
             $this->translationKey(OnlyMajorVersions::getImpact($this->idSite))
         );
 

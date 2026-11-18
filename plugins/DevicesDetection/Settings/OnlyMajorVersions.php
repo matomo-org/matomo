@@ -43,7 +43,7 @@ class OnlyMajorVersions implements
         // does. It is off by default, and a site that has not opted in treats every visitor the
         // same, so the plain wording is what is true there
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingWhatItDoes2');
+            return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingWhatItDoesConsentAware');
         }
 
         return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingWhatItDoes');
@@ -55,7 +55,7 @@ class OnlyMajorVersions implements
         // does. It is off by default, and a site that has not opted in treats every visitor the
         // same, so the plain wording is what is true there
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingImpact2');
+            return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingImpactConsentAware');
         }
 
         return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingImpact');

@@ -20,7 +20,7 @@ class DeviceModelDetectionDisabled extends CompliancePolicyEnforcedSetting
         // does. It is off by default, and a site that has not opted in treats every visitor the
         // same, so the plain wording is what is true there
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('DevicesDetection_DeviceModelDetectionDisabledWhatItDoes2');
+            return Piwik::translate('DevicesDetection_DeviceModelDetectionDisabledWhatItDoesConsentAware');
         }
 
         return Piwik::translate('DevicesDetection_DeviceModelDetectionDisabledWhatItDoes');
@@ -32,7 +32,7 @@ class DeviceModelDetectionDisabled extends CompliancePolicyEnforcedSetting
         // does. It is off by default, and a site that has not opted in treats every visitor the
         // same, so the plain wording is what is true there
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('DevicesDetection_DeviceModelDetectionDisabledImpact2');
+            return Piwik::translate('DevicesDetection_DeviceModelDetectionDisabledImpactConsentAware');
         }
 
         return Piwik::translate('DevicesDetection_DeviceModelDetectionDisabledImpact');
