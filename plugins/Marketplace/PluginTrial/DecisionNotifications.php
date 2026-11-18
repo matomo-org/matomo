@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Marketplace\PluginTrial;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Db;
 use Piwik\Notification as MatomoNotification;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -101,9 +102,25 @@ final class DecisionNotifications
         }
 
         $login = Piwik::getCurrentUserLogin();
+        // two notices closed in quick succession arrive as parallel requests, and each would overwrite the other's dismissal
+        $lockName = 'MarketplaceRequestDecisions.' . md5($login);
+        if (!Db::getDbLock($lockName)) {
+            return true; // the notice comes back on the next page, to be dismissed again
+        }
+        try {
+            self::markDismissed($login, $isApproval, $idDecision);
+        } finally {
+            Db::releaseDbLock($lockName);
+        }
+
+        return true;
+    }
+
+    private static function markDismissed(string $login, bool $isApproval, int $idDecision): void
+    {
         $seen = self::getSeen($login);
         if ($seen === null) {
-            return true;
+            return;
         }
 
         // only the current user's own decisions are read, so no other user's notice can be dismissed
@@ -137,8 +154,6 @@ final class DecisionNotifications
         } else {
             Option::set(sprintf(self::DISMISSED_OPTION_NAME, $login), implode(',', $dismissed));
         }
-
-        return true;
     }
 
     /**

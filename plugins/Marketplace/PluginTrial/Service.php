@@ -17,6 +17,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Marketplace\FeatureFlags\PluginRequests;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Session;
 use Piwik\Session\SessionNamespace;
 
@@ -152,6 +153,10 @@ final class Service
             // persistent, so one shown while requests were active would otherwise stay
             DecisionNotifications::removeFromSession();
         }
+        if ($session !== null && (!$this->isEnabled() || !Piwik::hasUserSuperUserAccess())) {
+            // also persistent, so they would outlive the user's super user access or the feature being turned off
+            self::removeNoticesFromSession();
+        }
 
         if (!$this->isEnabled() || Piwik::isUserIsAnonymous()) {
             return;
@@ -255,6 +260,13 @@ final class Service
     public function dismissNotification(string $notificationId): void
     {
         if (!$this->isEnabled()) {
+            return;
+        }
+
+        // the event that calls this fires before CoreHome checks the token, so a forged request must not store anything
+        $tokenRequest = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
+        $tokenUser = Piwik::getCurrentUserTokenAuth();
+        if ((!empty($tokenRequest) || !empty($tokenUser)) && $tokenRequest !== $tokenUser) {
             return;
         }
 

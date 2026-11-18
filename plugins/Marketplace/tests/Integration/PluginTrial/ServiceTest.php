@@ -364,6 +364,30 @@ class ServiceTest extends IntegrationTestCase
         self::assertStringContainsString('>Review requests</a>', $message);
     }
 
+    public function testTheNoticeEscapesThePluginsName()
+    {
+        $this->enablePluginRequests();
+        (new Service())->request('PremiumPlugin', 'Plugin <A>');
+
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertStringContainsString('<b>Plugin &lt;A&gt;</b>', $this->getOnlyRequestsNoticeMessage());
+    }
+
+    public function testASuperUserWhoLosesTheirAccessIsNoLongerShownTheNotice()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        (new Service())->request('PremiumPlugin', 'PremiumPlugin');
+        (new Service())->createNotificationsIfNeeded();
+        $this->getOnlyRequestsNoticeId();
+
+        FakeAccess::$superUser = false;
+        (new Service())->createNotificationsIfNeeded();
+
+        self::assertCount(0, Manager::getAllNotificationsToDisplay());
+    }
+
     public function testSuperUsersGetOneNoticeListingAllRequestedPlugins()
     {
         $this->enablePluginRequests();
@@ -551,6 +575,27 @@ class ServiceTest extends IntegrationTestCase
         (new Service())->createNotificationsIfNeeded();
 
         self::assertCount(0, Manager::getAllNotificationsToDisplay());
+    }
+
+    public function testADismissalWithoutTheUsersTokenDismissesNothing()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
+        $this->startNewSessionAs('alice');
+        $declinedId = $this->findDeclinedNoticeId();
+        self::assertNotNull($declinedId);
+
+        $_POST['token_auth'] = 'not-the-users-token';
+        try {
+            $this->dismissAs('alice', $declinedId);
+        } finally {
+            unset($_POST['token_auth']);
+        }
+        $this->startNewSessionAs('alice');
+
+        self::assertSame($declinedId, $this->findDeclinedNoticeId());
     }
 
     public function testDeletingARequesterForgetsWhichDecisionsTheyDismissed()
