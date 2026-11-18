@@ -785,6 +785,26 @@ class ApiTest extends IntegrationTestCase
         self::assertSame([], $this->getStoredDecisions());
     }
 
+    public function testApprovePluginTrialRefusesAFreePluginAsFreeAboveTheShopUserLimit(): void
+    {
+        for ($i = 0; $i <= API::SHOP_USER_LIMIT; $i++) {
+            (new UsersModel())->addUser('user' . $i, 'password', 'user' . $i . '@example.org', date('Y-m-d H:i:s'));
+        }
+        $this->enablePluginRequests();
+        $this->setUser();
+        (new Storage('Barometer'))->setRequested('Barometer', RequestHistory::REQUEST_TYPE_INSTALL);
+
+        $this->setSuperUser();
+        $this->returnPluginInfo('Barometer');
+
+        try {
+            $this->api->approvePluginTrial('Barometer');
+            self::fail('A free plugin was approved for a trial');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_FreePluginHasNoTrial', $e->getMessage());
+        }
+    }
+
     /**
      * @dataProvider dataFreePluginRequestTypes
      */

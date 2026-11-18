@@ -284,15 +284,15 @@ class API extends \Piwik\Plugin\API
         // checked first, so no trial is started for requests another super user has already decided on
         $this->checkHasPendingRequests($pluginName);
 
-        $numUsers = $this->environment->getNumUsers();
-        if ($numUsers > self::SHOP_USER_LIMIT) {
-            throw new BadRequestException(Piwik::translate('Marketplace_ShopUserLimitExceeded', [$numUsers, self::SHOP_USER_LIMIT]));
-        }
-
         // free plugins have no trial, and are installed instead
         $pluginInfo = $this->marketplaceClient->getPluginInfo($pluginName);
         if (!empty($pluginInfo['isFree'])) {
             throw new BadRequestException(Piwik::translate('Marketplace_FreePluginHasNoTrial'));
+        }
+
+        $numUsers = $this->environment->getNumUsers();
+        if ($numUsers > self::SHOP_USER_LIMIT) {
+            throw new BadRequestException(Piwik::translate('Marketplace_ShopUserLimitExceeded', [$numUsers, self::SHOP_USER_LIMIT]));
         }
 
         $this->startFreeTrial($pluginName);
