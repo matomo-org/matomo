@@ -247,6 +247,9 @@ function stripTags(text?: unknown) {
 
 const { $ } = window;
 
+// the segments the GDPR tools search by that identify a visitor
+const DATA_SUBJECT_IDENTIFIER_SEGMENTS = ['userId', 'visitorId', 'visitId', 'visitIp'];
+
 export default defineComponent({
   props: {
     addInitialCondition: Boolean,
@@ -359,13 +362,24 @@ export default defineComponent({
       this.focusValueInput(orCondition);
     },
     updateAutocomplete(orCondition: SegmentOrCondition) {
-      this.conditionValuesLoading[orCondition.id!] = true;
-
       $(`.orCondId${orCondition.id} .metricValueBlock input`, this.$refs.root as HTMLElement)
         .autocomplete({
           source: [],
           minLength: 0,
         });
+
+      // The GDPR tools can search by the segments that identify a visitor where a compliance
+      // policy removes them elsewhere, so no values can be suggested for them there, and they
+      // should not be: suggestions would come from every visit, consented or not.
+      if (
+        this.forDataSubjectSearch
+        && DATA_SUBJECT_IDENTIFIER_SEGMENTS.includes(orCondition.segment)
+      ) {
+        this.conditionValuesLoading[orCondition.id!] = false;
+        return;
+      }
+
+      this.conditionValuesLoading[orCondition.id!] = true;
 
       const abortController = new AbortController();
 

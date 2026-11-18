@@ -40,7 +40,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Other changes
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
-* On a website whose compliance policy disables the visits log, `PrivacyManager.findDataSubjects` now returns the visits of visitors who gave consent instead of nothing, and `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` reject any other visit of such a website. Each visit returned by `PrivacyManager.findDataSubjects` now includes a `consent` column.
+* On a website whose compliance policy disables the visits log, `PrivacyManager.findDataSubjects` now returns the visits of visitors who gave consent instead of nothing, and `PrivacyManager.exportDataSubjects` rejects any other visit of such a website. Each visit returned by `PrivacyManager.findDataSubjects` now includes a `consent` column. `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` now reject an `idsite` or `idvisit` that is not a positive integer, such as `3abc`, `-1` or `5.0`, with a 400 error on every website, where such a value used to be cast to an integer.
 
 ## Matomo 6.0.0
 

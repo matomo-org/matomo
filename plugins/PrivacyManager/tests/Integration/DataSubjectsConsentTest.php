@@ -34,7 +34,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class DataSubjectsConsentTest extends IntegrationTestCase
 {
-    private const CONSENT_ERROR = 'Only visits from visitors who gave consent can be exported or deleted on this website.';
+    private const CONSENT_ERROR = 'Only visits from visitors who gave consent can be exported on this website.';
 
     /**
      * Site under the CNIL policy.
@@ -303,38 +303,82 @@ class DataSubjectsConsentTest extends IntegrationTestCase
      *
      * @param array<int, array{idsite: int|string, idvisit: int|string}|string> $visits
      */
-    public function testVisitsOfThePolicySiteWithoutConsentCannotBeExportedOrDeleted(string $method, array $visits): void
+    public function testVisitsOfThePolicySiteWithoutConsentCannotBeExported(array $visits): void
     {
         $visits = array_map(function ($visit) {
             return is_string($visit) ? $this->visit($visit) : $this->resolveVisit($visit);
         }, $visits);
 
         try {
-            $this->callDataSubjectMethod($method, $visits);
+            $this->callDataSubjectMethod('exportDataSubjects', $visits);
             $this->fail('Expected the visits to be refused');
         } catch (\Exception $e) {
             $this->assertStringStartsWith(self::CONSENT_ERROR, $e->getMessage());
         }
-
-        // nothing is deleted, not even the consented visit of a refused request
-        foreach (['policy:alice:1', 'policy:alice:0', 'policy:alice:none', 'other:alice:0'] as $visit) {
-            $this->assertVisitExists($visit, true);
-        }
     }
 
     /**
-     * @return iterable<string, array{0: string, 1: array<int, mixed>}>
+     * @return iterable<string, array{0: array<int, mixed>}>
      */
     public function getRefusedVisits(): iterable
     {
-        foreach ($this->getDataSubjectMethods() as [$method]) {
-            yield "$method refused consent" => [$method, ['policy:alice:0']];
-            yield "$method no consent" => [$method, ['policy:alice:none']];
-            yield "$method consented and refused" => [$method, ['policy:alice:1', 'policy:alice:0']];
-            yield "$method unknown visit" => [$method, [['idsite' => 'P', 'idvisit' => 999999]]];
-            yield "$method consented visit of another site" => [$method, [['idsite' => 'P', 'idvisit' => 'other:alice:1']]];
-            yield "$method visit ids given as strings" => [$method, [['idsite' => 'P', 'idvisit' => 'policy:alice:0']]];
-        }
+        yield 'refused consent' => [['policy:alice:0']];
+        yield 'no consent' => [['policy:alice:none']];
+        yield 'consented and refused' => [['policy:alice:1', 'policy:alice:0']];
+        yield 'unknown visit' => [[['idsite' => 'P', 'idvisit' => 999999]]];
+        yield 'consented visit of another site' => [[['idsite' => 'P', 'idvisit' => 'other:alice:1']]];
+        yield 'visit ids given as strings' => [[['idsite' => 'P', 'idvisit' => 'policy:alice:0']]];
+    }
+
+    /**
+     * Deleting a visit shows nothing of it, and the policy only hides visits: a visit stored without consent, such
+     * as one tracked before the policy applied and still holding a user ID, can still be erased.
+     */
+    public function testVisitsOfThePolicySiteWithoutConsentCanStillBeDeleted(): void
+    {
+        $this->callDataSubjectMethod('deleteDataSubjects', [
+            $this->visit('policy:alice:0'),
+            $this->visit('policy:alice:none'),
+        ]);
+
+        $this->assertVisitExists('policy:alice:0', false);
+        $this->assertVisitExists('policy:alice:none', false);
+        $this->assertVisitExists('policy:alice:1', true);
+    }
+
+    /**
+     * @dataProvider getSiteListsInABulkRequest
+     *
+     * @param string[] $expectedVisits
+     */
+    public function testFindDataSubjectsLeavesOutThePolicySiteInABulkRequest(string $idSites, array $expectedVisits): void
+    {
+        $idSites = str_replace(['P', 'O'], [(string) $this->policySite, (string) $this->otherSite], $idSites);
+
+        $responses = $this->processRootRequest('API.getBulkRequest', [
+            'urls' => [
+                http_build_query(['method' => 'PrivacyManager.findDataSubjects', 'idSite' => $idSites, 'segment' => 'userId==alice']),
+                http_build_query(['method' => 'PrivacyManager.getDataSubjectSearchScope', 'idSite' => $idSites]),
+            ],
+        ]);
+
+        // a bulk request answers each request as an array
+        [$visits, $scope] = $responses;
+        $idVisits = array_map('intval', array_column($visits, 'idVisit'));
+        sort($idVisits);
+
+        $this->assertSame($this->getVisitIds($expectedVisits), $idVisits);
+        $this->assertFalse($scope['consentedVisitsOnly']);
+        $this->assertFalse($scope['available']);
+    }
+
+    /**
+     * @return iterable<string, array{0: string, 1: string[]}>
+     */
+    public function getSiteListsInABulkRequest(): iterable
+    {
+        yield 'policy site' => ['P', []];
+        yield 'both sites' => ['P,O', ['other:alice:1', 'other:alice:0', 'other:alice:none']];
     }
 
     /**
