@@ -928,7 +928,8 @@ class API extends \Piwik\Plugin\API
      * @param int|string $idSite Site ID to inspect, or `all` for the instance-wide value.
      * @return array{enabled: bool, enabledForAllWebsites: bool, isWritable: bool} `enabled` is the
      *         value set for the given scope only, `enabledForAllWebsites` whether it is on for the
-     *         whole instance, and `isWritable` whether the value of that scope can be changed.
+     *         whole instance, and `isWritable` whether the value of that scope can be changed:
+     *         the instance value cannot when it is set in the config.
      * @internal
      */
     public function getConsentAwareAnalytics($idSite): array
@@ -970,7 +971,10 @@ class API extends \Piwik\Plugin\API
 
         $idSite = $this->resolveCompliancePolicyIdSite($idSite);
 
-        $enabled = filter_var($enabled, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        // an empty value would otherwise read as false and silently turn it off
+        $enabled = is_string($enabled) && '' === trim($enabled)
+            ? null
+            : filter_var($enabled, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
         if (is_null($enabled)) {
             throw new Exception('Invalid value for the parameter "enabled"');
         }
@@ -1006,7 +1010,8 @@ class API extends \Piwik\Plugin\API
                 ? $enabledForAllWebsites
                 : (bool) ConsentAwareAnalytics::getMeasurableValue($idSite),
             'enabledForAllWebsites' => $enabledForAllWebsites,
-            // only the instance value can be pinned in config.ini.php
+            // a value set in config.ini.php fixes the instance value only: a website can still be
+            // turned on or off for itself
             'isWritable' => null !== $idSite
                 || ConsentAwareAnalytics::getSystemSetting()->isWritableByCurrentUser(),
         ];

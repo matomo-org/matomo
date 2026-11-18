@@ -851,7 +851,49 @@ describe("PrivacyManager", function () {
       expect((await hybridTrackingState()).checked).to.equal(false);
     });
 
+    it('should turn hybrid tracking on for a single website only', async function() {
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&complianceScope=site'
+        + '&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+
+      expect((await hybridTrackingState()).checked).to.equal(false);
+
+      await toggleHybridTrackingAndSave();
+
+      expect(await page.evaluate(() => $('.hybridTrackingSaveNotifications .notification-success').length)).to.equal(1);
+
+      // kept for that website after a reload, and still changeable there
+      await page.reload();
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+
+      let state = await hybridTrackingState();
+      expect(state.checked).to.equal(true);
+      expect(state.disabled).to.equal(false);
+      expect(state.hasSaveButton).to.equal(true);
+      expect(state.note).to.equal(null);
+
+      // another website and the all websites scope are left off
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=2&complianceScope=site'
+        + '&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+      expect((await hybridTrackingState()).checked).to.equal(false);
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.hybridTracking .switch', { visible: true });
+      expect((await hybridTrackingState()).checked).to.equal(false);
+    });
+
     after(async function () {
+      // a hybrid tracking test that failed part way would leave it on for later tests. The API
+      // needs the feature flag, so this runs before the flag is removed
+      for (const idSite of ['all', 1, 2]) {
+        await testEnvironment.callApi('PrivacyManager.setConsentAwareAnalytics', { idSite, enabled: 0 });
+      }
+
       // leave no config overrides or pending page state behind for later tests
       delete testEnvironment.configOverride.FeatureFlags;
       delete testEnvironment.configOverride.CnilPolicy;

@@ -91,6 +91,15 @@ class ConsentAwareAnalytics implements SystemSettingInterface, MeasurableSetting
     }
 
     /**
+     * Whether it is on for the given scope: the website when one is given, the whole instance
+     * otherwise.
+     */
+    public static function isEnabledForScope(?int $idSite): bool
+    {
+        return null === $idSite ? self::isEnabledForInstance() : self::isEnabledForSite($idSite);
+    }
+
+    /**
      * Turns it on or off for the whole instance, or for a site when one is given.
      */
     public static function setEnabled(bool $enabled, ?int $idSite = null): void

@@ -131,4 +131,35 @@ describe('PrivacyManager/HybridTracking.store', () => {
     expect(store.state.enabled).toBe(false);
     expect(store.state.enabledForAllWebsites).toBe(true);
   });
+
+  it('resolves whether it saved', async () => {
+    const store = await createLoadedStore();
+
+    expect(await store.save('secret')).toBe(false);
+
+    postMock.mockResolvedValueOnce(payload({ enabled: true }));
+    store.toggle();
+    expect(await store.save('secret')).toBe(true);
+
+    postMock.mockRejectedValueOnce(new Error('Wrong password'));
+    store.toggle();
+    expect(await store.save('wrong')).toBe(false);
+  });
+
+  it('ignores a toggle while a save is in progress', async () => {
+    const store = await createLoadedStore();
+    let resolveSave: (value: HybridTrackingPayload) => void = () => {};
+    postMock.mockReturnValueOnce(new Promise((resolve) => { resolveSave = resolve; }));
+
+    store.toggle();
+    const saving = store.save('secret');
+    expect(store.state.saving).toBe(true);
+
+    store.toggle();
+    expect(store.state.localEnabled).toBe(true);
+
+    resolveSave(payload({ enabled: true }));
+    await saving;
+    expect(store.state.saving).toBe(false);
+  });
 });

@@ -71,8 +71,8 @@ class UserIdDisabled implements
     {
         // as for the campaign masking and referrer anonymisation settings: the consent-aware
         // wording describes a site that measures consent-aware analytics, and where it is not
-        // turned on every visitor is treated the same. Without a site, it is the instance's
-        if (null === $idSite ? ConsentAwareAnalytics::isEnabledForInstance() : ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+        // turned on every visitor is treated the same.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
             return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoesConsentAware');
         }
 
@@ -83,8 +83,8 @@ class UserIdDisabled implements
     {
         // as for the campaign masking and referrer anonymisation settings: the consent-aware
         // wording describes a site that measures consent-aware analytics, and where it is not
-        // turned on every visitor is treated the same. Without a site, it is the instance's
-        if (null === $idSite ? ConsentAwareAnalytics::isEnabledForInstance() : ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+        // turned on every visitor is treated the same.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
             return Piwik::translate('UserId_UserIdDisabledSettingImpactConsentAware');
         }
 

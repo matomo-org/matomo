@@ -155,11 +155,30 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
         $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
     }
 
-    public function testSetRejectsAValueThatIsNotABoolean(): void
+    /**
+     * @dataProvider getValuesThatAreNotABoolean
+     */
+    public function testSetRejectsAValueThatIsNotABoolean($enabled): void
     {
-        $this->expectExceptionMessage('Invalid value for the parameter "enabled"');
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
 
-        $this->api->setConsentAwareAnalytics($this->idSite, 'egg');
+        try {
+            $this->api->setConsentAwareAnalytics($this->idSite, $enabled);
+            $this->fail('The value was accepted');
+        } catch (Exception $e) {
+            $this->assertSame('Invalid value for the parameter "enabled"', $e->getMessage());
+        }
+
+        // an empty value must not read as off
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+    }
+
+    public function getValuesThatAreNotABoolean(): iterable
+    {
+        yield 'a word' => ['egg'];
+        yield 'empty' => [''];
+        yield 'blank' => [' '];
+        yield 'an array' => [[]];
     }
 
     public function testSetThrowsForAnUnknownSite(): void
@@ -226,11 +245,42 @@ class ConsentAwareAnalyticsSettingTest extends IntegrationTestCase
             ['enabled' => true, 'enabledForAllWebsites' => true, 'isWritable' => false],
             $this->api->getConsentAwareAnalytics('all')
         );
-        // a website can still be turned on for itself
-        $this->assertTrue($this->api->getConsentAwareAnalytics($this->idSite)['isWritable']);
 
         $this->expectExceptionMessage('CoreAdminHome_PluginSettingChangeNotAllowed');
         $this->api->setConsentAwareAnalytics('all', '0');
+    }
+
+    /**
+     * A value set in the config fixes the instance value only. A website keeps its own toggle, so
+     * one that was already on can still be turned off.
+     */
+    public function testAWebsiteCanStillBeTurnedOffWhenTheConfigSetsTheInstanceValue(): void
+    {
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
+        Config::getInstance()->PrivacyManager = ['consent_aware_analytics' => 0];
+
+        $this->assertSame(
+            ['enabled' => true, 'enabledForAllWebsites' => false, 'isWritable' => true],
+            $this->api->getConsentAwareAnalytics($this->idSite)
+        );
+
+        $this->api->setConsentAwareAnalytics($this->idSite, '0');
+
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForSite($this->idSite));
+        $this->assertFalse(ConsentAwareAnalytics::isEnabled($this->idSite));
+    }
+
+    public function testTheScopeIsTheWebsiteWhenOneIsGivenAndTheInstanceOtherwise(): void
+    {
+        ConsentAwareAnalytics::setEnabled(true, $this->idSite);
+
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForScope($this->idSite));
+        $this->assertFalse(ConsentAwareAnalytics::isEnabledForScope(null));
+
+        ConsentAwareAnalytics::setEnabled(true);
+
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForScope(null));
+        $this->assertTrue(ConsentAwareAnalytics::isEnabledForScope($this->otherIdSite));
     }
 
     public function testAChangeIsAnnouncedOnlyWhenTheValueChanged(): void

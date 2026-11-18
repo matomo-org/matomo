@@ -46,10 +46,13 @@
 
   <template v-if="siteId">
     <template v-if="granularComplianceEnabled">
-      <HybridTracking :id-site="siteId" />
+      <HybridTracking
+        :id-site="siteId"
+        @saved="reloadPolicies"
+      />
       <GranularComplianceOverview
         v-for="type in complianceTypes"
-        :key="type.id"
+        :key="`${type.id}-${policiesReloadCount}`"
         :id-site="siteId"
         :compliance-type="type.id"
         :title="type.title"
@@ -169,6 +172,13 @@ export default defineComponent({
       complianceTypes.value = await fetchCompliancePolicies();
     });
 
+    // the policy tables describe their settings for consenting visitors only while hybrid tracking
+    // is on, so they are fetched again once it is saved
+    const policiesReloadCount = ref(0);
+    const reloadPolicies = () => {
+      policiesReloadCount.value += 1;
+    };
+
     return {
       scope,
       scopeOptions,
@@ -177,6 +187,8 @@ export default defineComponent({
       site,
       siteId,
       complianceTypes,
+      policiesReloadCount,
+      reloadPolicies,
     };
   },
 });

@@ -38,7 +38,7 @@ export interface HybridTrackingStore {
   hasUnsavedChanges: ComputedRef<boolean>;
   setIdSite: (idSite: string) => void;
   toggle: () => void;
-  save: (password: string) => void;
+  save: (password: string) => Promise<boolean>;
 }
 
 export function createHybridTrackingStore(): HybridTrackingStore {
@@ -105,7 +105,7 @@ export function createHybridTrackingStore(): HybridTrackingStore {
   }
 
   function toggle() {
-    if (!state.isWritable) {
+    if (!state.isWritable || state.saving) {
       return;
     }
 
@@ -113,9 +113,9 @@ export function createHybridTrackingStore(): HybridTrackingStore {
     state.saveSuccess = false;
   }
 
-  function save(password: string) {
+  function save(password: string): Promise<boolean> {
     if (!hasUnsavedChanges.value) {
-      return;
+      return Promise.resolve(false);
     }
 
     // guard against applying a save response after the site changed mid-request
@@ -124,7 +124,7 @@ export function createHybridTrackingStore(): HybridTrackingStore {
     state.saving = true;
     state.saveError = null;
     state.saveSuccess = false;
-    AjaxHelper.post<HybridTrackingPayload>(
+    return AjaxHelper.post<HybridTrackingPayload>(
       {
         idSite: requestedIdSite,
         method: 'PrivacyManager.setConsentAwareAnalytics',
@@ -142,10 +142,14 @@ export function createHybridTrackingStore(): HybridTrackingStore {
         applyPayload(payload);
         state.saveSuccess = true;
       }
+
+      return true;
     }).catch((error) => {
       if (state.idSite === requestedIdSite) {
         state.saveError = error.message || error;
       }
+
+      return false;
     }).finally(() => {
       state.saving = false;
     });

@@ -101,4 +101,40 @@ describe('PrivacyManager/HybridTracking', () => {
     await wrapper.findComponent({ name: 'SaveButtonStub' }).vm.$emit('confirm');
     expect(wrapper.findComponent({ name: 'PasswordConfirmationStub' }).attributes('model-value')).toBe('true');
   });
+
+  it('tells the page once it has saved', async () => {
+    const wrapper = await mountHybridTracking('1');
+    (AjaxHelper.post as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      enabled: true,
+      enabledForAllWebsites: false,
+      isWritable: true,
+    });
+
+    await toggle(wrapper).trigger('change');
+    await wrapper.findComponent({ name: 'PasswordConfirmationStub' }).vm.$emit('confirmed', 'secret');
+    await flushPromises();
+
+    expect(wrapper.emitted('saved')).toHaveLength(1);
+  });
+
+  it('does not tell the page when the save failed', async () => {
+    const wrapper = await mountHybridTracking('1');
+    (AjaxHelper.post as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('Wrong password'));
+
+    await toggle(wrapper).trigger('change');
+    await wrapper.findComponent({ name: 'PasswordConfirmationStub' }).vm.$emit('confirmed', 'wrong');
+    await flushPromises();
+
+    expect(wrapper.emitted('saved')).toBeUndefined();
+  });
+
+  it('cannot be toggled while saving', async () => {
+    const wrapper = await mountHybridTracking('1');
+    (AjaxHelper.post as ReturnType<typeof vi.fn>).mockReturnValueOnce(new Promise(() => {}));
+
+    await toggle(wrapper).trigger('change');
+    await wrapper.findComponent({ name: 'PasswordConfirmationStub' }).vm.$emit('confirmed', 'secret');
+
+    expect(toggle(wrapper).element.disabled).toBe(true);
+  });
 });

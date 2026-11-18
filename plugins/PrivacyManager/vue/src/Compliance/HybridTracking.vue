@@ -55,7 +55,7 @@
                 type="checkbox"
                 id="hybridTrackingEnabled"
                 :checked="isToggledOn"
-                :disabled="!canToggle"
+                :disabled="!canToggle || state.saving"
                 @change="toggle()"
               />
               <span class="lever"></span>
@@ -113,9 +113,14 @@ export default defineComponent({
     PasswordConfirmation,
     SaveButton,
   },
+  emits: ['saved'],
   methods: {
     saveSettings(password: string) {
-      this.save(password);
+      this.save(password).then((saved) => {
+        if (saved) {
+          this.$emit('saved');
+        }
+      });
       this.showPasswordConfirmation = false;
     },
   },
