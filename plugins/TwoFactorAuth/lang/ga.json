@@ -26,6 +26,7 @@
         "RequireTwoFAForAllInformation": "Éilíonn úsáideoirí eile logáil isteach freisin le 2FA trí úsáid a bhaint as aip OTP ar a ngléas soghluaiste. (Mar réamhriachtanas, ní mór duit 2FA a úsáid tú féin.)",
         "RequiredAuthCodeNotConfiguredAPI": "Ní mór duit fíordheimhniú dhá fhachtóir a shocrú. Logáil isteach le do thoil chun é sin a dhéanamh.",
         "RequiredToSetUpTwoFactorAuthentication": "Ní mór duit fíordheimhniú dhá fhachtóir a shocrú roimh logáil isteach.",
+        "ResetOwnTwoFactorAuthNotAllowed": "Chun fíordheimhniú dhá fhachtóir a mhúchadh chun do chuntas féin, bain úsáid as do shocruithe slándála pearsanta.",
         "SetUpTwoFactorAuthentication": "Socraigh fíordheimhniú dhá fhachtóir (2FA)",
         "SetupAuthenticatorOnDevice": "Socraigh aip OTP ar do ghléas",
         "SetupAuthenticatorOnDeviceStep1": "Suiteáil app OTP, mar shampla:",

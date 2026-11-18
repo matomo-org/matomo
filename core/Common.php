@@ -283,16 +283,21 @@ class Common
     /**
      * Secure wrapper for unserialize, which by default disallows unserializing classes
      *
-     * @param string|null $string String to unserialize
+     * @param string|false|null $string String to unserialize
      * @param array $allowedClasses Class names that should be allowed to unserialize
      * @param bool $rethrow Whether to rethrow exceptions or not.
      * @return mixed
      */
     public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)  // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
+        // PHP 8.6 warns about an empty string, earlier versions silently returned false
+        if ($string === null || $string === false || $string === '') {
+            return false;
+        }
+
         try {
             // phpcs:ignore Generic.PHP.ForbiddenFunctions
-            return unserialize($string ?? '', ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
         } catch (\Throwable $e) {
             if ($rethrow) {
                 throw $e;

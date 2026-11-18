@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\API;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
@@ -88,6 +89,41 @@ class APITest extends IntegrationTestCase
         });
         $this->api->resetTwoFactorAuth('mylogin2');
         $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
+    }
+
+    /**
+     * @dataProvider getOwnLoginVariants
+     */
+    public function testResetTwoFactorAuthRefusesTheCurrentUsersOwnTwoFactorAuth(string $userLogin)
+    {
+        $this->recoveryCodes->createRecoveryCodesForLogin('mylogin1');
+        $this->twoFa->saveSecret('mylogin1', '1234');
+
+        FakeAccess::clearAccess(true);
+        FakeAccess::$identity = 'mylogin1';
+
+        try {
+            $this->api->resetTwoFactorAuth($userLogin, Fixture::ADMIN_USER_PASSWORD);
+            $this->fail('Expected resetting the own two-factor authentication to be refused');
+        } catch (BadRequestException $e) {
+            $this->assertStringContainsString('TwoFactorAuth_ResetOwnTwoFactorAuthNotAllowed', $e->getMessage());
+        }
+
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin1'));
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public function getOwnLoginVariants(): array
+    {
+        return [
+            'login' => ['mylogin1'],
+            'login in other case' => ['MyLogin1'],
+            'email' => ['mylogin1@matomo.org'],
+            // the database collation also ignores accents
+            'login with accent' => ['mylögin1'],
+        ];
     }
 
     protected function setAdminUser()

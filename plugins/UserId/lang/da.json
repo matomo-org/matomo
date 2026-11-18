@@ -1,7 +1,15 @@
 {
     "UserId": {
         "PluginDescription": "Viser brugerrapporter",
+        "ThereIsNoDataForThisReportHelp": "%1$sLæs brugervejledningen for at lære, hvordan du genererer data til denne rapport.%2$s",
         "UserId": "Bruger-id",
-        "UserReportTitle": "Bruger-id’er"
+        "UserIdDisabledSettingImpact": "Værdier for bruger-id indsamles ikke. Rapporter, segmenter og analyse på tværs af besøg baseret på bruger-id er ikke tilgængelige.",
+        "UserIdDisabledSettingRequirementNote": "Indsamling af bruger-id under sporing skal være deaktiveret.",
+        "UserIdDisabledSettingTitle": "Sporing af bruger-id deaktiveret",
+        "UserIdDisabledSettingWhatItDoes": "Sporing af bruger-id er deaktiveret. Sporingsimplementeringer må ikke sende bruger-id'er med setUserId eller tilsvarende metoder.<br><br>Det forhindrer, at besøgende identificeres direkte og kobles sammen på tværs af besøg eller enheder.",
+        "UserIdSegmentHelp": "enhver ikke-tom, unik streng, der identificerer brugeren (f.eks. en e-mailadresse eller et brugernavn).",
+        "UserReportDocumentation": "Viser besøg og andre generelle målinger for hvert enkelt bruger-id.",
+        "UserReportTitle": "Bruger-id’er",
+        "VisitorsUserSubcategoryHelp": "Rapporten om bruger-id viser besøg, der er knyttet til alle dine registrerede og indloggede brugere. Forstå, hvordan din hjemmeside bruges af de enkelte brugere, og find ud af, hvem dine mest og mindst aktive brugere er."
     }
 }
