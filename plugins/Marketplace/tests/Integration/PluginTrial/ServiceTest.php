@@ -9,8 +9,10 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config\GeneralConfig;
+use Piwik\Db;
 use Piwik\Notification\Manager;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
@@ -596,6 +598,67 @@ class ServiceTest extends IntegrationTestCase
         $this->startNewSessionAs('alice');
 
         self::assertSame($declinedId, $this->findDeclinedNoticeId());
+    }
+
+    public function testADismissalKeepsOneThatAnotherRequestStoredMeanwhile()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        foreach (['PremiumPlugin', 'PremiumPlugin2', 'PremiumPlugin3'] as $pluginName) {
+            $this->requestAs('alice', $pluginName);
+            (new Service())->decide($pluginName, RequestHistory::DECISION_DECLINED);
+        }
+        $this->startNewSessionAs('alice');
+        $declinedIds = array_keys(Manager::getPendingInMemoryNotifications());
+        self::assertCount(3, $declinedIds);
+        // listed as dismissed out of order, so this request keeps both options cached; a delete would clear them
+        $this->dismissAs('alice', (string) $declinedIds[1]);
+
+        // a parallel request dismisses the first, behind this request's cached options
+        $idSecond = (int) substr((string) $declinedIds[1], strlen(DecisionNotifications::DECLINED_ID_PREFIX));
+        $optionTable = '`' . Common::prefixTable('option') . '`';
+        Db::query(
+            "UPDATE $optionTable SET option_value = ? WHERE option_name = ?",
+            [(string) $idSecond, 'Marketplace.PluginRequestDecisionsSeen.alice']
+        );
+        Db::query("DELETE FROM $optionTable WHERE option_name = ?", ['Marketplace.PluginRequestDecisionsDismissed.alice']);
+        $this->dismissAs('alice', (string) $declinedIds[2]);
+        $this->startNewSessionAs('alice');
+
+        self::assertCount(0, Manager::getPendingInMemoryNotifications());
+    }
+
+    public function testADismissalArrivingAfterTheRequesterWasDeletedStoresNothing()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
+        $this->startNewSessionAs('alice');
+        $declinedId = (string) $this->findDeclinedNoticeId();
+
+        $this->switchToSuperUser();
+        UsersManagerAPI::getInstance()->deleteUser('alice');
+        $this->dismissAs('alice', $declinedId);
+
+        self::assertFalse(Option::get('Marketplace.PluginRequestDecisionsSeen.alice'));
+    }
+
+    public function testTheDecisionNoticeEscapesThePluginsName()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
+        $history = new RequestHistory();
+        $history->add('<i>Plugin', 'alice', time());
+        $history->addDecision('<i>Plugin', RequestHistory::DECISION_DECLINED, null, null, time());
+
+        $this->startNewSessionAs('alice');
+
+        self::assertStringContainsString(
+            '<b>&lt;i&gt;Plugin</b>',
+            $this->getOnlyNotificationMessage((string) $this->findDeclinedNoticeId())
+        );
     }
 
     public function testDeletingARequesterForgetsWhichDecisionsTheyDismissed()

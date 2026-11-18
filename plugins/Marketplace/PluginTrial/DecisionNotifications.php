@@ -16,6 +16,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\SiteAwareLinks;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
  * Tells a requester that their requests were approved or declined, until they dismiss the notice
@@ -103,7 +104,7 @@ final class DecisionNotifications
 
         $login = Piwik::getCurrentUserLogin();
         // two notices closed in quick succession arrive as parallel requests, and each would overwrite the other's dismissal
-        $lockName = 'MarketplaceRequestDecisions.' . md5($login);
+        $lockName = self::getLockName($login);
         if (!Db::getDbLock($lockName)) {
             return true; // the notice comes back on the next page, to be dismissed again
         }
@@ -116,8 +117,21 @@ final class DecisionNotifications
         return true;
     }
 
+    private static function getLockName(string $login): string
+    {
+        return 'MarketplaceRequestDecisions.' . md5($login);
+    }
+
     private static function markDismissed(string $login, bool $isApproval, int $idDecision): void
     {
+        if (!(new UsersModel())->userExists($login)) {
+            return; // deleted while this request was on its way, so nothing may be stored for them again
+        }
+
+        // this request may have read them before another one changed them
+        Option::clearCachedOption(sprintf(self::SEEN_OPTION_NAME, $login));
+        Option::clearCachedOption(sprintf(self::DISMISSED_OPTION_NAME, $login));
+
         $seen = self::getSeen($login);
         if ($seen === null) {
             return;
@@ -235,8 +249,17 @@ final class DecisionNotifications
 
     public static function forgetLogin(string $login): void
     {
-        Option::delete(sprintf(self::SEEN_OPTION_NAME, $login));
-        Option::delete(sprintf(self::DISMISSED_OPTION_NAME, $login));
+        // waits for a dismissal in progress, which would otherwise store its options again after these deletes
+        $lockName = self::getLockName($login);
+        $isLocked = Db::getDbLock($lockName);
+        try {
+            Option::delete(sprintf(self::SEEN_OPTION_NAME, $login));
+            Option::delete(sprintf(self::DISMISSED_OPTION_NAME, $login));
+        } finally {
+            if ($isLocked) {
+                Db::releaseDbLock($lockName);
+            }
+        }
     }
 
     private static function createNotification(string $message, string $context): MatomoNotification
