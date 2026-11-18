@@ -54,7 +54,7 @@ DataTable_RowActions_Transitions.prototype.trigger = function (tr, e, subTableLa
     alert('Transitions can\'t be used on this report.');
 };
 
-DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, e) {
+DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, e, originalRow) {
     var separator = ' > '; // LabelFilter::SEPARATOR_RECURSIVE_LABEL
     var labelParts = label.split(separator);
     for (var i = 0; i < labelParts.length; i++) {
@@ -66,7 +66,30 @@ DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, 
         delimiter = piwik.config.action_title_category_delimiter;
     }
     label = labelParts.join(delimiter);
-    this.openPopover('title:' + label);
+    this.openPopover(this.addComparisonRowParams('title:' + label, originalRow || tr));
+};
+
+/**
+ * Appends the segment, period and date of a comparison row to a row action link. A row of the
+ * "All visits" series has no segment in its override, so it gets an empty one instead of the report's.
+ */
+DataTable_RowActions_Transitions.prototype.addComparisonRowParams = function (link, tr) {
+    var overrideParams = $(tr).data('param-override');
+    if (typeof overrideParams !== 'object' || overrideParams === null) {
+        return link;
+    }
+
+    overrideParams = $.extend({ segment: '' }, overrideParams);
+
+    Object.keys(overrideParams).forEach(function (paramName) {
+        if (!overrideParams[paramName] && paramName !== 'segment') {
+            return;
+        }
+
+        link += ':' + encodeURIComponent(paramName) + ':' + encodeURIComponent(overrideParams[paramName]);
+    });
+
+    return link;
 };
 
 DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
