@@ -134,14 +134,32 @@ class ControllerTest extends IntegrationTestCase
         ]], $postedSettings);
     }
 
-    public function testSetGlobalSettingsDoesNotPostEventWhenSaveFails()
+    public function testSetGlobalSettingsPostsEventWhenSaveFailsAfterAChangeWasSaved()
+    {
+        $postedSettings = [];
+        Piwik::addAction('SitesManager.globalSettingsUpdated', function ($settings) use (&$postedSettings) {
+            $postedSettings[] = $settings;
+        });
+
+        $_POST = array_merge($this->getGlobalSettingsRequest(), ['currency' => 'not-a-currency']);
+
+        $response = $this->getControllerSkippingTokenCheck()->setGlobalSettings();
+
+        self::assertStringContainsString('error', $response);
+        self::assertCount(1, $postedSettings);
+        self::assertSame('Europe/Berlin', $postedSettings[0]['defaultTimezone']);
+        self::assertSame('USD', $postedSettings[0]['defaultCurrency']);
+        self::assertFalse($postedSettings[0]['excludedIpsGlobal']);
+    }
+
+    public function testSetGlobalSettingsDoesNotPostEventWhenSaveFailsBeforeAChangeWasSaved()
     {
         $eventCount = 0;
         Piwik::addAction('SitesManager.globalSettingsUpdated', function () use (&$eventCount) {
             $eventCount++;
         });
 
-        $_POST = array_merge($this->getGlobalSettingsRequest(), ['currency' => 'not-a-currency']);
+        $_POST = array_merge($this->getGlobalSettingsRequest(), ['timezone' => 'UTC', 'currency' => 'not-a-currency']);
 
         $response = $this->getControllerSkippingTokenCheck()->setGlobalSettings();
 

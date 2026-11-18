@@ -113,6 +113,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function setGlobalSettings()
     {
         $response = new ResponseBuilder(Common::getRequestVar('format'));
+        $settingsBeforeSave = null;
+        $saveException = null;
 
         try {
             $this->checkTokenInUrl();
@@ -127,6 +129,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $keepURLFragments = Common::getRequestVar('keepURLFragments', $default = 0);
             $exclusionTypeForQueryParams = Common::getRequestVar('exclusionTypeForQueryParams', $default = "");
 
+            $settingsBeforeSave = $this->getGlobalSettingValues();
+
             $api = API::getInstance();
             $api->setDefaultTimezone($timezone);
             $api->setDefaultCurrency($currency);
@@ -136,33 +140,46 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $api->setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters);
             $api->setKeepURLFragmentsGlobal($keepURLFragments);
             $api->setGlobalQueryParamExclusion($exclusionTypeForQueryParams, $excludedQueryParameters);
-
-            /**
-             * Triggered after the global website settings were saved on the global settings page.
-             *
-             * The event is posted once for each save, also if no value changed. It is not posted when
-             * the save fails. It is not posted when one of the `SitesManager.setGlobal*`,
-             * `SitesManager.setKeepURLFragmentsGlobal`, `SitesManager.setDefaultCurrency` or
-             * `SitesManager.setDefaultTimezone` API methods is called directly.
-             *
-             * **Example**
-             *
-             *     Piwik::addAction('SitesManager.globalSettingsUpdated', function ($settings) {
-             *         Log::info('Global excluded IPs: ' . $settings['excludedIpsGlobal']);
-             *     });
-             *
-             * @param array $settings The global website settings as they are stored after the save, with the
-             *                        same keys as the `SitesManager.getGlobalSettings` controller action returns,
-             *                        but without the compliance policy information.
-             */
-            Piwik::postEvent('SitesManager.globalSettingsUpdated', [$this->getGlobalSettingValues()]);
-
-            $toReturn = $response->getResponse();
         } catch (Exception $e) {
-            $toReturn = $response->getResponseException($e);
+            $saveException = $e;
         }
 
-        return $toReturn;
+        try {
+            if ($settingsBeforeSave !== null) {
+                $settingsAfterSave = $this->getGlobalSettingValues();
+
+                if ($saveException === null || $settingsAfterSave !== $settingsBeforeSave) {
+                    /**
+                     * Triggered after the global website settings were saved on the global settings page.
+                     *
+                     * The event is posted once for each save, also if no value changed. If the save fails part
+                     * way, the values saved before the failure stay saved. The event is then posted only if
+                     * these values changed a setting. It is not posted when one of the `SitesManager.setGlobal*`,
+                     * `SitesManager.setKeepURLFragmentsGlobal`, `SitesManager.setDefaultCurrency` or
+                     * `SitesManager.setDefaultTimezone` API methods is called directly.
+                     *
+                     * **Example**
+                     *
+                     *     Piwik::addAction('SitesManager.globalSettingsUpdated', function ($settings) {
+                     *         Log::info('Global excluded IPs: ' . $settings['excludedIpsGlobal']);
+                     *     });
+                     *
+                     * @param array $settings The current global website settings after the save, with the same
+                     *                        keys as the `SitesManager.getGlobalSettings` controller action
+                     *                        returns, but without the compliance policy information.
+                     */
+                    Piwik::postEvent('SitesManager.globalSettingsUpdated', [$settingsAfterSave]);
+                }
+            }
+        } catch (Exception $e) {
+            $saveException = $saveException ?? $e;
+        }
+
+        if ($saveException !== null) {
+            return $response->getResponseException($saveException);
+        }
+
+        return $response->getResponse();
     }
 
     /**
