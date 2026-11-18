@@ -76,8 +76,8 @@ final class Service
      * Activates a requested plugin, and approves its pending requests as the current super user once it is active, so
      * requests stay pending when activating fails
      *
-     * @return int|null the number of requesters emailed about the approval, or null when another super user decided on
-     *                  the requests while the plugin was being activated
+     * @return int|null the number of requesters emailed about the approval, or null when the requests had already been
+     *                  decided on, eg by another super user or a repeated install request
      */
     public function activateAndApprove(string $pluginName): ?int
     {

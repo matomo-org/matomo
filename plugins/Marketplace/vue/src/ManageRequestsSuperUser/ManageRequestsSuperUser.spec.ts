@@ -518,7 +518,7 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       expect(actions.map((button) => button.attributes('disabled'))).toEqual([undefined, undefined]);
     });
 
-    it('disables Approve & Install until the decline is done', async () => {
+    it('disables Approve & Install and Install all free until the decline is done', async () => {
       let fail: (reason: Error) => void = () => undefined;
       ajaxPost.mockReturnValue(new Promise((resolve, reject) => { fail = reject; }));
       const wrapper = mountPage([makePending({ isFree: true, priceFrom: null })]);
@@ -533,11 +533,20 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       approve.element.dispatchEvent(click);
       expect(click.defaultPrevented).toBe(true);
 
+      const installAll = wrapper.find('.manageRequestsSuperUser__installAllFree');
+      expect(installAll.classes()).toContain('disabled');
+      expect(installAll.attributes('aria-disabled')).toBe('true');
+      const installAllClick = new MouseEvent('click', { cancelable: true });
+      installAll.element.dispatchEvent(installAllClick);
+      expect(installAllClick.defaultPrevented).toBe(true);
+
       fail(new Error('Another Super User has already responded'));
       await flushPromises();
 
       expect(approve.classes()).not.toContain('disabled');
       expect(approve.attributes('aria-disabled')).toBeUndefined();
+      expect(installAll.classes()).not.toContain('disabled');
+      expect(installAll.attributes('aria-disabled')).toBeUndefined();
     });
 
     it('keeps the row when the decline fails', async () => {
