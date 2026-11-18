@@ -16,6 +16,7 @@ use Piwik\Email\ContentGenerator;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
+use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\SettingsPiwik;
 use Piwik\View;
@@ -80,7 +81,10 @@ class RequestTrialNotificationEmail extends Mail
 
         $view->login = $this->login;
         $view->isInstallRequest = $this->isInstallRequest;
-        $view->marketplaceLink = $piwikUrl . 'index.php?module=Marketplace&action=overview';
+        $view->linksToManageRequests = !$this->isInstallRequest
+            && StaticContainer::get(PluginTrialService::class)->isEnabled();
+        $view->instanceLink = $piwikUrl . 'index.php?module=Marketplace&action='
+            . ($view->linksToManageRequests ? 'manageRequests' : 'overview');
         $view->pluginName = $this->pluginDisplayName;
 
         // @see JavaScript broadcast#propagateNewPopoverParameter
