@@ -214,7 +214,7 @@ describe('Marketplace_ManageRequestsSuperUser', function () {
 
     await page.waitForSelector('.notification-success', { visible: true });
     const notification = await page.evaluate(() => document.querySelector('.notification-success').textContent);
-    expect(notification).to.contain(`${freePluginName} is now active. 1 user notified by email.`);
+    expect(notification).to.contain(`${freePluginName} installed. 1 user notified by email.`);
 
     await page.waitForSelector('.manageRequestsSuperUser__empty', { visible: true });
 
