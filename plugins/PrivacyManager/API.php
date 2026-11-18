@@ -949,7 +949,8 @@ class API extends \Piwik\Plugin\API
      * A website measures consent-aware analytics when it is on for the instance or for the website.
      *
      * @param int|string $idSite Site ID to update, or `all` for the instance-wide value.
-     * @param bool|int|string $enabled Whether to turn it on.
+     * @param mixed $enabled Whether to turn it on: `1`/`0`, `true`/`false` or their string
+     *                      forms. Anything else, an empty value included, is rejected.
      * @param string|null $passwordConfirmation Current user password confirmation when required.
      * @return array{enabled: bool, enabledForAllWebsites: bool, isWritable: bool} The updated
      *         payload, as returned by {@link getConsentAwareAnalytics()}.
