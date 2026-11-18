@@ -5680,6 +5680,121 @@ if ($mysql) {
 
     // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
     // assertion count for this test is not stable
+    test("Test API - consent on the landing page is reported when cookies are already enabled", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'cookiesOn');
+        tracker.requireConsentForRestrictedData();
+
+        // the visitor accepted cookies on an earlier page view, so there is nothing left for the
+        // cookie consent to enable and it sends no request of its own
+        tracker.setCookieConsentGiven();
+        ok(tracker.areCookiesEnabled(), 'cookies are on before consent to measurement is given');
+
+        tracker.trackRequest('myFoo=landing');
+        tracker.setConsentGiven();
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'cookiesOn');
+            strictEqual(true, requests.indexOf('myFoo=landing') > 0, "the landing page view was tracked");
+            strictEqual(true, (requests.match(/consent=1/g) || []).length > 0, "consent given on the landing page never reached the server");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - consent is reported where the consent screen answered cookies first", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'cookieFirst');
+        tracker.requireConsentForRestrictedData();
+
+        tracker.trackRequest('myFoo=landing');
+
+        // a consent screen that answers cookies first: the request that call sends carries no
+        // consent to being measured, because none had been reported when it went out
+        tracker.rememberCookieConsentGiven();
+        tracker.setConsentGiven();
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'cookieFirst');
+            strictEqual(true, (requests.match(/consent=1/g) || []).length > 0, "consent never reached the server after cookie consent was reported first");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - reporting consent again on a later page sends no further request", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'again');
+        tracker.requireConsentForRestrictedData();
+        tracker.rememberConsentGiven();
+
+        // a later page view already carries the consent, and a consent screen that calls this
+        // again after it has nothing to tell the server that the page view did not
+        tracker.trackRequest('myFoo=laterPage');
+        tracker.setConsentGiven();
+        tracker.setConsentGiven();
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'again');
+            strictEqual(true, requests.indexOf('myFoo=laterPage') > 0, "the page view was tracked");
+            strictEqual(0, (requests.match(/ping=1/g) || []).length, "a request was sent for consent the page view already carried");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - a site that did not ask for restricted-data consent sends no extra request", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'notAsked');
+
+        tracker.trackRequest('myFoo=landing');
+
+        // the same sequence on a site that never called requireConsentForRestrictedData(): it
+        // must send exactly what it sent before, which is what the first attempt at this got wrong
+        tracker.setCookieConsentGiven();
+        tracker.setConsentGiven();
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'notAsked');
+            strictEqual(true, requests.indexOf('myFoo=landing') > 0, "the landing page view was tracked");
+            strictEqual(0, (requests.match(/ping=1/g) || []).length, "a site that asked for nothing had a request sent on its behalf");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
     test("Test API - withdrawing consent returns the visitor to the exempt measurement", function() {
         stop();
 
@@ -5896,6 +6011,11 @@ if ($mysql) {
             var requests = fetchTrackedRequests(getConsentToken() + 'otherwindow');
             strictEqual(true, requests.indexOf('myFoo=afterOtherWindowWithdrew') > 0, "the visitor is still measured");
             strictEqual(0, (requests.match(/consent=1/g) || []).length, "consent is still reported after another window withdrew it");
+            strictEqual(
+                '',
+                tracker.hook.test._getCookie(tracker.hook.test._getCookieName('id')) || '',
+                "a visitor id cookie was written back after consent was withdrawn in another window"
+            );
 
             deleteCookies();
             start();

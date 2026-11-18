@@ -124,10 +124,12 @@ class VisitRequestProcessor extends RequestProcessor
         $isKnown = $this->visitorRecognizer->findKnownVisitor($visitorId, $visitProperties, $request);
         $request->setMetadata('CoreHome', 'isVisitorKnown', $isKnown);
 
+        // set before isVisitNew() runs: deciding whether a request names the same person needs
+        // the consent the recognised visit holds, and it is read back from here
+        $request->setMetadata('CoreHome', 'lastKnownVisit', $this->visitorRecognizer->getLastKnownVisit());
+
         $isNewVisit = $this->isVisitNew($visitProperties, $request, $this->visitorRecognizer->getLastKnownVisit());
         $request->setMetadata('CoreHome', 'isNewVisit', $isNewVisit);
-
-        $request->setMetadata('CoreHome', 'lastKnownVisit', $this->visitorRecognizer->getLastKnownVisit());
 
         if (!$isNewVisit) { // only copy over known visitor's information, if this is for an ongoing visit
             $this->visitorRecognizer->updateVisitPropertiesFromLastVisitRow($visitProperties);
@@ -200,7 +202,7 @@ class VisitRequestProcessor extends RequestProcessor
             return true;
         }
 
-        if (!$this->lastUserIdWasSetAndDoesMatch($visitProperties, $request, $lastKnownVisit)) {
+        if (!$this->lastUserIdWasSetAndDoesMatch($visitProperties, $request)) {
             Common::printDebug("Visitor detected, but last user_id does not match...");
             return true;
         }
@@ -282,11 +284,8 @@ class VisitRequestProcessor extends RequestProcessor
      * Returns true if the last user_id did not change.
      * @return bool
      */
-    protected function lastUserIdWasSetAndDoesMatch(
-        VisitProperties $visitProperties,
-        Request $request,
-        $lastKnownVisit = null
-    ) {
+    protected function lastUserIdWasSetAndDoesMatch(VisitProperties $visitProperties, Request $request)
+    {
         $lastUserId = $visitProperties->getProperty('user_id');
 
         if (empty($lastUserId)) {
@@ -300,14 +299,19 @@ class VisitRequestProcessor extends RequestProcessor
         //
         // It is read from the row the recognizer found rather than from the visit properties:
         // only idvisitor and user_id have been copied into those by this point, the rest
-        // arriving later with updateVisitPropertiesFromLastVisitRow().
+        // arriving later with updateVisitPropertiesFromLastVisitRow(). That row is taken from
+        // the request metadata rather than a parameter of its own, so this method keeps the
+        // signature a plugin replacing this processor may already be overriding.
+        $lastKnownVisit = $request->getMetadata('CoreHome', 'lastKnownVisit');
+        $lastVisitConsent = is_array($lastKnownVisit) ? ($lastKnownVisit['consent'] ?? 0) : 0;
+
         $visitHasConsent = $request->hasConsent()
             || (
                 $request->measuresConsentAwareAnalytics()
-                && Consent::CONSENT_GIVEN === (int) ($lastKnownVisit['consent'] ?? 0)
+                && Consent::CONSENT_GIVEN === (int) $lastVisitConsent
             );
 
-        $currentUserId = $request->getForcedUserId($visitHasConsent);
+        $currentUserId = $request->getForcedUserIdForConsent($visitHasConsent);
 
         if (empty($currentUserId)) {
             return true;

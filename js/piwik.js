@@ -3290,6 +3290,14 @@ if (typeof window.Matomo !== 'object') {
                 if (configMeasurementConsentRemembered && !getCookie(MEASUREMENT_CONSENT_COOKIE_NAME)) {
                     configConsentGiven = false;
                     configMeasurementConsentRemembered = false;
+
+                    // forgetConsentGiven() withdraws cookie consent with it and deletes the
+                    // cookies, so where that cookie is gone too this window follows. The cookies
+                    // themselves are already gone, deleted by the window that withdrew it; what
+                    // is left is to stop this one writing a new visitor id straight back.
+                    if (!getCookie(COOKIE_CONSENT_COOKIE_NAME)) {
+                        configCookiesDisabled = true;
+                    }
                 }
             }
 
@@ -6590,6 +6598,8 @@ if (typeof window.Matomo !== 'object') {
 
             /**
              * Enables cookies if they were disabled previously.
+             *
+             * @returns {boolean} whether a ping request was sent to carry the change to the server
              */
             this.setCookieConsentGiven = function () {
                 if (configCookiesDisabled && !configDoNotTrack) {
@@ -6608,8 +6618,12 @@ if (typeof window.Matomo !== 'object') {
                         // a tracking request afterwards
                         var request = getRequest('ping=1', null, 'ping');
                         sendRequest(request, configTrackerPause);
+
+                        return true;
                     }
                 }
+
+                return false;
             };
 
             /**
@@ -6761,7 +6775,11 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Prevent campaign parameters being sent to the tracker, unless consent given.
+             * Prevent campaign parameters being sent to the tracker.
+             *
+             * They are kept while requireConsent() is in use, and, where the site called
+             * requireConsentForRestrictedData(), once consent has been given. Otherwise they
+             * are stripped.
              */
             this.disableCampaignParameters = function () {
               configEnableCampaignParameters = false;
@@ -7612,6 +7630,10 @@ if (typeof window.Matomo !== 'object') {
              * @param {boolean} [setCookieConsent=true] Internal parameter. Defines whether cookies should be enabled or not.
              */
             this.setConsentGiven = function (setCookieConsent, isMeasurementConsent) {
+                // whether the requests from this page already carry the consent: where they do,
+                // the server has been told and there is nothing for a request of our own to add
+                var wasReportingConsent = hasGivenConsent();
+
                 configHasConsent = true;
 
                 // isMeasurementConsent is for internal callers that restore tracking without the
@@ -7645,8 +7667,27 @@ if (typeof window.Matomo !== 'object') {
                 // If the user calls setConsentGiven before sending any tracking request (which usually is the case) then
                 // nothing will need to be done as it only enables cookies and the next tracking request will set the cookies
                 // etc.
+                var sentConsentPing = false;
                 if (!isDefined(setCookieConsent) || setCookieConsent) {
-                    this.setCookieConsentGiven();
+                    sentConsentPing = this.setCookieConsentGiven();
+                }
+
+                // A site measuring under a compliance exemption has to reach the server while
+                // the visitor is still on the page they arrived on, or the consent arrives with
+                // the next page view, by which time a new visit has begun and the landing visit
+                // keeps the treatment it was measured under. The call above sends that request
+                // only where it had cookies to enable, so where it did not, one is sent here.
+                // Only a site that asked for this sends it: for every other site this method
+                // makes no request of its own, exactly as before.
+                if (
+                    configRestrictedDataConsentRequired
+                    && configConsentGiven
+                    && !wasReportingConsent
+                    && !sentConsentPing
+                    && configTrackerSiteId
+                    && hasSentTrackingRequestYet
+                ) {
+                    sendRequest(getRequest('ping=1', null, 'ping'), configTrackerPause);
                 }
             };
 

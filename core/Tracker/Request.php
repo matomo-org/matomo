@@ -31,6 +31,7 @@ use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
@@ -829,17 +830,20 @@ class Request
      * or from a Visitor ID from 3rd party (optional) cookies,
      * or from a given Visitor Id from 1st party?
      *
-     * @param bool|null $hasConsent overrides what the request reports, for a caller that knows
-     *                              the consent does not apply to the visit being recorded
      * @throws Exception
      */
-    public function getVisitorId(?bool $hasConsent = null)
+    public function getVisitorId()
     {
         $found = false;
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->getIdSiteIfExists())) {
-            // If User ID is set it takes precedence
-            $userId = $this->getForcedUserId($hasConsent);
+            // If User ID is set it takes precedence. The consent a request reports is
+            // deliberately not considered here: a visitor's identifier may not change with it,
+            // or the same person in the same browser is one visitor on a request that reports
+            // consent and another on a request that does not, and a visit is split, merged or
+            // missed accordingly. Where a policy withholds the User ID it is withheld here
+            // too, whatever the request says.
+            $userId = $this->getForcedUserIdForConsent(false);
             if ($userId) {
                 $userIdHashed = $this->getUserIdHashed($userId);
                 $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
@@ -930,11 +934,21 @@ class Request
         return IPUtils::stringToBinaryIP($this->getIpString());
     }
 
+    public function getForcedUserId()
+    {
+        return $this->getForcedUserIdForConsent($this->hasConsent());
+    }
+
     /**
-     * @param bool|null $hasConsent overrides what the request reports, for a caller that knows
-     *                              the consent does not apply to the visit being recorded
+     * As getForcedUserId(), for a caller that knows whether the consent applies to the visit being
+     * recorded rather than taking it from this request.
+     *
+     * This is a method of its own so that getForcedUserId() keeps the signature a plugin replacing
+     * or extending this class may already be overriding.
+     *
+     * @return string|false
      */
-    public function getForcedUserId(?bool $hasConsent = null)
+    public function getForcedUserIdForConsent(bool $hasConsent)
     {
         $userId = $this->getParam('uid');
         if (strlen($userId) === 0) {
@@ -945,7 +959,7 @@ class Request
             $idSite = $this->getIdSite();
             if (!empty($idSite) && $idSite > 0) {
                 $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-                if (UserIdDisabled::shouldDiscardUserId($cache, $hasConsent ?? $this->hasConsent())) {
+                if (UserIdDisabled::shouldDiscardUserId($cache, $hasConsent)) {
                     return false;
                 }
             }
@@ -1015,7 +1029,7 @@ class Request
             return $this->measuresConsentCache = false;
         }
 
-        $privacyConfig = new \Piwik\Plugins\PrivacyManager\Config((int) $idSite);
+        $privacyConfig = new PrivacyManagerConfig((int) $idSite);
 
         return $this->measuresConsentCache = !$privacyConfig->forceCookielessTracking;
     }

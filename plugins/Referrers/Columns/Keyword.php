@@ -62,6 +62,12 @@ class Keyword extends Base
             return $information['referer_keyword'];
         }
 
+        // the campaign the tracker withheld until consent is the one this visit arrived through,
+        // so it replaces whatever the arrival was attributed to without it
+        if ($this->shouldCompleteWithheldCampaign($visitor, $information, $request, $action)) {
+            return $information['referer_keyword'];
+        }
+
         if (
             $this->isCurrentReferrerDirectEntry($visitor)
             && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY

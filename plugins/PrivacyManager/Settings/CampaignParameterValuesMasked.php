@@ -69,7 +69,7 @@ class CampaignParameterValuesMasked implements
         // does. It is off by default, and a site that has not opted in treats every visitor the
         // same, so the plain wording is what is true there
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoes2');
+            return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoesConsentAware');
         }
 
         return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoes');
@@ -81,7 +81,7 @@ class CampaignParameterValuesMasked implements
         // does. It is off by default, and a site that has not opted in treats every visitor the
         // same, so the plain wording is what is true there
         if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
-            return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingImpact2');
+            return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingImpactConsentAware');
         }
 
         return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingImpact');

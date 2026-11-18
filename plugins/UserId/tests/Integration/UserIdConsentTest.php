@@ -141,81 +141,39 @@ class UserIdConsentTest extends IntegrationTestCase
     }
 
     /**
-     * Baseline: a visit that has no consent of its own must not carry an identifier derived from
-     * a User ID, however the visit before it was measured.
-     *
-     * While enable_userid_overwrites_visitorid is on, a consented visit's idvisitor is a hash of
-     * the User ID. A forced new visit recognises the same visitor, and the recognised visit's
-     * idvisitor was being carried straight over, so a visit with no user_id and no consent ended
-     * up holding an identifier the policy withholds.
+     * Baseline: on a site that has not opted in to consent-aware measurement, enforcing the policy
+     * does not change how a returning visitor is identified. A visit identified by the User ID hash
+     * before the policy was enforced keeps that identifier on the next visit, as it did before.
      */
-    public function testAForcedNewVisitWithoutConsentDoesNotCarryTheUserIdHash(): void
+    public function testASiteThatNeverOptedInKeepsAnIdentifierStoredBeforeThePolicy(): void
     {
-        $this->enforcePolicy();
+        $this->disableConsentAwareAnalytics();
 
-        $this->trackPageView('1', 'landing');
+        // stored while nothing withheld the User ID, so the visit is identified by its hash
+        $this->trackPageView(null, 'landing');
 
         $this->assertSame(
             substr(sha1(self::USER_ID), 0, 16),
             bin2hex((string) $this->fetchVisitColumn('idvisitor')),
-            'the consented visit should hold the User ID hash for this test to mean anything'
+            'the first visit should hold the User ID hash for this test to mean anything'
         );
+        $this->assertSame('', (string) $this->fetchVisitColumn('consent'), 'nothing consented here');
+
+        $this->enforcePolicy();
 
         $this->forceNewVisitWithoutConsent();
 
         $this->assertSame(2, $this->countVisits(), 'a new visit should have been forced');
-        $this->assertSame('', (string) $this->fetchVisitColumn('user_id', 1), 'the User ID should be withheld');
-        $this->assertSame('', (string) $this->fetchVisitColumn('consent', 1), 'the visit should hold no consent');
-        $this->assertNotSame(
+        $this->assertSame(
             substr(sha1(self::USER_ID), 0, 16),
             bin2hex((string) $this->fetchVisitColumn('idvisitor', 1)),
-            'the visit without consent was identified by the withheld User ID'
+            'a site that opted in to nothing had its visitor identifier changed'
         );
     }
 
     /**
-     * The guard against carrying a withheld User ID's hash into the next visit applies only
-     * where the consent does not. A forced new visit that does carry consent is entitled to the
-     * User ID, so it keeps the identifier derived from it.
-     */
-    public function testAForcedNewVisitWithConsentStillCarriesTheUserIdHash(): void
-    {
-        $this->enforcePolicy();
-
-        $this->trackPageView('1', 'landing');
-
-        $this->forceNewVisitWithConsent();
-
-        $this->assertSame(2, $this->countVisits(), 'a new visit should have been forced');
-        $this->assertSame(
-            self::USER_ID,
-            $this->fetchVisitColumn('user_id', 1),
-            'the consented visit should hold the User ID'
-        );
-        $this->assertSame(
-            substr(sha1(self::USER_ID), 0, 16),
-            bin2hex((string) $this->fetchVisitColumn('idvisitor', 1)),
-            'a visit that consented was denied the identifier its own User ID gives it'
-        );
-    }
-
-    private function forceNewVisitWithConsent(): void
-    {
-        $this->testDate = $this->testDate->addPeriod(1, 'minute');
-        $this->tracker->setForceVisitDateTime($this->testDate->getDatetime());
-        $this->tracker->clearCustomTrackingParameters();
-        $this->tracker->setUserId(self::USER_ID);
-        $this->tracker->setCustomTrackingParameter('consent', '1');
-        $this->tracker->setCustomTrackingParameter('new_visit', '1');
-        $this->tracker->setUrl('http://example.com/forced');
-
-        Fixture::checkResponse($this->tracker->doTrackPageView('Forced'));
-    }
-
-    /**
-     * Baseline: declining to carry that one identifier over must not stop a returning visitor
-     * being recognised. Where no User ID is in play there is nothing for the policy to withhold,
-     * so the visitor keeps the identifier they arrived with.
+     * Baseline: where no User ID is sent, a forced new visit on a site enforcing the policy keeps
+     * the identifier the visitor arrived with, so a returning visitor is still recognised.
      */
     public function testAForcedNewVisitStillKeepsAnOrdinaryVisitorIdentifier(): void
     {
@@ -300,10 +258,8 @@ class UserIdConsentTest extends IntegrationTestCase
      * in a batch, by a second tracker on the page, or by a server side call - is still part of a
      * visit that consented.
      *
-     * The identifier is where that shows: while enable_userid_overwrites_visitorid is on, a
-     * consented request sets the visit's idvisitor to the User ID hash, and a request judged on
-     * its own flag would set it straight back to the cookie id, rewriting the visit and its
-     * action rows each time one arrived without the flag.
+     * The identifier is where that would show: a request judged on its own flag could rewrite
+     * the visit's idvisitor, and its action rows with it, each time one arrived without the flag.
      */
     public function testALaterRequestWithoutTheFlagDoesNotChangeTheIdentifierOfAConsentedVisit(): void
     {
@@ -312,11 +268,7 @@ class UserIdConsentTest extends IntegrationTestCase
         $this->trackPageView('1', 'landing');
 
         $afterConsent = bin2hex((string) $this->fetchVisitColumn('idvisitor'));
-        $this->assertSame(
-            substr(sha1(self::USER_ID), 0, 16),
-            $afterConsent,
-            'the consented visit should hold the User ID hash for this test to mean anything'
-        );
+        $this->assertNotSame('', $afterConsent, 'the visit should hold an identifier');
 
         $this->trackPageView(null, 'other');
 
@@ -325,6 +277,76 @@ class UserIdConsentTest extends IntegrationTestCase
             $afterConsent,
             bin2hex((string) $this->fetchVisitColumn('idvisitor')),
             'the identifier changed within the visit because one request did not repeat the flag'
+        );
+    }
+
+    /**
+     * A visitor's identifier does not move with their consent. The User ID a policy withholds may
+     * not become the identifier for a visitor who consents either: if it did, the same person in
+     * the same browser would be one visitor on a request reporting consent and another on a
+     * request that does not, and their visits would be split, merged or missed accordingly.
+     */
+    public function testAConsentedVisitIsNotIdentifiedByTheWithheldUserId(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView('1', 'landing');
+
+        $this->assertSame(
+            self::USER_ID,
+            $this->fetchVisitColumn('user_id'),
+            'the consented visit should hold the User ID'
+        );
+        $this->assertNotSame(
+            substr(sha1(self::USER_ID), 0, 16),
+            bin2hex((string) $this->fetchVisitColumn('idvisitor')),
+            'a User ID the policy withholds was made the visitor identifier'
+        );
+    }
+
+    /**
+     * The same browser, measured with the flag and then without it, is one visitor throughout.
+     */
+    public function testTheIdentifierDoesNotChangeWithConsent(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView('1', 'landing');
+        $withConsent = bin2hex((string) $this->fetchVisitColumn('idvisitor'));
+        $this->assertNotSame('', $withConsent, 'the visit should hold an identifier');
+
+        $this->forceNewVisitWithoutConsent();
+
+        $this->assertSame(2, $this->countVisits(), 'a new visit should have been forced');
+        $this->assertSame(
+            $withConsent,
+            bin2hex((string) $this->fetchVisitColumn('idvisitor', 1)),
+            'the visitor identifier moved when the consent did'
+        );
+    }
+
+    /**
+     * Raised in review: consent given on the landing page of a later visit was lost. The visit
+     * before it was identified by the User ID hash, so a consenting ping resolved to that visit
+     * rather than the one open now, found it past the visit window, and was dropped - leaving
+     * today's visit with neither the consent nor what it would have lifted.
+     */
+    public function testAConsentPingOnTheNextDaysLandingReachesThatVisit(): void
+    {
+        $this->enforcePolicy();
+
+        $this->trackPageView('1', 'landing');
+
+        $this->testDate = $this->testDate->addDay(1);
+        $this->trackPageView(null, 'landing');
+
+        $this->ping('1', 'landing');
+
+        $this->assertSame(2, $this->countVisits(), 'the next day should be a visit of its own');
+        $this->assertSame(
+            '1',
+            (string) $this->fetchVisitColumn('consent', 1),
+            'the consent given on the landing page never reached that visit'
         );
     }
 
