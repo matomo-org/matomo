@@ -4386,7 +4386,9 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 if (lastTrackerRequestTime + configHeartBeatDelay <= now) {
-                    trackerInstance.ping();
+                    // hb=1 tells the server this ping reports the page losing focus or closing,
+                    // unlike a manual ping() or the one sent when cookie consent is given
+                    trackerInstance.trackRequest('ping=1&hb=1', null, null, 'ping');
 
                     return true;
                 }

@@ -5115,6 +5115,7 @@
     ],
     "log_page_view_time": [
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "2",
             "idlink_va": "1",
@@ -5126,6 +5127,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "4",
             "idlink_va": "2",
@@ -5137,6 +5139,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "6",
             "idlink_va": "3",
@@ -5148,6 +5151,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "7",
             "idlink_va": "4",
             "idpageview": "123456",
@@ -5158,6 +5162,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "25",
             "idlink_va": "12",
@@ -5169,6 +5174,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "25",
             "idlink_va": "18",
@@ -5180,6 +5186,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "34",
             "idlink_va": "19",
@@ -5191,6 +5198,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "35",
             "idlink_va": "20",
@@ -5202,6 +5210,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "34",
             "idlink_va": "21",
@@ -5213,6 +5222,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "35",
             "idlink_va": "22",
@@ -5224,6 +5234,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "34",
             "idlink_va": "23",
@@ -5235,6 +5246,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "35",
             "idlink_va": "24",
@@ -5246,6 +5258,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "25",
@@ -5257,6 +5270,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "26",
@@ -5268,6 +5282,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "27",
@@ -5279,6 +5294,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "28",
@@ -5290,6 +5306,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "29",
@@ -5301,6 +5318,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "30",
@@ -5312,6 +5330,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "31",
@@ -5323,6 +5342,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "32",
@@ -5334,6 +5354,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "33",
@@ -5345,6 +5366,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "34",
@@ -5356,6 +5378,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "35",
@@ -5367,6 +5390,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "36",
@@ -5378,6 +5402,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "37",
@@ -5389,6 +5414,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "38",
@@ -5400,6 +5426,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "39",
@@ -5411,6 +5438,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "40",
@@ -5422,6 +5450,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "41",
@@ -5433,6 +5462,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "42",
@@ -5444,6 +5474,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "43",
@@ -5455,6 +5486,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "44",
@@ -5466,6 +5498,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "45",
@@ -5477,6 +5510,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "42",
             "idlink_va": "46",
@@ -5488,6 +5522,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "46",
             "idlink_va": "59",
@@ -5499,6 +5534,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "47",
             "idlink_va": "60",
@@ -5510,6 +5546,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "48",
             "idlink_va": "61",
             "idpageview": "123456",
@@ -5520,6 +5557,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "46",
             "idlink_va": "62",
@@ -5531,6 +5569,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "47",
             "idlink_va": "63",
@@ -5542,6 +5581,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "64",
@@ -5553,6 +5593,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "65",
@@ -5564,6 +5605,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "66",
@@ -5575,6 +5617,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "67",
@@ -5586,6 +5629,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "68",
@@ -5597,6 +5641,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "69",
@@ -5608,6 +5653,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "70",
@@ -5619,6 +5665,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "71",
@@ -5630,6 +5677,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "72",
@@ -5641,6 +5689,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "73",
@@ -5652,6 +5701,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "74",
@@ -5663,6 +5713,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "75",
@@ -5674,6 +5725,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "54",
             "idlink_va": "76",
@@ -5685,6 +5737,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "54",
             "idlink_va": "82",
@@ -5696,6 +5749,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "56",
             "idlink_va": "83",
@@ -5707,6 +5761,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "57",
             "idlink_va": "84",
@@ -5718,6 +5773,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "56",
             "idlink_va": "92",
@@ -5729,6 +5785,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "57",
             "idlink_va": "93",
@@ -5740,6 +5797,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "62",
             "idlink_va": "94",
@@ -5751,6 +5809,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "63",
             "idlink_va": "95",
@@ -5762,6 +5821,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "64",
             "idlink_va": "96",
@@ -5773,6 +5833,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "62",
             "idlink_va": "97",
@@ -5784,6 +5845,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "63",
             "idlink_va": "98",
@@ -5795,6 +5857,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "64",
             "idlink_va": "99",
@@ -5806,6 +5869,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "65",
             "idlink_va": "100",
@@ -5817,6 +5881,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "66",
             "idlink_va": "101",
             "idpageview": "123456",
@@ -5827,6 +5892,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "107",
@@ -5838,6 +5904,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "108",
@@ -5849,6 +5916,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "109",
@@ -5860,6 +5928,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "110",
@@ -5871,6 +5940,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "111",
@@ -5882,6 +5952,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "112",
@@ -5893,6 +5964,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "113",
@@ -5904,6 +5976,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "114",
@@ -5915,6 +5988,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "115",
@@ -5926,6 +6000,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "116",
@@ -5937,6 +6012,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "2",
             "idlink_va": "117",
@@ -5948,6 +6024,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "4",
             "idlink_va": "118",
@@ -5959,6 +6036,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "6",
             "idlink_va": "119",
@@ -5970,6 +6048,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "7",
             "idlink_va": "120",
             "idpageview": "123456",
@@ -5980,6 +6059,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "25",
             "idlink_va": "128",
@@ -5991,6 +6071,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "25",
             "idlink_va": "134",
@@ -6002,6 +6083,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "34",
             "idlink_va": "135",
@@ -6013,6 +6095,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "35",
             "idlink_va": "136",
@@ -6024,6 +6107,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "34",
             "idlink_va": "137",
@@ -6035,6 +6119,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "35",
             "idlink_va": "138",
@@ -6046,6 +6131,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "34",
             "idlink_va": "139",
@@ -6057,6 +6143,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "35",
             "idlink_va": "140",
@@ -6068,6 +6155,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "141",
@@ -6079,6 +6167,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "142",
@@ -6090,6 +6179,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "143",
@@ -6101,6 +6191,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "144",
@@ -6112,6 +6203,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "145",
@@ -6123,6 +6215,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "146",
@@ -6134,6 +6227,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "147",
@@ -6145,6 +6239,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "148",
@@ -6156,6 +6251,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "149",
@@ -6167,6 +6263,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "150",
@@ -6178,6 +6275,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "151",
@@ -6189,6 +6287,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "152",
@@ -6200,6 +6299,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "153",
@@ -6211,6 +6311,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "154",
@@ -6222,6 +6323,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "155",
@@ -6233,6 +6335,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "156",
@@ -6244,6 +6347,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "157",
@@ -6255,6 +6359,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "158",
@@ -6266,6 +6371,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "159",
@@ -6277,6 +6383,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "160",
@@ -6288,6 +6395,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "161",
@@ -6299,6 +6407,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "42",
             "idlink_va": "162",
@@ -6310,6 +6419,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "46",
             "idlink_va": "175",
@@ -6321,6 +6431,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "47",
             "idlink_va": "176",
@@ -6332,6 +6443,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "48",
             "idlink_va": "177",
             "idpageview": "123456",
@@ -6342,6 +6454,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "46",
             "idlink_va": "178",
@@ -6353,6 +6466,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "47",
             "idlink_va": "179",
@@ -6364,6 +6478,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "180",
@@ -6375,6 +6490,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "181",
@@ -6386,6 +6502,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "182",
@@ -6397,6 +6514,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "183",
@@ -6408,6 +6526,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "184",
@@ -6419,6 +6538,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "185",
@@ -6430,6 +6550,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "186",
@@ -6441,6 +6562,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "187",
@@ -6452,6 +6574,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "188",
@@ -6463,6 +6586,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "189",
@@ -6474,6 +6598,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "190",
@@ -6485,6 +6610,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "191",
@@ -6496,6 +6622,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "54",
             "idlink_va": "192",
@@ -6507,6 +6634,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "54",
             "idlink_va": "198",
@@ -6518,6 +6646,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "56",
             "idlink_va": "199",
@@ -6529,6 +6658,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "57",
             "idlink_va": "200",
@@ -6540,6 +6670,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "56",
             "idlink_va": "208",
@@ -6551,6 +6682,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "57",
             "idlink_va": "209",
@@ -6562,6 +6694,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "62",
             "idlink_va": "210",
@@ -6573,6 +6706,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "63",
             "idlink_va": "211",
@@ -6584,6 +6718,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "64",
             "idlink_va": "212",
@@ -6595,6 +6730,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "62",
             "idlink_va": "213",
@@ -6606,6 +6742,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "63",
             "idlink_va": "214",
@@ -6617,6 +6754,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "64",
             "idlink_va": "215",
@@ -6628,6 +6766,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "65",
             "idlink_va": "216",
@@ -6639,6 +6778,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "66",
             "idlink_va": "217",
             "idpageview": "123456",
@@ -6649,6 +6789,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "223",
@@ -6660,6 +6801,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "224",
@@ -6671,6 +6813,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "225",
@@ -6682,6 +6825,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "226",
@@ -6693,6 +6837,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "227",
@@ -6704,6 +6849,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "228",
@@ -6715,6 +6861,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "229",
@@ -6726,6 +6873,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "230",
@@ -6737,6 +6885,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "231",
@@ -6748,6 +6897,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "232",
@@ -6759,6 +6909,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "2",
             "idlink_va": "233",
@@ -6770,6 +6921,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "4",
             "idlink_va": "234",
@@ -6781,6 +6933,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "6",
             "idlink_va": "235",
@@ -6792,6 +6945,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "7",
             "idlink_va": "236",
             "idpageview": "123456",
@@ -6802,6 +6956,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "25",
             "idlink_va": "244",
@@ -6813,6 +6968,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "25",
             "idlink_va": "250",
@@ -6824,6 +6980,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "34",
             "idlink_va": "251",
@@ -6835,6 +6992,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "35",
             "idlink_va": "252",
@@ -6846,6 +7004,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "34",
             "idlink_va": "253",
@@ -6857,6 +7016,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "35",
             "idlink_va": "254",
@@ -6868,6 +7028,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "34",
             "idlink_va": "255",
@@ -6879,6 +7040,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "35",
             "idlink_va": "256",
@@ -6890,6 +7052,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "257",
@@ -6901,6 +7064,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "258",
@@ -6912,6 +7076,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "259",
@@ -6923,6 +7088,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "260",
@@ -6934,6 +7100,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "261",
@@ -6945,6 +7112,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "262",
@@ -6956,6 +7124,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "263",
@@ -6967,6 +7136,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "264",
@@ -6978,6 +7148,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "265",
@@ -6989,6 +7160,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "266",
@@ -7000,6 +7172,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "267",
@@ -7011,6 +7184,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "268",
@@ -7022,6 +7196,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "269",
@@ -7033,6 +7208,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "270",
@@ -7044,6 +7220,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "271",
@@ -7055,6 +7232,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "272",
@@ -7066,6 +7244,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "273",
@@ -7077,6 +7256,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "274",
@@ -7088,6 +7268,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "39",
             "idlink_va": "275",
@@ -7099,6 +7280,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "40",
             "idlink_va": "276",
@@ -7110,6 +7292,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "41",
             "idlink_va": "277",
@@ -7121,6 +7304,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "42",
             "idlink_va": "278",
@@ -7132,6 +7316,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "46",
             "idlink_va": "291",
@@ -7143,6 +7328,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "47",
             "idlink_va": "292",
@@ -7154,6 +7340,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "48",
             "idlink_va": "293",
             "idpageview": "123456",
@@ -7164,6 +7351,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "46",
             "idlink_va": "294",
@@ -7175,6 +7363,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "47",
             "idlink_va": "295",
@@ -7186,6 +7375,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "296",
@@ -7197,6 +7387,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "297",
@@ -7208,6 +7399,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "298",
@@ -7219,6 +7411,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "299",
@@ -7230,6 +7423,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "300",
@@ -7241,6 +7435,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "301",
@@ -7252,6 +7447,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "302",
@@ -7263,6 +7459,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "303",
@@ -7274,6 +7471,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "304",
@@ -7285,6 +7483,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "51",
             "idlink_va": "305",
@@ -7296,6 +7495,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "52",
             "idlink_va": "306",
@@ -7307,6 +7507,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "53",
             "idlink_va": "307",
@@ -7318,6 +7519,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "54",
             "idlink_va": "308",
@@ -7329,6 +7531,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "54",
             "idlink_va": "314",
@@ -7340,6 +7543,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "56",
             "idlink_va": "315",
@@ -7351,6 +7555,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "57",
             "idlink_va": "316",
@@ -7362,6 +7567,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "56",
             "idlink_va": "324",
@@ -7373,6 +7579,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "57",
             "idlink_va": "325",
@@ -7384,6 +7591,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "62",
             "idlink_va": "326",
@@ -7395,6 +7603,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "63",
             "idlink_va": "327",
@@ -7406,6 +7615,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "64",
             "idlink_va": "328",
@@ -7417,6 +7627,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "62",
             "idlink_va": "329",
@@ -7428,6 +7639,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "63",
             "idlink_va": "330",
@@ -7439,6 +7651,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "64",
             "idlink_va": "331",
@@ -7450,6 +7663,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "65",
             "idlink_va": "332",
@@ -7461,6 +7675,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "66",
             "idlink_va": "333",
             "idpageview": "123456",
@@ -7471,6 +7686,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "339",
@@ -7482,6 +7698,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "340",
@@ -7493,6 +7710,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "341",
@@ -7504,6 +7722,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "342",
@@ -7515,6 +7734,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "343",
@@ -7526,6 +7746,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "344",
@@ -7537,6 +7758,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "345",
@@ -7548,6 +7770,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "346",
@@ -7559,6 +7782,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "68",
             "idlink_va": "347",
@@ -7570,6 +7794,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "69",
             "idlink_va": "348",

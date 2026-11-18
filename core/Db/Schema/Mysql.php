@@ -290,6 +290,7 @@ class Mysql implements SchemaInterface
                                         idaction_name INTEGER(10) UNSIGNED NULL DEFAULT NULL,
                                         server_time DATETIME NOT NULL,
                                         time_spent INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+                                        has_heartbeat TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
                                           PRIMARY KEY(idpageviewtime),
                                           UNIQUE KEY unique_idvisit_idlink_va (idvisit, idlink_va),
                                           INDEX index_idvisit_idpageview (idvisit, idpageview),

@@ -43,6 +43,13 @@ use Piwik\Tracker\Visit\VisitProperties;
  *    hit for that pv_id catches up. QueuedTracking routes a
  *    visitor to a single queue, so this mostly takes concurrent log imports, and core already
  *    reads log_visit the same way when it recognises the visit.
+ *  - Heartbeat rows: once a heartbeat ping (`ping=1&hb=1`, sent when the page loses focus, is
+ *    hidden or unloads) has measured a row, a later pageview no longer raises it, because that
+ *    pageview may come from another tab long after this one closed. Only hits carrying the
+ *    row's own pv_id grow it from then on. A visitor who comes back to the page and navigates
+ *    before the tracker sends another heartbeat therefore keeps the last value reported, which
+ *    is shorter than the time the tab was open. This includes time spent in an embedded iframe,
+ *    as focusing one blurs the page.
  */
 class PageViewTimeWriter
 {
@@ -149,7 +156,8 @@ class PageViewTimeWriter
 
         $this->lockVisitInTransaction($idVisit, $request);
         $clientTimeOnPage = $this->extractClientTimeOnPage($request, $cap);
-        $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap, $clientTimeOnPage);
+        $isHeartbeat = (int) $request->getParam('ping') === 1 && (int) $request->getParam('hb') === 1;
+        $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap, $clientTimeOnPage, $isHeartbeat);
     }
 
     /**
@@ -172,8 +180,8 @@ class PageViewTimeWriter
      * which wins whenever it exceeds the client's (necessarily smaller) focused-only count. The
      * same happens on any later same-`pv_id` hit sent without `pv_time`. A smaller focused-only
      * value therefore only survives on rows the server never re-measures: the last page of a
-     * visit, single-page visits, and abandoned tabs — exactly the rows where the server-side
-     * calculation was historically least accurate.
+     * visit, single-page visits, abandoned tabs, and rows a heartbeat ping has measured —
+     * exactly the rows where the server-side calculation was historically least accurate.
      *
      * Returns null when the param is missing OR non-positive. Zero is treated as "no client
      * override" (not "the user spent 0s here"): a stored `time_spent = 0` is already reserved
@@ -261,10 +269,14 @@ class PageViewTimeWriter
         // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
         // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
         // the cap would always win. It is a validated int from Tracker config.
+        //
+        // A row its own heartbeat has measured is left as it is: this pageview may come from
+        // another tab, long after that one was closed.
         $db->query(
             "UPDATE `$table`
                 SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
-              WHERE idpageviewtime = ?",
+              WHERE idpageviewtime = ?
+                AND has_heartbeat = 0",
             [$serverTimeSql, $idPageViewTime]
         );
     }
@@ -305,7 +317,8 @@ class PageViewTimeWriter
         string $pvId,
         string $serverTimeSql,
         int $cap,
-        ?int $clientTimeOnPage
+        ?int $clientTimeOnPage,
+        bool $isHeartbeat
     ): void {
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
@@ -343,9 +356,12 @@ class PageViewTimeWriter
             return;
         }
 
+        // Never cleared, so the order of later hits does not matter.
+        $heartbeatSql = $isHeartbeat ? ', has_heartbeat = 1' : '';
+
         $db->query(
             "UPDATE `$table`
-                SET time_spent = LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))
+                SET time_spent = LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))$heartbeatSql
               WHERE idpageviewtime = ?",
             array_merge($newTimeSpentBinds, [$idPageViewTime])
         );

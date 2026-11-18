@@ -54,6 +54,7 @@
     ],
     "log_page_view_time": [
         {
+            "has_heartbeat": "0",
             "idaction_name": "1",
             "idaction_url": "2",
             "idlink_va": "1",
@@ -65,6 +66,7 @@
             "time_spent": "360"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "3",
             "idaction_url": "4",
             "idlink_va": "2",
@@ -76,6 +78,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "5",
             "idaction_url": "6",
             "idlink_va": "3",
@@ -87,6 +90,7 @@
             "time_spent": "0"
         },
         {
+            "has_heartbeat": "0",
             "idaction_name": "7",
             "idlink_va": "4",
             "idpageview": "123456",
