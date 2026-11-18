@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\DI;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
+use Piwik\Http\BadRequestException;
 use Piwik\Mail;
 use Piwik\NoAccessException;
 use Piwik\Nonce;
@@ -78,7 +79,7 @@ class ControllerTest extends IntegrationTestCase
      */
     private $installedPlugins = [];
 
-    private ?\Exception $installFailure = null;
+    private ?\Throwable $installFailure = null;
 
     /**
      * @var callable|null runs before a plugin's info request is answered
@@ -501,13 +502,14 @@ class ControllerTest extends IntegrationTestCase
     {
         $this->requestPlugin('TreemapVisualization', 'alice');
 
-        $this->expectException(\Exception::class);
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionCode(400);
         $this->expectExceptionMessage('Invalid plugin name given');
 
         $this->dispatchInstallRequested('a-b');
     }
 
-    public function testInstallRequestedPluginsReportsAMarketplaceAnswerForEachPluginItHits()
+    public function testInstallAllRequestedPluginsSkipsAPluginTheMarketplaceDoesNotOfferWithoutReportingIt()
     {
         $this->requestPlugin('TreemapVisualization', 'alice');
         $this->requestPlugin('Barometer', 'alice');
@@ -517,7 +519,67 @@ class ControllerTest extends IntegrationTestCase
 
         $this->dispatchInstallRequested(null);
 
+        self::assertSame([], $this->getNotificationMessages());
+        self::assertCount(2, StaticContainer::get(RequestHistory::class)->getPendingRequests());
+    }
+
+    public function testInstallRequestedPluginsReportsThatTheMarketplaceDoesNotOfferTheChosenPlugin()
+    {
+        $this->requestPlugin('Barometer', 'alice');
+        $this->pluginInfoAnswers['Barometer'] = new ServiceException(
+            'Requested plugin does not exist.',
+            ServiceException::API_ERROR
+        );
+
+        $this->dispatchInstallRequested('Barometer');
+
+        self::assertCount(1, $this->getNotificationMessages());
+    }
+
+    public function testInstallRequestedPluginsReportsAPhpErrorAndCarriesOnWithTheNextPlugin()
+    {
+        $info = json_decode($this->service->getFixtureContent('v2.0_plugins_Barometer_info.json'), true);
+        $info['name'] = 'SecondBarometer';
+        $this->pluginInfoAnswers['SecondBarometer'] = $info;
+        $this->requestPlugin('Barometer', 'alice');
+        $this->requestPlugin('SecondBarometer', 'alice');
+        $this->installFailure = new \Error('Call to undefined function');
+
+        $this->dispatchInstallRequested(null);
+
+        self::assertSame(['Barometer', 'SecondBarometer'], $this->installedPlugins);
         self::assertCount(2, $this->getNotificationMessages());
+    }
+
+    public function testInstallAllRequestedPluginsActivatesAPluginAfterTheRequestedPluginItRequires()
+    {
+        // ExampleAPI comes first, so it is looked at before the plugin it requires is active
+        $this->requestPluginRequiring('ExampleAPI', ['ExampleReport' => '>=0.1.0']);
+        $this->requestPluginRequiring('ExampleReport', []);
+
+        $this->dispatchInstallRequested(null);
+
+        self::assertSame([], $this->installedPlugins);
+        self::assertTrue(PluginManager::getInstance()->isPluginActivated('ExampleReport'));
+        self::assertTrue(PluginManager::getInstance()->isPluginActivated('ExampleAPI'));
+        self::assertSame([], StaticContainer::get(RequestHistory::class)->getPendingRequests());
+        self::assertCount(2, $this->getNotificationMessages());
+    }
+
+    public function testInstallAllRequestedPluginsReportsAPluginWhoseRequiredPluginIsNotRequested()
+    {
+        $this->requestPluginRequiring('ExampleAPI', ['ExampleReport' => '>=0.1.0']);
+        if (PluginManager::getInstance()->isPluginActivated('ExampleReport')) {
+            PluginManager::getInstance()->deactivatePlugin('ExampleReport');
+        }
+
+        $this->dispatchInstallRequested(null);
+
+        self::assertFalse(PluginManager::getInstance()->isPluginActivated('ExampleAPI'));
+        self::assertSame(
+            [Piwik::translate('Marketplace_RequestedPluginCannotBeInstalled', 'ExampleAPI')],
+            $this->getNotificationMessages()
+        );
     }
 
     public function testInstallRequestedPluginsIsForbiddenForAUserWithoutSuperUserAccess()
@@ -611,6 +673,25 @@ class ControllerTest extends IntegrationTestCase
 
         StaticContainer::get(RequestHistory::class)
             ->add($pluginName, $login, time(), RequestHistory::REQUEST_TYPE_INSTALL);
+    }
+
+    /**
+     * Requests a free plugin that is on disk, answering its info request with the given requirements
+     *
+     * @param array<string, string> $requires
+     */
+    private function requestPluginRequiring(string $pluginName, array $requires): void
+    {
+        $info = json_decode($this->service->getFixtureContent('v2.0_plugins_Barometer_info.json'), true);
+        $info['name'] = $pluginName;
+        $info['displayName'] = $pluginName;
+        foreach ($info['versions'] as &$version) {
+            $version['requires'] = $requires;
+        }
+        unset($version);
+
+        $this->requestPlugin($pluginName, 'alice');
+        $this->pluginInfoAnswers[$pluginName] = $info;
     }
 
     /**

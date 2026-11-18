@@ -34,17 +34,30 @@
       </p>
 
       <template v-else>
-        <Alert v-if="isOverShopUserLimit && hasPendingPaidPlugin" severity="info" class="manageRequestsSuperUser__userLimit">
-          {{ translate('Marketplace_ShopUserLimitExceeded', `${numUsers}`, `${shopUserLimit}`) }}
+        <Alert v-if="showUserLimitBanner" severity="info" class="manageRequestsSuperUser__userLimit">
+          <div
+            class="manageRequestsSuperUser__userLimitText"
+            v-html="$sanitize(translate(
+              'Marketplace_ShopUserLimitExceeded',
+              `<strong>${numUsers}</strong>`,
+              `${shopUserLimit}`,
+            ))"
+          />
+          <a
+            class="manageRequestsSuperUser__userLimitContactSales"
+            :href="contactSalesUrl"
+            target="_blank"
+            rel="noreferrer noopener"
+          >{{ translate('Marketplace_ContactSales') }}</a>
         </Alert>
 
-        <div v-if="canInstallFreePlugins" class="manageRequestsSuperUser__toolbar">
+        <div v-if="canInstallFreePlugins && !showUserLimitBanner" class="manageRequestsSuperUser__toolbar">
           <a
-            class="btn manageRequestsSuperUser__installAllFree"
-            :class="{ disabled: busyPlugins.length > 0 }"
-            :aria-disabled="busyPlugins.length > 0 ? 'true' : undefined"
+            class="btn btn-outline manageRequestsSuperUser__installAllFree"
+            :class="{ disabled: isInstalling || busyPlugins.length > 0 }"
+            :aria-disabled="isInstalling || busyPlugins.length > 0 ? 'true' : undefined"
             :href="installLink()"
-            @click="busyPlugins.length > 0 && $event.preventDefault()"
+            @click="onInstallClick($event, busyPlugins.length > 0)"
           >{{ translate('Marketplace_InstallAllFree') }}</a>
         </div>
 
@@ -105,12 +118,12 @@
                       @click="openDeclineDialog(plugin)"
                     >{{ translate('Marketplace_Decline') }}</button>
                     <a
-                      v-if="plugin.isFree === true && isPluginsAdminEnabled"
-                      class="btn manageRequestsSuperUser__approveAndInstall"
-                      :class="{ disabled: isBusy(plugin) }"
-                      :aria-disabled="isBusy(plugin) ? 'true' : undefined"
+                      v-if="plugin.isFree === true && plugin.canBeInstalled"
+                      class="btn btn-outline manageRequestsSuperUser__approveAndInstall"
+                      :class="{ disabled: isInstalling || isBusy(plugin) }"
+                      :aria-disabled="isInstalling || isBusy(plugin) ? 'true' : undefined"
                       :href="installLink(plugin.pluginName)"
-                      @click="isBusy(plugin) && $event.preventDefault()"
+                      @click="onInstallClick($event, isBusy(plugin))"
                     >{{ translate('Marketplace_ApproveAndInstall') }}</a>
                     <a
                       v-else-if="plugin.isFree === false && isOverShopUserLimit"
@@ -331,6 +344,7 @@ export interface PendingPluginRequest {
   pluginName: string;
   displayName: string;
   isFree: boolean | null; // null when the Marketplace cannot be reached
+  canBeInstalled: boolean;
   priceFrom: IPluginShopVariation | null;
   requestType: 'trial' | 'install';
   numRequests: number;
@@ -367,6 +381,7 @@ interface ManageRequestsSuperUserState {
   isLoadingHistory: boolean;
   decliningPlugin: PendingPluginRequest | null;
   busyPlugins: string[];
+  isInstalling: boolean;
   declineNote: string;
   trialPlugin: { name: string, displayName: string } | null;
   trialPluginName: string | null;
@@ -395,7 +410,6 @@ export default defineComponent({
     },
     isValidConsumer: Boolean,
     currentUserEmail: [String, Boolean] as PropType<string | false>,
-    isPluginsAdminEnabled: Boolean,
     installRequestedNonce: {
       type: String,
       required: true,
@@ -428,10 +442,17 @@ export default defineComponent({
       isLoadingHistory: false,
       decliningPlugin: null,
       busyPlugins: [],
+      isInstalling: false,
       declineNote: '',
       trialPlugin: null,
       trialPluginName: null,
     };
+  },
+  mounted() {
+    window.addEventListener('pageshow', this.onPageShow);
+  },
+  beforeUnmount() {
+    window.removeEventListener('pageshow', this.onPageShow);
   },
   computed: {
     tabs(): { id: Tab, label: string }[] {
@@ -453,8 +474,11 @@ export default defineComponent({
     hasPendingPaidPlugin(): boolean {
       return this.pending.some((plugin) => plugin.isFree === false);
     },
+    showUserLimitBanner(): boolean {
+      return this.isOverShopUserLimit && this.hasPendingPaidPlugin;
+    },
     canInstallFreePlugins(): boolean {
-      return this.isPluginsAdminEnabled && this.pending.some((plugin) => plugin.isFree === true);
+      return this.pending.some((plugin) => plugin.isFree === true && plugin.canBeInstalled);
     },
     contactSalesUrl(): string {
       return externalRawLink('https://matomo.org/contact-sales/');
@@ -508,6 +532,23 @@ export default defineComponent({
       );
 
       return translate('Marketplace_PriceFrom', `${formatAmount(price)} ${amountPeriod}`);
+    },
+    /**
+     * The link's nonce is single-use, so a second click would fail the install the first one started
+     */
+    onInstallClick(event: MouseEvent, isBusy: boolean) {
+      if (isBusy || this.isInstalling) {
+        event.preventDefault();
+        return;
+      }
+
+      this.isInstalling = true;
+    },
+    onPageShow(event: PageTransitionEvent) {
+      // a page restored from the back/forward cache still has the flag set by the click that left it
+      if (event.persisted) {
+        this.isInstalling = false;
+      }
     },
     /**
      * Without a plugin name, the action installs every pending free plugin

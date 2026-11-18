@@ -40,6 +40,11 @@ class API extends \Piwik\Plugin\API
 
     private const MAX_HISTORY_LIMIT = 100;
 
+    /**
+     * @internal plans for more users are set up by the sales team, and the Marketplace gives no limit of its own
+     */
+    public const SHOP_USER_LIMIT = 50;
+
     private Client $marketplaceClient;
 
     private Service $marketplaceService;
@@ -279,6 +284,11 @@ class API extends \Piwik\Plugin\API
         // checked first, so no trial is started for requests another super user has already decided on
         $this->checkHasPendingRequests($pluginName);
 
+        $numUsers = $this->environment->getNumUsers();
+        if ($numUsers > self::SHOP_USER_LIMIT) {
+            throw new BadRequestException(Piwik::translate('Marketplace_ShopUserLimitExceeded', [$numUsers, self::SHOP_USER_LIMIT]));
+        }
+
         // free plugins have no trial, and are installed instead
         $pluginInfo = $this->marketplaceClient->getPluginInfo($pluginName);
         if (!empty($pluginInfo['isFree'])) {
@@ -326,10 +336,11 @@ class API extends \Piwik\Plugin\API
      *
      * @internal
      * @return list<array{pluginName: string, displayName: string, isFree: bool|null, priceFrom: array<string, mixed>|null,
-     *                    requestType: string, numRequests: int, lastRequestedAt: string,
+     *                    canBeInstalled: bool, requestType: string, numRequests: int, lastRequestedAt: string,
      *                    requesters: list<array{login: string|null, email: string|null, requestedAt: string, message: string|null}>}>
      *         isFree and priceFrom are null when the Marketplace cannot be reached or does not list the plugin;
-     *         priceFrom is the shop variation the plugin is sold from; requestType is that of the latest request; a
+     *         priceFrom is the shop variation the plugin is sold from; canBeInstalled is whether a free plugin can be
+     *         installed and activated from Manage Requests; requestType is that of the latest request; a
      *         deleted requester has no login or email; dates in UTC as `Y-m-d H:i:s`
      */
     public function getPendingPluginRequests(): array
@@ -367,6 +378,7 @@ class API extends \Piwik\Plugin\API
                 'displayName' => ($pluginInfo['displayName'] ?? '') ?: $pluginName,
                 'isFree' => $pluginInfo === null ? null : !empty($pluginInfo['isFree']),
                 'priceFrom' => $pluginInfo === null ? null : MarketplacePlugins::getPriceFrom($pluginInfo),
+                'canBeInstalled' => $pluginInfo !== null && $this->marketplacePlugins->canRequestedPluginBeInstalled($pluginInfo),
                 'requestType' => $plugin['requestType'],
                 'numRequests' => count($plugin['requesters']),
                 'lastRequestedAt' => $plugin['lastRequestedAt'],

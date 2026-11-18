@@ -83,6 +83,7 @@ function makePending(overrides: Partial<PendingPluginRequest> = {}): PendingPlug
         message: null,
       },
     ],
+    canBeInstalled: overrides.isFree === true,
     ...overrides,
   };
 }
@@ -133,14 +134,13 @@ function mountPage(
       historyPageSize: 5,
       isValidConsumer: true,
       currentUserEmail: 'admin@example.test',
-      isPluginsAdminEnabled: true,
       installRequestedNonce: 'theNonce',
       numUsers: 3,
       shopUserLimit: 50,
       ...props,
     },
     global: {
-      mocks: { translate: translateStub },
+      mocks: { translate: translateStub, $sanitize: (value: string) => value },
       stubs: { StartFreeTrial: StartFreeTrialStub, ...stubs },
     },
   });
@@ -654,10 +654,51 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       expect(installLinks(wrapper)).toEqual([]);
     });
 
-    it('offers no install while plugins admin is disabled', () => {
-      const wrapper = mountPage([free], makeHistory(1), {}, { isPluginsAdminEnabled: false });
+    it('offers no install for a free plugin that cannot be installed', () => {
+      const wrapper = mountPage([{ ...free, canBeInstalled: false }]);
 
       expect(installLinks(wrapper)).toEqual([]);
+    });
+
+    // whether the page let the click through; the navigation itself is stopped, as jsdom cannot navigate
+    const clickIsFollowed = async (wrapper: Page, selector: string) => {
+      const link = wrapper.find(selector).element;
+      let isFollowed = false;
+      // registered after the page's own handler, so it sees that handler's decision
+      const recordAndStop = (event: Event) => {
+        isFollowed = !event.defaultPrevented;
+        event.preventDefault();
+      };
+      link.addEventListener('click', recordAndStop);
+      link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+      link.removeEventListener('click', recordAndStop);
+      await wrapper.vm.$nextTick();
+      return isFollowed;
+    };
+    const rowLinkSelector = '.manageRequestsSuperUser__approveAndInstall';
+    const allLinkSelector = '.manageRequestsSuperUser__installAllFree';
+
+    it('ignores a second install click, since the nonce is single-use', async () => {
+      const wrapper = mountPage([free]);
+
+      expect(await clickIsFollowed(wrapper, rowLinkSelector)).toBe(true);
+      expect(await clickIsFollowed(wrapper, rowLinkSelector)).toBe(false);
+      expect(await clickIsFollowed(wrapper, allLinkSelector)).toBe(false);
+      expect(wrapper.find(allLinkSelector).attributes('aria-disabled')).toBe('true');
+    });
+
+    it('allows installing again on a page restored from the back/forward cache', async () => {
+      const wrapper = mountPage([free]);
+      const allLink = wrapper.find(allLinkSelector);
+      await clickIsFollowed(wrapper, allLinkSelector);
+      expect(allLink.attributes('aria-disabled')).toBe('true');
+
+      const event = new Event('pageshow') as PageTransitionEvent;
+      Object.defineProperty(event, 'persisted', { value: true });
+      window.dispatchEvent(event);
+      await wrapper.vm.$nextTick();
+
+      expect(allLink.attributes('aria-disabled')).toBeUndefined();
     });
   });
 
@@ -665,8 +706,13 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
     it('explains why, and offers Contact sales instead of a trial', () => {
       const wrapper = mountPage([makePending()], makeHistory(1), {}, { numUsers: 51 });
 
-      expect(wrapper.find('.manageRequestsSuperUser__userLimit').text())
-        .toBe('Marketplace_ShopUserLimitExceeded:51,50');
+      expect(wrapper.find('.manageRequestsSuperUser__userLimitText').html())
+        .toContain('Marketplace_ShopUserLimitExceeded:<strong>51</strong>,50');
+      expect(wrapper.find('.manageRequestsSuperUser__userLimitContactSales').attributes()).toMatchObject({
+        href: 'https://matomo.org/contact-sales/?mtm_campaign=test',
+        target: '_blank',
+        rel: 'noreferrer noopener',
+      });
       const contactSales = row(wrapper, 'Funnels').find('.manageRequestsSuperUser__contactSales');
       expect(contactSales.attributes()).toMatchObject({
         href: 'https://matomo.org/contact-sales/?mtm_campaign=test',
@@ -689,6 +735,16 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
       const wrapper = mountPage([free], makeHistory(1), {}, { numUsers: 51 });
 
       expect(wrapper.find('.manageRequestsSuperUser__userLimit').exists()).toBe(false);
+      expect(wrapper.find('.manageRequestsSuperUser__installAllFree').exists()).toBe(true);
+    });
+
+    it('drops Install all free alongside the explanation but keeps Approve & Install on each free row', () => {
+      const free = makePending({ pluginName: 'Barometer', displayName: 'Barometer', isFree: true, priceFrom: null });
+      const wrapper = mountPage([makePending(), free], makeHistory(1), {}, { numUsers: 51 });
+
+      expect(wrapper.find('.manageRequestsSuperUser__userLimit').exists()).toBe(true);
+      expect(wrapper.find('.manageRequestsSuperUser__installAllFree').exists()).toBe(false);
+      expect(row(wrapper, 'Barometer').find('.manageRequestsSuperUser__approveAndInstall').exists()).toBe(true);
     });
   });
 
