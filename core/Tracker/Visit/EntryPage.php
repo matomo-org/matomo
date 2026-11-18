@@ -98,6 +98,14 @@ class EntryPage
         $entryIdActionUrl = (int) $visitor->getImmutableVisitorColumn('visit_entry_idaction_url');
 
         if (empty($entryIdActionUrl)) {
+            // A visit can begin with something that records no page of its own - an event sent
+            // before the first page view, say - and has no entry page until one arrives. The page
+            // view arriving now becomes it, so the visitor is on it by definition. Anything that
+            // records no page still leaves the question unanswerable.
+            if ($movesTheVisitor && $interactions < 1) {
+                return true;
+            }
+
             return null;
         }
 

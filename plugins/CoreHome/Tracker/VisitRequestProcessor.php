@@ -332,7 +332,7 @@ class VisitRequestProcessor extends RequestProcessor
                 && Consent::CONSENT_GIVEN === (int) $lastVisitConsent
             );
 
-        $currentUserId = $request->getForcedUserId($visitHasConsent);
+        $currentUserId = $request->getForcedUserIdForConsent($visitHasConsent);
 
         if (empty($currentUserId)) {
             return true;

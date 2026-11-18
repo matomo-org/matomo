@@ -843,25 +843,59 @@ abstract class Base extends VisitDimension
         }
     }
 
+    protected function isReferrerInformationNew(Visitor $visitor, $information)
+    {
+        return $this->isReferrerInformationNewForRequest($visitor, $information);
+    }
+
     /**
+     * As isReferrerInformationNew(), for a caller that can say which request is asking.
+     *
+     * A discarded campaign can only be compared against an incoming one while the visit is still
+     * on the page it arrived on, which needs the request. This is a method of its own so that the
+     * two above keep the signatures a plugin dimension may already be overriding.
+     *
      * @param Action|null $action
      */
-    protected function isReferrerInformationNew(Visitor $visitor, $information, $action = null, ?Request $request = null)
-    {
+    protected function isReferrerInformationNewForRequest(
+        Visitor $visitor,
+        $information,
+        $action = null,
+        ?Request $request = null
+    ) {
         foreach (['referer_keyword', 'referer_name', 'referer_type'] as $infoName) {
-            if ($this->hasReferrerColumnChanged($visitor, $information, $infoName, $action, $request)) {
+            if ($this->hasReferrerColumnChangedForRequest($visitor, $information, $infoName, $action, $request)) {
                 return true;
             }
         }
         return false;
     }
 
-    /**
-     * @param Action|null $action
-     */
-    protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName, $action = null, ?Request $request = null)
+    protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
         $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
+        $new = mb_strtolower($information[$infoName] ?? '');
+
+        $result = $existing != $new;
+        if ($result) {
+            Common::printDebug("Referrers\Base::isReferrerInformationNew: detected change in $infoName ('$existing' != '$new').");
+        }
+
+        return $result;
+    }
+
+    /**
+     * As hasReferrerColumnChanged(), for a caller that can say which request is asking.
+     *
+     * @param Action|null $action
+     */
+    protected function hasReferrerColumnChangedForRequest(
+        Visitor $visitor,
+        $information,
+        $infoName,
+        $action = null,
+        ?Request $request = null
+    ) {
         $new = mb_strtolower($information[$infoName] ?? '');
 
         // the incoming campaign was discarded as well, so it stands for the stored one rather than
@@ -872,16 +906,11 @@ abstract class Base extends VisitDimension
 
         // a discarded campaign kept nothing to compare an incoming one against, so the two can only
         // be told apart while the visit is still on the page it arrived on
-        if (CampaignParameterValuesMasked::isPlaceholderValue($existing)) {
+        if (CampaignParameterValuesMasked::isPlaceholderValue(mb_strtolower($visitor->getVisitorColumn($infoName) ?? ''))) {
             return false === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
         }
 
-        $result = $existing != $new;
-        if ($result) {
-            Common::printDebug("Referrers\Base::isReferrerInformationNew: detected change in $infoName ('$existing' != '$new').");
-        }
-
-        return $result;
+        return $this->hasReferrerColumnChanged($visitor, $information, $infoName);
     }
 
     protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
@@ -934,6 +963,39 @@ abstract class Base extends VisitDimension
      *
      * @param Action|null $action
      */
+    /**
+     * Whether consent reported now reveals the campaign this visit actually arrived through.
+     *
+     * Where the tracker withholds campaign parameters until consent, the request that opened the
+     * visit carried none, so it was attributed to whatever was left - the referring site, or a
+     * direct entry. Consent given while the visitor is still on the page they arrived on brings
+     * the campaign with it, and it describes that same arrival rather than a new one.
+     *
+     * @param Action|null $action
+     */
+    protected function shouldCompleteWithheldCampaign(
+        Visitor $visitor,
+        array $information,
+        Request $request,
+        $action = null
+    ): bool {
+        if ($information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN) {
+            return false;
+        }
+
+        if (!$request->hasConsent() || Consent::hasVisitConsented($visitor)) {
+            return false;
+        }
+
+        // a visit already attributed to a campaign is completed through the placeholder rules
+        // instead, and a second campaign over the first is a change rather than a completion
+        if ($visitor->getImmutableVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN) {
+            return false;
+        }
+
+        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+    }
+
     protected function shouldCompleteWithheldReferrer(Visitor $visitor, array $information, Request $request, $action = null): bool
     {
         if (!$request->hasConsent() || Consent::hasVisitConsented($visitor)) {

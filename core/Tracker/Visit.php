@@ -564,7 +564,7 @@ class Visit implements VisitInterface
             // the User ID at all. A policy withholding it withholds it here too, whether or not
             // the request reports consent, so a visitor's identifier does not move with their
             // answer.
-            $userId = $this->request->getForcedUserId(false);
+            $userId = $this->request->getForcedUserIdForConsent(false);
             if ($userId) {
                 $userIdHash = $this->request->getUserIdHashed($userId);
                 $binIdVisitor = Common::hex2bin($userIdHash);

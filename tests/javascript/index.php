@@ -5738,6 +5738,35 @@ if ($mysql) {
 
     // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
     // assertion count for this test is not stable
+    test("Test API - reporting consent again on a later page sends no further request", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'again');
+        tracker.requireConsentForRestrictedData();
+        tracker.rememberConsentGiven();
+
+        // a later page view already carries the consent, and a consent screen that calls this
+        // again after it has nothing to tell the server that the page view did not
+        tracker.trackRequest('myFoo=laterPage');
+        tracker.setConsentGiven();
+        tracker.setConsentGiven();
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'again');
+            strictEqual(true, requests.indexOf('myFoo=laterPage') > 0, "the page view was tracked");
+            strictEqual(0, (requests.match(/ping=1/g) || []).length, "a request was sent for consent the page view already carried");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
     test("Test API - a site that did not ask for restricted-data consent sends no extra request", function() {
         stop();
 
@@ -5982,6 +6011,11 @@ if ($mysql) {
             var requests = fetchTrackedRequests(getConsentToken() + 'otherwindow');
             strictEqual(true, requests.indexOf('myFoo=afterOtherWindowWithdrew') > 0, "the visitor is still measured");
             strictEqual(0, (requests.match(/consent=1/g) || []).length, "consent is still reported after another window withdrew it");
+            strictEqual(
+                '',
+                tracker.hook.test._getCookie(tracker.hook.test._getCookieName('id')) || '',
+                "a visitor id cookie was written back after consent was withdrawn in another window"
+            );
 
             deleteCookies();
             start();

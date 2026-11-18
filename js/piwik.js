@@ -3290,6 +3290,14 @@ if (typeof window.Matomo !== 'object') {
                 if (configMeasurementConsentRemembered && !getCookie(MEASUREMENT_CONSENT_COOKIE_NAME)) {
                     configConsentGiven = false;
                     configMeasurementConsentRemembered = false;
+
+                    // forgetConsentGiven() withdraws cookie consent with it and deletes the
+                    // cookies, so where that cookie is gone too this window follows. The cookies
+                    // themselves are already gone, deleted by the window that withdrew it; what
+                    // is left is to stop this one writing a new visitor id straight back.
+                    if (!getCookie(COOKIE_CONSENT_COOKIE_NAME)) {
+                        configCookiesDisabled = true;
+                    }
                 }
             }
 
@@ -7622,6 +7630,10 @@ if (typeof window.Matomo !== 'object') {
              * @param {boolean} [setCookieConsent=true] Internal parameter. Defines whether cookies should be enabled or not.
              */
             this.setConsentGiven = function (setCookieConsent, isMeasurementConsent) {
+                // whether the requests from this page already carry the consent: where they do,
+                // the server has been told and there is nothing for a request of our own to add
+                var wasReportingConsent = hasGivenConsent();
+
                 configHasConsent = true;
 
                 // isMeasurementConsent is for internal callers that restore tracking without the
@@ -7670,6 +7682,7 @@ if (typeof window.Matomo !== 'object') {
                 if (
                     configRestrictedDataConsentRequired
                     && configConsentGiven
+                    && !wasReportingConsent
                     && !sentConsentPing
                     && configTrackerSiteId
                     && hasSentTrackingRequestYet

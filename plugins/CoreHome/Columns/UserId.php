@@ -82,7 +82,7 @@ class UserId extends VisitDimension
         // part of a visit that consented, so the User ID is not withheld from it.
         $hasConsent = Consent::visitConsentApplies($request, $visitor, $action);
 
-        $value = $request->getForcedUserId($hasConsent);
+        $value = $request->getForcedUserIdForConsent($hasConsent);
 
         return empty($value) ? $value : mb_substr($value, 0, self::MAXLENGTH);
     }

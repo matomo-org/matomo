@@ -843,7 +843,7 @@ class Request
             // consent and another on a request that does not, and a visit is split, merged or
             // missed accordingly. Where a policy withholds the User ID it is withheld here
             // too, whatever the request says.
-            $userId = $this->getForcedUserId(false);
+            $userId = $this->getForcedUserIdForConsent(false);
             if ($userId) {
                 $userIdHashed = $this->getUserIdHashed($userId);
                 $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
@@ -934,11 +934,21 @@ class Request
         return IPUtils::stringToBinaryIP($this->getIpString());
     }
 
+    public function getForcedUserId()
+    {
+        return $this->getForcedUserIdForConsent($this->hasConsent());
+    }
+
     /**
-     * @param bool|null $hasConsent overrides what the request reports, for a caller that knows
-     *                              the consent does not apply to the visit being recorded
+     * As getForcedUserId(), for a caller that knows whether the consent applies to the visit being
+     * recorded rather than taking it from this request.
+     *
+     * This is a method of its own so that getForcedUserId() keeps the signature a plugin replacing
+     * or extending this class may already be overriding.
+     *
+     * @return string|false
      */
-    public function getForcedUserId(?bool $hasConsent = null)
+    public function getForcedUserIdForConsent(bool $hasConsent)
     {
         $userId = $this->getParam('uid');
         if (strlen($userId) === 0) {
@@ -949,7 +959,7 @@ class Request
             $idSite = $this->getIdSite();
             if (!empty($idSite) && $idSite > 0) {
                 $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-                if (UserIdDisabled::shouldDiscardUserId($cache, $hasConsent ?? $this->hasConsent())) {
+                if (UserIdDisabled::shouldDiscardUserId($cache, $hasConsent)) {
                     return false;
                 }
             }

@@ -140,12 +140,10 @@ class UserIdConsentTest extends IntegrationTestCase
         $this->assertSame('', (string) $this->fetchVisitColumn('user_id'));
     }
 
-
-
     /**
-     * Baseline: a site that opted in to nothing must not notice this guard at all. Where a visit
-     * was identified by a User ID hash before the policy was enforced, the visitor keeps that
-     * identifier: no consent was ever reported, so nothing was withheld for consent to lift.
+     * Baseline: on a site that has not opted in to consent-aware measurement, enforcing the policy
+     * does not change how a returning visitor is identified. A visit identified by the User ID hash
+     * before the policy was enforced keeps that identifier on the next visit, as it did before.
      */
     public function testASiteThatNeverOptedInKeepsAnIdentifierStoredBeforeThePolicy(): void
     {
@@ -173,12 +171,9 @@ class UserIdConsentTest extends IntegrationTestCase
         );
     }
 
-
-
     /**
-     * Baseline: declining to carry that one identifier over must not stop a returning visitor
-     * being recognised. Where no User ID is in play there is nothing for the policy to withhold,
-     * so the visitor keeps the identifier they arrived with.
+     * Baseline: where no User ID is sent, a forced new visit on a site enforcing the policy keeps
+     * the identifier the visitor arrived with, so a returning visitor is still recognised.
      */
     public function testAForcedNewVisitStillKeepsAnOrdinaryVisitorIdentifier(): void
     {
