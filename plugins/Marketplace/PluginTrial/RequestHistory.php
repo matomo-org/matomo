@@ -173,9 +173,10 @@ class RequestHistory
             []
         );
 
-        $emails = $this->getEmailsOfExistingUsers(array_column($requests, 'login'));
+        // the user table matches logins case-insensitively, so they are looked up the same way here
+        $emails = self::keyByLowerCaseLogin($this->getEmailsOfExistingUsers(array_column($requests, 'login')));
         foreach ($requests as &$request) {
-            $request['email'] = $emails[$request['login']] ?? null;
+            $request['email'] = $request['login'] === null ? null : ($emails[mb_strtolower($request['login'])] ?? null);
         }
         unset($request);
 
@@ -240,6 +241,21 @@ class RequestHistory
         }
 
         return $emails;
+    }
+
+    /**
+     * @param array<string, string> $emails
+     * @return array<string, string>
+     */
+    private static function keyByLowerCaseLogin(array $emails): array
+    {
+        $byLowerCaseLogin = [];
+        foreach ($emails as $login => $email) {
+            // a numeric login comes back as an int key
+            $byLowerCaseLogin[mb_strtolower((string) $login)] = $email;
+        }
+
+        return $byLowerCaseLogin;
     }
 
     /**
@@ -365,12 +381,10 @@ class RequestHistory
 
         $recordedLogins = array_values(array_unique($recordedLogins));
         // the user table can match a login case-insensitively, and a login it still has must never be anonymized
-        $existingLogins = array_map(function ($login): string {
-            return mb_strtolower((string) $login);
-        }, array_keys($this->getEmailsOfExistingUsers($recordedLogins)));
+        $existingLogins = self::keyByLowerCaseLogin($this->getEmailsOfExistingUsers($recordedLogins));
 
         return array_values(array_filter($recordedLogins, function (string $login) use ($existingLogins): bool {
-            return !in_array(mb_strtolower($login), $existingLogins, true);
+            return !isset($existingLogins[mb_strtolower($login)]);
         }));
     }
 

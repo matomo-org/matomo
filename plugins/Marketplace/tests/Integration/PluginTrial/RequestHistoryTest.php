@@ -94,6 +94,16 @@ class RequestHistoryTest extends IntegrationTestCase
         );
     }
 
+    public function testLoginsAreMatchedWhateverTheirCase(): void
+    {
+        Fixture::createSuperUser();
+        UsersManagerAPI::getInstance()->addUser('alice', 'secret-password-1', 'alice@example.com');
+        $this->history->add('PremiumPlugin', 'Alice', strtotime('2026-10-01 10:00:00'));
+
+        self::assertSame('alice@example.com', $this->history->getPendingRequests()[0]['email']);
+        self::assertSame([], $this->history->getDeletedLogins());
+    }
+
     public function testLoginsAreMatchedAgainstAUserTableWithAnotherCollation(): void
     {
         Fixture::createSuperUser();
