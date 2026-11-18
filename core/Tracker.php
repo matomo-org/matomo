@@ -400,7 +400,9 @@ class Tracker
                 // PHP writes the fatal error to its own error log
                 $this->log(LogLevel::ERROR, 'Fatal error encountered: {exception}', $lastError, ['ignoreInScreenWriter' => true]);
 
-                $this->outputTrackingImage();
+                if (!Common::isPhpCliMode()) {
+                    $this->outputTrackingImage();
+                }
             }
         });
     }
@@ -432,7 +434,7 @@ class Tracker
         try {
             (new Response())->outputTrackingImage($this);
         } catch (Throwable) {
-            // a custom image that cannot be read must not replace the status code
+            // a failing custom image config must not replace the status code
         }
     }
 

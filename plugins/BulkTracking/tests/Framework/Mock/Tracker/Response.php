@@ -11,8 +11,4 @@ namespace Piwik\Plugins\BulkTracking\tests\Framework\Mock\Tracker;
 
 class Response extends \Piwik\Plugins\BulkTracking\Tracker\Response
 {
-    protected function logExceptionToErrorLog($e)
-    {
-        // prevent from writing to console in tests
-    }
 }

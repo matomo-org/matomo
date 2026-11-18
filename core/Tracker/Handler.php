@@ -118,16 +118,19 @@ class Handler
      */
     public static function getStatusCodeForException(Throwable $e): int
     {
+        // a subclass may set a non-numeric code, which the cast turns into one outside the range
+        $code = (int) $e->getCode();
+
         // checked first, as eg NoAccessException is also an InvalidRequestParameterException
         if (
             $e instanceof HttpCodeException
             // these describe the server's plugin setup, eg when tracking code calls an API internally
             && !($e instanceof PluginDeactivatedException)
             && !($e instanceof PluginNotFoundException)
-            && $e->getCode() >= 400
-            && $e->getCode() < 600
+            && $code >= 400
+            && $code < 600
         ) {
-            return (int) $e->getCode();
+            return $code;
         }
 
         if ($e instanceof UnexpectedWebsiteFoundException || $e instanceof InvalidRequestParameterException) {

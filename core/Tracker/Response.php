@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Profiler;
+use Piwik\Request;
 use Piwik\Timer;
 use Piwik\Tracker;
 use Piwik\Tracker\Db as TrackerDb;
@@ -117,12 +118,16 @@ class Response
      */
     public function outputTrackingImage(Tracker $tracker): void
     {
-        $request = $_GET + $_POST;
-        if (!$this->isHttpGetRequest() || (isset($request['send_image']) && $request['send_image'] === '0')) {
+        if (!$this->isHttpGetRequest() || $this->isImageDisabled()) {
             return;
         }
 
         $this->outputApiResponse($tracker);
+    }
+
+    private function isImageDisabled(): bool
+    {
+        return Request::fromRequest()->getStringParameter('send_image', '') === '0';
     }
 
     private function outputAccessControlHeaders()
@@ -157,17 +162,16 @@ class Response
             return;
         }
 
-        if ($this->hasAlreadyPrintedOutput()) {
+        // eg QueuedTracking sends the response before it processes the queue
+        if ($this->hasAlreadyPrintedOutput() || (!Common::isPhpCliMode() && headers_sent())) {
             return;
         }
-
-        $request = $_GET + $_POST;
 
         if ($this->isHttpGetRequest()) {
             Common::sendHeader('Cache-Control: no-store');
         }
 
-        if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
+        if ($this->isImageDisabled()) {
             if (!$this->keepResponseCode) {
                 Common::sendResponseCode(204);
             }
