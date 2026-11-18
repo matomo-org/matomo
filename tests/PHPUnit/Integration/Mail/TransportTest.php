@@ -32,7 +32,7 @@ class TransportTest extends IntegrationTestCase
     private ?PHPMailer $phpMailer = null;
     private int $accessTokenRequests = 0;
     private int $forgottenAccessTokens = 0;
-    private bool $failSending = false;
+    private ?string $sendingError = null;
 
     public function testAuthenticatesWithThePasswordForPasswordBasedTypes(): void
     {
@@ -84,10 +84,10 @@ class TransportTest extends IntegrationTestCase
     /**
      * @dataProvider getAuthTypesAndForgottenTokens
      */
-    public function testForgetsTheAccessTokenWhenSendingFailsForXoauth2(string $type, int $expectedForgottenTokens): void
+    public function testForgetsTheAccessTokenWhenTheLoginFailsForXoauth2(string $type, string $error, int $expectedForgottenTokens): void
     {
         $this->setSmtpConfig(['type' => $type]);
-        $this->failSending = true;
+        $this->sendingError = $error;
 
         try {
             $this->sendMail();
@@ -99,8 +99,9 @@ class TransportTest extends IntegrationTestCase
 
     public function getAuthTypesAndForgottenTokens(): iterable
     {
-        yield 'OAuth' => ['Xoauth2', 1];
-        yield 'password' => ['Login', 0];
+        yield 'OAuth login rejected' => ['Xoauth2', 'SMTP Error: Could not authenticate.', 1];
+        yield 'OAuth recipient rejected' => ['Xoauth2', 'SMTP Error: The following recipients failed: nobody@example.com: User unknown', 0];
+        yield 'password login rejected' => ['Login', 'SMTP Error: Could not authenticate.', 0];
     }
 
     public function testHidesTheOAuthCredentialsInTheSmtpDebugOutput(): void
@@ -131,8 +132,8 @@ class TransportTest extends IntegrationTestCase
                 ['Test.Mail.send', DI::value(function (PHPMailer $phpMailer) {
                     $this->phpMailer = $phpMailer;
 
-                    if ($this->failSending) {
-                        throw new PHPMailerException('SMTP Error: Could not authenticate.');
+                    if ($this->sendingError !== null) {
+                        throw new PHPMailerException($this->sendingError);
                     }
                 })],
             ]),

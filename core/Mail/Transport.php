@@ -114,8 +114,8 @@ class Transport
 
             return $phpMailer->send();
         } catch (PHPMailerException $e) {
-            if ($phpMailer->AuthType === 'XOAUTH2') {
-                // the mail server may have rejected the access token, so the next email requests a new one
+            if ($phpMailer->AuthType === 'XOAUTH2' && $e->getMessage() === ($phpMailer->getTranslations()['authenticate'] ?? null)) {
+                // the mail server rejected the login, so the next email requests a new access token
                 StaticContainer::get(SmtpTokenProvider::class)->forgetAccessToken();
             }
 
