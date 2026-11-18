@@ -934,10 +934,6 @@ class Request
         return IPUtils::stringToBinaryIP($this->getIpString());
     }
 
-    /**
-     * @param bool|null $hasConsent overrides what the request reports, for a caller that knows
-     *                              the consent does not apply to the visit being recorded
-     */
     public function getForcedUserId()
     {
         return $this->getForcedUserIdForConsent($this->hasConsent());

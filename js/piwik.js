@@ -3292,11 +3292,11 @@ if (typeof window.Matomo !== 'object') {
                     configMeasurementConsentRemembered = false;
 
                     // forgetConsentGiven() withdraws cookie consent with it and deletes the
-                    // cookies, so where that cookie is gone too this window follows: leaving
-                    // cookies on here would write a new visitor id back moments later
+                    // cookies, so where that cookie is gone too this window follows. The cookies
+                    // themselves are already gone, deleted by the window that withdrew it; what
+                    // is left is to stop this one writing a new visitor id straight back.
                     if (!getCookie(COOKIE_CONSENT_COOKIE_NAME)) {
                         configCookiesDisabled = true;
-                        deleteCookies();
                     }
                 }
             }
