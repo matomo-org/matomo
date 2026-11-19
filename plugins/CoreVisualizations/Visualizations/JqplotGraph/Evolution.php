@@ -22,6 +22,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\EvolutionPeriodSelector;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * Visualization that renders HTML for a line graph using jqPlot.
@@ -348,6 +349,11 @@ class Evolution extends JqplotGraph
 
         // Use a sensible default if the columns_to_display is empty
         $this->config->columns_to_display = $columnsToDisplay ? : array('nb_visits');
+
+        // don't offer the uniques in the series picker when the plotted periods have none
+        if (is_array($this->config->selectable_columns) && $this->arePlottedUniquesUnavailable()) {
+            $this->config->selectable_columns = array_values($this->removeUniquesColumns($this->config->selectable_columns));
+        }
     }
 
     // Website totals are estimated for periods that aren't counted exactly, report rows aren't yet.
@@ -359,12 +365,37 @@ class Evolution extends JqplotGraph
             return parent::removeUnavailableMetrics($metrics);
         }
 
-        // a range is plotted as shorter periods, which can have no unique visitors when the range has them
-        if (SettingsPiwik::isUniqueVisitorsTotalAvailable($this->getPlottedPeriod())) {
+        if (!$this->arePlottedUniquesUnavailable()) {
             return $metrics;
         }
 
-        return array_diff($metrics, ['nb_uniq_visitors', 'nb_users']);
+        return $this->removeUniquesColumns($metrics);
+    }
+
+    /**
+     * A range is plotted as shorter periods, which can have no unique visitors or users when the range has them.
+     */
+    private function arePlottedUniquesUnavailable(): bool
+    {
+        $period = Request::fromRequest()->getStringParameter('period', '');
+
+        return SettingsPiwik::isUniqueVisitorsEstimated($period)
+            && $this->isPlottingWebsiteTotals()
+            && !SettingsPiwik::isUniqueVisitorsTotalAvailable($this->getPlottedPeriod());
+    }
+
+    /**
+     * Removes the unique visitors and users columns, including those per visitor type such as
+     * `nb_uniq_visitors_returning` (VisitFrequency) and `nb_users_human` (AIAgents).
+     *
+     * @param string[] $columns
+     * @return string[]
+     */
+    private function removeUniquesColumns(array $columns): array
+    {
+        return array_filter($columns, function ($column) {
+            return EstimatedUniques::getColumnSuffix((string) $column) === null;
+        });
     }
 
     /**

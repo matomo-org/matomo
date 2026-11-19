@@ -757,6 +757,47 @@ class UniqueVisitorsEstimateTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * @dataProvider getGraphsWithUniquesPerVisitorType
+     */
+    public function testEvolutionGraphOfARangeLeavesOutTheUniquesPerVisitorTypeWhenItsPointsHaveNone(string $module, string $visits, string $uniques, string $users)
+    {
+        // the range is estimated, but it is plotted as months, which are neither estimated nor counted
+        $this->setEstimatedPeriods(['range']);
+        foreach (['week', 'month', 'year'] as $period) {
+            $this->setGeneralConfig("enable_processing_unique_visitors_$period", 0);
+        }
+
+        $html = $this->dispatch($module, 'getEvolutionGraph', [
+            'idSite' => 1,
+            'period' => 'range',
+            'date' => '2023-01-01,2024-12-31',
+            'columns' => "$visits,$uniques",
+            'viewDataTable' => 'graphEvolution',
+            'forceView' => 1,
+        ]);
+
+        $this->assertSame(1, preg_match('/data-props="([^"]*)"/', $html, $matches), 'graph properties not found');
+        $selectable = array_column(json_decode(html_entity_decode($matches[1], ENT_QUOTES), true)['selectable_columns'], 'column');
+        $this->assertContains($visits, $selectable);
+        $this->assertNotContains($uniques, $selectable);
+        $this->assertNotContains($users, $selectable);
+
+        // the uniques aren't drawn as a line of zeros
+        $this->assertSame(1, preg_match('/data-data="([^"]*)"/', $html, $matches), 'graph data not found');
+        $data = json_decode(html_entity_decode($matches[1], ENT_QUOTES), true);
+        $this->assertCount(1, $data['params']['series']);
+    }
+
+    public function getGraphsWithUniquesPerVisitorType(): array
+    {
+        return [
+            'VisitFrequency' => ['VisitFrequency', 'nb_visits_returning', 'nb_uniq_visitors_returning', 'nb_users_returning'],
+            'AIAgents' => ['AIAgents', 'nb_visits_human', 'nb_uniq_visitors_human', 'nb_users_human'],
+            'VisitsSummary' => ['VisitsSummary', 'nb_visits', 'nb_uniq_visitors', 'nb_users'],
+        ];
+    }
+
     public function testEvolutionGraphLeavesAGapForAYearWithoutAnEstimate()
     {
         $this->archiveFirstDayWithoutSketches();
