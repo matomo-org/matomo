@@ -247,18 +247,16 @@ enable_processing_unique_visitors_range = 0
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
 
-; set to 1 to estimate a website's total Unique Visitors and Users for that period instead of counting them from the logs.
-; much faster for long periods and segments, and usually within 2%. days are always counted, Roll-Ups are never estimated.
-; a period that can't be estimated yet is counted exactly when enable_processing_unique_visitors_... is 1 for it, and has
-; no Unique Visitors otherwise. reports archived earlier are not updated: invalidate them (core:invalidate-report-data)
-; after turning a period on, anonymising User IDs or changing the [General] salt.
+; set to 1 to estimate a website's Unique Visitors and Users for that period type instead of counting them exactly.
+; this is much faster for long periods and segments, and the estimate is usually within 2%. day periods are always counted.
+; to estimate periods archived before, invalidate their days (core:invalidate-report-data --periods=day) while the raw logs
+; still exist. until then they are counted exactly if enable_processing_unique_visitors_* is 1, and have no Unique Visitors otherwise
 enable_processing_estimated_unique_visitors_week = 0
 enable_processing_estimated_unique_visitors_month = 0
 enable_processing_estimated_unique_visitors_year = 0
 enable_processing_estimated_unique_visitors_range = 0
 
-; precision of the estimates, from 4 to 18. higher is more accurate and uses more storage: an archive stores up to two
-; sketches (visitors and users), each up to about 7 KB at 14 and about 110 KB at 18.
+; precision of the estimate, from 4 to 18. higher values are more accurate but use more storage (up to about 14 KB per archive at 14)
 unique_visitors_estimate_precision = 14
 
 ; The list of periods that are available in the Matomo calendar
