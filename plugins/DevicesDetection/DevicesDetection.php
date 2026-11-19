@@ -11,6 +11,8 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Plugins\DevicesDetection\Settings\OnlyMajorVersions;
 use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
+use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Cache as TrackerCache;
@@ -55,8 +57,19 @@ class DevicesDetection extends \Piwik\Plugin
         $files[] = 'plugins/DevicesDetection/vue/src/DetectionPage/DetectionPage.less';
     }
 
-    public static function shouldOnlyStoreMajorVersions(?int $idsite = null): bool
+    /**
+     * Whether only major browser and OS versions may be stored for the site.
+     *
+     * @param bool $hasConsent Whether the visit being measured holds the visitor's consent. The
+     *                         policy's restriction does not apply to a consented visit; callers
+     *                         that are not measuring a visit leave it at false.
+     */
+    public static function shouldOnlyStoreMajorVersions(?int $idsite = null, bool $hasConsent = false): bool
     {
+        if ($hasConsent) {
+            return false;
+        }
+
         $cache = TrackerCache::getCacheWebsiteAttributes($idsite);
         $cacheKey = OnlyMajorVersions::class;
         return (($cache[$cacheKey] ?? false) === true);
@@ -65,14 +78,45 @@ class DevicesDetection extends \Piwik\Plugin
     /**
      * Check if compliance policy disables device model detection
      *
+     * @param bool $hasConsent Whether the visit being measured holds the visitor's consent. The
+     *                         policy's restriction does not apply to a consented visit; callers
+     *                         that are not measuring a visit leave it at false.
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
      */
-    public static function isDeviceModelDetectionDisabledByCompliancePolicy(?int $idSite = null): bool
+    public static function isDeviceModelDetectionDisabledByCompliancePolicy(?int $idSite = null, bool $hasConsent = false): bool
     {
+        if ($hasConsent) {
+            return false;
+        }
+
         $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
         $cacheKey = DeviceModelDetectionDisabled::class;
         return (($cache[$cacheKey] ?? false) === true);
+    }
+
+    /**
+     * Whether the device model report and segment are withheld for the site.
+     */
+    public static function isDeviceModelReportHiddenForSite(int $idSite): bool
+    {
+        return self::isDeviceModelDetectionDisabledByCompliancePolicy($idSite)
+            && !self::isDeviceModelStoredForConsentedVisits($idSite);
+    }
+
+    /**
+     * Whether the site stores the device model for consented visitors while the policy disables
+     * its detection for everyone else, so that the report and segment have something to show.
+     *
+     * This follows what tracking does: consent is only measured on a site measuring
+     * consent-aware analytics that does not force cookieless tracking. Both are read from the
+     * tracker cache and configuration that tracking reads them from, so the two stay in step.
+     */
+    public static function isDeviceModelStoredForConsentedVisits(int $idSite): bool
+    {
+        return self::isDeviceModelDetectionDisabledByCompliancePolicy($idSite)
+            && ConsentAwareAnalytics::isEnabled($idSite)
+            && !(new PrivacyManagerConfig($idSite))->forceCookielessTracking;
     }
 
     public function filterSegments(SegmentsList &$list, array $idSites)
@@ -82,7 +126,10 @@ class DevicesDetection extends \Piwik\Plugin
             $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
         } else {
             foreach ($idSites as $idsite) {
-                $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
+                // a site storing the device model for consented visitors keeps the segment, as
+                // long as nothing but the policy's device model restriction would hide it
+                $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue()
+                    && !self::isDeviceModelStoredForConsentedVisits((int) $idsite);
             }
         }
         if ($limitSegmentsSettingEnabled) {

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\DevicesDetection\DevicesDetection;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -30,11 +31,40 @@ class OsVersion extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
+        return $this->detectOsVersion($request, Consent::visitHasConsent($request, $visitor));
+    }
+
+    /**
+     * Replaces the major-only version stored for a visit measured without consent with the full
+     * version detected from the request that brings the visitor's consent to it.
+     *
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        $idSite = $request->getIdSiteIfExists();
+
+        if (
+            !DevicesDetection::shouldOnlyStoreMajorVersions($idSite)
+            || !$this->isFirstConsentedRequest($request, $visitor, $action)
+        ) {
+            return false;
+        }
+
+        return $this->detectOsVersion($request, true);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function detectOsVersion(Request $request, bool $hasConsent)
+    {
         $parser    = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
 
         $osVersion = $parser->getOs('version');
 
-        if (DevicesDetection::shouldOnlyStoreMajorVersions($request->getIdSiteIfExists())) {
+        if (DevicesDetection::shouldOnlyStoreMajorVersions($request->getIdSiteIfExists(), $hasConsent)) {
             return explode('.', $osVersion, 2)[0];
         }
         return $osVersion;

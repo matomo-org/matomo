@@ -149,7 +149,7 @@ class API extends \Piwik\Plugin\API
 
         // filter sites where model report disabled by compliance
         $idSitesFiltered = array_filter($idSites, function ($idSite) {
-            return !DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy((int)$idSite);
+            return !DevicesDetection::isDeviceModelReportHiddenForSite((int)$idSite);
         });
 
         // show an error only if none of the requested sites is left
