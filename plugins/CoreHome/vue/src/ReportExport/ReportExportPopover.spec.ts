@@ -227,4 +227,32 @@ describe('CoreHome/ReportExportPopover', () => {
     expect(exportCall.period).toBe('day');
     expect(exportCall.label).toBe('@referrer.com');
   });
+
+  it('should include the selected secondary dimension in export links', () => {
+    createWrapper({
+      initialReportType: 'default',
+      initialReportFormat: 'CSV',
+      dataTable: {
+        param: {
+          idSite: 1,
+          date: '2025-01-01',
+          period: 'day',
+          viewDataTable: 'table',
+          secondaryDimension: 'eventName',
+        },
+        props: {},
+        getReportMetadata: () => ({ dimensions: {} }),
+      },
+      apiMethod: 'Events.getCategory',
+    });
+
+    const stringifyMock = MatomoUrl.stringify as Mock;
+    const calls = stringifyMock.mock.calls.map((call) => call[0]);
+    const exportCall = calls.find(
+      (params) => params.method === 'Events.getCategory' && params.format === 'CSV',
+    );
+
+    expect(exportCall).toBeDefined();
+    expect(exportCall.secondaryDimension).toBe('eventName');
+  });
 });
