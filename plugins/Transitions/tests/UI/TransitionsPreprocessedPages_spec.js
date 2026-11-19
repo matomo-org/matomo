@@ -152,6 +152,16 @@ describe("TransitionsPreprocessedPages", function () {
         ]);
     });
 
+    it('should explain that there are no most viewed pages to add', async function () {
+        // the fixture's visits are from 2010: neither the last 30 days nor the previous month has pages
+        await page.click('.managePreprocessedPages__addTop');
+        await waitForText('#notificationContainer', 'No pages were viewed in the last 30 days or in ');
+
+        expect(await page.$('.modal.open')).to.equal(null);
+        expect(await page.$('.managePreprocessedPages__addError')).to.equal(null);
+        expect((await rowUrls()).length).to.equal(2);
+    });
+
     it('should fit the list of pages to a phone screen', async function () {
         await page.webpage.setViewport({ width: 375, height: 812 });
 
