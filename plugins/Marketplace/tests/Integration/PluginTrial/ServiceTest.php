@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Marketplace\tests\Integration\PluginTrial;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config\GeneralConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Notification\Manager;
 use Piwik\Option;
@@ -642,6 +643,37 @@ class ServiceTest extends IntegrationTestCase
         $this->dismissAs('alice', $declinedId);
 
         self::assertFalse(Option::get('Marketplace.PluginRequestDecisionsSeen.alice'));
+    }
+
+    public function testADismissalStoredWhileTheRequesterIsDeletedLeavesNothing()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
+        $this->startNewSessionAs('alice');
+        $declinedId = (string) $this->findDeclinedNoticeId();
+
+        // a deletion that gave up waiting for the lock, run after the dismissal checked that the user exists
+        $history = new class extends RequestHistory {
+            public function getDecisionsOfLogin(string $login, int $afterIdDecision): array
+            {
+                $decisions = parent::getDecisionsOfLogin($login, $afterIdDecision);
+                Db::query('DELETE FROM `' . Common::prefixTable('user') . '` WHERE login = ?', [$login]);
+
+                return $decisions;
+            }
+        };
+        $realHistory = StaticContainer::get(RequestHistory::class);
+        StaticContainer::getContainer()->set(RequestHistory::class, $history);
+        try {
+            $this->dismissAs('alice', $declinedId);
+        } finally {
+            StaticContainer::getContainer()->set(RequestHistory::class, $realHistory);
+        }
+
+        self::assertFalse(Option::get('Marketplace.PluginRequestDecisionsSeen.alice'));
+        self::assertFalse(Option::get('Marketplace.PluginRequestDecisionsDismissed.alice'));
     }
 
     public function testTheDecisionNoticeEscapesThePluginsName()
