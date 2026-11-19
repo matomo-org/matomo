@@ -284,7 +284,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testRequestTrialAnswersAPluginTheMarketplaceDoesNotKnowWithNotFound(): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         $service = $this->service;
         $this->service->setOnDownloadCallback(static function () use ($service) {
@@ -365,7 +364,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testRequestInstallStoresAnInstallRequestWithItsNote(): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('Barometer');
 
@@ -386,7 +384,6 @@ class ApiTest extends IntegrationTestCase
             $eventArgs = $args;
         });
 
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('Barometer');
 
@@ -436,7 +433,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testRequestInstallIsRejectedWhenTheUsersRequestWasDeclined(): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('Barometer');
         $this->api->requestInstall('Barometer');
@@ -456,22 +452,8 @@ class ApiTest extends IntegrationTestCase
         self::assertSame([['Barometer', 'install', null]], $this->getStoredRequests());
     }
 
-    public function testRequestInstallIsRejectedWhileTheFeatureFlagIsOff(): void
-    {
-        $this->disablePluginRequests();
-        $this->setUser();
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Plugin requests are not enabled');
-        $this->expectExceptionCode(403);
-
-        $this->api->requestInstall('Barometer');
-    }
-
     public function testRequestInstallRequiresRegularUserAccessIfSuperUser(): void
     {
-        $this->enablePluginRequests();
-
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Cannot request install as a super user');
         $this->expectExceptionCode(400);
@@ -481,7 +463,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testRequestInstallRequiresRegularUserAccessIfAnonymous(): void
     {
-        $this->enablePluginRequests();
         $this->setAnonymousUser();
 
         $this->expectException(Exception::class);
@@ -492,7 +473,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testRequestInstallIsRejectedForAPaidPlugin(): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('PaidPlugin1');
 
@@ -505,7 +485,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testRequestInstallIsRejectedForAnInstalledPlugin(): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         // a free plugin's info under the name of one that is installed in every Matomo
         $service = $this->service;
@@ -530,7 +509,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testRequestInstallIsRejectedForAPluginNoSuperUserCouldInstall(callable $changeInfo): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         $service = $this->service;
         $this->service->setOnDownloadCallback(static function () use ($service, $changeInfo) {
@@ -570,7 +548,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testRequestInstallIsRejectedWhenPluginsCannotBeInstalled(): void
     {
-        $this->enablePluginRequests();
         Config::getInstance()->General['enable_plugins_admin'] = 0;
         $this->setUser();
 
@@ -588,7 +565,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testRequestInstallIsRejectedWhenAutoUpdateIsNotPossible(string $setting, int $value): void
     {
-        $this->enablePluginRequests();
         Config::getInstance()->General[$setting] = $value;
         $this->setUser();
         $this->returnPluginInfo('Barometer');
@@ -611,7 +587,6 @@ class ApiTest extends IntegrationTestCase
         string $setting,
         int $value
     ): void {
-        $this->enablePluginRequests();
         $this->returnPluginInfos();
         $this->setUser();
         $this->api->requestInstall('Barometer');
@@ -632,7 +607,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testDeclinePluginRequestDeclinesAllPendingRequests(): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('Barometer');
         $this->api->requestInstall('Barometer');
@@ -653,7 +627,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testDecisionsRequireSuperUserAccessIfUser(string $method): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
 
         $this->expectException(Exception::class);
@@ -667,7 +640,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testDecisionsRequireSuperUserAccessIfAnonymous(string $method): void
     {
-        $this->enablePluginRequests();
         $this->setAnonymousUser();
 
         $this->expectException(Exception::class);
@@ -679,23 +651,8 @@ class ApiTest extends IntegrationTestCase
     /**
      * @dataProvider dataDecisionMethods
      */
-    public function testDecisionsAreRejectedWhileTheFeatureFlagIsOff(string $method): void
-    {
-        $this->disablePluginRequests();
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Plugin requests are not enabled');
-        $this->expectExceptionCode(403);
-
-        $this->api->$method('Barometer');
-    }
-
-    /**
-     * @dataProvider dataDecisionMethods
-     */
     public function testDecisionsSayWhenThePluginHasNoPendingRequests(string $method): void
     {
-        $this->enablePluginRequests();
         $this->service->setOnDownloadCallback(static function () {
             self::fail('A trial was started');
         });
@@ -712,7 +669,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testMethodsAreRejectedWhileRequestsAreDisabledInTheConfig(string $method, bool $asSuperUser): void
     {
-        $this->enablePluginRequests();
         $asSuperUser ? $this->setSuperUser() : $this->setUser();
 
         $config = Config::getInstance();
@@ -745,7 +701,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testApprovePluginTrialApprovesOnceTheTrialStarted(): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('PaidPlugin1');
         $this->api->requestTrial('PaidPlugin1');
@@ -765,7 +720,6 @@ class ApiTest extends IntegrationTestCase
         for ($i = 0; $i <= API::SHOP_USER_LIMIT; $i++) {
             (new UsersModel())->addUser('user' . $i, 'password', 'user' . $i . '@example.org', date('Y-m-d H:i:s'));
         }
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('PaidPlugin1');
         $this->api->requestTrial('PaidPlugin1');
@@ -790,7 +744,6 @@ class ApiTest extends IntegrationTestCase
         for ($i = 0; $i <= API::SHOP_USER_LIMIT; $i++) {
             (new UsersModel())->addUser('user' . $i, 'password', 'user' . $i . '@example.org', date('Y-m-d H:i:s'));
         }
-        $this->enablePluginRequests();
         $this->setUser();
         (new Storage('Barometer'))->setRequested('Barometer', RequestHistory::REQUEST_TYPE_INSTALL);
 
@@ -810,7 +763,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testApprovePluginTrialRefusesAFreePluginWithoutStartingATrial(string $requestType): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         // stored directly, as requestTrial() refuses a free plugin, which a request made before it did is not
         (new Storage('Barometer'))->setRequested('Barometer', $requestType);
@@ -850,7 +802,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testDecisionsApproveTheRequestsOfAnAlreadyActivatedPlugin(string $method): void
     {
-        $this->enablePluginRequests();
         $this->setSuperUser();
         StaticContainer::get(RequestHistory::class)->add('Marketplace', 'aUser', time());
         $this->service->setOnDownloadCallback(static function () {
@@ -876,7 +827,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testDecisionsSayAnActivatedPluginsRequestsWereApprovedOnceTheyAre(string $method): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         (new Storage('Marketplace'))->setRequested('Marketplace');
         $this->setSuperUser();
@@ -899,7 +849,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testDecisionsSayAnActivatedPluginNobodyRequestedHasNoPendingRequests(string $method): void
     {
-        $this->enablePluginRequests();
         $this->setSuperUser();
 
         $this->expectExceptionMessage('Marketplace_NoPendingPluginRequests');
@@ -909,7 +858,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testApprovePluginTrialKeepsTheRequestsPendingWhenTheTrialFails(): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('PaidPlugin1');
         $this->api->requestTrial('PaidPlugin1');
@@ -932,7 +880,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testApprovePluginTrialReportsNoFailureWhenAnotherSuperUserDeclinedWhileTheTrialStarted(): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('PaidPlugin1');
         $this->api->requestTrial('PaidPlugin1');
@@ -952,7 +899,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetMyPluginRequestsReturnsOnlyTheUsersOwnRequestsWithTheirStatus(): void
     {
-        $this->enablePluginRequests();
         $this->returnPluginInfos();
         $this->setUser();
         $this->api->requestTrial('PaidPlugin1', 'For our team');
@@ -984,7 +930,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetMyPluginRequestsAsksTheMarketplaceForDisplayNamesItsCachedListsDoNotHold(): void
     {
-        $this->enablePluginRequests();
         $this->returnPluginInfos();
         $this->setUser();
         $this->api->requestTrial('PaidPlugin1');
@@ -995,7 +940,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetMyPluginRequestsShowsNoNoteForAnApprovedRequest(): void
     {
-        $this->enablePluginRequests();
         $this->returnPluginInfos();
         $this->setUser();
         $this->api->requestInstall('Barometer');
@@ -1012,7 +956,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetMyPluginRequestsRequiresALoggedInUser(): void
     {
-        $this->enablePluginRequests();
         $this->setAnonymousUser();
 
         $this->expectException(Exception::class);
@@ -1024,7 +967,7 @@ class ApiTest extends IntegrationTestCase
     /**
      * @dataProvider dataPluginRequestLists
      */
-    public function testPluginRequestListsAreRejectedWhileTheFeatureFlagIsOff(string $method): void
+    public function testPluginRequestListsAreRejectedWhileRequestsAreDisabledInTheConfig(string $method): void
     {
         $this->disablePluginRequests();
 
@@ -1047,7 +990,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testSuperUserPluginRequestListsRequireSuperUserAccessIfUser(string $method): void
     {
-        $this->enablePluginRequests();
         $this->setUser();
 
         $this->expectException(Exception::class);
@@ -1061,7 +1003,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testSuperUserPluginRequestListsRequireSuperUserAccessIfAnonymous(string $method): void
     {
-        $this->enablePluginRequests();
         $this->setAnonymousUser();
 
         $this->expectException(Exception::class);
@@ -1078,7 +1019,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetPendingPluginRequestsGroupsTheRequestsPerPluginWithTheirPrice(): void
     {
-        $this->enablePluginRequests();
         $this->returnPluginInfos();
         $this->setUser();
         $this->api->requestTrial('PaidPlugin1', 'For our team');
@@ -1114,7 +1054,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetPendingPluginRequestsAsksAnUnreachableMarketplaceOnce(): void
     {
-        $this->enablePluginRequests();
         $this->returnPluginInfos();
         $this->setUser();
         $this->api->requestTrial('PaidPlugin1');
@@ -1142,7 +1081,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetPendingPluginRequestsLeavesOutDecidedRequests(): void
     {
-        $this->enablePluginRequests();
         $this->returnPluginInfos();
         $this->setUser();
         $this->api->requestInstall('Barometer');
@@ -1155,7 +1093,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetPluginRequestHistoryReturnsOnePageOfDecisionsNewestFirst(): void
     {
-        $this->enablePluginRequests();
         $this->returnPluginInfos();
 
         foreach (['PaidPlugin1', 'Barometer', 'TreemapVisualization'] as $i => $pluginName) {
@@ -1187,8 +1124,6 @@ class ApiTest extends IntegrationTestCase
      */
     public function testGetPluginRequestHistoryRejectsAnInvalidPage(int $offset, int $limit): void
     {
-        $this->enablePluginRequests();
-
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('The offset must be 0 or more, and the limit between 1 and 100');
         $this->expectExceptionCode(400);
@@ -1422,17 +1357,9 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::$identity = 'anonymous';
     }
 
-    private function enablePluginRequests(): void
-    {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
-    }
-
-    /**
-     * The local config may turn the flag on, so a test of it being off says so itself
-     */
     private function disablePluginRequests(): void
     {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = -1;
     }
 
     /**

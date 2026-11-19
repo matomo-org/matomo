@@ -82,7 +82,7 @@ class RequestTrialNotificationEmail extends Mail
         $view->login = $this->login;
         $view->isInstallRequest = $this->isInstallRequest;
         $view->linksToManageRequests = !$this->isInstallRequest
-            && StaticContainer::get(PluginTrialService::class)->areRequestsActive();
+            && StaticContainer::get(PluginTrialService::class)->isEnabled();
         $view->instanceLink = $piwikUrl . 'index.php?module=Marketplace&action='
             . ($view->linksToManageRequests ? 'manageRequests' : 'overview');
         $view->pluginName = $this->pluginDisplayName;

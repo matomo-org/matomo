@@ -69,7 +69,7 @@ class RequestTrialNotificationEmailTest extends IntegrationTestCase
 
     public function testATrialRequestLinksToManageRequestsWhenPluginRequestsAreOn()
     {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = 28;
 
         $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'PremiumPlugin', 'Premium Plugin', 'abc123');
         $body = html_entity_decode($email->getBodyHtml());
@@ -82,7 +82,7 @@ class RequestTrialNotificationEmailTest extends IntegrationTestCase
 
     public function testATrialRequestLinksToTheMarketplaceWhenPluginRequestsAreOff()
     {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = -1;
 
         $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'PremiumPlugin', 'Premium Plugin', 'abc123');
         $body = html_entity_decode($email->getBodyHtml());
@@ -95,7 +95,7 @@ class RequestTrialNotificationEmailTest extends IntegrationTestCase
 
     public function testAnInstallRequestLinksToTheMarketplaceWhenPluginRequestsAreOn()
     {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = 28;
 
         $email = new RequestTrialNotificationEmail('some.user', 'some.user@example.org', 'FreePlugin', 'Free Plugin', 'abc123', RequestHistory::REQUEST_TYPE_INSTALL);
         $body = html_entity_decode($email->getBodyHtml());

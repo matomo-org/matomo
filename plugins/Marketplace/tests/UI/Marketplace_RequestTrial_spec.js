@@ -61,28 +61,18 @@ describe('Marketplace_RequestTrial', function () {
     expect(ctaText).to.match(/Request Trial/i);
   });
 
-  it('should require confirmation before the request is sent', async function () {
+  it('should send the request', async function () {
     await page.click(requestTrialSelector);
     await page.waitForSelector('.modal.open', { visible: true });
-
-    const confirmHeadline = await page.$('.modal.open h2');
-    const confirmHeadlineText = await confirmHeadline.getProperty('textContent');
-
-    expect(confirmHeadlineText).to.match(/Request trial .+ Paid Plugin 1/i);
-  });
-
-  it('should display a success notification after requesting a trial', async function () {
-    await (await page.jQuery('.modal.open .modal-footer a:contains(Yes):visible')).click();
+    await (await page.jQuery('.modal.open .modal-footer a:contains(Send request):visible')).click();
     await page.waitForSelector('.modal.open', { hidden: true });
     await page.waitForSelector('.notification-success', { visible: true });
 
-    const notification = await page.$('.notification-success');
-    const notificationText = await notification.getProperty('textContent');
-
-    expect(notificationText).to.match(/Trial requested .+ Paid Plugin 1/i);
+    const notification = await page.evaluate(() => document.querySelector('.notification-success').textContent);
+    expect(notification).to.contain('Request sent.');
   });
 
-  it('should show a trial requested notification to the super user in reporting view', async function () {
+  it('should show the plugin request notification to the super user in reporting view', async function () {
     testEnvironment.idSitesViewAccess = []; // super user
     delete testEnvironment.fakeIdentity;
     testEnvironment.save();
@@ -92,10 +82,10 @@ describe('Marketplace_RequestTrial', function () {
     const notification = await page.$('.notification-info');
     const notificationText = await notification.getProperty('textContent');
 
-    expect(notificationText).to.match(/A user has requested to start a trial .+ Paid Plugin 1/i);
+    expect(notificationText).to.match(/A user has requested a plugin: Paid Plugin 1\./);
   });
 
-  it('should show a trial requested notification to the super user in admin view', async function () {
+  it('should show the plugin request notification to the super user in admin view', async function () {
     testEnvironment.idSitesViewAccess = []; // super user
     testEnvironment.save();
 
@@ -104,10 +94,10 @@ describe('Marketplace_RequestTrial', function () {
     const notification = await page.$('.notification-info');
     const notificationText = await notification.getProperty('textContent');
 
-    expect(notificationText).to.match(/A user has requested to start a trial .+ Paid Plugin 1/i);
+    expect(notificationText).to.match(/A user has requested a plugin: Paid Plugin 1\./);
   });
 
-  it('should dismiss a trial requested notification when super user clicks on x', async function () {
+  it('should dismiss the plugin request notification when super user clicks on x', async function () {
     testEnvironment.idSitesViewAccess = []; // super user
     testEnvironment.save();
 
@@ -124,7 +114,7 @@ describe('Marketplace_RequestTrial', function () {
     expect(await page.$('.notification-info')).to.be.null;
   });
 
-  it('should not show a trial requested notification to a user who was not a super user when it was made', async function () {
+  it('should not show the plugin request notification to a user who was not a super user when it was made', async function () {
     testEnvironment.idSitesViewAccess = []; // super user
     testEnvironment.fakeIdentity = 'anotherSuperUser';
     testEnvironment.save();

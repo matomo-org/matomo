@@ -453,7 +453,7 @@ class API extends \Piwik\Plugin\API
     private function checkPluginRequestsActive(): void
     {
         // a feature that is off, as the Manage Requests page answers it
-        if (!$this->pluginTrialService->areRequestsActive()) {
+        if (!$this->pluginTrialService->isEnabled()) {
             throw new NoPrivilegesException('Plugin requests are not enabled', 403);
         }
     }

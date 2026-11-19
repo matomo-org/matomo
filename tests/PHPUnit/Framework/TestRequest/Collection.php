@@ -54,7 +54,7 @@ class Collection
         'API.getPagesComparisonsDisabledFor',
         'BotTracking',
         'AIProviders',
-        // refused unless the PluginRequests feature flag is on, and about plugin requests rather than tracked data
+        // about plugin requests rather than tracked data
         'Marketplace.getMyPluginRequests',
         'Marketplace.getPendingPluginRequests',
         'Marketplace.getPluginRequestHistory',

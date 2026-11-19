@@ -28,7 +28,7 @@ class Menu extends \Piwik\Plugin\Menu
             );
         }
 
-        if (!Piwik::isUserIsAnonymous() && StaticContainer::get(PluginTrialService::class)->areRequestsActive()) {
+        if (!Piwik::isUserIsAnonymous() && StaticContainer::get(PluginTrialService::class)->isEnabled()) {
             $menu->addPersonalItem('Marketplace_ManageRequests', $this->urlForAction('manageRequests', $idSiteParameter), 30);
         }
 

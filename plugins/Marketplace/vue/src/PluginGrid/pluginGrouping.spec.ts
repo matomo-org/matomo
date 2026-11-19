@@ -425,11 +425,6 @@ describe('Marketplace/pluginGrouping', () => {
       expect(isOwned(makePlugin({ licenseStatus: 'Active' }))).toBe(true);
       expect(isOwned(makePlugin({ licenseStatus: 'Cancelled' }))).toBe(true);
     });
-
-    it('does not count a requested trial, which is not a licence', () => {
-      expect(isOwned(makePlugin({ isTrialRequested: true }))).toBe(false);
-      expect(isOwned(makePlugin())).toBe(false);
-    });
   });
 
   describe('buildPromoSections', () => {

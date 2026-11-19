@@ -13,7 +13,6 @@
   >
     <RequestTrial
       v-model="showRequestTrialForPlugin"
-      :are-plugin-requests-active="arePluginRequestsActive"
       @trialRequested="refresh()"
     />
 

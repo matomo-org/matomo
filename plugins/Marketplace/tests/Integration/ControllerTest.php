@@ -23,6 +23,7 @@ use Piwik\NoAccessException;
 use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\MetadataLoader;
@@ -41,6 +42,7 @@ use Piwik\Plugins\Marketplace\UserSettings;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Url;
 
@@ -142,8 +144,6 @@ class ControllerTest extends IntegrationTestCase
             'isNewBundle',
             'isPaid',
             'isTheme',
-            'isTrialPending',
-            'isTrialRequested',
             'keywords',
             'lastUpdated',
             'lastUpdatedRaw',
@@ -173,6 +173,56 @@ class ControllerTest extends IntegrationTestCase
                 implode(', ', array_diff($always, $keys))
             ));
         }
+    }
+
+    public function testSearchPluginsShowsARequestStoredOnlyInTheOptionBeforeTheUpdate()
+    {
+        [$requested, $notRequested] = array_column($this->searchPlugins(), 'name');
+
+        // made by another user: until the history table exists, a pending request blocks every user
+        Option::set('Marketplace.PluginTrialRequest.' . $requested, json_encode([
+            'requestTime' => time(),
+            'requestedBy' => 'bob',
+        ]));
+
+        // before the 6.1.0-b1 update neither the decisions nor this user's requests can be read
+        $preUpdateHistory = new class extends RequestHistory {
+            public function getRequestsOfLogin(string $login): array
+            {
+                return [];
+            }
+
+            public function getLastDecisionId(): ?int
+            {
+                return null;
+            }
+
+            public function hasRequested(string $pluginName, string $login): ?bool
+            {
+                return null;
+            }
+        };
+        $container = StaticContainer::getContainer();
+        $originalHistory = $container->get(RequestHistory::class);
+        $originalAccess = $container->get(Access::class);
+        $container->set(RequestHistory::class, $preUpdateHistory);
+        FakeAccess::$superUser = false;
+        FakeAccess::$identity = 'alice';
+        FakeAccess::$idSitesView = [1];
+        $container->set(Access::class, new FakeAccess());
+
+        try {
+            $_GET = ['module' => 'Marketplace', 'action' => 'searchPlugins', 'format' => 'JSON'];
+            $cards = array_column(json_decode(StaticContainer::get(Controller::class)->searchPlugins(), true), null, 'name');
+        } finally {
+            $container->set(RequestHistory::class, $originalHistory);
+            $container->set(Access::class, $originalAccess);
+            FakeAccess::clearAccess();
+        }
+
+        self::assertSame('pending', $cards[$requested]['requestStatus']);
+        self::assertSame(RequestHistory::REQUEST_TYPE_TRIAL, $cards[$requested]['requestType']);
+        self::assertNull($cards[$notRequested]['requestStatus']);
     }
 
     public function testSearchPluginsKeepsTheFieldsTheModalNeedsWhenItsOwnRequestFails()
@@ -334,7 +384,7 @@ class ControllerTest extends IntegrationTestCase
     public function testInstallRequestedPluginsIsForbiddenWhilePluginRequestsAreOff()
     {
         $this->requestPlugin('TreemapVisualization', 'alice');
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'disabled'];
+        Config::getInstance()->General['plugin_trial_request_expiration_in_days'] = -1;
 
         $this->expectException(NoPrivilegesException::class);
         $this->expectExceptionCode(403);
@@ -657,8 +707,6 @@ class ControllerTest extends IntegrationTestCase
 
     private function requestPlugin(string $pluginName, string $login): void
     {
-        Config::getInstance()->FeatureFlags = ['PluginRequests_feature' => 'enabled'];
-
         // active in the test environment, where a request for it could never be pending
         if (PluginManager::getInstance()->isPluginActivated($pluginName)) {
             PluginManager::getInstance()->deactivatePlugin($pluginName);

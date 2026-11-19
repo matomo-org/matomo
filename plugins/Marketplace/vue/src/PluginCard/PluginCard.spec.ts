@@ -288,19 +288,6 @@ describe('Marketplace/PluginCard', () => {
       expect(text).toContain('General_MoreDetails');
     });
 
-    it('lets a non-super-user request a trial, which is the one action they do get', () => {
-      const wrapper = mountCard(
-        { canTrialBeRequested: true },
-        { isSuperUser: false },
-      );
-      expect(actions(wrapper).text()).toContain('Marketplace_RequestTrial');
-    });
-
-    it('tells a non-super-user a trial is already requested', () => {
-      const wrapper = mountCard({ isTrialRequested: true }, { isSuperUser: false });
-      expect(actions(wrapper).text()).toContain('Marketplace_TrialRequested');
-    });
-
     describe('while plugin requests are active', () => {
       const asUser = { isSuperUser: false, arePluginRequestsActive: true };
       const premium = {
