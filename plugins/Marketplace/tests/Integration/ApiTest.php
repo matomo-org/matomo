@@ -587,7 +587,6 @@ class ApiTest extends IntegrationTestCase
         string $setting,
         int $value
     ): void {
-        $this->enablePluginRequests();
         $this->returnPluginInfos();
         $this->setUser();
         $this->api->requestInstall('Barometer');
@@ -721,7 +720,6 @@ class ApiTest extends IntegrationTestCase
         for ($i = 0; $i <= API::SHOP_USER_LIMIT; $i++) {
             (new UsersModel())->addUser('user' . $i, 'password', 'user' . $i . '@example.org', date('Y-m-d H:i:s'));
         }
-        $this->enablePluginRequests();
         $this->setUser();
         $this->returnPluginInfo('PaidPlugin1');
         $this->api->requestTrial('PaidPlugin1');
@@ -746,7 +744,6 @@ class ApiTest extends IntegrationTestCase
         for ($i = 0; $i <= API::SHOP_USER_LIMIT; $i++) {
             (new UsersModel())->addUser('user' . $i, 'password', 'user' . $i . '@example.org', date('Y-m-d H:i:s'));
         }
-        $this->enablePluginRequests();
         $this->setUser();
         (new Storage('Barometer'))->setRequested('Barometer', RequestHistory::REQUEST_TYPE_INSTALL);
 
