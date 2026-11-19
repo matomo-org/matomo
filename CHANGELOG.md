@@ -14,6 +14,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * New methods for tracking code: `Request::hasConsent()`, `Request::measuresConsentAwareAnalytics()`, `Request::getForcedUserIdForConsent()`, `Consent::visitHasConsent()`, `Consent::hasVisitConsented()`, `Consent::appliesToVisit()`, `EntryPage::isRequestOnEntryPage()`, `UserIdDisabled::shouldDiscardUserId()` and `PrivacyManager\Config::getConfiguredValue()`.
 * New tracker cache entries: `PrivacyManager.consentAwareAnalytics`, `PrivacyManager.anonymizeReferrerConfiguredValue` and `UserId.userIdDisabledConfiguredValue`.
 * Where `enable_userid_overwrites_visitorid` is on, a User ID that a policy withholds is never used for `idvisitor`, even with consent, so `nb_uniq_visitors` keeps counting browsers.
+* A consented visit keeps the URL query parameters a policy's recommended PII filter removes. The parameters the admin excluded themselves are still removed. `PageUrl::excludeQueryParametersFromUrl()` and `PageUrl::getQueryParametersToExclude()` take an optional `$hasConsent` (default `false`), the tracker cache gains an `excluded_parameters_configured` entry, and `GoalManager::detectGoalIdForConsent()`, `Action::cleanActionUrlForConsent()` and `Consent::isRecordedWithConsent()` are new.
 
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
