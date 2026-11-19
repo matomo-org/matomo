@@ -21,6 +21,15 @@ describe("ManageGoals", function () {
         await page.waitForNetworkIdle();
     }
 
+    // The goals are listed by name with starred goals first, so the goal created last can be in any
+    // row. It is the one with the highest ID, which every row has as its HTML id.
+    async function getNewestGoalId() {
+        return page.$$eval(
+          'div.manageGoals table.entityTable tbody tr',
+          (rows) => `${Math.max(...rows.map((row) => parseInt(row.getAttribute('id'), 10)))}`
+        );
+    }
+
     async function fillField(selector, value) {
         await page.$eval(selector, (el) => {
             el.value = '';
@@ -56,10 +65,7 @@ describe("ManageGoals", function () {
         });
 
         // We check that the created goal id is in the View Goal Report url
-        const createdGoalId = await page.$eval(
-          'div.manageGoals table.entityTable tbody tr:last-child td:first-child',
-          (cell) => cell.textContent.trim()
-        );
+        const createdGoalId = await getNewestGoalId();
         const notificationText = await page.$eval(
           '.notification.notification-success .notification-body div',
           (el) => el.textContent.trim(),
@@ -158,8 +164,9 @@ describe("ManageGoals", function () {
     it("should show the correct notification when editing the goal", async function () {
       await goToManageGoals();
 
-      const goalEditButtonSelector = 'table.entityTable tbody tr:nth-last-child(1) button.icon-edit';
-      await page.waitForSelector(goalEditButtonSelector, { visible: true });
+      await page.waitForSelector('table.entityTable tbody tr button.icon-edit', { visible: true });
+      const editedGoalId = await getNewestGoalId();
+      const goalEditButtonSelector = `table.entityTable tbody tr[id="${editedGoalId}"] button.icon-edit`;
       await page.click(goalEditButtonSelector);
 
       const updatedGoalName = 'My edited name';
@@ -170,10 +177,6 @@ describe("ManageGoals", function () {
       await page.waitForNetworkIdle();
 
       // We check that the edited goal id is in the View Goal Report url
-      const editedGoalId = await page.$eval(
-        'div.manageGoals table.entityTable tbody tr:last-child td:first-child',
-        (cell) => cell.textContent.trim()
-      );
       const viewGoalLinkHref = await page.$eval(
         '.notification.notification-success a',
         (link) => link.getAttribute('href')

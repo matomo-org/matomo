@@ -97,12 +97,26 @@ import {
   CopyToClipboard,
   debounce,
   externalRawLink,
+  importPluginUmd,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
 interface Goal {
   idgoal: string|number;
   name: string;
+  starred?: boolean;
+}
+
+interface GoalsPluginModule {
+  sortGoalsStarredFirst: (goals: Goal[]|Record<string, Goal>) => Goal[];
+}
+
+// The Goals plugin defines the order goals are listed in: starred goals first, then by name. It is
+// not a dependency of this plugin, so its helper is looked up when goals were fetched.
+function sortGoalsForDisplay(goals: Goal[]|Record<string, Goal>): Promise<Goal[]> {
+  return importPluginUmd('Goals').then(
+    (goalsPlugin) => (goalsPlugin as GoalsPluginModule).sortGoalsStarredFirst(goals),
+  ).catch(() => Object.values(goals || []));
 }
 
 interface ImageTrackingCodeGeneratorState {
@@ -205,12 +219,12 @@ export default defineComponent({
         goalPromise = Promise.resolve(this.goals[newValue.id]);
       } else {
         this.isLoading = true;
-        goalPromise = AjaxHelper.fetch<Goal[]>({
+        goalPromise = AjaxHelper.fetch<Goal[]|Record<string, Goal>>({
           module: 'API',
           method: 'Goals.getGoals',
           filter_limit: '-1',
           idSite: newValue.id,
-        });
+        }).then((goals) => sortGoalsForDisplay(goals));
       }
 
       return Promise.all([
@@ -285,7 +299,11 @@ export default defineComponent({
       return [
         { key: '', value: translate('UserCountryMap_None') },
       ].concat(
-        Object.values(goalsResponse || []).map((g) => ({ key: `${g.idgoal}`, value: g.name })),
+        // a select option can only show text, so a starred goal is marked in its label
+        Object.values(goalsResponse || []).map((g) => ({
+          key: `${g.idgoal}`,
+          value: g.starred === true ? `★ ${g.name}` : g.name,
+        })),
       );
     },
     imageTrackingIntro() {

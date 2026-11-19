@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\API\Request;
+use Piwik\Plugins\Goals\GoalsSorter;
 use Piwik\Url;
 
 abstract class Base extends \Piwik\Plugin\Report
@@ -25,14 +26,25 @@ abstract class Base extends \Piwik\Plugin\Report
     protected function addReportMetadataForEachGoal(&$availableReports, $infos, $goalNameFormatter)
     {
         $idSite = $this->getIdSiteFromInfos($infos);
-        $goals  = $this->getGoalsForIdSite($idSite);
+        $goals  = GoalsSorter::sortStarredFirst($this->getGoalsForIdSite($idSite));
 
+        // the reports of a goal are ordered like the goals are listed: starred goals first, then by name
+        $position = 0;
         foreach ($goals as $goal) {
+            $position++;
+
             $this->name       = $goalNameFormatter($goal);
             $this->parameters = array('idGoal' => $goal['idgoal']);
-            $this->order      = $this->orderGoal + $goal['idgoal'] * 3;
+            $this->order      = $this->orderGoal + $position * 3;
 
-            $availableReports[] = $this->buildReportMetadata();
+            $report = $this->buildReportMetadata();
+            if (GoalsSorter::isStarred($goal)) {
+                // only set for the reports of a starred goal: API.getReportMetadata removes every
+                // attribute of a report that is false
+                $report['isStarred'] = true;
+            }
+
+            $availableReports[] = $report;
         }
 
         $this->init();

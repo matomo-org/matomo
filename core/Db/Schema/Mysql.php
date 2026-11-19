@@ -182,6 +182,7 @@ class Mysql implements SchemaInterface
                               `revenue` DOUBLE NOT NULL,
                               `deleted` tinyint(4) NOT NULL default '0',
                               `event_value_as_revenue` tinyint(4) NOT NULL default '0',
+                              `starred` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
                                 PRIMARY KEY  (`idsite`,`idgoal`)
                               ) $tableOptions
             ",

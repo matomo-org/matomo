@@ -28,7 +28,13 @@
         @keydown.enter.prevent="onActivate(widget)"
         @keydown.space.prevent="onActivate(widget)"
       >
-        <span class="widgetpreview-widgetname">{{ widget.name }}</span>
+        <span class="widgetpreview-widgetname"><StarToggle
+          v-if="widget.isStarred"
+          :starred="true"
+          :readonly="true"
+          :small="true"
+          :title="translate('Goals_StarredGoal')"
+        />{{ widget.name }}</span>
         <span
           class="widgetpreview-add-hint"
           aria-hidden="true"
@@ -46,7 +52,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { translate, WidgetType } from 'CoreHome';
+import { StarToggle, translate, WidgetType } from 'CoreHome';
 
 const HOVER_DELAY_MS = 400;
 const KPI_METRIC_CATEGORY_ID = 'General_KpiMetric';
@@ -59,6 +65,9 @@ function hasHoverCapablePointer() {
 
 export default defineComponent({
   name: 'WidgetsList',
+  components: {
+    StarToggle,
+  },
   props: {
     widgets: {
       type: Array as PropType<WidgetType[]>,

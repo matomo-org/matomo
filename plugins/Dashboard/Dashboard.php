@@ -544,6 +544,7 @@ class Dashboard extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'Dashboard_AddPreviewedWidget';
+        $translationKeys[] = 'Goals_StarredGoal';
         $translationKeys[] = 'Dashboard_WidgetPreview';
         $translationKeys[] = 'Dashboard_Maximise';
         $translationKeys[] = 'Dashboard_Minimise';

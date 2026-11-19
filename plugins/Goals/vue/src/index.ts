@@ -9,3 +9,9 @@ export { default as GoalPageLink } from './GoalPageLink/GoalPageLink';
 export { default as ManageGoals } from './ManageGoals/ManageGoals.vue';
 export { default as ManageGoalsStore } from './ManageGoals/ManageGoals.store';
 export { default as RecommendGoals } from './RecommendGoals/RecommendGoals.vue';
+export {
+  default as sortGoalsStarredFirst,
+  isGoalStarred,
+} from './StarredGoals/sortGoalsStarredFirst';
+export type { SortableGoal } from './StarredGoals/sortGoalsStarredFirst';
+export { addStarredGoalIndicator } from './StarredGoals/StarredGoalIndicator';

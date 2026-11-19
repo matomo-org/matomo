@@ -77,7 +77,9 @@ class Controller extends \Piwik\Plugin\Controller
         $this->featureFlagManager = $featureFlagManager;
 
         if (!empty($this->idSite)) {
-            $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
+            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
+            // the order goals are listed in, eg on Manage Goals and in the metric picker of the evolution graph
+            $this->goals = GoalsSorter::sortStarredFirst($goals);
         } else {
             $this->goals = [];
         }
@@ -275,9 +277,8 @@ class Controller extends \Piwik\Plugin\Controller
     public function getSparklines()
     {
         $content = "";
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1', 'orderByName' => true], []);
 
-        foreach ($goals as $goal) {
+        foreach ($this->goals as $goal) {
             $params = [
                 'idGoal' => $goal['idgoal'],
                 'allow_multiple' => (int) $goal['allow_multiple'],

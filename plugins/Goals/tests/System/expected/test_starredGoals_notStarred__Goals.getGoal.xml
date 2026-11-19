@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idsite>1</idsite>
+		<idgoal>1</idgoal>
+		<name>Newsletter</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-1/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
+	</row>
+</result>

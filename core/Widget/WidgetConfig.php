@@ -34,6 +34,7 @@ class WidgetConfig
     protected $isEnabled = true;
     protected $isWidgetizable = true;
     protected $isWide = false;
+    protected $isStarred = false;
 
     /**
      * Set the id of the category the widget belongs to.
@@ -437,5 +438,28 @@ class WidgetConfig
     public function isWide()
     {
         return $this->isWide;
+    }
+
+    /**
+     * Marks the widget as starred. A starred widget is shown with a star where widgets are listed, for
+     * example the widget of a starred goal in the dashboard's widget selector.
+     *
+     * @return static
+     * @since 6.1.0
+     */
+    public function setIsStarred(bool $isStarred)
+    {
+        $this->isStarred = $isStarred;
+        return $this;
+    }
+
+    /**
+     * Returns `true` if the widget is starred.
+     *
+     * @since 6.1.0
+     */
+    public function isStarred(): bool
+    {
+        return $this->isStarred;
     }
 }

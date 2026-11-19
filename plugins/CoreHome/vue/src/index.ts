@@ -98,6 +98,7 @@ export type {
 export { default as ReportingPage } from './ReportingPage/ReportingPage.vue';
 export { default as ReportExport } from './ReportExport/ReportExport';
 export { default as Sparkline } from './Sparkline/Sparkline.vue';
+export { default as StarToggle } from './StarToggle/StarToggle.vue';
 export { default as Progressbar } from './Progressbar/Progressbar.vue';
 export { default as ContentIntro } from './ContentIntro/ContentIntro';
 export { default as ContentTable } from './ContentTable/ContentTable';

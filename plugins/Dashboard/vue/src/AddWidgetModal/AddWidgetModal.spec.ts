@@ -26,6 +26,7 @@ vi.mock('CoreHome', () => ({
   MatomoModal: { template: '<div><slot /></div>' },
   Widget: { template: '<div />' },
   ReportHeader: { template: '<div />' },
+  StarToggle: { template: '<span />' },
 }));
 
 import AddWidgetModal from './AddWidgetModal.vue';
