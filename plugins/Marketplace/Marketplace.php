@@ -307,6 +307,10 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_DecidedBy';
         $translationKeys[] = 'Marketplace_Decline';
         $translationKeys[] = 'Marketplace_StartTrial30Days';
+        $translationKeys[] = 'Marketplace_ApproveAndInstall';
+        $translationKeys[] = 'Marketplace_InstallAllFree';
+        $translationKeys[] = 'Marketplace_ContactSales';
+        $translationKeys[] = 'Marketplace_ShopUserLimitExceeded';
         $translationKeys[] = 'Marketplace_PendingRequestsEmpty';
         $translationKeys[] = 'Marketplace_NoPluginRequestDecisions';
         $translationKeys[] = 'Marketplace_DeclineRequestTitle';

@@ -33,136 +33,183 @@
         {{ translate('Marketplace_PendingRequestsEmpty') }}
       </p>
 
-      <div v-else class="manageRequestsSuperUser__tableScroll">
-        <table class="manageRequestsSuperUser__table">
-          <thead>
-          <tr class="manageRequestsSuperUser__headRow">
-            <th class="manageRequestsSuperUser__headCell manageRequestsSuperUser__headCell--indented">
-              {{ translate('General_Plugin') }}
-            </th>
-            <th class="manageRequestsSuperUser__headCell">{{ translate('Marketplace_Requests') }}</th>
-            <th class="manageRequestsSuperUser__headCell">{{ translate('Marketplace_LastRequested') }}</th>
-            <th class="manageRequestsSuperUser__headCell">{{ translate('General_Price') }}</th>
-            <th class="manageRequestsSuperUser__headCell manageRequestsSuperUser__headCell--alignEnd">
-              {{ translate('General_Action') }}
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <template v-for="plugin in pending" :key="plugin.pluginName">
-            <tr class="manageRequestsSuperUser__row" :data-plugin="plugin.pluginName">
-              <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__cell--flushStart">
-                <div class="manageRequestsSuperUser__pluginName">
-                  <button
-                    type="button"
-                    class="manageRequestsSuperUser__toggle"
-                    :aria-expanded="isExpanded(plugin) ? 'true' : 'false'"
-                    :aria-label="translate('Marketplace_ShowPluginRequesters', plugin.displayName)"
-                    @click="toggleRequesters(plugin)"
-                  >
-                    <span
-                      class="manageRequestsSuperUser__toggleIcon"
-                      :class="isExpanded(plugin) ? 'icon-chevron-down' : 'icon-chevron-right'"
-                      aria-hidden="true"
-                    />
-                  </button>
-                  <a
-                    class="manageRequestsSuperUser__pluginLink"
-                    v-plugin-name="{ pluginName: plugin.pluginName }"
-                  >{{ plugin.displayName }}</a>
-                </div>
-              </td>
-              <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__numRequests">
-                {{ plugin.numRequests }}
-              </td>
-              <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__date">
-                {{ plugin.lastRequestedAtPretty }}
-              </td>
-              <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__price">
-                {{ priceLabel(plugin) }}
-              </td>
-              <td class="manageRequestsSuperUser__cell">
-                <div class="manageRequestsSuperUser__actionList">
-                  <button
-                    type="button"
-                    class="manageRequestsSuperUser__decline"
-                    :disabled="isBusy(plugin)"
-                    @click="openDeclineDialog(plugin)"
-                  >{{ translate('Marketplace_Decline') }}</button>
-                  <button
-                    v-if="plugin.isFree === false"
-                    type="button"
-                    class="btn btn-outline manageRequestsSuperUser__startTrial"
-                    :disabled="isBusy(plugin)"
-                    @click="startTrial(plugin)"
-                  >{{ translate('Marketplace_StartTrial30Days') }}</button>
-                </div>
-              </td>
+      <template v-else>
+        <Alert v-if="showUserLimitBanner" severity="info" class="manageRequestsSuperUser__userLimit">
+          <div
+            class="manageRequestsSuperUser__userLimitText"
+            v-html="$sanitize(translate(
+              'Marketplace_ShopUserLimitExceeded',
+              `<strong>${numUsers}</strong>`,
+              `${shopUserLimit}`,
+            ))"
+          />
+          <a
+            class="manageRequestsSuperUser__userLimitContactSales"
+            :href="contactSalesUrl"
+            target="_blank"
+            rel="noreferrer noopener"
+          >{{ translate('Marketplace_ContactSales') }}</a>
+        </Alert>
+
+        <div
+          v-if="showInstallAllFree && canInstallFreePlugins && !showUserLimitBanner"
+          class="manageRequestsSuperUser__toolbar"
+        >
+          <a
+            class="btn btn-outline manageRequestsSuperUser__installAllFree"
+            :class="{ disabled: isInstalling || busyPlugins.length > 0 }"
+            :aria-disabled="isInstalling || busyPlugins.length > 0 ? 'true' : undefined"
+            :href="installLink()"
+            @click="onInstallClick($event, busyPlugins.length > 0)"
+          >{{ translate('Marketplace_InstallAllFree') }}</a>
+        </div>
+
+        <div class="manageRequestsSuperUser__tableScroll">
+          <table class="manageRequestsSuperUser__table">
+            <thead>
+            <tr class="manageRequestsSuperUser__headRow">
+              <th class="manageRequestsSuperUser__headCell manageRequestsSuperUser__headCell--indented">
+                {{ translate('General_Plugin') }}
+              </th>
+              <th class="manageRequestsSuperUser__headCell">{{ translate('Marketplace_Requests') }}</th>
+              <th class="manageRequestsSuperUser__headCell">{{ translate('Marketplace_LastRequested') }}</th>
+              <th class="manageRequestsSuperUser__headCell">{{ translate('General_Price') }}</th>
+              <th class="manageRequestsSuperUser__headCell manageRequestsSuperUser__headCell--alignEnd">
+                {{ translate('General_Action') }}
+              </th>
             </tr>
-            <tr
-              v-if="isExpanded(plugin) || isClosing(plugin)"
-              class="manageRequestsSuperUser__requesterPanel"
-              :data-plugin="plugin.pluginName"
-            >
-              <td colspan="5" class="manageRequestsSuperUser__requesterPanelCell">
-                <Transition
-                  appear
-                  enter-from-class="manageRequestsSuperUser__requesterReveal--collapsed"
-                  enter-active-class="manageRequestsSuperUser__requesterReveal--sliding"
-                  leave-active-class="manageRequestsSuperUser__requesterReveal--sliding"
-                  leave-to-class="manageRequestsSuperUser__requesterReveal--collapsed"
-                  @after-leave="onRequestersClosed(plugin)"
-                >
-                  <div v-if="isExpanded(plugin)" class="manageRequestsSuperUser__requesterReveal">
-                    <div class="manageRequestsSuperUser__requesterRevealContent">
-                      <table class="manageRequestsSuperUser__requesterTable">
-                        <thead>
-                        <tr class="manageRequestsSuperUser__requesterHeadRow">
-                          <th class="manageRequestsSuperUser__requesterHeadCell">
-                            {{ translate('Marketplace_RequestedBy') }}
-                          </th>
-                          <th class="manageRequestsSuperUser__requesterHeadCell">
-                            {{ translate('Marketplace_RequestedOn') }}
-                          </th>
-                          <th class="manageRequestsSuperUser__requesterHeadCell">
-                            {{ translate('General_Note') }}
-                          </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr
-                          v-for="(requester, index) in plugin.requesters"
-                          :key="index"
-                          class="manageRequestsSuperUser__requesterRow"
-                        >
-                          <td class="manageRequestsSuperUser__requesterCell">
-                            <span>{{ requester.login || translate('General_Unknown') }}</span>
-                            <span
-                              v-if="requester.email"
-                              class="manageRequestsSuperUser__email"
-                            >{{ requester.email }}</span>
-                          </td>
-                          <td class="manageRequestsSuperUser__requesterCell manageRequestsSuperUser__date">
-                            {{ requester.requestedAtPretty }}
-                          </td>
-                          <td class="manageRequestsSuperUser__requesterCell">
-                            <span
-                              class="manageRequestsSuperUser__note"
-                              :title="requester.message || undefined"
-                            >{{ requester.message || '-' }}</span>
-                          </td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
+            </thead>
+            <tbody>
+            <template v-for="plugin in pending" :key="plugin.pluginName">
+              <tr class="manageRequestsSuperUser__row" :data-plugin="plugin.pluginName">
+                <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__cell--flushStart">
+                  <div class="manageRequestsSuperUser__pluginName">
+                    <button
+                      type="button"
+                      class="manageRequestsSuperUser__toggle"
+                      :aria-expanded="isExpanded(plugin) ? 'true' : 'false'"
+                      :aria-label="translate('Marketplace_ShowPluginRequesters', plugin.displayName)"
+                      @click="toggleRequesters(plugin)"
+                    >
+                      <span
+                        class="manageRequestsSuperUser__toggleIcon"
+                        :class="isExpanded(plugin) ? 'icon-chevron-down' : 'icon-chevron-right'"
+                        aria-hidden="true"
+                      />
+                    </button>
+                    <a
+                      class="manageRequestsSuperUser__pluginLink"
+                      v-plugin-name="{ pluginName: plugin.pluginName }"
+                    >{{ plugin.displayName }}</a>
                   </div>
-                </Transition>
-              </td>
-            </tr>
-          </template>
-          </tbody>
-        </table>
-      </div>
+                </td>
+                <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__numRequests">
+                  {{ plugin.numRequests }}
+                </td>
+                <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__date">
+                  {{ plugin.lastRequestedAtPretty }}
+                </td>
+                <td class="manageRequestsSuperUser__cell manageRequestsSuperUser__price">
+                  {{ priceLabel(plugin) }}
+                </td>
+                <td class="manageRequestsSuperUser__cell">
+                  <div class="manageRequestsSuperUser__actionList">
+                    <button
+                      type="button"
+                      class="manageRequestsSuperUser__decline"
+                      :disabled="isBusy(plugin)"
+                      @click="openDeclineDialog(plugin)"
+                    >{{ translate('Marketplace_Decline') }}</button>
+                    <a
+                      v-if="plugin.isFree === true && plugin.canBeInstalled"
+                      class="btn btn-outline manageRequestsSuperUser__approveAndInstall"
+                      :class="{ disabled: isInstalling || isBusy(plugin) }"
+                      :aria-disabled="isInstalling || isBusy(plugin) ? 'true' : undefined"
+                      :href="installLink(plugin.pluginName)"
+                      @click="onInstallClick($event, isBusy(plugin))"
+                    >{{ translate('Marketplace_ApproveAndInstall') }}</a>
+                    <a
+                      v-else-if="plugin.isFree === false && isOverShopUserLimit"
+                      class="btn btn-outline manageRequestsSuperUser__contactSales"
+                      :href="contactSalesUrl"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >{{ translate('Marketplace_ContactSales') }}</a>
+                    <button
+                      v-else-if="plugin.isFree === false"
+                      type="button"
+                      class="btn manageRequestsSuperUser__startTrial"
+                      :disabled="isBusy(plugin)"
+                      @click="startTrial(plugin)"
+                    >{{ translate('Marketplace_StartTrial30Days') }}</button>
+                  </div>
+                </td>
+              </tr>
+              <tr
+                v-if="isExpanded(plugin) || isClosing(plugin)"
+                class="manageRequestsSuperUser__requesterPanel"
+                :data-plugin="plugin.pluginName"
+              >
+                <td colspan="5" class="manageRequestsSuperUser__requesterPanelCell">
+                  <Transition
+                    appear
+                    enter-from-class="manageRequestsSuperUser__requesterReveal--collapsed"
+                    enter-active-class="manageRequestsSuperUser__requesterReveal--sliding"
+                    leave-active-class="manageRequestsSuperUser__requesterReveal--sliding"
+                    leave-to-class="manageRequestsSuperUser__requesterReveal--collapsed"
+                    @after-leave="onRequestersClosed(plugin)"
+                  >
+                    <div v-if="isExpanded(plugin)" class="manageRequestsSuperUser__requesterReveal">
+                      <div class="manageRequestsSuperUser__requesterRevealContent">
+                        <table class="manageRequestsSuperUser__requesterTable">
+                          <thead>
+                          <tr class="manageRequestsSuperUser__requesterHeadRow">
+                            <th class="manageRequestsSuperUser__requesterHeadCell">
+                              {{ translate('Marketplace_RequestedBy') }}
+                            </th>
+                            <th class="manageRequestsSuperUser__requesterHeadCell">
+                              {{ translate('Marketplace_RequestedOn') }}
+                            </th>
+                            <th class="manageRequestsSuperUser__requesterHeadCell">
+                              {{ translate('General_Note') }}
+                            </th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr
+                            v-for="(requester, index) in plugin.requesters"
+                            :key="index"
+                            class="manageRequestsSuperUser__requesterRow"
+                          >
+                            <td class="manageRequestsSuperUser__requesterCell">
+                              <span>{{ requester.login || translate('General_Unknown') }}</span>
+                              <span
+                                v-if="requester.email"
+                                class="manageRequestsSuperUser__email"
+                              >{{ requester.email }}</span>
+                            </td>
+                            <td class="manageRequestsSuperUser__requesterCell manageRequestsSuperUser__date">
+                              {{ requester.requestedAtPretty }}
+                            </td>
+                            <td class="manageRequestsSuperUser__requesterCell">
+                              <span
+                                class="manageRequestsSuperUser__note"
+                                :title="requester.message || undefined"
+                              >{{ requester.message || '-' }}</span>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </Transition>
+                </td>
+              </tr>
+            </template>
+            </tbody>
+          </table>
+        </div>
+      </template>
     </div>
 
     <div v-else class="manageRequestsSuperUser__panel manageRequestsSuperUser__history" role="tabpanel">
@@ -271,8 +318,11 @@
 import { defineComponent, PropType } from 'vue';
 import {
   AjaxHelper,
+  Alert,
   Matomo,
+  MatomoUrl,
   NotificationsStore,
+  externalRawLink,
   translate,
 } from 'CoreHome';
 import { PluginName } from 'CorePluginsAdmin';
@@ -297,6 +347,7 @@ export interface PendingPluginRequest {
   pluginName: string;
   displayName: string;
   isFree: boolean | null; // null when the Marketplace cannot be reached
+  canBeInstalled: boolean;
   priceFrom: IPluginShopVariation | null;
   requestType: 'trial' | 'install';
   numRequests: number;
@@ -333,6 +384,7 @@ interface ManageRequestsSuperUserState {
   isLoadingHistory: boolean;
   decliningPlugin: PendingPluginRequest | null;
   busyPlugins: string[];
+  isInstalling: boolean;
   declineNote: string;
   trialPlugin: { name: string, displayName: string } | null;
   trialPluginName: string | null;
@@ -361,8 +413,24 @@ export default defineComponent({
     },
     isValidConsumer: Boolean,
     currentUserEmail: [String, Boolean] as PropType<string | false>,
+    installRequestedNonce: {
+      type: String,
+      required: true,
+    },
+    numUsers: {
+      type: Number,
+      required: true,
+    },
+    /** The most users a plan bought in the shop covers. */
+    shopUserLimit: {
+      type: Number,
+      required: true,
+    },
+    /** Off until premium plugins can be added to the cart in bulk too, as both bulk actions ship together. */
+    showInstallAllFree: Boolean,
   },
   components: {
+    Alert,
     StartFreeTrial,
   },
   directives: {
@@ -379,10 +447,17 @@ export default defineComponent({
       isLoadingHistory: false,
       decliningPlugin: null,
       busyPlugins: [],
+      isInstalling: false,
       declineNote: '',
       trialPlugin: null,
       trialPluginName: null,
     };
+  },
+  mounted() {
+    window.addEventListener('pageshow', this.onPageShow);
+  },
+  beforeUnmount() {
+    window.removeEventListener('pageshow', this.onPageShow);
   },
   computed: {
     tabs(): { id: Tab, label: string }[] {
@@ -397,6 +472,21 @@ export default defineComponent({
       return numRequests === 1
         ? translate('Marketplace_DeclineRequestTextOne')
         : translate('Marketplace_DeclineRequestTextMany', `${numRequests}`);
+    },
+    isOverShopUserLimit(): boolean {
+      return this.numUsers > this.shopUserLimit;
+    },
+    hasPendingPaidPlugin(): boolean {
+      return this.pending.some((plugin) => plugin.isFree === false);
+    },
+    showUserLimitBanner(): boolean {
+      return this.isOverShopUserLimit && this.hasPendingPaidPlugin;
+    },
+    canInstallFreePlugins(): boolean {
+      return this.pending.some((plugin) => plugin.isFree === true && plugin.canBeInstalled);
+    },
+    contactSalesUrl(): string {
+      return externalRawLink('https://matomo.org/contact-sales/');
     },
     paginationLabel(): string {
       return translate(
@@ -447,6 +537,38 @@ export default defineComponent({
       );
 
       return translate('Marketplace_PriceFrom', `${formatAmount(price)} ${amountPeriod}`);
+    },
+    /**
+     * The link's nonce is single-use, so a second click would fail the install the first one started
+     */
+    onInstallClick(event: MouseEvent, isBusy: boolean) {
+      if (isBusy || this.isInstalling) {
+        event.preventDefault();
+        return;
+      }
+
+      this.isInstalling = true;
+    },
+    onPageShow(event: PageTransitionEvent) {
+      // a page restored from the back/forward cache still has the flag set by the click that left it
+      if (event.persisted) {
+        this.isInstalling = false;
+      }
+    },
+    /**
+     * Without a plugin name, the action installs every pending free plugin
+     */
+    installLink(pluginName?: string): string {
+      return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        idSite: MatomoUrl.parsed.value.idSite,
+        module: 'Marketplace',
+        action: 'installRequestedPlugins',
+        nonce: this.installRequestedNonce,
+        // null drops what the page's own URL may carry
+        pluginName: pluginName || null,
+        token_auth: null,
+      })}`;
     },
     decisionLabel(decision: string): string {
       return DECISION_LABELS[decision] ? translate(DECISION_LABELS[decision]) : decision;

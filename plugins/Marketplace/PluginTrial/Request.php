@@ -27,6 +27,8 @@ class Request
 
     private Storage $storage;
 
+    private int $numNotified = 0;
+
     public function __construct(string $pluginName, Storage $storage)
     {
         if (!Manager::getInstance()->isValidPluginName($pluginName)) {
@@ -211,8 +213,26 @@ class Request
                 ]
             );
 
-            $email->safeSend();
+            // like safeSend(), but only an email that went out is counted as a notified requester
+            try {
+                if ($email->send() !== false) {
+                    $this->numNotified++;
+                }
+            } catch (Exception $e) {
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'Could not send {class} email: {exception}',
+                    ['class' => get_class($email), 'exception' => $e]
+                );
+            }
         }
+    }
+
+    /**
+     * Returns how many requesters were emailed about the decision this request made
+     */
+    public function getNumNotified(): int
+    {
+        return $this->numNotified;
     }
 
     /**

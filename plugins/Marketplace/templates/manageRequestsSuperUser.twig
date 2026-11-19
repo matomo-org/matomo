@@ -11,6 +11,9 @@
         history-page-size="{{ historyPageSize|json_encode }}"
         is-valid-consumer="{{ isValidConsumer|json_encode }}"
         current-user-email="{{ currentUserEmail|default(false)|json_encode }}"
+        install-requested-nonce="{{ installRequestedNonce|json_encode }}"
+        num-users="{{ numUsers|json_encode }}"
+        shop-user-limit="{{ shopUserLimit|json_encode }}"
     ></div>
 
 {% endblock %}

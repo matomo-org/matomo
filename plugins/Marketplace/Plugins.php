@@ -383,6 +383,32 @@ class Plugins
             && !empty($plugin['hasDownloadLink']);
     }
 
+    /**
+     * Returns whether a Super User can install and activate a requested free plugin from Manage Requests: its
+     * requirements are met, and it is either on disk already or can be downloaded from the Marketplace
+     *
+     * @param array<string, mixed> $plugin the Marketplace's entry for the plugin, as listed or enriched
+     */
+    public function canRequestedPluginBeInstalled(array $plugin): bool
+    {
+        if (empty($plugin['name']) || empty($plugin['isFree']) || !CorePluginsAdmin::isPluginsAdminEnabled()) {
+            return false;
+        }
+
+        // a listed entry is not enriched, and an enriched one may predate a plugin activated since
+        if (!empty($this->addMissingRequirements($plugin)['missingRequirements'])) {
+            return false;
+        }
+
+        if ($this->pluginManager->isPluginInFilesystem($plugin['name'])) {
+            return true;
+        }
+
+        $latestVersion = !empty($plugin['versions']) && is_array($plugin['versions']) ? end($plugin['versions']) : [];
+
+        return SettingsPiwik::isAutoUpdatePossible() && !empty($latestVersion['download']);
+    }
+
     private function enrichPluginInformation($plugin, ?string $campaignMedium = null)
     {
         if (empty($plugin)) {

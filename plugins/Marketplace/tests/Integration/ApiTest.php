@@ -26,6 +26,7 @@ use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -603,6 +604,26 @@ class ApiTest extends IntegrationTestCase
         self::assertSame([], $this->getStoredRequests());
     }
 
+    /**
+     * @dataProvider dataConfigsWithoutAutoUpdate
+     */
+    public function testGetPendingPluginRequestsMarksAPluginNotOnDiskAsNotInstallableWithoutAutoUpdate(
+        string $setting,
+        int $value
+    ): void {
+        $this->enablePluginRequests();
+        $this->returnPluginInfos();
+        $this->setUser();
+        $this->api->requestInstall('Barometer');
+        Config::getInstance()->General[$setting] = $value;
+
+        $this->setSuperUser();
+        $pending = $this->api->getPendingPluginRequests();
+
+        self::assertTrue($pending[0]['isFree']);
+        self::assertFalse($pending[0]['canBeInstalled']);
+    }
+
     public function dataConfigsWithoutAutoUpdate(): iterable
     {
         yield 'auto update disabled' => ['enable_auto_update', 0];
@@ -736,6 +757,52 @@ class ApiTest extends IntegrationTestCase
 
         self::assertSame(1, $this->api->approvePluginTrial('PaidPlugin1'));
         self::assertSame(['approved'], $this->getStoredDecisions());
+    }
+
+    public function testApprovePluginTrialIsRefusedWithMoreUsersThanTheShopSellsPlansFor(): void
+    {
+        // added first, as the number of users is counted once and then cached
+        for ($i = 0; $i <= API::SHOP_USER_LIMIT; $i++) {
+            (new UsersModel())->addUser('user' . $i, 'password', 'user' . $i . '@example.org', date('Y-m-d H:i:s'));
+        }
+        $this->enablePluginRequests();
+        $this->setUser();
+        $this->returnPluginInfo('PaidPlugin1');
+        $this->api->requestTrial('PaidPlugin1');
+
+        $this->setSuperUser();
+        $this->service->setOnDownloadCallback(static function () {
+            self::fail('A trial was started for more users than the shop sells plans for');
+        });
+
+        try {
+            $this->api->approvePluginTrial('PaidPlugin1');
+            self::fail('The trial was approved for more users than the shop sells plans for');
+        } catch (Exception $e) {
+            self::assertSame(400, $e->getCode());
+        }
+
+        self::assertSame([], $this->getStoredDecisions());
+    }
+
+    public function testApprovePluginTrialRefusesAFreePluginAsFreeAboveTheShopUserLimit(): void
+    {
+        for ($i = 0; $i <= API::SHOP_USER_LIMIT; $i++) {
+            (new UsersModel())->addUser('user' . $i, 'password', 'user' . $i . '@example.org', date('Y-m-d H:i:s'));
+        }
+        $this->enablePluginRequests();
+        $this->setUser();
+        (new Storage('Barometer'))->setRequested('Barometer', RequestHistory::REQUEST_TYPE_INSTALL);
+
+        $this->setSuperUser();
+        $this->returnPluginInfo('Barometer');
+
+        try {
+            $this->api->approvePluginTrial('Barometer');
+            self::fail('A free plugin was approved for a trial');
+        } catch (Exception $e) {
+            self::assertSame('Marketplace_FreePluginHasNoTrial', $e->getMessage());
+        }
     }
 
     /**
@@ -1036,7 +1103,10 @@ class ApiTest extends IntegrationTestCase
             $this->sortedRows(array_map(fn ($requester) => [$requester['login'], $requester['message']], $byPlugin['PaidPlugin1']['requesters']))
         );
 
+        self::assertFalse($byPlugin['PaidPlugin1']['canBeInstalled']);
+
         self::assertTrue($byPlugin['Barometer']['isFree']);
+        self::assertTrue($byPlugin['Barometer']['canBeInstalled']);
         self::assertNull($byPlugin['Barometer']['priceFrom']);
         self::assertSame(1, $byPlugin['Barometer']['numRequests']);
         self::assertSame('install', $byPlugin['Barometer']['requestType']);

@@ -31,6 +31,8 @@ final class Service
     // a check finding a different list replaces the notice, and a page can still display any of the last few
     private const MAX_REMEMBERED_NOTICES = 5;
 
+    private ?string $pluginBeingApproved = null;
+
     public function __construct()
     {
     }
@@ -68,14 +70,47 @@ final class Service
 
         $request = new Request($pluginName, new Storage($pluginName));
         $numRequests = $request->decide($decision, $note, $requirePending);
+        $this->removeNotificationFromSession($pluginName);
 
+        return $numRequests;
+    }
+
+    /**
+     * Activates a requested plugin, and approves its pending requests as the current super user once it is active, so
+     * requests stay pending when activating fails
+     *
+     * @return int|null the number of requesters emailed about the approval, or null when the requests had already been
+     *                  decided on, eg by another super user or a repeated install request
+     */
+    public function activateAndApprove(string $pluginName): ?int
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        // activating approves the requests on its own, with no super user named, see cancelRequest()
+        $this->pluginBeingApproved = $pluginName;
+        try {
+            Manager::getInstance()->activatePlugin($pluginName);
+        } finally {
+            $this->pluginBeingApproved = null;
+        }
+
+        $request = new Request($pluginName, new Storage($pluginName));
+        $numDecided = $request->decide(RequestHistory::DECISION_APPROVED, null, false);
+        $this->removeNotificationFromSession($pluginName);
+        if ($numDecided === 0) {
+            return null;
+        }
+
+        return $request->getNumNotified();
+    }
+
+    private function removeNotificationFromSession(string $pluginName): void
+    {
         if (Session::isStarted()) {
             (new Notification($pluginName, new Storage($pluginName)))->removeFromSession();
             // rebuilt without the decided plugin on the next page view
             RequestsNotification::removeFromSession();
         }
-
-        return $numRequests;
     }
 
 
@@ -352,6 +387,10 @@ final class Service
      */
     public function cancelRequest(string $pluginName): void
     {
+        if ($pluginName === $this->pluginBeingApproved) {
+            return;
+        }
+
         $request = new Request($pluginName, new Storage($pluginName));
         $request->cancel();
 
