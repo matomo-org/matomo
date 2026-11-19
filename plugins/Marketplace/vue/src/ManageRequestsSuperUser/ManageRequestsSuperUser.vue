@@ -51,7 +51,10 @@
           >{{ translate('Marketplace_ContactSales') }}</a>
         </Alert>
 
-        <div v-if="canInstallFreePlugins && !showUserLimitBanner" class="manageRequestsSuperUser__toolbar">
+        <div
+          v-if="showInstallAllFree && canInstallFreePlugins && !showUserLimitBanner"
+          class="manageRequestsSuperUser__toolbar"
+        >
           <a
             class="btn btn-outline manageRequestsSuperUser__installAllFree"
             :class="{ disabled: isInstalling || busyPlugins.length > 0 }"
@@ -423,6 +426,8 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    /** Off until premium plugins can be added to the cart in bulk too, as both bulk actions ship together. */
+    showInstallAllFree: Boolean,
   },
   components: {
     Alert,
