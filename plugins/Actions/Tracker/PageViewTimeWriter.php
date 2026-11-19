@@ -158,7 +158,7 @@ class PageViewTimeWriter
 
         $this->lockVisitInTransaction($idVisit, $request);
         $clientTimeOnPage = $this->extractClientTimeOnPage($request, $cap);
-        $isHeartbeat = (int) $request->getParam('ping') === 1 && (int) $request->getParam('hb') === 1;
+        $isHeartbeat = $request->getParam('ping') === 1 && $request->getParam('hb') === 1;
         $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap, $clientTimeOnPage, $isHeartbeat);
     }
 
