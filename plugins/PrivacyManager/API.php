@@ -160,9 +160,9 @@ class API extends \Piwik\Plugin\API
      * Whether the compliance policy disables the visitor log of the website, in which case the GDPR tools only
      * export the visits of visitors who gave consent.
      *
-     * Unlike {@link \Piwik\Plugins\Live\Live::isVisitorProfileLimitedToConsentedVisits()}, which decides whether
-     * such a website can be searched, this does not look at the visitor profile settings: a visit of the website that
-     * was not found by a search must still not be exported without consent.
+     * Unlike {@link PrivacyManager::getIdSitesByDataSubjectSearchScope()}, which decides whether such a website can be
+     * searched, this does not look at the visitor profile settings: a visit of the website that was not found by a
+     * search must still not be exported without consent.
      */
     private function isConsentedVisitsOnlySite(int $idSite): bool
     {

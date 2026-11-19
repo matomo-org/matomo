@@ -181,20 +181,6 @@ class Live extends \Piwik\Plugin
         return true;
     }
 
-    /**
-     * Returns whether only the visits of visitors who gave consent may be looked at one by one on the given site:
-     * its compliance policy disables the visits log, while neither its own settings nor the system settings disable
-     * the visits log or the visitor profile. Those visits may hold identifying data, such as a User ID, so they must
-     * stay reachable to answer their visitors' requests to access or erase their data.
-     */
-    public static function isVisitorProfileLimitedToConsentedVisits(int $idSite): bool
-    {
-        return VisitorLogDisabledSetting::isEnforced($idSite)
-            && true !== VisitorLogDisabledSetting::getSystemValue()
-            && true !== VisitorLogDisabledSetting::getMeasurableValue($idSite)
-            && self::isVisitorProfileSettingEnabled($idSite);
-    }
-
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Live/stylesheets/live.less";
