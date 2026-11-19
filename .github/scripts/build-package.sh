@@ -98,6 +98,7 @@ function organizePackage() {
     done
 
     cp tests/README.md $ARCH_DIR
+    cp $CURRENT_DIR/matomo.spdx.json .
 
     $CURRENT_DIR/.github/scripts/clean-build.sh
 
