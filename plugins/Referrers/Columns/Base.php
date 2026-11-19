@@ -796,7 +796,7 @@ abstract class Base extends VisitDimension
      * @param string $column the visit column holding the value this one would be reported against
      * @param mixed $value the value the conversion carries
      */
-    protected function conversionMayReportCampaignValue(
+    private function conversionMayReportCampaignValue(
         Request $request,
         Visitor $visitor,
         string $column,
@@ -855,6 +855,7 @@ abstract class Base extends VisitDimension
      * on the page it arrived on, which needs the request. This is a method of its own so that the
      * two above keep the signatures a plugin dimension may already be overriding.
      *
+     * @internal
      * @param Action|null $action
      */
     protected function isReferrerInformationNewForRequest(
@@ -889,7 +890,7 @@ abstract class Base extends VisitDimension
      *
      * @param Action|null $action
      */
-    protected function hasReferrerColumnChangedForRequest(
+    private function hasReferrerColumnChangedForRequest(
         Visitor $visitor,
         $information,
         $infoName,
@@ -943,7 +944,7 @@ abstract class Base extends VisitDimension
      * The User ID and the referrer anonymisation level follow the same rule, through the same
      * answer, so that one visit is measured one way throughout.
      */
-    protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
+    private function hasVisitorConsented(Request $request, Visitor $visitor): bool
     {
         return Consent::visitHasConsent($request, $visitor);
     }
@@ -963,39 +964,10 @@ abstract class Base extends VisitDimension
      *
      * @param Action|null $action
      */
+
     /**
-     * Whether consent reported now reveals the campaign this visit actually arrived through.
-     *
-     * Where the tracker withholds campaign parameters until consent, the request that opened the
-     * visit carried none, so it was attributed to whatever was left - the referring site, or a
-     * direct entry. Consent given while the visitor is still on the page they arrived on brings
-     * the campaign with it, and it describes that same arrival rather than a new one.
-     *
-     * @param Action|null $action
+     * @internal
      */
-    protected function shouldCompleteWithheldCampaign(
-        Visitor $visitor,
-        array $information,
-        Request $request,
-        $action = null
-    ): bool {
-        if ($information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN) {
-            return false;
-        }
-
-        if (!$request->hasConsent() || Consent::hasVisitConsented($visitor)) {
-            return false;
-        }
-
-        // a visit already attributed to a campaign is completed through the placeholder rules
-        // instead, and a second campaign over the first is a change rather than a completion
-        if ($visitor->getImmutableVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN) {
-            return false;
-        }
-
-        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
-    }
-
     protected function shouldCompleteWithheldReferrer(Visitor $visitor, array $information, Request $request, $action = null): bool
     {
         if (!$request->hasConsent() || Consent::hasVisitConsented($visitor)) {
@@ -1026,6 +998,40 @@ abstract class Base extends VisitDimension
     }
 
     /**
+     * Whether consent reported now reveals the campaign this visit actually arrived through.
+     *
+     * Where the tracker withholds campaign parameters until consent, the request that opened the
+     * visit carried none, so it was attributed to whatever was left - the referring site, or a
+     * direct entry. Consent given while the visitor is still on the page they arrived on brings
+     * the campaign with it, and it describes that same arrival rather than a new one.
+     *
+     * @internal
+     * @param Action|null $action
+     */
+    protected function shouldCompleteWithheldCampaign(
+        Visitor $visitor,
+        array $information,
+        Request $request,
+        $action = null
+    ): bool {
+        if ($information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN) {
+            return false;
+        }
+
+        if (!$request->hasConsent() || Consent::hasVisitConsented($visitor)) {
+            return false;
+        }
+
+        // a visit already attributed to a campaign is completed through the placeholder rules
+        // instead, and a second campaign over the first is a change rather than a completion
+        if ($visitor->getImmutableVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN) {
+            return false;
+        }
+
+        return true === EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+    }
+
+    /**
      * Whether the consent this request reports may relax what is recorded against the visit it is
      * being written to.
      *
@@ -1039,6 +1045,7 @@ abstract class Base extends VisitDimension
      * consent already applied, so none of it may reach a visit the consent does not belong to -
      * not even an upgrade from direct entry that would otherwise be ordinary tracking.
      *
+     * @internal
      * @param Action|null $action
      */
     protected function mayRelaxForThisVisit(Request $request, Visitor $visitor, $action = null): bool
@@ -1056,6 +1063,7 @@ abstract class Base extends VisitDimension
      * Whether the discarded value stored for this column should be replaced with the one the
      * current request carries.
      *
+     * @internal
      * @param Action|null $action
      */
     protected function shouldCompleteDiscardedCampaign(Visitor $visitor, array $information, string $column, $action = null, ?Request $request = null): bool
@@ -1075,7 +1083,7 @@ abstract class Base extends VisitDimension
      *
      * @param Action|null $action
      */
-    protected function canCompleteDiscardedCampaign(Visitor $visitor, $incomingValue, $action = null, ?Request $request = null): bool
+    private function canCompleteDiscardedCampaign(Visitor $visitor, $incomingValue, $action = null, ?Request $request = null): bool
     {
         $incomingValue = (string) ($incomingValue ?? '');
 
