@@ -347,11 +347,22 @@ class HttpTest extends \PHPUnit\Framework\TestCase
      */
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessageMatches('/curl_exec: .*certificate.* /');
-
-        // use a domain from https://badssl.com/
-        Http::sendHttpRequestBy('curl', 'https://self-signed.badssl.com/', 10);
+        for ($attempt = 1; $attempt <= 2; $attempt++) {
+            try {
+                // use a domain from https://badssl.com/
+                Http::sendHttpRequestBy('curl', 'https://self-signed.badssl.com/', 10);
+            } catch (\Exception $e) {
+                $message = $e->getMessage();
+                // retry once if the outside host is unreachable
+                if (preg_match('/Connection timed out|Could not resolve host|Failed to connect/', $message)) {
+                    continue;
+                }
+                $this->assertMatchesRegularExpression('/curl_exec: .*certificate.* /', $message);
+                return;
+            }
+            $this->fail('Request to self-signed.badssl.com succeeded despite an invalid certificate');
+        }
+        $this->markTestSkipped('self-signed.badssl.com unreachable');
     }
 
     public function testFopenHttpsFailsWithInvalidCertificate()
