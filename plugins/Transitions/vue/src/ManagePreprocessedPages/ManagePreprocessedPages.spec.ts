@@ -1057,4 +1057,271 @@ describe('Transitions/ManagePreprocessedPages', () => {
       expect(wrapper.findAll('.managePreprocessedPages__row')).toHaveLength(1);
     });
   });
+
+  describe('adding the most viewed pages', () => {
+    const TOP_POOL = [
+      { label: '/a', nb_hits: 4812, url: 'https://example.org/a' },
+      { label: '/b', nb_hits: 13, url: 'https://example.org/b' },
+    ];
+
+    /** The list, and the most viewed pages per period: rows, or an error to fail with. */
+    function answerTop(
+      list: () => PreprocessedPage[],
+      last30: unknown[]|Error,
+      previousMonth: unknown[]|Error = [],
+    ) {
+      state.fetch.mockImplementation((params: Record<string, unknown>) => {
+        if (params.method === 'Transitions.getPreprocessedPages') {
+          return Promise.resolve(structuredClone(list()));
+        }
+
+        const rows = params.period === 'range' ? last30 : previousMonth;
+        return rows instanceof Error ? Promise.reject(rows) : Promise.resolve(rows);
+      });
+    }
+
+    function poolPeriods() {
+      return state.fetch.mock.calls
+        .filter(([params]) => params.method === 'Actions.getPageUrls')
+        .map(([params]) => [params.period, params.date]);
+    }
+
+    function topDialogOf(wrapper: VueWrapper) {
+      return wrapper.findAllComponents({ name: 'MatomoDialog' })[1];
+    }
+
+    async function clickTop(wrapper: VueWrapper) {
+      await wrapper.find('.managePreprocessedPages__addTop').trigger('click');
+      await flushPromises();
+    }
+
+    async function answerTopDialog(wrapper: VueWrapper, yes: boolean) {
+      const dialog = topDialogOf(wrapper);
+      expect(dialog.props('modelValue')).toBe(true);
+
+      if (yes) {
+        dialog.vm.$emit('yes');
+      }
+
+      dialog.vm.$emit('update:modelValue', false);
+      dialog.vm.$emit('closeEnd');
+      await flushPromises();
+    }
+
+    it.each([
+      ['at the limit', 20, 20],
+      ['over the limit', 25, 20],
+      ['with a limit of 0', 0, 0],
+    ])('should hide the button %s, with the add form', async (_, count, maxPages) => {
+      answerTop(() => pages(count), TOP_POOL);
+      const wrapper = await mountPage({ maxPages });
+
+      expect(wrapper.find('.managePreprocessedPages__addTop').exists()).toBe(false);
+    });
+
+    it('should name the free slots and the last 30 days, then fill the slots with their most viewed pages', async () => {
+      let list = pages(2);
+      answerTop(() => list, TOP_POOL);
+      state.post.mockImplementation(() => {
+        const added = [page(5), page(4), page(3)];
+        list = [...added, ...pages(2)];
+        return Promise.resolve(added);
+      });
+      const wrapper = await mountPage();
+
+      const button = wrapper.find('.managePreprocessedPages__addTop');
+      expect(button.text()).toBe('Transitions_AddTopPages');
+      expect(button.attributes('type')).toBe('button');
+      expect(button.classes()).toEqual(expect.arrayContaining(['btn', 'btn-outline']));
+
+      await clickTop(wrapper);
+      expect(poolPeriods()).toEqual([['range', 'last30']]);
+      expect(topDialogOf(wrapper).props('modelValue')).toBe(true);
+      const dialog = wrapper.find('.managePreprocessedPages__topPagesDialog');
+      expect(dialog.find('.managePreprocessedPages__dialogTitle').text())
+        .toBe('Transitions_AddTopPagesConfirmLast30Days:18');
+      // what adding means for the data, as next to the add form
+      expect(dialog.find('p').text()).toBe('Transitions_PreprocessedPagesRebuildHint:6');
+      expect(Array.from(dialog.element.querySelectorAll('input'))
+        .map((input) => [input.getAttribute('role'), input.value]))
+        .toEqual([['yes', 'General_Yes'], ['no', 'General_No']]);
+      expect(state.post).not.toHaveBeenCalled();
+
+      await answerTopDialog(wrapper, true);
+      expect(state.post).toHaveBeenCalledWith(
+        { method: 'Transitions.addTopPreprocessedPages', idSite: 1 },
+        { limit: 18, period: 'range', date: 'last30' },
+        { createErrorNotification: false },
+      );
+      expect(listRequests()).toHaveLength(2);
+      expect(wrapper.findAll('.managePreprocessedPages__row')).toHaveLength(5);
+      expect(state.notify).toHaveBeenCalledWith(expect.objectContaining({
+        message: 'Transitions_TopPagesAdded:3',
+        context: 'success',
+        type: 'toast',
+      }));
+    });
+
+    it('should use the most viewed pages the suggestions already read', async () => {
+      answerTop(() => pages(2), [], TOP_POOL);
+      const wrapper = await mountPage();
+
+      await wrapper.find('.managePreprocessedPages__field').trigger('focusin');
+      await flushPromises();
+      expect(poolPeriods()).toHaveLength(2);
+
+      await clickTop(wrapper);
+      expect(poolPeriods()).toHaveLength(2);
+      expect(topDialogOf(wrapper).props('modelValue')).toBe(true);
+    });
+
+    it('should fall back to the previous calendar month, and name it, when the last 30 days have no pages', async () => {
+      vi.useFakeTimers({ toFake: ['Date'] });
+      vi.setSystemTime(new Date('2026-06-15T10:00:00Z'));
+      answerTop(() => pages(2), [], TOP_POOL);
+      state.post.mockResolvedValue([page(3)]);
+      const wrapper = await mountPage();
+
+      await clickTop(wrapper);
+      expect(poolPeriods()).toEqual([['range', 'last30'], ['month', '2026-05-01']]);
+      expect(wrapper.find('.managePreprocessedPages__topPagesDialog .managePreprocessedPages__dialogTitle').text())
+        .toBe('Transitions_AddTopPagesConfirmMonth:18|Intl_Month_Long_StandAlone_5');
+
+      await answerTopDialog(wrapper, true);
+      expect(state.post).toHaveBeenCalledWith(
+        { method: 'Transitions.addTopPreprocessedPages', idSite: 1 },
+        { limit: 18, period: 'month', date: '2026-05-01' },
+        { createErrorNotification: false },
+      );
+      expect(state.notify).toHaveBeenCalledWith(expect.objectContaining({
+        message: 'Transitions_TopPagesAddedOne',
+        context: 'success',
+      }));
+    });
+
+    it('should explain instead of asking when neither period has pages', async () => {
+      vi.useFakeTimers({ toFake: ['Date'] });
+      vi.setSystemTime(new Date('2026-06-15T10:00:00Z'));
+      answerTop(() => pages(2), new Error('No data'), []);
+      const wrapper = await mountPage({}, document.body);
+
+      await clickTop(wrapper);
+      expect(topDialogOf(wrapper).props('modelValue')).toBe(false);
+      expect(state.post).not.toHaveBeenCalled();
+      expect(state.notify).toHaveBeenCalledWith(expect.objectContaining({
+        message: 'Transitions_TopPagesNoData:Intl_Month_Long_StandAlone_5',
+        context: 'info',
+        type: 'toast',
+      }));
+      expect(document.activeElement).toBe(wrapper.find('.managePreprocessedPages__addTop').element);
+
+      wrapper.unmount();
+    });
+
+    it('should show a failed read of the most viewed pages like an add error, and read them again on the next click', async () => {
+      answerTop(() => pages(2), new Error('No data'), new Error('Network down'));
+      const wrapper = await mountPage();
+
+      await clickTop(wrapper);
+      expect(wrapper.find('.managePreprocessedPages__addError .alert-danger').text()).toBe('Network down');
+      expect(topDialogOf(wrapper).props('modelValue')).toBe(false);
+      expect(state.notify).not.toHaveBeenCalled();
+
+      answerTop(() => pages(2), TOP_POOL);
+      await clickTop(wrapper);
+      expect(poolPeriods()).toHaveLength(3);
+      expect(wrapper.find('.managePreprocessedPages__addError').exists()).toBe(false);
+      expect(topDialogOf(wrapper).props('modelValue')).toBe(true);
+    });
+
+    it('should add nothing when the dialog is answered No, and move the focus back to the button', async () => {
+      answerTop(() => pages(2), TOP_POOL);
+      const wrapper = await mountPage({}, document.body);
+
+      await clickTop(wrapper);
+      (document.activeElement as HTMLElement).blur();
+      await answerTopDialog(wrapper, false);
+
+      expect(state.post).not.toHaveBeenCalled();
+      expect(document.activeElement).toBe(wrapper.find('.managePreprocessedPages__addTop').element);
+      wrapper.unmount();
+    });
+
+    it('should say that the most viewed pages are already selected when none is added', async () => {
+      answerTop(() => pages(2), TOP_POOL);
+      state.post.mockResolvedValue([]);
+      const wrapper = await mountPage();
+
+      await clickTop(wrapper);
+      await answerTopDialog(wrapper, true);
+
+      expect(state.notify).toHaveBeenCalledTimes(1);
+      expect(state.notify).toHaveBeenCalledWith(expect.objectContaining({
+        message: 'Transitions_TopPagesAlreadySelected',
+        context: 'info',
+        type: 'toast',
+      }));
+      expect(wrapper.find('.managePreprocessedPages__addError').exists()).toBe(false);
+    });
+
+    it('should show an error as the add form does, and read the list again', async () => {
+      answerTop(() => pages(2), TOP_POOL);
+      state.post.mockRejectedValue(new Error('Transitions_PreprocessedPagesBusy'));
+      const wrapper = await mountPage();
+
+      await clickTop(wrapper);
+      await answerTopDialog(wrapper, true);
+
+      expect(wrapper.find('.managePreprocessedPages__addError .alert-danger').text())
+        .toBe('Transitions_PreprocessedPagesBusy');
+      expect(listRequests()).toHaveLength(2);
+      expect(state.notify).not.toHaveBeenCalled();
+    });
+
+    it('should show the loading indicator and disable both buttons while the pages are added', async () => {
+      let finishAdd: (value: unknown) => void = () => undefined;
+      answerTop(() => pages(2), TOP_POOL);
+      state.post.mockReturnValue(new Promise((resolve) => {
+        finishAdd = resolve;
+      }));
+      const wrapper = await mountPage();
+      const indicator = () => wrapper.findAllComponents({ name: 'ActivityIndicator' })
+        .find((component) => component.element.closest('.managePreprocessedPages__addForm'));
+      const disabled = () => ['.managePreprocessedPages__add', '.managePreprocessedPages__addTop']
+        .map((selector) => wrapper.find(selector).attributes('disabled') !== undefined);
+
+      await typeUrl(wrapper, 'https://example.org/new');
+      expect(disabled()).toEqual([false, false]);
+
+      await clickTop(wrapper);
+      await answerTopDialog(wrapper, true);
+      expect(indicator()!.props('loading')).toBe(true);
+      expect(disabled()).toEqual([true, true]);
+
+      finishAdd([page(3)]);
+      await flushPromises();
+      expect(indicator()!.props('loading')).toBe(false);
+      expect(disabled()).toEqual([false, false]);
+    });
+
+    it('should move the focus to the limit message once the free slots are filled', async () => {
+      let list = pages(18);
+      answerTop(() => list, TOP_POOL);
+      state.post.mockImplementation(() => {
+        list = pages(20);
+        return Promise.resolve([page(20), page(19)]);
+      });
+      const wrapper = await mountPage({}, document.body);
+
+      await clickTop(wrapper);
+      expect(wrapper.find('.managePreprocessedPages__topPagesDialog .managePreprocessedPages__dialogTitle').text())
+        .toBe('Transitions_AddTopPagesConfirmLast30Days:2');
+      await answerTopDialog(wrapper, true);
+
+      expect(state.post.mock.calls[0][1]).toMatchObject({ limit: 2 });
+      expect(wrapper.find('.managePreprocessedPages__addTop').exists()).toBe(false);
+      expect(document.activeElement).toBe(wrapper.find('.managePreprocessedPages__limitMessage').element);
+      wrapper.unmount();
+    });
+  });
 });

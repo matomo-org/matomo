@@ -197,8 +197,14 @@
           class="btn managePreprocessedPages__add"
           :disabled="isAddDisabled"
         >{{ translate('Transitions_AddPage') }}</button>
+        <button
+          type="button"
+          class="btn btn-outline managePreprocessedPages__addTop"
+          :disabled="isAdding || isAddingTopPages"
+          @click="prepareAddTopPages"
+        >{{ translate('Transitions_AddTopPages') }}</button>
         <div class="managePreprocessedPages__addProgress">
-          <ActivityIndicator :loading="isAdding" />
+          <ActivityIndicator :loading="isAdding || isAddingTopPages" />
         </div>
       </form>
 
@@ -237,6 +243,29 @@
         </h2>
         <p>{{ translate('Transitions_StopPreprocessingHelp') }}</p>
         <!-- the dialog turns the inputs into its buttons by these roles -->
+        <!-- eslint-disable vuejs-accessibility/aria-role -->
+        <input
+          role="yes"
+          type="button"
+          :value="translate('General_Yes')"
+        />
+        <input
+          role="no"
+          type="button"
+          :value="translate('General_No')"
+        />
+        <!-- eslint-enable vuejs-accessibility/aria-role -->
+      </div>
+    </MatomoDialog>
+
+    <MatomoDialog
+      v-model="isTopPagesDialogOpen"
+      @yes="addTopPages"
+      @close-end="onTopPagesDialogClosed"
+    >
+      <div class="ui-confirm managePreprocessedPages__topPagesDialog">
+        <h2 class="managePreprocessedPages__dialogTitle">{{ topPagesConfirmLabel }}</h2>
+        <p>{{ rebuildHint }}</p>
         <!-- eslint-disable vuejs-accessibility/aria-role -->
         <input
           role="yes"
@@ -331,6 +360,13 @@ export interface ManagePreprocessedPagesState {
    */
   suggestionPeriod: string;
   isSuggestionPoolRequested: boolean;
+  /** Why the suggestions couldn't be read, eg a network error; empty when they could. */
+  suggestionPoolError: string;
+  /** While the most viewed pages are read before the confirmation, and while they are added. */
+  isAddingTopPages: boolean;
+  isTopPagesDialogOpen: boolean;
+  /** The free slots the confirmation names, and the most viewed pages fill. */
+  topPagesLimit: number;
 }
 
 const MAX_SUGGESTIONS = 10;
@@ -401,6 +437,10 @@ export default defineComponent({
       suggestionPool: null,
       suggestionPeriod: 'last30',
       isSuggestionPoolRequested: false,
+      suggestionPoolError: '',
+      isAddingTopPages: false,
+      isTopPagesDialogOpen: false,
+      topPagesLimit: 0,
     };
   },
   setup() {
@@ -410,6 +450,8 @@ export default defineComponent({
       idPrefix: `managePreprocessedPages${instanceCount}`,
       // the newest list request wins, so a slower earlier reload can't bring back a stale list
       listLoads: { latest: 0 },
+      // the suggestions' load, which the most viewed pages button waits for too
+      suggestionPoolLoad: { promise: Promise.resolve() },
     };
   },
   created() {
@@ -435,8 +477,23 @@ export default defineComponent({
         'Transitions_PreprocessedPagesSuggestions',
         this.suggestionPeriod === 'last30'
           ? translate('CoreHome_PresetDateLast30Days')
-          : translate(`Intl_Month_Long_StandAlone_${Number(this.suggestionPeriod.substring(5, 7))}`),
+          : this.suggestionMonth,
       );
+    },
+    /** The name of the month the suggestions fell back to; empty for the last 30 days. */
+    suggestionMonth(): string {
+      if (this.suggestionPeriod === 'last30') {
+        return '';
+      }
+
+      return translate(`Intl_Month_Long_StandAlone_${Number(this.suggestionPeriod.substring(5, 7))}`);
+    },
+    topPagesConfirmLabel(): string {
+      const limit = NumberFormatter.formatNumber(this.topPagesLimit);
+
+      return this.suggestionPeriod === 'last30'
+        ? translate('Transitions_AddTopPagesConfirmLast30Days', limit)
+        : translate('Transitions_AddTopPagesConfirmMonth', limit, this.suggestionMonth);
     },
     usageLabel(): string {
       return translate(
@@ -489,7 +546,7 @@ export default defineComponent({
       return this.hasLoaded && !this.isLimitReached;
     },
     isAddDisabled(): boolean {
-      return !this.canAdd || this.isAdding || !this.pageUrl.trim();
+      return !this.canAdd || this.isAdding || this.isAddingTopPages || !this.pageUrl.trim();
     },
     /** The hint, and the last add's error, describe the field; a URL error marks it invalid. */
     inputAttributes(): Record<string, string> {
@@ -610,13 +667,15 @@ export default defineComponent({
      * pageviews, so the first matches are the most viewed ones. It is read in the background once
      * the field is first used, not before a page could be added; any URL can be typed meanwhile.
      */
-    loadSuggestions() {
+    loadSuggestions(): Promise<void> {
       if (this.isSuggestionPoolRequested || !this.hasLoaded || this.isLimitReached) {
-        return;
+        return this.suggestionPoolLoad.promise;
       }
 
       this.isSuggestionPoolRequested = true;
-      this.fetchSuggestionRows('range', 'last30')
+      this.suggestionPeriod = 'last30';
+      this.suggestionPoolError = '';
+      this.suggestionPoolLoad.promise = this.fetchSuggestionRows('range', 'last30')
         .catch(() => [] as PageUrlSuggestion[])
         .then((rows) => {
           if (rows.length) {
@@ -637,10 +696,13 @@ export default defineComponent({
             };
           });
         })
-        .catch(() => {
+        .catch((error) => {
           // suggestions are optional; any URL can still be typed
           this.suggestionPool = [];
+          this.suggestionPoolError = apiErrorText(error);
         });
+
+      return this.suggestionPoolLoad.promise;
     },
     /** A suggestion picked by keyboard goes away with the list; the focus returns to the field. */
     pickSuggestion(url: string) {
@@ -703,6 +765,90 @@ export default defineComponent({
       });
     },
     /**
+     * The most viewed pages are those of the suggestions, read now unless already in. The
+     * confirmation names the period they come from; with no pages in either period it explains
+     * why nothing is added. A failed read is tried again on the next click.
+     */
+    prepareAddTopPages() {
+      if (!this.canAdd || this.isAdding || this.isAddingTopPages) {
+        return;
+      }
+
+      if (this.suggestionPoolError) {
+        this.isSuggestionPoolRequested = false;
+      }
+
+      this.isAddingTopPages = true;
+      this.addError = '';
+      this.isDuplicateError = false;
+      this.isUrlError = false;
+
+      this.loadSuggestions().then(() => {
+        this.isAddingTopPages = false;
+
+        if (this.suggestionPoolError) {
+          this.addError = this.suggestionPoolError;
+        } else if (!this.suggestionPool?.length) {
+          this.showInfo(translate('Transitions_TopPagesNoData', this.suggestionMonth));
+        } else if (this.canAdd) {
+          this.topPagesLimit = this.maxPages - this.pages.length;
+          this.isTopPagesDialogOpen = true;
+          return;
+        }
+
+        this.focusTopPagesButton();
+      });
+    },
+    /** Fills the free slots named in the confirmation; the list is read again also on failure. */
+    addTopPages() {
+      const isLast30 = this.suggestionPeriod === 'last30';
+      this.isAddingTopPages = true;
+
+      AjaxHelper.post<PreprocessedPage[]>(
+        { method: 'Transitions.addTopPreprocessedPages', idSite: Matomo.idSite },
+        {
+          limit: this.topPagesLimit,
+          period: isLast30 ? 'range' : 'month',
+          date: this.suggestionPeriod,
+        },
+        { createErrorNotification: false },
+      ).then((added) => {
+        const count = (added || []).length;
+
+        if (!count) {
+          this.showInfo(translate('Transitions_TopPagesAlreadySelected'));
+        } else if (count === 1) {
+          this.showSuccess(translate('Transitions_TopPagesAddedOne'));
+        } else {
+          this.showSuccess(translate('Transitions_TopPagesAdded', NumberFormatter.formatNumber(count)));
+        }
+
+        return this.loadPages(false);
+      }).catch((error) => {
+        this.addError = apiErrorText(error);
+        return this.loadPages(false);
+      }).finally(() => {
+        this.isAddingTopPages = false;
+
+        if (!this.isTopPagesDialogOpen) {
+          this.focusTopPagesButton();
+        }
+      });
+    },
+    onTopPagesDialogClosed() {
+      if (!this.isAddingTopPages) {
+        this.focusTopPagesButton();
+      }
+    },
+    /** The button, or the limit message that took the form's place once the slots are filled. */
+    focusTopPagesButton() {
+      this.$nextTick(() => {
+        (this.$el as HTMLElement).querySelector<HTMLElement>(
+          '.managePreprocessedPages__addTop, .managePreprocessedPages__limitMessage',
+        )?.focus();
+      });
+    },
+    /**
      * Matomo's confirmation dialog. The focus returns to the row's remove button, or the one now in
      * its place, once the dialog has closed and the page is removed.
      */
@@ -727,6 +873,14 @@ export default defineComponent({
         id: 'TransitionsPreprocessedPages',
         message,
         context: 'success',
+        type: 'toast',
+      });
+    },
+    showInfo(message: string) {
+      NotificationsStore.show({
+        id: 'TransitionsPreprocessedPages',
+        message,
+        context: 'info',
         type: 'toast',
       });
     },

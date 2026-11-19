@@ -2,6 +2,9 @@
     "Transitions": {
         "AddPage": "Add page",
         "AddPageUrl": "Add a page URL",
+        "AddTopPages": "Add most viewed pages",
+        "AddTopPagesConfirmLast30Days": "Add up to %s of the most viewed pages of the last 30 days that aren't selected yet?",
+        "AddTopPagesConfirmMonth": "Add up to %1$s of the most viewed pages of %2$s that aren't selected yet?",
         "AddedBySuperUser": "Superuser",
         "DirectEntries": "Direct entries",
         "Transitions": "Transitions",
@@ -74,6 +77,10 @@
         "StopPreprocessing": "Stop pre-processing",
         "StopPreprocessingConfirm": "Stop pre-processing %s?",
         "StopPreprocessingHelp": "Data already prepared stays available; new data won't be prepared.",
+        "TopPagesAdded": "Added %s pages.",
+        "TopPagesAddedOne": "Added 1 page.",
+        "TopPagesAlreadySelected": "No pages added. The most viewed pages are already selected.",
+        "TopPagesNoData": "No pages were viewed in the last 30 days or in %s, so there are no pages to add.",
         "TransitionsSubcategoryHelp1": "Transitions is a report showing the things your visitors did directly before and after viewing a given page. This page explains how to access, understand, and use the powerful \"Transitions\" report.",
         "TransitionsSubcategoryHelp2": "More details",
         "UnknownUserHelp": "This user has since been deleted."

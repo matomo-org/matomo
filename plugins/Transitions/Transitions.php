@@ -189,6 +189,13 @@ class Transitions extends \Piwik\Plugin
         $translationKeys[] = 'Transitions_PreprocessedPagesSuggestions';
         $translationKeys[] = 'Transitions_AddPageUrl';
         $translationKeys[] = 'Transitions_AddPage';
+        $translationKeys[] = 'Transitions_AddTopPages';
+        $translationKeys[] = 'Transitions_AddTopPagesConfirmLast30Days';
+        $translationKeys[] = 'Transitions_AddTopPagesConfirmMonth';
+        $translationKeys[] = 'Transitions_TopPagesAdded';
+        $translationKeys[] = 'Transitions_TopPagesAddedOne';
+        $translationKeys[] = 'Transitions_TopPagesAlreadySelected';
+        $translationKeys[] = 'Transitions_TopPagesNoData';
         $translationKeys[] = 'Transitions_ColumnDateAdded';
         $translationKeys[] = 'Transitions_ColumnAddedBy';
         $translationKeys[] = 'Transitions_UnknownUserHelp';
