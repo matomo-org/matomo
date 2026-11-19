@@ -261,7 +261,7 @@ class Controller extends ControllerAdmin
 
     private function checkOAuthMailSettings(array $mail): void
     {
-        if ($mail['transport'] !== 'smtp' || strtoupper($mail['type']) !== 'XOAUTH2') {
+        if ($mail['transport'] !== 'smtp' || !SmtpTokenProvider::isOAuthType($mail['type'])) {
             return;
         }
 

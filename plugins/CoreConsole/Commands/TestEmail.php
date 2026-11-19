@@ -43,7 +43,7 @@ class TestEmail extends ConsoleCommand
         $mail->setSubject($subject);
         $mail->setWrappedHtmlBody($body);
 
-        if (strtolower((string) ($config->mail['type'] ?? '')) === 'xoauth2') {
+        if (SmtpTokenProvider::isOAuthType((string) ($config->mail['type'] ?? ''))) {
             // always test with a new access token, not with a cached token or a remembered failure
             StaticContainer::get(SmtpTokenProvider::class)->forgetAccessToken();
         }

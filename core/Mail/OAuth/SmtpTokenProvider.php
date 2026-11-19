@@ -23,6 +23,16 @@ use Piwik\Http\OAuth\TokenRequestFailedException;
  */
 class SmtpTokenProvider extends ClientCredentialsTokenProvider
 {
+    public const AUTH_TYPE = 'XOAUTH2';
+
+    /**
+     * Whether a `[mail] type` value, written in any case, is the OAuth login type.
+     */
+    public static function isOAuthType(string $mailType): bool
+    {
+        return strtoupper($mailType) === self::AUTH_TYPE;
+    }
+
     protected function getClientCredentials(): ClientCredentials
     {
         $mailConfig = $this->getMailConfig();
