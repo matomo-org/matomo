@@ -17,4 +17,9 @@ class FakeFeatureFlag implements FeatureFlagInterface
     {
         return 'SystemTest';
     }
+
+    public function allowsCookieOverwrite(): bool
+    {
+        return false;
+    }
 }
