@@ -22,6 +22,8 @@ use Piwik\Plugins\CoreHome\Columns\Consent;
 
 class RequestProcessor extends Tracker\RequestProcessor
 {
+    private const METADATA_ORIGINAL_ORDER_ID = 'originalOrderId';
+
     private $config;
     private $referrerAnonymizer;
 
@@ -37,6 +39,16 @@ class RequestProcessor extends Tracker\RequestProcessor
         if (is_numeric($idSite) && $idSite) {
             $this->config->setIdSite((int) $idSite);
         }
+    }
+
+    /**
+     * Whether consent could lift this request's order ID anonymisation: the site measures
+     * consent-aware analytics and the admin has not turned the anonymisation on themselves.
+     */
+    private function mayConsentLiftOrderIdAnonymisation(Request $request): bool
+    {
+        return $request->measuresConsentAwareAnalytics()
+            && !$this->config->getConfiguredValue('anonymizeOrderId');
     }
 
     /**
@@ -76,10 +88,66 @@ class RequestProcessor extends Tracker\RequestProcessor
         if ($this->config->anonymizeOrderId) {
             $orderId = $request->getParam('ec_id');
             if ($this->isValueSet($orderId)) {
+                // anonymised here, before the visit is known, so that it is anonymised whatever
+                // happens to the request next. Whether the visit holds the consent that lifts it is
+                // only known later, see afterRequestProcessed()
+                // only what is recorded as an order (see EcommerceRequestProcessor) is kept: an ID such
+                // as '0' is anonymised into one, and must not then be restored as it was sent
+                if (!empty($orderId) && $this->mayConsentLiftOrderIdAnonymisation($request)) {
+                    $request->setMetadata('PrivacyManager', self::METADATA_ORIGINAL_ORDER_ID, $orderId);
+                }
+
                 $orderIdAnonymized = sha1(Common::getRandomInt() . $orderId . time() . SettingsPiwik::getSalt());
                 $request->setParam('ec_id', $orderIdAnonymized);
             }
         }
+    }
+
+    /**
+     * Restores the order ID anonymised in manipulateRequest() when the visit holds consent.
+     *
+     * Consent lifts the anonymisation a compliance policy enforces, but not the one the admin
+     * configured themselves, and it belongs to the visit rather than to the request: an order
+     * placed later in a visit that consented is stored as sent even when it does not repeat the
+     * flag. That is first known here, once it is settled whether the request starts a new visit.
+     */
+    public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
+    {
+        $orderId = $request->getMetadata('PrivacyManager', self::METADATA_ORIGINAL_ORDER_ID);
+        if (null === $orderId) {
+            return false;
+        }
+
+        // not kept on the request any longer than it takes to decide
+        $request->setMetadata('PrivacyManager', self::METADATA_ORIGINAL_ORDER_ID, null);
+
+        $this->provideIdSiteToPrivacyManagerConfig($request);
+
+        if ($this->mayRestoreOrderId($request, Visitor::makeFromVisitProperties($visitProperties, $request))) {
+            $request->setParam('ec_id', $orderId);
+        }
+
+        return false;
+    }
+
+    /**
+     * Whether the visit this order is recorded against holds the consent that lifts its
+     * anonymisation, by the same answer as the User ID.
+     *
+     * The exception is a consent this visit may not use at all: one reported by a request that
+     * lands on a visit measured before any was given, without being able to start a visit of its
+     * own. It belongs to the visit the next request able to start one will create, so the order
+     * stays anonymised on this one.
+     */
+    private function mayRestoreOrderId(Request $request, Visitor $visitor): bool
+    {
+        if (!Consent::visitHasConsent($request, $visitor)) {
+            return false;
+        }
+
+        return !$request->hasConsent()
+            || $request->getMetadata('CoreHome', 'isNewVisit')
+            || Consent::appliesToVisit($request, $visitor, $request->getMetadata('Actions', 'action'));
     }
 
     public function onNewVisit(VisitProperties $visitProperties, Request $request)

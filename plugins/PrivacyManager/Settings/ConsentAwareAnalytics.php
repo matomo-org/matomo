@@ -92,7 +92,7 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
 
         $siteAttributes = TrackerCache::getCacheWebsiteAttributes($idSite);
 
-        // The enforced value is the whole of this one, unlike the two below, because the
+        // The enforced value is the whole of this one, unlike the ones below, because the
         // measurable form of the setting is not registered anywhere and so cannot be set: what
         // is cached here only ever comes from a policy. Were it ever exposed, the admin's own
         // value would have to be kept apart from the policy's the way the others are, since
@@ -109,6 +109,10 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
         }
 
         $config = new PrivacyManagerConfig($idSite);
+
+        if ($config->anonymizeOrderId !== (bool) $config->getConfiguredValue('anonymizeOrderId')) {
+            return true;
+        }
 
         return $config->anonymizeReferrer !== (string) $config->getConfiguredValue('anonymizeReferrer');
     }

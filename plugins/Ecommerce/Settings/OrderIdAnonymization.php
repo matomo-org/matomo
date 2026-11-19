@@ -4,6 +4,7 @@ namespace Piwik\Plugins\Ecommerce\Settings;
 
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Config;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Settings\Interfaces\CustomSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
@@ -56,11 +57,25 @@ class OrderIdAnonymization implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
+        // as for the campaign masking and referrer anonymisation settings: the consent-aware
+        // wording describes a site that measures consent-aware analytics, and a site that has
+        // not opted in treats every visitor the same
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('Ecommerce_OrderIdAnonymizationSettingWhatItDoesConsentAware');
+        }
+
         return Piwik::translate('Ecommerce_OrderIdAnonymizationSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
+        // as for the campaign masking and referrer anonymisation settings: the consent-aware
+        // wording describes a site that measures consent-aware analytics, and a site that has
+        // not opted in treats every visitor the same
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('Ecommerce_OrderIdAnonymizationSettingImpactConsentAware');
+        }
+
         return Piwik::translate('Ecommerce_OrderIdAnonymizationSettingImpact');
     }
 
