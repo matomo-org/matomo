@@ -36,6 +36,7 @@ use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
+use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\ProxyHttp;
 use Piwik\Request;
@@ -250,9 +251,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Returns the current user's request of each plugin, or null while users cannot request plugins
      *
-     * @return array<string, array{plugin_name: string, request_type: string, message: string|null, ts_requested: string,
-     *                             decision: string|null, note: string|null}>|null the rows of
-     *                             RequestHistory::getRequestsOfLogin(), keyed by plugin name
+     * @return array<string, array{request_type: string, decision: string|null, ...}>|null keyed by plugin name: the
+     *         rows of RequestHistory::getRequestsOfLogin(), or before the update only these two keys
      */
     private function getPluginRequestsOfCurrentUser(): ?array
     {
@@ -260,9 +260,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return null;
         }
 
-        $requests = StaticContainer::get(RequestHistory::class)->getRequestsOfLogin(Piwik::getCurrentUserLogin());
+        $history = StaticContainer::get(RequestHistory::class);
+        $requests = array_column($history->getRequestsOfLogin(Piwik::getCurrentUserLogin()), null, 'plugin_name');
+        if ($requests !== [] || $history->getLastDecisionId() !== null) {
+            return $requests;
+        }
 
-        return array_column($requests, null, 'plugin_name');
+        // until the 6.1.0-b1 update the history cannot be read, and a request is only in the plugin's option
+        foreach (Storage::getAllInStorage() as $pluginName => $storage) {
+            if ($storage->wasRequestedByCurrentUser()) {
+                $requests[$pluginName] = ['request_type' => $storage->getRequestType(), 'decision' => null];
+            }
+        }
+
+        return $requests;
     }
 
     private function getPluginTrialService(): PluginTrialService
