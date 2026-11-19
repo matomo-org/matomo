@@ -138,7 +138,7 @@
                     <button
                       v-else-if="plugin.isFree === false"
                       type="button"
-                      class="btn btn-outline manageRequestsSuperUser__startTrial"
+                      class="btn manageRequestsSuperUser__startTrial"
                       :disabled="isBusy(plugin)"
                       @click="startTrial(plugin)"
                     >{{ translate('Marketplace_StartTrial30Days') }}</button>
