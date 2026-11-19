@@ -176,7 +176,7 @@
         "PluginRequestSent": "Request sent. We'll email you when a Super User responds, and you can follow the status on %1$sManage Requests%2$s.",
         "ManageRequests": "Manage Requests",
         "ManageRequestsIntro": "Track the plugins you've requested from your Super Users. You'll also get an email when a request is approved or declined.",
-        "ManageRequestsSuperUserIntro": "Users without superuser access can request trials, installs and updates of premium plugins. Review the demand per plugin, then add the plugins you approve to your cart.",
+        "ManageRequestsSuperUserIntro": "Superusers can manage requests from other users for plugin trials, installations and updates. To assess demand for each plugin, review the number of requests for each and expand the details to see why users need it. Start a trial or install a plugin to approve requests, or decline requests you do not approve. Use the History tab to review previous decisions on plugin requests.",
         "RequestedOn": "Requested on",
         "YourNote": "Your note",
         "SuperUserNote": "Super User note",
