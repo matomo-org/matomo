@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
@@ -108,8 +109,30 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
             return true;
         }
 
+        // the URL query parameters a policy adds are lifted by consent, those the admin excluded
+        // themselves are not. A cache written before the two were kept apart has only the first.
+        $configuredParameters = $siteAttributes[SitesManager::CONFIGURED_EXCLUDED_PARAMETERS_CACHE_KEY] ?? null;
+        if (
+            null !== $configuredParameters
+            && self::sortedList($configuredParameters) !== self::sortedList($siteAttributes['excluded_parameters'] ?? [])
+        ) {
+            return true;
+        }
+
         $config = new PrivacyManagerConfig($idSite);
 
         return $config->anonymizeReferrer !== (string) $config->getConfiguredValue('anonymizeReferrer');
+    }
+
+    /**
+     * @param string[] $list
+     * @return string[]
+     */
+    private static function sortedList(array $list): array
+    {
+        $list = array_values(array_unique($list));
+        sort($list);
+
+        return $list;
     }
 }

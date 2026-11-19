@@ -63,6 +63,22 @@ abstract class Action
 
     private $idLinkVisitAction;
     private $actionIdsCached = array();
+
+    /**
+     * Whether the URL was cleaned as for a request with the visitor's consent, null where it was
+     * not cleaned at all
+     *
+     * @var bool|null
+     */
+    private $urlCleanedWithConsent = null;
+
+    /**
+     * The URL as given to setActionUrl(), kept so that it can be cleaned again exactly as it was
+     * cleaned the first time
+     *
+     * @var string|null
+     */
+    private $urlToClean = null;
     private $customFields = array();
     private $actionName;
     private $actionType;
@@ -215,8 +231,39 @@ abstract class Action
 
     protected function setActionUrl($url)
     {
+        $this->setActionUrlForConsent($url, $this->request->hasConsent());
+    }
+
+    /**
+     * Cleans the URL again for the consent the visit it is recorded against has.
+     *
+     * The URL is cleaned when the action is created, which is before it is known which visit the
+     * request belongs to, and so by the consent the request reports. A request can report consent
+     * that does not apply to its visit, or leave out the consent its visit already has, and the URL
+     * has to be recorded the way the rest of the visit is.
+     *
+     * The action's ids are looked up again afterwards where the URL changes.
+     */
+    public function cleanActionUrlForConsent(bool $hasConsent): void
+    {
+        if (null === $this->urlCleanedWithConsent || $hasConsent === $this->urlCleanedWithConsent) {
+            return;
+        }
+
+        $actionUrl = $this->actionUrl;
+        $this->setActionUrlForConsent($this->urlToClean, $hasConsent);
+
+        if ($actionUrl !== $this->actionUrl) {
+            $this->actionIdsCached = [];
+        }
+    }
+
+    private function setActionUrlForConsent($url, bool $hasConsent): void
+    {
+        $this->urlCleanedWithConsent = $hasConsent;
+        $this->urlToClean = $url;
         $this->rawActionUrl = PageUrl::getUrlIfLookValid($url);
-        $url2 = PageUrl::excludeQueryParametersFromUrl($url, $this->request->getIdSite());
+        $url2 = PageUrl::excludeQueryParametersFromUrl($url, $this->request->getIdSite(), [], $hasConsent);
 
         $this->actionUrl = PageUrl::getUrlIfLookValid($url2);
 
@@ -233,6 +280,8 @@ abstract class Action
     protected function setActionUrlWithoutExcludingParameters($url)
     {
         $url = PageUrl::getUrlIfLookValid($url);
+        $this->urlCleanedWithConsent = null;
+        $this->urlToClean = null;
         $this->rawActionUrl = $url;
         $this->actionUrl = $url;
     }
