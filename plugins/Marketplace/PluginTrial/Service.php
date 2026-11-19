@@ -237,7 +237,8 @@ final class Service
 
         // without a session no page displays the notices
         if ($requestsActive && $session !== null) {
-            DecisionNotifications::createIfNeeded();
+            // an approval waits for its plugin to be activated, which changes no request either
+            $checkedPlugins = array_merge($checkedPlugins, DecisionNotifications::createIfNeeded());
         }
 
         // a check that needed the current super users can change with them, and demoting one changes no request

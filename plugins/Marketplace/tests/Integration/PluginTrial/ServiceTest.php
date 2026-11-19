@@ -37,6 +37,11 @@ class ServiceTest extends IntegrationTestCase
 {
     private bool $sessionWasEnabled;
 
+    /**
+     * @var string[]|null the activated plugins before activatePlugins() changed them
+     */
+    private ?array $originalPluginsToLoad = null;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -57,6 +62,10 @@ class ServiceTest extends IntegrationTestCase
     {
         $this->setSessionEnabled($this->sessionWasEnabled);
         Fixture::resetTranslations();
+        if ($this->originalPluginsToLoad !== null) {
+            (new \ReflectionProperty(PluginManager::class, 'pluginsToLoad'))
+                ->setValue(PluginManager::getInstance(), $this->originalPluginsToLoad);
+        }
 
         parent::tearDown();
     }
@@ -465,6 +474,7 @@ class ServiceTest extends IntegrationTestCase
         $this->setSessionEnabled(true);
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
+        $this->activatePlugins('PremiumPlugin');
 
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
@@ -494,6 +504,7 @@ class ServiceTest extends IntegrationTestCase
         foreach (['PremiumPlugin', 'PremiumPlugin2', 'PremiumPlugin3'] as $pluginName) {
             (new Service())->decide($pluginName, RequestHistory::DECISION_APPROVED);
         }
+        $this->activatePlugins('PremiumPlugin', 'PremiumPlugin2', 'PremiumPlugin3');
 
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
@@ -536,6 +547,7 @@ class ServiceTest extends IntegrationTestCase
         $this->requestAs('alice', 'PremiumPlugin2');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
         (new Service())->decide('PremiumPlugin2', RequestHistory::DECISION_APPROVED);
+        $this->activatePlugins('PremiumPlugin2');
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
         $declinedId = $this->findDeclinedNoticeId();
@@ -702,6 +714,7 @@ class ServiceTest extends IntegrationTestCase
         $this->requestAs('alice', 'PremiumPlugin2');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
         (new Service())->decide('PremiumPlugin2', RequestHistory::DECISION_APPROVED);
+        $this->activatePlugins('PremiumPlugin2');
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
         // the later decision dismissed first, so it is listed as dismissed out of order
@@ -741,6 +754,7 @@ class ServiceTest extends IntegrationTestCase
 
         // a decision written without changing the marker is only found once a request changes
         (new RequestHistory())->addDecision('PremiumPlugin', RequestHistory::DECISION_APPROVED, null, null, time());
+        $this->activatePlugins('PremiumPlugin');
         (new Service())->createNotificationsIfNeeded();
         self::assertCount(0, Manager::getPendingInMemoryNotifications());
 
@@ -813,6 +827,7 @@ class ServiceTest extends IntegrationTestCase
         (new Service())->createNotificationsIfNeeded();
         $this->switchToSuperUser();
         (new Service())->decide('PremiumPlugin2', RequestHistory::DECISION_APPROVED);
+        $this->activatePlugins('PremiumPlugin2');
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
 
@@ -894,6 +909,7 @@ class ServiceTest extends IntegrationTestCase
         $this->enablePluginRequests();
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
+        $this->activatePlugins('PremiumPlugin');
 
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
@@ -1011,16 +1027,56 @@ class ServiceTest extends IntegrationTestCase
         $this->requestAs('alice', 'PremiumPlugin');
         $this->requestAs('alice', 'PremiumPlugin2');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
+        $this->activatePlugins('PremiumPlugin');
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
 
         $this->switchToSuperUser();
         (new Service())->decide('PremiumPlugin2', RequestHistory::DECISION_APPROVED);
+        $this->activatePlugins('PremiumPlugin2');
         $this->switchTo('alice');
         (new Service())->createNotificationsIfNeeded();
 
         self::assertSame(
             'Good news! Your requests for <b>PremiumPlugin</b> and <b>PremiumPlugin2</b> have been approved, and the features are now ready to use.',
+            $this->getOnlyApprovedNoticeMessage()
+        );
+    }
+
+    public function testAnApprovalIsOnlyShownOnceItsPluginIsActivated()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
+
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+        self::assertNull($this->findApprovedNoticeId());
+
+        $this->activatePlugins('PremiumPlugin');
+        (new Service())->createNotificationsIfNeeded();
+        self::assertNotNull($this->findApprovedNoticeId());
+    }
+
+    public function testDismissingTheApprovedNoticeKeepsAnApprovalWhosePluginIsNotActivatedYet()
+    {
+        $this->enablePluginRequests();
+        $this->setSessionEnabled(true);
+        $this->requestAs('alice', 'PremiumPlugin');
+        $this->requestAs('alice', 'PremiumPlugin2');
+        (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_APPROVED);
+        (new Service())->decide('PremiumPlugin2', RequestHistory::DECISION_APPROVED);
+        $this->activatePlugins('PremiumPlugin2');
+        $this->switchTo('alice');
+        (new Service())->createNotificationsIfNeeded();
+
+        $this->dismissAs('alice', (string) $this->findApprovedNoticeId());
+        $this->activatePlugins('PremiumPlugin');
+        $this->startNewSessionAs('alice');
+
+        self::assertSame(
+            'Good news! Your request for <b>PremiumPlugin</b> has been approved, and the feature is now ready to use.',
             $this->getOnlyApprovedNoticeMessage()
         );
     }
@@ -1055,6 +1111,17 @@ class ServiceTest extends IntegrationTestCase
         $this->switchTo($login);
         (new Service())->request($pluginName, $pluginName);
         $this->switchToSuperUser();
+    }
+
+    /**
+     * As if the plugins were installed and activated, without the event that would fulfil their requests
+     */
+    private function activatePlugins(string ...$pluginNames): void
+    {
+        $pluginsToLoad = new \ReflectionProperty(PluginManager::class, 'pluginsToLoad');
+        $activated = $pluginsToLoad->getValue(PluginManager::getInstance());
+        $this->originalPluginsToLoad ??= $activated;
+        $pluginsToLoad->setValue(PluginManager::getInstance(), array_merge($activated, $pluginNames));
     }
 
     private function switchTo(string $login): void

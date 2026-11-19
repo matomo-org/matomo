@@ -14,6 +14,7 @@ use Piwik\Db;
 use Piwik\Notification as MatomoNotification;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\SiteAwareLinks;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
@@ -32,10 +33,19 @@ final class DecisionNotifications
     /**
      * Shows the current user's decisions they have not dismissed. The notices are persistent, so a page that does not
      * display them, or one that clears the transient notices, does not lose them.
+     *
+     * @return string[] the plugins whose approval is not shown until they are activated
      */
-    public static function createIfNeeded(): void
+    public static function createIfNeeded(): array
     {
         $decisions = self::getUndismissedDecisions(Piwik::getCurrentUserLogin());
+        $withheld = [];
+        foreach ($decisions as $key => $decision) {
+            if (!self::isShown($decision)) {
+                $withheld[] = $decision['plugin_name'];
+                unset($decisions[$key]);
+            }
+        }
 
         $notices = [];
         $displayNames = self::getDisplayNames(array_values(array_unique(array_column($decisions, 'plugin_name'))));
@@ -83,6 +93,8 @@ final class DecisionNotifications
         foreach ($notices as $id => $notification) {
             MatomoNotification\Manager::notify($id, $notification);
         }
+
+        return array_values(array_unique($withheld));
     }
 
     /**
@@ -152,7 +164,7 @@ final class DecisionNotifications
         foreach ($decisions as $decision) {
             $id = (int) $decision['iddecision'];
             $isListed = $isApproval
-                ? $decision['decision'] === RequestHistory::DECISION_APPROVED && $id <= $idDecision
+                ? $decision['decision'] === RequestHistory::DECISION_APPROVED && $id <= $idDecision && self::isShown($decision)
                 : $id === $idDecision;
             if ($isListed) {
                 $dismissed[] = $id;
@@ -200,6 +212,17 @@ final class DecisionNotifications
         return array_filter($decisions, function (array $decision) use ($dismissed): bool {
             return !in_array((int) $decision['iddecision'], $dismissed, true);
         });
+    }
+
+    /**
+     * An approval is only shown once its plugin is activated, as approving a premium plugin only starts its trial
+     *
+     * @param array{plugin_name: string, decision: string} $decision
+     */
+    private static function isShown(array $decision): bool
+    {
+        return $decision['decision'] !== RequestHistory::DECISION_APPROVED
+            || PluginManager::getInstance()->isPluginActivated($decision['plugin_name']);
     }
 
     /**
