@@ -30,6 +30,8 @@ use Piwik\Plugins\CoreHome\Columns\VisitIp;
 use Piwik\Plugins\CoreHome\Columns\VisitorId;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Live\Live;
+use Piwik\Plugins\Live\MeasurableSettings as LiveMeasurableSettings;
+use Piwik\Plugins\Live\SystemSettings as LiveSystemSettings;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
@@ -279,7 +281,7 @@ class PrivacyManager extends Plugin
      * Only the root request counts, as for the visits log check in Live's API, so a search sent within a bulk
      * request does not.
      */
-    public static function isDataSubjectSearchRequest(): bool
+    private static function isDataSubjectSearchRequest(): bool
     {
         $rootApiMethod = \Piwik\API\Request::getRootApiRequestMethod();
 
@@ -300,7 +302,7 @@ class PrivacyManager extends Plugin
      * Every site list the request holds must qualify, whether given as idSite or idSites, in the query or the body,
      * as the segments list may read any of them.
      */
-    public static function canDataSubjectSearchUseVisitorSegments(): bool
+    private static function canDataSubjectSearchUseVisitorSegments(): bool
     {
         if (!self::isDataSubjectSearchRequest()) {
             return false;
@@ -420,7 +422,9 @@ class PrivacyManager extends Plugin
         return VisitorLogDisabled::isEnforced($idSite)
             && true !== VisitorLogDisabled::getSystemValue()
             && true !== VisitorLogDisabled::getMeasurableValue($idSite)
-            && Live::isVisitorProfileSettingEnabled($idSite);
+            // the visitor profile settings, as Live reads them
+            && true !== (new LiveSystemSettings())->disableVisitorProfile->getValue()
+            && true !== (new LiveMeasurableSettings($idSite))->disableVisitorProfile->getValue();
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

@@ -113,18 +113,7 @@ class Live extends \Piwik\Plugin
     public static function checkIsVisitorProfileEnabled($idSite = null): void
     {
         self::checkIsVisitorLogEnabled($idSite); // visitor log is required for visitor profile
-        self::checkIsVisitorProfileSettingEnabled($idSite);
-    }
 
-    /**
-     * Throws an exception if visitor profile is disabled by the system or website settings, without looking at
-     * whether the visitor log is enabled
-     *
-     * @param int|string|int[]|null $idSite
-     * @throws \Exception
-     */
-    public static function checkIsVisitorProfileSettingEnabled($idSite = null): void
-    {
         $systemSettings = new SystemSettings();
 
         if ($systemSettings->disableVisitorProfile->getValue() === true) {
@@ -157,23 +146,6 @@ class Live extends \Piwik\Plugin
     {
         try {
             self::checkIsVisitorProfileEnabled($idSite);
-        } catch (\Exception $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns whether visitor profile is enabled by the system and website settings (for the given site), without
-     * looking at whether the visitor log is enabled
-     *
-     * @param int|string|int[]|null $idSite
-     */
-    public static function isVisitorProfileSettingEnabled($idSite = null): bool
-    {
-        try {
-            self::checkIsVisitorProfileSettingEnabled($idSite);
         } catch (\Exception $e) {
             return false;
         }
