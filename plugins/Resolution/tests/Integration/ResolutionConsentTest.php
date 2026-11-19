@@ -591,7 +591,7 @@ class ResolutionConsentTest extends IntegrationTestCase
         Config::getInstance()->FeatureFlags = ['GranularPrivacyCompliance_feature' => 'enabled'];
 
         try {
-            foreach ([$this->idSite => '2', $this->idSiteOther => ''] as $idSite => $suffix) {
+            foreach ([$this->idSite => 'ConsentAware', $this->idSiteOther => ''] as $idSite => $suffix) {
                 $policy = Request::processRequest('PrivacyManager.getCompliancePolicySettings', [
                     'idSite' => $idSite,
                     'compliancePolicy' => 'cnil_v1',
