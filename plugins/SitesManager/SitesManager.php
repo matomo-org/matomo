@@ -18,6 +18,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
+use Piwik\Plugins\SitesManager\Settings\FilterPIIParameters;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\SettingsPiwik;
 use Piwik\SiteContentDetector;
@@ -38,6 +39,13 @@ class SitesManager extends \Piwik\Plugin
     public const URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS = 'common_session_parameters';
     public const URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII = 'matomo_recommended_pii';
     public const URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM = 'custom';
+
+    /**
+     * Tracker cache key holding the URL query parameters the admin excluded themselves, kept
+     * alongside the ones in force, which are stored under 'excluded_parameters'. Consent lifts what
+     * a compliance policy adds to the latter and falls back to this.
+     */
+    public const CONFIGURED_EXCLUDED_PARAMETERS_CACHE_KEY = 'excluded_parameters_configured';
 
     public const URL_PARAM_EXCLUSION_TYPES =  [
         self::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS,
@@ -192,6 +200,7 @@ class SitesManager extends \Piwik\Plugin
         $array['exclude_unknown_urls'] = $website['exclude_unknown_urls'];
         $array['excluded_ips'] = $this->getTrackerExcludedIps($website);
         $array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
+        $array[self::CONFIGURED_EXCLUDED_PARAMETERS_CACHE_KEY] = self::getTrackerConfiguredExcludedQueryParameters($website);
         $array['excluded_user_agents'] = self::getExcludedUserAgents($website);
         $array['excluded_referrers'] = self::getExcludedReferrers($website);
         $array['keep_url_fragment'] = self::shouldKeepURLFragmentsFor($website);
@@ -340,6 +349,34 @@ class SitesManager extends \Piwik\Plugin
 
         $excludedQueryParameters .= ',' . $globalExcludedQueryParameters;
         return self::filterBlankFromCommaSepList($excludedQueryParameters);
+    }
+
+    /**
+     * Returns the URL query parameters the admin excluded themselves: the site's own list and the
+     * global list as they configured it, without the one a compliance policy enforces in its place.
+     *
+     * Read from the stored options rather than through the API, which resolves the global type
+     * through the policies, so that what every policy requires is left out - consent lifts each of
+     * them. An admin who chose the recommended PII list themselves keeps it. The type is resolved
+     * as API::getExcludedQueryParametersGlobal() resolves it otherwise.
+     *
+     * @param array $website
+     * @return array
+     */
+    private static function getTrackerConfiguredExcludedQueryParameters($website)
+    {
+        switch (FilterPIIParameters::getOptionValue()) {
+            case self::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS:
+                $globalExcludedQueryParameters = '';
+                break;
+            case self::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII:
+                $globalExcludedQueryParameters = implode(',', Config::getInstance()->SitesManager['CommonPIIParams']);
+                break;
+            default:
+                $globalExcludedQueryParameters = Option::get(API::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL) ?: '';
+        }
+
+        return self::filterBlankFromCommaSepList($website['excluded_parameters'] . ',' . $globalExcludedQueryParameters);
     }
 
     /**

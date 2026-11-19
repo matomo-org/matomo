@@ -3,6 +3,7 @@
 namespace Piwik\Plugins\SitesManager\Settings;
 
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
@@ -40,11 +41,21 @@ class FilterPIIParameters implements
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
+        // as for the User ID setting: the consent-aware wording describes a site that measures
+        // consent-aware analytics, and a site that has not opted in treats every visitor the same
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('SitesManager_FilterPIIParametersSettingWhatItDoesConsentAware');
+        }
+
         return Piwik::translate('SitesManager_FilterPIIParametersSettingWhatItDoes');
     }
 
     public static function getImpact(?int $idSite = null): string
     {
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('SitesManager_FilterPIIParametersSettingImpactConsentAware');
+        }
+
         return Piwik::translate('SitesManager_FilterPIIParametersSettingImpact');
     }
 
