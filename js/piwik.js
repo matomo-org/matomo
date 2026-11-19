@@ -4497,6 +4497,7 @@ if (typeof window.Matomo !== 'object') {
                 if (heartBeatSetUp && !configIdPageViewSetManually && wasHeartBeatSentForCurrentPageView()) {
                     // eg a route change in a single page app: report the time of the page view that ends now.
                     // performance timings that are waiting to be sent belong to the next page view
+                    // the ping may already carry the next page's url (setCustomUrl), the server ignores it on pings
                     var wasPerformanceTracked = performanceTracked;
                     performanceTracked = true;
                     heartBeatPingIfActivityAlias();
