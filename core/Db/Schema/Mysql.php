@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db\QueryCapabilitiesInterface;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db\SqlDialectInterface;
 use Piwik\Db;
@@ -27,7 +28,7 @@ use Piwik\Version;
 /**
  * MySQL schema
  */
-class Mysql implements SchemaInterface, SqlDialectInterface
+class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesInterface
 {
     public const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
     public const MAX_TABLE_NAME_LENGTH = 64;
@@ -867,6 +868,18 @@ class Mysql implements SchemaInterface, SqlDialectInterface
     }
 
     public function supportsSortingInSubquery(): bool
+    {
+        return true;
+    }
+
+    public function supportsWindowFunctions(): bool
+    {
+        // MySQL 8 and MariaDB support window functions, but ranking queries keep the user-variable
+        // counters here: switching MySQL and MariaDB over is a separate, deliberately tested change.
+        return false;
+    }
+
+    public function supportsGroupByWithRollup(): bool
     {
         return true;
     }

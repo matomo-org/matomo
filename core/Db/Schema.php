@@ -362,6 +362,30 @@ class Schema extends Singleton
     }
 
     /**
+     * Returns whether ranking queries count rows with window functions.
+     *
+     * @see QueryCapabilitiesInterface::supportsWindowFunctions()
+     */
+    public function supportsWindowFunctions(): bool
+    {
+        $schema = $this->getSchema();
+
+        return $schema instanceof QueryCapabilitiesInterface && $schema->supportsWindowFunctions();
+    }
+
+    /**
+     * Returns whether `GROUP BY ... WITH ROLLUP` is available.
+     *
+     * @see QueryCapabilitiesInterface::supportsGroupByWithRollup()
+     */
+    public function supportsGroupByWithRollup(): bool
+    {
+        $schema = $this->getSchema();
+
+        return !($schema instanceof QueryCapabilitiesInterface) || $schema->supportsGroupByWithRollup();
+    }
+
+    /**
      * Returns the SQL dialect of the configured schema. Schemas that don't implement
      * {@link SqlDialectInterface} get MySQL's, which is the SQL Matomo always emitted for them.
      */
