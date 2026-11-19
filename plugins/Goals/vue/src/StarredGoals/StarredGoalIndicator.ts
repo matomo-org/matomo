@@ -23,16 +23,33 @@ export function addStarredGoalIndicator(element: HTMLElement): void {
   const indicator = document.createElement('span');
   indicator.className = INDICATOR_CLASS;
 
+  const star = document.createElement('span');
+  star.className = `${INDICATOR_CLASS}__star`;
+  indicator.appendChild(star);
+
   render(h(StarToggle, {
     starred: true,
     readonly: true,
     small: true,
     title: translate('Goals_StarredGoal'),
-  }), indicator);
+  }), star);
 
   // in a report table the column name is in a child of the header cell
   const target = element.querySelector('.thDIV') || element.querySelector('a') || element;
-  target.insertBefore(indicator, target.firstChild);
+  const name = target.firstChild;
+  target.insertBefore(indicator, name);
+
+  // A line may wrap right after the star. In a narrow column, such as the header of a goals table
+  // where a long goal name is one word, the name would then start on the next line, apart from its
+  // star. So the first word of the name is moved into the indicator, which does not wrap.
+  if (name && name.nodeType === Node.TEXT_NODE) {
+    const text = name as Text;
+    const firstWordLength = text.data.search(/\s|$/);
+    if (firstWordLength > 0) {
+      text.splitText(firstWordLength);
+      indicator.appendChild(text);
+    }
+  }
 }
 
 // The goals table and the titles on the Goals overview are rendered on the server, which marks the

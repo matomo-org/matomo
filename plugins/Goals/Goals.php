@@ -487,6 +487,7 @@ class Goals extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Goals/stylesheets/goals.less";
+        $stylesheets[] = "plugins/Goals/vue/src/StarredGoals/StarredGoalIndicator.less";
     }
 
     public function fetchGoalsFromDb(&$array, $idSite)
