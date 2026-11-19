@@ -66,20 +66,45 @@ class GoalsSorterTest extends \PHPUnit\Framework\TestCase
         self::assertSame(['apple', 'Goal 1', 'goal 2', 'Goal 10', 'Zebra'], array_column($sorted, 'name'));
     }
 
-    public function testAccentedNamesAreSortedNextToTheirBaseLetter(): void
+    public function testNamesWithoutDigitsAreSortedLikeStrcasecmp(): void
     {
-        if (!class_exists(\Collator::class)) {
-            self::markTestSkipped('Without the intl extension names starting with a non-ASCII character are sorted last.');
+        // the order Matomo used before goals could be starred
+        $names = ['{{_Vue.h.constructor`_x(4)`()}}', 'name event', '<script>_x(1)</script>', 'Écrire',
+            'click event', '_underscore', 'Zebra', 'category event', '#hash', 'apple pay'];
+        $expected = $names;
+        usort($expected, 'strcasecmp');
+
+        $goals = [];
+        foreach ($names as $index => $name) {
+            $goals[] = $this->goal($index + 1, $name);
         }
 
+        $sorted = array_column(GoalsSorter::sortStarredFirst($goals), 'name');
+
+        self::assertSame($expected, $sorted);
+        self::assertSame(
+            ['#hash', '<script>_x(1)</script>', '_underscore', 'apple pay', 'category event', 'click event',
+                'name event', 'Zebra', '{{_Vue.h.constructor`_x(4)`()}}', 'Écrire'],
+            $sorted
+        );
+    }
+
+    public function testNumbersAreComparedByTheirValueAtAnyLength(): void
+    {
         $sorted = GoalsSorter::sortStarredFirst([
-            $this->goal(1, 'Zebra'),
-            $this->goal(2, 'Écrire'),
-            $this->goal(3, 'Download'),
-            $this->goal(4, 'Form'),
+            $this->goal(1, 'Goal 100000000000000000000'),
+            $this->goal(2, 'Goal A'),
+            $this->goal(3, 'Goal 99999999999999999999'),
+            $this->goal(4, 'Goal 007'),
+            $this->goal(5, 'Goal'),
+            $this->goal(6, 'Goal 8'),
+            $this->goal(7, 'Goal 7b'),
         ]);
 
-        self::assertSame(['Download', 'Écrire', 'Form', 'Zebra'], array_column($sorted, 'name'));
+        self::assertSame(
+            ['Goal', 'Goal 007', 'Goal 7b', 'Goal 8', 'Goal 99999999999999999999', 'Goal 100000000000000000000', 'Goal A'],
+            array_column($sorted, 'name')
+        );
     }
 
     public function testGoalsWithAnEqualNameAreOrderedById(): void

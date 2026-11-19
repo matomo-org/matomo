@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import sortGoalsStarredFirst, { isGoalStarred } from './sortGoalsStarredFirst';
+import sortGoalsStarredFirst, { compareGoalNames, isGoalStarred } from './sortGoalsStarredFirst';
 
 function names(goals: { name?: string }[]) {
   return goals.map((goal) => goal.name);
@@ -42,16 +42,47 @@ describe('Goals/sortGoalsStarredFirst', () => {
     expect(names(sorted)).toEqual(['a', 'b']);
   });
 
-  it('compares numbers in names by their value and ignores case and accents', () => {
+  it('compares numbers in names by their value and ignores case', () => {
     const sorted = sortGoalsStarredFirst([
       { idgoal: 1, name: 'Goal 10' },
       { idgoal: 2, name: 'goal 2' },
       { idgoal: 3, name: 'Zebra' },
-      { idgoal: 4, name: 'Écrire' },
+      { idgoal: 4, name: 'apple' },
       { idgoal: 5, name: 'Goal 1' },
     ]);
 
-    expect(names(sorted)).toEqual(['Écrire', 'Goal 1', 'goal 2', 'Goal 10', 'Zebra']);
+    expect(names(sorted)).toEqual(['apple', 'Goal 1', 'goal 2', 'Goal 10', 'Zebra']);
+  });
+
+  // same cases and expected order as GoalsSorterTest in PHP
+  it('sorts names without digits like strcasecmp in PHP, as Matomo did before', () => {
+    const sorted = sortGoalsStarredFirst([
+      '{{_Vue.h.constructor`_x(4)`()}}', 'name event', '<script>_x(1)</script>', '\u00c9crire',
+      'click event', '_underscore', 'Zebra', 'category event', '#hash', 'apple pay',
+    ].map((name, index) => ({ idgoal: index + 1, name })));
+
+    expect(names(sorted)).toEqual([
+      '#hash', '<script>_x(1)</script>', '_underscore', 'apple pay', 'category event', 'click event',
+      'name event', 'Zebra', '{{_Vue.h.constructor`_x(4)`()}}', '\u00c9crire',
+    ]);
+  });
+
+  it('compares numbers by their value at any length', () => {
+    const sorted = sortGoalsStarredFirst([
+      'Goal 100000000000000000000', 'Goal A', 'Goal 99999999999999999999', 'Goal 007', 'Goal',
+      'Goal 8', 'Goal 7b',
+    ].map((name, index) => ({ idgoal: index + 1, name })));
+
+    expect(names(sorted)).toEqual([
+      'Goal', 'Goal 007', 'Goal 7b', 'Goal 8', 'Goal 99999999999999999999',
+      'Goal 100000000000000000000', 'Goal A',
+    ]);
+  });
+
+  it('compares characters outside the basic plane by their code point, like the PHP sorter', () => {
+    // UTF-16 would put U+1F600 (a surrogate pair) before U+FF21, PHP compares UTF-8 bytes
+    expect(compareGoalNames('\uff21', '\u{1f600}')).toBe(-1);
+    expect(compareGoalNames('\u{1f600}', '\uff21')).toBe(1);
   });
 
   it('orders goals with an equal name by their ID', () => {

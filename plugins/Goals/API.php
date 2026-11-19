@@ -395,6 +395,7 @@ class API extends \Piwik\Plugin\API
      * @param string $description Optional goal description shown in the Goals management UI.
      * @param bool $useEventValueAsRevenue Whether to use the tracked event value as goal revenue. This is only valid
      *                                     for event-based goals.
+     * @param bool $starred Whether the goal is starred for the website, see {@link starGoal()}.
      * @return int ID of the new goal.
      */
     public function addGoal(
@@ -407,7 +408,8 @@ class API extends \Piwik\Plugin\API
         $revenue = false,
         bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
-        bool $useEventValueAsRevenue = false
+        bool $useEventValueAsRevenue = false,
+        bool $starred = false
     ) {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -431,6 +433,7 @@ class API extends \Piwik\Plugin\API
             'revenue' => $revenue,
             'deleted' => 0,
             'event_value_as_revenue' => (int)$useEventValueAsRevenue,
+            'starred' => (int)$starred,
         );
 
         $this->checkEventValueAsRevenue($goal);
@@ -473,6 +476,8 @@ class API extends \Piwik\Plugin\API
      * @param string $description Optional goal description shown in the Goals management UI.
      * @param bool $useEventValueAsRevenue Whether to use the tracked event value as goal revenue. This is only valid
      *                                     for event-based goals.
+     * @param bool|null $starred Whether the goal is starred for the website, see {@link starGoal()}. When not
+     *                           given, the goal stays starred or not starred as it is.
      */
     public function updateGoal(
         int $idSite,
@@ -485,7 +490,8 @@ class API extends \Piwik\Plugin\API
         $revenue = false,
         bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
-        bool $useEventValueAsRevenue = false
+        bool $useEventValueAsRevenue = false,
+        ?bool $starred = null
     ): void {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -514,6 +520,10 @@ class API extends \Piwik\Plugin\API
             'event_value_as_revenue' => (int)$useEventValueAsRevenue,
         );
 
+        if (null !== $starred) {
+            $goal['starred'] = (int)$starred;
+        }
+
         $this->checkEventValueAsRevenue($goal);
 
         $this->getModel()->updateGoal($idSite, $idGoal, $goal);
@@ -534,7 +544,8 @@ class API extends \Piwik\Plugin\API
      *       allow_multiple: int|string,
      *       revenue: float|int|string,
      *       event_value_as_revenue: int|string,
-     *       deleted?: int|string
+     *       deleted?: int|string,
+     *       starred?: int
      *   } $goal
      */
     private function checkEventValueAsRevenue(array $goal): void

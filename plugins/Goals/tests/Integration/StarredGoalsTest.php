@@ -274,6 +274,65 @@ class StarredGoalsTest extends IntegrationTestCase
         self::assertFalse($this->api->getGoal($this->idSite, $idOtherGoal)['starred']);
     }
 
+    public function testAddGoalCanStarTheNewGoal(): void
+    {
+        $idStarredGoal = (int) $this->api->addGoal($this->idSite, 'Starred right away', 'url', 'starred', 'contains', false, false, false, '', false, true);
+        $idGoal = (int) $this->api->addGoal($this->idSite, 'Not starred', 'url', 'not-starred', 'contains', false, false, false, '', false, false);
+
+        self::assertTrue($this->api->getGoal($this->idSite, $idStarredGoal)['starred']);
+        self::assertFalse($this->api->getGoal($this->idSite, $idGoal)['starred']);
+        self::assertSame([$idStarredGoal], $this->getStarredGoalIds($this->idSite));
+    }
+
+    public function testUpdateGoalCanStarAndUnstarTheGoal(): void
+    {
+        $idGoal = $this->idGoals['Contact'];
+
+        $this->api->updateGoal($this->idSite, $idGoal, 'Contact', 'url', 'contact', 'contains', false, false, false, '', false, true);
+        self::assertTrue($this->api->getGoal($this->idSite, $idGoal)['starred']);
+
+        // not giving the starred state keeps it
+        $this->api->updateGoal($this->idSite, $idGoal, 'Contact renamed', 'url', 'contact', 'contains');
+        self::assertTrue($this->api->getGoal($this->idSite, $idGoal)['starred']);
+
+        $this->api->updateGoal($this->idSite, $idGoal, 'Contact renamed', 'url', 'contact', 'contains', false, false, false, '', false, false);
+        self::assertFalse($this->api->getGoal($this->idSite, $idGoal)['starred']);
+    }
+
+    public function testAddGoalAndUpdateGoalAcceptTheStarredStateThroughTheApiRequestLayer(): void
+    {
+        $goalParameters = ['idSite' => $this->idSite, 'matchAttribute' => 'url', 'pattern' => 'request', 'patternType' => 'contains'];
+
+        $idGoal = (int) Request::processRequest('Goals.addGoal', $goalParameters + ['name' => 'Added starred', 'starred' => '1']);
+        self::assertTrue($this->api->getGoal($this->idSite, $idGoal)['starred']);
+
+        $idOtherGoal = (int) Request::processRequest('Goals.addGoal', $goalParameters + ['name' => 'Added without star']);
+        self::assertFalse($this->api->getGoal($this->idSite, $idOtherGoal)['starred']);
+
+        // an update without the parameter, as the Manage Goals form sends it, keeps the star
+        Request::processRequest('Goals.updateGoal', $goalParameters + ['idGoal' => $idGoal, 'name' => 'Renamed']);
+        self::assertTrue($this->api->getGoal($this->idSite, $idGoal)['starred']);
+
+        Request::processRequest('Goals.updateGoal', $goalParameters + ['idGoal' => $idGoal, 'name' => 'Renamed', 'starred' => 'false']);
+        self::assertFalse($this->api->getGoal($this->idSite, $idGoal)['starred']);
+
+        Request::processRequest('Goals.updateGoal', $goalParameters + ['idGoal' => $idOtherGoal, 'name' => 'Starred later', 'starred' => 'true']);
+        self::assertTrue($this->api->getGoal($this->idSite, $idOtherGoal)['starred']);
+    }
+
+    public function testAStarredValueThatIsNoBooleanNeitherStarsNorUnstarsAGoal(): void
+    {
+        // like the other boolean parameters of the API, an unusable value falls back to the default
+        $goalParameters = ['idSite' => $this->idSite, 'matchAttribute' => 'url', 'pattern' => 'invalid', 'patternType' => 'contains'];
+
+        $idGoal = (int) Request::processRequest('Goals.addGoal', $goalParameters + ['name' => 'Invalid', 'starred' => 'maybe']);
+        self::assertFalse($this->api->getGoal($this->idSite, $idGoal)['starred']);
+
+        $this->api->starGoal($this->idSite, $idGoal);
+        Request::processRequest('Goals.updateGoal', $goalParameters + ['idGoal' => $idGoal, 'name' => 'Invalid', 'starred' => 'maybe']);
+        self::assertTrue($this->api->getGoal($this->idSite, $idGoal)['starred']);
+    }
+
     public function testStarringAGoalDoesNotAffectTheGoalsOfAnotherSite(): void
     {
         // both sites have a goal with the ID 1

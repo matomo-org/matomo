@@ -22,10 +22,10 @@ class WidgetizeFixture extends Fixture
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
     private $goals = array(
-        array('name' => 'Download Software',  'match' => 'url', 'pattern' => 'download',   'patternType' => 'contains', 'revenue' => 0.10),
-        array('name' => 'Download Software2', 'match' => 'url', 'pattern' => 'latest.zip', 'patternType' => 'contains', 'revenue' => 0.05),
-        array('name' => 'Opens Contact Form', 'match' => 'url', 'pattern' => 'contact',    'patternType' => 'contains', 'revenue' => false),
-        array('name' => 'Visit Docs',         'match' => 'url', 'pattern' => 'docs',       'patternType' => 'contains', 'revenue' => false),
+        array('name' => 'Download Software',  'match' => 'url', 'pattern' => 'download',   'patternType' => 'contains', 'revenue' => 0.10, 'starred' => false),
+        array('name' => 'Download Software2', 'match' => 'url', 'pattern' => 'latest.zip', 'patternType' => 'contains', 'revenue' => 0.05, 'starred' => true),
+        array('name' => 'Opens Contact Form', 'match' => 'url', 'pattern' => 'contact',    'patternType' => 'contains', 'revenue' => false, 'starred' => false),
+        array('name' => 'Visit Docs',         'match' => 'url', 'pattern' => 'docs',       'patternType' => 'contains', 'revenue' => false, 'starred' => true),
     );
 
     public function setUp(): void
@@ -51,7 +51,19 @@ class WidgetizeFixture extends Fixture
     {
         $api = Goals\API::getInstance();
         foreach ($this->goals as $goal) {
-            $api->addGoal($this->idSite, $goal['name'], $goal['match'], $goal['pattern'], $goal['patternType'], $caseSensitive = false, $goal['revenue'], $allowMultipleConversionsPerVisit = false);
+            $api->addGoal(
+                $this->idSite,
+                $goal['name'],
+                $goal['match'],
+                $goal['pattern'],
+                $goal['patternType'],
+                $caseSensitive = false,
+                $goal['revenue'],
+                $allowMultipleConversionsPerVisit = false,
+                $description = '',
+                $useEventValueAsRevenue = false,
+                $goal['starred']
+            );
         }
     }
 }

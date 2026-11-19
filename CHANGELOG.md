@@ -29,6 +29,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### HTTP API
 * The new API methods `Goals.starGoal` and `Goals.unstarGoal` star and unstar a goal for a website. They require write access and return `{"success": true}`.
+* `Goals.addGoal` and `Goals.updateGoal` have the new optional boolean parameter `starred`. `Goals.addGoal` creates a goal that is not starred unless `starred=1` is given. `Goals.updateGoal` keeps the goal's starred state when the parameter is not given.
 * `Goals.getGoals` and `Goals.getGoal` return the new boolean field `starred` for every goal. The order and structure of `Goals.getGoals` are unchanged. A goal's stored starred state is cleared when the goal is deleted, and is kept by `Goals.updateGoal`.
 * `API.getReportMetadata` lists the reports of a website's goals (`Goals.get`, `Goals.getDaysToConversion` and `Goals.getVisitsUntilConversion` with an `idGoal`) with starred goals first and then by goal name, no longer by goal ID. The reports of a starred goal have `isStarred` set to `true`. Other reports don't have the attribute, as attributes that are `false` are not part of the report metadata.
 * `API.getWidgetMetadata` and `API.getReportPagesMetadata` return the new boolean `isStarred` for every widget and every subcategory. It is `true` for the widget and the page of a starred goal. The widgets and pages of goals are listed with starred goals first and then by goal name.

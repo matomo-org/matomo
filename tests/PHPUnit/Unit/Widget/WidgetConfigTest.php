@@ -64,6 +64,38 @@ class WidgetConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->config->isWide());
     }
 
+    public function testIsStarredShouldBeFalseByDefault()
+    {
+        $this->assertFalse($this->config->isStarred());
+    }
+
+    public function testSetIsStarredCanStarAndUnstar()
+    {
+        $this->config->setIsStarred(true);
+        $this->assertTrue($this->config->isStarred());
+
+        $this->config->setIsStarred(false);
+        $this->assertFalse($this->config->isStarred());
+    }
+
+    public function testSetIsStarredReturnsTheWidgetConfig()
+    {
+        $this->assertSame($this->config, $this->config->setIsStarred(true));
+    }
+
+    public function testSetIsStarredDoesNotChangeTheUniqueId()
+    {
+        // dashboards and scheduled reports refer to widgets by their unique ID
+        $this->config->setModule('Goals');
+        $this->config->setAction('widgetGoalReport');
+        $this->config->setParameters(['idGoal' => 4]);
+        $uniqueId = $this->config->getUniqueId();
+
+        $this->config->setIsStarred(true);
+
+        $this->assertSame($uniqueId, $this->config->getUniqueId());
+    }
+
     public function testSubcategoryIdSetGet()
     {
         $this->config->setSubcategoryId('testsubcat');

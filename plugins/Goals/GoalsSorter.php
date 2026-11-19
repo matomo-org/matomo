@@ -21,8 +21,7 @@ class GoalsSorter
 {
     /**
      * Sorts goals so starred goals come first. Within the starred and the not starred goals, goals are
-     * ordered by name, ignoring case and comparing numbers by their value ("Goal 2" before "Goal 10").
-     * Goals with an equal name are ordered by their ID.
+     * ordered by name (see {@link compareNames()}). Goals with an equal name are ordered by their ID.
      *
      * Entries without a numeric `idgoal`, such as the ecommerce order and abandoned cart pseudo-goals,
      * cannot be starred and keep their position.
@@ -94,43 +93,67 @@ class GoalsSorter
         return (int) $a['idgoal'] <=> (int) $b['idgoal'];
     }
 
+    /**
+     * Compares names like `strcasecmp()`, which Matomo used to sort goals by name, except that a run of
+     * digits is compared by its value ("Goal 2" before "Goal 10"):
+     *
+     * - characters are compared by their character code, with A-Z matching a-z, so "<" comes before
+     *   letters and "{" after them, and a name starting with a non-ASCII letter such as "Écrire" comes
+     *   after all names starting with an ASCII letter;
+     * - names that are equal this way, such as "goal 01" and "Goal 1", compare as equal.
+     *
+     * The Vue helper `sortGoalsStarredFirst()` implements the same comparison. The UTF-8 bytes compared
+     * here are in the same order as the code points compared there.
+     */
     private static function compareNames(string $a, string $b): int
     {
-        $collator = self::getCollator();
-        if (null !== $collator) {
-            $result = $collator->compare($a, $b);
-            if (false !== $result) {
-                return $result;
+        $lengthA = strlen($a);
+        $lengthB = strlen($b);
+        $i = 0;
+        $j = 0;
+
+        while ($i < $lengthA && $j < $lengthB) {
+            if (self::isDigit($a[$i]) && self::isDigit($b[$j])) {
+                $runA = strspn($a, '0123456789', $i);
+                $runB = strspn($b, '0123456789', $j);
+                $numberA = ltrim(substr($a, $i, $runA), '0');
+                $numberB = ltrim(substr($b, $j, $runB), '0');
+
+                // numbers of any length: more digits is the bigger number, else compare digit by digit
+                $byNumber = strlen($numberA) <=> strlen($numberB);
+                if (0 === $byNumber) {
+                    $byNumber = strcmp($numberA, $numberB) <=> 0;
+                }
+                if (0 !== $byNumber) {
+                    return $byNumber;
+                }
+
+                $i += $runA;
+                $j += $runB;
+                continue;
             }
+
+            $byCharacter = self::lowerAscii(ord($a[$i])) <=> self::lowerAscii(ord($b[$j]));
+            if (0 !== $byCharacter) {
+                return $byCharacter;
+            }
+
+            $i++;
+            $j++;
         }
 
-        return strnatcasecmp($a, $b);
+        // a name that is the start of the other comes first
+        return ($lengthA - $i) <=> ($lengthB - $j);
     }
 
-    /**
-     * The intl extension is optional. With it, names are compared like the Vue helper compares them
-     * (`localeCompare` with `sensitivity: 'base'` and `numeric: true`), so accented names such as "Écrire"
-     * are sorted next to "Ecrire". Without it, `strnatcasecmp` puts names starting with a non-ASCII
-     * character last.
-     */
-    private static function getCollator(): ?\Collator
+    private static function isDigit(string $character): bool
     {
-        static $collator = false;
+        $code = ord($character);
+        return $code >= 48 && $code <= 57;
+    }
 
-        if (false === $collator) {
-            $collator = null;
-
-            if (class_exists(\Collator::class)) {
-                try {
-                    $collator = new \Collator('root');
-                    $collator->setStrength(\Collator::PRIMARY);
-                    $collator->setAttribute(\Collator::NUMERIC_COLLATION, \Collator::ON);
-                } catch (\Throwable $e) {
-                    $collator = null;
-                }
-            }
-        }
-
-        return $collator;
+    private static function lowerAscii(int $code): int
+    {
+        return $code >= 65 && $code <= 90 ? $code + 32 : $code;
     }
 }

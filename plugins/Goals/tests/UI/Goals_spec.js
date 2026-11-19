@@ -20,6 +20,39 @@ describe("Goals", function () {
         expect(await report.screenshot()).to.matchImage('overview');
     });
 
+    it('should list the starred goal first on the goals overview and mark it', async function() {
+        // the fixture stars goal 2, whose name is an XSS payload, so it comes before "Goal 1"
+        await page.waitForSelector('h2[goal-page-link] .starToggle');
+
+        const titles = await page.$$eval('h2[goal-page-link]', (elements) => elements.map((element) => ({
+            id: element.getAttribute('goal-page-link'),
+            text: element.textContent,
+            starred: !!element.querySelector('.starToggle--starred'),
+            tooltip: element.querySelector('.starToggle') ? element.querySelector('.starToggle').getAttribute('title') : '',
+        })));
+
+        expect(titles.map((title) => title.id)).to.deep.equal(['2', '1']);
+        expect(titles.map((title) => title.starred)).to.deep.equal([true, false]);
+        expect(titles[0].tooltip).to.equal('Starred goal');
+        // the name is shown as text next to the star, not evaluated
+        expect(titles[0].text).to.contain('{{_Vue.h.constructor');
+
+        // the columns of the goals table on the overview list the starred goal first and mark it
+        const headers = await page.$$eval('.dataTableVizGoals thead th', (elements) => elements.map((element) => ({
+            text: element.textContent.replace(/\s+/g, ' ').trim(),
+            starredGoal: element.getAttribute('data-starred-goal'),
+            starred: !!element.querySelector('.starToggle--starred'),
+        })));
+        const starredGoalColumn = headers.findIndex((header) => header.starredGoal === '2');
+        const goal1Column = headers.findIndex((header) => header.text.startsWith('Goal 1'));
+
+        expect(starredGoalColumn).to.be.at.least(0);
+        expect(goal1Column).to.be.greaterThan(starredGoalColumn);
+        expect(headers[starredGoalColumn].starred).to.equal(true);
+        // only the columns of the starred goal have a star
+        headers.filter((header) => header.starred).forEach((header) => expect(header.starredGoal).to.equal('2'));
+    });
+
     it('should show goals by page', async function() {
 
         await page.evaluate(function(){
