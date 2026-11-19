@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Session;
 use Piwik\Session\SessionNamespace;
 
@@ -161,10 +162,19 @@ final class Service
         $session = self::isSessionEnabled() ? new SessionNamespace(self::SESSION_NAMESPACE) : null;
         if ($session !== null && $session->notifiedLogin !== Piwik::getCurrentUserLogin()) {
             self::removeNoticesFromSession();
-            DecisionNotifications::removeFromSession($session);
+            DecisionNotifications::removeFromSession();
             $session->notifiedLists = [];
             $session->notifiedLogin = Piwik::getCurrentUserLogin();
             $session->checkedLogin = null;
+        }
+
+        if ($session !== null && !$this->isEnabled()) {
+            // persistent, so one shown before the feature was turned off would otherwise stay
+            DecisionNotifications::removeFromSession();
+        }
+        if ($session !== null && (!$this->isEnabled() || !Piwik::hasUserSuperUserAccess())) {
+            // also persistent, so they would outlive the user's super user access or the feature being turned off
+            self::removeNoticesFromSession();
         }
 
         if (!$this->isEnabled() || Piwik::isUserIsAnonymous()) {
@@ -229,9 +239,10 @@ final class Service
             }
         }
 
-        // a transient notice made without a session would be lost before any page displays it
+        // without a session no page displays the notices
         if ($session !== null) {
-            DecisionNotifications::createIfNeeded($session);
+            // an approval waits for its plugin to be activated, which changes no request either
+            $checkedPlugins = array_merge($checkedPlugins, DecisionNotifications::createIfNeeded());
         }
 
         // a check that needed the current super users can change with them, and demoting one changes no request
@@ -256,8 +267,19 @@ final class Service
             return;
         }
 
+        // the event that calls this fires before CoreHome checks the token, so a forged request must not store anything
+        $tokenRequest = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
+        $tokenUser = Piwik::getCurrentUserTokenAuth();
+        if ((!empty($tokenRequest) || !empty($tokenUser)) && $tokenRequest !== $tokenUser) {
+            return;
+        }
+
+        if (!Piwik::isUserIsAnonymous() && DecisionNotifications::dismiss($notificationId)) {
+            return;
+        }
+
         if (!Piwik::hasUserSuperUserAccess()) {
-            return; // only super users can see and dismiss those notifications
+            return; // only super users can see and dismiss the other notifications
         }
 
         if (RequestsNotification::isOwnId($notificationId)) {

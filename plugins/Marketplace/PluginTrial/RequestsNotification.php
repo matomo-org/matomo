@@ -48,15 +48,14 @@ final class RequestsNotification
             return '<b>' . htmlentities($displayName) . '</b>';
         }, array_values($displayNames));
 
-        $message = count($names) === 1
-            ? Piwik::translate('Marketplace_PluginRequestedNotification', [$names[0]])
-            : Piwik::translate('Marketplace_PluginsRequestedNotification', [count($names), self::joinNames($names)]);
         // kept in the session between checks, so it carries only the site of the request that happened to build it
-        $message .= sprintf(
-            ' <a href="%s">%s</a>',
-            (new SiteAwareLinks())->getActionUrl('manageRequests'),
-            Piwik::translate('Marketplace_ReviewRequests')
-        );
+        $linkStart = sprintf('<a href="%s">', (new SiteAwareLinks())->getActionUrl('manageRequests'));
+        $message = count($names) === 1
+            ? Piwik::translate('Marketplace_PluginRequestedNotification', [$names[0], $linkStart, '</a>'])
+            : Piwik::translate(
+                'Marketplace_PluginsRequestedNotification',
+                [count($names), self::joinNames($names), $linkStart, '</a>']
+            );
 
         $notification = new MatomoNotification($message);
         $notification->raw = true;
@@ -92,7 +91,15 @@ final class RequestsNotification
     public static function joinNames(array $names): string
     {
         $last = array_pop($names);
+        if (empty($names)) {
+            return $last;
+        }
 
-        return empty($names) ? $last : implode(', ', $names) . ' ' . Piwik::translate('General_And') . ' ' . $last;
+        $list = array_shift($names);
+        foreach ($names as $name) {
+            $list = Piwik::translate('Marketplace_PluginListSeparator', [$list, $name]);
+        }
+
+        return Piwik::translate('Marketplace_PluginListLastSeparator', [$list, $last]);
     }
 }
