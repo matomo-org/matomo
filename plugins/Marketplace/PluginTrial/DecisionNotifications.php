@@ -122,9 +122,17 @@ final class DecisionNotifications
         return 'MarketplaceRequestDecisions.' . md5($login);
     }
 
+    /**
+     * @phpstan-impure the user may be deleted by another request between two calls
+     */
+    private static function userExists(string $login): bool
+    {
+        return (new UsersModel())->userExists($login);
+    }
+
     private static function markDismissed(string $login, bool $isApproval, int $idDecision): void
     {
-        if (!(new UsersModel())->userExists($login)) {
+        if (!self::userExists($login)) {
             return; // deleted while this request was on its way, so nothing may be stored for them again
         }
 
@@ -167,6 +175,12 @@ final class DecisionNotifications
             Option::delete(sprintf(self::DISMISSED_OPTION_NAME, $login));
         } else {
             Option::set(sprintf(self::DISMISSED_OPTION_NAME, $login), implode(',', $dismissed));
+        }
+
+        // a deletion that gave up waiting for the lock may have run since the check above
+        if (!self::userExists($login)) {
+            Option::delete(sprintf(self::SEEN_OPTION_NAME, $login));
+            Option::delete(sprintf(self::DISMISSED_OPTION_NAME, $login));
         }
     }
 
