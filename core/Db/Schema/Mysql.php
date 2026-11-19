@@ -14,7 +14,9 @@ use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db\QueryCapabilitiesInterface;
 use Piwik\Db\SchemaInterface;
+use Piwik\Db\SqlDialectInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
@@ -26,7 +28,7 @@ use Piwik\Version;
 /**
  * MySQL schema
  */
-class Mysql implements SchemaInterface
+class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesInterface
 {
     public const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
     public const MAX_TABLE_NAME_LENGTH = 64;
@@ -868,6 +870,50 @@ class Mysql implements SchemaInterface
     public function supportsSortingInSubquery(): bool
     {
         return true;
+    }
+
+    public function supportsWindowFunctions(): bool
+    {
+        // MySQL 8 and MariaDB support window functions, but ranking queries keep the user-variable
+        // counters here: switching MySQL and MariaDB over is a separate, deliberately tested change.
+        return false;
+    }
+
+    public function supportsGroupByWithRollup(): bool
+    {
+        return true;
+    }
+
+    public function getInsertIgnoreSql(): string
+    {
+        return 'INSERT IGNORE';
+    }
+
+    public function getOnDuplicateKeyUpdateSql(): string
+    {
+        return 'ON DUPLICATE KEY UPDATE';
+    }
+
+    public function getInsertedValueSql(string $column): string
+    {
+        return 'VALUES(' . $column . ')';
+    }
+
+    public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
+    {
+        if (strpbrk($separator, "'\"\\") !== false) {
+            throw new \InvalidArgumentException('The GROUP_CONCAT separator must not contain quotes or backslashes.');
+        }
+
+        $orderBy = $orderBy === '' ? '' : ' ORDER BY ' . $orderBy;
+
+        return 'GROUP_CONCAT(' . $expression . $orderBy . " SEPARATOR '" . $separator . "')";
+    }
+
+    public function getLikeEscapeSql(): string
+    {
+        // backslash is MySQL's default LIKE escape character
+        return '';
     }
 
     public function getSupportedReadIsolationTransactionLevel(): string

@@ -17,6 +17,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Metrics;
 use Piwik\Plugin\LogTablesProvider;
@@ -336,12 +337,12 @@ class LogAggregator
             $all = $readerDb->fetchAll($segmentSelectSql, $segmentSelectBind);
             if (!empty($all)) {
                 // we're not using batchinsert since this would not support the reader DB.
-                $readerDb->query('INSERT IGNORE INTO ' . $table . ' VALUES (' . implode('),(', array_column($all, 'idvisit')) . ')');
+                $readerDb->query(Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $table . ' VALUES (' . implode('),(', array_column($all, 'idvisit')) . ')');
             }
             return;
         }
 
-        $insertIntoStatement = 'INSERT IGNORE INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+        $insertIntoStatement = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
         $readerDb->query($insertIntoStatement, $segmentSelectBind);
 
         $transactionLevel->restorePreviousStatus();

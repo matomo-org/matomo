@@ -14,6 +14,8 @@ use Piwik\Common;
 use Piwik\DataAccess\LogQueryBuilder\JoinGenerator;
 use Piwik\DataAccess\LogQueryBuilder\JoinTables;
 use Piwik\Db;
+use Piwik\Db\RollupQuery;
+use Piwik\Db\Schema;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\Segment\SegmentExpression;
 
@@ -144,6 +146,18 @@ class LogQueryBuilder
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $innerGroupBy);
         } elseif ($joinWithSubSelect) {
             $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables);
+        } elseif ($withRollup && $groupBy && !Schema::getInstance()->supportsGroupByWithRollup()) {
+            $rollup = RollupQuery::build($select, $from, (string) $where, $groupBy, $bind);
+            $bind = $rollup['bind'];
+            $sql = "SELECT * FROM ( {$rollup['sql']} ) AS rollupQuery";
+
+            // consumers look up a detail row's subtotal, so it has to come first on ties
+            $sorts = array_filter([(string) $orderBy, $rollup['order']]);
+            if ($sorts !== []) {
+                $sql .= ' ORDER BY ' . implode(', ', $sorts);
+            }
+
+            $sql = $this->appendLimitClauseToQuery($sql, $limitAndOffset);
         } else {
             $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $withRollup);
         }
@@ -508,6 +522,17 @@ class LogQueryBuilder
                         SELECT * FROM (
                             $sql
                         ) AS rollupQuery";
+
+                // consumers look up a detail row's subtotal, so it has to come first on ties
+                try {
+                    $parentFirst = RollupQuery::getParentFirstOrder($select, $groupBy);
+                } catch (Exception $e) {
+                    // the select list is too unusual to tell: keep the sort as it was
+                    $parentFirst = '';
+                }
+                if ($parentFirst !== '') {
+                    $orderBy .= ', ' . $parentFirst;
+                }
             }
             $sql .= "
 			ORDER BY

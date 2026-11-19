@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Db\Schema;
 use Piwik\Log\LoggerInterface;
 
 /**
@@ -197,7 +198,7 @@ class Option
 
         if (! $rowsUpdated) {
             try {
-                $sql  = 'INSERT IGNORE INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
+                $sql  = Schema::getInstance()->getInsertIgnoreSql() . ' INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
                         'VALUES (?, ?, ?) ';
                 $bind = array($name, $value, $autoLoad);
 
@@ -230,7 +231,7 @@ class Option
         $name   = $this->trimOptionNameIfNeeded($name);
         $name = $this->getNameForLike($name);
 
-        $sql    = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
+        $sql    = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?' . Schema::getInstance()->getLikeEscapeSql();
         $bind[] = $name;
 
         if (isset($value)) {
@@ -256,7 +257,7 @@ class Option
         $name = $this->trimOptionNameIfNeeded($name);
         $name = $this->getNameForLike($name);
 
-        $sql  = 'SELECT option_name, option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
+        $sql  = 'SELECT option_name, option_value FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?' . Schema::getInstance()->getLikeEscapeSql();
         $bind = array($name);
         $rows = Db::fetchAll($sql, $bind);
 
