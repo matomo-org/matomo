@@ -114,7 +114,7 @@ class Transport
 
             return $phpMailer->send();
         } catch (PHPMailerException $e) {
-            if ($phpMailer->AuthType === 'XOAUTH2' && $e->getMessage() === ($phpMailer->getTranslations()['authenticate'] ?? null)) {
+            if (SmtpTokenProvider::isOAuthType($phpMailer->AuthType) && $e->getMessage() === ($phpMailer->getTranslations()['authenticate'] ?? null)) {
                 // the mail server rejected the login, so the next email requests a new access token
                 StaticContainer::get(SmtpTokenProvider::class)->forgetAccessToken();
             }
@@ -148,7 +148,7 @@ class Transport
             $phpMailer->Username = $mailConfig['username'];
         }
 
-        if ($phpMailer->AuthType === 'XOAUTH2') {
+        if (SmtpTokenProvider::isOAuthType($phpMailer->AuthType)) {
             $this->initOAuth($phpMailer);
         } elseif (!empty($mailConfig['password'])) {
             $phpMailer->Password = $mailConfig['password'];

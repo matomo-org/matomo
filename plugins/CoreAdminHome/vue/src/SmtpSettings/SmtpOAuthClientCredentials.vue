@@ -1,0 +1,161 @@
+<!--
+  Matomo - free/libre analytics platform
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <div>
+    <Field
+      uicontrol="text"
+      name="mailOAuthTokenUrl"
+      :model-value="modelValue.tokenUrl"
+      @update:model-value="updateSettingTiedToSecret({ tokenUrl: $event })"
+      :title="translate('CoreAdminHome_SmtpOAuthTokenUrl')"
+      :inline-help="tokenUrlHelp"
+      :autocomplete="'off'"
+    />
+
+    <Field
+      uicontrol="text"
+      name="mailOAuthClientId"
+      :model-value="modelValue.clientId"
+      @update:model-value="updateSettingTiedToSecret({ clientId: $event })"
+      :title="translate('CoreAdminHome_SmtpOAuthClientId')"
+      :inline-help="translate('CoreAdminHome_SmtpOAuthClientIdHelp')"
+      :autocomplete="'off'"
+    />
+
+    <Field
+      uicontrol="radio"
+      name="mailOAuthCredentialType"
+      :model-value="modelValue.credentialType"
+      @update:model-value="update({ credentialType: $event })"
+      :title="translate('CoreAdminHome_SmtpOAuthCredentialType')"
+      :options="credentialTypeOptions"
+      :inline-help="credentialTypeHelp"
+    />
+
+    <Field
+      v-if="!isCertificate"
+      uicontrol="password"
+      name="mailOAuthClientSecret"
+      :model-value="clientSecret"
+      @update:model-value="update({ clientSecret: $event })"
+      @click="!clientSecretChanged && $event.target.select();"
+      :title="translate('CoreAdminHome_SmtpOAuthClientSecret')"
+      :inline-help="translate('CoreAdminHome_SmtpOAuthClientSecretHelp', '<strong>', '</strong>')"
+      :autocomplete="'off'"
+      v-auto-clear-password
+    />
+
+    <Field
+      uicontrol="text"
+      name="mailOAuthScope"
+      :model-value="modelValue.scope"
+      @update:model-value="updateSettingTiedToSecret({ scope: $event })"
+      :title="translate('CoreAdminHome_SmtpOAuthScope')"
+      :inline-help="translate('CoreAdminHome_SmtpOAuthScopeHelp', 'https://outlook.office365.com/.default')"
+      :autocomplete="'off'"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+import { translate, AutoClearPassword, Matomo } from 'CoreHome';
+import { Field } from 'CorePluginsAdmin';
+
+/**
+ * The settings of the OAuth 2.0 client credentials flow. `clientSecret` is only set once the
+ * user changed it, so an unchanged secret is never sent back to the server.
+ */
+export interface SmtpOAuthClientCredentialsSettings {
+  tokenUrl: string;
+  clientId: string;
+  scope: string;
+  credentialType: string;
+  clientSecret?: string;
+}
+
+export default defineComponent({
+  props: {
+    modelValue: {
+      type: Object as PropType<SmtpOAuthClientCredentialsSettings>,
+      required: true,
+    },
+    hasStoredClientSecret: Boolean,
+    certificatePath: {
+      type: String,
+      default: '',
+    },
+  },
+  emits: ['update:modelValue'],
+  components: {
+    Field,
+  },
+  directives: {
+    AutoClearPassword,
+  },
+  computed: {
+    isCertificate() {
+      return this.modelValue.credentialType === 'certificate';
+    },
+    credentialTypeOptions() {
+      return {
+        secret: translate('CoreAdminHome_SmtpOAuthClientSecret'),
+        certificate: translate('CoreAdminHome_SmtpOAuthCertificate'),
+      };
+    },
+    // shown as HTML. It is never empty: Field only fills the help box when it is already shown,
+    // so a box that disappears for one type would come back empty
+    credentialTypeHelp() {
+      if (!this.isCertificate) {
+        return translate('CoreAdminHome_SmtpOAuthClientSecretUsed');
+      }
+
+      if (this.certificatePath) {
+        return translate(
+          'CoreAdminHome_SmtpOAuthCertificateConfigured',
+          Matomo.helper.htmlEntities(this.certificatePath),
+        );
+      }
+
+      return translate('CoreAdminHome_SmtpOAuthCertificateNotConfigured');
+    },
+    clientSecretChanged() {
+      return this.modelValue.clientSecret !== undefined;
+    },
+    clientSecret() {
+      if (this.modelValue.clientSecret !== undefined) {
+        return this.modelValue.clientSecret;
+      }
+
+      return this.hasStoredClientSecret ? '******' : '';
+    },
+    // the example is in a computed property, Vue would decode its &lt; in the template
+    tokenUrlHelp() {
+      return translate(
+        'CoreAdminHome_SmtpOAuthTokenUrlHelp',
+        'https://login.microsoftonline.com/&lt;tenant-id&gt;/oauth2/v2.0/token',
+      );
+    },
+  },
+  methods: {
+    update(changes: Partial<SmtpOAuthClientCredentialsSettings>) {
+      this.$emit('update:modelValue', { ...this.modelValue, ...changes });
+    },
+    updateSettingTiedToSecret(changes: Partial<SmtpOAuthClientCredentialsSettings>) {
+      if (this.clientSecretChanged) {
+        this.update(changes);
+        return;
+      }
+
+      // the stored client secret must not be sent to another token URL,
+      // or be used with another client ID or scope
+      this.update({ ...changes, clientSecret: '' });
+    },
+  },
+});
+</script>
