@@ -18,6 +18,7 @@
 			<name>MyName3</name>
 			<order>72</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -32,6 +33,7 @@
 				</parameters>
 				<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension3</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -55,6 +57,7 @@
 			<name>MyName5</name>
 			<order>73</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -69,6 +72,7 @@
 				</parameters>
 				<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension5</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -92,6 +96,7 @@
 			<name>Engagement</name>
 			<order>46</order>
 			<help>&lt;p&gt;The Engagement section provides reports that help to quantify how many new and returning visitors you get. You can also review reports that break down the average time and number of pages per visit, as well as the number of times a visitor has been to your site and the most common number of days between visits.&lt;/p&gt;&lt;p&gt;This can help you to optimise for frequency and high-interaction visits in addition to maximising your reach.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -105,6 +110,7 @@
 				</parameters>
 				<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerVisitDuration</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>cloud</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -119,6 +125,7 @@
 				</parameters>
 				<uniqueId>widgetVisitorInterestgetNumberOfVisitsPerPage</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>cloud</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -133,6 +140,7 @@
 				</parameters>
 				<uniqueId>widgetVisitorInterestgetNumberOfVisitsByVisitCount</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -147,6 +155,7 @@
 				</parameters>
 				<uniqueId>widgetVisitorInterestgetNumberOfVisitsByDaysSinceLast</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -163,6 +172,7 @@
 				</parameters>
 				<uniqueId>widgetVisitFrequencygetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>graphEvolution</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -179,6 +189,7 @@
 				</parameters>
 				<uniqueId>widgetVisitFrequencygetforceView1viewDataTablesparklines</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -202,6 +213,7 @@
 			<name>Transitions</name>
 			<order>46</order>
 			<help>&lt;p&gt;Transitions is a report showing the things your visitors did directly before and after viewing a given page. This page explains how to access, understand, and use the powerful &quot;Transitions&quot; report.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/transitions/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Transitions.getTransitions&quot;&gt;More details&lt;/a&gt;&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -215,6 +227,7 @@
 				</parameters>
 				<uniqueId>widgetTransitionsgetTransitions</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<clientComponent>
 					<plugin>Transitions</plugin>
 					<name>TransitionsPage</name>
@@ -240,6 +253,7 @@
 			<name>Downloads</name>
 			<order>35</order>
 			<help>&lt;p&gt;In this report, you can see which files your visitors have downloaded.&lt;/p&gt;&lt;p&gt;What Matomo counts as a download is the click on a download link. Whether the download was completed or not isn't known to Matomo.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -253,6 +267,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetDownloads</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -276,6 +291,7 @@
 			<name>Entry pages</name>
 			<order>10</order>
 			<help>&lt;p&gt;This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during their visit.&lt;/p&gt;&lt;p&gt;The entry URLs are displayed as a folder structure.&lt;/p&gt;&lt;p&gt;Use the plus and minus icons on the left to navigate.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -289,6 +305,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetEntryPageUrls</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -303,6 +320,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetEntryPageTitles</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -326,6 +344,7 @@
 			<name>Exit pages</name>
 			<order>15</order>
 			<help>&lt;p&gt;This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during their visit.&lt;/p&gt;&lt;p&gt;The exit URLs are displayed as a folder structure.&lt;/p&gt;&lt;p&gt;Use the plus and minus icons on the left to navigate.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -339,6 +358,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetExitPageUrls</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -353,6 +373,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetExitPageTitles</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -376,6 +397,7 @@
 			<name>Outlinks</name>
 			<order>30</order>
 			<help>&lt;p&gt;This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;/p&gt;&lt;p&gt;Use the plus and minus icons on the left to navigate.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -389,6 +411,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetOutlinks</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -412,6 +435,7 @@
 			<name>Page titles</name>
 			<order>20</order>
 			<help>&lt;p&gt;This report contains information about the titles of the pages that have been visited.&lt;/p&gt;&lt;p&gt;The page title is the HTML &amp;lt;title&amp;gt; Tag that most browsers show in their window title.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -425,6 +449,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetPageTitles</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -448,6 +473,7 @@
 			<name>Pages</name>
 			<order>5</order>
 			<help>&lt;p&gt;This report contains information about the page URLs that have been visited.&lt;/p&gt;&lt;p&gt;The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;/p&gt;&lt;p&gt;Use the plus and minus icons on the left to navigate.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -461,6 +487,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetPageUrls</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -484,6 +511,7 @@
 			<name>Site Search</name>
 			<order>25</order>
 			<help>&lt;p&gt;The Site Search section shows which keywords visitors use when searching your website. It also displays which pages users view after performing a search and which on-site search keywords return no results at all.&lt;/p&gt;&lt;p&gt;These reports can give you ideas about missing content on your site, insight into what your visitors are looking for but can’t find easily, and more.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/site-search/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Actions.getSiteSearchCategories&quot;&gt;Learn more in the Site Search guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -497,6 +525,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetSiteSearchKeywords</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -511,6 +540,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetPageUrlsFollowingSiteSearch</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -525,6 +555,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetSiteSearchNoResultKeywords</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -539,6 +570,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetPageTitlesFollowingSiteSearch</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -553,6 +585,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetSiteSearchCategories</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -576,6 +609,7 @@
 			<name>Events</name>
 			<order>40</order>
 			<help>&lt;p&gt;The Events section offers reports on the custom events associated with your site. Events typically require custom configuration. Once configured you can review reports broken down by category, action and name.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/event-tracking/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Events.getCategory&quot;&gt;Learn more about event tracking here.&lt;/a&gt;&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -590,6 +624,7 @@
 				</parameters>
 				<uniqueId>widgetEvents</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<layout>ByDimension</layout>
 				<isContainer>1</isContainer>
 				<widgets>
@@ -611,6 +646,7 @@
 							<name>Events</name>
 							<order>99</order>
 							<help />
+							<isStarred>0</isStarred>
 						</subcategory>
 						<module>Events</module>
 						<action>getCategory</action>
@@ -622,6 +658,7 @@
 						</parameters>
 						<uniqueId>widgetEventsgetCategorysecondaryDimensioneventAction</uniqueId>
 						<isWide>0</isWide>
+						<isStarred>0</isStarred>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -643,6 +680,7 @@
 							<name>Events</name>
 							<order>99</order>
 							<help />
+							<isStarred>0</isStarred>
 						</subcategory>
 						<module>Events</module>
 						<action>getAction</action>
@@ -654,6 +692,7 @@
 						</parameters>
 						<uniqueId>widgetEventsgetActionsecondaryDimensioneventName</uniqueId>
 						<isWide>0</isWide>
+						<isStarred>0</isStarred>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -675,6 +714,7 @@
 							<name>Events</name>
 							<order>99</order>
 							<help />
+							<isStarred>0</isStarred>
 						</subcategory>
 						<module>Events</module>
 						<action>getName</action>
@@ -686,6 +726,7 @@
 						</parameters>
 						<uniqueId>widgetEventsgetNamesecondaryDimensioneventAction</uniqueId>
 						<isWide>0</isWide>
+						<isStarred>0</isStarred>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -711,6 +752,7 @@
 			<name>Contents</name>
 			<order>45</order>
 			<help>&lt;p&gt;Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/content-tracking?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Contents.getContentNames&quot;&gt;Learn more in the Content Tracking guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -725,6 +767,7 @@
 				</parameters>
 				<uniqueId>widgetContents</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<layout>ByDimension</layout>
 				<isContainer>1</isContainer>
 				<widgets>
@@ -746,6 +789,7 @@
 							<name>Contents</name>
 							<order>99</order>
 							<help />
+							<isStarred>0</isStarred>
 						</subcategory>
 						<module>Contents</module>
 						<action>getContentNames</action>
@@ -756,6 +800,7 @@
 						</parameters>
 						<uniqueId>widgetContentsgetContentNames</uniqueId>
 						<isWide>0</isWide>
+						<isStarred>0</isStarred>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -777,6 +822,7 @@
 							<name>Contents</name>
 							<order>99</order>
 							<help />
+							<isStarred>0</isStarred>
 						</subcategory>
 						<module>Contents</module>
 						<action>getContentPieces</action>
@@ -787,6 +833,7 @@
 						</parameters>
 						<uniqueId>widgetContentsgetContentPieces</uniqueId>
 						<isWide>0</isWide>
+						<isStarred>0</isStarred>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -812,6 +859,7 @@
 			<name>Performance</name>
 			<order>47</order>
 			<help>&lt;p&gt;The Performance section can help you analyse how fast your website or app is performing on the whole and help discover whether you have specific pages that significantly deviate from your averages.&lt;/p&gt;&lt;p&gt;You can also find reports showing exactly how long each page of your website takes to load and what is contributing to their loading time.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -827,6 +875,7 @@
 				</parameters>
 				<uniqueId>widgetPagePerformancegetEvolutionGraphforceView1viewDataTablegraphStackedBarEvolution</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>graphStackedBarEvolution</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -843,6 +892,7 @@
 				</parameters>
 				<uniqueId>widgetPagePerformancegetforceView1viewDataTablesparklines</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -860,6 +910,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetPageUrlsforceView1viewDataTabletablePerformanceColumnsperformance1</uniqueId>
 				<isWide>1</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>tablePerformanceColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -877,6 +928,7 @@
 				</parameters>
 				<uniqueId>widgetActionsgetPageTitlesforceView1viewDataTabletablePerformanceColumnsperformance1</uniqueId>
 				<isWide>1</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>tablePerformanceColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -900,6 +952,7 @@
 			<name>MyName1</name>
 			<order>70</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -914,6 +967,7 @@
 				</parameters>
 				<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension1</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -937,6 +991,7 @@
 			<name>MyName2</name>
 			<order>71</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -951,6 +1006,7 @@
 				</parameters>
 				<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension2</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -974,6 +1030,7 @@
 			<name>MyName6</name>
 			<order>74</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -988,6 +1045,7 @@
 				</parameters>
 				<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension6</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1011,6 +1069,7 @@
 			<name>Devices</name>
 			<order>15</order>
 			<help>&lt;p&gt;The Devices section helps you understand the technology that your visitors are using to access your site. You will see reports on the type of device and specific models to enable you to optimise your site for the most popular devices.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1024,6 +1083,7 @@
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetType</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1038,6 +1098,7 @@
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetModel</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1052,6 +1113,7 @@
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetBrand</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1066,6 +1128,7 @@
 				</parameters>
 				<uniqueId>widgetResolutiongetResolution</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1089,6 +1152,7 @@
 			<name>Software</name>
 			<order>20</order>
 			<help>&lt;p&gt;The Software section shows the operating systems, browsers and plugins that your visitors are using to access the site so that you can optimise your site to ensure it is fully compatible with the most popular configurations.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1102,6 +1166,7 @@
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetOsVersions</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1116,6 +1181,7 @@
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetBrowsers</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1130,6 +1196,7 @@
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetBrowserVersions</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1144,6 +1211,7 @@
 				</parameters>
 				<uniqueId>widgetResolutiongetConfiguration</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1158,6 +1226,7 @@
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetOsFamilies</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1172,6 +1241,7 @@
 				</parameters>
 				<uniqueId>widgetDevicesDetectiongetBrowserEngines</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>graphPie</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1186,6 +1256,7 @@
 				</parameters>
 				<uniqueId>widgetDevicePluginsgetPlugin</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1209,6 +1280,7 @@
 			<name>Overview</name>
 			<order>2</order>
 			<help>&lt;p&gt;The Visitors Overview helps you understand the popularity of your site. It does this by providing charts that show how many visits your site is receiving over a selected period and the average level of engagement for key features, such as searches and downloads.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1224,6 +1296,7 @@
 				</parameters>
 				<uniqueId>widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>graphEvolution</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1240,6 +1313,7 @@
 				</parameters>
 				<uniqueId>widgetVisitsSummarygetforceView1viewDataTablesparklines</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>sparklines</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1263,6 +1337,7 @@
 			<name>Locations</name>
 			<order>10</order>
 			<help>&lt;p&gt;The &quot;Locations&quot; section is the best way to find out what countries, continents, regions, and cities your website visitors come from — in table and map form. It also says what language their browser is set to, helping identify international visitors in alternative locations.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1276,6 +1351,7 @@
 				</parameters>
 				<uniqueId>widgetUserCountryMapvisitorMap</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 			</row>
 			<row>
 				<name>Country</name>
@@ -1288,6 +1364,7 @@
 				</parameters>
 				<uniqueId>widgetUserCountrygetCountry</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1303,6 +1380,7 @@
 				</parameters>
 				<uniqueId>widgetContinent</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<layout />
 				<isContainer>1</isContainer>
 				<widgets>
@@ -1324,6 +1402,7 @@
 							<name>Locations</name>
 							<order>99</order>
 							<help />
+							<isStarred>0</isStarred>
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getContinent</action>
@@ -1334,6 +1413,7 @@
 						</parameters>
 						<uniqueId>widgetUserCountrygetContinent</uniqueId>
 						<isWide>0</isWide>
+						<isStarred>0</isStarred>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1355,6 +1435,7 @@
 							<name>Locations</name>
 							<order>99</order>
 							<help />
+							<isStarred>0</isStarred>
 						</subcategory>
 						<module>UserCountry</module>
 						<action>getDistinctCountries</action>
@@ -1365,6 +1446,7 @@
 						</parameters>
 						<uniqueId>widgetUserCountrygetDistinctCountries</uniqueId>
 						<isWide>0</isWide>
+						<isStarred>0</isStarred>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>
 					</row>
@@ -1381,6 +1463,7 @@
 				</parameters>
 				<uniqueId>widgetUserCountrygetRegion</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1395,6 +1478,7 @@
 				</parameters>
 				<uniqueId>widgetUserLanguagegetLanguage</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1409,6 +1493,7 @@
 				</parameters>
 				<uniqueId>widgetUserCountrygetCity</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1423,6 +1508,7 @@
 				</parameters>
 				<uniqueId>widgetUserLanguagegetLanguageCode</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1446,6 +1532,7 @@
 			<name>Times</name>
 			<order>35</order>
 			<help>&lt;p&gt;The &quot;Times&quot; section shows when people visit your site. Popular local times helps you cater your site to their lives. The most popular server times reveals technical demand.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1459,6 +1546,7 @@
 				</parameters>
 				<uniqueId>widgetVisitTimegetVisitInformationPerLocalTime</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1473,6 +1561,7 @@
 				</parameters>
 				<uniqueId>widgetVisitTimegetVisitInformationPerServerTime</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1487,6 +1576,7 @@
 				</parameters>
 				<uniqueId>widgetVisitTimegetByDayOfWeek</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>graphVerticalBar</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1510,6 +1600,7 @@
 			<name>Real-time Map</name>
 			<order>9</order>
 			<help>&lt;p&gt;Shows the location of website visitors the last 30 minutes, and flashes for new ones. Recent visits are shown as large orange bubbles, and older ones as smaller gray ones. It refreshes every five seconds.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1523,6 +1614,7 @@
 				</parameters>
 				<uniqueId>widgetUserCountryMaprealtimeMap</uniqueId>
 				<isWide>1</isWide>
+				<isStarred>0</isStarred>
 			</row>
 		</widgets>
 	</row>
@@ -1544,6 +1636,7 @@
 			<name>Real-time</name>
 			<order>7</order>
 			<help>&lt;p&gt;The visits in the real-time report show the real-time flow of visits to your website. It includes a real-time counter of your visits and page views in the last 24 hours and the previous 30 minutes.&lt;/p&gt;&lt;p&gt;This report refreshes every 5 seconds and displays new visits (or existing visitors that view a new page) at the top of the list with a fade-in effect.&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1557,6 +1650,7 @@
 				</parameters>
 				<uniqueId>widgetLivewidget</uniqueId>
 				<isWide>1</isWide>
+				<isStarred>0</isStarred>
 			</row>
 		</widgets>
 	</row>
@@ -1578,6 +1672,7 @@
 			<name>Visits Log</name>
 			<order>5</order>
 			<help>&lt;p&gt;The visits log shows you every visit your website receives in detail. Find out which actions each visitor has performed, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the visits log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/real-time/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Live.getLastVisitsDetails&quot;&gt;Learn more in the visit-log guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1594,6 +1689,7 @@
 				</parameters>
 				<uniqueId>widgetLivegetLastVisitsDetailsforceView1viewDataTableVisitorLogsmall1</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>VisitorLog</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1617,6 +1713,7 @@
 			<name>User IDs</name>
 			<order>40</order>
 			<help>&lt;p&gt;The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/user-id?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.UserId.getUsers&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1630,6 +1727,7 @@
 				</parameters>
 				<uniqueId>widgetUserIdgetUsers</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1653,6 +1751,7 @@
 			<name>Custom Variables</name>
 			<order>45</order>
 			<help>&lt;p&gt;This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Read more about this topic in the online guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1666,6 +1765,7 @@
 				</parameters>
 				<uniqueId>widgetCustomVariablesgetCustomVariables</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1689,6 +1789,7 @@
 			<name>Segments</name>
 			<order>99</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1702,6 +1803,7 @@
 				</parameters>
 				<uniqueId>widgetSegmentEditormanageSegments</uniqueId>
 				<isWide>0</isWide>
+				<isStarred>0</isStarred>
 			</row>
 		</widgets>
 	</row>

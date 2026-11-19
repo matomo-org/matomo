@@ -18,6 +18,7 @@
 			<name>MyName1</name>
 			<order>70</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<module>CustomDimensions</module>
 		<action>getCustomDimension</action>
@@ -29,6 +30,7 @@
 		</parameters>
 		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension1</uniqueId>
 		<isWide>0</isWide>
+		<isStarred>0</isStarred>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -50,6 +52,7 @@
 			<name>MyName2</name>
 			<order>71</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<module>CustomDimensions</module>
 		<action>getCustomDimension</action>
@@ -61,6 +64,7 @@
 		</parameters>
 		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension2</uniqueId>
 		<isWide>0</isWide>
+		<isStarred>0</isStarred>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -82,6 +86,7 @@
 			<name>MyName6</name>
 			<order>74</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<module>CustomDimensions</module>
 		<action>getCustomDimension</action>
@@ -93,6 +98,7 @@
 		</parameters>
 		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension6</uniqueId>
 		<isWide>0</isWide>
+		<isStarred>0</isStarred>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -114,6 +120,7 @@
 			<name>MyName3</name>
 			<order>72</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<module>CustomDimensions</module>
 		<action>getCustomDimension</action>
@@ -125,6 +132,7 @@
 		</parameters>
 		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension3</uniqueId>
 		<isWide>0</isWide>
+		<isStarred>0</isStarred>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -146,6 +154,7 @@
 			<name>MyName5</name>
 			<order>73</order>
 			<help />
+			<isStarred>0</isStarred>
 		</subcategory>
 		<module>CustomDimensions</module>
 		<action>getCustomDimension</action>
@@ -157,6 +166,7 @@
 		</parameters>
 		<uniqueId>widgetCustomDimensionsgetCustomDimensionidDimension5</uniqueId>
 		<isWide>0</isWide>
+		<isStarred>0</isStarred>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
 	</row>
