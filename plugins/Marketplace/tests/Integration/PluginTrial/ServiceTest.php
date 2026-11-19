@@ -652,7 +652,8 @@ class ServiceTest extends IntegrationTestCase
         $this->requestAs('alice', 'PremiumPlugin');
         (new Service())->decide('PremiumPlugin', RequestHistory::DECISION_DECLINED);
         $this->startNewSessionAs('alice');
-        $declinedId = (string) $this->findDeclinedNoticeId();
+        $declinedId = $this->findDeclinedNoticeId();
+        self::assertNotNull($declinedId);
 
         // a deletion that gave up waiting for the lock, run after the dismissal checked that the user exists
         $history = new class extends RequestHistory {
