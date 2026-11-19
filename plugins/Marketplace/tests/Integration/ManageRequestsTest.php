@@ -232,6 +232,9 @@ class ManageRequestsTest extends IntegrationTestCase
         self::assertSame(gmdate('Y-m-d', $now), $history['decisions'][0]['decidedAtPretty']);
 
         self::assertSame(5, $this->getVueProp($html, 'history-page-size'));
+        self::assertNotEmpty($this->getVueProp($html, 'install-requested-nonce'));
+        self::assertIsInt($this->getVueProp($html, 'num-users'));
+        self::assertSame(50, $this->getVueProp($html, 'shop-user-limit'));
     }
 
     public function testRequestHistoryIsPagedByFive(): void

@@ -7,6 +7,9 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+const fs = require('fs');
+const path = require('../../../../tests/lib/screenshot-testing/support/path');
+
 describe('Marketplace_ManageRequestsSuperUser', function () {
   this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
@@ -16,17 +19,30 @@ describe('Marketplace_ManageRequestsSuperUser', function () {
     ['john.doe', ''],
   ];
 
-  async function requestTrialAs(login, message) {
+  // a free plugin the mocked Marketplace offers for download, from the zip the PluginUpdate spec uploads
+  const freePluginName = 'TestPluginUpdate';
+  const freePluginPath = path.join(PIWIK_INCLUDE_PATH, '/plugins/', freePluginName);
+  const freePluginRequester = 'free.requester';
+
+  function removeFreePlugin() {
+    fs.rmSync(freePluginPath, { recursive: true, force: true });
+  }
+
+  async function requestAs(login, method, pluginName, message) {
     testEnvironment.fakeIdentity = login;
     testEnvironment.idSitesViewAccess = [1];
     testEnvironment.save();
 
     await page.goto('?module=CoreHome&action=index&idSite=1&period=day&date=yesterday');
     await page.waitForNetworkIdle();
-    await page.evaluate((text) => window.CoreHome.AjaxHelper.post(
-      { module: 'API', method: 'Marketplace.requestTrial' },
-      { pluginName: 'PaidPlugin1', message: text },
-    ), message);
+    await page.evaluate((apiMethod, name, text) => window.CoreHome.AjaxHelper.post(
+      { module: 'API', method: apiMethod },
+      { pluginName: name, message: text },
+    ), method, pluginName, message);
+
+    delete testEnvironment.fakeIdentity;
+    delete testEnvironment.idSitesViewAccess;
+    testEnvironment.save();
   }
 
   // the requests and decisions are made today, which the screenshots must not depend on
@@ -39,6 +55,8 @@ describe('Marketplace_ManageRequestsSuperUser', function () {
   }
 
   before(async function () {
+    removeFreePlugin();
+
     testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
     testEnvironment.overrideConfig('FeatureFlags', 'PluginRequests_feature', 'enabled');
 
@@ -48,15 +66,18 @@ describe('Marketplace_ManageRequestsSuperUser', function () {
     testEnvironment.save();
 
     for (const [login, message] of requests) {
-      await requestTrialAs(login, message);
+      await requestAs(login, 'Marketplace.requestTrial', 'PaidPlugin1', message);
     }
-
-    delete testEnvironment.fakeIdentity;
-    delete testEnvironment.idSitesViewAccess;
-    testEnvironment.save();
   });
 
   after(async function () {
+    removeFreePlugin();
+    await testEnvironment.callApi('UsersManager.deleteUser', {
+      userLogin: freePluginRequester,
+      passwordConfirmation: superUserPassword,
+    });
+
+    delete testEnvironment.mockMarketplacePluginUpdate;
     delete testEnvironment.consumer;
     delete testEnvironment.mockMarketplaceApiService;
     delete testEnvironment.configOverride.FeatureFlags;
@@ -154,5 +175,53 @@ describe('Marketplace_ManageRequestsSuperUser', function () {
     await page.evaluate(() => document.activeElement.blur());
     await fixDates();
     expect(await page.screenshotSelector('.manageRequestsSuperUser')).to.matchImage('history');
+  });
+
+  it('should install a requested free plugin, approve its request and say who was told', async function () {
+    testEnvironment.mockMarketplacePluginUpdate = {
+      name: freePluginName,
+      version: '1.0.0',
+      zip: `plugins/CorePluginsAdmin/tests/resources/${freePluginName}-1.0.0.zip`,
+    };
+    testEnvironment.save();
+
+    // only requesters with an account are emailed, and so counted
+    await testEnvironment.callApi('UsersManager.addUser', {
+      userLogin: freePluginRequester,
+      password: 'requester-password-1',
+      email: 'free.requester@example.com',
+      passwordConfirmation: superUserPassword,
+    });
+    await requestAs(freePluginRequester, 'Marketplace.requestInstall', freePluginName, '');
+
+    await page.goto(manageRequestsUrl);
+    const approveAndInstall = `.manageRequestsSuperUser__row[data-plugin="${freePluginName}"] .manageRequestsSuperUser__approveAndInstall`;
+    await page.waitForSelector(approveAndInstall, { visible: true });
+
+    await Promise.all([
+      page.waitForNavigation(),
+      page.click(approveAndInstall),
+    ]);
+
+    // installing asks for the password unless it was confirmed in the last 15 minutes
+    if (await page.$('#confirm_password_form')) {
+      await page.type('#login_form_password', superUserPassword);
+      await Promise.all([
+        page.waitForNavigation(),
+        page.click('#login_form_submit'),
+      ]);
+    }
+
+    await page.waitForSelector('.notification-success', { visible: true });
+    const notification = await page.evaluate(() => document.querySelector('.notification-success').textContent);
+    expect(notification).to.contain(`${freePluginName} installed. 1 user notified by email.`);
+
+    await page.waitForSelector('.manageRequestsSuperUser__empty', { visible: true });
+
+    await page.click('[data-tab="history"]');
+    await page.waitForSelector('.manageRequestsSuperUser__decision', { visible: true });
+    const decision = await page.evaluate(() => document.querySelector('.manageRequestsSuperUser__decision').textContent);
+    expect(decision).to.contain(freePluginName);
+    expect(decision).to.contain('Approved');
   });
 });
