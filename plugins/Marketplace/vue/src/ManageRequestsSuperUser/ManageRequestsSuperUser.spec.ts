@@ -137,6 +137,7 @@ function mountPage(
       installRequestedNonce: 'theNonce',
       numUsers: 3,
       shopUserLimit: 50,
+      showInstallAllFree: true,
       ...props,
     },
     global: {
@@ -609,6 +610,13 @@ describe('Marketplace/ManageRequestsSuperUser', () => {
     const installLinks = (wrapper: Page) => wrapper
       .findAll('.manageRequestsSuperUser__approveAndInstall, .manageRequestsSuperUser__installAllFree')
       .map((link) => new URLSearchParams(link.attributes('href')!.slice(1)));
+
+    it('hides Install all free unless it is turned on, but keeps Approve & Install on each free row', () => {
+      const wrapper = mountPage([free, premium], undefined, {}, { showInstallAllFree: false });
+
+      expect(wrapper.find('.manageRequestsSuperUser__installAllFree').exists()).toBe(false);
+      expect(wrapper.findAll('.manageRequestsSuperUser__approveAndInstall')).toHaveLength(1);
+    });
 
     it('links a free plugin row, and Install all free, to the install action with its nonce', () => {
       const wrapper = mountPage([free, premium]);
