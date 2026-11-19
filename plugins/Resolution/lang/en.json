@@ -11,7 +11,9 @@
         "WidgetResolutionsDocumentation": "This report shows the screen resolutions your visitors used when viewing your website.",
         "ScreenResolutionDetectionDisabled": "Screen Resolution Detection Disabled",
         "ScreenResolutionDetectionDisabledWhatItDoes": "Screen resolution detection is disabled.<br><br>This reduces the risk of identifying visitors based on their screen configuration.",
+        "ScreenResolutionDetectionDisabledWhatItDoesConsentAware": "Screen resolution detection is disabled for visitors who have not given their consent.<br><br>This reduces the risk of identifying visitors based on their screen configuration. Where a visitor has given their consent, their screen resolution is detected and stored.",
         "ScreenResolutionDetectionDisabledImpact": "Screen resolution information is not collected, and screen resolution reports under <strong>Visitors > Devices</strong> are unavailable.",
+        "ScreenResolutionDetectionDisabledImpactConsentAware": "Screen resolution information is not collected for visitors who have not given their consent. The screen resolution reports under <strong>Visitors > Devices</strong> only show the screen resolutions of visitors who have given their consent.",
         "ScreenResolutionDetectionDisabledRequirementNote": "Screen resolution detection and screen resolution report must be disabled.",
         "ScreenResolutionReportDisabledByCompliancePolicy": "Screen resolution report is disabled by compliance policy."
     }

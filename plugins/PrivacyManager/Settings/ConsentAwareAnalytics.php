@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\Resolution\Settings\ScreenResolutionDetectionDisabled;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
@@ -98,6 +99,12 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
         // value would have to be kept apart from the policy's the way the others are, since
         // consent lifts what a policy imposes and not what the admin chose for themselves.
         if (true === ($siteAttributes[CampaignParameterValuesMasked::class] ?? false)) {
+            return true;
+        }
+
+        // Only a policy withholds the screen resolution: there is no setting of the admin's own
+        // for it, so whatever is cached here is the policy's to lift.
+        if (true === ($siteAttributes[ScreenResolutionDetectionDisabled::class] ?? false)) {
             return true;
         }
 
