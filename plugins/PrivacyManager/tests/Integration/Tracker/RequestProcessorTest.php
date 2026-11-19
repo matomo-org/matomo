@@ -14,7 +14,10 @@ use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\PrivacyManager\Tracker\RequestProcessor;
+use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
@@ -234,6 +237,93 @@ class RequestProcessorTest extends IntegrationTestCase
         $this->requestProcessor->manipulateRequest($request);
 
         $this->assertSame(array('idsite' => '3', 'uid' => 'foobar', 'ec_id' => 'baz'), $request->getParams());
+    }
+
+    /**
+     * A request that never reaches afterRequestProcessed() - a bot request, or one aborted
+     * before - keeps the order ID anonymised, consent or not.
+     */
+    public function testManipulateRequestAnonymisesTheOrderIdOfAConsentingRequestUnderAPolicy()
+    {
+        $this->enforcePolicyOnOptedInSite(3);
+
+        $request = $this->makeRequest(['idsite' => '3', 'ec_id' => 'baz', 'consent' => '1']);
+        $this->requestProcessor->manipulateRequest($request);
+
+        $this->assertAnonymisedOrderId($request);
+    }
+
+    public function testAfterRequestProcessedRestoresTheOrderIdForAVisitThatConsented()
+    {
+        $this->enforcePolicyOnOptedInSite(3);
+
+        $request = $this->makeRequest(['idsite' => '3', 'ec_id' => 'baz', 'consent' => '1']);
+        $this->requestProcessor->manipulateRequest($request);
+        $request->setMetadata('CoreHome', 'isNewVisit', true);
+
+        $this->assertFalse($this->requestProcessor->afterRequestProcessed(new VisitProperties(), $request));
+
+        $this->assertSame('baz', $request->getParam('ec_id'));
+        $this->assertNull($request->getMetadata('PrivacyManager', 'originalOrderId'), 'the order ID should not be kept');
+    }
+
+    public function testAfterRequestProcessedKeepsTheOrderIdAnonymisedForAVisitWithoutConsent()
+    {
+        $this->enforcePolicyOnOptedInSite(3);
+
+        $request = $this->makeRequest(['idsite' => '3', 'ec_id' => 'baz']);
+        $this->requestProcessor->manipulateRequest($request);
+        $request->setMetadata('CoreHome', 'isNewVisit', true);
+
+        $this->assertFalse($this->requestProcessor->afterRequestProcessed(new VisitProperties(), $request));
+
+        $this->assertAnonymisedOrderId($request);
+        $this->assertNull($request->getMetadata('PrivacyManager', 'originalOrderId'), 'the order ID should not be kept');
+    }
+
+    /**
+     * @dataProvider getOrderIdsThatAreNotKept
+     */
+    public function testManipulateRequestKeepsNoOrderIdThatIsNotRecordedAsSent(array $orderParams, array $expectedParams)
+    {
+        $this->enforcePolicyOnOptedInSite(3);
+
+        $request = $this->makeRequest(['idsite' => '3', 'consent' => '1'] + $orderParams);
+        $this->requestProcessor->manipulateRequest($request);
+        $request->setMetadata('CoreHome', 'isNewVisit', true);
+        $this->requestProcessor->afterRequestProcessed(new VisitProperties(), $request);
+
+        $params = $request->getParams();
+        if (isset($expectedParams['ec_id']) && 'hashed' === $expectedParams['ec_id']) {
+            $this->assertAnonymisedOrderId($request);
+            unset($params['ec_id'], $expectedParams['ec_id']);
+        }
+
+        $this->assertSame(['idsite' => '3', 'consent' => '1'] + $expectedParams, $params);
+    }
+
+    public function getOrderIdsThatAreNotKept(): iterable
+    {
+        yield 'no order ID' => [[], []];
+        yield 'empty order ID' => [['ec_id' => ''], ['ec_id' => '']];
+        // anonymised as it always was, and not restored to an ID that is not recorded as an order
+        yield 'order ID 0' => [['ec_id' => '0'], ['ec_id' => 'hashed']];
+    }
+
+    private function enforcePolicyOnOptedInSite(int $idSite): void
+    {
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $idSite);
+
+        $measurable = ConsentAwareAnalytics::getMeasurableSetting($idSite);
+        $measurable->setValue(true);
+        $measurable->save();
+
+        Cache::deleteTrackerCache();
+    }
+
+    private function assertAnonymisedOrderId(Request $request): void
+    {
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{40}$/', $request->getParam('ec_id'));
     }
 
     private function makeRequest($request)

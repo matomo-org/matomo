@@ -15,6 +15,7 @@ use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Cache;
 
 /**
  * @group Plugins
@@ -231,6 +232,56 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertSame(ReferrerAnonymizer::EXCLUDE_QUERY, $this->config->getConfiguredValue('anonymizeReferrer'));
     }
 
+    public function testGetConfiguredValueOfTheOrderIdAnonymisationIgnoresThePolicy()
+    {
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+
+        $this->assertTrue($this->config->anonymizeOrderId, 'the policy should be enforced');
+        $this->assertFalse($this->config->getConfiguredValue('anonymizeOrderId'));
+    }
+
+    /**
+     * An admin who turns order ID anonymisation on for the whole instance has it applied to every
+     * site, as it is where no policy is enforced, even one that stores its own value as off.
+     */
+    public function testConfiguredValueOfTheOrderIdAnonymisationIsTheStricterOfTheInstanceAndTheSite()
+    {
+        Option::set('PrivacyManager.anonymizeOrderId', '1');
+        Option::set('PrivacyManager.idSite(1).anonymizeOrderId', '0');
+
+        $trackerCache = [];
+        $this->config->setIdSite(1);
+        $content = $this->config->setTrackerCache($trackerCache);
+
+        $this->assertTrue($content['PrivacyManager.anonymizeOrderIdConfiguredValue']);
+    }
+
+    /**
+     * A tracker cache written before the configured value was cached in it says nothing about
+     * what the admin configured, so the enforced value stands.
+     */
+    public function testGetConfiguredValueFallsBackToTheEnforcedValueWhenItIsNotCached()
+    {
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+
+        $generalCache = Cache::getCacheGeneral();
+        unset($generalCache['PrivacyManager.anonymizeOrderIdConfiguredValue']);
+        Cache::setCacheGeneral($generalCache);
+
+        $this->assertTrue($this->config->getConfiguredValue('anonymizeOrderId'));
+    }
+
+    public function testGetConfiguredReferrerAnonymisationFallsBackToTheEnforcedValueWhenItIsNotCached()
+    {
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+
+        $generalCache = Cache::getCacheGeneral();
+        unset($generalCache['PrivacyManager.anonymizeReferrerConfiguredValue']);
+        Cache::setCacheGeneral($generalCache);
+
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->getConfiguredValue('anonymizeReferrer'));
+    }
+
     public function testGetConfiguredValueRejectsASettingItIsNotCachedFor()
     {
         $this->expectException(\Exception::class);
@@ -251,6 +302,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
             'PrivacyManager.doNotTrackEnabled'   => false,
             'PrivacyManager.anonymizeUserId'     => false,
             'PrivacyManager.anonymizeOrderId'    => false,
+            'PrivacyManager.anonymizeOrderIdConfiguredValue' => false,
             'PrivacyManager.anonymizeReferrer'   => '',
             'PrivacyManager.anonymizeReferrerConfiguredValue' => '',
             'PrivacyManager.useAnonymizedIpForVisitEnrichment' => false,

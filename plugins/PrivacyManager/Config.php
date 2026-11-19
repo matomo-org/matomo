@@ -54,7 +54,7 @@ class Config
      * Settings the tracker needs the configured value of, alongside the enforced one. Caching it
      * for every setting would only duplicate entries a policy can never override.
      */
-    private const CACHE_CONFIGURED_VALUE_FOR = ['anonymizeReferrer'];
+    private const CACHE_CONFIGURED_VALUE_FOR = ['anonymizeReferrer', 'anonymizeOrderId'];
 
     public function __construct(?int $idSite = null)
     {
@@ -214,11 +214,29 @@ class Config
 
             if (in_array($name, self::CACHE_CONFIGURED_VALUE_FOR, true)) {
                 $cacheContent[$this->prefix($name . self::CONFIGURED_VALUE_CACHE_SUFFIX, false)]
-                    = $this->getFromOption($name, $allowPolicyComplianceOverride = false);
+                    = $this->getConfiguredValueFromOption($name);
             }
         }
 
         return $cacheContent;
+    }
+
+    /**
+     * The value an admin configured for this setting themselves, as stored, for the tracker cache.
+     *
+     * @return mixed
+     */
+    private function getConfiguredValueFromOption(string $name)
+    {
+        if ($name === 'anonymizeOrderId') {
+            // an admin may turn order ID anonymisation on for the whole instance or for one site,
+            // and either applies, as it does where no policy is enforced
+            // (see OrderIdAnonymizationSetting::getInstance())
+            return OrderIdAnonymizationSetting::getCustomValue()
+                || OrderIdAnonymizationSetting::getCustomValue($this->idSite);
+        }
+
+        return $this->getFromOption($name, $allowPolicyComplianceOverride = false);
     }
 
     /**
@@ -236,7 +254,12 @@ class Config
             throw new \Exception(sprintf('The configured value of %s is not available to the tracker', $name));
         }
 
-        return $this->getFromTrackerCache($name . self::CONFIGURED_VALUE_CACHE_SUFFIX, $this->getPropertyConfig($name));
+        // a tracker cache written before this value was cached in it says nothing about what the
+        // admin configured, so the enforced value stands rather than the setting's default
+        $config = $this->getPropertyConfig($name);
+        $config['default'] = $this->__get($name);
+
+        return $this->getFromTrackerCache($name . self::CONFIGURED_VALUE_CACHE_SUFFIX, $config);
     }
 
     public function getConfigPropertyNames(): array
