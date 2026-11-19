@@ -11,10 +11,12 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Transitions\PreprocessedPages;
 
+use Piwik\API\Request;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
+use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Exception\ThingNotFoundException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -53,6 +55,11 @@ class Service
 
     private const NON_USER_LOGINS = ['anonymous', 'super user was set'];
 
+    /**
+     * Rows read beyond the pages to add and those already selected, for rows that are skipped, such as non-web URLs.
+     */
+    private const TOP_PAGES_MARGIN = 10;
+
     private Dao $dao;
 
     private ArchiveInvalidator $invalidator;
@@ -89,9 +96,7 @@ class Service
     {
         $url = $this->normalizeUrl($idSite, $pageUrl);
         $urlHash = self::getUrlHash($url);
-
-        $login = Piwik::getCurrentUserLogin();
-        $createdBy = in_array($login, self::NON_USER_LOGINS, true) ? null : $login;
+        $createdBy = $this->getCreatedBy();
 
         // concurrent adds must not both pass the limit check, and a removal must not run between the write and the
         // scheduled rebuild
@@ -103,45 +108,175 @@ class Service
                 throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
             }
 
-            $maxPages = $this->getMaxPages($idSite);
-            if ($maxPages <= 0) {
-                throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPagesAddingDisabled'));
-            }
-            if ($this->dao->getNumPagesForSite($idSite) >= $maxPages) {
-                throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPagesLimitReached', [(string) $maxPages]));
-            }
+            $this->getFreeSlots($idSite);
 
-            $isAdded = $existing === null
-                ? $this->dao->addPage($idSite, $url, $urlHash, Date::now()->getDatetime(), $createdBy)
-                : $this->dao->restorePage($existing['idpage'], Date::now()->getDatetime(), $createdBy);
-            if (!$isAdded) {
-                throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
-            }
-
-            // the website may have been deleted since it was checked, after its pages were cleaned up
-            if (!$this->dao->siteExists($idSite)) {
-                $this->dao->deletePagesForSite($idSite);
-                throw new UnexpectedWebsiteFoundException('The requested website id = ' . $idSite . ' couldn\'t be found');
-            }
-
-            $page = $this->dao->getPageByUrlHash($idSite, $urlHash);
-            if ($page === null) {
-                throw new \Exception('The added page could not be read back.');
-            }
-
-            // also for a URL not tracked yet, whose days then hold zero records, and for a removed page added again,
-            // which archiving skipped meanwhile
-            $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($page['idpage']));
+            $page = $this->writePage($idSite, $url, $urlHash, $existing, $createdBy);
         } finally {
             $this->unlock($locks);
         }
 
-        // the user may have been deleted while this waited for the lock, and the deletion cleaned up before the write
-        if ($page['created_by'] !== null && $this->dao->clearCreatedByOfDeletedUser($page['idpage'])) {
-            $page['created_by'] = null;
+        return $this->toAddedEntries([$page])[0];
+    }
+
+    /**
+     * Adds the most viewed pages of the period, for all visits, that aren't selected yet: up to the given number and
+     * the website's free slots.
+     *
+     * @param string $period a single period, validated
+     * @return list<PreprocessedPageEntry> the added pages, most viewed first
+     */
+    public function addTopPages(int $idSite, int $limit, string $period, string $date): array
+    {
+        $createdBy = $this->getCreatedBy();
+
+        $numToAdd = min($limit, $this->getFreeSlots($idSite));
+        $urls = $this->iterateTopPageUrls($idSite, $period, $date, $numToAdd + $this->dao->getNumPagesForSite($idSite) + self::TOP_PAGES_MARGIN);
+
+        // reads the first part before locking: archiving the report can take long, and the lock holds back the page
+        // changes of all websites
+        $urls->current();
+
+        $locks = $this->lockPages($idSite);
+        $pages = [];
+
+        try {
+            $numToAdd = min($limit, $this->getFreeSlots($idSite));
+            $selectedHashes = array_fill_keys(array_column($this->dao->getPagesForSite($idSite), 'url_hash'), true);
+
+            for (; $urls->valid() && count($pages) < $numToAdd; $urls->next()) {
+                try {
+                    $url = $this->normalizeUrl($idSite, $urls->current());
+                } catch (BadRequestException $e) {
+                    continue;
+                }
+
+                $urlHash = self::getUrlHash($url);
+                if (isset($selectedHashes[$urlHash])) {
+                    continue;
+                }
+
+                $pages[] = $this->writePage($idSite, $url, $urlHash, $this->dao->getPageByUrlHash($idSite, $urlHash), $createdBy);
+                $selectedHashes[$urlHash] = true;
+            }
+        } finally {
+            $this->unlock($locks);
         }
 
-        return $this->toEntry($page, $this->getSuperUserLogins($page['created_by'] === null ? [] : [$page['created_by']]));
+        return $this->toAddedEntries($pages);
+    }
+
+    /**
+     * The page URLs of the period's flat Actions report, most viewed first. It is read in parts that double in size, so
+     * walking far down a long report needs few reads.
+     *
+     * @return \Generator<int, string>
+     */
+    private function iterateTopPageUrls(int $idSite, string $period, string $date, int $firstPartSize): \Generator
+    {
+        $offset = 0;
+        $size = $firstPartSize;
+
+        do {
+            $table = Request::processRequest('Actions.getPageUrls', [
+                'idSite' => $idSite,
+                'period' => $period,
+                'date' => $date,
+                'segment' => '',
+                'flat' => 1,
+                'filter_sort_column' => 'nb_hits',
+                'filter_sort_order' => 'desc',
+                'filter_offset' => $offset,
+                'filter_limit' => $size,
+            ], []);
+            $rows = $table instanceof DataTable ? $table->getRows() : [];
+
+            foreach ($rows as $row) {
+                $url = $row->getMetadata('url');
+                if (is_string($url)) {
+                    yield $url;
+                }
+            }
+
+            $offset += $size;
+            $isLastPart = count($rows) < $size;
+            $size *= 2;
+        } while (!$isLastPart);
+    }
+
+    /**
+     * @return int how many more pages the website can have, at least 1
+     */
+    private function getFreeSlots(int $idSite): int
+    {
+        $maxPages = $this->getMaxPages($idSite);
+        if ($maxPages <= 0) {
+            throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPagesAddingDisabled'));
+        }
+
+        $numPages = $this->dao->getNumPagesForSite($idSite);
+        if ($numPages >= $maxPages) {
+            throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPagesLimitReached', [(string) $maxPages]));
+        }
+
+        return $maxPages - $numPages;
+    }
+
+    private function getCreatedBy(): ?string
+    {
+        $login = Piwik::getCurrentUserLogin();
+
+        return in_array($login, self::NON_USER_LOGINS, true) ? null : $login;
+    }
+
+    /**
+     * Adds the page, or restores it when it was removed, and schedules its rebuild. The caller holds the website's lock.
+     *
+     * @param PreprocessedPage|null $existing the removed page of this URL
+     * @return PreprocessedPage
+     */
+    private function writePage(int $idSite, string $url, string $urlHash, ?array $existing, ?string $createdBy): array
+    {
+        $isAdded = $existing === null
+            ? $this->dao->addPage($idSite, $url, $urlHash, Date::now()->getDatetime(), $createdBy)
+            : $this->dao->restorePage($existing['idpage'], Date::now()->getDatetime(), $createdBy);
+        if (!$isAdded) {
+            throw new BadRequestException(Piwik::translate('Transitions_PreprocessedPageAlreadySelected'));
+        }
+
+        // the website may have been deleted since it was checked, after its pages were cleaned up
+        if (!$this->dao->siteExists($idSite)) {
+            $this->dao->deletePagesForSite($idSite);
+            throw new UnexpectedWebsiteFoundException('The requested website id = ' . $idSite . ' couldn\'t be found');
+        }
+
+        $page = $this->dao->getPageByUrlHash($idSite, $urlHash);
+        if ($page === null) {
+            throw new \Exception('The added page could not be read back.');
+        }
+
+        // also for a URL not tracked yet, whose days then hold zero records, and for a removed page added again,
+        // which archiving skipped meanwhile
+        $this->invalidator->scheduleReArchiving([$idSite], 'Transitions', Records::getRebuildReportName($page['idpage']));
+
+        return $page;
+    }
+
+    /**
+     * @param list<PreprocessedPage> $pages
+     * @return list<PreprocessedPageEntry>
+     */
+    private function toAddedEntries(array $pages): array
+    {
+        foreach ($pages as $i => $page) {
+            // the user may have been deleted while this waited for the lock, and the deletion cleaned up before the write
+            if ($page['created_by'] !== null && $this->dao->clearCreatedByOfDeletedUser($page['idpage'])) {
+                $pages[$i]['created_by'] = null;
+            }
+        }
+
+        $superUserLogins = $this->getSuperUserLogins(array_values(array_unique(array_filter(array_column($pages, 'created_by'), 'is_string'))));
+
+        return array_map(fn(array $page): array => $this->toEntry($page, $superUserLogins), $pages);
     }
 
     /**

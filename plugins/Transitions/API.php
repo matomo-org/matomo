@@ -19,6 +19,7 @@ use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Db;
+use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -564,6 +565,51 @@ class API extends \Piwik\Plugin\API
         new Site($idSite);
 
         return StaticContainer::get(PreprocessedPagesService::class)->addPage($idSite, $pageUrl);
+    }
+
+    /**
+     * Adds the most viewed page URLs of a period, ranked by pageviews of all visits in the Actions page URLs report,
+     * that aren't selected yet. Pages are added as `addPreprocessedPage` adds them: URLs that it would reject or that
+     * are the same page as a selected one are skipped, and removed pages are restored. Requires admin access to the
+     * website.
+     *
+     * @param int $idSite The numeric ID of the website.
+     * @param int $limit The maximum number of pages to add, at least 1. At most as many pages as the website's limit
+     *                   leaves free are added.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period of the ranking.
+     * @param string $date The date or date range of the ranking, a single period: 'YYYY-MM-DD', magic keywords
+     *                     (today, yesterday, lastWeek, lastMonth, lastYear), or for `range` 'YYYY-MM-DD,YYYY-MM-DD',
+     *                     lastX or previousX.
+     * @return list<array{idpage: int, url: string, created_date: string, created_by: string|null, created_by_superuser: bool}>
+     *         The added pages, most viewed first, as returned by `getPreprocessedPages`. Empty when the period has no
+     *         page views or all its pages are selected.
+     * @throws \Piwik\Http\BadRequestException (400) for a limit below 1, an invalid period or date, a date that is a
+     *                                           list of periods, and when the website's limit of pages is reached
+     * @throws \Piwik\Plugins\Transitions\PreprocessedPages\PreprocessedPagesBusyException (409) while another page
+     *                                                                                    of the website is added or
+     *                                                                                    removed
+     */
+    public function addTopPreprocessedPages(int $idSite, int $limit, string $period, string $date): array
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+        new Site($idSite);
+
+        if ($limit < 1) {
+            throw new BadRequestException(Piwik::translate('General_InvalidValueForParameter', ['limit']));
+        }
+
+        // a list of periods would be ranked per period
+        if (Period::isMultiplePeriod($date, $period)) {
+            throw new BadRequestException(Piwik::translate('General_InvalidValueForParameter', ['date']));
+        }
+
+        try {
+            Period\Factory::build($period, $date, Site::getTimezoneFor($idSite))->getDateStart();
+        } catch (Exception $e) {
+            throw new BadRequestException($e->getMessage());
+        }
+
+        return StaticContainer::get(PreprocessedPagesService::class)->addTopPages($idSite, $limit, $period, $date);
     }
 
     /**

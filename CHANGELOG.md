@@ -32,7 +32,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### HTTP API
 * The `parts` parameter of `Transitions.getTransitionsForAction` accepts the new value `followingActionsWithoutLoops`: the following actions without page reloads, as in the full report.
-* The new methods `Transitions.getPreprocessedPages`, `Transitions.addPreprocessedPage`, `Transitions.removePreprocessedPage` and `Transitions.getPreprocessedPageStatus` let website admins manage the pages whose Transitions report is pre-processed during archiving.
+* The new methods `Transitions.getPreprocessedPages`, `Transitions.addPreprocessedPage`, `Transitions.removePreprocessedPage`, `Transitions.getPreprocessedPageStatus` and `Transitions.addTopPreprocessedPages` (adds the most viewed pages of a period) let website admins manage the pages whose Transitions report is pre-processed during archiving.
 * `Transitions.getTransitionsForAction` and `Transitions.getTransitionsForPageUrl` answered from pre-processed data add the keys `preprocessed` (`1`) and `preprocessedAt` (UTC time), and `[Transitions] max_period_allowed` does not apply to them.
 * `prettyDate` of `API.getProcessedReport` now names the period the report's rows were archived for:
   * For a relative date such as `today`, `yesterday`, `lastN` or `previousN` with the period `day`, `week`, `month` or `year` on a single site whose day differs from UTC's, it names the site's days instead of UTC's, and so do the date line and file name of the scheduled reports generated from it.
