@@ -46,9 +46,10 @@ use Piwik\Tracker\Visit\VisitProperties;
  *  - Heartbeat rows: once a heartbeat ping (`ping=1&hb=1`, sent when the page loses focus, is
  *    hidden or unloads) has measured a row, a later pageview no longer raises it, because that
  *    pageview may come from another tab long after this one closed. Only hits carrying the
- *    row's own pv_id grow it from then on. A visitor who comes back to the page and navigates
- *    before the tracker sends another heartbeat therefore keeps the last value reported, which
- *    is shorter than the time the tab was open. This includes time spent in an embedded iframe,
+ *    row's own pv_id grow it from then on, including a site search tracked on that page. A
+ *    visitor who comes back to the page and navigates before the tracker sends another
+ *    heartbeat therefore keeps the last value reported, which is shorter than the time the
+ *    tab was open. This includes time spent in an embedded iframe,
  *    as focusing one blurs the page. The JavaScript tracker limits this by sending one more
  *    heartbeat for such a page when it unloads or when the next page view is tracked; an older
  *    cached tracker or another client that does not do so still leaves the last value.
@@ -132,7 +133,7 @@ class PageViewTimeWriter
             );
 
             if (!$request->getMetadata('CoreHome', 'isNewVisit')) {
-                $this->closePreviousPageView($idVisit, $idLinkVa, $serverTimeSql, $cap);
+                $this->closePreviousPageView($idVisit, $idLinkVa, $serverTimeSql, $cap, $pvId);
             }
             return;
         }
@@ -152,7 +153,7 @@ class PageViewTimeWriter
             }
 
             $this->lockVisitInTransaction($idVisit, $request);
-            $this->closePreviousPageView($idVisit, (int) $action->getIdLinkVisitAction(), $serverTimeSql, $cap);
+            $this->closePreviousPageView($idVisit, (int) $action->getIdLinkVisitAction(), $serverTimeSql, $cap, null);
             return;
         }
 
@@ -235,7 +236,8 @@ class PageViewTimeWriter
         int $idVisit,
         int $newIdLinkVa,
         string $serverTimeSql,
-        int $cap
+        int $cap,
+        ?string $pvId
     ): void {
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
@@ -273,13 +275,14 @@ class PageViewTimeWriter
         // the cap would always win. It is a validated int from Tracker config.
         //
         // A row its own heartbeat has measured is left as it is: this pageview may come from
-        // another tab, long after that one was closed.
+        // another tab, long after that one was closed. A hit with the row's own pv_id is the
+        // exception, e.g. a site search on that page. Without a pv_id the bound null matches nothing.
         $db->query(
             "UPDATE `$table`
                 SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
               WHERE idpageviewtime = ?
-                AND has_heartbeat = 0",
-            [$serverTimeSql, $idPageViewTime]
+                AND (has_heartbeat = 0 OR idpageview = ?)",
+            [$serverTimeSql, $idPageViewTime, $pvId]
         );
     }
 

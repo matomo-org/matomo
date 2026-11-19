@@ -59,10 +59,11 @@ class PageViewTimeWriterTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        // Timestamps inside the 24h window where Matomo doesn't require token_auth for &cdt overrides.
-        // Two hours back so we can also fire heartbeats further in the past without overshooting "now".
-        $this->baseTime = date('Y-m-d H:i:s', time() - 7200);
+        // Midday, so no hit of a test falls on the next day and starts a new visit. A time this far
+        // back needs a valid token_auth, hence the super user.
+        $this->baseTime = date('Y-m-d', time() - 86400) . ' 12:00:00';
 
+        Fixture::createSuperUser(true);
         Fixture::createWebsite(date('Y-m-d 00:00:00', time() - 86400));
         Cache::deleteTrackerCache();
     }
@@ -602,6 +603,34 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $rows = $this->fetchRowsByPvId();
         $this->assertSame(40, (int) $rows['aaaaaa']['time_spent']);
         $this->assertSame(1, (int) $rows['aaaaaa']['has_heartbeat']);
+    }
+
+    public function testSiteSearchOfTheSamePageViewStillClosesAHeartbeatRow()
+    {
+        // The visitor came back to the page and searched on it. The search gets its own row, and
+        // as it carries the page's pv_id it still reports how long the page was open.
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 14, true);
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 60));
+        Fixture::checkResponse($tracker->doTrackSiteSearch('shoes', 'catalog', 3));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(2, $rows);
+        $this->assertSame(60, (int) $rows[0]['time_spent']);
+        $this->assertSame(1, (int) $rows[0]['has_heartbeat']);
+    }
+
+    public function testSiteSearchOfAnotherPageViewDoesNotRaiseAHeartbeatRow()
+    {
+        $tracker = $this->trackPageA();
+        $this->trackPing($tracker, 14, true);
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 60));
+        $tracker->setPageviewId('bbbbbb');
+        Fixture::checkResponse($tracker->doTrackSiteSearch('shoes', 'catalog', 3));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(2, $rows);
+        $this->assertSame(14, (int) $rows[0]['time_spent']);
     }
 
     public function testHeartbeatRowKeepsItsValueWhenTheVisitorReturnsAndNavigatesWithoutANewHeartbeat()
