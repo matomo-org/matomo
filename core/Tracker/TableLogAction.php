@@ -10,6 +10,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\Db\Schema;
 use Piwik\Segment\SegmentExpression;
 
 /**
@@ -69,22 +70,23 @@ class TableLogAction
         // now, we handle the cases =@ (contains) and !@ (does not contain)
         // build the expression based on the match type
         $sql = 'SELECT idaction FROM `' . Common::prefixTable('log_action') . '` WHERE %s AND type = ' . $actionType . ' )';
+        $likeEscape = Schema::getInstance()->getLikeEscapeSql();
 
         switch ($matchType) {
             case SegmentExpression::MATCH_CONTAINS:
                 // use concat to make sure, no %s occurs because some plugins use %s in their sql
-                $where = '( name LIKE CONCAT(\'%\', ?, \'%\') ';
+                $where = '( name LIKE CONCAT(\'%\', ?, \'%\')' . $likeEscape . ' ';
                 break;
             case SegmentExpression::MATCH_DOES_NOT_CONTAIN:
-                $where = '( name NOT LIKE CONCAT(\'%\', ?, \'%\') ';
+                $where = '( name NOT LIKE CONCAT(\'%\', ?, \'%\')' . $likeEscape . ' ';
                 break;
             case SegmentExpression::MATCH_STARTS_WITH:
                 // use concat to make sure, no %s occurs because some plugins use %s in their sql
-                $where = '( name LIKE CONCAT(?, \'%\') ';
+                $where = '( name LIKE CONCAT(?, \'%\')' . $likeEscape . ' ';
                 break;
             case SegmentExpression::MATCH_ENDS_WITH:
                 // use concat to make sure, no %s occurs because some plugins use %s in their sql
-                $where = '( name LIKE CONCAT(\'%\', ?) ';
+                $where = '( name LIKE CONCAT(\'%\', ?)' . $likeEscape . ' ';
                 break;
             default:
                 throw new \Exception("This match type $matchType is not available for action-segments.");

@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db\Adapter;
+use Piwik\Db\Schema;
 use Piwik\Db\TransactionalDatabaseInterface;
 use Piwik\Db\TransactionalDatabaseStaticTrait;
 use Piwik\Db\TransactionErrors;
@@ -127,7 +128,7 @@ abstract class Db implements TransactionalDatabaseInterface
 
             $queryProfiling = "INSERT INTO " . Common::prefixTable('log_profiling') . "
 						(query,count,sum_time_ms) VALUES (?,$count,$time)
-						ON DUPLICATE KEY UPDATE count=count+$count,sum_time_ms=sum_time_ms+$time";
+						" . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . " count=count+$count,sum_time_ms=sum_time_ms+$time";
             $this->query($queryProfiling, array($query));
         }
 

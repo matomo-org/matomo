@@ -13,6 +13,7 @@ use Piwik\Access;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
+use Piwik\Db\Schema;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
@@ -314,7 +315,7 @@ class Model
             $joins .= " LEFT JOIN " . Common::prefixTable('access') . " b on a.idsite = b.idsite AND a.login = b.login";
         }
 
-        $sql = 'SELECT s.idsite as idsite, s.name as site_name, GROUP_CONCAT(' . $selector . ' SEPARATOR "|") as access
+        $sql = 'SELECT s.idsite as idsite, s.name as site_name, ' . Schema::getInstance()->getGroupConcatSql($selector, '', '|') . ' as access
                   FROM `' . Common::prefixTable('access') . "` a
                 $joins
                 $where
@@ -1562,7 +1563,7 @@ class Model
             }
         }
 
-        $sql = 'SELECT u.*, GROUP_CONCAT(a.access SEPARATOR "|") as access
+        $sql = 'SELECT u.*, ' . Schema::getInstance()->getGroupConcatSql('a.access', '', '|') . ' as access
                   FROM `' . $this->userTable . "` u
                 $joins
                 $where

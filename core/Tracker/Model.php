@@ -12,6 +12,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Db\Schema;
 use Piwik\Tracker;
 use Piwik\Log\LoggerInterface;
 
@@ -58,7 +59,7 @@ class Model
         $bindFields = Common::getSqlStringFieldsArray($conversion);
         $table      = Common::prefixTable('log_conversion');
 
-        $sql    = "INSERT IGNORE INTO $table ($fields) VALUES ($bindFields) ";
+        $sql    = Schema::getInstance()->getInsertIgnoreSql() . " INTO $table ($fields) VALUES ($bindFields) ";
         $bind   = array_values($conversion);
 
         $db     = $this->getDb();
@@ -154,7 +155,7 @@ class Model
      */
     public function createEcommerceItems($ecommerceItems)
     {
-        $sql = "INSERT IGNORE INTO " . Common::prefixTable('log_conversion_item');
+        $sql = Schema::getInstance()->getInsertIgnoreSql() . " INTO " . Common::prefixTable('log_conversion_item');
         $i    = 0;
         $bind = [];
 

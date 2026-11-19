@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -352,7 +353,7 @@ class Storage
     protected function insertStorage(array $request): bool
     {
         $result = Db::query(
-            'INSERT IGNORE INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) VALUES (?, ?, 0)',
+            Schema::getInstance()->getInsertIgnoreSql() . ' INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) VALUES (?, ?, 0)',
             [$this->optionName, json_encode($request)]
         );
         Option::clearCachedOption($this->optionName);

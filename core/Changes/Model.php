@@ -9,6 +9,7 @@
 
 namespace Piwik\Changes;
 
+use Piwik\Db\Schema;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -115,8 +116,8 @@ class Model
             $params[] = $change['link'];
         }
 
-        $insertSql = 'INSERT IGNORE INTO ' . $table . ' (' . implode(',', $fields) . ') 
-                      VALUES (' . Common::getSqlStringFieldsArray($params) . ')';
+        $insertSql = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $table . ' (' . implode(',', $fields) . ') ' . "\n"
+            . '                      VALUES (' . Common::getSqlStringFieldsArray($params) . ')';
 
         try {
             $this->db->query($insertSql, $params);

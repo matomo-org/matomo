@@ -10,6 +10,7 @@
 namespace Piwik\Db;
 
 use Piwik\Config;
+use Piwik\Db\Schema\Mysql;
 use Piwik\Singleton;
 
 /**
@@ -27,6 +28,11 @@ class Schema extends Singleton
      * @var SchemaInterface|null
      */
     private $schema = null;
+
+    /**
+     * @var SqlDialectInterface|null
+     */
+    private $mysqlDialect = null;
 
     /**
      * Get schema class name
@@ -353,6 +359,75 @@ class Schema extends Singleton
     public function supportsSortingInSubquery(): bool
     {
         return $this->getSchema()->supportsSortingInSubquery();
+    }
+
+    /**
+     * Returns the SQL dialect of the configured schema. Schemas that don't implement
+     * {@link SqlDialectInterface} get MySQL's, which is the SQL Matomo always emitted for them.
+     */
+    private function getSqlDialect(): SqlDialectInterface
+    {
+        $schema = $this->getSchema();
+
+        if ($schema instanceof SqlDialectInterface) {
+            return $schema;
+        }
+
+        if ($this->mysqlDialect === null) {
+            $this->mysqlDialect = new Mysql();
+        }
+
+        return $this->mysqlDialect;
+    }
+
+    /**
+     * Returns the statement prefix of an insert that skips rows conflicting with a unique key.
+     *
+     * @see SqlDialectInterface::getInsertIgnoreSql()
+     */
+    public function getInsertIgnoreSql(): string
+    {
+        return $this->getSqlDialect()->getInsertIgnoreSql();
+    }
+
+    /**
+     * Returns the clause that turns an insert into an update of the conflicting row.
+     *
+     * @see SqlDialectInterface::getOnDuplicateKeyUpdateSql()
+     */
+    public function getOnDuplicateKeyUpdateSql(): string
+    {
+        return $this->getSqlDialect()->getOnDuplicateKeyUpdateSql();
+    }
+
+    /**
+     * Returns an expression referring to the value an upsert tried to write into a column.
+     *
+     * @see SqlDialectInterface::getInsertedValueSql()
+     */
+    public function getInsertedValueSql(string $column): string
+    {
+        return $this->getSqlDialect()->getInsertedValueSql($column);
+    }
+
+    /**
+     * Returns an aggregate expression concatenating an expression over the rows of a group.
+     *
+     * @see SqlDialectInterface::getGroupConcatSql()
+     */
+    public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
+    {
+        return $this->getSqlDialect()->getGroupConcatSql($expression, $orderBy, $separator);
+    }
+
+    /**
+     * Returns the clause to append after a `LIKE ?` placeholder bound to a backslash-escaped pattern.
+     *
+     * @see SqlDialectInterface::getLikeEscapeSql()
+     */
+    public function getLikeEscapeSql(): string
+    {
+        return $this->getSqlDialect()->getLikeEscapeSql();
     }
 
     /**
