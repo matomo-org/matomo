@@ -110,6 +110,13 @@ class ConsentAwareAnalytics implements MeasurableSettingInterface
 
         $config = new PrivacyManagerConfig($idSite);
 
+        if (
+            $config->ipAnonymizerEnabled !== (bool) $config->getConfiguredValue('ipAnonymizerEnabled')
+            || $config->ipAddressMaskLength !== (int) $config->getConfiguredValue('ipAddressMaskLength')
+        ) {
+            return true;
+        }
+
         return $config->anonymizeReferrer !== (string) $config->getConfiguredValue('anonymizeReferrer');
     }
 }

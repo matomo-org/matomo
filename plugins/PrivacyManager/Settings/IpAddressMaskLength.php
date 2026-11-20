@@ -65,14 +65,30 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
 
     public static function getWhatItDoes(?int $idSite = null): string
     {
-        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoes', [
+        $params = [
             self::getCurrentMaskLength($idSite),
             self::getPolicyRequirements()[CnilPolicy::class],
-        ]);
+        ];
+
+        // the consent-aware wording describes what a site measuring consent-aware analytics
+        // does. It is off by default, and a site that has not opted in treats every visitor the
+        // same, so the plain wording is what is true there
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoes2', $params);
+        }
+
+        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoes', $params);
     }
 
     public static function getImpact(?int $idSite = null): string
     {
+        // the consent-aware wording describes what a site measuring consent-aware analytics
+        // does. It is off by default, and a site that has not opted in treats every visitor the
+        // same, so the plain wording is what is true there
+        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+            return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingImpact2', [self::getCurrentMaskLength($idSite)]);
+        }
+
         return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingImpact', [self::getCurrentMaskLength($idSite)]);
     }
 

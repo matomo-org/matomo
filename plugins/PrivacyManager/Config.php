@@ -54,7 +54,7 @@ class Config
      * Settings the tracker needs the configured value of, alongside the enforced one. Caching it
      * for every setting would only duplicate entries a policy can never override.
      */
-    private const CACHE_CONFIGURED_VALUE_FOR = ['anonymizeReferrer'];
+    private const CACHE_CONFIGURED_VALUE_FOR = ['anonymizeReferrer', 'ipAnonymizerEnabled', 'ipAddressMaskLength'];
 
     public function __construct(?int $idSite = null)
     {
