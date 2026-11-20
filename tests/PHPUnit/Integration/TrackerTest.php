@@ -11,8 +11,12 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Exception\ThingNotFoundException;
+use Piwik\Log\LoggerInterface;
+use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
@@ -20,8 +24,11 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\Mock\Tracker\Handler;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
+use Piwik\Tests\Framework\Mock\Tracker\Response;
 use Piwik\Tracker;
 use Piwik\Tracker\Request;
+use Psr\Log\AbstractLogger;
+use Psr\Log\LogLevel;
 
 /**
  * @group TrackerTest
@@ -383,6 +390,178 @@ class TrackerTest extends IntegrationTestCase
         $this->assertTrue($called);
     }
 
+    public function testMainShouldAnswerWithServerErrorAndLogItIfAnErrorIsThrownWhileTracking()
+    {
+        $logger = $this->useRecordingLogger();
+        Piwik::addAction('Tracker.isBotRequest', function () {
+            throw new \TypeError('my type error');
+        });
+
+        $response = new Response();
+        (new TestTracker())->main($this->getHandlerWithResponse($response), $this->getRequestSetWithRequests());
+
+        $this->assertSame(500, $response->statusCode);
+        $this->assertSame('TypeError: my type error', $response->exception->getMessage());
+        $this->assertInstanceOf(\TypeError::class, $response->exception->getPrevious());
+        $this->assertSame([[LogLevel::ERROR, $response->exception]], $logger->errors);
+    }
+
+    public function testMainShouldAnswerWithServerErrorIfTrackerEndListenerFails()
+    {
+        $logger = $this->useRecordingLogger();
+        $exception = new \RuntimeException('end failed');
+        Piwik::addAction('Tracker.end', function () use ($exception) {
+            throw $exception;
+        });
+
+        $response = new Response();
+        (new TestTracker())->main($this->getHandlerWithResponse($response), new RequestSet());
+
+        $this->assertSame(500, $response->statusCode);
+        $this->assertSame($exception, $response->exception);
+        $this->assertSame([[LogLevel::ERROR, $exception]], $logger->errors);
+    }
+
+    public function testMainShouldOnlyLogTrackerEndErrorIfAnErrorWasAlreadyReported()
+    {
+        $logger = $this->useRecordingLogger();
+        Piwik::addAction('Tracker.isBotRequest', function () {
+            throw new \TypeError('first error');
+        });
+        $endException = new \RuntimeException('end failed');
+        Piwik::addAction('Tracker.end', function () use ($endException) {
+            throw $endException;
+        });
+
+        $response = new Response();
+        $errorLog = $this->captureErrorLog(function () use ($response) {
+            (new TestTracker())->main($this->getHandlerWithResponse($response), $this->getRequestSetWithRequests());
+        });
+
+        $this->assertSame(500, $response->statusCode);
+        $this->assertSame('TypeError: first error', $response->exception->getMessage());
+        $this->assertSame([[LogLevel::ERROR, $response->exception], [LogLevel::ERROR, $endException]], $logger->errors);
+        $this->assertSame('', $errorLog, 'Tracker errors only go to the configured log writers');
+    }
+
+    public function testMainShouldKeepSuccessResponseAndLogTrackerEndErrorIfRequestsWereRecorded()
+    {
+        $logger = $this->useRecordingLogger();
+        $endException = new \RuntimeException('end failed');
+        Piwik::addAction('Tracker.end', function () use ($endException) {
+            throw $endException;
+        });
+
+        $response = new Response();
+        $tracker = new TestTracker();
+        $errorLog = $this->captureErrorLog(function () use ($tracker, $response) {
+            $tracker->main($this->getHandlerWithResponse($response), $this->getRequestSetWithRequests());
+        });
+
+        $this->assertSame(2, $tracker->getCountOfLoggedRequests());
+        $this->assertFalse($response->isExceptionOutput);
+        $this->assertTrue($response->isResponseOutput);
+        $this->assertSame([[LogLevel::ERROR, $endException]], $logger->errors);
+        $this->assertSame('', $errorLog, 'Tracker errors only go to the configured log writers');
+    }
+
+    public function testMainShouldOnlyDebugLogAClientErrorOfATrackerEndListenerIfRequestsWereRecorded()
+    {
+        $logger = $this->useRecordingLogger();
+        Piwik::addAction('Tracker.end', function () {
+            throw new ThingNotFoundException('not found');
+        });
+
+        $response = new Response();
+        $errorLog = $this->captureErrorLog(function () use ($response) {
+            (new TestTracker())->main($this->getHandlerWithResponse($response), $this->getRequestSetWithRequests());
+        });
+
+        $this->assertFalse($response->isExceptionOutput);
+        $this->assertSame([], $logger->errors);
+        $this->assertSame('', $errorLog);
+    }
+
+    public function testHandleUncaughtErrorShouldAnswerATrackingPixelWithServerErrorAndTheTrackingImageAndLogIt()
+    {
+        $logger = $this->useRecordingLogger();
+        Common::$headersSentInTests = [];
+        $error = new \TypeError('handler failed');
+
+        $output = $this->handleUncaughtErrorForRequest($error, 'GET', []);
+
+        Fixture::checkResponse($output);
+        $this->assertSame('HTTP/1.1 500 Internal Server Error', $this->getLastSentStatusLine());
+        $this->assertSame([[LogLevel::ERROR, $error]], $logger->errors);
+    }
+
+    /**
+     * @dataProvider getRequestsWithoutTrackingImage
+     * @param array<string, string> $get
+     */
+    public function testHandleUncaughtErrorShouldAnswerWithServerErrorWithoutBodyIfNoImageIsRequested(string $method, array $get)
+    {
+        $logger = $this->useRecordingLogger();
+        Common::$headersSentInTests = [];
+        $error = new \TypeError('handler failed');
+
+        $output = $this->handleUncaughtErrorForRequest($error, $method, $get);
+
+        $this->assertSame('', $output);
+        $this->assertSame('HTTP/1.1 500 Internal Server Error', $this->getLastSentStatusLine());
+        $this->assertSame([[LogLevel::ERROR, $error]], $logger->errors);
+    }
+
+    public function getRequestsWithoutTrackingImage(): iterable
+    {
+        yield 'POST, eg a bulk request' => ['POST', []];
+        yield 'GET with send_image=0' => ['GET', ['send_image' => '0']];
+    }
+
+    public function testHandleUncaughtErrorShouldKeepTheStatusCodeOfAClientErrorWithoutLoggingIt()
+    {
+        $logger = $this->useRecordingLogger();
+        Common::$headersSentInTests = [];
+
+        $errorLog = $this->captureErrorLog(function () {
+            $this->handleUncaughtErrorForRequest(new NoAccessException('no access', 403), 'POST', []);
+        });
+
+        $this->assertSame('HTTP/1.1 403 Forbidden', $this->getLastSentStatusLine());
+        $this->assertSame([], $logger->errors);
+        $this->assertSame('', $errorLog);
+    }
+
+    public function testHandleUncaughtErrorShouldAnswerWithServerErrorIfLoggerFails()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->method('log')->willThrowException(new \UnexpectedValueException('log file not writable'));
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+        Common::$headersSentInTests = [];
+
+        $errorLog = $this->captureErrorLog(function () {
+            $this->handleUncaughtErrorForRequest(new \RuntimeException('handler failed'), 'POST', []);
+        });
+
+        $this->assertSame('HTTP/1.1 500 Internal Server Error', $this->getLastSentStatusLine());
+        $this->assertSame('', $errorLog, 'Tracker errors only go to the configured log writers');
+    }
+
+    public function testHandleUncaughtErrorShouldKeepSuccessStatusIfRequestsWereRecorded()
+    {
+        $logger = $this->useRecordingLogger();
+        Common::$headersSentInTests = [];
+        $error = new \RuntimeException('response failed');
+        $tracker = new TestTracker();
+        $tracker->setCountOfLoggedRequests(2);
+
+        $output = $this->handleUncaughtErrorForRequest($error, 'GET', [], $tracker);
+
+        Fixture::checkResponse($output);
+        $this->assertNull($this->getLastSentStatusLine());
+        $this->assertSame([[LogLevel::ERROR, $error]], $logger->errors);
+    }
+
     public function testArchiveInvalidationDifferentServerAndWebsiteTimezones()
     {
         // Server timezone is UTC
@@ -436,6 +615,82 @@ class TrackerTest extends IntegrationTestCase
     private function getDefaultHandler()
     {
         return new Tracker\Handler();
+    }
+
+    private function getHandlerWithResponse(Response $response): Tracker\Handler
+    {
+        $handler = new Tracker\Handler();
+        $handler->setResponse($response);
+
+        return $handler;
+    }
+
+    private function useRecordingLogger(): object
+    {
+        $logger = new class extends AbstractLogger implements LoggerInterface {
+            /** @var array<int, array{0: string, 1: mixed}> */
+            public array $errors = [];
+
+            public function log($level, $message, array $context = []): void
+            {
+                if ($level === LogLevel::ERROR) {
+                    $this->errors[] = [$level, $context['exception'] ?? null];
+                }
+            }
+        };
+        StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
+
+        return $logger;
+    }
+
+    /**
+     * @param array<string, string> $get
+     */
+    private function handleUncaughtErrorForRequest(\Throwable $error, string $method, array $get, ?Tracker $tracker = null): string
+    {
+        $previousMethod = $_SERVER['REQUEST_METHOD'] ?? null;
+        $previousGet = $_GET;
+        $_SERVER['REQUEST_METHOD'] = $method;
+        $_GET = $get;
+
+        ob_start();
+        try {
+            ($tracker ?? new TestTracker())->handleUncaughtError($error);
+        } finally {
+            $output = ob_get_clean();
+            $_GET = $previousGet;
+            if ($previousMethod === null) {
+                unset($_SERVER['REQUEST_METHOD']);
+            } else {
+                $_SERVER['REQUEST_METHOD'] = $previousMethod;
+            }
+        }
+
+        return (string) $output;
+    }
+
+    private function captureErrorLog(callable $callback): string
+    {
+        $errorLogFile = tempnam(sys_get_temp_dir(), 'tracker_error_log');
+        $previousErrorLog = ini_set('error_log', $errorLogFile);
+
+        try {
+            $callback();
+
+            return (string) file_get_contents($errorLogFile);
+        } finally {
+            ini_set('error_log', (string) $previousErrorLog);
+            unlink($errorLogFile);
+        }
+    }
+
+    private function getLastSentStatusLine(): ?string
+    {
+        $statusLines = array_filter(array_keys(Common::$headersSentInTests), function ($header) {
+            return str_starts_with($header, 'HTTP/');
+        });
+
+        return end($statusLines) ?: null;
     }
 
     private function getEmptyRequestSet()

@@ -69,6 +69,7 @@ $tracker    = new Tracker();
 $requestSet = new RequestSet();
 
 ob_start();
+$outputBufferLevel = ob_get_level();
 
 try {
     $handler  = Handler\Factory::make();
@@ -78,9 +79,23 @@ try {
         echo $response;
     }
 
-} catch (Exception $e) {
-    echo "Error:" . $e->getMessage();
-    exit(1);
+} catch (Throwable $e) {
+    // drop partial output of the failed handler, but keep it when debugging
+    $isDebugModeEnabled = $tracker->isDebugModeEnabled();
+    while (ob_get_level() > $outputBufferLevel) {
+        if (!($isDebugModeEnabled ? ob_end_flush() : ob_end_clean())) {
+            break;
+        }
+    }
+    if (!$isDebugModeEnabled && ob_get_level() >= $outputBufferLevel) {
+        ob_clean();
+    }
+
+    $tracker->handleUncaughtError($e);
+
+    if (\Piwik\Common::isPhpCliMode()) {
+        exit(1);
+    }
 }
 
 if (ob_get_level() > 1) {

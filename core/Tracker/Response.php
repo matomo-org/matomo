@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Profiler;
+use Piwik\Request;
 use Piwik\Timer;
 use Piwik\Tracker;
 use Piwik\Tracker\Db as TrackerDb;
@@ -58,7 +59,6 @@ class Response
         // not once the request was recorded, as matomo.js resends a request answered with an error
         $this->keepExceptionResponse = !$tracker->hasLoggedRequests();
         Common::sendResponseCode($statusCode);
-        $this->logExceptionToErrorLog($e);
 
         if ($tracker->isDebugModeEnabled()) {
             echo "\nAn exception occurred: " . $this->getMessageFromException($e) . "\n\n";
@@ -105,6 +105,26 @@ class Response
         }
     }
 
+    /**
+     * Outputs the tracking image for a GET request that doesn't disable it, so a tracking pixel doesn't
+     * show a broken image even if the request failed before a tracking handler could answer it.
+     *
+     * @internal
+     */
+    public function outputTrackingImage(Tracker $tracker): void
+    {
+        if (!$this->isHttpGetRequest() || $this->isImageDisabled()) {
+            return;
+        }
+
+        $this->outputApiResponse($tracker);
+    }
+
+    private function isImageDisabled(): bool
+    {
+        return Request::fromRequest()->getStringParameter('send_image', '') === '0';
+    }
+
     private function outputAccessControlHeaders()
     {
         if (!$this->isHttpGetRequest()) {
@@ -137,17 +157,16 @@ class Response
             return;
         }
 
-        if ($this->hasAlreadyPrintedOutput()) {
+        // eg QueuedTracking sends the response before it processes the queue
+        if ($this->hasAlreadyPrintedOutput() || (!Common::isPhpCliMode() && headers_sent())) {
             return;
         }
-
-        $request = $_GET + $_POST;
 
         if ($this->isHttpGetRequest()) {
             Common::sendHeader('Cache-Control: no-store');
         }
 
-        if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
+        if ($this->isImageDisabled()) {
             if (!$this->keepExceptionResponse) {
                 Common::sendResponseCode(204);
             }
@@ -230,6 +249,10 @@ class Response
         return $e->getMessage();
     }
 
+    /**
+     * @deprecated since Matomo 6.1.0, will be removed in Matomo 7. Tracker errors are logged by
+     *             {@link Handler::onException()} through the configured log writers.
+     */
     protected function logExceptionToErrorLog($e)
     {
         $hostname = Url::getRFCValidHostname();

@@ -36,8 +36,6 @@ class Response extends Tracker\Response
     {
         Common::sendResponseCode($statusCode);
 
-        $this->logExceptionToErrorLog($e);
-
         $result = $this->formatException($tracker, $e);
 
         echo json_encode($result);

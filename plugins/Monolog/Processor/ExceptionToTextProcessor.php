@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\ExceptionHandler;
 use Piwik\Log;
+use Piwik\SettingsServer;
 use Piwik\Url;
 
 /**
@@ -121,7 +122,8 @@ class ExceptionToTextProcessor
     private function getErrorContext(): string
     {
         try {
-            $context = 'Query: ' . Url::getCurrentQueryString();
+            // the query of a tracking request holds visitor data
+            $context = SettingsServer::isTrackerApiRequest() ? 'Tracking request' : 'Query: ' . Url::getCurrentQueryString();
             $context .= ', CLI mode: ' . (int)Common::isPhpCliMode();
             return $context;
         } catch (\Throwable $ex) {

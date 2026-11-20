@@ -18,9 +18,12 @@ use Exception;
 
 class TestResponse extends Response
 {
+    public $numErrorLogWrites = 0;
+
     protected function logExceptionToErrorLog($e)
     {
         // prevent console from outputting the error_log message
+        $this->numErrorLogWrites++;
     }
 
     public function getMessageFromException($e)
@@ -55,6 +58,25 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->response->outputException($this->getTracker(), new Exception('My Custom Message'), 400);
 
         Fixture::checkResponse($this->response->getOutput());
+    }
+
+    /**
+     * @dataProvider getStatusCodes
+     */
+    public function testOutputExceptionShouldNotWriteToPhpErrorLog(int $statusCode)
+    {
+        $this->response->init($this->getTracker());
+        $this->response->outputException($this->getTracker(), new Exception('My Custom Message'), $statusCode);
+
+        Fixture::checkResponse($this->response->getOutput());
+        $this->assertSame(0, $this->response->numErrorLogWrites);
+    }
+
+    public function getStatusCodes(): iterable
+    {
+        yield 'bad request' => [400];
+        yield 'forbidden' => [403];
+        yield 'server error' => [500];
     }
 
     public function testOutputExceptionShouldOutputDebugMessageIfEnabled()

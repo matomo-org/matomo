@@ -45,6 +45,24 @@ class ResponseTest extends UnitTestCase
         $this->assertEquals('{"status":"error","tracked":5,"invalid":0}', $content);
     }
 
+    /**
+     * @dataProvider getStatusCodes
+     */
+    public function testOutputExceptionShouldNotWriteToPhpErrorLog(int $statusCode)
+    {
+        $this->response->expects($this->never())->method('logExceptionToErrorLog');
+
+        $this->response->outputException($this->getTrackerWithCountedRequests(), new Exception('My Custom Message'), $statusCode);
+        $this->response->getOutput();
+    }
+
+    public function getStatusCodes(): iterable
+    {
+        yield 'bad request' => [400];
+        yield 'forbidden' => [403];
+        yield 'server error' => [500];
+    }
+
     public function testOutputExceptionShouldOutputDebugMessageIfEnabled()
     {
         $tracker = $this->getTrackerWithCountedRequests();
