@@ -8,6 +8,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
+* `[General] enabled_periods_UI` and `[General] enabled_periods_API` now include the new `quarter` period by default. Installations that set these options in their own `config.ini.php` need to add `quarter` to use it. Related new settings: `[General] enable_processing_unique_visitors_quarter` (default `0`), `[General] time_before_quarter_archive_considered_outdated` (default `-1`) and `[Deletereports] delete_reports_keep_quarter_reports` (default `1`).
 * `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
 
 ### New APIs
@@ -16,6 +17,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The *Administration → Development → Component Library* page, available in development mode, documents the generic components, starting with the selector (`.mtm-selector`), and what each Matomo version changes in them.
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
+* The new period `Piwik\Period\Quarter` covers a calendar quarter and is made of its three months. It is stored with the period ID `6` (`Piwik::$idPeriods['quarter']`), so period IDs are no longer ordered by length: code comparing IDs to find shorter or longer periods must handle quarters explicitly. While quarters are enabled for the API, `Month::getParentPeriodLabel()` and `Year::getImmediateChildPeriodLabel()` return `quarter` instead of `year` and `month`. Years are still built from their twelve months.
+* `Piwik\Date::lastQuarter()` returns a date within the previous quarter, and the date keyword `lastquarter` (also `last quarter` and `last-quarter`) is accepted wherever `lastmonth` is.
 * `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
 
 ### New commands
@@ -26,6 +29,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
 ### HTTP API
+* Reporting API methods accept `period=quarter`. The `date` selects the quarter that contains it, and `prettyDate` labels it like `Q3 2026`.
+* `PrivacyManager.setDeleteReportsSettings` accepts the new parameter `keepQuarter`.
 * The `parts` parameter of `Transitions.getTransitionsForAction` accepts the new value `followingActionsWithoutLoops`: the following actions without page reloads, as in the full report.
 * `prettyDate` of `API.getProcessedReport` now names the period the report's rows were archived for:
   * For a relative date such as `today`, `yesterday`, `lastN` or `previousN` with the period `day`, `week`, `month` or `year` on a single site whose day differs from UTC's, it names the site's days instead of UTC's, and so do the date line and file name of the scheduled reports generated from it.

@@ -96,6 +96,16 @@
         <div>
           <Field
             uicontrol="checkbox"
+            name="deleteReportsKeepQuarter"
+            :model-value="keepDataForQuarter"
+            @update:model-value="keepDataForQuarter = $event; reloadDbStats()"
+            :title="`${translate('General_QuarterlyReports')} (${translate('General_Recommended')})`"
+          >
+          </Field>
+        </div>
+        <div>
+          <Field
+            uicontrol="checkbox"
             name="deleteReportsKeepYear"
             :model-value="keepDataForYear"
             @update:model-value="keepDataForYear = $event; reloadDbStats()"
@@ -167,6 +177,7 @@ export interface DeleteOldReportsState {
   keepDataForDay: boolean;
   keepDataForWeek: boolean;
   keepDataForMonth: boolean;
+  keepDataForQuarter: boolean;
   keepDataForYear: boolean;
   keepDataForRange: boolean;
   keepDataForSegments: boolean;
@@ -207,6 +218,10 @@ export default defineComponent({
       keepDataForWeek: parseInt(this.deleteData.config.delete_reports_keep_week_reports, 10) === 1,
       keepDataForMonth: parseInt(
         this.deleteData.config.delete_reports_keep_month_reports,
+        10,
+      ) === 1,
+      keepDataForQuarter: parseInt(
+        this.deleteData.config.delete_reports_keep_quarter_reports,
         10,
       ) === 1,
       keepDataForYear: parseInt(this.deleteData.config.delete_reports_keep_year_reports, 10) === 1,
@@ -250,6 +265,7 @@ export default defineComponent({
         keepDay: getInt(this.keepDataForDay),
         keepWeek: getInt(this.keepDataForWeek),
         keepMonth: getInt(this.keepDataForMonth),
+        keepQuarter: getInt(this.keepDataForQuarter),
         keepYear: getInt(this.keepDataForYear),
         keepRange: getInt(this.keepDataForRange),
         keepSegments: getInt(this.keepDataForSegments),

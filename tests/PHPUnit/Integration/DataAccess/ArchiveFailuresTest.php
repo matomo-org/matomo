@@ -336,6 +336,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
             'failed week straddling years',
             'plugin report day', 'plugin report month',
             'segment day', 'segment week',
+            'quarter of day', 'quarter of week within month',
         ];
         $this->assertSame($expected, $heldBySql);
         $this->assertSame($expected, $stillHeldByPhp);
@@ -537,6 +538,8 @@ class ArchiveFailuresTest extends IntegrationTestCase
         $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 2, 'date1' => '2020-03-30', 'date2' => '2020-04-05']), 'error');
         $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 2, 'date1' => '2020-06-08', 'date2' => '2020-06-14']), 'error');
         $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 2, 'date1' => '2020-12-28', 'date2' => '2021-01-03']), 'error');
+        $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 2, 'date1' => '2020-08-31', 'date2' => '2020-09-06']), 'error');
+        $this->archiveFailures->recordFailure($this->getInvalidation(['period' => 5, 'date1' => '2020-07-10', 'date2' => '2020-07-20']), 'error');
         $this->archiveFailures->recordFailure($this->getInvalidation(['name' => 'done.Goals', 'report' => 'getMetrics', 'date1' => '2020-02-10', 'date2' => '2020-02-10']), 'error');
         $this->archiveFailures->recordFailure($this->getInvalidation(['name' => 'done' . md5('segment'), 'date1' => '2020-02-11', 'date2' => '2020-02-11']), 'error');
         Date::$now = strtotime('2020-01-01 00:00:00');
@@ -576,6 +579,11 @@ class ArchiveFailuresTest extends IntegrationTestCase
             'segment week' => [2, '2020-02-10', '2020-02-16', $segment],
             'all visits day of segment failure' => [1, '2020-02-11', '2020-02-11'],
             'all visits month without failure' => [3, '2020-02-01', '2020-02-29'],
+            'quarter of day' => [6, '2020-01-01', '2020-03-31'],
+            'quarter of week within month' => [6, '2020-04-01', '2020-06-30'],
+            // quarters are built from months, so neither a week straddling two of its months nor a range blocks it
+            'quarter of week straddling months and of range' => [6, '2020-07-01', '2020-09-30'],
+            'quarter after straddling week' => [6, '2021-01-01', '2021-03-31'],
         ];
 
         $ids = [];

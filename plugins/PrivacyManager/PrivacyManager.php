@@ -66,6 +66,7 @@ class PrivacyManager extends Plugin
         'delete_reports_keep_day_reports'      => 'Deletereports',
         'delete_reports_keep_week_reports'     => 'Deletereports',
         'delete_reports_keep_month_reports'    => 'Deletereports',
+        'delete_reports_keep_quarter_reports'  => 'Deletereports',
         'delete_reports_keep_year_reports'     => 'Deletereports',
         'delete_reports_keep_range_reports'    => 'Deletereports',
         'delete_reports_keep_segment_reports'  => 'Deletereports',
@@ -270,6 +271,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_MonthlyReports';
         $translationKeys[] = 'General_Ok';
+        $translationKeys[] = 'General_QuarterlyReports';
         $translationKeys[] = 'General_RangeReports';
         $translationKeys[] = 'General_Recommended';
         $translationKeys[] = 'General_UserId';
@@ -737,6 +739,7 @@ class PrivacyManager extends Plugin
      * - delete_reports_keep_day_reports: If set to 1, keeps old daily reports.
      * - delete_reports_keep_week_reports: If set to 1, keeps old weekly reports.
      * - delete_reports_keep_month_reports: If set to 1, keeps old monthly reports.
+     * - delete_reports_keep_quarter_reports: If set to 1, keeps old quarterly reports.
      * - delete_reports_keep_year_reports: If set to 1, keeps old yearly reports.
      */
     public function deleteReportData()

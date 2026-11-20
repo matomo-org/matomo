@@ -460,6 +460,7 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['PeriodYear'] = $dateFieldData['year']['displayName'];
             $translations['Intl']['PeriodDay'] = $dateFieldData['day']['displayName'];
             $translations['Intl']['PeriodMonth'] = $dateFieldData['month']['displayName'];
+            $translations['Intl']['PeriodQuarter'] = $dateFieldData['quarter']['displayName'];
             $translations['Intl']['Year_Short'] = $dateFieldData['year-narrow']['displayName'];
             $translations['Intl']['Today'] = $this->transform($dateFieldData['day']['relative-type-0']);
             $translations['Intl']['Yesterday'] = $this->transform($dateFieldData['day']['relative-type--1']);
@@ -640,6 +641,7 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['PeriodYears']    = $unitsData['long']['duration-year']['displayName'];
             $translations['Intl']['PeriodDays']     = $unitsData['long']['duration-day']['displayName'];
             $translations['Intl']['PeriodMonths']   = $unitsData['long']['duration-month']['displayName'];
+            $translations['Intl']['PeriodQuarters'] = $unitsData['long']['duration-quarter']['displayName'];
 
 
             $this->getOutput()->writeln('Saved unit data for ' . $langCode);

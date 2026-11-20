@@ -14,6 +14,7 @@ use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\Metrics;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\Live\Live;
@@ -84,6 +85,13 @@ class UserId extends VisitDimension
     {
         if ($period === 'day' || $period === 'week') {
             $period = 'month';
+        }
+
+        // unique users aren't processed for quarters by default, so check each month of the quarter
+        if ($period === 'quarter') {
+            $quarter = PeriodFactory::build('quarter', $date);
+            $period = 'month';
+            $date = $quarter->getDateStart()->toString() . ',' . $quarter->getDateEnd()->toString();
         }
 
         if ($period === 'range') {

@@ -35,7 +35,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysArchivingDisabledTest extends SystemTes
     {
         $dateTime = self::$fixture->dateTime;
 
-        $periods = array('day', 'week', 'month', 'year');
+        $periods = array('day', 'week', 'month', 'quarter', 'year');
 
         $dateStart = \Piwik\Date::factory($dateTime)->subDay(10)->toString();
         $dateEnd = \Piwik\Date::factory($dateTime)->addDay(15)->toString();

@@ -49,8 +49,8 @@ import { getToday } from '../Periods';
 import { translate } from '../translate';
 import {
   PRESET_DATE_RANGES,
-  PRESET_DATE_RANGE_PERIODS,
   clampDateToBounds,
+  getPresetDateRangePeriod,
   resolvePresetDateRange,
 } from './PresetDateRangeResolver';
 import type {
@@ -105,7 +105,9 @@ export default defineComponent({
   computed: {
     presetDateRanges(): PresetDateRangeOption[] {
       return PRESET_DATE_RANGES.filter(
-        (preset) => this.allowedPeriods.includes(PRESET_DATE_RANGE_PERIODS[preset.id]),
+        (preset) => this.allowedPeriods.includes(
+          getPresetDateRangePeriod(preset.id, this.allowedPeriods),
+        ),
       );
     },
     groupedPresetDateRanges(): PresetDateRangeOption[][] {
@@ -129,7 +131,7 @@ export default defineComponent({
       this.handlePresetSelected(presetId);
     },
     handlePresetSelected(presetId: PresetDateRangeId) {
-      const resolvedPreset = resolvePresetDateRange(presetId, this.today);
+      const resolvedPreset = resolvePresetDateRange(presetId, this.today, this.allowedPeriods);
 
       this.$emit('select', {
         ...resolvedPreset,
@@ -138,7 +140,7 @@ export default defineComponent({
       } as PresetDateRangeSelection);
     },
     handlePresetDoubleClick(presetId: PresetDateRangeId) {
-      const resolvedPreset = resolvePresetDateRange(presetId, this.today);
+      const resolvedPreset = resolvePresetDateRange(presetId, this.today, this.allowedPeriods);
 
       this.$emit('dblclick', {
         ...resolvedPreset,

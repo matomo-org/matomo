@@ -8,9 +8,10 @@ import Periods from './Periods';
 import './Day';
 import './Week';
 import './Month';
+import './Quarter';
 import './Year';
 import RangePeriod from './Range';
-import { parseDate } from './utilities';
+import { datesAreInTheSamePeriod, parseDate } from './utilities';
 
 describe('CoreHome/Periods', () => {
   function clearDate(strDate: Date|string):Date {
@@ -76,6 +77,50 @@ describe('CoreHome/Periods', () => {
     const expected = [clearDate(first), clearDate(last)];
 
     expect(result).toEqual(expected);
+  });
+
+  it('should get daterange for quarter', () => {
+    const result = Periods.parse('quarter', '2021-05-10').getDateRange();
+    const expected = [clearDate('2021-04-01'), clearDate('2021-06-30')];
+
+    expect(result).toEqual(expected);
+  });
+
+  it('should get daterange for quarter for date 31th december', () => {
+    const result = Periods.parse('quarter', '2021-12-31').getDateRange();
+    const expected = [clearDate('2021-10-01'), clearDate('2021-12-31')];
+
+    expect(result).toEqual(expected);
+  });
+
+  it('should get pretty string for quarter', () => {
+    expect(Periods.parse('quarter', '2021-08-15').getPrettyString()).toEqual('Q3 2021');
+  });
+
+  it('should get proper quarter rangeperiod when date is 31th march', () => {
+    const result = RangePeriod.getLastNRange('quarter', 2, '2021-03-31');
+
+    expect(result.startDate).toEqual(clearDate('2020-10-01'));
+    expect(result.endDate).toEqual(clearDate('2021-03-31'));
+  });
+
+  it('should parse last quarter properly when date is 31th december', () => {
+    originalDateNow = Date.now;
+    Date.now = () => clearDate('2021-12-31').getTime();
+
+    expect(parseDate('lastquarter')).toEqual(clearDate('2021-09-01'));
+  });
+
+  it('should detect dates in the same quarter', () => {
+    const isSameQuarter = (date1: string, date2: string) => datesAreInTheSamePeriod(
+      clearDate(date1),
+      clearDate(date2),
+      'quarter',
+    );
+
+    expect(isSameQuarter('2021-01-01', '2021-03-31')).toBe(true);
+    expect(isSameQuarter('2021-03-31', '2021-04-01')).toBe(false);
+    expect(isSameQuarter('2020-02-01', '2021-02-01')).toBe(false);
   });
 
   it('should get daterange for year', function() {

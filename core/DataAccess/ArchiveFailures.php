@@ -417,10 +417,16 @@ class ArchiveFailures
             $sql .= " OR (f.period < ? AND f.date1 >= ? AND f.date2 <= ?";
             array_push($bind, $period, $invalidation['date1'], $invalidation['date2']);
 
-            if ($period === Piwik::$idPeriods['year']) {
-                // years are built from months, which only contain weeks that lie within them
+            if ($period === Piwik::$idPeriods['year'] || $period === Piwik::$idPeriods['quarter']) {
+                // years and quarters are built from months, which only contain weeks that lie within them
                 $sql .= " AND (f.period != ? OR DATE_FORMAT(f.date1, '%m') = DATE_FORMAT(f.date2, '%m'))";
                 $bind[] = Piwik::$idPeriods['week'];
+            }
+
+            if ($period === Piwik::$idPeriods['quarter']) {
+                // the quarter period ID is higher than the range period ID, but quarters are not built from ranges
+                $sql .= " AND f.period != ?";
+                $bind[] = Piwik::$idPeriods['range'];
             }
 
             $sql .= ")";
@@ -660,7 +666,8 @@ class ArchiveFailures
 
     /**
      * The failed period itself, for queued duplicates, and the periods archived from it as a subperiod: a week from
-     * its days, a month from its days and the weeks within it, a year from its months. Ranges are matched by date.
+     * its days, a month from its days and the weeks within it, a quarter and a year from their months. Ranges are
+     * matched by date.
      *
      * @param DbRow $failure
      * @return list<array{int, string, string}> list of [period id, date1, date2]
@@ -674,11 +681,11 @@ class ArchiveFailures
 
         $parentLabels = [];
         if ($period === Piwik::$idPeriods['day']) {
-            $parentLabels = ['week', 'month', 'year'];
+            $parentLabels = ['week', 'month', 'quarter', 'year'];
         } elseif ($period === Piwik::$idPeriods['week'] && substr($date1, 0, 7) === substr($date2, 0, 7)) {
-            $parentLabels = ['month', 'year'];
+            $parentLabels = ['month', 'quarter', 'year'];
         } elseif ($period === Piwik::$idPeriods['month']) {
-            $parentLabels = ['year'];
+            $parentLabels = ['quarter', 'year'];
         }
 
         // plain date arithmetic, building period objects is too slow for many failures
@@ -693,6 +700,11 @@ class ArchiveFailures
                 $periods[] = [Piwik::$idPeriods['week'], gmdate('Y-m-d', $weekStart), gmdate('Y-m-d', $weekStart + 6 * 86400)];
             } elseif ($label === 'month') {
                 $periods[] = [Piwik::$idPeriods['month'], gmdate('Y-m-01', $timestamp), gmdate('Y-m-t', $timestamp)];
+            } elseif ($label === 'quarter') {
+                $year = (int) gmdate('Y', $timestamp);
+                $quarterStartMonth = intdiv((int) gmdate('n', $timestamp) - 1, 3) * 3 + 1;
+                $quarterEnd = gmmktime(0, 0, 0, $quarterStartMonth + 2, 1, $year);
+                $periods[] = [Piwik::$idPeriods['quarter'], sprintf('%d-%02d-01', $year, $quarterStartMonth), gmdate('Y-m-t', $quarterEnd)];
             } else {
                 $periods[] = [Piwik::$idPeriods['year'], gmdate('Y-01-01', $timestamp), gmdate('Y-12-31', $timestamp)];
             }

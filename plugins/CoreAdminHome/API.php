@@ -172,7 +172,7 @@ class API extends \Piwik\Plugin\API
      * @param string $idSites Comma-separated list of site IDs to invalidate reports for.
      * @param string|string[] $dates Comma-separated list of dates or date ranges to invalidate.
      *                               Use an array of strings when `$period` is `range`.
-     * @param 'day'|'week'|'month'|'year'|'range'|false $period The period type to invalidate.
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range'|false $period The period type to invalidate.
      *                                                          Invalidating one period also invalidates its parent periods.
      * @param string|false $segment Optional segment to invalidate reports for.
      *                               Example: "referrerName==example.com"
@@ -296,7 +296,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @param string|null|false $plugin
      * @param string|string[]|null|false $report
@@ -421,7 +421,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param array<int, string>|string $dates
-     * @param 'day'|'week'|'month'|'year'|'range'|null $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range'|null $period
      * @return array{0: array<int, Date|string>, 1: string[]}
      */
     private function getDatesToInvalidateFromString($dates, ?string $period): array

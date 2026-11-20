@@ -655,7 +655,7 @@ class API extends \Piwik\Plugin\API
      * If $abandonedCarts set to 1, will return items abandoned in carts. If set to 0, will return items ordered
      *
      * @param int|string|int[] $idSite
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @return DataTable|DataTable\Map
      */
@@ -730,7 +730,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @param DataTable $dataTable
      * @param int|string|int[] $idSite
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @param int|null $idSubtable
      */
@@ -774,7 +774,7 @@ class API extends \Piwik\Plugin\API
      *                                 - Single site ID (e.g. 1)
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -799,7 +799,7 @@ class API extends \Piwik\Plugin\API
      *                                 - Single site ID (e.g. 1)
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -824,7 +824,7 @@ class API extends \Piwik\Plugin\API
      *                                 - Single site ID (e.g. 1)
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -871,7 +871,7 @@ class API extends \Piwik\Plugin\API
      *                                 - Single site ID (e.g. 1)
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -971,7 +971,7 @@ class API extends \Piwik\Plugin\API
      *                                 - Single site ID (e.g. 1)
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -1109,7 +1109,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param int|string|int[] $idSite
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @param string|string[] $toFetch
      * @return DataTable|DataTable\Map
@@ -1124,7 +1124,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param int|string|int[] $idSite
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @param int|string|false $idGoal
      * @return DataTable|DataTable\Map
@@ -1137,7 +1137,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param int|string|int[] $idSite
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @param int|string|false $idGoal
      * @return DataTable|DataTable\Map
@@ -1150,7 +1150,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param int|string|int[] $idSite
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @param int|string|false $idGoal
      * @return DataTable|DataTable\Map
@@ -1167,7 +1167,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param int|string|int[] $idSite
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @param int|string|false $idGoal
      * @return DataTable|DataTable\Map
@@ -1182,7 +1182,7 @@ class API extends \Piwik\Plugin\API
      * Loads a goal-specific archived table and resolves special ecommerce goal identifiers before querying.
      *
      * @param int|string|int[] $idSite
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @param int|string|false $idGoal Goal ID, `ecommerceOrder`, `ecommerceAbandonedCart`, or `false` for all goals.
      * @return DataTable|DataTable\Map
@@ -1210,7 +1210,7 @@ class API extends \Piwik\Plugin\API
      *                                 - Single site ID (e.g. 1)
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -1248,7 +1248,7 @@ class API extends \Piwik\Plugin\API
      *                                 - Single site ID (e.g. 1)
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -1285,7 +1285,7 @@ class API extends \Piwik\Plugin\API
      * @param DataTable|DataTable\Map $dataTable
      * @param string $recordName Goals item archive name used to resolve the matching custom variable key.
      * @param int|string|int[] $idSite
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period
      * @param string|null|false $segment
      * @return void
      */

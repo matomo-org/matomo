@@ -14,6 +14,11 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics\Formatter;
+use Piwik\Period\Day;
+use Piwik\Period\Month;
+use Piwik\Period\Quarter;
+use Piwik\Period\Week;
+use Piwik\Period\Year;
 
 /**
  * Data Access class for querying numeric & blob archive tables.
@@ -135,10 +140,21 @@ class ArchiveTableDao
             $d['Invalidation'] = (int) $i['idinvalidation'];
             $d['Segment'] = $i['definition'];
             $d['Site'] = (int) $i['idsite'];
-            $d['Period'] = ($i['period'] == 1 ? 'Day' : ($i['period'] == 2 ? 'Week' : ($i['period'] == 3 ? 'Month' :
-                ($i['period'] == 4 ? 'Year' : 'Range'))));
-            $d['Date'] = ($i['period'] == 1 ? $i['date1'] : ($i['period'] == 3 ? substr($i['date1'], 0, 7) :
-                ($i['period'] == 4 ? substr($i['date1'], 0, 4) : $i['date1'] . ' - ' . $i['date2'])));
+            $d['Period'] = match ((int) $i['period']) {
+                Day::PERIOD_ID => 'Day',
+                Week::PERIOD_ID => 'Week',
+                Month::PERIOD_ID => 'Month',
+                Quarter::PERIOD_ID => 'Quarter',
+                Year::PERIOD_ID => 'Year',
+                default => 'Range',
+            };
+            $d['Date'] = match ((int) $i['period']) {
+                Day::PERIOD_ID => $i['date1'],
+                Month::PERIOD_ID => substr($i['date1'], 0, 7),
+                Quarter::PERIOD_ID => 'Q' . (int) ceil((int) substr($i['date1'], 5, 2) / 3) . ' ' . substr($i['date1'], 0, 4),
+                Year::PERIOD_ID => substr($i['date1'], 0, 4),
+                default => $i['date1'] . ' - ' . $i['date2'],
+            };
             $d['TimeQueued'] = $i['ts_invalidated'];
             $d['Waiting'] = $waiting;
             $d['Started'] = $i['ts_started'];

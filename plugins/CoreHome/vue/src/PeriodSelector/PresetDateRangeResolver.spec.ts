@@ -10,6 +10,8 @@ import {
   resolvePresetDateRange,
 } from './PresetDateRangeResolver';
 
+const PERIODS_WITHOUT_QUARTER = ['day', 'week', 'month', 'year', 'range'];
+
 describe('PresetDateRangeResolver', () => {
   it('resolves every preset id from its concrete period/date value', () => {
     const today = new Date('2026-02-16');
@@ -48,14 +50,41 @@ describe('PresetDateRangeResolver', () => {
     expect(resolvePresetDateRange('thisMonth', today).urlDate).toBe('today');
   });
 
-  it('falls back to concrete urlDate values for presets without rolling URL support', () => {
+  it('resolves quarter presets to the quarter period with rolling urlDate values', () => {
     const today = new Date('2026-02-16');
 
     const lastQuarter = resolvePresetDateRange('lastQuarter', today);
     const thisQuarter = resolvePresetDateRange('thisQuarter', today);
 
+    expect(lastQuarter.period).toBe('quarter');
+    expect(lastQuarter.date).toBe('2025-10-01');
+    expect(lastQuarter.urlDate).toBe('lastquarter');
+    expect(thisQuarter.period).toBe('quarter');
+    expect(thisQuarter.date).toBe('2026-02-16');
+    expect(thisQuarter.urlDate).toBe('today');
+  });
+
+  it('resolves quarter presets to date ranges with concrete urlDate values when quarter is disabled', () => {
+    const today = new Date('2026-02-16');
+
+    const lastQuarter = resolvePresetDateRange('lastQuarter', today, PERIODS_WITHOUT_QUARTER);
+    const thisQuarter = resolvePresetDateRange('thisQuarter', today, PERIODS_WITHOUT_QUARTER);
+
+    expect(lastQuarter.period).toBe('range');
+    expect(lastQuarter.date).toBe('2025-10-01,2025-12-31');
     expect(lastQuarter.urlDate).toBe(lastQuarter.date);
+    expect(thisQuarter.period).toBe('range');
+    expect(thisQuarter.date).toBe('2026-01-01,2026-02-16');
     expect(thisQuarter.urlDate).toBe(thisQuarter.date);
+  });
+
+  it('resolves quarter presets from any date in the matching quarter', () => {
+    const today = new Date('2026-02-16');
+
+    expect(getPresetIdFromPeriodAndDate('quarter', '2025-11-20', today)).toBe('lastQuarter');
+    expect(getPresetIdFromPeriodAndDate('quarter', '2026-03-31', today)).toBe('thisQuarter');
+    expect(getPresetIdFromPeriodAndDate('quarter', '2025-09-30', today)).toBeNull();
+    expect(getPresetIdFromPeriodAndDate('quarter', 'lastquarter', today)).toBe('lastQuarter');
   });
 
   it('resolves week presets from any date in the matching week', () => {
@@ -79,14 +108,17 @@ describe('PresetDateRangeResolver', () => {
     expect(getPresetIdFromPeriodAndDate('year', '2026-01-23', today)).toBe('thisYear');
   });
 
-  it('resolves thisQuarter only for the exact start-of-quarter to today range', () => {
+  it('resolves thisQuarter only for the exact start-of-quarter to today range when quarter is disabled', () => {
     const today = new Date('2026-02-16');
 
-    expect(getPresetIdFromPeriodAndDate('range', '2026-01-01,2026-02-16', today))
+    expect(getPresetIdFromPeriodAndDate('range', '2026-01-01,2026-02-16', today, PERIODS_WITHOUT_QUARTER))
       .toBe('thisQuarter');
-    expect(getPresetIdFromPeriodAndDate('range', '2026-01-01,2026-03-31', today))
+    expect(getPresetIdFromPeriodAndDate('range', '2026-01-01,2026-03-31', today, PERIODS_WITHOUT_QUARTER))
       .toBeNull();
-    expect(getPresetIdFromPeriodAndDate('range', '2026-01-01,2026-02-15', today))
+    expect(getPresetIdFromPeriodAndDate('range', '2026-01-01,2026-02-15', today, PERIODS_WITHOUT_QUARTER))
+      .toBeNull();
+    // a range is not a quarter preset while quarters are enabled
+    expect(getPresetIdFromPeriodAndDate('range', '2026-01-01,2026-02-16', today))
       .toBeNull();
   });
 
