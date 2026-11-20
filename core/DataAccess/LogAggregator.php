@@ -241,7 +241,7 @@ class LogAggregator
             if ($this->doesSegmentTableExist($segmentTable)) {
                 // safety in case an older MySQL version is used that does not drop table at the end of the connection
                 // automatically. also helps us release disk space/memory earlier when multiple segments are archived
-                $this->getDb()->query('DROP TEMPORARY TABLE IF EXISTS ' . $segmentTable);
+                $this->getDb()->query(Schema::getInstance()->getDropTemporaryTableSql($segmentTable));
             }
 
             $logTablesProvider = $this->getLogTableProvider();
@@ -303,7 +303,7 @@ class LogAggregator
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             $engine = 'ENGINE=MEMORY';
         }
-        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL, PRIMARY KEY (`idvisit`)) ' . $engine;
+        $createTableSql = Schema::getInstance()->getCreateTemporaryTableSql($table, 'idvisit  BIGINT(10) UNSIGNED NOT NULL, PRIMARY KEY (`idvisit`)', $engine);
         // we do not insert the data right away using create temporary table ... select ...
         // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
 

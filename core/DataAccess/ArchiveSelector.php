@@ -786,10 +786,11 @@ class ArchiveSelector
 
         $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
 
-        $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $chunkEnd, $nameEndAfterUnderscore))";
-        $locateSecondUnderscore = "IF((@secondunderscore := LOCATE('_', $extractSuffix) - 1) < 0, LENGTH(name), @secondunderscore)";
-        $extractIdSubtableStart = "IF( (@idsubtable := SUBSTRING($extractSuffix, 1, $locateSecondUnderscore)) = '', -1, @idsubtable )";
-        $idSubtableAsInt = "CAST($extractIdSubtableStart AS SIGNED)";
+        // portable SQL, so the sub-expressions are repeated instead of kept in session variables
+        $extractSuffix = "SUBSTRING(name, CASE WHEN $checkForChunkBlob THEN $chunkEnd ELSE $nameEndAfterUnderscore END)";
+        $secondUnderscore = "(INSTR($extractSuffix, '_') - 1)";
+        $idSubtable = "SUBSTRING($extractSuffix, 1, CASE WHEN $secondUnderscore < 0 THEN LENGTH(name) ELSE $secondUnderscore END)";
+        $idSubtableAsInt = "CAST(CASE WHEN $idSubtable = '' THEN -1 ELSE $idSubtable END AS SIGNED)";
 
         return $idSubtableAsInt;
     }

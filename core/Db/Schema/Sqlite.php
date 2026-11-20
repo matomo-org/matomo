@@ -366,6 +366,30 @@ class Sqlite extends Mysql
         return 'excluded.' . $column;
     }
 
+    public function getDateTimeIntervalSql(string $datetime, string $operator, string $amount, string $unit): string
+    {
+        self::checkInterval($operator, $unit);
+        $sign = $operator === '-' ? '-' : '';
+
+        // e.g. datetime(x, -(5) || ' seconds'); the result has MySQL's DATETIME text format
+        return 'datetime(' . $datetime . ', ' . $sign . '(' . $amount . ") || ' " . strtolower($unit) . "s')";
+    }
+
+    public function getCreateTemporaryTableSql(string $tableName, string $definition, string $tableOptions = ''): string
+    {
+        $statements = $this->getConverter()->convertTableDefinition($tableName, $definition);
+        if (count($statements) !== 1) {
+            throw new \InvalidArgumentException('SQLite: a temporary table can have a primary key, but no other index.');
+        }
+
+        return preg_replace('/^CREATE TABLE /', 'CREATE TEMP TABLE ', $statements[0]);
+    }
+
+    public function getDropTemporaryTableSql(string $tableName): string
+    {
+        return 'DROP TABLE IF EXISTS temp.`' . str_replace('`', '', $tableName) . '`';
+    }
+
     public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
     {
         if (strpbrk($separator, "'\"\\") !== false) {

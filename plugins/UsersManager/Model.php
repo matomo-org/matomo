@@ -1676,7 +1676,7 @@ class Model
                 u.email,
                 u.ts_last_seen,
                 u.date_registered
-            HAVING COALESCE(u.ts_last_seen, u.date_registered) < (? - INTERVAL ? DAY)
+            HAVING COALESCE(u.ts_last_seen, u.date_registered) < (" . Schema::getInstance()->getDateTimeIntervalSql('?', '-', '?', 'DAY') . ")
             ORDER BY u.login;
         ";
         $bind = ['anonymous', Date::factory('now')->getDatetime(), $days];

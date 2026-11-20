@@ -1008,6 +1008,30 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
         return 'VALUES(' . $column . ')';
     }
 
+    public function getDateTimeIntervalSql(string $datetime, string $operator, string $amount, string $unit): string
+    {
+        self::checkInterval($operator, $unit);
+
+        return $datetime . ' ' . $operator . ' INTERVAL ' . $amount . ' ' . strtoupper($unit);
+    }
+
+    public function getCreateTemporaryTableSql(string $tableName, string $definition, string $tableOptions = ''): string
+    {
+        return 'CREATE TEMPORARY TABLE ' . $tableName . ' (' . $definition . ') ' . $tableOptions;
+    }
+
+    public function getDropTemporaryTableSql(string $tableName): string
+    {
+        return 'DROP TEMPORARY TABLE IF EXISTS ' . $tableName;
+    }
+
+    protected static function checkInterval(string $operator, string $unit): void
+    {
+        if (!in_array($operator, ['+', '-'], true) || !in_array(strtoupper($unit), ['SECOND', 'MINUTE', 'HOUR', 'DAY'], true)) {
+            throw new \InvalidArgumentException(sprintf('Unsupported interval: %s %s', $operator, $unit));
+        }
+    }
+
     public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
     {
         if (strpbrk($separator, "'\"\\") !== false) {

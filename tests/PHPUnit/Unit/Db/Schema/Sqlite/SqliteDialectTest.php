@@ -79,6 +79,25 @@ class SqliteDialectTest extends TestCase
         $this->assertSame(['a%'], $statement->fetchAll(PDO::FETCH_COLUMN));
     }
 
+    public function testDateTimeIntervalsKeepMysqlsDatetimeFormat(): void
+    {
+        $add = $this->schema->getDateTimeIntervalSql('?', '+', '?', 'SECOND');
+        $subtract = $this->schema->getDateTimeIntervalSql('?', '-', '?', 'DAY');
+        $statement = $this->pdo->prepare("SELECT $add, $subtract");
+        $statement->execute(['2024-02-28 23:59:30', 45, '2024-03-01 10:00:00', 2]);
+
+        $this->assertSame(['2024-02-29 00:00:15', '2024-02-28 10:00:00'], $statement->fetch(PDO::FETCH_NUM));
+        // a column amount, compared as MySQL compares DATETIME values
+        $this->assertSame(1, (int) $this->pdo->query("SELECT datetime('2024-01-01 00:00:10') < "
+            . $this->schema->getDateTimeIntervalSql("'2024-01-01 00:00:00'", '+', '(5 + 6)', 'second'))->fetchColumn());
+    }
+
+    public function testLongerIntervalsAreRejected(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->schema->getDateTimeIntervalSql('?', '+', '1', 'MONTH');
+    }
+
     public function testNoIndexHint(): void
     {
         $this->assertSame('', $this->schema->getIndexHintSql('index_idsite_idvisitor_time'));

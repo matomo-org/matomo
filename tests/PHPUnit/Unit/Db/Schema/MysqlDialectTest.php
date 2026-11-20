@@ -74,6 +74,16 @@ class MysqlDialectTest extends TestCase
         yield 'backslash' => ['\\'];
     }
 
+    public function testDateTimeIntervalSql(): void
+    {
+        $mysql = new Mysql();
+        $this->assertSame('pvt.server_time + INTERVAL pvt.time_spent SECOND', $mysql->getDateTimeIntervalSql('pvt.server_time', '+', 'pvt.time_spent', 'SECOND'));
+        $this->assertSame('? - INTERVAL ? DAY', $mysql->getDateTimeIntervalSql('?', '-', '?', 'day'));
+
+        $this->expectException(\InvalidArgumentException::class);
+        $mysql->getDateTimeIntervalSql('?', '*', '?', 'DAY');
+    }
+
     public function testIndexHints(): void
     {
         $this->assertSame(' FORCE INDEX (index_idsite_idvisitor_time)', (new Mysql())->getIndexHintSql('index_idsite_idvisitor_time'));

@@ -556,6 +556,32 @@ class Schema extends Singleton
     }
 
     /**
+     * Returns an expression adding an interval to, or subtracting it from, a date and time.
+     *
+     * @see SqlDialectInterface::getDateTimeIntervalSql()
+     */
+    public function getDateTimeIntervalSql(string $datetime, string $operator, string $amount, string $unit): string
+    {
+        return $this->getSqlDialect()->getDateTimeIntervalSql($datetime, $operator, $amount, $unit);
+    }
+
+    /**
+     * @see SqlDialectInterface::getCreateTemporaryTableSql()
+     */
+    public function getCreateTemporaryTableSql(string $tableName, string $definition, string $tableOptions = ''): string
+    {
+        return $this->getSqlDialect()->getCreateTemporaryTableSql($tableName, $definition, $tableOptions);
+    }
+
+    /**
+     * @see SqlDialectInterface::getDropTemporaryTableSql()
+     */
+    public function getDropTemporaryTableSql(string $tableName): string
+    {
+        return $this->getSqlDialect()->getDropTemporaryTableSql($tableName);
+    }
+
+    /**
      * Returns the clause to append after a `LIKE ?` placeholder bound to a backslash-escaped pattern.
      *
      * @see SqlDialectInterface::getLikeEscapeSql()
