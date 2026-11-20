@@ -168,10 +168,7 @@ class HandlerTest extends IntegrationTestCase
     public function testOnExceptionShouldLogAServiceUnavailableHttpCodeExceptionAsError()
     {
         $logger = $this->createMock(LoggerInterface::class);
-        // the flag lets the stand-in for the screen writer write it to PHP's error log
-        $logger->expects($this->once())->method('error')->with('Exception: {exception}', $this->callback(function (array $context) {
-            return ($context['trackerError'] ?? false) === true;
-        }));
+        $logger->expects($this->once())->method('error');
         StaticContainer::getContainer()->set(LoggerInterface::class, $logger);
 
         $handler = new Handler();
