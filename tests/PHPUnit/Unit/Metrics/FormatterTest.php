@@ -169,6 +169,12 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
             array(1.25 * 1024 * 1024, 'M', '1.3 M'),
             array(1.25 * 1024 * 1024 * 1024, 'M', '1280 M'),
             array(0, null, '0 M'),
+            array(1023.96, null, '1 K'),
+            array(1048575, null, '1 M'),
+            array(1048524, null, '1023.9 K'),
+            array(1073741823, null, '1 G'),
+            array(1024 * 1024 * 1024 * 1024 - 1, null, '1 T'),
+            array(1048575, 'K', '1024 K'),
         );
     }
 
