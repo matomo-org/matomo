@@ -54,6 +54,8 @@ class Collection
         'API.getPagesComparisonsDisabledFor',
         'BotTracking',
         'AIProviders',
+        // real-time polling stream whose output contains the current server time; covered by its own system test
+        'DebugView',
     );
 
     /**
