@@ -13,6 +13,7 @@
         "None": "无",
         "PluginDescription": "提供“访客地图”和“实时地图”小部件。注意：需要先激活“UserCountry”插件。",
         "RealTimeMap": "实时地图",
+        "RealTimeMapHelp": "显示过去 30 分钟内网站访客的位置，新访客会闪烁显示。最近的访问显示为较大的橙色气泡，较早的访问显示为较小的灰色气泡。每五秒刷新一次。",
         "Regions": "地区",
         "Searches": "%s 次搜索",
         "SecondsAgo": "%s 秒前",
