@@ -47,14 +47,14 @@
 .marketplacePluginDetails__back {
   display: inline-flex;
   align-items: safe center;
-  gap: 4px;
+  gap: 0;
   margin-bottom: @marketplace-details-gap;
   padding: 0;
   border: 0;
   background: none;
   color: @theme-color-link;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 18px;
   cursor: pointer;
 
   &:hover,
@@ -76,13 +76,18 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   outline: none;
 }
 
-.marketplacePluginDetails__head {
+// override: CoreAdminHome's `.admin section` puts default spacing on every section of an admin
+// page and outranks a lone class, so the tag is the narrowest selector that reaches it. This file
+// is merged after generalSettings.less, so the equal specificity resolves here.
+section.marketplacePluginDetails__head {
   display: flex;
   align-items: safe center;
   gap: 24px;
+  margin-top: 0;
   padding: 20px;
+  line-height: inherit;
   border: 1px solid @theme-color-border;
-  border-radius: @marketplace-card-radius;
+  border-radius: @marketplace-details-radius;
   background: @theme-color-background-contrast;
 }
 
@@ -127,7 +132,7 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   // set rather than left to the font: the box stays 36 tall while the type is 24
   line-height: 36px;
   letter-spacing: -0.24px;
-  color: @theme-color-text-contrast;
+  color: @theme-color-headline-alternative;
   // a plugin name is often one long camel-cased word, which would push the page sideways on a
   // phone or at high zoom rather than wrap
   overflow-wrap: anywhere;
@@ -139,11 +144,15 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   }
 }
 
-.marketplacePluginDetails__lede {
+// override: the tag outranks CoreAdminHome's `.admin p` line height and padding, as on the head
+p.marketplacePluginDetails__lede {
   margin: 0 0 18px;
+  padding-bottom: 0;
   // the description is one or two sentences; the head is far wider than that reads well at
   max-width: 535px;
-  color: @theme-color-text-light;
+  font-size: 14px;
+  line-height: 20px;
+  color: @theme-color-text-lighter;
   // an author may paste a URL in as the description, and it would run off a narrow screen
   overflow-wrap: anywhere;
 }
@@ -155,7 +164,7 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   gap: 8px 14px;
   font-size: 12px;
   line-height: 14px;
-  color: @theme-color-text-light;
+  color: @theme-color-text-lighter;
 }
 
 .marketplacePluginDetails__labels {
@@ -175,7 +184,7 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   border-radius: 16px;
   font-size: 12px;
   line-height: 14px;
-  color: @theme-color-text-light;
+  color: @theme-color-text-lighter;
 }
 
 .marketplacePluginDetails__pill--matomo {
@@ -197,6 +206,32 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   color: #f5a623;
 }
 
+// the design separates the rating, downloads and update facts with a middle dot
+.marketplacePluginDetails__rating ~ .marketplacePluginDetails__fact,
+.marketplacePluginDetails__fact ~ .marketplacePluginDetails__fact {
+  &::before {
+    content: "\00B7";
+    margin-right: 14px;
+    font-size: 13px;
+    line-height: 20px;
+  }
+}
+
+.marketplacePluginDetails__fact--updated {
+  display: inline-flex;
+  align-items: safe center;
+  gap: 6px;
+
+  // the dot is a flex item here, so the gap adds to its margin
+  &.marketplacePluginDetails__fact::before {
+    margin-right: 8px;
+  }
+
+  .icon-clock {
+    font-size: 16px;
+  }
+}
+
 // a button doing a link's job: it scrolls to the reviews rather than going anywhere
 .marketplacePluginDetails__reviewsLink {
   padding: 0;
@@ -204,12 +239,8 @@ button.marketplacePluginDetails__back:focus:not(:focus-visible) {
   background: none;
   color: @theme-color-link;
   font: inherit;
+  text-decoration: underline;
   cursor: pointer;
-
-  &:hover,
-  &:focus-visible {
-    text-decoration: underline;
-  }
 }
 
 // override: the same Materialize `button:focus` fill and Morpheus dotted outline as on
@@ -250,10 +281,13 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
   overflow-y: auto;
 }
 
-.marketplacePluginDetails__card {
-  padding: 24px;
+// override: the same `.admin section` spacing as on the head above
+section.marketplacePluginDetails__card {
+  margin-top: 0;
+  padding: 20px;
+  line-height: inherit;
   border: 1px solid @theme-color-border;
-  border-radius: @marketplace-card-radius;
+  border-radius: @marketplace-details-radius;
   background: @theme-color-background-contrast;
 }
 
@@ -281,9 +315,10 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
 }
 
 .marketplacePluginDetails__readme {
-  // The page's intro styles colour every p itself, while lists and the rest take the colour around
-  // them; set the paragraphs' colour here so everything in the readme inherits the same one
-  color: @theme-color-headline-alternative;
+  // Morpheus colours every p itself, so the lists and the rest take the same colour from here
+  color: @theme-color-text;
+  // fixed, or the paragraphs inherit Materialize's viewport-based root size (14-15px)
+  font-size: 14px;
   // readme headings and links carry long unbroken words - class names, URLs - that would otherwise
   // run past the card on a narrow screen
   overflow-wrap: anywhere;
@@ -434,7 +469,8 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
 .marketplacePluginDetails__shotCaption {
   margin-top: 6px;
   font-size: 12px;
-  color: @theme-color-text-light;
+  line-height: 14px;
+  color: @theme-color-text-lighter;
 }
 
 .marketplacePluginDetails__reviewSummary {
@@ -469,20 +505,19 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
 
   .inDarkMode({
     padding: 12px 16px;
-    border-radius: @marketplace-card-radius;
+    border-radius: @marketplace-details-radius;
     background-color: #fff;
   });
 }
 
-.marketplacePluginDetails__buy {
+section.marketplacePluginDetails__buy {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 20px;
 }
 
 // a price to pay for: given the room and lift of the pricing card on plugins.matomo.org
-.marketplacePluginDetails__buy--highlighted {
+section.marketplacePluginDetails__buy--highlighted {
   padding: 32px;
   border-radius: 10px;
   box-shadow: 0 2px 8px @theme-color-boxShadow;
@@ -522,26 +557,29 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
 .marketplacePluginDetails__meta {
   display: grid;
   gap: 1px;
-  margin: -8px 0 0;
+  margin: -9px 0 0;
   background: @theme-color-border;
 }
 
 .marketplacePluginDetails__metaRow {
   display: grid;
   grid-template-columns: 96px minmax(0, 1fr);
+  align-items: baseline;
   gap: 12px;
-  padding: 8px 0;
+  padding: 9px 0;
   background: @theme-color-background-contrast;
 }
 
 .marketplacePluginDetails__metaLabel {
-  font-size: 13px;
-  color: @theme-color-text-light;
+  font-size: 12px;
+  line-height: 14px;
+  color: @theme-color-text-lighter;
 }
 
 .marketplacePluginDetails__metaValue {
   margin: 0;
   font-size: 13px;
+  line-height: 16px;
   // licence URLs and support addresses have no spaces to break on
   overflow-wrap: anywhere;
 }
@@ -557,11 +595,15 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
 }
 
 .marketplacePluginDetails__keywordItem {
-  padding: 1px 8px;
+  display: inline-flex;
+  align-items: safe center;
+  height: 24px;
+  padding: 0 8px;
   border: 1px solid @theme-color-border;
   border-radius: 999px;
   font-size: 12px;
-  color: @theme-color-text-light;
+  line-height: 14px;
+  color: @theme-color-text-lighter;
 }
 
 .marketplacePluginDetails__lightboxImage {
@@ -594,7 +636,7 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
 }
 
 @media (max-width: 760px) {
-  .marketplacePluginDetails__head {
+  section.marketplacePluginDetails__head {
     flex-direction: column;
     align-items: flex-start;
     gap: @marketplace-details-gap;
@@ -606,7 +648,7 @@ button.marketplacePluginDetails__reviewsLink:focus:not(:focus-visible) {
     max-width: 360px;
   }
 
-  .marketplacePluginDetails__card {
+  section.marketplacePluginDetails__card {
     padding: @marketplace-details-gap;
   }
 

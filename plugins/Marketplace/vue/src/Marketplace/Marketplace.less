@@ -9,10 +9,10 @@
 // component, and both the plugin's own legacy rules and AnonymousPiwikUsageMeasurement select on
 // it, so the block is qualified instead.
 .marketplacePage {
-  padding: 24px;
-  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid @theme-color-border;
+  border-radius: 8px;
   background: @theme-color-background-contrast;
-  box-shadow: @theme-shadow-overlay;
 
   @media (max-width: 640px) {
     padding: 12px;
@@ -25,9 +25,9 @@
 // borders between the two. The catalogue keeps it: its grid has no card of its own.
 .marketplacePage--details {
   padding: 0;
+  border: 0;
   border-radius: 0;
   background: none;
-  box-shadow: none;
 }
 
 // One cell holding both the catalogue and a plugin's page, so neither is laid out below the other
@@ -134,8 +134,8 @@ button.marketplacePage__backLink:focus:not(:focus-visible) {
   align-items: safe center;
   justify-content: space-between;
   gap: 12px;
-  margin: 24px 0 12px;
-  min-height: 32px;
+  margin: 32px 0 16px;
+  min-height: 38px;
 }
 
 // The back link and the heading below it are one block, so the bar drops the top margin that
@@ -145,6 +145,7 @@ button.marketplacePage__backLink:focus:not(:focus-visible) {
 }
 
 .marketplacePage__resultsBar--empty {
+  margin-top: 32px;
   margin-bottom: 0;
   min-height: 0;
 }
