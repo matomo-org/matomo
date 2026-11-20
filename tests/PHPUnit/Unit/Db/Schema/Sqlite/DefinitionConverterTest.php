@@ -44,8 +44,8 @@ class DefinitionConverterTest extends TestCase
         yield 'bigint nullable' => ['BIGINT UNSIGNED NULL', 'INTEGER'];
         yield 'decimal' => ['DECIMAL(10,2) NULL DEFAULT NULL', 'REAL DEFAULT NULL'];
         yield 'varchar is case-insensitive' => ["VARCHAR(255) NOT NULL DEFAULT ''", "TEXT NOT NULL DEFAULT '' COLLATE NOCASE"];
-        yield 'binary collation stays case-sensitive' => ['VARCHAR(100) COLLATE utf8mb4_bin NOT NULL', 'TEXT NOT NULL'];
-        yield 'binary' => ['VARBINARY(8) NOT NULL', 'BLOB NOT NULL'];
+        yield 'binary collation stays case-sensitive' => ['VARCHAR(100) COLLATE utf8mb4_bin NOT NULL', "TEXT NOT NULL DEFAULT ('')"];
+        yield 'binary' => ['VARBINARY(8) NOT NULL', "BLOB NOT NULL DEFAULT (X'')"];
         yield 'datetime' => ['DATETIME NULL', 'TEXT'];
     }
 
@@ -56,7 +56,7 @@ class DefinitionConverterTest extends TestCase
         );
 
         $this->assertSame([
-            "CREATE TABLE `t` (\n  `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `name` TEXT NOT NULL COLLATE NOCASE\n)",
+            "CREATE TABLE `t` (\n  `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `name` TEXT NOT NULL DEFAULT ('') COLLATE NOCASE\n)",
             'CREATE INDEX `t.name` ON `t` (`name`)',
         ], $statements);
     }
@@ -138,10 +138,10 @@ class DefinitionConverterTest extends TestCase
 
     public function testSoleIntegerPrimaryKeyIsNotTheRowid(): void
     {
-        $this->assertStringContainsString("`id` INT NOT NULL CHECK (typeof(`id`) = 'integer'),", $this->converter->convertCreateTable('CREATE TABLE t (id INT NOT NULL, PRIMARY KEY (id))')[0]);
-        $this->assertStringContainsString('`id` INT PRIMARY KEY NOT NULL CHECK', $this->converter->convertCreateTable('CREATE TABLE t (id BIGINT PRIMARY KEY)')[0]);
+        $this->assertStringContainsString("`id` INT NOT NULL DEFAULT (0) CHECK (typeof(`id`) = 'integer'),", $this->converter->convertCreateTable('CREATE TABLE t (id INT NOT NULL, PRIMARY KEY (id))')[0]);
+        $this->assertStringContainsString('`id` INT PRIMARY KEY NOT NULL DEFAULT (0) CHECK', $this->converter->convertCreateTable('CREATE TABLE t (id BIGINT PRIMARY KEY)')[0]);
         // a composite primary key is never the rowid
-        $this->assertStringContainsString('`a` INTEGER NOT NULL,', $this->converter->convertCreateTable('CREATE TABLE t (a INT, b INT, PRIMARY KEY (a, b))')[0]);
+        $this->assertStringContainsString('`a` INTEGER NOT NULL DEFAULT (0),', $this->converter->convertCreateTable('CREATE TABLE t (a INT, b INT, PRIMARY KEY (a, b))')[0]);
     }
 
     public function testBinaryTableCollationIsRejected(): void

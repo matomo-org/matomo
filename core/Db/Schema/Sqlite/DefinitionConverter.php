@@ -25,6 +25,8 @@ use Piwik\Db\SqlListParser;
  *   collation is rejected.
  * - Binary types become `BLOB`; date and time types become `TEXT`; an `ENUM` becomes text with the
  *   text collation, a CHECK on its values and, NOT NULL without a default, its first value as default.
+ * - Any other NOT NULL column without a default gets MySQL's implicit default (zero, `''`, the zero
+ *   date), which MySQL stores when a non-strict insert leaves the column out.
  * - Indexes become `CREATE INDEX` statements named `<table>.<index>`, as index names are global
  *   in SQLite (and a dot can't be in either name). A prefix (`col(n)`) is dropped from a non-unique
  *   index; in a unique index it becomes `substr(col, 1, n)` with the column's collation, or the first
@@ -123,6 +125,7 @@ final class DefinitionConverter
             foreach ($columns as $name => $column) {
                 if (strcasecmp($name, $part['column']) === 0 && !$column['autoIncrement']) {
                     $columns[$name]['notNull'] = true;
+                    $columns[$name]['default'] = $column['default'] ?? $column['implicitDefault'];
                 }
             }
         }
@@ -366,7 +369,7 @@ final class DefinitionConverter
     /**
      * @param string|null $name the column name, needed for the CHECK constraints of an ENUM and an
      *                          integer primary key
-     * @return array{name: string|null, type: string, notNull: bool, default: string|null, collation: string|null, autoIncrement: bool, primaryKey: bool, unique: bool, enumValues: string[]|null, integerCheck: bool, sql: string}
+     * @return array{name: string|null, type: string, notNull: bool, default: string|null, implicitDefault: string, collation: string|null, autoIncrement: bool, primaryKey: bool, unique: bool, enumValues: string[]|null, integerCheck: bool, sql: string}
      */
     private function parseColumnAttributes(string $tableName, string $definition, ?string $name = null): array
     {
@@ -457,6 +460,15 @@ final class DefinitionConverter
         if ($enumValues !== null && $notNull === true && $default === null) {
             $default = $enumValues[0];
         }
+
+        // any other NOT NULL column without a default gets the type's implicit default, which MySQL
+        // stores when an insert leaves the column out (Matomo's sql_mode is not strict) and gives the
+        // existing rows when the column is added; it is written in parentheses, which a default the
+        // definition gives never is
+        $implicitDefault = '(' . self::getImplicitDefault($type, $sqlType) . ')';
+        if ($notNull === true && $default === null && !$autoIncrement) {
+            $default = $implicitDefault;
+        }
         if ($enumValues !== null && $name === null) {
             throw $this->unsupported($tableName, $definition . ' (ENUM without a column name)');
         }
@@ -472,6 +484,7 @@ final class DefinitionConverter
             'type' => $sqlType,
             'notNull' => $notNull === true,
             'default' => $default,
+            'implicitDefault' => $implicitDefault,
             'collation' => $collation,
             'autoIncrement' => $autoIncrement,
             'primaryKey' => $primaryKey,
@@ -480,6 +493,31 @@ final class DefinitionConverter
         $column['sql'] = $this->getColumnSql($column);
 
         return $column;
+    }
+
+    /**
+     * MySQL's implicit default of a NOT NULL column: zero, an empty string, or the zero date or time.
+     */
+    private static function getImplicitDefault(string $mysqlType, string $sqlType): string
+    {
+        switch ($mysqlType) {
+            case 'date':
+                return "'0000-00-00'";
+            case 'datetime':
+            case 'timestamp':
+                return "'0000-00-00 00:00:00'";
+            case 'time':
+                return "'00:00:00'";
+        }
+
+        switch ($sqlType) {
+            case 'TEXT':
+                return "''";
+            case 'BLOB':
+                return "X''";
+            default:
+                return '0';
+        }
     }
 
     private function getColumnSql(array $column): string

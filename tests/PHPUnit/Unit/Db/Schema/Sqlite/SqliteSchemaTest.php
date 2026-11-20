@@ -209,8 +209,14 @@ class SqliteSchemaTest extends TestCase
     {
         $this->schema->createTable('t', $definition);
 
-        $this->expectExceptionMessage('NOT NULL constraint failed');
+        // as MySQL without strict mode, a missing key is the implicit default 0, not a new rowid
         Db::query('INSERT INTO matomo_t (n) VALUES (1)');
+        $this->assertSame([['id' => 0, 'n' => 1]], array_map(function ($row) {
+            return array_map('intval', $row);
+        }, Db::fetchAll('SELECT id, n FROM matomo_t')));
+
+        $this->expectExceptionMessage('UNIQUE constraint failed');
+        Db::query('INSERT INTO matomo_t (n) VALUES (2)');
     }
 
     public function getSoleIntegerPrimaryKeys(): iterable

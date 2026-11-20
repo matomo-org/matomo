@@ -1191,7 +1191,7 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->insertInvalidations($invalidations);
         $expected = $this->consumeAllInvalidations($phpOnlyModel, $archiveFilter);
 
-        Db::query('TRUNCATE ' . Common::prefixTable('archive_invalidations'));
+        Db::truncateTable(Common::prefixTable('archive_invalidations'));
 
         $this->insertInvalidations($invalidations);
         $actual = $this->consumeAllInvalidations(new Model(), $archiveFilter);

@@ -387,9 +387,9 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
 
     private function clearLogData()
     {
-        Db::query('TRUNCATE ' . Common::prefixTable('log_visit'));
-        Db::query('TRUNCATE ' . Common::prefixTable('log_link_visit_action'));
-        Db::query('TRUNCATE ' . Common::prefixTable('log_conversion'));
+        Db::truncateTable(Common::prefixTable('log_visit'));
+        Db::truncateTable(Common::prefixTable('log_link_visit_action'));
+        Db::truncateTable(Common::prefixTable('log_conversion'));
     }
 }
 

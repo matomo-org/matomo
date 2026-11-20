@@ -594,7 +594,7 @@ class UITestFixture extends SqlDump
     public function createSegments()
     {
         Rules::setBrowserTriggerArchiving(false);
-        Db::exec("TRUNCATE TABLE " . Common::prefixTable('segment'));
+        Db::truncateTable(Common::prefixTable('segment'));
 
         $segmentName = $this->xssTesting->forTwig('segment');
         $segmentDefinition = "browserCode==FF";

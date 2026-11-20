@@ -645,7 +645,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 
     private function insertInvalidations(array $invalidationsToInsert): void
     {
-        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
+        Db::truncateTable(Common::prefixTable('archive_invalidations'));
 
         $sql = 'INSERT INTO ' . Common::prefixTable('archive_invalidations')
             . ' (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_invalidated`, `status`, `report`, `ts_started`, `processing_host`, `process_id`)'

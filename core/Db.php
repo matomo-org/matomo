@@ -474,6 +474,24 @@ class Db implements TransactionalDatabaseInterface
     }
 
     /**
+     * Empties a table and restarts its auto-increment counter, as MySQL's `TRUNCATE TABLE` does.
+     *
+     * @param string $table The prefixed table name.
+     */
+    public static function truncateTable(string $table): void
+    {
+        self::query(Schema::getInstance()->getTruncateTableSql($table));
+
+        if (
+            Db\Sqlite\Connection::isSqliteConnection(self::get())
+            && self::fetchOne("SELECT 1 FROM sqlite_schema WHERE type = 'table' AND name = 'sqlite_sequence'")
+        ) {
+            // SQLite keeps an AUTOINCREMENT table's counter in sqlite_sequence, which DELETE leaves as it is
+            self::query('DELETE FROM sqlite_sequence WHERE name = ?', [$table]);
+        }
+    }
+
+    /**
      * Drops the supplied table or tables.
      *
      * @param string|array $tables The name of the table to drop or an array of table names to drop.

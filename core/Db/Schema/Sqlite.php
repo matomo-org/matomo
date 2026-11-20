@@ -148,8 +148,8 @@ class Sqlite extends Mysql
      * adding and dropping columns and indexes. Changing a column or the primary key needs a table
      * rebuild, which isn't supported here, and fails like any other unsupported specification.
      *
-     * A column added as `NOT NULL` without a default gets the type's zero value as default, which is
-     * the value MySQL gives the existing rows.
+     * A column added as `NOT NULL` without a default gets the type's implicit default from the
+     * converter, which is the value MySQL gives the existing rows.
      */
     public function getAlterTableSql(string $tableName, array $specifications): array
     {
@@ -175,7 +175,7 @@ class Sqlite extends Mysql
                 && !preg_match('/^(PRIMARY|CONSTRAINT|FOREIGN|FULLTEXT|SPATIAL)$/i', $matches[1])
             ) {
                 $definition = $converter->convertColumnDefinition($tableName, $matches[2], $matches[1]);
-                $addColumns[] = 'ALTER TABLE `' . $tableName . '` ADD COLUMN `' . $matches[1] . '` ' . $this->withImplicitDefault($definition);
+                $addColumns[] = 'ALTER TABLE `' . $tableName . '` ADD COLUMN `' . $matches[1] . '` ' . $definition;
                 $columnTypes[strtolower($matches[1])] = self::getColumnType($definition);
             } elseif (
                 preg_match('/^DROP\s+(?:COLUMN\s+)?`?(\w+)`?$/is', $specification, $matches)
@@ -549,9 +549,7 @@ class Sqlite extends Mysql
     }
 
     /**
-     * Whether a column is defined as the MySQL column definition converts to, either when the table was
-     * created or when the column was added (with the implicit default SQLite then needs, which is
-     * written in parentheses, unlike a default the definition gives).
+     * Whether a column is defined as the MySQL column definition converts to.
      */
     private function hasColumnDefinition(string $tableName, string $column, string $mysqlDefinition): bool
     {
@@ -563,8 +561,7 @@ class Sqlite extends Mysql
 
         $actual = self::normalizeDefinition($actual);
 
-        return $actual === self::normalizeDefinition($converted)
-            || $actual === self::normalizeDefinition($this->withImplicitDefault($converted));
+        return $actual === self::normalizeDefinition($converted);
     }
 
     /**
@@ -609,33 +606,6 @@ class Sqlite extends Mysql
         $normalized = preg_replace('/^INT\b/', 'INTEGER', implode('', $parts));
 
         return preg_replace("/ CHECK \\(TYPEOF\\(`\\w+`\\) = 'integer'\\)/", '', $normalized);
-    }
-
-    /**
-     * SQLite can't add a NOT NULL column without a default; MySQL fills existing rows with the type's
-     * zero value. The default is written in parentheses, which the converter never does, so a column
-     * added this way can be told apart from one with an explicit default.
-     */
-    private function withImplicitDefault(string $definition): string
-    {
-        // the keywords are looked for outside string literals, such as ENUM values
-        $parts = preg_split("/('(?:[^']|'')*')/", $definition, -1, PREG_SPLIT_DELIM_CAPTURE);
-        $keywords = implode(' ', array_filter($parts, function ($i) {
-            return $i % 2 === 0;
-        }, ARRAY_FILTER_USE_KEY));
-        if (!preg_match('/\bNOT NULL\b/', $keywords) || preg_match('/\bDEFAULT\b/', $keywords)) {
-            return $definition;
-        }
-
-        $zero = str_starts_with($definition, 'TEXT') ? "''" : (str_starts_with($definition, 'BLOB') ? "X''" : '0');
-        foreach ($parts as $i => $part) {
-            if ($i % 2 === 0 && preg_match('/\bNOT NULL\b/', $part)) {
-                $parts[$i] = preg_replace('/\bNOT NULL\b/', 'NOT NULL DEFAULT (' . $zero . ')', $part, 1);
-                break;
-            }
-        }
-
-        return implode('', $parts);
     }
 
     /**

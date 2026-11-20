@@ -111,6 +111,7 @@ class DimensionMetricFactory
                 $semanticType = Dimension::TYPE_NUMBER;
                 break;
             case ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE:
+            case ArchivedMetric::LEGACY_AGGREGATION_COUNT_WITH_NUMERIC_VALUE:
                 $prefix = ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX;
                 $translatedName = Piwik::translate('General_ComputedMetricCountWithValue', $dimension->getName());
                 $documentation  = Piwik::translate('General_ComputedMetricCountWithValueDocumentation', $dimension->getName());

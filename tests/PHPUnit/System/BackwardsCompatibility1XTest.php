@@ -48,7 +48,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
         // truncate log tables so old data won't be re-archived
         foreach (['log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item'] as $table) {
-            Db::query("TRUNCATE TABLE " . Common::prefixTable($table));
+            Db::truncateTable(Common::prefixTable($table));
         }
 
         self::trackTwoVisitsOnSameDay();

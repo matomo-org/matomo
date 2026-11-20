@@ -39,7 +39,7 @@ class TimeTransfer extends Base
         $metric2->setName('max_time_transfer');
         $metricsList->addMetric($metric2);
 
-        $metric3 = $dimensionMetricFactory->createMetric('sum(if(%s is null, 0, 1))');
+        $metric3 = $dimensionMetricFactory->createMetric('sum(case when %s is null then 0 else 1 end)');
         $metric3->setName('pageviews_with_time_transfer');
         $metric3->setType(self::TYPE_NUMBER);
         $metric3->setTranslatedName(Piwik::translate('PagePerformance_ColumnViewsWithTimeTransfer'));
