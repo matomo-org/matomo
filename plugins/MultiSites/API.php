@@ -354,7 +354,10 @@ class API extends \Piwik\Plugin\API
 
         // if the period isn't a range & a lastN/previousN date isn't used, we get the same
         // data for the last period to show the evolution of visits/actions/revenue
-        [$strLastDate, $lastPeriod] = Range::getLastDate($date, $period);
+        // Same timezone as the archive above: a single site's own, otherwise UTC (as ArchiveQueryFactory counts sites).
+        $archivedIdSites = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
+        $timezone = count($archivedIdSites) === 1 ? Site::getTimezoneFor(reset($archivedIdSites)) : false;
+        [$strLastDate, $lastPeriod] = Range::getLastDate($date, $period, $timezone);
 
         if ($strLastDate !== false) {
             if ($lastPeriod !== false) {

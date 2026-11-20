@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Insights;
 use Piwik\API\Request as ApiRequest;
 use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Site;
 
 /**
  * Provides API methods for insight and mover/shaker comparisons between report periods.
@@ -229,13 +230,15 @@ class API extends \Piwik\Plugin\API
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($currentReport);
 
-        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
+        $timezone       = Site::getTimezoneFor($idSite);
+        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods, $timezone);
+        $currentDate    = $this->model->getCurrentDate($date, $period, $timezone);
         $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric, $segment);
         $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($lastReport);
 
         $insight = new InsightReport();
-        return $insight->generateMoverAndShaker($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser);
+        return $insight->generateMoverAndShaker($reportMetadata, $period, $currentDate, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser);
     }
 
     /**
@@ -289,7 +292,9 @@ class API extends \Piwik\Plugin\API
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($currentReport);
 
-        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
+        $timezone       = Site::getTimezoneFor($idSite);
+        $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods, $timezone);
+        $currentDate    = $this->model->getCurrentDate($date, $period, $timezone);
         $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric, $segment);
         $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($lastReport);
@@ -320,7 +325,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $insight = new InsightReport();
-        $table   = $insight->generateInsight($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $relevantTotal, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
+        $table   = $insight->generateInsight($reportMetadata, $period, $currentDate, $lastDate, $metric, $currentReport, $lastReport, $relevantTotal, $minMoversPercent, $minNewPercent, $minDisappearedPercent, $minGrowthPercentPositive, $minGrowthPercentNegative, $orderBy, $limitIncreaser, $limitDecreaser);
         $insight->markMoversAndShakers($table, $currentReport, $lastReport, $totalValue, $lastTotalValue);
 
         return $table;
