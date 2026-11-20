@@ -23,10 +23,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  */
 class RawRequestProcessor extends RequestProcessor
 {
-    /**
-     * @var RequestCapture
-     */
-    private $capture;
+    private RequestCapture $capture;
 
     public function __construct(RequestCapture $capture)
     {

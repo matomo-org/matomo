@@ -21,10 +21,7 @@ use Piwik\Tracker\Request;
  */
 class BotRequestProcessor extends \Piwik\Tracker\BotRequestProcessor
 {
-    /**
-     * @var RequestCapture
-     */
-    private $capture;
+    private RequestCapture $capture;
 
     public function __construct(RequestCapture $capture)
     {

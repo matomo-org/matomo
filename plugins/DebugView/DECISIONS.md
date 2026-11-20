@@ -203,7 +203,10 @@ Superseded decisions from earlier iterations have been removed.
 28. **Install/uninstall** — the table is created with CREATE TABLE IF NOT EXISTS via
     `install()` (fresh installs and existing activated installations alike) and
     registered through `Db.getTablesInstalled`; uninstall drops the table and deletes all
-    arming options.
+    arming options. Fresh installs get the plugin from the bundled `Plugins[]` list in
+    global.ini.php; upgraded installations get it from the core update
+    `core/Updates/6.1.0-b3.php`, whose plugin activation runs the same `install()`, so
+    both paths end with the same schema.
 
 ## Testing
 

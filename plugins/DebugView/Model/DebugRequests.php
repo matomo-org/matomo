@@ -63,10 +63,7 @@ class DebugRequests
     // plain dots on purpose: a word like "truncated" would need translating
     public const TRUNCATION_MARKER = '...';
 
-    /**
-     * @var RawRequestLog
-     */
-    private $dao;
+    private RawRequestLog $dao;
 
     public function __construct(RawRequestLog $dao)
     {

@@ -27,10 +27,7 @@ class RequestCapture
      */
     public const REDACTED_PARAMS = ['token_auth'];
 
-    /**
-     * @var DebugRequests
-     */
-    private $debugRequests;
+    private DebugRequests $debugRequests;
 
     public function __construct(DebugRequests $debugRequests)
     {

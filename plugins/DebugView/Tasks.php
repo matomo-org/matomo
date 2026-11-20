@@ -13,10 +13,7 @@ use Piwik\Plugins\DebugView\Model\DebugRequests;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-    /**
-     * @var DebugRequests
-     */
-    private $debugRequests;
+    private DebugRequests $debugRequests;
 
     public function __construct(DebugRequests $debugRequests)
     {

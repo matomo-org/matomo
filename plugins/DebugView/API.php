@@ -30,15 +30,9 @@ class API extends \Piwik\Plugin\API
      */
     public const MAX_LAST_MINUTES = 60;
 
-    /**
-     * @var DebugRequests
-     */
-    private $debugRequests;
+    private DebugRequests $debugRequests;
 
-    /**
-     * @var HitFlattener
-     */
-    private $hitFlattener;
+    private HitFlattener $hitFlattener;
 
     public function __construct(DebugRequests $debugRequests, HitFlattener $hitFlattener)
     {
