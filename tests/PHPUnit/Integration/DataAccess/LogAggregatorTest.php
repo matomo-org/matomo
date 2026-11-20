@@ -23,6 +23,7 @@ use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestDataHelper\LogHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Action;
@@ -191,6 +192,27 @@ class LogAggregatorTest extends IntegrationTestCase
             'log_visit',
             ["LOWER(log_visit.config_os) -- formerly AS os\n", "CONCAT(log_visit.config_os, ' AS b')", 'family'],
         ];
+
+        yield 'a double-quoted alias is grouped by as an identifier' => [
+            ['LOWER(log_visit.config_os) AS "OS ""family"""', 'LOWER(log_visit.config_os) AS "a`b"'],
+            'log_visit',
+            ['`OS "family"`', '`a``b`'],
+        ];
+    }
+
+    public function testGetGroupByDimensionsReadsCommentsAndStringsAsTheDatabaseDoes(): void
+    {
+        $dimensions = ["REPLACE(log_visit.config_os, '\\', '/') AS family", "LOWER(log_visit.config_os) --formerly AS os\n"];
+        $method = (new \ReflectionClass($this->logAggregator))->getMethod('getGroupByDimensions');
+        $groupBy = $method->invoke($this->logAggregator, $dimensions, 'log_visit');
+
+        if (Fixture::isSqlite()) {
+            // SQLite has no backslash escapes, and starts a comment at any `--`
+            $this->assertSame(['family', $dimensions[1]], $groupBy);
+        } else {
+            // in MySQL the backslash escapes the quote, and `--` before a letter is two minus signs
+            $this->assertSame([$dimensions[0], 'os'], $groupBy);
+        }
     }
 
     public function testGenerateQuery()

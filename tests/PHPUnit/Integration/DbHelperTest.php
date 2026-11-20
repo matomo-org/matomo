@@ -135,6 +135,9 @@ class DbHelperTest extends IntegrationTestCase
 
     public function testCreateDatabaseEscapesInputProperly()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no CREATE DATABASE');
+        }
         $dbName = 'newdb`; create database anotherdb;`';
         DbHelper::createDatabase($dbName);
 
@@ -144,6 +147,9 @@ class DbHelperTest extends IntegrationTestCase
 
     public function testDropDatabaseEscapesInputProperly()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no DROP DATABASE');
+        }
         DbHelper::createDatabase("testdb");
         $this->assertDbExists('testdb');
 
@@ -168,6 +174,9 @@ class DbHelperTest extends IntegrationTestCase
 
     public function testGetDefaultCollationForCharset(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no MySQL charsets or collations');
+        }
         $charset = 'utf8mb4';
         $collation = DbHelper::getDefaultCollationForCharset($charset);
         $expectedPrefix = $charset . '_';

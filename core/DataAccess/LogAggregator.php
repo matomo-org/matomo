@@ -893,10 +893,13 @@ class LogAggregator
 
     /**
      * The alias an expression is selected as: the identifier after its trailing `AS`, which is outside
-     * parentheses (as in `CAST(x AS type)`), string literals and comments.
+     * parentheses (as in `CAST(x AS type)`), string literals and comments, as the database in use reads them.
+     * A double-quoted alias is returned backtick-quoted, since MySQL reads `GROUP BY "a"` as a string.
      */
     private static function getSelectAlias(string $expression): ?string
     {
+        // MySQL starts a `--` comment only before whitespace, has `#` comments and backslash escapes; SQLite has none of these
+        $isSqlite = Db\Sqlite\Connection::isSqliteConnection(Db::get());
         // the expression with comments blanked, and parenthesized, quoted or backtick-quoted text masked
         $masked = '';
         $length = strlen($expression);
@@ -908,16 +911,20 @@ class LogAggregator
                 $end = $end === false ? $length : $end + 2;
                 $masked .= str_repeat(' ', $end - $i);
                 $i = $end - 1;
-            } elseif ($char === '#' || preg_match('/\G--(\s|$)/', $expression, $m, 0, $i)) {
+            } elseif (
+                $isSqlite
+                    ? substr($expression, $i, 2) === '--'
+                    : ($char === '#' || preg_match('/\G--(\s|$)/', $expression, $m, 0, $i))
+            ) {
                 $end = strpos($expression, "\n", $i);
                 $end = $end === false ? $length : $end;
                 $masked .= str_repeat(' ', $end - $i);
                 $i = $end - 1;
             } elseif ($char === "'" || $char === '"' || $char === '`') {
-                // a quote is escaped by doubling it, or in a string literal by a backslash
+                // a quote is escaped by doubling it, or in a MySQL string literal by a backslash
                 $end = $i + 1;
                 while ($end < $length) {
-                    if ($char !== '`' && $expression[$end] === '\\') {
+                    if (!$isSqlite && $char !== '`' && $expression[$end] === '\\') {
                         $end += 2;
                     } elseif ($expression[$end] === $char && ($expression[$end + 1] ?? '') === $char) {
                         $end += 2;
@@ -940,11 +947,16 @@ class LogAggregator
             }
         }
 
-        if (!preg_match('/\sAS\s+(`[^`]*`|[0-9a-zA-Z$_\x80-\xFF]+)\s*$/', $masked, $matches, PREG_OFFSET_CAPTURE)) {
+        if (!preg_match('/\sAS\s+(`[^`]*`|"[^"]*"|[0-9a-zA-Z$_\x80-\xFF]+)\s*$/', $masked, $matches, PREG_OFFSET_CAPTURE)) {
             return null;
         }
 
-        return substr($expression, $matches[1][1], strlen($matches[1][0]));
+        $alias = substr($expression, $matches[1][1], strlen($matches[1][0]));
+        if ($alias[0] === '"') {
+            $alias = '`' . str_replace(['""', '`'], ['"', '``'], substr($alias, 1, -1)) . '`';
+        }
+
+        return $alias;
     }
 
     /**

@@ -10,6 +10,7 @@
 namespace PHPUnit\Integration\Tracker\Db;
 
 use Piwik\Config;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker;
 
@@ -24,6 +25,10 @@ class MysqliTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects to MySQL with mysqli');
+        }
 
         $config = Config::getInstance();
         $config->database['adapter'] = 'MYSQLI';

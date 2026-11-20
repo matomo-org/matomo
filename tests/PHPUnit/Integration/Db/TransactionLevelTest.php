@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\Db;
 use Piwik\Db;
 use Piwik\Db\Schema;
 use Piwik\Db\TransactionLevel;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -45,6 +46,10 @@ class TransactionLevelTest extends IntegrationTestCase
 
     public function testSetTransactionLevelForNonLockingReadsRestorePreviousStatus()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('MySQL session isolation variables');
+        }
+
         // mysql 8.0 using transaction_isolation
         $isolation = $this->db->fetchOne("SHOW GLOBAL VARIABLES LIKE 't%_isolation'");
         $isolation = "@@" . $isolation;

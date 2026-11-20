@@ -136,9 +136,9 @@ CREATE INDEX `matomo_log_action.index_type_hash` ON `matomo_log_action` (`type`,
 CREATE TABLE `matomo_log_visit` (
   `idvisit` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   `idsite` INTEGER NOT NULL DEFAULT (0),
-  `idvisitor` BLOB NOT NULL DEFAULT (X''),
+  `idvisitor` BLOB NOT NULL DEFAULT (X'0000000000000000'),
   `visit_last_action_time` TEXT NOT NULL DEFAULT ('0000-00-00 00:00:00'),
-  `config_id` BLOB NOT NULL DEFAULT (X''),
+  `config_id` BLOB NOT NULL DEFAULT (X'0000000000000000'),
   `location_ip` BLOB NOT NULL DEFAULT (X'')
 );
 CREATE INDEX `matomo_log_visit.index_idsite_config_datetime` ON `matomo_log_visit` (`idsite`, `config_id`, `visit_last_action_time`);
@@ -147,7 +147,7 @@ CREATE INDEX `matomo_log_visit.index_idsite_idvisitor_time` ON `matomo_log_visit
 
 CREATE TABLE `matomo_log_conversion_item` (
   `idsite` INTEGER NOT NULL DEFAULT (0),
-  `idvisitor` BLOB NOT NULL DEFAULT (X''),
+  `idvisitor` BLOB NOT NULL DEFAULT (X'0000000000000000'),
   `server_time` TEXT NOT NULL DEFAULT ('0000-00-00 00:00:00'),
   `idvisit` INTEGER NOT NULL DEFAULT (0),
   `idorder` TEXT NOT NULL DEFAULT ('') COLLATE NOCASE,
@@ -168,7 +168,7 @@ CREATE INDEX `matomo_log_conversion_item.index_idsite_servertime` ON `matomo_log
 CREATE TABLE `matomo_log_conversion` (
   `idvisit` INTEGER NOT NULL DEFAULT (0),
   `idsite` INTEGER NOT NULL DEFAULT (0),
-  `idvisitor` BLOB NOT NULL DEFAULT (X''),
+  `idvisitor` BLOB NOT NULL DEFAULT (X'0000000000000000'),
   `server_time` TEXT NOT NULL DEFAULT ('0000-00-00 00:00:00'),
   `idaction_url` INTEGER DEFAULT NULL,
   `idlink_va` INTEGER DEFAULT NULL,
@@ -191,7 +191,7 @@ CREATE INDEX `matomo_log_conversion.index_idsite_datetime` ON `matomo_log_conver
 CREATE TABLE `matomo_log_link_visit_action` (
   `idlink_va` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   `idsite` INTEGER NOT NULL DEFAULT (0),
-  `idvisitor` BLOB NOT NULL DEFAULT (X''),
+  `idvisitor` BLOB NOT NULL DEFAULT (X'0000000000000000'),
   `idvisit` INTEGER NOT NULL DEFAULT (0),
   `idaction_url_ref` INTEGER DEFAULT 0,
   `idaction_name_ref` INTEGER,

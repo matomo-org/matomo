@@ -42,10 +42,15 @@ class TrackerTest extends BulkTrackingTestCase
 
         $this->injectRawDataToBulk($this->getDummyRequest());
         DbErrorRaiser::install();
+
+        // as in a tracking request, everything goes through the tracker's connection: on SQLite, a
+        // second connection writing during the tracker's transaction would wait for it
+        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
     }
 
     public function tearDown(): void
     {
+        $GLOBALS['PIWIK_TRACKER_MODE'] = false;
         DbErrorRaiser::uninstall();
         parent::tearDown();
     }
@@ -190,6 +195,11 @@ class TrackerTest extends BulkTrackingTestCase
 
     private function raiseErrorWhenTrackingSite(int $idSite, int $errorNumber, string $message, bool $isCaught): void
     {
+        if (Fixture::isSqlite()) {
+            // raised inside the tracker, which would catch the skip
+            $this->markTestSkipped('Raises a MySQL error number');
+        }
+
         EventDispatcher::getInstance()->addObserver(
             'Tracker.isExcludedVisit',
             function (&$excluded, Tracker\Request $request) use ($idSite, $errorNumber, $message, $isCaught) {

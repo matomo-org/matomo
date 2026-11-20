@@ -147,7 +147,7 @@ class SqliteDialectTest extends TestCase
         }
 
         // as MySQL's 2 <=> TRUE, a boolean literal is the value 1, not a truth test
-        foreach ([['2', 'TRUE', 0], ['1', 'TRUE', 1], ['0', 'FALSE', 1], ['2', 'FALSE', 0], ['NULL', 'FALSE', 0]] as [$left, $right, $expected]) {
+        foreach ([['2', 'TRUE', 0], ['1', 'TRUE', 1], ['0', 'FALSE', 1], ['2', 'FALSE', 0], ['NULL', 'FALSE', 0], ['2', '(TRUE)', 0], ['2', ' ( ( true ) ) ', 0], ['1', '(TRUE)', 1], ['(0)', '(FALSE)', 1]] as [$left, $right, $expected]) {
             $value = $this->pdo->query('SELECT ' . $this->schema->getNullSafeEqualSql($left, $right))->fetchColumn();
             $this->assertSame($expected, (int) $value, $left . ' <=> ' . $right);
         }

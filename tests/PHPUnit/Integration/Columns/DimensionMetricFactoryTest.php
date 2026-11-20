@@ -124,6 +124,7 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
 
         $this->assertSame('nb_with_usercountry_country', $metric->getName());
         $this->assertSame('Entries with Country', $metric->getTranslatedName());
+        $this->assertSame('sum(case when log_visit.location_country > 0 then 1 else 0 end)', $metric->getQuery());
     }
 
 

@@ -65,6 +65,10 @@ class DbTest extends IntegrationTestCase
 
     public function testInnodbLockWaitTimeout()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('InnoDB lock wait timeout');
+        }
+
         $idSite1 = Fixture::createWebsite('2020-01-01 02:02:02');
         $idSite2 = Fixture::createWebsite('2020-01-01 02:02:02');
 
@@ -167,6 +171,10 @@ class DbTest extends IntegrationTestCase
 
     public function testFailedCommitLeavesTheConnectionReadyForTheNextTransaction()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Replaces the PDO MySQL connection');
+        }
+
         $db = $this->connect();
         if (!$db instanceof Tracker\Db\Pdo\Mysql) {
             $this->markTestSkipped('Only PDO keeps its own record of whether a transaction is open');
@@ -248,6 +256,10 @@ class DbTest extends IntegrationTestCase
 
     public function testRealDeadlockStopsEveryLaterQuery()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('An InnoDB deadlock between two connections');
+        }
+
         foreach (['deadlock_a', 'deadlock_b', 'deadlock_pad_1', 'deadlock_pad_2', 'deadlock_pad_3'] as $name) {
             $this->insertOption(Tracker::getDatabase(), $name);
         }
@@ -314,6 +326,10 @@ class DbTest extends IntegrationTestCase
 
     public function testCommitReportsTheAbortEvenIfTheRollbackFails()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Kills a MySQL connection by its id');
+        }
+
         $db = $this->connect();
         $connectionId = $db->fetchOne('SELECT CONNECTION_ID()');
         $xid = $db->beginTransaction();
@@ -426,18 +442,18 @@ class DbTest extends IntegrationTestCase
     public function testFetchOneNotExistingTable()
     {
         $this->expectException(\Piwik\Tracker\Db\DbException::class);
-        $this->expectExceptionMessage('doesn\'t exist');
+        $this->expectExceptionMessage(Fixture::isSqlite() ? 'no such table' : 'doesn\'t exist');
 
         $db = Tracker::getDatabase();
         $this->insertRowId(3);
-        $val = $db->fetchOne('SELECT option_value FROM foobarbaz where option_value = "rowid"');
+        $val = $db->fetchOne('SELECT option_value FROM foobarbaz where option_value = \'rowid\'');
         $this->assertEquals('3', $val);
     }
 
     public function testQueryErrorWhenInsertingDuplicateRow()
     {
         $this->expectException(\Piwik\Tracker\Db\DbException::class);
-        $this->expectExceptionMessage('Duplicate entry');
+        $this->expectExceptionMessage(Fixture::isSqlite() ? 'UNIQUE constraint failed' : 'Duplicate entry');
 
         $this->insertRowId();
         $this->insertRowId();
@@ -447,7 +463,7 @@ class DbTest extends IntegrationTestCase
     {
         $db = Tracker::getDatabase();
         $this->insertRowId(3);
-        $val = $db->fetchOne('SELECT option_value FROM `' . $this->tableName . '` where option_name = "rowid"');
+        $val = $db->fetchOne('SELECT option_value FROM `' . $this->tableName . '` where option_name = \'rowid\'');
         $this->assertEquals('3', $val);
     }
 
@@ -462,7 +478,7 @@ class DbTest extends IntegrationTestCase
     {
         $db = Tracker::getDatabase();
         $this->insertRowId(3);
-        $val = $db->fetchRow('SELECT option_value from `' . $this->tableName . '` where option_name = "rowid"');
+        $val = $db->fetchRow('SELECT option_value from `' . $this->tableName . '` where option_name = \'rowid\'');
         $this->assertEquals(array(
             'option_value' => '3',
         ), $val);
@@ -479,7 +495,7 @@ class DbTest extends IntegrationTestCase
     {
         $db = Tracker::getDatabase();
         $this->insertRowId(3);
-        $val = $db->fetch('SELECT option_value from `' . $this->tableName . '` where option_name = "rowid"');
+        $val = $db->fetch('SELECT option_value from `' . $this->tableName . '` where option_name = \'rowid\'');
         $this->assertEquals(array(
             'option_value' => '3',
         ), $val);
@@ -496,7 +512,7 @@ class DbTest extends IntegrationTestCase
     {
         $db = Tracker::getDatabase();
         $this->insertRowId(3);
-        $val = $db->fetchAll('SELECT option_value from `' . $this->tableName . '` where option_name = "rowid"');
+        $val = $db->fetchAll('SELECT option_value from `' . $this->tableName . '` where option_name = \'rowid\'');
         $this->assertEquals(array(
             array(
                 'option_value' => '3',
@@ -513,6 +529,10 @@ class DbTest extends IntegrationTestCase
 
     public function testConnectionCollationDefault(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('MySQL connection collation');
+        }
+
         $config = Config::getInstance();
         $config->database['collation'] = null;
         $db = $this->connect();
@@ -524,6 +544,10 @@ class DbTest extends IntegrationTestCase
 
     public function testConnectionCollationSetInConfig(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('MySQL connection collation');
+        }
+
         $config = Config::getInstance();
         $config->database['collation'] = $config->database['charset'] . '_swedish_ci';
         $db = $this->connect();

@@ -14,6 +14,7 @@ namespace Piwik\Plugins\BotTracking\tests\Integration\Dao;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema\Sqlite\DefinitionConverter;
 use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Metrics;
@@ -278,6 +279,13 @@ class BotRequestsDaoTest extends IntegrationTestCase
     private function getIndexColumns(string $indexName): array
     {
         $tableName = BotRequestsDao::getPrefixedTableName();
+        if (Fixture::isSqlite()) {
+            return array_column(Db::fetchAll(
+                'SELECT name FROM pragma_index_info(?) ORDER BY seqno',
+                [DefinitionConverter::getIndexName($tableName, $indexName)]
+            ), 'name');
+        }
+
         $rows      = Db::fetchAll("SHOW INDEX FROM `{$tableName}`");
         $rows      = array_filter($rows, function (array $row) use ($indexName): bool {
             return $row['Key_name'] === $indexName;

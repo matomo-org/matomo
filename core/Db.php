@@ -480,15 +480,18 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function truncateTable(string $table): void
     {
-        self::query(Schema::getInstance()->getTruncateTableSql($table));
-
-        if (
-            Db\Sqlite\Connection::isSqliteConnection(self::get())
-            && self::fetchOne("SELECT 1 FROM sqlite_schema WHERE type = 'table' AND name = 'sqlite_sequence'")
-        ) {
-            // SQLite keeps an AUTOINCREMENT table's counter in sqlite_sequence, which DELETE leaves as it is
-            self::query('DELETE FROM sqlite_sequence WHERE name = ?', [$table]);
+        if (!Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            self::query(Schema::getInstance()->getTruncateTableSql($table));
+            return;
         }
+
+        self::inSqliteSavepoint(function () use ($table) {
+            self::query(Schema::getInstance()->getTruncateTableSql($table));
+            // SQLite keeps an AUTOINCREMENT table's counter in sqlite_sequence, which DELETE leaves as it is
+            if (self::fetchOne("SELECT 1 FROM main.sqlite_schema WHERE type = 'table' AND name = 'sqlite_sequence'")) {
+                self::query('DELETE FROM main.sqlite_sequence WHERE name = ? COLLATE NOCASE', [$table]);
+            }
+        });
     }
 
     /**
@@ -506,23 +509,36 @@ class Db implements TransactionalDatabaseInterface
 
         if (count($tables) > 1 && Db\Sqlite\Connection::isSqliteConnection(self::get())) {
             // SQLite drops one table per statement; as on MySQL, a missing table drops none of them
-            $result = null;
-            self::exec('SAVEPOINT matomo_drop_tables');
-            try {
+            return self::inSqliteSavepoint(function () use ($tables) {
+                $result = null;
                 foreach ($tables as $table) {
                     $result = self::query("DROP TABLE `" . $table . "`");
                 }
-            } catch (\Exception $e) {
-                self::exec('ROLLBACK TO matomo_drop_tables');
-                self::exec('RELEASE matomo_drop_tables');
-                throw $e;
-            }
-            self::exec('RELEASE matomo_drop_tables');
-
-            return $result;
+                return $result;
+            });
         }
 
         return self::query("DROP TABLE `" . implode('`,`', $tables) . "`");
+    }
+
+    /**
+     * Runs a callback inside a SQLite savepoint, so that its statements apply together or not at all.
+     *
+     * @return mixed What the callback returns.
+     */
+    private static function inSqliteSavepoint(callable $callback)
+    {
+        self::query('SAVEPOINT matomo_atomic');
+        try {
+            $result = $callback();
+            self::query('RELEASE matomo_atomic');
+        } catch (\Exception $e) {
+            self::query('ROLLBACK TO matomo_atomic');
+            self::query('RELEASE matomo_atomic');
+            throw $e;
+        }
+
+        return $result;
     }
 
     /**

@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration\Tracker\Db\Pdo;
 
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Db\Pdo\Mysql;
 use Piwik\Config;
@@ -40,6 +41,10 @@ class MySqlTest extends IntegrationTestCase
 
     public function testReconnectWontFail()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects the MySQL tracker adapter');
+        }
+
         $e = new Exception('fff');
         $this->assertNull($this->mysql->reconnect($e));
     }

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\LanguagesManager\tests\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Plugins\LanguagesManager\Model;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -36,7 +37,7 @@ class ModelTest extends IntegrationTestCase
     {
         $this->assertContainTables(array('user_language'));
 
-        $columns = Db::fetchAll('show columns from ' . Common::prefixTable('user_language'));
+        $columns = DbHelper::getTableColumns(Common::prefixTable('user_language'));
         $this->assertCount(3, $columns);
     }
 
@@ -123,11 +124,11 @@ class ModelTest extends IntegrationTestCase
 
     private function getCurrentAvailableTableNames()
     {
-        $tables = Db::fetchAll('show tables');
+        $tables = DbHelper::getTablesInstalled();
 
         $tableNames = array();
         foreach ($tables as $table) {
-            $tableNames[] = array_shift($table);
+            $tableNames[] = $table;
         }
 
         return $tableNames;

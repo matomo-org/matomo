@@ -14,6 +14,7 @@ namespace Piwik\Tests\Integration\Updates;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater;
 use Piwik\Updates\Updates_6_1_0_b2;
@@ -27,6 +28,9 @@ class Updates610b2Test extends IntegrationTestCase
 {
     public function testCreatesTheFailureTableWithTheCollationOfArchiveInvalidations(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Reads MySQL collations from information_schema');
+        }
         $invalidationsTable = Common::prefixTable('archive_invalidations');
         $failuresTable = Common::prefixTable('archive_failures');
 

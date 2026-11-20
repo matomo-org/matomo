@@ -146,6 +146,10 @@ class EncryptionKeyRotatorTest extends IntegrationTestCase
 
     public function testRotateRefusesATableWithoutTransactions()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Every SQLite table is transactional');
+        }
+
         $table = Common::prefixTable('site_setting');
         Db::exec("ALTER TABLE `$table` ENGINE=MyISAM");
 

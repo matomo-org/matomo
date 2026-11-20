@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Concurrency\DistributedList;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -143,8 +144,8 @@ class DistributedListTest extends IntegrationTestCase
 
         $optionTable = Common::prefixTable('option');
         Db::query(
-            "INSERT INTO `$optionTable` (option_name, option_value, autoload) VALUES (?, ?, ?)
-                   ON DUPLICATE KEY UPDATE option_value = ?",
+            "INSERT INTO `$optionTable` (option_name, option_value, autoload) VALUES (?, ?, ?) "
+                . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . " option_value = ?",
             array(self::TEST_OPTION_NAME, serialize($data), 0, serialize($data))
         );
     }

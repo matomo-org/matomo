@@ -456,8 +456,14 @@ class Sqlite extends Mysql
         // SQLite reads `x IS TRUE` as a truth test; in MySQL's `x <=> TRUE` the literal is the value 1.
         // Other operands are left as they are, so column affinity applies as for any comparison.
         $literal = function (string $operand): string {
-            $keyword = strtoupper(trim($operand));
-            return $keyword === 'TRUE' ? '1' : ($keyword === 'FALSE' ? '0' : $operand);
+            // a parenthesized literal, such as `(TRUE)`, is the same literal
+            if (
+                preg_match('/^[\s(]*(TRUE|FALSE)[\s)]*$/i', $operand, $matches)
+                && substr_count($operand, '(') === substr_count($operand, ')')
+            ) {
+                return strtoupper($matches[1]) === 'TRUE' ? '1' : '0';
+            }
+            return $operand;
         };
 
         return '(' . $literal($left) . ') IS (' . $literal($right) . ')';

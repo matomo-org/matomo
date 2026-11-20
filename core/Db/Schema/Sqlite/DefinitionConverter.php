@@ -465,7 +465,7 @@ final class DefinitionConverter
         // stores when an insert leaves the column out (Matomo's sql_mode is not strict) and gives the
         // existing rows when the column is added; it is written in parentheses, which a default the
         // definition gives never is
-        $implicitDefault = '(' . self::getImplicitDefault($type, $sqlType) . ')';
+        $implicitDefault = '(' . self::getImplicitDefault($type, $sqlType, ($matches[2] ?? '') !== '' ? (int) $matches[2] : 1, $enumValues) . ')';
         if ($notNull === true && $default === null && !$autoIncrement) {
             $default = $implicitDefault;
         }
@@ -496,11 +496,21 @@ final class DefinitionConverter
     }
 
     /**
-     * MySQL's implicit default of a NOT NULL column: zero, an empty string, or the zero date or time.
+     * MySQL's implicit default of a NOT NULL column: zero, an empty string, the zero date or time, an
+     * ENUM's first value, or a BINARY(n) of n zero bytes. A TIMESTAMP gets the zero timestamp, as with
+     * MySQL 8's default explicit_defaults_for_timestamp.
+     *
+     * @param string[]|null $enumValues
      */
-    private static function getImplicitDefault(string $mysqlType, string $sqlType): string
+    private static function getImplicitDefault(string $mysqlType, string $sqlType, int $length, ?array $enumValues): string
     {
+        if ($enumValues !== null) {
+            return $enumValues[0];
+        }
+
         switch ($mysqlType) {
+            case 'binary':
+                return "X'" . str_repeat('00', $length) . "'";
             case 'date':
                 return "'0000-00-00'";
             case 'datetime':

@@ -46,6 +46,8 @@ class DefinitionConverterTest extends TestCase
         yield 'varchar is case-insensitive' => ["VARCHAR(255) NOT NULL DEFAULT ''", "TEXT NOT NULL DEFAULT '' COLLATE NOCASE"];
         yield 'binary collation stays case-sensitive' => ['VARCHAR(100) COLLATE utf8mb4_bin NOT NULL', "TEXT NOT NULL DEFAULT ('')"];
         yield 'binary' => ['VARBINARY(8) NOT NULL', "BLOB NOT NULL DEFAULT (X'')"];
+        yield 'fixed binary is zero-padded' => ['BINARY(8) NOT NULL', "BLOB NOT NULL DEFAULT (X'0000000000000000')"];
+        yield 'fixed binary of one byte' => ['BINARY NOT NULL', "BLOB NOT NULL DEFAULT (X'00')"];
         yield 'datetime' => ['DATETIME NULL', 'TEXT'];
     }
 
@@ -140,6 +142,8 @@ class DefinitionConverterTest extends TestCase
     {
         $this->assertStringContainsString("`id` INT NOT NULL DEFAULT (0) CHECK (typeof(`id`) = 'integer'),", $this->converter->convertCreateTable('CREATE TABLE t (id INT NOT NULL, PRIMARY KEY (id))')[0]);
         $this->assertStringContainsString('`id` INT PRIMARY KEY NOT NULL DEFAULT (0) CHECK', $this->converter->convertCreateTable('CREATE TABLE t (id BIGINT PRIMARY KEY)')[0]);
+        // a table-level primary key on an ENUM defaults to its first value, which its CHECK accepts
+        $this->assertStringContainsString("`s` TEXT NOT NULL DEFAULT ('open') CHECK (`s` IN ('open', 'closed'))", $this->converter->convertCreateTable("CREATE TABLE t (s ENUM('open','closed'), PRIMARY KEY (s))")[0]);
         // a composite primary key is never the rowid
         $this->assertStringContainsString('`a` INTEGER NOT NULL DEFAULT (0),', $this->converter->convertCreateTable('CREATE TABLE t (a INT, b INT, PRIMARY KEY (a, b))')[0]);
     }

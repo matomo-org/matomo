@@ -12,8 +12,10 @@ namespace Piwik\Tests\Integration\Concurrency;
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend\MySqlLockBackend;
+use Piwik\Concurrency\LockBackend\SqliteLockBackend;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -30,8 +32,7 @@ class LockTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $mysql = new MySqlLockBackend();
-        $this->lock = $this->createLock($mysql);
+        $this->lock = $this->createLock($this->createBackend());
     }
 
     public function tearDown(): void
@@ -39,11 +40,16 @@ class LockTest extends IntegrationTestCase
         parent::tearDown();
     }
 
+    private function createBackend(): MySqlLockBackend
+    {
+        return Fixture::isSqlite() ? new SqliteLockBackend() : new MySqlLockBackend();
+    }
+
     public function testTooLongNamespaceIsNotSupported()
     {
         $this->expectException(\Exception::class);
 
-        new Lock(new MySqlLockBackend(), 'aLongStringWithOver38CharactersIsNotSupported');
+        new Lock($this->createBackend(), 'aLongStringWithOver38CharactersIsNotSupported');
     }
 
     public function testAcquireLockShouldLockInCaseItIsNotLockedYet()

@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -43,11 +44,9 @@ class DbTest extends IntegrationTestCase
     {
         $GLOBALS['abc'] = 1;
         $table = Common::prefixTable('testtable');
-        Db::exec("CREATE TABLE `$table` (
-                      testid BIGINT NOT NULL AUTO_INCREMENT,
+        DbHelper::createTable('testtable', 'testid BIGINT NOT NULL AUTO_INCREMENT,
                       testvalue BIGINT NULL,
-                      PRIMARY KEY (testid)
-                  )");
+                      PRIMARY KEY (testid)');
 
         Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", [4]);
         Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", [null]);
@@ -97,6 +96,45 @@ class DbTest extends IntegrationTestCase
         }
     }
 
+    public function testDropTablesAndTruncateTableThroughTheTrackerConnection()
+    {
+        $tables = [Common::prefixTable('drop_a'), Common::prefixTable('drop_b')];
+        foreach (['drop_a', 'drop_b'] as $name) {
+            DbHelper::createTable($name, 'id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id)');
+        }
+
+        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
+        try {
+            Db::query('INSERT INTO `' . $tables[0] . '` (id) VALUES (NULL)');
+            Db::truncateTable($tables[0]);
+            Db::query('INSERT INTO `' . $tables[0] . '` (id) VALUES (NULL)');
+            $this->assertEquals(1, Db::fetchOne('SELECT MAX(id) FROM `' . $tables[0] . '`'));
+
+            Db::dropTables($tables);
+        } finally {
+            $GLOBALS['PIWIK_TRACKER_MODE'] = false;
+        }
+
+        $this->assertSame([false, false], array_map([$this, 'tableExists'], $tables));
+    }
+
+    public function testTruncateTableRestartsTheCounterWhateverTheCaseOfTheName()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('MySQL table names are case-sensitive on Linux');
+        }
+
+        $table = Common::prefixTable('truncate_case');
+        DbHelper::createTable('truncate_case', 'id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id)');
+        Db::query('INSERT INTO `' . $table . '` (id) VALUES (NULL), (NULL)');
+
+        Db::truncateTable(strtoupper($table));
+        Db::query('INSERT INTO `' . $table . '` (id) VALUES (NULL)');
+
+        $this->assertEquals(1, Db::fetchOne('SELECT MAX(id) FROM `' . $table . '`'));
+        Db::dropTables($table);
+    }
+
     private function tableExists(string $table): bool
     {
         try {
@@ -140,6 +178,10 @@ class DbTest extends IntegrationTestCase
 
     public function testWithReader()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no reader database');
+        }
+
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
         $this->assertFalse(Db::hasReaderDatabaseObject());
@@ -156,6 +198,10 @@ class DbTest extends IntegrationTestCase
 
     public function testWithReaderCreatesDifferentConnectionForDb()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no reader database');
+        }
+
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
         $db = Db::getReader();
@@ -173,6 +219,10 @@ class DbTest extends IntegrationTestCase
 
     public function testWithReaderCanReconnectToWriterIfServerHasGoneAway(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no reader database');
+        }
+
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
         $connectionId = $this->setUpMySQLHasGoneAwayConnection();
@@ -185,6 +235,10 @@ class DbTest extends IntegrationTestCase
 
     public function testWithReaderDoesNotInterceptNonGoneAwayErrors(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no reader database');
+        }
+
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
         $expectedConnectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
@@ -214,6 +268,10 @@ class DbTest extends IntegrationTestCase
 
     public function testWithoutReaderDoesNotReconnectIfServerHasGoneAway(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('A MySQL server connection that goes away');
+        }
+
         $this->setUpMySQLHasGoneAwayConnection();
 
         $dbException = null;
@@ -249,6 +307,10 @@ class DbTest extends IntegrationTestCase
      */
     public function testSqlModeIsSetPDO($adapter, $expectedClass)
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects with the MySQL adapters');
+        }
+
         Db::destroyDatabaseObject();
         Config::getInstance()->database['adapter'] = $adapter;
         $db = Db::get();
@@ -293,6 +355,10 @@ class DbTest extends IntegrationTestCase
      */
     public function testGetRowCount($adapter, $expectedClass)
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects with the MySQL adapters');
+        }
+
         Db::destroyDatabaseObject();
         Config::getInstance()->database['adapter'] = $adapter;
         $db = Db::get();
@@ -308,6 +374,10 @@ class DbTest extends IntegrationTestCase
      */
     public function testConnectionCollationDefault(string $adapter, string $expectedClass): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects with the MySQL adapters');
+        }
+
         Db::destroyDatabaseObject();
 
         $config = Config::getInstance();
@@ -327,6 +397,10 @@ class DbTest extends IntegrationTestCase
      */
     public function testConnectionCollationSetInConfig(string $adapter, string $expectedClass): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects with the MySQL adapters');
+        }
+
         Db::destroyDatabaseObject();
 
         $config = Config::getInstance();
