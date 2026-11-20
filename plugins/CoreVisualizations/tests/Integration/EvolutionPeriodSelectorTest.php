@@ -50,6 +50,7 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         unset($_GET['compareSegments']);
         unset($_GET['comparePeriods']);
         unset($_GET['compareDates']);
+        Date::$now = null;
         parent::tearDown();
     }
 
@@ -295,6 +296,38 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
             ['2022-05-01,2022-05-01'],
             $view->requestConfig->request_parameters_to_modify['compareDates']
         );
+    }
+
+    /**
+     * @dataProvider getEvolutionGraphDoesNotExtendIntoTheFutureProvider
+     */
+    public function testEvolutionGraphDoesNotExtendIntoTheFuture($period, $date, $expectedRange)
+    {
+        // "Change period" in the graph passes the end of the previous graph range as date,
+        // e.g. the last day of the current year, which lies in the future
+        Date::$now = strtotime('2022-10-07 12:00:00');
+
+        $_GET['period'] = $period;
+        $_GET['date'] = $date;
+        $_GET['idSite'] = 1;
+
+        $view = new EvolutionGraph('VisitsSummary.getEvolutionGraph', 'VisitsSummary.get');
+        $view->beforeLoadDataTable();
+
+        $this->assertSame($expectedRange, $view->requestConfig->request_parameters_to_modify['date']);
+        $this->assertSame($expectedRange, $view->config->custom_parameters['dateUsedInGraph']);
+    }
+
+    public function getEvolutionGraphDoesNotExtendIntoTheFutureProvider()
+    {
+        return [
+            'year to month' => ['month', '2022-12-31', '2020-11-01,2022-10-31'],
+            'month to week' => ['week', '2022-10-31', '2022-04-11,2022-10-09'],
+            'month to day' => ['day', '2022-10-31', '2022-09-08,2022-10-07'],
+            'today is kept' => ['month', '2022-10-07', '2020-11-01,2022-10-31'],
+            'past date is kept' => ['month', '2022-05-15', '2020-06-01,2022-05-31'],
+            'keyword is kept' => ['month', 'today', '2020-11-01,2022-10-31'],
+        ];
     }
 
     private function assertHighestPeriodInCommon($expected, $originalPeriod, $comparePeriods)
