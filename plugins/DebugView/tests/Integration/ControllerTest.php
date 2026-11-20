@@ -50,6 +50,12 @@ class ControllerTest extends IntegrationTestCase
         unset($_GET['idSite']);
         Fixture::resetTranslations();
 
+        // the flag is static: restore TagManager's default so later test classes in the same
+        // process still get a default container on site creation
+        if (class_exists('\Piwik\Plugins\TagManager\TagManager')) {
+            \Piwik\Plugins\TagManager\TagManager::$enableAutoContainerCreation = true;
+        }
+
         parent::tearDown();
     }
 

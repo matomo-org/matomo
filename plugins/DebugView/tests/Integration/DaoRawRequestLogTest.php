@@ -43,6 +43,17 @@ class DaoRawRequestLogTest extends IntegrationTestCase
         $this->dao = new RawRequestLog();
     }
 
+    public function tearDown(): void
+    {
+        // the flag is static: restore TagManager's default so later test classes in the same
+        // process still get a default container on site creation
+        if (class_exists('\Piwik\Plugins\TagManager\TagManager')) {
+            \Piwik\Plugins\TagManager\TagManager::$enableAutoContainerCreation = true;
+        }
+
+        parent::tearDown();
+    }
+
     public function testGetTableCreateDefinitionContainsAllColumns()
     {
         $definition = $this->dao->getTableCreateDefinition();
