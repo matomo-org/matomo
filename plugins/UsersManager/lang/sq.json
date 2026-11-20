@@ -119,6 +119,7 @@
         "Expired": "Ftesa skadoi",
         "ExpiredInviteAutomaticallyRemoved": "Ftesat e skaduara do të fshihen automatikisht pas %1$s ditësh.",
         "ExpiredTokensDeleteAutomatically": "Token-ët me një datë skadimi do të fshihen automatikisht.",
+        "ExpiryInDays": "Skadim në ditë",
         "FilterByAccess": "Filtroji sipas hyrjesh",
         "FilterByStatus": "Filtroji sipas gjendjesh",
         "FilterByWebsite": "Filtroji sipas sajtesh",

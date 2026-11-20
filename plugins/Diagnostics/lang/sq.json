@@ -1,6 +1,7 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Krejt drejtoritë private s’mund të hapen që nga interneti.",
+        "ArchivingFailuresCheck": "Arkiva Me Dështim",
         "BrowserAndAutoArchivingEnabledComment": "Duket se shfletuesi dhe vetëarkivimi janë aktivizuar. Vetëarkivimi së fundi filloi %3$s më parë. Nëse %1$svetëarkivimi%2$s është i aktivizuar, duhet të çaktivizoni arkivimin nga shfletuesi, te “Rregullime të Përgjithshme”.",
         "BrowserAndAutoArchivingEnabledLabel": "Shfletim dhe Vetëarkivim të aktivizuar",
         "BrowserTriggeredArchivingEnabled": "Për funksionimin më të mirë dhe një Matomo të shpejtë, këshillohet me forcë të ujdisni një akt crontab për arkivim automatik të raporteve tuaja dhe të çaktivizoni që nga rregullimet e Matomo-s ngacmimin e shfletuesit. %1$sMësoni më tepër.%2$s",
