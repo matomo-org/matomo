@@ -18,6 +18,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Segment;
@@ -284,7 +285,7 @@ class ArchiveSelector
         }
 
         $getArchiveIdsSql = "SELECT idsite, date1, date2,
-                                    GROUP_CONCAT(CONCAT(idarchive,'|',`name`,'|',`value`) ORDER BY idarchive DESC SEPARATOR ',') AS archives
+                                    " . Schema::getInstance()->getGroupConcatSql("CONCAT(idarchive,'|',`name`,'|',`value`)", 'idarchive DESC') . " AS archives
                                FROM `%s`
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment, $includeInvalidated) . "
@@ -718,7 +719,7 @@ class ArchiveSelector
             $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
                                     AND SUBSTRING(name, $nameEndAppendix, 1) <= '9')";
 
-            $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
+            $whereNameIs = "(name = ? OR (name LIKE ?" . Schema::getInstance()->getLikeEscapeSql() . " AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
             $bind = array($name, addcslashes($name, '%_') . '%');
 
             if ($orderBySubtableId && count($recordNames) == 1) {

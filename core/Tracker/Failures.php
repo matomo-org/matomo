@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db\Schema;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
@@ -73,7 +74,7 @@ class Failures
         }
 
         $params = $this->getParamsWithTokenAnonymized($request);
-        $sql = sprintf('INSERT INTO `%s` (`idsite`, `idfailure`, `date_first_occurred`, `request_url`) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE idsite=idsite;', $this->tablePrefixed);
+        $sql = sprintf('INSERT INTO `%s` (`idsite`, `idfailure`, `date_first_occurred`, `request_url`) VALUES(?,?,?,?) ' . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . ' idsite=idsite;', $this->tablePrefixed);
 
         PiwikDb::get()->query($sql, array($idSite, $idFailure, $this->getNow()->getDatetime(), http_build_query($params)));
     }

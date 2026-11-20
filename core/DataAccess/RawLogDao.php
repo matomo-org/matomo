@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
 use Piwik\Plugin\LogTablesProvider;
 
@@ -378,7 +379,7 @@ class RawLogDao
                 foreach ($result as $row) {
                      $keepValues = array_merge($keepValues, array_filter(array_values($row), "is_numeric"));
                     if (count($keepValues) >= 1000) {
-                        $insert = 'INSERT IGNORE INTO ' . $tempTableName . ' VALUES (';
+                        $insert = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $tempTableName . ' VALUES (';
                         $insert .= implode('),(', $keepValues);
                         $insert .= ')';
 
@@ -387,7 +388,7 @@ class RawLogDao
                     }
                 }
 
-                $insert = 'INSERT IGNORE INTO ' . $tempTableName . ' VALUES (';
+                $insert = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $tempTableName . ' VALUES (';
                 $insert .= implode('),(', $keepValues);
                 $insert .= ')';
 

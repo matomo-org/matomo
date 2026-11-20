@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Dashboard;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Widget\WidgetsList;
 
@@ -103,7 +104,7 @@ class Model
     {
         $bind   = array($login, $idDashboard, $layout, $layout);
         $query  = sprintf(
-            'INSERT INTO `%s` (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
+            'INSERT INTO `%s` (login, iddashboard, layout) VALUES (?,?,?) ' . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . ' layout=?',
             $this->table
         );
         Db::query($query, $bind);
@@ -132,7 +133,7 @@ class Model
     {
         $bind  = array($login, $idDashboard, $layout, $layout);
         $query = sprintf(
-            'INSERT INTO `%s` (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
+            'INSERT INTO `%s` (login, iddashboard, layout) VALUES (?,?,?) ' . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . ' layout=?',
             $this->table
         );
         Db::query($query, $bind);
