@@ -332,6 +332,10 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
+        if (NotificationManager::isDisabled('DatabaseVersionCheck')) {
+            return;
+        }
+
         if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
