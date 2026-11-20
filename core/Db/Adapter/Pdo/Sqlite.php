@@ -42,6 +42,15 @@ class Sqlite extends Zend_Db_Adapter_Pdo_Abstract implements AdapterInterface
         parent::__construct($config);
     }
 
+    /**
+     * Backticks, as on MySQL: SQLite accepts them, and they keep the identifiers Matomo quotes out of
+     * SQLite's double-quoted string fallback and its error messages, which quote only a column to drop.
+     */
+    public function getQuoteIdentifierSymbol()
+    {
+        return '`';
+    }
+
     protected function _dsn() // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {
         return Connection::getDsn(Connection::getDatabaseFile($this->connectionConfig));

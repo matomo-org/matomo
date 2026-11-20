@@ -138,8 +138,8 @@ class DefinitionConverterTest extends TestCase
 
     public function testSoleIntegerPrimaryKeyIsNotTheRowid(): void
     {
-        $this->assertStringContainsString('`id` INT NOT NULL,', $this->converter->convertCreateTable('CREATE TABLE t (id INT NOT NULL, PRIMARY KEY (id))')[0]);
-        $this->assertStringContainsString('`id` INT PRIMARY KEY NOT NULL', $this->converter->convertCreateTable('CREATE TABLE t (id BIGINT PRIMARY KEY)')[0]);
+        $this->assertStringContainsString("`id` INT NOT NULL CHECK (typeof(`id`) = 'integer'),", $this->converter->convertCreateTable('CREATE TABLE t (id INT NOT NULL, PRIMARY KEY (id))')[0]);
+        $this->assertStringContainsString('`id` INT PRIMARY KEY NOT NULL CHECK', $this->converter->convertCreateTable('CREATE TABLE t (id BIGINT PRIMARY KEY)')[0]);
         // a composite primary key is never the rowid
         $this->assertStringContainsString('`a` INTEGER NOT NULL,', $this->converter->convertCreateTable('CREATE TABLE t (a INT, b INT, PRIMARY KEY (a, b))')[0]);
     }
@@ -171,18 +171,23 @@ class DefinitionConverterTest extends TestCase
     {
         $statements = $this->converter->convertCreateTable('CREATE TABLE t (a VARCHAR(200) NOT NULL, b VARCHAR(200) NOT NULL, PRIMARY KEY (a(64), b(63)))');
 
-        $this->assertStringNotContainsString('PRIMARY KEY', $statements[0]);
+        $this->assertStringContainsString('PRIMARY KEY (`a`, `b`)', $statements[0]);
         $this->assertSame(
             'CREATE UNIQUE INDEX `t.PRIMARY` ON `t` (substr(`a`, 1, 64) COLLATE NOCASE, substr(`b`, 1, 63) COLLATE NOCASE)',
             $statements[1]
         );
     }
 
-    public function testEnumIsText(): void
+    public function testEnumIsCheckedText(): void
     {
         $this->assertSame(
-            "TEXT DEFAULT 'accept' COLLATE NOCASE",
-            $this->converter->convertColumnDefinition('t', "ENUM('accept','pending','de,cline') DEFAULT 'accept'")
+            "TEXT DEFAULT 'accept' CHECK (`s` IN ('accept', 'pending', 'de,cline')) COLLATE NOCASE",
+            $this->converter->convertColumnDefinition('t', "ENUM('accept','pending','de,cline') DEFAULT 'accept'", 's')
+        );
+        // NOT NULL without a default: the first value, as on MySQL
+        $this->assertSame(
+            "TEXT NOT NULL DEFAULT 'ready' CHECK (`s` IN ('ready', 'done')) COLLATE NOCASE",
+            $this->converter->convertColumnDefinition('t', "ENUM('ready','done') NOT NULL", 's')
         );
     }
 }

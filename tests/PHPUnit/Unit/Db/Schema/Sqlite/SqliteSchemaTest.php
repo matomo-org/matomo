@@ -288,6 +288,52 @@ class SqliteSchemaTest extends TestCase
         $this->assertSame(2, (int) Db::fetchOne('SELECT COUNT(*) FROM matomo_m_bInAlt'));
     }
 
+    public function testEnumColumnsAreCheckedAndDefaultToTheirFirstValue(): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL, PRIMARY KEY (id)');
+        Db::query('INSERT INTO matomo_t (id) VALUES (1)');
+        $this->execute($this->schema->getAlterTableSql('matomo_t', ["ADD COLUMN s ENUM('ready','done') NOT NULL"]));
+
+        $this->assertSame('ready', Db::fetchOne('SELECT s FROM matomo_t WHERE id = 1'));
+        // the same definition is a no-op, other values are a change
+        $this->assertSame([], $this->schema->getAlterTableSql('matomo_t', ["MODIFY COLUMN s ENUM('ready','done') NOT NULL"]));
+        try {
+            $this->schema->getAlterTableSql('matomo_t', ["MODIFY COLUMN s ENUM('new','old') NOT NULL"]);
+            $this->fail('no exception');
+        } catch (\InvalidArgumentException $e) {
+            $this->assertStringContainsString('unsupported', $e->getMessage());
+        }
+
+        $this->expectExceptionMessage('CHECK constraint failed');
+        Db::query("INSERT INTO matomo_t VALUES (2, 'other')");
+    }
+
+    public function testSoleIntegerPrimaryKeyRejectsText(): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL, PRIMARY KEY (id)');
+        Db::query('INSERT INTO matomo_t VALUES (?)', ['5']);
+        $this->assertSame(5, (int) Db::fetchOne('SELECT id FROM matomo_t'));
+
+        $this->expectExceptionMessage('CHECK constraint failed');
+        Db::query('INSERT INTO matomo_t VALUES (?)', ['not-an-id']);
+    }
+
+    public function testPrimaryKeyOnPrefixesIsInTheMetadata(): void
+    {
+        $this->schema->createTable('p', 'a VARCHAR(200) NOT NULL, b VARCHAR(200) NOT NULL, PRIMARY KEY (a(3), b(3))');
+
+        $columns = Db::get()->describeTable('matomo_p');
+        $this->assertSame([1, 2], [$columns['a']['PRIMARY_POSITION'], $columns['b']['PRIMARY_POSITION']]);
+        Db::query("INSERT INTO matomo_p VALUES ('abc1', 'xyz1')");
+        $this->expectExceptionMessage('UNIQUE constraint failed');
+        Db::query("INSERT INTO matomo_p VALUES ('ABC2', 'XYZ2')");
+    }
+
+    public function testIdentifiersAreQuotedWithBackticks(): void
+    {
+        $this->assertSame('`a`.`b`', Db::get()->quoteIdentifier('a.b'));
+    }
+
     public function testTrackerTransactionsAndTheirRollbackAreSeenByTheOtherAdapter(): void
     {
         Db::query('CREATE TABLE t (id INTEGER PRIMARY KEY, n INTEGER NOT NULL)');

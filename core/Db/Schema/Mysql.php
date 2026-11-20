@@ -688,9 +688,11 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
     public function getTablesLike(string $pattern): array
     {
         // SHOW can't have a placeholder when prepared on the server (MYSQLI) and tracker connections
-        // have no quote(). Doubling quotes is valid with or without NO_BACKSLASH_ESCAPES, and a
-        // backslash before % or _ is kept as is in both modes, as LIKE needs it.
-        $sql = "SHOW TABLES LIKE '" . str_replace("'", "''", $pattern) . "'";
+        // have no quote(). The literal is valid with or without NO_BACKSLASH_ESCAPES: quotes are
+        // doubled, a backslash before % or _ is kept as is in both modes (as LIKE needs it), and any
+        // other backslash is doubled, so none can escape the closing quote.
+        $escaped = preg_replace('/\\\\(?![%_])/', '\\\\\\\\', str_replace("'", "''", $pattern));
+        $sql = "SHOW TABLES LIKE '" . $escaped . "'";
         $db = $this->getDb();
         if (method_exists($db, 'fetchCol')) {
             // whatever the adapter's fetch mode

@@ -173,7 +173,7 @@ class Sqlite extends Mysql
                 preg_match('/^ADD\s+(?:COLUMN\s+)?`?(\w+)`?\s+(.*?)(?:\s+(?:AFTER\s+`?\w+`?|FIRST))?$/is', $specification, $matches)
                 && !preg_match('/^(PRIMARY|CONSTRAINT|FOREIGN|FULLTEXT|SPATIAL)$/i', $matches[1])
             ) {
-                $definition = $converter->convertColumnDefinition($tableName, $matches[2]);
+                $definition = $converter->convertColumnDefinition($tableName, $matches[2], $matches[1]);
                 $addColumns[] = 'ALTER TABLE `' . $tableName . '` ADD COLUMN `' . $matches[1] . '` ' . $this->withImplicitDefault($definition);
                 $columnTypes[strtolower($matches[1])] = self::getColumnType($definition);
             } elseif (
@@ -426,7 +426,7 @@ class Sqlite extends Mysql
      */
     private function hasColumnDefinition(string $tableName, string $column, string $mysqlDefinition): bool
     {
-        $converted = $this->getConverter()->convertColumnDefinition($tableName, $mysqlDefinition);
+        $converted = $this->getConverter()->convertColumnDefinition($tableName, $mysqlDefinition, $column);
         $actual = $this->getColumnDefinitions($tableName)[strtolower($column)] ?? null;
         if ($actual === null) {
             return false;

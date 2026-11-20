@@ -15,6 +15,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Segment;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
 
@@ -37,10 +38,16 @@ class DbHelperTest extends IntegrationTestCase
         $this->assertFalse(DbHelper::tableExists('foobar'));
         $this->assertTrue(DbHelper::tableExists(Common::prefixTable('user_token_auth')));
         $this->assertFalse(DbHelper::tableExists(Common::prefixTable('user_t%oke%n_auth')));
+        // a trailing backslash can't escape the closing quote
+        $this->assertSame([], \Piwik\Db\Schema::getInstance()->getTablesLike('abc\\'));
     }
 
     public function testTableExistsWithoutBackslashEscapes()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('MySQL SQL mode');
+        }
+
         $sqlMode = Db::fetchOne('SELECT @@SESSION.sql_mode');
         Db::exec("SET SESSION sql_mode = CONCAT(@@SESSION.sql_mode, ',NO_BACKSLASH_ESCAPES')");
         try {

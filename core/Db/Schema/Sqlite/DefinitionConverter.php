@@ -18,13 +18,13 @@ use Piwik\Db\SqlListParser;
  * - Integer types become `INTEGER`; an `AUTO_INCREMENT` primary key becomes
  *   `INTEGER PRIMARY KEY AUTOINCREMENT`, so ids are never reused, as with InnoDB. Any other sole
  *   integer primary key is declared `INT`, so it doesn't become an alias of the rowid, which
- *   SQLite would assign when the value is missing or NULL.
+ *   SQLite would assign when the value is missing or NULL; a CHECK keeps it an integer.
  * - Floating point and decimal types become `REAL`.
  * - Text types become `TEXT COLLATE NOCASE`, case-insensitive like MySQL's default collations
  *   (ASCII only), or `TEXT` with a binary collation (`*_bin`) on the column; a binary table
  *   collation is rejected.
  * - Binary types become `BLOB`; date and time types become `TEXT`; an `ENUM` becomes text with the
- *   text collation, its values not enforced.
+ *   text collation, a CHECK on its values and, NOT NULL without a default, its first value as default.
  * - Indexes become `CREATE INDEX` statements named `<table>.<index>`, as index names are global
  *   in SQLite (and a dot can't be in either name). A prefix (`col(n)`) is dropped from a non-unique
  *   index; in a unique index it becomes `substr(col, 1, n)` with the column's collation, or the first
@@ -131,6 +131,7 @@ final class DefinitionConverter
                 && !$column['autoIncrement'] && $column['type'] === 'INTEGER'
             ) {
                 $columns[$name]['type'] = 'INT';
+                $columns[$name]['integerCheck'] = true;
             }
             $columns[$name]['sql'] = $this->getColumnSql($columns[$name]);
             $columnTypes[strtolower($name)] = ['type' => $columns[$name]['type'], 'collation' => $column['collation']];
@@ -172,10 +173,11 @@ final class DefinitionConverter
         }
 
         if ($hasPrefix) {
-            // a primary key on column prefixes is unique on the prefixes: a unique index named PRIMARY
-            // on the NOT NULL columns, as SQLite has no prefix keys
+            // SQLite has no prefix keys: the primary key is on the whole columns, so the metadata shows
+            // it, and a unique index named PRIMARY on the prefixes keeps MySQL's uniqueness
             $indexes[] = ['unique' => true, 'name' => 'PRIMARY', 'columns' => $primaryKey];
-        } elseif ($primaryKey !== null) {
+        }
+        if ($primaryKey !== null) {
             $lines[] = 'PRIMARY KEY (' . implode(', ', array_map(function (array $part) {
                 return $this->quote($part['column']);
             }, $primaryKey)) . ')';
@@ -207,9 +209,9 @@ final class DefinitionConverter
      * Converts one MySQL column definition (type and attributes, without the name), e.g. for
      * `ALTER TABLE ... ADD COLUMN` or a dimension's column type.
      */
-    public function convertColumnDefinition(string $tableName, string $columnDefinition): string
+    public function convertColumnDefinition(string $tableName, string $columnDefinition, ?string $columnName = null): string
     {
-        $column = $this->parseColumnAttributes($tableName, $columnDefinition);
+        $column = $this->parseColumnAttributes($tableName, $columnDefinition, $columnName);
         // SQLite can't add a column with a constraint needing an index
         if ($column['autoIncrement'] || $column['primaryKey'] || $column['unique']) {
             throw $this->unsupported($tableName, $columnDefinition);
@@ -297,19 +299,30 @@ final class DefinitionConverter
             throw $this->unsupported($tableName, $item);
         }
 
-        return [trim($matches[1], '`'), $this->parseColumnAttributes($tableName, $matches[2])];
+        $name = trim($matches[1], '`');
+
+        return [$name, $this->parseColumnAttributes($tableName, $matches[2], $name)];
     }
 
     /**
-     * @return array{type: string, notNull: bool, default: string|null, collation: string|null, autoIncrement: bool, primaryKey: bool, unique: bool, sql: string}
+     * @param string|null $name the column name, needed for the CHECK constraints of an ENUM and an
+     *                          integer primary key
+     * @return array{name: string|null, type: string, notNull: bool, default: string|null, collation: string|null, autoIncrement: bool, primaryKey: bool, unique: bool, enumValues: string[]|null, integerCheck: bool, sql: string}
      */
-    private function parseColumnAttributes(string $tableName, string $definition): array
+    private function parseColumnAttributes(string $tableName, string $definition, ?string $name = null): array
     {
         $rest = trim($definition);
+        $enumValues = null;
         if (preg_match('/^ENUM\s*\(\s*\'/i', $rest)) {
-            // an ENUM is text; the values aren't enforced, as Matomo only writes its own constants
+            // an ENUM is text checked against its values
             $end = $this->findClosingParenthesis($rest, strpos($rest, '('));
             $matches = [substr($rest, 0, $end + 1), 'enum'];
+            $enumValues = SqlListParser::splitList(substr($rest, strpos($rest, '(') + 1, $end - strpos($rest, '(') - 1));
+            foreach ($enumValues as $value) {
+                if (!preg_match("/^'(?:[^']|'')*'$/", $value)) {
+                    throw $this->unsupported($tableName, $definition);
+                }
+            }
         } elseif (!preg_match('/^(\w+)(?:\s*\(\s*(\d+)(?:\s*,\s*(\d+))?\s*\))?/i', $rest, $matches)) {
             throw $this->unsupported($tableName, $definition);
         }
@@ -377,11 +390,22 @@ final class DefinitionConverter
             $notNull = true;
         }
 
+        // a NOT NULL ENUM without a default defaults to its first value
+        if ($enumValues !== null && $notNull === true && $default === null) {
+            $default = $enumValues[0];
+        }
+        if ($enumValues !== null && $name === null) {
+            throw $this->unsupported($tableName, $definition . ' (ENUM without a column name)');
+        }
+
         if ($autoIncrement && $sqlType !== 'INTEGER') {
             throw $this->unsupported($tableName, $definition);
         }
 
         $column = [
+            'name' => $name,
+            'enumValues' => $enumValues,
+            'integerCheck' => false,
             'type' => $sqlType,
             'notNull' => $notNull === true,
             'default' => $default,
@@ -411,6 +435,13 @@ final class DefinitionConverter
         }
         if ($column['default'] !== null) {
             $sql .= ' DEFAULT ' . $column['default'];
+        }
+        if ($column['enumValues'] !== null) {
+            $sql .= ' CHECK (' . $this->quote($column['name']) . ' IN (' . implode(', ', $column['enumValues']) . '))';
+        }
+        if ($column['integerCheck']) {
+            // an integer column stores text it can't convert as text; MySQL rejects it
+            $sql .= ' CHECK (typeof(' . $this->quote($column['name']) . ") = 'integer')";
         }
         if ($column['collation'] !== null) {
             $sql .= ' COLLATE ' . $column['collation'];
