@@ -10,6 +10,7 @@
         "ClickHereToOptIn": "点这里主动加入。",
         "ClickHereToOptOut": "点这里主动退出。",
         "CloudflareDescription": "如果您的网站托管于Cloudflare，请查看此%1$s帮助%2$s。",
+        "ComponentLibrary": "组件库",
         "ConfirmDeleteAllTrackingFailures": "您确定要删除所有错误追踪记录吗？",
         "ConfirmDeleteThisTrackingFailure": "您确定要删除这条错误追踪记录吗？",
         "Cors": "跨源资源共享",

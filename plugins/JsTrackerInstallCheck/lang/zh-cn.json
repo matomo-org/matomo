@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "跟踪代码验证失败。请确认您已正确安装代码。%1$s了解更多%2$s。",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "跟踪代码验证失败。请确认您已安装“%1$s”插件并完成了所有步骤。%2$s了解更多%3$s。",
+        "JsTrackingCodeInstallCheckSuccessMessage": "跟踪代码已成功安装！一旦您的网站有数据被跟踪，此屏幕就会消失。",
+        "OptionalTestInstallationDescription": "可选：要测试跟踪代码能否向您的 Matomo 实例发送请求，请输入您正在跟踪的确切网址，然后点击“测试安装”。将会打开一个新标签页，并应在 10 秒内关闭。",
+        "PluginDescription": "验证跟踪代码是否已安装在您的网站上，以及能否将跟踪请求发送回您的 Matomo 实例",
+        "TestInstallationBtnText": "测试安装"
+    }
+}
