@@ -146,9 +146,13 @@ class GoalRecommendationService
         $existingGoalSummaries = $this->getExistingGoalSummaries($existingGoals);
         $analysis = $this->homepageAnalyzer->analyze($idSite);
         if ($analysis === null) {
-            $this->getLogger()->info(
-                'Goals recommendations: could not analyse the homepage for site {idSite}.',
-                ['idSite' => $idSite]
+            // Cloud's scanned KPI classifies results without generatedAt as "failed".
+            $this->getLogger()->warning(
+                'Goals recommendations: scan failed for site {idSite}: {reason}',
+                [
+                    'idSite' => $idSite,
+                    'reason' => $this->homepageAnalyzer->getLastFailureReason() ?? 'The homepage could not be analysed.',
+                ]
             );
             $warnings = $this->buildWarnings(['crawl' => $this->homepageAnalyzer->getLastCrawlStats()], []);
 

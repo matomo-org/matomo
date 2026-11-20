@@ -72,6 +72,30 @@ class HomepageAnalyzerCrawlTest extends IntegrationTestCase
         $this->assertContains('/contact', $targets);
     }
 
+    public function testFailureReasonIsResetBetweenScansAndIgnoresFailedSecondaryPages(): void
+    {
+        $analyzer = $this->makeAnalyzer([
+            'http://example.com/' => [
+                'status' => 200,
+                'data' => '<html><a href="/contact">Contact us</a></html>',
+            ],
+            'http://example.com/contact' => ['status' => 403],
+            'http://example.com/no-status' => ['data' => '<html></html>'],
+        ]);
+
+        $this->assertNull($analyzer->analyzeUrl('http://example.com/no-status'));
+        $this->assertSame('The homepage returned no valid HTTP status.', $analyzer->getLastFailureReason());
+        $this->assertNull($analyzer->analyzeUrl('http://example.com/no-response'));
+        $this->assertSame('The homepage request returned no response.', $analyzer->getLastFailureReason());
+        $this->assertNull($analyzer->analyzeUrl('ftp://example.com'));
+        $this->assertSame('The homepage URL is invalid or does not use HTTP(S).', $analyzer->getLastFailureReason());
+
+        $analysis = $analyzer->analyze($this->idSite);
+        $this->assertNotNull($analysis);
+        $this->assertSame(1, $analysis['crawl']['blockedPages']);
+        $this->assertNull($analyzer->getLastFailureReason());
+    }
+
     public function testCrawlRewritesLinksToTheSameOriginPageTheyRedirectTo()
     {
         $analyzer = $this->makeAnalyzer([
