@@ -52,6 +52,13 @@ class VisitorSecondsSinceOrderTest extends TestCase
         $this->assertEquals(53, $result);
     }
 
+    public function testOnExistingVisitReturnsNullIfRequestIsBeforeThePreviousVisit()
+    {
+        $dim = new VisitorSecondsSinceOrder();
+        $result = $dim->onExistingVisit($this->makeMockRequest([], '2020-03-04 03:04:10'), $this->makeMockVisitor(true, [], [ 'visitor_seconds_since_order' => 0, 'visit_first_action_time' => '2020-03-04 03:04:20' ]), null);
+        $this->assertNull($result);
+    }
+
     /**
      * @return Request
      */
