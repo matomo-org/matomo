@@ -1,6 +1,36 @@
 {
     "Tour": {
+        "AddAnnotation": "Adăugați o adnotare",
+        "AddReport": "Adăugați un raport programat",
+        "AddSegment": "Adăugați un segment",
+        "BecomeMatomoExpert": "Deveniți expert Matomo",
+        "BrowseMarketplace": "Explorați Marketplace",
+        "ChallengeCompleted": "Felicitări, provocarea este finalizată.",
+        "ChangeVisualisation": "Schimbați o vizualizare",
+        "ChangeVisualisationDescription": "Deschideți un raport și selectați pictograma de vizualizare din partea de jos a raportului pentru a-i schimba vizualizarea.",
         "CompletionTitle": "Bine facut!",
-        "Engagement": "Vizite repetate"
+        "ConfigureGeolocationDescription": "Asigurați-vă că locația vizitatorilor este detectată corect.",
+        "DisableBrowserArchiving": "Dezactivați arhivarea din browser pentru performanțe mai bune",
+        "Engagement": "Vizite repetate",
+        "FlattenActions": "Aplatizați un raport de pagini",
+        "FlattenActionsDescription": "Accesați Comportament → Pagini și faceți clic pe pictograma roată dințată din partea de jos a raportului pentru a-l aplatiza. Aceasta schimbă ierarhia dintr-un raport grupat într-o listă.",
+        "NextChallenges": "Provocările următoare",
+        "PluginDescription": "Deveniți expert parcurgând provocări pentru a cunoaște Matomo.",
+        "PreviousChallenges": "Provocările anterioare",
+        "RowEvolution": "Evoluția rândului",
+        "SelectDateRange": "Selectați un interval de date",
+        "SelectDateRangeDescription": "Selectați o perioadă în calendar.",
+        "SetupX": "Configurați %s",
+        "ShareAllChallengesCompleted": "Realizarea %1$s a fost deblocată prin finalizarea tuturor provocărilor Matomo.",
+        "ShareYourAchievementOn": "Distribuiți realizarea pe %1$s.",
+        "SkipThisChallenge": "Omiteți această provocare",
+        "StatusLevel": "În prezent sunteți %1$s. Finalizați încă %2$s provocări și deveniți %3$s.",
+        "Tour": "Tur",
+        "UploadLogo": "Încărcați logo-ul",
+        "ViewRowEvolutionDescription": "Afișează datele metrice actuale și anterioare pentru orice rând din orice raport.",
+        "ViewVisitorProfileDescription": "Înțelegeți comportamentul individual al vizitatorilor prin rezumarea și listarea vizitelor acestora.",
+        "ViewVisitsLogDescription": "Afișează toate vizitele individuale și acțiunile efectuate de fiecare vizitator pe site-ul dumneavoastră.",
+        "ViewX": "Vizualizați %s",
+        "YouCanCallYourselfExpert": "Acum vă puteți considera un adevărat %1$sexpert Matomo%2$s."
     }
 }
