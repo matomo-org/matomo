@@ -467,8 +467,7 @@ class Tracker
             return;
         }
 
-        // the flag lets the tracker's stand-in for the screen writer write it to PHP's error log
-        $this->log(LogLevel::ERROR, 'Exception: {exception}', $e, ['trackerError' => true]);
+        $this->log(LogLevel::ERROR, 'Exception: {exception}', $e);
     }
 
     /**
