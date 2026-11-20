@@ -247,6 +247,32 @@ class Schema extends Singleton
     }
 
     /**
+     * Takes a named lock for the current connection, waiting up to `$timeoutSeconds`. The connection
+     * may take a lock it holds again, and releases it as many times. Its locks are released when it
+     * disconnects.
+     */
+    public function getNamedLock(string $name, int $timeoutSeconds): bool
+    {
+        return $this->getMysqlCompatibleSchema()->getNamedLock($name, $timeoutSeconds);
+    }
+
+    /**
+     * Releases a named lock the current connection holds. Returns false if it doesn't hold it.
+     */
+    public function releaseNamedLock(string $name): bool
+    {
+        return $this->getMysqlCompatibleSchema()->releaseNamedLock($name);
+    }
+
+    /**
+     * Whether no connection holds a named lock.
+     */
+    public function isNamedLockFree(string $name): bool
+    {
+        return $this->getMysqlCompatibleSchema()->isNamedLockFree($name);
+    }
+
+    /**
      * Whether a table has an index with the given name (`PRIMARY` for the primary key).
      */
     public function tableHasIndex(string $tableName, string $indexName): bool

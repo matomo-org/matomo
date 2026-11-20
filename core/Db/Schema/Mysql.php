@@ -681,17 +681,42 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
     }
 
     /**
+     * Takes a named lock for the current connection, waiting up to `$timeoutSeconds` (`GET_LOCK()`).
+     */
+    public function getNamedLock(string $name, int $timeoutSeconds): bool
+    {
+        return Db::get()->fetchOne('SELECT GET_LOCK(?, ?)', [$name, $timeoutSeconds]) == '1';
+    }
+
+    /**
+     * Releases a named lock the current connection holds (`RELEASE_LOCK()`).
+     */
+    public function releaseNamedLock(string $name): bool
+    {
+        return Db::get()->fetchOne('SELECT RELEASE_LOCK(?)', [$name]) == '1';
+    }
+
+    /**
+     * Whether no connection holds a named lock (`IS_FREE_LOCK()`).
+     */
+    public function isNamedLockFree(string $name): bool
+    {
+        return (bool) Db::get()->fetchOne('SELECT IS_FREE_LOCK(?)', [$name]);
+    }
+
+    /**
      * Returns the names of the tables matching a `LIKE` pattern, in which `\` escapes `%` and `_`.
      *
      * @return string[]
      */
     public function getTablesLike(string $pattern): array
     {
+        self::checkTablesLikePattern($pattern);
+
         // SHOW can't have a placeholder when prepared on the server (MYSQLI) and tracker connections
-        // have no quote(). The literal is valid with or without NO_BACKSLASH_ESCAPES: quotes are
-        // doubled, a backslash before % or _ is kept as is in both modes (as LIKE needs it), and any
-        // other backslash is doubled, so none can escape the closing quote.
-        $escaped = preg_replace('/\\\\(?![%_])/', '\\\\\\\\', str_replace("'", "''", $pattern));
+        // have no quote(). Quotes are doubled, and the pattern has no backslash but before % or _,
+        // where both SQL modes keep it as LIKE needs it, so the literal means the same in both.
+        $escaped = str_replace("'", "''", $pattern);
         $sql = "SHOW TABLES LIKE '" . $escaped . "'";
         $db = $this->getDb();
         if (method_exists($db, 'fetchCol')) {
@@ -703,6 +728,17 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
         return array_map(function ($row) {
             return (string) reset($row);
         }, $db->fetchAll($sql));
+    }
+
+    /**
+     * @throws \InvalidArgumentException for a backslash not escaping `%` or `_`, whose meaning would
+     *                                   depend on MySQL's SQL mode
+     */
+    protected static function checkTablesLikePattern(string $pattern): void
+    {
+        if (preg_match('/\\\\(?![%_])/', $pattern)) {
+            throw new \InvalidArgumentException('A backslash in a table name pattern must escape % or _.');
+        }
     }
 
     /**

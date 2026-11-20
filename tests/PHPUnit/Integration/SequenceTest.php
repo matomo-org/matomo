@@ -45,7 +45,7 @@ class SequenceTest extends IntegrationTestCase
     public function testCreateShouldFailIfSequenceAlreadyExists()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Duplicate entry');
+        $this->expectExceptionMessageMatches('/Duplicate entry|UNIQUE constraint failed/');
 
         $sequence = $this->getExistingSequence();
 

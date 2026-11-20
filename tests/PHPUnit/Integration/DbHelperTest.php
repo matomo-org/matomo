@@ -38,13 +38,25 @@ class DbHelperTest extends IntegrationTestCase
         $this->assertFalse(DbHelper::tableExists('foobar'));
         $this->assertTrue(DbHelper::tableExists(Common::prefixTable('user_token_auth')));
         $this->assertFalse(DbHelper::tableExists(Common::prefixTable('user_t%oke%n_auth')));
-        // a trailing backslash can't escape the closing quote
-        $this->assertSame([], \Piwik\Db\Schema::getInstance()->getTablesLike('abc\\'));
+        $this->assertFalse(DbHelper::tableExists('abc\\'));
+    }
+
+    public function testTablesLikeRejectsABackslashEscapingNeitherPercentNorUnderscore()
+    {
+        $this->assertSame([], \Piwik\Db\Schema::getInstance()->getTablesLike('abc\\_x\\%'));
+        foreach (['abc\\', 'a\\b', 'a\\\\_'] as $pattern) {
+            try {
+                \Piwik\Db\Schema::getInstance()->getTablesLike($pattern);
+                $this->fail('Accepted ' . $pattern);
+            } catch (\InvalidArgumentException $e) {
+                $this->assertStringContainsString('must escape', $e->getMessage());
+            }
+        }
     }
 
     public function testTableExistsWithoutBackslashEscapes()
     {
-        if (Fixture::isSqlite()) {
+        if (Fixture::isSqlite() || \Piwik\Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
             $this->markTestSkipped('MySQL SQL mode');
         }
 

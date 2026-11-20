@@ -146,6 +146,15 @@ final class Connection
     }
 
     /**
+     * Whether a connection object is one of the SQLite adapters. Code choosing SQL by engine asks the
+     * connection it runs on, whatever the configuration file says.
+     */
+    public static function isSqliteConnection($db): bool
+    {
+        return $db instanceof \Piwik\Db\Adapter\Pdo\Sqlite || $db instanceof \Piwik\Tracker\Db\Pdo\Sqlite;
+    }
+
+    /**
      * Binds the parameters of a statement with the types of their PHP values.
      *
      * PDO binds parameters as text by default. Unlike MySQL, SQLite then compares them as text with

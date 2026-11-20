@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\Schema\Sqlite\DefinitionConverter;
+use Piwik\Db\Schema\Sqlite\NamedLock;
 use Piwik\Db\Sqlite\Connection;
 use Piwik\Db\Sqlite\ErrorCodes;
 use Piwik\Db\SqlListParser;
@@ -204,6 +205,7 @@ class Sqlite extends Mysql
 
     public function getTablesLike(string $pattern): array
     {
+        self::checkTablesLikePattern($pattern);
         $regex = self::getLikePatternRegex($pattern);
 
         return array_values(array_filter($this->getAllTables(), function ($table) use ($regex) {
@@ -390,6 +392,36 @@ class Sqlite extends Mysql
         return '';
     }
 
+    public function getNamedLock(string $name, int $timeoutSeconds): bool
+    {
+        $db = $this->getSqliteConnection();
+        if ($db === null) {
+            return parent::getNamedLock($name, $timeoutSeconds);
+        }
+
+        return NamedLock::acquire($db, $db->getDatabaseFile(), $name, $timeoutSeconds);
+    }
+
+    public function releaseNamedLock(string $name): bool
+    {
+        $db = $this->getSqliteConnection();
+        if ($db === null) {
+            return parent::releaseNamedLock($name);
+        }
+
+        return NamedLock::release($db, $name);
+    }
+
+    public function isNamedLockFree(string $name): bool
+    {
+        $db = $this->getSqliteConnection();
+        if ($db === null) {
+            return parent::isNamedLockFree($name);
+        }
+
+        return NamedLock::isFree($db, $db->getDatabaseFile(), $name);
+    }
+
     public function getSupportedReadIsolationTransactionLevel(): string
     {
         return 'SERIALIZABLE';
@@ -475,8 +507,11 @@ class Sqlite extends Mysql
             }
         }
 
-        // a sole integer primary key is declared INT, the type is the same
-        return preg_replace('/^INT\b/', 'INTEGER', implode('', $parts));
+        // a sole integer primary key is declared INT, the type is the same, and its generated type
+        // check isn't part of the MySQL definition
+        $normalized = preg_replace('/^INT\b/', 'INTEGER', implode('', $parts));
+
+        return preg_replace("/ CHECK \\(TYPEOF\\(`\\w+`\\) = 'integer'\\)/", '', $normalized);
     }
 
     /**
@@ -486,13 +521,24 @@ class Sqlite extends Mysql
      */
     private function withImplicitDefault(string $definition): string
     {
-        if (!preg_match('/\bNOT NULL\b/', $definition) || preg_match('/\bDEFAULT\b/', $definition)) {
+        // the keywords are looked for outside string literals, such as ENUM values
+        $parts = preg_split("/('(?:[^']|'')*')/", $definition, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $keywords = implode(' ', array_filter($parts, function ($i) {
+            return $i % 2 === 0;
+        }, ARRAY_FILTER_USE_KEY));
+        if (!preg_match('/\bNOT NULL\b/', $keywords) || preg_match('/\bDEFAULT\b/', $keywords)) {
             return $definition;
         }
 
         $zero = str_starts_with($definition, 'TEXT') ? "''" : (str_starts_with($definition, 'BLOB') ? "X''" : '0');
+        foreach ($parts as $i => $part) {
+            if ($i % 2 === 0 && preg_match('/\bNOT NULL\b/', $part)) {
+                $parts[$i] = preg_replace('/\bNOT NULL\b/', 'NOT NULL DEFAULT (' . $zero . ')', $part, 1);
+                break;
+            }
+        }
 
-        return str_replace('NOT NULL', 'NOT NULL DEFAULT (' . $zero . ')', $definition);
+        return implode('', $parts);
     }
 
     /**
@@ -555,6 +601,22 @@ class Sqlite extends Mysql
         }
 
         return $config;
+    }
+
+    /**
+     * The connection in use if it is a SQLite one: the connection decides, whatever the configuration
+     * file says.
+     *
+     * @return \Piwik\Db\Adapter\Pdo\Sqlite|\Piwik\Tracker\Db\Pdo\Sqlite|null
+     */
+    private function getSqliteConnection()
+    {
+        $db = Db::get();
+        if ($db instanceof \Piwik\Db\Adapter\Pdo\Sqlite || $db instanceof \Piwik\Tracker\Db\Pdo\Sqlite) {
+            return $db;
+        }
+
+        return null;
     }
 
     private function getConverter(): DefinitionConverter

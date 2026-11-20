@@ -308,6 +308,47 @@ class SqliteSchemaTest extends TestCase
         Db::query("INSERT INTO matomo_t VALUES (2, 'other')");
     }
 
+    public function testEnumValuesAreReadAsMysqlLiterals(): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL, PRIMARY KEY (id)');
+        // keywords inside a value are not the column's attributes
+        $this->execute($this->schema->getAlterTableSql('matomo_t', [
+            "ADD COLUMN s ENUM('NOT NULL','wait') NULL",
+            "ADD COLUMN e ENUM('x\\\\y','it''s') NULL",
+            "ADD COLUMN d VARCHAR(10) NOT NULL DEFAULT 'a\\'b\\\\'",
+        ]));
+
+        Db::query('INSERT INTO matomo_t (id, s, e) VALUES (1, ?, ?)', ['NOT NULL', 'x\\y']);
+        Db::query('INSERT INTO matomo_t (id, e) VALUES (2, ?)', ["it's"]);
+        $this->assertSame([[null, "it's", "a'b\\"]], array_map('array_values', Db::fetchAll('SELECT s, e, d FROM matomo_t WHERE id = 2')));
+        $this->assertSame([], $this->schema->getAlterTableSql('matomo_t', ["MODIFY COLUMN e ENUM('x\\\\y','it''s') NULL"]));
+
+        foreach ([['s', 'other'], ['e', 'x\\\\y']] as [$column, $value]) {
+            try {
+                Db::query('INSERT INTO matomo_t (id, ' . $column . ') VALUES (3, ?)', [$value]);
+                $this->fail('Accepted ' . $value);
+            } catch (\Exception $e) {
+                $this->assertStringContainsString('CHECK constraint failed', $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * @dataProvider getUnchangedIntegerKeyChanges
+     */
+    public function testUnchangedIntegerPrimaryKeyIsANoOp(string $specification): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL, PRIMARY KEY (id)');
+
+        $this->assertSame([], $this->schema->getAlterTableSql('matomo_t', [$specification]));
+    }
+
+    public function getUnchangedIntegerKeyChanges(): iterable
+    {
+        yield 'modify' => ['MODIFY COLUMN id INT NOT NULL'];
+        yield 'change' => ['CHANGE COLUMN id id INT NOT NULL'];
+    }
+
     public function testSoleIntegerPrimaryKeyRejectsText(): void
     {
         $this->schema->createTable('t', 'id INT NOT NULL, PRIMARY KEY (id)');

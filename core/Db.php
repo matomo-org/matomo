@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Adapter;
+use Piwik\Db\Schema;
 use Piwik\Db\TransactionalDatabaseInterface;
 use Piwik\Db\TransactionalDatabaseStaticTrait;
 use Piwik\Db\TransactionErrors;
@@ -736,13 +737,10 @@ class Db implements TransactionalDatabaseInterface
          * we use a 1 second timeout and loop, to avoid losing our MySQL
          * connection
          */
-        $sql = 'SELECT GET_LOCK(?, 1)';
-
-        $db = self::get();
+        $schema = Schema::getInstance();
 
         while ($maxRetries > 0) {
-            $result = $db->fetchOne($sql, array($lockName));
-            if ($result == '1') {
+            if ($schema->getNamedLock($lockName, 1)) {
                 return true;
             }
             $maxRetries--;
@@ -759,10 +757,7 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function releaseDbLock($lockName)
     {
-        $sql = 'SELECT RELEASE_LOCK(?)';
-
-        $db = self::get();
-        return $db->fetchOne($sql, array($lockName)) == '1';
+        return Schema::getInstance()->releaseNamedLock($lockName);
     }
 
     /**

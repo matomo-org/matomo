@@ -35,6 +35,14 @@ class Sqlite extends Mysql
         $this->dsn = Connection::getDsn(Connection::getDatabaseFile($dbInfo));
     }
 
+    /**
+     * The absolute path of the database file.
+     */
+    public function getDatabaseFile(): string
+    {
+        return Connection::getDatabaseFile($this->config);
+    }
+
     public function connect()
     {
         $timer = self::$profiling ? $this->initProfiler() : null;

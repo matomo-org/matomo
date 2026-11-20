@@ -305,6 +305,27 @@ final class DefinitionConverter
     }
 
     /**
+     * Converts a MySQL string literal to SQLite's, where only a doubled quote escapes: MySQL's backslash
+     * escapes are decoded, except `\%` and `\_`, which MySQL keeps as written.
+     */
+    private function convertStringLiteral(string $tableName, string $definition, string $literal): string
+    {
+        $escapes = ['b' => "\x08", 'n' => "\n", 'r' => "\r", 't' => "\t", 'Z' => "\x1A", '%' => '\\%', '_' => '\\_'];
+        $value = preg_replace_callback("/\\\\(.)|''/s", function ($match) use ($escapes, $tableName, $definition) {
+            if ($match[0] === "''") {
+                return "'";
+            }
+            if ($match[1] === '0') {
+                throw $this->unsupported($tableName, $definition); // NUL can't be written in an SQLite literal
+            }
+
+            return $escapes[$match[1]] ?? $match[1];
+        }, substr($literal, 1, -1));
+
+        return "'" . str_replace("'", "''", $value) . "'";
+    }
+
+    /**
      * @param string|null $name the column name, needed for the CHECK constraints of an ENUM and an
      *                          integer primary key
      * @return array{name: string|null, type: string, notNull: bool, default: string|null, collation: string|null, autoIncrement: bool, primaryKey: bool, unique: bool, enumValues: string[]|null, integerCheck: bool, sql: string}
@@ -318,10 +339,11 @@ final class DefinitionConverter
             $end = $this->findClosingParenthesis($rest, strpos($rest, '('));
             $matches = [substr($rest, 0, $end + 1), 'enum'];
             $enumValues = SqlListParser::splitList(substr($rest, strpos($rest, '(') + 1, $end - strpos($rest, '(') - 1));
-            foreach ($enumValues as $value) {
-                if (!preg_match("/^'(?:[^']|'')*'$/", $value)) {
+            foreach ($enumValues as $i => $value) {
+                if (!preg_match("/^'(?:[^'\\\\]|\\\\.|'')*'$/s", $value)) {
                     throw $this->unsupported($tableName, $definition);
                 }
+                $enumValues[$i] = $this->convertStringLiteral($tableName, $definition, $value);
             }
         } elseif (!preg_match('/^(\w+)(?:\s*\(\s*(\d+)(?:\s*,\s*(\d+))?\s*\))?/i', $rest, $matches)) {
             throw $this->unsupported($tableName, $definition);
@@ -352,8 +374,14 @@ final class DefinitionConverter
                 $notNull = true;
             } elseif (preg_match('/^NULL\b/i', $rest, $m)) {
                 $notNull = false;
-            } elseif (preg_match('/^DEFAULT\s+(\'(?:[^\']|\'\')*\'|-?\d+(?:\.\d+)?|NULL\b|CURRENT_TIMESTAMP(?:\(\))?)/i', $rest, $m)) {
-                $default = preg_match('/^CURRENT_TIMESTAMP/i', $m[1]) ? 'CURRENT_TIMESTAMP' : $m[1];
+            } elseif (preg_match('/^DEFAULT\s+(\'(?:[^\'\\\\]|\\\\.|\'\')*\'|-?\d+(?:\.\d+)?|NULL\b|CURRENT_TIMESTAMP(?:\(\))?)/is', $rest, $m)) {
+                if (preg_match('/^CURRENT_TIMESTAMP/i', $m[1])) {
+                    $default = 'CURRENT_TIMESTAMP';
+                } elseif ($m[1][0] === "'") {
+                    $default = $this->convertStringLiteral($tableName, $definition, $m[1]);
+                } else {
+                    $default = $m[1];
+                }
             } elseif (preg_match('/^AUTO_INCREMENT\b/i', $rest, $m)) {
                 $autoIncrement = true;
             } elseif (preg_match('/^PRIMARY\s+KEY\b/i', $rest, $m)) {

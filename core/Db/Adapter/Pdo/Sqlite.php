@@ -51,6 +51,14 @@ class Sqlite extends Zend_Db_Adapter_Pdo_Abstract implements AdapterInterface
         return '`';
     }
 
+    /**
+     * The absolute path of the database file.
+     */
+    public function getDatabaseFile(): string
+    {
+        return Connection::getDatabaseFile($this->connectionConfig);
+    }
+
     protected function _dsn() // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {
         return Connection::getDsn(Connection::getDatabaseFile($this->connectionConfig));

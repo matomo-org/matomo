@@ -9,7 +9,7 @@
 
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\SettingsPiwik;
 
 class LoaderLock
@@ -37,12 +37,12 @@ class LoaderLock
 
     public function setLock()
     {
-        Db::fetchOne('SELECT GET_LOCK(?,?)', array($this->id, self::MAX_LOCK_TIME));
+        Schema::getInstance()->getNamedLock($this->id, self::MAX_LOCK_TIME);
     }
 
     public function unLock()
     {
-        Db::query('SELECT RELEASE_LOCK(?)', array($this->id));
+        Schema::getInstance()->releaseNamedLock($this->id);
     }
 
     public function getId()
@@ -58,6 +58,6 @@ class LoaderLock
      */
     public static function isLockAvailable($key)
     {
-        return (bool)Db::fetchOne('SELECT IS_FREE_LOCK(?)', [$key]);
+        return Schema::getInstance()->isNamedLockFree($key);
     }
 }

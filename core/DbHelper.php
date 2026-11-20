@@ -39,6 +39,10 @@ class DbHelper
      */
     public static function tableExists($tableName)
     {
+        if (str_contains($tableName, '\\')) {
+            return false; // Matomo creates no such table
+        }
+
         $tableName = str_replace(['%', '_', "'"], ['\%', '\_', '_'], $tableName);
         return count(Schema::getInstance()->getTablesLike($tableName)) > 0;
     }
