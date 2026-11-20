@@ -26,6 +26,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Goals\Goals;
+use Piwik\Plugins\Goals\GoalsSorter;
 use Piwik\Plugins\Goals\Pages;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Site;
@@ -72,7 +73,8 @@ class Get extends Base
             return;
         }
 
-        $goals   = $this->getGoals();
+        // the order the goal widgets are created in is the order they are listed in, eg in the widget selector
+        $goals   = GoalsSorter::sortStarredFirst($this->getGoals());
         $reports = Goals::getReportsWithGoalMetrics();
 
         $page = new Pages($factory, $reports);
@@ -140,6 +142,10 @@ class Get extends Base
 
                 // in Goals overview summary we show proper title for a goal
                 $goal = $this->getGoal($idGoal);
+                if (GoalsSorter::isStarred($goal)) {
+                    // the Goals Vue package adds the star to elements with this attribute
+                    $view->config->title_attributes[Goals::STARRED_GOAL_HTML_ATTRIBUTE] = (int) $idGoal;
+                }
                 if (!empty($goal['name'])) {
                     $view->config->title = Piwik::translate('Goals_GoalX', "'" . $goal['name'] . "'");
                 }

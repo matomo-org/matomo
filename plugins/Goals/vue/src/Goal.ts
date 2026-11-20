@@ -19,6 +19,7 @@ interface Goal {
   pattern_type: string;
   revenue: string|number;
   revenue_pretty?: string;
+  starred?: string|number|boolean;
 }
 
 export default Goal;

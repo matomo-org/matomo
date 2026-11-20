@@ -15,6 +15,8 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\Goals\Goals as GoalsPlugin;
+use Piwik\Plugins\Goals\GoalsSorter;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -119,6 +121,26 @@ class Goals extends HtmlTable
     /**
      * Remove all *revenue* columns from being displayed that had been removed by RemoveUnusedGoalRevenueColumns filter
      */
+    /**
+     * Marks the columns of starred goals, the Goals Vue package adds the star to their headers.
+     *
+     * @param string $column
+     * @return array<string, int>|null
+     */
+    public function getHeaderCellHtmlAttributes($column)
+    {
+        if (null === $this->goalsForCurrentSite) {
+            return null;
+        }
+
+        $idGoal = GoalsPlugin::getGoalIdFromGoalColumn((string) $column);
+        if (empty($idGoal) || !GoalsSorter::isStarred($this->goalsForCurrentSite[$idGoal] ?? null)) {
+            return null;
+        }
+
+        return [GoalsPlugin::STARRED_GOAL_HTML_ATTRIBUTE => $idGoal];
+    }
+
     private function removeUnusedRevenueColumns()
     {
         if ($this->dataTable instanceof DataTable\DataTableInterface) {
@@ -421,7 +443,9 @@ class Goals extends HtmlTable
             }
 
             // add the site's goals (and escape all goal names)
-            $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
+            $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+            // the columns of starred goals come first, see setPropertiesForGoals()
+            $siteGoals = GoalsSorter::sortStarredFirst($siteGoals);
 
             foreach ($siteGoals as &$goal) {
                 $goal['quoted_name'] = '"' . $goal['name'] . '"';

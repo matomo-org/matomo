@@ -9,6 +9,10 @@ import { mount } from '@vue/test-utils';
 
 vi.mock('CoreHome', () => ({
   translate: (key: string) => key,
+  StarToggle: {
+    props: ['starred', 'readonly', 'small', 'title'],
+    template: '<span class="starToggle" :data-readonly="readonly" :title="title" />',
+  },
 }));
 
 import WidgetsList from './WidgetsList.vue';
@@ -88,6 +92,23 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     expect(items[1].classes()).not.toContain('widgetpreview-unavailable');
     expect(items[2].classes()).toContain('widgetpreview-unavailable');
     expect(buttons).toHaveLength(3);
+  });
+
+  it('shows a read-only star for starred widgets only, without changing the name', () => {
+    const wrapper = mount(WidgetsList, {
+      props: {
+        widgets: [{ ...widgetVisits, isStarred: true }, widgetKpi],
+      },
+    });
+
+    const names = wrapper.findAll('.widgetpreview-widgetname');
+    const star = names[0].find('.starToggle');
+    expect(star.exists()).toBe(true);
+    expect(star.attributes('data-readonly')).toBe('true');
+    expect(star.attributes('title')).toBe('Goals_StarredGoal');
+    expect(names[0].text()).toBe('Visits Over Time');
+
+    expect(names[1].find('.starToggle').exists()).toBe(false);
   });
 
   it('emits hover with a 400ms debounce', async () => {

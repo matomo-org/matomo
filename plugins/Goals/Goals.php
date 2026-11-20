@@ -32,6 +32,12 @@ use Piwik\Segment\SegmentsList;
 
 class Goals extends \Piwik\Plugin
 {
+    /**
+     * HTML attribute for elements that show the name of a starred goal, the value is the goal's ID. The
+     * Goals Vue package adds the "Starred goal" indicator to elements having it.
+     */
+    public const STARRED_GOAL_HTML_ATTRIBUTE = 'data-starred-goal';
+
     public static function getReportsWithGoalMetrics()
     {
         $dimensions = self::getAllReportsWithGoalMetrics();
@@ -230,15 +236,16 @@ class Goals extends \Piwik\Plugin
             }
         }
 
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         $order = 900;
-        foreach ($goals as $goal) {
+        foreach (GoalsSorter::sortStarredFirst($goals) as $goal) {
             $category = new Subcategory();
             $category->setName($goal['name']);
             $category->setCategoryId('Goals_Goals');
             $category->setId($goal['idgoal']);
             $category->setOrder($order++);
+            $category->setIsStarred(GoalsSorter::isStarred($goal));
             $subcategories[] = $category;
         }
     }
@@ -480,6 +487,7 @@ class Goals extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Goals/stylesheets/goals.less";
+        $stylesheets[] = "plugins/Goals/vue/src/StarredGoals/StarredGoalIndicator.less";
     }
 
     public function fetchGoalsFromDb(&$array, $idSite)
@@ -558,6 +566,10 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_GoalCreated';
         $translationKeys[] = 'Goals_GoalUpdated';
         $translationKeys[] = 'Goals_ViewGoalReport';
+        $translationKeys[] = 'Goals_StarGoal';
+        $translationKeys[] = 'Goals_UnstarGoal';
+        $translationKeys[] = 'Goals_StarredGoal';
+        $translationKeys[] = 'Goals_StarredGoals';
         $translationKeys[] = 'Goals_GoalRecommendation';
         $translationKeys[] = 'Goals_RecommendedGoalsIntro';
         $translationKeys[] = 'Goals_RecommendUseAi';

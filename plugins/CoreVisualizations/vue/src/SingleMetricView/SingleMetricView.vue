@@ -96,8 +96,10 @@ export default defineComponent({
       required: true,
     },
     metricDocumentations: Object,
+    // a list ordered the way goals are displayed (starred goals first), older widgets pass an
+    // object indexed by goal ID
     goals: {
-      type: Object,
+      type: [Array, Object],
       required: true,
     },
     goalMetrics: Array,
@@ -289,7 +291,7 @@ export default defineComponent({
         });
       });
 
-      Object.values((props.goals || {}) as Record<string, Goal>).forEach((goal) => {
+      Object.values((props.goals || {}) as Goal[]|Record<string, Goal>).forEach((goal) => {
         (props.goalMetrics as string[]).forEach((column) => {
           result.push({
             column: `goal${goal.idgoal}_${column}`,
@@ -312,7 +314,9 @@ export default defineComponent({
       }
 
       if (isIdGoalSet()) {
-        const goalName = props.goals[actualIdGoal.value!]?.name || translate('General_Unknown');
+        const goal = Object.values((props.goals || {}) as Goal[]|Record<string, Goal>)
+          .find((g) => `${g.idgoal}` === `${actualIdGoal.value}`);
+        const goalName = goal?.name || translate('General_Unknown');
         title = `${goalName} - ${title}`;
       }
 

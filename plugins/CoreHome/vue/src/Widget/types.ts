@@ -31,6 +31,8 @@ export interface Widget extends Orderable {
   documentation?: string;
   layout?: string;
   isWide?: boolean;
+  // set for the widgets of starred entities, for example the widget of a starred goal
+  isStarred?: boolean;
   isFirstInPage?: boolean;
 
   // Discriminant against GroupedWidgets (a plain widget is never a group).

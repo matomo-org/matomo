@@ -309,6 +309,10 @@
         "ColumnRevenueEntryDocumentation": "The share of all revenue for %s where this page was the entry page.",
         "GoalCreated": "Goal successfully created",
         "GoalUpdated": "Goal successfully updated",
+        "StarGoal": "Add to Starred goals for this website.",
+        "StarredGoal": "Starred goal",
+        "StarredGoals": "Starred goals",
+        "UnstarGoal": "Remove from Starred goals for this website.",
         "ViewGoalReport": "View Goal Report"
     }
 }

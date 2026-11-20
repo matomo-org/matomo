@@ -17,6 +17,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
 * `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
+* `Piwik\Category\Subcategory::setIsStarred()` and `Piwik\Widget\WidgetConfig::setIsStarred()` mark a reporting page or a widget as starred. The reporting menu and the dashboard's widget selector show a star for them.
+* `Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable::getHeaderCellHtmlAttributes()` can be overridden to add HTML attributes to the header cell of a column.
 
 ### New commands
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
@@ -26,6 +28,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `Piwik\DataAccess\Model::isSimilarArchiveInProgress()` is deprecated and will be removed in Matomo 7; use `Piwik\DataAccess\Model::isArchiveAlreadyInProgress()` instead.
 
 ### HTTP API
+* The new API methods `Goals.starGoal` and `Goals.unstarGoal` star and unstar a goal for a website. They require write access and return `{"success": true}`.
+* `Goals.addGoal` and `Goals.updateGoal` have the new optional boolean parameter `starred`. `Goals.addGoal` creates a goal that is not starred unless `starred=1` is given. `Goals.updateGoal` keeps the goal's starred state when the parameter is not given.
+* `Goals.getGoals` and `Goals.getGoal` return the new boolean field `starred` for every goal. The order and structure of `Goals.getGoals` are unchanged. A goal's stored starred state is cleared when the goal is deleted, and is kept by `Goals.updateGoal`.
+* `API.getReportMetadata` lists the reports of a website's goals (`Goals.get`, `Goals.getDaysToConversion` and `Goals.getVisitsUntilConversion` with an `idGoal`) with starred goals first and then by goal name, no longer by goal ID. The reports of a starred goal have `isStarred` set to `true`. Other reports don't have the attribute, as attributes that are `false` are not part of the report metadata.
+* `API.getWidgetMetadata` and `API.getReportPagesMetadata` return the new boolean `isStarred` for every widget and every subcategory. It is `true` for the widget and the page of a starred goal. The widgets and pages of goals are listed with starred goals first and then by goal name.
 * The `parts` parameter of `Transitions.getTransitionsForAction` accepts the new value `followingActionsWithoutLoops`: the following actions without page reloads, as in the full report.
 * `prettyDate` of `API.getProcessedReport` now names the period the report's rows were archived for:
   * For a relative date such as `today`, `yesterday`, `lastN` or `previousN` with the period `day`, `week`, `month` or `year` on a single site whose day differs from UTC's, it names the site's days instead of UTC's, and so do the date line and file name of the scheduled reports generated from it.
@@ -33,6 +40,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A module that selects its own set of sites, such as `MultiSites.getAll`, is labelled on the days its rows cover, which are UTC's days when it covers more than one site.
   * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
+
+### Database
+* The `goal` table has the new column `starred` (`TINYINT(1) UNSIGNED NOT NULL DEFAULT 0`), which is `1` for a goal that is starred for its website.
 
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.

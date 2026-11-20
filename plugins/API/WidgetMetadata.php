@@ -109,6 +109,8 @@ class WidgetMetadata
         $item['parameters']  = $widget->getParameters();
         $item['uniqueId']    = $widget->getUniqueId();
         $item['isWide']      = $widget->isWide();
+        // true for the widgets of starred entities, eg the widget of a starred goal
+        $item['isStarred']   = $widget->isStarred();
 
         $middleware = $widget->getMiddlewareParameters();
 
@@ -223,6 +225,8 @@ class WidgetMetadata
             'name'  => Piwik::translate($subcategory->getName()),
             'order' => $subcategory->getOrder(),
             'help' => Piwik::translate($subcategory->getHelp()),
+            // true for the pages of starred entities, eg the page of a starred goal
+            'isStarred' => $subcategory->isStarred(),
         );
     }
 

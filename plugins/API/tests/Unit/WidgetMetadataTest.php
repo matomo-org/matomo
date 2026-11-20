@@ -57,6 +57,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'name' => 'SubcategoryIdName',
                 'order' => 99,
                 'help' => '',
+                'isStarred' => false,
             ),
             'module' => 'CoreHome',
             'action' => 'render',
@@ -67,6 +68,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
             ),
             'uniqueId' => 'widgetCoreHomerender',
             'isWide' => false,
+            'isStarred' => false,
         ), $metadata);
     }
 
@@ -170,6 +172,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'name' => 'NestedSubcategory1',
                 'order' => 99,
                 'help' => '',
+                'isStarred' => false,
             ),
             'module' => 'CoreHome',
             'action' => 'render',
@@ -180,6 +183,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
             ),
             'uniqueId' => 'widgetCoreHomerender',
             'isWide' => false,
+            'isStarred' => false,
         ), $widget1);
         $this->assertSame(array(
             'name' => 'NestedName2',
@@ -197,6 +201,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'name' => 'NestedSubcategory2',
                 'order' => 99,
                 'help' => '',
+                'isStarred' => false,
             ),
             'module' => 'CoreHome',
             'action' => 'render',
@@ -207,6 +212,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
             ),
             'uniqueId' => 'widgetCoreHomerender',
             'isWide' => false,
+            'isStarred' => false,
         ), $widget2);
     }
 
@@ -240,6 +246,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'name' => 'Subcategory2Name',
                 'order' => 99,
                 'help' => '',
+                'isStarred' => false,
             ],
             'module' => 'CoreHome',
             'action' => 'render',
@@ -250,6 +257,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
             ],
             'uniqueId' => 'widgetCoreHomerender',
             'isWide' => false,
+            'isStarred' => false,
         ], $metadata);
     }
 
@@ -284,6 +292,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'name' => 'NestedSubcategory1Name',
                 'order' => 99,
                 'help' => '',
+                'isStarred' => false,
             ),
             'widgets' => array (
                 0 => array ( // widgets should not have category / subcategory again, it's already present above
@@ -297,6 +306,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                     ),
                     'uniqueId' => 'widgetCoreHomerender',
                     'isWide' => false,
+                    'isStarred' => false,
                 ), array (
                     'name' => 'NestedName2',
                     'module' => 'CoreHome',
@@ -308,6 +318,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                     ),
                     'uniqueId' => 'widgetCoreHomerender',
                     'isWide' => false,
+                    'isStarred' => false,
                 ),
             ),
         ), $metadata);

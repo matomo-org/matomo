@@ -43,7 +43,8 @@ use Piwik\Validators\WhitelistedValue;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
- * or list existing Goals for one or several websites via "getGoals"
+ * or list existing Goals for one or several websites via "getGoals". Goals can be starred for a website via
+ * "starGoal" and "unstarGoal", starred goals are shown first wherever Matomo lists goals.
  *
  * If you are <a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
  * will return the list of products purchased on your site, either grouped by Product SKU, Product Name or Product Category. For each name, SKU or category, the following
@@ -76,7 +77,8 @@ use Piwik\Validators\WhitelistedValue;
  *     allow_multiple?: int|string,
  *     revenue: float|int|string,
  *     event_value_as_revenue: int|string,
- *     deleted?: int|string
+ *     deleted?: int|string,
+ *     starred: bool
  * }
  */
 class API extends \Piwik\Plugin\API
@@ -88,7 +90,8 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The numeric ID of the website to query.
      * @param int $idGoal The numeric ID of the goal to query.
-     * @return array|null Goal attributes, or `null` if the goal does not exist.
+     * @return array|null Goal attributes, or `null` if the goal does not exist. `starred` is `true` when the
+     *                    goal is starred for the website.
      * @phpstan-return GoalRecord|null
      */
     public function getGoal(int $idSite, int $idGoal): ?array
@@ -113,7 +116,8 @@ class API extends \Piwik\Plugin\API
      *                                 - Comma-separated list ("1,4,5") or "all"
      * @param bool $orderByName Whether to sort the returned goals alphabetically by name.
      * @return array Goal attributes, indexed by goal ID for single-site requests
-     *               and returned as a numeric list for multi-site requests.
+     *               and returned as a numeric list for multi-site requests. Each goal has a boolean
+     *               `starred`. Starred goals are not moved to the front of the result.
      * @phpstan-return array<int, GoalRecord>
      */
     public function getGoals($idSite, bool $orderByName = false): array
@@ -364,6 +368,8 @@ class API extends \Piwik\Plugin\API
             unset($goal['case_sensitive']);
         }
 
+        $goal['starred'] = !empty($goal['starred']);
+
         return $goal;
     }
 
@@ -389,6 +395,7 @@ class API extends \Piwik\Plugin\API
      * @param string $description Optional goal description shown in the Goals management UI.
      * @param bool $useEventValueAsRevenue Whether to use the tracked event value as goal revenue. This is only valid
      *                                     for event-based goals.
+     * @param bool $starred Whether the goal is starred for the website, see {@link starGoal()}.
      * @return int ID of the new goal.
      */
     public function addGoal(
@@ -401,7 +408,8 @@ class API extends \Piwik\Plugin\API
         $revenue = false,
         bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
-        bool $useEventValueAsRevenue = false
+        bool $useEventValueAsRevenue = false,
+        bool $starred = false
     ) {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -425,6 +433,7 @@ class API extends \Piwik\Plugin\API
             'revenue' => $revenue,
             'deleted' => 0,
             'event_value_as_revenue' => (int)$useEventValueAsRevenue,
+            'starred' => (int)$starred,
         );
 
         $this->checkEventValueAsRevenue($goal);
@@ -467,6 +476,8 @@ class API extends \Piwik\Plugin\API
      * @param string $description Optional goal description shown in the Goals management UI.
      * @param bool $useEventValueAsRevenue Whether to use the tracked event value as goal revenue. This is only valid
      *                                     for event-based goals.
+     * @param bool|null $starred Whether the goal is starred for the website, see {@link starGoal()}. When not
+     *                           given, the goal stays starred or not starred as it is.
      */
     public function updateGoal(
         int $idSite,
@@ -479,7 +490,8 @@ class API extends \Piwik\Plugin\API
         $revenue = false,
         bool $allowMultipleConversionsPerVisit = false,
         string $description = '',
-        bool $useEventValueAsRevenue = false
+        bool $useEventValueAsRevenue = false,
+        ?bool $starred = null
     ): void {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -508,6 +520,10 @@ class API extends \Piwik\Plugin\API
             'event_value_as_revenue' => (int)$useEventValueAsRevenue,
         );
 
+        if (null !== $starred) {
+            $goal['starred'] = (int)$starred;
+        }
+
         $this->checkEventValueAsRevenue($goal);
 
         $this->getModel()->updateGoal($idSite, $idGoal, $goal);
@@ -528,7 +544,8 @@ class API extends \Piwik\Plugin\API
      *       allow_multiple: int|string,
      *       revenue: float|int|string,
      *       event_value_as_revenue: int|string,
-     *       deleted?: int|string
+     *       deleted?: int|string,
+     *       starred?: int
      *   } $goal
      */
     private function checkEventValueAsRevenue(array $goal): void
@@ -615,6 +632,56 @@ class API extends \Piwik\Plugin\API
         }
 
         return $pattern;
+    }
+
+    /**
+     * Stars a goal for a website. Starred goals are shown first wherever Matomo lists the goals of the
+     * website, for all users with access to it.
+     *
+     * Starring an already starred goal keeps it starred. Reports are not reprocessed.
+     *
+     * @param int $idSite The numeric ID of the website the goal belongs to.
+     * @param int $idGoal The numeric ID of the goal to star.
+     * @return array Success response for API clients.
+     * @phpstan-return array{success: true}
+     */
+    public function starGoal(int $idSite, int $idGoal): array
+    {
+        $this->setGoalStarred($idSite, $idGoal, true);
+
+        return ['success' => true];
+    }
+
+    /**
+     * Removes a goal from the starred goals of a website.
+     *
+     * Unstarring a goal that is not starred changes nothing. Reports are not reprocessed.
+     *
+     * @param int $idSite The numeric ID of the website the goal belongs to.
+     * @param int $idGoal The numeric ID of the goal to unstar.
+     * @return array Success response for API clients.
+     * @phpstan-return array{success: true}
+     */
+    public function unstarGoal(int $idSite, int $idGoal): array
+    {
+        $this->setGoalStarred($idSite, $idGoal, false);
+
+        return ['success' => true];
+    }
+
+    private function setGoalStarred(int $idSite, int $idGoal, bool $starred): void
+    {
+        Piwik::checkUserHasWriteAccess($idSite);
+
+        if (!$this->getModel()->doesGoalExist($idGoal, $idSite)) {
+            throw new Exception("There is no goal with id '$idGoal' for site with id '$idSite'.");
+        }
+
+        $this->getModel()->setGoalStarred($idSite, $idGoal, $starred);
+
+        $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
+
+        Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
     /**

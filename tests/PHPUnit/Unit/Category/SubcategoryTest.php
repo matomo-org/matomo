@@ -85,4 +85,23 @@ class SubcategoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame('', $this->subcategory->getId());
     }
+
+    public function testIsStarredShouldBeFalseByDefault()
+    {
+        $this->assertFalse($this->subcategory->isStarred());
+    }
+
+    public function testSetIsStarredCanStarAndUnstar()
+    {
+        $this->subcategory->setIsStarred(true);
+        $this->assertTrue($this->subcategory->isStarred());
+
+        $this->subcategory->setIsStarred(false);
+        $this->assertFalse($this->subcategory->isStarred());
+    }
+
+    public function testSetIsStarredReturnsTheSubcategory()
+    {
+        $this->assertSame($this->subcategory, $this->subcategory->setIsStarred(true));
+    }
 }

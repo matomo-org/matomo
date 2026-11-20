@@ -20,6 +20,6 @@
  * jQuery, and the helper goes away together with the widget when tooltips move
  * to a Vue implementation.
  */
-export default function closeTooltips(selector: string): void {
-  window.$(selector).trigger('mouseleave').trigger('focusout');
+export default function closeTooltips(selector: string|HTMLElement): void {
+  window.$(selector as string).trigger('mouseleave').trigger('focusout');
 }

@@ -1,0 +1,9 @@
+[
+    {
+        "title": "Star your most important goals",
+        "description": "You can now star goals on the Manage Goals page. Starred goals are shown first wherever Matomo lists your goals, for example on the Goals overview, in the goals menu, in goal reports and in the widget selector, so your most important goals are always the first you see.",
+        "link_name": "Star your goals on the Manage Goals page",
+        "link": "/index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday#?idSite=1&period=day&date=yesterday&category=Goals_Goals&subcategory=Goals_ManageGoals",
+        "version": "6.1.0"
+    }
+]

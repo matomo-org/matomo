@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row key="1">
+		<idsite>1</idsite>
+		<idgoal>1</idgoal>
+		<name>Newsletter</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-1/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
+	</row>
+	<row key="2">
+		<idsite>1</idsite>
+		<idgoal>2</idgoal>
+		<name>contact form</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-2/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
+	</row>
+	<row key="3">
+		<idsite>1</idsite>
+		<idgoal>3</idgoal>
+		<name>Goal 10</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-3/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>1</starred>
+	</row>
+	<row key="4">
+		<idsite>1</idsite>
+		<idgoal>4</idgoal>
+		<name>Goal 2</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-4/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
+	</row>
+	<row key="5">
+		<idsite>1</idsite>
+		<idgoal>5</idgoal>
+		<name>Demo request</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-5/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>1</starred>
+	</row>
+	<row key="6">
+		<idsite>1</idsite>
+		<idgoal>6</idgoal>
+		<name>Download</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-6/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
+	</row>
+	<row key="7">
+		<idsite>1</idsite>
+		<idgoal>7</idgoal>
+		<name>apple pay</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-7/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
+	</row>
+</result>

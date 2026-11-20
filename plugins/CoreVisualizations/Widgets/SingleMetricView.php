@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\Goals\GoalsSorter;
 
 class SingleMetricView extends \Piwik\Widget\Widget
 {
@@ -64,6 +65,8 @@ class SingleMetricView extends \Piwik\Widget\Widget
             $metricDocumentations = array_merge($metricDocumentations, $reportMetadata['metricsDocumentation']);
 
             $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
+            // a list keeps its order in JSON, unlike an object indexed by goal ID: starred goals are listed first
+            $goals = array_values(GoalsSorter::sortStarredFirst($goals));
         }
 
         $lowerIsBetterMetrics = [];

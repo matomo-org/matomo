@@ -10,6 +10,7 @@
 		<revenue>0</revenue>
 		<deleted>0</deleted>
 		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
 	</row>
 	<row key="2">
 		<idsite>1</idsite>
@@ -24,5 +25,6 @@
 		<revenue>1</revenue>
 		<deleted>0</deleted>
 		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
 	</row>
 </result>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row key="1">
+		<idsite>2</idsite>
+		<idgoal>1</idgoal>
+		<name>Newsletter</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-1/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>0</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
+	</row>
+	<row key="2">
+		<idsite>2</idsite>
+		<idgoal>2</idgoal>
+		<name>Beta</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-2/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>0</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
+	</row>
+	<row key="3">
+		<idsite>2</idsite>
+		<idgoal>3</idgoal>
+		<name>Alpha</name>
+		<description />
+		<match_attribute>url</match_attribute>
+		<pattern>/goal-page-3/</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>0</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+		<starred>0</starred>
+	</row>
+</result>

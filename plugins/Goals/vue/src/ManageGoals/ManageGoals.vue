@@ -49,6 +49,10 @@
           <table v-content-table>
             <thead>
               <tr>
+                <th
+                  class="entityTable_StarCell manageGoals-starColumn"
+                  :aria-label="translate('Goals_StarredGoals')"
+                />
                 <th class="first">{{ translate('General_Id') }}</th>
                 <th>{{ translate('Goals_GoalName') }}</th>
                 <th class="manageGoals-descriptionColumn">
@@ -71,13 +75,21 @@
             </thead>
             <tbody>
               <tr v-if="!Object.keys(currentGoals || {}).length">
-                <td colspan='8'>
+                <td colspan='9'>
                   <br/>
                   {{ translate('Goals_ThereIsNoGoalToManage', siteName) }}
                   <br/><br/>
                 </td>
               </tr>
-              <tr v-for="goal in currentGoals || []" :id="`${goal.idgoal}`" :key="goal.idgoal">
+              <tr v-for="goal in sortedGoals" :id="`${goal.idgoal}`" :key="goal.idgoal">
+                <td class="entityTable_StarCell manageGoals-starColumn">
+                  <StarToggle
+                    :starred="isGoalStarred(goal)"
+                    :readonly="!userCanEditGoals"
+                    :title="getStarTitle(goal)"
+                    @toggle="setGoalStarred(goal.idgoal, $event)"
+                  />
+                </td>
                 <td class="first">{{ goal.idgoal }}</td>
                 <td>{{ goal.name }}</td>
                 <td class="manageGoals-descriptionColumn">{{ goal.description }}</td>
@@ -456,6 +468,7 @@ import {
   externalLink,
   NotificationsStore,
   NumberFormatter,
+  StarToggle,
 } from 'CoreHome';
 import {
   Form,
@@ -465,6 +478,8 @@ import {
 import Goal from '../Goal';
 import ManageGoalsStore from './ManageGoals.store';
 import RecommendGoals from '../RecommendGoals/RecommendGoals.vue';
+import sortGoalsStarredFirst, { isGoalStarred } from '../StarredGoals/sortGoalsStarredFirst';
+import StarredGoalsStore from '../StarredGoals/StarredGoals.store';
 
 const notificationKey = 'Goals.ManageGoals.Notification';
 const recommendCalloutKey = 'Goals.ManageGoals.RecommendCalloutDismissed';
@@ -556,6 +571,7 @@ export default defineComponent({
     Alert,
     VueEntryContainer,
     RecommendGoals,
+    StarToggle,
   },
   watch: {
     'goal.pattern': function goalPatternChanged(pattern: string) {
@@ -840,6 +856,33 @@ export default defineComponent({
       }
       return null;
     },
+    isGoalStarred,
+    getStarTitle(goal: Goal): string {
+      if (!this.userCanEditGoals) {
+        // a star that cannot be changed only says what it shows
+        return isGoalStarred(goal) ? translate('Goals_StarredGoal') : '';
+      }
+
+      return translate(isGoalStarred(goal) ? 'Goals_UnstarGoal' : 'Goals_StarGoal');
+    },
+    setGoalStarred(goalId: string|number, starred: boolean) {
+      const id = `${goalId}`;
+      const goal = this.currentGoals[id];
+      if (!goal || !this.userCanEditGoals) {
+        return;
+      }
+
+      // show the new state and order right away, the request follows
+      this.currentGoals[id] = { ...goal, starred };
+
+      StarredGoalsStore.setGoalStarred(Matomo.idSite, goalId, starred, isGoalStarred(goal))
+        .then((savedState) => {
+          // a failed request reverts the star, unless a later click is still being saved
+          if (typeof savedState === 'boolean' && this.currentGoals[id]) {
+            this.currentGoals[id] = { ...this.currentGoals[id], starred: savedState };
+          }
+        });
+    },
     getGoalReportUrl(goalId:string|number) {
       const link = MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
@@ -942,6 +985,10 @@ export default defineComponent({
     },
   },
   computed: {
+    sortedGoals(): Goal[] {
+      // currentGoals is indexed by goal ID, so it has no display order
+      return sortGoalsStarredFirst(this.currentGoals);
+    },
     showRecommendCallout(): boolean {
       return !!this.goalRecommendationsEnabled
         && !!this.userCanEditGoals

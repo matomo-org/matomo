@@ -167,6 +167,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportHeader/ReportHeader.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/WidgetControls/WidgetControls.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/StarToggle/StarToggle.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -220,6 +221,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_MultiSitesSummary';
         $translationKeys[] = 'General_SearchNoResults';
         $translationKeys[] = 'CoreHome_ChooseX';
+        $translationKeys[] = 'Goals_StarredGoal';
         $translationKeys[] = 'CoreHome_ClickToSeeFullInformation';
         $translationKeys[] = 'CoreHome_YouAreUsingTheLatestVersion';
         $translationKeys[] = 'CoreHome_FormatMetrics';

@@ -58,6 +58,11 @@ class Subcategory
     protected $order = 99;
 
     /**
+     * @var bool
+     */
+    protected $isStarred = false;
+
+    /**
      * Sets (overwrites) the id of the subcategory see {@link $id}.
      *
      * @param string $id A translation key eg 'General_Overview'.
@@ -153,5 +158,28 @@ class Subcategory
     public function getHelp()
     {
         return null;
+    }
+
+    /**
+     * Marks the subcategory as starred. A starred subcategory is shown with a star in the reporting menu,
+     * for example the page of a starred goal.
+     *
+     * @return static
+     * @since 6.1.0
+     */
+    public function setIsStarred(bool $isStarred)
+    {
+        $this->isStarred = $isStarred;
+        return $this;
+    }
+
+    /**
+     * Returns `true` if the subcategory is starred.
+     *
+     * @since 6.1.0
+     */
+    public function isStarred(): bool
+    {
+        return $this->isStarred;
     }
 }

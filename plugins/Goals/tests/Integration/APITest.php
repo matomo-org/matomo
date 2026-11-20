@@ -484,6 +484,7 @@ class APITest extends IntegrationTestCase
             'revenue' => '0',
             'deleted' => '0',
             'event_value_as_revenue' => '0',
+            'starred' => false,
         ), $goal);
     }
 
@@ -550,6 +551,7 @@ class APITest extends IntegrationTestCase
             'revenue' => $revenue,
             'deleted' => 0,
             'event_value_as_revenue' => $eventAsRevenue,
+            'starred' => false,
         ));
 
         $goals = $this->getGoals();

@@ -14,6 +14,8 @@ export interface Subcategory extends Orderable {
   icon?: string;
   tooltip?: string;
   help?: string;
+  // set for starred entities, for example the page of a starred goal
+  isStarred?: boolean;
   subcategories?: Subcategory[];
 
   /**

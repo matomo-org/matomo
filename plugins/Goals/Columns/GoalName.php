@@ -16,6 +16,7 @@ use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Columns\Join;
 use Piwik\Plugins\Goals\API;
+use Piwik\Plugins\Goals\GoalsSorter;
 
 class GoalName extends ConversionDimension
 {
@@ -43,9 +44,11 @@ class GoalName extends ConversionDimension
 
         $convertedGoals = $table->getColumnsStartingWith('visitConvertedGoalId' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
         $convertedGoals = array_map(function ($idGoal) use ($goals) {
-            return $goals[$idGoal]['name'] ?? null;
+            return $goals[$idGoal] ?? null;
         }, $convertedGoals);
-        $convertedGoals = array_filter($convertedGoals);
-        return $convertedGoals;
+        $convertedGoals = array_values(array_filter($convertedGoals));
+
+        // suggest the goals in the order they are listed everywhere else: starred goals first, then by name
+        return array_column(GoalsSorter::sortStarredFirst($convertedGoals), 'name');
     }
 }

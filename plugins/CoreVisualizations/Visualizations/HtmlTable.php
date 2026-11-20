@@ -412,6 +412,18 @@ class HtmlTable extends Visualization
         return null;
     }
 
+    /**
+     * Override to add custom HTML attributes to the header cell of a column.
+     *
+     * @param string $column
+     * @return array|null Array of name => value pairs, or null if no custom attributes.
+     * @since 6.1.0
+     */
+    public function getHeaderCellHtmlAttributes($column)
+    {
+        return null;
+    }
+
     public function supportsComparison()
     {
         return true;

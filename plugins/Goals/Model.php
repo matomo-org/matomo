@@ -25,7 +25,8 @@ use Piwik\Db;
  *     allow_multiple: int|string,
  *     revenue: float|int|string,
  *     event_value_as_revenue: int|string,
- *     deleted?: int|string
+ *     deleted?: int|string,
+ *     starred?: int|string
  * }
  */
 class Model
@@ -118,11 +119,23 @@ class Model
 
     public function deleteGoal($idSite, $idGoal)
     {
-        $query = "UPDATE " . $this->table . " SET deleted = 1
+        // a deleted goal is no longer starred, so its stored state is cleared with it
+        $query = "UPDATE " . $this->table . " SET deleted = 1, starred = 0
                   WHERE idsite = ? AND idgoal = ?";
         $bind  = array($idSite, $idGoal);
 
         Db::query($query, $bind);
+    }
+
+    /**
+     * Stars or unstars an active goal of the site. The state is stored per website, not per user.
+     */
+    public function setGoalStarred(int $idSite, int $idGoal, bool $starred): void
+    {
+        $query = "UPDATE `" . $this->table . "` SET starred = ?
+                  WHERE idsite = ? AND idgoal = ? AND deleted = 0";
+
+        Db::query($query, [(int) $starred, $idSite, $idGoal]);
     }
 
     public function getActiveGoalCount(): int

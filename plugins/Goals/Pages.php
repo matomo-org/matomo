@@ -204,6 +204,7 @@ class Pages
         $widgets[] = $config;
 
         $container = $this->createWidgetizableWidgetContainer('Goal_' . $idGoal, $name, $widgets);
+        $container->setIsStarred(GoalsSorter::isStarred($goal));
 
         $configs = array($container);
 

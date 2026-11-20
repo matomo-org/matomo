@@ -63,7 +63,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
 
         $xssTesting = new XssTesting();
 
-        // Contact me signup goal
+        // Contact me signup goal, starred so the UI tests show a starred goal, with an XSS name, before the others
         if (!self::goalExists($idSite = 1, $idGoal = 2)) {
             APIGoals::getInstance()->addGoal(
                 $this->idSite,
@@ -74,7 +74,9 @@ class SomePageGoalVisitsWithConversions extends Fixture
                 false,
                 10,
                 false,
-                $xssTesting->forVueJs('description')
+                $xssTesting->forVueJs('description'),
+                $useEventValueAsRevenue = false,
+                $starred = true
             );
         }
     }

@@ -71,6 +71,13 @@
                 :title="subcat.tooltip"
                 :key="subcat.id"
               >
+                <StarToggle
+                  v-if="subcat.isStarred"
+                  :starred="true"
+                  :readonly="true"
+                  :small="true"
+                  :title="translate('Goals_StarredGoal')"
+                />
                 {{ subcat.name }}
               </a>
             </MenuItemsDropdown>
@@ -81,6 +88,13 @@
               @click="loadSubcategory(category, subcategory, $event)"
               tabindex="5"
             >
+              <StarToggle
+                v-if="subcategory.isStarred"
+                :starred="true"
+                :readonly="true"
+                :small="true"
+                :title="translate('Goals_StarredGoal')"
+              />
               {{ subcategory.name }}
             </a>
             <a
@@ -158,6 +172,7 @@
 <script lang="ts">
 import { defineComponent, watch, Component } from 'vue';
 import MenuItemsDropdown from '../MenuItemsDropdown/MenuItemsDropdown.vue';
+import StarToggle from '../StarToggle/StarToggle.vue';
 import SideNav from '../SideNav/SideNav';
 import { NotificationsStore } from '../Notification';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
@@ -180,6 +195,7 @@ interface ReportingMenuState {
 export default defineComponent({
   components: {
     MenuItemsDropdown,
+    StarToggle,
   },
   directives: {
     SideNav,

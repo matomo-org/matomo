@@ -27,6 +27,7 @@ use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Conversions;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Revenue;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerVisit;
+use Piwik\Plugins\Goals\GoalsSorter;
 use Piwik\Site;
 
 /**
@@ -220,6 +221,11 @@ class RowEvolution
         }
 
         $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+
+        if (is_array($siteGoals)) {
+            // the metrics of starred goals are listed first, like the columns of the goals table
+            $siteGoals = GoalsSorter::sortStarredFirst($siteGoals);
+        }
 
         if (is_iterable($siteGoals)) {
             foreach ($siteGoals as $goal) {

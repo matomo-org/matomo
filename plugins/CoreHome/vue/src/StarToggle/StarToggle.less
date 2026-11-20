@@ -1,0 +1,118 @@
+// Looks and behaves like the star on Visitors > Segments (.segmentAction.starSegment in
+// plugins/SegmentEditor/stylesheets/segmentation.less).
+.starToggle {
+  @_size: 18px;
+
+  flex: none;
+  display: flex;
+  width: @_size;
+  height: @_size;
+
+  // button reset
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  font-weight: normal;
+  text-align: center;
+  color: @theme-color-text-lighter;
+  opacity: 0.5;
+  filter: @theme-filter-on-illustration;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:focus {
+    background-color: transparent;
+  }
+}
+
+// shows the state only: no pointer cursor and no hover feedback
+.starToggle--readonly {
+  cursor: default;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+// next to the name of a starred entity: 12px in menus and table headers, bigger next to bigger text
+// such as a title
+.starToggle--small {
+  @_smallSize: ~"max(12px, 0.85em)";
+
+  display: inline-flex;
+  width: @_smallSize;
+  height: @_smallSize;
+  margin-right: 4px;
+  vertical-align: baseline;
+}
+
+.starToggle--animateStar {
+  animation: starToggle__star 0.5s 1;
+}
+
+.starToggle--animateUnstar {
+  animation: starToggle__unstar 0.5s 1;
+}
+
+.starToggle__icon {
+  flex: none;
+}
+
+.starToggle--small .starToggle__icon {
+  width: 100%;
+  height: 100%;
+}
+
+.starToggle__shape {
+  stroke: black;
+  fill: none;
+}
+
+.starToggle--starred .starToggle__shape {
+  fill: black;
+}
+
+.starToggle--animateStar .starToggle__shape {
+  animation: starToggle__starShape 0.5s 1;
+}
+
+.starToggle--animateUnstar .starToggle__shape {
+  animation: starToggle__unstarShape 0.5s 1;
+}
+
+// no spinning for users who asked for less motion, the star only changes its state
+@media (prefers-reduced-motion: reduce) {
+  .starToggle--animateStar,
+  .starToggle--animateUnstar,
+  .starToggle--animateStar .starToggle__shape,
+  .starToggle--animateUnstar .starToggle__shape {
+    animation: none;
+  }
+}
+
+@keyframes starToggle__star {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+  100% { transform: scale(1) rotate(360deg); }
+}
+
+@keyframes starToggle__starShape {
+  0% { fill: black; }
+  50% { fill: @theme-color-brand; stroke: @theme-color-brand; }
+  100% { fill: black; }
+}
+
+@keyframes starToggle__unstar {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(-180deg); }
+  100% { transform: scale(1) rotate(-360deg); }
+}
+
+@keyframes starToggle__unstarShape {
+  0% { fill: black; }
+  100% { fill: transparent; }
+}
