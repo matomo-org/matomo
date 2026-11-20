@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -29,6 +30,7 @@ class ServerTime extends ActionDimension
 
     public function __construct()
     {
+        $this->sqlSegment = Schema::getInstance()->getHourSql('log_link_visit_action.server_time');
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             return range(0, min(23, $maxValuesToReturn));
         };

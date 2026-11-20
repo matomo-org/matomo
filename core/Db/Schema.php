@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\Schema\Mysql;
+use Piwik\SettingsServer;
 use Piwik\Singleton;
 
 /**
@@ -37,6 +38,13 @@ class Schema extends Singleton
      * @var Mysql|null
      */
     private $mysqlDialect = null;
+
+    /**
+     * The SQLite schema, for a SQLite connection when the configuration names another schema.
+     *
+     * @var Schema\Sqlite|null
+     */
+    private $sqliteDialect = null;
 
     /**
      * Get schema class name
@@ -486,12 +494,12 @@ class Schema extends Singleton
      */
     private function getLockSchema(): Mysql
     {
+        $schema = $this->getSchema();
         if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
-            $schema = $this->getSchema();
-            return $schema instanceof Schema\Sqlite ? $schema : new Schema\Sqlite();
+            return $schema instanceof Schema\Sqlite ? $schema : $this->getSqliteDialect();
         }
 
-        return $this->getMysqlCompatibleSchema();
+        return $schema instanceof Mysql && !$schema instanceof Schema\Sqlite ? $schema : $this->getMysqlDialect();
     }
 
     private function getMysqlCompatibleSchema(): Mysql
@@ -511,17 +519,54 @@ class Schema extends Singleton
     }
 
     /**
-     * Returns the SQL dialect of the configured schema. Schemas that don't implement
+     * Returns the SQL dialect of the schema the connection speaks. Schemas that don't implement
      * {@link SqlDialectInterface} get MySQL's, which is the SQL Matomo always emitted for them.
      */
     private function getSqlDialect(): SqlDialectInterface
     {
-        $schema = $this->getSchema();
+        $schema = $this->getConnectionSchema();
 
-        if ($schema instanceof SqlDialectInterface) {
+        return $schema instanceof SqlDialectInterface ? $schema : $this->getMysqlDialect();
+    }
+
+    private function getSqlFunctions(): SqlFunctionsInterface
+    {
+        $schema = $this->getConnectionSchema();
+
+        return $schema instanceof SqlFunctionsInterface ? $schema : $this->getMysqlDialect();
+    }
+
+    /**
+     * The configured schema, unless the connection in use speaks another engine's SQL than the
+     * configuration says (a connection replaced through `Db.getDatabaseConfig`, as tests do).
+     */
+    private function getConnectionSchema(): SchemaInterface
+    {
+        $schema = $this->getSchema();
+        $connection = SettingsServer::isTrackerApiRequest() || Db::hasDatabaseObject() ? Db::get() : null;
+        if ($connection === null) {
             return $schema;
         }
 
+        $isSqlite = Db\Sqlite\Connection::isSqliteConnection($connection);
+        if ($isSqlite && !$schema instanceof Schema\Sqlite) {
+            return $this->getSqliteDialect();
+        }
+
+        return !$isSqlite && $schema instanceof Schema\Sqlite ? $this->getMysqlDialect() : $schema;
+    }
+
+    private function getSqliteDialect(): Schema\Sqlite
+    {
+        if ($this->sqliteDialect === null) {
+            $this->sqliteDialect = new Schema\Sqlite();
+        }
+
+        return $this->sqliteDialect;
+    }
+
+    private function getMysqlDialect(): Mysql
+    {
         if ($this->mysqlDialect === null) {
             $this->mysqlDialect = new Mysql();
         }
@@ -572,27 +617,107 @@ class Schema extends Singleton
     /**
      * Returns an expression adding an interval to, or subtracting it from, a date and time.
      *
-     * @see SqlDialectInterface::getDateTimeIntervalSql()
+     * @see SqlFunctionsInterface::getDateTimeIntervalSql()
      */
     public function getDateTimeIntervalSql(string $datetime, string $operator, string $amount, string $unit): string
     {
-        return $this->getSqlDialect()->getDateTimeIntervalSql($datetime, $operator, $amount, $unit);
+        return $this->getSqlFunctions()->getDateTimeIntervalSql($datetime, $operator, $amount, $unit);
     }
 
     /**
-     * @see SqlDialectInterface::getCreateTemporaryTableSql()
+     * @see SqlFunctionsInterface::getCreateTemporaryTableSql()
      */
     public function getCreateTemporaryTableSql(string $tableName, string $definition, string $tableOptions = ''): string
     {
-        return $this->getSqlDialect()->getCreateTemporaryTableSql($tableName, $definition, $tableOptions);
+        return $this->getSqlFunctions()->getCreateTemporaryTableSql($tableName, $definition, $tableOptions);
     }
 
     /**
-     * @see SqlDialectInterface::getDropTemporaryTableSql()
+     * @see SqlFunctionsInterface::getDropTemporaryTableSql()
      */
     public function getDropTemporaryTableSql(string $tableName): string
     {
-        return $this->getSqlDialect()->getDropTemporaryTableSql($tableName);
+        return $this->getSqlFunctions()->getDropTemporaryTableSql($tableName);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getHourSql()
+     */
+    public function getHourSql(string $datetime): string
+    {
+        return $this->getSqlFunctions()->getHourSql($datetime);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getDayOfWeekSql()
+     */
+    public function getDayOfWeekSql(string $datetime): string
+    {
+        return $this->getSqlFunctions()->getDayOfWeekSql($datetime);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getUnixTimestampSql()
+     */
+    public function getUnixTimestampSql(string $datetime = ''): string
+    {
+        return $this->getSqlFunctions()->getUnixTimestampSql($datetime);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getCurrentDateTimeSql()
+     */
+    public function getCurrentDateTimeSql(): string
+    {
+        return $this->getSqlFunctions()->getCurrentDateTimeSql();
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getCharLengthSql()
+     */
+    public function getCharLengthSql(string $expression): string
+    {
+        return $this->getSqlFunctions()->getCharLengthSql($expression);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getSecondsBetweenSql()
+     */
+    public function getSecondsBetweenSql(string $from, string $to): string
+    {
+        return $this->getSqlFunctions()->getSecondsBetweenSql($from, $to);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getGreatestSql()
+     */
+    public function getGreatestSql(string ...$expressions): string
+    {
+        return $this->getSqlFunctions()->getGreatestSql(...$expressions);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getLeastSql()
+     */
+    public function getLeastSql(string ...$expressions): string
+    {
+        return $this->getSqlFunctions()->getLeastSql(...$expressions);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getRowLockSql()
+     */
+    public function getRowLockSql(bool $exclusive = true): string
+    {
+        return $this->getSqlFunctions()->getRowLockSql($exclusive);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getTruncateTableSql()
+     */
+    public function getTruncateTableSql(string $tableName): string
+    {
+        return $this->getSqlFunctions()->getTruncateTableSql($tableName);
     }
 
     /**

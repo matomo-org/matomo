@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -27,6 +28,7 @@ class VisitLastActionDayOfWeek extends VisitDimension
 
     public function __construct()
     {
+        $this->sqlSegment = Schema::getInstance()->getDayOfWeekSql('log_visit.visit_last_action_time');
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             return range(1, min(7, $maxValuesToReturn));
         };

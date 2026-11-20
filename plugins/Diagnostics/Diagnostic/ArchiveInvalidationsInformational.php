@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
+use Piwik\Db\Schema;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Db;
@@ -80,10 +81,12 @@ class ArchiveInvalidationsInformational implements Diagnostic
     {
         $table = Common::prefixTable('archive_invalidations');
 
-        $pluginSql = 'IF(INSTR(`name`, \'.\') > 0, SUBSTRING_INDEX(`name`, \'.\', -1), NULL)';
-        $nonPluginDoneFlagSql = 'IF(INSTR(`name`, \'.\') > 0, SUBSTRING_INDEX(`name`, \'.\', 1), `name`)';
+        // a done flag has one dot at most, before the plugin name
+        $pluginSql = "CASE WHEN INSTR(`name`, '.') > 0 THEN SUBSTR(`name`, INSTR(`name`, '.') + 1) ELSE NULL END";
+        $nonPluginDoneFlagSql = "CASE WHEN INSTR(`name`, '.') > 0 THEN SUBSTR(`name`, 1, INSTR(`name`, '.') - 1) ELSE `name` END";
+        $isSegmentSql = Schema::getInstance()->getCharLengthSql($nonPluginDoneFlagSql) . ' > 32';
 
-        $sql = "SELECT COUNT(*) as `count`, $pluginSql AS plugin, CHAR_LENGTH($nonPluginDoneFlagSql) > 32 AS is_segment_archive
+        $sql = "SELECT COUNT(*) as `count`, $pluginSql AS plugin, $isSegmentSql AS is_segment_archive
                   FROM `$table`
               GROUP BY plugin, is_segment_archive";
 

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Date;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
@@ -31,6 +32,7 @@ class VisitFirstActionTime extends VisitDimension
 
     public function __construct()
     {
+        $this->sqlSegment = Schema::getInstance()->getHourSql('log_visit.visit_first_action_time');
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             return range(0, min(23, $maxValuesToReturn));
         };

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Period;
@@ -37,6 +38,11 @@ class VisitLastActionTime extends VisitDimension
     protected $sqlSegment = 'HOUR(log_visit.visit_last_action_time)';
     protected $segmentName = 'visitServerHour';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
+
+    public function __construct()
+    {
+        $this->sqlSegment = Schema::getInstance()->getHourSql('log_visit.visit_last_action_time');
+    }
 
     /**
      * Converts the hour to the hour depending on the configured site's timezone.

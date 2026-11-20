@@ -213,7 +213,10 @@ class PageViewTimeWriter
             return;
         }
 
-        $db->query('SELECT idvisit FROM `' . Common::prefixTable('log_visit') . '` WHERE idvisit = ? FOR UPDATE', [$idVisit]);
+        $db->query(
+            'SELECT idvisit FROM `' . Common::prefixTable('log_visit') . '` WHERE idvisit = ?' . Schema::getInstance()->getRowLockSql(),
+            [$idVisit]
+        );
     }
 
     private function isRecordableAction(Action $action): bool
@@ -263,9 +266,14 @@ class PageViewTimeWriter
         // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
         // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
         // the cap would always win. It is a validated int from Tracker config.
+        $schema = Schema::getInstance();
+        $timeSpent = $schema->getLeastSql(
+            (string) $cap,
+            $schema->getGreatestSql('time_spent', $schema->getSecondsBetweenSql('server_time', '?'))
+        );
         $db->query(
             "UPDATE `$table`
-                SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
+                SET time_spent = $timeSpent
               WHERE idpageviewtime = ?",
             [$serverTimeSql, $idPageViewTime]
         );
@@ -323,11 +331,12 @@ class PageViewTimeWriter
         //
         // The client value is wrapped in CAST(? AS UNSIGNED) because emulated prepares send
         // bound ints as strings, which would make LEAST()/GREATEST() compare lexically.
+        $schema = Schema::getInstance();
         if ($clientTimeOnPage !== null) {
-            $newTimeSpentExpr = 'LEAST(CAST(? AS UNSIGNED), TIMESTAMPDIFF(SECOND, server_time, ?))';
+            $newTimeSpentExpr = $schema->getLeastSql('CAST(? AS UNSIGNED)', $schema->getSecondsBetweenSql('server_time', '?'));
             $newTimeSpentBinds = [$clientTimeOnPage, $serverTimeSql];
         } else {
-            $newTimeSpentExpr = 'TIMESTAMPDIFF(SECOND, server_time, ?)';
+            $newTimeSpentExpr = $schema->getSecondsBetweenSql('server_time', '?');
             $newTimeSpentBinds = [$serverTimeSql];
         }
 
@@ -346,9 +355,10 @@ class PageViewTimeWriter
             return;
         }
 
+        $timeSpent = $schema->getLeastSql((string) $cap, $schema->getGreatestSql('time_spent', $newTimeSpentExpr));
         $db->query(
             "UPDATE `$table`
-                SET time_spent = LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))
+                SET time_spent = $timeSpent
               WHERE idpageviewtime = ?",
             array_merge($newTimeSpentBinds, [$idPageViewTime])
         );

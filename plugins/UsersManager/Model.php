@@ -1636,7 +1636,7 @@ class Model
         $sql = "
             SELECT
                 login,
-                UNIX_TIMESTAMP(ts_last_seen) as last_seen
+                " . Schema::getInstance()->getUnixTimestampSql('ts_last_seen') . " as last_seen
             FROM " . $this->userTable . " 
             WHERE ts_last_seen IS NOT NULL
         ";

@@ -32,8 +32,6 @@ class Storage
     private const OPTION_NAME = 'Marketplace.PluginTrialRequest.%s';
     // must not match OPTION_NAME's LIKE pattern, or it would be read as a plugin's request
     private const CHANGE_MARKER_OPTION_NAME = 'Marketplace.PluginTrialRequestsChanged';
-    private const LOCK_FOR_UPDATE = ' FOR UPDATE';
-    private const LOCK_SHARED = ' LOCK IN SHARE MODE';
     private $pluginName;
     private $optionName;
     private $storage = [];
@@ -114,7 +112,7 @@ class Storage
 
             // a locking read, as the plain one above does not see a request made pending since it ran. Shared, as the
             // failed insert already holds a shared lock on the row, and upgrading it would deadlock a concurrent request
-            $this->storage = $this->readStored(self::LOCK_SHARED);
+            $this->storage = $this->readStored(Schema::getInstance()->getRowLockSql(false));
             $result = self::REQUEST_ADDED_TO_PENDING;
         });
 
@@ -141,7 +139,7 @@ class Storage
     private function addSuperUsers(int $pendingRequestTime): void
     {
         $this->writeWithHistory(function () use ($pendingRequestTime) {
-            $storedRequest = $this->readStored(self::LOCK_FOR_UPDATE);
+            $storedRequest = $this->readStored(Schema::getInstance()->getRowLockSql());
 
             // one stored without the list already notifies every super user, and one fulfilled or replaced since is
             // not the request these users were added to
@@ -168,7 +166,7 @@ class Storage
     public function setFulfilled(): void
     {
         $this->writeWithHistory(function (RequestHistory $history) {
-            $this->recordInHistory($history, $this->readStored(self::LOCK_FOR_UPDATE));
+            $this->recordInHistory($history, $this->readStored(Schema::getInstance()->getRowLockSql()));
             $this->clearStorage();
         });
     }
@@ -205,7 +203,7 @@ class Storage
     public function setNotificationDismissed(): void
     {
         $this->writeWithHistory(function () {
-            $storedRequest = $this->readStored(self::LOCK_FOR_UPDATE);
+            $storedRequest = $this->readStored(Schema::getInstance()->getRowLockSql());
             if (empty($storedRequest)) {
                 return;
             }
@@ -282,7 +280,7 @@ class Storage
     public function anonymizeLogin(string $login): void
     {
         $this->writeWithHistory(function () use ($login) {
-            $storedRequest = $this->readStored(self::LOCK_FOR_UPDATE);
+            $storedRequest = $this->readStored(Schema::getInstance()->getRowLockSql());
             if (empty($storedRequest)) {
                 return;
             }
@@ -372,7 +370,7 @@ class Storage
      */
     private function deleteStoredWithoutRequest(): void
     {
-        if (!empty($this->readStored(self::LOCK_FOR_UPDATE)['requestTime'])) {
+        if (!empty($this->readStored(Schema::getInstance()->getRowLockSql())['requestTime'])) {
             return;
         }
 

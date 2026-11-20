@@ -390,6 +390,66 @@ class Sqlite extends Mysql
         return 'DROP TABLE IF EXISTS temp.`' . str_replace('`', '', $tableName) . '`';
     }
 
+    public function getHourSql(string $datetime): string
+    {
+        return "CAST(strftime('%H', " . $datetime . ') AS INTEGER)';
+    }
+
+    public function getDayOfWeekSql(string $datetime): string
+    {
+        return "(CAST(strftime('%w', " . $datetime . ') AS INTEGER) + 1)';
+    }
+
+    public function getUnixTimestampSql(string $datetime = ''): string
+    {
+        return 'unixepoch(' . $datetime . ')';
+    }
+
+    public function getCurrentDateTimeSql(): string
+    {
+        return "datetime('now')";
+    }
+
+    public function getCharLengthSql(string $expression): string
+    {
+        return 'length(' . $expression . ')';
+    }
+
+    public function getSecondsBetweenSql(string $from, string $to): string
+    {
+        // $from first, so that placeholders bind in the same order as on MySQL
+        return '(-unixepoch(' . $from . ') + unixepoch(' . $to . '))';
+    }
+
+    public function getGreatestSql(string ...$expressions): string
+    {
+        if (count($expressions) < 2) {
+            throw new \InvalidArgumentException('At least two expressions are needed.');
+        }
+
+        return 'max(' . implode(', ', $expressions) . ')';
+    }
+
+    public function getLeastSql(string ...$expressions): string
+    {
+        if (count($expressions) < 2) {
+            throw new \InvalidArgumentException('At least two expressions are needed.');
+        }
+
+        return 'min(' . implode(', ', $expressions) . ')';
+    }
+
+    public function getRowLockSql(bool $exclusive = true): string
+    {
+        // a SQLite write transaction locks the whole database
+        return '';
+    }
+
+    public function getTruncateTableSql(string $tableName): string
+    {
+        return 'DELETE FROM `' . $tableName . '`';
+    }
+
     public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
     {
         if (strpbrk($separator, "'\"\\") !== false) {

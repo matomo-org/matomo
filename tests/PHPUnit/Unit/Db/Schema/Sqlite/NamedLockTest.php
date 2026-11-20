@@ -159,6 +159,31 @@ class NamedLockTest extends TestCase
         }
     }
 
+    public function testALockThatCannotBeCheckedIsNotReportedFree(): void
+    {
+        if (DIRECTORY_SEPARATOR !== '/' || (function_exists('posix_geteuid') && posix_geteuid() === 0)) {
+            $this->markTestSkipped('search permissions');
+        }
+        $this->assertTrue(NamedLock::acquire(new \stdClass(), $this->databaseFile, 'other', 0));
+        $directory = $this->databaseFile . '-locks';
+        chmod($directory, 0600);
+
+        try {
+            $this->assertFalse(NamedLock::isFree(new \stdClass(), $this->databaseFile, 'archive'));
+        } finally {
+            chmod($directory, 0700);
+        }
+
+        $this->assertTrue(NamedLock::isFree(new \stdClass(), $this->databaseFile, 'archive'));
+        chmod($this->directory, 0600);
+
+        try {
+            $this->assertFalse(NamedLock::isFree(new \stdClass(), $this->databaseFile . '-other', 'archive'));
+        } finally {
+            chmod($this->directory, 0700);
+        }
+    }
+
     public function testAnotherProcessHoldsTheLockUntilItExits(): void
     {
         $code = 'require $argv[1]; $c = new stdClass();'

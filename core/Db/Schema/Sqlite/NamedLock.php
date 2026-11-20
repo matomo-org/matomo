@@ -109,7 +109,8 @@ final class NamedLock
         for ($attempt = 0; $attempt < 100; $attempt++) {
             clearstatcache(true, $file);
             if (!file_exists($file)) {
-                return true;
+                // file_exists() is also false when the path can't be searched: free only if it can
+                return self::isSearchable(dirname($file));
             }
 
             $handle = @fopen($file, 're');
@@ -177,6 +178,24 @@ final class NamedLock
     private static function normalizeName(string $name): string
     {
         return mb_strtolower($name, 'UTF-8');
+    }
+
+    /**
+     * Whether the lock directory can be searched, or doesn't exist in a directory that can, in which
+     * case no lock was ever taken in it.
+     */
+    private static function isSearchable(string $directory): bool
+    {
+        if (DIRECTORY_SEPARATOR !== '/') {
+            return true; // no search permission to check
+        }
+
+        if (is_dir($directory)) {
+            return is_executable($directory);
+        }
+
+        $parent = dirname($directory);
+        return !file_exists($directory) && is_dir($parent) && is_executable($parent);
     }
 
     /**

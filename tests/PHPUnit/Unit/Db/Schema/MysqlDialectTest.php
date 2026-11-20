@@ -84,10 +84,41 @@ class MysqlDialectTest extends TestCase
         $mysql->getDateTimeIntervalSql('?', '*', '?', 'DAY');
     }
 
+    public function testScalarFunctionsKeepTheirMysqlSpelling(): void
+    {
+        $mysql = new Mysql();
+
+        $this->assertSame('HOUR(log_visit.visit_last_action_time)', $mysql->getHourSql('log_visit.visit_last_action_time'));
+        $this->assertSame('DAYOFWEEK(t.d)', $mysql->getDayOfWeekSql('t.d'));
+        $this->assertSame('UNIX_TIMESTAMP(ts_last_seen)', $mysql->getUnixTimestampSql('ts_last_seen'));
+        $this->assertSame('UNIX_TIMESTAMP()', $mysql->getUnixTimestampSql());
+        $this->assertSame('NOW()', $mysql->getCurrentDateTimeSql());
+        $this->assertSame('CHAR_LENGTH(name)', $mysql->getCharLengthSql('name'));
+        $this->assertSame('TIMESTAMPDIFF(SECOND, server_time, ?)', $mysql->getSecondsBetweenSql('server_time', '?'));
+        $this->assertSame('LEAST(1800, GREATEST(time_spent, 5))', $mysql->getLeastSql('1800', $mysql->getGreatestSql('time_spent', '5')));
+        $this->assertSame(' FOR UPDATE', $mysql->getRowLockSql());
+        $this->assertSame(' LOCK IN SHARE MODE', $mysql->getRowLockSql(false));
+        $this->assertSame('TRUNCATE TABLE `matomo_session`', $mysql->getTruncateTableSql('matomo_session'));
+
+        $this->expectException(\InvalidArgumentException::class);
+        $mysql->getGreatestSql('a');
+    }
+
     public function testIndexHints(): void
     {
         $this->assertSame(' FORCE INDEX (index_idsite_idvisitor_time)', (new Mysql())->getIndexHintSql('index_idsite_idvisitor_time'));
         $this->assertSame(' USE INDEX (index_idsite_datetime)', (new Mysql())->getIndexHintSql('index_idsite_datetime', false));
+    }
+
+    public function testTheDialectInterfaceStaysAsReleasedSoThatExistingSchemasStillLoad(): void
+    {
+        $this->assertSame([
+            'getInsertIgnoreSql',
+            'getOnDuplicateKeyUpdateSql',
+            'getInsertedValueSql',
+            'getGroupConcatSql',
+            'getLikeEscapeSql',
+        ], get_class_methods(\Piwik\Db\SqlDialectInterface::class));
     }
 
     public function testMariadbInheritsTheMysqlDialect(): void

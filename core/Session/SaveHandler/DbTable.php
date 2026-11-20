@@ -408,7 +408,7 @@ class DbTable implements \SessionHandlerInterface
     {
         $this->readData = [];
 
-        $sql = 'TRUNCATE TABLE `' . $this->config['name'] . '`';
+        $sql = Schema::getInstance()->getTruncateTableSql($this->config['name']);
 
         $this->query($sql, []);
 

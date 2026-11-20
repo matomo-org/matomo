@@ -18,6 +18,7 @@ use Piwik\Db\IndexHintInterface;
 use Piwik\Db\QueryCapabilitiesInterface;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db\SqlDialectInterface;
+use Piwik\Db\SqlFunctionsInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
@@ -29,7 +30,7 @@ use Piwik\Version;
 /**
  * MySQL schema
  */
-class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesInterface, IndexHintInterface
+class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesInterface, IndexHintInterface, SqlFunctionsInterface
 {
     public const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
     public const MAX_TABLE_NAME_LENGTH = 64;
@@ -1030,6 +1031,64 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
         if (!in_array($operator, ['+', '-'], true) || !in_array(strtoupper($unit), ['SECOND', 'MINUTE', 'HOUR', 'DAY'], true)) {
             throw new \InvalidArgumentException(sprintf('Unsupported interval: %s %s', $operator, $unit));
         }
+    }
+
+    public function getHourSql(string $datetime): string
+    {
+        return 'HOUR(' . $datetime . ')';
+    }
+
+    public function getDayOfWeekSql(string $datetime): string
+    {
+        return 'DAYOFWEEK(' . $datetime . ')';
+    }
+
+    public function getUnixTimestampSql(string $datetime = ''): string
+    {
+        return 'UNIX_TIMESTAMP(' . $datetime . ')';
+    }
+
+    public function getCurrentDateTimeSql(): string
+    {
+        return 'NOW()';
+    }
+
+    public function getCharLengthSql(string $expression): string
+    {
+        return 'CHAR_LENGTH(' . $expression . ')';
+    }
+
+    public function getSecondsBetweenSql(string $from, string $to): string
+    {
+        return 'TIMESTAMPDIFF(SECOND, ' . $from . ', ' . $to . ')';
+    }
+
+    public function getGreatestSql(string ...$expressions): string
+    {
+        if (count($expressions) < 2) {
+            throw new \InvalidArgumentException('At least two expressions are needed.');
+        }
+
+        return 'GREATEST(' . implode(', ', $expressions) . ')';
+    }
+
+    public function getLeastSql(string ...$expressions): string
+    {
+        if (count($expressions) < 2) {
+            throw new \InvalidArgumentException('At least two expressions are needed.');
+        }
+
+        return 'LEAST(' . implode(', ', $expressions) . ')';
+    }
+
+    public function getRowLockSql(bool $exclusive = true): string
+    {
+        return $exclusive ? ' FOR UPDATE' : ' LOCK IN SHARE MODE';
+    }
+
+    public function getTruncateTableSql(string $tableName): string
+    {
+        return 'TRUNCATE TABLE `' . $tableName . '`';
     }
 
     public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string

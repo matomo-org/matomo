@@ -113,7 +113,7 @@ class DuplicateActionRemover
         $table = Common::prefixTable($table);
 
         $inFromIdsExpression = $this->getInFromIdsExpression($duplicateIdActions);
-        $setExpression = "%1\$s = IF(($inFromIdsExpression), $realIdAction, %1\$s)";
+        $setExpression = "%1\$s = (CASE WHEN ($inFromIdsExpression) THEN $realIdAction ELSE %1\$s END)";
 
         $sql = "UPDATE $table SET\n";
         foreach ($idactionColumns as $index => $column) {

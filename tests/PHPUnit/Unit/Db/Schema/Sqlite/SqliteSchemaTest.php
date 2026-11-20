@@ -285,6 +285,31 @@ class SqliteSchemaTest extends TestCase
         }
     }
 
+    public function testTheSqlFollowsTheConnectionWhateverTheConfigurationSays(): void
+    {
+        $originalSchema = Config::getInstance()->database['schema'] ?? null;
+        $sqlite = Db::get();
+        $facade = \Piwik\Db\Schema::getInstance();
+        try {
+            Config::getInstance()->database['schema'] = 'Mysql';
+            $facade->unsetSchema();
+            $this->assertSame("CAST(strftime('%H', x) AS INTEGER)", $facade->getHourSql('x'));
+            $this->assertSame('INSERT OR IGNORE', $facade->getInsertIgnoreSql());
+
+            // the configuration names SQLite, the connection is another engine's
+            Config::getInstance()->database['schema'] = 'Sqlite';
+            $facade->unsetSchema();
+            Db::setDatabaseObject(new \stdClass());
+            $this->assertSame('HOUR(x)', $facade->getHourSql('x'));
+            $this->assertSame('INSERT IGNORE', $facade->getInsertIgnoreSql());
+            $this->assertSame('x - INTERVAL 1 DAY', $facade->getDateTimeIntervalSql('x', '-', '1', 'DAY'));
+        } finally {
+            Db::setDatabaseObject($sqlite);
+            Config::getInstance()->database['schema'] = $originalSchema;
+            $facade->unsetSchema();
+        }
+    }
+
     public function testIgnoredErrorsSkipOnlyTheirStatement(): void
     {
         $this->schema->createTable('t', 'id INT NOT NULL, label VARCHAR(10) NULL, PRIMARY KEY (id)');

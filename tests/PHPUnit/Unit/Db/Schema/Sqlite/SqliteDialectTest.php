@@ -92,6 +92,48 @@ class SqliteDialectTest extends TestCase
             . $this->schema->getDateTimeIntervalSql("'2024-01-01 00:00:00'", '+', '(5 + 6)', 'second'))->fetchColumn());
     }
 
+    public function testScalarFunctionsReturnWhatMysqlReturns(): void
+    {
+        $sql = 'SELECT ' . implode(', ', [
+            $this->schema->getHourSql('?'),
+            $this->schema->getDayOfWeekSql('?'),
+            $this->schema->getUnixTimestampSql('?'),
+            $this->schema->getCharLengthSql('?'),
+            $this->schema->getSecondsBetweenSql('?', '?'),
+            $this->schema->getLeastSql('1800', $this->schema->getGreatestSql('5', 'CAST(? AS UNSIGNED)')),
+        ]);
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([
+            '2024-03-03 07:05:00', // a Sunday: DAYOFWEEK() is 1
+            '2024-03-03 07:05:00',
+            '1970-01-02 00:00:00',
+            'é€x',
+            '2024-02-28 23:59:30',
+            '2024-03-01 00:00:00',
+            '30', // bound as text, as emulated prepares send it
+        ]);
+
+        $this->assertSame([7, 1, 86400, 3, 86430, 30], array_map('intval', $statement->fetch(PDO::FETCH_NUM)));
+        $this->assertSame('integer', $this->pdo->query('SELECT typeof(' . $this->schema->getHourSql("'2024-03-03 07:05:00'") . ')')->fetchColumn());
+        $this->assertSame(1, (int) $this->pdo->query('SELECT abs(' . $this->schema->getUnixTimestampSql()
+            . ' - ' . time() . ') <= 2')->fetchColumn());
+        $this->assertMatchesRegularExpression('/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/', $this->pdo->query('SELECT '
+            . $this->schema->getCurrentDateTimeSql())->fetchColumn());
+    }
+
+    public function testRowLocksAndTruncate(): void
+    {
+        $this->assertSame('', $this->schema->getRowLockSql());
+        $this->assertSame('', $this->schema->getRowLockSql(false));
+
+        $this->pdo->exec("INSERT INTO t VALUES ('b', 2)");
+        $this->pdo->exec($this->schema->getTruncateTableSql('t'));
+        $this->assertSame(0, (int) $this->pdo->query('SELECT COUNT(*) FROM t')->fetchColumn());
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->schema->getLeastSql('a');
+    }
+
     public function testLongerIntervalsAreRejected(): void
     {
         $this->expectException(\InvalidArgumentException::class);

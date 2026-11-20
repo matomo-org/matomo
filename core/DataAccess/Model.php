@@ -131,7 +131,7 @@ class Model
                    AND fullarchive.date1 = partial.date1
                    AND fullarchive.date2 = partial.date2
                    AND fullarchive.period = partial.period
-                   AND fullarchive.name = SUBSTRING_INDEX(partial.name, '.', 1)
+                   AND fullarchive.name = SUBSTR(partial.name, 1, INSTR(partial.name, '.') - 1)
                    AND fullarchive.value IN ($usableValues)
                    AND fullarchive.ts_archived > partial.ts_archived
                    AND fullarchive.idarchive > partial.idarchive
@@ -805,7 +805,7 @@ class Model
         $table = Common::prefixTable('archive_invalidations');
 
         // set archive value to in progress if not set already
-        $sql = "UPDATE `$table` SET `status` = ?, `processing_host` = ?, `process_id` = ?, `ts_started` = NOW() WHERE `idinvalidation` = ? AND `status` = ?";
+        $sql = "UPDATE `$table` SET `status` = ?, `processing_host` = ?, `process_id` = ?, `ts_started` = " . Schema::getInstance()->getCurrentDateTimeSql() . " WHERE `idinvalidation` = ? AND `status` = ?";
         $bind = [
             ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
             gethostname() ?: null,
@@ -927,7 +927,7 @@ class Model
 
         // NOTE: order here is very important to ensure we process lower period archives first, and general 'all' archives before
         // segment archives, and so we use the latest idinvalidation
-        $sql .= " ORDER BY date1 DESC, period ASC, CHAR_LENGTH(name) ASC, idinvalidation DESC";
+        $sql .= " ORDER BY date1 DESC, period ASC, " . Schema::getInstance()->getCharLengthSql('name') . " ASC, idinvalidation DESC";
 
         if ($useLimit) {
             $sql .= " LIMIT 1";

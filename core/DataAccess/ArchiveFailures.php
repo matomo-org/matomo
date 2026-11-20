@@ -420,7 +420,7 @@ class ArchiveFailures
 
             if ($period === Piwik::$idPeriods['year']) {
                 // years are built from months, which only contain weeks that lie within them
-                $sql .= " AND (f.period != ? OR DATE_FORMAT(f.date1, '%m') = DATE_FORMAT(f.date2, '%m'))";
+                $sql .= " AND (f.period != ? OR SUBSTRING(f.date1, 6, 2) = SUBSTRING(f.date2, 6, 2))";
                 $bind[] = Piwik::$idPeriods['week'];
             }
 

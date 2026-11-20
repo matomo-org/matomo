@@ -59,30 +59,4 @@ interface SqlDialectInterface
      * default escape character, an escaped pattern without this clause can match different rows.
      */
     public function getLikeEscapeSql(): string;
-
-    /**
-     * Returns an expression adding an interval to, or subtracting it from, a date and time.
-     *
-     * @param string $datetime An SQL expression: a column, a placeholder or a function call.
-     * @param string $operator `+` or `-`.
-     * @param string $amount   An SQL expression giving a whole number of units.
-     * @param string $unit     `SECOND`, `MINUTE`, `HOUR` or `DAY`. Longer units are excluded because
-     *                         engines differ on days missing from a month.
-     */
-    public function getDateTimeIntervalSql(string $datetime, string $operator, string $amount, string $unit): string;
-
-    /**
-     * Returns the statement creating a temporary table, visible to the current connection only and
-     * dropped when it disconnects.
-     *
-     * @param string $tableName    The prefixed table name.
-     * @param string $definition   Column definitions and an optional `PRIMARY KEY`, in MySQL syntax.
-     * @param string $tableOptions MySQL table options such as `ENGINE=MEMORY`; other engines ignore them.
-     */
-    public function getCreateTemporaryTableSql(string $tableName, string $definition, string $tableOptions = ''): string;
-
-    /**
-     * Returns the statement dropping a temporary table if it exists.
-     */
-    public function getDropTemporaryTableSql(string $tableName): string;
 }
