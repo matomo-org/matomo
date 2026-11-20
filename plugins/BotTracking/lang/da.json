@@ -80,7 +80,6 @@
         "NoDataCloudflareInstructions2": "Udrul Workeren (Node.js), og angiv din Matomo-URL og dit hjemmeside-id.",
         "NoDataCloudflareInstructions3": "Tilknyt Workeren til din zone eller route, så den kører direkte i forbindelse med anmodningerne.",
         "NoDataCloudflareInstructions4": "Bekræft opsætningen ved at kontrollere, at hits fra AI-chatbots vises i sporingsrapporterne.",
-        "NoDataHttpTrackingApiDescription": "Med HTTP-sporings-API'et kan du spore anmodninger fra AI-chatbots direkte, når du har brug for en tilpasset integration. Start med %1$sartiklerne om Tracking API i vidensbasen%2$s, og brug %3$sreferencen til HTTP Tracking API%4$s for at se de seneste parametre og funktioner til botsporing.",
         "NoDataLinkKnowledgeBase": "Dokumentation: %1$sMatomos vidensbase%2$s",
         "NoDataLinkSourceCode": "Kildekode: %1$sGitHub-repository%2$s",
         "NoDataMissingOneContactUs": "Mangler der en? Kontakt os",
