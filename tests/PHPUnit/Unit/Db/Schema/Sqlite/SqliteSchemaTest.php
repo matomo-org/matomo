@@ -146,6 +146,11 @@ class SqliteSchemaTest extends TestCase
         $this->assertTrue($this->schema->tableHasIndex('matomo_t', 'email'));
         $this->assertTrue($this->schema->tableHasIndex('matomo_t', 'index_n'));
         $this->assertFalse($this->schema->tableHasIndex('matomo_t', 'n'));
+
+        $this->schema->createTable('p', 'a VARCHAR(200) NOT NULL, PRIMARY KEY (a(64))');
+        $this->assertTrue($this->schema->tableHasIndex('matomo_p', 'PRIMARY'));
+        $this->schema->createTable('n', 'a INT');
+        $this->assertFalse($this->schema->tableHasIndex('matomo_n', 'PRIMARY'));
     }
 
     public function testGetTablesLike(): void
@@ -243,6 +248,13 @@ class SqliteSchemaTest extends TestCase
         $this->assertSame(['id', 'label'], array_keys($this->schema->getTableColumns('matomo_t')));
     }
 
+    public function testFailedAlterIsAtomicWhateverTheConfigurationFileSays(): void
+    {
+        // the connection is SQLite, e.g. selected by the Db.getDatabaseConfig event
+        Config::getInstance()->database['adapter'] = 'PDO\MYSQL';
+        $this->testFailedAlterLeavesTheTableUnchanged();
+    }
+
     public function testIgnoredErrorsSkipOnlyTheirStatement(): void
     {
         $this->schema->createTable('t', 'id INT NOT NULL, label VARCHAR(10) NULL, PRIMARY KEY (id)');
@@ -264,6 +276,16 @@ class SqliteSchemaTest extends TestCase
         Db::query('INSERT INTO matomo_t VALUES (?)', ["ab\0d1"]);
         $this->expectExceptionMessage('UNIQUE constraint failed');
         Db::query('INSERT INTO matomo_t VALUES (?)', ["ab\0c2"]);
+    }
+
+    public function testAlterFindsColumnTypesWhateverTheCaseOfTheTableName(): void
+    {
+        $this->schema->createTable('m_bInAlt', 'b VARBINARY(100) NOT NULL');
+        $this->execute($this->schema->getAlterTableSql('matomo_m_binalt', ['ADD UNIQUE KEY ub (b(3))']));
+
+        Db::query('INSERT INTO matomo_m_bInAlt VALUES (?)', ["\0AB"]);
+        Db::query('INSERT INTO matomo_m_bInAlt VALUES (?)', ["\0CD"]);
+        $this->assertSame(2, (int) Db::fetchOne('SELECT COUNT(*) FROM matomo_m_bInAlt'));
     }
 
     public function testTrackerTransactionsAndTheirRollbackAreSeenByTheOtherAdapter(): void

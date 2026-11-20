@@ -687,14 +687,20 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
      */
     public function getTablesLike(string $pattern): array
     {
-        // SHOW can't have a placeholder when prepared on the server (MYSQLI), and the tracker
-        // connections have no quote(): the literal is escaped here, as quote() does
-        $literal = "'" . str_replace(['\\', "'", "\0"], ['\\\\', "\\'", '\\0'], $pattern) . "'";
-        $rows = $this->getDb()->fetchAll('SHOW TABLES LIKE ' . $literal);
+        // SHOW can't have a placeholder when prepared on the server (MYSQLI) and tracker connections
+        // have no quote(). Doubling quotes is valid with or without NO_BACKSLASH_ESCAPES, and a
+        // backslash before % or _ is kept as is in both modes, as LIKE needs it.
+        $sql = "SHOW TABLES LIKE '" . str_replace("'", "''", $pattern) . "'";
+        $db = $this->getDb();
+        if (method_exists($db, 'fetchCol')) {
+            // whatever the adapter's fetch mode
+            return array_map('strval', $db->fetchCol($sql));
+        }
 
+        // the MYSQLI tracker connection, which fetches associative arrays
         return array_map(function ($row) {
             return (string) reset($row);
-        }, $rows);
+        }, $db->fetchAll($sql));
     }
 
     /**

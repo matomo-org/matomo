@@ -39,6 +39,19 @@ class DbHelperTest extends IntegrationTestCase
         $this->assertFalse(DbHelper::tableExists(Common::prefixTable('user_t%oke%n_auth')));
     }
 
+    public function testTableExistsWithoutBackslashEscapes()
+    {
+        $sqlMode = Db::fetchOne('SELECT @@SESSION.sql_mode');
+        Db::exec("SET SESSION sql_mode = CONCAT(@@SESSION.sql_mode, ',NO_BACKSLASH_ESCAPES')");
+        try {
+            // the pattern stays valid SQL (MySQL then has no LIKE escape character, as before)
+            $this->assertFalse(DbHelper::tableExists(Common::prefixTable('user_token_auth') . "'s"));
+            $this->assertSame([], \Piwik\Db\Schema::getInstance()->getTablesLike("it's"));
+        } finally {
+            Db::query('SET SESSION sql_mode = ?', [$sqlMode]);
+        }
+    }
+
     public function testTableExistsWithTheTrackerConnection()
     {
         $adapter = Db::get();

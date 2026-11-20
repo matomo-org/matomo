@@ -21,9 +21,10 @@ use Piwik\Db\SqlListParser;
  *   SQLite would assign when the value is missing or NULL.
  * - Floating point and decimal types become `REAL`.
  * - Text types become `TEXT COLLATE NOCASE`, case-insensitive like MySQL's default collations
- *   (ASCII only), or `TEXT` with a binary collation (`*_bin`) on the column or, for the columns
- *   without a character set or collation of their own, on the table.
- * - Binary types become `BLOB`; date and time types become `TEXT`.
+ *   (ASCII only), or `TEXT` with a binary collation (`*_bin`) on the column; a binary table
+ *   collation is rejected.
+ * - Binary types become `BLOB`; date and time types become `TEXT`; an `ENUM` becomes text with the
+ *   text collation, its values not enforced.
  * - Indexes become `CREATE INDEX` statements named `<table>.<index>`, as index names are global
  *   in SQLite (and a dot can't be in either name). A prefix (`col(n)`) is dropped from a non-unique
  *   index; in a unique index it becomes `substr(col, 1, n)` with the column's collation, or the first
@@ -39,7 +40,7 @@ final class DefinitionConverter
 {
     private const INTEGER_TYPES = ['tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint', 'bool', 'boolean'];
     private const REAL_TYPES = ['double', 'float', 'real', 'decimal', 'numeric'];
-    private const TEXT_TYPES = ['char', 'varchar', 'tinytext', 'text', 'mediumtext', 'longtext'];
+    private const TEXT_TYPES = ['char', 'varchar', 'tinytext', 'text', 'mediumtext', 'longtext', 'enum'];
     private const BLOB_TYPES = ['binary', 'varbinary', 'tinyblob', 'blob', 'mediumblob', 'longblob'];
     private const DATE_TYPES = ['date', 'datetime', 'timestamp', 'time'];
 
@@ -65,10 +66,14 @@ final class DefinitionConverter
             throw $this->unsupported($matches[2], trim($options));
         }
 
-        // a binary table collation applies to the text columns without a character set or collation
-        $binaryText = (bool) preg_match('/\b(?:COLLATE\s*=?\s*(?:\w+_bin|binary)|(?:CHARSET|CHARACTER\s+SET)\s*=?\s*binary)\b/i', $options);
+        // a binary table collation would also apply to the columns added later, which SQLite can't
+        // know: it is rejected (no table of Matomo or its plugins has one)
+        $optionsWithoutComment = preg_replace('/COMMENT\s*=?\s*\'(?:[^\']|\'\')*\'/i', '', $options);
+        if (preg_match('/\b(?:COLLATE\s*=?\s*(?:\w+_bin|binary)|(?:CHARSET|CHARACTER\s+SET)\s*=?\s*binary)\b/i', $optionsWithoutComment)) {
+            throw $this->unsupported($matches[2], trim($options));
+        }
 
-        return $this->convertTableDefinition($tableName ?? $matches[2], $definition, $matches[1] !== '', $binaryText);
+        return $this->convertTableDefinition($tableName ?? $matches[2], $definition, $matches[1] !== '');
     }
 
     /**
@@ -76,7 +81,7 @@ final class DefinitionConverter
      *
      * @return string[] the statements creating the table and its indexes, to run in order
      */
-    public function convertTableDefinition(string $tableName, string $definition, bool $ifNotExists = false, bool $binaryText = false): array
+    public function convertTableDefinition(string $tableName, string $definition, bool $ifNotExists = false): array
     {
         $columns = [];
         $columnTypes = [];
@@ -95,7 +100,7 @@ final class DefinitionConverter
             } elseif (preg_match('/^(FULLTEXT|SPATIAL|CONSTRAINT|FOREIGN|CHECK)\b/i', $item)) {
                 throw $this->unsupported($tableName, $item);
             } else {
-                [$name, $column] = $this->parseColumn($tableName, $item, $binaryText);
+                [$name, $column] = $this->parseColumn($tableName, $item);
                 $columns[$name] = $column;
                 if ($column['unique']) {
                     // MySQL creates a unique index named after the column
@@ -161,11 +166,17 @@ final class DefinitionConverter
             $lines[] = $this->quote($name) . ' ' . $column['sql'];
         }
 
-        if ($primaryKey !== null) {
-            $lines[] = 'PRIMARY KEY (' . implode(', ', array_map(function (array $part) use ($tableName) {
-                if ($part['length'] !== null) {
-                    throw $this->unsupported($tableName, 'PRIMARY KEY with a prefix length on ' . $part['column']);
-                }
+        $hasPrefix = false;
+        foreach ($primaryKey ?? [] as $part) {
+            $hasPrefix = $hasPrefix || $part['length'] !== null;
+        }
+
+        if ($hasPrefix) {
+            // a primary key on column prefixes is unique on the prefixes: a unique index named PRIMARY
+            // on the NOT NULL columns, as SQLite has no prefix keys
+            $indexes[] = ['unique' => true, 'name' => 'PRIMARY', 'columns' => $primaryKey];
+        } elseif ($primaryKey !== null) {
+            $lines[] = 'PRIMARY KEY (' . implode(', ', array_map(function (array $part) {
                 return $this->quote($part['column']);
             }, $primaryKey)) . ')';
         }
@@ -280,22 +291,26 @@ final class DefinitionConverter
     /**
      * @return array{0: string, 1: array}
      */
-    private function parseColumn(string $tableName, string $item, bool $binaryText): array
+    private function parseColumn(string $tableName, string $item): array
     {
         if (!preg_match('/^(`\w+`|\w+)\s+(.*)$/s', $item, $matches)) {
             throw $this->unsupported($tableName, $item);
         }
 
-        return [trim($matches[1], '`'), $this->parseColumnAttributes($tableName, $matches[2], $binaryText)];
+        return [trim($matches[1], '`'), $this->parseColumnAttributes($tableName, $matches[2])];
     }
 
     /**
      * @return array{type: string, notNull: bool, default: string|null, collation: string|null, autoIncrement: bool, primaryKey: bool, unique: bool, sql: string}
      */
-    private function parseColumnAttributes(string $tableName, string $definition, bool $binaryText = false): array
+    private function parseColumnAttributes(string $tableName, string $definition): array
     {
         $rest = trim($definition);
-        if (!preg_match('/^(\w+)(?:\s*\(\s*(\d+)(?:\s*,\s*(\d+))?\s*\))?/i', $rest, $matches)) {
+        if (preg_match('/^ENUM\s*\(\s*\'/i', $rest)) {
+            // an ENUM is text; the values aren't enforced, as Matomo only writes its own constants
+            $end = $this->findClosingParenthesis($rest, strpos($rest, '('));
+            $matches = [substr($rest, 0, $end + 1), 'enum'];
+        } elseif (!preg_match('/^(\w+)(?:\s*\(\s*(\d+)(?:\s*,\s*(\d+))?\s*\))?/i', $rest, $matches)) {
             throw $this->unsupported($tableName, $definition);
         }
         $type = strtolower($matches[1]);
@@ -305,8 +320,7 @@ final class DefinitionConverter
             $rest = substr($rest, strlen($precision[0]));
         }
 
-        // the table's collation, unless the column has its own character set or collation
-        $binaryCollation = $binaryText;
+        $binaryCollation = false;
         $notNull = null;
         $default = null;
         $autoIncrement = false;
@@ -356,6 +370,11 @@ final class DefinitionConverter
             $sqlType = 'TEXT';
         } else {
             throw $this->unsupported($tableName, $definition);
+        }
+
+        // MySQL makes a primary key column NOT NULL, even declared NULL
+        if ($primaryKey) {
+            $notNull = true;
         }
 
         if ($autoIncrement && $sqlType !== 'INTEGER') {

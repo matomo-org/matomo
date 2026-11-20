@@ -242,7 +242,7 @@ class Sqlite extends Mysql
                     return true;
                 }
             }
-            return false;
+            // else a primary key on column prefixes, which is a unique index named PRIMARY
         }
 
         // index names are case-insensitive, as on MySQL
@@ -443,7 +443,7 @@ class Sqlite extends Mysql
      */
     private function getColumnDefinitions(string $tableName): array
     {
-        $sql = (string) Db::fetchOne("SELECT sql FROM sqlite_schema WHERE type = 'table' AND name = ?", [$tableName]);
+        $sql = (string) Db::fetchOne("SELECT sql FROM sqlite_schema WHERE type = 'table' AND name = ? COLLATE NOCASE", [$tableName]);
         $start = strpos($sql, '(');
         $end = strrpos($sql, ')');
         if ($start === false || $end === false) {
@@ -520,7 +520,7 @@ class Sqlite extends Mysql
 
     private function hasAutoIncrement(string $tableName): bool
     {
-        $sql = Db::fetchOne("SELECT sql FROM sqlite_schema WHERE type = 'table' AND name = ?", [$tableName]);
+        $sql = Db::fetchOne("SELECT sql FROM sqlite_schema WHERE type = 'table' AND name = ? COLLATE NOCASE", [$tableName]);
 
         return is_string($sql) && stripos($sql, 'AUTOINCREMENT') !== false;
     }

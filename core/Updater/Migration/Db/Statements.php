@@ -9,9 +9,7 @@
 
 namespace Piwik\Updater\Migration\Db;
 
-use Piwik\Config;
 use Piwik\Db;
-use Piwik\Db\Sqlite\Connection;
 
 /**
  * Executes the statements one change needs, e.g. those `Schema::getAlterTableSql()` returns. An error
@@ -46,7 +44,9 @@ class Statements extends Sql
             return;
         }
 
-        if (!Connection::isSqliteAdapter(Config::getInstance()->database['adapter'] ?? '')) {
+        // the connection in use decides, whatever the configuration file says
+        $db = Db::get();
+        if (!$db instanceof \Piwik\Db\Adapter\Pdo\Sqlite && !$db instanceof \Piwik\Tracker\Db\Pdo\Sqlite) {
             $this->execStatements();
             return;
         }

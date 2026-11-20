@@ -125,10 +125,8 @@ class DefinitionConverterTest extends TestCase
 
     public function getUnsupportedDefinitions(): iterable
     {
-        yield 'enum' => ["a ENUM('x','y') NOT NULL"];
         yield 'fulltext' => ['a TEXT, FULLTEXT KEY f (a)'];
         yield 'foreign key' => ['a INT, FOREIGN KEY (a) REFERENCES u (id)'];
-        yield 'prefixed primary key' => ['a VARCHAR(100) NOT NULL, PRIMARY KEY (a(10))'];
     }
 
     public function testUniqueBinaryPrefixIsTakenInBytes(): void
@@ -146,19 +144,45 @@ class DefinitionConverterTest extends TestCase
         $this->assertStringContainsString('`a` INTEGER NOT NULL,', $this->converter->convertCreateTable('CREATE TABLE t (a INT, b INT, PRIMARY KEY (a, b))')[0]);
     }
 
-    public function testBinaryTableCollationAppliesToColumnsWithoutTheirOwn(): void
+    public function testBinaryTableCollationIsRejected(): void
     {
-        $sql = $this->converter->convertCreateTable(
-            'CREATE TABLE t (a VARCHAR(10), b VARCHAR(10) COLLATE utf8mb4_general_ci, c VARCHAR(10) CHARACTER SET utf8mb4) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin'
-        )[0];
+        $this->expectException(InvalidArgumentException::class);
+        $this->converter->convertCreateTable('CREATE TABLE t (a VARCHAR(10)) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin');
+    }
 
-        $this->assertStringContainsString('`a` TEXT,', $sql);
-        $this->assertStringContainsString('`b` TEXT COLLATE NOCASE,', $sql);
-        $this->assertStringContainsString('`c` TEXT COLLATE NOCASE', $sql);
+    public function testCollationInATableCommentIsIgnored(): void
+    {
+        $sql = $this->converter->convertCreateTable("CREATE TABLE t (a VARCHAR(10)) COMMENT='COLLATE=utf8mb4_bin'")[0];
+
+        $this->assertStringContainsString('`a` TEXT COLLATE NOCASE', $sql);
+    }
+
+    public function testPrimaryKeyColumnIsNotNullEvenDeclaredNull(): void
+    {
+        $this->assertStringContainsString('`id` INT PRIMARY KEY NOT NULL', $this->converter->convertCreateTable('CREATE TABLE t (id INT PRIMARY KEY NULL)')[0]);
     }
 
     public function testQualifiedIndexNamesAreUnique(): void
     {
         $this->assertNotSame(DefinitionConverter::getIndexName('a__b', 'c'), DefinitionConverter::getIndexName('a', 'b__c'));
+    }
+
+    public function testPrimaryKeyOnPrefixesIsAUniqueIndex(): void
+    {
+        $statements = $this->converter->convertCreateTable('CREATE TABLE t (a VARCHAR(200) NOT NULL, b VARCHAR(200) NOT NULL, PRIMARY KEY (a(64), b(63)))');
+
+        $this->assertStringNotContainsString('PRIMARY KEY', $statements[0]);
+        $this->assertSame(
+            'CREATE UNIQUE INDEX `t.PRIMARY` ON `t` (substr(`a`, 1, 64) COLLATE NOCASE, substr(`b`, 1, 63) COLLATE NOCASE)',
+            $statements[1]
+        );
+    }
+
+    public function testEnumIsText(): void
+    {
+        $this->assertSame(
+            "TEXT DEFAULT 'accept' COLLATE NOCASE",
+            $this->converter->convertColumnDefinition('t', "ENUM('accept','pending','de,cline') DEFAULT 'accept'")
+        );
     }
 }
