@@ -14,6 +14,7 @@
         "DefaultDashboard": "Panou de control implicit - Foloseşte widget-urile selectate şi coloanele implicite",
         "DeleteWidgetConfirm": "Esti sigur că doreşti să ştergi widget-ul din panoul de control?",
         "EmptyDashboard": "Panou de control gol - Alege widget-urile preferate",
+        "ExportThisDashboard": "Exportare panou de control",
         "LoadingWidget": "Se incarca dispozitivul, asteapta…",
         "ManageDashboard": "Administreză panou de control",
         "Maximise": "Maximizează",
@@ -32,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Eşti sigur(ă) că vrei să stabileşti selecţia curentă de widget-uri şi aspectul panoului de control ca fiind şablonul implicit al panoului de control?",
         "SetAsDefaultWidgetsConfirmHelp": "Această selecţie de widget-uri şi aspectul coloanelor panoului de control va fi folosită când un utilizator creează un panou de control nou sau când este folosită caracteristica \"%s\".",
         "TopLinkTooltip": "Vizualizează rapoarte web analitică pentru %s.",
+        "TopMenuTitle": "Analiză",
         "WidgetNotFound": "Dispozitivul nu exista",
         "WidgetPreview": "Previzualizează widget-ul"
     }
