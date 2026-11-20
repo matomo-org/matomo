@@ -1,6 +1,9 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "Limba browser-ului",
-        "LanguageCode": "Cod limbă"
+        "LanguageCode": "Cod limbă",
+        "PluginDescription": "Raportează limba principală a browserului folosită de vizitatori.",
+        "getLanguageCodeDocumentation": "Arată codul exact de limbă setat în browserul vizitatorului. (de ex. \"Germană — Austria (de-at)\")",
+        "getLanguageDocumentation": "Arată ce limbă folosesc browserele vizitatorilor. (de ex. \"Franceză\")"
     }
 }
