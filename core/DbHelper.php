@@ -218,24 +218,7 @@ class DbHelper
      */
     public static function getDefaultCharset(): string
     {
-        $result = Db::get()->fetchRow("SHOW CHARACTER SET LIKE 'utf8mb4'");
-
-        if (empty($result)) {
-            return 'utf8'; // charset not available
-        }
-
-        $result = Db::get()->fetchRow("SHOW VARIABLES LIKE 'character_set_database'");
-
-        if (!empty($result) && $result['Value'] === 'utf8mb4') {
-            return 'utf8mb4'; // database has utf8mb4 charset, so assume it can be used
-        }
-
-        $result = Db::get()->fetchRow("SHOW VARIABLES LIKE 'innodb_file_per_table'");
-
-        if (empty($result) || $result['Value'] !== 'ON') {
-            return 'utf8'; // innodb_file_per_table is required for utf8mb4
-        }
-
+        // every supported MySQL and MariaDB version provides utf8mb4 and long index prefixes
         return 'utf8mb4';
     }
 
@@ -247,6 +230,27 @@ class DbHelper
     public static function getDefaultCollationForCharset(string $charset): string
     {
         return Schema::getInstance()->getDefaultCollationForCharset($charset);
+    }
+
+    /**
+     * @internal
+     */
+    public static function isValidCharset(string $charset): bool
+    {
+        return self::isValidDatabaseEncodingName($charset);
+    }
+
+    /**
+     * @internal
+     */
+    public static function isValidCollation(string $collation): bool
+    {
+        return self::isValidDatabaseEncodingName($collation);
+    }
+
+    private static function isValidDatabaseEncodingName(string $name): bool
+    {
+        return preg_match('/^[a-zA-Z][a-zA-Z0-9_]{0,63}$/D', $name) === 1;
     }
 
     /**
@@ -334,22 +338,22 @@ class DbHelper
         ?Segment $segment = null
     ): string {
         $select = 'SELECT';
-        if ($origin && 0 === strpos(trim($sql), $select)) {
+        if ($origin && str_starts_with(trim($sql), $select)) {
             $sql = trim($sql);
             $sql = 'SELECT /* ' . $origin . ' */' . substr($sql, strlen($select));
         }
 
-        if ($dateStart !== null && $dateEnd !== null && 0 === strpos(trim($sql), $select)) {
+        if ($dateStart !== null && $dateEnd !== null && str_starts_with(trim($sql), $select)) {
             $sql = trim($sql);
             $sql = 'SELECT /* ' . $dateStart->toString() . ',' . $dateEnd->toString() . ' */' . substr($sql, strlen($select));
         }
 
-        if ($sites && is_array($sites) && 0 === strpos(trim($sql), $select)) {
+        if ($sites && is_array($sites) && str_starts_with(trim($sql), $select)) {
             $sql = trim($sql);
             $sql = 'SELECT /* ' . 'sites ' . implode(',', array_map('intval', $sites)) . ' */' . substr($sql, strlen($select));
         }
 
-        if ($segment && !$segment->isEmpty() && 0 === strpos(trim($sql), $select)) {
+        if ($segment && !$segment->isEmpty() && str_starts_with(trim($sql), $select)) {
             $sql = trim($sql);
             $sql = 'SELECT /* ' . 'segmenthash ' . $segment->getHash() . ' */' . substr($sql, strlen($select));
         }
@@ -417,7 +421,7 @@ class DbHelper
         $newHintName = substr($hint, 0, $newHintNameEnd);
 
         // only add new hints
-        if (preg_match('/(?:^|\s)' . preg_quote($newHintName) . '(?:\\(|\s|$)/i', $hints)) {
+        if (preg_match('/(?:^|\s)' . preg_quote($newHintName, '/') . '(?:\\(|\s|$)/i', $hints)) {
             return $sql;
         }
 

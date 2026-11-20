@@ -32,15 +32,13 @@ class Config extends \Piwik\ViewDataTable\Config
 
     /**
      * Holds the actual sparkline entries based on fetched data that will be used in the template.
-     * @var array
      */
-    private $sparklines = array();
+    private array $sparklines = array();
 
     /**
      * If false, will not link them with any evolution graph
-     * @var bool
      */
-    private $evolutionGraphLinkable = true;
+    private bool $evolutionGraphLinkable = true;
 
     /**
      * Adds possibility to set html attributes on the sparklines title / headline.
@@ -65,6 +63,15 @@ class Config extends \Piwik\ViewDataTable\Config
      * @var callable
      */
     public $compute_evolution = null;
+
+    /**
+     * When true, the redesigned sparkline card uses this view's own metric translations as the card
+     * title instead of the generic Metrics::getDefaultMetricTranslations() names. Intended for views
+     * that relabel shared columns with section-specific names and render no per-section block title
+     * (show_title = false), e.g. Ecommerce Overview. Default false keeps the generic card titles.
+     * @var bool
+     */
+    public $use_metric_labels_as_titles = false;
 
     public function __construct()
     {

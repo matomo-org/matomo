@@ -99,7 +99,6 @@
         "ExceptionDatabaseVersion": "Ваша %1$s версія %2$s, але Matomo патрабуе па меншай меры версію %3$s.",
         "ExceptionFileIntegrity": "Праверка цэласнасці не ўдалася: %s",
         "ExceptionFilesizeMismatch": "Неадпаведнасць памеру файла: %1$s (чаканы памер: %2$s, атрыманы памер: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Ваш кліент %1$s версіі %2$s несумяшчальнs з версіяй сервера %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Сукупны фармат справаздач '%1$s' несапраўдныя. Паспрабуйце любы з наступных замест: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Сённяшни архіўны час павинен быць колькасцю секунд больш за нуль",
         "ExceptionInvalidDateFormat": "Фармат даты павінен быць: %1$s, або на любое ключавое слова, падтрымліваемае функцыяй %2$s (глядзі %3$s для больш падрабязнай інфармацыі)",

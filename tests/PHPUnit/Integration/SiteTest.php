@@ -35,7 +35,7 @@ class SiteTest extends IntegrationTestCase
 
         Piwik::addAction('Site.setSites', function (&$sites) use ($self) {
             foreach ($sites as &$site) {
-                if (strpos($site['name'], $self->siteAppendix) !== 0) {
+                if (!str_starts_with($site['name'], $self->siteAppendix)) {
                     $site['name'] .= $self->siteAppendix;
                 }
             }
@@ -46,6 +46,7 @@ class SiteTest extends IntegrationTestCase
     {
         $this->expectException(\Piwik\Exception\UnexpectedWebsiteFoundException::class);
         $this->expectExceptionMessage('An unexpected website was found in the request');
+        $this->expectExceptionCode(400);
 
         $this->makeSite(9999);
     }

@@ -1,0 +1,51 @@
+/* SIGN IN / SET PASSWORD FORM
+   Row and field rhythm shared by the sign in, reset password and invitation (set password) forms.
+   Deliberately not nested inside #loginPage: these rules only need their own classes, and the
+   id would add specificity that the rest of the component then has to fight.
+***********************/
+
+/* override: Materialize zeroes the margin of every paragraph inside a card
+   (`.card .card-content p`), and contentBlock.twig wraps this intro in one. */
+.loginForm .card-content .loginForm__intro {
+    /* Absorbs part of the card title's bottom margin so the intro reads as a subtitle
+       of "Sign in" rather than as a separate paragraph. */
+    margin: -8px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: @theme-color-text-light;
+}
+
+.loginForm .loginForm__form {
+    margin-top: 16px;
+}
+
+.loginForm .loginForm__row {
+    margin-bottom: 16px;
+}
+
+.loginForm .loginForm__row--spacious {
+    margin-bottom: 24px;
+}
+
+.loginForm .loginForm__row--noGap {
+    margin-bottom: 0;
+}
+
+/* override: the Materialize row each of the rows above wraps brings its own bottom margin,
+   which would collapse over the rhythm this block sets. */
+.loginForm .loginForm__row .row {
+    margin-bottom: 0;
+}
+
+/* override: the rows above carry the vertical rhythm, so drop Materialize's own field margin. */
+.loginForm .loginForm__field .input-field {
+    margin-bottom: 0;
+}
+
+.loginForm .loginForm__link {
+    color: @theme-color-link;
+}
+
+.loginForm .loginForm__rememberMe {
+    vertical-align: middle;
+}

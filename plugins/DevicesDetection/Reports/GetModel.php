@@ -11,9 +11,8 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Policy\CnilPolicy;
 use Piwik\Plugins\DevicesDetection\Columns\DeviceModel;
-use Piwik\Policy\PolicyManager;
+use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
 
 class GetModel extends Base
 {
@@ -37,7 +36,7 @@ class GetModel extends Base
 
     public function isEnabled()
     {
-        // Metadata visibility is global-only here, so check the policy state directly.
-        return !PolicyManager::isPolicyActive(CnilPolicy::class, $idSite = null);
+        // Metadata visibility is global-only here, so check the instance-wide setting state.
+        return !DeviceModelDetectionDisabled::getInstance()->getValue();
     }
 }

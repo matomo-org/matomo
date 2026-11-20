@@ -91,18 +91,6 @@ parameters:
 			path: core/API/DataTablePostProcessor.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between non\-falsy\-string and ''0'' will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between non\-falsy\-string and 0 will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
 			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -137,18 +125,6 @@ parameters:
 			identifier: property.onlyWritten
 			count: 1
 			path: core/API/ResponseBuilder.php
-
-		-
-			message: '#^Property Piwik\\Access\:\:\$auth \(Piwik\\Auth\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: core/Access.php
-
-		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 6
-			path: core/Application/Environment.php
 
 		-
 			message: '#^Method Piwik\\Archive\\ArchiveInvalidator\:\:getSegmentArchiving\(\) is unused\.$#'
@@ -253,12 +229,6 @@ parameters:
 			path: core/ArchiveProcessor/Rules.php
 
 		-
-			message: '#^Call to preg_quote\(\) is missing delimiter / to be effective\.$#'
-			identifier: argument.invalidPregQuote
-			count: 1
-			path: core/Archiver/Request.php
-
-		-
 			message: '#^Parameter \#2 \$assetFetcher of class Piwik\\AssetManager\\UIAssetMerger\\JScriptUIAssetMerger constructor expects Piwik\\AssetManager\\UIAssetFetcher\\JScriptUIAssetFetcher, Piwik\\AssetManager\\UIAssetFetcher given\.$#'
 			identifier: argument.type
 			count: 1
@@ -341,12 +311,6 @@ parameters:
 			identifier: booleanAnd.leftAlwaysTrue
 			count: 1
 			path: core/Changes/Model.php
-
-		-
-			message: '#^Variable \$response in empty\(\) always exists and is always falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: core/CliMulti.php
 
 		-
 			message: '#^Call to function is_string\(\) with non\-falsy\-string will always evaluate to true\.$#'
@@ -539,18 +503,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: core/DataAccess/ArchivingDbAdapter.php
-
-		-
-			message: '#^Parameter \#3 \$where of method Piwik\\DataAccess\\LogQueryBuilder\:\:buildSelectQuery\(\) expects string, false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/DataAccess/LogQueryBuilder.php
-
-		-
-			message: '#^Parameter \#6 \$limitAndOffset of method Piwik\\DataAccess\\LogQueryBuilder\:\:buildSelectQuery\(\) expects int\|string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/DataAccess/LogQueryBuilder.php
 
 		-
 			message: '#^Call to an undefined method Piwik\\Db\|Piwik\\Db\\AdapterInterface\|Piwik\\Tracker\\Db\:\:fetchCol\(\)\.$#'
@@ -757,12 +709,6 @@ parameters:
 			path: core/Db.php
 
 		-
-			message: '#^Call to function is_null\(\) with bool will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Db.php
-
-		-
 			message: '#^Cannot access property \$server_version on object\|resource\.$#'
 			identifier: property.nonObject
 			count: 1
@@ -841,12 +787,6 @@ parameters:
 			path: core/DbHelper.php
 
 		-
-			message: '#^Call to preg_quote\(\) is missing delimiter / to be effective\.$#'
-			identifier: argument.invalidPregQuote
-			count: 1
-			path: core/DbHelper.php
-
-		-
 			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -871,8 +811,8 @@ parameters:
 			path: core/Filesystem.php
 
 		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
+			message: '#^Call to function is_writable\(\) with string will always evaluate to false\.$#'
+			identifier: function.impossibleType
 			count: 1
 			path: core/Filesystem.php
 
@@ -903,12 +843,6 @@ parameters:
 		-
 			message: '#^Parameter \#3 \$value of function curl_setopt expects bool, int given\.$#'
 			identifier: argument.type
-			count: 1
-			path: core/Http.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between array\{scheme\?\: string, host\?\: string, port\?\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\} and false will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
 			count: 1
 			path: core/Http.php
 
@@ -953,12 +887,6 @@ parameters:
 			identifier: arrayValues.list
 			count: 1
 			path: core/Metrics/Sorter.php
-
-		-
-			message: '#^Call to preg_quote\(\) is missing delimiter / to be effective\.$#'
-			identifier: argument.invalidPregQuote
-			count: 1
-			path: core/Nonce.php
 
 		-
 			message: '#^Parameter \#1 \$default of static method Piwik\\Url\:\:getCurrentHost\(\) expects string, null given\.$#'
@@ -1015,12 +943,6 @@ parameters:
 			path: core/Piwik.php
 
 		-
-			message: '#^Result of && is always true\.$#'
-			identifier: booleanAnd.alwaysTrue
-			count: 1
-			path: core/Piwik.php
-
-		-
 			message: '#^Result of \|\| is always false\.$#'
 			identifier: booleanOr.alwaysFalse
 			count: 1
@@ -1057,62 +979,8 @@ parameters:
 			path: core/Plugin.php
 
 		-
-			message: '#^Call to function is_null\(\) with Piwik\\Site will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Call to function property_exists\(\) with Piwik\\ViewDataTable\\Config and ''selectable_columns'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Default value of the parameter \#3 \$columnsToDisplay \(false\) of method Piwik\\Plugin\\Controller\:\:getLastUnitGraphAcrossPlugins\(\) is incompatible with type array\.$#'
-			identifier: parameter.defaultValue
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Instanceof between Piwik\\Site and Piwik\\Site will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
 			message: '#^Parameter \#2 \$action of method Piwik\\FrontController\:\:dispatch\(\) expects string\|null, false given\.$#'
 			identifier: argument.type
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Property Piwik\\Plugin\\Controller\:\:\$site \(Piwik\\Site\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 2
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Property Piwik\\Plugin\\Controller\:\:\$site \(Piwik\\Site\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Result of && is always true\.$#'
-			identifier: booleanAnd.alwaysTrue
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Right side of && is always true\.$#'
-			identifier: booleanAnd.rightAlwaysTrue
-			count: 2
-			path: core/Plugin/Controller.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between array and false will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: core/Plugin/Controller.php
 
@@ -1143,12 +1011,6 @@ parameters:
 		-
 			message: '#^Right side of \|\| is always false\.$#'
 			identifier: booleanOr.rightAlwaysFalse
-			count: 1
-			path: core/Plugin/Manager.php
-
-		-
-			message: '#^Variable \$plugin in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
 			count: 1
 			path: core/Plugin/Manager.php
 
@@ -1195,39 +1057,9 @@ parameters:
 			path: core/Plugin/ViewDataTable.php
 
 		-
-			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Instanceof between Piwik\\DataTable\|null and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 2
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Instanceof between null and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
 			message: '#^Parameter \#1 \$dataTable of method Piwik\\Plugin\\ViewDataTable\:\:setDataTable\(\) expects Piwik\\DataTable\|Piwik\\DataTable\\Map, Piwik\\DataTable\\DataTableInterface given\.$#'
 			identifier: argument.type
 			count: 2
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Parameter \#2 \$return of function print_r expects bool, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: '#^Ternary operator condition is always true\.$#'
-			identifier: ternary.alwaysTrue
-			count: 1
 			path: core/Plugin/Visualization.php
 
 		-
@@ -1297,24 +1129,6 @@ parameters:
 			path: core/Profiler.php
 
 		-
-			message: '#^Left side of \|\| is always false\.$#'
-			identifier: booleanOr.leftAlwaysFalse
-			count: 1
-			path: core/ProxyHttp.php
-
-		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
-			count: 1
-			path: core/ProxyHttp.php
-
-		-
-			message: '#^Right side of \|\| is always false\.$#'
-			identifier: booleanOr.rightAlwaysFalse
-			count: 1
-			path: core/ProxyHttp.php
-
-		-
 			message: '#^Call to an undefined method HTML_QuickForm2_Renderer_Proxy\:\:toArray\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -1355,144 +1169,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: core/Request.php
-
-		-
-			message: '#^Parameter \#1 \$hour of function mktime expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#2 \$minute of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#4 \$month of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Daily.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Hourly.php
-
-		-
-			message: '#^Parameter \#4 \$month of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Hourly.php
-
-		-
-			message: '#^Parameter \#5 \$day of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Hourly.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Hourly.php
-
-		-
-			message: '#^Parameter \#1 \$hour of function mktime expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Monthly.php
-
-		-
-			message: '#^Parameter \#2 \$minute of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Monthly.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Monthly.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Monthly.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
-
-		-
-			message: '#^Parameter \#4 \$month of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
-
-		-
-			message: '#^Parameter \#5 \$day of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
-
-		-
-			message: '#^Call to function is_int\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#1 \$hour of function mktime expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#2 \$minute of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#3 \$second of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#4 \$month of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
-
-		-
-			message: '#^Parameter \#6 \$year of function mktime expects int\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Scheduler/Schedule/Weekly.php
 
 		-
 			message: '#^If condition is always false\.$#'
@@ -1909,36 +1585,6 @@ parameters:
 			path: core/Tracker/Request.php
 
 		-
-			message: '#^Parameter \#1 \$password of method Piwik\\Auth\:\:setPassword\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: '#^Variable \$access in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: '#^Call to function is_array\(\) with array\<Piwik\\Tracker\\Request\> will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Tracker/RequestSet.php
-
-		-
-			message: '#^Call to function is_null\(\) with array\<Piwik\\Tracker\\Request\> will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Tracker/RequestSet.php
-
-		-
 			message: '#^Call to function is_null\(\) with string will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 1
@@ -1953,7 +1599,7 @@ parameters:
 		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
-			count: 2
+			count: 1
 			path: core/Tracker/RequestSet.php
 
 		-
@@ -1973,36 +1619,6 @@ parameters:
 			identifier: deadCode.unreachable
 			count: 1
 			path: core/Tracker/TableLogAction.php
-
-		-
-			message: '#^Call to function is_array\(\) with non\-empty\-array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Call to function is_array\(\) with true will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Offset ''httpsPiwikUrl'' does not exist on array\{idSite\: int, piwikUrl\: string, options\: string, optionsBeforeTrackerUrl\: '''', protocol\: ''//''\|''https\://'', loadAsync\: true, trackNoScript\: bool, matomoJsFilename\: mixed, \.\.\.\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Offset ''httpsPiwikUrl'' on array\{idSite\: int, piwikUrl\: string, options\: string, optionsBeforeTrackerUrl\: '''', protocol\: ''//''\|''https\://'', loadAsync\: true, trackNoScript\: bool, matomoJsFilename\: mixed, \.\.\.\} in empty\(\) does not exist\.$#'
-			identifier: empty.offset
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
-
-		-
-			message: '#^Parameter \#2 \$string of function explode expects string, true given\.$#'
-			identifier: argument.type
-			count: 1
-			path: core/Tracker/TrackerCodeGenerator.php
 
 		-
 			message: '#^Instanceof between \*NEVER\* and Piwik\\Tracker\\VisitInterface will always evaluate to false\.$#'
@@ -2081,12 +1697,6 @@ parameters:
 			identifier: catch.neverThrown
 			count: 1
 			path: core/Updates/2.0.4-b5.php
-
-		-
-			message: '#^Binary operation "\+" between string and 1 results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: core/Updates/2.1.1-b11.php
 
 		-
 			message: '#^Call to an undefined method Piwik\\Db\|Piwik\\Db\\AdapterInterface\|Piwik\\Tracker\\Db\:\:fetchCol\(\)\.$#'
@@ -2182,12 +1792,6 @@ parameters:
 			message: '#^Method Piwik\\ViewDataTable\\Manager\:\:getFooterIconFor\(\) should return array but empty return statement found\.$#'
 			identifier: return.empty
 			count: 1
-			path: core/ViewDataTable/Manager.php
-
-		-
-			message: '#^Unsafe call to private method Piwik\\ViewDataTable\\Manager\:\:getFooterIconFor\(\) through static\:\:\.$#'
-			identifier: staticClassAccess.privateMethod
-			count: 9
 			path: core/ViewDataTable/Manager.php
 
 		-
@@ -2389,12 +1993,6 @@ parameters:
 			path: plugins/Actions/Actions/ActionSiteSearch.php
 
 		-
-			message: '#^Variable \$keywordParameterRaw might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: plugins/Actions/Actions/ActionSiteSearch.php
-
-		-
 			message: '#^Call to function is_null\(\) with Piwik\\DataTable\\Row will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 2
@@ -2527,12 +2125,6 @@ parameters:
 			path: plugins/BotTracking/BotTracking.php
 
 		-
-			message: '#^Parameter &\$tables by\-ref type of method Piwik\\Plugins\\BotTracking\\RecordBuilders\\AIChatbotReports\:\:populateNumerics\(\) expects array\<string, Piwik\\DataTable\>, array\<string, int\|Piwik\\DataTable\> given\.$#'
-			identifier: parameterByRef.type
-			count: 7
-			path: plugins/BotTracking/RecordBuilders/AIChatbotReports.php
-
-		-
 			message: '#^Call to Piwik\\Plugin\\Report\:\:configureView\(\) on a separate line has no effect\.$#'
 			identifier: staticMethod.resultUnused
 			count: 1
@@ -2624,18 +2216,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$login of method Piwik\\Auth\:\:setLogin\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/BulkTracking/Tracker/Handler.php
-
-		-
-			message: '#^Parameter \#1 \$password of method Piwik\\Auth\:\:setPassword\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/BulkTracking/Tracker/Handler.php
-
-		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: plugins/BulkTracking/Tracker/Handler.php
@@ -2761,12 +2341,6 @@ parameters:
 			path: plugins/CoreAdminHome/CustomLogo.php
 
 		-
-			message: '#^Unsafe call to private method Piwik\\Plugins\\CoreAdminHome\\CustomLogo\:\:logoExists\(\) through static\:\:\.$#'
-			identifier: staticClassAccess.privateMethod
-			count: 5
-			path: plugins/CoreAdminHome/CustomLogo.php
-
-		-
 			message: '#^Parameter \#1 \$idSegments of method Piwik\\CronArchive\\ArchiveFilter\:\:setSegmentsToForceFromSegmentIds\(\) expects array\<int\>, list\<string\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2803,22 +2377,10 @@ parameters:
 			path: plugins/CoreHome/Columns/VisitorReturning.php
 
 		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: plugins/CoreHome/Controller.php
-
-		-
 			message: '#^Property Piwik\\Plugins\\CoreHome\\Controller\:\:\$translator is never read, only written\.$#'
 			identifier: property.onlyWritten
 			count: 1
 			path: plugins/CoreHome/Controller.php
-
-		-
-			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
 			message: '#^Instanceof between Piwik\\DataTable\\Map and Piwik\\DataTable\\DataTableInterface will always evaluate to true\.$#'
@@ -2827,25 +2389,7 @@ parameters:
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
-			message: '#^Instanceof between Piwik\\Date and Piwik\\Date will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(mixed\)\: bool\)\|null, ''strlen'' given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between array\|int\|Piwik\\Date\|string and false will always evaluate to true\.$#'
+			message: '#^Strict comparison using \!\=\= between array\|int\|string and false will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
@@ -2893,12 +2437,6 @@ parameters:
 			path: plugins/CorePluginsAdmin/Controller.php
 
 		-
-			message: '#^Unsafe call to private method Piwik\\Plugins\\CorePluginsAdmin\\Controller\:\:dieIfPluginsAdminIsDisabled\(\) through static\:\:\.$#'
-			identifier: staticClassAccess.privateMethod
-			count: 1
-			path: plugins/CorePluginsAdmin/Controller.php
-
-		-
 			message: '#^Parameter \#2 \$value of static method Piwik\\Option\:\:set\(\) expects string, int given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2909,12 +2447,6 @@ parameters:
 			identifier: empty.variable
 			count: 1
 			path: plugins/CorePluginsAdmin/PluginInstaller.php
-
-		-
-			message: '#^Variable \$setting in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: plugins/CorePluginsAdmin/SettingsMetadata.php
 
 		-
 			message: '#^Right side of && is always true\.$#'
@@ -2931,12 +2463,6 @@ parameters:
 		-
 			message: '#^Class Piwik\\Plugins\\Marketplace\\Api\\Exception referenced with incorrect case\: Piwik\\Plugins\\Marketplace\\API\\Exception\.$#'
 			identifier: class.nameCase
-			count: 1
-			path: plugins/CoreUpdater/Updater.php
-
-		-
-			message: '#^Parameter \#1 \$exception of class Piwik\\Plugins\\CoreUpdater\\UpdaterException constructor expects Exception, Throwable given\.$#'
-			identifier: argument.type
 			count: 1
 			path: plugins/CoreUpdater/Updater.php
 
@@ -2977,12 +2503,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Cloud.php
 
 		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Graph.php
-
-		-
 			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable\\Map will always evaluate to false\.$#'
 			identifier: instanceof.alwaysFalse
 			count: 1
@@ -3001,12 +2521,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
 
 		-
-			message: '#^Property Piwik\\Plugin\\Visualization\:\:\$report \(Piwik\\Plugin\\Report\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 2
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
-
-		-
 			message: '#^Property Piwik\\ViewDataTable\\RequestConfig\:\:\$filter_excludelowpop_value \(Closure\|string\) does not accept false\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -3021,12 +2535,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Piwik\\DataTable\\DataTableInterface\:\:getMetadata\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
-
-		-
-			message: '#^Instanceof between Piwik\\DataTable\|null and Piwik\\DataTable\\Map will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
 
@@ -3125,12 +2633,6 @@ parameters:
 			identifier: staticMethod.resultUnused
 			count: 1
 			path: plugins/CustomDimensions/GetCustomDimension.php
-
-		-
-			message: '#^Parameter \#3 \$additionalSelects of method Piwik\\DataAccess\\LogAggregator\:\:queryConversionsByDimension\(\) expects array, false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
 
 		-
 			message: '#^Variable \$value in isset\(\) always exists and is not nullable\.$#'
@@ -3289,30 +2791,6 @@ parameters:
 			path: plugins/Events/Reports/Base.php
 
 		-
-			message: '#^Parameter \#3 \$escapeComment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects bool, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/ExamplePlugin/Diagnostic/ExampleCheck.php
-
-		-
-			message: '#^Parameter \#2 \$value of static method Piwik\\Option\:\:set\(\) expects string, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/ExamplePlugin/RecordBuilders/ExampleMetric2.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between false and string will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: plugins/ExampleTracker/Columns/ExampleActionDimension.php
-
-		-
-			message: '#^Property Piwik\\Notification\:\:\$flags \(int\) does not accept null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: plugins/ExampleUI/Controller.php
-
-		-
 			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
@@ -3357,12 +2835,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Matomo\\Decompress\\DecompressInterface\:\:listContent\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: plugins/GeoIp2/GeoIP2AutoUpdater.php
-
-		-
-			message: '#^Call to preg_quote\(\) is missing delimiter / to be effective\.$#'
-			identifier: argument.invalidPregQuote
 			count: 1
 			path: plugins/GeoIp2/GeoIP2AutoUpdater.php
 
@@ -3553,12 +3025,6 @@ parameters:
 			path: plugins/Insights/DataTable/Filter/OrderBy.php
 
 		-
-			message: '#^Call to an undefined method Piwik\\Db\|Piwik\\Db\\AdapterInterface\|Piwik\\Tracker\\Db\:\:checkClientVersion\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: plugins/Installation/Controller.php
-
-		-
 			message: '#^Expression on left side of \?\? is not nullable\.$#'
 			identifier: nullCoalesce.expr
 			count: 1
@@ -3577,10 +3043,22 @@ parameters:
 			path: plugins/Installation/FormDatabaseSetup.php
 
 		-
+			message: '#^Constructor of class Piwik\\Plugins\\Installation\\FormDatabaseSetup has an unused parameter \$attributes\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: plugins/Installation/FormDatabaseSetup.php
+
+		-
 			message: '#^Call to an undefined method HTML_QuickForm2_Node\:\:loadOptions\(\)\.$#'
 			identifier: method.notFound
 			count: 2
 			path: plugins/Installation/FormFirstWebsiteSetup.php
+
+		-
+			message: '#^Constructor of class Piwik\\Plugins\\Installation\\FormSuperUser has an unused parameter \$attributes\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: plugins/Installation/FormSuperUser.php
 
 		-
 			message: '#^Instanceof between Exception and Exception will always evaluate to true\.$#'
@@ -3591,12 +3069,6 @@ parameters:
 		-
 			message: '#^Negated boolean expression is always false\.$#'
 			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: plugins/Installation/Installation.php
-
-		-
-			message: '#^Parameter \#1 \$request of static method Piwik\\API\\Request\:\:isApiRequest\(\) expects array, null given\.$#'
-			identifier: argument.type
 			count: 1
 			path: plugins/Installation/Installation.php
 
@@ -3619,48 +3091,6 @@ parameters:
 			path: plugins/Installation/Onboarding.php
 
 		-
-			message: '#^Parameter \#3 \$translations of method Piwik\\Plugins\\Intl\\Commands\\GenerateIntl\:\:fetchLanguageData\(\) expects array\{Intl\: array\<string, string\>\}, array\{\} given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/Intl/Commands/GenerateIntl.php
-
-		-
-			message: '#^Parameter &\$translations by\-ref type of method Piwik\\Plugins\\Intl\\Commands\\GenerateIntl\:\:fetchCalendarData\(\) expects array\{Intl\: array\<string, string\>\}, array\{Intl\: non\-empty\-array\<string, mixed\>\} given\.$#'
-			identifier: parameterByRef.type
-			count: 4
-			path: plugins/Intl/Commands/GenerateIntl.php
-
-		-
-			message: '#^Parameter &\$translations by\-ref type of method Piwik\\Plugins\\Intl\\Commands\\GenerateIntl\:\:fetchCurrencyData\(\) expects array\{Intl\: array\<string, string\>\}, array\{Intl\: non\-empty\-array\<string, mixed\>\} given\.$#'
-			identifier: parameterByRef.type
-			count: 4
-			path: plugins/Intl/Commands/GenerateIntl.php
-
-		-
-			message: '#^Parameter &\$translations by\-ref type of method Piwik\\Plugins\\Intl\\Commands\\GenerateIntl\:\:fetchListingLayouts\(\) expects array\{Intl\: array\<string, string\>\}, array\{Intl\: non\-empty\-array\<string, mixed\>\} given\.$#'
-			identifier: parameterByRef.type
-			count: 8
-			path: plugins/Intl/Commands/GenerateIntl.php
-
-		-
-			message: '#^Parameter &\$translations by\-ref type of method Piwik\\Plugins\\Intl\\Commands\\GenerateIntl\:\:fetchNumberFormattingData\(\) expects array\{Intl\: array\<string, string\>\}, array\{Intl\: non\-empty\-array\<string, mixed\>\} given\.$#'
-			identifier: parameterByRef.type
-			count: 12
-			path: plugins/Intl/Commands/GenerateIntl.php
-
-		-
-			message: '#^Parameter &\$translations by\-ref type of method Piwik\\Plugins\\Intl\\Commands\\GenerateIntl\:\:fetchTimeZoneData\(\) expects array\{Intl\: array\<string, string\>\}, array\{Intl\: non\-empty\-array\<string, mixed\>\} given\.$#'
-			identifier: parameterByRef.type
-			count: 1
-			path: plugins/Intl/Commands/GenerateIntl.php
-
-		-
-			message: '#^Parameter &\$translations by\-ref type of method Piwik\\Plugins\\Intl\\Commands\\GenerateIntl\:\:fetchUnitData\(\) expects array\{Intl\: array\<string, string\>\}, array\{Intl\: non\-empty\-array\<string, mixed\>\} given\.$#'
-			identifier: parameterByRef.type
-			count: 17
-			path: plugins/Intl/Commands/GenerateIntl.php
-
-		-
 			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(mixed\)\: bool\)\|null, ''strlen'' given\.$#'
 			identifier: argument.type
 			count: 1
@@ -3668,12 +3098,6 @@ parameters:
 
 		-
 			message: '#^Parameter &\$languages by\-ref type of method Piwik\\Plugins\\LanguagesManager\\API\:\:enableDevelopmentLanguageInDevEnvironment\(\) expects list\<string\>, array\<int\<0, max\>, string\> given\.$#'
-			identifier: parameterByRef.type
-			count: 1
-			path: plugins/LanguagesManager/API.php
-
-		-
-			message: '#^Parameter &\$languages by\-ref type of method Piwik\\Plugins\\LanguagesManager\\API\:\:enableDevelopmentLanguageInDevEnvironment\(\) expects list\<string\>, non\-empty\-array\<int\<0, max\>, string\> given\.$#'
 			identifier: parameterByRef.type
 			count: 1
 			path: plugins/LanguagesManager/API.php
@@ -3799,12 +3223,6 @@ parameters:
 			path: plugins/Login/PasswordResetter.php
 
 		-
-			message: '#^Parameter \#1 \$passwordHash of method Piwik\\Auth\:\:setPasswordHash\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/Login/PasswordVerifier.php
-
-		-
 			message: '#^Binary operation "\+" between int\<1, max\> and string results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
@@ -3895,12 +3313,6 @@ parameters:
 			path: plugins/Monolog/Handler/WebNotificationHandler.php
 
 		-
-			message: '#^Instanceof between Exception and Exception will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 2
-			path: plugins/Monolog/Processor/ExceptionToTextProcessor.php
-
-		-
 			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -3961,12 +3373,6 @@ parameters:
 			path: plugins/PrivacyManager/DoNotTrackHeaderChecker.php
 
 		-
-			message: '#^Parameter \#2 \$first of static method Piwik\\Db\:\:segmentedFetchFirst\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/PrivacyManager/LogDataPurger.php
-
-		-
 			message: '#^Call to function is_array\(\) with non\-falsy\-string will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 1
@@ -4006,18 +3412,6 @@ parameters:
 			message: '#^Parameter \#2 \$reportDateMonth of static method Piwik\\Plugins\\PrivacyManager\\ReportsPurger\:\:shouldReportBePurged\(\) expects int, string given\.$#'
 			identifier: argument.type
 			count: 1
-			path: plugins/PrivacyManager/ReportsPurger.php
-
-		-
-			message: '#^Parameter \#3 \$last of static method Piwik\\Db\:\:segmentedFetchAll\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/PrivacyManager/ReportsPurger.php
-
-		-
-			message: '#^Parameter \#3 \$last of static method Piwik\\Db\:\:segmentedFetchOne\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 2
 			path: plugins/PrivacyManager/ReportsPurger.php
 
 		-
@@ -4117,20 +3511,8 @@ parameters:
 			path: plugins/SegmentEditor/SegmentEditor.php
 
 		-
-			message: '#^Variable \$endDate in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: plugins/SegmentEditor/SegmentEditor.php
-
-		-
 			message: '#^Call to function is_string\(\) with non\-falsy\-string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: '#^Parameter \#14 \$excludedQueryParams of method Piwik\\Tracker\\TrackerCodeGenerator\:\:generate\(\) expects bool, string given\.$#'
-			identifier: argument.type
 			count: 1
 			path: plugins/SitesManager/API.php
 
@@ -4273,7 +3655,7 @@ parameters:
 			path: plugins/UserId/Reports/GetUsers.php
 
 		-
-			message: '#^Call to function is_array\(\) with array\{login\: string, password\: string, email\: string, twofactor_secret\: string, superuser_access\: int\|string, date_registered\: string\|null, ts_password_modified\: string\|null, idchange_last_viewed\: int\|string\|null, \.\.\.\} will always evaluate to true\.$#'
+			message: '#^Call to function is_array\(\) with array\{login\: string, password\: string, email\: string, twofactor_secret\: string, superuser_access\: int\|string, date_registered\: string\|null, ts_password_modified\: string\|null, ts_sessions_invalidated\: string\|null, \.\.\.\} will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: plugins/UsersManager/API.php

@@ -125,8 +125,20 @@ log_level = WARN
 ; this allows you to log more information to one backend vs another.
 ; log_level_screen =
 ; log_level_file =
+; log_level_database =
 ; log_level_errorlog =
 ; log_level_syslog =
+
+; format of the log entries written by the file, database, errorlog and syslog writers.
+; possible values are: text, json, loggly, logstash
+; the screen writer always uses text.
+log_format = text
+
+; you can also set specific log formats for different writers, by appending the writer name to log_format_, like so:
+; log_format_file =
+; log_format_database =
+; log_format_errorlog =
+; log_format_syslog =
 
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/matomo.log
@@ -392,6 +404,15 @@ time_before_range_archive_considered_outdated = -1
 ; Do not configure this value lower than the maximum time it can take for the longest running archiving job to finish
 archive_failure_recovery_timeout = 86400
 
+; core:archive skips an archive that failed, and the periods built from it, until this many seconds have passed.
+; One comma separated value per failed attempt, the last one is used for any further attempt. Each value is capped at
+; one year, an invalid list is ignored in favour of the default.
+archive_failure_retry_delays = "3600,21600,86400"
+
+; After this many failed attempts core:archive stops retrying an archive (minimum 1).
+; Use ./console core:archive-failures to list failed archives and retry them.
+archive_failure_max_attempts = 5
+
 ; This setting is overridden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Matomo archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
@@ -410,9 +431,9 @@ archiving_range_force_on_browser_request = 1
 archiving_custom_ranges[] =
 
 ; If configured, archiving queries will be aborted after the configured amount of seconds. Set it to -1 if the query time
-; should not be limited. Note: This feature requires a recent database version and the PDO\MYSQL extension
-; must be used. Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint.
-; This feature will not work with the MYSQLI extension.
+; should not be limited. Note: the PDO\MYSQL extension must be used. The limit is applied through the MAX_EXECUTION_TIME
+; hint on MySQL and through SET STATEMENT max_statement_time on MariaDB. This feature will not work with the MYSQLI
+; extension.
 archiving_query_max_execution_time = 7200
 
 ; Allows you to disable archiving segments for selected plugins. For more details please see https://matomo.org/faq/how-to-disable-archiving-the-segment-reports-for-specific-plugins
@@ -452,7 +473,7 @@ hash_algorithm = whirlpool
 
 ; set the algorithm used by password_hash()
 ; "default" for the algorithm used by the PHP version or one of ["bcrypt", "argon2i", "argon2id"]
-; "argon2id" requires at least PHP 7.3.0
+; the argon2 algorithms require PHP to be built with Argon2 support
 ; for all argon2 algorithms, additional parameters can be changed below
 ; any changes are applied to the stored hash on the next login of a user
 ; see https://www.php.net/manual/en/function.password-hash.php and https://wiki.php.net/rfc/argon2_password_hash
@@ -480,6 +501,8 @@ csp_enabled = 1
 
 ; If set, and csp_enabled is on, Matomo will send a report-uri in the Content-Security-Policy-Report-Only header
 ; instead of a Content-Security-Policy header.
+; Responses that carry data rather than application UI (API output, exports, generated reports) are not
+; covered: their policy is always enforced.
 csp_report_only = 0
 
 ; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
@@ -573,7 +596,7 @@ auth_token_rotation_notification_days = 180
 auth_token_default_expiration_days = 180
 
 ; Number of days before the expiration date of a personal auth token, where an email notification is sent to the user.
-; If set to 0 days, notifications won't be sent. 
+; If set to 0 days, notifications won't be sent.
 ; Recommended to keep enabled for best security.
 auth_token_expiration_notification_days = 30
 
@@ -623,12 +646,16 @@ datatable_archiving_maximum_rows_custom_dimensions = 1000
 datatable_archiving_maximum_rows_subtable_custom_dimensions = 1000
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
+; note: not used for page URLs and titles while datatable_archiving_maximum_rows_actions_flat is enabled
 datatable_archiving_maximum_rows_actions = 500
 ; maximum number of rows used when archiving flat page/title actions before rebuilding hierarchy
-; if set to 0, legacy hierarchical-only Actions archiving is used
-datatable_archiving_maximum_rows_actions_flat = 0
+; this is the row cap for the page URL and page title reports, whose categories are then not truncated
+; per category; if set to 0, legacy hierarchical-only Actions archiving is used
+; note: the Matomo 6 update sets this to 0 for existing installations, to keep their legacy archiving
+datatable_archiving_maximum_rows_actions_flat = 10000
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
-; note: should not exceed the display limit in Piwik\Actions\Controller::ACTIONS_REPORT_ROWS_DISPLAY
+; note: not used for page URLs and titles while datatable_archiving_maximum_rows_actions_flat is enabled
+; note: should not exceed the display limit in Piwik\Plugins\Actions\Actions::ACTIONS_REPORT_ROWS_DISPLAY
 ; because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
 datatable_archiving_maximum_rows_subtable_actions = 100
 ; maximum number of rows for the Site Search table
@@ -677,15 +704,14 @@ live_widget_visitor_count_last_minutes = 3
 live_visitor_profile_max_visits_to_aggregate = 100
 
 ; maximum number of AI chatbots listed in the real-time AI Chatbots reports
-live_ai_chatbots_maximum_rows = 100 
+live_ai_chatbots_maximum_rows = 100
 ; maximum number of page URLs listed in the real-time AI Chatbots top page URL reports
 live_ai_chatbots_top_page_urls_maximum_rows = 100
 
 ; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
 ; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
-; limited. Note: This feature requires a recent database version and the PDO\MYSQL extension must be used.
-; Some MySQL forks like MariaDB might not support this feature which uses the MAX_EXECUTION_TIME hint. This feature will
-; not work with the MYSQLI extension.
+; limited. Note: the PDO\MYSQL extension must be used. The limit is applied through the MAX_EXECUTION_TIME hint on MySQL
+; and through SET STATEMENT max_statement_time on MariaDB. This feature will not work with the MYSQLI extension.
 live_query_max_execution_time = -1
 
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
@@ -695,6 +721,10 @@ multisites_refresh_after_seconds = 300
 ; by default, an update notification for a new version of Matomo is shown to every user. Set to 1 if only
 ; the superusers should see the notification.
 show_update_notification_to_superusers_only = 0
+
+; notifications to hide, by ID. Only some notifications can be hidden, e.g. the warning about the PHP security
+; advisory of 2026-10-21, when your Linux distribution has backported the fix without changing the PHP version number:
+;disabled_notifications[] = PhpSecurityAdvisory_2026_10_21
 
 ; Set to 1 if you're using https on your Matomo server and Matomo can't detect it,
 ; e.g., a reverse proxy using https-to-http, or a web server that doesn't
@@ -721,7 +751,9 @@ multi_server_environment = 0
 ; de facto standard (X-Forwarded-For)
 ;proxy_client_headers[] = HTTP_X_FORWARDED_FOR
 
-; List of proxy headers for host IP addresses
+; List of proxy headers for the public hostname. When configured, the hostname from these headers takes precedence over
+; the Host header and is validated against trusted_hosts. List both names in trusted_hosts: the tracker config cache is
+; keyed on the Host header and is only written for a host listed there.
 ;
 ; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
@@ -838,8 +870,8 @@ enable_load_data_infile = 1
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
 
-; Defines when a plugin trial request expires and a new one can be requested
-; By settings this value to -1 plugin trial requests will be disabled
+; Setting this value to -1 disables plugin trial requests. Any other value enables them: trial requests no longer
+; expire, so the number of days is not used
 plugin_trial_request_expiration_in_days = 28
 
 ; By setting this option to 0 the users management will be disabled
@@ -884,6 +916,12 @@ enable_update_communication = 1
 ; This option defines the protocols Matomo's Http class is allowed to open.
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
+
+; Requests fetching a user-configured URL (e.g. for site content detection) refuse private, loopback and
+; reserved IP addresses. If this Matomo tracks intranet sites on such addresses, allowlist their ranges
+; here (single IPs, CIDR or wildcards, IPv4 and IPv6). Keep the ranges as narrow as possible.
+; allowed_private_egress_ranges[] = "10.0.0.0/8"
+; allowed_private_egress_ranges[] = "192.168.1.*"
 
 ; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improve security
 ; If you have a problem loading the marketplace, please enable this config option
@@ -1009,6 +1047,14 @@ cookie_domain =
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics = 1
 
+; Set to 0 to stop recording accurate per-pageview time-spent rows into the log_page_view_time table.
+; Can be overridden for a single site via a [Tracker_N] section, where N is the idSite.
+; Only affects data collected while disabled: those pageviews fall back to the legacy
+; time_spent_ref_action metric at archive time, while rows recorded before disabling keep being used.
+; This is a temporary safety control (introduced in 6.0.0), scheduled for removal in a future major
+; version once the new metric has been validated in production.
+record_accurate_page_view_time = 1
+
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
 ; after their last page view, it will be recorded as a new visit. In case you are using the Matomo JavaScript tracker to
 ; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg
@@ -1027,8 +1073,12 @@ window_look_back_for_visitor = 0
 default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
-; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id"
+; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters
+; and advertising/attribution tracking parameters)
+; An entry can either be a parameter name (eg. gclid) or a regular expression including its delimiters, as used below.
+; As this list is split on commas, a regular expression must not contain a
+; comma. Matching is case insensitive, so entries should always be written in lower case.
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id,token_auth,token,gad_source,gad_campaignid,/^hsa_(acc|ad|cam|grp|kw|la|mt|net|ol|src|tgt|ver)$/"
 
 ; If set to 1, Matomo will use the default provider if no other provider is configured.
 ; In addition the default provider will be used as a fallback when the configure provider does not return any results.
@@ -1337,6 +1387,8 @@ Plugins[] = JsTrackerInstallCheck
 Plugins[] = FeatureFlags
 Plugins[] = AIAgents
 Plugins[] = BotTracking
+Plugins[] = AIProviders
+Plugins[] = TrackingSpamPrevention
 Plugins[] = DebugView
 
 [PluginsInstalled]
@@ -1609,5 +1661,13 @@ CommonPIIParams[] = webhooksecret
 CommonPIIParams[] = website
 CommonPIIParams[] = zip
 CommonPIIParams[] = zipcode
+
+[Goals]
+; Maximum number of same-origin pages fetched when analysing a website for goal recommendations
+recommendation_max_crawl_pages = 50
+
+; Maximum number of AI-assisted goal recommendation scans allowed per site and day.
+; Set to 0 for no limit. Useful for managed environments to cap AI provider usage.
+recommendation_ai_daily_scan_limit = 0
 
 ; NOTE: do not directly edit this file! See notice at the top

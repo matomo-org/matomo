@@ -97,6 +97,7 @@
           <th>{{ translate('General_Description') }}</th>
           <th>{{ translate('UsersManager_LastUsed') }}</th>
           <th>{{ translate('UsersManager_SecureUseOnly') }}</th>
+          <th>{{ translate('UsersManager_TokenAccessLevel') }}</th>
           <th>{{ translate('UsersManager_ExpireDate') }}</th>
           <th>{{ translate('General_Actions') }}</th>
         </tr>
@@ -104,7 +105,7 @@
         <tbody>
         <tr v-if="!tokens?.length">
           <td
-            :colspan="5"
+            :colspan="7"
             v-html="$sanitize(noTokenCreatedYetText)"
           ></td>
         </tr>
@@ -118,6 +119,7 @@
             {{ parseInt(`${theToken.secure_only}`, 10) === 1 ?
                translate('General_Yes') : translate('General_No') }}
           </td>
+          <td>{{ theToken.access_level_label }}</td>
           <td>
             {{ theToken.date_expired ? theToken.date_expired : translate('General_Never') }}
           </td>
@@ -183,6 +185,7 @@ interface TokenInfo {
   date_expired?: string;
   last_used?: string;
   secure_only?: string | number;
+  access_level_label?: string;
 }
 
 interface UserSecurityState {

@@ -27,7 +27,7 @@
                 rendererOptions: {
                     shadow: false,
                     showDataLabels: false,
-                    sliceMargin: 1,
+                    sliceMargin: 0,
                     startAngle: 35
                 }
             };

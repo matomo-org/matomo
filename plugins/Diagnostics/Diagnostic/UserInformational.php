@@ -17,10 +17,7 @@ use Piwik\Translation\Translator;
  */
 class UserInformational implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

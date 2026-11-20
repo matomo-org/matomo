@@ -28,12 +28,12 @@ class Daily extends Schedule
 
         // Add one day
         $rescheduledTime = mktime(
-            date('H', $currentTime),
-            date('i', $currentTime),
-            date('s', $currentTime),
-            date('n', $currentTime),
-            date('j', $currentTime) + 1,
-            date('Y', $currentTime)
+            (int) date('H', $currentTime),
+            (int) date('i', $currentTime),
+            (int) date('s', $currentTime),
+            (int) date('n', $currentTime),
+            (int) date('j', $currentTime) + 1,
+            (int) date('Y', $currentTime)
         );
 
         // Adjusts the scheduled hour

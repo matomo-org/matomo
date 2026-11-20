@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="11" viewBox="0 0 16 11">
+  <!--
+    The CSS twin of this spinner is .matomo-loader in
+    plugins/CoreHome/stylesheets/matomo-loader.less - keep the two in step. That one inherits its
+    colour from the surrounding text; this one cannot, since an SVG used as a background-image is
+    a separate document, so the grey is baked in.
+
+    scaleY(1.5714285714) is 11/7, matching .matomo-loader growing a 4x7 bar to 4x11.
+
+    Screenshot tests cannot freeze this. The harness's `animation: none` override only reaches the
+    host document, so a baseline capturing one of these call sites mid-load would flake every run.
+  -->
+  <style>
+    .matomo-loader__bar {
+      fill: #b3b3b3;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: matomo-loader-pulse 1s infinite ease-in-out;
+    }
+
+    .matomo-loader__bar--second { animation-delay: .15s; }
+    .matomo-loader__bar--third { animation-delay: .35s; }
+
+    @keyframes matomo-loader-pulse {
+      0%, 75%, 100% {
+        fill: #b3b3b3;
+        transform: scaleY(1);
+      }
+      25% {
+        fill: #808080;
+        transform: scaleY(1.5714285714);
+      }
+    }
+  </style>
+  <rect fill="#b3b3b3" class="matomo-loader__bar" x="0" y="2" width="4" height="7" />
+  <rect fill="#b3b3b3" class="matomo-loader__bar matomo-loader__bar--second" x="6" y="2" width="4" height="7" />
+  <rect fill="#b3b3b3" class="matomo-loader__bar matomo-loader__bar--third" x="12" y="2" width="4" height="7" />
+</svg>

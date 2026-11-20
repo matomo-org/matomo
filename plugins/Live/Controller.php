@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
 use Piwik\Config\GeneralConfig;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Piwik;
 use Piwik\DataTable;
 use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
@@ -38,10 +39,13 @@ class Controller extends \Piwik\Plugin\Controller
     public function widget()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-        Live::checkIsVisitorLogEnabled($this->idSite);
+
+        // When the detailed visits log is disabled the widget is limited to the aggregated counters only.
+        $aggregatedOnly = Live::shouldShowAggregatedRealtimeOnly((int) $this->idSite);
 
         $view = new View('@Live/index');
         $view->idSite = $this->idSite;
+        $view->aggregatedOnly = $aggregatedOnly;
         $view->isWidgetized = \Piwik\Request::fromRequest()->getIntegerParameter('widget', 0);
         $view->liveRefreshAfterMs = GeneralConfig::getIntegerConfigValue('live_widget_refresh_after_seconds', 0, $this->idSite) * 1000;
         return $this->render($view);
@@ -202,7 +206,7 @@ class Controller extends \Piwik\Plugin\Controller
         $visitorData = Request::processRequest('Live.getVisitorProfile');
 
         if (empty($visitorData)) {
-            throw new \Exception('Visitor could not be found'); // for example when URL parameter is not set
+            throw new ThingNotFoundException('Visitor could not be found'); // e.g. its raw data was deleted
         }
 
         VisitorLog::groupActionsByPageviewId($visitorData['lastVisits']);

@@ -139,7 +139,7 @@ describe("WidgetizedDashboard", function () {
 
         await page.click('.dashboard-manager .title');
         await page.waitForTimeout(50);
-        await page.click('.dashboard-manager .addWidget-button');
+        await page.click('button[data-action="addWidget"]');
         await page.waitForSelector(modalSelector);
         await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li button');
 
@@ -233,6 +233,8 @@ describe("WidgetizedDashboard", function () {
             $('#copyDashboardName').val('new <dash> 💩').change();
         });
         await page.waitForSelector('#copyDashboardUser [value="superUserLogin"]');
+        // page.select() also passes on a select Materialize wrapped, see the copy dialog in dashboard.less
+        expect(await page.evaluate(() => $('#copyDashboardUser').closest('.select-wrapper').length)).to.equal(0);
         await page.select('#copyDashboardUser', 'superUserLogin');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();

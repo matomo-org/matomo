@@ -203,7 +203,13 @@
                 },
                 "loginUrl": "https://shop.piwik.org/my-account"
             },
-            "category": "matomo"
+            "category": "matomo",
+            "categories": [
+                "insights"
+            ],
+            "promotions": {
+                "featured": 7
+            }
         }
     ]
 }

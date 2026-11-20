@@ -18,8 +18,11 @@ use Piwik\Metrics\Formatter;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\GranularPrivacyCompliance;
+use Piwik\Policy\PolicyManager;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
@@ -32,8 +35,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const ACTIVATE_DNT_NONCE = 'PrivacyManager.activateDnt';
     public const DEACTIVATE_DNT_NONCE = 'PrivacyManager.deactivateDnt';
 
-    /** @var SiteContentDetector */
-    private $siteContentDetector;
+    private SiteContentDetector $siteContentDetector;
 
     public function __construct(SiteContentDetector $siteContentDetector)
     {
@@ -104,7 +106,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // only show months when it is more than 90 days...
             $months = floor($purgeDataSettings['delete_logs_older_than'] / 30.4);
             $daysLeft = round($purgeDataSettings['delete_logs_older_than'] - ($months * 30.4));
-            $rawDataRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth') . ' ';
+            $rawDataRetention .= $months . ' ' . Piwik::translate('Intl_PeriodMonths') . ' ';
 
             if ($daysLeft > 0) {
                 $rawDataRetention .= $daysLeft . ' ' . Piwik::translate($daysLeft > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
@@ -231,6 +233,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view = new View('@PrivacyManager/compliance');
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
+        $view->granularComplianceEnabled = StaticContainer::get(FeatureFlagManager::class)
+            ->isFeatureActive(GranularPrivacyCompliance::class);
         $this->setBasicVariablesView($view);
 
         return $view->render();
@@ -325,6 +329,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $deleteDataInfos["config"] = PrivacyManager::getPurgeDataSettings();
         $deleteDataInfos["deleteTables"] =
             "<br/>" . implode(", ", LogDataPurger::getDeleteTableLogTables());
+        // retention is stored as an instance-wide option, so it is never site specific
+        $deleteDataInfos["compliancePolicyControlled"] = PolicyManager::getCompliancePoliciesControllingASetting(
+            'delete_logs_older_than',
+            null,
+            PolicyManager::SETTING_TYPE_OPTION
+        );
 
         /** @var Scheduler $scheduler */
         $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');

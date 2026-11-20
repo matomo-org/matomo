@@ -19,7 +19,8 @@
       {{ headline }}
     </h1>
 
-    <VueEntryContainer id="start-tracking-cta" :html="ctaContent || fetchedCtaContent" />
+    <!-- mount once the content is known: vue-entry components only start on mount -->
+    <VueEntryContainer v-if="ctaHtml" id="start-tracking-cta" :html="ctaHtml" />
 
     <ActivityIndicator
       :loading-message="`${translate('SitesManager_DetectingYourSite')}&hellip;`"
@@ -71,6 +72,11 @@
           {{ translate('SitesManager_SiteWithoutDataHidePageForHour') }}
         </a>
       </div>
+
+      <VueEntryContainer
+        id="start-tracking-after-methods"
+        :html="afterTrackingMethodsContent || fetchedAfterTrackingMethodsContent"
+      />
     </template>
 
     <div id="start-tracking-details" :data-method="showMethodDetails.id" v-if="showMethodDetails">
@@ -119,12 +125,14 @@ interface SiteWithoutDataState {
   recommendedMethod: TrackingMethod|null,
   trackingMethods: Array<TrackingMethod>,
   fetchedCtaContent: string,
+  fetchedAfterTrackingMethodsContent: string,
 }
 
 export default defineComponent({
   emits: ['dismissed'],
   props: {
     ctaContent: String,
+    afterTrackingMethodsContent: String,
     // Set by the reporting SPA gate; makes dismissal an in-place Ajax hide, not a link navigation.
     embeddedInReporting: Boolean,
   },
@@ -142,6 +150,7 @@ export default defineComponent({
       recommendedMethod: null,
       trackingMethods: [],
       fetchedCtaContent: '',
+      fetchedAfterTrackingMethodsContent: '',
     };
   },
   created() {
@@ -154,6 +163,7 @@ export default defineComponent({
       this.trackingMethods = response.trackingMethods;
       this.recommendedMethod = response.recommendedMethod;
       this.fetchedCtaContent = response.ctaContent || '';
+      this.fetchedAfterTrackingMethodsContent = response.afterTrackingMethodsContent || '';
       this.loading = false;
 
       // set up watch once all data was fetched, to ensure tracking methods are available
@@ -244,6 +254,9 @@ export default defineComponent({
     },
   },
   computed: {
+    ctaHtml(): string {
+      return this.ctaContent || this.fetchedCtaContent;
+    },
     ignoreSitesWithoutDataLink() {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,

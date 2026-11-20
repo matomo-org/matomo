@@ -28,10 +28,7 @@ use Piwik\Settings\Plugin\SystemSettings;
  */
 class SettingsProvider
 {
-    /**
-     * @var Plugin\Manager
-     */
-    private $pluginManager;
+    private Plugin\Manager $pluginManager;
 
     public function __construct(Plugin\Manager $pluginManager)
     {

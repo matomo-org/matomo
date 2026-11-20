@@ -1,6 +1,8 @@
 {
     "Goals": {
         "CategoryTextReferrers_Referrers": "አመላካቾች",
-        "ColumnConversions": "ልወጣዎች"
+        "ColumnConversions": "ልወጣዎች",
+        "RecommendationCountOnePage": "1 ገፅ",
+        "RecommendationCountPages": "%s ገፆች"
     }
 }

@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Soort actie",
+        "ActionTypeSegmentHelp": "Een soort actie, zoals: %s",
         "ActionTypes": "Soorten acties",
         "ActionsInVisit": "Acties tijdens bezoek",
         "AvgGenerationTimeTooltip": "Gemiddelde gebaseerd op %1$s hit(s) %2$s tussen %3$s en %4$s",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Gebruik de + en - icoontjes aan de linkerzijde om te navigeren.",
         "PluginDescription": "Rapporteert over pagina weergaven en pagina titels. Het maakt het interne zoekgedrag op uw website inzichtelijk en volgt automatisch het klikken op externe linken en downloads van bestanden.",
         "RevisitedPages": "Pagina's die meer dan eens zijn bekeken",
+        "SearchesSegmentHelp": "Om alle bezoeken te selecteren die zoeken via de interne zoekfunctie van de site, gebruik: %s",
         "SiteSearchCategories": "Categorieën (zoeken via site)",
         "SiteSearchCategories1": "Dit rapport toont de categorieën die bezoekers hebben geselecteerd bij het zoeken op uw website.",
         "SiteSearchCategories2": "Bijvoorbeeld, Ecommerce websites hebben vaak een categoriekeuze waarbij de zoekresultaten worden beperkt tot een specifieke categorie.",

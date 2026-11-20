@@ -193,7 +193,7 @@ class CalculateConversionPages extends ConsoleCommand
 
         // Only allow the goals parameter to be used if a single site is specified
         $idSite = $this->getInput()->getOption('idsite');
-        if (!is_numeric($idSite) || strpos($idSite, ',') !== false) {
+        if (!is_numeric($idSite) || str_contains($idSite, ',')) {
             throw new \InvalidArgumentException("The goals parameter can only be used when a single website is specified using the idsite parameter", $code = 0);
         }
 
@@ -261,12 +261,13 @@ class CalculateConversionPages extends ConsoleCommand
 
             $bind = [];
             if ($idGoal !== null) {
-                $where .= ' AND c.idgoal = ? ';
-                $bind[] = $idGoal;
+                $goalIds = explode(',', $idGoal);
+                $where .= ' AND c.idgoal IN (' . Common::getSqlStringFieldsArray($goalIds) . ') ';
+                $bind = array_merge($bind, $goalIds);
             }
             if ($idSite !== null) {
-                $where .= ' AND c.idsite = ? ';
-                $bind[] = $idSite;
+                $where .= ' AND c.idsite IN (' . Common::getSqlStringFieldsArray($sites) . ') ';
+                $bind = array_merge($bind, $sites);
             }
 
             if ($where !== '') {

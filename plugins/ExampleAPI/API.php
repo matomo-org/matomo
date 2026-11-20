@@ -88,11 +88,11 @@ class API extends \Piwik\Plugin\API
      * When called from the Web API, you see that simple arrays like this one
      * are automatically converted in the various formats (xml, csv, etc.)
      *
-     * @return array
+     * @return list<string>
      */
     public function getDescriptionArray(): array
     {
-        return array('piwik', 'free/libre', 'web analytics', 'free', 'Strong message: Свободный Тибет');
+        return ['piwik', 'free/libre', 'web analytics', 'free', 'Strong message: Свободный Тибет'];
     }
 
     /**
@@ -105,14 +105,14 @@ class API extends \Piwik\Plugin\API
         $dataTable = new DataTable();
 
         $row1 = new Row();
-        $row1->setColumns(array('name' => 'piwik', 'license' => 'GPL'));
+        $row1->setColumns(['name' => 'piwik', 'license' => 'GPL']);
 
         // Rows Metadata is useful to store non stats data for example (logos, urls, etc.)
         // When printed out, they are simply merged with columns
         $row1->setMetadata('logo', 'logo.png');
         $dataTable->addRow($row1);
 
-        $dataTable->addRowFromSimpleArray(array('name' => 'google analytics', 'license' => 'commercial'));
+        $dataTable->addRowFromSimpleArray(['name' => 'google analytics', 'license' => 'commercial']);
 
         return $dataTable;
     }
@@ -129,17 +129,16 @@ class API extends \Piwik\Plugin\API
      * Returns a Multidimensional Array
      * Only supported in JSON
      *
-     * @return array
+     * @return array<string, array<mixed>>
      */
     public function getMultiArray(): array
     {
-        $return = array(
-            'Limitation'       => array(
+        return [
+            'Limitation'       => [
                 "Multi dimensional arrays is only supported by format=JSON",
                 "Known limitation",
-            ),
-            'Second Dimension' => array(true, false, 1, 0, 152, 'test', array(42 => 'end')),
-        );
-        return $return;
+            ],
+            'Second Dimension' => [true, false, 1, 0, 152, 'test', [42 => 'end']],
+        ];
     }
 }

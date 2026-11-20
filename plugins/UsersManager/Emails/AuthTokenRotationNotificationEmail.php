@@ -19,16 +19,11 @@ use Piwik\View;
 
 class AuthTokenRotationNotificationEmail extends Mail
 {
-    /**
-     * @var TokenNotification
-     */
-    private $notification;
+    private TokenNotification $notification;
 
-    /** @var string */
-    private $recipient;
+    private string $recipient;
 
-    /** @var array */
-    private $emailData;
+    private array $emailData;
 
     public function __construct(TokenNotification $notification, string $recipient, array $emailData)
     {

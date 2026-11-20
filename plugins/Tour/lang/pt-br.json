@@ -2,6 +2,8 @@
     "Tour": {
         "AddAnnotation": "Adicionar uma anotação",
         "AddAnotherWebsite": "Adicionar outro site",
+        "AddRecommendedGoals": "Adicionar metas recomendadas",
+        "AddRecommendedGoalsDescription": "Analise as recomendações de metas para o seu site e crie as metas adequadas.",
         "AddReport": "Adicionar um relatório agendado",
         "AddSegment": "Adicionar um segmento",
         "BecomeMatomoExpert": "Torne-se um especialista Matomo",

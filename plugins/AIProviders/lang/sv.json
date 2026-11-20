@@ -1,0 +1,9 @@
+{
+    "AIProviders": {
+        "ApiKey": "API-nyckel",
+        "ApiKeyPlaceholder": "Ange din API-nyckel",
+        "DefaultBadge": "Standard",
+        "Model": "Modell",
+        "TestingConnection": "Testar…"
+    }
+}

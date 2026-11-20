@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "內部網站",
         "IntranetDescription": "內部網站就像一般的網站，但是架設在內部網路內。",
+        "IntranetLongDescription": "追蹤只能在你組織網路內存取的內部網站。Matomo 會使用第一方 cookie，在內部網路環境中更精準地識別不重複訪客。",
         "Intranets": "內部網站"
     }
 }

@@ -35,10 +35,7 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
      */
     use CustomGetterTrait;
 
-    /**
-     * @var int|null
-     */
-    private $value;
+    private ?int $value;
 
     private function __construct(?int $value)
     {
@@ -66,6 +63,19 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
         return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingTitle');
     }
 
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingWhatItDoes', [
+            self::getCurrentMaskLength($idSite),
+            self::getPolicyRequirements()[CnilPolicy::class],
+        ]);
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingImpact', [self::getCurrentMaskLength($idSite)]);
+    }
+
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
         // TODO add in logic for generating message for different policy requirements
@@ -79,12 +89,23 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
         return '';
     }
 
+    public static function getPolicyOrder(): int
+    {
+        return 10;
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policies = [];
         $policies[CnilPolicy::class] = 2;
 
         return $policies;
+    }
+
+    public static function getPolicyConstraintType(string $policy): string
+    {
+        // a policy sets the minimum number of bytes to mask, masking more stays compliant
+        return PolicyComparisonInterface::POLICY_CONSTRAINT_MIN;
     }
 
     public static function getInstance(?int $idSite = null): self

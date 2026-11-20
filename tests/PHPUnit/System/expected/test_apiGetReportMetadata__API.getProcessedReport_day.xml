@@ -25,6 +25,9 @@
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>The percentage of the report's total Actions that this row represents.</nb_actions_percent_of_total>
+			<revenue_percent_of_total>The percentage of the report's total Revenue that this row represents.</revenue_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
@@ -40,6 +43,9 @@
 			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>percent</nb_actions_percent_of_total>
+			<revenue_percent_of_total>percent</revenue_percent_of_total>
 		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -61,13 +67,16 @@
 	<columns>
 		<label>Country</label>
 		<nb_visits>Visits</nb_visits>
+		<nb_visits_percent_of_total>Visits (%)</nb_visits_percent_of_total>
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
+		<nb_actions_percent_of_total>Actions (%)</nb_actions_percent_of_total>
 		<nb_users>Users</nb_users>
 		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<revenue>Revenue</revenue>
+		<revenue_percent_of_total>Revenue (%)</revenue_percent_of_total>
 	</columns>
 	<reportData>
 		<row>
@@ -77,6 +86,9 @@
 			<nb_actions>1</nb_actions>
 			<nb_users>0</nb_users>
 			<revenue>$42.26</revenue>
+			<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+			<nb_actions_percent_of_total>100%</nb_actions_percent_of_total>
+			<revenue_percent_of_total>100%</revenue_percent_of_total>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:18:06</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>

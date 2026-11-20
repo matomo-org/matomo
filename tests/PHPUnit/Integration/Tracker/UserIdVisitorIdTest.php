@@ -63,7 +63,7 @@ class UserIdVisitorIdTest extends IntegrationTestCase
 
     private function logOutUser(\MatomoTracker $tracker)
     {
-        $tracker->setUserId(false);
+        $tracker->setUserId(null);
     }
 
     private function configureUserIdOverwritesVisitorId(bool $userIdOverwritesVisitorId)

@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "トラッキングコードの検証に失敗しました。コードが正しくインストールされているかご確認ください。%1$s詳細はこちら%2$s。",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "トラッキングコードの検証に失敗しました。「%1$s」プラグインがインストールされており、すべての手順が正しく実行されているかご確認ください。%2$s詳細はこちら%3$s。",
+        "JsTrackingCodeInstallCheckSuccessMessage": "トラッキングコードのインストールが完了しました！この画面は、お客様のウェブサイトでデータが追跡され次第、自動的に閉じられます。",
+        "OptionalTestInstallationDescription": "オプション：トラッキングコードがMatomoインスタンスにリクエストを送信できるかどうかを確認するには、トラッキング対象のURLを正確に入力し、「インストールをテスト」をクリックしてください。新しいタブが開きますが、10秒以内に閉じます。",
+        "PluginDescription": "サイトにトラッキングコードがインストールされているか、またそのコードからMatomoインスタンスへトラッキングリクエストを送信できるかを確認してください",
+        "TestInstallationBtnText": "テストインストール"
+    }
+}

@@ -23,15 +23,9 @@ use Piwik\Piwik;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var Dashboard
-     */
-    private $dashboard;
+    private Dashboard $dashboard;
 
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
     public function __construct(Dashboard $dashboard, Model $model)
     {
@@ -137,6 +131,10 @@ class API extends \Piwik\Plugin\API
         $layout = $this->dashboard->getLayoutForUser($login, $idDashboard);
 
         if ($layout !== false) {
+            // Store the layout the recipient would be served: only renderable report widgets, the
+            // same normalisation the serve path applies.
+            $layout = $this->dashboard->encodeLayout($this->dashboard->decodeLayout($layout));
+
             return $this->model->createNewDashboardForUser($copyToUser, $dashboardName, $layout);
         }
 
@@ -193,6 +191,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Unlike the layout the controller serves, this is deliberately not filtered against the widgets
+     * available to the user: the method runs inside the building of the widget list itself, reached
+     * through {@see Dashboard::addWidgetConfigs()}, so consulting that list here would recurse. It
+     * reports widget names only, never renders one.
+     *
      * @param DashboardRecord $dashboard
      * @return list<DashboardWidget>
      */

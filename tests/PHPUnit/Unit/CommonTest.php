@@ -35,6 +35,25 @@ class CommonTest extends TestCase
         $this->assertEquals(getmypid(), Common::getProcessId());
     }
 
+    public function testSafeUnserializeReturnsFalseForNothingToUnserializeWithoutAWarning()
+    {
+        $errors = [];
+        set_error_handler(function ($errno, $errstr) use (&$errors) {
+            $errors[] = $errstr;
+            return true;
+        });
+
+        try {
+            $this->assertFalse(Common::safe_unserialize(''));
+            $this->assertFalse(Common::safe_unserialize(null));
+            $this->assertFalse(Common::safe_unserialize(false));
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
+    }
+
     public function testHashEquals()
     {
         $this->assertFalse(Common::hashEquals('foo', 'bar'));
@@ -273,6 +292,7 @@ class CommonTest extends TestCase
                      ['test', 1345524, "Start of hello\nworld\n\t", ['gaga']],
                  ],
                  [['test', 1345524, ['gaga']], 4, 'int', 4],
+                 [['test', 1345524, ['gaga']], 4.5, 'float', 4.5],
                  ['', [1], 'array', [1]],
                  ['', [], 'array', []],
                  // we give a number in a string and request for a number => it should give the string casted as a number

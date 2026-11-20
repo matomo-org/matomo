@@ -225,7 +225,7 @@ class ImportLogsTest extends SystemTestCase
                 $requests = $requestSet->getRequests();
                 foreach ($requests as $index => $request) {
                     $url = $request->getParam('url');
-                    if (strpos($url, 'triggerInvalid=1') !== false) {
+                    if (str_contains($url, 'triggerInvalid=1')) {
                         $newParams = $request->getParams();
                         $newParams['idsite'] = 1000;
 

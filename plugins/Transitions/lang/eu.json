@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "Bazenekien? Trantsizioak errenkadako ekintza bezala ere erabilgarri daude ondorengo txostenetan:",
         "AvailableInOtherReports2": "Abiarazi trantsizioak sagua txosten horietako errenkada baten gainean jarri eta bere ikonoan (%s) klik eginez.",
-        "BouncesInline": "%s errebote",
         "DirectEntries": "Sarrera zuzenak",
         "ErrorBack": "Itzuli aurreko ekintzara",
         "ExitsInline": "%s irteera",
@@ -36,7 +35,6 @@
         "Transitions": "Trantsizioak",
         "TransitionsSubcategoryHelp1": "Trantsizioak txostenean ikus dezakezu zer egin duten bisitariek orri jakin bat ikusi aurretik eta ondoren. Orri honetan azaltzen da nola atzitu, ulertu eta erabili \"Trantsizioak\" txosten ahaltsua.",
         "TransitionsSubcategoryHelp2": "Xehetasun gehiago",
-        "XOfAllPageviews": "Orri honen ikustaldi guztien %s",
-        "XOutOfYVisits": "%1$s (guztira %2$s)"
+        "XOfAllPageviews": "Orri honen ikustaldi guztien %s"
     }
 }

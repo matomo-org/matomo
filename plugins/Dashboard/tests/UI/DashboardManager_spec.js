@@ -8,7 +8,7 @@
  */
 
 describe("DashboardManager", function () {
-    const managerSelector = '.dashboard-manager,.dashboard-manager .dropdown';
+    const managerSelector = '.dashboard-manager,.dashboard-manager .piwikSelector__dropdown';
     const modalSelector = '.modal.open.add-widget-modal';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
@@ -28,7 +28,7 @@ describe("DashboardManager", function () {
     });
 
     it("should show widget for a category when category label hovered", async function() {
-        await page.click('.dashboard-manager .addWidget-button');
+        await page.click('button[data-action="addWidget"]');
         await page.waitForSelector(modalSelector);
         await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li button');
 
@@ -130,7 +130,9 @@ describe("DashboardManager", function () {
 
     it("should load widgets on smaller screen", async function(){
         await page.webpage.setViewport({ width: 815, height: 512 });
-        await page.waitForTimeout(500);
+        // Not a fixed wait: the narrower viewport re-measures every sparkline card, and each one
+        // requests a new image at its new size.
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.top_controls, #dashboard')).to.matchImage('small_screen');
     });
 

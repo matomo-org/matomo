@@ -26,10 +26,7 @@ class Controller extends \Piwik\Plugin\Controller
     // By default plot up to the last 3 days of visitors on the map, for low traffic sites
     public const REAL_TIME_WINDOW = 'last3';
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {
@@ -132,7 +129,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         foreach ($translations as &$translation) {
             if (
-                false === strpos($translation, '%s')
+                !str_contains($translation, '%s')
                 && $translation !== $noVisitTranslation
             ) {
                 $translation = '%s ' . $translation;
@@ -285,6 +282,13 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (!empty($params['segment'])) {
             $params['segment'] = urldecode($params['segment']);
+        }
+
+        // Both maps request their data with their own $.ajax wrapper rather than through
+        // AjaxHelper, so the page's ?language= only reaches them by being baked in here.
+        $language = Common::getRequestVar('language', '', 'string');
+        if (!empty($language)) {
+            $params['language'] = $language;
         }
 
         if ($encode) {

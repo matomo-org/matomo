@@ -134,6 +134,28 @@ class DateTest extends \PHPUnit\Framework\TestCase
         yield 'empty string value' => [''];
         yield 'null value' => [null];
         yield 'array value' => [['arrayValue']];
+        // relative keywords are only recognised when they are the whole value, not merely contained in it
+        yield 'relative keyword embedded in a longer string' => ['notlastweek'];
+        yield 'relative keyword with trailing text' => ['lastweek-and-more'];
+        yield 'relative keyword with surrounding text' => ['x lastmonth y'];
+        yield 'relative keyword as suffix' => ['foolastyear'];
+    }
+
+    /**
+     * @dataProvider getRelativeDateKeywords
+     */
+    public function testFactoryResolvesRelativeDateKeywords($keyword, $expectedTimestamp)
+    {
+        $this->assertSame($expectedTimestamp, Date::factory($keyword)->getTimestamp());
+    }
+
+    public function getRelativeDateKeywords(): iterable
+    {
+        yield 'lastweek' => ['lastweek', Date::lastWeek()->getTimestamp()];
+        yield 'last week (space)' => ['last week', Date::lastWeek()->getTimestamp()];
+        yield 'last-week (dash)' => ['last-week', Date::lastWeek()->getTimestamp()];
+        yield 'lastmonth' => ['lastmonth', Date::lastMonth()->getTimestamp()];
+        yield 'lastyear' => ['lastyear', Date::lastYear()->getTimestamp()];
     }
 
     public function getTimezoneOffsets()

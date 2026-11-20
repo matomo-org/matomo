@@ -10,7 +10,9 @@
         "DisableVisitorProfile": "Desativar perfis de visitantes",
         "DisableVisitorProfileDescription": "Todos os recursos relacionados ao registro de visitas sempre funcionam.",
         "DisableVisitsLogAndProfile": "Desative o registro de visitas e os perfis de visitantes",
-        "DisableVisitsLogAndProfileDescription": "Também remove recursos que dependem destes, como o registro de comércio eletrônico, o registro de visitas segmentadas, o mapa em tempo real ou o widget em tempo real. Pode ser necessário cumprir as leis/diretrizes de privacidade locais.",
+        "DisableVisitsLogAndProfileDescription2": "Também remove recursos que dependem desses dados, como o log de e-commerce, o log de visitas segmentadas ou o mapa em tempo real. O widget de tempo real exibe apenas as contagens agregadas de visitas. Pode ser necessário para cumprir leis ou diretrizes locais de privacidade.",
+        "DisableVisitsLogAndProfileImpact": "<strong>Visitantes &gt; Registro de Visitas</strong> e as visualizações de Perfil do Visitante estão indisponíveis.",
+        "DisableVisitsLogAndProfileWhatItDoes": "Os recursos de Registro de Visitas e Perfil do Visitante estão desativados.<br><br>Isso impede a reconstrução do caminho de navegação de um visitante individual e do comportamento detalhado em nível de visita.",
         "ExportThisDatasetToXml": "Exportar este conjunto de dados para XML",
         "FirstVisit": "Primeira visita",
         "GoalType": "Tipo",
@@ -63,9 +65,11 @@
         "VisitorLogSubcategoryHelp2": "Enquanto outros relatórios no Matomo mostram como seus visitantes se comportam em um nível agregado, o registro de visitas fornece detalhes granulares. Você também pode usar segmentos para restringir a tipos específicos de visitas para entender melhor seus visitantes.",
         "VisitorLogSubcategoryHelp3": "Saiba mais no guia de registro de visitas.",
         "VisitorProfile": "Perfil do visitante",
+        "VisitorProfileNotFound": "Este visitante não pôde ser encontrado. Os dados da sua visita podem ter sido excluídos.",
         "VisitorsInRealTime": "Visitas em tempo real",
         "VisitorsLastVisit": "Também visitou %s dias antes.",
         "VisitsFrom": "%1$s%2$s visitas%3$s de",
-        "VisitsLog": "Log de visitas"
+        "VisitsLog": "Log de visitas",
+        "VisitsLogAndProfileDisabledPolicySettingTitle": "Registro de visitas e perfis de visitantes desativados"
     }
 }

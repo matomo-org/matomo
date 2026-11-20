@@ -28,8 +28,7 @@ class UserIdDisabled implements
     /** @use MeasurableGetterTrait<bool> */
     use MeasurableGetterTrait;
 
-    /** @var bool */
-    private $value;
+    private bool $value;
 
     protected function __construct(bool $value)
     {
@@ -61,6 +60,16 @@ class UserIdDisabled implements
         return Piwik::translate("UserId_UserIdDisabledSettingTitle");
     }
 
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoes');
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('UserId_UserIdDisabledSettingImpact');
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
@@ -86,6 +95,11 @@ class UserIdDisabled implements
     public static function getInlineHelp(): string
     {
         return '';
+    }
+
+    public static function getPolicyOrder(): int
+    {
+        return 20;
     }
 
     public static function getPolicyRequirements(): array

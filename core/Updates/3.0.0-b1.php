@@ -25,10 +25,7 @@ use Piwik\Plugins\Dashboard;
  */
 class Updates_3_0_0_b1 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
     private $pluginSettingsTable = 'plugin_setting';
     private $siteSettingsTable = 'site_setting';

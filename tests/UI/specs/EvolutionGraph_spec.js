@@ -13,6 +13,62 @@ describe("EvolutionGraph", function () {
               + "&isFooterExpandedInDashboard=1";
     const multiMetricColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
     const multiMetricUrl = url + "&columns=" + multiMetricColumns + "&filter_add_columns_when_show_all_columns=0";
+
+    // Export leaves the 3-dots menu when the header line has room, so open whichever holds it.
+    const openExport = async function () {
+        if (await page.$('[data-report-action="export"]')) {
+            await page.click('[data-report-action="export"] .mtm-selector__trigger');
+        } else {
+            await page.click('.reportHeader__actionsTrigger');
+        }
+    };
+
+    // Open either way: the promoted selector expands itself, the menu entry opens a submenu.
+    const periodsOpen = () => page.evaluate(() => !!document.querySelector(
+      '.mtm-selector--expanded, .mtm-dropdownPanel__submenu--open',
+    ));
+
+    // The trigger that holds the periods: promoted when the header line has room, the menu entry
+    // otherwise.
+    const periodsTrigger = async function () {
+        return await page.$('[data-report-action="periods"]')
+            ? '[data-report-action="periods"] .mtm-selector__trigger'
+            : '.activatePeriodsSelection';
+    };
+
+    // Periods leave the 3-dots menu when the header line has room, so open whichever holds them.
+    const openPeriods = async function () {
+        if (await page.$('[data-report-action="periods"]')) {
+            await page.click('[data-report-action="periods"] .mtm-selector__trigger');
+            return;
+        }
+
+        await page.click('.reportHeader__actionsTrigger');
+
+        // The submenu stays open between visits to the menu, and the entry toggles it.
+        if (!await periodsOpen()) {
+            await page.click('.activatePeriodsSelection');
+        }
+    };
+
+    // The promoted toggle is an icon, so its wording is in the title rather than in a label.
+    const annotationsLabel = () => page.evaluate(() => {
+        const toggle = document.querySelector('.annotationView');
+        const label = toggle.querySelector('.mtm-dropdownPanel__menuLabel');
+
+        return (label ? label.textContent : toggle.getAttribute('title')).trim();
+    });
+
+    // Annotations leave the 3-dots menu when the header line has room, so reach the toggle wherever
+    // it is.
+    const toggleAnnotations = async function () {
+        if (!await page.$('[data-report-action="annotations"]')) {
+            await page.click('.reportHeader__actionsTrigger');
+        }
+
+        await page.click('.annotationView');
+    };
+
     const setThemeMode = async function (themeMode) {
         await page.evaluate((mode) => {
             window.piwik.setThemeMode(mode);
@@ -122,16 +178,16 @@ describe("EvolutionGraph", function () {
     });
 
     it("should display the metric picker when the metric picker button is clicked", async function () {
-        await page.click('.metrics-picker__toggle');
+        await page.click('.series-picker-wrapper .mtm-selector__trigger');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
         await page.keyboard.press('Escape');
     });
 
     it("should show multiple metrics when another metric picked", async function () {
-        await page.click('.metrics-picker__toggle');
-        await page.waitForSelector('.metrics-picker__options input');
-        const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
+        await page.click('.series-picker-wrapper .mtm-selector__trigger');
+        await page.waitForSelector('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
+        const element = await page.jQuery('.series-picker-wrapper .mtm-dropdownPanel__menuLink[aria-checked="false"]:first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
@@ -140,7 +196,8 @@ describe("EvolutionGraph", function () {
     });
 
     it("should show graph as image when export as image icon clicked", async function () {
-        await page.click('#dataTableFooterExportAsImageIcon');
+        await openExport();
+        await page.click('#dataTableExportAsImageIcon-header');
         await page.waitForNetworkIdle();
 
         const dialog = await page.$('.ui-dialog');
@@ -151,10 +208,8 @@ describe("EvolutionGraph", function () {
         const element = await page.jQuery('.ui-dialog .ui-widget-header button:visible');
         await element.click();
 
-        await page.click('.limitSelection input');
-        await page.evaluate(function () {
-            $('.limitSelection ul li:contains(60) span').click();
-        });
+        await page.click('.limitSelection .mtm-selector__trigger');
+        await page.click('.limitSelection [data-limit="60"]');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('limit_changed');
@@ -162,29 +217,73 @@ describe("EvolutionGraph", function () {
 
     // annotations tests
     it("should show annotations when annotation icon on x-axis clicked", async function () {
-        await page.click('.limitSelection input');
-        await page.evaluate(function () {
-            $('.limitSelection ul li:contains(30) span').click(); // change limit back
-        });
+        await page.click('.limitSelection .mtm-selector__trigger');
+        await page.click('.limitSelection [data-limit="30"]'); // change limit back
         await page.waitForNetworkIdle();
 
         const element = await page.jQuery('.evolution-annotations>span[data-count!=0]');
         await element.click();
         await page.waitForNetworkIdle();
 
+        expect(await annotationsLabel()).to.equal('Hide annotations');
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_single_period');
+
+        // The callback that moves the label runs on the way out as well as the way in.
+        await element.click();
+        await page.waitForTimeout(1000);
+        expect(await annotationsLabel()).to.equal('Show annotations');
+
+        await element.click(); // leave the notes as the next test expects to find them
+        await page.waitForTimeout(1000);
     });
 
-    it("should show all annotations when annotations footer link clicked", async function () { // TODO: fails
-        await page.click('.annotationView');
+    it("should hide the notes a marker opened when the menu entry is clicked", async function () {
+        // The entry says "hide", so from notes opened for a single day it closes them rather than
+        // reloading the whole range - those notes carry no `data-is-range`.
+        const notesShown = () => page.evaluate(() => $('.annotation-manager').is(':visible'));
+        expect(await notesShown(), 'the marker left its notes open').to.equal(true);
+
+        await page.evaluate(() => document.querySelector('.annotationView').click());
+        await page.waitForTimeout(1000); // slideUp is 'slow'
+
+        expect(await notesShown(), 'the entry closed them').to.equal(false);
+        expect(await annotationsLabel(), 'and the label followed').to.equal('Show annotations');
+    });
+
+    it("should show all annotations when the menu entry is clicked", async function () {
+        await toggleAnnotations();
         await page.waitForNetworkIdle();
 
+        // Opens from the closed state the test above leaves behind, so the whole range loads.
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_all');
+    });
+
+    it("should put the label back when the notes are hidden again", async function () {
+        // Clicks through the element, not the pointer: the panel may or may not be open here.
+        const notesShown = () => page.evaluate(
+          () => $('.annotation-manager').is(':visible'),
+        );
+        const toggle = async () => {
+            await page.evaluate(() => document.querySelector('.annotationView').click());
+            await page.waitForTimeout(1000); // slideUp/slideDown are 'slow'
+        };
+
+        expect(await annotationsLabel()).to.equal('Hide annotations');
+        expect(await notesShown()).to.equal(true);
+
+        await toggle();
+        expect(await notesShown()).to.equal(false);
+        expect(await annotationsLabel()).to.equal('Show annotations');
+
+        await toggle();
+        expect(await notesShown()).to.equal(true);
+        expect(await annotationsLabel()).to.equal('Hide annotations');
     });
 
     it("should show no annotations message when no annotations for site", async function () {
         await page.goto(page.url().replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
-        await page.click('.annotationView');
+        await toggleAnnotations();
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
 
@@ -253,6 +352,10 @@ describe("EvolutionGraph", function () {
             $('.delete-annotation').click();
         });
         await page.waitForNetworkIdle();
+        // this asserts the same image as the test above, so it has to leave the pointer where that
+        // one does: the delete click leaves it inside the widget, and a hovered widget darkens the
+        // header's actions trigger
+        await page.mouse.move(-10, -10);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_none');
     });
@@ -271,7 +374,7 @@ describe("EvolutionGraph", function () {
         });
         await page.reload();
         await page.waitForNetworkIdle();
-        await (await page.jQuery('.activatePeriodsSelection:last')).click();
+        await openPeriods();
 
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(500); // wait for animation
@@ -280,8 +383,14 @@ describe("EvolutionGraph", function () {
     });
 
     it("should be possible to change period", async function () {
+        // the previous test left the menu and its submenu open
         await (await page.jQuery('[data-period=month]:last')).click();
         await page.waitForNetworkIdle();
+
+        const stillOpen = await page.evaluate(
+          () => document.querySelectorAll('.mtm-dropdownPanel__submenu--open').length,
+        );
+        expect(stillOpen, 'picking a period folds the submenu').to.equal(0);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('periods_selected');
     });
@@ -293,7 +402,7 @@ describe("EvolutionGraph", function () {
 
         await page.goto(url);
         await page.waitForNetworkIdle();
-        await page.click('.annotationView');
+        await toggleAnnotations();
         await page.waitForNetworkIdle();
 
         // check that add annotation link is not shown
@@ -333,7 +442,8 @@ describe("EvolutionGraph", function () {
             await page.waitForNetworkIdle();
             await setThemeMode('dark');
             await page.waitForTimeout(250);
-            await page.click('#dataTableFooterExportAsImageIcon');
+            await openExport();
+            await page.click('#dataTableExportAsImageIcon-header');
             await page.waitForSelector('.ui-dialog img');
 
             expect(await getImagePixelColor('.ui-dialog img', 5))
@@ -373,9 +483,9 @@ describe("EvolutionGraph", function () {
                 };
             });
 
-            await page.click('.metrics-picker__toggle');
-            await page.waitForSelector('.metrics-picker__options input');
-            const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
+            await page.click('.series-picker-wrapper .mtm-selector__trigger');
+            await page.waitForSelector('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
+            const element = await page.jQuery('.series-picker-wrapper .mtm-dropdownPanel__menuLink[aria-checked="false"]:first');
             await element.click();
             await page.waitForSelector('.jqplot-loading');
 
@@ -398,5 +508,385 @@ describe("EvolutionGraph", function () {
                 $('.jqplot-loading').remove();
             });
         });
+    });
+
+    it("should close the period selector on a second click", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await openPeriods();
+        expect(await periodsOpen(), 'the first click opens it').to.equal(true);
+
+        await page.click(await periodsTrigger());
+        expect(await periodsOpen(), 'a second click closes it').to.equal(false);
+    });
+
+    it("should close the period selector once a period is picked", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await openPeriods();
+        expect(await periodsOpen(), 'the trigger opens it').to.equal(true);
+
+        await page.evaluate(
+          () => document.querySelector('.dataTablePeriods [data-period="week"]').click(),
+        );
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+
+        expect(await periodsOpen(), 'picking a period closes the selector').to.equal(false);
+    });
+
+    it("should let the keyboard reach and activate a period", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await openPeriods();
+        expect(await periodsOpen(), 'the trigger opens it').to.equal(true);
+
+        const focused = await page.evaluate(() => {
+            const item = document.querySelector('.dataTablePeriods [role^="menuitem"]');
+            if (!item) {
+                return 'no item';
+            }
+            item.focus();
+            return document.activeElement === item ? 'focused' : 'not focusable';
+        });
+        expect(focused, 'a period is focusable once the submenu is open').to.equal('focused');
+
+        // Enter has to act, since the item is not a link the browser would follow.
+        await page.evaluate(() => {
+            document.querySelector('.dataTablePeriods [data-period="week"]')
+                .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        });
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+        const period = await page.evaluate(
+          () => $('.dataTable').first().data('uiControlObject').param.period,
+        );
+        expect(period, 'Enter changed the period').to.equal('week');
+    });
+
+    // A pick reloads the report and replaces the picker, so only a real page proves the focus
+    // reaches the new trigger.
+    it("should give the focus back to Choose metrics after a keyboard pick", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.focus('.series-picker-wrapper .mtm-selector__trigger');
+        await page.keyboard.press('Enter');
+        await page.waitForFunction(
+          () => document.activeElement.matches('.series-picker-wrapper [role^="menuitem"]'),
+        );
+
+        // unticking the only metric would not reload anything, so walk to one that adds a series
+        for (let i = 0; i < 10; i += 1) {
+            if (await page.evaluate(() => document.activeElement.getAttribute('aria-checked') === 'false')) {
+                break;
+            }
+            await page.keyboard.press('ArrowDown');
+        }
+        await page.keyboard.press('Space');
+        await page.waitForNetworkIdle();
+        await page.waitForFunction(
+          () => document.activeElement.matches('.series-picker-wrapper .mtm-selector__trigger'),
+        );
+
+        const columns = await page.evaluate(
+          () => $('.dataTable').first().data('uiControlObject').param.columns,
+        );
+        expect(columns.split(',').length, 'Space picked a second metric').to.equal(2);
+    });
+
+    it("should render a report header inside a widgetized container", async function () {
+        // Nothing above a widgetized container's children renders a header, so each renders its own.
+        await page.goto("?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph"
+            + "&moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer"
+            + "&disableLink=1&widget=1&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30");
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(1000);
+
+        const state = await page.evaluate(() => ({
+            headers: document.querySelectorAll('.reportHeader').length,
+            triggers: document.querySelectorAll('.reportHeader__actionsTrigger').length,
+            entries: document.querySelectorAll('.annotationView').length,
+            markers: document.querySelectorAll('.evolution-annotations span[data-date]').length,
+            periods: document.querySelectorAll('[data-report-action="periods"]').length,
+        }));
+        expect(state.headers, 'exactly one, not one per child').to.equal(1);
+        // An embed promotes nothing, so everything this report offers stays in the menu.
+        expect(state.triggers, 'the menu holds it all, so it is offered').to.equal(1);
+        expect(state.markers, 'markers render').to.be.above(0);
+        expect(state.entries, 'the annotations toggle is in it').to.equal(1);
+        expect(state.periods, 'the period selector is not lifted out of it').to.equal(0);
+
+        await page.evaluate(() => document.querySelector('.annotationView').click());
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(1500);
+        const shown = await page.evaluate(() => $('.annotation-manager').is(':visible'));
+        expect(shown, 'clicking it opens the notes').to.equal(true);
+    });
+
+    describe("axis labels", function () {
+        const visitsAndBounceRateUrl = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-01-31"
+            + "&evolution_day_last_n=30&moduleToWidgetize=VisitsSummary&actionToWidgetize=getEvolutionGraph"
+            + "&columns=nb_visits,bounce_rate&isFooterExpandedInDashboard=1";
+
+        // No fixture has visits in the millions, so push the visits series past 10,000,000 and
+        // spread the bounce rate over 0-100% in the browser, then redraw with the new ticks.
+        const openLargeValueGraph = async function (deviceScaleFactor) {
+            await page.webpage.setViewport({ width: 1350, height: 768, deviceScaleFactor });
+            await page.goto(visitsAndBounceRateUrl);
+            await page.waitForNetworkIdle();
+            await page.evaluate(() => {
+                const dataTable = $('.dataTable:has(.piwik-graph)').data('uiControlObject');
+                dataTable.data[0] = dataTable.data[0].map((value, i) => 9000000 + i * 100000);
+                dataTable.data[1] = dataTable.data[1].map((value, i) => (i * 37) % 101);
+                dataTable.setYTicks();
+                dataTable.render();
+            });
+        };
+
+        const getAxisTicks = function () {
+            return page.evaluate(() => {
+                const target = document.querySelector('.jqplot-target').getBoundingClientRect();
+                const ticksOf = (axis) => Array.from(document.querySelectorAll('.jqplot-' + axis + ' > *'))
+                    .filter((tick) => tick.textContent.trim() !== '')
+                    .map((tick) => {
+                        const rect = tick.getBoundingClientRect();
+                        return {
+                            tagName: tick.tagName,
+                            text: tick.textContent,
+                            inside: rect.left >= target.left - 0.5 && rect.right <= target.right + 0.5
+                                && rect.top >= target.top - 0.5 && rect.bottom <= target.bottom + 0.5,
+                        };
+                    });
+
+                return { yaxis: ticksOf('yaxis'), y2axis: ticksOf('y2axis'), xaxis: ticksOf('xaxis') };
+            });
+        };
+
+        const expectWholeTextTicks = function (ticks, axis, dpr) {
+            expect(ticks.length, axis + ' has labels at DPR ' + dpr).to.be.above(0);
+            ticks.forEach((tick) => {
+                expect(tick.tagName, axis + ' "' + tick.text + '" is text at DPR ' + dpr).to.equal('DIV');
+                expect(tick.inside, axis + ' "' + tick.text + '" is inside the graph at DPR ' + dpr).to.equal(true);
+            });
+        };
+
+        [1, 1.25, 1.5, 2].forEach(function (dpr) {
+            it("should show complete axis labels for large values and percentages at DPR " + dpr, async function () {
+                await openLargeValueGraph(dpr);
+                const ticks = await getAxisTicks();
+
+                expectWholeTextTicks(ticks.yaxis, 'yaxis', dpr);
+                expectWholeTextTicks(ticks.y2axis, 'y2axis', dpr);
+                expectWholeTextTicks(ticks.xaxis, 'xaxis', dpr);
+
+                const yLabels = ticks.yaxis.map((tick) => tick.text);
+                expect(yLabels[yLabels.length - 1]).to.match(/^\d{2},\d{3},\d{3}$/);
+                expect(ticks.y2axis.map((tick) => tick.text)).to.include.members(['0%', '100%']);
+            });
+        });
+
+        // No fixture has a percentage above 100% or a negative value, so set every point of one
+        // series to `value` and its 4th point to `peak`, then read back the ticks of its axis
+        const getTicksForSeries = async function (series, value, peak) {
+            await page.goto(visitsAndBounceRateUrl);
+            await page.waitForNetworkIdle();
+
+            return page.evaluate((series, value, peak) => {
+                const dataTable = $('.dataTable:has(.piwik-graph)').data('uiControlObject');
+                dataTable.data[series] = dataTable.data[series].map((v, i) => (i === 3 ? peak : value));
+                dataTable.setYTicks();
+                return dataTable.jqplotParams.axes[series === 0 ? 'yaxis' : 'y2axis'].ticks;
+            }, series, value, peak);
+        };
+
+        it("should extend a percentage axis past 100% when a value is above it", async function () {
+            const ticks = await getTicksForSeries(1, 50, 250);
+            expect(ticks[ticks.length - 1]).to.be.at.least(250);
+        });
+
+        it("should keep a percentage axis at 100% when no value is above it", async function () {
+            const ticks = await getTicksForSeries(1, 50, 99);
+            expect(ticks[ticks.length - 1]).to.equal(100);
+        });
+
+        it("should add ticks below zero for a negative value", async function () {
+            const ticks = await getTicksForSeries(0, 0, -740);
+            expect(ticks[0]).to.be.at.most(-740);
+            expect(ticks).to.include(0);
+        });
+
+        it("should keep a percentage axis at 100% when a large negative value sets the tick step", async function () {
+            const ticks = await getTicksForSeries(1, 50, -740);
+            expect(ticks[0]).to.be.at.most(-740);
+            expect(ticks[ticks.length - 1]).to.equal(100);
+        });
+
+        it("should end an axis at zero when every value is negative", async function () {
+            const ticks = await getTicksForSeries(1, -229, -800);
+            expect(ticks[0]).to.be.at.most(-800);
+            expect(ticks[ticks.length - 1]).to.equal(0);
+        });
+
+        it("should start the axis at zero when no value is negative", async function () {
+            const ticks = await getTicksForSeries(0, 40, 50);
+            // Object.is, as a -0 tick can be formatted as "-0"
+            expect(Object.is(ticks[0], 0)).to.equal(true);
+        });
+
+        it("should show complete month labels on a monthly graph", async function () {
+            await page.goto(visitsAndBounceRateUrl.replace('period=day', 'period=month')
+                .replace('evolution_day_last_n=30', 'evolution_month_last_n=12'));
+            await page.waitForNetworkIdle();
+
+            const ticks = await getAxisTicks();
+            expectWholeTextTicks(ticks.xaxis, 'xaxis', 1);
+            ticks.xaxis.forEach((tick) => {
+                expect(tick.text).to.match(/^[A-Z][a-z]{2} \d{4}$/);
+            });
+        });
+
+        it("should insert axis labels as text, not HTML", async function () {
+            await page.goto(visitsAndBounceRateUrl);
+            await page.waitForNetworkIdle();
+
+            const result = await page.evaluate(() => {
+                const dataTable = $('.dataTable:has(.piwik-graph)').data('uiControlObject');
+                const xaxis = dataTable.jqplotParams.axes.xaxis;
+                xaxis.ticks = xaxis.ticks.slice();
+                xaxis.ticks[0] = '<b class="axisLabelProbe">x</b>';
+                xaxis.ticksOriginal = undefined;
+                dataTable.render();
+
+                return {
+                    elements: document.querySelectorAll('.jqplot-axis .axisLabelProbe').length,
+                    text: document.querySelector('.jqplot-xaxis > div').textContent,
+                };
+            });
+
+            expect(result.elements).to.equal(0);
+            expect(result.text).to.equal('<b class="axisLabelProbe">x</b>');
+        });
+
+        // No fixture has metrics in four units, so add a 4th-axis label next to the 2nd axis's ones
+        it("should style labels of a 4th value axis like the other axes", async function () {
+            await page.goto(visitsAndBounceRateUrl);
+            await page.waitForNetworkIdle();
+
+            const styles = await page.evaluate(() => {
+                const y2Tick = document.querySelector('.jqplot-y2axis > div');
+                const y4Tick = $('<div class="jqplot-y4axis-tick">2 G</div>').insertAfter(y2Tick)[0];
+                const styleOf = (tick) => {
+                    const style = getComputedStyle(tick);
+                    return { whiteSpace: style.whiteSpace, color: style.color, height: tick.offsetHeight };
+                };
+                return { y2: styleOf(y2Tick), y4: styleOf(y4Tick) };
+            });
+
+            expect(styles.y4.whiteSpace).to.equal('nowrap');
+            expect(styles.y4.color).to.equal(styles.y2.color);
+            // one line, give or take a pixel of rounding; a wrapped label is more than twice as tall
+            expect(styles.y4.height, 'the label stays on one line').to.be.at.most(styles.y2.height + 1);
+        });
+
+        it("should draw the axis labels into the exported image", async function () {
+            await openLargeValueGraph(1);
+
+            // the spec's prefix, as this nested suite's title has a space in it
+            expect(await page.screenshotSelector('.dataTable')).to.matchImage({
+                imageName: 'axis_labels_large_values',
+                prefix: 'EvolutionGraph',
+            });
+
+            // the widest label of each axis, in graph coordinates, which the export keeps at DPR 1
+            const labelBoxes = await page.evaluate(() => {
+                const target = document.querySelector('.jqplot-target').getBoundingClientRect();
+                const widestLabelBox = (axis) => {
+                    const ticks = Array.from(document.querySelectorAll('.jqplot-' + axis + ' > div'));
+                    const widest = ticks.reduce((a, b) => (b.offsetWidth > a.offsetWidth ? b : a));
+                    const rect = widest.getBoundingClientRect();
+                    return {
+                        left: Math.floor(rect.left - target.left),
+                        top: Math.floor(rect.top - target.top),
+                        width: Math.ceil(rect.width),
+                        height: Math.ceil(rect.height),
+                    };
+                };
+                return { yaxis: widestLabelBox('yaxis'), y2axis: widestLabelBox('y2axis') };
+            });
+
+            await openExport();
+            await page.click('#dataTableExportAsImageIcon-header');
+            await page.waitForSelector('.ui-dialog img');
+
+            const ink = await page.evaluate(async (boxes) => {
+                const image = new Image();
+                image.src = document.querySelector('.ui-dialog img').src;
+                await new Promise((resolve, reject) => {
+                    image.onload = resolve;
+                    image.onerror = reject;
+                });
+
+                const canvas = document.createElement('canvas');
+                canvas.width = image.width;
+                canvas.height = image.height;
+                const context = canvas.getContext('2d');
+                context.drawImage(image, 0, 0);
+
+                const background = context.getImageData(0, 0, 1, 1).data;
+                const isInk = (pixels, i) => pixels[i] !== background[0]
+                    || pixels[i + 1] !== background[1] || pixels[i + 2] !== background[2];
+
+                const yPixels = context.getImageData(boxes.yaxis.left, boxes.yaxis.top, boxes.yaxis.width, boxes.yaxis.height).data;
+                let count = 0;
+                for (let i = 0; i < yPixels.length; i += 4) {
+                    if (isInk(yPixels, i)) {
+                        count += 1;
+                    }
+                }
+
+                // the right axis is left-aligned, so its label's right edge shows where it was drawn.
+                // Search past the box too, as nothing else is drawn to the right of the last axis.
+                const box = boxes.y2axis;
+                const searchWidth = box.width + 15;
+                const y2Pixels = context.getImageData(box.left, box.top, searchWidth, box.height).data;
+                let rightmostInk = -1;
+                for (let i = 0; i < y2Pixels.length; i += 4) {
+                    if (isInk(y2Pixels, i)) {
+                        rightmostInk = Math.max(rightmostInk, (i / 4) % searchWidth);
+                    }
+                }
+
+                return { yaxisCount: count, y2axisRightEdge: box.left + rightmostInk + 1 };
+            }, labelBoxes);
+
+            expect(ink.yaxisCount, 'the left-axis label is drawn in the export').to.be.above(0);
+            const y2axisRightEdge = labelBoxes.y2axis.left + labelBoxes.y2axis.width;
+            expect(ink.y2axisRightEdge, 'the right-axis label is drawn where it is on screen')
+                .to.be.within(y2axisRightEdge - 2, y2axisRightEdge + 1);
+        });
+    });
+
+    it("should close the data point tooltip when the page changes while hovering the graph", async function () {
+        const hash = "#?idSite=1&period=day&date=2012-01-31&category=";
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=day&date=2012-01-31"
+            + hash + "General_Visitors&subcategory=General_Overview");
+        await page.waitForSelector('.jqplot-event-canvas');
+        await page.waitForNetworkIdle();
+
+        const box = await (await page.$('.jqplot-event-canvas')).boundingBox();
+        await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5, { steps: 5 });
+        await page.waitForSelector('.ui-tooltip', { visible: true });
+
+        // a hash change, eg from a swipe back, swaps the page in place with the mouse still over the graph
+        await page.evaluate((newHash) => { window.location.hash = newHash; }, hash + "General_Actions&subcategory=General_Pages");
+        await page.waitForFunction(() => !document.querySelector('.jqplot-event-canvas'));
+        await page.waitForNetworkIdle();
+        await page.mouse.move(5, 5, { steps: 5 });
+
+        expect(await page.evaluate(() => $('.ui-tooltip:visible').length)).to.equal(0);
     });
 });

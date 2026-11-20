@@ -22,10 +22,8 @@ abstract class UserEmailNotification extends UserNotification
 
     /**
      * Data in the format of ['email@example.com' => ['item1' => 'value1'], ...] that will be passed to the email class
-     *
-     * @var array
      */
-    private $emailData;
+    private array $emailData;
 
     /**
      * @param array $users A list of users this notification is about

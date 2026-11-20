@@ -35,6 +35,10 @@ class Goals extends HtmlTable
 
     private $displayType = self::GOALS_DISPLAY_NORMAL;
 
+    private bool $isSingleGoalView = false;
+
+    private ?string $defaultSortColumn = null;
+
     public function beforeLoadDataTable()
     {
         $request = $this->getRequestArray();
@@ -98,6 +102,17 @@ class Goals extends HtmlTable
             $this->removeUnusedRevenueColumns();
         }
 
+        // When a single goal is displayed, restrict the export to the columns shown in the table so
+        // the exported data matches the displayed goal-specific data, rather than dumping the
+        // aggregated all-goals columns and every other goal's columns. (The label column is always
+        // kept by ColumnDelete.)
+        if ($this->isSingleGoalView) {
+            $this->config->export_parameters_to_modify['showColumns'] = implode(',', $this->config->columns_to_display);
+            // a flattened export adds a column per dimension, whose names only exist after
+            // flattening and so cannot be part of the allowlist above
+            $this->config->export_parameters_to_modify['keep_flattened_dimension_columns'] = 1;
+        }
+
         parent::beforeRender();
     }
 
@@ -108,7 +123,7 @@ class Goals extends HtmlTable
     {
         if ($this->dataTable instanceof DataTable\DataTableInterface) {
             foreach ($this->config->columns_to_display as $key => $column) {
-                if (false === strpos($column, 'revenue')) {
+                if (!str_contains($column, 'revenue')) {
                     continue;
                 }
                 $columnValues = $this->dataTable->getColumn($column);
@@ -127,10 +142,14 @@ class Goals extends HtmlTable
         $idGoal = Common::getRequestVar('idGoal', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
 
         $goalsToProcess = null;
+        // the export column restriction itself is applied in beforeRender(), once
+        // columns_to_display is final (beforeRender() prunes empty revenue columns)
+        $this->isSingleGoalView = false;
         if (Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER == $idGoal) {
             $this->setPropertiesForEcommerceView();
 
             $goalsToProcess = [$idGoal];
+            $this->isSingleGoalView = true;
         } elseif (AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE == $idGoal) {
             $this->setPropertiesForGoals($idSite, 'all');
 
@@ -143,7 +162,10 @@ class Goals extends HtmlTable
             $this->setPropertiesForGoals($idSite, [$idGoal]);
 
             $goalsToProcess = [$idGoal];
+            $this->isSingleGoalView = true;
         }
+
+        $this->applyDefaultSort();
 
         // add goals columns
         $this->requestConfig->request_parameters_to_modify['filter_update_columns_when_show_all_goals'] = $idGoal;
@@ -152,11 +174,9 @@ class Goals extends HtmlTable
 
     private function setPropertiesForEcommerceView()
     {
-        $this->requestConfig->filter_sort_order = 'desc';
-
         switch ($this->displayType) {
             case self::GOALS_DISPLAY_NORMAL:
-                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
+                $this->setDefaultSort('goal_ecommerceOrder_revenue');
                 $this->config->columns_to_display = [
                     'label',
                     'nb_visits',
@@ -169,7 +189,7 @@ class Goals extends HtmlTable
                 ];
                 break;
             case self::GOALS_DISPLAY_PAGES:
-                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue_attrib';
+                $this->setDefaultSort('goal_ecommerceOrder_revenue_attrib');
                 $this->config->columns_to_display = [
                     'label',
                     'nb_visits',
@@ -179,7 +199,7 @@ class Goals extends HtmlTable
                 ];
                 break;
             case self::GOALS_DISPLAY_ENTRY_PAGES:
-                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue_entry';
+                $this->setDefaultSort('goal_ecommerceOrder_revenue_entry');
                 $this->config->columns_to_display = [
                     'label',
                     'entry_nb_visits',
@@ -190,7 +210,7 @@ class Goals extends HtmlTable
                 ];
                 break;
             default:
-                $this->requestConfig->filter_sort_column = 'goal_ecommerceOrder_revenue';
+                $this->setDefaultSort('goal_ecommerceOrder_revenue');
                 $this->config->columns_to_display = [
                     'label',
                     'nb_visits',
@@ -276,8 +296,7 @@ class Goals extends HtmlTable
                 $idGoals = array_keys($allGoals);
             } else {
                 // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
-                $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions';
-                $this->requestConfig->filter_sort_order = 'desc';
+                $this->setDefaultSort('goal_' . reset($idGoals) . '_nb_conversions');
             }
 
             $this->config->columns_to_display = ['label', 'nb_visits'];
@@ -303,12 +322,11 @@ class Goals extends HtmlTable
         if ($this->displayType == self::GOALS_DISPLAY_PAGES) {
             if ('all' === $idGoals) {
                 $idGoals = array_keys($allGoals);
-                $this->requestConfig->filter_sort_column = 'nb_visits';
+                $this->setDefaultSort('nb_visits');
             } else {
                 // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
-                $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions_attrib';
+                $this->setDefaultSort('goal_' . reset($idGoals) . '_nb_conversions_attrib');
             }
-            $this->requestConfig->filter_sort_order  = 'desc';
 
             $this->config->columns_to_display = ['label', 'nb_visits'];
             $goalColumnTemplates = [
@@ -329,12 +347,11 @@ class Goals extends HtmlTable
         if ($this->displayType == self::GOALS_DISPLAY_ENTRY_PAGES) {
             if ('all' === $idGoals) {
                 $idGoals = array_keys($allGoals);
-                $this->requestConfig->filter_sort_column = 'entry_nb_visits';
+                $this->setDefaultSort('entry_nb_visits');
             } else {
                 // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
-                $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions_entry';
+                $this->setDefaultSort('goal_' . reset($idGoals) . '_nb_conversions_entry');
             }
-            $this->requestConfig->filter_sort_order  = 'desc';
             $this->config->columns_to_display = ['label', 'entry_nb_visits'];
             $goalColumnTemplates = [
                 'goal_%s_nb_conversions_entry',
@@ -349,6 +366,40 @@ class Goals extends HtmlTable
                 }
             }
         }
+    }
+
+    /**
+     * The column to sort by unless the user chose a sort, applied by applyDefaultSort() once the columns
+     * to display are known.
+     */
+    private function setDefaultSort(string $column): void
+    {
+        $this->defaultSortColumn = $column;
+    }
+
+    /**
+     * Keeps the sort the user chose, either in the request after a column header was clicked or saved
+     * from that click when the table is reloaded. That sort is also sent back to the browser, which relies
+     * on it for the sort icon.
+     */
+    private function applyDefaultSort(): void
+    {
+        if (null === $this->defaultSortColumn) {
+            return;
+        }
+
+        if ('' !== \Piwik\Request::fromRequest()->getStringParameter('filter_sort_column', '')) {
+            return;
+        }
+
+        // the sort is saved per report for every goal, so it may be a column of another goal's table
+        $savedSortColumn = $this->getOverrideParams()['filter_sort_column'] ?? '';
+        if ('' !== $savedSortColumn && in_array($savedSortColumn, $this->config->columns_to_display, true)) {
+            return;
+        }
+
+        $this->requestConfig->filter_sort_column = $this->defaultSortColumn;
+        $this->requestConfig->filter_sort_order = 'desc';
     }
 
     protected $goalsForCurrentSite = null;

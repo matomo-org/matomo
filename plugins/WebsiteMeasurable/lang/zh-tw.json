@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "網站",
         "WebsiteDescription": "網站是由網頁組合而成，通常來自單一網域。",
+        "WebsiteLongDescription": "追蹤訪客在對外公開網站上的互動，例如網頁瀏覽、點擊、下載與事件。單一監測對象可以包含多個網域與子網域，你也可以為每一個分別建立監測對象。",
         "Websites": "網站"
     }
 }

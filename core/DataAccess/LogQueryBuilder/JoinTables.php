@@ -15,10 +15,7 @@ use Piwik\Plugin\LogTablesProvider;
 
 class JoinTables extends \ArrayObject
 {
-    /**
-     * @var LogTablesProvider
-     */
-    private $logTableProvider;
+    private LogTablesProvider $logTableProvider;
 
     // NOTE: joins can be specified explicitly as arrays w/ 'joinOn' keys or implicitly as table names. when
     // table names are used, the joins dependencies are assumed based on how we want to order those joins.
@@ -159,7 +156,7 @@ class JoinTables extends \ArrayObject
             $firstTable = $firstTable['table'];
         }
 
-        if (strpos($firstTable, LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0) {
+        if (str_starts_with($firstTable, LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX)) {
             // the first table might be a temporary segment table in which case we need to keep the next one as well
             $sorted[] = array_shift($tables);
         }

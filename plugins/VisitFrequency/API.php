@@ -112,7 +112,7 @@ class API extends \Piwik\Plugin\API
     {
         $result = array();
         foreach ($requestedColumns as $column) {
-            if (strpos($column, $suffix) !== false) {
+            if (str_contains($column, $suffix)) {
                 $result[] = str_replace($suffix, '', $column);
             }
         }

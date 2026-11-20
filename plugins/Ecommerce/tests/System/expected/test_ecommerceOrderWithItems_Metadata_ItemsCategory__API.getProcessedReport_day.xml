@@ -24,6 +24,8 @@
 			<avg_quantity>The average quantity of this Product Category sold in Ecommerce orders.</avg_quantity>
 			<nb_visits>The number of visits on the Product/Category page. This is also used to process the Product Category conversion rate. This metric is in the report if Ecommerce view tracking was setup on Product/Category pages.</nb_visits>
 			<conversion_rate>The Product Category conversion rate is the number of orders containing this product divided by number of visits on the product page.</conversion_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Visits that this row represents.</nb_visits_percent_of_total>
+			<revenue_percent_of_total>The percentage of the report's total Product Revenue that this row represents.</revenue_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_price>Average Price</avg_price>
@@ -38,6 +40,8 @@
 			<avg_price>money</avg_price>
 			<avg_quantity>number</avg_quantity>
 			<conversion_rate>percent</conversion_rate>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<revenue_percent_of_total>percent</revenue_percent_of_total>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
@@ -46,9 +50,11 @@
 	<columns>
 		<label>Product Category</label>
 		<revenue>Product Revenue</revenue>
+		<revenue_percent_of_total>Product Revenue (%)</revenue_percent_of_total>
 		<quantity>Quantity</quantity>
 		<orders>Unique Purchases</orders>
 		<nb_visits>Visits</nb_visits>
+		<nb_visits_percent_of_total>Visits (%)</nb_visits_percent_of_total>
 		<avg_price>Average Price</avg_price>
 		<avg_quantity>Average Quantity</avg_quantity>
 		<conversion_rate>Product Conversion Rate</conversion_rate>
@@ -60,6 +66,8 @@
 			<quantity>3</quantity>
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
+			<nb_visits_percent_of_total>21.4%</nb_visits_percent_of_total>
+			<revenue_percent_of_total>35.2%</revenue_percent_of_total>
 			<avg_price>$1,000</avg_price>
 			<avg_quantity>1.5</avg_quantity>
 			<conversion_rate>66.67%</conversion_rate>
@@ -70,6 +78,8 @@
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
+			<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
+			<revenue_percent_of_total>14.1%</revenue_percent_of_total>
 			<avg_price>$500</avg_price>
 			<avg_quantity>2</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
@@ -80,6 +90,8 @@
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
+			<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
+			<revenue_percent_of_total>14.1%</revenue_percent_of_total>
 			<avg_price>$500</avg_price>
 			<avg_quantity>2</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
@@ -90,6 +102,8 @@
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
+			<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
+			<revenue_percent_of_total>14.1%</revenue_percent_of_total>
 			<avg_price>$500</avg_price>
 			<avg_quantity>2</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
@@ -100,6 +114,8 @@
 			<quantity>2</quantity>
 			<orders>1</orders>
 			<nb_visits>1</nb_visits>
+			<nb_visits_percent_of_total>7.1%</nb_visits_percent_of_total>
+			<revenue_percent_of_total>14.1%</revenue_percent_of_total>
 			<avg_price>$500</avg_price>
 			<avg_quantity>2</avg_quantity>
 			<conversion_rate>100%</conversion_rate>
@@ -110,6 +126,8 @@
 			<quantity>7</quantity>
 			<orders>2</orders>
 			<nb_visits>3</nb_visits>
+			<nb_visits_percent_of_total>21.4%</nb_visits_percent_of_total>
+			<revenue_percent_of_total>8.6%</revenue_percent_of_total>
 			<avg_price>$55.61</avg_price>
 			<avg_quantity>3.5</avg_quantity>
 			<conversion_rate>66.67%</conversion_rate>
@@ -118,9 +136,11 @@
 			<label>Category TWO LEFT in cart</label>
 			<nb_visits>2</nb_visits>
 			<avg_price>$0</avg_price>
+			<nb_visits_percent_of_total>14.3%</nb_visits_percent_of_total>
 			<avg_quantity>0</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
 			<revenue>$0</revenue>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<quantity>0</quantity>
 			<orders>0</orders>
 		</row>
@@ -128,9 +148,11 @@
 			<label>second category</label>
 			<nb_visits>2</nb_visits>
 			<avg_price>$0</avg_price>
+			<nb_visits_percent_of_total>14.3%</nb_visits_percent_of_total>
 			<avg_quantity>0</avg_quantity>
 			<conversion_rate>0%</conversion_rate>
 			<revenue>$0</revenue>
+			<revenue_percent_of_total>0%</revenue_percent_of_total>
 			<quantity>0</quantity>
 			<orders>0</orders>
 		</row>

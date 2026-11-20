@@ -3,53 +3,66 @@
 	<row>
 		
 		<nb_conversions>360</nb_conversions>
+		<nb_conversions_percent_of_total>50%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>130</nb_conversions>
+		<nb_conversions_percent_of_total>18.1%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>100</nb_conversions>
+		<nb_conversions_percent_of_total>13.9%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>40</nb_conversions>
+		<nb_conversions_percent_of_total>5.6%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>30</nb_conversions>
+		<nb_conversions_percent_of_total>4.2%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>20</nb_conversions>
+		<nb_conversions_percent_of_total>2.8%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>10</nb_conversions>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>10</nb_conversions>
+		<nb_conversions_percent_of_total>1.4%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>20</nb_conversions>
+		<nb_conversions_percent_of_total>2.8%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 	<row>
 		
 		<nb_conversions>0</nb_conversions>
+		<nb_conversions_percent_of_total>0%</nb_conversions_percent_of_total>
 	</row>
 </result>

@@ -88,10 +88,7 @@ class Log extends Singleton
      */
     private static $instance;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public static function getInstance()
     {

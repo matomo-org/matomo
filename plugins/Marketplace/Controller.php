@@ -13,6 +13,8 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\Exception\PluginNotFoundException;
 use Piwik\Http\JsonResponse;
 use Piwik\Date;
 use Piwik\Filesystem;
@@ -24,15 +26,19 @@ use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Controller as PluginsController;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
+use Piwik\Plugins\CorePluginsAdmin\PluginInstallResults;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
+use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
+use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\ProxyHttp;
 use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Url;
 use Piwik\View;
 
@@ -41,45 +47,29 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const UPDATE_NONCE = 'Marketplace.updatePlugin';
     public const INSTALL_NONCE = 'Marketplace.installPlugin';
     public const DOWNLOAD_NONCE_PREFIX = 'Marketplace.downloadPlugin.';
+    public const UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE = 'Marketplace.unsubscribeTrialRequestEmails';
 
-    /**
-     * @var LicenseKey
-     */
-    private $licenseKey;
-    /**
-     * @var Plugins
-     */
-    private $plugins;
+    private const FAILURE_SUMMARY_NOTIFICATION_ID = 'Marketplace_PluginsCouldNotBeUpdated';
 
-    /**
-     * @var Api\Client
-     */
-    private $marketplaceApi;
+    private LicenseKey $licenseKey;
+    private Plugins $plugins;
 
-    /**
-     * @var Consumer
-     */
-    private $consumer;
+    private Api\Client $marketplaceApi;
 
-    /**
-     * @var PluginInstaller
-     */
-    private $pluginInstaller;
+    private Consumer $consumer;
+
+    private PluginInstaller $pluginInstaller;
 
     /**
      * @var Plugin\Manager
      */
     private $pluginManager;
 
-    /**
-     * @var Environment
-     */
-    private $environment;
+    private Environment $environment;
 
-    /**
-     * @var PasswordVerifier
-     */
-    private $passwordVerify;
+    private PasswordVerifier $passwordVerify;
+
+    private InvalidLicenses $expired;
 
     /**
      * @var array<int, array<string, mixed>>|null
@@ -93,7 +83,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Consumer $consumer,
         PluginInstaller $pluginInstaller,
         Environment $environment,
-        PasswordVerifier $passwordVerify
+        PasswordVerifier $passwordVerify,
+        InvalidLicenses $expired
     ) {
         $this->licenseKey = $licenseKey;
         $this->plugins = $plugins;
@@ -103,6 +94,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->pluginManager = Plugin\Manager::getInstance();
         $this->environment = $environment;
         $this->passwordVerify = $passwordVerify;
+        $this->expired = $expired;
         $this->paidPlugins = null;
 
         parent::__construct();
@@ -116,6 +108,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // this is also like a self-repair to clear the caches :)
         $this->marketplaceApi->clearAllCacheEntries();
         $this->consumer->clearCache();
+        $this->expired->clearCache();
         // invalidate cache for plugin/manager
         Plugin\Manager::getLicenseCache()->flushAll();
 
@@ -263,19 +256,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
-        $view->paidPluginsToInstallAtOnce = $this->getAllPaidPluginsToInstallAtOnce();
         $view->isValidConsumer = $this->consumer->isValidConsumer();
-        $view->pluginTypeOptions = array(
-            'plugins' => Piwik::translate('General_Plugins'),
-            'premium' => Piwik::translate('Marketplace_PaidPlugins'),
-            'themes' => Piwik::translate('CorePluginsAdmin_Themes'),
-        );
-        $view->pluginSortOptions = array(
-            Sort::METHOD_LAST_UPDATED => Piwik::translate('Marketplace_SortByLastUpdated'),
-            Sort::METHOD_POPULAR => Piwik::translate('Marketplace_SortByPopular'),
-            Sort::METHOD_NEWEST => Piwik::translate('Marketplace_SortByNewest'),
-            Sort::METHOD_ALPHA => Piwik::translate('Marketplace_SortByAlpha'),
-        );
         $view->defaultSort = Sort::DEFAULT_SORT;
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
@@ -299,8 +280,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $paidPlugins = $this->getPaidPlugins();
-
         $updateData = [
             'isValidConsumer' => $this->consumer->isValidConsumer(),
         ];
@@ -323,7 +302,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $purchaseType = (new PurchaseType())->getPurchaseType($purchaseType);
         $sort = (new Sort())->getSort($sort);
 
-        $plugins = $this->plugins->searchPlugins($query, $sort, $themesOnly, $purchaseType);
+        // the overview's Vue app is the only caller, so its links are rendered on the overview
+        // page and not on this endpoint - see Plugins::CAMPAIGN_MEDIUM_OVERVIEW
+        $plugins = $this->plugins->searchPlugins(
+            $query,
+            $sort,
+            $themesOnly,
+            $purchaseType,
+            Plugins::CAMPAIGN_MEDIUM_OVERVIEW
+        );
 
         foreach ($plugins as &$plugin) {
             if ($plugin['isDownloadable']) {
@@ -331,15 +318,203 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             $plugin['isTrialRequested'] = false;
+            $plugin['isTrialPending'] = false;
             $plugin['canTrialBeRequested'] = false;
 
             if ($plugin['isEligibleForFreeTrial']) {
                 $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
+                $plugin['isTrialPending'] = StaticContainer::get(PluginTrialService::class)->isPending($plugin['name']);
                 $plugin['canTrialBeRequested'] = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0) !== -1;
             }
+
+            $plugin = $this->keepPluginCardFields($plugin);
         }
 
         return json_encode($plugins);
+    }
+
+    /**
+     * Returns everything a plugin's details page renders for a single plugin.
+     *
+     * The plugin list deliberately omits these fields, see {@link keepPluginCardFields()}.
+     */
+    #[JsonResponse]
+    public function getPluginDetails(): string
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        // Every failure path below answers with a JSON error rather than throwing: this is not an
+        // API request, so an exception would render the HTML error page with a 500 and log a stack
+        // trace at ERROR, and AjaxHelper would replace the message with its own literal. A
+        // result=error body reaches the page as an ApiResponseError with this text intact.
+        // Validation is inside the guard too, so a malformed request is answered the same way.
+        $pluginName = '';
+
+        try {
+            $pluginName = (new PluginName())->getPluginName();
+
+            $plugin = $this->plugins->getPluginInfoPreferringList(
+                $pluginName,
+                Plugins::CAMPAIGN_MEDIUM_OVERVIEW
+            );
+        } catch (Exception $e) {
+            // the Marketplace being unreachable is this action's most likely failure, not an
+            // exceptional one, since it is requested every time a details page is opened
+            return $this->sendPluginDetailsError(
+                Piwik::translate('Marketplace_PluginDetailsNotAvailable', $pluginName)
+            );
+        }
+
+        if (empty($plugin['name'])) {
+            // reachable in normal use, because the list this name came from is cached and the plugin
+            // may have been delisted since
+            return $this->sendPluginDetailsError(
+                Piwik::translate('Marketplace_PluginNotFoundOnMarketplace', $pluginName)
+            );
+        }
+
+        if (!empty($plugin['versions'])) {
+            // only the latest version is rendered, and each version carries its full readme HTML
+            $plugin['versions'] = [end($plugin['versions'])];
+        }
+
+        return json_encode($plugin);
+    }
+
+    private function sendPluginDetailsError(string $message): string
+    {
+        // #[JsonResponse] on the action sends the header, so this only has to shape the body
+        return json_encode(['result' => 'error', 'message' => $message]);
+    }
+
+    /**
+     * Reduces a plugin to the fields the cards in the plugin list render.
+     *
+     * The Marketplace returns every version of every plugin, each with its own rendered readme and
+     * FAQ HTML, which no card reads and which dominates the response: against plugins.matomo.org
+     * this trims the list from 1.6 MB to 121 KB. Anything the details page needs on top of this is
+     * fetched per plugin by {@link getPluginDetails()} when the page opens.
+     *
+     * This is an allow list so that fields added to the Marketplace API cannot silently grow the
+     * list response again. A new field rendered on a card has to be added here too.
+     *
+     * @param array<string, mixed> $plugin
+     * @return array<string, mixed>
+     */
+    private function keepPluginCardFields(array $plugin): array
+    {
+        $cardFields = [
+            'name',
+            'displayName',
+            'description',
+            'owner',
+            'coverImage',
+            'isFree',
+            'isPaid',
+            'isInstalled',
+            'isActivated',
+            'isInvalid',
+            'isDownloadable',
+            'canBeUpdated',
+            'hasDownloadLink',
+            'hasExceededLicense',
+            'isMissingLicense',
+            'isEligibleForFreeTrial',
+            'isNewBundle',
+            'isTrialRequested',
+            'isTrialPending',
+            'canTrialBeRequested',
+            'missingRequirements',
+            'numDownloads',
+            'numDownloadsPretty',
+            'priceFrom',
+            'downloadNonce',
+            'consumer',
+            'categories',
+            'promotions',
+            'keywords',
+            'isTheme',
+            'lastUpdated',
+            'lastUpdatedRaw',
+            'createdDateTime',
+            'bundleSeats',
+            // not rendered on a card, but the details page falls back to the card row when its own request
+            // fails, and without these a bundle renders there as an ordinary plugin
+            'isBundle',
+            'licenseStatus',
+        ];
+
+        return array_intersect_key($plugin, array_flip($cardFields));
+    }
+
+    /**
+     * Linked from the trial request email, so it works without logging in: the token authorises the login.
+     */
+    public function unsubscribeTrialRequestEmails(): string
+    {
+        $view = new View('@Marketplace/unsubscribeTrialRequestEmails');
+        $this->setBasicVariablesNoneAdminView($view);
+        $view->linkTitle = Piwik::getRandomTitle();
+
+        $request = Request::fromRequest();
+        $login = $request->getStringParameter('login', '');
+        $token = $request->getStringParameter('token', '');
+
+        if (!StaticContainer::get(UnsubscribeToken::class)->isValid($login, $token)) {
+            $view->error = Piwik::translate('Marketplace_RequestTrialUnsubscribeInvalidLink');
+            return $view->render();
+        }
+
+        if ($request->getStringParameter('confirm', '') !== '') {
+            $nonce = $request->getStringParameter('nonce', '');
+            $nonceError = Nonce::verifyNonceWithErrorMessage(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE, $nonce);
+
+            // as Nonce::checkNonce() does, so a request without a nonce cannot expire a form open in another tab
+            if (!empty($nonce)) {
+                Nonce::discardNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+            }
+
+            $settings = StaticContainer::get(UserScopedSettingsAccessManager::class);
+            $wasOn = (bool) $settings->get('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, true);
+
+            if ($nonceError !== '') {
+                // a refresh or a second open tab resubmits a nonce the first confirm consumed, so show the outcome
+                // when there is one; the token already authorised $login
+                if (!$wasOn) {
+                    $view->success = true;
+                } else {
+                    $view->nonceError = $nonceError;
+                    $view->nonce = Nonce::getNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+                }
+
+                return $view->render();
+            }
+
+            $settings->set('Marketplace', $login, UserSettings::NOTIFY_ON_PLUGIN_REQUEST, false);
+
+            if ($wasOn) {
+                /**
+                 * Triggered after a user has turned off plugin trial request emails from the link in one of those
+                 * emails, so an audit trail can record it. Not posted when they were already off. The current user may
+                 * be anonymous or someone other than `$login`, so use `$login`.
+                 *
+                 * **Example**
+                 *
+                 *     Piwik::addAction('Marketplace.trialRequestEmailsUnsubscribed', function ($login) {
+                 *         $this->logActivity($login, 'unsubscribed from plugin trial request emails');
+                 *     });
+                 *
+                 * @param string $login The login of the user who unsubscribed.
+                 */
+                Piwik::postEvent('Marketplace.trialRequestEmailsUnsubscribed', [$login]);
+            }
+
+            $view->success = true;
+        } else {
+            $view->nonce = Nonce::getNonce(self::UNSUBSCRIBE_TRIAL_REQUEST_EMAILS_NONCE);
+        }
+
+        return $view->render();
     }
 
     public function installAllPaidPlugins()
@@ -446,7 +621,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function updatePlugin()
     {
-        $view = $this->createUpdateOrInstallView('updatePlugin', static::UPDATE_NONCE);
+        $this->installOrUpdateAndRedirect('updatePluginResult', static::UPDATE_NONCE);
+    }
+
+    public function updatePluginResult()
+    {
+        $view = $this->createUpdateOrInstallResultView('updatePlugin');
+        if ($view === null) {
+            Piwik::redirectToModule('Marketplace', 'overview', [PluginInstallResults::TOKEN_PARAMETER => null]);
+            return;
+        }
+
         return $view->render();
     }
 
@@ -458,65 +643,173 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'mode' => 'admin',
             'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce'),
+            'referrer' => urlencode($this->getMarketplaceUrlToReturnTo()),
         );
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-            $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
-            $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
-            return $view->render();
+            $this->installOrUpdateAndRedirect('installPluginResult', static::INSTALL_NONCE);
         }
     }
 
-    private function createUpdateOrInstallView($template, $nonceName)
+    public function installPluginResult()
+    {
+        $view = $this->createUpdateOrInstallResultView('installPlugin');
+        if ($view === null) {
+            Piwik::redirectToModule('Marketplace', 'overview', [PluginInstallResults::TOKEN_PARAMETER => null]);
+            return;
+        }
+
+        $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
+        return $view->render();
+    }
+
+    /**
+     * Replaces the plugin files, then redirects to the result page instead of rendering it (see PluginInstallResults).
+     */
+    private function installOrUpdateAndRedirect(string $resultAction, string $nonceName): void
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->dieIfPluginsAdminIsDisabled();
+
+        $plugins = $this->getPluginNameIfNonceValid($nonceName);
+
+        if ($nonceName === static::UPDATE_NONCE) {
+            foreach ($plugins as $pluginName) {
+                if (!$this->pluginManager->isPluginInFilesystem($pluginName)) {
+                    throw new PluginNotFoundException($pluginName);
+                }
+            }
+        }
+
+        Notification\Manager::cancel(self::FAILURE_SUMMARY_NOTIFICATION_ID);
+
+        $installedPlugins = [];
+        $failedPlugins = [];
+        $notifiedMessages = [];
+        foreach ($plugins as $pluginName) {
+            $currentPluginInfo = [];
+
+            try {
+                // inside the try as well, as it fails for a plugin the license key no longer covers
+                $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
+                $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+                $installedPlugins[] = $pluginName;
+            } catch (\Exception $e) {
+                // one plugin that cannot be updated - an expired or missing license being the common
+                // case - must not keep the remaining selected ones on their old version
+                $failedPlugins[] = $pluginName;
+
+                // a Marketplace or network error fails every plugin with the same message
+                if (!in_array($e->getMessage(), $notifiedMessages, true)) {
+                    $notifiedMessages[] = $e->getMessage();
+                    $this->notifyAboutFailedInstallOrUpdate($pluginName, $currentPluginInfo, $e);
+                }
+            }
+        }
+
+        if (empty($installedPlugins)) {
+            Url::redirectToReferrer();
+            return;
+        }
+
+        if (!empty($failedPlugins)) {
+            $notification = new Notification(Piwik::translate('Marketplace_PluginsCouldNotBeUpdated', implode(', ', $failedPlugins)));
+            $notification->context = Notification::CONTEXT_INFO;
+            $notification->type = Notification::TYPE_PERSISTENT;
+            Notification\Manager::notify(self::FAILURE_SUMMARY_NOTIFICATION_ID, $notification);
+        }
+
+        $isUpdate = $nonceName === static::UPDATE_NONCE;
+        $summary = [];
+        foreach (PluginInstallResults::getInstalledPluginInfos($installedPlugins) as $pluginInfo) {
+            if ($pluginInfo['isTheme']) {
+                $translationKey = $isUpdate ? 'Marketplace_StepThemeSuccessfullyUpdated' : 'Marketplace_StepThemeSuccessfullyInstalled';
+            } else {
+                $translationKey = $isUpdate ? 'Marketplace_StepPluginSuccessfullyUpdated' : 'Marketplace_StepPluginSuccessfullyInstalled';
+            }
+            $summary[] = Piwik::translate($translationKey, [$pluginInfo['name'], $pluginInfo['latestVersion']]);
+        }
+
+        $token = PluginInstallResults::store([
+            'plugins' => $installedPlugins,
+            'marketplaceUrl' => $this->getMarketplaceUrlToReturnTo(),
+        ], implode(' ', $summary));
+
+        Piwik::redirectToModule('Marketplace', $resultAction, [
+            'pluginName' => null,
+            'nonce' => null,
+            'mode' => null,
+            'referrer' => null,
+            PluginInstallResults::TOKEN_PARAMETER => $token,
+        ]);
+    }
+
+    /**
+     * @return View|null null when there is no result to show, eg because it expired or was recorded in another session
+     */
+    private function createUpdateOrInstallResultView(string $template): ?View
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->dieIfPluginsAdminIsDisabled();
         $this->displayWarningIfConfigFileNotWritable();
 
-        $plugins = $this->getPluginNameIfNonceValid($nonceName);
+        $token = Request::fromRequest()->getStringParameter(PluginInstallResults::TOKEN_PARAMETER, '');
+        $result = PluginInstallResults::get($token);
+
+        $pluginInfos = PluginInstallResults::getInstalledPluginInfos($result['plugins'] ?? []);
+        if (empty($pluginInfos)) {
+            return null;
+        }
+
+        PluginInstallResults::cancelSummary();
 
         $view = new View('@Marketplace/' . $template);
         $this->setBasicVariablesView($view);
+        // the view now holds it, so it is shown this once rather than on every page until dismissed
+        Notification\Manager::cancel(self::FAILURE_SUMMARY_NOTIFICATION_ID);
         $view->errorMessage = '';
-
-        $pluginInfos = [];
-        foreach ($plugins as $pluginName) {
-            $currentPluginInfo = $this->plugins->getPluginInfo($pluginName);
-            $pluginInfos[] = $currentPluginInfo;
-
-            try {
-                $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-            } catch (\Exception $e) {
-                $message = $e->getMessage();
-                $isRaw = false;
-                if (stripos($message, 'PCLZIP_ERR_BAD_FORMAT') !== false) {
-                    $faqLink = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/plugins/faq_21/');
-                    if (!empty($currentPluginInfo['isPaid'])) {
-                        $downloadLink = Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/my-account/downloads');
-                        $translateKey = 'Marketplace_PluginDownloadLinkMissingPremium';
-                    } else {
-                        $downloadLink = Url::addCampaignParametersToMatomoLink('https://plugins.matomo.org/' . $pluginName);
-                        $translateKey = 'Marketplace_PluginDownloadLinkMissingFree';
-                    }
-                    $message = Piwik::translate($translateKey, [$pluginName, Url::getExternalLinkTag($downloadLink), '</a>', Url::getExternalLinkTag($faqLink), '</a>']);
-                    $isRaw = true;
-                }
-                $notification = new Notification($message);
-                $notification->context = Notification::CONTEXT_ERROR;
-                $notification->type = Notification::TYPE_PERSISTENT;
-                $notification->flags = Notification::FLAG_CLEAR;
-                if ((method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) || $isRaw) {
-                    $notification->raw = true;
-                }
-                Notification\Manager::notify('CorePluginsAdmin_InstallPlugin', $notification);
-
-                Url::redirectToReferrer();
-                return;
-            }
-        }
-
         $view->plugins = $pluginInfos;
+        $view->marketplaceUrl = $result['marketplaceUrl'] ?? '';
 
         return $view;
+    }
+
+    /**
+     * The Marketplace page the install or update was started from, fragment included, so leaving
+     * this page returns the reader to the tab, search or plugin they were on. The Referer header
+     * cannot stand in for it: it never carries the fragment the Marketplace keeps that state in.
+     * Empty when the request names no page, or one outside this Matomo.
+     */
+    private function getMarketplaceUrlToReturnTo(): string
+    {
+        $referrer = Common::unsanitizeInputValue(Common::getRequestVar('referrer', '', 'string'));
+
+        return $referrer !== '' && Url::isLocalUrl($referrer) ? $referrer : '';
+    }
+
+    private function notifyAboutFailedInstallOrUpdate($pluginName, array $currentPluginInfo, \Exception $e): void
+    {
+        $message = $e->getMessage();
+        $isRaw = false;
+        if (stripos($message, 'PCLZIP_ERR_BAD_FORMAT') !== false) {
+            $faqLink = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/plugins/faq_21/');
+            if (!empty($currentPluginInfo['isPaid'])) {
+                $downloadLink = Url::addCampaignParametersToMatomoLink('https://shop.matomo.org/my-account/downloads');
+                $translateKey = 'Marketplace_PluginDownloadLinkMissingPremium';
+            } else {
+                $downloadLink = Url::addCampaignParametersToMatomoLink('https://plugins.matomo.org/' . $pluginName);
+                $translateKey = 'Marketplace_PluginDownloadLinkMissingFree';
+            }
+            $message = Piwik::translate($translateKey, [$pluginName, Url::getExternalLinkTag($downloadLink), '</a>', Url::getExternalLinkTag($faqLink), '</a>']);
+            $isRaw = true;
+        }
+        $notification = new Notification($message);
+        $notification->context = Notification::CONTEXT_ERROR;
+        $notification->type = Notification::TYPE_PERSISTENT;
+        $notification->flags = Notification::FLAG_CLEAR;
+        if ((method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) || $isRaw) {
+            $notification->raw = true;
+        }
+        Notification\Manager::notify('CorePluginsAdmin_InstallPlugin' . $pluginName, $notification);
     }
 
     private function getPluginNameIfNonceValid($nonceName)
@@ -538,8 +831,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function dieIfPluginsAdminIsDisabled()
     {
         if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
-            throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Matomo admins.
-            Please contact your Matomo admins with your request so they can assist you.');
+            throw new NoPrivilegesException('Enabling, disabling and uninstalling plugins has been disabled by Matomo admins.
+            Please contact your Matomo admins with your request so they can assist you.', 403);
         }
     }
 

@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\ExampleSettingsPlugin;
 
-use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Validators\NotEmpty;
 
 /**
@@ -23,18 +23,17 @@ use Piwik\Validators\NotEmpty;
  */
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
-    /** @var Setting */
-    public $metric;
+    public SystemSetting $metric;
 
-    /** @var Setting */
-    public $browsers;
+    public SystemSetting $browsers;
 
-    /** @var Setting */
-    public $description;
+    public SystemSetting $description;
 
-    /** @var Setting */
-    public $password;
+    public SystemSetting $password;
 
+    /**
+     * @return void
+     */
     protected function init()
     {
         // System setting --> allows selection of a single value
@@ -50,30 +49,30 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $this->password = $this->createPasswordSetting();
     }
 
-    private function createMetricSetting()
+    private function createMetricSetting(): SystemSetting
     {
-        return $this->makeSetting('metric', $default = 'nb_visits', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+        return $this->makeSetting('metric', 'nb_visits', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
             $field->title = 'Metric to display';
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
-            $field->availableValues = array('nb_visits' => 'Visits', 'nb_actions' => 'Actions', 'visitors' => 'Visitors');
+            $field->availableValues = ['nb_visits' => 'Visits', 'nb_actions' => 'Actions', 'visitors' => 'Visitors'];
             $field->description = 'Choose the metric that should be displayed in the browser tab';
             $field->validators[] = new NotEmpty();
         });
     }
 
-    private function createBrowsersSetting()
+    private function createBrowsersSetting(): SystemSetting
     {
-        $default = array('firefox', 'chromium', 'safari');
+        $default = ['firefox', 'chromium', 'safari'];
 
         return $this->makeSetting('browsers', $default, FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
             $field->title = 'Supported Browsers';
             $field->uiControl = FieldConfig::UI_CONTROL_MULTI_SELECT;
-            $field->availableValues = array('firefox' => 'Firefox', 'chromium' => 'Chromium', 'safari' => 'safari');
+            $field->availableValues = ['firefox' => 'Firefox', 'chromium' => 'Chromium', 'safari' => 'safari'];
             $field->description = 'The value will be only displayed in the following browsers';
         });
     }
 
-    private function createDescriptionSetting()
+    private function createDescriptionSetting(): SystemSetting
     {
         $default = "This is the value: \nAnother line";
 
@@ -85,15 +84,14 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
-    private function createPasswordSetting()
+    private function createPasswordSetting(): SystemSetting
     {
-        return $this->makeSetting('password', $default = null, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+        return $this->makeSetting('password', null, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
             $field->title = 'API password';
             $field->uiControl = FieldConfig::UI_CONTROL_PASSWORD;
             $field->description = 'Password for the 3rd API where we fetch the value';
-            $field->transform = function ($value) {
-                return password_hash($value, PASSWORD_DEFAULT);
-            };
+            // the transform callback receives the raw, not yet type casted request value
+            $field->transform = fn ($value) => password_hash(is_string($value) ? $value : '', PASSWORD_DEFAULT);
         });
     }
 }

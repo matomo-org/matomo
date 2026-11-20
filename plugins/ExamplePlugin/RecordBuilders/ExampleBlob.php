@@ -64,9 +64,12 @@ class ExampleBlob extends RecordBuilder
     {
         $record = new DataTable();
 
+        /** @var \Zend_Db_Statement $query */
         $query = $archiveProcessor->getLogAggregator()->queryVisitsByDimension(['idvisitor']);
+
         while ($row = $query->fetch()) {
-            $label = $row['idvisitor'];
+            /** @var array<string, string|int|float|null> $row */
+            $label = (string) $row['idvisitor'];
             unset($row['idvisitor']);
             $record->sumRowWithLabel($label, $row);
         }

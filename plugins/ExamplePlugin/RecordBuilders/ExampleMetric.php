@@ -40,7 +40,7 @@ class ExampleMetric extends RecordBuilder
     public const EXAMPLEPLUGIN_ARCHIVE_RECORD = "ExamplePlugin_archive_record";
     public const EXAMPLEPLUGIN_METRIC_NAME = 'ExamplePlugin_example_metric';
 
-    private $daysFrom = '2016-07-08';
+    private const DAYS_FROM = '2016-07-08';
 
     /**
      * This method should return the list of records this RecordBuilder creates. This example
@@ -79,8 +79,8 @@ class ExampleMetric extends RecordBuilder
         $records = [];
 
         // insert a test numeric metric that is the difference in days between the day we're archiving and
-        // $this->daysFrom.
-        $daysFrom = Date::factory($this->daysFrom);
+        // self::DAYS_FROM.
+        $daysFrom = Date::factory(self::DAYS_FROM);
         $date = $params->getPeriod()->getDateStart();
 
         $differenceInSeconds = $daysFrom->getTimestamp() - $date->getTimestamp();

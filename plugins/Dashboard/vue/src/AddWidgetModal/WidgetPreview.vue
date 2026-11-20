@@ -7,13 +7,15 @@
 
 <template>
   <div class="widgetpreview-preview">
+    <!-- `__reportHeader-onHover` is the ReportHeader context hook: it marks this as the hover
+         scope, so the previewed report's actions trigger darkens with the pointer on it. -->
     <div
       v-if="previewWidget"
-      class="widget"
+      class="widget __reportHeader-onHover"
     >
       <ReportHeader
         context="preview"
-        :title="translate('Dashboard_WidgetPreview')"
+        :report-title="translate('Dashboard_WidgetPreview')"
         title-clickable
         :title-click-hint="translate('Dashboard_AddPreviewedWidget')"
         @title-click="$emit('select', previewWidget.uniqueId)"
@@ -112,10 +114,10 @@ export default defineComponent({
       // Without this, nested widgets render as non-widgetized and may show titles again.
       const containerId = widget.parameters?.containerId as string | undefined;
 
-      return widget.widgets!.map((child: Record<string, unknown>) => ({
+      return widget.widgets!.map((child) => ({
         ...child,
         parameters: {
-          ...(child.parameters as Record<string, unknown>),
+          ...child.parameters,
           widget: '1',
           ...(containerId ? { containerId } : {}),
         },

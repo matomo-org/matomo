@@ -987,8 +987,8 @@ class GoalManager
     public static function formatRegex($pattern)
     {
         if (
-            strpos($pattern, '/') !== false
-            && strpos($pattern, '\\/') === false
+            str_contains($pattern, '/')
+            && !str_contains($pattern, '\\/')
         ) {
             $pattern = str_replace('/', '\\/', $pattern);
         }

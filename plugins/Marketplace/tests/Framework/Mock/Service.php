@@ -56,14 +56,17 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
         $destinationPath = null,
         $timeout = null,
         ?array $postData = null,
-        bool $getExtendedInfo = false
+        bool $getExtendedInfo = false,
+        bool $withAccessToken = true
     ) {
         if ($this->onDownloadCallback && is_callable($this->onDownloadCallback)) {
             $result = call_user_func(
                 $this->onDownloadCallback,
                 $this->action,
                 $this->params,
-                $this->postData
+                $this->postData,
+                $url,
+                $destinationPath
             );
 
             if ($getExtendedInfo && is_string($result)) {
@@ -153,6 +156,11 @@ class Service extends \Piwik\Plugins\Marketplace\Api\Service
             // we want to make sure to test as much of the service class as possible.
             // Therefore we only mock the HTTP request in download()
             return parent::fetch($action, $params, $postData, $getExtendedInfo, $throwOnApiError);
+        }
+
+        // the Client rejects a list response without a 'plugins' array
+        if (in_array($action, ['plugins', 'themes'], true)) {
+            return ['plugins' => []];
         }
 
         return [];

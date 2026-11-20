@@ -5,8 +5,14 @@
         "Configurations": "Indstillinger",
         "PluginDescription": "Rapporter de besøgendes skærmopløsninger.",
         "Resolutions": "Opløsninger",
+        "ScreenResolutionDetectionDisabled": "Registrering af skærmopløsning deaktiveret",
+        "ScreenResolutionDetectionDisabledImpact": "Oplysninger om skærmopløsning indsamles ikke, og rapporter om skærmopløsning under <strong>Besøgende &gt; Enheder</strong> er ikke tilgængelige.",
+        "ScreenResolutionDetectionDisabledRequirementNote": "Registrering af skærmopløsning og rapporten om skærmopløsning skal være deaktiveret.",
+        "ScreenResolutionDetectionDisabledWhatItDoes": "Registrering af skærmopløsning er deaktiveret.<br><br>Det mindsker risikoen for at identificere besøgende ud fra deres skærmkonfiguration.",
+        "ScreenResolutionReportDisabledByCompliancePolicy": "Rapporten om skærmopløsning er deaktiveret af en overholdelsespolitik.",
         "WidgetGlobalVisitors": "Besøgendes konfiguration",
         "WidgetGlobalVisitorsDocumentation": "Rapporten viser de mest almindelige samlede konfigurationer, som de besøgende havde. En konfiguration er en kombination af et styresystem, en browsertype og en skærmopløsning.",
-        "WidgetResolutions": "Skærmopløsninger"
+        "WidgetResolutions": "Skærmopløsninger",
+        "WidgetResolutionsDocumentation": "Denne rapport viser de skærmopløsninger, dine besøgende brugte, da de så din hjemmeside."
     }
 }

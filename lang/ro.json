@@ -163,7 +163,6 @@
         "ExceptionFileIntegrity": "A eșuat verificarea integrității: %s",
         "ExceptionFileToDelete": "Fişier de şters: %s",
         "ExceptionFilesizeMismatch": "Nepotrivire la marime fisierului: %1$s (marime asteptata: %2$s, gasita: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Versiunea clientului dvs. %1$s este %2$s, care este incompatibila cu versiunea de pe server, %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Formatul rapoartelor agregate '%1$s' este invalid. Incercati-l pe oricare dintre acestea: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Timpul de arhivare trebuie sa fie un numar de secunde mai mare de 0",
         "ExceptionInvalidDateFormat": "Formatul datei trebuie sa fie: %1$s sau alt cuvant cheie suportat de functia %2$s (vedeti %3$s pentru mai multe informatii)",

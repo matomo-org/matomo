@@ -13,10 +13,7 @@ use Piwik\Metrics;
 
 class Glossary
 {
-    /**
-     * @var API
-     */
-    private $api;
+    private API $api;
 
     public function __construct(API $api)
     {

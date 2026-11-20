@@ -344,8 +344,8 @@ class LogAggregatorTest extends IntegrationTestCase
         } catch (\Zend_Db_Statement_Exception $e) {
             $isMaxExecutionTimeError = $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
                 || $this->logAggregator->getDb()->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
-                || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false
-                || strpos($e->getMessage(), 'max_statement_time exceeded') !== false;
+                || str_contains($e->getMessage(), 'maximum statement execution time exceeded')
+                || str_contains($e->getMessage(), 'max_statement_time exceeded');
 
             $this->assertTrue($isMaxExecutionTimeError, $e->getMessage());
         }

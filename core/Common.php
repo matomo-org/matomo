@@ -111,7 +111,7 @@ class Common
 
         if (
             empty($prefixTable)
-            || strpos($table, $prefixTable) !== 0
+            || !str_starts_with($table, $prefixTable)
         ) {
             return $table;
         }
@@ -165,7 +165,7 @@ class Common
     {
         $sapiType = php_sapi_name();
 
-        return substr($sapiType, 0, 3) === 'cgi';
+        return str_starts_with($sapiType, 'cgi');
     }
 
     /**
@@ -277,36 +277,27 @@ class Common
      */
     public static function hashEquals(string $stringA, string $stringB)
     {
-        if (function_exists('hash_equals')) {
-            return hash_equals($stringA, $stringB);
-        }
-
-        if (strlen($stringA) !== strlen($stringB)) {
-            return false;
-        }
-
-        $result = "\0";
-        $stringA ^= $stringB;
-        for ($i = 0; $i < strlen($stringA); $i++) {
-            $result |= $stringA[$i];
-        }
-
-        return $result === "\0";
+        return hash_equals($stringA, $stringB);
     }
 
     /**
      * Secure wrapper for unserialize, which by default disallows unserializing classes
      *
-     * @param string|null $string String to unserialize
+     * @param string|false|null $string String to unserialize
      * @param array $allowedClasses Class names that should be allowed to unserialize
      * @param bool $rethrow Whether to rethrow exceptions or not.
      * @return mixed
      */
     public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)  // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
+        // PHP 8.6 warns about an empty string, earlier versions silently returned false
+        if ($string === null || $string === false || $string === '') {
+            return false;
+        }
+
         try {
             // phpcs:ignore Generic.PHP.ForbiddenFunctions
-            return unserialize($string ?? '', ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
         } catch (\Throwable $e) {
             if ($rethrow) {
                 throw $e;
@@ -402,7 +393,6 @@ class Common
     {
         // $_GET and $_REQUEST already urldecode()'d
         // decode
-        // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
         $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
         $value = self::sanitizeNullBytes($value);
@@ -410,10 +400,10 @@ class Common
         // escape
         $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
-        // note: php 5.2.5 and above, htmlspecialchars is destructive if input is not UTF-8
+        // note: htmlspecialchars is destructive if input is not UTF-8
         if ($value !== '' && $tmp === '') {
             // convert and escape
-            $value = utf8_encode($value);
+            $value = mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1');
             $tmp = htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
             return $tmp;
         }
@@ -566,7 +556,7 @@ class Common
                     $ok = true;
                 }
             } elseif ($varType === 'float') {
-                $valueToCompare = Common::forceDotAsSeparatorForDecimalPoint($value);
+                $valueToCompare = is_array($value) ? '' : Common::forceDotAsSeparatorForDecimalPoint($value);
 
                 // Simplified regex for float without support for underscore notation
                 // will match:  1.234, 1.2e3, 7E-10
@@ -1032,7 +1022,7 @@ class Common
         ];
 
         foreach ($return as &$list) {
-            if (strpos($list, ',') !== false) {
+            if (str_contains($list, ',')) {
                 $list = explode(',', $list);
             } else {
                 $list = array($list);
@@ -1116,7 +1106,7 @@ class Common
     public static function sendHeader($header, $replace = true)
     {
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
-            if (strpos($header, ':') !== false) {
+            if (str_contains($header, ':')) {
                 [$headerName, $headerValue] = explode(':', $header, 2);
             } else {
                 $headerName = $header;
@@ -1152,6 +1142,29 @@ class Common
     }
 
     /**
+     * Returns the value already set for a response header, or an empty string when it is unset.
+     * Only headers set explicitly are reported, not the content type PHP defaults to.
+     *
+     * @param string $name The header name.
+     */
+    public static function getSentHeader(string $name): string
+    {
+        // in test mode no real headers are emitted, sendHeader() records them instead, keeping the
+        // value as it was written rather than as it is read back below
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            return trim((string) (self::$headersSentInTests[$name] ?? ''));
+        }
+
+        foreach (headers_list() as $header) {
+            if (stripos($header, $name . ':') === 0) {
+                return trim(substr($header, strlen($name) + 1));
+            }
+        }
+
+        return '';
+    }
+
+    /**
      * Sends the given response code if supported.
      *
      * @param int $code  Eg 204
@@ -1179,7 +1192,7 @@ class Common
             throw new Exception('Response code not supported: ' . $code);
         }
 
-        if (strpos(PHP_SAPI, '-fcgi') === false) {
+        if (!str_contains(PHP_SAPI, '-fcgi')) {
             $key = 'HTTP/1.1';
 
             if (

@@ -76,11 +76,27 @@
             {% if dataTable.getTotalsRow and properties.show_totals_row %}
                 {% set row = dataTable.getTotalsRow %}
                 {% set rowId = 'totalsRow' %}
-                <tr class="{{ row.getMetadata('css_class') }} totalsRow"
+                {% set isFilteredTotals = isFilteredTotalsRow|default(false) %}
+                {% set additiveTreatment = constant('Piwik\\Plugins\\CoreVisualizations\\Metrics\\MetricTotalsTreatment::TREATMENT_ADDITIVE') %}
+                <tr class="{{ row.getMetadata('css_class') }} totalsRow{% if isFilteredTotals %} filteredTotalsRow{% endif %}"
                         title="Total values for this table">
                     {% for column in properties.columns_to_display %}
                         <td class="{% if column =='label' %}label{% else %}column{% endif %} {% if loop.first %}first{% endif %}">
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
+                            {% if isFilteredTotals %}
+                                {% if column == 'label' %}
+                                    <span class="totalsRowNote">{{ 'General_FilteredTotalMatchingFilter'|translate }}</span>
+                                {% elseif filteredTotalsRowContext[column] is defined %}
+                                    {% set reportTotal = filteredTotalsRowContext[column].reportTotal|number(2,0) %}
+                                    <span class="totalsRowNote">
+                                        {%- if filteredTotalsRowContext[column].treatment == additiveTreatment -%}
+                                            {{ 'General_FilteredTotalOfReportTotal'|translate(reportTotal) }}
+                                        {%- else -%}
+                                            {{ 'General_FilteredTotalOverall'|translate(reportTotal) }}
+                                        {%- endif -%}
+                                    </span>
+                                {% endif %}
+                            {% endif %}
                         </td>
                     {% endfor %}
                 </tr>

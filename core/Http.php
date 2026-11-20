@@ -13,6 +13,8 @@ use Composer\CaBundle\CaBundle;
 use Exception;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\EgressBlockedException;
+use Piwik\Http\EgressHostValidator;
 
 /**
  * Contains HTTP client related helper methods that can retrieve content from remote servers
@@ -78,6 +80,14 @@ class Http
      * @param string $httpPassword HTTP Auth password
      * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
      *                                 be set to false when using a hardcoded URL.
+     * @param bool $validateEgressIp when true, serves the request over the SSRF-safe path: the resolved host must be a
+     *                               public IP (or covered by `[General] allowed_private_egress_ranges`), every redirect
+     *                               hop is re-validated and the connection pinned to it. Use this whenever the URL comes
+     *                               from untrusted input (e.g. a site's own configured URL).
+     *                               Requires curl, bypasses any configured or environment proxy, retains the method and
+     *                               body across same-origin hops, drops credentials, caller headers and the body on an
+     *                               origin change, and does not follow redirects when downloading to a file.
+     *                               A refused target or unmet precondition throws {@see EgressBlockedException}.
      *
      * @return string|array|bool  If `$destinationPath` is not specified the HTTP response is returned on success. `false`
      *                            is returned on failure.
@@ -87,11 +97,13 @@ class Http
      *                            - **status**: the HTTP status code
      *                            - **headers**: the HTTP headers
      *                            - **data**: the HTTP response data
+     *                            - **effectiveUrl**: the final URL after following redirects (best effort on the
+     *                              fopen transport)
      *
      *                            `false` is still returned on failure.
      * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
      *                   if there are more than 5 redirects or if the request times out.
-     * @phpstan-return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string} : string|false) : bool)
+     * @phpstan-return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string} : string|false) : bool)
      * @api
      */
     public static function sendHttpRequest(
@@ -106,14 +118,25 @@ class Http
         $httpMethod = 'GET',
         $httpUsername = null,
         $httpPassword = null,
-        $checkHostIsAllowed = true
+        $checkHostIsAllowed = true,
+        $validateEgressIp = false
     ) {
         // create output file
         $file = self::ensureDestinationDirectoryExists($destinationPath);
 
+        $transport = self::getTransportMethod();
+        if ($validateEgressIp) {
+            // The SSRF-safe path only pins and re-validates reliably over curl, so fail
+            // closed rather than silently degrade to an unprotected transport.
+            if (!self::isCurlEnabled()) {
+                throw new EgressBlockedException('SSRF-safe HTTP requests require the curl PHP extension.');
+            }
+            $transport = 'curl';
+        }
+
         $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
         return self::sendHttpRequestBy(
-            self::getTransportMethod(),
+            $transport,
             $aUrl,
             $timeout,
             $userAgent,
@@ -130,7 +153,8 @@ class Http
             null,
             [],
             null,
-            $checkHostIsAllowed
+            $checkHostIsAllowed,
+            $validateEgressIp
         );
     }
 
@@ -153,10 +177,30 @@ class Http
         return null;
     }
 
+    /**
+     * Throws when the host matches any `http.blocklist.hosts` wildcard rule.
+     */
+    private static function assertHostNotBlocked(?string $host): void
+    {
+        if (empty($host)) {
+            return;
+        }
+
+        $disallowedHosts = StaticContainer::get('http.blocklist.hosts');
+        foreach ($disallowedHosts as $disallowedHost) {
+            if (preg_match(self::convertWildcardToPattern($disallowedHost), $host) === 1) {
+                throw new Exception(sprintf(
+                    'Hostname %s is in list of disallowed hosts',
+                    $host
+                ));
+            }
+        }
+    }
+
     private static function convertWildcardToPattern(string $wildcardHost): string
     {
         $flexibleStart = $flexibleEnd = false;
-        if (strpos($wildcardHost, '*.') === 0) {
+        if (str_starts_with($wildcardHost, '*.')) {
             $flexibleStart = true;
             $wildcardHost = substr($wildcardHost, 2);
         }
@@ -197,11 +241,16 @@ class Http
      * @param string|null $httpPassword HTTP Auth password
      * @param array|string|null $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
      * @param array $additionalHeaders List of additional headers to set for the request
-     * @param bool|null $forcePost If true, forces POST redirects to remain POST requests (curl only).
+     * @param bool|null $forcePost If true, forces POST redirects to remain POST requests (curl only). Ignored on the
+     *                             `$validateEgressIp` path, where the method and body are retained on same-origin
+     *                             redirects only and cross-origin redirects are downgraded to GET without a body.
      * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
      *                                 be set to false when using a hardcoded URL.
+     * @param bool $validateEgressIp when true, the request is served over the SSRF-safe path: public-IP validation,
+     *                               manual per-hop redirect re-validation and connection pinning. See
+     *                               {@see sendHttpRequest()} for the full contract.
      *
-     * @return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string} : string|false) : bool)
+     * @return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string, effectiveUrl?: string} : string|false) : bool)
      * @throws Exception
      */
     public static function sendHttpRequestBy(
@@ -222,7 +271,8 @@ class Http
         $requestBody = null,
         $additionalHeaders = array(),
         $forcePost = null,
-        $checkHostIsAllowed = true
+        $checkHostIsAllowed = true,
+        $validateEgressIp = false
     ) {
         if ($followDepth > 5) {
             throw new Exception('Too many redirects (' . $followDepth . ')');
@@ -231,6 +281,8 @@ class Http
 
         $aUrl = preg_replace('/[\x00-\x1F\x7F]/', '', trim($aUrl));
         $parsedUrl = @parse_url($aUrl);
+        // final URL after redirects; curl overrides this below
+        $effectiveUrl = $aUrl;
 
         if (empty($parsedUrl['scheme'])) {
             throw new Exception('Missing scheme in given url');
@@ -255,22 +307,54 @@ class Http
         }
 
         if ($checkHostIsAllowed) {
-            $disallowedHosts = StaticContainer::get('http.blocklist.hosts');
+            self::assertHostNotBlocked($parsedUrl['host'] ?? null);
+        }
 
-            $isBlocked = false;
+        // SSRF-safe path: only curl can pin the validated address
+        // we handle redirects manually below, and refuse any other transport
+        // or a forward proxy rather than fetch unsafely.
+        $pinnedResolveEntry = null;
+        if ($validateEgressIp) {
+            if ($method !== 'curl') {
+                throw new EgressBlockedException('SSRF-safe HTTP requests require the curl transport.');
+            }
 
-            foreach ($disallowedHosts as $host) {
-                if (!empty($parsedUrl['host']) && preg_match(self::convertWildcardToPattern($host), $parsedUrl['host']) === 1) {
-                    $isBlocked = true;
-                    break;
+            if (!self::isCurlEnabled()) {
+                throw new EgressBlockedException('SSRF-safe HTTP requests require the curl PHP extension.');
+            }
+
+            // Restrict to http(s): other schemes have different default ports
+            $scheme = strtolower((string) $parsedUrl['scheme']);
+            if ($scheme !== 'http' && $scheme !== 'https') {
+                throw new EgressBlockedException('SSRF-safe HTTP requests only support the http and https schemes.');
+            }
+
+            [$configuredProxyHost] = self::getProxyConfiguration($aUrl);
+            if (!empty($configuredProxyHost)) {
+                throw new EgressBlockedException('SSRF-safe HTTP requests cannot be routed through a configured proxy.');
+            }
+
+            $effectivePort = isset($parsedUrl['port']) ? (int) $parsedUrl['port'] : ($scheme === 'https' ? 443 : 80);
+
+            // Resolved via DI so tests can substitute a validator that accepts the local fixture server.
+            [$canonicalHost, $pinnedIp] = StaticContainer::get(EgressHostValidator::class)
+                ->resolveTarget((string) ($parsedUrl['host'] ?? ''));
+
+            // Rewrite the URL to the canonical host when it differs (IDN folding, casing, a trailing dot),
+            // and re-check the blocklist against the host curl will actually connect to.
+            if ($canonicalHost !== trim((string) ($parsedUrl['host'] ?? ''), '[]')) {
+                $aUrl = self::replaceUrlHost($parsedUrl, $canonicalHost);
+
+                if ($checkHostIsAllowed) {
+                    self::assertHostNotBlocked($canonicalHost);
                 }
             }
 
-            if ($isBlocked) {
-                throw new Exception(sprintf(
-                    'Hostname %s is in list of disallowed hosts',
-                    $parsedUrl['host']
-                ));
+            // For a DNS host, pin the name to the validated IP so curl cannot re-resolve to
+            // a different address. An IP literal (canonicalHost === pinnedIp) needs no pin.
+            if ($canonicalHost !== $pinnedIp) {
+                $pinnedAddress = str_contains($pinnedIp, ':') ? '[' . $pinnedIp . ']' : $pinnedIp;
+                $pinnedResolveEntry = $canonicalHost . ':' . $effectivePort . ':' . $pinnedAddress;
             }
         }
 
@@ -315,7 +399,8 @@ class Http
         /** @var string|null $response */
         $response = null;
 
-        $httpAuthIsUsed = !empty($httpUsername) || !empty($httpPassword);
+        $httpAuthIsUsed = ($httpUsername !== null && $httpUsername !== '')
+            || ($httpPassword !== null && $httpPassword !== '');
 
         $httpAuth = '';
         if ($httpAuthIsUsed) {
@@ -332,6 +417,7 @@ class Http
             ], $additionalHeaders))),
             'verifySsl' => !$acceptInvalidSslCertificate,
             'destinationPath' => $destinationPath,
+            'validateEgressIp' => $validateEgressIp,
         );
 
         /**
@@ -347,6 +433,8 @@ class Http
          *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
          *                      - 'verifySsl' A boolean whether SSL certificate should be verified
          *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
+         *                      - 'validateEgressIp' Whether the caller asked for SSRF-safe semantics. A listener
+         *                        resolving the request itself must honour them or leave it unhandled
          * @param string &$response A plugin listening to this event should assign the HTTP response it received to this variable, for example "{value: true}"
          * @param int &$status A plugin listening to this event should assign the HTTP status code it received to this variable, for example "200"
          * @param array &$headers A plugin listening to this event should assign the HTTP headers it received to this variable, eg array('Content-Length' => '5')
@@ -605,8 +693,8 @@ class Http
                             . $via . "\r\n"
                             . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                             . $rangeHeader,
-                        'max_redirects' => 5, // PHP 5.1.0
-                        'timeout'       => $timeout, // PHP 5.2.1
+                        'max_redirects' => 5,
+                        'timeout'       => $timeout,
                     ),
                 );
 
@@ -727,7 +815,10 @@ class Http
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBodyQuery);
             }
 
-            if (!empty($httpUsername) && !empty($httpPassword)) {
+            if (
+                $httpUsername !== null && $httpUsername !== ''
+                && $httpPassword !== null && $httpPassword !== ''
+            ) {
                 $curl_options += array(
                     CURLOPT_USERPWD => $httpUsername . ':' . $httpPassword,
                 );
@@ -736,11 +827,23 @@ class Http
             @curl_setopt_array($ch, $curl_options);
             self::configCurlCertificate($ch);
 
-            /*
-             * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
-             * in safe_mode or open_basedir is set
-             */
-            if ((string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '') {
+            if ($validateEgressIp) {
+                // Follow redirects manually so every hop is re-validated, and pin
+                // the connection to the address we validated to close the DNS-rebinding window.
+                // CURLOPT_RESOLVE keeps the original hostname for SNI and certificate checks.
+                // @todo when switching to a new HTTP library: this transport-specific
+                //      pinning/redirect wiring should probably be re-implemented against it (e.g. Guzzle's
+                //      curl.options + redirect middleware). EgressHostValidator is reusable as-is.
+                @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+                // Disable any environment proxy (http_proxy etc.) so it cannot re-resolve the host and bypass the pin.
+                @curl_setopt($ch, CURLOPT_PROXY, '');
+                if ($pinnedResolveEntry !== null) {
+                    @curl_setopt($ch, CURLOPT_RESOLVE, array($pinnedResolveEntry));
+                }
+            }
+
+            // CURLOPT_FOLLOWLOCATION cannot be set when open_basedir is set
+            if (!$validateEgressIp && ini_get('open_basedir') == '') {
                 $protocols = 0;
 
                 foreach (explode(',', $allowedProtocols) as $protocol) {
@@ -786,7 +889,7 @@ class Http
                 $header = '';
                 // redirects are included in the output html, so we look for the last line that starts w/ HTTP/...
                 // to split the response
-                while (substr($response, 0, 5) == "HTTP/") {
+                while (str_starts_with($response, "HTTP/")) {
                     $split = explode("\r\n\r\n", $response, 2);
 
                     if (count($split) == 2) {
@@ -805,9 +908,70 @@ class Http
             $contentLength = @curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
             $fileLength = is_resource($file) ? @curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : strlen($response);
             $status = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $elapsed = (float) @curl_getinfo($ch, CURLINFO_TOTAL_TIME);
+            $curlRedirectUrl = (string) @curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+            $curlEffectiveUrl = (string) @curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+            if ($curlEffectiveUrl !== '') {
+                $effectiveUrl = $curlEffectiveUrl;
+            }
 
             @curl_close($ch);
             unset($ch);
+
+            // SSRF-safe path follows redirects manually so each hop is re-validated and re-pinned.
+            if ($validateEgressIp && $status >= 300 && $status < 400 && $status !== 304) {
+                if (is_resource($file)) {
+                    // CURLOPT_HEADER is off for file downloads, so the Location cannot be re-validated: fail closed.
+                    @fclose($file);
+                    if ($destinationPath) {
+                        @unlink($destinationPath);
+                    }
+                    throw new EgressBlockedException('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.');
+                }
+
+                // Read from curl, not from $headers: the splitter above keeps the last "HTTP/" block
+                // it finds, so a response body can forge one.
+                $redirectUrl = $curlRedirectUrl;
+                if ($redirectUrl !== '') {
+                    // Cross-origin: drop credentials, caller headers and the body, and downgrade to GET.
+                    // $acceptInvalidSslCertificate stays, since it guards no secret past this point and
+                    // dropping it would fail the common http -> https hop for self-signed sites.
+                    if (!self::urlsSameOrigin($aUrl, $redirectUrl)) {
+                        $httpUsername = null;
+                        $httpPassword = null;
+                        $additionalHeaders = array();
+                        $requestBody = null;
+                        $httpMethod = 'GET';
+                        $forcePost = null;
+                    }
+
+                    // Shrink the timeout by what this hop already spent so the whole redirect chain
+                    // stays within the caller's original budget instead of granting it to every hop.
+                    $remainingTimeout = max(1, (int) floor($timeout - $elapsed));
+
+                    return self::sendHttpRequestBy(
+                        $method,
+                        $redirectUrl,
+                        $remainingTimeout,
+                        $userAgent,
+                        $destinationPath,
+                        $file,
+                        $followDepth + 1,
+                        $acceptLanguage,
+                        $acceptInvalidSslCertificate,
+                        $byteRange,
+                        $getExtendedInfo,
+                        $httpMethod,
+                        $httpUsername,
+                        $httpPassword,
+                        $requestBody,
+                        $additionalHeaders,
+                        $forcePost,
+                        $checkHostIsAllowed,
+                        $validateEgressIp
+                    );
+                }
+            }
         } else {
             throw new Exception('Invalid request method: ' . $method);
         }
@@ -839,6 +1003,8 @@ class Http
          *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
          *                      - 'verifySsl' A boolean whether SSL certificate should be verified
          *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
+         *                      - 'validateEgressIp' Whether the caller asked for SSRF-safe semantics. A listener
+         *                        resolving the request itself must honour them or leave it unhandled
          * @param string &$response The response of the HTTP request, for example "{value: true}"
          * @param int &$status The returned HTTP status code, for example "200"
          * @param array &$headers The returned headers, eg array('Content-Length' => '5')
@@ -849,9 +1015,10 @@ class Http
             return trim($response);
         } else {
             return array(
-                'status'  => $status,
-                'headers' => $headers,
-                'data'    => $response,
+                'status'       => $status,
+                'headers'      => $headers,
+                'data'         => $response,
+                'effectiveUrl' => $effectiveUrl,
             );
         }
     }
@@ -1048,7 +1215,7 @@ class Http
 
         foreach ($_SERVER as $key => $value) {
             if (
-                0 === strpos(strtolower($key), strtolower('HTTP_SEC_CH_UA'))
+                str_starts_with(strtolower($key), strtolower('HTTP_SEC_CH_UA'))
                 || 'X_HTTP_REQUESTED_WITH' === strtoupper($key)
             ) {
                 $clientHints[$key] = $value;
@@ -1106,6 +1273,53 @@ class Http
         if ($camelName !== $name) {
             $headers[$camelName] = trim($value);
         }
+    }
+
+    /**
+     * Whether two URLs share the same origin (scheme, host and effective port). Fails closed:
+     * a parse failure or missing component counts as a different origin.
+     */
+    private static function urlsSameOrigin(string $urlA, string $urlB): bool
+    {
+        $a = @parse_url($urlA);
+        $b = @parse_url($urlB);
+
+        if (!is_array($a) || !is_array($b) || !isset($a['host'], $b['host'], $a['scheme'], $b['scheme'])) {
+            return false;
+        }
+
+        $schemeA = strtolower($a['scheme']);
+        $schemeB = strtolower($b['scheme']);
+        if ($schemeA !== $schemeB || strcasecmp($a['host'], $b['host']) !== 0) {
+            return false;
+        }
+
+        $defaultPort = $schemeA === 'https' ? 443 : 80;
+        $portA = isset($a['port']) ? (int) $a['port'] : $defaultPort;
+        $portB = isset($b['port']) ? (int) $b['port'] : $defaultPort;
+
+        return $portA === $portB;
+    }
+
+    /**
+     * Rebuilds a URL from its parse_url() parts with a replacement host, preserving every other
+     * component. Used on the SSRF-safe path, so the connected URL carries the pinned canonical host.
+     *
+     * @param array<string, mixed> $parts
+     */
+    private static function replaceUrlHost(array $parts, string $newHost): string
+    {
+        $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : '';
+        $user = (string) ($parts['user'] ?? '');
+        $pass = isset($parts['pass']) ? ':' . $parts['pass'] : '';
+        $auth = $user !== '' ? $user . $pass . '@' : '';
+        $hostPart = str_contains($newHost, ':') ? '[' . $newHost . ']' : $newHost;
+        $port = isset($parts['port']) ? ':' . $parts['port'] : '';
+        $path = (string) ($parts['path'] ?? '');
+        $query = isset($parts['query']) ? '?' . $parts['query'] : '';
+        $fragment = isset($parts['fragment']) ? '#' . $parts['fragment'] : '';
+
+        return $scheme . $auth . $hostPart . $port . $path . $query . $fragment;
     }
 
     /**

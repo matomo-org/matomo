@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\API\tests\Unit;
 
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer;
 use Piwik\Date;
 use Piwik\Plugins\API\Renderer\Console;
 use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
@@ -43,6 +44,15 @@ class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
         $response = $this->builder->renderException('This message should be used', new \BadMethodCallException('The other message'));
 
         $this->assertEquals('Error: This message should be used', $response);
+    }
+
+    public function testRenderExceptionShouldServeTheMessageUnescaped()
+    {
+        $message = Renderer::formatValueXml('The value "5" is not allowed for segment a<b&c');
+
+        $response = $this->builder->renderException($message, new \Exception('The other message'));
+
+        $this->assertSame('Error: The value "5" is not allowed for segment a<b&c', $response);
     }
 
     public function testRenderScalarShouldReturnTheSameValue()

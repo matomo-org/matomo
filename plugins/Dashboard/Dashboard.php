@@ -15,10 +15,35 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Category\Subcategory;
 use Piwik\Widget\WidgetConfig;
+use Piwik\Widget\WidgetContainerConfig;
+use Piwik\Widget\WidgetsList;
 use Piwik\Plugin;
 
 class Dashboard extends \Piwik\Plugin
 {
+    /**
+     * Widget unique ids that collide with JavaScript object member names. A client consumer keys
+     * per-widget state by unique id, and these names are never produced for real widgets by
+     * {@see \Piwik\Widget\WidgetsList::getWidgetUniqueId()}, so any stored id reducing to one of them
+     * is dropped rather than persisted and handed to the browser. Stored and compared in lower case
+     * so the match is case-insensitive.
+     */
+    private const RESERVED_WIDGET_UNIQUE_IDS = [
+        '__proto__',
+        'constructor',
+        'prototype',
+        '__definegetter__',
+        '__definesetter__',
+        '__lookupgetter__',
+        '__lookupsetter__',
+        'hasownproperty',
+        'isprototypeof',
+        'propertyisenumerable',
+        'tolocalestring',
+        'tostring',
+        'valueof',
+    ];
+
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -250,21 +275,115 @@ class Dashboard extends \Piwik\Plugin
         // we will only return the widgets that are from enabled plugins
 
         if (is_array($layoutObject)) {
-            $layoutObject = (object)array(
-                'config'  => array('layout' => '33-33-33'),
-                'columns' => $layoutObject,
-            );
+            $layoutObject = $this->layoutObjectFromColumns($layoutObject);
         }
 
         if (empty($layoutObject) || empty($layoutObject->columns)) {
-            $layoutObject = (object)array(
-                'config'  => array('layout' => '33-33-33'),
-                'columns' => array(),
-            );
+            $layoutObject = $this->layoutObjectFromColumns(array());
         }
 
         $layout = $this->encodeLayout($layoutObject);
         return $layout;
+    }
+
+    /**
+     * Drops every widget of a stored layout that the current user is not allowed to see.
+     *
+     * A layout can name widgets its owner has no access to: a superuser creating, resetting or
+     * copying a dashboard for someone else builds it from their own widget list, and the result is
+     * never re-checked against the user it is saved for. Serving such a widget makes the browser
+     * request an API method that answers 401, which surfaces as a generic request error.
+     *
+     * Must not be called while the widget list is being built: {@see self::addWidgetConfigs()} runs
+     * at that point and would recurse back into here through the default layout.
+     *
+     * @internal
+     * @param string|array|object $layout
+     * @return string
+     */
+    public function removeWidgetsNotAvailableToUser($layout)
+    {
+        $layoutObject = $this->decodeLayout($layout);
+
+        if (is_array($layoutObject)) {
+            $layoutObject = $this->layoutObjectFromColumns($layoutObject);
+        }
+
+        if (empty($layoutObject)) {
+            $layoutObject = $this->layoutObjectFromColumns(array());
+        }
+
+        if (empty($layoutObject->columns)) {
+            return $this->encodeLayout($layoutObject);
+        }
+
+        $availableWidgets = array();
+
+        foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
+            // A widget can exist only inside a container, and the widget list the browser works from
+            // flattens those one level, so a layout names them directly. Flatten them the same way,
+            // otherwise reports such as Event Names or Content Names would be dropped from every
+            // dashboard. One level only, as {@see \Piwik\Plugins\API\WidgetMetadata::getWidgetMetadata()}
+            // does.
+            $widgets = array($widgetConfig);
+
+            if ($widgetConfig instanceof WidgetContainerConfig) {
+                $widgets = array_merge($widgets, $widgetConfig->getWidgetConfigs());
+            }
+
+            foreach ($widgets as $widget) {
+                // The same two conditions the browser's widget list applies, so that the two agree
+                // on what exists: a widget it never offers has no business surviving here either.
+                // Asked of every entry on its own, which is what keeps a container that is not
+                // widgetizable itself from taking the widgets inside it down with it.
+                if (!$widget->isWidgetizeable() || !$widget->getName()) {
+                    continue;
+                }
+
+                $availableWidgets[$widget->getModule() . '.' . $widget->getAction()] = true;
+            }
+        }
+
+        $columns = (array)$layoutObject->columns;
+
+        foreach ($columns as $index => $column) {
+            $widgets = array();
+
+            foreach ((array)$column as $widget) {
+                // A layout holds widgets as objects, but a caller may hand one over already decoded
+                // into arrays, so read both shapes through the same cast.
+                $parameters = (array)(((array)$widget)['parameters'] ?? array());
+                $module = $parameters['module'] ?? '';
+                $action = $parameters['action'] ?? '';
+
+                if ('' !== $module && isset($availableWidgets[$module . '.' . $action])) {
+                    $widgets[] = $widget;
+                }
+            }
+
+            $columns[$index] = $widgets;
+        }
+
+        $layoutObject->columns = $columns;
+
+        return $this->encodeLayout($layoutObject);
+    }
+
+    /**
+     * Wraps columns into the object shape of a layout, with the default column widths.
+     *
+     * '33-33-33' is three columns of a third each, the same fallback the dashboard JavaScript
+     * applies. {@see Controller::getAvailableLayouts()} holds the widths a user can choose from.
+     *
+     * @param array $columns
+     * @return object
+     */
+    private function layoutObjectFromColumns(array $columns)
+    {
+        return (object)array(
+            'config'  => array('layout' => '33-33-33'),
+            'columns' => $columns,
+        );
     }
 
     public function decodeLayout($layout)
@@ -280,6 +399,7 @@ class Dashboard extends \Piwik\Plugin
         $layout = json_decode($layout, $assoc = false);
 
         $this->sanitizeWidgetUniqueIds($layout);
+        $layout = $this->removeNonWidgetModules($layout);
 
         return $layout;
     }
@@ -290,6 +410,8 @@ class Dashboard extends \Piwik\Plugin
      * Widget unique ids are produced server side by {@see \Piwik\Widget\WidgetsList::getWidgetUniqueId()}
      * and consist of identifier characters, so legitimate widgets are left untouched. Any value that was
      * stored in a layout is reduced to that same set before consumers rely on it as a plain identifier.
+     * A sanitized id that still matches a reserved name (see {@see self::RESERVED_WIDGET_UNIQUE_IDS})
+     * is dropped to an empty id, as no real widget uses one.
      *
      * @param mixed $layout decoded layout as returned by json_decode()
      */
@@ -311,10 +433,76 @@ class Dashboard extends \Piwik\Plugin
             foreach ($column as $widget) {
                 if (is_object($widget) && property_exists($widget, 'uniqueId')) {
                     $uniqueId = is_string($widget->uniqueId) ? $widget->uniqueId : '';
-                    $widget->uniqueId = preg_replace('/[^a-zA-Z0-9_.+-]/', '', $uniqueId);
+                    $uniqueId = preg_replace('/[^a-zA-Z0-9_.+-]/', '', $uniqueId);
+
+                    if (in_array(strtolower($uniqueId), self::RESERVED_WIDGET_UNIQUE_IDS, true)) {
+                        $uniqueId = '';
+                    }
+
+                    $widget->uniqueId = $uniqueId;
                 }
             }
         }
+    }
+
+    /**
+     * Drops every widget of a decoded layout that does not render a report widget.
+     *
+     * A dashboard widget always renders a report through its own plugin's widget or controller.
+     * The {@see \Piwik\Plugins\API} module is a data endpoint, not a renderable widget, and no
+     * registered widget is served from it, so a layout entry pointing at it is never a real widget
+     * and is dropped. Legitimate layouts are built from plugin widgets ({@see self::getDefaultLayout()})
+     * and are left untouched.
+     *
+     * Runs on the decoded structure only, so it never consults the widget list and cannot recurse
+     * into the layout building the way {@see self::removeWidgetsNotAvailableToUser()} must guard against.
+     *
+     * @param mixed $layout decoded layout as returned by json_decode()
+     * @return mixed the layout with non-widget entries removed
+     */
+    private function removeNonWidgetModules($layout)
+    {
+        $hasColumnsProperty = is_object($layout) && isset($layout->columns);
+        $columns = $hasColumnsProperty ? $layout->columns : $layout;
+
+        // Columns and widgets may be encoded as arrays or as objects; handle both shapes so the
+        // filtering cannot be sidestepped through the layout structure.
+        if (!is_array($columns) && !is_object($columns)) {
+            return $layout;
+        }
+
+        foreach ($columns as $key => $column) {
+            if (!is_array($column) && !is_object($column)) {
+                continue;
+            }
+
+            $widgets = array();
+
+            foreach ($column as $widget) {
+                $parameters = (array) (((array) $widget)['parameters'] ?? array());
+                $module = isset($parameters['module']) && is_string($parameters['module']) ? $parameters['module'] : '';
+
+                if ('api' === strtolower($module)) {
+                    continue;
+                }
+
+                $widgets[] = $widget;
+            }
+
+            if (is_object($columns)) {
+                $columns->{$key} = $widgets;
+            } else {
+                $columns[$key] = $widgets;
+            }
+        }
+
+        if ($hasColumnsProperty) {
+            $layout->columns = $columns;
+
+            return $layout;
+        }
+
+        return $columns;
     }
 
     public function encodeLayout($layout)

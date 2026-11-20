@@ -1141,6 +1141,102 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    /**
+     * @dataProvider getNegatedSegmentsComputedFromVisitColumns
+     */
+    public function testGetSelectQueryFiltersTheVisitsDirectlyWhenANegatedSegmentIsComputedFromVisitColumns(string $segment, string $expectedWhere, array $expectedBind)
+    {
+        $segment = new Segment($segment, [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false, []);
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $expected = [
+            'sql'  => " SELECT log_visit.* FROM $logVisitTable AS log_visit WHERE $expectedWhere ",
+            'bind' => $expectedBind,
+        ];
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function getNegatedSegmentsComputedFromVisitColumns(): iterable
+    {
+        yield 'is not' => [
+            'daysSinceLastVisit!=50',
+            '( FLOOR(log_visit.visitor_seconds_since_last / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_last / 86400) <> ? )',
+            ['50'],
+        ];
+
+        yield 'is not zero' => [
+            'daysSinceLastEcommerceOrder!=0',
+            '( FLOOR(log_visit.visitor_seconds_since_order / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_order / 86400) <> ? )',
+            ['0'],
+        ];
+
+        yield 'does not contain' => [
+            'visitLocalHour!@5',
+            '( HOUR(log_visit.visitor_localtime) IS NULL OR HOUR(log_visit.visitor_localtime) NOT LIKE ? )',
+            ['%5%'],
+        ];
+    }
+
+    /**
+     * @dataProvider getNegatedSegmentsComputedFromVisitColumns
+     */
+    public function testGetSelectQueryIsTheSameWithOrWithoutDatesWhenANegatedSegmentIsComputedFromVisitColumns(string $segment)
+    {
+        $segmentWithDates = new Segment($segment, [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+        $segmentWithoutDates = new Segment($segment, []);
+
+        $this->assertEquals(
+            $segmentWithoutDates->getSelectQuery('log_visit.*', 'log_visit', false, []),
+            $segmentWithDates->getSelectQuery('log_visit.*', 'log_visit', false, [])
+        );
+    }
+
+    public function testGetSelectQueryKeepsTheVisitsWithANullValueWhenANegatedSegmentValueIsFilteredToZero()
+    {
+        $segment = new Segment('visitorType!=new', [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false, []);
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $expected = [
+            'sql'  => " SELECT log_visit.* FROM $logVisitTable AS log_visit
+                        WHERE ( log_visit.visitor_returning IS NULL OR log_visit.visitor_returning <> ? ) ",
+            'bind' => [0],
+        ];
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryKeepsTheSubQueryForANegatedSegmentStartingWithAVisitColumnButReadingAnActionColumn()
+    {
+        $segment = new Segment('customVisitAndActionSegment!=5', [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false, []);
+
+        $this->assertStringContainsString('log_visit.idvisit NOT IN (', $query['sql']);
+        $this->assertStringContainsString('(log_visit.visit_total_actions - log_link_visit_action.pageview_position = ?)', $query['sql']);
+    }
+
+    public function testGetSelectQueryKeepsTheSubQueryForANegatedSegmentComputedFromActionColumns()
+    {
+        $segment = new Segment('daysSinceLastVisit!=50;actionServerHour!=5', [], Date::factory('2020-02-02 02:00:00'), Date::factory('2020-02-29 02:00:00'));
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false, []);
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $expected = [
+            'sql'  => " SELECT log_visit.* FROM $logVisitTable AS log_visit
+                        WHERE ( FLOOR(log_visit.visitor_seconds_since_last / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_last / 86400) <> ? )
+                        AND ( log_visit.idvisit NOT IN (
+                            SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                            WHERE ( log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND (HOUR(log_link_visit_action.server_time) = ?)) ) ",
+            'bind' => ['50', '2020-02-02 02:00:00', '2020-02-29 02:00:00', '5'],
+        ];
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function testGetSelectQueryWhenUsingNotEqualsAndNotContainsCompareOnActionDimensionWithIdSitesAndDates()
     {
         $select = 'log_visit.*';
@@ -2230,6 +2326,56 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    // see https://github.com/piwik/piwik/issues/9194
+    public function testGetSelectQueryWhenQueryingLogConversionJoinedWithLogVisitWithSegmentThatUsesLogLinkVisitActionShouldUseSubselectGroupedByIdVisitAndBuster()
+    {
+        $select = 'log_conversion.idgoal AS `idgoal`,
+                   COALESCE(log_conversion.custom_dimension_1, log_visit.custom_dimension_1) AS `label`,
+                   count(*) AS `1`,
+                   count(distinct log_conversion.idvisit) AS `3`';
+
+        $from = ['log_conversion', 'log_visit'];
+        $where = 'log_conversion.server_time >= ? AND log_conversion.server_time <= ? AND log_conversion.idsite IN (?)';
+        $groupBy = 'log_conversion.idgoal, `label`';
+        $bind = array('2015-10-14 11:00:00', '2015-10-15 10:59:59', 1);
+
+        $segment = 'pageUrl=@/';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy = false, $groupBy);
+        $this->assertQueryDoesNotFail($query);
+
+        $logConversionTable = Common::prefixTable('log_conversion');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logVisitTable = Common::prefixTable('log_visit');
+        $logAction = Common::prefixTable('log_action');
+
+        $expectedBind = $bind;
+        $expectedBind[] = '%/%';
+        $expected = array(
+            "sql"  => "
+                SELECT log_inner.idgoal AS `idgoal`,
+                   COALESCE(log_inner.custom_dimension_1, log_inner.custom_dimension_1244d1b9649c84c78c7071cbc49b0d2d2) AS `label`,
+                   count(*) AS `1`,
+                   count(distinct log_inner.idvisit) AS `3`
+                FROM (
+                    SELECT log_conversion.idgoal, log_conversion.custom_dimension_1, log_visit.custom_dimension_1 as custom_dimension_1244d1b9649c84c78c7071cbc49b0d2d2, log_conversion.idvisit
+                    FROM $logConversionTable AS log_conversion
+                       LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
+                       LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_conversion.idvisit
+                       LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
+                    WHERE ( log_conversion.server_time >= ?
+                        AND log_conversion.server_time <= ?
+                        AND log_conversion.idsite IN (?) )
+                        AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
+                    GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
+                    ORDER BY NULL ) AS log_inner
+                    GROUP BY log_inner.idgoal, `label`",
+            "bind" => $expectedBind);
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function testGetSelectQueryWhenJoinCustomLogTableTwoTablesRemovedFromLogVisitFirstThenJoinTableAdjacentToLogVisit()
     {
         $this->defineEntitiesNotDirectlyJoinableToVisit();
@@ -2342,6 +2488,149 @@ SQL;
                 '%matomo.org/jobs/%',
             ],
         ];
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheQueryIsNotAboutVisitsOnly()
+    {
+        // the visits log lets a subquery match the joined tables instead of grouping their rows away,
+        // which only returns the same rows when the query selects and sorts log_visit rows. Every
+        // other query keeps the grouped shape.
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.idvisit, log_link_visit_action.idaction_url',
+            'log_visit',
+            'log_visit.idsite = ?',
+            array(1),
+            'log_visit.visit_last_action_time DESC',
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.idvisit, log_link_visit_action.idaction_url
+                      FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( log_visit.idsite = ? )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY log_visit.visit_last_action_time DESC LIMIT 0, 100',
+            'bind' => array(1, 'Test'),
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheWhereContainsASubquery()
+    {
+        // the conditions of the caller are rewritten to an alias of log_visit, which would rewrite
+        // the inside of a subquery selecting from log_visit too. Those queries keep the group by.
+        $logVisit = Common::prefixTable('log_visit');
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.*',
+            'log_visit',
+            'log_visit.idsite = ? AND log_visit.idvisit IN (SELECT log_visit.idvisit FROM ' . $logVisit . ' AS log_visit WHERE log_visit.location_country = ?)',
+            array(1, 'fr'),
+            'log_visit.visit_last_action_time DESC',
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.*
+                      FROM ' . $logVisit . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( log_visit.idsite = ? AND log_visit.idvisit IN (SELECT log_visit.idvisit FROM ' . $logVisit . ' AS log_visit WHERE log_visit.location_country = ?) )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY log_visit.visit_last_action_time DESC LIMIT 0, 100',
+            'bind' => array(1, 'fr', 'Test'),
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheWhereQuotesTheVisitTable()
+    {
+        // the conditions of the caller are rewritten to an alias of log_visit, and the rewrite only
+        // replaces the unquoted form of the table name. A quoted reference would be left pointing at
+        // a table the rewritten query does not have, so those queries keep the group by.
+        $logVisit = Common::prefixTable('log_visit');
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.*',
+            'log_visit',
+            '`log_visit`.idsite = ?',
+            array(1),
+            'log_visit.visit_last_action_time DESC',
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.*
+                      FROM ' . $logVisit . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( `log_visit`.idsite = ? )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY log_visit.visit_last_action_time DESC LIMIT 0, 100',
+            'bind' => array(1, 'Test'),
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function testGetSelectQueryWithForceGroupByKeepsTheGroupByWhenTheOrderByContainsASubquery()
+    {
+        // the sorting of the caller is rewritten to an alias of log_visit just like its conditions
+        // are, which would rewrite the inside of a subquery selecting from log_visit too. Those
+        // queries keep the group by.
+        $logVisit = Common::prefixTable('log_visit');
+        $orderBy = '(log_visit.idvisit IN (SELECT log_visit.idvisit FROM ' . $logVisit . ' AS log_visit WHERE log_visit.location_country = \'fr\')) DESC, log_visit.visit_last_action_time DESC';
+        $segment = new Segment('siteSearchCategory==Test', $idSites = array());
+
+        $query = $segment->getSelectQuery(
+            'log_visit.*',
+            'log_visit',
+            'log_visit.idsite = ?',
+            array(1),
+            $orderBy,
+            'log_visit.idvisit',
+            $limit = 100,
+            $offset = 0,
+            $forceGroupBy = true
+        );
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            'sql' => 'SELECT log_visit.*
+                      FROM ' . $logVisit . ' AS log_visit
+                      LEFT JOIN ' . Common::prefixTable('log_link_visit_action') . ' AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                      WHERE ( log_visit.idsite = ? )
+                        AND ( log_link_visit_action.search_cat = ? )
+                      GROUP BY log_visit.idvisit
+                      ORDER BY ' . $orderBy . ' LIMIT 0, 100',
+            'bind' => array(1, 'Test'),
+        );
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -2589,6 +2878,13 @@ SQL;
                     $segment->setName('Custom Segment');
                     $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first)');
                     $list->addSegment($segment);
+
+                    $segment = new \Piwik\Plugin\Segment();
+                    $segment->setSegment('customVisitAndActionSegment');
+                    $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);
+                    $segment->setName('Custom Visit And Action Segment');
+                    $segment->setSqlSegment('log_visit.visit_total_actions - log_link_visit_action.pageview_position');
+                    $list->addSegment($segment);
                 })],
             ],
         ];
@@ -2763,5 +3059,80 @@ SQL;
             $dimensions[] = $thingNameDimension;
             $dimensions[] = $thingCategoryDimension;
         });
+    }
+
+    public function testJoinExposesNoAdditionalKeyColumnsByDefault()
+    {
+        $join = new \Piwik\Columns\Join('goal', 'idgoal', 'name');
+        $this->assertSame([], $join->getAdditionalKeyColumns());
+    }
+
+    public function testGoalNameJoinIsScopedBySite()
+    {
+        $join = new \Piwik\Columns\Join\GoalNameJoin();
+        $this->assertSame(['idsite'], $join->getAdditionalKeyColumns());
+    }
+
+    /**
+     * A goal is identified by the pair (idsite, idgoal), so the goal-name join must match on both
+     * columns and not on idgoal alone.
+     */
+    public function testVisitConvertedGoalNameSegmentScopesGoalJoinBySite()
+    {
+        $segment = new Segment('visitConvertedGoalName==name', $idSites = [1]);
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false);
+        $this->assertQueryDoesNotFail($query);
+
+        $sql = self::removeExtraWhiteSpaces($query['sql']);
+        $alias = 'goal_segment_log_conversionidgoal';
+
+        $this->assertStringContainsString('log_conversion.idgoal = ' . $alias . '.idgoal', $sql);
+        $this->assertStringContainsString('log_conversion.idsite = ' . $alias . '.idsite', $sql);
+    }
+
+    /**
+     * The join is built the same way regardless of which log table the query starts from, so the site
+     * scoping must also hold when the query is based on log_conversion directly.
+     */
+    public function testVisitConvertedGoalNameSegmentScopesGoalJoinBySiteWhenBasedOnConversion()
+    {
+        $segment = new Segment('visitConvertedGoalName==name', $idSites = [1]);
+
+        $query = $segment->getSelectQuery('log_conversion.*', 'log_conversion', false);
+        $this->assertQueryDoesNotFail($query);
+
+        $sql = self::removeExtraWhiteSpaces($query['sql']);
+
+        $this->assertStringContainsString('log_conversion.idsite = goal_segment_log_conversionidgoal.idsite', $sql);
+    }
+
+    /**
+     * The join is assembled before the match type is applied, so the site scoping must hold for every
+     * operator that can carry a goal name.
+     *
+     * @dataProvider getGoalNameSegmentOperators
+     */
+    public function testVisitConvertedGoalNameSegmentScopesGoalJoinBySiteForEveryOperator($operator)
+    {
+        $segment = new Segment('visitConvertedGoalName' . $operator . 'name', $idSites = [1]);
+
+        $query = $segment->getSelectQuery('log_visit.*', 'log_visit', false);
+        $this->assertQueryDoesNotFail($query);
+
+        $sql = self::removeExtraWhiteSpaces($query['sql']);
+        $this->assertStringContainsString('log_conversion.idsite = goal_segment_log_conversionidgoal.idsite', $sql);
+    }
+
+    public function getGoalNameSegmentOperators()
+    {
+        return [
+            'equals'       => ['=='],
+            'not equals'   => ['!='],
+            'contains'     => ['=@'],
+            'not contains' => ['!@'],
+            'starts with'  => ['=^'],
+            'ends with'    => ['=$'],
+        ];
     }
 }

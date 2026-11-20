@@ -21,10 +21,7 @@ use Piwik\Plugins\SitesManager\Model as SitesManagerModel;
  */
 class SitesManagerRequestProcessor extends RequestProcessor
 {
-    /**
-     * @var SitesManagerModel
-     */
-    private $sitesManagerModel;
+    private SitesManagerModel $sitesManagerModel;
 
     public function __construct(SitesManagerModel $sitesManagerModel)
     {

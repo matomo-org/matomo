@@ -33,7 +33,7 @@ class MetricsList
      *
      * @var Metric[]
      */
-    private $metrics = array();
+    private array $metrics = array();
 
     private $metricsByNameCache = array();
 

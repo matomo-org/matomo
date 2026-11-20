@@ -11,6 +11,7 @@
     :class="{
       isDragging: draggedId !== null,
       isDisabled: disabled,
+      '__dragHandle-disabledList': disabled,
     }"
   >
     <li
@@ -21,6 +22,7 @@
       :data-item-id="orderedItem.id"
       :draggable="canDrag"
       :aria-grabbed="orderedItem.id === draggedId"
+      @pointerdown="onPointerDown"
       @dragstart="onDragStartForIndex($event, index)"
       @dragover="onDragOverForIndex($event, index)"
       @drop="onDrop"
@@ -69,6 +71,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{(e: 'reorder', order: string[]): void;}>();
 
 const orderedItems = ref<OrderedItem[]>([]);
+const handlePressActive = ref(false);
 const draggedId = ref<string | null>(null);
 const dragTargetId = ref<string | null>(null);
 const placeholderId = ref<string | null>(null);
@@ -99,6 +102,7 @@ function syncOrderedItems() {
 }
 
 function clearDragVisualState() {
+  handlePressActive.value = false;
   draggedId.value = null;
   dragTargetId.value = null;
   placeholderId.value = null;
@@ -162,10 +166,20 @@ function moveDraggedItem(targetId: string, position: DropPosition) {
   orderedItems.value = nextItems;
 }
 
+// Browsers retarget dragstart to the draggable element itself, so the handle can
+// only be recognised from the preceding pointerdown, whose target is still the
+// real press target
+function onPointerDown(event: Event) {
+  const itemElement = event.currentTarget as HTMLElement | null;
+  handlePressActive.value = !!itemElement && matchesHandle(event.target, itemElement);
+}
+
 function onDragStart(event: DragEvent, itemId: string) {
   const itemElement = event.currentTarget as HTMLElement | null;
 
-  if (!itemElement || !canDrag.value || !matchesHandle(event.target, itemElement)) {
+  if (!itemElement || !canDrag.value
+    || !(handlePressActive.value || matchesHandle(event.target, itemElement))
+  ) {
     event.preventDefault();
     return;
   }

@@ -95,7 +95,8 @@ class Nonce
     public static function verifyNonceWithErrorMessage($id, $cnonce, $allowedReferrerHost = null)
     {
         $ns = new SessionNamespace($id);
-        $nonce = $ns->nonce;
+        // checking it must not store anything - reading a value that is not set would add it as null
+        $nonce = $ns->nonce ?? null;
 
         $additionalErrors = '';
 
@@ -157,7 +158,7 @@ class Nonce
         }
 
         $referrerHost = Url::getHostFromUrl($referrer);
-        return preg_match('/(^|\.)' . preg_quote($allowedReferrerHost) . '$/i', $referrerHost);
+        return preg_match('/(^|\.)' . preg_quote($allowedReferrerHost, '/') . '$/i', $referrerHost);
     }
 
     /**

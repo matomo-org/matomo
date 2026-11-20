@@ -54,7 +54,7 @@ trait RequestHandlerTrait
 
     protected function markArchivedReportsAsInvalidIfArchiveAlreadyFinished(Request $request): void
     {
-        $idSite = (int)$request->getIdSite();
+        $idSite = $request->getIdSite();
         $time   = $request->getCurrentTimestamp();
 
         $timezone = $this->getTimezoneForSite($idSite);

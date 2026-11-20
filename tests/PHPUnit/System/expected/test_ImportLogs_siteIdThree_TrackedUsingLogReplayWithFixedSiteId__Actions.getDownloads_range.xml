@@ -10,6 +10,8 @@
 		<min_bandwidth>43</min_bandwidth>
 		<max_bandwidth>43</max_bandwidth>
 		<avg_bandwidth>43</avg_bandwidth>
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
 		<subtable>
 			<row>
 				<label>/latest.zip</label>
@@ -21,6 +23,8 @@
 				<min_bandwidth>43</min_bandwidth>
 				<max_bandwidth>43</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
 				<url>http://builds.piwik.org/latest.zip</url>
 				<segment>downloadUrl==http%253A%252F%252Fbuilds.piwik.org%252Flatest.zip</segment>
 			</row>

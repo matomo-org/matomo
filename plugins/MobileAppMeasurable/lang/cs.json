@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobilní aplikace",
         "MobileAppDescription": "Nativní mobilní aplikace pro iOS, Android nebo jiný mobilní operační systém.",
+        "MobileAppLongDescription": "Sledujte aktivitu uživatelů v nativních aplikacích pro iOS a Android. Shromažďovaná data mohou zahrnovat zobrazení obrazovek, události v aplikaci, podrobnosti o zařízení a uživatelské relace. Tento typ měření je určen pro aplikace používající mobilní SDK Matomo.",
         "MobileApps": "Mobilní aplikace"
     }
 }

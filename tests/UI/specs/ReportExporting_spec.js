@@ -12,11 +12,26 @@ describe("ReportExporting", function () {
         referrersGetWebsitesUrl = baseUrl + "&moduleToWidgetize=Referrers&actionToWidgetize=getWebsites&filter_limit=5",
         visitsSummaryGetUrl = baseUrl + "&moduleToWidgetize=VisitsSummary&actionToWidgetize=get&forceView=1&viewDataTable=graphEvolution";
 
+
+    // Export leaves the 3-dots menu when the header line has room for it, so reach it wherever it
+    // is rather than always through the menu.
+    const openExport = async function (scope) {
+        const at = (selector) => (scope ? `${scope} ${selector}` : selector);
+
+        if (await page.$(at('[data-report-action="export"]'))) {
+            await page.click(at('[data-report-action="export"] .mtm-selector__trigger'));
+        } else {
+            await page.click(at('.reportHeader__actionsTrigger'));
+        }
+
+        await page.click(at('.activateExportSelection'));
+    };
+
     function normalReportTest(format) {
         it(`should export a normal report correctly when the ${format} export is chosen`, async function () {
             if (await page.url() !== referrersGetWebsitesUrl) {
                 await page.goto(referrersGetWebsitesUrl);
-                await page.click('.activateExportSelection');
+                await openExport();
             }
 
             await page.waitForSelector('[name="format"] input[value="'+format+'"]');
@@ -42,7 +57,7 @@ describe("ReportExporting", function () {
         it(`should export an evolution graph report correctly when the ${format} export is chosen`, async function () {
             if (await page.url() !== visitsSummaryGetUrl) {
                 await page.goto(visitsSummaryGetUrl);
-                await page.click('.activateExportSelection');
+                await openExport();
             }
 
             await page.waitForSelector('[name="format"] input[value="'+format+'"]');
@@ -78,7 +93,7 @@ describe("ReportExporting", function () {
                 await page.waitForSelector('.ui-dialog');
                 await page.waitForNetworkIdle();
 
-                await page.click('.ui-dialog .activateExportSelection');
+                await openExport('.ui-dialog');
             }
 
             await page.waitForSelector('[name="format"] input[value="'+format+'"]');
@@ -104,4 +119,21 @@ describe("ReportExporting", function () {
     formats.forEach(normalReportTest);
     formats.forEach(evolutionReportTest);
     formats.forEach(rowEvolutionReportTest);
+
+    // A by-dimension page swaps its reports in one pane; switching used to export the previous one.
+    it('should export the report switched to on a by-dimension page', async function () {
+        await page.goto('?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09'
+            + '#?idSite=1&period=year&date=2012-08-09&category=Goals_Ecommerce&subcategory=Goals_Products');
+        await page.waitForNetworkIdle();
+
+        const sku = await page.jQuery('.reportDimension .dimension:contains(Product SKU)');
+        await sku.click();
+        await page.waitForNetworkIdle();
+
+        await openExport('.reportsByDimensionView');
+        await page.waitForSelector('#reportExport a.btn');
+
+        const url = await page.evaluate(() => $('#reportExport a.btn').attr('href'));
+        expect(url).to.contain('method=Goals.getItemsSku');
+    });
 });

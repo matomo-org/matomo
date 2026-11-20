@@ -240,7 +240,7 @@ class Get extends Base
                         $formatter             = new MetricFormatter();
                         $currentValueFormatted = $value;
                         $pastValueFormatted    = $pastValue;
-                        if (strpos($columnName, 'revenue') !== false) {
+                        if (str_contains($columnName, 'revenue')) {
                             $currencySymbol        = Site::getCurrencySymbolFor($idSite);
                             $pastValueFormatted    = NumberFormatter::getInstance()->formatCurrency(
                                 $pastValue,
@@ -326,6 +326,6 @@ class Get extends Base
 
         $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) {
             return Piwik::translate('Goals_GoalX', $goal['name']);
-        }, $isSummary = true);
+        });
     }
 }

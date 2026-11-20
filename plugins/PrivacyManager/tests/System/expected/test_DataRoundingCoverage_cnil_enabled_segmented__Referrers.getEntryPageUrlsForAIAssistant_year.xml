@@ -10,6 +10,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 		<segment>referrerName==;referrerType==ai;entryPageUrl==example.org%2Fmy%2Fdir%2Fpage0%3Ffoo%3Dbar%26baz%3Dbar</segment>
 		<url>example.org/my/dir/page0?foo=bar&amp;baz=bar</url>
 	</row>
@@ -23,6 +27,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 		<segment>referrerName==;referrerType==ai;entryPageUrl==example.org%2Fmy%2Fdir%2Fpage0%3Ffoo%3Dbar%26baz%3Dbar</segment>
 		<url>example.org/my/dir/page0?foo=bar&amp;baz=bar</url>
 	</row>
@@ -36,6 +44,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 		<segment>referrerName==;referrerType==ai;entryPageUrl==example.org%2Fmy%2Fdir%2Fpage1%3Ffoo%3Dbar%26baz%3Dbar</segment>
 		<url>example.org/my/dir/page1?foo=bar&amp;baz=bar</url>
 	</row>
@@ -49,6 +61,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 		<segment>referrerName==;referrerType==ai;entryPageUrl==example.org%2Fmy%2Fdir%2Fpage1%3Ffoo%3Dbar%26baz%3Dbar</segment>
 		<url>example.org/my/dir/page1?foo=bar&amp;baz=bar</url>
 	</row>
@@ -62,6 +78,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 		<segment>referrerName==;referrerType==ai;entryPageUrl==example.org%2Fmy%2Fdir%2Fpage2%3Ffoo%3Dbar%26baz%3Dbar</segment>
 		<url>example.org/my/dir/page2?foo=bar&amp;baz=bar</url>
 	</row>
@@ -75,6 +95,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 		<segment>referrerName==;referrerType==ai;entryPageUrl==example.org%2Fmy%2Fdir%2Fpage2%3Ffoo%3Dbar%26baz%3Dbar</segment>
 		<url>example.org/my/dir/page2?foo=bar&amp;baz=bar</url>
 	</row>
@@ -88,6 +112,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 		<segment>referrerName==;referrerType==ai;entryPageUrl==example.org%2Fmy%2Fdir%2Fpage3%3Ffoo%3Dbar%26baz%3Dbar</segment>
 		<url>example.org/my/dir/page3?foo=bar&amp;baz=bar</url>
 	</row>
@@ -101,6 +129,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>33.3%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>33.3%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>33.3%</bounce_count_percent_of_total>
 		<segment>referrerName==;referrerType==ai;entryPageUrl==example.org%2Fmy%2Fdir%2Fpage3%3Ffoo%3Dbar%26baz%3Dbar</segment>
 		<url>example.org/my/dir/page3?foo=bar&amp;baz=bar</url>
 	</row>

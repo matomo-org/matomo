@@ -120,7 +120,7 @@ class HostPortExtractor
      */
     private static function isUnixSocket(string $dbHost): bool
     {
-        return (strpos($dbHost, '/') !== false);
+        return (str_contains($dbHost, '/'));
     }
 
     /**

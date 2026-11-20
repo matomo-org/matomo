@@ -11,9 +11,9 @@ use Piwik\Tests\Framework\TestingEnvironmentVariables;
 define('PIWIK_ENABLE_DISPATCH', false);
 
 require realpath(dirname(__FILE__)) . "/includes.php";
+// Configure the testing environment for this request only; do not persist it.
 $testEnvironment = new TestingEnvironmentVariables();
 $testEnvironment->configFileLocal = PIWIK_INCLUDE_PATH . "/tmp/test.config.ini.php";
-$testEnvironment->save();
 
 Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($testEnvironment));
 

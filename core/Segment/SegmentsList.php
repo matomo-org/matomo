@@ -32,7 +32,7 @@ class SegmentsList
      *
      * @var Segment[]
      */
-    private $segments = array();
+    private array $segments = array();
 
     private $segmentsByNameCache = array();
 

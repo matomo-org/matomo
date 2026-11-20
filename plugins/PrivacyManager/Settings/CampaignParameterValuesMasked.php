@@ -31,8 +31,7 @@ class CampaignParameterValuesMasked implements
 
     public const DISCARDED_CAMPAIGN_PLACEHOLDER = '__discarded_by_policy__';
 
-    /** @var bool */
-    private $value;
+    private bool $value;
 
     protected function __construct(bool $value)
     {
@@ -64,6 +63,16 @@ class CampaignParameterValuesMasked implements
         return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingTitle');
     }
 
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingWhatItDoes');
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_CampaignParameterValuesMaskedSettingImpact');
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
@@ -89,6 +98,11 @@ class CampaignParameterValuesMasked implements
     public static function getInlineHelp(): string
     {
         return '';
+    }
+
+    public static function getPolicyOrder(): int
+    {
+        return 65;
     }
 
     public static function getPolicyRequirements(): array

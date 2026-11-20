@@ -201,6 +201,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
 
+    /**
+     * Name for metadata that describes whether the totals row only totals the rows matching the
+     * table search of the request, instead of every row of the report.
+     *
+     * The report totals stay available in the `totals` metadata when this is set.
+     */
+    public const TOTALS_ROW_IS_FILTERED_METADATA_NAME = 'totalsRowIsFiltered';
+
     /** The ID of the Summary Row. */
     public const ID_SUMMARY_ROW = -1;
 
@@ -1025,7 +1033,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($this->getRows() as $row) {
             $columns = $row->getColumns();
             foreach ($columns as $column => $value) {
-                if (strpos($column, $namePrefix) === 0) {
+                if (str_starts_with($column, $namePrefix)) {
                     $columnValues[] = $row->getColumn($column);
                 }
             }
@@ -1518,15 +1526,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /** @var string[] */
-    private static $previousRowClasses = [
+    private static array $previousRowClasses = [
         'O:39:"Piwik\DataTable\Row\DataTableSummaryRow"',
         'O:19:"Piwik\DataTable\Row"',
         'O:36:"Piwik_DataTable_Row_DataTableSummary"',
         'O:19:"Piwik_DataTable_Row"',
     ];
 
-    /** @var string */
-    private static $rowClassToUseForUnserialize = 'O:29:"Piwik_DataTable_SerializedRow"';
+    private static string $rowClassToUseForUnserialize = 'O:29:"Piwik_DataTable_SerializedRow"';
 
     /**
      * It is faster to unserialize existing serialized Row instances to "Piwik_DataTable_SerializedRow" and access the
@@ -1545,29 +1552,50 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // Current archives only persist row arrays, so do not allow objects in the default path.
         $rows = Common::safe_unserialize($serialized, []);
 
-        if (!$this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = false)) {
-            $rows = false;
+        if (is_array($rows) && !$this->payloadCanContainObjectsOrReferences($serialized)) {
+            return $rows;
         }
 
-        if ($rows === false) {
-            // Legacy object payloads are attempted as a fallback for BC.
-            $legacySerialized = str_replace(
-                array_map(function ($class) {
-                    return $class . ':';
-                }, self::$previousRowClasses),
-                self::$rowClassToUseForUnserialize . ':',
-                $serialized
-            );
-            $rows = Common::safe_unserialize($legacySerialized, [
-                \Piwik_DataTable_SerializedRow::class,
-            ]);
+        if ($this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = false)) {
+            return $rows;
         }
+
+        // Legacy object payloads are attempted as a fallback for BC.
+        $legacySerialized = str_replace(
+            array_map(function ($class) {
+                return $class . ':';
+            }, self::$previousRowClasses),
+            self::$rowClassToUseForUnserialize . ':',
+            $serialized
+        );
+        $rows = Common::safe_unserialize($legacySerialized, [
+            \Piwik_DataTable_SerializedRow::class,
+        ]);
 
         if (!$this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = true)) {
             throw new Exception("The unserialization has failed!");
         }
 
         return $rows;
+    }
+
+    /**
+     * Whether the payload may hold something isValidRowsPayload() rejects. An object can only come
+     * from "O:", "C:" or "E:" (enums get through even with classes disallowed), and a reference from
+     * "R:". Without any of these we can skip the scan.
+     *
+     * A label that happens to contain a marker just gets the normal scan, so a false match only
+     * costs time.
+     */
+    private function payloadCanContainObjectsOrReferences(string $serialized): bool
+    {
+        foreach (['O:', 'C:', 'E:', 'R:'] as $marker) {
+            if (str_contains($serialized, $marker)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function isValidRowsPayload($rows, bool $allowLegacySerializedRowObjects): bool

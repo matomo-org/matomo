@@ -28,12 +28,12 @@ class Hourly extends Schedule
 
         // Adds one hour and reset the number of minutes
         $rescheduledTime = mktime(
-            date('H', $currentTime) + 1,
+            (int) date('H', $currentTime) + 1,
             0,
-            date('s', $currentTime),
-            date('n', $currentTime),
-            date('j', $currentTime),
-            date('Y', $currentTime)
+            (int) date('s', $currentTime),
+            (int) date('n', $currentTime),
+            (int) date('j', $currentTime),
+            (int) date('Y', $currentTime)
         );
         return $rescheduledTime;
     }

@@ -163,7 +163,7 @@ class Filesystem
 
             $output = @shell_exec($command);
             if ($output) {
-                $commandFailed = (false !== strpos($output, "no file systems processed"));
+                $commandFailed = (str_contains($output, "no file systems processed"));
                 $output = trim($output);
                 $outputArray = explode("\n", $output);
                 if (
@@ -193,10 +193,10 @@ class Filesystem
      */
     public static function globr($sDir, $sPattern, $nFlags = 0)
     {
-        if (($aFiles = \_glob("$sDir/$sPattern", $nFlags)) == false) {
+        if (($aFiles = glob("$sDir/$sPattern", $nFlags)) == false) {
             $aFiles = array();
         }
-        if (($aDirs = \_glob("$sDir/*", GLOB_ONLYDIR)) != false) {
+        if (($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false) {
             foreach ($aDirs as $sSubDir) {
                 if (is_link($sSubDir)) {
                     continue;
@@ -508,7 +508,7 @@ class Filesystem
         }
 
         if (function_exists('opcache_reset') && Config::getInstance()->Cache['enable_opcache_reset'] !== 0) {
-            @opcache_reset(); // reset the opcode cache (php 5.5.0+)
+            @opcache_reset(); // reset the opcode cache
         }
 
         if (function_exists('wincache_refresh_if_changed')) {
@@ -563,7 +563,7 @@ class Filesystem
     private static function isPathWithinTmpFolder($path)
     {
         $pathIsTmp = StaticContainer::get('path.tmp');
-        $isPathWithinTmpFolder = strpos($path, $pathIsTmp) === 0;
+        $isPathWithinTmpFolder = str_starts_with($path, $pathIsTmp);
         return $isPathWithinTmpFolder;
     }
 

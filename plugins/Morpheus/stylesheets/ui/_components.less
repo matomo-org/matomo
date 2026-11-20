@@ -1,22 +1,19 @@
 //colors calendar
-@calendarHeaderBackground: @theme-color-background-contrast;
-@calendarHeaderColor: #999;
-@calendarCurrentStateHover: @theme-color-background-base;
-@calendarBorder: @theme-color-border;
+@_calendar_headerBackground: @theme-color-background-contrast;
 
 .ui-datepicker {
   th,
   th.ui-datepicker-week-end {
-    background: @calendarHeaderBackground !important;
-    color: @calendarHeaderColor !important;
+    background: @_calendar_headerBackground !important;
+    color: #999 !important;
   }
 
   .ui-state-default {
-    border-color: @calendarBorder !important;
+    border-color: @theme-color-border !important;
   }
 
   .ui-datepicker-header {
-    background: @calendarHeaderBackground !important;
+    background: @_calendar_headerBackground !important;
     border-color: @color-gray;
     border-bottom-width: 0;
   }
@@ -40,6 +37,11 @@
     padding-left: 5px;
     display: inline-block;
     color: #666;
+    // #666 falls to ~3:1 against the dark-mode background, so only dark mode
+    // takes the theme colour; light mode keeps the grey it has always had
+    .inDarkMode({
+      color: @theme-color-text;
+    });
     border: 0;
     height: 19px;
     line-height: 19px;
@@ -60,18 +62,12 @@
  .ui-datepicker td.ui-datepicker-current-period a.ui-state-active,
  .ui-datepicker td.ui-datepicker-week-end .ui-state-active,
  .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
-  background: @calendarCurrentStateHover;
+  background: @theme-color-background-base;
 }
 
 .segment-element {
   .segment-add-row {
     border-radius: 5px;
-  }
-
-  .custom_select_search {
-    input {
-      margin-top: 4px;
-    }
   }
 
   .segment-content {
@@ -89,8 +85,11 @@
     }
 
     .segment-input {
+      // the restyled selects size and type themselves from FieldSelect/
+      // FieldExpandableSelect so they match the site selector; this compact
+      // styling stays for the plain value input
       select,
- input {
+      input:where(:not(.select-dropdown)) {
         .font-default(12px, 14px);
 
         color: @theme-color-text;
@@ -184,7 +183,6 @@
 .loadingPiwik {
   .font-default(13px, 13px);
 
-  color: @color-silver-l60;
   font-weight: normal;
 }
 
@@ -213,77 +211,6 @@
 
 .jqplot-seriespicker-popover {
   box-shadow: none;
-}
-
-// transition box
-#Transitions_Container {
-  #Transitions_CenterBox {
-    border: 1px solid @color-gray;
-    box-shadow: none;
-    .border-radius(6px);
-
-    margin: 27px 0 0 319px;
-    width: 258px;
-    min-height: 400px;
-    background: @theme-color-background-contrast;
-
-    h2 {
-      color: #1e93d1;
-      border-bottom: 1px solid @color-gray;
-      font-weight: normal;
-      padding: 15px;
-      background: @theme-color-background-tinyContrast;
-      .border-radius(6px 6px 0 0);
-    }
-
-    .Transitions_CenterBoxMetrics {
-      padding: 0;
-
-      p.Transitions_Margin {
-        text-align: left;
-        .font-default(15px, 20px);
-
-        border-bottom: 1px solid @color-gray;
-        padding: 13px;
-
-        .Transitions_Metric {
-          font-weight: normal;
-        }
-      }
-
-      .Transitions_IncomingTraffic {
-        padding: 0 15px;
-
-        h3 {
-          font-weight: normal;
-          color: @theme-color-text;
-          .font-default(15px, 20px);
-
-          margin-bottom: 10px;
-        }
-      }
-
-      .Transitions_OutgoingTraffic {
-        padding: 0 15px 10px;
-
-        h3 {
-          font-weight: normal;
-          color: @theme-color-text;
-          .font-default(15px, 20px);
-
-          margin-bottom: 10px;
-        }
-      }
-    }
-  }
-
-  .Transitions_TitleOfOpenGroup {
-    color: @theme-color-text;
-    .font-default(15px, 20px);
-
-    font-weight: normal;
-    margin-top: -4px;
-  }
 }
 
 table.dataTable tr td .dataTableRowActions {

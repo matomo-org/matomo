@@ -42,4 +42,19 @@ describe('LanguagesManager_TopNavigation', function () {
 
         expect(await nav.screenshot()).to.matchImage('top_navigation_anonymous');
     });
+
+    // The selector is the one top menu entry registered as raw HTML, so it never gets the icon
+    // spacer the other rows carry and has to be lined up on its own.
+    it('should line the language selector up with the other entries of the mobile drawer', async function () {
+        await page.webpage.setViewport({ width: 768, height: 512 });
+        await page.goto(reportingUrl);
+        await page.waitForSelector('#mobile-top-menu .languageSelection');
+        await page.waitForNetworkIdle();
+        await page.evaluate(function () {
+            $('.activateTopMenu>span').click();
+        });
+        await page.waitForTimeout(500);
+
+        expect(await page.screenshotSelector('#mobile-top-menu', false)).to.matchImage('mobile_drawer_anonymous');
+    });
 });

@@ -35,7 +35,7 @@
             <div class="col s12">
                 <pre style="margin-top: 0;"><code>
                     {%- for message in feedbackMessages %}
-&#10003; {{ message }}
+{{ message starts with '✗' ? message : '✓ ' ~ message }}
 {% endfor -%}
                 </code></pre>
             </div>

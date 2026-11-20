@@ -11,17 +11,14 @@ namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Common;
 use Piwik\Exception\NotYetInstalledException;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Piwik;
 use Piwik\Session\SessionFingerprint;
-use Exception;
 use Piwik\SettingsPiwik;
 
 class Validator
 {
-    /**
-     * @var TwoFactorAuthentication
-     */
-    private $twoFa;
+    private TwoFactorAuthentication $twoFa;
 
     public function __construct(TwoFactorAuthentication $twoFactorAuthentication)
     {
@@ -54,21 +51,21 @@ class Validator
     public function check2FaIsRequired()
     {
         if (!$this->twoFa->isUserRequiredToHaveTwoFactorEnabled()) {
-            throw new Exception('not available');
+            throw new ThingNotFoundException('not available');
         }
     }
 
     public function check2FaEnabled()
     {
         if (!TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
-            throw new Exception('not available');
+            throw new ThingNotFoundException('not available');
         }
     }
 
     public function check2FaNotEnabled()
     {
         if (TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
-            throw new Exception('not available');
+            throw new ThingNotFoundException('not available');
         }
     }
 
@@ -76,7 +73,7 @@ class Validator
     {
         $sessionFingerprint = $this->getSessionFingerPrint();
         if (!$sessionFingerprint->hasVerifiedTwoFactor()) {
-            throw new Exception('not available');
+            throw new ThingNotFoundException('not available');
         }
     }
 
@@ -84,7 +81,7 @@ class Validator
     {
         $sessionFingerprint = $this->getSessionFingerPrint();
         if ($sessionFingerprint->hasVerifiedTwoFactor()) {
-            throw new Exception('not available');
+            throw new ThingNotFoundException('not available');
         }
     }
 
@@ -107,7 +104,7 @@ class Validator
     public function checkCurrentUserMatchesSessionUser()
     {
         if (!$this->isCurrentUserMatchingSessionUser()) {
-            throw new Exception('not available');
+            throw new ThingNotFoundException('not available');
         }
     }
 

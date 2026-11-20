@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Day;
@@ -108,6 +109,32 @@ class ArchiveWriterTest extends IntegrationTestCase
             ['idarchive' => 3, 'idsite' => 1, 'date1' => '2019-08-29', 'date2' => '2019-08-29', 'period' => 1, 'name' => 'nb_visits', 'value' => 5, 'ts_archived' => '2020-04-05 03:00:00'],
         ];
         $this->assertEquals($expected, $this->getAllColsOfAllNumericRows($date));
+    }
+
+    /**
+     * @dataProvider getTestDataForFinalizeArchiveInvalidatedDuringArchiving
+     */
+    public function testFinalizeArchiveInvalidatedDuringArchiving(bool $isPartial, int $expectedValue)
+    {
+        $date = '2019-08-29';
+
+        $writer = $this->buildWriter('day', $date, $isPartial);
+        $writer->initNewArchive();
+        $writer->insertRecord('nb_visits', 5);
+        $writer->flushSpools();
+
+        $numericTable = ArchiveTableCreator::getNumericTable(Date::factory($date), true);
+        (new Model())->updateArchiveStatus($numericTable, $writer->getIdArchive(), 'done', ArchiveWriter::DONE_ERROR_INVALIDATED);
+
+        $writer->finalizeArchive();
+
+        $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', $expectedValue);
+    }
+
+    public function getTestDataForFinalizeArchiveInvalidatedDuringArchiving(): iterable
+    {
+        yield 'full archive is finalized as invalidated' => [false, ArchiveWriter::DONE_INVALIDATED];
+        yield 'partial archive stays partial' => [true, ArchiveWriter::DONE_PARTIAL];
     }
 
     public function testFinaliseArchiveWritesArchiveStatusToFile()

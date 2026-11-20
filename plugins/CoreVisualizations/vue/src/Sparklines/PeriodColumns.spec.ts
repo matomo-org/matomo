@@ -11,6 +11,8 @@ import { mount } from '@vue/test-utils';
 // CoreHome is a cross-plugin import the vitest config aliases to its source, so mock what it pulls in.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  // ucfirst is mocked as an identity passthrough; its capitalization is covered by ucfirst.spec.
+  ucfirst: (s?: string) => s ?? '',
   NumberFormatter: {
     formatNumber: (value: number) => String(value),
   },
@@ -66,8 +68,7 @@ describe('CoreVisualizations/PeriodColumns', () => {
     const first = createWrapper().findAll('.periodColumns__column')[0];
 
     expect(first.find('.metricValue__number').text()).toBe('23,558');
-    expect(first.find('.metricValue__secondaryValue').text()).toBe('9,527');
-    expect(first.find('.metricValue__secondaryLabel').text()).toBe('unique visitors');
+    expect(first.find('.metricValue__secondaryLine').text()).toBe('9,527 unique visitors');
   });
 
   it('renders an EvolutionBadge only for the period that carries evolution', () => {

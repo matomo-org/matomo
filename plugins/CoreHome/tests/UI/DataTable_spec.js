@@ -13,17 +13,21 @@ describe('DataTable', function () {
   };
 
   const devicesUrl = "?module=CoreHome&action=index&idSite=3&period=day&date=yesterday&category=General_Visitors&subcategory=DevicesDetection_Devices";
+  const emptyDevicesUrl = "?module=CoreHome&action=index&idSite=3&period=day&date=2011-01-01&category=General_Visitors&subcategory=DevicesDetection_Devices";
   const widgetSelector = '#widgetDevicesDetectiongetType';
   const selectors = {
     metricColumn: `${widgetSelector} #nb_uniq_visitors`,
-    limitDropdownTrigger: `${widgetSelector} .limitSelection .select-wrapper input.select-dropdown`,
-    limitDropdownMenu: `${widgetSelector} .limitSelection .select-wrapper ul.select-dropdown`,
-    visualizationTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.activateVisualizationSelection`,
-    visualizationTriggerIcon: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.activateVisualizationSelection > span, ${widgetSelector} .dataTableHeaderControls .dataTableControls a.activateVisualizationSelection > img`,
-    visualizationMenu: `${widgetSelector} .dataTableHeaderControls .dataTableControls ul.dropdown-content.dataTableFooterIcons`,
-    visualizationButtons: `${widgetSelector} .dataTableHeaderControls .dataTableControls ul.dropdown-content.dataTableFooterIcons li .tableIcon[data-footer-icon-id]`,
-    configureTrigger: `${widgetSelector} .dataTableHeaderControls .dataTableControls a.dropdownConfigureIcon`,
-    totalsRowToggle: '.dataTableShowTotalsRow',
+    limitDropdownTrigger: `${widgetSelector} .limitSelection .mtm-selector__trigger`,
+    limitDropdownMenu: `${widgetSelector} .limitSelection .mtm-dropdownPanel__menu`,
+    actionsTrigger: `${widgetSelector} .reportHeader__actionsTrigger`,
+    actionsMenu: `${widgetSelector} .reportHeader__actionsMenu`,
+    visualizationButtons: `${widgetSelector} .reportHeader__actionsMenu .dataTableFooterIcons .tableIcon[data-footer-icon-id]`,
+    // Scoped to the widget: the page shows several reports, each with its own header.
+    totalsRowToggle: `${widgetSelector} .dataTableShowTotalsRow`,
+    percentageValuesToggle: `${widgetSelector} .dataTableShowPercentageValues`,
+    searchInput: `${widgetSelector} .reportHeader__search .mtm-searchInput__input`,
+    totalsRow: `${widgetSelector} table.dataTable tr.totalsRow`,
+    footerMessage: `${widgetSelector} .datatableFooterMessage`,
   };
 
   async function openDevicesDetectionWidget() {
@@ -69,14 +73,19 @@ describe('DataTable', function () {
     await page.waitForSelector(selectors.limitDropdownMenu, { visible: true });
     const dropdown = await page.$(selectors.limitDropdownMenu);
     expect(dropdown).to.be.ok;
-    await page.click(`${selectors.limitDropdownMenu} li:nth-child(1)`);
+    // Picking the limit already in force reloads nothing, so take the first that is not it.
+    await page.click(`${selectors.limitDropdownMenu} [data-limit][aria-checked="false"]`);
     await page.waitForNetworkIdle();
   }
 
+  async function openActionsMenu() {
+    await page.waitForSelector(selectors.actionsTrigger, { visible: true });
+    await page.click(selectors.actionsTrigger);
+    await page.waitForSelector(selectors.actionsMenu, { visible: true });
+  }
+
   async function changeVisualization() {
-    await page.waitForSelector(selectors.visualizationTriggerIcon, { visible: true });
-    await page.click(selectors.visualizationTriggerIcon);
-    await page.waitForSelector(selectors.visualizationMenu, { visible: true });
+    await openActionsMenu();
 
     await page.waitForFunction((selector) => document.querySelectorAll(selector).length >= 2, {}, selectors.visualizationButtons);
     await page.$$eval(selectors.visualizationButtons, (buttons) => {
@@ -89,14 +98,269 @@ describe('DataTable', function () {
   }
 
   async function toggleTotalsRow(times = 1) {
-    await page.waitForSelector(selectors.configureTrigger, { visible: true });
     for (let i = 0; i < times; i += 1) {
-      await page.click(selectors.configureTrigger);
+      await openActionsMenu();
       await page.waitForSelector(selectors.totalsRowToggle, { visible: true });
       await page.click(selectors.totalsRowToggle);
       await page.waitForNetworkIdle();
     }
   }
+
+  async function togglePercentageValues(times = 1) {
+    for (let i = 0; i < times; i += 1) {
+      await openActionsMenu();
+      await page.waitForSelector(selectors.percentageValuesToggle, { visible: true });
+      await page.click(selectors.percentageValuesToggle);
+      await page.waitForNetworkIdle();
+    }
+  }
+
+  async function searchForPattern(pattern) {
+    await page.waitForSelector(selectors.searchInput, { visible: true });
+    await page.focus(selectors.searchInput);
+    await page.keyboard.type(pattern);
+    // the search is debounced; waitForNetworkIdle waits it out (its idle threshold exceeds the
+    // debounce delay) and then for the reload it triggers to settle
+    await page.waitForNetworkIdle();
+  }
+
+  function toNumber(formattedValue) {
+    return parseInt(String(formattedValue).replace(/[^0-9]/g, ''), 10);
+  }
+
+  async function readTotalsRow() {
+    return page.$eval(selectors.totalsRow, (row) => ({
+      isFiltered: row.classList.contains('filteredTotalsRow'),
+      label: row.querySelector('td.label').innerText.trim(),
+      notes: Array.from(row.querySelectorAll('.totalsRowNote')).map((note) => note.innerText.trim()),
+      firstMetric: row.querySelector('td.column .value').innerText.trim(),
+    }));
+  }
+
+  it('should link summary rows to the row limits documentation', async function () {
+    await loadWidget();
+    await page.waitForFunction((widgetSel) => {
+      const reportElement = document.querySelector(`${widgetSel} [data-report]`);
+      return reportElement && window.$(reportElement).data('uiControlObject');
+    }, {}, widgetSelector);
+
+    const helpLink = await page.evaluate((widgetSel) => {
+      const reportElement = document.querySelector(`${widgetSel} [data-report]`);
+      const tableBody = reportElement.querySelector('table.dataTable tbody');
+      const summaryRow = document.createElement('tr');
+      summaryRow.className = 'summaryRow';
+      summaryRow.innerHTML = '<td class="label"><span class="value">Others</span></td>';
+      tableBody.appendChild(summaryRow);
+
+      const $reportElement = window.$(reportElement);
+      $reportElement.data('uiControlObject').handleSummaryRow($reportElement);
+      window.$(summaryRow).trigger('mouseenter');
+
+      const link = summaryRow.querySelector(
+        'a[rel~="noreferrer"][rel~="noopener"][target="_blank"]',
+      );
+      return {
+        pathname: new URL(link.href).pathname,
+        rel: link.rel,
+        target: link.target,
+      };
+    }, widgetSelector);
+
+    expect(helpLink).to.deep.equal({
+      pathname: '/faq/reports/understanding-row-limits-and-others-rows/',
+      rel: 'noreferrer noopener',
+      target: '_blank',
+    });
+  });
+
+  it('should total every row of the report when no table search is active', async function () {
+    await loadWidget();
+    await toggleTotalsRow();
+
+    const totalsRow = await readTotalsRow();
+
+    expect(totalsRow.isFiltered).to.be.false;
+    expect(totalsRow.label).to.equal('Totals');
+    expect(totalsRow.notes).to.be.empty;
+    expect(await page.$(selectors.footerMessage)).to.be.null;
+
+    await toggleTotalsRow();
+  });
+
+  it('should only total the rows matching the table search when a search is active', async function () {
+    await loadWidget();
+    await toggleTotalsRow();
+
+    const reportTotal = (await readTotalsRow()).firstMetric;
+    const rowCount = (await page.$$(`${widgetSelector} table.dataTable tbody tr:not(.totalsRow)`)).length;
+
+    const firstRowLabel = await page.$eval(
+      `${widgetSelector} table.dataTable tbody tr:not(.totalsRow) td.label .value`,
+      (cell) => cell.innerText.trim(),
+    );
+    await searchForPattern(firstRowLabel);
+
+    const filteredRowCount = (await page.$$(`${widgetSelector} table.dataTable tbody tr:not(.totalsRow)`)).length;
+    expect(filteredRowCount).to.be.below(rowCount);
+
+    const totalsRow = await readTotalsRow();
+
+    expect(totalsRow.isFiltered).to.be.true;
+    expect(totalsRow.label).to.contain('Filtered total');
+    expect(totalsRow.label).to.contain('Matching current table filter');
+    expect(totalsRow.notes.some((note) => /(of .* report total|overall .*)/.test(note))).to.be.true;
+    expect(toNumber(totalsRow.firstMetric)).to.be.below(toNumber(reportTotal));
+
+    const footerMessage = await page.$eval(selectors.footerMessage, (node) => node.innerText.trim());
+    expect(footerMessage).to.contain('Note: Showing filtered results.');
+    expect(footerMessage).to.contain('are not recalculated by the filter');
+
+    await toggleTotalsRow();
+  });
+
+  async function readHeaderLayout() {
+    return page.evaluate((widgetSel) => {
+      const widget = document.querySelector(widgetSel);
+      const dataTable = widget.querySelector('.dataTable');
+      const title = widget.querySelector('.reportHeader__title');
+
+      return {
+        headers: widget.querySelectorAll('.reportHeader').length,
+        headingTag: title.tagName,
+        title: title.innerText.trim(),
+        actionBarsInTable: dataTable.querySelectorAll('.dataTableHeaderControls').length,
+        actionsInHeader: widget.querySelectorAll('.reportHeader__actions').length,
+        widgetControls: widget.querySelectorAll('.reportHeader .widgetControls__action').length,
+      };
+    }, widgetSelector);
+  }
+
+  async function readFirstMetricCell() {
+    return page.evaluate((widgetSel) => {
+      const cell = document.querySelector(`${widgetSel} table.dataTable tbody tr td.column`);
+
+      return {
+        // the hover value is `visibility: hidden` until the column is hovered, so innerText is empty
+        value: cell.querySelector('span.value').textContent.trim(),
+        hover: cell.querySelector('span.ratio').textContent.trim(),
+      };
+    }, widgetSelector);
+  }
+
+  it('should render the report header once, with no widget controls', async function () {
+    await loadWidget();
+
+    const layout = await readHeaderLayout();
+    expect(layout.headers).to.be.equal(1);
+    expect(layout.headingTag).to.be.equal('H2');
+    // the widget name from the metadata still wins over the report's own title
+    expect(layout.title).to.be.equal('Device type');
+    expect(layout.widgetControls).to.be.equal(0);
+    expect(layout.actionBarsInTable).to.be.equal(0);
+    expect(layout.actionsInHeader).to.be.equal(1);
+  });
+
+  it('should keep the header across sorting, limit and visualization changes', async function () {
+    await loadWidget();
+
+    await interactWithColumnSortingAndLimit();
+    expect((await readHeaderLayout()).headers).to.be.equal(1);
+
+    await changeVisualization();
+    expect((await readHeaderLayout()).headers).to.be.equal(1);
+
+    await toggleTotalsRow();
+    const layout = await readHeaderLayout();
+    expect(layout.headers).to.be.equal(1);
+    expect(layout.title).to.be.equal('Device type');
+  });
+
+  it('should render the header of a report without data', async function () {
+    await page.goto(emptyDevicesUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector(`${widgetSelector} .dataTable.isDataTableEmpty`, { visible: true });
+    await page.waitForNetworkIdle();
+
+    const layout = await readHeaderLayout();
+    expect(layout.headers).to.be.equal(1);
+    expect(layout.title).to.be.equal('Device type');
+  });
+
+  // A click meant for 👎 used to open the Export menu under it. Checked across a range of widths,
+  // since only some leave a title just too little room.
+  it('should keep the icons that follow a title clear of the controls beside it', async function () {
+    await openDevicesDetectionWidget();
+
+    const overlaps = [];
+    try {
+      for (let width = 1000; width <= 1400; width += 25) {
+        await page.webpage.setViewport({ width, height: 768 });
+        await page.waitForTimeout(250);
+
+        overlaps.push(...await page.evaluate((viewportWidth) => {
+          const visibleBoxes = (root, selector) => Array.from(root.querySelectorAll(selector))
+            .map((element) => element.getBoundingClientRect())
+            .filter((box) => box.width > 0 && box.height > 0);
+
+          return Array.from(document.querySelectorAll('.reportHeader__header')).map((row) => {
+            const icons = visibleBoxes(row, '.enrichedHeadline__iconsBar *');
+            const controls = visibleBoxes(row, '.reportHeader__controls *');
+            if (!icons.length || !controls.length) {
+              return null;
+            }
+
+            const iconsBottom = Math.max(...icons.map((box) => box.bottom));
+            const iconsRight = Math.max(...icons.map((box) => box.right));
+            // only the controls on the icons' own line can be in their way
+            const controlsLeft = Math.min(...controls
+              .filter((box) => box.top < iconsBottom)
+              .map((box) => box.left));
+
+            return iconsRight > controlsLeft
+              ? `${row.querySelector('.reportHeader__title').innerText.trim()} at ${viewportWidth}px`
+              : null;
+          }).filter((overlap) => overlap !== null);
+        }, width));
+      }
+    } finally {
+      await page.webpage.setViewport({ width: 1350, height: 768 });
+    }
+
+    expect(overlaps).to.deep.equal([]);
+  });
+
+  // ReportHeader.less copies the plain `h2` metrics by hand for a report shown without a card, so
+  // a real `h2` on the same page catches the copies drifting from the global heading styles.
+  it('should give a report shown without a card the metrics of a plain heading', async function () {
+    const ecommerceLog = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09"
+      + "#?idSite=1&period=year&date=2012-08-09&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog";
+
+    await page.goto(ecommerceLog);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('.reportHeader--plainTitle', { visible: true });
+
+    const parity = await page.evaluate(() => {
+      const header = document.querySelector('.reportHeader--plainTitle');
+      const title = header.querySelector('.reportHeader__title');
+      const probe = document.createElement('h2');
+      probe.textContent = title.innerText;
+      header.parentNode.insertBefore(probe, header);
+      const of = getComputedStyle(title);
+      const op = getComputedStyle(probe);
+      const result = {
+        height: [header.offsetHeight, probe.offsetHeight],
+        fontSize: [of.fontSize, op.fontSize],
+        lineHeight: [of.lineHeight, op.lineHeight],
+        color: [of.color, op.color],
+      };
+      probe.remove();
+      return result;
+    });
+
+    Object.keys(parity).forEach((k) => {
+      expect(parity[k][0], k).to.be.equal(parity[k][1]);
+    });
+  });
 
   it('should allow saving of preference for normal user when changing sorting and table limits', async function () {
     await loadWidget();
@@ -128,6 +392,120 @@ describe('DataTable', function () {
     });
 
     expect(ajaxRequestCount).to.be.equal(2);
+  });
+
+  // The menu entry's wording and accessible name are covered in DataTableActions.component.spec.ts.
+  it('should swap absolute and percentage values when the percentage setting is toggled', async function () {
+    await loadWidget();
+
+    const absolute = await readFirstMetricCell();
+    expect(absolute.value).to.match(/^[\d,.]+$/);
+    expect(absolute.hover).to.match(/%$/);
+
+    await togglePercentageValues();
+
+    const percentage = await readFirstMetricCell();
+    expect(percentage.value).to.be.equal(absolute.hover);
+    expect(percentage.hover).to.be.equal(absolute.value);
+
+    await togglePercentageValues();
+
+    const restored = await readFirstMetricCell();
+    expect(restored.value).to.be.equal(absolute.value);
+    expect(restored.hover).to.be.equal(absolute.hover);
+  });
+
+  it('should allow saving preference when toggling percentage values via the configuration menu', async function () {
+    await loadWidget();
+
+    const ajaxRequestCount = await trackViewDataTableRequests(async () => {
+      await togglePercentageValues(2);
+    });
+
+    expect(ajaxRequestCount).to.be.equal(2);
+  });
+
+  it('should keep showing percentages in an expanded subtable', async function () {
+    const subtablesUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers"
+      + "&actionToWidgetize=getWebsites&idSite=1&period=year&date=2012-01-12&viewDataTable=table"
+      + "&show_percentage_values=1";
+
+    await page.goto(subtablesUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('tr.subDataTable', { visible: true });
+
+    await page.click('tr.subDataTable td.label');
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('.subDataTableContainer table.dataTable tbody tr td.column', { visible: true });
+
+    const subtableCell = await page.evaluate(() => {
+      const cell = document.querySelector('.subDataTableContainer table.dataTable tbody tr td.column');
+
+      return {
+        value: cell.querySelector('span.value').textContent.trim(),
+        hover: cell.querySelector('span.ratio')?.textContent.trim() ?? null,
+      };
+    });
+
+    expect(subtableCell.value).to.match(/%$/);
+    expect(subtableCell.hover).to.match(/^[\d,.]+$/);
+  });
+
+  it('should show percentages on the subpages of a recursively searched hierarchical report', async function () {
+    // a recursive search keeps the page hierarchy and embeds the matching subpages into the report,
+    // instead of loading them through a request of their own like expanding a row does
+    const searchedUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Actions"
+      + "&actionToWidgetize=getPageUrls&idSite=1&period=year&date=2012-08-09&viewDataTable=table"
+      + "&flat=0&filter_column_recursive=label&filter_pattern_recursive=one.html"
+      + "&show_percentage_values=1";
+
+    await page.goto(searchedUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('tbody tr.level1', { visible: true });
+
+    const rows = await page.evaluate(() => ['level0', 'level1']
+      .map((levelClass) => {
+        const row = document.querySelector(`tbody tr.${levelClass}`);
+        // the first metric column is nb_hits, one of the columns a report total is calculated for
+        const cell = row.querySelector('td.column');
+
+        return {
+          label: row.querySelector('td.label span.value').textContent.trim(),
+          value: cell.querySelector('span.value').textContent.trim(),
+          hover: cell.querySelector('span.ratio').textContent.trim(),
+        };
+      }));
+
+    // the searched page and the subpage it matched both relate to the pageviews of the whole report,
+    // 556, so their percentages stay comparable, and both keep their absolute value on hover
+    expect(rows[0]).to.deep.equal({ label: 'page', value: '4.5%', hover: '25' });
+    expect(rows[1]).to.deep.equal({ label: '/one.html', value: '4%', hover: '22' });
+  });
+
+  it('should show percentages on comparison rows as well as on their parent row', async function () {
+    const comparingUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers"
+      + "&actionToWidgetize=getWebsites&idSite=1&period=year&date=2012-01-12&viewDataTable=table"
+      + "&compareDates[]=2011-01-31&comparePeriods[]=year&show_percentage_values=1";
+
+    await page.goto(comparingUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('tr.comparisonRow', { visible: true });
+
+    const cells = await page.evaluate(() => ['tr.parentComparisonRow', 'tr.comparisonRow']
+      .map((rowSelector) => {
+        const cell = document.querySelector(`${rowSelector} td.column`);
+
+        return {
+          value: cell.querySelector('span.value').textContent.trim(),
+          hover: cell.querySelector('span.ratio').textContent.trim(),
+        };
+      }));
+
+    cells.forEach((cell) => {
+      expect(cell.value).to.match(/%$/);
+      // comparison rows append their period over period change to the hover value
+      expect(cell.hover).to.match(/^[\d,.]+( \([+-][\d,.]+%\))?$/);
+    });
   });
 
   describe('As anonymous user', function () {

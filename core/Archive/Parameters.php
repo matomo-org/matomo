@@ -30,10 +30,8 @@ class Parameters
 
     /**
      * Segment applied to the visits set.
-     *
-     * @var Segment
      */
-    private $segment;
+    private Segment $segment;
 
     public function getSegment()
     {

@@ -19,8 +19,7 @@ class OnlyMajorVersions implements
     /** @use PolicyComparisonTrait<bool> */
     use PolicyComparisonTrait;
 
-    /** @var bool */
-    private $value;
+    private bool $value;
 
     protected function __construct(bool $value)
     {
@@ -37,6 +36,16 @@ class OnlyMajorVersions implements
         return Piwik::translate("DevicesDetection_OnlyMajorVersionsSettingTitle");
     }
 
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingWhatItDoes');
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('DevicesDetection_OnlyMajorVersionsSettingImpact');
+    }
+
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
@@ -48,6 +57,11 @@ class OnlyMajorVersions implements
     public static function getInlineHelp(): string
     {
         return '';
+    }
+
+    public static function getPolicyOrder(): int
+    {
+        return 35;
     }
 
     public static function getPolicyRequirements(): array

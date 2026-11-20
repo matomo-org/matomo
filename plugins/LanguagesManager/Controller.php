@@ -11,9 +11,10 @@
 
 namespace Piwik\Plugins\LanguagesManager;
 
-use Piwik\Common;
+use Piwik\Http\BadRequestException;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Request;
 use Piwik\Url;
 
 class Controller extends \Piwik\Plugin\ControllerAdmin
@@ -24,13 +25,43 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function saveLanguage()
     {
-        $language = Common::getRequestVar('language');
-        $nonce = Common::getRequestVar('nonce', '');
+        $request = Request::fromRequest();
+        $language = $request->getStringParameter('language', '');
 
-        Nonce::checkNonce(LanguagesManager::LANGUAGE_SELECTION_NONCE, $nonce);
+        if (!API::getInstance()->isLanguageAvailable($language)) {
+            throw new BadRequestException('Invalid language');
+        }
+
+        Nonce::checkNonce(LanguagesManager::LANGUAGE_SELECTION_NONCE, $request->getStringParameter('nonce', ''));
 
         LanguagesManager::setLanguageForSession($language);
-        Url::redirectToReferrer();
+
+        $referrer = Url::getReferrer();
+
+        if (false !== $referrer) {
+            // a language in the URL wins over the session, so keeping it would send the user
+            // back to the language they just replaced
+            Url::redirectToUrl(self::withoutLanguageParameter($referrer));
+        }
+
+        Url::redirectToUrl(Url::getCurrentUrlWithoutQueryString());
+    }
+
+    private static function withoutLanguageParameter(string $url): string
+    {
+        // the hash is split off first, since it carries a query string of its own
+        [$beforeHash, $hash] = array_pad(explode('#', $url, 2), 2, null);
+        [$path, $query] = array_pad(explode('?', $beforeHash, 2), 2, null);
+
+        if (null === $query) {
+            return $url;
+        }
+
+        $query = ltrim(preg_replace('/(^|&)language=[^&]*/', '', $query), '&');
+
+        return $path
+            . ('' === $query ? '' : '?' . $query)
+            . (null === $hash ? '' : '#' . $hash);
     }
 
     public function searchTranslation()

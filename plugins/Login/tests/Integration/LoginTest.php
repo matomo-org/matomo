@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Login\tests\Integration;
 
 use Piwik\AuthResult;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Plugins\Login\Auth;
@@ -283,6 +284,9 @@ class LoginTest extends IntegrationTestCase
         // Check that the token auth is correct in the result
         $this->assertEquals(32, strlen($rc->getTokenAuth()));
         $this->assertTrue(ctype_xdigit($rc->getTokenAuth()));
+        // A password login declares the absent token scope rather than leaving it to be looked up on a
+        // token that was generated here and never stored.
+        $this->assertSame(['token_access_level' => null], $rc->getAuthContext());
     }
 
     public function testAuthenticateSuccessWithSuperUserPassword()
@@ -323,6 +327,32 @@ class LoginTest extends IntegrationTestCase
     }
 
     /**
+     * @dataProvider provideWrongPasswords
+     */
+    public function testAuthenticateWithWrongPasswordFailsEvenWithValidTokenAuth(string $password)
+    {
+        // lets short passwords through to authentication instead of failing the strength check
+        Config::getInstance()->General['disable_checks_usernames_attributes'] = 1;
+
+        $user = $this->setUpUser();
+        $this->auth->setLogin($user['login']);
+        $this->auth->setTokenAuth($user['tokenAuth']); // valid token
+        $this->auth->setPassword($password);
+
+        $rc = $this->auth->authenticate();
+        $this->assertFailedLogin($rc);
+    }
+
+    public function provideWrongPasswords(): array
+    {
+        return [
+            'wrong password' => ['foo bar'],
+            'one character' => ['x'],
+            'zero' => ['0'],
+        ];
+    }
+
+    /**
      * @group Plugins
      * @see https://github.com/piwik/piwik/issues/8548
      */
@@ -338,6 +368,30 @@ class LoginTest extends IntegrationTestCase
         $this->assertEquals($user['login'], $rc->getIdentity());
         $this->assertEquals(32, strlen($rc->getTokenAuth()));
         $this->assertTrue(ctype_xdigit($rc->getTokenAuth()));
+    }
+
+    public function testAuthenticateSuccessUserTokenAuthIncludesTokenAccessLevelContext()
+    {
+        $user = $this->setUpUser();
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $model->deleteAllTokensForUser($user['login']);
+        $tokenAuth = $model->generateRandomTokenAuth();
+        $model->addTokenAuth($user['login'], $tokenAuth, 'scoped token', Date::now()->getDatetime(), null, false, false, 'write');
+
+        $rc = $this->authenticate($login = null, $tokenAuth);
+
+        $this->assertUserLogin($rc);
+        $this->assertSame(['token_access_level' => 'write'], $rc->getAuthContext());
+    }
+
+    public function testAuthenticateSuccessUserTokenAuthIncludesNullContextForLegacyToken()
+    {
+        $user = $this->setUpUser();
+
+        $rc = $this->authenticate($login = null, $user['tokenAuth']);
+
+        $this->assertUserLogin($rc);
+        $this->assertSame(['token_access_level' => null], $rc->getAuthContext());
     }
 
     protected function setUpUser()

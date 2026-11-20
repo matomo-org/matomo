@@ -19,8 +19,7 @@ class PiwikJsManipulator
      */
     private $content;
 
-    /** @var PluginTrackerFiles */
-    private $pluginTrackerFiles;
+    private PluginTrackerFiles $pluginTrackerFiles;
 
     public function __construct($content, PluginTrackerFiles $pluginTrackerFiles)
     {

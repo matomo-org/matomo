@@ -29,35 +29,17 @@ use Piwik\Validators\NotEmpty;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var Client
-     */
-    private $marketplaceClient;
+    private Client $marketplaceClient;
 
-    /**
-     * @var Service
-     */
-    private $marketplaceService;
+    private Service $marketplaceService;
 
-    /**
-     * @var InvalidLicenses
-     */
-    private $expired;
+    private InvalidLicenses $expired;
 
-    /**
-     * @var PluginManager
-     */
-    private $pluginManager;
+    private PluginManager $pluginManager;
 
-    /**
-     * @var Environment
-     */
-    private $environment;
+    private Environment $environment;
 
-    /**
-     * @var PluginTrialService
-     */
-    private $pluginTrialService;
+    private PluginTrialService $pluginTrialService;
 
     public function __construct(
         Service $service,
@@ -124,6 +106,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->marketplaceClient->clearAllCacheEntries();
+        $this->expired->clearCache();
 
         $licenseKey = trim($result['data']['license_key'] ?? '');
         $status = $result['status'];
@@ -220,6 +203,7 @@ class API extends \Piwik\Plugin\API
         );
 
         $this->marketplaceClient->clearAllCacheEntries();
+        $this->expired->clearCache();
 
         if (
             201 !== $result['status']

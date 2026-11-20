@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "イントラネットのウェブサイト",
         "IntranetDescription": "測定可能なイントラネットは、ウェブサイトと似ていますが、社内ネットワーク上にホストされています。",
+        "IntranetLongDescription": "組織のネットワーク内でのみアクセス可能な内部サイトを追跡します。Matomoは、イントラネット環境においてユニークビジターをより正確に識別するために、ファーストパーティCookieを使用します。",
         "Intranets": "イントラネットのウェブサイト"
     }
 }

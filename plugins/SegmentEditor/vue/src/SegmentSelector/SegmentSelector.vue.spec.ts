@@ -151,16 +151,16 @@ vi.mock('CoreHome', () => ({
     },
     emits: ['update:modelValue'],
     template: `
-      <div class="searchInputContainer">
+      <div class="mtm-searchInput">
         <input
-          class="searchInputField"
+          class="mtm-searchInput__input"
           :value="modelValue"
           @input="$emit('update:modelValue', $event.target.value)"
         />
         <button
           v-if="showClear && modelValue"
           type="button"
-          class="searchInputClear"
+          class="mtm-searchInput__clear"
           @click="$emit('update:modelValue', '')"
         />
       </div>
@@ -256,7 +256,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     vi.useFakeTimers();
     const { wrapper } = mountComponent();
 
-    await wrapper.find('input.searchInputField').setValue('ca');
+    await wrapper.find('input.mtm-searchInput__input').setValue('ca');
 
     expect((wrapper.vm as PlainObject).searchInput).toBe('ca');
     expect(mockStore.notifyChange).not.toHaveBeenCalled();
@@ -270,7 +270,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     expect(wrapper.findAll('.segname')).toHaveLength(1);
     expect(wrapper.find('.segname').text()).toBe('Café Visits');
 
-    await wrapper.find('.searchInputClear').trigger('click');
+    await wrapper.find('.mtm-searchInput__clear').trigger('click');
     await wrapper.vm.$nextTick();
 
     expect((wrapper.vm as PlainObject).searchInput).toBe('');

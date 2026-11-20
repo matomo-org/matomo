@@ -6,6 +6,8 @@
 		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_actions>5</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Books+Cat+%230</segment>
@@ -17,6 +19,8 @@
 		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_actions>5</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Books+Cat+%231</segment>
@@ -28,6 +32,8 @@
 		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_actions>5</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Books+Cat+%232</segment>
@@ -39,6 +45,8 @@
 		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_actions>5</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Books+Cat+%233</segment>
@@ -50,6 +58,8 @@
 		<nb_uniq_visitors>5</nb_uniq_visitors>
 		<nb_actions>5</nb_actions>
 		<avg_price>7.5</avg_price>
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productCategory==Books+Cat+%234</segment>

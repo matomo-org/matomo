@@ -13,11 +13,15 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Live;
+use Piwik\Plugins\PrivacyManager\Compliance\ComplianceSettingsProvider;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\GranularPrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
@@ -39,29 +43,28 @@ use Piwik\Validators\BaseValidator;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var DataSubjects
-     */
-    private $gdpr;
+    private DataSubjects $gdpr;
 
-    /**
-     * @var LogDataAnonymizations
-     */
-    private $logDataAnonymizations;
+    private LogDataAnonymizations $logDataAnonymizations;
 
-    /**
-     * @var LogDataAnonymizer
-     */
-    private $logDataAnonymizer;
+    private LogDataAnonymizer $logDataAnonymizer;
+
+    private ComplianceSettingsProvider $complianceSettingsProvider;
+
+    private FeatureFlagManager $featureFlagManager;
 
     public function __construct(
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
-        LogDataAnonymizer $logDataAnonymizer
+        LogDataAnonymizer $logDataAnonymizer,
+        ComplianceSettingsProvider $complianceSettingsProvider,
+        FeatureFlagManager $featureFlagManager
     ) {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
+        $this->complianceSettingsProvider = $complianceSettingsProvider;
+        $this->featureFlagManager = $featureFlagManager;
     }
 
     /**
@@ -295,6 +298,59 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Whether a privacy config property may be stored with the given value, given the compliance
+     * policies enforced for the scope being saved.
+     *
+     * @param mixed $value
+     * @throws \Piwik\Policy\Exceptions\CompliancePolicyViolationException when a policy forbids the value
+     */
+    private function mayStoreUnderCompliancePolicies(string $settingName, $value, ?int $idSite): bool
+    {
+        return PolicyManager::checkSettingValueAgainstPolicies(
+            $settingName,
+            $value,
+            $idSite,
+            PolicyManager::SETTING_TYPE_CUSTOM
+        );
+    }
+
+    /**
+     * Removes the choices a compliance policy no longer allows from a privacy setting's options,
+     * so a field it only bounds keeps offering the values that stay compliant.
+     *
+     * Handles both option shapes used on this screen: a value => label map, and a list of
+     * ['key' => value, ...] entries.
+     *
+     * @param array<mixed, mixed> $options
+     * @return array<mixed, mixed>
+     */
+    private function filterOptionsAllowedByPolicies(array $options, string $settingName, ?int $idSite): array
+    {
+        $isKeyedList = isset($options[0]) && is_array($options[0]);
+        $values = $isKeyedList ? array_column($options, 'key') : array_keys($options);
+
+        // privacy config properties are addressed through the custom getter mechanism
+        $allowedValues = PolicyManager::filterValuesAllowedByPolicies(
+            $values,
+            $settingName,
+            $idSite,
+            PolicyManager::SETTING_TYPE_CUSTOM
+        );
+
+        if (count($allowedValues) === count($values)) {
+            return $options;
+        }
+
+        if ($isKeyedList) {
+            return array_values(array_filter($options, static function ($option) use ($allowedValues) {
+                return in_array($option['key'], $allowedValues, false);
+            }));
+        }
+
+        return array_intersect_key($options, array_flip($allowedValues));
+    }
+
+    /**
      * Provide tracker file name and whether it's writable
      *
      * @return array{0: string, 1: bool}
@@ -354,14 +410,24 @@ class API extends \Piwik\Plugin\API
             }
         }
         $settings['useSiteSpecificSettings'] = $privacyConfig->useSiteSpecificSettings();
+        // the stored values above already reflect any policy override, see
+        // PrivacyManager\Config::getOptionValueWithPrivacyComplianceOverride()
 
         // provide extra settings
         [$trackerFilename, $trackerFileWritable] = $this->getTrackerFileDetails();
         $settings = array_merge($settings, [
-            'maskLengthOptions' => PrivacyManager::getMaskLengthOptions(),
+            'maskLengthOptions' => $this->filterOptionsAllowedByPolicies(
+                PrivacyManager::getMaskLengthOptions(),
+                'ipAddressMaskLength',
+                $idSite
+            ),
             'useAnonymizedIpForVisitEnrichmentOptions' =>
                 PrivacyManager::getUseAnonymizedIpForVisitEnrichmentOptions(),
-            'referrerAnonymizationOptions' => ReferrerAnonymizer::getAvailableAnonymizationOptions(),
+            'referrerAnonymizationOptions' => $this->filterOptionsAllowedByPolicies(
+                ReferrerAnonymizer::getAvailableAnonymizationOptions(),
+                'anonymizeReferrer',
+                $idSite
+            ),
             'trackerFileName' => $trackerFilename,
             'trackerWritable' => $trackerFileWritable,
         ]);
@@ -429,12 +495,6 @@ class API extends \Piwik\Plugin\API
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
-        if ($anonymizeIPEnable) {
-            IPAnonymizer::activate($idSite);
-        } else {
-            IPAnonymizer::deactivate($idSite);
-        }
-
         if (
             !empty($anonymizeReferrer)
             && !array_key_exists($anonymizeReferrer, ReferrerAnonymizer::getAvailableAnonymizationOptions())
@@ -442,13 +502,39 @@ class API extends \Piwik\Plugin\API
             $anonymizeReferrer = '';
         }
 
+        // resolved before anything is stored, so that a value breaking an enforced compliance
+        // policy is rejected without leaving the other settings half applied
+        $mayStore = [
+            'ipAnonymizerEnabled' => $this->mayStoreUnderCompliancePolicies('ipAnonymizerEnabled', $anonymizeIPEnable, $idSite),
+            'ipAddressMaskLength' => $this->mayStoreUnderCompliancePolicies('ipAddressMaskLength', $ipAddressMaskLength, $idSite),
+            'anonymizeReferrer' => $this->mayStoreUnderCompliancePolicies('anonymizeReferrer', $anonymizeReferrer, $idSite),
+            'anonymizeOrderId' => $this->mayStoreUnderCompliancePolicies('anonymizeOrderId', $anonymizeOrderId, $idSite),
+        ];
+
+        if ($mayStore['ipAnonymizerEnabled']) {
+            if ($anonymizeIPEnable) {
+                IPAnonymizer::activate($idSite);
+            } else {
+                IPAnonymizer::deactivate($idSite);
+            }
+        }
+
         $privacyConfig = new Config($idSite);
-        $privacyConfig->ipAddressMaskLength = $ipAddressMaskLength;
         $privacyConfig->useAnonymizedIpForVisitEnrichment = $useAnonymizedIpForVisitEnrichment;
-        $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
         $privacyConfig->anonymizeUserId = $anonymizeUserId;
-        $privacyConfig->anonymizeOrderId = $anonymizeOrderId;
         $privacyConfig->randomizeConfigId = $randomizeConfigId;
+
+        if ($mayStore['ipAddressMaskLength']) {
+            $privacyConfig->ipAddressMaskLength = $ipAddressMaskLength;
+        }
+
+        if ($mayStore['anonymizeReferrer']) {
+            $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
+        }
+
+        if ($mayStore['anonymizeOrderId']) {
+            $privacyConfig->anonymizeOrderId = $anonymizeOrderId;
+        }
 
         if (!$idSite) {
             // only allow setting 'force cookieless tracking' instance-wide and skip it for site as it applies
@@ -542,10 +628,22 @@ class API extends \Piwik\Plugin\API
             $deleteLogsOlderThan = 1;
         }
 
-        return $this->savePurgeDataSettings([
-            'delete_logs_enable' => !empty($enableDeleteLogs),
-            'delete_logs_older_than' => $deleteLogsOlderThan,
-        ]);
+        $mayStoreRetention = PolicyManager::checkSettingValueAgainstPolicies(
+            'delete_logs_older_than',
+            $deleteLogsOlderThan,
+            null,
+            PolicyManager::SETTING_TYPE_OPTION
+        );
+
+        $settings = ['delete_logs_enable' => !empty($enableDeleteLogs)];
+
+        // leaving the retention out entirely keeps whatever the user had configured before the
+        // policy started applying, which savePurgeDataSettings() only rewrites when it is given
+        if ($mayStoreRetention) {
+            $settings['delete_logs_older_than'] = $deleteLogsOlderThan;
+        }
+
+        return $this->savePurgeDataSettings($settings);
     }
 
     /**
@@ -653,6 +751,7 @@ class API extends \Piwik\Plugin\API
      * @param string $complianceType Compliance policy name to inspect.
      * @return array<string, bool|array<int, array<string, string>>> Compliance status including enforcement state,
      *                                                               config control flag, and requirement details.
+     * @deprecated since Matomo 6.0, use {@link getCompliancePolicySettings()} instead.
      * @internal
      *
      */
@@ -694,6 +793,251 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns the granular per-setting enforcement configuration and compliance status of a compliance policy.
+     *
+     * Each returned setting contains its stable identifier, translated texts, current compliance
+     * status (`compliant` when the underlying Matomo setting satisfies the requirement on its own,
+     * `enforced` when the requirement is only met through policy enforcement, `non_compliant`
+     * otherwise) and, for toggleable settings, its current enforcement state.
+     *
+     * @param int|string $idSite Site ID to inspect, or `all` for the instance-wide view.
+     * @param string $compliancePolicy Compliance policy id to inspect, e.g. `cnil_v1`.
+     * @return array<string, mixed> Policy details, config control flag, derived whole-policy
+     *                              enforcement state and the list of settings.
+     * @internal
+     *
+     */
+    public function getCompliancePolicySettings($idSite, string $compliancePolicy): array
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkGranularComplianceFeatureIsEnabled();
+
+        $policy = PolicyManager::getPolicyByName($compliancePolicy);
+
+        if (is_null($policy)) {
+            throw new Exception('Invalid compliance policy');
+        }
+
+        $idSite = $this->resolveCompliancePolicyIdSite($idSite);
+
+        return $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+    }
+
+    /**
+     * @param int|string $idSite
+     * @throws Exception when the site does not exist
+     */
+    private function resolveCompliancePolicyIdSite($idSite): ?int
+    {
+        if ($idSite === 'all') {
+            return null;
+        }
+
+        $idSite = intval($idSite);
+        new Site($idSite); // throws for unknown site ids
+
+        return $idSite;
+    }
+
+    /**
+     * Sets the enforcement state of individual compliance policy settings.
+     *
+     * Only the settings present in `settingValues` are changed; all other settings keep
+     * their current enforcement state. Enforcing a setting overrides the underlying Matomo
+     * setting at read time, the underlying configuration itself is never modified.
+     *
+     * @param int|string $idSite Site ID to update, or `all` for the instance-wide state.
+     * @param string $compliancePolicy Compliance policy id to update, e.g. `cnil_v1`.
+     * @param array<string, int|string|bool> $settingValues Map of policy setting id => whether to
+     *                                                      enforce it, e.g. settingValues[PrivacyManager.IPAnonymisation]=1
+     * @param string|null $passwordConfirmation Current user password confirmation when required.
+     * @return array<string, mixed> The updated payload, as returned by {@link getCompliancePolicySettings()}.
+     * @internal
+     *
+     */
+    public function setCompliancePolicySettings(
+        $idSite,
+        string $compliancePolicy,
+        array $settingValues,
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation = null
+    ): array {
+        $policy = $this->checkCompliancePolicySettingsWriteAccess($compliancePolicy, $passwordConfirmation);
+
+        $idSite = $this->resolveCompliancePolicyIdSite($idSite);
+
+        $before = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
+        PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
+
+        $after = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
+        $this->postCompliancePolicySettingsUpdated($policy, $idSite, $before, $after);
+
+        return $after;
+    }
+
+    /**
+     * Enables enforcement of every toggleable setting of a compliance policy at once.
+     *
+     * This enforces each of the policy's toggleable settings individually; every setting
+     * stays individually toggleable afterwards. Settings managed outside the compliance
+     * page are left untouched.
+     *
+     * @param int|string $idSite Site ID to update, or `all` for the instance-wide state.
+     * @param string $compliancePolicy Compliance policy id to enforce, e.g. `cnil_v1`.
+     * @param string|null $passwordConfirmation Current user password confirmation when required.
+     * @return array<string, mixed> The updated payload, as returned by {@link getCompliancePolicySettings()}.
+     * @internal
+     *
+     */
+    public function enforceCompliancePolicySettings(
+        $idSite,
+        string $compliancePolicy,
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation = null
+    ): array {
+        $policy = $this->checkCompliancePolicySettingsWriteAccess($compliancePolicy, $passwordConfirmation);
+
+        $idSite = $this->resolveCompliancePolicyIdSite($idSite);
+
+        $settingValues = [];
+        foreach (PolicyManager::getAllControlledSettings($policy, $idSite) as $settingClass) {
+            if ($settingClass::isExternallyManagedByPolicyPage()) {
+                continue;
+            }
+            $settingValues[$settingClass::getPolicySettingId()] = true;
+        }
+
+        $before = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
+        PolicyManager::setPolicySettingEnforcedStatuses($policy, $settingValues, $idSite);
+
+        $after = $this->complianceSettingsProvider->getPolicySettings($policy, $idSite);
+
+        $this->postCompliancePolicySettingsUpdated($policy, $idSite, $before, $after);
+
+        return $after;
+    }
+
+    /**
+     * Announces the compliance policy settings a request has just changed, so an audit trail
+     * can record who changed what.
+     *
+     * Nothing is posted when the request left every setting as it was, which keeps a save
+     * that repeats the current state out of the audit trail. A request that fails never
+     * reaches this point, and does not need to: the write is validated upfront and is
+     * all-or-nothing, so a failed request leaves nothing behind to announce.
+     *
+     * @param class-string<CompliancePolicy> $policy
+     * @param array<string, mixed> $before payload taken before the settings were written
+     * @param array<string, mixed> $after payload taken after the settings were written
+     */
+    private function postCompliancePolicySettingsUpdated(
+        string $policy,
+        ?int $idSite,
+        array $before,
+        array $after
+    ): void {
+        $changes = $this->complianceSettingsProvider->diffPolicySettings($before, $after);
+
+        if (empty($changes)) {
+            return;
+        }
+
+        /**
+         * Triggered after a request changed the enforcement state of one or more settings of a
+         * compliance policy, for example through the privacy compliance page.
+         *
+         * The event is only triggered when something actually changed, and deliberately carries
+         * nothing but the resulting compliance state: no request parameters, and therefore no
+         * password confirmation or authentication token, are passed on.
+         *
+         * `changes` describes the difference between the compliance state before and after the
+         * request, which is not the same thing as what this caller did: a setting's status also
+         * follows the underlying Matomo setting, so a change another request made to one of those
+         * in the meantime is part of the difference too. Treat it as the resulting state
+         * difference rather than as an attribution of every entry to the acting user.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('PrivacyManager.compliancePolicySettingsUpdated', function ($update) {
+         *         foreach ($update['changes'] as $change) {
+         *             Log::info($change['id'] . ' is now ' . $change['status']);
+         *         }
+         *     });
+         *
+         * @param array $update Details of the change, containing the following data:
+         *
+         *                      - **policy**: The id of the compliance policy that was changed,
+         *                                    e.g. `cnil_v1`.
+         *                      - **idSite**: The website the policy was changed for, or `null`
+         *                                    when the instance wide state was changed.
+         *                      - **policyEnforced**: Whether every toggleable setting of the
+         *                                            policy is enforced after the change.
+         *                      - **changes**: The settings whose enforcement state or compliance
+         *                                     status changed, each holding its `id`, `name`,
+         *                                     `enforced`, `previousEnforced`, `status` and
+         *                                     `previousStatus`. `id` is the stable identifier to
+         *                                     persist; `name` is a translated title for display
+         *                                     and changes with the interface language.
+         */
+        try {
+            Piwik::postEvent('PrivacyManager.compliancePolicySettingsUpdated', [[
+                'policy' => $policy::getName(),
+                'idSite' => $idSite,
+                'policyEnforced' => !empty($after['policyEnforced']),
+                'changes' => $changes,
+            ]]);
+        } catch (\Throwable $e) {
+            // the settings are already written by the time the change is announced, so a listener
+            // that fails must not report the save as failed: the caller would retry, find nothing
+            // left to change, and the change could then never be announced at all
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'A listener of PrivacyManager.compliancePolicySettingsUpdated failed: {message}',
+                ['message' => $e->getMessage(), 'exception' => $e]
+            );
+        }
+    }
+
+    /**
+     * @return class-string<CompliancePolicy>
+     */
+    private function checkCompliancePolicySettingsWriteAccess(
+        string $compliancePolicy,
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation
+    ): string {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkGranularComplianceFeatureIsEnabled();
+
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
+
+        $policy = PolicyManager::getPolicyByName($compliancePolicy);
+
+        if (is_null($policy)) {
+            throw new Exception('Invalid compliance policy');
+        }
+
+        if (PolicyManager::isPolicyConfigControlled($policy)) {
+            throw new Exception('The compliance policy is controlled by the config file and cannot be changed');
+        }
+
+        return $policy;
+    }
+
+    private function checkGranularComplianceFeatureIsEnabled(): void
+    {
+        if (!$this->featureFlagManager->isFeatureActive(GranularPrivacyCompliance::class)) {
+            throw new Exception('Granular compliance configuration is not enabled');
+        }
+    }
+
+    /**
      * Enables or disables enforcement of a compliance policy.
      *
      * @param string $idSite Site ID to update, or `all` for global compliance status.
@@ -701,6 +1045,8 @@ class API extends \Piwik\Plugin\API
      * @param bool $enforce `true` to enforce the selected policy, `false` to disable enforcement.
      * @param string|null $passwordConfirmation Current user password confirmation when required.
      * @return bool `true` if the policy is enabled after the update, `false` otherwise.
+     * @deprecated since Matomo 6.0, use {@link setCompliancePolicySettings()} or
+     *             {@link enforceCompliancePolicySettings()} instead.
      * @internal
      *
      */

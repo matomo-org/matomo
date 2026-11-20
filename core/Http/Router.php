@@ -29,7 +29,7 @@ class Router
     {
         $path = parse_url($url, PHP_URL_PATH);
 
-        if (strpos($path, 'index.php/') !== false) {
+        if (str_contains($path, 'index.php/')) {
             return preg_replace('#index\.php/([^\?]*)#', 'index.php', $url, 1);
         }
 

@@ -200,12 +200,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should be possible to change the limit of evolution chart', async function () {
             await page.hover('.dataTableFeatures');
-            await page.click('.limitSelection input');
-            await page.evaluate(function () {
-                $('.limitSelection ul li:contains(10) span').click();
-            });
+            await page.click('.limitSelection .mtm-selector__trigger');
+            await page.click('.limitSelection [data-limit="10"]');
             await page.mouse.move(0, 0);
             await page.waitForNetworkIdle();
+            // the annotation icons under the graph load in a separate request, which the network idle
+            // wait stops counting once it is slow, so a capture could miss their row
+            await page.waitForSelector('.dataTableVizEvolution .evolution-annotations');
 
             expect(await screenshotPageWrap()).to.matchImage('visitors_overview_limit');
         });
@@ -349,16 +350,17 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForSelector('.enrichedHeadline');
             elem = await page.$('.enrichedHeadline');
             await elem.hover();
-            await page.click('.helpIcon');
+            await page.click('.enrichedHeadline__helpIcon');
             await page.waitForTimeout(100);
             await page.evaluate(function () {
-                $('.helpDate:visible').html('Report generated xx hours xx min ago');
+                $('.mtm-helpPanel__date:visible').html('Report generated xx hours xx min ago');
             });
             await page.mouse.move(-10, -10);
 
             // the report itself is already covered by the `actions_pages` screenshot, so here we
-            // only capture the headline together with its expanded inline help box
-            expect(await page.screenshotSelector('.enrichedHeadline:has(.helpIcon.active)')).to.matchImage('actions_pages_tooltip_help');
+            // only capture the report header together with its expanded inline help box. The
+            // header, not the headline: the help opens in a row of its own beside it.
+            expect(await page.screenshotSelector('.reportHeader:has(.enrichedHeadline__helpIcon--active)')).to.matchImage('actions_pages_tooltip_help');
         });
 
         it('should load the actions > entry pages page correctly', async function () {
@@ -522,10 +524,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it('should load sparklines view correctly even when there is no matching row', async function () {
-            await page.goto('?forceView=1&viewDataTable=sparklines&module=ExampleUI&action=getTemperaturesEvolution&label=example32323.matomo.org&'+generalParams+'&segment=&showtitle=1');
+            // Widgetized rather than a bare forceView render: the sparklines grid mounts from a
+            // vue-entry, so it needs the page assets a raw visualization fragment does not load.
+            // No widget=1, so this still captures the reporting page (non-widget) grid layout.
+            await page.goto('?' + widgetizeParams + '&moduleToWidgetize=ExampleUI&actionToWidgetize=getTemperaturesEvolution'
+                + '&forceView=1&viewDataTable=sparklines&label=example32323.matomo.org&' + generalParams + '&segment=&showtitle=1');
             await page.waitForNetworkIdle();
+            // Fails loudly if the grid never mounts, rather than silently capturing a blank card.
+            await page.waitForSelector('.sparklineCard img.sparklineImg');
 
-            pageWrap = await page.$('body');
+            const pageWrap = await page.$('body');
             expect(await pageWrap.screenshot()).to.matchImage('exampleui_sparklines_no_matching_row');
         });
     });
@@ -625,6 +633,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
         it('should not be possible to render any action using token_auth with at least some admin access', async function () {
+            // Use real auth so the URL token is actually resolved to its user.
+            // FakeAccess ignores the token and would leave the request as a non-superuser
+            // after this branch's setSuperUserAccess(false) reset in forceReloadAuthUsingTokenAuth(),
+            // bypassing the checkTokenAuthIsNotLimited() throw the test is asserting.
+            testEnvironment.testUseMockAuth = 0;
+            testEnvironment.save();
+
             await page.goto("?" + generalParams + "&module=CoreAdminHome&action=home&token_auth=c4ca4238a0b923820dcc509a6f75849b");
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('admin_home_admintoken_not_allowed');
@@ -927,8 +942,34 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             await page.mouse.move(-10, -10);
 
-            pageWrap = await page.$('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog');
+            // the report actions now live in a header the report renders above `.dataTable`, so the
+            // table is no longer a direct child of the dialog's content
+            pageWrap = await page.$('.ui-dialog .ui-dialog-content div.dataTableVizVisitorLog');
             expect(await pageWrap.screenshot()).to.matchImage('segmented_visitorlog');
+        });
+
+        it('should offer the report actions in the segmented visitor log', async function () {
+            const triggers = await page.evaluate(
+                () => document.querySelectorAll('.ui-dialog .reportHeader__actionsTrigger').length
+            );
+            expect(triggers).to.equal(1);
+        });
+
+        // The action is registered by the Live plugin and now renders in the report header, which is
+        // outside `.dataTable` - a handler bound on the table alone would leave the entry looking
+        // live while doing nothing.
+        it('should still act on the add segment action once it is in the header menu', async function () {
+            await page.evaluate(() => {
+                window.openedUrls = [];
+                window.open = (url) => { window.openedUrls.push(url); return null; };
+            });
+
+            await page.click('.ui-dialog .reportHeader__actionsTrigger');
+            await page.click('.ui-dialog .reportHeader__actionsMenu .dataTableAction.addSegmentToMatomo');
+
+            const opened = await page.evaluate(() => window.openedUrls);
+            expect(opened.length).to.equal(1);
+            expect(opened[0]).to.contain('addSegmentAsNew=');
         });
 
         it('should not apply current segmented when opening visitor log', async function () {

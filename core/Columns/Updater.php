@@ -268,10 +268,10 @@ class Updater extends \Piwik\Updates
 
     public static function isDimensionComponent($name)
     {
-        return 0 === strpos($name, 'log_visit.')
-            || 0 === strpos($name, 'log_conversion.')
-            || 0 === strpos($name, 'log_conversion_item.')
-            || 0 === strpos($name, 'log_link_visit_action.');
+        return str_starts_with($name, 'log_visit.')
+            || str_starts_with($name, 'log_conversion.')
+            || str_starts_with($name, 'log_conversion_item.')
+            || str_starts_with($name, 'log_link_visit_action.');
     }
 
     public static function wasDimensionMovedFromCoreToPlugin($name, $version)

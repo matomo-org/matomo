@@ -54,15 +54,9 @@ class VisitorRecognizer
      */
     private $lookBackNSecondsCustom;
 
-    /**
-     * @var Model
-     */
-    private $model;
+    private Model $model;
 
-    /**
-     * @var EventDispatcher
-     */
-    private $eventDispatcher;
+    private EventDispatcher $eventDispatcher;
 
     /**
      * @var array|false

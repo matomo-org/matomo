@@ -16,10 +16,7 @@ use Piwik\Plugin\Metric;
 
 class Sorter
 {
-    /**
-     * @var Sorter\Config
-     */
-    private $config;
+    private Sorter\Config $config;
 
     public function __construct(Sorter\Config $config)
     {

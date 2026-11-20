@@ -19,27 +19,21 @@ use Piwik\Plugin\Manager;
  */
 class ContainerFactory
 {
-    /**
-     * @var PluginList
-     */
-    private $pluginList;
+    private PluginList $pluginList;
 
-    /**
-     * @var GlobalSettingsProvider
-     */
-    private $settings;
+    private GlobalSettingsProvider $settings;
 
     /**
      * Optional environment configs to load.
      *
      * @var string[]
      */
-    private $environments;
+    private array $environments;
 
     /**
      * @var array[]
      */
-    private $definitions;
+    private array $definitions;
 
     /**
      * @param string[] $environments Optional environment configs to load.

@@ -26,10 +26,7 @@ use Piwik\Updates as PiwikUpdates;
  */
 class Updates_4_11_0_rc2 extends PiwikUpdates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
     private $pendingUsers;
 

@@ -59,7 +59,7 @@ class RunScheduledTasksProcessSignalTest extends IntegrationTestCase
 
         // wait until scheduled tasks are running
         $result = self::$fixture->stepControl->waitForSuccess(static function () use ($process): bool {
-            return false !== strpos($process->getOutput(), 'Scheduler: executing task');
+            return str_contains($process->getOutput(), 'Scheduler: executing task');
         }, $timeoutInSeconds = 30);
 
         self::assertTrue($result, 'Scheduled tasks did not start');
@@ -97,10 +97,7 @@ class RunScheduledTasksProcessSignalTest extends IntegrationTestCase
 
         $result = self::$fixture->stepControl->waitForSuccess(
             static function () use ($process, $signal): bool {
-                return false !== strpos(
-                    $process->getOutput(),
-                    'Received system signal to stop scheduled tasks: ' . $signal
-                );
+                return str_contains($process->getOutput(), 'Received system signal to stop scheduled tasks: ' . $signal);
             }
         );
 

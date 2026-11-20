@@ -18,7 +18,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Action.php';
  */
 class Matomo_LocalTracker extends MatomoTracker
 {
-    protected function sendRequest($url, $method = 'GET', $data = null, $force = false)
+    protected function sendRequest(string $url, string $method = 'GET', $data = null, bool $force = false): string|bool
     {
         self::$DEBUG_LAST_REQUESTED_URL = $url;
 

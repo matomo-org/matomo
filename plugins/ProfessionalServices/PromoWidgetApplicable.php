@@ -15,20 +15,11 @@ use Piwik\ProfessionalServices\Advertising;
 
 class PromoWidgetApplicable
 {
-    /**
-     * @var Manager
-     */
-    private $manager;
+    private Manager $manager;
 
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
-    /**
-     * @var PromoWidgetDismissal
-     */
-    private $promoWidgetDismissal;
+    private PromoWidgetDismissal $promoWidgetDismissal;
 
     public function __construct(Manager $manager, Config $config, PromoWidgetDismissal $promoWidgetDismissal)
     {

@@ -36,10 +36,7 @@ class VisitorLogDisabled implements MeasurableSettingInterface, PolicyComparison
      */
     use SystemGetterTrait;
 
-    /**
-     * @var bool
-     */
-    private $value;
+    private bool $value;
 
     private function __construct(bool $value)
     {
@@ -83,7 +80,17 @@ class VisitorLogDisabled implements MeasurableSettingInterface, PolicyComparison
 
     public static function getTitle(): string
     {
-        return Piwik::translate('Live_DisableVisitsLogAndProfile');
+        return Piwik::translate('Live_VisitsLogAndProfileDisabledPolicySettingTitle');
+    }
+
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('Live_DisableVisitsLogAndProfileWhatItDoes');
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('Live_DisableVisitsLogAndProfileImpact');
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
@@ -94,7 +101,12 @@ class VisitorLogDisabled implements MeasurableSettingInterface, PolicyComparison
 
     public static function getInlineHelp(): string
     {
-        return Piwik::translate('Live_DisableVisitsLogAndProfileDescription');
+        return Piwik::translate('Live_DisableVisitsLogAndProfileDescription2');
+    }
+
+    public static function getPolicyOrder(): int
+    {
+        return 40;
     }
 
     public static function getPolicyRequirements(): array

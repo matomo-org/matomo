@@ -10,7 +10,6 @@
         "DisableVisitorProfile": "Inaktivera besökarprofiler",
         "DisableVisitorProfileDescription": "Alla besöksloggrelaterade funktioner kommer att fortsätta fungera.",
         "DisableVisitsLogAndProfile": "Stäng av besökslogg och besökarprofil",
-        "DisableVisitsLogAndProfileDescription": "Inaktiverar också funktioner som beror på sådana som e-handelsloggen, den segmenterade besöksloggen, realtidskartan eller realtidswidgeten. Kan krävas för att följa dina lokala sekretesslagar/riktlinjer.",
         "FirstVisit": "Första besöket",
         "GoalType": "Sort",
         "HideMap": "Dölj karta",

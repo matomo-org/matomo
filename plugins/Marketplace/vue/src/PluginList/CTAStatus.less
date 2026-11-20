@@ -1,0 +1,80 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Wraps rather than squeezing the label: an action of two buttons - More Details and Download,
+// when a plugin cannot be installed from here - leaves the label no room on a card, and it was
+// drawn underneath them.
+.ctaStatus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: safe center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+// Sized and coloured as the card's meta row is - "Installed" sits directly under "Updated ..." on
+// a card, and the two lines reading differently was the only thing telling them apart.
+.ctaStatus__label {
+  display: flex;
+  align-items: safe center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 11px;
+  color: @theme-color-text-lighter;
+}
+
+.ctaStatus__icon {
+  flex: none;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.ctaStatus--success .ctaStatus__icon {
+  color: @theme-color-success;
+}
+
+.ctaStatus--warning .ctaStatus__icon {
+  color: @theme-color-warning;
+}
+
+// The label is coloured here as well as the icon, so this has to be the semantic token rather than
+// the flat @color-red-matomo, which has no dark pair and reads at ~3.2:1 on a dark card.
+.ctaStatus--danger .ctaStatus__icon,
+.ctaStatus--danger .ctaStatus__label {
+  color: @theme-color-danger;
+}
+
+// Right-aligned by the auto margin, also once it has wrapped under the label. It can shrink to its
+// widest button: on a card too narrow for both side by side, they wrap, the box takes the whole row
+// and the centring puts each one in the middle of it.
+.ctaStatus__action {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: safe center;
+  gap: 8px;
+  margin-left: auto;
+
+  // override: Materialize sizes .btn-block to the full row; a status line only wants the label's
+  // width, with enough room that the button does not resize as its label changes
+  .btn.btn-block {
+    width: auto;
+    min-width: 110px;
+  }
+}
+
+// The modal's rendering: the alert with any button-shaped action under it, spaced by the alert's
+// own bottom margin.
+.ctaStatus--stacked {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0;
+}
+
+.ctaStatus__alertAction {
+  white-space: nowrap;
+}

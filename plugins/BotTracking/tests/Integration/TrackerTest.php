@@ -77,6 +77,7 @@ class TrackerTest extends IntegrationTestCase
             ['Claude-User/3.0', 'Claude-User', BotDetector::BOT_TYPE_AI_CHATBOT],
             ['Perplexity-User/1.0', 'Perplexity-User', BotDetector::BOT_TYPE_AI_CHATBOT],
             ['Google-NotebookLM/1.0', 'Google-NotebookLM', BotDetector::BOT_TYPE_AI_CHATBOT],
+            ['Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 (compatible; Google-GeminiNotebook; +https://developers.google.com/crawling/docs/crawlers-fetchers/google-gemininotebook)', 'Google-NotebookLM', BotDetector::BOT_TYPE_AI_CHATBOT],
         ];
     }
 

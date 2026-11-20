@@ -11,7 +11,9 @@ namespace Piwik\Plugins\Goals\tests\System;
 
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Access;
 use Piwik\Db;
+use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Tests\Fixtures\SomePageGoalVisitsWithConversions;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
@@ -63,6 +65,49 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
 
         // Check conversions have been calculated
         $this->checkPageviewsBeforeValid('2009-01-06 07:54:00');
+    }
+
+    public function testCommandCalculatesForEveryGivenGoalWithLastN()
+    {
+        $this->unsetPageviewsBefore();
+
+        // a goal without conversions must not keep the other goals from being calculated
+        $idGoalWithoutConversions = Access::doAsSuperUser(function () {
+            return GoalsApi::getInstance()->addGoal(
+                self::$fixture->idSite,
+                'Without conversions',
+                'url',
+                'nothing-matches-this-pattern',
+                'contains'
+            );
+        });
+
+        try {
+            $this->applicationTester->setInputs(["N\n"]);
+            $result = $this->applicationTester->run([
+                'command' => 'core:calculate-conversion-pages',
+                '--last-n' => 100,
+                '--idsite' => self::$fixture->idSite,
+                '--idgoal' => $idGoalWithoutConversions . ',1',
+                '-vvv' => true,
+            ]);
+
+            $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
+            $this->assertGreaterThan(0, $this->getCalculatedConversionCount(1));
+        } finally {
+            Access::doAsSuperUser(function () use ($idGoalWithoutConversions) {
+                GoalsApi::getInstance()->deleteGoal(self::$fixture->idSite, $idGoalWithoutConversions);
+            });
+        }
+    }
+
+    private function getCalculatedConversionCount(int $idGoal): int
+    {
+        return (int) Db::fetchOne(
+            'SELECT COUNT(*) FROM ' . Common::prefixTable('log_conversion')
+            . ' WHERE idsite = ? AND idgoal = ? AND pageviews_before IS NOT NULL',
+            [self::$fixture->idSite, $idGoal]
+        );
     }
 
     /**

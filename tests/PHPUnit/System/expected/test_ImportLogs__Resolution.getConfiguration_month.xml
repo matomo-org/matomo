@@ -10,6 +10,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>25.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>27.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>25.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>23.7%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Windows / Internet Explorer / unknown</label>
@@ -21,6 +25,10 @@
 		<nb_visits_converted>6</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>14%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>13.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>15.4%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>13.2%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>GNU/Linux / GNOME Web / unknown</label>
@@ -32,6 +40,10 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>11.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>12.8%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>13.2%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Mac / Chrome / unknown</label>
@@ -43,6 +55,10 @@
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>9.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>11.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>10.3%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>7.9%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Windows / Chrome / unknown</label>
@@ -54,6 +70,10 @@
 		<nb_visits_converted>3</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>7.7%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>7.9%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Android / Android Browser / unknown</label>
@@ -65,6 +85,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>GNU/Linux / Firefox / unknown</label>
@@ -76,6 +100,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Unknown / Unknown / unknown</label>
@@ -87,6 +115,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Android / Chrome Mobile / unknown</label>
@@ -98,6 +130,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Bot / Unknown / unknown</label>
@@ -109,6 +145,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>GNU/Linux / Chrome / unknown</label>
@@ -120,6 +160,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>iOS / Fútbol / unknown</label>
@@ -131,6 +175,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Mac / Internet Explorer / unknown</label>
@@ -142,6 +190,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Unknown / Apache HTTP Client / unknown</label>
@@ -153,6 +205,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Windows / Chrome / 1280x800</label>
@@ -164,6 +220,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 	</row>
 	<row>
 		<label>Windows / Internet Explorer / 1024x768</label>
@@ -175,5 +235,9 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 	</row>
 </result>

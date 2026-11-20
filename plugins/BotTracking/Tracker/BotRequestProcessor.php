@@ -25,15 +25,9 @@ use Piwik\Tracker\TableLogAction;
  */
 class BotRequestProcessor extends \Piwik\Tracker\BotRequestProcessor
 {
-    /**
-     * @var BotRequestsDao
-     */
-    private $dao;
+    private BotRequestsDao $dao;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(BotRequestsDao $dao, LoggerInterface $logger)
     {

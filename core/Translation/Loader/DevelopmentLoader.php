@@ -71,15 +71,9 @@ class DevelopmentLoader implements LoaderInterface
         "Z" => 'Ẑ',
     ];
 
-    /**
-     * @var LoaderInterface
-     */
-    private $loader;
+    private LoaderInterface $loader;
 
-    /**
-     * @var string
-     */
-    private $fallbackLanguage = 'en';
+    private string $fallbackLanguage = 'en';
 
     /**
      * @param LoaderInterface $loader Decorate another loader to add the pseudo-language.

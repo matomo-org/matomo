@@ -18,17 +18,13 @@ class VisitProperties
      * Information about the current visit. This array holds the column values that will be inserted or updated
      * in the `log_visit` table, or the values for the last known visit of the current visitor. These properties
      * can be modified during request processing.
-     *
-     * @var array
      */
-    private $visitInfo = [];
+    private array $visitInfo = [];
 
     /**
      * Holds the initial visit properties information about the current visit, this data is not changed during request processing.
-     *
-     * @var array
      */
-    private $visitInfoImmutableProperties = [];
+    private array $visitInfoImmutableProperties = [];
 
 
     public function __construct(array $visitInfo = [])

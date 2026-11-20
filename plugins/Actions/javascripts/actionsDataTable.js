@@ -73,8 +73,14 @@
                 };
 
                 self.handleConfigurationBox(domElem, dataTableLoadedProxy);
-                self.handleSearchBox(domElem, dataTableLoadedProxy);
+                self.handleSearchBox(domElem);
             }
+
+            // This override lists its handlers rather than calling the base method, so the shared
+            // report header would otherwise never be told what this report offers - leaving a
+            // dashboard widget, whose header is declared empty and filled from here, with no
+            // actions at all. After handleConfigurationBox for the same reason as in the base.
+            self.syncReportHeaderActions(domElem);
 
             self.handleColumnDocumentation(domElem);
             self.handleRelatedReports(domElem);

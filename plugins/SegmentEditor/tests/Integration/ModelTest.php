@@ -141,13 +141,28 @@ class ModelTest extends IntegrationTestCase
         $this->assertReturnedIdsMatch(array($this->idSegment1, $this->idSegment2), $segments);
     }
 
+    public function testGetSegmentByDefinitionForSite()
+    {
+        $segment = $this->model->getSegmentByDefinition('country==Hobbiton', 1, 'user2');
+        $this->assertEquals($this->idSegment3, $segment['idsegment']);
+
+        $segment = $this->model->getSegmentByDefinition('country==Hobbiton', 1, null);
+        $this->assertEquals($this->idSegment3, $segment['idsegment']);
+
+        $this->assertNull($this->model->getSegmentByDefinition('country==Hobbiton', 1, 'user1'));
+        $this->assertNull($this->model->getSegmentByDefinition('country==Hobbiton', 2, 'user2'));
+
+        $segment = $this->model->getSegmentByDefinition('country==Genovia', 2, 'user2');
+        $this->assertEquals($this->idSegment2, $segment['idsegment']);
+    }
+
     public function testGetSegmentByDefinitionWithDeletedSegment()
     {
-        $segment = $this->model->getSegmentByDefinition('Country==Genovia');
+        $segment = $this->model->getSegmentByDefinition('Country==Genovia', 1, 'user1');
         $this->assertNotEmpty($segment);
 
         $this->model->deleteSegment($this->idSegment2);
-        $segment = $this->model->getSegmentByDefinition('Country==Genovia');
+        $segment = $this->model->getSegmentByDefinition('Country==Genovia', 1, 'user1');
 
         $this->assertEmpty($segment);
     }
@@ -327,6 +342,116 @@ class ModelTest extends IntegrationTestCase
 
         // The two encoded and decoded version of the segments should be treated as duplicates
         // This means there segment has a non-deleted version so it's not returned
+        $this->assertEmpty($segments);
+    }
+
+    public function testGetSegmentsDeletedSinceDifferentlyEncodedSegmentWithSameHash()
+    {
+        // segment2 => still in use, with a space written as %20
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'pageUrl=@a%20b',
+            'enable_only_idsite' => 1,
+            'deleted' => 0,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
+        ));
+        // segment3 => deleted, same definition but with the space written as +
+        $this->model->updateSegment($this->idSegment3, array(
+            'definition' => 'pageUrl=@a+b',
+            'enable_only_idsite' => 1,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        // Both definitions have the same hash, so both segments share the same archives, which means the
+        // deleted one must not be returned
+        $this->assertEmpty($segments);
+    }
+
+    public function testGetSegmentsDeletedSinceDifferentlyEncodedSegmentWithSameHashForAnotherSite()
+    {
+        // segment2 => still in use for site 2, with a space written as %20
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'pageUrl=@a%20b',
+            'enable_only_idsite' => 2,
+            'deleted' => 0,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
+        ));
+        // segment3 => deleted for site 1, same definition but with the space written as +
+        $this->model->updateSegment($this->idSegment3, array(
+            'definition' => 'pageUrl=@a+b',
+            'enable_only_idsite' => 1,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        // The segment still in use is enabled for another site, so the archives of the deleted segment can be
+        // purged - but only for the site it was enabled for
+        $this->assertCount(1, $segments);
+        $this->assertEquals('pageUrl=@a+b', $segments[0]['definition']);
+        $this->assertEquals(1, $segments[0]['enable_only_idsite']);
+        $this->assertEquals(array(), $segments[0]['idsites_to_preserve']);
+    }
+
+    public function testGetSegmentsDeletedSinceDifferentlyEncodedSingleSiteSegmentWithSameHashAsDeletedAllSitesSegment()
+    {
+        // segment3 => still in use for site 1, with a space written as %20
+        $this->model->updateSegment($this->idSegment3, array(
+            'definition' => 'pageUrl=@a%20b',
+            'enable_only_idsite' => 1,
+            'deleted' => 0,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
+        ));
+        // segment2 => deleted for all sites, same definition but with the space written as +
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'pageUrl=@a+b',
+            'enable_only_idsite' => 0,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        // The site of the segment still in use has to be preserved, even though its definition is encoded
+        // differently, as both segments share the same archives
+        $this->assertCount(1, $segments);
+        $this->assertEquals('pageUrl=@a+b', $segments[0]['definition']);
+        $this->assertEquals(0, $segments[0]['enable_only_idsite']);
+        $this->assertEquals(array(1), $segments[0]['idsites_to_preserve']);
+    }
+
+    public function testGetSegmentsDeletedSinceSegmentWithSameHashInDifferentCase()
+    {
+        // segment2 => still in use, with a space written as %20
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'pageUrl=@a%20b',
+            'enable_only_idsite' => 1,
+            'deleted' => 0,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
+        ));
+        // Hashes are only ever written lower case, but the archives are looked up by a case insensitive LIKE
+        // on the done flag, so a hash stored in a different case still shares them
+        Db::query(
+            'UPDATE ' . Common::prefixTable('segment') . ' SET hash = UPPER(hash) WHERE idsegment = ?',
+            array($this->idSegment2)
+        );
+        // segment3 => deleted, same definition but with the space written as +
+        $this->model->updateSegment($this->idSegment3, array(
+            'definition' => 'pageUrl=@a+b',
+            'enable_only_idsite' => 1,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
         $this->assertEmpty($segments);
     }
 

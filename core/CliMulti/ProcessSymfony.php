@@ -16,10 +16,7 @@ use Piwik\Process;
  */
 class ProcessSymfony extends Process
 {
-    /**
-     * @var string|null
-     */
-    private $commandId;
+    private ?string $commandId = null;
 
     public function getCommandId(): ?string
     {

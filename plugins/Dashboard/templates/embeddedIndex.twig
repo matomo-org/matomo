@@ -109,5 +109,7 @@
 
     {% include "@Dashboard/_widgetFactoryTemplate.twig" %}
 
+    {{ postEvent("Template.beforeDashboardWidgets") }}
+
     <div id="dashboardWidgetsArea" class="row"></div>
 </div>

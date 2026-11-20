@@ -14,12 +14,16 @@ use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\AIProviders\Model\AIProcessingSettings;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\Goals\FeatureFlags\GoalRecommendations;
 use Piwik\Plugins\Goals\RecordBuilders\ProductRecord;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
@@ -51,7 +55,7 @@ class Goals extends \Piwik\Plugin
 
     public static function getGoalIdFromGoalColumn($columnName)
     {
-        if (strpos($columnName, 'goal_') === 0) {
+        if (str_starts_with($columnName, 'goal_')) {
             $column = str_replace(array('goal_'), '', $columnName);
             return (int) $column;
         }
@@ -111,8 +115,24 @@ class Goals extends \Piwik\Plugin
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Archiver.addRecordBuilders'             => 'addRecordBuilders',
             'Segment.filterSegments'                 => 'filterSegments',
+            'AIProviders.addAIProcessingFeatures'    => 'addAIProcessingFeatures',
         );
         return $hooks;
+    }
+
+    /**
+     * @param array<string, list<array{name: string, disclosureUrl?: string}>> $features
+     */
+    public function addAIProcessingFeatures(array &$features): void
+    {
+        if (!StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(GoalRecommendations::class)) {
+            return;
+        }
+
+        $features[AIProcessingSettings::CATEGORY_NON_ANALYTICS][] = [
+            // TODO: add 'disclosureUrl' for the privacy disclosure (ID-164) once it is published
+            'name' => Piwik::translate('Goals_GoalRecommendation'),
+        ];
     }
 
     public function addRecordBuilders(array &$recordBuilders): void
@@ -268,6 +288,8 @@ class Goals extends \Piwik\Plugin
     {
         $model = new Model();
         $model->deleteGoalsForSite($idSite);
+
+        (new Recommendations\RecommendationStore())->deleteAllForSite((int) $idSite);
     }
 
     /**
@@ -503,6 +525,7 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_Filename';
         $translationKeys[] = 'Goals_ExternalWebsiteUrl';
         $translationKeys[] = 'Goals_VisitDuration';
+        $translationKeys[] = 'Goals_VisitDurationMatchAttr';
         $translationKeys[] = 'Goals_AtLeastMinutes';
         $translationKeys[] = 'Goals_VisitPageTitle';
         $translationKeys[] = 'Intl_NMinutes';
@@ -535,6 +558,55 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_GoalCreated';
         $translationKeys[] = 'Goals_GoalUpdated';
         $translationKeys[] = 'Goals_ViewGoalReport';
+        $translationKeys[] = 'Goals_GoalRecommendation';
+        $translationKeys[] = 'Goals_RecommendedGoalsIntro';
+        $translationKeys[] = 'Goals_RecommendUseAi';
+        $translationKeys[] = 'Goals_RecommendAiToggleHelp';
+        $translationKeys[] = 'Goals_RecommendAiProviderFallback';
+        $translationKeys[] = 'Goals_RecommendAiAllowProcessing';
+        $translationKeys[] = 'Goals_RecommendAiAllowProcessingNoPermission';
+        $translationKeys[] = 'Goals_RecommendAiNotActivated';
+        $translationKeys[] = 'Goals_RecommendAiNotActivatedHelp';
+        $translationKeys[] = 'Goals_RecommendAiNotConfigured';
+        $translationKeys[] = 'Goals_RecommendAiNotConfiguredHelp';
+        $translationKeys[] = 'Goals_RecommendGoals';
+        $translationKeys[] = 'Goals_RecommendCreate';
+        $translationKeys[] = 'Goals_RecommendCreateAll';
+        $translationKeys[] = 'Goals_RecommendCreateError';
+        $translationKeys[] = 'Goals_RecommendCreating';
+        $translationKeys[] = 'Goals_RecommendDismiss';
+        $translationKeys[] = 'Goals_RecommendDismissError';
+        $translationKeys[] = 'Goals_RecommendDismissSuggestion';
+        $translationKeys[] = 'Goals_RecommendNeedsSetup';
+        $translationKeys[] = 'Goals_RecommendNeedsSetupTooltip';
+        $translationKeys[] = 'Goals_RecommendAllCreated';
+        $translationKeys[] = 'Goals_RecommendCalloutTitle';
+        $translationKeys[] = 'Goals_RecommendCalloutTry';
+        $translationKeys[] = 'Goals_RecommendNoneFound';
+        $translationKeys[] = 'Goals_RecommendError';
+        $translationKeys[] = 'Goals_RecommendManualTitle';
+        $translationKeys[] = 'Goals_RecommendManualIntro';
+        $translationKeys[] = 'Goals_RecommendManualHowTo';
+        $translationKeys[] = 'Goals_RecommendManualStartInForm';
+        $translationKeys[] = 'Goals_RecommendationFallbackUsed';
+        $translationKeys[] = 'Goals_RecommendLastScanned';
+        $translationKeys[] = 'Goals_RecommendGoalsCreated';
+        $translationKeys[] = 'Goals_RecommendProgressAiRanking';
+        $translationKeys[] = 'Goals_RecommendProgressCrawling';
+        $translationKeys[] = 'Goals_RecommendProgressHint';
+        $translationKeys[] = 'Goals_RecommendRescan';
+        $translationKeys[] = 'Goals_RecommendScanAlreadyRunning';
+        $translationKeys[] = 'Goals_RecommendScansRemainingToday';
+        $translationKeys[] = 'Goals_RecommendShowMore';
+        $translationKeys[] = 'Goals_RecommendWhatDataIsShared';
+        $translationKeys[] = 'Goals_RecommendWhySuggested';
+        $translationKeys[] = 'Goals_RecommendTriggerContains';
+        $translationKeys[] = 'Goals_RecommendTriggerExact';
+        $translationKeys[] = 'Goals_RecommendTriggerGreaterThan';
+        $translationKeys[] = 'Goals_RecommendTriggerMatchesExpression';
+        $translationKeys[] = 'Goals_RecommendTriggerEventLabel';
+        $translationKeys[] = 'General_Added';
+        $translationKeys[] = 'General_ColumnPageviews';
     }
 
     public function filterSegments(SegmentsList &$list, array $idSites)

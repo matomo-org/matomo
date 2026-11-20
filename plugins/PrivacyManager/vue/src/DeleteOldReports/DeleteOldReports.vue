@@ -131,14 +131,17 @@
     />
     <PasswordConfirmation
       v-model="showPasswordConfirmModal"
+      :require-delete-confirmation="enabled"
       @confirmed="saveSettings"
     >
-      <h2 v-if="enabled && !enableDeleteLogs">
-        {{ translate('PrivacyManager_DeleteReportsConfirm') }}
-      </h2>
-      <h2 v-if="enabled && enableDeleteLogs">
-        {{ translate('PrivacyManager_DeleteBothConfirm') }}
-      </h2>
+      <template v-if="enabled && !enableDeleteLogs">
+        <h2>{{ translate('PrivacyManager_DeleteReportsConfirmTitle') }}</h2>
+        <p>{{ translate('PrivacyManager_DeleteReportsConfirmBody') }}</p>
+      </template>
+      <template v-if="enabled && enableDeleteLogs">
+        <h2>{{ translate('PrivacyManager_DeleteBothConfirmTitle') }}</h2>
+        <p>{{ translate('PrivacyManager_DeleteBothConfirmBody') }}</p>
+      </template>
     </PasswordConfirmation>
   </div>
 </template>

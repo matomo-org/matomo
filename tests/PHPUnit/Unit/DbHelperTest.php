@@ -148,6 +148,33 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider getDatabaseEncodingNameTestData
+     */
+    public function testDatabaseEncodingNameValidation(string $name, bool $expected): void
+    {
+        self::assertSame($expected, DbHelper::isValidCharset($name));
+        self::assertSame($expected, DbHelper::isValidCollation($name));
+    }
+
+    public function getDatabaseEncodingNameTestData(): iterable
+    {
+        yield 'charset' => ['utf8mb4', true];
+        yield 'collation' => ['utf8mb4_0900_ai_ci', true];
+        yield 'MariaDB collation' => ['uca1400_ai_ci', true];
+        yield 'uppercase' => ['UTF8MB4_GENERAL_CI', true];
+        yield 'maximum length' => ['a' . str_repeat('_', 63), true];
+        yield 'empty' => ['', false];
+        yield 'starts with a number' => ['8bit', false];
+        yield 'starts with an underscore' => ['_utf8mb4', false];
+        yield 'too long' => ['a' . str_repeat('_', 64), false];
+        yield 'contains whitespace' => ['utf8mb4 general ci', false];
+        yield 'contains a quote' => ["utf8mb4_general_ci'", false];
+        yield 'contains a semicolon' => ['utf8mb4_general_ci;', false];
+        yield 'contains a backtick' => ['utf8mb4_general_ci`', false];
+        yield 'contains a null byte' => ["utf8mb4_general_ci\0", false];
+    }
+
+    /**
      * @dataProvider getMaxExecutionTimeTestData
      */
     public function testAddMaxExecutionTimeHintToQuery($expected, $query, $timeLimit, $schema): void

@@ -18,10 +18,7 @@ class ArchivingStatus
     public const LOCK_KEY_PREFIX = 'Archiving';
     public const DEFAULT_ARCHIVING_TTL = 7200; // 2 hours
 
-    /**
-     * @var LockBackend
-     */
-    private $lockBackend;
+    private LockBackend $lockBackend;
 
     /**
      * @var int
@@ -31,7 +28,7 @@ class ArchivingStatus
     /**
      * @var Lock[]
      */
-    private $lockStack = [];
+    private array $lockStack = [];
 
     public function __construct(LockBackend $lockBackend, $archivingTTLSecs = self::DEFAULT_ARCHIVING_TTL)
     {

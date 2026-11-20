@@ -53,9 +53,11 @@
 
 // material select additions
 ul.select-dropdown li.disabled span {
-  color: #9e9e9e !important;
+  color: @theme-color-text-disabled !important;
 
+  // the hover highlight is suppressed rather than repainted, so it needs no colour of its
+  // own; the #fff this replaced put a white band inside the dropdown in dark mode
   &:hover {
-    background-color: #fff;
+    background-color: transparent;
   }
 }

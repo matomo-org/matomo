@@ -31,6 +31,6 @@ class Wix extends SiteContentDetectionAbstract
     public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'X-Wix-Published-Version';
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 }

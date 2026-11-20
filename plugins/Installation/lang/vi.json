@@ -56,7 +56,6 @@
         "SystemCheckFileIntegrity": "File nguyên vẹn",
         "SystemCheckFunctions": "Các hàm yêu cầu",
         "SystemCheckGDHelp": "Các Sparkline (đồ thị nhỏ) và đồ thị hình ảnh (trong ứng dụng Matomo trên di động và báo cáo Email) sẽ không làm việc.",
-        "SystemCheckGlobHelp": "Các hàm nội tại đã bị vô hiệu hóa trên máy chủ của bạn. Matomo sẽ cố gắng để giả lập hàm này nhưng có thể gặp phải những hạn chế bảo mật cao hơn. Chức năng có thể bị ảnh hưởng.",
         "SystemCheckGzcompressHelp": "Bạn cần bật zlib extension and gzcompress function.",
         "SystemCheckGzuncompressHelp": "Bạn cần bật zlib extension and gzuncompress function.",
         "SystemCheckMailHelp": "Feedback và thông báo mất mật khẩu sẽ không được gửi nếu thiếu mail().",

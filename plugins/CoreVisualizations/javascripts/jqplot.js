@@ -51,7 +51,12 @@ function updateLegendFooterStacking($legendFooter)
     // 0 when the footer isn't laid out yet (e.g. display:none); skip so we don't flip-flop
     var width = $legendFooter[0].clientWidth;
     if (width > 0) {
-        $legendFooter.toggleClass('is-narrow', width < FOOTER_STACK_MAX_WIDTH);
+        var isNarrow = width < FOOTER_STACK_MAX_WIDTH;
+        $legendFooter.toggleClass('is-narrow', isNarrow);
+        // The picker is a shared selector, so the layout that knows it is stacked is what puts
+        // the modifier on it. Styling it from the footer would reach into another block.
+        $legendFooter.find('.jqplot-legend-picker .mtm-selector')
+            .toggleClass('mtm-selector--fullWidth', isNarrow);
     }
 }
 
@@ -262,6 +267,7 @@ function applyFooterLegendRowLimit($dataTable)
                 metricsToPlot: _pk_translate('General_MetricsToPlot'),
                 metricToPlot: _pk_translate('General_MetricToPlot'),
                 recordsToPlot: _pk_translate('General_RecordsToPlot'),
+                forecast: _pk_translate('General_Forecast'),
                 incompletePeriod: _pk_translate('General_IncompletePeriod'),
                 invalidatedPeriod: _pk_translate('General_InvalidatedPeriod')
             };
@@ -280,6 +286,7 @@ function applyFooterLegendRowLimit($dataTable)
             this.data = graphData.data;
             this._setJqplotParameters(graphData.params);
             this._setDataStates(graphData.dataStates);
+            this._setForecastData(graphData.forecastData);
 
             if (this.props.display_percentage_in_tooltip) {
                 this._setTooltipPercentages();
@@ -309,6 +316,14 @@ function applyFooterLegendRowLimit($dataTable)
             }
         },
 
+        _setForecastData: function (forecastData) {
+            this.jqplotParams.forecastData = [];
+
+            if (Array.isArray(forecastData)) {
+                this.jqplotParams.forecastData = forecastData;
+            }
+        },
+
         _setJqplotParameters: function (params) {
             defaultParams = {
                 grid: {
@@ -320,11 +335,16 @@ function applyFooterLegendRowLimit($dataTable)
                 },
                 axesDefaults: {
                     pad: 1.0,
-                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    // DOM labels rather than canvas ones: canvas ticks are sized from a rounded-down
+                    // text width and a box one font-size tall, which cuts off label edges on
+                    // scaled displays and in the exported image
+                    tickRenderer: $.jqplot.AxisTickRenderer,
                     tickOptions: {
                         showMark: false,
                         fontSize: '11px',
-                        fontFamily: getLabelFontFamily()
+                        fontFamily: getLabelFontFamily(),
+                        // bar graph ticks are report row labels, so insert them as text, not HTML
+                        escapeHTML: true
                     },
                     rendererOptions: {
                         drawBaseline: false
@@ -690,15 +710,11 @@ function applyFooterLegendRowLimit($dataTable)
 
             for (var i = 0; i < canvases.length; i++) {
                 var canvas = canvases.eq(i);
-                var position = canvas.position();
-                var parent = canvas.parent();
-                if (parent.hasClass('jqplot-axis')) {
-                    var addPosition = parent.position();
-                    position.left += addPosition.left;
-                    position.top += addPosition.top + parseInt(parent.css('marginTop'), 10);
-                }
+                var position = this.getExportPosition(canvas);
                 exportCtx.drawImage(canvas[0], Math.round(position.left * pixelRatio), Math.round(position.top * pixelRatio));
             }
+
+            this.drawAxisTicksForExport(exportCtx, container, pixelRatio);
 
             if (hasFooterLegend) {
                 this.drawLegendForExport(
@@ -739,6 +755,50 @@ function applyFooterLegendRowLimit($dataTable)
                 close: function (event, ui) {
                     $(this).dialog("destroy").remove();
                 }
+            });
+        },
+
+        // Position of an element inside the plot container. Axis children are positioned
+        // within their axis div, so add the axis's own offset and margins, which position() leaves out.
+        getExportPosition: function ($element) {
+            var position = $element.position();
+            var $parent = $element.parent();
+            if ($parent.hasClass('jqplot-axis')) {
+                var parentPosition = $parent.position();
+                position.left += parentPosition.left + (parseInt($parent.css('marginLeft'), 10) || 0);
+                position.top += parentPosition.top + (parseInt($parent.css('marginTop'), 10) || 0);
+            }
+            return position;
+        },
+
+        // Axis tick labels are DOM text, so they are not among the copied canvases. Redraw
+        // each one onto the export canvas with the position, font and colour it has on screen.
+        drawAxisTicksForExport: function (ctx, container, pixelRatio) {
+            var self = this;
+            container.find('.jqplot-axis').children().each(function () {
+                var $tick = $(this);
+                var text = $tick.text();
+                // skip canvases (already copied) and the ticks _checkTicksWidth() blanked out
+                if (this.tagName === 'CANVAS' || !$.trim(text)) {
+                    return;
+                }
+
+                var position = self.getExportPosition($tick);
+                var fontSize = parseFloat($tick.css('font-size')) || 11;
+                var alignRight = $tick.css('text-align') === 'right';
+
+                ctx.save();
+                ctx.font = Math.round(fontSize * pixelRatio) + 'px '
+                    + ($tick.css('font-family') || require('piwik/UI').getLabelFontFamily());
+                ctx.fillStyle = $tick.css('color') || '#666666';
+                ctx.textAlign = alignRight ? 'right' : 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(
+                    text,
+                    (position.left + (alignRight ? $tick.outerWidth() : 0)) * pixelRatio,
+                    (position.top + $tick.outerHeight() / 2) * pixelRatio
+                );
+                ctx.restore();
             });
         },
 
@@ -851,48 +911,112 @@ function applyFooterLegendRowLimit($dataTable)
         },
 
         setYTicksForAxis: function (axisName, axis) {
-            // calculate maximum x value of all data sets
-            var maxCrossDataSets = 0;
+            // calculate maximum and minimum y value of all data sets
+            var maxDataValue = 0;
+            var minDataValue = 0;
             for (var i = 0; i < this.data.length; i++) {
                 if (this.jqplotParams.series[i].yaxis == axisName) {
                     var maxValue = Math.max.apply(Math, this.data[i]);
-                    if (maxValue > maxCrossDataSets) {
-                        maxCrossDataSets = maxValue;
+                    if (maxValue > maxDataValue) {
+                        maxDataValue = maxValue;
                     }
-                    maxCrossDataSets = parseFloat(maxCrossDataSets);
+                    maxDataValue = parseFloat(maxDataValue);
+
+                    var minValue = Math.min.apply(Math, this.data[i]);
+                    if (minValue < minDataValue) {
+                        minDataValue = parseFloat(minValue);
+                    }
                 }
             }
 
-            // add little padding on top
-            maxCrossDataSets += Math.max(1, Math.round(maxCrossDataSets * .03));
+            // forecast values live in a parallel array invisible to jqplot's auto-axis,
+            // so widen the tick span only when a forecast point would otherwise fall
+            // above every actual data point. axis.max is set further down only in that case.
+            var maxForecastValue = this.getMaxForecastValueForAxis(axisName);
+            var forecastExceedsData = maxForecastValue > maxDataValue;
+            var maxCrossDataSets = forecastExceedsData ? maxForecastValue : maxDataValue;
 
-            // round to the nearest multiple of ten
-            if (maxCrossDataSets > 15) {
-                maxCrossDataSets = maxCrossDataSets + 10 - maxCrossDataSets % 10;
-            }
+            // add a little padding, then round to the nearest multiple of ten
+            var padAndRound = function (value) {
+                value += Math.max(1, Math.round(value * .03));
+                if (value > 15) {
+                    value = value + 10 - value % 10;
+                }
+                return value;
+            };
+
+            maxCrossDataSets = padAndRound(maxCrossDataSets);
 
             if (maxCrossDataSets == 0) {
                 maxCrossDataSets = 1;
             }
 
-            // make sure percent axes don't go above 100%
+            // make sure percent axes don't go above 100%, unless a value or forecast does
+            var maxTick = Infinity;
             if (
               axis.tickOptions
               && axis.tickOptions.formatString
               && axis.tickOptions.formatString.endsWith('%')
-              && maxCrossDataSets > 100
+              && Math.max(maxDataValue, maxForecastValue) <= 100
             ) {
-                maxCrossDataSets = 100;
+                maxTick = 100;
             }
+            maxCrossDataSets = Math.min(maxCrossDataSets, maxTick);
 
             // calculate y-values for ticks
             var ticks = [];
             var numberOfTicks = 2;
             var tickDistance = Math.ceil(maxCrossDataSets / numberOfTicks);
-            for (var i = 0; i <= numberOfTicks; i++) {
-                ticks.push(i * tickDistance);
+            var ticksAboveZero = numberOfTicks;
+            var ticksBelowZero = 0;
+            if (minDataValue < 0) {
+                // without ticks below zero, a negative value is drawn off the graph
+                var minCrossDataSets = padAndRound(-minDataValue);
+                tickDistance = Math.max(tickDistance, Math.ceil(minCrossDataSets / numberOfTicks));
+                // the padding gives an all-negative axis a positive maximum, so skip the tick it would add
+                ticksAboveZero = Math.max(maxDataValue, maxForecastValue) <= 0
+                    ? 0
+                    : Math.ceil(maxCrossDataSets / tickDistance);
+                ticksBelowZero = Math.ceil(minCrossDataSets / tickDistance);
             }
+            for (var i = 0; i <= ticksBelowZero + ticksAboveZero; i++) {
+                ticks.push((i - ticksBelowZero) * tickDistance);
+            }
+            // a step sized for large negative values can overshoot 100% at the top
+            ticks[ticks.length - 1] = Math.min(ticks[ticks.length - 1], maxTick);
             axis.ticks = ticks;
+
+            if (forecastExceedsData) {
+                // jqplot would otherwise auto-cap axis.max at the actual data max and
+                // the forecast renderer's series_u2p clamp would pin the marker at the
+                // top edge instead of plotting it at its real value.
+                axis.max = ticks[ticks.length - 1];
+            }
+        },
+
+        getMaxForecastValueForAxis: function (axisName) {
+            var forecastData = this.jqplotParams.forecastData;
+            if (!Array.isArray(forecastData)) {
+                return 0;
+            }
+
+            var maxForecastValue = 0;
+            for (var i = 0; i < forecastData.length; i++) {
+                var series = this.jqplotParams.series && this.jqplotParams.series[i];
+                if (!series || series.yaxis !== axisName) {
+                    continue;
+                }
+
+                var seriesForecast = forecastData[i] || [];
+                for (var j = 0; j < seriesForecast.length; j++) {
+                    var value = seriesForecast[j];
+                    if (Number.isFinite(value) && value > maxForecastValue) {
+                        maxForecastValue = value;
+                    }
+                }
+            }
+
+            return maxForecastValue;
         },
 
         /** Get a formatted y values (with unit) */
@@ -1116,6 +1240,7 @@ JQPlotExternalSeriesToggle.prototype = {
         config.params.series = [];
         config.params.axes = {xaxis: this.originalAxes.xaxis};
         config.params.seriesColors = [];
+        config.params.forecastData = [];
 
         for (var j = 0; j < this.activated.length; j++) {
             // find index of series and data
@@ -1130,6 +1255,11 @@ JQPlotExternalSeriesToggle.prototype = {
                     config.data.push(this.originalData[k]);
                     config.params.seriesColors.push(this.originalSeriesColors[k]);
                     config.params.series.push($.extend(true, {}, this.originalSeries[k]));
+                    config.params.forecastData.push(
+                        (this.originalParams.forecastData && this.originalParams.forecastData[k])
+                            ? this.originalParams.forecastData[k]
+                            : []
+                    );
                     // build array of used axes
                     var axis = this.originalSeries[k].yaxis;
                     if ($.inArray(axis, usedAxes) == -1) {
@@ -1402,6 +1532,40 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         plot.plugins.piwikTicks.currentXTick = false;
     }
 
+    function drawForecastHighlightMarker(ctx, x, y, color, backgroundColor) {
+        var outerSize = 3;
+        var haloOuterSize = 7;
+        var rgba = $.jqplot.getColorComponents(color);
+        var alpha = rgba[3] * .4;
+        var haloColor = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + alpha + ')';
+
+        ctx.save();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = color;
+        ctx.fillStyle = backgroundColor;
+
+        // subtle hover background in diamond shape
+        ctx.beginPath();
+        ctx.fillStyle = haloColor;
+        ctx.moveTo(x, y - haloOuterSize);
+        ctx.lineTo(x + haloOuterSize, y);
+        ctx.lineTo(x, y + haloOuterSize);
+        ctx.lineTo(x - haloOuterSize, y);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = backgroundColor;
+        ctx.moveTo(x, y - outerSize);
+        ctx.lineTo(x + outerSize, y);
+        ctx.lineTo(x, y + outerSize);
+        ctx.lineTo(x - outerSize, y);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.restore();
+    }
+
     // highlight a marker
     function highlight(plot, tick) {
         var c = plot.plugins.piwikTicks;
@@ -1428,6 +1592,30 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             var position = series.gridData[tick];
             if (typeof position !== 'undefined') {
                 c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
+
+                var forecastValues = plot.options.forecastData && plot.options.forecastData[i];
+                var dataState = plot.options.dataStates && plot.options.dataStates[tick];
+                var forecastValue = Array.isArray(forecastValues) ? forecastValues[tick] : null;
+
+                if (
+                    dataState === 'incomplete'
+                    && Number.isFinite(forecastValue)
+                    && series._yaxis
+                ) {
+                    var boundedForecastValue = Math.min(
+                        series._yaxis.max,
+                        Math.max(series._yaxis.min, forecastValue)
+                    );
+                    var forecastY = series._yaxis.series_u2p(boundedForecastValue);
+
+                    drawForecastHighlightMarker(
+                        c.piwikHighlightCanvas._ctx,
+                        position[0],
+                        forecastY,
+                        seriesMarkerRenderer.color,
+                        plot.grid.background
+                    );
+                }
             }
         }
     }
@@ -1565,6 +1753,13 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             $pickerSlot.empty().append(this.domElem);
             $legendFooter.addClass('has-picker');
             updateLegendFooterStacking($legendFooter);
+        });
+
+        // Again once the picker has drawn itself: the event above fires before its Vue app
+        // mounts, so the selector that carries the stacked layout is not in the DOM yet.
+        $(seriesPicker).bind('seriesPickerRendered', function () {
+            var $dataTable = $(plot.targetId).closest('.dataTable');
+            updateLegendFooterStacking(getOrCreateLegendFooter($dataTable));
         });
 
         // handle seriesPicked event
@@ -1731,6 +1926,54 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 // ------------------------------------------------------------
 
 (function ($) {
+    function drawForecastMarker(ctx, x, y, color, backgroundColor) {
+        var outerSize = 3;
+        var innerSize = 2;
+
+        ctx.save();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = color;
+        ctx.fillStyle = backgroundColor;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y - outerSize);
+        ctx.lineTo(x + outerSize, y);
+        ctx.lineTo(x, y + outerSize);
+        ctx.lineTo(x - outerSize, y);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x, y - innerSize);
+        ctx.lineTo(x + innerSize, y);
+        ctx.lineTo(x, y + innerSize);
+        ctx.lineTo(x - innerSize, y);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    function drawForecastConnector(ctx, fromX, fromY, toX, toY, color) {
+        var deltaX = toX - fromX;
+        var deltaY = toY - fromY;
+        var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        if (distance < 1) {
+            return;
+        }
+
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([2, 2]);
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(toX, toY);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
+    }
 
     $.jqplot.LineRenderer.prototype.draw = function(ctx, gd, options, plot) {
         var i;
@@ -1745,6 +1988,14 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         // Only change in this overridden method, to pass the option to the renderers
         if (plot.options.hasOwnProperty('dataStates')) {
             opts.dataStates = plot.options.dataStates;
+        }
+
+        if (
+            plot.options.hasOwnProperty('forecastData')
+            && Array.isArray(plot.options.forecastData)
+            && Array.isArray(plot.options.forecastData[this.index])
+        ) {
+            opts.forecastData = plot.options.forecastData[this.index];
         }
 
         if (!Array.isArray(opts.dataStates)) {
@@ -1956,6 +2207,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 if (this.renderer.smooth) {
                     gd = this.gridData;
                 }
+
                 for (i = 0; i < gd.length; i++) {
                     if (gd[i][0] === null || gd[i][1] === null) {
                         continue;
@@ -1967,6 +2219,89 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                     markerOptions.incompleteFillColor = plot.grid.background;
 
                     this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
+                }
+            }
+
+            // Draw the forecast indicator independently of the regular markers. The dashed
+            // connector to the forecast value is always rendered when a forecast is available,
+            // so it stays visible even though evolution line graphs hide the per-point markers.
+            // The static diamond is only drawn alongside the regular markers; when markers are
+            // hidden the diamond is reserved for the hover highlight.
+            if (!fill) {
+                if (this.renderer.smooth) {
+                    gd = this.gridData;
+                }
+                let previousForecastPoint = null;
+
+                for (i = 0; i < gd.length; i++) {
+                    if (gd[i][0] === null || gd[i][1] === null) {
+                        previousForecastPoint = null;
+                        continue;
+                    }
+
+                    const forecastValue = Array.isArray(opts.forecastData) ? opts.forecastData[i] : null;
+
+                    if (opts.dataStates[i] === 'incomplete' && Number.isFinite(forecastValue)) {
+                        const forecastX = gd[i][0];
+                        const boundedForecastValue = Math.min(
+                            this._yaxis.max,
+                            Math.max(this._yaxis.min, forecastValue)
+                        );
+                        const forecastY = this._yaxis.series_u2p(boundedForecastValue);
+
+                        // When the forecast coincides with the tick's tracked value (e.g. an
+                        // additive metric rendered "flat at current"), the incomplete-period
+                        // dashed segment already covers this exact path, so the forecast
+                        // connector and diamond would only overdraw it. Skip the drawing, but
+                        // keep the point in the chain so a later diverging forecast still
+                        // connects from here -- the tooltip continues to report the value.
+                        if (Math.abs(forecastY - gd[i][1]) < 0.5) {
+                            previousForecastPoint = [forecastX, forecastY];
+                            continue;
+                        }
+
+                        const forecastColor = opts.color || this.color;
+                        let connectorStart = previousForecastPoint;
+
+                        if (!connectorStart) {
+                            let previousPointIndex = i - 1;
+                            while (
+                                previousPointIndex >= 0
+                                && (gd[previousPointIndex][0] === null || gd[previousPointIndex][1] === null)
+                            ) {
+                                previousPointIndex -= 1;
+                            }
+
+                            if (previousPointIndex >= 0) {
+                                connectorStart = gd[previousPointIndex];
+                            }
+                        }
+
+                        if (connectorStart) {
+                            drawForecastConnector(
+                                ctx,
+                                connectorStart[0],
+                                connectorStart[1],
+                                forecastX,
+                                forecastY,
+                                forecastColor
+                            );
+                        }
+
+                        if (this.markerRenderer.show) {
+                            drawForecastMarker(
+                                ctx,
+                                forecastX,
+                                forecastY,
+                                forecastColor,
+                                plot.grid.background
+                            );
+                        }
+
+                        previousForecastPoint = [forecastX, forecastY];
+                    } else {
+                        previousForecastPoint = null;
+                    }
                 }
             }
         }

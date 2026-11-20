@@ -19,10 +19,7 @@ use Piwik\Widget\WidgetConfig;
 
 class GetSystemCheck extends Widget
 {
-    /**
-     * @var DiagnosticService
-     */
-    private $diagnosticService;
+    private DiagnosticService $diagnosticService;
 
     public function __construct(DiagnosticService $diagnosticService)
     {

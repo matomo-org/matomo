@@ -21,10 +21,7 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  */
 class Updates_4_12_0_b3 extends PiwikUpdates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
     public function __construct(MigrationFactory $factory)
     {
@@ -40,8 +37,8 @@ class Updates_4_12_0_b3 extends PiwikUpdates
 
         if (
             empty($column)
-            || strpos(strtolower($column['Type']), 'int') !== false
-            || strpos(strtolower($column['Type']), 'unsigned') !== false
+            || str_contains(strtolower($column['Type']), 'int')
+            || str_contains(strtolower($column['Type']), 'unsigned')
         ) {
             return [];
         }

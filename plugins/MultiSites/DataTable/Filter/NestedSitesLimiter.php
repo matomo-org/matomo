@@ -49,12 +49,10 @@ use Piwik\DataTable;
  */
 class NestedSitesLimiter extends BaseFilter
 {
-    /** @var int */
-    private $offset = 0;
-    /** @var int */
-    private $limit  = 0;
+    private int $offset = 0;
+    private int $limit  = 0;
     /** @var Row[] */
-    private $rows   = [];
+    private array $rows   = [];
 
     /**
      * @param DataTable $table The table to eventually filter.

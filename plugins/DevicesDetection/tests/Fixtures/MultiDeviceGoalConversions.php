@@ -94,7 +94,9 @@ class MultiDeviceGoalConversions extends Fixture
 
         $t->setForceVisitDateTime($this->getAdjustedDateTime(1));
 
-        self::checkResponse($t->doTrackGoal($this->idGoal, $revenue = 0));
+        // Omit the revenue so the goal's default revenue applies (the type-safe
+        // tracker sends revenue=0 explicitly instead of falling back to the default).
+        self::checkResponse($t->doTrackGoal($this->idGoal));
     }
 
     private function trackTabletVisits()
@@ -130,7 +132,9 @@ class MultiDeviceGoalConversions extends Fixture
 
         $t->setForceVisitDateTime($this->getAdjustedDateTime(1.9));
 
-        self::checkResponse($t->doTrackGoal($this->idGoal, $revenue = 0));
+        // Omit the revenue so the goal's default revenue applies (the type-safe
+        // tracker sends revenue=0 explicitly instead of falling back to the default).
+        self::checkResponse($t->doTrackGoal($this->idGoal));
     }
 
     private function trackOtherVisits()
@@ -166,7 +170,9 @@ class MultiDeviceGoalConversions extends Fixture
 
         $t->setForceVisitDateTime($this->getAdjustedDateTime(4.2));
 
-        self::checkResponse($t->doTrackGoal($this->idGoal, $revenue = 0));
+        // Omit the revenue so the goal's default revenue applies (the type-safe
+        // tracker sends revenue=0 explicitly instead of falling back to the default).
+        self::checkResponse($t->doTrackGoal($this->idGoal));
 
 
         // desktop visit (with conversion)
@@ -181,7 +187,9 @@ class MultiDeviceGoalConversions extends Fixture
 
         $t->setForceVisitDateTime($this->getAdjustedDateTime(1.9));
 
-        self::checkResponse($t->doTrackGoal($this->idGoal, $revenue = 0));
+        // Omit the revenue so the goal's default revenue applies (the type-safe
+        // tracker sends revenue=0 explicitly instead of falling back to the default).
+        self::checkResponse($t->doTrackGoal($this->idGoal));
 
         // car browser visit (without conversion)
         $t = self::getTracker($this->idSite, $this->getAdjustedDateTime(1.8), $defaultInit = true);

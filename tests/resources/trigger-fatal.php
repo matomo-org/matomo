@@ -18,6 +18,15 @@ class MyClass
         try {
             \Piwik\ErrorHandler::pushFatalErrorBreadcrumb(static::class, ['arg1' => $arg1, 'arg2' => $arg2]);
 
+            // the ondrej/php PPA builds of PHP 8.1 and older skip shutdown functions after running out of memory
+            if (PHP_VERSION_ID < 80200) {
+                set_time_limit(1);
+                $i = 0;
+                while (true) {
+                    $i++;
+                }
+            }
+
             $val = "";
             while (true) {
                 $val .= str_repeat("*", 1024 * 1024 * 1024);

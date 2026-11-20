@@ -8,14 +8,8 @@
         }
     }
 
-    // Keep the current URL in the canonical Overlay handshake shape before navigating away.
-    // piwik.js::isOverlaySession() depends on this field order, and unrelated parameters do not
-    // belong in this navigation contract.
-    function canonicalizeOverlayUrl() {
-        if (!window.history || typeof window.history.replaceState !== 'function') {
-            return;
-        }
-
+    // Raw (still URL-encoded) query values of the current URL, keyed by parameter name.
+    function getQueryValues() {
         var search = window.location.search || '';
         if (search.charAt(0) === '?') {
             search = search.substring(1);
@@ -31,6 +25,17 @@
                 }
                 values[pairs[i].substring(0, eq)] = pairs[i].substring(eq + 1);
             }
+        }
+
+        return values;
+    }
+
+    // Keep the current URL in the canonical Overlay handshake shape before navigating away.
+    // piwik.js::isOverlaySession() depends on this field order, and unrelated parameters do not
+    // belong in this navigation contract.
+    function canonicalizeOverlayUrl(values) {
+        if (!window.history || typeof window.history.replaceState !== 'function') {
+            return;
         }
 
         // Order must match the regex in piwik.js::isOverlaySession().
@@ -52,7 +57,19 @@
         }
     }
 
-    canonicalizeOverlayUrl();
+    // piwik.js::isOverlaySession() falls back to window.name when the referrer does not carry this
+    // URL, e.g. when the tracked site redirects with a strict Referrer-Policy. Store the session in
+    // the same format the tracker writes itself, so the handshake survives such a redirect.
+    function storeOverlaySessionInWindowName(values) {
+        if (!values.period || !values.date) {
+            return;
+        }
+
+        window.name = 'Matomo_Overlay###' + values.period + '###' + values.date + '###' + (values.segment || '');
+    }
+
+    var queryValues = getQueryValues();
+    canonicalizeOverlayUrl(queryValues);
 
     if (window.location.hash) {
         var match = false;
@@ -69,6 +86,7 @@
                 var testHost = parser.hostname;
                 if (hostToRedirect === testHost && testHost) {
                     match = true;
+                    storeOverlaySessionInWindowName(queryValues);
                     window.location.href = handleProtocol(urlToRedirect);
                     break;
                 }
@@ -83,6 +101,7 @@
         }
     }
     else {
+        storeOverlaySessionInWindowName(queryValues);
         window.location.href = handleProtocol("{{ mainUrl|e('js') }}");
     };
 </script>

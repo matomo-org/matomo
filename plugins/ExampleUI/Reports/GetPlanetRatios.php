@@ -22,6 +22,9 @@ use Piwik\Widget\WidgetsList;
  */
 class GetPlanetRatios extends Base
 {
+    /**
+     * @return void
+     */
     protected function init()
     {
         parent::init();
@@ -37,6 +40,9 @@ class GetPlanetRatios extends Base
         return Pie::ID;
     }
 
+    /**
+     * @return void
+     */
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
         $widgetsList->addWidgetConfig(
@@ -53,17 +59,20 @@ class GetPlanetRatios extends Base
         );
     }
 
+    /**
+     * @return void
+     */
     public function configureView(ViewDataTable $view)
     {
         $view->config->addTranslation('value', 'times the diameter of Earth');
 
         if ($view->isViewDataTableId(Pie::ID)) {
-            $view->config->columns_to_display = array('value');
-            $view->config->selectable_columns = array('value');
+            $view->config->columns_to_display = ['value'];
+            $view->config->selectable_columns = ['value'];
             $view->config->show_footer_icons = false;
             $view->config->max_graph_elements = 10;
         } elseif ($view->isViewDataTableId(Cloud::ID)) {
-            $view->config->columns_to_display = array('label', 'value');
+            $view->config->columns_to_display = ['label', 'value'];
             $view->config->show_footer = false;
         }
     }

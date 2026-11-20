@@ -10,9 +10,8 @@
     v-if="plugin.missingRequirements.length === 0 && plugin.isDownloadable && !isAutoUpdatePossible"
   >
     <span onclick="$(this).css('display', 'none')">
-      <template v-if="showOr">&nbsp;{{ translate('General_Or') }}&nbsp;</template>
-      <a tabindex="7"
-         class="plugin-details download"
+      <a
+         :class="['plugin-details', 'download', { 'btn btn-block': showAsButton }]"
          :href="linkTo({
             module: 'Marketplace',
             action: 'download',
@@ -33,7 +32,8 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    showOr: {
+    /** Render as a button, for the card's action row, where a bare link reads as body text. */
+    showAsButton: {
       type: Boolean,
       default: false,
     },
@@ -46,6 +46,7 @@ export default defineComponent({
     linkTo(params: QueryParameters) {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
+        idSite: MatomoUrl.parsed.value.idSite,
         ...params,
       })}`;
     },

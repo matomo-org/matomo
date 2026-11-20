@@ -21,6 +21,9 @@ class XssTesting
 {
     public const OPTION_NAME = 'Tests.xssEntries';
 
+    /**
+     * @return string
+     */
     public function forTwig($type, $sanitize = false)
     {
         $n = $this->addXssEntry($type, 'twig');
@@ -42,6 +45,9 @@ class XssTesting
         return $this->forVueJs($type, $sanitize);
     }
 
+    /**
+     * @return string
+     */
     public function forVueJs($type, $sanitize = false)
     {
         $n = $this->addXssEntry($type, 'vuejs');

@@ -148,6 +148,14 @@ class Archive implements ArchiveQuery
     private $idarchives = [];
 
     /**
+     * Plugins whose archive IDs have been looked up, indexed by done flag. Plugins can share a done flag
+     * (the all plugins one), but each lookup only finds the partial archives of the plugin it was made for.
+     *
+     * @var array<string, array<string, true>>
+     */
+    private $pluginsWithCachedArchiveIds = [];
+
+    /**
      * List of doneFlag values for archive IDs for the site, periods and segment
      * we are querying with. Archive IDs are indexed by site, done flag and period, ie:
      *
@@ -182,10 +190,7 @@ class Archive implements ArchiveQuery
      */
     private $forceIndexedByDate;
 
-    /**
-     * @var Parameters
-     */
-    private $params;
+    private Parameters $params;
 
     /**
      * If true, this Archive instance will not launch the archiving process, even if the current request
@@ -655,6 +660,7 @@ class Archive implements ArchiveQuery
         // then we have the archive IDs in $this->idarchives)
         $doneFlags     = [];
         $archiveGroups = [];
+        $pluginsMissingFromSharedDoneFlag = [];
         foreach (array_merge($plugins, ['all']) as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, $this->params->getIdSites());
 
@@ -666,6 +672,8 @@ class Archive implements ArchiveQuery
                     $archiveGroup = reset($plugins);
                 }
                 $archiveGroups[] = $archiveGroup;
+            } elseif ($plugin !== 'all' && !isset($this->pluginsWithCachedArchiveIds[$doneFlag][$plugin])) {
+                $pluginsMissingFromSharedDoneFlag[] = $plugin;
             }
 
             $doneFlag = Rules::getDoneFlagArchiveContainsOnePlugin($this->params->getSegment(), $plugin);
@@ -685,6 +693,13 @@ class Archive implements ArchiveQuery
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
             }
+        } elseif (!empty($pluginsMissingFromSharedDoneFlag)) {
+            // the shared archives are already prepared, so only these plugins' partial archives are left to find
+            $this->cacheArchiveIdsWithoutLaunching($pluginsMissingFromSharedDoneFlag);
+        }
+
+        foreach ($plugins as $plugin) {
+            $this->pluginsWithCachedArchiveIds[$this->getDoneStringForPlugin($plugin, $this->params->getIdSites())][$plugin] = true;
         }
 
         return $this->getArchiveIdsAndStatesByMonth($doneFlags);
@@ -774,6 +789,10 @@ class Archive implements ArchiveQuery
                 foreach ($idarchives as $idarchive) {
                     // idarchives selected can include all plugin archives, plugin specific archives and partial report
                     // archives. only the latest data in all of these archives will be selected.
+                    if (in_array($idarchive, $this->idarchives[$doneFlag][$dateRange] ?? [])) {
+                        continue;
+                    }
+
                     $this->idarchives[$doneFlag][$dateRange][] = $idarchive;
                 }
             }
@@ -859,7 +878,7 @@ class Archive implements ArchiveQuery
 
         // If there is no dot, we return as is
         // Note: this could be an integer bigger than 32 bits
-        if (strpos((string)$value, '.') === false) {
+        if (!str_contains((string)$value, '.')) {
             return (float)$value;
         }
 
@@ -891,6 +910,7 @@ class Archive implements ArchiveQuery
     {
         $this->idarchives = [];
         $this->idarchiveStates = [];
+        $this->pluginsWithCachedArchiveIds = [];
     }
 
     /**

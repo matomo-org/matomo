@@ -38,10 +38,8 @@ class Loader
 
     /**
      * Tracks whether the current prepareArchive run reused an existing archive instead of processing.
-     *
-     * @var boolean
      */
-    private $didReuseArchive = false;
+    private bool $didReuseArchive = false;
 
     /**
      * @var Parameters
@@ -63,15 +61,9 @@ class Loader
      */
     private $logger;
 
-    /**
-     * @var RawLogDao
-     */
-    private $rawLogDao;
+    private RawLogDao $rawLogDao;
 
-    /**
-     * @var Model
-     */
-    private $dataAccessModel;
+    private Model $dataAccessModel;
 
     /**
      * @var bool
@@ -133,6 +125,20 @@ class Loader
             $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
             if (!empty($requestedReport)) {
                 $this->params->setArchiveOnlyReport($requestedReport);
+            }
+        }
+
+        // a report-only archive is partial, so it must not be stored under the done flag of an archive for all plugins
+        if (!empty($this->params->getArchiveOnlyReport())) {
+            $doneFlag = Rules::getDoneStringFlagFor(
+                [$this->params->getSite()->getId()],
+                $this->params->getSegment(),
+                $this->params->getPeriod()->getLabel(),
+                $pluginName
+            );
+
+            if ($doneFlag === Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment())) {
+                throw new \Exception('Archiving a specific report is only possible for an archive of a single plugin.');
             }
         }
 
@@ -477,16 +483,19 @@ class Loader
         return $sitesPerDays;
     }
 
-    private function invalidatedReportsIfNeeded()
+    private function invalidatedReportsIfNeeded(): void
     {
         $sitesPerDays = $this->getReportsToInvalidate();
         if (empty($sitesPerDays)) {
             return;
         }
 
+        // without a segment, the remembered date is forgotten for all segments, so it is applied to all of them
+        $segment = $this->params->getSegment()->isEmpty() ? null : $this->params->getSegment();
+
         foreach ($sitesPerDays as $date => $siteIds) {
             try {
-                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $this->params->getSegment());
+                $this->invalidator->markArchivesAsInvalidated([$this->params->getSite()->getId()], array(Date::factory($date)), false, $segment);
             } catch (\Exception $e) {
                 Site::clearCache();
                 throw $e;

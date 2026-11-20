@@ -51,14 +51,6 @@ h2 {
   width: 100%;
   padding: 16px 0 16px 0;
   margin: 0;
-
-  .inlineHelp {
-    a,
- a:hover {
-      text-decoration: underline;
-      color: @theme-color-text;
-    }
-  }
 }
 
 h3 {
@@ -73,7 +65,12 @@ p {
   color: @theme-color-text;
 }
 
-#content p {
+// The `#content` id outranks any component's own classes, so a component whose copy is not
+// 13px/18px is excluded here rather than left to fight this rule with an id of its own.
+// `:where()` adds no specificity, so nothing else about this rule changes - and an entry for
+// a component that is not installed matches nothing and costs nothing, which is why naming
+// them here is cheaper than every such component carrying its own `#content` override.
+#content p:where(:not(.productPromotion__text, .productPromotion__reason)) {
   margin-left: 0;
   margin-right: 0;
   .font-default(13px, 18px);
@@ -168,41 +165,6 @@ p {
       position: absolute;
       top: 3px;
       right: 7px;
-    }
-  }
-
-  ul.submenu {
-    margin-left: 0;
-    padding-right: 0;
-
-    li {
-      list-style-type: none;
-
-      > div {
-        .font-default(11px, 14px);
-
-        color: @theme-color-text;
-      }
-
-      text-transform: none;
-      color: @theme-color-text-light;
-
-      &.widgetpreview-choosen {
-        color: @theme-color-text;
-        font-weight: normal;
-        background: @theme-color-background-tinyContrast;
-        position: relative;
-
-        &::after {
-          position: absolute;
-          content: '';
-          top: 6px;
-          right: 10px;
-          border-top: 4px solid transparent;
-          border-bottom: 4px solid transparent;
-          border-left: 5px solid @theme-color-brand;
-        }
-      }
     }
   }
 }
@@ -645,13 +607,6 @@ div.sparkline script + div {
   z-index: 1;
 }
 
-.annotationView {
-  .font-default(10px, 12px);
-
-  text-transform: uppercase;
-  color: @theme-color-text;
-}
-
 .datatableHeaderMessage,
  .datatableFooterMessage {
   .font-default(13px, 18px);
@@ -683,10 +638,6 @@ div.sparkline script + div {
 
 tr:hover #token_auth {
   background: #fffff7;
-}
-
-#header_message .dropdown a {
-  text-decoration: underline;
 }
 
 #header_message #updateCheckLinkContainer:hover {

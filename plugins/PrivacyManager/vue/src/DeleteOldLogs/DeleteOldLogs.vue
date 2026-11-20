@@ -48,6 +48,7 @@
           @update:model-value="deleteOlderThan = $event; reloadDbStats()"
           :title="deleteOlderThanTitle"
           :inline-help="translate('PrivacyManager_LeastDaysInput', '1')"
+          :extra-metadata="retentionPolicyMetadata"
         >
         </Field>
       </div>
@@ -58,14 +59,17 @@
     />
     <PasswordConfirmation
       v-model="showPasswordConfirmModal"
+      :require-delete-confirmation="enabled"
       @confirmed="saveSettings"
     >
-      <h2 v-if="enabled && !enableDeleteReports">
-        {{ translate('PrivacyManager_DeleteLogsConfirm') }}
-      </h2>
-      <h2 v-if="enabled && enableDeleteReports">
-        {{ translate('PrivacyManager_DeleteBothConfirm') }}
-      </h2>
+      <template v-if="enabled && !enableDeleteReports">
+        <h2>{{ translate('PrivacyManager_DeleteLogsConfirmTitle') }}</h2>
+        <p>{{ translate('PrivacyManager_DeleteLogsConfirmBody') }}</p>
+      </template>
+      <template v-if="enabled && enableDeleteReports">
+        <h2>{{ translate('PrivacyManager_DeleteBothConfirmTitle') }}</h2>
+        <p>{{ translate('PrivacyManager_DeleteBothConfirmBody') }}</p>
+      </template>
     </PasswordConfirmation>
   </div>
 </template>
@@ -78,6 +82,7 @@ import {
   Form,
   Field,
   SaveButton,
+  compliancePolicyMetadata,
 } from 'CorePluginsAdmin';
 import ReportDeletionSettingsStore, {
   ReportDeletionSettings,
@@ -149,6 +154,9 @@ export default defineComponent({
     },
     enableDeleteReports(): boolean {
       return !!ReportDeletionSettingsStore.enableDeleteReports.value;
+    },
+    retentionPolicyMetadata(): Record<string, unknown>|undefined {
+      return compliancePolicyMetadata(this.deleteData.compliancePolicyControlled);
     },
   },
 });

@@ -12,12 +12,20 @@ namespace Piwik\Plugins\SegmentEditor\tests\System;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
+use Piwik\Plugins\Live\Model as LiveModel;
 use Piwik\Plugins\SegmentEditor\API;
+use Piwik\Plugins\SegmentEditor\Model;
+use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Plugins\VisitsSummary;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\View;
 use Piwik\CronArchive\SegmentArchiving;
 
 /**
@@ -231,6 +239,70 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
+    public function testNoDataNotificationUsesSegmentVisibleToCurrentUser()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $model = new Model();
+        $preprocessedSegment = ['auto_archive' => 1, 'enable_only_idsite' => self::$fixture->idSite, 'deleted' => 0];
+        $model->createSegment($preprocessedSegment + [
+            'name' => 'Other user segment',
+            'definition' => self::TEST_SEGMENT,
+            'login' => 'user2',
+            'enable_all_users' => 0,
+        ]);
+        $model->createSegment($preprocessedSegment + [
+            'name' => 'Shared segment',
+            'definition' => 'visitCount>=1',
+            'login' => 'user2',
+            'enable_all_users' => 1,
+        ]);
+
+        $originalAccess = StaticContainer::getContainer()->get('Piwik\Access');
+        $fakeAccess = new FakeAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [self::$fixture->idSite], $identity = 'user1');
+        StaticContainer::getContainer()->set('Piwik\Access', $fakeAccess);
+        Fixture::loadAllTranslations();
+
+        try {
+            $message = $this->getNoDataNotificationMessage(self::TEST_SEGMENT);
+            $this->assertStringContainsString('(' . self::TEST_SEGMENT . ')', $message);
+            $this->assertStringNotContainsString('Other user segment', $message);
+
+            $message = $this->getNoDataNotificationMessage('visitCount>=1');
+            $this->assertStringContainsString('(Shared segment)', $message);
+        } finally {
+            Fixture::resetTranslations();
+            StaticContainer::getContainer()->set('Piwik\Access', $originalAccess);
+        }
+    }
+
+    public function testNoDataNotificationIsSkippedWhenTheVisitsQueryTimesOut()
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        (new Model())->createSegment([
+            'name' => 'Preprocessed segment',
+            'definition' => self::TEST_SEGMENT,
+            'login' => 'superUserLogin',
+            'enable_all_users' => 1,
+            'enable_only_idsite' => self::$fixture->idSite,
+            'auto_archive' => 1,
+            'deleted' => 0,
+        ]);
+
+        $this->assertArrayHasKey(SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID, $this->getNoDataNotifications(self::TEST_SEGMENT));
+
+        $liveModel = $this->createMock(LiveModel::class);
+        $liveModel->method('queryLogVisits')->willThrowException(new MaxExecutionTimeExceededException('timeout'));
+        StaticContainer::getContainer()->set(LiveModel::class, $liveModel);
+
+        try {
+            $this->assertArrayNotHasKey(SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID, $this->getNoDataNotifications(self::TEST_SEGMENT));
+        } finally {
+            StaticContainer::getContainer()->set(LiveModel::class, new LiveModel());
+        }
+    }
+
     public function testAddRealTimeEnabledInApiWhenRealTimeDisabledInConfig()
     {
         $this->expectExceptionMessage('Real time segments are disabled. You need to enable auto archiving.');
@@ -275,6 +347,42 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
             SegmentArchiving::class => \Piwik\DI::autowire()
                 ->constructorParameter('beginningOfTimeLastNInYears', 15),
         ];
+    }
+
+    private function getNoDataNotificationMessage(string $segment): string
+    {
+        $notifications = $this->getNoDataNotifications($segment);
+
+        $this->assertArrayHasKey(SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID, $notifications);
+        return $notifications[SegmentEditor::NO_DATA_UNPROCESSED_SEGMENT_ID]->message;
+    }
+
+    /**
+     * @return array<string, \Piwik\Notification>
+     */
+    private function getNoDataNotifications(string $segment): array
+    {
+        $backupGet = $_GET;
+        $backupQueryString = $_SERVER['QUERY_STRING'] ?? null;
+
+        $_GET = [
+            'idSite' => (string) self::$fixture->idSite,
+            'period' => 'week',
+            'date' => Date::factory(self::$fixture->dateTime)->toString(),
+            'segment' => $segment,
+        ];
+        $_SERVER['QUERY_STRING'] = http_build_query($_GET);
+
+        try {
+            $view = new View('@CoreHome/_dataTable');
+            $view->notifications = [];
+            (new SegmentEditor())->onNoData($view);
+        } finally {
+            $_GET = $backupGet;
+            $_SERVER['QUERY_STRING'] = $backupQueryString;
+        }
+
+        return $view->notifications;
     }
 
     private function clearLogData()

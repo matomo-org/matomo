@@ -1,11 +1,11 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s min",
-        "BetweenXYSeconds": "%1$s-%2$ss",
+        "BetweenXYMinutes": "%1$s–%2$s min",
+        "BetweenXYSeconds": "%1$s–%2$s s",
         "ColumnPagesPerVisit": "Seiten pro Besuch",
         "ColumnPercentageVisitsDocumentation": "Der prozentuale Anteil an den Gesamtbesuchen, bei denen Besucher insgesamt bereits diese Anzahl an Besuchen verzeichnet haben.",
         "ColumnVisitDuration": "Besuchsdauer",
-        "Engagement": "Engagements",
+        "Engagement": "Interaktion",
         "NPages": "%s Seiten",
         "OnePage": "1 Seite",
         "PluginDescription": "Besucherinteresse: Anzahl der aufgerufenen Seiten, Verweildauer auf der Webseite, Tage seit dem letzten Besuch und mehr.",
@@ -19,7 +19,7 @@
         "WidgetPagesDocumentation": "Wie viele Besuche eine bestimmte Anzahl an Seitenaufrufen umfassten. Zu Beginn wird der Bericht als Tagwolke angezeigt, bei der häufigere Anzahlen in einer größeren Schrift dargestellt werden.",
         "WidgetVisitsByDaysSinceLast": "Besuche nach Tage seit letztem Besuch",
         "WidgetVisitsByDaysSinceLastDocumentation": "Wie viele Besuche registriert wurden von wiederkehrenden Besuchern, deren letzter Besuch eine bestimmte Anzahl an Tagen zuvor stattfand.",
-        "WidgetVisitsByNumDocumentation": "Die Anzahl Besucher, welche den n-te Besuch erreicht haben. Das heisst, die Anzahl Besucher welche Ihre Webseite in einer bestimmten Häufigkeit oder darüber hinaus besucht hat.",
+        "WidgetVisitsByNumDocumentation": "Die Anzahl Besucher, welche den n-ten Besuch erreicht haben. Das meint die Anzahl Besucher, welche Ihre Webseite in einer bestimmten Häufigkeit oder darüber hinaus besucht haben.",
         "visitsByVisitCount": "Besuche nach Besuchsanzahl"
     }
 }

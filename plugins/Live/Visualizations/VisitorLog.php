@@ -19,6 +19,7 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Request;
 use Piwik\Tracker\Action;
 
 /**
@@ -145,7 +146,20 @@ class VisitorLog extends Visualization
             $this->config->show_export = false;
             $this->config->show_pagination_control = false;
             $this->config->show_limit_control = false;
+            // Emptying the icons is not enough to keep the actions away: the report header is mounted
+            // for any report whose icons are switched on, and would offer a trigger opening a menu
+            // with nothing but the config toggles left in it. Same lever ViewDataTable uses to keep a
+            // subtable from claiming a header of its own.
+            $this->config->show_footer_icons = false;
         }
+
+        // The segmented visits log narrows the visits to the clicked row with intersectSegment, so the
+        // export has to send it as well to contain the same visits.
+        $intersectSegment = Request::fromRequest()->getStringParameter('intersectSegment', '');
+        if ($intersectSegment !== '') {
+            $this->config->export_parameters_to_modify['intersectSegment'] = $intersectSegment;
+        }
+
         $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
 
         $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);

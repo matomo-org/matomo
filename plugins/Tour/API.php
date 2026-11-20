@@ -20,15 +20,9 @@ use Piwik\Plugins\Tour\Engagement\Challenges;
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var Challenges
-     */
-    private $challenges;
+    private Challenges $challenges;
 
-    /**
-     * @var Levels
-     */
-    private $levels;
+    private Levels $levels;
 
     public function __construct(Challenges $challenges, Levels $levels)
     {

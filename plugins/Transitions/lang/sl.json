@@ -1,6 +1,5 @@
 {
     "Transitions": {
-        "BouncesInline": "%s odbojev",
         "ErrorBack": "Nazaj na prejšnje dejanje",
         "ExitsInline": "%s izhodov",
         "FromPreviousPages": "Iz notranjih strani",
@@ -13,7 +12,6 @@
         "ToFollowingPagesInline": "%s na notranje strani",
         "ToFollowingSiteSearches": "Notranja iskanja",
         "ToFollowingSiteSearchesInline": "%s notranjih iskanj",
-        "TransitionsSubcategoryHelp2": "Več podrobnosti",
-        "XOutOfYVisits": "%1$s (od %2$s)"
+        "TransitionsSubcategoryHelp2": "Več podrobnosti"
     }
 }

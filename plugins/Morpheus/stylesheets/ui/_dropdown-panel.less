@@ -1,0 +1,197 @@
+// A reusable floating panel that hosts dropdown content: a menu of actions, a block of text.
+// Positioning is intentionally NOT owned here — the consumer places the panel.
+// Named with the `mtm-` prefix to avoid name conflicts.
+
+.mtm-dropdownPanel {
+  @_menuWidth: 254px;
+  @_padding: 8px;
+
+  font-size: 14px;
+  line-height: 20px;
+  min-width: 140px;
+  padding: @_padding;
+  background-color: @theme-color-background-contrast;
+  border: 1px solid @theme-color-border;
+  border-radius: 8px;
+  box-shadow: @theme-shadow-overlay; // theme token, already light/dark aware
+  overflow: hidden;
+
+  // Adds to the panel's own padding, like the menu links do, for a 16px inset around prose.
+  .mtm-dropdownPanel__text {
+    padding: 8px;
+  }
+
+  // Nest element: the search input block sits alone in here, so the panel never styles it.
+  .mtm-dropdownPanel__search {
+    margin-bottom: 4px;
+    padding: 8px;
+  }
+
+  .mtm-dropdownPanel__menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // Up to four fifths of the viewport, less the ~58px a `__search` block above it takes (its
+  // 38px input, 8px padding each side and 4px margin), so the whole panel stays within 80vh.
+  // A cut-off row is what says it scrolls, and a fixed pixel cap would leave a tall screen
+  // under-used.
+  .mtm-dropdownPanel__menu--scrollable {
+    max-height: ~"calc(80vh - 60px)";
+    overflow-y: auto;
+  }
+
+  // Horizontal gutter so the rows share their left/right edges with the search input above,
+  // and so an overlay scrollbar sits over the gutter rather than over a label. No vertical
+  // padding: the cut-off row must be cut by the scroll box, not padded away.
+  .mtm-dropdownPanel__menu--gutter {
+    padding: 0 8px;
+  }
+
+  .mtm-dropdownPanel__menuItem {
+    list-style: none;
+    // anchors the submenu a nested panel opens beside this entry
+    position: relative;
+  }
+
+  // Splits a menu into groups of related entries. Sits in the flow as a sibling of the items,
+  // so inside a `<ul>` menu it is an `<li>` and needs `role="separator"` to stay announced as a
+  // divider rather than an empty list entry. Spans the panel's content width: the block's own
+  // padding is what insets it from the border.
+  .mtm-dropdownPanel__separator {
+    height: 0;
+    margin: 8px 0;
+    border: 0;
+    border-top: 1px solid @theme-color-border;
+    list-style: none;
+  }
+
+  .mtm-dropdownPanel__menuLink {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: normal;
+    color: @theme-color-text-lighter;
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    appearance: none;
+
+    &:hover,
+    &:focus-visible {
+      background: @theme-color-background-base;
+      color: @theme-color-text;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid @theme-color-focus-ring;
+      outline-offset: -2px;
+    }
+  }
+
+  // A modifier class rather than `[disabled]`, for elements that cannot or should not use it.
+  .mtm-dropdownPanel__menuLink--disabled {
+    color: @theme-color-text-disabled;
+    cursor: default;
+
+    &:hover {
+      background: transparent;
+      color: @theme-color-text-disabled;
+    }
+  }
+
+  .mtm-dropdownPanel__menuIcon {
+    margin-right: 8px;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  // Names a group of entries, where `__separator` only divides them. Sits in the flow as a
+  // sibling of the items, so inside a `<ul>` menu it is an `<li>`. `text-align` is set because a
+  // panel floats wherever its consumer places it, and inherits that context's alignment: every
+  // `__menuLink` already defends against this on its own.
+  .mtm-dropdownPanel__menuHeading {
+    margin: 0;
+    padding: 8px 8px 4px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+    color: @theme-color-text-light;
+    text-align: left;
+    list-style: none;
+  }
+
+  .mtm-dropdownPanel__menuLabel {
+    // a flex item will not shrink below its content width without min-width: 0, which would
+    // widen the panel instead of truncating the label
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mtm-dropdownPanel__searchMatch {
+    color: @theme-color-link;
+    font-weight: bold;
+  }
+
+  .mtm-dropdownPanel__noResult {
+    padding: 8px;
+    color: @theme-color-text-lighter;
+    font-style: italic;
+  }
+
+  // A floor, so a long label still widens the panel rather than being ellipsised.
+  &.mtm-dropdownPanel--wide {
+    min-width: @_menuWidth;
+  }
+
+  // For a menu that filters as you type: `__menuLink` never wraps, so a content-sized panel would
+  // resize on every keystroke, down to the width of a lone `__noResult`.
+  &.mtm-dropdownPanel--fixedWidth {
+    width: @_menuWidth;
+  }
+
+  .mtm-dropdownPanel__submenu {
+    display: none;
+    position: absolute;
+    // pulls the nested panel up by this panel's padding, so its first entry lines up with this one
+    top: -@_padding;
+    // Opens inward, like the panel that owns it: that one is anchored to the content's right edge,
+    // so a submenu growing outward lands off the page.
+    right: 100%;
+    // Twice over: the entry this is measured from already sits inside the panel's padding, so one
+    // width only gets back to the panel's edge and the second is the gap itself.
+    padding-right: (@_padding * 2);
+  }
+
+  .mtm-dropdownPanel__submenu--open {
+    display: block;
+  }
+
+  // Sits at the end of an entry, whatever it holds - a chevron, an info mark, a shortcut.
+  .mtm-dropdownPanel__rightIcon {
+    margin-left: auto;
+    padding-left: 8px;
+    font-size: 10px;
+  }
+
+  // Opt-in, because the panel otherwise clips a submenu to its own rounded corners.
+  &.mtm-dropdownPanel--withSubmenu {
+    overflow: visible;
+  }
+}

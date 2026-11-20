@@ -24,7 +24,7 @@ class Tasks
     /**
      * @var Task[]
      */
-    private $tasks = array();
+    private array $tasks = array();
 
     public const LOWEST_PRIORITY  = Task::LOWEST_PRIORITY;
     public const LOW_PRIORITY     = Task::LOW_PRIORITY;

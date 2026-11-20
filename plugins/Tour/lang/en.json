@@ -6,6 +6,8 @@
         "UploadLogo": "Upload your logo",
         "InviteUser": "Invite a user",
         "AddAnotherWebsite": "Add another website",
+        "AddRecommendedGoals": "Add recommended goals",
+        "AddRecommendedGoalsDescription": "Review goal recommendations for your website and create the goals that fit.",
         "AddReport": "Add a scheduled report",
         "AddSegment": "Add a segment",
         "AddAnnotation": "Add an annotation",

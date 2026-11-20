@@ -62,7 +62,7 @@ body {
 }
 .installation-progress h4 small {
     float: right;
-    color: #43a047;
+    color: var(--theme-color-brand);
 }
 .installation-progress .progress {
     margin-bottom: 0;

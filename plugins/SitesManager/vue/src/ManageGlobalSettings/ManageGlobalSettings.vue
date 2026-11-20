@@ -101,6 +101,7 @@
         v-model:exclusionTypeForQueryParams="exclusionTypeForQueryParams"
         v-model:excludedQueryParametersGlobal="excludedQueryParametersGlobal"
         :commonSensitiveQueryParams="commonSensitiveQueryParams"
+        :exclusionTypePolicyControlled="exclusionTypePolicyControlled"
       />
 
       <div>
@@ -213,7 +214,7 @@ import {
   format,
   AjaxHelper,
 } from 'CoreHome';
-import { Field, SaveButton } from 'CorePluginsAdmin';
+import { Field, SaveButton, CompliancePolicyControls } from 'CorePluginsAdmin';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
 import CurrencyStore from '../CurrencyStore/CurrencyStore';
 import GlobalSettingsStore from '../GlobalSettingsStore/GlobalSettingsStore';
@@ -233,6 +234,7 @@ interface GlobalSettingsState {
   searchCategoryParametersGlobal: string[];
   isSaving: boolean;
   exclusionTypeForQueryParams: string;
+  exclusionTypePolicyControlled: CompliancePolicyControls;
 }
 
 interface IpFromHeaderResponse {
@@ -282,6 +284,7 @@ export default defineComponent({
         (settings.searchCategoryParametersGlobal || '').split(','),
       isSaving: false,
       exclusionTypeForQueryParams: settings.exclusionTypeForQueryParams,
+      exclusionTypePolicyControlled: settings.exclusionTypeForQueryParamsPolicyControlled || {},
     };
   },
   created() {
@@ -303,6 +306,8 @@ export default defineComponent({
       this.searchCategoryParametersGlobal = (settings.searchCategoryParametersGlobal || '')
         .split(',');
       this.exclusionTypeForQueryParams = settings.exclusionTypeForQueryParams;
+      this.exclusionTypePolicyControlled = settings.exclusionTypeForQueryParamsPolicyControlled
+        || {};
     });
 
     AjaxHelper.fetch<IpFromHeaderResponse>({ method: 'API.getIpFromHeader' }).then((response) => {

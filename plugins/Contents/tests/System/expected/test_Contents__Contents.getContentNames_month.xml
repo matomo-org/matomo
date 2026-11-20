@@ -6,6 +6,7 @@
 		<nb_impressions>8</nb_impressions>
 		<nb_interactions>2</nb_interactions>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
 		<interaction_rate>25%</interaction_rate>
 		<segment>contentName==ImageAd</segment>
 	</row>
@@ -15,6 +16,7 @@
 		<nb_impressions>6</nb_impressions>
 		<nb_interactions>4</nb_interactions>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>37.5%</nb_visits_percent_of_total>
 		<interaction_rate>66.67%</interaction_rate>
 		<segment>contentName==Text+Ad</segment>
 	</row>
@@ -24,6 +26,7 @@
 		<nb_impressions>4</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>12.5%</nb_visits_percent_of_total>
 		<interaction_rate>0%</interaction_rate>
 		<segment>contentName==Video+Ad</segment>
 	</row>

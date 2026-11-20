@@ -7,6 +7,9 @@
   "engines": {
     "node": ">=24.0.0 <25.0.0"
   },
+  "scripts": {
+    "install-browser": "puppeteer browsers install chrome"
+  },
   "dependencies": {
     "chai": "^4.5.0",
     "chai-files": "^1.4.0",
@@ -19,5 +22,8 @@
   },
   "overrides": {
     "axios": "^1.12.2"
+  },
+  "allowScripts": {
+    "puppeteer": true
   }
 }

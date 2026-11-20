@@ -3,6 +3,7 @@
 	<row>
 		<label>liked</label>
 		<nb_actions>20</nb_actions>
+		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<slots>
 			<row>
 				<scope>page</scope>
@@ -15,17 +16,20 @@
 				<label>y</label>
 				<nb_visits>16</nb_visits>
 				<nb_actions>16</nb_actions>
+				<nb_actions_percent_of_total>16%</nb_actions_percent_of_total>
 			</row>
 			<row>
 				<label>Others</label>
 				<nb_visits>4</nb_visits>
 				<nb_actions>4</nb_actions>
+				<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 			</row>
 		</subtable>
 	</row>
 	<row>
 		<label>name</label>
 		<nb_actions>20</nb_actions>
+		<nb_actions_percent_of_total>20%</nb_actions_percent_of_total>
 		<slots>
 			<row>
 				<scope>page</scope>
@@ -38,16 +42,19 @@
 				<label>thing0</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<nb_actions_percent_of_total>1%</nb_actions_percent_of_total>
 			</row>
 			<row>
 				<label>Others</label>
 				<nb_visits>19</nb_visits>
 				<nb_actions>19</nb_actions>
+				<nb_actions_percent_of_total>19%</nb_actions_percent_of_total>
 			</row>
 		</subtable>
 	</row>
 	<row>
 		<label>Others</label>
 		<nb_actions>60</nb_actions>
+		<nb_actions_percent_of_total>60%</nb_actions_percent_of_total>
 	</row>
 </result>

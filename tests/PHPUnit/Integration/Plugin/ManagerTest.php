@@ -121,7 +121,7 @@ class ManagerTest extends IntegrationTestCase
         foreach ($this->manager->getLoadedPlugins() as $plugin) {
             $hooks = $plugin->registerEvents();
             foreach ($hooks as $hook => $callback) {
-                if (0 === strpos($hook, 'Controller.')) {
+                if (str_starts_with($hook, 'Controller.')) {
                     list($controller, $module, $action) = explode('.', $hook);
 
                     try {

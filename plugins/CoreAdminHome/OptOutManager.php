@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\Common;
+use Piwik\Http\BadRequestException;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -47,20 +48,16 @@ class OptOutManager
     /** @var DoNotTrackHeaderChecker */
     private $doNotTrackHeaderChecker;
 
-    /** @var array */
-    private $javascripts;
+    private array $javascripts;
 
-    /** @var array */
-    private $stylesheets;
+    private array $stylesheets;
 
     /** @var string */
     private $title;
 
-    /** @var View|null */
-    private $view;
+    private ?View $view = null;
 
-    /** @var array */
-    private $queryParameters = array();
+    private array $queryParameters = array();
 
     public function __construct(?DoNotTrackHeaderChecker $doNotTrackHeaderChecker = null)
     {
@@ -204,7 +201,7 @@ class OptOutManager
 
         // We put together the url based on the parsed parameters manually to ensure it might not include unexpected values
         // for protocol less urls starting with //, we need to prepend the double slash again
-        $matomoUrl = (strpos($matomoUrl, '//') === 0 ? '//' : '') . UrlHelper::getParseUrlReverse($parsedUrl);
+        $matomoUrl = (str_starts_with($matomoUrl, '//') ? '//' : '') . UrlHelper::getParseUrlReverse($parsedUrl);
 
         return '<div id="matomo-opt-out"></div>
 <script src="' . rtrim($matomoUrl, '/') . '/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=' . $language . ($applyStyling ? '&backgroundColor=' . $backgroundColor . '&fontColor=' . $fontColor . '&fontSize=' . $fontSize . '&fontFamily=' . $fontFamily : '') . '&showIntro=' . ($showIntro ? '1' : '0') . '"></script>';
@@ -316,7 +313,7 @@ HTML;
         $settings = array_merge($settings, $translations);
         $settingsString = 'var settings = ' . json_encode($settings) . ';';
 
-        $styleSheet = $this->optOutStyling(null, null, null, null, true);
+        $styleSheet = $this->optOutStylingFromRequest(true);
 
         /** @lang JavaScript */
         $code = <<<JS
@@ -608,7 +605,7 @@ JS;
         ), false);
 
         if (Common::getRequestVar('applyStyling', 1, 'int')) {
-            $this->addStylesheet($this->optOutStyling());
+            $this->addStylesheet($this->optOutStylingFromRequest(false));
         }
 
         $this->view = new View("@CoreAdminHome/optOut");
@@ -631,9 +628,19 @@ JS;
     }
 
     /**
+     * Styling for the public opt-out endpoints, where invalid values are a client error.
+     */
+    private function optOutStylingFromRequest(bool $noBody): string
+    {
+        try {
+            return $this->optOutStyling(null, null, null, null, $noBody);
+        } catch (\InvalidArgumentException $e) {
+            throw new BadRequestException($e->getMessage());
+        }
+    }
+
+    /**
      * Provide a CSS style sheet based on the chosen opt out style options
-     *
-     * @throws \Exception
      */
     private function optOutStyling(
         ?string $fontSize = null,
@@ -659,7 +666,7 @@ JS;
         );
         foreach ($hexstrings as $key => $testcase) {
             if ($testcase && !(ctype_xdigit($testcase) && in_array(strlen($testcase), array(3,6), true))) {
-                throw new \Exception("The URL parameter $key value of '$testcase' is not valid. Expected value is for example 'ffffff' or 'fff'.\n");
+                throw new \InvalidArgumentException("The URL parameter $key value of '$testcase' is not valid. Expected value is for example 'ffffff' or 'fff'.\n");
             }
         }
 
@@ -667,14 +674,14 @@ JS;
         if ($cssfontsize && (preg_match("/^[0-9]+[\.]?[0-9]*(px|pt|em|rem|%)$/", $cssfontsize))) {
             $cssbody .= 'font-size: ' . $cssfontsize . '; ';
         } elseif ($cssfontsize) {
-            throw new \Exception("The URL parameter fontSize value of '$cssfontsize' is not valid. Expected value is for example '15pt', '1.2em' or '13px'.\n");
+            throw new \InvalidArgumentException("The URL parameter fontSize value of '$cssfontsize' is not valid. Expected value is for example '15pt', '1.2em' or '13px'.\n");
         }
 
         /** @noinspection RegExpRedundantEscape */
         if ($cssfontfamily && (preg_match('/^[a-zA-Z0-9-\ ,\'"]+$/', $cssfontfamily))) {
             $cssbody .= 'font-family: ' . $cssfontfamily . '; ';
         } elseif ($cssfontfamily) {
-            throw new \Exception("The URL parameter fontFamily value of '$cssfontfamily' is not valid. Expected value is for example 'sans-serif' or 'Monaco, monospace'.\n");
+            throw new \InvalidArgumentException("The URL parameter fontFamily value of '$cssfontfamily' is not valid. Expected value is for example 'sans-serif' or 'Monaco, monospace'.\n");
         }
 
         if ($cssfontcolour) {

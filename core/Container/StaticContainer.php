@@ -26,14 +26,14 @@ class StaticContainer
     /**
      * @var Container[]
      */
-    private static $containerStack = array();
+    private static array $containerStack = array();
 
     /**
      * Definitions to register in the container.
      *
      * @var array[]
      */
-    private static $definitions = array();
+    private static array $definitions = array();
 
     /**
      * @return Container

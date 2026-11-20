@@ -15,6 +15,7 @@ use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\SegmentEditor\Controller;
+use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -156,6 +157,45 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame('-', $selectedActions);
     }
 
+    public function testManageSegmentsRendersSparklinesAtLegacyDisplaySize(): void
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $_GET = [
+            'idSite' => '1',
+            'period' => 'range',
+            'date' => '2010-03-06,2010-03-08',
+            'segment' => '',
+        ];
+        $_REQUEST = $_GET;
+
+        $html = (new Controller())->manageSegments();
+
+        $document = new \DOMDocument();
+        @$document->loadHTML($html);
+        $xpath = new \DOMXPath($document);
+
+        // refreshSparklines() honors the img width/height as the display size, so the table
+        // must keep requesting the compact 100x25 size here (see PR #24927).
+        $sparklineImages = $xpath->query('//td[contains(@class,"entityTable_Sparkline")]//img');
+        $this->assertNotFalse($sparklineImages);
+        $this->assertGreaterThan(0, $sparklineImages->length, 'Expected at least one management-table sparkline image');
+
+        foreach ($sparklineImages as $sparklineImage) {
+            $widthNode = $sparklineImage->attributes->getNamedItem('width');
+            $heightNode = $sparklineImage->attributes->getNamedItem('height');
+            $this->assertNotNull($widthNode);
+            $this->assertNotNull($heightNode);
+            $this->assertSame('100', $widthNode->nodeValue);
+            $this->assertSame('25', $heightNode->nodeValue);
+
+            // manageSegmentsPage.js sets data-src one row at a time.
+            $this->assertNull($sparklineImage->attributes->getNamedItem('src'));
+            $this->assertNull($sparklineImage->attributes->getNamedItem('data-src'));
+            $this->assertNotEmpty($sparklineImage->attributes->getNamedItem('data-segment-sparkline-src')->nodeValue ?? '');
+        }
+    }
+
     public function testGetSegmentDataReturnsMetricsForGivenSegment(): void
     {
         Rules::setBrowserTriggerArchiving(false);
@@ -210,6 +250,46 @@ class ControllerTest extends IntegrationTestCase
         try {
             $this->expectException(NoAccessException::class);
             API::getInstance()->getSegmentData(1, 'range', '2010-03-06,2010-03-08', '');
+        } finally {
+            StaticContainer::getContainer()->set('Piwik\Access', $originalAccess);
+        }
+    }
+
+    public function testGetSegmentDataUsesSegmentsVisibleToCurrentUser(): void
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $model = new Model();
+        $realtimeSegment = ['auto_archive' => 0, 'enable_all_users' => 0, 'deleted' => 0];
+        $this->createdSegmentIds[] = $model->createSegment($realtimeSegment + [
+            'name' => 'Other user segment',
+            'definition' => 'visitCount>=2',
+            'login' => 'user2',
+            'enable_only_idsite' => 0,
+        ]);
+        $this->createdSegmentIds[] = $model->createSegment($realtimeSegment + [
+            'name' => 'Site 2 segment',
+            'definition' => 'visitCount>=3',
+            'login' => 'user1',
+            'enable_only_idsite' => 2,
+        ]);
+        $this->createdSegmentIds[] = $model->createSegment($realtimeSegment + [
+            'name' => 'Own segment',
+            'definition' => 'visitCount>=4',
+            'login' => 'user1',
+            'enable_only_idsite' => 1,
+        ]);
+
+        $originalAccess = StaticContainer::getContainer()->get('Piwik\Access');
+        $fakeAccess = new FakeAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [1, 2], $identity = 'user1');
+        StaticContainer::getContainer()->set('Piwik\Access', $fakeAccess);
+
+        try {
+            $this->assertIsArray(API::getInstance()->getSegmentData(1, 'range', '2010-03-06,2010-03-08', 'visitCount>=2'));
+            $this->assertIsArray(API::getInstance()->getSegmentData(1, 'range', '2010-03-06,2010-03-08', 'visitCount>=3'));
+
+            $this->expectException(\Exception::class);
+            API::getInstance()->getSegmentData(1, 'range', '2010-03-06,2010-03-08', 'visitCount>=4');
         } finally {
             StaticContainer::getContainer()->set('Piwik\Access', $originalAccess);
         }

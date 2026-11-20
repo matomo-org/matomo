@@ -36,7 +36,7 @@ class DiagnosticResult implements \JsonSerializable
     /**
      * @var DiagnosticResultItem[]
      */
-    private $items = array();
+    private array $items = array();
 
     public function __construct($label)
     {

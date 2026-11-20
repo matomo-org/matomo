@@ -27,10 +27,7 @@ class CronArchivingLastRunCheck implements Diagnostic
 {
     public const SECONDS_IN_DAY = 86400;
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

@@ -26,12 +26,12 @@ class CookieYes extends ConsentManagerDetectionAbstract
     public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'cookieyes.com';
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 
     public function checkIsConnected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'document.addEventListener("cookieyes_consent_update", function (eventData)';
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 }

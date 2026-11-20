@@ -48,6 +48,7 @@ describe('InvalidatedPeriodVisualisation', function () {
         const tooltipContent = await page.evaluate(() => $('.ui-tooltip').text().trim());
 
         expect(tooltipContent).to.contain('Invalidated Period');
+        expect(tooltipContent).not.to.contain('Forecast');
     });
 
     it('should show invalidated data points', async function () {

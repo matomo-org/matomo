@@ -21,20 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CliUpdateObserver extends UpdateObserver
 {
-    /**
-     * @var OutputInterface
-     */
-    private $output;
+    private OutputInterface $output;
 
     /**
      * @var int
      */
     private $totalMigrationQueryCount;
 
-    /**
-     * @var int
-     */
-    private $currentMigrationQueryExecutionCount = 0;
+    private int $currentMigrationQueryExecutionCount = 0;
 
     public function __construct(OutputInterface $output, $totalMigrationQueryCount)
     {

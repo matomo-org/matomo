@@ -34,4 +34,24 @@ class APITest extends \PHPUnit\Framework\TestCase
             ['', 0.0],
         ];
     }
+
+    /**
+     * @dataProvider getOutputTypes
+     */
+    public function testIsStreamingOutputTypeDetectsBrowserOutput(int $outputType, bool $expected): void
+    {
+        $method = new ReflectionMethod(API::class, 'isStreamingOutputType');
+
+        $this->assertSame($expected, $method->invoke(null, $outputType));
+    }
+
+    public function getOutputTypes(): array
+    {
+        return [
+            [API::GRAPH_OUTPUT_INLINE, true],
+            [API::GRAPH_OUTPUT_FILE, false],
+            [API::GRAPH_OUTPUT_PHP, false],
+            [99, true],
+        ];
+    }
 }

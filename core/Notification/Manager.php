@@ -9,6 +9,7 @@
 
 namespace Piwik\Notification;
 
+use Piwik\Config\GeneralConfig;
 use Piwik\Notification;
 use Piwik\Session;
 use Piwik\Session\SessionNamespace;
@@ -64,6 +65,21 @@ class Manager
     }
 
     /**
+     * Whether an admin has hidden a notification via `[General] disabled_notifications[]`.
+     * Only notifications that check this before calling {@link notify()} can be hidden.
+     *
+     * @param string $id The notification ID, see {@link notify()}.
+     * @internal
+     */
+    public static function isDisabled(string $id): bool
+    {
+        // a missing or invalid setting hides nothing
+        $disabledIds = GeneralConfig::getArrayConfigValue('disabled_notifications', []);
+
+        return in_array($id, $disabledIds, true);
+    }
+
+    /**
      * Removes all temporary notifications.
      *
      * Call this method after the notifications have been
@@ -108,9 +124,19 @@ class Manager
             throw new \Exception('Notification ID is empty.');
         }
 
-        if (!preg_match('/^\w*$/', $id)) {
+        if (!self::isValidId((string) $id)) {
             throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
         }
+    }
+
+    /**
+     * Whether a notification can be posted under the given ID, see {@link notify()}.
+     *
+     * @internal
+     */
+    public static function isValidId(string $id): bool
+    {
+        return !empty($id) && preg_match('/^\w*$/', $id) === 1;
     }
 
     private static function addNotification($id, Notification $notification): bool
@@ -134,7 +160,9 @@ class Manager
             // we need to save even non persistent notifications if possible. Otherwise if there's a redirect
             // a notification is not shown on the next page view
             $session = self::getSession();
-            $session->notifications[$id] = $notification;
+            $notifications = $session->notifications ?? [];
+            $notifications[$id] = $notification;
+            $session->notifications = $notifications;
         }
     }
 
@@ -147,10 +175,17 @@ class Manager
         $maxNotificationsInSession = self::MAX_NOTIFICATIONS_IN_SESSION;
 
         $session = self::getSession();
+        $notifications = $session->notifications ?? [];
 
-        while (count($session->notifications) >= $maxNotificationsInSession) {
-            array_shift($session->notifications);
+        if (count($notifications) < $maxNotificationsInSession) {
+            return;
         }
+
+        while (count($notifications) >= $maxNotificationsInSession) {
+            array_shift($notifications);
+        }
+
+        $session->notifications = $notifications;
     }
 
     /**
@@ -171,7 +206,7 @@ class Manager
         }
 
         $session = self::getSession();
-        foreach ($session->notifications as $id => $notification) {
+        foreach ($session->notifications ?? [] as $id => $notification) {
             $notifications[$id] = $notification;
         }
 
@@ -186,8 +221,10 @@ class Manager
 
         if (self::isSessionEnabled()) {
             $session = self::getSession();
-            if (array_key_exists($id, $session->notifications)) {
-                unset($session->notifications[$id]);
+            $notifications = $session->notifications ?? [];
+            if (array_key_exists($id, $notifications)) {
+                unset($notifications[$id]);
+                $session->notifications = $notifications;
             }
         }
     }
@@ -201,10 +238,6 @@ class Manager
     {
         if (!isset(self::$session)) {
             self::$session = new SessionNamespace('notification');
-        }
-
-        if (empty(self::$session->notifications) && self::isSessionEnabled()) {
-            self::$session->notifications = [];
         }
 
         return self::$session;

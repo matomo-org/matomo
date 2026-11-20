@@ -18,10 +18,7 @@ use Piwik\SettingsPiwik;
  */
 class ServerInformational implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {
@@ -45,7 +42,7 @@ class ServerInformational implements Diagnostic
                 }
             }
 
-            if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') !== false && $isGlobalConfigIniAccessible && !$disableFileAccessCheck) {
+            if (str_contains(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') && $isGlobalConfigIniAccessible && !$disableFileAccessCheck) {
                 $comment = $_SERVER['SERVER_SOFTWARE'] . "<br><br>";
                 $comment .= $this->translator->translate('Diagnostics_HtaccessWarningNginx', [
                         '<a href="https://github.com/matomo-org/matomo-nginx#readme" target="_blank">', '</a>']);

@@ -1,9 +1,21 @@
 {
     "Widgetize": {
+        "DirectLink": "› 直接連結",
+        "DisplayDashboardInIframe": "你也可以在應用程式或網站中以 IFRAME 顯示完整的 Matomo 展示板（%1$s查看範例%2$s）。date 參數可以設為特定的日曆日期、「today」或「yesterday」；period 參數可以設為「day」、「week」、「month」或「year」；language 參數可以設為某個翻譯的語言代碼，例如 language=fr。舉例來說，若 idSite=1 且 date=yesterday，你可以這樣寫：",
+        "DisplayDashboardInIframeAllSites": "你也可以將「所有網站」展示板以 IFRAME 小工具化（%1$s查看範例%2$s）",
+        "EmbedIframe": "&rsaquo; 嵌入 Iframe",
+        "ErrorTokenAuthFailed": "無法使用所提供的 <code>token_auth</code> 驗證這個小工具網址。小工具網址只能搭配建立時未勾選「僅允許安全的請求」的權杖使用。請在你的%1$s安全性頁面%2$s建立可用於網址的權杖，或%3$s將檢視權限授予匿名使用者%4$s，以便在不使用權杖的情況下嵌入此小工具。",
+        "ErrorTokenAuthFailedDisabledByPolicy": "無法驗證這個小工具網址，因為這個 Matomo 執行個體的伺服器政策已停用網址式的 <code>token_auth</code>。請%1$s將檢視權限授予匿名使用者%2$s，或透過會以 POST 傳送權杖的伺服器端代理來取得小工具。",
+        "Intro": "使用 Matomo，你只要點一下就能%1$s將網站分析報表匯出%2$s到你的部落格、網站或內部網路展示板上。",
         "OpenInNewWindow": "在新視窗開啟",
-        "PluginDescription": "在你的網站或應用程式中以簡單的 HTML 嵌入程式碼顯示任何 Matomo 報表。",
-        "TooHighAccessLevel": "此使用者擁有超級使用者權限。超級使用者的權杖不允許用來嵌入小工具。%1$s參考 FAQ 瞭解更多資訊。%2$s",
+        "PluginDescription": "只要一個簡單的「embed」HTML 標籤，就能在你的網站或應用程式中顯示任何 Matomo 報表。",
+        "Reports": "小工具化報表",
+        "SelectAReport": "選擇一份報表，然後將小工具下方的嵌入程式碼複製並貼到你的網頁中：",
+        "TooHighAccessLevel": "此使用者擁有超級使用者權限。不允許使用超級使用者的權杖驗證來嵌入小工具。%1$s請參閱 FAQ 了解更多資訊。%2$s",
         "TopLinkTooltip": "將 Matomo 報表以小工具匯出，並於你的應用程式中以 iframe 嵌入展示板。",
-        "ViewAccessRequired": "此使用者擁有一部份的寫入權限。僅限使用只有檢視權限的使用者的權杖。參考 %1$s 瞭解更多資訊。"
+        "UrlTokensDisabledByPolicy": "這個 Matomo 執行個體的伺服器政策已停用網址式的 <code>token_auth</code>（已啟用 <code>only_allow_secure_auth_tokens</code>），因此無法用權杖參數驗證小工具網址。若要將這些小工具發布在有密碼保護的頁面上，請%1$s將檢視權限授予匿名使用者%2$s，或透過會以 POST 傳送權杖的伺服器端代理來取得小工具。",
+        "ViewAccessRequired": "此使用者至少擁有部分寫入權限。只能使用僅具檢視權限的使用者的權杖。請參閱 %1$s 了解更多資訊。",
+        "ViewableAnonymously": "如果你希望所有人都能看到你的小工具，必須先在%1$s使用者管理區段%2$s中，將「檢視」權限授予匿名使用者。<br>另一種做法是，如果你把小工具發布在有密碼保護或私人的頁面上，就不一定要允許「匿名」使用者檢視你的報表；這種情況下，你可以在小工具網址中加入祕密的 <code>token_auth</code> 參數。你可以在%3$s安全性頁面%4$s管理你的驗證權杖。",
+        "ViewableAnonymouslyUrlTokenRequirement": "只有在建立時未勾選「僅允許安全的請求」的權杖，才能作為網址參數使用。被標示為僅限安全用途的權杖必須透過 POST 傳送，無法驗證小工具網址。"
     }
 }

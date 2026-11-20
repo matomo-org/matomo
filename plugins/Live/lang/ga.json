@@ -10,7 +10,9 @@
         "DisableVisitorProfile": "Múch próifílí cuairteoirí",
         "DisableVisitorProfileDescription": "Feidhmíonn gach gné a bhaineann le logáil cuairte i gcónaí.",
         "DisableVisitsLogAndProfile": "Múch loga cuairteanna agus próifílí cuairteoirí",
-        "DisableVisitsLogAndProfileDescription": "Baintear freisin gnéithe a bhraitheann orthu seo, amhail an loga ríomhthráchtála, an loga cuairteanna deighilte, an léarscáil fíor-ama nó an ghiuirléid fíor-ama. D’fhéadfadh go gcaithfí cloí le dlíthe/treoirlínte príobháideachais áitiúla.",
+        "DisableVisitsLogAndProfileDescription2": "Baintear gnéithe a bhraitheann orthu seo freisin, amhail an loga ríomhthráchtála, an loga cuairteanna deighilte nó an léarscáil fíor-ama. Ní thaispeánann an giuirléid fíor-ama ach líon comhiomlán na gcuairteanna. D’fhéadfadh sé a bheith riachtanach chun cloí le dlíthe nó treoirlínte áitiúla maidir le príobháideachas.",
+        "DisableVisitsLogAndProfileImpact": "Níl radhairc <strong>Cuairteoirí &gt; Log Cuairteanna</strong> agus Próifíl Cuairteoirí ar fáil.",
+        "DisableVisitsLogAndProfileWhatItDoes": "Tá gnéithe Log Cuairteanna agus Próifíl Cuairteoirí díchumasaithe.<br><br>Coscann sé seo cosán brabhsála cuairteora aonair agus iompar mionsonraithe ar leibhéal na cuairte a atógáil.",
         "ExportThisDatasetToXml": "Easpórtáil an tacar sonraí seo chuig XML",
         "FirstVisit": "An chéad chuairt",
         "GoalType": "Cineál",
@@ -63,9 +65,11 @@
         "VisitorLogSubcategoryHelp2": "Cé go léiríonn tuarascálacha eile in Matomo conas a iompraíonn do chuairteoirí iad féin ar leibhéal comhiomlán, soláthraíonn loga na gcuairteanna sonraí gráinneach. Is féidir leat míreanna a úsáid freisin chun é a chaolú go cineálacha sonracha cuairteanna chun tuiscint níos fearr a thabhairt le do chuairteoirí.",
         "VisitorLogSubcategoryHelp3": "Faigh tuilleadh faisnéise sa treoirleabhar cuairte.",
         "VisitorProfile": "Próifíl cuairteora",
+        "VisitorProfileNotFound": "Níorbh fhéidir an cuairteoir seo a aimsiú. D’fhéadfadh sé gur scriosadh sonraí a chuairte.",
         "VisitorsInRealTime": "Cuairteanna i bhfíor-am",
         "VisitorsLastVisit": "Tugadh cuairt ar %s lá roimhe sin freisin.",
         "VisitsFrom": "%1$s %2$s cuairt %3$s ó",
-        "VisitsLog": "Loga Cuairteanna"
+        "VisitsLog": "Loga Cuairteanna",
+        "VisitsLogAndProfileDisabledPolicySettingTitle": "Log Cuairteanna agus Próifílí Cuairteoirí Díchumasaithe"
     }
 }

@@ -24,6 +24,8 @@ class Response
 
     private $content;
 
+    private bool $keepExceptionResponse = false;
+
     public function init(Tracker $tracker)
     {
         ob_start(); // we use ob_start only because of Common::printDebug, we should actually not really use ob_start
@@ -53,6 +55,8 @@ class Response
      */
     public function outputException(Tracker $tracker, Exception $e, $statusCode)
     {
+        // not once the request was recorded, as matomo.js resends a request answered with an error
+        $this->keepExceptionResponse = !$tracker->hasLoggedRequests();
         Common::sendResponseCode($statusCode);
         $this->logExceptionToErrorLog($e);
 
@@ -65,7 +69,9 @@ class Response
 
     public function outputResponse(Tracker $tracker)
     {
-        if (!$tracker->shouldRecordStatistics()) {
+        if ($this->keepExceptionResponse) {
+            Common::printDebug("Exception was output => keep its response code");
+        } elseif (!$tracker->shouldRecordStatistics()) {
             Common::sendResponseCode(503);
             $this->outputApiResponse($tracker);
             Common::printDebug("Logging disabled, display transparent logo");
@@ -142,7 +148,9 @@ class Response
         }
 
         if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
-            Common::sendResponseCode(204);
+            if (!$this->keepExceptionResponse) {
+                Common::sendResponseCode(204);
+            }
             return;
         }
 
@@ -181,7 +189,7 @@ class Response
         $img = null;
         $size = null;
 
-        if (strlen($customImage) > 2 && substr($customImage, -2) == '==') {
+        if (strlen($customImage) > 2 && str_ends_with($customImage, '==')) {
             // Base64 image string
             $img = base64_decode($customImage);
             $size = getimagesizefromstring($img);

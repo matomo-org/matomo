@@ -17,10 +17,7 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_2_0_a13 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
     public function __construct(MigrationFactory $factory)
     {
@@ -33,7 +30,7 @@ class Updates_2_0_a13 extends Updates
         $migrations = array();
         $tables = \Piwik\DbHelper::getTablesInstalled();
         foreach ($tables as $tableName) {
-            if (strpos($tableName, 'archive_') !== false) {
+            if (str_contains($tableName, 'archive_')) {
                 $migrations[] = $this->migration->db->sql('UPDATE `' . $tableName . '` SET `name`=REPLACE(`name`, \'Referers_\', \'Referrers_\') WHERE `name` LIKE \'Referers_%\'');
             }
         }

@@ -26,7 +26,7 @@ class SitesTable implements BackendInterface
     /**
      * @var string[]
      */
-    private $commaSeparatedArrayFields = array(
+    private array $commaSeparatedArrayFields = array(
         'sitesearch_keyword_parameters',
         'sitesearch_category_parameters',
         'excluded_user_agents',
@@ -39,7 +39,7 @@ class SitesTable implements BackendInterface
      * these fields are standard fields of a site and cannot be adjusted via a setting
      * @var string[]
      */
-    private $allowedNames = array(
+    private array $allowedNames = array(
         'ecommerce', 'sitesearch', 'sitesearch_keyword_parameters',
         'sitesearch_category_parameters', 'exclude_unknown_urls',
         'excluded_ips', 'excluded_parameters', 'excluded_referrers',

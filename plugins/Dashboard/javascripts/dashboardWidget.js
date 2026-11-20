@@ -254,7 +254,7 @@
                 }
 
                 var title = self.options.title === null ? $('<span/>').text(widgetName) : self.options.title;
-                // Plain-text title for the ReportHeader `title` prop (options.title may be a string
+                // Plain-text title for the ReportHeader `report-title` prop (options.title may be a string
                 // or a jQuery element for custom widget titles).
                 var titleText = widgetName;
                 if (self.options.title !== null) {
@@ -290,7 +290,7 @@
                 // widget's persisted state so a widget restored collapsed shows the collapsed
                 // controls (maximise/close) rather than the full set.
                 piwikHelper.compileVueEntryComponents($('.widgetTop', widgetElement), {
-                    title: titleText,
+                    'report-title': titleText,
                     context: self.options.isHidden ? 'collapsed' : 'dashboard'
                 });
 

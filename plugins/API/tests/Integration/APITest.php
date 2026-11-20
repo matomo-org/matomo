@@ -12,10 +12,13 @@ namespace Piwik\Plugins\API\tests\Integration;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\AuthResult;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\DI;
 use Piwik\Http\BadRequestException;
+use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
@@ -24,6 +27,7 @@ use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
 use Piwik\Request\AuthenticationToken;
+use Piwik\Session\SessionAuth;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -47,6 +51,16 @@ class APITest extends IntegrationTestCase
     private $anonymousAccessBackup;
 
     private $createdAnonymousUser = false;
+
+    private const BULK_SUPER_USER_LOGIN = 'bulk_super';
+    private const BULK_SUPER_USER_PASSWORD = 'BulkSuper!2026abc';
+
+    /**
+     * Runs after each API.getMatomoVersion call, to change stored access while a bulk request is running.
+     *
+     * @var callable|null
+     */
+    private $afterMatomoVersion = null;
 
     public function setUp(): void
     {
@@ -87,8 +101,29 @@ class APITest extends IntegrationTestCase
             Config::getInstance()->General['API_bulk_request_limit'] = $this->bulkRequestLimitBackup;
         }
 
+        $this->afterMatomoVersion = null;
+        $model = new UsersManagerModel();
+        foreach ([self::BULK_SUPER_USER_LOGIN, 'bulk_viewer'] as $login) {
+            if ($model->userExists($login)) {
+                $model->deleteUser($login);
+            }
+        }
+
         Access::getInstance()->hasSuperUserAccess($this->hasSuperUserAccess);
         parent::tearDown();
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => DI::add([
+                ['API.API.getMatomoVersion.end', DI::value(function () {
+                    if ($this->afterMatomoVersion !== null) {
+                        ($this->afterMatomoVersion)();
+                    }
+                })],
+            ]),
+        ];
     }
 
     public function testGetBulkRequestIsAbleToHandleManyDifferentRequests()
@@ -124,26 +159,6 @@ class APITest extends IntegrationTestCase
         }
     }
 
-    public function testArchiveReportsRequestWithWhitespacePaddedMethodDeniesViewOnlyUser()
-    {
-        $this->setAnonymousAccessForSite(1, 'view');
-
-        try {
-            $response = $this->processRootApiRequest([
-                'module' => 'API',
-                'method' => ' CoreAdminHome.archiveReports ',
-                'idSite' => '1',
-                'period' => 'day',
-                'date' => '2012-01-01',
-                'format' => 'json',
-            ]);
-
-            $this->assertResponseIsSuperUserPermissionError($response);
-        } finally {
-            $this->restoreAnonymousAccessForSite(1);
-        }
-    }
-
     public function testGetBulkRequestWithWhitespacePaddedMethodsDeniesArchiveReportsForViewOnlyUser()
     {
         $this->setAnonymousAccessForSite(1, 'view');
@@ -151,13 +166,15 @@ class APITest extends IntegrationTestCase
         try {
             $response = $this->processRootApiRequest([
                 'module' => 'API',
-                'method' => ' API.getBulkRequest ',
+                'method' => 'API.getBulkRequest',
                 'format' => 'json',
                 'urls' => [$this->makeArchiveReportsBulkUrl(1, null, ' CoreAdminHome.archiveReports ')],
             ]);
 
             $this->assertCount(1, $response);
-            $this->assertResponseIsSuperUserPermissionError($response[0]);
+            // request parameters are no longer trimmed, so the padded method does not resolve to a
+            // plugin at all and is rejected before the superuser check applies
+            $this->assertResponseIsError($response[0]);
         } finally {
             $this->restoreAnonymousAccessForSite(1);
         }
@@ -335,6 +352,146 @@ class APITest extends IntegrationTestCase
         }
     }
 
+    public function testGetBulkRequestAppliesSuperUserAccessChangedDuringEarlierSubRequest()
+    {
+        $token = $this->createBulkSuperUserToken();
+        $this->afterMatomoVersion = function () {
+            (new UsersManagerModel())->setSuperUserAccess(self::BULK_SUPER_USER_LOGIN, false);
+        };
+
+        $this->enterTokenRootScope($token);
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'API.getMatomoVersion']),
+                $this->makeBulkUrl(['method' => 'UsersManager.hasSuperUserAccess']),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+
+        $this->assertCount(2, $response);
+        $this->assertResponseIsSuccess($response[0]);
+        $this->assertSame(['value' => false], $response[1]);
+    }
+
+    public function testGetBulkRequestAppliesSuperUserAccessChangedDuringSubRequestWithOwnToken()
+    {
+        $token = $this->createBulkSuperUserToken();
+        $secondToken = UsersManagerAPI::getInstance()->createAppSpecificTokenAuth(
+            self::BULK_SUPER_USER_LOGIN,
+            self::BULK_SUPER_USER_PASSWORD,
+            'second bulk super token'
+        );
+        $this->afterMatomoVersion = function () {
+            (new UsersManagerModel())->setSuperUserAccess(self::BULK_SUPER_USER_LOGIN, false);
+        };
+
+        $this->enterTokenRootScope($token);
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'API.getMatomoVersion', 'token_auth' => $secondToken]),
+                $this->makeBulkUrl(['method' => 'UsersManager.hasSuperUserAccess']),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+
+        $this->assertCount(2, $response);
+        $this->assertResponseIsSuccess($response[0]);
+        $this->assertSame(['value' => false], $response[1]);
+    }
+
+    public function testGetBulkRequestAppliesSiteAccessChangedDuringEarlierSubRequest()
+    {
+        $token = $this->createSecondUserTokenWithViewAccessToSite1();
+        $this->afterMatomoVersion = function () {
+            (new UsersManagerModel())->deleteUserAccess('bulk_viewer', [1]);
+        };
+
+        $this->enterTokenRootScope($token);
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'API.getMatomoVersion']),
+                $this->makeBulkUrl(['method' => 'SitesManager.getSitesIdWithAtLeastViewAccess']),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+
+        $this->assertCount(2, $response);
+        $this->assertResponseIsSuccess($response[0]);
+        $this->assertSame([], $response[1]);
+    }
+
+    public function testGetBulkRequestStopsWhenUserIsDeletedDuringEarlierSubRequest()
+    {
+        $token = $this->createBulkSuperUserToken();
+        $this->afterMatomoVersion = function () {
+            (new UsersManagerModel())->deleteUser(self::BULK_SUPER_USER_LOGIN);
+        };
+
+        $this->enterTokenRootScope($token);
+        try {
+            $this->expectException(NoAccessException::class);
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'API.getMatomoVersion']),
+                $this->makeBulkUrl(['method' => 'API.getMatomoVersion']),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    public function testGetBulkRequestKeepsAuthenticatingWithValidSession()
+    {
+        $sessionToken = md5('bulk session token');
+        $response = $this->getBulkRequestInSessionRootScope($sessionToken, [
+            new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, Fixture::ADMIN_USER_LOGIN, $sessionToken),
+            new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, Fixture::ADMIN_USER_LOGIN, $sessionToken),
+        ], [
+            $this->makeBulkUrl(['method' => 'API.getMatomoVersion']),
+            $this->makeBulkUrl(['method' => 'UsersManager.hasSuperUserAccess']),
+        ]);
+
+        $this->assertCount(2, $response);
+        $this->assertResponseIsSuccess($response[0]);
+        $this->assertSame(['value' => true], $response[1]);
+    }
+
+    public function testGetBulkRequestStopsWhenSessionNoLongerAuthenticates()
+    {
+        $sessionToken = md5('bulk session token');
+
+        $this->expectException(NoAccessException::class);
+        $this->getBulkRequestInSessionRootScope($sessionToken, [
+            new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, Fixture::ADMIN_USER_LOGIN, $sessionToken),
+            new AuthResult(AuthResult::FAILURE, Fixture::ADMIN_USER_LOGIN, $sessionToken),
+        ], [
+            $this->makeBulkUrl(['method' => 'API.getMatomoVersion']),
+            $this->makeBulkUrl(['method' => 'API.getMatomoVersion']),
+        ]);
+    }
+
+    public function testGetBulkRequestKeepsSuperUserAccessGrantedByCode()
+    {
+        $token = $this->createSecondUserTokenWithViewAccessToSite1();
+
+        $this->enterTokenRootScope($token);
+        try {
+            $response = Access::doAsSuperUser(function () {
+                return $this->getBulkRequestAsRootApiRequest([
+                    $this->makeBulkUrl(['method' => 'API.getMatomoVersion']),
+                    $this->makeBulkUrl(['method' => 'UsersManager.hasSuperUserAccess']),
+                ]);
+            });
+        } finally {
+            $this->leaveRootScope();
+        }
+
+        $this->assertCount(2, $response);
+        $this->assertSame(['value' => true], $response[1]);
+    }
+
     /**
      * Outside a session, a nested sub-request may authenticate with its own token_auth and then runs
      * under that identity (here a view-only user, so only site 1), not the root's.
@@ -375,6 +532,85 @@ class APITest extends IntegrationTestCase
         unset($_POST['force_api_session']);
         StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
         $this->setSuperUserContext();
+    }
+
+    private function enterTokenRootScope(string $tokenAuth): void
+    {
+        $_POST['token_auth'] = $tokenAuth;
+        unset($_POST['force_api_session']);
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+
+        Piwik::postEvent('Request.initAuthenticationObject');
+        $access = Access::getInstance();
+        $access->setSuperUserAccess(false);
+        $access->reloadAccess(StaticContainer::get('Piwik\Auth'));
+        Request::reloadAuthUsingTokenAuth(['token_auth' => $tokenAuth]);
+    }
+
+    /**
+     * Runs a bulk request as an API request authenticated by its session, with SessionAuth returning the
+     * given results in turn (the first one authenticates the root request).
+     *
+     * @param AuthResult[] $sessionResults
+     * @param string[] $urls
+     */
+    private function getBulkRequestInSessionRootScope(string $sessionToken, array $sessionResults, array $urls): array
+    {
+        $sessionAuth = $this->createMock(SessionAuth::class);
+        $sessionAuth->expects($this->exactly(count($sessionResults)))
+            ->method('authenticate')
+            ->willReturnOnConsecutiveCalls(...$sessionResults);
+
+        $container = StaticContainer::getContainer();
+        $originalSessionAuth = $container->get(SessionAuth::class);
+        $container->set(SessionAuth::class, $sessionAuth);
+
+        $_GET['module'] = 'API';
+        $_GET['method'] = 'API.getBulkRequest';
+        $_POST['token_auth'] = $sessionToken;
+        $_POST['force_api_session'] = 1;
+        $container->set(AuthenticationToken::class, new AuthenticationToken());
+
+        $this->createAnonymousUserIfMissing();
+
+        try {
+            // what FrontController sets up for an API request authenticated by its session
+            Piwik::postEvent('Request.initAuthenticationObject');
+            $auth = StaticContainer::get('Piwik\Auth');
+            $auth->setLogin('anonymous');
+            $auth->setTokenAuth('anonymous');
+
+            $access = Access::getInstance();
+            $access->setSuperUserAccess(false);
+            $this->assertTrue($access->reloadAccess($auth));
+            $this->assertTrue($access->hasSuperUserAccess());
+
+            return $this->getBulkRequestAsRootApiRequest($urls);
+        } finally {
+            unset($_GET['module'], $_GET['method']);
+            $container->set(SessionAuth::class, $originalSessionAuth);
+            $this->leaveRootScope();
+        }
+    }
+
+    private function createBulkSuperUserToken(): string
+    {
+        Access::doAsSuperUser(function () {
+            $api = UsersManagerAPI::getInstance();
+            if (!$api->userExists(self::BULK_SUPER_USER_LOGIN)) {
+                $api->addUser(self::BULK_SUPER_USER_LOGIN, self::BULK_SUPER_USER_PASSWORD, 'bulk_super@example.test');
+            }
+            (new UsersManagerModel())->setSuperUserAccess(self::BULK_SUPER_USER_LOGIN, true);
+        });
+
+        // the token is created from an unauthenticated request using the user's credentials
+        $this->setAnonymousContext();
+
+        return UsersManagerAPI::getInstance()->createAppSpecificTokenAuth(
+            self::BULK_SUPER_USER_LOGIN,
+            self::BULK_SUPER_USER_PASSWORD,
+            'bulk super token'
+        );
     }
 
     private function enterAnonymousRootScope(): void
@@ -585,6 +821,39 @@ class APITest extends IntegrationTestCase
         }
     }
 
+    /**
+     * @dataProvider getDetectIsApiRequestCases
+     */
+    public function testDetectIsApiRequest(array $requestParams, ?string $expectedMethod)
+    {
+        $rootApiMethod = Request::getRootApiRequestMethod();
+        $get = $_GET;
+        $post = $_POST;
+
+        try {
+            $_GET = $requestParams;
+            $_POST = [];
+            (new \Piwik\Plugins\API\Plugin())->detectIsApiRequest();
+
+            $this->assertSame($expectedMethod, Request::getRootApiRequestMethod());
+            $this->assertSame(null !== $expectedMethod, Request::isRootRequestApiRequest());
+        } finally {
+            $_GET = $get;
+            $_POST = $post;
+            Request::setIsRootRequestApiRequest($rootApiMethod ?: '');
+        }
+    }
+
+    public function getDetectIsApiRequestCases(): iterable
+    {
+        yield 'no action' => [['module' => 'API', 'method' => 'API.get'], 'API.get'];
+        yield 'index action' => [['module' => 'API', 'action' => 'index', 'method' => 'API.get'], 'API.get'];
+        yield 'glossary action' => [['module' => 'API', 'action' => 'glossary', 'method' => 'API.get'], null];
+        yield 'get action' => [['module' => 'API', 'action' => 'get', 'method' => 'API.get'], null];
+        yield 'no method' => [['module' => 'API', 'action' => 'index'], null];
+        yield 'other module' => [['module' => 'CoreHome', 'action' => 'index', 'method' => 'API.get'], null];
+    }
+
     private function assertResponseIsPermissionError($response)
     {
         $this->assertSame('error', $response['result']);
@@ -594,6 +863,11 @@ class APITest extends IntegrationTestCase
     private function assertResponseIsSuccess($response)
     {
         $this->assertArrayNotHasKey('result', $response);
+    }
+
+    private function assertResponseIsError($response)
+    {
+        $this->assertSame('error', $response['result']);
     }
 
     private function assertResponseIsSuperUserPermissionError($response)
@@ -694,13 +968,19 @@ class APITest extends IntegrationTestCase
         Request::reloadAuthUsingTokenAuth(['token_auth' => Fixture::getTokenAuth()]);
     }
 
-    private function setAnonymousAccessForSite(int $idSite, string $access): void
+    private function createAnonymousUserIfMissing(): void
     {
         $model = new UsersManagerModel();
         if (!$model->userExists('anonymous')) {
             $model->addUser('anonymous', 'not_a_hash', 'anonymous@example.com', Date::now()->getDatetime());
             $this->createdAnonymousUser = true;
         }
+    }
+
+    private function setAnonymousAccessForSite(int $idSite, string $access): void
+    {
+        $this->createAnonymousUserIfMissing();
+        $model = new UsersManagerModel();
 
         if ($this->anonymousAccessBackup === null) {
             $usersAccess                 = $model->getUsersAccessFromSite($idSite);

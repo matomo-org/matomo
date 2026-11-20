@@ -1,0 +1,189 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration\Commands;
+
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\TrackingSpamPrevention\Configuration;
+use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
+use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
+
+/**
+ * @group TrackingSpamPrevention
+ * @group BlockGeoIpOrganisationTest
+ * @group Plugins
+ */
+class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
+{
+    public function testAddsOrganisationToSetting()
+    {
+        // the fixture is shared across the test methods of this class, and the local config file may still
+        // contain a legacy `block_geoip_organisations` key, so assert relative to the observed state
+        $organisationsBefore = $this->getBlockedOrganisations();
+        $configBefore = Config::getInstance()->TrackingSpamPrevention;
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => ' My Spam Org ',
+        ]);
+
+        $this->assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $expected = array_values(array_unique(array_merge($organisationsBefore, ['my spam org'])));
+        $this->assertSame($expected, $this->getBlockedOrganisations());
+
+        // the command no longer writes to the config file
+        $this->assertEquals($configBefore, Config::getInstance()->TrackingSpamPrevention);
+    }
+
+    public function testDoesNotAddDuplicates()
+    {
+        // "contabo" is on the default list, so it is already present whatever state earlier tests left
+        $organisationsBefore = $this->getBlockedOrganisations();
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => 'Contabo',
+        ]);
+
+        $this->assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        $this->assertSame($organisationsBefore, $this->getBlockedOrganisations());
+    }
+
+    public function testFailsWhenConfigOverrideExists()
+    {
+        $sectionBefore = Config::getInstance()->TrackingSpamPrevention;
+
+        $section = is_array($sectionBefore) ? $sectionBefore : [];
+        $section['organisation_block_list'] = ['override org'];
+        Config::getInstance()->TrackingSpamPrevention = $section;
+
+        try {
+            $exitCode = $this->applicationTester->run([
+                'command' => 'trackingspamprevention:block-geo-ip-organisation',
+                '--organisation-name' => 'someorg',
+            ]);
+
+            $this->assertNotSame(0, $exitCode);
+            $this->assertStringContainsString('overridden', $this->applicationTester->getDisplay());
+        } finally {
+            // in-memory config changes leak into later tests of this class, so restore the section
+            Config::getInstance()->TrackingSpamPrevention = $sectionBefore;
+        }
+    }
+
+    public function testRejectsWhitespaceOnlyOrganisationName()
+    {
+        $organisationsBefore = $this->getBlockedOrganisations();
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => '   ',
+        ]);
+
+        $this->assertNotSame(0, $exitCode);
+        $this->assertStringContainsString('must not be empty', $this->applicationTester->getDisplay());
+        $this->assertSame($organisationsBefore, $this->getBlockedOrganisations());
+    }
+
+    public function testSwitchesToTheCustomOrganisationList()
+    {
+        // the fixture is shared across the test methods of this class, so set the starting mode
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST);
+        $settings->save();
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => 'Example Org',
+        ]);
+
+        $this->assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        // otherwise the addition would sit in a list nothing is matched against
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_CUSTOM_LIST, $settings->getCloudBlockingMode());
+        $this->assertContains('example org', $this->getBlockedOrganisations());
+        $this->assertStringContainsString('custom organisation list', $this->applicationTester->getDisplay());
+    }
+
+    public function testFailsWhenBlockingModeConfigOverrideExists()
+    {
+        $sectionBefore = Config::getInstance()->TrackingSpamPrevention;
+
+        $section = is_array($sectionBefore) ? $sectionBefore : [];
+        $section['cloud_blocking_mode'] = SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST;
+        Config::getInstance()->TrackingSpamPrevention = $section;
+
+        try {
+            $exitCode = $this->applicationTester->run([
+                'command' => 'trackingspamprevention:block-geo-ip-organisation',
+                '--organisation-name' => 'someorg',
+            ]);
+
+            $this->assertNotSame(0, $exitCode);
+            $this->assertStringContainsString('overridden', $this->applicationTester->getDisplay());
+        } finally {
+            // in-memory config changes leak into later tests of this class, so restore the section
+            Config::getInstance()->TrackingSpamPrevention = $sectionBefore;
+        }
+    }
+
+    public function testDoesNotTurnBlockingOnWhenItIsOff()
+    {
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_OFF);
+        $settings->save();
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => 'Another Example Org',
+        ]);
+
+        $this->assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        // adding an organisation must not switch a deliberately disabled feature back on
+        $this->assertSame(SystemSettings::CLOUD_BLOCKING_OFF, $settings->getCloudBlockingMode());
+        $this->assertContains('another example org', $settings->organisationBlockList->getValue());
+        $this->assertStringContainsString('has no effect until', $this->applicationTester->getDisplay());
+    }
+
+    public function testSeedsTheCustomListFromTheListInEffectAndTheStoredOne()
+    {
+        // a narrower stored list is reachable: the user tried a custom list then switched back to
+        // the default one, which the FAQ promises keeps their list
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->organisationBlockList->setValue(['just one org']);
+        $settings->cloudBlockingMode->setValue(SystemSettings::CLOUD_BLOCKING_DEFAULT_LIST);
+        $settings->save();
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => 'Seeded Example Org',
+        ]);
+
+        $this->assertSame(0, $exitCode, $this->getCommandDisplayOutputErrorMessage());
+
+        // adding one organisation must not drop the providers that were being blocked
+        $blocked = $this->getBlockedOrganisations();
+        $this->assertContains('seeded example org', $blocked);
+        foreach (Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS as $default) {
+            $this->assertContains($default, $blocked);
+        }
+
+        // nor the admin's own list, which the FAQ promises is kept across a mode switch
+        $this->assertContains('just one org', $blocked);
+    }
+
+    private function getBlockedOrganisations(): array
+    {
+        return StaticContainer::get(SystemSettings::class)->getBlockedOrganisations();
+    }
+}

@@ -355,7 +355,7 @@ HTACCESS_ALLOW;
             foreach ($directoriesWithAutoHtaccess as $dirToDelete) {
                 // only delete the first .htaccess and not the ones in subdirectories
                 $pathToDelete = $dirToDelete . '/.htaccess';
-                if (strpos($file, $pathToDelete) !== false) {
+                if (str_contains($file, $pathToDelete)) {
                     @unlink($file);
                 }
             }

@@ -6,6 +6,7 @@
  */
 
 import { DirectiveBinding } from 'vue';
+import tooltipContent from './tooltipContent';
 
 export interface TooltipsArgs {
   content?: () => void;
@@ -27,11 +28,6 @@ const { $ } = window;
 // Tracks the MutationObserver attached to each tooltip host so it can be
 // disconnected again when the host element is unmounted.
 const observers = new WeakMap<HTMLElement, MutationObserver>();
-
-function defaultContentTransform(this: HTMLElement) {
-  const title = $(this).attr('title') || '';
-  return window.vueSanitize(title.replace(/\n/g, '<br />'));
-}
 
 /**
  * jQuery UI shows a single, delegated tooltip for every descendant of the host
@@ -79,7 +75,7 @@ function setupTooltips(el: HTMLElement, binding: DirectiveBinding<TooltipsArgs>)
 
   $(el).tooltip({
     track: true,
-    content: binding.value?.content || defaultContentTransform,
+    content: binding.value?.content || tooltipContent,
     show: typeof binding.value?.show !== 'undefined'
       ? binding.value?.show
       : {

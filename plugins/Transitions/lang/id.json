@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "Tahukah Anda? Transisi juga tersedia sebagai tindakan baris dalam laporan berikut:",
         "AvailableInOtherReports2": "Cukup arahkan satu baris di salah satu laporan ini dan klik ikon transisi %s untuk meluncurkannya.",
-        "BouncesInline": "%s pantulan",
         "DirectEntries": "Entri langsung",
         "ErrorBack": "Kembali ke aksi sebelumnya",
         "ExitsInline": "%s keluar",
@@ -37,7 +36,6 @@
         "Transitions": "Transisi",
         "TransitionsSubcategoryHelp1": "Transisi adalah laporan yang menunjukkan hal-hal yang dilakukan pengunjung Anda langsung sebelum dan setelah melihat halaman tertentu. Halaman ini menjelaskan cara mengakses, memahami, dan menggunakan laporan \"Transisi\" yang kuat.",
         "TransitionsSubcategoryHelp2": "Lebih banyak detail",
-        "XOfAllPageviews": "%s dari semua tampilan halaman ini",
-        "XOutOfYVisits": "%1$s (dari %2$s)"
+        "XOfAllPageviews": "%s dari semua tampilan halaman ini"
     }
 }

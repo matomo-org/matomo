@@ -161,7 +161,7 @@ class Visualization extends ViewDataTable
     protected $metricsFormatter = null;
 
     /**
-     * @var Report
+     * @var Report|null
      */
     protected $report;
 
@@ -240,15 +240,30 @@ class Visualization extends ViewDataTable
 
         $view->idSubtable  = $this->requestConfig->idSubtable;
         $clientSideParameters = $this->getClientSideParametersToSet();
-        if (isset($clientSideParameters['showtitle'])) {
-            unset($clientSideParameters['showtitle']);
+        // Every request parameter is echoed back into `data-params`, which uiControl.js parses into
+        // the table's own params - so one describing a single render would be re-sent by every later
+        // reload, permanently. These describe a render, not the report.
+        foreach (['showtitle', 'disable_report_header', 'own_report_header'] as $renderOnlyParameter) {
+            unset($clientSideParameters[$renderOnlyParameter]);
         }
         $view->clientSideParameters = $clientSideParameters;
         $view->clientSideProperties = $this->getClientSidePropertiesToSet();
         $view->properties  = array_merge($this->requestConfig->getProperties(), $this->config->getProperties());
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
-        $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
+        $request           = \Piwik\Request::fromRequest();
+        $view->isWidget    = $request->getIntegerParameter('widget', 0);
+        // Route-derived so it can't be forced onto a non-iframe request via a query param.
+        $view->isWidgetizedIframe = $request->getStringParameter('module', '') === 'Widgetize'
+            && $request->getStringParameter('action', '') === 'iframe';
+        // Whether no chrome above renders a header, so this one must. Only a parent knows, and only
+        // a widget container in an iframe says so - a dashboard and the add-widget preview provide
+        // one themselves.
+        $view->ownsReportHeader = $request->getBoolParameter('own_report_header', false);
+        // False on a table reload, which already has a header in the DOM - see
+        // reloadAjaxDataTable() in dataTable.js. Distinct from `showtitle`, which only says
+        // whether a title is wanted in it.
+        $view->mayRenderReportHeader = !$request->getBoolParameter('disable_report_header', false);
         $view->notifications = [];
         $view->isComparing = $this->isComparing();
 
@@ -266,7 +281,10 @@ class Visualization extends ViewDataTable
             $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_VisualizationDoesNotSupportComparison');
         }
 
-        if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {
+        $hasData = !empty($this->dataTable) && $this->hasAnyData($this->dataTable);
+
+        // a report that failed to load is not empty, so it gets no hints for missing data
+        if (empty($loadingError) && !$hasData) {
             /**
              * @ignore
              */
@@ -878,7 +896,7 @@ class Visualization extends ViewDataTable
         $message = 'Some ViewDataTable::requestConfig properties have changed after requesting the data table. '
                  . 'That means the changed values had probably no effect. For instance in beforeRender() hook. '
                  . 'Probably a bug? Details:'
-                 . print_r($details, 1);
+                 . print_r($details, true);
 
         Log::warning($message);
     }

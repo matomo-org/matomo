@@ -94,6 +94,16 @@ class Live extends \Piwik\Plugin
 
         return true;
     }
+
+    /**
+     * Returns whether the real-time widget should be limited to the aggregated counters only,
+     * i.e. the detailed visits log is disabled (for the given site).
+     */
+    public static function shouldShowAggregatedRealtimeOnly(?int $idSite = null): bool
+    {
+        return !self::isVisitorLogEnabled($idSite);
+    }
+
     /**
      * Throws an exception if visitor profile is disabled
      *
@@ -152,7 +162,6 @@ class Live extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "node_modules/visibilityjs/lib/visibility.core.js";
-        $jsFiles[] = "plugins/Live/javascripts/live.js";
         $jsFiles[] = "plugins/Live/javascripts/SegmentedVisitorLog.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorActions.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
@@ -163,6 +172,8 @@ class Live extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "Live_VisitorProfile";
+        $translationKeys[] = "Live_VisitorProfileNotFound";
+        $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = "Live_ClickToViewAllActions";
         $translationKeys[] = "Live_NoMoreVisits";
         $translationKeys[] = "Live_ShowMap";
@@ -220,8 +231,24 @@ class Live extends \Piwik\Plugin
         });
 
         foreach ($detailEntries as $detailEntry) {
-            $tooltip .= $detailEntry[1];
+            $tooltip .= self::escapeActionTooltipEntry($detailEntry[1]);
         }
+    }
+
+    /**
+     * Escapes one entry of the visitor log action tooltip.
+     *
+     * The tooltip renders its title as HTML, so an entry needs two layers: one the attribute parse
+     * consumes and one the render does. Escaping happens here rather than through `Common`, which
+     * would also strip the line breaks the entries are separated by.
+     *
+     * @ignore
+     */
+    public static function escapeActionTooltipEntry(?string $entry): string
+    {
+        $text = html_entity_decode((string) $entry, ENT_QUOTES, 'UTF-8');
+
+        return htmlspecialchars(htmlspecialchars($text, ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8');
     }
 
     public function renderVisitorDetails(&$renderedDetails, $visitorDetails)

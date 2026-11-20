@@ -40,15 +40,9 @@ use Piwik\Widget\WidgetConfig;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var FeatureFlagManager
-     */
-    private $featureFlagManager;
+    private FeatureFlagManager $featureFlagManager;
 
     public function __construct(Translator $translator)
     {
@@ -90,6 +84,12 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@CoreHome/widgetContainer');
         $view->isWidgetized = (bool) Common::getRequestVar('widget', 0, 'int');
         $view->containerId  = Common::getRequestVar('containerId', null, 'string');
+        // On a dashboard the widget chrome renders the report header; in an iframe nothing does,
+        // so the children have to render their own. Read from the route, which stays on Widgetize
+        // through the inner dispatch, rather than from `widget` - a dashboard sets that too.
+        $request = \Piwik\Request::fromRequest();
+        $view->childrenOwnTheirHeader = $request->getStringParameter('module', '') === 'Widgetize'
+            && $request->getStringParameter('action', '') === 'iframe';
 
         return $view->render();
     }
@@ -110,21 +110,22 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
             if (
-                strpos($content, '<h2') !== false
-                || strpos($content, ' content-title=') !== false
-                || strpos($content, 'CoreHome.EnrichedHeadline') !== false
-                || strpos($content, '<h1') !== false
+                str_contains($content, '<h2')
+                || str_contains($content, ' content-title=')
+                || str_contains($content, 'CoreHome.EnrichedHeadline')
+                || str_contains($content, 'CoreHome.ReportHeader')
+                || str_contains($content, '<h1')
             ) {
                 // already includes title
                 return $content;
             }
 
             if (
-                strpos($content, '<!-- has-content-block -->') === false
-                && strpos($content, 'class="card"') === false
-                && strpos($content, "class='card'") === false
-                && strpos($content, 'class="card-content"') === false
-                && strpos($content, "class='card-content'") === false
+                !str_contains($content, '<!-- has-content-block -->')
+                && !str_contains($content, 'class="card"')
+                && !str_contains($content, "class='card'")
+                && !str_contains($content, 'class="card-content"')
+                && !str_contains($content, "class='card-content'")
             ) {
                 $view = new View('@CoreHome/_singleWidget');
                 $view->title = $config->getName();
@@ -183,8 +184,11 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSomeViewAccess();
         $this->checkTokenInUrl();
 
-        $notificationId = Common::getRequestVar('notificationId');
-        NotificationManager::cancel($notificationId);
+        $notificationId = \Piwik\Request::fromRequest()->getStringParameter('notificationId', '');
+        // client-side notifications can use IDs no stored notification has, so there is nothing to remove
+        if (NotificationManager::isValidId($notificationId)) {
+            NotificationManager::cancel($notificationId);
+        }
 
         return json_encode(true);
     }
@@ -266,7 +270,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         if (empty($rowEvolution)) {
             $label = Common::getRequestVar('label', '', 'string');
-            $isMultiRowEvolution = strpos($label, ',') !== false;
+            $isMultiRowEvolution = str_contains($label, ',');
 
             $rowEvolution = $this->makeRowEvolution($isMultiRowEvolution, $graphType = 'graphEvolution');
             $rowEvolution->useAvailableMetrics();
@@ -279,6 +283,8 @@ class Controller extends \Piwik\Plugin\Controller
     /** Utility function. Creates a RowEvolution instance. */
     private function makeRowEvolution($isMultiRowEvolution, $graphType = null)
     {
+        $this->checkSitePermission();
+
         if ($isMultiRowEvolution) {
             return new MultiRowEvolution($this->idSite, $this->date, $graphType);
         } else {

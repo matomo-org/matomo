@@ -1,0 +1,8 @@
+{
+    "AIProviders": {
+        "ApiKey": "API કી",
+        "DefaultBadge": "મૂળભૂત",
+        "Model": "મોડલ",
+        "TestingConnection": "પરીક્ષણ…"
+    }
+}

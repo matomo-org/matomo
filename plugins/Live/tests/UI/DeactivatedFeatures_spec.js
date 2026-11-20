@@ -60,7 +60,7 @@ describe("DeactivatedFeatures", function () {
         expect(realtimemap).to.be.ok;
     });
 
-    it('menu should not contain visits log & realtime when deactivated', async function () {
+    it('menu should not contain visits log but still contain realtime when deactivated', async function () {
         await setFeatures(1, 1, 1);
         await page.reload();
         await page.waitForSelector('#secondNavBar', {visible: true});
@@ -68,11 +68,30 @@ describe("DeactivatedFeatures", function () {
         const vlog = await page.$('#secondNavBar .navbar a[href*="Live_VisitorLog"]');
         expect(vlog).to.be.not.ok;
 
+        // the real-time page stays available, limited to the aggregated counters
         const realtime = await page.$('#secondNavBar .navbar a[href*="General_RealTime"]');
-        expect(realtime).to.be.not.ok;
+        expect(realtime).to.be.ok;
 
         const realtimemap = await page.$('#secondNavBar .navbar a[href*="UserCountryMap_RealTimeMap"]');
         expect(realtimemap).to.be.not.ok;
+    });
+
+    it('realtime widget shows aggregated counters only when deactivated', async function () {
+        await setFeatures(1, 1, 1);
+        // render the widget in isolation to avoid the reporting page's redirect/polling timing
+        await page.goto("?module=Widgetize&action=iframe&moduleToWidgetize=Live&actionToWidgetize=widget&idSite=1&period=day&date=today");
+
+        // the aggregated "Last 24 hours" / "Last 30 minutes" counters are shown
+        await page.waitForSelector('#visitsTotal', {visible: true});
+        const total = await page.$('#visitsTotal');
+        expect(total).to.be.ok;
+
+        // but no individual visitor stream and no live controls are shown
+        const stream = await page.$('#visitsLive');
+        expect(stream).to.be.not.ok;
+
+        const footer = await page.$('.visitsLiveFooter');
+        expect(footer).to.be.not.ok;
     });
 
     it('it should not show visits log, when opened directly but disabled', async function () {
@@ -83,12 +102,12 @@ describe("DeactivatedFeatures", function () {
         expect(await page.getWholeCurrentUrl()).to.not.match(/Live_VisitorLog/); // page should be redirected to next subcategory
     });
 
-    it('it should not show realtime, when opened directly but disabled', async function () {
+    it('it should still show realtime, when opened directly but disabled', async function () {
         await setFeatures(1, 1, 1);
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-08-09#?idSite=1&period=year&date=2009-08-09&category=General_Visitors&subcategory=General_RealTime");
         await page.waitForNetworkIdle();
 
-        expect(await page.getWholeCurrentUrl()).to.not.match(/General_RealTime/); // page should be redirected to next subcategory
+        expect(await page.getWholeCurrentUrl()).to.match(/General_RealTime/); // page should not be redirected
     });
 
     it('it should not show realtime map, when opened directly but disabled', async function () {
@@ -224,8 +243,9 @@ describe("DeactivatedFeatures", function () {
         const log = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivegetLastVisitsDetailsforceView1viewDataTableVisitorLogsmall1]');
         expect(log).to.be.not.ok;
 
+        // the real-time widget stays available, limited to the aggregated counters
         const realtime = await page.$('.widgetpreview-widgetlist [uniqueid=widgetLivewidget]');
-        expect(realtime).to.be.not.ok;
+        expect(realtime).to.be.ok;
 
         const realtimemap = await page.$('.widgetpreview-widgetlist [uniqueid=widgetUserCountryMaprealtimeMap]');
         expect(realtimemap).to.be.not.ok;

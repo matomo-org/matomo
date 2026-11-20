@@ -22,10 +22,7 @@ use Piwik\Updates;
 
 class Updates_2_1_1_b11 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
     public function __construct(MigrationFactory $factory)
     {
@@ -90,7 +87,7 @@ class Updates_2_1_1_b11 extends Updates
 
             // if there are missing idarchives, fill out new archive row values
             if (!empty($missingIdArchives)) {
-                $newIdArchiveStart = Db::fetchOne("SELECT MAX(idarchive) FROM `$table`") + 1;
+                $newIdArchiveStart = (int) Db::fetchOne("SELECT MAX(idarchive) FROM `$table`") + 1;
                 foreach ($missingIdArchives as $withMetricsIdArchive => &$rowToInsert) {
                     $idArchiveMappings[$withMetricsIdArchive] = $newIdArchiveStart;
 

@@ -16,9 +16,40 @@ describe('Invite', function () {
   var pendingUserUrl = '?module=Login&action=acceptInvitation&token=13cb9dcef6cc70b02a640cee30dc8ce9';
   var wrongUserUrl = '?module=Login&action=acceptInvitation&token=123';
 
+  // Swaps FakeChangesModel for the real one, so only this test sees the panel. Restored in a
+  // finally so a failure here cannot leak it into the baselines below.
+  async function withWhatsNewPanel(assertions) {
+    testEnvironment.loadChanges = 1;
+    testEnvironment.save();
+
+    try {
+      await assertions();
+    } finally {
+      delete testEnvironment.loadChanges;
+      testEnvironment.save();
+    }
+  }
+
   it('should display error page', async function (){
     await page.goto(wrongUserUrl);
+    // The error page redirects to the dashboard after 3s, which a slow screenshot would capture
+    await page.evaluate(() => {
+      let timeoutId = setTimeout(() => {}, 0);
+      while (timeoutId--) {
+        clearTimeout(timeoutId);
+      }
+    });
     expect(await page.screenshot({ fullPage: true })).to.matchImage('error');
+  });
+
+  // Runs before the tests below consume the token. The tallest form sharing the login layout, so
+  // the one worth a baseline next to the panel.
+  it('should display set password page beside the What\'s New panel', async function () {
+    await withWhatsNewPanel(async function () {
+      await page.goto(pendingUserUrl);
+      await page.waitForSelector('.loginWhatsNew__entry');
+      expect(await page.screenshot({ fullPage: true })).to.matchImage('set_password_whats_new');
+    });
   });
 
   it('should display set password page', async function () {

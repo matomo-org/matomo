@@ -171,6 +171,7 @@
           uicontrol="select"
           name="report_format"
           :title="translate('ScheduledReports_ReportFormat')"
+          :inline-help="reportFormatHelpText(reportFormats)"
           :class="reportType"
           v-show="report.type === reportType"
           :model-value="report[`format${reportType}`]"
@@ -308,6 +309,8 @@
       <div
         v-if="allowMultipleReportsByReportType[report.type] && selectedReportsForCurrentType.length"
         class="draggableListPanel selectedReportsWrapper"
+        v-tooltips="{ duration: 200, delay: 200 }"
+        @dragstart="closeReorderTooltips()"
       >
         <div class="draggableListHeading selectedReportsHeading">
           <h3>{{ translate('ScheduledReports_SelectedReports') }}</h3>
@@ -322,7 +325,10 @@
           @reorder="onSelectedReportsReorder"
         >
           <template #default="{ item: reportItem }">
-            <span class="icon-menu-hamburger drag-icon"></span>
+            <DragHandle
+              :title="translate('ScheduledReports_ReorderReport')"
+              @pointerdown="closeReorderTooltips()"
+            />
             <span>{{ decode((reportItem as ReportMetadata).name) }}</span>
           </template>
         </DraggableList>
@@ -349,7 +355,10 @@ import {
 } from 'vue';
 import {
   ContentBlock,
+  closeTooltips,
   DraggableList,
+  DragHandle,
+  Tooltips,
   Matomo,
   MatomoUrl,
   translate,
@@ -442,16 +451,28 @@ export default defineComponent({
   components: {
     ContentBlock,
     DraggableList,
+    DragHandle,
     Field,
     SaveButton,
   },
   directives: {
     Form,
+    Tooltips,
   },
   created() {
     this.onEvolutionPeriodN = debounce(this.onEvolutionPeriodN, 50);
   },
   methods: {
+    // Only the report types offering PDF need the note: percentage columns are left out of that
+    // format alone, see ReportRenderer::removePercentOfTotalColumns().
+    reportFormatHelpText(reportFormats: Record<string, string>): string {
+      return reportFormats && reportFormats.pdf
+        ? translate('ScheduledReports_ReportFormatHelpText')
+        : '';
+    },
+    closeReorderTooltips() {
+      closeTooltips('.selectedReportsWrapper .dragHandle');
+    },
     onEvolutionPeriodN(event: Event) {
       this.$emit('change', {
         prop: 'evolutionPeriodN',

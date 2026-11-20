@@ -10,7 +10,6 @@
         "DisableVisitorProfile": "Sólo deshabilitar perfil del visitante",
         "DisableVisitorProfileDescription": "Acá podés deshabilitar la función del perfil del visitante. Todas las funciones relacionadas relacionadas al registro de visitas continuarán funcionando.",
         "DisableVisitsLogAndProfile": "Deshabilitar registro de visitas y perfil de visitante",
-        "DisableVisitsLogAndProfileDescription": "Acá podés deshabilitar la función de registro de visitas y perfil del visitante. Esto también deshabilitará funciones que dependen de la misma, como el registro de comercio electrónico, el registro de visitas segmentadas, el mapa en tiempo real o el widget en tiempo real. Esto podría ser requerido para cumplir con tus leyes o normas locales de privacidad.",
         "FirstVisit": "Primer visita",
         "GoalType": "Tipo",
         "HideMap": "ocultar mapa",

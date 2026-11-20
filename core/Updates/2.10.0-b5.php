@@ -43,10 +43,7 @@ class Updates_2_10_0_b5 extends Updates
 {
     public static $archiveBlobTables;
 
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
+    private MigrationFactory $migration;
 
     public function __construct(MigrationFactory $factory)
     {

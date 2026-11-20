@@ -7,7 +7,10 @@
 <template>
   <div class="ui-confirm" ref="confirm">
     <h2>{{ translate('Marketplace_RequestTrialConfirmTitle', plugin?.displayName) }}</h2>
-    <p>{{ translate('Marketplace_RequestTrialConfirmEmailWarning') }}</p>
+    <p v-if="plugin?.isTrialPending">
+      {{ translate('Marketplace_RequestTrialConfirmAlreadyRequested') }}
+    </p>
+    <p v-else>{{ translate('Marketplace_RequestTrialConfirmEmailWarning') }}</p>
     <input role="yes" type="button" :value="translate('General_Yes')"/>
     <input role="no" type="button" :value="translate('General_No')"/>
   </div>
@@ -22,12 +25,12 @@ import {
   NotificationsStore,
   translate,
 } from 'CoreHome';
-import { PluginDetails } from '../types';
+import { PluginCard } from '../types';
 
 export default defineComponent({
   props: {
     modelValue: {
-      type: Object as PropType<PluginDetails | null>,
+      type: Object as PropType<PluginCard | null>,
       default: () => null,
     },
   },
@@ -54,12 +57,12 @@ export default defineComponent({
     },
   },
   computed: {
-    plugin(): PluginDetails {
-      return this.modelValue as PluginDetails;
+    plugin(): PluginCard {
+      return this.modelValue as PluginCard;
     },
   },
   methods: {
-    requestTrial(plugin: PluginDetails) {
+    requestTrial(plugin: PluginCard) {
       AjaxHelper.post(
         {
           module: 'API',

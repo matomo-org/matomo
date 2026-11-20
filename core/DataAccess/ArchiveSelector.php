@@ -364,7 +364,7 @@ class ArchiveSelector
                     $idarchiveStates[$idSite][$doneFlag][$dateStr][$idarchive] = (int) $value;
 
                     if (
-                        strpos($doneFlag, '.') === false // all plugins archive
+                        !str_contains($doneFlag, '.') // all plugins archive
                         // sanity check: DONE_PARTIAL shouldn't be used w/ done archives, but in case we see one,
                         // don't treat it like an all plugins archive
                         && $value != ArchiveWriter::DONE_PARTIAL

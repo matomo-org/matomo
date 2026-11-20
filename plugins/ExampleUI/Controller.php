@@ -14,7 +14,7 @@ use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    public function notifications()
+    public function notifications(): string
     {
         $notification = new Notification('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
         Notification\Manager::notify('ExampleUI_InfoSimple', $notification);
@@ -22,7 +22,7 @@ class Controller extends \Piwik\Plugin\Controller
         $notification = new Notification('Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.');
         $notification->title   = 'Warning:';
         $notification->context = Notification::CONTEXT_WARNING;
-        $notification->flags   = null;
+        $notification->flags   = Notification::FLAG_CLEAR;
         Notification\Manager::notify('ExampleUI_warningWithClose', $notification);
 
         $notification = new Notification('Phasellus tincidunt arcu at justo faucibus, et lacinia est accumsan. ');

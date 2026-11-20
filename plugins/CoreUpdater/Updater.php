@@ -31,18 +31,14 @@ use Piwik\Version;
 class Updater
 {
     public const OPTION_LATEST_VERSION = 'UpdateCheck_LatestVersion';
+    /** Marks an update log message as a failure, so the log does not tick it off as done. */
+    public const MESSAGE_FAILED_PREFIX = "\u{2717} ";
     public const PATH_TO_EXTRACT_LATEST_VERSION = '/latest/';
     public const DOWNLOAD_TIMEOUT = 720;
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
-    /**
-     * @var ReleaseChannels
-     */
-    private $releaseChannels;
+    private ReleaseChannels $releaseChannels;
 
     /**
      * @var string
@@ -125,8 +121,8 @@ class Updater
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
 
         if (!empty($responses)) {
-            $responseCliMulti = array_shift($responses);
-            $responseCliMulti = @json_decode($responseCliMulti, $assoc = true);
+            $rawResponseCliMulti = array_shift($responses);
+            $responseCliMulti = @json_decode($rawResponseCliMulti, $assoc = true);
             if (is_array($responseCliMulti)) {
                 // we expect a json encoded array response from oneClickUpdatePartTwo. Otherwise something went wrong.
                 $messages = array_merge($messages, $responseCliMulti);
@@ -139,11 +135,13 @@ class Updater
                     if (!empty($response) && is_array($response)) {
                         $messages = array_merge($messages, $response);
                     }
-                } catch (Exception $e) {
+                } catch (\Throwable $e) {
                     // ignore any error should this fail too. this might be the case eg if
                     // the user upgrades from one major version to another major version
-                    if (is_string($responseCliMulti)) {
-                        $messages[] = $responseCliMulti; // show why the original request failed eg invalid ssl certificate
+                    $reason = is_string($rawResponseCliMulti) ? trim(strip_tags($rawResponseCliMulti)) : '';
+                    if ($reason !== '') {
+                        // show why the original request failed eg invalid ssl certificate
+                        $messages[] = self::MESSAGE_FAILED_PREFIX . mb_substr($reason, 0, 500);
                     }
                 }
             }
@@ -188,11 +186,24 @@ class Updater
                         'CoreUpdater_UpdatingPluginXToVersionY',
                         [$pluginName, $pluginWithUpdate['version']]
                     );
-                    $pluginInstaller = new PluginInstaller($marketplaceClient);
-                    $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+
+                    try {
+                        $pluginInstaller = new PluginInstaller($marketplaceClient);
+                        $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+                    } catch (\Throwable $e) {
+                        // one plugin that cannot be updated - an expired or missing license being the
+                        // common case - must not keep the remaining ones on their old version
+                        $messages[] = self::MESSAGE_FAILED_PREFIX . $this->translator->translate(
+                            'CoreUpdater_UpdatingPluginXFailedY',
+                            [$pluginName, $e->getMessage()]
+                        );
+                    }
                 }
             } catch (MarketplaceApi\Exception $e) {
-                // there is a problem with the connection to the server, ignore for now
+                // there is a problem with the connection to the server, so no plugin can be updated
+                // in this run - report it instead of letting the update look like it found nothing
+                $messages[] = self::MESSAGE_FAILED_PREFIX
+                    . $this->translator->translate('CoreUpdater_CheckingForPluginUpdatesFailed', $e->getMessage());
             } catch (Exception $e) {
                 throw new UpdaterException($e, $messages);
             }
@@ -388,7 +399,11 @@ class Updater
          * These files are visible in the web root and are generally
          * served directly by the web server.  May be shared.
          */
-        if (PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT) { // @phpstan-ignore notIdentical.alwaysFalse
+        /** @var string $includePath */
+        $includePath = PIWIK_INCLUDE_PATH;
+        /** @var string $documentRoot */
+        $documentRoot = PIWIK_DOCUMENT_ROOT;
+        if ($includePath !== $documentRoot) {
             // Copy PHP files that expect to be in the document root
             $specialCases = array(
                 '/index.php',

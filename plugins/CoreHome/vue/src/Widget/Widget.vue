@@ -11,7 +11,7 @@
     class="matomo-widget"
     :class="{'isFirstWidgetInPage': actualWidget.isFirstInPage}"
     :id="actualWidget.uniqueId"
-    v-tooltips="{ content: tooltipContent }"
+    v-tooltips="{ content: widgetTooltipContent }"
   >
     <WidgetLoader
       v-if="!actualWidget.isContainer && actualWidget.parameters && !actualWidget.clientComponent"
@@ -54,6 +54,7 @@ import {
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import ReportMetadataStoreInstance from '../ReportMetadata/ReportMetadata.store';
 import Tooltips from '../Tooltips/Tooltips';
+import tooltipContent from '../Tooltips/tooltipContent';
 
 function findContainer(
   widgetsByCategory: typeof WidgetsStoreInstance.widgets.value,
@@ -97,6 +98,9 @@ export default defineComponent({
   props: {
     widget: Object,
     widgetized: Boolean,
+    // No chrome renders a header above these children, so each renders its own. The dashboard and
+    // the add-widget preview do provide one, and leave this off.
+    childrenOwnTheirHeader: Boolean,
     containerid: String,
     preventRecursion: Boolean,
     suppressNotifications: Boolean,
@@ -116,19 +120,18 @@ export default defineComponent({
     };
   },
   setup() {
-    function tooltipContent(this: HTMLElement) {
+    function widgetTooltipContent(this: HTMLElement) {
       const $this = window.$(this) as JQuery;
       if ($this.hasClass('matomo-form-field')) {
         // do not show it for form fields
         return '';
       }
 
-      const title = window.$(this).attr('title') || '';
-      return window.vueSanitize(title.replace(/\n/g, '<br />'));
+      return tooltipContent.call(this);
     }
 
     return {
-      tooltipContent,
+      widgetTooltipContent,
     };
   },
   created() {
@@ -185,6 +188,7 @@ export default defineComponent({
                   ...w.parameters,
                   widget: '1',
                   containerId: this.containerid!,
+                  ...(this.childrenOwnTheirHeader ? { own_report_header: '1' } : {}),
                 },
               })) as WidgetData[];
             }

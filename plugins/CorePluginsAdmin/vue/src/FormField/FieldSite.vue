@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { SiteSelector, SiteRef } from 'CoreHome';
 import AbortableModifiers from './AbortableModifiers';
 
@@ -35,7 +35,7 @@ export default defineComponent({
     name: String,
     title: String,
     id: String,
-    modelValue: Object,
+    modelValue: Object as PropType<SiteRef|null>,
     modelModifiers: Object,
     uiControlAttributes: Object,
   },

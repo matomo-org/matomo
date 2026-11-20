@@ -26,10 +26,7 @@ use Piwik\Log\LoggerInterface;
 
 class DataSubjects
 {
-    /**
-     * @var LogTablesProvider
-     */
-    private $logTablesProvider;
+    private LogTablesProvider $logTablesProvider;
 
     public function __construct(LogTablesProvider $logTablesProvider)
     {
@@ -346,7 +343,7 @@ class DataSubjects
                         break;
                     }
                 }
-                if (!empty($config['Type']) && strpos(strtolower($config['Type']), 'binary') !== false) {
+                if (!empty($config['Type']) && str_contains(strtolower($config['Type']), 'binary')) {
                     $binaryFields[] = $col;
                 }
                 $select[] = sprintf('`%s`.`%s`', $logTableName, $col);

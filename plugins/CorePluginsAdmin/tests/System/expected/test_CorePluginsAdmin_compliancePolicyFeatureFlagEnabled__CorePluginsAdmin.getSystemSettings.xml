@@ -519,7 +519,7 @@
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Also removes features that depend on these, like the e-commerce log, the segmented visits-log, the real-time map or the real-time widget. May be required to comply with local privacy laws/guidelines.</inlineHelp>
+				<inlineHelp>Also removes features that depend on these, like the e-commerce log, the segmented visits-log or the real-time map. The real-time widget only shows the aggregated visit counts. May be required to comply with local privacy laws/guidelines.</inlineHelp>
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -606,6 +606,1051 @@
 				<availableValues />
 				<description>If checked, a link to your Privacy Policy and your Terms &amp; Conditions will be displayed at the bottom of embedded widgets.</description>
 				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>TrackingSpamPrevention</pluginName>
+		<title>TrackingSpamPrevention</title>
+		<settings>
+			<row>
+				<name>cloud_blocking_mode</name>
+				<title>Block tracking requests from Cloud hosting providers</title>
+				<value>default</value>
+				<defaultValue>default</defaultValue>
+				<type>string</type>
+				<uiControl>radio</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<off>Do not block Cloud hosting providers</off>
+					<default>Use Matomo's default provider list (recommended)</default>
+					<custom>Use custom organisation list</custom>
+				</availableValues>
+				<description />
+				<inlineHelp>Choose how Matomo should handle tracking requests from Cloud hosting providers. You can disable any blocking, apply Matomo's default provider list, or maintain your own custom list. Matomo's list may be updated over time as providers are added or changed.</inlineHelp>
+				<introduction>Spam and bot traffic can inflate tracking requests and introduce unwanted data into your reports. Configure these settings to reduce this traffic before it affects your analytics.</introduction>
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>default_organisation_block_list</name>
+				<title>Default organisation block list</title>
+				<value>
+					<row>alicloud</row>
+					<row>alibaba cloud</row>
+					<row>kwaifong group limited</row>
+					<row>contabo</row>
+					<row>digitalocean</row>
+					<row>digital ocean</row>
+					<row>leaseweb</row>
+					<row>hostroyale technologies</row>
+					<row>ucloud information</row>
+					<row>secure internet llc</row>
+					<row>inios oy</row>
+					<row>fnk llc</row>
+					<row>dedipath-llc</row>
+					<row>mirholding b.v.</row>
+					<row>datacamp limited</row>
+					<row>voxility llp</row>
+					<row>lucidacloud</row>
+					<row>cloud computing corporation</row>
+					<row>gigabit hosting</row>
+					<row>hetzner online</row>
+					<row>m247 europe srl</row>
+					<row>incognet llc</row>
+					<row>ponynet</row>
+					<row>as40676</row>
+					<row>nforce entertainment b.v.</row>
+					<row>trabia srl</row>
+					<row>latitude-sh</row>
+					<row>dataforest gmbh</row>
+					<row>31173 services ab</row>
+					<row>advin services llc</row>
+					<row>wholesale services provider</row>
+					<row>netminders</row>
+					<row>altushost b.v.</row>
+					<row>amazon-02</row>
+					<row>akamai connected cloud</row>
+					<row>uab cherry servers</row>
+					<row>datema bilisim ticaret anonim sirketi</row>
+					<row>alibaba us technology co., ltd.</row>
+					<row>netcup gmbh</row>
+					<row>jinx co., limited</row>
+					<row>fd-298-8796</row>
+					<row>cloudsingularity</row>
+					<row>weserve b.v.</row>
+					<row>amarutu technology ltd</row>
+					<row>limestonenetworks</row>
+					<row>versija sia</row>
+					<row>oy crea nova hosting solution ltd</row>
+					<row>owl limited</row>
+					<row>tzulo</row>
+					<row>serverastra kft</row>
+					<row>ionos se</row>
+					<row>as-globaltelehost</row>
+					<row>estnoc oy</row>
+					<row>as-colocrossing</row>
+					<row>greenhost bv</row>
+					<row>keminet shpk</row>
+					<row>worldstream b.v.</row>
+					<row>aeza international ltd</row>
+					<row>asline limited</row>
+					<row>packethub s.a.</row>
+					<row>gorillaservers</row>
+					<row>as-vultr</row>
+					<row>nl-811-40021</row>
+					<row>cheapy-host</row>
+					<row>jsc selectel</row>
+					<row>gb network solutions sdn. bhd.</row>
+					<row>latitude.sh</row>
+					<row>limestone networks, inc</row>
+					<row>scaleway</row>
+					<row>m247 europe</row>
+					<row>tencent</row>
+					<row>fdcservers</row>
+					<row>ace data centers</row>
+					<row>egihosting</row>
+					<row>hangzhou alibaba advertising</row>
+					<row>sharktech</row>
+					<row>dmit cloud services</row>
+				</value>
+				<defaultValue>
+					<row>alicloud</row>
+					<row>alibaba cloud</row>
+					<row>kwaifong group limited</row>
+					<row>contabo</row>
+					<row>digitalocean</row>
+					<row>digital ocean</row>
+					<row>leaseweb</row>
+					<row>hostroyale technologies</row>
+					<row>ucloud information</row>
+					<row>secure internet llc</row>
+					<row>inios oy</row>
+					<row>fnk llc</row>
+					<row>dedipath-llc</row>
+					<row>mirholding b.v.</row>
+					<row>datacamp limited</row>
+					<row>voxility llp</row>
+					<row>lucidacloud</row>
+					<row>cloud computing corporation</row>
+					<row>gigabit hosting</row>
+					<row>hetzner online</row>
+					<row>m247 europe srl</row>
+					<row>incognet llc</row>
+					<row>ponynet</row>
+					<row>as40676</row>
+					<row>nforce entertainment b.v.</row>
+					<row>trabia srl</row>
+					<row>latitude-sh</row>
+					<row>dataforest gmbh</row>
+					<row>31173 services ab</row>
+					<row>advin services llc</row>
+					<row>wholesale services provider</row>
+					<row>netminders</row>
+					<row>altushost b.v.</row>
+					<row>amazon-02</row>
+					<row>akamai connected cloud</row>
+					<row>uab cherry servers</row>
+					<row>datema bilisim ticaret anonim sirketi</row>
+					<row>alibaba us technology co., ltd.</row>
+					<row>netcup gmbh</row>
+					<row>jinx co., limited</row>
+					<row>fd-298-8796</row>
+					<row>cloudsingularity</row>
+					<row>weserve b.v.</row>
+					<row>amarutu technology ltd</row>
+					<row>limestonenetworks</row>
+					<row>versija sia</row>
+					<row>oy crea nova hosting solution ltd</row>
+					<row>owl limited</row>
+					<row>tzulo</row>
+					<row>serverastra kft</row>
+					<row>ionos se</row>
+					<row>as-globaltelehost</row>
+					<row>estnoc oy</row>
+					<row>as-colocrossing</row>
+					<row>greenhost bv</row>
+					<row>keminet shpk</row>
+					<row>worldstream b.v.</row>
+					<row>aeza international ltd</row>
+					<row>asline limited</row>
+					<row>packethub s.a.</row>
+					<row>gorillaservers</row>
+					<row>as-vultr</row>
+					<row>nl-811-40021</row>
+					<row>cheapy-host</row>
+					<row>jsc selectel</row>
+					<row>gb network solutions sdn. bhd.</row>
+					<row>latitude.sh</row>
+					<row>limestone networks, inc</row>
+					<row>scaleway</row>
+					<row>m247 europe</row>
+					<row>tencent</row>
+					<row>fdcservers</row>
+					<row>ace data centers</row>
+					<row>egihosting</row>
+					<row>hangzhou alibaba advertising</row>
+					<row>sharktech</row>
+					<row>dmit cloud services</row>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<disabled>disabled</disabled>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>This is the current default organisation list maintained by Matomo. The list may be updated over time as providers are added or changed.</inlineHelp>
+				<introduction />
+				<condition>cloud_blocking_mode==&quot;default&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>organisation_block_list</name>
+				<title>Organisation block list</title>
+				<value>
+					<row>alicloud</row>
+					<row>alibaba cloud</row>
+					<row>kwaifong group limited</row>
+					<row>contabo</row>
+					<row>digitalocean</row>
+					<row>digital ocean</row>
+					<row>leaseweb</row>
+					<row>hostroyale technologies</row>
+					<row>ucloud information</row>
+					<row>secure internet llc</row>
+					<row>inios oy</row>
+					<row>fnk llc</row>
+					<row>dedipath-llc</row>
+					<row>mirholding b.v.</row>
+					<row>datacamp limited</row>
+					<row>voxility llp</row>
+					<row>lucidacloud</row>
+					<row>cloud computing corporation</row>
+					<row>gigabit hosting</row>
+					<row>hetzner online</row>
+					<row>m247 europe srl</row>
+					<row>incognet llc</row>
+					<row>ponynet</row>
+					<row>as40676</row>
+					<row>nforce entertainment b.v.</row>
+					<row>trabia srl</row>
+					<row>latitude-sh</row>
+					<row>dataforest gmbh</row>
+					<row>31173 services ab</row>
+					<row>advin services llc</row>
+					<row>wholesale services provider</row>
+					<row>netminders</row>
+					<row>altushost b.v.</row>
+					<row>amazon-02</row>
+					<row>akamai connected cloud</row>
+					<row>uab cherry servers</row>
+					<row>datema bilisim ticaret anonim sirketi</row>
+					<row>alibaba us technology co., ltd.</row>
+					<row>netcup gmbh</row>
+					<row>jinx co., limited</row>
+					<row>fd-298-8796</row>
+					<row>cloudsingularity</row>
+					<row>weserve b.v.</row>
+					<row>amarutu technology ltd</row>
+					<row>limestonenetworks</row>
+					<row>versija sia</row>
+					<row>oy crea nova hosting solution ltd</row>
+					<row>owl limited</row>
+					<row>tzulo</row>
+					<row>serverastra kft</row>
+					<row>ionos se</row>
+					<row>as-globaltelehost</row>
+					<row>estnoc oy</row>
+					<row>as-colocrossing</row>
+					<row>greenhost bv</row>
+					<row>keminet shpk</row>
+					<row>worldstream b.v.</row>
+					<row>aeza international ltd</row>
+					<row>asline limited</row>
+					<row>packethub s.a.</row>
+					<row>gorillaservers</row>
+					<row>as-vultr</row>
+					<row>nl-811-40021</row>
+					<row>cheapy-host</row>
+					<row>jsc selectel</row>
+					<row>gb network solutions sdn. bhd.</row>
+					<row>latitude.sh</row>
+					<row>limestone networks, inc</row>
+					<row>scaleway</row>
+					<row>m247 europe</row>
+					<row>tencent</row>
+					<row>fdcservers</row>
+					<row>ace data centers</row>
+					<row>egihosting</row>
+					<row>hangzhou alibaba advertising</row>
+					<row>sharktech</row>
+					<row>dmit cloud services</row>
+				</value>
+				<defaultValue>
+					<row>alicloud</row>
+					<row>alibaba cloud</row>
+					<row>kwaifong group limited</row>
+					<row>contabo</row>
+					<row>digitalocean</row>
+					<row>digital ocean</row>
+					<row>leaseweb</row>
+					<row>hostroyale technologies</row>
+					<row>ucloud information</row>
+					<row>secure internet llc</row>
+					<row>inios oy</row>
+					<row>fnk llc</row>
+					<row>dedipath-llc</row>
+					<row>mirholding b.v.</row>
+					<row>datacamp limited</row>
+					<row>voxility llp</row>
+					<row>lucidacloud</row>
+					<row>cloud computing corporation</row>
+					<row>gigabit hosting</row>
+					<row>hetzner online</row>
+					<row>m247 europe srl</row>
+					<row>incognet llc</row>
+					<row>ponynet</row>
+					<row>as40676</row>
+					<row>nforce entertainment b.v.</row>
+					<row>trabia srl</row>
+					<row>latitude-sh</row>
+					<row>dataforest gmbh</row>
+					<row>31173 services ab</row>
+					<row>advin services llc</row>
+					<row>wholesale services provider</row>
+					<row>netminders</row>
+					<row>altushost b.v.</row>
+					<row>amazon-02</row>
+					<row>akamai connected cloud</row>
+					<row>uab cherry servers</row>
+					<row>datema bilisim ticaret anonim sirketi</row>
+					<row>alibaba us technology co., ltd.</row>
+					<row>netcup gmbh</row>
+					<row>jinx co., limited</row>
+					<row>fd-298-8796</row>
+					<row>cloudsingularity</row>
+					<row>weserve b.v.</row>
+					<row>amarutu technology ltd</row>
+					<row>limestonenetworks</row>
+					<row>versija sia</row>
+					<row>oy crea nova hosting solution ltd</row>
+					<row>owl limited</row>
+					<row>tzulo</row>
+					<row>serverastra kft</row>
+					<row>ionos se</row>
+					<row>as-globaltelehost</row>
+					<row>estnoc oy</row>
+					<row>as-colocrossing</row>
+					<row>greenhost bv</row>
+					<row>keminet shpk</row>
+					<row>worldstream b.v.</row>
+					<row>aeza international ltd</row>
+					<row>asline limited</row>
+					<row>packethub s.a.</row>
+					<row>gorillaservers</row>
+					<row>as-vultr</row>
+					<row>nl-811-40021</row>
+					<row>cheapy-host</row>
+					<row>jsc selectel</row>
+					<row>gb network solutions sdn. bhd.</row>
+					<row>latitude.sh</row>
+					<row>limestone networks, inc</row>
+					<row>scaleway</row>
+					<row>m247 europe</row>
+					<row>tencent</row>
+					<row>fdcservers</row>
+					<row>ace data centers</row>
+					<row>egihosting</row>
+					<row>hangzhou alibaba advertising</row>
+					<row>sharktech</row>
+					<row>dmit cloud services</row>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<placeholder>Cloud Hosting Provider A
+Cloud Hosting Provider B</placeholder>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Block tracking requests when the visitor's IP address belongs to a specified organisation, such as a hosting or cloud provider. Enter one organisation per line. Use specific names to avoid unintended matches. Any organisation with a name containing the value you enter will be matched. Matomo uses this list instead of its default provider list.</inlineHelp>
+				<introduction />
+				<condition>cloud_blocking_mode==&quot;custom&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>block_clouds</name>
+				<title>Block traffic requests from Cloud provider IP ranges</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Block tracking requests using a maintained list of known Cloud provider IP ranges. This provides additional coverage for Cloud provider traffic that may not be identified by a list of configured GeoIP organisation names. The Cloud provider IP range list updates automatically every 24 hours.</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>block_headless</name>
+				<title>Block headless browsers</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>These are browsers without a user interface, mostly used for automation. It should be safe to turn this on if you only have regular websites or apps. It can block additional bots and spam requests that otherwise would not be detected.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>blockServerSideLibraries</name>
+				<title>Block traffic from SDKs and server-side libraries</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Enable this option only if tracking is performed using the JavaScript Tracker or Matomo Tag Manager. It blocks tracking requests sent by HTTP clients and non-JavaScript tracking libraries, including tools such as cURL, Guzzle, and Postman.&lt;br&gt;&lt;strong&gt;Note:&lt;/strong&gt; Do not enable this option if you send tracking data using the Matomo PHP Tracking SDK, Java SDK, Python SDK, Android SDK, iOS SDK, or other non-JavaScript tracking libraries.</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>max_actions_allowed</name>
+				<title>Max actions to record per visit</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>A default of &quot;0&quot; records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>notification_email</name>
+				<title>Notification email</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>This e-mail address will be notified whenever an IP is banned for having too many actions. In the future further notification reasons might be added.</description>
+				<inlineHelp />
+				<introduction />
+				<condition>max_actions_allowed&gt;0</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>excluded_countries</name>
+				<title>Exclude Countries</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>multituple</uiControl>
+				<uiControlAttributes>
+					<field1>
+						<key>country</key>
+						<title>Country</title>
+						<uiControl>select</uiControl>
+						<component />
+						<availableValues>
+							<af>Afghanistan</af>
+							<al>Albania</al>
+							<dz>Algeria</dz>
+							<as>American Samoa</as>
+							<ad>Andorra</ad>
+							<ao>Angola</ao>
+							<ai>Anguilla</ai>
+							<aq>Antarctica</aq>
+							<ag>Antigua &amp; Barbuda</ag>
+							<ar>Argentina</ar>
+							<am>Armenia</am>
+							<aw>Aruba</aw>
+							<au>Australia</au>
+							<at>Austria</at>
+							<az>Azerbaijan</az>
+							<bs>Bahamas</bs>
+							<bh>Bahrain</bh>
+							<bd>Bangladesh</bd>
+							<bb>Barbados</bb>
+							<by>Belarus</by>
+							<be>Belgium</be>
+							<bz>Belize</bz>
+							<bj>Benin</bj>
+							<bm>Bermuda</bm>
+							<bt>Bhutan</bt>
+							<bo>Bolivia</bo>
+							<ba>Bosnia &amp; Herzegovina</ba>
+							<bw>Botswana</bw>
+							<bv>Bouvet Island</bv>
+							<br>Brazil</br>
+							<io>British Indian Ocean Territory</io>
+							<vg>British Virgin Islands</vg>
+							<bn>Brunei</bn>
+							<bg>Bulgaria</bg>
+							<bf>Burkina Faso</bf>
+							<bi>Burundi</bi>
+							<kh>Cambodia</kh>
+							<cm>Cameroon</cm>
+							<ca>Canada</ca>
+							<cv>Cape Verde</cv>
+							<bq>Caribbean Netherlands</bq>
+							<ky>Cayman Islands</ky>
+							<cf>Central African Republic</cf>
+							<td>Chad</td>
+							<cl>Chile</cl>
+							<cn>China</cn>
+							<cx>Christmas Island</cx>
+							<cc>Cocos (Keeling) Islands</cc>
+							<co>Colombia</co>
+							<km>Comoros</km>
+							<cg>Congo - Brazzaville</cg>
+							<cd>Congo - Kinshasa</cd>
+							<ck>Cook Islands</ck>
+							<cr>Costa Rica</cr>
+							<hr>Croatia</hr>
+							<cu>Cuba</cu>
+							<cw>Curaçao</cw>
+							<cy>Cyprus</cy>
+							<cz>Czechia</cz>
+							<ci>Côte d’Ivoire</ci>
+							<dk>Denmark</dk>
+							<dj>Djibouti</dj>
+							<dm>Dominica</dm>
+							<do>Dominican Republic</do>
+							<ec>Ecuador</ec>
+							<eg>Egypt</eg>
+							<sv>El Salvador</sv>
+							<gq>Equatorial Guinea</gq>
+							<er>Eritrea</er>
+							<ee>Estonia</ee>
+							<sz>Eswatini</sz>
+							<et>Ethiopia</et>
+							<fk>Falkland Islands</fk>
+							<fo>Faroe Islands</fo>
+							<fj>Fiji</fj>
+							<fi>Finland</fi>
+							<fr>France</fr>
+							<gf>French Guiana</gf>
+							<pf>French Polynesia</pf>
+							<tf>French Southern and Antarctic Lands</tf>
+							<ga>Gabon</ga>
+							<gm>Gambia</gm>
+							<ge>Georgia</ge>
+							<de>Germany</de>
+							<gh>Ghana</gh>
+							<gi>Gibraltar</gi>
+							<gr>Greece</gr>
+							<gl>Greenland</gl>
+							<gd>Grenada</gd>
+							<gp>Guadeloupe</gp>
+							<gu>Guam</gu>
+							<gt>Guatemala</gt>
+							<gg>Guernsey</gg>
+							<gn>Guinea</gn>
+							<gw>Guinea-Bissau</gw>
+							<gy>Guyana</gy>
+							<ht>Haiti</ht>
+							<hm>Heard Island &amp; McDonald Islands</hm>
+							<hn>Honduras</hn>
+							<hk>Hong Kong SAR China</hk>
+							<hu>Hungary</hu>
+							<is>Iceland</is>
+							<in>India</in>
+							<id>Indonesia</id>
+							<ir>Iran</ir>
+							<iq>Iraq</iq>
+							<ie>Ireland</ie>
+							<im>Isle of Man</im>
+							<il>Israel</il>
+							<it>Italy</it>
+							<jm>Jamaica</jm>
+							<jp>Japan</jp>
+							<je>Jersey</je>
+							<jo>Jordan</jo>
+							<kz>Kazakhstan</kz>
+							<ke>Kenya</ke>
+							<ki>Kiribati</ki>
+							<kw>Kuwait</kw>
+							<kg>Kyrgyzstan</kg>
+							<la>Laos</la>
+							<lv>Latvia</lv>
+							<lb>Lebanon</lb>
+							<ls>Lesotho</ls>
+							<lr>Liberia</lr>
+							<ly>Libya</ly>
+							<li>Liechtenstein</li>
+							<lt>Lithuania</lt>
+							<lu>Luxembourg</lu>
+							<mo>Macao SAR China</mo>
+							<mg>Madagascar</mg>
+							<mw>Malawi</mw>
+							<my>Malaysia</my>
+							<mv>Maldives</mv>
+							<ml>Mali</ml>
+							<mt>Malta</mt>
+							<mh>Marshall Islands</mh>
+							<mq>Martinique</mq>
+							<mr>Mauritania</mr>
+							<mu>Mauritius</mu>
+							<yt>Mayotte</yt>
+							<mx>Mexico</mx>
+							<fm>Micronesia</fm>
+							<md>Moldova</md>
+							<mc>Monaco</mc>
+							<mn>Mongolia</mn>
+							<me>Montenegro</me>
+							<ms>Montserrat</ms>
+							<ma>Morocco</ma>
+							<mz>Mozambique</mz>
+							<mm>Myanmar (Burma)</mm>
+							<na>Namibia</na>
+							<nr>Nauru</nr>
+							<np>Nepal</np>
+							<nl>Netherlands</nl>
+							<nc>New Caledonia</nc>
+							<nz>New Zealand</nz>
+							<ni>Nicaragua</ni>
+							<ne>Niger</ne>
+							<ng>Nigeria</ng>
+							<nu>Niue</nu>
+							<nf>Norfolk Island</nf>
+							<kp>North Korea</kp>
+							<mk>North Macedonia</mk>
+							<mp>Northern Mariana Islands</mp>
+							<no>Norway</no>
+							<om>Oman</om>
+							<pk>Pakistan</pk>
+							<pw>Palau</pw>
+							<ps>Palestinian Territories</ps>
+							<pa>Panama</pa>
+							<pg>Papua New Guinea</pg>
+							<py>Paraguay</py>
+							<pe>Peru</pe>
+							<ph>Philippines</ph>
+							<pn>Pitcairn Islands</pn>
+							<pl>Poland</pl>
+							<pt>Portugal</pt>
+							<pr>Puerto Rico</pr>
+							<qa>Qatar</qa>
+							<ro>Romania</ro>
+							<ru>Russia</ru>
+							<rw>Rwanda</rw>
+							<re>Réunion</re>
+							<ws>Samoa</ws>
+							<sm>San Marino</sm>
+							<sa>Saudi Arabia</sa>
+							<sn>Senegal</sn>
+							<rs>Serbia</rs>
+							<sc>Seychelles</sc>
+							<sl>Sierra Leone</sl>
+							<sg>Singapore</sg>
+							<sx>Sint Maarten</sx>
+							<sk>Slovakia</sk>
+							<si>Slovenia</si>
+							<sb>Solomon Islands</sb>
+							<so>Somalia</so>
+							<za>South Africa</za>
+							<gs>South Georgia &amp; South Sandwich Islands</gs>
+							<kr>South Korea</kr>
+							<ss>South Sudan</ss>
+							<es>Spain</es>
+							<lk>Sri Lanka</lk>
+							<bl>St. Barthélemy</bl>
+							<sh>St. Helena, Ascension &amp; Tristan da Cunha</sh>
+							<kn>St. Kitts &amp; Nevis</kn>
+							<lc>St. Lucia</lc>
+							<mf>St. Martin</mf>
+							<pm>St. Pierre &amp; Miquelon</pm>
+							<vc>St. Vincent &amp; Grenadines</vc>
+							<sd>Sudan</sd>
+							<sr>Suriname</sr>
+							<sj>Svalbard &amp; Jan Mayen</sj>
+							<se>Sweden</se>
+							<ch>Switzerland</ch>
+							<sy>Syria</sy>
+							<st>São Tomé &amp; Príncipe</st>
+							<tw>Taiwan</tw>
+							<tj>Tajikistan</tj>
+							<tz>Tanzania</tz>
+							<th>Thailand</th>
+							<tl>Timor-Leste</tl>
+							<tg>Togo</tg>
+							<tk>Tokelau</tk>
+							<to>Tonga</to>
+							<tt>Trinidad &amp; Tobago</tt>
+							<tn>Tunisia</tn>
+							<tm>Turkmenistan</tm>
+							<tc>Turks &amp; Caicos Islands</tc>
+							<tv>Tuvalu</tv>
+							<tr>Türkiye</tr>
+							<um>U.S. Outlying Islands</um>
+							<vi>U.S. Virgin Islands</vi>
+							<ug>Uganda</ug>
+							<ua>Ukraine</ua>
+							<ae>United Arab Emirates</ae>
+							<gb>United Kingdom</gb>
+							<us>United States</us>
+							<uy>Uruguay</uy>
+							<uz>Uzbekistan</uz>
+							<vu>Vanuatu</vu>
+							<va>Vatican City</va>
+							<ve>Venezuela</ve>
+							<vn>Vietnam</vn>
+							<wf>Wallis &amp; Futuna</wf>
+							<eh>Western Sahara</eh>
+							<ye>Yemen</ye>
+							<zm>Zambia</zm>
+							<zw>Zimbabwe</zw>
+							<ax>Åland Islands</ax>
+						</availableValues>
+					</field1>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Don't track visitors from these countries. Visitors outside your target area will likely be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>included_countries</name>
+				<title>Only track visitors from these countries</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>multituple</uiControl>
+				<uiControlAttributes>
+					<field1>
+						<key>country</key>
+						<title>Country</title>
+						<uiControl>select</uiControl>
+						<component />
+						<availableValues>
+							<af>Afghanistan</af>
+							<al>Albania</al>
+							<dz>Algeria</dz>
+							<as>American Samoa</as>
+							<ad>Andorra</ad>
+							<ao>Angola</ao>
+							<ai>Anguilla</ai>
+							<aq>Antarctica</aq>
+							<ag>Antigua &amp; Barbuda</ag>
+							<ar>Argentina</ar>
+							<am>Armenia</am>
+							<aw>Aruba</aw>
+							<au>Australia</au>
+							<at>Austria</at>
+							<az>Azerbaijan</az>
+							<bs>Bahamas</bs>
+							<bh>Bahrain</bh>
+							<bd>Bangladesh</bd>
+							<bb>Barbados</bb>
+							<by>Belarus</by>
+							<be>Belgium</be>
+							<bz>Belize</bz>
+							<bj>Benin</bj>
+							<bm>Bermuda</bm>
+							<bt>Bhutan</bt>
+							<bo>Bolivia</bo>
+							<ba>Bosnia &amp; Herzegovina</ba>
+							<bw>Botswana</bw>
+							<bv>Bouvet Island</bv>
+							<br>Brazil</br>
+							<io>British Indian Ocean Territory</io>
+							<vg>British Virgin Islands</vg>
+							<bn>Brunei</bn>
+							<bg>Bulgaria</bg>
+							<bf>Burkina Faso</bf>
+							<bi>Burundi</bi>
+							<kh>Cambodia</kh>
+							<cm>Cameroon</cm>
+							<ca>Canada</ca>
+							<cv>Cape Verde</cv>
+							<bq>Caribbean Netherlands</bq>
+							<ky>Cayman Islands</ky>
+							<cf>Central African Republic</cf>
+							<td>Chad</td>
+							<cl>Chile</cl>
+							<cn>China</cn>
+							<cx>Christmas Island</cx>
+							<cc>Cocos (Keeling) Islands</cc>
+							<co>Colombia</co>
+							<km>Comoros</km>
+							<cg>Congo - Brazzaville</cg>
+							<cd>Congo - Kinshasa</cd>
+							<ck>Cook Islands</ck>
+							<cr>Costa Rica</cr>
+							<hr>Croatia</hr>
+							<cu>Cuba</cu>
+							<cw>Curaçao</cw>
+							<cy>Cyprus</cy>
+							<cz>Czechia</cz>
+							<ci>Côte d’Ivoire</ci>
+							<dk>Denmark</dk>
+							<dj>Djibouti</dj>
+							<dm>Dominica</dm>
+							<do>Dominican Republic</do>
+							<ec>Ecuador</ec>
+							<eg>Egypt</eg>
+							<sv>El Salvador</sv>
+							<gq>Equatorial Guinea</gq>
+							<er>Eritrea</er>
+							<ee>Estonia</ee>
+							<sz>Eswatini</sz>
+							<et>Ethiopia</et>
+							<fk>Falkland Islands</fk>
+							<fo>Faroe Islands</fo>
+							<fj>Fiji</fj>
+							<fi>Finland</fi>
+							<fr>France</fr>
+							<gf>French Guiana</gf>
+							<pf>French Polynesia</pf>
+							<tf>French Southern and Antarctic Lands</tf>
+							<ga>Gabon</ga>
+							<gm>Gambia</gm>
+							<ge>Georgia</ge>
+							<de>Germany</de>
+							<gh>Ghana</gh>
+							<gi>Gibraltar</gi>
+							<gr>Greece</gr>
+							<gl>Greenland</gl>
+							<gd>Grenada</gd>
+							<gp>Guadeloupe</gp>
+							<gu>Guam</gu>
+							<gt>Guatemala</gt>
+							<gg>Guernsey</gg>
+							<gn>Guinea</gn>
+							<gw>Guinea-Bissau</gw>
+							<gy>Guyana</gy>
+							<ht>Haiti</ht>
+							<hm>Heard Island &amp; McDonald Islands</hm>
+							<hn>Honduras</hn>
+							<hk>Hong Kong SAR China</hk>
+							<hu>Hungary</hu>
+							<is>Iceland</is>
+							<in>India</in>
+							<id>Indonesia</id>
+							<ir>Iran</ir>
+							<iq>Iraq</iq>
+							<ie>Ireland</ie>
+							<im>Isle of Man</im>
+							<il>Israel</il>
+							<it>Italy</it>
+							<jm>Jamaica</jm>
+							<jp>Japan</jp>
+							<je>Jersey</je>
+							<jo>Jordan</jo>
+							<kz>Kazakhstan</kz>
+							<ke>Kenya</ke>
+							<ki>Kiribati</ki>
+							<kw>Kuwait</kw>
+							<kg>Kyrgyzstan</kg>
+							<la>Laos</la>
+							<lv>Latvia</lv>
+							<lb>Lebanon</lb>
+							<ls>Lesotho</ls>
+							<lr>Liberia</lr>
+							<ly>Libya</ly>
+							<li>Liechtenstein</li>
+							<lt>Lithuania</lt>
+							<lu>Luxembourg</lu>
+							<mo>Macao SAR China</mo>
+							<mg>Madagascar</mg>
+							<mw>Malawi</mw>
+							<my>Malaysia</my>
+							<mv>Maldives</mv>
+							<ml>Mali</ml>
+							<mt>Malta</mt>
+							<mh>Marshall Islands</mh>
+							<mq>Martinique</mq>
+							<mr>Mauritania</mr>
+							<mu>Mauritius</mu>
+							<yt>Mayotte</yt>
+							<mx>Mexico</mx>
+							<fm>Micronesia</fm>
+							<md>Moldova</md>
+							<mc>Monaco</mc>
+							<mn>Mongolia</mn>
+							<me>Montenegro</me>
+							<ms>Montserrat</ms>
+							<ma>Morocco</ma>
+							<mz>Mozambique</mz>
+							<mm>Myanmar (Burma)</mm>
+							<na>Namibia</na>
+							<nr>Nauru</nr>
+							<np>Nepal</np>
+							<nl>Netherlands</nl>
+							<nc>New Caledonia</nc>
+							<nz>New Zealand</nz>
+							<ni>Nicaragua</ni>
+							<ne>Niger</ne>
+							<ng>Nigeria</ng>
+							<nu>Niue</nu>
+							<nf>Norfolk Island</nf>
+							<kp>North Korea</kp>
+							<mk>North Macedonia</mk>
+							<mp>Northern Mariana Islands</mp>
+							<no>Norway</no>
+							<om>Oman</om>
+							<pk>Pakistan</pk>
+							<pw>Palau</pw>
+							<ps>Palestinian Territories</ps>
+							<pa>Panama</pa>
+							<pg>Papua New Guinea</pg>
+							<py>Paraguay</py>
+							<pe>Peru</pe>
+							<ph>Philippines</ph>
+							<pn>Pitcairn Islands</pn>
+							<pl>Poland</pl>
+							<pt>Portugal</pt>
+							<pr>Puerto Rico</pr>
+							<qa>Qatar</qa>
+							<ro>Romania</ro>
+							<ru>Russia</ru>
+							<rw>Rwanda</rw>
+							<re>Réunion</re>
+							<ws>Samoa</ws>
+							<sm>San Marino</sm>
+							<sa>Saudi Arabia</sa>
+							<sn>Senegal</sn>
+							<rs>Serbia</rs>
+							<sc>Seychelles</sc>
+							<sl>Sierra Leone</sl>
+							<sg>Singapore</sg>
+							<sx>Sint Maarten</sx>
+							<sk>Slovakia</sk>
+							<si>Slovenia</si>
+							<sb>Solomon Islands</sb>
+							<so>Somalia</so>
+							<za>South Africa</za>
+							<gs>South Georgia &amp; South Sandwich Islands</gs>
+							<kr>South Korea</kr>
+							<ss>South Sudan</ss>
+							<es>Spain</es>
+							<lk>Sri Lanka</lk>
+							<bl>St. Barthélemy</bl>
+							<sh>St. Helena, Ascension &amp; Tristan da Cunha</sh>
+							<kn>St. Kitts &amp; Nevis</kn>
+							<lc>St. Lucia</lc>
+							<mf>St. Martin</mf>
+							<pm>St. Pierre &amp; Miquelon</pm>
+							<vc>St. Vincent &amp; Grenadines</vc>
+							<sd>Sudan</sd>
+							<sr>Suriname</sr>
+							<sj>Svalbard &amp; Jan Mayen</sj>
+							<se>Sweden</se>
+							<ch>Switzerland</ch>
+							<sy>Syria</sy>
+							<st>São Tomé &amp; Príncipe</st>
+							<tw>Taiwan</tw>
+							<tj>Tajikistan</tj>
+							<tz>Tanzania</tz>
+							<th>Thailand</th>
+							<tl>Timor-Leste</tl>
+							<tg>Togo</tg>
+							<tk>Tokelau</tk>
+							<to>Tonga</to>
+							<tt>Trinidad &amp; Tobago</tt>
+							<tn>Tunisia</tn>
+							<tm>Turkmenistan</tm>
+							<tc>Turks &amp; Caicos Islands</tc>
+							<tv>Tuvalu</tv>
+							<tr>Türkiye</tr>
+							<um>U.S. Outlying Islands</um>
+							<vi>U.S. Virgin Islands</vi>
+							<ug>Uganda</ug>
+							<ua>Ukraine</ua>
+							<ae>United Arab Emirates</ae>
+							<gb>United Kingdom</gb>
+							<us>United States</us>
+							<uy>Uruguay</uy>
+							<uz>Uzbekistan</uz>
+							<vu>Vanuatu</vu>
+							<va>Vatican City</va>
+							<ve>Venezuela</ve>
+							<vn>Vietnam</vn>
+							<wf>Wallis &amp; Futuna</wf>
+							<eh>Western Sahara</eh>
+							<ye>Yemen</ye>
+							<zm>Zambia</zm>
+							<zw>Zimbabwe</zw>
+							<ax>Åland Islands</ax>
+						</availableValues>
+					</field1>
+				</uiControlAttributes>
+				<availableValues />
+				<description>This excludes all other countries. The &quot;exclude countries&quot; setting has more info.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>ip_allow_list</name>
+				<title>IP allow list</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<placeholder>192.0.2.15
+198.51.100.0/24
+2001:db8::/32</placeholder>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Specify the IP addresses or CIDR ranges that are allowed to send tracking requests. Enter one value per line.</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>ip_block_list</name>
+				<title>IP block list</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+					<placeholder>192.0.2.15
+198.51.100.0/24
+2001:db8::/32</placeholder>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Specify the IP addresses or CIDR ranges to block from sending tracking requests. Enter one value per line. Matomo may block additional IPs automatically that won't appear in this list, such as cloud provider IP ranges fetched daily when &quot;Block traffic requests from Cloud provider IP ranges&quot; is enabled, or IPs banned temporarily for exceeding the max actions limit.</inlineHelp>
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -1094,642 +2139,6 @@ Another line</defaultValue>
 				<availableValues />
 				<description />
 				<inlineHelp>If enabled, we will process all requests within a queue during a normal tracking request once there are enough requests in the queue. This will not slow down the tracking request. If disabled, you have to setup a cronjob that executes the &lt;code&gt;./console queuedtracking:process&lt;/code&gt; console command eg every minute to process the queue.&lt;/br&gt;</inlineHelp>
-				<introduction />
-				<condition />
-				<fullWidth>0</fullWidth>
-			</row>
-		</settings>
-	</row>
-	<row>
-		<pluginName>TrackingSpamPrevention</pluginName>
-		<title>TrackingSpamPrevention</title>
-		<settings>
-			<row>
-				<name>block_clouds</name>
-				<title>Block tracking requests from the cloud</title>
-				<value>0</value>
-				<defaultValue>0</defaultValue>
-				<type>boolean</type>
-				<uiControl>checkbox</uiControl>
-				<uiControlAttributes>
-				</uiControlAttributes>
-				<availableValues />
-				<description>Blocks tracking requests originating from cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Oracle by fetching a list of their IP ranges. It should be safe to turn on if you are only tracking using the JavaScript tracker, as their tracking requests do not orginate from clouds, unless they use a VPN that routes data through cloud providers. The setting applies to all your sites.</description>
-				<inlineHelp />
-				<introduction />
-				<condition />
-				<fullWidth>0</fullWidth>
-			</row>
-			<row>
-				<name>block_headless</name>
-				<title>Block headless browsers</title>
-				<value>1</value>
-				<defaultValue>1</defaultValue>
-				<type>boolean</type>
-				<uiControl>checkbox</uiControl>
-				<uiControlAttributes>
-				</uiControlAttributes>
-				<availableValues />
-				<description>These are browsers without a user interface, mostly used for automation. It should be safe to turn this on if you only have regular websites or apps. It can block additional bots and spam requests that otherwise would not be detected.</description>
-				<inlineHelp />
-				<introduction />
-				<condition />
-				<fullWidth>0</fullWidth>
-			</row>
-			<row>
-				<name>blockServerSideLibraries</name>
-				<title>Block tracking requests from server-side libraries</title>
-				<value>0</value>
-				<defaultValue>0</defaultValue>
-				<type>boolean</type>
-				<uiControl>checkbox</uiControl>
-				<uiControlAttributes>
-				</uiControlAttributes>
-				<availableValues />
-				<description />
-				<inlineHelp>Use this if only using &lt;strong&gt;JavaScript Tracker&lt;/strong&gt;, as other traffic will be attacks or spam anyway. It blocks tracking requests from cURL, HTTP, Guzzle, and Postman.&lt;br&gt;&lt;strong&gt;Note: Do not use it if track data using a server-side SDK like the Matomo PHP tracking SDK, Java SDK, Python SDK, Android or iOS SDK, or other server-side programming languages.&lt;/strong&gt;</inlineHelp>
-				<introduction />
-				<condition />
-				<fullWidth>0</fullWidth>
-			</row>
-			<row>
-				<name>max_actions_allowed</name>
-				<title>Max actions to record per visit</title>
-				<value>0</value>
-				<defaultValue>0</defaultValue>
-				<type>integer</type>
-				<uiControl>text</uiControl>
-				<uiControlAttributes>
-				</uiControlAttributes>
-				<availableValues />
-				<description>A default of &quot;0&quot; records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy.</description>
-				<inlineHelp />
-				<introduction />
-				<condition />
-				<fullWidth>0</fullWidth>
-			</row>
-			<row>
-				<name>notification_email</name>
-				<title>Notification email</title>
-				<value />
-				<defaultValue />
-				<type>string</type>
-				<uiControl>text</uiControl>
-				<uiControlAttributes>
-				</uiControlAttributes>
-				<availableValues />
-				<description>This e-mail address will be notified whenever an IP is banned for having too many actions. In the future further notification reasons might be added.</description>
-				<inlineHelp />
-				<introduction />
-				<condition>max_actions_allowed&gt;0</condition>
-				<fullWidth>0</fullWidth>
-			</row>
-			<row>
-				<name>excluded_countries</name>
-				<title>Exclude Countries</title>
-				<value>
-				</value>
-				<defaultValue>
-				</defaultValue>
-				<type>array</type>
-				<uiControl>multituple</uiControl>
-				<uiControlAttributes>
-					<field1>
-						<key>country</key>
-						<title>Country</title>
-						<uiControl>select</uiControl>
-						<component />
-						<availableValues>
-							<af>Afghanistan</af>
-							<al>Albania</al>
-							<dz>Algeria</dz>
-							<as>American Samoa</as>
-							<ad>Andorra</ad>
-							<ao>Angola</ao>
-							<ai>Anguilla</ai>
-							<aq>Antarctica</aq>
-							<ag>Antigua &amp; Barbuda</ag>
-							<ar>Argentina</ar>
-							<am>Armenia</am>
-							<aw>Aruba</aw>
-							<au>Australia</au>
-							<at>Austria</at>
-							<az>Azerbaijan</az>
-							<bs>Bahamas</bs>
-							<bh>Bahrain</bh>
-							<bd>Bangladesh</bd>
-							<bb>Barbados</bb>
-							<by>Belarus</by>
-							<be>Belgium</be>
-							<bz>Belize</bz>
-							<bj>Benin</bj>
-							<bm>Bermuda</bm>
-							<bt>Bhutan</bt>
-							<bo>Bolivia</bo>
-							<ba>Bosnia &amp; Herzegovina</ba>
-							<bw>Botswana</bw>
-							<bv>Bouvet Island</bv>
-							<br>Brazil</br>
-							<io>British Indian Ocean Territory</io>
-							<vg>British Virgin Islands</vg>
-							<bn>Brunei</bn>
-							<bg>Bulgaria</bg>
-							<bf>Burkina Faso</bf>
-							<bi>Burundi</bi>
-							<kh>Cambodia</kh>
-							<cm>Cameroon</cm>
-							<ca>Canada</ca>
-							<cv>Cape Verde</cv>
-							<bq>Caribbean Netherlands</bq>
-							<ky>Cayman Islands</ky>
-							<cf>Central African Republic</cf>
-							<td>Chad</td>
-							<cl>Chile</cl>
-							<cn>China</cn>
-							<cx>Christmas Island</cx>
-							<cc>Cocos (Keeling) Islands</cc>
-							<co>Colombia</co>
-							<km>Comoros</km>
-							<cg>Congo - Brazzaville</cg>
-							<cd>Congo - Kinshasa</cd>
-							<ck>Cook Islands</ck>
-							<cr>Costa Rica</cr>
-							<hr>Croatia</hr>
-							<cu>Cuba</cu>
-							<cw>Curaçao</cw>
-							<cy>Cyprus</cy>
-							<cz>Czechia</cz>
-							<ci>Côte d’Ivoire</ci>
-							<dk>Denmark</dk>
-							<dj>Djibouti</dj>
-							<dm>Dominica</dm>
-							<do>Dominican Republic</do>
-							<ec>Ecuador</ec>
-							<eg>Egypt</eg>
-							<sv>El Salvador</sv>
-							<gq>Equatorial Guinea</gq>
-							<er>Eritrea</er>
-							<ee>Estonia</ee>
-							<sz>Eswatini</sz>
-							<et>Ethiopia</et>
-							<fk>Falkland Islands</fk>
-							<fo>Faroe Islands</fo>
-							<fj>Fiji</fj>
-							<fi>Finland</fi>
-							<fr>France</fr>
-							<gf>French Guiana</gf>
-							<pf>French Polynesia</pf>
-							<tf>French Southern Territories</tf>
-							<ga>Gabon</ga>
-							<gm>Gambia</gm>
-							<ge>Georgia</ge>
-							<de>Germany</de>
-							<gh>Ghana</gh>
-							<gi>Gibraltar</gi>
-							<gr>Greece</gr>
-							<gl>Greenland</gl>
-							<gd>Grenada</gd>
-							<gp>Guadeloupe</gp>
-							<gu>Guam</gu>
-							<gt>Guatemala</gt>
-							<gg>Guernsey</gg>
-							<gn>Guinea</gn>
-							<gw>Guinea-Bissau</gw>
-							<gy>Guyana</gy>
-							<ht>Haiti</ht>
-							<hm>Heard &amp; McDonald Islands</hm>
-							<hn>Honduras</hn>
-							<hk>Hong Kong SAR China</hk>
-							<hu>Hungary</hu>
-							<is>Iceland</is>
-							<in>India</in>
-							<id>Indonesia</id>
-							<ir>Iran</ir>
-							<iq>Iraq</iq>
-							<ie>Ireland</ie>
-							<im>Isle of Man</im>
-							<il>Israel</il>
-							<it>Italy</it>
-							<jm>Jamaica</jm>
-							<jp>Japan</jp>
-							<je>Jersey</je>
-							<jo>Jordan</jo>
-							<kz>Kazakhstan</kz>
-							<ke>Kenya</ke>
-							<ki>Kiribati</ki>
-							<kw>Kuwait</kw>
-							<kg>Kyrgyzstan</kg>
-							<la>Laos</la>
-							<lv>Latvia</lv>
-							<lb>Lebanon</lb>
-							<ls>Lesotho</ls>
-							<lr>Liberia</lr>
-							<ly>Libya</ly>
-							<li>Liechtenstein</li>
-							<lt>Lithuania</lt>
-							<lu>Luxembourg</lu>
-							<mo>Macao SAR China</mo>
-							<mg>Madagascar</mg>
-							<mw>Malawi</mw>
-							<my>Malaysia</my>
-							<mv>Maldives</mv>
-							<ml>Mali</ml>
-							<mt>Malta</mt>
-							<mh>Marshall Islands</mh>
-							<mq>Martinique</mq>
-							<mr>Mauritania</mr>
-							<mu>Mauritius</mu>
-							<yt>Mayotte</yt>
-							<mx>Mexico</mx>
-							<fm>Micronesia</fm>
-							<md>Moldova</md>
-							<mc>Monaco</mc>
-							<mn>Mongolia</mn>
-							<me>Montenegro</me>
-							<ms>Montserrat</ms>
-							<ma>Morocco</ma>
-							<mz>Mozambique</mz>
-							<mm>Myanmar (Burma)</mm>
-							<na>Namibia</na>
-							<nr>Nauru</nr>
-							<np>Nepal</np>
-							<nl>Netherlands</nl>
-							<nc>New Caledonia</nc>
-							<nz>New Zealand</nz>
-							<ni>Nicaragua</ni>
-							<ne>Niger</ne>
-							<ng>Nigeria</ng>
-							<nu>Niue</nu>
-							<nf>Norfolk Island</nf>
-							<kp>North Korea</kp>
-							<mk>North Macedonia</mk>
-							<mp>Northern Mariana Islands</mp>
-							<no>Norway</no>
-							<om>Oman</om>
-							<pk>Pakistan</pk>
-							<pw>Palau</pw>
-							<ps>Palestinian Territories</ps>
-							<pa>Panama</pa>
-							<pg>Papua New Guinea</pg>
-							<py>Paraguay</py>
-							<pe>Peru</pe>
-							<ph>Philippines</ph>
-							<pn>Pitcairn Islands</pn>
-							<pl>Poland</pl>
-							<pt>Portugal</pt>
-							<pr>Puerto Rico</pr>
-							<qa>Qatar</qa>
-							<ro>Romania</ro>
-							<ru>Russia</ru>
-							<rw>Rwanda</rw>
-							<re>Réunion</re>
-							<ws>Samoa</ws>
-							<sm>San Marino</sm>
-							<sa>Saudi Arabia</sa>
-							<sn>Senegal</sn>
-							<rs>Serbia</rs>
-							<sc>Seychelles</sc>
-							<sl>Sierra Leone</sl>
-							<sg>Singapore</sg>
-							<sx>Sint Maarten</sx>
-							<sk>Slovakia</sk>
-							<si>Slovenia</si>
-							<sb>Solomon Islands</sb>
-							<so>Somalia</so>
-							<za>South Africa</za>
-							<gs>South Georgia &amp; South Sandwich Islands</gs>
-							<kr>South Korea</kr>
-							<ss>South Sudan</ss>
-							<es>Spain</es>
-							<lk>Sri Lanka</lk>
-							<bl>St. Barthélemy</bl>
-							<sh>St. Helena</sh>
-							<kn>St. Kitts &amp; Nevis</kn>
-							<lc>St. Lucia</lc>
-							<mf>St. Martin</mf>
-							<pm>St. Pierre &amp; Miquelon</pm>
-							<vc>St. Vincent &amp; Grenadines</vc>
-							<sd>Sudan</sd>
-							<sr>Suriname</sr>
-							<sj>Svalbard &amp; Jan Mayen</sj>
-							<se>Sweden</se>
-							<ch>Switzerland</ch>
-							<sy>Syria</sy>
-							<st>São Tomé &amp; Príncipe</st>
-							<tw>Taiwan</tw>
-							<tj>Tajikistan</tj>
-							<tz>Tanzania</tz>
-							<th>Thailand</th>
-							<tl>Timor-Leste</tl>
-							<tg>Togo</tg>
-							<tk>Tokelau</tk>
-							<to>Tonga</to>
-							<tt>Trinidad &amp; Tobago</tt>
-							<tn>Tunisia</tn>
-							<tm>Turkmenistan</tm>
-							<tc>Turks &amp; Caicos Islands</tc>
-							<tv>Tuvalu</tv>
-							<tr>Türkiye</tr>
-							<um>U.S. Outlying Islands</um>
-							<vi>U.S. Virgin Islands</vi>
-							<ug>Uganda</ug>
-							<ua>Ukraine</ua>
-							<ae>United Arab Emirates</ae>
-							<gb>United Kingdom</gb>
-							<us>United States</us>
-							<uy>Uruguay</uy>
-							<uz>Uzbekistan</uz>
-							<vu>Vanuatu</vu>
-							<va>Vatican City</va>
-							<ve>Venezuela</ve>
-							<vn>Vietnam</vn>
-							<wf>Wallis &amp; Futuna</wf>
-							<eh>Western Sahara</eh>
-							<ye>Yemen</ye>
-							<zm>Zambia</zm>
-							<zw>Zimbabwe</zw>
-							<ax>Åland Islands</ax>
-						</availableValues>
-					</field1>
-				</uiControlAttributes>
-				<availableValues />
-				<description>Don't track visitors from these countries. Visitors outside your target area will likely be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.</description>
-				<inlineHelp />
-				<introduction />
-				<condition />
-				<fullWidth>0</fullWidth>
-			</row>
-			<row>
-				<name>included_countries</name>
-				<title>Only track visitors from these countries</title>
-				<value>
-				</value>
-				<defaultValue>
-				</defaultValue>
-				<type>array</type>
-				<uiControl>multituple</uiControl>
-				<uiControlAttributes>
-					<field1>
-						<key>country</key>
-						<title>Country</title>
-						<uiControl>select</uiControl>
-						<component />
-						<availableValues>
-							<af>Afghanistan</af>
-							<al>Albania</al>
-							<dz>Algeria</dz>
-							<as>American Samoa</as>
-							<ad>Andorra</ad>
-							<ao>Angola</ao>
-							<ai>Anguilla</ai>
-							<aq>Antarctica</aq>
-							<ag>Antigua &amp; Barbuda</ag>
-							<ar>Argentina</ar>
-							<am>Armenia</am>
-							<aw>Aruba</aw>
-							<au>Australia</au>
-							<at>Austria</at>
-							<az>Azerbaijan</az>
-							<bs>Bahamas</bs>
-							<bh>Bahrain</bh>
-							<bd>Bangladesh</bd>
-							<bb>Barbados</bb>
-							<by>Belarus</by>
-							<be>Belgium</be>
-							<bz>Belize</bz>
-							<bj>Benin</bj>
-							<bm>Bermuda</bm>
-							<bt>Bhutan</bt>
-							<bo>Bolivia</bo>
-							<ba>Bosnia &amp; Herzegovina</ba>
-							<bw>Botswana</bw>
-							<bv>Bouvet Island</bv>
-							<br>Brazil</br>
-							<io>British Indian Ocean Territory</io>
-							<vg>British Virgin Islands</vg>
-							<bn>Brunei</bn>
-							<bg>Bulgaria</bg>
-							<bf>Burkina Faso</bf>
-							<bi>Burundi</bi>
-							<kh>Cambodia</kh>
-							<cm>Cameroon</cm>
-							<ca>Canada</ca>
-							<cv>Cape Verde</cv>
-							<bq>Caribbean Netherlands</bq>
-							<ky>Cayman Islands</ky>
-							<cf>Central African Republic</cf>
-							<td>Chad</td>
-							<cl>Chile</cl>
-							<cn>China</cn>
-							<cx>Christmas Island</cx>
-							<cc>Cocos (Keeling) Islands</cc>
-							<co>Colombia</co>
-							<km>Comoros</km>
-							<cg>Congo - Brazzaville</cg>
-							<cd>Congo - Kinshasa</cd>
-							<ck>Cook Islands</ck>
-							<cr>Costa Rica</cr>
-							<hr>Croatia</hr>
-							<cu>Cuba</cu>
-							<cw>Curaçao</cw>
-							<cy>Cyprus</cy>
-							<cz>Czechia</cz>
-							<ci>Côte d’Ivoire</ci>
-							<dk>Denmark</dk>
-							<dj>Djibouti</dj>
-							<dm>Dominica</dm>
-							<do>Dominican Republic</do>
-							<ec>Ecuador</ec>
-							<eg>Egypt</eg>
-							<sv>El Salvador</sv>
-							<gq>Equatorial Guinea</gq>
-							<er>Eritrea</er>
-							<ee>Estonia</ee>
-							<sz>Eswatini</sz>
-							<et>Ethiopia</et>
-							<fk>Falkland Islands</fk>
-							<fo>Faroe Islands</fo>
-							<fj>Fiji</fj>
-							<fi>Finland</fi>
-							<fr>France</fr>
-							<gf>French Guiana</gf>
-							<pf>French Polynesia</pf>
-							<tf>French Southern Territories</tf>
-							<ga>Gabon</ga>
-							<gm>Gambia</gm>
-							<ge>Georgia</ge>
-							<de>Germany</de>
-							<gh>Ghana</gh>
-							<gi>Gibraltar</gi>
-							<gr>Greece</gr>
-							<gl>Greenland</gl>
-							<gd>Grenada</gd>
-							<gp>Guadeloupe</gp>
-							<gu>Guam</gu>
-							<gt>Guatemala</gt>
-							<gg>Guernsey</gg>
-							<gn>Guinea</gn>
-							<gw>Guinea-Bissau</gw>
-							<gy>Guyana</gy>
-							<ht>Haiti</ht>
-							<hm>Heard &amp; McDonald Islands</hm>
-							<hn>Honduras</hn>
-							<hk>Hong Kong SAR China</hk>
-							<hu>Hungary</hu>
-							<is>Iceland</is>
-							<in>India</in>
-							<id>Indonesia</id>
-							<ir>Iran</ir>
-							<iq>Iraq</iq>
-							<ie>Ireland</ie>
-							<im>Isle of Man</im>
-							<il>Israel</il>
-							<it>Italy</it>
-							<jm>Jamaica</jm>
-							<jp>Japan</jp>
-							<je>Jersey</je>
-							<jo>Jordan</jo>
-							<kz>Kazakhstan</kz>
-							<ke>Kenya</ke>
-							<ki>Kiribati</ki>
-							<kw>Kuwait</kw>
-							<kg>Kyrgyzstan</kg>
-							<la>Laos</la>
-							<lv>Latvia</lv>
-							<lb>Lebanon</lb>
-							<ls>Lesotho</ls>
-							<lr>Liberia</lr>
-							<ly>Libya</ly>
-							<li>Liechtenstein</li>
-							<lt>Lithuania</lt>
-							<lu>Luxembourg</lu>
-							<mo>Macao SAR China</mo>
-							<mg>Madagascar</mg>
-							<mw>Malawi</mw>
-							<my>Malaysia</my>
-							<mv>Maldives</mv>
-							<ml>Mali</ml>
-							<mt>Malta</mt>
-							<mh>Marshall Islands</mh>
-							<mq>Martinique</mq>
-							<mr>Mauritania</mr>
-							<mu>Mauritius</mu>
-							<yt>Mayotte</yt>
-							<mx>Mexico</mx>
-							<fm>Micronesia</fm>
-							<md>Moldova</md>
-							<mc>Monaco</mc>
-							<mn>Mongolia</mn>
-							<me>Montenegro</me>
-							<ms>Montserrat</ms>
-							<ma>Morocco</ma>
-							<mz>Mozambique</mz>
-							<mm>Myanmar (Burma)</mm>
-							<na>Namibia</na>
-							<nr>Nauru</nr>
-							<np>Nepal</np>
-							<nl>Netherlands</nl>
-							<nc>New Caledonia</nc>
-							<nz>New Zealand</nz>
-							<ni>Nicaragua</ni>
-							<ne>Niger</ne>
-							<ng>Nigeria</ng>
-							<nu>Niue</nu>
-							<nf>Norfolk Island</nf>
-							<kp>North Korea</kp>
-							<mk>North Macedonia</mk>
-							<mp>Northern Mariana Islands</mp>
-							<no>Norway</no>
-							<om>Oman</om>
-							<pk>Pakistan</pk>
-							<pw>Palau</pw>
-							<ps>Palestinian Territories</ps>
-							<pa>Panama</pa>
-							<pg>Papua New Guinea</pg>
-							<py>Paraguay</py>
-							<pe>Peru</pe>
-							<ph>Philippines</ph>
-							<pn>Pitcairn Islands</pn>
-							<pl>Poland</pl>
-							<pt>Portugal</pt>
-							<pr>Puerto Rico</pr>
-							<qa>Qatar</qa>
-							<ro>Romania</ro>
-							<ru>Russia</ru>
-							<rw>Rwanda</rw>
-							<re>Réunion</re>
-							<ws>Samoa</ws>
-							<sm>San Marino</sm>
-							<sa>Saudi Arabia</sa>
-							<sn>Senegal</sn>
-							<rs>Serbia</rs>
-							<sc>Seychelles</sc>
-							<sl>Sierra Leone</sl>
-							<sg>Singapore</sg>
-							<sx>Sint Maarten</sx>
-							<sk>Slovakia</sk>
-							<si>Slovenia</si>
-							<sb>Solomon Islands</sb>
-							<so>Somalia</so>
-							<za>South Africa</za>
-							<gs>South Georgia &amp; South Sandwich Islands</gs>
-							<kr>South Korea</kr>
-							<ss>South Sudan</ss>
-							<es>Spain</es>
-							<lk>Sri Lanka</lk>
-							<bl>St. Barthélemy</bl>
-							<sh>St. Helena</sh>
-							<kn>St. Kitts &amp; Nevis</kn>
-							<lc>St. Lucia</lc>
-							<mf>St. Martin</mf>
-							<pm>St. Pierre &amp; Miquelon</pm>
-							<vc>St. Vincent &amp; Grenadines</vc>
-							<sd>Sudan</sd>
-							<sr>Suriname</sr>
-							<sj>Svalbard &amp; Jan Mayen</sj>
-							<se>Sweden</se>
-							<ch>Switzerland</ch>
-							<sy>Syria</sy>
-							<st>São Tomé &amp; Príncipe</st>
-							<tw>Taiwan</tw>
-							<tj>Tajikistan</tj>
-							<tz>Tanzania</tz>
-							<th>Thailand</th>
-							<tl>Timor-Leste</tl>
-							<tg>Togo</tg>
-							<tk>Tokelau</tk>
-							<to>Tonga</to>
-							<tt>Trinidad &amp; Tobago</tt>
-							<tn>Tunisia</tn>
-							<tm>Turkmenistan</tm>
-							<tc>Turks &amp; Caicos Islands</tc>
-							<tv>Tuvalu</tv>
-							<tr>Türkiye</tr>
-							<um>U.S. Outlying Islands</um>
-							<vi>U.S. Virgin Islands</vi>
-							<ug>Uganda</ug>
-							<ua>Ukraine</ua>
-							<ae>United Arab Emirates</ae>
-							<gb>United Kingdom</gb>
-							<us>United States</us>
-							<uy>Uruguay</uy>
-							<uz>Uzbekistan</uz>
-							<vu>Vanuatu</vu>
-							<va>Vatican City</va>
-							<ve>Venezuela</ve>
-							<vn>Vietnam</vn>
-							<wf>Wallis &amp; Futuna</wf>
-							<eh>Western Sahara</eh>
-							<ye>Yemen</ye>
-							<zm>Zambia</zm>
-							<zw>Zimbabwe</zw>
-							<ax>Åland Islands</ax>
-						</availableValues>
-					</field1>
-				</uiControlAttributes>
-				<availableValues />
-				<description>This excludes all other countries. The &quot;exclude countries&quot; setting has more info.</description>
-				<inlineHelp />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>

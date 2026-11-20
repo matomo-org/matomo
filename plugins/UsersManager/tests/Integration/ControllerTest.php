@@ -9,10 +9,14 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\UsersManager\Controller;
 use Piwik\Nonce;
+use Piwik\Notification;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Date;
 use Piwik\Plugin\ThemeStyles;
@@ -42,34 +46,54 @@ class ControllerTest extends IntegrationTestCase
      * @var Controller
      */
     private $controller;
+    /**
+     * @var PasswordVerifier
+     */
+    private $passwordVerify;
+    /**
+     * @var Model
+     */
+    private $userModel;
     private $post;
     private $get;
     private $request;
+    private $session;
     private $enableUsersAdmin;
+    private $enabledPeriodsUi;
+    private $defaultDay;
     private $superUser;
+    private $idSitesView;
     private $identity;
     private $superUserLogin;
+    private $tokenAccessLevel;
 
     public function setUp(): void
     {
         parent::setUp();
 
+        $this->passwordVerify = new PasswordVerifier();
+        $this->userModel = new Model();
         $this->controller = new Controller(
             $translator = new Translator(new DevelopmentLoader(new JsonFileLoader())),
-            $passwordVerify = new PasswordVerifier(),
-            $userModel = new Model(),
+            $this->passwordVerify,
+            $this->userModel,
             $passwordStrength = new PasswordStrength(true)
         );
         $this->post = $_POST;
         $this->get = $_GET;
         $this->request = $_REQUEST;
+        $this->session = $_SESSION ?? null;
         $this->enableUsersAdmin = Config::getInstance()->General['enable_users_admin'];
+        $this->enabledPeriodsUi = Config::getInstance()->General['enabled_periods_UI'];
+        $this->defaultDay = Config::getInstance()->General['default_day'];
         $this->superUser = FakeAccess::$superUser;
+        $this->idSitesView = FakeAccess::$idSitesView;
         $this->identity = FakeAccess::$identity;
         $this->superUserLogin = FakeAccess::$superUserLogin;
+        $this->tokenAccessLevel = FakeAccess::$tokenAccessLevel;
 
         FakeAccess::$superUser = true;
-        $userModel->deleteUser(self::CURRENT_USER_LOGIN);
+        $this->userModel->deleteUser(self::CURRENT_USER_LOGIN);
         UsersManagerAPI::getInstance()->addUser(
             self::CURRENT_USER_LOGIN,
             'Password111!',
@@ -85,10 +109,22 @@ class ControllerTest extends IntegrationTestCase
         $_POST = $this->post;
         $_GET = $this->get;
         $_REQUEST = $this->request;
+
+        // leave $_SESSION undefined for later tests if it was not defined before
+        if (isset($this->session)) {
+            $_SESSION = $this->session;
+        } else {
+            unset($_SESSION);
+        }
+
         Config::getInstance()->General['enable_users_admin'] = $this->enableUsersAdmin;
+        Config::getInstance()->General['enabled_periods_UI'] = $this->enabledPeriodsUi;
+        Config::getInstance()->General['default_day'] = $this->defaultDay;
         FakeAccess::$superUser = $this->superUser;
+        FakeAccess::$idSitesView = $this->idSitesView;
         FakeAccess::$identity = $this->identity;
         FakeAccess::$superUserLogin = $this->superUserLogin;
+        FakeAccess::$tokenAccessLevel = $this->tokenAccessLevel;
     }
     public function createSiteWithUser()
     {
@@ -114,9 +150,23 @@ class ControllerTest extends IntegrationTestCase
     {
         $this->setupPostStateWithPassword('password1');
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('General_PasswordStrengthValidationFailed');
-        $this->controller->recordPasswordChange();
+        $this->assertStringContainsString('General_PasswordStrengthValidationFailed', $this->recordPasswordChangeAndGetError());
+    }
+
+    public function testRecordPasswordChangeReportsMismatchingPasswords()
+    {
+        $this->setupPostStateWithPassword('Password111!');
+        $_POST['passwordBis'] = 'Password222!';
+
+        $this->assertSame('Login_PasswordsDoNotMatch', $this->recordPasswordChangeAndGetError());
+    }
+
+    public function testRecordPasswordChangeReportsAPasswordThatIsAlreadyInUse()
+    {
+        $this->setupPostStateWithPassword('Password111!');
+        $_POST['passwordConfirmation'] = 'Password111!';
+
+        $this->assertSame('UsersManager_PasswordAlreadyInUse', $this->recordPasswordChangeAndGetError());
     }
 
     public function testRecordPasswordChangePasswordStrengthCheckStrongPassword()
@@ -130,9 +180,8 @@ class ControllerTest extends IntegrationTestCase
         $usersModel->addUser($userLogin, $passwordHash = '', $userEmail, Date::now()->getDatetime());
 
         // expect test to get past strength check and fail when checking existing password
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
-        $this->controller->recordPasswordChange();
+        // the test framework appends a debugging hint to errors of nested API requests
+        $this->assertStringStartsWith('UsersManager_ConfirmWithReAuthentication', $this->recordPasswordChangeAndGetError());
     }
 
     public function testRecordUserSettingsShouldRejectInvalidThemeMode()
@@ -141,19 +190,449 @@ class ControllerTest extends IntegrationTestCase
 
         $_GET = [
             'format' => 'json',
+        ];
+        $_POST = [
             'themeMode' => 'invalid',
             'defaultReport' => '1',
             'defaultDate' => 'today',
             'language' => 'en',
             'timeformat' => '0',
         ];
-        $_POST = [];
-        $_REQUEST = $_GET;
 
         $response = $this->controller->recordUserSettings();
 
         $this->assertStringContainsString('Invalid theme mode', $response);
         $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    public function testRecordUserSettingsReadsSettingsFromPost()
+    {
+        $idSite = $this->createSiteWithUser();
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        // settings are read from the post body, not the query string
+        $_GET = [
+            'format' => 'json',
+            'themeMode' => 'invalid',
+        ];
+        $_POST = [
+            'themeMode' => ThemeStyles::DARK_MODE,
+            'defaultReport' => (string) $idSite,
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $this->controller->recordUserSettings();
+
+        $this->assertSame(ThemeStyles::DARK_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    public function testRecordUserSettingsReadsEmailFromPost()
+    {
+        // the email is only processed while the users admin is enabled
+        Config::getInstance()->General['enable_users_admin'] = 1;
+        $idSite = $this->createSiteWithUser();
+
+        // the email is read from the post body, not the query string
+        $_GET = [
+            'format' => 'json',
+            'email' => 'from-the-query-string@example.com',
+        ];
+        $_POST = [
+            'email' => self::CURRENT_USER_EMAIL,
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => (string) $idSite,
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('"result":"success"', $response);
+        $this->assertSame(
+            self::CURRENT_USER_EMAIL,
+            $this->userModel->getUser(self::CURRENT_USER_LOGIN)['email']
+        );
+    }
+
+    public function testRecordUserSettingsRejectsEmptyDefaultReport()
+    {
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => '',
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        // an empty default report would leave the user settings page unable to render
+        $this->assertStringContainsString('Invalid default report', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT));
+    }
+
+    public function testRecordUserSettingsRejectsDefaultReportForSiteWithoutViewAccess()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesView = [];
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => '1',
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('Invalid default report', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT));
+    }
+
+    public function testRecordUserSettingsRejectsInvalidDefaultDate()
+    {
+        $idSite = $this->createSiteWithUser();
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => (string) $idSite,
+            // survives getDefaultDateWithoutValidation() verbatim and would end up in menu urls
+            'defaultDate' => 'last7&module=CoreAdminHome',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('Invalid default date', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE));
+    }
+
+    public function testRecordUserSettingsRejectsDefaultReportForSiteThatDoesNotExist()
+    {
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        // a super user passes the view access check for any site id
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            'defaultReport' => '999999',
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('Invalid default report', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT));
+    }
+
+    public function testRecordUserSettingsStoresNormalisedDefaultReport()
+    {
+        $idSite = $this->createSiteWithUser();
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::LIGHT_MODE,
+            // a padded id passes ctype_digit() and must not reach storage verbatim
+            'defaultReport' => '0' . $idSite,
+            'defaultDate' => 'today',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('"result":"success"', $response);
+        $this->assertSame(
+            (string) $idSite,
+            (string) $this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT)
+        );
+    }
+
+    public function testRecordUserSettingsAcceptsStoredDefaultDateOfPeriodDisabledInTheUi()
+    {
+        $idSite = $this->createSiteWithUser();
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        UsersManagerAPI::getInstance()->setUserPreference(
+            self::CURRENT_USER_LOGIN,
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE,
+            'last30'
+        );
+
+        // an admin has since dropped the range period the stored date belongs to
+        Config::getInstance()->General['enabled_periods_UI'] = 'day,week,month,year';
+
+        // the form pre-fills the stored date, so it is posted back with everything else
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::DARK_MODE,
+            'defaultReport' => (string) $idSite,
+            'defaultDate' => 'last30',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('"result":"success"', $response);
+        $this->assertSame(
+            'last30',
+            (string) $this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE)
+        );
+        // the rest of the form was saved too
+        $this->assertSame(ThemeStyles::DARK_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    public function testRecordUserSettingsAcceptsConfiguredLastNDefaultDay()
+    {
+        $idSite = $this->createSiteWithUser();
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        // an admin may configure any lastN or previousN
+        Config::getInstance()->General['default_day'] = 'last14';
+
+        // with no stored date the form pre-fills the configured default and posts it back
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'themeMode' => ThemeStyles::DARK_MODE,
+            'defaultReport' => (string) $idSite,
+            'defaultDate' => 'last14',
+            'language' => 'en',
+            'timeformat' => '0',
+        ];
+
+        $response = $this->controller->recordUserSettings();
+
+        $this->assertStringContainsString('"result":"success"', $response);
+        $this->assertSame(
+            'last14',
+            (string) $this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE)
+        );
+    }
+
+    public function testUserSettingsShouldNotOfferDatesOfPeriodsDisabledInTheUi()
+    {
+        Config::getInstance()->General['enabled_periods_UI'] = 'day,week,month,year';
+        $this->createSiteWithUser();
+
+        $response = $this->controller->userSettings();
+
+        // the offered dates are key/label pairs, the pre-filled date is a bare string
+        $this->assertStringNotContainsString('&quot;last30&quot;:', $response);
+        $this->assertStringContainsString('&quot;yesterday&quot;:', $response);
+    }
+
+    public function testRecordAnonymousUserSettingsReadsSettingsFromPost()
+    {
+        $idSite = $this->addSiteAnonymousCanView();
+
+        // settings are read from the post body, not the query string
+        $_GET = [
+            'format' => 'json',
+            'anonymousDefaultReport' => 'MultiSites',
+            'anonymousDefaultDate' => 'week',
+        ];
+        $_POST = [
+            'anonymousDefaultReport' => (string) $idSite,
+            'anonymousDefaultDate' => 'today',
+        ];
+
+        $this->controller->recordAnonymousUserSettings();
+
+        $storedReport = UsersManagerAPI::getInstance()->getUserPreference(
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
+            'anonymous'
+        );
+        $storedDate = UsersManagerAPI::getInstance()->getUserPreference(
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE,
+            'anonymous'
+        );
+
+        $this->assertSame((string) $idSite, (string) $storedReport);
+        $this->assertSame('today', (string) $storedDate);
+    }
+
+    public function testRecordAnonymousUserSettingsRejectsSiteOnlyTheCurrentUserCanView()
+    {
+        $this->userModel->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
+
+        // the site is viewable by the super user recording the settings, but not by anonymous
+        $idSite = $this->createSiteWithUser();
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'anonymousDefaultReport' => (string) $idSite,
+            'anonymousDefaultDate' => 'today',
+        ];
+
+        $response = $this->controller->recordAnonymousUserSettings();
+
+        $this->assertStringContainsString('Invalid default report', $response);
+        $this->assertFalse($this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT, 'anonymous'));
+    }
+
+    public function testRecordAnonymousUserSettingsRejectsInvalidDefaultDate()
+    {
+        $idSite = $this->addSiteAnonymousCanView();
+
+        $_GET = ['format' => 'json'];
+        $_POST = [
+            'anonymousDefaultReport' => (string) $idSite,
+            'anonymousDefaultDate' => 'last7&module=CoreAdminHome',
+        ];
+
+        $response = $this->controller->recordAnonymousUserSettings();
+
+        $this->assertStringContainsString('Invalid default date', $response);
+        $this->assertFalse(
+            $this->getStoredPreference(UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE, 'anonymous')
+        );
+    }
+
+    public function testRecordPasswordChangeReadsPasswordFromPost()
+    {
+        // password is read from the post body, not the query string
+        $this->setupPostStateWithPassword('Password111!');
+        $_GET['password'] = 'weak';
+        $_GET['passwordBis'] = 'weak';
+
+        // expect test to get past strength check and fail when checking existing password
+        // the test framework appends a debugging hint to errors of nested API requests
+        $this->assertStringStartsWith('UsersManager_ConfirmWithReAuthentication', $this->recordPasswordChangeAndGetError());
+    }
+
+    public function testDeleteTokenRequiresRecentPasswordVerification()
+    {
+        // don't redirect to the password confirmation, so the failed verification throws
+        $this->passwordVerify->setDisableRedirect();
+
+        $_POST = [
+            'idtokenauth' => '1',
+            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
+        ];
+        $_GET = [];
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Not allowed');
+        $this->controller->deleteToken();
+    }
+
+    public function testDeleteTokenRejectsMissingNonce()
+    {
+        $this->passwordVerify->setDisableRedirect();
+
+        $_POST = ['idtokenauth' => '1'];
+        $_GET = [];
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionSecurityCheckFailed');
+        $this->controller->deleteToken();
+    }
+
+    public function testDeleteTokenDeletesTokenAfterPasswordConfirmationRedirect()
+    {
+        $idTokenAuth = $this->addTokenForCurrentUser('token submitted for deletion');
+
+        $_POST = [
+            'idtokenauth' => (string) $idTokenAuth,
+            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
+        ];
+        $_GET = ['module' => 'UsersManager', 'action' => 'deleteToken'];
+
+        // the password has not been confirmed yet, so the action redirects to the confirmation form
+        $redirectUrl = $this->captureRedirect(function () {
+            $this->controller->deleteToken();
+        });
+        $this->assertStringContainsString('action=confirmPassword', $redirectUrl);
+
+        // confirming the password redirects back to the action with the stored parameters
+        $redirectUrl = $this->captureRedirect(function () {
+            $this->passwordVerify->setPasswordVerifiedCorrectly(self::CURRENT_USER_LOGIN);
+        });
+        $this->assertStringContainsString('action=deleteToken', $redirectUrl);
+        $this->assertStringContainsString('idtokenauth=' . $idTokenAuth, $redirectUrl);
+
+        // that redirect is a GET request, so the parameters arrive without a post body
+        parse_str((string) parse_url($redirectUrl, PHP_URL_QUERY), $_GET);
+        $_POST = [];
+
+        $this->callDeleteTokenIgnoringFinalRedirect();
+
+        $this->assertSame([], $this->getTokenIdsForCurrentUser());
+    }
+
+    public function testDeleteTokenPrefersPostedIdTokenAuth()
+    {
+        $idTokenAuthInPost = $this->addTokenForCurrentUser('token named in the post body');
+        $idTokenAuthInQuery = $this->addTokenForCurrentUser('token named in the query string');
+
+        $this->markPasswordAsVerified();
+
+        $_POST = [
+            'idtokenauth' => (string) $idTokenAuthInPost,
+            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
+        ];
+        $_GET = ['idtokenauth' => (string) $idTokenAuthInQuery];
+
+        $this->callDeleteTokenIgnoringFinalRedirect();
+
+        $this->assertSame([(string) $idTokenAuthInQuery], $this->getTokenIdsForCurrentUser());
+    }
+
+    public function testDeleteTokenDeletesAllTokens()
+    {
+        $this->addTokenForCurrentUser('first token');
+        $this->addTokenForCurrentUser('second token');
+
+        $this->markPasswordAsVerified();
+
+        // what the "delete all tokens" form submits
+        $_POST = [
+            'idtokenauth' => 'all',
+            'nonce' => Nonce::getNonce(Controller::NONCE_DELETE_AUTH_TOKEN),
+        ];
+        $_GET = [];
+
+        $this->callDeleteTokenIgnoringFinalRedirect();
+
+        $this->assertSame([], $this->getTokenIdsForCurrentUser());
+    }
+
+    public function testDeleteTokenDeletesNothingWhenPostedIdTokenAuthIsEmpty()
+    {
+        $idTokenAuthInQuery = $this->addTokenForCurrentUser('token named in the query string');
+
+        // an empty posted value is a value, so the query string is not consulted for it
+        $_POST = ['idtokenauth' => ''];
+        $_GET = ['idtokenauth' => (string) $idTokenAuthInQuery];
+
+        $this->callDeleteTokenIgnoringFinalRedirect();
+
+        $this->assertSame([(string) $idTokenAuthInQuery], $this->getTokenIdsForCurrentUser());
+    }
+
+    public function testDeleteTokenRejectsInvalidIdTokenAuth()
+    {
+        $_POST = ['idtokenauth' => '1&2'];
+        $_GET = [];
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid idtokenauth');
+        $this->controller->deleteToken();
     }
 
     public function testUserSettingsShouldExposeMatchBrowserThemeModeOption()
@@ -197,6 +676,280 @@ class ControllerTest extends IntegrationTestCase
     public function testThemeModeShouldDefaultToLightForNewUsers()
     {
         $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    public function testAddNewTokenShouldStoreNullAccessLevelWhenDefaultOptionIsSubmitted()
+    {
+        $idSite = $this->createSiteWithUser();
+        $this->markPasswordAsVerifiedForAddToken();
+
+        $_GET = ['idSite' => $idSite];
+
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'default scope token',
+            'secure_only' => '1',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => '',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $this->controller->addNewToken();
+
+        $tokens = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $tokenMetadata = end($tokens);
+
+        $this->assertNotNull($tokenMetadata);
+        $this->assertNull($tokenMetadata['access_level']);
+        $this->assertSame(self::CURRENT_USER_LOGIN, $tokenMetadata['login']);
+        $this->assertSame('default scope token', $tokenMetadata['description']);
+    }
+
+    public function testAddNewTokenRefusesAnAccessLevelAboveTheScopeOfTheRequestsToken()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        FakeAccess::$tokenAccessLevel = 'view';
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'token above the scope of the request',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => 'admin',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $tokensBefore = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+
+        $response = $this->controller->addNewToken();
+
+        // Admin is a level this user may hold, so the refusal is about the request rather than the user.
+        $this->assertStringContainsString('invalid-access-level="true"', $response);
+
+        $tokensAfter = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $this->assertCount(count($tokensBefore), $tokensAfter);
+    }
+
+    public function testAddNewTokenRefusesTheInheritedAccessLevelForAScopedRequest()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        FakeAccess::$tokenAccessLevel = 'view';
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'token inheriting the user access',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => '',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $tokensBefore = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+
+        // An inherited access level is an unscoped token, which is more than a scoped request may issue.
+        $response = $this->controller->addNewToken();
+
+        $this->assertStringContainsString('invalid-access-level="true"', $response);
+
+        $tokensAfter = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $this->assertCount(count($tokensBefore), $tokensAfter);
+    }
+
+    public function testAddNewTokenOffersOnlyAccessLevelsWithinTheScopeOfTheRequestsToken()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        FakeAccess::$tokenAccessLevel = 'view';
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [];
+        $_REQUEST = $_GET;
+
+        $response = $this->controller->addNewToken();
+
+        // Offering what the request may not issue leaves the form to be refused on submission instead.
+        $this->assertStringContainsString('&quot;key&quot;:&quot;view&quot;', $response);
+        $this->assertStringNotContainsString('&quot;key&quot;:&quot;write&quot;', $response);
+        $this->assertStringNotContainsString('&quot;key&quot;:&quot;admin&quot;', $response);
+        // The inherited option issues an unscoped token, so it is not on offer either, and the level the
+        // request itself carries takes its place as the preselected one.
+        $this->assertStringNotContainsString('&quot;key&quot;:&quot;&quot;', $response);
+        $this->assertStringContainsString('selected-access-level="&quot;view&quot;"', $response);
+    }
+
+    public function testAddNewTokenOffersEveryAccessLevelTheUserHoldsForAnUnscopedRequest()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [];
+        $_REQUEST = $_GET;
+
+        $response = $this->controller->addNewToken();
+
+        $this->assertStringContainsString('&quot;key&quot;:&quot;&quot;', $response);
+        $this->assertStringContainsString('&quot;key&quot;:&quot;view&quot;', $response);
+        $this->assertStringContainsString('&quot;key&quot;:&quot;admin&quot;', $response);
+    }
+
+    public function testAddNewTokenStoresATokenAtTheScopeOfTheRequestsToken()
+    {
+        $idSite = $this->createSiteWithUser();
+        UsersManagerAPI::getInstance()->setUserAccess(self::CURRENT_USER_LOGIN, 'admin', [$idSite]);
+        $this->markPasswordAsVerifiedForAddToken();
+
+        FakeAccess::$tokenAccessLevel = 'view';
+
+        $_GET = ['idSite' => $idSite];
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'token at the scope of the request',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => 'view',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $this->controller->addNewToken();
+
+        $tokens = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $tokenMetadata = end($tokens);
+
+        $this->assertNotNull($tokenMetadata);
+        $this->assertSame('view', $tokenMetadata['access_level']);
+        $this->assertSame('token at the scope of the request', $tokenMetadata['description']);
+    }
+
+    private function addSiteAnonymousCanView(): int
+    {
+        $this->userModel->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
+
+        $idSite = SitesManagerAPI::getInstance()->addSite(
+            'Anonymous site',
+            ['https://anonymous.example.test']
+        );
+        UsersManagerAPI::getInstance()->setUserAccess('anonymous', 'view', [$idSite]);
+
+        return $idSite;
+    }
+
+    /**
+     * @return mixed the stored value, or false when nothing was stored
+     */
+    private function getStoredPreference(string $preferenceName, string $userLogin = self::CURRENT_USER_LOGIN)
+    {
+        return StaticContainer::get(UserScopedSettingsAccessManager::class)->get(
+            'UsersManager',
+            $userLogin,
+            $preferenceName,
+            false
+        );
+    }
+
+    private function addTokenForCurrentUser(string $description): string
+    {
+        return (string) $this->userModel->addTokenAuth(
+            self::CURRENT_USER_LOGIN,
+            'token' . Common::generateUniqId(),
+            $description,
+            Date::now()->getDatetime()
+        );
+    }
+
+    private function getTokenIdsForCurrentUser(): array
+    {
+        $tokens = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+
+        return array_map('strval', array_column($tokens, 'idusertokenauth'));
+    }
+
+    private function markPasswordAsVerified(): void
+    {
+        // the password only counts as verified while a verification is pending, so the redirect has
+        // to be initiated first
+        $this->passwordVerify->setDisableRedirect();
+        $this->passwordVerify->requirePasswordVerifiedRecently([
+            'module' => 'UsersManager',
+            'action' => 'deleteToken',
+        ]);
+        $this->passwordVerify->setPasswordVerifiedCorrectly(self::CURRENT_USER_LOGIN);
+    }
+
+    /**
+     * Runs a callable that is expected to redirect and returns the url it redirected to. Redirects
+     * throw instead of sending a header when running on the command line.
+     */
+    private function captureRedirect(callable $callable): string
+    {
+        unset(Common::$headersSentInTests['Location']);
+
+        try {
+            $callable();
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('would redirect you to this URL', $e->getMessage());
+
+            return trim(Common::$headersSentInTests['Location'] ?? '');
+        }
+
+        $this->fail('the call was expected to redirect');
+    }
+
+    private function callDeleteTokenIgnoringFinalRedirect(): void
+    {
+        // the action ends by redirecting to the user security page, which cannot be followed here as
+        // no site exists to build the url from
+        try {
+            $this->controller->deleteToken();
+            $this->fail('deleteToken() was expected to end in a redirect');
+        } catch (NoWebsiteFoundException $e) {
+            // expected
+        }
+    }
+
+    private function markPasswordAsVerifiedForAddToken(): void
+    {
+        $params = ['module' => 'UsersManager', 'action' => 'addNewToken'];
+
+        // the password only counts as verified while a verification is pending, so the redirect has
+        // to be initiated first
+        $this->passwordVerify->setDisableRedirect();
+        $this->assertNull($this->passwordVerify->requirePasswordVerifiedRecently($params));
+        $this->passwordVerify->setPasswordVerifiedCorrectly();
+        $this->assertTrue($this->passwordVerify->requirePasswordVerifiedRecently($params));
+    }
+
+    /**
+     * @return string the message of the error notification shown on the security page
+     */
+    private function recordPasswordChangeAndGetError(): string
+    {
+        NotificationManager::cancelAllNotifications();
+
+        try {
+            $this->controller->recordPasswordChange();
+            $this->fail('expected a redirect back to the security page');
+        } catch (NoWebsiteFoundException $e) {
+            // redirectToIndex() can't redirect on the CLI and throws this for a super user instead
+        }
+
+        $notifications = NotificationManager::getAllNotificationsToDisplay();
+        $this->assertArrayHasKey('errorpass', $notifications);
+        $this->assertSame(Notification::CONTEXT_ERROR, $notifications['errorpass']->context);
+
+        return $notifications['errorpass']->message;
     }
 
     private function setupPostStateWithPassword(string $password)

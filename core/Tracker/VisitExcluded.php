@@ -25,10 +25,7 @@ use Piwik\Config;
  */
 class VisitExcluded
 {
-    /**
-     * @var ReferrerSpamFilter
-     */
-    private $spamFilter;
+    private ReferrerSpamFilter $spamFilter;
 
     private $siteCache = array();
 
@@ -225,7 +222,7 @@ class VisitExcluded
     {
         // see https://github.com/piwik/piwik/issues/7733
         return !empty($_SERVER['HTTP_VIA'])
-            && false !== strpos(strtolower($_SERVER['HTTP_VIA']), 'chrome-compression-proxy')
+            && str_contains(strtolower($_SERVER['HTTP_VIA']), 'chrome-compression-proxy')
             && $ip->isInRanges($this->getGoogleBotIpRanges());
     }
 

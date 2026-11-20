@@ -20,19 +20,13 @@ use Piwik\View;
 
 class InactiveUsersNotificationEmail extends Mail
 {
-    /**
-     * @var UserNotification
-     */
-    private $notification;
+    private UserNotification $notification;
 
-    /** @var string */
-    private $recipient;
+    private string $recipient;
 
-    /** @var array */
-    private $emailData;
+    private array $emailData;
 
-    /** @var Model */
-    private $userModel;
+    private Model $userModel;
 
     public function __construct(UserNotification $notification, string $recipient, array $emailData)
     {

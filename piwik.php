@@ -56,6 +56,7 @@ $environment = new \Piwik\Application\Environment('tracker');
 try {
     $environment->init();
 } catch(\Piwik\Exception\NotYetInstalledException $e) {
+    \Piwik\Common::sendResponseCode(503);
     die($e->getMessage());
 }
 

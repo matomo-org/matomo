@@ -16,10 +16,7 @@ use Piwik\Url;
 
 class ChallengeCustomLogo extends Challenge
 {
-    /**
-     * @var DataFinder
-     */
-    private $finder;
+    private DataFinder $finder;
 
     /**
      * @var null|bool

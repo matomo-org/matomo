@@ -77,7 +77,7 @@ use ReflectionClass;
 class Fixture extends \PHPUnit\Framework\Assert
 {
     public const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    public const IMAGES_GENERATED_FOR_PHP = '7.2';
+    public const IMAGES_GENERATED_FOR_PHP = '8.1';
     public const IMAGES_GENERATED_FOR_GD = '2.3.3';
     public const DEFAULT_SITE_NAME = 'Piwik test';
 
@@ -208,8 +208,25 @@ class Fixture extends \PHPUnit\Framework\Assert
         return self::getConfig()->database_tests['dbname'];
     }
 
+    /**
+     * Lets the HTTP test proxies under tests/PHPUnit/proxy/ serve requests on this
+     * instance. Keep the path in sync with that directory's includes.php.
+     */
+    private static function enableHttpTestProxies()
+    {
+        $tmpDir = PIWIK_INCLUDE_PATH . '/tmp';
+
+        if (!is_dir($tmpDir)) {
+            @mkdir($tmpDir, 0755, true);
+        }
+
+        @touch($tmpDir . '/http-test-proxies-enabled');
+    }
+
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        self::enableHttpTestProxies();
+
         // PHPUnit can execute data providers from non-selected tests during discovery.
         // Ensure no singleton/cache state leaks into fixture setup.
         self::clearInMemoryCaches();
@@ -406,6 +423,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         FrontController::$requestId = null;
         Cache::$cache = null;
         Common::$isCliMode = null;
+        \Piwik\API\Request::setIsRootRequestApiRequest(null);
         Common::$headersSentInTests = [];
         MockFileMethods::reset();
         DataTableManager::getInstance()->deleteAll();
@@ -616,13 +634,13 @@ class Fixture extends \PHPUnit\Framework\Assert
             $piwikUrl = $piwikUrl . ':' . $piwikPort;
         }
 
-        if (strpos($piwikUrl, 'http://') !== 0) {
+        if (!str_starts_with($piwikUrl, 'http://')) {
             $piwikUrl = 'http://' . $piwikUrl . '/';
         }
 
         $pathBeforeRoot = 'tests';
         // Running from a plugin
-        if (strpos($piwikUrl, 'plugins/') !== false) {
+        if (str_contains($piwikUrl, 'plugins/')) {
             $pathBeforeRoot = 'plugins';
         }
 
@@ -715,10 +733,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
 
-        self::assertStringContainsString($expectedResponse, $response);
-        self::assertStringContainsString('This resource is part of Matomo.', $response);
-        self::assertStringNotContainsString('Error', $response);
-        self::assertStringNotContainsString('Fatal', $response);
+        // a failed request is only told apart by its status code, the body is the plain tracking image
+        self::assertEquals($expectedResponse, $response);
     }
 
     /**
@@ -765,6 +781,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         if (!empty($user)) {
             return self::ADMIN_USER_TOKEN;
         }
+
+        return '';
     }
 
     public static function createSuperUser($removeExisting = true)
@@ -792,7 +810,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             }
         } catch (Exception $e) {
             // duplicate entry errors are expected
-            if (strpos($e->getMessage(), 'Duplicate entry') === false) {
+            if (!str_contains($e->getMessage(), 'Duplicate entry')) {
                 throw $e;
             }
         }
@@ -936,8 +954,8 @@ class Fixture extends \PHPUnit\Framework\Assert
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
-            strpos(phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
-            strpos($gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
+            str_starts_with(phpversion(), self::IMAGES_GENERATED_FOR_PHP . '.') &&
+            str_contains($gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD);
     }
 
     public static function executeLogImporter($logFile, $options, $allowFailure = false)

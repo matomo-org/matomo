@@ -39,6 +39,11 @@ class StackedBarEvolution extends Evolution
 
     public function beforeLoadDataTable()
     {
+        // Reflects reality: this viz renders bars via its own JS class, never a line. Also
+        // gates the forecast toggle and precompute in the parent, since the BarRenderer has
+        // nowhere to draw forecast points.
+        $this->config->show_line_graph = false;
+
         $this->calculateEvolutionDateRange();
 
         parent::beforeLoadDataTable();

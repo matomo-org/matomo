@@ -30,6 +30,12 @@ class Environment extends \Piwik\Plugins\Marketplace\Environment
         return '7.0.1';
     }
 
+    public function getWebPhpVersion(): string
+    {
+        // deliberately not the running version, so a request built from the wrong one is visible
+        return '8.2.99';
+    }
+
     public function getPiwikVersion()
     {
         return '2.16.3';

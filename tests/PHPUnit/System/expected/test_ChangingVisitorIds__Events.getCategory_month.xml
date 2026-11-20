@@ -9,6 +9,7 @@
 		<min_event_value />
 		<max_event_value />
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventCategory==category</segment>
 		<subtable>
@@ -21,6 +22,7 @@
 				<min_event_value />
 				<max_event_value />
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>

@@ -3,6 +3,7 @@
 	<row>
 		<label>Others</label>
 		<nb_actions>60</nb_actions>
+		<nb_actions_percent_of_total>60%</nb_actions_percent_of_total>
 		<is_summary>1</is_summary>
 		<CustomVariables_CustomVariableName>Others</CustomVariables_CustomVariableName>
 	</row>
@@ -10,6 +11,7 @@
 		<label>name - Others</label>
 		<nb_visits>19</nb_visits>
 		<nb_actions>19</nb_actions>
+		<nb_actions_percent_of_total>19%</nb_actions_percent_of_total>
 		<slots>
 			<row>
 				<scope>page</scope>
@@ -24,6 +26,7 @@
 		<label>liked - y</label>
 		<nb_visits>16</nb_visits>
 		<nb_actions>16</nb_actions>
+		<nb_actions_percent_of_total>16%</nb_actions_percent_of_total>
 		<slots>
 			<row>
 				<scope>page</scope>
@@ -37,6 +40,7 @@
 		<label>liked - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_actions>4</nb_actions>
+		<nb_actions_percent_of_total>4%</nb_actions_percent_of_total>
 		<slots>
 			<row>
 				<scope>page</scope>
@@ -51,6 +55,7 @@
 		<label>name - thing0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
+		<nb_actions_percent_of_total>1%</nb_actions_percent_of_total>
 		<slots>
 			<row>
 				<scope>page</scope>

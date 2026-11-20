@@ -19,10 +19,7 @@ use Piwik\Cache as PiwikCache;
  */
 class Cache implements BackendInterface
 {
-    /**
-     * @var BackendInterface
-     */
-    private $backend;
+    private BackendInterface $backend;
 
     public function __construct(BackendInterface $backend)
     {

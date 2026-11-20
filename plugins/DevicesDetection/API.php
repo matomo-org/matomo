@@ -164,7 +164,7 @@ class API extends \Piwik\Plugin\API
                 /** @var string $label */
                 $label = $row->getColumn('label');
 
-                if (strpos($label, ';') !== false) {
+                if (str_contains($label, ';')) {
                     [$brand, $model] = explode(';', $label, 2);
                     $brand = getDeviceBrandLabel($brand);
                 } else {

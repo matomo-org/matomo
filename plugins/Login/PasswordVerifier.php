@@ -20,15 +20,9 @@ class PasswordVerifier
     public const VERIFY_VALID_FOR_MINUTES = 30;
     public const VERIFY_REVALIDATE_X_MINUTES_LEFT = 15;
 
-    /**
-     * @var Date|null
-     */
-    private $now;
+    private ?Date $now = null;
 
-    /**
-     * @var bool
-     */
-    private $enableRedirect = true;
+    private bool $enableRedirect = true;
 
     /**
      * @return void

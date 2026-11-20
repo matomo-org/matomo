@@ -143,7 +143,7 @@ class ServerModule extends GeoIp2
     {
         if (function_exists('apache_get_modules')) {
             foreach (apache_get_modules() as $name) {
-                if (strpos($name, 'maxminddb') !== false) {
+                if (str_contains($name, 'maxminddb')) {
                     return true;
                 }
             }

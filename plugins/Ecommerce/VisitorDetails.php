@@ -114,7 +114,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
             // 25.00 => 25
             foreach ($ecommerceDetail as $column => $value) {
-                if (strpos($column, 'revenue') !== false) {
+                if (str_contains($column, 'revenue')) {
                     if (!is_numeric($value)) {
                         $ecommerceDetail[$column] = 0;
                     } elseif ($value == round($value)) {
@@ -195,8 +195,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     }
 
     /**
-     * @param $idVisit
-     * @param $limit
+     * @param $idVisits
      * @return array
      * @throws \Exception
      */
@@ -243,7 +242,6 @@ class VisitorDetails extends VisitorDetailsAbstract
     /**
      * @param $idVisit
      * @param $idOrder
-     * @param $actionsLimit
      * @return array
      * @throws \Exception
      */

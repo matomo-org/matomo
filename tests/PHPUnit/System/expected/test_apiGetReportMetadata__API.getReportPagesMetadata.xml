@@ -279,6 +279,26 @@
 		</subcategory>
 		<widgets>
 			<row>
+				<name>AI Chatbots - No Recent Requests</name>
+				<module>BotTracking</module>
+				<action>noRecentRequestsMessageRealtime</action>
+				<order>0</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>noRecentRequestsMessageRealtime</action>
+				</parameters>
+				<uniqueId>widgetBotTrackingnoRecentRequestsMessageRealtime</uniqueId>
+				<isWide>1</isWide>
+				<middlewareParameters>
+					<module>BotTracking</module>
+					<action>showNoRecentRequestsMessage</action>
+				</middlewareParameters>
+				<clientComponent>
+					<plugin>BotTracking</plugin>
+					<name>NoRecentRequestsWidget</name>
+				</clientComponent>
+			</row>
+			<row>
 				<name>AI Chatbots - Last 30 Minutes</name>
 				<module>BotTracking</module>
 				<action>getAIChatbotsRealTime</action>

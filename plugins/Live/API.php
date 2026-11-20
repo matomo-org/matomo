@@ -15,6 +15,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\DataRounding;
 use Piwik\Site;
 use Piwik\Log\LoggerInterface;
 
@@ -48,10 +49,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {
@@ -120,7 +118,29 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        // Apply privacy-safe rounding to the counters when data rounding is enforced (e.g. CNIL mode),
+        // so the aggregated real-time reports do not expose near-single-user volumes.
+        if ($this->shouldRoundCounters($idSite)) {
+            foreach ($counters as $name => $value) {
+                $counters[$name] = DataRounding::roundCount($value);
+            }
+        }
+
         return array($counters);
+    }
+
+    /**
+     * @param int|int[]|string $idSite
+     */
+    private function shouldRoundCounters($idSite): bool
+    {
+        try {
+            $idSites = Site::getIdSitesFromIdSitesString($idSite, false, false);
+        } catch (\Throwable $e) {
+            return false;
+        }
+
+        return DataRounding::isDataRoundingEnabledForAnySites($idSites);
     }
 
     /**
@@ -143,11 +163,15 @@ class API extends \Piwik\Plugin\API
      */
     public function isVisitorProfileEnabled($idSite): bool
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         return Live::isVisitorProfileEnabled($idSite);
     }
 
     /**
      * Returns the most recent visit details for one or more websites.
+     * Websites with the visits log disabled are excluded from the query, and a request that
+     * targets only disabled websites is rejected.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                                 - Single site ID (e.g. 1)
@@ -190,10 +214,12 @@ class API extends \Piwik\Plugin\API
 
         if (Request::isCurrentApiRequestTheRootApiRequest() || !in_array(Request::getRootApiRequestMethod(), ['API.getSuggestedValuesForSegment', 'PrivacyManager.findDataSubjects'])) {
             if (is_array($idSites)) {
-                $filteredSites = array_filter($idSites, function ($idSite) {
+                // Drop disabled sites from the query scope entirely, not just for the emptiness
+                // check below; otherwise a mixed request would still return a disabled site's data.
+                $idSites = array_values(array_filter($idSites, function ($idSite) {
                     return Live::isVisitorLogEnabled($idSite);
-                });
-                if (empty($filteredSites)) {
+                }));
+                if (empty($idSites)) {
                     throw new Exception('Visits log is deactivated for all given websites (idSite=' . json_encode($idSite) . ').');
                 }
             } else {
@@ -287,6 +313,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the visitor ID of the most recent visit.
+     * The visits log must be enabled for the website; the request is rejected otherwise.
      *
      * @param int $idSite The numeric ID of the website to query.
      * @param string|null|false $segment Custom segment to filter the lookup.
@@ -297,6 +324,7 @@ class API extends \Piwik\Plugin\API
     public function getMostRecentVisitorId(int $idSite, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
+        Live::checkIsVisitorLogEnabled($idSite);
 
         // for faster performance search for a visitor within the last 7 days first
         $minTimestamp = Date::now()->subDay(7)->getTimestamp();

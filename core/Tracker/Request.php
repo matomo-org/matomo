@@ -10,13 +10,18 @@
 namespace Piwik\Tracker;
 
 use Exception;
+use Piwik\Access;
+use Piwik\Access\Role\Admin;
+use Piwik\Access\Role\Write;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Http;
+use Piwik\Http\BadRequestException;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
@@ -61,6 +66,8 @@ class Request
     private $requestMetadata = array();
 
     public const UNKNOWN_RESOLUTION = 'unknown';
+
+    private const CUSTOM_TIMESTAMP_MAX_SECONDS_IN_FUTURE = 86400;
 
     private $customTimestampDoesNotRequireTokenauthWhenNewerThan;
 
@@ -176,12 +183,25 @@ class Request
                 return;
             }
 
-            if (empty($tokenAuth) && !empty($this->params)) {
-                $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken($this->params);
-            }
+            try {
+                if (empty($tokenAuth) && !empty($this->params)) {
+                    $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken($this->params);
+                }
 
-            if (empty($tokenAuth)) {
-                $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
+                if (empty($tokenAuth)) {
+                    $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
+                }
+            } catch (AuthenticationFailedException | BadRequestException $e) {
+                // Only these two: a rejected parameter combination means the request is not authenticated,
+                // whereas anything else (a database error, say) says nothing about its credentials and must
+                // propagate rather than silently downgrade it.
+                Common::printDebug("failed to authenticate: " . $e->getMessage());
+                $this->isAuthenticated = false;
+
+                // Recorded like the invalid token below, or Tracking Failures stays empty for exactly the
+                // misconfiguration it exists to report.
+                StaticContainer::get('Piwik\Tracker\Failures')->logFailure(Failures::FAILURE_ID_NOT_AUTHENTICATED, $this);
+                return;
             }
 
             $cache = PiwikCache::getTransientCache();
@@ -225,19 +245,25 @@ class Request
             return false;
         }
 
-        // Now checking the list of admin token_auth cached in the Tracker config file
-        if (!empty($idSite) && $idSite > 0) {
-            $website = Cache::getCacheWebsiteAttributes($idSite);
-            $userModel = new \Piwik\Plugins\UsersManager\Model();
-            $tokenAuthHashed = $userModel->hashTokenAuth($tokenAuth);
-            $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuthHashed, $idSite);
+        if (empty($idSite) || $idSite <= 0) {
+            Common::printDebug("WARNING! token_auth was supplied with an invalid idSite, Super User / Admin / Write was NOT authenticated");
 
-            if (
-                array_key_exists('tracking_token_auth', $website)
-                && in_array($hashedToken, $website['tracking_token_auth'], true)
-            ) {
-                return true;
-            }
+            // No failure posted: an invalid idSite is a malformed request, not a credential failure, and
+            // counting it towards brute-force detection would let a valid token lock its own address out.
+            return false;
+        }
+
+        // Now checking the list of admin token_auth cached in the Tracker config file
+        $website = Cache::getCacheWebsiteAttributes($idSite);
+        $userModel = new \Piwik\Plugins\UsersManager\Model();
+        $tokenAuthHashed = $userModel->hashTokenAuth($tokenAuth);
+        $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuthHashed, $idSite);
+
+        if (
+            array_key_exists('tracking_token_auth', $website)
+            && in_array($hashedToken, $website['tracking_token_auth'], true)
+        ) {
+            return true;
         }
 
         Piwik::postEvent('Request.initAuthenticationObject');
@@ -248,13 +274,27 @@ class Request
         $auth->setLogin(null);
         $auth->setPassword(null);
         $auth->setPasswordHash(null);
-        $access = $auth->authenticate();
+        $access = new Access();
+        if (!$access->reloadAccess($auth)) {
+            Common::printDebug("WARNING! token_auth could not be authenticated, Super User / Admin / Write was NOT authenticated");
 
-        if (!empty($access) && $access->hasSuperUserAccess()) {
+            /**
+             * @ignore
+             * @internal
+             */
+            Piwik::postEvent('Tracker.Request.authenticate.failed');
+
+            return false;
+        }
+
+        // Keep in sync with the access_level filter in
+        // {@see \Piwik\Plugins\UsersManager\Model::getAllHashedTokensForTrackerCacheForLogins()}: this slow
+        // path has to accept the same tokens as the per-site tracker cache during cache-miss windows.
+        if ($access->hasSuperUserAccess() || in_array($access->getRoleForSite($idSite), [Write::ID, Admin::ID], true)) {
             return true;
         }
 
-        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
+        Common::printDebug("WARNING! token_auth authenticated but lacks Super User / Admin / Write role for idSite=$idSite");
 
         /**
          * @ignore
@@ -440,6 +480,7 @@ class Request
             'search'       => array('', 'string'),
             'search_cat'   => array('', 'string'),
             'pv_id'        => array('', 'string'),
+            'pv_time'      => array(-1, 'int'),
             'search_count' => array(-1, 'int'),
             'pf_net'       => array(-1, 'int'),
             'pf_srv'       => array(-1, 'int'),
@@ -494,6 +535,9 @@ class Request
         return isset($this->params[$name]);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getParams()
     {
         return $this->params;
@@ -536,14 +580,26 @@ class Request
 
         if (!is_numeric($cdt)) {
             $cdt = strtotime($cdt, $this->timestamp);
+
+            if ($cdt === false) {
+                throw new InvalidRequestParameterException("Custom timestamp 'cdt' could not be parsed");
+            }
         }
 
         if (!empty($cdo)) {
             $cdt = $cdt - abs($cdo);
         }
 
+        if (
+            $cdt > $this->timestamp + self::CUSTOM_TIMESTAMP_MAX_SECONDS_IN_FUTURE
+            || $cdt <= $this->timestamp - 20 * 365 * 86400
+        ) {
+            throw new InvalidRequestParameterException('Custom timestamp is more than a day in the future or more than 20 years in the past');
+        }
+
         if (!$this->isTimestampValid($cdt, $this->timestamp)) {
-            Common::printDebug(sprintf("Datetime %s is not valid", date("Y-m-d H:i:m", $cdt)));
+            // slightly in the future, e.g. a client clock running fast
+            Common::printDebug('Custom timestamp is in the future, using the current time');
             return false;
         }
 
@@ -625,16 +681,21 @@ class Request
         }
     }
 
+    /**
+     * @return int
+     */
     public function getIdSite()
     {
         if (isset($this->idSiteCache)) {
             return $this->idSiteCache;
         }
 
-        $idSite = $this->getIdSiteUnverified();
+        $idSiteUnverified = $this->getIdSiteUnverified();
+        $idSite = (int) $idSiteUnverified;
 
         if ($idSite <= 0) {
-            throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
+            // report the value as provided, as casting it may have hidden what was actually wrong with it
+            throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSiteUnverified . '\'');
         }
 
         // check site actually exists, should throw UnexpectedWebsiteFoundException directly
@@ -851,6 +912,9 @@ class Request
     }
 
 
+    /**
+     * @return string
+     */
     public function getIp()
     {
         return IPUtils::stringToBinaryIP($this->getIpString());

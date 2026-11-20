@@ -371,7 +371,7 @@ class RequestConfig
 
     public function getApiModuleToRequest()
     {
-        if (strpos($this->apiMethodToRequestDataTable, '.') === false) {
+        if (!str_contains($this->apiMethodToRequestDataTable, '.')) {
             return '';
         }
 
@@ -382,7 +382,7 @@ class RequestConfig
 
     public function getApiMethodToRequest()
     {
-        if (strpos($this->apiMethodToRequestDataTable, '.') === false) {
+        if (!str_contains($this->apiMethodToRequestDataTable, '.')) {
             return '';
         }
 

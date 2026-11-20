@@ -21,7 +21,7 @@ class CategoryList
     /**
      * @var Category[] indexed by categoryId
      */
-    private $categories = array();
+    private array $categories = array();
 
     public function addCategory(Category $category)
     {

@@ -19,11 +19,17 @@ use Piwik\Menu\MenuTop;
  */
 class Menu extends \Piwik\Plugin\Menu
 {
+    /**
+     * @return void
+     */
     public function configureTopMenu(MenuTop $menu)
     {
         // $menu->addItem('ExamplePlugin_MyTopItem', null, $this->urlForDefaultAction(), $orderId = 30);
     }
 
+    /**
+     * @return void
+     */
     public function configureAdminMenu(MenuAdmin $menu)
     {
         // reuse an existing category. Execute the showList() method within the controller when menu item was clicked

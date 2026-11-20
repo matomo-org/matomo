@@ -21,14 +21,46 @@ class ThemeStylesTest extends TestCase
     {
         $styles = new ThemeStyles(ThemeStyles::LIGHT_MODE);
 
-        $this->assertSame('#43a047', $styles->getPropertyValue('colorBrand'));
+        $this->assertSame('#00b4be', $styles->getPropertyValue('colorBrand'));
     }
 
     public function testGetPropertyValueReturnsDarkModeArrayValue()
     {
         $styles = new ThemeStyles(ThemeStyles::DARK_MODE);
 
-        $this->assertSame('#778fd4', $styles->getPropertyValue('colorBrand'));
+        $this->assertSame('#00d7e3', $styles->getPropertyValue('colorBrand'));
+    }
+
+    public function testGetPropertyValueReturnsSuccessGreenIndependentlyOfBrand()
+    {
+        $light = new ThemeStyles(ThemeStyles::LIGHT_MODE);
+        $dark = new ThemeStyles(ThemeStyles::DARK_MODE);
+
+        $this->assertSame('#43a047', $light->getPropertyValue('colorSuccess'));
+        $this->assertSame('#66bb6a', $dark->getPropertyValue('colorSuccess'));
+    }
+
+    public function testGetPropertyValueReturnsPositiveNegativeAndNeutralColors()
+    {
+        $light = new ThemeStyles(ThemeStyles::LIGHT_MODE);
+        $dark = new ThemeStyles(ThemeStyles::DARK_MODE);
+
+        $this->assertSame('#33B343', $light->getPropertyValue('colorPositive'));
+        $this->assertSame('#4dcc5d', $dark->getPropertyValue('colorPositive'));
+        $this->assertSame('#ee3024', $light->getPropertyValue('colorNegative'));
+        $this->assertSame('#ee3024', $dark->getPropertyValue('colorNegative'));
+        $this->assertSame($light->getPropertyValue('colorTextLighter'), $light->getPropertyValue('colorNeutral'));
+        $this->assertSame($dark->getPropertyValue('colorTextLighter'), $dark->getPropertyValue('colorNeutral'));
+    }
+
+    public function testToLessCodeExposesPositiveNegativeAndNeutralColors()
+    {
+        $lessCode = (new ThemeStyles(ThemeStyles::LIGHT_MODE))->toLessCode();
+
+        $this->assertStringContainsString('--theme-color-positive: #33B343;', $lessCode);
+        $this->assertStringContainsString('--theme-color-negative: #ee3024;', $lessCode);
+        $this->assertStringContainsString('--theme-color-neutral: #646464;', $lessCode);
+        $this->assertStringContainsString('@theme-color-positive: ~"var(--theme-color-positive)";', $lessCode);
     }
 
     public function testGetPropertyValueReturnsScalarStringValue()
@@ -82,8 +114,9 @@ class ThemeStylesTest extends TestCase
         $styles = new ThemeStyles(ThemeStyles::LIGHT_MODE);
         $lessCode = $styles->toLessCode();
 
-        $this->assertStringContainsString('--theme-color-brand: #43a047;', $lessCode);
-        $this->assertStringContainsString('[data-theme-mode="dark"] {' . "\n" . '    color-scheme: dark;' . "\n" . '    --theme-color-brand: #778fd4;', $lessCode);
+        $this->assertStringContainsString('--theme-color-brand: #00b4be;', $lessCode);
+        $this->assertStringContainsString('[data-theme-mode="dark"] {' . "\n" . '    color-scheme: dark;' . "\n" . '    --theme-color-brand: #00d7e3;', $lessCode);
+        $this->assertStringContainsString('--theme-color-success: #43a047;', $lessCode);
     }
 
     public function testToLessCodeFallsBackToSharedValueWhenDarkValueIsMissing()
@@ -114,5 +147,18 @@ class ThemeStylesTest extends TestCase
 
         $this->assertStringContainsString('--theme-color-brand: ;', $lessCode);
         $this->assertStringContainsString('[data-theme-mode="dark"] {' . "\n" . '    color-scheme: dark;' . "\n" . '    --theme-color-brand: ;', $lessCode);
+    }
+
+    public function testToLessCodeKeepsDeprecatedBorderAlternativeAsAliasOfBorder()
+    {
+        $styles = new ThemeStyles(ThemeStyles::LIGHT_MODE);
+        $lessCode = $styles->toLessCode();
+        [$rootBlock, $darkBlock] = explode('[data-theme-mode="dark"]', $lessCode, 2);
+
+        $this->assertStringContainsString('--theme-color-border: #e0e0e0;', $rootBlock);
+        $this->assertStringContainsString('--theme-color-border: #555555;', $darkBlock);
+        $this->assertStringContainsString('--theme-color-border-alternative: #e0e0e0;', $rootBlock);
+        $this->assertStringContainsString('--theme-color-border-alternative: #555555;', $darkBlock);
+        $this->assertStringContainsString('@theme-color-border-alternative: ~"var(--theme-color-border-alternative)";', $lessCode);
     }
 }

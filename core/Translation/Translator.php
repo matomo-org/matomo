@@ -24,20 +24,15 @@ class Translator
 {
     /**
      * Contains the translated messages, indexed by the language name.
-     *
-     * @var array
      */
-    private $translations = [];
+    private array $translations = [];
 
     /**
      * @var string
      */
     private $currentLanguage;
 
-    /**
-     * @var string
-     */
-    private $fallback = 'en';
+    private string $fallback = 'en';
 
     /**
      * Directories containing the translations to load.
@@ -46,10 +41,7 @@ class Translator
      */
     private $directories = [];
 
-    /**
-     * @var LoaderInterface
-     */
-    private $loader;
+    private LoaderInterface $loader;
 
     private const LIST_TYPE_AND = 'And';
     private const LIST_TYPE_OR = 'Or';
@@ -93,7 +85,7 @@ class Translator
         $args          = is_array($args) ? $args : [$args];
         $translationId = $translationId ?? '';
 
-        if (strpos($translationId, "_") !== false) {
+        if (str_contains($translationId, "_")) {
             [$plugin, $key] = explode("_", $translationId, 2);
             $language = is_string($language) ? $language : $this->currentLanguage;
 
@@ -195,7 +187,7 @@ class Translator
     {
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $id) {
-            if (strpos($id, '_') === false) {
+            if (!str_contains($id, '_')) {
                 StaticContainer::get(LoggerInterface::class)->warning(
                     'Unexpected translation key found in client side translations: {translation_key}',
                     ['translation_key' => $id]

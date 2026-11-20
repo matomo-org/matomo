@@ -20,6 +20,8 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+			<nb_visits_percent_of_total>The percentage of the report's total Unique Pageviews that this row represents.</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>The percentage of the report's total Pageviews that this row represents.</nb_hits_percent_of_total>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_time_on_page>Avg. time on page</avg_time_on_page>
@@ -34,6 +36,8 @@
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
 			<avg_time_generation>duration_s</avg_time_generation>
+			<nb_visits_percent_of_total>percent</nb_visits_percent_of_total>
+			<nb_hits_percent_of_total>percent</nb_hits_percent_of_total>
 		</metricTypes>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
 		<relatedReports>
@@ -72,7 +76,9 @@
 	<columns>
 		<label>Page URL</label>
 		<nb_hits>Pageviews</nb_hits>
+		<nb_hits_percent_of_total>Pageviews (%)</nb_hits_percent_of_total>
 		<nb_visits>Unique Pageviews</nb_visits>
+		<nb_visits_percent_of_total>Unique Pageviews (%)</nb_visits_percent_of_total>
 		<avg_time_on_page>Avg. time on page</avg_time_on_page>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<exit_rate>Exit rate</exit_rate>
@@ -83,6 +89,8 @@
 				<label>/index.htm</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>50%</nb_hits_percent_of_total>
 				<bounce_rate>100%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -91,6 +99,8 @@
 				<label>/products</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
+				<nb_visits_percent_of_total>50%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>50%</nb_hits_percent_of_total>
 				<bounce_rate>100%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -101,6 +111,8 @@
 				<label>Page URL not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
+				<nb_visits_percent_of_total>100%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>100%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -111,6 +123,8 @@
 				<label>/index.htm</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>20%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -119,6 +133,8 @@
 				<label>/thankyou</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:04:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -127,6 +143,8 @@
 				<label>Page URL not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -137,6 +155,8 @@
 				<label>/index.htm</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>20%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -145,6 +165,8 @@
 				<label>/thankyou</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:04:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -153,6 +175,8 @@
 				<label>Page URL not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -163,6 +187,8 @@
 				<label>/index.htm</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>20%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -171,6 +197,8 @@
 				<label>/thankyou</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:04:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -179,6 +207,8 @@
 				<label>Page URL not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -189,6 +219,8 @@
 				<label>/index.htm</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>20%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -197,6 +229,8 @@
 				<label>/thankyou</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:04:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -205,6 +239,8 @@
 				<label>Page URL not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -215,6 +251,8 @@
 				<label>/index.htm</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>20%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>
@@ -223,6 +261,8 @@
 				<label>/thankyou</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:04:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -231,6 +271,8 @@
 				<label>Page URL not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
+				<nb_visits_percent_of_total>33.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>40%</nb_hits_percent_of_total>
 				<bounce_rate>0%</bounce_rate>
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<exit_rate>0%</exit_rate>

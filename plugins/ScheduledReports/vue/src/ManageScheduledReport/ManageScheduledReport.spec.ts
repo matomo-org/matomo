@@ -83,6 +83,9 @@ vi.mock('CoreHome', () => ({
   // Stubs for exports pulled in transitively via the rendered AddReport component.
   ContentBlock: { template: '<div><slot /></div>' },
   DraggableList: { template: '<div><slot /></div>' },
+  DragHandle: { template: '<span class="dragHandle"></span>' },
+  closeTooltips: vi.fn(),
+  Tooltips: {},
   debounce: (fn: unknown) => fn,
   externalLink: () => '',
 }));

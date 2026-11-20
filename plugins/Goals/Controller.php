@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Goals;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Http\JsonResponse;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
@@ -20,6 +21,9 @@ use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\Goals\FeatureFlags\GoalRecommendations;
+use Piwik\Plugins\Goals\Recommendations\GoalRecommendationService;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Site;
@@ -44,10 +48,7 @@ class Controller extends \Piwik\Plugin\Controller
         'items'             => 'General_PurchasedProducts',
     );
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
     private $goals;
 
     private function formatConversionRate($conversionRate, $columnName = 'conversion_rate')
@@ -63,11 +64,17 @@ class Controller extends \Piwik\Plugin\Controller
         return $conversionRate;
     }
 
-    public function __construct(Translator $translator)
+    /**
+     * @var FeatureFlagManager
+     */
+    private $featureFlagManager;
+
+    public function __construct(Translator $translator, FeatureFlagManager $featureFlagManager)
     {
         parent::__construct();
 
         $this->translator = $translator;
+        $this->featureFlagManager = $featureFlagManager;
 
         if (!empty($this->idSite)) {
             $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
@@ -101,6 +108,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->conversion_rate_returning = $this->formatConversionRate($goalMetrics, 'conversion_rate_returning_visit');
         $view->conversion_rate_new = $this->formatConversionRate($goalMetrics, 'conversion_rate_new_visit');
         $view->idGoal = $idGoal;
+        // forwarded to the segmented visitor log so it is not limited to the goal segment only
+        $view->currentSegment = \Piwik\Request::fromRequest()->getStringParameter('segment', '');
         $view->visitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogEnabled($this->idSite);
 
         return $view->render();
@@ -294,7 +303,7 @@ class Controller extends \Piwik\Plugin\Controller
         $columnTranslation = '';
         // find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
         foreach ($nameToLabel as $metric => $metricTranslation) {
-            if (strpos($columnName, $metric) !== false) {
+            if (str_contains($columnName, $metric)) {
                 $columnTranslation = $this->translator->translate($metricTranslation);
                 break;
             }
@@ -465,6 +474,16 @@ class Controller extends \Piwik\Plugin\Controller
     private function setGoalOptions(View $view)
     {
         $view->userCanEditGoals = Piwik::isUserHasWriteAccess($this->idSite);
+        $view->goalRecommendationsEnabled = $this->featureFlagManager->isFeatureActive(GoalRecommendations::class);
+        $view->goalAiAvailability = '';
+        if ($view->goalRecommendationsEnabled && $view->userCanEditGoals) {
+            try {
+                $view->goalAiAvailability = StaticContainer::get(GoalRecommendationService::class)->getAiAvailability();
+            } catch (\Throwable $e) {
+                // fall back to the API response
+            }
+        }
+        $view->currencySymbol = Site::getCurrencySymbolFor($this->idSite);
         $view->goalTriggerTypeOptions = array(
             'visitors' => Piwik::translate('Goals_WhenVisitors'),
             'manually' => Piwik::translate('Goals_Manually'),

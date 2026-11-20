@@ -7,7 +7,7 @@
 
 <template>
   <!-- fake link/button for tab navigation and visualization -->
-  <a tabindex="7"
+  <a
      :class="{'btn btn-block': showAsButton}"
      href=""
      :title="translate('General_MoreDetails')"

@@ -32,10 +32,17 @@ class LabelFilter extends DataTableManipulator
     private $isComparing;
     private $labelSeries;
 
+    private string $labelColumn;
+
     /**
-     * @var string
+     * The label to look for in the next subtable we load.
      */
-    private $labelColumn;
+    private ?string $nextLabelPart = null;
+
+    /**
+     * Whether that is the last part of the label.
+     */
+    private bool $nextLabelPartIsLast = false;
 
     public function __construct($apiModule = false, $apiMethod = false, $request = array(), string $labelColumn = 'label')
     {
@@ -104,13 +111,41 @@ class LabelFilter extends DataTableManipulator
             return $row;
         }
 
-        $subTable = $this->loadSubtable($dataTable, $row);
+        $this->nextLabelPart = $labelParts[0];
+        $this->nextLabelPartIsLast = count($labelParts) === 1;
+
+        try {
+            $subTable = $this->loadSubtable($dataTable, $row);
+        } finally {
+            $this->nextLabelPart = null;
+            $this->nextLabelPartIsLast = false;
+        }
+
         if ($subTable === null) {
             // no more subtables but label parts left => no match found
             return false;
         }
 
         return $this->doFilterRecursiveDescend($labelParts, $subTable);
+    }
+
+    /**
+     * Drops the rows we don't need from a loaded subtable. See SubtablePruner.
+     */
+    protected function pruneLoadedSubtable(mixed $dataTable, array $request, string $apiModule, string $method): mixed
+    {
+        if ($this->nextLabelPart === null || !$dataTable instanceof DataTable) {
+            return $dataTable;
+        }
+
+        return (new SubtablePruner($this->labelColumn))->prune(
+            $dataTable,
+            $request,
+            $apiModule,
+            $method,
+            $this->getLabelVariations($this->nextLabelPart),
+            $this->nextLabelPartIsLast
+        );
     }
 
     /**
@@ -164,7 +199,7 @@ class LabelFilter extends DataTableManipulator
                 array_unshift($variations, ' ' . $label);
             } else {
                 // special case: the Actions.getPageTitles report prefixes some labels with a blank.
-                // the blank might be passed by the user but is removed in Request::getRequestArrayFromString.
+                // the blank might be passed by the user but is removed by the trim above.
                 $variations[] = ' ' . $sanitizedLabel;
                 $variations[] = ' ' . $label;
             }
@@ -200,13 +235,25 @@ class LabelFilter extends DataTableManipulator
                         if (!empty($comparisons)) {
                             $labelSeriesIndex = $this->labelSeries[$labelIndex];
 
-                            $originalLabel = $row->getColumn($this->labelColumn) ?: $row->getMetadata($this->labelColumn);
+                            $comparisonRow = $comparisons->getRowFromId($labelSeriesIndex);
 
-                            $row = $comparisons->getRowFromId($labelSeriesIndex);
+                            // labelSeries is supplied by the request, so it does not have to point at an
+                            // existing comparison row
+                            if ($comparisonRow !== false) {
+                                $originalLabel = $row->getColumn($this->labelColumn) ?: $row->getMetadata($this->labelColumn);
 
-                            // add label and make sure it is the first column
-                            $columns = array_merge(['label' => $originalLabel . ' ' . $row->getMetadata('compareSeriesPretty')], $row->getColumns());
-                            $row->setColumns($columns);
+                                // both parts are appended after labels are sanitized, so encode them to match.
+                                // the label column may be a report specific row identifier, which the label
+                                // sanitization does not cover
+                                $originalLabel = Common::sanitizeInputValue((string) $originalLabel);
+                                $comparisonSuffix = Common::sanitizeInputValue((string) $comparisonRow->getMetadata('compareSeriesPretty'));
+
+                                // add label and make sure it is the first column
+                                $columns = array_merge(['label' => $originalLabel . ' ' . $comparisonSuffix], $comparisonRow->getColumns());
+                                $comparisonRow->setColumns($columns);
+
+                                $row = $comparisonRow;
+                            }
                         }
                     }
 

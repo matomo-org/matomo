@@ -84,6 +84,7 @@ describe("TagManagerTeaser", function () {
         await page.waitForNetworkIdle();
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
+
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('admin_page_disable');
     });
 

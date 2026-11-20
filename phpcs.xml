@@ -14,7 +14,7 @@
     <exclude-pattern>tests/javascript/*</exclude-pattern>
 
     <!-- exclude all plugins included as submodule as long as they might not fully follow this CS -->
-    <exclude-pattern>plugins/(AnonymousPiwikUsageMeasurement|Bandwidth|CustomAlerts|CustomVariables|DeviceDetectorCache|LogViewer|LoginLdap|MarketingCampaignsReporting|Provider|QueuedTracking|SecurityInfo|TagManager|TasksTimetable|TrackingSpamPrevention|TreemapVisualization|VisitorGenerator)/*</exclude-pattern>
+    <exclude-pattern>plugins/(AnonymousPiwikUsageMeasurement|Bandwidth|CustomAlerts|CustomVariables|DeviceDetectorCache|LogViewer|LoginLdap|MarketingCampaignsReporting|Provider|QueuedTracking|SecurityInfo|TagManager|TasksTimetable|TreemapVisualization|VisitorGenerator)/*</exclude-pattern>
 
     <rule ref="Matomo" />
 

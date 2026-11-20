@@ -47,8 +47,29 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
 
     public static function getDescription(): string
     {
-        $description = static::generateDescription();
+        return self::decorateDescription(static::generateDescription());
+    }
 
+    /**
+     * Returns the description shown above the granular per-setting compliance table.
+     *
+     * Policies without dedicated copy for the granular table fall back to the description
+     * returned by {@link getDescription()}.
+     *
+     * @internal Only needed while the granular table and the legacy compliance table coexist.
+     */
+    public static function getGranularDescription(): string
+    {
+        return self::decorateDescription(static::generateGranularDescription());
+    }
+
+    protected static function generateGranularDescription(): string
+    {
+        return static::generateDescription();
+    }
+
+    private static function decorateDescription(string $description): string
+    {
         /**
          * This event is triggered while the description of a compliance policy is
          * being generated. The policy description can be modified via this event.
@@ -71,7 +92,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         if ($shouldShowWarnings) {
             $warnings = static::generateWarnings();
             if (!empty($warnings)) {
-                $description .= '<br/>' . static::generateWarnings();
+                $description .= '<br/><br/>' . $warnings;
             }
         }
 
@@ -79,7 +100,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     }
 
     /**
-     * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
+     * @return array<array<string>> of [['id' => (string) 'ID', 'title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
      */
     abstract public static function getUnknownSettings(): array;
 

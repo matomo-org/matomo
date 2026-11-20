@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Unit\Session;
 
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
@@ -22,16 +23,20 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
      */
     private $testInstance;
 
+    private $originalIdleTimeout;
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->testInstance = new SessionFingerprint();
+        $this->originalIdleTimeout = Config::getInstance()->General['login_session_not_remembered_idle_timeout'] ?? null;
     }
 
     public function tearDown(): void
     {
         Date::$now = null;
+        Config::getInstance()->General['login_session_not_remembered_idle_timeout'] = $this->originalIdleTimeout;
 
         parent::tearDown();
     }
@@ -120,6 +125,101 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
             self::TEST_TIME_VALUE + 3700,
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration']
         );
+    }
+
+    public function testUpdateSessionExpirationTimeKeepsStoredValueWhenItBarelyMoved()
+    {
+        $this->setStoredSessionInfo(self::TEST_TIME_VALUE + 3600);
+
+        Date::$now = self::TEST_TIME_VALUE + 59;
+
+        $this->testInstance->updateSessionExpirationTime();
+
+        $this->assertEquals(
+            self::TEST_TIME_VALUE + 3600,
+            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration']
+        );
+    }
+
+    public function testUpdateSessionExpirationTimeStoresValueOnceItMovedFarEnough()
+    {
+        $this->setStoredSessionInfo(self::TEST_TIME_VALUE + 3600);
+
+        Date::$now = self::TEST_TIME_VALUE + SessionFingerprint::EXPIRATION_WRITE_THRESHOLD;
+
+        $this->testInstance->updateSessionExpirationTime();
+
+        $this->assertEquals(
+            self::TEST_TIME_VALUE + SessionFingerprint::EXPIRATION_WRITE_THRESHOLD + 3600,
+            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration']
+        );
+    }
+
+    public function testUpdateSessionExpirationTimeStoresValueWhenNoneIsStoredYet()
+    {
+        $this->setStoredSessionInfo(null);
+
+        Date::$now = self::TEST_TIME_VALUE;
+
+        $this->testInstance->updateSessionExpirationTime();
+
+        $this->assertEquals(
+            self::TEST_TIME_VALUE + 3600,
+            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration']
+        );
+    }
+
+    public function testUpdateSessionExpirationTimeStoresAShorterExpirationStraightAway()
+    {
+        // a stored value further out than the current window has to be brought back in, otherwise
+        // the session would stay usable for longer than it is configured to
+        $this->setStoredSessionInfo(self::TEST_TIME_VALUE + 1209600);
+
+        Date::$now = self::TEST_TIME_VALUE;
+
+        $this->testInstance->updateSessionExpirationTime();
+
+        $this->assertEquals(
+            self::TEST_TIME_VALUE + 3600,
+            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration']
+        );
+    }
+
+    public function testUpdateSessionExpirationTimeClampsTheThresholdForAShortIdleTimeout()
+    {
+        // 300s window means a 15s threshold, not the default 60s
+        Config::getInstance()->General['login_session_not_remembered_idle_timeout'] = 300;
+        $this->setStoredSessionInfo(self::TEST_TIME_VALUE + 300);
+
+        Date::$now = self::TEST_TIME_VALUE + 10;
+        $this->testInstance->updateSessionExpirationTime();
+        $this->assertEquals(
+            self::TEST_TIME_VALUE + 300,
+            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration'],
+            'a 10s move should still be skipped'
+        );
+
+        Date::$now = self::TEST_TIME_VALUE + 15;
+        $this->testInstance->updateSessionExpirationTime();
+        $this->assertEquals(
+            self::TEST_TIME_VALUE + 15 + 300,
+            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration'],
+            'a 15s move should be stored'
+        );
+    }
+
+    private function setStoredSessionInfo($expiration)
+    {
+        $sessionInfo = [
+            'ts' => self::TEST_TIME_VALUE,
+            'remembered' => false,
+        ];
+
+        if ($expiration !== null) {
+            $sessionInfo['expiration'] = $expiration;
+        }
+
+        $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = $sessionInfo;
     }
 
     public function testGetSessionStartTimeReturnsCorrectValue()

@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<pluginName>Marketplace</pluginName>
+		<title>Plugin Requests</title>
+		<settings>
+			<row>
+				<name>notifyOnPluginRequest</name>
+				<title>Notify me when a user requests a plugin.</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>When enabled, you will receive an email when a user requests a plugin.</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
 		<pluginName>ExampleSettingsPlugin</pluginName>
 		<title>ExampleSettingsPlugin</title>
 		<settings>

@@ -22,7 +22,12 @@ class ThemeStyles
         'fontFamilyBase' => 'theme-fontFamily-base',
         'colorBrand' => 'theme-color-brand',
         'colorBrandContrast' => 'theme-color-brand-contrast',
-        'colorNewBrand' => 'theme-color-new-brand',
+        'colorSuccess' => 'theme-color-success',
+        'colorWarning' => 'theme-color-warning',
+        'colorDanger' => 'theme-color-danger',
+        'colorPositive' => 'theme-color-positive',
+        'colorNegative' => 'theme-color-negative',
+        'colorNeutral' => 'theme-color-neutral',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
         'colorTextHighContrast' => 'theme-color-text-highContrast',
@@ -36,35 +41,46 @@ class ThemeStyles
         'colorTextInvertContrast' => 'theme-color-text-invert-contrast',
         'colorTextInvertLight' => 'theme-color-text-invert-light',
         'colorTextDisabled' => 'theme-color-text-disabled',
+        'colorTextBrand' => 'theme-color-text-brand',
         'colorLink' => 'theme-color-link',
         'colorBaseSeries' => 'theme-color-base-series',
         'colorHeadlineAlternative' => 'theme-color-headline-alternative',
         'colorHeaderBackground' => 'theme-color-header-background',
         'colorHeaderText' => 'theme-color-header-text',
-        'colorMenuContrastText' => 'theme-color-menu-contrast-text',
-        'colorMenuContrastTextSelected' => 'theme-color-menu-contrast-textSelected',
-        'colorMenuContrastTextActive' => 'theme-color-menu-contrast-textActive',
-        'colorMenuContrastBackground' => 'theme-color-menu-contrast-background',
-        'colorWidgetExportedBackgroundBase' => 'theme-color-widget-exported-background-base',
-        'colorWidgetTitleText' => 'theme-color-widget-title-text',
-        'colorWidgetTitleBackground' => 'theme-color-widget-title-background',
         'colorBackgroundBase' => 'theme-color-background-base',
         'colorBackgroundTinyContrast' => 'theme-color-background-tinyContrast',
         'colorBackgroundLowContrast' => 'theme-color-background-lowContrast',
         'colorBackgroundContrast' => 'theme-color-background-contrast',
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
+        'colorBackgroundBrandTinyContrast' => 'theme-color-background-brand-tinyContrast',
+        'colorBackgroundBrandLowContrast' => 'theme-color-background-brand-lowContrast',
         'colorBackgroundDisabled' => 'theme-color-background-disabled',
         'colorBorder' => 'theme-color-border',
-        'colorBorderAlternative' => 'theme-color-border-alternative',
         'colorBorderLight' => 'theme-color-border-light',
+        'colorBorderBrand' => 'theme-color-border-brand',
         'colorBoxShadow' => 'theme-color-boxShadow',
         'shadowOverlay' => 'theme-shadow-overlay',
         'colorCode' => 'theme-color-code',
         'colorCodeBackground' => 'theme-color-code-background',
+        'filterOnIllustration' => 'theme-filter-on-illustration',
+
+        // Deprecated since Matomo 6.0.0, will be removed in Matomo 7. These names are
+        // component-oriented: they are named after the component they were first created for rather
+        // than the role they fill. Matomo's theming is moving to usage-oriented names. See the
+        // @deprecated tag on each property below for the replacement, where one already exists.
+        'colorMenuContrastText' => 'theme-color-menu-contrast-text',
+        'colorMenuContrastTextSelected' => 'theme-color-menu-contrast-textSelected',
+        'colorMenuContrastTextActive' => 'theme-color-menu-contrast-textActive',
+        'colorMenuContrastBackground' => 'theme-color-menu-contrast-background',
+        'colorMenuContrastBackgroundHover' => 'theme-color-menu-contrast-backgroundHover',
         'colorWidgetBackground' => 'theme-color-widget-background',
         'colorWidgetBorder' => 'theme-color-widget-border',
-        'filterOnIllustration' => 'theme-filter-on-illustration',
-        'colorMenuContrastBackgroundHover' => 'theme-color-menu-contrast-backgroundHover',
+        'colorWidgetTitleText' => 'theme-color-widget-title-text',
+        'colorWidgetTitleBackground' => 'theme-color-widget-title-background',
+        'colorWidgetExportedBackgroundBase' => 'theme-color-widget-exported-background-base',
+
+        // Deprecated since Matomo 6.0.0, will be removed in Matomo 7. A duplicate of colorBorder.
+        'colorBorderAlternative' => 'theme-color-border-alternative',
     ];
 
     /**
@@ -80,7 +96,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorBrand = ['#43a047', '#778fd4'];
+    public $colorBrand = ['#00b4be', '#00d7e3'];
 
     /**
      * @var string|array<string>
@@ -88,9 +104,58 @@ class ThemeStyles
     public $colorBrandContrast = ['#fff', '#ffffff'];
 
     /**
+     * Semantic "all is fine / success / positive" green. Kept theme-independent from
+     * $colorBrand so that success states stay green even when a theme overrides the brand.
+     *
      * @var string|array<string>
      */
-    public $colorNewBrand = '#00b4be';
+    public $colorSuccess = ['#43a047', '#66bb6a'];
+
+    /**
+     * Semantic "needs attention / not yet fatal" amber, the counterpart to $colorSuccess. Kept
+     * theme-independent from $colorBrand for the same reason.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorWarning = ['#a18a0b', '#d4b93c'];
+
+    /**
+     * Semantic "this has failed / is blocking" red, completing $colorSuccess and $colorWarning.
+     * Kept theme-independent from $colorBrand for the same reason, and a pair rather than
+     * the flat @color-red-matomo it replaces, which does not reach 4.5:1 on a dark background.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorDanger = ['#c0322e', '#ef7f7c'];
+
+    /**
+     * Something that reads as positive, such as a rising metric in an evolution, a trend or a
+     * sparkline maximum. Unlike $colorSuccess, it does not say that an operation succeeded.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorPositive = ['#33B343', '#4dcc5d'];
+
+    /**
+     * Something that reads as negative, such as a falling metric in an evolution, a trend or a
+     * sparkline minimum. Unlike $colorDanger, it does not say that something failed.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorNegative = '#ee3024';
+
+    /**
+     * Something that reads as neither positive nor negative, such as an unchanged metric in an
+     * evolution or a trend. Defaults to $colorTextLighter.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorNeutral;
 
     /**
      * @var string|array<string>
@@ -164,6 +229,15 @@ class ThemeStyles
     public $colorLink = ['#1976D2', '#778fd4'];
 
     /**
+     * Text sitting on $colorBackgroundBrandTinyContrast or $colorBackgroundBrandLowContrast, where
+     * $colorBrand itself does not reach the required contrast ratio.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorTextBrand = ['#186f72', '#4ad3dc'];
+
+    /**
      * @var string|array<string>
      */
     public $colorBaseSeries = '#ee3024';
@@ -185,41 +259,75 @@ class ThemeStyles
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-menu-contrast-text`)
+     *             - component-oriented naming. Despite the name this no longer colours menu item
+     *             labels; it only remains for the menu dropdown caret. A usage-oriented replacement
+     *             will be defined before this is removed.
      */
     public $colorMenuContrastText;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-menu-contrast-textSelected`) - component-oriented naming. No core
+     *             stylesheet reads this variable, so setting it has no effect on Matomo's own UI.
      */
     public $colorMenuContrastTextSelected;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-menu-contrast-textActive`) - component-oriented naming. In practice
+     *             this is the app-wide hover/focus/active accent and is used well beyond menus. A
+     *             usage-oriented replacement will be defined before this is removed.
      */
     public $colorMenuContrastTextActive = ['#1976D2', '#fff'];
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-menu-contrast-backgroundHover`) - component-oriented naming. In
+     *             practice this is the hover and focus background of a row on the navigation
+     *             surface. A usage-oriented replacement will be defined before this is removed.
      */
     public $colorMenuContrastBackgroundHover = ['#eff0f1', '#151819'];
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-menu-contrast-background`) - component-oriented naming. In practice
+     *             this is the navigation surface, which themes intentionally tint differently from
+     *             card surfaces. A usage-oriented replacement will be defined before this is removed.
      */
     public $colorMenuContrastBackground;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-widget-exported-background-base`) - component-oriented naming, and
+     *             misleading: this is the page canvas for embedded and exported output, which
+     *             deliberately differs from the app canvas $colorBackgroundBase so that embedded
+     *             widgets blend into a host page. A usage-oriented replacement will be defined
+     *             before this is removed.
      */
     public $colorWidgetExportedBackgroundBase;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-widget-title-text`)
+     *             - component-oriented naming. In practice this is the text of the widget and report
+     *             header strip, which themes intentionally colour differently from $colorText. A
+     *             usage-oriented replacement will be defined before this is removed.
      */
     public $colorWidgetTitleText;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7
+     *             (`@theme-color-widget-title-background`) - component-oriented naming. In practice
+     *             this is the widget and report header strip, which themes intentionally tint
+     *             differently from the card surface $colorBackgroundContrast. A usage-oriented
+     *             replacement will be defined before this is removed.
      */
     public $colorWidgetTitleBackground;
 
@@ -254,24 +362,49 @@ class ThemeStyles
     public $colorBackgroundDisabled = ['#d9d9d9', '#303339'];
 
     /**
+     * Brand-tinted surfaces, for panels and chips that should read as part of the product rather
+     * than as neutral chrome. "Tiny" is the fainter of the two, for large areas; "low" carries
+     * enough contrast for a selected or highlighted control.
+     *
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorBackgroundBrandTinyContrast = ['#f3fdff', '#152e2d'];
+
+    /**
+     * @var string|array<string>
+     * @since Matomo 6.0.0
+     */
+    public $colorBackgroundBrandLowContrast = ['#e1fbfb', '#16302f'];
+
+    /**
      * @var string|array<string>
      */
     public $colorBorderLight = ['#a9a399', '#645e54'];
 
     /**
+     * Brand-tinted border, the counterpart to $colorBorder for elements drawn on a brand-tinted
+     * surface.
+     *
      * @var string|array<string>
-     * @deprecated Use $colorBorderAlternative instead. Retained only for legacy use and will be
-     *             phased out once everything has moved to the alternative.
+     * @since Matomo 6.0.0
      */
-    public $colorBorder = ['#cccccc', '#555555'];
+    public $colorBorderBrand = ['#bfe7e9', '#2f5e5e'];
 
     /**
-     * Use this as the new border color. $colorBorder only remains so that we don't need to update
-     * screenshots unless we really need to
+     * Default border, for dividers and the outlines of cards, inputs and panels.
      *
      * @var string|array<string>
      */
-    public $colorBorderAlternative = ['#E0E0E0', '#555555'];
+    public $colorBorder = ['#e0e0e0', '#555555'];
+
+    /**
+     * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-border-alternative`)
+     *             - use $colorBorder (`@theme-color-border`) instead, which now carries this value.
+     *             Core no longer reads this variable.
+     */
+    public $colorBorderAlternative;
 
     /**
      * @var string|array<string>
@@ -295,11 +428,19 @@ class ThemeStyles
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-widget-background`)
+     *             - component-oriented naming. This is the generic elevated content surface and is
+     *             used well beyond widgets. Use $colorBackgroundContrast
+     *             (`@theme-color-background-contrast`) instead.
      */
     public $colorWidgetBackground;
 
     /**
      * @var string|array<string>
+     * @deprecated since Matomo 6.0.0, will be removed in Matomo 7 (`@theme-color-widget-border`)
+     *             - component-oriented naming. No core stylesheet reads this variable, so setting it
+     *             has no effect on Matomo's own UI. Note that core draws the widget border with
+     *             $colorBackgroundLowContrast, not with this variable.
      */
     public $colorWidgetBorder;
 
@@ -319,8 +460,10 @@ class ThemeStyles
         $this->colorWidgetTitleBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBorder = $this->colorBackgroundTinyContrast;
+        $this->colorBorderAlternative = $this->colorBorder;
         $this->colorHeaderBackground = $this->colorBackgroundContrast;
         $this->colorHeaderText = $this->colorTextLighter;
+        $this->colorNeutral = $this->colorTextLighter;
     }
 
     /**

@@ -9,6 +9,7 @@
 		<sum_event_value>0</sum_event_value>
 		<min_event_value />
 		<max_event_value />
+		<nb_visits_percent_of_total>60%</nb_visits_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 		<is_summary>1</is_summary>
 		<Events_EventCategory>Others</Events_EventCategory>
@@ -22,6 +23,7 @@
 		<sum_event_value>0</sum_event_value>
 		<min_event_value />
 		<max_event_value />
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 		<Events_EventCategory>event category 0</Events_EventCategory>
 		<Events_EventAction>event action 4</Events_EventAction>
@@ -35,6 +37,7 @@
 		<sum_event_value>0</sum_event_value>
 		<min_event_value />
 		<max_event_value />
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 		<Events_EventCategory>event category 1</Events_EventCategory>
 		<Events_EventAction>event action 5</Events_EventAction>

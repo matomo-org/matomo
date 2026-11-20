@@ -19,15 +19,9 @@ use Piwik\Settings as PiwikSettings;
  */
 class ConfigReader
 {
-    /**
-     * @var GlobalSettingsProvider
-     */
-    private $settings;
+    private GlobalSettingsProvider $settings;
 
-    /**
-     * @var IniReader
-     */
-    private $iniReader;
+    private IniReader $iniReader;
 
     public function __construct(GlobalSettingsProvider $settings, IniReader $iniReader)
     {
@@ -119,7 +113,7 @@ class ConfigReader
             'password', 'secret', 'apikey', 'privatekey', 'admin_pass', 'md5', 'sha1',
         );
         foreach ($passwordFields as $value) {
-            if (strpos($key, $value) !== false) {
+            if (str_contains($key, $value)) {
                 return true;
             }
         }

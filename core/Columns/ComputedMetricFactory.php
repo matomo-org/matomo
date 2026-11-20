@@ -19,10 +19,7 @@ use Piwik\Plugin\ComputedMetric;
  */
 class ComputedMetricFactory
 {
-    /**
-     * @var MetricsList
-     */
-    private $metricsList = null;
+    private MetricsList $metricsList;
 
     /**
      * Generates a new report metric factory.

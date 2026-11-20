@@ -100,6 +100,8 @@ docker-compose.yml
 /plugins/*/vue/dist/*.common.js
 /plugins/*/vue/dist/*.map
 /plugins/*/vue/dist/*.development.*
+# only the minified bundle is served; the unminified one is no longer built
+/plugins/*/vue/dist/*.umd.js
 /plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js.map
 /@types
 /matomo_last_version_git

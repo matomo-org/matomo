@@ -45,7 +45,7 @@ class MyExampleWidget extends Widget
 
         /**
          * Optionally set URL parameters that will be used when this widget is requested.
-         * $config->setParameters(array('myparam' => 'myvalue'));
+         * $config->setParameters(['myparam' => 'myvalue']);
          */
 
         /**
@@ -71,7 +71,7 @@ class MyExampleWidget extends Widget
      */
     public function render()
     {
-        // or: return $this->renderTemplate('myViewTemplate', array(...view variables...));
+        // or: return $this->renderTemplate('myViewTemplate', [...view variables...]);
 
         return '<div class="widgetBody">My Widget Text</div>';
     }

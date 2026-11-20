@@ -99,10 +99,7 @@ class Segment
      */
     private $isSegmentEncoded;
 
-    /**
-     * @var Exception|null
-     */
-    private $missingDatesException = null;
+    private ?Exception $missingDatesException = null;
 
     /**
      * Truncate the Segments to 8k
@@ -333,15 +330,39 @@ class Segment
         if (!empty($availableSegment['unionOfSegments'])) {
             foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
                 $unionSegment = $this->getSegmentByName($segmentNameOfUnion);
-                if (strpos($unionSegment['sqlSegment'], 'log_visit.') === 0) {
+                if ($this->readsOnlyVisitColumns($unionSegment['sqlSegment'])) {
                     return true;
                 }
             }
-        } elseif (strpos($availableSegment['sqlSegment'], 'log_visit.') === 0) {
+        } elseif ($this->readsOnlyVisitColumns($availableSegment['sqlSegment'])) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * A segment computed from the columns of the visit only, e.g. `HOUR(log_visit.visit_last_action_time)`,
+     * has a single value per visit, so its negation can filter the visits directly, without a subquery.
+     */
+    private function readsOnlyVisitColumns(?string $sqlSegment): bool
+    {
+        if ($sqlSegment === null || $sqlSegment === '') {
+            return false;
+        }
+
+        $columns = SegmentExpression::parseColumnsFromSqlExpr($sqlSegment);
+        if (empty($columns)) {
+            return false;
+        }
+
+        foreach ($columns as $column) {
+            if (!str_starts_with($column, 'log_visit.')) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function doesSegmentNeedSubquery($operator, $segmentName)
@@ -374,6 +395,8 @@ class Segment
 
     /**
      * Returns `true` if the segment is empty, `false` if otherwise.
+     *
+     * @return bool
      */
     public function isEmpty()
     {
@@ -433,11 +456,23 @@ class Segment
             // then we would join an extra table per segment when we ideally want to join each table only once. However, we still need
             // to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
             $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName ?: '');
+
+            $joinConditions = [$sqlName . ' = ' . $tableAlias . '.' . $join->getColumn()];
+
+            // additional key columns scope the join to the same row on both tables (eg the site id),
+            // so a value cannot match a row that only shares the primary join column
+            $sourceTable = str_contains((string) $sqlName, '.') ? strstr($sqlName, '.', true) : null;
+            if ($sourceTable !== null) {
+                foreach ($join->getAdditionalKeyColumns() as $keyColumn) {
+                    $joinConditions[] = $sourceTable . '.' . $keyColumn . ' = ' . $tableAlias . '.' . $keyColumn;
+                }
+            }
+
             $joinTable = [
                 'table' => $join->getTable(),
                 'tableAlias' => $tableAlias,
                 'field' => $tableAlias . '.' . $join->getTargetColumn(),
-                'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn(),
+                'joinOn' => implode(' AND ', $joinConditions),
             ];
 
             if ($dbDiscriminator) {
@@ -595,8 +630,13 @@ class Segment
      * @param false|string $groupBy (optional) Group by clause, eg, `"t2.col2"`.
      * @param int $limit Limit number of result to $limit
      * @param int $offset Specified the offset of the first row to return
-     * @param bool $forceGroupBy Force the group by and not using a subquery. Note: This may make the query slower see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
-     *                           A $groupBy value needs to be set for this to work.
+     * @param bool $forceGroupBy Keep the group by in the query instead of moving it into a subquery,
+     *                           see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
+     *                           A $groupBy value needs to be set for this to work. A query built the
+     *                           way the visits log builds it gets the group by replaced by a subquery
+     *                           matching the joined tables instead, which returns the same visits
+     *                           without sorting the whole date range first. Every other query keeps
+     *                           the group by.
      * @return array{sql: string, bind: array<scalar>} The entire select query.
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false, bool $withRollup = false)
@@ -686,20 +726,20 @@ class Segment
     private static function containsCondition($segment, $operator, $segmentCondition)
     {
         // check when segment/condition are of same encoding
-        return strpos($segment, $operator . $segmentCondition) !== false
-            || strpos($segment, $segmentCondition . $operator) !== false
+        return str_contains($segment, $operator . $segmentCondition)
+            || str_contains($segment, $segmentCondition . $operator)
 
             // check when both operator & condition are urlencoded in $segment
-            || strpos($segment, urlencode($operator . $segmentCondition)) !== false
-            || strpos($segment, urlencode($segmentCondition . $operator)) !== false
+            || str_contains($segment, urlencode($operator . $segmentCondition))
+            || str_contains($segment, urlencode($segmentCondition . $operator))
 
             // check when operator is not urlencoded, but condition is in $segment
-            || strpos($segment, $operator . urlencode($segmentCondition)) !== false
-            || strpos($segment, urlencode($segmentCondition) . $operator) !== false
+            || str_contains($segment, $operator . urlencode($segmentCondition))
+            || str_contains($segment, urlencode($segmentCondition) . $operator)
 
             // check when segment condition is urlencoded & $segment isn't
-            || strpos($segment, $operator . urldecode($segmentCondition)) !== false
-            || strpos($segment, urldecode($segmentCondition) . $operator) !== false
+            || str_contains($segment, $operator . urldecode($segmentCondition))
+            || str_contains($segment, urldecode($segmentCondition) . $operator)
 
             || $segment === $segmentCondition
             || $segment === urlencode($segmentCondition)

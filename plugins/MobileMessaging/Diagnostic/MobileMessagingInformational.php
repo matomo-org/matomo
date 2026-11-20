@@ -20,10 +20,7 @@ use Piwik\Translation\Translator;
  */
 class MobileMessagingInformational implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

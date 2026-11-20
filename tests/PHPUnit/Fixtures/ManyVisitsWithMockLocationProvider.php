@@ -82,6 +82,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     {
         $t = self::getTracker($this->idSite, '2015-02-03 00:00:00');
         $t->enableBulkTracking();
+        $t->setRequestTimeout(600); // heavy synchronous bulk via test proxy needs more than the default
 
         $t->setUrl('http://piwik.net/page');
         $t->doTrackEvent('-1', '-1', '-1');
@@ -303,6 +304,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     {
         $t = Fixture::getTracker($this->idSite, '2015-03-03 06:00:00');
         $t->enableBulkTracking();
+        $t->setRequestTimeout(600); // heavy synchronous bulk via test proxy needs more than the default
         $datesVisits = ['2015-03-03 06:00:00' => 700, '2015-03-04 06:00:00' => 1000];
         foreach ($datesVisits as $dateTime => $visitCount) {
             $t->setForceVisitDateTime($dateTime);
@@ -319,6 +321,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     {
         $t = Fixture::getTracker($this->idSite, '2015-03-03 06:00:00');
         $t->enableBulkTracking();
+        $t->setRequestTimeout(600); // heavy synchronous bulk via test proxy needs more than the default
 
         $visitDate = Date::factory($this->dateTime);
 

@@ -8,12 +8,12 @@
 <template>
   <div class="metricValue">
     <div
-      v-if="title"
+      v-if="displayTitle"
       class="metricValue__title"
       :class="{ 'metricValue__title--documented': !!documentation }"
-      :title="documentation || title"
+      :title="documentation || displayTitle"
       v-tooltips="{ duration: 200, delay: 200 }"
-    >{{ title }}</div>
+    >{{ displayTitle }}</div>
     <div class="metricValue__primary">
       <span
         class="metricValue__number"
@@ -26,18 +26,14 @@
       v-if="hasSecondary"
       class="metricValue__secondary"
     >
-      <span class="metricValue__secondaryValue">{{ displaySecondaryValue }}</span>
-      <span
-        v-if="secondaryLabel"
-        class="metricValue__secondaryLabel"
-      >{{ secondaryLabel }}</span>
+      <span class="metricValue__secondaryLine">{{ displaySecondaryLine }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { NumberFormatter, Tooltips } from 'CoreHome';
+import { NumberFormatter, Tooltips, ucfirst } from 'CoreHome';
 
 export default defineComponent({
   name: 'MetricValue',
@@ -57,9 +53,8 @@ export default defineComponent({
       type: [String, Number],
       required: true,
     },
-    // Optional secondary line, formatted the same way as `value`. Value and label are kept
-    // separate so they can be styled independently (e.g. "9,527" darker, "unique visitors" grey).
-    // Matomo hands these out separately as metric.value + metric.description.
+    // Optional secondary line: value and label, combined into one string for display.
+    // Matomo provides these separately as metric.value + metric.description.
     secondaryValue: [String, Number],
     secondaryLabel: String,
     // Optional metric documentation; when set it is shown as the title tooltip (otherwise the
@@ -67,11 +62,30 @@ export default defineComponent({
     documentation: String,
   },
   computed: {
+    displayTitle(): string {
+      return ucfirst(this.title, document.documentElement.lang);
+    },
     displayValue(): string | number | undefined {
       return this.formatValue(this.value);
     },
     displaySecondaryValue(): string | number | undefined {
       return this.formatValue(this.secondaryValue);
+    },
+    displaySecondaryLine(): string {
+      const value = this.displaySecondaryValue;
+      const valueText = value === undefined || value === null ? '' : String(value);
+      const label = this.secondaryLabel;
+      if (!label) {
+        return valueText;
+      }
+      // Merge the value into the label at its printf `%s` slot so word order holds across locales
+      // (some put `%s` last), otherwise prepend it. The replace callback keeps a `$` in the value
+      // (e.g. '$12') from acting as a regex backreference.
+      if (/%(?:\d+\$)?s/.test(label)) {
+        return label.replace(/%(?:\d+\$)?s/g, () => valueText);
+      }
+
+      return `${valueText} ${label}`;
     },
     hasSecondary(): boolean {
       return this.secondaryValue !== undefined

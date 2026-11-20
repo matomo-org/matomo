@@ -9,9 +9,6 @@
 
 namespace Piwik\Tests\Unit\Visualization;
 
-use Piwik\Container\StaticContainer;
-use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Visualization\Sparkline;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Visualization/Sparkline.php';
@@ -23,27 +20,17 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/CoreHome/tests/resources/sparkline/S
 class SparklineTest extends \PHPUnit\Framework\TestCase
 {
     private $oldGet;
-    private $oldFeatureFlagManager;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->oldGet = $_GET;
-        $container = StaticContainer::getContainer();
-        $this->oldFeatureFlagManager = $container->has(FeatureFlagManager::class)
-            ? $container->get(FeatureFlagManager::class)
-            : null;
     }
 
     protected function tearDown(): void
     {
         $_GET = $this->oldGet;
-
-        StaticContainer::getContainer()->set(
-            FeatureFlagManager::class,
-            $this->oldFeatureFlagManager ?? $this->createFeatureFlagManager(false)
-        );
 
         parent::tearDown();
     }
@@ -72,66 +59,6 @@ class SparklineTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([['#123456', null]], $double->lineColors);
     }
 
-    public function testGetLineThicknessUsesRedesignThicknessWhenFeatureFlagIsEnabled(): void
-    {
-        StaticContainer::getContainer()->set(
-            FeatureFlagManager::class,
-            $this->createFeatureFlagManager(true)
-        );
-
-        $sparkline = new Sparkline();
-
-        $method = new \ReflectionMethod(Sparkline::class, 'getLineThickness');
-        $method->setAccessible(true);
-
-        $this->assertSame(Sparkline::REDESIGN_LINE_THICKNESS, $method->invoke($sparkline));
-    }
-
-    public function testGetLineThicknessUsesDefaultThicknessWhenFeatureFlagIsDisabled(): void
-    {
-        StaticContainer::getContainer()->set(
-            FeatureFlagManager::class,
-            $this->createFeatureFlagManager(false)
-        );
-
-        $sparkline = new Sparkline();
-
-        $method = new \ReflectionMethod(Sparkline::class, 'getLineThickness');
-        $method->setAccessible(true);
-
-        $this->assertSame(Sparkline::DEFAULT_LINE_THICKNESS, $method->invoke($sparkline));
-    }
-
-    public function testGetPointSizeUsesRedesignSizeWhenFeatureFlagIsEnabled(): void
-    {
-        StaticContainer::getContainer()->set(
-            FeatureFlagManager::class,
-            $this->createFeatureFlagManager(true)
-        );
-
-        $sparkline = new Sparkline();
-
-        $method = new \ReflectionMethod(Sparkline::class, 'getPointSize');
-        $method->setAccessible(true);
-
-        $this->assertSame(Sparkline::REDESIGN_POINT_SIZE, $method->invoke($sparkline));
-    }
-
-    public function testGetPointSizeUsesDefaultSizeWhenFeatureFlagIsDisabled(): void
-    {
-        StaticContainer::getContainer()->set(
-            FeatureFlagManager::class,
-            $this->createFeatureFlagManager(false)
-        );
-
-        $sparkline = new Sparkline();
-
-        $method = new \ReflectionMethod(Sparkline::class, 'getPointSize');
-        $method->setAccessible(true);
-
-        $this->assertSame(Sparkline::DEFAULT_POINT_SIZE, $method->invoke($sparkline));
-    }
-
     public function testSetWidthClampsToMaxWidth(): void
     {
         $sparkline = new Sparkline();
@@ -146,6 +73,37 @@ class SparklineTest extends \PHPUnit\Framework\TestCase
         $sparkline->setHeight(Sparkline::MAX_HEIGHT + 5000);
 
         $this->assertSame(Sparkline::MAX_HEIGHT, $sparkline->getHeight());
+    }
+
+    /**
+     * Sparkline cards cap their own size client-side so a request never reaches the clamps above,
+     * which would squash the image. Read the client constants rather than restating them: the
+     * dangerous edit is raising one of those past what the server allows, and a test that only
+     * knows the PHP side cannot catch it.
+     */
+    public function testMaxDimensionsMatchTheValuesMirroredClientSide(): void
+    {
+        $source = $this->getSparklineSlotSizeSource();
+
+        // The image is requested at twice the size it is displayed at, for hi-DPI screens.
+        $this->assertSame(Sparkline::MAX_WIDTH, 2 * $this->readClientConstant($source, 'MAX_DISPLAY_WIDTH'));
+        $this->assertSame(Sparkline::MAX_HEIGHT, 2 * $this->readClientConstant($source, 'MAX_DISPLAY_HEIGHT'));
+    }
+
+    private function getSparklineSlotSizeSource(): string
+    {
+        $path = PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/vue/src/Sparklines/useSparklineSlotSize.ts';
+        $this->assertFileExists($path);
+
+        return (string) file_get_contents($path);
+    }
+
+    private function readClientConstant(string $source, string $name): int
+    {
+        $found = preg_match('/export const ' . $name . ' = (\\d+);/', $source, $matches);
+        $this->assertSame(1, $found, "$name is not declared in useSparklineSlotSize.ts");
+
+        return (int) $matches[1];
     }
 
     /**
@@ -177,15 +135,5 @@ class SparklineTest extends \PHPUnit\Framework\TestCase
             'negative' => [-100],
             'non-numeric' => ['abc'],
         ];
-    }
-
-    private function createFeatureFlagManager(bool $isEnabled): FeatureFlagManager
-    {
-        $featureFlagManager = $this->createMock(FeatureFlagManager::class);
-        $featureFlagManager->method('isFeatureActive')
-            ->with(SparklinesRedesign::class)
-            ->willReturn($isEnabled);
-
-        return $featureFlagManager;
     }
 }

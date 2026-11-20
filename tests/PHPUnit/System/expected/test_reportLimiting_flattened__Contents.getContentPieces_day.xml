@@ -6,6 +6,7 @@
 		<nb_visits>10</nb_visits>
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>5</nb_interactions>
+		<nb_visits_percent_of_total>40%</nb_visits_percent_of_total>
 		<interaction_rate>50%</interaction_rate>
 		<is_summary>1</is_summary>
 		<Contents_ContentPiece>Others</Contents_ContentPiece>
@@ -16,6 +17,7 @@
 		<nb_visits>5</nb_visits>
 		<nb_impressions>5</nb_impressions>
 		<nb_interactions>5</nb_interactions>
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
 		<interaction_rate>100%</interaction_rate>
 		<Contents_ContentPiece>content piece 20 - content name 20</Contents_ContentPiece>
 		<segment>contentPiece==content+piece+20</segment>
@@ -26,6 +28,7 @@
 		<nb_visits>5</nb_visits>
 		<nb_impressions>5</nb_impressions>
 		<nb_interactions>0</nb_interactions>
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
 		<interaction_rate>0%</interaction_rate>
 		<Contents_ContentPiece>content piece 21 - content name 21</Contents_ContentPiece>
 		<segment>contentPiece==content+piece+21</segment>
@@ -36,6 +39,7 @@
 		<nb_visits>5</nb_visits>
 		<nb_impressions>5</nb_impressions>
 		<nb_interactions>5</nb_interactions>
+		<nb_visits_percent_of_total>20%</nb_visits_percent_of_total>
 		<interaction_rate>100%</interaction_rate>
 		<Contents_ContentPiece>content piece 22 - content name 22</Contents_ContentPiece>
 		<segment>contentPiece==content+piece+22</segment>

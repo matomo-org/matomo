@@ -16,6 +16,8 @@
         "ConfirmPasswordResetIntro": "Clóscríobh do phasfhocal nua le do thoil chun a dheimhniú gur iarr tú gur athraigh do phasfhocal.",
         "ConfirmPasswordResetWrongPassword": "Ní mheaitseálann an pasfhocal a iontráladh do cheann nuadhéanta. Athshocraigh do phasfhocal arís mura gcuimhníonn tú air. Ná déan aon rud chun do phasfhocal a choinneáil mura n-iarrann tú é a athrú.",
         "ConfirmPasswordToContinue": "Deimhnigh do phasfhocal chun leanúint ar aghaidh",
+        "ConfirmSecondFactorIntro": "Cuir isteach cód ó d’fhíordheimhniú dhá fhachtóir, mar shampla ó d’aip fíordheimhnitheora, chun an gníomh seo a dheimhniú.",
+        "ConfirmSecondFactorToContinue": "Deimhnigh le fíordheimhniú dhá fhachtóir chun leanúint ar aghaidh",
         "ConfirmationLinkPossiblySent": "Má bhaineann na sonraí a cuireadh ar fáil le cuntas, gheobhaidh tú ríomhphost chun an t-athshocrú pasfhocail a dheimhniú.",
         "ContactAdmin": "Fáth a d'fhéadfadh a bheith ann: seans gur dhíchumasaigh d'óstach an fheidhm ríomhphoist(). <br>Déan teagmháil le do riarthóir Matomo, le do thoil.",
         "CreatePasswordDescription": "Déan cinnte go gcuimhníonn tú ar an bpasfhocal seo agus coinnigh in áit shábháilte é.",
@@ -77,11 +79,13 @@
         "PasswordResetEmailAppTokens": "Má athraítear do phasfhocal, ní chúlghairfear do chomharthaí a bhaineann go sonrach leis an aip go huathoibríoch. Má tá amhras ort go bhfuil rochtain neamhúdaraithe agat, scrios na comharthaí atá agat faoi láthair agus giniúint cinn nua sa rannán um bhainistiú comharthaí.",
         "PasswordResetEmailLinkCancel": "Níorbh é seo mise",
         "PasswordResetEmailLinkReset": "Athshocraigh do phasfhocal",
+        "PasswordResetEmailLinkValidity": "Rachaidh an nasc seo in éag i %1$s ar chúiseanna slándála.",
         "PasswordResetEmailSubject": "Athshocraigh pasfhocal do chuntais Matomo",
         "PasswordsDoNotMatch": "Pasfhocail mhímheaitseála.",
         "PleaseNote": "Tabhair faoi deara le do thoil",
         "PluginDescription": "Soláthraíonn ainm úsáideora agus logáil isteach phasfhocal chomh maith le feidhmiúlacht athshocrú phasfhocal. Is féidir an modh logála isteach a athrú trí bhreiseán logála isteach eile a úsáid, mar shampla LoginLdap atá ar fáil ar an margadh.",
         "RememberMe": "Cuimhnigh orm",
+        "SecondFactorCode": "Cód fíordheimhnithe",
         "SecurityTip": "Leid Slándála",
         "SettingBruteForceBlacklistIp": "Cuir bac ar na IPanna seo i gcónaí ó logáil isteach",
         "SettingBruteForceEnable": "Cumasaigh Brath Brute-force",
@@ -93,6 +97,7 @@
         "SettingBruteForceWhitelistIp": "Ná bac leis na IPanna seo ó logáil isteach",
         "SettingPasswordStrengthCheck": "Éigean úsáid pasfhocail láidre",
         "SettingPasswordStrengthCheckHelp": "Cuireann sé iallach ar úsáideoirí pasfhocail láidre a chruthú trí cheangal a chur orthu sraith rialacha casta a chomhlíonadh: %1$s",
+        "SignInIntro": "Fáilte ar ais go Matomo, d’ardán anailísíochta a chuireann príobháideacht ar dtús.",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Rinneadh líon ard iarrachtaí logála isteach amhrasach ar do chuntas Matomo an uair dheireanach. Go sonrach iarrachtaí logála isteach %1$s ó sheoltaí IP ar leith %2$s. D'fhéadfadh duine éigin a bheith ag iarraidh briseadh isteach i do chuntas.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Déan an méid seo a leanas:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Cinntigh gur pasfhocal slán randamach de 30 carachtar ar a laghad é do phasfhocal.",
@@ -103,6 +108,7 @@
         "TokenAuthenticationFailed": "Ní féidir fíordheimhniú a dhéanamh leis an gcomhartha a cuireadh ar fáil. Tá sé neamhbhailí nó imithe in éag.",
         "TokenAuthenticationFailedInsecure": "Ní féidir fíordheimhniú a dhéanamh leis an gcomhartha a cuireadh ar fáil. Tá sé neamhbhailí, imithe in éag nó caithfear é a sheoladh mar pharaiméadar POST nó sa cheanntásc Údaraithe HTTP. Má cruthaíodh an comhartha leis an rogha 'Ní cheadaítear ach iarratais shlána', ní mór é a sheoladh mar pharaiméadar POST nó sa cheanntásc Údaraithe HTTP.",
         "UnblockAllIPs": "Díbhlocáil gach IPanna bactha",
-        "WrongPasswordEntered": "Cuir isteach do phasfhocal, le do thoil."
+        "WrongPasswordEntered": "Cuir isteach do phasfhocal, le do thoil.",
+        "WrongSecondFactorCode": "Níl an cód fíordheimhnithe ceart. Bain triail as arís, le do thoil."
     }
 }

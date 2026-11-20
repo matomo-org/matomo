@@ -32,7 +32,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         $setting = VisitorLogDisabledSetting::getSystemSetting();
         $setting->setConfigureCallback(function (FieldConfig $field) {
-            $field->title = VisitorLogDisabledSetting::getTitle();
+            // the checkbox keeps its imperative label; getTitle() is the state-phrased compliance dashboard title
+            $field->title = Piwik::translate('Live_DisableVisitsLogAndProfile');
             $field->inlineHelp = VisitorLogDisabledSetting::getInlineHelp();
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });

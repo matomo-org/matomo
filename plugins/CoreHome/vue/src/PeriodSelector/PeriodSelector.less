@@ -1,7 +1,5 @@
-@color-period-selector:                             @theme-color-text-lighter;
-@color-period-selector-input-radio:                 @theme-color-border;
-@color-period-selector-options-hover-background:    @theme-color-code;
-@color-period-selector-calendar-hover-background:   @theme-color-background-lowContrast;
+@_periodSelector_color: @theme-color-text-lighter;
+@_periodSelector_optionsHoverBackground: @theme-color-code;
 
 .periodSelector {
 
@@ -13,7 +11,7 @@
   .preset-option-text:not(.lever):after,
   .compare-checkbox-text:not(.lever):before,
   .compare-checkbox-text:not(.lever):after {
-    border: 2px solid @color-period-selector-input-radio;
+    border: 2px solid @theme-color-border;
   }
   .preset-option-input:checked + .preset-option-text:not(.lever):before,
   .preset-option-input:checked + .preset-option-text:not(.lever):after {
@@ -189,7 +187,7 @@
         background: transparent;
         border: 0;
         border-radius: 5px;
-        color: @color-period-selector;
+        color: @_periodSelector_color;
         cursor: pointer;
         display: block;
         font: inherit;
@@ -202,12 +200,12 @@
         font-size: 13px;
 
         &:hover {
-          background-color: @color-period-selector-options-hover-background;
+          background-color: @_periodSelector_optionsHoverBackground;
         }
       }
 
       .period-option-label:has(.period-option-input:focus-visible) {
-        background-color: @color-period-selector-options-hover-background;
+        background-color: @_periodSelector_optionsHoverBackground;
         border-radius: 5px;
         outline: 2px solid @theme-color-focus-ring;
         outline-offset: 0;
@@ -236,7 +234,7 @@
 
       label,
       label span {
-        color: @color-period-selector;
+        color: @_periodSelector_color;
       }
 
       .preset-option-input:focus-visible:checked + .preset-option-text:not(.lever):before,
@@ -389,7 +387,7 @@
       // Apply hover/persistent highlight to the square inner day box.
       .ui-datepicker-persistent-highlight:not(.ui-datepicker-current-period),
       .ui-datepicker-persistent-highlight:not(.ui-datepicker-current-period) > .ui-datepicker-persistent-highlight {
-        background: @color-period-selector-calendar-hover-background !important;
+        background: @theme-color-background-lowContrast !important;
         opacity: 1;
       }
 

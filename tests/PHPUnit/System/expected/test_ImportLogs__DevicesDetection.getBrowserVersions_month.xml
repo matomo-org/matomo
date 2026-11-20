@@ -10,6 +10,10 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>25.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>27.5%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>25.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>23.7%</bounce_count_percent_of_total>
 		<segment>browserCode==RM;browserVersion==0.9</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/RM.png</logo>
 	</row>
@@ -23,6 +27,10 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>11.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>12.8%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>13.2%</bounce_count_percent_of_total>
 		<segment>browserCode==EP;browserVersion==2.30</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/EP.png</logo>
 	</row>
@@ -36,6 +44,10 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>11.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>9.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>12.8%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>13.2%</bounce_count_percent_of_total>
 		<segment>browserCode==IE;browserVersion==9.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
 	</row>
@@ -49,6 +61,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>7.9%</bounce_count_percent_of_total>
 		<segment>browserCode==UNK;browserVersion==</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
@@ -62,6 +78,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 		<segment>browserCode==AN;browserVersion==</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/AN.png</logo>
 	</row>
@@ -75,6 +95,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 		<segment>browserCode==CH;browserVersion==19.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
 	</row>
@@ -88,6 +112,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 		<segment>browserCode==CH;browserVersion==20.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
 	</row>
@@ -101,6 +129,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>browserCode==CH;browserVersion==37.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
 	</row>
@@ -114,6 +146,10 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 		<segment>browserCode==FF;browserVersion==6.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
 	</row>
@@ -127,6 +163,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>browserCode==Apache+HTTP+Client;browserVersion==4.2</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
@@ -140,6 +180,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>browserCode==CH;browserVersion==11.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
 	</row>
@@ -153,6 +197,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>browserCode==CH;browserVersion==39.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
 	</row>
@@ -166,6 +214,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>browserCode==CH;browserVersion==41.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
 	</row>
@@ -179,6 +231,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>browserCode==CM;browserVersion==39.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CM.png</logo>
 	</row>
@@ -192,6 +248,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>browserCode==F%C3%BAtbol;browserVersion==1.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
@@ -205,6 +265,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>browserCode==IE;browserVersion==5.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
 	</row>
@@ -218,6 +282,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
 		<segment>browserCode==IE;browserVersion==6.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
 	</row>
@@ -231,6 +299,10 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>browserCode==IE;browserVersion==8.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
 	</row>

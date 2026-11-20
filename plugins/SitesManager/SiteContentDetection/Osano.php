@@ -26,12 +26,12 @@ class Osano extends ConsentManagerDetectionAbstract
     public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'osano.com';
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 
     public function checkIsConnected(?string $data = null, ?array $headers = null): bool
     {
         $needle = "Osano.cm.addEventListener('osano-cm-consent-changed', (change) => { console.log('cm-change'); consentSet(change); });";
-        return (strpos($data, $needle) !== false);
+        return (str_contains($data, $needle));
     }
 }

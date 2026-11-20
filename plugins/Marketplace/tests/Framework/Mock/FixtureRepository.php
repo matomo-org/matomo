@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Marketplace\tests\Framework\Mock;
 
 use Piwik\Filesystem;
+use Piwik\Version;
 
 /**
  * Serves Marketplace HTTP responses from a directory of recorded fixtures.
@@ -45,10 +46,8 @@ class FixtureRepository
         'release_channel',
         'num_users',
         'num_websites',
+        'uid',
     ];
-
-    /** Major Matomo version the test environment normally runs against; piwik=5.x is treated as noise so we don't need per-minor fixtures. */
-    private const CURRENT_PIWIK_MAJOR = '5';
 
     private const MARKETPLACE_HOSTS = [
         'plugins.matomo.org',
@@ -179,8 +178,8 @@ class FixtureRepository
         // Any directory separator is rejected, plus the bare "parent" name.
         if (
             $filename === '..'
-            || strpos($filename, '/') !== false
-            || strpos($filename, '\\') !== false
+            || str_contains($filename, '/')
+            || str_contains($filename, '\\')
         ) {
             throw new \Exception(sprintf(
                 'Marketplace manifest entry for "%s" contains an unsafe filename: "%s".',
@@ -423,10 +422,10 @@ class FixtureRepository
                     $path
                 ));
             }
-            if (strpos($key, '__') === 0) {
+            if (str_starts_with($key, '__')) {
                 continue;
             }
-            if (strpos($key, '/') !== 0) {
+            if (!str_starts_with($key, '/')) {
                 throw new \Exception(sprintf(
                     'Marketplace fixture manifest "%s" has an unrecognised key "%s" — URL keys must start with "/", documentation keys with "__".',
                     $path,
@@ -454,8 +453,9 @@ class FixtureRepository
         if ($piwikVersion === '') {
             return true;
         }
-        return $piwikVersion === self::CURRENT_PIWIK_MAJOR
-            || strpos($piwikVersion, self::CURRENT_PIWIK_MAJOR . '.') === 0;
+        // the running Matomo major is treated as noise so we don't need per-minor fixtures
+        $currentMajor = explode('.', Version::VERSION)[0];
+        return $piwikVersion === $currentMajor || str_starts_with($piwikVersion, $currentMajor . '.');
     }
 
     private function shouldIntercept(string $url): bool
@@ -469,7 +469,7 @@ class FixtureRepository
 
     private function isJsonFixture(string $filename): bool
     {
-        return substr($filename, -5) === '.json';
+        return str_ends_with($filename, '.json');
     }
 
     private function logMiss(string $url, string $key): void

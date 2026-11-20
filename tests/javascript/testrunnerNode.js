@@ -9,8 +9,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // ignore ssl errors
 
 const puppeteer = require('puppeteer');
-// Reuse the UI tests' browser config so this runner resolves the same system Chrome/Chromium
-// (Puppeteer 24 otherwise looks for a pinned Chrome build that is not provisioned in CI).
+// Reuse the UI tests' browser config so this runner follows the same browser-selection policy.
 const { browserConfig } = require('../UI/config.dist');
 const baseUrl = process.argv[2] || 'http://localhost/tests/javascript/';
 

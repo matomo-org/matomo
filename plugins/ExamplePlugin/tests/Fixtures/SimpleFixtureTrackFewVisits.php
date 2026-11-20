@@ -34,17 +34,17 @@ class SimpleFixtureTrackFewVisits extends Fixture
         // empty
     }
 
-    private function setUpWebsite()
+    private function setUpWebsite(): void
     {
         if (!self::siteCreated($this->idSite)) {
-            $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
+            $idSite = self::createWebsite($this->dateTime, ecommerce: 1);
             $this->assertSame($this->idSite, $idSite);
         }
     }
 
-    protected function trackFirstVisit()
+    protected function trackFirstVisit(): void
     {
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t = self::getTracker($this->idSite, $this->dateTime, defaultInit: true);
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.com/');
@@ -55,13 +55,13 @@ class SimpleFixtureTrackFewVisits extends Fixture
         self::checkResponse($t->doTrackPageView('Second page view'));
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.25)->getDatetime());
-        $t->addEcommerceItem($sku = 'SKU_ID', $name = 'Test item!', $category = 'Test & Category', $price = 777, $quantity = 33);
-        self::checkResponse($t->doTrackEcommerceOrder('TestingOrder', $grandTotal = 33 * 77));
+        $t->addEcommerceItem(sku: 'SKU_ID', name: 'Test item!', category: 'Test & Category', price: 777, quantity: 33);
+        self::checkResponse($t->doTrackEcommerceOrder('TestingOrder', grandTotal: 33 * 77));
     }
 
-    protected function trackSecondVisit()
+    protected function trackSecondVisit(): void
     {
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t = self::getTracker($this->idSite, $this->dateTime, defaultInit: true);
         $t->setIp('56.11.55.73');
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
@@ -73,7 +73,7 @@ class SimpleFixtureTrackFewVisits extends Fixture
         self::checkResponse($t->doTrackPageView('Site search query'));
 
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
-        $t->addEcommerceItem($sku = 'SKU_ID2', $name = 'A durable item', $category = 'Best seller', $price = 321);
-        self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 33 * 77));
+        $t->addEcommerceItem(sku: 'SKU_ID2', name: 'A durable item', category: 'Best seller', price: 321);
+        self::checkResponse($t->doTrackEcommerceCartUpdate(33 * 77));
     }
 }

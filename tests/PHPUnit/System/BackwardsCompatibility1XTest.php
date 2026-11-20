@@ -148,6 +148,8 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                 'entry_sum_visit_length',
                 'sum_visit_length',
                 'nb_visits_converted',
+                'nb_visits_converted_percent_of_total',
+                'hits_percent_of_total',
                 'interactionPosition',
                 'pageviewPosition',
             ], $performanceMetrics),
@@ -258,8 +260,8 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
         return [
             ['all', $allReportsOptions],
-            ['MultiSites.getAll', array_merge($defaultOptions, ['xmlFieldsToRemove' => ['hits', 'hits_evolution', 'hits_evolution_trend']])],
-            ['MultiSites.getOne', array_merge($allReportsOptions, ['apiNotToCall' => '', 'xmlFieldsToRemove' => ['hits', 'hits_evolution', 'hits_evolution_trend']])],
+            ['MultiSites.getAll', array_merge($defaultOptions, ['xmlFieldsToRemove' => ['hits', 'hits_evolution', 'hits_evolution_trend', 'hits_percent_of_total']])],
+            ['MultiSites.getOne', array_merge($allReportsOptions, ['apiNotToCall' => '', 'xmlFieldsToRemove' => ['hits', 'hits_evolution', 'hits_evolution_trend', 'hits_percent_of_total']])],
 
             ['VisitFrequency.get', ['idSite' => $idSite, 'date' => '2012-03-03', 'setDateLastN' => true,
                                               'disableArchiving' => true, 'testSuffix' => '_multipleDates']],

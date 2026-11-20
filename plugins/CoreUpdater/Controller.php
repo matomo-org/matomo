@@ -11,11 +11,12 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
 use Piwik\AssetManager;
+use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\Http\JsonResponse;
 use Piwik\DbHelper;
-use Piwik\Development;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
@@ -42,10 +43,7 @@ class Controller extends \Piwik\Plugin\Controller
     private $errorMessages = array();
     private $deactivatedPlugins = array();
 
-    /**
-     * @var Updater
-     */
-    private $updater;
+    private Updater $updater;
 
     /**
      * @var Plugins
@@ -69,6 +67,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Common::sendHeader('Content-Type: text/css');
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
+        Common::stripHeader('Set-Cookie');
 
         $files = array(
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
@@ -96,6 +95,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Common::sendHeader('Content-Type: application/javascript; charset=UTF-8');
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
+        Common::stripHeader('Set-Cookie');
 
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
@@ -110,8 +110,10 @@ class Controller extends \Piwik\Plugin\Controller
 
         CoreVue::addJsFilesTo($files);
 
-        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
-        $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
+        $coreHomeUmd = PluginUmdAssetFetcher::getUmdFileToUseForPlugin('CoreHome');
+        if ($coreHomeUmd) {
+            $files[] = $coreHomeUmd;
+        }
 
         return AssetManager::compileCustomJs($files);
     }
@@ -121,7 +123,7 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSuperUserAccess();
 
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         $this->checkNewVersionIsAvailableOrDie();
@@ -160,7 +162,7 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSuperUserAccess();
 
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         Nonce::checkNonce('oneClickUpdate');
@@ -192,18 +194,18 @@ class Controller extends \Piwik\Plugin\Controller
     public function oneClickUpdatePartTwo(): string
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
-        $task = "Couldn't update Marketplace plugins.";
+        $task = Updater::MESSAGE_FAILED_PREFIX . "Couldn't update Marketplace plugins.";
 
         $nonce = Common::getRequestVar('nonce', '', 'string');
         if (empty($nonce)) {
-            return json_encode(['No token. ' . $task]);
+            return json_encode([$task . ' No token.']);
         }
         $value = Option::get('NonceOneClickUpdatePartTwo');
         if (empty($value)) {
-            return json_encode(['Invalid token. ' . $task]);
+            return json_encode([$task . ' Invalid token.']);
         }
         $value = json_decode($value, true);
 
@@ -213,16 +215,16 @@ class Controller extends \Piwik\Plugin\Controller
             || time() > (int) $value['ttl']
             || $nonce !== $value['nonce']
         ) {
-            return json_encode(['Invalid nonce or nonce expired. ' . $task]);
+            return json_encode([$task . ' Invalid nonce or nonce expired.']);
         }
 
         try {
             $messages = $this->updater->oneClickUpdatePartTwo();
         } catch (UpdaterException $e) {
             $messages = $e->getUpdateLogMessages();
-            $messages[] = $e->getMessage();
+            $messages[] = Updater::MESSAGE_FAILED_PREFIX . $e->getMessage();
         } catch (Exception $e) {
-            $messages = [$e->getMessage()];
+            $messages = [Updater::MESSAGE_FAILED_PREFIX . $e->getMessage()];
         }
 
         return json_encode($messages);
@@ -231,7 +233,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function oneClickResults()
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
@@ -304,7 +306,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function runUpdaterAndExit($doDryRun = null)
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
-            throw new Exception('Auto updater is disabled');
+            throw new NoPrivilegesException('Auto updater is disabled', 403);
         }
 
         $updater = new DbUpdater();
@@ -420,7 +422,7 @@ class Controller extends \Piwik\Plugin\Controller
             foreach ($componentsWithUpdateFile as $name => $filenames) {
                 if ($name == 'core') {
                     $coreToUpdate = true;
-                } elseif (0 === strpos($name, 'log_')) {
+                } elseif (str_starts_with($name, 'log_')) {
                     $dimensionsToUpdate[] = $name;
                 } else {
                     $pluginNamesToUpdate[] = $name;
@@ -431,10 +433,9 @@ class Controller extends \Piwik\Plugin\Controller
         // check file integrity
         [$success, $messages] = FileIntegrity::getFileIntegrityInformation();
 
+        // Messages on a passing check are only notes, which the updater does not need to show
         if (!$success) {
             $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarning');
-        }
-        if (count($messages) > 0) {
             $this->warningMessages = array_merge($this->warningMessages, $messages);
         }
         Filesystem::deleteAllCacheOnUpdate();

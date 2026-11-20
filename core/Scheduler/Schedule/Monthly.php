@@ -65,12 +65,12 @@ class Monthly extends Schedule
 
         // Adds one month
         $rescheduledTime = mktime(
-            date('H', $currentTime),
-            date('i', $currentTime),
-            date('s', $currentTime),
-            date('n', $currentTime) + 1,
+            (int) date('H', $currentTime),
+            (int) date('i', $currentTime),
+            (int) date('s', $currentTime),
+            (int) date('n', $currentTime) + 1,
             1,
-            date('Y', $currentTime)
+            (int) date('Y', $currentTime)
         );
 
         $nextMonthLength = date('t', $rescheduledTime);

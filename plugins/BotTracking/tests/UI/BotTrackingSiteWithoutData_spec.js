@@ -13,6 +13,7 @@ describe('BotTrackingSiteWithoutData', function () {
     const generalParams = 'idSite=1&period=day&date=today';
     const urlBase = `module=CoreHome&action=index&${generalParams}`;
     const urlOverview = `?${urlBase}#?${generalParams}&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview`;
+    const urlRealtime = `?${urlBase}#?${generalParams}&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsRealtime`;
     const urlContentRequests = `?${urlBase}#?${generalParams}&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsContentRequests`;
 
     before(function () {
@@ -39,6 +40,19 @@ describe('BotTrackingSiteWithoutData', function () {
 
     it('should show the same message on the Content Requests page', async function () {
         await page.goto(urlContentRequests);
+        await page.waitForSelector('.bot-tracking-no-recent-requests-message');
+
+        const notification = await page.$('.bot-tracking-no-recent-requests-message');
+
+        expect(await notification.getProperty('textContent')).to.match(/No data collected/i);
+
+        // Back to the overview so the click-through flow below starts from the same place.
+        await page.goto(urlOverview);
+        await page.waitForSelector('.bot-tracking-no-recent-requests-message');
+    });
+
+    it('should show the same message on the Real-time page', async function () {
+        await page.goto(urlRealtime);
         await page.waitForSelector('.bot-tracking-no-recent-requests-message');
 
         const notification = await page.$('.bot-tracking-no-recent-requests-message');
@@ -99,6 +113,20 @@ describe('BotTrackingSiteWithoutData', function () {
           methodChecksExpected,
           `Expected ${methodChecksExpected} tracking methods with details, found ${methodsChecked}`
         )
+    });
+
+    it('should show the step-by-step guide for the HTTP Tracking API', async function () {
+        const details = '.tracking-method-details[data-method="HttpTrackingApi"]';
+
+        await page.click('.tracking-method-list a[href="#httptrackingapi"]');
+        await page.waitForSelector(details);
+
+        expect((await page.$$(`${details} ol li`)).length).to.equal(3);
+        expect(await page.$(`${details} a[href^="https://matomo.org/faq/how-to/set-up-ai-chatbot-tracking-with-the-http-tracking-api/?"]`)).to.be.ok;
+        expect(await page.$(`${details} a[href^="https://developer.matomo.org/api-reference/tracking-api"]`)).to.be.ok;
+
+        await page.click('.tracking-method-back');
+        await page.waitForSelector('.tracking-method-list');
     });
 
     it('should link back to the overview', async function () {

@@ -39,7 +39,7 @@ class CustomDimensionTest extends Dimension
         $method = new \ReflectionMethod($this, $method);
         $declaringClass = $method->getDeclaringClass();
 
-        return 0 === strpos($declaringClass->name, 'Piwik\Tests');
+        return str_starts_with($declaringClass->name, 'Piwik\Tests');
     }
 
     public function set($param, $value)
@@ -327,6 +327,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         'Piwik\Plugins\Contents\Columns\ContentName',
         'Piwik\Plugins\Contents\Columns\ContentPiece',
         'Piwik\Plugins\Contents\Columns\ContentTarget',
+        'Piwik\Plugins\CoreHome\Columns\Consent',
         'Piwik\Plugins\CoreHome\Columns\Profilable',
         'Piwik\Plugins\CoreHome\Columns\ServerTime',
         'Piwik\Plugins\CoreHome\Columns\UserId',

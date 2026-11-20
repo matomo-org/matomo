@@ -91,6 +91,17 @@ describe("TwoFactorAuth", function () {
         await testEnvironment.save();
     });
 
+    async function confirmSecondFactor(code)
+    {
+        await page.waitForSelector('.confirmSecondFactorForm');
+        await page.waitForNetworkIdle();
+        await page.type('.confirmSecondFactorForm #second_factor_form_code', code);
+        await page.click('.confirmSecondFactorForm #second_factor_form_submit');
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
+    }
+
     async function confirmPassword()
     {
         await page.waitForSelector('.confirmPasswordForm');
@@ -108,6 +119,39 @@ describe("TwoFactorAuth", function () {
         // check if widget element is present, if login wouldn't work the login screen would be shown instead
         const widgetsCount = await page.evaluate(() => $('.widget').length);
         expect(widgetsCount).to.equal(1);
+    });
+
+    // The 2FA screens extend @Login/loginLayout.twig, so they get the panel too. Geometry only -
+    // it has its own baseline in the Login specs. The finally only clears the flag: the panel
+    // itself stays cached for the tests below, which is fine as they all crop to .loginSection.
+    it('should show the auth code screen beside the What\'s New panel', async function () {
+        testEnvironment.loadChanges = 1;
+        testEnvironment.save();
+
+        try {
+            await loginUser('with2FA', false);
+            await page.waitForSelector('.loginWhatsNew__entry');
+
+            const layout = await page.evaluate(function () {
+                const de = document.documentElement;
+                const primary = document.querySelector('.loginLayout__primary').getBoundingClientRect();
+                const panel = document.querySelector('.loginWhatsNew').getBoundingClientRect();
+
+                return {
+                    entries: document.querySelectorAll('.loginWhatsNew__entry').length,
+                    panelRightOfForm: panel.left >= primary.right,
+                    panelVisible: panel.width > 0 && panel.height > 0,
+                    noOverflow: de.scrollWidth <= de.clientWidth,
+                };
+            });
+
+            expect(layout).to.deep.equal({
+                entries: 3, panelRightOfForm: true, panelVisible: true, noOverflow: true,
+            });
+        } finally {
+            delete testEnvironment.loadChanges;
+            testEnvironment.save();
+        }
     });
 
     it('when logging in through logme and not providing auth code it should show auth code screen', async function () {
@@ -157,8 +201,15 @@ describe("TwoFactorAuth", function () {
         expect(await element.screenshot()).to.matchImage('show_recovery_codes_step1');
     });
 
-    it('should be possible to show recovery codes step2 done', async function () {
+    it('should ask for the authentication code to show recovery codes', async function () {
         await confirmPassword();
+        const element = await page.waitForSelector('.loginSection', {visible: true});
+        await page.waitForTimeout(150);
+        expect(await element.screenshot()).to.matchImage('second_factor_confirmation');
+    });
+
+    it('should be possible to show recovery codes step2 done', async function () {
+        await confirmSecondFactor('123456'); // a valid recovery code for this user (see fixture)
         expect(await page.screenshotSelector('#content')).to.matchImage('show_recovery_codes_step2');
     });
 
@@ -183,7 +234,7 @@ describe("TwoFactorAuth", function () {
         expect(await modal.screenshot()).to.matchImage('usersettings_twofa_disable_step1');
     });
 
-    it('should be possible to disable two factor step 2 confirmed', async function () {
+    it('should be possible to disable two factor step 2 confirm password', async function () {
         await selectModalButton('Yes');
 
         const element = await page.waitForSelector('.loginSection', {visible: true});
@@ -191,8 +242,20 @@ describe("TwoFactorAuth", function () {
         expect(await element.screenshot()).to.matchImage('usersettings_twofa_disable_step2');
     });
 
-    it('should be possible to disable two factor step 3 verified', async function () {
+    it('should ask for the authentication code after confirming the password', async function () {
         await confirmPassword();
+        expect(await page.waitForSelector('.confirmSecondFactorForm', {visible: true})).to.be.ok;
+    });
+
+    it('should show an error when providing a wrong authentication code while disabling', async function () {
+        await confirmSecondFactor('555555');
+        await page.waitForSelector('.confirmSecondFactorForm', {visible: true});
+        const formText = await page.evaluate(() => $('.confirmSecondFactorForm').text());
+        expect(formText).to.contain('The authentication code is not correct');
+    });
+
+    it('should be possible to disable two factor step 3 verified', async function () {
+        await confirmSecondFactor('123456'); // a valid recovery code for this user (see fixture)
         await page.waitForSelector('.userSettings2FA');
         const elem = await page.$('.userSettings2FA');
         expect(await elem.screenshot()).to.matchImage('usersettings_twofa_disable_step3');

@@ -48,9 +48,7 @@ class Mariadb extends Mysql
 
     public function isOptimizeInnoDBSupported(): bool
     {
-        $version = strtolower($this->getVersion());
-        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
-        return version_compare($semanticVersion, '10.1.1', '>=');
+        return true;
     }
 
     public function supportsRankingRollupWithoutExtraSorting(): bool
@@ -61,14 +59,15 @@ class Mariadb extends Mysql
     public function hasReachedEOL(): bool
     {
         $currentVersion = $this->getVersion();
+        $isEnterprise = str_contains($currentVersion, 'enterprise');
 
         // End of security update for certain MariaDb versions as of https://mariadb.org/about/#maintenance-policy
 
-        // Support for 10.6 LTS ends on 6th July 2026
+        // Community Support for 10.6 LTS ends on 6th July 2026, Enterprise on 23rd August 2029
         if (
             version_compare($currentVersion, '10.6', '>=') &&
             version_compare($currentVersion, '10.7', '<') &&
-            Date::today()->isEarlier(Date::factory('2026-07-07'))
+            Date::today()->isEarlier(Date::factory($isEnterprise ? '2029-08-24' : '2026-07-07'))
         ) {
             return false;
         }
@@ -82,11 +81,11 @@ class Mariadb extends Mysql
             return false;
         }
 
-        // Support for 11.4 LTS ends on 29th May 2029
+        // Community Support for 11.4 LTS ends on 29th May 2029, Enterprise on 16th January 2033
         if (
             version_compare($currentVersion, '11.4', '>=') &&
             version_compare($currentVersion, '11.5', '<') &&
-            Date::today()->isEarlier(Date::factory('2029-05-30'))
+            Date::today()->isEarlier(Date::factory($isEnterprise ? '2033-01-17' : '2029-05-30'))
         ) {
             return false;
         }

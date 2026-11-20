@@ -34,6 +34,7 @@ class EnvironmentTest extends IntegrationTestCase
     {
         parent::setUp();
         Option::delete(Environment::OPTION_MARKETPLACE_UNIQUE_ID);
+        Option::delete(Environment::OPTION_WEB_PHP_VERSION);
 
         Fixture::createSuperUser();
         Fixture::createWebsite('2014-01-01 02:02:02');
@@ -49,6 +50,7 @@ class EnvironmentTest extends IntegrationTestCase
     public function tearDown(): void
     {
         Option::delete(Environment::OPTION_MARKETPLACE_UNIQUE_ID);
+        Option::delete(Environment::OPTION_WEB_PHP_VERSION);
 
         parent::tearDown();
     }
@@ -57,6 +59,33 @@ class EnvironmentTest extends IntegrationTestCase
     {
         $phpVersion = explode('-', phpversion()); // cater for pre-release versions like 8.3.0-dev
         $this->assertTrue(version_compare($phpVersion[0], $this->environment->getPhpVersion(), '>='));
+    }
+
+    public function testGetPhpVersionReturnsTheRunningVersionEvenWhenAPageRecordedAnother()
+    {
+        // plugin installs check require.php against this, so it has to describe the process in hand
+        Option::set(Environment::OPTION_WEB_PHP_VERSION, '8.1.99');
+
+        $phpVersion = explode('-', phpversion());
+
+        $this->assertSame($phpVersion[0], $this->environment->getPhpVersion());
+    }
+
+    public function testGetWebPhpVersionPrefersTheVersionAPageRecordedWhenRunningUnderCli()
+    {
+        // the tests themselves run under the CLI binary, which is the case this covers: a scheduled
+        // task has to build the same cache key the browser will read, or it warms entries nothing
+        // ever hits and the page pays the cold path anyway
+        Option::set(Environment::OPTION_WEB_PHP_VERSION, '8.1.99');
+
+        $this->assertSame('8.1.99', $this->environment->getWebPhpVersion());
+    }
+
+    public function testGetWebPhpVersionFallsBackToTheRunningVersionWhenNoPageHasRecordedOne()
+    {
+        $phpVersion = explode('-', phpversion());
+
+        $this->assertSame($phpVersion[0], $this->environment->getWebPhpVersion());
     }
 
     public function testGetPiwikVersion()

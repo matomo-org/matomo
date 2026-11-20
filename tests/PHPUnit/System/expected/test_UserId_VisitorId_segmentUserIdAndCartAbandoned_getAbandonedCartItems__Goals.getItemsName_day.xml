@@ -5,6 +5,7 @@
 		<revenue>10000000000</revenue>
 		<quantity>1</quantity>
 		<abandoned_carts>1</abandoned_carts>
+		<revenue_percent_of_total>100%</revenue_percent_of_total>
 		<avg_price>10000000000</avg_price>
 		<avg_quantity>1</avg_quantity>
 		<conversion_rate>0%</conversion_rate>

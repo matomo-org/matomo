@@ -143,6 +143,19 @@ describe('SingleMetricView', function () {
         expect(evolution.className).to.contain('evolution-down');
     });
 
+    it('should show the evolution with both decimals unrounded', async function () {
+        // 8 visits against 11 the day before is -27.2727 %, which used to show as -27.30 %
+        var dayUrl = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-08-10&moduleToWidgetize=Dashboard&"
+            + "actionToWidgetize=index&idDashboard=1";
+        await page.goto(dayUrl);
+        await page.waitForNetworkIdle();
+
+        var evolution = await selectMetricAndReadEvolution('Visits');
+
+        expect(evolution).to.not.equal(null);
+        expect(evolution.text).to.equal('-27.27 %');
+    });
+
     it('should show a message when the selected metric has no data for the period', async function () {
         // unique visitors are not archived for year periods (enable_processing_unique_visitors_year=0),
         // so a KPI widget pinned to that metric must show the "unavailable" message instead of a "0".
@@ -160,5 +173,26 @@ describe('SingleMetricView', function () {
         // otherwise an empty container would silently pass and hide a regression
         var messageText = await (await message.getProperty('textContent')).jsonValue();
         expect(messageText).to.contain("This metric isn't available for this period.");
+    });
+
+    it('should show a metric the period does not compute as unavailable rather than zero', async function () {
+        // new users are not processed for year periods, so API.get leaves the column out: the
+        // widget must not read that as a real 0
+        var notComputedUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=CoreVisualizations&"
+            + "actionToWidgetize=singleMetricView&column=nb_users_new&idSite=1&period=year&date=2012-08-09";
+        await page.goto(notComputedUrl);
+        await page.waitForSelector('.singleMetricView');
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(250);
+
+        var kpi = await page.evaluate(function () {
+            return {
+                value: $('.singleMetricView .metric-value strong').text().trim(),
+                hasEvolution: $('.singleMetricView .metricEvolution').length > 0,
+            };
+        });
+
+        expect(kpi.value).to.equal('-');
+        expect(kpi.hasEvolution).to.equal(false);
     });
 });

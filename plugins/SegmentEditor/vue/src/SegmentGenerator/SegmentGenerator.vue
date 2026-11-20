@@ -372,6 +372,8 @@ export default defineComponent({
         },
         {
           createErrorNotification: false, // don't show errors returned from the API in UI
+          // An abort never settles the promise, leaving the row spinning forever.
+          abortable: false,
         },
       ).then((response) => {
         this.conditionValuesLoading[orCondition.id!] = false;

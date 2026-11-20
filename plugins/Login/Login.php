@@ -15,6 +15,7 @@ use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\NoAccessException;
@@ -27,20 +28,13 @@ use Piwik\SettingsServer;
 
 class Login extends \Piwik\Plugin
 {
-    /**
-     * @var bool
-     */
-    private $hasAddedFailedAttempt = false;
+    private bool $hasAddedFailedAttempt = false;
 
-    /**
-     * @var bool
-     */
-    private $hasPerformedBruteForceCheck = false;
+    private bool $hasPerformedBruteForceCheck = false;
 
-    /**
-     * @var bool
-     */
-    private $hasPerformedBruteForceCheckForUserPwdLogin = false;
+    private bool $hasPerformedBruteForceCheckForUserPwdLogin = false;
+
+    private bool $isHandlingNoAccess = false;
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -107,6 +101,9 @@ class Login extends \Piwik\Plugin
         $translations[] = 'Login_UnblockAllIPs';
         $translations[] = 'Login_CurrentlyBlockedIPsUnblockConfirm';
         $translations[] = 'Login_IPsAlwaysBlocked';
+        $translations[] = 'Login_LoginOrEmail';
+        $translations[] = 'General_Password';
+        $translations[] = 'General_Required';
     }
 
     /**
@@ -228,7 +225,8 @@ class Login extends \Piwik\Plugin
         }
 
         if (!$this->hasPerformedBruteForceCheck && !$bruteForce->isAllowedToLogin(IP::getIpFromHeader())) {
-            throw new Exception(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'));
+            // not a NoAccessException: that would dispatch the login page, which runs this check again
+            throw new NoPrivilegesException(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'), 403);
         }
 
         // for performance reasons we make sure to execute it only once per request
@@ -266,7 +264,9 @@ class Login extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheetFiles)
     {
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
-        $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
+        $stylesheetFiles[] = "plugins/Login/stylesheets/loginLayout.less";
+        $stylesheetFiles[] = "plugins/Login/stylesheets/loginForm.less";
+        $stylesheetFiles[] = "plugins/Login/stylesheets/loginWhatsNew.less";
     }
 
     /**
@@ -306,16 +306,32 @@ class Login extends \Piwik\Plugin
      */
     public function noAccess(Exception $exception)
     {
-        $frontController = FrontController::getInstance();
-
-        if (Common::isXmlHttpRequest()) {
-            $response = $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', [$exception->getMessage()]);
-            echo is_string($response) ? $response : '';
-            return;
+        if ($this->isHandlingNoAccess) {
+            // dispatching the login page raised another no access exception, which would trigger this handler
+            // again and again. Rethrow instead, so the regular error page is shown.
+            throw $exception;
         }
 
-        $response = $frontController->dispatch(Piwik::getLoginPluginName(), 'login', [$exception->getMessage()]);
-        echo is_string($response) ? $response : '';
+        $frontController = FrontController::getInstance();
+        $this->isHandlingNoAccess = true;
+
+        try {
+            if (Common::isXmlHttpRequest()) {
+                $response = $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', [$exception->getMessage()]);
+                echo is_string($response) ? $response : '';
+                return;
+            }
+
+            if (Session::isSessionStarted() && !Session::isWritable()) {
+                // the session was closed early, so the login page couldn't store its nonce
+                throw $exception;
+            }
+
+            $response = $frontController->dispatch(Piwik::getLoginPluginName(), 'login', [$exception->getMessage()]);
+            echo is_string($response) ? $response : '';
+        } finally {
+            $this->isHandlingNoAccess = false;
+        }
     }
 
     /**

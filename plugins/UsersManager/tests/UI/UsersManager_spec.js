@@ -145,9 +145,9 @@ describe("UsersManager", function () {
 
         await page.evaluate(() => $('th.role_header .siteSelector a.title').click());
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.siteSelector .custom_select_container a');
+        await page.waitForSelector('.siteSelector .mtm-dropdownPanel__menu a');
         await page.evaluate(function () {
-            $('.siteSelector .custom_select_container a:contains(relentless)').click();
+            $('.siteSelector .mtm-dropdownPanel__menu a:contains(relentless)').click();
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
@@ -370,7 +370,7 @@ describe("UsersManager", function () {
         await page.type('#user_email', 'theuser@email.com');
 
         await page.click('.userInviteForm .siteSelector a.title');
-        await (await page.jQuery('.userInviteForm .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
+        await (await page.jQuery('.userInviteForm .siteSelector .mtm-dropdownPanel__menu a:eq(1):visible', { waitFor: true })).click();
 
         await page.evaluate(() => $('.userInviteForm .matomo-save-button input').click());
         const modal = await page.waitForSelector('.modal.open', { visible: true });
@@ -599,9 +599,11 @@ describe("UsersManager", function () {
     });
 
     it('should set a capability to single site when capability checkbox is clicked', async function () {
-        await page.evaluate(() => $('.addCapability:eq(0)').click());
-        await page.evaluate(() => $('.addCapability:eq(0) .expandableListCategory:contains(Tag Manager)').click());
-        await page.evaluate(() => $('.addCapability:eq(0) .expandableListItem:contains(Publish Live Container)').click());
+        await page.evaluate(() => $('.addCapability:eq(0) .select-wrapper').click());
+        await page.waitForFunction('$(".expandableList:visible").length > 0');
+        await page.evaluate(() => $('.expandableList:visible .expandableListCategory:contains(Tag Manager)').click());
+        await page.waitForFunction('$(".expandableList:visible .secondLevel:visible").length > 0');
+        await page.evaluate(() => $('.expandableList:visible .expandableListItem:contains(Publish Live Container)').click());
 
         await page.waitForTimeout(250); // animation
 
@@ -714,6 +716,32 @@ describe("UsersManager", function () {
         await page.waitForTimeout(1000); // rendering
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
+    });
+
+    // The quick links widget and the no-data screen link here with showadduser=1. That used to
+    // open the edit form with no user, which fetched permissions for an empty login and showed
+    // an error banner.
+    it('should open the invite form when showadduser is in the URL', async function () {
+        let sitesAccessRequests = 0;
+        const requestHandler = (request) => {
+            if (request.url().indexOf('UsersManager.getSitesAccessForUser') !== -1) {
+                sitesAccessRequests += 1;
+            }
+        };
+
+        page.webpage.on('request', requestHandler);
+        try {
+            await page.goto(url + '&showadduser=1');
+            await page.waitForNetworkIdle();
+            await page.waitForSelector('.userInviteForm', { visible: true });
+
+            expect(sitesAccessRequests).to.equal(0);
+            expect(await page.evaluate(() => $('.notification-error:visible').length)).to.equal(0);
+        } finally {
+            page.webpage.off('request', requestHandler);
+            // the next test reloads the current url, so put the users list back
+            await page.goto(url);
+        }
     });
 
   // Superuser test for editing their own user

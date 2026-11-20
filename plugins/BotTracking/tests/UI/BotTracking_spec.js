@@ -32,6 +32,32 @@ describe("BotTracking", function () {
         expect(headers).to.deep.equal(expectedHeaders);
     }
 
+    /**
+     * The ratio percentages are always rendered, but stay `visibility: hidden` until their column
+     * is hovered, so counting the visible ones tells whether they are actually shown.
+     */
+    async function ratiosVisible(cellSelector) {
+        return await page.evaluate(function (selector) {
+            return jQuery(selector + ' .ratio').filter(function () {
+                return jQuery(this).css('visibility') === 'visible';
+            }).length;
+        }, cellSelector);
+    }
+
+    /**
+     * The tooltip text as the user reads it. The title attribute holds it HTML encoded, as the
+     * tooltip is rendered as HTML by the jQuery UI tooltip the data table sets up for these spans
+     * — which also takes the attribute over once it has shown the tooltip.
+     */
+    async function tooltipText(ratioSelector) {
+        return await page.evaluate(function (selector) {
+            var $ratio = jQuery(selector);
+            var title = $ratio.attr('title') || $ratio.data('ui-tooltip-title');
+
+            return jQuery('<div>').html(title).text().trim();
+        }, ratioSelector);
+    }
+
     async function assertMetricDocumentation(widgetId, expectedCount) {
         const docs = await page.$$eval(widgetId + ' thead th .columnDocumentation', function (nodes) {
             return nodes.map(function (node) { return (node.textContent || '').trim(); });
@@ -49,16 +75,29 @@ describe("BotTracking", function () {
 
         // the metrics picker options are always present in the DOM (the dropdown is
         // only hidden until the toggle is clicked), so we can count them directly
-        const availableMetrics = await page.$$('.metrics-picker__options input');
-        expect(availableMetrics.length).to.equal(8);
+        const availableMetrics = await page.$$('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
+        expect(availableMetrics.length).to.equal(9);
 
         await page.mouse.move(0, 0);
 
-        const sparklines = await page.$$('.sparkline-metrics');
-        expect(sparklines.length).to.equal(8);
+        const sparklines = await page.$$('.metricValue');
+        expect(sparklines.length).to.equal(9);
 
         var elem = await page.$('.pageWrap');
         expect(await elem.screenshot()).to.matchImage('bot_overview');
+    });
+
+    it('should show the AI chatbot traffic ratio as a multiplier with its documentation', async function () {
+        const ratio = await page.evaluate(function () {
+            var $title = jQuery('.metricValue__title:contains("AI Chatbot traffic ratio")');
+            return {
+                value: $title.closest('.sparkline').find('.metricValue__number').text().trim(),
+                documentation: $title.attr('title'),
+            };
+        });
+
+        expect(ratio.value).to.equal('8.0×');
+        expect(ratio.documentation).to.contain('page views made by humans, directly or via AI agents');
     });
 
     it('should not have shown a "no recent tracking requests" message', async function () {
@@ -70,11 +109,79 @@ describe("BotTracking", function () {
         await page.goto("?" + urlBase + "#?idSite=1&period=week&date=2025-02-02&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();
 
-        const availableMetrics = await page.$$('.metrics-picker__options input');
-        expect(availableMetrics.length).to.equal(6);
+        const availableMetrics = await page.$$('.series-picker-wrapper .mtm-dropdownPanel__menuLink');
+        expect(availableMetrics.length).to.equal(7);
 
-        const sparklines = await page.$$('.sparkline-metrics');
-        expect(sparklines.length).to.equal(6);
+        const sparklines = await page.$$('.metricValue');
+        expect(sparklines.length).to.equal(7);
+    });
+
+    it('should show the AI chatbot traffic ratio as unavailable for a period without page views', async function () {
+        await page.goto("?" + urlBase + "#?idSite=1&period=day&date=2025-01-15&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
+        await page.waitForNetworkIdle();
+
+        const value = await page.evaluate(function () {
+            return jQuery('.metricValue__title:contains("AI Chatbot traffic ratio")')
+                .closest('.sparkline').find('.metricValue__number').text().trim();
+        });
+
+        expect(value).to.equal('-');
+    });
+
+    it('should show no AI chatbot traffic ratio evolution when comparing with a period without page views', async function () {
+        await page.goto("?" + urlBase + "#?idSite=1&period=day&date=2025-02-02&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview"
+            + "&compareDates[]=2025-01-15&comparePeriods[]=day");
+        await page.waitForNetworkIdle();
+
+        const getComparison = function (title) {
+            return page.evaluate(function (title) {
+                var $card = jQuery('.sparklineDateComparison__title:contains("' + title + '")').closest('.sparklineDateComparison');
+                return {
+                    values: $card.find('.metricValue__number').map(function () { return jQuery(this).text().trim(); }).get(),
+                    evolutions: $card.find('.evolutionBadge').length,
+                };
+            }, title);
+        };
+
+        expect(await getComparison('AI Chatbot traffic ratio')).to.deep.equal({ values: ['8.0×', '-'], evolutions: 0 });
+        expect((await getComparison('Requests')).evolutions).to.be.above(0);
+    });
+
+    async function getKpiWidgetValue(date) {
+        await page.goto("?module=Widgetize&action=iframe&moduleToWidgetize=CoreVisualizations&actionToWidgetize=singleMetricView"
+            + "&column=BotTracking_AIChatbotsTrafficRatio&idSite=1&period=day&date=" + date + "&disableLink=1&widget=1");
+        await page.waitForNetworkIdle();
+
+        return await page.evaluate(function () {
+            return {
+                value: jQuery('.singleMetricView .metric-value strong').text().trim(),
+                label: jQuery('.singleMetricView .metric-value').text().trim(),
+                hasEvolution: jQuery('.singleMetricView .metricEvolution').length > 0,
+            };
+        });
+    }
+
+    it('should show the AI chatbot traffic ratio in the KPI widget', async function () {
+        const kpi = await getKpiWidgetValue('2025-02-02');
+
+        expect(kpi.value).to.equal('8.0×');
+        expect(kpi.label).to.contain('ai chatbot traffic ratio');
+    });
+
+    it('should show the AI chatbot traffic ratio as unavailable in the KPI widget for a period without page views', async function () {
+        const kpi = await getKpiWidgetValue('2025-01-15');
+
+        expect(kpi.value).to.equal('-');
+        expect(kpi.hasEvolution).to.equal(false);
+    });
+
+    it('should show no AI chatbot traffic ratio evolution in the KPI widget for a period without page views after one with', async function () {
+        const previousDay = await getKpiWidgetValue('2025-02-06');
+        expect(previousDay.value).to.not.equal('-');
+
+        const kpi = await getKpiWidgetValue('2025-02-07');
+        expect(kpi.value).to.equal('-');
+        expect(kpi.hasEvolution).to.equal(false);
     });
 
     it('should render AI Assistants > AI Chatbots Overview bot detail report', async function () {
@@ -407,4 +514,86 @@ describe("BotTracking", function () {
 
         expect(matchingFooterMessages).to.be.at.least(3);
     });
+
+    it('should show segment not supported footer message on the AI Chatbots Realtime page when segmented', async function () {
+        const segment = encodeURIComponent('visitConverted==1');
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsRealtime&segment=" + segment);
+        await page.waitForNetworkIdle();
+
+        const footerMessages = await page.$$eval('.datatableFooterMessage', (nodes) => {
+            return nodes.map((node) => (node.textContent || '').trim());
+        });
+
+        const segmentMessage = 'Report does not support segmentation. The data displayed is your standard, unsegmented report data.';
+        const withSegmentMessage = footerMessages.filter((text) => text.includes(segmentMessage));
+
+        // The realtime page holds four widgets, each of which must carry the message.
+        expect(withSegmentMessage.length).to.be.at.least(4);
+
+        // The row limit footer these reports already carry must survive alongside it.
+        const withRowLimit = withSegmentMessage.filter((text) => text.includes('This report is limited to the top'));
+        expect(withRowLimit.length).to.equal(withSegmentMessage.length);
+    });
+
+    // The hover tests come last: hovering a column leaves it highlighted, and that state survives
+    // the navigation of a following test, which would then capture the percentages as well.
+    it('should show the percentage of the report total when hovering a metric column', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
+        await page.waitForNetworkIdle();
+
+        const widgetId = '#widgetBotTrackinggetAIChatbotRequests';
+        const requestsColumn = widgetId + ' tbody tr td.column:nth-child(2)';
+
+        await page.waitForSelector(requestsColumn, { visible: true });
+
+        // the percentages are in the DOM from the start but hidden, hovering any cell of a metric
+        // column highlights the whole column and reveals them
+        expect(await ratiosVisible(requestsColumn)).to.equal(0);
+
+        const cell = await page.jQuery(requestsColumn + ':first');
+        await cell.hover();
+        await page.waitForFunction('$("' + requestsColumn + ':first").hasClass("highlight")');
+
+        const percentages = await page.$$eval(requestsColumn + ' .ratio', function (spans) {
+            return spans.map(function (span) { return (span.textContent || '').trim(); });
+        });
+        expect(percentages.length).to.equal(await page.$$eval(requestsColumn, function (tds) { return tds.length; }));
+        percentages.forEach(function (percentage) {
+            expect(percentage).to.match(/^\d+(\.\d+)?%$/);
+        });
+        expect(await ratiosVisible(requestsColumn)).to.equal(percentages.length);
+
+        // the tooltip relates the row to the report total. It must not add the sentence relating it
+        // to the site total as well, as API.get does not know this report's columns
+        const tooltip = await tooltipText(requestsColumn + ':first .ratio');
+        expect(tooltip).to.match(/^'.+' represents \d+(\.\d+)?% of \d+ Requests in segment ".+" with AI Chatbot Name\.$/);
+
+        var elem = await page.$(widgetId);
+        expect(await elem.screenshot()).to.matchImage('bot_requests_ratio');
+    });
+
+    it('should not show a percentage for a column that has no meaningful report total', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsContentRequests");
+        await page.waitForNetworkIdle();
+
+        const widgetId = '#widgetBotTrackinggetAIChatbotHumanFavouredPages';
+        const pageviewsColumn = widgetId + ' tbody tr td.column:nth-child(2)';
+        const scoreColumn = widgetId + ' tbody tr td.column:nth-child(4)';
+
+        await page.waitForSelector(scoreColumn, { visible: true });
+
+        // the two traffic columns add up over the rows of the report, so they carry a percentage
+        const pageviews = await page.jQuery(pageviewsColumn + ':first');
+        await pageviews.hover();
+        await page.waitForFunction('$("' + pageviewsColumn + ':first").hasClass("highlight")');
+        expect(await ratiosVisible(pageviewsColumn)).to.be.above(0);
+
+        // the discrepancy score weights those two columns against each other per page, so summing
+        // it up over the report says nothing about a row and it gets no percentage at all
+        const score = await page.jQuery(scoreColumn + ':first');
+        await score.hover();
+        await page.waitForFunction('$("' + scoreColumn + ':first").hasClass("highlight")');
+        expect(await page.$$eval(scoreColumn + ' .ratio', function (spans) { return spans.length; })).to.equal(0);
+    });
+
 });

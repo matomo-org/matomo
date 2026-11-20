@@ -11,22 +11,26 @@ namespace Piwik\Plugins\ScheduledReports\tests\Integration;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
+use Piwik\Plugins\ScheduledReports\ReportSchedule;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
 use Piwik\Plugins\Dashboard\Model as DashboardModel;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\NoAccessException;
 use Piwik\ReportRenderer;
-use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Scheduler\Task;
 use Piwik\Site;
@@ -35,6 +39,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Widget\WidgetsList;
 use Exception;
 use ReflectionMethod;
+use ReflectionProperty;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/ScheduledReports/ScheduledReports.php';
 
@@ -415,6 +420,48 @@ class ApiTest extends IntegrationTestCase
         $this->assertReportsEqual($report, $data);
     }
 
+    public function testAddReportNormalisesSegmentIdToInteger()
+    {
+        $idSegment = APISegmentEditor::getInstance()->add('some-segment', 'visitServerHour>=0', $this->idSite);
+
+        // a non-integer segment id must be stored as its integer value, never rounded to a different id
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            $this->idSite,
+            'segment normalisation',
+            Schedule::PERIOD_DAY,
+            '4',
+            'email',
+            'pdf',
+            array('UserCountry_getCountry'),
+            array('displayFormat' => '1', 'emailMe' => true, 'evolutionGraph' => false),
+            $idSegment . '.9'
+        );
+
+        $reports = APIScheduledReports::getInstance()->getReports($this->idSite, false, $idReport);
+        $report  = reset($reports);
+
+        $this->assertSame($idSegment, (int) $report['idsegment']);
+    }
+
+    public function testAddReportRejectsNonNumericSegmentId()
+    {
+        // a non-numeric segment id must be rejected, not silently coerced to "no segment"
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid segment identifier');
+
+        APIScheduledReports::getInstance()->addReport(
+            $this->idSite,
+            'invalid segment',
+            Schedule::PERIOD_DAY,
+            '4',
+            'email',
+            'pdf',
+            array('UserCountry_getCountry'),
+            array('displayFormat' => '1', 'emailMe' => true, 'evolutionGraph' => false),
+            'not-a-number'
+        );
+    }
+
     public function testAddReportDefaultsEnforceOrderToFalse()
     {
         $data = self::getDailyPDFReportData($this->idSite);
@@ -544,12 +591,20 @@ class ApiTest extends IntegrationTestCase
         $report6['period'] = Schedule::PERIOD_NEVER;
         $report6['deleted'] = 0;
 
+        // local Monday 05:00 in Asia/Shanghai is Sunday 21:00 UTC
+        $report7 = self::getMonthlyEmailReportData($this->idSite);
+        $report7['idreport'] = 7;
+        $report7['idsite'] = 3;
+        $report7['period'] = Schedule::PERIOD_WEEK;
+        $report7['hour'] = 21;
+        $report7['deleted'] = 0;
+
         $stubbedAPIScheduledReports = $this->getMockBuilder('\\Piwik\\Plugins\\ScheduledReports\\API')
                                            ->setMethods(array('getReports', 'getInstance'))
                                            ->disableOriginalConstructor()
                                            ->getMock();
         $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
-            array($report1, $report2, $report3, $report4, $report5, $report6)
+            array($report1, $report2, $report3, $report4, $report5, $report6, $report7)
         ));
         \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
@@ -557,6 +612,7 @@ class ApiTest extends IntegrationTestCase
         Site::setSites(array(
             1 => array('timezone' => 'Europe/Paris'),
             2 => array('timezone' => 'UTC-6.5'),
+            3 => array('timezone' => 'Asia/Shanghai'),
         ));
 
         // expected tasks
@@ -565,23 +621,25 @@ class ApiTest extends IntegrationTestCase
         $scheduleTask1->setHour(0);
         $scheduleTask1->setTimezone('UTC');
 
-        $scheduleTask2 = new Monthly();
+        // weekly and monthly reports are kept on the site's local Monday / first day of the month
+        $scheduleTask2 = new ReportSchedule(Schedule::PERIOD_MONTH, 2);
         $scheduleTask2->setHour(0);
-        $scheduleTask2->setTimezone('UTC');
 
-        $scheduleTask3 = new Monthly();
+        $scheduleTask3 = new ReportSchedule(Schedule::PERIOD_MONTH, 1);
         $scheduleTask3->setHour(8);
-        $scheduleTask3->setTimezone('UTC');
 
-        $scheduleTask4 = new Monthly();
+        $scheduleTask4 = new ReportSchedule(Schedule::PERIOD_MONTH, 2);
         $scheduleTask4->setHour(8);
-        $scheduleTask4->setTimezone('UTC');
+
+        $scheduleTask5 = new ReportSchedule(Schedule::PERIOD_WEEK, 3);
+        $scheduleTask5->setHour(21);
 
         $expectedTasks = array(
             new Task(APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
             new Task(APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
             new Task(APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
             new Task(APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
+            new Task(APIScheduledReports::getInstance(), 'sendReport', 7, $scheduleTask5),
         );
 
         $pdfReportPlugin = new Tasks();
@@ -589,7 +647,74 @@ class ApiTest extends IntegrationTestCase
         $tasks = $pdfReportPlugin->getScheduledTasks();
         $this->assertEquals($expectedTasks, $tasks);
 
+        // the scheduler computes the next run as super user
+        self::setSuperUser();
+        $localTime = Date::adjustForTimezone($tasks[4]->getRescheduledTime(), 'Asia/Shanghai');
+        $this->assertSame('Monday 05:00', gmdate('l H:i', $localTime));
+
         \Piwik\Plugins\ScheduledReports\API::unsetInstance();
+    }
+
+    public function testAddingAUserRemovesReportsLeftBehindByAnEarlierAccountWithThatLogin()
+    {
+        self::setSuperUser();
+        $this->addReportOwnedBy('recycledLogin');
+
+        // delete the account, leaving its report in place
+        $this->deleteUserRow('recycledLogin');
+        $this->assertCount(1, $this->getReportsForLogin('recycledLogin'));
+
+        APIUsersManager::getInstance()->addUser('recycledLogin', 'password', 'recycled2@example.org');
+
+        $this->assertSame(array(), $this->getReportsForLogin('recycledLogin'));
+    }
+
+    public function testAddingAUserThroughTheModelRemovesReportsLeftBehindByAnEarlierAccountWithThatLogin()
+    {
+        self::setSuperUser();
+        $this->addReportOwnedBy('recycledModelLogin');
+
+        // delete the account, leaving its report in place
+        $this->deleteUserRow('recycledModelLogin');
+        $this->assertCount(1, $this->getReportsForLogin('recycledModelLogin'));
+
+        // added through the model directly, the way just in time provisioning creates users
+        (new UsersManagerModel())->addUser(
+            'recycledModelLogin',
+            'password',
+            'recycledmodel@example.org',
+            Date::now()->getDatetime()
+        );
+
+        $this->assertSame(array(), $this->getReportsForLogin('recycledModelLogin'));
+    }
+
+    private function addReportOwnedBy(string $login): void
+    {
+        APIUsersManager::getInstance()->addUser($login, 'password', $login . '@example.org');
+        APIUsersManager::getInstance()->setUserAccess($login, 'view', $this->idSite);
+
+        $originalIdentity = FakeAccess::$identity;
+        FakeAccess::$identity = $login;
+
+        try {
+            self::addReport(self::getDailyPDFReportData($this->idSite));
+        } finally {
+            FakeAccess::$identity = $originalIdentity;
+        }
+    }
+
+    private function deleteUserRow(string $login): void
+    {
+        Db::query('DELETE FROM ' . Common::prefixTable('user') . ' WHERE login = ?', array($login));
+    }
+
+    private function getReportsForLogin(string $login): array
+    {
+        return Db::fetchAll(
+            'SELECT idreport FROM ' . Common::prefixTable('report') . ' WHERE login = ?',
+            array($login)
+        );
     }
 
     /**
@@ -616,7 +741,7 @@ class ApiTest extends IntegrationTestCase
             'getReportSubjectAndReportTitle'
         );
 
-        [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke(APIScheduledReports::getInstance(), $websiteName, $reports);
+        [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke(null, $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }
@@ -809,6 +934,45 @@ class ApiTest extends IntegrationTestCase
         self::assertSame('Weekly traffic overview', $renderedReport['frontPageDescription']);
     }
 
+    public function testGenerateReportRefusesStreamingOutputInsideNestedApiRequest()
+    {
+        $this->setNestedApiInvocationCount(2);
+
+        try {
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage('A report can only be sent to the browser by the top-level request.');
+
+            APIScheduledReports::getInstance()->generateReport(
+                1,
+                '2024-01-01',
+                false,
+                APIScheduledReports::OUTPUT_DOWNLOAD
+            );
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+        }
+    }
+
+    public function testGenerateReportAllowsNonStreamingOutputInsideNestedApiRequest()
+    {
+        $this->setNestedApiInvocationCount(2);
+
+        try {
+            // the report lookup is only reached when the output mode is not refused upfront
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage("Requested report couldn't be found.");
+
+            APIScheduledReports::getInstance()->generateReport(
+                1,
+                '2024-01-01',
+                false,
+                APIScheduledReports::OUTPUT_RETURN
+            );
+        } finally {
+            $this->setNestedApiInvocationCount(0);
+        }
+    }
+
     public function testGetDisplayDescriptionFallsBackToNameForLegacyReports()
     {
         $report = new GeneratedReport([
@@ -867,6 +1031,17 @@ class ApiTest extends IntegrationTestCase
         );
 
         self::assertStringContainsString('id="VisitsSummary_get"', $result);
+
+        $effectivePeriod = $period ?: Schedule::PERIOD_DAY;
+        $periodTranslationKey = $effectivePeriod === Schedule::PERIOD_RANGE
+            ? 'General_DateRangeInPeriodList'
+            : 'Intl_Period' . ucfirst($effectivePeriod);
+        $expectedHeader = Piwik::translate('ScheduledReports_PleaseFindBelow', [
+            Piwik::translate($periodTranslationKey),
+            Site::getNameFor(1),
+        ]);
+
+        self::assertStringContainsString($expectedHeader, $result);
     }
 
     /**
@@ -908,6 +1083,39 @@ class ApiTest extends IntegrationTestCase
             'last7',
             'range',
         ];
+    }
+
+    public function testGenerateReportUsesDefaultDataPeriodForNeverScheduledReport(): void
+    {
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_NEVER,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            [
+                'VisitsSummary_get',
+            ],
+            [
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
+            ]
+        );
+
+        $result = APIScheduledReports::getInstance()->generateReport(
+            $idReport,
+            '2024-01-01',
+            false,
+            APIScheduledReports::OUTPUT_RETURN
+        );
+
+        $expectedHeader = Piwik::translate('ScheduledReports_PleaseFindBelow', [
+            Piwik::translate('Intl_PeriodDay'),
+            Site::getNameFor(1),
+        ]);
+
+        self::assertStringContainsString($expectedHeader, $result);
+        self::assertStringNotContainsString('Intl_PeriodNever', $result);
     }
 
     public function testGenerateReportThrowsIfMultiplePeriodsRequested()
@@ -1414,5 +1622,12 @@ class ApiTest extends IntegrationTestCase
     {
         FakeAccess::clearAccess();
         FakeAccess::$identity = 'anonymous';
+    }
+
+    private function setNestedApiInvocationCount(int $count): void
+    {
+        $reflectionProperty = new ReflectionProperty(Request::class, 'nestedApiInvocationCount');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue(null, $count);
     }
 }

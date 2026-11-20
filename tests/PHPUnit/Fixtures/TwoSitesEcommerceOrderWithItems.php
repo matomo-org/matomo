@@ -147,7 +147,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         // This is a frequent use case: ecommerce shops tracking the order from backoffice
         // without passing the custom variable 1st party cookie along since it's not known by back office
         $visitorCustomVarSave = $t->visitorCustomVar;
-        $t->visitorCustomVar = false;
+        $t->visitorCustomVar = [];
 
         self::checkResponse($t->doTrackEcommerceOrder($orderId2, $grandTotal = 2000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
         $t->visitorCustomVar = $visitorCustomVarSave;

@@ -146,7 +146,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         self::checkResponse($t->doTrackPageView('second pageview - by this user id'));
 
         // Request from a different computer not yet logged in, this should not be added to our User ID session
-        $t->setUserId(false);
+        $t->setUserId(null);
         // make sure the Id is not so random as to not fail the test
         $t->setVisitorId('5e15b4d842cc294d');
 

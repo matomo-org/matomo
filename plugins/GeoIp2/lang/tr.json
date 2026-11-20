@@ -26,7 +26,7 @@
         "HowToInstallApacheModule": "Apache için GeoIP modülü nasıl kurulur?",
         "HowToInstallNginxModule": "Nginx için GeoIP modülü nasıl kurulur?",
         "HowToSetupGeoIP": "DB-IP ile doğru coğrafi konum bulma ayarları nasıl yapılır",
-        "HowToSetupGeoIPIntro": "Coğrafi konum bulma ayarlarınızın doğruluğu yeterli değil gibi görünüyor. Bu özellik oldukça kullanışlıdır ve düzgün çalışmadığında ziyaretçileriniz hakkında tam ve doğru konum bilgisi alamazsınız. Hızlıca kullanmaya başlamak için gerekli bilgileri şurada bulabilirsiniz:",
+        "HowToSetupGeoIPIntro": "Coğrafi konum bulma ayarlarınızın doğruluğu yeterli değil gibi görünüyor. Bu özellik oldukça kullanışlıdır ve düzgün çalışmadığında ziyaretçileriniz ile ilgili tam ve doğru konum bilgisi alamazsınız. Hızlıca kullanmaya başlamak için gerekli bilgileri şurada bulabilirsiniz:",
         "HowToSetupGeoIP_Step1": "%3$sDB-IP%4$s üzerinden DB-IP City Lite veri tabanını %1$sindirin%2$s.",
         "HowToSetupGeoIP_Step2": "Bu dosyayı ayıklayın ve çıkanları Matomo %2$smisc%3$s klasörü %1$s içine kopyalayıp adını %4$s olarak değiştirin (bunu FTP ya da SSH ile yapabilirsiniz).",
         "HowToSetupGeoIP_Step3": "Bu sayfayı yeniden yükleyin. Şimdi %1$sDB-IP / GeoIP (PHP)%2$s hizmet sağlayıcısı %3$skurulacak%4$s. Onu seçin.",

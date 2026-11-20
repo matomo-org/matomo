@@ -208,7 +208,6 @@
         "ExceptionFileIntegrity": "Ha fallat la verificació de integritat: %s",
         "ExceptionFileToDelete": "Arxiu per esborrar: %s",
         "ExceptionFilesizeMismatch": "Mida de fitxer incohoerent: %1$s (mida esperada: %2$s, real: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "El vostre client %1$s té la versió %2$s que és incompatbile amb la versió de servidor %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "El format de informes agregats '%1$s' no és vàlid. Proveu-ne algun dels següents en el seu lloc: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "El temps límit per fer l'arxivat avui ha de ser més gran que zero segons",
         "ExceptionInvalidDateBeforeFirstWebsite": "La data '%1$s' és una data abans que el primer lloc web estigués en línia. Prova una data posterior a %2$s (marca de temps %3$s).",

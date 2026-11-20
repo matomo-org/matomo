@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Config;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
@@ -69,7 +70,7 @@ class ActionTest extends IntegrationTestCase
 
     public function testFactoryNotDefaultsToPageViewWhenCustomPluginRequest()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(InvalidRequestParameterException::class);
         $this->expectExceptionMessage('Request was meant for a plugin which is no longer activated. Request needs to be ignored.');
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
@@ -210,6 +211,106 @@ class ActionTest extends IntegrationTestCase
      * @dataProvider getTestAdvertisingClickIdUrls
      */
     public function testExcludeQueryParametersAdvertisingClickIds($url, $filteredUrl)
+    {
+        $this->setUpRootAccess();
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = '',
+            $excludedQueryParameters = '',
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        );
+        $this->assertEquals($filteredUrl, PageUrl::excludeQueryParametersFromUrl($url, $idSite));
+    }
+
+    public function getTestHubspotGoogleAdUrls()
+    {
+        return [
+            // HubSpot hsa_*
+            ['https://www.example.com?hsa_acc=1', 'https://www.example.com'],
+            ['https://www.example.com?hsa_cam=1', 'https://www.example.com'],
+            ['https://www.example.com?hsa_grp=1', 'https://www.example.com'],
+            ['https://www.example.com?hsa_ad=1', 'https://www.example.com'],
+            ['https://www.example.com?hsa_src=1', 'https://www.example.com'],
+            ['https://www.example.com?hsa_tgt=1', 'https://www.example.com'],
+            ['https://www.example.com?hsa_kw=1', 'https://www.example.com'],
+            ['https://www.example.com?hsa_mt=1', 'https://www.example.com'],
+            ['https://www.example.com?hsa_net=adwords', 'https://www.example.com'],
+            ['https://www.example.com?hsa_ver=3', 'https://www.example.com'],
+            // only added by HubSpot's Facebook/Instagram tracking template
+            ['https://www.example.com?hsa_la=true', 'https://www.example.com'],
+            ['https://www.example.com?hsa_ol=true', 'https://www.example.com'],
+            [
+                'https://www.example.com/path?hsa_acc=1234534242&hsa_cam=4567895464&hsa_net=adwords&hsa_ver=3',
+                'https://www.example.com/path',
+            ],
+            // Google Ads
+            ['https://www.example.com?gad_source=1', 'https://www.example.com'],
+            ['https://www.example.com?gad_campaignid=321321231', 'https://www.example.com'],
+            ['https://www.example.com?random=1&hsa_acc=2', 'https://www.example.com?random=1'],
+            ['https://www.example.com?HSA_ACC=1', 'https://www.example.com'],
+            // similar looking parameters that are not HubSpot ad parameters are kept
+            ['https://www.example.com?hsalt=1', 'https://www.example.com?hsalt=1'],
+            ['https://www.example.com?hsa_id=1', 'https://www.example.com?hsa_id=1'],
+            ['https://www.example.com?hsa_accx=1', 'https://www.example.com?hsa_accx=1'],
+            ['https://www.example.com?xhsa_acc=1', 'https://www.example.com?xhsa_acc=1'],
+        ];
+    }
+
+    /**
+     * HubSpot and Google Ads tracking parameters are excluded by the shipped default config
+     *
+     * @dataProvider getTestHubspotGoogleAdUrls
+     */
+    public function testExcludeQueryParametersHubspotGoogleAds($url, $filteredUrl)
+    {
+        $this->setUpRootAccess();
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            array('http://example.org'),
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $excludedIps = '',
+            $excludedQueryParameters = '',
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            $excludedUserAgents = null,
+            $keepURLFragments = 1
+        );
+        $this->assertEquals($filteredUrl, PageUrl::excludeQueryParametersFromUrl($url, $idSite));
+    }
+
+    public function getTestSensitiveTokenUrls()
+    {
+        return [
+            ['https://www.example.com?token_auth=abc123', 'https://www.example.com'],
+            ['https://www.example.com?token=abc123', 'https://www.example.com'],
+            // preserves unrelated params, strips only the credential
+            ['https://www.example.com/path?token_auth=abc123&random=1', 'https://www.example.com/path?random=1'],
+            // matching is case-insensitive (PageUrl lowercases the excluded parameter names)
+            ['https://www.example.com?Token_Auth=abc123', 'https://www.example.com'],
+        ];
+    }
+
+    /**
+     * Sensitive auth tokens must be stripped from tracked URLs by the shipped default exclusion list
+     *
+     * @dataProvider getTestSensitiveTokenUrls
+     */
+    public function testExcludeQueryParametersSensitiveTokens($url, $filteredUrl)
     {
         $this->setUpRootAccess();
         $idSite = API::getInstance()->addSite(
@@ -502,7 +603,7 @@ class ActionTest extends IntegrationTestCase
             array(
                 'request'  => array('url'         => 'http://example.org/ACTION/URL',
                                     'action_name' => "T\xe9st"),
-                'expected' => array('name' => version_compare(PHP_VERSION, '5.2.5') === -1 ? 'T\xe9st' : 'Tést',
+                'expected' => array('name' => 'Tést',
                                     'url'  => 'http://example.org/ACTION/URL',
                                     'type' => Action::TYPE_PAGE_URL),
             ),

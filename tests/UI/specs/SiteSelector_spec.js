@@ -8,7 +8,7 @@
  */
 
 describe("SiteSelector", function () {
-    const selectorToCapture = '.siteSelector,.siteSelector .dropdown';
+    const selectorToCapture = '.siteSelector,.siteSelector .piwikSelector__dropdown';
     const url = "?module=UsersManager&action=userSettings&idSite=1&period=day&date=yesterday";
 
     it("should load correctly", async function() {
@@ -30,15 +30,15 @@ describe("SiteSelector", function () {
     it("should display expanded when clicked", async function() {
         await page.click('.sites_autocomplete .title');
 
-        await page.waitForSelector('.custom_select_ul_list');
+        await page.waitForSelector('.siteSelector .mtm-dropdownPanel__menu');
         await page.waitForNetworkIdle();
-        await page.click('.websiteSearch');
+        await page.click('.siteSelector .mtm-searchInput__input');
 
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('expanded');
     });
 
     it("should show no results when search returns no results", async function() {
-        await page.type(".websiteSearch", "abc");
+        await page.type(".siteSelector .mtm-searchInput__input", "abc");
         await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
 
@@ -46,9 +46,9 @@ describe("SiteSelector", function () {
     });
 
     it("should search when one character typed into search input", async function() {
-        await page.click('.reset');
+        await page.click('.siteSelector .mtm-searchInput__clear');
         await page.waitForTimeout(500);
-        await page.type(".websiteSearch", "s");
+        await page.type(".siteSelector .mtm-searchInput__input", "s");
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
 
@@ -56,7 +56,7 @@ describe("SiteSelector", function () {
     });
 
     it("should search again when second character typed into search input", async function() {
-        await page.type(".websiteSearch", "t");
+        await page.type(".siteSelector .mtm-searchInput__input", "t");
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
 
@@ -64,7 +64,7 @@ describe("SiteSelector", function () {
     });
 
     it("should change the site when a site is selected", async function() {
-        elem = await page.jQuery(".custom_select_ul_list>li:visible");
+        elem = await page.jQuery(".siteSelector .mtm-dropdownPanel__menu>li:visible");
         elem.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(200);

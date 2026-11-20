@@ -9,6 +9,12 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
+use Piwik\API\Request;
+use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -58,6 +64,26 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->assertSame(array(), $this->api->getTrackingFailures());
     }
 
+    public function testInvalidateArchivedReportsWarnsAboutGivenUpArchives()
+    {
+        $this->setSuperUser();
+        Db::query(
+            'INSERT INTO `' . Common::prefixTable('archive_failures') . "` (idsite, period, date1, date2, archive_hash, name, `report`, attempts,
+                    last_error, ts_first_failed, ts_last_failed, ts_retry_after)
+                  VALUES (1, 3, '2019-03-01', '2019-03-31', ?, 'done', '', 5, 'error', NOW(), NOW(), NOW())",
+            [md5('done|')]
+        );
+
+        $output = $this->api->invalidateArchivedReports('1', '2019-12-01', 'day');
+
+        $this->assertStringStartsWith('Warning: 1 archives between 2019-01-01 and 2019-12-31 (site IDs: 1) were given up', (string) end($output));
+        $this->assertNotContains(
+            end($output),
+            $this->api->invalidateArchivedReports('2', '2019-12-01', 'day'),
+            'archives of other sites are not mentioned'
+        );
+    }
+
     public function testDeleteAllTrackingFailuresFailsForViewUser()
     {
         $this->expectException(\Piwik\NoAccessException::class);
@@ -101,6 +127,67 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         $this->api->deleteTrackingFailure(1, 2);
         $this->setSuperUser();
         $this->api->deleteTrackingFailure(1, 2);
+    }
+
+    /**
+     * @dataProvider getReportOnlyRequestsForArchiveOfAllPlugins
+     */
+    public function testArchiveReportsRejectsReportOnlyArchivingForArchiveOfAllPlugins($plugin, string $report)
+    {
+        $this->trackPageViewAndArchive();
+
+        StaticContainer::get(ArchiveInvalidator::class)->rememberToInvalidateArchivedReportsLater(1, Date::factory('2020-01-15'));
+
+        $exception = null;
+        try {
+            $this->api->archiveReports(1, 'day', '2020-01-15', false, $plugin, $report);
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        $this->assertSame(1, $this->getPageUrlsRowCount());
+        $this->assertNotNull($exception);
+        $this->assertStringContainsString('only possible for an archive of a single plugin', $exception->getMessage());
+    }
+
+    public function getReportOnlyRequestsForArchiveOfAllPlugins(): iterable
+    {
+        yield 'no plugin' => [false, 'nb_pageviews'];
+        yield 'unknown plugin' => ['UnknownPlugin', 'nb_pageviews'];
+        yield 'plugin not providing the report' => ['Actions', 'nb_pageviews'];
+        yield 'plugin providing the report' => ['Referrers', 'Referrers_type'];
+    }
+
+    public function testArchiveReportsArchivesSpecificReportForRangePeriod()
+    {
+        $this->trackPageViewAndArchive();
+
+        $result = $this->api->archiveReports(1, 'range', '2020-01-14,2020-01-16', false, 'Actions', 'Actions_actions_url');
+
+        $this->assertNotEmpty($result['idarchives']);
+        $this->assertSame(1, $this->getPageUrlsRowCount());
+    }
+
+    private function trackPageViewAndArchive(): void
+    {
+        Fixture::createSuperUser(true);
+        $this->setSuperUser();
+
+        $tracker = Fixture::getTracker(1, '2020-01-15 12:00:00');
+        $tracker->setUrl('http://example.com/page');
+        Fixture::checkResponse($tracker->doTrackPageView('page'));
+
+        $this->assertSame(1, $this->getPageUrlsRowCount());
+    }
+
+    private function getPageUrlsRowCount(): int
+    {
+        return Request::processRequest('Actions.getPageUrls', [
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => '2020-01-15',
+            'flat' => 1,
+        ])->getRowsCount();
     }
 
     protected function setSuperUser()

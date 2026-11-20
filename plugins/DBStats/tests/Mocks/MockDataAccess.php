@@ -133,9 +133,9 @@ class MockDataAccess extends MySQLMetadataDataAccess
     public function getTableNameKey($tableName)
     {
         $result = Common::unprefixTable($tableName);
-        if (strpos($tableName, "archive_numeric") !== false) {
+        if (str_contains($tableName, "archive_numeric")) {
             $result = "archive_numeric";
-        } elseif (strpos($tableName, "archive_blob") !== false) {
+        } elseif (str_contains($tableName, "archive_blob")) {
             $result = "archive_blob";
         }
         return $result;
@@ -143,7 +143,7 @@ class MockDataAccess extends MySQLMetadataDataAccess
 
     public function getRowCountsByArchiveName($tableName, $extraCols)
     {
-        if (strpos($tableName, "achive_numeric") !== false) {
+        if (str_contains($tableName, "achive_numeric")) {
             return self::$numericRowCountsByArchiveName;
         } else {
             return self::$blobRowCountsByArchiveName;

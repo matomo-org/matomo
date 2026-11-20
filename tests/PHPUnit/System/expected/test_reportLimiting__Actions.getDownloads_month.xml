@@ -10,6 +10,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>6.7%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>6.7%</nb_hits_percent_of_total>
 		<subtable>
 			<row>
 				<label>/100/download</label>
@@ -21,6 +23,8 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>1.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>1.3%</nb_hits_percent_of_total>
 				<url>http://cloudsite25.com/100/download</url>
 				<segment>downloadUrl==http%253A%252F%252Fcloudsite25.com%252F100%252Fdownload</segment>
 			</row>
@@ -33,6 +37,8 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_visits_percent_of_total>5.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>5.3%</nb_hits_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -46,6 +52,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>6.7%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>6.7%</nb_hits_percent_of_total>
 		<subtable>
 			<row>
 				<label>/104/download</label>
@@ -57,6 +65,8 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>1.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>1.3%</nb_hits_percent_of_total>
 				<url>http://cloudsite26.com/104/download</url>
 				<segment>downloadUrl==http%253A%252F%252Fcloudsite26.com%252F104%252Fdownload</segment>
 			</row>
@@ -69,6 +79,8 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_visits_percent_of_total>5.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>5.3%</nb_hits_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -82,6 +94,8 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>6.7%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>6.7%</nb_hits_percent_of_total>
 		<subtable>
 			<row>
 				<label>/108/download</label>
@@ -93,6 +107,8 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<nb_visits_percent_of_total>1.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>1.3%</nb_hits_percent_of_total>
 				<url>http://cloudsite27.com/108/download</url>
 				<segment>downloadUrl==http%253A%252F%252Fcloudsite27.com%252F108%252Fdownload</segment>
 			</row>
@@ -105,6 +121,8 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_visits_percent_of_total>5.3%</nb_visits_percent_of_total>
+				<nb_hits_percent_of_total>5.3%</nb_hits_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -118,5 +136,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<nb_visits_percent_of_total>80%</nb_visits_percent_of_total>
+		<nb_hits_percent_of_total>80%</nb_hits_percent_of_total>
 	</row>
 </result>

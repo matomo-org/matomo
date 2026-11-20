@@ -2,7 +2,6 @@
     "Transitions": {
         "AvailableInOtherReports": "Le saviez-vous ? Les transitions sont également disponibles sous forme d'action en ligne dans les rapports suivants :",
         "AvailableInOtherReports2": "Lancez les transitions en cliquant sur leur icône (%s) après avoir survolé une ligne dans l'un de ces rapports.",
-        "BouncesInline": "%s rebonds",
         "DirectEntries": "Entrées directes",
         "ErrorBack": "Retour à l'action précédente",
         "ExitsInline": "%s sorties",
@@ -18,16 +17,18 @@
         "FromWebsites": "Depuis des sites web",
         "IncomingTraffic": "Trafic entrant",
         "LoopsInline": "%s rechargements de pages",
-        "NoDataForAction": "Aucune données pour %s",
+        "NoDataForAction": "Aucune donnée pour %s",
         "NoDataForActionDetails": "Soit l'action n'a généré aucune vue de page pendant la période, soit elle est invalide.",
         "NumDownloads": "%s téléchargements",
-        "NumOutlinks": "%s liens sortant",
+        "NumOutlinks": "%s liens sortants",
         "NumPageviews": "%s pages vues",
+        "OtherDestinations": "Autres destinations",
+        "OtherSources": "Autres sources",
         "OutgoingTraffic": "Trafic sortant",
         "PageURLTransitions": "Transitions d'URL de page",
         "PeriodNotAllowed": "Sélectionnez une période valide",
         "PeriodNotAllowedDetails": "Essayez de sélectionner une période plus courte pour cette fonctionnalité.",
-        "PluginDescription": "Rapporte les actions précédentes et suivantes pour chacune des URL's de page dans un nouveau rapport de Transitions, disponible depuis le rapports des Actions via un nouvel icône.",
+        "PluginDescription": "Rapporte les actions précédentes et suivantes pour chaque URL de page dans un nouveau rapport « Transitions », disponible depuis les rapports « Actions » via une nouvelle icône.",
         "ShareOfAllPageviews": "Cette page a eu %1$s affichages (%2$s de tous les affichages)",
         "ToFollowingPages": "Vers des pages internes",
         "ToFollowingPagesInline": "%s vers des pages internes",
@@ -37,7 +38,6 @@
         "Transitions": "Transitions",
         "TransitionsSubcategoryHelp1": "Le rapport « Transitions » présente les actions de vos visiteurs juste avant et juste après la consultation d'une page. Cette page explique comment accéder à ce rapport, le comprendre et l'utiliser.",
         "TransitionsSubcategoryHelp2": "Plus de détails",
-        "XOfAllPageviews": "%s de toutes les pages vues",
-        "XOutOfYVisits": "%1$s (de %2$s)"
+        "XOfAllPageviews": "%s de toutes les vues de cette page"
     }
 }

@@ -24,15 +24,9 @@ class Advertising
 {
     public const CAMPAIGN_NAME_PROFESSIONAL_SERVICES = 'App_ProfessionalServices';
 
-    /**
-     * @var Plugin\Manager
-     */
-    private $pluginManager;
+    private Plugin\Manager $pluginManager;
 
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
     public function __construct(Plugin\Manager $pluginManager, Config $config)
     {

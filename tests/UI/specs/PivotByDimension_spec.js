@@ -20,7 +20,7 @@ describe("PivotByDimension", function () {
         await element.click();
         await page.waitForNetworkIdle();
 
-        await page.click('.dropdownConfigureIcon');
+        await page.click('.reportHeader__actionsTrigger');
         await page.waitForTimeout(100);
         await page.click('.dataTablePivotBySubtable');
         await page.waitForNetworkIdle();
@@ -41,7 +41,7 @@ describe("PivotByDimension", function () {
     it("should display the pivot option on reports that set a custom columns_to_display", async function () {
         await page.goto(cvarsUrl);
         await page.waitForNetworkIdle();
-        await page.click('.dropdownConfigureIcon');
+        await page.click('.reportHeader__actionsTrigger');
         await page.click('.dataTablePivotBySubtable');
         await page.waitForNetworkIdle();
 

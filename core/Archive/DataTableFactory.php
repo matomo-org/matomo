@@ -39,10 +39,8 @@ class DataTableFactory
      * Whether to expand the DataTables that're created or not. Expanding a DataTable
      * means creating DataTables using subtable blobs and correctly setting the subtable
      * IDs of all DataTables.
-     *
-     * @var bool
      */
-    private $expandDataTable = false;
+    private bool $expandDataTable = false;
 
     /**
      * Whether to add the subtable ID used in the database to the in-memory DataTables
@@ -70,10 +68,7 @@ class DataTableFactory
      */
     private $periods;
 
-    /**
-     * @var Segment
-     */
-    private $segment;
+    private Segment $segment;
 
     /**
      * The ID of the subtable to create a DataTable for. Only relevant for blob data.

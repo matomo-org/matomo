@@ -34,9 +34,9 @@ class ExampleLogTables extends \Piwik\Plugin
     /**
      * Register the new tables, so Matomo knows about them.
      *
-     * @param array $allTablesInstalled
+     * @param string[] $allTablesInstalled
      */
-    public function getTablesInstalled(&$allTablesInstalled)
+    public function getTablesInstalled(array &$allTablesInstalled): void
     {
         $allTablesInstalled[] = Common::prefixTable('log_group');
         $allTablesInstalled[] = Common::prefixTable('log_custom');

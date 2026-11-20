@@ -10,6 +10,7 @@
 namespace Piwik\API;
 
 use Exception;
+use Piwik\Exception\MissingRequestParameterException;
 use Piwik\Http\BadRequestException;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -52,6 +53,9 @@ class Proxy
         $this->noDefaultValue = new NoDefaultValue();
     }
 
+    /**
+     * @return self
+     */
     public static function getInstance()
     {
         return StaticContainer::get(self::class);
@@ -423,6 +427,8 @@ class Proxy
 
     /**
      * Check if given method name is deprecated or not.
+     *
+     * @return bool
      */
     public function isDeprecatedMethod($class, $methodName)
     {
@@ -572,14 +578,18 @@ class Proxy
                 } elseif ($defaultValue === null) {
                     try {
                         $requestValue = $request->$method($name);
-                    } catch (\InvalidArgumentException $e) {
+                    } catch (MissingRequestParameterException $e) {
+                        // Only an absent parameter falls back to null; an unusable value is reported below
+                        // rather than handing the method its default as though nothing had been sent.
                         $requestValue = null;
                     }
                 } else {
                     $requestValue = $request->$method($name, $defaultValue);
                 }
-            } catch (Exception $e) {
+            } catch (MissingRequestParameterException $e) {
                 throw new BadRequestException(Piwik::translate('General_PleaseSpecifyValue', [$name]));
+            } catch (Exception $e) {
+                throw new BadRequestException(Piwik::translate('General_InvalidValueForParameter', [$name]));
             }
             $finalParameters[$name] = $requestValue;
         }

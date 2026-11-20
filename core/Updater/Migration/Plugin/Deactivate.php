@@ -23,10 +23,7 @@ class Deactivate extends Migration
      */
     private $pluginName;
 
-    /**
-     * @var Plugin\Manager
-     */
-    private $pluginManager;
+    private Plugin\Manager $pluginManager;
 
     public function __construct(Plugin\Manager $pluginManager, $pluginName)
     {

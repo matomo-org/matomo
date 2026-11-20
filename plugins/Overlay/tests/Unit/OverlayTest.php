@@ -61,11 +61,6 @@ class OverlayTest extends \PHPUnit\Framework\TestCase
                 '',
             ],
             [
-                'Transitions',
-                'renderPopover',
-                '',
-            ],
-            [
                 'Live',
                 'indexVisitorLog',
                 '',

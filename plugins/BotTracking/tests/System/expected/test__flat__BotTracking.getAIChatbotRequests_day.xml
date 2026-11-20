@@ -3,6 +3,7 @@
 	<row>
 		<label>ChatGPT - example.com/article/1/page/2</label>
 		<requests>1</requests>
+		<requests_percent_of_total>11.1%</requests_percent_of_total>
 		<BotTracking_AIChatbotName>ChatGPT</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/1/page/2</BotTracking_PageUrl>
 		<url />
@@ -11,6 +12,7 @@
 	<row>
 		<label>Gemini - example.com/article/1/page/2</label>
 		<requests>1</requests>
+		<requests_percent_of_total>11.1%</requests_percent_of_total>
 		<BotTracking_AIChatbotName>Gemini</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/1/page/2</BotTracking_PageUrl>
 		<url />
@@ -19,6 +21,7 @@
 	<row>
 		<label>Le Chat - example.com/article/2</label>
 		<requests>1</requests>
+		<requests_percent_of_total>11.1%</requests_percent_of_total>
 		<BotTracking_AIChatbotName>Le Chat</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/2</BotTracking_PageUrl>
 		<url />
@@ -27,6 +30,7 @@
 	<row>
 		<label>Le Chat - example.com/article/3</label>
 		<requests>1</requests>
+		<requests_percent_of_total>11.1%</requests_percent_of_total>
 		<BotTracking_AIChatbotName>Le Chat</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
 		<url />
@@ -35,6 +39,7 @@
 	<row>
 		<label>Perplexity - example.com/article/2</label>
 		<requests>2</requests>
+		<requests_percent_of_total>22.2%</requests_percent_of_total>
 		<BotTracking_AIChatbotName>Perplexity</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/2</BotTracking_PageUrl>
 		<url />

@@ -98,34 +98,6 @@ div.scrollable {
     }
 }
 
-.segment-element .custom_select_search {
-    width: 146px;
-    background: url(plugins/SegmentEditor/images/bg-segment-search.png) 0 10px no-repeat;
-    padding: 10px 0 0 0;
-    margin: 0 0 10px 15px;
-    position: relative;
-    height: 32px;
-}
-
-.segment-element .custom_select_search input[type="text"] {
-    font-size: 11px !important;
-    color: @theme-color-text !important;
-    width: 125px;
-    padding: 0 0 3px 7px !important;
-    border: none !important;
-    box-shadow: none !important;
-    background: none !important;
-}
-
-.segment-element .custom_select_search a {
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    right: 5px;
-    top: 14px;
-    background: url(plugins/SegmentEditor/images/reset_search.png);
-}
-
 .segment-element .segment-content {
     min-height: 300px;
     padding: 0 0 20px 0;
@@ -477,10 +449,6 @@ div.scrollable {
     padding: @_segmentselector-dropdown_padding;
 }
 
-.segmentEditorPanel.expanded .segmentFilterContainer:hover .searchInputClear {
-    background: url(plugins/SegmentEditor/images/reset_search.png);
-}
-
 .segmentEditorPanel.expanded .filterNoResults {
     font-style: italic;
 }
@@ -690,4 +658,10 @@ a.metric_category {
         display: inline-block;
         width: calc(100% - 15px);
     }
+}
+
+// A sparkline not requested yet, or reset by a theme change, has no src: hide the empty frame
+// browsers draw for it
+[data-page="manage-segments"] img[data-segment-sparkline-src]:not([src]) {
+    visibility: hidden;
 }

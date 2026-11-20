@@ -274,6 +274,76 @@ class APITest extends SystemTestCase
         Config::getInstance()->{$configSection} = null;
     }
 
+    public function testGetCompliancePolicySettingsReturnsErrorWhenFeatureNotEnabled(): void
+    {
+        $this->runApiTests('PrivacyManager.getCompliancePolicySettings', [
+            'testSuffix' => 'granularFeatureDisabled',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'compliancePolicy' => 'cnil_v1',
+            ],
+        ]);
+    }
+
+    public function testGetCompliancePolicySettingsReturnsAllSettings(): void
+    {
+        $this->enableGranularComplianceFeature();
+
+        try {
+            $this->runApiTests('PrivacyManager.getCompliancePolicySettings', [
+                'otherRequestParameters' => [
+                    'idSite' => '1',
+                    'compliancePolicy' => 'cnil_v1',
+                ],
+            ]);
+        } finally {
+            Config::getInstance()->FeatureFlags = null;
+        }
+    }
+
+    public function testGetCompliancePolicySettingsWhenPolicyEnforcedForSite(): void
+    {
+        $this->enableGranularComplianceFeature();
+        CnilPolicy::setActiveStatus(1, true);
+
+        try {
+            $this->runApiTests('PrivacyManager.getCompliancePolicySettings', [
+                'testSuffix' => 'granularPolicyEnforced',
+                'otherRequestParameters' => [
+                    'idSite' => '1',
+                    'compliancePolicy' => 'cnil_v1',
+                ],
+            ]);
+        } finally {
+            CnilPolicy::setActiveStatus(1, false);
+            Config::getInstance()->FeatureFlags = null;
+        }
+    }
+
+    public function testGetCompliancePolicySettingsConfigControlled(): void
+    {
+        $this->enableGranularComplianceFeature();
+        Config::getInstance()->CnilPolicy['cnil_v1_policy_enabled'] = 1;
+
+        try {
+            $this->runApiTests('PrivacyManager.getCompliancePolicySettings', [
+                'testSuffix' => 'granularConfigControlled',
+                'otherRequestParameters' => [
+                    'idSite' => '1',
+                    'compliancePolicy' => 'cnil_v1',
+                ],
+            ]);
+        } finally {
+            Config::getInstance()->CnilPolicy = null;
+            Config::getInstance()->FeatureFlags = null;
+        }
+    }
+
+    private function enableGranularComplianceFeature(): void
+    {
+        Config::getInstance()->FeatureFlags = ['GranularPrivacyCompliance_feature' => 'enabled'];
+    }
+
     public static function getOutputPrefix()
     {
         return '';

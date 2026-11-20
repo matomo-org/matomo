@@ -216,7 +216,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
                 }
             } else {
                 if (is_array($names)) {
-                    $this->assertTrue(strpos($name, $names[0]) !== false);
+                    $this->assertTrue(str_contains($name, $names[0]));
                 } else {
                     $this->fail("$language: expected an array of language names");
                 }

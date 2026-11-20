@@ -11,10 +11,7 @@ namespace Piwik\Plugins\TwoFactorAuth;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-    /**
-     * @var TwoFactorAuthentication
-     */
-    private $twoFa;
+    private TwoFactorAuthentication $twoFa;
 
     public function __construct(TwoFactorAuthentication $twoFa)
     {

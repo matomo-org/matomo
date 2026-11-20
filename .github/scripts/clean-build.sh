@@ -187,6 +187,11 @@ rm -f config/config.php
 rm -rf tmp/*
 rm -f bootstrap-phpstan.php
 
+# Developer documentation that is not relevant in a release
+rm -f AGENTS.md
+rm -f CHANGELOG.md
+rm -f CONTRIBUTING.md
+
 # Delete unwanted git folders, recursively
 for x in .git .github ; do
     find . -name "$x" -exec rm -rf {} \; 2>/dev/null

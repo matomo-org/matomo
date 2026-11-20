@@ -9,16 +9,28 @@
 
 namespace Piwik\Plugins\Login\tests\Integration;
 
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Auth;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Exception\RedirectException;
+use Piwik\Exception\ThingNotFoundException;
+use Piwik\Http\BadRequestException;
 use Piwik\Plugins\Login\Controller;
 use Piwik\Plugins\Login\PasswordResetter;
+use Piwik\Plugins\Login\PasswordVerifier;
+use Piwik\Plugins\Login\SecondFactorVerifier;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Nonce;
+use Piwik\Piwik;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Date;
+use Piwik\DI;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Session\SessionInitializer;
 
 /**
@@ -55,6 +67,9 @@ class ControllerTest extends IntegrationTestCase
     {
         parent::tearDown();
         $_POST = $this->post;
+        // pending confirmations live in the session, which later tests share
+        $_SESSION = [];
+        unset($_GET[SecondFactorVerifier::REQUEST_ID_PARAMETER]);
     }
 
     private function setupPostStateWithPassword(string $password)
@@ -146,6 +161,423 @@ class ControllerTest extends IntegrationTestCase
         $this->assertTrue((new Model())->isPendingUser('test'));
         // and the set password form is rendered again instead
         $this->assertStringContainsString('invitation_form', $response);
+    }
+
+    public function testAcceptInvitationRejectsInvitationWithoutExpiry()
+    {
+        [, $token] = $this->generateTestUser();
+
+        (new Model())->updateUserFields('test', ['invite_expired_at' => null]);
+        $_POST['token'] = $token;
+
+        $this->expectException(RedirectException::class);
+
+        $this->controller->acceptInvitation();
+    }
+
+    public function testAcceptInvitationWithoutTokenRedirectsWithoutRecordingAFailedAttempt()
+    {
+        $this->assertInvitationFailure(function () {
+            $this->controller->acceptInvitation();
+        }, RedirectException::class, 'Login_InvalidOrExpiredTokenV2', 0);
+    }
+
+    public function testAcceptInvitationWithUnknownTokenRedirectsAndRecordsAFailedAttempt()
+    {
+        $_POST['token'] = 'unknowntoken';
+
+        $this->assertInvitationFailure(function () {
+            $this->controller->acceptInvitation();
+        }, RedirectException::class, 'Login_InvalidOrExpiredTokenV2', 1);
+    }
+
+    public function testAcceptInvitationWithExpiredInvitationRedirects()
+    {
+        [, $token] = $this->generateTestUser();
+        (new Model())->updateUserFields('test', ['invite_expired_at' => Date::now()->subDay(1)->getDatetime()]);
+        $_POST['token'] = $token;
+
+        $this->assertInvitationFailure(function () {
+            $this->controller->acceptInvitation();
+        }, RedirectException::class, 'Login_InvalidOrExpiredTokenV2', 0);
+    }
+
+    public function testLogmeIsNotFoundWhileItIsDisabled()
+    {
+        Config::getInstance()->General['login_allow_logme'] = 0;
+
+        $this->expectException(ThingNotFoundException::class);
+        $this->expectExceptionCode(404);
+        $this->expectExceptionMessage('This functionality has been disabled in config');
+
+        $this->controller->logme();
+    }
+
+    public function testConfirmPasswordRedirectsToTheDashboardWithoutAPendingConfirmation()
+    {
+        StaticContainer::get(PasswordVerifier::class)->forgetVerifiedPassword();
+
+        $this->expectExceptionMessage('Matomo would redirect you to this URL: index.php');
+
+        $this->controller->confirmPassword();
+    }
+
+    public function testConfirmPasswordShowsTheFormWhileAConfirmationIsPending()
+    {
+        Fixture::createWebsite('2024-01-01 00:00:00');
+
+        $passwordVerifier = StaticContainer::get(PasswordVerifier::class);
+        $passwordVerifier->setDisableRedirect();
+        $passwordVerifier->requirePasswordVerified(['module' => 'UsersManager', 'action' => 'userSecurity']);
+
+        try {
+            $html = (new Controller(null, null, null, $passwordVerifier))->confirmPassword();
+        } finally {
+            // the pending confirmation lives in the session, which later tests share
+            $passwordVerifier->forgetVerifiedPassword();
+        }
+
+        $this->assertStringContainsString('name="password"', $html);
+    }
+
+    public function testConfirmSecondFactorRedirectsToTheDashboardWithoutAPendingConfirmation()
+    {
+        $this->expectExceptionMessage('Matomo would redirect you to this URL: index.php');
+
+        $this->controller->confirmSecondFactor();
+    }
+
+    public function testConfirmSecondFactorShowsTheFormWhileAConfirmationIsPending()
+    {
+        Fixture::createWebsite('2024-01-01 00:00:00');
+        $requestId = $this->requestSecondFactorConfirmation();
+
+        $html = $this->controller->confirmSecondFactor();
+
+        $this->assertStringContainsString('name="code"', $html);
+        $this->assertStringContainsString($requestId, $html);
+        $this->assertStringNotContainsString('Login_WrongSecondFactorCode', $html);
+    }
+
+    public function testConfirmSecondFactorShowsAnErrorForAWrongCode()
+    {
+        Fixture::createWebsite('2024-01-01 00:00:00');
+        $requestId = $this->requestSecondFactorConfirmation();
+
+        $_POST['nonce'] = Nonce::getNonce('confirmSecondFactor');
+        $_POST['code'] = 'wrong-code';
+
+        $html = $this->controller->confirmSecondFactor();
+
+        $this->assertStringContainsString('Login_WrongSecondFactorCode', $html);
+        $this->assertTrue(StaticContainer::get(SecondFactorVerifier::class)->hasConfirmationBeenRequested($requestId));
+    }
+
+    public function testConfirmSecondFactorRedirectsBackToTheActionForAValidCode()
+    {
+        $this->requestSecondFactorConfirmation();
+
+        $_POST['nonce'] = Nonce::getNonce('confirmSecondFactor');
+        $_POST['code'] = 'valid-code';
+
+        $this->expectExceptionMessageMatches(
+            '/would redirect you to this URL: index\.php\?.*module=UsersManager&action=userSecurity&secondFactorToken=[0-9a-f]{32}/'
+        );
+
+        $this->controller->confirmSecondFactor();
+    }
+
+    private function requestSecondFactorConfirmation(): string
+    {
+        $verifier = new SecondFactorVerifier();
+        $requestId = $verifier->requestConfirmation(['module' => 'UsersManager', 'action' => 'userSecurity']);
+        $_GET[SecondFactorVerifier::REQUEST_ID_PARAMETER] = $requestId;
+
+        return $requestId;
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            // every user has a second factor, as e.g. TwoFactorAuth provides it
+            'observers.global' => DI::add([
+                ['Login.userRequiresSecondFactorConfirmation', DI::value(function (&$required) {
+                    $required = true;
+                })],
+                ['Login.verifySecondFactor', DI::value(function (&$isValid, $login, $code) {
+                    $isValid = $code === 'valid-code';
+                })],
+            ]),
+        ];
+    }
+
+    public function testDeclineInvitationWithoutTokenIsABadRequestWithoutRecordingAFailedAttempt()
+    {
+        $this->assertInvitationFailure(function () {
+            $this->controller->declineInvitation();
+        }, BadRequestException::class, 'Login_InvalidOrExpiredToken', 0);
+    }
+
+    public function testDeclineInvitationWithUnknownTokenIsABadRequestAndRecordsAFailedAttempt()
+    {
+        $_POST['token'] = 'unknowntoken';
+
+        $this->assertInvitationFailure(function () {
+            $this->controller->declineInvitation();
+        }, BadRequestException::class, 'Login_InvalidOrExpiredToken', 1);
+    }
+
+    public function testDeclineInvitationWithExpiredInvitationIsABadRequest()
+    {
+        [, $token] = $this->generateTestUser();
+        (new Model())->updateUserFields('test', ['invite_expired_at' => Date::now()->subDay(1)->getDatetime()]);
+        $_POST['token'] = $token;
+
+        $this->assertInvitationFailure(function () {
+            $this->controller->declineInvitation();
+        }, BadRequestException::class, 'Login_InvalidOrExpiredToken', 0);
+    }
+
+    public function testAcceptInvitationDoesNotOverwriteAPasswordSetByAnEarlierRedemption()
+    {
+        [$userEmail, $token] = $this->generateTestUser();
+        $linkToken = $this->attachInviteLinkToken('test');
+
+        // the mailed token is redeemed while the copied invitation link is part-way through the same form
+        $passwordStrength = $this->getMockBuilder(PasswordStrength::class)
+            ->setConstructorArgs([true])
+            ->onlyMethods(['validatePasswordStrength'])
+            ->getMock();
+        $passwordStrength->method('validatePasswordStrength')
+            ->willReturnCallback(function () use ($token) {
+                self::assertTrue((new Model())->consumeInviteToken('test', $token, 'passwordFromTheAcceptance'));
+
+                return [];
+            });
+
+        $this->setupPostInvitationSubmitted($linkToken, $userEmail, 'Password111!');
+
+        $this->expectException(RedirectException::class);
+
+        try {
+            $this->buildController(null, $passwordStrength)->acceptInvitation();
+        } finally {
+            // an account may only be activated once, by whichever redemption applied
+            self::assertSame('passwordFromTheAcceptance', (new Model())->getUser('test')['password']);
+        }
+    }
+
+    public function testAcceptInvitationDoesNotAuthenticateOrNotifyWhenTheRedemptionIsRefused()
+    {
+        [$userEmail, $token] = $this->generateTestUser();
+        $this->setupPostInvitationSubmitted($token, $userEmail, 'Password111!');
+
+        $accepted = false;
+        Piwik::addAction('UsersManager.inviteUser.accepted', function () use (&$accepted) {
+            $accepted = true;
+        });
+
+        $usersModel = $this->getMockBuilder(Model::class)
+            ->onlyMethods(['consumeInviteToken'])
+            ->getMock();
+        $usersModel->method('consumeInviteToken')->willReturn(false);
+
+        $this->expectException(RedirectException::class);
+
+        try {
+            $this->buildController($usersModel)->acceptInvitation();
+        } finally {
+            // a refused redemption has to stop everything the acceptance would otherwise have done
+            self::assertFalse($accepted);
+            self::assertTrue((new Model())->isPendingUser('test'));
+        }
+    }
+
+    public function testDeclineInvitationDoesNotDeleteAnAccountThatWasAlreadyAccepted()
+    {
+        [, $token] = $this->generateTestUser();
+        $linkToken = $this->attachInviteLinkToken('test');
+
+        $declined = false;
+        Piwik::addAction('UsersManager.inviteUser.declined', function () use (&$declined) {
+            $declined = true;
+        });
+
+        $realModel = new Model();
+        $usersModel = $this->getMockBuilder(Model::class)
+            ->onlyMethods(['deletePendingUserByInviteToken'])
+            ->getMock();
+        $usersModel->method('deletePendingUserByInviteToken')
+            ->willReturnCallback(function ($userLogin, $presentedToken) use ($realModel, $token) {
+                // the invitation is accepted just before the decline runs
+                self::assertTrue($realModel->consumeInviteToken('test', $token, 'passwordFromTheAcceptance'));
+
+                return $realModel->deletePendingUserByInviteToken($userLogin, $presentedToken);
+            });
+
+        $_POST['token'] = $linkToken;
+        $_POST['invitation_form'] = 'Decline';
+
+        self::expectException(BadRequestException::class);
+        self::expectExceptionCode(400);
+        self::expectExceptionMessage('Login_InvalidOrExpiredToken');
+
+        try {
+            $this->buildController($usersModel)->declineInvitation();
+        } finally {
+            // the account that was activated must survive the decline, and no deletion may be announced
+            $user = $realModel->getUser('test');
+            self::assertNotEmpty($user);
+            self::assertSame('passwordFromTheAcceptance', $user['password']);
+            self::assertFalse($declined);
+        }
+    }
+
+    public function testDeclineInvitationHoldsTheCreateUserLockOnlyWhileTheLoginIsFreed()
+    {
+        [, $token] = $this->generateTestUser();
+
+        $lockHeldForTheDelete = null;
+        $lockHeldForTheCleanup = null;
+
+        $realModel = new Model();
+        $usersModel = $this->getMockBuilder(Model::class)
+            ->onlyMethods(['deletePendingUserByInviteToken', 'cleanupDeletedUser'])
+            ->getMock();
+
+        $usersModel->method('deletePendingUserByInviteToken')
+            ->willReturnCallback(function ($userLogin, $presentedToken) use ($realModel, &$lockHeldForTheDelete) {
+                $lockHeldForTheDelete = !$this->canTakeTheCreateUserLock();
+
+                return $realModel->deletePendingUserByInviteToken($userLogin, $presentedToken);
+            });
+
+        $usersModel->method('cleanupDeletedUser')
+            ->willReturnCallback(function ($userLogin) use ($realModel, &$lockHeldForTheCleanup) {
+                $lockHeldForTheCleanup = !$this->canTakeTheCreateUserLock();
+
+                $realModel->cleanupDeletedUser($userLogin);
+            });
+
+        $_POST['token'] = $token;
+        $_POST['invitation_form'] = 'Decline';
+
+        $this->buildController($usersModel)->declineInvitation();
+
+        // nothing may create this login while the row, its access and its tokens are going
+        self::assertTrue($lockHeldForTheDelete);
+        // but an unrelated invite must not queue behind the settings and plugin cleanup
+        self::assertFalse($lockHeldForTheCleanup);
+        self::assertEmpty($realModel->getUser('test'));
+    }
+
+    public function testDeclineInvitationLeavesAnAccountCreatedAfterItAlone()
+    {
+        [, $token] = $this->generateTestUser();
+
+        $realModel = new Model();
+        $usersModel = $this->getMockBuilder(Model::class)
+            ->onlyMethods(['cleanupDeletedUser'])
+            ->getMock();
+
+        $usersModel->method('cleanupDeletedUser')
+            ->willReturnCallback(function ($userLogin) use ($realModel) {
+                // an invite hands the freed login to a different person before the cleanup runs
+                StaticContainer::get(UserRepository::class)->create($userLogin, 'someone.else@matomo.org');
+
+                $realModel->cleanupDeletedUser($userLogin);
+            });
+
+        $_POST['token'] = $token;
+        $_POST['invitation_form'] = 'Decline';
+
+        $this->buildController($usersModel)->declineInvitation();
+
+        // the decline removed the account it was handed; the login belongs to someone else now
+        self::assertSame('someone.else@matomo.org', $realModel->getUser('test')['email'] ?? null);
+    }
+
+    /**
+     * Answers as a concurrent UserRepository::create() would: can this request take the lock right now?
+     */
+    private function canTakeTheCreateUserLock(): bool
+    {
+        $contender = StaticContainer::getContainer()->make(Lock::class, ['namespace' => 'UsersManager']);
+
+        if (!$contender->acquireLock('createUser')) {
+            return false;
+        }
+
+        $contender->unlock();
+
+        return true;
+    }
+
+    public function testDeclineInvitationDeletesThePendingAccount()
+    {
+        [, $token] = $this->generateTestUser();
+
+        $declined = false;
+        Piwik::addAction('UsersManager.inviteUser.declined', function () use (&$declined) {
+            $declined = true;
+        });
+
+        $_POST['token'] = $token;
+        $_POST['invitation_form'] = 'Decline';
+
+        $this->buildController()->declineInvitation();
+
+        self::assertEmpty((new Model())->getUser('test'));
+        self::assertTrue($declined);
+    }
+
+    private function attachInviteLinkToken(string $userLogin): string
+    {
+        $model = new Model();
+        $linkToken = $model->generateRandomInviteToken();
+
+        self::assertTrue(
+            $model->attachInviteLinkToken($userLogin, $linkToken, $model->getUser($userLogin)['invite_token'], 1)
+        );
+
+        return $linkToken;
+    }
+
+    /**
+     * @param class-string<\Exception> $exceptionClass
+     */
+    private function assertInvitationFailure(callable $action, string $exceptionClass, string $message, int $expectedFailedAttempts): void
+    {
+        $bruteForceDetection = StaticContainer::get(BruteForceDetection::class);
+        $failedAttemptsBefore = count($bruteForceDetection->getAll());
+
+        $exception = null;
+        try {
+            $action();
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        $this->assertInstanceOf($exceptionClass, $exception);
+        $this->assertSame(400, $exception->getCode());
+        $this->assertSame($message, $exception->getMessage());
+
+        $this->assertSame($expectedFailedAttempts, count($bruteForceDetection->getAll()) - $failedAttemptsBefore);
+    }
+
+    private function buildController($usersModel = null, ?PasswordStrength $passwordStrength = null): Controller
+    {
+        return new Controller(
+            $passwordResetter = null,
+            $auth = null,
+            $sessionInitializer = null,
+            $passwordVerify = null,
+            $bruteForceDetection = null,
+            $systemSettings = null,
+            $passwordStrength ?? new PasswordStrength(true),
+            $whatsNewProvider = null,
+            $usersModel
+        );
     }
 
     public function testAuthenticateAndRedirectRebuildsFormRedirectUrl()

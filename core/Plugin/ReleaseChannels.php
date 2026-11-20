@@ -18,10 +18,7 @@ use Piwik\UpdateCheck\ReleaseChannel;
  */
 class ReleaseChannels
 {
-    /**
-     * @var Manager
-     */
-    private $pluginManager;
+    private Manager $pluginManager;
 
     public function __construct(Manager $pluginManager)
     {

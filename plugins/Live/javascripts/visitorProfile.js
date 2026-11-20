@@ -63,8 +63,27 @@
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.removeDefaultParameter('segment');
+        ajaxRequest.setErrorCallback(VisitorProfileControl.showPopoverLoadError);
 
         Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup', ajaxRequest);
+    };
+
+    /**
+     * Shows a failed profile load in the popover, which the default error handling would leave loading.
+     *
+     * @param {jqXHR} xhr The failed request.
+     * @param {String} status The jQuery error status.
+     */
+    VisitorProfileControl.showPopoverLoadError = function (xhr, status) {
+        if (status === 'abort' || !xhr || xhr.status === 0) {
+            return;
+        }
+
+        if (xhr.status === 404) {
+            Piwik_Popover.showError(_pk_translate('Live_VisitorProfileNotFound'));
+        } else {
+            Piwik_Popover.showError(_pk_translate('General_ErrorRequest', ['', '']));
+        }
     };
 
     $.extend(VisitorProfileControl.prototype, UIControl.prototype, {

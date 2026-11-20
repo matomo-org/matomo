@@ -10,14 +10,21 @@
 describe('Marketplace_RequestTrial', function () {
   this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
-  const pluginsUrl = '?module=Marketplace&action=overview';
-  const requestTrialSelector = '.card-content .cta-container .btn.purchaseable';
+  // The overview's landing view cuts each section to a single row, and the mock's paid plugins
+  // sort well below it, so the trial CTA is only on screen once the catalogue is filtered.
+  const pluginsUrl = '?module=Marketplace&action=overview#?query=' + encodeURIComponent('Paid Plugin 1');
+  const requestTrialSelector = '.pluginCard__actions .btn.purchaseable';
 
   before(function () {
     testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
 
-    testEnvironment.consumer = 'validLicense';
+    // a valid license key whose account licenses no plugin, so PaidPlugin1 is trial eligible.
+    // 'validLicense' licenses PaidPlugin1 itself, which correctly suppresses the trial CTA.
+    testEnvironment.consumer = 'validLicenseNoPlugins';
     testEnvironment.idSitesViewAccess = [1];
+    // requests are permanent per login, so request as a user that neither a sibling spec sharing the
+    // fixture nor a rerun on persisted fixture data renders as
+    testEnvironment.fakeIdentity = 'trialRequestUser' + Date.now();
     testEnvironment.mockMarketplaceApiService = 1;
     testEnvironment.save();
   });
@@ -30,8 +37,8 @@ describe('Marketplace_RequestTrial', function () {
 
     // The success-notification test persists Marketplace.PluginTrialRequest.PaidPlugin1
     // in the option table. With --persist-fixture-data the option survives into sibling
-    // specs sharing this fixture's DB and makes user-mode CTAs render "Trial Requested"
-    // instead of "Request Trial". Wipe it via optionsOverride.
+    // specs sharing this fixture's DB and shows super users a pending trial request
+    // notification. Wipe it via optionsOverride.
     testEnvironment.optionsOverride = testEnvironment.optionsOverride || {};
     testEnvironment.optionsOverride['Marketplace.PluginTrialRequest.PaidPlugin1'] = '[]';
     testEnvironment.save();
@@ -44,7 +51,11 @@ describe('Marketplace_RequestTrial', function () {
     await page.goto(pluginsUrl);
     await page.waitForNetworkIdle();
 
-    const cta = await page.$(requestTrialSelector, { visible: true });
+    // the catalogue is fetched and the grid rendered after load, so network idle alone can land
+    // before the card exists - page.$ does not wait, and would hand back null
+    await page.waitForSelector(requestTrialSelector, { visible: true });
+
+    const cta = await page.$(requestTrialSelector);
     const ctaText = await cta.getProperty('textContent');
 
     expect(ctaText).to.match(/Request Trial/i);
@@ -73,6 +84,7 @@ describe('Marketplace_RequestTrial', function () {
 
   it('should show a trial requested notification to the super user in reporting view', async function () {
     testEnvironment.idSitesViewAccess = []; // super user
+    delete testEnvironment.fakeIdentity;
     testEnvironment.save();
 
     await page.goto('?module=CoreHome&action=index&idSite=1&period=day&date=yesterday#?idSite=1&period=day&date=yesterday&category=General_Visitors&subcategory=Live_VisitorLog');
@@ -112,17 +124,16 @@ describe('Marketplace_RequestTrial', function () {
     expect(await page.$('.notification-info')).to.be.null;
   });
 
-  it('should still show a trial requested notification for another super user', async function () {
+  it('should not show a trial requested notification to a user who was not a super user when it was made', async function () {
     testEnvironment.idSitesViewAccess = []; // super user
     testEnvironment.fakeIdentity = 'anotherSuperUser';
     testEnvironment.save();
 
     await page.goto('about:blank');
     await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
+    await page.waitForNetworkIdle();
 
-    const notification = await page.$('.notification-info');
-    const notificationText = await notification.getProperty('textContent');
-
-    expect(notificationText).to.match(/A user has requested to start a trial .+ Paid Plugin 1/i);
+    expect(await page.$('#notificationContainer')).to.be.ok;
+    expect(await page.$('.notification-info')).to.be.null;
   });
 });

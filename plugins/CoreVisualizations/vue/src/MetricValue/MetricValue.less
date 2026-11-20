@@ -23,11 +23,7 @@
 
   .metricValue__primary {
     display: flex;
-    // flex-end, not baseline: the number is now a scroll container (overflow:hidden, for truncation),
-    // and a scroll container synthesises its baseline from its bottom edge, which would drop the
-    // evolution badge ~a line below the number's text baseline. Bottom-aligning keeps the small pill
-    // sitting with the number instead.
-    align-items: flex-end;
+    align-items: safe center;
     gap: 8px;
   }
 
@@ -46,17 +42,11 @@
     white-space: nowrap;
   }
 
-  // Secondary value/label: same container + 200/360 breakpoints as the number, one band lower (font-size
-  // only; the block below owns line-height + the reserved height).
-  .metricValue__secondaryValue {
-    color: @theme-color-text;
-    font-size: ~"clamp(12px, 9.5px + 1.25cqi, 14px)";
-  }
-
-  .metricValue__secondaryLabel {
-    margin-left: 4px;
+  // Secondary line (value + label as one string): one supporting-text style. Font-size tracks the
+  // container like the number, one band lower; the .metricValue__secondary block owns the height.
+  .metricValue__secondaryLine {
     color: @theme-color-text-lighter;
-    font-size: ~"clamp(10px, 7.5px + 1.25cqi, 12px)";
+    font-size: ~"clamp(12px, 9.5px + 1.25cqi, 14px)";
   }
 
   // Cap the secondary at two tight lines: a long value/label wraps without growing the card; a shorter

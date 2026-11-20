@@ -159,6 +159,35 @@ class LogDataAnonymizer
         return $this->unsetLogTableColumns('log_link_visit_action', 'server_time', $idSites, $startDate, $endDate, $columns);
     }
 
+    /**
+     * log_page_view_time holds a second reference to the page a hit was on, so unsetting the
+     * action columns has to reach it too. Archiving resolves those references back into page
+     * names, which would otherwise restore the anonymized URLs the next time the day is
+     * archived.
+     *
+     * @param array|string $idSites
+     * @param string $startDate
+     * @param string $endDate
+     * @param array $actionColumns  columns selected for log_link_visit_action
+     * @return int
+     */
+    public function unsetLogPageViewTimeTableColumns($idSites, $startDate, $endDate, $actionColumns)
+    {
+        $columnsToUnset = array();
+
+        $table = 'log_page_view_time';
+        $logTableFields = $this->getAvailableColumnsWithDefaultValue(Common::prefixTable($table));
+        foreach ($actionColumns as $column) {
+            // as for log_conversion, a column selected for log_link_visit_action need not exist
+            // here, and that is not an error
+            if (array_key_exists($column, $logTableFields)) {
+                $columnsToUnset[] = $column;
+            }
+        }
+
+        return $this->unsetLogTableColumns($table, 'server_time', $idSites, $startDate, $endDate, $columnsToUnset);
+    }
+
     public function checkAllVisitColumns($visitColumns)
     {
         $this->areAllColumnsValid('log_visit', $visitColumns);

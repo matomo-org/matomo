@@ -48,9 +48,9 @@ class DuplicateActionRemover
      * List of idaction columns in each table in $tablesWithIdActionColumns. idaction
      * columns are table columns with the string `"idaction"` in them.
      *
-     * @var string[]
+     * @var string[]|null
      */
-    private $idactionColumns = null;
+    private ?array $idactionColumns = null;
 
     public function __construct(?TableMetadata $tableMetadataAccess = null, ?LoggerInterface $logger = null)
     {

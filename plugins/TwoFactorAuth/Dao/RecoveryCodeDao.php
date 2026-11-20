@@ -17,10 +17,7 @@ class RecoveryCodeDao
     protected $table = 'twofactor_recovery_code';
     protected $tablePrefixed = '';
 
-    /**
-     * @var RecoveryCodeRandomGenerator $generator
-     */
-    private $generator;
+    private RecoveryCodeRandomGenerator $generator;
 
     public function __construct(RecoveryCodeRandomGenerator $generator)
     {

@@ -20,7 +20,7 @@ class ExampleTheme extends Plugin
         ];
     }
 
-    public function configureThemeVariables(Plugin\ThemeStyles $vars)
+    public function configureThemeVariables(Plugin\ThemeStyles $vars): void
     {
         $vars->fontFamilyBase = 'Arial, Verdana, sans-serif';
         $vars->colorBrand = ['#5793d4', '#5793d4'];

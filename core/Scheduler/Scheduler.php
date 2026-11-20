@@ -51,30 +51,19 @@ class Scheduler
 {
     /**
      * Is the scheduler running any task.
-     * @var bool
      */
-    private $isRunningTask = false;
+    private bool $isRunningTask = false;
 
     /**
      * Should the last run task be scheduled for a retry
-     * @var bool
      */
-    private $scheduleRetry = false;
+    private bool $scheduleRetry = false;
 
-    /**
-     * @var Timetable
-     */
-    private $timetable;
+    private Timetable $timetable;
 
-    /**
-     * @var TaskLoader
-     */
-    private $loader;
+    private TaskLoader $loader;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var Lock

@@ -70,7 +70,7 @@ class EvolutionMetric extends ProcessedMetric
      *
      * @var string[]
      */
-    private $labelPath = [];
+    private array $labelPath = [];
 
     /**
      * @param string|Metric $wrapped The metric used to calculate the evolution.

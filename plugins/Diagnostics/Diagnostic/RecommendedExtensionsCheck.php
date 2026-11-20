@@ -16,10 +16,7 @@ use Piwik\Translation\Translator;
  */
 class RecommendedExtensionsCheck implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {
@@ -58,7 +55,6 @@ class RecommendedExtensionsCheck implements Diagnostic
     private function getRecommendedExtensions()
     {
         return array(
-            'json',
             'libxml',
             'dom',
             'SimpleXML',
@@ -69,7 +65,6 @@ class RecommendedExtensionsCheck implements Diagnostic
     private function getHelpMessage($missingExtension)
     {
         $messages = array(
-            'json'      => 'Installation_SystemCheckWarnJsonHelp',
             'libxml'    => 'Installation_SystemCheckWarnLibXmlHelp',
             'dom'       => 'Installation_SystemCheckWarnDomHelp',
             'SimpleXML' => 'Installation_SystemCheckWarnSimpleXMLHelp',

@@ -16,15 +16,16 @@ use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Live;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 class Controller extends \Piwik\Plugins\Goals\Controller
 {
-    public function __construct(\Piwik\Translation\Translator $translator)
+    public function __construct(\Piwik\Translation\Translator $translator, FeatureFlagManager $featureFlagManager)
     {
-        parent::__construct($translator);
+        parent::__construct($translator, $featureFlagManager);
     }
 
     public function getSparklines()
@@ -80,6 +81,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             /** @var Sparklines $view */
             $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.get', 'Ecommerce.' . __METHOD__, true);
             $view->config->show_title = false;
+            $view->config->use_metric_labels_as_titles = true;
             $view->config->custom_parameters = [
                 'idGoal' => $idGoal,
             ];

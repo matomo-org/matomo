@@ -2,6 +2,8 @@
     "Tour": {
         "AddAnnotation": "Yeni bir not ekleyin",
         "AddAnotherWebsite": "Başka bir site ekle",
+        "AddRecommendedGoals": "Önerilen hedefler ekle",
+        "AddRecommendedGoalsDescription": "Siteniz için önerilen hedefleri gözden geçirin ve uygun hedefler oluşturun.",
         "AddReport": "Zamanlanmış bir rapor ekleyin",
         "AddSegment": "Yeni bir dilim ekleyin",
         "BecomeMatomoExpert": "Bir Matomo uzmanı olun",

@@ -6,56 +6,277 @@
 -->
 
 <template>
-  <div class="reportHeader">
-    <div class="reportHeader__main">
-      <!-- The title text lives in a nested <span> to preserve the legacy `.widgetName > span`
-           contract other plugins hook into (dataTable related reports, UserCountryMap map
-           title, SingleMetricView metric title + series picker). The `widgetName` class is
-           kept only as that external hook — styling goes through `.reportHeader__title`. -->
-      <h3
+  <div
+    class="reportHeader"
+    :class="{
+      'reportHeader--flush': isFullPage && !plainTitle,
+      'reportHeader--plainTitle': plainTitle,
+    }"
+  >
+    <div v-if="!isEmpty" ref="headerRow" class="reportHeader__header">
+      <!-- `.widgetName` and the nested <span> are an external hook dataTable.js,
+           SingleMetricView and UserCountryMap look for. `.self` stops the key handlers
+           cancelling links EnrichedHeadline renders inside the heading. -->
+      <component
+        v-if="showTitle"
+        :is="titleTag"
         class="reportHeader__title widgetName"
         :class="{ 'reportHeader__title--clickable': titleClickable }"
         :role="titleClickable ? 'button' : undefined"
         :tabindex="titleClickable ? 0 : undefined"
         :title="titleClickable ? titleClickHint : undefined"
         @click="onTitleClick"
-        @keydown.enter.prevent="onTitleClick"
-        @keydown.space.prevent="onTitleClick"
+        @keydown.enter.self.prevent="onTitleClick"
+        @keydown.space.self.prevent="onTitleClick"
       >
-        <span>{{ title }}</span>
-      </h3>
-      <!-- Visually-hidden label so assistive tech announces the region as a widget,
-           restoring the old `.widgetNameOffScreen` text. -->
-      <span class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
-      <!-- future: report-feedback actions live here alongside the title -->
+        <EnrichedHeadline
+          v-if="enriched"
+          :feature-name="featureName"
+          :inline-help="wrappedInlineHelp"
+          :report-generated="reportGenerated"
+          :edit-url="editUrl"
+          :help-url="helpUrl"
+          :help-container="helpContainer"
+        ><span>{{ titleText }}</span></EnrichedHeadline>
+        <span v-else>{{ titleText }}</span>
+      </component>
+      <span v-if="!isFullPage" class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
+
+      <div ref="headerControls" class="reportHeader__controls">
+        <div class="reportHeader__widgetControls">
+          <WidgetControls
+            v-if="hasControls"
+            :can-minimise="controls.minimise"
+            :can-maximise="controls.maximise"
+            :can-refresh="controls.refresh"
+            :can-close="controls.close"
+            @minimise="onControl('minimise')"
+            @maximise="onControl('maximise')"
+            @refresh="onControl('refresh')"
+            @close="onControl('close')"
+          />
+        </div>
+
+        <!-- Without any report action, the toolbar stays `:empty` and takes none of the gap. -->
+        <div class="reportHeader__toolbar">
+          <!-- Promoted actions, least deserving first: the highest rank sits nearest the ⋮
+               trigger, and one promoted later appears to the left, not pushing the others. -->
+          <div
+            v-if="isPromoted('annotations')"
+            class="mtm-selector mtm-selector--iconOnly"
+            data-report-action="annotations"
+          >
+            <button
+              type="button"
+              class="mtm-selector__trigger annotationView"
+              :title="annotationsWording(annotationsShowing)"
+              :aria-label="annotationsWording(annotationsShowing)"
+              :aria-pressed="annotationsShowing ? 'true' : 'false'"
+            >
+              <span class="mtm-selector__icon" aria-hidden="true">
+                <span class="icon-annotation" />
+              </span>
+            </button>
+          </div>
+
+          <div
+            v-if="isPromoted('export')"
+            ref="exportSelector"
+            class="mtm-selector"
+            data-report-action="export"
+            v-expand-on-click="exportBinding"
+          >
+            <button
+              ref="exportTrigger"
+              type="button"
+              class="mtm-selector__trigger"
+              v-bind="exportTriggerProps"
+            >
+              <span class="mtm-selector__icon" aria-hidden="true">
+                <span class="icon-export" />
+              </span>
+              <span class="mtm-selector__label">{{ translate('General_Export') }}</span>
+              <span class="mtm-selector__rightIcon" aria-hidden="true">
+                <span class="icon-chevron-down" />
+              </span>
+            </button>
+            <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
+            <div
+              class="mtm-selector__dropdown"
+              @click="closePromotedExport"
+              @keydown="promotedExport.onKeydown"
+            >
+              <div class="mtm-dropdownPanel">
+                <ul
+                  class="mtm-dropdownPanel__menu"
+                  role="menu"
+                  :aria-label="translate('General_Export')"
+                >
+                  <ExportMenu
+                    :show-export="actions.showExport"
+                    :show-export-as-image-icon="actions.showExportAsImageIcon"
+                    :export-supports-flatten="actions.exportSupportsFlatten"
+                    :client-side-parameters="actions.clientSideParameters"
+                    :report-title="titleText"
+                    :request-params="actions.requestParams"
+                    :api-method-to-request-data-table="actions.apiMethodToRequestDataTable"
+                    :max-filter-limit="actions.maxFilterLimit"
+                    placement="header"
+                  />
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-if="isPromoted('periods')"
+            ref="periodsSelector"
+            class="mtm-selector"
+            data-report-action="periods"
+            v-expand-on-click="periodsBinding"
+          >
+            <button
+              ref="periodsTrigger"
+              type="button"
+              class="mtm-selector__trigger"
+              v-bind="periodsTriggerProps"
+            >
+              <span class="mtm-selector__icon" aria-hidden="true">
+                <span class="icon-calendar" />
+              </span>
+              <span class="mtm-selector__label">{{ translate('CoreHome_ShowPeriod') }}</span>
+              <span class="mtm-selector__rightIcon" aria-hidden="true">
+                <span class="icon-chevron-down" />
+              </span>
+            </button>
+            <div class="mtm-selector__dropdown" @keydown="promotedPeriods.onKeydown">
+              <div class="mtm-dropdownPanel">
+                <PeriodsMenu
+                  :selectable-periods="actions.selectablePeriods"
+                  :active-period="`${(actions.clientSideParameters || {}).period || ''}`"
+                  :labels="actions.actionTranslations"
+                  @pick="closePromotedPeriods"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-if="showActions"
+            ref="actions"
+            class="reportHeader__actions"
+            v-expand-on-click="actionsBinding"
+          >
+            <button
+              ref="actionsTrigger"
+              type="button"
+              class="reportHeader__actionsTrigger"
+              :title="translate('CoreHome_ReportActions')"
+              :aria-label="translate('CoreHome_ReportActions')"
+              v-bind="actionsTriggerProps"
+            >
+              <span class="icon-more-verti" aria-hidden="true" />
+            </button>
+
+            <!-- The click only dismisses the menu once an entry is chosen: every entry is
+                 focusable and Escape closes the menu, so no keyboard path depends on it. -->
+            <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
+            <div
+              class="reportHeader__actionsMenu"
+              @click="closeActions"
+              @keydown="actionsSelector.onKeydown"
+            >
+              <div class="mtm-dropdownPanel mtm-dropdownPanel--wide mtm-dropdownPanel--withSubmenu">
+                <DataTableActions
+                  placement="header"
+                  :promoted-actions="promotedActions"
+                  :report-title="titleText"
+                  :report-id="reportId"
+                  :show-footer="actions.showFooter"
+                  :show-footer-icons="actions.showFooterIcons"
+                  :footer-icons="actions.footerIcons"
+                  :request-params="actions.requestParams"
+                  :api-method-to-request-data-table="actions.apiMethodToRequestDataTable"
+                  :max-filter-limit="actions.maxFilterLimit"
+                  :show-annotations="actions.showAnnotations"
+                  :annotations-showing="annotationsShowing"
+                  :show-periods="actions.showPeriods"
+                  :show-export="actions.showExport"
+                  :show-export-as-image-icon="actions.showExportAsImageIcon"
+                  :data-table-actions="actions.dataTableActions"
+                  :show-flatten-table="actions.showFlattenTable"
+                  :report-supports-flatten="actions.reportSupportsFlatten"
+                  :report-supports-percentage-values="actions.reportSupportsPercentageValues"
+                  :export-supports-flatten="actions.exportSupportsFlatten"
+                  :client-side-parameters="actions.clientSideParameters"
+                  :has-multiple-dimensions="actions.hasMultipleDimensions"
+                  :is-data-table-empty="actions.isDataTableEmpty"
+                  :show-totals-row="actions.showTotalsRow"
+                  :show-exclude-low-population="actions.showExcludeLowPopulation"
+                  :show-pivot-by-subtable="actions.showPivotBySubtable"
+                  :translations="actions.actionTranslations"
+                  :view-data-table="actions.viewDataTable"
+                  :pivot-dimension-name="actions.pivotDimensionName"
+                  :selectable-periods="actions.selectablePeriods"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Widget controls: an inline action row, hidden until the widget is hovered/focused.
-         Each action emits an intent that onControl() bridges to the jQuery widget. -->
-    <div class="reportHeader__widgetControls">
-      <WidgetControls
-        v-if="hasControls"
-        :can-minimise="controls.minimise"
-        :can-maximise="controls.maximise"
-        :can-refresh="controls.refresh"
-        :can-close="controls.close"
-        @minimise="onControl('minimise')"
-        @maximise="onControl('maximise')"
-        @refresh="onControl('refresh')"
-        @close="onControl('close')"
-      />
-    </div>
+    <!-- Where EnrichedHeadline puts its help panel, so it spans the card instead of pushing the
+         actions down. Mounted as soon as there is help: a teleport needs its target to exist. -->
+    <div v-if="hasHelpRow" ref="helpRow" class="reportHeader__help" />
 
-    <!-- Reserved anchor for report actions (visualisation switcher, export, ...).
-         Populated by a later story; intentionally empty here. -->
-    <div class="reportHeader__actions" />
+    <!-- Mounted independently of the line above, so a titleless report still gets its search. -->
+    <div v-if="canSearch" class="reportHeader__subheader">
+      <div class="reportHeader__search">
+        <SearchInput
+          :model-value="query"
+          :placeholder="searchPlaceholder"
+          :show-clear="true"
+          :ghost="true"
+          @update:model-value="onQueryInput"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import DataTableActions, {
+  DataTableAction,
+  FooterIconGroup,
+} from '../DataTable/DataTableActions.vue';
+import ReportActionsStore from '../DataTable/ReportActions.store';
+import annotationsWording from '../DataTable/annotationsWording';
+import ExportMenu from '../DataTable/ExportMenu.vue';
+import PeriodsMenu from '../DataTable/PeriodsMenu.vue';
+import {
+  NO_PROMOTION_BREAKPOINT,
+  PROMOTED_RENDERERS,
+  promotableActions,
+} from '../DataTable/reportActions';
+import type { PromotableActionId } from '../DataTable/reportActions';
+import type { ReportActionsConfig } from '../DataTable/ReportActions.store';
+import { menuHoldsAnything } from '../DataTable/menuContents';
+import useSelectorDropdown, { SelectorDropdown } from '../Selector/useSelectorDropdown';
+import reportIdentity from '../DataTable/reportIdentity';
+import EnrichedHeadline from '../EnrichedHeadline/EnrichedHeadline.vue';
+import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
+import SearchInput from '../SearchInput/SearchInput.vue';
 import WidgetControls from '../WidgetControls/WidgetControls.vue';
 import { translate } from '../translate';
+
+const SEARCH_DEBOUNCE_MS = 300;
+
+// Promote only while the title keeps this much of the line, whatever it says: two widgets of the
+// same width then show the same controls. The title wraps to fit, and its hover icons, about 80px,
+// follow its last word: this leaves them a line with a short word, rather than one of their own.
+const MIN_TITLE_WIDTH = 220;
 
 export interface ControlVisibility {
   minimise: boolean;
@@ -64,11 +285,7 @@ export interface ControlVisibility {
   close: boolean;
 }
 
-// Which widget controls each context exposes. Kept here so every surface that renders
-// the header stays consistent with the redesign spec. `dashboard` is the normal widget state
-// (all controls only make sense on a dashboard); `maximised`/`collapsed` are its state
-// variants; `widgetized`/`preview` render no controls. Consumers outside a widget (e.g.
-// full-page reports) pass a no-control context.
+// `maximised` and `collapsed` are states of a dashboard widget.
 const CONTROLS_BY_CONTEXT: Record<string, ControlVisibility> = {
   dashboard: {
     minimise: true, maximise: true, refresh: true, close: true,
@@ -85,6 +302,9 @@ const CONTROLS_BY_CONTEXT: Record<string, ControlVisibility> = {
   preview: {
     minimise: false, maximise: false, refresh: false, close: false,
   },
+  fullPage: {
+    minimise: false, maximise: false, refresh: false, close: false,
+  },
 };
 
 export default defineComponent({
@@ -93,6 +313,13 @@ export default defineComponent({
       type: String,
       default: 'dashboard',
     },
+    // Not `title`: on the twig host, the widget's v-tooltips directive shows it as a tooltip
+    // repeating the heading.
+    reportTitle: {
+      type: String,
+      default: '',
+    },
+    // @deprecated 6.0.0 - use `reportTitle`. Vue templates only, see the tooltip above.
     title: {
       type: String,
       default: '',
@@ -102,12 +329,215 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    headingLevel: {
+      type: String,
+      default: 'h3',
+    },
+    enriched: Boolean,
+    // For a report not shown in a card: keeps the metrics of a plain heading.
+    plainTitle: Boolean,
+    showTitle: {
+      type: Boolean,
+      default: true,
+    },
+    // Empty by default, so EnrichedHeadline names the rated feature after the widget's title.
+    // dataTable.js sets it to follow a related report.
+    featureName: {
+      type: String,
+      default: '',
+    },
+    inlineHelp: {
+      type: String,
+      default: '',
+    },
+    reportGenerated: {
+      type: String,
+      default: '',
+    },
+    editUrl: {
+      type: String,
+      default: '',
+    },
+    helpUrl: {
+      type: String,
+      default: '',
+    },
+    showSearch: Boolean,
+    // The server-side pattern, pushed back after each reload.
+    searchQuery: {
+      type: String,
+      default: '',
+    },
+    searchPlaceholder: {
+      type: String,
+      default: '',
+    },
+    // Forwarded to DataTableActions. Declared here rather than on a nested vue-entry, which
+    // compileVueEntryComponents would detach by mounting this parent first.
+    showFooter: Boolean,
+    showFooterIcons: Boolean,
+    footerIcons: {
+      type: Array as PropType<FooterIconGroup[]>,
+      default: () => [],
+    },
+    requestParams: {
+      type: Object,
+      default: () => ({}),
+    },
+    apiMethodToRequestDataTable: {
+      type: String,
+      default: '',
+    },
+    maxFilterLimit: {
+      type: Number,
+      default: 0,
+    },
+    showAnnotations: Boolean,
+    annotationsShowing: Boolean,
+    showPeriods: Boolean,
+    showExport: Boolean,
+    showExportAsImageIcon: Boolean,
+    reportId: {
+      type: String,
+      default: '',
+    },
+    // The key syncReportHeaderActions() published this report's actions under.
+    reportKey: {
+      type: String,
+      default: '',
+    },
+    dataTableActions: {
+      type: Array as PropType<DataTableAction[]>,
+      default: () => [],
+    },
+    showFlattenTable: Boolean,
+    reportSupportsFlatten: Boolean,
+    reportSupportsPercentageValues: Boolean,
+    exportSupportsFlatten: Boolean,
+    clientSideParameters: {
+      type: Object,
+      default: () => ({}),
+    },
+    hasMultipleDimensions: Boolean,
+    isDataTableEmpty: Boolean,
+    showTotalsRow: Boolean,
+    showExcludeLowPopulation: Boolean,
+    showPivotBySubtable: Boolean,
+    // Not `translations`, which would shadow the translate() helper in this file.
+    actionTranslations: {
+      type: Object,
+      default: () => ({}),
+    },
+    viewDataTable: {
+      type: String,
+      default: '',
+    },
+    pivotDimensionName: {
+      type: String as PropType<string|null>,
+      default: null,
+    },
+    selectablePeriods: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
   },
   components: {
+    DataTableActions,
+    EnrichedHeadline,
+    ExportMenu,
+    PeriodsMenu,
+    SearchInput,
     WidgetControls,
   },
-  emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick'],
+  directives: {
+    ExpandOnClick,
+  },
+  emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick', 'search'],
+  // Created once: ExpandOnClick keeps its state in the binding object, which a fresh one on
+  // every render would lose. Cast because Vue unwraps the refs of a composable held in data().
+  created() {
+    this.actionsSelector = useSelectorDropdown(
+      { role: 'menu', expandedClass: 'reportHeader__actions--expanded' },
+      () => this.$refs.actions as HTMLElement | null,
+      () => this.$refs.actionsTrigger as HTMLElement | null,
+    ) as unknown as typeof this.actionsSelector;
+    this.actionsBinding = this.actionsSelector.expandBinding('actionsTrigger');
+
+    this.promotedPeriods = useSelectorDropdown(
+      { role: 'menu', expandedClass: 'mtm-selector--expanded' },
+      () => this.$refs.periodsSelector as HTMLElement | null,
+      () => this.$refs.periodsTrigger as HTMLElement | null,
+    ) as unknown as typeof this.promotedPeriods;
+    this.periodsBinding = this.promotedPeriods.expandBinding('periodsTrigger');
+
+    this.promotedExport = useSelectorDropdown(
+      { role: 'menu', expandedClass: 'mtm-selector--expanded' },
+      () => this.$refs.exportSelector as HTMLElement | null,
+      () => this.$refs.exportTrigger as HTMLElement | null,
+    ) as unknown as typeof this.promotedExport;
+    this.exportBinding = this.promotedExport.expandBinding('exportTrigger');
+  },
+  data() {
+    return {
+      actionsSelector: null as unknown as SelectorDropdown,
+      actionsBinding: null as unknown as Record<string, unknown>,
+      promotedPeriods: null as unknown as SelectorDropdown,
+      promotedExport: null as unknown as SelectorDropdown,
+      periodsBinding: null as unknown as Record<string, unknown>,
+      exportBinding: null as unknown as Record<string, unknown>,
+      helpContainer: null as HTMLElement | null,
+      // Until the table publishes its own, see the reportKey prop.
+      mountedReportKey: '',
+      query: this.searchQuery,
+      searchDebounceTimer: null as ReturnType<typeof setTimeout> | null,
+      promotedCount: 0,
+      resizeObserver: null as ResizeObserver | null,
+      lastMeasuredWidth: -1,
+    };
+  },
+  mounted() {
+    this.mountedReportKey = reportIdentity(this.$el as HTMLElement, this.reportId);
+    this.watchForRoom();
+    this.updatePromoted();
+    this.syncHelpContainer();
+  },
+  watch: {
+    // The row only exists while there is help, which a related report can change.
+    hasHelpRow() {
+      this.$nextTick(() => this.syncHelpContainer());
+    },
+    searchQuery(value: string) {
+      // Skipped while a search is pending: the reload of the previous pattern would revert what
+      // the user is typing.
+      if (this.searchDebounceTimer) {
+        return;
+      }
+      if (value !== this.query) {
+        this.query = value;
+      }
+    },
+    promotable() {
+      this.updatePromoted();
+    },
+    // Maximising a widget changes what shares the line without changing its width, and only the
+    // width is watched.
+    hasControls() {
+      this.updatePromoted();
+    },
+    showActions(value: boolean) {
+      if (!value) {
+        this.actionsSelector.close();
+      }
+    },
+  },
   computed: {
+    promotable(): PromotableActionId[] {
+      return promotableActions(this.actions)
+        .filter((id) => PROMOTED_RENDERERS.indexOf(id) !== -1);
+    },
+    promotedActions(): PromotableActionId[] {
+      return this.promotable.slice(0, this.promotedCount);
+    },
     controls(): ControlVisibility {
       return CONTROLS_BY_CONTEXT[this.context] || CONTROLS_BY_CONTEXT.widgetized;
     },
@@ -115,22 +545,216 @@ export default defineComponent({
       const c = this.controls;
       return c.minimise || c.maximise || c.refresh || c.close;
     },
+    activeReportKey(): string {
+      return this.reportKey || this.mountedReportKey;
+    },
+    // Twig's props only describe the first load: on a reload the table is replaced and this
+    // header is not, so what the report published wins.
+    actions(): ReportActionsConfig {
+      return {
+        showFooter: this.showFooter,
+        showFooterIcons: this.showFooterIcons,
+        footerIcons: this.footerIcons,
+        viewDataTable: this.viewDataTable,
+        clientSideParameters: this.clientSideParameters,
+        isDataTableEmpty: this.isDataTableEmpty,
+        showFlattenTable: this.showFlattenTable,
+        reportSupportsFlatten: this.reportSupportsFlatten,
+        reportSupportsPercentageValues: this.reportSupportsPercentageValues,
+        exportSupportsFlatten: this.exportSupportsFlatten,
+        hasMultipleDimensions: this.hasMultipleDimensions,
+        showTotalsRow: this.showTotalsRow,
+        showExcludeLowPopulation: this.showExcludeLowPopulation,
+        showPivotBySubtable: this.showPivotBySubtable,
+        dataTableActions: this.dataTableActions,
+        showExport: this.showExport,
+        showExportAsImageIcon: this.showExportAsImageIcon,
+        showAnnotations: this.showAnnotations,
+        showPeriods: this.showPeriods,
+        selectablePeriods: this.selectablePeriods,
+        requestParams: this.requestParams,
+        maxFilterLimit: this.maxFilterLimit,
+        apiMethodToRequestDataTable: this.apiMethodToRequestDataTable,
+        pivotDimensionName: this.pivotDimensionName,
+        actionTranslations: this.actionTranslations,
+        ...ReportActionsStore.get(this.activeReportKey),
+      } as ReportActionsConfig;
+    },
+    actionsTriggerProps(): Record<string, string> {
+      return this.actionsSelector.triggerProps();
+    },
+    periodsTriggerProps(): Record<string, string> {
+      return this.promotedPeriods.triggerProps();
+    },
+    exportTriggerProps(): Record<string, string> {
+      return this.promotedExport.triggerProps();
+    },
+    // A subtable has no footer icons, and so no menu. Once its actions are promoted out, a report
+    // may have nothing left for the menu either.
+    showActions(): boolean {
+      return this.actions.showFooter && this.actions.showFooterIcons
+        && menuHoldsAnything(this.actions, this.promotedActions);
+    },
+    // Only the header line: the subheader below is mounted on its own.
+    isEmpty(): boolean {
+      return !this.showTitle && !this.hasControls && !this.showActions
+        && this.promotedActions.length === 0;
+    },
+    isFullPage(): boolean {
+      return this.context === 'fullPage';
+    },
+    // No table to search: the widget preview is a thumbnail, a minimised widget hides its content.
+    canSearch(): boolean {
+      return this.showSearch && this.context !== 'preview' && this.context !== 'collapsed';
+    },
+    titleText(): string {
+      return this.reportTitle || this.title;
+    },
+    // Whitelisted so the prop can never inject an arbitrary tag.
+    titleTag(): string {
+      return this.headingLevel === 'h2' ? 'h2' : 'h3';
+    },
+    // The help panel is styled for a paragraph.
+    wrappedInlineHelp(): string {
+      return this.inlineHelp ? `<p>${this.inlineHelp}</p>` : '';
+    },
+    // The headline that owns the panel renders only with a title.
+    hasHelpRow(): boolean {
+      return this.showTitle && this.enriched && !!this.wrappedInlineHelp;
+    },
   },
   methods: {
+    annotationsWording,
+    syncHelpContainer() {
+      this.helpContainer = (this.$refs.helpRow as HTMLElement | undefined) || null;
+    },
+    // See closeActions().
+    closePromotedPeriods(event: MouseEvent|KeyboardEvent) {
+      this.promotedPeriods.closedBy(event);
+    },
+    closePromotedExport(event: MouseEvent|KeyboardEvent) {
+      this.promotedExport.closedBy(event);
+    },
+    isPromoted(action: PromotableActionId): boolean {
+      return this.promotedActions.indexOf(action) !== -1;
+    },
+    // Watches the line's width only: promoting changes what is inside it, never how wide it is.
+    watchForRoom() {
+      const row = this.$refs.headerRow as HTMLElement | undefined;
+      if (!row || typeof ResizeObserver === 'undefined') {
+        return;
+      }
+
+      this.resizeObserver = new ResizeObserver(() => {
+        if (row.clientWidth === this.lastMeasuredWidth) {
+          return;
+        }
+        this.updatePromoted();
+      });
+      this.resizeObserver.observe(row);
+    },
+    // A control removed with its panel open never hears onClosed, and would come back announcing
+    // itself expanded. The fit loop gives them back one at a time, so this cannot be tied to
+    // demoting all of them.
+    syncExpandedFlags() {
+      if (!this.isPromoted('periods')) {
+        this.promotedPeriods.close();
+      }
+      if (!this.isPromoted('export')) {
+        this.promotedExport.close();
+      }
+    },
+    demoteAll() {
+      this.promotedCount = 0;
+      this.syncExpandedFlags();
+    },
+    async updatePromoted() {
+      const row = this.$refs.headerRow as HTMLElement | undefined;
+      // A header that is not laid out reports a phone-sized window, and demoting on that sticks:
+      // the width that would undo it is the one already recorded, so nothing asks again.
+      if (!row || row.clientWidth <= 0) {
+        return;
+      }
+
+      // Recorded whichever way the decision goes: recorded only when promoting, coming back to
+      // that width, say by restoring a window, read as no change and never demoted again.
+      this.lastMeasuredWidth = row.clientWidth;
+
+      const promotable = this.promotable.length;
+      // Widget controls leave too little of the line to share. An embed, carrying the hover hook,
+      // keeps every action in its menu.
+      if (!promotable || this.hasControls
+        || row.closest('.__reportHeader-onHover')
+        || window.matchMedia(NO_PROMOTION_BREAKPOINT).matches) {
+        this.demoteAll();
+        return;
+      }
+
+      // Try them all, then give back the least deserving until the title has its room.
+      this.promotedCount = promotable;
+      await this.$nextTick();
+
+      const controls = this.$refs.headerControls as HTMLElement | undefined;
+      if (!controls) {
+        return;
+      }
+
+      // A report with no title has no room to take.
+      while (this.showTitle && this.promotedCount > 0
+        && row.clientWidth - controls.offsetWidth < MIN_TITLE_WIDTH) {
+        this.promotedCount -= 1;
+        // eslint-disable-next-line no-await-in-loop
+        await this.$nextTick();
+      }
+
+      this.syncExpandedFlags();
+    },
     translate,
     onTitleClick() {
       if (this.titleClickable) {
         this.$emit('titleClick');
       }
     },
+    // Picking an entry is the end of the interaction, and ExpandOnClick only closes on a click
+    // outside, so the menu would hang open over the report it just reloaded.
+    closeActions(event: MouseEvent) {
+      this.actionsSelector.closedBy(event);
+    },
     onControl(intent: string) {
-      // Re-emit for Vue-native consumers...
+      // Emitted for a Vue parent, and dispatched for the jQuery dashboard widget.
       this.$emit(intent as 'minimise'|'maximise'|'refresh'|'close');
-
-      // ...and dispatch a bubbling native event so non-Vue owners (the jQuery dashboard
-      // widget) can bridge control intents back to their existing handlers.
       this.$el.dispatchEvent(new CustomEvent(`widgetcontrol:${intent}`, { bubbles: true }));
     },
+    onQueryInput(value: string) {
+      this.query = value;
+      if (this.searchDebounceTimer) {
+        clearTimeout(this.searchDebounceTimer);
+        this.searchDebounceTimer = null;
+      }
+      if (!value) {
+        // Clearing applies immediately so all results come back without a pause.
+        this.dispatchSearch(value);
+        return;
+      }
+      this.searchDebounceTimer = setTimeout(() => this.dispatchSearch(value), SEARCH_DEBOUNCE_MS);
+    },
+    dispatchSearch(keyword: string) {
+      this.searchDebounceTimer = null;
+      // Emitted for a Vue parent, and dispatched for the jQuery DataTable.
+      this.$emit('search', { keyword });
+      this.$el.dispatchEvent(new CustomEvent('reportheader:search', {
+        bubbles: true,
+        detail: { keyword },
+      }));
+    },
+  },
+  beforeUnmount() {
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
+    }
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   },
 });
 </script>

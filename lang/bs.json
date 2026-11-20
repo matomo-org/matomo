@@ -125,7 +125,6 @@
         "ExceptionDatabaseVersion": "Vaša %1$s verzija je %2$s ali Matomo traži da bude barem %3$s.",
         "ExceptionFileIntegrity": "Integracijska provjera je zaustavljena: %s",
         "ExceptionFilesizeMismatch": "Veličina fajla nevažeća: %1$s (očekivana veličina: %2$s, pronađeno: %3$s)",
-        "ExceptionIncompatibleClientServerVersions": "Vaša %1$s klijent verzija je %2$s i nije kompatibilna sa verzijom servija %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Skupljeni reporti u formatu '%1$s' nisu važeći. Probajte jedan od ovih umjesto toga: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Današnje vrijeme arhiviranja mora biti u sekundama više od nule.",
         "ExceptionInvalidDateFormat": "Format datuma mora biti: %1$s ili bilo koja ključna riječa podržana od %2$s funkcije (vidi %3$s za više informacija)",

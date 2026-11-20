@@ -41,6 +41,13 @@ class SessionAuthTest extends IntegrationTestCase
         $this->testInstance = StaticContainer::get(SessionAuth::class);
     }
 
+    public function tearDown(): void
+    {
+        Date::$now = null;
+
+        parent::tearDown();
+    }
+
     public function testAuthenticateReturnsFailureIfNoSessionExists()
     {
         $this->initializeSession(Fixture::ADMIN_USER_LOGIN);
@@ -64,6 +71,47 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
 
         $this->assertEmpty($_SESSION, 'Expected $_SESSION to be empty. Instead got: ' . var_export($_SESSION, true));
+    }
+
+    public function testAuthenticateReturnsFailureForSessionStartedBeforeSessionsEnded()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testAuthenticateFailsWhenSessionRowRecreatedAfterEnding()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        // re-create the removed row exactly as DbTable::write() would at request shutdown, through the
+        // same handler and config production uses
+        $handler = new DbTable(Session::getDbTableConfig());
+        $handler->write(session_id() ?: 'inflightSid', base64_encode(serialize($_SESSION)));
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testAuthenticateReturnsSuccessForSessionStartedAfterSessionsEnded()
+    {
+        UsersManagerAPI::getInstance()->logoutUser(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
     }
 
     public function testAuthenticateReturnsFailureIfUsersModelReturnsIncorrectUser()
@@ -93,7 +141,8 @@ class SessionAuthTest extends IntegrationTestCase
         $user = $usersModel->getUser(self::TEST_OTHER_USER);
         unset($user['ts_password_modified']);
 
-        sleep(1);
+        // the expiration is only stored once it has moved on materially, so move past that
+        Date::$now = Date::now()->getTimestampUTC() + SessionFingerprint::EXPIRATION_WRITE_THRESHOLD;
 
         $sessionAuth = new SessionAuth(new MockUsersModel($user));
         $result = $sessionAuth->authenticate();
@@ -154,6 +203,27 @@ class SessionAuthTest extends IntegrationTestCase
         Session::destroyAllSessions();
         $this->assertSame(0, $this->countActiveSessions());
         $this->assertEmpty($_SESSION);
+    }
+
+    public function testAuthenticateFailsWhenSessionRowRecreatedAfterDestroyAllSessions()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        // destroyAllSessions() clears $_SESSION as well, so the in-flight request's copy of it has
+        // to be taken before the call
+        $sessionData = base64_encode(serialize($_SESSION));
+
+        Session::destroyAllSessions();
+
+        // the in-flight request writes its session back at shutdown, and still holds it in memory
+        $handler = new DbTable(Session::getDbTableConfig());
+        $handler->write(session_id() ?: 'inflightSid', $sessionData);
+        $_SESSION = unserialize(base64_decode($sessionData));
+
+        $result = $this->testInstance->authenticate();
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
     private function countActiveSessions(): int

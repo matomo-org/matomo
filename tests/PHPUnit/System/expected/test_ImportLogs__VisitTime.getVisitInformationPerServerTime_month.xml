@@ -10,6 +10,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==0</segment>
 	</row>
 	<row>
@@ -31,6 +35,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>2.6%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>2.6%</revenue_percent_of_total>
 		<segment>visitStartServerHour==1</segment>
 	</row>
 	<row>
@@ -43,6 +53,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==2</segment>
 	</row>
 	<row>
@@ -55,6 +69,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==3</segment>
 	</row>
 	<row>
@@ -76,6 +94,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>2.6%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>2.6%</revenue_percent_of_total>
 		<segment>visitStartServerHour==4</segment>
 	</row>
 	<row>
@@ -88,6 +112,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==5</segment>
 	</row>
 	<row>
@@ -100,6 +128,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==6</segment>
 	</row>
 	<row>
@@ -121,6 +153,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>2.6%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>2.6%</revenue_percent_of_total>
 		<segment>visitStartServerHour==7</segment>
 	</row>
 	<row>
@@ -142,6 +180,12 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>20.9%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>17.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>23.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>23.1%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>23.7%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>23.1%</revenue_percent_of_total>
 		<segment>visitStartServerHour==8</segment>
 	</row>
 	<row>
@@ -154,6 +198,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==9</segment>
 	</row>
 	<row>
@@ -166,6 +214,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==10</segment>
 	</row>
 	<row>
@@ -187,6 +239,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>2.6%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>2.6%</revenue_percent_of_total>
 		<segment>visitStartServerHour==11</segment>
 	</row>
 	<row>
@@ -208,6 +266,12 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.1%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>5.1%</revenue_percent_of_total>
 		<segment>visitStartServerHour==12</segment>
 	</row>
 	<row>
@@ -229,6 +293,12 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>9.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>10.3%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>10.3%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>10.5%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>10.3%</revenue_percent_of_total>
 		<segment>visitStartServerHour==13</segment>
 	</row>
 	<row>
@@ -241,6 +311,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==14</segment>
 	</row>
 	<row>
@@ -262,6 +336,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>2.6%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>2.6%</revenue_percent_of_total>
 		<segment>visitStartServerHour==15</segment>
 	</row>
 	<row>
@@ -283,6 +363,12 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.1%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>5.1%</revenue_percent_of_total>
 		<segment>visitStartServerHour==16</segment>
 	</row>
 	<row>
@@ -304,6 +390,12 @@
 		</goals>
 		<nb_conversions>6</nb_conversions>
 		<revenue>30</revenue>
+		<nb_visits_percent_of_total>16.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>21.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>15.4%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>15.4%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>13.2%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>15.4%</revenue_percent_of_total>
 		<segment>visitStartServerHour==17</segment>
 	</row>
 	<row>
@@ -325,6 +417,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>5</revenue>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>7.8%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>2.6%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>2.6%</revenue_percent_of_total>
 		<segment>visitStartServerHour==18</segment>
 	</row>
 	<row>
@@ -346,6 +444,12 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>5.1%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>5.1%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>5.1%</revenue_percent_of_total>
 		<segment>visitStartServerHour==19</segment>
 	</row>
 	<row>
@@ -367,6 +471,12 @@
 		<revenue>35</revenue>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>16.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>13.7%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>17.9%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>17.9%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>18.4%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>17.9%</revenue_percent_of_total>
 		<segment>visitStartServerHour==20</segment>
 	</row>
 	<row>
@@ -388,6 +498,12 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>2.3%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>2%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>2.6%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>2.6%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>2.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>2.6%</revenue_percent_of_total>
 		<segment>visitStartServerHour==21</segment>
 	</row>
 	<row>
@@ -400,6 +516,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>0%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>0%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>0%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==22</segment>
 	</row>
 	<row>
@@ -412,6 +532,10 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<nb_visits_percent_of_total>4.7%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>3.9%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.3%</bounce_count_percent_of_total>
 		<segment>visitStartServerHour==23</segment>
 	</row>
 </result>

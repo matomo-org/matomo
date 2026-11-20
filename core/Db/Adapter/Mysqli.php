@@ -115,25 +115,6 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     }
 
     /**
-     * Check client version compatibility against database server
-     *
-     * @throws Exception
-     */
-    public function checkClientVersion()
-    {
-        $serverVersion = $this->getServerVersion();
-        $clientVersion = $this->getClientVersion();
-
-        // incompatible change to DECIMAL implementation in 5.0.3
-        if (
-            version_compare($serverVersion, '5.0.3') >= 0
-            && version_compare($clientVersion, '5.0.3') < 0
-        ) {
-            throw new Exception(Piwik::translate('General_ExceptionIncompatibleClientServerVersions', array('MySQL', $clientVersion, $serverVersion)));
-        }
-    }
-
-    /**
      * Return number of affected rows in last query
      *
      * @param mixed $queryResult Result from query()
@@ -141,6 +122,10 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public function rowCount($queryResult)
     {
+        if ($queryResult instanceof \Zend_Db_Statement_Mysqli) {
+            return $queryResult->rowCount();
+        }
+
         return mysqli_affected_rows($this->_connection);
     }
 
@@ -202,6 +187,11 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
                 return $match[1] == $errno;
             }
             return mysqli_connect_errno() == $errno;
+        }
+
+        // the connection only keeps the error of its latest statement, so prefer the number the exception carries
+        if (is_int($e->getCode()) && $e->getCode() > 0) {
+            return $e->getCode() == $errno;
         }
 
         return mysqli_errno($connection) == $errno;

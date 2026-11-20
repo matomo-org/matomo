@@ -11,6 +11,7 @@ import { translate } from '../translate';
 import ReportExportPopover from './ReportExportPopover.vue';
 import Matomo from '../Matomo/Matomo';
 import createVueApp from '../createVueApp';
+import findReportRoot from '../DataTable/reportScope';
 
 export interface ReportExportArgs {
   reportTitle: string;
@@ -24,19 +25,39 @@ export interface ReportExportArgs {
 
 const { $ } = window;
 
+// The args each icon was last rendered with. Vue hands a directive a new binding on every render,
+// so a click handler reading the one it was mounted with would export the report as it was then.
+const latestArgs = new WeakMap<HTMLElement, ReportExportArgs>();
+
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<ReportExportArgs>): void {
+    latestArgs.set(el, binding.value);
+
     el.addEventListener('click', () => {
+      const args = latestArgs.get(el);
+      if (!args) {
+        return;
+      }
+
       const popoverParamBackup = MatomoUrl.hashParsed.value.popover;
 
-      const dataTable = $(el).closest('[data-report]').data('uiControlObject');
+      // `data-report` sits on `.dataTable`, so this must resolve through the report scope: the
+      // export icon is moving up into the header, which is rendered outside the table.
+      const dataTable = findReportRoot(el).data('uiControlObject');
+      if (!dataTable) {
+        // The report this icon belongs to has no table yet, so there is nothing to describe. Bail
+        // before opening the popover: it has no close button while loading, so a throw past this
+        // point strands it on screen.
+        return;
+      }
+
       const popover = window.Piwik_Popover.showLoading('Export');
 
-      const formats = binding.value.reportFormats;
+      const formats = args.reportFormats;
 
       let reportLimit = dataTable.param.filter_limit;
-      if (binding.value.maxFilterLimit > 0) {
-        reportLimit = Math.min(reportLimit, binding.value.maxFilterLimit);
+      if (args.maxFilterLimit > 0) {
+        reportLimit = Math.min(reportLimit, args.maxFilterLimit);
       }
 
       const isDataTableFlat = dataTable.param.flat === true
@@ -47,7 +68,7 @@ export default {
         || dataTable.param.show_dimensions === 1
         || dataTable.param.show_dimensions === '1';
       const hasSubtables = isDataTableFlat || dataTable.numberOfSubtables > 0;
-      const canExportFlat = binding.value.canExportFlat ?? hasSubtables;
+      const canExportFlat = args.canExportFlat ?? hasSubtables;
       // Intentional product behaviour:
       // when flat export is available, open the popover with TSV + flat selected.
       const defaultFlatOnOpen = canExportFlat;
@@ -79,10 +100,10 @@ export default {
           yes: translate('General_All'),
           no: translate('CoreHome_CustomLimit'),
         },
-        maxFilterLimit: binding.value.maxFilterLimit,
+        maxFilterLimit: args.maxFilterLimit,
         dataTable,
-        requestParams: binding.value.requestParams,
-        apiMethod: binding.value.apiMethod,
+        requestParams: args.requestParams,
+        apiMethod: args.apiMethod,
       };
 
       const app = createVueApp({
@@ -99,7 +120,7 @@ export default {
       const mountPoint = document.createElement('div');
       app.mount(mountPoint);
 
-      const { reportTitle } = binding.value;
+      const { reportTitle } = args;
       window.Piwik_Popover.setTitle(
         `${translate('General_Export')} ${Matomo.helper.htmlEntities(reportTitle)}`,
       );
@@ -115,8 +136,8 @@ export default {
               popover: popoverParamBackup,
             });
 
-            if (binding.value.onClose) {
-              binding.value.onClose();
+            if (args.onClose) {
+              args.onClose();
             }
           }, 100);
         }
@@ -132,5 +153,11 @@ export default {
         });
       }, 100);
     });
+  },
+  updated(el: HTMLElement, binding: DirectiveBinding<ReportExportArgs>): void {
+    latestArgs.set(el, binding.value);
+  },
+  unmounted(el: HTMLElement): void {
+    latestArgs.delete(el);
   },
 };

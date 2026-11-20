@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\API;
 
+use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
@@ -23,6 +24,7 @@ use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
 use Piwik\Http\BadRequestException;
 use Piwik\IP;
+use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
@@ -35,8 +37,6 @@ use Piwik\Translation\Translator;
 use Piwik\Measurable\Type\TypeManager;
 use Piwik\Version;
 use Piwik\Widget\WidgetsList;
-
-require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * This API is the <a href='https://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
@@ -60,15 +60,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  */
 class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var SettingsProvider
-     */
-    private $settingsProvider;
+    private SettingsProvider $settingsProvider;
 
-    /**
-     * @var ProcessedReport
-     */
-    private $processedReport;
+    private ProcessedReport $processedReport;
 
     /**
      * For Testing purpose only
@@ -546,6 +540,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Performs multiple API requests at once and returns every result.
      *
+     * The caller is authenticated again before each request after the first. If that fails, the remaining
+     * requests are not run and an error is returned instead; changes made by earlier requests are kept.
+     *
      * @param string[] $urls API query strings to execute.
      * @return array<int, mixed>
      * @unsanitized
@@ -569,8 +566,21 @@ class API extends \Piwik\Plugin\API
         $rootIsSessionToken = $authToken->isSessionToken();
         $rootTokenAuth = $authToken->getAuthToken();
 
+        // Access is cached per request, so each sub-request authenticates again to pick up changes made
+        // meanwhile. Access granted by code has no credential to check and is kept.
+        $access = Access::getInstance();
+        $shouldReauthenticate = $access->getAuth() !== null
+            && $access->getLogin() !== null
+            && !$access->isSuperUserAccessGrantedByCode();
+
         $result = [];
+        $isFirstRequest = true;
         foreach ($urls as $url) {
+            if (!$isFirstRequest && $shouldReauthenticate && !$access->reauthenticate()) {
+                throw new NoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
+            }
+            $isFirstRequest = false;
+
             $nestedRequest = \Piwik\Request::fromQueryString($url);
 
             $this->checkNestedRequestAuthMatchesRoot($nestedRequest, $rootIsSessionToken, $rootTokenAuth);
@@ -960,7 +970,7 @@ class API extends \Piwik\Plugin\API
     {
         if (
             is_string($suggestedValuesCallback)
-            && strpos($suggestedValuesCallback, '::') !== false
+            && str_contains($suggestedValuesCallback, '::')
         ) {
             $suggestedValuesCallback = explode('::', $suggestedValuesCallback);
         }
@@ -1000,7 +1010,9 @@ class Plugin extends \Piwik\Plugin
 
     public function detectIsApiRequest(): void
     {
-        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest($request = null));
+        Request::setIsRootRequestApiRequest(
+            Request::isApiHttpRequest() ? Request::getMethodIfApiRequest($request = null) : null
+        );
     }
 
     /**

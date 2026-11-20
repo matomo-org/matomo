@@ -11,7 +11,6 @@ namespace Piwik\Plugins\ExampleAPI;
 
 /**
  * This plugin only provides an API.php file, so we leave the plugin class empty
- *
  */
 class ExampleAPI extends \Piwik\Plugin
 {

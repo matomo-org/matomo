@@ -24,10 +24,7 @@ use Piwik\View;
  */
 class UpdateCommunication
 {
-    /**
-     * @var SystemSettings
-     */
-    private $updaterSettings;
+    private SystemSettings $updaterSettings;
 
     public function __construct(SystemSettings $settings)
     {

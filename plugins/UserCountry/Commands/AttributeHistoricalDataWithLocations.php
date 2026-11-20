@@ -35,10 +35,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
      */
     protected $visitorGeolocator;
 
-    /**
-     * @var int
-     */
-    private $processed = 0;
+    private int $processed = 0;
 
     /**
      * @var int

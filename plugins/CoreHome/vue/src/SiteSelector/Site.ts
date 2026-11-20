@@ -15,6 +15,8 @@ interface Site {
   currency?: string;
   timezone_name: string;
   currency_name?: string;
+  ecommerce?: string|number;
+  sitesearch?: string|number;
   main_url: string;
   alias_urls: string[];
   excluded_ips: string;

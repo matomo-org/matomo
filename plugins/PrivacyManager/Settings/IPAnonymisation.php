@@ -35,10 +35,7 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
      */
     use CustomGetterTrait;
 
-    /**
-     * @var int|null
-     */
-    private $value;
+    private ?int $value;
 
     private function __construct(?int $value)
     {
@@ -66,6 +63,16 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
         return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingTitle');
     }
 
+    public static function getWhatItDoes(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingWhatItDoes');
+    }
+
+    public static function getImpact(?int $idSite = null): string
+    {
+        return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingImpact');
+    }
+
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
         // TODO add dynamic messaging
@@ -75,6 +82,11 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
     public static function getInlineHelp(): string
     {
         return Piwik::translate('PrivacyManager_AnonymizeIpInlineHelp');
+    }
+
+    public static function getPolicyOrder(): int
+    {
+        return 5;
     }
 
     public static function getPolicyRequirements(): array

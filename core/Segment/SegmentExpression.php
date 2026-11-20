@@ -316,8 +316,8 @@ class SegmentExpression
                 break;
         }
 
-        // We match NULL values when rows are excluded only when we are not doing a
-        $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
+        // Do not use empty() here: '0' is a value to exclude, e.g. `!=0` must keep the rows where the field is NULL
+        $alsoMatchNULLValues = $alsoMatchNULLValues && $value !== null && $value !== '';
 
         if (
             $matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS
@@ -375,7 +375,7 @@ class SegmentExpression
         $result = isset($matches[1]) ? $matches[1] : [];
         // remove uses of session vars
         $result = array_filter($result, function ($value) {
-            return strpos($value, '@') === false;
+            return !str_contains($value, '@');
         });
         $result = array_map(function ($item) {
             return str_replace('`', '', $item);
@@ -439,11 +439,11 @@ class SegmentExpression
      */
     private function escapeLikeString($str)
     {
-        if (false !== strpos($str, '%')) {
+        if (str_contains($str, '%')) {
             $str = str_replace("%", "\%", $str);
         }
 
-        if (false !== strpos($str, '_')) {
+        if (str_contains($str, '_')) {
             $str = str_replace("_", "\_", $str);
         }
 

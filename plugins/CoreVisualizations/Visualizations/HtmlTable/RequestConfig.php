@@ -35,6 +35,14 @@ class RequestConfig extends VisualizationRequestConfig
      */
     public $keep_totals_row = false;
 
+    /**
+     * If true, eligible metric cells show the percentage of the report total, and the absolute
+     * value is shown on hover instead.
+     *
+     * Default value: false
+     */
+    public $show_percentage_values = false;
+
     public function __construct()
     {
         $this->totals = true;
@@ -59,12 +67,14 @@ class RequestConfig extends VisualizationRequestConfig
             'keep_summary_row',
             'keep_totals_row',
             'show_dimensions',
+            'show_percentage_values',
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(
             'keep_summary_row',
             'keep_totals_row',
             'show_dimensions',
+            'show_percentage_values',
         ));
     }
 }

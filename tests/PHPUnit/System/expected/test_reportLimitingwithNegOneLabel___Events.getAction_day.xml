@@ -9,6 +9,7 @@
 		<sum_event_value>0</sum_event_value>
 		<min_event_value />
 		<max_event_value />
+		<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==-1</segment>
 		<subtable>
@@ -21,6 +22,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value />
 				<max_event_value />
+				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -34,6 +36,7 @@
 		<sum_event_value>0</sum_event_value>
 		<min_event_value />
 		<max_event_value />
+		<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 		<segment>eventAction==event+action+0</segment>
 		<subtable>
@@ -46,6 +49,7 @@
 				<sum_event_value>0</sum_event_value>
 				<min_event_value />
 				<max_event_value />
+				<nb_visits_percent_of_total>4.8%</nb_visits_percent_of_total>
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
@@ -59,6 +63,7 @@
 		<sum_event_value>0</sum_event_value>
 		<min_event_value />
 		<max_event_value />
+		<nb_visits_percent_of_total>90.5%</nb_visits_percent_of_total>
 		<avg_event_value>0</avg_event_value>
 	</row>
 </result>

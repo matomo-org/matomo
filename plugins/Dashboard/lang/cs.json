@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Přidat widget",
+        "AddAWidget": "Přidat widget na tuto nástěnku",
         "AddPreviewedWidget": "Přidat widget v náhledu na nástěnku",
         "ChangeDashboardLayout": "Změnit rozvržení nástěnky",
         "CopyDashboardToUser": "Zkopírovat přehled uživateli",
@@ -14,8 +14,9 @@
         "DefaultDashboard": "Výchozí nástěnka - používáte výchozí rozvržení nástěnky",
         "DeleteWidgetConfirm": "Opravdu chcete odstranit tento widget z nástěnky?",
         "EmptyDashboard": "Prázdná nástěnka - vyberte si své oblíbené widgety",
+        "ExportThisDashboard": "Exportovat nástěnku",
         "LoadingWidget": "Načítání widgetu, chvíli strpení…",
-        "ManageDashboard": "Správa nástěnky",
+        "ManageDashboard": "Spravovat nástěnku",
         "Maximise": "Maximalizovat",
         "Minimise": "Minimalizovat",
         "NotUndo": "Tuto operaci nemůžete vrátit zpět.",

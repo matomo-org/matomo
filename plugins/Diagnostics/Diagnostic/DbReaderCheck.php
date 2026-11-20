@@ -19,10 +19,7 @@ use Piwik\Translation\Translator;
  */
 class DbReaderCheck implements Diagnostic
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(Translator $translator)
     {

@@ -215,7 +215,7 @@ class IniFileChain
             $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
         }
 
-        $hasAbsoluteConfigFile = !empty($userSettingsFile) && strpos($userSettingsFile, DIRECTORY_SEPARATOR) === 0;
+        $hasAbsoluteConfigFile = !empty($userSettingsFile) && str_starts_with($userSettingsFile, DIRECTORY_SEPARATOR);
         $useConfigCache = !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE']) && $hasAbsoluteConfigFile;
 
         if ($useConfigCache && is_file($userSettingsFile)) {
@@ -249,7 +249,7 @@ class IniFileChain
 
         $merged = $this->mergeFileSettings();
         // remove reference to $this->settingsChain... otherwise dump() or compareElements() will never notice a difference
-        // on PHP 7+ as they would be always equal
+        // as they would be always equal
         $this->mergedSettings = $this->copy($merged);
 
         if (!empty($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS']) && !empty($this->mergedSettings)) {
@@ -353,8 +353,7 @@ class IniFileChain
     protected function getUserSettingsFile()
     {
         // the user settings file is the last key in $settingsChain
-        end($this->settingsChain);
-        return key($this->settingsChain);
+        return array_key_last($this->settingsChain);
     }
 
     /**

@@ -20,10 +20,8 @@ class DimensionMetadataProvider
      * Overrids for the result of the getActionReferenceColumnsByTable() method. Exists so Piwik
      * instances can be monkey patched, in case there are idaction columns that this class does not
      * naturally discover.
-     *
-     * @var array
      */
-    private $actionReferenceColumnsOverride;
+    private array $actionReferenceColumnsOverride;
 
     public function __construct(array $actionReferenceColumnsOverride = array())
     {
@@ -62,6 +60,9 @@ class DimensionMetadataProvider
                 'idaction_category3',
                 'idaction_category4',
                 'idaction_category5'),
+
+            'log_page_view_time'    => array('idaction_url',
+                'idaction_name'),
         );
 
         $dimensionIdActionColumns = $this->getVisitActionTableActionReferences();

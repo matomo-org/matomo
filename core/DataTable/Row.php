@@ -31,10 +31,8 @@ class Row extends \ArrayObject
 
     /**
      * List of columns that cannot be summed. An associative array for speed.
-     *
-     * @var array
      */
-    private static $unsummableColumns = array(
+    private static array $unsummableColumns = array(
         'label' => true,
         'full_url' => true, // column used w/ old Piwik versions,
         DataTable::ARCHIVED_DATE_METADATA_NAME => true, // date column used in metadata for proportional tooltips

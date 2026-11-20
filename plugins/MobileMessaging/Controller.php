@@ -24,15 +24,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 class Controller extends ControllerAdmin
 {
-    /**
-     * @var RegionDataProvider
-     */
-    private $regionDataProvider;
+    private RegionDataProvider $regionDataProvider;
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private Translator $translator;
 
     public function __construct(RegionDataProvider $regionDataProvider, Translator $translator)
     {

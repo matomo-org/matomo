@@ -27,12 +27,22 @@ class BotDetector
      * @var array<string, string>
      */
     private $aiAssistantPatterns = [
-        'ChatGPT-User'         => self::BOT_TYPE_AI_CHATBOT,
-        'MistralAI-User'       => self::BOT_TYPE_AI_CHATBOT,
-        'Gemini-Deep-Research' => self::BOT_TYPE_AI_CHATBOT,
-        'Claude-User'          => self::BOT_TYPE_AI_CHATBOT,
-        'Perplexity-User'      => self::BOT_TYPE_AI_CHATBOT,
-        'Google-NotebookLM'    => self::BOT_TYPE_AI_CHATBOT,
+        'ChatGPT-User'          => self::BOT_TYPE_AI_CHATBOT,
+        'MistralAI-User'        => self::BOT_TYPE_AI_CHATBOT,
+        'Gemini-Deep-Research'  => self::BOT_TYPE_AI_CHATBOT,
+        'Claude-User'           => self::BOT_TYPE_AI_CHATBOT,
+        'Perplexity-User'       => self::BOT_TYPE_AI_CHATBOT,
+        'Google-GeminiNotebook' => self::BOT_TYPE_AI_CHATBOT,
+        'Google-NotebookLM'     => self::BOT_TYPE_AI_CHATBOT,
+    ];
+
+    /**
+     * Normalized bot names for renamed User-Agent patterns.
+     *
+     * @var array<string, string>
+     */
+    private $botNameAliases = [
+        'Google-GeminiNotebook' => 'Google-NotebookLM',
     ];
 
     public function __construct(string $userAgent)
@@ -55,7 +65,7 @@ class BotDetector
         foreach ($this->aiAssistantPatterns as $pattern => $botType) {
             if (stripos($userAgent, $pattern) !== false) {
                 return [
-                    'bot_name' => $pattern,
+                    'bot_name' => $this->botNameAliases[$pattern] ?? $pattern,
                     'bot_type' => $botType,
                 ];
             }

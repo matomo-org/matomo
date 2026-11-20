@@ -14,15 +14,9 @@ use Piwik\Segment;
 
 class UnprocessedSegmentException extends \Exception
 {
-    /**
-     * @var Segment
-     */
-    private $segment;
+    private Segment $segment;
 
-    /**
-     * @var array|null
-     */
-    private $storedSegment;
+    private ?array $storedSegment;
 
     /**
      * @var bool

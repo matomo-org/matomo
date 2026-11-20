@@ -39,7 +39,9 @@ class ResolutionTrackingTest extends IntegrationTestCase
     {
         $idSite = Fixture::createWebsite('2020-01-01 02:00:00', true, 'test', 'https://matomo.org/');
         $tracker = Fixture::getTracker($idSite, '2020-01-01 05:00:00');
-        $tracker->setResolution(null, null);
+        // Track the first page view with an unknown resolution (0 is treated as empty,
+        // so no resolution is sent), overriding the default set by getTracker().
+        $tracker->setResolution(0, 0);
         Fixture::checkResponse($tracker->doTrackPageView('home page'));
 
         $tracker->setForceVisitDateTime('2020-01-01 05:00:02');
