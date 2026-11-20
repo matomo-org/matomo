@@ -122,6 +122,7 @@ class Month extends Period
 
     public function getParentPeriodLabel()
     {
-        return 'year';
+        // quarters can be disabled, in which case months are directly part of years
+        return Factory::isPeriodEnabledForAPI('quarter') ? 'quarter' : 'year';
     }
 }

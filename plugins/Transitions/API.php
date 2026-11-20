@@ -786,7 +786,7 @@ class API extends \Piwik\Plugin\API
             case 'month':
                 return in_array($period, ['day', 'week', 'month']);
             case 'year':
-                return in_array($period, ['day', 'week', 'month', 'year']);
+                return in_array($period, ['day', 'week', 'month', 'quarter', 'year']);
         }
 
         return false;

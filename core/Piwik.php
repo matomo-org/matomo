@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Period\Day;
 use Piwik\Period\Month;
+use Piwik\Period\Quarter;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
@@ -33,11 +34,12 @@ class Piwik
      * @var array
      */
     public static $idPeriods = array(
-        'day'   => Day::PERIOD_ID,
-        'week'  => Week::PERIOD_ID,
-        'month' => Month::PERIOD_ID,
-        'year'  => Year::PERIOD_ID,
-        'range' => Range::PERIOD_ID,
+        'day'     => Day::PERIOD_ID,
+        'week'    => Week::PERIOD_ID,
+        'month'   => Month::PERIOD_ID,
+        'year'    => Year::PERIOD_ID,
+        'range'   => Range::PERIOD_ID,
+        'quarter' => Quarter::PERIOD_ID,
     );
 
     /**

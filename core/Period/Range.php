@@ -184,6 +184,10 @@ class Range extends Period
                 $lastN = min($lastN, 10 * 12);
                 break;
 
+            case 'quarter':
+                $lastN = min($lastN, 10 * 4);
+                break;
+
             case 'year':
                 $lastN = min($lastN, 10);
                 break;

@@ -113,6 +113,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         self::assertStringContainsString('Archived website id 1, period = day', $processOutput);
         self::assertStringContainsString('Archived website id 1, period = week', $processOutput);
         self::assertStringContainsString('Archived website id 1, period = month', $processOutput);
+        self::assertStringContainsString('Archived website id 1, period = quarter', $processOutput);
         self::assertStringContainsString('Archived website id 1, period = year', $processOutput);
         self::assertStringContainsString('Done archiving!', $processOutput);
         self::assertStringContainsString('Starting Scheduled tasks...', $processOutput);
@@ -218,15 +219,15 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         yield 'symfony process' => [
             'method' => self::METHOD_ASYNC_CLI_SYMFONY,
             'blockSpec' => $specToday,
-            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 14],
-            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 13],
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 17],
+            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 16],
         ];
 
         yield 'default process (single process)' => [
             'method' => self::METHOD_SYNC_CLI,
             'blockSpec' => $specToday,
-            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 15],
-            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 14],
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 18],
+            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 17],
         ];
 
         // empty day segment will always run as a single process
@@ -238,15 +239,15 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
                 'period' => 'day',
                 'date' => self::$fixture->today,
             ],
-            'invalidationCountIntermediate' => ['inProgress' => 2, 'total' => 12],
-            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 10],
+            'invalidationCountIntermediate' => ['inProgress' => 2, 'total' => 15],
+            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 13],
         ];
 
         yield 'curl' => [
             'method' => self::METHOD_CURL,
             'blockSpec' => $specToday,
-            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 14],
-            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 13],
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 17],
+            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 16],
         ];
     }
 
@@ -261,8 +262,8 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         yield 'default process (single process) - signal fallback' => [
             'method' => self::METHOD_SYNC_CLI,
             'blockSpec' => $specToday,
-            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 15],
-            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 14],
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 18],
+            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 17],
             'sigtermToSigintFallback' => true,
         ];
 
@@ -275,16 +276,16 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
                 'period' => 'day',
                 'date' => self::$fixture->today,
             ],
-            'invalidationCountIntermediate' => ['inProgress' => 2, 'total' => 12],
-            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 10],
+            'invalidationCountIntermediate' => ['inProgress' => 2, 'total' => 15],
+            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 13],
             'sigtermToSigintFallback' => true,
         ];
 
         yield 'curl - signal fallback' => [
             'method' => self::METHOD_CURL,
             'blockSpec' => $specToday,
-            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 14],
-            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 13],
+            'invalidationCountIntermediate' => ['inProgress' => 1, 'total' => 17],
+            'invalidationCountFinal'        => ['inProgress' => 0, 'total' => 16],
             'sigtermToSigintFallback' => true,
         ];
     }
@@ -306,12 +307,12 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         self::$fixture->stepControl->unblockCronArchiveStart();
 
         $this->waitForArchivingToStart($process, $method, $blockSpec);
-        $this->assertArchiveInvalidationCount(['inProgress' => 1, 'total' => 14]);
+        $this->assertArchiveInvalidationCount(['inProgress' => 1, 'total' => 17]);
         $this->sendSignalToProcess($process, \SIGTERM, $method);
 
         $this->waitForProcessToStop($process);
         $this->assertArchivingOutput($process, $method, \SIGTERM, \SIGTERM, $blockSpec);
-        $this->assertArchiveInvalidationCount(['inProgress' => 0, 'total' => 14]);
+        $this->assertArchiveInvalidationCount(['inProgress' => 0, 'total' => 17]);
         $this->assertNoArchiveFailures();
     }
 
