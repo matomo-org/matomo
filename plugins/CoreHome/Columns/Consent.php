@@ -30,6 +30,11 @@ class Consent extends VisitDimension
 {
     public const COLUMN_TYPE = 'TINYINT(1) UNSIGNED NULL';
 
+    /**
+     * The stored value of a visit whose visitor consented
+     */
+    public const CONSENTED = 1;
+
     private const SEGMENT_VALUES = [
         'consented' => 'consented',
         'unknown' => '',

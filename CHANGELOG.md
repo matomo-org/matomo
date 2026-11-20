@@ -18,6 +18,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
 * The new API method `PrivacyManager.getDataSubjectSearchScope` describes whether the GDPR tools can search the requested websites, and whether only the visits of visitors who gave consent can be found on any of them.
 * `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
+* `Piwik\Plugins\Live\Live::isVisitorLogAvailable()` and `Piwik\Plugins\Live\Live::isVisitorProfileAvailable()`, and their `checkIs…()` variants, tell whether the visits log and the visitor profile can show visits, all of them or only those of visitors who gave consent (`Piwik\Plugins\Live\Live::isVisitorLogLimitedToConsentedVisits()`). `isVisitorLogEnabled()` and `isVisitorProfileEnabled()` are unchanged.
 
 ### New commands
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
@@ -41,6 +42,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Other changes
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 * On a website whose compliance policy disables the visits log, `PrivacyManager.findDataSubjects` now returns the visits of visitors who gave consent instead of nothing, and `PrivacyManager.exportDataSubjects` rejects any other visit of such a website. Each visit returned by `PrivacyManager.findDataSubjects` now includes a `consent` column. `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` now reject an `idsite` or `idvisit` that is not a positive integer, such as `3abc`, `-1` or `5.0`, with a 400 error on every website, where such a value used to be cast to an integer.
+* On a website whose compliance policy disables the visits log, `Live.getLastVisitsDetails`, `Live.getVisitorProfile`, `Live.getMostRecentVisitorId` and `Live.getFirstVisitForVisitorId` now return the visits of visitors who gave consent instead of an error, when asked for that website alone; a request for several websites still skips it. On such a website, `API.getSuggestedValuesForSegment` now suggests values from the visits of visitors who gave consent instead of failing.
+* On a website whose compliance policy disables the visits log, the JavaScript globals `piwik.visitorLogEnabled` and `piwik.visitorProfileEnabled` are now `true`, and the new `piwik.visitorLogUnavailableSegments` lists the segments its visits log cannot filter by, such as `userId`. Each visit returned by the Live API now includes a `consentState` column: `consented` or `refused`, and none when no decision is stored.
 
 ## Matomo 6.0.0
 
