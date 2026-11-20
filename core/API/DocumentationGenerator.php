@@ -387,6 +387,7 @@ class DocumentationGenerator
     protected function getParametersString($class, $name)
     {
         $aParameters = Proxy::getInstance()->getParametersListWithTypes($class, $name);
+        $parameterRules = Proxy::getInstance()->getParameterRules($class, $name);
         $asParameters = array();
         foreach ($aParameters as $nameVariable => $parameter) {
             // Do not show API parameters starting with _
@@ -418,6 +419,11 @@ class DocumentationGenerator
                     $str .= " = '$defaultValue'";
                 }
             }
+
+            if (!empty($parameterRules[$nameVariable])) {
+                $str .= ' <small>' . Common::sanitizeInputValue(implode(' ', $parameterRules[$nameVariable])) . '</small>';
+            }
+
             $asParameters[] = $str;
         }
         $sParameters = implode(", ", $asParameters);

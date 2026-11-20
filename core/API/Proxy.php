@@ -444,6 +444,16 @@ class Proxy
     }
 
     /**
+     * Returns the validator attributes of each parameter of the given method, as they are written.
+     *
+     * @return array<string, list<string>>
+     */
+    public function getParameterRules($class, $methodName): array
+    {
+        return $this->metadataArray[$class][$methodName]['rules'] ?? [];
+    }
+
+    /**
      * Returns the 'moduleName' part of '\\Piwik\\Plugins\\moduleName\\API'
      *
      * @param string $className "API"
@@ -653,6 +663,7 @@ class Proxy
         $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
         $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
         $this->metadataArray[$class][$name]['unsanitizedInputParams'] = false !== strstr($docComment, '@unsanitized');
+        $this->metadataArray[$class][$name]['rules'] = StaticContainer::get(ParameterValidator::class)->describe($method);
     }
 
     /**

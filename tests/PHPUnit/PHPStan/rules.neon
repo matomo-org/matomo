@@ -1,5 +1,6 @@
-# Custom PHPStan rules enforcing the #[Piwik\Http\JsonResponse] controller-action convention.
-# Included from the root phpstan.neon. The rule classes live next to this file.
+# Custom PHPStan rules enforcing the #[Piwik\Http\JsonResponse] controller-action convention and the
+# API parameter validator self-check. Included from the root phpstan.neon. The rule classes
+# live next to this file.
 services:
     -
         class: Piwik\Tests\PHPStan\Rules\MissingJsonResponseAttributeRule
@@ -39,5 +40,9 @@ services:
             - phpstan.rules.rule
     -
         class: Piwik\Tests\PHPStan\Rules\JsonResponseMustReturnJsonRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Piwik\Tests\PHPStan\Rules\ApiParameterValidationRule
         tags:
             - phpstan.rules.rule
