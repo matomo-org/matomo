@@ -137,6 +137,7 @@ testTrackPageViewAsync();
 </style>
  <script src="../../node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
  <script src="assets/qunit.js" type="text/javascript"></script>
+ <script src="first-request-tests.js" type="text/javascript"></script>
 
  <script type="text/javascript">
  QUnit.config.reorder = false;
