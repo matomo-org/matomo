@@ -14,6 +14,7 @@ use Piwik\DataAccess\TableMetadata;
 use Piwik\Db;
 use Piwik\Db\Schema;
 use Piwik\DbHelper;
+use Piwik\Updater\Migration\Db\Statements;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Exception;
 
@@ -145,9 +146,8 @@ class LogTable
         }
 
         if (!empty($queries)) {
-            foreach (Schema::getInstance()->getAlterTableSql($this->table, $queries) as $sql) {
-                Db::exec($sql);
-            }
+            $statements = new Statements(Schema::getInstance()->getAlterTableSql($this->table, $queries), []);
+            $statements->exec();
         }
     }
 

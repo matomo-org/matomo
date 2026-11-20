@@ -138,11 +138,11 @@ final class Connection
 
     /**
      * Whether an `adapter` setting names the SQLite adapter, spelled as the adapter factories accept
-     * it: `PDO\SQLITE` or `PDO_SQLITE`, in any case.
+     * it: `PDO\SQLITE`, `PDO_SQLITE` or `PDO SQLITE`, in any case.
      */
     public static function isSqliteAdapter(string $adapter): bool
     {
-        return strtolower(str_replace('_', '\\', $adapter)) === 'pdo\\sqlite';
+        return str_replace(['_', '\\'], ' ', strtolower($adapter)) === 'pdo sqlite';
     }
 
     /**

@@ -16,14 +16,18 @@ use Piwik\Db\SqlListParser;
  * Converts MySQL table and column definitions, as Matomo and its plugins write them, to SQLite.
  *
  * - Integer types become `INTEGER`; an `AUTO_INCREMENT` primary key becomes
- *   `INTEGER PRIMARY KEY AUTOINCREMENT`, so ids are never reused, as with InnoDB.
+ *   `INTEGER PRIMARY KEY AUTOINCREMENT`, so ids are never reused, as with InnoDB. Any other sole
+ *   integer primary key is declared `INT`, so it doesn't become an alias of the rowid, which
+ *   SQLite would assign when the value is missing or NULL.
  * - Floating point and decimal types become `REAL`.
  * - Text types become `TEXT COLLATE NOCASE`, case-insensitive like MySQL's default collations
- *   (ASCII only), or `TEXT` with a binary collation (`*_bin`).
+ *   (ASCII only), or `TEXT` with a binary collation (`*_bin`) on the column or, for the columns
+ *   without a character set or collation of their own, on the table.
  * - Binary types become `BLOB`; date and time types become `TEXT`.
- * - Indexes become `CREATE INDEX` statements named `<table>__<index>`, as index names are global
- *   in SQLite. A prefix (`col(n)`) is dropped from a non-unique index; in a unique index it becomes
- *   `substr(col, 1, n)` with the column's collation, so uniqueness stays the same.
+ * - Indexes become `CREATE INDEX` statements named `<table>.<index>`, as index names are global
+ *   in SQLite (and a dot can't be in either name). A prefix (`col(n)`) is dropped from a non-unique
+ *   index; in a unique index it becomes `substr(col, 1, n)` with the column's collation, or the first
+ *   n bytes of a binary column, so uniqueness stays the same.
  * - Table options (`ENGINE`, `CHARSET`, ...) are dropped.
  *
  * Anything else fails with an exception naming the table and the fragment, instead of creating a
@@ -61,7 +65,10 @@ final class DefinitionConverter
             throw $this->unsupported($matches[2], trim($options));
         }
 
-        return $this->convertTableDefinition($tableName ?? $matches[2], $definition, $matches[1] !== '');
+        // a binary table collation applies to the text columns without a character set or collation
+        $binaryText = (bool) preg_match('/\b(?:COLLATE\s*=?\s*(?:\w+_bin|binary)|(?:CHARSET|CHARACTER\s+SET)\s*=?\s*binary)\b/i', $options);
+
+        return $this->convertTableDefinition($tableName ?? $matches[2], $definition, $matches[1] !== '', $binaryText);
     }
 
     /**
@@ -69,10 +76,10 @@ final class DefinitionConverter
      *
      * @return string[] the statements creating the table and its indexes, to run in order
      */
-    public function convertTableDefinition(string $tableName, string $definition, bool $ifNotExists = false): array
+    public function convertTableDefinition(string $tableName, string $definition, bool $ifNotExists = false, bool $binaryText = false): array
     {
         $columns = [];
-        $collations = [];
+        $columnTypes = [];
         $primaryKey = null;
         $indexes = [];
 
@@ -88,9 +95,8 @@ final class DefinitionConverter
             } elseif (preg_match('/^(FULLTEXT|SPATIAL|CONSTRAINT|FOREIGN|CHECK)\b/i', $item)) {
                 throw $this->unsupported($tableName, $item);
             } else {
-                [$name, $column] = $this->parseColumn($tableName, $item);
+                [$name, $column] = $this->parseColumn($tableName, $item, $binaryText);
                 $columns[$name] = $column;
-                $collations[strtolower($name)] = $column['collation'];
                 if ($column['unique']) {
                     // MySQL creates a unique index named after the column
                     $indexes[] = ['unique' => true, 'name' => null, 'columns' => [['column' => $name, 'length' => null, 'order' => '']]];
@@ -103,9 +109,26 @@ final class DefinitionConverter
             foreach ($columns as $name => $column) {
                 if (strcasecmp($name, $part['column']) === 0 && !$column['autoIncrement']) {
                     $columns[$name]['notNull'] = true;
-                    $columns[$name]['sql'] = $this->getColumnSql($columns[$name]);
                 }
             }
+        }
+
+        // a sole INTEGER primary key would be the rowid, which SQLite assigns instead of failing on NULL
+        $primaryKeyColumns = $primaryKey !== null ? array_column($primaryKey, 'column') : [];
+        foreach ($columns as $name => $column) {
+            if ($column['primaryKey']) {
+                $primaryKeyColumns[] = $name;
+            }
+        }
+        foreach ($columns as $name => $column) {
+            if (
+                count($primaryKeyColumns) === 1 && strcasecmp($primaryKeyColumns[0], $name) === 0
+                && !$column['autoIncrement'] && $column['type'] === 'INTEGER'
+            ) {
+                $columns[$name]['type'] = 'INT';
+            }
+            $columns[$name]['sql'] = $this->getColumnSql($columns[$name]);
+            $columnTypes[strtolower($name)] = ['type' => $columns[$name]['type'], 'collation' => $column['collation']];
         }
 
         if ($columns === []) {
@@ -163,7 +186,7 @@ final class DefinitionConverter
         foreach ($indexes as $index) {
             $name = $index['name'] ?? $this->getDefaultIndexName($index['columns'], $usedNames);
             $usedNames[strtolower($name)] = true;
-            $statements[] = $this->createIndexSql($tableName, $name, $index['unique'], $index['columns'], $collations, $ifNotExists);
+            $statements[] = $this->createIndexSql($tableName, $name, $index['unique'], $index['columns'], $columnTypes, $ifNotExists);
         }
 
         return $statements;
@@ -188,17 +211,24 @@ final class DefinitionConverter
      * Returns the statement creating an index, with its name qualified by the table name.
      *
      * @param array<array{column: string, length: int|null, order: string}> $columns
-     * @param array<string, string|null> $collations column collations by lower case column name
+     * @param array<string, array{type: string, collation: string|null}> $columnTypes the type and collation
+     *                                                                               of the columns, by lower case name
      */
-    public function createIndexSql(string $tableName, string $indexName, bool $unique, array $columns, array $collations, bool $ifNotExists = false): string
+    public function createIndexSql(string $tableName, string $indexName, bool $unique, array $columns, array $columnTypes, bool $ifNotExists = false): string
     {
         $parts = [];
         foreach ($columns as $part) {
             $column = $this->quote($part['column']);
             if ($part['length'] !== null && $unique) {
-                // the prefix decides uniqueness, so it is kept as an expression with the column's collation
-                $collation = $collations[strtolower($part['column'])] ?? null;
-                $column = sprintf('substr(%s, 1, %d)%s', $column, $part['length'], $collation === null ? '' : ' COLLATE ' . $collation);
+                // the prefix decides uniqueness, so it is kept as an expression: bytes of a binary
+                // column (a text value would stop at a NUL byte), characters with the column's collation
+                $type = $columnTypes[strtolower($part['column'])] ?? ['type' => 'TEXT', 'collation' => null];
+                if ($type['type'] === 'BLOB') {
+                    $column = sprintf('substr(CAST(%s AS BLOB), 1, %d)', $column, $part['length']);
+                } else {
+                    $collation = $type['collation'];
+                    $column = sprintf('substr(%s, 1, %d)%s', $column, $part['length'], $collation === null ? '' : ' COLLATE ' . $collation);
+                }
             }
             $parts[] = $column . ($part['order'] !== '' ? ' ' . $part['order'] : '');
         }
@@ -214,11 +244,12 @@ final class DefinitionConverter
     }
 
     /**
-     * SQLite index names are global to the database, MySQL ones are per table.
+     * SQLite index names are global to the database, MySQL ones are per table. Neither name can
+     * contain a dot, so the qualified name is unique.
      */
     public static function getIndexName(string $tableName, string $indexName): string
     {
-        return $tableName . '__' . $indexName;
+        return $tableName . '.' . $indexName;
     }
 
     /**
@@ -249,19 +280,19 @@ final class DefinitionConverter
     /**
      * @return array{0: string, 1: array}
      */
-    private function parseColumn(string $tableName, string $item): array
+    private function parseColumn(string $tableName, string $item, bool $binaryText): array
     {
         if (!preg_match('/^(`\w+`|\w+)\s+(.*)$/s', $item, $matches)) {
             throw $this->unsupported($tableName, $item);
         }
 
-        return [trim($matches[1], '`'), $this->parseColumnAttributes($tableName, $matches[2])];
+        return [trim($matches[1], '`'), $this->parseColumnAttributes($tableName, $matches[2], $binaryText)];
     }
 
     /**
      * @return array{type: string, notNull: bool, default: string|null, collation: string|null, autoIncrement: bool, primaryKey: bool, unique: bool, sql: string}
      */
-    private function parseColumnAttributes(string $tableName, string $definition): array
+    private function parseColumnAttributes(string $tableName, string $definition, bool $binaryText = false): array
     {
         $rest = trim($definition);
         if (!preg_match('/^(\w+)(?:\s*\(\s*(\d+)(?:\s*,\s*(\d+))?\s*\))?/i', $rest, $matches)) {
@@ -274,7 +305,8 @@ final class DefinitionConverter
             $rest = substr($rest, strlen($precision[0]));
         }
 
-        $binaryCollation = false;
+        // the table's collation, unless the column has its own character set or collation
+        $binaryCollation = $binaryText;
         $notNull = null;
         $default = null;
         $autoIncrement = false;
@@ -285,7 +317,8 @@ final class DefinitionConverter
             if (preg_match('/^(UNSIGNED|SIGNED|ZEROFILL)\b/i', $rest, $m)) {
                 // SQLite integers are signed 64-bit, which holds every unsigned value up to BIGINT's signed range
             } elseif (preg_match('/^(?:CHARACTER\s+SET|CHARSET)\s+(\w+)/i', $rest, $m)) {
-                // text is stored as UTF-8
+                // text is stored as UTF-8; the column gets the character set's default collation
+                $binaryCollation = strcasecmp($m[1], 'binary') === 0;
             } elseif (preg_match('/^COLLATE\s+(\w+)/i', $rest, $m)) {
                 $binaryCollation = (bool) preg_match('/_bin$|^binary$/i', $m[1]);
             } elseif (preg_match('/^NOT\s+NULL\b/i', $rest, $m)) {

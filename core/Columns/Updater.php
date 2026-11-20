@@ -82,9 +82,7 @@ class Updater extends \Piwik\Updates
                 continue;
             }
 
-            foreach (Schema::getInstance()->getAlterTableSql(Common::prefixTable($table), $columns) as $sql) {
-                $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
-            }
+            $sqls[] = new Migration\Db\Statements(Schema::getInstance()->getAlterTableSql(Common::prefixTable($table), $columns), $errorCodes);
         }
 
         return $sqls;

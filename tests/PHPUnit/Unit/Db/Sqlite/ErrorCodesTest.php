@@ -59,9 +59,10 @@ class ErrorCodesTest extends TestCase
         yield 'no such table' => ['SELECT * FROM missing', [1146, 1051]];
         yield 'table exists' => ['CREATE TABLE t (a INT)', [1050]];
         yield 'duplicate column' => ['ALTER TABLE t ADD COLUMN name TEXT', [1060]];
-        yield 'no such column' => ['SELECT missing FROM t', [1054, 1091, 1072]];
+        yield 'no such column' => ['SELECT missing FROM t', [1054, 1072]];
+        yield 'drop a missing column' => ['ALTER TABLE t DROP COLUMN missing', [1091]];
         yield 'insert into a missing column' => ['INSERT INTO t (missing) VALUES (1)', [1054]];
-        yield 'index on a missing column' => ['CREATE INDEX t__missing ON t (missing)', [1054, 1091, 1072]];
+        yield 'index on a missing column' => ['CREATE INDEX t__missing ON t (missing)', [1054, 1072]];
         yield 'index exists' => ['CREATE INDEX t__name_idx ON t (name)', [1061]];
         yield 'no such index' => ['DROP INDEX missing', [1091]];
         yield 'syntax error' => ['SELEC 1', [1064]];

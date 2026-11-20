@@ -57,7 +57,7 @@ class DefinitionConverterTest extends TestCase
 
         $this->assertSame([
             "CREATE TABLE `t` (\n  `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `name` TEXT NOT NULL COLLATE NOCASE\n)",
-            'CREATE INDEX `t__name` ON `t` (`name`)',
+            'CREATE INDEX `t.name` ON `t` (`name`)',
         ], $statements);
     }
 
@@ -73,9 +73,9 @@ class DefinitionConverterTest extends TestCase
             'CREATE TABLE t (a VARCHAR(500) NOT NULL, b VARCHAR(500) COLLATE utf8mb4_bin NOT NULL, KEY ka (a(50)), UNIQUE KEY ub (b(20)), UNIQUE ua (a(10)))'
         );
 
-        $this->assertSame('CREATE INDEX `t__ka` ON `t` (`a`)', $statements[1]);
-        $this->assertSame('CREATE UNIQUE INDEX `t__ub` ON `t` (substr(`b`, 1, 20))', $statements[2]);
-        $this->assertSame('CREATE UNIQUE INDEX `t__ua` ON `t` (substr(`a`, 1, 10) COLLATE NOCASE)', $statements[3]);
+        $this->assertSame('CREATE INDEX `t.ka` ON `t` (`a`)', $statements[1]);
+        $this->assertSame('CREATE UNIQUE INDEX `t.ub` ON `t` (substr(`b`, 1, 20))', $statements[2]);
+        $this->assertSame('CREATE UNIQUE INDEX `t.ua` ON `t` (substr(`a`, 1, 10) COLLATE NOCASE)', $statements[3]);
     }
 
     public function testUniquePrefixIndexRejectsRowsThatOnlyDifferAfterThePrefixOrInCase(): void
@@ -101,9 +101,9 @@ class DefinitionConverterTest extends TestCase
     {
         $statements = $this->converter->convertCreateTable('CREATE TABLE t (a INT, b INT, INDEX (a), INDEX (a, b), UNIQUE (b))');
 
-        $this->assertSame('CREATE INDEX `t__a` ON `t` (`a`)', $statements[1]);
-        $this->assertSame('CREATE INDEX `t__a_2` ON `t` (`a`, `b`)', $statements[2]);
-        $this->assertSame('CREATE UNIQUE INDEX `t__b` ON `t` (`b`)', $statements[3]);
+        $this->assertSame('CREATE INDEX `t.a` ON `t` (`a`)', $statements[1]);
+        $this->assertSame('CREATE INDEX `t.a_2` ON `t` (`a`, `b`)', $statements[2]);
+        $this->assertSame('CREATE UNIQUE INDEX `t.b` ON `t` (`b`)', $statements[3]);
     }
 
     public function testIfNotExistsAppliesToTheTableAndItsIndexes(): void
@@ -111,7 +111,7 @@ class DefinitionConverterTest extends TestCase
         $statements = $this->converter->convertTableDefinition('t', 'a INT, KEY ka (a)', true);
 
         $this->assertStringStartsWith('CREATE TABLE IF NOT EXISTS `t`', $statements[0]);
-        $this->assertSame('CREATE INDEX IF NOT EXISTS `t__ka` ON `t` (`a`)', $statements[1]);
+        $this->assertSame('CREATE INDEX IF NOT EXISTS `t.ka` ON `t` (`a`)', $statements[1]);
     }
 
     /**
@@ -129,5 +129,36 @@ class DefinitionConverterTest extends TestCase
         yield 'fulltext' => ['a TEXT, FULLTEXT KEY f (a)'];
         yield 'foreign key' => ['a INT, FOREIGN KEY (a) REFERENCES u (id)'];
         yield 'prefixed primary key' => ['a VARCHAR(100) NOT NULL, PRIMARY KEY (a(10))'];
+    }
+
+    public function testUniqueBinaryPrefixIsTakenInBytes(): void
+    {
+        $statements = $this->converter->convertCreateTable('CREATE TABLE t (b VARBINARY(100) NOT NULL, UNIQUE KEY ub (b(8)))');
+
+        $this->assertSame('CREATE UNIQUE INDEX `t.ub` ON `t` (substr(CAST(`b` AS BLOB), 1, 8))', $statements[1]);
+    }
+
+    public function testSoleIntegerPrimaryKeyIsNotTheRowid(): void
+    {
+        $this->assertStringContainsString('`id` INT NOT NULL,', $this->converter->convertCreateTable('CREATE TABLE t (id INT NOT NULL, PRIMARY KEY (id))')[0]);
+        $this->assertStringContainsString('`id` INT PRIMARY KEY NOT NULL', $this->converter->convertCreateTable('CREATE TABLE t (id BIGINT PRIMARY KEY)')[0]);
+        // a composite primary key is never the rowid
+        $this->assertStringContainsString('`a` INTEGER NOT NULL,', $this->converter->convertCreateTable('CREATE TABLE t (a INT, b INT, PRIMARY KEY (a, b))')[0]);
+    }
+
+    public function testBinaryTableCollationAppliesToColumnsWithoutTheirOwn(): void
+    {
+        $sql = $this->converter->convertCreateTable(
+            'CREATE TABLE t (a VARCHAR(10), b VARCHAR(10) COLLATE utf8mb4_general_ci, c VARCHAR(10) CHARACTER SET utf8mb4) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin'
+        )[0];
+
+        $this->assertStringContainsString('`a` TEXT,', $sql);
+        $this->assertStringContainsString('`b` TEXT COLLATE NOCASE,', $sql);
+        $this->assertStringContainsString('`c` TEXT COLLATE NOCASE', $sql);
+    }
+
+    public function testQualifiedIndexNamesAreUnique(): void
+    {
+        $this->assertNotSame(DefinitionConverter::getIndexName('a__b', 'c'), DefinitionConverter::getIndexName('a', 'b__c'));
     }
 }

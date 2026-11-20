@@ -15,9 +15,11 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\Schema\Sqlite\DefinitionConverter;
 use Piwik\Db\Sqlite\Connection;
+use Piwik\Db\Sqlite\ErrorCodes;
 use Piwik\Db\SqlListParser;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Updater\Migration\Db as Migration;
 
 /**
  * SQLite schema (`schema = Sqlite`).
@@ -98,12 +100,19 @@ class Sqlite extends Mysql
     public function createTable($nameWithoutPrefix, $createDefinition)
     {
         $tableName = Common::prefixTable($nameWithoutPrefix);
-        $statements = $this->getConverter()->convertTableDefinition($tableName, $createDefinition, true);
+        $statements = $this->getConverter()->convertTableDefinition($tableName, $createDefinition);
         if (in_array($tableName, $this->getAllTables(), true)) {
             return;
         }
 
-        $this->executeStatements($statements);
+        try {
+            $this->executeStatements($statements);
+        } catch (Exception $e) {
+            // created by another process since, with its indexes: the statements were all rolled back
+            if (!ErrorCodes::isErrNo($e, Migration::ERROR_CODE_TABLE_EXISTS)) {
+                throw $e;
+            }
+        }
     }
 
     public function createTables()
@@ -145,7 +154,7 @@ class Sqlite extends Mysql
     {
         $tableName = str_replace('`', '', $tableName);
         $converter = $this->getConverter();
-        $collations = $this->getColumnCollations($tableName);
+        $columnTypes = $this->getColumnTypes($tableName);
 
         // MySQL applies the specifications of one ALTER TABLE together; SQLite needs an index dropped
         // before its column, and a column added before an index on it
@@ -166,7 +175,7 @@ class Sqlite extends Mysql
             ) {
                 $definition = $converter->convertColumnDefinition($tableName, $matches[2]);
                 $addColumns[] = 'ALTER TABLE `' . $tableName . '` ADD COLUMN `' . $matches[1] . '` ' . $this->withImplicitDefault($definition);
-                $collations[strtolower($matches[1])] = preg_match('/\bCOLLATE (\w+)$/', $definition, $collation) ? $collation[1] : null;
+                $columnTypes[strtolower($matches[1])] = self::getColumnType($definition);
             } elseif (
                 preg_match('/^DROP\s+(?:COLUMN\s+)?`?(\w+)`?$/is', $specification, $matches)
                 && !preg_match('/^(PRIMARY|INDEX|KEY|FOREIGN)$/i', $matches[1])
@@ -184,10 +193,10 @@ class Sqlite extends Mysql
             }
         }
 
-        // created last, with the collations of the columns added before
+        // created last, with the types of the columns added before
         $createIndexes = [];
         foreach ($addIndexes as [$name, $unique, $columns]) {
-            $createIndexes[] = $converter->createIndexSql($tableName, $name, $unique, $columns, $collations);
+            $createIndexes[] = $converter->createIndexSql($tableName, $name, $unique, $columns, $columnTypes);
         }
 
         return array_merge($dropIndexes, $dropColumns, $addColumns, $createIndexes);
@@ -412,28 +421,46 @@ class Sqlite extends Mysql
 
     /**
      * Whether a column is defined as the MySQL column definition converts to, either when the table was
-     * created or when the column was added (with the default SQLite then needs).
+     * created or when the column was added (with the implicit default SQLite then needs, which is
+     * written in parentheses, unlike a default the definition gives).
      */
     private function hasColumnDefinition(string $tableName, string $column, string $mysqlDefinition): bool
     {
         $converted = $this->getConverter()->convertColumnDefinition($tableName, $mysqlDefinition);
+        $actual = $this->getColumnDefinitions($tableName)[strtolower($column)] ?? null;
+        if ($actual === null) {
+            return false;
+        }
+
+        $actual = self::normalizeDefinition($actual);
+
+        return $actual === self::normalizeDefinition($converted)
+            || $actual === self::normalizeDefinition($this->withImplicitDefault($converted));
+    }
+
+    /**
+     * @return array<string, string> the definition of each column in the table's SQL, by lower case column name
+     */
+    private function getColumnDefinitions(string $tableName): array
+    {
         $sql = (string) Db::fetchOne("SELECT sql FROM sqlite_schema WHERE type = 'table' AND name = ?", [$tableName]);
         $start = strpos($sql, '(');
         $end = strrpos($sql, ')');
         if ($start === false || $end === false) {
-            return false;
+            return [];
         }
 
+        $definitions = [];
         foreach (SqlListParser::splitList(substr($sql, $start + 1, $end - $start - 1)) as $item) {
-            if (preg_match('/^[`"]?(\w+)[`"]?\s+(.*)$/s', $item, $matches) && strcasecmp($matches[1], $column) === 0) {
-                $actual = self::normalizeDefinition($matches[2]);
-
-                return $actual === self::normalizeDefinition($converted)
-                    || $actual === self::normalizeDefinition($this->withImplicitDefault($converted));
+            if (
+                preg_match('/^(`\w+`|"\w+"|\w+)\s+(.*)$/s', $item, $matches)
+                && !preg_match('/^(PRIMARY|UNIQUE|CONSTRAINT|FOREIGN|CHECK)$/i', $matches[1])
+            ) {
+                $definitions[strtolower(trim($matches[1], '`"'))] = $matches[2];
             }
         }
 
-        return false;
+        return $definitions;
     }
 
     /**
@@ -448,11 +475,14 @@ class Sqlite extends Mysql
             }
         }
 
-        return implode('', $parts);
+        // a sole integer primary key is declared INT, the type is the same
+        return preg_replace('/^INT\b/', 'INTEGER', implode('', $parts));
     }
 
     /**
-     * SQLite can't add a NOT NULL column without a default; MySQL fills existing rows with the type's zero value.
+     * SQLite can't add a NOT NULL column without a default; MySQL fills existing rows with the type's
+     * zero value. The default is written in parentheses, which the converter never does, so a column
+     * added this way can be told apart from one with an explicit default.
      */
     private function withImplicitDefault(string $definition): string
     {
@@ -462,25 +492,30 @@ class Sqlite extends Mysql
 
         $zero = str_starts_with($definition, 'TEXT') ? "''" : (str_starts_with($definition, 'BLOB') ? "X''" : '0');
 
-        return str_replace('NOT NULL', 'NOT NULL DEFAULT ' . $zero, $definition);
+        return str_replace('NOT NULL', 'NOT NULL DEFAULT (' . $zero . ')', $definition);
     }
 
     /**
-     * @return array<string, string|null> the collation of each column, by lower case column name
+     * @return array<string, array{type: string, collation: string|null}> the type and collation of each
+     *                                                                     column, by lower case column name
      */
-    private function getColumnCollations(string $tableName): array
+    private function getColumnTypes(string $tableName): array
     {
-        $collations = [];
-        $sql = (string) Db::fetchOne("SELECT sql FROM sqlite_schema WHERE type = 'table' AND name = ?", [$tableName]);
-        foreach (Db::fetchAll('PRAGMA table_info(`' . $tableName . '`)') as $column) {
-            $collation = null;
-            if (preg_match('/[(,]\s*[`"]?' . preg_quote($column['name'], '/') . '[`"]?\s+[^,]*?\bCOLLATE\s+(\w+)/i', $sql, $matches)) {
-                $collation = strtoupper($matches[1]);
-            }
-            $collations[strtolower($column['name'])] = $collation;
-        }
+        return array_map([self::class, 'getColumnType'], $this->getColumnDefinitions($tableName));
+    }
 
-        return $collations;
+    /**
+     * @return array{type: string, collation: string|null}
+     */
+    private static function getColumnType(string $definition): array
+    {
+        $parts = preg_split("/'(?:[^']|'')*'/", $definition);
+        $withoutLiterals = implode("''", $parts === false ? [$definition] : $parts);
+
+        return [
+            'type' => strtoupper((string) strtok(trim($definition), " \t\n(")),
+            'collation' => preg_match('/\bCOLLATE\s+[`"]?(\w+)/i', $withoutLiterals, $matches) ? strtoupper($matches[1]) : null,
+        ];
     }
 
     private function hasAutoIncrement(string $tableName): bool

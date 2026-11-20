@@ -39,6 +39,21 @@ class DbHelperTest extends IntegrationTestCase
         $this->assertFalse(DbHelper::tableExists(Common::prefixTable('user_t%oke%n_auth')));
     }
 
+    public function testTableExistsWithTheTrackerConnection()
+    {
+        $adapter = Db::get();
+        $tracker = \Piwik\Tracker\Db::factory(Db::getDatabaseConfig());
+        $tracker->connect();
+        Db::setDatabaseObject($tracker);
+        try {
+            $this->assertFalse(DbHelper::tableExists('foobar'));
+            $this->assertTrue(DbHelper::tableExists(Common::prefixTable('user_token_auth')));
+        } finally {
+            Db::setDatabaseObject($adapter);
+            $tracker->disconnect();
+        }
+    }
+
     public function testGetInstallVersionIsCurrentVersion()
     {
         $this->assertSame(Version::VERSION, DbHelper::getInstallVersion());

@@ -687,7 +687,14 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
      */
     public function getTablesLike(string $pattern): array
     {
-        return $this->getDb()->fetchCol('SHOW TABLES LIKE ' . $this->getDb()->quote($pattern));
+        // SHOW can't have a placeholder when prepared on the server (MYSQLI), and the tracker
+        // connections have no quote(): the literal is escaped here, as quote() does
+        $literal = "'" . str_replace(['\\', "'", "\0"], ['\\\\', "\\'", '\\0'], $pattern) . "'";
+        $rows = $this->getDb()->fetchAll('SHOW TABLES LIKE ' . $literal);
+
+        return array_map(function ($row) {
+            return (string) reset($row);
+        }, $rows);
     }
 
     /**

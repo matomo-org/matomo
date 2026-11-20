@@ -45,12 +45,10 @@ final class ErrorCodes
         '/^no such table: /' => [Migration::ERROR_CODE_TABLE_NOT_EXISTS, Migration::ERROR_CODE_UNKNOWN_TABLE],
         '/^table \S+ already exists/' => [Migration::ERROR_CODE_TABLE_EXISTS],
         '/^duplicate column name: /' => [Migration::ERROR_CODE_DUPLICATE_COLUMN],
-        // MySQL reports an unknown column in a query as 1054, one to drop as 1091 and one to index as 1072
-        '/^no such column: /' => [
-            Migration::ERROR_CODE_UNKNOWN_COLUMN,
-            Migration::ERROR_CODE_COLUMN_NOT_EXISTS,
-            Migration::ERROR_CODE_KEY_COLUMN_NOT_EXISTS,
-        ],
+        // MySQL reports a column to drop that doesn't exist as 1091; SQLite quotes its name only then
+        '/^no such column: "/' => [Migration::ERROR_CODE_COLUMN_NOT_EXISTS],
+        // and an unknown column in a query as 1054, in an index as 1072
+        '/^no such column: /' => [Migration::ERROR_CODE_UNKNOWN_COLUMN, Migration::ERROR_CODE_KEY_COLUMN_NOT_EXISTS],
         '/^table \S+ has no column named /' => [Migration::ERROR_CODE_UNKNOWN_COLUMN],
         '/^index \S+ already exists/' => [Migration::ERROR_CODE_DUPLICATE_KEY],
         '/^no such index: /' => [Migration::ERROR_CODE_COLUMN_NOT_EXISTS],

@@ -78,6 +78,9 @@ class ConnectionTest extends TestCase
         yield ['PDO\SQLITE', true];
         yield ['pdo_sqlite', true];
         yield ['Pdo\Sqlite', true];
+        yield ['PDO SQLITE', true];
+        yield [' PDO\SQLITE', false]; // nor these
+        yield ['PDO\\\\SQLITE', false];
         yield ['pdo/sqlite', false]; // the adapter factories don't accept it
         yield ['PDO\MYSQL', false];
         yield ['MYSQLI', false];

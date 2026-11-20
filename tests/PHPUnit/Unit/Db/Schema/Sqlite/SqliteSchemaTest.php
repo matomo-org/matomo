@@ -17,6 +17,7 @@ use Piwik\Db\Schema\Sqlite;
 use Piwik\Db\Sqlite\Connection;
 use Piwik\Tests\Unit\Db\Sqlite\RequiresSqlite;
 use Piwik\Tracker\Db\Pdo\Sqlite as SqliteTrackerAdapter;
+use Piwik\Updater\Migration\Db\Statements;
 
 /**
  * The SQLite schema and both adapters on a database file.
@@ -40,13 +41,20 @@ class SqliteSchemaTest extends TestCase
      */
     private $originalPrefix;
 
+    /**
+     * @var mixed
+     */
+    private $originalAdapter;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->requireSqlite();
 
         $this->originalPrefix = Config::getInstance()->database['tables_prefix'];
+        $this->originalAdapter = Config::getInstance()->database['adapter'];
         Config::getInstance()->database['tables_prefix'] = 'matomo_';
+        Config::getInstance()->database['adapter'] = 'PDO\SQLITE';
 
         $this->config = ['dbname' => sys_get_temp_dir() . '/matomo-sqlite-schema-test-' . bin2hex(random_bytes(4)) . '.db'];
         Connection::createDatabaseFile($this->config);
@@ -61,6 +69,7 @@ class SqliteSchemaTest extends TestCase
             Db::setDatabaseObject(null);
             Connection::deleteDatabaseFile($this->config);
             Config::getInstance()->database['tables_prefix'] = $this->originalPrefix;
+            Config::getInstance()->database['adapter'] = $this->originalAdapter;
         }
         parent::tearDown();
     }
@@ -150,6 +159,111 @@ class SqliteSchemaTest extends TestCase
             $this->schema->getTablesLike('matomo\_archive\_numeric\_%')
         );
         $this->assertSame([], $this->schema->getTablesLike("it's"));
+    }
+
+    public function testAdapterFactoriesCreateTheSqliteAdapters(): void
+    {
+        foreach (['PDO\SQLITE', 'PDO_SQLITE', 'pdo sqlite'] as $adapterName) {
+            $dbInfos = $this->config;
+            $adapter = Db\Adapter::factory($adapterName, $dbInfos);
+            $this->assertInstanceOf(SqliteAdapter::class, $adapter);
+            $this->assertSame('1', (string) $adapter->fetchOne('SELECT 1'));
+            $adapter->closeConnection();
+
+            $tracker = \Piwik\Tracker\Db::factory($this->config + ['adapter' => $adapterName]);
+            $this->assertInstanceOf(SqliteTrackerAdapter::class, $tracker);
+            $tracker->connect();
+            $this->assertSame('1', (string) $tracker->fetchOne('SELECT 1'));
+            $tracker->disconnect();
+        }
+    }
+
+    public function testCollationsAreReadWhateverTheDefaultsContain(): void
+    {
+        $this->schema->createTable('t', "id INT NOT NULL, d VARCHAR(10) NOT NULL DEFAULT 'a,b', PRIMARY KEY (id)");
+
+        $this->execute($this->schema->getAlterTableSql('matomo_t', ['ADD UNIQUE KEY ud (d(3))']));
+
+        Db::query("INSERT INTO matomo_t VALUES (1, 'abc1')");
+        $this->expectExceptionMessage('UNIQUE constraint failed');
+        Db::query("INSERT INTO matomo_t VALUES (2, 'ABC2')");
+    }
+
+    public function testRemovingAnExplicitDefaultIsRejected(): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL, n INT NOT NULL DEFAULT 0, PRIMARY KEY (id)');
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->schema->getAlterTableSql('matomo_t', ['MODIFY COLUMN n INT NOT NULL']);
+    }
+
+    /**
+     * @dataProvider getSoleIntegerPrimaryKeys
+     */
+    public function testSoleIntegerPrimaryKeyIsNotAssignedBySqlite(string $definition): void
+    {
+        $this->schema->createTable('t', $definition);
+
+        $this->expectExceptionMessage('NOT NULL constraint failed');
+        Db::query('INSERT INTO matomo_t (n) VALUES (1)');
+    }
+
+    public function getSoleIntegerPrimaryKeys(): iterable
+    {
+        yield 'table primary key' => ['id INT NOT NULL, n INT, PRIMARY KEY (id)'];
+        yield 'column primary key' => ['id BIGINT PRIMARY KEY, n INT'];
+    }
+
+    public function testIndexNamesOfDifferentTablesDontCollide(): void
+    {
+        $this->schema->createTable('a__b', 'c INT, KEY c (c)');
+        $this->schema->createTable('a', 'b__c INT, KEY b__c (b__c)');
+
+        $this->assertTrue($this->schema->tableHasIndex('matomo_a__b', 'c'));
+        $this->assertTrue($this->schema->tableHasIndex('matomo_a', 'b__c'));
+    }
+
+    public function testFailedAlterLeavesTheTableUnchanged(): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL, label VARCHAR(10) NULL, PRIMARY KEY (id), KEY label (label)');
+        $statements = new Statements($this->schema->getAlterTableSql('matomo_t', [
+            'DROP INDEX label',
+            'ADD COLUMN x INT NULL',
+            'ADD INDEX bad (missing)',
+        ]), []);
+
+        try {
+            $statements->exec();
+            $this->fail('no exception');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('no such column', $e->getMessage());
+        }
+
+        $this->assertTrue($this->schema->tableHasIndex('matomo_t', 'label'));
+        $this->assertSame(['id', 'label'], array_keys($this->schema->getTableColumns('matomo_t')));
+    }
+
+    public function testIgnoredErrorsSkipOnlyTheirStatement(): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL, label VARCHAR(10) NULL, PRIMARY KEY (id)');
+        $statements = new Statements($this->schema->getAlterTableSql('matomo_t', [
+            'ADD COLUMN label VARCHAR(10) NULL',
+            'ADD COLUMN x INT NULL',
+        ]), [Statements::ERROR_CODE_DUPLICATE_COLUMN]);
+
+        $statements->exec();
+
+        $this->assertSame(['id', 'label', 'x'], array_keys($this->schema->getTableColumns('matomo_t')));
+    }
+
+    public function testUniqueBinaryPrefixComparesBytes(): void
+    {
+        $this->schema->createTable('t', 'b VARBINARY(100) NOT NULL, UNIQUE KEY ub (b(4))');
+
+        Db::query('INSERT INTO matomo_t VALUES (?)', ["ab\0c1"]);
+        Db::query('INSERT INTO matomo_t VALUES (?)', ["ab\0d1"]);
+        $this->expectExceptionMessage('UNIQUE constraint failed');
+        Db::query('INSERT INTO matomo_t VALUES (?)', ["ab\0c2"]);
     }
 
     public function testTrackerTransactionsAndTheirRollbackAreSeenByTheOtherAdapter(): void
