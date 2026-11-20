@@ -23,12 +23,16 @@ class VisitLastActionDayOfWeek extends VisitDimension
     protected $type = self::TYPE_DATETIME;
     protected $segmentName = 'visitEndServerDayOfWeek';
     protected $nameSingular = 'VisitTime_ColumnVisitEndUTCDayOfWeek';
-    protected $sqlSegment = 'DAYOFWEEK(log_visit.visit_last_action_time)';
     protected $acceptValues = '1, 2, 3, 4, 5, 6, 7';
+
+    public function getSqlSegment()
+    {
+        // spelled by the database in use, so built when asked for, unless a subclass or setSqlSegment() set one
+        return empty($this->sqlSegment) ? Schema::getInstance()->getDayOfWeekSql('log_visit.visit_last_action_time') : $this->sqlSegment;
+    }
 
     public function __construct()
     {
-        $this->sqlSegment = Schema::getInstance()->getDayOfWeekSql('log_visit.visit_last_action_time');
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             return range(1, min(7, $maxValuesToReturn));
         };

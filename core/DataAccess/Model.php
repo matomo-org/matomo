@@ -169,12 +169,12 @@ class Model
 
                 if ($period->getLabel() == 'range') { // for ranges, we delete all ranges that contain the given date(s)
                     $periodCondition .= "(period = " . (int)$period->getId()
-                        . " AND date2 >= '" . $period->getDateStart()->getDatetime()
-                        . "' AND date1 <= '" . $period->getDateEnd()->getDatetime() . "')";
+                        . " AND date2 >= '" . $period->getDateStart()->toString()
+                        . "' AND date1 <= '" . $period->getDateEnd()->toString() . "')";
                 } else {
                     $periodCondition .= "(period = " . (int)$period->getId()
-                        . " AND date1 = '" . $period->getDateStart()->getDatetime() . "'"
-                        . " AND date2 = '" . $period->getDateEnd()->getDatetime() . "')";
+                        . " AND date1 = '" . $period->getDateStart()->toString() . "'"
+                        . " AND date2 = '" . $period->getDateEnd()->toString() . "')";
                 }
             }
             $periodCondition .= ")";
@@ -327,8 +327,8 @@ class Model
                         'name' => $doneFlagToCheck,
                         'report' => $name,
                         'idsite' => $idSite,
-                        'date1' => $period->getDateStart()->getDatetime(),
-                        'date2' => $period->getDateEnd()->getDatetime(),
+                        'date1' => $period->getDateStart()->toString(),
+                        'date2' => $period->getDateEnd()->toString(),
                         'period' => $period->getId(),
                         'ts_invalidated' => $now,
                     ];
@@ -390,8 +390,8 @@ class Model
                 $dateConditions = array();
 
                 $dateConditions[] = "(date1 <= ? AND ? <= date2)";
-                $bind[] = $period->getDateStart()->getDatetime();
-                $bind[] = $period->getDateEnd()->getDatetime();
+                $bind[] = $period->getDateStart()->toString();
+                $bind[] = $period->getDateEnd()->toString();
 
                 $dateConditionsSql = implode(" OR ", $dateConditions);
                 $periodConditions[] = "(period = 5 AND ($dateConditionsSql))";
@@ -527,7 +527,7 @@ class Model
 
         $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived <= ? AND idarchive < ?";
 
-        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->getDatetime(), $dateEnd->getDatetime(), $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
+        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->toString(), $dateEnd->toString(), $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
         $idArchives = array_column($idArchives, 'idarchive');
         if (empty($idArchives)) {
             return;
@@ -1093,7 +1093,7 @@ class Model
                   FROM `$archiveTable`
                  WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` IN (" . implode(', ', $usableDoneFlags) . ")
                  LIMIT 1";
-            $bind = [$idSite, $period->getDateStart()->getDatetime(), $period->getDateEnd()->getDatetime(), $period->getId()];
+            $bind = [$idSite, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), $period->getId()];
 
             $result = (bool) Db::fetchOne($sql, $bind);
             if ($result) {
@@ -1161,7 +1161,7 @@ class Model
     {
         $siteTable = Common::prefixTable('site');
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE a FROM `$table` a LEFT JOIN `$siteTable` s ON a.idsite = s.idsite WHERE s.idsite IS NULL";
+        $sql = "DELETE FROM `$table` WHERE NOT EXISTS (SELECT 1 FROM `$siteTable` s WHERE s.idsite = `$table`.idsite)";
         Db::query($sql);
     }
 

@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Unit\Db\Schema;
 
 use PHPUnit\Framework\TestCase;
+use Piwik\Config;
 use Piwik\Db\Schema;
 use Piwik\Db\Schema\Mariadb;
 use Piwik\Db\Schema\Mysql;
@@ -136,6 +137,15 @@ class MysqlDialectTest extends TestCase
         $this->assertSame('INSERT OR IGNORE', $this->facadeWith($schema)->getInsertIgnoreSql());
     }
 
+    public function testBeforeConnectingTheFacadeFollowsTheConfiguredAdapterNotTheSchema(): void
+    {
+        $this->assertFalse(\Piwik\Db::hasDatabaseObject());
+        $facade = $this->facadeWith(new \Piwik\Db\Schema\Sqlite());
+
+        $this->assertSame('HOUR(x)', $facade->getHourSql('x'));
+        $this->assertSame('INSERT IGNORE', $facade->getInsertIgnoreSql());
+    }
+
     public function testFacadeFallsBackToMysqlForASchemaWithoutDialect(): void
     {
         $facade = $this->facadeWith($this->createMock(SchemaInterface::class));
@@ -151,8 +161,25 @@ class MysqlDialectTest extends TestCase
     /**
      * Returns a facade instance configured with the given schema, leaving the shared singleton untouched.
      */
+    /**
+     * @var array|null
+     */
+    private $databaseConfig;
+
+    public function tearDown(): void
+    {
+        if ($this->databaseConfig !== null) {
+            Config::getInstance()->database = $this->databaseConfig;
+        }
+        parent::tearDown();
+    }
+
     private function facadeWith(SchemaInterface $schema): Schema
     {
+        // not connected: the facade follows the configured adapter
+        $this->databaseConfig = Config::getInstance()->database;
+        Config::getInstance()->database = array_merge($this->databaseConfig, ['adapter' => 'PDO\MYSQL']);
+
         $facade = (new \ReflectionClass(Schema::class))->newInstanceWithoutConstructor();
         (new \ReflectionProperty(Schema::class, 'schema'))->setValue($facade, $schema);
 

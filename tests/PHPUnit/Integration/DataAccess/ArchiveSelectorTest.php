@@ -80,7 +80,9 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
     public function testGetArchiveIdsHandlesCutOffGroupConcat()
     {
-        Db::get()->query('SET SESSION group_concat_max_len=' . 20);
+        if (!Fixture::isSqlite()) { // SQLite's group_concat() has no length limit
+            Db::get()->query('SET SESSION group_concat_max_len=' . 20);
+        }
 
         $archiveRows =                 [
             ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 1],

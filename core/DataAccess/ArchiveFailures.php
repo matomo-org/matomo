@@ -644,7 +644,7 @@ class ArchiveFailures
         $table = self::getTable();
         $siteTable = Common::prefixTable('site');
 
-        Db::query("DELETE f FROM `$table` f LEFT JOIN `$siteTable` s ON f.idsite = s.idsite WHERE s.idsite IS NULL");
+        Db::query("DELETE FROM `$table` WHERE NOT EXISTS (SELECT 1 FROM `$siteTable` s WHERE s.idsite = `$table`.idsite)");
     }
 
     /**

@@ -25,14 +25,18 @@ class VisitFirstActionTime extends VisitDimension
     protected $columnType = 'DATETIME NOT NULL';
     protected $type = self::TYPE_DATETIME;
 
-    protected $sqlSegment = 'HOUR(log_visit.visit_first_action_time)';
     protected $segmentName = 'visitStartServerHour';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
     protected $nameSingular = 'VisitTime_ColumnVisitStartSiteHour';
 
+    public function getSqlSegment()
+    {
+        // spelled by the database in use, so built when asked for, unless a subclass or setSqlSegment() set one
+        return empty($this->sqlSegment) ? Schema::getInstance()->getHourSql('log_visit.visit_first_action_time') : $this->sqlSegment;
+    }
+
     public function __construct()
     {
-        $this->sqlSegment = Schema::getInstance()->getHourSql('log_visit.visit_first_action_time');
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             return range(0, min(23, $maxValuesToReturn));
         };

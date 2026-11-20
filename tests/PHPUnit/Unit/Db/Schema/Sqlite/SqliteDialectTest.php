@@ -121,6 +121,22 @@ class SqliteDialectTest extends TestCase
             . $this->schema->getCurrentDateTimeSql())->fetchColumn());
     }
 
+    public function testDayOfWeekAndHourCompareWithBoundStringsAsNumbers(): void
+    {
+        $this->pdo->exec("CREATE TABLE v (d TEXT)");
+        $this->pdo->exec("INSERT INTO v VALUES ('2024-03-03 07:00:00'), ('2024-03-04 23:00:00')"); // Sunday, Monday
+        $count = function (string $condition, string $value): int {
+            $statement = $this->pdo->prepare('SELECT COUNT(*) FROM v WHERE ' . $condition);
+            $statement->execute([$value]);
+            return (int) $statement->fetchColumn();
+        };
+
+        $this->assertSame(1, $count($this->schema->getDayOfWeekSql('d') . ' = ?', '1'));
+        $this->assertSame(1, $count($this->schema->getDayOfWeekSql('d') . ' < ?', '2'));
+        $this->assertSame(1, $count($this->schema->getHourSql('d') . ' = ?', '7'));
+        $this->assertSame(2, $count($this->schema->getHourSql('d') . ' >= ?', '7'));
+    }
+
     public function testRowLocksAndTruncate(): void
     {
         $this->assertSame('', $this->schema->getRowLockSql());

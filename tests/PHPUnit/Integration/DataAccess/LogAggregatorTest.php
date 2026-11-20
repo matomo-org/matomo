@@ -335,6 +335,9 @@ class LogAggregatorTest extends IntegrationTestCase
             // See https://github.com/matomo-org/matomo/issues/17871
             $this->markTestSkipped('Max execution query hint does not work for Mysqli.');
         }
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no per-query execution time limit.');
+        }
 
         // limit query to one milli second
         Config::getInstance()->General['archiving_query_max_execution_time'] = 0.001;
@@ -353,6 +356,10 @@ class LogAggregatorTest extends IntegrationTestCase
 
     private function setSqlRequirePrimaryKeySetting($val)
     {
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            return; // a MySQL setting; SQLite tables always have a rowid
+        }
+
         try {
             $this->logAggregator->getDb()->exec('SET SESSION sql_require_primary_key=' . $val);
         } catch (\Exception $e) {
@@ -613,7 +620,7 @@ class LogAggregatorTest extends IntegrationTestCase
     public function testQueryVisitsByDimensionWithComplexDimensionSelect()
     {
         $dimensions = [
-            'CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN \'l\'' .
+            'CASE WHEN ' . Schema::getInstance()->getHourSql('log_visit.visit_first_action_time') . ' <= 11 THEN \'l\'' .
             'ELSE \'r\'' .
             'END AS label',
         ];
@@ -655,7 +662,7 @@ class LogAggregatorTest extends IntegrationTestCase
             'INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type) VALUES (?, ?, ?)',
             ['Overflow SKU', 0, Action::TYPE_ECOMMERCE_ITEM_SKU]
         );
-        $idActionSku = Db::fetchOne('SELECT LAST_INSERT_ID()');
+        $idActionSku = Db::get()->lastInsertId();
 
         $logInserter = new LogHelper();
         $visit = $logInserter->insertVisit([

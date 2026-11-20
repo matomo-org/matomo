@@ -18,6 +18,7 @@ use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Option;
 use Piwik\Period\Day;
 use Piwik\Period\Month;
@@ -2588,8 +2589,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         }
 
         $sql = "INSERT INTO $table (idarchive, name, value, idsite, date1, date2, period, ts_archived)
-                     VALUES ($idArchive, 'nb_visits', 1, $idSite, '$dateStart', '$dateEnd', $periodId, NOW()),
-                            ($idArchive, '$doneFlag', $doneValue, $idSite, '$dateStart', '$dateEnd', $periodId, NOW())";
+                     VALUES ($idArchive, 'nb_visits', 1, $idSite, '$dateStart', '$dateEnd', $periodId, " . Schema::getInstance()->getCurrentDateTimeSql() . "),
+                            ($idArchive, '$doneFlag', $doneValue, $idSite, '$dateStart', '$dateEnd', $periodId, " . Schema::getInstance()->getCurrentDateTimeSql() . ")";
         Db::query($sql);
     }
 
@@ -2615,13 +2616,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     private function getInvalidatedArchiveTableEntriesSummary()
     {
-        Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
+        if (!Fixture::isSqlite()) { // SQLite's group_concat() has no length limit
+            Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
+        }
 
         $table = Common::prefixTable('archive_invalidations');
 
         return Db::fetchAll("
             SELECT idsite, period, name, report,
-                   GROUP_CONCAT(CONCAT(date1, ',', date2) ORDER BY date1 SEPARATOR '|') as dates,
+                   " . Schema::getInstance()->getGroupConcatSql("CONCAT(date1, ',', date2)", 'date1', '|') . " as dates,
                    COUNT(*) as count
             FROM $table
             GROUP BY idsite, period, name, report
@@ -2651,7 +2654,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         $table = Common::prefixTable('archive_invalidations');
         foreach ($invalidations as $invalidation) {
-            $sql = "INSERT INTO $table (name, idsite, date1, date2, period, ts_invalidated, report, ts_started, status) VALUES (?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
+            $sql = "INSERT INTO $table (name, idsite, date1, date2, period, ts_invalidated, report, ts_started, status) VALUES (?, ?, ?, ?, ?, " . Schema::getInstance()->getCurrentDateTimeSql() . ", ?, ?, ?)";
             Db::query($sql, [
                 $invalidation['name'],
                 $invalidation['idsite'],

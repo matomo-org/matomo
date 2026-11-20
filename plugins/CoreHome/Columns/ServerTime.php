@@ -24,13 +24,17 @@ class ServerTime extends ActionDimension
     protected $columnName = 'server_time';
     protected $columnType = 'DATETIME NOT NULL';
     protected $segmentName = 'actionServerHour';
-    protected $sqlSegment = 'HOUR(log_link_visit_action.server_time)';
     protected $nameSingular = 'VisitTime_ColumnSiteHour';
     protected $type = self::TYPE_DATETIME;
 
+    public function getSqlSegment()
+    {
+        // spelled by the database in use, so built when asked for, unless a subclass or setSqlSegment() set one
+        return empty($this->sqlSegment) ? Schema::getInstance()->getHourSql('log_link_visit_action.server_time') : $this->sqlSegment;
+    }
+
     public function __construct()
     {
-        $this->sqlSegment = Schema::getInstance()->getHourSql('log_link_visit_action.server_time');
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             return range(0, min(23, $maxValuesToReturn));
         };

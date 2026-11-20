@@ -35,14 +35,8 @@ class VisitLastActionTime extends VisitDimension
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
     protected $nameSingular = 'VisitTime_ColumnVisitEndSiteHour';
-    protected $sqlSegment = 'HOUR(log_visit.visit_last_action_time)';
     protected $segmentName = 'visitServerHour';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
-
-    public function __construct()
-    {
-        $this->sqlSegment = Schema::getInstance()->getHourSql('log_visit.visit_last_action_time');
-    }
 
     /**
      * Converts the hour to the hour depending on the configured site's timezone.
@@ -71,6 +65,12 @@ class VisitLastActionTime extends VisitDimension
         $datetime = $date->toString() . ' ' . $hour . ':00:00';
         $hourInTz = (int)Date::factory($datetime, $timezone)->toString('H');
         return $hourInTz;
+    }
+
+    public function getSqlSegment()
+    {
+        // spelled by the database in use, so built when asked for, unless a subclass or setSqlSegment() set one
+        return empty($this->sqlSegment) ? Schema::getInstance()->getHourSql('log_visit.visit_last_action_time') : $this->sqlSegment;
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)

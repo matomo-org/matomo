@@ -50,7 +50,9 @@ class ModelTest extends IntegrationTestCase
 
     public function testGetInvalidatedArchiveIdsSafeToDeleteHandlesCutOffGroupMaxLenCorrectly()
     {
-        Db::get()->query('SET SESSION group_concat_max_len=32');
+        if (!Fixture::isSqlite()) { // SQLite's group_concat() has no length limit
+            Db::get()->query('SET SESSION group_concat_max_len=32');
+        }
 
         $this->insertArchiveData([
             ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
@@ -78,7 +80,7 @@ class ModelTest extends IntegrationTestCase
 
         // sanity check
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'), true);
-        $sql = "SELECT GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC, idarchive DESC) as archives
+        $sql = "SELECT " . Db\Schema::getInstance()->getGroupConcatSql("CONCAT(idarchive, '.', value)", 'ts_archived DESC, idarchive DESC') . " as archives
                   FROM `$table`
               GROUP BY idsite, date1, date2, period, name";
         $result = Db::fetchRow($sql);

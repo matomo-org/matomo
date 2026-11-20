@@ -25,12 +25,12 @@ class LocalTime extends VisitDimension
     protected $type = self::TYPE_TIME;
     protected $segmentName = 'visitLocalHour';
     protected $nameSingular = 'VisitTime_ColumnLocalHour';
-    protected $sqlSegment = 'HOUR(log_visit.visitor_localtime)';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
 
-    public function __construct()
+    public function getSqlSegment()
     {
-        $this->sqlSegment = Schema::getInstance()->getHourSql('log_visit.visitor_localtime');
+        // spelled by the database in use, so built when asked for, unless a subclass or setSqlSegment() set one
+        return empty($this->sqlSegment) ? Schema::getInstance()->getHourSql('log_visit.visitor_localtime') : $this->sqlSegment;
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)

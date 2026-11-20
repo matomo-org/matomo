@@ -397,7 +397,8 @@ class Sqlite extends Mysql
 
     public function getDayOfWeekSql(string $datetime): string
     {
-        return "(CAST(strftime('%w', " . $datetime . ') AS INTEGER) + 1)';
+        // cast as a whole, so that the expression has integer affinity when compared with a bound string
+        return "CAST(strftime('%w', " . $datetime . ') + 1 AS INTEGER)';
     }
 
     public function getUnixTimestampSql(string $datetime = ''): string

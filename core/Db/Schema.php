@@ -543,12 +543,13 @@ class Schema extends Singleton
     private function getConnectionSchema(): SchemaInterface
     {
         $schema = $this->getSchema();
-        $connection = SettingsServer::isTrackerApiRequest() || Db::hasDatabaseObject() ? Db::get() : null;
-        if ($connection === null) {
-            return $schema;
+        if (SettingsServer::isTrackerApiRequest() || Db::hasDatabaseObject()) {
+            $isSqlite = Db\Sqlite\Connection::isSqliteConnection(Db::get());
+        } else {
+            // not connected yet: the connection will follow the configuration, as event subscribers change it
+            $isSqlite = Db\Sqlite\Connection::isSqliteAdapter((string) (Db::getDatabaseConfig()['adapter'] ?? ''));
         }
 
-        $isSqlite = Db\Sqlite\Connection::isSqliteConnection($connection);
         if ($isSqlite && !$schema instanceof Schema\Sqlite) {
             return $this->getSqliteDialect();
         }
