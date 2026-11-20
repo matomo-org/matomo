@@ -226,7 +226,8 @@ final class AIRequestContext
 
     /**
      * Whether this only asks if a call would be allowed
-     * ({@link AIProviderService::assertRequestAllowed()}): no provider call
+     * ({@link AIProviderService::assertRequestAllowed()} or
+     * {@link AIProviderService::probeRequest()}): no provider call
      * follows, so no `AIProviders.usage` event either.
      */
     public function isProbe(): bool

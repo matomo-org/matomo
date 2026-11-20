@@ -16,8 +16,8 @@ use Piwik\Plugins\AIProviders\AIRequestDecision;
 /**
  * Thrown before a provider call when a listener of `AIProviders.beforeRequest`
  * denied it, for example because an AI usage limit is reached. Nothing was
- * sent to the provider. {@link getDecision()} carries the reason and the
- * usage figures for an upgrade message.
+ * sent to the provider. {@link getDecision()} carries the reason, the
+ * usage figures and the listener's link, if any, for an upgrade message.
  */
 class AIQuotaExceededException extends AIProviderClientException
 {

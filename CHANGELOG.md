@@ -17,6 +17,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
 * `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
+* `Piwik\Plugins\AIProviders\AIRequestDecision::reportUsage()` also takes an optional translated message and a `Piwik\Plugins\AIProviders\AIUsageAction` link (for example "Buy more credits"), read back through `getMessage()` and `getAction()`. `getMessage()` can therefore return text on an allowed decision, so check `isAllowed()` before showing it as a denial. When two reports have the same remaining figure, the later one now wins, with its message and action. `deny()` takes such a link too, for example to a billing page when the allowance is used up. `Piwik\Plugins\AIProviders\AIProviderService::probeRequest()` works like `assertRequestAllowed()` but returns the allowed decision, so a feature can show what an `AIProviders.beforeRequest` listener reported, for example a warning before an allowance runs out.
 
 ### New commands
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
