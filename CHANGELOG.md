@@ -30,6 +30,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### HTTP API
 * Reporting API methods accept `period=quarter`. The `date` selects the quarter that contains it, and `prettyDate` labels it like `Q3 2026`.
+* `PrivacyManager.setDeleteReportsSettings` accepts the new parameter `keepQuarter`.
 * The `parts` parameter of `Transitions.getTransitionsForAction` accepts the new value `followingActionsWithoutLoops`: the following actions without page reloads, as in the full report.
 * `prettyDate` of `API.getProcessedReport` now names the period the report's rows were archived for:
   * For a relative date such as `today`, `yesterday`, `lastN` or `previousN` with the period `day`, `week`, `month` or `year` on a single site whose day differs from UTC's, it names the site's days instead of UTC's, and so do the date line and file name of the scheduled reports generated from it.
