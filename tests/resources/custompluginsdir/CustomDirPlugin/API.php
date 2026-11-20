@@ -9,8 +9,12 @@
 
 namespace Piwik\Plugins\CustomDirPlugin;
 
+use Piwik\Attributes\Permission;
+
 class API extends \Piwik\Plugin\API
 {
+    public static $wasMetadataOnlyMethodExecuted = false;
+
     public function getCustomAnswerToLive($truth = true)
     {
         if ($truth) {
@@ -18,5 +22,13 @@ class API extends \Piwik\Plugin\API
         }
 
         return 24;
+    }
+
+    #[Permission('someView')]
+    public function getPermissionMetadataOnlyResult()
+    {
+        self::$wasMetadataOnlyMethodExecuted = true;
+
+        return 'permission metadata proof';
     }
 }

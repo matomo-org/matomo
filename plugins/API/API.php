@@ -13,6 +13,7 @@ use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Attributes\Permission;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Category\CategoryList;
@@ -81,6 +82,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return string Matomo's version string.
      */
+    #[Permission('someView')]
     public function getMatomoVersion(): string
     {
         Piwik::checkUserHasSomeViewAccess();
@@ -92,6 +94,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return array{version:string, major:int, minor:int, release:int, versionId:int, extra:string}
      */
+    #[Permission('superuser')]
     public function getPhpVersion(): array
     {
         Piwik::checkUserHasSuperUserAccess();
@@ -111,6 +114,7 @@ class API extends \Piwik\Plugin\API
      * @return string Matomo's version string.
      * @deprecated Deprecated but we keep it for historical reasons to not break BC
      */
+    #[Permission('someView')]
     public function getPiwikVersion(): string
     {
         return $this->getMatomoVersion();
@@ -122,6 +126,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return string IP address in presentation format.
      */
+    #[Permission('someView')]
     public function getIpFromHeader(): string
     {
         Piwik::checkUserHasSomeViewAccess();

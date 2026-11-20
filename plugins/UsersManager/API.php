@@ -16,6 +16,7 @@ use Piwik\API\Request as ApiRequest;
 use Piwik\Access\CapabilitiesProvider;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\RolesProvider;
+use Piwik\Attributes\Permission;
 use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
@@ -172,6 +173,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return list<array{id: string, name: string, description: string, helpUrl: string}> List of available roles.
      */
+    #[Permission('someAdmin')]
     public function getAvailableRoles(): array
     {
         Piwik::checkUserHasSomeAdminAccess();
@@ -228,6 +230,7 @@ class API extends \Piwik\Plugin\API
      * @param string $preferenceName Preference name registered by UsersManager or plugin configuration.
      * @param mixed $preferenceValue Value to store for the preference.
      */
+    #[Permission('superUserOrUser', 'userLogin')]
     public function setUserPreference(string $userLogin, string $preferenceName, $preferenceValue): void
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
@@ -567,6 +570,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite Numeric site ID.
      * @return array<string, string> Mapping of user login to access entry.
      */
+    #[Permission('admin', 'idSite')]
     public function getUsersAccessFromSite(int $idSite): array
     {
         Piwik::checkUserHasAdminAccess($idSite);

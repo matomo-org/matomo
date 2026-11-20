@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CustomDimensions;
 
 use Piwik\Common;
 use Piwik\Archive;
+use Piwik\Attributes\Permission;
 use Piwik\DataTable;
 use Piwik\Filesystem;
 use Piwik\Piwik;
@@ -100,6 +101,7 @@ class API extends \Piwik\Plugin\API
      * @param string $description Optional description to provide additional context for the custom dimension.
      * @return int ID of the configured custom dimension. Note that the same ID may be used for different websites.
      */
+    #[Permission('write', 'idSite')]
     public function configureNewCustomDimension(int $idSite, string $name, string $scope, $active, $extractions = [], $caseSensitive = true, string $description = '')
     {
         Piwik::checkUserHasWriteAccess($idSite);
@@ -289,6 +291,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return array<int, array{value:string, name:string}>
      */
+    #[Permission('someWrite')]
     public function getAvailableExtractionDimensions(): array
     {
         Piwik::checkUserHasSomeWriteAccess();

@@ -136,4 +136,37 @@ class DocumentationGeneratorTest extends TestCase
 
         return $addExamples->invoke($documentationGenerator, $class, 'get', '');
     }
+
+    public function testProxyMetadataExposesExplicitPermissionsOnly()
+    {
+        $apiClass = Request::getClassNameAPI('API');
+        $usersManagerClass = Request::getClassNameAPI('UsersManager');
+
+        Proxy::getInstance()->registerClass($apiClass);
+        Proxy::getInstance()->registerClass($usersManagerClass);
+
+        $this->assertSame(
+            ['name' => 'someView', 'parameter' => null],
+            Proxy::getInstance()->getMethodPermission($apiClass, 'getPiwikVersion')
+        );
+
+        $this->assertSame(
+            ['name' => 'superUserOrUser', 'parameter' => 'userLogin'],
+            Proxy::getInstance()->getMethodPermission($usersManagerClass, 'setUserPreference')
+        );
+
+        $this->assertNull(
+            Proxy::getInstance()->getMethodPermission($apiClass, 'getSettings')
+        );
+    }
+
+    public function testGeneratedDocumentationDisplaysPermissionsForMigratedMethod()
+    {
+        $documentation = new DocumentationGenerator();
+
+        $result = $documentation->getApiDocumentationAsString(false);
+
+        $this->assertStringContainsString('[Permissions: someView]', $result);
+        $this->assertStringContainsString('[Permissions: superUserOrUser(userLogin)]', $result);
+    }
 }
