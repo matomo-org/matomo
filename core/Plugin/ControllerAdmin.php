@@ -332,10 +332,6 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        if (NotificationManager::isDisabled('DatabaseVersionCheck')) {
-            return;
-        }
-
         if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
@@ -405,6 +401,10 @@ abstract class ControllerAdmin extends Controller
     private static function notifyWhenDatabaseVersionIsEOL(): void
     {
         if (defined('PIWIK_TEST_MODE')) { // to avoid changing every admin UI test
+            return;
+        }
+
+        if (NotificationManager::isDisabled('DatabaseVersionCheck')) {
             return;
         }
 
