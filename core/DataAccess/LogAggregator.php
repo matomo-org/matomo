@@ -920,6 +920,12 @@ class LogAggregator
                 $end = $end === false ? $length : $end;
                 $masked .= str_repeat(' ', $end - $i);
                 $i = $end - 1;
+            } elseif ($isSqlite && $char === '[') {
+                // a bracket-quoted SQLite identifier ends at the first `]`
+                $end = strpos($expression, ']', $i + 1);
+                $end = $end === false ? $length - 1 : $end;
+                $masked .= $depth > 0 ? str_repeat(' ', $end - $i + 1) : '[' . str_repeat('x', max(0, $end - $i - 1)) . ($end > $i ? ']' : '');
+                $i = $end;
             } elseif ($char === "'" || $char === '"' || $char === '`') {
                 // a quote is escaped by doubling it, or in a MySQL string literal by a backslash
                 $end = $i + 1;
@@ -947,13 +953,18 @@ class LogAggregator
             }
         }
 
-        if (!preg_match('/\sAS\s+(`[^`]*`|"[^"]*"|[0-9a-zA-Z$_\x80-\xFF]+)\s*$/', $masked, $matches, PREG_OFFSET_CAPTURE)) {
+        if (!preg_match('/\sAS\s+(`[^`]*`|"[^"]*"|\[[^\]]*\]|[0-9a-zA-Z$_\x80-\xFF]+)\s*$/', $masked, $matches, PREG_OFFSET_CAPTURE)) {
             return null;
         }
 
         $alias = substr($expression, $matches[1][1], strlen($matches[1][0]));
         if ($alias[0] === '"') {
-            $alias = '`' . str_replace(['""', '`'], ['"', '``'], substr($alias, 1, -1)) . '`';
+            $name = str_replace('""', '"', substr($alias, 1, -1));
+            if (!$isSqlite) {
+                // MySQL reads backslash escapes in a double-quoted alias, as in a string
+                $name = preg_replace('/\\\\(.)/s', '$1', $name);
+            }
+            $alias = '`' . str_replace('`', '``', $name) . '`';
         }
 
         return $alias;

@@ -215,6 +215,21 @@ class LogAggregatorTest extends IntegrationTestCase
         }
     }
 
+    public function testGetGroupByDimensionsReadsQuotedIdentifiersAsTheDatabaseDoes(): void
+    {
+        $method = (new \ReflectionClass($this->logAggregator))->getMethod('getGroupByDimensions');
+
+        if (Fixture::isSqlite()) {
+            // in a bracket-quoted identifier, `--` is not a comment
+            $groupBy = $method->invoke($this->logAggregator, ['LOWER([a--b]) AS family'], 'log_visit');
+            $this->assertSame(['family'], $groupBy);
+        } else {
+            // MySQL reads a backslash escape in a double-quoted alias
+            $groupBy = $method->invoke($this->logAggregator, ['LOWER(log_visit.config_os) AS "a\\"b"'], 'log_visit');
+            $this->assertSame(['`a"b`'], $groupBy);
+        }
+    }
+
     public function testGenerateQuery()
     {
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');

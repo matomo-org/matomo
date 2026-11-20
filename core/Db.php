@@ -487,9 +487,11 @@ class Db implements TransactionalDatabaseInterface
 
         self::inSqliteSavepoint(function () use ($table) {
             self::query(Schema::getInstance()->getTruncateTableSql($table));
-            // SQLite keeps an AUTOINCREMENT table's counter in sqlite_sequence, which DELETE leaves as it is
-            if (self::fetchOne("SELECT 1 FROM main.sqlite_schema WHERE type = 'table' AND name = 'sqlite_sequence'")) {
-                self::query('DELETE FROM main.sqlite_sequence WHERE name = ? COLLATE NOCASE', [$table]);
+            // SQLite keeps an AUTOINCREMENT table's counter in sqlite_sequence, which DELETE leaves as it is;
+            // in the schema the DELETE emptied: a temporary table hides a permanent one of the same name
+            $schema = self::fetchOne("SELECT 1 FROM temp.sqlite_schema WHERE type = 'table' AND name = ? COLLATE NOCASE", [$table]) ? 'temp' : 'main';
+            if (self::fetchOne("SELECT 1 FROM $schema.sqlite_schema WHERE type = 'table' AND name = 'sqlite_sequence'")) {
+                self::query("DELETE FROM $schema.sqlite_sequence WHERE name = ? COLLATE NOCASE", [$table]);
             }
         });
     }
@@ -532,9 +534,14 @@ class Db implements TransactionalDatabaseInterface
         try {
             $result = $callback();
             self::query('RELEASE matomo_atomic');
-        } catch (\Exception $e) {
-            self::query('ROLLBACK TO matomo_atomic');
-            self::query('RELEASE matomo_atomic');
+        } catch (\Throwable $e) {
+            try {
+                self::query('ROLLBACK TO matomo_atomic');
+                self::query('RELEASE matomo_atomic');
+            } catch (\Exception $rollbackError) {
+                // SQLite may have rolled the whole transaction back already (e.g. RAISE(ROLLBACK)):
+                // the original error is the one to report
+            }
             throw $e;
         }
 

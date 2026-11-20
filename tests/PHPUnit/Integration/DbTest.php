@@ -135,6 +135,53 @@ class DbTest extends IntegrationTestCase
         Db::dropTables($table);
     }
 
+    public function testTruncateTableRestartsTheCounterOfTheTableItEmptied()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('A SQLite temporary table hiding a permanent one');
+        }
+
+        $table = Common::prefixTable('truncate_shadow');
+        DbHelper::createTable('truncate_shadow', 'id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id)');
+        Db::query('INSERT INTO main.`' . $table . '` (id) VALUES (100)');
+        Db::query('CREATE TEMP TABLE `' . $table . '` (id INTEGER PRIMARY KEY AUTOINCREMENT)');
+        try {
+            Db::query('INSERT INTO temp.`' . $table . '` (id) VALUES (8)');
+
+            Db::truncateTable($table);
+            Db::query('INSERT INTO temp.`' . $table . '` (id) VALUES (NULL)');
+            Db::query('INSERT INTO main.`' . $table . '` (id) VALUES (NULL)');
+
+            $this->assertEquals(1, Db::fetchOne('SELECT MAX(id) FROM temp.`' . $table . '`'));
+            $this->assertEquals(101, Db::fetchOne('SELECT MAX(id) FROM main.`' . $table . '`'));
+        } finally {
+            Db::query('DROP TABLE temp.`' . $table . '`');
+            Db::query('DROP TABLE main.`' . $table . '`');
+        }
+    }
+
+    public function testTruncateTableReportsTheErrorThatRolledTheTransactionBack()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('A SQLite trigger rolling back the transaction');
+        }
+
+        $table = Common::prefixTable('truncate_cancelled');
+        DbHelper::createTable('truncate_cancelled', 'id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id)');
+        Db::query('INSERT INTO `' . $table . '` (id) VALUES (NULL)');
+        Db::query('CREATE TEMP TRIGGER truncate_cancelled BEFORE DELETE ON `' . $table . "` BEGIN SELECT RAISE(ROLLBACK, 'delete cancelled'); END");
+        try {
+            Db::truncateTable($table);
+            $this->fail('The trigger must cancel the truncation');
+        } catch (\Zend_Db_Statement_Exception $e) {
+            $this->assertStringContainsString('delete cancelled', $e->getMessage());
+        } finally {
+            Db::query('DROP TRIGGER temp.truncate_cancelled');
+            Db::dropTables($table);
+        }
+        $this->assertFalse((bool) Db::get()->getConnection()->inTransaction());
+    }
+
     private function tableExists(string $table): bool
     {
         try {

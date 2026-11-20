@@ -45,9 +45,9 @@ class DefinitionConverterTest extends TestCase
         yield 'decimal' => ['DECIMAL(10,2) NULL DEFAULT NULL', 'REAL DEFAULT NULL'];
         yield 'varchar is case-insensitive' => ["VARCHAR(255) NOT NULL DEFAULT ''", "TEXT NOT NULL DEFAULT '' COLLATE NOCASE"];
         yield 'binary collation stays case-sensitive' => ['VARCHAR(100) COLLATE utf8mb4_bin NOT NULL', "TEXT NOT NULL DEFAULT ('')"];
-        yield 'binary' => ['VARBINARY(8) NOT NULL', "BLOB NOT NULL DEFAULT (X'')"];
-        yield 'fixed binary is zero-padded' => ['BINARY(8) NOT NULL', "BLOB NOT NULL DEFAULT (X'0000000000000000')"];
-        yield 'fixed binary of one byte' => ['BINARY NOT NULL', "BLOB NOT NULL DEFAULT (X'00')"];
+        yield 'binary' => ['VARBINARY(8) NOT NULL', "BLOB NOT NULL DEFAULT ('')"];
+        yield 'fixed binary is zero-padded' => ['BINARY(8) NOT NULL', "BLOB NOT NULL DEFAULT (CAST(X'0000000000000000' AS TEXT))"];
+        yield 'fixed binary of one byte' => ['BINARY NOT NULL', "BLOB NOT NULL DEFAULT (CAST(X'00' AS TEXT))"];
         yield 'datetime' => ['DATETIME NULL', 'TEXT'];
     }
 

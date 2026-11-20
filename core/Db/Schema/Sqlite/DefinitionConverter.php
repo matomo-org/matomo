@@ -510,7 +510,8 @@ final class DefinitionConverter
 
         switch ($mysqlType) {
             case 'binary':
-                return "X'" . str_repeat('00', $length) . "'";
+                // text-typed, as the binary values Matomo binds: a BLOB never equals a bound string
+                return "CAST(X'" . str_repeat('00', $length) . "' AS TEXT)";
             case 'date':
                 return "'0000-00-00'";
             case 'datetime':
@@ -524,7 +525,7 @@ final class DefinitionConverter
             case 'TEXT':
                 return "''";
             case 'BLOB':
-                return "X''";
+                return "''";
             default:
                 return '0';
         }
