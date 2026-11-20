@@ -10,7 +10,11 @@ import Periods from './Periods';
 import { parseDate, todayIsInRange } from './utilities';
 
 export default class QuarterPeriod {
-  constructor(private dateInPeriod: Date) {}
+  private dateInPeriod: Date;
+
+  constructor(dateInPeriod: Date) {
+    this.dateInPeriod = dateInPeriod;
+  }
 
   static parse(strDate: string): QuarterPeriod {
     return new QuarterPeriod(parseDate(strDate));
