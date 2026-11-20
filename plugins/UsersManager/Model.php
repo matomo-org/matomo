@@ -513,7 +513,7 @@ class Model
         // the caller can name the registration date the account is expected to have, so the token is
         // stored for that account rather than for the login alone. with none given, nothing extra binds
         if (null !== $expectedDateRegistered) {
-            $insertSql .= ' AND date_registered <=> ?';
+            $insertSql .= ' AND ' . Schema::getInstance()->getNullSafeEqualSql('date_registered', '?');
             $bind[] = $expectedDateRegistered;
         }
 

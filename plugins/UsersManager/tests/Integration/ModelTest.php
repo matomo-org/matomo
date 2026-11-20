@@ -14,6 +14,7 @@ use Piwik\Access\Role\Write;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -254,10 +255,13 @@ class ModelTest extends IntegrationTestCase
 
     public function testAddTokenAuthThrowsExceptionFailsAddingSameTwice()
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Duplicate entry');
         $this->model->addTokenAuth($this->login, 'token', 'My description', '2020-01-02 03:04:05');
-        $this->model->addTokenAuth($this->login, 'token', 'My duplicate', '2020-01-03 03:04:05');
+        try {
+            $this->model->addTokenAuth($this->login, 'token', 'My duplicate', '2020-01-03 03:04:05');
+            $this->fail('The same token was added twice');
+        } catch (\Zend_Db_Exception $e) {
+            $this->assertTrue(Db::get()->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_DUPLICATE_ENTRY), $e->getMessage());
+        }
     }
 
     public function testAddTokenAuthReturnsId()
@@ -443,9 +447,9 @@ class ModelTest extends IntegrationTestCase
 
             $this->assertNotEmpty($id);
         } finally {
-            Db::exec(
-                'ALTER TABLE `' . $tokenTable . '` ADD COLUMN `access_level` VARCHAR(50) NULL AFTER `secure_only`'
-            );
+            foreach (Schema::getInstance()->getAlterTableSql($tokenTable, ['ADD COLUMN `access_level` VARCHAR(50) NULL AFTER `secure_only`']) as $sql) {
+                Db::exec($sql);
+            }
         }
     }
 

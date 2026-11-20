@@ -543,12 +543,12 @@ class Schema extends Singleton
     private function getConnectionSchema(): SchemaInterface
     {
         $schema = $this->getSchema();
-        if (SettingsServer::isTrackerApiRequest() || Db::hasDatabaseObject()) {
-            $isSqlite = Db\Sqlite\Connection::isSqliteConnection(Db::get());
-        } else {
-            // not connected yet: the connection will follow the configuration, as event subscribers change it
-            $isSqlite = Db\Sqlite\Connection::isSqliteAdapter((string) (Db::getDatabaseConfig()['adapter'] ?? ''));
+        if (!SettingsServer::isTrackerApiRequest() && !Db::hasDatabaseObject()) {
+            // not connected yet: the configured schema, whose engine the configured adapter connects to
+            return $schema;
         }
+
+        $isSqlite = Db\Sqlite\Connection::isSqliteConnection(Db::get());
 
         if ($isSqlite && !$schema instanceof Schema\Sqlite) {
             return $this->getSqliteDialect();
@@ -719,6 +719,22 @@ class Schema extends Singleton
     public function getTruncateTableSql(string $tableName): string
     {
         return $this->getSqlFunctions()->getTruncateTableSql($tableName);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getNullSafeEqualSql()
+     */
+    public function getNullSafeEqualSql(string $left, string $right): string
+    {
+        return $this->getSqlFunctions()->getNullSafeEqualSql($left, $right);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getNoTableSql()
+     */
+    public function getNoTableSql(): string
+    {
+        return $this->getSqlFunctions()->getNoTableSql();
     }
 
     /**

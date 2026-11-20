@@ -1091,6 +1091,16 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
         return 'TRUNCATE TABLE `' . $tableName . '`';
     }
 
+    public function getNullSafeEqualSql(string $left, string $right): string
+    {
+        return $left . ' <=> ' . $right;
+    }
+
+    public function getNoTableSql(): string
+    {
+        return ' FROM DUAL';
+    }
+
     public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
     {
         if (strpbrk($separator, "'\"\\") !== false) {

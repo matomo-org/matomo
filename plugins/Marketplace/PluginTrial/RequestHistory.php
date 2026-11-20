@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Marketplace\PluginTrial;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Updater\Migration;
 
 /**
@@ -52,7 +53,8 @@ class RequestHistory
         }
 
         $requestedAt = Date::factory($requestTime)->getDatetime();
-        $matchesRequest = ' WHERE plugin_name = ? AND ts_requested = ? AND (login <=> ? OR login IS NULL)';
+        $schema = Schema::getInstance();
+        $matchesRequest = ' WHERE plugin_name = ? AND ts_requested = ? AND (' . $schema->getNullSafeEqualSql('login', '?') . ' OR login IS NULL)';
 
         // the INSERT ... SELECT below takes shared next-key locks, which two users' simultaneous requests for a pending
         // plugin would deadlock on, so a plain read first skips it in the usual case of an already recorded request
@@ -69,7 +71,7 @@ class RequestHistory
         }
 
         $this->write(
-            'INSERT INTO ' . $this->getTable() . ' (plugin_name, login, ts_requested) SELECT ?, ?, ? FROM DUAL'
+            'INSERT INTO ' . $this->getTable() . ' (plugin_name, login, ts_requested) SELECT ?, ?, ?' . $schema->getNoTableSql()
             . ' WHERE NOT EXISTS (SELECT 1 FROM ' . $this->getTable() . $matchesRequest . ')',
             [$pluginName, $login, $requestedAt, $pluginName, $requestedAt, $login]
         );

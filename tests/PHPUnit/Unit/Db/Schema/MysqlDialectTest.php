@@ -10,7 +10,6 @@
 namespace Piwik\Tests\Unit\Db\Schema;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\Config;
 use Piwik\Db\Schema;
 use Piwik\Db\Schema\Mariadb;
 use Piwik\Db\Schema\Mysql;
@@ -100,6 +99,8 @@ class MysqlDialectTest extends TestCase
         $this->assertSame(' FOR UPDATE', $mysql->getRowLockSql());
         $this->assertSame(' LOCK IN SHARE MODE', $mysql->getRowLockSql(false));
         $this->assertSame('TRUNCATE TABLE `matomo_session`', $mysql->getTruncateTableSql('matomo_session'));
+        $this->assertSame('login <=> ?', $mysql->getNullSafeEqualSql('login', '?'));
+        $this->assertSame(' FROM DUAL', $mysql->getNoTableSql());
 
         $this->expectException(\InvalidArgumentException::class);
         $mysql->getGreatestSql('a');
@@ -137,13 +138,12 @@ class MysqlDialectTest extends TestCase
         $this->assertSame('INSERT OR IGNORE', $this->facadeWith($schema)->getInsertIgnoreSql());
     }
 
-    public function testBeforeConnectingTheFacadeFollowsTheConfiguredAdapterNotTheSchema(): void
+    public function testBeforeConnectingTheFacadeFollowsTheConfiguredSchema(): void
     {
         $this->assertFalse(\Piwik\Db::hasDatabaseObject());
-        $facade = $this->facadeWith(new \Piwik\Db\Schema\Sqlite());
 
-        $this->assertSame('HOUR(x)', $facade->getHourSql('x'));
-        $this->assertSame('INSERT IGNORE', $facade->getInsertIgnoreSql());
+        $this->assertSame('HOUR(x)', $this->facadeWith(new Mysql())->getHourSql('x'));
+        $this->assertSame("CAST(strftime('%H', x) AS INTEGER)", $this->facadeWith(new \Piwik\Db\Schema\Sqlite())->getHourSql('x'));
     }
 
     public function testFacadeFallsBackToMysqlForASchemaWithoutDialect(): void
@@ -161,25 +161,8 @@ class MysqlDialectTest extends TestCase
     /**
      * Returns a facade instance configured with the given schema, leaving the shared singleton untouched.
      */
-    /**
-     * @var array|null
-     */
-    private $databaseConfig;
-
-    public function tearDown(): void
-    {
-        if ($this->databaseConfig !== null) {
-            Config::getInstance()->database = $this->databaseConfig;
-        }
-        parent::tearDown();
-    }
-
     private function facadeWith(SchemaInterface $schema): Schema
     {
-        // not connected: the facade follows the configured adapter
-        $this->databaseConfig = Config::getInstance()->database;
-        Config::getInstance()->database = array_merge($this->databaseConfig, ['adapter' => 'PDO\MYSQL']);
-
         $facade = (new \ReflectionClass(Schema::class))->newInstanceWithoutConstructor();
         (new \ReflectionProperty(Schema::class, 'schema'))->setValue($facade, $schema);
 

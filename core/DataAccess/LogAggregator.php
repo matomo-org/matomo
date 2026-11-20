@@ -874,8 +874,8 @@ class LogAggregator
             }
 
             if ($this->isFieldFunctionOrComplexExpression($field)) {
-                // if complex expression has a select as, use it
-                if (preg_match('/\s+AS\s+(.*?)\s*$/', $field, $matches)) {
+                // if complex expression has a select as, use it: the last one, as CAST(x AS type) has one too
+                if (preg_match('/\s+AS\s+(`[^`]+`|\w+)\s*$/', $field, $matches)) {
                     $orderByDimensions[] = $matches[1];
                     continue;
                 }

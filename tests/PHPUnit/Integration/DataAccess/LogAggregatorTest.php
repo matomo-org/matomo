@@ -173,6 +173,12 @@ class LogAggregatorTest extends IntegrationTestCase
             'log_conversion',
             ['alias', 'log_conversion.mycolumn', 'newalias'],
         ];
+
+        yield 'expression with a cast and its own alias' => [
+            ['CASE WHEN CAST(log_visit.visitor_localtime AS UNSIGNED) <= 11 THEN 1 ELSE 0 END AS label'],
+            'log_visit',
+            ['label'],
+        ];
     }
 
     public function testGenerateQuery()
@@ -422,6 +428,10 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function testGenerateQuerySwitchesSupportsUncommittedToTrueWhenSupports()
     {
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            $this->markTestSkipped('MySQL isolation levels for non-locking reads');
+        }
+
         $segment = new Segment('userId==1111', array($this->site->getId()));
 
         $params = new Parameters($this->site, $this->period, $segment);

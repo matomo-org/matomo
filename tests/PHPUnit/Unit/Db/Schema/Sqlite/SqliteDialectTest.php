@@ -137,6 +137,16 @@ class SqliteDialectTest extends TestCase
         $this->assertSame(2, $count($this->schema->getHourSql('d') . ' >= ?', '7'));
     }
 
+    public function testNullSafeEqualityAndSelectWithoutTable(): void
+    {
+        $sql = 'SELECT ' . $this->schema->getNullSafeEqualSql('?', '?') . $this->schema->getNoTableSql() . ' WHERE 1 = 1';
+        $statement = $this->pdo->prepare($sql);
+        foreach ([[null, null, 1], [null, 'a', 0], ['a', 'a', 1], ['a', 'b', 0]] as [$left, $right, $expected]) {
+            $statement->execute([$left, $right]);
+            $this->assertSame($expected, (int) $statement->fetchColumn());
+        }
+    }
+
     public function testRowLocksAndTruncate(): void
     {
         $this->assertSame('', $this->schema->getRowLockSql());

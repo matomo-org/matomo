@@ -40,6 +40,10 @@ class PageViewTimeWriterLockingTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('InnoDB row and gap locks; a SQLite writer locks the whole database');
+        }
+
         if (!function_exists('mysqli_poll')) {
             $this->markTestSkipped('The second worker needs mysqli with mysqlnd for its async query');
         }

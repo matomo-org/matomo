@@ -595,6 +595,10 @@ class PageViewTimeWriterTest extends IntegrationTestCase
 
     public function testTheFirstHitOfANewVisitDoesNotLookForARowToUpdate()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Counts statements with a MySQL status variable');
+        }
+
         // Only a visit's first hit is flagged as new, and that visit has no earlier row, so it
         // should not spend a query looking for one. Each hit below starts its own visit.
         $pageView = $this->createMock(Action::class);
@@ -664,7 +668,7 @@ class PageViewTimeWriterTest extends IntegrationTestCase
 
         // Renamed before the transaction starts: DDL inside one would commit it.
         $table = Common::prefixTable('log_page_view_time');
-        Db::exec("RENAME TABLE `$table` TO `{$table}_moved`");
+        Db::exec("ALTER TABLE `$table` RENAME TO `{$table}_moved`");
 
         return (int) Db::fetchOne('SELECT idvisit FROM ' . Common::prefixTable('log_visit'));
     }
@@ -673,7 +677,7 @@ class PageViewTimeWriterTest extends IntegrationTestCase
     {
         Tracker::disconnectCachedDbConnection();
         $table = Common::prefixTable('log_page_view_time');
-        Db::exec("RENAME TABLE `{$table}_moved` TO `$table`");
+        Db::exec("ALTER TABLE `{$table}_moved` RENAME TO `$table`");
     }
 
     private function makeRequest(string $pvId, int $secondsAfterBase, bool $isNewVisit = false): Request

@@ -90,4 +90,15 @@ interface SqlFunctionsInterface
      * Returns the statement removing every row of a table.
      */
     public function getTruncateTableSql(string $tableName): string;
+
+    /**
+     * Returns a comparison that is true when both values are equal or both are NULL, as MySQL's `<=>`.
+     */
+    public function getNullSafeEqualSql(string $left, string $right): string;
+
+    /**
+     * Returns what follows the column list of a `SELECT` that reads no table but has a `WHERE`: empty, or
+     * starting with a space, e.g. ` FROM DUAL`.
+     */
+    public function getNoTableSql(): string;
 }

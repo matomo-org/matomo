@@ -46,5 +46,9 @@ class TimeSegmentSqlTest extends IntegrationTestCase
         $dimension = new VisitLastActionDayOfWeek();
         $dimension->setSqlSegment('log_visit.visitor_count_visits');
         $this->assertSame('log_visit.visitor_count_visits', $dimension->getSqlSegment());
+
+        // an emptied segment falls back to the column, as for any dimension
+        $dimension->setSqlSegment('');
+        $this->assertSame('log_visit.visit_last_action_time', $dimension->getSqlSegment());
     }
 }

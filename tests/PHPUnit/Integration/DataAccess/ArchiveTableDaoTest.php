@@ -238,11 +238,11 @@ class ArchiveTableDaoTest extends IntegrationTestCase
 
         $actualStats = $this->archiveTableDao->getArchiveTableAnalysis($tableMonth);
 
-        // the type of the "count_blob_rows" column depends on the used PHP
-        // version and database adapter, so we cast it to string first to
-        // have assertSame always give the result we expect
+        // the type of the counts depends on the used PHP version and database
+        // adapter, so we cast them to string first to have assertSame always
+        // give the result we expect
         foreach ($actualStats as &$actualStat) {
-            $actualStat['count_blob_rows'] = (string) $actualStat['count_blob_rows'];
+            $actualStat = array_map('strval', $actualStat);
         }
 
         // assertSame ensure array keys have the same internal order,

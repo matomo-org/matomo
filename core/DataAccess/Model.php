@@ -169,12 +169,12 @@ class Model
 
                 if ($period->getLabel() == 'range') { // for ranges, we delete all ranges that contain the given date(s)
                     $periodCondition .= "(period = " . (int)$period->getId()
-                        . " AND date2 >= '" . $period->getDateStart()->toString()
-                        . "' AND date1 <= '" . $period->getDateEnd()->toString() . "')";
+                        . " AND date2 >= '" . self::getDateComparisonValue($period->getDateStart())
+                        . "' AND date1 <= '" . self::getDateComparisonValue($period->getDateEnd()) . "')";
                 } else {
                     $periodCondition .= "(period = " . (int)$period->getId()
-                        . " AND date1 = '" . $period->getDateStart()->toString() . "'"
-                        . " AND date2 = '" . $period->getDateEnd()->toString() . "')";
+                        . " AND date1 = '" . self::getDateComparisonValue($period->getDateStart()) . "'"
+                        . " AND date2 = '" . self::getDateComparisonValue($period->getDateEnd()) . "')";
                 }
             }
             $periodCondition .= ")";
@@ -390,8 +390,8 @@ class Model
                 $dateConditions = array();
 
                 $dateConditions[] = "(date1 <= ? AND ? <= date2)";
-                $bind[] = $period->getDateStart()->toString();
-                $bind[] = $period->getDateEnd()->toString();
+                $bind[] = self::getDateComparisonValue($period->getDateStart());
+                $bind[] = self::getDateComparisonValue($period->getDateEnd());
 
                 $dateConditionsSql = implode(" OR ", $dateConditions);
                 $periodConditions[] = "(period = 5 AND ($dateConditionsSql))";
@@ -527,7 +527,7 @@ class Model
 
         $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived <= ? AND idarchive < ?";
 
-        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->toString(), $dateEnd->toString(), $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
+        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), self::getDateComparisonValue($dateStart), self::getDateComparisonValue($dateEnd), $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
         $idArchives = array_column($idArchives, 'idarchive');
         if (empty($idArchives)) {
             return;
@@ -1093,7 +1093,7 @@ class Model
                   FROM `$archiveTable`
                  WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` IN (" . implode(', ', $usableDoneFlags) . ")
                  LIMIT 1";
-            $bind = [$idSite, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), $period->getId()];
+            $bind = [$idSite, self::getDateComparisonValue($period->getDateStart()), self::getDateComparisonValue($period->getDateEnd()), $period->getId()];
 
             $result = (bool) Db::fetchOne($sql, $bind);
             if ($result) {
@@ -1388,5 +1388,17 @@ class Model
             }
         }
         return false;
+    }
+
+    /**
+     * The value to compare a DATE column with: the date and time, as MySQL compares a DATE column with
+     * it (at midnight), or just the date when the time is midnight, so that the comparison of the text a
+     * SQLite DATE column holds gives the same result for every operator.
+     */
+    private static function getDateComparisonValue(Date $date): string
+    {
+        $datetime = $date->getDatetime();
+
+        return substr($datetime, 11) === '00:00:00' ? substr($datetime, 0, 10) : $datetime;
     }
 }

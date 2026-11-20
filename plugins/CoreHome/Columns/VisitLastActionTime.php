@@ -35,6 +35,7 @@ class VisitLastActionTime extends VisitDimension
     protected $columnName = 'visit_last_action_time';
     protected $type = self::TYPE_DATETIME;
     protected $nameSingular = 'VisitTime_ColumnVisitEndSiteHour';
+    protected $sqlSegment = 'HOUR(log_visit.visit_last_action_time)';
     protected $segmentName = 'visitServerHour';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
 
@@ -69,8 +70,12 @@ class VisitLastActionTime extends VisitDimension
 
     public function getSqlSegment()
     {
-        // spelled by the database in use, so built when asked for, unless a subclass or setSqlSegment() set one
-        return empty($this->sqlSegment) ? Schema::getInstance()->getHourSql('log_visit.visit_last_action_time') : $this->sqlSegment;
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, is spelled by the database in use
+        if ($this->sqlSegment === 'HOUR(log_visit.visit_last_action_time)') {
+            return Schema::getInstance()->getHourSql('log_visit.visit_last_action_time');
+        }
+
+        return parent::getSqlSegment();
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)
