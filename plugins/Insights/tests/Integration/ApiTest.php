@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Insights\tests\Integration;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Cache as PiwikCache;
 use Piwik\DataTable;
+use Piwik\Http\BadRequestException;
 use Piwik\Plugins\Insights\API;
 use Piwik\Plugins\Insights\tests\Fixtures\SomeVisitsDifferentPathsOnTwoDays;
 use Piwik\Tests\Framework\Fixture;
@@ -139,6 +140,78 @@ class ApiTest extends SystemTestCase
         $metadata = $insights->getAllTableMetadata();
 
         $this->assertEquals('2010-12-11', $metadata['lastDate']);
+    }
+
+    public function testGetInsightsShouldCompareWithTheGivenDateInsteadOfGoingBackInPast()
+    {
+        $insights = $this->requestInsights(['comparedToXPeriods' => 3, 'comparedToDate' => self::$fixture->date2]);
+
+        $this->assertEquals(self::$fixture->date2, $insights->getMetadata('lastDate'));
+        $this->assertEquals(59, $insights->getMetadata('lastTotalValue'));
+    }
+
+    public function testGetInsightsShouldListEveryRowAsNewWhenTheGivenDateHasNoVisit()
+    {
+        $insights = $this->requestInsights([
+            'comparedToDate' => '2009-12-14',
+            'minImpactPercent' => 0,
+            'minGrowthPercent' => 0,
+        ]);
+
+        $this->assertEquals('2009-12-14', $insights->getMetadata('lastDate'));
+        $this->assertEquals(0, $insights->getMetadata('lastTotalValue'));
+        $this->assertGreaterThan(0, $insights->getRowsCount());
+        $this->assertEquals([1], array_values(array_unique($insights->getColumn('isNew'))));
+    }
+
+    public function testGetInsightsShouldCompareARangeWithTheGivenRangeOfTheSameLength()
+    {
+        $insights = $this->requestInsights([
+            'period' => 'range',
+            'date' => '2010-12-14,2010-12-15',
+            'comparedToDate' => '2010-12-12,2010-12-13',
+        ]);
+
+        $this->assertEquals('2010-12-12,2010-12-13', $insights->getMetadata('lastDate'));
+        $this->assertEquals(59, $insights->getMetadata('lastTotalValue'));
+    }
+
+    public function testGetInsightsShouldGoBackInPastWhenTheGivenDateIsBlank()
+    {
+        $insights = $this->requestInsights(['comparedToDate' => ' ']);
+
+        $this->assertEquals(self::$fixture->date2, $insights->getMetadata('lastDate'));
+    }
+
+    /**
+     * @dataProvider getDatesNotComparable
+     */
+    public function testGetInsightsShouldRefuseADateItCannotCompareWith(array $params)
+    {
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage('The comparedToDate parameter must be a single date of the same period type');
+
+        // Called directly: in tests, the API request layer rethrows every error as a plain exception
+        $this->api->getInsights(
+            idSite: self::$fixture->idSite,
+            period: $params['period'] ?? 'day',
+            date: $params['date'] ?? self::$fixture->date1,
+            reportUniqueId: 'Actions_getPageUrls',
+            comparedToDate: $params['comparedToDate']
+        );
+    }
+
+    public function getDatesNotComparable(): array
+    {
+        return [
+            'a date range for a single period type' => [['comparedToDate' => '2010-12-12,2010-12-13']],
+            'several periods' => [['comparedToDate' => 'last7']],
+            'a range of another length' => [[
+                'period' => 'range',
+                'date' => '2010-12-13,2010-12-14',
+                'comparedToDate' => '2010-12-10,2010-12-12',
+            ]],
+        ];
     }
 
     public function testGetInsightsShouldGoBackInPastDependingOnPeriod()
