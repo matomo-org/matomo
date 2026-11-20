@@ -247,10 +247,14 @@ function stripTags(text?: unknown) {
 
 const { $ } = window;
 
+// the segments the GDPR tools search by that identify a visitor
+const DATA_SUBJECT_IDENTIFIER_SEGMENTS = ['userId', 'visitorId', 'visitId', 'visitIp'];
+
 export default defineComponent({
   props: {
     addInitialCondition: Boolean,
     visitSegmentsOnly: Boolean,
+    forDataSubjectSearch: Boolean,
     idsite: {
       type: [String, Number],
       default: () => Matomo.idSite,
@@ -294,7 +298,7 @@ export default defineComponent({
       }
     },
     idsite(newVal) {
-      this.reloadSegments(newVal, this.visitSegmentsOnly);
+      this.reloadSegments(newVal, this.visitSegmentsOnly, this.forDataSubjectSearch);
     },
   },
   created() {
@@ -302,11 +306,19 @@ export default defineComponent({
     this.setSegmentString(this.modelValue);
     this.segmentDefinition = this.modelValue;
 
-    this.reloadSegments(this.idsite, this.visitSegmentsOnly);
+    this.reloadSegments(this.idsite, this.visitSegmentsOnly, this.forDataSubjectSearch);
   },
   methods: {
-    reloadSegments(idsite?: string|number, visitSegmentsOnly?: boolean) {
-      SegmentGeneratorStore.loadSegments(idsite, visitSegmentsOnly).then((segments) => {
+    reloadSegments(
+      idsite?: string|number,
+      visitSegmentsOnly?: boolean,
+      forDataSubjectSearch?: boolean,
+    ) {
+      SegmentGeneratorStore.loadSegments(
+        idsite,
+        visitSegmentsOnly,
+        forDataSubjectSearch,
+      ).then((segments) => {
         this.queriedSegments = segments.map((s) => ({
           ...s,
           category: s.category || 'Others',
@@ -350,13 +362,24 @@ export default defineComponent({
       this.focusValueInput(orCondition);
     },
     updateAutocomplete(orCondition: SegmentOrCondition) {
-      this.conditionValuesLoading[orCondition.id!] = true;
-
       $(`.orCondId${orCondition.id} .metricValueBlock input`, this.$refs.root as HTMLElement)
         .autocomplete({
           source: [],
           minLength: 0,
         });
+
+      // The GDPR tools can search by the segments that identify a visitor where a compliance
+      // policy removes them elsewhere, so no values can be suggested for them there, and they
+      // should not be: suggestions would come from every visit, consented or not.
+      if (
+        this.forDataSubjectSearch
+        && DATA_SUBJECT_IDENTIFIER_SEGMENTS.includes(orCondition.segment)
+      ) {
+        this.conditionValuesLoading[orCondition.id!] = false;
+        return;
+      }
+
+      this.conditionValuesLoading[orCondition.id!] = true;
 
       const abortController = new AbortController();
 

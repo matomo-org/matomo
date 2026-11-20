@@ -88,7 +88,7 @@ class SegmentSelectorControl extends UIControl
         );
         $this->isBrowserArchivingEnabled = Rules::isBrowserTriggerEnabled();
 
-        $this->isVisitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogEnabled($this->idSite);
+        $this->isVisitorLogEnabled = Manager::getInstance()->isPluginActivated('Live') && Live::isVisitorLogAvailable($this->idSite);
     }
 
     public function getClientSideProperties()
