@@ -81,7 +81,6 @@
         "NoDataCloudflareInstructions3": "Knyt Worker-en til sona eller ruta di, slik at han køyrer saman med førespurnadene.",
         "NoDataCloudflareInstructions4": "Kontroller oppsettet ved å sjekke at treff frå KI-chatbotar blir viste i sporingsrapportane.",
         "NoDataHttpTrackingApi": "HTTP-sporings-API",
-        "NoDataHttpTrackingApiDescription": "Med HTTP-sporings-API-et kan du spore førespurnader frå KI-chatbotar direkte når du treng ein eigendefinert integrasjon. Byrj med %1$skunnskapsbasen for sporings-API-et%2$s, og bruk %3$sreferansen for HTTP-sporings-API-et%4$s for dei nyaste parameterane og åtferda for botsporing.",
         "NoDataLinkKnowledgeBase": "Dokumentasjon: %1$sMatomo-kunnskapsbasen%2$s",
         "NoDataLinkSourceCode": "Kjeldekode: %1$sGitHub-repositoriet%2$s",
         "NoDataMissingOneContactUs": "Saknar du ein? Kontakt oss",
