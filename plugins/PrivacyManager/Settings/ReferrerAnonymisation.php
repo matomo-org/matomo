@@ -67,9 +67,9 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
     public static function getWhatItDoes(?int $idSite = null): string
     {
         // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+        // does. It is off by default, and where it is not turned on every visitor is treated the
+        // same, so the plain wording is what is true there.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
             return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingWhatItDoesConsentAware');
         }
 
@@ -79,9 +79,9 @@ class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonI
     public static function getImpact(?int $idSite = null): string
     {
         // the consent-aware wording describes what a site measuring consent-aware analytics
-        // does. It is off by default, and a site that has not opted in treats every visitor the
-        // same, so the plain wording is what is true there
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+        // does. It is off by default, and where it is not turned on every visitor is treated the
+        // same, so the plain wording is what is true there.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
             return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingImpactConsentAware');
         }
 
