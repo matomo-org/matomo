@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\DebugView\Dao\RawRequestLog;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -95,7 +96,7 @@ class Updates610b3Test extends IntegrationTestCase
 
         self::assertFalse($manager->isPluginActivated('DebugView'));
         self::assertFalse($manager->isPluginInstalled('DebugView'));
-        self::assertFalse(Db::fetchOne('SHOW TABLES LIKE ?', [$this->table]));
+        self::assertFalse(DbHelper::tableExists($this->table));
     }
 
     private function getSchema(): string
