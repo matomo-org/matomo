@@ -574,6 +574,14 @@ class Db implements TransactionalDatabaseInterface
             $tablesToWrite = array($tablesToWrite);
         }
 
+        if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            // SQLite locks the database, not tables: the write lock blocks every other writer until
+            // unlockAllTables(), while readers still read
+            self::query('BEGIN IMMEDIATE');
+            self::$sqliteTablesLocked = true;
+            return 0;
+        }
+
         $lockExprs = array();
         foreach ($tablesToWrite as $table) {
             $lockExprs[] = $table . " WRITE";
@@ -596,6 +604,16 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function unlockAllTables()
     {
+        if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            // as UNLOCK TABLES, nothing to do when lockTables() locked nothing
+            if (!self::$sqliteTablesLocked) {
+                return 0;
+            }
+            self::$sqliteTablesLocked = false;
+            self::query('COMMIT');
+            return 0;
+        }
+
         return self::exec("UNLOCK TABLES");
     }
 
@@ -821,6 +839,13 @@ class Db implements TransactionalDatabaseInterface
      * @ignore
      */
     public static $lockPrivilegeGranted = null;
+
+    /**
+     * Whether lockTables() holds the SQLite write lock.
+     *
+     * @var bool
+     */
+    private static $sqliteTablesLocked = false;
 
     /**
      * Checks whether the database user is allowed to lock tables.

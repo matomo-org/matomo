@@ -230,7 +230,13 @@ class DataSubjects
                 $tblFrom = $this->makeFromStatement($from);
 
                 // You cannot use ORDER BY or LIMIT in a multiple-table DELETE. We have to delete it all at once
-                $sql = "DELETE $logTableName FROM $tblFrom WHERE $where";
+                if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+                    // SQLite has no multiple-table DELETE: the same rows, by rowid
+                    $sql = 'DELETE FROM ' . Common::prefixTable($logTableName)
+                        . " WHERE rowid IN (SELECT $logTableName.rowid FROM $tblFrom WHERE $where)";
+                } else {
+                    $sql = "DELETE $logTableName FROM $tblFrom WHERE $where";
+                }
                 $result = Db::query($sql, $bind)->rowCount();
             }
 
@@ -343,7 +349,8 @@ class DataSubjects
                         break;
                     }
                 }
-                if (!empty($config['Type']) && str_contains(strtolower($config['Type']), 'binary')) {
+                // binary(n) and varbinary(n), or blob as SQLite stores them
+                if (!empty($config['Type']) && preg_match('/binary|blob/', strtolower($config['Type']))) {
                     $binaryFields[] = $col;
                 }
                 $select[] = sprintf('`%s`.`%s`', $logTableName, $col);

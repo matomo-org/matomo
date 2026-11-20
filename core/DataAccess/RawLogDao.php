@@ -334,17 +334,16 @@ class RawLogDao
 
     private function createTempTableForStoringUsedActions()
     {
-        $sql = "CREATE TEMPORARY TABLE " . Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME) . " (
-					idaction INTEGER(10) UNSIGNED NOT NULL,
-					PRIMARY KEY (idaction)
-				)";
+        $sql = Schema::getInstance()->getCreateTemporaryTableSql(
+            Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME),
+            'idaction INTEGER(10) UNSIGNED NOT NULL, PRIMARY KEY (idaction)'
+        );
         Db::query($sql);
     }
 
     private function dropTempTableForStoringUsedActions()
     {
-        $sql = "DROP TABLE " . Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
-        Db::query($sql);
+        Db::query(Schema::getInstance()->getDropTemporaryTableSql(Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME)));
     }
 
     // protected for testing purposes
@@ -388,6 +387,10 @@ class RawLogDao
                     }
                 }
 
+                if (empty($keepValues)) {
+                    continue;
+                }
+
                 $insert = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $tempTableName . ' VALUES (';
                 $insert .= implode('),(', $keepValues);
                 $insert .= ')';
@@ -417,6 +420,13 @@ class RawLogDao
     private function deleteUnusedActions()
     {
         [$logActionTable, $tempTableName] = Common::prefixTables("log_action", self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
+
+        if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+            // SQLite has no multiple-table DELETE: the same rows, with an anti-join
+            Db::query("DELETE FROM `$logActionTable`
+                        WHERE NOT EXISTS (SELECT 1 FROM `$tempTableName` tmp WHERE tmp.idaction = `$logActionTable`.idaction)");
+            return;
+        }
 
         $deleteSql = "DELETE LOW_PRIORITY QUICK IGNORE `$logActionTable`
 						FROM `$logActionTable`

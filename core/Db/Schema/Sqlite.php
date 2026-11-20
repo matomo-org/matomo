@@ -261,7 +261,12 @@ class Sqlite extends Mysql
     public function getTableColumns($tableName)
     {
         $columns = Db::fetchAll('PRAGMA table_info(`' . str_replace('`', '', $tableName) . '`)');
+        if (empty($columns)) {
+            // a missing table fails, as MySQL's SHOW COLUMNS does ("no such table")
+            Db::query('SELECT * FROM `' . str_replace('`', '', $tableName) . '` LIMIT 0');
+        }
         $isAutoIncrement = $this->hasAutoIncrement($tableName);
+        $definitions = $this->getColumnDefinitions($tableName);
 
         // the keys of MySQL's SHOW COLUMNS
         $fields = [];
@@ -272,12 +277,29 @@ class Sqlite extends Mysql
                 'Type'    => strtolower($column['type']),
                 'Null'    => $column['notnull'] || $isPrimaryKey ? 'NO' : 'YES',
                 'Key'     => $isPrimaryKey ? 'PRI' : '',
-                'Default' => $column['dflt_value'],
+                'Default' => self::getColumnDefaultValue($column['dflt_value'], $definitions[strtolower($column['name'])] ?? ''),
                 'Extra'   => $isPrimaryKey && $isAutoIncrement ? 'auto_increment' : '',
             ];
         }
 
         return $fields;
+    }
+
+    /**
+     * A column default as MySQL's SHOW COLUMNS gives it: the value itself, or null when the column has
+     * no default of its own (a parenthesized default, which PRAGMA table_info reads without its
+     * parentheses, is the implicit one the converter adds).
+     */
+    private static function getColumnDefaultValue(?string $default, string $definition): ?string
+    {
+        if ($default === null || strcasecmp($default, 'NULL') === 0 || preg_match('/\bDEFAULT\s*\(/i', $definition)) {
+            return null;
+        }
+        if (preg_match("/^'(.*)'$/s", $default, $matches)) {
+            return str_replace("''", "'", $matches[1]);
+        }
+
+        return $default;
     }
 
     public function getTablesInstalled($forceReload = true)

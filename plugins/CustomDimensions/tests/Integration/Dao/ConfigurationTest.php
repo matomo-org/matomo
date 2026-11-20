@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CustomDimensions\tests\Integration\Dao;
 
 use Piwik\Common;
 use Piwik\DbHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Zend_Db_Statement_Exception;
@@ -85,7 +86,7 @@ class ConfigurationTest extends IntegrationTestCase
     public function testConfigureNewDimensionShouldNotBePossibleToAssignSameIndexForSameScopeAndIdSiteTwice()
     {
         $this->expectException(\Zend_Db_Statement_Exception::class);
-        $this->expectExceptionMessage('Duplicate');
+        $this->expectExceptionMessage(Fixture::isSqlite() ? 'UNIQUE constraint failed' : 'Duplicate');
 
         $this->configureNewDimension();
         $this->configureNewDimension();

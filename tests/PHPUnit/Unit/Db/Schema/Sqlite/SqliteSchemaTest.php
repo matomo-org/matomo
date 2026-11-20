@@ -74,6 +74,15 @@ class SqliteSchemaTest extends TestCase
         parent::tearDown();
     }
 
+    public function testColumnDefaultsReadAsMysqlShowsThem(): void
+    {
+        $this->schema->createTable('t', "a INT NOT NULL, b INT NOT NULL DEFAULT 5, c VARCHAR(10) NOT NULL DEFAULT 'it''s', d VARCHAR(10) NULL, e VARCHAR(10) NOT NULL DEFAULT '', f DATETIME NULL DEFAULT NULL");
+
+        $defaults = array_column($this->schema->getTableColumns('matomo_t'), 'Default', 'Field');
+        // no default of its own (the implicit one stays internal) reads null, as on MySQL
+        $this->assertSame(['a' => null, 'b' => '5', 'c' => "it's", 'd' => null, 'e' => '', 'f' => null], $defaults);
+    }
+
     public function testCreateTableLeavesAnExistingTableAsItIs(): void
     {
         $this->schema->createTable('t', 'id INT NOT NULL, PRIMARY KEY (id)');
@@ -252,6 +261,13 @@ class SqliteSchemaTest extends TestCase
 
         $this->assertTrue($this->schema->tableHasIndex('matomo_t', 'label'));
         $this->assertSame(['id', 'label'], array_keys($this->schema->getTableColumns('matomo_t')));
+    }
+
+    public function testColumnsOfAMissingTableFailAsOnMysql(): void
+    {
+        $this->expectException(\Zend_Db_Statement_Exception::class);
+        $this->expectExceptionMessage('no such table: matomo_missing');
+        $this->schema->getTableColumns('matomo_missing');
     }
 
     public function testFailedAlterIsAtomicWhateverTheConfigurationFileSays(): void
