@@ -486,6 +486,16 @@ class Db implements TransactionalDatabaseInterface
             $tables = array($tables);
         }
 
+        if (count($tables) > 1 && Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            // SQLite drops one table per statement
+            $result = null;
+            foreach ($tables as $table) {
+                $result = self::query("DROP TABLE `" . $table . "`");
+            }
+
+            return $result;
+        }
+
         return self::query("DROP TABLE `" . implode('`,`', $tables) . "`");
     }
 

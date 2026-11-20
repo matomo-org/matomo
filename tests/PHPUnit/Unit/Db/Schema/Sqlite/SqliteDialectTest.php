@@ -145,6 +145,12 @@ class SqliteDialectTest extends TestCase
             $statement->execute([$left, $right]);
             $this->assertSame($expected, (int) $statement->fetchColumn());
         }
+
+        // as MySQL's 2 <=> TRUE, a boolean literal is the value 1, not a truth test
+        foreach ([['2', 'TRUE', 0], ['1', 'TRUE', 1], ['0', 'FALSE', 1], ['2', 'FALSE', 0], ['NULL', 'FALSE', 0]] as [$left, $right, $expected]) {
+            $value = $this->pdo->query('SELECT ' . $this->schema->getNullSafeEqualSql($left, $right))->fetchColumn();
+            $this->assertSame($expected, (int) $value, $left . ' <=> ' . $right);
+        }
     }
 
     public function testRowLocksAndTruncate(): void

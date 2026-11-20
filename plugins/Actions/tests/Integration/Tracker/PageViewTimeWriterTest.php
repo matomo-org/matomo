@@ -595,10 +595,6 @@ class PageViewTimeWriterTest extends IntegrationTestCase
 
     public function testTheFirstHitOfANewVisitDoesNotLookForARowToUpdate()
     {
-        if (Fixture::isSqlite()) {
-            $this->markTestSkipped('Counts statements with a MySQL status variable');
-        }
-
         // Only a visit's first hit is flagged as new, and that visit has no earlier row, so it
         // should not spend a query looking for one. Each hit below starts its own visit.
         $pageView = $this->createMock(Action::class);
@@ -615,10 +611,14 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $writer->write($pageView, new VisitProperties(['idvisit' => 1]), $this->makeRequest('aaaaaa', 0, isNewVisit: true));
         $writer->write($event, new VisitProperties(['idvisit' => 2]), $this->makeRequest('', 0, isNewVisit: true));
         $writer->write($event, new VisitProperties(['idvisit' => 3]), $this->makeRequest('bbbbbb', 0, isNewVisit: true));
-        $this->assertSame(0, $this->countTrackerSelects() - $selectsBefore, 'The first hit of a new visit queries nothing');
+        if ($selectsBefore !== null) {
+            $this->assertSame(0, $this->countTrackerSelects() - $selectsBefore, 'The first hit of a new visit queries nothing');
+        }
 
         $writer->write($event, new VisitProperties(['idvisit' => 1]), $this->makeRequest('', 20));
-        $this->assertSame(1, $this->countTrackerSelects() - $selectsBefore, 'A later hit still closes the previous pageview');
+        if ($selectsBefore !== null) {
+            $this->assertSame(1, $this->countTrackerSelects() - $selectsBefore, 'A later hit still closes the previous pageview');
+        }
         $this->assertSame(20, (int) $this->fetchRowsByPvId()['aaaaaa']['time_spent']);
     }
 
@@ -688,8 +688,15 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         return $request;
     }
 
-    private function countTrackerSelects(): int
+    /**
+     * The statement counter is a MySQL status variable; SQLite has none, so the counts are not checked there.
+     */
+    private function countTrackerSelects(): ?int
     {
+        if (Fixture::isSqlite()) {
+            return null;
+        }
+
         return (int) Tracker::getDatabase()->fetchRow("SHOW SESSION STATUS LIKE 'Com_select'")['Value'];
     }
 

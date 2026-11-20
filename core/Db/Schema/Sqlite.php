@@ -453,7 +453,9 @@ class Sqlite extends Mysql
 
     public function getNullSafeEqualSql(string $left, string $right): string
     {
-        return $left . ' IS ' . $right;
+        // SQLite reads `x IS TRUE` as a truth test even in parentheses; the no-op unary plus keeps
+        // a boolean literal the value 1, as in MySQL's `x <=> TRUE`
+        return '(' . $left . ') IS +(' . $right . ')';
     }
 
     public function getNoTableSql(): string

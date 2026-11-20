@@ -179,6 +179,12 @@ class LogAggregatorTest extends IntegrationTestCase
             'log_visit',
             ['label'],
         ];
+
+        yield 'aliases MySQL accepts unquoted or with an escaped backtick' => [
+            ['LOWER(log_visit.config_os) AS os$family', 'LOWER(log_visit.config_os) AS café', 'LOWER(log_visit.config_os) AS `os``family`'],
+            'log_visit',
+            ['os$family', 'café', '`os``family`'],
+        ];
     }
 
     public function testGenerateQuery()
