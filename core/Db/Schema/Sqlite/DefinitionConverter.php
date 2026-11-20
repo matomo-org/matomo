@@ -478,8 +478,9 @@ final class DefinitionConverter
             'integerCheck' => false,
             'type' => $sqlType,
             // BINARY(n) and VARBINARY(n) keep their length, so they read back apart from the blob types
-            'declaredType' => $sqlType === 'BLOB' && in_array($type, ['binary', 'varbinary'], true) && ($matches[2] ?? '') !== ''
-                ? 'BLOB(' . (int) $matches[2] . ')'
+            // (a bare BINARY is BINARY(1))
+            'declaredType' => $sqlType === 'BLOB' && in_array($type, ['binary', 'varbinary'], true)
+                ? 'BLOB(' . (($matches[2] ?? '') !== '' ? (int) $matches[2] : 1) . ')'
                 : $sqlType,
             'notNull' => $notNull === true,
             'default' => $default,

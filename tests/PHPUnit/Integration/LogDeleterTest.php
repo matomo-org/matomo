@@ -68,6 +68,50 @@ class LogDeleterTest extends IntegrationTestCase
         $this->assertSame(0, (int) Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'unused'"));
     }
 
+    public function testAPurgeFailingHalfwayKeepsEveryAction(): void
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('A SQLite trigger fails the purge');
+        }
+
+        $table = Common::prefixTable('log_action');
+        Db::query("INSERT INTO `$table` (idaction, name, type) VALUES (99998, 'unused', 1), (99999, 'unused', 1)");
+        // RAISE(FAIL) keeps what the statement already deleted: only the rollback undoes it
+        Db::exec("CREATE TRIGGER matomo_test_failed_purge BEFORE DELETE ON `$table` WHEN OLD.idaction = 99999 BEGIN SELECT RAISE(FAIL, 'purge failed'); END");
+
+        try {
+            (new RawLogDao())->deleteUnusedLogActions();
+            $this->fail('the trigger should fail the purge');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('purge failed', $e->getMessage());
+        } finally {
+            Db::exec('DROP TRIGGER matomo_test_failed_purge');
+        }
+
+        $this->assertSame(2, (int) Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'unused'"));
+    }
+
+    public function testAPurgeFailingInsideTheCallersLockLeavesThatLockAndItsWork(): void
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite refuses the purge its own lock inside the caller\'s');
+        }
+
+        $table = Common::prefixTable('log_action');
+        Db::lockTables([], [$table]);
+        Db::query("INSERT INTO `$table` (idaction, name, type) VALUES (99998, 'pending', 1)");
+        try {
+            (new RawLogDao())->deleteUnusedLogActions();
+            $this->fail('the purge should not lock inside the caller\'s lock');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('within a transaction', $e->getMessage());
+        }
+
+        // still the caller's: rolled back with it, not committed by the purge
+        Db::abortTableLocks();
+        $this->assertSame(0, (int) Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'pending'"));
+    }
+
     public function testDeleteVisitsRemovesVisitsAndOtherRelatedLogs()
     {
         $this->logDeleter->deleteVisits(array(2, 3));

@@ -47,7 +47,7 @@ class DefinitionConverterTest extends TestCase
         yield 'binary collation stays case-sensitive' => ['VARCHAR(100) COLLATE utf8mb4_bin NOT NULL', "TEXT NOT NULL DEFAULT ('')"];
         yield 'binary' => ['VARBINARY(8) NOT NULL', "BLOB(8) NOT NULL DEFAULT ('')"];
         yield 'fixed binary is zero-padded' => ['BINARY(8) NOT NULL', "BLOB(8) NOT NULL DEFAULT (CAST(X'0000000000000000' AS TEXT))"];
-        yield 'fixed binary of one byte' => ['BINARY NOT NULL', "BLOB NOT NULL DEFAULT (CAST(X'00' AS TEXT))"];
+        yield 'fixed binary of one byte' => ['BINARY NOT NULL', "BLOB(1) NOT NULL DEFAULT (CAST(X'00' AS TEXT))"];
         yield 'datetime' => ['DATETIME NULL', 'TEXT'];
     }
 

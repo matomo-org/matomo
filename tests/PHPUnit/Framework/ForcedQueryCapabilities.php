@@ -12,6 +12,8 @@ namespace Piwik\Tests\Framework;
 use Piwik\Db\Schema;
 use Piwik\Db\Schema\Mariadb;
 use Piwik\Db\Schema\Mysql;
+use Piwik\Db\Schema\Sqlite;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * Runs code with the configured MySQL or MariaDB schema reporting other query capabilities, so the
@@ -29,6 +31,14 @@ final class ForcedQueryCapabilities
         $facade->supportsSortingInSubquery(); // loads the configured schema
         $previous = $property->getValue($facade);
 
+        if ($previous instanceof Sqlite) {
+            // SQLite has window functions and no WITH ROLLUP: other paths need MySQL (user variables,
+            // ROLLUP) and are compared on MySQL and MariaDB
+            if (!$windowFunctions || $groupByWithRollup) {
+                throw new SkippedTestError('Only the window-function path without WITH ROLLUP runs on SQLite');
+            }
+            return $callback();
+        }
         $schema = $previous instanceof Mariadb ? new class extends Mariadb {
             use ForcedQueryCapabilitiesTrait;
         } : new class extends Mysql {

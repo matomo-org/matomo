@@ -144,6 +144,14 @@ class Sqlite extends Mysql
     }
 
     /**
+     * The table and its indexes, converted from the MySQL definition.
+     */
+    public function getCreateTableSql(string $tableName, string $createDefinition): array
+    {
+        return $this->getConverter()->convertTableDefinition(str_replace('`', '', $tableName), $createDefinition);
+    }
+
+    /**
      * Converts MySQL `ALTER TABLE` specifications to SQLite statements, one or more per specification:
      * adding and dropping columns and indexes. Changing a column or the primary key needs a table
      * rebuild, which isn't supported here, and fails like any other unsupported specification.

@@ -15,7 +15,7 @@ use Piwik\Db\Schema;
  * @see Factory::createTable()
  * @ignore
  */
-class CreateTable extends Sql
+class CreateTable extends Statements
 {
     /**
      * @param string $table Prefixed table name
@@ -33,13 +33,6 @@ class CreateTable extends Sql
             $columns[] = sprintf('PRIMARY KEY ( `%s` )', implode('`, `', $primaryKey));
         }
 
-        $sql = sprintf(
-            'CREATE TABLE `%s` (%s) %s',
-            $table,
-            implode(', ', $columns),
-            Schema::getInstance()->getTableCreateOptions()
-        );
-
-        parent::__construct($sql, static::ERROR_CODE_TABLE_EXISTS);
+        parent::__construct(Schema::getInstance()->getCreateTableSql($table, implode(', ', $columns)), static::ERROR_CODE_TABLE_EXISTS);
     }
 }

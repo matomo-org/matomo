@@ -149,6 +149,38 @@ class SqliteSchemaTest extends TestCase
         Db::setDatabaseObject($owner);
     }
 
+    public function testAbortTableLocksRollsBackTheWorkDoneUnderTheLock(): void
+    {
+        Db::exec('CREATE TABLE matomo_l (id INTEGER)');
+        Db::lockTables([], ['matomo_l']);
+        Db::query('INSERT INTO matomo_l VALUES (1)');
+
+        Db::abortTableLocks();
+
+        $this->assertSame(0, (int) Db::fetchOne('SELECT COUNT(*) FROM matomo_l'));
+        // the lock is gone: another writer gets it
+        $other = new SqliteAdapter($this->config);
+        $other->query('BEGIN IMMEDIATE');
+        $other->query('ROLLBACK');
+        $other->closeConnection();
+    }
+
+    public function testALockedConnectionDroppedByItsUsersReleasesTheLock(): void
+    {
+        Db::exec('CREATE TABLE matomo_l (id INTEGER)');
+        $owner = Db::get();
+        $locked = new SqliteAdapter($this->config);
+        Db::setDatabaseObject($locked);
+        Db::lockTables([], ['matomo_l']);
+        Db::setDatabaseObject($owner);
+        unset($locked);
+
+        // nothing keeps the locking connection open, so another writer gets the lock
+        Db::exec('BEGIN IMMEDIATE');
+        Db::exec('ROLLBACK');
+        $this->assertSame(0, Db::unlockAllTables());
+    }
+
     public function testLockPrivilegeIsGrantedWhileAnotherWriterHoldsTheLock(): void
     {
         $original = Db::$lockPrivilegeGranted;

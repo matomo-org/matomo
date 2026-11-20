@@ -286,6 +286,10 @@ class RankingQueryEnginePathsTest extends IntegrationTestCase
 
     public function testWindowRollupCounterIsSharedByPartitions(): void
     {
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            $this->markTestSkipped('Compares with MySQL WITH ROLLUP, which SQLite lacks');
+        }
+
         $run = function (): array {
             $sql = "SELECT * FROM (
                 SELECT label, sublabel, CASE WHEN label IN ('a', 'c', 'e') THEN 1 ELSE 2 END AS part, SUM(score) AS score
@@ -333,6 +337,10 @@ class RankingQueryEnginePathsTest extends IntegrationTestCase
 
     public function testEmulatedRollupMatchesNativeRollup(): void
     {
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            $this->markTestSkipped('Compares with MySQL WITH ROLLUP, which SQLite lacks');
+        }
+
         $select = "label, COALESCE(NULLIF(sublabel, 'z'), '') AS sub, COUNT(DISTINCT visitor) AS visitors, COUNT(*) AS hits";
         $native = Db::fetchAll(
             "SELECT $select FROM `{$this->table}` WHERE score > ? GROUP BY label, sub WITH ROLLUP",
@@ -348,7 +356,10 @@ class RankingQueryEnginePathsTest extends IntegrationTestCase
         $emulated = RollupQuery::build('label, COUNT(*) AS hits', "`{$this->table}`", 'score > ?', 'label', [1000]);
 
         $this->assertSame([], Db::fetchAll($emulated['sql'], $emulated['bind']));
-        $this->assertSame([], Db::fetchAll("SELECT label, COUNT(*) AS hits FROM `{$this->table}` WHERE score > ? GROUP BY label WITH ROLLUP", [1000]));
+        if (!\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            // as MySQL's own ROLLUP
+            $this->assertSame([], Db::fetchAll("SELECT label, COUNT(*) AS hits FROM `{$this->table}` WHERE score > ? GROUP BY label WITH ROLLUP", [1000]));
+        }
     }
 
     public function getPathNames(): iterable

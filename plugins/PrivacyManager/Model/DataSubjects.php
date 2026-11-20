@@ -232,9 +232,9 @@ class DataSubjects
                 // You cannot use ORDER BY or LIMIT in a multiple-table DELETE. We have to delete it all at once
                 if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
                     // SQLite has no multiple-table DELETE: the same rows, by rowid, under a name no
-                    // column of the table hides
-                    $columns = array_change_key_case(DbHelper::getTableColumns(Common::prefixTable($logTableName)));
-                    $rowid = current(array_diff(['rowid', '_rowid_', 'oid'], array_keys($columns)));
+                    // column of the table hides (table_xinfo also lists generated columns)
+                    $columns = array_map('strtolower', array_column(Db::fetchAll('SELECT name FROM pragma_table_xinfo(?)', [Common::prefixTable($logTableName)]), 'name'));
+                    $rowid = current(array_diff(['rowid', '_rowid_', 'oid'], $columns));
                     if ($rowid === false) {
                         throw new \Exception("Cannot delete from $logTableName: its columns hide SQLite's rowid");
                     }

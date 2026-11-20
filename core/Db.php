@@ -586,7 +586,8 @@ class Db implements TransactionalDatabaseInterface
             // unlockAllTables(), while readers still read
             $connection = self::get();
             $connection->query('BEGIN IMMEDIATE');
-            self::$sqliteLockConnection = $connection;
+            // weakly held: a connection dropped by its last user closes, which ends its lock
+            self::$sqliteLockConnection = \WeakReference::create($connection);
             return 0;
         }
 
@@ -612,28 +613,54 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function unlockAllTables()
     {
-        // the SQLite lock is released on the connection that took it, even if another one is current now
-        $connection = self::$sqliteLockConnection;
-        if ($connection !== null) {
-            self::$sqliteLockConnection = null;
-            try {
-                $connection->query('COMMIT');
-            } catch (\Throwable $e) {
-                // a failed COMMIT (a deferred constraint) leaves the transaction open: end it
-                try {
-                    $connection->query('ROLLBACK');
-                } catch (\Throwable $ignored) {
-                }
-                throw $e;
-            }
-            return 0;
-        }
+        self::releaseSqliteLock(true);
         if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
-            // as UNLOCK TABLES, nothing to do when lockTables() locked nothing
             return 0;
         }
 
         return self::exec("UNLOCK TABLES");
+    }
+
+    /**
+     * Releases the table locks after a failure in the work they protected: on SQLite, the work done
+     * under the lock is rolled back instead of committed.
+     *
+     * @internal
+     */
+    public static function abortTableLocks(): void
+    {
+        self::releaseSqliteLock(false);
+        if (!Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            self::exec("UNLOCK TABLES");
+        }
+    }
+
+    /**
+     * Ends the SQLite lock of lockTables() on the connection that took it, even if another one is
+     * current now; nothing when there is none.
+     */
+    private static function releaseSqliteLock(bool $commit): void
+    {
+        $connection = self::$sqliteLockConnection !== null ? self::$sqliteLockConnection->get() : null;
+        self::$sqliteLockConnection = null;
+        if ($connection === null) {
+            return;
+        }
+
+        if (!$commit) {
+            $connection->query('ROLLBACK');
+            return;
+        }
+        try {
+            $connection->query('COMMIT');
+        } catch (\Throwable $e) {
+            // a failed COMMIT (a deferred constraint) leaves the transaction open: end it
+            try {
+                $connection->query('ROLLBACK');
+            } catch (\Throwable $ignored) {
+            }
+            throw $e;
+        }
     }
 
     /**
@@ -862,7 +889,7 @@ class Db implements TransactionalDatabaseInterface
     /**
      * The SQLite connection on which lockTables() holds the write lock, if any.
      *
-     * @var object|null
+     * @var \WeakReference|null
      */
     private static $sqliteLockConnection = null;
 
@@ -873,12 +900,12 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function isLockPrivilegeGranted()
     {
-        if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
-            // SQLite has no lock privilege; a probe could only fail on another writer's lock
-            return true;
-        }
         if (is_null(self::$lockPrivilegeGranted)) {
             try {
+                if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+                    // SQLite has no lock privilege; a probe could only fail on another writer's lock
+                    return true;
+                }
                 Db::lockTables(Common::prefixTable('site_url'));
                 Db::unlockAllTables();
 

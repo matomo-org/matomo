@@ -13,7 +13,6 @@ use Piwik\Columns\Updater as ColumnsUpdater;
 use Piwik\Common;
 use Piwik\Config\DatabaseConfig;
 use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -70,8 +69,7 @@ class UpdaterTest extends IntegrationTestCase
         foreach ($tablesToRecreate as $table) {
             Db::exec("DROP TABLE `" . Common::prefixTable($table) . "`");
 
-            $tableCreateSql = DbHelper::getTableCreateSql($table);
-            Db::exec($tableCreateSql);
+            \Piwik\Db\Schema::getInstance()->createTableFromTemplate($table, Common::prefixTable($table));
         }
 
         $visitDimensions = array(
@@ -210,14 +208,21 @@ class UpdaterTest extends IntegrationTestCase
             $intColumnType = 'int unsigned';
         }
 
-        $this->assertTableHasColumn('log_visit', 'test_visit_col_1', $intColumnType, $allowNull = false);
-        $this->assertTableHasColumn('log_visit', 'test_visit_col_2', 'varchar(32)', $allowNull = false);
+        $varcharColumnType = 'varchar(32)';
+        $floatColumnType = 'float';
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            // the SQLite types the converter declares
+            [$intColumnType, $varcharColumnType, $floatColumnType] = ['integer', 'text', 'real'];
+        }
 
-        $this->assertTableHasColumn('log_link_visit_action', 'test_action_col_1', 'varchar(32)', $allowNull = false);
+        $this->assertTableHasColumn('log_visit', 'test_visit_col_1', $intColumnType, $allowNull = false);
+        $this->assertTableHasColumn('log_visit', 'test_visit_col_2', $varcharColumnType, $allowNull = false);
+
+        $this->assertTableHasColumn('log_link_visit_action', 'test_action_col_1', $varcharColumnType, $allowNull = false);
         $this->assertTableHasColumn('log_link_visit_action', 'test_action_col_2', $intColumnType, $allowNull = true);
 
-        $this->assertTableHasColumn('log_conversion', 'test_conv_col_1', 'float', $allowNull = true);
-        $this->assertTableHasColumn('log_conversion', 'test_conv_col_2', 'varchar(32)', $allowNull = false);
+        $this->assertTableHasColumn('log_conversion', 'test_conv_col_1', $floatColumnType, $allowNull = true);
+        $this->assertTableHasColumn('log_conversion', 'test_conv_col_2', $varcharColumnType, $allowNull = false);
     }
 
     private function assertTableHasColumn($table, $columnName, $columnType, $allowNull)
@@ -237,7 +242,7 @@ class UpdaterTest extends IntegrationTestCase
     private function getTableColumns($table)
     {
         if (empty($this->tableColumnsCache[$table])) {
-            $this->tableColumnsCache[$table] = Db::fetchAll("SHOW COLUMNS IN `" . Common::prefixTable($table) . "`");
+            $this->tableColumnsCache[$table] = \Piwik\DbHelper::getTableColumns(Common::prefixTable($table));
         }
         return $this->tableColumnsCache[$table];
     }
@@ -267,6 +272,8 @@ class UpdaterTest extends IntegrationTestCase
 
     private function addDimensionToTable($table, $column, $type)
     {
-        Db::exec("ALTER TABLE `" . Common::prefixTable($table) . "` ADD COLUMN $column $type");
+        foreach (\Piwik\Db\Schema::getInstance()->getAlterTableSql(Common::prefixTable($table), ["ADD COLUMN $column $type"]) as $sql) {
+            Db::exec($sql);
+        }
     }
 }

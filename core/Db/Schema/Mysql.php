@@ -660,6 +660,18 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
     }
 
     /**
+     * Returns the statements creating a table from a definition in MySQL syntax (the columns and keys
+     * between the parentheses of `CREATE TABLE`).
+     *
+     * @param string $tableName the prefixed table name
+     * @return string[]
+     */
+    public function getCreateTableSql(string $tableName, string $createDefinition): array
+    {
+        return [sprintf('CREATE TABLE `%s` (%s) %s', $tableName, $createDefinition, $this->getTableCreateOptions())];
+    }
+
+    /**
      * Returns the statements applying `ALTER TABLE` specifications, e.g. `ADD COLUMN name VARCHAR(10) NULL`,
      * to a table: one statement for all of them, or one each if the database needs it.
      *

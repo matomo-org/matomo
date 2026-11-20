@@ -221,6 +221,23 @@ class Schema extends Singleton
     }
 
     /**
+     * Returns the statements creating a table from a definition in MySQL syntax (the columns and keys
+     * between the parentheses of `CREATE TABLE`).
+     *
+     * @param string $tableName the prefixed table name
+     * @return string[]
+     */
+    public function getCreateTableSql(string $tableName, string $createDefinition): array
+    {
+        $schema = $this->getSchema();
+        if ($schema instanceof Mysql) {
+            return $schema->getCreateTableSql($tableName, $createDefinition);
+        }
+
+        return [sprintf('CREATE TABLE `%s` (%s) %s', $tableName, $createDefinition, $schema->getTableCreateOptions())];
+    }
+
+    /**
      * Returns the statements applying `ALTER TABLE` specifications (in MySQL syntax, e.g.
      * `ADD COLUMN name VARCHAR(10) NULL`) to a table.
      *

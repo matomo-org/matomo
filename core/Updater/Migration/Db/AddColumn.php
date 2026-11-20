@@ -9,20 +9,22 @@
 
 namespace Piwik\Updater\Migration\Db;
 
+use Piwik\Db\Schema;
+
 /**
  * @see Factory::addColumn()
  * @ignore
  */
-class AddColumn extends Sql
+class AddColumn extends Statements
 {
     public function __construct($table, $columnName, $columnType, $placeColumnAfter)
     {
-        $sql = sprintf("ALTER TABLE `%s` ADD COLUMN `%s` %s", $table, $columnName, $columnType);
+        $specification = sprintf("ADD COLUMN `%s` %s", $columnName, $columnType);
 
         if (!empty($placeColumnAfter)) {
-            $sql .= sprintf(' AFTER `%s`', $placeColumnAfter);
+            $specification .= sprintf(' AFTER `%s`', $placeColumnAfter);
         }
 
-        parent::__construct($sql, static::ERROR_CODE_DUPLICATE_COLUMN);
+        parent::__construct(Schema::getInstance()->getAlterTableSql($table, [$specification]), static::ERROR_CODE_DUPLICATE_COLUMN);
     }
 }
