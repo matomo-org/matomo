@@ -451,4 +451,59 @@ describe("PeriodSelector", function () {
         expect(selectedState.weekChecked).to.equal(true);
         expect(selectedState.lastWeekChecked).to.equal(true);
     });
+    describe('quarter period', function () {
+        const quarterParams = 'idSite=1&period=quarter&date=2012-05-01';
+        const quarterUrl = '?module=CoreHome&action=index&' + quarterParams + '#?' + quarterParams + '&category=General_Actions&subcategory=General_Pages';
+
+        const getTitle = async function () {
+            return page.evaluate(() => $('.periodSelector .title').text().trim());
+        };
+
+        it('should show the quarter in the title and offer it as period', async function () {
+            await page.goto(quarterUrl);
+            await page.click('.periodSelector .title');
+            await waitForPeriodChecked('#period_id_quarter');
+
+            expect(await getTitle()).to.equal('Q2 2012');
+        });
+
+        it('should apply the quarter containing the clicked date', async function () {
+            await page.goto(url);
+            await page.click('.periodSelector .title');
+            await page.evaluate(function () {
+                piwikHelper.isReportingPage = function () {
+                    return true;
+                };
+            });
+
+            const initialUrl = await page.url();
+
+            await page.click('#period_id_quarter');
+            await waitForPeriodChecked('#period_id_quarter');
+
+            const dateCell = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(16)');
+            await dateCell.click();
+            await page.waitForFunction((initial) => window.location.href !== initial, {}, initialUrl);
+
+            const appliedUrl = await page.url();
+            expect(appliedUrl).to.contain('period=quarter');
+            expect(appliedUrl).to.contain('date=2012-01-16');
+            expect(await getTitle()).to.equal('Q1 2012');
+        });
+
+        it('should move to the next and previous quarter', async function () {
+            await page.goto(quarterUrl);
+
+            await page.click('.periodSelector .move-period-next');
+            await page.waitForFunction(() => window.location.href.includes('date=2012-08-01'));
+            expect(await page.url()).to.contain('period=quarter');
+            expect(await getTitle()).to.equal('Q3 2012');
+
+            await page.click('.periodSelector .move-period-prev');
+            await page.waitForFunction(() => window.location.href.includes('date=2012-05-01'));
+            await page.click('.periodSelector .move-period-prev');
+            await page.waitForFunction(() => window.location.href.includes('date=2012-02-01'));
+            expect(await getTitle()).to.equal('Q1 2012');
+        });
+    });
 });

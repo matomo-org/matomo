@@ -89,7 +89,7 @@ export default defineComponent({
       default: null,
     },
     singleCalendarPeriod: {
-      type: String as PropType<'day' | 'week' | 'month' | 'year'>,
+      type: String as PropType<'day' | 'week' | 'month' | 'quarter' | 'year'>,
       required: true,
     },
     singleCalendarSelectedDate: {
