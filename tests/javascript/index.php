@@ -2102,7 +2102,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(125);
+        expect(128);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2152,6 +2152,9 @@ function PiwikTest() {
         equal( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
         equal( typeof tracker.removeDownloadExtensions, 'function', 'removeDownloadExtensions' );
         equal( typeof tracker.setDomains, 'function', 'setDomains' );
+        equal( typeof tracker.enableDebugMode, 'function', 'enableDebugMode' );
+        equal( typeof tracker.disableDebugMode, 'function', 'disableDebugMode' );
+        equal( typeof tracker.isDebugModeEnabled, 'function', 'isDebugModeEnabled' );
         equal( typeof tracker.enableCrossDomainLinking, 'function', 'enableCrossDomainLinking' );
         equal( typeof tracker.disableCrossDomainLinking, 'function', 'disableCrossDomainLinking' );
         equal( typeof tracker.isCrossDomainLinkingEnabled, 'function', 'isCrossDomainLinkingEnabled' );
@@ -3021,6 +3024,24 @@ function PiwikTest() {
         var outlink = tracker.hook.test._getClassesRegExp([], 'link');
         ok( outlink.test('piwik_link'), 'piwik_link (default)' );
         ok( outlink.test('matomo_link'), 'matomo_link (default)' );
+
+    });
+
+    test("Tracker enableDebugMode()", function() {
+        expect(6);
+
+        var tracker = Piwik.getTracker();
+
+        strictEqual( false, tracker.isDebugModeEnabled(), "isDebugModeEnabled default" );
+        strictEqual(-1, tracker.getRequest('hello=world').indexOf('debug=1'), 'default debug=1 not present');
+
+        tracker.enableDebugMode();
+        strictEqual( true, tracker.isDebugModeEnabled(), "isDebugModeEnabled after enableDebugMode" );
+        ok(-1 !== tracker.getRequest('hello=world').indexOf('&debug=1'), 'debug=1 present when debug enabled');
+
+        tracker.disableDebugMode();
+        strictEqual( false, tracker.isDebugModeEnabled(), "isDebugModeEnabled after disableDebugMode" );
+        strictEqual(-1, tracker.getRequest('hello=world').indexOf('debug=1'), 'debug=1 not present when debug disabled');
 
     });
 
