@@ -15,7 +15,9 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
+use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\Live\Model;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
 use Piwik\Site;
@@ -147,12 +149,14 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         // where the visits log only lists the visits of visitors who gave consent, the totals of a visitor only
         // count those visits too, or they would reveal what the visitor did in the visits they did not consent to
-        [$consentCondition, $consentBind] = (new Model())->getConsentedVisitsOnlyCondition([$idSite]);
+        $bind = array($idSite, @Common::hex2bin($idVisitor));
 
-        $sql  = $consentCondition === ''
-            ? $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal()
-            : $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoalWhere($consentCondition);
-        $bind = array_merge(array($idSite, @Common::hex2bin($idVisitor)), $consentBind);
+        if (Live::isVisitorLogLimitedToConsentedVisits((int) $idSite)) {
+            $sql    = $this->getSqlEcommerceConversionsLifeTimeMetricsForConsentedVisits();
+            $bind[] = Consent::CONSENTED;
+        } else {
+            $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal();
+        }
 
         $lifeTimeStats = $this->getDb()->fetchAll($sql, $bind);
 
@@ -185,13 +189,19 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal()
     {
-        return $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoalWhere('');
+        return $this->buildSqlEcommerceConversionsLifeTimeMetrics(false);
     }
 
     /**
-     * @param string $extraCondition an SQL condition on log_visit added to the WHERE clause, or an empty string
+     * As getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(), counting only the visits of visitors who gave consent.
+     * The query takes one more bind value, Consent::CONSENTED.
      */
-    private function getSqlEcommerceConversionsLifeTimeMetricsForIdGoalWhere(string $extraCondition): string
+    private function getSqlEcommerceConversionsLifeTimeMetricsForConsentedVisits(): string
+    {
+        return $this->buildSqlEcommerceConversionsLifeTimeMetrics(true);
+    }
+
+    private function buildSqlEcommerceConversionsLifeTimeMetrics(bool $consentedVisitsOnly): string
     {
         $sql = "SELECT
                     idgoal,
@@ -205,7 +215,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					        log_visit.idsite = ?
 					    AND log_visit.idvisitor = ?
 						AND log_conversion.idgoal IN ( " . GoalManager::IDGOAL_CART . ", " . GoalManager::IDGOAL_ORDER . " )
-						" . ($extraCondition === '' ? '' : 'AND ' . $extraCondition) . "
+						" . ($consentedVisitsOnly ? 'AND log_visit.consent = ?' : '') . "
                     GROUP BY idgoal
         ";
         return $sql;
