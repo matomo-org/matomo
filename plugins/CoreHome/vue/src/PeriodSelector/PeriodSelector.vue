@@ -176,7 +176,7 @@ function resolveActivePresetIdFromSelection(state: Pick<PeriodSelectorState,
   | 'committedAnchorDate'
   | 'appliedRangeStartDate'
   | 'appliedRangeEndDate'
->): PresetDateRangeId|null {
+> & { periodsFiltered?: string[] }): PresetDateRangeId|null {
   if (state.pendingPresetSelection) {
     return state.pendingPresetSelection.id;
   }
@@ -198,6 +198,7 @@ function resolveActivePresetIdFromSelection(state: Pick<PeriodSelectorState,
     state.selectedPeriod,
     currentDate,
     getToday(),
+    state.periodsFiltered || null,
   );
 }
 

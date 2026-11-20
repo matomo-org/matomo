@@ -491,6 +491,27 @@ describe("PeriodSelector", function () {
             expect(await getTitle()).to.equal('Q1 2012');
         });
 
+        it('should apply the last quarter preset as quarter period', async function () {
+            await page.goto(url);
+            await page.click('.periodSelector .title');
+            await page.evaluate(function () {
+                piwikHelper.isReportingPage = function () {
+                    return true;
+                };
+            });
+
+            const initialUrl = await page.url();
+
+            await page.click('#preset_date_lastQuarter');
+            await page.waitForFunction(() => window.$('#preset_date_lastQuarter').is(':checked'));
+            await page.click('#calendarApply');
+            await page.waitForFunction((initial) => window.location.href !== initial, {}, initialUrl);
+
+            const appliedUrl = await page.url();
+            expect(appliedUrl).to.contain('period=quarter');
+            expect(appliedUrl).to.contain('date=lastquarter');
+        });
+
         it('should move to the next and previous quarter', async function () {
             await page.goto(quarterUrl);
 

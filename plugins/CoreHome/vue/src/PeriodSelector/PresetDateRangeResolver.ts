@@ -35,7 +35,7 @@ export interface PresetDateRangeOption {
 
 export interface PresetDateRangeSelection {
   id: PresetDateRangeId;
-  period: 'day'|'week'|'month'|'year'|'range';
+  period: 'day'|'week'|'month'|'quarter'|'year'|'range';
   date: string;
   urlDate: string;
   selectedDate: Date;
@@ -51,13 +51,34 @@ export const PRESET_DATE_RANGE_PERIODS: Record<PresetDateRangeId, PresetDateRang
   last90days: 'range',
   lastWeekMonSun: 'week',
   lastMonth: 'month',
-  lastQuarter: 'range',
+  lastQuarter: 'quarter',
   lastYear: 'year',
   thisWeekMonToday: 'week',
   thisMonth: 'month',
-  thisQuarter: 'range',
+  thisQuarter: 'quarter',
   thisYear: 'year',
 };
+
+// presets that select a date range instead where their period is disabled
+const PRESET_DATE_RANGE_FALLBACK_PERIODS: Partial<Record<PresetDateRangeId, 'range'>> = {
+  lastQuarter: 'range',
+  thisQuarter: 'range',
+};
+
+/**
+ * The period a preset selects. Without allowed periods, every period is assumed to be allowed.
+ */
+export function getPresetDateRangePeriod(
+  presetId: PresetDateRangeId,
+  allowedPeriods: string[]|null = null,
+): PresetDateRangeSelection['period'] {
+  const period = PRESET_DATE_RANGE_PERIODS[presetId];
+  if (!allowedPeriods || allowedPeriods.includes(period)) {
+    return period;
+  }
+
+  return PRESET_DATE_RANGE_FALLBACK_PERIODS[presetId] || period;
+}
 
 export const PRESET_DATE_RANGES: PresetDateRangeOption[] = [
   { id: 'today', labelKey: 'CoreHome_PresetDateToday' },
@@ -83,9 +104,11 @@ const PRESET_TOKEN_TO_ID_MAP: Record<string, PresetDateRangeId> = {
   'range|last90': 'last90days',
   'week|lastweek': 'lastWeekMonSun',
   'month|lastmonth': 'lastMonth',
+  'quarter|lastquarter': 'lastQuarter',
   'year|lastyear': 'lastYear',
   'week|today': 'thisWeekMonToday',
   'month|today': 'thisMonth',
+  'quarter|today': 'thisQuarter',
   'year|today': 'thisYear',
 };
 
@@ -97,9 +120,11 @@ const PRESET_ID_TO_URL_DATE_MAP: Partial<Record<PresetDateRangeId, string>> = {
   last90days: 'last90',
   lastWeekMonSun: 'lastweek',
   lastMonth: 'lastmonth',
+  lastQuarter: 'lastquarter',
   lastYear: 'lastyear',
   thisWeekMonToday: 'today',
   thisMonth: 'today',
+  thisQuarter: 'today',
   thisYear: 'today',
 };
 
@@ -158,14 +183,18 @@ export function clampDateToBounds(date: Date, minDate: Date, maxDate: Date): Dat
 export function resolvePresetDateRange(
   presetId: PresetDateRangeId,
   todayInput: Date,
+  allowedPeriods: string[]|null = null,
 ): PresetDateRangeSelection {
   const today = cloneDate(todayInput);
+  const period = getPresetDateRangePeriod(presetId, allowedPeriods);
 
   const withUrlDate = (
     selection: Omit<PresetDateRangeSelection, 'urlDate'>,
   ): PresetDateRangeSelection => ({
     ...selection,
-    urlDate: PRESET_ID_TO_URL_DATE_MAP[presetId] || selection.date,
+    // rolling URL tokens like "lastquarter" only exist for the preset's own period
+    urlDate: (selection.period === PRESET_DATE_RANGE_PERIODS[presetId]
+      && PRESET_ID_TO_URL_DATE_MAP[presetId]) || selection.date,
   });
 
   switch (presetId) {
@@ -252,6 +281,17 @@ export function resolvePresetDateRange(
       const thisQuarterStart = startOfQuarter(today);
       const endDate = addDays(thisQuarterStart, -1);
       const startDate = startOfQuarter(endDate);
+      if (period === 'quarter') {
+        return withUrlDate({
+          id: presetId,
+          period,
+          date: format(startDate),
+          selectedDate: startDate,
+          startDate,
+          endDate,
+        });
+      }
+
       return withUrlDate({
         id: presetId,
         period: 'range',
@@ -298,6 +338,17 @@ export function resolvePresetDateRange(
     }
     case 'thisQuarter': {
       const startDate = startOfQuarter(today);
+      if (period === 'quarter') {
+        return withUrlDate({
+          id: presetId,
+          period,
+          date: format(today),
+          selectedDate: today,
+          startDate,
+          endDate: today,
+        });
+      }
+
       return withUrlDate({
         id: presetId,
         period: 'range',
@@ -327,12 +378,13 @@ export function getPresetIdFromPeriodAndDate(
   period: string,
   date: string,
   todayInput: Date = getToday(),
+  allowedPeriods: string[]|null = null,
 ): PresetDateRangeId|null {
   try {
     let selectedDate: Date|null = null;
     let selectedDateRange: Date[]|null = null;
     const matchingPreset = PRESET_DATE_RANGES.find((preset) => {
-      const resolvedPreset = resolvePresetDateRange(preset.id, todayInput);
+      const resolvedPreset = resolvePresetDateRange(preset.id, todayInput, allowedPeriods);
       if (resolvedPreset.period !== period) {
         return false;
       }
