@@ -137,6 +137,7 @@
 				<debug>1</debug>
 				<e_c>Category</e_c>
 				<e_a>click</e_a>
+				<ca>1</ca>
 				<e_n>label</e_n>
 				<e_v>7</e_v>
 				<token_auth>__redacted__</token_auth>
@@ -342,6 +343,7 @@
 				<debug>1</debug>
 				<c_i>click</c_i>
 				<c_n>Ad Banner</c_n>
+				<ca>1</ca>
 				<c_p>banner.jpg</c_p>
 				<c_t>http://ad.example/landing</c_t>
 				<token_auth>__redacted__</token_auth>
@@ -449,6 +451,7 @@
 				<ec_st>90.5</ec_st>
 				<ec_tx>5.5</ec_tx>
 				<ec_sh>4.5</ec_sh>
+				<ec_dt>0</ec_dt>
 				<ec_items>[[&quot;SKU-1&quot;,&quot;Product One&quot;,&quot;Category A&quot;,&quot;45.25&quot;,2]]</ec_items>
 				<ec_id>ORDER-1</ec_id>
 				<token_auth>__redacted__</token_auth>
