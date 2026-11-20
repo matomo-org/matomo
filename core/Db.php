@@ -505,11 +505,19 @@ class Db implements TransactionalDatabaseInterface
         }
 
         if (count($tables) > 1 && Db\Sqlite\Connection::isSqliteConnection(self::get())) {
-            // SQLite drops one table per statement
+            // SQLite drops one table per statement; as on MySQL, a missing table drops none of them
             $result = null;
-            foreach ($tables as $table) {
-                $result = self::query("DROP TABLE `" . $table . "`");
+            self::exec('SAVEPOINT matomo_drop_tables');
+            try {
+                foreach ($tables as $table) {
+                    $result = self::query("DROP TABLE `" . $table . "`");
+                }
+            } catch (\Exception $e) {
+                self::exec('ROLLBACK TO matomo_drop_tables');
+                self::exec('RELEASE matomo_drop_tables');
+                throw $e;
             }
+            self::exec('RELEASE matomo_drop_tables');
 
             return $result;
         }

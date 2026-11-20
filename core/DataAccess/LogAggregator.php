@@ -874,9 +874,10 @@ class LogAggregator
             }
 
             if ($this->isFieldFunctionOrComplexExpression($field)) {
-                // if complex expression has a select as, use it: the last one, as CAST(x AS type) has one too
-                if (preg_match('/\s+AS\s+(`(?:[^`]|``)+`|[0-9a-zA-Z$_\x80-\xFF]+)\s*$/', $field, $matches)) {
-                    $orderByDimensions[] = $matches[1];
+                // if complex expression has a select as, use it
+                $alias = self::getSelectAlias($field);
+                if ($alias !== null) {
+                    $orderByDimensions[] = $alias;
                     continue;
                 }
 
@@ -888,6 +889,62 @@ class LogAggregator
         }
 
         return $orderByDimensions;
+    }
+
+    /**
+     * The alias an expression is selected as: the identifier after its trailing `AS`, which is outside
+     * parentheses (as in `CAST(x AS type)`), string literals and comments.
+     */
+    private static function getSelectAlias(string $expression): ?string
+    {
+        // the expression with comments blanked, and parenthesized, quoted or backtick-quoted text masked
+        $masked = '';
+        $length = strlen($expression);
+        $depth = 0;
+        for ($i = 0; $i < $length; $i++) {
+            $char = $expression[$i];
+            if ($char === '/' && substr($expression, $i, 2) === '/*') {
+                $end = strpos($expression, '*/', $i + 2);
+                $end = $end === false ? $length : $end + 2;
+                $masked .= str_repeat(' ', $end - $i);
+                $i = $end - 1;
+            } elseif ($char === '#' || preg_match('/\G--(\s|$)/', $expression, $m, 0, $i)) {
+                $end = strpos($expression, "\n", $i);
+                $end = $end === false ? $length : $end;
+                $masked .= str_repeat(' ', $end - $i);
+                $i = $end - 1;
+            } elseif ($char === "'" || $char === '"' || $char === '`') {
+                // a quote is escaped by doubling it, or in a string literal by a backslash
+                $end = $i + 1;
+                while ($end < $length) {
+                    if ($char !== '`' && $expression[$end] === '\\') {
+                        $end += 2;
+                    } elseif ($expression[$end] === $char && ($expression[$end + 1] ?? '') === $char) {
+                        $end += 2;
+                    } elseif ($expression[$end] === $char) {
+                        break;
+                    } else {
+                        $end++;
+                    }
+                }
+                $end = min($end, $length - 1);
+                $masked .= $depth > 0 ? str_repeat(' ', $end - $i + 1) : $char . str_repeat('x', max(0, $end - $i - 1)) . ($end > $i ? $expression[$end] : '');
+                $i = $end;
+            } else {
+                if ($char === '(') {
+                    $depth++;
+                } elseif ($char === ')') {
+                    $depth = max(0, $depth - 1);
+                }
+                $masked .= $depth > 0 || $char === ')' ? ' ' : $char;
+            }
+        }
+
+        if (!preg_match('/\sAS\s+(`[^`]*`|[0-9a-zA-Z$_\x80-\xFF]+)\s*$/', $masked, $matches, PREG_OFFSET_CAPTURE)) {
+            return null;
+        }
+
+        return substr($expression, $matches[1][1], strlen($matches[1][0]));
     }
 
     /**

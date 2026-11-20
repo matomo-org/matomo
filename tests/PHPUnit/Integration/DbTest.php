@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -59,6 +60,51 @@ class DbTest extends IntegrationTestCase
         ];
 
         $this->assertEquals($expected, $values);
+    }
+
+    public function testDropTablesDropsEveryTableGiven()
+    {
+        $tables = [Common::prefixTable('drop_a'), Common::prefixTable('drop_b')];
+        foreach ($tables as $table) {
+            Db::exec('CREATE TABLE `' . $table . '` (id INT)');
+        }
+
+        Db::dropTables($tables);
+
+        $this->assertSame([false, false], array_map([$this, 'tableExists'], $tables));
+    }
+
+    public function testDropTablesWithAMissingTableFailsAndOnSqliteDropsNone()
+    {
+        $tables = [Common::prefixTable('drop_a'), Common::prefixTable('drop_missing'), Common::prefixTable('drop_b')];
+        Db::exec('CREATE TABLE `' . $tables[0] . '` (id INT)');
+        Db::exec('CREATE TABLE `' . $tables[2] . '` (id INT)');
+
+        $error = null;
+        try {
+            Db::dropTables($tables);
+        } catch (\Exception $e) {
+            $error = $e;
+        }
+        $this->assertNotNull($error, 'A missing table must fail');
+
+        if (Fixture::isSqlite()) {
+            // as MySQL 8 (MariaDB drops the existing ones)
+            $this->assertSame([true, true], [$this->tableExists($tables[0]), $this->tableExists($tables[2])]);
+        }
+        foreach ([$tables[0], $tables[2]] as $table) {
+            Db::exec('DROP TABLE IF EXISTS `' . $table . '`');
+        }
+    }
+
+    private function tableExists(string $table): bool
+    {
+        try {
+            Db::fetchOne('SELECT COUNT(*) FROM `' . $table . '`');
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function testGetColumnNamesFromTable()

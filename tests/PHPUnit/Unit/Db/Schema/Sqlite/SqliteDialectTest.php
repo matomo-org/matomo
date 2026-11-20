@@ -151,6 +151,15 @@ class SqliteDialectTest extends TestCase
             $value = $this->pdo->query('SELECT ' . $this->schema->getNullSafeEqualSql($left, $right))->fetchColumn();
             $this->assertSame($expected, (int) $value, $left . ' <=> ' . $right);
         }
+
+        // a column's affinity applies whichever side it is on, as for any comparison
+        $this->pdo->exec("CREATE TABLE affinity (s TEXT, n INTEGER)");
+        $this->pdo->exec("INSERT INTO affinity VALUES ('01', 1)");
+        foreach ([['s', 'n'], ['n', 's'], ['n', '?'], ['?', 'n']] as [$left, $right]) {
+            $statement = $this->pdo->prepare('SELECT ' . $this->schema->getNullSafeEqualSql($left, $right) . ' FROM affinity');
+            $statement->execute(strpos($left . $right, '?') !== false ? ['1'] : []);
+            $this->assertSame(1, (int) $statement->fetchColumn(), $left . ' <=> ' . $right);
+        }
     }
 
     public function testRowLocksAndTruncate(): void

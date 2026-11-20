@@ -185,6 +185,12 @@ class LogAggregatorTest extends IntegrationTestCase
             'log_visit',
             ['os$family', 'café', '`os``family`'],
         ];
+
+        yield 'an AS in a comment or a string is not an alias' => [
+            ["LOWER(log_visit.config_os) -- formerly AS os\n", "CONCAT(log_visit.config_os, ' AS b')", 'LOWER(log_visit.config_os) AS family /* display */'],
+            'log_visit',
+            ["LOWER(log_visit.config_os) -- formerly AS os\n", "CONCAT(log_visit.config_os, ' AS b')", 'family'],
+        ];
     }
 
     public function testGenerateQuery()
