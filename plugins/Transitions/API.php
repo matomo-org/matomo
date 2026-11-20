@@ -43,7 +43,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $pageTitle The page title to analyze.
      * @param int $idSite The numeric ID of the website to query.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the
      *                                                    period containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -65,7 +65,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $pageUrl The page URL to analyze.
      * @param int $idSite The numeric ID of the website to query.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the
      *                                                    period containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -88,7 +88,7 @@ class API extends \Piwik\Plugin\API
      * @param string $actionName The page URL or title to analyze.
      * @param 'url'|'title' $actionType Whether the action name is a URL or title.
      * @param int $idSite The numeric ID of the website to query.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the
      *                                                    period containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),

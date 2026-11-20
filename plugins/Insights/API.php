@@ -76,7 +76,7 @@ class API extends \Piwik\Plugin\API
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @return bool Whether a previous comparison period exists for the requested date/period combination.
      */
@@ -102,7 +102,7 @@ class API extends \Piwik\Plugin\API
      * overview by listening to the {@hook Insights.addReportToOverview} event.
      *
      * @param int $idSite The numeric ID of the website to query.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -131,7 +131,7 @@ class API extends \Piwik\Plugin\API
      * overview by listening to the {@hook Insights.addReportToOverview} event.
      *
      * @param int $idSite The numeric ID of the website to query.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -190,7 +190,7 @@ class API extends \Piwik\Plugin\API
      * same time contributed significantly more to the success than the average of 10%.
      *
      * @param int $idSite The numeric ID of the website to query.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -243,7 +243,7 @@ class API extends \Piwik\Plugin\API
      * difference. The API can exclude rows which growth is not good enough or did not have enough impact.
      *
      * @param int $idSite The numeric ID of the website to query.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),

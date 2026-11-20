@@ -43,7 +43,7 @@ class API extends \Piwik\Plugin\API
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
      *                         - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -88,7 +88,7 @@ class API extends \Piwik\Plugin\API
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
      *                         - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -180,7 +180,7 @@ class API extends \Piwik\Plugin\API
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
      *                         - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -202,7 +202,7 @@ class API extends \Piwik\Plugin\API
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
      *                         - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -224,7 +224,7 @@ class API extends \Piwik\Plugin\API
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
      *                         - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -245,7 +245,7 @@ class API extends \Piwik\Plugin\API
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
      *                         - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -266,7 +266,7 @@ class API extends \Piwik\Plugin\API
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
      *                         - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -295,7 +295,7 @@ class API extends \Piwik\Plugin\API
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
      *                         - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process.
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process.
      * @param string $date The date or date range to process.
      * @return DataTable|DataTable\Map Flat table of URLs with the two source metrics and the score.
      */
@@ -325,7 +325,7 @@ class API extends \Piwik\Plugin\API
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
      *                         - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process.
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process.
      * @param string $date The date or date range to process.
      * @return DataTable|DataTable\Map Flat table of URLs with the two source metrics and the score.
      */

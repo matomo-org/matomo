@@ -91,7 +91,7 @@ class API extends \Piwik\Plugin\API
      * site. If a date range is specified, the result will be a
      * DataTable\Map, but it will still be merged.
      *
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                   containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -207,7 +207,7 @@ class API extends \Piwik\Plugin\API
      * Returns the MultiSites metrics for a single website.
      *
      * @param int $idSite The numeric ID of the website to query.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                   containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
@@ -254,7 +254,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the MultiSites dashboard response grouped for the widget UI.
      *
-     * @param 'day'|'week'|'month'|'year'|'range'|null $period Period type to query, or `null` to use the request
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range'|null $period Period type to query, or `null` to use the request
      *                                                         default.
      * @param string|null $date Date or date range to query, or `null` to use the request default.
      * @param string|null $segment Custom segment to filter the report.

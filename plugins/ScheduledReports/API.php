@@ -58,7 +58,7 @@ use Piwik\Log\LoggerInterface;
  *     description: string,
  *     idsegment: int|string|null,
  *     period: 'day'|'week'|'month'|'never',
- *     period_param: 'day'|'week'|'month'|'year'|null,
+ *     period_param: 'day'|'week'|'month'|'quarter'|'year'|null,
  *     hour: int|string,
  *     type: string,
  *     format: string,
@@ -130,7 +130,7 @@ class API extends \Piwik\Plugin\API
      *                                          or each day within the selected period (`'each'`).
      * @param int|null $evolutionPeriodN The number of previous periods to include when `$evolutionPeriodFor`
      *                                   is `'prev'`. Defaults to the configured graph evolution periods.
-     * @param 'day'|'week'|'month'|'year'|null $periodParam The data period to generate on each scheduled send.
+     * @param 'day'|'week'|'month'|'quarter'|'year'|null $periodParam The data period to generate on each scheduled send.
      *                                                       Defaults to the delivery schedule period.
      * @return int The newly created scheduled report ID.
      */
@@ -220,7 +220,7 @@ class API extends \Piwik\Plugin\API
      *                                          or each day within the selected period (`'each'`).
      * @param int|null $evolutionPeriodN The number of previous periods to include when `$evolutionPeriodFor`
      *                                   is `'prev'`. Defaults to the configured graph evolution periods.
-     * @param 'day'|'week'|'month'|'year'|null $periodParam The data period to generate on each scheduled send.
+     * @param 'day'|'week'|'month'|'quarter'|'year'|null $periodParam The data period to generate on each scheduled send.
      *                                                       Defaults to the delivery schedule period.
      * @see addReport()
      */
@@ -530,7 +530,7 @@ class API extends \Piwik\Plugin\API
      *                              Use `OUTPUT_DOWNLOAD` (browser download), `OUTPUT_SAVE_ON_DISK` (temp file for
      *                              sending), `OUTPUT_INLINE` (browser inline display), or `OUTPUT_RETURN` (return
      *                              contents as string). Defaults to `OUTPUT_DOWNLOAD`.
-     * @param 'day'|'week'|'month'|'year'|'range'|false $period The data period to generate, or `false` to use
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range'|false $period The data period to generate, or `false` to use
      *                                                        the report's stored period.
      * @param string|false $reportFormat The output format identifier (e.g. `'pdf'`, `'html'`), or `false` to use
      *                                   the stored format.
@@ -864,7 +864,7 @@ class API extends \Piwik\Plugin\API
      * dispatches it via the configured transport medium, and cleans up.
      *
      * @param int $idReport The scheduled report ID to send.
-     * @param 'day'|'week'|'month'|'year'|'range'|false $period The data period to send, or `false` to use the report's
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range'|false $period The data period to send, or `false` to use the report's
      *                                                 stored period.
      * @param string|false $date The date to generate the report for (e.g. `'2024-01-15'`),
      *                           or `false` to use the previous scheduled period.
