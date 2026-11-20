@@ -51,6 +51,7 @@ final class DefinitionConverter
      */
     public function convertCreateTable(string $createTableSql, ?string $tableName = null): array
     {
+        $createTableSql = $this->normalizeLiterals($tableName ?? '', $createTableSql);
         if (!preg_match('/^\s*CREATE\s+TABLE\s+(IF\s+NOT\s+EXISTS\s+)?`?(\w+)`?\s*\(/i', $createTableSql, $matches)) {
             throw new InvalidArgumentException('Not a CREATE TABLE statement: ' . $this->shorten($createTableSql));
         }
@@ -73,7 +74,7 @@ final class DefinitionConverter
             throw $this->unsupported($matches[2], trim($options));
         }
 
-        return $this->convertTableDefinition($tableName ?? $matches[2], $definition, $matches[1] !== '');
+        return $this->convertDefinitionList($tableName ?? $matches[2], $definition, $matches[1] !== '');
     }
 
     /**
@@ -82,6 +83,14 @@ final class DefinitionConverter
      * @return string[] the statements creating the table and its indexes, to run in order
      */
     public function convertTableDefinition(string $tableName, string $definition, bool $ifNotExists = false): array
+    {
+        return $this->convertDefinitionList($tableName, $this->normalizeLiterals($tableName, $definition), $ifNotExists);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function convertDefinitionList(string $tableName, string $definition, bool $ifNotExists): array
     {
         $columns = [];
         $columnTypes = [];
@@ -211,7 +220,7 @@ final class DefinitionConverter
      */
     public function convertColumnDefinition(string $tableName, string $columnDefinition, ?string $columnName = null): string
     {
-        $column = $this->parseColumnAttributes($tableName, $columnDefinition, $columnName);
+        $column = $this->parseColumnAttributes($tableName, $this->normalizeLiterals($tableName, $columnDefinition), $columnName);
         // SQLite can't add a column with a constraint needing an index
         if ($column['autoIncrement'] || $column['primaryKey'] || $column['unique']) {
             throw $this->unsupported($tableName, $columnDefinition);
@@ -305,24 +314,53 @@ final class DefinitionConverter
     }
 
     /**
-     * Converts a MySQL string literal to SQLite's, where only a doubled quote escapes: MySQL's backslash
-     * escapes are decoded, except `\%` and `\_`, which MySQL keeps as written.
+     * Rewrites the string literals of MySQL DDL as SQLite's, where only a doubled quote escapes:
+     * MySQL's backslash escapes are decoded, except `\%` and `\_`, which MySQL keeps as written, and
+     * double-quoted strings become single-quoted. Run once, before the definition is split.
      */
-    private function convertStringLiteral(string $tableName, string $definition, string $literal): string
+    private function normalizeLiterals(string $tableName, string $sql): string
     {
         $escapes = ['b' => "\x08", 'n' => "\n", 'r' => "\r", 't' => "\t", 'Z' => "\x1A", '%' => '\\%', '_' => '\\_'];
-        $value = preg_replace_callback("/\\\\(.)|''/s", function ($match) use ($escapes, $tableName, $definition) {
-            if ($match[0] === "''") {
-                return "'";
+        $result = '';
+        $length = strlen($sql);
+        for ($i = 0; $i < $length; $i++) {
+            $char = $sql[$i];
+            if ($char === '`') {
+                $end = strpos($sql, '`', $i + 1);
+                $end = $end === false ? $length - 1 : $end;
+                $result .= substr($sql, $i, $end - $i + 1);
+                $i = $end;
+                continue;
             }
-            if ($match[1] === '0') {
-                throw $this->unsupported($tableName, $definition); // NUL can't be written in an SQLite literal
+            if ($char !== "'" && $char !== '"') {
+                $result .= $char;
+                continue;
             }
 
-            return $escapes[$match[1]] ?? $match[1];
-        }, substr($literal, 1, -1));
+            $value = '';
+            for ($i++; $i < $length; $i++) {
+                if ($sql[$i] === '\\' && $i + 1 < $length) {
+                    $next = $sql[++$i];
+                    if ($next === '0') {
+                        throw $this->unsupported($tableName, $sql); // NUL can't be written in an SQLite literal
+                    }
+                    $value .= $escapes[$next] ?? $next;
+                } elseif ($sql[$i] === $char && $i + 1 < $length && $sql[$i + 1] === $char) {
+                    $value .= $char;
+                    $i++;
+                } elseif ($sql[$i] === $char) {
+                    break;
+                } else {
+                    $value .= $sql[$i];
+                }
+            }
+            if ($i >= $length) {
+                throw $this->unsupported($tableName, $sql);
+            }
+            $result .= "'" . str_replace("'", "''", $value) . "'";
+        }
 
-        return "'" . str_replace("'", "''", $value) . "'";
+        return $result;
     }
 
     /**
@@ -339,11 +377,10 @@ final class DefinitionConverter
             $end = $this->findClosingParenthesis($rest, strpos($rest, '('));
             $matches = [substr($rest, 0, $end + 1), 'enum'];
             $enumValues = SqlListParser::splitList(substr($rest, strpos($rest, '(') + 1, $end - strpos($rest, '(') - 1));
-            foreach ($enumValues as $i => $value) {
-                if (!preg_match("/^'(?:[^'\\\\]|\\\\.|'')*'$/s", $value)) {
+            foreach ($enumValues as $value) {
+                if (!preg_match("/^'(?:[^']|'')*'$/s", $value)) {
                     throw $this->unsupported($tableName, $definition);
                 }
-                $enumValues[$i] = $this->convertStringLiteral($tableName, $definition, $value);
             }
         } elseif (!preg_match('/^(\w+)(?:\s*\(\s*(\d+)(?:\s*,\s*(\d+))?\s*\))?/i', $rest, $matches)) {
             throw $this->unsupported($tableName, $definition);
@@ -374,11 +411,9 @@ final class DefinitionConverter
                 $notNull = true;
             } elseif (preg_match('/^NULL\b/i', $rest, $m)) {
                 $notNull = false;
-            } elseif (preg_match('/^DEFAULT\s+(\'(?:[^\'\\\\]|\\\\.|\'\')*\'|-?\d+(?:\.\d+)?|NULL\b|CURRENT_TIMESTAMP(?:\(\))?)/is', $rest, $m)) {
+            } elseif (preg_match('/^DEFAULT\s+(\'(?:[^\']|\'\')*\'|-?\d+(?:\.\d+)?|NULL\b|CURRENT_TIMESTAMP(?:\(\))?)/is', $rest, $m)) {
                 if (preg_match('/^CURRENT_TIMESTAMP/i', $m[1])) {
                     $default = 'CURRENT_TIMESTAMP';
-                } elseif ($m[1][0] === "'") {
-                    $default = $this->convertStringLiteral($tableName, $definition, $m[1]);
                 } else {
                     $default = $m[1];
                 }

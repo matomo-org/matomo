@@ -41,6 +41,7 @@ final class NamedLock
      */
     public static function acquire(object $connection, string $databaseFile, string $name, float $timeoutSeconds): bool
     {
+        $name = self::normalizeName($name);
         $held = self::getHeld();
         $locks = $held[$connection] ?? [];
         if (isset($locks[$name])) {
@@ -76,6 +77,7 @@ final class NamedLock
      */
     public static function release(object $connection, string $name): bool
     {
+        $name = self::normalizeName($name);
         $held = self::getHeld();
         $locks = $held[$connection] ?? [];
         if (!isset($locks[$name])) {
@@ -97,20 +99,51 @@ final class NamedLock
      */
     public static function isFree(object $connection, string $databaseFile, string $name): bool
     {
+        $name = self::normalizeName($name);
         $locks = self::getHeld()[$connection] ?? [];
         if (isset($locks[$name])) {
             return false;
         }
 
-        $handle = @fopen(self::getLockFile($databaseFile, $name), 'r');
-        if ($handle === false) {
-            return true;
+        $file = self::getLockFile($databaseFile, $name);
+        for ($attempt = 0; $attempt < 100; $attempt++) {
+            clearstatcache(true, $file);
+            if (!file_exists($file)) {
+                return true;
+            }
+
+            $handle = @fopen($file, 're');
+            if ($handle === false) {
+                continue; // removed by its holder meanwhile, or unreadable: never reported free
+            }
+
+            if (!flock($handle, LOCK_SH | LOCK_NB)) {
+                fclose($handle);
+                return false;
+            }
+
+            // free only if the file probed is still the one at the path, which an owner would lock
+            $isCurrent = self::isCurrentFile($handle, $file);
+            flock($handle, LOCK_UN);
+            fclose($handle);
+            if ($isCurrent) {
+                return true;
+            }
         }
 
-        $free = flock($handle, LOCK_SH | LOCK_NB);
-        fclose($handle);
+        return false;
+    }
 
-        return $free;
+    /**
+     * Releases the locks of a connection, as a disconnect does on MySQL.
+     */
+    public static function releaseConnection(object $connection): void
+    {
+        $held = self::getHeld();
+        foreach ($held[$connection] ?? [] as $lock) {
+            self::unlock($lock['handle'], $lock['file']);
+        }
+        unset($held[$connection]);
     }
 
     /**
@@ -127,9 +160,35 @@ final class NamedLock
         self::$held = null;
     }
 
+    /**
+     * The lock file of a name. Names compare case-insensitively, as on MySQL, and the directory is
+     * that of the real database file, so a symbolic link to it shares its locks.
+     */
     public static function getLockFile(string $databaseFile, string $name): string
     {
-        return $databaseFile . '-locks' . DIRECTORY_SEPARATOR . hash('sha256', $name) . '.lock';
+        $realFile = realpath($databaseFile);
+        if ($realFile !== false) {
+            $databaseFile = $realFile;
+        }
+
+        return $databaseFile . '-locks' . DIRECTORY_SEPARATOR . hash('sha256', self::normalizeName($name)) . '.lock';
+    }
+
+    private static function normalizeName(string $name): string
+    {
+        return mb_strtolower($name, 'UTF-8');
+    }
+
+    /**
+     * @param resource $handle
+     */
+    private static function isCurrentFile($handle, string $file): bool
+    {
+        clearstatcache(true, $file);
+        $current = @stat($file);
+        $own = fstat($handle);
+
+        return $current !== false && $own !== false && $current['ino'] === $own['ino'] && $current['dev'] === $own['dev'];
     }
 
     /**
@@ -144,7 +203,8 @@ final class NamedLock
 
         // a few attempts, for a file removed by its previous holder between our open and our lock
         for ($attempt = 0; $attempt < 100; $attempt++) {
-            $handle = @fopen($file, 'c');
+            // close-on-exec: a child process must not keep the lock after its owner releases it
+            $handle = @fopen($file, 'ce');
             if ($handle === false) {
                 throw new \RuntimeException(sprintf('SQLite: cannot open the lock file %s.', $file));
             }
@@ -154,10 +214,7 @@ final class NamedLock
                 return null;
             }
 
-            clearstatcache(true, $file);
-            $current = @stat($file);
-            $own = fstat($handle);
-            if ($current !== false && $own !== false && $current['ino'] === $own['ino'] && $current['dev'] === $own['dev']) {
+            if (self::isCurrentFile($handle, $file)) {
                 return $handle;
             }
 

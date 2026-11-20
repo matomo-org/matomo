@@ -10,6 +10,7 @@
 namespace Piwik\Tracker\Db\Pdo;
 
 use Exception;
+use Piwik\Db\Schema\Sqlite\NamedLock;
 use Piwik\Db\Sqlite\Connection;
 use Piwik\Db\Sqlite\ErrorCodes;
 
@@ -53,6 +54,15 @@ class Sqlite extends Mysql
         if ($timer !== null) {
             $this->recordQueryProfile('connect', $timer);
         }
+    }
+
+    /**
+     * Closes the connection, releasing its named locks as a disconnect does on MySQL.
+     */
+    public function disconnect()
+    {
+        NamedLock::releaseConnection($this);
+        parent::disconnect();
     }
 
     public function isMysqlServerHasGoneAwayError(Exception $e)

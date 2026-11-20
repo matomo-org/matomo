@@ -112,6 +112,53 @@ class NamedLockTest extends TestCase
         }
     }
 
+    public function testNamesCompareCaseInsensitivelyAsOnMysql(): void
+    {
+        $first = new \stdClass();
+        $second = new \stdClass();
+
+        $this->assertTrue(NamedLock::acquire($first, $this->databaseFile, 'Archive', 0));
+        $this->assertFalse(NamedLock::acquire($second, $this->databaseFile, 'archive', 0));
+        $this->assertTrue(NamedLock::acquire($first, $this->databaseFile, 'ARCHIVE', 0));
+        $this->assertTrue(NamedLock::release($first, 'archive'));
+        $this->assertTrue(NamedLock::release($first, 'Archive'));
+        $this->assertTrue(NamedLock::isFree($second, $this->databaseFile, 'aRCHIVE'));
+    }
+
+    public function testReleasingAConnectionReleasesItsLocks(): void
+    {
+        $first = new \stdClass();
+        $second = new \stdClass();
+
+        $this->assertTrue(NamedLock::acquire($first, $this->databaseFile, 'a', 0));
+        $this->assertTrue(NamedLock::acquire($first, $this->databaseFile, 'a', 0));
+        NamedLock::releaseConnection($first);
+
+        $this->assertFalse(NamedLock::release($first, 'a'));
+        $this->assertTrue(NamedLock::acquire($second, $this->databaseFile, 'a', 0));
+    }
+
+    public function testASymbolicLinkToTheDatabaseSharesItsLocks(): void
+    {
+        if (DIRECTORY_SEPARATOR !== '/') {
+            $this->markTestSkipped('symbolic links');
+        }
+        touch($this->databaseFile);
+        $link = $this->directory . '/link.db';
+        symlink($this->databaseFile, $link);
+
+        try {
+            $first = new \stdClass();
+            $this->assertTrue(NamedLock::acquire($first, $this->databaseFile, 'a', 0));
+            $this->assertFalse(NamedLock::acquire(new \stdClass(), $link, 'a', 0));
+            $this->assertFalse(NamedLock::isFree(new \stdClass(), $link, 'a'));
+        } finally {
+            NamedLock::releaseAll();
+            unlink($link);
+            unlink($this->databaseFile);
+        }
+    }
+
     public function testAnotherProcessHoldsTheLockUntilItExits(): void
     {
         $code = 'require $argv[1]; $c = new stdClass();'

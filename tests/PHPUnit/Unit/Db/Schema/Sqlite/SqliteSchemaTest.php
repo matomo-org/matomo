@@ -255,6 +255,36 @@ class SqliteSchemaTest extends TestCase
         $this->testFailedAlterLeavesTheTableUnchanged();
     }
 
+    public function testNamedLocksFollowTheConnectionAndAreReleasedWhenItCloses(): void
+    {
+        // the configuration names MySQL, the connection is SQLite
+        $originalSchema = Config::getInstance()->database['schema'] ?? null;
+        Config::getInstance()->database['adapter'] = 'PDO\MYSQL';
+        Config::getInstance()->database['schema'] = 'Mysql';
+        \Piwik\Db\Schema::getInstance()->unsetSchema();
+
+        $first = Db::get();
+        $second = new SqliteAdapter($this->config);
+        try {
+            $this->assertTrue(Db::getDbLock('archive.lock', 1));
+            $this->assertFalse(\Piwik\Db\Schema::getInstance()->isNamedLockFree('archive.lock'));
+
+            Db::setDatabaseObject($second);
+            $this->assertFalse(Db::getDbLock('archive.lock', 1));
+            $this->assertFalse(Db::releaseDbLock('archive.lock'));
+
+            $first->closeConnection();
+            $this->assertTrue(\Piwik\Db\Schema::getInstance()->isNamedLockFree('archive.lock'));
+            $this->assertTrue(Db::getDbLock('archive.lock', 1));
+            $this->assertTrue(Db::releaseDbLock('archive.lock'));
+        } finally {
+            Db::setDatabaseObject($first);
+            $second->closeConnection();
+            Config::getInstance()->database['schema'] = $originalSchema;
+            \Piwik\Db\Schema::getInstance()->unsetSchema();
+        }
+    }
+
     public function testIgnoredErrorsSkipOnlyTheirStatement(): void
     {
         $this->schema->createTable('t', 'id INT NOT NULL, label VARCHAR(10) NULL, PRIMARY KEY (id)');
@@ -331,6 +361,15 @@ class SqliteSchemaTest extends TestCase
                 $this->assertStringContainsString('CHECK constraint failed', $e->getMessage());
             }
         }
+    }
+
+    public function testBackslashEscapedQuotesAndDoubleQuotedStrings(): void
+    {
+        $this->schema->createTable('t', "id INT NOT NULL, e ENUM('it\\'s','wait') NULL, d VARCHAR(10) NOT NULL DEFAULT 'a\\'b', q VARCHAR(10) NOT NULL DEFAULT \"\", PRIMARY KEY (id)");
+        Db::query('INSERT INTO matomo_t (id, e) VALUES (1, ?)', ["it's"]);
+
+        $this->assertSame([["it's", "a'b", '']], array_map('array_values', Db::fetchAll('SELECT e, d, q FROM matomo_t')));
+        $this->assertSame([], $this->schema->getAlterTableSql('matomo_t', ["MODIFY COLUMN e ENUM('it\\'s','wait') NULL"]));
     }
 
     /**

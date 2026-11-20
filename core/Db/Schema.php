@@ -253,7 +253,7 @@ class Schema extends Singleton
      */
     public function getNamedLock(string $name, int $timeoutSeconds): bool
     {
-        return $this->getMysqlCompatibleSchema()->getNamedLock($name, $timeoutSeconds);
+        return $this->getLockSchema()->getNamedLock($name, $timeoutSeconds);
     }
 
     /**
@@ -261,7 +261,7 @@ class Schema extends Singleton
      */
     public function releaseNamedLock(string $name): bool
     {
-        return $this->getMysqlCompatibleSchema()->releaseNamedLock($name);
+        return $this->getLockSchema()->releaseNamedLock($name);
     }
 
     /**
@@ -269,7 +269,7 @@ class Schema extends Singleton
      */
     public function isNamedLockFree(string $name): bool
     {
-        return $this->getMysqlCompatibleSchema()->isNamedLockFree($name);
+        return $this->getLockSchema()->isNamedLockFree($name);
     }
 
     /**
@@ -480,6 +480,20 @@ class Schema extends Singleton
      * Returns the configured schema if it derives from the MySQL schema, which defines the table
      * metadata operations. Other schemas get the MySQL ones, which is the SQL Matomo always ran for them.
      */
+    /**
+     * Named locks belong to the connection, so the connection in use decides how they are taken,
+     * whatever the configuration file says.
+     */
+    private function getLockSchema(): Mysql
+    {
+        if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+            $schema = $this->getSchema();
+            return $schema instanceof Schema\Sqlite ? $schema : new Schema\Sqlite();
+        }
+
+        return $this->getMysqlCompatibleSchema();
+    }
+
     private function getMysqlCompatibleSchema(): Mysql
     {
         // only for operations that use no other method of the schema

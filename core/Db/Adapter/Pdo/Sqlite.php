@@ -11,6 +11,7 @@ namespace Piwik\Db\Adapter\Pdo;
 
 use Exception;
 use Piwik\Db\AdapterInterface;
+use Piwik\Db\Schema\Sqlite\NamedLock;
 use Piwik\Db\Sqlite\Connection;
 use Piwik\Db\Sqlite\ErrorCodes;
 use Piwik\Piwik;
@@ -79,6 +80,15 @@ class Sqlite extends Zend_Db_Adapter_Pdo_Abstract implements AdapterInterface
         parent::_connect();
 
         Connection::configure($this->_connection, $this->connectionConfig);
+    }
+
+    /**
+     * Closes the connection, releasing its named locks as a disconnect does on MySQL.
+     */
+    public function closeConnection()
+    {
+        NamedLock::releaseConnection($this);
+        parent::closeConnection();
     }
 
     /**

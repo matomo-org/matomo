@@ -68,7 +68,7 @@ class LogHelper
 
         $this->insertInto('log_visit', $visit);
 
-        $idVisit = Db::fetchOne("SELECT LAST_INSERT_ID()");
+        $idVisit = Db::get()->lastInsertId();
         return $this->getVisit($idVisit, $allColumns = true);
     }
 

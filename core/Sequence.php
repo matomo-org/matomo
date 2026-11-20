@@ -96,7 +96,8 @@ class Sequence
         // SQLite lacks LAST_INSERT_ID(expr): RETURNING reads the value in the same, atomic, statement
         $isSqlite = Connection::isSqliteConnection($this->db);
         if ($isSqlite) {
-            $sql = 'UPDATE `' . $this->table . '` SET value = value + 1 WHERE name = ? RETURNING value';
+            // bounded: past the maximum, SQLite would store a REAL and repeat ids, where MySQL fails
+            $sql = 'UPDATE `' . $this->table . '` SET value = value + 1 WHERE name = ? AND value < ' . PHP_INT_MAX . ' RETURNING value';
         } else {
             $sql = 'UPDATE ' . $this->table . ' SET value = LAST_INSERT_ID(value + 1) WHERE name = ?';
         }
@@ -106,7 +107,8 @@ class Sequence
         if ($isSqlite) {
             $rows = $result->fetchAll(\PDO::FETCH_NUM);
             if (count($rows) !== 1) {
-                throw new Exception("Sequence '" . $this->name . "' not found.");
+                $message = $this->exists() ? "Sequence '" . $this->name . "' is exhausted." : "Sequence '" . $this->name . "' not found.";
+                throw new Exception($message);
             }
 
             return (int) $rows[0][0];
