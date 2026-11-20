@@ -23,7 +23,7 @@ use Piwik\Db\SqlListParser;
  * - Text types become `TEXT COLLATE NOCASE`, case-insensitive like MySQL's default collations
  *   (ASCII only), or `TEXT` with a binary collation (`*_bin`) on the column; a binary table
  *   collation is rejected.
- * - Binary types become `BLOB`; date and time types become `TEXT`; an `ENUM` becomes text with the
+ * - Binary types become `BLOB`, `BLOB(n)` for `BINARY(n)` and `VARBINARY(n)`; date and time types become `TEXT`; an `ENUM` becomes text with the
  *   text collation, a CHECK on its values and, NOT NULL without a default, its first value as default.
  * - Any other NOT NULL column without a default gets MySQL's implicit default (zero, `''`, the zero
  *   date), which MySQL stores when a non-strict insert leaves the column out.
@@ -456,11 +456,6 @@ final class DefinitionConverter
             $notNull = true;
         }
 
-        // a NOT NULL ENUM without a default defaults to its first value
-        if ($enumValues !== null && $notNull === true && $default === null) {
-            $default = $enumValues[0];
-        }
-
         // any other NOT NULL column without a default gets the type's implicit default, which MySQL
         // stores when an insert leaves the column out (Matomo's sql_mode is not strict) and gives the
         // existing rows when the column is added; it is written in parentheses, which a default the
@@ -482,6 +477,10 @@ final class DefinitionConverter
             'enumValues' => $enumValues,
             'integerCheck' => false,
             'type' => $sqlType,
+            // BINARY(n) and VARBINARY(n) keep their length, so they read back apart from the blob types
+            'declaredType' => $sqlType === 'BLOB' && in_array($type, ['binary', 'varbinary'], true) && ($matches[2] ?? '') !== ''
+                ? 'BLOB(' . (int) $matches[2] . ')'
+                : $sqlType,
             'notNull' => $notNull === true,
             'default' => $default,
             'implicitDefault' => $implicitDefault,
@@ -538,7 +537,7 @@ final class DefinitionConverter
             return 'INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL';
         }
 
-        $sql = $column['type'];
+        $sql = $column['type'] === 'BLOB' ? $column['declaredType'] : $column['type'];
         if ($column['primaryKey']) {
             $sql .= ' PRIMARY KEY';
         }

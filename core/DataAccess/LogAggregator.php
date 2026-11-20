@@ -959,11 +959,13 @@ class LogAggregator
 
         $alias = substr($expression, $matches[1][1], strlen($matches[1][0]));
         if ($alias[0] === '"') {
-            $name = str_replace('""', '"', substr($alias, 1, -1));
-            if (!$isSqlite) {
-                // MySQL reads backslash escapes in a double-quoted alias, as in a string
-                $name = preg_replace('/\\\\(.)/s', '$1', $name);
-            }
+            $name = substr($alias, 1, -1);
+            // a doubled quote is one quote; MySQL also reads backslash escapes there, as in a string,
+            // where \% and \_ keep their backslash
+            $escapes = ['0' => "\0", 'b' => "\x08", 'n' => "\n", 'r' => "\r", 't' => "\t", 'Z' => "\x1A", '%' => '\\%', '_' => '\\_'];
+            $name = preg_replace_callback($isSqlite ? '/""/' : '/""|\\\\(.)/s', function ($match) use ($escapes) {
+                return $match[0] === '""' ? '"' : ($escapes[$match[1]] ?? $match[1]);
+            }, $name);
             $alias = '`' . str_replace('`', '``', $name) . '`';
         }
 

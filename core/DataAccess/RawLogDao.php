@@ -184,18 +184,31 @@ class RawLogDao
 
         $this->createTempTableForStoringUsedActions();
 
-        // do large insert (inserting everything before maxIds) w/o locking tables...
-        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true, $max_rows_per_query);
+        try {
+            // do large insert (inserting everything before maxIds) w/o locking tables...
+            $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true, $max_rows_per_query);
 
-        // ... then do small insert w/ locked tables to minimize the amount of time tables are locked.
-        $this->lockLogTables();
-        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = false, $max_rows_per_query);
+            // ... then do small insert w/ locked tables to minimize the amount of time tables are locked.
+            $this->lockLogTables();
+            $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = false, $max_rows_per_query);
 
-        // delete before unlocking tables so there's no chance a new log row that references an
-        // unused action will be inserted.
-        $this->deleteUnusedActions();
+            // delete before unlocking tables so there's no chance a new log row that references an
+            // unused action will be inserted.
+            $this->deleteUnusedActions();
 
-        Db::unlockAllTables();
+            Db::unlockAllTables();
+        } catch (\Throwable $e) {
+            // release the locks (SQLite's lock holds the whole database) and the table for the next run
+            try {
+                Db::unlockAllTables();
+            } catch (\Throwable $ignored) {
+            }
+            try {
+                $this->dropTempTableForStoringUsedActions();
+            } catch (\Throwable $ignored) {
+            }
+            throw $e;
+        }
 
         $this->dropTempTableForStoringUsedActions();
     }

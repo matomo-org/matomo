@@ -227,6 +227,15 @@ class LogAggregatorTest extends IntegrationTestCase
             // MySQL reads a backslash escape in a double-quoted alias
             $groupBy = $method->invoke($this->logAggregator, ['LOWER(log_visit.config_os) AS "a\\"b"'], 'log_visit');
             $this->assertSame(['`a"b`'], $groupBy);
+            // where \_ and \% keep their backslash, a doubled quote is one quote, \n a new line
+            $groupBy = $method->invoke($this->logAggregator, ['LOWER(log_visit.config_os) AS "a\\_b"', 'LOWER(log_visit.config_browser_name) AS "c\\%d"', 'LOWER(log_visit.config_device_model) AS "e""f\\ng"'], 'log_visit');
+            $this->assertSame(['`a\\_b`', '`c\\%d`', "`e\"f\ng`"], $groupBy);
+            // which the server resolves to the selected aliases, named as the GROUP BY names them
+            $rows = Db::fetchAll('SELECT LOWER(log_visit.config_os) AS "a\\_b", LOWER(log_visit.config_browser_name) AS "c\\%d", LOWER(log_visit.config_device_model) AS "e""f\\ng" FROM '
+                . Common::prefixTable('log_visit') . ' AS log_visit GROUP BY ' . implode(', ', $groupBy));
+            foreach ($rows as $row) {
+                $this->assertSame(['a\\_b', 'c\\%d', "e\"f\ng"], array_keys($row));
+            }
         }
     }
 

@@ -292,7 +292,7 @@ class Sqlite extends Mysql
      */
     private static function getColumnDefaultValue(?string $default, string $definition): ?string
     {
-        if ($default === null || strcasecmp($default, 'NULL') === 0 || preg_match('/\bDEFAULT\s*\(/i', $definition)) {
+        if ($default === null || strcasecmp($default, 'NULL') === 0 || preg_match('/\bDEFAULT\s*\(/i', preg_replace("/'(?:[^']|'')*'/", "''", $definition))) {
             return null;
         }
         if (preg_match("/^'(.*)'$/s", $default, $matches)) {
@@ -602,7 +602,12 @@ class Sqlite extends Mysql
      */
     private function getColumnDefinitions(string $tableName): array
     {
-        $sql = (string) Db::fetchOne("SELECT sql FROM sqlite_schema WHERE type = 'table' AND name = ? COLLATE NOCASE", [$tableName]);
+        // the table PRAGMA table_info reads: a temporary one shadows the permanent one
+        $sql = (string) Db::fetchOne(
+            "SELECT sql FROM (SELECT sql, 0 AS shadow FROM temp.sqlite_schema WHERE type = 'table' AND name = ? COLLATE NOCASE"
+            . " UNION ALL SELECT sql, 1 FROM main.sqlite_schema WHERE type = 'table' AND name = ? COLLATE NOCASE) ORDER BY shadow LIMIT 1",
+            [$tableName, $tableName]
+        );
         $start = strpos($sql, '(');
         $end = strrpos($sql, ')');
         if ($start === false || $end === false) {

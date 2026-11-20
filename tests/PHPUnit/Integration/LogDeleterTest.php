@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Db;
 use Piwik\LogDeleter;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\TestDataHelper\LogHelper;
@@ -40,6 +41,31 @@ class LogDeleterTest extends IntegrationTestCase
 
         $this->logInserter = new LogHelper();
         $this->insertTestData();
+    }
+
+    public function testAFailedActionPurgeLeavesNothingBehindForTheNextOne(): void
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('A SQLite trigger fails the purge');
+        }
+
+        $table = Common::prefixTable('log_action');
+        Db::query("INSERT INTO `$table` (idaction, name, type) VALUES (99999, 'unused', 1)");
+        Db::exec("CREATE TRIGGER matomo_test_failed_purge BEFORE DELETE ON `$table` BEGIN SELECT RAISE(ABORT, 'purge failed'); END");
+
+        $dao = new RawLogDao();
+        try {
+            $dao->deleteUnusedLogActions();
+            $this->fail('the trigger should fail the purge');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('purge failed', $e->getMessage());
+        } finally {
+            Db::exec('DROP TRIGGER matomo_test_failed_purge');
+        }
+
+        // no write lock nor temporary table is left: the next purge runs
+        $dao->deleteUnusedLogActions();
+        $this->assertSame(0, (int) Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'unused'"));
     }
 
     public function testDeleteVisitsRemovesVisitsAndOtherRelatedLogs()

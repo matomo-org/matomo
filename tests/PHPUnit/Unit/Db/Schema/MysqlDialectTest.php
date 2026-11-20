@@ -140,10 +140,17 @@ class MysqlDialectTest extends TestCase
 
     public function testBeforeConnectingTheFacadeFollowsTheConfiguredSchema(): void
     {
-        $this->assertFalse(\Piwik\Db::hasDatabaseObject());
+        // a connection the suite opened earlier is set aside for the test
+        $connection = \Piwik\Db::hasDatabaseObject() ? \Piwik\Db::get() : null;
+        \Piwik\Db::setDatabaseObject(null);
+        try {
+            $this->assertFalse(\Piwik\Db::hasDatabaseObject());
 
-        $this->assertSame('HOUR(x)', $this->facadeWith(new Mysql())->getHourSql('x'));
-        $this->assertSame("CAST(strftime('%H', x) AS INTEGER)", $this->facadeWith(new \Piwik\Db\Schema\Sqlite())->getHourSql('x'));
+            $this->assertSame('HOUR(x)', $this->facadeWith(new Mysql())->getHourSql('x'));
+            $this->assertSame("CAST(strftime('%H', x) AS INTEGER)", $this->facadeWith(new \Piwik\Db\Schema\Sqlite())->getHourSql('x'));
+        } finally {
+            \Piwik\Db::setDatabaseObject($connection);
+        }
     }
 
     public function testFacadeFallsBackToMysqlForASchemaWithoutDialect(): void

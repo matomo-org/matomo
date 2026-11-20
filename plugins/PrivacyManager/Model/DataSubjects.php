@@ -231,9 +231,15 @@ class DataSubjects
 
                 // You cannot use ORDER BY or LIMIT in a multiple-table DELETE. We have to delete it all at once
                 if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
-                    // SQLite has no multiple-table DELETE: the same rows, by rowid
+                    // SQLite has no multiple-table DELETE: the same rows, by rowid, under a name no
+                    // column of the table hides
+                    $columns = array_change_key_case(DbHelper::getTableColumns(Common::prefixTable($logTableName)));
+                    $rowid = current(array_diff(['rowid', '_rowid_', 'oid'], array_keys($columns)));
+                    if ($rowid === false) {
+                        throw new \Exception("Cannot delete from $logTableName: its columns hide SQLite's rowid");
+                    }
                     $sql = 'DELETE FROM ' . Common::prefixTable($logTableName)
-                        . " WHERE rowid IN (SELECT $logTableName.rowid FROM $tblFrom WHERE $where)";
+                        . " WHERE $rowid IN (SELECT $logTableName.$rowid FROM $tblFrom WHERE $where)";
                 } else {
                     $sql = "DELETE $logTableName FROM $tblFrom WHERE $where";
                 }
@@ -349,8 +355,8 @@ class DataSubjects
                         break;
                     }
                 }
-                // binary(n) and varbinary(n), or blob as SQLite stores them
-                if (!empty($config['Type']) && preg_match('/binary|blob/', strtolower($config['Type']))) {
+                // binary(n) and varbinary(n), which SQLite declares blob(n)
+                if (!empty($config['Type']) && preg_match('/binary|^blob\(/', strtolower($config['Type']))) {
                     $binaryFields[] = $col;
                 }
                 $select[] = sprintf('`%s`.`%s`', $logTableName, $col);

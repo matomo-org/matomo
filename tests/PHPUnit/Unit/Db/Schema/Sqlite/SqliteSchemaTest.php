@@ -83,6 +83,87 @@ class SqliteSchemaTest extends TestCase
         $this->assertSame(['a' => null, 'b' => '5', 'c' => "it's", 'd' => null, 'e' => '', 'f' => null], $defaults);
     }
 
+    public function testColumnDefaultsReadTheTableAndTheTextTheDefinitionGives(): void
+    {
+        $this->schema->createTable('t', "a VARCHAR(20) NOT NULL DEFAULT 'use DEFAULT(x)', b INT NOT NULL, c ENUM('open','closed') NOT NULL, PRIMARY KEY (c)");
+        $this->schema->createTable('u', "c ENUM('open','closed') NOT NULL PRIMARY KEY");
+        // a temporary table shadowing it is the one read, as PRAGMA table_info reads it
+        Db::exec('CREATE TEMPORARY TABLE matomo_t (a TEXT, b INT NOT NULL DEFAULT 4, c TEXT)');
+
+        $this->assertSame(['a' => null, 'b' => '4', 'c' => null], array_column($this->schema->getTableColumns('matomo_t'), 'Default', 'Field'));
+        Db::exec('DROP TABLE temp.matomo_t');
+        $this->assertSame(['a' => 'use DEFAULT(x)', 'b' => null, 'c' => null], array_column($this->schema->getTableColumns('matomo_t'), 'Default', 'Field'));
+        // an ENUM's implicit first value is no default of its own, wherever the key is declared
+        $this->assertSame(['c' => null], array_column($this->schema->getTableColumns('matomo_u'), 'Default', 'Field'));
+        Db::query('INSERT INTO matomo_t (a, b) VALUES (?, ?)', ['x', 1]);
+        $this->assertSame('open', Db::fetchOne('SELECT c FROM matomo_t'));
+    }
+
+    public function testBinaryColumnsReadBackApartFromBlobs(): void
+    {
+        $this->schema->createTable('t', 'a BINARY(8) NOT NULL, b VARBINARY(16) NULL, c MEDIUMBLOB NULL, d BLOB NULL');
+
+        $types = array_column($this->schema->getTableColumns('matomo_t'), 'Type', 'Field');
+        $this->assertSame(['a' => 'blob(8)', 'b' => 'blob(16)', 'c' => 'blob', 'd' => 'blob'], $types);
+        // still BLOB affinity: bytes are stored as given
+        Db::query('INSERT INTO matomo_t (a, b) VALUES (?, ?)', ["\x00\x01", "\x02"]);
+        $this->assertSame('text', Db::fetchOne('SELECT typeof(b) FROM matomo_t'));
+    }
+
+    public function testUnlockAllTablesEndsTheTransactionWhenCommitFails(): void
+    {
+        Db::exec('PRAGMA foreign_keys = ON');
+        Db::exec('CREATE TABLE matomo_p (id INTEGER PRIMARY KEY)');
+        Db::exec('CREATE TABLE matomo_c (p INTEGER REFERENCES matomo_p (id) DEFERRABLE INITIALLY DEFERRED)');
+
+        Db::lockTables([], ['matomo_c']);
+        Db::query('INSERT INTO matomo_c (p) VALUES (1)');
+        try {
+            Db::unlockAllTables();
+            $this->fail('the deferred constraint should fail the commit');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('FOREIGN KEY constraint failed', $e->getMessage());
+        }
+
+        // rolled back, and back to autocommit
+        $this->assertSame(0, (int) Db::fetchOne('SELECT COUNT(*) FROM matomo_c'));
+        Db::exec('BEGIN');
+        Db::exec('ROLLBACK');
+        $this->assertSame(0, Db::unlockAllTables());
+    }
+
+    public function testUnlockAllTablesReleasesTheLockOfTheConnectionThatTookIt(): void
+    {
+        Db::exec('CREATE TABLE matomo_l (id INTEGER)');
+        $owner = Db::get();
+        Db::lockTables([], ['matomo_l']);
+        Db::query('INSERT INTO matomo_l VALUES (1)');
+
+        $other = new SqliteAdapter($this->config);
+        Db::setDatabaseObject($other);
+        Db::unlockAllTables();
+        // the owner's transaction committed: the other connection sees the row and can write
+        $other->query('INSERT INTO matomo_l VALUES (2)');
+        $this->assertSame(2, (int) $other->fetchOne('SELECT COUNT(*) FROM matomo_l'));
+        $other->closeConnection();
+        Db::setDatabaseObject($owner);
+    }
+
+    public function testLockPrivilegeIsGrantedWhileAnotherWriterHoldsTheLock(): void
+    {
+        $original = Db::$lockPrivilegeGranted;
+        Db::$lockPrivilegeGranted = null;
+        $other = new SqliteAdapter($this->config);
+        $other->query('BEGIN IMMEDIATE');
+        try {
+            $this->assertTrue(Db::isLockPrivilegeGranted());
+        } finally {
+            $other->query('ROLLBACK');
+            $other->closeConnection();
+            Db::$lockPrivilegeGranted = $original;
+        }
+    }
+
     public function testCreateTableLeavesAnExistingTableAsItIs(): void
     {
         $this->schema->createTable('t', 'id INT NOT NULL, PRIMARY KEY (id)');

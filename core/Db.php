@@ -584,8 +584,9 @@ class Db implements TransactionalDatabaseInterface
         if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
             // SQLite locks the database, not tables: the write lock blocks every other writer until
             // unlockAllTables(), while readers still read
-            self::query('BEGIN IMMEDIATE');
-            self::$sqliteTablesLocked = true;
+            $connection = self::get();
+            $connection->query('BEGIN IMMEDIATE');
+            self::$sqliteLockConnection = $connection;
             return 0;
         }
 
@@ -611,13 +612,24 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function unlockAllTables()
     {
+        // the SQLite lock is released on the connection that took it, even if another one is current now
+        $connection = self::$sqliteLockConnection;
+        if ($connection !== null) {
+            self::$sqliteLockConnection = null;
+            try {
+                $connection->query('COMMIT');
+            } catch (\Throwable $e) {
+                // a failed COMMIT (a deferred constraint) leaves the transaction open: end it
+                try {
+                    $connection->query('ROLLBACK');
+                } catch (\Throwable $ignored) {
+                }
+                throw $e;
+            }
+            return 0;
+        }
         if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
             // as UNLOCK TABLES, nothing to do when lockTables() locked nothing
-            if (!self::$sqliteTablesLocked) {
-                return 0;
-            }
-            self::$sqliteTablesLocked = false;
-            self::query('COMMIT');
             return 0;
         }
 
@@ -848,11 +860,11 @@ class Db implements TransactionalDatabaseInterface
     public static $lockPrivilegeGranted = null;
 
     /**
-     * Whether lockTables() holds the SQLite write lock.
+     * The SQLite connection on which lockTables() holds the write lock, if any.
      *
-     * @var bool
+     * @var object|null
      */
-    private static $sqliteTablesLocked = false;
+    private static $sqliteLockConnection = null;
 
     /**
      * Checks whether the database user is allowed to lock tables.
@@ -861,6 +873,10 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function isLockPrivilegeGranted()
     {
+        if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            // SQLite has no lock privilege; a probe could only fail on another writer's lock
+            return true;
+        }
         if (is_null(self::$lockPrivilegeGranted)) {
             try {
                 Db::lockTables(Common::prefixTable('site_url'));
