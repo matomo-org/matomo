@@ -345,7 +345,7 @@ class FrontController extends Singleton
         // try to connect to the database
         try {
             Db::createDatabaseObject();
-            Db::fetchAll("SELECT DATABASE()");
+            Db::fetchAll("SELECT 1");
         } catch (Exception $exception) {
             if (self::shouldRethrowException()) {
                 throw $exception;

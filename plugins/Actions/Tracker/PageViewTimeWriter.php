@@ -245,8 +245,9 @@ class PageViewTimeWriter
         // Five indexes start with idvisit, and on a short visit the optimiser prefers one of
         // the others and then sorts. Pinning the index that already provides the order keeps
         // this a LIMIT 1 walk, which no sort can beat.
+        $indexHint = Schema::getInstance()->getIndexHintSql('index_idvisit_server_time');
         $idPageViewTime = $db->fetchOne(
-            "SELECT idpageviewtime FROM `$table` FORCE INDEX (index_idvisit_server_time)
+            "SELECT idpageviewtime FROM `$table`$indexHint
               WHERE idvisit = ?
                 AND idlink_va <> ?
                 AND server_time < ?

@@ -245,7 +245,12 @@ class SettingsPiwik
         }
 
         // Check that the database section is really set, ie. file is not empty
-        if (empty(Config::getInstance()->database['username'])) {
+        $database = Config::getInstance()->database;
+        if (Db\Sqlite\Connection::isSqliteAdapter($database['adapter'] ?? '')) {
+            // SQLite has no credentials, only the database file
+            return !empty($database['dbname']);
+        }
+        if (empty($database['username'])) {
             return false;
         }
         return true;

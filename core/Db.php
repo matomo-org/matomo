@@ -72,6 +72,14 @@ class Db implements TransactionalDatabaseInterface
     {
         $readerConfig = Config::getInstance()->database_reader;
 
+        if (
+            (!empty($readerConfig['host']) || !empty($readerConfig['dbname']))
+            && Db\Sqlite\Connection::isSqliteAdapter(Config::getInstance()->database['adapter'] ?? '')
+        ) {
+            // a reader would be a second copy of the database file, which nothing keeps in sync
+            throw new \Exception('SQLite: a [database_reader] is not supported. Remove the [database_reader] section from the configuration.');
+        }
+
         return !empty($readerConfig['host']);
     }
 

@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db\IndexHintInterface;
 use Piwik\Db\QueryCapabilitiesInterface;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db\SqlDialectInterface;
@@ -28,7 +29,7 @@ use Piwik\Version;
 /**
  * MySQL schema
  */
-class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesInterface
+class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesInterface, IndexHintInterface
 {
     public const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
     public const MAX_TABLE_NAME_LENGTH = 64;
@@ -658,6 +659,63 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
     }
 
     /**
+     * Returns the statements applying `ALTER TABLE` specifications, e.g. `ADD COLUMN name VARCHAR(10) NULL`,
+     * to a table: one statement for all of them, or one each if the database needs it.
+     *
+     * @param string   $tableName      the prefixed table name
+     * @param string[] $specifications in MySQL syntax
+     * @return string[]
+     */
+    public function getAlterTableSql(string $tableName, array $specifications): array
+    {
+        if ($this->supportsComplexColumnUpdates()) {
+            return ['ALTER TABLE `' . $tableName . '` ' . implode(', ', $specifications)];
+        }
+
+        $statements = [];
+        foreach ($specifications as $specification) {
+            $statements[] = 'ALTER TABLE `' . $tableName . '` ' . $specification;
+        }
+
+        return $statements;
+    }
+
+    /**
+     * Returns the names of the tables matching a `LIKE` pattern, in which `\` escapes `%` and `_`.
+     *
+     * @return string[]
+     */
+    public function getTablesLike(string $pattern): array
+    {
+        return $this->getDb()->fetchCol('SHOW TABLES LIKE ' . $this->getDb()->quote($pattern));
+    }
+
+    /**
+     * Whether a table has an index with the given name (`PRIMARY` for the primary key).
+     */
+    public function tableHasIndex(string $tableName, string $indexName): bool
+    {
+        $result = $this->getDb()->fetchOne('SHOW INDEX FROM `' . $tableName . '` WHERE Key_name = ?', [$indexName]);
+
+        return !empty($result);
+    }
+
+    /**
+     * Creates a table with the definition of one of Matomo's tables, e.g. a monthly archive table.
+     *
+     * @param string $templateNameWithoutPrefix e.g. `archive_numeric`
+     * @param string $tableName                 the prefixed name of the table to create
+     * @throws Exception if the table already exists (error 1050)
+     */
+    public function createTableFromTemplate(string $templateNameWithoutPrefix, string $tableName): void
+    {
+        $sql = $this->getTableCreateSql($templateNameWithoutPrefix);
+        $sql = str_replace(Common::prefixTable($templateNameWithoutPrefix), $tableName, $sql);
+
+        $this->getDb()->query($sql);
+    }
+
+    /**
      * Drop database
      */
     public function dropDatabase($dbName = null)
@@ -697,7 +755,7 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
         // The anonymous user is the user that is assigned by default
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
-        $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
+        $db->query($this->getInsertIgnoreSql() . " INTO " . Common::prefixTable("user") . "
                     (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`,
                     `idchange_last_viewed`)
                     VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL);");
@@ -914,6 +972,11 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
     {
         // backslash is MySQL's default LIKE escape character
         return '';
+    }
+
+    public function getIndexHintSql(string $indexName, bool $force = true): string
+    {
+        return ($force ? ' FORCE INDEX (' : ' USE INDEX (') . $indexName . ')';
     }
 
     public function getSupportedReadIsolationTransactionLevel(): string

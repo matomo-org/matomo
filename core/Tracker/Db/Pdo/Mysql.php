@@ -305,7 +305,7 @@ class Mysql extends Db
                 $parameters = array($parameters);
             }
             $sth = $this->connection->prepare($query);
-            $sth->execute($parameters);
+            $this->executeStatement($sth, $parameters);
 
             if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
@@ -369,13 +369,13 @@ class Mysql extends Db
         }
 
         try {
-            $success = $this->connection->beginTransaction();
+            $success = $this->beginConnectionTransaction();
         } catch (Exception $e) {
             if ($this->isMysqlServerHasGoneAwayError($e)) {
                 // mysql may return a MySQL server has gone away error when trying begin transaction, in that case we
                 // want to retry this once
                 $this->reconnect($e);
-                $success = $this->connection->beginTransaction();
+                $success = $this->beginConnectionTransaction();
             } else {
                 throw $e;
             }
@@ -418,11 +418,11 @@ class Mysql extends Db
         $this->activeTransaction = null;
 
         try {
-            $success = $this->connection->commit();
+            $success = $this->commitConnectionTransaction();
         } catch (PDOException $e) {
             try {
                 // PDO may still think the transaction is open, and would refuse to begin the next one
-                $this->connection->rollBack();
+                $this->rollBackConnectionTransaction();
             } catch (Exception $rollBackException) {
                 // the server has ended the transaction anyway
             }
@@ -448,14 +448,45 @@ class Mysql extends Db
         $this->activeTransaction = null;
         $this->resetTransactionAborted();
 
-        if (!$this->connection->inTransaction()) {
+        if (!$this->isConnectionInTransaction()) {
             // nothing left to roll back, e.g. a statement like ALTER TABLE ended the transaction, and PDO would throw "There is no active transaction"
             return;
         }
 
-        if (!$this->connection->rollBack()) {
+        if (!$this->rollBackConnectionTransaction()) {
             throw new DbException("Rollback failed");
         }
+    }
+
+    /**
+     * Executes a prepared statement with its parameters.
+     */
+    protected function executeStatement(\PDOStatement $statement, array $parameters): void
+    {
+        $statement->execute($parameters);
+    }
+
+    /**
+     * Starts a transaction on the connection. Overridden by adapters that start transactions with SQL.
+     */
+    protected function beginConnectionTransaction(): bool
+    {
+        return $this->connection->beginTransaction();
+    }
+
+    protected function commitConnectionTransaction(): bool
+    {
+        return $this->connection->commit();
+    }
+
+    protected function rollBackConnectionTransaction(): bool
+    {
+        return $this->connection->rollBack();
+    }
+
+    protected function isConnectionInTransaction(): bool
+    {
+        return $this->connection->inTransaction();
     }
 
     private function establishConnection(): void

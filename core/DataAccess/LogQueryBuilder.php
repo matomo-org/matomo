@@ -340,7 +340,7 @@ class LogQueryBuilder
             return '';
         }
 
-        return ' FORCE INDEX (' . self::LOG_VISIT_TIME_INDEX . ')';
+        return Schema::getInstance()->getIndexHintSql(self::LOG_VISIT_TIME_INDEX);
     }
 
     /**

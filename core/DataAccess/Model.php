@@ -20,7 +20,6 @@ use Piwik\CronArchive\ArchiveFilter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\Schema;
-use Piwik\DbHelper;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Segment;
@@ -585,15 +584,10 @@ class Model
 
     public function createArchiveTable($tableName, $tableNamePrefix)
     {
-        $db  = Db::get();
-        $sql = DbHelper::getTableCreateSql($tableNamePrefix);
-
-        // replace table name template by real name
-        $tableNamePrefix = Common::prefixTable($tableNamePrefix);
-        $sql = str_replace($tableNamePrefix, $tableName, $sql);
+        $db = Db::get();
 
         try {
-            $db->query($sql);
+            Schema::getInstance()->createTableFromTemplate($tableNamePrefix, $tableName);
         } catch (Exception $e) {
             // accept mysql error 1050: table already exists, throw otherwise
             if (!$db->isErrNo($e, '1050')) {
@@ -612,8 +606,8 @@ class Model
 
     public function getInstalledArchiveTables()
     {
-        $allArchiveNumeric = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_numeric%') . "'");
-        $allArchiveBlob    = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_blob%') . "'");
+        $allArchiveNumeric = Schema::getInstance()->getTablesLike(Common::prefixTable('archive_numeric%'));
+        $allArchiveBlob    = Schema::getInstance()->getTablesLike(Common::prefixTable('archive_blob%'));
 
         return array_merge($allArchiveBlob, $allArchiveNumeric);
     }

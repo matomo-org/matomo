@@ -74,6 +74,12 @@ class MysqlDialectTest extends TestCase
         yield 'backslash' => ['\\'];
     }
 
+    public function testIndexHints(): void
+    {
+        $this->assertSame(' FORCE INDEX (index_idsite_idvisitor_time)', (new Mysql())->getIndexHintSql('index_idsite_idvisitor_time'));
+        $this->assertSame(' USE INDEX (index_idsite_datetime)', (new Mysql())->getIndexHintSql('index_idsite_datetime', false));
+    }
+
     public function testMariadbInheritsTheMysqlDialect(): void
     {
         $mariadb = new Mariadb();
@@ -98,6 +104,7 @@ class MysqlDialectTest extends TestCase
         $this->assertSame('VALUES(c)', $facade->getInsertedValueSql('c'));
         $this->assertSame("GROUP_CONCAT(c ORDER BY c SEPARATOR ',')", $facade->getGroupConcatSql('c', 'c'));
         $this->assertSame('', $facade->getLikeEscapeSql());
+        $this->assertSame(' FORCE INDEX (i)', $facade->getIndexHintSql('i'));
     }
 
     /**

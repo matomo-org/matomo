@@ -82,14 +82,8 @@ class Updater extends \Piwik\Updates
                 continue;
             }
 
-            if (Schema::getInstance()->supportsComplexColumnUpdates()) {
-                $sql = "ALTER TABLE `" . Common::prefixTable($table) . "` " . implode(', ', $columns);
+            foreach (Schema::getInstance()->getAlterTableSql(Common::prefixTable($table), $columns) as $sql) {
                 $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
-            } else {
-                foreach ($columns as $column) {
-                    $sql = "ALTER TABLE `" . Common::prefixTable($table) . "` " . $column;
-                    $sqls[] = new Migration\Db\Sql($sql, $errorCodes);
-                }
             }
         }
 

@@ -9,7 +9,9 @@
 
 namespace Piwik\Db;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Db\Schema\Mysql;
 use Piwik\Singleton;
 
@@ -30,7 +32,9 @@ class Schema extends Singleton
     private $schema = null;
 
     /**
-     * @var SqlDialectInterface|null
+     * The MySQL schema, whose SQL dialect and table metadata operations serve schemas that have none.
+     *
+     * @var Mysql|null
      */
     private $mysqlDialect = null;
 
@@ -187,6 +191,67 @@ class Schema extends Singleton
     public function getTablesCreateSql()
     {
         return $this->getSchema()->getTablesCreateSql();
+    }
+
+    /**
+     * Creates a table with the definition of one of Matomo's tables, e.g. a monthly archive table.
+     *
+     * @param string $templateNameWithoutPrefix e.g. `archive_numeric`
+     * @param string $tableName                 the prefixed name of the table to create
+     * @throws \Exception if the table already exists (error 1050)
+     */
+    public function createTableFromTemplate(string $templateNameWithoutPrefix, string $tableName): void
+    {
+        $schema = $this->getSchema();
+        if ($schema instanceof Mysql) {
+            $schema->createTableFromTemplate($templateNameWithoutPrefix, $tableName);
+            return;
+        }
+
+        $sql = $schema->getTableCreateSql($templateNameWithoutPrefix);
+        Db::query(str_replace(Common::prefixTable($templateNameWithoutPrefix), $tableName, $sql));
+    }
+
+    /**
+     * Returns the statements applying `ALTER TABLE` specifications (in MySQL syntax, e.g.
+     * `ADD COLUMN name VARCHAR(10) NULL`) to a table.
+     *
+     * @param string   $tableName      the prefixed table name
+     * @param string[] $specifications
+     * @return string[]
+     */
+    public function getAlterTableSql(string $tableName, array $specifications): array
+    {
+        $schema = $this->getSchema();
+        if ($schema instanceof Mysql) {
+            return $schema->getAlterTableSql($tableName, $specifications);
+        }
+
+        if ($schema->supportsComplexColumnUpdates()) {
+            return ['ALTER TABLE `' . $tableName . '` ' . implode(', ', $specifications)];
+        }
+
+        return array_map(function ($specification) use ($tableName) {
+            return 'ALTER TABLE `' . $tableName . '` ' . $specification;
+        }, $specifications);
+    }
+
+    /**
+     * Returns the names of the tables matching a `LIKE` pattern, in which `\\` escapes `%` and `_`.
+     *
+     * @return string[]
+     */
+    public function getTablesLike(string $pattern): array
+    {
+        return $this->getMysqlCompatibleSchema()->getTablesLike($pattern);
+    }
+
+    /**
+     * Whether a table has an index with the given name (`PRIMARY` for the primary key).
+     */
+    public function tableHasIndex(string $tableName, string $indexName): bool
+    {
+        return $this->getMysqlCompatibleSchema()->tableHasIndex($tableName, $indexName);
     }
 
     /**
@@ -386,6 +451,26 @@ class Schema extends Singleton
     }
 
     /**
+     * Returns the configured schema if it derives from the MySQL schema, which defines the table
+     * metadata operations. Other schemas get the MySQL ones, which is the SQL Matomo always ran for them.
+     */
+    private function getMysqlCompatibleSchema(): Mysql
+    {
+        // only for operations that use no other method of the schema
+        $schema = $this->getSchema();
+
+        if ($schema instanceof Mysql) {
+            return $schema;
+        }
+
+        if ($this->mysqlDialect === null) {
+            $this->mysqlDialect = new Mysql();
+        }
+
+        return $this->mysqlDialect;
+    }
+
+    /**
      * Returns the SQL dialect of the configured schema. Schemas that don't implement
      * {@link SqlDialectInterface} get MySQL's, which is the SQL Matomo always emitted for them.
      */
@@ -452,6 +537,22 @@ class Schema extends Singleton
     public function getLikeEscapeSql(): string
     {
         return $this->getSqlDialect()->getLikeEscapeSql();
+    }
+
+    /**
+     * Returns the hint to append after a table name or alias asking the engine to use an index.
+     *
+     * @see IndexHintInterface::getIndexHintSql()
+     */
+    public function getIndexHintSql(string $indexName, bool $force = true): string
+    {
+        $schema = $this->getSchema();
+        if ($schema instanceof IndexHintInterface) {
+            return $schema->getIndexHintSql($indexName, $force);
+        }
+
+        // what Matomo always sent to the schemas that don't say otherwise
+        return ($force ? ' FORCE INDEX (' : ' USE INDEX (') . $indexName . ')';
     }
 
     /**

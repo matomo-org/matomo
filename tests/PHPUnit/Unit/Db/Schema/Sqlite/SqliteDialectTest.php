@@ -1,0 +1,122 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Tests\Unit\Db\Schema\Sqlite;
+
+use PDO;
+use PHPUnit\Framework\TestCase;
+use Piwik\Db\Schema\Sqlite;
+use Piwik\Tests\Unit\Db\Sqlite\RequiresSqlite;
+
+/**
+ * The SQLite dialect fragments, run against a real SQLite database where they have a behaviour to check.
+ */
+class SqliteDialectTest extends TestCase
+{
+    use RequiresSqlite;
+
+    /**
+     * @var Sqlite
+     */
+    private $schema;
+
+    /**
+     * @var PDO
+     */
+    private $pdo;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->requireSqlite();
+        $this->schema = new Sqlite();
+        $this->pdo = new PDO('sqlite::memory:', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $this->pdo->exec('CREATE TABLE t (k TEXT PRIMARY KEY, v INTEGER NOT NULL)');
+        $this->pdo->exec("INSERT INTO t VALUES ('a', 1)");
+    }
+
+    public function testInsertIgnoreSkipsConflictingRows(): void
+    {
+        $this->pdo->exec($this->schema->getInsertIgnoreSql() . " INTO t VALUES ('a', 2), ('b', 3)");
+
+        $this->assertSame([['a', 1], ['b', 3]], $this->fetchAll());
+    }
+
+    public function testUpsertUpdatesTheConflictingRowWithTheInsertedValue(): void
+    {
+        $this->pdo->exec(
+            "INSERT INTO t VALUES ('a', 5), ('c', 7) " . $this->schema->getOnDuplicateKeyUpdateSql()
+            . ' v = v + ' . $this->schema->getInsertedValueSql('v')
+        );
+
+        $this->assertSame([['a', 6], ['c', 7]], $this->fetchAll());
+    }
+
+    public function testGroupConcatOrdersAndSeparates(): void
+    {
+        $this->pdo->exec("INSERT INTO t VALUES ('b', 2), ('c', 3)");
+
+        $sql = 'SELECT ' . $this->schema->getGroupConcatSql("k || '.' || v", 'v DESC', '|') . ' FROM t';
+        $this->assertSame('c.3|b.2|a.1', $this->pdo->query($sql)->fetchColumn());
+        $this->assertSame('a,b,c', $this->pdo->query('SELECT ' . $this->schema->getGroupConcatSql('k', 'k') . ' FROM t')->fetchColumn());
+    }
+
+    public function testLikeEscapeMakesBackslashEscapeWildcards(): void
+    {
+        $this->pdo->exec("INSERT INTO t VALUES ('a_b', 2), ('axb', 3), ('a%', 4), ('abc', 5)");
+
+        $sql = 'SELECT k FROM t WHERE k LIKE ?' . $this->schema->getLikeEscapeSql() . ' ORDER BY k';
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['a\_b']);
+        $this->assertSame(['a_b'], $statement->fetchAll(PDO::FETCH_COLUMN));
+        $statement->execute(['a\%']);
+        $this->assertSame(['a%'], $statement->fetchAll(PDO::FETCH_COLUMN));
+    }
+
+    public function testNoIndexHint(): void
+    {
+        $this->assertSame('', $this->schema->getIndexHintSql('index_idsite_idvisitor_time'));
+        $this->assertSame('', $this->schema->getIndexHintSql('index_idsite_datetime', false));
+    }
+
+    /**
+     * @dataProvider getLikePatterns
+     */
+    public function testLikePatternRegexMatchesAsShowTablesLike(string $pattern, array $expected): void
+    {
+        $tables = ['matomo_archive_numeric_2026_01', 'matomo_archive_blob_2026_01', 'matomo_archiveXnumeric', 'Matomo_archive_numeric_2026_01', 'matomo_log_visit'];
+        $regex = Sqlite::getLikePatternRegex($pattern);
+
+        $this->assertSame($expected, array_values(array_filter($tables, function ($table) use ($regex) {
+            return preg_match($regex, $table) === 1;
+        })));
+    }
+
+    public function getLikePatterns(): iterable
+    {
+        yield 'wildcards' => ['matomo_archive_%', ['matomo_archive_numeric_2026_01', 'matomo_archive_blob_2026_01', 'matomo_archiveXnumeric']];
+        yield 'escaped underscores' => ['matomo\_archive\_%', ['matomo_archive_numeric_2026_01', 'matomo_archive_blob_2026_01']];
+        yield 'exact name, case-sensitive' => ['matomo\_log\_visit', ['matomo_log_visit']];
+        yield 'regex characters are literal' => ['matomo.log.visit', []];
+    }
+
+    public function testCapabilities(): void
+    {
+        $this->assertTrue($this->schema->supportsWindowFunctions());
+        $this->assertFalse($this->schema->supportsGroupByWithRollup());
+        $this->assertSame('SERIALIZABLE', $this->schema->getSupportedReadIsolationTransactionLevel());
+    }
+
+    private function fetchAll(): array
+    {
+        return array_map(function ($row) {
+            return [$row[0], (int) $row[1]];
+        }, $this->pdo->query('SELECT k, v FROM t ORDER BY k')->fetchAll(PDO::FETCH_NUM));
+    }
+}

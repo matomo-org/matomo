@@ -40,7 +40,7 @@ class DbHelper
     public static function tableExists($tableName)
     {
         $tableName = str_replace(['%', '_', "'"], ['\%', '\_', '_'], $tableName);
-        return Db::get()->query(sprintf("SHOW TABLES LIKE '%s'", $tableName))->rowCount() > 0;
+        return count(Schema::getInstance()->getTablesLike($tableName)) > 0;
     }
 
     /**
@@ -205,8 +205,7 @@ class DbHelper
      */
     public static function tableHasIndex($table, $indexName)
     {
-        $result = Db::get()->fetchOne('SHOW INDEX FROM `' . $table . '` WHERE Key_name = ?', [$indexName]);
-        return !empty($result);
+        return Schema::getInstance()->tableHasIndex($table, $indexName);
     }
 
     /**

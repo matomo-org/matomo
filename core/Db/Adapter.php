@@ -99,6 +99,7 @@ class Adapter
             // currently supported by Piwik
             'Pdo\Mysql',
             'Mysqli',
+            'Pdo\Sqlite',
 
             // other adapters supported by Zend_Db
         );
