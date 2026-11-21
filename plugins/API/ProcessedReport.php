@@ -34,6 +34,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Tracker\GoalManager;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * @phpstan-type ProcessedReportData array{
@@ -128,16 +129,19 @@ class ProcessedReport
         // Unique visitors / users can't be summed across days, so on non-day periods they only exist
         // for aggregate (dimensionless) reports where archiving computed them. Strip them from
         // per-dimension reports, and from unprocessed periods/scopes (year/range, multi-site).
-        $aggregateUniquesUnavailable =
-            !SettingsPiwik::isUniqueVisitorsEnabled($period)
-            || ($isMultiSiteRequest && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites());
+        $skipUniquesForMultipleSites = $isMultiSiteRequest && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites();
+        $aggregateUniquesUnavailable = !SettingsPiwik::isUniqueVisitorsEnabled($period) || $skipUniquesForMultipleSites;
+        // the website's totals are also available when estimated
+        $siteTotalUniquesEstimated = SettingsPiwik::isUniqueVisitorsEstimated((string) $period) && !$skipUniquesForMultipleSites;
 
         $apiParameters = self::withRetiredGoalOverviewParameters($apiModule, $apiAction, $apiParameters);
 
         foreach ($reportsMetadata as $report) {
             $isPerDimensionReport = !empty($report['dimension']) || !empty($report['dimensions']);
+            $isSiteTotalReport = in_array($report['module'], ['VisitsSummary', 'API'], true) && $report['action'] === 'get';
+            $uniquesUnavailable = $aggregateUniquesUnavailable && !($siteTotalUniquesEstimated && $isSiteTotalReport);
 
-            if ($isNonDayPeriod && ($aggregateUniquesUnavailable || $isPerDimensionReport)) {
+            if ($isNonDayPeriod && ($uniquesUnavailable || $isPerDimensionReport)) {
                 unset($report['metrics']['nb_uniq_visitors'], $report['metrics']['nb_users']);
             }
             if (
@@ -381,6 +385,31 @@ class ProcessedReport
     }
 
     /**
+     * Main metrics (API.get) merges the other get reports, so it takes the labels they set for the period, eg
+     * "(estimated)" unique visitors.
+     */
+    private function useMergedReportLabelsForMainMetrics(array &$availableReports): void
+    {
+        $labels = [];
+        $mainMetricsIndex = null;
+        foreach ($availableReports as $index => $report) {
+            if ($report['action'] !== 'get' || !empty($report['parameters'])) {
+                continue;
+            }
+            if ($report['module'] === 'API') {
+                $mainMetricsIndex = $index;
+                continue;
+            }
+            $labels = array_merge($labels, $report['metrics'] ?? []);
+        }
+
+        if ($mainMetricsIndex !== null) {
+            $metrics = $availableReports[$mainMetricsIndex]['metrics'];
+            $availableReports[$mainMetricsIndex]['metrics'] = array_replace($metrics, array_intersect_key($labels, $metrics));
+        }
+    }
+
+    /**
      * Triggers a hook to ask plugins for available Reports.
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
@@ -412,6 +441,8 @@ class ProcessedReport
         foreach ($this->reportsProvider->getAllReports() as $report) {
             $report->configureReportMetadata($availableReports, $parameters);
         }
+
+        $this->useMergedReportLabelsForMainMetrics($availableReports);
 
         foreach ($availableReports as &$availableReport) {
             if ($hideMetricsDoc) {
@@ -889,6 +920,9 @@ class ProcessedReport
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
+            if (!$hasDimension) {
+                $this->removeLeftOutUniquesColumns($columns, $reportMetadata, $dataTable);
+            }
             [$newReport, $rowsMetadata] = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
             $newReport->setAllTableMetadata($dataTable->getAllTableMetadata());
 
@@ -986,6 +1020,30 @@ class ProcessedReport
         }
 
         return $withPercentages;
+    }
+
+    /**
+     * A single period whose unique visitors were left out, eg a year without an estimate, shows no such column
+     * rather than one the report renderers would fill with 0.
+     */
+    private function removeLeftOutUniquesColumns(array &$columns, array &$reportMetadata, DataTable $dataTable): void
+    {
+        $row = $dataTable->getFirstRow();
+        if (!$row) {
+            return;
+        }
+
+        $rowColumns = $row->getColumns();
+        foreach (array_keys($columns) as $column) {
+            if (EstimatedUniques::isLeftOut($rowColumns, (string) $column)) {
+                unset(
+                    $columns[$column],
+                    $reportMetadata['metrics'][$column],
+                    $reportMetadata['metricsDocumentation'][$column],
+                    $reportMetadata['metricTypes'][$column]
+                );
+            }
+        }
     }
 
     /**
@@ -1125,7 +1183,8 @@ class ProcessedReport
 
             // add missing metrics
             foreach ($metadataColumns as $id => $name) {
-                if (!isset($rowMetrics[$id])) {
+                // the site total unique visitors left out for want of an estimate are unknown, not 0
+                if (!isset($rowMetrics[$id]) && ($hasDimension || !EstimatedUniques::isLeftOut($rowMetrics, (string) $id))) {
                     $row->setColumn($id, 0);
                     $rowMetrics[$id] = 0;
                 }

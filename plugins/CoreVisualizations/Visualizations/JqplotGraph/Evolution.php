@@ -19,7 +19,10 @@ use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\EvolutionPeriodSelector;
+use Piwik\Request;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\ViewDataTable\EstimatedUniques;
 
 /**
  * Visualization that renders HTML for a line graph using jqPlot.
@@ -346,5 +349,89 @@ class Evolution extends JqplotGraph
 
         // Use a sensible default if the columns_to_display is empty
         $this->config->columns_to_display = $columnsToDisplay ? : array('nb_visits');
+
+        // don't offer the uniques in the series picker when the plotted periods have none
+        if (is_array($this->config->selectable_columns) && $this->arePlottedUniquesUnavailable()) {
+            $this->config->selectable_columns = array_values($this->removeUniquesColumns($this->config->selectable_columns));
+        }
+    }
+
+    // Website totals are estimated for periods that aren't counted exactly, report rows aren't yet.
+    // Remove this override once rows are estimated too, and let Graph check isUniqueVisitorsTotalAvailable().
+    protected function removeUnavailableMetrics($metrics)
+    {
+        $period = Request::fromRequest()->getStringParameter('period', '');
+        if (!SettingsPiwik::isUniqueVisitorsEstimated($period) || !$this->isPlottingWebsiteTotals()) {
+            return parent::removeUnavailableMetrics($metrics);
+        }
+
+        if (!$this->arePlottedUniquesUnavailable()) {
+            return $metrics;
+        }
+
+        return $this->removeUniquesColumns($metrics);
+    }
+
+    /**
+     * A range is plotted as shorter periods, which can have no unique visitors or users when the range has them.
+     */
+    private function arePlottedUniquesUnavailable(): bool
+    {
+        $period = Request::fromRequest()->getStringParameter('period', '');
+
+        return SettingsPiwik::isUniqueVisitorsEstimated($period)
+            && $this->isPlottingWebsiteTotals()
+            && !SettingsPiwik::isUniqueVisitorsTotalAvailable($this->getPlottedPeriod());
+    }
+
+    /**
+     * Removes the unique visitors and users columns, including those per visitor type such as
+     * `nb_uniq_visitors_returning` (VisitFrequency) and `nb_users_human` (AIAgents).
+     *
+     * @param string[] $columns
+     * @return string[]
+     */
+    private function removeUniquesColumns(array $columns): array
+    {
+        return array_filter($columns, function ($column) {
+            return EstimatedUniques::getColumnSuffix((string) $column) === null;
+        });
+    }
+
+    /**
+     * Returns true if the graph plots the website's estimated unique visitors and users. They can be missing for
+     * periods with visits (eg a year whose days were archived before the year was estimated).
+     */
+    public function isPlottingEstimatedUniques(): bool
+    {
+        return SettingsPiwik::isUniqueVisitorsEstimated($this->getPlottedPeriod()) && $this->isPlottingWebsiteTotals();
+    }
+
+    private function isPlottingWebsiteTotals(): bool
+    {
+        $method = $this->requestConfig->getApiModuleToRequest() . '.' . $this->requestConfig->getApiMethodToRequest();
+
+        return in_array($method, ['API.get', 'VisitsSummary.get'], true);
+    }
+
+    /**
+     * The period of the points in the graph. A range is plotted as days, weeks, months or years.
+     */
+    private function getPlottedPeriod(): string
+    {
+        if (!empty($this->requestConfig->request_parameters_to_modify['period'])) {
+            return (string) $this->requestConfig->request_parameters_to_modify['period'];
+        }
+
+        $request = Request::fromRequest();
+        $period = $request->getStringParameter('period', '');
+        $date = $request->getStringParameter('date', '');
+
+        // the metrics are first checked before beforeLoadDataTable() has picked the period
+        if ($period === 'range' && $date !== '') {
+            return StaticContainer::get(EvolutionPeriodSelector::class)->getHighestPeriodInCommon(Factory::build($period, $date), []);
+        }
+
+        return $period;
     }
 }
