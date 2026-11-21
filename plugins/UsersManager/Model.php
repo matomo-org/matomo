@@ -1303,7 +1303,7 @@ class Model
         $users = $db->fetchAll("SELECT login, email, superuser_access
                                 FROM " . Common::prefixTable("user") . "
                                 WHERE superuser_access = 1
-                                ORDER BY date_registered ASC");
+                                ORDER BY date_registered ASC, login ASC");
 
         return $users;
     }

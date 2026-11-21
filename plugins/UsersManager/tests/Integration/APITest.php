@@ -251,6 +251,10 @@ class APITest extends IntegrationTestCase
 
     public function testSetUserPreferenceStoresPreferenceUnderStoredLoginWhenUsingCollationEquivalentLogin()
     {
+        if (Fixture::isSqlite()) {
+            // SQLite's NOCASE folds ASCII case only: a login with an accent is another login, never this one
+            $this->markTestSkipped('logins are not accent-insensitive on SQLite');
+        }
         // "userLogín" is a distinct byte string from the stored "userLogin", but the database matches
         // logins case- and accent-insensitively, so it resolves to the same user. The preference must
         // be stored under the stored login rather than the raw request value.
@@ -427,6 +431,10 @@ class APITest extends IntegrationTestCase
 
     public function testLogoutUserCollationEquivalentAnonymousLoginShouldFail()
     {
+        if (Fixture::isSqlite()) {
+            // SQLite's NOCASE folds ASCII case only: a login with an accent is another login, never this one
+            $this->markTestSkipped('logins are not accent-insensitive on SQLite');
+        }
         DbHelper::createAnonymousUser();
 
         // "anonymoüs" is a distinct byte string from "anonymous" but resolves to the reserved
@@ -1255,6 +1263,10 @@ class APITest extends IntegrationTestCase
 
     public function testSetUserAccessCannotSetAdminToAnonymousUsingCollationEquivalentLogin()
     {
+        if (Fixture::isSqlite()) {
+            // SQLite's NOCASE folds ASCII case only: a login with an accent is another login, never this one
+            $this->markTestSkipped('logins are not accent-insensitive on SQLite');
+        }
         DbHelper::createAnonymousUser();
 
         // "anonymoüs" is a distinct byte string from "anonymous", but the database matches logins

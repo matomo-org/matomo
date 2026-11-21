@@ -81,6 +81,11 @@ class UpdaterTest extends IntegrationTestCase
 
     public function testUpdateWorksAfterPiwikIsAlreadyUpToDate()
     {
+        if (Fixture::isSqlite()) {
+            // replays every update since 0.0, MySQL's: a SQLite installation starts at the release that supports it
+            $this->markTestSkipped('updates from 0.0 predate SQLite support');
+        }
+
         self::expectNotToPerformAssertions();
 
         $result = Fixture::updateDatabase($force = true);

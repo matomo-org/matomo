@@ -35,7 +35,7 @@ class DropColumns extends AlterTable
      */
     protected function getSpecifications(): array
     {
-        $table = Schema::getInstance()->getConnectionSchema(true)->getTableColumns($this->getTableName());
+        $table = Schema::getInstance()->getConnectionSchema()->getTableColumns($this->getTableName());
 
         $columnNames = array_unique(array_filter($this->columnNames, function ($columnName) use ($table) {
             return isset($table[$columnName]);

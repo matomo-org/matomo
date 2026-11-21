@@ -270,7 +270,7 @@ class Schema extends Singleton
      */
     public function alterTable(string $tableName, array $specifications): void
     {
-        $schema = $this->getConnectionSchema();
+        $schema = $this->getConnectionSchema(true);
         if ($schema instanceof Mysql) {
             $schema->alterTable($tableName, $specifications);
             return;

@@ -452,15 +452,30 @@ class SqliteSchemaTest extends TestCase
         $this->assertSame('PRI', $this->schema->getTableColumns('matomo_t')['idsite']['Key']);
     }
 
-    public function testColumnsAddedOrDroppedApplyBeforeTheRenames(): void
+    public function testChangesNameTheColumnsTheTableHadAsOnMysql(): void
     {
-        $this->schema->createTable('t', 'id INT NOT NULL, old VARCHAR(10) NULL, other VARCHAR(10) NULL');
-        $this->schema->alterTable('matomo_t', ['ADD COLUMN x INT NULL', 'MODIFY x BIGINT NOT NULL']);
-        $this->schema->alterTable('matomo_t', ['DROP COLUMN old', 'CHANGE other old VARCHAR(10) NULL', 'ADD INDEX old (old)']);
+        $this->schema->createTable('t', 'id INT NOT NULL, old VARCHAR(10) NULL, other VARCHAR(10) NULL, a INT NULL');
+        Db::exec("INSERT INTO matomo_t (id, other, a) VALUES (1, 'o', 42)");
 
-        $this->assertSame(['id', 'old', 'x'], array_keys($this->schema->getTableColumns('matomo_t')));
-        $this->assertSame('NO', $this->schema->getTableColumns('matomo_t')['x']['Null']);
+        // a dropped name can be taken by a rename, a renamed-away one by a new column
+        $this->schema->alterTable('matomo_t', ['DROP COLUMN old', 'CHANGE other old VARCHAR(10) NULL', 'ADD INDEX old (old)']);
+        $this->schema->alterTable('matomo_t', ['ADD COLUMN a INT DEFAULT 7', 'CHANGE a b INT NULL']);
+        $this->assertSame(['id', 'old', 'b', 'a'], array_keys($this->schema->getTableColumns('matomo_t')));
+        $this->assertEquals([['old' => 'o', 'b' => 42, 'a' => 7]], Db::fetchAll('SELECT old, b, a FROM matomo_t'));
         $this->assertTrue($this->schema->tableHasIndex('matomo_t', 'old'));
+
+        // a change of a column added or dropped in the same statement is refused, and nothing applies
+        $before = Db::fetchAll('SELECT sql FROM sqlite_schema ORDER BY name');
+        foreach ([['ADD COLUMN x INT NULL', 'MODIFY x BIGINT NOT NULL'], ['DROP COLUMN b', 'ADD COLUMN b INT DEFAULT 7', 'CHANGE b c INT NULL']] as $specifications) {
+            try {
+                $this->schema->alterTable('matomo_t', $specifications);
+                $this->fail('no exception');
+            } catch (\Exception $e) {
+                $this->assertTrue(Db::get()->isErrNo($e, 1054), $e->getMessage());
+            }
+        }
+        $this->assertSame($before, Db::fetchAll('SELECT sql FROM sqlite_schema ORDER BY name'));
+        $this->assertEquals([['old' => 'o', 'b' => 42, 'a' => 7]], Db::fetchAll('SELECT old, b, a FROM matomo_t'));
     }
 
     public function testTwoAutoColumnsAreRefused(): void
@@ -473,6 +488,15 @@ class SqliteSchemaTest extends TestCase
             $this->assertTrue(Db::get()->isErrNo($e, 1075), $e->getMessage());
         }
         $this->assertSame('', $this->schema->getTableColumns('matomo_t')['a']['Key']);
+
+        // an auto column kept as it is still counts
+        $this->schema->createTable('u', 'a INT NOT NULL AUTO_INCREMENT, b INT NOT NULL, PRIMARY KEY (a)');
+        try {
+            $this->schema->alterTable('matomo_u', ['MODIFY a INT NOT NULL AUTO_INCREMENT', 'MODIFY b INT NOT NULL AUTO_INCREMENT', 'DROP PRIMARY KEY', 'ADD PRIMARY KEY (b)']);
+            $this->fail('no exception');
+        } catch (\Exception $e) {
+            $this->assertTrue(Db::get()->isErrNo($e, 1075), $e->getMessage());
+        }
     }
 
     public function testAutoIncrementIsCheckedOnceEverySpecificationApplies(): void
@@ -732,7 +756,9 @@ class SqliteSchemaTest extends TestCase
     public function testRetriedSpecificationsAreUndoneByALaterError(): void
     {
         $this->schema->createTable('t', 'id INT NOT NULL, a INT NULL');
-        $migration = new AlterTable('matomo_t', ['ADD COLUMN a INT NULL', 'ADD COLUMN b INT NULL', 'DROP COLUMN missing'], 1060);
+        Db::exec('INSERT INTO matomo_t (id, a) VALUES (1, 5), (2, 5)');
+        // the duplicate column stops the batch, the retry adds b, the unique key then fails on the rows
+        $migration = new AlterTable('matomo_t', ['ADD COLUMN a INT NULL', 'ADD COLUMN b INT NULL', 'ADD UNIQUE KEY ua (a)'], 1060);
         try {
             $migration->exec();
             $this->fail('no exception');

@@ -123,7 +123,8 @@ class Failures
 
     public function getAllFailures()
     {
-        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM `%s`', $this->tablePrefixed));
+        // in primary-key order, as InnoDB returns them
+        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM `%s` ORDER BY idsite, idfailure', $this->tablePrefixed));
         return $this->enrichFailures($failures);
     }
 
@@ -134,7 +135,7 @@ class Failures
         }
         $idSites = array_map('intval', $idSites);
         $idSites = implode(',', $idSites);
-        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM `%s` WHERE idsite IN (%s)', $this->tablePrefixed, $idSites));
+        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM `%s` WHERE idsite IN (%s) ORDER BY idsite, idfailure', $this->tablePrefixed, $idSites));
         return $this->enrichFailures($failures);
     }
 

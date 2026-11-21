@@ -109,7 +109,7 @@ class AlterTable extends Statements
 
     protected function getStatements(): array
     {
-        $schema = Schema::getInstance()->getConnectionSchema(true);
+        $schema = Schema::getInstance()->getConnectionSchema();
         if ($schema instanceof Schema\Sqlite) {
             return $this->getSqliteStatements($schema);
         }

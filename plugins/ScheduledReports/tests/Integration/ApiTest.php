@@ -92,7 +92,8 @@ class ApiTest extends IntegrationTestCase
         });
 
         Piwik::addAction(APIScheduledReports::GET_RENDERER_INSTANCE_EVENT, function (&$reportRenderer, $reportType, $outputType, $report) {
-            if ($reportType == 'dummyrepor') { // apparently this gets cut off
+            // MySQL (not strict) cuts the type to its VARCHAR(10) column, SQLite stores it whole
+            if ($reportType == 'dummyrepor' || $reportType == 'dummyreporttype') {
                 $reportRenderer = new class () extends ReportRenderer {
                     public function setLocale($locale)
                     {

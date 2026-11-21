@@ -173,28 +173,28 @@ class Sqlite extends Mysql
     public function alterTable(string $tableName, array $specifications): void
     {
         $tableName = str_replace('`', '', $tableName);
+        $drops = [];
         $converted = [];
-        $indexes = [];
         $changes = [];
         foreach ($specifications as $specification) {
             $specification = trim($specification);
             if ($this->needsRebuild($specification)) {
                 $changes[] = $specification;
-            } elseif (preg_match('/^ADD\s+(?:(?:UNIQUE\s+)?(?:INDEX|KEY)\b|UNIQUE\b)/i', $specification)) {
-                $indexes[] = $specification;
+            } elseif (preg_match('/^DROP\b/i', $specification)) {
+                $drops[] = $specification;
             } else {
                 $converted[] = $specification;
             }
         }
 
-        Db::inSqliteSavepoint(function () use ($tableName, $converted, $indexes, $changes) {
-            // MySQL applies the specifications together: a column added or dropped before the renames, an index
-            // added after them names the new column
-            foreach ($this->getAlterTableSql($tableName, $converted) as $sql) {
+        Db::inSqliteSavepoint(function () use ($tableName, $drops, $converted, $changes) {
+            // MySQL applies the specifications together: a change names a column the table had, and not one
+            // dropped; a name dropped or renamed away can be taken again; an index names the final columns
+            foreach ($this->getAlterTableSql($tableName, $drops) as $sql) {
                 Db::exec($sql);
             }
             $changes = $this->renameColumns($tableName, $changes);
-            foreach ($this->getAlterTableSql($tableName, $indexes) as $sql) {
+            foreach ($this->getAlterTableSql($tableName, $converted) as $sql) {
                 Db::exec($sql);
             }
             if ($changes !== []) {
@@ -294,7 +294,8 @@ class Sqlite extends Mysql
                 );
                 if ($converted['autoIncrement']) {
                     if ($autoIncrement === $name) {
-                        // INTEGER PRIMARY KEY AUTOINCREMENT whatever the width
+                        // INTEGER PRIMARY KEY AUTOINCREMENT whatever the width; still the auto column
+                        $requestedAutoIncrement = $name;
                         continue;
                     }
                     if ($requestedAutoIncrement !== null && $requestedAutoIncrement !== $name) {

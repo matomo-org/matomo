@@ -41,7 +41,7 @@ class AddColumns extends AlterTable
     protected function getSpecifications(): array
     {
         try {
-            $existingColumns = array_keys(Schema::getInstance()->getConnectionSchema(true)->getTableColumns(str_replace('`', '', $this->getTableName())));
+            $existingColumns = array_keys(Schema::getInstance()->getConnectionSchema()->getTableColumns(str_replace('`', '', $this->getTableName())));
         } catch (\Exception $ex) {
             $existingColumns = [];
         }
