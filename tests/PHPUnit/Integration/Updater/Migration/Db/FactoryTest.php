@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Updater\Migration\Db;
 
 use Piwik\Common;
 use Piwik\Db\Schema;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db\AddColumn;
 use Piwik\Updater\Migration\Db\AddColumns;
@@ -96,7 +97,15 @@ class FactoryTest extends IntegrationTestCase
 
         $table = $this->testTablePrefixed;
         $createOptions = Schema::getInstance()->getTableCreateOptions();
-        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        if (!Fixture::isSqlite()) {
+            // SQLite tables have no create options
+            self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        }
+        if (Fixture::isSqlite()) {
+            // the converted statements
+            $this->assertSame(implode(";\n", Schema::getInstance()->getCreateTableSql($table, '`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)')) . ';', '' . $migration);
+            return;
+        }
         $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) $createOptions;", '' . $migration);
     }
 
@@ -107,7 +116,15 @@ class FactoryTest extends IntegrationTestCase
 
         $table = $this->testTablePrefixed;
         $createOptions = Schema::getInstance()->getTableCreateOptions();
-        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        if (!Fixture::isSqlite()) {
+            // SQLite tables have no create options
+            self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        }
+        if (Fixture::isSqlite()) {
+            // the converted statements
+            $this->assertSame(implode(";\n", Schema::getInstance()->getCreateTableSql($table, '`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )')) . ';', '' . $migration);
+            return;
+        }
         $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) $createOptions;", '' . $migration);
     }
 

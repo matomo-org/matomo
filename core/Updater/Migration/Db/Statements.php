@@ -63,6 +63,14 @@ class Statements extends Sql
         Db::exec('RELEASE matomo_statements');
     }
 
+    /**
+     * @return string[]
+     */
+    protected function getStatements(): array
+    {
+        return $this->statements;
+    }
+
     private function execStatements(): void
     {
         foreach ($this->statements as $statement) {

@@ -72,6 +72,12 @@ final class ErrorCodes
      */
     public static function getMysqlErrorNumbers(\Throwable $e): array
     {
+        for ($cause = $e; $cause !== null; $cause = $cause->getPrevious()) {
+            if ($cause instanceof MysqlError) {
+                return [$cause->getMysqlErrorNumber()];
+            }
+        }
+
         $error = self::getSqliteError($e);
         if ($error === null) {
             return [];

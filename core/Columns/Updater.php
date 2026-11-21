@@ -10,7 +10,6 @@
 namespace Piwik\Columns;
 
 use Piwik\Common;
-use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -82,7 +81,7 @@ class Updater extends \Piwik\Updates
                 continue;
             }
 
-            $sqls[] = new Migration\Db\Statements(Schema::getInstance()->getAlterTableSql(Common::prefixTable($table), $columns), $errorCodes);
+            $sqls[] = new Migration\Db\AlterTable(Common::prefixTable($table), $columns, $errorCodes);
         }
 
         return $sqls;

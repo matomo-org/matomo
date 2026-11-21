@@ -10,13 +10,12 @@
 namespace Piwik\Updater\Migration\Db;
 
 use Piwik\DataAccess\TableMetadata;
-use Piwik\Db\Schema;
 
 /**
  * @see Factory::addColumns()
  * @ignore
  */
-class AddColumns extends Statements
+class AddColumns extends AlterTable
 {
     public function __construct($table, $columns, $placeColumnAfter)
     {
@@ -43,6 +42,6 @@ class AddColumns extends Statements
             $changes[] = $part;
         }
 
-        parent::__construct(Schema::getInstance()->getAlterTableSql($table, $changes), static::ERROR_CODE_DUPLICATE_COLUMN);
+        parent::__construct($table, $changes, static::ERROR_CODE_DUPLICATE_COLUMN);
     }
 }

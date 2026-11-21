@@ -157,12 +157,20 @@ class MysqlDialectTest extends TestCase
     {
         $facade = $this->facadeWith($this->createMock(SchemaInterface::class));
 
-        $this->assertSame('INSERT IGNORE', $facade->getInsertIgnoreSql());
-        $this->assertSame('ON DUPLICATE KEY UPDATE', $facade->getOnDuplicateKeyUpdateSql());
-        $this->assertSame('VALUES(c)', $facade->getInsertedValueSql('c'));
-        $this->assertSame("GROUP_CONCAT(c ORDER BY c SEPARATOR ',')", $facade->getGroupConcatSql('c', 'c'));
-        $this->assertSame('', $facade->getLikeEscapeSql());
-        $this->assertSame(' FORCE INDEX (i)', $facade->getIndexHintSql('i'));
+        // the dialect follows a connection once there is one: a connection the suite opened earlier
+        // is set aside for the test
+        $connection = \Piwik\Db::hasDatabaseObject() ? \Piwik\Db::get() : null;
+        \Piwik\Db::setDatabaseObject(null);
+        try {
+            $this->assertSame('INSERT IGNORE', $facade->getInsertIgnoreSql());
+            $this->assertSame('ON DUPLICATE KEY UPDATE', $facade->getOnDuplicateKeyUpdateSql());
+            $this->assertSame('VALUES(c)', $facade->getInsertedValueSql('c'));
+            $this->assertSame("GROUP_CONCAT(c ORDER BY c SEPARATOR ',')", $facade->getGroupConcatSql('c', 'c'));
+            $this->assertSame('', $facade->getLikeEscapeSql());
+            $this->assertSame(' FORCE INDEX (i)', $facade->getIndexHintSql('i'));
+        } finally {
+            \Piwik\Db::setDatabaseObject($connection);
+        }
     }
 
     /**

@@ -262,6 +262,26 @@ class Schema extends Singleton
     }
 
     /**
+     * Runs MySQL `ALTER TABLE` specifications on the current connection. On SQLite, changing a column or
+     * the primary key rebuilds the table.
+     *
+     * @param string $tableName the prefixed table name
+     * @param string[] $specifications e.g. `["MODIFY COLUMN `name` VARCHAR(255) NOT NULL"]`
+     */
+    public function alterTable(string $tableName, array $specifications): void
+    {
+        $schema = $this->getSchema();
+        if ($schema instanceof Mysql) {
+            $schema->alterTable($tableName, $specifications);
+            return;
+        }
+
+        foreach ($this->getAlterTableSql($tableName, $specifications) as $sql) {
+            Db::exec($sql);
+        }
+    }
+
+    /**
      * Returns the names of the tables matching a `LIKE` pattern, in which `\\` escapes `%` and `_`.
      *
      * @return string[]

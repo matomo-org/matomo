@@ -9,14 +9,13 @@
 
 namespace Piwik\Updater\Migration\Db;
 
-use Piwik\Db\Schema;
 use Piwik\DbHelper;
 
 /**
  * @see Factory::dropColumn()
  * @ignore
  */
-class DropColumns extends Statements
+class DropColumns extends AlterTable
 {
     public function __construct($tableName, $columnNames)
     {
@@ -29,14 +28,14 @@ class DropColumns extends Statements
         });
 
         if (empty($columnNames)) {
-            parent::__construct([], static::ERROR_CODE_COLUMN_NOT_EXISTS);
+            parent::__construct($tableName, [], static::ERROR_CODE_COLUMN_NOT_EXISTS, '');
         } else {
             $columnNames = array_unique($columnNames);
             $dropColumns = array_map(function ($columnName) {
                 return sprintf('DROP COLUMN `%s`', $columnName);
             }, $columnNames);
 
-            parent::__construct(Schema::getInstance()->getAlterTableSql($tableName, array_values($dropColumns)), static::ERROR_CODE_COLUMN_NOT_EXISTS);
+            parent::__construct($tableName, array_values($dropColumns), static::ERROR_CODE_COLUMN_NOT_EXISTS);
         }
     }
 }

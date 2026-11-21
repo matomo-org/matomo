@@ -9,7 +9,9 @@
 
 namespace Piwik\Updater\Migration\Db;
 
+use Piwik\Db;
 use Piwik\Db\Schema;
+use Piwik\Db\Sqlite\Connection;
 
 /**
  * @see Factory::createTable()
@@ -33,6 +35,29 @@ class CreateTable extends Statements
             $columns[] = sprintf('PRIMARY KEY ( `%s` )', implode('`, `', $primaryKey));
         }
 
-        parent::__construct(Schema::getInstance()->getCreateTableSql($table, implode(', ', $columns)), static::ERROR_CODE_TABLE_EXISTS);
+        // the connection in use decides, whatever the configuration file says
+        if (Connection::isSqliteConnection(Db::get())) {
+            $statements = (new Schema\Sqlite())->getCreateTableSql($table, implode(', ', $columns));
+        } else {
+            $statements = [sprintf('CREATE TABLE `%s` (%s) %s', $table, implode(', ', $columns), Schema::getInstance()->getTableCreateOptions())];
+        }
+
+        parent::__construct($statements, static::ERROR_CODE_TABLE_EXISTS);
+    }
+
+    public function exec()
+    {
+        if (!Connection::isSqliteConnection(Db::get())) {
+            parent::exec();
+            return;
+        }
+
+        // all or nothing, as one MySQL statement: an existing table fails the CREATE TABLE, and its
+        // indexes aren't created (the updater ignores the error)
+        Db::inSqliteSavepoint(function () {
+            foreach ($this->getStatements() as $statement) {
+                Db::exec($statement);
+            }
+        });
     }
 }

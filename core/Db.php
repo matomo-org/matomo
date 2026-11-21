@@ -527,8 +527,9 @@ class Db implements TransactionalDatabaseInterface
      * Runs a callback inside a SQLite savepoint, so that its statements apply together or not at all.
      *
      * @return mixed What the callback returns.
+     * @internal
      */
-    private static function inSqliteSavepoint(callable $callback)
+    public static function inSqliteSavepoint(callable $callback)
     {
         self::query('SAVEPOINT matomo_atomic');
         try {
@@ -613,7 +614,11 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function unlockAllTables()
     {
-        self::releaseSqliteLock(true);
+        // the SQLite lock is committed on the connection that took it; a current MySQL connection
+        // still gets its UNLOCK TABLES, but none is opened for it
+        if (self::releaseSqliteLock(true) && !self::hasDatabaseObject()) {
+            return 0;
+        }
         if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
             return 0;
         }
@@ -622,34 +627,41 @@ class Db implements TransactionalDatabaseInterface
     }
 
     /**
-     * Releases the table locks after a failure in the work they protected: on SQLite, the work done
-     * under the lock is rolled back instead of committed.
+     * Releases the table locks of the current connection after a failure in the work they protected:
+     * on SQLite, the work done under the lock is rolled back instead of committed.
      *
      * @internal
      */
     public static function abortTableLocks(): void
     {
-        self::releaseSqliteLock(false);
-        if (!Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+        // only the locks of the current connection, which the failed work took
+        $db = self::get();
+        if (!Db\Sqlite\Connection::isSqliteConnection($db)) {
             self::exec("UNLOCK TABLES");
+            return;
+        }
+        if (self::$sqliteLockConnection !== null && self::$sqliteLockConnection->get() === $db) {
+            self::releaseSqliteLock(false);
         }
     }
 
     /**
      * Ends the SQLite lock of lockTables() on the connection that took it, even if another one is
      * current now; nothing when there is none.
+     *
+     * @return bool whether there was one
      */
-    private static function releaseSqliteLock(bool $commit): void
+    private static function releaseSqliteLock(bool $commit): bool
     {
         $connection = self::$sqliteLockConnection !== null ? self::$sqliteLockConnection->get() : null;
         self::$sqliteLockConnection = null;
         if ($connection === null) {
-            return;
+            return false;
         }
 
         if (!$commit) {
             $connection->query('ROLLBACK');
-            return;
+            return true;
         }
         try {
             $connection->query('COMMIT');
@@ -661,6 +673,8 @@ class Db implements TransactionalDatabaseInterface
             }
             throw $e;
         }
+
+        return true;
     }
 
     /**
@@ -900,12 +914,18 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function isLockPrivilegeGranted()
     {
+        try {
+            if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+                // SQLite has no lock privilege (whatever a MySQL connection cached); a probe could
+                // only fail on another writer's lock
+                return true;
+            }
+        } catch (Exception $ex) {
+            // no connection: what is cached, as before
+        }
+
         if (is_null(self::$lockPrivilegeGranted)) {
             try {
-                if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
-                    // SQLite has no lock privilege; a probe could only fail on another writer's lock
-                    return true;
-                }
                 Db::lockTables(Common::prefixTable('site_url'));
                 Db::unlockAllTables();
 

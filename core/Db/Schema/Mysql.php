@@ -694,6 +694,16 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
     }
 
     /**
+     * Runs MySQL `ALTER TABLE` specifications on the current connection, as `getAlterTableSql()` gives them.
+     */
+    public function alterTable(string $tableName, array $specifications): void
+    {
+        foreach ($this->getAlterTableSql($tableName, $specifications) as $sql) {
+            Db::exec($sql);
+        }
+    }
+
+    /**
      * Takes a named lock for the current connection, waiting up to `$timeoutSeconds` (`GET_LOCK()`).
      */
     public function getNamedLock(string $name, int $timeoutSeconds): bool

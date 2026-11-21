@@ -40,6 +40,11 @@ use Piwik\Db\SqlListParser;
  */
 final class DefinitionConverter
 {
+    /**
+     * A MySQL identifier: quoted with backticks (one doubled inside), or bare.
+     */
+    public const IDENTIFIER = '(?:`(?:[^`]|``)+`|\\w+)';
+
     private const INTEGER_TYPES = ['tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint', 'bool', 'boolean'];
     private const REAL_TYPES = ['double', 'float', 'real', 'decimal', 'numeric'];
     private const TEXT_TYPES = ['char', 'varchar', 'tinytext', 'text', 'mediumtext', 'longtext', 'enum'];
@@ -102,10 +107,10 @@ final class DefinitionConverter
         foreach (SqlListParser::splitList($definition) as $item) {
             if (preg_match('/^PRIMARY\s+KEY\s*(\(.*\))$/is', $item, $matches)) {
                 $primaryKey = $this->parseIndexColumns($tableName, $matches[1]);
-            } elseif (preg_match('/^(UNIQUE(?:\s+(?:KEY|INDEX))?|KEY|INDEX)\s*(?:`?(\w+)`?)?\s*(\(.*\))$/is', $item, $matches)) {
+            } elseif (preg_match('/^(UNIQUE(?:\s+(?:KEY|INDEX))?|KEY|INDEX)\s*(' . self::IDENTIFIER . ')?\s*(\(.*\))$/is', $item, $matches)) {
                 $indexes[] = [
                     'unique' => stripos($matches[1], 'UNIQUE') === 0,
-                    'name' => $matches[2] !== '' ? $matches[2] : null,
+                    'name' => $matches[2] !== '' ? self::unquoteIdentifier($matches[2]) : null,
                     'columns' => $this->parseIndexColumns($tableName, $matches[3]),
                 ];
             } elseif (preg_match('/^(FULLTEXT|SPATIAL|CONSTRAINT|FOREIGN|CHECK)\b/i', $item)) {
@@ -233,6 +238,48 @@ final class DefinitionConverter
     }
 
     /**
+     * Converts the new MySQL definition of a column a table rebuild changes (`CHANGE`/`MODIFY`), as
+     * `convertTableDefinition()` would declare it: in the primary key, the column is NOT NULL; alone
+     * in it and an integer, it is declared INT with a type check, so it doesn't become the rowid.
+     * An AUTO_INCREMENT column is the whole primary key; the caller checks the table allows it.
+     *
+     * @return array{sql: string, autoIncrement: bool, notNull: bool, implicitDefault: string} the declaration,
+     *         and the value MySQL gives a NULL the column can no longer hold
+     */
+    public function convertChangedColumnDefinition(
+        string $tableName,
+        string $columnDefinition,
+        string $columnName,
+        bool $inPrimaryKey,
+        bool $solePrimaryKey
+    ): array {
+        $column = $this->parseColumnAttributes($tableName, $this->normalizeLiterals($tableName, $columnDefinition), $columnName);
+        if ($column['primaryKey'] || $column['unique']) {
+            // a key declared with the column: the caller handles keys as table specifications
+            throw $this->unsupported($tableName, $columnDefinition);
+        }
+        if ($column['autoIncrement']) {
+            return ['sql' => $column['sql'], 'autoIncrement' => true, 'notNull' => true, 'implicitDefault' => $column['implicitDefault']];
+        }
+
+        if ($inPrimaryKey) {
+            $column['notNull'] = true;
+            $column['default'] = $column['default'] ?? $column['implicitDefault'];
+        }
+        if ($solePrimaryKey && $column['type'] === 'INTEGER') {
+            $column['type'] = 'INT';
+            $column['integerCheck'] = true;
+        }
+
+        return [
+            'sql' => $this->getColumnSql($column),
+            'autoIncrement' => false,
+            'notNull' => $column['notNull'],
+            'implicitDefault' => $column['implicitDefault'],
+        ];
+    }
+
+    /**
      * Returns the statement creating an index, with its name qualified by the table name.
      *
      * @param array<array{column: string, length: int|null, order: string}> $columns
@@ -289,11 +336,11 @@ final class DefinitionConverter
 
         $columns = [];
         foreach (SqlListParser::splitList(substr($list, 1, -1)) as $part) {
-            if (!preg_match('/^`?(\w+)`?\s*(?:\(\s*(\d+)\s*\))?(?:\s+(ASC|DESC))?$/i', $part, $matches)) {
+            if (!preg_match('/^(' . self::IDENTIFIER . ')\s*(?:\(\s*(\d+)\s*\))?(?:\s+(ASC|DESC))?$/i', $part, $matches)) {
                 throw $this->unsupported($tableName, $part);
             }
             $columns[] = [
-                'column' => $matches[1],
+                'column' => self::unquoteIdentifier($matches[1]),
                 'length' => isset($matches[2]) && $matches[2] !== '' ? (int) $matches[2] : null,
                 'order' => strtoupper($matches[3] ?? ''),
             ];
@@ -307,11 +354,11 @@ final class DefinitionConverter
      */
     private function parseColumn(string $tableName, string $item): array
     {
-        if (!preg_match('/^(`\w+`|\w+)\s+(.*)$/s', $item, $matches)) {
+        if (!preg_match('/^(' . self::IDENTIFIER . ')\s+(.*)$/s', $item, $matches)) {
             throw $this->unsupported($tableName, $item);
         }
 
-        $name = trim($matches[1], '`');
+        $name = self::unquoteIdentifier($matches[1]);
 
         return [$name, $this->parseColumnAttributes($tableName, $matches[2], $name)];
     }
@@ -600,7 +647,23 @@ final class DefinitionConverter
 
     private function quote(string $name): string
     {
-        return '`' . $name . '`';
+        return self::quoteIdentifier($name);
+    }
+
+    /**
+     * Quotes an identifier with backticks, which SQLite reads as MySQL does.
+     */
+    public static function quoteIdentifier(string $name): string
+    {
+        return '`' . str_replace('`', '``', $name) . '`';
+    }
+
+    /**
+     * The name of an identifier IDENTIFIER matched.
+     */
+    public static function unquoteIdentifier(string $identifier): string
+    {
+        return strlen($identifier) > 1 && $identifier[0] === '`' ? str_replace('``', '`', substr($identifier, 1, -1)) : $identifier;
     }
 
     private function unsupported(string $tableName, string $fragment): InvalidArgumentException
