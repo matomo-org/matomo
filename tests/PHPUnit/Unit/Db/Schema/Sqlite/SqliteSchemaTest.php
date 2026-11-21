@@ -466,7 +466,14 @@ class SqliteSchemaTest extends TestCase
 
         // a change of a column added or dropped in the same statement is refused, and nothing applies
         $before = Db::fetchAll('SELECT sql FROM sqlite_schema ORDER BY name');
-        foreach ([['ADD COLUMN x INT NULL', 'MODIFY x BIGINT NOT NULL'], ['DROP COLUMN b', 'ADD COLUMN b INT DEFAULT 7', 'CHANGE b c INT NULL']] as $specifications) {
+        foreach (
+            [
+                ['ADD COLUMN x INT NULL', 'MODIFY x BIGINT NOT NULL'],
+                ['DROP COLUMN b', 'ADD COLUMN b INT DEFAULT 7', 'CHANGE b c INT NULL'],
+                // MODIFY b names the b dropped, not the one the rename makes
+                ['DROP COLUMN b', 'CHANGE a b INT NULL', 'MODIFY b BIGINT NOT NULL', 'ADD COLUMN a INT DEFAULT 7'],
+            ] as $specifications
+        ) {
             try {
                 $this->schema->alterTable('matomo_t', $specifications);
                 $this->fail('no exception');
@@ -488,6 +495,19 @@ class SqliteSchemaTest extends TestCase
             $this->assertTrue(Db::get()->isErrNo($e, 1075), $e->getMessage());
         }
         $this->assertSame('', $this->schema->getTableColumns('matomo_t')['a']['Key']);
+
+        // an auto column left as it is still counts
+        $this->schema->createTable('v', 'a INT NOT NULL AUTO_INCREMENT, b INT NOT NULL, PRIMARY KEY (a)');
+        try {
+            $this->schema->alterTable('matomo_v', ['MODIFY b INT NOT NULL AUTO_INCREMENT', 'DROP PRIMARY KEY', 'ADD PRIMARY KEY (b)']);
+            $this->fail('no exception');
+        } catch (\Exception $e) {
+            $this->assertTrue(Db::get()->isErrNo($e, 1075), $e->getMessage());
+        }
+        // moved to another column, it is one
+        $this->schema->alterTable('matomo_v', ['MODIFY a INT NOT NULL', 'MODIFY b INT NOT NULL AUTO_INCREMENT', 'DROP PRIMARY KEY', 'ADD PRIMARY KEY (b)']);
+        Db::exec('INSERT INTO matomo_v (a) VALUES (5)');
+        $this->assertSame(1, (int) Db::fetchOne('SELECT b FROM matomo_v'));
 
         // an auto column kept as it is still counts
         $this->schema->createTable('u', 'a INT NOT NULL AUTO_INCREMENT, b INT NOT NULL, PRIMARY KEY (a)');

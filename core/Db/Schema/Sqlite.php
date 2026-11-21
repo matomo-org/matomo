@@ -188,6 +188,7 @@ class Sqlite extends Mysql
         }
 
         Db::inSqliteSavepoint(function () use ($tableName, $drops, $converted, $changes) {
+            $this->checkChangedColumnsExist($tableName, $drops, $changes);
             // MySQL applies the specifications together: a change names a column the table had, and not one
             // dropped; a name dropped or renamed away can be taken again; an index names the final columns
             foreach ($this->getAlterTableSql($tableName, $drops) as $sql) {
@@ -213,6 +214,32 @@ class Sqlite extends Mysql
         $specification = trim($specification);
 
         return preg_match('/^(?:ADD|DROP)\s+PRIMARY\s+KEY\b/i', $specification) === 1 || self::parseColumnChange($specification) !== null;
+    }
+
+    /**
+     * As MySQL 8: a `CHANGE` or `MODIFY` names a column the table has and the statement doesn't drop.
+     *
+     * @param string[] $drops
+     * @param string[] $changes
+     */
+    private function checkChangedColumnsExist(string $tableName, array $drops, array $changes): void
+    {
+        if ($changes === []) {
+            return;
+        }
+
+        $columns = $this->readTable($tableName)['columns'];
+        foreach ($drops as $drop) {
+            if (preg_match('/^DROP\s+(?:COLUMN\s+)?(' . DefinitionConverter::IDENTIFIER . ')$/is', $drop, $matches) && !preg_match('/^(?:INDEX|KEY|PRIMARY|FOREIGN|CONSTRAINT|CHECK)$/i', $matches[1])) {
+                unset($columns[strtolower(DefinitionConverter::unquoteIdentifier($matches[1]))]);
+            }
+        }
+        foreach ($changes as $specification) {
+            $change = self::parseColumnChange($specification);
+            if ($change !== null && !isset($columns[strtolower($change[0])])) {
+                throw new MysqlError(sprintf("Unknown column '%s' in '%s'", $change[0], $tableName), Migration::ERROR_CODE_UNKNOWN_COLUMN);
+            }
+        }
     }
 
     /**
@@ -276,7 +303,8 @@ class Sqlite extends Mysql
         $columns = $table['columns'];
         $primaryKey = $table['primaryKey'];
         $autoIncrement = $table['autoIncrement'];
-        $requestedAutoIncrement = null;
+        // the auto columns once every specification applies: MySQL allows one
+        $autoColumns = $autoIncrement !== null ? [$autoIncrement => true] : [];
         $changed = false;
         $primaryKeyChanged = false;
         $copied = [];
@@ -293,19 +321,14 @@ class Sqlite extends Mysql
                     $inPrimaryKey && count($primaryKey) === 1
                 );
                 if ($converted['autoIncrement']) {
-                    if ($autoIncrement === $name) {
-                        // INTEGER PRIMARY KEY AUTOINCREMENT whatever the width; still the auto column
-                        $requestedAutoIncrement = $name;
+                    if ($name === $table['autoIncrement'] && isset($autoColumns[$name])) {
+                        // INTEGER PRIMARY KEY AUTOINCREMENT whatever the width
                         continue;
                     }
-                    if ($requestedAutoIncrement !== null && $requestedAutoIncrement !== $name) {
-                        throw new MysqlError('Incorrect table definition; there can be only one auto column and it must be defined as a key', 1075);
-                    }
-                    // the key is checked once every specification applies, as MySQL does
-                    $autoIncrement = $requestedAutoIncrement = $name;
-                } elseif ($autoIncrement === $name) {
-                    // no longer AUTO_INCREMENT, still the primary key, declared with the table
-                    $autoIncrement = null;
+                    $autoColumns[$name] = true;
+                } else {
+                    // no longer AUTO_INCREMENT; a key stays, declared with the table
+                    unset($autoColumns[$name]);
                 }
                 if (self::matchesOutsideLiterals('/\bUNIQUE\b/i', $columns[$name]['sql']) && !self::matchesOutsideLiterals('/\bUNIQUE\b/i', $converted['sql'])) {
                     // a native column constraint, kept as MySQL keeps a unique index
@@ -356,6 +379,12 @@ class Sqlite extends Mysql
         if (!$changed) {
             return;
         }
+
+        if (count($autoColumns) > 1) {
+            throw new MysqlError('Incorrect table definition; there can be only one auto column and it must be defined as a key', 1075);
+        }
+        // the key is checked once every specification applies, as MySQL does
+        $autoIncrement = $autoColumns === [] ? null : (string) array_key_first($autoColumns);
 
         if ((int) Db::fetchOne('PRAGMA foreign_keys')) {
             // dropping the old table would delete or change the rows that reference it

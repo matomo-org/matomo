@@ -251,14 +251,10 @@ class APITest extends IntegrationTestCase
 
     public function testSetUserPreferenceStoresPreferenceUnderStoredLoginWhenUsingCollationEquivalentLogin()
     {
-        if (Fixture::isSqlite()) {
-            // SQLite's NOCASE folds ASCII case only: a login with an accent is another login, never this one
-            $this->markTestSkipped('logins are not accent-insensitive on SQLite');
-        }
         // "userLogín" is a distinct byte string from the stored "userLogin", but the database matches
         // logins case- and accent-insensitively, so it resolves to the same user. The preference must
         // be stored under the stored login rather than the raw request value.
-        $this->api->setUserPreference('userLogín', API::PREFERENCE_DEFAULT_REPORT, 5);
+        $this->api->setUserPreference($this->getCollationEquivalentLogin('userLogín', 'userLOGIN'), API::PREFERENCE_DEFAULT_REPORT, 5);
 
         $settingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
         self::assertEquals(5, $settingsStore->get('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, false));
@@ -431,16 +427,12 @@ class APITest extends IntegrationTestCase
 
     public function testLogoutUserCollationEquivalentAnonymousLoginShouldFail()
     {
-        if (Fixture::isSqlite()) {
-            // SQLite's NOCASE folds ASCII case only: a login with an accent is another login, never this one
-            $this->markTestSkipped('logins are not accent-insensitive on SQLite');
-        }
         DbHelper::createAnonymousUser();
 
         // "anonymoüs" is a distinct byte string from "anonymous" but resolves to the reserved
         // anonymous user under the database collation, so it must be treated as anonymous.
         $this->expectExceptionMessage('UsersManager_ExceptionEditAnonymous');
-        $this->api->logoutUser('anonymoüs');
+        $this->api->logoutUser($this->getCollationEquivalentLogin('anonymoüs', 'anonymOUS'));
     }
 
     public function testLogoutUserDeleteSessionUserShouldNotThrowErrorIfNoSessionExists()
@@ -1263,16 +1255,12 @@ class APITest extends IntegrationTestCase
 
     public function testSetUserAccessCannotSetAdminToAnonymousUsingCollationEquivalentLogin()
     {
-        if (Fixture::isSqlite()) {
-            // SQLite's NOCASE folds ASCII case only: a login with an accent is another login, never this one
-            $this->markTestSkipped('logins are not accent-insensitive on SQLite');
-        }
         DbHelper::createAnonymousUser();
 
         // "anonymoüs" is a distinct byte string from "anonymous", but the database matches logins
         // case- and accent-insensitively, so it resolves to the reserved anonymous user. The
         // anonymous restriction must still apply.
-        $collationEquivalentLogin = 'anonymoüs';
+        $collationEquivalentLogin = $this->getCollationEquivalentLogin('anonymoüs', 'anonymOUS');
 
         try {
             $this->api->setUserAccess($collationEquivalentLogin, 'admin', [1]);
@@ -2485,5 +2473,14 @@ class APITest extends IntegrationTestCase
             unset($user['invite_status']);
             unset($user['invited_by']);
         }
+    }
+
+    /**
+     * A login the database matches with another one: SQLite's NOCASE folds ASCII case only, where MySQL's
+     * collation also ignores accents.
+     */
+    private function getCollationEquivalentLogin(string $withAccent, string $withOtherCase): string
+    {
+        return Fixture::isSqlite() ? $withOtherCase : $withAccent;
     }
 }
