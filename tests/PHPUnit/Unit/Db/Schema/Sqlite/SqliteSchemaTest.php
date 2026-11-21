@@ -472,6 +472,9 @@ class SqliteSchemaTest extends TestCase
                 ['DROP COLUMN b', 'ADD COLUMN b INT DEFAULT 7', 'CHANGE b c INT NULL'],
                 // MODIFY b names the b dropped, not the one the rename makes
                 ['DROP COLUMN b', 'CHANGE a b INT NULL', 'MODIFY b BIGINT NOT NULL', 'ADD COLUMN a INT DEFAULT 7'],
+                // each column is the source of one change at most
+                ['MODIFY b BIGINT NULL', 'MODIFY b INT NULL', 'DROP COLUMN a'],
+                ['CHANGE b c INT NULL', 'MODIFY b INT NULL'],
             ] as $specifications
         ) {
             try {

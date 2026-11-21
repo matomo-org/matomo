@@ -109,6 +109,9 @@ class AlterTable extends Statements
 
     protected function getStatements(): array
     {
+        // first: reading the specifications of AddColumns or DropColumns opens the connection, whose engine
+        // decides the SQL
+        $this->getSpecifications();
         $schema = Schema::getInstance()->getConnectionSchema();
         if ($schema instanceof Schema\Sqlite) {
             return $this->getSqliteStatements($schema);

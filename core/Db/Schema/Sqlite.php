@@ -236,9 +236,14 @@ class Sqlite extends Mysql
         }
         foreach ($changes as $specification) {
             $change = self::parseColumnChange($specification);
-            if ($change !== null && !isset($columns[strtolower($change[0])])) {
+            if ($change === null) {
+                continue;
+            }
+            // as MySQL, each original column is the source of one change at most
+            if (!isset($columns[strtolower($change[0])])) {
                 throw new MysqlError(sprintf("Unknown column '%s' in '%s'", $change[0], $tableName), Migration::ERROR_CODE_UNKNOWN_COLUMN);
             }
+            unset($columns[strtolower($change[0])]);
         }
     }
 

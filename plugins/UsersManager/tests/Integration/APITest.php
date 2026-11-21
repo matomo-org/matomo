@@ -20,6 +20,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\EventDispatcher;
 use Piwik\Mail;
@@ -258,6 +259,13 @@ class APITest extends IntegrationTestCase
 
         $settingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
         self::assertEquals(5, $settingsStore->get('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, false));
+
+        // the lookup above matches either spelling: the stored bytes prove which one was stored
+        $storedLogins = Db::get()->fetchCol(
+            'SELECT user_login FROM ' . Common::prefixTable('plugin_setting') . ' WHERE plugin_name = ? AND setting_name = ?',
+            ['UsersManager', API::PREFERENCE_DEFAULT_REPORT]
+        );
+        self::assertSame([$this->login], $storedLogins);
     }
 
     public function testSetUserPreferenceWritesLegacyOptionForIsLdapUserCompatibility()

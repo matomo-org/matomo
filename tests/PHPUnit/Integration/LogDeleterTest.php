@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Db;
 use Piwik\LogDeleter;
@@ -17,6 +18,29 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\TestDataHelper\LogHelper;
+
+class ChunkedPurgeTestRawLogDao extends RawLogDao
+{
+    /**
+     * @var callable|null runs right after the purge's first, unlocked scan
+     */
+    public $afterFirstScan;
+
+    public function __construct(int $chunkSize)
+    {
+        parent::__construct();
+        $this->sqliteDeleteChunkSize = $chunkSize;
+    }
+
+    protected function insertActionsToKeep($maxIds, $olderThan = true, $insertIntoTempIterationStep = 100000)
+    {
+        parent::insertActionsToKeep($maxIds, $olderThan, $insertIntoTempIterationStep);
+
+        if ($olderThan && $this->afterFirstScan) {
+            ($this->afterFirstScan)();
+        }
+    }
+}
 
 /**
  * @group Core
@@ -110,6 +134,95 @@ class LogDeleterTest extends IntegrationTestCase
         // still the caller's: rolled back with it, not committed by the purge
         Db::abortTableLocks();
         $this->assertSame(0, (int) Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'pending'"));
+    }
+
+    public function testSqlitePurgeDeletesABacklogLargerThanItsChunksAndBudget(): void
+    {
+        $this->setUpChunkedPurge();
+        $this->insertUnusedActions(100001, 100250);
+        $this->insertActionUsedByAVisitAction(100500);
+
+        $dao = new ChunkedPurgeTestRawLogDao(7);
+        $this->assertTrue($dao->deleteUnusedLogActions());
+
+        $this->assertSame([], $this->getActionIdsBetween(100001, 100250));
+        $this->assertSame([100500], $this->getActionIdsBetween(100500, 100500));
+    }
+
+    public function testSqlitePurgeKeepsActionsReferencedDuringTheRun(): void
+    {
+        $this->setUpChunkedPurge();
+        $this->insertUnusedActions(100001, 100020);
+
+        $dao = new ChunkedPurgeTestRawLogDao(3);
+        $dao->afterFirstScan = function () {
+            // more visit actions than the budget, so the purge catches up before its first delete
+            for ($i = 0; $i < 30; $i++) {
+                $this->logInserter->insertVisitAction(1, ['idsite' => 1, 'idaction_url' => $i === 29 ? 100003 : 0]);
+            }
+            // a cart item added to the newest visit, which is rescanned rather than caught up
+            $maxIdVisit = (int) Db::fetchOne('SELECT MAX(idvisit) FROM ' . Common::prefixTable('log_visit'));
+            $this->logInserter->insertConversionItem($maxIdVisit, 'idorder_late', ['idsite' => 1, 'idaction_sku' => 100004, 'idaction_name' => 100004]);
+        };
+
+        $this->assertTrue($dao->deleteUnusedLogActions());
+
+        $this->assertSame([100003, 100004], $this->getActionIdsBetween(100001, 100020));
+    }
+
+    public function testSqlitePurgeStopsWithoutDeletingWhenVisitsOutgrowItsBudget(): void
+    {
+        $this->setUpChunkedPurge();
+        $this->insertUnusedActions(100001, 100020);
+
+        $dao = new ChunkedPurgeTestRawLogDao(3);
+        $dao->afterFirstScan = function () {
+            $maxIdVisit = (int) Db::fetchOne('SELECT MAX(idvisit) FROM ' . Common::prefixTable('log_visit'));
+            Db::query('INSERT INTO ' . Common::prefixTable('log_visit') . ' (idvisit, idsite) VALUES (?, 1)', [$maxIdVisit + 50]);
+        };
+
+        $this->assertFalse($dao->deleteUnusedLogActions());
+
+        $this->assertCount(20, $this->getActionIdsBetween(100001, 100020));
+        // nothing is left locked: the next run completes
+        $this->assertTrue((new ChunkedPurgeTestRawLogDao(3))->deleteUnusedLogActions());
+        $this->assertSame([], $this->getActionIdsBetween(100001, 100020));
+    }
+
+    private function setUpChunkedPurge(): void
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('The purge runs in bounded transactions on SQLite');
+        }
+
+        $deleteLogs = Config::getInstance()->Deletelogs;
+        $deleteLogs['delete_logs_unused_actions_max_rows_per_query'] = 10;
+        Config::getInstance()->Deletelogs = $deleteLogs;
+    }
+
+    private function insertUnusedActions(int $from, int $to): void
+    {
+        $table = Common::prefixTable('log_action');
+        for ($id = $from; $id <= $to; $id++) {
+            Db::query("INSERT INTO `$table` (idaction, name, type) VALUES (?, 'unused', 1)", [$id]);
+        }
+    }
+
+    private function insertActionUsedByAVisitAction(int $idAction): void
+    {
+        Db::query('INSERT INTO ' . Common::prefixTable('log_action') . " (idaction, name, type) VALUES (?, 'used', 1)", [$idAction]);
+        $this->logInserter->insertVisitAction(1, ['idsite' => 1, 'idaction_url' => $idAction]);
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getActionIdsBetween(int $from, int $to): array
+    {
+        return array_map('intval', Db::get()->fetchCol(
+            'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE idaction BETWEEN ? AND ? ORDER BY idaction',
+            [$from, $to]
+        ));
     }
 
     public function testDeleteVisitsRemovesVisitsAndOtherRelatedLogs()
