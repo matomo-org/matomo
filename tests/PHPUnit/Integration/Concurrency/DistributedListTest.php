@@ -121,6 +121,24 @@ class DistributedListTest extends IntegrationTestCase
         $this->assertEquals(serialize($expectedOptionList), $this->getOptionValueForList());
     }
 
+    public function testRemoveRemovesTheItemsFoundEvenIfAnotherOneIsMissing()
+    {
+        $this->distributedList->remove(array('val2', 'missing', 'val4'));
+
+        $expectedOptionList = array('val1', 'val3');
+        $this->assertEquals(serialize($expectedOptionList), $this->getOptionValueForList());
+    }
+
+    public function testRemoveDoesNotRewriteTheListIfNoItemIsFound()
+    {
+        // stored in an order getAll() would not write back, so a rewrite of the list would show
+        Option::set(self::TEST_OPTION_NAME, serialize(array(3 => 'val1', 1 => 'val2')));
+
+        $this->distributedList->remove(array('missing'));
+
+        $this->assertEquals(serialize(array(3 => 'val1', 1 => 'val2')), $this->getOptionValueForList());
+    }
+
     public function testRemoveByIndexRemovesSingleItemByIndexInOptionTableIfArgIsIndex()
     {
         $this->distributedList->removeByIndex(2);
