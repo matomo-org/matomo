@@ -842,6 +842,39 @@ class LogAggregatorTest extends IntegrationTestCase
         // The three orders are still all counted; only their out-of-range money is excluded.
         $this->assertSame(3, (int) $row[Metrics::INDEX_GOAL_NB_CONVERSIONS]);
     }
+
+    public function testQueryConversionsByPageViewAttributesFractionsOfAConversion()
+    {
+        // integer operands: SQLite divides them as integers (1 / 4 = 0), MySQL does not
+        Db::query('INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type) VALUES (?, ?, ?)', [
+            'example.org/attributed', 0, Action::TYPE_PAGE_URL,
+        ]);
+        $idAction = (int) Db::fetchOne('SELECT MAX(idaction) FROM ' . Common::prefixTable('log_action'));
+
+        $logInserter = new LogHelper();
+        $visit = $logInserter->insertVisit(['visit_last_action_time' => '2010-03-06 12:00:00']);
+        $logInserter->insertVisitAction($visit['idvisit'], [
+            'idaction_url' => $idAction,
+            'server_time' => '2010-03-06 11:00:00',
+        ]);
+        $logInserter->insertConversion($visit['idvisit'], [
+            'idgoal' => 1,
+            'server_time' => '2010-03-06 12:00:00',
+            'pageviews_before' => 4,
+            'revenue' => 10,
+            'items' => 2,
+        ]);
+
+        $rows = $this->logAggregator->queryConversionsByPageView('idaction_url', 1)->fetchAll();
+        $rows = array_values(array_filter($rows, static function ($row) use ($idAction) {
+            return (int) $row['idaction'] === $idAction;
+        }));
+
+        $this->assertCount(1, $rows);
+        $this->assertEquals(0.25, (float) $rows[0][Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB]);
+        $this->assertEquals(2.5, (float) $rows[0][Metrics::INDEX_GOAL_REVENUE_ATTRIB]);
+        $this->assertEquals(0.5, (float) $rows[0][Metrics::INDEX_GOAL_ECOMMERCE_ITEMS]);
+    }
 }
 
 LogAggregatorTest::$fixture = new OneVisitorTwoVisits();

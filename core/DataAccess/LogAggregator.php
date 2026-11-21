@@ -1397,15 +1397,15 @@ class LogAggregator
             COUNT(*) AS `1`,            
             " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue', 'log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE) . "
             " . sprintf("COUNT(log_conversion.idvisit) AS `%d`,", Metrics::INDEX_GOAL_NB_VISITS_CONVERTED) . "
-            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_subtotal', '1 / log_conversion.pageviews_before * log_conversion.revenue_subtotal'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL) . "
-            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_tax', '1 / log_conversion.pageviews_before * log_conversion.revenue_tax'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX) . "
-            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_shipping', '1 / log_conversion.pageviews_before * log_conversion.revenue_shipping'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING) . "
-            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_discount', '1 / log_conversion.pageviews_before * log_conversion.revenue_discount'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT) . "
-            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before * log_conversion.items, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_ITEMS) . "
+            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_subtotal', '1.0 / log_conversion.pageviews_before * log_conversion.revenue_subtotal'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL) . "
+            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_tax', '1.0 / log_conversion.pageviews_before * log_conversion.revenue_tax'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX) . "
+            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_shipping', '1.0 / log_conversion.pageviews_before * log_conversion.revenue_shipping'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING) . "
+            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_discount', '1.0 / log_conversion.pageviews_before * log_conversion.revenue_discount'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT) . "
+            " . sprintf("SUM(ROUND(1.0 / log_conversion.pageviews_before * log_conversion.items, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_ITEMS) . "
             " . sprintf("log_conversion.pageviews_before AS `%d`,", Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE) . "
-            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before, 4)) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB) . "
+            " . sprintf("SUM(ROUND(1.0 / log_conversion.pageviews_before, 4)) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB) . "
             " . sprintf("COUNT(*) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ) . "
-            " . sprintf("ROUND(%s,2) AS `%d`", self::getSqlSumExcludingOutOfRange('log_conversion.revenue', '1 / log_conversion.pageviews_before * log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE_ATTRIB);
+            " . sprintf("ROUND(%s,2) AS `%d`", self::getSqlSumExcludingOutOfRange('log_conversion.revenue', '1.0 / log_conversion.pageviews_before * log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE_ATTRIB);
 
         $from = [
             'log_conversion',

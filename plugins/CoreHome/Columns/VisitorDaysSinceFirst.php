@@ -17,7 +17,7 @@ use Piwik\Segment\SegmentsList;
 class VisitorDaysSinceFirst extends VisitDimension
 {
     protected $type = self::TYPE_NUMBER;
-    protected $sqlSegment = 'ROUND(log_visit.visitor_seconds_since_first / 86400)';
+    protected $sqlSegment = 'ROUND(log_visit.visitor_seconds_since_first / 86400.0)';
     protected $nameSingular = 'General_DaysSinceFirstVisit';
     protected $columnName = 'visitor_seconds_since_first';
     protected $segmentName = 'daysSinceFirstVisit';
