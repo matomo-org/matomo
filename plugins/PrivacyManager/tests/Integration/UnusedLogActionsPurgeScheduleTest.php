@@ -64,7 +64,12 @@ class UnusedLogActionsPurgeScheduleTest extends IntegrationTestCase
         $this->assertSame([[true, true]], $this->purges);
         $this->assertEquals($actionsRun, Option::get(PrivacyManager::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS));
         $this->assertEquals(1, Option::get(PrivacyManager::OPTION_UNUSED_LOG_ACTIONS_PURGE_INCOMPLETE));
+        $this->assertEquals($this->today(), Option::get(PrivacyManager::OPTION_UNUSED_LOG_ACTIONS_PURGE_LAST_ATTEMPT));
         $this->assertEquals($this->today(), Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS));
+
+        // the task runs hourly: the retry waits for the next day
+        $this->assertFalse((new PrivacyManager())->deleteLogData());
+        $this->assertCount(1, $this->purges);
     }
 
     public function testAnIncompletePurgeRunsAgainAloneTheNextDay(): void
@@ -73,6 +78,7 @@ class UnusedLogActionsPurgeScheduleTest extends IntegrationTestCase
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $this->daysAgo(1));
         Option::set(PrivacyManager::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, $actionsRun);
         Option::set(PrivacyManager::OPTION_UNUSED_LOG_ACTIONS_PURGE_INCOMPLETE, 1);
+        Option::set(PrivacyManager::OPTION_UNUSED_LOG_ACTIONS_PURGE_LAST_ATTEMPT, $this->daysAgo(1));
         $this->results = [false];
 
         $this->assertTrue((new PrivacyManager())->deleteLogData());
@@ -88,6 +94,8 @@ class UnusedLogActionsPurgeScheduleTest extends IntegrationTestCase
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $this->daysAgo(7));
         Option::set(PrivacyManager::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, $this->daysAgo(37));
         Option::set(PrivacyManager::OPTION_UNUSED_LOG_ACTIONS_PURGE_INCOMPLETE, 6);
+        // already retried today: the old logs purge being due runs it anyway
+        Option::set(PrivacyManager::OPTION_UNUSED_LOG_ACTIONS_PURGE_LAST_ATTEMPT, $this->today());
         $this->results = [true];
 
         $this->assertTrue((new PrivacyManager())->deleteLogData());
@@ -96,6 +104,7 @@ class UnusedLogActionsPurgeScheduleTest extends IntegrationTestCase
         $this->assertEquals($this->today(), Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS));
         $this->assertEquals($this->today(), Option::get(PrivacyManager::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS));
         $this->assertFalse(Option::get(PrivacyManager::OPTION_UNUSED_LOG_ACTIONS_PURGE_INCOMPLETE));
+        $this->assertFalse(Option::get(PrivacyManager::OPTION_UNUSED_LOG_ACTIONS_PURGE_LAST_ATTEMPT));
     }
 
     public function testNothingRunsWhenNothingIsDueOrPending(): void

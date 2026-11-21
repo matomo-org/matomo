@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\Schema;
+use Piwik\DbHelper;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -39,7 +40,7 @@ class DatabaseInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('DB Collation', $dbConfig['collation']);
             $results[] = DiagnosticResult::informationalResult('DB Adapter', $dbConfig['adapter']);
             $serverVersion = (string) $this->getServerVersion();
-            $databaseType = Schema::getServerTypeFromVersion($serverVersion);
+            $databaseType = Db\Sqlite\Connection::isSqliteConnection(Db::get()) ? 'SQLite' : Schema::getServerTypeFromVersion($serverVersion);
             $results[] = DiagnosticResult::informationalResult($databaseType . ' Version', $serverVersion);
             $results[] = DiagnosticResult::informationalResult('Num Tables', $this->getNumMatomoTables());
         }
@@ -62,7 +63,9 @@ class DatabaseInformational implements Diagnostic
 
         $results = null;
         try {
-            $results = Db::get()->fetchAll('show tables like "' . $prefix . '%"');
+            $results = Db\Sqlite\Connection::isSqliteConnection(Db::get())
+                ? DbHelper::getTablesInstalled()
+                : Db::get()->fetchAll('show tables like "' . $prefix . '%"');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

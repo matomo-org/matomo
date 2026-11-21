@@ -31,6 +31,41 @@ final class Connection
     public const MINIMUM_VERSION = '3.44.0';
 
     /**
+     * The first builds of each maintained branch with the fix for the WAL-reset corruption bug: 3.44.6,
+     * 3.50.7, then every release from 3.51.3.
+     */
+    private const WAL_RESET_FIX = ['3.44' => '3.44.6', '3.50' => '3.50.7', 'from' => '3.51.3'];
+
+    /** The library is older than MINIMUM_VERSION. */
+    public const RUNTIME_UNSUPPORTED = 'unsupported';
+
+    /**
+     * The library may lack the WAL-reset fix, and the administrator has not attested that their build
+     * includes it (`[database] sqlite_wal_reset_fix_attested = 1`).
+     */
+    public const RUNTIME_UNQUALIFIED = 'unqualified';
+
+    public const RUNTIME_QUALIFIED = 'qualified';
+
+    /**
+     * Whether a SQLite library version can run Matomo. A version string is never taken to include a fix
+     * a distribution may have backported: only the attestation says so.
+     */
+    public static function getRuntimeQualification(string $version, bool $isWalResetFixAttested): string
+    {
+        if (version_compare($version, self::MINIMUM_VERSION, '<')) {
+            return self::RUNTIME_UNSUPPORTED;
+        }
+
+        $branch = implode('.', array_slice(explode('.', $version), 0, 2));
+        $fixed = isset(self::WAL_RESET_FIX[$branch])
+            ? version_compare($version, self::WAL_RESET_FIX[$branch], '>=')
+            : version_compare($version, self::WAL_RESET_FIX['from'], '>=');
+
+        return $fixed || $isWalResetFixAttested ? self::RUNTIME_QUALIFIED : self::RUNTIME_UNQUALIFIED;
+    }
+
+    /**
      * How long a statement waits for another connection's write lock before failing, in milliseconds.
      * Can be changed with `[database] sqlite_busy_timeout`. Provisional, to be set from measurements.
      */

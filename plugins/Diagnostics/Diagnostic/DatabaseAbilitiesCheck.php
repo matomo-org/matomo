@@ -38,6 +38,12 @@ class DatabaseAbilitiesCheck implements Diagnostic
 
         $result = new DiagnosticResult($this->translator->translate('Installation_DatabaseAbilities'));
 
+        if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+            // utf8mb4, collations, LOAD DATA INFILE, privileges and isolation levels are MySQL's; see SqliteCheck
+            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_INFORMATIONAL, $this->translator->translate('Diagnostics_NotApplicableToSqlite')));
+            return [$result];
+        }
+
         $result->addItem($this->checkUtf8mb4Charset());
         $result->addItem($this->checkCollation());
 

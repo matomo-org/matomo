@@ -41,6 +41,15 @@
         "PHPFPMWarningGeneric": "PHP FPM may ignore .htaccess rules for .php files. To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to exclude the /config directory from being handled by PHP FPM.",
         "SessionStorageFormat": "Session Storage Format",
         "SessionStorageFormatWarning": "Sessions are stored as %1$s because session.serialize_handler could not be set to php_serialize, so changes two requests make at the same time may be lost. Set it to php_serialize in your php.ini.",
-        "HtaccessWarningNginx": "To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to restrict access to certain directories. For more information please see the %1$s official nginx server configuration %2$s"
+        "HtaccessWarningNginx": "To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to restrict access to certain directories. For more information please see the %1$s official nginx server configuration %2$s",
+        "NotApplicableToSqlite": "Not applicable: Matomo uses SQLite.",
+        "SqliteVersion": "SQLite library %1$s",
+        "SqliteVersionUnsupported": "The SQLite library %1$s is too old: Matomo needs %2$s or later.",
+        "SqliteVersionUnqualified": "The SQLite library %1$s may lack the fix for a bug that can corrupt a database in WAL mode (fixed in 3.44.6, 3.50.7 and 3.51.3). Upgrade it, or, if your distribution backported the fix, set %2$s in the [database] section of config.ini.php.",
+        "SqliteJournalMode": "The database is in %1$s journal mode instead of WAL: concurrent tracking and reporting are not safe. If it was restored from a backup, check it with ./console database:sqlite-backup --verify.",
+        "SqliteSynchronous": "PRAGMA synchronous is not FULL: a power loss can lose the last commits.",
+        "SqliteFilesWritable": "The database file, its directory, its -wal and -shm files and its lock directory are writable.",
+        "SqliteFileNotWritable": "%1$s is not writable by the web server user. Matomo's web, tracker and command line users must all be able to write the database file, its directory and its -wal, -shm and -locks files.",
+        "SqliteUnusedActionsPurgeIncomplete": "The purge of unused actions stopped early %1$s times in a row, because too many visits were tracked while it ran. It is retried every day; to complete it, run %2$s when traffic is low."
     }
 }
