@@ -784,6 +784,11 @@ class Request
             $request = Request::getRequestParametersGET();
             if (!empty($request['segment'])) {
                 $segmentRaw = $request['segment'];
+            } else {
+                // the segment was not sent in the query string (e.g. POST body): encode the original
+                // value once ($segment above is already HTML-escaped by getRequestVar)
+                $segmentPost = $_POST['segment'] ?? null;
+                $segmentRaw = urlencode(is_string($segmentPost) && $segmentPost !== '' ? $segmentPost : $segment);
             }
         }
         return $segmentRaw;
