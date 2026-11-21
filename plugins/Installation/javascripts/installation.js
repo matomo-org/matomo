@@ -22,3 +22,30 @@ $(document).ready(function() {
     });
     $(".should-get-hidden-by-js").hide();
 });
+$(function () {
+    // SQLite needs a file path instead of a server, a login and a database name
+    var $adapter = $('select[name="adapter"]');
+    if (!$adapter.length) {
+        return;
+    }
+
+    var serverFields = ['host', 'username', 'password', 'dbname', 'schema'];
+    var sqliteFields = ['sqlite_file', 'sqlite_wal_reset_fix_attested'];
+
+    function getRow(name) {
+        return $('[name="' + name + '"]').closest('.form-group');
+    }
+
+    function showFieldsForAdapter() {
+        var isSqlite = String($adapter.val()).toUpperCase() === 'PDO\\SQLITE';
+        serverFields.forEach(function (name) {
+            getRow(name).toggle(!isSqlite);
+        });
+        sqliteFields.forEach(function (name) {
+            getRow(name).toggle(isSqlite);
+        });
+    }
+
+    $adapter.on('change', showFieldsForAdapter);
+    showFieldsForAdapter();
+});

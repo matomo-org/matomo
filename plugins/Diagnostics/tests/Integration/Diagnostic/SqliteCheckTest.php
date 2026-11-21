@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Db\Sqlite\Connection;
+use Piwik\Db\Sqlite\ExposureProbe;
 use Piwik\Option;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\Diagnostic\SqliteCheck;
@@ -35,6 +36,9 @@ class SqliteCheckTest extends IntegrationTestCase
             $this->markTestSkipped('Checks a SQLite database');
         }
         Fixture::loadAllTranslations();
+
+        // the probe itself is tested by ExposureProbeTest; the test web server serves every file
+        $this->setProbedStatus(403);
     }
 
     public function tearDown(): void
@@ -80,6 +84,44 @@ class SqliteCheckTest extends IntegrationTestCase
         [$result] = $this->runCheck();
         $this->assertSame(DiagnosticResult::STATUS_WARNING, $result->getStatus());
         $this->assertStringContainsString('Tasks.deleteLogData', $this->describe($result));
+    }
+
+    public function testReportsAServedDatabase(): void
+    {
+        $this->setAttested(true);
+        $this->setProbedStatus(200);
+
+        [$result] = $this->runCheck();
+
+        $this->assertSame(DiagnosticResult::STATUS_ERROR, $result->getStatus());
+        $this->assertStringContainsString('anyone can download', $this->describe($result));
+        $this->assertStringContainsString('.db-wal: exposed', $this->describe($result));
+    }
+
+    public function testReportsADatabaseThatCanNotBeProvenProtected(): void
+    {
+        $this->setAttested(true);
+        $this->setProbedStatus(500);
+
+        [$result] = $this->runCheck();
+
+        $this->assertSame(DiagnosticResult::STATUS_ERROR, $result->getStatus());
+        $this->assertStringContainsString('401, 403 or 404', $this->describe($result));
+    }
+
+    /**
+     * Makes every probed URL answer with a status; a 2xx serves the file.
+     */
+    private function setProbedStatus(int $status): void
+    {
+        StaticContainer::getContainer()->set(ExposureProbe::class, new ExposureProbe(function (string $url, ?array $range) use ($status) {
+            $body = '';
+            if ($status === 200) {
+                $file = Connection::getDatabaseFile(Config::getInstance()->database);
+                $body = (string) file_get_contents(dirname($file) . '/' . rawurldecode(basename($url)));
+            }
+            return ['status' => $status, 'body' => $body, 'redirected' => false];
+        }));
     }
 
     /**

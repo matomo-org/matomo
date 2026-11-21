@@ -66,6 +66,15 @@ final class Connection
     }
 
     /**
+     * The version of the SQLite library that pdo_sqlite uses, without a database.
+     */
+    public static function getLibraryVersion(): string
+    {
+        $pdo = new PDO('sqlite::memory:', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        return (string) $pdo->query('SELECT sqlite_version()')->fetchColumn();
+    }
+
+    /**
      * How long a statement waits for another connection's write lock before failing, in milliseconds.
      * Can be changed with `[database] sqlite_busy_timeout`. Provisional, to be set from measurements.
      */

@@ -50,6 +50,11 @@
         "SqliteSynchronous": "PRAGMA synchronous is not FULL: a power loss can lose the last commits.",
         "SqliteFilesWritable": "The database file, its directory, its -wal and -shm files and its lock directory are writable.",
         "SqliteFileNotWritable": "%1$s is not writable by the web server user. Matomo's web, tracker and command line users must all be able to write the database file, its directory and its -wal, -shm and -locks files.",
+        "SqliteOutsideWebRoot": "The database file is outside the Matomo directory and the document root. Make sure that no other alias or virtual host of the web server serves its directory.",
+        "SqliteNotServed": "The web server refuses to serve the database file, its -wal and -shm files and other files in its directory.",
+        "SqliteServed": "The web server serves the database, so anyone can download all its data:<br\/>%1$s<br\/>Move the database outside the web root, or deny access to its directory, and run this check again.",
+        "SqliteServedNotChecked": "Matomo's URL is unknown here, so it was not checked that the web server refuses to serve the database. Run the diagnostics in the browser: System > Diagnostics > System Check.",
+        "SqliteServedUnknown": "It could not be proven that the web server refuses to serve the database:<br\/>%1$s<br\/>Each of these URLs must answer 401, 403 or 404. Deny access to the directory of the database, or move it outside the web root, and run this check again.",
         "SqliteUnusedActionsPurgeIncomplete": "The purge of unused actions stopped early %1$s times in a row, because too many visits were tracked while it ran. It is retried every day; to complete it, run %2$s when traffic is low."
     }
 }

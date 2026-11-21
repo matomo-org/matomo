@@ -243,6 +243,19 @@ class DbTest extends IntegrationTestCase
         $this->assertFalse(Db::hasReaderDatabaseObject());
     }
 
+    public function testSqliteRefusesAReader(): void
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('Only SQLite refuses a reader database');
+        }
+
+        // a reader would be a second copy of the database file, which nothing keeps in sync
+        Config::getInstance()->database_reader = Config::getInstance()->database;
+
+        $this->expectExceptionMessage('a [database_reader] is not supported');
+        Db::getReader();
+    }
+
     public function testWithReaderCreatesDifferentConnectionForDb()
     {
         if (Fixture::isSqlite()) {

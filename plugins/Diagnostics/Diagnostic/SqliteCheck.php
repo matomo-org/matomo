@@ -12,14 +12,15 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\Sqlite\Connection;
+use Piwik\Db\Sqlite\ExposureProbe;
 use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
 /**
- * Checks a SQLite database: library version, journal mode, durability, file permissions and the unused
- * actions purge.
+ * Checks a SQLite database: library version, journal mode, durability, file permissions, whether the web
+ * server serves the files, and the unused actions purge.
  */
 class SqliteCheck implements Diagnostic
 {
@@ -30,9 +31,12 @@ class SqliteCheck implements Diagnostic
 
     private Translator $translator;
 
-    public function __construct(Translator $translator)
+    private ExposureProbe $exposureProbe;
+
+    public function __construct(Translator $translator, ExposureProbe $exposureProbe)
     {
         $this->translator = $translator;
+        $this->exposureProbe = $exposureProbe;
     }
 
     public function execute()
@@ -48,6 +52,7 @@ class SqliteCheck implements Diagnostic
         foreach ($this->checkFilesWritable() as $item) {
             $result->addItem($item);
         }
+        $result->addItem($this->checkExposure());
         $purge = $this->checkUnusedActionsPurge();
         if ($purge !== null) {
             $result->addItem($purge);
@@ -118,6 +123,36 @@ class SqliteCheck implements Diagnostic
         return array_map(function ($path) {
             return new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $this->translator->translate('Diagnostics_SqliteFileNotWritable', [$path]));
         }, $notWritable);
+    }
+
+    private function checkExposure(): DiagnosticResultItem
+    {
+        $file = Connection::getDatabaseFile(Config::getInstance()->database);
+        $baseUrl = SettingsPiwik::getPiwikUrl();
+        if (!preg_match('~^https?://~i', $baseUrl)) {
+            // e.g. on the command line without --matomo-domain: nothing can be requested
+            return new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, $this->translator->translate('Diagnostics_SqliteServedNotChecked'));
+        }
+
+        $documentRoot = isset($_SERVER['DOCUMENT_ROOT']) ? (string) $_SERVER['DOCUMENT_ROOT'] : null;
+        $result = $this->exposureProbe->probe($file, $baseUrl, $documentRoot);
+
+        switch ($result['status']) {
+            case ExposureProbe::OUTSIDE_WEB_ROOT:
+                return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_SqliteOutsideWebRoot'));
+            case ExposureProbe::PROTECTED:
+                return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_SqliteNotServed'));
+        }
+
+        $urls = [];
+        foreach ($result['urls'] as $url => $status) {
+            if ($status !== ExposureProbe::PROTECTED) {
+                $urls[] = htmlspecialchars($url, ENT_QUOTES) . ': ' . $status;
+            }
+        }
+        $message = $result['status'] === ExposureProbe::EXPOSED ? 'Diagnostics_SqliteServed' : 'Diagnostics_SqliteServedUnknown';
+
+        return new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $this->translator->translate($message, [implode('<br/>', $urls)]));
     }
 
     private function checkUnusedActionsPurge(): ?DiagnosticResultItem
