@@ -90,8 +90,8 @@ class AlterTableTest extends IntegrationTestCase
         if (Fixture::isSqlite() && is_array($arguments[1]) && count($arguments[1]) > 1) {
             // as separate statements would: the error skips its own specification only
             $migration->exec();
-            // label, NOT NULL before, now allows NULL
-            $this->assertSame('YES', DbHelper::getTableColumns($this->table)['label']['Null']);
+            // label, NULL before, is now NOT NULL
+            $this->assertSame('NO', DbHelper::getTableColumns($this->table)['label']['Null']);
             return;
         }
         try {
@@ -108,7 +108,7 @@ class AlterTableTest extends IntegrationTestCase
     {
         yield 'unknown column' => ['changeColumnType', ['altertable', 'missing', 'INT NULL']];
         yield 'renamed onto an existing column' => ['changeColumn', ['altertable', 'amount', 'label', 'INT NULL']];
-        yield 'several types, one column unknown' => ['changeColumnTypes', ['altertable', ['label' => 'VARCHAR(30) NULL', 'missing' => 'INT NULL']]];
+        yield 'several types, one column unknown' => ['changeColumnTypes', ['altertable', ['label' => 'VARCHAR(30) NOT NULL', 'missing' => 'INT NULL']]];
         yield 'second primary key' => ['addPrimaryKey', ['altertable', ['label']]];
     }
 }

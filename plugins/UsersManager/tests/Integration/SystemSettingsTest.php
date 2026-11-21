@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
-use Piwik\Db\Schema\Mysql;
+use Piwik\Db\Schema;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Tests\Framework\Fixture;
@@ -82,7 +82,7 @@ class SystemSettingsTest extends IntegrationTestCase
     {
         Fixture::loadAllTranslations();
         $this->expectExceptionMessage('Setting the domains is not possible as other domains (limited.com) are already in use by other users. To change this setting, you either need to delete users with other domains or you need to allow these domains as well.');
-        $schema = new Mysql();
+        $schema = Schema::getInstance();
         $schema->createAnonymousUser(); // anonymous user should be ignore in checks
         UsersManagerAPI::getInstance()->addUser('randomUser', 'smartypants', 'user@limited.com');
         $this->settings->allowedEmailDomains->setValue(['maToMo.org', 'matomo.org', '', 'examPle.CoM']);

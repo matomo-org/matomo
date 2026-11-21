@@ -113,7 +113,8 @@ class Metrics
             $column = $table . '.' . $id;
             $metricsConfig['sum_' . $id] = [
                 'aggregation' => 'sum',
-                'query' => "sum(" . sprintf($dimension->getSqlCappedValue(), $column) . ") / 1000",
+                // 1000.0: SQLite divides integers as integers; MySQL's result keeps the dividend's scale either way
+                'query' => "sum(" . sprintf($dimension->getSqlCappedValue(), $column) . ") / 1000.0",
             ];
             $metricsConfig['nb_hits_with_' . $id] = [
                 'aggregation' => 'sum',
@@ -126,11 +127,11 @@ class Metrics
             ];
             $metricsConfig['min_' . $id] = [
                 'aggregation' => 'min',
-                'query' => "min(" . $column . ") / 1000",
+                'query' => "min(" . $column . ") / 1000.0",
             ];
             $metricsConfig['max_' . $id] = [
                 'aggregation' => 'max',
-                'query' => "max(" . $column . ") / 1000",
+                'query' => "max(" . $column . ") / 1000.0",
             ];
         }
 

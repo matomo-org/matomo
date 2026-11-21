@@ -54,7 +54,7 @@ class CreateTable extends Statements
 
     public function exec()
     {
-        if (!Schema::getInstance()->getConnectionSchema() instanceof Schema\Sqlite) {
+        if (!Schema::getInstance()->getConnectionSchema(true) instanceof Schema\Sqlite) {
             parent::exec();
             return;
         }
@@ -70,7 +70,7 @@ class CreateTable extends Statements
 
     protected function getStatements(): array
     {
-        $schema = Schema::getInstance()->getConnectionSchema();
+        $schema = Schema::getInstance()->getConnectionSchema(true);
         if ($schema instanceof Schema\Sqlite) {
             return $schema->getCreateTableSql($this->table, $this->createDefinition);
         }

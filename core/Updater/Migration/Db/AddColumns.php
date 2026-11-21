@@ -17,17 +17,38 @@ use Piwik\Db\Schema;
  */
 class AddColumns extends AlterTable
 {
+    /**
+     * @var array<string, string>
+     */
+    private $columns;
+
+    /**
+     * @var string|null
+     */
+    private $placeColumnAfter;
+
     public function __construct($table, $columns, $placeColumnAfter)
     {
+        $this->columns = $columns;
+        $this->placeColumnAfter = $placeColumnAfter;
+
+        parent::__construct($table, [], static::ERROR_CODE_DUPLICATE_COLUMN);
+    }
+
+    /**
+     * Skips the columns the table has when the migration runs, on the connection in use.
+     */
+    protected function getSpecifications(): array
+    {
         try {
-            // read on the connection in use, whatever the configuration file says
-            $existingColumns = array_keys(Schema::getInstance()->getConnectionSchema()->getTableColumns(str_replace('`', '', $table)));
+            $existingColumns = array_keys(Schema::getInstance()->getConnectionSchema(true)->getTableColumns(str_replace('`', '', $this->getTableName())));
         } catch (\Exception $ex) {
             $existingColumns = [];
         }
 
+        $placeColumnAfter = $this->placeColumnAfter;
         $changes = array();
-        foreach ($columns as $columnName => $columnType) {
+        foreach ($this->columns as $columnName => $columnType) {
             if (in_array($columnName, $existingColumns)) {
                 continue;
             }
@@ -42,6 +63,6 @@ class AddColumns extends AlterTable
             $changes[] = $part;
         }
 
-        parent::__construct($table, $changes, static::ERROR_CODE_DUPLICATE_COLUMN);
+        return $changes;
     }
 }

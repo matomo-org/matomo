@@ -174,20 +174,27 @@ class Sqlite extends Mysql
     {
         $tableName = str_replace('`', '', $tableName);
         $converted = [];
+        $indexes = [];
         $changes = [];
         foreach ($specifications as $specification) {
             $specification = trim($specification);
             if ($this->needsRebuild($specification)) {
                 $changes[] = $specification;
+            } elseif (preg_match('/^ADD\s+(?:(?:UNIQUE\s+)?(?:INDEX|KEY)\b|UNIQUE\b)/i', $specification)) {
+                $indexes[] = $specification;
             } else {
                 $converted[] = $specification;
             }
         }
 
-        Db::inSqliteSavepoint(function () use ($tableName, $converted, $changes) {
-            // MySQL applies the specifications together: an index added with a rename names the new column
-            $changes = $this->renameColumns($tableName, $changes);
+        Db::inSqliteSavepoint(function () use ($tableName, $converted, $indexes, $changes) {
+            // MySQL applies the specifications together: a column added or dropped before the renames, an index
+            // added after them names the new column
             foreach ($this->getAlterTableSql($tableName, $converted) as $sql) {
+                Db::exec($sql);
+            }
+            $changes = $this->renameColumns($tableName, $changes);
+            foreach ($this->getAlterTableSql($tableName, $indexes) as $sql) {
                 Db::exec($sql);
             }
             if ($changes !== []) {
@@ -269,6 +276,7 @@ class Sqlite extends Mysql
         $columns = $table['columns'];
         $primaryKey = $table['primaryKey'];
         $autoIncrement = $table['autoIncrement'];
+        $requestedAutoIncrement = null;
         $changed = false;
         $primaryKeyChanged = false;
         $copied = [];
@@ -289,8 +297,11 @@ class Sqlite extends Mysql
                         // INTEGER PRIMARY KEY AUTOINCREMENT whatever the width
                         continue;
                     }
-                    // checked once every specification applies, as MySQL does
-                    $autoIncrement = $name;
+                    if ($requestedAutoIncrement !== null && $requestedAutoIncrement !== $name) {
+                        throw new MysqlError('Incorrect table definition; there can be only one auto column and it must be defined as a key', 1075);
+                    }
+                    // the key is checked once every specification applies, as MySQL does
+                    $autoIncrement = $requestedAutoIncrement = $name;
                 } elseif ($autoIncrement === $name) {
                     // no longer AUTO_INCREMENT, still the primary key, declared with the table
                     $autoIncrement = null;
@@ -380,16 +391,16 @@ class Sqlite extends Mysql
         );
         // the temporary triggers on the table go with it as well
         $triggers = Db::fetchAll(
-            "SELECT sql FROM (SELECT sql, 0 AS temp, rowid FROM main.sqlite_schema WHERE type = 'trigger' AND tbl_name = ?
+            "SELECT sql, temp FROM (SELECT sql, 0 AS temp, rowid FROM main.sqlite_schema WHERE type = 'trigger' AND tbl_name = ?
                 UNION ALL SELECT sql, 1, rowid FROM temp.sqlite_schema WHERE type = 'trigger' AND tbl_name = ?) ORDER BY temp, rowid",
             [$name, $name]
         );
-        // generated columns are computed, not copied
+        // generated columns are computed, not copied, unless a specification made them ordinary ones
         $generated = array_map('strtolower', array_column(Db::fetchAll("SELECT name FROM pragma_table_xinfo(?, 'main') WHERE hidden IN (2, 3)", [$name]), 'name'));
         $copiedColumns = [];
         $values = [];
         foreach ($columns as $key => $column) {
-            if (!in_array($key, $generated, true)) {
+            if (!in_array($key, $generated, true) || array_key_exists($key, $copied)) {
                 $copiedColumns[] = DefinitionConverter::quoteIdentifier($column['name']);
                 $values[] = $copied[$key] ?? DefinitionConverter::quoteIdentifier($column['name']);
             }
@@ -430,7 +441,8 @@ class Sqlite extends Mysql
             Db::exec($converter->createIndexSql($name, 'PRIMARY', true, $primaryKey, $this->getColumnTypes($name)));
         }
         foreach ($triggers as $trigger) {
-            Db::exec($trigger['sql']);
+            // SQLite stores a temporary trigger without its TEMP
+            Db::exec($trigger['temp'] ? preg_replace('/^\s*CREATE\s+TRIGGER\b/i', 'CREATE TEMP TRIGGER', $trigger['sql']) : $trigger['sql']);
         }
     }
 

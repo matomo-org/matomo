@@ -9,6 +9,7 @@
 
 namespace Piwik\Updater\Migration\Db;
 
+use Piwik\Db;
 use Piwik\Db\Schema;
 
 /**
@@ -58,38 +59,57 @@ class AlterTable extends Statements
 
     public function exec()
     {
-        $schema = Schema::getInstance()->getConnectionSchema();
+        $schema = Schema::getInstance()->getConnectionSchema(true);
         if (!$schema instanceof Schema\Sqlite) {
             parent::exec();
             return;
         }
 
-        if ($this->specifications === []) {
+        $specifications = $this->getSpecifications();
+        if ($specifications === []) {
             return;
         }
 
         try {
             // all or nothing, as one MySQL statement
-            $schema->alterTable($this->tableName, $this->specifications);
+            $schema->alterTable($this->tableName, $specifications);
         } catch (\Exception $e) {
-            if (count($this->specifications) < 2 || !$this->shouldIgnoreError($e)) {
+            if (count($specifications) < 2 || !$this->shouldIgnoreError($e)) {
                 throw $e;
             }
-            foreach ($this->specifications as $specification) {
-                try {
-                    $schema->alterTable($this->tableName, [$specification]);
-                } catch (\Exception $e) {
-                    if (!$this->shouldIgnoreError($e)) {
-                        throw $e;
+            // the others still all or nothing: a later error that isn't ignored undoes them
+            Db::inSqliteSavepoint(function () use ($schema, $specifications) {
+                foreach ($specifications as $specification) {
+                    try {
+                        $schema->alterTable($this->tableName, [$specification]);
+                    } catch (\Exception $e) {
+                        if (!$this->shouldIgnoreError($e)) {
+                            throw $e;
+                        }
                     }
                 }
-            }
+            });
         }
+    }
+
+    /**
+     * The specifications to run, read when the migration runs or is shown.
+     *
+     * @return string[]
+     */
+    protected function getSpecifications(): array
+    {
+        return $this->specifications;
+    }
+
+    protected function getTableName(): string
+    {
+        return $this->tableName;
     }
 
     protected function getStatements(): array
     {
-        $schema = Schema::getInstance()->getConnectionSchema();
+        $schema = Schema::getInstance()->getConnectionSchema(true);
         if ($schema instanceof Schema\Sqlite) {
             return $this->getSqliteStatements($schema);
         }
@@ -99,10 +119,10 @@ class AlterTable extends Statements
         }
 
         if ($schema instanceof Schema\Mysql) {
-            return $schema->getAlterTableSql($this->tableName, $this->specifications);
+            return $schema->getAlterTableSql($this->tableName, $this->getSpecifications());
         }
 
-        return Schema::getInstance()->getAlterTableSql($this->tableName, $this->specifications);
+        return Schema::getInstance()->getAlterTableSql($this->tableName, $this->getSpecifications());
     }
 
     /**
@@ -114,7 +134,7 @@ class AlterTable extends Statements
     {
         $converted = [];
         $statements = [];
-        foreach ($this->specifications as $specification) {
+        foreach ($this->getSpecifications() as $specification) {
             if ($schema->needsRebuild($specification)) {
                 $statements[] = sprintf('/* SQLite rebuilds the table %s for: %s */', $this->tableName, str_replace('*/', '* /', $specification));
             } else {
@@ -122,6 +142,12 @@ class AlterTable extends Statements
             }
         }
 
+        // an index takes its columns' collation from the table: one yet to be created is described
+        $indexes = preg_grep('/^\s*ADD\s+(?:(?:UNIQUE\s+)?(?:INDEX|KEY)\b|UNIQUE\b)/i', $converted);
+        if ($indexes !== [] && !$this->tableExistsOn($schema)) {
+            $statements[] = sprintf('/* SQLite: ALTER TABLE `%s` %s */', $this->tableName, str_replace('*/', '* /', implode(', ', $converted)));
+            $converted = [];
+        }
         if ($converted !== []) {
             try {
                 $statements = array_merge($schema->getAlterTableSql($this->tableName, $converted), $statements);
@@ -132,5 +158,15 @@ class AlterTable extends Statements
         }
 
         return $statements;
+    }
+
+    private function tableExistsOn(Schema\Sqlite $schema): bool
+    {
+        try {
+            $schema->getTableColumns(str_replace('`', '', $this->tableName));
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

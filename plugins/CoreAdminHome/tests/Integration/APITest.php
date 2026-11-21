@@ -70,8 +70,8 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
         Db::query(
             'INSERT INTO `' . Common::prefixTable('archive_failures') . "` (idsite, period, date1, date2, archive_hash, name, `report`, attempts,
                     last_error, ts_first_failed, ts_last_failed, ts_retry_after)
-                  VALUES (1, 3, '2019-03-01', '2019-03-31', ?, 'done', '', 5, 'error', NOW(), NOW(), NOW())",
-            [md5('done|')]
+                  VALUES (1, 3, '2019-03-01', '2019-03-31', ?, 'done', '', 5, 'error', ?, ?, ?)",
+            [md5('done|'), $now = Date::now()->getDatetime(), $now, $now]
         );
 
         $output = $this->api->invalidateArchivedReports('1', '2019-12-01', 'day');

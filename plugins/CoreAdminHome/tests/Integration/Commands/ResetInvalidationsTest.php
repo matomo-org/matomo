@@ -631,7 +631,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
                 'date1' => '2025-02-01',
                 'date2' => '2025-02-28',
                 'period' => Month::PERIOD_ID,
-                'ts_invalidated' => '2025-02-020 19:15:01',
+                'ts_invalidated' => '2025-02-20 19:15:01',
                 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
                 'report' => null,
                 'ts_started' => '2025-02-23 18:35:00',

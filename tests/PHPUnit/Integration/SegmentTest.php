@@ -18,6 +18,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
@@ -491,7 +492,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM ' . Common::prefixTable('log_conversion') . ' AS log_conversion
                     LEFT JOIN ' . Common::prefixTable('log_visit') . ' AS log_visit ON log_visit.idvisit = log_conversion.idvisit
-                WHERE (UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first) = ? ',
+                WHERE (' . Schema::getInstance()->getUnixTimestampSql('log_visit.visit_first_action_time') . ' - log_visit.visitor_seconds_since_first) = ? ',
             'bind' => [2],
         ];
 
@@ -585,7 +586,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
-                    ( (log_conversion.idgoal = ? OR HOUR(log_visit.visit_last_action_time) = ? ))",
+                    ( (log_conversion.idgoal = ? OR {$this->getHourSql('log_visit.visit_last_action_time')} = ? ))",
             "bind" => array(1, 1, 12));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -796,7 +797,7 @@ class SegmentTest extends IntegrationTestCase
                     LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
                     LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_link_visit_action.idvisit
                 WHERE
-                     HOUR(log_visit.visit_last_action_time) = ? AND log_conversion.idgoal = ? ",
+                     {$this->getHourSql('log_visit.visit_last_action_time')} = ? AND log_conversion.idgoal = ? ",
             "bind" => array(12, 1));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -832,7 +833,7 @@ class SegmentTest extends IntegrationTestCase
                     LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
                     LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
                 WHERE
-                    log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.search_cat = ?
+                    log_conversion.idgoal = ? AND {$this->getHourSql('log_visit.visit_last_action_time')} = ? AND log_link_visit_action.search_cat = ?
                     AND ((
                           log_action_segment_log_link_visit_actionidaction_url.name IS NOT NULL
                           AND log_action_segment_log_link_visit_actionidaction_url.name <> ''
@@ -1037,10 +1038,10 @@ class SegmentTest extends IntegrationTestCase
                           LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action
                             ON log_link_visit_action.idvisit = log_visit.idvisit
                           LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
-                          WHERE ((log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
-                             OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
-                             OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
-                             OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '10') )
+                          WHERE ((log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
+                             OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
+                             OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
+                             OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '10') )
                         GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner",
             "bind" => array('%myTestUrl%', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%'));
 
@@ -1071,10 +1072,10 @@ class SegmentTest extends IntegrationTestCase
                             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                             LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
                             WHERE ( log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? )
-                              AND ( ((log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
-                                 OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
-                                 OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
-                                 OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '10') )))
+                              AND ( ((log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
+                                 OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
+                                 OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
+                                 OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '10') )))
                         )",
         "bind" => array('2020-02-02 02:00:00', '2020-02-29 02:00:00', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%'));
 
@@ -1105,10 +1106,10 @@ class SegmentTest extends IntegrationTestCase
                             SELECT log_visit.* FROM $logVisitTable AS log_visit
                             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                             LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
-                            WHERE ((( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ? ) AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
-                               OR (( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ? ) AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
-                               OR (( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ? ) AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
-                               OR (( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ? ) AND log_action_segment_log_link_visit_actionidaction_url.type = '10') )
+                            WHERE ((( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ?{$this->getLikeEscapeSql()} ) AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
+                               OR (( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ?{$this->getLikeEscapeSql()} ) AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
+                               OR (( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ?{$this->getLikeEscapeSql()} ) AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
+                               OR (( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ?{$this->getLikeEscapeSql()} ) AND log_action_segment_log_link_visit_actionidaction_url.type = '10') )
                             GROUP BY log_visit.idvisit ORDER BY NULL )
                         AS log_inner",
         "bind" => array('%myTestUrl%', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%'));
@@ -1174,7 +1175,7 @@ class SegmentTest extends IntegrationTestCase
 
         yield 'does not contain' => [
             'visitLocalHour!@5',
-            '( HOUR(log_visit.visitor_localtime) IS NULL OR HOUR(log_visit.visitor_localtime) NOT LIKE ? )',
+            '( ' . $this->getHourSql('log_visit.visitor_localtime') . ' IS NULL OR ' . $this->getHourSql('log_visit.visitor_localtime') . ' NOT LIKE ?' . $this->getLikeEscapeSql() . ' )',
             ['%5%'],
         ];
     }
@@ -1231,7 +1232,7 @@ class SegmentTest extends IntegrationTestCase
                         WHERE ( FLOOR(log_visit.visitor_seconds_since_last / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_last / 86400) <> ? )
                         AND ( log_visit.idvisit NOT IN (
                             SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                            WHERE ( log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND (HOUR(log_link_visit_action.server_time) = ?)) ) ",
+                            WHERE ( log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND ({$this->getHourSql('log_link_visit_action.server_time')} = ?)) ) ",
             'bind' => ['50', '2020-02-02 02:00:00', '2020-02-29 02:00:00', '5'],
         ];
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1266,13 +1267,13 @@ class SegmentTest extends IntegrationTestCase
                              WHERE (log_visit.idsite IN (?,?) AND log_visit.visit_last_action_time >= ? AND
                                     log_visit.visit_last_action_time <= ?)
                                AND ((log_link_visit_action.search_cat = ? OR
-                                     (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND
+                                     (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND
                                       log_action_segment_log_link_visit_actionidaction_url.type = '1') OR
-                                     (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND
+                                     (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND
                                       log_action_segment_log_link_visit_actionidaction_url.type = '3') OR
-                                     (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND
+                                     (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND
                                       log_action_segment_log_link_visit_actionidaction_url.type = '2') OR
-                                     (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND
+                                     (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND
                                       log_action_segment_log_link_visit_actionidaction_url.type = '10') ))
                          ))",
             "bind" => array(1, 5, '2020-02-02 12:00:00', '2020-02-05 09:00:00', 'myCategory', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%'));
@@ -1625,7 +1626,7 @@ log_visit.visit_total_actions
                 FROM
                     " . Common::prefixTable('log_visit') . " AS log_visit
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                WHERE HOUR(log_visit.visit_last_action_time) = ?
+                WHERE {$this->getHourSql('log_visit.visit_last_action_time')} = ?
                       AND log_link_visit_action.idaction_url = ?
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
@@ -1653,7 +1654,7 @@ log_visit.visit_total_actions
                     log_visit.*
                 FROM
                     " . Common::prefixTable('log_visit') . " AS log_visit
-                WHERE HOUR(log_visit.visit_last_action_time) = ?
+                WHERE {$this->getHourSql('log_visit.visit_last_action_time')} = ?
                       AND (1 = 0) ",
             "bind" => array(12));
 
@@ -1678,7 +1679,7 @@ log_visit.visit_total_actions
                     log_visit.*
                 FROM
                     " . Common::prefixTable('log_visit') . " AS log_visit
-                WHERE (HOUR(log_visit.visit_last_action_time) = ?
+                WHERE ({$this->getHourSql('log_visit.visit_last_action_time')} = ?
                       OR (1 = 0) )",
             "bind" => array(12));
 
@@ -1793,7 +1794,7 @@ log_visit.visit_total_actions
                               ) 
                               AND(
                                 (
-                                  log_action_segment_log_link_visit_actionidaction_content_target.name LIKE ? 
+                                  log_action_segment_log_link_visit_actionidaction_content_target.name LIKE ?{$this->getLikeEscapeSql()} 
                                   AND log_action_segment_log_link_visit_actionidaction_content_target.type = '15'
                                 )
                               )
@@ -1801,12 +1802,12 @@ log_visit.visit_total_actions
                         )
                       ) 
                       AND(
-                        log_action_segment_log_link_visit_actionidaction_content_interaction.name LIKE ? 
+                        log_action_segment_log_link_visit_actionidaction_content_interaction.name LIKE ?{$this->getLikeEscapeSql()} 
                         AND log_action_segment_log_link_visit_actionidaction_content_interaction.type = '16'
                       ) 
                       AND(
                         (
-                          log_action_segment_log_link_visit_actionidaction_content_piece.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_content_piece.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_content_piece.type = '14'
                         ) 
                         OR(
@@ -1814,7 +1815,7 @@ log_visit.visit_total_actions
                           OR log_visit.visit_entry_idaction_name <> ?
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_url.type = '3'
                         ) 
                         OR(
@@ -1836,7 +1837,7 @@ log_visit.visit_total_actions
                       ) 
                       AND(
                         (
-                          log_action_segment_log_link_visit_actionidaction_name.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_name.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_name.type = '8'
                         ) 
                         OR(
@@ -1853,7 +1854,7 @@ log_visit.visit_total_actions
                               ) 
                               AND(
                                 (
-                                  log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                                  log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                                   AND log_action_segment_log_link_visit_actionidaction_url.type = '3'
                                 )
                               )
@@ -1863,7 +1864,7 @@ log_visit.visit_total_actions
                       AND(
                         (
                           log_visit.visit_exit_idaction_name IS NULL 
-                          OR log_action_segment_log_visitvisit_exit_idaction_name.name NOT LIKE ?
+                          OR log_action_segment_log_visitvisit_exit_idaction_name.name NOT LIKE ?{$this->getLikeEscapeSql()}
                         ) 
                         AND log_action_segment_log_visitvisit_exit_idaction_name.type = '4'
                       ) 
@@ -1881,79 +1882,79 @@ log_visit.visit_total_actions
                       AND(
                         log_link_visit_action.idaction_url = ? 
                         OR(
-                          log_action_segment_log_visitvisit_exit_idaction_url.name LIKE ? 
+                          log_action_segment_log_visitvisit_exit_idaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_visitvisit_exit_idaction_url.type = '1'
                         )
                       ) 
                       AND(
                         log_link_visit_action.idaction_url = ? 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_url.type = '3'
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_url.type = '2'
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_url.type = '10'
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_url.type = '3'
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_url.type = '2'
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_url.type = '10'
                         )
                       ) 
                       AND(
                         (
-                          log_action_segment_log_conversion_itemidaction_category.name LIKE ? 
+                          log_action_segment_log_conversion_itemidaction_category.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_conversion_itemidaction_category.type = '7'
                         ) 
                         OR(
-                          log_action_segment_log_conversion_itemidaction_category2.name LIKE ? 
+                          log_action_segment_log_conversion_itemidaction_category2.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_conversion_itemidaction_category2.type = '7'
                         ) 
                         OR(
-                          log_action_segment_log_conversion_itemidaction_category3.name LIKE ? 
+                          log_action_segment_log_conversion_itemidaction_category3.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_conversion_itemidaction_category3.type = '7'
                         ) 
                         OR(
-                          log_action_segment_log_conversion_itemidaction_category4.name LIKE ? 
+                          log_action_segment_log_conversion_itemidaction_category4.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_conversion_itemidaction_category4.type = '7'
                         ) 
                         OR(
-                          log_action_segment_log_conversion_itemidaction_category5.name LIKE ? 
+                          log_action_segment_log_conversion_itemidaction_category5.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_conversion_itemidaction_category5.type = '7'
                         )
                       ) 
                       AND(
                         log_conversion_item.idaction_sku = ? 
                         OR(
-                          log_action_segment_log_conversion_itemidaction_name.name LIKE ? 
+                          log_action_segment_log_conversion_itemidaction_name.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_conversion_itemidaction_name.type = '6'
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_product_name.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_product_name.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_product_name.type = '6'
                         ) 
                         OR(
-                          log_action_segment_log_link_visit_actionidaction_event_action.name LIKE ? 
+                          log_action_segment_log_link_visit_actionidaction_event_action.name LIKE ?{$this->getLikeEscapeSql()} 
                           AND log_action_segment_log_link_visit_actionidaction_event_action.type = '11'
                         ) 
                         OR(
@@ -1978,23 +1979,23 @@ log_visit.visit_total_actions
                                 log_conversion_item.idaction_name = ? 
                                 AND(
                                   (
-                                    log_action_segment_log_link_visit_actionidaction_product_cat.name LIKE ? 
+                                    log_action_segment_log_link_visit_actionidaction_product_cat.name LIKE ?{$this->getLikeEscapeSql()} 
                                     AND log_action_segment_log_link_visit_actionidaction_product_cat.type = '7'
                                   ) 
                                   OR(
-                                    log_action_segment_log_link_visit_actionidaction_product_cat2.name LIKE ? 
+                                    log_action_segment_log_link_visit_actionidaction_product_cat2.name LIKE ?{$this->getLikeEscapeSql()} 
                                     AND log_action_segment_log_link_visit_actionidaction_product_cat2.type = '7'
                                   ) 
                                   OR(
-                                    log_action_segment_log_link_visit_actionidaction_product_cat3.name LIKE ? 
+                                    log_action_segment_log_link_visit_actionidaction_product_cat3.name LIKE ?{$this->getLikeEscapeSql()} 
                                     AND log_action_segment_log_link_visit_actionidaction_product_cat3.type = '7'
                                   ) 
                                   OR(
-                                    log_action_segment_log_link_visit_actionidaction_product_cat4.name LIKE ? 
+                                    log_action_segment_log_link_visit_actionidaction_product_cat4.name LIKE ?{$this->getLikeEscapeSql()} 
                                     AND log_action_segment_log_link_visit_actionidaction_product_cat4.type = '7'
                                   ) 
                                   OR(
-                                    log_action_segment_log_link_visit_actionidaction_product_cat5.name LIKE ? 
+                                    log_action_segment_log_link_visit_actionidaction_product_cat5.name LIKE ?{$this->getLikeEscapeSql()} 
                                     AND log_action_segment_log_link_visit_actionidaction_product_cat5.type = '7'
                                   )
                                 )
@@ -2003,12 +2004,12 @@ log_visit.visit_total_actions
                         )
                       ) 
                       AND(
-                        log_action_segment_log_link_visit_actionidaction_name.name LIKE ? 
+                        log_action_segment_log_link_visit_actionidaction_name.name LIKE ?{$this->getLikeEscapeSql()} 
                         AND log_action_segment_log_link_visit_actionidaction_name.type = '12'
                       ) 
                       AND(1 = 0) 
                       AND(
-                        log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                        log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                         AND log_action_segment_log_link_visit_actionidaction_url.type = '10'
                       ) 
                       AND(
@@ -2027,11 +2028,11 @@ log_visit.visit_total_actions
                             AND(
                               (
                                 (
-                                  log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                                  log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} 
                                   AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
                                 ) 
                                 OR(
-                                  log_action_segment_log_link_visit_actionidaction_product_sku.name LIKE ? 
+                                  log_action_segment_log_link_visit_actionidaction_product_sku.name LIKE ?{$this->getLikeEscapeSql()} 
                                   AND log_action_segment_log_link_visit_actionidaction_product_sku.type = '5'
                                 ) 
                                 OR(1 = 0) 
@@ -2139,10 +2140,10 @@ log_visit.visit_total_actions
                                LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url
                                          ON log_link_visit_action.idaction_url =
                                             log_action_segment_log_link_visit_actionidaction_url.idaction
-                      WHERE (HOUR(log_visit.visit_last_action_time) = ? OR (1 = 0)) " . // pageUrl==xyz
+                      WHERE ({$this->getHourSql('log_visit.visit_last_action_time')} = ? OR (1 = 0)) " . // pageUrl==xyz
                         " AND (
-                            (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') " . // pageUrl=@does-not-exist
-                          " OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') " . // pageUrl=@found-in-db
+                            (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1') " . // pageUrl=@does-not-exist
+                          " OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1') " . // pageUrl=@found-in-db
                           " OR log_link_visit_action.idaction_url = ? " . // pageUrl=='.urlencode($pageUrlFoundInDb)
                           " OR (
                                  log_visit.idvisit NOT IN (
@@ -2154,8 +2155,8 @@ log_visit.visit_total_actions
                                         ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
                                       WHERE (log_visit.visit_last_action_time >= ?)
                                         AND ((1 = 0) " . // pageUrl!=abcdefg
-                                         " AND (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1')" . // pageUrl!@not-found
-                                         " AND (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1')" . // pageUrl!@found
+                                         " AND (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1')" . // pageUrl!@not-found
+                                         " AND (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1')" . // pageUrl!@found
                                       " )
                                   )
                              )
@@ -2213,7 +2214,7 @@ log_visit.visit_total_actions
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
-                          AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
+                          AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
                       GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
                  AS log_inner GROUP BY log_inner.idgoal",
@@ -2267,7 +2268,7 @@ log_visit.visit_total_actions
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
-                          AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
+                          AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
                       GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
                 AS log_inner GROUP BY log_inner.idgoal, log_inner.referer_type, log_inner.referer_name, log_inner.referer_keyword",
@@ -2317,7 +2318,7 @@ log_visit.visit_total_actions
                         AND log_conversion.server_time <= ?
                         AND log_conversion.idsite IN (?) )
                         AND ( (log_visit.visitor_returning = ? OR log_visit.visitor_returning = ?)
-                        AND (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
+                        AND (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
                     GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                     ORDER BY NULL ) AS log_inner
                     GROUP BY log_inner.idgoal",
@@ -2367,7 +2368,7 @@ log_visit.visit_total_actions
                     WHERE ( log_conversion.server_time >= ?
                         AND log_conversion.server_time <= ?
                         AND log_conversion.idsite IN (?) )
-                        AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
+                        AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
                     GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                     ORDER BY NULL ) AS log_inner
                     GROUP BY log_inner.idgoal, `label`",
@@ -2428,47 +2429,47 @@ SQL;
                             AND (
                                 (
                                     (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     OR (
-                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?{$this->getLikeEscapeSql()}
                                         AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
                                         )
                                     )
@@ -2661,7 +2662,7 @@ SQL;
         $sql = $segmentExpression->getSql();
 
         $expected = [
-            "where"  => "(log_action_segment_log_link_visit_actionidaction_name.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_name.type = '4')",
+            "where"  => "(log_action_segment_log_link_visit_actionidaction_name.name LIKE ?{$this->getLikeEscapeSql()} AND log_action_segment_log_link_visit_actionidaction_name.type = '4')",
             "bind" => ['%abc%'],
         ];
 
@@ -2876,7 +2877,8 @@ SQL;
                     $segment->setSegment('customSegment');
                     $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);
                     $segment->setName('Custom Segment');
-                    $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first)');
+                    // in the dialect of the engine the tests run on
+                    $segment->setSqlSegment('(' . Schema::getInstance()->getUnixTimestampSql('log_visit.visit_first_action_time') . ' - log_visit.visitor_seconds_since_first)');
                     $list->addSegment($segment);
 
                     $segment = new \Piwik\Plugin\Segment();
@@ -3134,5 +3136,21 @@ SQL;
             'starts with'  => ['=^'],
             'ends with'    => ['=$'],
         ];
+    }
+
+    /**
+     * The hour of a datetime column, as the hour segments select it on the engine the tests run on.
+     */
+    private function getHourSql(string $column): string
+    {
+        return Schema::getInstance()->getHourSql($column);
+    }
+
+    /**
+     * What follows a LIKE placeholder on the engine the tests run on (SQLite has no default escape character).
+     */
+    private function getLikeEscapeSql(): string
+    {
+        return Schema::getInstance()->getLikeEscapeSql();
     }
 }

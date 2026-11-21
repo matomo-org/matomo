@@ -578,11 +578,13 @@ class Schema extends Singleton
      * configuration says (a connection replaced through `Db.getDatabaseConfig`, as tests do).
      *
      * @internal for migrations, which run on the connection in use
+     * @param bool $connect connect first, rather than trust the configuration (`Db.getDatabaseConfig` may
+     *                      choose another engine)
      */
-    public function getConnectionSchema(): SchemaInterface
+    public function getConnectionSchema(bool $connect = false): SchemaInterface
     {
         $schema = $this->getSchema();
-        if (!SettingsServer::isTrackerApiRequest() && !Db::hasDatabaseObject()) {
+        if (!$connect && !SettingsServer::isTrackerApiRequest() && !Db::hasDatabaseObject()) {
             // not connected yet: the configured schema, whose engine the configured adapter connects to
             return $schema;
         }

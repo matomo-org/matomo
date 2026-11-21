@@ -14,6 +14,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 use Piwik\Updates\Updates_2_10_0_b5;
 use Piwik\Version;
@@ -33,6 +34,11 @@ class UpdateTest extends ConsoleCommandTestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        if (Fixture::isSqlite()) {
+            // the updates from 2.9.0 are MySQL's: a SQLite installation starts at the release that supports it
+            $this->markTestSkipped('updates from ' . self::VERSION_TO_UPDATE_FROM . ' predate SQLite support');
+        }
 
         Option::set('version_core', self::VERSION_TO_UPDATE_FROM);
 

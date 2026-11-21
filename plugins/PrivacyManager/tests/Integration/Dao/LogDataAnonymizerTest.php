@@ -317,6 +317,14 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $rows = Db::fetchAll('SELECT idsite, idvisit from ' . Common::prefixTable('log_visit'));
         $export = API::getInstance()->exportDataSubjects($rows);
         $export = MultipleSitesMultipleVisitsFixture::cleanResult($export);
+        if (Fixture::isSqlite()) {
+            // SQLite returns a DECIMAL(9,6) as its shortest number (21.32), MySQL with its scale ('21.320000')
+            array_walk_recursive($export, function (&$value, $key) {
+                if (in_array($key, ['location_latitude', 'location_longitude'], true) && is_numeric($value)) {
+                    $value = sprintf('%.6f', $value);
+                }
+            });
+        }
         $result = json_encode($export, JSON_PRETTY_PRINT);
         $fileExpected = PIWIK_DOCUMENT_ROOT . '/plugins/PrivacyManager/tests/System/expected/anonymizeVisitInformation_' . $fileName . '.json';
         $fileProcessed = str_replace('/expected/', '/processed/', $fileExpected);

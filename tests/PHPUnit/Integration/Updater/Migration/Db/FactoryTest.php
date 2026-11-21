@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Updater\Migration\Db;
 
 use Piwik\Common;
 use Piwik\Db\Schema;
+use Piwik\DbHelper;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db\AddColumn;
@@ -482,7 +483,10 @@ class FactoryTest extends IntegrationTestCase
                 $converted[] = $specification;
             }
         }
-        if ($converted !== []) {
+        if ($converted !== [] && preg_grep('/^ADD (UNIQUE KEY|INDEX) /', $converted) !== [] && !DbHelper::tableExists($table)) {
+            // an index takes its collation from a table yet to be created
+            $statements[] = "/* SQLite: ALTER TABLE `$table` " . implode(', ', $converted) . ' */';
+        } elseif ($converted !== []) {
             $statements = array_merge($sqlite->getAlterTableSql($table, $converted), $statements);
         }
         $this->assertSame(implode(";\n", $statements) . ';', '' . $migration);
