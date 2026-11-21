@@ -270,7 +270,7 @@ class Schema extends Singleton
      */
     public function alterTable(string $tableName, array $specifications): void
     {
-        $schema = $this->getSchema();
+        $schema = $this->getConnectionSchema();
         if ($schema instanceof Mysql) {
             $schema->alterTable($tableName, $specifications);
             return;
@@ -576,8 +576,10 @@ class Schema extends Singleton
     /**
      * The configured schema, unless the connection in use speaks another engine's SQL than the
      * configuration says (a connection replaced through `Db.getDatabaseConfig`, as tests do).
+     *
+     * @internal for migrations, which run on the connection in use
      */
-    private function getConnectionSchema(): SchemaInterface
+    public function getConnectionSchema(): SchemaInterface
     {
         $schema = $this->getSchema();
         if (!SettingsServer::isTrackerApiRequest() && !Db::hasDatabaseObject()) {

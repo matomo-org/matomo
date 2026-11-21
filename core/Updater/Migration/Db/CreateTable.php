@@ -11,14 +11,25 @@ namespace Piwik\Updater\Migration\Db;
 
 use Piwik\Db;
 use Piwik\Db\Schema;
-use Piwik\Db\Sqlite\Connection;
 
 /**
+ * Creates a table in the dialect of the connection in use when the migration runs or is shown.
+ *
  * @see Factory::createTable()
  * @ignore
  */
 class CreateTable extends Statements
 {
+    /**
+     * @var string
+     */
+    private $table;
+
+    /**
+     * @var string
+     */
+    private $createDefinition;
+
     /**
      * @param string $table Prefixed table name
      * @param array $columnNames array(columnName => columnType)
@@ -35,19 +46,15 @@ class CreateTable extends Statements
             $columns[] = sprintf('PRIMARY KEY ( `%s` )', implode('`, `', $primaryKey));
         }
 
-        // the connection in use decides, whatever the configuration file says
-        if (Connection::isSqliteConnection(Db::get())) {
-            $statements = (new Schema\Sqlite())->getCreateTableSql($table, implode(', ', $columns));
-        } else {
-            $statements = [sprintf('CREATE TABLE `%s` (%s) %s', $table, implode(', ', $columns), Schema::getInstance()->getTableCreateOptions())];
-        }
+        $this->table = $table;
+        $this->createDefinition = implode(', ', $columns);
 
-        parent::__construct($statements, static::ERROR_CODE_TABLE_EXISTS);
+        parent::__construct([], static::ERROR_CODE_TABLE_EXISTS);
     }
 
     public function exec()
     {
-        if (!Connection::isSqliteConnection(Db::get())) {
+        if (!Schema::getInstance()->getConnectionSchema() instanceof Schema\Sqlite) {
             parent::exec();
             return;
         }
@@ -59,5 +66,15 @@ class CreateTable extends Statements
                 Db::exec($statement);
             }
         });
+    }
+
+    protected function getStatements(): array
+    {
+        $schema = Schema::getInstance()->getConnectionSchema();
+        if ($schema instanceof Schema\Sqlite) {
+            return $schema->getCreateTableSql($this->table, $this->createDefinition);
+        }
+
+        return [sprintf('CREATE TABLE `%s` (%s) %s', $this->table, $this->createDefinition, $schema->getTableCreateOptions())];
     }
 }

@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\Updater\Migration\Db;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db\Factory;
 
@@ -86,6 +87,13 @@ class AlterTableTest extends IntegrationTestCase
     public function testErrorsAMigrationIgnoresHaveMysqlsNumbers(string $method, array $arguments): void
     {
         $migration = $this->factory->$method(...$arguments);
+        if (Fixture::isSqlite() && is_array($arguments[1]) && count($arguments[1]) > 1) {
+            // as separate statements would: the error skips its own specification only
+            $migration->exec();
+            // label, NOT NULL before, now allows NULL
+            $this->assertSame('YES', DbHelper::getTableColumns($this->table)['label']['Null']);
+            return;
+        }
         try {
             $migration->exec();
             $this->fail('no exception');

@@ -9,7 +9,7 @@
 
 namespace Piwik\Updater\Migration\Db;
 
-use Piwik\DbHelper;
+use Piwik\Db\Schema;
 
 /**
  * @see Factory::dropColumn()
@@ -19,7 +19,8 @@ class DropColumns extends AlterTable
 {
     public function __construct($tableName, $columnNames)
     {
-        $table = DbHelper::getTableColumns($tableName);
+        // read on the connection in use, whatever the configuration file says
+        $table = Schema::getInstance()->getConnectionSchema()->getTableColumns($tableName);
 
         // we need to remove all not existing columns. Otherwise if only one of the columns doesn't exist, all of
         // the columns wouldn't be removed

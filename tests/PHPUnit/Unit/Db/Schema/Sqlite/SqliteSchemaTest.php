@@ -18,6 +18,8 @@ use Piwik\Db\Sqlite\Connection;
 use Piwik\Tests\Unit\Db\Sqlite\RequiresSqlite;
 use Piwik\Tracker\Db\Pdo\Sqlite as SqliteTrackerAdapter;
 use Piwik\Updater\Migration\Db\AddColumn;
+use Piwik\Updater\Migration\Db\DropColumns;
+use Piwik\Updater\Migration\Db\AddColumns;
 use Piwik\Updater\Migration\Db\AddIndex;
 use Piwik\Updater\Migration\Db\AddUniqueKey;
 use Piwik\Updater\Migration\Db\ChangeColumnType;
@@ -340,6 +342,147 @@ class SqliteSchemaTest extends TestCase
         $this->assertSame(0, (int) Db::fetchOne("SELECT COUNT(*) FROM sqlite_schema WHERE name LIKE '%rebuild%'"));
     }
 
+    public function testRebuildIgnoresTemporaryObjectsOfTheSameName(): void
+    {
+        $this->schema->createTable('q', 'id INT UNSIGNED NOT NULL AUTO_INCREMENT, s VARCHAR(10) NULL, PRIMARY KEY (id)');
+        Db::query("INSERT INTO matomo_q (s) VALUES ('a'), ('b'), ('c')");
+        Db::query('DELETE FROM matomo_q WHERE id > 1');
+        Db::exec('CREATE TEMP TABLE matomo_other (id INTEGER PRIMARY KEY AUTOINCREMENT)');
+        Db::exec('INSERT INTO matomo_other DEFAULT VALUES');
+        Db::exec('CREATE TEMP TABLE matomo_q__matomo_rebuild (x INTEGER)');
+        try {
+            $this->schema->alterTable('matomo_q', ['MODIFY s VARCHAR(20) NOT NULL']);
+
+            $this->assertSame(1, (int) Db::fetchOne('SELECT COUNT(*) FROM main.matomo_q'));
+            $this->assertSame(0, (int) Db::fetchOne('SELECT COUNT(*) FROM temp.matomo_q__matomo_rebuild'));
+            Db::query("INSERT INTO matomo_q (s) VALUES ('d')");
+            // the deleted ids aren't issued again
+            $this->assertSame(4, (int) Db::fetchOne("SELECT id FROM matomo_q WHERE s = 'd'"));
+        } finally {
+            Db::exec('DROP TABLE temp.matomo_q__matomo_rebuild');
+            Db::exec('DROP TABLE temp.matomo_other');
+        }
+    }
+
+    public function testRebuildKeepsDependentObjects(): void
+    {
+        Db::exec('CREATE TABLE matomo_t (id INTEGER NOT NULL, s TEXT, g INTEGER GENERATED ALWAYS AS (id * 2) STORED, PRIMARY KEY (id))');
+        Db::exec('CREATE TABLE matomo_log (id INTEGER)');
+        Db::exec('CREATE VIEW matomo_v AS SELECT id FROM matomo_t');
+        Db::exec('CREATE TRIGGER matomo_log_insert AFTER INSERT ON matomo_log BEGIN DELETE FROM matomo_t WHERE id = NEW.id; END');
+        Db::exec('CREATE TEMP TRIGGER matomo_t_temp AFTER INSERT ON main.matomo_t BEGIN INSERT INTO matomo_log VALUES (NEW.id + 100); END');
+        try {
+            Db::query("INSERT INTO matomo_t (id, s) VALUES (1, 'a')");
+
+            $this->schema->alterTable('matomo_t', ['MODIFY s VARCHAR(20) NULL']);
+
+            $this->assertSame([['id' => 1, 'g' => 2]], Db::fetchAll('SELECT id, g FROM matomo_t'));
+            $this->assertSame(1, (int) Db::fetchOne('SELECT COUNT(*) FROM matomo_v'));
+            Db::query("INSERT INTO matomo_t (id, s) VALUES (2, 'b')");
+            $this->assertSame(102, (int) Db::fetchOne('SELECT MAX(id) FROM matomo_log'));
+        } finally {
+            Db::exec('DROP TRIGGER IF EXISTS temp.matomo_t_temp');
+            Db::exec('DROP VIEW matomo_v');
+        }
+    }
+
+    public function testRebuildRefusesToRunWithForeignKeysOn(): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL, s VARCHAR(10) NULL, PRIMARY KEY (id)');
+        Db::exec('CREATE TABLE matomo_child (id INTEGER REFERENCES matomo_t (id) ON DELETE CASCADE)');
+        Db::query("INSERT INTO matomo_t (id, s) VALUES (1, 'a')");
+        Db::exec('INSERT INTO matomo_child VALUES (1)');
+        Db::exec('PRAGMA foreign_keys = ON');
+        try {
+            $this->schema->alterTable('matomo_t', ['MODIFY s VARCHAR(20) NOT NULL']);
+            $this->fail('no exception');
+        } catch (\InvalidArgumentException $e) {
+            $this->assertStringContainsString('foreign_keys', $e->getMessage());
+        } finally {
+            Db::exec('PRAGMA foreign_keys = OFF');
+        }
+        $this->assertSame(1, (int) Db::fetchOne('SELECT COUNT(*) FROM matomo_child'));
+    }
+
+    public function testFailedCopyLeavesTheCallersTransaction(): void
+    {
+        Db::exec("CREATE TABLE matomo_t (id INTEGER NOT NULL, s TEXT COLLATE BINARY UNIQUE ON CONFLICT ROLLBACK, PRIMARY KEY (id))");
+        Db::query("INSERT INTO matomo_t VALUES (1, 'a'), (2, 'A')");
+        Db::exec('CREATE TABLE matomo_other (id INTEGER)');
+        Db::get()->beginTransaction();
+        Db::exec('INSERT INTO matomo_other VALUES (1)');
+        try {
+            // the values collide once case is ignored
+            $this->schema->alterTable('matomo_t', ['MODIFY s VARCHAR(10) NULL']);
+            $this->fail('no exception');
+        } catch (\Exception $e) {
+            $this->assertTrue(Db::get()->getConnection()->inTransaction());
+        }
+        Db::get()->commit();
+        $this->assertSame(1, (int) Db::fetchOne('SELECT COUNT(*) FROM matomo_other'));
+        $this->assertSame(2, (int) Db::fetchOne('SELECT COUNT(*) FROM matomo_t'));
+    }
+
+    public function testRenamesApplyBeforeTheOtherSpecifications(): void
+    {
+        $this->schema->createTable('t', 'ident INT NOT NULL, b VARCHAR(10) NULL, PRIMARY KEY (ident, b)');
+        // SQLite writes the renamed primary key column in double quotes
+        $this->schema->alterTable('matomo_t', ['CHANGE ident id INT NOT NULL']);
+        $this->schema->alterTable('matomo_t', ['CHANGE id idsite INT NOT NULL', 'ADD INDEX idsite (idsite)']);
+        $this->schema->alterTable('matomo_t', ['CHANGE b B VARCHAR(10) NOT NULL']);
+
+        $this->assertSame(['idsite', 'B'], array_keys($this->schema->getTableColumns('matomo_t')));
+        $this->assertTrue($this->schema->tableHasIndex('matomo_t', 'idsite'));
+        $this->assertSame('PRI', $this->schema->getTableColumns('matomo_t')['idsite']['Key']);
+    }
+
+    public function testAutoIncrementIsCheckedOnceEverySpecificationApplies(): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL');
+        $this->schema->alterTable('matomo_t', ['MODIFY id INT NOT NULL AUTO_INCREMENT', 'ADD PRIMARY KEY (id)']);
+
+        Db::exec('INSERT INTO matomo_t DEFAULT VALUES');
+        $this->assertSame(1, (int) Db::fetchOne('SELECT id FROM matomo_t'));
+    }
+
+    public function testRebuiltKeyColumnsAreDeclaredAsFreshOnes(): void
+    {
+        // dropping a sole integer key leaves an ordinary integer column
+        $this->schema->createTable('a', 'id INT NOT NULL, PRIMARY KEY (id)');
+        $this->schema->alterTable('matomo_a', ['DROP PRIMARY KEY']);
+        $this->schema->createTable('b', 'id INT NOT NULL');
+        $this->assertSame($this->getColumnDeclarations('matomo_b'), $this->getColumnDeclarations('matomo_a'));
+
+        // a NULL default doesn't survive into a key
+        $this->schema->createTable('c', 'id INT DEFAULT NULL');
+        $this->schema->alterTable('matomo_c', ['ADD PRIMARY KEY (id)']);
+        Db::exec('INSERT INTO matomo_c DEFAULT VALUES');
+        $this->assertSame(0, (int) Db::fetchOne('SELECT id FROM matomo_c'));
+    }
+
+    public function testRebuildKeepsNativeTableAndColumnConstraints(): void
+    {
+        Db::exec('CREATE TABLE matomo_t (id INTEGER NOT NULL, s TEXT UNIQUE) STRICT');
+        $this->schema->alterTable('matomo_t', ['MODIFY s VARCHAR(20) NULL']);
+
+        Db::exec("INSERT INTO matomo_t VALUES (1, 'a')");
+        foreach (["INSERT INTO matomo_t VALUES (2, 'a')", "INSERT INTO matomo_t VALUES ('x', 'b')"] as $sql) {
+            try {
+                Db::exec($sql);
+                $this->fail('accepted: ' . $sql);
+            } catch (\Exception $e) {
+                $this->assertMatchesRegularExpression('/UNIQUE|cannot store/', $e->getMessage());
+            }
+        }
+    }
+
+    private function getColumnDeclarations(string $table): string
+    {
+        $sql = (string) Db::fetchOne('SELECT sql FROM sqlite_schema WHERE name = ?', [$table]);
+
+        return substr($sql, strpos($sql, '('));
+    }
+
     public function testRebuildOnAColumnPrefixKey(): void
     {
         $this->schema->createTable('p', 'a VARCHAR(200) NOT NULL, b VARCHAR(200) NOT NULL');
@@ -429,7 +572,8 @@ class SqliteSchemaTest extends TestCase
         // built together, as an update's migrations are, then run in order
         $add = new AddColumn('matomo_t', 'n', 'INT NULL', null);
         $change = new ChangeColumnType('matomo_t', 'n', 'VARCHAR(10) NOT NULL');
-        $this->assertSame('ALTER TABLE `matomo_t` CHANGE `n` `n` VARCHAR(10) NOT NULL;', (string) $change);
+        // shown as SQLite runs it
+        $this->assertSame('/* SQLite rebuilds the table matomo_t for: CHANGE `n` `n` VARCHAR(10) NOT NULL */;', (string) $change);
 
         $add->exec();
         $change->exec();
@@ -495,12 +639,55 @@ class SqliteSchemaTest extends TestCase
             $this->assertSame('ALTER TABLE `matomo_t` ADD COLUMN `c` INT NULL;', (string) new AddColumn('matomo_t', 'c', 'INT NULL', null));
             $this->assertSame('ALTER TABLE `matomo_t` ADD INDEX index_c (`c`);', (string) new AddIndex('matomo_t', ['c'], ''));
             $this->assertSame('ALTER TABLE `matomo_t` CHANGE `c` `c` BIGINT NULL;', (string) new ChangeColumnType('matomo_t', 'c', 'BIGINT NULL'));
-            $this->assertStringStartsWith('CREATE TABLE `matomo_t` (`c` INT NULL)', (string) new CreateTable('matomo_t', ['c' => 'INT NULL'], []));
+            $this->assertMatchesRegularExpression('/^CREATE TABLE `matomo_t` \(`c` INT NULL\) ENGINE=\w+ DEFAULT CHARSET=\w+/', (string) new CreateTable('matomo_t', ['c' => 'INT NULL'], []));
         } finally {
             Db::setDatabaseObject($sqlite);
             Config::getInstance()->database['schema'] = $schema;
             \Piwik\Db\Schema::getInstance()->unsetSchema();
         }
+    }
+
+    public function testMigrationsBuiltOnSqliteRunInTheDialectOfTheConnectionTheyRunOn(): void
+    {
+        $sqlite = Db::get();
+        $migrations = [
+            new CreateTable('matomo_t', ['c' => 'INT NULL'], []),
+            new AddColumn('matomo_t', 'd', 'VARCHAR(10) NULL', null),
+        ];
+        $mysql = $this->getRecordingMysqlAdapter();
+        Db::setDatabaseObject($mysql);
+        try {
+            foreach ($migrations as $migration) {
+                $migration->exec();
+            }
+        } finally {
+            Db::setDatabaseObject($sqlite);
+        }
+
+        $this->assertCount(2, $mysql->statements);
+        $this->assertMatchesRegularExpression('/^CREATE TABLE `matomo_t` \(`c` INT NULL\) ENGINE=/', $mysql->statements[0]);
+        $this->assertSame('ALTER TABLE `matomo_t` ADD COLUMN `d` VARCHAR(10) NULL', $mysql->statements[1]);
+    }
+
+    public function testAnIgnoredErrorSkipsOnlyItsOwnSpecification(): void
+    {
+        $this->schema->createTable('t', 'id INT NOT NULL, x INT NULL, y INT NULL');
+        // built together, as an update's migrations are, then run in order
+        $migrations = [
+            new AddColumn('matomo_t', 'a', 'INT NULL', null),
+            new AddColumns('matomo_t', ['a' => 'INT NULL', 'b' => 'INT NULL'], null),
+            new DropColumn('matomo_t', 'x'),
+            new DropColumns('matomo_t', ['x', 'y']),
+        ];
+        foreach ($migrations as $migration) {
+            try {
+                $migration->exec();
+            } catch (\Exception $e) {
+                $this->assertTrue($migration->shouldIgnoreError($e), $e->getMessage());
+            }
+        }
+
+        $this->assertSame(['id', 'a', 'b'], array_keys($this->schema->getTableColumns('matomo_t')));
     }
 
     public function testReplayedCreateTableLeavesTheTableAsItIs(): void

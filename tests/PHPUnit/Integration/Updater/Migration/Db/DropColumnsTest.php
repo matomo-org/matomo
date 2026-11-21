@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\Updater\Migration\Db;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db\DropColumns;
 
@@ -64,7 +65,10 @@ class DropColumnsTest extends IntegrationTestCase
     {
         $sql = $this->dropColumns(array('barbaz', 'notexstis', 'barbaz', 'foobaz'));
 
-        $this->assertQueryWorks($sql, 'ALTER TABLE `foobar` DROP COLUMN `barbaz`, DROP COLUMN `foobaz`;');
+        // SQLite drops one column per statement
+        $this->assertQueryWorks($sql, Fixture::isSqlite()
+            ? "ALTER TABLE `foobar` DROP COLUMN `barbaz`;\nALTER TABLE `foobar` DROP COLUMN `foobaz`;"
+            : 'ALTER TABLE `foobar` DROP COLUMN `barbaz`, DROP COLUMN `foobaz`;');
     }
 
     private function assertQueryWorks(DropColumns $dropColumns, $expectedQuery)

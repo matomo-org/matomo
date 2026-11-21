@@ -159,7 +159,7 @@ class ModelTest extends IntegrationTestCase
     {
         $item = array(
             'idsite' => '1',
-            'idvisitor' => 'test',
+            'idvisitor' => Common::hex2bin('7465737400000000'), // visitor ids are always 8 bytes
             'server_time' => '2014-01-01 00:00:00',
             'idvisit' => '1',
             'idorder' => '12',
@@ -176,7 +176,7 @@ class ModelTest extends IntegrationTestCase
         );
         $item2 = [
             'idsite' => '1',
-            'idvisitor' => 'test',
+            'idvisitor' => Common::hex2bin('7465737400000000'), // visitor ids are always 8 bytes
             'server_time' => '2014-01-01 00:00:00',
             'idvisit' => '1',
             'idorder' => '12',
@@ -230,37 +230,50 @@ class ModelTest extends IntegrationTestCase
     {
         $logActionTable = Common::prefixTable('log_action');
         Db::query(
-            "INSERT INTO $logActionTable (idaction, name, type, url_prefix, hash) VALUES (?, ?, ?, ?, CRC32(?))",
+            "INSERT INTO $logActionTable (idaction, name, type, url_prefix, hash) VALUES (?, ?, ?, ?, ?)",
             array(5, self::TEST_ACTION_NAME, self::TEST_ACTION_TYPE, self::TEST_ACTION_URL_PREFIX,
-            self::TEST_ACTION_NAME)
+            self::hash(self::TEST_ACTION_NAME))
         );
     }
 
     private function insertManyActions()
     {
         $logActionTable = Common::prefixTable('log_action');
-        Db::query(
-            "INSERT INTO $logActionTable (idaction, name, type, hash)
-                  VALUES (1, 'action0', 1, CRC32('action0')),
-                         (2, 'action1', 1, CRC32('action1')),
-                         (3, 'ACTION1', 1, CRC32('ACTION1')),
-                         (4, 'action1', 2, CRC32('action1')),
-                         (5, 'action2', 2, CRC32('action2')),
-                         (6, 'action2', 3, CRC32('action2'))"
-        );
+        // the hash Matomo stores, computed in PHP on every engine
+        foreach (
+            [
+            [1, 'action0', 1],
+            [2, 'action1', 1],
+            [3, 'ACTION1', 1],
+            [4, 'action1', 2],
+            [5, 'action2', 2],
+            [6, 'action2', 3],
+            ] as [$idaction, $name, $type]
+        ) {
+            Db::query("INSERT INTO $logActionTable (idaction, name, type, hash) VALUES (?, ?, ?, ?)", [$idaction, $name, $type, self::hash($name)]);
+        }
     }
 
     private function insertManyActionsWithDuplicates()
     {
         $logActionTable = Common::prefixTable('log_action');
-        Db::query(
-            "INSERT INTO $logActionTable (idaction, name, type, hash)
-                  VALUES (1, 'action1', 1, CRC32('action1')),
-                         (2, 'action1', 2, CRC32('action1')),
-                         (3, 'action1', 3, CRC32('action1')),
-                         (6, 'action2', 2, CRC32('action2')),
-                         (5, 'action2', 2, CRC32('action2')),
-                         (4, 'action2', 2, CRC32('action2'))"
-        );
+        // the hash Matomo stores, computed in PHP on every engine
+        foreach (
+            [
+            [1, 'action1', 1],
+            [2, 'action1', 2],
+            [3, 'action1', 3],
+            [6, 'action2', 2],
+            [5, 'action2', 2],
+            [4, 'action2', 2],
+            ] as [$idaction, $name, $type]
+        ) {
+            Db::query("INSERT INTO $logActionTable (idaction, name, type, hash) VALUES (?, ?, ?, ?)", [$idaction, $name, $type, self::hash($name)]);
+        }
+    }
+
+    private static function hash(string $name): string
+    {
+        return sprintf('%u', crc32($name));
     }
 }

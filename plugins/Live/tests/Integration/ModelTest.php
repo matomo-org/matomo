@@ -128,6 +128,9 @@ class ModelTest extends IntegrationTestCase
             $this->markTestSkipped('max_execution_time not supported on mysqli');
             return;
         }
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no statement time limit');
+        }
         $this->expectException(MaxExecutionTimeExceededException::class);
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
         $this->setLowestMaxExecutionTime();
@@ -144,6 +147,9 @@ class ModelTest extends IntegrationTestCase
         if (SystemTestCase::isMysqli()) {
             $this->markTestSkipped('max_execution_time not supported on mysqli');
             return;
+        }
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no statement time limit');
         }
         $this->expectException(MaxExecutionTimeExceededException::class);
         $this->expectExceptionMessage('Live_QueryMaxExecutionTimeExceeded');
@@ -410,10 +416,13 @@ class ModelTest extends IntegrationTestCase
             $filterSortOrder = false
         );
 
+        // SQLite's planner gets no index hint
+        $indexHint = Fixture::isSqlite() ? '' : 'FORCE INDEX (index_idsite_datetime)';
+
         // the condition on log_visit cannot be pulled out of the OR, so the whole segment stays
         // inside the subquery, where log_visit is available as well
         $expectedSql = ' SELECT log_visit_outer.*
-                        FROM log_visit AS log_visit_outer FORCE INDEX (index_idsite_datetime)
+                        FROM log_visit AS log_visit_outer ' . $indexHint . '
                         WHERE (
                             log_visit_outer.idsite in (?)
                             AND log_visit_outer.visit_last_action_time >= ?
@@ -463,10 +472,15 @@ class ModelTest extends IntegrationTestCase
             return $sql;
         };
 
-        $this->assertStringContainsString(
-            'log_visit AS log_visit_outer FORCE INDEX (index_idsite_datetime)',
-            $query(false)
-        );
+        if (Fixture::isSqlite()) {
+            // SQLite's planner gets no index hint
+            $this->assertMatchesRegularExpression('/log_visit AS log_visit_outer\s+WHERE/', $query(false));
+        } else {
+            $this->assertStringContainsString(
+                'log_visit AS log_visit_outer FORCE INDEX (index_idsite_datetime)',
+                $query(false)
+            );
+        }
         $this->assertStringNotContainsString('FORCE INDEX', $query('abc'));
     }
 
@@ -476,6 +490,10 @@ class ModelTest extends IntegrationTestCase
      */
     public function testMakeLogVisitsQueryStringKeepsTheGroupByWhenTheVisitTimeIndexIsMissing()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite names no index, so a missing one cannot fail the query');
+        }
+
         $table = Common::prefixTable('log_visit');
 
         Db::exec("ALTER TABLE `$table` DROP INDEX index_idsite_datetime");

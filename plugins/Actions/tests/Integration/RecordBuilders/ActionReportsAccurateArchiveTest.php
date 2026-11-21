@@ -588,8 +588,8 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
     private function insertLogAction(string $name, int $type, ?int $urlPrefix = null): int
     {
         Db::query(
-            'INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type, url_prefix) VALUES (?, CRC32(?), ?, ?)',
-            [$name, $name, $type, $urlPrefix]
+            'INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type, url_prefix) VALUES (?, ?, ?, ?)',
+            [$name, sprintf('%u', crc32($name)), $type, $urlPrefix] // the hash Matomo stores, computed in PHP on every engine
         );
         return (int) Db::get()->lastInsertId();
     }

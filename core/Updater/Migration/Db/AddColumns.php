@@ -9,7 +9,7 @@
 
 namespace Piwik\Updater\Migration\Db;
 
-use Piwik\DataAccess\TableMetadata;
+use Piwik\Db\Schema;
 
 /**
  * @see Factory::addColumns()
@@ -19,9 +19,9 @@ class AddColumns extends AlterTable
 {
     public function __construct($table, $columns, $placeColumnAfter)
     {
-        $tableMetadata = new TableMetadata();
         try {
-            $existingColumns = $tableMetadata->getColumns($table);
+            // read on the connection in use, whatever the configuration file says
+            $existingColumns = array_keys(Schema::getInstance()->getConnectionSchema()->getTableColumns(str_replace('`', '', $table)));
         } catch (\Exception $ex) {
             $existingColumns = [];
         }

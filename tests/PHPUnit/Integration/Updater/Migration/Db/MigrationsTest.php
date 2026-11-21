@@ -309,7 +309,11 @@ class MigrationsTest extends IntegrationTestCase
             [$this->testTablePrefixed]
         );
         foreach ($rows as $row) {
-            $indexes[] = ['Key_name' => substr($row['index_name'], strlen($this->testTablePrefixed) + 1), 'Column_name' => $row['column_name']];
+            $name = substr($row['index_name'], strlen($this->testTablePrefixed) + 1);
+            // a primary key on column prefixes adds a unique index on them, listed already as the primary key
+            if ($name !== 'PRIMARY') {
+                $indexes[] = ['Key_name' => $name, 'Column_name' => $row['column_name']];
+            }
         }
 
         return array_values(array_filter($indexes, function ($index) use ($keyName) {

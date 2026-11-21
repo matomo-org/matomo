@@ -9,6 +9,7 @@
 
 namespace Piwik\Updater\Migration\Db;
 
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\Db\Sqlite\Connection;
 
@@ -38,23 +39,38 @@ class Statements extends Sql
         parent::__construct(implode(";\n", $this->statements), $errorCodesToIgnore);
     }
 
+    public function __toString()
+    {
+        $sql = implode(";\n", $this->getStatements());
+
+        if ($sql !== '' && !Common::stringEndsWith($sql, ';')) {
+            $sql .= ';';
+        }
+
+        return $sql;
+    }
+
     public function exec()
     {
-        if (count($this->statements) < 2) {
-            parent::exec();
+        $statements = array_values(array_filter($this->getStatements(), function (string $statement): bool {
+            return $statement !== '';
+        }));
+
+        if (count($statements) === 1) {
+            // as a single Sql migration: the error, ignorable or not, goes to the caller
+            Db::exec($statements[0]);
             return;
         }
 
         // the connection in use decides, whatever the configuration file says
-        $db = Db::get();
-        if (!Connection::isSqliteConnection($db)) {
-            $this->execStatements();
+        if (count($statements) === 0 || !Connection::isSqliteConnection(Db::get())) {
+            $this->execStatements($statements);
             return;
         }
 
         Db::exec('SAVEPOINT matomo_statements');
         try {
-            $this->execStatements();
+            $this->execStatements($statements);
         } catch (\Exception $e) {
             Db::exec('ROLLBACK TO matomo_statements');
             Db::exec('RELEASE matomo_statements');
@@ -64,6 +80,8 @@ class Statements extends Sql
     }
 
     /**
+     * The statements to run, for the connection in use.
+     *
      * @return string[]
      */
     protected function getStatements(): array
@@ -71,9 +89,12 @@ class Statements extends Sql
         return $this->statements;
     }
 
-    private function execStatements(): void
+    /**
+     * @param string[] $statements
+     */
+    private function execStatements(array $statements): void
     {
-        foreach ($this->statements as $statement) {
+        foreach ($statements as $statement) {
             try {
                 Db::exec($statement);
             } catch (\Exception $e) {

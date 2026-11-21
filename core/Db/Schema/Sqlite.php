@@ -177,7 +177,7 @@ class Sqlite extends Mysql
         $changes = [];
         foreach ($specifications as $specification) {
             $specification = trim($specification);
-            if (preg_match('/^(?:ADD|DROP)\s+PRIMARY\s+KEY\b/i', $specification) || self::parseColumnChange($specification) !== null) {
+            if ($this->needsRebuild($specification)) {
                 $changes[] = $specification;
             } else {
                 $converted[] = $specification;
@@ -185,6 +185,8 @@ class Sqlite extends Mysql
         }
 
         Db::inSqliteSavepoint(function () use ($tableName, $converted, $changes) {
+            // MySQL applies the specifications together: an index added with a rename names the new column
+            $changes = $this->renameColumns($tableName, $changes);
             foreach ($this->getAlterTableSql($tableName, $converted) as $sql) {
                 Db::exec($sql);
             }
@@ -192,6 +194,65 @@ class Sqlite extends Mysql
                 $this->rebuildTable($tableName, $changes);
             }
         });
+    }
+
+    /**
+     * Whether `alterTable()` rebuilds the table for this specification: changing a column or the primary key.
+     *
+     * @internal
+     */
+    public function needsRebuild(string $specification): bool
+    {
+        $specification = trim($specification);
+
+        return preg_match('/^(?:ADD|DROP)\s+PRIMARY\s+KEY\b/i', $specification) === 1 || self::parseColumnChange($specification) !== null;
+    }
+
+    /**
+     * Renames the columns `CHANGE` renames, by SQLite's RENAME COLUMN, which updates the indexes and
+     * triggers.
+     *
+     * @param string[] $changes
+     * @return string[] the changes, each `CHANGE` now a `MODIFY` of the renamed column
+     */
+    private function renameColumns(string $tableName, array $changes): array
+    {
+        if ($changes === []) {
+            return [];
+        }
+
+        $table = $this->readTable($tableName);
+        foreach ($changes as $i => $specification) {
+            $change = self::parseColumnChange($specification);
+            if ($change === null) {
+                continue;
+            }
+            [$column, $newName, $definition] = $change;
+            if (!isset($table['columns'][strtolower($column)])) {
+                throw new MysqlError(sprintf("Unknown column '%s' in '%s'", $column, $tableName), Migration::ERROR_CODE_UNKNOWN_COLUMN);
+            }
+            $current = $table['columns'][strtolower($column)]['name'];
+            if ($current !== $newName) {
+                if (strcasecmp($current, $newName) !== 0 && isset($table['columns'][strtolower($newName)])) {
+                    throw new MysqlError(sprintf("Duplicate column name '%s'", $newName), Migration::ERROR_CODE_DUPLICATE_COLUMN);
+                }
+                // SQLite's names ignore case: a new case goes through another name
+                $steps = strcasecmp($current, $newName) === 0 ? [$current . '__matomo_rename', $newName] : [$newName];
+                foreach ($steps as $step) {
+                    Db::exec(sprintf(
+                        'ALTER TABLE main.%s RENAME COLUMN %s TO %s',
+                        DefinitionConverter::quoteIdentifier($table['name']),
+                        DefinitionConverter::quoteIdentifier($current),
+                        DefinitionConverter::quoteIdentifier($step)
+                    ));
+                    $current = $step;
+                }
+                $table = $this->readTable($tableName);
+            }
+            $changes[$i] = 'MODIFY ' . DefinitionConverter::quoteIdentifier($newName) . ' ' . $definition;
+        }
+
+        return $changes;
     }
 
     /**
@@ -204,25 +265,6 @@ class Sqlite extends Mysql
             throw new \InvalidArgumentException(sprintf('SQLite: a temporary table shadows %s, which cannot be rebuilt', $tableName));
         }
         $table = $this->readTable($tableName);
-
-        // renames first, by SQLite's RENAME COLUMN, which updates the indexes and triggers
-        foreach ($changes as $specification) {
-            $change = self::parseColumnChange($specification);
-            if ($change === null) {
-                continue;
-            }
-            [$column, $newName] = $change;
-            if (!isset($table['columns'][strtolower($column)])) {
-                throw new MysqlError(sprintf("Unknown column '%s' in '%s'", $column, $tableName), Migration::ERROR_CODE_UNKNOWN_COLUMN);
-            }
-            if (strcasecmp($column, $newName) !== 0) {
-                if (isset($table['columns'][strtolower($newName)])) {
-                    throw new MysqlError(sprintf("Duplicate column name '%s'", $newName), Migration::ERROR_CODE_DUPLICATE_COLUMN);
-                }
-                Db::exec(sprintf('ALTER TABLE `%s` RENAME COLUMN %s TO %s', $table['name'], DefinitionConverter::quoteIdentifier($column), DefinitionConverter::quoteIdentifier($newName)));
-                $table = $this->readTable($tableName);
-            }
-        }
 
         $columns = $table['columns'];
         $primaryKey = $table['primaryKey'];
@@ -247,13 +289,15 @@ class Sqlite extends Mysql
                         // INTEGER PRIMARY KEY AUTOINCREMENT whatever the width
                         continue;
                     }
-                    if (!$inPrimaryKey || count($primaryKey) !== 1 || $primaryKey[0]['length'] !== null) {
-                        throw new MysqlError('Incorrect table definition; there can be only one auto column and it must be defined as a key', 1075);
-                    }
+                    // checked once every specification applies, as MySQL does
                     $autoIncrement = $name;
                 } elseif ($autoIncrement === $name) {
                     // no longer AUTO_INCREMENT, still the primary key, declared with the table
                     $autoIncrement = null;
+                }
+                if (self::matchesOutsideLiterals('/\bUNIQUE\b/i', $columns[$name]['sql']) && !self::matchesOutsideLiterals('/\bUNIQUE\b/i', $converted['sql'])) {
+                    // a native column constraint, kept as MySQL keeps a unique index
+                    $converted['sql'] .= ' UNIQUE';
                 }
                 if (self::normalizeDefinition($columns[$name]['sql']) !== self::normalizeDefinition($converted['sql'])) {
                     $columns[$name]['sql'] = $converted['sql'];
@@ -285,10 +329,11 @@ class Sqlite extends Mysql
                 if ($primaryKey === null) {
                     throw new MysqlError("Can't DROP 'PRIMARY'; check that column/key exists", Migration::ERROR_CODE_COLUMN_NOT_EXISTS);
                 }
-                if ($autoIncrement !== null) {
-                    throw new MysqlError('Incorrect table definition; there can be only one auto column and it must be defined as a key', 1075);
+                // the columns stay NOT NULL, as on MySQL; a sole integer key loses the check keeping it from the rowid
+                if (count($primaryKey) === 1) {
+                    $name = strtolower($primaryKey[0]['column']);
+                    $columns[$name]['sql'] = self::removeRowidGuard($columns[$name]['sql']);
                 }
-                // the columns stay NOT NULL, as on MySQL
                 $primaryKey = null;
                 $changed = $primaryKeyChanged = true;
             } else {
@@ -298,6 +343,18 @@ class Sqlite extends Mysql
 
         if (!$changed) {
             return;
+        }
+
+        if ((int) Db::fetchOne('PRAGMA foreign_keys')) {
+            // dropping the old table would delete or change the rows that reference it
+            throw new \InvalidArgumentException(sprintf('SQLite: %s cannot be rebuilt while foreign_keys is on', $tableName));
+        }
+
+        if (
+            $autoIncrement !== null
+            && ($primaryKey === null || count($primaryKey) !== 1 || strtolower($primaryKey[0]['column']) !== $autoIncrement || $primaryKey[0]['length'] !== null)
+        ) {
+            throw new MysqlError('Incorrect table definition; there can be only one auto column and it must be defined as a key', 1075);
         }
 
         if ($autoIncrement !== null && $autoIncrement !== $table['autoIncrement']) {
@@ -321,24 +378,44 @@ class Sqlite extends Mysql
             "SELECT name, sql FROM main.sqlite_schema WHERE type = 'index' AND tbl_name = ? AND sql IS NOT NULL ORDER BY rowid",
             [$name]
         );
-        $triggers = Db::fetchAll("SELECT sql FROM main.sqlite_schema WHERE type = 'trigger' AND tbl_name = ? ORDER BY rowid", [$name]);
-        $columnList = implode(', ', array_map(function (array $column) {
-            return DefinitionConverter::quoteIdentifier($column['name']);
-        }, $columns));
+        // the temporary triggers on the table go with it as well
+        $triggers = Db::fetchAll(
+            "SELECT sql FROM (SELECT sql, 0 AS temp, rowid FROM main.sqlite_schema WHERE type = 'trigger' AND tbl_name = ?
+                UNION ALL SELECT sql, 1, rowid FROM temp.sqlite_schema WHERE type = 'trigger' AND tbl_name = ?) ORDER BY temp, rowid",
+            [$name, $name]
+        );
+        // generated columns are computed, not copied
+        $generated = array_map('strtolower', array_column(Db::fetchAll("SELECT name FROM pragma_table_xinfo(?, 'main') WHERE hidden IN (2, 3)", [$name]), 'name'));
+        $copiedColumns = [];
         $values = [];
         foreach ($columns as $key => $column) {
-            $values[] = $copied[$key] ?? DefinitionConverter::quoteIdentifier($column['name']);
+            if (!in_array($key, $generated, true)) {
+                $copiedColumns[] = DefinitionConverter::quoteIdentifier($column['name']);
+                $values[] = $copied[$key] ?? DefinitionConverter::quoteIdentifier($column['name']);
+            }
         }
+        $quotedName = DefinitionConverter::quoteIdentifier($name);
+        $quotedRebuilt = DefinitionConverter::quoteIdentifier($rebuilt);
 
-        Db::exec(sprintf("CREATE TABLE `%s` (\n  %s\n)", $rebuilt, implode(",\n  ", $lines)));
-        Db::exec(sprintf('INSERT INTO `%s` (%s) SELECT %s FROM `%s`', $rebuilt, $columnList, implode(', ', $values), $name));
+        // in main, whatever temporary table has the same name
+        Db::exec(sprintf("CREATE TABLE main.%s (\n  %s\n)%s", $quotedRebuilt, implode(",\n  ", $lines), $table['options']));
+        // OR ABORT: a constraint's own conflict clause can't end the caller's transaction
+        Db::exec(sprintf('INSERT OR ABORT INTO main.%s (%s) SELECT %s FROM main.%s', $quotedRebuilt, implode(', ', $copiedColumns), implode(', ', $values), $quotedName));
         if ($autoIncrement !== null && $table['autoIncrement'] !== null) {
             // the counter goes on from the last value issued, which can be above the highest kept
-            Db::query('DELETE FROM sqlite_sequence WHERE name = ?', [$rebuilt]);
-            Db::query('INSERT INTO sqlite_sequence (name, seq) SELECT ?, seq FROM sqlite_sequence WHERE name = ?', [$rebuilt, $name]);
+            Db::query('DELETE FROM main.sqlite_sequence WHERE name = ?', [$rebuilt]);
+            Db::query('INSERT INTO main.sqlite_sequence (name, seq) SELECT ?, seq FROM main.sqlite_sequence WHERE name = ?', [$rebuilt, $name]);
         }
-        Db::exec(sprintf('DROP TABLE `%s`', $name));
-        Db::exec(sprintf('ALTER TABLE `%s` RENAME TO `%s`', $rebuilt, $name));
+        Db::exec(sprintf('DROP TABLE main.%s', $quotedName));
+        // views and other tables' triggers still name the table: the legacy rename leaves them as they are,
+        // where the current one fails on them while the table is missing
+        $legacyAlterTable = (int) Db::fetchOne('PRAGMA legacy_alter_table');
+        Db::exec('PRAGMA legacy_alter_table = ON');
+        try {
+            Db::exec(sprintf('ALTER TABLE main.%s RENAME TO %s', $quotedRebuilt, $quotedName));
+        } finally {
+            Db::exec('PRAGMA legacy_alter_table = ' . ($legacyAlterTable ? 'ON' : 'OFF'));
+        }
         foreach ($indexes as $index) {
             if (!$primaryKeyChanged || strcasecmp($index['name'], $primaryIndex) !== 0) {
                 Db::exec($index['sql']);
@@ -358,8 +435,8 @@ class Sqlite extends Mysql
     }
 
     /**
-     * @return array{name: string, columns: array<string, array{name: string, sql: string}>, primaryKey: array<array{column: string, length: int|null, order: string}>|null, autoIncrement: string|null, constraints: string[]}
-     *         the table's columns by lower case name, its primary key, its AUTOINCREMENT column by lower case name and its other table constraints
+     * @return array{name: string, columns: array<string, array{name: string, sql: string}>, primaryKey: array<array{column: string, length: int|null, order: string}>|null, autoIncrement: string|null, constraints: string[], options: string}
+     *         the table's columns by lower case name, its primary key, its AUTOINCREMENT column by lower case name, its other table constraints and options
      */
     private function readTable(string $tableName): array
     {
@@ -371,10 +448,17 @@ class Sqlite extends Mysql
         $sql = (string) $row['sql'];
         $start = strpos($sql, '(');
         $end = strrpos($sql, ')');
-        $table = ['name' => $row['name'], 'columns' => [], 'primaryKey' => null, 'autoIncrement' => null, 'constraints' => []];
+        // e.g. STRICT, WITHOUT ROWID
+        $table = ['name' => $row['name'], 'columns' => [], 'primaryKey' => null, 'autoIncrement' => null, 'constraints' => [], 'options' => substr($sql, $end + 1)];
         foreach (SqlListParser::splitList(substr($sql, $start + 1, $end - $start - 1)) as $item) {
-            if (preg_match('/^PRIMARY\s+KEY\s*(\(.*\))$/is', $item, $matches)) {
-                $table['primaryKey'] = $this->getConverter()->parseIndexColumns($tableName, $matches[1]);
+            if (preg_match('/^PRIMARY\s+KEY\s*\((.*)\)$/is', $item, $matches)) {
+                // SQLite writes the names its RENAME COLUMN changes in double quotes
+                $parts = array_map(function (string $part): string {
+                    return preg_match(self::SQLITE_COLUMN, trim($part) . ' ', $name)
+                        ? DefinitionConverter::quoteIdentifier(self::unquoteSqliteIdentifier($name[1])) . ' ' . $name[2]
+                        : $part;
+                }, SqlListParser::splitList($matches[1]));
+                $table['primaryKey'] = $this->getConverter()->parseIndexColumns($tableName, '(' . implode(', ', $parts) . ')');
             } elseif (
                 preg_match(self::SQLITE_COLUMN, $item, $matches)
                 && !preg_match('/^(PRIMARY|UNIQUE|CONSTRAINT|FOREIGN|CHECK)$/i', $matches[1])
@@ -412,6 +496,8 @@ class Sqlite extends Mysql
     private static function getPrimaryKeyColumnSql(string $name, string $definition, bool $solePrimaryKey): array
     {
         $implicitDefault = null;
+        // a key can't be NULL, MySQL drops that default
+        $definition = self::removeOutsideLiterals('/\s*\bDEFAULT\s+NULL\b/i', $definition);
         $withoutLiterals = preg_replace("/'(?:[^']|'')*'/", "''", $definition);
         if (!preg_match('/\bNOT\s+NULL\b/i', $withoutLiterals) && preg_match('/^(\w+)(?:\((\d+)\))?/', $definition, $type)) {
             switch (strtoupper($type[1])) {
@@ -445,6 +531,26 @@ class Sqlite extends Mysql
         }
 
         return $identifier;
+    }
+
+    private static function matchesOutsideLiterals(string $pattern, string $definition): bool
+    {
+        return preg_match($pattern, (string) preg_replace("/'(?:[^']|'')*'/", "''", $definition)) === 1;
+    }
+
+    /**
+     * The declaration of a column that was a sole integer primary key, as convertTableDefinition() gives it
+     * once it no longer is: INTEGER, without the type check that kept it from becoming the rowid.
+     */
+    private static function removeRowidGuard(string $definition): string
+    {
+        // quoted as SQLite writes a renamed column too
+        $check = '/\s+CHECK \(typeof\((?:`(?:[^`]|``)+`|"(?:[^"]|"")+"|\w+)\) = \'integer\'\)$/i';
+        if (!preg_match('/^INT\b/i', $definition) || !preg_match($check, $definition)) {
+            return $definition;
+        }
+
+        return preg_replace(['/^INT\b/i', $check], ['INTEGER', ''], $definition);
     }
 
     private static function removeOutsideLiterals(string $pattern, string $definition): string
@@ -979,7 +1085,7 @@ class Sqlite extends Mysql
         // check isn't part of the MySQL definition
         $normalized = preg_replace('/^INT\b/', 'INTEGER', implode('', $parts));
 
-        return preg_replace("/ CHECK \\(TYPEOF\\(`(?:[^`]|``)+`\\) = 'integer'\\)/", '', $normalized);
+        return preg_replace("/ CHECK \\(TYPEOF\\((?:`(?:[^`]|``)+`|\"(?:[^\"]|\"\")+\"|\\w+)\\) = 'integer'\\)/", '', $normalized);
     }
 
     /**
