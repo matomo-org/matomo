@@ -294,6 +294,14 @@ abstract class Db implements TransactionalDatabaseInterface
         }
     }
 
+    /**
+     * Records that the open transaction is gone: every later query and the commit fail.
+     */
+    protected function markTransactionAborted(Exception $e): void
+    {
+        $this->transactionAbortedBy = $e;
+    }
+
     protected function resetTransactionAborted(): void
     {
         $this->transactionAbortedBy = null;

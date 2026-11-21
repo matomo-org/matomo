@@ -13,6 +13,8 @@ use Exception;
 use Piwik\Db\Schema\Sqlite\NamedLock;
 use Piwik\Db\Sqlite\Connection;
 use Piwik\Db\Sqlite\ErrorCodes;
+use Piwik\Db\Sqlite\MysqlError;
+use Piwik\Db\TransactionErrors;
 
 /**
  * SQLite tracker adapter (`adapter = PDO\SQLITE`). Queries, fetches and the transaction bookkeeping
@@ -126,5 +128,45 @@ class Sqlite extends Mysql
     protected function isConnectionInTransaction(): bool
     {
         return $this->inTransaction;
+    }
+
+    /**
+     * SQLite ends a transaction by itself on some errors (full disk, I/O, out of memory, interrupt,
+     * sometimes busy), where MySQL keeps it open. So after any error in a transaction, the state SQLite
+     * is in decides, not a list of errors: if the transaction is gone, it is marked aborted and nothing
+     * after the error can be committed; if it is still open, the error ends the statement only, as on
+     * MySQL (e.g. a duplicate key a batch catches).
+     */
+    protected function markTransactionAbortedIfNeeded(Exception $e): void
+    {
+        if (!$this->isInTransaction() || $this->isTransactionAborted()) {
+            return;
+        }
+
+        if (!$this->isTransactionStillOpen()) {
+            $this->inTransaction = false;
+            $this->markTransactionAborted(new MysqlError('SQLite ended the transaction', TransactionErrors::ERROR_CODE_DEADLOCK, $e));
+        }
+    }
+
+    /**
+     * Whether SQLite still has the transaction open: a BEGIN is refused within one. Any other outcome
+     * counts as gone, so an unknown state never lets a batch commit in part.
+     */
+    private function isTransactionStillOpen(): bool
+    {
+        try {
+            $this->connection->exec('BEGIN');
+        } catch (\PDOException $e) {
+            return stripos($e->getMessage(), 'within a transaction') !== false;
+        }
+
+        try {
+            $this->connection->exec('ROLLBACK');
+        } catch (\PDOException $e) {
+            // nothing was written in the probe
+        }
+
+        return false;
     }
 }

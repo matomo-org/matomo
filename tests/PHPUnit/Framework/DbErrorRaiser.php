@@ -56,4 +56,18 @@ class DbErrorRaiser
 
         $db->query('CALL ' . self::PROCEDURE . '(?, ?)', [$errorNumber, $message]);
     }
+
+    /**
+     * SQLite has no error numbers to raise. This ends the open transaction the way SQLite itself does on a full
+     * disk or an I/O error: a trigger rolls it back and the statement fails.
+     *
+     * @param \Piwik\Tracker\Db $db
+     */
+    public static function endTransactionOnSqlite($db): void
+    {
+        $db->query('CREATE TEMP TABLE IF NOT EXISTS matomo_test_end_transaction (id INTEGER)');
+        $db->query('CREATE TEMP TRIGGER IF NOT EXISTS matomo_test_end_transaction BEFORE INSERT ON matomo_test_end_transaction'
+            . " BEGIN SELECT RAISE(ROLLBACK, 'Transaction rolled back by the test'); END");
+        $db->query('INSERT INTO matomo_test_end_transaction VALUES (1)');
+    }
 }

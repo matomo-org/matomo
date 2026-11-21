@@ -22,9 +22,9 @@ final class MysqlError extends \RuntimeException
      */
     private $mysqlErrorNumber;
 
-    public function __construct(string $message, int $mysqlErrorNumber)
+    public function __construct(string $message, int $mysqlErrorNumber, ?\Throwable $previous = null)
     {
-        parent::__construct($message);
+        parent::__construct($message, 0, $previous);
         $this->mysqlErrorNumber = $mysqlErrorNumber;
     }
 

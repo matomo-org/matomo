@@ -195,7 +195,8 @@ class TrackerTest extends BulkTrackingTestCase
 
     private function raiseErrorWhenTrackingSite(int $idSite, int $errorNumber, string $message, bool $isCaught): void
     {
-        if (Fixture::isSqlite()) {
+        $endsTransaction = in_array($errorNumber, [1213, 1020], true);
+        if (Fixture::isSqlite() && !$endsTransaction) {
             // raised inside the tracker, which would catch the skip
             $this->markTestSkipped('Raises a MySQL error number');
         }
@@ -208,7 +209,11 @@ class TrackerTest extends BulkTrackingTestCase
                 }
 
                 try {
-                    DbErrorRaiser::raise(Tracker::getDatabase(), $errorNumber, $message);
+                    if (Fixture::isSqlite()) {
+                        DbErrorRaiser::endTransactionOnSqlite(Tracker::getDatabase());
+                    } else {
+                        DbErrorRaiser::raise(Tracker::getDatabase(), $errorNumber, $message);
+                    }
                 } catch (\Exception $e) {
                     if (!$isCaught) {
                         throw $e;

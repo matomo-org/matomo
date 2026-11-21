@@ -459,6 +459,62 @@ class DbTest extends IntegrationTestCase
         $this->insertRowId();
     }
 
+    public function testSqliteRefusesLaterWritesWhenItEndedTheTransaction()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite ending a transaction by itself');
+        }
+
+        $db = Tracker::getDatabase();
+        $xid = $db->beginTransaction();
+        $this->insertRowId();
+
+        try {
+            DbErrorRaiser::endTransactionOnSqlite($db);
+            $this->fail('The rollback must fail the statement');
+        } catch (DbException $e) {
+            $this->assertTrue($db->isTransactionAborted());
+        }
+
+        try {
+            $this->insertRowId(2);
+            $this->fail('A write after the rollback must be refused');
+        } catch (DbException $e) {
+            $this->assertSame(TransactionErrors::ERROR_CODE_DEADLOCK, $e->getCode());
+        }
+
+        try {
+            $db->commit($xid);
+            $this->fail('The commit must fail');
+        } catch (DbException $e) {
+            $this->assertSame(TransactionErrors::ERROR_CODE_DEADLOCK, $e->getCode());
+        }
+
+        $this->assertFalse($db->isInTransaction());
+        $this->assertFalse($db->fetchOne('SELECT option_value FROM `' . $this->tableName . "` WHERE option_name = 'rowid'"));
+    }
+
+    public function testSqliteKeepsTheTransactionAfterAFailedStatement()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite ending a transaction by itself');
+        }
+
+        $db = Tracker::getDatabase();
+        $xid = $db->beginTransaction();
+        $this->insertRowId();
+
+        try {
+            $this->insertRowId(2);
+            $this->fail('The duplicate must be refused');
+        } catch (DbException $e) {
+            $this->assertFalse($db->isTransactionAborted());
+        }
+
+        $db->commit($xid);
+        $this->assertSame('1', $db->fetchOne('SELECT option_value FROM `' . $this->tableName . "` WHERE option_name = 'rowid'"));
+    }
+
     public function testFetchOne()
     {
         $db = Tracker::getDatabase();
