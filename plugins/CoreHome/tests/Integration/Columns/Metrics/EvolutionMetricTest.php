@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreHome\tests\Integration\Columns\Metrics;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Date;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -38,6 +39,16 @@ class EvolutionMetricTest extends IntegrationTestCase
     public function testShouldNotBreakIfTotalsRowGiven()
     {
         $this->assertNoFailureOnComputeForLabel(DataTable::LABEL_TOTALS_ROW);
+    }
+
+    public function testGetTranslatedNameUsesEvolutionMetricNameTranslation()
+    {
+        $evolution = new EvolutionMetric('nb_visits', new DataTable());
+
+        $this->assertSame(
+            Piwik::translate('API_EvolutionMetricName', [Piwik::translate('General_ColumnNbVisits')]),
+            $evolution->getTranslatedName()
+        );
     }
 
     private function assertNoFailureOnComputeForLabel($label): void

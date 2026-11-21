@@ -121,7 +121,7 @@ class EvolutionMetric extends ProcessedMetric
             $defaultMetricTranslations = Metrics::getDefaultMetricTranslations();
             $metricName = isset($defaultMetricTranslations[$this->wrapped]) ? $defaultMetricTranslations[$this->wrapped] : $this->wrapped;
         }
-        return Piwik::translate('CoreHome_EvolutionMetricName', [$metricName]);
+        return Piwik::translate('API_EvolutionMetricName', [$metricName]);
     }
 
     public function getTrendValue($computedValue = 0)
