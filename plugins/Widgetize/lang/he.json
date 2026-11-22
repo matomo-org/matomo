@@ -1,6 +1,21 @@
 {
     "Widgetize": {
+        "DirectLink": "",
+        "DisplayDashboardInIframe": "",
+        "DisplayDashboardInIframeAllSites": "",
+        "EmbedIframe": "",
+        "ErrorTokenAuthFailed": "",
+        "ErrorTokenAuthFailedDisabledByPolicy": "",
+        "Intro": "",
         "OpenInNewWindow": "פתיחה בחלון חדש",
-        "TopLinkTooltip": "ייצוא דוחות Matomo כוידג׳טים והטמעת לוח הבקרה באפליקציה שלך כ-iframe."
+        "PluginDescription": "",
+        "Reports": "",
+        "SelectAReport": "",
+        "TooHighAccessLevel": "",
+        "TopLinkTooltip": "ייצוא דוחות Matomo כוידג׳טים והטמעת לוח הבקרה באפליקציה שלך כ-iframe.",
+        "UrlTokensDisabledByPolicy": "",
+        "ViewAccessRequired": "",
+        "ViewableAnonymously": "",
+        "ViewableAnonymouslyUrlTokenRequirement": ""
     }
 }
