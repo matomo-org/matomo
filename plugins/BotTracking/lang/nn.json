@@ -111,11 +111,6 @@
         "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
         "AIChatbotTrafficRatioValue": "%1$s×",
         "ColumnAIChatbotTrafficRatio": "Trafikkforhold for KI-chatbotar",
-        "ColumnAIChatbotTrafficRatioDocumentation": "Forholdet mellom førespurnader frå KI-chatbotar og sidevisingar frå menneske, direkte eller via KI-agentar. Ein verdi på 2.0× tyder at det var dobbelt så mange førespurnader frå KI-chatbotar som sidevisingar.",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "NoDataHttpTrackingApiInstructions1": ""
+        "ColumnAIChatbotTrafficRatioDocumentation": "Forholdet mellom førespurnader frå KI-chatbotar og sidevisingar frå menneske, direkte eller via KI-agentar. Ein verdi på 2.0× tyder at det var dobbelt så mange førespurnader frå KI-chatbotar som sidevisingar."
     }
 }

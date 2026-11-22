@@ -107,15 +107,6 @@
         "TopPageUrlsLast30MinutesDocumentation": "過去30分間にAIチャットボットからリクエストされたページのURLを、チャットボットからのリクエスト数順に表示します。",
         "TopPageUrlsLast30MinutesTitle": "トップページのURL - 過去30分間",
         "TopPageUrlsLast8HoursDocumentation": "過去8時間にAIチャットボットからリクエストされたページのURLを、チャットボットからのリクエスト数順に表示します。",
-        "TopPageUrlsLast8HoursTitle": "トップページのURL - 過去8時間",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "ColumnAIChatbotTrafficRatio": "",
-        "ColumnAIChatbotTrafficRatioDocumentation": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "AIChatbotTrafficRatioBelowValue": "",
-        "NoDataHttpTrackingApiInstructions1": "",
-        "AIChatbotTrafficRatioValue": ""
+        "TopPageUrlsLast8HoursTitle": "トップページのURL - 過去8時間"
     }
 }

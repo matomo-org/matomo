@@ -111,11 +111,6 @@
         "AIChatbotTrafficRatioValue": "%1$s×",
         "ColumnAIChatbotTrafficRatio": "Trafikforhold for AI-chatbots",
         "ColumnAIChatbotTrafficRatioDocumentation": "Forholdet mellem anmodninger fra AI-chatbots og sidevisninger foretaget af mennesker, direkte eller via AI-agenter. En værdi på 2,0× betyder, at der var dobbelt så mange anmodninger fra AI-chatbots som sidevisninger.",
-        "ColumnAcquiredVisitsDocumentation": "Besøg, der startede, efter at nogen klikkede fra en AI-chatbot (Henvisninger → AI-assistenter).",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "NoDataHttpTrackingApiInstructions1": ""
+        "ColumnAcquiredVisitsDocumentation": "Besøg, der startede, efter at nogen klikkede fra en AI-chatbot (Henvisninger → AI-assistenter)."
     }
 }

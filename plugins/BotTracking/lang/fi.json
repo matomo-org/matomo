@@ -111,11 +111,6 @@
         "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
         "AIChatbotTrafficRatioValue": "%1$s×",
         "ColumnAIChatbotTrafficRatio": "Tekoälychatbottiliikenteen suhde",
-        "ColumnAIChatbotTrafficRatioDocumentation": "Tekoälychatbottien pyyntöjen suhde ihmisten suoraan tai tekoälyagenttien kautta tekemiin sivukatseluihin. Arvo 2,0× tarkoittaa, että tekoälychatbottien pyyntöjä oli kaksi kertaa niin paljon kuin sivukatseluja.",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "NoDataHttpTrackingApiInstructions1": ""
+        "ColumnAIChatbotTrafficRatioDocumentation": "Tekoälychatbottien pyyntöjen suhde ihmisten suoraan tai tekoälyagenttien kautta tekemiin sivukatseluihin. Arvo 2,0× tarkoittaa, että tekoälychatbottien pyyntöjä oli kaksi kertaa niin paljon kuin sivukatseluja."
     }
 }

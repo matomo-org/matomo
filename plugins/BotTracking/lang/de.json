@@ -107,15 +107,6 @@
         "TopPageUrlsLast30MinutesDocumentation": "Zeigt die URLs der Seiten an, die in den letzten 30 Minuten von KI-Chatbots angefordert wurden, sortiert nach der Anzahl der Chatbot-Anfragen.",
         "TopPageUrlsLast30MinutesTitle": "URLs der meistbesuchten Seiten – letzte 30 Minuten",
         "TopPageUrlsLast8HoursDocumentation": "Zeigt die URLs der Seiten an, die in den letzten 8 Stunden von KI-Chatbots aufgerufen wurden, sortiert nach der Anzahl der Chatbot-Anfragen.",
-        "TopPageUrlsLast8HoursTitle": "URLs der meistbesuchten Seiten – letzte 8 Stunden",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "ColumnAIChatbotTrafficRatio": "",
-        "ColumnAIChatbotTrafficRatioDocumentation": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "AIChatbotTrafficRatioBelowValue": "",
-        "NoDataHttpTrackingApiInstructions1": "",
-        "AIChatbotTrafficRatioValue": ""
+        "TopPageUrlsLast8HoursTitle": "URLs der meistbesuchten Seiten – letzte 8 Stunden"
     }
 }

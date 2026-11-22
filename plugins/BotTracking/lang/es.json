@@ -111,11 +111,6 @@
         "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
         "AIChatbotTrafficRatioValue": "%1$s×",
         "ColumnAIChatbotTrafficRatio": "Ratio de tráfico de chatbots de IA",
-        "ColumnAIChatbotTrafficRatioDocumentation": "La relación entre las solicitudes de chatbots de IA y las páginas vistas por personas, directamente o a través de agentes de IA. Un valor de 2.0× significa que hubo el doble de solicitudes de chatbots de IA que de páginas vistas.",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "NoDataHttpTrackingApiInstructions1": ""
+        "ColumnAIChatbotTrafficRatioDocumentation": "La relación entre las solicitudes de chatbots de IA y las páginas vistas por personas, directamente o a través de agentes de IA. Un valor de 2.0× significa que hubo el doble de solicitudes de chatbots de IA que de páginas vistas."
     }
 }

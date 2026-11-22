@@ -111,11 +111,6 @@
         "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
         "AIChatbotTrafficRatioValue": "%1$s×",
         "ColumnAIChatbotTrafficRatio": "Poměr požadavků AI chatbotů k zobrazením stránek",
-        "ColumnAIChatbotTrafficRatioDocumentation": "Poměr požadavků AI chatbotů k zobrazením stránek lidmi, ať už přímo, nebo prostřednictvím AI agentů. Hodnota 2,0× znamená, že požadavků AI chatbotů bylo dvakrát více než zobrazení stránek.",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "NoDataHttpTrackingApiInstructions1": ""
+        "ColumnAIChatbotTrafficRatioDocumentation": "Poměr požadavků AI chatbotů k zobrazením stránek lidmi, ať už přímo, nebo prostřednictvím AI agentů. Hodnota 2,0× znamená, že požadavků AI chatbotů bylo dvakrát více než zobrazení stránek."
     }
 }

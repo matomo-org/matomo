@@ -107,15 +107,6 @@
         "TopPageUrlsLast30MinutesDocumentation": "Son 30 dakika boyunca yapay zekâ sohbet robotları tarafından istenen, sohbet robotu isteklerine göre sıralanmış sayfa adreslerini gösterir.",
         "TopPageUrlsLast30MinutesTitle": "Önde gelen sayfa adresleri - Son 30 dakika",
         "TopPageUrlsLast8HoursDocumentation": "Son 8 saat boyunca yapay zekâ sohbet robotları tarafından istenilen, sohbet robotu isteklerine göre sıralanmış sayfa adreslerini gösterir.",
-        "TopPageUrlsLast8HoursTitle": "Önde gelen sayfa adresleri - Son 8 saat",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "ColumnAIChatbotTrafficRatio": "",
-        "ColumnAIChatbotTrafficRatioDocumentation": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "AIChatbotTrafficRatioBelowValue": "",
-        "NoDataHttpTrackingApiInstructions1": "",
-        "AIChatbotTrafficRatioValue": ""
+        "TopPageUrlsLast8HoursTitle": "Önde gelen sayfa adresleri - Son 8 saat"
     }
 }

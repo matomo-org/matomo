@@ -105,17 +105,6 @@
         "TopPageUrlsLast30MinutesDocumentation": "Menampilkan URL halaman yang diminta oleh bot obrolan AI selama 30 menit terakhir, diurutkan berdasarkan jumlah permintaan bot.",
         "TopPageUrlsLast30MinutesTitle": "URL Halaman Teratas - 30 Menit Terakhir",
         "TopPageUrlsLast8HoursDocumentation": "Menampilkan URL halaman yang diminta oleh bot obrolan AI selama 8 jam terakhir, diurutkan berdasarkan jumlah permintaan bot.",
-        "TopPageUrlsLast8HoursTitle": "URL Halaman Teratas - 8 Jam Terakhir",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "ColumnAIChatbotTrafficRatio": "",
-        "ColumnAIChatbotTrafficRatioDocumentation": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "AIChatbotTrafficRatioBelowValue": "",
-        "AIChatbotsAIFavouredPagesDocumentation": "",
-        "AIChatbotsLast30MinutesDocumentation": "",
-        "NoDataHttpTrackingApiInstructions1": "",
-        "AIChatbotTrafficRatioValue": ""
+        "TopPageUrlsLast8HoursTitle": "URL Halaman Teratas - 8 Jam Terakhir"
     }
 }

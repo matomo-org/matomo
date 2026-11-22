@@ -111,11 +111,6 @@
         "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
         "AIChatbotTrafficRatioValue": "%1$s×",
         "ColumnAIChatbotTrafficRatio": "AI 聊天機器人流量比率",
-        "ColumnAIChatbotTrafficRatioDocumentation": "AI 聊天機器人請求數相對於真人（直接或透過 AI 代理）所產生瀏覽數的比率。數值為 2.0× 代表 AI 聊天機器人請求數是瀏覽數的兩倍。",
-        "NoDataHttpTrackingApiInstructions2": "",
-        "NoDataHttpTrackingApiInstructions4": "",
-        "NoDataHttpTrackingApiInstructions3": "",
-        "NoDataLinkApiReference": "",
-        "NoDataHttpTrackingApiInstructions1": ""
+        "ColumnAIChatbotTrafficRatioDocumentation": "AI 聊天機器人請求數相對於真人（直接或透過 AI 代理）所產生瀏覽數的比率。數值為 2.0× 代表 AI 聊天機器人請求數是瀏覽數的兩倍。"
     }
 }
