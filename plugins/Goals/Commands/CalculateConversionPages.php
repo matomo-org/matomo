@@ -363,6 +363,29 @@ class CalculateConversionPages extends ConsoleCommand
                   AND c.server_time <= ?     
                 " . $where;
 
+                if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+                    // SQLite has no multi-table UPDATE: count each conversion's pageviews in a correlated subquery
+                    $sql = "
+                    UPDATE " . Common::prefixTable('log_conversion') . " AS c
+                    SET pageviews_before = (
+                        SELECT COUNT(*)
+                        FROM `" . Common::prefixTable('log_link_visit_action') . "` va
+                        INNER JOIN `" . Common::prefixTable('log_action') . "` a ON a.idaction = va.idaction_url
+                        WHERE a.type = 1
+                          AND va.idvisit = c.idvisit
+                          AND va.server_time <= c.server_time
+                          AND va.idsite = ?
+                          AND va.server_time >= ?
+                          AND va.server_time <= ?
+                    )
+                    WHERE c.idsite = ?
+                      AND c.idgoal = ?
+                      AND c.server_time >= ?
+                      AND c.server_time <= ?
+                    " . $where;
+                    $bind = array_merge(array_slice($bind, 0, 3), array_slice($bind, 7, 4));
+                }
+
                 $queries[] = ['sql' => $sql, 'bind' => $bind];
             }
         }
