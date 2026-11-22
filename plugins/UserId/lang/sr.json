@@ -1,6 +1,15 @@
 {
     "UserId": {
         "PluginDescription": "Prikazuje izveštaj po korisniku",
-        "UserId": "Korisnik"
+        "ThereIsNoDataForThisReportHelp": "",
+        "UserId": "Korisnik",
+        "UserIdDisabledSettingImpact": "",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdDisabledSettingWhatItDoes": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }

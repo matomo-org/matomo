@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Kopiraj Konzolu korisniku",
         "CreateNewDashboard": "Nova konzola",
         "Dashboard": "Konzola",
+        "DashboardCategoryHelp": "",
         "DashboardCopied": "Konzola je uspešno iskopirana izabranim korisnicima.",
         "DashboardEmptyNotification": "Vaša konzola nema nijedan vidžet. Počnite sa dodavanjem vidžeta ili jednostavno resetujte konzolu na podrazumevane vidžete.",
         "DashboardName": "Naziv konzole:",
@@ -13,6 +14,7 @@
         "DefaultDashboard": "Podrazumevana konzola - prikaz podrazumevanih vidžeta i rasporeda kolona",
         "DeleteWidgetConfirm": "Da li ste sigurni da želite da uklonite ovaj vidžet sa Konzole?",
         "EmptyDashboard": "Prazna konzola - izaberite omiljene vidžete",
+        "ExportThisDashboard": "",
         "LoadingWidget": "Učitavanje vidžeta, molimo sačekajte…",
         "ManageDashboard": "Upravljanje konzolom",
         "Maximise": "Povećaj",
@@ -31,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Da li ste sigurni da trenutno prikazane vidžete i raspored kolona želite da sačuvate kao podrazumevane?",
         "SetAsDefaultWidgetsConfirmHelp": "Ovi vidžeti i raspored kolona će biti upotrebljeni kada neki korisnik kreira novu konzolu ili kada se klikne na \"%s\"",
         "TopLinkTooltip": "Prikaži izveštaj za %s.",
+        "TopMenuTitle": "",
         "WidgetNotFound": "Vidžet nije pronađen",
         "WidgetPreview": "Prikaz vidžeta"
     }

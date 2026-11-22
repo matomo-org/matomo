@@ -1,7 +1,21 @@
 {
     "Widgetize": {
+        "DirectLink": "",
+        "DisplayDashboardInIframe": "",
+        "DisplayDashboardInIframeAllSites": "",
+        "EmbedIframe": "",
+        "ErrorTokenAuthFailed": "",
+        "ErrorTokenAuthFailedDisabledByPolicy": "",
+        "Intro": "",
         "OpenInNewWindow": "Otvori u novom prozoru",
         "PluginDescription": "Prikaz bilo kog Matomo izveštaja na vašem sajtu pomoću jednostavnog HTML taga.",
-        "TopLinkTooltip": "Prikaži Matomo izveštaje kao vidžete i ugradi konzolu u svoju aplikaciju kao iframe."
+        "Reports": "",
+        "SelectAReport": "",
+        "TooHighAccessLevel": "",
+        "TopLinkTooltip": "Prikaži Matomo izveštaje kao vidžete i ugradi konzolu u svoju aplikaciju kao iframe.",
+        "UrlTokensDisabledByPolicy": "",
+        "ViewAccessRequired": "",
+        "ViewableAnonymously": "",
+        "ViewableAnonymouslyUrlTokenRequirement": ""
     }
 }
