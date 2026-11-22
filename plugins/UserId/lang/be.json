@@ -1,5 +1,15 @@
 {
     "UserId": {
-        "UserReportTitle": "Карыстачы"
+        "PluginDescription": "",
+        "ThereIsNoDataForThisReportHelp": "",
+        "UserId": "",
+        "UserIdDisabledSettingImpact": "",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdDisabledSettingWhatItDoes": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "Карыстачы",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }
