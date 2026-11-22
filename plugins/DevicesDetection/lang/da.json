@@ -68,7 +68,6 @@
         "TV": "TV",
         "Tablet": "Tablet",
         "UserAgent": "Brugeragent",
-        "Wearable": "",
         "WidgetBrowserVersionsDocumentation": "Rapporten indeholder oplysninger om hvilken browser de besøgende bruger. Hver version er angivet særskilt.",
         "WidgetBrowsers": "Besøgendes browser",
         "WidgetBrowsersDocumentation": "Denne rapport indeholder oplysninger om, hvilken slags browser dine besøgende brugte.",
