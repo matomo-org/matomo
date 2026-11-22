@@ -253,6 +253,22 @@ class LogDeleterTest extends IntegrationTestCase
         $this->assertVisitNotExists(4);
     }
 
+    public function testDeleteVisitsForPausesBetweenChunksOnSqlite(): void
+    {
+        $this->logDeleter->sqlitePauseBetweenChunksMs = 100;
+
+        $start = microtime(true);
+        $this->logDeleter->deleteVisitsFor('2012-01-01', '2012-01-02 05:05:05', 2, $iterationStep = 1);
+        $elapsedMs = (microtime(true) - $start) * 1000;
+
+        $this->assertVisitNotExists(3);
+        $this->assertVisitNotExists(4);
+        if (Fixture::isSqlite()) {
+            // one pause per chunk, so writers waiting for the lock get it between chunks
+            $this->assertGreaterThanOrEqual(200, $elapsedMs);
+        }
+    }
+
     private function insertTestData()
     {
         // two visits for site = 1
