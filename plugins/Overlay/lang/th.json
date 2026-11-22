@@ -1,9 +1,22 @@
 {
     "Overlay": {
         "Clicks": "%s คลิก",
+        "ClicksFromXLinks": "",
         "Domain": "โดเมน",
+        "ErrorNoSiteUrls": "",
+        "ErrorNotLoading": "",
+        "ErrorNotLoadingDetails": "",
+        "ErrorNotLoadingDetailsSSL": "",
+        "ErrorNotLoadingLink": "",
         "Link": "ลิงก์",
         "Location": "ตำแหน่งที่ตั้ง",
-        "OneClick": "1 คลิก"
+        "NoData": "",
+        "OneClick": "1 คลิก",
+        "OpenFullScreen": "",
+        "Overlay": "",
+        "PluginDescription": "",
+        "RedirectUrlError": "",
+        "RedirectUrlErrorAdmin": "",
+        "RedirectUrlErrorUser": ""
     }
 }
