@@ -166,7 +166,8 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(5.3)->getDatetime());
         $t->setUrl('http://nsa.gov/buy/prism');
         $t->addEcommerceItem('sku-007-PRISM', 'My secret spy tech', 'Surveillance', '10000000000');
-        $t->doTrackEcommerceCartUpdate(10000000000 + 500 /* add some for shipping PRISM */);
+        // add some for shipping PRISM: 1024, so that MySQL's single-precision log_conversion.revenue stores the total exactly
+        $t->doTrackEcommerceCartUpdate(10000000000 + 1024);
     }
 
     private function trackVisitsOneWeekLaterSetUserId()
