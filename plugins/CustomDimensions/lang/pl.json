@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "Wymiar Niestandardowy nie może zostać skasowany, a jedynie dezaktywowany.",
         "ColumnAvgTimeOnDimension": "Śr. czas na Wymiarze",
+        "ColumnAvgTimeOnDimensionDocumentation": "",
         "ColumnUniqueActions": "Unikalne akcje",
         "ConfigureDimension": "Skonfiguruj %1$sSpersonalizowany Wymiar%2$s",
         "ConfigureNewDimension": "Skonfiguruj nowy wymiar",
@@ -9,6 +10,10 @@
         "CustomDimensions": "Wymiary Niestandardowe",
         "CustomDimensionsIntro": "Tworząc %1$sWymiary Niestandardowe%2$s możesz zbierać dowolne dane dla '%3$s'.",
         "CustomDimensionsIntroNext": "Matomo wygeneruje raport dla każdego Wymiaru Niestandardowego (włączając współczynnik konwersji dla każdego z Twoich Celów), jak również pozwoli Ci łatwo posortować użytkowników na podstawie tych wartości. Wymiary Niestandardowe są podobne do %1$sZmiennych Niestandardowych%2$s ale istnieje parę %3$sróżnic pomiędzy Wymiarami Niestandardowymi i Zmiennymi Niestandardowymi%4$s.",
+        "DescriptionAllowedCharacters": "",
+        "DescriptionHelpText": "",
+        "DescriptionIsTooLong": "",
+        "DescriptionPlaceholder": "",
         "DimensionCreated": "Spersonalizowany Wymiar utworzony",
         "DimensionUpdated": "Spersonalizowany Wymiar zaktualizowany",
         "EmptyValue": "pusta wartość",
@@ -29,8 +34,10 @@
         "IncreaseAvailableCustomDimensionsTakesLong": "Tworzenie nowego Wymiaru Niestandardowego może trochę potrwać w zależności od wielkości Twojej bazy danych i wymaga zmian w strukturze tabel Twojej bazy. To sprawia, że operację tą można wykonać jedynie przy pomocy komendy wydawanej w linii poleceń konsoli.",
         "IncreaseAvailableCustomDimensionsTitle": "Zwiększ liczbę dostępnych Wymiarów Niestandardowych",
         "NameAllowedCharacters": "Dopuszczalne znaki to dowolne litery, liczby, spacje, myślniki i podkreślenia.",
+        "NameHelpText": "",
         "NameIsRequired": "Nazwa jest wymagana.",
         "NameIsTooLong": "Nazwa jest za długa, skróć ją do %d znaków.",
+        "NamePlaceholder": "",
         "NoCustomDimensionConfigured": "Brak skonfigurowanych Wymiarów Niestandardowych, skonfiguruj pierwszy.",
         "NoValue": "brak wartości",
         "PageUrlParam": "Parametr adresu strony",
@@ -39,6 +46,9 @@
         "ScopeDescriptionActionMoreInfo": "Wyodrębnienia mogą być definiowane w ten sposób, że wartość Wymiaru Niestandardowego zostanie wyodrębniona z Adresu URL, Tytułu strony lub parametru zapytania wchodzącego w skład Adresu URL.",
         "ScopeDescriptionVisit": "Wymiary Niestandardowe w zakresie 'Odwiedziny' mogą być wysyłane jako dowolne żądanie śledzące i są przechowywane w odwiedzinach.",
         "ScopeDescriptionVisitMoreInfo": "Jeśli ustawisz różne wartości dla wybranego wymiaru w czasie trwania odwiedzin, ostatnia wartość ustawiona zostanie użyta.",
+        "ScopeTitleAction": "",
+        "ScopeTitleVisit": "",
+        "UrlQueryStringParameter": "",
         "XofYLeft": "Pozostało %1$s z %2$s wymiarów"
     }
 }
