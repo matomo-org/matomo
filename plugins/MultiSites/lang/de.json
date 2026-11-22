@@ -17,7 +17,6 @@
         "EvolutionFromPreviousPeriod": "Aus dem vorherigen Zeitraum",
         "EvolutionFromPreviousWeek": "Aus der vergangenen Woche",
         "EvolutionFromPreviousYear": "Aus dem vorherigen Jahr",
-        "HitsIncludingAiTooltip": "",
         "LoadingWebsites": "Lade Webseiten",
         "MetricDocumentationAiChatbotsRequests": "Gesamtzahl der für diese Website erfassten Anfragen an den KI-Chatbot.",
         "MetricDocumentationEvolution": "Der prozentuale Veränderung dieser Metrik im Vergleich zum vorherigen Zeitraum für diese Webseite. Ein positiver Wert zeigt Wachstum an, während ein negativer Wert einen Rückgang signalisiert.",

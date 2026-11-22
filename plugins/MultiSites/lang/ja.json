@@ -17,7 +17,6 @@
         "EvolutionFromPreviousPeriod": "前期より",
         "EvolutionFromPreviousWeek": "先週から",
         "EvolutionFromPreviousYear": "前年度から",
-        "HitsIncludingAiTooltip": "",
         "LoadingWebsites": "ウェブサイトをロード中",
         "MetricDocumentationAiChatbotsRequests": "このウェブサイトで記録されたAIチャットボットへのリクエスト総数。",
         "MetricDocumentationEvolution": "このウェブサイトにおける、この指標の前期間との比較での変化率です。正の値は増加を示し、負の値は減少を示します。",

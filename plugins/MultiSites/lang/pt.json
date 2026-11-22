@@ -1,7 +1,5 @@
 {
     "MultiSites": {
-        "AiChatbotsRequests": "",
-        "AiChatbotsSegmentationTooltip": "",
         "AllWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de cada um dos seus sites, contendo as métricas mais gerais sobre os seus visitantes.",
         "AllWebsitesDashboardErrorMessage": "Os dados estão indisponíveis. Isso pode ser devido a um problema temporário do servidor ou ao relatório contendo muitos dados. Tente novamente mais tarde. Se o problema continuar, entre em contato com o administrador do Matomo para obter assistência.",
         "AllWebsitesDashboardTitle": "Todos os sites",
@@ -17,18 +15,14 @@
         "EvolutionFromPreviousPeriod": "Do período anterior",
         "EvolutionFromPreviousWeek": "Da semana anterior",
         "EvolutionFromPreviousYear": "Do ano anterior",
-        "HitsIncludingAiTooltip": "",
         "LoadingWebsites": "Carregando sites",
-        "MetricDocumentationAiChatbotsRequests": "",
         "MetricDocumentationEvolution": "A alteração percentual para esta métrica em comparação com o período anterior para este site. Um valor positivo indica crescimento, enquanto um valor negativo sinaliza uma diminuição.",
         "MetricDocumentationHits": "Número total de requisições gravadas para este site, incluindo visualizações de página, downloads e links.",
-        "MetricDocumentationHitsIncludingAi": "",
         "MetricDocumentationPageviews": "O número total de páginas visualizadas neste site. Isso inclui várias visualizações da mesma página por um único visitante.",
         "MetricDocumentationRevenue": "A receita total rastreada para este site. Esta métrica está disponível se o rastreamento do Ecommerce estiver habilitado e refletir compras ou receita baseada em objetivos.",
         "MetricDocumentationVisits": "O número total de visitas registadas para este website. Uma visita começa quando um usuário acessa o site e termina após um período de inatividade ou quando a sessão expira.",
         "MetricDocumentationWebsite": "Lista de sites rastreados exibidos no painel. Cada linha representa um site separado com seus dados analíticos correspondentes.",
         "PluginDescription": "Veja e compare todos os seus sites e aplicações neste útil painel 'Todos os sites'.",
-        "SegmentationNotSupported": "",
         "SingleWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de um site específico, contendo as métricas mais gerais sobre os seus visitantes.",
         "TopLinkTooltip": "Compare as estatísticas de todos os seus sites."
     }

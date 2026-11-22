@@ -1,9 +1,6 @@
 {
     "MultiSites": {
-        "AiChatbotsRequests": "",
-        "AiChatbotsSegmentationTooltip": "",
         "AllWebsitesDashboardDocumentation": "यह रिपोर्ट आपको आपकी प्रत्येक वेबसाइट के लिए एक सूचनात्मक अवलोकन प्रदान करती है, जिसमें आपके आगंतुकों के बारे में सबसे सामान्य मीट्रिक शामिल हैं।",
-        "AllWebsitesDashboardErrorMessage": "",
         "AllWebsitesDashboardTitle": "सभी वेबसाइटें",
         "Evolution": "विकास",
         "EvolutionComparisonDay": "पिछले आंशिक अवधि के %3$s %2$s की तुलना में इस दिन %1$s %2$s (%4$s) विकास: %5$s",
@@ -12,23 +9,8 @@
         "EvolutionComparisonProportional": "जब पिछली अवधि भी %1$s पूरी हो गई थी, तब अनुमानतः %2$s %3$s रहा होगा\n(पिछली अवधि में कुल %4$s %3$s में से)।",
         "EvolutionComparisonWeek": "पिछले आंशिक अवधि के %3$s %2$s की तुलना में इस सप्ताह %1$s %2$s (%4$s) विकास: %5$s",
         "EvolutionComparisonYear": "पिछले आंशिक अवधि के %3$s %2$s की तुलना में इस वर्ष %1$s %2$s (%4$s) विकास: %5$s",
-        "EvolutionFromPreviousDay": "",
-        "EvolutionFromPreviousMonth": "",
-        "EvolutionFromPreviousPeriod": "",
-        "EvolutionFromPreviousWeek": "",
-        "EvolutionFromPreviousYear": "",
-        "HitsIncludingAiTooltip": "",
         "LoadingWebsites": "लोड हो रहा है वेबसाइट",
-        "MetricDocumentationAiChatbotsRequests": "",
-        "MetricDocumentationEvolution": "",
-        "MetricDocumentationHits": "",
-        "MetricDocumentationHitsIncludingAi": "",
-        "MetricDocumentationPageviews": "",
-        "MetricDocumentationRevenue": "",
-        "MetricDocumentationVisits": "",
-        "MetricDocumentationWebsite": "",
         "PluginDescription": "इस उपयोगी 'सभी वेबसाइट' डैशबोर्ड में अपनी सभी वेबसाइटों और ऐप्स को देखें और तुलना करें।",
-        "SegmentationNotSupported": "",
         "SingleWebsitesDashboardDocumentation": "यह रिपोर्ट आपको एक विशिष्ट वेबसाइट के लिए एक सूचनात्मक अवलोकन प्रदान करती है, जिसमें आपके आगंतुकों के बारे में सबसे सामान्य मीट्रिक शामिल हैं।",
         "TopLinkTooltip": "आपकी वेबसाइट सभी के लिए वेब विश्लेषिकी आँकड़ों की तुलना करें."
     }
