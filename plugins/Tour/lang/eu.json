@@ -2,6 +2,8 @@
     "Tour": {
         "AddAnnotation": "Gehitu ohar bat",
         "AddAnotherWebsite": "Gehitu beste webgune bat",
+        "AddRecommendedGoals": "",
+        "AddRecommendedGoalsDescription": "",
         "AddReport": "Gehitu programatutako txosten bat",
         "AddSegment": "Gehitu segmentu bat",
         "BecomeMatomoExpert": "Bihurtu Matomo aditua",
