@@ -1,7 +1,21 @@
 {
     "Widgetize": {
+        "DirectLink": "",
+        "DisplayDashboardInIframe": "",
+        "DisplayDashboardInIframeAllSites": "",
+        "EmbedIframe": "",
+        "ErrorTokenAuthFailed": "",
+        "ErrorTokenAuthFailedDisabledByPolicy": "",
+        "Intro": "",
         "OpenInNewWindow": "Открыть в новом окне",
         "PluginDescription": "Показать отчёт Matomo на вебсайте или в приложении с помощью простого встраиваемого HTML тега.",
-        "TopLinkTooltip": "Экспортируйте аналитику Matomo в виде виджетов и установите их на своем сайте или веб-сервисе как iframe."
+        "Reports": "",
+        "SelectAReport": "",
+        "TooHighAccessLevel": "",
+        "TopLinkTooltip": "Экспортируйте аналитику Matomo в виде виджетов и установите их на своем сайте или веб-сервисе как iframe.",
+        "UrlTokensDisabledByPolicy": "",
+        "ViewAccessRequired": "",
+        "ViewableAnonymously": "",
+        "ViewableAnonymouslyUrlTokenRequirement": ""
     }
 }

@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "Вебсайт Интранет",
         "IntranetDescription": "Измерение Интранет такое же, как для Веб, но размещено во внутренней сети.",
+        "IntranetLongDescription": "",
         "Intranets": "Вебсайты Интранет"
     }
 }
