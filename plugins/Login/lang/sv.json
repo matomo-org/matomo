@@ -16,6 +16,8 @@
         "ConfirmPasswordResetIntro": "Vänligen ange ditt nya lösenord för att bekräfta att du önskade få ditt lösenord ändrat.",
         "ConfirmPasswordResetWrongPassword": "Det angivna lösenordet matchar inte ditt nya lösenord. Om du inte kommer ihåg ditt nyligen valda lösenord kan du återställa lösenordet igen. Om du inte begärde lösenordsändringen, så gör du helt enkelt ingenting och ditt lösenord kommer inte att ändras.",
         "ConfirmPasswordToContinue": "Bekräfta ditt lösenord för att fortsätta",
+        "ConfirmSecondFactorIntro": "",
+        "ConfirmSecondFactorToContinue": "",
         "ConfirmationLinkPossiblySent": "Om de angivna uppgifterna är kopplade till ett konto kommer du att få ett e-postmeddelande för att bekräfta återställningen av lösenordet.",
         "ContactAdmin": "Möjlig orsak: din värd kan ha inaktiverat mail() funktionen. <br>Vänligen kontakta din Matomo administratör.",
         "CreatePasswordDescription": "Säkerställ att du kommer ihåg detta lösenord och sparar det på ett säkert ställe.",
@@ -77,6 +79,7 @@
         "PasswordResetEmailAppTokens": "Observera att ett lösenordsbyte inte automatiskt återkallar dina appspecifika tokens. Om du misstänker obehörig åtkomst bör du ta bort dina befintliga tokens och generera nya i avsnittet för tokenhantering.",
         "PasswordResetEmailLinkCancel": "Det var inte jag",
         "PasswordResetEmailLinkReset": "Återställ ditt lösenord",
+        "PasswordResetEmailLinkValidity": "",
         "PasswordResetEmailSubject": "Återställ lösenordet för ditt Matomo-konto",
         "PasswordsDoNotMatch": "Lösenorden matchar inte.",
         "PleaseNote": "Observera",
@@ -94,6 +97,7 @@
         "SettingBruteForceWhitelistIp": "Tillåt alltid följande IP-adresser att logga in",
         "SettingPasswordStrengthCheck": "Kräv att starka lösenord används",
         "SettingPasswordStrengthCheckHelp": "Tvingar användare att skapa starka lösenord genom att kräva att de uppfyller en serie komplexa regler: %1$s",
+        "SignInIntro": "",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Misstänkt många inloggningsförsök har gjorts mot ditt konto den senaste timmen. Närmare bestämt %1$s försök från %2$s distinkta IP-addresser. Det kan vara någon som försöker ta sig in på ditt konto.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Gör följande:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Säkerställ att ditt lösenord är säkert, slumpmässigt och minst 30 tecken långt.",
@@ -101,7 +105,10 @@
         "SuspiciousLoginAttemptsInLastHourEmail5": "Ange en lista med IP-nummer att aldrig blockera ifall din Matomo har en begränsad uppsättning av användare eller IP-nummer som användare kan ansluta från. %1$sLäs dokumentationen för mer information.%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "Ett antal misstänkta inloggningsförsök har gjorts med ditt användarnamn…",
         "TimeOfLogin": "Inloggningstid",
+        "TokenAuthenticationFailed": "",
+        "TokenAuthenticationFailedInsecure": "",
         "UnblockAllIPs": "Avblockera samtliga IP-adresser som är blockerade",
-        "WrongPasswordEntered": "Vänligen ange ditt lösenord."
+        "WrongPasswordEntered": "Vänligen ange ditt lösenord.",
+        "WrongSecondFactorCode": ""
     }
 }

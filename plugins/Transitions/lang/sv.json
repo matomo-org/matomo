@@ -22,6 +22,8 @@
         "NumDownloads": "%s nerladdningar",
         "NumOutlinks": "%s utlänkar",
         "NumPageviews": "%s sidvisningar",
+        "OtherDestinations": "",
+        "OtherSources": "",
         "OutgoingTraffic": "Utgående trafik",
         "PageURLTransitions": "Sidans URL-övergångar",
         "PeriodNotAllowed": "Välj en giltig tidsperiod",
