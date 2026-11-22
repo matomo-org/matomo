@@ -23,16 +23,6 @@
         "WidgetGraphAIAgents": "AI 代理趋势",
         "WidgetOverviewAIAgents": "AI 代理概览",
         "AIAgentsOverview": "AI 代理概览",
-        "AIAgentsOverviewSubcategoryDescription": "一目了然地查看 AI 代理和人类访客如何与您的网站互动。此概览展示综合指标和趋势，让您在查看详细报告之前快速发现变化。",
-        "SparklineAIAgentBounceRate": "",
-        "SparklineHumanBounceRate": "",
-        "SparklineAIAgentAverageVisitDuration": "",
-        "SparklineAIAgentVisits": "",
-        "SparklineHumanAverageVisitDuration": "",
-        "SparklineHumanAvgActionsPerVisit": "",
-        "SparklineAIAgentAvgActionsPerVisit": "",
-        "SparklineAIAgentActions": "",
-        "SparklineHumanActions": "",
-        "SparklineHumanVisits": ""
+        "AIAgentsOverviewSubcategoryDescription": "一目了然地查看 AI 代理和人类访客如何与您的网站互动。此概览展示综合指标和趋势，让您在查看详细报告之前快速发现变化。"
     }
 }
