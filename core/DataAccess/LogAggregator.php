@@ -339,13 +339,16 @@ class LogAggregator
                 // we're not using batchinsert since this would not support the reader DB.
                 $readerDb->query(Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $table . ' VALUES (' . implode('),(', array_column($all, 'idvisit')) . ')');
             }
-            return;
+        } else {
+            $insertIntoStatement = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+            $readerDb->query($insertIntoStatement, $segmentSelectBind);
+
+            $transactionLevel->restorePreviousStatus();
         }
 
-        $insertIntoStatement = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
-        $readerDb->query($insertIntoStatement, $segmentSelectBind);
-
-        $transactionLevel->restorePreviousStatus();
+        foreach (Schema::getInstance()->getTemporaryTableFilledSql($table) as $statement) {
+            $readerDb->query($statement);
+        }
     }
 
     /**

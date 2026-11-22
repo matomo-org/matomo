@@ -42,6 +42,14 @@ interface SqlFunctionsInterface
     public function getDropTemporaryTableSql(string $tableName): string;
 
     /**
+     * Returns the statements to run once a temporary table is filled, so the query planner knows its size
+     * before it is joined; none for an engine that needs none.
+     *
+     * @return string[]
+     */
+    public function getTemporaryTableFilledSql(string $tableName): array;
+
+    /**
      * Returns the hour (0–23) of a date and time, or of a time.
      */
     public function getHourSql(string $datetime): string;

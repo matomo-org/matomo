@@ -683,6 +683,16 @@ class Schema extends Singleton
     }
 
     /**
+     * @see SqlFunctionsInterface::getTemporaryTableFilledSql()
+     *
+     * @return string[]
+     */
+    public function getTemporaryTableFilledSql(string $tableName): array
+    {
+        return $this->getSqlFunctions()->getTemporaryTableFilledSql($tableName);
+    }
+
+    /**
      * @see SqlFunctionsInterface::getHourSql()
      */
     public function getHourSql(string $datetime): string

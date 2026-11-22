@@ -901,6 +901,16 @@ class Sqlite extends Mysql
         return 'DROP TABLE IF EXISTS temp.`' . str_replace('`', '', $tableName) . '`';
     }
 
+    /**
+     * Without statistics SQLite assumes a table holds about a million rows, so it would scan a whole log
+     * table and probe a segment's few visits in the temporary table, rather than the other way round.
+     * ANALYZE of a temporary table writes only to the connection's temporary schema.
+     */
+    public function getTemporaryTableFilledSql(string $tableName): array
+    {
+        return ['ANALYZE temp.`' . str_replace('`', '', $tableName) . '`'];
+    }
+
     public function getHourSql(string $datetime): string
     {
         return "CAST(strftime('%H', " . $datetime . ') AS INTEGER)';

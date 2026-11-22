@@ -1048,6 +1048,12 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
         return 'DROP TEMPORARY TABLE IF EXISTS ' . $tableName;
     }
 
+    public function getTemporaryTableFilledSql(string $tableName): array
+    {
+        // InnoDB and MEMORY tables keep their row count up to date
+        return [];
+    }
+
     protected static function checkInterval(string $operator, string $unit): void
     {
         if (!in_array($operator, ['+', '-'], true) || !in_array(strtoupper($unit), ['SECOND', 'MINUTE', 'HOUR', 'DAY'], true)) {

@@ -319,6 +319,26 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
+    public function testSegmentTableIsTheOuterLoopOfTheJoinOnSqlite()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite query planner');
+        }
+
+        $segment = new Segment('browserCode==FF', array($this->site->getId()));
+        $this->logAggregator = new LogAggregator(new Parameters($this->site, $this->period, $segment));
+        $this->logAggregator->allowUsageSegmentCache();
+
+        // as an archiver queries: the period and site conditions move to the temporary table
+        $where = $this->logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
+        $query = $this->logAggregator->generateQuery('log_link_visit_action.idaction_url, COUNT(*)', 'log_link_visit_action', $where, 'log_link_visit_action.idaction_url', false);
+        $plan = implode("\n", array_column(Db::fetchAll('EXPLAIN QUERY PLAN ' . $query['sql'], $query['bind']), 'detail'));
+
+        // without statistics on the temporary table, SQLite scans the whole log table and probes it
+        $this->assertStringContainsString('SEARCH log_link_visit_action USING INDEX', $plan);
+        $this->assertStringNotContainsString('SCAN log_link_visit_action', $plan);
+    }
+
     public function testGenerateQueryWithSegmentVisitLogRightJoinShouldKeepWhereCondition()
     {
         $segment = new Segment('userId==1', [$this->site->getId()]);
