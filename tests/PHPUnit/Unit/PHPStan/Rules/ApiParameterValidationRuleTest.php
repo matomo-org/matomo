@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Tests\Unit\PHPStan\Rules;
 
 use PHPStan\Rules\Rule;
@@ -27,10 +29,11 @@ class ApiParameterValidationRuleTest extends RuleTestCase
     public function testRule(): void
     {
         $this->analyse([__DIR__ . '/data/ApiParameterValidationApi.php'], [
-            [$this->expectedMessage('missingSelfCheck'), 25],
-            [$this->expectedMessage('selfCheckNotFirst'), 31],
-            [$this->expectedMessage('selfCheckWithFunctionName'), 40],
-            [$this->expectedMessage('selfCheckWithOtherArguments'), 48],
+            [$this->expectedMessage('missingSelfCheck'), 28],
+            [$this->expectedMessage('selfCheckNotFirst'), 34],
+            [$this->expectedMessage('selfCheckWithFunctionName'), 43],
+            [$this->expectedMessage('selfCheckWithOtherArguments'), 51],
+            ['The default value of parameter $period of API method rejectedDefault() does not pass its validator attributes.', 69],
         ]);
     }
 

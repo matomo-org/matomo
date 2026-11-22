@@ -7,9 +7,12 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Tests\Unit\PHPStan\Rules\data;
 
 use Piwik\Validators\NumberRange;
+use Piwik\Validators\WhitelistedValue;
 
 abstract class ApiParameterValidationApi extends \Piwik\Plugin\API
 {
@@ -59,5 +62,14 @@ abstract class ApiParameterValidationApi extends \Piwik\Plugin\API
     public function noValidators(bool $flag = false): bool
     {
         return $flag;
+    }
+
+    // the default fails the validator -> flagged at the parameter
+    public function rejectedDefault(
+        #[WhitelistedValue(['day', 'week'])] string $period = 'year'
+    ): string {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
+        return $period;
     }
 }
