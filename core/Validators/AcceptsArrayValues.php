@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Validators;
 
 /**
@@ -14,6 +16,9 @@ namespace Piwik\Validators;
  *
  * When validators are used as API parameter attributes, an array sent for a parameter is rejected unless
  * every validator on that parameter implements this interface.
+ *
+ * @api
+ * @since 6.1.0
  */
 interface AcceptsArrayValues
 {

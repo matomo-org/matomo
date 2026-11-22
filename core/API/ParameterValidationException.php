@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\API;
 
 use Piwik\Http\BadRequestException;
@@ -14,9 +16,12 @@ use Piwik\Piwik;
 
 /**
  * Thrown when one or more API method parameters do not pass their validator attributes, see
- * {@see ParameterValidator}.
+ * {@see \Piwik\Plugin\API::checkParameters()}.
  *
  * The message lists every violation, separated by `; ` (the JSON renderer flattens line breaks).
+ *
+ * @api
+ * @since 6.1.0
  */
 class ParameterValidationException extends BadRequestException
 {

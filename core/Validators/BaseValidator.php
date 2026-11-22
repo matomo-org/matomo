@@ -9,6 +9,12 @@
 
 namespace Piwik\Validators;
 
+/**
+ * Base class of the validators, which can be run on a value with {@see check()} or, when marked as an
+ * attribute, on an API method parameter (see {@see \Piwik\Plugin\API::checkParameters()}).
+ *
+ * @api
+ */
 abstract class BaseValidator
 {
     /**

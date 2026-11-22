@@ -12,6 +12,11 @@ namespace Piwik\Validators;
 use Attribute;
 use Piwik\Piwik;
 
+/**
+ * Checks that a value is one of the given values (compared strictly).
+ *
+ * @api
+ */
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class WhitelistedValue extends BaseValidator
 {

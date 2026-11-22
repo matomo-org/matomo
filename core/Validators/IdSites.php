@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Validators;
 
 use Attribute;
@@ -19,6 +21,9 @@ use Piwik\Piwik;
  *
  * Only the format is checked. Whether the websites exist and the user may access them is checked by the
  * code that uses the value.
+ *
+ * @api
+ * @since 6.1.0
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class IdSites extends BaseValidator implements AcceptsArrayValues
@@ -33,6 +38,10 @@ class IdSites extends BaseValidator implements AcceptsArrayValues
         $this->allowAll = $allowAll;
     }
 
+    /**
+     * @param mixed $value
+     * @return void
+     */
     public function validate($value)
     {
         // like an empty string, an empty array is left to the method (some read it as all websites)
