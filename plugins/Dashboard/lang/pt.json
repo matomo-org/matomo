@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Adicionar um widget",
+        "AddAWidget": "Adicionar widget a este painel",
         "AddPreviewedWidget": "Clique para adicionar o widget ao painel",
         "ChangeDashboardLayout": "Alterar a disposição do painel",
         "CopyDashboardToUser": "Copiar o painel para o utilizador",
@@ -14,8 +14,9 @@
         "DefaultDashboard": "Painel predefinido - Utilizando a seleção predefinida de widgets e disposição em colunas",
         "DeleteWidgetConfirm": "Tem a certeza que deseja excluir este widget do seu painel?",
         "EmptyDashboard": "Painel vazio - Escolha os seus widgets favoritos",
+        "ExportThisDashboard": "",
         "LoadingWidget": "A carregar o widget, por favor aguarde…",
-        "ManageDashboard": "Gerir painel",
+        "ManageDashboard": "Gerir Painel",
         "Maximise": "Maximizar",
         "Minimise": "Minimizar",
         "NotUndo": "Não poderá anular esta operação.",
