@@ -1,5 +1,15 @@
 {
     "UserId": {
-        "UserReportTitle": "felhasználó azonosítók"
+        "PluginDescription": "",
+        "ThereIsNoDataForThisReportHelp": "",
+        "UserId": "",
+        "UserIdDisabledSettingImpact": "",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdDisabledSettingWhatItDoes": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "felhasználó azonosítók",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }

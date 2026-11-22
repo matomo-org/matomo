@@ -1,5 +1,22 @@
 {
     "Overlay": {
-        "Location": "Hely"
+        "Clicks": "",
+        "ClicksFromXLinks": "",
+        "Domain": "",
+        "ErrorNoSiteUrls": "",
+        "ErrorNotLoading": "",
+        "ErrorNotLoadingDetails": "",
+        "ErrorNotLoadingDetailsSSL": "",
+        "ErrorNotLoadingLink": "",
+        "Link": "",
+        "Location": "Hely",
+        "NoData": "",
+        "OneClick": "",
+        "OpenFullScreen": "",
+        "Overlay": "",
+        "PluginDescription": "",
+        "RedirectUrlError": "",
+        "RedirectUrlErrorAdmin": "",
+        "RedirectUrlErrorUser": ""
     }
 }
