@@ -1,15 +1,6 @@
 {
     "UserId": {
-        "PluginDescription": "",
-        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "מזהה משתמש",
-        "UserIdDisabledSettingImpact": "",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
-        "UserIdDisabledSettingWhatItDoes": "",
-        "UserIdSegmentHelp": "",
-        "UserReportDocumentation": "",
-        "UserReportTitle": "משתמשים",
-        "VisitorsUserSubcategoryHelp": ""
+        "UserReportTitle": "משתמשים"
     }
 }
