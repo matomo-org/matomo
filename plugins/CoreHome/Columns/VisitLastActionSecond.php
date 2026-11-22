@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -22,6 +23,16 @@ class VisitLastActionSecond extends VisitDimension
     protected $nameSingular = 'VisitTime_ColumnVisitEndUTCSecond';
     protected $sqlSegment = 'SECOND(log_visit.visit_last_action_time)';
     protected $acceptValues = '0, 1, 2, 3, ..., 58, 59';
+
+    public function getSqlSegment()
+    {
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, is spelled by the database in use
+        if ($this->sqlSegment === 'SECOND(log_visit.visit_last_action_time)') {
+            return Schema::getInstance()->getDatePartSql('SECOND', 'log_visit.visit_last_action_time');
+        }
+
+        return parent::getSqlSegment();
+    }
 
     public function __construct()
     {

@@ -922,6 +922,32 @@ class Sqlite extends Mysql
         return "CAST(strftime('%w', " . $datetime . ') + 1 AS INTEGER)';
     }
 
+    public function getDatePartSql(string $part, string $datetime): string
+    {
+        $formats = ['MINUTE' => '%M', 'SECOND' => '%S', 'DAYOFMONTH' => '%d', 'DAYOFYEAR' => '%j', 'MONTH' => '%m', 'YEAR' => '%Y'];
+        // cast as a whole, so that the expression has integer affinity when compared with a bound string
+        if (isset($formats[$part])) {
+            return "CAST(strftime('" . $formats[$part] . "', " . $datetime . ') AS INTEGER)';
+        }
+
+        if ($part === 'QUARTER') {
+            return "CAST((strftime('%m', " . $datetime . ') + 2) / 3 AS INTEGER)';
+        }
+
+        if ($part === 'WEEKOFYEAR') {
+            // the ISO week is the one of its Thursday (strftime('%V') needs SQLite 3.46): 3 days back, then the next Thursday
+            return "CAST((strftime('%j', " . $datetime . ", '-3 days', 'weekday 4') - 1) / 7 + 1 AS INTEGER)";
+        }
+
+        throw new \InvalidArgumentException('Unsupported date part: ' . $part);
+    }
+
+    public function getIntegerSql(string $expression): string
+    {
+        // a function's result has no affinity, so it would never equal a bound string; a CAST gives it one
+        return 'CAST(' . $expression . ' AS INTEGER)';
+    }
+
     public function getUnixTimestampSql(string $datetime = ''): string
     {
         return 'unixepoch(' . $datetime . ')';

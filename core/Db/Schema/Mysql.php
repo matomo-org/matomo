@@ -1071,6 +1071,20 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
         return 'DAYOFWEEK(' . $datetime . ')';
     }
 
+    public function getDatePartSql(string $part, string $datetime): string
+    {
+        if (!in_array($part, ['MINUTE', 'SECOND', 'DAYOFMONTH', 'DAYOFYEAR', 'MONTH', 'QUARTER', 'YEAR', 'WEEKOFYEAR'], true)) {
+            throw new \InvalidArgumentException('Unsupported date part: ' . $part);
+        }
+
+        return $part . '(' . $datetime . ')';
+    }
+
+    public function getIntegerSql(string $expression): string
+    {
+        return $expression;
+    }
+
     public function getUnixTimestampSql(string $datetime = ''): string
     {
         return 'UNIX_TIMESTAMP(' . $datetime . ')';

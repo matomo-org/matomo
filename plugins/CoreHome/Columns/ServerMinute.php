@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\ActionDimension;
 
@@ -20,6 +21,16 @@ class ServerMinute extends ActionDimension
     protected $nameSingular = 'VisitTime_ColumnUTCMinute';
     protected $type = self::TYPE_DATETIME;
     protected $acceptValues = '0, 1, 2, 3, ..., 56, 57, 58, 59';
+
+    public function getSqlSegment()
+    {
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, is spelled by the database in use
+        if ($this->sqlSegment === 'MINUTE(log_link_visit_action.server_time)') {
+            return Schema::getInstance()->getDatePartSql('MINUTE', 'log_link_visit_action.server_time');
+        }
+
+        return parent::getSqlSegment();
+    }
 
     public function __construct()
     {

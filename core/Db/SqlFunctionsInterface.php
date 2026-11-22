@@ -60,6 +60,20 @@ interface SqlFunctionsInterface
     public function getDayOfWeekSql(string $datetime): string;
 
     /**
+     * Returns a part of a date and time, or of a time, as the MySQL function of that name: `MINUTE`,
+     * `SECOND`, `DAYOFMONTH`, `DAYOFYEAR`, `MONTH`, `QUARTER`, `YEAR`, or `WEEKOFYEAR` (the ISO 8601 week).
+     *
+     * @throws \InvalidArgumentException for another part
+     */
+    public function getDatePartSql(string $part, string $datetime): string;
+
+    /**
+     * Returns an expression whose value is a whole number so that it equals a bound string of that number,
+     * as on MySQL, e.g. a segment's `FLOOR(seconds / 86400)` compared with the segment value `'2'`.
+     */
+    public function getIntegerSql(string $expression): string;
+
+    /**
      * Returns the Unix time of a date and time stored in UTC, or the current Unix time without argument.
      */
     public function getUnixTimestampSql(string $datetime = ''): string;

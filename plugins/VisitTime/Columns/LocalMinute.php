@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\VisitTime\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Metrics\Formatter;
@@ -24,6 +25,16 @@ class LocalMinute extends VisitDimension
     protected $nameSingular = 'VisitTime_ColumnLocalMinute';
     protected $sqlSegment = 'MINUTE(log_visit.visitor_localtime)';
     protected $acceptValues = '0, 1, 2, 3, ..., 67, 57, 58, 59';
+
+    public function getSqlSegment()
+    {
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, is spelled by the database in use
+        if ($this->sqlSegment === 'MINUTE(log_visit.visitor_localtime)') {
+            return Schema::getInstance()->getDatePartSql('MINUTE', 'log_visit.visitor_localtime');
+        }
+
+        return parent::getSqlSegment();
+    }
 
     public function __construct()
     {

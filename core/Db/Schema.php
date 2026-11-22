@@ -709,6 +709,22 @@ class Schema extends Singleton
     }
 
     /**
+     * @see SqlFunctionsInterface::getDatePartSql()
+     */
+    public function getDatePartSql(string $part, string $datetime): string
+    {
+        return $this->getSqlFunctions()->getDatePartSql($part, $datetime);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getIntegerSql()
+     */
+    public function getIntegerSql(string $expression): string
+    {
+        return $this->getSqlFunctions()->getIntegerSql($expression);
+    }
+
+    /**
      * @see SqlFunctionsInterface::getUnixTimestampSql()
      */
     public function getUnixTimestampSql(string $datetime = ''): string

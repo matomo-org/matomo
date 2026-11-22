@@ -13,6 +13,8 @@ namespace Piwik\Plugins\CoreHome\tests\Integration\Columns;
 
 use Piwik\Db;
 use Piwik\Plugins\CoreHome\Columns\VisitorDaysSinceFirst;
+use Piwik\Plugins\CoreHome\Columns\VisitorDaysSinceOrder;
+use Piwik\Plugins\VisitorInterest\Columns\VisitorDaysSinceLast;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -32,6 +34,20 @@ class DaysSinceSegmentSqlTest extends IntegrationTestCase
             // an integer literal, as the column is: a bound string would be a double on MySQL
             $value = Db::fetchOne('SELECT ' . str_replace('log_visit.visitor_seconds_since_first', (string) $seconds, $sql));
             $this->assertEquals($days, $value, $seconds . ' seconds');
+        }
+    }
+
+    public function testDaysSinceLastVisitAndOrderEqualTheSegmentValue(): void
+    {
+        foreach ([[new VisitorDaysSinceLast(), 'visitor_seconds_since_last'], [new VisitorDaysSinceOrder(), 'visitor_seconds_since_order']] as [$dimension, $column]) {
+            $sql = str_replace('log_visit.' . $column, '?', $dimension->getSqlSegment());
+            foreach ([0 => '0', 86399 => '0', 86400 => '1', 190000 => '2'] as $seconds => $days) {
+                // the segment value is bound as a string
+                $matches = Db::fetchOne('SELECT CASE WHEN ' . $sql . ' = ? THEN 1 ELSE 0 END', [$seconds, $days]);
+                $this->assertEquals(1, $matches, $column . ': ' . $seconds . ' seconds');
+                $excluded = Db::fetchOne("SELECT CASE WHEN $sql IS NOT NULL AND $sql <> '' AND $sql <> '0' THEN 1 ELSE 0 END", [$seconds, $seconds, $seconds]);
+                $this->assertEquals($days === '0' ? 0 : 1, $excluded, $column . ': ' . $seconds . ' seconds, not empty');
+            }
         }
     }
 }
