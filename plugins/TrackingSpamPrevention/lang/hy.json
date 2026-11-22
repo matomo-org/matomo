@@ -1,1 +1,36 @@
-{}
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "",
+        "BlockCloudNoteInternetDisabled": "",
+        "PluginDescription": "",
+        "SettingBlockCloudIpRangesHelp": "",
+        "SettingBlockCloudIpRangesTitle": "",
+        "SettingBlockHeadlessDescription": "",
+        "SettingBlockHeadlessTitle": "",
+        "SettingBlockSdksAndLibrariesHelp": "",
+        "SettingBlockSdksAndLibrariesTitle": "",
+        "SettingCloudBlockingModeHelp": "",
+        "SettingCloudBlockingModeOptionCustomList": "",
+        "SettingCloudBlockingModeOptionDefaultList": "",
+        "SettingCloudBlockingModeOptionOff": "",
+        "SettingCloudBlockingModeTitle": "",
+        "SettingCustomOrganisationBlockListHelp": "",
+        "SettingDefaultOrganisationBlockListHelp": "",
+        "SettingDefaultOrganisationBlockListTitle": "",
+        "SettingExcludedCountriesDescription": "",
+        "SettingExcludedCountriesTitle": "",
+        "SettingIncludedCountriesDescription": "",
+        "SettingIncludedCountriesTitle": "",
+        "SettingIpAllowListHelp": "",
+        "SettingIpAllowListTitle": "",
+        "SettingIpBlockListHelp": "",
+        "SettingIpBlockListTitle": "",
+        "SettingMaxActionsDescription": "",
+        "SettingMaxActionsTitle": "",
+        "SettingNotificationEmailDescription": "",
+        "SettingNotificationEmailTitle": "",
+        "SettingOrganisationBlockListPlaceholder": "",
+        "SettingOrganisationBlockListTitle": "",
+        "SettingsIntroduction": ""
+    }
+}

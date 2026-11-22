@@ -1,1 +1,21 @@
-{}
+{
+    "Widgetize": {
+        "DirectLink": "",
+        "DisplayDashboardInIframe": "",
+        "DisplayDashboardInIframeAllSites": "",
+        "EmbedIframe": "",
+        "ErrorTokenAuthFailed": "",
+        "ErrorTokenAuthFailedDisabledByPolicy": "",
+        "Intro": "",
+        "OpenInNewWindow": "",
+        "PluginDescription": "",
+        "Reports": "",
+        "SelectAReport": "",
+        "TooHighAccessLevel": "",
+        "TopLinkTooltip": "",
+        "UrlTokensDisabledByPolicy": "",
+        "ViewAccessRequired": "",
+        "ViewableAnonymously": "",
+        "ViewableAnonymouslyUrlTokenRequirement": ""
+    }
+}
