@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "",
+        "JsTrackingCodeInstallCheckSuccessMessage": "",
+        "OptionalTestInstallationDescription": "",
+        "PluginDescription": "",
+        "TestInstallationBtnText": ""
+    }
+}
