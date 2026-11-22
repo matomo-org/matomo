@@ -1,8 +1,28 @@
 {
     "Contents": {
+        "ContentImpression": "",
+        "ContentInteraction": "",
+        "ContentInteractionSegmentHelp": "",
+        "ContentInteractions": "",
         "ContentName": "Sisu nimi",
+        "ContentNameReportDocumentation": "",
+        "ContentNameSegmentHelp": "",
+        "ContentNames": "",
         "ContentPiece": "Sisu tükk",
+        "ContentPieceReportDocumentation": "",
+        "ContentPieceSegmentHelp": "",
+        "ContentPieces": "",
+        "ContentTarget": "",
+        "ContentTargetSegmentHelp": "",
+        "ContentTargets": "",
         "Contents": "Sisud",
-        "InteractionRate": "Koostoime mõju"
+        "ContentsSubcategoryHelp1": "",
+        "ContentsSubcategoryHelp2": "",
+        "Impressions": "",
+        "ImpressionsMetricDocumentation": "",
+        "InteractionRate": "Koostoime mõju",
+        "InteractionRateMetricDocumentation": "",
+        "InteractionsMetricDocumentation": "",
+        "PluginDescription": ""
     }
 }
