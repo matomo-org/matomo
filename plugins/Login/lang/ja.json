@@ -16,6 +16,8 @@
         "ConfirmPasswordResetIntro": "パスワードの変更を本当に要求したことを確認するために、新しいパスワードを入力してください。",
         "ConfirmPasswordResetWrongPassword": "入力したパスワードが新しく作成したパスワードと一致しません。 パスワードを覚えていない場合は、もう一度パスワードをリセットしてください。 パスワードの変更を要求していない場合は、パスワードを保持するために何もしないでください。",
         "ConfirmPasswordToContinue": "続行するにはパスワードを確認してください",
+        "ConfirmSecondFactorIntro": "",
+        "ConfirmSecondFactorToContinue": "",
         "ConfirmationLinkPossiblySent": "もし入力した情報がアカウントに関連付けられていれば、パスワードリセットを確認するメールが届きます。",
         "ContactAdmin": "考えられる理由：ホストが mail（）関数を無効にしている可能性があります。Matomo 管理者に連絡してください。",
         "CreatePasswordDescription": "このパスワードを必ず覚えて、安全な場所に保管してください。",
@@ -106,6 +108,7 @@
         "TokenAuthenticationFailed": "指定されたトークンでの認証に失敗しました。トークンが無効か、有効期限が切れている可能性があります。",
         "TokenAuthenticationFailedInsecure": "指定されたトークンでの認証に失敗しました。トークンが無効であるか、有効期限が切れているか、あるいはPOSTパラメータまたはHTTP Authorizationヘッダーとして送信する必要があるためです。「セキュアなリクエストのみ許可」オプションを指定してトークンが作成された場合、そのトークンはPOSTパラメータまたはHTTP Authorizationヘッダーとして送信する必要があります。",
         "UnblockAllIPs": "ブロックされたすべての IP のブロックを解除する",
-        "WrongPasswordEntered": "パスワードを入力してください。"
+        "WrongPasswordEntered": "パスワードを入力してください。",
+        "WrongSecondFactorCode": ""
     }
 }
