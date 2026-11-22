@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Tests\Unit\Validator;
 
 use Piwik\Validators\Exception;
@@ -21,15 +23,19 @@ class IdSitesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getValidValues
+     * @param mixed $value
      */
-    public function testValidateAcceptsSiteIds($value)
+    public function testValidateAcceptsSiteIds($value): void
     {
         self::expectNotToPerformAssertions();
 
         (new IdSites())->validate($value);
     }
 
-    public function getValidValues()
+    /**
+     * @return list<array{mixed}>
+     */
+    public function getValidValues(): array
     {
         return [
             [1],
@@ -48,8 +54,9 @@ class IdSitesTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getInvalidValues
+     * @param mixed $value
      */
-    public function testValidateRejectsValuesThatNameNoSite($value)
+    public function testValidateRejectsValuesThatNameNoSite($value): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('General_ValidatorErrorNotIdSites');
@@ -57,7 +64,10 @@ class IdSitesTest extends \PHPUnit\Framework\TestCase
         (new IdSites())->validate($value);
     }
 
-    public function getInvalidValues()
+    /**
+     * @return list<array{mixed}>
+     */
+    public function getInvalidValues(): array
     {
         return [
             [0],
@@ -75,7 +85,7 @@ class IdSitesTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testValidateAcceptsAllOnlyWhenAllowed()
+    public function testValidateAcceptsAllOnlyWhenAllowed(): void
     {
         (new IdSites(true))->validate('all');
         (new IdSites(true))->validate(['all']);

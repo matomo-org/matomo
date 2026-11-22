@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Tests\Integration\API;
 
 use Piwik\API\DocumentationGenerator;
@@ -68,6 +70,7 @@ class ParameterValidationTest extends IntegrationTestCase
 
     /**
      * @dataProvider getInvalidIdSites
+     * @param string|string[] $idSites
      */
     public function testIdSitesMustNameAWebsite($idSites): void
     {
@@ -80,6 +83,9 @@ class ParameterValidationTest extends IntegrationTestCase
         $this->assertStringContainsString('ValidatorErrorNotIdSitesOrAll', $message);
     }
 
+    /**
+     * @return iterable<string, array{string|string[]}>
+     */
     public function getInvalidIdSites(): iterable
     {
         yield 'zero' => ['0'];
@@ -175,6 +181,9 @@ class ParameterValidationTest extends IntegrationTestCase
         $this->fail('Expected a ParameterValidationException');
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function provideContainerConfig()
     {
         return [
