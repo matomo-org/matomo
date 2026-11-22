@@ -68,6 +68,66 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expectedMessage, $result);
     }
 
+    /**
+     * @runInSeparateProcess SettingsPiwik holds the salt as a static value.
+     */
+    public function testReplaceSensitiveValuesCanLeaveCredentialsUntouched()
+    {
+        StaticContainer::get('Piwik\Access')->setTokenAuth('myTestToken');
+        Config::getInstance()->General['salt'] = 'myTestSalt';
+        Config::getInstance()->database['username'] = 'myTestDbUser';
+        Config::getInstance()->database['password'] = 'myTestDbPass';
+        Config::getInstance()->mail['username'] = 'myTestSmtpUser';
+        Config::getInstance()->mail['password'] = 'myTestSmtpPass';
+
+        $credentials = 'myTestDbUser, myTestDbPass, myTestSmtpUser, myTestSmtpPass';
+        $testMessage = 'Error in ' . PIWIK_DOCUMENT_ROOT . "/index.php containing myTestToken, myTestSalt, $credentials";
+
+        $this->assertSame(
+            "Error in /index.php containing tokenauth, generalSalt, $credentials",
+            \Piwik\ExceptionHandler::replaceSensitiveValues($testMessage, false)
+        );
+        $this->assertSame(
+            'Error in /index.php containing tokenauth, generalSalt, dbuser, dbpass, smtpuser, smtppass',
+            \Piwik\ExceptionHandler::replaceSensitiveValues($testMessage)
+        );
+    }
+
+    /**
+     * @runInSeparateProcess SettingsPiwik holds the salt as a static value.
+     */
+    public function testGetMessageForResponseRewritesTheDatabaseAccount()
+    {
+        Config::getInstance()->database['username'] = 'myTestDbUser';
+        Config::getInstance()->database['password'] = 'myTestDbPass';
+
+        $denied = "command denied to user 'myTestDbUser'@'localhost' for table 't'";
+        $expected = "command denied to user 'dbuser'@'localhost' for table 't'";
+
+        $this->assertSame($expected, \Piwik\ExceptionHandler::getMessageForResponse(new \Exception($denied)));
+        $this->assertSame($expected, \Piwik\ExceptionHandler::getMessageForResponse(new \PDOException($denied)));
+        $this->assertSame(
+            "User dbuser already has more than 'max_user_connections' active connections",
+            \Piwik\ExceptionHandler::getMessageForResponse(
+                new \PDOException("User myTestDbUser already has more than 'max_user_connections' active connections")
+            )
+        );
+        $this->assertSame(
+            "User 'dbuser' has exceeded the 'max_questions' resource (current value: 100)",
+            \Piwik\ExceptionHandler::getMessageForResponse(
+                new \PDOException("User 'myTestDbUser' has exceeded the 'max_questions' resource (current value: 100)")
+            )
+        );
+        $this->assertSame(
+            "Something failed for 'myTestDbPass'",
+            \Piwik\ExceptionHandler::getMessageForResponse(new \PDOException("Something failed for 'myTestDbPass'"))
+        );
+        $this->assertSame(
+            'Something failed for myTestDbUser.',
+            \Piwik\ExceptionHandler::getMessageForResponse(new \Exception('Something failed for myTestDbUser.'))
+        );
+    }
+
     public function getSensitiveValuesData(): array
     {
         return [

@@ -114,25 +114,46 @@ class ExceptionHandler
         exit(1);
     }
 
-    public static function replaceSensitiveValues(string $message): string
+    /**
+     * Returns the message to show for an exception in a response that prints no backtrace.
+     */
+    public static function getMessageForResponse(\Throwable $exception): string
     {
-        $dbConfig = Db::getDatabaseConfig();
+        // only the token, the salt and the root path are rewritten here
+        $message = self::replaceSensitiveValues($exception->getMessage(), false);
 
+        // database errors name the account as 'user'@'host', resource limit errors only as the user
+        $accountPatterns = [
+            "/'[^']*'@'/"                           => "'dbuser'@'",
+            "/User '[^']*' has exceeded the /"      => "User 'dbuser' has exceeded the ",
+            '/User .+? already has more than /'     => 'User dbuser already has more than ',
+        ];
+
+        return preg_replace(array_keys($accountPatterns), array_values($accountPatterns), $message) ?? $message;
+    }
+
+    public static function replaceSensitiveValues(string $message, bool $replaceCredentials = true): string
+    {
         $valuesToReplace = [
             'tokenauth'   => Piwik::getCurrentUserTokenAuth(),
             'generalSalt' => SettingsPiwik::getSalt(),
-            'dbuser'      => $dbConfig['username'],
-            'dbpass'      => $dbConfig['password'],
         ];
 
-        $mailConfig = Config::getInstance()->mail;
+        if ($replaceCredentials) {
+            $dbConfig = Db::getDatabaseConfig();
 
-        if (!empty($mailConfig['username'])) {
-            $valuesToReplace['smtpuser'] = $mailConfig['username'];
-        }
+            $valuesToReplace['dbuser'] = $dbConfig['username'];
+            $valuesToReplace['dbpass'] = $dbConfig['password'];
 
-        if (!empty($mailConfig['password'])) {
-            $valuesToReplace['smtppass'] = $mailConfig['password'];
+            $mailConfig = Config::getInstance()->mail;
+
+            if (!empty($mailConfig['username'])) {
+                $valuesToReplace['smtpuser'] = $mailConfig['username'];
+            }
+
+            if (!empty($mailConfig['password'])) {
+                $valuesToReplace['smtppass'] = $mailConfig['password'];
+            }
         }
 
         if (!empty($mailConfig['oauth_client_secret'])) {

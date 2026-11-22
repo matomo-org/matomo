@@ -394,7 +394,7 @@ class Controller extends Plugin\ControllerAdmin
                 !empty($lastError['backtrace'])
                 && ExceptionHandler::shouldPrintBackTraceWithMessage()
             ) {
-                $errorMessage .= $lastError['backtrace'];
+                $errorMessage .= ExceptionHandler::replaceSensitiveValues($lastError['backtrace']);
             }
 
             if (Piwik::isUserIsAnonymous()) {
