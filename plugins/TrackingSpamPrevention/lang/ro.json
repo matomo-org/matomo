@@ -1,1 +1,36 @@
-{}
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "Un IP a fost interzis pentru că a generat prea multe acțiuni.",
+        "BlockCloudNoteInternetDisabled": "Deoarece internetul este dezactivat în configurația Matomo, această funcție nu va funcționa.",
+        "PluginDescription": "Acest plugin oferă diverse opțiuni pentru a împiedica spammerii și roboții să vă facă datele inexacte, astfel încât să vă puteți baza din nou pe ele.",
+        "SettingBlockCloudIpRangesHelp": "Blocați solicitările de urmărire folosind o listă întreținută a intervalelor IP cunoscute ale furnizorilor cloud. Aceasta oferă o acoperire suplimentară pentru traficul furnizorilor cloud care ar putea să nu fie identificat printr-o listă de nume de organizații GeoIP configurate. Lista intervalelor IP ale furnizorilor cloud se actualizează automat la fiecare 24 de ore.",
+        "SettingBlockCloudIpRangesTitle": "Blocare solicitări de trafic din intervalele IP ale furnizorilor cloud",
+        "SettingBlockHeadlessDescription": "Acestea sunt browsere fără interfață cu utilizatorul, folosite mai ales pentru automatizare. Activarea acestei opțiuni ar trebui să fie sigură dacă aveți doar site-uri sau aplicații obișnuite. Aceasta poate bloca roboți și solicitări de spam suplimentare care altfel nu ar fi detectate.",
+        "SettingBlockHeadlessTitle": "Blocare browsere headless",
+        "SettingBlockSdksAndLibrariesHelp": "Activați această opțiune doar dacă urmărirea se face folosind JavaScript Tracker sau Matomo Tag Manager. Aceasta blochează solicitările de urmărire trimise de clienți HTTP și de bibliotecile de urmărire non-JavaScript, inclusiv instrumente precum cURL, Guzzle și Postman.%3$s%1$sNotă:%2$s Nu activați această opțiune dacă trimiteți date de urmărire folosind Matomo PHP Tracking SDK, Java SDK, Python SDK, Android SDK, iOS SDK sau alte biblioteci de urmărire non-JavaScript.",
+        "SettingBlockSdksAndLibrariesTitle": "Blocare trafic de la SDK-uri și biblioteci server-side",
+        "SettingCloudBlockingModeHelp": "Alegeți cum trebuie să trateze Matomo solicitările de urmărire de la furnizorii de găzduire cloud. Puteți dezactiva orice blocare, puteți aplica lista implicită de furnizori a Matomo sau vă puteți întreține propria listă personalizată. Lista Matomo poate fi actualizată în timp, pe măsură ce furnizori sunt adăugați sau modificați.",
+        "SettingCloudBlockingModeOptionCustomList": "Folosire listă personalizată de organizații",
+        "SettingCloudBlockingModeOptionDefaultList": "Folosire listă implicită de furnizori a Matomo (recomandat)",
+        "SettingCloudBlockingModeOptionOff": "Nu se blochează furnizorii de găzduire cloud",
+        "SettingCloudBlockingModeTitle": "Blocare solicitări de urmărire de la furnizorii de găzduire cloud",
+        "SettingCustomOrganisationBlockListHelp": "Blocați solicitările de urmărire atunci când adresa IP a vizitatorului aparține unei organizații specificate, cum ar fi un furnizor de găzduire sau de cloud. Introduceți câte o organizație pe linie. Folosiți nume specifice pentru a evita potriviri nedorite. Orice organizație al cărei nume conține valoarea introdusă va fi potrivită. Matomo folosește această listă în locul listei sale implicite de furnizori.",
+        "SettingDefaultOrganisationBlockListHelp": "Aceasta este lista implicită actuală de organizații întreținută de Matomo. Lista poate fi actualizată în timp, pe măsură ce furnizori sunt adăugați sau modificați.",
+        "SettingDefaultOrganisationBlockListTitle": "Listă implicită de organizații blocate",
+        "SettingExcludedCountriesDescription": "Nu urmăriți vizitatorii din aceste țări. Vizitatorii din afara zonei țintă vor fi probabil roboți sau spammeri; puteți folosi această opțiune și pentru a evita legislația privind confidențialitatea din alte jurisdicții.",
+        "SettingExcludedCountriesTitle": "Excludere țări",
+        "SettingIncludedCountriesDescription": "Aceasta exclude toate celelalte țări. Setarea \"excludere țări\" conține mai multe informații.",
+        "SettingIncludedCountriesTitle": "Urmărire doar a vizitatorilor din aceste țări",
+        "SettingIpAllowListHelp": "Specificați adresele IP sau intervalele CIDR care au permisiunea de a trimite solicitări de urmărire. Introduceți câte o valoare pe linie.",
+        "SettingIpAllowListTitle": "Listă de IP-uri permise",
+        "SettingIpBlockListHelp": "Specificați adresele IP sau intervalele CIDR cărora li se blochează trimiterea solicitărilor de urmărire. Introduceți câte o valoare pe linie. Matomo poate bloca automat și alte IP-uri care nu vor apărea în această listă, cum ar fi intervalele IP ale furnizorilor cloud preluate zilnic când opțiunea \"Blocare solicitări de trafic din intervalele IP ale furnizorilor cloud\" este activată, sau IP-urile interzise temporar pentru depășirea limitei maxime de acțiuni.",
+        "SettingIpBlockListTitle": "Listă de IP-uri blocate",
+        "SettingMaxActionsDescription": "Valoarea implicită \"0\" înregistrează toate acțiunile. Majoritatea site-urilor nu au de obicei mai mult de 100 până la 300. Se poate presupune în siguranță că restul activității este spam de urmărire, un robot sau un atac. Matomo nu mai înregistrează alte acțiuni și blochează adresele IP respective timp de până la 24 de ore, pentru a reduce încărcarea serverului și a păstra acuratețea datelor.",
+        "SettingMaxActionsTitle": "Numărul maxim de acțiuni înregistrate per vizită",
+        "SettingNotificationEmailDescription": "Această adresă de e-mail va fi notificată de fiecare dată când un IP este interzis pentru că are prea multe acțiuni. În viitor ar putea fi adăugate și alte motive de notificare.",
+        "SettingNotificationEmailTitle": "E-mail de notificare",
+        "SettingOrganisationBlockListPlaceholder": "Furnizor de găzduire cloud A%1$sFurnizor de găzduire cloud B",
+        "SettingOrganisationBlockListTitle": "Listă de organizații blocate",
+        "SettingsIntroduction": "Traficul de spam și de roboți poate umfla solicitările de urmărire și poate introduce date nedorite în rapoarte. Configurați aceste setări pentru a reduce acest trafic înainte să vă afecteze analizele."
+    }
+}
