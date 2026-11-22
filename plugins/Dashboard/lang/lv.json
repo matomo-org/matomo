@@ -14,7 +14,6 @@
         "DefaultDashboard": "Noklusējuma panelis - ar noklusējuma logrīku izvēli un kolonnu izkārtojumu",
         "DeleteWidgetConfirm": "Vai tiešām vēlaties dzēst šo logdaļu no paneļa?",
         "EmptyDashboard": "Tukšs panelis - izvēlieties savus iecienītākos logrīkus",
-        "ExportThisDashboard": "",
         "LoadingWidget": "Notiek logdaļas ielāde, lūdzu uzgaidiet…",
         "ManageDashboard": "Pārvaldīt paneli",
         "Maximise": "Izvērst",
@@ -33,7 +32,6 @@
         "SetAsDefaultWidgetsConfirm": "Vai tiešām vēlaties iestatīt pašreizējo logrīku izvēli un paneļa izkārtojumu kā noklusējuma paneļa veidni?",
         "SetAsDefaultWidgetsConfirmHelp": "Šī logrīku izvēle un paneļa kolonnu izkārtojums tiks izmantots, kad lietotājs izveidos jaunu paneli vai kad tiks pielietota \"%s\" funkcija.",
         "TopLinkTooltip": "Skatīt tīmekļa analīzes ziņojumus par %s.",
-        "TopMenuTitle": "",
         "WidgetNotFound": "Logdaļa nav atrasta",
         "WidgetPreview": "Logdaļas priekšstatījums"
     }
