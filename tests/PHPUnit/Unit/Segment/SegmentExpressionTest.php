@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\Segment\SegmentExpression;
+use Piwik\Tests\Framework\MysqlSqlExpectationsTrait;
 
 /**
  * @group SegmentExpressionTest
@@ -17,6 +18,20 @@ use Piwik\Segment\SegmentExpression;
  */
 class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
 {
+    use MysqlSqlExpectationsTrait;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->useMysqlSchemaIfSqlite();
+    }
+
+    public function tearDown(): void
+    {
+        $this->restoreSchemaAfterMysqlExpectations();
+        parent::tearDown();
+    }
+
     /**
      * Dataprovider for testSegmentSqlSimpleNoOperation
      * @return array

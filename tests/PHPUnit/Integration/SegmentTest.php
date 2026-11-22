@@ -1163,13 +1163,13 @@ class SegmentTest extends IntegrationTestCase
     {
         yield 'is not' => [
             'daysSinceLastVisit!=50',
-            '( FLOOR(log_visit.visitor_seconds_since_last / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_last / 86400) <> ? )',
+            '( ' . $this->getDaysSinceSql('last') . ' IS NULL OR ' . $this->getDaysSinceSql('last') . ' <> ? )',
             ['50'],
         ];
 
         yield 'is not zero' => [
             'daysSinceLastEcommerceOrder!=0',
-            '( FLOOR(log_visit.visitor_seconds_since_order / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_order / 86400) <> ? )',
+            '( ' . $this->getDaysSinceSql('order') . ' IS NULL OR ' . $this->getDaysSinceSql('order') . ' <> ? )',
             ['0'],
         ];
 
@@ -1229,7 +1229,7 @@ class SegmentTest extends IntegrationTestCase
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
         $expected = [
             'sql'  => " SELECT log_visit.* FROM $logVisitTable AS log_visit
-                        WHERE ( FLOOR(log_visit.visitor_seconds_since_last / 86400) IS NULL OR FLOOR(log_visit.visitor_seconds_since_last / 86400) <> ? )
+                        WHERE ( {$this->getDaysSinceSql('last')} IS NULL OR {$this->getDaysSinceSql('last')} <> ? )
                         AND ( log_visit.idvisit NOT IN (
                             SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                             WHERE ( log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND ({$this->getHourSql('log_link_visit_action.server_time')} = ?)) ) ",
@@ -3144,6 +3144,11 @@ SQL;
     private function getHourSql(string $column): string
     {
         return Schema::getInstance()->getHourSql($column);
+    }
+
+    private function getDaysSinceSql(string $since): string
+    {
+        return Schema::getInstance()->getIntegerSql("FLOOR(log_visit.visitor_seconds_since_$since / 86400)");
     }
 
     /**

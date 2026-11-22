@@ -220,11 +220,12 @@ class Fixture extends \PHPUnit\Framework\Assert
     /**
      * On SQLite a database is a file: a database name becomes the file `tmp/sqlite-tests/<name>.db`
      * under the user path. A path (one with a `/` or ending in `.db`) and any name on MySQL are returned
-     * as they are.
+     * as they are. Pass the adapter when the config isn't available yet, such as while building it.
      */
-    public static function getSqliteDatabaseFile($dbName)
+    public static function getSqliteDatabaseFile($dbName, ?string $adapter = null)
     {
-        if (!self::isSqlite() || !is_string($dbName) || $dbName === '' || str_contains($dbName, '/') || str_ends_with($dbName, '.db')) {
+        $isSqlite = $adapter === null ? self::isSqlite() : SqliteConnection::isSqliteAdapter($adapter);
+        if (!$isSqlite || !is_string($dbName) || $dbName === '' || str_contains($dbName, '/') || str_ends_with($dbName, '.db')) {
             return $dbName;
         }
 
