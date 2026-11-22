@@ -22,6 +22,8 @@
         "NumDownloads": "%s download",
         "NumOutlinks": "%s link di uscita",
         "NumPageviews": "%s pagine viste",
+        "OtherDestinations": "",
+        "OtherSources": "",
         "OutgoingTraffic": "Traffico uscente",
         "PageURLTransitions": "Transizioni URL di pagina",
         "PeriodNotAllowed": "Seleziona un periodo di tempo valido",

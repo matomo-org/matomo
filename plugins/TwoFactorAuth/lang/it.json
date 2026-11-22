@@ -26,6 +26,7 @@
         "RequireTwoFAForAllInformation": "È necessario che anche altri utenti accedano con la 2FA utilizzando un'app OTP sul proprio dispositivo mobile. (Come prerequisito, devi utilizzare tu stesso la 2FA.)",
         "RequiredAuthCodeNotConfiguredAPI": "Devi impostare l'autenticazione a due fattori. Si prega di accedere al tuo account.",
         "RequiredToSetUpTwoFactorAuthentication": "È necessario impostare l'autenticazione a due fattori prima di accedere.",
+        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Imposta l'autenticazione a due fattori (2FA)",
         "SetupAuthenticatorOnDevice": "Imposta un'app di autenticazione sul tuo dispositivo",
         "SetupAuthenticatorOnDeviceStep1": "Installa un'app di autenticazione, ad esempio:",
