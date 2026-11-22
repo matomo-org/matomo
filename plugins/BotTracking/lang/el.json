@@ -107,6 +107,15 @@
         "TopPageUrlsLast30MinutesDocumentation": "Εμφανίζει τις διευθύνσεις URL των σελίδων που ζητήθηκαν από μποτ ΤΝ στα τελευταία 30 λεπτά, ταξινομημένα με τις αιτήσεις των μποτ.",
         "TopPageUrlsLast30MinutesTitle": "Κορυφαίες διευθύνσεις σελίδων URL - Τελευταία 30 λεπτά",
         "TopPageUrlsLast8HoursDocumentation": "Εμφανίζει τις διευθύνσεις URL που ζητήθηκαν από τα μποτ ΤΝ τις τελευταίες 8 ώρες, ταξινομημένες με τις αιτήσεις των μποτ.",
-        "TopPageUrlsLast8HoursTitle": "Κορυφαίες διευθύνσεις URL σελίδων - Τελευταίες 8 ώρες"
+        "TopPageUrlsLast8HoursTitle": "Κορυφαίες διευθύνσεις URL σελίδων - Τελευταίες 8 ώρες",
+        "NoDataHttpTrackingApiInstructions2": "",
+        "NoDataHttpTrackingApiInstructions4": "",
+        "ColumnAIChatbotTrafficRatio": "",
+        "ColumnAIChatbotTrafficRatioDocumentation": "",
+        "NoDataHttpTrackingApiInstructions3": "",
+        "NoDataLinkApiReference": "",
+        "AIChatbotTrafficRatioBelowValue": "",
+        "NoDataHttpTrackingApiInstructions1": "",
+        "AIChatbotTrafficRatioValue": ""
     }
 }
