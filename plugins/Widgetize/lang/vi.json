@@ -1,6 +1,21 @@
 {
     "Widgetize": {
+        "DirectLink": "",
+        "DisplayDashboardInIframe": "",
+        "DisplayDashboardInIframeAllSites": "",
+        "EmbedIframe": "",
+        "ErrorTokenAuthFailed": "",
+        "ErrorTokenAuthFailedDisabledByPolicy": "",
+        "Intro": "",
         "OpenInNewWindow": "Mở trong một cửa sổ mới",
-        "TopLinkTooltip": "Xuất các báo cáo Matomo như các Widget và nhúng Bảng điều khiển trong ứng dụng của bạn như một iframe."
+        "PluginDescription": "",
+        "Reports": "",
+        "SelectAReport": "",
+        "TooHighAccessLevel": "",
+        "TopLinkTooltip": "Xuất các báo cáo Matomo như các Widget và nhúng Bảng điều khiển trong ứng dụng của bạn như một iframe.",
+        "UrlTokensDisabledByPolicy": "",
+        "ViewAccessRequired": "",
+        "ViewableAnonymously": "",
+        "ViewableAnonymouslyUrlTokenRequirement": ""
     }
 }
