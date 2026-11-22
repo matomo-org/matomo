@@ -26,6 +26,7 @@
         "RequireTwoFAForAllInformation": "Vyžaduje, aby se i ostatní uživatelé přihlašovali pomocí 2FA s aplikací OTP ve svém mobilním zařízení. (Předpokladem je, že sami používáte 2FA.)",
         "RequiredAuthCodeNotConfiguredAPI": "Je třeba nastavit dvoufaktorové ověřování. Za tímto účelem se přihlaste.",
         "RequiredToSetUpTwoFactorAuthentication": "Před přihlášením je nutné nastavit dvoufaktorové ověřování.",
+        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Nastavení dvoufaktorového ověřování (2FA)",
         "SetupAuthenticatorOnDevice": "Nastavit aplikaci OTP v zařízení",
         "SetupAuthenticatorOnDeviceStep1": "Nainstalujte si aplikaci OTP, například:",
