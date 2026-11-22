@@ -22,6 +22,8 @@
         "NumDownloads": "%s descàrregues",
         "NumOutlinks": "%s enllaços sortints",
         "NumPageviews": "%s pàgines vistes",
+        "OtherDestinations": "",
+        "OtherSources": "",
         "OutgoingTraffic": "Trànsit sortint",
         "PageURLTransitions": "Transicions d'URL de pàgina",
         "PeriodNotAllowed": "Seleccioneu un període de temps vàlid",

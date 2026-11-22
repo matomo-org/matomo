@@ -26,6 +26,7 @@
         "RequireTwoFAForAllInformation": "Requereix que altres usuaris també iniciïn sessió amb 2FA mitjançant una aplicació OTP al seu dispositiu mòbil. (Com a requisit previ, vos heu d'utilitzar 2FA també.)",
         "RequiredAuthCodeNotConfiguredAPI": "Heu de configurar l'autenticació de dos factors. Si us plau inicieu sessió per fer-ho.",
         "RequiredToSetUpTwoFactorAuthentication": "Heu de configurar l'autenticació de dos factors abans d'iniciar sessió.",
+        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Configura l'autenticació de dos factors (2FA)",
         "SetupAuthenticatorOnDevice": "Configura una aplicació OTP al teu dispositiu",
         "SetupAuthenticatorOnDeviceStep1": "Instal·leu una aplicació OTP, per exemple:",

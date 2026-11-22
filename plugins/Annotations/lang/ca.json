@@ -9,6 +9,7 @@
         "ClickToStarOrUnstar": "Feu click per marcar o desmarcar aquesta nota.",
         "CreateNewAnnotation": "Crea una nova anotació…",
         "EnterAnnotationText": "Introduix la teva nota…",
+        "HideAnnotations": "",
         "HideAnnotationsFor": "Amaga les anotacións per %s…",
         "IconDesc": "Veure les notes d'aquest rang.",
         "IconDescHideNotes": "Amaga les notes d'aquest rang.",
@@ -16,6 +17,7 @@
         "LoginToAnnotate": "Identifiqueu-vos per crear una anotació.",
         "NoAnnotations": "No hi ha notes per aquest rang de pàgines.",
         "PluginDescription": "Permet afegir notes als diferents dies perquè pogueu recordar perquè la vostra inforamció es mostra d'una determinada forma.",
+        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Mostra i afegeix anotacions per %s…",
         "YouCannotModifyThisNote": "No podeu modificar aquesta nota perquè o bé no l'heu creada vosatres, o no teni accès d'administrador per aquest lloc web."
     }
