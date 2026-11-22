@@ -26,7 +26,6 @@
         "RequireTwoFAForAllInformation": "Diğer kullanıcıların mobil aygıtlarındaki bir kerelik parola uygulamasını kullanarak iki adımlı doğrulama ile oturum açması gerekir. (Bir önlem olarak kendiniz iki adımlı doğrulama kullanıyor olmalısınız.)",
         "RequiredAuthCodeNotConfiguredAPI": "İki adımlı doğrulamayı kurmanız gerekiyor. Bunun için lütfen oturum açın.",
         "RequiredToSetUpTwoFactorAuthentication": "Oturum açmadan önce iki adımlı doğrulamayı kurmalısınız.",
-        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "İki adımlı doğrulamayı kur",
         "SetupAuthenticatorOnDevice": "Aygıtınıza bir kerelik parola uygulamasını kurun",
         "SetupAuthenticatorOnDeviceStep1": "Bir kerelik parola uygulamasını kurun. Örnek:",

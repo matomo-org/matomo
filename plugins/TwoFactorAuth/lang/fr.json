@@ -26,7 +26,6 @@
         "RequireTwoFAForAllInformation": "Lorsqu'elle est activée, chaque utilisateur doit activer l'authentification à deux facteurs. L'application de la 2FA exigera que tous les utilisateurs aient accès à un appareil sur lequel ils peuvent installer une application d'authentification. Vous ne pouvez l'activer que si vous avez déjà configuré vous-même l'authentification à deux facteurs",
         "RequiredAuthCodeNotConfiguredAPI": "Vous devez configurer l'authentification à deux facteurs. Pour cela, veuillez vous connecter.",
         "RequiredToSetUpTwoFactorAuthentication": "Vous devez configurer l'authentification à deux facteurs avant de vous identifier.",
-        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Configurer l'authentification à deux facteurs (2FA)",
         "SetupAuthenticatorOnDevice": "Configurer l'authentificateur sur votre périphérique",
         "SetupAuthenticatorOnDeviceStep1": "Installez une application d'authentification, par exemple :",

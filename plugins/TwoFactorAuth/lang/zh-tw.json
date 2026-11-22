@@ -26,7 +26,6 @@
         "RequireTwoFAForAllInformation": "要求其他使用者也在行動裝置上使用 OTP 應用程式進行 2FA 登入。（前提是你自己也必須使用 2FA。）",
         "RequiredAuthCodeNotConfiguredAPI": "你必須設定雙因素驗證，請先登入進行設定。",
         "RequiredToSetUpTwoFactorAuthentication": "你必須先設定雙因素驗證才能登入。",
-        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "開始設定雙因素驗證（2FA）",
         "SetupAuthenticatorOnDevice": "在你的裝置上設定 OTP 應用程式",
         "SetupAuthenticatorOnDeviceStep1": "安裝一個 OTP 應用程式，例如：",

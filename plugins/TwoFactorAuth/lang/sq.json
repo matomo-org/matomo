@@ -26,7 +26,6 @@
         "RequireTwoFAForAllInformation": "Lyp që edhe përdorues të tjerë të bëjnë hyrje me mirëfilltësimin dyfaktorësh, duke përdorur një aplikacion OTP në pajisjet e tyre celulare. (Si parakusht, vetë ju duhet të përdorni mirëfilltësimin dyfaktorësh).",
         "RequiredAuthCodeNotConfiguredAPI": "Duhet të ujdisni mirëfilltësim dyfaktorësh. Ju lutemi, për këtë, bëni hyrjen te llogaria juaj.",
         "RequiredToSetUpTwoFactorAuthentication": "Duhet të ujdisni mirëfilltësimin dyfaktorësh përpara se të mund të bëni hyrjen.",
-        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Ujdisni mirëfilltësim dyfaktorësh (2FA)",
         "SetupAuthenticatorOnDevice": "Ujdisni në pajisjen tuaj një aplikacion OTP",
         "SetupAuthenticatorOnDeviceStep1": "Instaloni një aplikacion OTP, për shembull:",

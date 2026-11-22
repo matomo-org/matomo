@@ -26,7 +26,6 @@
         "RequireTwoFAForAllInformation": "Exige que los demás usuarios también inicien sesión con 2FA mediante una aplicación OTP en su dispositivo móvil. (Como requisito previo, usted mismo debe usar 2FA).",
         "RequiredAuthCodeNotConfiguredAPI": "Debe configurar la autenticación de dos factores. Inicie sesión para hacerlo.",
         "RequiredToSetUpTwoFactorAuthentication": "Debe configurar la autenticación de dos factores antes de iniciar sesión.",
-        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Configurar autenticación de dos factores (2FA)",
         "SetupAuthenticatorOnDevice": "Configure su aplicación de autenticación en su dispositivo",
         "SetupAuthenticatorOnDeviceStep1": "Instale una aplicación de autenticación, por ejemplo:",

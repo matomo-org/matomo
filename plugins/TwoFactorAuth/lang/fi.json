@@ -26,7 +26,6 @@
         "RequireTwoFAForAllInformation": "Vaatii myös muita käyttäjiä kirjautumaan kaksivaiheisella tunnistautumisella mobiililaitteensa OTP-sovelluksen avulla. (Edellytyksenä on, että käytät itse kaksivaiheista tunnistautumista.)",
         "RequiredAuthCodeNotConfiguredAPI": "Sinua vaaditaan määrittämään kaksivaiheinen tunnistautuminen. Kirjaudu tilillesi.",
         "RequiredToSetUpTwoFactorAuthentication": "Sinun on määritettävä kaksivaiheinen todennus ennen sisäänkirjautumista.",
-        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Määritä kaksivaiheinen tunnistautuminen (2FA)",
         "SetupAuthenticatorOnDevice": "Määritä tunnistautumissovellus laitteellesi",
         "SetupAuthenticatorOnDeviceStep1": "Asenna tunnistautumissovellus, esimerkiksi:",

@@ -26,7 +26,6 @@
         "RequireTwoFAForAllInformation": "Απαιτεί επιπλέον και από τους άλλους χρήστες να κάνουν είσοδο με 2FA και χρήση εφαρμογής OTP στην συσκευή κινητού τους. (Ως προϋπόθεση, θα πρέπει και οι ίδιοι να χρησιμοποιείτε 2FA.)",
         "RequiredAuthCodeNotConfiguredAPI": "Πρέπει να έχετε διαμορφώσει την αυθεντικοποίηση δύο παραγόντων. Κάντε είσοδο στο λογαριασμό σας για να το κάνετε.",
         "RequiredToSetUpTwoFactorAuthentication": "Πρέπει να έχετε καθορίσει την αυθεντικοποίηση δύο παραγόντων προτού κάνετε είσοδο.",
-        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Διαμόρφωση της αυθεντικοποίησης δύο παραγόντων (2FA)",
         "SetupAuthenticatorOnDevice": "Διαμόρφωση της εφαρμογής OTP στην συσκευή σας",
         "SetupAuthenticatorOnDeviceStep1": "Εγκαταστήστε μια εφαρμογή OTP, για παράδειγμα:",

@@ -26,7 +26,6 @@
         "RequireTwoFAForAllInformation": "Vereist dat andere gebruikers ook inloggen met 2FA door middel van een OTP-app op hun mobiele apparaat. (Als voorwaarde moet u zelf 2FA gebruiken)",
         "RequiredAuthCodeNotConfiguredAPI": "U moet twee-factor authenticatie instellen. Log in om dit te doen.",
         "RequiredToSetUpTwoFactorAuthentication": "U moet twee-factor authenticatie instellen voordat u inlogt.",
-        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Twee-factor-authenticatie (2FA) instellen",
         "SetupAuthenticatorOnDevice": "Stel een twee-factor OTP-app in op uw apparaat",
         "SetupAuthenticatorOnDeviceStep1": "Installeer een OTP-app, bijvoorbeeld:",
