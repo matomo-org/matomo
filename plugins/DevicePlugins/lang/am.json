@@ -1,5 +1,11 @@
 {
     "DevicePlugins": {
-        "WidgetPlugins": "የተሰኪዎች ዝርዝር"
+        "BrowserWithNoPluginsEnabled": "",
+        "BrowserWithPluginsEnabled": "",
+        "ColumnPercentageVisitsDocumentation": "",
+        "PluginDescription": "",
+        "PluginDetectionDoesNotWorkInIE": "",
+        "WidgetPlugins": "የተሰኪዎች ዝርዝር",
+        "WidgetPluginsDocumentation": ""
     }
 }

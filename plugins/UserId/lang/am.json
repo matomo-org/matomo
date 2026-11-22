@@ -1,5 +1,15 @@
 {
     "UserId": {
-        "UserReportTitle": "ተጠቃሚዎች"
+        "PluginDescription": "",
+        "ThereIsNoDataForThisReportHelp": "",
+        "UserId": "",
+        "UserIdDisabledSettingImpact": "",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdDisabledSettingWhatItDoes": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "ተጠቃሚዎች",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }
