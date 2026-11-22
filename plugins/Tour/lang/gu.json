@@ -2,6 +2,8 @@
     "Tour": {
         "AddAnnotation": "એક ટીકા ઉમેરો",
         "AddAnotherWebsite": "બીજી વેબસાઇટ ઉમેરો",
+        "AddRecommendedGoals": "",
+        "AddRecommendedGoalsDescription": "",
         "AddReport": "શેડ્યૂલ કરેલ રિપોર્ટ ઉમેરો",
         "AddSegment": "એક સેગમેન્ટ ઉમેરો",
         "BecomeMatomoExpert": "Matomo નિષ્ણાત બનો",
