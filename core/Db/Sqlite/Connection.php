@@ -81,6 +81,12 @@ final class Connection
     public const DEFAULT_BUSY_TIMEOUT_MS = 5000;
 
     /**
+     * The size the WAL file is truncated back to once checkpointed. SQLite otherwise keeps the file at its
+     * largest: a long reader during a large deletion grew it to 1.9 GB, next to a 2.7 GB database.
+     */
+    public const JOURNAL_SIZE_LIMIT_BYTES = 64 * 1024 * 1024;
+
+    /**
      * Returns the absolute path of the database file of a `[database]`-style configuration.
      * A relative path is resolved against Matomo's user path (the directory holding `config/`).
      */
@@ -144,6 +150,7 @@ final class Connection
         $busyTimeout = (int) ($config['sqlite_busy_timeout'] ?? self::DEFAULT_BUSY_TIMEOUT_MS);
         $pdo->exec('PRAGMA busy_timeout = ' . max(0, $busyTimeout));
         $pdo->exec('PRAGMA synchronous = FULL');
+        $pdo->exec('PRAGMA journal_size_limit = ' . self::JOURNAL_SIZE_LIMIT_BYTES);
     }
 
     /**

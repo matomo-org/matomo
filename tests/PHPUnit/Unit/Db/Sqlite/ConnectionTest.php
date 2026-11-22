@@ -109,6 +109,7 @@ class ConnectionTest extends TestCase
         $this->assertSame('wal', $pdo->query('PRAGMA journal_mode')->fetchColumn());
         $this->assertSame(1234, (int) $pdo->query('PRAGMA busy_timeout')->fetchColumn());
         $this->assertSame(2, (int) $pdo->query('PRAGMA synchronous')->fetchColumn()); // FULL
+        $this->assertSame(Connection::JOURNAL_SIZE_LIMIT_BYTES, (int) $pdo->query('PRAGMA journal_size_limit')->fetchColumn());
 
         $pdo = null;
         Connection::deleteDatabaseFile($config);
