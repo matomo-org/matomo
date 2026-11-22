@@ -1,11 +1,5 @@
 {
     "DevicePlugins": {
-        "BrowserWithNoPluginsEnabled": "",
-        "BrowserWithPluginsEnabled": "",
-        "ColumnPercentageVisitsDocumentation": "",
-        "PluginDescription": "",
-        "PluginDetectionDoesNotWorkInIE": "",
-        "WidgetPlugins": "Listi yfir íbætur",
-        "WidgetPluginsDocumentation": ""
+        "WidgetPlugins": "Listi yfir íbætur"
     }
 }

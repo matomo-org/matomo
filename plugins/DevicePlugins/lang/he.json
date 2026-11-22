@@ -1,11 +1,5 @@
 {
     "DevicePlugins": {
-        "BrowserWithNoPluginsEnabled": "%1$s ללא תוספים פעילים",
-        "BrowserWithPluginsEnabled": "",
-        "ColumnPercentageVisitsDocumentation": "",
-        "PluginDescription": "",
-        "PluginDetectionDoesNotWorkInIE": "",
-        "WidgetPlugins": "",
-        "WidgetPluginsDocumentation": ""
+        "BrowserWithNoPluginsEnabled": "%1$s ללא תוספים פעילים"
     }
 }

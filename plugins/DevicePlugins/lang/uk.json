@@ -2,7 +2,6 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s без активованих плагінів",
         "BrowserWithPluginsEnabled": "%1$s з доповненнями %2$s ввімкнено",
-        "ColumnPercentageVisitsDocumentation": "",
         "PluginDescription": "Повідомляє список плагінів, доступних в браузерах відвідувачів.",
         "PluginDetectionDoesNotWorkInIE": "Увага: Визначення плагінів не працює в Internet Explorer до 11. Цей звіт базується тільки на не-IE браузерах і новітніх версіях IE.",
         "WidgetPlugins": "Список плагінів",

@@ -2,7 +2,6 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s bez iespējotiem spraudņiem",
         "BrowserWithPluginsEnabled": "%1$s ar iespējotiem spraudņiem %2$s",
-        "ColumnPercentageVisitsDocumentation": "",
         "PluginDescription": "Ziņo par spraudņiem, kas tiek atbalstīti apmeklētāju pārlūkos.",
         "PluginDetectionDoesNotWorkInIE": "Piezīme: spraudņu noteikšana nedarbojas Internet Explorer pārlūkā pirms 11. versijas. Šis ziņojums ir balstīts tikai uz ne-IE pārlūkiem un jaunākām IE versijām.",
         "WidgetPlugins": "Spraudņu saraksts",

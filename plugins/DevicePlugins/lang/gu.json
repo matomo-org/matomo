@@ -2,7 +2,6 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s કોઈ પ્લગઈન્સ સક્ષમ કર્યા વિના",
         "BrowserWithPluginsEnabled": "%1$s પ્લગઇન્સ સાથે %2$s સક્ષમ",
-        "ColumnPercentageVisitsDocumentation": "",
         "PluginDescription": "મુલાકાતીઓ બ્રાઉઝર્સમાં સમર્થિત પ્લગિન્સની સૂચિની જાણ કરે છે.",
         "PluginDetectionDoesNotWorkInIE": "નોંધ: ઈન્ટરનેટ એક્સપ્લોરર 11પહેલા પ્લગઈન્સ ડિટેક્શન કામ કરતું નથી. આ રિપોર્ટ ફક્ત નોન-IE બ્રાઉઝર્સ અને IE ના નવા વર્ઝન પર આધારિત છે.",
         "WidgetPlugins": "બ્રાઉઝર પ્લગઈન્સ",
