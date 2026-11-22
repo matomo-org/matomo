@@ -86,13 +86,17 @@ class ConvertRegionCodesToIso extends ConsoleCommand
         $activationDateTime = date('Y-m-d H:i:s', $activationTime);
 
         // fix country and region of tibet so it will be updated correctly afterwards
-        $tibetFixQuery = 'UPDATE `%s` SET location_country = "cn", location_region = "14" WHERE location_country = "ti"';
+        $tibetFixQuery = "UPDATE `%s` SET location_country = 'cn', location_region = '14' WHERE location_country = 'ti'";
 
         // replace invalid country codes used by GeoIP Legacy
-        $fixInvalidCountriesQuery = 'UPDATE `%s` SET location_country = "" WHERE location_country IN("AP", "EU", "A1", "A2")';
+        $fixInvalidCountriesQuery = "UPDATE `%s` SET location_country = '' WHERE location_country IN('AP', 'EU', 'A1', 'A2')";
 
-        $query = "UPDATE `%s` INNER JOIN %s ON location_country = country_code AND location_region = fips_code SET location_region = iso_code
-                  WHERE `%s` < ?";
+        // a correlated subquery on the mapping's primary key rather than MySQL's multi-table UPDATE, which SQLite lacks
+        $query = "UPDATE `%1\$s` SET location_region = (
+                      SELECT iso_code FROM `%2\$s` WHERE country_code = location_country AND fips_code = location_region
+                  )
+                  WHERE `%3\$s` < ?
+                    AND EXISTS (SELECT 1 FROM `%2\$s` WHERE country_code = location_country AND fips_code = location_region)";
 
         $logTables = ['log_visit' => 'visit_first_action_time', 'log_conversion' => 'server_time'];
 
