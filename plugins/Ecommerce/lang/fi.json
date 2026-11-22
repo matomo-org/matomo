@@ -1,6 +1,7 @@
 {
     "Ecommerce": {
         "AnonymizeOrderIdNote": "Koska tilauksen ID voidaan yhdistää toisen järjestelmän, tyypillisesti verkkokaupan, tietoihin, tilauksen ID voi olla GDPR:n mukaan henkilötieto. Kun otat tämän vaihtoehdon käyttöön, tilauksen ID anonymisoidaan automaattisesti, jotta henkilötietoja ei seurata.",
+        "EcommerceLogSubcategoryHelp1": "",
         "EcommerceLogSubcategoryHelp2": "Tämän sivun tiedot päivittyvät reaaliaikaisesti.",
         "EcommerceOverviewSubcategoryHelp1": "Verkkokaupan yleiskatsaus -osio on paras paikka saada kokonaiskuva verkkokauppasi tuloksista. Näet yhdellä silmäyksellä, kuinka paljon myyntiä teet, kuinka paljon tuloja syntyy ja mikä on verkkosivustosi konversioprosentti.",
         "EcommerceOverviewSubcategoryHelp2": "Napsauta yksittäistä mittaria minikaaviossa nähdäksesi sen täysikokoisessa kehityskaaviossa.",
@@ -10,7 +11,9 @@
         "EcommercePolicyRestrictedNoteWebsite": "%1$s on pakotettu käyttöön tälle verkkosivustolle. Verkkokauppa voi pysyä käytössä, mutta käytäntö rajoittaa Matomon keräämiä verkkokauppatietoja.",
         "EcommercePolicySettingCompliantAll": "Vaatimustenmukainen, koska verkkokauppa ei ole käytössä millään sivustolla.",
         "EcommercePolicySettingCompliantSingle": "Vaatimustenmukainen, koska verkkokauppa ei ole käytössä tässä mittauskohteessa.",
+        "EcommercePolicySettingImpact": "",
         "EcommercePolicySettingNonCompliantNote": "Ei vaatimustenmukainen, koska verkkokauppa-analytiikka on käytössä ilman rajoituksia.",
+        "EcommercePolicySettingRequirementNote": "",
         "EcommercePolicySettingTitle": "Verkkokauppatietojen keruu rajoitettu",
         "EcommercePolicySettingWhatItDoes": "Jos verkkokauppa-analytiikka on käytössä, yksityiskohtaisten tilaus- ja tuotetason tietojen keruuta ja käyttöä rajoitetaan.<br><br>Tämä estää tilaus- ja tuotetietojen käytön yksittäisten kävijöiden tai ostosten tunnistamiseen.",
         "LifeTimeValue": "Verkkokaupan arvo koko elinkaaren aikana",

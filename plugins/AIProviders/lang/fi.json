@@ -38,6 +38,7 @@
         "ErrorUnknownCapabilityLevel": "Tuntematon tekoälymallin kyvykkyystaso \"%s\".",
         "ErrorUnknownProvider": "Tuntematon tekoälypalveluntarjoaja \"%s\".",
         "GoogleDefaultModelDescription": "Oletusmalli: gemini-3.1-flash-lite",
+        "InstantCapability": "",
         "InstantCapabilityDescription": "Nopea ja kustannustehokas yksinkertaisiin tehtäviin.",
         "ManagedConfigurationHelp": "Tämän instanssin tekoälypalveluntarjoajien asetuksia hallitaan keskitetysti, eikä niitä voi muuttaa täällä.",
         "MenuTitle": "Tekoälypalveluntarjoajat",
@@ -56,8 +57,10 @@
         "TestConnection": "Testaa yhteys",
         "TestConnectionSuccess": "Yhteys palveluun %1$s toimii.",
         "TestingConnection": "Testataan…",
+        "ThinkingCapability": "",
         "ThinkingCapabilityDescription": "Parempi päättely monimutkaisiin tehtäviin.",
         "UnexpectedError": "Odottamaton virhe. Tarkista Matomo-palvelimen lokit.",
-        "UnsavedChanges": "Sinulla on tallentamattomia muutoksia"
+        "UnsavedChanges": "Sinulla on tallentamattomia muutoksia",
+        "UsedBy": ""
     }
 }

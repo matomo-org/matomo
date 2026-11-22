@@ -16,6 +16,8 @@
         "ConfirmPasswordResetIntro": "Kirjoita uusi salasanasi vahvistaaksesi, että todella pyysit salasanasi vaihtamista.",
         "ConfirmPasswordResetWrongPassword": "Antamasi salasana ei vastaa juuri luomaasi salasanaa. Nollaa salasanasi uudelleen, jos et muista sitä. Jos et pyytänyt salasanan vaihtamista, älä tee mitään, niin salasanasi pysyy ennallaan.",
         "ConfirmPasswordToContinue": "Varmista salasana jatkaaksesi",
+        "ConfirmSecondFactorIntro": "",
+        "ConfirmSecondFactorToContinue": "",
         "ConfirmationLinkPossiblySent": "Jos annetut tiedot liittyvät tiliin, saat sähköpostiviestin salasanan nollauksen vahvistamiseksi.",
         "ContactAdmin": "Mahdollinen syy: isäntäsi on saattanut poistaa mail() function. käytöstä. <br>Ota yhteyttä Matomon järjestelmänvalvojaan.",
         "CreatePasswordDescription": "Varmista, että muistat tämän salasanan, ja säilytät sitä turvallisessa sijainnissa.",
@@ -106,6 +108,7 @@
         "TokenAuthenticationFailed": "Todennus annetulla poletilla epäonnistui. Poletti on joko virheellinen tai vanhentunut.",
         "TokenAuthenticationFailedInsecure": "Todennus annetulla poletilla epäonnistui. Poletti on joko virheellinen tai vanhentunut, tai se on lähetettävä POST-parametrina tai HTTP Authorization -otsakkeessa. Jos poletti luotiin asetuksella 'Salli vain turvalliset pyynnöt', se on lähetettävä POST-parametrina tai HTTP Authorization -otsakkeessa.",
         "UnblockAllIPs": "Poista kaikki voimassa olevat IP-osoitteiden estot",
-        "WrongPasswordEntered": "Kirjoita salasanasi."
+        "WrongPasswordEntered": "Kirjoita salasanasi.",
+        "WrongSecondFactorCode": ""
     }
 }

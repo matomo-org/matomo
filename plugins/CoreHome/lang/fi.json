@@ -12,6 +12,8 @@
         "ClickToEditX": "Muokkaa %s klikkaamalla",
         "ClickToSeeFullInformation": "Klikkaa nähdäksesi lisätietoja",
         "CloseWidgetDirections": "Voit sulkea tämän vimpaimen napsauttamalla vimpaimen yläosassa olevaa X-kuvaketta.",
+        "ConsentState": "",
+        "ConsentStateConsented": "",
         "CopyModalNote": "%1$sHuomaa:%2$s Kopioitua kohdetta %3$s on ehkä mukautettava, jos se sisältää alkuperäiseen verkkosivustoon liittyviä viittauksia. Tarkista asetusten yhteensopivuus.",
         "CopyX": "Kopioi %1$s",
         "CopyXDescription": "Valitse verkkosivusto, jolle haluat kopioida kohteen %1$s. Valitulle sivustolle luodaan tarkka kopio asetuksineen.",
