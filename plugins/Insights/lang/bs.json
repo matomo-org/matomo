@@ -1,1 +1,35 @@
-{}
+{
+    "Insights": {
+        "ControlComparedToDescription": "",
+        "ControlFilterByDescription": "",
+        "DatePeriodCombinationNotSupported": "",
+        "DayComparedToPreviousDay": "",
+        "DayComparedToPreviousWeek": "",
+        "DayComparedToPreviousYear": "",
+        "Filter": "",
+        "FilterIncreaserAndDecreaser": "",
+        "FilterOnlyDecreaser": "",
+        "FilterOnlyDisappeared": "",
+        "FilterOnlyIncreaser": "",
+        "FilterOnlyMovers": "",
+        "FilterOnlyNew": "",
+        "IgnoredChanges": "",
+        "MonthComparedToPreviousMonth": "",
+        "MonthComparedToPreviousYear": "",
+        "MoversAndShakersWidgetTitle": "",
+        "NoResultMatchesCriteria": "",
+        "OverviewWidgetTitle": "",
+        "PluginDescription": "",
+        "TitleConsideredInsightsChanges": "",
+        "TitleConsideredInsightsGrowth": "",
+        "TitleConsideredMoversAndShakersChanges": "",
+        "TitleConsideredMoversAndShakersGrowth": "",
+        "TitleRowChangeDetails": "",
+        "TitleRowDisappearedDetails": "",
+        "TitleRowMoverAndShaker": "",
+        "TitleRowNewDetails": "",
+        "WeekComparedToPreviousWeek": "",
+        "WidgetCategory": "",
+        "YearComparedToPreviousYear": ""
+    }
+}
