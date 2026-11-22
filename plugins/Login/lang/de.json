@@ -16,6 +16,8 @@
         "ConfirmPasswordResetIntro": "Bitte geben Sie Ihr neues Passwort nochmal ein, um zu bestätigen, dass Sie wirklich die Änderung Ihres Passworts angefordert haben.",
         "ConfirmPasswordResetWrongPassword": "Das angegebene Passwort passt nicht zu Ihrem neuen Passwort. Wenn Sie sich nicht an das neue Passwort erinnern können, setzten Sie Ihr Passwort noch einmal zurück. Wenn Sie Ihr Passwort nicht geändert haben, unternehmen Sie nichts, um Ihr altes Passwort zu behalten.",
         "ConfirmPasswordToContinue": "Bitte bestätigen Sie Ihr Passwort, um fortzufahren",
+        "ConfirmSecondFactorIntro": "",
+        "ConfirmSecondFactorToContinue": "",
         "ConfirmationLinkPossiblySent": "Wenn die angegebenen Details mit einem Benutzerkonto verknüpft sind, erhalten Sie eine E-Mail zur Bestätigung der Passwortzurücksetzung.",
         "ContactAdmin": "Möglicher Grund: Der Server könnte die mail()-Funktion deaktiviert haben.<br>Bitte sprechen Sie mit Ihrem Matomo-Administrator.",
         "CreatePasswordDescription": "Stellen Sie sicher, dass Sie sich an dieses Passwort erinnern und es an einem sicheren Ort aufbewahren.",
@@ -106,6 +108,7 @@
         "TokenAuthenticationFailed": "Die Authentifizierung mit dem angegebenen Token ist nicht möglich. Er ist entweder ungültig oder abgelaufen.",
         "TokenAuthenticationFailedInsecure": "Die Authentifizierung mit dem angegebenen Token ist nicht möglich. Der Token ist entweder ungültig oder abgelaufen oder muss als POST-Parameter oder im HTTP-Authorization-Header übermittelt werden. Wenn der Token mit der Option „Nur sichere Anfragen zulassen“ erstellt wurde, muss es als POST-Parameter oder im HTTP-Authorization-Header übermittelt werden.",
         "UnblockAllIPs": "Blockierung aller aktuell blockierten IPs aufheben",
-        "WrongPasswordEntered": "Bitte geben Sie Ihr Passwort ein."
+        "WrongPasswordEntered": "Bitte geben Sie Ihr Passwort ein.",
+        "WrongSecondFactorCode": ""
     }
 }

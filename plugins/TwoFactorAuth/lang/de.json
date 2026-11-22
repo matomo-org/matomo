@@ -26,6 +26,7 @@
         "RequireTwoFAForAllInformation": "Erfordert, dass andere Benutzer sich auch mit 2FA unter Verwendung von OTP auf deren Mobilgerät anmelden. (Grundvoraussetzung ist, dass Sie 2FA selber einsetzen.)",
         "RequiredAuthCodeNotConfiguredAPI": "Sie müssen die Zwei-Faktor-Authentifizierung einrichten. Bitte melden Sie sich hierfür an.",
         "RequiredToSetUpTwoFactorAuthentication": "Sie müssen die Zwei-Faktor-Authentifizierung einrichten, bevor Sie sich anmelden können.",
+        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Zwei-Faktor-Authentifizierung (2FA) einrichten",
         "SetupAuthenticatorOnDevice": "Richten Sie eine OTP-App auf Ihrem Gerät ein",
         "SetupAuthenticatorOnDeviceStep1": "Installieren Sie eine OTP-App, zum Beispiel:",
