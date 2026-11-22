@@ -22,6 +22,8 @@
         "NumDownloads": "%s பதிவிறக்கங்கள்",
         "NumOutlinks": "%s அவுட்லின்கள்",
         "NumPageviews": "%s பக்கக் காட்சிகள்",
+        "OtherDestinations": "",
+        "OtherSources": "",
         "OutgoingTraffic": "வெளிச்செல்லும் போக்குவரத்து",
         "PageURLTransitions": "பக்க முகவரி மாற்றங்கள்",
         "PeriodNotAllowed": "செல்லுபடியாகும் காலத்தைத் தேர்ந்தெடுக்கவும்",

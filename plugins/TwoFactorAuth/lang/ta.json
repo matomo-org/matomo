@@ -26,6 +26,7 @@
         "RequireTwoFAForAllInformation": "பிற பயனர்கள் தங்கள் மொபைல் சாதனத்தில் OTP பயன்பாட்டைப் பயன்படுத்தி 2FA உடன் உள்நுழைய வேண்டும். (ஒரு முன்நிபந்தனையாக, நீங்கள் 2FA ஐ நீங்களே பயன்படுத்த வேண்டும்.)",
         "RequiredAuthCodeNotConfiguredAPI": "நீங்கள் இரண்டு காரணி அங்கீகாரத்தை அமைக்க வேண்டும். அவ்வாறு செய்ய உள்நுழைக.",
         "RequiredToSetUpTwoFactorAuthentication": "உள்நுழைவதற்கு முன் நீங்கள் இரண்டு காரணி அங்கீகாரத்தை அமைக்க வேண்டும்.",
+        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "இரண்டு காரணி அங்கீகாரத்தை அமைக்கவும் (2FA)",
         "SetupAuthenticatorOnDevice": "உங்கள் சாதனத்தில் OTP பயன்பாட்டை அமைக்கவும்",
         "SetupAuthenticatorOnDeviceStep1": "ஒரு OTP பயன்பாட்டை நிறுவவும், எடுத்துக்காட்டாக:",
