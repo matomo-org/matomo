@@ -65,7 +65,9 @@ class API extends \Piwik\Plugin\API
      * Creates a new dashboard for a user.
      *
      * @param string $login Login of the user the dashboard should be created for.
-     * @param string $dashboardName Name of the new dashboard, at most 100 characters.
+     * @param string $dashboardName Name of the new dashboard, at most 100 characters. HTTP requests
+     *                              HTML-encode it first, so special characters count as their entity
+     *                              (`&` as `&amp;`).
      * @param bool $addDefaultWidgets Whether to populate the dashboard with the default widget layout.
      * @return int|string ID of the newly created dashboard.
      */
@@ -112,7 +114,9 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idDashboard ID of the dashboard to copy.
      * @param string $copyToUser Login of the user that should receive the dashboard copy.
-     * @param string $dashboardName Name for the copied dashboard, at most 100 characters.
+     * @param string $dashboardName Name for the copied dashboard, at most 100 characters. HTTP requests
+     *                              HTML-encode it first, so special characters count as their entity
+     *                              (`&` as `&amp;`).
      * @return int|string ID of the newly created dashboard copy.
      */
     public function copyDashboardToUser(
