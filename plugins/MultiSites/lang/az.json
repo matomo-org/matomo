@@ -1,5 +1,35 @@
 {
     "MultiSites": {
-        "AllWebsitesDashboardTitle": "Bütün saytlar"
+        "AiChatbotsRequests": "",
+        "AiChatbotsSegmentationTooltip": "",
+        "AllWebsitesDashboardDocumentation": "",
+        "AllWebsitesDashboardErrorMessage": "",
+        "AllWebsitesDashboardTitle": "Bütün saytlar",
+        "Evolution": "",
+        "EvolutionComparisonDay": "",
+        "EvolutionComparisonIncomplete": "",
+        "EvolutionComparisonMonth": "",
+        "EvolutionComparisonProportional": "",
+        "EvolutionComparisonWeek": "",
+        "EvolutionComparisonYear": "",
+        "EvolutionFromPreviousDay": "",
+        "EvolutionFromPreviousMonth": "",
+        "EvolutionFromPreviousPeriod": "",
+        "EvolutionFromPreviousWeek": "",
+        "EvolutionFromPreviousYear": "",
+        "HitsIncludingAiTooltip": "",
+        "LoadingWebsites": "",
+        "MetricDocumentationAiChatbotsRequests": "",
+        "MetricDocumentationEvolution": "",
+        "MetricDocumentationHits": "",
+        "MetricDocumentationHitsIncludingAi": "",
+        "MetricDocumentationPageviews": "",
+        "MetricDocumentationRevenue": "",
+        "MetricDocumentationVisits": "",
+        "MetricDocumentationWebsite": "",
+        "PluginDescription": "",
+        "SegmentationNotSupported": "",
+        "SingleWebsitesDashboardDocumentation": "",
+        "TopLinkTooltip": ""
     }
 }

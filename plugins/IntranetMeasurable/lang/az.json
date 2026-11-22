@@ -1,5 +1,8 @@
 {
     "IntranetMeasurable": {
-        "Intranet": "İntranet vebsaytı"
+        "Intranet": "İntranet vebsaytı",
+        "IntranetDescription": "",
+        "IntranetLongDescription": "",
+        "Intranets": ""
     }
 }
