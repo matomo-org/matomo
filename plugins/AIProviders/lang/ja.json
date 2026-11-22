@@ -1,16 +1,9 @@
 {
     "AIProviders": {
-        "AIProcessing": "",
-        "AIProcessingHelp": "",
-        "AIProcessingIntro": "",
-        "AIProcessingSaveSuccess": "",
-        "AggregatedAnalyticsData": "",
-        "AggregatedAnalyticsDataDescription": "",
         "AnthropicDefaultModelDescription": "デフォルトモデル: claude-haiku-4-5",
         "ApiKey": "APIキー",
         "ApiKeyAlreadyConfiguredPlaceholder": "キーを置き換えるために新しいキーを入力してください。",
         "ApiKeyPlaceholder": "APIキーを入力してください",
-        "BackToPreviousPage": "",
         "BedrockDescription": "AWS Bedrockを通じてAIモデルにアクセスします。",
         "BedrockEndpointPlaceholder": "例：eu-central-1",
         "BedrockEndpointTitle": "AWSリージョン",
@@ -18,7 +11,6 @@
         "ClickTestConnectionToShowAvailableModels": "利用可能なモデルを表示するには、接続テストをクリックしてください。",
         "ConfigurationIntro": "MatomoでAIプロバイダーとデフォルトのAI動作を設定します。",
         "CustomProviderDescription": "自分のOpenAI互換のエンドポイントを使用してください。",
-        "DataProcessingDetails": "",
         "DefaultBadge": "デフォルト",
         "DefaultCapabilityLevel": "デフォルトの能力レベル",
         "DefaultCapabilityLevelHelp": "Matomoが使用できるデフォルトの機能を選択してください。個別の機能がこれを上書きすることがあります。",
@@ -34,7 +26,6 @@
         "ErrorInvalidAwsRegion": "%s の AWS リージョンは無効です。",
         "ErrorInvalidEndpointUrl": "%s のエンドポイント URL が無効です。",
         "ErrorProviderNotConfigured": "AIプロバイダー「%s」は設定されていません。",
-        "ErrorUnknownAIProcessingCategory": "",
         "ErrorUnknownCapabilityLevel": "不明なAIモデルの能力レベル「%s」。",
         "ErrorUnknownProvider": "不明なAIプロバイダー「%s」です。",
         "GoogleDefaultModelDescription": "デフォルトモデル：gemini-3.1-flash-lite",
@@ -44,11 +35,8 @@
         "MenuTitle": "AIプロバイダー",
         "Model": "モデル",
         "NoDefaultProviderWarning": "まだAIプロバイダーをデフォルトに設定できません。まずプロバイダーを接続してください。",
-        "NonAnalyticsData": "",
-        "NonAnalyticsDataDescription": "",
         "OpenAIDefaultModelDescription": "デフォルトモデル: gpt-5.4-mini",
         "PluginDescription": "Matomo AI 機能で使用される AI プロバイダーの接続およびデフォルトのモデル設定を構成します。",
-        "QuotaReached": "",
         "RefreshModels": "モデルを更新",
         "RequestFailed": "AIプロバイダーのリクエストに失敗しました: %s",
         "SettingsSaveSuccess": "AIプロバイダーの設定を保存しました。",
@@ -60,7 +48,6 @@
         "ThinkingCapability": "考え中",
         "ThinkingCapabilityDescription": "複雑なタスクのためのより良い推論。",
         "UnexpectedError": "予期しないエラーが発生しました。Matomoサーバーログを確認してください。",
-        "UnsavedChanges": "保存されていない変更があります",
-        "UsedBy": ""
+        "UnsavedChanges": "保存されていない変更があります"
     }
 }
