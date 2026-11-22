@@ -34,6 +34,7 @@
         "LicenseHomepage": "授權首頁",
         "LikeThisPlugin": "喜歡這個外掛？",
         "MenuPlatform": "平台",
+        "MissingRequirementsNotYetCompatibleNotice": "",
         "MissingRequirementsNotice": "請將 %1$s %2$s 更新至較新的版本，必須是 %1$s %3$s。",
         "MissingRequirementsPleaseInstallNotice": "請安裝 %3$s 所需的 %1$s %2$s。",
         "NUpdatesAvailable": "%1$s 個更新可用",

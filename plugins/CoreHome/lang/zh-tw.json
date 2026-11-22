@@ -12,6 +12,8 @@
         "ClickToEditX": "點擊以編輯 %s",
         "ClickToSeeFullInformation": "點擊查看完整資訊",
         "CloseWidgetDirections": "你可以點擊小工具上方的「X」來關閉它。",
+        "ConsentState": "",
+        "ConsentStateConsented": "",
         "CopyModalNote": "%1$s注意：%2$s如果複製的%3$s含有原網站專屬的參照，可能需要進行調整。請檢查設定以確保相容。",
         "CopyX": "複製 %1$s",
         "CopyXDescription": "選擇要將此 %1$s 複製到哪個網站。這會在所選網站中建立一份完全相同的複本，包含各項設定。",
