@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\API;
 
 use InvalidArgumentException;
@@ -15,6 +17,7 @@ use Piwik\Validators\AcceptsArrayValues;
 use Piwik\Validators\BaseValidator;
 use ReflectionAttribute;
 use ReflectionMethod;
+use Throwable;
 
 /**
  * Runs the validator attributes of API method parameters.
@@ -39,38 +42,43 @@ use ReflectionMethod;
 class ParameterValidator
 {
     /**
-     * @var array<string, array<string, list<BaseValidator>>>
+     * @var array<string, array<string, array{validators: list<BaseValidator>, hasDefault: bool, default: mixed, sensitive: bool}>>
      */
-    private $validators = [];
+    private $parameters = [];
 
     /**
      * Runs the validator attributes of the given method on its arguments. Parameters whose value is
-     * `null` are skipped.
+     * `null` or identical to their declared default are skipped.
      *
      * @param string $method the method as `Class::method`, see `__METHOD__`
      * @param array<string, mixed> $arguments the method's arguments by name, see `get_defined_vars()`
      * @throws ParameterValidationException listing every parameter that failed
      */
-    public function validate(string $method, array $arguments): void
-    {
+    public function validate(
+        string $method,
+        #[\SensitiveParameter]
+        array $arguments
+    ): void {
         $violations = [];
 
-        foreach ($this->getValidators($method) as $name => $validators) {
+        foreach ($this->getParameters($method) as $name => $parameter) {
             $value = $arguments[$name] ?? null;
-            if ($value === null) {
+            if ($value === null || ($parameter['hasDefault'] && $value === $parameter['default'])) {
                 continue;
             }
 
             try {
-                if (is_array($value) && !$this->acceptArrays($validators)) {
+                if (is_array($value) && !$this->acceptArrays($parameter['validators'])) {
                     throw new InvalidArgumentException(Piwik::translate('General_ValidatorErrorNotSingleValue'));
                 }
 
-                foreach ($validators as $validator) {
+                foreach ($parameter['validators'] as $validator) {
                     $validator->validate($value);
                 }
             } catch (InvalidArgumentException $e) {
-                $violations[] = ['parameter' => $name, 'message' => $e->getMessage()];
+                // messages may contain the value, which a sensitive parameter must not reveal
+                $message = $parameter['sensitive'] ? Piwik::translate('General_ValidatorErrorInvalidValue') : $e->getMessage();
+                $violations[] = ['parameter' => $name, 'message' => $message];
             }
         }
 
@@ -100,23 +108,36 @@ class ParameterValidator
     /**
      * Validator instances are built once per process and shared by all calls of the method.
      *
-     * @return array<string, list<BaseValidator>>
+     * @return array<string, array{validators: list<BaseValidator>, hasDefault: bool, default: mixed, sensitive: bool}>
      */
-    private function getValidators(string $method): array
+    private function getParameters(string $method): array
     {
-        if (!isset($this->validators[$method])) {
-            $validators = [];
-            foreach ((new ReflectionMethod($method))->getParameters() as $parameter) {
-                foreach ($parameter->getAttributes(BaseValidator::class, ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
-                    $validators[$parameter->getName()][] = $attribute->newInstance();
+        if (!isset($this->parameters[$method])) {
+            [$className, $methodName] = explode('::', $method, 2);
+
+            $parameters = [];
+            foreach ((new ReflectionMethod($className, $methodName))->getParameters() as $parameter) {
+                $attributes = $parameter->getAttributes(BaseValidator::class, ReflectionAttribute::IS_INSTANCEOF);
+                if (empty($attributes)) {
+                    continue;
                 }
+
+                $hasDefault = $parameter->isDefaultValueAvailable();
+                $parameters[$parameter->getName()] = [
+                    'validators' => array_map(function (ReflectionAttribute $attribute): BaseValidator {
+                        return $attribute->newInstance();
+                    }, $attributes),
+                    'hasDefault' => $hasDefault,
+                    'default' => $hasDefault ? $parameter->getDefaultValue() : null,
+                    'sensitive' => !empty($parameter->getAttributes(\SensitiveParameter::class)),
+                ];
             }
 
             // only cached once complete, so a validator that fails to instantiate fails every call
-            $this->validators[$method] = $validators;
+            $this->parameters[$method] = $parameters;
         }
 
-        return $this->validators[$method];
+        return $this->parameters[$method];
     }
 
     /**
@@ -133,14 +154,22 @@ class ParameterValidator
         return true;
     }
 
+    /**
+     * @param ReflectionAttribute<BaseValidator> $attribute
+     */
     private function describeAttribute(ReflectionAttribute $attribute): string
     {
-        $arguments = [];
-        foreach ($attribute->getArguments() as $name => $argument) {
-            $arguments[] = (is_string($name) ? $name . ': ' : '') . $this->describeValue($argument);
-        }
-
         $shortName = $this->getShortClassName($attribute->getName());
+
+        try {
+            $arguments = [];
+            foreach ($attribute->getArguments() as $name => $argument) {
+                $arguments[] = (is_string($name) ? $name . ': ' : '') . $this->describeValue($argument);
+            }
+        } catch (Throwable $e) {
+            // an argument that cannot be evaluated (e.g. a constant of a missing class) must not break the listing
+            return $shortName;
+        }
 
         return empty($arguments) ? $shortName : $shortName . '(' . implode(', ', $arguments) . ')';
     }

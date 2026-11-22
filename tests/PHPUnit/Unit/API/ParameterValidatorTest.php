@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Tests\Unit\API;
 
 use Attribute;
@@ -22,6 +24,11 @@ use ReflectionMethod;
 
 class ParameterValidatorTestApi extends \Piwik\Plugin\API
 {
+    /**
+     * @param mixed $status
+     * @param mixed $idSites
+     * @param mixed $unchecked
+     */
     public function getUsers(
         #[NumberRange(0)] ?int $limit = null,
         #[WhitelistedValue(['active', 'pending'])] $status = null,
@@ -33,11 +40,44 @@ class ParameterValidatorTestApi extends \Piwik\Plugin\API
 
         return 'ok';
     }
+
+    /**
+     * @param mixed $period
+     */
+    // @phpstan-ignore matomo.apiValidation.rejectedDefault (the default deliberately fails, it must be skipped at runtime)
+    public function getReport(#[WhitelistedValue(['day', 'week'])] $period = false): string
+    {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
+        return 'ok';
+    }
+
+    public function confirm(
+        #[NumberRange(1000, max: 9999)]
+        #[\SensitiveParameter]
+        ?int $pin = null
+    ): string {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+
+        return 'ok';
+    }
+
+    public function getWithUnresolvableArgument(
+        #[NumberRange(\Piwik\Tests\Unit\API\ParameterValidatorTestMissingClass::MIN)] ?int $limit = null // @phpstan-ignore class.notFound
+    ): void {
+        $this->checkParameters(__METHOD__, get_defined_vars());
+    }
 }
 
 class ParameterValidatorTestChildApi extends ParameterValidatorTestApi
 {
-    // overrides without repeating the attributes, the parent's validators still apply
+    /**
+     * Overrides without repeating the attributes, the parent's validators still apply.
+     *
+     * @param mixed $status
+     * @param mixed $idSites
+     * @param mixed $unchecked
+     */
     public function getUsers(?int $limit = null, $status = null, string $name = 'jane', $idSites = null, $unchecked = null): string
     {
         return parent::getUsers($limit, $status, $name, $idSites, $unchecked);
@@ -52,6 +92,10 @@ class ParameterValidatorTestFailingValidator extends BaseValidator
         throw new \RuntimeException('cannot be created');
     }
 
+    /**
+     * @param mixed $value
+     * @return void
+     */
     public function validate($value)
     {
     }
@@ -59,6 +103,9 @@ class ParameterValidatorTestFailingValidator extends BaseValidator
 
 class ParameterValidatorTestBrokenApi extends \Piwik\Plugin\API
 {
+    /**
+     * @param mixed $value
+     */
     public function get(#[ParameterValidatorTestFailingValidator] $value = null): string
     {
         $this->checkParameters(__METHOD__, get_defined_vars());
@@ -95,6 +142,18 @@ class ParameterValidatorTest extends TestCase
         $this->assertSame('ok', $this->api->getUsers());
     }
 
+    public function testDeclaredDefaultIsSkipped(): void
+    {
+        // `false` is not whitelisted, but as the declared default it is not validated
+        $this->assertSame('ok', $this->api->getReport());
+        $this->assertSame('ok', $this->api->getReport(false));
+        $this->assertSame('ok', $this->api->getReport('week'));
+
+        $this->assertSame(['period'], $this->getViolatedParameters(function () {
+            $this->api->getReport('month');
+        }));
+    }
+
     public function testNamedArgumentsAreChecked(): void
     {
         $this->assertSame(['name'], $this->getViolatedParameters(function () {
@@ -111,6 +170,20 @@ class ParameterValidatorTest extends TestCase
             $this->assertSame(400, $e->getCode());
             $this->assertSame(['limit', 'status', 'idSites'], array_column($e->getViolations(), 'parameter'));
             $this->assertSame(2, substr_count($e->getMessage(), '; '));
+        }
+    }
+
+    public function testSensitiveParameterGetsAGenericMessage(): void
+    {
+        try {
+            $this->api->confirm(42);
+            $this->fail('Expected a ParameterValidationException');
+        } catch (ParameterValidationException $e) {
+            $this->assertSame(
+                [['parameter' => 'pin', 'message' => 'General_ValidatorErrorInvalidValue']],
+                $e->getViolations()
+            );
+            $this->assertStringNotContainsString('42', $e->getMessage());
         }
     }
 
@@ -154,6 +227,15 @@ class ParameterValidatorTest extends TestCase
             'name' => ['CharacterLength(1, max: 5)'],
             'idSites' => ['IdSites(allowAll: true)'],
         ], $descriptions);
+    }
+
+    public function testDescribeFallsBackToTheValidatorNameForUnresolvableArguments(): void
+    {
+        $descriptions = (new ParameterValidator())->describe(
+            new ReflectionMethod(ParameterValidatorTestApi::class, 'getWithUnresolvableArgument')
+        );
+
+        $this->assertSame(['limit' => ['NumberRange']], $descriptions);
     }
 
     /**

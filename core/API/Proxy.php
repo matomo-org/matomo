@@ -444,13 +444,18 @@ class Proxy
     }
 
     /**
-     * Returns the validator attributes of each parameter of the given method, as they are written.
+     * Returns the validator attributes of each parameter of the given method with their arguments.
      *
      * @return array<string, list<string>>
      */
-    public function getParameterRules($class, $methodName): array
+    public function getParameterRules(string $class, string $methodName): array
     {
-        return $this->metadataArray[$class][$methodName]['rules'] ?? [];
+        if (!method_exists($class, $methodName)) {
+            return [];
+        }
+
+        // read on demand, as only the API reference needs them
+        return StaticContainer::get(ParameterValidator::class)->describe(new ReflectionMethod($class, $methodName));
     }
 
     /**
@@ -663,7 +668,6 @@ class Proxy
         $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
         $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
         $this->metadataArray[$class][$name]['unsanitizedInputParams'] = false !== strstr($docComment, '@unsanitized');
-        $this->metadataArray[$class][$name]['rules'] = StaticContainer::get(ParameterValidator::class)->describe($method);
     }
 
     /**
