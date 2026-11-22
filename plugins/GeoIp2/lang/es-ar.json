@@ -1,8 +1,6 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "No se puede encontrar la función \"apache_get_modules\", asumiendo que se posee un servidor de internet no-Apache.",
-        "AutomaticSetup": "",
-        "AutomaticSetupDescription": "",
         "CannotFindGeoIPDatabaseInArchive": "¡No se pudo encontrar una base de datos válida de DBIP / GeoIP en el archivo tar %1$s!",
         "CannotFindGeoIPServerVar": "La variable %s no está especificada. Tu servidor puede no estar configurado correctamente.",
         "CannotListContent": "No se pudo enumerar el contenido de %1$s: %2$s",
@@ -34,9 +32,7 @@
         "HttpServerModule": "Módulo servidor HTTP",
         "IPurchasedGeoIPDBs": "Compré más base de datos precisas de %3$sdbip%4$s o %1$sMaxMind%2$s y quiero configurar las actualizaciones automáticas.",
         "ISPDatabase": "Base de datos de ISP",
-        "ISPRequiresProviderPlugin": "",
         "IWantToDownloadFreeGeoIP": "Quiero descargar la base de datos gratuita de DBIP…",
-        "InvalidGeoIPUpdateHost": "",
         "InvalidGeoIPUpdatePeriod": "Período no válido para el actualizador GeoIP: %1$s. Los valores correctos son %2$s.",
         "LocationDatabase": "Base de datos de ubicaciones",
         "LocationDatabaseHint": "Una base de datos de ubicación es una base de datos, ya sea de país, región o ciudad.",
@@ -44,8 +40,6 @@
         "LocationProviderDesc_Php_WithExtension": "Este proveedor de ubicación se acelera al instalar la extensión %1$sMaxMindDB%2$s.",
         "LocationProviderDesc_ServerModule": "Este proveedor de ubicación utiliza el módulo GeoIP2 que se instaló en tu servidor HTTP. Este proveedor es fiable y rápido, pero %1$ssólo puede ser usado con el rastreo común de los navegadores web.%2$s",
         "LocationProviderDesc_ServerModule2": "Si tenés que importar archivos de registro o cualquier otra acción que requiera configurar direcciones IP, usá la %3$simplementación GeoIP2 PHP%4$s e instalá la extensión %1$sMaxMindDB%2$s.",
-        "MalFormedUpdateUrl": "",
-        "NotManagingGeoIPDBs": "",
         "PluginDescription": "Ofrece proveedores de geolocalización DBIP / GeoIP2.",
         "ServerBasedVariablesConfiguration": "Configuración para variables de servidor usadas por los módulos de servidor GeoIP2",
         "ServerVariableFor": "Variable de servidor para %s",

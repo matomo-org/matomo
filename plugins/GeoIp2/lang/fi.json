@@ -29,7 +29,6 @@
         "HowToSetupGeoIPIntro": "Vaikuttaa, ettei sinulla ole tarkkaa Geopaikannus asennusta. Ilman tätä hyödyllistä toimintoa et näe tarkkoja tietoja kävijöidesi sijannista. Näin voit aloittaa Geopaikannuksen käytön nopeasti:",
         "HowToSetupGeoIP_Step1": "%1$sLataa%2$s DBIP City Lite -tietokanta palvelusta %3$sdbip%4$s.",
         "HowToSetupGeoIP_Step2": "Pura tämä tiedosto ja kopioi tulos, %1$s, Matomon alihakemistoon %2$smisc%3$s ja nimeä se uudelleen nimellä %4$s (voit tehdä tämän joko FTP:n tai SSH:n kautta).",
-        "HowToSetupGeoIP_Step3": "",
         "HowToSetupGeoIP_Step4": "Valmista! Olet juuri määrittänyt Matomon käyttämään DBIP:tä, mikä tarkoittaa, että näet kävijöidesi alueet ja kaupungit sekä erittäin tarkat maatiedot.",
         "HttpServerModule": "HTTP-palvelimen moduuli",
         "IPurchasedGeoIPDBs": "Ostin tarkempia tietokantoja palvelusta %3$sdbip%4$s tai %1$sMaxMind%2$s ja haluan määrittää automaattiset päivitykset.",

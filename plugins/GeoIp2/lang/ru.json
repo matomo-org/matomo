@@ -1,9 +1,6 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "Не удается найти apache_get_modules функцию, видимо, это не веб-сервер Apache.",
-        "AutomaticSetup": "",
-        "AutomaticSetupDescription": "",
-        "CannotFindGeoIPDatabaseInArchive": "",
         "CannotFindGeoIPServerVar": "Переменная %s не установлена. Ваш сервер не может быть сконфигурирован правильно.",
         "CannotListContent": "Не удалось перечислить содержимое для %1$s: %2$s",
         "CannotSetupGeoIPAutoUpdating": "Похоже, вы храните свои базы геолокации за пределами Matomo (мы можем сказать, что в подкаталоге misc нет баз данных, но ваш GeoIP работает). Matomo не может автоматически обновлять ваши базы геолокации, если они находятся за пределами каталога misc.",
@@ -28,25 +25,15 @@
         "HowToSetupGeoIP": "Как настроить точную геолокацию с помощью dbip",
         "HowToSetupGeoIPIntro": "Кажется, что у вас не настроено определено локации посетителей с помощью GeoIP. Это полезная \"штука\" - без нее вы не сможете достаточно точно определять местонахождение посетителей. И вот как вы можете быстро все настроить:",
         "HowToSetupGeoIP_Step1": "%1$sЗагрузите%2$s базу данных DBIP City Lite с %3$s dbip%4$s.",
-        "HowToSetupGeoIP_Step2": "",
-        "HowToSetupGeoIP_Step3": "",
         "HowToSetupGeoIP_Step4": "Вы только что настроили Matomo для использования DBIP, что означает, что вы сможете видеть регионы и города ваших посетителей вместе с очень точной информацией о стране.",
         "HttpServerModule": "HTTP Серверный модуль",
-        "IPurchasedGeoIPDBs": "",
         "ISPDatabase": "База провайдеров",
-        "ISPRequiresProviderPlugin": "",
         "IWantToDownloadFreeGeoIP": "Я хочу скачать бесплатную базу данных DBIP…",
-        "InvalidGeoIPUpdateHost": "",
-        "InvalidGeoIPUpdatePeriod": "",
         "LocationDatabase": "Расположение базы данных",
         "LocationDatabaseHint": "Расположение базы данных страны, региона или города.",
-        "LocationProviderDesc_Php": "",
         "LocationProviderDesc_Php_WithExtension": "Этот механизм определения местонахождения ускорен установленным расширением %1$smaxminddb%2$s.",
         "LocationProviderDesc_ServerModule": "Этот механизм определения местонахождения использует модуль GeoIP 2, установленный на ваш HTTP-сервер. Он быстр и точен, но %1$s может быть использован только при отслеживании обычных браузеров.%2$s",
         "LocationProviderDesc_ServerModule2": "Если вам нужно импортировать лог-файлы или сделать что-то еще, требующее использование IP-адресов, используйте %3$sPHP GeoIp 2%4$s и установите расширение %1$smaxminddb%2$s.",
-        "MalFormedUpdateUrl": "",
-        "NotManagingGeoIPDBs": "",
-        "PluginDescription": "",
         "ServerBasedVariablesConfiguration": "Конфигурация серверных переменных, использованная модулями сервера GeoIP 2.",
         "ServerVariableFor": "Серверная переменная для %s",
         "SetupAutomaticUpdatesOfGeoIP": "Настройка автоматических обновлений баз геолокации",
@@ -54,9 +41,6 @@
         "ThisUrlIsNotAValidGeoIPDB": "Загруженный файл не является действительной базой данных геолокации. Пожалуйста, проверьте URL или скачайте файл вручную.",
         "UnsupportedArchiveType": "Встретился неподдерживаемый тип архива %1$s.",
         "UpdaterHasNotBeenRun": "Обновления никогда не производились.",
-        "UpdaterIsNotScheduledToRun": "",
-        "UpdaterScheduledForNextRun": "Это запланированный запуск команды core:archive при следующем выполнении cron-задачи.",
-        "UpdaterWasLastRun": "",
-        "UpdaterWillRunNext": ""
+        "UpdaterScheduledForNextRun": "Это запланированный запуск команды core:archive при следующем выполнении cron-задачи."
     }
 }
