@@ -9,6 +9,7 @@
         "Intro": "Med Matomo kan du %1$seksportere dine webanalyserapporter%2$s til din blog, din hjemmeside eller dit intranet-kontrolpanel… med ét klik.",
         "OpenInNewWindow": "Åbn i et nyt vindue",
         "PluginDescription": "Viser alle Matomo rapport på webstedet eller app med et simpel indlejrings HTML-tag.",
+        "Reports": "",
         "SelectAReport": "Vælg en rapport, og kopiér indlejringskoden under widgetten ind på din side:",
         "TooHighAccessLevel": "Denne bruger har superbrugeradgang. Det er ikke tilladt at indlejre widgets med godkendelse via en superbrugers token. %1$sSe FAQ'en for at få flere oplysninger.%2$s",
         "TopLinkTooltip": "Eksporter Matomo rapporter som moduler og indlejre dit kontrolpanel i din applikation som en iframe.",

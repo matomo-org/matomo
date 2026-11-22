@@ -47,6 +47,7 @@
         "Settings_VerificationCodeJustSent": "Vi har netop sendt en sms med en kode til dette nummer: indtast koden ovenfor, og klik på \"Bekræft\".",
         "TooManyUnverifiedNumbersError": "Du kan ikke tilføje mere end 3 ubekræftede telefonnumre!",
         "TopLinkTooltip": "Få web analyse rapporter leveret til din indbakke eller din mobiltelefon!",
+        "UserKey": "",
         "VerificationCodeRecentlySentError": "Der er allerede for nylig anmodet om en bekræftelseskode til telefonnummeret %1$s.",
         "VerificationText": "Koden er %1$s. For at validere dit telefonnummer og modtage Matomos sms-rapporter, kopier koden til formularen på Matomo → %2$s → %3$s."
     }
