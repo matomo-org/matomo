@@ -1,7 +1,22 @@
 {
     "Overlay": {
+        "Clicks": "",
+        "ClicksFromXLinks": "",
         "Domain": "Domena",
+        "ErrorNoSiteUrls": "",
+        "ErrorNotLoading": "",
+        "ErrorNotLoadingDetails": "",
+        "ErrorNotLoadingDetailsSSL": "",
+        "ErrorNotLoadingLink": "",
         "Link": "Poveznica",
-        "Location": "Lokacija"
+        "Location": "Lokacija",
+        "NoData": "",
+        "OneClick": "",
+        "OpenFullScreen": "",
+        "Overlay": "",
+        "PluginDescription": "",
+        "RedirectUrlError": "",
+        "RedirectUrlErrorAdmin": "",
+        "RedirectUrlErrorUser": ""
     }
 }

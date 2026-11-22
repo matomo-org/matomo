@@ -17,6 +17,7 @@
         "EvolutionFromPreviousPeriod": "Od prethodnog razdoblja",
         "EvolutionFromPreviousWeek": "Od prethodnog tjedna",
         "EvolutionFromPreviousYear": "Od prethodne godine",
+        "HitsIncludingAiTooltip": "",
         "LoadingWebsites": "Učitavanje web-stranica",
         "MetricDocumentationAiChatbotsRequests": "Ukupni broj snimljenih zahtjeva UI-chatbotova za ovu we-stranicu.",
         "MetricDocumentationEvolution": "Postotna promjena ovog mjernog podatka u usporedbi s prethodnim razdobljem za ovu web-stranicu. Pozitivna vrijednost označava rast, negativna ukazuje na pad.",

@@ -33,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Stvarno želiš postaviti trenutačni odabir widgeta i raspored nadzorne ploče kao zadani predložak nadzorne ploče?",
         "SetAsDefaultWidgetsConfirmHelp": "Ovaj odabir widgeta i raspored stupaca nadzorne ploče koristit će se kada bilo koji korisnik stvori novu nadzornu ploču ili kada se koristi funkcija „%s”.",
         "TopLinkTooltip": "Prikaži izvještaje web analitike za %s.",
+        "TopMenuTitle": "",
         "WidgetNotFound": "Widget nije pronađen",
         "WidgetPreview": "Predpregled widgeta"
     }
