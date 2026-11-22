@@ -12,6 +12,8 @@
         "ClickToEditX": "Klikk for å redigere %s",
         "ClickToSeeFullInformation": "Klikk her for å se mer informasjon",
         "CloseWidgetDirections": "Lukk dette elementet ved å klikke på «X»-ikonet over miniprogrammet.",
+        "ConsentState": "",
+        "ConsentStateConsented": "",
         "CopyModalNote": "%1$sMerk:%2$s Den kopierte %3$s må kanskje justeres hvis den inneholder referanser som gjelder det opprinnelige nettstedet. Gå gjennom innstillingene for å sikre at alt fungerer.",
         "CopyX": "Kopier %1$s",
         "CopyXDescription": "Velg nettstedet som denne %1$s skal kopieres til. Dette lager en nøyaktig kopi, inkludert innstillinger, på det valgte nettstedet.",
