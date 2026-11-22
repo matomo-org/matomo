@@ -1,35 +1,10 @@
 {
     "Insights": {
-        "ControlComparedToDescription": "",
-        "ControlFilterByDescription": "",
-        "DatePeriodCombinationNotSupported": "",
         "DayComparedToPreviousDay": "día anterior",
         "DayComparedToPreviousWeek": "o mesmo día a semana anterior",
         "DayComparedToPreviousYear": "o mesmo día o ano anterior",
-        "Filter": "",
-        "FilterIncreaserAndDecreaser": "",
-        "FilterOnlyDecreaser": "",
-        "FilterOnlyDisappeared": "",
-        "FilterOnlyIncreaser": "",
-        "FilterOnlyMovers": "",
-        "FilterOnlyNew": "",
-        "IgnoredChanges": "",
         "MonthComparedToPreviousMonth": "o mes anterior",
         "MonthComparedToPreviousYear": "o mesmo mes o ano anterior",
-        "MoversAndShakersWidgetTitle": "",
-        "NoResultMatchesCriteria": "",
-        "OverviewWidgetTitle": "",
-        "PluginDescription": "",
-        "TitleConsideredInsightsChanges": "",
-        "TitleConsideredInsightsGrowth": "",
-        "TitleConsideredMoversAndShakersChanges": "",
-        "TitleConsideredMoversAndShakersGrowth": "",
-        "TitleRowChangeDetails": "",
-        "TitleRowDisappearedDetails": "",
-        "TitleRowMoverAndShaker": "",
-        "TitleRowNewDetails": "",
-        "WeekComparedToPreviousWeek": "a semana anterior",
-        "WidgetCategory": "",
-        "YearComparedToPreviousYear": ""
+        "WeekComparedToPreviousWeek": "a semana anterior"
     }
 }
