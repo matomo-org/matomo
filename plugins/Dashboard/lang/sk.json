@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Skopírovať nástenku pre používateľa",
         "CreateNewDashboard": "Vytvoriť novú nástenku",
         "Dashboard": "Nástenka",
+        "DashboardCategoryHelp": "",
         "DashboardCopied": "Aktuálna nástenka bola úspešne skopírovaná pre vybraného používateľa.",
         "DashboardEmptyNotification": "Vaša nástenka neobsahuje žiadne miniaplikácie. Začnite pridaním nejakých miniaplikácií alebo iba resetujte nástenku na výber prednastavených miniaplikácií.",
         "DashboardName": "Názov panelu:",
@@ -13,6 +14,7 @@
         "DefaultDashboard": "Prednastavený panel - používa výber prednastavených miniaplikácií a stĺpcové rozloženie",
         "DeleteWidgetConfirm": "Ste si istý, že chcete odstrániť miniaplikáciu z panela?",
         "EmptyDashboard": "Prázdna nástenka - vyberte si svoje preferované miniaplikácie",
+        "ExportThisDashboard": "",
         "LoadingWidget": "Načítavanie miniaplikácie, prosím čakajte…",
         "ManageDashboard": "Spravovať nástenku",
         "Maximise": "Maximalizovať",
@@ -31,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Naozaj chcete nastaviť aktuálny výber miniaplikácií a rozvrhnutie nástenky ako prednastavenú šablónu panela?",
         "SetAsDefaultWidgetsConfirmHelp": "Tento výber miniaplikácií a stĺpcové rozvrhnutie nástenky bude použitý ak hociktorý užívateľ vytvorí nový panel, alebo keď je použitá črta \"%s\" .",
         "TopLinkTooltip": "Prezeranie reportov webovej analytiky pre %s.",
+        "TopMenuTitle": "",
         "WidgetNotFound": "Miniaplikácia nebola nájdená",
         "WidgetPreview": "Náhľad na miniaplikáciu"
     }

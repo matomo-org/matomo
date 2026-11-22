@@ -1,6 +1,18 @@
 {
     "API": {
+        "ChangeTokenHint": "",
+        "EvolutionMetricName": "",
+        "GenerateVisits": "",
+        "Glossary": "",
+        "KeepTokenSecret": "",
+        "LearnAboutCommonlyUsedTerms2": "",
         "LoadedAPIs": "Úspešne načítané %s API",
-        "UserAuthentication": "Overenie užívateľa"
+        "MainMetricsReportDocumentation": "",
+        "MoreInformation": "",
+        "PluginDescription": "",
+        "ReportingApiReference": "",
+        "TopLinkTooltip": "",
+        "UserAuthentication": "Overenie užívateľa",
+        "UsingTokenAuth": ""
     }
 }

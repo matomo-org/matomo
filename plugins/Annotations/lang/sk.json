@@ -9,6 +9,7 @@
         "ClickToStarOrUnstar": "Klknutím označíte alebo odznačíte hviezdičkou anotáciu.",
         "CreateNewAnnotation": "Vytvoriť novú anotáciu…",
         "EnterAnnotationText": "Vložte svoju poznámku…",
+        "HideAnnotations": "",
         "HideAnnotationsFor": "Skryť anotáciu pre %s…",
         "IconDesc": "Pozrieť poznámky pre tento časový rozsah.",
         "IconDescHideNotes": "Skryť poznámky pre tento časový rozsah.",
@@ -16,6 +17,7 @@
         "LoginToAnnotate": "Prihláste sa pre vytvorenie anotácie.",
         "NoAnnotations": "Pre tento časový rozsah nie sú anotácie.",
         "PluginDescription": "Dovoľuje vám pridať poznámky k jednotlivým dňom na označenie zmien na stránke, zaznamenanie analýz vašich dát a zdieľanie myšlienok s kolegami. Anotovaním vašich dát zaistíte, že v budúcnosti budete vedieť, prečo vaše dáta vyzerajú tak, ako vyzerajú.",
+        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Zobraziť a pridať anotácie pre %s…",
         "YouCannotModifyThisNote": "Nemôžete upraviť túto anotáciu, pretože ste ju nevytvorili, ani nemáte administrátorský prístup pre túto stránku."
     }

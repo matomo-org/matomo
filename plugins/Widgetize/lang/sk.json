@@ -1,5 +1,21 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Otvoriť v novom okne"
+        "DirectLink": "",
+        "DisplayDashboardInIframe": "",
+        "DisplayDashboardInIframeAllSites": "",
+        "EmbedIframe": "",
+        "ErrorTokenAuthFailed": "",
+        "ErrorTokenAuthFailedDisabledByPolicy": "",
+        "Intro": "",
+        "OpenInNewWindow": "Otvoriť v novom okne",
+        "PluginDescription": "",
+        "Reports": "",
+        "SelectAReport": "",
+        "TooHighAccessLevel": "",
+        "TopLinkTooltip": "",
+        "UrlTokensDisabledByPolicy": "",
+        "ViewAccessRequired": "",
+        "ViewableAnonymously": "",
+        "ViewableAnonymouslyUrlTokenRequirement": ""
     }
 }
