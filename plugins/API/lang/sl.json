@@ -1,8 +1,18 @@
 {
     "API": {
+        "ChangeTokenHint": "",
+        "EvolutionMetricName": "",
+        "GenerateVisits": "",
+        "Glossary": "",
         "KeepTokenSecret": "Ta žeton je skriven, kot vaše uporabniško ime in geslo, %1$s ne delite ga z drugimi %2$s!",
+        "LearnAboutCommonlyUsedTerms2": "",
         "LoadedAPIs": "Uspešno naloženih %s API-jev",
+        "MainMetricsReportDocumentation": "",
         "MoreInformation": "Za več informacij o Matomo API-ju, si oglejte %1$sNavodila za uporabo Matomo API-ja %2$s in %3$s Matomo API Reference %4$s.",
-        "UserAuthentication": "Overitev uporabnika"
+        "PluginDescription": "",
+        "ReportingApiReference": "",
+        "TopLinkTooltip": "",
+        "UserAuthentication": "Overitev uporabnika",
+        "UsingTokenAuth": ""
     }
 }

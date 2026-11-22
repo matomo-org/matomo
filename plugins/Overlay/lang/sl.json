@@ -1,5 +1,22 @@
 {
     "Overlay": {
-        "Location": "Lokacija"
+        "Clicks": "",
+        "ClicksFromXLinks": "",
+        "Domain": "",
+        "ErrorNoSiteUrls": "",
+        "ErrorNotLoading": "",
+        "ErrorNotLoadingDetails": "",
+        "ErrorNotLoadingDetailsSSL": "",
+        "ErrorNotLoadingLink": "",
+        "Link": "",
+        "Location": "Lokacija",
+        "NoData": "",
+        "OneClick": "",
+        "OpenFullScreen": "",
+        "Overlay": "",
+        "PluginDescription": "",
+        "RedirectUrlError": "",
+        "RedirectUrlErrorAdmin": "",
+        "RedirectUrlErrorUser": ""
     }
 }
