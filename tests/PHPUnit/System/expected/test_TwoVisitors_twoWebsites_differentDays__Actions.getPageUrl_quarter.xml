@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<row>
+			<label>/index.htm</label>
+			<nb_visits>9</nb_visits>
+			<nb_hits>9</nb_hits>
+			<sum_time_spent>2880</sum_time_spent>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth />
+			<max_bandwidth />
+			<entry_nb_visits>9</entry_nb_visits>
+			<entry_nb_actions>41</entry_nb_actions>
+			<entry_sum_visit_length>7208</entry_sum_visit_length>
+			<entry_bounce_count>1</entry_bounce_count>
+			<exit_nb_visits>1</exit_nb_visits>
+			<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
+			<sum_daily_entry_nb_uniq_visitors>9</sum_daily_entry_nb_uniq_visitors>
+			<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+			<avg_time_on_page>320</avg_time_on_page>
+			<bounce_rate>11%</bounce_rate>
+			<exit_rate>11%</exit_rate>
+			<avg_bandwidth>0</avg_bandwidth>
+			<url>http://example.org/index.htm</url>
+		</row>
+	</result>
+	<result idSite="2" />
+</results>

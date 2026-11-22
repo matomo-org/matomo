@@ -1252,7 +1252,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage(
-            'Report period must be one of the following: day, week, month, year (got ' . $invalidPeriod . ')'
+            'Report period must be one of the following: day, week, month, quarter, year (got ' . $invalidPeriod . ')'
         );
 
         self::setSuperUser();
@@ -1335,7 +1335,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage(
-            'Report period must be one of the following: day, week, month, year (got ' . $invalidPeriod . ')'
+            'Report period must be one of the following: day, week, month, quarter, year (got ' . $invalidPeriod . ')'
         );
 
         self::setSuperUser();

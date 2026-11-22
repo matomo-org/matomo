@@ -49,7 +49,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $url Page URL to analyze.
      * @param int $idSite The numeric ID of the website to query.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period to process, processes data for the period
      *                                                   containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),

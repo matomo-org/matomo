@@ -52,7 +52,7 @@ class UserIdAndVisitorIdTest extends SystemTestCase
             array(array('VisitsSummary.get', 'VisitsSummary.getUsers'),
                   array('idSite'     => self::$fixture->idSite,
                         'date'       => self::$fixture->dateTime,
-                        'periods'    => array( 'day', 'month', 'week', 'year' ),
+                        'periods'    => array( 'day', 'month', 'quarter', 'week', 'year' ),
                         'testSuffix' => '',
                   )),
 

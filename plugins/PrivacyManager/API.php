@@ -660,6 +660,7 @@ class API extends \Piwik\Plugin\API
      * @param int $keepRange Whether to keep range reports.
      * @param int $keepSegments Whether to keep segmented reports.
      * @param string $passwordConfirmation Current user password confirmation.
+     * @param int $keepQuarter Whether to keep quarter reports.
      * @return bool `true` after the settings have been saved.
      * @internal
      *
@@ -675,7 +676,8 @@ class API extends \Piwik\Plugin\API
         $keepRange = 0,
         $keepSegments = 0,
         #[\SensitiveParameter]
-        string $passwordConfirmation = ''
+        string $passwordConfirmation = '',
+        $keepQuarter = 0
     ): bool {
         Piwik::checkUserHasSuperUserAccess();
         $this->confirmCurrentUserPassword($passwordConfirmation);
@@ -696,6 +698,7 @@ class API extends \Piwik\Plugin\API
         $settings['delete_reports_keep_day_reports']               = (int) $keepDay;
         $settings['delete_reports_keep_week_reports']              = (int) $keepWeek;
         $settings['delete_reports_keep_month_reports']             = (int) $keepMonth;
+        $settings['delete_reports_keep_quarter_reports']           = (int) $keepQuarter;
         $settings['delete_reports_keep_year_reports']              = (int) $keepYear;
         $settings['delete_reports_keep_range_reports']             = (int) $keepRange;
         $settings['delete_reports_keep_segment_reports']           = (int) $keepSegments;

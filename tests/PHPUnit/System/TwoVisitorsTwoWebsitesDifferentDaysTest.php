@@ -61,7 +61,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysTest extends SystemTestCase
         $apiToCall       = $this->getApiToCall();
         $singlePeriodApi = ['VisitFrequency.get', 'VisitsSummary.get', 'Goals.get'];
 
-        $periods = ['day', 'week', 'month', 'year'];
+        $periods = ['day', 'week', 'month', 'quarter', 'year'];
 
         $result = [];
 

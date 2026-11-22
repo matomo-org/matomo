@@ -115,6 +115,15 @@ class UserIdTest extends IntegrationTestCase
         $this->assertNotUsedInAtLeastOneSite($idSites = array(1), 'day', '2014-03-04');
     }
 
+    public function testIsUsedInAtLeastOneSiteShouldDetectUserIdUsedInAnotherMonthOfTheQuarter()
+    {
+        $this->trackPageviewsWithUsers();
+
+        // users were tracked in April, May is in the same quarter
+        $this->assertUsedInAtLeastOneSite($idSites = array(1), 'quarter', '2014-05-20');
+        $this->assertNotUsedInAtLeastOneSite($idSites = array(1), 'quarter', '2014-02-10');
+    }
+
     public function testIsUsedInAtLeastOneSiteShouldDetectItCorrectWithRangeDates()
     {
         $this->trackPageviewsWithUsers();

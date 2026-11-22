@@ -311,6 +311,17 @@ class ModelTest extends IntegrationTestCase
                 false,
             ],
 
+            // quarter period, no child
+            [
+                [
+                    ['date1' => '2015-01-01', 'date2' => '2015-12-31', 'period' => Year::PERIOD_ID, 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                '2015-02-04',
+                'quarter',
+                false,
+            ],
+
             // year period, no child
             [
                 [],
@@ -368,6 +379,17 @@ class ModelTest extends IntegrationTestCase
                 1,
                 '2015-02-10',
                 'month',
+                true,
+            ],
+
+            // quarter period, w/ child
+            [
+                [
+                    ['date1' => '2015-02-01', 'date2' => '2015-02-28', 'period' => Month::PERIOD_ID, 'name' => 'done', 'value' => 1],
+                ],
+                1,
+                '2015-02-10',
+                'quarter',
                 true,
             ],
 

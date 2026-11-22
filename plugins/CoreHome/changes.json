@@ -1,0 +1,7 @@
+[
+    {
+        "title": "New: view your reports by quarter",
+        "description": "You can now select \"Quarter\" in the date picker to view any report for a whole calendar quarter, compare it with the previous quarter or the same quarter last year, and move between quarters with the arrows next to the date.",
+        "version": "6.1.0"
+    }
+]

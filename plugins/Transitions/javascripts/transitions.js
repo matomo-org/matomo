@@ -250,7 +250,7 @@ DataTable_RowActions_Registry.register({
                 }
                 if (piwik.transitionsMaxPeriodAllowed === 'year' && dataTableParams['period'] !== 'day'
                     && dataTableParams['period'] !== 'week' && dataTableParams['period'] !== 'month'
-                    && dataTableParams['period'] !== 'year'
+                    && dataTableParams['period'] !== 'quarter' && dataTableParams['period'] !== 'year'
                 ) {
                     return false;
                 }

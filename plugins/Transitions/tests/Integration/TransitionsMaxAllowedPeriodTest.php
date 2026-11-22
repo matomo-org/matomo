@@ -46,9 +46,9 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
     public function testShouldThrowExceptionIfPeriodNotAllowed()
     {
         $invalidPeriods = [
-            'day' => ['week', 'month', 'year'],
-            'week' => ['month', 'year'],
-            'month' => ['year'],
+            'day' => ['week', 'month', 'quarter', 'year'],
+            'week' => ['month', 'quarter', 'year'],
+            'month' => ['quarter', 'year'],
         ];
         foreach ($invalidPeriods as $period => $invalids) {
             Config::setSetting('Transitions_1', 'max_period_allowed', $period);
@@ -75,8 +75,8 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
             'day' => ['day'],
             'week' => ['day', 'week'],
             'month' => ['day', 'week', 'month'],
-            'year' => ['day', 'week', 'month', 'year'],
-            'all' => ['day', 'week', 'month', 'year'],
+            'year' => ['day', 'week', 'month', 'quarter', 'year'],
+            'all' => ['day', 'week', 'month', 'quarter', 'year'],
         ];
         foreach ($validPeriods as $period => $valids) {
             Config::setSetting('Transitions_1', 'max_period_allowed', $period);

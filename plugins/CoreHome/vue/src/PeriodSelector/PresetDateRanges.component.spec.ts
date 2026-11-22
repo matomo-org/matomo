@@ -171,6 +171,36 @@ describe('PresetDateRanges', () => {
     expect(selectPayload.urlDate).toBe('2026-01-01,2026-03-31');
   });
 
+  it('should select the quarter period for quarter presets when quarter is allowed', async () => {
+    const wrapper = mountComponent({
+      today: new Date('2026-04-01'),
+      allowedPeriods: ['day', 'week', 'month', 'quarter', 'year', 'range'],
+    });
+
+    await wrapper.find('#preset_date_lastQuarter').trigger('change');
+
+    let selectPayload = getSelectPayload(wrapper);
+    expect(selectPayload.period).toBe('quarter');
+    expect(selectPayload.date).toBe('2026-01-01');
+    expect(selectPayload.urlDate).toBe('lastquarter');
+    expect(format(selectPayload.startDate)).toBe('2026-01-01');
+    expect(format(selectPayload.endDate)).toBe('2026-03-31');
+
+    await wrapper.find('#preset_date_thisQuarter').trigger('change');
+
+    selectPayload = getSelectPayload(wrapper);
+    expect(selectPayload.period).toBe('quarter');
+    expect(selectPayload.date).toBe('2026-04-01');
+    expect(selectPayload.urlDate).toBe('today');
+  });
+
+  it('should render quarter presets when only quarter is allowed', () => {
+    const wrapper = mountComponent({ allowedPeriods: ['quarter'] });
+
+    const presetIds = wrapper.findAll('input[type="radio"]').map((input) => input.attributes('id'));
+    expect(presetIds).toEqual(['preset_date_lastQuarter', 'preset_date_thisQuarter']);
+  });
+
   it('should clamp payload date range to min/max dates', async () => {
     const wrapper = mountComponent({
       minDate: new Date('2026-02-14'),

@@ -177,7 +177,7 @@ class API extends \Piwik\Plugin\API
      *                                 - Single site ID (e.g. 1)
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5") or "all"
-     * @param 'day'|'week'|'month'|'year'|'range'|false $period Optional period restriction.
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range'|false $period Optional period restriction.
      * @param string|false $date Optional date or date range restriction.
      * @param string|null|false $segment Custom segment to filter the visits.
      *                                   Example: "referrerName==example.com"
@@ -406,7 +406,7 @@ class API extends \Piwik\Plugin\API
      * Returns the most recent UTC datetime when an action was performed for the given website or websites.
      *
      * @param int|int[] $idSite Website ID or IDs to query.
-     * @param 'day'|'week'|'month'|'year'|'range'|null $period Optional period restriction.
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range'|null $period Optional period restriction.
      * @param string|null $date Optional date or date range restriction.
      * @return string Most recent visit datetime in UTC, or an empty string if none exists.
      */

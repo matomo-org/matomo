@@ -107,6 +107,19 @@ class DateTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * create last quarter object check that it is in the previous quarter, also at the end of a month
+     */
+    public function testLastQuarter()
+    {
+        Date::$now = strtotime('2020-05-05 17:00:00');
+        $this->assertEquals("2020-02-01 00:00:00", Date::lastQuarter()->getDatetime());
+
+        // minus 3 months would overflow from Sep 31st to Oct 1st, which is in the current quarter
+        Date::$now = strtotime('2020-12-31 17:00:00');
+        $this->assertEquals("2020-09-01 00:00:00", Date::lastQuarter()->getDatetime());
+    }
+
+    /**
      * create last year object check that timestamp is correct (midnight)
      */
     public function testLastYear()
@@ -139,6 +152,7 @@ class DateTest extends \PHPUnit\Framework\TestCase
         yield 'relative keyword with trailing text' => ['lastweek-and-more'];
         yield 'relative keyword with surrounding text' => ['x lastmonth y'];
         yield 'relative keyword as suffix' => ['foolastyear'];
+        yield 'quarter keyword with trailing text' => ['lastquarter-and-more'];
     }
 
     /**
@@ -155,6 +169,8 @@ class DateTest extends \PHPUnit\Framework\TestCase
         yield 'last week (space)' => ['last week', Date::lastWeek()->getTimestamp()];
         yield 'last-week (dash)' => ['last-week', Date::lastWeek()->getTimestamp()];
         yield 'lastmonth' => ['lastmonth', Date::lastMonth()->getTimestamp()];
+        yield 'lastquarter' => ['lastquarter', Date::lastQuarter()->getTimestamp()];
+        yield 'last quarter (space)' => ['last quarter', Date::lastQuarter()->getTimestamp()];
         yield 'lastyear' => ['lastyear', Date::lastYear()->getTimestamp()];
     }
 
@@ -504,6 +520,8 @@ class DateTest extends \PHPUnit\Framework\TestCase
             ['lastmonth', 'UTC-5', '2012-12-01 00:00:00', '2013-01-01 01:00:00'],
             ['last month', 'UTC-5', '2012-12-01 00:00:00', '2013-01-01 06:00:00'],
             ['last-month', 'America/Toronto', '2012-12-01 00:00:00', '2013-01-01 06:00:00'],
+            ['lastQuarter', 'America/Toronto', '2012-09-01 00:00:00', '2013-01-01 01:00:00'],
+            ['last quarter', 'UTC-5', '2012-10-01 00:00:00', '2013-01-01 06:00:00'],
             ['lastYear', 'America/Toronto', '2011-12-31 00:00:00', '2013-01-01 01:00:00'],
             ['lastyear', 'UTC-5', '2011-12-31 00:00:00', '2013-01-01 01:00:00'],
             ['last year', 'UTC-5', '2012-01-01 00:00:00', '2013-01-01 06:00:00'],
@@ -534,6 +552,8 @@ class DateTest extends \PHPUnit\Framework\TestCase
             ['lastmonth', 'UTC+5', '2012-12-01 00:00:00', '2012-12-31 14:00:00'],
             ['last month', 'UTC+5', '2012-12-01 00:00:00', '2012-12-31 19:00:00'],
             ['last-month', 'Antarctica/Mawson', '2012-12-01 00:00:00', '2012-12-31 19:00:00'],
+            ['lastquarter', 'UTC+5', '2012-09-01 00:00:00', '2012-12-31 14:00:00'],
+            ['last-quarter', 'Antarctica/Mawson', '2012-10-01 00:00:00', '2012-12-31 19:00:00'],
             ['lastYear', 'Antarctica/Mawson', '2011-12-31 00:00:00', '2012-12-31 14:00:00'],
             ['lastyear', 'UTC+5', '2011-12-31 00:00:00', '2012-12-31 14:00:00'],
             ['last year', 'UTC+5', '2012-01-01 00:00:00', '2012-12-31 19:00:00'],

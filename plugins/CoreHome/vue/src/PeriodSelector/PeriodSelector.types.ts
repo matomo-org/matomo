@@ -39,7 +39,7 @@ export function getSiteMaxAllowedDate(): Date {
 export const RANGE_PERIOD = 'range';
 
 export type InteractionSource = 'period' | 'preset' | 'calendar' | 'range' | null;
-export type SingleCalendarPeriod = 'day' | 'week' | 'month' | 'year';
+export type SingleCalendarPeriod = 'day' | 'week' | 'month' | 'quarter' | 'year';
 export type CalendarViewport = 'single' | 'range';
 export type UiSelection = HashSyncUiSelection<PresetDateRangeId>;
 
@@ -55,6 +55,7 @@ export function isSingleCalendarPeriod(period: string): period is SingleCalendar
   return period === 'day'
     || period === 'week'
     || period === 'month'
+    || period === 'quarter'
     || period === 'year';
 }
 

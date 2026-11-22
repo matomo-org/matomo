@@ -248,6 +248,10 @@ abstract class Controller
                 'singular' => Piwik::translate('Intl_PeriodMonth'),
                 'plural' => Piwik::translate('Intl_PeriodMonths'),
             ),
+            'quarter' => array(
+                'singular' => Piwik::translate('Intl_PeriodQuarter'),
+                'plural' => Piwik::translate('Intl_PeriodQuarters'),
+            ),
             'year'  => array(
                 'singular' => Piwik::translate('Intl_PeriodYear'),
                 'plural' => Piwik::translate('Intl_PeriodYears'),

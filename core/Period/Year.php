@@ -90,7 +90,8 @@ class Year extends Period
 
     public function getImmediateChildPeriodLabel()
     {
-        return 'month';
+        // quarters can be disabled, in which case months are directly part of years
+        return Factory::isPeriodEnabledForAPI('quarter') ? 'quarter' : 'month';
     }
 
     public function getParentPeriodLabel()

@@ -359,6 +359,7 @@ class ReportsPurger
      * -'delete_reports_keep_day_reports': 1 if daily reports should be kept, 0 if otherwise.
      * -'delete_reports_keep_week_reports': 1 if weekly reports should be kept, 0 if otherwise.
      * -'delete_reports_keep_month_reports': 1 if monthly reports should be kept, 0 if otherwise.
+     * -'delete_reports_keep_quarter_reports': 1 if quarterly reports should be kept, 0 if otherwise.
      * -'delete_reports_keep_year_reports': 1 if yearly reports should be kept, 0 if otherwise.
      * -'delete_reports_keep_range_reports': 1 if range reports should be kept, 0 if otherwise.
      * -'delete_reports_keep_segment_reports': 1 if reports for segments should be kept, 0 if otherwise.

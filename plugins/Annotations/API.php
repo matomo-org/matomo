@@ -179,7 +179,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $idSite One site ID or a comma-separated list of site IDs.
      * @param string|null $date The date of the period.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period type.
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period type.
      * @param int|null $lastN Whether to include the last N periods in the date range.
      * @return array<int, array<int, Annotation>>
      */
@@ -212,7 +212,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $idSite The site ID(s) to get the annotation count for.
      * @param string $date The date of the period.
-     * @param 'day'|'week'|'month'|'year'|'range' $period The period type.
+     * @param 'day'|'week'|'month'|'quarter'|'year'|'range' $period The period type.
      * @param int|null $lastN Whether to get counts for the last N number of periods or not.
      * @param bool $getAnnotationText Whether to include the note text when exactly one annotation exists for a date.
      * @return array<int, array<int, array{0:string, 1:array{count:int, starred:int, note?:string}}>>

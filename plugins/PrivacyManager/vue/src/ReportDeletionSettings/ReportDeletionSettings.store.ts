@@ -25,6 +25,7 @@ export interface ReportDeletionSettings {
   keepDay?: string;
   keepWeek?: string;
   keepMonth?: string;
+  keepQuarter?: string;
   keepYear?: string;
   keepRange?: string;
   keepSegments?: string;
