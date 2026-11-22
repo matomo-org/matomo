@@ -1,18 +1,8 @@
 {
     "API": {
-        "ChangeTokenHint": "",
-        "EvolutionMetricName": "",
-        "GenerateVisits": "",
-        "Glossary": "",
         "KeepTokenSecret": "token_auth นี้จะเป็นความลับในการเข้าสู่ระบบและรหัสผ่านของคุณ %1$s ไม่แชร์ %2$s ได้",
-        "LearnAboutCommonlyUsedTerms2": "",
         "LoadedAPIs": "โหลด API %s สำเร็จแล้ว",
-        "MainMetricsReportDocumentation": "",
         "MoreInformation": "สำหรับข้อมูลเพิ่มเติมเกี่ยวกับ Matomo APIs โปรดให้ดูที่ %1$s บทนำสู่การใช้ Matomo API %2$s และ %3$s แหล่งที่มาของ Matomo API %4$s.",
-        "PluginDescription": "",
-        "ReportingApiReference": "",
-        "TopLinkTooltip": "",
-        "UserAuthentication": "การรับรองความถูกต้องของผู้ใช้",
-        "UsingTokenAuth": ""
+        "UserAuthentication": "การรับรองความถูกต้องของผู้ใช้"
     }
 }

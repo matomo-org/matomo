@@ -2,7 +2,6 @@
     "API": {
         "ChangeTokenHint": "Si querés cambiar esta clave, por favor, andá a tu %1$spágina personal de configuración%2$s.",
         "EvolutionMetricName": "%s Evolution",
-        "GenerateVisits": "",
         "Glossary": "Glosario",
         "KeepTokenSecret": "Esta token_auth es tan secreta como tu nombre de usuario y contraseña, %1$s ¡no la compartás%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Aprendé más sobre los términos usados comúnmente para sacar el mayor provecho a los análisis de Matomo.",

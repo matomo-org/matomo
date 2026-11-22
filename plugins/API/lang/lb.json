@@ -1,18 +1,1 @@
-{
-    "API": {
-        "ChangeTokenHint": "",
-        "EvolutionMetricName": "",
-        "GenerateVisits": "",
-        "Glossary": "",
-        "KeepTokenSecret": "",
-        "LearnAboutCommonlyUsedTerms2": "",
-        "LoadedAPIs": "",
-        "MainMetricsReportDocumentation": "",
-        "MoreInformation": "",
-        "PluginDescription": "",
-        "ReportingApiReference": "",
-        "TopLinkTooltip": "",
-        "UserAuthentication": "",
-        "UsingTokenAuth": ""
-    }
-}
+{}

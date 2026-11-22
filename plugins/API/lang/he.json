@@ -1,18 +1,8 @@
 {
     "API": {
-        "ChangeTokenHint": "",
-        "EvolutionMetricName": "",
-        "GenerateVisits": "",
-        "Glossary": "",
         "KeepTokenSecret": "הtoken_auth סודי ביותר כמו שם המשתמש והסיסמה, %1$s אין לשתף אף אחד בפרטים אלו%2$s!",
-        "LearnAboutCommonlyUsedTerms2": "",
         "LoadedAPIs": "%s APIים נטענו בהצלחה",
-        "MainMetricsReportDocumentation": "",
         "MoreInformation": "למידע נוסף עבור הAPIים של Matomo, מומלץ להציץ ב%1$sהיכרות עם הAPI של Matomo%2$s וגם ב%3$sהעמקה אודות הAPI של Matomo%4$s.",
-        "PluginDescription": "",
-        "ReportingApiReference": "",
-        "TopLinkTooltip": "",
-        "UserAuthentication": "אימות משתמש",
-        "UsingTokenAuth": ""
+        "UserAuthentication": "אימות משתמש"
     }
 }

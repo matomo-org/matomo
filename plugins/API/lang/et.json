@@ -1,18 +1,8 @@
 {
     "API": {
-        "ChangeTokenHint": "",
-        "EvolutionMetricName": "",
-        "GenerateVisits": "",
         "Glossary": "Sõnastik",
-        "KeepTokenSecret": "",
-        "LearnAboutCommonlyUsedTerms2": "",
         "LoadedAPIs": "Edukalt laetud %s API-id",
-        "MainMetricsReportDocumentation": "",
         "MoreInformation": "Et saada rohkem infot Matomou API-st, vaata %1$sMatomou API tutvustus%2$s ja %3$sMatomou API juhend%4$s.",
-        "PluginDescription": "",
-        "ReportingApiReference": "",
-        "TopLinkTooltip": "",
-        "UserAuthentication": "Kasutaja autentimine",
-        "UsingTokenAuth": ""
+        "UserAuthentication": "Kasutaja autentimine"
     }
 }
