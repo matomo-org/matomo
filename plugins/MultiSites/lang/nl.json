@@ -1,5 +1,7 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "",
+        "AiChatbotsSegmentationTooltip": "",
         "AllWebsitesDashboardDocumentation": "Dit rapport geeft u een informatief overzicht voor elk van uw websites, met de meest algemene statistieken over uw bezoekers.",
         "AllWebsitesDashboardErrorMessage": "Er is momenteel data beschikbaar. Dit kan zijn door een tijdelijk serverprobleem of het rapport dat te veel data bevat. Probeer het later opnieuw. Indien het probleem blijft, contacteer dan uw Matomo-beheerder voor hulp.",
         "AllWebsitesDashboardTitle": "Alle websites",
@@ -15,14 +17,18 @@
         "EvolutionFromPreviousPeriod": "Van vorige periode",
         "EvolutionFromPreviousWeek": "Van vorige week",
         "EvolutionFromPreviousYear": "Van vorig jaar",
+        "HitsIncludingAiTooltip": "",
         "LoadingWebsites": "Websites laden",
+        "MetricDocumentationAiChatbotsRequests": "",
         "MetricDocumentationEvolution": "De procentuele verandering voor deze statistiek vergeleken met de vorige periode voor deze website. Een positieve waarde duidt op groei, terwijl een negatieve waarde een daling aangeeft.",
         "MetricDocumentationHits": "Het totaal aantal geregistreerde acties voor deze website, inclusief paginaweergaven, downloads, en outlinks.",
+        "MetricDocumentationHitsIncludingAi": "",
         "MetricDocumentationPageviews": "Het totaal aantal bekeken pagina's op deze website. Dit is inclusief meerdere weergaven van dezelfde pagina door eenzelfde bezoeker.",
         "MetricDocumentationRevenue": "Het geregistreerde totaal inkomsten voor deze website. Deze statistiek is beschikbaar indien het volgen van e-commerce is ingeschakeld en weerspiegelt aankopen of op doelen gebaseerde inkomsten.",
         "MetricDocumentationVisits": "Het totaal aantal geregistreerde bezoeken voor deze website. Een bezoek begint wanneer een gebruiker de website binnenkomt en eindigt na een periode van inactiviteit of wanneer de sessie verloopt.",
         "MetricDocumentationWebsite": "De lijst met gevolgde websites die in het dashboard wordt getoond. Elke rij toont een afzonderlijke website met de overeenkomstige analysegegevens.",
         "PluginDescription": "Bekijk en vergelijk al uw websites en apps in dit handige 'Alle websites' dashboard.",
+        "SegmentationNotSupported": "",
         "SingleWebsitesDashboardDocumentation": "Dit rapport geeft een informatief overzicht voor een specifieke website met de meest algemene meetgegevens over uw bezoekers.",
         "TopLinkTooltip": "Vergelijk Website statistieken van al je websites."
     }
