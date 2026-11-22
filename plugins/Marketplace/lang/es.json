@@ -155,6 +155,7 @@
         "SearchPlaceholder": "Buscar complementos y temas",
         "SearchPlaceholderWithCount": "Buscar entre %1$s complementos y temas",
         "SeeAll": "Ver todo",
+        "SeeAllInCategory": "",
         "SelectUsers": "Seleccionar usuarios",
         "ShowAllPlugins": "Mostrar todos los complementos",
         "ShownPriceIsExclTax": "El precio mostrado no incluye impuestos.",
