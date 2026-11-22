@@ -309,7 +309,7 @@ class API extends \Piwik\Plugin\API
             // site search referrers are logged with url=NULL
             // when we find one, we have to join on name
             $joinLogActionColumn = $dimension;
-            $selects = ['log_action.name', 'log_action.url_prefix', 'log_action.type'];
+            $selects = ['log_action.name AS `name`', 'log_action.url_prefix', 'log_action.type'];
         } else {
             // specific setup for page titles:
             $types[Action::TYPE_PAGE_TITLE] = 'followingPages';
@@ -492,7 +492,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $selects = [
-            'log_action.name',
+            'log_action.name AS `name`',
             'log_action.url_prefix',
             'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS `is_self`',
             'CASE
