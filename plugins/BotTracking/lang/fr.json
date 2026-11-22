@@ -107,6 +107,15 @@
         "TopPageUrlsLast30MinutesDocumentation": "Affiche les URLs de pages demandées par les chatbots IA au cours des 30 dernières minutes, classées par nombre de requêtes de chatbots.",
         "AIChatbotsRealtimeHelp1": "La page Chatbots IA en temps réel affiche l'activité récente des chatbots IA à partir des données brutes de suivi des robots, incluant le volume de requêtes des chatbots, les URLs de pages uniques et le nombre d'erreurs HTTP.",
         "TopPageUrlsLast8HoursDocumentation": "Affiche les URLs de pages demandées par les chatbots IA au cours des 8 dernières heures, classées par nombre de requêtes de chatbots.",
-        "TopPageUrlsLast8HoursTitle": "Principales URLs de pages - 8 dernières heures"
+        "TopPageUrlsLast8HoursTitle": "Principales URLs de pages - 8 dernières heures",
+        "NoDataHttpTrackingApiInstructions2": "",
+        "NoDataHttpTrackingApiInstructions4": "",
+        "ColumnAIChatbotTrafficRatio": "",
+        "ColumnAIChatbotTrafficRatioDocumentation": "",
+        "NoDataHttpTrackingApiInstructions3": "",
+        "NoDataLinkApiReference": "",
+        "AIChatbotTrafficRatioBelowValue": "",
+        "NoDataHttpTrackingApiInstructions1": "",
+        "AIChatbotTrafficRatioValue": ""
     }
 }

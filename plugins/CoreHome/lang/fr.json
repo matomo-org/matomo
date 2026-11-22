@@ -12,6 +12,8 @@
         "ClickToEditX": "Cliquer pour éditer %s",
         "ClickToSeeFullInformation": "Cliquer pour voir le détail de l'information",
         "CloseWidgetDirections": "Vous pouvez fermer ce widget en cliquant sur l'icône en forme de \"X\" en haut du widget.",
+        "ConsentState": "",
+        "ConsentStateConsented": "",
         "CopyModalNote": "%1$sRemarque :%2$s Le %3$s copié peut nécessiter des ajustements s’il contient des références propres au site web d’origine. Vérifiez les paramètres afin de garantir la compatibilité.",
         "CopyX": "Copier %1$s",
         "CopyXDescription": "Sélectionnez le site web vers lequel copier ce %1$s. Cela créera une copie exacte, y compris les paramètres, dans le site choisi.",
