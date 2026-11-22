@@ -1,21 +1,7 @@
 {
     "Widgetize": {
-        "DirectLink": "",
-        "DisplayDashboardInIframe": "",
-        "DisplayDashboardInIframeAllSites": "",
-        "EmbedIframe": "",
-        "ErrorTokenAuthFailed": "",
-        "ErrorTokenAuthFailedDisabledByPolicy": "",
-        "Intro": "",
         "OpenInNewWindow": "Abrir en una nueva ventana",
         "PluginDescription": "Muestra cualquier informe de Matomo en tu sitio web o aplicación con una simple etiqueta HTML insertada.",
-        "Reports": "",
-        "SelectAReport": "",
-        "TooHighAccessLevel": "",
-        "TopLinkTooltip": "Exportar los informes de Matomo como widgets e insertar el panel en tu aplicación como un iFrame.",
-        "UrlTokensDisabledByPolicy": "",
-        "ViewAccessRequired": "",
-        "ViewableAnonymously": "",
-        "ViewableAnonymouslyUrlTokenRequirement": ""
+        "TopLinkTooltip": "Exportar los informes de Matomo como widgets e insertar el panel en tu aplicación como un iFrame."
     }
 }

@@ -1,21 +1,5 @@
 {
     "Widgetize": {
-        "DirectLink": "",
-        "DisplayDashboardInIframe": "",
-        "DisplayDashboardInIframeAllSites": "",
-        "EmbedIframe": "",
-        "ErrorTokenAuthFailed": "",
-        "ErrorTokenAuthFailedDisabledByPolicy": "",
-        "Intro": "",
-        "OpenInNewWindow": "Agor mewn ffenestr newydd",
-        "PluginDescription": "",
-        "Reports": "",
-        "SelectAReport": "",
-        "TooHighAccessLevel": "",
-        "TopLinkTooltip": "",
-        "UrlTokensDisabledByPolicy": "",
-        "ViewAccessRequired": "",
-        "ViewableAnonymously": "",
-        "ViewableAnonymouslyUrlTokenRequirement": ""
+        "OpenInNewWindow": "Agor mewn ffenestr newydd"
     }
 }
