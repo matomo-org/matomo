@@ -16,8 +16,6 @@
         "ConfirmPasswordResetIntro": "Si us plau, escriviu la vostra nova contrasenya per confirmar que realment heu demanat el canvi.",
         "ConfirmPasswordResetWrongPassword": "La contrasenya introduïda no coincideix amb la que acabeu de crear. Torneu a restablir la vostra contrasenya si no la recordeu. No feu res per mantenir la vostra contrasenya si no heu sol·licitat canviar-la.",
         "ConfirmPasswordToContinue": "Confirmeu la vostra contrasenya per continuar",
-        "ConfirmSecondFactorIntro": "",
-        "ConfirmSecondFactorToContinue": "",
         "ConfirmationLinkPossiblySent": "Si les dades proporcionades estan associades a un compte, rebràs un correu electrònic per confirmar el restabliment de la contrasenya.",
         "ContactAdmin": "Possible motiu: potser el vostre amfitrió hagi desactivat la funció mail(). <br>Contacteu amb el vostre administrador de Matomo.",
         "CreatePasswordDescription": "Assegureu-vos de recordar aquesta contrasenya i deseu-la en un lloc segur.",
@@ -79,7 +77,6 @@
         "PasswordResetEmailAppTokens": "Canviar la contrasenya no revoca automàticament els token específics de l'aplicació. Si sospiteu que hi ha accés no autoritzat, suprimiu els vostres token existents i genereu-ne de nous a la secció de gestió de token.",
         "PasswordResetEmailLinkCancel": "Aquest no era jo",
         "PasswordResetEmailLinkReset": "Restableix la teva contrasenya",
-        "PasswordResetEmailLinkValidity": "",
         "PasswordResetEmailSubject": "Restableix la contrasenya del teu compte de Matomo",
         "PasswordsDoNotMatch": "Les contrasenyes no coincideixen.",
         "PleaseNote": "Si us plau, tingueu en compte",
@@ -97,7 +94,6 @@
         "SettingBruteForceWhitelistIp": "No bloquegeu mai que aquestes IP iniciïn sessió",
         "SettingPasswordStrengthCheck": "Imposa l'ús de contrasenyes fortes",
         "SettingPasswordStrengthCheckHelp": "Obliga els usuaris a crear contrasenyes fortes exigint-los que compleixin una sèrie de regles complexes: %1$s",
-        "SignInIntro": "",
         "SuspiciousLoginAttemptsInLastHourEmail1": "S'ha fet un nombre sospitosament alt d'intents d'inici de sessió al vostre compte de Matomo la darrera hora. Concretament %1$s intents d'inici de sessió des de %2$s adreces IP diferents. És possible que algú estigui intentant entrar al vostre compte.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Feu el següent:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Assegureu-vos que la vostra contrasenya sigui una contrasenya segura i aleatòria d'almenys 30 caràcters.",
@@ -105,10 +101,7 @@
         "SuspiciousLoginAttemptsInLastHourEmail5": "Configureu una llista d'adreces IP per no bloquejar mai si el vostre Matomo té un conjunt limitat d'usuaris o IP des d'on accedir. %1$sLlegiu la documentació per obtenir més informació.%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "S'han fet alguns intents d'inici de sessió sospitosos amb el vostre nom d'usuari…",
         "TimeOfLogin": "Hora d'inici de sessió",
-        "TokenAuthenticationFailed": "",
-        "TokenAuthenticationFailedInsecure": "",
         "UnblockAllIPs": "Desbloqueja totes les IP bloquejades",
-        "WrongPasswordEntered": "Introduïu la vostra contrasenya.",
-        "WrongSecondFactorCode": ""
+        "WrongPasswordEntered": "Introduïu la vostra contrasenya."
     }
 }

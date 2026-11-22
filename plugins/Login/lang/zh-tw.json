@@ -16,8 +16,6 @@
         "ConfirmPasswordResetIntro": "請輸入你的新密碼，以確認你確實要求變更密碼。",
         "ConfirmPasswordResetWrongPassword": "輸入的密碼與你剛設定的新密碼不符。如果你不記得它，可以再次重設密碼。如果你並未要求變更密碼，則不需採取任何動作，你的密碼會保持不變。",
         "ConfirmPasswordToContinue": "確認你的密碼以繼續",
-        "ConfirmSecondFactorIntro": "",
-        "ConfirmSecondFactorToContinue": "",
         "ConfirmationLinkPossiblySent": "如果你提供的資訊對應到某個帳號，你將會收到一封確認密碼重設的 e-mail。",
         "ContactAdmin": "可能原因：你的伺服器可能已經停用了 mail() 函式。<br>請聯絡你的 Matomo 管理員。",
         "CreatePasswordDescription": "請務必記住這個密碼，並將它保管在安全的地方。",
@@ -108,7 +106,6 @@
         "TokenAuthenticationFailed": "無法使用提供的權杖進行驗證，此權杖無效或已過期。",
         "TokenAuthenticationFailedInsecure": "無法使用提供的權杖進行驗證。此權杖可能無效、已過期，或必須以 POST 參數或 HTTP Authorization 標頭的方式傳送。如果權杖建立時勾選了「僅允許安全的請求」選項，就必須以 POST 參數或 HTTP Authorization 標頭傳送。",
         "UnblockAllIPs": "解除所有被封鎖的 IP",
-        "WrongPasswordEntered": "請輸入你的密碼。",
-        "WrongSecondFactorCode": ""
+        "WrongPasswordEntered": "請輸入你的密碼。"
     }
 }

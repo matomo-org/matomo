@@ -16,8 +16,6 @@
         "ConfirmPasswordResetIntro": "Por favor, teclee su contraseña nueva para confirmar que realmente solicitó su cambio de contraseña.",
         "ConfirmPasswordResetWrongPassword": "La contraseña que ingresaste no coincide con la que creaste recientemente. Restablece tu contraseña si no la recuerdas. No hagas nada para conservar tu contraseña si no solicitaste cambiarla.",
         "ConfirmPasswordToContinue": "Confirme su contraseña a continuación",
-        "ConfirmSecondFactorIntro": "",
-        "ConfirmSecondFactorToContinue": "",
         "ConfirmationLinkPossiblySent": "Si los datos proporcionados están asociados a una cuenta, recibirá un correo electrónico para confirmar el restablecimiento de la contraseña.",
         "ContactAdmin": "Razón posible: el administrador puede haber inhabilitada la función mail(). <br>Por favor contáctele con su administrador de Matomo.",
         "CreatePasswordDescription": "Asegúrate de recordar esta contraseña y guárdala en un lugar seguro.",
@@ -108,7 +106,6 @@
         "TokenAuthenticationFailed": "No se ha podido autenticar con el token proporcionado. No es válido o ha caducado.",
         "TokenAuthenticationFailedInsecure": "No se ha podido autenticar con el token proporcionado. No es válido, ha caducado o debe enviarse como parámetro POST o en el encabezado HTTP Authorization. Si el token se creó con la opción «Permitir solo solicitudes seguras», debe enviarse como parámetro POST o en el encabezado HTTP Authorization.",
         "UnblockAllIPs": "Desbloquear todas las IP bloqueadas",
-        "WrongPasswordEntered": "Por favor, introduzca la contraseña.",
-        "WrongSecondFactorCode": ""
+        "WrongPasswordEntered": "Por favor, introduzca la contraseña."
     }
 }
