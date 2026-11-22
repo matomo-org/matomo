@@ -111,6 +111,11 @@
         "AIChatbotTrafficRatioBelowValue": "&lt;%1$s×",
         "AIChatbotTrafficRatioValue": "%1$s×",
         "ColumnAIChatbotTrafficRatio": "Poměr požadavků AI chatbotů k zobrazením stránek",
-        "ColumnAIChatbotTrafficRatioDocumentation": "Poměr požadavků AI chatbotů k zobrazením stránek lidmi, ať už přímo, nebo prostřednictvím AI agentů. Hodnota 2,0× znamená, že požadavků AI chatbotů bylo dvakrát více než zobrazení stránek."
+        "ColumnAIChatbotTrafficRatioDocumentation": "Poměr požadavků AI chatbotů k zobrazením stránek lidmi, ať už přímo, nebo prostřednictvím AI agentů. Hodnota 2,0× znamená, že požadavků AI chatbotů bylo dvakrát více než zobrazení stránek.",
+        "NoDataHttpTrackingApiInstructions1": "Rozhraní HTTP Tracking API umožňuje sledovat požadavky AI chatbotů přímo v Matomu, pokud potřebujete vlastní integraci. Zjištěné požadavky AI chatbotů odesílejte do Matoma s požadovanými parametry pro sledování botů.",
+        "NoDataHttpTrackingApiInstructions2": "Identifikujte požadavky AI chatbotů ve své aplikaci nebo na serveru.",
+        "NoDataHttpTrackingApiInstructions3": "Odešlete požadavky do Matoma prostřednictvím HTTP Tracking API s ID webu v Matomu a požadovanými parametry pro sledování botů.",
+        "NoDataHttpTrackingApiInstructions4": "Po nastavení a zaznamenání aktivity AI chatbotů ověřte, že se tato aktivita zobrazuje v přehledech AI chatbotů.",
+        "NoDataLinkApiReference": "Referenční příručka API: %1$sreferenční příručka HTTP Tracking API%2$s"
     }
 }
