@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Kopijuoti skydelį naudotojui",
         "CreateNewDashboard": "Sukurti naują skydelį",
         "Dashboard": "Skydelis",
+        "DashboardCategoryHelp": "",
         "DashboardCopied": "Esamas skydelis sėkmingai nukopijuotas pasirinktam naudotojui.",
         "DashboardEmptyNotification": "Jūsų skydelyje nėra jokių valdiklių. Pradėkite, pridėdami kelis valdiklius arba, tiesiog, atstatykite skydelį į numatytąjį valdiklių pasirinkimą.",
         "DashboardName": "Skydelio pavadinimas:",
@@ -13,6 +14,7 @@
         "DefaultDashboard": "Numatytasis skydelis - Naudojamas numatytųjų valdiklių pasirinkimo ir stulpelių išdėstymas",
         "DeleteWidgetConfirm": "Ar tikrai norite pašalinti šį valdiklį iš skydelio?",
         "EmptyDashboard": "Tuščias skydelis - Pasirinkite savo mėgstamus valdiklius",
+        "ExportThisDashboard": "",
         "LoadingWidget": "Įkeliamas valdiklis, palaukite…",
         "ManageDashboard": "Tvarkyti skydelį",
         "Maximise": "Išskleisti",
@@ -31,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Ar tikrai norite nustatyti esamą valdiklių pasirinkimą ir skydelio išdėstymą kaip numatytąjį skydelio šabloną?",
         "SetAsDefaultWidgetsConfirmHelp": "Šis valdiklių pasirinkimas ir skydelio stulpelių išdėstymas bus naudojami, kai bet kuris naudotojas sukurs naują skydelį arba kai bus naudojama \"%s\" ypatybė.",
         "TopLinkTooltip": "Rodyti saityno analitikos ataskaitas, skirtas %s.",
+        "TopMenuTitle": "",
         "WidgetNotFound": "Valdiklis nerastas",
         "WidgetPreview": "Valdiklio peržiūra"
     }

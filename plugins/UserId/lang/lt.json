@@ -1,5 +1,15 @@
 {
     "UserId": {
-        "UserReportTitle": "Naudotojai"
+        "PluginDescription": "",
+        "ThereIsNoDataForThisReportHelp": "",
+        "UserId": "",
+        "UserIdDisabledSettingImpact": "",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdDisabledSettingWhatItDoes": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "Naudotojai",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }

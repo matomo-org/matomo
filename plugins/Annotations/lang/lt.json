@@ -1,5 +1,24 @@
 {
     "Annotations": {
-        "Annotations": "Anotacijos"
+        "AddAnnotationsFor": "",
+        "AnnotationOnDate": "",
+        "Annotations": "Anotacijos",
+        "ClickToDelete": "",
+        "ClickToEdit": "",
+        "ClickToEditOrAdd": "",
+        "ClickToStarOrUnstar": "",
+        "CreateNewAnnotation": "",
+        "EnterAnnotationText": "",
+        "HideAnnotations": "",
+        "HideAnnotationsFor": "",
+        "IconDesc": "",
+        "IconDescHideNotes": "",
+        "InlineQuickHelp": "",
+        "LoginToAnnotate": "",
+        "NoAnnotations": "",
+        "PluginDescription": "",
+        "ShowAnnotations": "",
+        "ViewAndAddAnnotations": "",
+        "YouCannotModifyThisNote": ""
     }
 }
