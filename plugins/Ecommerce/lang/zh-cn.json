@@ -10,7 +10,6 @@
         "EcommercePolicyRestrictedNoteInstance": "%1$s 已对此 Matomo 中的每个网站强制执行。电子商务可以保持启用，但该策略会限制 Matomo 收集的电子商务数据。",
         "EcommercePolicyRestrictedNoteWebsite": "%1$s 已对此网站强制执行。电子商务可以保持启用，但该策略会限制 Matomo 收集的电子商务数据。",
         "EcommercePolicySettingCompliantAll": "合规，因为所有网站都未启用电子商务。",
-        "EcommercePolicySettingCompliantSingle": "",
         "EcommercePolicySettingImpact": "整体电子商务转化和收益指标仍然可用。<br><br>基于订单 ID、订单收益、产品价格、产品名称和产品 SKU 的细分不可用。",
         "EcommercePolicySettingNonCompliantNote": "不合规，因为电子商务分析已不受限制地启用。",
         "EcommercePolicySettingRequirementNote": "已启用电子商务分析，但特定细分已停用（订单 ID、订单收益、产品价格、产品名称、产品 SKU）。如果您愿意，可以在%1$s此处%2$s完全停用电子商务跟踪。",
