@@ -26,6 +26,7 @@
         "RequireTwoFAForAllInformation": "Вимагає, щоб інші користувачі також входили в систему за допомогою 2ЕП, використовуючи OTP-застосунок на своєму мобільному пристрої. (Обов'язкова умова — використання 2ЕП самостійно).",
         "RequiredAuthCodeNotConfiguredAPI": "Ви повинні налаштувати двоетапну перевірку. Для цього увійдіть у систему.",
         "RequiredToSetUpTwoFactorAuthentication": "Перед входом в систему необхідно налаштувати двоетапну перевірку.",
+        "ResetOwnTwoFactorAuthNotAllowed": "",
         "SetUpTwoFactorAuthentication": "Налаштувати двоетапну перевірку (2ЕП)",
         "SetupAuthenticatorOnDevice": "Налаштуйте застосунок OTP на своєму пристрої",
         "SetupAuthenticatorOnDeviceStep1": "Установіть застосунок OTP, наприклад:",
