@@ -1,5 +1,21 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Opna í nýjum glugga"
+        "DirectLink": "",
+        "DisplayDashboardInIframe": "",
+        "DisplayDashboardInIframeAllSites": "",
+        "EmbedIframe": "",
+        "ErrorTokenAuthFailed": "",
+        "ErrorTokenAuthFailedDisabledByPolicy": "",
+        "Intro": "",
+        "OpenInNewWindow": "Opna í nýjum glugga",
+        "PluginDescription": "",
+        "Reports": "",
+        "SelectAReport": "",
+        "TooHighAccessLevel": "",
+        "TopLinkTooltip": "",
+        "UrlTokensDisabledByPolicy": "",
+        "ViewAccessRequired": "",
+        "ViewableAnonymously": "",
+        "ViewableAnonymouslyUrlTokenRequirement": ""
     }
 }
