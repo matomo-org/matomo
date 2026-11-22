@@ -1,22 +1,8 @@
 {
     "Overlay": {
         "Clicks": "%s kliknutia",
-        "ClicksFromXLinks": "",
-        "Domain": "",
-        "ErrorNoSiteUrls": "",
-        "ErrorNotLoading": "",
-        "ErrorNotLoadingDetails": "",
-        "ErrorNotLoadingDetailsSSL": "",
-        "ErrorNotLoadingLink": "",
-        "Link": "",
         "Location": "Miesto",
-        "NoData": "",
-        "OneClick": "",
         "OpenFullScreen": "Prejsť na celú obrazovku (bez bočnej lišty)",
-        "Overlay": "Prekrytie stránky",
-        "PluginDescription": "",
-        "RedirectUrlError": "",
-        "RedirectUrlErrorAdmin": "",
-        "RedirectUrlErrorUser": ""
+        "Overlay": "Prekrytie stránky"
     }
 }

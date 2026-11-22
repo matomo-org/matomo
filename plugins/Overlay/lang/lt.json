@@ -1,22 +1,6 @@
 {
     "Overlay": {
         "Clicks": "%s spustelėjimų",
-        "ClicksFromXLinks": "",
-        "Domain": "",
-        "ErrorNoSiteUrls": "",
-        "ErrorNotLoading": "",
-        "ErrorNotLoadingDetails": "",
-        "ErrorNotLoadingDetailsSSL": "",
-        "ErrorNotLoadingLink": "",
-        "Link": "",
-        "Location": "Vietovė",
-        "NoData": "",
-        "OneClick": "",
-        "OpenFullScreen": "",
-        "Overlay": "",
-        "PluginDescription": "",
-        "RedirectUrlError": "",
-        "RedirectUrlErrorAdmin": "",
-        "RedirectUrlErrorUser": ""
+        "Location": "Vietovė"
     }
 }
