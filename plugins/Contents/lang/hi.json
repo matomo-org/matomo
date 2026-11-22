@@ -1,28 +1,11 @@
 {
     "Contents": {
-        "ContentImpression": "",
-        "ContentInteraction": "",
-        "ContentInteractionSegmentHelp": "",
-        "ContentInteractions": "",
         "ContentName": "सामग्री का नाम",
-        "ContentNameReportDocumentation": "",
-        "ContentNameSegmentHelp": "",
-        "ContentNames": "",
         "ContentPiece": "सामग्री टुकड़ा",
-        "ContentPieceReportDocumentation": "",
-        "ContentPieceSegmentHelp": "",
-        "ContentPieces": "",
         "ContentTarget": "सामग्री को लक्षित",
-        "ContentTargetSegmentHelp": "",
-        "ContentTargets": "",
         "Contents": "अंतर्वस्तु",
-        "ContentsSubcategoryHelp1": "",
-        "ContentsSubcategoryHelp2": "",
         "Impressions": "छापे",
-        "ImpressionsMetricDocumentation": "",
         "InteractionRate": "सहभागिता दर",
-        "InteractionRateMetricDocumentation": "",
-        "InteractionsMetricDocumentation": "",
         "PluginDescription": "सामग्री और बैनर पर नज़र रखने से आप किसी भी अपने पृष्ठों पर सामग्री का टुकड़ा (बैनर विज्ञापन, छवि, किसी भी आइटम) का प्रदर्शन (विचारों, क्लिक, CTR) को मापने की सुविधा देता है।"
     }
 }

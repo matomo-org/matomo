@@ -1,28 +1,11 @@
 {
     "Contents": {
-        "ContentImpression": "",
-        "ContentInteraction": "",
-        "ContentInteractionSegmentHelp": "",
-        "ContentInteractions": "",
         "ContentName": "Pangalan ng Nilalaman",
-        "ContentNameReportDocumentation": "",
-        "ContentNameSegmentHelp": "",
-        "ContentNames": "",
         "ContentPiece": "Piraso ng Nilalaman",
-        "ContentPieceReportDocumentation": "",
-        "ContentPieceSegmentHelp": "",
-        "ContentPieces": "",
         "ContentTarget": "Target ng Nilalaman",
-        "ContentTargetSegmentHelp": "",
-        "ContentTargets": "",
         "Contents": "Mga Nilalaman",
-        "ContentsSubcategoryHelp1": "",
-        "ContentsSubcategoryHelp2": "",
         "Impressions": "Mga Impresyon",
-        "ImpressionsMetricDocumentation": "",
         "InteractionRate": "Rate ng Pakikipag-ugnayan",
-        "InteractionRateMetricDocumentation": "",
-        "InteractionsMetricDocumentation": "",
         "PluginDescription": "Maaring sukatin ang pagganap (mga view, pag-click, CTR) ng anumang piraso ng nilalaman sa iyong mga pahina (Banner ad, imahe, anumang item) sa pagsubaybay sa contento at banner."
     }
 }
