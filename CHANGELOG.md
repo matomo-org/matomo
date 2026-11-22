@@ -6,6 +6,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 6.1.0
 
+### JavaScript Tracker
+
+#### New APIs
+* The methods `enableDebugMode`, `disableDebugMode` and `isDebugModeEnabled` have been added to the JavaScript
+  tracker. While debug mode is enabled, every tracking request carries the `debug=1` URL parameter, which makes the
+  request show up in the new Debug View (Administration > Diagnostics > Debug View) while that page is being watched.
+
 ### New config.ini.php settings
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 * `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
@@ -35,6 +42,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * A module that selects its own set of sites, such as `MultiSites.getAll`, is labelled on the days its rows cover, which are UTC's days when it covers more than one site.
   * A scheduled report that holds `MultiSites` reports next to site reports takes its date line and file name from the site reports.
 * A segment using `!=` with the value `0`, or a value its segment maps to `0` such as `visitorType!=new`, `deviceType!=desktop` or `visitEcommerceStatus!=none`, now also matches the visits where the segment's value is `NULL`, as `!=` already did for any other value.
+* Added the new `DebugView.getRecentHits` API method. It returns the tracking requests ("hits") received for a site
+  within the last minutes, served from the raw requests captured by the new Debug View feature. Only requests sent
+  with the `debug=1` URL parameter are captured, and capturing is only active while the method is being polled (the
+  first call arms it).
 
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.

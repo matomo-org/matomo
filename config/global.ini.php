@@ -1392,6 +1392,7 @@ Plugins[] = AIAgents
 Plugins[] = BotTracking
 Plugins[] = AIProviders
 Plugins[] = TrackingSpamPrevention
+Plugins[] = DebugView
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics
