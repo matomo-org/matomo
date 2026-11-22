@@ -1,5 +1,22 @@
 {
     "Overlay": {
-        "Clicks": "%s ක්ලික් කිරීම්"
+        "Clicks": "%s ක්ලික් කිරීම්",
+        "ClicksFromXLinks": "",
+        "Domain": "",
+        "ErrorNoSiteUrls": "",
+        "ErrorNotLoading": "",
+        "ErrorNotLoadingDetails": "",
+        "ErrorNotLoadingDetailsSSL": "",
+        "ErrorNotLoadingLink": "",
+        "Link": "",
+        "Location": "",
+        "NoData": "",
+        "OneClick": "",
+        "OpenFullScreen": "",
+        "Overlay": "",
+        "PluginDescription": "",
+        "RedirectUrlError": "",
+        "RedirectUrlErrorAdmin": "",
+        "RedirectUrlErrorUser": ""
     }
 }
