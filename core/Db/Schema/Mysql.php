@@ -1129,6 +1129,11 @@ class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesIn
         return ' FROM DUAL';
     }
 
+    public function getStraightJoinSql(): string
+    {
+        return 'STRAIGHT_JOIN';
+    }
+
     public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
     {
         if (strpbrk($separator, "'\"\\") !== false) {

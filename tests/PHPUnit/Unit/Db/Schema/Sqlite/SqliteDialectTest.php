@@ -137,6 +137,19 @@ class SqliteDialectTest extends TestCase
         $this->assertSame(2, $count($this->schema->getHourSql('d') . ' >= ?', '7'));
     }
 
+    public function testStraightJoinKeepsTheTableOrder(): void
+    {
+        $this->pdo->exec('CREATE TABLE a (id INTEGER PRIMARY KEY, k INTEGER)');
+        $this->pdo->exec('CREATE TABLE b (id INTEGER PRIMARY KEY, a_id INTEGER)');
+        $this->pdo->exec('INSERT INTO a VALUES (1, 10), (2, 20)');
+        $this->pdo->exec('INSERT INTO b VALUES (1, 2), (2, 2), (3, 1)');
+        $sql = 'SELECT a.k, COUNT(*) FROM a ' . $this->schema->getStraightJoinSql() . ' b ON a.id = b.a_id GROUP BY a.k ORDER BY a.k';
+        $this->assertSame([[10, 1], [20, 2]], $this->pdo->query($sql)->fetchAll(\PDO::FETCH_NUM));
+
+        $plan = $this->pdo->query('EXPLAIN QUERY PLAN ' . $sql)->fetchAll(\PDO::FETCH_COLUMN, 3);
+        $this->assertMatchesRegularExpression('/^SCAN a\b/', $plan[0], 'the left table is read first');
+    }
+
     public function testNullSafeEqualityAndSelectWithoutTable(): void
     {
         $sql = 'SELECT ' . $this->schema->getNullSafeEqualSql('?', '?') . $this->schema->getNoTableSql() . ' WHERE 1 = 1';

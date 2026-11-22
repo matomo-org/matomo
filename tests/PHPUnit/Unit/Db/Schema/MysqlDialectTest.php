@@ -101,6 +101,7 @@ class MysqlDialectTest extends TestCase
         $this->assertSame('TRUNCATE TABLE `matomo_session`', $mysql->getTruncateTableSql('matomo_session'));
         $this->assertSame('login <=> ?', $mysql->getNullSafeEqualSql('login', '?'));
         $this->assertSame(' FROM DUAL', $mysql->getNoTableSql());
+        $this->assertSame('STRAIGHT_JOIN', $mysql->getStraightJoinSql());
 
         $this->expectException(\InvalidArgumentException::class);
         $mysql->getGreatestSql('a');

@@ -789,6 +789,14 @@ class Schema extends Singleton
     }
 
     /**
+     * @see SqlFunctionsInterface::getStraightJoinSql()
+     */
+    public function getStraightJoinSql(): string
+    {
+        return $this->getSqlFunctions()->getStraightJoinSql();
+    }
+
+    /**
      * Returns the clause to append after a `LIKE ?` placeholder bound to a backslash-escaped pattern.
      *
      * @see SqlDialectInterface::getLikeEscapeSql()

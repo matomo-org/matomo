@@ -109,4 +109,10 @@ interface SqlFunctionsInterface
      * starting with a space, e.g. ` FROM DUAL`.
      */
     public function getNoTableSql(): string;
+
+    /**
+     * Returns the join keyword that makes the engine read the left table first, as MySQL's `STRAIGHT_JOIN`.
+     * It joins like an inner join and takes an `ON` clause.
+     */
+    public function getStraightJoinSql(): string;
 }

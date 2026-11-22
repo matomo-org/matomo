@@ -995,6 +995,12 @@ class Sqlite extends Mysql
         return '';
     }
 
+    public function getStraightJoinSql(): string
+    {
+        // the query planner never reorders the tables of a CROSS JOIN
+        return 'CROSS JOIN';
+    }
+
     public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
     {
         if (strpbrk($separator, "'\"\\") !== false) {
