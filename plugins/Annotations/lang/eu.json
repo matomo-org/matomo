@@ -9,7 +9,6 @@
         "ClickToStarOrUnstar": "Egin klik ohar hau gogoko egin edo gogokoa kentzeko.",
         "CreateNewAnnotation": "Sortu ohar berria…",
         "EnterAnnotationText": "Idatzi oharra…",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Ezkutatu %s(r)en oharrak…",
         "IconDesc": "Ikusi data-tarte honetako oharrak.",
         "IconDescHideNotes": "Ezkutatu data-tarte honetako oharrak.",
@@ -17,7 +16,6 @@
         "LoginToAnnotate": "Hasi saioa oharra sortzeko.",
         "NoAnnotations": "Ez dago oharrik data-tarte honetarako.",
         "PluginDescription": "Aukera ematen dizu webgunean aldaketak zein egunetan egin diren ohar bidez adierazteko, zure datuei buruzko analisiak gordetzeko eta zure lankideekin ideiak partekatzeko. Zure datuei oharrak gehituz ziurtatu dezakezu gogoratuko duzula zergatik diren zure datuak diruditen bezalakoak.",
-        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Ikusi eta gehitu oharrak %s(r)entzat…",
         "YouCannotModifyThisNote": "Ezin duzu ohar hau aldatu, ez duzulako zuk sortu eta ez duzulako gune honetara administratzaile sarbiderik ere."
     }

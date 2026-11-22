@@ -1,24 +1,5 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "",
-        "AnnotationOnDate": "",
-        "Annotations": "",
-        "ClickToDelete": "",
-        "ClickToEdit": "మార్చడానికి నొక్కండి",
-        "ClickToEditOrAdd": "",
-        "ClickToStarOrUnstar": "",
-        "CreateNewAnnotation": "",
-        "EnterAnnotationText": "",
-        "HideAnnotations": "",
-        "HideAnnotationsFor": "",
-        "IconDesc": "",
-        "IconDescHideNotes": "",
-        "InlineQuickHelp": "",
-        "LoginToAnnotate": "",
-        "NoAnnotations": "",
-        "PluginDescription": "",
-        "ShowAnnotations": "",
-        "ViewAndAddAnnotations": "",
-        "YouCannotModifyThisNote": ""
+        "ClickToEdit": "మార్చడానికి నొక్కండి"
     }
 }

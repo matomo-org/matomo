@@ -9,7 +9,6 @@
         "ClickToStarOrUnstar": "Klikni za označavanje ili odznačavanje ove bilješke.",
         "CreateNewAnnotation": "Stvori novu bilješku …",
         "EnterAnnotationText": "Upiši svoju bilješku …",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Sakrij bilješke za %s …",
         "IconDesc": "Pobledaj bilješke za ovaj raspon datuma.",
         "IconDescHideNotes": "Sakrij bilješke za ovaj raspon datuma.",
@@ -17,7 +16,6 @@
         "LoginToAnnotate": "Prijavi se za objaviti obavijest.",
         "NoAnnotations": "Nema bilješki za ovaj raspon datuma.",
         "PluginDescription": "Omogućuje dodavanje bilješki različitim danima za označavanje promjena na tvojoj web stranici, čuvanje analize u vezi tvojih podataka i dijelila tvoja razmišljanja s kolegama. Dodavanjem biljžaka tojim podataka osiguravaš da se sjećaš zašto tvoji podaci izgledaju kako izgledaju.",
-        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Pogledaj i dodaj bilješke za %s …",
         "YouCannotModifyThisNote": "Ovu bilješku ne možeš mijenjati jer je nisi stvorio/la, niti imaš administratorski pristup za ovu stranicu."
     }

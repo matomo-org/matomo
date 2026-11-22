@@ -9,16 +9,11 @@
         "ClickToStarOrUnstar": "Vali et kommentaari hinnata",
         "CreateNewAnnotation": "Loo uus kommentaar…",
         "EnterAnnotationText": "Sisesta oma märkmed…",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Peida %s kommentaarid…",
         "IconDesc": "Vaata antud ajavahemiku märkmeid.",
         "IconDescHideNotes": "Peida antud ajavahemiku märkmed.",
-        "InlineQuickHelp": "",
         "LoginToAnnotate": "Sisene, et luua kommentaar.",
         "NoAnnotations": "Antud ajavahemiku kohta puuduvad märkmed.",
-        "PluginDescription": "",
-        "ShowAnnotations": "",
-        "ViewAndAddAnnotations": "Vaata ja lisa märkmeid %s kohta…",
-        "YouCannotModifyThisNote": ""
+        "ViewAndAddAnnotations": "Vaata ja lisa märkmeid %s kohta…"
     }
 }

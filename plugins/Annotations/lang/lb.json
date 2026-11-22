@@ -9,16 +9,8 @@
         "ClickToStarOrUnstar": "Klickt fir d'Annotatioun bei är Favoriten bäizesetzen/ze läschen.",
         "CreateNewAnnotation": "Eng nei Annotatioun erstellen…",
         "EnterAnnotationText": "Gëff deng Notiz an…",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Annotatiounen fir %s net uweisen…",
         "IconDesc": "Notizen fir dës Daten Sammlung uweisen.",
-        "IconDescHideNotes": "Notizen fir dës Daten Sammlung net uweisen.",
-        "InlineQuickHelp": "",
-        "LoginToAnnotate": "",
-        "NoAnnotations": "",
-        "PluginDescription": "",
-        "ShowAnnotations": "",
-        "ViewAndAddAnnotations": "",
-        "YouCannotModifyThisNote": ""
+        "IconDescHideNotes": "Notizen fir dës Daten Sammlung net uweisen."
     }
 }

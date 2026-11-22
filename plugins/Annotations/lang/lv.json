@@ -9,7 +9,6 @@
         "ClickToStarOrUnstar": "Klikšķiniet, lai pievienotu vai noņemtu zvaigznīti šai anotācijai.",
         "CreateNewAnnotation": "Izveidot jaunu anotāciju…",
         "EnterAnnotationText": "Ievadiet savu piezīmi…",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Paslēpt anotācijas %s…",
         "IconDesc": "Apskatiet piezīmes šim datumu diapazonam.",
         "IconDescHideNotes": "Paslēpt piezīmes šim datumu diapazonam.",
@@ -17,7 +16,6 @@
         "LoginToAnnotate": "Pieslēdzieties, lai izveidotu anotāciju.",
         "NoAnnotations": "Šim datumu diapazonam nav anotāciju.",
         "PluginDescription": "Ļauj pievienot piezīmes dažādām dienām, lai atzīmētu tīmekļa vietnē veiktās izmaiņas, saglabātu veiktās datu analīzes un dalītos pārdomās ar kolēģiem. Anotējot datus, jūs noteikti atcerēsities, kāpēc dati izskatās tā, kā tie izskatās.",
-        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Skatīt un pievienot anotācijas %s…",
         "YouCannotModifyThisNote": "Jūs nevarat mainīt šo anotāciju, jo neesat to izveidojis, un jums nav administratīvās piekļuves šai vietnei."
     }

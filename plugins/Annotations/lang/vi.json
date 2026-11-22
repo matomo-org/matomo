@@ -9,7 +9,6 @@
         "ClickToStarOrUnstar": "Click để đánh dấu sao hay bỏ đánh dấu chú thích này",
         "CreateNewAnnotation": "Tạo một chú thích mới…",
         "EnterAnnotationText": "Nhập ghi chú của bạn…",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Ẩn các chú thích cho %s…",
         "IconDesc": "Xem ghi chú trong giới hạn của ngày này",
         "IconDescHideNotes": "Ẩn ghi chú trong giới hạn của ngày này",
@@ -17,7 +16,6 @@
         "LoginToAnnotate": "Đăng nhập để tạo một chú thích",
         "NoAnnotations": "Không có chú thích nào trong phạm vi ngày này",
         "PluginDescription": "Cho phép bạn đính kèm ghi chú vào những ngày khác nhau; đánh dấu những thay đổi đã thực hiện trên trang web của bạn; ghi nhớ những phân tích bạn thực hiện liên quan đến dữ liệu của bạn; và chia sẻ quan điểm của bạn với đồng nghiệp. Việc chú thích sẽ giải thích cho bạn vì sao dữ liệu của bạn đang ở tình trạng hiện tại.",
-        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Hiện thị và thêm chú thích cho %s…",
         "YouCannotModifyThisNote": "Bạn không thể sửa đổi chú thích này, bởi vì bạn đã không tạo ra nó, bạn cũng không có quyền quản trị trang web này."
     }

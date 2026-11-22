@@ -1,24 +1,7 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "",
-        "AnnotationOnDate": "",
         "Annotations": "หมายเหตุประกอบ",
-        "ClickToDelete": "",
-        "ClickToEdit": "",
-        "ClickToEditOrAdd": "",
-        "ClickToStarOrUnstar": "",
-        "CreateNewAnnotation": "",
         "EnterAnnotationText": "กรอกหมายเหตุของคุณ…",
-        "HideAnnotations": "",
-        "HideAnnotationsFor": "",
-        "IconDesc": "",
-        "IconDescHideNotes": "",
-        "InlineQuickHelp": "",
-        "LoginToAnnotate": "เข้าสู่ระบบเพื่อสร้างหมายเหตุประกอบ",
-        "NoAnnotations": "",
-        "PluginDescription": "",
-        "ShowAnnotations": "",
-        "ViewAndAddAnnotations": "",
-        "YouCannotModifyThisNote": ""
+        "LoginToAnnotate": "เข้าสู่ระบบเพื่อสร้างหมายเหตุประกอบ"
     }
 }

@@ -9,7 +9,6 @@
         "ClickToStarOrUnstar": "Kliknite kako biste markirali belešku.",
         "CreateNewAnnotation": "Napravi novu belešku…",
         "EnterAnnotationText": "Upišite belešku…",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Sakrij beleške za %s…",
         "IconDesc": "Prikaži beleške za ovaj vremenski period.",
         "IconDescHideNotes": "Sakrij beleške za ovaj vremenski period.",
@@ -17,7 +16,6 @@
         "LoginToAnnotate": "Prijavite se kako biste napravili novu belešku.",
         "NoAnnotations": "Nema beleški za ovaj vremenski period.",
         "PluginDescription": "Omogućuje vam da dodate beleške za određene dane kako biste zapamtili zašto podaci izgledaju tako kako izgledaju.",
-        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Prikaži i dodaj beleške za %s…",
         "YouCannotModifyThisNote": "Ovu belešku ne možete da izmenite zato što je niste vi kreirali i nemate nivo administratorskog pristupa sajtu."
     }

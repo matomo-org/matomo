@@ -9,7 +9,6 @@
         "ClickToStarOrUnstar": "Klicka för att stjärnmärka eller ta bort stjärnmärkning för denna anteckning.",
         "CreateNewAnnotation": "Skapa ny anteckning…",
         "EnterAnnotationText": "Skriv in din anteckning…",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Dölj anteckning för %s…",
         "IconDesc": "Visa anteckningar för det här datumintervallet.",
         "IconDescHideNotes": "Dölj anteckningar för det här datumintervallet.",
@@ -17,7 +16,6 @@
         "LoginToAnnotate": "Logga in för att skapa en anteckning.",
         "NoAnnotations": "Det finns inga noteringar för detta datumintervall.",
         "PluginDescription": "Tillåter dig att koppla anteckningar till olika datum för att markera ändringar som gjorts till webbplatsen, spara analyser som du gör av din data och dela dina tankar med kollegor. Genom att koppla anteckningar så kommer du alltid komma ihåg vad som gör att din data förändras och ser ut som den gör.",
-        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Visa och lägg till anteckningar för %s…",
         "YouCannotModifyThisNote": "Du kan inte ändra den här anteckningen eftersom du inte har skapat den, eller har admin-behörighet för den här webbplasten."
     }

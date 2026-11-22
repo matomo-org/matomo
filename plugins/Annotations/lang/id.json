@@ -9,7 +9,6 @@
         "ClickToStarOrUnstar": "Klik untuk memberi atau menghapus bintang pada anotasi ini.",
         "CreateNewAnnotation": "Buat anotasi baru…",
         "EnterAnnotationText": "Masukkan catatan Anda…",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Sembunyikan anotasi untuk %s…",
         "IconDesc": "Lihat catatan untuk rentang data ini.",
         "IconDescHideNotes": "Sembunyikan catatan untuk rentang tanggal ini.",
@@ -17,7 +16,6 @@
         "LoginToAnnotate": "Log masuk untuk membuat anotasi.",
         "NoAnnotations": "Tidak tersedia anotasi untuk rentang tanggal ini.",
         "PluginDescription": "Memungkinkan Anda untuk melampirkan catatan dari hari berbeda untuk menandai perubahan dalam situs Anda, simpan analisa mengenai data Anda dan berbagi pemikiran tersebut dengan rekan Anda. Dengan memberi penjelasan terhadap data, akan membuat Anda ingat mengapa data tampak seperti saat ini terjadi.",
-        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Tampilkan dan tambahkan anotasi untuk %s…",
         "YouCannotModifyThisNote": "Anda tidak dapat mengubah anotasi ini, sebab Anda bukanlah pembuatnya, atau Anda tidak memiliki akses admin untuk situs ini."
     }

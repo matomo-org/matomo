@@ -9,7 +9,6 @@
         "ClickToStarOrUnstar": "Kliknij aby zaznaczyć lub odznaczyć (gwiazdką) tą adnotację.",
         "CreateNewAnnotation": "Utwórz nową adnotację…",
         "EnterAnnotationText": "Wpisz swoją notatkę…",
-        "HideAnnotations": "",
         "HideAnnotationsFor": "Ukryj tą adnotację dla %s…",
         "IconDesc": "Pokarz notatki dla danego zakresu dat.",
         "IconDescHideNotes": "Ukryj notatki dla tego zakresu dat.",
@@ -17,7 +16,6 @@
         "LoginToAnnotate": "Zaloguj się aby utworzyć adnotację.",
         "NoAnnotations": "Nie ma adnotacji dla tego zakresu dat.",
         "PluginDescription": "Daje ci możliwość dodania notatek do innych dni aby zaznaczyć zmiany na twojej stronie, zapisać jakiś wnioski dotyczące twoich danych oraz podzielić się twoimi spostrzeżeniami z kolegami. Adnotując twoje dane będziesz miał pewność że pamiętasz dlaczego twoje dane wyglądają tak jak wyglądają.",
-        "ShowAnnotations": "",
         "ViewAndAddAnnotations": "Pokarz i dodaj adnotację dla %s…",
         "YouCannotModifyThisNote": "Nie możesz modyfikować tej adnotacji ponieważ jej nie utworzyłeś lub nie masz praw administratora dla tej strony."
     }
