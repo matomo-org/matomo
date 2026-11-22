@@ -125,6 +125,7 @@ class Response
         $apiResponse = $this->removeXmlFields($apiResponse);
         $apiResponse = $this->removeTodaysDate($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
+        $apiResponse = $this->normalizeNumbersOnSqlite($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
         $apiResponse = $this->normalizeSpaces($apiResponse);
         $apiResponse = $this->replacePiwikUrl($apiResponse);
@@ -280,6 +281,27 @@ class Response
         $response = str_replace('.00</t', '</t', $response);
 
         return $response;
+    }
+
+    /**
+     * MySQL pads a DECIMAL to its column's scale (0.0620) and returns some sums as strings ("260");
+     * SQLite returns the shortest number (0.062, 260). On SQLite, both sides are compared by value: a
+     * decimal loses its trailing zeros, and in JSON a quoted number loses its quotes.
+     */
+    private function normalizeNumbersOnSqlite($apiResponse)
+    {
+        if (!Fixture::isSqlite()) {
+            return $apiResponse;
+        }
+
+        if (str_starts_with((string) ($this->requestUrl['format'] ?? ''), 'json')) {
+            $apiResponse = preg_replace('/(?<=[:\[,])"(-?\d+(?:\.\d+)?)"(?=[,}\]])/', '$1', $apiResponse);
+        }
+
+        // whole values only: XML text, JSON and CSV/TSV fields, not attributes such as version="1.0"
+        return preg_replace_callback('/(?<=[>:,\[\t]|^)(-?\d+)\.(\d*?)0+(?=[<,}\]\t\r\n]|$)/m', function ($m) {
+            return $m[2] === '' ? $m[1] : $m[1] . '.' . $m[2];
+        }, $apiResponse);
     }
 
     private function normalizeSpaces($apiResponse)

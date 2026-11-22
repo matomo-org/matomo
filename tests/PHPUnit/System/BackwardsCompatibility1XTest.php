@@ -32,6 +32,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
     public static function setUpBeforeClass(): void
     {
+        if (Fixture::isSqlite()) {
+            // the fixture is a MySQL dump of a Matomo 1.x database, loaded with the mysql client
+            self::markTestSkipped('a Matomo 1.x database predates SQLite support');
+        }
+
         parent::setUpBeforeClass();
 
         $installedPlugins = Manager::getInstance()->getInstalledPluginsName();
