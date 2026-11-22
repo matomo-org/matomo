@@ -1,5 +1,21 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "ახალ ფანჯარაში გახსნა"
+        "DirectLink": "",
+        "DisplayDashboardInIframe": "",
+        "DisplayDashboardInIframeAllSites": "",
+        "EmbedIframe": "",
+        "ErrorTokenAuthFailed": "",
+        "ErrorTokenAuthFailedDisabledByPolicy": "",
+        "Intro": "",
+        "OpenInNewWindow": "ახალ ფანჯარაში გახსნა",
+        "PluginDescription": "",
+        "Reports": "",
+        "SelectAReport": "",
+        "TooHighAccessLevel": "",
+        "TopLinkTooltip": "",
+        "UrlTokensDisabledByPolicy": "",
+        "ViewAccessRequired": "",
+        "ViewableAnonymously": "",
+        "ViewableAnonymouslyUrlTokenRequirement": ""
     }
 }

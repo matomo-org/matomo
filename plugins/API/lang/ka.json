@@ -1,8 +1,18 @@
 {
     "API": {
+        "ChangeTokenHint": "",
+        "EvolutionMetricName": "",
+        "GenerateVisits": "",
+        "Glossary": "",
         "KeepTokenSecret": "ეს token_auth ისევე საიდუმლოა, როგორც თქვენი მომხმარებლის სახელი და პაროლი, %1$s არავის გაუზიაროთ ის%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "",
         "LoadedAPIs": "ჩატვირთულია %s-ის API-ები",
+        "MainMetricsReportDocumentation": "",
         "MoreInformation": "მეტი ინფორმაცია Matomo API-ების შესახელ ხელმისაწვდომია %1$sშესავალში Matomo API-ების შესახებ%2$s და %3$sMatomo API-ის სახელმძღვანელოში%4$s.",
-        "UserAuthentication": "მომხმარებლის აუტენთიფიკაცია"
+        "PluginDescription": "",
+        "ReportingApiReference": "",
+        "TopLinkTooltip": "",
+        "UserAuthentication": "მომხმარებლის აუტენთიფიკაცია",
+        "UsingTokenAuth": ""
     }
 }
