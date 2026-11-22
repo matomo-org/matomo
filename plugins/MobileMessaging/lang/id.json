@@ -1,11 +1,14 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Kredit yang tersedia: %1$s",
+        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "Nama penyedia '%1$s' tidak dikenal. Coba salah satu dari penyedia berikut ini sebagai pengganti: %2$s.",
+        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "Anda dapat menambahkan lebih banyak nomor telepon dengan mengakses",
         "MobileReport_MobileMessagingSettingsLink": "halaman pengaturan Pesan Seluler",
         "MobileReport_NoPhoneNumbers": "Silakan aktifkan setidaknya satu nomor telepon dengan mengakses",
         "MultiSites_Must_Be_Activated": "Untuk menghasilkan teks SMS dari statistik situs web Anda, harap aktifkan pengaya MultiSites di Matomo.",
+        "NumberAlreadyAdded": "",
         "PhoneNumbers": "Nomor Telepon",
         "PluginDescription": "Buat dan unduh laporan SMS khusus dan kirimkan ke ponsel Anda setiap hari, mingguan, atau bulanan.",
         "SMS_Content_Too_Long": "[terlalu panjang]",
@@ -25,6 +28,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Seluruh pengguna dapat menerima Laporan SMS dan akan menggunakan kredit akun Anda.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Setiap pengguna dapat mengatur Akun API SMS mereka sendiri dan tidak akan menggunakan kredit Anda.",
         "Settings_ManagePhoneNumbers": "Kelola Nomor Telepon",
+        "Settings_NewVerificationCodeSent": "",
         "Settings_PhoneActivated": "Nomor telepon divalidasi! Anda sekarang dapat menerima SMS yang berisi statistik Anda.",
         "Settings_PhoneNumber": "Nomor Telepon",
         "Settings_PhoneNumbers_Add": "Tambahkan Nomor Telepon baru",
@@ -32,6 +36,7 @@
         "Settings_PhoneNumbers_Help": "Sebelum menerima laporan SMS (pesan teks) dalam telepon, nomor telepon harus dimasukkan di bawah.",
         "Settings_PhoneNumbers_HelpAdd": "Ketika Anda mengeklik \"Tambah\", SMS berisi kode akan dikirimkan ke ponsel. Pengguna yang menerima kode harus log masuk ke Matomo, klik Pengaturan, lalu klik Pesan Seluler. Setelah memasukkan kode, pengguna dapat menerima laporan teks di ponsel mereka.",
         "Settings_PleaseSignUp": "Untuk membuat laporan SMS dan menerima pesan pendek dengan statistik situs Anda dalam telepon seluler, harap mendaftar dengan API SMS dan masukkan informasi Anda di bawah.",
+        "Settings_ResendVerification": "",
         "Settings_SMSAPIAccount": "Kelola Akun API SMS",
         "Settings_SMSProvider": "Penyedia SMS",
         "Settings_SelectCountry": "Pilih negara",
@@ -40,8 +45,10 @@
         "Settings_UpdateOrDeleteAccount": "Anda juga dapat %1$smemperbarui%2$s atau %3$smenghapus%4$s akun ini.",
         "Settings_ValidatePhoneNumber": "Mengesahkan",
         "Settings_VerificationCodeJustSent": "Kami baru saja mengirim SMS ke nomor ini dengan kode: masukkan kode ini di atas dan klik \"Validasi\".",
+        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "Dapatkan Laporan Analisis Web yang dikirimkan ke kotak masuk surel atau ponsel Anda.",
         "UserKey": "Kunci pengguna",
+        "VerificationCodeRecentlySentError": "",
         "VerificationText": "Kodenya adalah %1$s. Untuk memvalidasi nomor telepon Anda dan menerima laporan SMS Matomo, silakan salin kode ini dalam formulir yang dapat diakses melalui Matomo → %2$s → %3$s."
     }
 }

@@ -2,6 +2,8 @@
     "Tour": {
         "AddAnnotation": "Tambahkan anotasi",
         "AddAnotherWebsite": "Tambahkan website lain",
+        "AddRecommendedGoals": "",
+        "AddRecommendedGoalsDescription": "",
         "AddReport": "Tambahkan laporan terjadwal",
         "AddSegment": "Tambahkan segmen",
         "BecomeMatomoExpert": "Menjadi ahli Matomo",

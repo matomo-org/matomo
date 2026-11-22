@@ -17,6 +17,7 @@
         "EvolutionFromPreviousPeriod": "Dari periode sebelumnya",
         "EvolutionFromPreviousWeek": "Dari minggu sebelumnya",
         "EvolutionFromPreviousYear": "Dari tahun sebelumnya",
+        "HitsIncludingAiTooltip": "",
         "LoadingWebsites": "Memuat situs web",
         "MetricDocumentationAiChatbotsRequests": "Total jumlah permintaan chatbot AI yang direkam untuk website ini.",
         "MetricDocumentationEvolution": "Persentase perubahan untuk metrik ini dibandingkan dengan periode sebelumnya untuk website ini. Nilai positif menunjukkan pertumbuhan, sedangkan nilai negatif menandakan penurunan.",

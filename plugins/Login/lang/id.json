@@ -16,6 +16,9 @@
         "ConfirmPasswordResetIntro": "Silakan ketik kata sandi baru Anda untuk mengonfirmasi bahwa Anda benar-benar meminta penggantian kata sandi.",
         "ConfirmPasswordResetWrongPassword": "Kata sandi yang dimasukkan tidak cocok dengan kata sandi baru yang Anda buat. Atur ulang kata sandi Anda lagi jika Anda tidak mengingatnya. Jangan lakukan apa pun untuk mempertahankan kata sandi Anda jika Anda tidak meminta perubahan ini.",
         "ConfirmPasswordToContinue": "Konfirmasikan kata sandi Anda untuk melanjutkan",
+        "ConfirmSecondFactorIntro": "",
+        "ConfirmSecondFactorToContinue": "",
+        "ConfirmationLinkPossiblySent": "",
         "ContactAdmin": "Alasan yang mungkin: host Anda mungkin telah menonaktifkan fungsi mail(). <br>Silakan hubungi administrator Matomo Anda.",
         "CreatePasswordDescription": "Pastikan Anda mengingat kata sandi ini dan simpan di tempat yang aman.",
         "CurrentlyBlockedIPs": "IP yang diblokir",
@@ -76,6 +79,7 @@
         "PasswordResetEmailAppTokens": "Mengubah kata sandi Anda tidak secara otomatis mencabut token khusus aplikasi Anda. Jika Anda mencurigai akses yang tidak sah, silakan hapus token yang ada dan buat token baru di bagian manajemen token.",
         "PasswordResetEmailLinkCancel": "Ini bukan saya",
         "PasswordResetEmailLinkReset": "Atur ulang kata sandi Anda",
+        "PasswordResetEmailLinkValidity": "",
         "PasswordResetEmailSubject": "Atur ulang kata sandi akun Matomo Anda",
         "PasswordsDoNotMatch": "Kata sandi tidak cocok.",
         "PleaseNote": "Harap diperhatikan",
@@ -93,6 +97,7 @@
         "SettingBruteForceWhitelistIp": "Jangan pernah memblokir IP ini untuk log masuk",
         "SettingPasswordStrengthCheck": "Paksa penggunaan kata sandi yang kuat",
         "SettingPasswordStrengthCheckHelp": "Memaksa pengguna membuat kata sandi yang kuat dengan mewajibkan mereka memenuhi serangkaian aturan kompleks: %1$s",
+        "SignInIntro": "",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Jumlah percobaan login yang sangat tinggi telah dilakukan pada akun Matomo Anda dalam satu jam terakhir. Secara spesifik %1$s percobaan login dari %2$s alamat IP yang berbeda. Seseorang mungkin sedang mencoba membobol akun Anda.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Lakukan hal berikut:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Pastikan kata sandi Anda merupakan kata sandi acak yang aman dengan panjang minimal 30 karakter.",
@@ -100,7 +105,10 @@
         "SuspiciousLoginAttemptsInLastHourEmail5": "Siapkan daftar alamat IP yang tidak pernah diblokir jika Matomo Anda memiliki jumlah pengguna terbatas atau IP tertentu yang digunakan pengguna untuk mengaksesnya. %1$sBaca dokumentasi untuk info lebih lanjut.%2$s",
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "Beberapa percobaan login mencurigakan telah dilakukan menggunakan nama pengguna Anda…",
         "TimeOfLogin": "Waktu login",
+        "TokenAuthenticationFailed": "",
+        "TokenAuthenticationFailedInsecure": "",
         "UnblockAllIPs": "Buka blokir semua IP yang diblokir",
-        "WrongPasswordEntered": "Silakan masukkan kata sandi Anda."
+        "WrongPasswordEntered": "Silakan masukkan kata sandi Anda.",
+        "WrongSecondFactorCode": ""
     }
 }

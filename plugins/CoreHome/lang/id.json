@@ -12,6 +12,8 @@
         "ClickToEditX": "Klik untuk mengubah %s",
         "ClickToSeeFullInformation": "Klik untuk melihat informasi lengkap",
         "CloseWidgetDirections": "Anda dapat menutup widget ini dengan mengklik ikon 'X' di bagian atas widget.",
+        "ConsentState": "",
+        "ConsentStateConsented": "",
         "CopyModalNote": "%1$sCatatan:%2$s %3$s yang disalin mungkin memerlukan penyesuaian jika mencakup referensi yang spesifik untuk website asli. Tinjau pengaturan untuk memastikan kompatibilitas.",
         "CopyX": "Salin %1$s",
         "CopyXDescription": "Pilih website untuk menyalin %1$s ini ke sana. Ini akan membuat salinan persis, termasuk pengaturan, di situs yang dipilih.",
