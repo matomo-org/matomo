@@ -1,5 +1,21 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "فتح في نافذة جديدة"
+        "DirectLink": "",
+        "DisplayDashboardInIframe": "",
+        "DisplayDashboardInIframeAllSites": "",
+        "EmbedIframe": "",
+        "ErrorTokenAuthFailed": "",
+        "ErrorTokenAuthFailedDisabledByPolicy": "",
+        "Intro": "",
+        "OpenInNewWindow": "فتح في نافذة جديدة",
+        "PluginDescription": "",
+        "Reports": "",
+        "SelectAReport": "",
+        "TooHighAccessLevel": "",
+        "TopLinkTooltip": "",
+        "UrlTokensDisabledByPolicy": "",
+        "ViewAccessRequired": "",
+        "ViewableAnonymously": "",
+        "ViewableAnonymouslyUrlTokenRequirement": ""
     }
 }
