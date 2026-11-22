@@ -1,5 +1,18 @@
 {
     "API": {
-        "UserAuthentication": "వాడుకరి అధీకరణ"
+        "ChangeTokenHint": "",
+        "EvolutionMetricName": "",
+        "GenerateVisits": "",
+        "Glossary": "",
+        "KeepTokenSecret": "",
+        "LearnAboutCommonlyUsedTerms2": "",
+        "LoadedAPIs": "",
+        "MainMetricsReportDocumentation": "",
+        "MoreInformation": "",
+        "PluginDescription": "",
+        "ReportingApiReference": "",
+        "TopLinkTooltip": "",
+        "UserAuthentication": "వాడుకరి అధీకరణ",
+        "UsingTokenAuth": ""
     }
 }
