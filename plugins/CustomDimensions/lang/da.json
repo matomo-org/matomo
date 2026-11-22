@@ -4,7 +4,6 @@
         "ColumnAvgTimeOnDimension": "Gennemsnitlig tid på målet",
         "ColumnAvgTimeOnDimensionDocumentation": "Gennemsnitlig tid på et tilpasset mål for handlinger er den gennemsnitlige tid, de besøgende brugte på en bestemt tilpasset handling, før de gik videre til en anden sporet handling. Beregnes ved at lægge den tid, der er brugt på handlingen i alle besøg, sammen og dividere med det antal gange, handlingen blev udført.",
         "ColumnUniqueActions": "Unikke handlinger",
-        "ConfigureDimension": "",
         "ConfigureNewDimension": "Konfigurer et nyt mål",
         "CustomDimensionId": "Tilpassede mål (id %d)",
         "CustomDimensions": "Tilpassede mål",
