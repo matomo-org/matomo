@@ -925,12 +925,6 @@ parameters:
 			path: core/Period/Range.php
 
 		-
-			message: '#^Binary operation "\-" between string and 1 results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: core/Period/Week.php
-
-		-
 			message: '#^Call to function is_numeric\(\) with float\|int will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 3
