@@ -81,7 +81,6 @@
         "NoDataCloudflareInstructions2": "部署 Worker（Node.js），並設定你的 Matomo 網址與網站 ID。",
         "NoDataCloudflareInstructions3": "將 Worker 掛到你的 zone 或 route 上，讓它隨請求一併執行。",
         "NoDataCloudflareInstructions4": "檢查追蹤報表中是否已出現 AI 聊天機器人的命中資料，以驗證設定是否成功。",
-        "NoDataHttpTrackingApiDescription": "當你需要自訂整合時，HTTP 追蹤 API 可讓你直接追蹤 AI 聊天機器人的請求。請先參閱 %1$s追蹤 API 知識庫%2$s，並使用 %3$sHTTP 追蹤 API 參考文件%4$s 查詢最新的機器人追蹤參數與行為。",
         "NoDataLinkKnowledgeBase": "說明文件：%1$sMatomo 知識庫%2$s",
         "NoDataLinkSourceCode": "原始碼：%1$sGitHub 儲存庫%2$s",
         "NoDataMissingOneContactUs": "少了你需要的方式？請與我們聯絡",

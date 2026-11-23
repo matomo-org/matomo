@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s-%2$s min",
         "BetweenXYSeconds": "%1$s-%2$ssec.",
         "ColumnPagesPerVisit": "Pagini pentru o vizită",
+        "ColumnPercentageVisitsDocumentation": "Procentul din totalul vizitelor în care vizitatorii aveau deja acest număr total de vizite.",
         "ColumnVisitDuration": "Durata vizitei",
         "Engagement": "Vizite repetate",
         "NPages": "%s pagini",

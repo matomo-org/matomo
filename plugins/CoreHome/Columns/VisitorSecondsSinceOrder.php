@@ -62,6 +62,11 @@ class VisitorSecondsSinceOrder extends VisitDimension
         $secondsSinceLastAction = $request->getCurrentTimestamp() - $visitFirstActionTime;
 
         $secondsSinceLastOrder = $prevSecondsSinceLastOrder + $secondsSinceLastAction;
+
+        if ($secondsSinceLastOrder < 0) { // visit in the past
+            return null;
+        }
+
         return $secondsSinceLastOrder;
     }
 

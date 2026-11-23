@@ -1,6 +1,8 @@
 {
     "Diagnostics": {
         "AllPrivateDirectoriesAreInaccessible": "Tá gach eolaire príobháideach dorochtana ón idirlíon.",
+        "ArchivingFailuresCheck": "Cartlanna Teipthe",
+        "ArchivingFailuresComment": "Níorbh fhéidir cartlanna %1$s a phróiseáil agus tá siad ag fanacht go ndéanfaí iarracht eile orthu; maidir le cartlanna %2$s, tréigeadh iad tar éis an líon uasta iarrachtaí a bhaint amach. Ní dhéantar tuairiscí a nuashonrú i gcás na gcartlanna a tréigeadh — ná i gcás na dtréimhsí ina bhfuil siad — go dtí go ndéantar iarracht eile orthu. Tharla an teip is sine ar %3$s. Bain úsáid as an ordú consóil %4$s chun na hearráidí a fheiceáil agus chun iarracht eile a dhéanamh orthu.",
         "BrowserAndAutoArchivingEnabledComment": "Tá an chuma ar an scéal go bhfuil an brabhsálaí agus an chartlannú uathoibríoch cumasaithe. Cuireadh tús le cartlannú uathoibríoch %3$s ó shin. Má tá %1$sauto cartlannú%2$s cumasaithe, ba cheart duit cartlannú brabhsálaí a dhíchumasú i \"Socruithe Ginearálta\".",
         "BrowserAndAutoArchivingEnabledLabel": "Brabhsálaí agus cartlannú Uathoibríoch cumasaithe",
         "BrowserTriggeredArchivingEnabled": "Ar mhaithe le feidhmíocht optamach agus Matomo gasta, moltar go mór crontab a bhunú chun do thuairiscí a chartlannú go huathoibríoch, agus chun truicear brabhsálaí i socruithe Matomo a dhíchumasú. %1$sFoghlaim tuilleadh.%2$s",

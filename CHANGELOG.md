@@ -28,6 +28,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
 * `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
+* The new event `SitesManager.globalSettingsUpdated` is posted after the global website settings were saved on the global settings page. Its single array parameter holds the current settings after the save, with the same keys as the `SitesManager.getGlobalSettings` controller action, except `exclusionTypeForQueryParamsPolicyControlled`. If the save fails part way, the event is posted only if the values saved before the failure changed a setting.
+* The new event `CoreAdminHome.mailSettingsUpdated` is posted after the email server settings were saved on the general settings page. Its single array parameter holds the saved settings and `password_set`, but never the password.
 
 ### New commands
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
@@ -48,7 +50,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 
+### New PHP events
+* New event `Metrics.formatEvolutionValue` that lets plugins format their metric values in the row evolution popover.
+
 ### Other changes
+* Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
 ## Matomo 6.0.0

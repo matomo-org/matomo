@@ -1,7 +1,13 @@
 {
     "UserId": {
         "PluginDescription": "显示用户报告",
+        "ThereIsNoDataForThisReportHelp": "%1$s阅读用户指南，了解如何为此报告生成数据。%2$s",
         "UserId": "用户ID",
+        "UserIdDisabledSettingImpact": "不收集用户 ID 值。基于用户 ID 的用户 ID 报告、细分和跨访问分析不可用。",
+        "UserIdDisabledSettingRequirementNote": "必须在跟踪时停用用户 ID 的收集。",
+        "UserIdDisabledSettingTitle": "已停用用户 ID 跟踪",
+        "UserIdDisabledSettingWhatItDoes": "用户 ID 跟踪已停用。跟踪实施不得使用 setUserId 或类似方法发送用户 ID。<br><br>这可以防止访客被直接识别并在不同访问或设备之间被关联。",
+        "UserIdSegmentHelp": "任何能够识别用户的非空唯一字符串（例如电子邮件地址或用户名）。",
         "UserReportDocumentation": "显示每个用户ID的访问量和其他常规指标。",
         "UserReportTitle": "用户ID",
         "VisitorsUserSubcategoryHelp": "用户ID报告显示所有注册和登录用户的访问。了解这些用户的网站使用情况，并确定哪些是您最活跃和最不活跃的用户。"
