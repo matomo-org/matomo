@@ -65,11 +65,14 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testOutputExceptionShouldNotWriteToPhpErrorLog(int $statusCode)
     {
-        $this->response->init($this->getTracker());
-        $this->response->outputException($this->getTracker(), new Exception('My Custom Message'), $statusCode);
+        $tracker = $this->getTracker();
+        $tracker->setCountOfLoggedRequests(0);
+        $this->response->init($tracker);
+        $this->response->outputException($tracker, new Exception('My Custom Message'), $statusCode);
 
         Fixture::checkResponse($this->response->getOutput());
         $this->assertSame(0, $this->response->numErrorLogWrites);
+        $this->assertCount(1, $this->getSentStatusLines());
     }
 
     public function getStatusCodes(): iterable

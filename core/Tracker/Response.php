@@ -255,8 +255,8 @@ class Response
     }
 
     /**
-     * @deprecated since Matomo 6.1.0, will be removed in Matomo 7. Tracker errors are logged by
-     *             {@link Handler::onException()} through the configured log writers.
+     * @deprecated since Matomo 6.1.0, no longer called and will be removed in Matomo 7. Tracker errors are
+     *             logged by {@link Handler::onException()} through the configured log writers.
      */
     protected function logExceptionToErrorLog($e)
     {
