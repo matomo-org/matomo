@@ -1032,8 +1032,9 @@ abstract class Base extends VisitDimension
      * in and not forcing cookieless tracking - and a site admin can change the tracking code where
      * only a superuser can opt the site in. Where the two disagree the campaign still describes the
      * arrival, so splitting would count one visitor as two over a question neither of them asked.
-     * Nothing is relaxed on the strength of this: a site that reports no consent at all cannot
-     * reach it.
+     * Nothing is relaxed on the strength of this, and it is kept to the sites where the campaign
+     * could have been withheld in the first place: a site whose policy does not mask campaigns
+     * follows the ordinary rule, whatever its tracker reports.
      *
      * @param Action|null $action
      * @internal
@@ -1049,6 +1050,14 @@ abstract class Base extends VisitDimension
         }
 
         if ('1' !== $request->getParam('consent') || Consent::hasVisitConsented($visitor)) {
+            return false;
+        }
+
+        // The consent reported is read straight from the request, so a site using requireConsent()
+        // reaches here too - it has always sent the flag on every request once consent is given.
+        // Only a policy that masks campaigns can have withheld the one this request carries, so
+        // without that there is nothing being completed and the ordinary rule decides.
+        if (!CampaignParameterValuesMasked::isEnabled((int) $request->getIdSiteIfExists())) {
             return false;
         }
 

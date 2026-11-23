@@ -257,6 +257,29 @@ class CampaignConsentTest extends IntegrationTestCase
         return [['not opted in'], ['forced cookieless']];
     }
 
+    /**
+     * Raised in review: a site using the classic requireConsent() sends consent=1 with every
+     * request once the visitor consents, and has always done so, so reading the reported consent
+     * reaches sites with no policy at all. Where nothing masks campaigns there is no withheld
+     * campaign to complete, and a campaign reached later starts a visit as it always has.
+     */
+    public function testACampaignOnTheLandingPageStillStartsAVisitOnASiteNotOptedIn(): void
+    {
+        // no policy, and hybrid tracking off
+        $this->disableConsentAwareAnalytics();
+
+        // arrival from a search engine, without a campaign
+        $this->tracker->setUrlReferrer('https://www.google.com/search?q=running+shoes');
+        $this->trackPageView('landing', $withCampaign = false, $consent = '1');
+        $this->tracker->setUrlReferrer('');
+
+        // the same page, opened again from a campaign link
+        $this->trackPageView('landing', $withCampaign = true, $consent = '1');
+
+        $this->assertSame(2, $this->countVisits(), 'the campaign should start a visit of its own, as on 6.x-dev');
+        $this->assertSame(self::CAMPAIGN_NAME, $this->fetchVisitColumn('referer_name', 1));
+    }
+
     private function disableConsentAwareAnalytics(): void
     {
         $measurable = ConsentAwareAnalyticsSetting::getMeasurableSetting($this->idSite);
