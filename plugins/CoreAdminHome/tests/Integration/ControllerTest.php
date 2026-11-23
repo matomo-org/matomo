@@ -375,6 +375,7 @@ class ControllerTest extends IntegrationTestCase
     {
         Config::getInstance()->mail = [
             'oauth_client_secret'        => 'the-client-secret',
+            'oauth_private_key_path'     => '/etc/matomo/smtp.key',
             'oauth_private_key_password' => 'the-key-password',
         ] + Config::getInstance()->mail;
 
@@ -383,7 +384,8 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringNotContainsString('the-client-secret', $page);
         $this->assertStringNotContainsString('the-key-password', $page);
         $this->assertStringContainsString('oauth_client_secret&quot;:&quot;*****&quot;', $page);
-        $this->assertStringContainsString('oauth_private_key_password&quot;:&quot;*****&quot;', $page);
+        $this->assertStringNotContainsString('/etc/matomo/smtp.key', $page);
+        $this->assertStringNotContainsString('oauth_private_key_password&quot;', $page);
     }
 
     /**

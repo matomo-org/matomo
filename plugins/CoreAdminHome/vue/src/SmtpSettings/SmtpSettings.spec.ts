@@ -145,6 +145,18 @@ describe('CoreAdminHome/SmtpSettings.vue', () => {
     expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('');
   });
 
+  it('still shows a client secret as stored after a save that did not send the entered one', async () => {
+    const wrapper = mountWithStoredOAuthSettings();
+
+    await wrapper.find('[name="mailOAuthClientSecret"]').setValue('a-new-secret');
+    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('certificate');
+    await save(wrapper);
+    await flushPromises();
+    await wrapper.find('[name="mailOAuthCredentialType"]').setValue('secret');
+
+    expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('******');
+  });
+
   it('still shows the stored certificate after a save that changed the scope', async () => {
     const wrapper = mountWithStoredOAuthSettings('Xoauth2', { oauth_certificate_path: '/etc/matomo/cert.pem' });
 

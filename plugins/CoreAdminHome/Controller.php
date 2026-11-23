@@ -491,7 +491,8 @@ class Controller extends ControllerAdmin
         $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
         $mail['password'] = !empty($mail['password']) ? '*****' : '';
         $mail['oauth_client_secret'] = !empty($mail['oauth_client_secret']) ? '*****' : '';
-        $mail['oauth_private_key_password'] = !empty($mail['oauth_private_key_password']) ? '*****' : '';
+        // the form only shows where the certificate is
+        unset($mail['oauth_private_key_path'], $mail['oauth_private_key_password']);
 
         // the config may spell the type in any case, the form only matches its options' exact spelling
         foreach (array_keys(self::MAIL_TYPES) as $mailType) {

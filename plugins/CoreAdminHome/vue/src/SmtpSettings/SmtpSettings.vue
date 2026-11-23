@@ -103,6 +103,7 @@
           v-model="oauthSettings"
           :has-stored-client-secret="savedOAuthSettings.hasClientSecret"
           :certificate-path="savedOAuthSettings.certificatePath"
+          @stored-client-secret-outdated="isStoredClientSecretOutdated = true"
         />
       </div>
 
@@ -156,6 +157,7 @@ interface SmtpSettingsState {
   mailPassword: string;
   oauthSettings: SmtpOAuthClientCredentialsSettings;
   savedOAuthSettings: SavedOAuthSettings;
+  isStoredClientSecretOutdated: boolean;
   mailFromAddress: string;
   mailFromName: string;
   mailEncryption: string;
@@ -218,6 +220,7 @@ export default defineComponent({
         certificatePath: mail.oauth_certificate_path || '',
         hasClientSecret: !!mail.oauth_client_secret,
       },
+      isStoredClientSecretOutdated: false,
       mailFromAddress: mail.noreply_email_address,
       mailFromName: mail.noreply_email_name,
       mailEncryption: mail.encryption,
@@ -267,6 +270,7 @@ export default defineComponent({
   methods: {
     onUpdateMailHost(newValue: string) {
       this.mailHost = newValue;
+      this.isStoredClientSecretOutdated = true;
 
       // neither the stored client secret nor the stored password may be used with another server
       if (this.oauthSettings.clientSecret === undefined) {
@@ -285,14 +289,16 @@ export default defineComponent({
       this.passwordChanged = true;
     },
     updateSavedOAuthSettings(postedClientSecret?: string) {
-      // an untouched client secret is kept by the server, a touched one is only stored when
-      // it was sent
-      if (this.oauthSettings.clientSecret !== undefined) {
+      // a client secret that was not sent is kept by the server, unless a setting it is tied
+      // to changed
+      if (postedClientSecret !== undefined || this.isStoredClientSecretOutdated) {
         this.savedOAuthSettings = {
           ...this.savedOAuthSettings,
           hasClientSecret: !!postedClientSecret,
         };
       }
+
+      this.isStoredClientSecretOutdated = false;
 
       // the saved client secret must be entered again before it is sent to another token URL
       this.oauthSettings = { ...this.oauthSettings, clientSecret: undefined };
