@@ -67,7 +67,7 @@ class API extends \Piwik\Plugin\API
 
         // filter sites where model report disabled by compliance
         $idSitesFiltered = array_filter($idSites, function ($idSite) {
-            return !Resolution::isScreenResolutionDetectionDisabledByCompliancePolicy((int)$idSite);
+            return !Resolution::isScreenResolutionReportHiddenForSite((int)$idSite);
         });
 
         // show an error only if none of the requested sites is left
