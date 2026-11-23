@@ -44,9 +44,14 @@ class UnusedLogActionsPurgeScheduleTest extends IntegrationTestCase
         PrivacyManager::savePurgeDataSettings(['delete_logs_enable' => 1, 'delete_logs_older_than' => 180]);
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
 
-        $purger = $this->getMockBuilder(LogDataPurger::class)->disableOriginalConstructor()->onlyMethods(['purgeData'])->getMock();
-        $purger->method('purgeData')->willReturnCallback(function ($olderThan, $deleteUnusedLogActions, $deleteOldLogs = true) {
-            $this->purges[] = [$deleteUnusedLogActions, $deleteOldLogs];
+        // recorded as [delete unused actions, delete old logs]
+        $purger = $this->getMockBuilder(LogDataPurger::class)->disableOriginalConstructor()->onlyMethods(['purgeData', 'purgeUnusedLogActions'])->getMock();
+        $purger->method('purgeData')->willReturnCallback(function ($olderThan, $deleteUnusedLogActions) {
+            $this->purges[] = [$deleteUnusedLogActions, true];
+            return array_shift($this->results) ?? true;
+        });
+        $purger->method('purgeUnusedLogActions')->willReturnCallback(function () {
+            $this->purges[] = [true, false];
             return array_shift($this->results) ?? true;
         });
         StaticContainer::getContainer()->set(LogDataPurger::class, $purger);

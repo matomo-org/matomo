@@ -825,7 +825,11 @@ class PrivacyManager extends Plugin
         // execute the purge
         /** @var LogDataPurger $logDataPurger */
         $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-        $isComplete = $logDataPurger->purgeData($settings['delete_logs_older_than'], $shouldDeleteUnusedLogActions, $shouldDeleteOldLogs);
+        if ($shouldDeleteOldLogs) {
+            $isComplete = $logDataPurger->purgeData($settings['delete_logs_older_than'], $shouldDeleteUnusedLogActions);
+        } else {
+            $isComplete = !$shouldDeleteUnusedLogActions || $logDataPurger->purgeUnusedLogActions();
+        }
 
         if ($shouldDeleteUnusedLogActions) {
             $this->recordUnusedLogActionsPurge($isComplete !== false, $previousUnusedLogActionsDelete);

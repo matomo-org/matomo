@@ -57,34 +57,23 @@ class LogDataPurger
      *                                 Visits and related data whose age is greater than this number
      *                                 will be purged.
      * @param bool $deleteUnusedLogActions Whether to delete unused log actions or not
-     * @param bool $deleteOldLogs Whether to delete the old visits and their logs, false to only delete unused actions
      * @return bool false when the unused actions purge stopped before it was done (SQLite only), else true
      */
-    public function purgeData($deleteLogsOlderThan, $deleteUnusedLogActions, $deleteOldLogs = true)
+    public function purgeData($deleteLogsOlderThan, $deleteUnusedLogActions)
     {
         $dateUpperLimit = Date::factory("today")->subDay($deleteLogsOlderThan);
 
-        if ($deleteOldLogs) {
-            $transactionLevel = new TransactionLevel(Db::get());
-            $transactionLevel->setTransactionLevelForNonLockingReads();
+        $transactionLevel = new TransactionLevel(Db::get());
+        $transactionLevel->setTransactionLevelForNonLockingReads();
 
-            $this->logDeleter->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
+        $this->logDeleter->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
 
-            $transactionLevel->restorePreviousStatus();
-        }
+        $transactionLevel->restorePreviousStatus();
 
         $logTables = self::getDeleteTableLogTables();
 
         // delete unused actions from the log_action table (but only if we can lock tables)
-        $complete = true;
-        if ($deleteUnusedLogActions) {
-            if (Db::isLockPrivilegeGranted()) {
-                $complete = $this->rawLogDao->deleteUnusedLogActions() !== false;
-            } else {
-                $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
-                Log::warning($logMessage);
-            }
-        }
+        $complete = !$deleteUnusedLogActions || $this->deleteUnusedLogActions();
 
         /**
          * Triggered when a plugin is supposed to delete log/raw data that is older than a certain amount of days.
@@ -100,14 +89,38 @@ class LogDataPurger
          * @param int $deleteLogsOlderThan The number of days after which log entries are considered old.
          *                                 Visits and related data whose age is greater than this number will be purged.
          */
-        if ($deleteOldLogs) {
-            Piwik::postEvent('PrivacyManager.deleteLogsOlderThan', array($dateUpperLimit, $deleteLogsOlderThan));
-        }
+        Piwik::postEvent('PrivacyManager.deleteLogsOlderThan', array($dateUpperLimit, $deleteLogsOlderThan));
 
         // optimize table overhead after deletion
         Db\Schema::getInstance()->optimizeTables($logTables);
 
         return $complete;
+    }
+
+    /**
+     * Deletes the unused actions only, e.g. to retry a purge that stopped early (SQLite only) when no visits are
+     * due for deletion.
+     *
+     * @return bool false when the purge stopped before it was done (SQLite only), else true
+     */
+    public function purgeUnusedLogActions(): bool
+    {
+        $complete = $this->deleteUnusedLogActions();
+
+        Db\Schema::getInstance()->optimizeTables(self::getDeleteTableLogTables());
+
+        return $complete;
+    }
+
+    private function deleteUnusedLogActions(): bool
+    {
+        if (!Db::isLockPrivilegeGranted()) {
+            $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
+            Log::warning($logMessage);
+            return true;
+        }
+
+        return $this->rawLogDao->deleteUnusedLogActions() !== false;
     }
 
     /**

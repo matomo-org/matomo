@@ -26,6 +26,13 @@ class ChunkedPurgeTestRawLogDao extends RawLogDao
      */
     public $afterFirstScan;
 
+    /**
+     * @var callable|null runs when a transaction of the purge reads the max ids, with the number of that read
+     */
+    public $onMaxIds;
+
+    private $maxIdsReads = 0;
+
     public function __construct(int $chunkSize)
     {
         parent::__construct();
@@ -39,6 +46,16 @@ class ChunkedPurgeTestRawLogDao extends RawLogDao
         if ($olderThan && $this->afterFirstScan) {
             ($this->afterFirstScan)();
         }
+    }
+
+    protected function getMaxIdsInLogTables()
+    {
+        $this->maxIdsReads++;
+        if ($this->maxIdsReads > 1 && $this->onMaxIds) {
+            ($this->onMaxIds)($this->maxIdsReads - 1);
+        }
+
+        return parent::getMaxIdsInLogTables();
     }
 }
 
@@ -187,6 +204,69 @@ class LogDeleterTest extends IntegrationTestCase
         // nothing is left locked: the next run completes
         $this->assertTrue((new ChunkedPurgeTestRawLogDao(3))->deleteUnusedLogActions());
         $this->assertSame([], $this->getActionIdsBetween(100001, 100020));
+    }
+
+    public function testSqlitePurgeKeepsAnActionCreatedDuringItsFirstScan(): void
+    {
+        $this->setUpChunkedPurge();
+        $this->insertUnusedActions(100001, 100005);
+
+        $dao = new ChunkedPurgeTestRawLogDao(3);
+        $dao->afterFirstScan = function () {
+            // a tracker created it and is about to reference it
+            $this->insertUnusedActions(100006, 100006);
+        };
+
+        $this->assertTrue($dao->deleteUnusedLogActions());
+        $this->assertSame([100006], $this->getActionIdsBetween(100001, 100006));
+    }
+
+    public function testSqlitePurgeCatchesUpWhenTablesTogetherExceedItsBudget(): void
+    {
+        $this->setUpChunkedPurge();
+        $this->insertUnusedActions(100001, 100005);
+        $idVisit = (int) $this->logInserter->insertVisit(['idsite' => 1])['idvisit'];
+
+        $dao = new ChunkedPurgeTestRawLogDao(3);
+        $dao->afterFirstScan = function () use ($idVisit) {
+            // 6 + 6 rows: each table within the budget of 10, so not caught up, both together over it
+            $pageViewTime = Common::prefixTable('log_page_view_time');
+            for ($i = 0; $i < 6; $i++) {
+                $this->logInserter->insertVisitAction($idVisit, ['idsite' => 1, 'idaction_url' => $i === 5 ? 100002 : 0]);
+                $idLinkVa = (int) Db::get()->lastInsertId();
+                Db::query(
+                    "INSERT INTO `$pageViewTime` (idsite, idvisit, idlink_va, idaction_url, server_time) VALUES (1, ?, ?, ?, '2020-01-01 00:00:00')",
+                    [$idVisit, $idLinkVa, $i === 5 ? 100003 : null]
+                );
+            }
+        };
+
+        $this->assertTrue($dao->deleteUnusedLogActions());
+        $this->assertSame([100002, 100003], $this->getActionIdsBetween(100001, 100005));
+    }
+
+    public function testSqlitePurgeStopsWhenAVisitGetsMoreRowsThanItsBudget(): void
+    {
+        $this->setUpChunkedPurge();
+        $this->insertUnusedActions(100001, 100005);
+
+        $dao = new ChunkedPurgeTestRawLogDao(3);
+        $dao->afterFirstScan = function () {
+            // a large order on the newest visit: no new visit, but more rows to rescan than the budget
+            $maxIdVisit = (int) Db::fetchOne('SELECT MAX(idvisit) FROM ' . Common::prefixTable('log_visit'));
+            for ($i = 0; $i < 11; $i++) {
+                $this->logInserter->insertConversionItem($maxIdVisit, 'idorder_big', ['idsite' => 1, 'idaction_sku' => 100100 + $i, 'idaction_name' => 100004]);
+            }
+        };
+
+        $this->assertFalse($dao->deleteUnusedLogActions());
+        $this->assertCount(5, $this->getActionIdsBetween(100001, 100005));
+
+        // the newest visit's rows are always rescanned in the lock; once a newer visit has an order, the run completes
+        $idVisit = (int) $this->logInserter->insertVisit(['idsite' => 1])['idvisit'];
+        $this->logInserter->insertConversionItem($idVisit, 'idorder_next', ['idsite' => 1, 'idaction_sku' => 100004, 'idaction_name' => 100004]);
+        $this->assertTrue((new ChunkedPurgeTestRawLogDao(3))->deleteUnusedLogActions());
+        $this->assertSame([100004], $this->getActionIdsBetween(100001, 100005));
     }
 
     private function setUpChunkedPurge(): void

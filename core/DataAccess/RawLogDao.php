@@ -25,9 +25,11 @@ class RawLogDao
     public const DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME = 'tmp_log_actions_to_keep';
 
     /**
-     * Log tables scanned by their own auto-increment key, whose action references are never updated: a new
-     * reference always gets a higher id, so a scan can resume above the last id it read. Tables scanned by
-     * idvisit cannot: a cart update or a conversion adds references to an existing visit.
+     * Log tables scanned by their own auto-increment key: a new reference gets a higher id, so a scan can resume
+     * above the last id it read. Tables scanned by idvisit cannot: a cart update or a conversion adds references
+     * to an existing visit. A retried page view's upsert rewrites an existing log_page_view_time row, with the
+     * actions of its new log_link_visit_action row, which the scan does see. Other references written below a
+     * scan's position during the run are missed, as by MySQL's unlocked scan below $maxIds.
      */
     private const TABLES_SCANNED_IN_INSERT_ORDER = ['log_link_visit_action', 'log_page_view_time'];
 
@@ -205,6 +207,10 @@ class RawLogDao
         // get current max ID in log tables w/ idaction references.
         $maxIds = $this->getMaxIdsInLogTables();
 
+        $isSqlite = Db\Sqlite\Connection::isSqliteConnection(Db::get());
+        // SQLite: actions created from here on may not be referenced yet by the request that created them
+        $lastCandidate = $isSqlite ? (int) Db::fetchOne('SELECT MAX(idaction) FROM `' . Common::prefixTable('log_action') . '`') : 0;
+
         // get max rows to analyze
         $max_rows_per_query = PiwikConfig::getInstance()->Deletelogs['delete_logs_unused_actions_max_rows_per_query'];
 
@@ -215,8 +221,8 @@ class RawLogDao
             // do large insert (inserting everything before maxIds) w/o locking tables...
             $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true, $max_rows_per_query);
 
-            if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
-                $complete = $this->deleteUnusedActionsInChunks($maxIds, (int) $max_rows_per_query);
+            if ($isSqlite) {
+                $complete = $this->deleteUnusedActionsInChunks($maxIds, $lastCandidate, (int) $max_rows_per_query);
                 $this->dropTempTableForStoringUsedActions();
                 return $complete;
             }
@@ -253,12 +259,13 @@ class RawLogDao
     }
 
     /**
-     * SQLite's locked phase. Each transaction rescans what was written since the last one, within $budget ids,
-     * then deletes at most $sqliteDeleteChunkSize unused actions. Tables scanned in insert order are caught up
-     * outside the lock first; tables scanned by idvisit are always rescanned from $maxIds, as MySQL's locked
-     * scan does, so once visits since the start of the run exceed the budget, the purge stops.
+     * SQLite's locked phase. Each transaction rescans what was written since the last one, within $budget rows,
+     * then deletes at most $sqliteDeleteChunkSize unused actions up to $lastCandidate. Tables scanned in insert
+     * order are caught up outside the lock first; tables scanned by idvisit are always rescanned from $maxIds,
+     * as MySQL's locked scan does, so once their rows since the start of the run exceed the budget, the purge
+     * stops. So does a run that needed more than $sqliteMaxCatchUpScans catch-ups.
      */
-    private function deleteUnusedActionsInChunks(array $maxIds, int $budget): bool
+    private function deleteUnusedActionsInChunks(array $maxIds, int $lastCandidate, int $budget): bool
     {
         [$logActionTable, $tempTableName] = Common::prefixTables('log_action', self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
         $referencingTables = array_keys($this->dimensionMetadataProvider->getActionReferenceColumnsByTable());
@@ -270,16 +277,16 @@ class RawLogDao
             }
         }
 
-        // an action created during the run may not be referenced yet by the request that created it
-        $lastCandidate = (int) Db::fetchOne("SELECT MAX(idaction) FROM `$logActionTable`");
         $chunkSize = max(1, (int) $this->sqliteDeleteChunkSize);
         $afterIdAction = 0;
         $catchUpScans = 0;
+        $catchUpAll = false;
 
         while (true) {
-            if (!$this->catchUpTablesScannedInInsertOrder($scannedTo, $budget, $catchUpScans)) {
+            if (!$this->catchUpTablesScannedInInsertOrder($scannedTo, $budget, $catchUpScans, $catchUpAll)) {
                 return false;
             }
+            $catchUpAll = false;
 
             $candidates = array_column(Db::fetchAll(
                 "SELECT idaction FROM `$logActionTable` la
@@ -301,21 +308,26 @@ class RawLogDao
                 $inInsertOrder = 0;
                 foreach ($referencingTables as $table) {
                     $rescanFrom[$table] = $scannedTo[$table] ?? (int) $maxIds[$table];
-                    $outstanding = max(0, (int) $currentMaxIds[$table] - $rescanFrom[$table]);
                     if (isset($scannedTo[$table])) {
-                        $inInsertOrder += $outstanding;
+                        // one row per id
+                        $inInsertOrder += max(0, (int) $currentMaxIds[$table] - $rescanFrom[$table]);
                     } else {
-                        $byVisit += $outstanding;
+                        // new visits, or more rows when a visit has many (cart items, conversions)
+                        $byVisit += max(
+                            (int) $currentMaxIds[$table] - $rescanFrom[$table],
+                            $this->countRowsUpTo($table, $rescanFrom[$table], (int) $currentMaxIds[$table], $budget + 1)
+                        );
                     }
                 }
 
                 if ($byVisit + $inInsertOrder > $budget) {
                     Db::abortTableLocks();
-                    if ($byVisit > $budget) {
-                        // only grows during the run: a later transaction cannot do better
+                    if ($byVisit > $budget || ++$catchUpScans > $this->sqliteMaxCatchUpScans) {
+                        // the idvisit tables only grow during the run: a later transaction cannot do better
                         return false;
                     }
-                    // the lock waited while trackers wrote: catch up again outside it
+                    // the lock waited while trackers wrote: catch every table up outside it
+                    $catchUpAll = true;
                     continue;
                 }
 
@@ -344,20 +356,35 @@ class RawLogDao
     }
 
     /**
+     * The rows of $table with $idColumn from $from to $to, counting at most $limit.
+     */
+    private function countRowsUpTo(string $table, int $from, int $to, int $limit): int
+    {
+        $idColumn = $this->getTableIdColumns()[$table];
+
+        return (int) Db::fetchOne(
+            "SELECT COUNT(*) FROM (SELECT 1 FROM `" . Common::prefixTable($table) . "` WHERE $idColumn >= ? AND $idColumn <= ? LIMIT " . (int) $limit . ") AS t",
+            [$from, $to]
+        );
+    }
+
+    /**
      * Scans, outside the lock, the rows tables scanned in insert order got since their last scan, until each is
-     * at most $budget ids behind. False when that took more than $sqliteMaxCatchUpScans scans.
+     * at most $budget ids behind; with $all, every table behind at all is scanned first. False when the run
+     * needed more than $sqliteMaxCatchUpScans catch-ups.
      *
      * @param array<string, int> $scannedTo
      */
-    private function catchUpTablesScannedInInsertOrder(array &$scannedTo, int $budget, int &$catchUpScans): bool
+    private function catchUpTablesScannedInInsertOrder(array &$scannedTo, int $budget, int &$catchUpScans, bool $all = false): bool
     {
         $idColumns = $this->getTableIdColumns();
+        $threshold = $all ? 0 : $budget;
         while (true) {
             $behind = [];
             foreach ($scannedTo as $table => $id) {
                 $idColumn = $idColumns[$table];
                 $maxId = (int) Db::fetchOne("SELECT MAX($idColumn) FROM `" . Common::prefixTable($table) . "`");
-                if ($maxId - $id > $budget) {
+                if ($maxId - $id > $threshold) {
                     $behind[$table] = $maxId;
                 }
             }
@@ -374,6 +401,7 @@ class RawLogDao
                 $this->insertActionsToKeepBetween($table, $scannedTo[$table], $maxId, $budget);
                 $scannedTo[$table] = $maxId;
             }
+            $threshold = $budget;
         }
     }
 
