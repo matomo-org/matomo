@@ -6022,6 +6022,372 @@ if ($mysql) {
         }, 3000);
     });
 
+    // Counts the ConsentGiven events a tracker gets. Each test stops listening before it
+    // asserts, so a failed test does not leave a handler behind for the next one.
+    function listenForConsentGiven(tracker) {
+        var listener = {calls: 0, otherTrackers: 0};
+        listener.handler = function (eventTracker) {
+            if (eventTracker === tracker) {
+                listener.calls++;
+            } else {
+                listener.otherTrackers++;
+            }
+        };
+        listener.stop = function () {
+            Matomo.off('ConsentGiven', listener.handler);
+        };
+        Matomo.on('ConsentGiven', listener.handler);
+
+        return listener;
+    }
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - hasGivenConsent and ConsentGiven leave a tracker that asked for neither consent alone", function() {
+        stop();
+
+        deleteCookies();
+
+        // the page calls neither requireConsent() nor requireConsentForRestrictedData(), so the
+        // new API must change nothing for it: no event, and the same requests as before
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'givenUnasked');
+        var allEvents = 0;
+        var countAll = function () { allEvents++; };
+        Matomo.on('ConsentGiven', countAll);
+
+        tracker.trackRequest('myFoo=beforeConsent');
+        tracker.setConsentGiven();
+        tracker.rememberConsentGiven();
+        tracker.trackRequest('myFoo=afterConsent');
+        var given = tracker.hasGivenConsent();
+
+        setTimeout(function () {
+            Matomo.off('ConsentGiven', countAll);
+
+            strictEqual(given, false, "hasGivenConsent() is true on a tracker that never asked for consent");
+            strictEqual(allEvents, 0, "ConsentGiven ran on a tracker that never asked for consent");
+
+            var requests = fetchTrackedRequests(getConsentToken() + 'givenUnasked', true);
+            strictEqual(requests.length, 2, "the tracker sent requests other than the two it tracked");
+            strictEqual((requests.join('\n').match(/consent=1/g) || []).length, 0, "a tracker that never asked for consent reported it");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    test("Test API - hasGivenConsent and ConsentGiven with requireConsentForRestrictedData", function() {
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.requireConsentForRestrictedData();
+        var listener = listenForConsentGiven(tracker);
+
+        var hadConsentBefore = tracker.hasConsent();
+        var givenBefore = tracker.hasGivenConsent();
+        var givenBeforeAgain = tracker.hasGivenConsent();
+        tracker.setConsentGiven();
+        var callsAfterFirst = listener.calls;
+        var givenAfter = tracker.hasGivenConsent();
+        tracker.setConsentGiven();
+        listener.stop();
+
+        strictEqual(hadConsentBefore, true, "hasConsent() changed: it was always true before consent here");
+        strictEqual(givenBefore, false, "hasGivenConsent() is true before consent is given");
+        strictEqual(givenBeforeAgain, false, "reading hasGivenConsent() changed it");
+        strictEqual(callsAfterFirst, 1, "ConsentGiven did not run once when consent was given");
+        strictEqual(givenAfter, true, "hasGivenConsent() is false after consent is given");
+        strictEqual(listener.calls, 1, "ConsentGiven ran again for consent that was already given");
+        strictEqual(listener.otherTrackers, 0, "ConsentGiven was not given the tracker that consent was given on");
+
+        deleteCookies();
+    });
+
+    test("Test API - hasGivenConsent and ConsentGiven with requireConsent", function() {
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.requireConsent();
+        var listener = listenForConsentGiven(tracker);
+
+        var givenBefore = tracker.hasGivenConsent();
+        tracker.setConsentGiven();
+        var givenAfter = tracker.hasGivenConsent();
+        tracker.setConsentGiven();
+        listener.stop();
+
+        strictEqual(givenBefore, false, "hasGivenConsent() is true before consent is given");
+        strictEqual(givenAfter, true, "hasGivenConsent() is false after consent is given");
+        strictEqual(listener.calls, 1, "ConsentGiven did not run exactly once");
+
+        deleteCookies();
+    });
+
+    test("Test API - ConsentGiven runs when consent is given before requireConsentForRestrictedData", function() {
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        var listener = listenForConsentGiven(tracker);
+
+        tracker.setConsentGiven();
+        var givenBeforeAsking = tracker.hasGivenConsent();
+        var callsBeforeAsking = listener.calls;
+        tracker.requireConsentForRestrictedData();
+        listener.stop();
+
+        strictEqual(givenBeforeAsking, false, "hasGivenConsent() is true before the tracker asked for consent");
+        strictEqual(callsBeforeAsking, 0, "ConsentGiven ran before the tracker asked for consent");
+        strictEqual(tracker.hasGivenConsent(), true, "consent given before asking for it is not counted");
+        strictEqual(listener.calls, 1, "ConsentGiven did not run once when the earlier consent started to count");
+
+        deleteCookies();
+    });
+
+    test("Test API - ConsentGiven does not run for a consent that is not consent to being measured", function() {
+        deleteCookies();
+
+        // forgetUserOptOut() restores tracking this way without the visitor having answered
+        // whether they agree to be measured
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.requireConsentForRestrictedData();
+        var listener = listenForConsentGiven(tracker);
+
+        tracker.setConsentGiven(false, false);
+        listener.stop();
+
+        strictEqual(tracker.hasGivenConsent(), false, "hasGivenConsent() is true without consent to being measured");
+        strictEqual(listener.calls, 0, "ConsentGiven ran without consent to being measured");
+
+        deleteCookies();
+    });
+
+    test("Test API - withdrawing consent runs no ConsentGiven, giving it again does", function() {
+        var modes = ['requireConsentForRestrictedData', 'requireConsent'];
+        var i, tracker, listener, givenAfterForget, callsAfterForget;
+
+        for (i = 0; i < modes.length; i++) {
+            deleteCookies();
+
+            tracker = Piwik.getTracker();
+            tracker.disableBrowserFeatureDetection();
+            tracker[modes[i]]();
+            listener = listenForConsentGiven(tracker);
+
+            tracker.setConsentGiven();
+            tracker.forgetConsentGiven();
+            givenAfterForget = tracker.hasGivenConsent();
+            callsAfterForget = listener.calls;
+            tracker.setConsentGiven();
+            listener.stop();
+
+            strictEqual(givenAfterForget, false, modes[i] + ": hasGivenConsent() is true after consent was withdrawn");
+            strictEqual(callsAfterForget, 1, modes[i] + ": withdrawing consent ran ConsentGiven");
+            strictEqual(listener.calls, 2, modes[i] + ": giving consent again did not run ConsentGiven once more");
+        }
+
+        deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - ConsentGiven runs once when remembered consent is picked up", function() {
+        stop();
+
+        deleteCookies();
+
+        // the visitor consented on a previous page view
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.requireConsentForRestrictedData();
+        remembering.rememberConsentGiven();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'givenRemembered');
+        tracker.requireConsentForRestrictedData();
+        var listener = listenForConsentGiven(tracker);
+        tracker.trackRequest('myFoo=first');
+        tracker.trackRequest('myFoo=second');
+
+        setTimeout(function () {
+            listener.stop();
+
+            strictEqual(tracker.hasGivenConsent(), true, "remembered consent is not picked up");
+            strictEqual(listener.calls, 1, "ConsentGiven did not run exactly once for remembered consent");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    test("Test API - ConsentGiven runs when requireConsent finds consent remembered", function() {
+        deleteCookies();
+
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.requireConsent();
+        remembering.rememberConsentGiven();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        var listener = listenForConsentGiven(tracker);
+        tracker.requireConsent();
+        listener.stop();
+
+        strictEqual(tracker.hasGivenConsent(), true, "remembered consent is not picked up by requireConsent()");
+        strictEqual(listener.calls, 1, "ConsentGiven did not run once for remembered consent");
+
+        deleteCookies();
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - remembered consent of another kind or another site runs no ConsentGiven", function() {
+        stop();
+
+        deleteCookies();
+
+        // the requireConsent() cookie, which is not consent to being measured beyond the exemption
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.requireConsent();
+        remembering.rememberConsentGiven();
+
+        var restricted = Piwik.getTracker();
+        restricted.disableBrowserFeatureDetection();
+        restricted.setCustomData('token', getConsentToken() + 'givenOtherKind');
+        restricted.requireConsentForRestrictedData();
+        var restrictedListener = listenForConsentGiven(restricted);
+        restricted.trackRequest('myFoo=otherKind');
+
+        setTimeout(function () {
+            restrictedListener.stop();
+            strictEqual(restricted.hasGivenConsent(), false, "consent to cookies counted as consent to being measured");
+            strictEqual(restrictedListener.calls, 0, "ConsentGiven ran for consent to cookies");
+
+            deleteCookies();
+
+            // consent to being measured remembered by a neighbour that asked for it
+            var neighbour = Piwik.getTracker();
+            neighbour.disableBrowserFeatureDetection();
+            neighbour.requireConsentForRestrictedData();
+            neighbour.rememberConsentGiven();
+
+            var unasked = Piwik.getTracker();
+            unasked.disableBrowserFeatureDetection();
+            unasked.setCustomData('token', getConsentToken() + 'givenNeighbour');
+            var unaskedListener = listenForConsentGiven(unasked);
+            unasked.trackRequest('myFoo=neighbour');
+
+            setTimeout(function () {
+                unaskedListener.stop();
+                strictEqual(unasked.hasGivenConsent(), false, "a tracker that never asked for consent took a neighbour's");
+                strictEqual(unaskedListener.calls, 0, "ConsentGiven ran on a tracker that never asked for consent");
+
+                deleteCookies();
+                start();
+            }, 1500);
+        }, 1500);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - withdrawn consent is not picked up from the cookies it left behind", function() {
+        stop();
+
+        deleteCookies();
+
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.requireConsentForRestrictedData();
+        remembering.rememberConsentGiven();
+        // as if consent had been withdrawn in a way that left the other cookies in place
+        document.cookie = 'mtm_consent_removed=' + new Date().getTime() + '; path=/';
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'givenRemoved');
+        tracker.requireConsentForRestrictedData();
+        var listener = listenForConsentGiven(tracker);
+        tracker.trackRequest('myFoo=removed');
+
+        setTimeout(function () {
+            listener.stop();
+            strictEqual(tracker.hasGivenConsent(), false, "withdrawn consent is picked up");
+            strictEqual(listener.calls, 0, "ConsentGiven ran for withdrawn consent");
+
+            deleteCookies();
+            start();
+        }, 1500);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - a ConsentGiven handler that fails does not stop consent being reported", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'givenThrows');
+        tracker.requireConsentForRestrictedData();
+        tracker.trackRequest('myFoo=beforeConsent');
+
+        var failing = function () {
+            throw new Error('handler failed');
+        };
+        Matomo.on('ConsentGiven', failing);
+
+        var threw = false;
+        try {
+            tracker.setConsentGiven();
+        } catch (e) {
+            threw = true;
+        }
+        Matomo.off('ConsentGiven', failing);
+
+        strictEqual(threw, false, "a failing ConsentGiven handler broke setConsentGiven()");
+        strictEqual(tracker.hasGivenConsent(), true, "consent is not given after a failing handler");
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'givenThrows');
+            strictEqual((requests.match(/consent=1/g) || []).length, 1, "the consent was not reported after a failing handler");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    test("Test API - a ConsentGiven handler that gives consent again runs once", function() {
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.requireConsentForRestrictedData();
+        var calls = 0;
+        var reentering = function (eventTracker) {
+            calls++;
+            if (calls < 5) {
+                eventTracker.setConsentGiven();
+            }
+        };
+        Matomo.on('ConsentGiven', reentering);
+
+        tracker.setConsentGiven();
+        Matomo.off('ConsentGiven', reentering);
+
+        strictEqual(calls, 1, "ConsentGiven ran again from inside its own handler");
+
+        deleteCookies();
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 
