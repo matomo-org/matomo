@@ -198,6 +198,11 @@ class Controller extends ControllerAdmin
                 $mail['password'] = Config::getInstance()->mail['password'];
             }
 
+            if (SmtpTokenProvider::isOAuthType($mail['type'])) {
+                // the password is not used with OAuth 2.0, and the form has no field to clear it
+                $mail['password'] = '';
+            }
+
             $mail['encryption'] =  $request->getStringParameter('mailEncryption', '');
 
             $mail = $this->buildOAuthMailSettings($mail, $request);
@@ -280,14 +285,18 @@ class Controller extends ControllerAdmin
         $mail['oauth_client_secret'] = $request->getStringParameter('mailOAuthClientSecret', '');
         $mail['oauth_scope'] = trim($request->getStringParameter('mailOAuthScope', ''));
 
-        $credentialTypes = [ClientCredentials::CREDENTIAL_TYPE_SECRET, ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE];
-        $mail['oauth_credential_type'] = strtolower(trim($request->getStringParameter('mailOAuthCredentialType', '')));
-        if (!in_array($mail['oauth_credential_type'], $credentialTypes, true)) {
-            $mail['oauth_credential_type'] = strtolower(trim((string) ($storedMail['oauth_credential_type'] ?? '')));
-        }
+        // a request without a credential type keeps the stored one
+        $mail['oauth_credential_type'] = strtolower(trim($request->getStringParameter('mailOAuthCredentialType', '')))
+            ?: strtolower(trim((string) ($storedMail['oauth_credential_type'] ?? '')))
+            ?: ClientCredentials::CREDENTIAL_TYPE_SECRET;
 
         if (!array_key_exists('mailOAuthClientSecret', $request->getParameters()) && $this->areOAuthCredentialsStillValidFor($mail)) {
             $mail['oauth_client_secret'] = $storedMail['oauth_client_secret'];
+        }
+
+        if ($mail['oauth_credential_type'] === ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE) {
+            // a client secret is not used with a certificate
+            $mail['oauth_client_secret'] = '';
         }
 
         // the certificate settings are only set in the config file, so the form can't make Matomo read any other file
@@ -300,7 +309,20 @@ class Controller extends ControllerAdmin
 
     private function checkOAuthMailSettings(array $mail): void
     {
-        $hasCertificate = trim($mail['oauth_certificate_path']) !== '';
+        $credentials = new ClientCredentials(
+            $mail['oauth_token_url'],
+            $mail['oauth_client_id'],
+            $mail['oauth_scope'],
+            $mail['oauth_credential_type'],
+            $mail['oauth_client_secret'],
+            trim($mail['oauth_certificate_path'])
+        );
+        $hasCertificate = $credentials->getCertificatePath() !== '';
+
+        // checked for every login method, so an invalid type is never written to the config file
+        if (!$credentials->hasValidCredentialType()) {
+            throw new BadRequestException(Piwik::translate('General_InvalidValueForParameter', ['mailOAuthCredentialType']));
+        }
 
         // checked for every login method: the access token is sent to the SMTP server, and with a certificate
         // in the config file only that file may say which server that is
@@ -312,18 +334,13 @@ class Controller extends ControllerAdmin
             return;
         }
 
-        $isCertificate = $mail['oauth_credential_type'] === ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE;
+        $isCertificate = $credentials->isCertificate();
 
         if ($isCertificate && !$hasCertificate) {
             throw new BadRequestException(Piwik::translate('CoreAdminHome_ErrorSmtpOAuthCertificateNotSetUp'));
         }
 
-        if (
-            $mail['username'] === ''
-            || $mail['oauth_token_url'] === ''
-            || $mail['oauth_client_id'] === ''
-            || (!$isCertificate && $mail['oauth_client_secret'] === '')
-        ) {
+        if ($mail['username'] === '' || !$credentials->isComplete()) {
             throw new BadRequestException(Piwik::translate(
                 $isCertificate ? 'CoreAdminHome_ErrorSmtpOAuthCertificateSettingsIncomplete' : 'CoreAdminHome_ErrorSmtpOAuthSettingsIncomplete'
             ));

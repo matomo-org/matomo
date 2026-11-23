@@ -310,8 +310,63 @@ class ControllerTest extends IntegrationTestCase
     {
         yield 'certificate to secret' => ['certificate', 'secret', 'secret'];
         yield 'secret to certificate in any case' => ['secret', 'Certificate', 'certificate'];
-        yield 'an unknown type keeps the stored one' => ['certificate', 'unknown', 'certificate'];
-        yield 'the stored one is cleaned up' => [' Certificate ', 'unknown', 'certificate'];
+        yield 'no type keeps the stored one' => ['certificate', '', 'certificate'];
+        yield 'the stored one is cleaned up' => [' Certificate ', '', 'certificate'];
+        yield 'no type at all is the client secret' => ['', '', 'secret'];
+    }
+
+    /**
+     * @dataProvider getLoginMethods
+     */
+    public function testSetMailSettingsRejectsAnUnknownCredentialType(string $mailType): void
+    {
+        $this->setStoredOAuthSettings();
+        $storedMail = Config::getInstance()->mail;
+
+        $response = $this->postMailSettings($this->getOAuthMailSettingsRequest([
+            'mailType'                => $mailType,
+            'mailOAuthCredentialType' => 'unknown',
+        ]));
+
+        $this->assertSame('error', $response['result']);
+        $this->assertStringStartsWith("Invalid value for the parameter 'mailOAuthCredentialType'.", $response['message']);
+        $this->assertSame($storedMail, Config::getInstance()->mail);
+    }
+
+    public function getLoginMethods(): iterable
+    {
+        yield 'OAuth 2.0' => ['Xoauth2'];
+        yield 'another login method' => ['Login'];
+    }
+
+    public function testSetMailSettingsRemovesThePasswordWhenOAuthIsUsed(): void
+    {
+        $this->setStoredOAuthSettings();
+        Config::getInstance()->mail = ['type' => 'Login', 'password' => 'the-stored-password'] + Config::getInstance()->mail;
+
+        $request = $this->getOAuthMailSettingsRequest();
+        unset($request['mailPassword']);
+        $response = $this->postMailSettings($request);
+
+        $this->assertSame('success', $response['result']);
+        $this->assertSame('Xoauth2', Config::getInstance()->mail['type']);
+        $this->assertSame('', Config::getInstance()->mail['password']);
+    }
+
+    public function testSetMailSettingsRemovesTheClientSecretWhenTheCertificateIsUsed(): void
+    {
+        $this->setStoredOAuthSettings();
+        Config::getInstance()->mail = ['oauth_certificate_path' => '/etc/matomo/smtp.crt'] + Config::getInstance()->mail;
+
+        $response = $this->postMailSettings($this->getOAuthMailSettingsRequest(['mailOAuthCredentialType' => 'certificate'], false));
+
+        $this->assertSame('success', $response['result']);
+        $this->assertSame('', Config::getInstance()->mail['oauth_client_secret']);
+
+        $response = $this->postMailSettings($this->getOAuthMailSettingsRequest(['mailOAuthCredentialType' => 'secret'], false));
+
+        $this->assertSame('error', $response['result']);
+        $this->assertStringStartsWith('To use OAuth 2.0, please enter', $response['message']);
     }
 
     public function testSetMailSettingsNeverTakesTheCertificateSettingsFromTheRequest(): void

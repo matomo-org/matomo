@@ -91,7 +91,7 @@ export default defineComponent({
       default: '',
     },
   },
-  emits: ['update:modelValue', 'storedClientSecretOutdated'],
+  emits: ['update:modelValue'],
   components: {
     Field,
   },
@@ -147,8 +147,6 @@ export default defineComponent({
       this.$emit('update:modelValue', { ...this.modelValue, ...changes });
     },
     updateSettingTiedToSecret(changes: Partial<SmtpOAuthClientCredentialsSettings>) {
-      this.$emit('storedClientSecretOutdated');
-
       if (this.clientSecretChanged) {
         this.update(changes);
         return;

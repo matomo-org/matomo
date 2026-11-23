@@ -145,7 +145,7 @@ describe('CoreAdminHome/SmtpSettings.vue', () => {
     expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('');
   });
 
-  it('still shows a client secret as stored after a save that did not send the entered one', async () => {
+  it('does not show a client secret as stored after a save with the certificate', async () => {
     const wrapper = mountWithStoredOAuthSettings();
 
     await wrapper.find('[name="mailOAuthClientSecret"]').setValue('a-new-secret');
@@ -154,7 +154,19 @@ describe('CoreAdminHome/SmtpSettings.vue', () => {
     await flushPromises();
     await wrapper.find('[name="mailOAuthCredentialType"]').setValue('secret');
 
-    expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('******');
+    expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('');
+  });
+
+  it('does not show a password as stored after a save with OAuth 2.0', async () => {
+    const wrapper = mountWithStoredOAuthSettings('Login', { password: '*****' });
+
+    await wrapper.find('[name="mailType"]').setValue('Xoauth2');
+    await save(wrapper);
+    await flushPromises();
+    await wrapper.find('[name="mailType"]').setValue('Login');
+
+    expect((wrapper.find('[name="mailPassword"]').element as HTMLInputElement).value).toBe('');
+    expect(await save(wrapper)).not.toHaveProperty('mailPassword');
   });
 
   it('still shows the stored certificate after a save that changed the scope', async () => {
