@@ -109,18 +109,35 @@ class SqliteCheckTest extends IntegrationTestCase
         $this->assertStringContainsString('401, 403 or 404', $this->describe($result));
     }
 
-    /**
-     * Makes every probed URL answer with a status; a 2xx serves the file.
-     */
-    private function setProbedStatus(int $status): void
+    public function testWarnsWhenTheUrlDoesNotServeMatomo(): void
     {
-        StaticContainer::getContainer()->set(ExposureProbe::class, new ExposureProbe(function (string $url, ?array $range) use ($status) {
+        $this->setAttested(true);
+        // e.g. a wrong URL that answers 404 to everything
+        $this->setProbedStatus(null);
+
+        [$result] = $this->runCheck();
+
+        $this->assertSame(DiagnosticResult::STATUS_WARNING, $result->getStatus());
+        $this->assertStringContainsString('could not check', $this->describe($result));
+    }
+
+    /**
+     * Makes every probed URL answer with a status; a 2xx serves the file. Matomo's matomo.js is always served,
+     * unless the status is null.
+     */
+    private function setProbedStatus(?int $status): void
+    {
+        StaticContainer::getContainer()->set(ExposureProbe::class, new ExposureProbe(function (string $url) use ($status) {
+            if ($status !== null && str_ends_with($url, '/matomo.js')) {
+                return ['status' => 200, 'body' => (string) file_get_contents(PIWIK_INCLUDE_PATH . '/matomo.js', false, null, 0, 64)];
+            }
+            $status = $status ?? 404;
             $body = '';
             if ($status === 200) {
                 $file = Connection::getDatabaseFile(Config::getInstance()->database);
                 $body = (string) file_get_contents(dirname($file) . '/' . rawurldecode(basename($url)));
             }
-            return ['status' => $status, 'body' => $body, 'redirected' => false];
+            return ['status' => $status, 'body' => $body];
         }));
     }
 

@@ -40,9 +40,11 @@ class DatabaseInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('DB Collation', $dbConfig['collation']);
             $results[] = DiagnosticResult::informationalResult('DB Adapter', $dbConfig['adapter']);
             $serverVersion = (string) $this->getServerVersion();
-            $databaseType = Db\Sqlite\Connection::isSqliteConnection(Db::get()) ? 'SQLite' : Schema::getServerTypeFromVersion($serverVersion);
+            // from the configuration: a failed connection is reported by the lookups, not thrown here
+            $isSqlite = Db\Sqlite\Connection::isSqliteAdapter((string) $dbConfig['adapter']);
+            $databaseType = $isSqlite ? 'SQLite' : Schema::getServerTypeFromVersion($serverVersion);
             $results[] = DiagnosticResult::informationalResult($databaseType . ' Version', $serverVersion);
-            $results[] = DiagnosticResult::informationalResult('Num Tables', $this->getNumMatomoTables());
+            $results[] = DiagnosticResult::informationalResult('Num Tables', $this->getNumMatomoTables($isSqlite));
         }
 
         return $results;
@@ -57,13 +59,13 @@ class DatabaseInformational implements Diagnostic
         }
     }
 
-    private function getNumMatomoTables()
+    private function getNumMatomoTables(bool $isSqlite)
     {
         $prefix = Common::prefixTable('');
 
         $results = null;
         try {
-            $results = Db\Sqlite\Connection::isSqliteConnection(Db::get())
+            $results = $isSqlite
                 ? DbHelper::getTablesInstalled()
                 : Db::get()->fetchAll('show tables like "' . $prefix . '%"');
         } catch (\Exception $e) {

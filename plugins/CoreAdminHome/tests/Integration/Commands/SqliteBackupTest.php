@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 use PDO;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugins\CoreAdminHome\Commands\SqliteBackup;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
@@ -54,7 +55,13 @@ class SqliteBackupTest extends ConsoleCommandTestCase
         Db::query('INSERT INTO ' . Common::prefixTable('option') . " (option_name, option_value, autoload) VALUES ('backup_marker', 'kept', 0)");
         $file = $this->directory . '/matomo.sqlite';
 
-        $this->assertSame(0, $this->runBackup(['file' => $file]), $this->getCommandDisplayOutputErrorMessage());
+        // a permissive umask: the copy must be private regardless
+        $umask = umask(0);
+        try {
+            $this->assertSame(0, $this->runBackup(['file' => $file]), $this->getCommandDisplayOutputErrorMessage());
+        } finally {
+            umask($umask);
+        }
 
         $copy = new PDO('sqlite:' . $file);
         $this->assertSame('wal', $copy->query('PRAGMA journal_mode')->fetchColumn());
@@ -75,6 +82,26 @@ class SqliteBackupTest extends ConsoleCommandTestCase
 
         $this->assertSame('mine', file_get_contents($file));
         $this->assertSame([$file], glob($this->directory . '/*'));
+    }
+
+    public function testPublishingNeverReplacesAFileCreatedDuringTheBackup(): void
+    {
+        $temporaryFile = $this->directory . '/copy.tmp';
+        $file = $this->directory . '/target';
+        file_put_contents($temporaryFile, 'copy');
+        file_put_contents($file, 'created meanwhile');
+        $publish = \Closure::bind(function (string $from, string $to) {
+            $this->publish($from, $to);
+        }, new SqliteBackup(), SqliteBackup::class);
+
+        try {
+            $publish($temporaryFile, $file);
+            $this->fail('the existing file is kept');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('was created during the backup', $e->getMessage());
+        }
+
+        $this->assertSame('created meanwhile', file_get_contents($file));
     }
 
     public function testVerifyRefusesACopyNotInWalMode(): void

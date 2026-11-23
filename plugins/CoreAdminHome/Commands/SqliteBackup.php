@@ -58,14 +58,19 @@ class SqliteBackup extends ConsoleCommand
             throw new \Exception(sprintf('%s already exists: choose another file.', $file));
         }
 
-        // created empty first, and private: VACUUM INTO accepts an empty file, and nobody else reads the copy
+        // created empty first, and private from the start: VACUUM INTO accepts an empty file and keeps its
+        // permissions, and nobody else reads the copy
         $temporaryFile = $file . '.tmp-' . bin2hex(random_bytes(8));
-        $handle = @fopen($temporaryFile, 'x');
+        $umask = umask(0077);
+        try {
+            $handle = @fopen($temporaryFile, 'x');
+        } finally {
+            umask($umask);
+        }
         if ($handle === false) {
             throw new \Exception(sprintf('Can\'t create %s: check that the directory exists and is writable.', $temporaryFile));
         }
         fclose($handle);
-        @chmod($temporaryFile, 0600);
 
         try {
             // a consistent snapshot, read while trackers keep writing
@@ -78,19 +83,35 @@ class SqliteBackup extends ConsoleCommand
                 throw new \Exception(sprintf('The copy can\'t use WAL mode (journal mode is %s).', $mode));
             }
             $this->quickCheck($copy);
+            // closing the only connection checkpoints the copy and removes its -wal and -shm files
             $copy = null;
 
-            if (!rename($temporaryFile, $file)) {
-                throw new \Exception(sprintf('Can\'t rename %s to %s.', $temporaryFile, $file));
-            }
-        } catch (\Throwable $e) {
+            $this->publish($temporaryFile, $file);
+        } finally {
             $copy = null;
             foreach (['', '-wal', '-shm', '-journal'] as $suffix) {
-                if (is_file($temporaryFile . $suffix)) {
-                    @unlink($temporaryFile . $suffix);
+                if (file_exists($temporaryFile . $suffix) && !@unlink($temporaryFile . $suffix)) {
+                    $this->getOutput()->writeln(sprintf('<comment>Could not remove %s: remove it by hand.</comment>', $temporaryFile . $suffix));
                 }
             }
-            throw $e;
+        }
+    }
+
+    /**
+     * Gives the copy its final name without ever replacing a file created there meanwhile: link() fails if the
+     * name exists. Only where hard links aren't supported is the copy renamed after a last check.
+     */
+    private function publish(string $temporaryFile, string $file): void
+    {
+        if (@link($temporaryFile, $file)) {
+            return;
+        }
+        clearstatcache(true, $file);
+        if (file_exists($file) || is_link($file)) {
+            throw new \Exception(sprintf('%s was created during the backup: choose another file.', $file));
+        }
+        if (!rename($temporaryFile, $file)) {
+            throw new \Exception(sprintf('Can\'t rename %s to %s.', $temporaryFile, $file));
         }
     }
 

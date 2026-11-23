@@ -34,14 +34,19 @@ class FormDatabaseSetupSqliteTest extends IntegrationTestCase
     private $post;
 
     /**
-     * @var string[]
+     * @var string[]|null set once setUp() completes: a skipped test cleans nothing
      */
     private $privateDirectoriesBefore;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $directory;
+
+    /**
+     * @var int|null
+     */
+    private $umask;
 
     /**
      * @var string
@@ -59,14 +64,16 @@ class FormDatabaseSetupSqliteTest extends IntegrationTestCase
         Fixture::loadAllTranslations();
         $this->post = $_POST;
         $this->privateDirectoriesBefore = $this->getPrivateDirectories();
-        $this->directory = 'tmp/sqlite-form-test-' . bin2hex(random_bytes(4));
-        mkdir(PIWIK_USER_PATH . '/' . $this->directory, 0700);
+        $directory = 'tmp/sqlite-form-test-' . bin2hex(random_bytes(4));
+        mkdir(PIWIK_USER_PATH . '/' . $directory, 0700);
+        $this->directory = $directory;
+        // a permissive umask: the files must be private regardless
+        $this->umask = umask(0);
 
-        // a web server that denies every file, or fails
-        StaticContainer::getContainer()->set(ExposureProbe::class, new ExposureProbe(function () {
-            $status = $this->probedStatus === ExposureProbe::INCONCLUSIVE ? 503 : 403;
-            return ['status' => $status, 'body' => '', 'redirected' => false];
-        }));
+        // a web server that serves Matomo and denies every other file, or fails
+        $this->setWebServer(function () {
+            return ['status' => $this->probedStatus === ExposureProbe::INCONCLUSIVE ? 503 : 403, 'body' => ''];
+        });
     }
 
     public function tearDown(): void
@@ -79,8 +86,13 @@ class FormDatabaseSetupSqliteTest extends IntegrationTestCase
         Db::destroyDatabaseObject();
         Db::createDatabaseObject();
 
-        foreach (array_diff($this->getPrivateDirectories(), $this->privateDirectoriesBefore ?? []) as $directory) {
-            $this->removeDirectory($directory);
+        if ($this->umask !== null) {
+            umask($this->umask);
+        }
+        if ($this->privateDirectoriesBefore !== null) {
+            foreach (array_diff($this->getPrivateDirectories(), $this->privateDirectoriesBefore) as $directory) {
+                $this->removeDirectory($directory);
+            }
         }
         if ($this->directory !== null) {
             $this->removeDirectory(PIWIK_USER_PATH . '/' . $this->directory);
@@ -105,7 +117,11 @@ class FormDatabaseSetupSqliteTest extends IntegrationTestCase
         $this->assertSame(0600, fileperms($file) & 0777);
         $this->assertSame('PDO\SQLITE', $dbInfos['adapter']);
         $this->assertSame('Sqlite', $dbInfos['schema']);
-        $this->assertSame(1, $dbInfos['sqlite_wal_reset_fix_attested']);
+        if ($this->isQualified()) {
+            $this->assertArrayNotHasKey('sqlite_wal_reset_fix_attested', $dbInfos, 'the form has no attestation to give');
+        } else {
+            $this->assertSame(1, $dbInfos['sqlite_wal_reset_fix_attested']);
+        }
         $this->assertSame('wal', (new PDO('sqlite:' . $file))->query('PRAGMA journal_mode')->fetchColumn());
         $this->assertTrue(Connection::isSqliteConnection(Db::get()));
     }
@@ -122,12 +138,11 @@ class FormDatabaseSetupSqliteTest extends IntegrationTestCase
 
     public function testRefusesAServedLocationAndRemovesWhatItCreated(): void
     {
-        StaticContainer::getContainer()->set(ExposureProbe::class, new ExposureProbe(function (string $url, ?array $range) {
+        $this->setWebServer(function (string $url) {
             // serves the file the URL names, as a server without deny rules does
             $file = dirname(Config::getInstance()->getLocalPath()) . '/' . implode('/', array_slice(explode('/', $url), -2));
-            $content = (string) file_get_contents($file);
-            return ['status' => 200, 'body' => $range === null ? $content : substr($content, 0, $range[1] + 1), 'redirected' => false];
-        }));
+            return ['status' => 200, 'body' => (string) file_get_contents($file)];
+        });
 
         try {
             $this->submit(['sqlite_wal_reset_fix_attested' => '1'])->createDatabaseObject();
@@ -154,10 +169,60 @@ class FormDatabaseSetupSqliteTest extends IntegrationTestCase
         $this->assertSame([], glob(PIWIK_USER_PATH . '/' . $this->directory . '/*'), 'the new file is removed');
     }
 
+    public function testRefusesStaleWalFilesForANewDatabase(): void
+    {
+        $path = $this->directory . '/analytics.sqlite';
+        touch(PIWIK_USER_PATH . '/' . $path . '-wal');
+
+        try {
+            $this->submit(['sqlite_file' => $path, 'sqlite_wal_reset_fix_attested' => '1'])->createDatabaseObject();
+            $this->fail('the stale file is refused');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('already exists without its database', $e->getMessage());
+        }
+
+        $this->assertFileExists(PIWIK_USER_PATH . '/' . $path . '-wal', 'a file it did not create is kept');
+        $this->assertFileDoesNotExist(PIWIK_USER_PATH . '/' . $path);
+    }
+
+    public function testRefusesAnExistingFileOthersCanRead(): void
+    {
+        $path = $this->directory . '/analytics.sqlite';
+        touch(PIWIK_USER_PATH . '/' . $path);
+        chmod(PIWIK_USER_PATH . '/' . $path, 0644);
+
+        try {
+            $this->submit(['sqlite_file' => $path, 'sqlite_wal_reset_fix_attested' => '1'])->createDatabaseObject();
+            $this->fail('the file is refused');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('chmod 600', $e->getMessage());
+        }
+    }
+
+    public function testNeverRemovesAnExistingDatabase(): void
+    {
+        $this->probedStatus = ExposureProbe::INCONCLUSIVE;
+        $path = $this->directory . '/analytics.sqlite';
+        $file = PIWIK_USER_PATH . '/' . $path;
+        $pdo = new PDO('sqlite:' . $file);
+        $pdo->exec('CREATE TABLE kept (a INTEGER)');
+        $pdo = null;
+        chmod($file, 0600);
+
+        try {
+            $this->submit(['sqlite_file' => $path, 'sqlite_wal_reset_fix_attested' => '1'])->createDatabaseObject();
+            $this->fail('the location is refused');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('401, 403 or 404', $e->getMessage());
+        }
+
+        $this->assertSame('kept', (new PDO('sqlite:' . $file))->query("SELECT name FROM sqlite_master WHERE name = 'kept'")->fetchColumn());
+    }
+
     public function testRefusesAnUnqualifiedLibraryUnlessAttested(): void
     {
         $version = Connection::getLibraryVersion();
-        if (Connection::getRuntimeQualification($version, false) !== Connection::RUNTIME_UNQUALIFIED) {
+        if ($this->isQualified()) {
             $this->markTestSkipped("SQLite $version includes the WAL-reset fix");
         }
 
@@ -196,6 +261,24 @@ class FormDatabaseSetupSqliteTest extends IntegrationTestCase
         ], $values);
 
         return new FormDatabaseSetup();
+    }
+
+    /**
+     * Requests to Matomo's own matomo.js succeed; every other URL gets $respond's answer.
+     */
+    private function setWebServer(callable $respond): void
+    {
+        StaticContainer::getContainer()->set(ExposureProbe::class, new ExposureProbe(function (string $url) use ($respond) {
+            if (str_ends_with($url, '/matomo.js')) {
+                return ['status' => 200, 'body' => (string) file_get_contents(PIWIK_INCLUDE_PATH . '/matomo.js', false, null, 0, 64)];
+            }
+            return $respond($url);
+        }));
+    }
+
+    private function isQualified(): bool
+    {
+        return Connection::getRuntimeQualification(Connection::getLibraryVersion(), false) !== Connection::RUNTIME_UNQUALIFIED;
     }
 
     /**

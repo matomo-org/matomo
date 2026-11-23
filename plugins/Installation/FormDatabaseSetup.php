@@ -21,6 +21,7 @@ use Piwik\Db\Sqlite\Connection;
 use Piwik\Db\Sqlite\ExposureProbe;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
+use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\QuickForm2;
 use Piwik\Url;
@@ -251,6 +252,9 @@ class FormDatabaseSetup extends QuickForm2
             case Connection::RUNTIME_UNQUALIFIED:
                 throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteUnqualified', [$version]));
         }
+        if (!Connection::hasMathFunctions()) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteNoMathFunctions', [$version]));
+        }
 
         $tablesPrefix = $this->getSubmitValue('tables_prefix');
         $dbInfos = [
@@ -274,18 +278,26 @@ class FormDatabaseSetup extends QuickForm2
         }
 
         $file = Connection::getDatabaseFile($dbInfos);
-        $isNewFile = !file_exists($file);
+        $isOwned = false;
 
         try {
-            if ($isNewFile) {
+            if (file_exists($file) || is_link($file)) {
+                $this->checkExistingFileIsPrivate($file);
+            } else {
                 $this->createPrivateFile($file);
+                // only from here on is the file this request's to remove
+                $isOwned = true;
             }
             Connection::createDatabaseFile($dbInfos);
             $this->checkDatabaseIsNotServed($file);
+            Db::createDatabaseObject($dbInfos);
         } catch (\Throwable $e) {
-            if ($isNewFile) {
-                foreach (['', '-wal', '-shm', '-journal'] as $suffix) {
-                    @unlink($file . $suffix);
+            if ($isOwned) {
+                Db::destroyDatabaseObject();
+                foreach (['-wal', '-shm', '-journal', ''] as $suffix) {
+                    if (file_exists($file . $suffix) && !@unlink($file . $suffix)) {
+                        Log::warning('Could not remove %s', $file . $suffix);
+                    }
                 }
             }
             if ($createdDirectory !== null) {
@@ -293,8 +305,6 @@ class FormDatabaseSetup extends QuickForm2
             }
             throw $e;
         }
-
-        Db::createDatabaseObject($dbInfos);
 
         return $dbInfos;
     }
@@ -309,23 +319,51 @@ class FormDatabaseSetup extends QuickForm2
         if (!@mkdir($directory, 0700)) {
             throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteCantCreate', [dirname($directory)]));
         }
-        @chmod($directory, 0700);
 
         return $directory;
     }
 
+    /**
+     * Creates the file only if it doesn't exist, readable by its owner only from the start. SQLite gives the
+     * -wal and -shm files the database file's permissions.
+     */
     private function createPrivateFile(string $file): void
     {
         if (!is_dir(dirname($file))) {
             throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteNoDirectory', [dirname($file)]));
         }
+        foreach (['-wal', '-shm', '-journal'] as $suffix) {
+            if (file_exists($file . $suffix) || is_link($file . $suffix)) {
+                // another database's leftovers would be applied to the new one
+                throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteStaleFile', [$file . $suffix]));
+            }
+        }
 
-        $handle = @fopen($file, 'x');
+        $umask = umask(0077);
+        try {
+            $handle = @fopen($file, 'x');
+        } finally {
+            umask($umask);
+        }
         if ($handle === false) {
             throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteCantCreate', [dirname($file)]));
         }
         fclose($handle);
-        @chmod($file, 0600);
+    }
+
+    /**
+     * An existing database is used only if it is a regular file that only its owner can access.
+     */
+    private function checkExistingFileIsPrivate(string $file): void
+    {
+        clearstatcache(true, $file);
+        if (is_link($file) || !is_file($file)) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteNotAFile', [$file]));
+        }
+        // Windows has no such permission bits
+        if (DIRECTORY_SEPARATOR === '/' && (fileperms($file) & 0077) !== 0) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteNotPrivate', [$file]));
+        }
     }
 
     private function checkDatabaseIsNotServed(string $file): void
@@ -335,6 +373,10 @@ class FormDatabaseSetup extends QuickForm2
 
         if ($result['status'] === ExposureProbe::PROTECTED || $result['status'] === ExposureProbe::OUTSIDE_WEB_ROOT) {
             return;
+        }
+
+        if ($result['status'] === ExposureProbe::UNVERIFIED) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteServedUnverified'));
         }
 
         $urls = [];

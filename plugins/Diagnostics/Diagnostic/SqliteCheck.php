@@ -78,6 +78,9 @@ class SqliteCheck implements Diagnostic
                     [$version, 'sqlite_wal_reset_fix_attested = 1']
                 ));
             default:
+                if (!Connection::hasMathFunctions()) {
+                    return new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $this->translator->translate('Diagnostics_SqliteNoMathFunctions', [$version]));
+                }
                 return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_SqliteVersion', [$version]));
         }
     }
@@ -142,6 +145,8 @@ class SqliteCheck implements Diagnostic
                 return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_SqliteOutsideWebRoot'));
             case ExposureProbe::PROTECTED:
                 return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, $this->translator->translate('Diagnostics_SqliteNotServed'));
+            case ExposureProbe::UNVERIFIED:
+                return new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, $this->translator->translate('Diagnostics_SqliteServedUnverified'));
         }
 
         $urls = [];

@@ -25,6 +25,11 @@ class ExposureProbeTest extends TestCase
     private const BASE_URL = 'https://matomo.example/analytics/';
 
     /**
+     * @var string[] the directories and links this test created, removed in reverse order
+     */
+    private $owned = [];
+
+    /**
      * @var string
      */
     private $directory;
@@ -35,7 +40,7 @@ class ExposureProbeTest extends TestCase
     private $file;
 
     /**
-     * @var array<string, array|null>
+     * @var string[]
      */
     private $requests = [];
 
@@ -54,10 +59,18 @@ class ExposureProbeTest extends TestCase
 
     public function tearDown(): void
     {
-        foreach (glob($this->directory . '/*') as $file) {
-            unlink($file);
+        foreach (array_reverse($this->owned) as $path) {
+            if (is_link($path)) {
+                unlink($path);
+                continue;
+            }
+            foreach (['matomo.sqlite', 'matomo.sqlite-wal', 'matomo.sqlite-shm'] as $name) {
+                if (is_file($path . '/' . $name)) {
+                    unlink($path . '/' . $name);
+                }
+            }
+            rmdir($path);
         }
-        rmdir($this->directory);
 
         parent::tearDown();
     }
@@ -70,25 +83,38 @@ class ExposureProbeTest extends TestCase
 
         $this->assertSame(ExposureProbe::PROTECTED, $result['status']);
         $this->assertCount(4, $result['urls'], 'database, -wal, -shm and canary');
-        $this->assertSame([self::BASE_URL . 'tmp/' . basename($this->directory) . '/matomo.sqlite'], array_slice(array_keys($result['urls']), 0, 1));
+        $this->assertSame($this->urlOf('matomo.sqlite'), array_key_first($result['urls']));
+        $this->assertSame(self::BASE_URL . 'matomo.js', $this->requests[0], 'the mapping is confirmed first');
     }
 
-    public function testAFilenameDenyRuleThatServesTheWalIsExposed(): void
+    public function testDenialsProveNothingWhenMatomoItselfIsNotServedThere(): void
+    {
+        // e.g. a wrong base URL answered by a catch-all 404
+        $result = $this->probe(function () {
+            return $this->response(404);
+        }, null, null, false);
+
+        $this->assertSame(ExposureProbe::UNVERIFIED, $result['status']);
+        $this->assertSame([self::BASE_URL . 'matomo.js'], $this->requests, 'no database file is requested');
+    }
+
+    public function testAFilenameDenyRuleThatServesTheShmIsExposed(): void
     {
         // only "*.sqlite" is denied
-        $result = $this->probe(function ($url, $range) {
-            return str_ends_with($url, '.sqlite') ? $this->response(404) : $this->serve($url, $range);
+        $result = $this->probe(function ($url) {
+            return str_ends_with($url, '.sqlite') ? $this->response(404) : $this->serve($url);
         });
 
         $this->assertSame(ExposureProbe::EXPOSED, $result['status']);
-        $this->assertSame(ExposureProbe::PROTECTED, reset($result['urls']));
-        $this->assertSame(ExposureProbe::EXPOSED, $result['urls'][$this->urlOf('matomo.sqlite-wal')]);
+        $this->assertSame(ExposureProbe::PROTECTED, $result['urls'][$this->urlOf('matomo.sqlite')]);
+        $this->assertSame(ExposureProbe::EXPOSED, $result['urls'][$this->urlOf('matomo.sqlite-wal')], 'an empty WAL served empty');
+        $this->assertSame(ExposureProbe::EXPOSED, $result['urls'][$this->urlOf('matomo.sqlite-shm')]);
     }
 
     public function testAServedDatabaseIsExposed(): void
     {
-        $result = $this->probe(function ($url, $range) {
-            return $this->serve($url, $range);
+        $result = $this->probe(function ($url) {
+            return $this->serve($url);
         });
 
         $this->assertSame(ExposureProbe::EXPOSED, $result['status']);
@@ -97,8 +123,8 @@ class ExposureProbeTest extends TestCase
 
     public function testAServedCanaryIsExposed(): void
     {
-        $result = $this->probe(function ($url, $range) {
-            return str_ends_with($url, '.txt') ? $this->serve($url, $range) : $this->response(403);
+        $result = $this->probe(function ($url) {
+            return str_ends_with($url, '.txt') ? $this->serve($url) : $this->response(403);
         });
 
         $this->assertSame(ExposureProbe::EXPOSED, $result['status']);
@@ -110,7 +136,7 @@ class ExposureProbeTest extends TestCase
      */
     public function testAnUnprovenResponseIsInconclusive(callable $respond): void
     {
-        $result = $this->probe(function ($url, $range) use ($respond) {
+        $result = $this->probe(function ($url) use ($respond) {
             // every other file is protected: one unproven URL is enough
             return str_ends_with($url, '-shm') ? $respond($this) : $this->response(403);
         });
@@ -127,96 +153,116 @@ class ExposureProbeTest extends TestCase
         yield '500' => [function (self $test) {
             return $test->response(500);
         }];
-        yield '503' => [function (self $test) {
-            return $test->response(503);
+        yield 'redirect' => [function (self $test) {
+            return $test->response(302);
+        }];
+        yield 'range not satisfiable' => [function (self $test) {
+            return $test->response(416);
         }];
         yield 'catch-all page' => [function (self $test) {
             return $test->response(200, '<!DOCTYPE html><html>Welcome</html>');
         }];
-        yield 'redirect to a 404' => [function (self $test) {
-            return ['status' => 404, 'body' => '', 'redirected' => true];
-        }];
     }
 
-    public function testAnEmptyFileIsRequestedWithoutARange(): void
+    public function testADatabaseWithoutItsWalFilesIsInconclusive(): void
     {
-        $walSize = null;
-        $result = $this->probe(function ($url, $range) use (&$walSize) {
-            if (str_ends_with($url, '-wal')) {
-                $walSize = filesize($this->file . '-wal');
-            }
-            // a range on an empty file gets 416, which must not count as protected
-            return $range === null ? $this->response(200, '') : $this->response(416);
-        });
+        $directory = $this->makeDirectory(PIWIK_INCLUDE_PATH . '/tmp');
+        $pdo = new PDO('sqlite:' . $directory . '/matomo.sqlite');
+        $pdo->exec('CREATE TABLE t (a INTEGER)');
+        $pdo = null;
 
-        $this->assertSame(0, $walSize, 'a fresh WAL file is empty while a connection is open');
-        $this->assertNull($this->requests[$this->urlOf('matomo.sqlite-wal')]);
-        $this->assertSame(ExposureProbe::EXPOSED, $result['urls'][$this->urlOf('matomo.sqlite-wal')]);
-        $this->assertSame([0, 7], $this->requests[$this->urlOf('matomo.sqlite')]);
-        $this->assertSame(ExposureProbe::INCONCLUSIVE, $result['urls'][$this->urlOf('matomo.sqlite')]);
+        $result = $this->probe(function () {
+            return $this->response(403);
+        }, $directory . '/matomo.sqlite');
+
+        $this->assertSame(ExposureProbe::INCONCLUSIVE, $result['status']);
     }
 
-    public function testAFileOutsideTheWebRootIsNotRequested(): void
+    public function testADirectoryReachedThroughALinkIsRequestedThroughBothPaths(): void
+    {
+        $link = PIWIK_INCLUDE_PATH . '/tmp/sqlite-probe-link-' . bin2hex(random_bytes(4));
+        if (!@symlink($this->directory, $link)) {
+            $this->markTestSkipped('symbolic links are not available');
+        }
+        $this->owned[] = $link;
+        $linkUrl = self::BASE_URL . 'tmp/' . basename($link) . '/matomo.sqlite';
+
+        // the real directory is denied, the link is served
+        $result = $this->probe(function ($url) use ($link) {
+            return str_contains($url, basename($link)) ? $this->serve($url) : $this->response(403);
+        }, $link . '/matomo.sqlite');
+
+        $this->assertSame(ExposureProbe::EXPOSED, $result['status']);
+        $this->assertSame(ExposureProbe::EXPOSED, $result['urls'][$linkUrl]);
+        $this->assertSame(ExposureProbe::PROTECTED, $result['urls'][$this->urlOf('matomo.sqlite')]);
+    }
+
+    public function testAFileOutsideAKnownDocumentRootIsNotRequested(): void
     {
         $outside = $this->makeDirectory(sys_get_temp_dir());
-        try {
-            $this->createDatabase($outside . '/matomo.sqlite');
+        $root = $this->makeDirectory(sys_get_temp_dir());
+        $this->createDatabase($outside . '/matomo.sqlite');
 
-            $result = $this->probe(function () {
-                $this->fail('nothing is requested');
-            }, $outside . '/matomo.sqlite');
+        $result = $this->probe(function () {
+            $this->fail('nothing is requested');
+        }, $outside . '/matomo.sqlite', $root);
 
-            $this->assertSame(['status' => ExposureProbe::OUTSIDE_WEB_ROOT, 'urls' => []], $result);
-        } finally {
-            array_map('unlink', glob($outside . '/*'));
-            rmdir($outside);
-        }
+        $this->assertSame(['status' => ExposureProbe::OUTSIDE_WEB_ROOT, 'urls' => []], $result);
+    }
+
+    public function testAFileOutsideMatomoIsUnverifiedWithoutADocumentRoot(): void
+    {
+        $outside = $this->makeDirectory(sys_get_temp_dir());
+        $this->createDatabase($outside . '/matomo.sqlite');
+
+        $result = $this->probe(function () {
+            $this->fail('nothing is requested');
+        }, $outside . '/matomo.sqlite');
+
+        $this->assertSame(['status' => ExposureProbe::UNVERIFIED, 'urls' => []], $result);
     }
 
     public function testAFileUnderTheDocumentRootIsRequestedFromTheOrigin(): void
     {
         $root = $this->makeDirectory(sys_get_temp_dir());
         mkdir($root . '/data dir');
+        $this->owned[] = $root . '/data dir';
         $file = $root . '/data dir/matomo.sqlite';
         $probe = new ExposureProbe();
 
-        try {
-            $this->assertSame('https://matomo.example/data%20dir/matomo.sqlite', $probe->getUrl($file, self::BASE_URL, $root));
-            $this->assertSame('https://[::1]:8443/data%20dir/matomo.sqlite', $probe->getUrl($file, 'https://[::1]:8443/matomo/', $root));
-            $this->assertNull($probe->getUrl($file, self::BASE_URL), 'without a document root');
-            $this->assertNull($probe->getUrl($root . '/missing/matomo.sqlite', self::BASE_URL, $root));
-        } finally {
-            rmdir($root . '/data dir');
-            rmdir($root);
-        }
+        $this->assertSame('https://matomo.example/data%20dir/matomo.sqlite', $probe->getUrl($file, self::BASE_URL, $root));
+        $this->assertSame('https://[::1]:8443/data%20dir/matomo.sqlite', $probe->getUrl($file, 'https://[::1]:8443/matomo/', $root));
+        $this->assertNull($probe->getUrl($file, self::BASE_URL), 'without a document root');
+        $this->assertNull($probe->getUrl($root . '/missing/matomo.sqlite', self::BASE_URL, $root));
     }
 
-    private function probe(callable $respond, ?string $file = null): array
+    private function probe(callable $respond, ?string $file = null, ?string $documentRoot = null, bool $servesMatomo = true): array
     {
-        $probe = new ExposureProbe(function (string $url, ?array $range) use ($respond) {
-            $this->requests[$url] = $range;
-            return $respond($url, $range);
+        $probe = new ExposureProbe(function (string $url) use ($respond, $servesMatomo) {
+            $this->requests[] = $url;
+            if ($servesMatomo && $url === self::BASE_URL . 'matomo.js') {
+                return $this->response(200, (string) file_get_contents(PIWIK_INCLUDE_PATH . '/matomo.js'));
+            }
+            return $respond($url);
         });
 
-        return $probe->probe($file ?? $this->file, self::BASE_URL);
+        return $probe->probe($file ?? $this->file, self::BASE_URL, $documentRoot);
     }
 
     public function response(int $status, string $body = ''): array
     {
-        return ['status' => $status, 'body' => $body, 'redirected' => false];
+        return ['status' => $status, 'body' => $body];
     }
 
     /**
      * Serves the file the URL names, as a web server without a deny rule does.
+     *
+     * Reading the live files directly is acceptable here only because this process holds no SQLite lock worth
+     * keeping: the probe's connection runs a single read.
      */
-    private function serve(string $url, ?array $range): array
+    private function serve(string $url): array
     {
-        $content = (string) file_get_contents($this->directory . '/' . basename($url));
-        if ($range !== null) {
-            return $this->response(206, substr($content, $range[0], $range[1] - $range[0] + 1));
-        }
-
-        return $this->response(200, $content);
+        return $this->response(200, (string) file_get_contents($this->directory . '/' . basename(rawurldecode($url))));
     }
 
     private function urlOf(string $name): string
@@ -228,6 +274,7 @@ class ExposureProbeTest extends TestCase
     {
         $directory = $parent . '/sqlite-probe-test-' . bin2hex(random_bytes(4));
         mkdir($directory, 0700, true);
+        $this->owned[] = $directory;
         return $directory;
     }
 

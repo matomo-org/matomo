@@ -44,4 +44,25 @@ class ExposureProbeHttpTest extends IntegrationTestCase
         $this->assertSame(ExposureProbe::EXPOSED, $result['urls'][Fixture::getRootUrl() . 'tmp/sqlite-tests/' . basename($file)]);
         $this->assertSame([], glob(dirname($file) . '/matomo-probe-*'), 'the canary is deleted');
     }
+
+    public function testARedirectIsReportedNotFollowedAndALargeBodyIsCut(): void
+    {
+        $script = PIWIK_INCLUDE_PATH . '/tmp/probe-http-test-' . bin2hex(random_bytes(4)) . '.php';
+        file_put_contents($script, '<?php if (isset($_GET["redirect"])) { header("Location: /matomo.js", true, 302); exit; }'
+            . ' for ($i = 0; $i < 1024; $i++) { echo str_repeat("x", 8192); flush(); }');
+        $url = Fixture::getRootUrl() . 'tmp/' . basename($script);
+        $fetch = \Closure::bind(function (string $url) {
+            return self::fetch($url);
+        }, null, ExposureProbe::class);
+
+        try {
+            $this->assertSame(['status' => 302, 'body' => ''], $fetch($url . '?redirect=1'));
+
+            $response = $fetch($url);
+            $this->assertSame(200, $response['status']);
+            $this->assertSame(str_repeat('x', 64), $response['body'], 'at most 64 bytes of 8 MB are kept');
+        } finally {
+            unlink($script);
+        }
+    }
 }
