@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Log\LoggerInterface;
 
 /**
@@ -70,7 +71,7 @@ class DuplicateActionRemover
      */
     public function getDuplicateIdActions()
     {
-        $sql = "SELECT name, COUNT(*) AS count, GROUP_CONCAT(idaction ORDER BY idaction ASC SEPARATOR ',') as idactions
+        $sql = "SELECT name, COUNT(*) AS count, " . Schema::getInstance()->getGroupConcatSql('idaction', 'idaction ASC') . " as idactions
                   FROM " . Common::prefixTable('log_action') . "
               GROUP BY name, hash, type HAVING count > 1";
 
@@ -112,7 +113,7 @@ class DuplicateActionRemover
         $table = Common::prefixTable($table);
 
         $inFromIdsExpression = $this->getInFromIdsExpression($duplicateIdActions);
-        $setExpression = "%1\$s = IF(($inFromIdsExpression), $realIdAction, %1\$s)";
+        $setExpression = "%1\$s = (CASE WHEN ($inFromIdsExpression) THEN $realIdAction ELSE %1\$s END)";
 
         $sql = "UPDATE $table SET\n";
         foreach ($idactionColumns as $index => $column) {

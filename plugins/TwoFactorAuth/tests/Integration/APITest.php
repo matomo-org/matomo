@@ -96,6 +96,10 @@ class APITest extends IntegrationTestCase
      */
     public function testResetTwoFactorAuthRefusesTheCurrentUsersOwnTwoFactorAuth(string $userLogin)
     {
+        if (Fixture::isSqlite() && preg_match('/[^\x00-\x7f]/', $userLogin)) {
+            // SQLite's NOCASE folds ASCII case only: a login with an accent is another login, never this one
+            $this->markTestSkipped('logins are not accent-insensitive on SQLite');
+        }
         $this->recoveryCodes->createRecoveryCodesForLogin('mylogin1');
         $this->twoFa->saveSecret('mylogin1', '1234');
 

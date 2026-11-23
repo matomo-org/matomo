@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
@@ -183,7 +184,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                     COUNT(*) as lifeTimeConversions,
                     COALESCE(SUM(" . LogAggregator::getSqlRevenue('items') . "), 0)  as lifeTimeEcommerceItems
 					FROM  " . Common::prefixTable('log_visit') . " AS log_visit
-					    STRAIGHT_JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
+					    " . Schema::getInstance()->getStraightJoinSql() . " " . Common::prefixTable('log_conversion') . " AS log_conversion
 					    ON log_visit.idvisit = log_conversion.idvisit
 					WHERE
 					        log_visit.idsite = ?

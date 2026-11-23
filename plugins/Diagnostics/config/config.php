@@ -35,6 +35,7 @@ return array(
         Piwik\DI::get(CronArchivingLastRunCheck::class),
         Piwik\DI::get(ArchivingFailuresCheck::class),
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\DatabaseAbilitiesCheck'),
+        Piwik\DI::get(\Piwik\Plugins\Diagnostics\Diagnostic\SqliteCheck::class),
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\DbOverSSLCheck'),
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\DbMaxPacket'),
         Piwik\DI::get('Piwik\Plugins\Diagnostics\Diagnostic\ForceSSLCheck'),

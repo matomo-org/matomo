@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -237,7 +238,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
 
     private function tableExists($table)
     {
-        return (bool) Db::fetchOne("SHOW TABLES LIKE '$table'");
+        return DbHelper::tableExists($table);
     }
 }
 

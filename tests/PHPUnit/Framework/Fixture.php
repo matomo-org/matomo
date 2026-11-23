@@ -24,6 +24,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Sqlite\Connection as SqliteConnection;
 use Piwik\DbHelper;
 use Piwik\EventDispatcher;
 use Piwik\FrontController;
@@ -202,10 +203,38 @@ class Fixture extends \PHPUnit\Framework\Assert
         if ($this->persistFixtureData) {
             $klass = new ReflectionClass($this);
             $id = Plugin::getPluginNameFromNamespace($klass->getNamespaceName()) . "_" . $klass->getShortName();
-            return $id;
+            return self::getSqliteDatabaseFile($id);
         }
 
-        return self::getConfig()->database_tests['dbname'];
+        return self::getSqliteDatabaseFile(self::getConfig()->database_tests['dbname']);
+    }
+
+    /**
+     * Whether the tests run on SQLite.
+     */
+    public static function isSqlite(): bool
+    {
+        return SqliteConnection::isSqliteAdapter((string) (self::getConfig()->database['adapter'] ?? ''));
+    }
+
+    /**
+     * On SQLite a database is a file: a database name becomes the file `tmp/sqlite-tests/<name>.db`
+     * under the user path. A path (one with a `/` or ending in `.db`) and any name on MySQL are returned
+     * as they are. Pass the adapter when the config isn't available yet, such as while building it.
+     */
+    public static function getSqliteDatabaseFile($dbName, ?string $adapter = null)
+    {
+        $isSqlite = $adapter === null ? self::isSqlite() : SqliteConnection::isSqliteAdapter($adapter);
+        if (!$isSqlite || !is_string($dbName) || $dbName === '' || str_contains($dbName, '/') || str_ends_with($dbName, '.db')) {
+            return $dbName;
+        }
+
+        $directory = rtrim(PIWIK_USER_PATH, '/') . '/tmp/sqlite-tests';
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        return 'tmp/sqlite-tests/' . $dbName . '.db';
     }
 
     /**
@@ -285,7 +314,9 @@ class Fixture extends \PHPUnit\Framework\Assert
             // reconnect once we're sure the database exists
             Db::createDatabaseObject();
 
-            Db::get()->query("SET wait_timeout=28800;");
+            if (!self::isSqlite()) {
+                Db::get()->query("SET wait_timeout=28800;");
+            }
 
             DbHelper::createTables();
             DbHelper::recordInstallVersion();
@@ -1017,6 +1048,14 @@ class Fixture extends \PHPUnit\Framework\Assert
      */
     public static function connectWithoutDatabase()
     {
+        if (self::isSqlite()) {
+            // there is no server: the database file is created or deleted without a connection, which
+            // must not stay open on a file about to be deleted
+            Db::destroyDatabaseObject();
+            Tracker::disconnectCachedDbConnection();
+            return;
+        }
+
         $dbConfig = self::getConfig()->database;
         $oldDbName = $dbConfig['dbname'];
         $dbConfig['dbname'] = null;
@@ -1028,7 +1067,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     public function dropDatabase($dbName = null)
     {
-        $dbName = $dbName ?: $this->dbName ?: self::getConfig()->database_tests['dbname'];
+        $dbName = $dbName ?: $this->dbName ?: self::getSqliteDatabaseFile(self::getConfig()->database_tests['dbname']);
 
         $this->log("Dropping database '$dbName'...");
 

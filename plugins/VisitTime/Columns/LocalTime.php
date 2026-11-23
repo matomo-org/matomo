@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\VisitTime\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
@@ -26,6 +27,16 @@ class LocalTime extends VisitDimension
     protected $nameSingular = 'VisitTime_ColumnLocalHour';
     protected $sqlSegment = 'HOUR(log_visit.visitor_localtime)';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
+
+    public function getSqlSegment()
+    {
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, is spelled by the database in use
+        if ($this->sqlSegment === 'HOUR(log_visit.visitor_localtime)') {
+            return Schema::getInstance()->getHourSql('log_visit.visitor_localtime');
+        }
+
+        return parent::getSqlSegment();
+    }
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {

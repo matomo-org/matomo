@@ -40,9 +40,9 @@ class DuplicateActionsTest extends SystemTestCase
         $table = Common::prefixTable('log_action');
         foreach (Db::fetchAll("SELECT * FROM $table") as $row) {
             $insertSql = "INSERT INTO $table (name, type, hash, url_prefix)
-                               VALUES (?, ?, CRC32(?), ?)";
+                               VALUES (?, ?, ?, ?)";
 
-            Db::query($insertSql, array($row['name'], $row['type'], $row['name'], $row['url_prefix']));
+            Db::query($insertSql, array($row['name'], $row['type'], sprintf('%u', crc32($row['name'])), $row['url_prefix']));
         }
     }
 

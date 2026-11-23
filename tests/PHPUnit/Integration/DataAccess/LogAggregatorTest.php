@@ -23,6 +23,7 @@ use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestDataHelper\LogHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Action;
@@ -173,6 +174,69 @@ class LogAggregatorTest extends IntegrationTestCase
             'log_conversion',
             ['alias', 'log_conversion.mycolumn', 'newalias'],
         ];
+
+        yield 'expression with a cast and its own alias' => [
+            ['CASE WHEN CAST(log_visit.visitor_localtime AS UNSIGNED) <= 11 THEN 1 ELSE 0 END AS label'],
+            'log_visit',
+            ['label'],
+        ];
+
+        yield 'aliases MySQL accepts unquoted or with an escaped backtick' => [
+            ['LOWER(log_visit.config_os) AS os$family', 'LOWER(log_visit.config_os) AS café', 'LOWER(log_visit.config_os) AS `os``family`'],
+            'log_visit',
+            ['os$family', 'café', '`os``family`'],
+        ];
+
+        yield 'an AS in a comment or a string is not an alias' => [
+            ["LOWER(log_visit.config_os) -- formerly AS os\n", "CONCAT(log_visit.config_os, ' AS b')", 'LOWER(log_visit.config_os) AS family /* display */'],
+            'log_visit',
+            ["LOWER(log_visit.config_os) -- formerly AS os\n", "CONCAT(log_visit.config_os, ' AS b')", 'family'],
+        ];
+
+        yield 'a double-quoted alias is grouped by as an identifier' => [
+            ['LOWER(log_visit.config_os) AS "OS ""family"""', 'LOWER(log_visit.config_os) AS "a`b"'],
+            'log_visit',
+            ['`OS "family"`', '`a``b`'],
+        ];
+    }
+
+    public function testGetGroupByDimensionsReadsCommentsAndStringsAsTheDatabaseDoes(): void
+    {
+        $dimensions = ["REPLACE(log_visit.config_os, '\\', '/') AS family", "LOWER(log_visit.config_os) --formerly AS os\n"];
+        $method = (new \ReflectionClass($this->logAggregator))->getMethod('getGroupByDimensions');
+        $groupBy = $method->invoke($this->logAggregator, $dimensions, 'log_visit');
+
+        if (Fixture::isSqlite()) {
+            // SQLite has no backslash escapes, and starts a comment at any `--`
+            $this->assertSame(['family', $dimensions[1]], $groupBy);
+        } else {
+            // in MySQL the backslash escapes the quote, and `--` before a letter is two minus signs
+            $this->assertSame([$dimensions[0], 'os'], $groupBy);
+        }
+    }
+
+    public function testGetGroupByDimensionsReadsQuotedIdentifiersAsTheDatabaseDoes(): void
+    {
+        $method = (new \ReflectionClass($this->logAggregator))->getMethod('getGroupByDimensions');
+
+        if (Fixture::isSqlite()) {
+            // in a bracket-quoted identifier, `--` is not a comment
+            $groupBy = $method->invoke($this->logAggregator, ['LOWER([a--b]) AS family'], 'log_visit');
+            $this->assertSame(['family'], $groupBy);
+        } else {
+            // MySQL reads a backslash escape in a double-quoted alias
+            $groupBy = $method->invoke($this->logAggregator, ['LOWER(log_visit.config_os) AS "a\\"b"'], 'log_visit');
+            $this->assertSame(['`a"b`'], $groupBy);
+            // where \_ and \% keep their backslash, a doubled quote is one quote, \n a new line
+            $groupBy = $method->invoke($this->logAggregator, ['LOWER(log_visit.config_os) AS "a\\_b"', 'LOWER(log_visit.config_browser_name) AS "c\\%d"', 'LOWER(log_visit.config_device_model) AS "e""f\\ng"'], 'log_visit');
+            $this->assertSame(['`a\\_b`', '`c\\%d`', "`e\"f\ng`"], $groupBy);
+            // which the server resolves to the selected aliases, named as the GROUP BY names them
+            $rows = Db::fetchAll('SELECT LOWER(log_visit.config_os) AS "a\\_b", LOWER(log_visit.config_browser_name) AS "c\\%d", LOWER(log_visit.config_device_model) AS "e""f\\ng" FROM '
+                . Common::prefixTable('log_visit') . ' AS log_visit GROUP BY ' . implode(', ', $groupBy));
+            foreach ($rows as $row) {
+                $this->assertSame(['a\\_b', 'c\\%d', "e\"f\ng"], array_keys($row));
+            }
+        }
     }
 
     public function testGenerateQuery()
@@ -255,6 +319,37 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
+    public function getSegmentsForTheJoinOrder(): array
+    {
+        return [
+            'matching visits' => ['browserCode==FF'],
+            'matching no visit' => ['browserCode==ZZ'],
+        ];
+    }
+
+    /**
+     * @dataProvider getSegmentsForTheJoinOrder
+     */
+    public function testSegmentTableIsTheOuterLoopOfTheJoinOnSqlite(string $definition)
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite query planner');
+        }
+
+        $segment = new Segment($definition, array($this->site->getId()));
+        $this->logAggregator = new LogAggregator(new Parameters($this->site, $this->period, $segment));
+        $this->logAggregator->allowUsageSegmentCache();
+
+        // as an archiver queries: the period and site conditions move to the temporary table
+        $where = $this->logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
+        $query = $this->logAggregator->generateQuery('log_link_visit_action.idaction_url, COUNT(*)', 'log_link_visit_action', $where, 'log_link_visit_action.idaction_url', false);
+        $plan = implode("\n", array_column(Db::fetchAll('EXPLAIN QUERY PLAN ' . $query['sql'], $query['bind']), 'detail'));
+
+        // without statistics on the temporary table, SQLite scans the whole log table and probes it
+        $this->assertStringContainsString('SEARCH log_link_visit_action USING INDEX', $plan);
+        $this->assertStringNotContainsString('SCAN log_link_visit_action', $plan);
+    }
+
     public function testGenerateQueryWithSegmentVisitLogRightJoinShouldKeepWhereCondition()
     {
         $segment = new Segment('userId==1', [$this->site->getId()]);
@@ -335,6 +430,9 @@ class LogAggregatorTest extends IntegrationTestCase
             // See https://github.com/matomo-org/matomo/issues/17871
             $this->markTestSkipped('Max execution query hint does not work for Mysqli.');
         }
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no per-query execution time limit.');
+        }
 
         // limit query to one milli second
         Config::getInstance()->General['archiving_query_max_execution_time'] = 0.001;
@@ -353,6 +451,10 @@ class LogAggregatorTest extends IntegrationTestCase
 
     private function setSqlRequirePrimaryKeySetting($val)
     {
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            return; // a MySQL setting; SQLite tables always have a rowid
+        }
+
         try {
             $this->logAggregator->getDb()->exec('SET SESSION sql_require_primary_key=' . $val);
         } catch (\Exception $e) {
@@ -415,6 +517,10 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function testGenerateQuerySwitchesSupportsUncommittedToTrueWhenSupports()
     {
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            $this->markTestSkipped('MySQL isolation levels for non-locking reads');
+        }
+
         $segment = new Segment('userId==1111', array($this->site->getId()));
 
         $params = new Parameters($this->site, $this->period, $segment);
@@ -613,7 +719,7 @@ class LogAggregatorTest extends IntegrationTestCase
     public function testQueryVisitsByDimensionWithComplexDimensionSelect()
     {
         $dimensions = [
-            'CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN \'l\'' .
+            'CASE WHEN ' . Schema::getInstance()->getHourSql('log_visit.visit_first_action_time') . ' <= 11 THEN \'l\'' .
             'ELSE \'r\'' .
             'END AS label',
         ];
@@ -655,7 +761,7 @@ class LogAggregatorTest extends IntegrationTestCase
             'INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type) VALUES (?, ?, ?)',
             ['Overflow SKU', 0, Action::TYPE_ECOMMERCE_ITEM_SKU]
         );
-        $idActionSku = Db::fetchOne('SELECT LAST_INSERT_ID()');
+        $idActionSku = Db::get()->lastInsertId();
 
         $logInserter = new LogHelper();
         $visit = $logInserter->insertVisit([
@@ -766,6 +872,39 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame(1.0, (float) $row[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT]);
         // The three orders are still all counted; only their out-of-range money is excluded.
         $this->assertSame(3, (int) $row[Metrics::INDEX_GOAL_NB_CONVERSIONS]);
+    }
+
+    public function testQueryConversionsByPageViewAttributesFractionsOfAConversion()
+    {
+        // integer operands: SQLite divides them as integers (1 / 4 = 0), MySQL does not
+        Db::query('INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type) VALUES (?, ?, ?)', [
+            'example.org/attributed', 0, Action::TYPE_PAGE_URL,
+        ]);
+        $idAction = (int) Db::fetchOne('SELECT MAX(idaction) FROM ' . Common::prefixTable('log_action'));
+
+        $logInserter = new LogHelper();
+        $visit = $logInserter->insertVisit(['visit_last_action_time' => '2010-03-06 12:00:00']);
+        $logInserter->insertVisitAction($visit['idvisit'], [
+            'idaction_url' => $idAction,
+            'server_time' => '2010-03-06 11:00:00',
+        ]);
+        $logInserter->insertConversion($visit['idvisit'], [
+            'idgoal' => 1,
+            'server_time' => '2010-03-06 12:00:00',
+            'pageviews_before' => 4,
+            'revenue' => 10,
+            'items' => 2,
+        ]);
+
+        $rows = $this->logAggregator->queryConversionsByPageView('idaction_url', 1)->fetchAll();
+        $rows = array_values(array_filter($rows, static function ($row) use ($idAction) {
+            return (int) $row['idaction'] === $idAction;
+        }));
+
+        $this->assertCount(1, $rows);
+        $this->assertEquals(0.25, (float) $rows[0][Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB]);
+        $this->assertEquals(2.5, (float) $rows[0][Metrics::INDEX_GOAL_REVENUE_ATTRIB]);
+        $this->assertEquals(0.5, (float) $rows[0][Metrics::INDEX_GOAL_ECOMMERCE_ITEMS]);
     }
 }
 

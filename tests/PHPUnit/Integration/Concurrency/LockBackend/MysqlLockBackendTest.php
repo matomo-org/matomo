@@ -10,7 +10,9 @@
 namespace Piwik\Tests\Integration\Concurrency\LockBackend;
 
 use Piwik\Concurrency\LockBackend\MySqlLockBackend;
+use Piwik\Concurrency\LockBackend\SqliteLockBackend;
 use Piwik\Db;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class MysqlLockBackendTest extends IntegrationTestCase
@@ -43,7 +45,8 @@ class MysqlLockBackendTest extends IntegrationTestCase
 
     protected function createMysqlBackend()
     {
-        return new MySqlLockBackend();
+        // the SQLite backend is the MySQL one with SQLite's SQL, and must behave the same
+        return Fixture::isSqlite() ? new SqliteLockBackend() : new MySqlLockBackend();
     }
 
     public function testDeleteIfKeyHasValueShouldNotWorkIfKeyDoesNotExist()

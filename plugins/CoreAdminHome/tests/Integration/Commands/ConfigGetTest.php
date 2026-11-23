@@ -14,6 +14,7 @@ use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 use Symfony\Component\Yaml\Yaml;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * @group Core
@@ -86,7 +87,10 @@ class ConfigGetTest extends ConsoleCommandTestCase
 
                 // copy over sections required for tests
                 $config->tests = $actualGlobalSettingsProvider->getSection('tests');
-                $config->database = $actualGlobalSettingsProvider->getSection('database_tests');
+                $database = $actualGlobalSettingsProvider->getSection('database_tests');
+                // on SQLite, the test database's name maps to a file, as for the other tests
+                $database['dbname'] = Fixture::getSqliteDatabaseFile($database['dbname'], (string) ($database['adapter'] ?? ''));
+                $config->database = $database;
 
                 return $config;
             },

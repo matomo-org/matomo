@@ -29,10 +29,14 @@ class DbMaxPacket implements Diagnostic
             return array(); // only possible to perform check once we have DB connection
         }
 
+        $label = $this->translator->translate('Diagnostics_MysqlMaxPacketSize');
+        if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $this->translator->translate('Diagnostics_NotApplicableToSqlite')));
+        }
+
         $maxPacketBytes = Db::fetchRow("SHOW VARIABLES LIKE 'max_allowed_packet'");
 
         $status = DiagnosticResult::STATUS_OK;
-        $label = $this->translator->translate('Diagnostics_MysqlMaxPacketSize');
         $comment = '';
 
         $minSize = self::MIN_VALUE_MAX_PACKET_MB * 1000 * 1000; // not using 1024 just in case... this amount be good enough

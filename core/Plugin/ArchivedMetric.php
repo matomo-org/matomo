@@ -28,7 +28,12 @@ class ArchivedMetric extends Metric
     public const AGGREGATION_MIN_PREFIX = 'min_';
     public const AGGREGATION_UNIQUE = 'count(distinct %s)';
     public const AGGREGATION_UNIQUE_PREFIX = 'nb_uniq_';
-    public const AGGREGATION_COUNT_WITH_NUMERIC_VALUE = 'sum(if(%s > 0, 1, 0))';
+    public const AGGREGATION_COUNT_WITH_NUMERIC_VALUE = 'sum(case when %s > 0 then 1 else 0 end)';
+    /**
+     * The previous, MySQL-only value of AGGREGATION_COUNT_WITH_NUMERIC_VALUE, still recognised.
+     * @internal
+     */
+    public const LEGACY_AGGREGATION_COUNT_WITH_NUMERIC_VALUE = 'sum(if(%s > 0, 1, 0))';
     public const AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX = 'nb_with_';
 
     /**

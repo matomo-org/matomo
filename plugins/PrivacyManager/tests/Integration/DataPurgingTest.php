@@ -11,11 +11,11 @@ namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Piwik\Archive;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\LogDeleter;
 use Piwik\DbHelper;
 use Piwik\Option;
@@ -911,7 +911,7 @@ class DataPurgingTest extends IntegrationTestCase
         $sql = "INSERT INTO $logLinkVisitActionTable
                             (idsite, idvisitor, server_time, idvisit, idaction_url, idaction_url_ref,
                             idaction_name, idaction_name_ref, time_spent_ref_action)
-                     VALUES (1, 'abc', NOW(), 15, $unusedIdAction, $unusedIdAction,
+                     VALUES (1, 'abc', " . Schema::getInstance()->getCurrentDateTimeSql() . ", 15, $unusedIdAction, $unusedIdAction,
                              $unusedIdAction, $unusedIdAction, 1000)";
 
         Db::query($sql);
@@ -940,10 +940,7 @@ class DataPurgingTest extends IntegrationTestCase
 
     protected function tableExists($tableName)
     {
-        $dbName = Config::getInstance()->database['dbname'];
-
-        $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = ? AND table_name = ?";
-        return Db::fetchOne($sql, array($dbName, Common::prefixTable($tableName))) == 1;
+        return DbHelper::tableExists(Common::prefixTable($tableName));
     }
 
     protected static function getArchiveTableNames()

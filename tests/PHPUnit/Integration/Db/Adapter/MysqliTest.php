@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\Db\Adapter;
 use Piwik\Config;
 use Piwik\Db\Adapter\Mysqli;
 use Exception;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class MysqliTest extends IntegrationTestCase
@@ -29,6 +30,10 @@ class MysqliTest extends IntegrationTestCase
 
     public function testIsMysqliErrorNumberUsesTheNumberTheExceptionCarries()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects to MySQL with mysqli');
+        }
+
         $config = Config::getInstance()->database;
         mysqli_report(MYSQLI_REPORT_OFF);
         $connection = new \mysqli($config['host'], $config['username'], $config['password'], $config['dbname'], (int) $config['port']);

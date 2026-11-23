@@ -25,6 +25,16 @@ class LogDeleter
 
     private LogTablesProvider $logTablesProvider;
 
+    /**
+     * On SQLite, the pause between two chunks of deleted visits, in milliseconds. A writer waiting for SQLite's
+     * write lock retries it after sleeping up to 100 ms; back-to-back chunks leave it gaps of about a millisecond,
+     * so trackers waiting during a long deletion could exhaust their busy timeout and fail. A pause longer than
+     * that sleep lets every waiting writer in.
+     *
+     * @var int
+     */
+    public $sqlitePauseBetweenChunksMs = 150;
+
     public function __construct(RawLogDao $rawLogDao, LogTablesProvider $logTablesProvider)
     {
         $this->rawLogDao = $rawLogDao;
@@ -86,7 +96,8 @@ class LogDeleter
 
         $logsDeleted = 0;
         $logPurger = $this;
-        $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $iterationStep, function ($logs) use ($logPurger, &$logsDeleted, $afterChunkDeleted) {
+        $pauseMs = Db\Sqlite\Connection::isSqliteConnection(Db::get()) ? max(0, (int) $this->sqlitePauseBetweenChunksMs) : 0;
+        $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $iterationStep, function ($logs) use ($logPurger, &$logsDeleted, $afterChunkDeleted, $pauseMs) {
             $ids = array_map(function ($row) {
                 return (int)(reset($row));
             }, $logs);
@@ -94,6 +105,9 @@ class LogDeleter
             $logsDeleted += $logPurger->deleteVisits($ids);
             if (!empty($afterChunkDeleted)) {
                 $afterChunkDeleted($logsDeleted);
+            }
+            if ($pauseMs > 0) {
+                usleep($pauseMs * 1000);
             }
         }, $willDelete = true);
 

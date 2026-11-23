@@ -611,10 +611,14 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $writer->write($pageView, new VisitProperties(['idvisit' => 1]), $this->makeRequest('aaaaaa', 0, isNewVisit: true));
         $writer->write($event, new VisitProperties(['idvisit' => 2]), $this->makeRequest('', 0, isNewVisit: true));
         $writer->write($event, new VisitProperties(['idvisit' => 3]), $this->makeRequest('bbbbbb', 0, isNewVisit: true));
-        $this->assertSame(0, $this->countTrackerSelects() - $selectsBefore, 'The first hit of a new visit queries nothing');
+        if ($selectsBefore !== null) {
+            $this->assertSame(0, $this->countTrackerSelects() - $selectsBefore, 'The first hit of a new visit queries nothing');
+        }
 
         $writer->write($event, new VisitProperties(['idvisit' => 1]), $this->makeRequest('', 20));
-        $this->assertSame(1, $this->countTrackerSelects() - $selectsBefore, 'A later hit still closes the previous pageview');
+        if ($selectsBefore !== null) {
+            $this->assertSame(1, $this->countTrackerSelects() - $selectsBefore, 'A later hit still closes the previous pageview');
+        }
         $this->assertSame(20, (int) $this->fetchRowsByPvId()['aaaaaa']['time_spent']);
     }
 
@@ -664,7 +668,7 @@ class PageViewTimeWriterTest extends IntegrationTestCase
 
         // Renamed before the transaction starts: DDL inside one would commit it.
         $table = Common::prefixTable('log_page_view_time');
-        Db::exec("RENAME TABLE `$table` TO `{$table}_moved`");
+        Db::exec("ALTER TABLE `$table` RENAME TO `{$table}_moved`");
 
         return (int) Db::fetchOne('SELECT idvisit FROM ' . Common::prefixTable('log_visit'));
     }
@@ -673,7 +677,7 @@ class PageViewTimeWriterTest extends IntegrationTestCase
     {
         Tracker::disconnectCachedDbConnection();
         $table = Common::prefixTable('log_page_view_time');
-        Db::exec("RENAME TABLE `{$table}_moved` TO `$table`");
+        Db::exec("ALTER TABLE `{$table}_moved` RENAME TO `$table`");
     }
 
     private function makeRequest(string $pvId, int $secondsAfterBase, bool $isNewVisit = false): Request
@@ -684,8 +688,15 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         return $request;
     }
 
-    private function countTrackerSelects(): int
+    /**
+     * The statement counter is a MySQL status variable; SQLite has none, so the counts are not checked there.
+     */
+    private function countTrackerSelects(): ?int
     {
+        if (Fixture::isSqlite()) {
+            return null;
+        }
+
         return (int) Tracker::getDatabase()->fetchRow("SHOW SESSION STATUS LIKE 'Com_select'")['Value'];
     }
 

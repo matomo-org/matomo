@@ -9,7 +9,7 @@
 
 namespace Piwik\DataAccess;
 
-use Piwik\Db;
+use Piwik\DbHelper;
 
 /**
  * Data Access Object that can be used to get metadata information about
@@ -27,14 +27,7 @@ class TableMetadata
     {
         $table = str_replace("`", "", $table);
 
-        $columns = Db::fetchAll("SHOW COLUMNS FROM `" . $table . "`");
-
-        $columnNames = array();
-        foreach ($columns as $column) {
-            $columnNames[] = $column['Field'];
-        }
-
-        return $columnNames;
+        return array_keys(DbHelper::getTableColumns($table));
     }
 
     /**

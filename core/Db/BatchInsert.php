@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\ExceptionHandler;
 use Piwik\Log;
 use Piwik\SettingsServer;
@@ -35,11 +36,11 @@ class BatchInsert
     {
         $tableName = preg_replace('/[^a-zA-Z\d_-]/', '', $tableName);
         $fieldList = '(' . join(',', $fields) . ')';
-        $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
+        $insert    = $ignoreWhenDuplicate ? Schema::getInstance()->getInsertIgnoreSql() : 'INSERT';
 
         foreach ($values as $row) {
             $row = array_values($row);
-            $query = "INSERT $ignore INTO `" . $tableName . "`
+            $query = "$insert INTO `" . $tableName . "`
 					  $fieldList
 					  VALUES (" . Common::getSqlStringFieldsArray($row) . ")";
             Db::query($query, $row);
@@ -65,8 +66,8 @@ class BatchInsert
 
         $fieldList = '(' . implode(',', $fields) . ')';
         $insertLines = implode(',', $insertLines);
-        $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
-        $query = "INSERT $ignore INTO $tableName $fieldList VALUES $insertLines";
+        $insert    = $ignoreWhenDuplicate ? Schema::getInstance()->getInsertIgnoreSql() : 'INSERT';
+        $query = "$insert INTO $tableName $fieldList VALUES $insertLines";
         Db::query($query, $bind);
     }
 

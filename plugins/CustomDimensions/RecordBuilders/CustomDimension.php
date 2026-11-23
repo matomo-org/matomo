@@ -271,7 +271,7 @@ class CustomDimension extends RecordBuilder
                   $logActionNameAlias
                   sum(log_link_visit_action.time_spent) as `" . Metrics::INDEX_PAGE_SUM_TIME_SPENT . "`,
                   sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `" . Metrics::INDEX_BOUNCE_COUNT . "`,
-                  sum(IF(log_visit.last_idlink_va = log_link_visit_action.idlink_va, 1, 0)) as `" . Metrics::INDEX_PAGE_EXIT_NB_VISITS . "`";
+                  sum(CASE WHEN log_visit.last_idlink_va = log_link_visit_action.idlink_va THEN 1 ELSE 0 END) as `" . Metrics::INDEX_PAGE_EXIT_NB_VISITS . "`";
 
         $select = $this->addMetricsToSelect($select, $metricsConfig);
 

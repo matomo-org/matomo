@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\Db\Schema;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
@@ -153,7 +154,7 @@ class SubscriptionModel
 
     private function removeSubscription($token)
     {
-        $this->getDb()->query('UPDATE ' . $this->table . ' SET token = NULL, ts_unsubscribed = NOW() WHERE token = ?', [$token]);
+        $this->getDb()->query('UPDATE ' . $this->table . ' SET token = NULL, ts_unsubscribed = ' . Schema::getInstance()->getCurrentDateTimeSql() . ' WHERE token = ?', [$token]);
     }
 
     private function generateToken($email)

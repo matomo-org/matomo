@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db\Schema;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
@@ -73,7 +74,7 @@ class Failures
         }
 
         $params = $this->getParamsWithTokenAnonymized($request);
-        $sql = sprintf('INSERT INTO `%s` (`idsite`, `idfailure`, `date_first_occurred`, `request_url`) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE idsite=idsite;', $this->tablePrefixed);
+        $sql = sprintf('INSERT INTO `%s` (`idsite`, `idfailure`, `date_first_occurred`, `request_url`) VALUES(?,?,?,?) ' . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . ' idsite=idsite;', $this->tablePrefixed);
 
         PiwikDb::get()->query($sql, array($idSite, $idFailure, $this->getNow()->getDatetime(), http_build_query($params)));
     }
@@ -122,7 +123,8 @@ class Failures
 
     public function getAllFailures()
     {
-        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM `%s`', $this->tablePrefixed));
+        // in primary-key order, as InnoDB returns them
+        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM `%s` ORDER BY idsite, idfailure', $this->tablePrefixed));
         return $this->enrichFailures($failures);
     }
 
@@ -133,7 +135,7 @@ class Failures
         }
         $idSites = array_map('intval', $idSites);
         $idSites = implode(',', $idSites);
-        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM `%s` WHERE idsite IN (%s)', $this->tablePrefixed, $idSites));
+        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM `%s` WHERE idsite IN (%s) ORDER BY idsite, idfailure', $this->tablePrefixed, $idSites));
         return $this->enrichFailures($failures);
     }
 

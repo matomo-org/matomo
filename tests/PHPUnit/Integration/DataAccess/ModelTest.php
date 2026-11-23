@@ -48,8 +48,32 @@ class ModelTest extends IntegrationTestCase
         $this->model->createArchiveTable($this->tableName, 'archive_numeric');
     }
 
+    public function testDateColumnsAreComparedAsMysqlComparesThemWithADatetime()
+    {
+        $method = new \ReflectionMethod(Model::class, 'getDateComparisonValue');
+
+        $this->assertSame('2024-03-04', $method->invoke(null, Date::factory('2024-03-04 00:00:00')));
+        $this->assertSame('2024-03-04 12:34:56', $method->invoke(null, Date::factory('2024-03-04 12:34:56')));
+
+        // a DATE column holding 2024-03-04 is earlier than 2024-03-04 12:34:56, and not equal to it
+        $table = Common::prefixTable('archive_invalidations');
+        Db::query("INSERT INTO $table (name, idsite, date1, date2, period, ts_invalidated, report, status) VALUES ('done', 1, '2024-03-04', '2024-03-04', 1, '2024-03-05 00:00:00', NULL, 0)");
+        $count = function (string $operator, string $value): int {
+            return (int) Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . " WHERE date1 $operator ?", [$value]);
+        };
+        foreach (['=' => 0, '<' => 1, '<=' => 1, '>' => 0, '>=' => 0] as $operator => $expected) {
+            $this->assertSame($expected, $count($operator, $method->invoke(null, Date::factory('2024-03-04 12:34:56'))), $operator);
+        }
+        foreach (['=' => 1, '<' => 0, '<=' => 1, '>' => 0, '>=' => 1] as $operator => $expected) {
+            $this->assertSame($expected, $count($operator, $method->invoke(null, Date::factory('2024-03-04'))), $operator);
+        }
+    }
+
     public function testGetInvalidatedArchiveIdsSafeToDeleteHandlesCutOffGroupMaxLenCorrectly()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped("SQLite's group_concat() has no length limit to cut off at");
+        }
         Db::get()->query('SET SESSION group_concat_max_len=32');
 
         $this->insertArchiveData([
@@ -78,7 +102,7 @@ class ModelTest extends IntegrationTestCase
 
         // sanity check
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'), true);
-        $sql = "SELECT GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC, idarchive DESC) as archives
+        $sql = "SELECT " . Db\Schema::getInstance()->getGroupConcatSql("CONCAT(idarchive, '.', value)", 'ts_archived DESC, idarchive DESC') . " as archives
                   FROM `$table`
               GROUP BY idsite, date1, date2, period, name";
         $result = Db::fetchRow($sql);

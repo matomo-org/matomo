@@ -12,7 +12,9 @@ namespace Piwik\Plugins\CustomDimensions\Dao;
 use Piwik\Common;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
+use Piwik\Updater\Migration\Db\Statements;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Exception;
 
@@ -144,8 +146,8 @@ class LogTable
         }
 
         if (!empty($queries)) {
-            $sql = 'ALTER TABLE ' . $this->table . ' ' . implode(', ', $queries) . ';';
-            Db::exec($sql);
+            $statements = new Statements(Schema::getInstance()->getAlterTableSql($this->table, $queries), []);
+            $statements->exec();
         }
     }
 

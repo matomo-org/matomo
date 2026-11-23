@@ -46,7 +46,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $siteTable = Common::prefixTable('site');
         $table = Common::prefixTable('archiving_metrics');
-        Db::query("DELETE a FROM {$table} a LEFT JOIN {$siteTable} s ON a.idsite = s.idsite WHERE s.idsite IS NULL");
+        Db::query("DELETE FROM {$table} WHERE NOT EXISTS (SELECT 1 FROM {$siteTable} s WHERE s.idsite = {$table}.idsite)");
     }
 
     private function getRetentionDays(): int

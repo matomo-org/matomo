@@ -14,6 +14,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 use Piwik\Updates\Updates_2_10_0_b5;
 use Piwik\Version;
@@ -53,6 +54,8 @@ class UpdateTest extends ConsoleCommandTestCase
 
     public function testUpdateCommandSuccessfullyExecutesUpdate()
     {
+        $this->skipOnSqlite();
+
         $result = $this->applicationTester->run(array(
             'command' => 'core:update',
             '--yes' => true,
@@ -68,6 +71,8 @@ class UpdateTest extends ConsoleCommandTestCase
 
     public function testUpdateCommandDoesntExecuteSqlWhenUserSaysNo()
     {
+        $this->skipOnSqlite();
+
         $this->applicationTester->setInputs(['N']);
 
         $result = $this->applicationTester->run(array(
@@ -100,6 +105,8 @@ class UpdateTest extends ConsoleCommandTestCase
 
     public function testUpdateCommandReturnsCorrectExitCodeWhenErrorOccurs()
     {
+        $this->skipOnSqlite();
+
         // create a blob table, then drop it manually so update 2.10.0-b10 will fail
         $tableName = ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'), true);
         Db::exec("DROP TABLE $tableName");
@@ -117,5 +124,13 @@ class UpdateTest extends ConsoleCommandTestCase
     {
         self::assertStringContainsString("Note: this is a Dry Run", $output);
         self::assertStringContainsString(self::EXPECTED_SQL_FROM_2_10, $output);
+    }
+
+    private function skipOnSqlite(): void
+    {
+        if (Fixture::isSqlite()) {
+            // the updates from 2.9.0 are MySQL's: a SQLite installation starts at the release that supports it
+            $this->markTestSkipped('updates from ' . self::VERSION_TO_UPDATE_FROM . ' predate SQLite support');
+        }
     }
 }

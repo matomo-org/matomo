@@ -13,7 +13,7 @@ namespace Piwik\Updater\Migration\Db;
  * @see Factory::dropPrimaryKey()
  * @ignore
  */
-class DropPrimaryKey extends Sql
+class DropPrimaryKey extends AlterTable
 {
     /**
      * @param string $table Prefixed table name
@@ -22,6 +22,6 @@ class DropPrimaryKey extends Sql
     {
         $sql = sprintf('ALTER TABLE `%s` DROP PRIMARY KEY', $table);
 
-        parent::__construct($sql, array(static::ERROR_CODE_COLUMN_NOT_EXISTS));
+        parent::__construct($table, ['DROP PRIMARY KEY'], array(static::ERROR_CODE_COLUMN_NOT_EXISTS), $sql);
     }
 }

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Date;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
@@ -23,11 +24,21 @@ class VisitFirstActionTime extends VisitDimension
     protected $columnName = 'visit_first_action_time';
     protected $columnType = 'DATETIME NOT NULL';
     protected $type = self::TYPE_DATETIME;
-
     protected $sqlSegment = 'HOUR(log_visit.visit_first_action_time)';
+
     protected $segmentName = 'visitStartServerHour';
     protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
     protected $nameSingular = 'VisitTime_ColumnVisitStartSiteHour';
+
+    public function getSqlSegment()
+    {
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, is spelled by the database in use
+        if ($this->sqlSegment === 'HOUR(log_visit.visit_first_action_time)') {
+            return Schema::getInstance()->getHourSql('log_visit.visit_first_action_time');
+        }
+
+        return parent::getSqlSegment();
+    }
 
     public function __construct()
     {

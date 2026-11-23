@@ -107,7 +107,7 @@ class SitesManagerTest extends IntegrationTestCase
 
         $this->assertFalse(SitesManager::shouldShowEmptySiteMessage($this->siteId));
 
-        Db::exec('TRUNCATE ' . Common::prefixTable('log_visit'));
+        Db::truncateTable(Common::prefixTable('log_visit'));
 
         $this->assertFalse(SitesManager::shouldShowEmptySiteMessage($this->siteId));
     }

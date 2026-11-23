@@ -80,6 +80,12 @@ jobs:
             adapter: 'MYSQLI'
             mysql-engine: 'Mysql'
             mysql-version: '8.0'
+          # no database server: setup-sqlite-tests.sh points the test config at SQLite files. Not PHP 8.1,
+          # which uploads the artifacts.
+          - php: '8.4'
+            adapter: 'PDO_MYSQL'
+            mysql-engine: 'Sqlite'
+            mysql-version: ''
     steps:
       - uses: actions/checkout@v7
         with:
@@ -96,6 +102,8 @@ jobs:
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
+          mysql-service: ${{ matrix.environment.mysql-engine != 'Sqlite' }}
+          setup-script: ${{ matrix.environment.mysql-engine == 'Sqlite' && 'matomo/.github/scripts/setup-sqlite-tests.sh' || '' }}
           php-version: ${{ matrix.environment.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
@@ -128,6 +136,8 @@ jobs:
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
+          mysql-service: ${{ matrix.environment.mysql-engine != 'Sqlite' }}
+          setup-script: ${{ matrix.environment.mysql-engine == 'Sqlite' && 'matomo/.github/scripts/setup-sqlite-tests.sh' || '' }}
           php-version: ${{ matrix.environment.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
@@ -171,6 +181,8 @@ jobs:
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
+          mysql-service: ${{ matrix.environment.mysql-engine != 'Sqlite' }}
+          setup-script: ${{ matrix.environment.mysql-engine == 'Sqlite' && 'matomo/.github/scripts/setup-sqlite-tests.sh' || '' }}
           php-version: ${{ matrix.environment.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
@@ -214,6 +226,8 @@ jobs:
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
+          mysql-service: ${{ matrix.environment.mysql-engine != 'Sqlite' }}
+          setup-script: ${{ matrix.environment.mysql-engine == 'Sqlite' && 'matomo/.github/scripts/setup-sqlite-tests.sh' || '' }}
           php-version: ${{ matrix.environment.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
@@ -257,6 +271,8 @@ jobs:
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
+          mysql-service: ${{ matrix.environment.mysql-engine != 'Sqlite' }}
+          setup-script: ${{ matrix.environment.mysql-engine == 'Sqlite' && 'matomo/.github/scripts/setup-sqlite-tests.sh' || '' }}
           php-version: ${{ matrix.environment.php }}
           redis-service: true
           # Per-bucket POSTs to the artifacts server collide on the same

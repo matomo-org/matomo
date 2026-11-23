@@ -273,7 +273,8 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         foreach (array(1, 2) as $idSite) {
             foreach (array('2012-01-01', '2012-01-02', '2012-01-03', '2012-01-04') as $date) {
                 $this->insertVisit(array(
-                    'visit_last_action_time' => $date,
+                    // a datetime column: SQLite stores a date as given, MySQL adds the time
+                    'visit_last_action_time' => $date . ' 00:00:00',
                     'idsite' => $idSite,
                 ));
             }

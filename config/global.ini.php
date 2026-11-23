@@ -22,6 +22,13 @@ adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 
+; SQLite (adapter = PDO\SQLITE, schema = Sqlite, dbname = path of the database file):
+; how long, in milliseconds, a connection waits for another one's write lock before failing
+sqlite_busy_timeout = 5000
+; Matomo requires SQLite 3.44.0 or later and trusts 3.44.6+, 3.50.7+ and 3.51.3+ to include the fix of
+; the WAL-reset bug; for another version, set to 1 once you have confirmed your build includes the fix
+sqlite_wal_reset_fix_attested = 0
+
 ; Database SSL Options START
 ; Turn on or off SSL connection to database, possible values for enable_ssl: 1 or 0
 enable_ssl = 0

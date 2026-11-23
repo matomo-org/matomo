@@ -39,6 +39,16 @@ class ArchivingDbAdapter
         $this->maxExecutionTime = (float) Config::getInstance()->General['archiving_query_max_execution_time'];
     }
 
+    /**
+     * The adapter this one wraps, e.g. to tell which engine it is.
+     *
+     * @return AdapterInterface|\Zend_Db_Adapter_Abstract
+     */
+    public function getWrappedAdapter()
+    {
+        return $this->wrapped;
+    }
+
     public function __call($name, $arguments)
     {
         return call_user_func_array([$this->wrapped, $name], $arguments);

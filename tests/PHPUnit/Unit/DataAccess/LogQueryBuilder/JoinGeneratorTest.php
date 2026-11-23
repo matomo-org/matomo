@@ -13,12 +13,15 @@ use Piwik\DataAccess\LogQueryBuilder\JoinGenerator;
 use Piwik\DataAccess\LogQueryBuilder\JoinTables;
 use Piwik\Plugins\CoreHome\Tracker\LogTable\PageViewTime;
 use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
+use Piwik\Tests\Framework\MysqlSqlExpectationsTrait;
 
 /**
  * @group Core
  */
 class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
 {
+    use MysqlSqlExpectationsTrait;
+
     /**
      * @var JoinGenerator
      */
@@ -26,10 +29,19 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
+        parent::setUp();
+        $this->useMysqlSchemaIfSqlite();
+
         $this->generator = $this->makeTables(array(
             'log_visit',
             array('table' => 'log_conversion', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'),
             'log_action'));
+    }
+
+    public function tearDown(): void
+    {
+        $this->restoreSchemaAfterMysqlExpectations();
+        parent::tearDown();
     }
 
     public function testConstructorShouldAddTablesIfNeeded()

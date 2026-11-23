@@ -114,7 +114,17 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('Entries with Country', $metric->getTranslatedName());
         $this->assertSame('The number of entries that have a value set for Country', $metric->getDocumentation());
         $this->assertSame('UserCountry_VisitLocation', $metric->getCategoryId());
-        $this->assertSame('sum(if(log_visit.location_country > 0, 1, 0))', $metric->getQuery());
+        $this->assertSame('sum(case when log_visit.location_country > 0 then 1 else 0 end)', $metric->getQuery());
+    }
+
+    public function testCreateMetricWithTheLegacyValueAggregationIsStillACountWithValue()
+    {
+        $factory = $this->makeFactory($this->country);
+        $metric = $factory->createMetric(ArchivedMetric::LEGACY_AGGREGATION_COUNT_WITH_NUMERIC_VALUE);
+
+        $this->assertSame('nb_with_usercountry_country', $metric->getName());
+        $this->assertSame('Entries with Country', $metric->getTranslatedName());
+        $this->assertSame('sum(case when log_visit.location_country > 0 then 1 else 0 end)', $metric->getQuery());
     }
 
 

@@ -14,6 +14,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db;
+use Piwik\DbHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -42,11 +44,9 @@ class DbTest extends IntegrationTestCase
     {
         $GLOBALS['abc'] = 1;
         $table = Common::prefixTable('testtable');
-        Db::exec("CREATE TABLE `$table` (
-                      testid BIGINT NOT NULL AUTO_INCREMENT,
+        DbHelper::createTable('testtable', 'testid BIGINT NOT NULL AUTO_INCREMENT,
                       testvalue BIGINT NULL,
-                      PRIMARY KEY (testid)
-                  )");
+                      PRIMARY KEY (testid)');
 
         Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", [4]);
         Db::query("INSERT INTO `$table` (testvalue) VALUES (?)", [null]);
@@ -59,6 +59,137 @@ class DbTest extends IntegrationTestCase
         ];
 
         $this->assertEquals($expected, $values);
+    }
+
+    public function testDropTablesDropsEveryTableGiven()
+    {
+        $tables = [Common::prefixTable('drop_a'), Common::prefixTable('drop_b')];
+        foreach ($tables as $table) {
+            Db::exec('CREATE TABLE `' . $table . '` (id INT)');
+        }
+
+        Db::dropTables($tables);
+
+        $this->assertSame([false, false], array_map([$this, 'tableExists'], $tables));
+    }
+
+    public function testDropTablesWithAMissingTableFailsAndOnSqliteDropsNone()
+    {
+        $tables = [Common::prefixTable('drop_a'), Common::prefixTable('drop_missing'), Common::prefixTable('drop_b')];
+        Db::exec('CREATE TABLE `' . $tables[0] . '` (id INT)');
+        Db::exec('CREATE TABLE `' . $tables[2] . '` (id INT)');
+
+        $error = null;
+        try {
+            Db::dropTables($tables);
+        } catch (\Exception $e) {
+            $error = $e;
+        }
+        $this->assertNotNull($error, 'A missing table must fail');
+
+        if (Fixture::isSqlite()) {
+            // as MySQL 8 (MariaDB drops the existing ones)
+            $this->assertSame([true, true], [$this->tableExists($tables[0]), $this->tableExists($tables[2])]);
+        }
+        foreach ([$tables[0], $tables[2]] as $table) {
+            Db::exec('DROP TABLE IF EXISTS `' . $table . '`');
+        }
+    }
+
+    public function testDropTablesAndTruncateTableThroughTheTrackerConnection()
+    {
+        $tables = [Common::prefixTable('drop_a'), Common::prefixTable('drop_b')];
+        foreach (['drop_a', 'drop_b'] as $name) {
+            DbHelper::createTable($name, 'id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id)');
+        }
+
+        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
+        try {
+            Db::query('INSERT INTO `' . $tables[0] . '` (id) VALUES (NULL)');
+            Db::truncateTable($tables[0]);
+            Db::query('INSERT INTO `' . $tables[0] . '` (id) VALUES (NULL)');
+            $this->assertEquals(1, Db::fetchOne('SELECT MAX(id) FROM `' . $tables[0] . '`'));
+
+            Db::dropTables($tables);
+        } finally {
+            $GLOBALS['PIWIK_TRACKER_MODE'] = false;
+        }
+
+        $this->assertSame([false, false], array_map([$this, 'tableExists'], $tables));
+    }
+
+    public function testTruncateTableRestartsTheCounterWhateverTheCaseOfTheName()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('MySQL table names are case-sensitive on Linux');
+        }
+
+        $table = Common::prefixTable('truncate_case');
+        DbHelper::createTable('truncate_case', 'id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id)');
+        Db::query('INSERT INTO `' . $table . '` (id) VALUES (NULL), (NULL)');
+
+        Db::truncateTable(strtoupper($table));
+        Db::query('INSERT INTO `' . $table . '` (id) VALUES (NULL)');
+
+        $this->assertEquals(1, Db::fetchOne('SELECT MAX(id) FROM `' . $table . '`'));
+        Db::dropTables($table);
+    }
+
+    public function testTruncateTableRestartsTheCounterOfTheTableItEmptied()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('A SQLite temporary table hiding a permanent one');
+        }
+
+        $table = Common::prefixTable('truncate_shadow');
+        DbHelper::createTable('truncate_shadow', 'id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id)');
+        Db::query('INSERT INTO main.`' . $table . '` (id) VALUES (100)');
+        Db::query('CREATE TEMP TABLE `' . $table . '` (id INTEGER PRIMARY KEY AUTOINCREMENT)');
+        try {
+            Db::query('INSERT INTO temp.`' . $table . '` (id) VALUES (8)');
+
+            Db::truncateTable($table);
+            Db::query('INSERT INTO temp.`' . $table . '` (id) VALUES (NULL)');
+            Db::query('INSERT INTO main.`' . $table . '` (id) VALUES (NULL)');
+
+            $this->assertEquals(1, Db::fetchOne('SELECT MAX(id) FROM temp.`' . $table . '`'));
+            $this->assertEquals(101, Db::fetchOne('SELECT MAX(id) FROM main.`' . $table . '`'));
+        } finally {
+            Db::query('DROP TABLE temp.`' . $table . '`');
+            Db::query('DROP TABLE main.`' . $table . '`');
+        }
+    }
+
+    public function testTruncateTableReportsTheErrorThatRolledTheTransactionBack()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('A SQLite trigger rolling back the transaction');
+        }
+
+        $table = Common::prefixTable('truncate_cancelled');
+        DbHelper::createTable('truncate_cancelled', 'id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id)');
+        Db::query('INSERT INTO `' . $table . '` (id) VALUES (NULL)');
+        Db::query('CREATE TEMP TRIGGER truncate_cancelled BEFORE DELETE ON `' . $table . "` BEGIN SELECT RAISE(ROLLBACK, 'delete cancelled'); END");
+        try {
+            Db::truncateTable($table);
+            $this->fail('The trigger must cancel the truncation');
+        } catch (\Zend_Db_Statement_Exception $e) {
+            $this->assertStringContainsString('delete cancelled', $e->getMessage());
+        } finally {
+            Db::query('DROP TRIGGER temp.truncate_cancelled');
+            Db::dropTables($table);
+        }
+        $this->assertFalse((bool) Db::get()->getConnection()->inTransaction());
+    }
+
+    private function tableExists(string $table): bool
+    {
+        try {
+            Db::fetchOne('SELECT COUNT(*) FROM `' . $table . '`');
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function testGetColumnNamesFromTable()
@@ -94,6 +225,10 @@ class DbTest extends IntegrationTestCase
 
     public function testWithReader()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no reader database');
+        }
+
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
         $this->assertFalse(Db::hasReaderDatabaseObject());
@@ -108,8 +243,25 @@ class DbTest extends IntegrationTestCase
         $this->assertFalse(Db::hasReaderDatabaseObject());
     }
 
+    public function testSqliteRefusesAReader(): void
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('Only SQLite refuses a reader database');
+        }
+
+        // a reader would be a second copy of the database file, which nothing keeps in sync
+        Config::getInstance()->database_reader = Config::getInstance()->database;
+
+        $this->expectExceptionMessage('a [database_reader] is not supported');
+        Db::getReader();
+    }
+
     public function testWithReaderCreatesDifferentConnectionForDb()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no reader database');
+        }
+
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
         $db = Db::getReader();
@@ -127,6 +279,10 @@ class DbTest extends IntegrationTestCase
 
     public function testWithReaderCanReconnectToWriterIfServerHasGoneAway(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no reader database');
+        }
+
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
         $connectionId = $this->setUpMySQLHasGoneAwayConnection();
@@ -139,6 +295,10 @@ class DbTest extends IntegrationTestCase
 
     public function testWithReaderDoesNotInterceptNonGoneAwayErrors(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no reader database');
+        }
+
         Config::getInstance()->database_reader = Config::getInstance()->database;
 
         $expectedConnectionId = Db::query('SELECT CONNECTION_ID()')->fetchColumn();
@@ -168,6 +328,10 @@ class DbTest extends IntegrationTestCase
 
     public function testWithoutReaderDoesNotReconnectIfServerHasGoneAway(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('A MySQL server connection that goes away');
+        }
+
         $this->setUpMySQLHasGoneAwayConnection();
 
         $dbException = null;
@@ -203,6 +367,10 @@ class DbTest extends IntegrationTestCase
      */
     public function testSqlModeIsSetPDO($adapter, $expectedClass)
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects with the MySQL adapters');
+        }
+
         Db::destroyDatabaseObject();
         Config::getInstance()->database['adapter'] = $adapter;
         $db = Db::get();
@@ -247,6 +415,10 @@ class DbTest extends IntegrationTestCase
      */
     public function testGetRowCount($adapter, $expectedClass)
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects with the MySQL adapters');
+        }
+
         Db::destroyDatabaseObject();
         Config::getInstance()->database['adapter'] = $adapter;
         $db = Db::get();
@@ -262,6 +434,10 @@ class DbTest extends IntegrationTestCase
      */
     public function testConnectionCollationDefault(string $adapter, string $expectedClass): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects with the MySQL adapters');
+        }
+
         Db::destroyDatabaseObject();
 
         $config = Config::getInstance();
@@ -281,6 +457,10 @@ class DbTest extends IntegrationTestCase
      */
     public function testConnectionCollationSetInConfig(string $adapter, string $expectedClass): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('Connects with the MySQL adapters');
+        }
+
         Db::destroyDatabaseObject();
 
         $config = Config::getInstance();

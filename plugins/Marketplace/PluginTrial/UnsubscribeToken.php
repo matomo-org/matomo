@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Marketplace\PluginTrial;
 
+use Piwik\Db\Schema;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\SettingsPiwik;
@@ -63,7 +64,7 @@ class UnsubscribeToken
     {
         // matches UsersManager\Model::getUser(): prefer an exact login match over a case-insensitive one
         $rows = Db::fetchAll(
-            'SELECT login, UNIX_TIMESTAMP(date_registered) AS registered FROM ' . Common::prefixTable('user') . ' WHERE login = ?',
+            'SELECT login, ' . Schema::getInstance()->getUnixTimestampSql('date_registered') . ' AS registered FROM ' . Common::prefixTable('user') . ' WHERE login = ?',
             [$login]
         );
         if (empty($rows)) {

@@ -272,9 +272,15 @@ return [
     \Piwik\CronArchive\Performance\Logger::class => Piwik\DI::autowire()
         ->constructorParameter('logger', Piwik\DI::get('archiving.performance.logger')),
 
-    \Piwik\Concurrency\LockBackend::class => \Piwik\DI::get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
+    \Piwik\Concurrency\LockBackend::class => function (\Piwik\Container\Container $c) {
+        $adapter = $c->get(\Piwik\Config::class)->database['adapter'] ?? '';
+
+        return $c->get(\Piwik\Db\Sqlite\Connection::isSqliteAdapter($adapter)
+            ? \Piwik\Concurrency\LockBackend\SqliteLockBackend::class
+            : \Piwik\Concurrency\LockBackend\MySqlLockBackend::class);
+    },
 
     \Piwik\Segment\SegmentsList::class => function () {
         return \Piwik\Segment\SegmentsList::get();
-    }
+    },
 ];

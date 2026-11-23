@@ -199,6 +199,33 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
     }
 
+    public function testDeleteOneVisitKeepsOtherRowsOfATableWithARowidColumn()
+    {
+        if (!\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            $this->markTestSkipped('Only SQLite tables have a rowid a column can hide');
+        }
+
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 1);
+
+        // a column named rowid, the same in every row, hides SQLite's own,
+        $table = Common::prefixTable(TestLogFooBar::TABLE);
+        Db::exec("ALTER TABLE `$table` ADD COLUMN rowid INTEGER NOT NULL DEFAULT 0");
+        // and a generated one, which PRAGMA table_info does not list, hides the next name
+        Db::exec("ALTER TABLE `$table` ADD COLUMN _rowid_ INTEGER GENERATED ALWAYS AS (0) VIRTUAL");
+        try {
+            $before = (int) Db::fetchOne("SELECT COUNT(*) FROM `$table`");
+            $result = $this->dataSubjects->deleteDataSubjects([['idsite' => '1', 'idvisit' => 1]]);
+
+            $this->assertEquals(2, $result[TestLogFooBar::TABLE]);
+            $this->assertEquals($before - 2, (int) Db::fetchOne("SELECT COUNT(*) FROM `$table`"));
+            $this->assertNotEmpty($this->getOneVisit(1, 2, TestLogFoo::TABLE));
+        } finally {
+            Db::exec("ALTER TABLE `$table` DROP COLUMN _rowid_");
+            Db::exec("ALTER TABLE `$table` DROP COLUMN rowid");
+        }
+    }
+
     public function testDeleteExportDeleteAllVisits()
     {
         $this->theFixture->setUpWebsites();

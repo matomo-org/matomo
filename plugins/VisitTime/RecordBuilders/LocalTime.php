@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\VisitTime\RecordBuilders;
 
+use Piwik\Db\Schema;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\DataTable;
@@ -31,7 +32,7 @@ class LocalTime extends Base
 
         $record = new DataTable();
 
-        $query = $logAggregator->queryVisitsByDimension(["label" => "HOUR(log_visit.visitor_localtime)"]);
+        $query = $logAggregator->queryVisitsByDimension(["label" => Schema::getInstance()->getHourSql('log_visit.visitor_localtime')]);
         while ($row = $query->fetch()) {
             $columns = [
                 Metrics::INDEX_NB_UNIQ_VISITORS => $row[Metrics::INDEX_NB_UNIQ_VISITORS],

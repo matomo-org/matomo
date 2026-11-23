@@ -1427,8 +1427,8 @@ class CronArchive
                 'name' => $archiveToProcess['name'],
                 'report' => $archiveToProcess['report'],
                 'idsite' => $archiveToProcess['idsite'],
-                'date1' => $period->getDateStart()->getDatetime(),
-                'date2' => $period->getDateEnd()->getDatetime(),
+                'date1' => $period->getDateStart()->toString(),
+                'date2' => $period->getDateEnd()->toString(),
                 'period' => $id,
                 'ts_invalidated' => $archiveToProcess['ts_invalidated'],
             ];

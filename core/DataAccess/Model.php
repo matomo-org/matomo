@@ -19,7 +19,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\ArchiveFilter;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\DbHelper;
+use Piwik\Db\Schema;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Segment;
@@ -65,7 +65,7 @@ class Model
         }
 
         $sql = "SELECT idsite, date1, date2, period, name,
-                       GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC, idarchive DESC) as archives
+                       " . Schema::getInstance()->getGroupConcatSql("CONCAT(idarchive, '.', value)", 'ts_archived DESC, idarchive DESC') . " as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
                    AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ")
@@ -131,7 +131,7 @@ class Model
                    AND fullarchive.date1 = partial.date1
                    AND fullarchive.date2 = partial.date2
                    AND fullarchive.period = partial.period
-                   AND fullarchive.name = SUBSTRING_INDEX(partial.name, '.', 1)
+                   AND fullarchive.name = SUBSTR(partial.name, 1, INSTR(partial.name, '.') - 1)
                    AND fullarchive.value IN ($usableValues)
                    AND fullarchive.ts_archived > partial.ts_archived
                    AND fullarchive.idarchive > partial.idarchive
@@ -169,12 +169,12 @@ class Model
 
                 if ($period->getLabel() == 'range') { // for ranges, we delete all ranges that contain the given date(s)
                     $periodCondition .= "(period = " . (int)$period->getId()
-                        . " AND date2 >= '" . $period->getDateStart()->getDatetime()
-                        . "' AND date1 <= '" . $period->getDateEnd()->getDatetime() . "')";
+                        . " AND date2 >= '" . self::getDateComparisonValue($period->getDateStart())
+                        . "' AND date1 <= '" . self::getDateComparisonValue($period->getDateEnd()) . "')";
                 } else {
                     $periodCondition .= "(period = " . (int)$period->getId()
-                        . " AND date1 = '" . $period->getDateStart()->getDatetime() . "'"
-                        . " AND date2 = '" . $period->getDateEnd()->getDatetime() . "')";
+                        . " AND date1 = '" . self::getDateComparisonValue($period->getDateStart()) . "'"
+                        . " AND date2 = '" . self::getDateComparisonValue($period->getDateEnd()) . "')";
                 }
             }
             $periodCondition .= ")";
@@ -327,8 +327,8 @@ class Model
                         'name' => $doneFlagToCheck,
                         'report' => $name,
                         'idsite' => $idSite,
-                        'date1' => $period->getDateStart()->getDatetime(),
-                        'date2' => $period->getDateEnd()->getDatetime(),
+                        'date1' => $period->getDateStart()->toString(),
+                        'date2' => $period->getDateEnd()->toString(),
                         'period' => $period->getId(),
                         'ts_invalidated' => $now,
                     ];
@@ -390,8 +390,8 @@ class Model
                 $dateConditions = array();
 
                 $dateConditions[] = "(date1 <= ? AND ? <= date2)";
-                $bind[] = $period->getDateStart()->getDatetime();
-                $bind[] = $period->getDateEnd()->getDatetime();
+                $bind[] = self::getDateComparisonValue($period->getDateStart());
+                $bind[] = self::getDateComparisonValue($period->getDateEnd());
 
                 $dateConditionsSql = implode(" OR ", $dateConditions);
                 $periodConditions[] = "(period = 5 AND ($dateConditionsSql))";
@@ -527,7 +527,7 @@ class Model
 
         $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived <= ? AND idarchive < ?";
 
-        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), $dateStart->getDatetime(), $dateEnd->getDatetime(), $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
+        $idArchives = Db::fetchAll($sql, [$params->getSite()->getId(), self::getDateComparisonValue($dateStart), self::getDateComparisonValue($dateEnd), $params->getPeriod()->getId(), $name, $tsArchived, $idArchive]);
         $idArchives = array_column($idArchives, 'idarchive');
         if (empty($idArchives)) {
             return;
@@ -584,15 +584,10 @@ class Model
 
     public function createArchiveTable($tableName, $tableNamePrefix)
     {
-        $db  = Db::get();
-        $sql = DbHelper::getTableCreateSql($tableNamePrefix);
-
-        // replace table name template by real name
-        $tableNamePrefix = Common::prefixTable($tableNamePrefix);
-        $sql = str_replace($tableNamePrefix, $tableName, $sql);
+        $db = Db::get();
 
         try {
-            $db->query($sql);
+            Schema::getInstance()->createTableFromTemplate($tableNamePrefix, $tableName);
         } catch (Exception $e) {
             // accept mysql error 1050: table already exists, throw otherwise
             if (!$db->isErrNo($e, '1050')) {
@@ -611,8 +606,8 @@ class Model
 
     public function getInstalledArchiveTables()
     {
-        $allArchiveNumeric = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_numeric%') . "'");
-        $allArchiveBlob    = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_blob%') . "'");
+        $allArchiveNumeric = Schema::getInstance()->getTablesLike(Common::prefixTable('archive_numeric%'));
+        $allArchiveBlob    = Schema::getInstance()->getTablesLike(Common::prefixTable('archive_blob%'));
 
         return array_merge($allArchiveBlob, $allArchiveNumeric);
     }
@@ -659,8 +654,9 @@ class Model
     public function insertRecord($tableName, $fields, $record, $name, $value)
     {
         // duplicate idarchives are Ignored, see https://github.com/piwik/piwik/issues/987
-        $query = "INSERT IGNORE INTO `$tableName` (" . implode(", ", $fields) . ")
-                  VALUES (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE " . end($fields) . " = ?";
+        $schema = Schema::getInstance();
+        $query = $schema->getInsertIgnoreSql() . " INTO `$tableName` (" . implode(", ", $fields) . ")
+                  VALUES (?,?,?,?,?,?,?,?) " . $schema->getOnDuplicateKeyUpdateSql() . " " . end($fields) . " = ?";
 
         $bindSql   = $record;
         $bindSql[] = $name;
@@ -809,7 +805,7 @@ class Model
         $table = Common::prefixTable('archive_invalidations');
 
         // set archive value to in progress if not set already
-        $sql = "UPDATE `$table` SET `status` = ?, `processing_host` = ?, `process_id` = ?, `ts_started` = NOW() WHERE `idinvalidation` = ? AND `status` = ?";
+        $sql = "UPDATE `$table` SET `status` = ?, `processing_host` = ?, `process_id` = ?, `ts_started` = " . Schema::getInstance()->getCurrentDateTimeSql() . " WHERE `idinvalidation` = ? AND `status` = ?";
         $bind = [
             ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
             gethostname() ?: null,
@@ -931,7 +927,7 @@ class Model
 
         // NOTE: order here is very important to ensure we process lower period archives first, and general 'all' archives before
         // segment archives, and so we use the latest idinvalidation
-        $sql .= " ORDER BY date1 DESC, period ASC, CHAR_LENGTH(name) ASC, idinvalidation DESC";
+        $sql .= " ORDER BY date1 DESC, period ASC, " . Schema::getInstance()->getCharLengthSql('name') . " ASC, idinvalidation DESC";
 
         if ($useLimit) {
             $sql .= " LIMIT 1";
@@ -975,8 +971,9 @@ class Model
                 $conditions[] = '0 = 1';
             } else {
                 $nameConditions = [];
+                $likeEscape = Schema::getInstance()->getLikeEscapeSql();
                 foreach ($segmentHashes as $hash) {
-                    $nameConditions[] = 'name = ? OR name LIKE ?';
+                    $nameConditions[] = 'name = ? OR name LIKE ?' . $likeEscape;
                     $bind[] = 'done' . $hash;
                     $bind[] = 'done' . addcslashes($hash, '%_\\') . '.%';
                 }
@@ -987,7 +984,7 @@ class Model
         $forceReport = $archiveFilter->getForceReport();
         if ($forceReport !== null && str_contains($forceReport, '.')) {
             [$plugin, $report] = explode('.', $forceReport, 2);
-            $conditions[] = 'report = ? AND name LIKE ?';
+            $conditions[] = 'report = ? AND name LIKE ?' . Schema::getInstance()->getLikeEscapeSql();
             $bind[] = $report;
             $bind[] = 'done%.' . addcslashes($plugin, '%_\\');
         }
@@ -1030,7 +1027,7 @@ class Model
         $idSitesClause = $this->getRemoveInvalidationsIdSitesClause($idSite);
 
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ?";
+        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ?" . Schema::getInstance()->getLikeEscapeSql();
 
         Db::query($sql, ['done%.' . str_replace('_', "\\_", $start)]);
     }
@@ -1040,7 +1037,7 @@ class Model
         $idSitesClause = $this->getRemoveInvalidationsIdSitesClause($idSite);
 
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ? AND report = ?";
+        $sql = "DELETE FROM `$table` WHERE $idSitesClause `name` LIKE ?" . Schema::getInstance()->getLikeEscapeSql() . " AND report = ?";
 
         Db::query($sql, ['done%.' . str_replace('_', "\\_", $plugin), $report]);
     }
@@ -1096,7 +1093,7 @@ class Model
                   FROM `$archiveTable`
                  WHERE idsite = ? AND date1 >= ? AND date2 <= ? AND period < ? AND `name` LIKE 'done%' AND `value` IN (" . implode(', ', $usableDoneFlags) . ")
                  LIMIT 1";
-            $bind = [$idSite, $period->getDateStart()->getDatetime(), $period->getDateEnd()->getDatetime(), $period->getId()];
+            $bind = [$idSite, self::getDateComparisonValue($period->getDateStart()), self::getDateComparisonValue($period->getDateEnd()), $period->getId()];
 
             $result = (bool) Db::fetchOne($sql, $bind);
             if ($result) {
@@ -1164,7 +1161,7 @@ class Model
     {
         $siteTable = Common::prefixTable('site');
         $table = Common::prefixTable('archive_invalidations');
-        $sql = "DELETE a FROM `$table` a LEFT JOIN `$siteTable` s ON a.idsite = s.idsite WHERE s.idsite IS NULL";
+        $sql = "DELETE FROM `$table` WHERE NOT EXISTS (SELECT 1 FROM `$siteTable` s WHERE s.idsite = `$table`.idsite)";
         Db::query($sql);
     }
 
@@ -1391,5 +1388,17 @@ class Model
             }
         }
         return false;
+    }
+
+    /**
+     * The value to compare a DATE column with: the date and time, as MySQL compares a DATE column with
+     * it (at midnight), or just the date when the time is midnight, so that the comparison of the text a
+     * SQLite DATE column holds gives the same result for every operator.
+     */
+    private static function getDateComparisonValue(Date $date): string
+    {
+        $datetime = $date->getDatetime();
+
+        return substr($datetime, 11) === '00:00:00' ? substr($datetime, 0, 10) : $datetime;
     }
 }

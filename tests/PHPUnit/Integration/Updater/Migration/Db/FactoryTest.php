@@ -11,6 +11,8 @@ namespace Piwik\Tests\Integration\Updater\Migration\Db;
 
 use Piwik\Common;
 use Piwik\Db\Schema;
+use Piwik\DbHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db\AddColumn;
 use Piwik\Updater\Migration\Db\AddColumns;
@@ -96,7 +98,15 @@ class FactoryTest extends IntegrationTestCase
 
         $table = $this->testTablePrefixed;
         $createOptions = Schema::getInstance()->getTableCreateOptions();
-        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        if (!Fixture::isSqlite()) {
+            // SQLite tables have no create options
+            self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        }
+        if (Fixture::isSqlite()) {
+            // the converted statements
+            $this->assertSame(implode(";\n", Schema::getInstance()->getCreateTableSql($table, '`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)')) . ';', '' . $migration);
+            return;
+        }
         $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255)) $createOptions;", '' . $migration);
     }
 
@@ -107,7 +117,15 @@ class FactoryTest extends IntegrationTestCase
 
         $table = $this->testTablePrefixed;
         $createOptions = Schema::getInstance()->getTableCreateOptions();
-        self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        if (!Fixture::isSqlite()) {
+            // SQLite tables have no create options
+            self::assertStringContainsString('ROW_FORMAT=DYNAMIC', $createOptions);
+        }
+        if (Fixture::isSqlite()) {
+            // the converted statements
+            $this->assertSame(implode(";\n", Schema::getInstance()->getCreateTableSql($table, '`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )')) . ';', '' . $migration);
+            return;
+        }
         $this->assertSame("CREATE TABLE `$table` (`column` INT(10) DEFAULT 0, `column2` VARCHAR(255), PRIMARY KEY ( `column2` )) $createOptions;", '' . $migration);
     }
 
@@ -138,7 +156,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->dropColumn();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` DROP COLUMN `column1`;", '' . $migration);
+        $this->assertAlterTableSql($table, ["DROP COLUMN `column1`"], $migration);
     }
 
     public function testAddColumnForwardsParametersWithLastColumn()
@@ -146,7 +164,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addColumn('lastcolumn');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD COLUMN `column` INT(10) DEFAULT 0 AFTER `lastcolumn`;", '' . $migration);
+        $this->assertAlterTableSql($table, ["ADD COLUMN `column` INT(10) DEFAULT 0 AFTER `lastcolumn`"], $migration);
     }
 
     public function testAddColumnReturnsAddColumnInstance()
@@ -161,7 +179,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addColumn(null);
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD COLUMN `column` INT(10) DEFAULT 0;", '' . $migration);
+        $this->assertAlterTableSql($table, ["ADD COLUMN `column` INT(10) DEFAULT 0"], $migration);
     }
 
     public function testAddColumnsReturnsAddColumnsInstance()
@@ -176,6 +194,10 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addColumns('columnafter');
 
         $table = $this->testTablePrefixed;
+        if (Fixture::isSqlite()) {
+            $this->assertAlterTableSql($table, ["ADD COLUMN `column1` INT(10) DEFAULT 0 AFTER `columnafter`", "ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\" AFTER `column1`"], $migration);
+            return;
+        }
 
         $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0 AFTER `columnafter`, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\" AFTER `column1`;";
 
@@ -191,6 +213,10 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addColumns(null);
 
         $table = $this->testTablePrefixed;
+        if (Fixture::isSqlite()) {
+            $this->assertAlterTableSql($table, ["ADD COLUMN `column1` INT(10) DEFAULT 0", "ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\""], $migration);
+            return;
+        }
 
         $expectedStatement = "ALTER TABLE `$table` ADD COLUMN `column1` INT(10) DEFAULT 0, ADD COLUMN `column2` VARCHAR(10) DEFAULT \"\";";
 
@@ -213,7 +239,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->changeColumn();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` CHANGE `column_old` `column_new` INT(10) DEFAULT 0;", '' . $migration);
+        $this->assertAlterTableSql($table, ["CHANGE `column_old` `column_new` INT(10) DEFAULT 0"], $migration);
     }
 
     public function testChangeColumnTypeReturnsChangeColumnTypeInstance()
@@ -228,7 +254,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->changeColumnType();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` CHANGE `column` `column` INT(10) DEFAULT 0;", '' . $migration);
+        $this->assertAlterTableSql($table, ["CHANGE `column` `column` INT(10) DEFAULT 0"], $migration);
     }
 
     public function testChangeColumnTypesReturnsChangeColumnTypesInstance()
@@ -243,7 +269,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->changeColumnTypes();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` CHANGE `column1` `column1` INT(10) DEFAULT 0, CHANGE `column2` `column2` VARCHAR(10) DEFAULT \"\";", '' . $migration);
+        $this->assertAlterTableSql($table, ["CHANGE `column1` `column1` INT(10) DEFAULT 0", "CHANGE `column2` `column2` VARCHAR(10) DEFAULT \"\""], $migration);
     }
 
     public function testAddIndexReturnsAddIndexInstance()
@@ -258,7 +284,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addIndex();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD INDEX index_column1_column3 (`column1`, `column3` (10));", '' . $migration);
+        $this->assertAlterTableSql($table, ["ADD INDEX index_column1_column3 (`column1`, `column3` (10))"], $migration);
     }
 
     public function testAddIndexCustomIndexName()
@@ -266,7 +292,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addIndex('myCustomIndex');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD INDEX myCustomIndex (`column1`, `column3` (10));", '' . $migration);
+        $this->assertAlterTableSql($table, ["ADD INDEX myCustomIndex (`column1`, `column3` (10))"], $migration);
     }
 
     public function testAddUniqueKeyReturnsAddUniqueKeyInstance()
@@ -281,7 +307,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addUniqueKey();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD UNIQUE KEY unique_column1_column3 (`column1`, `column3` (10));", '' . $migration);
+        $this->assertAlterTableSql($table, ["ADD UNIQUE KEY unique_column1_column3 (`column1`, `column3` (10))"], $migration);
     }
 
     public function testAddUniqueKeyCustomIndexName()
@@ -289,7 +315,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addUniqueKey('myCustomIndex');
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD UNIQUE KEY myCustomIndex (`column1`, `column3` (10));", '' . $migration);
+        $this->assertAlterTableSql($table, ["ADD UNIQUE KEY myCustomIndex (`column1`, `column3` (10))"], $migration);
     }
 
     public function testDropIndexReturnsAddIndexInstance()
@@ -304,7 +330,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->dropIndex();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` DROP INDEX `index_column1_column5`;", '' . $migration);
+        $this->assertAlterTableSql($table, ["DROP INDEX `index_column1_column5`"], $migration);
     }
 
     public function testAddPrimaryKey()
@@ -319,7 +345,7 @@ class FactoryTest extends IntegrationTestCase
         $migration = $this->addPrimaryKey();
 
         $table = $this->testTablePrefixed;
-        $this->assertSame("ALTER TABLE `$table` ADD PRIMARY KEY(`column1`, `column2`);", '' . $migration);
+        $this->assertAlterTableSql($table, ["ADD PRIMARY KEY(`column1`, `column2`)"], $migration);
     }
 
     public function testInsertReturnsInsertInstance()
@@ -435,5 +461,34 @@ class FactoryTest extends IntegrationTestCase
         $columns = array('col1');
         $values = array(array('val1'));
         return $this->factory->batchInsert($this->testTable, $columns, $values, $throwException = true, $charset = 'utf8');
+    }
+
+    /**
+     * The MySQL statement on MySQL; on SQLite, what SQLite runs for it, a rebuild described in a comment.
+     */
+    private function assertAlterTableSql(string $table, array $specifications, $migration): void
+    {
+        if (!Fixture::isSqlite()) {
+            $this->assertSame("ALTER TABLE `$table` " . implode(', ', $specifications) . ';', '' . $migration);
+            return;
+        }
+
+        $sqlite = new Schema\Sqlite();
+        $statements = [];
+        $converted = [];
+        foreach ($specifications as $specification) {
+            if ($sqlite->needsRebuild($specification)) {
+                $statements[] = "/* SQLite rebuilds the table $table for: $specification */";
+            } else {
+                $converted[] = $specification;
+            }
+        }
+        if ($converted !== [] && preg_grep('/^ADD (UNIQUE KEY|INDEX) /', $converted) !== [] && !DbHelper::tableExists($table)) {
+            // an index takes its collation from a table yet to be created
+            $statements[] = "/* SQLite: ALTER TABLE `$table` " . implode(', ', $converted) . ' */';
+        } elseif ($converted !== []) {
+            $statements = array_merge($sqlite->getAlterTableSql($table, $converted), $statements);
+        }
+        $this->assertSame(implode(";\n", $statements) . ';', '' . $migration);
     }
 }

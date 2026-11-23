@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\VisitTime\RecordBuilders;
 
+use Piwik\Db\Schema;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\DataTable;
@@ -32,7 +33,7 @@ class ServerTime extends Base
 
         $record = new DataTable();
 
-        $query = $logAggregator->queryVisitsByDimension(["label" => "HOUR(log_visit.visit_first_action_time)"]);
+        $query = $logAggregator->queryVisitsByDimension(["label" => Schema::getInstance()->getHourSql('log_visit.visit_first_action_time')]);
         while ($row = $query->fetch()) {
             $row['label'] = $this->convertTimeToLocalTimezone($row['label'], $archiveProcessor);
 
@@ -50,7 +51,7 @@ class ServerTime extends Base
             $record->sumRowWithLabel($row['label'], $columns);
         }
 
-        $query = $logAggregator->queryConversionsByDimension(["label" => "HOUR(log_conversion.server_time)"]);
+        $query = $logAggregator->queryConversionsByDimension(["label" => Schema::getInstance()->getHourSql('log_conversion.server_time')]);
         while ($conversionRow = $query->fetch()) {
             $idGoal = (int) $conversionRow['idgoal'];
             $columns = [

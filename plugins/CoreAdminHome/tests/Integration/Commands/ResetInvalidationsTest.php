@@ -631,7 +631,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
                 'date1' => '2025-02-01',
                 'date2' => '2025-02-28',
                 'period' => Month::PERIOD_ID,
-                'ts_invalidated' => '2025-02-020 19:15:01',
+                'ts_invalidated' => '2025-02-20 19:15:01',
                 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
                 'report' => null,
                 'ts_started' => '2025-02-23 18:35:00',
@@ -645,7 +645,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 
     private function insertInvalidations(array $invalidationsToInsert): void
     {
-        Db::exec('TRUNCATE TABLE ' . Common::prefixTable('archive_invalidations'));
+        Db::truncateTable(Common::prefixTable('archive_invalidations'));
 
         $sql = 'INSERT INTO ' . Common::prefixTable('archive_invalidations')
             . ' (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_invalidated`, `status`, `report`, `ts_started`, `processing_host`, `process_id`)'

@@ -77,7 +77,7 @@ class ArchiveCronSubPeriodTest extends IntegrationTestCase
                     . ' (`idarchive`, `name`, `idsite`, `date1`, `date2`, `period`, `ts_invalidated`)'
                     . ' VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-                Db::query($sql, [null, 'done', 1, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), Period\Range::PERIOD_ID, 'NOW()']);
+                Db::query($sql, [null, 'done', 1, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), Period\Range::PERIOD_ID, Date::now()->getDatetime()]);
             }
         }
 

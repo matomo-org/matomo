@@ -13,16 +13,16 @@ namespace Piwik\Updater\Migration\Db;
  * @see Factory::addColumn()
  * @ignore
  */
-class AddColumn extends Sql
+class AddColumn extends AlterTable
 {
     public function __construct($table, $columnName, $columnType, $placeColumnAfter)
     {
-        $sql = sprintf("ALTER TABLE `%s` ADD COLUMN `%s` %s", $table, $columnName, $columnType);
+        $specification = sprintf("ADD COLUMN `%s` %s", $columnName, $columnType);
 
         if (!empty($placeColumnAfter)) {
-            $sql .= sprintf(' AFTER `%s`', $placeColumnAfter);
+            $specification .= sprintf(' AFTER `%s`', $placeColumnAfter);
         }
 
-        parent::__construct($sql, static::ERROR_CODE_DUPLICATE_COLUMN);
+        parent::__construct($table, [$specification], static::ERROR_CODE_DUPLICATE_COLUMN);
     }
 }

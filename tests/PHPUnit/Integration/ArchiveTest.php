@@ -330,7 +330,7 @@ class ArchiveTest extends IntegrationTestCase
 
         // check expected archives were created
         $archives = Db::fetchAll("SELECT date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+            . " WHERE `name` IN ('done', 'done.VisitsSummary') ORDER BY idarchive, `name`");
         $expected = [
             ['date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
@@ -353,7 +353,7 @@ class ArchiveTest extends IntegrationTestCase
 
         // check correct archives are invalidated
         $archives = Db::fetchAll("SELECT date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+            . " WHERE `name` IN ('done', 'done.VisitsSummary') ORDER BY idarchive, `name`");
         $expected = [
             ['date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
@@ -367,7 +367,7 @@ class ArchiveTest extends IntegrationTestCase
 
         // check that range was rearchived
         $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+            . " WHERE `name` IN ('done', 'done.VisitsSummary') ORDER BY idarchive, `name`");
         $expected = [
             ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
@@ -383,7 +383,7 @@ class ArchiveTest extends IntegrationTestCase
         API::getInstance()->get(1, 'range', '2020-03-04,2020-03-05');
 
         $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+            . " WHERE `name` IN ('done', 'done.VisitsSummary') ORDER BY idarchive, `name`");
         $expected = [
             ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
@@ -397,7 +397,7 @@ class ArchiveTest extends IntegrationTestCase
         API::getInstance()->get(1, 'range', '2020-03-04,2020-03-05');
 
         $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+            . " WHERE `name` IN ('done', 'done.VisitsSummary') ORDER BY idarchive, `name`");
         $expected = [
             ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
@@ -496,7 +496,7 @@ class ArchiveTest extends IntegrationTestCase
 
         // check expected archives were created
         $archives = Db::fetchAll("SELECT date1, date2, name, period, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+            . " WHERE `name` IN ('done', 'done.VisitsSummary') ORDER BY idarchive, `name`");
         $expected = [
             ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'period' => 1, 'value' => '1'],
             ['date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'period' => 1, 'value' => '1'],
@@ -558,7 +558,7 @@ class ArchiveTest extends IntegrationTestCase
 
         // check expected archives were created
         $archives = Db::fetchAll("SELECT date1, date2, name, period, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+            . " WHERE `name` IN ('done', 'done.VisitsSummary') ORDER BY idarchive, `name`");
         $expected = [
             ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'period' => 1, 'value' => '1'],
             ['date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'period' => 1, 'value' => '1'],
@@ -622,7 +622,7 @@ class ArchiveTest extends IntegrationTestCase
 
         // check expected archives were created
         $archives = Db::fetchAll("SELECT date1, date2, name, period, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` IN ('done', 'done.VisitsSummary')");
+            . " WHERE `name` IN ('done', 'done.VisitsSummary') ORDER BY idarchive, `name`");
 
         $expected = [
             ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'period' => 1, 'value' => '1'],
@@ -666,7 +666,7 @@ class ArchiveTest extends IntegrationTestCase
 
         // check expected archives were created
         $archives = Db::fetchAll("SELECT date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` = 'done$segmentHash.VisitsSummary'");
+            . " WHERE `name` = 'done$segmentHash.VisitsSummary' ORDER BY idarchive, `name`");
         $expected = [
             ['date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done' . $segmentHash . '.VisitsSummary', 'value' => '1'],
             ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done' . $segmentHash . '.VisitsSummary', 'value' => '1'],
@@ -687,7 +687,7 @@ class ArchiveTest extends IntegrationTestCase
 
         // check correct archives are invalidated
         $archives = Db::fetchAll("SELECT date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` = 'done$segmentHash.VisitsSummary'");
+            . " WHERE `name` = 'done$segmentHash.VisitsSummary' ORDER BY idarchive, `name`");
         $expected = [
             ['date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done' . $segmentHash . '.VisitsSummary', 'value' => '4'],
             ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done' . $segmentHash . '.VisitsSummary', 'value' => '1'],
@@ -701,7 +701,7 @@ class ArchiveTest extends IntegrationTestCase
 
         // check that segment was rearchived, because day was allowed to be rearchived
         $archives = Db::fetchAll("SELECT date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
-            . " WHERE `name` = 'done$segmentHash.VisitsSummary'");
+            . " WHERE `name` = 'done$segmentHash.VisitsSummary' ORDER BY idarchive, `name`");
         $expected = [
             ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done' . $segmentHash . '.VisitsSummary', 'value' => '1'],
             ['date1' => '2020-03-02', 'date2' => '2020-03-08', 'name' => 'done' . $segmentHash . '.VisitsSummary', 'value' => '1'],

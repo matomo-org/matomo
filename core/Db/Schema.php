@@ -9,7 +9,11 @@
 
 namespace Piwik\Db;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Db;
+use Piwik\Db\Schema\Mysql;
+use Piwik\SettingsServer;
 use Piwik\Singleton;
 
 /**
@@ -27,6 +31,20 @@ class Schema extends Singleton
      * @var SchemaInterface|null
      */
     private $schema = null;
+
+    /**
+     * The MySQL schema, whose SQL dialect and table metadata operations serve schemas that have none.
+     *
+     * @var Mysql|null
+     */
+    private $mysqlDialect = null;
+
+    /**
+     * The SQLite schema, for a SQLite connection when the configuration names another schema.
+     *
+     * @var Schema\Sqlite|null
+     */
+    private $sqliteDialect = null;
 
     /**
      * Get schema class name
@@ -181,6 +199,130 @@ class Schema extends Singleton
     public function getTablesCreateSql()
     {
         return $this->getSchema()->getTablesCreateSql();
+    }
+
+    /**
+     * Creates a table with the definition of one of Matomo's tables, e.g. a monthly archive table.
+     *
+     * @param string $templateNameWithoutPrefix e.g. `archive_numeric`
+     * @param string $tableName                 the prefixed name of the table to create
+     * @throws \Exception if the table already exists (error 1050)
+     */
+    public function createTableFromTemplate(string $templateNameWithoutPrefix, string $tableName): void
+    {
+        $schema = $this->getSchema();
+        if ($schema instanceof Mysql) {
+            $schema->createTableFromTemplate($templateNameWithoutPrefix, $tableName);
+            return;
+        }
+
+        $sql = $schema->getTableCreateSql($templateNameWithoutPrefix);
+        Db::query(str_replace(Common::prefixTable($templateNameWithoutPrefix), $tableName, $sql));
+    }
+
+    /**
+     * Returns the statements creating a table from a definition in MySQL syntax (the columns and keys
+     * between the parentheses of `CREATE TABLE`).
+     *
+     * @param string $tableName the prefixed table name
+     * @return string[]
+     */
+    public function getCreateTableSql(string $tableName, string $createDefinition): array
+    {
+        $schema = $this->getSchema();
+        if ($schema instanceof Mysql) {
+            return $schema->getCreateTableSql($tableName, $createDefinition);
+        }
+
+        return [sprintf('CREATE TABLE `%s` (%s) %s', $tableName, $createDefinition, $schema->getTableCreateOptions())];
+    }
+
+    /**
+     * Returns the statements applying `ALTER TABLE` specifications (in MySQL syntax, e.g.
+     * `ADD COLUMN name VARCHAR(10) NULL`) to a table.
+     *
+     * @param string   $tableName      the prefixed table name
+     * @param string[] $specifications
+     * @return string[]
+     */
+    public function getAlterTableSql(string $tableName, array $specifications): array
+    {
+        $schema = $this->getSchema();
+        if ($schema instanceof Mysql) {
+            return $schema->getAlterTableSql($tableName, $specifications);
+        }
+
+        if ($schema->supportsComplexColumnUpdates()) {
+            return ['ALTER TABLE `' . $tableName . '` ' . implode(', ', $specifications)];
+        }
+
+        return array_map(function ($specification) use ($tableName) {
+            return 'ALTER TABLE `' . $tableName . '` ' . $specification;
+        }, $specifications);
+    }
+
+    /**
+     * Runs MySQL `ALTER TABLE` specifications on the current connection. On SQLite, changing a column or
+     * the primary key rebuilds the table.
+     *
+     * @param string $tableName the prefixed table name
+     * @param string[] $specifications e.g. `["MODIFY COLUMN `name` VARCHAR(255) NOT NULL"]`
+     */
+    public function alterTable(string $tableName, array $specifications): void
+    {
+        $schema = $this->getConnectionSchema(true);
+        if ($schema instanceof Mysql) {
+            $schema->alterTable($tableName, $specifications);
+            return;
+        }
+
+        foreach ($this->getAlterTableSql($tableName, $specifications) as $sql) {
+            Db::exec($sql);
+        }
+    }
+
+    /**
+     * Returns the names of the tables matching a `LIKE` pattern, in which `\\` escapes `%` and `_`.
+     *
+     * @return string[]
+     */
+    public function getTablesLike(string $pattern): array
+    {
+        return $this->getMysqlCompatibleSchema()->getTablesLike($pattern);
+    }
+
+    /**
+     * Takes a named lock for the current connection, waiting up to `$timeoutSeconds`. The connection
+     * may take a lock it holds again, and releases it as many times. Its locks are released when it
+     * disconnects.
+     */
+    public function getNamedLock(string $name, int $timeoutSeconds): bool
+    {
+        return $this->getLockSchema()->getNamedLock($name, $timeoutSeconds);
+    }
+
+    /**
+     * Releases a named lock the current connection holds. Returns false if it doesn't hold it.
+     */
+    public function releaseNamedLock(string $name): bool
+    {
+        return $this->getLockSchema()->releaseNamedLock($name);
+    }
+
+    /**
+     * Whether no connection holds a named lock.
+     */
+    public function isNamedLockFree(string $name): bool
+    {
+        return $this->getLockSchema()->isNamedLockFree($name);
+    }
+
+    /**
+     * Whether a table has an index with the given name (`PRIMARY` for the primary key).
+     */
+    public function tableHasIndex(string $tableName, string $indexName): bool
+    {
+        return $this->getMysqlCompatibleSchema()->tableHasIndex($tableName, $indexName);
     }
 
     /**
@@ -353,6 +495,347 @@ class Schema extends Singleton
     public function supportsSortingInSubquery(): bool
     {
         return $this->getSchema()->supportsSortingInSubquery();
+    }
+
+    /**
+     * Returns whether ranking queries count rows with window functions.
+     *
+     * @see QueryCapabilitiesInterface::supportsWindowFunctions()
+     */
+    public function supportsWindowFunctions(): bool
+    {
+        $schema = $this->getSchema();
+
+        return $schema instanceof QueryCapabilitiesInterface && $schema->supportsWindowFunctions();
+    }
+
+    /**
+     * Returns whether `GROUP BY ... WITH ROLLUP` is available.
+     *
+     * @see QueryCapabilitiesInterface::supportsGroupByWithRollup()
+     */
+    public function supportsGroupByWithRollup(): bool
+    {
+        $schema = $this->getSchema();
+
+        return !($schema instanceof QueryCapabilitiesInterface) || $schema->supportsGroupByWithRollup();
+    }
+
+    /**
+     * Returns the configured schema if it derives from the MySQL schema, which defines the table
+     * metadata operations. Other schemas get the MySQL ones, which is the SQL Matomo always ran for them.
+     */
+    /**
+     * Named locks belong to the connection, so the connection in use decides how they are taken,
+     * whatever the configuration file says.
+     */
+    private function getLockSchema(): Mysql
+    {
+        $schema = $this->getSchema();
+        if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+            return $schema instanceof Schema\Sqlite ? $schema : $this->getSqliteDialect();
+        }
+
+        return $schema instanceof Mysql && !$schema instanceof Schema\Sqlite ? $schema : $this->getMysqlDialect();
+    }
+
+    private function getMysqlCompatibleSchema(): Mysql
+    {
+        // only for operations that use no other method of the schema
+        $schema = $this->getSchema();
+
+        if ($schema instanceof Mysql) {
+            return $schema;
+        }
+
+        if ($this->mysqlDialect === null) {
+            $this->mysqlDialect = new Mysql();
+        }
+
+        return $this->mysqlDialect;
+    }
+
+    /**
+     * Returns the SQL dialect of the schema the connection speaks. Schemas that don't implement
+     * {@link SqlDialectInterface} get MySQL's, which is the SQL Matomo always emitted for them.
+     */
+    private function getSqlDialect(): SqlDialectInterface
+    {
+        $schema = $this->getConnectionSchema();
+
+        return $schema instanceof SqlDialectInterface ? $schema : $this->getMysqlDialect();
+    }
+
+    private function getSqlFunctions(): SqlFunctionsInterface
+    {
+        $schema = $this->getConnectionSchema();
+
+        return $schema instanceof SqlFunctionsInterface ? $schema : $this->getMysqlDialect();
+    }
+
+    /**
+     * The configured schema, unless the connection in use speaks another engine's SQL than the
+     * configuration says (a connection replaced through `Db.getDatabaseConfig`, as tests do).
+     *
+     * @internal for migrations, which run on the connection in use
+     * @param bool $connect connect first, rather than trust the configuration (`Db.getDatabaseConfig` may
+     *                      choose another engine)
+     */
+    public function getConnectionSchema(bool $connect = false): SchemaInterface
+    {
+        $schema = $this->getSchema();
+        if (!$connect && !SettingsServer::isTrackerApiRequest() && !Db::hasDatabaseObject()) {
+            // not connected yet: the configured schema, whose engine the configured adapter connects to
+            return $schema;
+        }
+
+        $isSqlite = Db\Sqlite\Connection::isSqliteConnection(Db::get());
+
+        if ($isSqlite && !$schema instanceof Schema\Sqlite) {
+            return $this->getSqliteDialect();
+        }
+
+        return !$isSqlite && $schema instanceof Schema\Sqlite ? $this->getMysqlDialect() : $schema;
+    }
+
+    private function getSqliteDialect(): Schema\Sqlite
+    {
+        if ($this->sqliteDialect === null) {
+            $this->sqliteDialect = new Schema\Sqlite();
+        }
+
+        return $this->sqliteDialect;
+    }
+
+    private function getMysqlDialect(): Mysql
+    {
+        if ($this->mysqlDialect === null) {
+            $this->mysqlDialect = new Mysql();
+        }
+
+        return $this->mysqlDialect;
+    }
+
+    /**
+     * Returns the statement prefix of an insert that skips rows conflicting with a unique key.
+     *
+     * @see SqlDialectInterface::getInsertIgnoreSql()
+     */
+    public function getInsertIgnoreSql(): string
+    {
+        return $this->getSqlDialect()->getInsertIgnoreSql();
+    }
+
+    /**
+     * Returns the clause that turns an insert into an update of the conflicting row.
+     *
+     * @see SqlDialectInterface::getOnDuplicateKeyUpdateSql()
+     */
+    public function getOnDuplicateKeyUpdateSql(): string
+    {
+        return $this->getSqlDialect()->getOnDuplicateKeyUpdateSql();
+    }
+
+    /**
+     * Returns an expression referring to the value an upsert tried to write into a column.
+     *
+     * @see SqlDialectInterface::getInsertedValueSql()
+     */
+    public function getInsertedValueSql(string $column): string
+    {
+        return $this->getSqlDialect()->getInsertedValueSql($column);
+    }
+
+    /**
+     * Returns an aggregate expression concatenating an expression over the rows of a group.
+     *
+     * @see SqlDialectInterface::getGroupConcatSql()
+     */
+    public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
+    {
+        return $this->getSqlDialect()->getGroupConcatSql($expression, $orderBy, $separator);
+    }
+
+    /**
+     * Returns an expression adding an interval to, or subtracting it from, a date and time.
+     *
+     * @see SqlFunctionsInterface::getDateTimeIntervalSql()
+     */
+    public function getDateTimeIntervalSql(string $datetime, string $operator, string $amount, string $unit): string
+    {
+        return $this->getSqlFunctions()->getDateTimeIntervalSql($datetime, $operator, $amount, $unit);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getCreateTemporaryTableSql()
+     */
+    public function getCreateTemporaryTableSql(string $tableName, string $definition, string $tableOptions = ''): string
+    {
+        return $this->getSqlFunctions()->getCreateTemporaryTableSql($tableName, $definition, $tableOptions);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getDropTemporaryTableSql()
+     */
+    public function getDropTemporaryTableSql(string $tableName): string
+    {
+        return $this->getSqlFunctions()->getDropTemporaryTableSql($tableName);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getTemporaryTableFilledSql()
+     *
+     * @return string[]
+     */
+    public function getTemporaryTableFilledSql(string $tableName): array
+    {
+        return $this->getSqlFunctions()->getTemporaryTableFilledSql($tableName);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getHourSql()
+     */
+    public function getHourSql(string $datetime): string
+    {
+        return $this->getSqlFunctions()->getHourSql($datetime);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getDayOfWeekSql()
+     */
+    public function getDayOfWeekSql(string $datetime): string
+    {
+        return $this->getSqlFunctions()->getDayOfWeekSql($datetime);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getDatePartSql()
+     */
+    public function getDatePartSql(string $part, string $datetime): string
+    {
+        return $this->getSqlFunctions()->getDatePartSql($part, $datetime);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getIntegerSql()
+     */
+    public function getIntegerSql(string $expression): string
+    {
+        return $this->getSqlFunctions()->getIntegerSql($expression);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getUnixTimestampSql()
+     */
+    public function getUnixTimestampSql(string $datetime = ''): string
+    {
+        return $this->getSqlFunctions()->getUnixTimestampSql($datetime);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getCurrentDateTimeSql()
+     */
+    public function getCurrentDateTimeSql(): string
+    {
+        return $this->getSqlFunctions()->getCurrentDateTimeSql();
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getCharLengthSql()
+     */
+    public function getCharLengthSql(string $expression): string
+    {
+        return $this->getSqlFunctions()->getCharLengthSql($expression);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getSecondsBetweenSql()
+     */
+    public function getSecondsBetweenSql(string $from, string $to): string
+    {
+        return $this->getSqlFunctions()->getSecondsBetweenSql($from, $to);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getGreatestSql()
+     */
+    public function getGreatestSql(string ...$expressions): string
+    {
+        return $this->getSqlFunctions()->getGreatestSql(...$expressions);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getLeastSql()
+     */
+    public function getLeastSql(string ...$expressions): string
+    {
+        return $this->getSqlFunctions()->getLeastSql(...$expressions);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getRowLockSql()
+     */
+    public function getRowLockSql(bool $exclusive = true): string
+    {
+        return $this->getSqlFunctions()->getRowLockSql($exclusive);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getTruncateTableSql()
+     */
+    public function getTruncateTableSql(string $tableName): string
+    {
+        return $this->getSqlFunctions()->getTruncateTableSql($tableName);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getNullSafeEqualSql()
+     */
+    public function getNullSafeEqualSql(string $left, string $right): string
+    {
+        return $this->getSqlFunctions()->getNullSafeEqualSql($left, $right);
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getNoTableSql()
+     */
+    public function getNoTableSql(): string
+    {
+        return $this->getSqlFunctions()->getNoTableSql();
+    }
+
+    /**
+     * @see SqlFunctionsInterface::getStraightJoinSql()
+     */
+    public function getStraightJoinSql(): string
+    {
+        return $this->getSqlFunctions()->getStraightJoinSql();
+    }
+
+    /**
+     * Returns the clause to append after a `LIKE ?` placeholder bound to a backslash-escaped pattern.
+     *
+     * @see SqlDialectInterface::getLikeEscapeSql()
+     */
+    public function getLikeEscapeSql(): string
+    {
+        return $this->getSqlDialect()->getLikeEscapeSql();
+    }
+
+    /**
+     * Returns the hint to append after a table name or alias asking the engine to use an index.
+     *
+     * @see IndexHintInterface::getIndexHintSql()
+     */
+    public function getIndexHintSql(string $indexName, bool $force = true): string
+    {
+        $schema = $this->getSchema();
+        if ($schema instanceof IndexHintInterface) {
+            return $schema->getIndexHintSql($indexName, $force);
+        }
+
+        // what Matomo always sent to the schemas that don't say otherwise
+        return ($force ? ' FORCE INDEX (' : ' USE INDEX (') . $indexName . ')';
     }
 
     /**

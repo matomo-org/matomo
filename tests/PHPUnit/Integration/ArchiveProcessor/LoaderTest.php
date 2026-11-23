@@ -2079,7 +2079,7 @@ class LoaderTest extends IntegrationTestCase
     {
         $results = [];
         foreach (ArchiveTableCreator::getTablesArchivesInstalled('numeric', true) as $table) {
-            $queryResults = Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, `name`, `value` FROM `$table`");
+            $queryResults = Db::fetchAll("SELECT idarchive, idsite, date1, date2, period, `name`, `value` FROM `$table` ORDER BY idarchive, `name`");
             $results = array_merge($results, $queryResults);
         }
         return $results;

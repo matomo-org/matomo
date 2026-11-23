@@ -74,7 +74,7 @@ class Updates_6_0_0_b6 extends Updates
         // NOT EXISTS keeps a re-run from copying a request twice.
         $sql = "INSERT INTO `$table` (plugin_name, login, ts_requested)
                 SELECT ?, (SELECT login FROM `" . Common::prefixTable('user') . "` WHERE login = ?), ?
-                FROM DUAL
+               " . Db\Schema::getInstance()->getNoTableSql() . "
                 WHERE NOT EXISTS (SELECT 1 FROM `$table` WHERE plugin_name = ? AND ts_requested = ?)";
 
         $migrations = [];

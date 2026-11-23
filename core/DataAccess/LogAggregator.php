@@ -17,6 +17,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Metrics;
 use Piwik\Plugin\LogTablesProvider;
@@ -240,7 +241,7 @@ class LogAggregator
             if ($this->doesSegmentTableExist($segmentTable)) {
                 // safety in case an older MySQL version is used that does not drop table at the end of the connection
                 // automatically. also helps us release disk space/memory earlier when multiple segments are archived
-                $this->getDb()->query('DROP TEMPORARY TABLE IF EXISTS ' . $segmentTable);
+                $this->getDb()->query(Schema::getInstance()->getDropTemporaryTableSql($segmentTable));
             }
 
             $logTablesProvider = $this->getLogTableProvider();
@@ -302,7 +303,7 @@ class LogAggregator
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             $engine = 'ENGINE=MEMORY';
         }
-        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL, PRIMARY KEY (`idvisit`)) ' . $engine;
+        $createTableSql = Schema::getInstance()->getCreateTemporaryTableSql($table, 'idvisit  BIGINT(10) UNSIGNED NOT NULL, PRIMARY KEY (`idvisit`)', $engine);
         // we do not insert the data right away using create temporary table ... select ...
         // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
 
@@ -336,15 +337,18 @@ class LogAggregator
             $all = $readerDb->fetchAll($segmentSelectSql, $segmentSelectBind);
             if (!empty($all)) {
                 // we're not using batchinsert since this would not support the reader DB.
-                $readerDb->query('INSERT IGNORE INTO ' . $table . ' VALUES (' . implode('),(', array_column($all, 'idvisit')) . ')');
+                $readerDb->query(Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $table . ' VALUES (' . implode('),(', array_column($all, 'idvisit')) . ')');
             }
-            return;
+        } else {
+            $insertIntoStatement = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+            $readerDb->query($insertIntoStatement, $segmentSelectBind);
+
+            $transactionLevel->restorePreviousStatus();
         }
 
-        $insertIntoStatement = 'INSERT IGNORE INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
-        $readerDb->query($insertIntoStatement, $segmentSelectBind);
-
-        $transactionLevel->restorePreviousStatus();
+        foreach (Schema::getInstance()->getTemporaryTableFilledSql($table) as $statement) {
+            $readerDb->query($statement);
+        }
     }
 
     /**
@@ -874,8 +878,9 @@ class LogAggregator
 
             if ($this->isFieldFunctionOrComplexExpression($field)) {
                 // if complex expression has a select as, use it
-                if (preg_match('/\s+AS\s+(.*?)\s*$/', $field, $matches)) {
-                    $orderByDimensions[] = $matches[1];
+                $alias = self::getSelectAlias($field);
+                if ($alias !== null) {
+                    $orderByDimensions[] = $alias;
                     continue;
                 }
 
@@ -887,6 +892,87 @@ class LogAggregator
         }
 
         return $orderByDimensions;
+    }
+
+    /**
+     * The alias an expression is selected as: the identifier after its trailing `AS`, which is outside
+     * parentheses (as in `CAST(x AS type)`), string literals and comments, as the database in use reads them.
+     * A double-quoted alias is returned backtick-quoted, since MySQL reads `GROUP BY "a"` as a string.
+     */
+    private static function getSelectAlias(string $expression): ?string
+    {
+        // MySQL starts a `--` comment only before whitespace, has `#` comments and backslash escapes; SQLite has none of these
+        $isSqlite = Db\Sqlite\Connection::isSqliteConnection(Db::get());
+        // the expression with comments blanked, and parenthesized, quoted or backtick-quoted text masked
+        $masked = '';
+        $length = strlen($expression);
+        $depth = 0;
+        for ($i = 0; $i < $length; $i++) {
+            $char = $expression[$i];
+            if ($char === '/' && substr($expression, $i, 2) === '/*') {
+                $end = strpos($expression, '*/', $i + 2);
+                $end = $end === false ? $length : $end + 2;
+                $masked .= str_repeat(' ', $end - $i);
+                $i = $end - 1;
+            } elseif (
+                $isSqlite
+                    ? substr($expression, $i, 2) === '--'
+                    : ($char === '#' || preg_match('/\G--(\s|$)/', $expression, $m, 0, $i))
+            ) {
+                $end = strpos($expression, "\n", $i);
+                $end = $end === false ? $length : $end;
+                $masked .= str_repeat(' ', $end - $i);
+                $i = $end - 1;
+            } elseif ($isSqlite && $char === '[') {
+                // a bracket-quoted SQLite identifier ends at the first `]`
+                $end = strpos($expression, ']', $i + 1);
+                $end = $end === false ? $length - 1 : $end;
+                $masked .= $depth > 0 ? str_repeat(' ', $end - $i + 1) : '[' . str_repeat('x', max(0, $end - $i - 1)) . ($end > $i ? ']' : '');
+                $i = $end;
+            } elseif ($char === "'" || $char === '"' || $char === '`') {
+                // a quote is escaped by doubling it, or in a MySQL string literal by a backslash
+                $end = $i + 1;
+                while ($end < $length) {
+                    if (!$isSqlite && $char !== '`' && $expression[$end] === '\\') {
+                        $end += 2;
+                    } elseif ($expression[$end] === $char && ($expression[$end + 1] ?? '') === $char) {
+                        $end += 2;
+                    } elseif ($expression[$end] === $char) {
+                        break;
+                    } else {
+                        $end++;
+                    }
+                }
+                $end = min($end, $length - 1);
+                $masked .= $depth > 0 ? str_repeat(' ', $end - $i + 1) : $char . str_repeat('x', max(0, $end - $i - 1)) . ($end > $i ? $expression[$end] : '');
+                $i = $end;
+            } else {
+                if ($char === '(') {
+                    $depth++;
+                } elseif ($char === ')') {
+                    $depth = max(0, $depth - 1);
+                }
+                $masked .= $depth > 0 || $char === ')' ? ' ' : $char;
+            }
+        }
+
+        if (!preg_match('/\sAS\s+(`[^`]*`|"[^"]*"|\[[^\]]*\]|[0-9a-zA-Z$_\x80-\xFF]+)\s*$/', $masked, $matches, PREG_OFFSET_CAPTURE)) {
+            return null;
+        }
+
+        $alias = substr($expression, $matches[1][1], strlen($matches[1][0]));
+        if ($alias[0] === '"') {
+            $name = substr($alias, 1, -1);
+            // a doubled quote is one quote; MySQL also reads backslash escapes there, as in a string,
+            // where \% and \_ keep their backslash
+            $escapes = ['0' => "\0", 'b' => "\x08", 'n' => "\n", 'r' => "\r", 't' => "\t", 'Z' => "\x1A", '%' => '\\%', '_' => '\\_'];
+            $name = preg_replace_callback($isSqlite ? '/""/' : '/""|\\\\(.)/s', function ($match) use ($escapes) {
+                return $match[0] === '""' ? '"' : ($escapes[$match[1]] ?? $match[1]);
+            }, $name);
+            $alias = '`' . str_replace('`', '``', $name) . '`';
+        }
+
+        return $alias;
     }
 
     /**
@@ -1305,6 +1391,8 @@ class LogAggregator
      */
     public function queryConversionsByPageView(string $linkField, int $idGoal)
     {
+        // SQLite divides integers as integers: 1 / pageviews_before would be 0
+        $one = Db\Sqlite\Connection::isSqliteConnection($this->getDb()) ? '1.0' : '1';
 
         $select = "
             log_conversion.idvisit AS idvisit,
@@ -1314,15 +1402,15 @@ class LogAggregator
             COUNT(*) AS `1`,            
             " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue', 'log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE) . "
             " . sprintf("COUNT(log_conversion.idvisit) AS `%d`,", Metrics::INDEX_GOAL_NB_VISITS_CONVERTED) . "
-            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_subtotal', '1 / log_conversion.pageviews_before * log_conversion.revenue_subtotal'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL) . "
-            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_tax', '1 / log_conversion.pageviews_before * log_conversion.revenue_tax'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX) . "
-            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_shipping', '1 / log_conversion.pageviews_before * log_conversion.revenue_shipping'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING) . "
-            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_discount', '1 / log_conversion.pageviews_before * log_conversion.revenue_discount'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT) . "
-            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before * log_conversion.items, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_ITEMS) . "
+            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_subtotal', $one . ' / log_conversion.pageviews_before * log_conversion.revenue_subtotal'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL) . "
+            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_tax', $one . ' / log_conversion.pageviews_before * log_conversion.revenue_tax'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX) . "
+            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_shipping', $one . ' / log_conversion.pageviews_before * log_conversion.revenue_shipping'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING) . "
+            " . sprintf("ROUND(%s,2) AS `%d`,", self::getSqlSumExcludingOutOfRange('log_conversion.revenue_discount', $one . ' / log_conversion.pageviews_before * log_conversion.revenue_discount'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT) . "
+            " . sprintf("SUM(ROUND(" . $one . " / log_conversion.pageviews_before * log_conversion.items, 4)) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_ITEMS) . "
             " . sprintf("log_conversion.pageviews_before AS `%d`,", Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE) . "
-            " . sprintf("SUM(ROUND(1 / log_conversion.pageviews_before, 4)) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB) . "
+            " . sprintf("SUM(ROUND(" . $one . " / log_conversion.pageviews_before, 4)) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB) . "
             " . sprintf("COUNT(*) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ) . "
-            " . sprintf("ROUND(%s,2) AS `%d`", self::getSqlSumExcludingOutOfRange('log_conversion.revenue', '1 / log_conversion.pageviews_before * log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE_ATTRIB);
+            " . sprintf("ROUND(%s,2) AS `%d`", self::getSqlSumExcludingOutOfRange('log_conversion.revenue', $one . ' / log_conversion.pageviews_before * log_conversion.revenue'), Metrics::INDEX_GOAL_REVENUE_ATTRIB);
 
         $from = [
             'log_conversion',

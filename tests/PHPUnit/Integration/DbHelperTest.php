@@ -15,6 +15,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Segment;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
 
@@ -37,6 +38,52 @@ class DbHelperTest extends IntegrationTestCase
         $this->assertFalse(DbHelper::tableExists('foobar'));
         $this->assertTrue(DbHelper::tableExists(Common::prefixTable('user_token_auth')));
         $this->assertFalse(DbHelper::tableExists(Common::prefixTable('user_t%oke%n_auth')));
+        $this->assertFalse(DbHelper::tableExists('abc\\'));
+    }
+
+    public function testTablesLikeRejectsABackslashEscapingNeitherPercentNorUnderscore()
+    {
+        $this->assertSame([], \Piwik\Db\Schema::getInstance()->getTablesLike('abc\\_x\\%'));
+        foreach (['abc\\', 'a\\b', 'a\\\\_'] as $pattern) {
+            try {
+                \Piwik\Db\Schema::getInstance()->getTablesLike($pattern);
+                $this->fail('Accepted ' . $pattern);
+            } catch (\InvalidArgumentException $e) {
+                $this->assertStringContainsString('must escape', $e->getMessage());
+            }
+        }
+    }
+
+    public function testTableExistsWithoutBackslashEscapes()
+    {
+        if (Fixture::isSqlite() || \Piwik\Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+            $this->markTestSkipped('MySQL SQL mode');
+        }
+
+        $sqlMode = Db::fetchOne('SELECT @@SESSION.sql_mode');
+        Db::exec("SET SESSION sql_mode = CONCAT(@@SESSION.sql_mode, ',NO_BACKSLASH_ESCAPES')");
+        try {
+            // the pattern stays valid SQL (MySQL then has no LIKE escape character, as before)
+            $this->assertFalse(DbHelper::tableExists(Common::prefixTable('user_token_auth') . "'s"));
+            $this->assertSame([], \Piwik\Db\Schema::getInstance()->getTablesLike("it's"));
+        } finally {
+            Db::query('SET SESSION sql_mode = ?', [$sqlMode]);
+        }
+    }
+
+    public function testTableExistsWithTheTrackerConnection()
+    {
+        $adapter = Db::get();
+        $tracker = \Piwik\Tracker\Db::factory(Db::getDatabaseConfig());
+        $tracker->connect();
+        Db::setDatabaseObject($tracker);
+        try {
+            $this->assertFalse(DbHelper::tableExists('foobar'));
+            $this->assertTrue(DbHelper::tableExists(Common::prefixTable('user_token_auth')));
+        } finally {
+            Db::setDatabaseObject($adapter);
+            $tracker->disconnect();
+        }
     }
 
     public function testGetInstallVersionIsCurrentVersion()
@@ -88,6 +135,9 @@ class DbHelperTest extends IntegrationTestCase
 
     public function testCreateDatabaseEscapesInputProperly()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no CREATE DATABASE');
+        }
         $dbName = 'newdb`; create database anotherdb;`';
         DbHelper::createDatabase($dbName);
 
@@ -97,6 +147,9 @@ class DbHelperTest extends IntegrationTestCase
 
     public function testDropDatabaseEscapesInputProperly()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no DROP DATABASE');
+        }
         DbHelper::createDatabase("testdb");
         $this->assertDbExists('testdb');
 
@@ -121,6 +174,9 @@ class DbHelperTest extends IntegrationTestCase
 
     public function testGetDefaultCollationForCharset(): void
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no MySQL charsets or collations');
+        }
         $charset = 'utf8mb4';
         $collation = DbHelper::getDefaultCollationForCharset($charset);
         $expectedPrefix = $charset . '_';

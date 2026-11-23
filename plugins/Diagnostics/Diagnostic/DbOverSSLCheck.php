@@ -28,6 +28,10 @@ class DbOverSSLCheck implements Diagnostic
 
         $label = $this->translator->translate('Installation_SystemCheckDatabaseSSL');
 
+        if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $this->translator->translate('Diagnostics_NotApplicableToSqlite')));
+        }
+
         $cipher = Db::fetchRow("show status like 'Ssl_cipher'");
         if (!empty($cipher['Value'])) {
              return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, $this->translator->translate('Installation_SystemCheckDatabaseSSLCipher') . ': ' . $cipher['Value']));

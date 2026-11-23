@@ -41,6 +41,22 @@
         "PHPFPMWarningGeneric": "PHP FPM may ignore .htaccess rules for .php files. To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to exclude the /config directory from being handled by PHP FPM.",
         "SessionStorageFormat": "Session Storage Format",
         "SessionStorageFormatWarning": "Sessions are stored as %1$s because session.serialize_handler could not be set to php_serialize, so changes two requests make at the same time may be lost. Set it to php_serialize in your php.ini.",
-        "HtaccessWarningNginx": "To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to restrict access to certain directories. For more information please see the %1$s official nginx server configuration %2$s"
+        "HtaccessWarningNginx": "To ensure that sensitive files cannot be accessed directly it is recommended to configure your web server to restrict access to certain directories. For more information please see the %1$s official nginx server configuration %2$s",
+        "NotApplicableToSqlite": "Not applicable: Matomo uses SQLite.",
+        "SqliteVersion": "SQLite library %1$s",
+        "SqliteNoMathFunctions": "SQLite library %1$s was built without its math functions (such as FLOOR), which Matomo's reports need. Use a SQLite library built with them.",
+        "SqliteVersionUnsupported": "The SQLite library %1$s is too old: Matomo needs %2$s or later.",
+        "SqliteVersionUnqualified": "The SQLite library %1$s may lack the fix for a bug that can corrupt a database in WAL mode (fixed in 3.44.6, 3.50.7 and 3.51.3). Upgrade it, or, if your distribution backported the fix, set %2$s in the [database] section of config.ini.php.",
+        "SqliteJournalMode": "The database is in %1$s journal mode instead of WAL: concurrent tracking and reporting are not safe. If it was restored from a backup, check it with ./console database:sqlite-backup --verify.",
+        "SqliteSynchronous": "PRAGMA synchronous is not FULL: a power loss can lose the last commits.",
+        "SqliteFilesWritable": "The database file, its directory, its -wal and -shm files and its lock directory are writable.",
+        "SqliteFileNotWritable": "%1$s is not writable by the web server user. Matomo's web, tracker and command line users must all be able to write the database file, its directory and its -wal, -shm and -locks files.",
+        "SqliteOutsideWebRoot": "The database file is outside the Matomo directory and the document root. Make sure that no other alias or virtual host of the web server serves its directory.",
+        "SqliteNotServed": "The web server refuses to serve the database file, its -wal and -shm files and other files in its directory.",
+        "SqliteServed": "The web server serves the database, so anyone can download all its data:<br\/>%1$s<br\/>Move the database outside the web root, or deny access to its directory, and run this check again.",
+        "SqliteServedNotChecked": "Matomo's URL is unknown here, so it was not checked that the web server refuses to serve the database. Run the diagnostics in the browser: System > Diagnostics > System Check.",
+        "SqliteServedUnknown": "It could not be proven that the web server refuses to serve the database:<br\/>%1$s<br\/>Each of these URLs must answer 401, 403 or 404. Deny access to the directory of the database, or move it outside the web root, and run this check again.",
+        "SqliteServedUnverified": "Matomo could not check that the web server refuses to serve the database: Matomo's own matomo.js is not served at the URL used for this check, or the database is outside the Matomo directory and the web server's document root is unknown. Run this check in the browser at Matomo's usual URL, or make sure that the database cannot be downloaded.",
+        "SqliteUnusedActionsPurgeIncomplete": "The purge of unused actions stopped early %1$s times in a row, because too many visits were tracked while it ran. It is retried every day; to complete it, run %2$s when traffic is low."
     }
 }

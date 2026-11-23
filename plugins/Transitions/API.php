@@ -304,12 +304,12 @@ class API extends \Piwik\Plugin\API
         if ($actionType != 'title') {
             // specific setup for page urls
             $types[Action::TYPE_PAGE_URL] = 'followingPages';
-            $dimension = 'if ( %1$s.idaction_url IS NULL, %1$s.idaction_name, %1$s.idaction_url )';
+            $dimension = 'COALESCE(%1$s.idaction_url, %1$s.idaction_name)';
             $dimension = sprintf($dimension, 'log_link_visit_action');
             // site search referrers are logged with url=NULL
             // when we find one, we have to join on name
             $joinLogActionColumn = $dimension;
-            $selects = ['log_action.name', 'log_action.url_prefix', 'log_action.type'];
+            $selects = ['log_action.name AS `name`', 'log_action.url_prefix', 'log_action.type'];
         } else {
             // specific setup for page titles:
             $types[Action::TYPE_PAGE_TITLE] = 'followingPages';
@@ -492,7 +492,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $selects = [
-            'log_action.name',
+            'log_action.name AS `name`',
             'log_action.url_prefix',
             'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS `is_self`',
             'CASE
@@ -507,7 +507,7 @@ class API extends \Piwik\Plugin\API
         if ($dimension == 'idaction_url_ref') {
             // site search referrers are logged with url_ref=NULL
             // when we find one, we have to join on name_ref
-            $dimension = 'if ( %1$s.idaction_url_ref IS NULL, %1$s.idaction_name_ref, %1$s.idaction_url_ref )';
+            $dimension = 'COALESCE(%1$s.idaction_url_ref, %1$s.idaction_name_ref)';
             $dimension = sprintf($dimension, 'log_link_visit_action');
             $joinLogActionOn = $dimension;
         } else {

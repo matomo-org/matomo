@@ -38,7 +38,7 @@ class PurgeLogDataTest extends SystemTestCase
         Fixture::createSuperUser();
         Fixture::createWebsite('2014-02-04');
 
-        Db::query('TRUNCATE TABLE ' . BotRequestsDao::getPrefixedTableName());
+        Db::truncateTable(BotRequestsDao::getPrefixedTableName());
 
         // track some bot requests
         $t = Fixture::getTracker(1, '2025-02-02 12:00:00');

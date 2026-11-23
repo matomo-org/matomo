@@ -12,6 +12,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Db\Schema;
 use Piwik\Tracker;
 use Piwik\Log\LoggerInterface;
 
@@ -58,7 +59,7 @@ class Model
         $bindFields = Common::getSqlStringFieldsArray($conversion);
         $table      = Common::prefixTable('log_conversion');
 
-        $sql    = "INSERT IGNORE INTO $table ($fields) VALUES ($bindFields) ";
+        $sql    = Schema::getInstance()->getInsertIgnoreSql() . " INTO $table ($fields) VALUES ($bindFields) ";
         $bind   = array_values($conversion);
 
         $db     = $this->getDb();
@@ -154,7 +155,7 @@ class Model
      */
     public function createEcommerceItems($ecommerceItems)
     {
-        $sql = "INSERT IGNORE INTO " . Common::prefixTable('log_conversion_item');
+        $sql = Schema::getInstance()->getInsertIgnoreSql() . " INTO " . Common::prefixTable('log_conversion_item');
         $i    = 0;
         $bind = [];
 
@@ -227,10 +228,10 @@ class Model
     private function insertNewAction($name, $type, $urlPrefix)
     {
         $table = Common::prefixTable('log_action');
-        $sql   = "INSERT INTO $table (name, hash, type, url_prefix) VALUES (?,CRC32(?),?,?)";
+        $sql   = "INSERT INTO $table (name, hash, type, url_prefix) VALUES (?,?,?,?)";
 
         $db = $this->getDb();
-        $db->query($sql, [$name, $name, $type, $urlPrefix]);
+        $db->query($sql, [$name, self::getActionNameHash($name), $type, $urlPrefix]);
 
         $actionId = $db->lastInsertId();
 
@@ -265,7 +266,7 @@ class Model
     public function getIdActionMatchingNameAndType($name, $type)
     {
         $sql  = $this->getSqlSelectActionId();
-        $bind = [$name, $name, $type];
+        $bind = [self::getActionNameHash($name), $name, $type];
 
         $idAction = $this->getDb()->fetchOne($sql, $bind);
 
@@ -297,7 +298,7 @@ class Model
 
             $sql .= " " . $this->getSqlConditionToMatchSingleAction() . " ";
 
-            $bind[] = $name;
+            $bind[] = self::getActionNameHash($name);
             $bind[] = $name;
             $bind[] = $actionNameType['type'];
             $i++;
@@ -597,7 +598,7 @@ class Model
             array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME, $cache)
             && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME]
         ) {
-            $from .= ' FORCE INDEX (index_idsite_idvisitor_time) ';
+            $from .= Schema::getInstance()->getIndexHintSql('index_idsite_idvisitor_time') . ' ';
         }
 
         $where .= ' AND idvisitor = ?';
@@ -723,6 +724,18 @@ class Model
      */
     private function getSqlConditionToMatchSingleAction()
     {
-        return "( hash = CRC32(?) AND name = ? AND type = ? )";
+        return "( hash = ? AND name = ? AND type = ? )";
+    }
+
+    /**
+     * Returns the `log_action.hash` of an action name: its CRC-32, the value of MySQL's `CRC32()`, computed
+     * here so every database engine stores the same hash. A decimal string, as the unsigned value doesn't
+     * fit PHP's integer on 32-bit builds.
+     *
+     * @param string $name
+     */
+    private static function getActionNameHash($name): string
+    {
+        return sprintf('%u', crc32((string) $name));
     }
 }

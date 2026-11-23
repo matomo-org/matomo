@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
 use Piwik\Plugin\LogTablesProvider;
 
@@ -22,6 +23,29 @@ use Piwik\Plugin\LogTablesProvider;
 class RawLogDao
 {
     public const DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME = 'tmp_log_actions_to_keep';
+
+    /**
+     * Log tables scanned by their own auto-increment key: a new reference gets a higher id, so a scan can resume
+     * above the last id it read. Tables scanned by idvisit cannot: a cart update or a conversion adds references
+     * to an existing visit. A retried page view's upsert rewrites an existing log_page_view_time row, with the
+     * actions of its new log_link_visit_action row, which the scan does see. Other references written below a
+     * scan's position during the run are missed, as by MySQL's unlocked scan below $maxIds.
+     */
+    private const TABLES_SCANNED_IN_INSERT_ORDER = ['log_link_visit_action', 'log_page_view_time'];
+
+    /**
+     * SQLite: the most actions one write transaction of the purge deletes.
+     *
+     * @var int
+     */
+    protected $sqliteDeleteChunkSize = 1000;
+
+    /**
+     * SQLite: the most catch-up scans one purge makes before it stops until its next run.
+     *
+     * @var int
+     */
+    protected $sqliteMaxCatchUpScans = 20;
 
     /**
      * @var DimensionMetadataProvider
@@ -167,6 +191,11 @@ class RawLogDao
      *
      * Table locking is required to avoid concurrency issues.
      *
+     * On SQLite, trackers fail instead of waiting once the write lock is held longer than their busy timeout,
+     * so the locked phase is split into bounded transactions. Such a purge can stop before it is done, when more
+     * visits arrive during the run than one transaction may rescan; the next run starts over.
+     *
+     * @return bool whether every unused action was deleted; false only on SQLite, when the purge stopped early
      * @throws \Exception If table locking permission is not granted to the current MySQL user.
      */
     public function deleteUnusedLogActions()
@@ -178,25 +207,202 @@ class RawLogDao
         // get current max ID in log tables w/ idaction references.
         $maxIds = $this->getMaxIdsInLogTables();
 
+        $isSqlite = Db\Sqlite\Connection::isSqliteConnection(Db::get());
+        // SQLite: actions created after this read may not be referenced yet by the request that created them
+        $lastCandidate = (int) ($maxIds['log_action'] ?? 0);
+
         // get max rows to analyze
         $max_rows_per_query = PiwikConfig::getInstance()->Deletelogs['delete_logs_unused_actions_max_rows_per_query'];
 
         $this->createTempTableForStoringUsedActions();
 
-        // do large insert (inserting everything before maxIds) w/o locking tables...
-        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true, $max_rows_per_query);
+        $locked = false;
+        try {
+            // do large insert (inserting everything before maxIds) w/o locking tables...
+            $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true, $max_rows_per_query);
 
-        // ... then do small insert w/ locked tables to minimize the amount of time tables are locked.
-        $this->lockLogTables();
-        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = false, $max_rows_per_query);
+            if ($isSqlite) {
+                $complete = $this->deleteUnusedActionsInChunks($maxIds, $lastCandidate, (int) $max_rows_per_query);
+                $this->dropTempTableForStoringUsedActions();
+                return $complete;
+            }
 
-        // delete before unlocking tables so there's no chance a new log row that references an
-        // unused action will be inserted.
-        $this->deleteUnusedActions();
+            // ... then do small insert w/ locked tables to minimize the amount of time tables are locked.
+            $this->lockLogTables();
+            $locked = true;
+            $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = false, $max_rows_per_query);
 
-        Db::unlockAllTables();
+            // delete before unlocking tables so there's no chance a new log row that references an
+            // unused action will be inserted.
+            $this->deleteUnusedActions();
+
+            Db::unlockAllTables();
+        } catch (\Throwable $e) {
+            // release only the locks taken here (on SQLite, rolling back the partial delete) and
+            // drop the temporary table for the next run
+            if ($locked) {
+                try {
+                    Db::abortTableLocks();
+                } catch (\Throwable $ignored) {
+                }
+            }
+            try {
+                $this->dropTempTableForStoringUsedActions();
+            } catch (\Throwable $ignored) {
+            }
+            throw $e;
+        }
 
         $this->dropTempTableForStoringUsedActions();
+
+        return true;
+    }
+
+    /**
+     * SQLite's locked phase. Each transaction rescans what was written since the last one, within $budget rows,
+     * then deletes at most $sqliteDeleteChunkSize unused actions up to $lastCandidate. Tables scanned in insert
+     * order are caught up outside the lock first; tables scanned by idvisit are always rescanned from $maxIds,
+     * as MySQL's locked scan does, so once their rows since the start of the run exceed the budget, the purge
+     * stops. So does a run that needed more than $sqliteMaxCatchUpScans catch-ups.
+     */
+    private function deleteUnusedActionsInChunks(array $maxIds, int $lastCandidate, int $budget): bool
+    {
+        [$logActionTable, $tempTableName] = Common::prefixTables('log_action', self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
+        $referencingTables = array_keys($this->dimensionMetadataProvider->getActionReferenceColumnsByTable());
+
+        $scannedTo = [];
+        foreach ($referencingTables as $table) {
+            if (in_array($table, self::TABLES_SCANNED_IN_INSERT_ORDER, true)) {
+                $scannedTo[$table] = (int) $maxIds[$table];
+            }
+        }
+
+        $chunkSize = max(1, (int) $this->sqliteDeleteChunkSize);
+        $afterIdAction = 0;
+        $catchUpScans = 0;
+        $catchUpAll = false;
+
+        while (true) {
+            if (!$this->catchUpTablesScannedInInsertOrder($scannedTo, $budget, $catchUpScans, $catchUpAll)) {
+                return false;
+            }
+            $catchUpAll = false;
+
+            $candidates = array_column(Db::fetchAll(
+                "SELECT idaction FROM `$logActionTable` la
+                  WHERE idaction > ? AND idaction <= ?
+                    AND NOT EXISTS (SELECT 1 FROM `$tempTableName` tmp WHERE tmp.idaction = la.idaction)
+               ORDER BY idaction LIMIT $chunkSize",
+                [$afterIdAction, $lastCandidate]
+            ), 'idaction');
+            if (empty($candidates)) {
+                return true;
+            }
+
+            $this->lockLogTables();
+            try {
+                $currentMaxIds = $this->getMaxIdsInLogTables();
+
+                $rescanFrom = [];
+                $byVisit = 0;
+                $inInsertOrder = 0;
+                foreach ($referencingTables as $table) {
+                    $rescanFrom[$table] = $scannedTo[$table] ?? (int) $maxIds[$table];
+                    if (isset($scannedTo[$table])) {
+                        // one row per id
+                        $inInsertOrder += max(0, (int) $currentMaxIds[$table] - $rescanFrom[$table]);
+                    } else {
+                        // new visits, or more rows when a visit has many (cart items, conversions)
+                        $byVisit += max(
+                            (int) $currentMaxIds[$table] - $rescanFrom[$table],
+                            $this->countRowsUpTo($table, $rescanFrom[$table], (int) $currentMaxIds[$table], $budget + 1)
+                        );
+                    }
+                }
+
+                if ($byVisit + $inInsertOrder > $budget) {
+                    Db::abortTableLocks();
+                    if ($byVisit > $budget || ++$catchUpScans > $this->sqliteMaxCatchUpScans) {
+                        // the idvisit tables only grow during the run: a later transaction cannot do better
+                        return false;
+                    }
+                    // the lock waited while trackers wrote: catch every table up outside it
+                    $catchUpAll = true;
+                    continue;
+                }
+
+                foreach ($referencingTables as $table) {
+                    $this->insertActionsToKeepBetween($table, $rescanFrom[$table], (int) $currentMaxIds[$table], $budget);
+                }
+
+                Db::query("DELETE FROM `$logActionTable`
+                            WHERE idaction IN (" . implode(',', array_map('intval', $candidates)) . ")
+                              AND NOT EXISTS (SELECT 1 FROM `$tempTableName` tmp WHERE tmp.idaction = `$logActionTable`.idaction)");
+
+                Db::unlockAllTables();
+            } catch (\Throwable $e) {
+                try {
+                    Db::abortTableLocks();
+                } catch (\Throwable $ignored) {
+                }
+                throw $e;
+            }
+
+            foreach ($scannedTo as $table => $id) {
+                $scannedTo[$table] = (int) $currentMaxIds[$table];
+            }
+            $afterIdAction = (int) end($candidates);
+        }
+    }
+
+    /**
+     * The rows of $table with $idColumn from $from to $to, counting at most $limit.
+     */
+    private function countRowsUpTo(string $table, int $from, int $to, int $limit): int
+    {
+        $idColumn = $this->getTableIdColumns()[$table];
+
+        return (int) Db::fetchOne(
+            "SELECT COUNT(*) FROM (SELECT 1 FROM `" . Common::prefixTable($table) . "` WHERE $idColumn >= ? AND $idColumn <= ? LIMIT " . (int) $limit . ") AS t",
+            [$from, $to]
+        );
+    }
+
+    /**
+     * Scans, outside the lock, the rows tables scanned in insert order got since their last scan, until each is
+     * at most $budget ids behind; with $all, every table behind at all is scanned first. False when the run
+     * needed more than $sqliteMaxCatchUpScans catch-ups.
+     *
+     * @param array<string, int> $scannedTo
+     */
+    private function catchUpTablesScannedInInsertOrder(array &$scannedTo, int $budget, int &$catchUpScans, bool $all = false): bool
+    {
+        $idColumns = $this->getTableIdColumns();
+        $threshold = $all ? 0 : $budget;
+        while (true) {
+            $behind = [];
+            foreach ($scannedTo as $table => $id) {
+                $idColumn = $idColumns[$table];
+                $maxId = (int) Db::fetchOne("SELECT MAX($idColumn) FROM `" . Common::prefixTable($table) . "`");
+                if ($maxId - $id > $threshold) {
+                    $behind[$table] = $maxId;
+                }
+            }
+
+            if (empty($behind)) {
+                return true;
+            }
+
+            if (++$catchUpScans > $this->sqliteMaxCatchUpScans) {
+                return false;
+            }
+
+            foreach ($behind as $table => $maxId) {
+                $this->insertActionsToKeepBetween($table, $scannedTo[$table], $maxId, $budget);
+                $scannedTo[$table] = $maxId;
+            }
+            $threshold = $budget;
+        }
     }
 
     /**
@@ -333,29 +539,24 @@ class RawLogDao
 
     private function createTempTableForStoringUsedActions()
     {
-        $sql = "CREATE TEMPORARY TABLE " . Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME) . " (
-					idaction INTEGER(10) UNSIGNED NOT NULL,
-					PRIMARY KEY (idaction)
-				)";
+        $sql = Schema::getInstance()->getCreateTemporaryTableSql(
+            Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME),
+            'idaction INTEGER(10) UNSIGNED NOT NULL, PRIMARY KEY (idaction)'
+        );
         Db::query($sql);
     }
 
     private function dropTempTableForStoringUsedActions()
     {
-        $sql = "DROP TABLE " . Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
-        Db::query($sql);
+        Db::query(Schema::getInstance()->getDropTemporaryTableSql(Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME)));
     }
 
     // protected for testing purposes
     protected function insertActionsToKeep($maxIds, $olderThan = true, $insertIntoTempIterationStep = 100000)
     {
-        $tempTableName = Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
-
         $idColumns = $this->getTableIdColumns();
-        foreach ($this->dimensionMetadataProvider->getActionReferenceColumnsByTable() as $table => $columns) {
+        foreach (array_keys($this->dimensionMetadataProvider->getActionReferenceColumnsByTable()) as $table) {
             $idCol = $idColumns[$table];
-            // Create select query for requesting ALL needed fields at once
-            $sql = "SELECT " . implode(',', $columns) . " FROM `" . Common::prefixTable($table) . "` WHERE $idCol >= ? AND $idCol < ?";
 
             if ($olderThan) {
                // Why start on zero? When running for a couple of months, this will generate about 10000+ queries with zero result. Use the lowest value instead.... saves a LOT of waiting time!
@@ -365,34 +566,55 @@ class RawLogDao
                 $start = $maxIds[$table];
                 $finish = (int)Db::fetchOne("SELECT MAX($idCol) FROM `" . Common::prefixTable($table) . "`");
             }
-            // Borrowed from Db::segmentedFetchAll
-            // Request records per $insertIntoTempIterationStep amount
-            // Loop over the result set, mapping all numeric fields in a single insert query
 
-            // Insert query would be: INSERT IGNORE INTO [temp_table] VALUES (X),(Y),(Z) depending on the amount of fields requested per row
-            for ($i = $start; $i <= $finish; $i += $insertIntoTempIterationStep) {
-                $currentParams = array($i, $i + $insertIntoTempIterationStep);
-                $result        = Db::fetchAll($sql, $currentParams);
-                // Now we loop over the result set of max $insertIntoTempIterationStep rows and create insert queries
-                $keepValues = [];
-                foreach ($result as $row) {
-                     $keepValues = array_merge($keepValues, array_filter(array_values($row), "is_numeric"));
-                    if (count($keepValues) >= 1000) {
-                        $insert = 'INSERT IGNORE INTO ' . $tempTableName . ' VALUES (';
-                        $insert .= implode('),(', $keepValues);
-                        $insert .= ')';
+            $this->insertActionsToKeepBetween($table, (int) $start, (int) $finish, $insertIntoTempIterationStep);
+        }
+    }
 
-                        Db::exec($insert);
-                        $keepValues = [];
-                    }
+    /**
+     * Adds to the temporary table the actions referenced by the rows of $table whose id is from $start to $finish.
+     */
+    private function insertActionsToKeepBetween(string $table, int $start, int $finish, int $insertIntoTempIterationStep): void
+    {
+        $tempTableName = Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
+        $columns = $this->dimensionMetadataProvider->getActionReferenceColumnsByTable()[$table];
+        $idCol = $this->getTableIdColumns()[$table];
+        $insertIntoTempIterationStep = max(1, $insertIntoTempIterationStep);
+
+        // Create select query for requesting ALL needed fields at once
+        $sql = "SELECT " . implode(',', $columns) . " FROM `" . Common::prefixTable($table) . "` WHERE $idCol >= ? AND $idCol < ?";
+
+        // Borrowed from Db::segmentedFetchAll
+        // Request records per $insertIntoTempIterationStep amount
+        // Loop over the result set, mapping all numeric fields in a single insert query
+
+        // Insert query would be: INSERT IGNORE INTO [temp_table] VALUES (X),(Y),(Z) depending on the amount of fields requested per row
+        for ($i = $start; $i <= $finish; $i += $insertIntoTempIterationStep) {
+            $currentParams = array($i, $i + $insertIntoTempIterationStep);
+            $result        = Db::fetchAll($sql, $currentParams);
+            // Now we loop over the result set of max $insertIntoTempIterationStep rows and create insert queries
+            $keepValues = [];
+            foreach ($result as $row) {
+                 $keepValues = array_merge($keepValues, array_filter(array_values($row), "is_numeric"));
+                if (count($keepValues) >= 1000) {
+                    $insert = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $tempTableName . ' VALUES (';
+                    $insert .= implode('),(', $keepValues);
+                    $insert .= ')';
+
+                    Db::exec($insert);
+                    $keepValues = [];
                 }
-
-                $insert = 'INSERT IGNORE INTO ' . $tempTableName . ' VALUES (';
-                $insert .= implode('),(', $keepValues);
-                $insert .= ')';
-
-                Db::exec($insert);
             }
+
+            if (empty($keepValues)) {
+                continue;
+            }
+
+            $insert = Schema::getInstance()->getInsertIgnoreSql() . ' INTO ' . $tempTableName . ' VALUES (';
+            $insert .= implode('),(', $keepValues);
+            $insert .= ')';
+
+            Db::exec($insert);
         }
     }
 
@@ -416,6 +638,13 @@ class RawLogDao
     private function deleteUnusedActions()
     {
         [$logActionTable, $tempTableName] = Common::prefixTables("log_action", self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
+
+        if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+            // SQLite has no multiple-table DELETE: the same rows, with an anti-join
+            Db::query("DELETE FROM `$logActionTable`
+                        WHERE NOT EXISTS (SELECT 1 FROM `$tempTableName` tmp WHERE tmp.idaction = `$logActionTable`.idaction)");
+            return;
+        }
 
         $deleteSql = "DELETE LOW_PRIORITY QUICK IGNORE `$logActionTable`
 						FROM `$logActionTable`

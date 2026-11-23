@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Adapter;
+use Piwik\Db\Schema;
 use Piwik\Db\TransactionalDatabaseInterface;
 use Piwik\Db\TransactionalDatabaseStaticTrait;
 use Piwik\Db\TransactionErrors;
@@ -71,6 +72,14 @@ class Db implements TransactionalDatabaseInterface
     public static function hasReaderConfigured()
     {
         $readerConfig = Config::getInstance()->database_reader;
+
+        if (
+            (!empty($readerConfig['host']) || !empty($readerConfig['dbname']))
+            && Db\Sqlite\Connection::isSqliteAdapter(Config::getInstance()->database['adapter'] ?? '')
+        ) {
+            // a reader would be a second copy of the database file, which nothing keeps in sync
+            throw new \Exception('SQLite: a [database_reader] is not supported. Remove the [database_reader] section from the configuration.');
+        }
 
         return !empty($readerConfig['host']);
     }
@@ -465,6 +474,29 @@ class Db implements TransactionalDatabaseInterface
     }
 
     /**
+     * Empties a table and restarts its auto-increment counter, as MySQL's `TRUNCATE TABLE` does.
+     *
+     * @param string $table The prefixed table name.
+     */
+    public static function truncateTable(string $table): void
+    {
+        if (!Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            self::query(Schema::getInstance()->getTruncateTableSql($table));
+            return;
+        }
+
+        self::inSqliteSavepoint(function () use ($table) {
+            self::query(Schema::getInstance()->getTruncateTableSql($table));
+            // SQLite keeps an AUTOINCREMENT table's counter in sqlite_sequence, which DELETE leaves as it is;
+            // in the schema the DELETE emptied: a temporary table hides a permanent one of the same name
+            $schema = self::fetchOne("SELECT 1 FROM temp.sqlite_schema WHERE type = 'table' AND name = ? COLLATE NOCASE", [$table]) ? 'temp' : 'main';
+            if (self::fetchOne("SELECT 1 FROM $schema.sqlite_schema WHERE type = 'table' AND name = 'sqlite_sequence'")) {
+                self::query("DELETE FROM $schema.sqlite_sequence WHERE name = ? COLLATE NOCASE", [$table]);
+            }
+        });
+    }
+
+    /**
      * Drops the supplied table or tables.
      *
      * @param string|array $tables The name of the table to drop or an array of table names to drop.
@@ -477,7 +509,44 @@ class Db implements TransactionalDatabaseInterface
             $tables = array($tables);
         }
 
+        if (count($tables) > 1 && Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            // SQLite drops one table per statement; as on MySQL, a missing table drops none of them
+            return self::inSqliteSavepoint(function () use ($tables) {
+                $result = null;
+                foreach ($tables as $table) {
+                    $result = self::query("DROP TABLE `" . $table . "`");
+                }
+                return $result;
+            });
+        }
+
         return self::query("DROP TABLE `" . implode('`,`', $tables) . "`");
+    }
+
+    /**
+     * Runs a callback inside a SQLite savepoint, so that its statements apply together or not at all.
+     *
+     * @return mixed What the callback returns.
+     * @internal
+     */
+    public static function inSqliteSavepoint(callable $callback)
+    {
+        self::query('SAVEPOINT matomo_atomic');
+        try {
+            $result = $callback();
+            self::query('RELEASE matomo_atomic');
+        } catch (\Throwable $e) {
+            try {
+                self::query('ROLLBACK TO matomo_atomic');
+                self::query('RELEASE matomo_atomic');
+            } catch (\Exception $rollbackError) {
+                // SQLite may have rolled the whole transaction back already (e.g. RAISE(ROLLBACK)):
+                // the original error is the one to report
+            }
+            throw $e;
+        }
+
+        return $result;
     }
 
     /**
@@ -513,6 +582,16 @@ class Db implements TransactionalDatabaseInterface
             $tablesToWrite = array($tablesToWrite);
         }
 
+        if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            // SQLite locks the database, not tables: the write lock blocks every other writer until
+            // unlockAllTables(), while readers still read
+            $connection = self::get();
+            $connection->query('BEGIN IMMEDIATE');
+            // weakly held: a connection dropped by its last user closes, which ends its lock
+            self::$sqliteLockConnection = \WeakReference::create($connection);
+            return 0;
+        }
+
         $lockExprs = array();
         foreach ($tablesToWrite as $table) {
             $lockExprs[] = $table . " WRITE";
@@ -535,7 +614,67 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function unlockAllTables()
     {
+        // the SQLite lock is committed on the connection that took it; a current MySQL connection
+        // still gets its UNLOCK TABLES, but none is opened for it
+        if (self::releaseSqliteLock(true) && !self::hasDatabaseObject()) {
+            return 0;
+        }
+        if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+            return 0;
+        }
+
         return self::exec("UNLOCK TABLES");
+    }
+
+    /**
+     * Releases the table locks of the current connection after a failure in the work they protected:
+     * on SQLite, the work done under the lock is rolled back instead of committed.
+     *
+     * @internal
+     */
+    public static function abortTableLocks(): void
+    {
+        // only the locks of the current connection, which the failed work took
+        $db = self::get();
+        if (!Db\Sqlite\Connection::isSqliteConnection($db)) {
+            self::exec("UNLOCK TABLES");
+            return;
+        }
+        if (self::$sqliteLockConnection !== null && self::$sqliteLockConnection->get() === $db) {
+            self::releaseSqliteLock(false);
+        }
+    }
+
+    /**
+     * Ends the SQLite lock of lockTables() on the connection that took it, even if another one is
+     * current now; nothing when there is none.
+     *
+     * @return bool whether there was one
+     */
+    private static function releaseSqliteLock(bool $commit): bool
+    {
+        $connection = self::$sqliteLockConnection !== null ? self::$sqliteLockConnection->get() : null;
+        self::$sqliteLockConnection = null;
+        if ($connection === null) {
+            return false;
+        }
+
+        if (!$commit) {
+            $connection->query('ROLLBACK');
+            return true;
+        }
+        try {
+            $connection->query('COMMIT');
+        } catch (\Throwable $e) {
+            // a failed COMMIT (a deferred constraint) leaves the transaction open: end it
+            try {
+                $connection->query('ROLLBACK');
+            } catch (\Throwable $ignored) {
+            }
+            throw $e;
+        }
+
+        return true;
     }
 
     /**
@@ -728,13 +867,10 @@ class Db implements TransactionalDatabaseInterface
          * we use a 1 second timeout and loop, to avoid losing our MySQL
          * connection
          */
-        $sql = 'SELECT GET_LOCK(?, 1)';
-
-        $db = self::get();
+        $schema = Schema::getInstance();
 
         while ($maxRetries > 0) {
-            $result = $db->fetchOne($sql, array($lockName));
-            if ($result == '1') {
+            if ($schema->getNamedLock($lockName, 1)) {
                 return true;
             }
             $maxRetries--;
@@ -751,10 +887,7 @@ class Db implements TransactionalDatabaseInterface
      */
     public static function releaseDbLock($lockName)
     {
-        $sql = 'SELECT RELEASE_LOCK(?)';
-
-        $db = self::get();
-        return $db->fetchOne($sql, array($lockName)) == '1';
+        return Schema::getInstance()->releaseNamedLock($lockName);
     }
 
     /**
@@ -768,12 +901,29 @@ class Db implements TransactionalDatabaseInterface
     public static $lockPrivilegeGranted = null;
 
     /**
+     * The SQLite connection on which lockTables() holds the write lock, if any.
+     *
+     * @var \WeakReference|null
+     */
+    private static $sqliteLockConnection = null;
+
+    /**
      * Checks whether the database user is allowed to lock tables.
      *
      * @return bool
      */
     public static function isLockPrivilegeGranted()
     {
+        try {
+            if (Db\Sqlite\Connection::isSqliteConnection(self::get())) {
+                // SQLite has no lock privilege (whatever a MySQL connection cached); a probe could
+                // only fail on another writer's lock
+                return true;
+            }
+        } catch (Exception $ex) {
+            // no connection: what is cached, as before
+        }
+
         if (is_null(self::$lockPrivilegeGranted)) {
             try {
                 Db::lockTables(Common::prefixTable('site_url'));

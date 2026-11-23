@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log;
 use Piwik\Metrics;
 use Piwik\Option;
 use Piwik\Period;
@@ -47,6 +48,17 @@ class PrivacyManager extends Plugin
     public const OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS = "lastDelete_piwik_unused_log_actions";
     public const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
     public const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
+
+    /**
+     * Set while the unused actions purge has to be run again because it stopped early (SQLite only); the number
+     * of consecutive runs that stopped early.
+     */
+    public const OPTION_UNUSED_LOG_ACTIONS_PURGE_INCOMPLETE = 'PrivacyManager.unusedLogActionsPurgeIncomplete';
+
+    /**
+     * The day of the last unused actions purge that stopped early: it is retried once a day.
+     */
+    public const OPTION_UNUSED_LOG_ACTIONS_PURGE_LAST_ATTEMPT = 'PrivacyManager.unusedLogActionsPurgeLastAttempt';
     public const OPTION_USERID_SALT = 'useridsalt';
 
 
@@ -782,8 +794,14 @@ class PrivacyManager extends Plugin
             return false;
         }
 
-        // make sure purging should run at this time
-        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_LOGS, 'delete_logs_schedule_lowest_interval')) {
+        // make sure purging should run at this time; an unused actions purge that stopped early runs again
+        // on its own the next day, without waiting for the next old logs purge
+        $shouldDeleteOldLogs = $this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_LOGS, 'delete_logs_schedule_lowest_interval');
+        $today = Date::factory("today")->getTimestamp();
+        $isUnusedLogActionsPurgeIncomplete = !empty(Option::get(self::OPTION_UNUSED_LOG_ACTIONS_PURGE_INCOMPLETE));
+        $shouldRetryUnusedLogActionsPurge = $isUnusedLogActionsPurgeIncomplete
+            && (int) Option::get(self::OPTION_UNUSED_LOG_ACTIONS_PURGE_LAST_ATTEMPT) < $today;
+        if (!$shouldDeleteOldLogs && !$shouldRetryUnusedLogActionsPurge) {
             return false;
         }
 
@@ -793,9 +811,13 @@ class PrivacyManager extends Plugin
          * every time, when the schedule is triggered.
          */
         $lastDeleteDate = Date::factory("today")->getTimestamp();
-        Option::set(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
+        if ($shouldDeleteOldLogs) {
+            Option::set(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
+        }
 
-        $shouldDeleteUnusedLogActions = $this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, 'delete_logs_unused_actions_schedule_lowest_interval');
+        $previousUnusedLogActionsDelete = Option::get(self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS);
+        $shouldDeleteUnusedLogActions = $shouldRetryUnusedLogActionsPurge
+            || $this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, 'delete_logs_unused_actions_schedule_lowest_interval');
         if ($shouldDeleteUnusedLogActions) {
             Option::set(self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, $lastDeleteDate);
         }
@@ -803,9 +825,50 @@ class PrivacyManager extends Plugin
         // execute the purge
         /** @var LogDataPurger $logDataPurger */
         $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-        $logDataPurger->purgeData($settings['delete_logs_older_than'], $shouldDeleteUnusedLogActions);
+        if ($shouldDeleteOldLogs) {
+            $isComplete = $logDataPurger->purgeData($settings['delete_logs_older_than'], $shouldDeleteUnusedLogActions);
+        } else {
+            $isComplete = !$shouldDeleteUnusedLogActions || $logDataPurger->purgeUnusedLogActions();
+        }
+
+        if ($shouldDeleteUnusedLogActions) {
+            $this->recordUnusedLogActionsPurge($isComplete !== false, $previousUnusedLogActionsDelete);
+        }
 
         return true;
+    }
+
+    /**
+     * An unused actions purge that stopped early keeps its interval open: the previous run time is restored
+     * and the purge runs again the next day.
+     *
+     * @param string|false $previousRunTime
+     */
+    private function recordUnusedLogActionsPurge(bool $isComplete, $previousRunTime): void
+    {
+        $incompleteRuns = (int) Option::get(self::OPTION_UNUSED_LOG_ACTIONS_PURGE_INCOMPLETE);
+
+        if ($isComplete) {
+            if ($incompleteRuns > 0) {
+                Option::delete(self::OPTION_UNUSED_LOG_ACTIONS_PURGE_INCOMPLETE);
+                Option::delete(self::OPTION_UNUSED_LOG_ACTIONS_PURGE_LAST_ATTEMPT);
+            }
+            return;
+        }
+
+        if ($previousRunTime === false) {
+            Option::delete(self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS);
+        } else {
+            Option::set(self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, $previousRunTime);
+        }
+        Option::set(self::OPTION_UNUSED_LOG_ACTIONS_PURGE_INCOMPLETE, (string) ($incompleteRuns + 1));
+        Option::set(self::OPTION_UNUSED_LOG_ACTIONS_PURGE_LAST_ATTEMPT, (string) Date::factory('today')->getTimestamp());
+
+        Log::warning(
+            'The unused actions purge stopped before it was done, as too many visits were tracked meanwhile.'
+            . ' It runs again with the next scheduled tasks (%d consecutive runs stopped early).',
+            $incompleteRuns + 1
+        );
     }
 
     /**

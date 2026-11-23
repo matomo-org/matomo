@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Actions\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Db\Schema;
 use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -212,7 +213,10 @@ class PageViewTimeWriter
             return;
         }
 
-        $db->query('SELECT idvisit FROM `' . Common::prefixTable('log_visit') . '` WHERE idvisit = ? FOR UPDATE', [$idVisit]);
+        $db->query(
+            'SELECT idvisit FROM `' . Common::prefixTable('log_visit') . '` WHERE idvisit = ?' . Schema::getInstance()->getRowLockSql(),
+            [$idVisit]
+        );
     }
 
     private function isRecordableAction(Action $action): bool
@@ -244,8 +248,9 @@ class PageViewTimeWriter
         // Five indexes start with idvisit, and on a short visit the optimiser prefers one of
         // the others and then sorts. Pinning the index that already provides the order keeps
         // this a LIMIT 1 walk, which no sort can beat.
+        $indexHint = Schema::getInstance()->getIndexHintSql('index_idvisit_server_time');
         $idPageViewTime = $db->fetchOne(
-            "SELECT idpageviewtime FROM `$table` FORCE INDEX (index_idvisit_server_time)
+            "SELECT idpageviewtime FROM `$table`$indexHint
               WHERE idvisit = ?
                 AND idlink_va <> ?
                 AND server_time < ?
@@ -261,9 +266,14 @@ class PageViewTimeWriter
         // $cap is interpolated rather than bound: PDO_MYSQL emulated prepares (the tracker
         // default) send bound ints as strings, and LEAST('1800', 25) compares lexically, so
         // the cap would always win. It is a validated int from Tracker config.
+        $schema = Schema::getInstance();
+        $timeSpent = $schema->getLeastSql(
+            (string) $cap,
+            $schema->getGreatestSql('time_spent', $schema->getSecondsBetweenSql('server_time', '?'))
+        );
         $db->query(
             "UPDATE `$table`
-                SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
+                SET time_spent = $timeSpent
               WHERE idpageviewtime = ?",
             [$serverTimeSql, $idPageViewTime]
         );
@@ -280,15 +290,16 @@ class PageViewTimeWriter
     ): void {
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
+        $schema = Schema::getInstance();
 
         // A retried request must not reset time_spent accumulated since the first run, so the
         // upsert refreshes the idaction columns only.
         $sql = "INSERT INTO `$table`
                     (idsite, idvisit, idlink_va, idpageview, idaction_url, idaction_name, server_time, time_spent)
                 VALUES (?, ?, ?, ?, ?, ?, ?, 0)
-                ON DUPLICATE KEY UPDATE
-                    idaction_url  = VALUES(idaction_url),
-                    idaction_name = VALUES(idaction_name)";
+                " . $schema->getOnDuplicateKeyUpdateSql() . "
+                    idaction_url  = " . $schema->getInsertedValueSql('idaction_url') . ",
+                    idaction_name = " . $schema->getInsertedValueSql('idaction_name');
         $db->query($sql, [
             $idSite,
             $idVisit,
@@ -320,11 +331,12 @@ class PageViewTimeWriter
         //
         // The client value is wrapped in CAST(? AS UNSIGNED) because emulated prepares send
         // bound ints as strings, which would make LEAST()/GREATEST() compare lexically.
+        $schema = Schema::getInstance();
         if ($clientTimeOnPage !== null) {
-            $newTimeSpentExpr = 'LEAST(CAST(? AS UNSIGNED), TIMESTAMPDIFF(SECOND, server_time, ?))';
+            $newTimeSpentExpr = $schema->getLeastSql('CAST(? AS UNSIGNED)', $schema->getSecondsBetweenSql('server_time', '?'));
             $newTimeSpentBinds = [$clientTimeOnPage, $serverTimeSql];
         } else {
-            $newTimeSpentExpr = 'TIMESTAMPDIFF(SECOND, server_time, ?)';
+            $newTimeSpentExpr = $schema->getSecondsBetweenSql('server_time', '?');
             $newTimeSpentBinds = [$serverTimeSql];
         }
 
@@ -343,9 +355,10 @@ class PageViewTimeWriter
             return;
         }
 
+        $timeSpent = $schema->getLeastSql((string) $cap, $schema->getGreatestSql('time_spent', $newTimeSpentExpr));
         $db->query(
             "UPDATE `$table`
-                SET time_spent = LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))
+                SET time_spent = $timeSpent
               WHERE idpageviewtime = ?",
             array_merge($newTimeSpentBinds, [$idPageViewTime])
         );

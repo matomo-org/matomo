@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -25,6 +26,16 @@ class VisitFirstActionMinute extends VisitDimension
     protected $segmentName = 'visitStartServerMinute';
     protected $acceptValues = '0, 1, 2, 3, ..., 56, 57, 58, 59';
     protected $nameSingular = 'VisitTime_ColumnVisitStartUTCMinute';
+
+    public function getSqlSegment()
+    {
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, is spelled by the database in use
+        if ($this->sqlSegment === 'MINUTE(log_visit.visit_first_action_time)') {
+            return Schema::getInstance()->getDatePartSql('MINUTE', 'log_visit.visit_first_action_time');
+        }
+
+        return parent::getSqlSegment();
+    }
 
     public function __construct()
     {

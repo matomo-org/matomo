@@ -22,7 +22,7 @@ class MySqlLockBackend implements LockBackend
      */
     public function getKeysMatchingPattern($pattern)
     {
-        $sql = sprintf('SELECT SQL_NO_CACHE distinct `key` FROM `%s` WHERE `key` like ? and %s', self::getTableName(), $this->getQueryPartExpiryTime());
+        $sql = sprintf('SELECT %sdistinct `key` FROM `%s` WHERE `key` like ? and %s', $this->getSelectModifiers(), self::getTableName(), $this->getQueryPartExpiryTime());
         $pattern = str_replace('*', '%', $pattern);
         $keys = Db::fetchAll($sql, array($pattern));
         $raw = array_column($keys, 'key');
@@ -59,8 +59,9 @@ class MySqlLockBackend implements LockBackend
 
         $query = sprintf(
             'INSERT INTO `%s` (`key`, `value`, `expiry_time`) 
-                                 VALUES (?,?,(UNIX_TIMESTAMP() + ?))',
-            $tablePrefixed
+                                 VALUES (?,?,(%s + ?))',
+            $tablePrefixed,
+            $this->getCurrentTimestampSql()
         );
         // we make sure to update the row if the key is expired and consider it as "deleted"
 
@@ -83,7 +84,7 @@ class MySqlLockBackend implements LockBackend
 
     public function get($key)
     {
-        $sql = sprintf('SELECT SQL_NO_CACHE `value` FROM `%s` WHERE `key` = ? AND %s LIMIT 1', self::getTableName(), $this->getQueryPartExpiryTime());
+        $sql = sprintf('SELECT %s`value` FROM `%s` WHERE `key` = ? AND %s LIMIT 1', $this->getSelectModifiers(), self::getTableName(), $this->getQueryPartExpiryTime());
         return Db::fetchOne($sql, array($key));
     }
 
@@ -105,7 +106,7 @@ class MySqlLockBackend implements LockBackend
 
         // we need to use unix_timestamp in mysql and not time() in php since the local time might be different on each server
         // better to rely on one central DB server time only
-        $sql = sprintf('UPDATE `%s` SET expiry_time = (UNIX_TIMESTAMP() + ?) WHERE `key` = ? and `value` = ?', self::getTableName());
+        $sql = sprintf('UPDATE `%s` SET expiry_time = (%s + ?) WHERE `key` = ? and `value` = ?', self::getTableName(), $this->getCurrentTimestampSql());
         $success = $this->queryDidMakeChange($sql, array((int) $ttlInSeconds, $key, $value));
 
         if (!$success) {
@@ -119,7 +120,7 @@ class MySqlLockBackend implements LockBackend
 
     public function keyExists($key)
     {
-        $sql = sprintf('SELECT SQL_NO_CACHE 1 FROM `%s` WHERE `key` = ? LIMIT 1', self::getTableName());
+        $sql = sprintf('SELECT %s1 FROM `%s` WHERE `key` = ? LIMIT 1', $this->getSelectModifiers(), self::getTableName());
         $value = Db::fetchOne($sql, array($key));
         return !empty($value);
     }
@@ -143,6 +144,22 @@ class MySqlLockBackend implements LockBackend
 
     private function getQueryPartExpiryTime()
     {
-        return 'UNIX_TIMESTAMP() <= expiry_time';
+        return $this->getCurrentTimestampSql() . ' <= expiry_time';
+    }
+
+    /**
+     * The database's current Unix time, so every server compares expiry times against the same clock.
+     */
+    protected function getCurrentTimestampSql(): string
+    {
+        return 'UNIX_TIMESTAMP()';
+    }
+
+    /**
+     * Modifiers placed after `SELECT`, followed by a space, e.g. to bypass a query cache.
+     */
+    protected function getSelectModifiers(): string
+    {
+        return 'SQL_NO_CACHE ';
     }
 }

@@ -13,12 +13,18 @@ use Exception;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Db\Adapter;
+use Piwik\Db\Sqlite\Connection;
+use Piwik\Db\Sqlite\ExposureProbe;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
+use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\QuickForm2;
+use Piwik\Url;
 use Zend_Db_Adapter_Exception;
 
 /**
@@ -27,6 +33,11 @@ use Zend_Db_Adapter_Exception;
 class FormDatabaseSetup extends QuickForm2
 {
     const MASKED_PASSWORD_VALUE = '**********';
+
+    /**
+     * The file name of a SQLite database in the private directory the installer creates.
+     */
+    public const SQLITE_FILE_NAME = 'matomo.sqlite';
 
     function __construct($id = 'databasesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {
@@ -44,6 +55,9 @@ class FormDatabaseSetup extends QuickForm2
         HTML_QuickForm2_Factory::registerRule('checkUserPrivileges',
                                               'Piwik\Plugins\Installation\RuleCheckUserPrivileges'
         );
+        HTML_QuickForm2_Factory::registerRule('requiredForServer',
+                                              'Piwik\Plugins\Installation\FormDatabaseSetupRuleRequiredForServer'
+        );
 
         $availableAdapters = Adapter::getAdapters();
         $adapters = array();
@@ -56,11 +70,11 @@ class FormDatabaseSetup extends QuickForm2
 
         $this->addElement('text', 'host')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupServer'))
-            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupServer')));
+            ->addRule('requiredForServer', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupServer')));
 
         $user = $this->addElement('text', 'username')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupLogin'));
-        $user->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupLogin')));
+        $user->addRule('requiredForServer', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupLogin')));
         $requiredPrivileges = RuleCheckUserPrivileges::getRequiredPrivilegesPretty();
         $user->addRule('checkUserPrivileges',
             Piwik::translate('Installation_InsufficientPrivilegesMain', $requiredPrivileges . '<br/><br/>') .
@@ -71,7 +85,7 @@ class FormDatabaseSetup extends QuickForm2
 
         $item = $this->addElement('text', 'dbname')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupDatabaseName'));
-        $item->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupDatabaseName')));
+        $item->addRule('requiredForServer', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupDatabaseName')));
         $item->addRule('checkValidDbname', Piwik::translate('General_NotValid', Piwik::translate('Installation_DatabaseSetupDatabaseName')));
 
         $this->addElement('text', 'tables_prefix')
@@ -87,6 +101,19 @@ class FormDatabaseSetup extends QuickForm2
             ->setLabel(Piwik::translate('Installation_DatabaseSetupEngine'))
             ->loadOptions(['Mysql' => 'MySQL', 'Mariadb' => 'MariaDB'])
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupEngine')));
+
+        if (Connection::isEnabled()) {
+            $this->addElement('text', 'sqlite_file')
+                ->setLabel(Piwik::translate('Installation_DatabaseSetupSqliteFile'))
+                ->setAttribute('placeholder', Piwik::translate('Installation_DatabaseSetupSqliteFilePlaceholder'));
+
+            $version = Connection::getLibraryVersion();
+            if (Connection::getRuntimeQualification($version, false) === Connection::RUNTIME_UNQUALIFIED) {
+                $this->addElement('checkbox', 'sqlite_wal_reset_fix_attested', null, [
+                    'content' => Piwik::translate('Installation_DatabaseSetupSqliteAttestation', [$version]),
+                ]);
+            }
+        }
 
         $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
@@ -134,6 +161,10 @@ class FormDatabaseSetup extends QuickForm2
      */
     public function createDatabaseObject()
     {
+        if (self::isSqliteChosen($this)) {
+            return $this->createSqliteDatabase();
+        }
+
         $dbname = trim($this->getSubmitValue('dbname'));
         if (empty($dbname)) // disallow database object creation w/ no selected database
         {
@@ -193,6 +224,191 @@ class FormDatabaseSetup extends QuickForm2
 
         return $dbInfos;
     }
+
+    /**
+     * Whether the SQLite adapter is chosen in a submitted form.
+     *
+     * @param \HTML_QuickForm2_Container $form
+     */
+    public static function isSqliteChosen($form): bool
+    {
+        $adapter = $form->getElementsByName('adapter');
+        return !empty($adapter) && Connection::isSqliteAdapter((string) $adapter[0]->getValue());
+    }
+
+    /**
+     * Creates the SQLite database file, in WAL mode, after checking the library and that the web server
+     * does not serve the file. Without a path, the file goes in a new private directory under config/.
+     *
+     * @return array The database connection info. Can be passed into Db::createDatabaseObject.
+     */
+    private function createSqliteDatabase(): array
+    {
+        $version = Connection::getLibraryVersion();
+        $isAttested = !empty($this->getSubmitValue('sqlite_wal_reset_fix_attested'));
+        switch (Connection::getRuntimeQualification($version, $isAttested)) {
+            case Connection::RUNTIME_UNSUPPORTED:
+                throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', ['SQLite', $version, Connection::MINIMUM_VERSION]));
+            case Connection::RUNTIME_UNQUALIFIED:
+                throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteUnqualified', [$version]));
+        }
+        if (!Connection::hasMathFunctions()) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteNoMathFunctions', [$version]));
+        }
+
+        $tablesPrefix = $this->getSubmitValue('tables_prefix');
+        $dbInfos = [
+            'host'          => '',
+            'username'      => '',
+            'password'      => '',
+            'dbname'        => trim((string) $this->getSubmitValue('sqlite_file')),
+            'tables_prefix' => is_null($tablesPrefix) ? $tablesPrefix : trim($tablesPrefix),
+            'adapter'       => 'PDO\SQLITE',
+            'schema'        => 'Sqlite',
+            'enable_ssl'    => false,
+        ];
+        if ($isAttested) {
+            $dbInfos['sqlite_wal_reset_fix_attested'] = 1;
+        }
+
+        $createdDirectory = null;
+        if ($dbInfos['dbname'] === '') {
+            $createdDirectory = $this->createPrivateDirectory();
+            $dbInfos['dbname'] = $this->getPathForConfig($createdDirectory . DIRECTORY_SEPARATOR . self::SQLITE_FILE_NAME);
+        }
+
+        $file = Connection::getDatabaseFile($dbInfos);
+        $isOwned = false;
+
+        try {
+            if (file_exists($file) || is_link($file)) {
+                $this->checkExistingFileIsPrivate($file);
+            } else {
+                $this->createPrivateFile($file);
+                // only from here on is the file this request's to remove
+                $isOwned = true;
+            }
+            Connection::createDatabaseFile($dbInfos);
+            $this->checkDatabaseIsNotServed($file);
+            Db::createDatabaseObject($dbInfos);
+        } catch (\Throwable $e) {
+            if ($isOwned) {
+                Db::destroyDatabaseObject();
+                foreach (['-wal', '-shm', '-journal', ''] as $suffix) {
+                    if (file_exists($file . $suffix) && !@unlink($file . $suffix)) {
+                        Log::warning('Could not remove %s', $file . $suffix);
+                    }
+                }
+            }
+            if ($createdDirectory !== null) {
+                @rmdir($createdDirectory);
+            }
+            throw $e;
+        }
+
+        return $dbInfos;
+    }
+
+    /**
+     * Creates `config/.ht.<random>`: the config/ deny rules and the `.ht` prefix protect it, its name can't be
+     * guessed, and only the web server user can enter it. mkdir() fails rather than reuse a directory.
+     */
+    private function createPrivateDirectory(): string
+    {
+        $directory = dirname(Config::getInstance()->getLocalPath()) . DIRECTORY_SEPARATOR . '.ht.' . bin2hex(random_bytes(16));
+        if (!@mkdir($directory, 0700)) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteCantCreate', [dirname($directory)]));
+        }
+
+        return $directory;
+    }
+
+    /**
+     * Creates the file only if it doesn't exist, readable by its owner only before anything is written to it.
+     * SQLite gives the -wal and -shm files the database file's permissions.
+     */
+    private function createPrivateFile(string $file): void
+    {
+        if (!is_dir(dirname($file))) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteNoDirectory', [dirname($file)]));
+        }
+        foreach (['-wal', '-shm', '-journal'] as $suffix) {
+            if (file_exists($file . $suffix) || is_link($file . $suffix)) {
+                // another database's leftovers would be applied to the new one
+                throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteStaleFile', [$file . $suffix]));
+            }
+        }
+
+        $umask = umask(0077);
+        try {
+            $handle = @fopen($file, 'x');
+        } finally {
+            umask($umask);
+        }
+        if ($handle === false) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteCantCreate', [dirname($file)]));
+        }
+        fclose($handle);
+
+        // a default ACL on the directory overrides the umask: the file is still empty, so set and check its mode
+        @chmod($file, 0600);
+        try {
+            $this->checkExistingFileIsPrivate($file);
+        } catch (Exception $e) {
+            @unlink($file);
+            throw $e;
+        }
+    }
+
+    /**
+     * An existing database is used only if it is a regular file that only its owner can access.
+     */
+    private function checkExistingFileIsPrivate(string $file): void
+    {
+        clearstatcache(true, $file);
+        if (is_link($file) || !is_file($file)) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteNotAFile', [$file]));
+        }
+        // Windows has no such permission bits
+        if (DIRECTORY_SEPARATOR === '/' && (fileperms($file) & 0077) !== 0) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteNotPrivate', [$file]));
+        }
+    }
+
+    private function checkDatabaseIsNotServed(string $file): void
+    {
+        $documentRoot = isset($_SERVER['DOCUMENT_ROOT']) ? (string) $_SERVER['DOCUMENT_ROOT'] : null;
+        $result = StaticContainer::get(ExposureProbe::class)->probe($file, Url::getCurrentUrlWithoutFileName(), $documentRoot);
+
+        if ($result['status'] === ExposureProbe::PROTECTED || $result['status'] === ExposureProbe::OUTSIDE_WEB_ROOT) {
+            return;
+        }
+
+        if ($result['status'] === ExposureProbe::UNVERIFIED) {
+            throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteServedUnverified'));
+        }
+
+        $urls = [];
+        foreach ($result['urls'] as $url => $status) {
+            if ($status !== ExposureProbe::PROTECTED) {
+                $urls[] = $url . ': ' . $status;
+            }
+        }
+        $message = $result['status'] === ExposureProbe::EXPOSED
+            ? 'Installation_DatabaseSetupSqliteServed'
+            : 'Installation_DatabaseSetupSqliteServedUnknown';
+
+        throw new Exception(Piwik::translate($message, [implode(', ', $urls)]));
+    }
+
+    /**
+     * A path under Matomo's user path is stored relative to it, so the installation can move.
+     */
+    private function getPathForConfig(string $file): string
+    {
+        $root = rtrim(PIWIK_USER_PATH, '/\\') . DIRECTORY_SEPARATOR;
+        return str_starts_with($file, $root) ? substr($file, strlen($root)) : $file;
+    }
 }
 
 /**
@@ -220,6 +436,11 @@ class RuleCheckUserPrivileges extends HTML_QuickForm2_Rule
      */
     public function validateOwner()
     {
+        // a SQLite database is a file: there are no privileges to check
+        if (FormDatabaseSetup::isSqliteChosen($this->owner->getContainer())) {
+            return true;
+        }
+
         // try and create the database object
         try {
             $this->createDatabaseObject();
@@ -379,5 +600,20 @@ class FormDatabaseSetupRuleCheckValidDbname extends HTML_QuickForm2_Rule
         $prefix = $this->owner->getValue();
         return empty($prefix)
         || DbHelper::isValidDbname($prefix);
+    }
+}
+
+/**
+ * Requires a value, unless the database is SQLite: it needs no server, login or database name.
+ */
+class FormDatabaseSetupRuleRequiredForServer extends HTML_QuickForm2_Rule
+{
+    function validateOwner()
+    {
+        if (FormDatabaseSetup::isSqliteChosen($this->owner->getContainer())) {
+            return true;
+        }
+
+        return trim((string) $this->owner->getValue()) !== '';
     }
 }

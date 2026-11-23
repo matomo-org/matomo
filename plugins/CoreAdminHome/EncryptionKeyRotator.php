@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -341,6 +342,11 @@ class EncryptionKeyRotator
      */
     private function checkTablesAreTransactional(): void
     {
+        if (Db\Sqlite\Connection::isSqliteConnection(Db::get())) {
+            // every SQLite table is transactional
+            return;
+        }
+
         $rows = Db::fetchAll(
             'SELECT t.`TABLE_NAME` AS `tableName`, t.`ENGINE` AS `engine` FROM `information_schema`.`TABLES` t'
             . ' LEFT JOIN `information_schema`.`ENGINES` e ON e.`ENGINE` = t.`ENGINE`'
@@ -544,8 +550,9 @@ class EncryptionKeyRotator
         }
 
         // a locking read waits for a transaction the server has not ended yet, instead of reading around it
+        // (SQLite has no row locks; the rollback above has ended this process's transaction)
         return Db::fetchOne(
-            "SELECT `{$value['column']}` FROM `" . Common::prefixTable($value['table']) . '` WHERE ' . implode(' AND ', $conditions) . ' LOCK IN SHARE MODE',
+            "SELECT `{$value['column']}` FROM `" . Common::prefixTable($value['table']) . '` WHERE ' . implode(' AND ', $conditions) . Schema::getInstance()->getRowLockSql(false),
             $bind
         );
     }

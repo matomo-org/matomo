@@ -32,6 +32,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
     public static function setUpBeforeClass(): void
     {
+        if (Fixture::isSqlite()) {
+            // the fixture is a MySQL dump of a Matomo 1.x database, loaded with the mysql client
+            self::markTestSkipped('a Matomo 1.x database predates SQLite support');
+        }
+
         parent::setUpBeforeClass();
 
         $installedPlugins = Manager::getInstance()->getInstalledPluginsName();
@@ -48,7 +53,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
         // truncate log tables so old data won't be re-archived
         foreach (['log_visit', 'log_link_visit_action', 'log_conversion', 'log_conversion_item'] as $table) {
-            Db::query("TRUNCATE TABLE " . Common::prefixTable($table));
+            Db::truncateTable(Common::prefixTable($table));
         }
 
         self::trackTwoVisitsOnSameDay();

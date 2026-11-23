@@ -291,7 +291,7 @@ class Model
     {
         $db     = $this->getDb();
         $result = $db->fetchAll("SELECT url FROM " . Common::prefixTable("site_url") . "
-                                 WHERE idsite = ?", $idSite);
+                                 WHERE idsite = ? ORDER BY url", $idSite);
 
         $urls = array();
         foreach ($result as $url) {
@@ -309,8 +309,9 @@ class Model
     public function getAllKnownUrlsForAllSites()
     {
         $db        = $this->getDb();
-        $mainUrls  = $db->fetchAll("SELECT idsite, main_url as url FROM " . Common::prefixTable("site"));
-        $aliasUrls = $db->fetchAll("SELECT idsite, url FROM " . Common::prefixTable("site_url"));
+        // in primary-key order, as InnoDB returns them
+        $mainUrls  = $db->fetchAll("SELECT idsite, main_url as url FROM " . Common::prefixTable("site") . " ORDER BY idsite");
+        $aliasUrls = $db->fetchAll("SELECT idsite, url FROM " . Common::prefixTable("site_url") . " ORDER BY idsite, url");
 
         return array_merge($mainUrls, $aliasUrls);
     }
@@ -441,7 +442,7 @@ class Model
 
     public static function getPatternMatchSqlQuery($table)
     {
-        return "($table.name like ? OR $table.main_url like ? OR $table.group like ?)";
+        return "($table.name like ? OR $table.main_url like ? OR $table.`group` like ?)";
     }
 
     public static function getPatternMatchSqlBind($pattern)

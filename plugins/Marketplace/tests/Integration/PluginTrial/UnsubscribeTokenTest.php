@@ -63,6 +63,10 @@ class UnsubscribeTokenTest extends IntegrationTestCase
 
     public function testTokenSurvivesADatabaseTimeZoneChange()
     {
+        if (\Piwik\Tests\Framework\Fixture::isSqlite()) {
+            $this->markTestSkipped('SQLite has no session time zone');
+        }
+
         $token = new UnsubscribeToken();
         $timeZone = Db::fetchOne('SELECT @@session.time_zone');
 

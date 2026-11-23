@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
+use Piwik\Db\Schema;
 use Piwik\DataTable\Row;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Plugins\Actions\Archiver;
@@ -564,7 +565,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $where .= " AND $actionTypesWhere";
 
         $groupBy = "log_link_visit_action.%s";
-        $orderBy = "`" . PiwikMetrics::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
+        $orderBy = "`" . PiwikMetrics::INDEX_PAGE_NB_HITS . "` DESC, log_action.name ASC";
 
         $siteSearchEnabled = $archiveProcessor->getParams()->getSite()->isSiteSearchEnabled();
 
@@ -898,15 +899,16 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         // maximums finds it without a nested NOT EXISTS, which is cubic in the visit's length.
         // The overlap check comes first, as a filter, so the maximums only run for hits it leaves.
         // Written as NOT EXISTS, MySQL would run it last as an anti-join.
+        $schema = Schema::getInstance();
+        $refStart = $schema->getDateTimeIntervalSql('log_link_visit_action.server_time', '-', 'log_link_visit_action.time_spent_ref_action', 'SECOND');
+        $rowEnd = $schema->getDateTimeIntervalSql('pvt.server_time', '+', 'pvt.time_spent', 'SECOND');
         $spanCovered = "
                  AND NOT IFNULL((
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
                          WHERE pvt.idvisit = log_link_visit_action.idvisit
                            AND pvt.%1\$s = log_link_visit_action.%2\$s
                            AND pvt.server_time < log_link_visit_action.server_time
-                           AND log_link_visit_action.server_time
-                                   - INTERVAL log_link_visit_action.time_spent_ref_action SECOND
-                               < pvt.server_time + INTERVAL pvt.time_spent SECOND
+                           AND $refStart < $rowEnd
                          LIMIT 1
                      ), 0)
                  AND NOT IFNULL((

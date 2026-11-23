@@ -9,34 +9,49 @@
 
 namespace Piwik\Updater\Migration\Db;
 
-use Piwik\DbHelper;
+use Piwik\Db\Schema;
 
 /**
  * @see Factory::dropColumn()
  * @ignore
  */
-class DropColumns extends Sql
+class DropColumns extends AlterTable
 {
+    /**
+     * @var string[]
+     */
+    private $columnNames;
+
     public function __construct($tableName, $columnNames)
     {
-        $table = DbHelper::getTableColumns($tableName);
+        $this->columnNames = $columnNames;
 
-        // we need to remove all not existing columns. Otherwise if only one of the columns doesn't exist, all of
-        // the columns wouldn't be removed
-        $columnNames = array_filter($columnNames, function ($columnName) use ($table) {
+        parent::__construct($tableName, [], static::ERROR_CODE_COLUMN_NOT_EXISTS);
+    }
+
+    /**
+     * Drops only the columns the table has when the migration runs, on the connection in use: if one of them
+     * didn't exist, none would be removed otherwise.
+     */
+    protected function getSpecifications(): array
+    {
+        $table = Schema::getInstance()->getConnectionSchema(true)->getTableColumns($this->getTableName());
+
+        $columnNames = array_unique(array_filter($this->columnNames, function ($columnName) use ($table) {
             return isset($table[$columnName]);
-        });
+        }));
 
-        if (empty($columnNames)) {
-            parent::__construct('', static::ERROR_CODE_COLUMN_NOT_EXISTS);
-        } else {
-            $columnNames = array_unique($columnNames);
-            $dropColumns = array_map(function ($columnName) {
-                return sprintf('DROP COLUMN `%s`', $columnName);
-            }, $columnNames);
+        return array_values(array_map(function ($columnName) {
+            return sprintf('DROP COLUMN `%s`', $columnName);
+        }, $columnNames));
+    }
 
-            $sql = sprintf("ALTER TABLE `%s` %s", $tableName, implode(', ', $dropColumns));
-            parent::__construct($sql, static::ERROR_CODE_COLUMN_NOT_EXISTS);
+    protected function getStatements(): array
+    {
+        if ($this->getSpecifications() === []) {
+            return [];
         }
+
+        return parent::getStatements();
     }
 }

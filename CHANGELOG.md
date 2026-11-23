@@ -7,6 +7,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.1.0
 
 ### New config.ini.php settings
+* `[database] adapter = PDO\SQLITE` with `schema = Sqlite` stores Matomo in a SQLite database file (SQLite 3.44.0 or later), set by `dbname`. The installer offers it when PHP has `pdo_sqlite`. `[database] sqlite_busy_timeout` sets how long a connection waits for the write lock (5000 ms by default); `[database] sqlite_wal_reset_fix_attested = 1` declares that a SQLite version not known to include the WAL-reset fix does include it.
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 * `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
 
@@ -21,6 +22,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The new event `CoreAdminHome.mailSettingsUpdated` is posted after the email server settings were saved on the general settings page. Its single array parameter holds the saved settings and `password_set`, but never the password.
 
 ### New commands
+* `database:sqlite-backup` writes a consistent copy of a SQLite database while Matomo keeps running.
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
 
 ### Deprecations
@@ -43,6 +45,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * New event `Metrics.formatEvolutionValue` that lets plugins format their metric values in the row evolution popover.
 
 ### Other changes
+* On SQLite, the JSON API returns numbers SQLite computes as numbers, where MySQL returns some sums as strings (`260` instead of `"260"`) and pads decimals to their column's scale (`0.062` instead of `0.0620`).
 * Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 

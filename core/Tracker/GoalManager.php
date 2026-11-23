@@ -732,7 +732,8 @@ class GoalManager
             Common::printDebug("- Goal " . $convertedGoal['idgoal'] . " matched. Recording...");
             $conversion = $goal;
             $conversion['idgoal'] = $convertedGoal['idgoal'];
-            $conversion['url']    = $convertedGoal['url'];
+            // an event has no URL (false), which MySQL stores as '' and SQLite, binding booleans as integers, as '0'
+            $conversion['url']    = (string) $convertedGoal['url'];
 
             if (!is_null($action)) {
                 $conversion['idaction_url'] = $action->getIdActionUrl();

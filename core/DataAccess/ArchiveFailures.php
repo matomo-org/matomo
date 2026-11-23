@@ -17,6 +17,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Period\Range;
 use Piwik\Log\LoggerInterface;
@@ -126,7 +127,7 @@ class ArchiveFailures
         Db::query(
             "INSERT INTO `$table` (idsite, period, date1, date2, archive_hash, name, `report`, attempts, last_error, ts_first_failed, ts_last_failed, ts_retry_after)
                   VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?)
-                  ON DUPLICATE KEY UPDATE attempts = attempts + 1, last_error = ?, ts_last_failed = ?, ts_retry_after = ?",
+                  " . Schema::getInstance()->getOnDuplicateKeyUpdateSql() . " attempts = attempts + 1, last_error = ?, ts_last_failed = ?, ts_retry_after = ?",
             array_merge(
                 $this->getArchiveBind($invalidation),
                 [$invalidation['name'], (string) ($invalidation['report'] ?? '')],
@@ -419,7 +420,7 @@ class ArchiveFailures
 
             if ($period === Piwik::$idPeriods['year']) {
                 // years are built from months, which only contain weeks that lie within them
-                $sql .= " AND (f.period != ? OR DATE_FORMAT(f.date1, '%m') = DATE_FORMAT(f.date2, '%m'))";
+                $sql .= " AND (f.period != ? OR SUBSTRING(f.date1, 6, 2) = SUBSTRING(f.date2, 6, 2))";
                 $bind[] = Piwik::$idPeriods['week'];
             }
 
@@ -643,7 +644,7 @@ class ArchiveFailures
         $table = self::getTable();
         $siteTable = Common::prefixTable('site');
 
-        Db::query("DELETE f FROM `$table` f LEFT JOIN `$siteTable` s ON f.idsite = s.idsite WHERE s.idsite IS NULL");
+        Db::query("DELETE FROM `$table` WHERE NOT EXISTS (SELECT 1 FROM `$siteTable` s WHERE s.idsite = `$table`.idsite)");
     }
 
     /**

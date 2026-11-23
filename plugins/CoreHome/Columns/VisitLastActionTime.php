@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Period;
@@ -65,6 +66,16 @@ class VisitLastActionTime extends VisitDimension
         $datetime = $date->toString() . ' ' . $hour . ':00:00';
         $hourInTz = (int)Date::factory($datetime, $timezone)->toString('H');
         return $hourInTz;
+    }
+
+    public function getSqlSegment()
+    {
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, is spelled by the database in use
+        if ($this->sqlSegment === 'HOUR(log_visit.visit_last_action_time)') {
+            return Schema::getInstance()->getHourSql('log_visit.visit_last_action_time');
+        }
+
+        return parent::getSqlSegment();
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)

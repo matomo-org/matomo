@@ -18,6 +18,7 @@ use Piwik\DataAccess\ArchiveFailures;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -462,7 +463,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
     public function testFailedInvalidationIsDeletedIfItsArchiveIsAlreadyWaiting(int $twinStatus): void
     {
         $ids = $this->insertInvalidations(['failed' => [1, '2020-01-15', '2020-01-15'], 'twin' => [1, '2020-01-15', '2020-01-15']]);
-        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 1, ts_started = NOW() WHERE idinvalidation = ?', [$ids['failed']]);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 1, ts_started = ' . Schema::getInstance()->getCurrentDateTimeSql() . ' WHERE idinvalidation = ?', [$ids['failed']]);
         Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = ? WHERE idinvalidation = ?', [$twinStatus, $ids['twin']]);
 
         (new Model())->holdFailedInvalidation($this->getInvalidationRow($ids['failed']));
@@ -510,7 +511,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
     public function testReleasingAJobKeepsTheInvalidationOnHoldOfItsArchive(): void
     {
         $ids = $this->insertInvalidations(['in progress' => [1, '2020-01-15', '2020-01-15'], 'on hold' => [1, '2020-01-15', '2020-01-15']]);
-        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 1, ts_started = NOW() WHERE idinvalidation = ?', [$ids['in progress']]);
+        Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 1, ts_started = ' . Schema::getInstance()->getCurrentDateTimeSql() . ' WHERE idinvalidation = ?', [$ids['in progress']]);
         Db::query('UPDATE ' . Common::prefixTable('archive_invalidations') . ' SET status = 2 WHERE idinvalidation = ?', [$ids['on hold']]);
 
         (new Model())->releaseInProgressInvalidations([$ids['in progress']]);
@@ -584,7 +585,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
                 'INSERT INTO ' . Common::prefixTable('archive_invalidations') . ' (name, idsite, date1, date2, period, report, ts_invalidated, status) VALUES (?, 1, ?, ?, ?, ?, ?, ?)',
                 [$row[3] ?? 'done', $row[1], $row[2], $row[0], $row[4] ?? null, Date::now()->getDatetime(), $status]
             );
-            $ids[$label] = (int) Db::fetchOne('SELECT LAST_INSERT_ID()');
+            $ids[$label] = (int) Db::get()->lastInsertId();
         }
 
         return $ids;
@@ -652,7 +653,7 @@ class ArchiveFailuresTest extends IntegrationTestCase
                 'INSERT INTO ' . Common::prefixTable('archive_invalidations') . ' (name, idsite, date1, date2, period, ts_invalidated, status) VALUES (?, ?, ?, ?, ?, ?, 0)',
                 [$name, $idSite, $date1, $date2, $period, Date::now()->getDatetime()]
             );
-            $ids[$label] = (int) Db::fetchOne('SELECT LAST_INSERT_ID()');
+            $ids[$label] = (int) Db::get()->lastInsertId();
         }
 
         return $ids;

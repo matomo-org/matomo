@@ -110,6 +110,10 @@ class DimensionMetricFactory
                 $documentation  = Piwik::translate('General_ComputedMetricUniqueCountDocumentation', $dimension->getNamePlural());
                 $semanticType = Dimension::TYPE_NUMBER;
                 break;
+            case ArchivedMetric::LEGACY_AGGREGATION_COUNT_WITH_NUMERIC_VALUE:
+                // the same count, in SQL that every supported database runs
+                $aggregation = ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE;
+                // no break
             case ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE:
                 $prefix = ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX;
                 $translatedName = Piwik::translate('General_ComputedMetricCountWithValue', $dimension->getName());

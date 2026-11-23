@@ -57,6 +57,7 @@ class LogDataPurger
      *                                 Visits and related data whose age is greater than this number
      *                                 will be purged.
      * @param bool $deleteUnusedLogActions Whether to delete unused log actions or not
+     * @return bool false when the unused actions purge stopped before it was done (SQLite only), else true
      */
     public function purgeData($deleteLogsOlderThan, $deleteUnusedLogActions)
     {
@@ -72,14 +73,7 @@ class LogDataPurger
         $logTables = self::getDeleteTableLogTables();
 
         // delete unused actions from the log_action table (but only if we can lock tables)
-        if ($deleteUnusedLogActions) {
-            if (Db::isLockPrivilegeGranted()) {
-                $this->rawLogDao->deleteUnusedLogActions();
-            } else {
-                $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
-                Log::warning($logMessage);
-            }
-        }
+        $complete = !$deleteUnusedLogActions || $this->deleteUnusedLogActions();
 
         /**
          * Triggered when a plugin is supposed to delete log/raw data that is older than a certain amount of days.
@@ -99,6 +93,34 @@ class LogDataPurger
 
         // optimize table overhead after deletion
         Db\Schema::getInstance()->optimizeTables($logTables);
+
+        return $complete;
+    }
+
+    /**
+     * Deletes the unused actions only, e.g. to retry a purge that stopped early (SQLite only) when no visits are
+     * due for deletion.
+     *
+     * @return bool false when the purge stopped before it was done (SQLite only), else true
+     */
+    public function purgeUnusedLogActions(): bool
+    {
+        $complete = $this->deleteUnusedLogActions();
+
+        Db\Schema::getInstance()->optimizeTables(self::getDeleteTableLogTables());
+
+        return $complete;
+    }
+
+    private function deleteUnusedLogActions(): bool
+    {
+        if (!Db::isLockPrivilegeGranted()) {
+            $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
+            Log::warning($logMessage);
+            return true;
+        }
+
+        return $this->rawLogDao->deleteUnusedLogActions() !== false;
     }
 
     /**

@@ -80,6 +80,9 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
     public function testGetArchiveIdsHandlesCutOffGroupConcat()
     {
+        if (Fixture::isSqlite()) {
+            $this->markTestSkipped("SQLite's group_concat() has no length limit to cut off at");
+        }
         Db::get()->query('SET SESSION group_concat_max_len=' . 20);
 
         $archiveRows =                 [

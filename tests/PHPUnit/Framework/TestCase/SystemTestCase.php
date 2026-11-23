@@ -18,6 +18,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\DbHelper;
 use Piwik\Http;
 use Piwik\Period;
@@ -792,9 +793,13 @@ abstract class SystemTestCase extends TestCase
     protected static function getDbTablesWithData()
     {
         $result = array();
-        $tables = Db::fetchAll('SHOW TABLES'); // tests should be in a clean database, so we can just get all tables
-        if (!empty($tables)) {
-            $tables = array_column($tables, key($tables[0]));
+        if (Fixture::isSqlite()) {
+            $tables = Db::get()->listTables();
+        } else {
+            $tables = Db::fetchAll('SHOW TABLES'); // tests should be in a clean database, so we can just get all tables
+            if (!empty($tables)) {
+                $tables = array_column($tables, key($tables[0]));
+            }
         }
         foreach ($tables as $tableName) {
             $result[$tableName] = Db::fetchAll("SELECT * FROM `$tableName`");
@@ -810,13 +815,17 @@ abstract class SystemTestCase extends TestCase
      */
     protected static function restoreDbTables($tables)
     {
-        $db = Db::fetchOne("SELECT DATABASE()");
-        if (empty($db)) {
-            Db::exec("USE " . Config::getInstance()->database_tests['dbname']);
+        $isSqlite = Fixture::isSqlite();
+        if (!$isSqlite) {
+            $db = Db::fetchOne("SELECT DATABASE()");
+            if (empty($db)) {
+                Db::exec("USE " . Config::getInstance()->database_tests['dbname']);
+            }
         }
 
         $statesBeforeInsert = null;
-        if (getenv('MATOMO_TESTS_TRUNCATE_ALL')) {
+        if ($isSqlite || getenv('MATOMO_TESTS_TRUNCATE_ALL')) {
+            // SQLite: emptying every table is cheap, and there are no write counters to skip unchanged ones
             DbHelper::truncateAllTables();
             $tablesToReset = null;
         } else {
@@ -845,18 +854,26 @@ abstract class SystemTestCase extends TestCase
         }
 
         // insert data
-        $archiveTables = Db::fetchAll("SHOW TABLES LIKE '%archive_%'");
-        if (!empty($archiveTables)) {
-            $archiveTables = array_column($archiveTables, key($archiveTables[0]));
+        if ($isSqlite) {
+            $archiveTables = Schema::getInstance()->getTablesLike('%archive_%');
+        } else {
+            $archiveTables = Db::fetchAll("SHOW TABLES LIKE '%archive_%'");
+            if (!empty($archiveTables)) {
+                $archiveTables = array_column($archiveTables, key($archiveTables[0]));
+            }
         }
         foreach ($tables as $table => $rows) {
             // create table if it's an archive table
             if (str_contains($table, 'archive_') && !in_array($table, $archiveTables)) {
                 $tableType = str_contains($table, 'archive_numeric') ? 'archive_numeric' : 'archive_blob';
 
-                $createSql = DbHelper::getTableCreateSql($tableType);
-                $createSql = str_replace(Common::prefixTable($tableType), $table, $createSql);
-                Db::query($createSql);
+                if ($isSqlite) {
+                    Schema::getInstance()->createTableFromTemplate($tableType, $table);
+                } else {
+                    $createSql = DbHelper::getTableCreateSql($tableType);
+                    $createSql = str_replace(Common::prefixTable($tableType), $table, $createSql);
+                    Db::query($createSql);
+                }
             }
 
             if (empty($rows) || ($tablesToReset !== null && !isset($tablesToReset[$table]))) {

@@ -59,8 +59,8 @@ class ActionsTest extends IntegrationTestCase
     private function insertTestActions()
     {
         Db::query("INSERT INTO " . Common::prefixTable('log_action') . " (name, type, hash)
-                        VALUES ('action1', 1, CRC32('action1')),
-                               ('action2', 1, CRC32('action2')),
-                               ('action3', 1, CRC32('action3'))");
+                        VALUES ('action1', 1, " . crc32('action1') . "),
+                               ('action2', 1, " . crc32('action2') . "),
+                               ('action3', 1, " . crc32('action3') . ")");
     }
 }

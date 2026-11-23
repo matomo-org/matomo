@@ -14,7 +14,11 @@ use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db\IndexHintInterface;
+use Piwik\Db\QueryCapabilitiesInterface;
 use Piwik\Db\SchemaInterface;
+use Piwik\Db\SqlDialectInterface;
+use Piwik\Db\SqlFunctionsInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
@@ -26,7 +30,7 @@ use Piwik\Version;
 /**
  * MySQL schema
  */
-class Mysql implements SchemaInterface
+class Mysql implements SchemaInterface, SqlDialectInterface, QueryCapabilitiesInterface, IndexHintInterface, SqlFunctionsInterface
 {
     public const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
     public const MAX_TABLE_NAME_LENGTH = 64;
@@ -656,6 +660,136 @@ class Mysql implements SchemaInterface
     }
 
     /**
+     * Returns the statements creating a table from a definition in MySQL syntax (the columns and keys
+     * between the parentheses of `CREATE TABLE`).
+     *
+     * @param string $tableName the prefixed table name
+     * @return string[]
+     */
+    public function getCreateTableSql(string $tableName, string $createDefinition): array
+    {
+        return [sprintf('CREATE TABLE `%s` (%s) %s', $tableName, $createDefinition, $this->getTableCreateOptions())];
+    }
+
+    /**
+     * Returns the statements applying `ALTER TABLE` specifications, e.g. `ADD COLUMN name VARCHAR(10) NULL`,
+     * to a table: one statement for all of them, or one each if the database needs it.
+     *
+     * @param string   $tableName      the prefixed table name
+     * @param string[] $specifications in MySQL syntax
+     * @return string[]
+     */
+    public function getAlterTableSql(string $tableName, array $specifications): array
+    {
+        if ($this->supportsComplexColumnUpdates()) {
+            return ['ALTER TABLE `' . $tableName . '` ' . implode(', ', $specifications)];
+        }
+
+        $statements = [];
+        foreach ($specifications as $specification) {
+            $statements[] = 'ALTER TABLE `' . $tableName . '` ' . $specification;
+        }
+
+        return $statements;
+    }
+
+    /**
+     * Runs MySQL `ALTER TABLE` specifications on the current connection, as `getAlterTableSql()` gives them.
+     */
+    public function alterTable(string $tableName, array $specifications): void
+    {
+        foreach ($this->getAlterTableSql($tableName, $specifications) as $sql) {
+            Db::exec($sql);
+        }
+    }
+
+    /**
+     * Takes a named lock for the current connection, waiting up to `$timeoutSeconds` (`GET_LOCK()`).
+     */
+    public function getNamedLock(string $name, int $timeoutSeconds): bool
+    {
+        return Db::get()->fetchOne('SELECT GET_LOCK(?, ?)', [$name, $timeoutSeconds]) == '1';
+    }
+
+    /**
+     * Releases a named lock the current connection holds (`RELEASE_LOCK()`).
+     */
+    public function releaseNamedLock(string $name): bool
+    {
+        return Db::get()->fetchOne('SELECT RELEASE_LOCK(?)', [$name]) == '1';
+    }
+
+    /**
+     * Whether no connection holds a named lock (`IS_FREE_LOCK()`).
+     */
+    public function isNamedLockFree(string $name): bool
+    {
+        return (bool) Db::get()->fetchOne('SELECT IS_FREE_LOCK(?)', [$name]);
+    }
+
+    /**
+     * Returns the names of the tables matching a `LIKE` pattern, in which `\` escapes `%` and `_`.
+     *
+     * @return string[]
+     */
+    public function getTablesLike(string $pattern): array
+    {
+        self::checkTablesLikePattern($pattern);
+
+        // SHOW can't have a placeholder when prepared on the server (MYSQLI) and tracker connections
+        // have no quote(). Quotes are doubled, and the pattern has no backslash but before % or _,
+        // where both SQL modes keep it as LIKE needs it, so the literal means the same in both.
+        $escaped = str_replace("'", "''", $pattern);
+        $sql = "SHOW TABLES LIKE '" . $escaped . "'";
+        $db = $this->getDb();
+        if (method_exists($db, 'fetchCol')) {
+            // whatever the adapter's fetch mode
+            return array_map('strval', $db->fetchCol($sql));
+        }
+
+        // the MYSQLI tracker connection, which fetches associative arrays
+        return array_map(function ($row) {
+            return (string) reset($row);
+        }, $db->fetchAll($sql));
+    }
+
+    /**
+     * @throws \InvalidArgumentException for a backslash not escaping `%` or `_`, whose meaning would
+     *                                   depend on MySQL's SQL mode
+     */
+    protected static function checkTablesLikePattern(string $pattern): void
+    {
+        if (preg_match('/\\\\(?![%_])/', $pattern)) {
+            throw new \InvalidArgumentException('A backslash in a table name pattern must escape % or _.');
+        }
+    }
+
+    /**
+     * Whether a table has an index with the given name (`PRIMARY` for the primary key).
+     */
+    public function tableHasIndex(string $tableName, string $indexName): bool
+    {
+        $result = $this->getDb()->fetchOne('SHOW INDEX FROM `' . $tableName . '` WHERE Key_name = ?', [$indexName]);
+
+        return !empty($result);
+    }
+
+    /**
+     * Creates a table with the definition of one of Matomo's tables, e.g. a monthly archive table.
+     *
+     * @param string $templateNameWithoutPrefix e.g. `archive_numeric`
+     * @param string $tableName                 the prefixed name of the table to create
+     * @throws Exception if the table already exists (error 1050)
+     */
+    public function createTableFromTemplate(string $templateNameWithoutPrefix, string $tableName): void
+    {
+        $sql = $this->getTableCreateSql($templateNameWithoutPrefix);
+        $sql = str_replace(Common::prefixTable($templateNameWithoutPrefix), $tableName, $sql);
+
+        $this->getDb()->query($sql);
+    }
+
+    /**
      * Drop database
      */
     public function dropDatabase($dbName = null)
@@ -695,7 +829,7 @@ class Mysql implements SchemaInterface
         // The anonymous user is the user that is assigned by default
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
-        $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
+        $db->query($this->getInsertIgnoreSql() . " INTO " . Common::prefixTable("user") . "
                     (`login`, `password`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`,
                     `idchange_last_viewed`)
                     VALUES ( 'anonymous', '', 'anonymous@example.org', '', 0, '$now', '$now' , NULL);");
@@ -868,6 +1002,172 @@ class Mysql implements SchemaInterface
     public function supportsSortingInSubquery(): bool
     {
         return true;
+    }
+
+    public function supportsWindowFunctions(): bool
+    {
+        // MySQL 8 and MariaDB support window functions, but ranking queries keep the user-variable
+        // counters here: switching MySQL and MariaDB over is a separate, deliberately tested change.
+        return false;
+    }
+
+    public function supportsGroupByWithRollup(): bool
+    {
+        return true;
+    }
+
+    public function getInsertIgnoreSql(): string
+    {
+        return 'INSERT IGNORE';
+    }
+
+    public function getOnDuplicateKeyUpdateSql(): string
+    {
+        return 'ON DUPLICATE KEY UPDATE';
+    }
+
+    public function getInsertedValueSql(string $column): string
+    {
+        return 'VALUES(' . $column . ')';
+    }
+
+    public function getDateTimeIntervalSql(string $datetime, string $operator, string $amount, string $unit): string
+    {
+        self::checkInterval($operator, $unit);
+
+        return $datetime . ' ' . $operator . ' INTERVAL ' . $amount . ' ' . strtoupper($unit);
+    }
+
+    public function getCreateTemporaryTableSql(string $tableName, string $definition, string $tableOptions = ''): string
+    {
+        return 'CREATE TEMPORARY TABLE ' . $tableName . ' (' . $definition . ') ' . $tableOptions;
+    }
+
+    public function getDropTemporaryTableSql(string $tableName): string
+    {
+        return 'DROP TEMPORARY TABLE IF EXISTS ' . $tableName;
+    }
+
+    public function getTemporaryTableFilledSql(string $tableName): array
+    {
+        // InnoDB and MEMORY tables keep their row count up to date
+        return [];
+    }
+
+    protected static function checkInterval(string $operator, string $unit): void
+    {
+        if (!in_array($operator, ['+', '-'], true) || !in_array(strtoupper($unit), ['SECOND', 'MINUTE', 'HOUR', 'DAY'], true)) {
+            throw new \InvalidArgumentException(sprintf('Unsupported interval: %s %s', $operator, $unit));
+        }
+    }
+
+    public function getHourSql(string $datetime): string
+    {
+        return 'HOUR(' . $datetime . ')';
+    }
+
+    public function getDayOfWeekSql(string $datetime): string
+    {
+        return 'DAYOFWEEK(' . $datetime . ')';
+    }
+
+    public function getDatePartSql(string $part, string $datetime): string
+    {
+        if (!in_array($part, ['MINUTE', 'SECOND', 'DAYOFMONTH', 'DAYOFYEAR', 'MONTH', 'QUARTER', 'YEAR', 'WEEKOFYEAR'], true)) {
+            throw new \InvalidArgumentException('Unsupported date part: ' . $part);
+        }
+
+        return $part . '(' . $datetime . ')';
+    }
+
+    public function getIntegerSql(string $expression): string
+    {
+        return $expression;
+    }
+
+    public function getUnixTimestampSql(string $datetime = ''): string
+    {
+        return 'UNIX_TIMESTAMP(' . $datetime . ')';
+    }
+
+    public function getCurrentDateTimeSql(): string
+    {
+        return 'NOW()';
+    }
+
+    public function getCharLengthSql(string $expression): string
+    {
+        return 'CHAR_LENGTH(' . $expression . ')';
+    }
+
+    public function getSecondsBetweenSql(string $from, string $to): string
+    {
+        return 'TIMESTAMPDIFF(SECOND, ' . $from . ', ' . $to . ')';
+    }
+
+    public function getGreatestSql(string ...$expressions): string
+    {
+        if (count($expressions) < 2) {
+            throw new \InvalidArgumentException('At least two expressions are needed.');
+        }
+
+        return 'GREATEST(' . implode(', ', $expressions) . ')';
+    }
+
+    public function getLeastSql(string ...$expressions): string
+    {
+        if (count($expressions) < 2) {
+            throw new \InvalidArgumentException('At least two expressions are needed.');
+        }
+
+        return 'LEAST(' . implode(', ', $expressions) . ')';
+    }
+
+    public function getRowLockSql(bool $exclusive = true): string
+    {
+        return $exclusive ? ' FOR UPDATE' : ' LOCK IN SHARE MODE';
+    }
+
+    public function getTruncateTableSql(string $tableName): string
+    {
+        return 'TRUNCATE TABLE `' . $tableName . '`';
+    }
+
+    public function getNullSafeEqualSql(string $left, string $right): string
+    {
+        return $left . ' <=> ' . $right;
+    }
+
+    public function getNoTableSql(): string
+    {
+        return ' FROM DUAL';
+    }
+
+    public function getStraightJoinSql(): string
+    {
+        return 'STRAIGHT_JOIN';
+    }
+
+    public function getGroupConcatSql(string $expression, string $orderBy = '', string $separator = ','): string
+    {
+        if (strpbrk($separator, "'\"\\") !== false) {
+            throw new \InvalidArgumentException('The GROUP_CONCAT separator must not contain quotes or backslashes.');
+        }
+
+        $orderBy = $orderBy === '' ? '' : ' ORDER BY ' . $orderBy;
+
+        return 'GROUP_CONCAT(' . $expression . $orderBy . " SEPARATOR '" . $separator . "')";
+    }
+
+    public function getLikeEscapeSql(): string
+    {
+        // backslash is MySQL's default LIKE escape character
+        return '';
+    }
+
+    public function getIndexHintSql(string $indexName, bool $force = true): string
+    {
+        return ($force ? ' FORCE INDEX (' : ' USE INDEX (') . $indexName . ')';
     }
 
     public function getSupportedReadIsolationTransactionLevel(): string

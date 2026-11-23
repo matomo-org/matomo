@@ -13,7 +13,7 @@ namespace Piwik\Updater\Migration\Db;
  * @see Factory::addIndex()
  * @ignore
  */
-class AddIndex extends Sql
+class AddIndex extends AlterTable
 {
     protected $indexType = 'INDEX';
     protected $indexNamePrefix = 'index';
@@ -46,8 +46,8 @@ class AddIndex extends Sql
             $indexName = $this->indexNamePrefix . '_' . implode('_', $columnNamesOnly);
         }
 
-        $sql = sprintf("ALTER TABLE `%s` ADD %s %s (%s)", $table, $this->indexType, $indexName, implode(', ', $columns));
+        $specification = sprintf("ADD %s %s (%s)", $this->indexType, $indexName, implode(', ', $columns));
 
-        parent::__construct($sql, array(static::ERROR_CODE_DUPLICATE_KEY, static::ERROR_CODE_KEY_COLUMN_NOT_EXISTS));
+        parent::__construct($table, [$specification], array(static::ERROR_CODE_DUPLICATE_KEY, static::ERROR_CODE_KEY_COLUMN_NOT_EXISTS));
     }
 }

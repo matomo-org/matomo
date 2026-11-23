@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\AdapterInterface;
+use Piwik\Db\Sqlite\Connection;
 
 /**
  * Used for generating auto increment ids.
@@ -77,9 +78,10 @@ class Sequence
      */
     public function exists()
     {
-        $query = $this->db->query('SELECT * FROM `' . $this->table . '` WHERE name = ?', $this->name);
+        // a SELECT's row count is undefined in PDO, and 0 on SQLite
+        $query = $this->db->query('SELECT 1 FROM `' . $this->table . '` WHERE name = ?', $this->name);
 
-        return $query->rowCount() > 0;
+        return $query->fetchColumn() !== false;
     }
 
     /**
@@ -91,9 +93,27 @@ class Sequence
      */
     public function getNextId()
     {
-        $sql   = 'UPDATE ' . $this->table . ' SET value = LAST_INSERT_ID(value + 1) WHERE name = ?';
+        // SQLite lacks LAST_INSERT_ID(expr): RETURNING reads the value in the same, atomic, statement
+        $isSqlite = Connection::isSqliteConnection($this->db);
+        if ($isSqlite) {
+            // bounded: past the maximum, SQLite would store a REAL and repeat ids, where MySQL fails
+            $sql = 'UPDATE `' . $this->table . '` SET value = value + 1 WHERE name = ? AND value < ' . PHP_INT_MAX . ' RETURNING value';
+        } else {
+            $sql = 'UPDATE ' . $this->table . ' SET value = LAST_INSERT_ID(value + 1) WHERE name = ?';
+        }
 
-        $result   = $this->db->query($sql, array($this->name));
+        $result = $this->db->query($sql, array($this->name));
+
+        if ($isSqlite) {
+            $rows = $result->fetchAll(\PDO::FETCH_NUM);
+            if (count($rows) !== 1) {
+                $message = $this->exists() ? "Sequence '" . $this->name . "' is exhausted." : "Sequence '" . $this->name . "' not found.";
+                throw new Exception($message);
+            }
+
+            return (int) $rows[0][0];
+        }
+
         $rowCount = $result->rowCount();
 
         if (1 !== $rowCount) {

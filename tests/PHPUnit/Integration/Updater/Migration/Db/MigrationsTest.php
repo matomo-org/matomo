@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\Updater\Migration\Db;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater\Migration\Db\Factory;
 
@@ -131,7 +132,7 @@ class MigrationsTest extends IntegrationTestCase
     {
         $this->factory->addPrimaryKey($this->testTable, array('column3'))->exec();
 
-        $index = Db::fetchAll("SHOW INDEX FROM {$this->testTablePrefixed} WHERE Key_name = 'PRIMARY'");
+        $index = $this->getIndexesDefinedOnTable('PRIMARY');
 
         $this->assertCount(1, $index);
         $this->assertSame('column3', $index[0]['Column_name']);
@@ -142,12 +143,12 @@ class MigrationsTest extends IntegrationTestCase
      */
     public function testDropPrimaryKey()
     {
-        $index = Db::fetchAll("SHOW INDEX FROM {$this->testTablePrefixed} WHERE Key_name = 'PRIMARY'");
+        $index = $this->getIndexesDefinedOnTable('PRIMARY');
         $this->assertCount(1, $index);
 
         $this->factory->dropPrimaryKey($this->testTable)->exec();
 
-        $index = Db::fetchAll("SHOW INDEX FROM {$this->testTablePrefixed} WHERE Key_name = 'PRIMARY'");
+        $index = $this->getIndexesDefinedOnTable('PRIMARY');
         $this->assertCount(0, $index);
     }
 
@@ -175,7 +176,8 @@ class MigrationsTest extends IntegrationTestCase
 
         $row = $this->fetchRow();
 
-        $values['column2'] = 32767; // because we changed type to smallint before
+        // because we changed type to smallint before; SQLite integers have no narrower range
+        $values['column2'] = Fixture::isSqlite() ? 554934 : 32767;
         $this->assertEquals($values, $row);
     }
 
@@ -184,7 +186,11 @@ class MigrationsTest extends IntegrationTestCase
      */
     public function testSql()
     {
-        $this->factory->sql("ALTER TABLE {$this->testTablePrefixed} CHANGE COLUMN `column2` `column5` SMALLINT(4) NOT NULL")->exec();
+        // a raw statement is the engine's own SQL
+        $sql = Fixture::isSqlite()
+            ? "ALTER TABLE {$this->testTablePrefixed} RENAME COLUMN `column2` TO `column5`"
+            : "ALTER TABLE {$this->testTablePrefixed} CHANGE COLUMN `column2` `column5` SMALLINT(4) NOT NULL";
+        $this->factory->sql($sql)->exec();
 
         $this->assertSame(array('column1', 'column5', 'column3'), $this->getInstalledColumnNames());
     }
@@ -273,7 +279,7 @@ class MigrationsTest extends IntegrationTestCase
 
     private function getInstalledTable()
     {
-        return Db::fetchAll("SHOW TABLES LIKE '{$this->testTablePrefixed}'");
+        return DbHelper::tableExists($this->testTablePrefixed);
     }
 
     private function getInstalledColumnNames()
@@ -282,8 +288,36 @@ class MigrationsTest extends IntegrationTestCase
         return array_keys($columns);
     }
 
-    private function getIndexesDefinedOnTable()
+    /**
+     * @return array<array{Key_name: string, Column_name: string}> as SHOW INDEX lists them
+     */
+    private function getIndexesDefinedOnTable(?string $keyName = null)
     {
-        return Db::fetchAll("SHOW INDEX FROM {$this->testTablePrefixed}");
+        if (!Fixture::isSqlite()) {
+            $where = $keyName === null ? '' : " WHERE Key_name = '$keyName'";
+            return Db::fetchAll("SHOW INDEX FROM {$this->testTablePrefixed}$where");
+        }
+
+        // the primary key, then the other indexes, named table.index
+        $indexes = [];
+        foreach (Db::fetchAll('SELECT name FROM pragma_table_info(?) WHERE pk > 0 ORDER BY pk', [$this->testTablePrefixed]) as $column) {
+            $indexes[] = ['Key_name' => 'PRIMARY', 'Column_name' => $column['name']];
+        }
+        $rows = Db::fetchAll(
+            "SELECT il.name AS index_name, ii.name AS column_name FROM pragma_index_list(?) il, pragma_index_info(il.name) ii"
+            . " WHERE il.origin = 'c' ORDER BY il.name, ii.seqno",
+            [$this->testTablePrefixed]
+        );
+        foreach ($rows as $row) {
+            $name = substr($row['index_name'], strlen($this->testTablePrefixed) + 1);
+            // a primary key on column prefixes adds a unique index on them, listed already as the primary key
+            if ($name !== 'PRIMARY') {
+                $indexes[] = ['Key_name' => $name, 'Column_name' => $row['column_name']];
+            }
+        }
+
+        return array_values(array_filter($indexes, function ($index) use ($keyName) {
+            return $keyName === null || $index['Key_name'] === $keyName;
+        }));
     }
 }

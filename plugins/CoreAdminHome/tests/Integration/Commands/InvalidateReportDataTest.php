@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\API as CustomDimensionsAPI;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
@@ -56,7 +57,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     {
         parent::setUp();
         self::$captureHandler->messages = [];
-        Db::query('TRUNCATE table ' . Common::prefixTable('archive_invalidations'));
+        Db::truncateTable(Common::prefixTable('archive_invalidations'));
     }
 
     protected function tearDown(): void
@@ -513,7 +514,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
      */
     public function testCommandCreatesExpectedInvalidations(array $commandOptions, array $expectedInvalidations)
     {
-        Db::query('TRUNCATE table ' . Common::prefixTable('archive_invalidations'));
+        Db::truncateTable(Common::prefixTable('archive_invalidations'));
 
         $commandOptions = array_merge(['command' => 'core:invalidate-report-data'], $commandOptions);
 
@@ -1009,9 +1010,10 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
     public function testCommandWarnsAboutGivenUpArchives()
     {
         $table = Common::prefixTable('archive_failures');
+        $now = Schema::getInstance()->getCurrentDateTimeSql();
         Db::query(
             "INSERT INTO `$table` (idsite, period, date1, date2, archive_hash, name, `report`, attempts, last_error, ts_first_failed, ts_last_failed, ts_retry_after)
-                  VALUES (1, 1, '2019-03-05', '2019-03-05', ?, 'done', '', 5, 'error', NOW(), NOW(), NOW())",
+                  VALUES (1, 1, '2019-03-05', '2019-03-05', ?, 'done', '', 5, 'error', $now, $now, $now)",
             [md5('done|')]
         );
 

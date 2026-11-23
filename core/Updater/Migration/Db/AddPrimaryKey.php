@@ -13,7 +13,7 @@ namespace Piwik\Updater\Migration\Db;
  * @see Factory::addPrimaryKey()
  * @ignore
  */
-class AddPrimaryKey extends Sql
+class AddPrimaryKey extends AlterTable
 {
     /**
      * AddPrimaryKey constructor.
@@ -22,8 +22,9 @@ class AddPrimaryKey extends Sql
      */
     public function __construct($table, $columnNames)
     {
-        $sql = sprintf("ALTER TABLE `%s` ADD PRIMARY KEY(`%s`)", $table, implode('`, `', $columnNames));
+        $specification = sprintf("ADD PRIMARY KEY(`%s`)", implode('`, `', $columnNames));
+        $sql = sprintf("ALTER TABLE `%s` %s", $table, $specification);
 
-        parent::__construct($sql, array(static::ERROR_CODE_DUPLICATE_KEY, static::ERROR_CODE_DUPLICATE_PRIMARY_KEY, static::ERROR_CODE_KEY_COLUMN_NOT_EXISTS));
+        parent::__construct($table, [$specification], array(static::ERROR_CODE_DUPLICATE_KEY, static::ERROR_CODE_DUPLICATE_PRIMARY_KEY, static::ERROR_CODE_KEY_COLUMN_NOT_EXISTS), $sql);
     }
 }

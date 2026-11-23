@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -26,6 +27,16 @@ class ServerTime extends ActionDimension
     protected $sqlSegment = 'HOUR(log_link_visit_action.server_time)';
     protected $nameSingular = 'VisitTime_ColumnSiteHour';
     protected $type = self::TYPE_DATETIME;
+
+    public function getSqlSegment()
+    {
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, is spelled by the database in use
+        if ($this->sqlSegment === 'HOUR(log_link_visit_action.server_time)') {
+            return Schema::getInstance()->getHourSql('log_link_visit_action.server_time');
+        }
+
+        return parent::getSqlSegment();
+    }
 
     public function __construct()
     {

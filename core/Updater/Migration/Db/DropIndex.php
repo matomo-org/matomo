@@ -13,7 +13,7 @@ namespace Piwik\Updater\Migration\Db;
  * @see Factory::dropIndex()
  * @ignore
  */
-class DropIndex extends Sql
+class DropIndex extends AlterTable
 {
     /**
      * @param string $table Prefixed table name
@@ -21,8 +21,8 @@ class DropIndex extends Sql
      */
     public function __construct($table, $indexName)
     {
-        $sql = sprintf('ALTER TABLE `%s` DROP INDEX `%s`', $table, $indexName);
+        $specification = sprintf('DROP INDEX `%s`', $indexName);
 
-        parent::__construct($sql, array(static::ERROR_CODE_COLUMN_NOT_EXISTS));
+        parent::__construct($table, [$specification], array(static::ERROR_CODE_COLUMN_NOT_EXISTS));
     }
 }

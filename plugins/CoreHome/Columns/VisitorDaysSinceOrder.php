@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Db\Schema;
 use Piwik\Plugin\Dimension\VisitDimension;
 
 class VisitorDaysSinceOrder extends VisitDimension
@@ -19,4 +20,14 @@ class VisitorDaysSinceOrder extends VisitDimension
     protected $columnName = 'visitor_seconds_since_order';
     protected $sqlSegment = 'FLOOR(log_visit.visitor_seconds_since_order / 86400)';
     protected $segmentName = 'daysSinceLastEcommerceOrder';
+
+    public function getSqlSegment()
+    {
+        // the declared MySQL expression, unless a subclass or setSqlSegment() replaced it, compares as a number
+        if ($this->sqlSegment === 'FLOOR(log_visit.visitor_seconds_since_order / 86400)') {
+            return Schema::getInstance()->getIntegerSql($this->sqlSegment);
+        }
+
+        return parent::getSqlSegment();
+    }
 }

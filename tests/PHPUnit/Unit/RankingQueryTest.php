@@ -11,6 +11,7 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Db\Schema;
 use Piwik\RankingQuery;
+use Piwik\Tests\Framework\MysqlSqlExpectationsTrait;
 
 /**
  * @group Core
@@ -18,6 +19,20 @@ use Piwik\RankingQuery;
  */
 class RankingQueryTest extends \PHPUnit\Framework\TestCase
 {
+    use MysqlSqlExpectationsTrait;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->useMysqlSchemaIfSqlite();
+    }
+
+    public function tearDown(): void
+    {
+        $this->restoreSchemaAfterMysqlExpectations();
+        parent::tearDown();
+    }
+
     public function testBasic(): void
     {
         $query = new RankingQuery();

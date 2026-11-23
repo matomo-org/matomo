@@ -12,6 +12,7 @@ namespace Piwik\DataAccess\LogQueryBuilder;
 use Exception;
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
+use Piwik\Db\Schema;
 use Piwik\Tracker\LogTable;
 
 class JoinGenerator
@@ -179,7 +180,7 @@ class JoinGenerator
 
                 // Force the use of the index if an index was provided
                 if (!empty($useIndex)) {
-                    $this->joinString .= " USE INDEX ($useIndex)";
+                    $this->joinString .= Schema::getInstance()->getIndexHintSql($useIndex, false);
                 }
             } else {
                 $join = $this->findJoinCriteriasForTables($logTable, $availableLogTables);

@@ -13,12 +13,12 @@ namespace Piwik\Updater\Migration\Db;
  * @see Factory::dropColumn()
  * @ignore
  */
-class DropColumn extends Sql
+class DropColumn extends AlterTable
 {
     public function __construct($table, $columnName)
     {
-        $sql = sprintf("ALTER TABLE `%s` DROP COLUMN `%s`", $table, $columnName);
+        $specification = sprintf("DROP COLUMN `%s`", $columnName);
 
-        parent::__construct($sql, static::ERROR_CODE_COLUMN_NOT_EXISTS);
+        parent::__construct($table, [$specification], static::ERROR_CODE_COLUMN_NOT_EXISTS);
     }
 }

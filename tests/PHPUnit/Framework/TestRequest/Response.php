@@ -125,6 +125,7 @@ class Response
         $apiResponse = $this->removeXmlFields($apiResponse);
         $apiResponse = $this->removeTodaysDate($apiResponse);
         $apiResponse = $this->normalizeDecimalFields($apiResponse);
+        $apiResponse = $this->normalizeNumbersOnSqlite($apiResponse);
         $apiResponse = $this->normalizeEncodingPhp533($apiResponse);
         $apiResponse = $this->normalizeSpaces($apiResponse);
         $apiResponse = $this->replacePiwikUrl($apiResponse);
@@ -280,6 +281,87 @@ class Response
         $response = str_replace('.00</t', '</t', $response);
 
         return $response;
+    }
+
+    /**
+     * MySQL pads a DECIMAL to its column's scale (0.0620) and returns some sums as strings ("260");
+     * SQLite returns the shortest number (0.062, 260). On SQLite, both sides are compared by value: a
+     * decimal loses its trailing zeros, and in JSON a quoted number loses its quotes.
+     */
+    /**
+     * Fields whose values are names or identifiers, compared as they are even when they look like numbers.
+     */
+    private const SQLITE_UNNORMALIZED_FIELDS = [
+        'label', 'sku', 'idorder', 'orderId', 'name', 'title', 'url', 'segment', 'userId', 'visitorId', 'fingerprint',
+    ];
+
+    /**
+     * On SQLite, API values compare by value: MySQL returns some sums as strings ("260") and pads decimals to their
+     * column's scale (12.50), SQLite returns numbers (260, 12.5). Values of the fields above are left as they are.
+     */
+    private function normalizeNumbersOnSqlite($apiResponse)
+    {
+        if (!Fixture::isSqlite()) {
+            return $apiResponse;
+        }
+
+        $number = '-?(?:0|[1-9]\d*)(?:\.\d+)?';
+        $isNormalized = function (?string $field) {
+            return !in_array($field, self::SQLITE_UNNORMALIZED_FIELDS, true);
+        };
+        $trimZeros = function ($value) {
+            return strpos($value, '.') === false ? $value : rtrim(rtrim($value, '0'), '.');
+        };
+
+        if (str_starts_with((string) ($this->requestUrl['format'] ?? ''), 'json')) {
+            // "field":"260" and array elements ["260"] become numbers; "field":12.50 becomes 12.5
+            return preg_replace_callback(
+                '/(?:"((?:[^"\\\\]|\\\\.)*)":|(?<=[\[,]))("?)(' . $number . ')\2(?=[,}\]])/',
+                function ($m) use ($isNormalized, $trimZeros) {
+                    // no key (null): an array element; an empty key stays a key
+                    $prefix = $m[1] !== null ? '"' . $m[1] . '":' : '';
+                    return $isNormalized($m[1]) ? $prefix . $trimZeros($m[3]) : $m[0];
+                },
+                $apiResponse,
+                -1,
+                $count,
+                PREG_UNMATCHED_AS_NULL
+            );
+        }
+
+        // XML elements: <revenue>12.50</revenue> becomes <revenue>12.5</revenue>
+        $apiResponse = preg_replace_callback(
+            '/<([\w:-]+)>(' . $number . ')<\/\1>/',
+            function ($m) use ($isNormalized, $trimZeros) {
+                return $isNormalized($m[1]) ? '<' . $m[1] . '>' . $trimZeros($m[2]) . '</' . $m[1] . '>' : $m[0];
+            },
+            $apiResponse
+        );
+
+        $format = (string) ($this->requestUrl['format'] ?? '');
+        if ($format !== 'csv' && $format !== 'tsv') {
+            return $apiResponse;
+        }
+
+        // CSV/TSV: the header names each column, so labels and identifiers are kept wherever they are
+        $delimiter = $format === 'tsv' ? "\t" : ',';
+        $lines = preg_split('/(\r?\n)/', $apiResponse, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $header = explode($delimiter, preg_replace('/^\xEF\xBB\xBF/', '', (string) $lines[0]));
+        for ($i = 2; $i < count($lines); $i += 2) {
+            if (strpos($lines[$i], '"') !== false) {
+                // a quoted field may hold the delimiter: left as it is
+                continue;
+            }
+            $fields = explode($delimiter, $lines[$i]);
+            foreach ($fields as $index => $field) {
+                if (preg_match('/^' . $number . '$/', $field) && $isNormalized($header[$index] ?? null)) {
+                    $fields[$index] = $trimZeros($field);
+                }
+            }
+            $lines[$i] = implode($delimiter, $fields);
+        }
+
+        return implode('', $lines);
     }
 
     private function normalizeSpaces($apiResponse)
