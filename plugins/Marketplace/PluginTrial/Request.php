@@ -14,8 +14,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\Marketplace\FeatureFlags\PluginRequests;
 use Piwik\Plugins\Marketplace\Emails\PluginRequestDecidedEmail;
 use Piwik\Plugins\Marketplace\Emails\RequestTrialNotificationEmail;
 use Piwik\Plugins\Marketplace\UserSettings;
@@ -183,11 +181,6 @@ class Request
      */
     private function sendDecisionEmails(Decision $decided, string $decision, ?string $note): void
     {
-        // activating a plugin approves its requests whether or not the flag is on, which only then tells the requesters
-        if (!StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(PluginRequests::class)) {
-            return;
-        }
-
         $requesters = StaticContainer::get(RequestHistory::class)->getRequesterEmails($decided);
         if (empty($requesters)) {
             return;

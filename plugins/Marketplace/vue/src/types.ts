@@ -86,8 +86,6 @@ export interface PluginCard {
   hasExceededLicense: boolean;
   isMissingLicense: boolean;
   isEligibleForFreeTrial: boolean;
-  isTrialRequested: boolean;
-  isTrialPending: boolean;
   canTrialBeRequested: boolean;
   // the next three are only sent to users who are not super users, while plugin requests are active
   canInstallBeRequested?: boolean;

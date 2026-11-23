@@ -11,10 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Marketplace;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\Marketplace\FeatureFlags\PluginRequests;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\UserSetting;
 
@@ -54,15 +51,10 @@ class UserSettings extends \Piwik\Settings\Plugin\UserSettings
         );
 
         // only super users are sent plugin request emails, and only other users request plugins
-        if (!Piwik::hasUserSuperUserAccess()) {
-            $this->notifyOnPluginRequest->setIsWritableByCurrentUser(false);
-        }
-
-        if (
-            Piwik::hasUserSuperUserAccess()
-            || !StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(PluginRequests::class)
-        ) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $this->notifyOnPluginRequestDecision->setIsWritableByCurrentUser(false);
+        } else {
+            $this->notifyOnPluginRequest->setIsWritableByCurrentUser(false);
         }
     }
 }

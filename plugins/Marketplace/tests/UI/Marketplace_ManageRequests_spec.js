@@ -17,7 +17,6 @@ describe('Marketplace_ManageRequests', function () {
 
   before(function () {
     testEnvironment.overrideConfig('General', 'enable_plugins_admin', '1');
-    testEnvironment.overrideConfig('FeatureFlags', 'PluginRequests_feature', 'enabled');
 
     // a valid license key whose account licenses no plugin, so PaidPlugin1 is trial eligible
     testEnvironment.consumer = 'validLicenseNoPlugins';
@@ -33,7 +32,6 @@ describe('Marketplace_ManageRequests', function () {
     delete testEnvironment.fakeIdentity;
     delete testEnvironment.idSitesViewAccess;
     delete testEnvironment.mockMarketplaceApiService;
-    delete testEnvironment.configOverride.FeatureFlags;
 
     // the request leaves PaidPlugin1 pending, which sibling specs sharing this fixture's data would show
     testEnvironment.optionsOverride = testEnvironment.optionsOverride || {};

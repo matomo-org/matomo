@@ -15,8 +15,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\Marketplace\FeatureFlags\PluginRequests;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Session;
 use Piwik\Session\SessionNamespace;
@@ -128,18 +126,6 @@ final class Service
     }
 
     /**
-     * Returns if any user's request for a plugin is pending, so super users were already notified of it
-     */
-    public function isPending(string $pluginName): bool
-    {
-        if (!$this->isEnabled()) {
-            return false;
-        }
-
-        return (new Storage($pluginName))->wasRequested();
-    }
-
-    /**
      * Returns if any of a plugin's requests is still to be decided, including one recorded without making the plugin
      * pending, see Storage::hasPendingRequests()
      */
@@ -166,8 +152,7 @@ final class Service
     }
 
     /**
-     * Creates the notifications of plugin requests for super users, and while requests are active, of decisions for
-     * the users who requested
+     * Creates the notifications of plugin requests for super users, and of decisions for the users who requested
      *
      * @throws Exception
      */
@@ -183,9 +168,8 @@ final class Service
             $session->checkedLogin = null;
         }
 
-        $requestsActive = $this->areRequestsActive();
-        if ($session !== null && !$requestsActive) {
-            // persistent, so one shown while requests were active would otherwise stay
+        if ($session !== null && !$this->isEnabled()) {
+            // persistent, so one shown before the feature was turned off would otherwise stay
             DecisionNotifications::removeFromSession();
         }
         if ($session !== null && (!$this->isEnabled() || !Piwik::hasUserSuperUserAccess())) {
@@ -198,9 +182,6 @@ final class Service
         }
 
         $isSuperUser = Piwik::hasUserSuperUserAccess();
-        if (!$isSuperUser && !$requestsActive) {
-            return; // requesters are only told of decisions while requests are active
-        }
 
         // this runs on every request, so it is skipped while no request has changed since this session last checked
         $changeMarker = Storage::getChangeMarker();
@@ -208,8 +189,7 @@ final class Service
             $session !== null
             && $session->checkedMarker === $changeMarker
             && $session->checkedLogin === Piwik::getCurrentUserLogin()
-            // turning requests on or off, or a promotion, changes which notices are due without changing a request
-            && $session->checkedRequestsActive === $requestsActive
+            // a promotion changes which notices are due without changing a request
             && $session->checkedIsSuperUser === $isSuperUser
             && $session->checkedAt > time() - self::MAX_SECONDS_BETWEEN_CHECKS
             // activating a plugin outside the plugin manager, eg in the config, changes no request
@@ -242,36 +222,25 @@ final class Service
 
                 $checkedPlugins[] = $pluginName;
 
-                $trialRequest = new Notification($pluginName, $storage);
-                if (!$requestsActive) {
-                    $trialRequest->createNotificationIfNeeded($getSuperUsers);
-                    continue;
-                }
-
-                // one shown before requests were active
-                $trialRequest->removeFromSession();
+                // a per-plugin notice, as shown before the combined one, left in a session that outlived the update
+                (new Notification($pluginName, $storage))->removeFromSession();
                 if ($storage->wasRequested() && !$storage->isNotificationDismissed($getSuperUsers)) {
                     $requested[$pluginName] = $storage->getDisplayName();
                 }
             }
 
-            if (!$requestsActive) {
-                // its link leads to a page that is off now
-                RequestsNotification::removeFromSession();
-            } else {
-                $noticeId = RequestsNotification::notify($requested);
-                if ($session !== null && $noticeId !== null) {
-                    // dismissing a notice dismisses only the plugins it listed, not one requested since
-                    $lists = is_array($session->notifiedLists) ? $session->notifiedLists : [];
-                    unset($lists[$noticeId]);
-                    $lists[$noticeId] = array_keys($requested);
-                    $session->notifiedLists = array_slice($lists, -self::MAX_REMEMBERED_NOTICES, null, true);
-                }
+            $noticeId = RequestsNotification::notify($requested);
+            if ($session !== null && $noticeId !== null) {
+                // dismissing a notice dismisses only the plugins it listed, not one requested since
+                $lists = is_array($session->notifiedLists) ? $session->notifiedLists : [];
+                unset($lists[$noticeId]);
+                $lists[$noticeId] = array_keys($requested);
+                $session->notifiedLists = array_slice($lists, -self::MAX_REMEMBERED_NOTICES, null, true);
             }
         }
 
         // without a session no page displays the notices
-        if ($requestsActive && $session !== null) {
+        if ($session !== null) {
             // an approval waits for its plugin to be activated, which changes no request either
             $checkedPlugins = array_merge($checkedPlugins, DecisionNotifications::createIfNeeded());
         }
@@ -280,7 +249,6 @@ final class Service
         if ($session !== null && $allChecked && $superUsers === null) {
             $session->checkedMarker = $changeMarker;
             $session->checkedLogin = Piwik::getCurrentUserLogin();
-            $session->checkedRequestsActive = $requestsActive;
             $session->checkedIsSuperUser = $isSuperUser;
             $session->checkedPlugins = $checkedPlugins;
             $session->checkedAt = time();
@@ -412,15 +380,5 @@ final class Service
     public function isEnabled(): bool
     {
         return -1 !== GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
-    }
-
-    /**
-     * Returns if users can request free plugins and follow their requests: the PluginRequests feature is on, and
-     * requests are not turned off in the config
-     */
-    public function areRequestsActive(): bool
-    {
-        return $this->isEnabled()
-            && StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(PluginRequests::class);
     }
 }

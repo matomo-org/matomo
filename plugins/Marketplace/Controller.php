@@ -37,6 +37,7 @@ use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins\InvalidLicenses;
 use Piwik\Plugins\Marketplace\PluginTrial\RequestHistory;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
+use Piwik\Plugins\Marketplace\PluginTrial\Storage;
 use Piwik\Plugins\Marketplace\PluginTrial\UnsubscribeToken;
 use Piwik\ProxyHttp;
 use Piwik\Request;
@@ -210,7 +211,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function checkPluginRequestsActive(): void
     {
-        if (!$this->getPluginTrialService()->areRequestsActive()) {
+        if (!$this->getPluginTrialService()->isEnabled()) {
             // a feature that is off, as a report that is not enabled, rather than an error
             throw new NoPrivilegesException('Plugin requests are not enabled', 403);
         }
@@ -252,19 +253,29 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * Returns the current user's request of each plugin, or null while users cannot request plugins
      *
-     * @return array<string, array{plugin_name: string, request_type: string, message: string|null, ts_requested: string,
-     *                             decision: string|null, note: string|null}>|null the rows of
-     *                             RequestHistory::getRequestsOfLogin(), keyed by plugin name
+     * @return array<string, array{request_type: string, decision: string|null, ...}>|null keyed by plugin name: the
+     *         rows of RequestHistory::getRequestsOfLogin(), or before the update only these two keys
      */
     private function getPluginRequestsOfCurrentUser(): ?array
     {
-        if (Piwik::hasUserSuperUserAccess() || !$this->getPluginTrialService()->areRequestsActive()) {
+        if (Piwik::hasUserSuperUserAccess() || !$this->getPluginTrialService()->isEnabled()) {
             return null;
         }
 
-        $requests = StaticContainer::get(RequestHistory::class)->getRequestsOfLogin(Piwik::getCurrentUserLogin());
+        $history = StaticContainer::get(RequestHistory::class);
+        $requests = array_column($history->getRequestsOfLogin(Piwik::getCurrentUserLogin()), null, 'plugin_name');
+        if ($requests !== [] || $history->getLastDecisionId() !== null) {
+            return $requests;
+        }
 
-        return array_column($requests, null, 'plugin_name');
+        // until the 6.1.0-b1 update the history cannot be read, and a request is only in the plugin's option
+        foreach (Storage::getAllInStorage() as $pluginName => $storage) {
+            if ($storage->wasRequestedByCurrentUser()) {
+                $requests[$pluginName] = ['request_type' => $storage->getRequestType(), 'decision' => null];
+            }
+        }
+
+        return $requests;
     }
 
     private function getPluginTrialService(): PluginTrialService
@@ -402,7 +413,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->uploadLimit = SettingsServer::getPostMaxUploadSize();
         $view->inReportingMenu = (bool) Common::getRequestVar('embed', 0, 'int');
         $view->numUsers = $this->environment->getNumUsers();
-        $view->arePluginRequestsActive = !$view->isSuperUser && $this->getPluginTrialService()->areRequestsActive();
+        $view->arePluginRequestsActive = !$view->isSuperUser && $this->getPluginTrialService()->isEnabled();
 
         return $view->render();
     }
@@ -451,13 +462,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $plugin['downloadNonce'] = Nonce::getNonce(static::DOWNLOAD_NONCE_PREFIX . $plugin['name']);
             }
 
-            $plugin['isTrialRequested'] = false;
-            $plugin['isTrialPending'] = false;
             $plugin['canTrialBeRequested'] = false;
 
             if ($plugin['isEligibleForFreeTrial']) {
-                $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
-                $plugin['isTrialPending'] = StaticContainer::get(PluginTrialService::class)->isPending($plugin['name']);
                 $plugin['canTrialBeRequested'] = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0) !== -1;
             }
 
@@ -566,8 +573,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'isMissingLicense',
             'isEligibleForFreeTrial',
             'isNewBundle',
-            'isTrialRequested',
-            'isTrialPending',
             'canTrialBeRequested',
             'canInstallBeRequested',
             'requestType',
