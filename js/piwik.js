@@ -5569,7 +5569,11 @@ if (typeof window.Matomo !== 'object') {
              * Handlers can run while a tracking request is being built, so a handler that tracks
              * something itself should do so from a setTimeout(). A handler that throws is logged
              * and stops the handlers added after it from running for that change, so handlers
-             * should catch their own errors.
+             * should catch their own errors. A handler that removes itself with Matomo.off()
+             * makes the next handler miss that change, so remove it from a setTimeout() instead.
+             * Handlers can run before rememberConsentGiven() has stored the consent in its cookie.
+             * Each tracker that gets consent triggers the event once, so check which tracker it
+             * was given.
              *
              * @returns {boolean}
              */
