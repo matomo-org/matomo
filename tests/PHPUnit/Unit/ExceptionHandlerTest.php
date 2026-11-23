@@ -128,6 +128,40 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    /**
+     * @dataProvider getMessagesForResponseData
+     */
+    public function testGetMessageForResponseOnlyRewritesDatabaseServerMessages(string $message, string $expected)
+    {
+        $this->assertSame($expected, \Piwik\ExceptionHandler::getMessageForResponse(new \Exception($message)));
+    }
+
+    public function getMessagesForResponseData(): array
+    {
+        return [
+            'access denied' => [
+                "SQLSTATE[HY000] [1045] Access denied for user 'some'@'localhost' (using password: YES)",
+                "SQLSTATE[HY000] [1045] Access denied for user 'dbuser'@'localhost' (using password: YES)",
+            ],
+            'user name with a quote' => [
+                "INSERT command denied to user 'o'brien'@'10.0.0.1' for table 't'",
+                "INSERT command denied to user 'dbuser'@'10.0.0.1' for table 't'",
+            ],
+            'quoted value that looks like an account' => [
+                "The value 'some'@'thing' is not valid.",
+                "The value 'some'@'thing' is not valid.",
+            ],
+            'other text about a user and a limit' => [
+                'User some already has more than five reports.',
+                'User some already has more than five reports.',
+            ],
+            'other text about an exceeded limit' => [
+                "User 'some' has exceeded the limit.",
+                "User 'some' has exceeded the limit.",
+            ],
+        ];
+    }
+
     public function getSensitiveValuesData(): array
     {
         return [

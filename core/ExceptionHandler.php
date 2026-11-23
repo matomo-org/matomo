@@ -122,11 +122,14 @@ class ExceptionHandler
         // only the token, the salt and the root path are rewritten here
         $message = self::replaceSensitiveValues($exception->getMessage(), false);
 
-        // database errors name the account as 'user'@'host', resource limit errors only as the user
+        // only the messages the database server itself writes are rewritten, anything else is left alone
         $accountPatterns = [
-            "/'[^']*'@'/"                           => "'dbuser'@'",
-            "/User '[^']*' has exceeded the /"      => "User 'dbuser' has exceeded the ",
-            '/User .+? already has more than /'     => 'User dbuser already has more than ',
+            // Access denied for user 'u'@'h', SELECT command denied to user 'u'@'h' for table 't'
+            "/\\bdenied (for|to) user '.*?'@'/" => "denied $1 user 'dbuser'@'",
+            // User 'u' has exceeded the 'max_questions' resource
+            "/\\bUser '.*?'(?= has exceeded the '\\w+' resource\\b)/" => "User 'dbuser'",
+            // User u already has more than 'max_user_connections' active connections
+            "/\\bUser .+?(?= already has more than 'max_user_connections' active connections\\b)/" => 'User dbuser',
         ];
 
         return preg_replace(array_keys($accountPatterns), array_values($accountPatterns), $message) ?? $message;
