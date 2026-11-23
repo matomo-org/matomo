@@ -270,12 +270,18 @@ class Proxy
              */
             Piwik::postEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
 
+            $this->enforcePermissions($className, $methodName, $finalParameters);
+
             /**
              * Triggered before an API request is dispatched.
              *
              * Use this event to intercept an API request and execute your own code instead. If you set
              * `$returnedValue` in a handler for this event, the original API method will not be executed,
              * and the result will be what you set in the event handler.
+             *
+             * If the target method declares a `#[Permission]` attribute, the declared access check has
+             * already been enforced before this event fires, so handlers cannot return data to callers
+             * that lack the declared permission.
              *
              * @param mixed &$returnedValue Set this to set the result and preempt normal API invocation.
              * @param array &$finalParameters List of parameters that will be passed to the API method.
@@ -441,6 +447,11 @@ class Proxy
     public function usesUnsanitizedInputParams($class, $methodName)
     {
         return $this->metadataArray[$class][$methodName]['unsanitizedInputParams'] ?? false;
+    }
+
+    public function getMethodPermission($class, $methodName)
+    {
+        return $this->metadataArray[$class][$methodName]['permission'] ?? null;
     }
 
     /**
@@ -653,6 +664,8 @@ class Proxy
         $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
         $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
         $this->metadataArray[$class][$name]['unsanitizedInputParams'] = false !== strstr($docComment, '@unsanitized');
+
+        $this->metadataArray[$class][$name]['permission'] = StaticContainer::get(MethodPermissions::class)->resolveMethodPermissions($method);
     }
 
     /**
@@ -745,5 +758,15 @@ class Proxy
         if (!method_exists($className, "getInstance")) {
             throw new Exception("$className that provide an API must be Singleton and have a 'public static function getInstance()' method.");
         }
+    }
+
+    private function enforcePermissions($className, $methodName, array $finalParameters): void
+    {
+        $permission = $this->getMethodPermission($className, $methodName);
+        if (empty($permission)) {
+            return;
+        }
+
+        StaticContainer::get(MethodPermissions::class)->enforce($permission, $finalParameters);
     }
 }
