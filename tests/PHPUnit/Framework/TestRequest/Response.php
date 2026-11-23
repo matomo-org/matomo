@@ -329,7 +329,7 @@ class Response
             );
         }
 
-        // XML elements, and whole CSV/TSV fields but the first (the label): 12.50 becomes 12.5
+        // XML elements: <revenue>12.50</revenue> becomes <revenue>12.5</revenue>
         $apiResponse = preg_replace_callback(
             '/<([\w:-]+)>(' . $number . ')<\/\1>/',
             function ($m) use ($isNormalized, $trimZeros) {
@@ -338,9 +338,30 @@ class Response
             $apiResponse
         );
 
-        return preg_replace_callback('/(?<=[,\t])(-?\d+\.\d*0)(?=[,\t\r\n]|$)/m', function ($m) use ($trimZeros) {
-            return $trimZeros($m[1]);
-        }, $apiResponse);
+        $format = (string) ($this->requestUrl['format'] ?? '');
+        if ($format !== 'csv' && $format !== 'tsv') {
+            return $apiResponse;
+        }
+
+        // CSV/TSV: the header names each column, so labels and identifiers are kept wherever they are
+        $delimiter = $format === 'tsv' ? "\t" : ',';
+        $lines = preg_split('/(\r?\n)/', $apiResponse, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $header = explode($delimiter, preg_replace('/^\xEF\xBB\xBF/', '', (string) $lines[0]));
+        for ($i = 2; $i < count($lines); $i += 2) {
+            if (strpos($lines[$i], '"') !== false) {
+                // a quoted field may hold the delimiter: left as it is
+                continue;
+            }
+            $fields = explode($delimiter, $lines[$i]);
+            foreach ($fields as $index => $field) {
+                if (preg_match('/^' . $number . '$/', $field) && $isNormalized($header[$index] ?? null)) {
+                    $fields[$index] = $trimZeros($field);
+                }
+            }
+            $lines[$i] = implode($delimiter, $fields);
+        }
+
+        return implode('', $lines);
     }
 
     private function normalizeSpaces($apiResponse)

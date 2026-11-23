@@ -46,6 +46,10 @@ class SqliteResponseNormalizationTest extends IntegrationTestCase
         yield 'JSON empty key' => ['json', '{"":"2"}', '{"":2}'];
         yield 'XML' => ['xml', '<row><label>1.20</label><revenue>12.50</revenue></row>', '<row><label>1.20</label><revenue>12.5</revenue></row>'];
         yield 'CSV label column' => ['csv', "label,revenue\n1.20,12.50\n", "label,revenue\n1.20,12.5\n"];
+        yield 'CSV label after the date' => ['csv', "date,label,revenue\r\n2020-01-01,1.20,12.50\r\n", "date,label,revenue\r\n2020-01-01,1.20,12.5\r\n"];
+        yield 'CSV single metric' => ['csv', "value\n12.50\n", "value\n12.5\n"];
+        yield 'CSV with a byte-order mark' => ['csv', "\xEF\xBB\xBFlabel,revenue\n1.20,12.50", "\xEF\xBB\xBFlabel,revenue\n1.20,12.5"];
+        yield 'TSV' => ['tsv', "label\tnb_visits\n1.20\t3.50", "label\tnb_visits\n1.20\t3.5"];
     }
 
     private function normalize(string $format, string $response): string
