@@ -513,6 +513,9 @@ abstract class ViewDataTable implements ViewInterface
         // convert comma separated values to arrays if needed
         if (is_array($defaultValue)) {
             $value = Piwik::getArrayFromApiParameter($value);
+        } elseif (is_array($value)) {
+            // only properties with an array default accept arrays, ignore e.g. pivotBy[]=x
+            $value = $defaultValue;
         }
         return $value;
     }
