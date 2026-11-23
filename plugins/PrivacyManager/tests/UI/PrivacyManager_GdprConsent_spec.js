@@ -84,8 +84,8 @@ describe("PrivacyManager_GdprConsent", function () {
         await page.waitForSelector('.consentedVisitsOnlyNote', { visible: true });
         expect(await isConsentedVisitsOnlyNoteShown()).to.equal(true);
         expect(await page.evaluate(() => $('.consentedVisitsOnlyNote').text().trim())).to.equal(
-            'Only consented visits can be found on this website. Visits tracked without consent hold no identifier'
-            + ' that could link them to a person, so they fall outside access and erasure requests.'
+            'Only consented visits can be found on this website. Visits tracked without consent are not shown,'
+            + ' even if they were tracked before the compliance policy applied.'
         );
     });
 

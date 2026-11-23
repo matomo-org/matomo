@@ -103,7 +103,12 @@
 </template>
 
 <script lang="ts">
-import { DeepReadonly, defineComponent, nextTick } from 'vue';
+import {
+  DeepReadonly,
+  defineComponent,
+  nextTick,
+  PropType,
+} from 'vue';
 import {
   translate,
   AjaxHelper,
@@ -247,14 +252,16 @@ function stripTags(text?: unknown) {
 
 const { $ } = window;
 
-// the segments the GDPR tools search by that identify a visitor
-const DATA_SUBJECT_IDENTIFIER_SEGMENTS = ['userId', 'visitorId', 'visitId', 'visitIp'];
-
 export default defineComponent({
   props: {
     addInitialCondition: Boolean,
     visitSegmentsOnly: Boolean,
     forDataSubjectSearch: Boolean,
+    // segments for which no values are suggested
+    segmentsWithoutSuggestions: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
     idsite: {
       type: [String, Number],
       default: () => Matomo.idSite,
@@ -368,13 +375,7 @@ export default defineComponent({
           minLength: 0,
         });
 
-      // The GDPR tools can search by the segments that identify a visitor where a compliance
-      // policy removes them elsewhere, so no values can be suggested for them there, and they
-      // should not be: suggestions would come from every visit, consented or not.
-      if (
-        this.forDataSubjectSearch
-        && DATA_SUBJECT_IDENTIFIER_SEGMENTS.includes(orCondition.segment)
-      ) {
+      if (this.segmentsWithoutSuggestions.includes(orCondition.segment)) {
         this.conditionValuesLoading[orCondition.id!] = false;
         return;
       }

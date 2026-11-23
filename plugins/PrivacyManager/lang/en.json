@@ -231,7 +231,7 @@
         "SegmentedDataRoundingSettingImpact": "Count-based metrics in segmented results are approximate.<br><br>Segmented values may not add up to the corresponding unsegmented total.",
         "NoDataSubjectsFound": "No data subjects found",
         "OnlyConsentedVisitsCanBeExported": "Only visits from visitors who gave consent can be exported on this website.",
-        "OnlyConsentedVisitsCanBeFound": "Only consented visits can be found on this website. Visits tracked without consent hold no identifier that could link them to a person, so they fall outside access and erasure requests.",
+        "OnlyConsentedVisitsCanBeFound": "Only consented visits can be found on this website. Visits tracked without consent are not shown, even if they were tracked before the compliance policy applied.",
         "DeleteVisitsConfirm": "Are you sure you want to delete the selected visits? This action cannot be undone.",
         "ResultTruncated": "More than %1$s results were found and the result was truncated to the first %1$s visits.",
         "AddVisitorIdToSearch": "Click to add this visitorID to the search",

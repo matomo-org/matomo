@@ -37,10 +37,10 @@ vi.mock('./SegmentGenerator.store', () => ({
 
 import SegmentGenerator from './SegmentGenerator.vue';
 
-function selectSegment(segment: string, forDataSubjectSearch: boolean) {
+function selectSegment(segment: string, segmentsWithoutSuggestions: string[] = []) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const wrapper = mount(SegmentGenerator as any, {
-    props: { forDataSubjectSearch, idsite: 1 },
+    props: { forDataSubjectSearch: true, segmentsWithoutSuggestions, idsite: 1 },
     global: { mocks: { $sanitize: (html: string) => html } },
   });
 
@@ -61,28 +61,30 @@ function suggestionRequests(): string[] {
     .map((params) => params.segmentName);
 }
 
+const identifierSegments = ['userId', 'visitorId', 'visitId', 'visitIp'];
+
 describe('SegmentEditor/SegmentGenerator', () => {
   beforeEach(() => {
     fetch.mockClear();
   });
 
-  it.each(['userId', 'visitorId', 'visitId', 'visitIp'])(
-    'does not ask for values of %s in the GDPR tools',
+  it.each(identifierSegments)(
+    'does not ask for values of %s when it is listed as a segment without suggestions',
     (segment) => {
-      selectSegment(segment, true);
+      selectSegment(segment, identifierSegments);
 
       expect(suggestionRequests()).toEqual([]);
     },
   );
 
-  it('still asks for values of the other segments in the GDPR tools', () => {
-    selectSegment('browserCode', true);
+  it('still asks for values of a segment that is not listed', () => {
+    selectSegment('browserCode', identifierSegments);
 
     expect(suggestionRequests()).toEqual(['browserCode']);
   });
 
-  it('still asks for values of a segment that identifies a visitor elsewhere', () => {
-    selectSegment('userId', false);
+  it('asks for values of the segments that identify a visitor in the GDPR tools on a website without policy', () => {
+    selectSegment('userId');
 
     expect(suggestionRequests()).toEqual(['userId']);
   });

@@ -60,6 +60,7 @@
                 v-model="segment_filter"
                 :visit-segments-only="true"
                 :for-data-subject-search="true"
+                :segments-without-suggestions="segmentsWithoutSuggestions"
                 :idsite="site.id"
                 :show-segment-editor="true"
               />
@@ -306,6 +307,9 @@ interface DataSubject {
   visitorId: string;
 }
 
+// the segments the GDPR tools search by that identify a visitor
+const DATA_SUBJECT_IDENTIFIER_SEGMENTS = ['userId', 'visitorId', 'visitId', 'visitIp'];
+
 interface ManageGdprState {
   isLoading: boolean;
   isDeleting: boolean;
@@ -319,6 +323,7 @@ interface ManageGdprState {
   isVisitorLogAndProfileEnabled: boolean;
   allWebsitesContainsDisabledSite: boolean;
   searchedConsentedVisitsOnlySite: boolean;
+  selectedSiteConsentedVisitsOnly: boolean;
   consentedVisitsOnlyIdSites: number[]|null;
 }
 
@@ -356,6 +361,7 @@ export default defineComponent({
       isVisitorLogAndProfileEnabled: true,
       allWebsitesContainsDisabledSite: false,
       searchedConsentedVisitsOnlySite: false,
+      selectedSiteConsentedVisitsOnly: false,
       consentedVisitsOnlyIdSites: [],
     };
   },
@@ -408,12 +414,15 @@ export default defineComponent({
           createErrorNotification: false, // don't show errors from this API in UI
         },
       ).then((scope) => {
+        this.selectedSiteConsentedVisitsOnly = scope.consentedVisitsOnly;
+
         if (!scope.available && this.segment_filter === 'userId==') {
           this.segment_filter = 'visitId==';
         } else if (scope.available && this.segment_filter === 'visitId==') {
           this.segment_filter = 'userId==';
         }
       }).catch(() => {
+        this.selectedSiteConsentedVisitsOnly = false;
         this.segment_filter = 'visitId==';
       });
     },
@@ -483,7 +492,8 @@ export default defineComponent({
       });
     },
     isConsentedVisitsOnlySite(idSite: string|number): boolean {
-      // the visitor profile of such a website is not available, only the GDPR tools can find its visits
+      // the visitor profile of such a website is not available, only the GDPR tools can find its
+      // visits
       return this.consentedVisitsOnlyIdSites === null
         || this.consentedVisitsOnlyIdSites.includes(Number(idSite));
     },
@@ -541,6 +551,12 @@ export default defineComponent({
     },
   },
   computed: {
+    segmentsWithoutSuggestions(): string[] {
+      // Where only the visits of visitors who gave consent can be found, the segments that identify
+      // a visitor are only offered to the GDPR tools, so no values can be suggested for them, and
+      // they should not be: suggestions would come from every visit, consented or not.
+      return this.selectedSiteConsentedVisitsOnly ? DATA_SUBJECT_IDENTIFIER_SEGMENTS : [];
+    },
     hasActiveDataSubjects(): boolean {
       return !!this.activatedDataSubjects.length;
     },
