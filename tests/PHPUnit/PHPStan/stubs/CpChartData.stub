@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace CpChart;
+
+class Data
+{
+    /**
+     * c-pchart stores the weight unchanged and uses fractional weights when drawing series.
+     *
+     * @param string|list<string> $Series
+     * @param int|float $Weight
+     * @return void
+     */
+    public function setSerieWeight($Series, $Weight = 0)
+    {
+    }
+}

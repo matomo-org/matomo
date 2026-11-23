@@ -41,7 +41,7 @@ abstract class StaticGraph extends BaseFactory
     private $aliasedGraph;
 
     /**
-     * @var Image
+     * @var Image|null
      */
     protected $pImage;
     /**

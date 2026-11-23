@@ -2959,36 +2959,6 @@ parameters:
 			path: plugins/ImageGraph/ImageGraph.php
 
 		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: plugins/ImageGraph/StaticGraph.php
-
-		-
-			message: '#^Parameter \#2 \$Weight of method CpChart\\Data\:\:setSerieWeight\(\) expects int, float given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/ImageGraph/StaticGraph/GridGraph.php
-
-		-
-			message: '#^Parameter \#3 \$length of function substr expects int\|null, float given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/ImageGraph/StaticGraph/GridGraph.php
-
-		-
-			message: '#^Variable \$bulletWidth might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: plugins/ImageGraph/StaticGraph/GridGraph.php
-
-		-
-			message: '#^Variable \$iconOffsetAboveLabelSymmetryAxis might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: plugins/ImageGraph/StaticGraph/GridGraph.php
-
-		-
 			message: '#^Constructor of class Piwik\\Plugins\\Insights\\DataTable\\Filter\\ExcludeLowValue has an unused parameter \$table\.$#'
 			identifier: constructor.unusedParameter
 			count: 1
