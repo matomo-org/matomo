@@ -515,6 +515,37 @@ class DbTest extends IntegrationTestCase
         $this->assertSame('1', $db->fetchOne('SELECT option_value FROM `' . $this->tableName . "` WHERE option_name = 'rowid'"));
     }
 
+    public function testSqliteFetchAllFailsWhenARowFails()
+    {
+        if (!Fixture::isSqlite()) {
+            $this->markTestSkipped('PDO SQLite fetchAll() behaviour');
+        }
+
+        $sql = "SELECT CASE WHEN x = 2 THEN json('{bad') ELSE x END AS v FROM (SELECT 1 AS x UNION ALL SELECT 2 UNION ALL SELECT 3)";
+        $db = Tracker::getDatabase();
+
+        foreach (['fetchAll', 'fetchCol'] as $method) {
+            try {
+                $db->$method($sql);
+                $this->fail("$method must not return the rows before the error");
+            } catch (DbException $e) {
+                $this->assertStringContainsString('malformed JSON', $e->getMessage());
+            }
+        }
+
+        // the error ended the statement only: the transaction stays usable, as after a duplicate key
+        $xid = $db->beginTransaction();
+        $this->insertRowId();
+        try {
+            $db->fetchAll($sql);
+            $this->fail('fetchAll must not return the rows before the error');
+        } catch (DbException $e) {
+            $this->assertFalse($db->isTransactionAborted());
+        }
+        $db->commit($xid);
+        $this->assertSame('1', $db->fetchOne('SELECT option_value FROM `' . $this->tableName . "` WHERE option_name = 'rowid'"));
+    }
+
     public function testFetchOne()
     {
         $db = Tracker::getDatabase();

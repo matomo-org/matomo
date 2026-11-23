@@ -181,8 +181,11 @@ class Mysql extends Db
             if ($sth === false) {
                 return false;
             }
-            return $sth->fetchAll(PDO::FETCH_ASSOC);
+            $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+            $this->failIfFetchFailed($sth);
+            return $rows;
         } catch (PDOException $e) {
+            $this->markTransactionAbortedIfNeeded($e);
             throw new DbException("Error query: " . $e->getMessage());
         }
     }
@@ -202,8 +205,10 @@ class Mysql extends Db
                 return false;
             }
             $result = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
+            $this->failIfFetchFailed($sth);
             return $result;
         } catch (PDOException $e) {
+            $this->markTransactionAbortedIfNeeded($e);
             throw new DbException("Error query: " . $e->getMessage());
         }
     }
@@ -226,6 +231,7 @@ class Mysql extends Db
             }
             return $sth->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
+            $this->markTransactionAbortedIfNeeded($e);
             throw new DbException("Error query: " . $e->getMessage());
         }
     }
@@ -456,6 +462,15 @@ class Mysql extends Db
         if (!$this->rollBackConnectionTransaction()) {
             throw new DbException("Rollback failed");
         }
+    }
+
+    /**
+     * Called after fetchAll(). Overridden by adapters whose driver can end fetchAll() early without throwing.
+     *
+     * @throws PDOException
+     */
+    protected function failIfFetchFailed(PDOStatement $statement): void
+    {
     }
 
     /**

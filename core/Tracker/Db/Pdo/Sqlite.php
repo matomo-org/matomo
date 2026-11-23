@@ -143,30 +143,76 @@ class Sqlite extends Mysql
             return;
         }
 
-        if (!$this->isTransactionStillOpen()) {
-            $this->inTransaction = false;
-            $this->markTransactionAborted(new MysqlError('SQLite ended the transaction', TransactionErrors::ERROR_CODE_DEADLOCK, $e));
+        $isOpen = $this->isTransactionStillOpen();
+        if ($isOpen === true) {
+            return;
         }
+
+        if ($isOpen === null) {
+            $this->closeUnknownTransaction();
+        }
+        $this->inTransaction = false;
+        $this->markTransactionAborted(new MysqlError('SQLite ended the transaction', TransactionErrors::ERROR_CODE_DEADLOCK, $e));
     }
 
     /**
-     * Whether SQLite still has the transaction open: a BEGIN is refused within one. Any other outcome
-     * counts as gone, so an unknown state never lets a batch commit in part.
+     * SQLite's driver ends fetchAll() at an error while stepping through the rows and returns the rows read
+     * so far, without throwing. The error may also have ended the transaction.
      */
-    private function isTransactionStillOpen(): bool
+    protected function failIfFetchFailed(\PDOStatement $statement): void
+    {
+        $error = $statement->errorInfo();
+        if (($error[0] ?? '00000') === '00000') {
+            return;
+        }
+
+        $e = new \PDOException('SQLSTATE[' . $error[0] . ']: ' . ($error[2] ?? 'error'), (int) ($error[1] ?? 0));
+        $e->errorInfo = $error;
+        throw $e;
+    }
+
+    /**
+     * Whether SQLite still has the transaction open: a BEGIN is refused within one. Null when that can't be
+     * told (the BEGIN failed otherwise, or the probe's own transaction couldn't be rolled back): the
+     * transaction is then treated as gone, so a batch never commits in part, and closed for certain.
+     */
+    private function isTransactionStillOpen(): ?bool
     {
         try {
             $this->connection->exec('BEGIN');
         } catch (\PDOException $e) {
-            return stripos($e->getMessage(), 'within a transaction') !== false;
+            return stripos($e->getMessage(), 'within a transaction') !== false ? true : null;
         }
 
         try {
             $this->connection->exec('ROLLBACK');
         } catch (\PDOException $e) {
-            // nothing was written in the probe
+            return null;
         }
 
         return false;
+    }
+
+    /**
+     * Rolls back whatever may still be open; if even that fails, reopens the connection, so a transaction
+     * can't keep the write lock past this one.
+     */
+    private function closeUnknownTransaction(): void
+    {
+        try {
+            $this->connection->exec('ROLLBACK');
+            return;
+        } catch (\PDOException $e) {
+            if (stripos($e->getMessage(), 'no transaction is active') !== false) {
+                return;
+            }
+        }
+
+        $this->disconnect();
+        try {
+            $this->connect();
+        } catch (Exception $e) {
+            // the request fails with the original error; the next query reports the connection error
+        }
     }
 }
