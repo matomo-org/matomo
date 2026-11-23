@@ -5559,7 +5559,8 @@ if (typeof window.Matomo !== 'object') {
              * requireConsentForRestrictedData() or requireConsent(), and false otherwise, including
              * on a tracker that called neither. Unlike hasConsent(), it is false on the first page
              * view of a requireConsentForRestrictedData() site until consent is given.
-             * Consent remembered on an earlier page view counts from the first tracking request.
+             * Consent remembered on an earlier page view counts as soon as this method is called,
+             * before any tracking request, unless the tracker cannot read the cookie it is kept in.
              *
              * To learn when it becomes true, listen to the ConsentGiven event:
              * `Matomo.on('ConsentGiven', function (tracker) { ... })`. It runs each time this
@@ -5578,6 +5579,10 @@ if (typeof window.Matomo !== 'object') {
              * @returns {boolean}
              */
             this.hasGivenConsent = function () {
+                // read the consent cookies the way the next tracking request will, so consent
+                // remembered on an earlier page view is known before that request is built
+                refreshConsentStatus();
+
                 return hasGivenConsent();
             };
 

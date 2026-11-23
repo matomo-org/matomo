@@ -6499,6 +6499,81 @@ if ($mysql) {
         deleteCookies();
     });
 
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
+    test("Test API - hasGivenConsent knows remembered consent before the first tracking request", function() {
+        stop();
+
+        deleteCookies();
+
+        // the visitor consented on a previous page view; code that runs before the page view is
+        // tracked, such as an experiment deciding whether to enrol the visitor, asks already
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.requireConsentForRestrictedData();
+        remembering.rememberConsentGiven();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'givenBeforeRequest');
+        tracker.requireConsentForRestrictedData();
+        var listener = listenForConsentGiven(tracker);
+
+        var given = tracker.hasGivenConsent();
+        var callsAfterFirstRead = listener.calls;
+        var givenAgain = tracker.hasGivenConsent();
+        listener.stop();
+
+        strictEqual(given, true, "remembered consent is not known before the first tracking request");
+        strictEqual(callsAfterFirstRead, 1, "ConsentGiven did not run once when remembered consent was read");
+        strictEqual(givenAgain, true, "reading hasGivenConsent() again changed it");
+        strictEqual(listener.calls, 1, "ConsentGiven ran again when hasGivenConsent() was read again");
+
+        setTimeout(function () {
+            strictEqual(fetchTrackedRequests(getConsentToken() + 'givenBeforeRequest', true).length, 0, "reading hasGivenConsent() sent a request");
+
+            deleteCookies();
+            start();
+        }, 1500);
+    });
+
+    test("Test API - hasGivenConsent does not take remembered consent a tracker cannot read or that was withdrawn", function() {
+        deleteCookies();
+
+        var remembering = Piwik.getTracker();
+        remembering.disableBrowserFeatureDetection();
+        remembering.requireConsentForRestrictedData();
+        remembering.rememberConsentGiven();
+
+        // a site that turned cookies off does not read the remembered consent, and does not
+        // report it either
+        var cookieless = Piwik.getTracker();
+        cookieless.disableBrowserFeatureDetection();
+        cookieless.requireConsentForRestrictedData();
+        cookieless.disableCookies();
+        var cookielessListener = listenForConsentGiven(cookieless);
+        var cookielessGiven = cookieless.hasGivenConsent();
+        cookielessListener.stop();
+
+        strictEqual(cookielessGiven, false, "consent a tracker without cookies cannot read is counted");
+        strictEqual(cookielessListener.calls, 0, "ConsentGiven ran for consent a tracker without cookies cannot read");
+
+        // as if consent had been withdrawn in a way that left the other cookies in place
+        document.cookie = 'mtm_consent_removed=' + new Date().getTime() + '; path=/';
+
+        var withdrawn = Piwik.getTracker();
+        withdrawn.disableBrowserFeatureDetection();
+        withdrawn.requireConsentForRestrictedData();
+        var withdrawnListener = listenForConsentGiven(withdrawn);
+        var withdrawnGiven = withdrawn.hasGivenConsent();
+        withdrawnListener.stop();
+
+        strictEqual(withdrawnGiven, false, "withdrawn consent is counted before the first tracking request");
+        strictEqual(withdrawnListener.calls, 0, "ConsentGiven ran for withdrawn consent");
+
+        deleteCookies();
+    });
+
     test("Test API - set cookie domain", function() {
         expect(6);
 
