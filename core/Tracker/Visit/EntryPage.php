@@ -118,7 +118,21 @@ class EntryPage
             $idActionUrl = (int) $action->getIdActionUrlForEntryAndExitIds();
 
             if (!empty($idActionUrl)) {
-                return $entryIdActionUrl === $idActionUrl;
+                if ($entryIdActionUrl === $idActionUrl) {
+                    return true;
+                }
+
+                // A visitor's consent keeps URL parameters a compliance policy strips, so the page
+                // the visit arrived on may be stored under the other of its two names - before
+                // consent was given, say. It is still the same page.
+                if (null === $request) {
+                    return false;
+                }
+
+                $pageNames = self::getPageNames($request);
+
+                return count($pageNames) > 1
+                    && in_array($entryIdActionUrl, self::lookUpPageIdActionUrls($pageNames), true);
             }
 
             // a site search deliberately records no page of its own, so it is placed by the page
@@ -130,16 +144,12 @@ class EntryPage
         // rather than as a page, and a ping, a site search or a manual goal conversion no page at
         // all. Each still says which page it was sent from, so that is read from the request and
         // looked up as a page view would have stored it.
-        $idActionUrl = $request === null ? null : self::lookUpPageIdActionUrl($request);
-
-        if (null === $idActionUrl) {
-            // this site has never recorded that page, so the visitor cannot be placed by it
-            return null;
-        }
+        $idActionUrls = $request === null ? [] : self::lookUpPageIdActionUrls(self::getPageNames($request));
 
         // nothing reaching here could have started a visit of its own either, so it never answers
-        // that one should
-        return $entryIdActionUrl === $idActionUrl ? true : null;
+        // that one should. Where this site has never recorded that page, the visitor cannot be
+        // placed by it.
+        return in_array($entryIdActionUrl, $idActionUrls, true) ? true : null;
     }
 
     /**
@@ -147,44 +157,66 @@ class EntryPage
      *
      * Deliberately a lookup and not a write: a page this site has never recorded is reported as
      * unknown rather than created, so that answering this question cannot add rows of its own.
-     * Reached only by a request that records no page of its own, and only while the visit is
-     * still on its first interaction, so what it costs does not grow with the length of a visit.
+     * Reached only while the visit is still on its first interaction, so what it costs does not
+     * grow with the length of a visit.
      *
-     * @return int|null null where the page is not one this site has recorded
+     * @param string[] $pageNames the names the page can be recorded under, see getPageNames()
+     * @return int[] the ids the page is recorded under, empty where this site has not recorded it
      */
-    private static function lookUpPageIdActionUrl(Request $request): ?int
+    private static function lookUpPageIdActionUrls(array $pageNames): array
+    {
+        $names = [];
+        foreach ($pageNames as $name) {
+            $names[] = ['name' => $name, 'type' => Action::TYPE_PAGE_URL];
+        }
+
+        $rows = empty($names) ? false : (new Model())->getIdsAction($names);
+
+        if (empty($rows)) {
+            return [];
+        }
+
+        $idActionUrls = [];
+
+        foreach ($rows as $row) {
+            if ((int) $row['type'] === Action::TYPE_PAGE_URL) {
+                $idActionUrls[] = (int) $row['idaction'];
+            }
+        }
+
+        return $idActionUrls;
+    }
+
+    /**
+     * The names a page view of the page the request was sent from is recorded under.
+     *
+     * A page view with the visitor's consent keeps URL parameters a compliance policy strips from
+     * one without it, so the same page can have been recorded under either of two names. Where the
+     * two are the same - wherever no policy strips anything consent lifts - there is one.
+     *
+     * @return string[]
+     */
+    private static function getPageNames(Request $request): array
     {
         $url = $request->getParam('url');
 
         if (empty($url)) {
-            return null;
+            return [];
         }
 
-        // the same cleaning a page view applies before storing the URL, so that what is looked up
-        // here is the name a page view would have written
-        $url = PageUrl::excludeQueryParametersFromUrl($url, $request->getIdSite());
-        $url = PageUrl::getUrlIfLookValid($url);
+        $names = [];
 
-        if (empty($url)) {
-            return null;
-        }
+        foreach ([false, true] as $hasConsent) {
+            // the same cleaning a page view applies before storing the URL, so that what is looked
+            // up here is the name a page view would have written
+            $cleanUrl = PageUrl::excludeQueryParametersFromUrl($url, $request->getIdSite(), [], $hasConsent);
+            $cleanUrl = PageUrl::getUrlIfLookValid($cleanUrl);
 
-        $url = PageUrl::normalizeUrl($url);
-
-        $rows = (new Model())->getIdsAction([
-            ['name' => $url['url'], 'type' => Action::TYPE_PAGE_URL],
-        ]);
-
-        if (empty($rows)) {
-            return null;
-        }
-
-        foreach ($rows as $row) {
-            if ((int) $row['type'] === Action::TYPE_PAGE_URL) {
-                return (int) $row['idaction'];
+            if (!empty($cleanUrl)) {
+                $names[] = PageUrl::normalizeUrl($cleanUrl)['url'];
             }
         }
 
-        return null;
+        return array_values(array_unique($names));
     }
 }

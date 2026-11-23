@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Actions\Tracker;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Log\LoggerInterface;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Tracker;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -80,6 +81,10 @@ class ActionsRequestProcessor extends RequestProcessor
         $action = $request->getMetadata('Actions', 'action');
 
         if (!empty($action)) { // other plugins can unset the action if they want
+            // the URL was cleaned for the consent the request reports, before its visit was known
+            $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
+            $action->cleanActionUrlForConsent(Consent::isRecordedWithConsent($request, $visitor, $action));
+
             $action->loadIdsFromLogActionTable();
         }
 

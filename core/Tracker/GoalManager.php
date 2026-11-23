@@ -253,6 +253,21 @@ class GoalManager
 
     public function detectGoalId($idSite, Request $request)
     {
+        return $this->detectGoalIdForConsent($idSite, $request, $request->hasConsent());
+    }
+
+    /**
+     * Detects the manually converted goal as detectGoalId() does, with its URL cleaned for the
+     * given consent, for a caller that knows the visit the conversion is recorded against.
+     *
+     * Kept apart from detectGoalId() so that it keeps the signature a plugin replacing or
+     * extending this class may already be overriding.
+     *
+     * @param bool $hasConsent whether the conversion is recorded with the visitor's consent, which
+     *                         decides the URL parameters kept in its URL
+     */
+    public function detectGoalIdForConsent($idSite, Request $request, bool $hasConsent)
+    {
         if (!Common::isGoalPluginEnabled()) {
             return null;
         }
@@ -268,7 +283,7 @@ class GoalManager
         $goal = $goals[$idGoal];
 
         $url         = $request->getParam('url');
-        $goal['url'] = PageUrl::excludeQueryParametersFromUrl($url, $idSite);
+        $goal['url'] = PageUrl::excludeQueryParametersFromUrl($url, $idSite, [], $hasConsent);
         return $goal;
     }
 

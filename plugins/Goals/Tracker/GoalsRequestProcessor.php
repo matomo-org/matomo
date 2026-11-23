@@ -10,11 +10,13 @@
 namespace Piwik\Plugins\Goals\Tracker;
 
 use Piwik\Common;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
+use Piwik\Tracker\Visitor;
 
 /**
  * Handles conversion detection and tracking for tracker requests.
@@ -80,6 +82,10 @@ class GoalsRequestProcessor extends RequestProcessor
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
     {
+        if ($this->isManualGoalConversion($request)) {
+            $this->cleanManualConversionUrlForConsent($visitProperties, $request);
+        }
+
         $goalsConverted = $request->getMetadata('Goals', 'goalsConverted');
 
         /** @var Action $action */
@@ -111,6 +117,37 @@ class GoalsRequestProcessor extends RequestProcessor
         if (!empty($goalsConverted)) {
             $this->goalManager->recordGoals($visitProperties, $request);
         }
+    }
+
+    /**
+     * The URL of a manual conversion is cleaned before it is known which visit the request belongs
+     * to, and so by the consent the request reports. It is recorded the way the rest of the visit
+     * is, as the action URL is (see Action::cleanActionUrlForConsent()).
+     */
+    private function cleanManualConversionUrlForConsent(VisitProperties $visitProperties, Request $request): void
+    {
+        $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
+        $hasConsent = Consent::isRecordedWithConsent($request, $visitor);
+
+        if ($hasConsent === $request->hasConsent()) {
+            return;
+        }
+
+        $goal = $this->goalManager->detectGoalIdForConsent($request->getIdSite(), $request, $hasConsent);
+
+        if (empty($goal)) {
+            return;
+        }
+
+        $goalsConverted = $request->getMetadata('Goals', 'goalsConverted') ?: [];
+
+        foreach ($goalsConverted as $index => $convertedGoal) {
+            if (isset($convertedGoal['idgoal']) && $convertedGoal['idgoal'] == $goal['idgoal']) {
+                $goalsConverted[$index]['url'] = $goal['url'];
+            }
+        }
+
+        $request->setMetadata('Goals', 'goalsConverted', $goalsConverted);
     }
 
     private function isManualGoalConversion(Request $request)

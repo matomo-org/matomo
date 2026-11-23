@@ -36,6 +36,14 @@ abstract class Base extends VisitDimension
     protected $referrerHost;
     protected $referrerUrl;
     protected $referrerUrlParse;
+
+    /**
+     * Whether the referrer URL keeps the URL parameters a compliance policy excludes, for a
+     * visitor who has consented
+     *
+     * @var bool
+     */
+    protected $referrerUrlHasConsent = false;
     protected $currentUrlParse;
     protected $idsite;
     protected $campaignNames;
@@ -159,6 +167,7 @@ abstract class Base extends VisitDimension
             }
         }
 
+        $this->referrerUrlHasConsent = $this->hasVisitorConsented($request, $visitor);
         $this->excludeQueryParamsFromReferrerUrl();
 
         $referrerInformation = [
@@ -284,7 +293,7 @@ abstract class Base extends VisitDimension
             $parametersToExclude[] = 'src';
         }
 
-        $this->referrerUrl = PageUrl::excludeQueryParametersFromUrl($this->referrerUrl, $this->idsite, $parametersToExclude);
+        $this->referrerUrl = PageUrl::excludeQueryParametersFromUrl($this->referrerUrl, $this->idsite, $parametersToExclude, $this->referrerUrlHasConsent);
     }
 
     protected function getReferrerInformationFromRequest(Request $request, Visitor $visitor)

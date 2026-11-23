@@ -203,6 +203,30 @@ class Consent extends VisitDimension
     }
 
     /**
+     * Whether what this request records is recorded as a consented visitor's, once it is known
+     * which visit it is recorded against.
+     *
+     * That is the visit's consent (visitHasConsent()), with one exception: a consent this request
+     * reports that does not apply to the visit it lands on (appliesToVisit()) belongs to the visit
+     * the visitor goes on to start, not to this one. For use from afterRequestProcessed() on, when
+     * whether the request starts a new visit has been settled.
+     *
+     * @param Action|null $action
+     */
+    public static function isRecordedWithConsent(Request $request, Visitor $visitor, $action = null): bool
+    {
+        if ($request->getMetadata('CoreHome', 'isNewVisit')) {
+            return $request->hasConsent();
+        }
+
+        if ($request->hasConsent() && !self::appliesToVisit($request, $visitor, $action)) {
+            return false;
+        }
+
+        return self::visitHasConsent($request, $visitor);
+    }
+
+    /**
      * Whether consent was already recorded for this visit, as stored before the current request.
      */
     public static function hasVisitConsented(Visitor $visitor): bool

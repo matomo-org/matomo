@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\UrlHelper;
 
 class PageUrl
@@ -60,15 +61,17 @@ class PageUrl
      * @param string $originalUrl
      * @param $idSite
      * @param array $additionalParametersToExclude
+     * @param bool $hasConsent whether the URL comes from a request with the visitor's tracking consent,
+     *                         see getQueryParametersToExclude()
      * @return bool|string Returned URL is HTML entities decoded
      */
-    public static function excludeQueryParametersFromUrl($originalUrl, $idSite, $additionalParametersToExclude = [])
+    public static function excludeQueryParametersFromUrl($originalUrl, $idSite, $additionalParametersToExclude = [], bool $hasConsent = false)
     {
         $originalUrl = self::cleanupUrl($originalUrl);
 
         $parsedUrl = @parse_url($originalUrl);
         $parsedUrl = self::cleanupHostAndHashTag($parsedUrl, $idSite);
-        $parametersToExclude = array_merge(self::getQueryParametersToExclude($idSite), $additionalParametersToExclude);
+        $parametersToExclude = array_merge(self::getQueryParametersToExclude($idSite, $hasConsent), $additionalParametersToExclude);
 
         if (empty($parsedUrl['query'])) {
             if (empty($parsedUrl['fragment'])) {
@@ -94,9 +97,13 @@ class PageUrl
      * Returns the array of parameters names that must be excluded from the Query String in all tracked URLs
      * @static
      * @param $idSite
+     * @param bool $hasConsent pass true only for a tracking request that has the visitor's consent on a
+     *                         site measuring consent-aware analytics (Request::hasConsent()). Consent
+     *                         lifts the parameters a compliance policy excludes, never the ones the
+     *                         admin excluded themselves.
      * @return array
      */
-    public static function getQueryParametersToExclude($idSite)
+    public static function getQueryParametersToExclude($idSite, bool $hasConsent = false)
     {
         $campaignTrackingParameters = Common::getCampaignParameters();
 
@@ -106,7 +113,7 @@ class PageUrl
         );
 
         $website = TrackerCache::getCacheWebsiteAttributes($idSite);
-        $excludedParameters = self::getExcludedParametersFromWebsite($website);
+        $excludedParameters = self::getExcludedParametersFromWebsite($website, $hasConsent);
 
         $parametersToExclude = array_merge(
             ['ignore_referrer', 'ignore_referer'],
@@ -431,8 +438,13 @@ class PageUrl
         return $url;
     }
 
-    private static function getExcludedParametersFromWebsite($website)
+    private static function getExcludedParametersFromWebsite($website, bool $hasConsent)
     {
+        // a cache written before the admin's own list was kept beside it has only the enforced one
+        if ($hasConsent && isset($website[SitesManager::CONFIGURED_EXCLUDED_PARAMETERS_CACHE_KEY])) {
+            return $website[SitesManager::CONFIGURED_EXCLUDED_PARAMETERS_CACHE_KEY];
+        }
+
         if (isset($website['excluded_parameters'])) {
             return $website['excluded_parameters'];
         }
