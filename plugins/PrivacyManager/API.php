@@ -51,11 +51,6 @@ class API extends \Piwik\Plugin\API
      */
     private const DATA_SUBJECTS_LIMIT = 401;
 
-    /**
-     * The value of log_visit.consent for a visit whose visitor gave consent.
-     */
-    private const CONSENT_GIVEN = Consent::CONSENTED;
-
     private DataSubjects $gdpr;
 
     private LogDataAnonymizations $logDataAnonymizations;
@@ -147,7 +142,7 @@ class API extends \Piwik\Plugin\API
             if (
                 null === $stored
                 || $stored['idsite'] !== $visit['idsite']
-                || $stored['consent'] !== self::CONSENT_GIVEN
+                || $stored['consent'] !== Consent::CONSENTED
             ) {
                 throw new NoPrivilegesException(
                     Piwik::translate('PrivacyManager_OnlyConsentedVisitsCanBeExported'),
@@ -221,9 +216,9 @@ class API extends \Piwik\Plugin\API
      *                        Example: "referrerName==example.com"
      *                        Supports AND (;) and OR (,) operators.
      * @return array{}|DataTable Matching visitor details with a reduced column set (identity, device,
-     *                           location, and browser info), and the consent stored for the visit (1 when the
-     *                           visitor consented, otherwise the stored value or empty when none is stored). Returns an
-     *                           empty array when no sites qualify.
+     *                           location, and browser info), and `consentState` set to `consented` for a visit
+     *                           whose visitor gave consent, as Live reports it. Returns an empty array when no
+     *                           sites qualify.
      */
     public function findDataSubjects($idSite, string $segment)
     {
@@ -239,37 +234,10 @@ class API extends \Piwik\Plugin\API
             return [];
         }
 
-        $result = null;
-
-        if (!empty($sites['all'])) {
-            $result = $this->getVisitsOfDataSubjects($sites['all'], $segment);
-        }
-
-        if (!empty($sites['consentedVisitsOnly'])) {
-            // The consent condition is intersected with the visits rather than appended to the segment, so that
-            // no segment given here can widen it. It is part of the query, so the visits of visitors who did not
-            // consent do not count towards the limit either.
-            $consentedVisits = $this->getVisitsOfDataSubjects(
-                $sites['consentedVisitsOnly'],
-                $segment,
-                'consentState==consented'
-            );
-
-            if (null === $result) {
-                $result = $consentedVisits;
-            } else {
-                // Live disables the sort and limit filters on the tables it returns, so the visits of both are
-                // merged into a new one
-                $visits = new DataTable();
-                $visits->addRowsFromArray($result->getRows());
-                $visits->addRowsFromArray($consentedVisits->getRows());
-                $visits->filter('Sort', ['lastActionTimestamp', 'desc']);
-                $visits->filter('Limit', [0, self::DATA_SUBJECTS_LIMIT]);
-                $result = $visits;
-            }
-        }
-
-        $this->addConsentOfVisits($result, $sites['consentedVisitsOnly']);
+        // On a website where only the visits of visitors who gave consent can be found, Live's queries only return
+        // those, whatever the segment, so no segment given here can widen it, and the other visits do not count
+        // towards the limit either.
+        $result = $this->getVisitsOfDataSubjects(array_merge($sites['all'], $sites['consentedVisitsOnly']), $segment);
 
         $columnsToKeep = [
             'lastActionDateTime',
@@ -279,7 +247,7 @@ class API extends \Piwik\Plugin\API
             'visitorId',
             'visitIp',
             'userId',
-            'consent',
+            'consentState',
             'deviceType',
             'deviceModel',
             'deviceTypeIcon',
@@ -353,54 +321,20 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param int[] $idSites
-     * @param string|false $intersectSegment
      */
-    private function getVisitsOfDataSubjects(array $idSites, string $segment, $intersectSegment = false): DataTable
+    private function getVisitsOfDataSubjects(array $idSites, string $segment): DataTable
     {
-        $parameters = [
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('Live.getLastVisitsDetails', [
             'segment' => $segment,
             'idSite' => $idSites,
             'period' => 'range',
             'date' => '1998-01-01,today',
             'filter_limit' => self::DATA_SUBJECTS_LIMIT,
             'doNotFetchActions' => 1,
-        ];
-
-        if (false !== $intersectSegment) {
-            $parameters['intersectSegment'] = $intersectSegment;
-        }
-
-        /** @var DataTable $visits */
-        $visits = Request::processRequest('Live.getLastVisitsDetails', $parameters);
+        ]);
 
         return $visits;
-    }
-
-    /**
-     * Adds the consent stored for each visit, and drops any visit of a website where only the visits of visitors
-     * who gave consent may be found that is not stored with consent, whatever the query returned.
-     *
-     * @param int[] $consentedVisitsOnlyIdSites
-     */
-    private function addConsentOfVisits(DataTable $visits, array $consentedVisitsOnlyIdSites): void
-    {
-        $consentOfVisits = $this->gdpr->getConsentOfVisits($visits->getColumn('idVisit'));
-
-        foreach ($visits->getRows() as $id => $row) {
-            $stored = $consentOfVisits[(int) $row->getColumn('idVisit')] ?? null;
-            $consent = null === $stored ? null : $stored['consent'];
-
-            if (
-                in_array((int) $row->getColumn('idSite'), $consentedVisitsOnlyIdSites, true)
-                && $consent !== self::CONSENT_GIVEN
-            ) {
-                $visits->deleteRow($id);
-                continue;
-            }
-
-            // empty when no consent is stored, so that every row has the column
-            $row->setColumn('consent', $consent ?? '');
-        }
     }
 
     /**

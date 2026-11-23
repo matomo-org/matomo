@@ -156,16 +156,18 @@ class DataSubjectsConsentTest extends IntegrationTestCase
 
         $consentByVisit = [];
         foreach ($result->getRows() as $row) {
-            $consentByVisit[(int) $row->getColumn('idVisit')] = $row->getColumn('consent');
+            $consentByVisit[(int) $row->getColumn('idVisit')] = $row->getColumn('consentState');
         }
         ksort($consentByVisit);
 
+        // consent is the only state recorded, a visit without it has no consent state
         $this->assertSame([
-            $this->visits['policy:alice:1'] => 1,
-            $this->visits['other:alice:1'] => 1,
-            $this->visits['other:alice:0'] => 0,
-            $this->visits['other:alice:none'] => '',
+            $this->visits['policy:alice:1'] => 'consented',
+            $this->visits['other:alice:1'] => 'consented',
+            $this->visits['other:alice:0'] => false,
+            $this->visits['other:alice:none'] => false,
         ], $consentByVisit);
+        $this->assertNotContains('consent', $result->getColumns());
     }
 
     public function testFindDataSubjectsSkipsThePolicySiteWhenItsVisitorProfileIsDisabledInItsSettings(): void

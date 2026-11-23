@@ -177,7 +177,7 @@
                 @click="addFilter('userId', dataSubject.userId || '')"
               >{{ dataSubject.userId }}</a>
             </td>
-            <td class="consent">{{ consentLabel(dataSubject.consent) }}</td>
+            <td class="consent">{{ consentLabel(dataSubject.consentState) }}</td>
             <td>
               <span
                 :title="`${dataSubject.deviceType} ${dataSubject.deviceModel}`"
@@ -302,7 +302,7 @@ interface DataSubject {
   region: string|null;
   siteName: string;
   userId: string|null;
-  consent: number|'';
+  consentState?: string;
   visitIp: string;
   visitorId: string;
 }
@@ -497,9 +497,9 @@ export default defineComponent({
       return this.consentedVisitsOnlyIdSites === null
         || this.consentedVisitsOnlyIdSites.includes(Number(idSite));
     },
-    consentLabel(consent: number|string|null): string {
+    consentLabel(consentState?: string): string {
       // consent is the only recorded state, anything else shows no state
-      return `${consent}` === '1' ? translate('CoreHome_ConsentStateConsented') : '';
+      return consentState === 'consented' ? translate('CoreHome_ConsentStateConsented') : '';
     },
     addFilter(segment: string, value: string) {
       this.segment_filter += `,${segment}==${value}`;

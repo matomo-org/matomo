@@ -30,9 +30,6 @@ use Piwik\Plugins\CoreHome\Columns\VisitIp;
 use Piwik\Plugins\CoreHome\Columns\VisitorId;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Live\Live;
-use Piwik\Plugins\Live\MeasurableSettings as LiveMeasurableSettings;
-use Piwik\Plugins\Live\SystemSettings as LiveSystemSettings;
-use Piwik\Plugins\Live\Settings\VisitorLogDisabled;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
@@ -395,7 +392,7 @@ class PrivacyManager extends Plugin
             if (Live::isVisitorProfileEnabled($siteId)) {
                 // returns false if either logs or profiles are disabled
                 $scope = 'all';
-            } elseif (self::isVisitorProfileLimitedToConsentedVisits($siteId) && Piwik::isUserHasAdminAccess($siteId)) {
+            } elseif (Live::isVisitorProfileLimitedToConsentedVisits($siteId) && Piwik::isUserHasAdminAccess($siteId)) {
                 // the policy disables the visits log, while the settings keep the visitor profile enabled. Only a
                 // user with admin access to the website answers its visitors' requests to access or erase their data
                 $scope = 'consentedVisitsOnly';
@@ -409,22 +406,6 @@ class PrivacyManager extends Plugin
         $cache->save($cacheKey, $sites);
 
         return $sites;
-    }
-
-    /**
-     * Whether only the visits of visitors who gave consent may be looked at one by one on the given site: its
-     * compliance policy disables the visits log, while neither its own settings nor the system settings disable the
-     * visits log or the visitor profile. Those visits may hold identifying data, such as a User ID, so they must stay
-     * reachable to answer their visitors' requests to access or erase their data.
-     */
-    private static function isVisitorProfileLimitedToConsentedVisits(int $idSite): bool
-    {
-        return VisitorLogDisabled::isEnforced($idSite)
-            && true !== VisitorLogDisabled::getSystemValue()
-            && true !== VisitorLogDisabled::getMeasurableValue($idSite)
-            // the visitor profile settings, as Live reads them
-            && true !== (new LiveSystemSettings())->disableVisitorProfile->getValue()
-            && true !== (new LiveMeasurableSettings($idSite))->disableVisitorProfile->getValue();
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
