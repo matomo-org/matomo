@@ -4753,7 +4753,7 @@ if ($mysql) {
     });
 
     test("trackingHeartBeat closes a page view it already pinged for when the next page view is tracked", function () {
-        expect(15); // 12 below + 3 from the focus and blur events triggered on the window
+        expect(19); // 16 below + 3 from the focus and blur events triggered on the window
 
         var tokenBase = getHeartbeatToken();
 
@@ -4769,12 +4769,20 @@ if ($mysql) {
         manualTracker.enableHeartBeatTimer(5);
         manualTracker.setPageViewId('manual');
 
+        // gets its closing heartbeat when the page is hidden or unloads
+        var unloadTracker = Piwik.getTracker();
+        unloadTracker.setTrackerUrl("matomo.php");
+        unloadTracker.setSiteId(1);
+        unloadTracker.enableHeartBeatTimer(5);
+
         stop();
         Q.delay(1).then(function () {
             tracker.setCustomData('token', 'a' + tokenBase);
             tracker.trackPageView('closingFirst');
             manualTracker.setCustomData('token', 'm' + tokenBase);
             manualTracker.trackPageView('manualFirst');
+            unloadTracker.setCustomData('token', 'u' + tokenBase);
+            unloadTracker.trackPageView('unloadFirst');
             triggerEvent(window, 'focus');
 
             return Q.delay(5500);
@@ -4791,6 +4799,12 @@ if ($mysql) {
             manualTracker.setCustomData('token', 'n' + tokenBase);
             manualTracker.trackPageView('manualSecond');
             manualTracker.disableHeartBeatTimer();
+
+            // the visitor is only just back, so without the earlier heartbeat no ping would be sent on unload
+            unloadTracker.setCustomData('token', 'v' + tokenBase);
+            unloadTracker.hook.test._beforeUnloadHandler();
+            unloadTracker.unsetPageIsUnloading();
+            unloadTracker.disableHeartBeatTimer();
 
             return Q.delay(5500);
         }).then(function () {
@@ -4830,6 +4844,14 @@ if ($mysql) {
             equal(requests.length, 2, "[manual] page view and its heartbeat on blur");
             requests = fetchTrackedRequests('n' + tokenBase, true);
             ok(requests.length === 1 && /action_name=manualSecond/.test(requests[0]), "[manual] no closing heartbeat when the page view id was set manually");
+
+            requests = fetchTrackedRequests('u' + tokenBase, true);
+            equal(requests.length, 2, "[unload] page view and its heartbeat on blur");
+            var unloadPvId = getPvId(requests[0]);
+            requests = fetchTrackedRequests('v' + tokenBase, true);
+            equal(requests.length, 1, "[unload] one closing heartbeat is sent on unload after a short refocus");
+            ok(/ping=1/.test(requests[0]) && /hb=1/.test(requests[0]), "[unload] the closing heartbeat is marked with hb=1");
+            equal(getPvId(requests[0]), unloadPvId, "[unload] closing heartbeat carries the pv_id of the page view");
 
             start();
         }).fail(function (error) {
