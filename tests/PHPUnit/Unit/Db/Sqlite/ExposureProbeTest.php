@@ -222,6 +222,57 @@ class ExposureProbeTest extends TestCase
         $this->assertSame(['status' => ExposureProbe::UNVERIFIED, 'urls' => []], $result);
     }
 
+    public function testADenialCarryingTheFileIsExposed(): void
+    {
+        $result = $this->probe(function ($url) {
+            return str_ends_with($url, '.sqlite') ? ['status' => 404, 'body' => $this->serve($url)['body']] : $this->response(403);
+        });
+
+        $this->assertSame(ExposureProbe::EXPOSED, $result['urls'][$this->urlOf('matomo.sqlite')]);
+    }
+
+    public function testAControlSharingOnlyAPrefixWithMatomoIsNotEnough(): void
+    {
+        // "/" starts matomo.js too, as it may start a catch-all page
+        $probe = new ExposureProbe(function (string $url) {
+            $this->requests[] = $url;
+            return str_ends_with($url, '/matomo.js') ? $this->response(200, '/') : $this->response(404);
+        });
+
+        $this->assertSame(ExposureProbe::UNVERIFIED, $probe->probe($this->file, self::BASE_URL)['status']);
+    }
+
+    public function testMatomoAsTheDocumentRootIsRequestedThroughBothMappings(): void
+    {
+        // e.g. behind a proxy that adds /analytics/: which mapping the server uses isn't known
+        $result = $this->probe(function () {
+            return $this->response(403);
+        }, null, PIWIK_INCLUDE_PATH);
+
+        $this->assertContains('https://matomo.example/matomo.js', $this->requests);
+        $this->assertContains(self::BASE_URL . 'matomo.js', $this->requests);
+        $this->assertSame(ExposureProbe::UNVERIFIED, $result['status'], 'only one of them serves Matomo');
+    }
+
+    public function testADirectoryLinkedUnderALinkedDocumentRootIsRequested(): void
+    {
+        $realRoot = $this->makeDirectory(sys_get_temp_dir());
+        $root = $realRoot . '-link';
+        $data = $this->makeDirectory(sys_get_temp_dir());
+        if (!@symlink($realRoot, $root) || !@symlink($data, $realRoot . '/data')) {
+            $this->markTestSkipped('symbolic links are not available');
+        }
+        array_push($this->owned, $root, $realRoot . '/data');
+        $this->createDatabase($data . '/matomo.sqlite');
+
+        $result = $this->probe(function () {
+            return $this->response(403);
+        }, $root . '/data/matomo.sqlite', $root);
+
+        $this->assertSame(ExposureProbe::PROTECTED, $result['status']);
+        $this->assertArrayHasKey('https://matomo.example/data/matomo.sqlite', $result['urls']);
+    }
+
     public function testAFileUnderTheDocumentRootIsRequestedFromTheOrigin(): void
     {
         $root = $this->makeDirectory(sys_get_temp_dir());

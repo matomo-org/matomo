@@ -324,8 +324,8 @@ class FormDatabaseSetup extends QuickForm2
     }
 
     /**
-     * Creates the file only if it doesn't exist, readable by its owner only from the start. SQLite gives the
-     * -wal and -shm files the database file's permissions.
+     * Creates the file only if it doesn't exist, readable by its owner only before anything is written to it.
+     * SQLite gives the -wal and -shm files the database file's permissions.
      */
     private function createPrivateFile(string $file): void
     {
@@ -349,6 +349,15 @@ class FormDatabaseSetup extends QuickForm2
             throw new Exception(Piwik::translate('Installation_DatabaseSetupSqliteCantCreate', [dirname($file)]));
         }
         fclose($handle);
+
+        // a default ACL on the directory overrides the umask: the file is still empty, so set and check its mode
+        @chmod($file, 0600);
+        try {
+            $this->checkExistingFileIsPrivate($file);
+        } catch (Exception $e) {
+            @unlink($file);
+            throw $e;
+        }
     }
 
     /**

@@ -104,6 +104,17 @@ class SqliteBackupTest extends ConsoleCommandTestCase
         $this->assertSame('created meanwhile', file_get_contents($file));
     }
 
+    public function testBackupRefusesATargetWithLeftoverWalFiles(): void
+    {
+        $file = $this->directory . '/matomo.sqlite';
+        file_put_contents($file . '-wal', 'another database\'s');
+
+        $this->assertNotEquals(0, $this->runBackup(['file' => $file]));
+
+        $this->assertStringContainsString('-wal exists', $this->applicationTester->getDisplay());
+        $this->assertSame([$file . '-wal'], glob($this->directory . '/*'), 'nothing is published, the temporary copy is removed');
+    }
+
     public function testVerifyRefusesACopyNotInWalMode(): void
     {
         // what a plain VACUUM INTO gives

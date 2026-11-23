@@ -26,7 +26,7 @@ class SqliteBackup extends ConsoleCommand
         $this->addRequiredArgument('file', 'The file to write. It must not exist yet.');
         $this->addNoValueOption('verify', null, 'Only check the given file: a complete database in WAL mode, as a restore needs.');
         $this->setHelp('The copy is written to a temporary file next to the target, switched to WAL mode and checked;'
-            . ' only then is it renamed to the target, so a failed backup never leaves a partial file under that name.'
+            . ' only then does it get the target\'s name, without replacing any file, so a failed backup never leaves a partial file under that name.'
             . "\n\nTo restore: stop the web server, the tracker and cron; move the database file aside together with its"
             . ' -wal, -shm and -journal files and its -locks directory; put the backup in its place; run this command'
             . ' with --verify on it; then start the services again.');
@@ -72,6 +72,14 @@ class SqliteBackup extends ConsoleCommand
         }
         fclose($handle);
 
+        // a default ACL on the directory overrides the umask: the file is still empty, so set and check its mode
+        @chmod($temporaryFile, 0600);
+        clearstatcache(true, $temporaryFile);
+        if (DIRECTORY_SEPARATOR === '/' && (fileperms($temporaryFile) & 0077) !== 0) {
+            @unlink($temporaryFile);
+            throw new \Exception(sprintf('Can\'t make %s readable by its owner only.', $temporaryFile));
+        }
+
         try {
             // a consistent snapshot, read while trackers keep writing
             Db::query('VACUUM INTO ?', [$temporaryFile]);
@@ -99,20 +107,25 @@ class SqliteBackup extends ConsoleCommand
 
     /**
      * Gives the copy its final name without ever replacing a file created there meanwhile: link() fails if the
-     * name exists. Only where hard links aren't supported is the copy renamed after a last check.
+     * name exists. Without hard links the backup fails rather than risk replacing a file.
      */
     private function publish(string $temporaryFile, string $file): void
     {
+        foreach (['-wal', '-shm', '-journal'] as $suffix) {
+            if (file_exists($file . $suffix) || is_link($file . $suffix)) {
+                // SQLite would apply them to the copy when it is opened
+                throw new \Exception(sprintf('%s exists: remove it, or choose another file.', $file . $suffix));
+            }
+        }
         if (@link($temporaryFile, $file)) {
             return;
         }
+
         clearstatcache(true, $file);
         if (file_exists($file) || is_link($file)) {
             throw new \Exception(sprintf('%s was created during the backup: choose another file.', $file));
         }
-        if (!rename($temporaryFile, $file)) {
-            throw new \Exception(sprintf('Can\'t rename %s to %s.', $temporaryFile, $file));
-        }
+        throw new \Exception(sprintf('Can\'t create %s: its file system must support hard links, which let the copy get its name without replacing a file.', $file));
     }
 
     private function verify(string $file): void

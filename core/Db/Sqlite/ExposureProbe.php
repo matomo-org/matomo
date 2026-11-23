@@ -166,19 +166,23 @@ class ExposureProbe
             return [];
         }
 
-        $roots = [PIWIK_INCLUDE_PATH => rtrim($baseUrl, '/')];
+        // pairs, not keys: the Matomo directory can also be the document root, and each gives its own URL
+        $roots = [[PIWIK_INCLUDE_PATH, rtrim($baseUrl, '/')]];
         $origin = $this->getOrigin($baseUrl);
         if ($documentRoot !== null && $documentRoot !== '' && $origin !== null) {
-            $roots[$documentRoot] = $origin;
+            $roots[] = [$documentRoot, $origin];
         }
 
         $urls = [];
         foreach (array_unique(array_filter([$this->normalizePath($directory), $realDirectory])) as $path) {
             $path .= DIRECTORY_SEPARATOR . basename($file);
-            foreach ($roots as $root => $rootUrl) {
-                $relative = $this->getRelativePath($path, (string) $root);
-                if ($relative !== null) {
-                    $urls[] = $rootUrl . '/' . $relative;
+            foreach ($roots as [$root, $rootUrl]) {
+                // a root reached through a symbolic link is compared both as given and resolved
+                foreach (array_unique(array_filter([$this->normalizePath($root), realpath($root)])) as $rootPath) {
+                    $relative = $this->getRelativePath($path, $rootPath);
+                    if ($relative !== null) {
+                        $urls[] = $rootUrl . '/' . $relative;
+                    }
                 }
             }
         }
@@ -216,10 +220,15 @@ class ExposureProbe
         }
 
         $status = $response['status'];
+        $body = substr($response['body'], 0, self::MAX_BODY_BYTES);
+        // whatever the status, a response that carries the file's bytes serves it
+        if ($body !== '' && $isFile($body)) {
+            return self::EXPOSED;
+        }
         if (in_array($status, [401, 403, 404], true)) {
             return self::PROTECTED;
         }
-        if ($status >= 200 && $status < 300 && $isFile(substr($response['body'], 0, self::MAX_BODY_BYTES))) {
+        if ($status >= 200 && $status < 300 && $isFile($body)) {
             return self::EXPOSED;
         }
 
@@ -234,16 +243,12 @@ class ExposureProbe
             return false;
         }
 
-        $body = substr($response['body'], 0, self::MAX_BODY_BYTES);
-        return $response['status'] === 200 && $content !== '' && $body !== '' && str_starts_with($content, $body);
+        // the whole start of the file, not a prefix a catch-all page could share
+        return $response['status'] === 200 && $content !== '' && substr($response['body'], 0, self::MAX_BODY_BYTES) === $content;
     }
 
     private function getRelativePath(string $path, string $root): ?string
     {
-        $root = realpath($root);
-        if ($root === false) {
-            return null;
-        }
         $root = rtrim($root, '/\\') . DIRECTORY_SEPARATOR;
         if (!str_starts_with($path, $root)) {
             return null;
