@@ -63,7 +63,7 @@
         "PostUpdateSupport": "Dacă aveți nevoie de ajutor pentru utilizarea Matomo, puteți obține asistență de la creatorii săi:",
         "ReactivatedPlugins": "Pluginuri reactivate: %1$s",
         "ReadyToGo": "Eşti gata să procedezi?",
-        "ReceiveEmailBecauseIsSuperUser": "Primiți acest e-mail deoarece sunteți super utilizator al instalării Matomo de la: %s",
+        "ReceiveEmailBecauseIsSuperUser": "Primiți acest e-mail deoarece sunteți superutilizator al instalării Matomo de la: %s",
         "ServicesSupport": "Servicii și asistență",
         "SkipCacheClear": "Se omite golirea memoriei cache.",
         "SkipCacheClearDesc": "Omite golirea memoriei cache înainte de actualizare. Este util doar dacă vă puteți asigura că instanțele care rulează această comandă nu au creat încă deloc un cache și dacă golirea cache-ului pentru multe conturi Matomo poate deveni un blocaj.",
