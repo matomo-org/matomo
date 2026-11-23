@@ -291,7 +291,9 @@ class Response
     /**
      * Fields whose values are names or identifiers, compared as they are even when they look like numbers.
      */
-    private const SQLITE_UNNORMALIZED_FIELDS = ['label', 'sku', 'idorder', 'orderId', 'name', 'title', 'url', 'segment'];
+    private const SQLITE_UNNORMALIZED_FIELDS = [
+        'label', 'sku', 'idorder', 'orderId', 'name', 'title', 'url', 'segment', 'userId', 'visitorId', 'fingerprint',
+    ];
 
     /**
      * On SQLite, API values compare by value: MySQL returns some sums as strings ("260") and pads decimals to their
@@ -304,8 +306,8 @@ class Response
         }
 
         $number = '-?(?:0|[1-9]\d*)(?:\.\d+)?';
-        $isNormalized = function ($field) {
-            return $field === '' || !in_array($field, self::SQLITE_UNNORMALIZED_FIELDS, true);
+        $isNormalized = function (?string $field) {
+            return !in_array($field, self::SQLITE_UNNORMALIZED_FIELDS, true);
         };
         $trimZeros = function ($value) {
             return strpos($value, '.') === false ? $value : rtrim(rtrim($value, '0'), '.');
@@ -316,14 +318,18 @@ class Response
             return preg_replace_callback(
                 '/(?:"((?:[^"\\\\]|\\\\.)*)":|(?<=[\[,]))("?)(' . $number . ')\2(?=[,}\]])/',
                 function ($m) use ($isNormalized, $trimZeros) {
-                    $prefix = $m[1] !== '' ? '"' . $m[1] . '":' : '';
+                    // no key (null): an array element; an empty key stays a key
+                    $prefix = $m[1] !== null ? '"' . $m[1] . '":' : '';
                     return $isNormalized($m[1]) ? $prefix . $trimZeros($m[3]) : $m[0];
                 },
-                $apiResponse
+                $apiResponse,
+                -1,
+                $count,
+                PREG_UNMATCHED_AS_NULL
             );
         }
 
-        // XML elements, and whole CSV/TSV fields: 12.50 becomes 12.5
+        // XML elements, and whole CSV/TSV fields but the first (the label): 12.50 becomes 12.5
         $apiResponse = preg_replace_callback(
             '/<([\w:-]+)>(' . $number . ')<\/\1>/',
             function ($m) use ($isNormalized, $trimZeros) {
@@ -332,7 +338,7 @@ class Response
             $apiResponse
         );
 
-        return preg_replace_callback('/(?<=[,\t]|^)(-?\d+\.\d*0)(?=[,\t\r\n]|$)/m', function ($m) use ($trimZeros) {
+        return preg_replace_callback('/(?<=[,\t])(-?\d+\.\d*0)(?=[,\t\r\n]|$)/m', function ($m) use ($trimZeros) {
             return $trimZeros($m[1]);
         }, $apiResponse);
     }
