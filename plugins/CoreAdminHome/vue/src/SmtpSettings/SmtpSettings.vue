@@ -27,6 +27,8 @@
           :model-value="mailHost"
           @update:model-value="onUpdateMailHost($event)"
           :title="translate('General_SmtpServerAddress')"
+          :disabled="isMailHostLocked"
+          :inline-help="mailHostHelp"
         />
 
         <Field
@@ -138,10 +140,6 @@ import SmtpOAuthClientCredentials, {
 
 // what the config file holds since the page was loaded or last saved
 interface SavedOAuthSettings {
-  host: string;
-  tokenUrl: string;
-  clientId: string;
-  scope: string;
   certificatePath: string;
   hasClientSecret: boolean;
 }
@@ -217,10 +215,6 @@ export default defineComponent({
           : 'secret',
       },
       savedOAuthSettings: {
-        host: mail.host,
-        tokenUrl: mail.oauth_token_url,
-        clientId: mail.oauth_client_id,
-        scope: mail.oauth_scope,
         certificatePath: mail.oauth_certificate_path || '',
         hasClientSecret: !!mail.oauth_client_secret,
       },
@@ -243,6 +237,16 @@ export default defineComponent({
   computed: {
     isOAuth() {
       return this.mailType === 'Xoauth2';
+    },
+    // the access token is sent to the SMTP server, so with a certificate only the config
+    // file may set it
+    isMailHostLocked() {
+      return !!this.savedOAuthSettings.certificatePath;
+    },
+    mailHostHelp() {
+      return this.isMailHostLocked
+        ? translate('CoreAdminHome_SmtpOAuthCertificateServerLocked')
+        : undefined;
     },
     mailTypeHelp() {
       return translate(
@@ -281,25 +285,14 @@ export default defineComponent({
       this.passwordChanged = true;
     },
     updateSavedOAuthSettings(postedClientSecret?: string) {
-      const saved = this.savedOAuthSettings;
-      const current = {
-        host: this.mailHost,
-        tokenUrl: this.oauthSettings.tokenUrl,
-        clientId: this.oauthSettings.clientId,
-        scope: this.oauthSettings.scope,
-      };
-      const changed = (Object.keys(current) as (keyof typeof current)[])
-        .some((key) => `${saved[key] || ''}`.trim() !== `${current[key] || ''}`.trim());
-
-      // like the server, which drops the certificate settings and the client secret when one of
-      // these changed, unless a client secret was sent
-      this.savedOAuthSettings = {
-        ...current,
-        certificatePath: changed ? '' : saved.certificatePath,
-        hasClientSecret: postedClientSecret !== undefined
-          ? postedClientSecret !== ''
-          : !changed && saved.hasClientSecret,
-      };
+      // an untouched client secret is kept by the server, a touched one is only stored when
+      // it was sent
+      if (this.oauthSettings.clientSecret !== undefined) {
+        this.savedOAuthSettings = {
+          ...this.savedOAuthSettings,
+          hasClientSecret: !!postedClientSecret,
+        };
+      }
 
       // the saved client secret must be entered again before it is sent to another token URL
       this.oauthSettings = { ...this.oauthSettings, clientSecret: undefined };

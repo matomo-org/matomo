@@ -200,7 +200,7 @@ class Controller extends ControllerAdmin
 
             $mail['encryption'] =  $request->getStringParameter('mailEncryption', '');
 
-            $mail = $this->addOAuthMailSettings($mail, $request);
+            $mail = $this->buildOAuthMailSettings($mail, $request);
             $this->checkOAuthMailSettings($mail);
 
             Config::getInstance()->mail = $mail;
@@ -267,7 +267,11 @@ class Controller extends ControllerAdmin
         return $toReturn;
     }
 
-    private function addOAuthMailSettings(array $mail, Request $request): array
+    /**
+     * Adds the OAuth settings to save. The stored client secret is only kept while the SMTP server, token URL,
+     * client ID and scope stay the same, and the certificate settings are always the ones from the config file.
+     */
+    private function buildOAuthMailSettings(array $mail, Request $request): array
     {
         $storedMail = Config::getInstance()->mail;
 
@@ -279,18 +283,16 @@ class Controller extends ControllerAdmin
         $credentialTypes = [ClientCredentials::CREDENTIAL_TYPE_SECRET, ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE];
         $mail['oauth_credential_type'] = strtolower(trim($request->getStringParameter('mailOAuthCredentialType', '')));
         if (!in_array($mail['oauth_credential_type'], $credentialTypes, true)) {
-            $mail['oauth_credential_type'] = $storedMail['oauth_credential_type'] ?? '';
+            $mail['oauth_credential_type'] = strtolower(trim((string) ($storedMail['oauth_credential_type'] ?? '')));
         }
 
-        $areOAuthCredentialsStillValid = $this->areOAuthCredentialsStillValidFor($mail);
-
-        if (!array_key_exists('mailOAuthClientSecret', $request->getParameters()) && $areOAuthCredentialsStillValid) {
+        if (!array_key_exists('mailOAuthClientSecret', $request->getParameters()) && $this->areOAuthCredentialsStillValidFor($mail)) {
             $mail['oauth_client_secret'] = $storedMail['oauth_client_secret'];
         }
 
         // the certificate settings are only set in the config file, so the form can't make Matomo read any other file
         foreach (['oauth_certificate_path', 'oauth_private_key_path', 'oauth_private_key_password'] as $certificateSetting) {
-            $mail[$certificateSetting] = $areOAuthCredentialsStillValid ? ($storedMail[$certificateSetting] ?? '') : '';
+            $mail[$certificateSetting] = $storedMail[$certificateSetting] ?? '';
         }
 
         return $mail;
@@ -298,18 +300,22 @@ class Controller extends ControllerAdmin
 
     private function checkOAuthMailSettings(array $mail): void
     {
+        $hasCertificate = trim($mail['oauth_certificate_path']) !== '';
+
+        // checked for every login method: the access token is sent to the SMTP server, and with a certificate
+        // in the config file only that file may say which server that is
+        if ($hasCertificate && trim((string) (Config::getInstance()->mail['host'] ?? '')) !== trim($mail['host'])) {
+            throw new BadRequestException(Piwik::translate('CoreAdminHome_SmtpOAuthCertificateServerLocked'));
+        }
+
         if ($mail['transport'] !== 'smtp' || !SmtpTokenProvider::isOAuthType($mail['type'])) {
             return;
         }
 
-        $isCertificate = strtolower(trim((string) $mail['oauth_credential_type'])) === ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE;
+        $isCertificate = $mail['oauth_credential_type'] === ClientCredentials::CREDENTIAL_TYPE_CERTIFICATE;
 
-        if ($isCertificate && trim($mail['oauth_certificate_path']) === '') {
-            // a certificate set up for other settings was dropped, those settings have to change with it
-            $hasStoredCertificate = trim((string) (Config::getInstance()->mail['oauth_certificate_path'] ?? '')) !== '';
-            throw new BadRequestException(Piwik::translate(
-                $hasStoredCertificate ? 'CoreAdminHome_ErrorSmtpOAuthCertificateSettingsChanged' : 'CoreAdminHome_ErrorSmtpOAuthCertificateNotSetUp'
-            ));
+        if ($isCertificate && !$hasCertificate) {
+            throw new BadRequestException(Piwik::translate('CoreAdminHome_ErrorSmtpOAuthCertificateNotSetUp'));
         }
 
         if (

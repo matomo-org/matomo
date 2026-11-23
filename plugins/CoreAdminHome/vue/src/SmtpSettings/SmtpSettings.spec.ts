@@ -20,9 +20,9 @@ vi.mock('CoreHome', () => ({
 
 vi.mock('CorePluginsAdmin', () => ({
   Field: {
-    props: ['name', 'modelValue', 'inlineHelp'],
+    props: ['name', 'modelValue', 'inlineHelp', 'disabled'],
     emits: ['update:modelValue'],
-    template: '<input :name="name" :value="modelValue" :data-help="inlineHelp"'
+    template: '<input :name="name" :value="modelValue" :data-help="inlineHelp" :disabled="disabled"'
       + ' @input="$emit(\'update:modelValue\', $event.target.value)" />',
   },
   Form: {},
@@ -145,19 +145,32 @@ describe('CoreAdminHome/SmtpSettings.vue', () => {
     expect((wrapper.find('[name="mailOAuthClientSecret"]').element as HTMLInputElement).value).toBe('');
   });
 
-  it.each([
-    ['keeps', 'the settings are unchanged', 'https://mail.example.test/.default', 'CoreAdminHome_SmtpOAuthCertificateConfigured'],
-    ['forgets', 'the scope changed', 'https://other.example.test/.default', 'CoreAdminHome_SmtpOAuthCertificateNotConfigured'],
-  ])('%s the stored certificate after a save when %s', async (_action, _reason, scope, expectedHelp) => {
+  it('still shows the stored certificate after a save that changed the scope', async () => {
     const wrapper = mountWithStoredOAuthSettings('Xoauth2', { oauth_certificate_path: '/etc/matomo/cert.pem' });
 
-    await wrapper.find('[name="mailOAuthScope"]').setValue(scope);
+    await wrapper.find('[name="mailOAuthScope"]').setValue('https://other.example.test/.default');
     await wrapper.find('[name="mailOAuthClientSecret"]').setValue('a-new-secret');
     await save(wrapper);
     await flushPromises();
     await wrapper.find('[name="mailOAuthCredentialType"]').setValue('certificate');
 
-    expect(wrapper.find('[name="mailOAuthCredentialType"]').attributes('data-help')).toBe(expectedHelp);
+    expect(wrapper.find('[name="mailOAuthCredentialType"]').attributes('data-help'))
+      .toBe('CoreAdminHome_SmtpOAuthCertificateConfigured');
+  });
+
+  it.each(['Login', 'Xoauth2'])('locks the SMTP server for %s when a certificate is set up', (type) => {
+    const mailHost = mountWithStoredOAuthSettings(type, { oauth_certificate_path: '/etc/matomo/cert.pem' })
+      .find('[name="mailHost"]');
+
+    expect(mailHost.attributes('disabled')).toBeDefined();
+    expect(mailHost.attributes('data-help')).toBe('CoreAdminHome_SmtpOAuthCertificateServerLocked');
+  });
+
+  it('does not lock the SMTP server without a certificate', () => {
+    const mailHost = mountWithStoredOAuthSettings().find('[name="mailHost"]');
+
+    expect(mailHost.attributes('disabled')).toBeUndefined();
+    expect(mailHost.attributes('data-help')).toBeUndefined();
   });
 
   it.each([

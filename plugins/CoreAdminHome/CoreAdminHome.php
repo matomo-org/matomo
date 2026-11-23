@@ -226,6 +226,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_SmtpOAuthCertificate';
         $translationKeys[] = 'CoreAdminHome_SmtpOAuthCertificateConfigured';
         $translationKeys[] = 'CoreAdminHome_SmtpOAuthCertificateNotConfigured';
+        $translationKeys[] = 'CoreAdminHome_SmtpOAuthCertificateServerLocked';
         $translationKeys[] = 'CoreAdminHome_SmtpOAuthClientId';
         $translationKeys[] = 'CoreAdminHome_SmtpOAuthClientIdHelp';
         $translationKeys[] = 'CoreAdminHome_SmtpOAuthClientSecret';

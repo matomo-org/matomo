@@ -228,22 +228,61 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame($certificateSettings, array_intersect_key(Config::getInstance()->mail, $certificateSettings));
     }
 
-    public function testSetMailSettingsDoesNotKeepTheCertificateWhenASettingItIsTiedToChanges(): void
+    /**
+     * @dataProvider getSettingsTheCertificateIsNotTiedTo
+     */
+    public function testSetMailSettingsKeepsTheCertificateWhenAnotherOAuthSettingChanges(array $storedMail, array $settings): void
     {
-        $this->setStoredOAuthSettings();
-        Config::getInstance()->mail = [
+        $certificateSettings = [
             'oauth_certificate_path'     => '/etc/matomo/smtp.crt',
             'oauth_private_key_path'     => '/etc/matomo/smtp.key',
             'oauth_private_key_password' => 'the-key-password',
-        ] + Config::getInstance()->mail;
+        ];
+        $this->setStoredOAuthSettings();
+        Config::getInstance()->mail = $storedMail + $certificateSettings + Config::getInstance()->mail;
 
-        $this->postMailSettings($this->getOAuthMailSettingsRequest(['mailOAuthTokenUrl' => 'https://another.example.test/token']));
+        $response = $this->postMailSettings($this->getOAuthMailSettingsRequest($settings + ['mailOAuthCredentialType' => 'certificate'], false));
 
-        $mailConfig = Config::getInstance()->mail;
-        $this->assertSame('https://another.example.test/token', $mailConfig['oauth_token_url']);
-        $this->assertSame('', $mailConfig['oauth_certificate_path']);
-        $this->assertSame('', $mailConfig['oauth_private_key_path']);
-        $this->assertSame('', $mailConfig['oauth_private_key_password']);
+        $this->assertSame('success', $response['result']);
+        $this->assertSame($certificateSettings, array_intersect_key(Config::getInstance()->mail, $certificateSettings));
+    }
+
+    public function getSettingsTheCertificateIsNotTiedTo(): iterable
+    {
+        yield 'first setup in the form' => [['oauth_token_url' => '', 'oauth_client_id' => '', 'oauth_scope' => ''], []];
+        yield 'token URL changed' => [[], ['mailOAuthTokenUrl' => 'https://another.example.test/token']];
+        yield 'client ID changed' => [[], ['mailOAuthClientId' => 'another-client-id']];
+        yield 'scope changed' => [[], ['mailOAuthScope' => 'https://another.example.test/.default']];
+    }
+
+    /**
+     * @dataProvider getSettingsToChangeTheSmtpServerWith
+     */
+    public function testSetMailSettingsNeverChangesTheSmtpServerOfACertificate(array $settings): void
+    {
+        $this->setStoredOAuthSettings();
+        Config::getInstance()->mail = ['oauth_certificate_path' => '/etc/matomo/smtp.crt'] + Config::getInstance()->mail;
+        $storedMail = Config::getInstance()->mail;
+
+        $response = $this->postMailSettings($this->getOAuthMailSettingsRequest($settings + ['mailHost' => 'another.example.test']));
+
+        $this->assertSame('error', $response['result']);
+        $this->assertStringStartsWith('A certificate is set up in config.ini.php', $response['message']);
+        $this->assertSame($storedMail, Config::getInstance()->mail);
+
+        // the server is still the one from the config file once the certificate is used again
+        $response = $this->postMailSettings($this->getOAuthMailSettingsRequest(['mailOAuthCredentialType' => 'certificate'], false));
+
+        $this->assertSame('success', $response['result']);
+        $this->assertSame('post.example.test', Config::getInstance()->mail['host']);
+    }
+
+    public function getSettingsToChangeTheSmtpServerWith(): iterable
+    {
+        yield 'another login method' => [['mailType' => 'Login']];
+        yield 'SMTP switched off' => [['mailUseSmtp' => '0']];
+        yield 'the client secret' => [['mailOAuthCredentialType' => 'secret']];
+        yield 'the certificate' => [['mailOAuthCredentialType' => 'certificate']];
     }
 
     /**
@@ -272,6 +311,7 @@ class ControllerTest extends IntegrationTestCase
         yield 'certificate to secret' => ['certificate', 'secret', 'secret'];
         yield 'secret to certificate in any case' => ['secret', 'Certificate', 'certificate'];
         yield 'an unknown type keeps the stored one' => ['certificate', 'unknown', 'certificate'];
+        yield 'the stored one is cleaned up' => [' Certificate ', 'unknown', 'certificate'];
     }
 
     public function testSetMailSettingsNeverTakesTheCertificateSettingsFromTheRequest(): void
@@ -323,11 +363,6 @@ class ControllerTest extends IntegrationTestCase
             [],
             'To use a certificate, please set oauth_certificate_path in the [mail] section of config.ini.php first.',
         ];
-
-        $changed = 'The certificate is set up for the current SMTP server, token URL, client ID and scope. '
-            . 'To change them, please change them in the [mail] section of config.ini.php together with the certificate.';
-        yield 'token URL changed' => ['/etc/matomo/smtp.crt', ['mailOAuthTokenUrl' => 'https://another.example.test/token'], $changed];
-        yield 'SMTP server changed' => ['/etc/matomo/smtp.crt', ['mailHost' => 'another.example.test'], $changed];
 
         yield 'no username' => [
             '/etc/matomo/smtp.crt',
