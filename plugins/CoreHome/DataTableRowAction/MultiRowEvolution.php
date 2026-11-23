@@ -72,6 +72,14 @@ class MultiRowEvolution extends RowEvolution
     }
 
     /**
+     * Each compared row's metric is named <column>_<labelIndex>, and all of them show the requested column.
+     */
+    protected function getColumnForMetric(string $metric): string
+    {
+        return (string) $this->metric;
+    }
+
+    /**
      * Render the popover
      * @param \Piwik\Plugins\CoreHome\Controller $controller
      * @param \Piwik\View $view the popover_rowevolution template

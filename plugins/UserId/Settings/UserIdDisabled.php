@@ -70,9 +70,9 @@ class UserIdDisabled implements
     public static function getWhatItDoes(?int $idSite = null): string
     {
         // as for the campaign masking and referrer anonymisation settings: the consent-aware
-        // wording describes a site that measures consent-aware analytics, and a site that has
-        // not opted in treats every visitor the same
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+        // wording describes a site that measures consent-aware analytics, and where it is not
+        // turned on every visitor is treated the same.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
             return Piwik::translate('UserId_UserIdDisabledSettingWhatItDoesConsentAware');
         }
 
@@ -82,9 +82,9 @@ class UserIdDisabled implements
     public static function getImpact(?int $idSite = null): string
     {
         // as for the campaign masking and referrer anonymisation settings: the consent-aware
-        // wording describes a site that measures consent-aware analytics, and a site that has
-        // not opted in treats every visitor the same
-        if (null !== $idSite && ConsentAwareAnalytics::isEnabledForSite($idSite)) {
+        // wording describes a site that measures consent-aware analytics, and where it is not
+        // turned on every visitor is treated the same.
+        if (ConsentAwareAnalytics::isEnabledForScope($idSite)) {
             return Piwik::translate('UserId_UserIdDisabledSettingImpactConsentAware');
         }
 

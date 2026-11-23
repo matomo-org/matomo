@@ -17,6 +17,7 @@
         "EvolutionFromPreviousPeriod": "Nga periudha e mëparshme",
         "EvolutionFromPreviousWeek": "Nga java e mëparshme",
         "EvolutionFromPreviousYear": "Nga viti i mëparshëm",
+        "HitsIncludingAiTooltip": "Përfshi krejt vizita nga Qenie Njerëzore dhe kërkesa Robotësh IA Fjalosjesh",
         "LoadingWebsites": "Po ngarkohen sajte",
         "MetricDocumentationAiChatbotsRequests": "Numri gjithsej i kërkesave nga robotë IA fjalosjes të regjistruara për këtë sajt.",
         "MetricDocumentationEvolution": "Ndryshimi si përqindje i kësaj matjeje, krahasuar me periudhën e mëparshme për këtë sajt. Një vlerë pozitive tregon rritje, ndërsa një vlerë negative flet për ulje.",

@@ -213,6 +213,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should keep the limit when reload the page', async function () {
             await page.reload();
+            // see the previous test: the annotation row loads after network idle may have given up
+            await page.waitForSelector('.dataTableVizEvolution .evolution-annotations');
 
             delete testEnvironment.ignoreClearAllViewDataTableParameters;
             testEnvironment.save();

@@ -7,7 +7,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.1.0
 
 ### New features
-* New per-site setting `consent_aware_analytics` (PrivacyManager, off by default, only a superuser can change it). When it is on and a compliance policy is enforced, a visitor who has given consent is measured without the policy's restrictions: campaign values, the full referrer (up to the site's own anonymisation level) and the User ID. `ConsentAwareAnalytics::isEnabled()` and `ConsentAwareAnalytics::hasRelaxableRestriction()` read it from the tracker cache.
+* New setting `consent_aware_analytics` (PrivacyManager, off by default), turned on by a superuser on the *Privacy → Compliance* page for the whole instance or for a website. A website measures it when either is on. The page offers it while the granular compliance feature is enabled. When it is on and a compliance policy is enforced, a visitor who has given consent is measured without the policy's restrictions: campaign values, the full referrer (up to the site's own anonymisation level) and the User ID. `ConsentAwareAnalytics::isEnabled()` and `ConsentAwareAnalytics::hasRelaxableRestriction()` read it from the tracker cache.
+* New event `PrivacyManager.consentAwareAnalyticsUpdated`, posted when consent-aware measurement is turned on or off. For a website, `enabled` is the website's own value and `enabledForAllWebsites` says whether it is on for the whole instance.
 * The HTTP Tracking API accepts `consent=1`: the visitor had given consent when the request was sent. Any other value, or no value, means no consent was reported, not a refusal. It is ignored for a site that is not opted in or that forces cookieless tracking.
 * `log_visit.consent` is now written: `1` once consent was reported during the visit, empty otherwise. When consent arrives after the visitor left the page they arrived on, a new visit starts, but only where a policy restriction applies.
 * JavaScript tracker: new `requireConsentForRestrictedData()`, which replaces `requireCookieConsent()` for a site measuring under a consent exemption. With it, `setConsentGiven()` and `rememberConsentGiven()` add `consent=1` to requests, `rememberConsentGiven()` stores it in the new `mtm_measurement_consent` cookie, `forgetConsentGiven()` removes it without stopping tracking, and `disableCampaignParameters()` keeps campaign parameters once consent is given. `setCookieConsentGiven()` and the `mtm_consent` cookie are not consent to being measured. `requireConsent()` wins if both are called. A tracker that does not call `requireConsentForRestrictedData()` sends the same requests as before.
@@ -17,6 +18,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Where `enable_userid_overwrites_visitorid` is on, a User ID that a policy withholds is never used for `idvisitor`, even with consent, so `nb_uniq_visitors` keeps counting browsers.
 
 ### New config.ini.php settings
+* `[PrivacyManager] consent_aware_analytics` sets consent-aware measurement for the whole instance and locks that value on the *Privacy → Compliance* page. It does not lock the websites: each one keeps its own value, which takes effect while the instance value is off. A website measures it when either the instance or the website has it on.
 * `[log] log_format` (and `log_format_<writer>` per writer) lets the file, database, errorlog and syslog log writers write `json`, `loggly` or `logstash` instead of `text`.
 * `[General] archive_failure_retry_delays` and `[General] archive_failure_max_attempts` set how long `core:archive` waits before retrying a failed archive and after how many failed attempts it stops retrying. Jobs still running after `[General] archive_failure_recovery_timeout` now count as a failed attempt instead of being queued again right away.
 
@@ -27,6 +29,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `ExpandOnHover` Vue directive now takes the `expandedClass` option of `ExpandOnClick`, and both directives accept a list of classes for it.
 * The Monolog plugin's DI entry `log.formatter.classes` maps log format names to formatter classes and can be extended by plugins to add log formats.
 * `archive_invalidations.status` can now be `Piwik\Archive\ArchiveInvalidator::INVALIDATION_STATUS_ON_HOLD` (`2`): `core:archive` doesn't process such invalidations until the failed archive they wait for can be retried.
+* The new event `SitesManager.globalSettingsUpdated` is posted after the global website settings were saved on the global settings page. Its single array parameter holds the current settings after the save, with the same keys as the `SitesManager.getGlobalSettings` controller action, except `exclusionTypeForQueryParamsPolicyControlled`. If the save fails part way, the event is posted only if the values saved before the failure changed a setting.
+* The new event `CoreAdminHome.mailSettingsUpdated` is posted after the email server settings were saved on the general settings page. Its single array parameter holds the saved settings and `password_set`, but never the password.
 
 ### New commands
 * `core:archive-failures` lists the archives `core:archive` failed to process and resets them, so they are retried in the next run.
@@ -47,7 +51,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Archiving
 * Different `core:archive` processes can now archive "All visits" and segments of the same site and an overlapping period at the same time. State that an archiver shares across a site's segments must therefore also be safe to use while the "All visits" archive is processed.
 
+### New PHP events
+* New event `Metrics.formatEvolutionValue` that lets plugins format their metric values in the row evolution popover.
+
 ### Other changes
+* Action names stored in `log_action.name` are now truncated to 4096 characters if they exceed the column limit.
 * The JavaScript `AjaxHelper` now handles an API error answered with a 4xx status like one answered with status `200`, unless an error callback set via `setErrorCallback()` handles it.
 
 ## Matomo 6.0.0

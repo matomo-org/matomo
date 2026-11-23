@@ -1,10 +1,30 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "AI 聊天机器人请求",
+        "AiChatbotsSegmentationTooltip": "此指标不支持细分，因为 AI 聊天机器人请求（例如来自 ChatGPT 的请求）与常规访问或访客没有关联。",
         "AllWebsitesDashboardDocumentation": "此报告为您提供每个网站的信息概览，包含有关访客的最通用指标。",
+        "AllWebsitesDashboardErrorMessage": "数据当前不可用。这可能是由于服务器临时问题或报告包含的数据过多。请稍后重试。如果问题仍然存在，请联系您的 Matomo 管理员寻求帮助。",
         "AllWebsitesDashboardTitle": "所有网站",
         "Evolution": "趋势",
+        "EvolutionComparisonIncomplete": "当前选择的时间段已完成 %1$s。",
+        "EvolutionFromPreviousDay": "与前一天相比",
+        "EvolutionFromPreviousMonth": "与上个月相比",
+        "EvolutionFromPreviousPeriod": "与上一时间段相比",
+        "EvolutionFromPreviousWeek": "与上一周相比",
+        "EvolutionFromPreviousYear": "与上一年相比",
+        "HitsIncludingAiTooltip": "包括所有人类点击数和 AI 聊天机器人请求",
         "LoadingWebsites": "正在加载网站",
+        "MetricDocumentationAiChatbotsRequests": "为此网站记录的 AI 聊天机器人请求总数。",
+        "MetricDocumentationEvolution": "此网站的该指标与上一时间段相比的百分比变化。正值表示增长，负值表示下降。",
+        "MetricDocumentationHits": "为此网站记录的动作总数，包括页面浏览、下载和离站链接。",
+        "MetricDocumentationHitsIncludingAi": "为此网站记录的动作总数，包括页面浏览、下载、离站链接以及 AI 聊天机器人的请求。",
+        "MetricDocumentationPageviews": "此网站上被浏览的页面总数。包括同一访客对同一页面的多次浏览。",
+        "MetricDocumentationRevenue": "为此网站跟踪的总收益。如果启用了电子商务跟踪，则可使用此指标，它反映购买或基于目标的收益。",
+        "MetricDocumentationVisits": "为此网站记录的访问总数。访问从用户访问网站时开始，在一段时间不活动后或会话过期时结束。",
+        "MetricDocumentationWebsite": "报表面板中显示的被跟踪网站列表。每一行代表一个单独的网站及其相应的分析数据。",
         "PluginDescription": "在这个实用的“所有网站”仪表板中查看和比较您的所有网站和应用程序。",
+        "SegmentationNotSupported": "不支持细分",
+        "SingleWebsitesDashboardDocumentation": "此报告为您提供特定网站的概览信息，包含有关访客的最常用指标。",
         "TopLinkTooltip": "比较您所有网站的网站分析数据。"
     }
 }

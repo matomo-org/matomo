@@ -84,7 +84,6 @@
         "NoDataCloudflareInstructions2": "Nasaďte Worker (Node.js) a nastavte URL svého Matoma a ID webu.",
         "NoDataCloudflareInstructions3": "Připojte Worker ke své zóně nebo trase, aby se spouštěl přímo při zpracování požadavků.",
         "NoDataCloudflareInstructions4": "Ověřte nastavení kontrolou, zda se záznamy AI chatbotů zobrazují v sestavách sledování.",
-        "NoDataHttpTrackingApiDescription": "Rozhraní HTTP Tracking API umožňuje přímo sledovat požadavky AI chatbotů, když potřebujete vlastní integraci. Začněte v %1$sznalostní bázi Tracking API%2$s a nejnovější parametry a chování sledování botů najdete v %3$sreferenční dokumentaci HTTP Tracking API%4$s.",
         "NoDataLinkKnowledgeBase": "Dokumentace: %1$sznalostní báze Matoma%2$s",
         "NoDataLinkSourceCode": "Zdrojový kód: %1$srepozitář na GitHubu%2$s",
         "NoDataMissingOneContactUs": "Chybí některý způsob? Kontaktujte nás",

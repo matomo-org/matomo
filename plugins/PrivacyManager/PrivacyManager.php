@@ -575,6 +575,15 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ComplianceScopeSingleWebsite';
         $translationKeys[] = 'PrivacyManager_ComplianceScopeOverrideNote';
         $translationKeys[] = 'PrivacyManager_ComplianceScopeAllWebsitesNotice';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingTitle';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingDescription';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingRequirementsIntro';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingRequirementPolicy';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingRequirementConsent';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingToggleTitle';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingToggleHelpAllWebsites';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingToggleHelpSingleWebsite';
+        $translationKeys[] = 'PrivacyManager_ComplianceHybridTrackingEnabledForAllWebsites';
         $translationKeys[] = 'PrivacyManager_ComplianceScopeSingleWebsiteNotice';
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxIntro';
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxTitle';

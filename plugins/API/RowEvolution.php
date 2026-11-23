@@ -573,7 +573,7 @@ class RowEvolution
             $firstRow = $subDataTable->getFirstRow();
             foreach ($metadata['metrics'] as $metric => $label) {
                 $value = $firstRow ? $this->getNumericColumnValue($firstRow, $metric) : 0;
-                if ($value > 0) {
+                if ($value != 0) {
                     $firstNonZeroFound[$metric] = true;
                 } elseif (!isset($firstNonZeroFound[$metric])) {
                     continue;
