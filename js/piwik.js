@@ -2495,7 +2495,9 @@ if (typeof window.Matomo !== 'object') {
 
                 // whether the site reported that the visitor consented to being tracked, which is
                 // independent of requireConsent(): setConsentGiven() is documented as callable
-                // without it, and a site measuring under a compliance exemption does exactly that
+                // without it, and a site measuring under a compliance exemption does exactly that.
+                // Where a change to this or to the other flags hasGivenConsent() reads can turn it
+                // on, triggerConsentGivenIfChanged() has to be called afterwards
                 configConsentGiven = false,
 
                 // whether the site measures under a compliance exemption and is asking for
@@ -5564,6 +5566,10 @@ if (typeof window.Matomo !== 'object') {
              * changes from false to true for a tracker, and not when consent is withdrawn.
              * A handler added after the change is not called for it, so call this method when
              * adding the handler as well.
+             * Handlers can run while a tracking request is being built, so a handler that tracks
+             * something itself should do so from a setTimeout(). A handler that throws is logged
+             * and stops the handlers added after it from running for that change, so handlers
+             * should catch their own errors.
              *
              * @returns {boolean}
              */
