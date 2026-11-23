@@ -217,6 +217,9 @@ final class Connection
      */
     public static function isSqliteConnection($db): bool
     {
+        if ($db instanceof \Piwik\DataAccess\ArchivingDbAdapter) {
+            $db = $db->getWrappedAdapter();
+        }
         return $db instanceof \Piwik\Db\Adapter\Pdo\Sqlite || $db instanceof \Piwik\Tracker\Db\Pdo\Sqlite;
     }
 
