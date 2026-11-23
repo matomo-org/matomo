@@ -32,6 +32,11 @@ class Sqlite extends Mysql
      */
     private $inTransaction = false;
 
+    /**
+     * @var bool whether the connection was closed after a failed rollback and couldn't be opened again
+     */
+    private $isReconnectPending = false;
+
     public function __construct($dbInfo)
     {
         $this->config = $dbInfo;
@@ -67,6 +72,12 @@ class Sqlite extends Mysql
         parent::disconnect();
     }
 
+    public function query($query, $parameters = array())
+    {
+        $this->connectIfPending();
+        return parent::query($query, $parameters);
+    }
+
     public function isMysqlServerHasGoneAwayError(Exception $e)
     {
         return false;
@@ -95,6 +106,7 @@ class Sqlite extends Mysql
      */
     protected function beginConnectionTransaction(): bool
     {
+        $this->connectIfPending();
         $this->connection->exec('BEGIN IMMEDIATE');
         $this->inTransaction = true;
 
@@ -197,6 +209,14 @@ class Sqlite extends Mysql
      * Rolls back whatever may still be open; if even that fails, reopens the connection, so a transaction
      * can't keep the write lock past this one.
      */
+    private function connectIfPending(): void
+    {
+        if ($this->isReconnectPending) {
+            $this->connect();
+            $this->isReconnectPending = false;
+        }
+    }
+
     private function closeUnknownTransaction(): void
     {
         try {
@@ -212,7 +232,9 @@ class Sqlite extends Mysql
         try {
             $this->connect();
         } catch (Exception $e) {
-            // the request fails with the original error; the next query reports the connection error
+            // the request fails with the original error; the next query or transaction connects again,
+            // and fails with the connection error if it still can't
+            $this->isReconnectPending = true;
         }
     }
 }

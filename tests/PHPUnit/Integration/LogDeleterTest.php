@@ -31,6 +31,11 @@ class ChunkedPurgeTestRawLogDao extends RawLogDao
      */
     public $onMaxIds;
 
+    /**
+     * @var callable|null runs right after the purge's first read of the max ids
+     */
+    public $afterFirstMaxIds;
+
     private $maxIdsReads = 0;
 
     public function __construct(int $chunkSize)
@@ -55,7 +60,12 @@ class ChunkedPurgeTestRawLogDao extends RawLogDao
             ($this->onMaxIds)($this->maxIdsReads - 1);
         }
 
-        return parent::getMaxIdsInLogTables();
+        $maxIds = parent::getMaxIdsInLogTables();
+        if ($this->maxIdsReads === 1 && $this->afterFirstMaxIds) {
+            ($this->afterFirstMaxIds)();
+        }
+
+        return $maxIds;
     }
 }
 
@@ -214,6 +224,20 @@ class LogDeleterTest extends IntegrationTestCase
         $dao = new ChunkedPurgeTestRawLogDao(3);
         $dao->afterFirstScan = function () {
             // a tracker created it and is about to reference it
+            $this->insertUnusedActions(100006, 100006);
+        };
+
+        $this->assertTrue($dao->deleteUnusedLogActions());
+        $this->assertSame([100006], $this->getActionIdsBetween(100001, 100006));
+    }
+
+    public function testSqlitePurgeKeepsAnActionCreatedRightAfterItReadTheMaxIds(): void
+    {
+        $this->setUpChunkedPurge();
+        $this->insertUnusedActions(100001, 100005);
+
+        $dao = new ChunkedPurgeTestRawLogDao(3);
+        $dao->afterFirstMaxIds = function () {
             $this->insertUnusedActions(100006, 100006);
         };
 

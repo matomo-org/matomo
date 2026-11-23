@@ -208,8 +208,8 @@ class RawLogDao
         $maxIds = $this->getMaxIdsInLogTables();
 
         $isSqlite = Db\Sqlite\Connection::isSqliteConnection(Db::get());
-        // SQLite: actions created from here on may not be referenced yet by the request that created them
-        $lastCandidate = $isSqlite ? (int) Db::fetchOne('SELECT MAX(idaction) FROM `' . Common::prefixTable('log_action') . '`') : 0;
+        // SQLite: actions created after this read may not be referenced yet by the request that created them
+        $lastCandidate = (int) ($maxIds['log_action'] ?? 0);
 
         // get max rows to analyze
         $max_rows_per_query = PiwikConfig::getInstance()->Deletelogs['delete_logs_unused_actions_max_rows_per_query'];
