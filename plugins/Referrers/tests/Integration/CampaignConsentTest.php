@@ -217,6 +217,46 @@ class CampaignConsentTest extends IntegrationTestCase
         );
     }
 
+    /**
+     * Raised in review: the tracker reports consent as soon as the site's own code asks it to,
+     * while the server also requires the site to be opted in and not forcing cookieless tracking.
+     * Where they disagree the campaign still describes the arrival, so the visit must not be split
+     * - a site admin can change the tracking code where only a superuser can opt the site in.
+     *
+     * @dataProvider getSetupsWhereTheServerIgnoresConsent
+     */
+    public function testConsentOnTheArrivalPageDoesNotSplitTheVisitWhenTheServerIgnoresIt(string $setup): void
+    {
+        $this->enforceCampaignMasking();
+
+        if ('not opted in' === $setup) {
+            $this->disableConsentAwareAnalytics();
+        } else {
+            $this->setForcedCookielessTracking(true);
+        }
+
+        // the tracker withheld the campaign on the arrival page view
+        $this->tracker->setUrlReferrer('https://www.facebook.com/');
+        $this->trackPageView('landing', $withCampaign = false, $consent = null);
+        $this->tracker->setUrlReferrer('');
+
+        // consent given on the same page: the tracker now sends the campaign
+        $this->prepareRequest('landing', $withCampaign = true, $consent = '1');
+        Fixture::checkResponse($this->tracker->doTrackEvent('Consent', 'Given'));
+
+        $this->assertSame(1, $this->countVisits(), 'the visit was split over a consent the server does not honour');
+        $this->assertSame(
+            '',
+            (string) $this->fetchVisitColumn('consent'),
+            'the server should not have recorded consent for a site it does not measure it for'
+        );
+    }
+
+    public function getSetupsWhereTheServerIgnoresConsent(): array
+    {
+        return [['not opted in'], ['forced cookieless']];
+    }
+
     private function disableConsentAwareAnalytics(): void
     {
         $measurable = ConsentAwareAnalyticsSetting::getMeasurableSetting($this->idSite);

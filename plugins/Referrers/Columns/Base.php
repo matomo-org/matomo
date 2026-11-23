@@ -178,19 +178,23 @@ abstract class Base extends VisitDimension
 
         // PHPStan reads $typeReferrerAnalyzed as never being a campaign here and so calls this
         // condition dead, which it is not: detectReferrerCampaign() sets the property through a
-        // path it does not follow. The entry is baselined for that reason, and gained a conjunct
-        // rather than a second site when consent was taken into account - do not delete the block
-        // on the strength of the analyser's view.
+        // path it does not follow. The entry is baselined for that reason - do not delete the
+        // block on the strength of the analyser's view.
         if (
             $referrerInformation['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-            && !$this->hasVisitorConsented($request, $visitor)
-            && CampaignParameterValuesMasked::isEnabled((int) $this->idsite)
+            && $this->isCampaignMaskedFor($request, $visitor)
         ) {
             $referrerInformation['referer_name'] = CampaignParameterValuesMasked::getPlaceholderValue();
             $referrerInformation['referer_keyword'] = CampaignParameterValuesMasked::getPlaceholderValue();
         }
 
         return $referrerInformation;
+    }
+
+    private function isCampaignMaskedFor(Request $request, Visitor $visitor): bool
+    {
+        return !$this->hasVisitorConsented($request, $visitor)
+            && CampaignParameterValuesMasked::isEnabled((int) $this->idsite);
     }
 
     protected function getExcludedReferrers($idSite): array
@@ -1014,11 +1018,37 @@ abstract class Base extends VisitDimension
         Request $request,
         $action = null
     ): bool {
+        return $request->hasConsent()
+            && $this->withheldCampaignDescribesTheArrival($visitor, $information, $request, $action);
+    }
+
+    /**
+     * Whether the campaign this request carries is the one the visit arrived through, rather than
+     * a different campaign reached later.
+     *
+     * Unlike shouldCompleteWithheldCampaign() this does not ask whether the server honours the
+     * consent, because splitting a visit cannot wait for that answer. A tracker reports consent as
+     * soon as the site's own code asks it to, while the server also requires the site to be opted
+     * in and not forcing cookieless tracking - and a site admin can change the tracking code where
+     * only a superuser can opt the site in. Where the two disagree the campaign still describes the
+     * arrival, so splitting would count one visitor as two over a question neither of them asked.
+     * Nothing is relaxed on the strength of this: a site that reports no consent at all cannot
+     * reach it.
+     *
+     * @param Action|null $action
+     * @internal
+     */
+    protected function withheldCampaignDescribesTheArrival(
+        Visitor $visitor,
+        array $information,
+        Request $request,
+        $action = null
+    ): bool {
         if ($information['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN) {
             return false;
         }
 
-        if (!$request->hasConsent() || Consent::hasVisitConsented($visitor)) {
+        if ('1' !== $request->getParam('consent') || Consent::hasVisitConsented($visitor)) {
             return false;
         }
 

@@ -377,7 +377,7 @@
         "CampaignParameterDiscarded": "(UTM parameter discarded)",
         "CampaignParameterValuesMaskedSettingRequirementNote": "Campaign parameter values must be masked before they are stored.",
         "ComplianceHybridTrackingTitle": "Hybrid Tracking",
-        "ComplianceHybridTrackingDescription": "Hybrid tracking measures visitors who have given their consent without the restrictions applied under the CNIL website analytics consent exemption. Visitors who have not given their consent continue to be measured under those restrictions.",
+        "ComplianceHybridTrackingDescription": "Hybrid tracking measures visitors who have given their consent without the restrictions applied by the compliance policy enforced for the website. Visitors who have not given their consent continue to be measured under those restrictions.",
         "ComplianceHybridTrackingRequirementsIntro": "Hybrid tracking requires the following:",
         "ComplianceHybridTrackingRequirementPolicy": "A compliance policy must be enforced for the website, such as the CNIL website analytics consent exemption shown below.",
         "ComplianceHybridTrackingRequirementConsent": "Your tracking implementation must report the visitor’s consent. %1$sLearn how to set up hybrid tracking%2$s",

@@ -35,8 +35,10 @@ class Campaign extends Base
 
         // Consent reported while the visitor is still on the page they arrived on completes this
         // visit rather than starting another: the campaign it carries is the one they arrived
-        // through, so it is not a different campaign to split the visit on.
-        if ($this->shouldCompleteWithheldCampaign($visitor, $information, $request, $action)) {
+        // through, so it is not a different campaign to split the visit on. This asks what the
+        // request reports rather than what the server honours, so that a tracker reporting consent
+        // for a site that is not opted in does not split the visit either.
+        if ($this->withheldCampaignDescribesTheArrival($visitor, $information, $request, $action)) {
             return false;
         }
 

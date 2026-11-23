@@ -5795,6 +5795,41 @@ if ($mysql) {
 
     // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
     // assertion count for this test is not stable
+    test("Test API - withdrawing consent keeps a cookie consent given separately", function() {
+        stop();
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker();
+        tracker.disableBrowserFeatureDetection();
+        tracker.setCustomData('token', getConsentToken() + 'keepsCookie');
+        tracker.requireConsentForRestrictedData();
+
+        // two separate answers: cookies accepted on one screen, measurement on another
+        tracker.rememberCookieConsentGiven();
+        tracker.rememberConsentGiven();
+        tracker.trackRequest('myFoo=consented');
+
+        // the visitor says no to being measured only
+        tracker.forgetConsentGiven();
+
+        ok(tracker.getRememberedCookieConsent(), 'the cookie answer was withdrawn with the measurement one');
+        ok(tracker.areCookiesEnabled(), 'cookies were taken away although they had been accepted');
+
+        tracker.trackRequest('myFoo=afterWithdrawal');
+
+        setTimeout(function () {
+            var requests = fetchTrackedRequests(getConsentToken() + 'keepsCookie');
+            strictEqual(true, requests.indexOf('myFoo=afterWithdrawal') > 0, "the visitor is still measured");
+            strictEqual(1, (requests.match(/consent=1/g) || []).length, "consent is reported after it was withdrawn");
+
+            deleteCookies();
+            start();
+        }, 3000);
+    });
+
+    // no expect() here: the surrounding consent tests finish on their own timers, so a fixed
+    // assertion count for this test is not stable
     test("Test API - withdrawing consent returns the visitor to the exempt measurement", function() {
         stop();
 
